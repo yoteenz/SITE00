@@ -229,6 +229,10 @@
   transform-origin: center top;
 }
 
+.site00-desktop-artboard .site00-origin-cards__row--three {
+  flex-wrap: nowrap;
+}
+
 .site00-desktop-artboard .site00-origin-card__icon-wrap {
   margin-top: calc(12px + var(--site00-origin-panel-icon-offset-y, 0px) / var(--site00-origin-card-scale, 1));
   transform: scale(calc(1 / var(--site00-origin-card-scale, 1)));

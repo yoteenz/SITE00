@@ -1111,7 +1111,7 @@
   --site00-origin-hero-offset-x: 0px;
   --site00-origin-cards-top: 58%;
   --site00-origin-cards-offset-y: 0px;
-  --site00-origin-cards-max-w: 520px;
+  --site00-origin-cards-max-w: 680px;
   --site00-origin-card-scale: 1;
   --site00-origin-panel-icon-scale: 1;
   --site00-origin-card-number-color: var(--site-text);
@@ -1233,6 +1233,7 @@
 }
 
 .site00-origin-cards__row--three {
+  flex-wrap: nowrap;
   max-width: 720px;
   margin: 0 auto;
 }

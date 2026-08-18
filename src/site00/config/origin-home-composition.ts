@@ -13,12 +13,13 @@ export const SITE00_ORIGIN_DESKTOP_COMPOSITION = {
   heroMaxWidthPx: 360,
   /** Fine nudge after anchor (px; negative = left). */
   heroOffsetXPx: -25,
-  /** Collapsed IDNTY/BLDR plaza anchor — % from top of home stage. */
+  /** Collapsed IDNTY/BLDR/EVOLVE plaza anchor — % from top of home stage. */
   cardsTopPercent: 58,
   cardsTopOffsetPx: 120,
-  cardsMaxWidthPx: 520,
+  /** 3 × 160px cards + 2 × 36px gaps = 552px minimum; 680px matches expanded panel width. */
+  cardsMaxWidthPx: 680,
   cardScale: 0.45,
-  /** Horizontal gap between collapsed IDNTY/BLDR cards (px). Prior 16 + 20. */
+  /** Horizontal gap between collapsed IDNTY/BLDR/EVOLVE cards (px). Prior 16 + 20. */
   cardsRowGapPx: 36,
   /** Collapsed IDNTY/BLDR icon render size on desktop (px). Prior 44.1 × 1.1 (+10%) = 48.51. */
   panelIconSizePx: 48.51,
