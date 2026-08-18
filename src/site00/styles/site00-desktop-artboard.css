@@ -68,26 +68,14 @@
   min-width: 220px;
 }
 
-.site00-desktop-artboard .site00-origin-coordinate-anchor {
-  position: absolute;
-  left: calc(var(--site00-origin-coordinate-left) + var(--site00-origin-coordinate-offset-x));
-  top: var(--site00-origin-coordinate-top);
-  width: var(--site00-origin-hero-max-w);
-  max-width: var(--site00-origin-hero-max-w);
-  z-index: 2;
-  pointer-events: none;
-}
-
-.site00-desktop-artboard .site00-origin-coordinate-anchor__line {
-  margin: 0;
-  padding: 0;
-}
-
 .site00-desktop-artboard .site00-origin-hero__coordinate-value {
   color: var(--site-red);
 }
 
-.site00-desktop-artboard .site00-origin-coordinate-anchor,
+.site00-desktop-artboard .site00-home-hero__coordinate {
+  margin-top: 20px;
+}
+
 .site00-desktop-artboard .site00-home-cards,
 .site00-desktop-artboard .site00-home-expanded-column {
   display: block !important;
