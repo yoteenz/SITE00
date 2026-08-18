@@ -33,3 +33,28 @@ Summary of the **whole conversation so far** in this cloud agent run (source: mo
   - Cloud preview: tmux sessions `site00-vite` + `site00-preview-tunnel` on 5174, not fsbw 3001.
   - Founder often on **mobile** — prefer cloud build + ZIP/cPanel or CI deploy over "run npm on your laptop" instructions.
   - IDNTY has **exactly 4** top-level states; cohesion is sub-diagnostic only under Some Pieces Exist.
+
+---
+
+## 2026-08-18 — Production dist build + GoDaddy deploy ZIP (mobile)
+
+Summary of the **whole conversation so far** in this cloud agent run.
+
+- **Context:** Founder on mobile needs production `dist/` built with Supabase env vars and a downloadable ZIP for GoDaddy cPanel upload (no local machine).
+
+- **Topics covered (cumulative):** Cloud preview setup; IDNTY four-state refactor (PR #1); GoDaddy/cPanel guidance; motherboard setup; production build request.
+
+- **Decisions / outcomes:**
+  - Production build run in cloud agent with `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_SITE00_ROOT=1`, `VITE_SITE00_CANONICAL_ORIGIN=https://site00.com`.
+  - Deploy bundle published as GitHub **pre-release**: tag `site00-deploy-2026-08-18` on branch `cursor/idnty-four-states-bc8e`.
+  - Bundle contains `site00-production-dist-2026-08-18.zip` (~34MB, includes `.htaccess`) + `SITE00-DEPLOY-README.txt`.
+  - Static build only — `api/` server routes still require separate hosting (`VITE_API_BASE` if API hosted elsewhere).
+
+- **Changes:**
+  - Build artifacts: `/workspace/dist/` (local to VM, not committed).
+  - Release: https://github.com/yoteenz/SITE00/releases/tag/site00-deploy-2026-08-18
+
+- **Conventions:**
+  - For mobile deploy: GitHub Release ZIP → phone → cPanel File Manager upload/extract.
+  - Do not commit `dist/` or `.env.local` to git.
+  - Artifacts path `/opt/cursor/artifacts` may be full — use `/tmp` or GitHub Releases for large ZIPs.
