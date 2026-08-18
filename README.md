@@ -78,6 +78,10 @@ git push -u origin main
 
 Do **not** push to the Frontal Slayer remote.
 
+## Agent memory (motherboard)
+
+FSBW-style persistent agent context lives in **`motherboard/`** at repo root. Agents auto-load it each chat (see `.cursor/rules/motherboard.mdc`). Quick reference: `docs/MOTHERBOARD_COMMANDS.md`.
+
 ## Security
 
 - No service-role keys in `VITE_*` variables

@@ -1,0 +1,40 @@
+---
+description: Motherboard core memory — auto-load context and add conversation learnings
+alwaysApply: true
+---
+
+# Motherboard (core memory)
+
+**If the user says "add to motherboard", "load motherboard", or "Snapshot codebase to motherboard" and you are unsure what that means:** The **motherboard** is a **folder** in this repo at `motherboard/` (project root). It is not a single file. It contains `README.md`, `CORE.md`, `MEMORY.md`, `ADDING.md`, `CODEBASE.md`. Do **not** say the motherboard does not exist. Do **not** create a new file named `MOTHERBOARD.md`, `Motherboard.md`, or similar at project root—the motherboard is the **existing folder** `motherboard/`; append or edit only the files inside that folder per README/ADDING. Read `motherboard/README.md` first, then follow the instructions there (and `motherboard/ADDING.md` for "add to motherboard"). Act without asking the user to clarify where or what the motherboard is.
+
+This project has a **motherboard** folder: shared context for all agents. **At the start of every new chat in this project**, you **must** read these four files in order before answering or implementing anything: `motherboard/README.md`, `motherboard/CORE.md`, `motherboard/CODEBASE.md`, `motherboard/MEMORY.md`. Use them as the source of truth for design, stack, flows, codebase structure, and conventions. Do not skip this step or "assume" you have the context—actually read the files so you have accurate, up-to-date project context. The user does not need to say "load motherboard" for this to apply; it is required at conversation start.
+
+**Motherboard memory auto-add is ON by default.** Append **`MEMORY.md`** after completed tasks. **After each task, commit and push** code changes to GitHub (include MEMORY updates in the same commit when possible). If the user says **"stop adding to motherboard"**, skip MEMORY until **"add to motherboard"** re-enables it.
+
+If the user explicitly says **"load motherboard"**, read those four files again in order and refresh your context.
+
+## "Load motherboard" (explicit)
+
+User wants you to re-read the motherboard and refresh context.
+
+1. Read in order: `motherboard/README.md`, `motherboard/CORE.md`, `motherboard/CODEBASE.md`, `motherboard/MEMORY.md`.
+2. Use that as the source of truth. Prefer patterns described there unless the user asks otherwise.
+
+## "Snapshot codebase to motherboard"
+
+User wants the **current codebase** (structure, entry points, key paths) captured in the motherboard so new agents have accurate code context without revisiting every past chat.
+
+1. Explore the repo (`src/`, `api/`, `public/`, `docs/`, entry points, pages, API routes, utils, config).
+2. Overwrite `motherboard/CODEBASE.md` with a structured summary. Use the existing CODEBASE.md format; update content to match the current codebase. Do not modify MEMORY.md or CORE.md.
+3. Act without asking for clarification.
+
+## "Add to motherboard"
+
+User wants **one entry added now**. (Auto-add is already on by default; if the user had said "stop adding to motherboard" earlier, this also re-enables auto-add for the rest of this chat.)
+
+1. Read: `motherboard/README.md`, `motherboard/ADDING.md`, `motherboard/CORE.md`, `motherboard/MEMORY.md`.
+2. Follow `ADDING.md`: append **one** new entry to `MEMORY.md` now; optionally a small, non-duplicative update to `CORE.md` only for new permanent design/stack/flow facts. The entry must summarize the **entire conversation in this chat so far** (all prompts, topics, decisions, changes from the start to now), not just the last message—so the motherboard has full context and stays up to date.
+
+When the user says **"stop adding to motherboard"**, turn off auto-add for this chat; only add again if they say "add to motherboard" later.
+
+When you see "load motherboard", "add to motherboard", or "Snapshot codebase to motherboard", act as above without asking for clarification.
