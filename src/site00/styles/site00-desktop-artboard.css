@@ -255,6 +255,13 @@
   background: #f5f5f3;
 }
 
+/** ORIGIN — lock viewport on collapsed homepage; expanded panels re-enable scroll below */
+.site00-desktop-artboard-shell:has(.site00-origin-page):not(:has(.site00-home-expanded-column)),
+.site00-desktop-artboard-shell--origin:not(:has(.site00-home-expanded-column)) {
+  overflow: hidden;
+  touch-action: none;
+}
+
 /** Desktop artboard preview — status strip sits at bottom of scaled composition. */
 .site00-status-strip-host--artboard {
   flex-shrink: 0;
