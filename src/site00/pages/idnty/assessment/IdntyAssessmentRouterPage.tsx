@@ -6,6 +6,11 @@ import {
   SITE00_ROUTES,
 } from '../../../config/routes';
 import type { IdntyAssessmentStateId } from '../../../config/idnty-assessment';
+import {
+  IDNTY_LEGACY_NEEDS_COHESION_SLUG,
+  migrateLegacyNeedsCohesionSlug,
+  migrateLegacyNeedsCohesionStep,
+} from '../../../config/idnty-assessment';
 import IdntyAssessmentLandingPage from './IdntyAssessmentLandingPage';
 import IdntyAssessmentStepPage from './IdntyAssessmentStepPage';
 import IdntyAssessmentReviewPage from './IdntyAssessmentReviewPage';
@@ -34,6 +39,16 @@ export default function IdntyAssessmentRouterPage() {
   const { pathname } = useLocation();
 
   if (!isValidSlug(stateSlug)) {
+    const migratedSlug = migrateLegacyNeedsCohesionSlug(stateSlug ?? '');
+    if (migratedSlug) {
+      const isDesktop = isSite00IdntyAssessmentDesktopPath(pathname);
+      const stepSegment = parseAssessmentSegments(pathname, IDNTY_LEGACY_NEEDS_COHESION_SLUG);
+      const migratedStep = migrateLegacyNeedsCohesionStep(stepSegment);
+      let target = `/idnty/${migratedSlug}`;
+      if (isDesktop) target += '/desktop';
+      if (migratedStep) target += `/${migratedStep}`;
+      return <Navigate to={target} replace />;
+    }
     return <Navigate to={SITE00_ROUTES.idntyState} replace />;
   }
 

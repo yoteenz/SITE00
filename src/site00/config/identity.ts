@@ -25,28 +25,21 @@ export const IDNTY_BRAND_STATES: IdentityBrandState[] = [
     id: 'some-pieces',
     code: '01',
     title: 'SOME PIECES EXIST',
-    description: "I HAVE PARTS OF MY BRAND,\nBUT IT ISN'T COMPLETE.",
+    description: "I HAVE PARTS OF MY BRAND,\nBUT IT ISN'T COMPLETE OR COHESIVE YET.",
     iconComplexity: 1,
   },
   {
-    id: 'needs-cohesion',
-    code: '02',
-    title: 'NEEDS COHESION',
-    description: 'MY BRAND ELEMENTS EXIST.\nTHEY DON\'T WORK TOGETHER YET.',
-    iconComplexity: 2,
-  },
-  {
     id: 'ready-evolution',
-    code: '03',
+    code: '02',
     title: 'READY FOR EVOLUTION',
     description: 'MY BRAND EXISTS.\nIT NEEDS REFINEMENT.',
     iconComplexity: 2,
   },
   {
     id: 'build-ready',
-    code: '04',
+    code: '03',
     title: 'BUILD READY',
-    description: 'MY IDENTITY\nIS COMPLETE.',
+    description: "MY IDENTITY IS COMPLETE.\nIT'S TIME TO BUILD.",
     iconComplexity: 3,
   },
 ];
@@ -96,6 +89,7 @@ export type InvestmentTier = {
   label: string;
   priceLabel: string;
   services: string[];
+  brandStateId: IdntyBrandStateIconId;
 };
 
 export const IDNTY_INVESTMENT_TIERS: InvestmentTier[] = [
@@ -104,24 +98,28 @@ export const IDNTY_INVESTMENT_TIERS: InvestmentTier[] = [
     label: 'FOUNDATION',
     priceLabel: 'FROM $2,500',
     services: ['LOGO', 'VISUAL IDENTITY', 'BRAND GUIDELINES'],
+    brandStateId: 'starting-at-zero',
   },
   {
     id: 'refine',
     label: 'REFINE',
     priceLabel: 'FROM $1,750',
     services: ['LOGO ENHANCEMENT', 'GUIDELINES', 'VISUAL SYSTEM'],
+    brandStateId: 'some-pieces',
   },
   {
     id: 'evolve',
     label: 'EVOLVE',
     priceLabel: 'FROM $3,500',
     services: ['REBRANDING', 'STRATEGY', 'VISUAL EVOLUTION'],
+    brandStateId: 'ready-evolution',
   },
   {
     id: 'build-ready-tier',
     label: 'BUILD READY',
     priceLabel: 'NO IDNTY PURCHASE REQUIRED',
     services: ['ASSET VERIFICATION', 'PROCEED TO BLDR'],
+    brandStateId: 'build-ready',
   },
 ];
 

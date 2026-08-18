@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   IDNTY_ASSESSMENT_STORAGE_KEY,
+  IDNTY_LEGACY_NEEDS_COHESION_SLUG,
+  migrateLegacyNeedsCohesionStep,
   type IdntyAssessmentStateId,
   getIdntyAssessmentState,
 } from '../config/idnty-assessment';
@@ -29,20 +31,55 @@ const EMPTY: IdntyAssessmentRecord = {
   startedAt: new Date().toISOString(),
 };
 
-function readRecord(): IdntyAssessmentRecord {
-  if (typeof window === 'undefined') return EMPTY;
-  try {
-    const raw = localStorage.getItem(IDNTY_ASSESSMENT_STORAGE_KEY);
-    if (!raw) return EMPTY;
-    return { ...EMPTY, ...JSON.parse(raw) } as IdntyAssessmentRecord;
-  } catch {
-    return EMPTY;
-  }
+function migrateRecord(record: IdntyAssessmentRecord): IdntyAssessmentRecord {
+  if ((record.identityState as string | null) !== IDNTY_LEGACY_NEEDS_COHESION_SLUG) return record;
+
+  const legacyAnswers = record.answers[IDNTY_LEGACY_NEEDS_COHESION_SLUG] ?? {};
+  const piecesAnswers = record.answers['some-pieces-exist'] ?? {};
+  const migratedPiecesAnswers = {
+    ...piecesAnswers,
+    ...legacyAnswers,
+    'cohesion-diagnostic':
+      piecesAnswers['cohesion-diagnostic'] ??
+      legacyAnswers['cohesion-diagnostic'] ??
+      'mostly-cohesive',
+  };
+
+  const { [IDNTY_LEGACY_NEEDS_COHESION_SLUG]: _removed, ...restAnswers } = record.answers;
+
+  return {
+    ...record,
+    identityState: 'some-pieces-exist',
+    currentStep: migrateLegacyNeedsCohesionStep(record.currentStep),
+    answers: {
+      ...restAnswers,
+      'some-pieces-exist': migratedPiecesAnswers,
+    },
+    completedSteps: record.completedSteps.map((key) =>
+      key.startsWith(`${IDNTY_LEGACY_NEEDS_COHESION_SLUG}:`)
+        ? key.replace(`${IDNTY_LEGACY_NEEDS_COHESION_SLUG}:`, 'some-pieces-exist:')
+        : key,
+    ),
+  };
 }
 
 function writeRecord(record: IdntyAssessmentRecord) {
   if (typeof window === 'undefined') return;
   localStorage.setItem(IDNTY_ASSESSMENT_STORAGE_KEY, JSON.stringify(record));
+}
+
+function readRecord(): IdntyAssessmentRecord {
+  if (typeof window === 'undefined') return EMPTY;
+  try {
+    const raw = localStorage.getItem(IDNTY_ASSESSMENT_STORAGE_KEY);
+    if (!raw) return EMPTY;
+    const parsed = { ...EMPTY, ...JSON.parse(raw) } as IdntyAssessmentRecord;
+    const migrated = migrateRecord(parsed);
+    if (migrated.identityState !== parsed.identityState) writeRecord(migrated);
+    return migrated;
+  } catch {
+    return EMPTY;
+  }
 }
 
 export function useIdntyAssessment() {

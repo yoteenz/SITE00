@@ -13,12 +13,11 @@ export const SITE00_IDNTY_BRAND_STATE_ICON_PATHS = {
   'build-ready': 'IDNTY/275DBF51-6D60-4203-BEB3-0BFFE8E6F95F.png',
 } as const;
 
-export type IdntyBrandStateIconId = keyof typeof SITE00_IDNTY_BRAND_STATE_ICON_PATHS | 'needs-cohesion';
+export type IdntyBrandStateIconId = keyof typeof SITE00_IDNTY_BRAND_STATE_ICON_PATHS;
 
 const SITE00_ICON_BASE = site00SupabasePublicStorageBase();
 
 export function site00IdntyBrandStateIconUrl(id: IdntyBrandStateIconId): string {
-  if (id === 'needs-cohesion') return '';
   const path = SITE00_IDNTY_BRAND_STATE_ICON_PATHS[id];
   const resolved = resolveSite00PublicAsset(path);
   if (resolved.includes('/storage/v1/')) return resolved;

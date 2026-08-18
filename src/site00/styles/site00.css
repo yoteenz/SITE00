@@ -806,6 +806,29 @@
   box-sizing: border-box;
 }
 
+.site00-idnty-state-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.site00-idnty-investment-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+@media (min-width: 768px) {
+  .site00-idnty-state-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .site00-idnty-investment-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
 @media (min-width: 768px) {
   .site00-state-page-layout {
     padding-bottom: calc(var(--site00-summary-strip-height, 36px) + 48px);

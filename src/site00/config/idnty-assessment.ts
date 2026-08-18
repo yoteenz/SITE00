@@ -9,7 +9,6 @@ import type { IdntyBrandStateIconId } from './idnty-brand-state-icons';
 export type IdntyAssessmentStateId =
   | 'starting-at-zero'
   | 'some-pieces-exist'
-  | 'needs-cohesion'
   | 'ready-for-evolution'
   | 'build-ready';
 
@@ -150,6 +149,25 @@ export const IDNTY_COHESION_GAP_OPTIONS: IdntyAssessmentOption[] = [
   { id: 'team-misalignment', label: 'TEAM MISALIGNMENT' },
 ];
 
+/** Internal diagnostic — selected inside SOME PIECES EXIST, not a top-level state. */
+export const IDNTY_PIECES_DIAGNOSTIC_OPTIONS: IdntyAssessmentOption[] = [
+  {
+    id: 'scattered-pieces',
+    label: 'SCATTERED PIECES',
+    description: 'I HAVE SOME ASSETS, BUT THEY DON\'T CONNECT YET.',
+  },
+  {
+    id: 'mostly-cohesive',
+    label: 'MOSTLY COHESIVE',
+    description: 'I HAVE A DIRECTION, BUT IT NEEDS REFINEMENT AND CONSISTENCY.',
+  },
+  {
+    id: 'missing-key-pieces',
+    label: 'MISSING KEY PIECES',
+    description: 'SOME ELEMENTS EXIST, BUT IMPORTANT PARTS ARE STILL MISSING.',
+  },
+];
+
 const STARTING_AT_ZERO_QUESTIONS: IdntyAssessmentOption[] = [
   { id: 'project', label: 'WHAT ARE YOU BUILDING?', description: 'SELECT THE OPTION THAT BEST DESCRIBES YOUR PROJECT.' },
   { id: 'goal', label: 'WHAT IS THE PRIMARY GOAL?', description: 'HELP US UNDERSTAND THE MAIN OBJECTIVE.' },
@@ -162,7 +180,7 @@ export const IDNTY_ASSESSMENT_STATES: Record<IdntyAssessmentStateId, IdntyAssess
   'starting-at-zero': {
     id: 'starting-at-zero',
     slug: 'starting-at-zero',
-    stageMarker: '[ 00 / 05 ]',
+    stageMarker: '[ 00 / 04 ]',
     title: 'STARTING AT ZERO',
     declaration: 'EVERY GREAT PROJECT BEGINS WITH CLARITY.',
     editorialBody:
@@ -206,9 +224,9 @@ export const IDNTY_ASSESSMENT_STATES: Record<IdntyAssessmentStateId, IdntyAssess
   'some-pieces-exist': {
     id: 'some-pieces-exist',
     slug: 'some-pieces-exist',
-    stageMarker: '[ 01 / 05 ]',
+    stageMarker: '[ 01 / 04 ]',
     title: 'SOME PIECES EXIST',
-    declaration: "I HAVE PARTS OF MY BRAND, BUT IT ISN'T COMPLETE.",
+    declaration: "I HAVE PARTS OF MY BRAND, BUT IT ISN'T COMPLETE OR COHESIVE YET.",
     editorialBody:
       "GREAT — WE'LL HELP YOU BUILD ON WHAT YOU ALREADY HAVE AND CREATE A COMPLETE, COHESIVE IDENTITY. TELL US WHAT YOU ALREADY HAVE SO WE CAN GET A CLEAR PICTURE.",
     editorialCta: "LET'S COMPLETE YOUR IDENTITY.",
@@ -220,8 +238,15 @@ export const IDNTY_ASSESSMENT_STATES: Record<IdntyAssessmentStateId, IdntyAssess
     landingOptions: IDNTY_EXISTING_ASSET_OPTIONS,
     steps: [
       { id: 'assets', title: 'WHAT DO YOU ALREADY HAVE?', type: 'multi', options: IDNTY_EXISTING_ASSET_OPTIONS, required: true },
+      {
+        id: 'cohesion-diagnostic',
+        title: 'HOW WOULD YOU DESCRIBE WHAT YOU HAVE TODAY?',
+        subtitle: 'THIS HELPS US UNDERSTAND YOUR STARTING POINT.',
+        type: 'single',
+        options: IDNTY_PIECES_DIAGNOSTIC_OPTIONS,
+        required: true,
+      },
       { id: 'other-specify', title: 'OTHER (PLEASE SPECIFY)', type: 'textarea', maxLength: 300, placeholder: 'DESCRIBE WHAT YOU HAVE…' },
-      { id: 'description', title: 'HOW WOULD YOU DESCRIBE WHAT YOU HAVE TODAY?', subtitle: 'THIS HELPS US UNDERSTAND YOUR STARTING POINT.', type: 'textarea', maxLength: 500, required: true, placeholder: 'SHARE DETAILS ABOUT YOUR EXISTING BRAND ASSETS…' },
       { id: 'gaps', title: 'WHAT FEELS INCOMPLETE?', type: 'multi', options: IDNTY_COHESION_GAP_OPTIONS },
     ],
     processStrip: {
@@ -245,51 +270,10 @@ export const IDNTY_ASSESSMENT_STATES: Record<IdntyAssessmentStateId, IdntyAssess
       { id: 'support', label: 'BOOK DISCOVERY CALL →', href: SITE00_ROUTES.support },
     ],
   },
-  'needs-cohesion': {
-    id: 'needs-cohesion',
-    slug: 'needs-cohesion',
-    stageMarker: '[ 02 / 05 ]',
-    title: 'NEEDS COHESION',
-    declaration: 'MY BRAND ELEMENTS EXIST. THEY DON\'T WORK TOGETHER YET.',
-    editorialBody:
-      'YOU HAVE PIECES IN PLACE — NOW WE ALIGN THEM INTO ONE COHESIVE SYSTEM THAT COMMUNICATES CLEARLY ACROSS EVERY TOUCHPOINT.',
-    editorialCta: "LET'S BRING IT ALL TOGETHER.",
-    breadcrumb: 'IDENTITY / NEEDS COHESION',
-    landingTitle: 'WHERE DOES YOUR BRAND FEEL DISCONNECTED?',
-    landingSubtitle: 'SELECT THE AREAS THAT NEED ALIGNMENT.',
-    landingType: 'option-grid',
-    landingOptions: IDNTY_COHESION_GAP_OPTIONS,
-    steps: [
-      { id: 'gaps', title: 'WHERE DOES YOUR BRAND FEEL DISCONNECTED?', type: 'multi', options: IDNTY_COHESION_GAP_OPTIONS, required: true },
-      { id: 'assets', title: 'WHAT ASSETS DO YOU CURRENTLY HAVE?', type: 'multi', options: IDNTY_EXISTING_ASSET_OPTIONS },
-      { id: 'priority', title: 'WHAT SHOULD WE ALIGN FIRST?', type: 'textarea', maxLength: 500, required: true, placeholder: 'DESCRIBE YOUR TOP PRIORITY FOR BRAND COHESION…' },
-      { id: 'description', title: 'HOW WOULD YOU DESCRIBE THE CURRENT STATE?', type: 'textarea', maxLength: 500, placeholder: 'SHARE CONTEXT ABOUT INCONSISTENCIES OR GAPS…' },
-    ],
-    processStrip: {
-      id: 'process',
-      leadTitle: 'YOUR IDENTITY. OUR PROCESS.',
-      leadHref: SITE00_ROUTES.support,
-      leadLinkLabel: 'HOW WE WORK →',
-      steps: [
-        { id: 'discover', label: 'DISCOVER', description: 'WE AUDIT WHAT EXISTS AND WHERE IT BREAKS DOWN.' },
-        { id: 'strategize', label: 'STRATEGIZE', description: 'WE DEFINE THE SYSTEM THAT CONNECTS EVERYTHING.' },
-        { id: 'design', label: 'DESIGN', description: 'WE REFINE AND UNIFY YOUR BRAND TOUCHPOINTS.' },
-        { id: 'deliver', label: 'DELIVER', description: 'YOU LEAVE WITH A COHESIVE, USABLE IDENTITY.' },
-      ],
-    },
-    primaryCta: 'NEXT STEP →',
-    secondaryCta: 'BACK',
-    completionTitle: 'YOUR COHESION PATH IS DEFINED.',
-    completionSubtitle: 'WE KNOW WHAT TO ALIGN AND WHAT TO BUILD NEXT.',
-    recommendedActions: [
-      { id: 'bldr', label: 'CONTINUE TO BLDR →', href: SITE00_ROUTES.bldrState },
-      { id: 'support', label: 'BOOK DISCOVERY CALL →', href: SITE00_ROUTES.support },
-    ],
-  },
   'ready-for-evolution': {
     id: 'ready-for-evolution',
     slug: 'ready-for-evolution',
-    stageMarker: '[ 03 / 05 ]',
+    stageMarker: '[ 02 / 04 ]',
     title: 'READY FOR EVOLUTION',
     declaration: 'MY BRAND EXISTS. IT NEEDS REFINEMENT.',
     editorialBody:
@@ -328,7 +312,7 @@ export const IDNTY_ASSESSMENT_STATES: Record<IdntyAssessmentStateId, IdntyAssess
   'build-ready': {
     id: 'build-ready',
     slug: 'build-ready',
-    stageMarker: '[ 04 / 05 ]',
+    stageMarker: '[ 03 / 04 ]',
     title: 'BUILD READY',
     declaration: "MY IDENTITY IS COMPLETE. IT'S TIME TO BUILD.",
     editorialBody:
@@ -401,4 +385,18 @@ export function idntyAssessmentPrevStep(state: IdntyAssessmentStateConfig, curre
   const idx = idntyAssessmentStepIndex(state, currentStepId);
   if (idx <= 0) return null;
   return state.steps[idx - 1] ?? null;
+}
+
+/** Legacy top-level state — migrated into some-pieces-exist diagnostic flow. */
+export const IDNTY_LEGACY_NEEDS_COHESION_SLUG = 'needs-cohesion' as const;
+
+export function migrateLegacyNeedsCohesionSlug(slug: string): IdntyAssessmentStateId | null {
+  if (slug === IDNTY_LEGACY_NEEDS_COHESION_SLUG) return 'some-pieces-exist';
+  return null;
+}
+
+export function migrateLegacyNeedsCohesionStep(stepId: string | null): string | null {
+  if (!stepId || stepId === 'complete' || stepId === 'review') return stepId;
+  if (stepId === 'priority' || stepId === 'description') return 'cohesion-diagnostic';
+  return stepId;
 }

@@ -5,7 +5,6 @@ import type { IdntyAssessmentStateId } from './idnty-assessment';
 export const IDNTY_BRAND_STATE_TO_ASSESSMENT: Record<IdntyBrandStateIconId, IdntyAssessmentStateId> = {
   'starting-at-zero': 'starting-at-zero',
   'some-pieces': 'some-pieces-exist',
-  'needs-cohesion': 'needs-cohesion',
   'ready-evolution': 'ready-for-evolution',
   'build-ready': 'build-ready',
 };

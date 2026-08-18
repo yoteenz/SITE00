@@ -72,7 +72,6 @@ export function isSite00IdntyStateDesktopPath(pathname: string): boolean {
 export const IDNTY_ASSESSMENT_STATE_SLUGS = [
   'starting-at-zero',
   'some-pieces-exist',
-  'needs-cohesion',
   'ready-for-evolution',
   'build-ready',
 ] as const;

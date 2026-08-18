@@ -54,16 +54,7 @@ export default function IdntyStatePage() {
             </div>
           ) : null}
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: 16,
-              marginBottom: 40,
-            }}
-            role="list"
-            aria-label="Brand states"
-          >
+          <div className="site00-idnty-state-grid" role="list" aria-label="Brand states">
             {IDNTY_BRAND_STATES.map((brandState) => (
               <StateCard
                 key={brandState.id}
@@ -80,19 +71,14 @@ export default function IdntyStatePage() {
               <p className="site00-label" style={{ marginBottom: 20 }}>
                 {IDNTY_STATE_COPY.investmentSubhead}
               </p>
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-                  gap: 8,
-                }}
-              >
+              <div className="site00-idnty-investment-grid">
                 {IDNTY_INVESTMENT_TIERS.map((tier) => (
                   <InvestmentColumn
                     key={tier.id}
                     label={tier.label}
                     priceLabel={tier.priceLabel}
                     items={tier.services}
+                    brandStateId={tier.brandStateId}
                   />
                 ))}
               </div>

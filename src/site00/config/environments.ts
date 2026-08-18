@@ -99,7 +99,7 @@ export const SITE00_ENVIRONMENTS: Record<EnvironmentId, EnvironmentConfig> = {
     mobileScale: 1,
     lightingClass: 'site00-env--idnty-assessment-lighting',
     fallbackClass: 'site00-env-fallback--idnty-assessment',
-    routes: ['/idnty/starting-at-zero', '/idnty/some-pieces-exist', '/idnty/needs-cohesion', '/idnty/ready-for-evolution', '/idnty/build-ready'],
+    routes: ['/idnty/starting-at-zero', '/idnty/some-pieces-exist', '/idnty/ready-for-evolution', '/idnty/build-ready'],
     notes: 'Approved IDNTY onboarding assessment — desktop 3D3D5A0F · mobile F17CDD7D @ live-preview/site00',
   },
 };
