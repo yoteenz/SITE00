@@ -1,9 +1,9 @@
 import { Navigate } from 'react-router-dom';
 import { SITE00_ROUTES } from '../../config/routes';
-import { writeStoredPreviewDeviceMode } from '../../state/preview-mode';
+import { writeStoredPresentationOverride } from '../../state/preview-mode';
 
-/** Legacy `/origin/desktop` → `/origin` with desktop preview mode restored. */
+/** Legacy `/origin/desktop` → canonical `/origin` with desktop presentation override. */
 export function Site00OriginDesktopLegacyRedirect() {
-  writeStoredPreviewDeviceMode('desktop');
+  writeStoredPresentationOverride('desktop');
   return <Navigate to={SITE00_ROUTES.originAlias} replace />;
 }

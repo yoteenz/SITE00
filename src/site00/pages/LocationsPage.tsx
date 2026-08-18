@@ -2,26 +2,13 @@ import { useEffect, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { Site00MobileShell } from '../components/mobile/Site00MobileShell';
 import { LocationsDirectory } from '../components/locations/LocationsDirectory';
+import { usePresentationMode } from '../presentation';
 import { SITE00_ROUTES } from '../config/routes';
 
-function useIsMobileViewport(): boolean {
-  const [mobile, setMobile] = useState(() =>
-    typeof window !== 'undefined' ? window.matchMedia('(max-width: 767px)').matches : true,
-  );
-
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 767px)');
-    const onChange = () => setMobile(mq.matches);
-    mq.addEventListener('change', onChange);
-    return () => mq.removeEventListener('change', onChange);
-  }, []);
-
-  return mobile;
-}
-
+/** Canonical /origin/locations — dedicated MobileLocations presentation. */
 export default function LocationsPage() {
   const { state } = useLocation();
-  const isMobile = useIsMobileViewport();
+  const { isMobilePresentation } = usePresentationMode();
   const [enterClass, setEnterClass] = useState('site00-locations-page--enter');
 
   useEffect(() => {
@@ -34,7 +21,7 @@ export default function LocationsPage() {
     return () => window.clearTimeout(timer);
   }, [state]);
 
-  if (!isMobile) {
+  if (!isMobilePresentation) {
     return <Navigate to={SITE00_ROUTES.originAlias} replace />;
   }
 

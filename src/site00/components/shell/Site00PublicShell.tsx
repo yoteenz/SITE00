@@ -7,7 +7,7 @@ import { Site00AppShell } from './Site00AppShell';
 import { Site00PageFooter } from './Site00PageFooter';
 import { Site00PublicStatusRail } from './Site00PublicStatusRail';
 import { Site00MobileShell } from '../mobile/Site00MobileShell';
-import { useSite00 } from '../../state/Site00Context';
+import { usePresentationMode } from '../../presentation';
 import { useSite00DesktopArtboardPreview } from './Site00DesktopArtboardContext';
 
 type Site00PublicShellProps = {
@@ -29,12 +29,12 @@ export function Site00PublicShell({
   locationLabel,
   className = '',
 }: Site00PublicShellProps) {
-  const { isPreviewDesktop } = useSite00();
+  const { isDesktopPresentation } = usePresentationMode();
   const inArtboard = useSite00DesktopArtboardPreview();
   const { pathname } = useLocation();
   const meta = site00PublicPageMeta(pathname);
   const resolvedLocation = locationLabel ?? meta.locationLabel;
-  const showDesktopCanon = isPreviewDesktop && inArtboard;
+  const showDesktopCanon = isDesktopPresentation && inArtboard;
 
   return (
     <div

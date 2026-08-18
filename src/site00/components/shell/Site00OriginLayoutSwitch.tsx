@@ -14,14 +14,17 @@ import {
   site00IdntyAssessmentDesktopPath,
   site00IdntyAssessmentMobilePath,
 } from '../../config/routes';
+import { usePresentationMode } from '../../presentation';
 import { useSite00 } from '../../state/Site00Context';
 
-/** Toggle mobile vs desktop preview on Origin + workflow assessment routes. */
+/** AUTO / Mobile / Desktop presentation override for Origin + workflow routes. */
 export function Site00OriginLayoutSwitch() {
   const { pathname } = useLocation();
-  const { isPreviewDesktop, setPreviewDeviceMode } = useSite00();
+  const { setPresentationOverride } = useSite00();
+  const { mode, override } = usePresentationMode();
 
   let nav: React.ReactNode = null;
+  const overrideActive = override !== 'auto';
 
   if (
     pathname === SITE00_ROUTES.originAlias ||
@@ -30,18 +33,25 @@ export function Site00OriginLayoutSwitch() {
     isSite00OriginDesktopPath(pathname)
   ) {
     nav = (
-      <nav className="site00-origin-layout-switch" aria-label="Origin layout preview">
+      <nav className="site00-origin-layout-switch" aria-label="Presentation preview">
         <button
           type="button"
-          aria-current={!isPreviewDesktop ? 'page' : undefined}
-          onClick={() => setPreviewDeviceMode('mobile')}
+          aria-current={!overrideActive ? 'page' : undefined}
+          onClick={() => setPresentationOverride('auto')}
+        >
+          Auto
+        </button>
+        <button
+          type="button"
+          aria-current={mode === 'mobile' && overrideActive ? 'page' : undefined}
+          onClick={() => setPresentationOverride('mobile')}
         >
           Mobile
         </button>
         <button
           type="button"
-          aria-current={isPreviewDesktop ? 'page' : undefined}
-          onClick={() => setPreviewDeviceMode('desktop')}
+          aria-current={mode === 'desktop' && overrideActive ? 'page' : undefined}
+          onClick={() => setPresentationOverride('desktop')}
         >
           Desktop
         </button>
@@ -49,24 +59,30 @@ export function Site00OriginLayoutSwitch() {
     );
   } else if (pathname === SITE00_ROUTES.bldrState || isSite00BldrStateDesktopPath(pathname)) {
     nav = (
-      <nav className="site00-origin-layout-switch" aria-label="BLDR layout preview">
-        <Link to={SITE00_ROUTES.bldrState} aria-current={pathname === SITE00_ROUTES.bldrState ? 'page' : undefined}>
+      <nav className="site00-origin-layout-switch" aria-label="BLDR presentation preview">
+        <button type="button" aria-current={!overrideActive ? 'page' : undefined} onClick={() => setPresentationOverride('auto')}>
+          Auto
+        </button>
+        <button type="button" aria-current={mode === 'mobile' && overrideActive ? 'page' : undefined} onClick={() => setPresentationOverride('mobile')}>
           Mobile
-        </Link>
-        <Link to={SITE00_ROUTES.bldrStateDesktop} aria-current={isSite00BldrStateDesktopPath(pathname) ? 'page' : undefined}>
+        </button>
+        <button type="button" aria-current={mode === 'desktop' && overrideActive ? 'page' : undefined} onClick={() => setPresentationOverride('desktop')}>
           Desktop
-        </Link>
+        </button>
       </nav>
     );
   } else if (pathname === SITE00_ROUTES.idntyState || isSite00IdntyStateDesktopPath(pathname)) {
     nav = (
-      <nav className="site00-origin-layout-switch" aria-label="IDNTY layout preview">
-        <Link to={SITE00_ROUTES.idntyState} aria-current={pathname === SITE00_ROUTES.idntyState ? 'page' : undefined}>
+      <nav className="site00-origin-layout-switch" aria-label="IDNTY presentation preview">
+        <button type="button" aria-current={!overrideActive ? 'page' : undefined} onClick={() => setPresentationOverride('auto')}>
+          Auto
+        </button>
+        <button type="button" aria-current={mode === 'mobile' && overrideActive ? 'page' : undefined} onClick={() => setPresentationOverride('mobile')}>
           Mobile
-        </Link>
-        <Link to={SITE00_ROUTES.idntyStateDesktop} aria-current={isSite00IdntyStateDesktopPath(pathname) ? 'page' : undefined}>
+        </button>
+        <button type="button" aria-current={mode === 'desktop' && overrideActive ? 'page' : undefined} onClick={() => setPresentationOverride('desktop')}>
           Desktop
-        </Link>
+        </button>
       </nav>
     );
   } else if (isSite00IdntyAssessmentPath(pathname)) {

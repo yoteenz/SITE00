@@ -8,6 +8,7 @@ import { AsstsColdStartGate } from '../site00/assts/components/AsstsColdStartGat
 import { Site00RouteLoadingFallback } from '../site00/components/loader/Site00RouteLoadingFallback';
 import { Site00WorldColdStartGate } from '../site00/components/loader/Site00WorldColdStartGate';
 import { Site00OriginRouteShell } from '../site00/components/shell/Site00OriginRouteShell';
+import { Site00WorkflowStateDesktopLegacyRedirect } from '../site00/components/shell/Site00WorkflowStateDesktopLegacyRedirect';
 import { Site00AccountRouteGuard } from '../site00/components/guards/Site00AccountRouteGuard';
 import { Site00DesktopArtboardShell } from '../site00/components/shell/Site00DesktopArtboardShell';
 import { Site00PublicRouteShell } from '../site00/components/shell/Site00PublicRouteShell';
@@ -18,6 +19,7 @@ import { site00PublicDesktopPath } from '../site00/config/site00-public-pages';
 /* Eager-load SITE 00 + ASSTS styles (lazy route CSS was not applying on mobile preview). */
 import '../site00/styles/site00.css';
 import '../site00/styles/site00-locations.css';
+import '../site00/styles/site00-fast-travel.css';
 import '../site00/styles/site00-bldr-entry.css';
 import '../site00/styles/site00-loader.css';
 import '../site00/styles/site00-desktop-artboard.css';
@@ -218,9 +220,11 @@ export function Site00Routes() {
         path={SITE00_ROUTES.idntyState}
         element={
           <Site00Layout>
-            <Site00Suspense>
-              <Site00IdntyStatePage />
-            </Site00Suspense>
+            <Site00OriginRouteShell>
+              <Site00Suspense>
+                <Site00IdntyStatePage />
+              </Site00Suspense>
+            </Site00OriginRouteShell>
           </Site00Layout>
         }
       />
@@ -228,11 +232,7 @@ export function Site00Routes() {
         path={SITE00_ROUTES.idntyStateDesktop}
         element={
           <Site00Layout>
-            <Site00DesktopArtboardShell>
-              <Site00Suspense>
-                <Site00IdntyStatePage />
-              </Site00Suspense>
-            </Site00DesktopArtboardShell>
+            <Site00WorkflowStateDesktopLegacyRedirect canonicalPath={SITE00_ROUTES.idntyState} />
           </Site00Layout>
         }
       />
@@ -260,9 +260,11 @@ export function Site00Routes() {
         path={SITE00_ROUTES.bldrState}
         element={
           <Site00Layout>
-            <Site00Suspense>
-              <Site00BldrStatePage />
-            </Site00Suspense>
+            <Site00OriginRouteShell>
+              <Site00Suspense>
+                <Site00BldrStatePage />
+              </Site00Suspense>
+            </Site00OriginRouteShell>
           </Site00Layout>
         }
       />
@@ -270,11 +272,7 @@ export function Site00Routes() {
         path={SITE00_ROUTES.bldrStateDesktop}
         element={
           <Site00Layout>
-            <Site00DesktopArtboardShell>
-              <Site00Suspense>
-                <Site00BldrStatePage />
-              </Site00Suspense>
-            </Site00DesktopArtboardShell>
+            <Site00WorkflowStateDesktopLegacyRedirect canonicalPath={SITE00_ROUTES.bldrState} />
           </Site00Layout>
         }
       />
@@ -283,9 +281,11 @@ export function Site00Routes() {
         path={SITE00_ROUTES.evolveState}
         element={
           <Site00Layout>
-            <Site00Suspense>
-              <Site00EvolveStatePage />
-            </Site00Suspense>
+            <Site00OriginRouteShell>
+              <Site00Suspense>
+                <Site00EvolveStatePage />
+              </Site00Suspense>
+            </Site00OriginRouteShell>
           </Site00Layout>
         }
       />
@@ -293,11 +293,7 @@ export function Site00Routes() {
         path={SITE00_ROUTES.evolveStateDesktop}
         element={
           <Site00Layout>
-            <Site00DesktopArtboardShell>
-              <Site00Suspense>
-                <Site00EvolveStatePage />
-              </Site00Suspense>
-            </Site00DesktopArtboardShell>
+            <Site00WorkflowStateDesktopLegacyRedirect canonicalPath={SITE00_ROUTES.evolveState} />
           </Site00Layout>
         }
       />
