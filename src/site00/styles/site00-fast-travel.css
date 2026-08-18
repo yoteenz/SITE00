@@ -1,0 +1,393 @@
+/**
+ * SITE 00 Fast Travel — contextual mobile navigation overlay.
+ * Scoped to mobile viewports alongside `.site00-mobile-shell`.
+ */
+
+.site00-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 767px) {
+  body.site00-fast-travel-open {
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 767px) {
+  /* ─── Fast Travel trigger ─── */
+
+  .site00-fast-travel-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .site00-fast-travel-trigger__icon {
+    display: block;
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+  }
+
+  /* ─── Fast Travel panel ─── */
+
+  .site00-fast-travel__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: calc(var(--site-z-overlay) - 1);
+    border: none;
+    background: rgba(0, 0, 0, 0.22);
+    cursor: pointer;
+  }
+
+  .site00-fast-travel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: var(--site-z-overlay);
+    width: min(92vw, 360px);
+    padding: calc(16px + env(safe-area-inset-top, 0px)) 20px calc(24px + env(safe-area-inset-bottom, 0px));
+    background: rgba(255, 255, 255, 0.97);
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: -12px 0 40px rgba(0, 0, 0, 0.06);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .site00-fast-travel__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .site00-fast-travel__brand {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .site00-fast-travel__brand-mark {
+    font-family: var(--site00-font-heading);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .site00-fast-travel__close {
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: transparent;
+    font-size: 1.625rem;
+    line-height: 1;
+    color: var(--site-text);
+    cursor: pointer;
+  }
+
+  .site00-fast-travel__hero {
+    margin-bottom: 18px;
+  }
+
+  .site00-fast-travel__title {
+    margin: 0;
+    font-family: var(--site00-font-display);
+    font-size: clamp(1.5rem, 7vw, 1.875rem);
+    font-weight: 800;
+    font-stretch: var(--site00-font-stretch-display);
+    letter-spacing: 0.02em;
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+
+  .site00-fast-travel__subtitle {
+    margin: 8px 0 0;
+    font-family: var(--site00-font-body);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    line-height: 1.35;
+    text-transform: uppercase;
+    color: var(--site-text-muted);
+  }
+
+  .site00-fast-travel__current {
+    margin-bottom: 22px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: rgba(242, 242, 242, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .site00-fast-travel__current-label {
+    display: block;
+    margin-bottom: 8px;
+    font-family: var(--site00-font-nav);
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--site-text-muted);
+  }
+
+  .site00-fast-travel__current-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .site00-fast-travel__current-index {
+    font-family: var(--site00-font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.04em;
+    color: var(--site-text-muted);
+  }
+
+  .site00-fast-travel__current-title {
+    font-family: var(--site00-font-display);
+    font-size: 1.125rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .site00-fast-travel__current-descriptor {
+    font-family: var(--site00-font-body);
+    font-size: 0.625rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--site-text-muted);
+    line-height: 1.35;
+  }
+
+  .site00-fast-travel__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .site00-fast-travel__section-title {
+    margin: 0 0 10px;
+    font-family: var(--site00-font-nav);
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--site-text-muted);
+  }
+
+  .site00-fast-travel__section-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .site00-fast-travel__section-body--grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .site00-fast-travel__dest {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    text-decoration: none;
+    color: inherit;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    transition:
+      border-color 160ms var(--site-ease),
+      transform 160ms var(--site-ease);
+  }
+
+  .site00-fast-travel__dest:active {
+    transform: scale(0.985);
+    border-color: rgba(0, 0, 0, 0.14);
+  }
+
+  .site00-fast-travel__dest--primary {
+    min-height: 88px;
+    justify-content: flex-end;
+  }
+
+  .site00-fast-travel__dest-label {
+    font-family: var(--site00-font-nav);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .site00-fast-travel__dest-desc {
+    font-family: var(--site00-font-body);
+    font-size: 0.5625rem;
+    letter-spacing: 0.04em;
+    line-height: 1.35;
+    color: var(--site-text-muted);
+  }
+
+  .site00-fast-travel__dest--locked {
+    border-color: rgba(232, 25, 44, 0.18);
+  }
+
+  .site00-fast-travel__dest-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .site00-fast-travel__dest-auth {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 4px;
+    font-family: var(--site00-font-nav);
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: var(--site-red);
+  }
+
+  /* ─── Directory header + EXIT 00 ─── */
+
+  .site00-locations-directory-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .site00-locations-directory-header {
+    padding: 4px 22px 12px;
+    max-width: 430px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .site00-locations-directory-header__title {
+    margin: 0;
+    font-family: var(--site00-font-display);
+    font-size: clamp(2rem, 10vw, 2.5rem);
+    font-weight: 800;
+    font-stretch: var(--site00-font-stretch-display);
+    letter-spacing: 0.02em;
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+
+  .site00-locations-directory-header__subtitle {
+    margin: 10px 0 0;
+    font-family: var(--site00-font-body);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    line-height: 1.35;
+    text-transform: uppercase;
+    color: var(--site-text-muted);
+  }
+
+  .site00-directory-exit {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 4px;
+    text-decoration: none;
+    color: var(--site-red);
+  }
+
+  .site00-directory-exit__label {
+    font-family: var(--site00-font-nav);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .site00-directory-exit__icon {
+    font-size: 1.375rem;
+    line-height: 1;
+    font-weight: 300;
+  }
+
+  .site00-locations-directory__section-title {
+    grid-column: 1 / -1;
+    margin: 0 0 4px;
+    padding: 0 22px;
+    max-width: 430px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: var(--site00-font-nav);
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--site-text-muted);
+  }
+
+  .site00-locations-directory__grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    align-items: start;
+    padding: 0 18px 8px 22px;
+    max-width: 430px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .site00-directory-card--locked {
+    border-color: rgba(232, 25, 44, 0.16);
+  }
+
+  .site00-directory-card__auth {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 6px;
+    font-family: var(--site00-font-nav);
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: var(--site-red);
+  }
+
+  .site00-locations-directory {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 8px;
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  .site00-fast-travel__dest {
+    transition: none;
+  }
+}

@@ -1,0 +1,407 @@
+/**
+ * SITE 00 Sign In — desktop split-screen + mobile single column.
+ */
+
+.site00-auth-shell {
+  min-height: 100dvh;
+  color: var(--site-text);
+  background: #fff;
+}
+
+.site00-auth-shell__desktop {
+  display: none;
+}
+
+.site00-auth-shell__mobile {
+  display: block;
+  min-height: 100dvh;
+}
+
+@media (min-width: 1024px) {
+  .site00-auth-shell__desktop {
+    display: grid;
+    grid-template-columns: minmax(420px, 1fr) minmax(480px, 560px);
+    min-height: 100dvh;
+    max-width: 2200px;
+    margin: 0 auto;
+  }
+
+  .site00-auth-shell__mobile {
+    display: none;
+  }
+}
+
+@media (min-width: 1440px) {
+  .site00-auth-shell__desktop {
+    grid-template-columns: minmax(520px, 1.15fr) minmax(520px, 640px);
+  }
+}
+
+@media (min-width: 1920px) {
+  .site00-auth-shell__desktop {
+    grid-template-columns: minmax(640px, 1.25fr) minmax(560px, 680px);
+  }
+}
+
+/* ─── Desktop brand panel ─── */
+
+.site00-auth-shell__brand {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background-color: #f8f8f8;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.site00-auth-shell__brand-top,
+.site00-auth-shell__brand-center,
+.site00-auth-shell__brand-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.site00-auth-shell__brand-top {
+  padding: 28px 32px 0;
+}
+
+.site00-auth-shell__logo {
+  font-family: var(--site00-font-heading);
+  font-size: 0.8125rem;
+  font-weight: var(--site00-weight-nav);
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  color: var(--site-text);
+}
+
+.site00-auth-shell__brand-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 32px;
+  text-align: center;
+}
+
+.site00-auth-shell__orbital {
+  width: min(280px, 42vw);
+  height: min(280px, 42vw);
+  margin-bottom: 8px;
+}
+
+.site00-auth-shell__brand-footer {
+  padding: 24px 32px 28px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.site00-auth-shell__tagline {
+  margin: 0;
+  font-family: var(--site00-font-label);
+  font-size: var(--site00-size-micro);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--site-text-muted);
+}
+
+.site00-auth-shell__legal {
+  display: flex;
+  gap: 18px;
+}
+
+.site00-auth-shell__legal a {
+  font-family: var(--site00-font-label);
+  font-size: var(--site00-size-micro);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--site-text-muted);
+  text-decoration: none;
+}
+
+.site00-auth-shell__legal a:hover,
+.site00-auth-shell__legal a:focus-visible {
+  color: var(--site-red);
+}
+
+/* ─── Auth intro copy ─── */
+
+.site00-auth-intro__mark {
+  margin: 0 0 8px;
+  font-family: var(--site00-font-mono);
+  font-size: var(--site00-size-label);
+  letter-spacing: 0.12em;
+  color: var(--site-red);
+}
+
+.site00-auth-intro__title {
+  margin: 0 0 12px;
+  font-family: var(--site00-font-display);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: var(--site00-weight-display);
+  font-stretch: condensed;
+  letter-spacing: 0.04em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.site00-auth-intro__copy {
+  margin: 0;
+  max-width: 28ch;
+  font-family: var(--site00-font-body);
+  font-size: var(--site00-size-body);
+  line-height: 1.45;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--site-text-muted);
+}
+
+.site00-auth-intro--desktop-panel .site00-auth-intro__copy {
+  margin-inline: auto;
+}
+
+.site00-auth-intro--mobile {
+  padding: 8px 22px 20px;
+  text-align: center;
+}
+
+.site00-auth-intro--mobile .site00-auth-intro__orbital {
+  margin: 20px auto 0;
+}
+
+/* ─── Orbital mark (loader geometry reuse) ─── */
+
+.site00-orbital-mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  width: min(220px, 62vw);
+  height: min(220px, 62vw);
+  margin-inline: auto;
+}
+
+.site00-auth-shell__orbital {
+  width: min(280px, 42vw);
+  height: min(280px, 42vw);
+}
+
+.site00-orbital-mark .site00-loader-geometry-mount {
+  width: 100%;
+  height: 100%;
+}
+
+/* ─── Form panel ─── */
+
+.site00-auth-shell__form-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 40px;
+  background: #fff;
+}
+
+.site00-auth-shell__mobile-main {
+  padding: 0 22px calc(24px + env(safe-area-inset-bottom, 0px));
+}
+
+.site00-signin-form {
+  width: 100%;
+  max-width: 380px;
+}
+
+.site00-signin-form__back {
+  display: inline-block;
+  margin-bottom: 48px;
+  font-family: var(--site00-font-label);
+  font-size: var(--site00-size-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--site-text-muted);
+}
+
+.site00-signin-form__back:hover,
+.site00-signin-form__back:focus-visible {
+  color: var(--site-red);
+}
+
+.site00-signin-form__label {
+  display: block;
+  margin: 0 0 6px;
+  font-family: var(--site00-font-label);
+  font-size: var(--site00-size-micro);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--site-text-muted);
+}
+
+.site00-signin-form__input {
+  width: 100%;
+  height: 44px;
+  margin-bottom: 16px;
+  padding: 0 12px;
+  border: 1px solid var(--site-line);
+  border-radius: 2px;
+  background: #fff;
+  font-family: var(--site00-font-body);
+  font-size: var(--site00-size-body);
+  color: var(--site-text);
+}
+
+.site00-signin-form__input:focus-visible {
+  outline: 2px solid var(--site-red);
+  outline-offset: 1px;
+}
+
+.site00-signin-form__input:not(.site00-signin-form__input--password) {
+  text-transform: uppercase;
+}
+
+.site00-signin-form__password-wrap {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.site00-signin-form__input--password {
+  padding-right: 64px;
+  margin-bottom: 0;
+  text-transform: none;
+}
+
+.site00-signin-form__show {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  font-family: var(--site00-font-label);
+  font-size: var(--site00-size-micro);
+  letter-spacing: 0.08em;
+  color: var(--site-text-muted);
+  cursor: pointer;
+}
+
+.site00-signin-form__link {
+  display: inline-block;
+  margin: 4px 0 16px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: var(--site00-font-label);
+  font-size: var(--site00-size-micro);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--site-red);
+  cursor: pointer;
+}
+
+.site00-signin-form__message {
+  margin: 0 0 12px;
+  font-family: var(--site00-font-label);
+  font-size: var(--site00-size-micro);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.site00-signin-form__message--error {
+  color: var(--site-red);
+}
+
+.site00-signin-form__message--info {
+  color: var(--site-text-muted);
+}
+
+.site00-signin-form__cta {
+  width: 100%;
+  height: 46px;
+  margin-top: 4px;
+  border: none;
+  border-radius: 2px;
+  background: var(--site-red);
+  color: #fff;
+  font-family: var(--site00-font-nav);
+  font-size: var(--site00-size-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.site00-signin-form__cta:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.site00-signin-form__divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0 16px;
+  color: var(--site-text-muted);
+  font-family: var(--site00-font-label);
+  font-size: var(--site00-size-micro);
+  letter-spacing: 0.12em;
+}
+
+.site00-signin-form__divider::before,
+.site00-signin-form__divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--site-line);
+}
+
+.site00-signin-form__magic {
+  width: 100%;
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--site-line);
+  border-radius: 2px;
+  background: #fff;
+  font-family: var(--site00-font-nav);
+  font-size: var(--site00-size-label);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.site00-signin-form__magic-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.site00-signin-form__footer {
+  margin: 24px 0 0;
+  text-align: center;
+  font-family: var(--site00-font-label);
+  font-size: var(--site00-size-micro);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--site-text-muted);
+}
+
+.site00-signin-form__footer-link {
+  color: var(--site-red);
+  text-decoration: none;
+}
+
+.site00-signin-form--mobile {
+  max-width: none;
+  padding-bottom: 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site00-orbital-mark .site00-loader-animation video,
+  .site00-orbital-mark .site00-loader-animation img {
+    animation: none !important;
+  }
+}

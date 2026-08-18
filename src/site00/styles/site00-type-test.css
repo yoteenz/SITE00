@@ -1,0 +1,107 @@
+/** Dev-only — SITE 00 typography test inspector panel */
+.site00-type-test-panel {
+  position: fixed;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  left: calc(12px + env(safe-area-inset-left, 0px));
+  z-index: 2147483646;
+  width: min(320px, calc(100vw - 24px));
+  max-height: min(70vh, 520px);
+  overflow: auto;
+  padding: 10px 12px;
+  border: 1px solid rgba(232, 25, 44, 0.45);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  font-family: var(--site00-font-family, 'Martian Mono', monospace);
+  font-size: 10px;
+  line-height: 1.35;
+  color: var(--site-text, #0a0a0a);
+  pointer-events: auto;
+}
+
+.site00-type-test-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.site00-type-test-panel__title {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--site-red, #e8192c);
+}
+
+.site00-type-test-panel__toggle {
+  border: 1px solid var(--site-line, rgba(0, 0, 0, 0.12));
+  background: #fff;
+  padding: 4px 8px;
+  font: inherit;
+  font-size: 9px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.site00-type-test-panel__hint,
+.site00-type-test-panel__empty {
+  margin: 0 0 8px;
+  color: var(--site-text-muted, #6b6b6b);
+  font-size: 9px;
+}
+
+.site00-type-test-panel__metrics {
+  margin: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.site00-type-test-panel__metrics > div {
+  display: grid;
+  grid-template-columns: 108px 1fr;
+  gap: 6px;
+  align-items: baseline;
+}
+
+.site00-type-test-panel__metrics dt {
+  margin: 0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--site-text-muted, #6b6b6b);
+}
+
+.site00-type-test-panel__metrics dd {
+  margin: 0;
+  word-break: break-word;
+}
+
+.site00-type-test-panel__pinned {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--site-line, rgba(0, 0, 0, 0.12));
+}
+
+.site00-type-test-panel__pinned-title {
+  margin: 0 0 6px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.site00-type-test-panel__pin {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 6px;
+}
+
+.site00-type-test-panel__pin strong {
+  font-weight: 600;
+}
+
+.site00-type-test-panel__pin span {
+  color: var(--site-text-muted, #6b6b6b);
+  font-size: 9px;
+}

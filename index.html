@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="app-build-id" content="__APP_BUILD_ID__" />
+    <link rel="stylesheet" href="/site00-assts-loader-boot.css" />
+    <script src="/site00-assts-boot-gate.js"></script>
+    <script>
+      (function site00AsstsBootClassEarly() {
+        var path = window.location.pathname || '';
+        var isSite00 =
+          typeof window.site00IsSite00ImmersivePath === 'function'
+            ? window.site00IsSite00ImmersivePath(path)
+            : path.indexOf('/assts') === 0 || path.indexOf('/origin') === 0 || path === '/';
+        if (!isSite00) return;
+        if (path === '/origin/desktop' || path.indexOf('/origin/desktop/') === 0) return;
+        var shouldBoot =
+          typeof window.site00ShouldBootSite00ImmersiveLoader === 'function'
+            ? window.site00ShouldBootSite00ImmersiveLoader()
+            : typeof window.site00ShouldBootAsstsImmersiveLoader === 'function'
+              ? window.site00ShouldBootAsstsImmersiveLoader()
+              : true;
+        if (!shouldBoot) return;
+        document.documentElement.classList.add('site00-assts-boot');
+        var shell = document.getElementById('site00-assts-boot-shell');
+        if (shell) shell.hidden = false;
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/site00/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SITE 00</title>
+    <meta name="description" content="SITE 00 — architectural digital product studio" />
+    <link rel="canonical" href="https://site00.com/" />
+  </head>
+  <body>
+    <div
+      id="site00-assts-boot-shell"
+      class="site00-assts-boot-shell"
+      hidden
+      aria-hidden="true"
+    >
+      <div
+        class="site00-assts-boot-shell__env"
+        style="background-image:url('/site00/loader/v1/assts-loader-background-v1.png')"
+      ></div>
+    </div>
+    <div id="root"></div>
+    <script src="/site00-assts-loader-boot.js"></script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

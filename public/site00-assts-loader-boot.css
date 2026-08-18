@@ -1,0 +1,49 @@
+/* Ultra-early ASSTS loader shell — paints before React hydrates (boot script only). */
+
+html.site00-assts-boot,
+html.site00-assts-boot body {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+  background: #f5f5f3 !important;
+}
+
+html.site00-assts-boot #root {
+  display: none;
+}
+
+.site00-assts-boot-shell[hidden] {
+  display: none !important;
+}
+
+.site00-assts-boot-shell {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  overflow: hidden;
+  touch-action: none;
+  overscroll-behavior: none;
+  background: #f5f5f3;
+  pointer-events: none;
+}
+
+.site00-assts-boot-shell__env {
+  position: absolute;
+  inset: 0;
+  background-color: #f5f5f3;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.site00-assts-boot-shell--handoff {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .site00-assts-boot-shell__env {
+    background-size: cover;
+    background-position: center center;
+  }
+}

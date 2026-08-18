@@ -1,0 +1,407 @@
+/**
+ * Environmental Composition Intelligence — stage shell + ASSTS library layout
+ */
+
+/* ─── Reusable environmental stage (shared with future Studio World surfaces) ─── */
+
+.environmental-stage {
+  position: relative;
+  min-height: 100dvh;
+  min-height: 100lvh;
+  color: var(--site-text);
+  font-family: var(--site00-font-body);
+  overflow-x: hidden;
+}
+
+.environmental-stage__env {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-color: #f5f5f3;
+  background-repeat: no-repeat;
+}
+
+.environmental-stage__veil {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 28%,
+    rgba(0, 0, 0, 0.03) 100%
+  );
+}
+
+.environmental-stage__ui {
+  position: relative;
+  z-index: 1;
+  min-height: 100dvh;
+  min-height: 100lvh;
+}
+
+.assts-library-stage.environmental-stage .environmental-stage__ui {
+  padding-bottom: calc(var(--assts-dock-h, 76px) + 16px);
+}
+
+.composition-zone-slot {
+  pointer-events: none;
+}
+
+.composition-zone-slot__content {
+  pointer-events: auto;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* ─── ASSTS library — zone contract (composition metadata is authoritative) ─── */
+
+.assts-library-composed--zone-contract {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  min-height: 100lvh;
+  pointer-events: none;
+}
+
+.assts-library-composed--zone-contract .assts-dev-panel-trigger,
+.assts-library-composed--zone-contract .site00-assts-dev-trigger {
+  pointer-events: auto;
+}
+
+.assts-zone-header .assts-hero--composed {
+  padding-top: 4px;
+  padding-bottom: 0;
+}
+
+.assts-zone-metrics .assts-metrics--hud {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  align-content: center;
+}
+
+.assts-zone-metrics .assts-glass--metric {
+  background: rgba(255, 255, 255, 0.26);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 6px 2px;
+}
+
+.assts-zone-metrics .assts-metric__value {
+  font-size: 14px;
+}
+
+.assts-zone-metrics .assts-metric__label {
+  font-size: 6px;
+  letter-spacing: 0.08em;
+}
+
+.assts-zone-status .assts-composed-review {
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.assts-zone-status .assts-composed-review--collapsed {
+  justify-content: flex-start;
+}
+
+.assts-zone-batches .assts-section-header {
+  padding: 0 0 4px;
+  flex-shrink: 0;
+}
+
+.assts-zone-batches {
+  overflow: hidden;
+}
+
+/* Recent batches — single vault index rail in left peripheral zone */
+.assts-batch-rail {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  padding: 2px 0 4px;
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: stretch;
+}
+
+.assts-vault-index-tile {
+  flex: 0 0 auto;
+  width: 68px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 5px 4px 6px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+}
+
+.assts-vault-index-tile:active {
+  background: rgba(255, 255, 255, 0.42);
+}
+
+.assts-vault-index-tile__thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.assts-vault-index-tile__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.assts-vault-index-tile__thumb-empty {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.35), rgba(200, 200, 200, 0.15));
+}
+
+.assts-vault-index-tile__id {
+  font-family: var(--site00-font-mono);
+  font-size: 7px;
+  letter-spacing: var(--site00-tracking-mono);
+  text-align: center;
+  line-height: 1.2;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.assts-vault-index-tile__status {
+  font-size: 6px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--site-text-muted);
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Browse library — archive veil + compact collection tiles */
+.assts-zone-library {
+  overflow: hidden;
+}
+
+.assts-archive-veil {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.22) 18%,
+    rgba(255, 255, 255, 0.28) 100%
+  );
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 4px 4px 0 0;
+  padding-top: 4px;
+}
+
+.assts-archive-veil .assts-section-header {
+  padding: 4px 8px 6px;
+  flex-shrink: 0;
+}
+
+.assts-category-grid--compact {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  padding: 0 8px 8px;
+  flex: 1 1 auto;
+  min-height: 0;
+  align-content: start;
+  overflow-y: auto;
+}
+
+.assts-archive-bay--compact .assts-archive-bay__inset--shallow {
+  aspect-ratio: auto;
+  height: 42px;
+}
+
+.assts-archive-bay--compact .assts-archive-bay__inset {
+  aspect-ratio: 4 / 3;
+  max-height: 56px;
+}
+
+.assts-archive-bay--compact .assts-archive-bay__empty-frame {
+  width: 48%;
+  height: 48%;
+}
+
+.assts-archive-bay__band--compact {
+  padding: 5px 7px;
+}
+
+.assts-archive-bay__band--compact .assts-category-tile__num {
+  font-size: 8px;
+}
+
+.assts-archive-bay__band--compact .assts-category-tile__name {
+  font-size: 8px;
+  line-height: 1.2;
+}
+
+.assts-archive-bay__band--compact .assts-category-tile__count {
+  font-size: 7px;
+  letter-spacing: 0.06em;
+  color: var(--site-text-muted);
+}
+
+.assts-archive-bay--empty-cat .assts-archive-bay__inset {
+  max-height: 42px;
+}
+
+/* Zero-review status ribbon */
+.assts-status-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 5px 10px;
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--site-text-muted, #6b6b6b);
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  width: fit-content;
+  max-width: 100%;
+}
+
+.assts-status-line__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--site-success, #22c55e);
+  flex-shrink: 0;
+}
+
+/* Batch directory — narrow contained column */
+.assts-batch-directory {
+  position: relative;
+  z-index: var(--depth-embedded, 1);
+  max-width: min(280px, 78vw);
+  margin: 0 auto 0 12px;
+  padding: 0 0 16px;
+}
+
+.assts-batch-directory .assts-batch-row {
+  padding: 8px 10px;
+  margin-bottom: 6px;
+}
+
+.assts-batch-directory .assts-batch-row__thumb {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+}
+
+.assts-batch-directory .assts-batch-row__key {
+  font-size: 9px;
+}
+
+.assts-batch-directory .assts-batch-row__cat,
+.assts-batch-directory .assts-batch-row__hint {
+  font-size: 7px;
+}
+
+/* Batch detail — lighter review console */
+.assts-batch-summary--compact.assts-glass--panel {
+  padding: 10px 12px;
+  margin: 8px 12px;
+}
+
+.assts-batch-summary--compact .assts-batch-summary__stats {
+  gap: 8px;
+}
+
+.assts-batch-summary--compact .assts-batch-summary__stat-value {
+  font-size: 14px;
+}
+
+.assts-batch-summary--compact .assts-batch-summary__stat-label {
+  font-size: 6px;
+}
+
+.assts-view-mode-toggle--compact {
+  transform: scale(0.92);
+  transform-origin: center top;
+  margin-bottom: 4px;
+}
+
+.assts-library-shell {
+  position: relative;
+  min-height: 100%;
+}
+
+/* Composition debug overlay */
+.composition-debug {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.composition-debug__zone {
+  position: absolute;
+  border: 1px dashed rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+}
+
+.composition-debug__zone--protected {
+  border-color: rgba(232, 25, 44, 0.65);
+  border-width: 2px;
+}
+
+.composition-debug__focal {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  border: 2px solid var(--site-red, #e8192c);
+  background: rgba(232, 25, 44, 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .assts-vault-index-tile:active {
+    transform: none;
+  }
+}

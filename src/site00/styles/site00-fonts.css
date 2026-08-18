@@ -1,0 +1,5 @@
+/**
+ * SITE 00 font loading — Martian Mono typography test.
+ * Imported only via site00.css; does not modify Frontal Slayer @font-face stack.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap');

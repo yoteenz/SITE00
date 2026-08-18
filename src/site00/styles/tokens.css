@@ -1,0 +1,108 @@
+/**
+ * SITE 00 design tokens — centralized visual language.
+ * Do not scatter raw color values throughout components.
+ */
+
+:root {
+  --site-bg: #f5f5f4;
+  --site-surface: rgba(255, 255, 255, 0.92);
+  --site-surface-glass: rgba(255, 255, 255, 0.72);
+  --site-surface-glass-heavy: rgba(255, 255, 255, 0.85);
+  --site-text: #0a0a0a;
+  --site-text-muted: #6b6b6b;
+  --site-red: #e8192c;
+  --site-red-dim: rgba(232, 25, 44, 0.15);
+  --site00-icon-stroke: 1.75;
+  --site00-enter-icon-slot: 38px;
+  --site-border: rgba(0, 0, 0, 0.08);
+  --site-line: rgba(0, 0, 0, 0.12);
+  --site-success: #22c55e;
+  --site-overlay: rgba(255, 255, 255, 0.4);
+  --site-charcoal: #2a2a2a;
+  --site-glow: 0 0 40px rgba(255, 255, 255, 0.6), 0 0 80px rgba(255, 255, 255, 0.3);
+  --site-panel-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --site-radius-sm: 4px;
+  --site-radius-md: 8px;
+  --site-radius-lg: 16px;
+  --site-radius-xl: 24px;
+
+  /* SITE 00 typography — Martian Mono test (isolated from Frontal Slayer Futura) */
+  --site00-font-family: 'Martian Mono', ui-monospace, 'Cascadia Code', Menlo, Monaco, Consolas, monospace;
+  --site00-font-display: var(--site00-font-family);
+  --site00-font-heading: var(--site00-font-family);
+  --site00-font-body: var(--site00-font-family);
+  --site00-font-label: var(--site00-font-family);
+  --site00-font-metadata: var(--site00-font-family);
+  --site00-font-numeric: var(--site00-font-family);
+  --site00-font-mono: var(--site00-font-family);
+  --site00-font-nav: var(--site00-font-family);
+
+  /* Martian Mono width axis — semi-condensed default; condensed for display/numerics */
+  --site00-font-wdth: 87.5;
+  --site00-font-stretch-default: semi-condensed;
+  --site00-font-stretch-display: condensed;
+  --site00-font-stretch-numeric: condensed;
+
+  --site00-weight-metadata: 400;
+  --site00-weight-regular: 400;
+  --site00-weight-body: 500;
+  --site00-weight-label: 600;
+  --site00-weight-nav: 600;
+  --site00-weight-medium: 500;
+  --site00-weight-heading: 700;
+  --site00-weight-bold: 700;
+  --site00-weight-display: 800;
+  --site00-weight-numeric: 650;
+
+  /* Restrained tracking — Martian Mono native geometry, not luxury wide spacing */
+  --site00-tracking-display: 0em;
+  --site00-tracking-heading: 0.03em;
+  --site00-tracking-body: 0.01em;
+  --site00-tracking-label: 0.06em;
+  --site00-tracking-metadata: 0.05em;
+  --site00-tracking-nav: 0.04em;
+  --site00-tracking-mono: 0.02em;
+
+  --site00-lh-display: 0.98;
+  --site00-lh-heading: 1.1;
+  --site00-lh-body: 1.45;
+  --site00-lh-label: 1.12;
+  --site00-lh-mono: 1.15;
+  --site00-lh-micro: 1.08;
+
+  --site00-size-display-xl: clamp(2.75rem, 7.5vw, 4.75rem);
+  --site00-size-display-lg: clamp(2rem, 5vw, 3.25rem);
+  --site00-size-display-md: clamp(1.375rem, 3vw, 1.75rem);
+  --site00-size-heading: clamp(0.875rem, 2vw, 1.125rem);
+  --site00-size-subheading: clamp(0.75rem, 1.6vw, 0.875rem);
+  --site00-size-label: clamp(0.5625rem, 1.1vw, 0.6875rem);
+  --site00-size-body: clamp(0.6875rem, 1.3vw, 0.8125rem);
+  --site00-size-micro: clamp(0.5rem, 0.95vw, 0.5625rem);
+  --site00-size-mono: clamp(0.625rem, 1.2vw, 0.75rem);
+  --site00-size-nav: clamp(0.5625rem, 1vw, 0.625rem);
+  --site00-size-logo: clamp(0.875rem, 1.8vw, 1.125rem);
+  --site-z-env: 0;
+  --site-z-ui: 10;
+  --site-z-nav: 20;
+  --site-z-panel: 30;
+  --site-z-overlay: 40;
+  --site-spacing-xs: 4px;
+  --site-spacing-sm: 8px;
+  --site-spacing-md: 16px;
+  --site-spacing-lg: 24px;
+  --site-spacing-xl: 32px;
+  --site-spacing-2xl: 48px;
+  --site-spacing-3xl: 64px;
+  --site-motion-fast: 150ms;
+  --site-motion-base: 280ms;
+  --site-motion-slow: 450ms;
+  --site-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --site-motion-fast: 0ms;
+    --site-motion-base: 0ms;
+    --site-motion-slow: 0ms;
+  }
+}

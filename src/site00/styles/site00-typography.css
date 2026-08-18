@@ -1,0 +1,297 @@
+/**
+ * SITE 00 typography system — Martian Mono test (isolated from Frontal Slayer).
+ * All SITE 00 surfaces consume these tokens and utility roles.
+ * Do not use --site-font-* or Futura PT within SITE 00.
+ */
+
+@import './tokens.css';
+
+/* ─── Shell isolation ─── */
+
+.site00-shell,
+.site00-assts-shell,
+.site00-loader {
+  font-family: var(--site00-font-body);
+  font-size: var(--site00-size-body);
+  line-height: var(--site00-lh-body);
+  letter-spacing: var(--site00-tracking-body);
+  font-weight: var(--site00-weight-body);
+  font-stretch: var(--site00-font-stretch-default);
+  font-synthesis: none;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Block global heading/body defaults from leaking into SITE 00 */
+.site00-shell :is(h1, h2, h3, h4, h5, h6, p, button, nav, a, span, li) {
+  font-family: inherit;
+}
+
+/* ─── Brand uppercase law (SITE 00) ───
+ * All visible text is uppercase. Only password inputs remain lowercase.
+ * Overrides reference-image / sentence-case copy from design sprints.
+ */
+.site00-shell,
+.site00-assts-shell,
+.site00-loader,
+.site00-public-shell,
+.site00-ctrl-room-shell,
+.site00-desktop-artboard-shell,
+.site00-mobile-shell,
+.site00-immersive-loader {
+  text-transform: uppercase;
+}
+
+.site00-shell input[type='password'],
+.site00-assts-shell input[type='password'],
+.site00-public-shell input[type='password'],
+.site00-ctrl-room-shell input[type='password'],
+.site00-mobile-shell input[type='password'],
+.site00-signin-form__input--password {
+  text-transform: none;
+}
+
+.site00-shell input:not([type='password']):not(.site00-signin-form__input--password)::placeholder,
+.site00-assts-shell input:not([type='password']):not(.site00-signin-form__input--password)::placeholder,
+.site00-public-shell input:not([type='password']):not(.site00-signin-form__input--password)::placeholder,
+.site00-ctrl-room-shell input:not([type='password']):not(.site00-signin-form__input--password)::placeholder,
+.site00-mobile-shell input:not([type='password']):not(.site00-signin-form__input--password)::placeholder,
+.site00-shell textarea:not(.site00-signin-form__input--password)::placeholder,
+.site00-assts-shell textarea:not(.site00-signin-form__input--password)::placeholder {
+  text-transform: uppercase;
+}
+
+/* ─── Display ─── */
+
+.site00-display-xl,
+.site00-heading-xl {
+  font-family: var(--site00-font-display);
+  font-size: var(--site00-size-display-xl);
+  font-weight: var(--site00-weight-display);
+  font-stretch: var(--site00-font-stretch-display);
+  letter-spacing: var(--site00-tracking-display);
+  line-height: var(--site00-lh-display);
+  text-transform: uppercase;
+}
+
+.site00-display-lg,
+.site00-heading-lg {
+  font-family: var(--site00-font-display);
+  font-size: var(--site00-size-display-lg);
+  font-weight: var(--site00-weight-display);
+  font-stretch: var(--site00-font-stretch-display);
+  letter-spacing: var(--site00-tracking-display);
+  line-height: var(--site00-lh-display);
+  text-transform: uppercase;
+}
+
+.site00-display-md {
+  font-family: var(--site00-font-display);
+  font-size: var(--site00-size-display-md);
+  font-weight: var(--site00-weight-display);
+  font-stretch: var(--site00-font-stretch-display);
+  letter-spacing: var(--site00-tracking-display);
+  line-height: var(--site00-lh-display);
+  text-transform: uppercase;
+}
+
+/* ─── Heading / subheading ─── */
+
+.site00-heading,
+.site00-subheading {
+  font-family: var(--site00-font-heading);
+  font-size: var(--site00-size-heading);
+  font-weight: var(--site00-weight-heading);
+  font-stretch: var(--site00-font-stretch-default);
+  letter-spacing: var(--site00-tracking-heading);
+  line-height: var(--site00-lh-heading);
+  text-transform: uppercase;
+}
+
+.site00-subheading {
+  font-size: var(--site00-size-subheading);
+}
+
+/* ─── Label / micro ─── */
+
+.site00-label {
+  font-family: var(--site00-font-label);
+  font-size: var(--site00-size-label);
+  font-weight: var(--site00-weight-label);
+  font-stretch: var(--site00-font-stretch-default);
+  letter-spacing: var(--site00-tracking-label);
+  line-height: var(--site00-lh-label);
+  text-transform: uppercase;
+  color: var(--site-text-muted);
+}
+
+.site00-label-red {
+  font-family: var(--site00-font-label);
+  font-size: var(--site00-size-label);
+  font-weight: var(--site00-weight-label);
+  font-stretch: var(--site00-font-stretch-default);
+  letter-spacing: var(--site00-tracking-label);
+  line-height: var(--site00-lh-label);
+  text-transform: uppercase;
+  color: var(--site-red);
+}
+
+.site00-micro {
+  font-family: var(--site00-font-metadata);
+  font-size: var(--site00-size-micro);
+  font-weight: var(--site00-weight-metadata);
+  font-stretch: var(--site00-font-stretch-default);
+  letter-spacing: var(--site00-tracking-metadata);
+  line-height: var(--site00-lh-micro);
+  text-transform: uppercase;
+}
+
+/* ─── Body (technical compact) ─── */
+
+.site00-body {
+  font-family: var(--site00-font-body);
+  font-size: var(--site00-size-body);
+  font-weight: var(--site00-weight-body);
+  font-stretch: var(--site00-font-stretch-default);
+  letter-spacing: var(--site00-tracking-body);
+  line-height: var(--site00-lh-body);
+  text-transform: uppercase;
+}
+
+.site00-body--technical {
+  font-family: var(--site00-font-body);
+  font-size: var(--site00-size-body);
+  font-weight: var(--site00-weight-body);
+  font-stretch: var(--site00-font-stretch-default);
+  letter-spacing: var(--site00-tracking-body);
+  line-height: var(--site00-lh-body);
+  text-transform: uppercase;
+}
+
+/* IDNTY / BLDR state pages — primary subhead under red headline */
+.site00-state-page__subhead {
+  font-weight: var(--site00-weight-heading);
+  color: var(--site-text);
+}
+
+/* ─── Mono / system IDs / numerics ─── */
+
+.site00-mono,
+.site00-id,
+.site00-numeric {
+  font-family: var(--site00-font-numeric);
+  font-size: var(--site00-size-mono);
+  font-weight: var(--site00-weight-numeric);
+  font-stretch: var(--site00-font-stretch-numeric);
+  letter-spacing: var(--site00-tracking-mono);
+  line-height: var(--site00-lh-mono);
+  font-variant-numeric: tabular-nums;
+  text-transform: uppercase;
+}
+
+/* ─── Nav ─── */
+
+.site00-nav,
+.site00-global-nav a,
+.site00-global-nav button {
+  font-family: var(--site00-font-nav);
+  font-size: var(--site00-size-nav);
+  font-weight: var(--site00-weight-nav);
+  font-stretch: var(--site00-font-stretch-default);
+  letter-spacing: var(--site00-tracking-nav);
+  line-height: var(--site00-lh-micro);
+  text-transform: uppercase;
+}
+
+/* ─── Logo mark (top-left SITE 00) ─── */
+
+.site00-logo-mark {
+  font-family: var(--site00-font-display);
+  font-size: var(--site00-size-logo);
+  font-weight: var(--site00-weight-display);
+  font-stretch: var(--site00-font-stretch-display);
+  letter-spacing: var(--site00-tracking-mono);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.site00-logo-mark-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ─── Tagline (WHERE DIGITAL PLACES BEGIN.) ─── */
+
+.site00-tagline {
+  font-family: var(--site00-font-heading);
+  font-size: var(--site00-size-subheading);
+  font-weight: var(--site00-weight-heading);
+  font-stretch: var(--site00-font-stretch-default);
+  letter-spacing: var(--site00-tracking-heading);
+  line-height: var(--site00-lh-heading);
+  text-transform: uppercase;
+}
+
+/* ─── Coordinate / location strings ─── */
+
+.site00-coordinate {
+  font-family: var(--site00-font-numeric);
+  font-size: var(--site00-size-body);
+  font-weight: var(--site00-weight-numeric);
+  font-stretch: var(--site00-font-stretch-numeric);
+  letter-spacing: var(--site00-tracking-mono);
+  line-height: var(--site00-lh-mono);
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Panel titles (IDNTY / BLDR) ─── */
+
+.site00-panel-title {
+  font-family: var(--site00-font-display);
+  font-size: var(--site00-size-display-md);
+  font-weight: var(--site00-weight-display);
+  font-stretch: var(--site00-font-stretch-display);
+  letter-spacing: var(--site00-tracking-display);
+  line-height: var(--site00-lh-display);
+  text-transform: uppercase;
+}
+
+/* ─── Buttons / actions (system commands) ─── */
+
+.site00-btn-ghost,
+.site00-action-link {
+  font-family: var(--site00-font-nav);
+  font-size: var(--site00-size-nav);
+  font-weight: var(--site00-weight-nav);
+  font-stretch: var(--site00-font-stretch-default);
+  letter-spacing: var(--site00-tracking-nav);
+  line-height: var(--site00-lh-micro);
+  text-transform: uppercase;
+}
+
+/* ─── Status strip values ─── */
+
+.site00-status-value {
+  font-family: var(--site00-font-numeric);
+  font-size: var(--site00-size-nav);
+  font-weight: var(--site00-weight-numeric);
+  font-stretch: var(--site00-font-stretch-numeric);
+  letter-spacing: var(--site00-tracking-mono);
+  line-height: var(--site00-lh-micro);
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Bracket label (ORIGIN ENVIRONMENT) ─── */
+
+.site00-bracket-label {
+  font-family: var(--site00-font-metadata);
+  font-size: var(--site00-size-micro);
+  font-weight: var(--site00-weight-metadata);
+  font-stretch: var(--site00-font-stretch-default);
+  letter-spacing: var(--site00-tracking-metadata);
+  line-height: var(--site00-lh-micro);
+  text-transform: uppercase;
+}
