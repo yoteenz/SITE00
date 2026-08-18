@@ -36,8 +36,7 @@ export function Site00DesktopArtboardShell({ children }: Site00DesktopArtboardSh
         stage.querySelector('.site00-enter-page') != null ||
         (typeof window !== 'undefined' && window.location.pathname === '/enter');
       const scaleW = shell.clientWidth / SITE00_DESKTOP_ARTBOARD_WIDTH;
-      const scaleH = shell.clientHeight / SITE00_DESKTOP_ARTBOARD_MIN_HEIGHT;
-      const scale = isEnterPage ? Math.min(scaleW, scaleH) : scaleW;
+      const scale = scaleW;
       const scaledWidth = SITE00_DESKTOP_ARTBOARD_WIDTH * scale;
       const viewportArtboardHeight = isEnterPage
         ? SITE00_DESKTOP_ARTBOARD_MIN_HEIGHT
@@ -56,8 +55,9 @@ export function Site00DesktopArtboardShell({ children }: Site00DesktopArtboardSh
 
       scaler.style.width = `${scaledWidth}px`;
       scaler.style.height = `${contentHeight * scale}px`;
-      scaler.style.marginLeft = isEnterPage ? `${Math.max(0, (shell.clientWidth - scaledWidth) / 2)}px` : '0';
-      scaler.style.marginTop = isEnterPage ? `${Math.max(0, (shell.clientHeight - contentHeight * scale) / 2)}px` : '0';
+      // ENTER 00 — fill viewport width; crop vertically inside artboard (no side letterboxing).
+      scaler.style.marginLeft = '0';
+      scaler.style.marginTop = '0';
 
       if (isEnterPage) {
         shell.classList.add('site00-desktop-artboard-shell--enter');

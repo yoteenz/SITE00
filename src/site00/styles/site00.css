@@ -853,7 +853,7 @@
     overflow: hidden;
   }
 
-  /* Desktop ENTER 00 — shift background upward to use empty upper architecture; crop from top first */
+  /* Desktop ENTER 00 — background stays inside artboard; shift focal point up via background-position */
   .site00-enter-page .site00-env-layer {
     inset: 0;
     width: 100%;
@@ -861,17 +861,9 @@
     overflow: hidden;
   }
 
-  /* Full-viewport background — UI artboard may scale/contain separately */
-  .site00-desktop-artboard .site00-enter-page .site00-env-layer {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: var(--site-z-env);
-  }
-
   .site00-enter-page .site00-env-layer--has-desktop-asset {
-    background-position: center 34%;
+    background-size: cover;
+    background-position: var(--site00-env-desktop-position, center 34%);
   }
 
   @media (min-height: 900px) {
