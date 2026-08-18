@@ -14,7 +14,20 @@ npm run dev
 
 Dev server: **http://localhost:5174**
 
-### Cloud Agent mobile preview (separate from Frontal Slayer)
+### API server (Railway / local)
+
+Sign-in, profile sync, and admin routes live under `api/` and run via Express:
+
+```bash
+# Terminal 1 — API (default :3000)
+npm run start:api
+
+# Terminal 2 — Vite proxying /api to the API server
+VITE_DEV_PROXY_TARGET=http://127.0.0.1:3000 npm run dev
+```
+
+Production: deploy the API service to Railway (`railway.toml` → `npm run start:api`). Build the SPA with `VITE_API_BASE=https://api.site00.com`. See `docs/DEPLOYMENT.md`.
+
 
 On Cursor Cloud Agents, SITE 00 has its **own tunnel** on port **5174**:
 

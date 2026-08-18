@@ -7,6 +7,14 @@ import { persistAuthBackup, onSignInSuccess } from './adminAuth';
 import { buildMinimalUserFromSupabaseSession, applyMinimalUserToStorage } from './syncFromApi';
 
 const SUPABASE_URL = (import.meta as unknown as { env?: { VITE_SUPABASE_URL?: string } }).env?.VITE_SUPABASE_URL ?? '';
+const API_BASE =
+  (import.meta as unknown as { env?: { VITE_API_BASE?: string } }).env?.VITE_API_BASE ?? '';
+
+function apiUrl(path: string): string {
+  const base = API_BASE.replace(/\/$/, '');
+  const normalized = path.startsWith('/') ? path : `/${path}`;
+  return base ? `${base}${normalized}` : normalized;
+}
 
 function getSupabaseStorageKey(): string | null {
   if (!SUPABASE_URL) return null;
@@ -47,7 +55,7 @@ async function parseSessionRestoreJson(
 export async function tryServerSessionRestore(): Promise<boolean> {
   if (typeof window === 'undefined' || !window.localStorage) return false;
   // Use same-origin API route so Safari treats cookie as first-party (local + production).
-  const url = `/api/session-restore`;
+  const url = apiUrl('/api/session-restore');
   let res: Response;
   try {
     res = await fetch(url, { method: 'GET', credentials: 'include' });
@@ -108,9 +116,8 @@ export async function tryServerSessionRestore(): Promise<boolean> {
  */
 export async function clearServerSessionCookie(): Promise<void> {
   if (typeof window === 'undefined') return;
-  const url = `/api/session-cookie`;
   try {
-    await fetch(url, {
+    await fetch(apiUrl('/api/session-cookie'), {
       method: 'POST',
       credentials: 'include',
       keepalive: true,
@@ -128,9 +135,8 @@ export async function clearServerSessionCookie(): Promise<void> {
  */
 export async function registerServerSessionCookie(accessToken: string, refreshToken: string): Promise<void> {
   if (!accessToken || !refreshToken || typeof window === 'undefined') return;
-  const url = `/api/session-cookie`;
   try {
-    await fetch(url, {
+    await fetch(apiUrl('/api/session-cookie'), {
       method: 'POST',
       credentials: 'include',
       keepalive: true,

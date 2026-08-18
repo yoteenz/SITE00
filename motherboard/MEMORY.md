@@ -58,3 +58,37 @@ Summary of the **whole conversation so far** in this cloud agent run.
   - For mobile deploy: GitHub Release ZIP → phone → cPanel File Manager upload/extract.
   - Do not commit `dist/` or `.env.local` to git.
   - Artifacts path `/opt/cursor/artifacts` may be full — use `/tmp` or GitHub Releases for large ZIPs.
+
+---
+
+## 2026-08-18 — Independent API server (`server/` + Railway) repo work
+
+Summary of the **whole conversation so far** in this cloud agent run.
+
+- **Context:** Founder on mobile; `site00.com` live on GoDaddy static cPanel; sign-in/API calls fail without a Node host. Railway project created but blocked because repo had `api/` handlers but no `server/` or `npm run start:api`. User: **"do the repo work first."**
+
+- **Topics covered (cumulative):** Cloud preview; IDNTY four states (PR #1); GoDaddy deploy ZIP + live site; Supabase redirect URL guidance (additive, FSBW-safe); independent API port from FSBW; Railway setup guidance; **this turn:** complete repo API server layer.
+
+- **Decisions / outcomes:**
+  - Production split confirmed: **GoDaddy** = SPA (`dist/`), **Railway** = Node API (`https://api.site00.com` via CNAME).
+  - Express adapter mounts existing Vercel-style `api/*` handlers — no rewrite of handler logic.
+  - `sessionRestore.ts` now respects `VITE_API_BASE` (cross-origin cookies on API host).
+  - Ported missing `api/_lib/studioBuilderGeneration.ts` from FSBW so ASSTS admin route loads at server startup.
+
+- **Changes:**
+  - `server/index.ts`, `server/vercelAdapter.ts`, `server/routes.ts`
+  - `railway.toml` → `npm run start:api`, health `/api/health`
+  - `package.json`: `start:api`, `dev:api`, `express`, `@types/express`
+  - `docs/DEPLOYMENT.md` Architecture C (Railway + env table)
+  - `.env.example`: `SESSION_COOKIE_SECRET`, `SESSION_COOKIE_SECURE`
+  - `README.md`: API server dev instructions
+
+- **Railway next steps (founder):**
+  1. Redeploy service after merge/push (branch `cursor/idnty-four-states-bc8e` or merge to main).
+  2. Service → Variables: `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `SESSION_COOKIE_SECRET` (random 32+ chars).
+  3. Custom domain `api.site00.com`; GoDaddy CNAME `api` → Railway hostname.
+  4. Rebuild SPA with `VITE_API_BASE=https://api.site00.com`; re-upload `dist/` to cPanel.
+
+- **Conventions:**
+  - Railway start command lives on **Service** settings (not Project settings).
+  - Do not change Supabase Site URL (keep FSBW default); only add SITE 00 redirect URLs.
