@@ -1,17 +1,18 @@
 import { createContext, useContext, useEffect, useMemo, useReducer, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
-import { isSite00PublicDesktopPath, site00PublicMobilePath } from '../config/site00-public-pages';
+import { isSite00PublicDesktopPath } from '../config/site00-public-pages';
 import { isSite00OriginDesktopPath } from '../config/routes';
 import {
-  defaultPreviewDeviceModeForViewport,
-  readStoredPreviewDeviceMode,
-  writeStoredPreviewDeviceMode,
-  type Site00PreviewDeviceMode,
+  readPresentationQueryOverride,
+} from '../presentation/presentation-query';
+import { site00ViewportPresentationFromWindow } from '../presentation/breakpoints';
+import {
+  readStoredPresentationOverride,
+  writeStoredPresentationOverride,
+  type Site00PresentationOverride,
 } from './preview-mode';
 import { INITIAL_SITE00_STATE, site00Reducer, type HomeMode, type Site00State } from './types';
-import {
-  site00OriginMobileLayoutPreviewActive,
-} from '../components/shell/site00OriginViewport';
+import { site00OriginMobileLayoutPreviewActive } from '../components/shell/site00OriginViewport';
 
 type Site00ContextValue = {
   state: Site00State;
@@ -20,48 +21,73 @@ type Site00ContextValue = {
   selectBuildClass: (classId: string) => void;
   selectEvolvePath: (pathId: string) => void;
   clearSelections: () => void;
-  setPreviewDeviceMode: (mode: Site00PreviewDeviceMode) => void;
-  /** True when public/Origin routes should render desktop presentation. */
+  setPresentationOverride: (mode: Site00PresentationOverride) => void;
+  /** @deprecated Use setPresentationOverride */
+  setPreviewDeviceMode: (mode: 'mobile' | 'desktop') => void;
+  /** True when resolved presentation is desktop (override or viewport) */
   isPreviewDesktop: boolean;
 };
 
 const Site00Context = createContext<Site00ContextValue | null>(null);
 
-function resolveInitialPreviewMode(pathname: string): Site00PreviewDeviceMode {
+function resolveInitialPresentationOverride(pathname: string, search: string): Site00PresentationOverride {
+  if (readPresentationQueryOverride(search)) {
+    return 'auto';
+  }
   if (isSite00PublicDesktopPath(pathname) || isSite00OriginDesktopPath(pathname)) {
     return 'desktop';
   }
-  const stored = readStoredPreviewDeviceMode();
+  if (site00OriginMobileLayoutPreviewActive(search)) {
+    return 'mobile';
+  }
+  const stored = readStoredPresentationOverride();
   if (stored) return stored;
-  return defaultPreviewDeviceModeForViewport();
+  return 'auto';
+}
+
+function resolveIsPreviewDesktop(
+  override: Site00PresentationOverride,
+  pathname: string,
+  search: string,
+): boolean {
+  const query = readPresentationQueryOverride(search);
+  if (query === 'desktop') return true;
+  if (query === 'mobile') return false;
+  if (site00OriginMobileLayoutPreviewActive(search)) return false;
+  if (override === 'desktop') return true;
+  if (override === 'mobile') return false;
+  if (isSite00PublicDesktopPath(pathname) || isSite00OriginDesktopPath(pathname)) {
+    return true;
+  }
+  return site00ViewportPresentationFromWindow() === 'desktop';
 }
 
 export function Site00Provider({ children }: { children: ReactNode }) {
   const { pathname, search } = useLocation();
   const [state, dispatch] = useReducer(site00Reducer, INITIAL_SITE00_STATE, (base) => ({
     ...base,
-    previewDeviceMode: resolveInitialPreviewMode(pathname),
+    presentationOverride: resolveInitialPresentationOverride(pathname, search),
   }));
 
   useEffect(() => {
+    if (readPresentationQueryOverride(search)) return;
     if (isSite00PublicDesktopPath(pathname) || isSite00OriginDesktopPath(pathname)) {
-      dispatch({ type: 'SET_PREVIEW_DEVICE_MODE', mode: 'desktop' });
+      dispatch({ type: 'SET_PRESENTATION_OVERRIDE', mode: 'desktop' });
       return;
     }
     if (site00OriginMobileLayoutPreviewActive(search)) {
-      dispatch({ type: 'SET_PREVIEW_DEVICE_MODE', mode: 'mobile' });
+      dispatch({ type: 'SET_PRESENTATION_OVERRIDE', mode: 'mobile' });
     }
   }, [pathname, search]);
 
   useEffect(() => {
-    writeStoredPreviewDeviceMode(state.previewDeviceMode);
-  }, [state.previewDeviceMode]);
+    writeStoredPresentationOverride(state.presentationOverride);
+  }, [state.presentationOverride]);
 
-  /** Honor composer Mobile/Desktop selection on all viewports (artboard scales on phones). */
-  const isPreviewDesktop = useMemo(() => {
-    if (site00OriginMobileLayoutPreviewActive(search)) return false;
-    return state.previewDeviceMode === 'desktop';
-  }, [state.previewDeviceMode, search]);
+  const isPreviewDesktop = useMemo(
+    () => resolveIsPreviewDesktop(state.presentationOverride, pathname, search),
+    [state.presentationOverride, pathname, search],
+  );
 
   const value: Site00ContextValue = {
     state,
@@ -70,7 +96,8 @@ export function Site00Provider({ children }: { children: ReactNode }) {
     selectBuildClass: (classId) => dispatch({ type: 'SELECT_BUILD_CLASS', classId }),
     selectEvolvePath: (pathId) => dispatch({ type: 'SELECT_EVOLVE_PATH', pathId }),
     clearSelections: () => dispatch({ type: 'CLEAR_SELECTIONS' }),
-    setPreviewDeviceMode: (mode) => dispatch({ type: 'SET_PREVIEW_DEVICE_MODE', mode }),
+    setPresentationOverride: (mode) => dispatch({ type: 'SET_PRESENTATION_OVERRIDE', mode }),
+    setPreviewDeviceMode: (mode) => dispatch({ type: 'SET_PRESENTATION_OVERRIDE', mode }),
     isPreviewDesktop,
   };
 
@@ -90,7 +117,7 @@ export function useSite00Optional(): Site00ContextValue | null {
   return useContext(Site00Context);
 }
 
-/** Navigation href — same semantic route; preview mode is global state, not URL suffix. */
+/** Navigation href — canonical route; presentation is resolver-driven, not URL suffix. */
 export function site00PreviewNavHref(targetHref: string, _currentPathname?: string): string {
   const base = targetHref.replace(/\/$/, '').replace(/\/desktop$/, '');
   return base || '/';
@@ -102,4 +129,4 @@ export function site00PublicNavHrefFromPreview(targetHref: string, currentPathna
   return site00PreviewNavHref(targetHref);
 }
 
-export { site00PublicMobilePath };
+export { site00PublicMobilePath } from '../config/site00-public-pages';

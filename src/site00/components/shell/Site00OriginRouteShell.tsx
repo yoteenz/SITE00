@@ -1,35 +1,20 @@
 import { type ReactNode } from 'react';
-import { Site00DesktopArtboardShell } from './Site00DesktopArtboardShell';
 import { Site00OriginLayoutSwitch } from './Site00OriginLayoutSwitch';
-import { useSite00 } from '../../state/Site00Context';
+import { Site00PresentationRouteShell } from './Site00PresentationRouteShell';
 
 type Site00OriginRouteShellProps = {
   children: ReactNode;
-  /** Legacy `/origin/desktop` — always use artboard shell. */
   forceArtboard?: boolean;
 };
 
-/**
- * Origin responsive shell — desktop presentation from shared preview mode.
- */
+/** Origin family routes — presentation shell + layout preview toggle. */
 export function Site00OriginRouteShell({ children, forceArtboard = false }: Site00OriginRouteShellProps) {
-  const { isPreviewDesktop } = useSite00();
-
-  const useArtboard = forceArtboard || isPreviewDesktop;
-
-  if (useArtboard) {
-    return (
-      <>
-        <Site00OriginLayoutSwitch />
-        <Site00DesktopArtboardShell>{children}</Site00DesktopArtboardShell>
-      </>
-    );
-  }
-
   return (
     <>
       <Site00OriginLayoutSwitch />
-      {children}
+      <Site00PresentationRouteShell forceArtboard={forceArtboard}>
+        {children}
+      </Site00PresentationRouteShell>
     </>
   );
 }

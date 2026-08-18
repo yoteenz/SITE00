@@ -5,31 +5,42 @@ import {
   isSite00PublicPageBasePath,
   site00PublicMobilePath,
 } from '../../config/site00-public-pages';
+import { usePresentationMode } from '../../presentation';
 import { useSite00 } from '../../state/Site00Context';
 
-/** Mobile ↔ desktop preview toggle — updates shared preview mode (same semantic route). */
+/** AUTO / Mobile / Desktop preview — updates shared presentation override (same canonical route). */
 export function Site00PublicLayoutSwitch() {
   const { pathname } = useLocation();
-  const { isPreviewDesktop, setPreviewDeviceMode } = useSite00();
+  const { setPresentationOverride } = useSite00();
+  const { mode, override } = usePresentationMode();
 
   const basePath = site00PublicMobilePath(pathname);
   if (!isSite00PublicPageBasePath(basePath) && !isSite00PublicDesktopPath(pathname)) {
     return null;
   }
 
+  const overrideActive = override !== 'auto';
+
   const nav = (
-    <nav className="site00-origin-layout-switch" aria-label="Public page layout preview">
+    <nav className="site00-origin-layout-switch" aria-label="Public page presentation preview">
       <button
         type="button"
-        aria-current={!isPreviewDesktop ? 'page' : undefined}
-        onClick={() => setPreviewDeviceMode('mobile')}
+        aria-current={!overrideActive ? 'page' : undefined}
+        onClick={() => setPresentationOverride('auto')}
+      >
+        Auto
+      </button>
+      <button
+        type="button"
+        aria-current={mode === 'mobile' && overrideActive ? 'page' : undefined}
+        onClick={() => setPresentationOverride('mobile')}
       >
         Mobile
       </button>
       <button
         type="button"
-        aria-current={isPreviewDesktop ? 'page' : undefined}
-        onClick={() => setPreviewDeviceMode('desktop')}
+        aria-current={mode === 'desktop' && overrideActive ? 'page' : undefined}
+        onClick={() => setPresentationOverride('desktop')}
       >
         Desktop
       </button>

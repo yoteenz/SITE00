@@ -13,13 +13,13 @@ import { ArchitecturalPanel } from '../components/panels/ArchitecturalPanel';
 import { useIdntyAssessment } from '../hooks/useIdntyAssessment';
 import { brandStateToAssessmentSlug } from '../config/idnty-assessment-brand-map';
 import { idntyAssessmentPath } from '../config/idnty-assessment';
-import { useSite00DesktopArtboardPreview } from '../components/shell/Site00DesktopArtboardContext';
+import { usePresentationMode } from '../presentation';
 import { site00IdntyAssessmentDesktopPath } from '../config/routes';
 
 export default function IdntyStatePage() {
   const { state, selectIdentityState } = useSite00();
   const navigate = useNavigate();
-  const isDesktop = useSite00DesktopArtboardPreview();
+  const { isDesktopPresentation } = usePresentationMode();
   const { hasResume, resumeTarget, record } = useIdntyAssessment();
 
   const handleSelectState = (stateId: string) => {
@@ -27,7 +27,7 @@ export default function IdntyStatePage() {
     const slug = brandStateToAssessmentSlug(stateId);
     if (!slug) return;
     const path = idntyAssessmentPath(slug);
-    navigate(isDesktop ? site00IdntyAssessmentDesktopPath(path) : path);
+    navigate(isDesktopPresentation ? site00IdntyAssessmentDesktopPath(path) : path);
   };
 
   return (
@@ -48,7 +48,7 @@ export default function IdntyStatePage() {
               <p className="site00-idnty-state-resume__label">
                 RESUME IDNTY ASSESSMENT — {record.identityState?.replace(/-/g, ' ').toUpperCase()}
               </p>
-              <Link to={isDesktop ? site00IdntyAssessmentDesktopPath(resumeTarget) : resumeTarget} className="site00-idnty-state-resume__link">
+              <Link to={isDesktopPresentation ? site00IdntyAssessmentDesktopPath(resumeTarget) : resumeTarget} className="site00-idnty-state-resume__link">
                 CONTINUE →
               </Link>
             </div>
