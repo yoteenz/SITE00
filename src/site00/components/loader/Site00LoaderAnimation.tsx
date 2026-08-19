@@ -18,29 +18,39 @@ type Site00LoaderAnimationProps = {
   /** Cover focal — must match static environment layer to prevent play-time shift. */
   mediaFocal?: string;
   reducedMotion?: boolean;
+  /** Fires once the MP4 is actually playing — use to strip static layer 1. */
+  onPlaying?: () => void;
   onReady?: () => void;
   onError?: (detail: unknown) => void;
 };
 
 /**
  * Full-frame environment animation — Layer 2 above static background.
- * Fades in once the video can render; static background remains underneath as fallback.
+ * Fades in once the video can render; layer 1 is unmounted on play (see ImmersiveLoaderMedia).
  */
 export function Site00LoaderAnimation({
   mediaPresentation = 'mobile',
   mediaFocal = 'center center',
   reducedMotion = false,
+  onPlaying,
   onReady,
   onError,
 }: Site00LoaderAnimationProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const readyRef = useRef(false);
+  const playingRef = useRef(false);
   const [mediaReady, setMediaReady] = useState(false);
   const [mediaError, setMediaError] = useState(false);
   const mediaDebug = isLoaderMediaDebugEnabled();
   const sourceUrl = resolveSite00LoaderEnvironmentAnimationUrl(mediaPresentation);
   const isLegacyLoaderAsset =
     /geometry-v1|kling-v2|assts-loader-geometry/i.test(sourceUrl);
+
+  const signalPlaying = () => {
+    if (playingRef.current) return;
+    playingRef.current = true;
+    onPlaying?.();
+  };
 
   const signalReady = () => {
     if (readyRef.current) return;
@@ -57,6 +67,7 @@ export function Site00LoaderAnimation({
       if (!reducedMotion) {
         void video.play().catch(() => undefined);
       } else {
+        signalPlaying();
         signalReady();
       }
     }
@@ -65,6 +76,7 @@ export function Site00LoaderAnimation({
   const handlePlaying = () => {
     const video = videoRef.current;
     if (video) enforceSite00LoaderVideoSilent(video);
+    signalPlaying();
     signalReady();
   };
 
@@ -101,6 +113,7 @@ export function Site00LoaderAnimation({
       } catch {
         /* ignore */
       }
+      signalPlaying();
       signalReady();
     } else {
       void video.play().catch(() => undefined);

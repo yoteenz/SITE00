@@ -357,7 +357,6 @@
   /* Focal set inline on element — matches debug inspection (bg center 45% / anim center). */
   opacity: 1;
   background: transparent;
-  transition: opacity 0.2s ease;
 }
 
 /* Desktop landscape master — BLDR 16:9 static environment */
@@ -369,9 +368,10 @@
   object-fit: cover;
 }
 
-/* Once MP4 is ready, drop static still so only the animation layer paints (no dual-focal crossfade). */
-.site00-immersive-loader__media:has(.site00-loader-animation--ready) .site00-loader-env__img {
-  opacity: 0;
+/* Layer 1 removed from DOM once MP4 plays — static-stripped class is the post-handoff state. */
+.site00-immersive-loader__media--static-stripped .site00-loader-env,
+.site00-immersive-loader__media--static-stripped .site00-loader-env__img {
+  display: none;
 }
 
 /* Layer 2 — full-frame environment animation (matches static background geometry) */
