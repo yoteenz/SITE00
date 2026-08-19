@@ -13,6 +13,7 @@ import { useSite00DesktopArtboardPreview } from '../components/shell/Site00Deskt
 import { site00EvolveAssessmentDesktopPath } from '../config/routes';
 import type { EvolvePathId } from '../config/evolve';
 import { ArrowIconSmall } from '../components/icons/ArrowAction';
+import { MobileSiteNavigation } from '../components/mobile/MobileSiteNavigation';
 
 function EvolvePathCard({
   path,
@@ -138,6 +139,7 @@ export default function EvolveStatePage() {
         <WorkflowSummary text={EVOLVE_STATE_COPY.footer} />
       </Site00AppShell>
       <Site00OriginLayoutSwitch />
+      {!isDesktop ? <MobileSiteNavigation /> : null}
     </EnvironmentShell>
   );
 }

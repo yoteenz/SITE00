@@ -1,17 +1,15 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Site00MobileHeader } from './Site00MobileHeader';
 import { FastTravelPanel } from '../fast-travel/FastTravelPanel';
-import { Site00EcosystemMobileNav } from '../ecosystem/Site00EcosystemMobileNav';
-import type { EcosystemNavId } from '../../config/ecosystem-nav';
+import { MobileSiteNavigation } from '../mobile/MobileSiteNavigation';
 
 type Site00EcosystemMobileShellProps = {
-  activeNav: EcosystemNavId;
   children: ReactNode;
   shellClassName?: string;
 };
 
 /** Mobile shell for authenticated SITE 00 ecosystem pages. */
-export function Site00EcosystemMobileShell({ activeNav, children, shellClassName = '' }: Site00EcosystemMobileShellProps) {
+export function Site00EcosystemMobileShell({ children, shellClassName = '' }: Site00EcosystemMobileShellProps) {
   const [fastTravelOpen, setFastTravelOpen] = useState(false);
   const fastTravelTriggerRef = useRef<HTMLButtonElement>(null);
 
@@ -33,7 +31,7 @@ export function Site00EcosystemMobileShell({ activeNav, children, shellClassName
           fastTravelTriggerRef={fastTravelTriggerRef}
         />
         <main className="site00-mobile-shell__main site00-ecosystem-mobile-shell__main">{children}</main>
-        <Site00EcosystemMobileNav active={activeNav} />
+        <MobileSiteNavigation />
       </div>
       <FastTravelPanel
         open={fastTravelOpen}

@@ -1021,6 +1021,12 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
   box-sizing: border-box;
 }
 
+@media (max-width: 767px) {
+  .site00-state-page-layout {
+    padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 .site00-idnty-state-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

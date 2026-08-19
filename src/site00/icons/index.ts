@@ -13,4 +13,6 @@ export { EnterMenuIcon } from './EnterMenuIcon';
 export { Site00IconFrame, Site00IconNode, site00IconStrokeProps } from './Site00IconFrame';
 export type { Site00LineIconProps } from './Site00IconFrame';
 export { Site00ProjectsIcon } from './Site00ProjectsIcon';
+export { Site00IdntyIcon } from './Site00IdntyIcon';
+export { Site00CtrlRoomIcon } from './Site00CtrlRoomIcon';
 export { Site00SupportIcon } from './Site00SupportIcon';

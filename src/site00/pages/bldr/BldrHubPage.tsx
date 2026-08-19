@@ -12,7 +12,7 @@ const BLDR_STEPS = [
 
 export default function BldrHubPage() {
   return (
-    <Site00PublicShell mobileActiveNav="build">
+    <Site00PublicShell>
       <div className="site00-page site00-page--bldr-hub">
         <PageIntro
           title={<BracketHeading>BLDR</BracketHeading>}

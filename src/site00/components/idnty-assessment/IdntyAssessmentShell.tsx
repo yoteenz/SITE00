@@ -94,7 +94,7 @@ export function IdntyAssessmentShell({
     return (
       <div className="site00-idnty-assessment site00-idnty-assessment--mobile">
         <IdntyAssessmentMobileBackground />
-        <Site00MobileShell activeNav="build" showEnvironmentBackground={false} shellClassName="site00-idnty-assessment-mobile-shell">
+        <Site00MobileShell showEnvironmentBackground={false} shellClassName="site00-idnty-assessment-mobile-shell">
           <div className="site00-idnty-assessment__mobile-content">
             <IdntyAssessmentBreadcrumb label={state.breadcrumb} />
             <IdntyMobileHero state={state} />

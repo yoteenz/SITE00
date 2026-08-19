@@ -250,7 +250,7 @@
     bottom: 0;
     z-index: var(--site-z-nav);
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     align-items: stretch;
     min-height: 56px;
     padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -266,33 +266,71 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 2px;
+    min-width: 0;
     min-height: 56px;
-    padding: 8px 6px;
+    padding: 6px 2px;
     text-decoration: none;
     color: var(--site-text-muted);
+    -webkit-tap-highlight-color: transparent;
   }
 
   .site00-mobile-nav__item--active {
     color: var(--site-red);
   }
 
+  .site00-mobile-nav__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 100%;
+    min-height: 20px;
+    line-height: 1;
+  }
+
+  .site00-mobile-nav__item--center .site00-mobile-nav__icon {
+    min-height: 24px;
+  }
+
+  .site00-mobile-nav__svg {
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .site00-mobile-nav__origin-mark {
+    font-family: var(--site00-font-nav);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
   .site00-mobile-nav__top {
     font-family: var(--site00-font-nav);
-    font-size: 0.625rem;
+    font-size: 0.5625rem;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     line-height: 1;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .site00-mobile-nav__bottom {
     font-family: var(--site00-font-nav);
-    font-size: 0.5625rem;
+    font-size: 0.5rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
     line-height: 1.1;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
   }
 
   .site00-mobile-nav__divider {
@@ -302,6 +340,26 @@
     bottom: 18%;
     width: 1px;
     background: rgba(0, 0, 0, 0.1);
+  }
+
+  .site00-mobile-nav__divider--emphasis {
+    top: 12%;
+    bottom: 12%;
+  }
+
+  @media (max-width: 360px) {
+    .site00-mobile-nav__bottom {
+      font-size: 0.4375rem;
+      letter-spacing: 0.05em;
+    }
+
+    .site00-mobile-nav__top {
+      font-size: 0.5rem;
+    }
+
+    .site00-mobile-nav__origin-mark {
+      font-size: 0.625rem;
+    }
   }
 
   /* ─── Mobile menu drawer ─── */

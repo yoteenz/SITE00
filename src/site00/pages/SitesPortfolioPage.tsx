@@ -26,7 +26,7 @@ export default function SitesPortfolioPage() {
   }
 
   return (
-    <Site00PublicShell mobileActiveNav="origin">
+    <Site00PublicShell>
       <div className="site00-page site00-page--sites-portfolio">
         <PageIntro
           title={<BracketHeading>SITES</BracketHeading>}

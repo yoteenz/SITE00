@@ -88,7 +88,7 @@ export function BldrAssessmentShell({
     return (
       <div className="site00-idnty-assessment site00-idnty-assessment--mobile">
         <BldrAssessmentMobileBackground />
-        <Site00MobileShell activeNav="build" showEnvironmentBackground={false} shellClassName="site00-idnty-assessment-mobile-shell">
+        <Site00MobileShell showEnvironmentBackground={false} shellClassName="site00-idnty-assessment-mobile-shell">
           <div className="site00-idnty-assessment__mobile-content">
             <BldrAssessmentBreadcrumb label={state.breadcrumb} />
             <BldrMobileHero state={state} />

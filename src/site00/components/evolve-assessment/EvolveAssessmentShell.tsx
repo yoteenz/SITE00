@@ -82,7 +82,7 @@ export function EvolveAssessmentShell({ state, pathId, children, panel }: Evolve
     return (
       <div className="site00-idnty-assessment site00-idnty-assessment--mobile">
         <EvolveAssessmentMobileBackground />
-        <Site00MobileShell activeNav="origin" showEnvironmentBackground={false} shellClassName="site00-idnty-assessment-mobile-shell">
+        <Site00MobileShell showEnvironmentBackground={false} shellClassName="site00-idnty-assessment-mobile-shell">
           <div className="site00-idnty-assessment__mobile-content">
             <EvolveAssessmentBreadcrumb label={state.breadcrumb} />
             <header className="site00-idnty-assessment__mobile-hero">{hero}</header>

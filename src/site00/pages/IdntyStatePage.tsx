@@ -15,6 +15,7 @@ import { brandStateToAssessmentSlug } from '../config/idnty-assessment-brand-map
 import { idntyAssessmentPath } from '../config/idnty-assessment';
 import { useSite00DesktopArtboardPreview } from '../components/shell/Site00DesktopArtboardContext';
 import { site00IdntyAssessmentDesktopPath } from '../config/routes';
+import { MobileSiteNavigation } from '../components/mobile/MobileSiteNavigation';
 
 export default function IdntyStatePage() {
   const { state, selectIdentityState } = useSite00();
@@ -89,6 +90,7 @@ export default function IdntyStatePage() {
         <WorkflowSummary text={IDNTY_STATE_COPY.footer} />
       </Site00AppShell>
       <Site00OriginLayoutSwitch />
+      {!isDesktop ? <MobileSiteNavigation /> : null}
     </EnvironmentShell>
   );
 }

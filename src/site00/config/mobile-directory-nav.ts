@@ -1,6 +1,6 @@
 /**
  * SITE 00 mobile hamburger directory — deeper destinations (mobile-only).
- * Bottom nav handles ORIGIN, LOCATIONS, START BUILD; drawer is complementary.
+ * Bottom nav: five primary bays via MobileSiteNavigation; drawer is complementary.
  */
 
 import { SITE00_ROUTES } from './routes';

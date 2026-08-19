@@ -11,6 +11,7 @@ import { buildClassToAssessmentSlug } from '../config/bldr-assessment-brand-map'
 import { bldrAssessmentPath } from '../config/bldr-assessment';
 import { useSite00DesktopArtboardPreview } from '../components/shell/Site00DesktopArtboardContext';
 import { site00BldrAssessmentDesktopPath } from '../config/routes';
+import { MobileSiteNavigation } from '../components/mobile/MobileSiteNavigation';
 
 export default function BldrStatePage() {
   const { state, selectBuildClass } = useSite00();
@@ -107,6 +108,7 @@ export default function BldrStatePage() {
         <WorkflowSummary text={BLDR_STATE_COPY.footer} />
       </Site00AppShell>
       <Site00OriginLayoutSwitch />
+      {!isDesktop ? <MobileSiteNavigation /> : null}
     </EnvironmentShell>
   );
 }
