@@ -13,6 +13,7 @@ import { Site00PublicRouteShell } from '../site00/components/shell/Site00PublicR
 import { Site00PublicDesktopLegacyRedirect } from '../site00/components/shell/Site00PublicWideDesktopRedirect';
 import { Site00OriginDesktopLegacyRedirect } from '../site00/components/shell/Site00OriginDesktopLegacyRedirect';
 import { Site00WorkflowDesktopLegacyRedirect } from '../site00/components/shell/Site00WorkflowDesktopLegacyRedirect';
+import { Site00IdentityAliasRedirect, Site00SignInAliasRedirect } from '../site00/components/routing/Site00RouteAliases';
 import { Site00TypographyBootstrap } from '../site00/components/Site00TypographyBootstrap';
 import { site00PublicDesktopPath } from '../site00/config/site00-public-pages';
 /* Eager-load SITE 00 + ASSTS styles (lazy route CSS was not applying on mobile preview). */
@@ -137,6 +138,9 @@ export function Site00Routes() {
 
   return (
     <>
+      <Route path="/sign-in" element={<Site00SignInAliasRedirect />} />
+      <Route path="/identity/*" element={<Site00IdentityAliasRedirect />} />
+      <Route path="/identity" element={<Navigate to={SITE00_ROUTES.idnty} replace />} />
       {site00Root ? (
         <Route
           index
@@ -432,6 +436,14 @@ export function Site00Routes() {
                 <ProjectsPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={site00PublicDesktopPath(SITE00_ROUTES.projects)}
+        element={
+          <Site00Layout>
+            <Site00PublicDesktopLegacyRedirect />
           </Site00Layout>
         }
       />

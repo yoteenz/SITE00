@@ -171,7 +171,7 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
     setInfo('PASSWORD RESET EMAIL SENT. CHECK YOUR INBOX.');
   };
 
-  const createAccountHref = `/sign-in?returnTo=${encodeURIComponent(
+  const createAccountHref = `${SITE00_ROUTES.signIn}?returnTo=${encodeURIComponent(
     resolveSite00ReturnToAfterSignIn(new URLSearchParams(location.search).get('returnTo'), null),
   )}`;
 
