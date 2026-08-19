@@ -142,33 +142,29 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 
 - Viewport cover bg on shell outside transform; UI top-aligned; status strip portaled; focal 32% baseline.
 
-<<<<<<< HEAD
 ---
 
 ## 2026-08-19 — Laptop Desktop toggle = native full viewport (PR #11)
 
-- **Issue:** On laptop tunnel preview, Mobile layout looked better than Desktop — Desktop showed gray margins + scaled 1440×900 artboard.
-- **Fix:** Wide viewport (≥768px) + Desktop → native full viewport shell (no transform scale). Narrow + Desktop → scaled artboard preview. `/origin/desktop` routes keep forced artboard.
-- **Convention:** On laptop, **Desktop** is canonical. **Mobile** is phone UI preview for QA.
+- Wide viewport + Desktop → native full viewport shell. `/origin/desktop` keeps scaled artboard preview.
 
 ---
 
 ## 2026-08-19 — EVOLVE Origin desktop panel icon + copy/layout polish (PR #16)
 
-- **Icon:** Wire EVOLVE panel to Supabase PNG (`EVOLVE/9E87E14E-63A7-4ED5-9054-5435136E1768.png`).
-- **Collapsed card:** No body line; subtitle “BUILD IS COMPLETE.”; CTA without arrow; icon +10%.
-- **Expanded panel:** Centered pillars; no HOW IT WORKS; plain START EVOLVE button; icon +10%.
-- **All expanded panels:** `expandedPanelScale` 0.74375 (−15%).
-=======
-- **Convention:** Keep ENTER directory `enabled` flags aligned with registered routes in `Site00Routes.tsx`; use `requiresAuth` for guarded destinations instead of disabling links.
+- Icon Supabase PNG; collapsed/expanded EVOLVE copy polish; expanded panels −15% scale.
 
 ---
 
-## 2026-08-19 — Origin desktop hero/plaza layout nudges + ungrouped hero copy
+## 2026-08-19 — Origin desktop hero/plaza layout + ungrouped hero copy (PR #18)
 
-- **Request (desktop only):** Panel icons up 4px; ungroup hero header lines for independent positioning; plaza prompt + three cards up 4px together.
-- **Fix (`cursor/origin-desktop-hero-layout-796f`):**
-  - `panelIconOffsetYPx` 16 → 12; `cardsTopOffsetPx` 120 → 116.
-  - Hero copy lines stay separate DOM elements (`desc1`/`desc2`/`desc3`); per-line offset tokens in `origin-home-composition.ts` (`heroEyebrowOffsetYPx`, `heroHeadlineOffsetYPx`, `heroTaglineOffsetYPx`, `heroDescription*OffsetYPx`, `heroCoordinateOffsetYPx`) wired as CSS vars on `.site00-home-stage`; desktop CSS uses `position: relative; top: var(...)`.
-  - **Convention:** Nudge individual hero lines via composition tokens — not block-level merges or whole-hero transforms.
->>>>>>> origin/cursor/origin-desktop-hero-layout-796f
+- Panel icons up 4px; plaza block up 4px; per-line hero offset tokens for independent copy positioning.
+
+---
+
+## 2026-08-19 — Consolidated open PRs to main (#2, #3, #11, #16, #17, #18)
+
+- **User request:** Merge all pending PRs to `main`; preview should match production.
+- **Merged:** #17 ENTER bg/UI decouple · #11 native laptop desktop viewport · #16 EVOLVE panel polish · #18 Origin hero/plaza nudges · #2 identity card colors · #3 Locations/typography recovery.
+- **Closed as superseded:** #14/#13 (ENTER bg attempts) · #15 (hero copy — superseded by #18) · #5 (letterboxing — in #17) · #4 (presentation architecture — superseded by #11+).
+- **`main` is source of truth** for all above fixes.
