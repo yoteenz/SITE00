@@ -10,9 +10,6 @@ export function DirectoryExitButton() {
       aria-label="Exit Directory and return to Origin"
     >
       <span className="site00-directory-exit__label">EXIT 00</span>
-      <span className="site00-directory-exit__icon" aria-hidden="true">
-        ×
-      </span>
     </Link>
   );
 }
