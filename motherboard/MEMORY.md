@@ -812,3 +812,11 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
   - CSS: 5-column grid, icon slot, artboard-pinned nav in laptop Mobile preview.
 - **Branch:** `cursor/mobile-nav-geometric-icons-796f`.
 
+---
+
+## 2026-08-19 — IDNTY state subhead line break before WE'LL
+
+- **Request:** On IDNTY state page, wrap subhead so “WE'LL DETERMINE…” starts on line 2 instead of “WE'LL” hanging at end of line 1.
+- **Fix:** Split `IDNTY_STATE_COPY` into `subheadLine1` / `subheadLine2`; render with `<br />` in `IdntyStatePage.tsx`.
+- **Branch:** `cursor/idnty-state-subhead-wrap-796f`.
+
