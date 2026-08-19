@@ -15,7 +15,7 @@ export type Site00LoaderContext =
 type ContextCopy = { primary: string; secondary?: string };
 
 const CONTEXT_COPY: Record<Site00LoaderContext, ContextCopy> = {
-  general: { primary: 'ASSEMBLING SITE 00', secondary: 'EVERYTHING STARTS AT 00.' },
+  general: { primary: 'ASSEMBLING SITE 00', secondary: 'EVERYTHING WE BUILD LIVES HERE.' },
   site00: { primary: 'ASSEMBLING SITE 00', secondary: 'PREPARING YOUR DESTINATION.' },
   enter: { primary: 'ENTERING 00', secondary: 'PREPARING THE DIRECTORY.' },
   assts: { primary: 'PREPARING THE ASSET VAULT', secondary: 'RESOLVING PRODUCTION ASSETS.' },
