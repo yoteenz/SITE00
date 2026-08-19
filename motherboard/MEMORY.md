@@ -820,3 +820,11 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 - **Fix:** `outline: none`, `box-shadow: none`, `-webkit-tap-highlight-color: transparent` on `.site00-fast-travel-trigger` (+ focus/active states) in `site00-fast-travel.css`.
 - **Branch:** `cursor/fast-travel-remove-outline-796f`.
 
+---
+
+## 2026-08-19 — Sign-in page icon update (Supabase NAV PNG)
+
+- **Request:** Replace sign-in page icon with Supabase asset `NAV/7D83E4A6-BB5B-4092-A002-EB9DAA1E79A2.png`.
+- **Fix:** Added `SITE00_SIGNIN_ICON_PATH` in `site00-auth-assets.ts`; `Site00OrbitalMark` now renders `<img>` via `resolveSite00PublicAsset` (desktop brand panel + mobile intro). CSS `object-fit: contain` on `.site00-orbital-mark__img`.
+- **Branch:** `cursor/signin-icon-update-2c3b`.
+
