@@ -1175,9 +1175,55 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
   }
 
   .site00-enter-page .site00-enter-welcome {
-    transform: translate(-240px, -120px);
+    transform: translate(
+      var(--site00-enter-wall-translate-x, -240px),
+      var(--site00-enter-wall-translate-y, -120px)
+    );
     padding-top: 12px;
     margin-top: -12px;
+  }
+
+  /**
+   * Hero copy — single environment-aligned perspective plane (desktop ENTER 00 only).
+   * Calibrate: /enter?enterWallDebug=1&enterWallRotateZ=11&enterWallRotateY=-3&enterWallSkewX=-1
+   */
+  .site00-enter-page .site00-enter-welcome__plane {
+    --site00-enter-wall-perspective: 1400px;
+    --site00-enter-wall-rotate-z: 11deg;
+    --site00-enter-wall-rotate-y: -3deg;
+    --site00-enter-wall-skew-x: -1deg;
+    --site00-enter-wall-opacity: 0.98;
+    transform-origin: left center;
+    transform: perspective(var(--site00-enter-wall-perspective)) rotateZ(var(--site00-enter-wall-rotate-z))
+      rotateY(var(--site00-enter-wall-rotate-y)) skewX(var(--site00-enter-wall-skew-x));
+    opacity: var(--site00-enter-wall-opacity);
+    backface-visibility: hidden;
+  }
+
+  .site00-enter-page.site00-enter-wall-debug .site00-enter-welcome__plane {
+    outline: 1px dashed rgba(0, 128, 255, 0.88);
+    outline-offset: 8px;
+  }
+
+  /* Preserve wall relationship across common desktop aspects */
+  @media (min-width: 768px) and (max-width: 1366px) {
+    .site00-enter-page .site00-enter-welcome__plane {
+      --site00-enter-wall-rotate-z: 10deg;
+      --site00-enter-wall-rotate-y: -2.5deg;
+    }
+  }
+
+  @media (min-width: 1920px) {
+    .site00-enter-page .site00-enter-welcome__plane {
+      --site00-enter-wall-rotate-z: 12deg;
+    }
+  }
+
+  @media (min-aspect-ratio: 21/9) {
+    .site00-enter-page .site00-enter-welcome__plane {
+      --site00-enter-wall-rotate-z: 12.5deg;
+      --site00-enter-wall-skew-x: -1.25deg;
+    }
   }
 
   .site00-enter-page .site00-enter-welcome__body {

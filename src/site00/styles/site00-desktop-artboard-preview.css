@@ -223,9 +223,30 @@
 }
 
 .site00-desktop-artboard .site00-enter-page .site00-enter-welcome {
-  transform: translate(-240px, -120px);
+  transform: translate(
+    var(--site00-enter-wall-translate-x, -240px),
+    var(--site00-enter-wall-translate-y, -120px)
+  );
   padding-top: 12px;
   margin-top: -12px;
+}
+
+.site00-desktop-artboard .site00-enter-page .site00-enter-welcome__plane {
+  --site00-enter-wall-perspective: 1400px;
+  --site00-enter-wall-rotate-z: 11deg;
+  --site00-enter-wall-rotate-y: -3deg;
+  --site00-enter-wall-skew-x: -1deg;
+  --site00-enter-wall-opacity: 0.98;
+  transform-origin: left center;
+  transform: perspective(var(--site00-enter-wall-perspective)) rotateZ(var(--site00-enter-wall-rotate-z))
+    rotateY(var(--site00-enter-wall-rotate-y)) skewX(var(--site00-enter-wall-skew-x));
+  opacity: var(--site00-enter-wall-opacity);
+  backface-visibility: hidden;
+}
+
+.site00-desktop-artboard .site00-enter-page.site00-enter-wall-debug .site00-enter-welcome__plane {
+  outline: 1px dashed rgba(0, 128, 255, 0.88);
+  outline-offset: 8px;
 }
 
 .site00-desktop-artboard .site00-enter-page .site00-enter-welcome__body {
