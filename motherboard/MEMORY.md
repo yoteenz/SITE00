@@ -136,4 +136,12 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 
 - **Issue:** Enter desktop bg looked stretched; bottom status strip clipped. User wanted only `background-position` shift inside locked cover — no scroll, no letterboxing.
 - **Root cause:** `position: fixed` on env layer inside scaled artboard — transform creates a containing block, so bg decoupled from UI and distorted. Changing focal % alone (PR #13) did not fix architecture.
-- **Fix (`cursor/enter-bg-in-artboard-only-796f`):** Remove artboard enter `position: fixed` on env layer; keep bg **absolute inside artboard** with `background-size: cover`. Focal `center 28%` (24% short / 30% tall / 28% ultrawide). Enter artboard scaleW + **bottom anchor** when scaled height exceeds viewport so status strip stays visible.
+- **Fix (PR #14):** Remove artboard enter `position: fixed` on env layer; keep bg **absolute inside artboard** with `background-size: cover`. Focal `center 28%` (24% short / 30% tall / 28% ultrawide). Enter artboard scaleW + **bottom anchor** when scaled height exceeds viewport so status strip stays visible.
+
+---
+
+## 2026-08-19 — ENTER 00: restore UI placement on background (PR #14 follow-up)
+
+- **Issue:** PR #14 fixed stretch/strip but shifted welcome text + directory panel off approved bg comp positions.
+- **Cause:** Bottom-anchor moved whole artboard; in-artboard bg + changed focal (28%) moved photo relative to UI.
+- **Fix:** Viewport `cover` bg on artboard **shell** (outside transform); UI artboard top-aligned (`marginTop: 0`); focal back to **32%** baseline; status strip portaled to shell chrome host. Suppress duplicate in-stage env on enter artboard.
