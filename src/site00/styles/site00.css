@@ -969,14 +969,14 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
   .site00-enter-artboard-viewport-bg,
   .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'],
   .site00-enter-page .site00-env-layer--has-desktop-asset {
-    background-position: var(--site00-env-desktop-position, center 52%);
+    background-position: var(--site00-env-desktop-position, center 65%);
   }
 
   @media (max-height: 799px) {
     .site00-enter-artboard-viewport-bg,
     .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'],
     .site00-enter-page .site00-env-layer--has-desktop-asset {
-      background-position: center 48%;
+      background-position: center 61%;
     }
   }
 
@@ -984,7 +984,7 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
     .site00-enter-artboard-viewport-bg,
     .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'],
     .site00-enter-page .site00-env-layer--has-desktop-asset {
-      background-position: center 58%;
+      background-position: center 71%;
     }
   }
 
@@ -992,7 +992,7 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
     .site00-enter-artboard-viewport-bg,
     .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'],
     .site00-enter-page .site00-env-layer--has-desktop-asset {
-      background-position: center 55%;
+      background-position: center 68%;
     }
   }
 
