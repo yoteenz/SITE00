@@ -28,19 +28,19 @@ export const SITE00_ENTER_DESKTOP_FOCAL = {
   ultrawide: 'center 75%',
 } as const;
 
-/** Immersive loader cover focal — static bg pre-aligns to animation; animation stays center center. */
+/** Immersive loader cover focal — static bg stays center; tune animation to match MP4 framing. */
 export const SITE00_LOADER_MEDIA_FOCAL = {
-  /** Animation layer — locked to MP4 framing; do not tune. */
+  /** Animation layer — lower Y% shifts MP4 down to meet locked static still (mobile). */
   animation: {
-    mobile: 'center center',
+    mobile: 'center 40%',
     desktop: 'center center',
   },
   /**
-   * Static background — lower Y% shifts image down on this asset so the still
-   * matches where the animation will sit when playback starts (opposite of Enter).
+   * Static background — locked center center so layer 1 fills the viewport edge-to-edge
+   * (no top gap). Do not shift this layer.
    */
   background: {
-    mobile: 'center 40%',
+    mobile: 'center center',
     desktop: 'center center',
   },
 } as const;

@@ -56,14 +56,14 @@ export function resolveSite00LoaderMediaPresentation(): 'mobile' | 'desktop' {
   return getSite00OriginWideViewportSnapshot() ? 'desktop' : 'mobile';
 }
 
-/** Static background cover anchor — tuned down to match animation framing. */
+/** Static background cover anchor — locked center; fills viewport edge-to-edge. */
 export function resolveSite00LoaderBackgroundFocal(presentation: 'mobile' | 'desktop'): string {
   return presentation === 'desktop'
     ? SITE00_LOADER_MEDIA_FOCAL.background.desktop
     : SITE00_LOADER_MEDIA_FOCAL.background.mobile;
 }
 
-/** Animation cover anchor — locked center; bg layer is pre-shifted to meet it. */
+/** Animation cover anchor — mobile MP4 focal tuned to meet static still at center. */
 export function resolveSite00LoaderAnimationFocal(presentation: 'mobile' | 'desktop'): string {
   return presentation === 'desktop'
     ? SITE00_LOADER_MEDIA_FOCAL.animation.desktop

@@ -354,7 +354,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Focal set inline on element — bg center 40% / anim center (mobile). */
+  /* Focal inline — bg center / anim center 40% on mobile. */
   opacity: 1;
   background: transparent;
 }
@@ -405,7 +405,7 @@
 
 .site00-loader-animation--environment {
   object-fit: cover;
-  /* Focal set inline on video — locked center center; bg layer pre-shifts to meet it. */
+  /* Focal set inline on video — mobile MP4 shifted to meet locked center still. */
   mix-blend-mode: normal;
   background: transparent;
 }
