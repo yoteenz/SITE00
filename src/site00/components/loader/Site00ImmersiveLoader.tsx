@@ -141,21 +141,23 @@ function ImmersiveLoaderBody({
 
   return (
     <div className={rootClass} role="status" aria-live="polite" aria-label={progressLabel}>
-      <Site00LoaderEnvironment
-        backgroundUrl={backgroundUrl}
-        viewport
-        fit={envFit}
-        onBackgroundLoad={handleBootHandoff}
-      />
-
-      {animationEnabled ? (
-        <Site00LoaderAnimation
-          mediaPresentation={mediaPresentation}
-          reducedMotion={reducedMotion}
-          onReady={handleAnimationReady}
-          onError={handleAnimationError}
+      <div className="site00-immersive-loader__media" aria-hidden="true">
+        <Site00LoaderEnvironment
+          backgroundUrl={backgroundUrl}
+          viewport
+          fit={envFit}
+          onBackgroundLoad={handleBootHandoff}
         />
-      ) : null}
+
+        {animationEnabled ? (
+          <Site00LoaderAnimation
+            mediaPresentation={mediaPresentation}
+            reducedMotion={reducedMotion}
+            onReady={handleAnimationReady}
+            onError={handleAnimationError}
+          />
+        ) : null}
+      </div>
 
       <LoaderCompositionProvider presentation={uiPresentation}>
         {debug ? (

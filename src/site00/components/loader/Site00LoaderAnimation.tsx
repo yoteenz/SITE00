@@ -28,6 +28,8 @@ export function Site00LoaderAnimation({
   const [mediaError, setMediaError] = useState(false);
   const mediaDebug = isLoaderMediaDebugEnabled();
   const sourceUrl = resolveSite00LoaderEnvironmentAnimationUrl(mediaPresentation);
+  const isLegacyLoaderAsset =
+    /geometry-v1|kling-v2|assts-loader-geometry/i.test(sourceUrl);
 
   const signalReady = () => {
     if (readyRef.current) return;
@@ -36,6 +38,12 @@ export function Site00LoaderAnimation({
     loaderLifecycleLog('ANIMATION_CANPLAY');
     onReady?.();
   };
+
+  useEffect(() => {
+    if (!isLegacyLoaderAsset) return;
+    loaderLifecycleLog('ANIMATION_ERROR', { blockedLegacyAsset: sourceUrl });
+    signalReady();
+  }, [isLegacyLoaderAsset, sourceUrl]);
 
   useEffect(() => {
     loaderLifecycleLog('ANIMATION_SOURCE_RESOLVED', { sourceUrl, mediaPresentation });
@@ -97,7 +105,7 @@ export function Site00LoaderAnimation({
     signalReady();
   };
 
-  if (!sourceUrl) return null;
+  if (!sourceUrl || isLegacyLoaderAsset) return null;
 
   const layerClass = [
     'site00-loader-animation-layer',
@@ -119,7 +127,13 @@ export function Site00LoaderAnimation({
     .join(' ');
 
   return (
-    <div className={layerClass} data-media-ready={mediaReady ? '1' : '0'} aria-hidden="true">
+    <div
+      className={layerClass}
+      data-media-ready={mediaReady ? '1' : '0'}
+      data-loader-video-src={sourceUrl}
+      style={{ zIndex: 1 }}
+      aria-hidden="true"
+    >
       <video
         key={sourceUrl}
         ref={videoRef}

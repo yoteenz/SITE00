@@ -248,6 +248,25 @@
   min-height: 100dvh;
   min-height: 100lvh;
   --loader-scale: 1;
+  isolation: isolate;
+}
+
+/** Layer 1 + 2 — static background then environment animation (above static, below UI). */
+.site00-immersive-loader__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.site00-immersive-loader__media .site00-loader-env--viewport {
+  z-index: 0;
+}
+
+.site00-immersive-loader__media .site00-loader-animation-layer {
+  z-index: 1;
 }
 
 .site00-loader-viewport,
