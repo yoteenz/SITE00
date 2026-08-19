@@ -812,3 +812,11 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
   - CSS: 5-column grid, icon slot, artboard-pinned nav in laptop Mobile preview.
 - **Branch:** `cursor/mobile-nav-geometric-icons-796f`.
 
+---
+
+## 2026-08-19 — Fast Travel trigger outline removal (mobile)
+
+- **Request:** Remove blue outline around mobile Fast Travel icon button.
+- **Fix:** `outline: none`, `box-shadow: none`, `-webkit-tap-highlight-color: transparent` on `.site00-fast-travel-trigger` (+ focus/active states) in `site00-fast-travel.css`.
+- **Branch:** `cursor/fast-travel-remove-outline-796f`.
+
