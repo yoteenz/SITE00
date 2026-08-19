@@ -129,3 +129,23 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 - **Issue:** Bottom status panel (metrics + NEED GUIDANCE) disappeared when toggling Mobile/Desktop on wide viewports.
 - **Cause:** Mobile strip CSS was inside `@media (max-width: 767px)` but layout switch uses class `.site00-origin-page--mobile-layout` at any width; desktop artboard could clip footer when scaled height exceeded viewport.
 - **Fix (PR #10 → main):** Class-scoped mobile layout rules; explicit desktop-artboard strip visibility; Origin artboard `min(scaleW, scaleH)` (Enter keeps `scaleW`); flex pin footer in artboard column.
+
+---
+
+## 2026-08-19 — Laptop Desktop toggle = native full viewport (not scaled artboard)
+
+Summary of this cloud agent run: user confused why **Mobile** layout switch looked better than **Desktop** on laptop via tunnel preview.
+
+- **Context:** Founder viewing tunnel preview from laptop. Expected **Desktop** toggle = correct laptop view; **Mobile** = phone layout preview. Observed opposite — Mobile filled screen and looked cleaner; Desktop showed gray margins + scaled-down 1440×900 artboard.
+
+- **Root cause:** `Site00OriginRouteShell` / `Site00PublicRouteShell` always wrapped Desktop mode in `Site00DesktopArtboardShell` (scaled composer preview) even on wide viewports. Mobile mode rendered phone CSS at full browser width (no artboard), so it visually "won" on laptop.
+
+- **Fix (PR on `cursor/desktop-native-laptop-view-796f`):**
+  - Wide viewport (≥768px) + Desktop → `Site00DesktopNativeViewportShell` (full-screen `.site00-desktop-artboard--native-viewport`, no transform scale).
+  - Narrow viewport + Desktop → keep `Site00DesktopArtboardShell` (phone previewing desktop comp).
+  - `forceArtboard` (legacy `/origin/desktop`, `/foo/desktop`) → always scaled artboard.
+  - Shared resolver: `site00DesktopPresentation.ts` + `Site00DesktopPresentationShell`.
+  - ENTER 00 on native viewport: in-flow env layer (not `position: fixed` artboard hack).
+  - Layout switch tooltips clarify Mobile = phone UI preview, Desktop = full screen on laptop.
+
+- **Convention for founders/agents:** On laptop, **Desktop** is the canonical view. **Mobile** is intentionally the phone layout stretched to browser width — useful for QA, not the laptop shipping experience.
