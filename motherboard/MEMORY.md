@@ -698,3 +698,10 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Request:** Dynamic gray subtitle below black header (e.g. ASSEMBLING ORIGIN) should change every **2 seconds**.
 - **Fix:** `useSite00LoaderCyclingSubtitle` rotates through route stage subtitles every 2000ms while copy is active; locks to ready-line on complete. Progress still drives bar; subtitle no longer tied to milestone creep only. PR #80.
 
+---
+
+## 2026-08-19 — Origin loader subtitle copy (plain language)
+
+- **Request:** Replace HANDSHAKE ORIGIN — cycle text should read like real sentences, not AI/dev jargon.
+- **Fix:** Origin gray subtitle cycle: WAKING MARBLE HALL → LOADING ORIGIN HOME → OPENING ORIGIN HALL → BUILDING HOMEPAGE → ORIGIN IS READY. PR #80.
+
