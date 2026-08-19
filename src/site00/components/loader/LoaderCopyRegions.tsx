@@ -26,16 +26,16 @@ export function LoaderCopyRegions({
 
   return (
     <>
-      <LoaderRegion id="copy.eyebrow" className="site00-loader-copy-region site00-loader-copy-region--eyebrow">
-        <p className="site00-loader-copy__eyebrow">{siteLabel}</p>
+      <LoaderRegion id="copy.eyebrow" className="site00-loader-copy-region site00-loader-copy-region--eyebrow" allowOverflow>
+        <p className="site00-label-red site00-loader-copy__eyebrow">{siteLabel}</p>
       </LoaderRegion>
 
-      <LoaderRegion id="copy.title" className="site00-loader-copy-region site00-loader-copy-region--title">
-        <h1 className="site00-loader-copy__title">{title}</h1>
+      <LoaderRegion id="copy.title" className="site00-loader-copy-region site00-loader-copy-region--title" allowOverflow>
+        <h1 className="site00-heading-xl site00-loader-copy__title">{title}</h1>
       </LoaderRegion>
 
-      <LoaderRegion id="copy.subtitle" className="site00-loader-copy-region site00-loader-copy-region--subtitle">
-        <p className="site00-loader-copy__subtitle">{subtitle}</p>
+      <LoaderRegion id="copy.subtitle" className="site00-loader-copy-region site00-loader-copy-region--subtitle" allowOverflow>
+        <p className="site00-body site00-loader-copy__subtitle">{subtitle}</p>
       </LoaderRegion>
 
       <LoaderRegion id="copy.status" className="site00-loader-copy-region site00-loader-copy-region--status">
