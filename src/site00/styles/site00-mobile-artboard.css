@@ -105,7 +105,10 @@
 }
 
 .site00-mobile-artboard .site00-origin-page--mobile-layout .site00-status-strip--layout-mobile .site00-status-strip__cell {
-  width: calc(100% / 2.6);
+  flex: 0 0 50%;
+  width: 50%;
+  min-width: 50%;
+  max-width: none;
 }
 
 /** Enter — pin status strip to artboard bottom (not browser viewport). */
