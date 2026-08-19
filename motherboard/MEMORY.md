@@ -499,3 +499,10 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Request:** Move red SITE 00, black title, gray subtitle down 4px in tandem (overlay only).
 - **Fix:** Eyebrow/title nudge 90→94px; subtitle 60→64px. PR **#61**.
 
+---
+
+## 2026-08-19 — Loader typography, dots, bar + signature nudges (batch)
+
+- **Request:** Black title + gray subtitle each −4px; title font-weight **600**; fix ASSEMBLING dots to cycle `.` → `..` → `...` → clear; progress bar up 4px; footer 00 PNG + SITE label up 8px in tandem (overlay only).
+- **Fix:** Title `font-size` bump −4px + `font-weight: 600`; subtitle −4px; `LoaderAssemblingStatus` `DOT_CYCLE` with separate label/dots spans (`letter-spacing: 0` on dots); progress track/pct nudge 82→78px; signature inner translate −6px→−14px. PR **#62** merged to `main`.
+
