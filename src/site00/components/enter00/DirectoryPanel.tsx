@@ -4,22 +4,18 @@ import { Site00SummaryStripText } from '../shell/Site00SummaryStripText';
 import { ArchitecturalPanel } from '../panels/ArchitecturalPanel';
 import { SectionRule } from '../panels/SectionRule';
 import { DirectoryRow } from '../workflow/WorkflowCards';
-import { EnterWallPerspectiveCalibrator } from './EnterWallPerspectiveCalibrator';
 
 export function DirectoryPanel() {
   return (
     <div className="site00-enter-layout">
-      <EnterWallPerspectiveCalibrator />
       <div className="site00-enter-welcome">
-        <div className="site00-enter-welcome__plane">
-          <span className="site00-label-red">{SITE00_ENTER_COPY.welcomeNumber}</span>
-          <h1 className="site00-heading-lg site00-enter-welcome__title">{SITE00_ENTER_COPY.welcomeTitle}</h1>
-          <div className="site00-enter-welcome__rule">
-            <SectionRule />
-          </div>
-          <p className="site00-tagline site00-enter-welcome__subtitle">{SITE00_ENTER_COPY.welcomeSubtitle}</p>
-          <p className="site00-body site00-enter-welcome__body">{SITE00_ENTER_COPY.welcomeBody}</p>
+        <span className="site00-label-red">{SITE00_ENTER_COPY.welcomeNumber}</span>
+        <h1 className="site00-heading-lg site00-enter-welcome__title">{SITE00_ENTER_COPY.welcomeTitle}</h1>
+        <div className="site00-enter-welcome__rule">
+          <SectionRule />
         </div>
+        <p className="site00-tagline site00-enter-welcome__subtitle">{SITE00_ENTER_COPY.welcomeSubtitle}</p>
+        <p className="site00-body site00-enter-welcome__body">{SITE00_ENTER_COPY.welcomeBody}</p>
       </div>
 
       <ArchitecturalPanel className="site00-enter-menu">

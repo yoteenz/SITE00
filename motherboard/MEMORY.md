@@ -823,14 +823,9 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 
 ---
 
-## 2026-08-19 — ENTER 00 desktop hero wall perspective plane
+## 2026-08-19 — ENTER 00 desktop hero wall perspective plane (reverted)
 
-- **Request:** Align desktop ENTER hero copy to architectural wall angle (blue guide) — single perspective plane, not per-line rotation; preserve typography/background; mobile unchanged.
-- **Implementation:**
-  - Wrapped hero copy in `.site00-enter-welcome__plane` inside existing `.site00-enter-welcome` positioning anchor.
-  - Desktop-only CSS: `perspective(1400px) rotateZ(11deg) rotateY(-3deg) skewX(-1deg)`, `transform-origin: left center`, subtle `opacity: 0.98`.
-  - Aspect tweaks: ≤1366px, ≥1920px, ultrawide 21:9.
-  - Dev calibration: `/enter?enterWallDebug=1` + `enterWallRotateZ`, `enterWallRotateY`, `enterWallSkewX`, `enterWallLeft`, `enterWallTop`, `enterWallOpacity`, `enterWallPerspective`.
-  - Files: `enter-wall-perspective.ts`, `EnterWallPerspectiveCalibrator.tsx`, `DirectoryPanel.tsx`, `site00.css`.
-- **Branch:** `cursor/enter-wall-perspective-796f`.
+- **Request:** Align desktop ENTER hero copy to architectural wall angle via single perspective plane.
+- **Outcome:** User rejected result ("looks weird") — **reverted** on `cursor/enter-wall-perspective-796f`. Removed `.site00-enter-welcome__plane`, `EnterWallPerspectiveCalibrator`, `enter-wall-perspective.ts`, and all perspective/skew CSS. Hero copy restored to flat `translate(-240px, -120px)` desktop layout.
+- **Branch:** `cursor/enter-wall-perspective-796f` (PR #91 updated to revert).
 
