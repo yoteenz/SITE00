@@ -151,17 +151,3 @@ export function resolveDirectoryEntryHref(
   }
   return entry.href;
 }
-
-export type Site00MobileNavId = 'origin' | 'locations' | 'build';
-
-export const SITE00_MOBILE_NAV: {
-  id: Site00MobileNavId;
-  topLabel: string;
-  bottomLabel: string;
-  href: string;
-  icon?: 'locations-target';
-}[] = [
-  { id: 'origin', topLabel: '00', bottomLabel: 'ORIGIN', href: SITE00_ROUTES.originAlias },
-  { id: 'locations', topLabel: '', bottomLabel: 'LOCATIONS', href: SITE00_ROUTES.locations, icon: 'locations-target' },
-  { id: 'build', topLabel: 'START', bottomLabel: 'BUILD', href: SITE00_ROUTES.bldr },
-];

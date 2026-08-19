@@ -34,7 +34,7 @@ function IdntySignedOutGateway() {
   const createHref = `/sign-in?returnTo=${encodeURIComponent(SITE00_ROUTES.control)}`;
 
   return (
-    <Site00PublicShell mobileActiveNav="origin">
+    <Site00PublicShell>
       <div className="site00-page site00-page--idnty-gateway">
         <div className="site00-idnty-gateway__hero">
           <PageIntro

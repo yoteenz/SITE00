@@ -6,7 +6,7 @@ import { EcosystemPageHeader } from './EcosystemPageHeader';
 import { Site00EcosystemMobileShell } from '../mobile/Site00EcosystemMobileShell';
 import { OperatingWorldTopNav } from './OperatingWorldTopNav';
 import { OperatingWorldStatusRail } from './OperatingWorldStatusRail';
-import { ecosystemNavIdFromPath, ecosystemPageMeta } from '../../config/ecosystem-nav';
+import { ecosystemPageMeta } from '../../config/ecosystem-nav';
 
 type EcosystemShellProps = {
   children: ReactNode;
@@ -24,7 +24,6 @@ const ecosystemBgUrl = resolveSite00PublicAsset(SITE00_CTRL_ROOM_DESKTOP_BG_FILE
 export function EcosystemShell({ children, title, subtitle, headerActions }: EcosystemShellProps) {
   const { pathname } = useLocation();
   const meta = ecosystemPageMeta(pathname);
-  const activeNav = ecosystemNavIdFromPath(pathname);
   const pageTitle = title ?? meta.title;
   const pageSubtitle = subtitle ?? meta.subtitle;
 
@@ -57,7 +56,7 @@ export function EcosystemShell({ children, title, subtitle, headerActions }: Eco
       </div>
 
       <div className="site00-ecosystem-shell__mobile">
-        <Site00EcosystemMobileShell activeNav={activeNav} shellClassName="site00-ecosystem-mobile-shell">
+        <Site00EcosystemMobileShell shellClassName="site00-ecosystem-mobile-shell">
           <EcosystemPageHeader title={pageTitle} subtitle={pageSubtitle} actions={headerActions} />
           <div className="site00-ecosystem-mobile__content">{children}</div>
         </Site00EcosystemMobileShell>

@@ -231,7 +231,10 @@
   overflow: hidden;
 }
 
-.site00-mobile-artboard .site00-enter-page .site00-ui-layer {
-  height: 100%;
-  min-height: 0;
+/** Pin bottom nav to artboard stage in laptop Mobile preview. */
+.site00-mobile-artboard .site00-mobile-nav {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }

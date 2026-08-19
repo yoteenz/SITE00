@@ -15,7 +15,7 @@ const capabilityGroups = getCapabilitiesByCategory('evolve');
 
 export default function EvolveHubPage() {
   return (
-    <Site00PublicShell mobileActiveNav="origin">
+    <Site00PublicShell>
       <div className="site00-page site00-page--evolve-hub">
         <PageIntro
           title={<BracketHeading>EVOLVE</BracketHeading>}
