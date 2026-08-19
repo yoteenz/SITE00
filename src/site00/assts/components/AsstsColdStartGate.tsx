@@ -5,7 +5,7 @@ import { acquireLoadingScreenDocumentLock } from '../../../platform-stabilizatio
 import { ASSTS_IMMERSIVE_LOADER_CONFIG } from '../../components/loader/site00LoaderConfig';
 import { resolveSite00LoaderBackgroundUrl, resolveSite00LoaderMediaPresentation } from '../../components/loader/site00LoaderMedia';
 import { Site00ImmersiveLoader, type Site00ImmersiveLoaderPhase } from '../../components/loader/Site00ImmersiveLoader';
-import { initSite00ImmersiveLoaderBoot, teardownSite00ImmersiveBootShell } from '../../components/loader/site00LoaderBoot';
+import { initSite00ImmersiveLoaderBoot, releaseSite00ImmersiveBootRoot, teardownSite00ImmersiveBootShell, waitForLoaderExitPaint } from '../../components/loader/site00LoaderBoot';
 import { resolveSite00LoaderGeometryPreloadUrl } from '../../components/loader/site00LoaderBootstrap';
 import {
   preloadSite00LoaderAnimation,
@@ -62,6 +62,7 @@ export function AsstsColdStartGate() {
   const immersive = shouldShowSite00ImmersiveLoader();
   const [phase, setPhase] = useState<Site00ImmersiveLoaderPhase>(immersive ? 'loading' : 'exiting');
   const [revealed, setRevealed] = useState(!immersive);
+  const [pageUnderlayReady, setPageUnderlayReady] = useState(!immersive);
   const geometryReadyAt = useRef<number | null>(null);
   const geometryReadyRef = useRef(false);
   const config = ASSTS_IMMERSIVE_LOADER_CONFIG;
@@ -143,6 +144,11 @@ export function AsstsColdStartGate() {
         await sleep(COMPLETE_HOLD_MS);
         if (cancelled) return;
 
+        releaseSite00ImmersiveBootRoot();
+        setPageUnderlayReady(true);
+        await waitForLoaderExitPaint();
+        if (cancelled) return;
+
         setPhase('exiting');
       } catch {
         if (cancelled) return;
@@ -150,6 +156,10 @@ export function AsstsColdStartGate() {
         forceComplete();
         setPhase('complete-hold');
         await sleep(COMPLETE_HOLD_MS);
+        if (cancelled) return;
+        releaseSite00ImmersiveBootRoot();
+        setPageUnderlayReady(true);
+        await waitForLoaderExitPaint();
         if (cancelled) return;
         setPhase('exiting');
       }
@@ -176,23 +186,40 @@ export function AsstsColdStartGate() {
     );
   }
 
-  const overlay = (
+  const underlay = pageUnderlayReady ? (
     <>
       <Site00TypographyBootstrap />
-      <Site00ImmersiveLoader
-        config={config}
-        progress={progress}
-        smoothProgress={smoothProgress}
-        stageSubtitle={stageSubtitle}
-        loaderState={loaderState}
-        isComplete={isComplete}
-        phase={phase}
-        onAnimationReady={handleAnimationReady}
-        onExitComplete={handleExitComplete}
-      />
+      <Outlet />
     </>
+  ) : null;
+
+  const overlay = (
+    <Site00ImmersiveLoader
+      config={config}
+      progress={progress}
+      smoothProgress={smoothProgress}
+      stageSubtitle={stageSubtitle}
+      loaderState={loaderState}
+      isComplete={isComplete}
+      phase={phase}
+      onAnimationReady={handleAnimationReady}
+      onExitComplete={handleExitComplete}
+    />
   );
 
-  if (typeof document === 'undefined') return overlay;
-  return createPortal(overlay, document.body);
+  if (typeof document === 'undefined') {
+    return (
+      <>
+        {underlay}
+        {overlay}
+      </>
+    );
+  }
+
+  return (
+    <>
+      {underlay}
+      {createPortal(overlay, document.body)}
+    </>
+  );
 }

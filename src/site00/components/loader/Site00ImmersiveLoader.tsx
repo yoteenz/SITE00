@@ -5,7 +5,7 @@ import {
   isLoaderDebugEnabled,
   isLoaderMediaDebugEnabled,
 } from './site00LoaderHeroStage';
-import { teardownSite00AsstsBootShell } from './site00LoaderBoot';
+import { stripSite00BootShellBackground } from './site00LoaderBoot';
 import { ImmersiveLoaderMedia } from './ImmersiveLoaderMedia';
 import { LoaderCopyRegions } from './LoaderCopyRegions';
 import { LoaderCompositionProvider } from './LoaderCompositionContext';
@@ -116,11 +116,8 @@ function ImmersiveLoaderBody({
 
   const handleBootHandoff = useCallback(() => {
     loaderLifecycleLog('BACKGROUND_LOADED');
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        teardownSite00AsstsBootShell();
-      });
-    });
+    // Hand off boot layer 1 → React static only. Do not release #root until loader exit.
+    stripSite00BootShellBackground();
   }, []);
 
   useEffect(() => {

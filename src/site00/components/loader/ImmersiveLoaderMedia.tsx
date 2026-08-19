@@ -1,4 +1,5 @@
 import { memo, useCallback, useState } from 'react';
+import { stripSite00BootShellBackground } from './site00LoaderBoot';
 import { Site00LoaderAnimation } from './Site00LoaderAnimation';
 import { Site00LoaderEnvironment, type Site00LoaderEnvironmentFit } from './Site00LoaderEnvironment';
 import type { LoaderPresentation } from './loader-composition-resolver';
@@ -35,6 +36,7 @@ export const ImmersiveLoaderMedia = memo(function ImmersiveLoaderMedia({
   const [staticBackgroundStripped, setStaticBackgroundStripped] = useState(false);
 
   const handleAnimationPlaying = useCallback(() => {
+    stripSite00BootShellBackground();
     setStaticBackgroundStripped(true);
   }, []);
 

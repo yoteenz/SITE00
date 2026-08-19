@@ -1121,14 +1121,18 @@
 }
 
 .site00-immersive-loader--exiting {
-  opacity: 0;
   pointer-events: none;
 }
 
-.site00-immersive-loader--exiting .site00-loader-animation-layer,
 .site00-immersive-loader--exiting .site00-loader-copy-region {
   opacity: 0;
   transition: opacity 0.52s ease;
+}
+
+/* Media (MP4) stays visible until portal unmount — copy fades first, page paints under. */
+.site00-immersive-loader--exiting .site00-immersive-loader__media,
+.site00-immersive-loader--exiting .site00-loader-animation-layer {
+  opacity: 1;
 }
 
 .site00-immersive-loader--complete .site00-loader-copy__fill {

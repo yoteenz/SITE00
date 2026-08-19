@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { useLocation } from 'react-router-dom';
 import { acquireLoadingScreenDocumentLock } from '../../../platform-stabilization/loadingScreenLock';
 import { Site00ImmersiveLoader, type Site00ImmersiveLoaderPhase } from './Site00ImmersiveLoader';
-import { initSite00ImmersiveLoaderBoot, teardownSite00ImmersiveBootShell } from './site00LoaderBoot';
+import { initSite00ImmersiveLoaderBoot, releaseSite00ImmersiveBootRoot, teardownSite00ImmersiveBootShell, waitForLoaderExitPaint } from './site00LoaderBoot';
 import { resolveSite00ImmersiveLoaderConfig } from './site00LoaderConfig';
 import { preloadSite00LoaderAnimation, preloadSite00LoaderBackground } from './site00LoaderPreload';
 import { resolveSite00LoaderGeometryPreloadUrl } from './site00LoaderBootstrap';
@@ -38,6 +38,7 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
   const immersive = !skipForRoute && shouldShowSite00ImmersiveLoader();
   const [phase, setPhase] = useState<Site00ImmersiveLoaderPhase>(immersive ? 'loading' : 'exiting');
   const [revealed, setRevealed] = useState(!immersive);
+  const [pageUnderlayReady, setPageUnderlayReady] = useState(!immersive);
   const geometryReadyAt = useRef<number | null>(null);
   const geometryReadyRef = useRef(false);
   const config = resolveSite00ImmersiveLoaderConfig(pathname);
@@ -110,6 +111,11 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
         await sleep(COMPLETE_HOLD_MS);
         if (cancelled) return;
 
+        releaseSite00ImmersiveBootRoot();
+        setPageUnderlayReady(true);
+        await waitForLoaderExitPaint();
+        if (cancelled) return;
+
         setPhase('exiting');
       } catch (err) {
         loaderLifecycleLog('ROUTE_COMPLETE', { error: err });
@@ -118,6 +124,10 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
         forceComplete();
         setPhase('complete-hold');
         await sleep(COMPLETE_HOLD_MS);
+        if (cancelled) return;
+        releaseSite00ImmersiveBootRoot();
+        setPageUnderlayReady(true);
+        await waitForLoaderExitPaint();
         if (cancelled) return;
         setPhase('exiting');
       }
@@ -137,22 +147,44 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
 
   if (revealed) return <>{children}</>;
 
-  const overlay = (
-    <Site00ImmersiveLoader
-      config={config}
-      progress={progress}
-      smoothProgress={smoothProgress}
-      stageSubtitle={stageSubtitle}
-      loaderState={loaderState}
-      isComplete={isComplete}
-      phase={phase}
-      onAnimationReady={handleAnimationReady}
-      onExitComplete={handleExitComplete}
-    />
-  );
+  if (typeof document === 'undefined') {
+    return (
+      <>
+        {pageUnderlayReady ? children : null}
+        <Site00ImmersiveLoader
+          config={config}
+          progress={progress}
+          smoothProgress={smoothProgress}
+          stageSubtitle={stageSubtitle}
+          loaderState={loaderState}
+          isComplete={isComplete}
+          phase={phase}
+          onAnimationReady={handleAnimationReady}
+          onExitComplete={handleExitComplete}
+        />
+      </>
+    );
+  }
 
-  if (typeof document === 'undefined') return overlay;
-  return createPortal(overlay, document.body);
+  return (
+    <>
+      {pageUnderlayReady ? children : null}
+      {createPortal(
+        <Site00ImmersiveLoader
+          config={config}
+          progress={progress}
+          smoothProgress={smoothProgress}
+          stageSubtitle={stageSubtitle}
+          loaderState={loaderState}
+          isComplete={isComplete}
+          phase={phase}
+          onAnimationReady={handleAnimationReady}
+          onExitComplete={handleExitComplete}
+        />,
+        document.body,
+      )}
+    </>
+  );
 }
 
 function sleep(ms: number): Promise<void> {
