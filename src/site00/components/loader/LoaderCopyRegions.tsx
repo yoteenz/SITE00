@@ -42,7 +42,7 @@ export function LoaderCopyRegions({
         <p className="site00-loader-copy__subtitle">{subtitle}</p>
       </LoaderRegion>
 
-      <LoaderRegion id="copy.status" className="site00-loader-copy-region site00-loader-copy-region--status">
+      <LoaderRegion id="copy.status" className="site00-loader-copy-region site00-loader-copy-region--status" allowOverflow>
         <LoaderAssemblingStatus active={assemblingActive} label={progressLabel} />
       </LoaderRegion>
 
