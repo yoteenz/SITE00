@@ -1,6 +1,7 @@
 /** Boot-critical loader media — versioned paths + approved Supabase production assets. */
 
 import { getSite00OriginWideViewportSnapshot } from '../shell/site00OriginViewport';
+import { SITE00_LOADER_MEDIA_FOCAL } from '../../config/desktop-environment-presentation';
 
 export const SITE00_LOADER_ASSET_VERSION = 'v1';
 
@@ -51,6 +52,25 @@ export function resolveSite00LoaderBackgroundUrl(presentation: 'mobile' | 'deskt
 export function resolveSite00LoaderMediaPresentation(): 'mobile' | 'desktop' {
   if (typeof window === 'undefined') return 'mobile';
   return getSite00OriginWideViewportSnapshot() ? 'desktop' : 'mobile';
+}
+
+/** Static background cover anchor — tuned down to match animation framing. */
+export function resolveSite00LoaderBackgroundFocal(presentation: 'mobile' | 'desktop'): string {
+  return presentation === 'desktop'
+    ? SITE00_LOADER_MEDIA_FOCAL.background.desktop
+    : SITE00_LOADER_MEDIA_FOCAL.background.mobile;
+}
+
+/** Animation cover anchor — locked center; bg layer is pre-shifted to meet it. */
+export function resolveSite00LoaderAnimationFocal(presentation: 'mobile' | 'desktop'): string {
+  return presentation === 'desktop'
+    ? SITE00_LOADER_MEDIA_FOCAL.animation.desktop
+    : SITE00_LOADER_MEDIA_FOCAL.animation.mobile;
+}
+
+/** @deprecated Use resolveSite00LoaderBackgroundFocal / resolveSite00LoaderAnimationFocal */
+export function resolveSite00LoaderMediaFocal(presentation: 'mobile' | 'desktop'): string {
+  return resolveSite00LoaderBackgroundFocal(presentation);
 }
 
 /** Reference map for artboard overlay test — falls back to approved background. */

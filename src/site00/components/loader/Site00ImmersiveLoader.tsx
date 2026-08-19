@@ -15,7 +15,7 @@ import { loaderLifecycleLog } from './loaderLifecycleLog';
 import { Site00LoaderAnimation } from './Site00LoaderAnimation';
 import { Site00LoaderEnvironment } from './Site00LoaderEnvironment';
 import type { LoaderPresentation } from './loader-composition-resolver';
-import { resolveSite00LoaderBackgroundUrl } from './site00LoaderMedia';
+import { resolveSite00LoaderBackgroundUrl, resolveSite00LoaderBackgroundFocal, resolveSite00LoaderAnimationFocal } from './site00LoaderMedia';
 import { preloadSite00LoaderBackground } from './site00LoaderPreload';
 import { useLoaderMediaPresentation } from './useLoaderMediaPresentation';
 import { useLoaderPresentation } from './useLoaderPresentation';
@@ -53,6 +53,8 @@ type ImmersiveLoaderBodyProps = Site00ImmersiveLoaderProps & {
   uiPresentation: LoaderPresentation;
   mediaPresentation: LoaderPresentation;
   backgroundUrl: string;
+  backgroundFocal: string;
+  animationFocal: string;
 };
 
 /** Shared loader body — one progress state, presentation-specific composition + background. */
@@ -71,6 +73,8 @@ function ImmersiveLoaderBody({
   uiPresentation,
   mediaPresentation,
   backgroundUrl,
+  backgroundFocal,
+  animationFocal,
 }: ImmersiveLoaderBodyProps) {
   const systemReducedMotion = usePrefersReducedMotion();
   const reducedMotion = reducedMotionProp ?? systemReducedMotion;
@@ -141,17 +145,26 @@ function ImmersiveLoaderBody({
 
   return (
     <div className={rootClass} role="status" aria-live="polite" aria-label={progressLabel}>
-      <div className="site00-immersive-loader__media" aria-hidden="true">
+      <div
+        className="site00-immersive-loader__media"
+        aria-hidden="true"
+        style={{
+          ['--site00-loader-bg-focal' as string]: backgroundFocal,
+          ['--site00-loader-animation-focal' as string]: animationFocal,
+        }}
+      >
         <Site00LoaderEnvironment
           backgroundUrl={backgroundUrl}
           viewport
           fit={envFit}
+          mediaFocal={backgroundFocal}
           onBackgroundLoad={handleBootHandoff}
         />
 
         {animationEnabled ? (
           <Site00LoaderAnimation
             mediaPresentation={mediaPresentation}
+            mediaFocal={animationFocal}
             reducedMotion={reducedMotion}
             onReady={handleAnimationReady}
             onError={handleAnimationError}
@@ -203,6 +216,8 @@ export function Site00ImmersiveLoader(props: Site00ImmersiveLoaderProps) {
   const uiPresentation = useLoaderPresentation(props.config.id);
   const mediaPresentation = useLoaderMediaPresentation();
   const backgroundUrl = resolveSite00LoaderBackgroundUrl(mediaPresentation);
+  const backgroundFocal = resolveSite00LoaderBackgroundFocal(mediaPresentation);
+  const animationFocal = resolveSite00LoaderAnimationFocal(mediaPresentation);
 
   return (
     <ImmersiveLoaderBody
@@ -210,6 +225,8 @@ export function Site00ImmersiveLoader(props: Site00ImmersiveLoaderProps) {
       uiPresentation={uiPresentation}
       mediaPresentation={mediaPresentation}
       backgroundUrl={backgroundUrl}
+      backgroundFocal={backgroundFocal}
+      animationFocal={animationFocal}
     />
   );
 }
