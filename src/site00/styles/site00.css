@@ -995,7 +995,7 @@ html[data-site00-preview-desktop='1'] .site00-enter-page.site00-shell {
     background-position: var(--site00-env-desktop-position, center center);
   }
 
-  /** ENTER 00 only — focal from inline style (useSite00EnterDesktopFocal); fallback 75%. */
+  /** ENTER 00 only — focal inline on viewport bg element; fallback 75%. */
   .site00-enter-artboard-viewport-bg,
   .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'],
   .site00-enter-page .site00-env-layer--has-desktop-asset {
