@@ -573,7 +573,9 @@
 
 .site00-loader-copy__eyebrow {
   margin: 0;
-  font-size: calc(var(--site00-size-label) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px));
+  font-size: calc(
+    var(--site00-size-label) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) + 4px
+  );
   font-weight: var(--site00-weight-label);
   letter-spacing: var(--site00-tracking-label);
   line-height: var(--site00-lh-label);
@@ -582,8 +584,10 @@
 
 .site00-loader-copy__title {
   margin: calc(var(--site00-stack-sm) / var(--loader-scale, 1)) 0 0;
-  font-size: calc(var(--site00-size-display-lg) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px));
-  font-weight: var(--site00-weight-display);
+  font-size: calc(
+    var(--site00-size-display-lg) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) + 2px
+  );
+  font-weight: var(--site00-weight-heading);
   font-stretch: var(--site00-font-stretch-display);
   letter-spacing: var(--site00-tracking-display);
   line-height: var(--site00-lh-display-tight);
@@ -593,7 +597,9 @@
 
 .site00-loader-copy__subtitle {
   margin: calc(var(--site00-stack-md) / var(--loader-scale, 1)) 0 0;
-  font-size: calc(var(--site00-size-body) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px));
+  font-size: calc(
+    var(--site00-size-body) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) + 4px
+  );
   font-weight: var(--site00-weight-body);
   letter-spacing: var(--site00-tracking-body);
   line-height: var(--site00-lh-body);
