@@ -14,6 +14,7 @@ import {
   shouldShowSite00ImmersiveLoader,
 } from './site00LoaderSession';
 import { isSite00LoaderPreviewPath, isSite00SignInPath } from './site00LoaderPaths';
+import { runLoaderStageTimeline, waitForLoaderAnimationStart } from './loaderProgressTimeline';
 import { useSite00LoaderProgress } from './useSite00LoaderProgress';
 
 const COMPLETE_HOLD_MS = 680;
@@ -36,7 +37,6 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
   const immersive = !skipForRoute && shouldShowSite00ImmersiveLoader();
   const [phase, setPhase] = useState<Site00ImmersiveLoaderPhase>(immersive ? 'loading' : 'exiting');
   const [revealed, setRevealed] = useState(!immersive);
-  const startedAt = useRef(Date.now());
   const geometryReadyAt = useRef<number | null>(null);
   const geometryReadyRef = useRef(false);
   const config = resolveSite00ImmersiveLoaderConfig(pathname);
@@ -68,35 +68,27 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
 
     async function bootstrap() {
       try {
-        completeStage('bootstrap');
         void preloadSite00LoaderBackground(
           resolveSite00LoaderBackgroundUrl(resolveSite00LoaderMediaPresentation()),
         );
         if (cancelled) return;
-        completeStage('preparing');
 
         const geometryUrl = await resolveSite00LoaderGeometryPreloadUrl();
         void preloadSite00LoaderAnimation(geometryUrl);
         if (cancelled) return;
-        completeStage('assemble');
 
-        const geometryWaitStart = Date.now();
-        while (!geometryReadyRef.current && Date.now() - geometryWaitStart < 8000) {
-          if (cancelled) return;
-          await sleep(50);
-        }
-
-        const geometryStartedAt = geometryReadyAt.current ?? Date.now();
-        const geometryElapsed = Date.now() - geometryStartedAt;
-        if (geometryElapsed < MIN_GEOMETRY_PLAY_MS) {
-          await sleep(MIN_GEOMETRY_PLAY_MS - geometryElapsed);
-        }
+        await waitForLoaderAnimationStart(() => geometryReadyRef.current);
         if (cancelled) return;
 
-        const elapsed = Date.now() - startedAt.current;
-        if (elapsed < MIN_CINEMATIC_MS) {
-          await sleep(MIN_CINEMATIC_MS - elapsed);
-        }
+        const animationStartedAt = geometryReadyAt.current ?? Date.now();
+        await runLoaderStageTimeline({
+          stageIds: ['bootstrap', 'preparing', 'connect', 'assemble'],
+          completeStage,
+          animationStartedAt,
+          minGeometryPlayMs: MIN_GEOMETRY_PLAY_MS,
+          minCinematicMs: MIN_CINEMATIC_MS,
+          isCancelled: () => cancelled,
+        });
         if (cancelled) return;
 
         completeStage('ready');

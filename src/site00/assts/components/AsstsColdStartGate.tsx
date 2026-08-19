@@ -16,6 +16,7 @@ import {
   shouldShowSite00ImmersiveLoader,
 } from '../../components/loader/site00LoaderSession';
 import { useSite00LoaderProgress } from '../../components/loader/useSite00LoaderProgress';
+import { runLoaderStageTimeline, waitForLoaderAnimationStart } from '../../components/loader/loaderProgressTimeline';
 import { Site00TypographyBootstrap } from '../../components/Site00TypographyBootstrap';
 import { ASSTS_ENVIRONMENT_SLOTS } from '../config/slots';
 import { fetchAsstsLibrary, primeAsstsLibraryCache, resolveAsstsSlot } from '../services/asstsApi';
@@ -29,22 +30,7 @@ const MIN_GEOMETRY_PLAY_MS = 2800;
 initSite00ImmersiveLoaderBoot();
 
 function waitForGeometryReady(getReady: () => boolean, timeoutMs = 8000): Promise<void> {
-  if (getReady()) return Promise.resolve();
-  return new Promise((resolve) => {
-    const started = Date.now();
-    const tick = () => {
-      if (getReady()) {
-        resolve();
-        return;
-      }
-      if (Date.now() - started >= timeoutMs) {
-        resolve();
-        return;
-      }
-      window.requestAnimationFrame(tick);
-    };
-    window.requestAnimationFrame(tick);
-  });
+  return waitForLoaderAnimationStart(getReady, timeoutMs);
 }
 
 function sleep(ms: number): Promise<void> {
@@ -75,7 +61,6 @@ export function AsstsColdStartGate() {
   const immersive = shouldShowSite00ImmersiveLoader();
   const [phase, setPhase] = useState<Site00ImmersiveLoaderPhase>(immersive ? 'loading' : 'exiting');
   const [revealed, setRevealed] = useState(!immersive);
-  const startedAt = useRef(Date.now());
   const geometryReadyAt = useRef<number | null>(null);
   const geometryReadyRef = useRef(false);
   const config = ASSTS_IMMERSIVE_LOADER_CONFIG;
@@ -106,20 +91,15 @@ export function AsstsColdStartGate() {
 
     async function bootstrap() {
       try {
-        completeStage('bootstrap');
-
         void import('../pages/LibraryPage');
 
         await preloadSite00LoaderBackground(
           resolveSite00LoaderBackgroundUrl(resolveSite00LoaderMediaPresentation()),
         );
         if (cancelled) return;
-        completeStage('preparing');
 
         const geometryUrl = await resolveSite00LoaderGeometryPreloadUrl();
         const geometryPromise = preloadSite00LoaderAnimation(geometryUrl);
-
-        completeStage('connect');
 
         const libraryPromise = withTimeout(fetchAsstsLibrary(), BOOTSTRAP_API_TIMEOUT_MS, 'library').catch(
           () => null,
@@ -133,26 +113,22 @@ export function AsstsColdStartGate() {
         const [library] = await Promise.all([libraryPromise, slotPromise]);
         if (cancelled) return;
         if (library) primeAsstsLibraryCache(library);
-        completeStage('resolve');
 
         await geometryPromise;
         if (cancelled) return;
-        completeStage('assemble');
 
         await waitForGeometryReady(() => geometryReadyRef.current);
         if (cancelled) return;
 
-        const geometryStartedAt = geometryReadyAt.current ?? Date.now();
-        const geometryElapsed = Date.now() - geometryStartedAt;
-        if (geometryElapsed < MIN_GEOMETRY_PLAY_MS) {
-          await sleep(MIN_GEOMETRY_PLAY_MS - geometryElapsed);
-        }
-        if (cancelled) return;
-
-        const elapsed = Date.now() - startedAt.current;
-        if (elapsed < MIN_CINEMATIC_MS) {
-          await sleep(MIN_CINEMATIC_MS - elapsed);
-        }
+        const animationStartedAt = geometryReadyAt.current ?? Date.now();
+        await runLoaderStageTimeline({
+          stageIds: ['bootstrap', 'preparing', 'connect', 'resolve', 'assemble'],
+          completeStage,
+          animationStartedAt,
+          minGeometryPlayMs: MIN_GEOMETRY_PLAY_MS,
+          minCinematicMs: MIN_CINEMATIC_MS,
+          isCancelled: () => cancelled,
+        });
         if (cancelled) return;
 
         completeStage('ready');

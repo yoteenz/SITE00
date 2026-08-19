@@ -22,8 +22,8 @@ export function Site00ImmersiveColdStartFallback() {
   const overlay = (
     <Site00ImmersiveLoader
       config={config}
-      progress={config.stages[0]?.progress ?? 8}
-      statusLabel={config.stages[0]?.label ?? 'INITIALIZING SITE 00'}
+      progress={0}
+      statusLabel=""
       loaderState="BOOTSTRAP"
     />
   );

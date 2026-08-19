@@ -504,6 +504,18 @@
   pointer-events: auto;
 }
 
+/* Copy hidden until environment animation begins playback. */
+.site00-immersive-loader:not(.site00-immersive-loader--copy-active) .site00-loader-copy-region {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.site00-immersive-loader--copy-active .site00-loader-copy-region {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.32s ease;
+}
+
 /* Copy regions — center-aligned on x ≈ 356 axis */
 .site00-loader-copy-region {
   z-index: 3;
