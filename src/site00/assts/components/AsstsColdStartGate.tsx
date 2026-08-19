@@ -65,7 +65,7 @@ export function AsstsColdStartGate() {
   const geometryReadyAt = useRef<number | null>(null);
   const geometryReadyRef = useRef(false);
   const config = ASSTS_IMMERSIVE_LOADER_CONFIG;
-  const { progress, statusLabel, loaderState, isComplete, completeStage, forceComplete } = useSite00LoaderProgress(
+  const { progress, stageSubtitle, loaderState, isComplete, completeStage, forceComplete } = useSite00LoaderProgress(
     config.stages,
     config.completionMessage,
   );
@@ -182,7 +182,7 @@ export function AsstsColdStartGate() {
       <Site00ImmersiveLoader
         config={config}
         progress={progress}
-        statusLabel={statusLabel}
+        stageSubtitle={stageSubtitle}
         loaderState={loaderState}
         isComplete={isComplete}
         phase={phase}

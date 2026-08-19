@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { acquireLoadingScreenDocumentLock } from '../../platform-stabilization/loadingScreenLock';
 import { Site00ImmersiveLoader, type Site00ImmersiveLoaderPhase } from '../components/loader/Site00ImmersiveLoader';
 import { initSite00ImmersiveLoaderBoot, teardownSite00ImmersiveBootShell } from '../components/loader/site00LoaderBoot';
-import { SITE00_WORLD_IMMERSIVE_LOADER_CONFIG } from '../components/loader/site00LoaderConfig';
+import { resolveSite00ImmersiveLoaderConfig } from '../components/loader/site00LoaderConfig';
 
 function clampProgress(value: number): number {
   if (!Number.isFinite(value)) return 62;
@@ -12,16 +12,21 @@ function clampProgress(value: number): number {
 
 /**
  * Isolated loader surface — stays mounted so typography and animation can be inspected.
- * Query params: ?progress=62&complete=1&loaderDebug=1
+ * Query params: ?progress=62&complete=1&loaderDebug=1&route=/assts
  */
 export default function LoaderPreviewPage() {
   const [params] = useSearchParams();
-  const config = SITE00_WORLD_IMMERSIVE_LOADER_CONFIG;
+  const route = params.get('route') ?? '/';
+  const config = useMemo(() => resolveSite00ImmersiveLoaderConfig(route), [route]);
 
   const progress = useMemo(() => clampProgress(Number(params.get('progress') ?? '62')), [params]);
   const isComplete = params.get('complete') === '1' || progress >= 100;
   const phase: Site00ImmersiveLoaderPhase = isComplete ? 'complete-hold' : 'loading';
-  const statusLabel = isComplete ? config.completionMessage : config.assemblingLabel;
+  const stageSubtitle = useMemo(() => {
+    if (isComplete) return config.stages[config.stages.length - 1]?.subtitle ?? '';
+    const stage = [...config.stages].reverse().find((s) => progress >= s.progress);
+    return stage?.subtitle ?? config.stages[0]?.subtitle ?? '';
+  }, [config.stages, isComplete, progress]);
 
   useEffect(() => {
     initSite00ImmersiveLoaderBoot();
@@ -38,7 +43,7 @@ export default function LoaderPreviewPage() {
     <Site00ImmersiveLoader
       config={config}
       progress={progress}
-      statusLabel={statusLabel}
+      stageSubtitle={stageSubtitle}
       loaderState={isComplete ? 'READY' : 'ASSEMBLING'}
       isComplete={isComplete}
       phase={phase}

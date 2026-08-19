@@ -26,7 +26,8 @@ export type Site00ImmersiveLoaderPhase = 'loading' | 'complete-hold' | 'exiting'
 type Site00ImmersiveLoaderProps = {
   config: Site00ImmersiveLoaderConfig;
   progress: number;
-  statusLabel: string;
+  /** Gray subtitle — stage-driven mock work copy. */
+  stageSubtitle?: string;
   loaderState?: Site00LoaderState;
   isComplete?: boolean;
   phase?: Site00ImmersiveLoaderPhase;
@@ -63,7 +64,7 @@ type ImmersiveLoaderBodyProps = Site00ImmersiveLoaderProps & {
 function ImmersiveLoaderBody({
   config,
   progress,
-  statusLabel: _statusLabel,
+  stageSubtitle,
   loaderState: _loaderState = 'BOOTSTRAP',
   isComplete = false,
   phase = 'loading',
@@ -148,6 +149,9 @@ function ImmersiveLoaderBody({
   const atComplete = isComplete || phase === 'complete-hold' || progress >= 100;
   const progressLabel = error ? 'RETRY REQUIRED' : atComplete ? config.completionMessage : config.assemblingLabel;
   const displayProgress = copyActive ? progress : 0;
+  const displaySubtitle = error
+    ? "WE COULDN'T COMPLETE THIS STEP"
+    : stageSubtitle || config.experienceSubtitle;
 
   const rootClass = [
     'site00-immersive-loader',
@@ -203,7 +207,7 @@ function ImmersiveLoaderBody({
         <LoaderCopyRegions
           siteLabel={config.siteLabel}
           title={error ? 'BUILD INTERRUPTED' : config.experienceTitle}
-          subtitle={error ? "WE COULDN'T COMPLETE THIS STEP" : config.experienceSubtitle}
+          subtitle={displaySubtitle}
           tagline={config.tagline}
           footerMark={config.footerMark}
           footerLabel={config.footerLabel}
