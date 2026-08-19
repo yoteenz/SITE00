@@ -34,9 +34,13 @@ export function useSite00LoaderProgress(
       const stage = stageMap.get(stageId);
       if (!stage || completedRef.current.has(stageId)) return;
       completedRef.current.add(stageId);
-      applyProgress(stage.progress, stage.subtitle, stage.state);
+      const stageIndex = stages.findIndex((s) => s.id === stageId);
+      const nextStage = stageIndex >= 0 ? stages[stageIndex + 1] : undefined;
+      const subtitle = nextStage?.subtitle ?? stage.subtitle;
+      const state = nextStage?.state ?? stage.state;
+      applyProgress(stage.progress, subtitle, state);
     },
-    [applyProgress, stageMap],
+    [applyProgress, stageMap, stages],
   );
 
   const setProgressFloor = useCallback(
