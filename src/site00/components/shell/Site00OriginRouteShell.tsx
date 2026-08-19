@@ -12,7 +12,7 @@ type Site00OriginRouteShellProps = {
 
 /**
  * Origin responsive shell — desktop presentation from shared preview mode.
- * Phone + Mobile → native full-width; laptop + Mobile → scaled 390×844 phone preview.
+ * Phone + Mobile → native full-width; laptop + Mobile → centered phone device frame.
  */
 export function Site00OriginRouteShell({ children, forceArtboard = false }: Site00OriginRouteShellProps) {
   const { isPreviewDesktop } = useSite00();

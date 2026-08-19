@@ -4,7 +4,7 @@ export type Site00MobilePresentationMode = 'none' | 'scaled';
  * Resolve how mobile preview should render on Composer routes.
  *
  * - Phone + Mobile → native full-width mobile (actual device)
- * - Laptop + Mobile → scaled 390×844 artboard (true phone preview, not stretched mobile layout)
+ * - Laptop + Mobile → centered phone device frame with 390×844 artboard (true phone preview)
  */
 export function resolveSite00MobilePresentationMode(
   isPreviewDesktop: boolean,
