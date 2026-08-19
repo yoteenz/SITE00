@@ -586,3 +586,10 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Request:** Move 00 PNG asset and red SITE label below it upward in tandem 14px (overlay only).
 - **Fix:** Signature inner `translateY` −26px → **−40px** on `.site00-loader-copy__signature`. PR **#73** merged to `main`.
 
+---
+
+## 2026-08-19 — Loader title −2px + subtitle up 4px (repeat)
+
+- **Request:** Reduce ASSEMBLING ORIGIN text 2px; move CONNECTING TO ORIGIN subtitle up 4px only.
+- **Fix:** Title size offset −10px → **−12px**; subtitle region translate −4px → **−8px**. PR **#74** merged to `main`.
+
