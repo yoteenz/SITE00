@@ -812,3 +812,11 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
   - CSS: 5-column grid, icon slot, artboard-pinned nav in laptop Mobile preview.
 - **Branch:** `cursor/mobile-nav-geometric-icons-796f`.
 
+---
+
+## 2026-08-19 — Origin mobile tagline +4px
+
+- **Request:** Move red “WHERE DIGITAL PLACES BEGIN.” down on Origin mobile (follow-up: 4px total, not 2px).
+- **Fix:** `.site00-origin-page--mobile-layout .site00-home-hero__tagline` `translateY(8px)` (+4px from base 4px).
+- **Branch:** `cursor/origin-mobile-tagline-nudge-2-796f`.
+
