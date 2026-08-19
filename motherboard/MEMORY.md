@@ -812,3 +812,20 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
   - CSS: 5-column grid, icon slot, artboard-pinned nav in laptop Mobile preview.
 - **Branch:** `cursor/mobile-nav-geometric-icons-796f`.
 
+---
+
+## 2026-08-19 — Enter menu: remove trailing row dividers (desktop)
+
+- **Request:** Remove extra gray lines below JOURNAL and SUPPORT on Enter menu desktop page only.
+- **Root cause:** Each `.site00-enter-row` has `border-bottom`; last row in EXPLORE (Journal) and YOUR SPACE (Support) showed redundant rules above the diamond section divider / panel bottom.
+- **Fix:** Desktop-scoped CSS — trailing row dividers removed; section headings +4px below; welcome block positioning + overflow fix; body copy `white-space: nowrap`; menu panel `transform: translate(202px, -48px)`; EXPLORE row numbers red (`--site-red`).
+- **Branch:** `cursor/enter-menu-row-dividers-796f`.
+
+---
+
+## 2026-08-19 — ENTER 00 desktop hero wall perspective plane (reverted)
+
+- **Request:** Align desktop ENTER hero copy to architectural wall angle via single perspective plane.
+- **Outcome:** User rejected result ("looks weird") — **reverted** on `cursor/enter-wall-perspective-796f`. Removed `.site00-enter-welcome__plane`, `EnterWallPerspectiveCalibrator`, `enter-wall-perspective.ts`, and all perspective/skew CSS. Hero copy restored to flat `translate(-240px, -120px)` desktop layout.
+- **Branch:** `cursor/enter-wall-perspective-796f` (PR #91 updated to revert).
+

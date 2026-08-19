@@ -1142,18 +1142,23 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
     height: 100%;
   }
 
+  .site00-enter-page,
+  .site00-enter-page.site00-shell {
+    overflow: visible;
+  }
+
   .site00-enter-page .site00-ui-layer {
     display: flex;
     flex-direction: column;
     height: 100%;
     min-height: 0 !important;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .site00-enter-page main {
     flex: 1;
     min-height: 0;
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1169,8 +1174,14 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
     margin: 0 auto;
   }
 
-  .site00-enter-welcome {
-    transform: translateX(-20px);
+  .site00-enter-page .site00-enter-welcome {
+    transform: translate(-240px, -120px);
+    padding-top: 12px;
+    margin-top: -12px;
+  }
+
+  .site00-enter-page .site00-enter-welcome__body {
+    white-space: nowrap;
   }
 
   .site00-enter-menu {
@@ -1181,7 +1192,7 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
       100dvh - var(--site00-enter-header-offset) - var(--site00-enter-status-strip-height) - 48px
     );
     overflow: hidden;
-    transform: translate(12px, -8px);
+    transform: translate(202px, -48px);
   }
 
   .site00-desktop-artboard .site00-enter-menu {
@@ -1226,6 +1237,15 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
 
   .site00-enter-menu__divider {
     margin: 14px 0;
+  }
+
+  .site00-enter-page .site00-enter-menu__heading {
+    margin-bottom: 16px;
+  }
+
+  /* Last row in each section — no trailing rule before diamond divider / panel bottom. */
+  .site00-enter-page .site00-enter-menu nav .site00-enter-row:last-child {
+    border-bottom: none;
   }
 
   @media (max-height: 800px) {
@@ -1296,6 +1316,10 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
 .site00-enter-row__number {
   flex-shrink: 0;
   color: var(--site-text-muted);
+}
+
+.site00-enter-menu .site00-enter-row__number {
+  color: var(--site-red);
 }
 
 .site00-enter-row__copy {
