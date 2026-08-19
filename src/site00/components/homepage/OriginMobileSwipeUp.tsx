@@ -45,6 +45,11 @@ export function OriginMobileSwipeUp({ transition }: OriginMobileSwipeUpProps) {
         <button type="button" className="site00-origin-mobile-swipe__swipe-btn" onClick={goToLocations}>
           {copy.swipeLabel}
         </button>
+        <div className="site00-origin-mobile-swipe__connector" aria-hidden="true">
+          <span className="site00-origin-mobile-swipe__connector-line" />
+          <span className="site00-origin-mobile-swipe__connector-dot" />
+          <span className="site00-origin-mobile-swipe__connector-line" />
+        </div>
         <ArrowUpIcon />
       </section>
 
