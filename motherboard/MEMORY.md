@@ -812,3 +812,12 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
   - CSS: 5-column grid, icon slot, artboard-pinned nav in laptop Mobile preview.
 - **Branch:** `cursor/mobile-nav-geometric-icons-796f`.
 
+---
+
+## 2026-08-19 — Evolve assessment duplicate icon removal
+
+- **Request:** Remove stacked duplicate path icons at top of all Evolve selection/assessment pages (refine, install, transform).
+- **Cause:** `EvolveAssessmentShell` desktop layout rendered both a desktop intro icon and a mobile-marked icon from a shared `hero` fragment.
+- **Fix:** Split into `EvolveIntroPanel` (desktop, one icon) and `EvolveMobileHero` (mobile, one icon), matching `IdntyAssessmentShell` / `BldrAssessmentShell` pattern.
+- **Branch:** `cursor/evolve-assessment-dedupe-icons-796f`.
+
