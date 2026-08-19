@@ -12,3 +12,4 @@ export { Site00IdntyNavIcon } from './Site00IdntyNavIcon';
 export { Site00LocationsNavIcon } from './Site00LocationsNavIcon';
 export { Site00ProjectsNavIcon } from './Site00ProjectsNavIcon';
 export { Site00CtrlRoomNavIcon } from './Site00CtrlRoomNavIcon';
+export { Site00MobileNavAssetIcon } from './Site00MobileNavAssetIcon';
