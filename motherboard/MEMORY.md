@@ -492,3 +492,10 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Request:** Title/subtitle −2px; title single row; ASSEMBLING uppercase with cycling `...` animation; progress bar up 4px; footer **SITE** only; fix 00 asset top clip.
 - **Fix:** `LoaderAssemblingStatus.tsx`; title nowrap; progress nudge 82px; `footerLabel: SITE`; signature `overflow: visible`, mark img max-height removed. PR **#60**.
 
+---
+
+## 2026-08-19 — Loader top three copy rows down 4px
+
+- **Request:** Move red SITE 00, black title, gray subtitle down 4px in tandem (overlay only).
+- **Fix:** Eyebrow/title nudge 90→94px; subtitle 60→64px. PR **#61**.
+
