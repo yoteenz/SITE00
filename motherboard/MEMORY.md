@@ -812,3 +812,11 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
   - CSS: 5-column grid, icon slot, artboard-pinned nav in laptop Mobile preview.
 - **Branch:** `cursor/mobile-nav-geometric-icons-796f`.
 
+---
+
+## 2026-08-19 — Origin desktop coordinate line +4px
+
+- **Request:** Move “YOU ARE AT 00.00 ORIGIN POINT” down 4px on Origin desktop only.
+- **Fix:** `heroCoordinateOffsetYPx: 4` in `origin-home-composition.ts` (desktop artboard token via `--site00-origin-hero-coordinate-offset-y`).
+- **Branch:** `cursor/origin-coordinate-nudge-down-4-796f`.
+
