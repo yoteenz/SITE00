@@ -559,6 +559,13 @@
   transform: translateY(calc(90px / var(--loader-scale, 1)));
 }
 
+/* Assembling status + progress bar — extra 30px overlay nudge (media unchanged). */
+.site00-immersive-loader .site00-loader-copy-region--status,
+.site00-immersive-loader .site00-loader-copy-region--progress-track,
+.site00-immersive-loader .site00-loader-copy-region--progress-pct {
+  transform: translateY(calc(90px / var(--loader-scale, 1)));
+}
+
 .site00-loader-copy__eyebrow {
   margin: 0;
   font-size: calc(var(--site00-size-label) / var(--loader-scale, 1));
