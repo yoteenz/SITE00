@@ -7,6 +7,7 @@
  * Architecture:
  * - Desktop toggle (phone): scaled 1440×900 artboard, width-fit edge-to-edge
  * - Desktop toggle (laptop/tablet): native full viewport
+ * - Mobile toggle (laptop/tablet): scaled 390×844 phone preview (not stretched mobile layout)
  * - Legacy `/foo/desktop` routes: scaled 1440×900 artboard preview only
  * - Viewport: 100dvh, overflow hidden on environment pages
  * - Bottom chrome: flex-pinned (Origin) or portaled (Enter status strip)

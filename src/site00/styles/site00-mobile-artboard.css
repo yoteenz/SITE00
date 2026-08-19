@@ -1,0 +1,125 @@
+/**
+ * SITE 00 — scaled mobile preview shell (390×844 on laptop Mobile tab).
+ * Re-parents mobile layout `fixed` UI into the artboard stage so scaling matches a real phone.
+ */
+
+.site00-mobile-artboard-shell {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  touch-action: none;
+  background: #f5f5f3;
+}
+
+.site00-mobile-artboard-shell__stage-scaler {
+  position: relative;
+  z-index: 1;
+}
+
+.site00-mobile-artboard {
+  position: relative;
+  overflow: hidden;
+  background: var(--site-bg, #f5f5f3);
+  height: var(--site00-mobile-artboard-height, 844px);
+  min-height: var(--site00-mobile-artboard-height, 844px);
+}
+
+.site00-mobile-artboard .site00-shell {
+  position: relative;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+.site00-mobile-artboard .site00-env-layer {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.site00-mobile-artboard .site00-ui-layer {
+  position: relative;
+  height: 100%;
+  min-height: 100%;
+}
+
+.site00-mobile-artboard .site00-env-layer--has-mobile-asset {
+  background-image: var(--site00-env-mobile-image);
+  background-size: cover;
+  background-position: var(--site00-env-mobile-position, center center);
+  background-repeat: no-repeat;
+  transform: scale(var(--site00-env-mobile-scale, 1));
+  transform-origin: center center;
+}
+
+.site00-mobile-artboard .site00-env-layer--has-desktop-asset {
+  background-image: var(--site00-env-desktop-image);
+  background-size: cover;
+  background-position: var(--site00-env-desktop-position, center center);
+  background-repeat: no-repeat;
+  transform: scale(var(--site00-env-desktop-scale, 1));
+  transform-origin: center center;
+}
+
+.site00-mobile-artboard-shell > .site00-environment-viewport-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--site-z-env);
+  pointer-events: none;
+}
+
+.site00-mobile-artboard .site00-env-layer--viewport-bg-suppressed {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/** Origin mobile layout — re-anchor viewport-fixed UI to artboard stage. */
+.site00-mobile-artboard .site00-origin-page--mobile-layout .site00-home-hero {
+  position: absolute;
+  top: 20px;
+  right: var(--site-spacing-md);
+  left: auto;
+  max-width: min(52%, 220px);
+}
+
+.site00-mobile-artboard .site00-origin-page--mobile-layout .site00-origin-mobile-swipe {
+  position: absolute;
+  left: 50%;
+  bottom: 88px;
+  transform: translateX(-50%);
+}
+
+.site00-mobile-artboard .site00-origin-page--mobile-layout .site00-origin-swipe-surface {
+  position: absolute;
+  top: 72px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.site00-mobile-artboard .site00-origin-page--mobile-layout .site00-status-strip--layout-mobile .site00-status-strip__cell {
+  width: calc(100% / 2.6);
+}
+
+/** Enter — pin status strip to artboard bottom (not browser viewport). */
+.site00-mobile-artboard .site00-enter-status-strip,
+.site00-mobile-artboard .site00-workflow-summary-strip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.site00-mobile-artboard .site00-enter-page {
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.site00-mobile-artboard .site00-enter-page .site00-ui-layer {
+  height: 100%;
+  min-height: 0;
+}

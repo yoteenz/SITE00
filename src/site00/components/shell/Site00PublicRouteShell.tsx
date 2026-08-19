@@ -1,6 +1,7 @@
 import { type ReactNode } from 'react';
 import { Site00PublicLayoutSwitch } from './Site00PublicLayoutSwitch';
 import { Site00DesktopPresentationShell } from './Site00DesktopPresentationShell';
+import { Site00MobilePresentationShell } from './Site00MobilePresentationShell';
 import { useSite00 } from '../../state/Site00Context';
 
 type Site00PublicRouteShellProps = {
@@ -11,7 +12,7 @@ type Site00PublicRouteShellProps = {
 
 /**
  * Public Composer pages — desktop presentation driven by shared preview mode.
- * Phone + Desktop → scaled artboard edge-to-edge; laptop + Desktop → native full viewport.
+ * Phone + Mobile → native full-width; laptop + Mobile → scaled 390×844 phone preview.
  */
 export function Site00PublicRouteShell({ children, forceArtboard = false }: Site00PublicRouteShellProps) {
   const { isPreviewDesktop } = useSite00();
@@ -22,7 +23,7 @@ export function Site00PublicRouteShell({ children, forceArtboard = false }: Site
       {isPreviewDesktop ? (
         <Site00DesktopPresentationShell forceArtboard={forceArtboard}>{children}</Site00DesktopPresentationShell>
       ) : (
-        children
+        <Site00MobilePresentationShell>{children}</Site00MobilePresentationShell>
       )}
     </>
   );
