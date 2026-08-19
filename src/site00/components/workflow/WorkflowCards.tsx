@@ -10,6 +10,7 @@ import { IdntyBrandStateIcon } from '../idnty/IdntyBrandStateIcon';
 import type { IdntyBrandStateIconId } from '../../config/idnty-brand-state-icons';
 import { ArrowIconSmall } from '../icons/ArrowAction';
 import { EnterMenuIcon, Site00ArrowRightIcon } from '../../icons';
+import { Site00ArtboardBottomChromePortal } from '../shell/Site00ArtboardBottomChromePortal';
 import { Site00SummaryStripText } from '../shell/Site00SummaryStripText';
 
 type StateCardProps = {
@@ -139,9 +140,11 @@ type WorkflowSummaryProps = {
 
 export function WorkflowSummary({ text }: WorkflowSummaryProps) {
   return (
-    <footer className="site00-summary-strip-panel site00-workflow-summary-strip">
-      <Site00SummaryStripText text={text} />
-    </footer>
+    <Site00ArtboardBottomChromePortal>
+      <footer className="site00-summary-strip-panel site00-workflow-summary-strip">
+        <Site00SummaryStripText text={text} />
+      </footer>
+    </Site00ArtboardBottomChromePortal>
   );
 }
 
