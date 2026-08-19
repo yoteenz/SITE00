@@ -900,6 +900,28 @@
   background: rgba(255, 255, 255, 0.88);
 }
 
+.site00-principle-card__title {
+  margin: 0 0 var(--site00-stack-sm);
+  font-family: var(--site00-font-heading);
+  font-size: var(--site00-size-heading);
+  font-weight: var(--site00-weight-heading);
+  letter-spacing: var(--site00-tracking-heading);
+  line-height: var(--site00-lh-heading);
+  text-transform: uppercase;
+}
+
+.site00-principle-card__desc {
+  margin: 0;
+  font-family: var(--site00-font-body);
+  font-size: var(--site00-size-body);
+  line-height: var(--site00-lh-body);
+  color: var(--site-text-muted);
+}
+
+.site00-about-meta .site00-label + .site00-micro {
+  margin-top: var(--site00-stack-xs);
+}
+
 .site00-system-panel {
   margin-top: 16px;
 }

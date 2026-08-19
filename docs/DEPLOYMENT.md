@@ -8,6 +8,60 @@ GoDaddy product type **cannot be determined programmatically**. Provide one of:
 2. **Node.js Hosting** — can run API adapter for `api/` routes
 3. **Other** — VPS, Managed WordPress (not recommended for this SPA)
 
+## Architecture C — Static site (GoDaddy) + API (Railway)
+
+Recommended production split:
+
+| Layer | Host | URL |
+|-------|------|-----|
+| SPA (`dist/`) | GoDaddy cPanel | `https://site00.com` |
+| Node API (`server/` + `api/`) | Railway | `https://api.site00.com` |
+
+### Build the SPA with API origin
+
+```bash
+VITE_SUPABASE_URL=... \
+VITE_SUPABASE_ANON_KEY=... \
+VITE_SITE00_ROOT=1 \
+VITE_SITE00_CANONICAL_ORIGIN=https://site00.com \
+VITE_API_BASE=https://api.site00.com \
+npm run build
+```
+
+Upload `dist/` to GoDaddy `public_html/site00.com` as in Architecture A.
+
+### Railway service
+
+1. Connect GitHub repo `yoteenz/SITE00` (branch with `server/` + `npm run start:api`).
+2. **Service → Settings → Deploy → Custom Start Command:** leave empty (uses `railway.toml` → `npm run start:api`) or set `npm run start:api`.
+3. **Service → Variables** (server-side only — never `VITE_*`):
+
+| Variable | Required | Notes |
+|----------|----------|-------|
+| `SUPABASE_URL` | yes | Same project as SPA |
+| `SUPABASE_ANON_KEY` | yes | |
+| `SUPABASE_SERVICE_ROLE_KEY` | yes | Admin/production + ASSTS routes |
+| `SESSION_COOKIE_SECRET` | yes | Random 32+ char secret for HttpOnly session cookie signing |
+| `ADMIN_EMAILS` | optional | Comma-separated admin allowlist |
+| `FAL_KEY` | later | ASSTS generation |
+| `PORT` | auto | Railway sets this |
+
+4. Deploy; confirm health: `GET https://<railway-url>/api/health` → `{ "ok": true, "service": "site00-api" }`.
+5. **Service → Settings → Networking → Custom Domain:** add `api.site00.com`.
+6. **GoDaddy DNS:** CNAME `api` → Railway-provided hostname.
+
+### Local API dev
+
+```bash
+# Terminal 1 — API on :3000
+npm run start:api
+
+# Terminal 2 — Vite with proxy to API
+VITE_DEV_PROXY_TARGET=http://127.0.0.1:3000 npm run dev
+```
+
+Or set `VITE_API_BASE=http://127.0.0.1:3000` when building/previewing.
+
 ## Architecture A — cPanel static (SPA only)
 
 ```

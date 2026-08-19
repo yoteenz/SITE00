@@ -35,11 +35,20 @@ export function Site00DesktopArtboardShell({ children }: Site00DesktopArtboardSh
       const isEnterPage =
         stage.querySelector('.site00-enter-page') != null ||
         (typeof window !== 'undefined' && window.location.pathname === '/enter');
+      const isOriginPage =
+        stage.querySelector('.site00-origin-page') != null ||
+        (typeof window !== 'undefined' &&
+          (window.location.pathname === '/origin' ||
+            window.location.pathname === '/' ||
+            window.location.pathname === '/origin/desktop'));
+      const isViewportLockedPage = isEnterPage || isOriginPage;
       const scaleW = shell.clientWidth / SITE00_DESKTOP_ARTBOARD_WIDTH;
       const scaleH = shell.clientHeight / SITE00_DESKTOP_ARTBOARD_MIN_HEIGHT;
-      const scale = isEnterPage ? Math.min(scaleW, scaleH) : scaleW;
+      // ENTER 00 — fill viewport width; crop vertically inside artboard (no side letterboxing).
+      // Origin/other routes — fit artboard in viewport so bottom status strip stays visible.
+      const scale = isEnterPage ? scaleW : Math.min(scaleW, scaleH);
       const scaledWidth = SITE00_DESKTOP_ARTBOARD_WIDTH * scale;
-      const viewportArtboardHeight = isEnterPage
+      const viewportArtboardHeight = isViewportLockedPage
         ? SITE00_DESKTOP_ARTBOARD_MIN_HEIGHT
         : Math.max(
             SITE00_DESKTOP_ARTBOARD_MIN_HEIGHT,
@@ -56,14 +65,11 @@ export function Site00DesktopArtboardShell({ children }: Site00DesktopArtboardSh
 
       scaler.style.width = `${scaledWidth}px`;
       scaler.style.height = `${contentHeight * scale}px`;
-      scaler.style.marginLeft = isEnterPage ? `${Math.max(0, (shell.clientWidth - scaledWidth) / 2)}px` : '0';
-      scaler.style.marginTop = isEnterPage ? `${Math.max(0, (shell.clientHeight - contentHeight * scale) / 2)}px` : '0';
+      scaler.style.marginLeft = isEnterPage ? '0' : `${Math.max(0, (shell.clientWidth - scaledWidth) / 2)}px`;
+      scaler.style.marginTop = isEnterPage ? '0' : `${Math.max(0, (shell.clientHeight - contentHeight * scale) / 2)}px`;
 
-      if (isEnterPage) {
-        shell.classList.add('site00-desktop-artboard-shell--enter');
-      } else {
-        shell.classList.remove('site00-desktop-artboard-shell--enter');
-      }
+      shell.classList.toggle('site00-desktop-artboard-shell--enter', isEnterPage);
+      shell.classList.toggle('site00-desktop-artboard-shell--origin', isOriginPage);
     };
 
     layoutStage();

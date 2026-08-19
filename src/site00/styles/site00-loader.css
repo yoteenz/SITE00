@@ -474,7 +474,7 @@
 }
 
 .site00-loader-copy__eyebrow {
-  margin: 0;
+  margin: 0 0 10px;
   font-family: var(--site00-font-heading);
   font-size: var(--loader-type-eyebrow-size, 10px);
   font-weight: 600;
@@ -487,7 +487,7 @@
 }
 
 .site00-loader-copy__title {
-  margin: 0;
+  margin: 0 0 var(--site00-stack-tight-lg);
   font-family: var(--site00-font-heading);
   font-size: var(--loader-type-title-size, 13px);
   letter-spacing: 0.035em;
@@ -495,13 +495,13 @@
   font-stretch: var(--site00-font-stretch-default);
   text-transform: uppercase;
   color: var(--site-text, #0a0a0a);
-  line-height: var(--site00-lh-heading);
+  line-height: var(--site00-lh-display-tight);
   white-space: nowrap;
   max-width: 100%;
 }
 
 .site00-loader-copy__subtitle {
-  margin: 0;
+  margin: var(--site00-stack-tight) 0 0;
   font-family: var(--site00-font-body);
   font-size: var(--loader-type-subtitle-size, 10px);
   font-weight: 450;
