@@ -777,3 +777,11 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 - **Branch:** `cursor/site-wide-uppercase-copy-796f`.
 - **Inspect:** Open Fast Travel from mobile header on sign-in/origin — auth-gated cards show one-line red **SIGN IN TO ENTER**; all panel copy uppercase.
 
+---
+
+## 2026-08-19 — Fast Travel current location descriptor red
+
+- **Request:** Change current location text on Fast Travel from gray to red.
+- **Fix:** `.site00-fast-travel__current-descriptor` (e.g. **NAVIGATE THE ECOSYSTEM.**) now uses `var(--site-red)` instead of `var(--site-text-muted)`.
+- **Branch:** `cursor/fast-travel-current-location-red-796f`.
+
