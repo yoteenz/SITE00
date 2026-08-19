@@ -965,11 +965,11 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
     background-position: var(--site00-env-desktop-position, center center);
   }
 
-  /** ENTER 00 only — focal from inline style (useSite00EnterDesktopFocal); fallback 65%. */
+  /** ENTER 00 only — focal from inline style (useSite00EnterDesktopFocal); fallback 75%. */
   .site00-enter-artboard-viewport-bg,
   .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'],
   .site00-enter-page .site00-env-layer--has-desktop-asset {
-    background-position: var(--site00-env-desktop-position, center 65%);
+    background-position: var(--site00-env-desktop-position, center 75%);
   }
 
   .site00-enter-page.site00-shell {

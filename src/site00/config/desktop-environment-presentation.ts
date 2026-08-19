@@ -17,13 +17,13 @@
 /** ENTER 00 desktop background focal — higher Y% shifts image up inside locked cover (ENTER asset). */
 export const SITE00_ENTER_DESKTOP_FOCAL = {
   /** Default laptop / standard desktop */
-  default: 'center 65%',
+  default: 'center 75%',
   /** Shorter viewports (max-height 799px) */
-  short: 'center 65%',
+  short: 'center 75%',
   /** Taller viewports (min-height 900px) */
-  tall: 'center 65%',
+  tall: 'center 75%',
   /** Ultrawide (min-aspect-ratio 21/9) */
-  ultrawide: 'center 65%',
+  ultrawide: 'center 75%',
 } as const;
 
 export const SITE00_DESKTOP_PRESENTATION_LOCKED = {
