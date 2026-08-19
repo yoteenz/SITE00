@@ -187,10 +187,12 @@
   color: var(--site-red, #e8192c);
 }
 
-.site00-orbital-mark__svg {
+.site00-orbital-mark__svg,
+.site00-orbital-mark__img {
   display: block;
   width: 100%;
   height: 100%;
+  object-fit: contain;
 }
 
 .site00-auth-shell__orbital {
