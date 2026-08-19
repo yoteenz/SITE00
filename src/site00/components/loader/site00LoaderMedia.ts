@@ -19,23 +19,28 @@ export const SITE00_LOADER_ENVIRONMENT_ANIMATION_MOBILE_REMOTE = 'BLDR/openart-o
 /** Approved desktop full-frame environment animation — 2560×1440 landscape. */
 export const SITE00_LOADER_ENVIRONMENT_ANIMATION_DESKTOP_REMOTE = 'BLDR/openart-output_1787109389654_e04aea07.mp4';
 
-function supabaseLivePreviewUrl(path: string): string | null {
-  const base = (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.replace(/\/$/, '') ?? '';
-  if (!base) return null;
-  return `${base}/storage/v1/object/public/live-preview/site00/${path}`;
+/** Public project ref — live-preview bucket is intentionally public. */
+export const SITE00_PUBLIC_PROJECT_REF = 'hyycomvcaqxxvyrfupes';
+
+function site00LivePreviewStorageBase(): string {
+  const ref =
+    (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.match(/https?:\/\/([^.]+)\./)?.[1] ??
+    SITE00_PUBLIC_PROJECT_REF;
+  return `https://${ref}.supabase.co/storage/v1/object/public/live-preview/site00/`;
+}
+
+function supabaseLivePreviewUrl(path: string): string {
+  return `${site00LivePreviewStorageBase()}${path}`;
 }
 
 /** Approved mobile loader environment — canonical 711×1536 artboard background. */
 export function site00LoaderBackgroundUrl(): string {
-  return supabaseLivePreviewUrl(SITE00_LOADER_BACKGROUND_REMOTE) ?? `${SITE00_LOADER_ASSET_BASE}/${SITE00_LOADER_BACKGROUND_FILE}`;
+  return supabaseLivePreviewUrl(SITE00_LOADER_BACKGROUND_REMOTE);
 }
 
 /** Approved desktop loader environment — BLDR landscape master. */
 export function site00LoaderDesktopBackgroundUrl(): string {
-  return (
-    supabaseLivePreviewUrl(SITE00_LOADER_BACKGROUND_DESKTOP_REMOTE) ??
-    `${SITE00_LOADER_ASSET_BASE}/${SITE00_LOADER_BACKGROUND_FILE}`
-  );
+  return supabaseLivePreviewUrl(SITE00_LOADER_BACKGROUND_DESKTOP_REMOTE);
 }
 
 export function resolveSite00LoaderBackgroundUrl(presentation: 'mobile' | 'desktop'): string {
@@ -59,7 +64,7 @@ export function resolveSite00LoaderEnvironmentAnimationUrl(presentation: 'mobile
     presentation === 'desktop'
       ? SITE00_LOADER_ENVIRONMENT_ANIMATION_DESKTOP_REMOTE
       : SITE00_LOADER_ENVIRONMENT_ANIMATION_MOBILE_REMOTE;
-  return supabaseLivePreviewUrl(remote) ?? '';
+  return supabaseLivePreviewUrl(remote);
 }
 
 /** Boot/cold-start preload — presentation-specific environment animation MP4. */

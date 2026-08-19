@@ -121,6 +121,7 @@ export function Site00LoaderAnimation({
   return (
     <div className={layerClass} data-media-ready={mediaReady ? '1' : '0'} aria-hidden="true">
       <video
+        key={sourceUrl}
         ref={videoRef}
         className={mediaClass}
         src={sourceUrl}
