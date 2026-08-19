@@ -278,6 +278,9 @@
   transition: transform var(--site-motion-base) var(--site-ease), box-shadow var(--site-motion-base);
   cursor: pointer;
   text-align: center;
+  color: var(--site-text);
+  font: inherit;
+  text-decoration: none;
 }
 
 .site00-state-card:hover {
@@ -293,6 +296,68 @@
 .site00-state-card--selected {
   border-color: var(--site-red);
   box-shadow: 0 0 0 1px var(--site-red-dim);
+}
+
+/* IDNTY / BLDR state cards — explicit palette (red accents, black copy).
+ * Typography utilities (.site00-heading, .site00-body) set metrics only; without
+ * scoped colors, :link/:visited browser defaults can bleed through anchor-based cards. */
+.site00-state-card .site00-heading,
+.site00-state-card .site00-body {
+  color: var(--site-text);
+}
+
+.site00-state-card .site00-label-red {
+  color: var(--site-red);
+}
+
+.site00-state-card .site00-action-link.site00-action-link--red {
+  color: var(--site-red);
+}
+
+a.site00-state-card,
+a.site00-state-card:link,
+a.site00-state-card:visited,
+a.site00-state-card:hover,
+a.site00-state-card:focus,
+a.site00-state-card:focus-visible,
+a.site00-state-card:active {
+  color: var(--site-text);
+  text-decoration: none;
+}
+
+a.site00-state-card .site00-heading,
+a.site00-state-card .site00-body,
+.site00-state-card:is(a, button):hover .site00-heading,
+.site00-state-card:is(a, button):hover .site00-body,
+.site00-state-card:is(a, button):focus .site00-heading,
+.site00-state-card:is(a, button):focus .site00-body,
+.site00-state-card:is(a, button):focus-visible .site00-heading,
+.site00-state-card:is(a, button):focus-visible .site00-body,
+.site00-state-card:is(a, button):active .site00-heading,
+.site00-state-card:is(a, button):active .site00-body {
+  color: var(--site-text);
+}
+
+a.site00-state-card .site00-label-red,
+.site00-state-card:is(a, button) .site00-label-red,
+a.site00-state-card:hover .site00-label-red,
+.site00-state-card:is(a, button):hover .site00-label-red,
+a.site00-state-card:focus-visible .site00-label-red,
+.site00-state-card:is(a, button):focus-visible .site00-label-red,
+a.site00-state-card:active .site00-label-red,
+.site00-state-card:is(a, button):active .site00-label-red {
+  color: var(--site-red);
+}
+
+a.site00-state-card .site00-action-link.site00-action-link--red,
+.site00-state-card:is(a, button) .site00-action-link.site00-action-link--red,
+a.site00-state-card:hover .site00-action-link.site00-action-link--red,
+.site00-state-card:is(a, button):hover .site00-action-link.site00-action-link--red,
+a.site00-state-card:focus-visible .site00-action-link.site00-action-link--red,
+.site00-state-card:is(a, button):focus-visible .site00-action-link.site00-action-link--red,
+a.site00-state-card:active .site00-action-link.site00-action-link--red,
+.site00-state-card:is(a, button):active .site00-action-link.site00-action-link--red {
+  color: var(--site-red);
 }
 
 /* ─── Bottom summary strip (Enter + workflow state routes) ─── */
