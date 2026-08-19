@@ -59,7 +59,7 @@ export const ASSTS_LOADER_DESKTOP_COMPOSITION = {
   platform: { x: 586, y: 442, w: 500, h: 96 },
   siteLabel: { x: 796, y: 48, w: 80, h: 22, centerX: 836 },
   headline: { x: 396, y: 70, w: 880, h: 34, centerX: 836 },
-  subtitle: { x: 564, y: 104, w: 544, h: 24, centerX: 836 },
+  subtitle: { x: 564, y: 100, w: 544, h: 24, centerX: 836 },
   status: { x: 716, y: 644, w: 240, h: 22, centerX: 836 },
   progressTrack: { x: 536, y: 674, w: 600, h: 8 },
   progressPercentage: { x: 1144, y: 666, w: 44, h: 24 },
