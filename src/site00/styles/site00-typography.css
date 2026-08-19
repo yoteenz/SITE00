@@ -38,7 +38,8 @@
 .site00-ctrl-room-shell a[class*='site00-'],
 .site00-desktop-artboard-shell a[class*='site00-'],
 .site00-desktop-artboard--native-viewport a[class*='site00-'],
-.site00-desktop-artboard a[class*='site00-'] {
+.site00-desktop-artboard a[class*='site00-'],
+.site00-enter-page a[class*='site00-'] {
   text-decoration: none;
 }
 
