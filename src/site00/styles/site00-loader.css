@@ -558,9 +558,12 @@
 
 /* Top three copy rows — composition-anchored at screen top; no down-nudge. */
 .site00-immersive-loader .site00-loader-copy-region--eyebrow,
-.site00-immersive-loader .site00-loader-copy-region--title,
-.site00-immersive-loader .site00-loader-copy-region--subtitle {
+.site00-immersive-loader .site00-loader-copy-region--title {
   transform: translateY(0);
+}
+
+.site00-immersive-loader .site00-loader-copy-region--subtitle {
+  transform: translateY(calc(-4px / var(--loader-scale, 1)));
 }
 
 /* Assembling status — 20px up from prior overlay nudge. */
@@ -598,7 +601,7 @@
   margin: calc(var(--site00-stack-sm) / var(--loader-scale, 1)) 0 0;
   font-family: var(--site00-font-display);
   font-size: calc(
-    var(--site00-size-display-lg) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) - 4px
+    var(--site00-size-display-lg) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) - 8px
   );
   font-weight: 600;
   font-stretch: var(--site00-font-stretch-display);
