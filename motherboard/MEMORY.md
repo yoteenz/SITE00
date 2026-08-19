@@ -684,3 +684,10 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Root cause:** (1) `teardownSite00AsstsBootShell` on bg load released `#root` early (`site00-assts-boot` class removed); (2) exit CSS faded entire loader (opacity 0) exposing empty `#root`; (3) destination page mounted only after loader unmounted (fresh paint + static env).
 - **Fix:** `stripSite00BootShellBackground()` on bg load + MP4 play (never full boot teardown until exit); `#root` stays hidden until exit prep; `releaseSite00ImmersiveBootRoot()` + mount page under loader + `waitForLoaderExitPaint()` before exit phase; copy fades only — MP4 stays until portal removed; same pattern in world + ASSTS gates. PR #80.
 
+---
+
+## 2026-08-19 — Loader focal: shift animation layer, not static bg
+
+- **Issue:** White gap at top of viewport before MP4 — layer 1 static still shifted (`center 40%`) instead of filling edge-to-edge.
+- **Fix:** Swap focal strategy — **background mobile locked `center center`** (no top gap); **animation mobile `center 40%`** (MP4 tuned to meet still). Boot.js bg focal always center center. Debug: `ANIM center 40% · BG center center`.
+
