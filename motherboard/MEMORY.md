@@ -821,3 +821,16 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 - **Fix:** Desktop-scoped CSS — trailing row dividers removed; section headings +4px below; welcome block positioning + overflow fix; body copy `white-space: nowrap`; menu panel `transform: translate(202px, -48px)`; EXPLORE row numbers red (`--site-red`).
 - **Branch:** `cursor/enter-menu-row-dividers-796f`.
 
+---
+
+## 2026-08-19 — ENTER 00 desktop hero wall perspective plane
+
+- **Request:** Align desktop ENTER hero copy to architectural wall angle (blue guide) — single perspective plane, not per-line rotation; preserve typography/background; mobile unchanged.
+- **Implementation:**
+  - Wrapped hero copy in `.site00-enter-welcome__plane` inside existing `.site00-enter-welcome` positioning anchor.
+  - Desktop-only CSS: `perspective(1400px) rotateZ(11deg) rotateY(-3deg) skewX(-1deg)`, `transform-origin: left center`, subtle `opacity: 0.98`.
+  - Aspect tweaks: ≤1366px, ≥1920px, ultrawide 21:9.
+  - Dev calibration: `/enter?enterWallDebug=1` + `enterWallRotateZ`, `enterWallRotateY`, `enterWallSkewX`, `enterWallLeft`, `enterWallTop`, `enterWallOpacity`, `enterWallPerspective`.
+  - Files: `enter-wall-perspective.ts`, `EnterWallPerspectiveCalibrator.tsx`, `DirectoryPanel.tsx`, `site00.css`.
+- **Branch:** `cursor/enter-wall-perspective-796f`.
+
