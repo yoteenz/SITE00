@@ -262,6 +262,14 @@ button.site00-glass-panel:active .site00-action-link {
   cursor: not-allowed;
 }
 
+.site00-entry-toggle__icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .site00-action-link {
   display: inline-flex;
   align-items: center;
