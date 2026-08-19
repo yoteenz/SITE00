@@ -269,3 +269,12 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
   - **`site00-typography.css`:** `.site00-enter-page a[class*='site00-']` underline strip.
 - **Branch:** `cursor/enter-refresh-regression-fix-796f`.
 - **Note:** Production **site00.com** still needs GoDaddy redeploy (FTP or manual ZIP) to pick up bundle — cloud tunnel 5174 reflects workspace immediately.
+
+---
+
+## 2026-08-19 — Mobile Desktop toggle: edge-to-edge scaled artboard
+
+- **Issue:** Desktop toggle on phone (mobile design composer) was not showing full desktop edge-to-edge — native shell on narrow viewports cropped the 1440px composition instead of scaling it to fill the screen width.
+- **Root cause:** PR #16 unification forced `resolveSite00DesktopPresentationMode` → always `native`, and `Site00DesktopPresentationShell` passed hardcoded `false` for `isWideViewport`.
+- **Fix:** Restore narrow/wide split — **phone + Desktop → scaled 1440×900 artboard** (scaleW edge-to-edge, env bg outside transform); **laptop + Desktop → native full viewport**. Wire `useSite00OriginWideViewport()` into presentation shell.
+- **Branch:** `cursor/mobile-desktop-edge-to-edge-796f`.

@@ -2,8 +2,8 @@
  * SITE 00 Origin — canonical desktop composition (1440×900 artboard).
  *
  * **Single source of truth** for desktop Origin layout. Wide viewports render via
- * `Site00DesktopNativeViewportShell`; phones previewing desktop use `Site00DesktopArtboardShell`.
- * Do **not** duplicate these rules in `site00.css` `@media (min-width: 768px)` or composition drifts.
+ * `Site00DesktopNativeViewportShell`; phones previewing desktop use `Site00DesktopArtboardShell`
+ * (scaleW edge-to-edge — full 1440×900 composition).
  *
  * Numeric tokens: `origin-home-composition.ts` → CSS vars on `.site00-home-stage` (OriginPage).
  */
