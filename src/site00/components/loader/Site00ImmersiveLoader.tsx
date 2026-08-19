@@ -144,19 +144,18 @@ function ImmersiveLoaderBody({
         onBackgroundLoad={handleBootHandoff}
       />
 
+      {animationEnabled ? (
+        <Site00LoaderAnimation
+          presentation={presentation}
+          reducedMotion={reducedMotion}
+          onReady={handleAnimationReady}
+          onError={handleAnimationError}
+        />
+      ) : null}
+
       <LoaderCompositionProvider presentation={presentation}>
         {debug ? (
           <LoaderRegion id="pedestal" className="site00-loader-pedestal-debug" aria-hidden="true" />
-        ) : null}
-
-        {animationEnabled ? (
-          <LoaderRegion id="geometry" className="site00-loader-geometry-region">
-            <Site00LoaderAnimation
-              reducedMotion={reducedMotion}
-              onReady={handleAnimationReady}
-              onError={handleAnimationError}
-            />
-          </LoaderRegion>
         ) : null}
 
         <LoaderCopyRegions
