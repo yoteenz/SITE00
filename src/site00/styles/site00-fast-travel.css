@@ -143,7 +143,7 @@
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--site-text-muted);
+    color: var(--site-red);
   }
 
   .site00-fast-travel__current-body {
@@ -173,7 +173,7 @@
     font-size: 0.625rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--site-red);
+    color: var(--site-text-muted);
     line-height: 1.35;
   }
 
