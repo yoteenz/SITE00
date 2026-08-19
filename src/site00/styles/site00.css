@@ -345,6 +345,8 @@ button.site00-glass-panel:active .site00-action-link {
   color: var(--site-text);
   font: inherit;
   text-decoration: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .site00-state-card:hover {
@@ -368,6 +370,14 @@ button.site00-glass-panel:active .site00-action-link {
 .site00-state-card .site00-heading,
 .site00-state-card .site00-body {
   color: var(--site-text);
+}
+
+.site00-state-card .site00-panel-title {
+  color: var(--site-text);
+}
+
+.site00-state-card .site00-label {
+  color: var(--site-text-muted);
 }
 
 .site00-state-card .site00-label-red {
@@ -400,6 +410,30 @@ a.site00-state-card .site00-body,
 .site00-state-card:is(a, button):active .site00-heading,
 .site00-state-card:is(a, button):active .site00-body {
   color: var(--site-text);
+}
+
+.site00-state-card:is(a, button) .site00-panel-title,
+.site00-state-card:is(a, button):hover .site00-panel-title,
+.site00-state-card:is(a, button):focus .site00-panel-title,
+.site00-state-card:is(a, button):focus-visible .site00-panel-title,
+.site00-state-card:is(a, button):active .site00-panel-title,
+a.site00-state-card .site00-panel-title,
+a.site00-state-card:hover .site00-panel-title,
+a.site00-state-card:focus-visible .site00-panel-title,
+a.site00-state-card:active .site00-panel-title {
+  color: var(--site-text);
+}
+
+.site00-state-card:is(a, button) .site00-label,
+.site00-state-card:is(a, button):hover .site00-label,
+.site00-state-card:is(a, button):focus .site00-label,
+.site00-state-card:is(a, button):focus-visible .site00-label,
+.site00-state-card:is(a, button):active .site00-label,
+a.site00-state-card .site00-label,
+a.site00-state-card:hover .site00-label,
+a.site00-state-card:focus-visible .site00-label,
+a.site00-state-card:active .site00-label {
+  color: var(--site-text-muted);
 }
 
 a.site00-state-card .site00-label-red,
