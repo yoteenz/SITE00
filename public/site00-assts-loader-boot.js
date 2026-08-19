@@ -30,8 +30,18 @@
 
   function applyBootEnvStyle(env) {
     if (!env) return;
-    env.style.backgroundImage = "url('" + bg + "')";
-    env.style.backgroundPosition = bgFocal;
+    var img = env.querySelector('.site00-assts-boot-shell__img');
+    if (!img) {
+      img = document.createElement('img');
+      img.className = 'site00-assts-boot-shell__img';
+      img.alt = '';
+      img.decoding = 'sync';
+      img.setAttribute('fetchpriority', 'high');
+      img.draggable = false;
+      env.appendChild(img);
+    }
+    img.src = bg;
+    img.style.objectPosition = bgFocal;
     env.style.setProperty('--site00-loader-bg-focal', bgFocal);
   }
 
@@ -64,11 +74,13 @@
     nextShell.setAttribute('aria-hidden', 'true');
     nextShell.style.setProperty('--site00-loader-bg-focal', bgFocal);
     nextShell.innerHTML =
-      '<div class="site00-assts-boot-shell__env" style="background-image:url(\'' +
+      '<div class="site00-assts-boot-shell__env">' +
+      '<img class="site00-assts-boot-shell__img" src="' +
       bg +
-      "');background-position:" +
+      '" alt="" decoding="sync" fetchpriority="high" style="object-position:' +
       bgFocal +
-      '"></div>';
+      '" draggable="false" />' +
+      '</div>';
 
     var mountTarget = document.body || document.documentElement;
     mountTarget.appendChild(nextShell);

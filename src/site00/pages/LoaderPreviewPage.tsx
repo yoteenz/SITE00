@@ -1,8 +1,8 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useLayoutEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { acquireLoadingScreenDocumentLock } from '../../platform-stabilization/loadingScreenLock';
 import { Site00ImmersiveLoader, type Site00ImmersiveLoaderPhase } from '../components/loader/Site00ImmersiveLoader';
-import { initSite00ImmersiveLoaderBoot, teardownSite00ImmersiveBootShell } from '../components/loader/site00LoaderBoot';
+import { teardownSite00ImmersiveBootShell } from '../components/loader/site00LoaderBoot';
 import { resolveSite00ImmersiveLoaderConfig } from '../components/loader/site00LoaderConfig';
 import { resolveActiveStageSubtitle } from '../components/loader/site00LoaderStageSubtitle';
 
@@ -30,11 +30,10 @@ export default function LoaderPreviewPage() {
     return resolveActiveStageSubtitle(config.stages, progress);
   }, [config.stages, isComplete, progress]);
 
-  useEffect(() => {
-    initSite00ImmersiveLoaderBoot();
-    return () => {
-      teardownSite00ImmersiveBootShell();
-    };
+  useLayoutEffect(() => {
+    // Preview is an isolated inspection surface — no boot shell handoff (matches ?forceCopy=1 debug URL).
+    document.documentElement.classList.remove('site00-assts-boot');
+    teardownSite00ImmersiveBootShell();
   }, []);
 
   useEffect(() => acquireLoadingScreenDocumentLock(), []);

@@ -6,14 +6,13 @@ import {
   isLoaderMediaDebugEnabled,
 } from './site00LoaderHeroStage';
 import { teardownSite00AsstsBootShell } from './site00LoaderBoot';
+import { ImmersiveLoaderMedia } from './ImmersiveLoaderMedia';
 import { LoaderCopyRegions } from './LoaderCopyRegions';
 import { LoaderCompositionProvider } from './LoaderCompositionContext';
 import { LoaderReferenceMapDebug } from './LoaderReferenceMapDebug';
 import { LoaderReferenceOverlay } from './LoaderReferenceOverlay';
 import { LoaderRegion } from './LoaderRegion';
 import { loaderLifecycleLog } from './loaderLifecycleLog';
-import { Site00LoaderAnimation } from './Site00LoaderAnimation';
-import { Site00LoaderEnvironment } from './Site00LoaderEnvironment';
 import type { LoaderPresentation } from './loader-composition-resolver';
 import { resolveSite00LoaderBackgroundUrl, resolveSite00LoaderBackgroundFocal, resolveSite00LoaderAnimationFocal } from './site00LoaderMedia';
 import { preloadSite00LoaderBackground } from './site00LoaderPreload';
@@ -140,9 +139,9 @@ function ImmersiveLoaderBody({
     onAnimationReady?.();
   }, [onAnimationReady]);
 
-  const handleAnimationError = (detail: unknown) => {
+  const handleAnimationError = useCallback((detail: unknown) => {
     loaderLifecycleLog('ANIMATION_ERROR', detail);
-  };
+  }, []);
 
   useEffect(() => {
     if (phase !== 'exiting') return;
@@ -181,32 +180,18 @@ function ImmersiveLoaderBody({
 
   return (
     <div className={rootClass} role="status" aria-live="polite" aria-label={progressLabel}>
-      <div
-        className="site00-immersive-loader__media"
-        aria-hidden="true"
-        style={{
-          ['--site00-loader-bg-focal' as string]: backgroundFocal,
-          ['--site00-loader-animation-focal' as string]: animationFocal,
-        }}
-      >
-        <Site00LoaderEnvironment
-          backgroundUrl={backgroundUrl}
-          viewport
-          fit={envFit}
-          mediaFocal={backgroundFocal}
-          onBackgroundLoad={handleBootHandoff}
-        />
-
-        {animationEnabled ? (
-          <Site00LoaderAnimation
-            mediaPresentation={mediaPresentation}
-            mediaFocal={animationFocal}
-            reducedMotion={reducedMotion}
-            onReady={handleAnimationReady}
-            onError={handleAnimationError}
-          />
-        ) : null}
-      </div>
+      <ImmersiveLoaderMedia
+        backgroundUrl={backgroundUrl}
+        envFit={envFit}
+        backgroundFocal={backgroundFocal}
+        animationFocal={animationFocal}
+        animationEnabled={animationEnabled}
+        mediaPresentation={mediaPresentation}
+        reducedMotion={reducedMotion}
+        onBackgroundLoad={handleBootHandoff}
+        onAnimationReady={handleAnimationReady}
+        onAnimationError={handleAnimationError}
+      />
 
       <LoaderCompositionProvider presentation={uiPresentation}>
         {debug ? (

@@ -9,6 +9,7 @@
 
   function isSite00ImmersivePath(path) {
     if (!path) return false;
+    if (path === '/') return true;
     for (var i = 0; i < PREFIXES.length; i++) {
       var prefix = PREFIXES[i];
       if (path === prefix || path.indexOf(prefix + '/') === 0) return true;

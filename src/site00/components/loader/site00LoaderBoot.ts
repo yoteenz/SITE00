@@ -32,7 +32,11 @@ function ensureBootShell(): void {
   const bootBg = resolveSite00LoaderBackgroundUrl(bootPresentation);
   const bootFocal = resolveSite00LoaderBackgroundFocal(bootPresentation);
   shell.style.setProperty('--site00-loader-bg-focal', bootFocal);
-  shell.innerHTML = `<div class="site00-assts-boot-shell__env" style="background-image:url('${bootBg}');background-position:${bootFocal}"></div>`;
+  shell.innerHTML =
+    `<div class="site00-assts-boot-shell__env">` +
+    `<img class="site00-assts-boot-shell__img" src="${bootBg}" alt="" decoding="sync" fetchpriority="high" ` +
+    `style="object-position:${bootFocal}" draggable="false" />` +
+    `</div>`;
   document.body.appendChild(shell);
 }
 

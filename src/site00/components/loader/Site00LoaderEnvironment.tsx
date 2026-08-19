@@ -46,11 +46,7 @@ export function Site00LoaderEnvironment({
   };
 
   return (
-    <div
-      className={envClass}
-      aria-hidden="true"
-      style={{ ['--site00-loader-bg-focal' as string]: mediaFocal }}
-    >
+    <div className={envClass} aria-hidden="true">
       <img
         ref={imgRef}
         className="site00-loader-env__img"
