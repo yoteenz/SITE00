@@ -53,8 +53,8 @@ export const MOBILE_SITE_NAV: MobileSiteNavItem[] = [
   },
   {
     id: 'control',
-    topLabel: 'CTRL',
-    bottomLabel: 'ROOM',
+    topLabel: '',
+    bottomLabel: 'CTRL',
     href: SITE00_CTRL_ROOM_PATH,
     icon: 'ctrl-room',
     requiresAuth: true,

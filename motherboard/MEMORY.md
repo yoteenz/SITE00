@@ -614,3 +614,11 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Request:** Reduce ASSEMBLING ORIGIN 2px; move CONNECTING TO ORIGIN up 4px.
 - **Fix:** Title size offset −18px → **−20px**; subtitle region translate −14px → **−18px**. PR **#78** merged to `main`.
 
+---
+
+## 2026-08-19 — Mobile five-bay bottom navigation
+
+- **Request:** Upgrade mobile bottom nav from 3 destinations (00 ORIGIN | LOCATIONS | START BUILD) to permanent 5 bays: **00 ORIGIN | IDNTY | LOCATIONS | PROJECTS | CTRL ROOM** — LOCATIONS center; route-aware active state; preserve visual language; mobile-only; no desktop changes; remove START BUILD from persistent nav only.
+- **Audit:** Canonical 3-bay was `Site00MobileNav` + `SITE00_MOBILE_NAV` in `locations-directory.ts`, CSS in `site00-locations.css` (grid 3-col, fixed bottom, safe-area). Separate 4-bay `Site00EcosystemMobileNav` on authenticated pages. Routes: origin `/origin`, idnty `/idnty/state`, locations `/origin/locations`, projects `/projects` (auth), control `/control` (auth via `Site00AccountRouteGuard`).
+- **Fix:** New `MobileSiteNavigation` + `mobile-site-nav.ts` config; 5 equal columns; icons: 00 mark, `Site00IdntyIcon`, crosshair, `Site00ProjectsIcon`, `Site00CtrlRoomIcon`; route matcher `resolveMobileSiteNavId`; wired through `Site00MobileShell` + `Site00EcosystemMobileShell`; IDNTY/BLDR/EVOLVE state pages get nav on native mobile; Origin retains existing bottom chrome (no nav overlay). START BUILD remains in page CTAs / fast-travel / BLDR routes. PR on `cursor/mobile-five-bay-nav-796f`.
+

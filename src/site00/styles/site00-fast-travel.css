@@ -259,7 +259,7 @@
 
   .site00-fast-travel__dest-auth {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 6px;
     margin-top: 4px;
     font-family: var(--site00-font-nav);
@@ -269,6 +269,7 @@
     line-height: 1.2;
     text-transform: uppercase;
     color: var(--site-red);
+    white-space: nowrap;
   }
 
   /* ─── Directory header + EXIT 00 ─── */
@@ -368,7 +369,7 @@
 
   .site00-directory-card__auth {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 6px;
     margin-top: 6px;
     font-family: var(--site00-font-nav);
@@ -378,6 +379,7 @@
     line-height: 1.2;
     text-transform: uppercase;
     color: var(--site-red);
+    white-space: nowrap;
   }
 
   .site00-locations-directory {

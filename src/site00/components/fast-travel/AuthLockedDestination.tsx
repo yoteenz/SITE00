@@ -22,11 +22,7 @@ export function AuthLockedDestination({ href, label, description, onNavigate }: 
         {description ? <span className="site00-fast-travel__dest-desc">{description}</span> : null}
         <span className="site00-fast-travel__dest-auth">
           <Site00LockIcon size={12} />
-          <span>
-            SIGN IN
-            <br />
-            TO ENTER
-          </span>
+          <span>SIGN IN TO ENTER</span>
         </span>
       </span>
     </Link>

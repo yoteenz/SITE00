@@ -29,11 +29,7 @@ export function DirectoryCard({ entry, style }: DirectoryCardProps) {
         {locked ? (
           <span className="site00-directory-card__auth">
             <Site00LockIcon size={12} />
-            <span>
-              SIGN IN
-              <br />
-              TO ENTER
-            </span>
+            <span>SIGN IN TO ENTER</span>
           </span>
         ) : null}
       </div>
