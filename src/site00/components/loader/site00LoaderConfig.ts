@@ -3,11 +3,13 @@
 import {
   site00LoaderBackgroundUrl,
   resolveSite00LoaderEnvironmentAnimationUrl,
+  SITE00_PUBLIC_PROJECT_REF,
 } from './site00LoaderMedia';
 
 /** Resolve public live-preview asset at runtime (non-loader production assets). */
 export function resolveSite00PublicAsset(path: string): string {
-  const base = (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.replace(/\/$/, '') ?? '';
+  const envUrl = (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.replace(/\/$/, '');
+  const base = envUrl && envUrl.length > 0 ? envUrl : `https://${SITE00_PUBLIC_PROJECT_REF}.supabase.co`;
   return `${base}/storage/v1/object/public/live-preview/site00/${path}`;
 }
 

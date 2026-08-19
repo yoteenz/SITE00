@@ -108,7 +108,12 @@
   flex: 0 0 50%;
   width: 50%;
   min-width: 50%;
-  max-width: none;
+  max-width: 50%;
+}
+
+.site00-mobile-artboard .site00-origin-page--mobile-layout .site00-status-strip__metrics {
+  width: 100%;
+  max-width: 100%;
 }
 
 /** Enter — pin status strip to artboard bottom (not browser viewport). */
