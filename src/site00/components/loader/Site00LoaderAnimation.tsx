@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { site00LoaderEnvironmentAnimationUrl } from './site00LoaderMedia';
+import { resolveSite00LoaderEnvironmentAnimationUrl } from './site00LoaderMedia';
 import { loaderLifecycleLog } from './loaderLifecycleLog';
 import { isLoaderMediaDebugEnabled } from './site00LoaderHeroStage';
 import type { LoaderPresentation } from './loader-composition-resolver';
 
 type Site00LoaderAnimationProps = {
-  presentation?: LoaderPresentation;
+  /** Media presentation — selects mobile vs desktop animation asset only. */
+  mediaPresentation?: LoaderPresentation;
   reducedMotion?: boolean;
   onReady?: () => void;
   onError?: (detail: unknown) => void;
@@ -16,7 +17,7 @@ type Site00LoaderAnimationProps = {
  * Fades in once the video can render; static background remains underneath as fallback.
  */
 export function Site00LoaderAnimation({
-  presentation = 'mobile',
+  mediaPresentation = 'mobile',
   reducedMotion = false,
   onReady,
   onError,
@@ -26,7 +27,7 @@ export function Site00LoaderAnimation({
   const [mediaReady, setMediaReady] = useState(false);
   const [mediaError, setMediaError] = useState(false);
   const mediaDebug = isLoaderMediaDebugEnabled();
-  const sourceUrl = site00LoaderEnvironmentAnimationUrl();
+  const sourceUrl = resolveSite00LoaderEnvironmentAnimationUrl(mediaPresentation);
 
   const signalReady = () => {
     if (readyRef.current) return;
@@ -37,8 +38,8 @@ export function Site00LoaderAnimation({
   };
 
   useEffect(() => {
-    loaderLifecycleLog('ANIMATION_SOURCE_RESOLVED', { sourceUrl, presentation });
-  }, [sourceUrl, presentation]);
+    loaderLifecycleLog('ANIMATION_SOURCE_RESOLVED', { sourceUrl, mediaPresentation });
+  }, [sourceUrl, mediaPresentation]);
 
   useEffect(() => {
     if (sourceUrl) return;
@@ -100,7 +101,7 @@ export function Site00LoaderAnimation({
 
   const layerClass = [
     'site00-loader-animation-layer',
-    presentation === 'desktop' ? 'site00-loader-animation-layer--desktop' : 'site00-loader-animation-layer--mobile',
+    mediaPresentation === 'desktop' ? 'site00-loader-animation-layer--desktop' : 'site00-loader-animation-layer--mobile',
     mediaDebug ? 'site00-loader-animation-layer--debug' : '',
   ]
     .filter(Boolean)
@@ -109,7 +110,7 @@ export function Site00LoaderAnimation({
   const mediaClass = [
     'site00-loader-animation',
     'site00-loader-animation--environment',
-    presentation === 'desktop' ? 'site00-loader-animation--environment-desktop' : 'site00-loader-animation--environment-mobile',
+    mediaPresentation === 'desktop' ? 'site00-loader-animation--environment-desktop' : 'site00-loader-animation--environment-mobile',
     reducedMotion ? 'site00-loader-animation--static' : '',
     mediaReady ? 'site00-loader-animation--ready' : '',
     mediaError ? 'site00-loader-animation--error' : '',

@@ -337,8 +337,13 @@
   background: transparent;
 }
 
-/* Desktop landscape master — wide 16:9 asset; center axis preserved on ultrawide */
+/* Desktop landscape master — BLDR 16:9 static environment */
 .site00-loader-env--cover-landscape .site00-loader-env__img {
+  object-fit: cover;
+  object-position: center center;
+}
+
+.site00-immersive-loader--media-desktop .site00-loader-env--cover-landscape .site00-loader-env__img {
   object-fit: cover;
   object-position: center center;
 }
@@ -375,14 +380,19 @@
   object-position: center center;
 }
 
-/* Portrait master — 1312×2816 aligns with 711×1536 static background */
+/* Portrait master — 1312×2816 aligns with 711×1536 static background (mobile only) */
 .site00-loader-animation--environment-mobile {
   object-fit: cover;
   object-position: center center;
 }
 
-/* Desktop landscape viewport — center crop of portrait animation */
+/* Landscape master — 2560×1440 aligns with BLDR desktop static background */
 .site00-loader-animation--environment-desktop {
+  object-fit: cover;
+  object-position: center center;
+}
+
+.site00-immersive-loader--media-desktop .site00-loader-animation--environment-desktop {
   object-fit: cover;
   object-position: center center;
 }
