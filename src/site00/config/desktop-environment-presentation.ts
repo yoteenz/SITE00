@@ -19,11 +19,11 @@ export const SITE00_ENTER_DESKTOP_FOCAL = {
   /** Default laptop / standard desktop */
   default: 'center 65%',
   /** Shorter viewports (max-height 799px) */
-  short: 'center 61%',
+  short: 'center 65%',
   /** Taller viewports (min-height 900px) */
-  tall: 'center 71%',
+  tall: 'center 65%',
   /** Ultrawide (min-aspect-ratio 21/9) */
-  ultrawide: 'center 68%',
+  ultrawide: 'center 65%',
 } as const;
 
 export const SITE00_DESKTOP_PRESENTATION_LOCKED = {

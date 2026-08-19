@@ -1,4 +1,5 @@
 import { SITE00_ENVIRONMENTS, type EnvironmentId } from '../../config/environments';
+import { useSite00EnterDesktopFocal } from '../../hooks/useSite00EnterDesktopFocal';
 import { resolveSite00PublicAsset } from '../loader/site00LoaderConfig';
 
 type Site00EnvironmentViewportBackgroundProps = {
@@ -8,6 +9,8 @@ type Site00EnvironmentViewportBackgroundProps = {
 /** Viewport cover layer outside artboard transform — bg focal only, UI stays in scaled stage. */
 export function Site00EnvironmentViewportBackground({ environmentId }: Site00EnvironmentViewportBackgroundProps) {
   const config = SITE00_ENVIRONMENTS[environmentId];
+  const isEnter = environmentId === 'ENTER_00_WAITING_ROOM';
+  const enterFocal = useSite00EnterDesktopFocal(isEnter);
   const desktopAsset = config.desktopAssetPath
     ? resolveSite00PublicAsset(config.desktopAssetPath)
     : undefined;
@@ -22,8 +25,9 @@ export function Site00EnvironmentViewportBackground({ environmentId }: Site00Env
       aria-hidden="true"
       data-environment={environmentId}
       style={{
-        ['--site00-env-desktop-position' as string]: config.desktopPosition,
+        ['--site00-env-desktop-position' as string]: enterFocal ?? config.desktopPosition,
         ['--site00-env-desktop-image' as string]: `url("${desktopAsset.replace(/"/g, '\\"')}")`,
+        ...(enterFocal ? { backgroundPosition: enterFocal } : {}),
       }}
     />
   );

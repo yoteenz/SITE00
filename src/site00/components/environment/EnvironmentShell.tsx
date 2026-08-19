@@ -27,7 +27,11 @@ export function EnvironmentShell({ environmentId, children, className = '' }: En
   const mobileAsset = config.mobileAssetPath ? resolveSite00PublicAsset(config.mobileAssetPath) : undefined;
   const inDesktopArtboard = useSite00DesktopArtboardPreview();
   const viewportBackgroundActive = useSite00DesktopViewportBackgroundActive();
-  const suppressEnvForViewportBg = inDesktopArtboard && viewportBackgroundActive && Boolean(desktopAsset);
+  const isEnterDesktopExternalBg =
+    environmentId === 'ENTER_00_WAITING_ROOM' && inDesktopArtboard && Boolean(desktopAsset);
+  const suppressEnvForViewportBg =
+    isEnterDesktopExternalBg ||
+    (inDesktopArtboard && viewportBackgroundActive && Boolean(desktopAsset));
 
   return (
     <div className={`site00-shell ${className}`.trim()} data-environment={environmentId}>

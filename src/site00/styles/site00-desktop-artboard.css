@@ -340,6 +340,15 @@
   transform: none;
 }
 
+/** ENTER 00 — viewport cover on native laptop shell (same layer as scaled preview). */
+.site00-desktop-artboard--native-viewport > .site00-environment-viewport-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--site-z-env);
+}
+
 .site00-desktop-artboard-shell__stage-scaler {
   position: relative;
   z-index: 1;

@@ -1,7 +1,4 @@
-/**
- * SITE 00 environment registry — separates ENVIRONMENT from INTERFACE.
- * Production assets referenced here; temporary CSS fallbacks when unavailable.
- */
+import { SITE00_ENTER_DESKTOP_FOCAL } from './desktop-environment-presentation';
 
 /** Approved Origin desktop environment (Supabase live-preview/site00/). */
 export const SITE00_ORIGIN_DESKTOP_BACKGROUND_PATH = '942898D3-6953-47CD-8987-0697EC1C9F11.png';
@@ -80,7 +77,7 @@ export const SITE00_ENVIRONMENTS: Record<EnvironmentId, EnvironmentConfig> = {
   ENTER_00_WAITING_ROOM: {
     id: 'ENTER_00_WAITING_ROOM',
     desktopAssetPath: SITE00_ENTER_DESKTOP_BACKGROUND_PATH,
-    desktopPosition: 'center 65%',
+    desktopPosition: SITE00_ENTER_DESKTOP_FOCAL.default,
     mobilePosition: '55% center',
     desktopScale: 1,
     mobileScale: 1.1,
