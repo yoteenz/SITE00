@@ -628,7 +628,19 @@
   text-transform: uppercase;
   color: var(--site-text-muted, #6b6b6b);
   white-space: nowrap;
-  transition: opacity 0.28s ease;
+  animation: site00-loader-subtitle-in 0.32s ease;
+}
+
+@keyframes site00-loader-subtitle-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(3px / var(--loader-scale, 1)));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .site00-loader-copy__eyebrow {

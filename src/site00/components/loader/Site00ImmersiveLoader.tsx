@@ -27,6 +27,8 @@ export type Site00ImmersiveLoaderPhase = 'loading' | 'complete-hold' | 'exiting'
 type Site00ImmersiveLoaderProps = {
   config: Site00ImmersiveLoaderConfig;
   progress: number;
+  /** Synthetic in-stage creep — drives gray subtitle + bar between milestone jumps. */
+  smoothProgress?: number;
   /** Gray subtitle — stage-driven mock work copy. */
   stageSubtitle?: string;
   loaderState?: Site00LoaderState;
@@ -65,6 +67,7 @@ type ImmersiveLoaderBodyProps = Site00ImmersiveLoaderProps & {
 function ImmersiveLoaderBody({
   config,
   progress,
+  smoothProgress: smoothProgressProp,
   stageSubtitle,
   loaderState: _loaderState = 'BOOTSTRAP',
   isComplete = false,
@@ -149,14 +152,15 @@ function ImmersiveLoaderBody({
 
   const atComplete = isComplete || phase === 'complete-hold' || progress >= 100;
   const progressLabel = error ? 'RETRY REQUIRED' : atComplete ? config.completionMessage : config.assemblingLabel;
-  const displayProgress = copyActive ? progress : 0;
+  const liveProgress = smoothProgressProp ?? progress;
+  const displayProgress = copyActive ? liveProgress : 0;
   const displaySubtitle = useMemo(() => {
     if (error) return "WE COULDN'T COMPLETE THIS STEP";
     if (config.stages.length > 0) {
-      return resolveActiveStageSubtitle(config.stages, displayProgress);
+      return resolveActiveStageSubtitle(config.stages, liveProgress);
     }
     return stageSubtitle || config.experienceSubtitle;
-  }, [config.stages, config.experienceSubtitle, displayProgress, error, stageSubtitle]);
+  }, [config.stages, config.experienceSubtitle, error, liveProgress, stageSubtitle]);
 
   const rootClass = [
     'site00-immersive-loader',

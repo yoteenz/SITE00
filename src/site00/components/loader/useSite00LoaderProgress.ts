@@ -1,8 +1,11 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import type { Site00LoaderStage, Site00LoaderState } from './site00LoaderConfig';
+import { useSite00LoaderSmoothProgress } from './useSite00LoaderSmoothProgress';
 
 export type Site00LoaderProgressState = {
   progress: number;
+  /** Progress with synthetic creep between stage milestones (subtitle + bar). */
+  smoothProgress: number;
   /** Gray subtitle — updates with each completed preload stage. */
   stageSubtitle: string;
   loaderState: Site00LoaderState;
@@ -56,8 +59,11 @@ export function useSite00LoaderProgress(
     setLoaderState('READY');
   }, []);
 
+  const smoothProgress = useSite00LoaderSmoothProgress(stages, progress, isComplete);
+
   return {
     progress,
+    smoothProgress,
     stageSubtitle,
     loaderState,
     isComplete,
