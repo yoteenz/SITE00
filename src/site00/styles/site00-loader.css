@@ -563,7 +563,7 @@
 }
 
 .site00-immersive-loader .site00-loader-copy-region--subtitle {
-  transform: translateY(calc(-10px / var(--loader-scale, 1)));
+  transform: translateY(calc(-14px / var(--loader-scale, 1)));
 }
 
 /* Assembling status — 40px total overlay nudge (20px up from prior). */
