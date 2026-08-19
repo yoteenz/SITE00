@@ -18,7 +18,7 @@ type Site00DesktopArtboardShellProps = {
 
 /**
  * Fixed-width SITE 00 desktop artboard scaled to device width.
- * Environment pages: viewport cover bg outside transform; UI scales with scaleW (no side letterboxing).
+ * Environment pages: viewport cover bg inside scaled stage (bg + UI scale together).
  */
 export function Site00DesktopArtboardShell({ children }: Site00DesktopArtboardShellProps) {
   const shellRef = useRef<HTMLDivElement>(null);
@@ -118,11 +118,11 @@ export function Site00DesktopArtboardShell({ children }: Site00DesktopArtboardSh
       <Site00DesktopArtboardProvider>
         <Site00EnterArtboardChromeProvider hostRef={enterChromeHostRef}>
           <div ref={shellRef} className="site00-desktop-artboard-shell">
-            {viewportEnvironmentId ? (
-              <Site00EnvironmentViewportBackground environmentId={viewportEnvironmentId} />
-            ) : null}
             <div ref={scalerRef} className="site00-desktop-artboard-shell__stage-scaler">
               <div ref={stageRef} className="site00-desktop-artboard">
+                {viewportEnvironmentId ? (
+                  <Site00EnvironmentViewportBackground environmentId={viewportEnvironmentId} />
+                ) : null}
                 {children}
               </div>
             </div>

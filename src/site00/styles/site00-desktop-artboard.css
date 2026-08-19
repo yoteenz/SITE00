@@ -411,6 +411,21 @@
   z-index: var(--site-z-env);
 }
 
+/** Scaled artboard stage — env bg is a child so it transforms with UI (not full-viewport). */
+.site00-desktop-artboard-shell .site00-desktop-artboard {
+  position: relative;
+  overflow: hidden;
+}
+
+.site00-desktop-artboard > .site00-environment-viewport-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--site-z-env);
+  pointer-events: none;
+}
+
 .site00-desktop-artboard > .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'] {
   background-size: cover;
   background-repeat: no-repeat;

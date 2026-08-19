@@ -16,6 +16,20 @@
   z-index: 1;
 }
 
+.site00-mobile-artboard-shell .site00-mobile-artboard {
+  position: relative;
+  overflow: hidden;
+}
+
+.site00-mobile-artboard > .site00-environment-viewport-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--site-z-env);
+  pointer-events: none;
+}
+
 .site00-mobile-artboard {
   position: relative;
   overflow: hidden;
@@ -62,16 +76,6 @@
   transform-origin: center center;
 }
 
-.site00-mobile-artboard-shell > .site00-environment-viewport-bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: var(--site-z-env);
-  pointer-events: none;
-}
-
-.site00-mobile-artboard .site00-env-layer--viewport-bg-suppressed {
   visibility: hidden;
   pointer-events: none;
 }
