@@ -3,7 +3,6 @@ import { useSite00 } from '../../state/Site00Context';
 import { Site00DesktopArtboardShell } from './Site00DesktopArtboardShell';
 import { Site00DesktopNativeViewportShell } from './Site00DesktopNativeViewportShell';
 import { resolveSite00DesktopPresentationMode } from './site00DesktopPresentation';
-import { useSite00OriginWideViewport } from './useSite00OriginWideViewport';
 
 type Site00DesktopPresentationShellProps = {
   children: ReactNode;
@@ -12,16 +11,15 @@ type Site00DesktopPresentationShellProps = {
 };
 
 /**
- * Shared desktop presentation wrapper — native full viewport on laptop,
- * scaled artboard on phones previewing desktop.
+ * Shared desktop presentation wrapper — native full viewport whenever Desktop is selected
+ * (phone and laptop use the same shell so preview stays in sync).
  */
 export function Site00DesktopPresentationShell({
   children,
   forceArtboard = false,
 }: Site00DesktopPresentationShellProps) {
   const { isPreviewDesktop } = useSite00();
-  const isWideViewport = useSite00OriginWideViewport();
-  const mode = resolveSite00DesktopPresentationMode(isPreviewDesktop, isWideViewport, forceArtboard);
+  const mode = resolveSite00DesktopPresentationMode(isPreviewDesktop, false, forceArtboard);
 
   if (mode === 'scaled') {
     return <Site00DesktopArtboardShell>{children}</Site00DesktopArtboardShell>;

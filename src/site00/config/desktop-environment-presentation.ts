@@ -5,8 +5,8 @@
  * `desktopPosition` / ENTER focal tokens only — bg layer is outside UI transform.
  *
  * Architecture:
- * - Laptop (≥768px + Desktop toggle): native full viewport — no scale, in-flow env cover
- * - Phone previewing desktop: scaled artboard — scaleW only, viewport bg on shell
+ * - Desktop toggle (any device): native full viewport — same shell on phone + laptop
+ * - Legacy `/foo/desktop` routes: scaled 1440×900 artboard preview only
  * - Viewport: 100dvh, overflow hidden on environment pages
  * - Bottom chrome: flex-pinned (Origin) or portaled (Enter status strip)
  *

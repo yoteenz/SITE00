@@ -6,16 +6,15 @@ export type Site00DesktopPresentationMode = 'none' | 'native' | 'scaled';
  * Locked architecture — see `desktop-environment-presentation.ts` and CORE.md.
  * Do not use min(scaleW, scaleH) or bottom-anchor on environment pages (side letterboxing / UI drift).
  *
- * - Wide viewport + Desktop → native full-viewport (laptop default)
- * - Narrow viewport + Desktop → scaled 1440×900 artboard (phone previewing desktop)
- * - forceArtboard → always scaled (legacy `/origin/desktop`, `/foo/desktop`)
+ * - Desktop toggle → **native full viewport on all devices** (phone + laptop stay in sync)
+ * - forceArtboard → scaled 1440×900 preview (legacy `/origin/desktop`, `/foo/desktop` only)
  */
 export function resolveSite00DesktopPresentationMode(
   isPreviewDesktop: boolean,
-  isWideViewport: boolean,
+  _isWideViewport: boolean,
   forceArtboard: boolean,
 ): Site00DesktopPresentationMode {
   if (!isPreviewDesktop) return 'none';
   if (forceArtboard) return 'scaled';
-  return isWideViewport ? 'native' : 'scaled';
+  return 'native';
 }

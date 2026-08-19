@@ -89,9 +89,9 @@ Canonical config: `src/site00/config/desktop-environment-presentation.ts`.
 
 | Context | Behavior |
 |---------|----------|
-| Laptop + Desktop toggle | Native full viewport (`Site00DesktopNativeViewportShell`) — edge-to-edge, 100dvh, no scroll |
-| Phone + Desktop toggle | Scaled 1440×900 artboard — **scaleW only** (no side letterboxing) |
-| Environment background | Viewport `cover` layer **outside** UI transform (scaled mode) or in-flow cover (native) |
+| **Desktop toggle** (phone or laptop) | Native full viewport (`Site00DesktopNativeViewportShell`) — **same shell, 100% in sync** |
+| Legacy `/origin/desktop`, `/foo/desktop` | Scaled 1440×900 artboard (`Site00DesktopArtboardShell`) |
+| Environment background | Viewport cover layer; Enter uses external cover on desktop artboard |
 | Bottom chrome | Origin: flex-pinned status strip · Enter: portaled status strip |
 
 **Focal tuning:** Change `background-position` / `desktopPosition` only — never move UI artboard or use bottom-anchor to crop bg. ENTER focal: **higher Y% shifts image up** on the Enter asset (see `SITE00_ENTER_DESKTOP_FOCAL`). Breakpoints are Enter-only in `site00.css`.

@@ -43,7 +43,7 @@ export function Site00OriginLayoutSwitch() {
           type="button"
           aria-current={isPreviewDesktop ? 'page' : undefined}
           onClick={() => setPreviewDeviceMode('desktop')}
-          title="Desktop design — full screen on laptop; scaled preview on phone"
+          title="Desktop layout — same full-viewport presentation on phone and laptop"
         >
           Desktop
         </button>
