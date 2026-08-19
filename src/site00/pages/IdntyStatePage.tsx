@@ -39,7 +39,9 @@ export default function IdntyStatePage() {
               {IDNTY_STATE_COPY.headline}
             </p>
             <p className="site00-body site00-state-page__subhead" style={{ maxWidth: 560, margin: '0 auto' }}>
-              {IDNTY_STATE_COPY.subhead}
+              {IDNTY_STATE_COPY.subheadLine1}
+              <br />
+              {IDNTY_STATE_COPY.subheadLine2}
             </p>
           </header>
 
