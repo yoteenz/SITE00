@@ -191,3 +191,10 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 
 - **Issue:** Prior shift to 24% moved Enter bg **down** not up — Y% direction inverted for this asset.
 - **Fix:** Mirror from 32% baseline: **40%** default, **36%** short / **46%** tall / **43%** ultrawide. UI unchanged.
+
+---
+
+## 2026-08-19 — ENTER focal +12% additional upward shift
+
+- **Request:** After direction fix, bg still low — shift up another ~10–15%.
+- **Change:** +12pp on all Enter-only focal breakpoints: **52%** default (was 40%), **48%** short / **58%** tall / **55%** ultrawide. `environments.ts` + Enter-scoped CSS only; UI unchanged.
