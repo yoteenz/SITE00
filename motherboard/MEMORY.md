@@ -812,3 +812,11 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
   - CSS: 5-column grid, icon slot, artboard-pinned nav in laptop Mobile preview.
 - **Branch:** `cursor/mobile-nav-geometric-icons-796f`.
 
+---
+
+## 2026-08-19 — Assessment complete secondary links row layout
+
+- **Request:** On IDNTY (and BLDR) assessment complete panels, put “SIGN IN TO SAVE” on the same row as “RETURN TO IDNTY”, opposite side — not stacked below.
+- **Fix:** Wrapped secondary links in `.site00-idnty-complete-actions__secondary-row` with `display: flex; justify-content: space-between` in `IdntyAssessmentCompletePage.tsx`, `BldrAssessmentCompletePage.tsx`, `site00-idnty-assessment.css`.
+- **Branch:** `cursor/idnty-complete-secondary-row-796f`.
+
