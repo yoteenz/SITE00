@@ -747,3 +747,11 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Branch:** `cursor/loader-animation-play-once-796f`.
 - **Inspect:** `/loader-preview?forceCopy=1&loaderMediaDebug=1` — build plays once, holds ~5s mark, no loop jump.
 
+---
+
+## 2026-08-19 — Laptop Mobile tab: centered phone device frame
+
+- **Issue:** Mobile toggle on desktop/laptop stretched mobile layout full browser width (390×844 artboard scaled with `scaleW = shell width`) — looked like blown-up mobile, not a phone; hard to inspect/zoom.
+- **Fix:** `Site00MobileArtboardShell` now renders a **centered phone device frame** (bezel, rounded screen, home indicator) with the 390×844 artboard inside the screen only. Scale uses `measureSite00MobileDevicePreviewScaleBox` — fits within viewport padding, max 1.15×, never full laptop width. Outer shell `overflow: auto` + pinch-zoom preserved. Actual phones unchanged (native full-width).
+- **Branch:** `cursor/mobile-device-frame-preview-796f`.
+
