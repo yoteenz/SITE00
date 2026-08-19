@@ -80,14 +80,14 @@ export const SITE00_ENVIRONMENTS: Record<EnvironmentId, EnvironmentConfig> = {
   ENTER_00_WAITING_ROOM: {
     id: 'ENTER_00_WAITING_ROOM',
     desktopAssetPath: SITE00_ENTER_DESKTOP_BACKGROUND_PATH,
-    desktopPosition: 'center 32%',
+    desktopPosition: 'center 28%',
     mobilePosition: '55% center',
     desktopScale: 1,
     mobileScale: 1.1,
     lightingClass: 'site00-env--enter-lighting',
     fallbackClass: 'site00-env-fallback--enter',
     routes: ['/enter'],
-    notes: 'Approved Enter 00 desktop menu — 89319E70 @ live-preview/site00; desktop bg focal center 32% (see .site00-enter-page CSS)',
+    notes: 'Approved Enter 00 desktop menu — 89319E70 @ live-preview/site00; desktop bg focal center 28% (see .site00-enter-page CSS)',
   },
   IDNTY_ASSESSMENT_ENVIRONMENT: {
     id: 'IDNTY_ASSESSMENT_ENVIRONMENT',
