@@ -1,9 +1,8 @@
 /**
  * Route-specific loader headline + stage subtitles.
  * Headline (black title) reflects the destination page; gray subtitle cycles
- * through stage copy that mirrors real preload work behind the overlay.
+ * every 2s through plain-language copy for that page (max 3 words per line).
  *
- * Subtitle copy rule: max 3 words; 4 words only when every word is ≤3 letters.
  * Never use "assembling" in subtitles — that label lives above the progress bar.
  */
 
@@ -31,12 +30,13 @@ function worldStages(subtitles: {
     {
       id: 'ready',
       state: 'READY',
-      subtitle: assertLoaderSubtitle(subtitles.ready ?? 'FINALIZING'),
+      subtitle: assertLoaderSubtitle(subtitles.ready ?? 'PAGE IS READY'),
       progress: 100,
     },
   ];
 }
 
+/** More specific routes first — `/origin/locations` before `/origin`. */
 const ROUTE_COPY: Array<{ match: (path: string) => boolean; copy: Site00LoaderRouteCopy }> = [
   {
     match: (path) => path.startsWith('/origin/locations'),
@@ -44,11 +44,11 @@ const ROUTE_COPY: Array<{ match: (path: string) => boolean; copy: Site00LoaderRo
       experienceTitle: 'MAPPING LOCATIONS',
       completionMessage: 'LOCATIONS READY',
       stages: worldStages({
-        bootstrap: 'PRIMING MARBLE',
-        preparing: 'FETCHING PIN SET',
-        connect: 'PLOTTING COORDS',
-        assemble: 'WEAVING GRID',
-        ready: 'LOCKING GRID',
+        bootstrap: 'WAKING MARBLE HALL',
+        preparing: 'LOADING LOCATION LIST',
+        connect: 'OPENING THE MAP',
+        assemble: 'BUILDING THE GRID',
+        ready: 'LOCATIONS ARE READY',
       }),
     },
   },
@@ -59,10 +59,10 @@ const ROUTE_COPY: Array<{ match: (path: string) => boolean; copy: Site00LoaderRo
       completionMessage: 'ENTER READY',
       stages: worldStages({
         bootstrap: 'WAKING WAIT ROOM',
-        preparing: 'HYDRATING MODULES',
-        connect: 'UNLOCKING GATE',
-        assemble: 'MOUNTING MENU',
-        ready: 'CLEARING PATH',
+        preparing: 'LOADING ENTER PAGE',
+        connect: 'OPENING THE GATE',
+        assemble: 'BUILDING THE MENU',
+        ready: 'ENTER IS READY',
       }),
     },
   },
@@ -72,11 +72,11 @@ const ROUTE_COPY: Array<{ match: (path: string) => boolean; copy: Site00LoaderRo
       experienceTitle: 'PREPARING IDENTITY',
       completionMessage: 'IDENTITY READY',
       stages: worldStages({
-        bootstrap: 'CALIBRATING HALL',
-        preparing: 'FETCHING IDNTY CORE',
-        connect: 'SYNCING IDNTY',
-        assemble: 'MOUNTING SELECTOR',
-        ready: 'SEALING STATE',
+        bootstrap: 'WAKING IDENTITY HALL',
+        preparing: 'LOADING STATE PAGE',
+        connect: 'OPENING THE HALL',
+        assemble: 'BUILDING STATE VIEW',
+        ready: 'IDENTITY IS READY',
       }),
     },
   },
@@ -91,11 +91,11 @@ const ROUTE_COPY: Array<{ match: (path: string) => boolean; copy: Site00LoaderRo
       experienceTitle: 'BUILDING YOUR IDENTITY',
       completionMessage: 'ASSESSMENT READY',
       stages: worldStages({
-        bootstrap: 'SPINNING UP SUITE',
-        preparing: 'INGESTING DIAGNOSTICS',
-        connect: 'READING BRAND STATE',
-        assemble: 'FORGING FLOW',
-        ready: 'COMMITTING RUN',
+        bootstrap: 'WAKING THE SUITE',
+        preparing: 'LOADING YOUR QUESTIONS',
+        connect: 'READING YOUR BRAND',
+        assemble: 'BUILDING YOUR FLOW',
+        ready: 'ASSESSMENT IS READY',
       }),
     },
   },
@@ -105,11 +105,11 @@ const ROUTE_COPY: Array<{ match: (path: string) => boolean; copy: Site00LoaderRo
       experienceTitle: 'PREPARING IDENTITY',
       completionMessage: 'IDENTITY READY',
       stages: worldStages({
-        bootstrap: 'CALIBRATING HALL',
-        preparing: 'HYDRATING MODULES',
-        connect: 'SYNCING IDNTY',
-        assemble: 'MOUNTING SHELL',
-        ready: 'SEALING SHELL',
+        bootstrap: 'WAKING IDENTITY HALL',
+        preparing: 'LOADING IDENTITY PAGE',
+        connect: 'OPENING THE HALL',
+        assemble: 'BUILDING THE SHELL',
+        ready: 'IDENTITY IS READY',
       }),
     },
   },
@@ -119,11 +119,11 @@ const ROUTE_COPY: Array<{ match: (path: string) => boolean; copy: Site00LoaderRo
       experienceTitle: 'PREPARING BUILDER',
       completionMessage: 'BUILDER READY',
       stages: worldStages({
-        bootstrap: 'PRIMING BUILDER HALL',
-        preparing: 'FETCHING BLDR CORE',
-        connect: 'TUNNELING BLDR',
-        assemble: 'MOUNTING SELECTOR',
-        ready: 'LOCKING CLASS',
+        bootstrap: 'WAKING BUILDER HALL',
+        preparing: 'LOADING CLASS PAGE',
+        connect: 'OPENING THE HALL',
+        assemble: 'BUILDING CLASS VIEW',
+        ready: 'BUILDER IS READY',
       }),
     },
   },
@@ -133,11 +133,11 @@ const ROUTE_COPY: Array<{ match: (path: string) => boolean; copy: Site00LoaderRo
       experienceTitle: 'ASSEMBLING BUILDER',
       completionMessage: 'BUILDER READY',
       stages: worldStages({
-        bootstrap: 'SPINNING WORKSPACE',
-        preparing: 'INGESTING MODULES',
-        connect: 'TUNNELING BLDR',
-        assemble: 'FORGING FLOW',
-        ready: 'COMMITTING RUN',
+        bootstrap: 'WAKING WORKSPACE',
+        preparing: 'LOADING BUILDER PAGE',
+        connect: 'OPENING BUILDER HALL',
+        assemble: 'BUILDING THE FLOW',
+        ready: 'BUILDER IS READY',
       }),
     },
   },
@@ -147,11 +147,11 @@ const ROUTE_COPY: Array<{ match: (path: string) => boolean; copy: Site00LoaderRo
       experienceTitle: 'PREPARING EVOLUTION',
       completionMessage: 'EVOLUTION READY',
       stages: worldStages({
-        bootstrap: 'PRIMING EVOLVE HALL',
-        preparing: 'FETCHING EVOLVE CORE',
-        connect: 'SYNCING EVOLVE',
-        assemble: 'MOUNTING SELECTOR',
-        ready: 'LOCKING PATH',
+        bootstrap: 'WAKING EVOLVE HALL',
+        preparing: 'LOADING PATH PAGE',
+        connect: 'OPENING THE HALL',
+        assemble: 'BUILDING PATH VIEW',
+        ready: 'EVOLUTION IS READY',
       }),
     },
   },
@@ -161,11 +161,11 @@ const ROUTE_COPY: Array<{ match: (path: string) => boolean; copy: Site00LoaderRo
       experienceTitle: 'ASSEMBLING EVOLUTION',
       completionMessage: 'EVOLUTION READY',
       stages: worldStages({
-        bootstrap: 'SPINNING WORKSPACE',
-        preparing: 'INGESTING MODULES',
-        connect: 'TUNNELING EVOLVE',
-        assemble: 'WEAVING FLOW',
-        ready: 'COMMITTING RUN',
+        bootstrap: 'WAKING WORKSPACE',
+        preparing: 'LOADING EVOLVE PAGE',
+        connect: 'OPENING EVOLVE HALL',
+        assemble: 'BUILDING THE FLOW',
+        ready: 'EVOLUTION IS READY',
       }),
     },
   },
@@ -187,12 +187,13 @@ const ROUTE_COPY: Array<{ match: (path: string) => boolean; copy: Site00LoaderRo
 
 const DEFAULT_WORLD_COPY: Site00LoaderRouteCopy = {
   experienceTitle: 'ASSEMBLING SITE 00',
+  completionMessage: 'SITE 00 READY',
   stages: worldStages({
-    bootstrap: 'PRIMING ENVIRONMENT',
-    preparing: 'HYDRATING SYSTEMS',
-    connect: 'ROUTING DESTINATION',
-    assemble: 'MOUNTING INTERFACE',
-    ready: 'SEALING SESSION',
+    bootstrap: 'WAKING THE HALL',
+    preparing: 'LOADING YOUR PAGE',
+    connect: 'OPENING THE HALL',
+    assemble: 'BUILDING THE VIEW',
+    ready: 'SITE IS READY',
   }),
 };
 
