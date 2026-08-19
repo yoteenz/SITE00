@@ -1,12 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { resolveSite00LoaderEnvironmentAnimationUrl } from './site00LoaderMedia';
 import { loaderLifecycleLog } from './loaderLifecycleLog';
 import { isLoaderMediaDebugEnabled } from './site00LoaderHeroStage';
+import {
+  bindSite00LoaderVideoSilentGuards,
+  enforceSite00LoaderVideoSilent,
+} from './site00LoaderVideoSilent';
 import type { LoaderPresentation } from './loader-composition-resolver';
 
 type Site00LoaderAnimationProps = {
   /** Media presentation — selects mobile vs desktop animation asset only. */
   mediaPresentation?: LoaderPresentation;
+  /** Cover focal — must match static environment layer to prevent play-time shift. */
+  mediaFocal?: string;
   reducedMotion?: boolean;
   onReady?: () => void;
   onError?: (detail: unknown) => void;
@@ -18,6 +24,7 @@ type Site00LoaderAnimationProps = {
  */
 export function Site00LoaderAnimation({
   mediaPresentation = 'mobile',
+  mediaFocal = 'center center',
   reducedMotion = false,
   onReady,
   onError,
@@ -54,19 +61,16 @@ export function Site00LoaderAnimation({
     signalReady();
   }, [sourceUrl]);
 
+  useLayoutEffect(() => {
+    const video = videoRef.current;
+    if (video) enforceSite00LoaderVideoSilent(video);
+  }, [sourceUrl]);
+
   useEffect(() => {
     const video = videoRef.current;
     if (!video || !sourceUrl) return;
 
-    const enforceSilent = () => {
-      video.muted = true;
-      video.defaultMuted = true;
-      video.volume = 0;
-    };
-
-    enforceSilent();
-    video.addEventListener('volumechange', enforceSilent);
-    video.addEventListener('play', enforceSilent);
+    const unbindSilent = bindSite00LoaderVideoSilentGuards(video);
 
     if (reducedMotion) {
       video.pause();
@@ -79,18 +83,13 @@ export function Site00LoaderAnimation({
       void video.play().catch(() => undefined);
     }
 
-    return () => {
-      video.removeEventListener('volumechange', enforceSilent);
-      video.removeEventListener('play', enforceSilent);
-    };
+    return unbindSilent;
   }, [reducedMotion, sourceUrl]);
 
   const handleCanPlay = () => {
     const video = videoRef.current;
     if (video) {
-      video.muted = true;
-      video.defaultMuted = true;
-      video.volume = 0;
+      enforceSite00LoaderVideoSilent(video);
       if (!reducedMotion) {
         void video.play().catch(() => undefined);
       }
@@ -131,7 +130,7 @@ export function Site00LoaderAnimation({
       className={layerClass}
       data-media-ready={mediaReady ? '1' : '0'}
       data-loader-video-src={sourceUrl}
-      style={{ zIndex: 1 }}
+      style={{ zIndex: 1, ['--site00-loader-animation-focal' as string]: mediaFocal }}
       aria-hidden="true"
     >
       <video
@@ -145,8 +144,10 @@ export function Site00LoaderAnimation({
         loop={!reducedMotion}
         preload="auto"
         disablePictureInPicture
+        disableRemotePlayback
         controls={false}
         tabIndex={-1}
+        style={{ objectPosition: mediaFocal }}
         onLoadedData={handleCanPlay}
         onCanPlay={handleCanPlay}
         onError={handleError}

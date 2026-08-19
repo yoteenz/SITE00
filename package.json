@@ -12,6 +12,7 @@
     "preview": "vite preview --port 4174 --host",
     "start:api": "tsx server/index.ts",
     "typecheck": "tsc --noEmit",
+    "strip:loader-audio": "tsx scripts/stripLoaderAnimationAudio.ts",
     "verify:loader-mobile": "tsx scripts/verifySite00LoaderMobileAnimation.ts"
   },
   "dependencies": {
