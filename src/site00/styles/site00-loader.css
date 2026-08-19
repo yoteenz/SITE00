@@ -571,10 +571,10 @@
   transform: translateY(calc(80px / var(--loader-scale, 1)));
 }
 
-/* Progress bar only — 4px further up (82px total nudge). */
+/* Progress bar only — 78px total nudge (4px up from prior). */
 .site00-immersive-loader .site00-loader-copy-region--progress-track,
 .site00-immersive-loader .site00-loader-copy-region--progress-pct {
-  transform: translateY(calc(82px / var(--loader-scale, 1)));
+  transform: translateY(calc(78px / var(--loader-scale, 1)));
 }
 
 .site00-immersive-loader .site00-loader-copy__eyebrow {
@@ -596,9 +596,9 @@
   margin: calc(var(--site00-stack-sm) / var(--loader-scale, 1)) 0 0;
   font-family: var(--site00-font-display);
   font-size: calc(
-    var(--site00-size-display-lg) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px)
+    var(--site00-size-display-lg) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) - 4px
   );
-  font-weight: var(--site00-weight-heading);
+  font-weight: 600;
   font-stretch: var(--site00-font-stretch-display);
   letter-spacing: var(--site00-tracking-display);
   line-height: var(--site00-lh-display-tight);
@@ -612,7 +612,7 @@
   margin: calc(var(--site00-stack-md) / var(--loader-scale, 1)) 0 0;
   font-family: var(--site00-font-body);
   font-size: calc(
-    var(--site00-size-body) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) + 2px
+    var(--site00-size-body) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) - 4px
   );
   font-weight: var(--site00-weight-body);
   font-stretch: var(--site00-font-stretch-default);
@@ -653,9 +653,19 @@
   text-align: center;
 }
 
+.site00-loader-copy__status--animating {
+  letter-spacing: normal;
+}
+
+.site00-loader-copy__status-label {
+  letter-spacing: 0.08em;
+}
+
 .site00-loader-copy__status-dots {
   display: inline-block;
-  min-width: calc(3ch / var(--loader-scale, 1));
+  min-width: 3ch;
+  letter-spacing: 0;
+  text-transform: none;
   text-align: left;
 }
 
@@ -726,8 +736,8 @@
   gap: 4px;
   width: 100%;
   height: 100%;
-  /* 6px up — inner overlay nudge (negative = up), independent of region transform. */
-  transform: translateY(calc(-6px / var(--loader-scale, 1)));
+  /* 14px up — inner overlay nudge (negative = up), 00 asset + SITE label. */
+  transform: translateY(calc(-14px / var(--loader-scale, 1)));
 }
 
 .site00-loader-copy__mark-img {
