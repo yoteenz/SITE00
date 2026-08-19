@@ -14,7 +14,8 @@ import {
   shouldShowSite00ImmersiveLoader,
 } from './site00LoaderSession';
 import { isSite00LoaderPreviewPath, isSite00SignInPath } from './site00LoaderPaths';
-import { runLoaderStageTimeline, waitForLoaderAnimationStart } from './loaderProgressTimeline';
+import { advanceLoaderStagesFromTasks, waitForLoaderAnimationStart, waitForMinCinematicHold } from './loaderProgressTimeline';
+import { preloadSite00RoutePage } from './site00LoaderRoutePreload';
 import { useSite00LoaderProgress } from './useSite00LoaderProgress';
 
 const COMPLETE_HOLD_MS = 680;
@@ -68,27 +69,38 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
 
     async function bootstrap() {
       try {
-        void preloadSite00LoaderBackground(
-          resolveSite00LoaderBackgroundUrl(resolveSite00LoaderMediaPresentation()),
+        const mediaPresentation = resolveSite00LoaderMediaPresentation();
+        const backgroundTask = preloadSite00LoaderBackground(
+          resolveSite00LoaderBackgroundUrl(mediaPresentation),
         );
-        if (cancelled) return;
-
         const geometryUrl = await resolveSite00LoaderGeometryPreloadUrl();
-        void preloadSite00LoaderAnimation(geometryUrl);
-        if (cancelled) return;
+        const animationTask = preloadSite00LoaderAnimation(geometryUrl);
+        const pageTask = preloadSite00RoutePage(pathname);
 
         await waitForLoaderAnimationStart(() => geometryReadyRef.current);
         if (cancelled) return;
 
         const animationStartedAt = geometryReadyAt.current ?? Date.now();
-        await runLoaderStageTimeline({
-          stageIds: ['bootstrap', 'preparing', 'connect', 'assemble'],
+
+        // Stages advance when each backing preload settles (not timers).
+        await advanceLoaderStagesFromTasks(
+          [
+            { stageId: 'bootstrap', task: backgroundTask },
+            { stageId: 'preparing', task: animationTask },
+            { stageId: 'connect', task: Promise.resolve() },
+            { stageId: 'assemble', task: pageTask },
+          ],
           completeStage,
+          () => cancelled,
+        );
+        if (cancelled) return;
+
+        await waitForMinCinematicHold(
           animationStartedAt,
-          minGeometryPlayMs: MIN_GEOMETRY_PLAY_MS,
-          minCinematicMs: MIN_CINEMATIC_MS,
-          isCancelled: () => cancelled,
-        });
+          MIN_GEOMETRY_PLAY_MS,
+          MIN_CINEMATIC_MS,
+          () => cancelled,
+        );
         if (cancelled) return;
 
         completeStage('ready');
@@ -115,7 +127,7 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
     return () => {
       cancelled = true;
     };
-  }, [immersive, completeStage, forceComplete]);
+  }, [immersive, pathname, completeStage, forceComplete]);
 
   const handleExitComplete = () => {
     markSite00ImmersiveComplete();
