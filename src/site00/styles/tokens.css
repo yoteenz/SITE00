@@ -13,7 +13,8 @@
   --site-red: #e8192c;
   --site-red-dim: rgba(232, 25, 44, 0.15);
   --site00-icon-stroke: 1.75;
-  --site00-enter-icon-slot: 38px;
+  /** Bottom status panel — shared height (Origin desktop + Enter). */
+  --site00-bottom-panel-height: 36px;
   --site-border: rgba(0, 0, 0, 0.08);
   --site-line: rgba(0, 0, 0, 0.12);
   --site-success: #22c55e;
