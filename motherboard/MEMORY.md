@@ -111,3 +111,13 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 - **PR:** #9 `cursor/enter-desktop-bg-focal-796f` — focal position only; no transform/margin/scale hacks.
 
 - **Related open PRs:** #8 site-wide text stack margins; #7 origin mobile layout; #5/#6 enter/origin desktop fixes.
+
+---
+
+## 2026-08-19 — Consolidated all agent PRs to main (#8)
+
+- **Request:** Merge everything to `main` on one branch so preview matches production and no work is lost across draft PRs.
+- **Action:** PR **#8** (`cursor/site-wide-text-stack-margins-796f`) updated as consolidated branch; merged to `main` as `5e05bb6`.
+- **Supersedes:** PR #7 (already merged separately), PR #9 (closed — enter bg focal included in #8), PR #5/#6 commits included in #8.
+- **Final stack on main:** Origin desktop (EVOLVE row, hero overlap, scroll lock) · Origin mobile layout · typography stack margins · ENTER 00 letterbox fix (scaleW) · ENTER bg focal · ENTER/EXIT underline removal · mobile tagline +3px.
+- **Convention:** `main` is now source of truth for all above fixes; no need to check out feature branches for preview.
