@@ -72,55 +72,19 @@
   min-width: 220px;
 }
 
-/** Origin desktop — bottom status strip height −60% (56px → 22px baseline). */
+/** Origin desktop — bottom status strip panel height −60% (56px → 22px); text unchanged. */
 .site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip--layout-desktop {
   min-height: var(--site00-origin-status-strip-min-height, 22px);
 }
 
 .site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__cell {
-  padding: var(--site00-origin-status-strip-cell-padding-y, 3px) 16px;
-  gap: 1px;
-}
-
-.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__cell .site00-label {
-  font-size: calc(var(--site00-size-label) * var(--site00-origin-status-strip-content-scale, 0.4));
-  line-height: 1.1;
-}
-
-.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__cell .site00-status-value {
-  font-size: calc(var(--site00-size-nav) * var(--site00-origin-status-strip-content-scale, 0.4));
-  line-height: 1.1;
-}
-
-.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__cell svg {
-  transform: scale(var(--site00-origin-status-strip-content-scale, 0.4));
-  transform-origin: center;
+  padding-top: var(--site00-origin-status-strip-cell-padding-y, 3px);
+  padding-bottom: var(--site00-origin-status-strip-cell-padding-y, 3px);
 }
 
 .site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__guidance {
-  padding: var(--site00-origin-status-strip-guidance-padding-y, 3px) 20px;
-  gap: calc(12px * var(--site00-origin-status-strip-content-scale, 0.4));
-  min-width: calc(220px * var(--site00-origin-status-strip-content-scale, 0.4));
-}
-
-.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__guidance > span[aria-hidden='true'] {
-  width: var(--site00-origin-status-strip-guidance-avatar, 11px) !important;
-  height: var(--site00-origin-status-strip-guidance-avatar, 11px) !important;
-}
-
-.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__guidance .site00-label {
-  font-size: calc(var(--site00-size-label) * var(--site00-origin-status-strip-content-scale, 0.4));
-  line-height: 1.1;
-}
-
-.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__guidance .site00-status-value {
-  font-size: calc(var(--site00-size-nav) * var(--site00-origin-status-strip-content-scale, 0.4));
-  line-height: 1.1;
-}
-
-.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__guidance svg {
-  transform: scale(var(--site00-origin-status-strip-content-scale, 0.4));
-  transform-origin: center;
+  padding-top: var(--site00-origin-status-strip-guidance-padding-y, 3px);
+  padding-bottom: var(--site00-origin-status-strip-guidance-padding-y, 3px);
 }
 
 .site00-desktop-artboard .site00-origin-hero__coordinate-value {

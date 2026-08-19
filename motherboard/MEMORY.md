@@ -223,4 +223,4 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 ## 2026-08-19 — Origin desktop focal 30% + status strip −60% height
 
 - **Origin bg:** `ORIGIN_ENVIRONMENT.desktopPosition` → **`center 30%`** (desktop only; mobile stays `center center`).
-- **Bottom panel:** Origin desktop status strip min-height **56px → 22px** (−60%); cell/guidance padding, avatar, typography/icons scaled **0.4** via `origin-home-composition.ts` tokens + `site00-desktop-artboard.css` (Origin desktop artboard only).
+- **Bottom panel:** Origin desktop status strip panel min-height **56px → 22px** (−60%) and reduced vertical padding (8px → 3px). Text, icons, and guidance avatar **unchanged** (prior content-scale reverted).
