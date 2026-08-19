@@ -818,6 +818,6 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 
 - **Request:** Remove extra gray lines below JOURNAL and SUPPORT on Enter menu desktop page only.
 - **Root cause:** Each `.site00-enter-row` has `border-bottom`; last row in EXPLORE (Journal) and YOUR SPACE (Support) showed redundant rules above the diamond section divider / panel bottom.
-- **Fix:** Desktop-scoped CSS — `.site00-enter-page .site00-enter-menu nav .site00-enter-row:last-child { border-bottom: none }` (+ desktop artboard preview mirror).
+- **Fix:** Desktop-scoped CSS — `.site00-enter-page .site00-enter-menu nav .site00-enter-row:last-child { border-bottom: none }` (+ desktop artboard preview mirror). Section headings EXPLORE / YOUR SPACE get +4px below (`margin-bottom: 16px` vs base 12px) on desktop Enter only.
 - **Branch:** `cursor/enter-menu-row-dividers-796f`.
 
