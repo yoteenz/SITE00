@@ -57,14 +57,14 @@ export const ASSTS_LOADER_DESKTOP_COMPOSITION = {
   reference: { width: 1672, height: 941, centerX: 836 },
   wireframe: { x: 716, y: 88, w: 240, h: 372 },
   platform: { x: 586, y: 442, w: 500, h: 96 },
-  siteLabel: { x: 796, y: 548, w: 80, h: 26, centerX: 836 },
-  headline: { x: 320, y: 578, w: 1032, h: 52, centerX: 836 },
-  subtitle: { x: 480, y: 636, w: 712, h: 32, centerX: 836 },
-  status: { x: 716, y: 644, w: 240, h: 22, centerX: 836 },
-  progressTrack: { x: 536, y: 674, w: 600, h: 8 },
-  progressPercentage: { x: 1144, y: 666, w: 44, h: 24 },
-  brandStatement: { x: 546, y: 704, w: 580, h: 28, centerX: 836 },
-  siteMark: { x: 792, y: 752, w: 88, h: 96, centerX: 836 },
+  siteLabel: { x: 796, y: 580, w: 80, h: 26, centerX: 836 },
+  headline: { x: 320, y: 610, w: 1032, h: 52, centerX: 836 },
+  subtitle: { x: 480, y: 668, w: 712, h: 32, centerX: 836 },
+  status: { x: 716, y: 708, w: 240, h: 22, centerX: 836 },
+  progressTrack: { x: 536, y: 738, w: 600, h: 8 },
+  progressPercentage: { x: 1144, y: 730, w: 44, h: 24 },
+  brandStatement: { x: 546, y: 768, w: 580, h: 28, centerX: 836 },
+  siteMark: { x: 792, y: 816, w: 88, h: 96, centerX: 836 },
 } as const;
 
 export const ASSTS_LOADER_DESKTOP_REGIONS: Record<LoaderDesktopRegionId, LoaderDesktopRegionRect> = {
