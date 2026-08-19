@@ -530,6 +530,8 @@
 .site00-loader-copy-region--title,
 .site00-loader-copy-region--subtitle {
   overflow: visible;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .site00-loader-copy__eyebrow {
