@@ -35,6 +35,7 @@ type Site00ImmersiveLoaderProps = {
   phase?: Site00ImmersiveLoaderPhase;
   reducedMotion?: boolean;
   onAnimationReady?: () => void;
+  onAnimationOpeningHold?: () => void;
   onExitComplete?: () => void;
   error?: boolean;
   onRetry?: () => void;
@@ -59,6 +60,7 @@ type ImmersiveLoaderBodyProps = Site00ImmersiveLoaderProps & {
   mediaPresentation: LoaderPresentation;
   backgroundUrl: string;
   backgroundFocal: string;
+  /** @deprecated Focal now unified via backgroundFocal — retained for prop plumbing. */
   animationFocal: string;
 };
 
@@ -73,6 +75,7 @@ function ImmersiveLoaderBody({
   phase = 'loading',
   reducedMotion: reducedMotionProp,
   onAnimationReady,
+  onAnimationOpeningHold,
   onExitComplete,
   error = false,
   onRetry,
@@ -81,7 +84,7 @@ function ImmersiveLoaderBody({
   mediaPresentation,
   backgroundUrl,
   backgroundFocal,
-  animationFocal,
+  animationFocal: _animationFocal,
 }: ImmersiveLoaderBodyProps) {
   const systemReducedMotion = usePrefersReducedMotion();
   const reducedMotion = reducedMotionProp ?? systemReducedMotion;
@@ -182,12 +185,12 @@ function ImmersiveLoaderBody({
         backgroundUrl={backgroundUrl}
         envFit={envFit}
         backgroundFocal={backgroundFocal}
-        animationFocal={animationFocal}
         animationEnabled={animationEnabled}
         mediaPresentation={mediaPresentation}
         reducedMotion={reducedMotion}
         onBackgroundLoad={handleBootHandoff}
         onAnimationReady={handleAnimationReady}
+        onAnimationOpeningHold={onAnimationOpeningHold}
         onAnimationError={handleAnimationError}
       />
 

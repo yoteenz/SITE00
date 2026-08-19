@@ -15,7 +15,7 @@ function clampProgress(value: number): number {
  * Isolated loader surface — stays mounted so typography and animation can be inspected.
  * Query params: ?progress=62&complete=1&loaderDebug=1&forceCopy=1&route=/assts
  *
- * Focal inspection (no jump): ?loaderMediaDebug=1&forceCopy=1 — bg center / anim 40% mobile.
+ * Focal inspection (no jump): ?loaderMediaDebug=1&forceCopy=1 — bg + anim center center.
  */
 export default function LoaderPreviewPage() {
   const [params] = useSearchParams();

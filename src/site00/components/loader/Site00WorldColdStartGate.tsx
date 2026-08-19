@@ -14,13 +14,20 @@ import {
   shouldShowSite00ImmersiveLoader,
 } from './site00LoaderSession';
 import { isSite00LoaderPreviewPath, isSite00SignInPath } from './site00LoaderPaths';
-import { advanceLoaderStagesFromTasks, waitForLoaderAnimationStart, waitForMinCinematicHold } from './loaderProgressTimeline';
+import {
+  advanceLoaderStagesFromTasks,
+  waitForLoaderAnimationOpeningHold,
+  waitForLoaderAnimationStart,
+  waitForOpeningFrameHold,
+} from './loaderProgressTimeline';
 import { preloadSite00RoutePage } from './site00LoaderRoutePreload';
 import { useSite00LoaderProgress } from './useSite00LoaderProgress';
+import {
+  SITE00_LOADER_MIN_OPENING_HOLD_MS,
+  SITE00_LOADER_OPENING_HOLD_TIMEOUT_MS,
+} from './site00LoaderAnimationPlayback';
 
 const COMPLETE_HOLD_MS = 680;
-const MIN_CINEMATIC_MS = 4200;
-const MIN_GEOMETRY_PLAY_MS = 2800;
 
 initSite00ImmersiveLoaderBoot();
 
@@ -41,6 +48,8 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
   const [pageUnderlayReady, setPageUnderlayReady] = useState(!immersive);
   const geometryReadyAt = useRef<number | null>(null);
   const geometryReadyRef = useRef(false);
+  const openingHoldRef = useRef(false);
+  const openingHoldAt = useRef<number | null>(null);
   const config = resolveSite00ImmersiveLoaderConfig(pathname);
   const { progress, smoothProgress, stageSubtitle, loaderState, isComplete, completeStage, forceComplete } = useSite00LoaderProgress(
     config.stages,
@@ -51,6 +60,12 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
     if (geometryReadyRef.current) return;
     geometryReadyRef.current = true;
     geometryReadyAt.current = Date.now();
+  }, []);
+
+  const handleAnimationOpeningHold = useCallback(() => {
+    if (openingHoldRef.current) return;
+    openingHoldRef.current = true;
+    openingHoldAt.current = Date.now();
   }, []);
 
   useEffect(() => {
@@ -81,8 +96,6 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
         await waitForLoaderAnimationStart(() => geometryReadyRef.current);
         if (cancelled) return;
 
-        const animationStartedAt = geometryReadyAt.current ?? Date.now();
-
         // Stages advance when each backing preload settles (not timers).
         await advanceLoaderStagesFromTasks(
           [
@@ -96,10 +109,15 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
         );
         if (cancelled) return;
 
-        await waitForMinCinematicHold(
-          animationStartedAt,
-          MIN_GEOMETRY_PLAY_MS,
-          MIN_CINEMATIC_MS,
+        await waitForLoaderAnimationOpeningHold(
+          () => openingHoldRef.current,
+          SITE00_LOADER_OPENING_HOLD_TIMEOUT_MS,
+        );
+        if (cancelled) return;
+
+        await waitForOpeningFrameHold(
+          openingHoldAt.current ?? Date.now(),
+          SITE00_LOADER_MIN_OPENING_HOLD_MS,
           () => cancelled,
         );
         if (cancelled) return;
@@ -160,6 +178,7 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
           isComplete={isComplete}
           phase={phase}
           onAnimationReady={handleAnimationReady}
+          onAnimationOpeningHold={handleAnimationOpeningHold}
           onExitComplete={handleExitComplete}
         />
       </>
@@ -179,6 +198,7 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
           isComplete={isComplete}
           phase={phase}
           onAnimationReady={handleAnimationReady}
+          onAnimationOpeningHold={handleAnimationOpeningHold}
           onExitComplete={handleExitComplete}
         />,
         document.body,

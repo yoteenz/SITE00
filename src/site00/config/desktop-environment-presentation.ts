@@ -30,9 +30,9 @@ export const SITE00_ENTER_DESKTOP_FOCAL = {
 
 /** Immersive loader cover focal — static bg stays center; tune animation to match MP4 framing. */
 export const SITE00_LOADER_MEDIA_FOCAL = {
-  /** Animation layer — lower Y% shifts MP4 down to meet locked static still (mobile). */
+  /** Animation layer — aligned with static background focal (no handoff crop shift). */
   animation: {
-    mobile: 'center 40%',
+    mobile: 'center center',
     desktop: 'center center',
   },
   /**

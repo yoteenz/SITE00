@@ -8,37 +8,38 @@ type ImmersiveLoaderMediaProps = {
   backgroundUrl: string;
   envFit: Site00LoaderEnvironmentFit;
   backgroundFocal: string;
-  animationFocal: string;
   animationEnabled: boolean;
   mediaPresentation: LoaderPresentation;
   reducedMotion: boolean;
   onBackgroundLoad: () => void;
   onAnimationReady: () => void;
+  onAnimationOpeningHold?: () => void;
   onAnimationError: (detail: unknown) => void;
 };
 
 /**
  * Media stack isolated from copy/progress re-renders (smooth progress creep runs ~60fps).
- * Layer 1 (static still) is unmounted once the MP4 plays — never restored during exit.
+ * Layer 1 (static still) strips once the MP4 pauses on the opening frame.
  */
 export const ImmersiveLoaderMedia = memo(function ImmersiveLoaderMedia({
   backgroundUrl,
   envFit,
   backgroundFocal,
-  animationFocal,
   animationEnabled,
   mediaPresentation,
   reducedMotion,
   onBackgroundLoad,
   onAnimationReady,
+  onAnimationOpeningHold,
   onAnimationError,
 }: ImmersiveLoaderMediaProps) {
   const [staticBackgroundStripped, setStaticBackgroundStripped] = useState(false);
 
-  const handleAnimationPlaying = useCallback(() => {
+  const handleAnimationOpeningHold = useCallback(() => {
     stripSite00BootShellBackground();
     setStaticBackgroundStripped(true);
-  }, []);
+    onAnimationOpeningHold?.();
+  }, [onAnimationOpeningHold]);
 
   const handleAnimationError = useCallback(
     (detail: unknown) => {
@@ -69,10 +70,10 @@ export const ImmersiveLoaderMedia = memo(function ImmersiveLoaderMedia({
       {animationEnabled ? (
         <Site00LoaderAnimation
           mediaPresentation={mediaPresentation}
-          mediaFocal={animationFocal}
+          mediaFocal={backgroundFocal}
           reducedMotion={reducedMotion}
-          onPlaying={handleAnimationPlaying}
           onReady={onAnimationReady}
+          onOpeningHold={handleAnimationOpeningHold}
           onError={handleAnimationError}
         />
       ) : null}

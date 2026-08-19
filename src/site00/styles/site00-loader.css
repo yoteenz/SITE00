@@ -354,7 +354,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Focal inline — bg center / anim center 40% on mobile. */
+  /* Focal inline — bg + anim both center center (aligned handoff). */
   opacity: 1;
   background: transparent;
 }

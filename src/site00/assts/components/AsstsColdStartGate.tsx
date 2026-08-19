@@ -16,17 +16,17 @@ import {
   shouldShowSite00ImmersiveLoader,
 } from '../../components/loader/site00LoaderSession';
 import { useSite00LoaderProgress } from '../../components/loader/useSite00LoaderProgress';
-import { advanceLoaderStagesFromTasks, waitForLoaderAnimationStart, waitForMinCinematicHold } from '../../components/loader/loaderProgressTimeline';
+import { advanceLoaderStagesFromTasks, waitForLoaderAnimationOpeningHold, waitForLoaderAnimationStart, waitForOpeningFrameHold } from '../../components/loader/loaderProgressTimeline';
 import { preloadAsstsLibraryPage } from '../../components/loader/site00LoaderRoutePreload';
+import {
+  SITE00_LOADER_MIN_OPENING_HOLD_MS,
+  SITE00_LOADER_OPENING_HOLD_TIMEOUT_MS,
+} from '../../components/loader/site00LoaderAnimationPlayback';
 import { Site00TypographyBootstrap } from '../../components/Site00TypographyBootstrap';
 import { ASSTS_ENVIRONMENT_SLOTS } from '../config/slots';
 import { fetchAsstsLibrary, primeAsstsLibraryCache, resolveAsstsSlot } from '../services/asstsApi';
 
 const COMPLETE_HOLD_MS = 680;
-/** Minimum time the immersive loader stays visible from cold-start gate mount. */
-const MIN_CINEMATIC_MS = 4200;
-/** After geometry is painted, keep the loop running at least this long. */
-const MIN_GEOMETRY_PLAY_MS = 2800;
 
 initSite00ImmersiveLoaderBoot();
 
@@ -65,6 +65,8 @@ export function AsstsColdStartGate() {
   const [pageUnderlayReady, setPageUnderlayReady] = useState(!immersive);
   const geometryReadyAt = useRef<number | null>(null);
   const geometryReadyRef = useRef(false);
+  const openingHoldRef = useRef(false);
+  const openingHoldAt = useRef<number | null>(null);
   const config = ASSTS_IMMERSIVE_LOADER_CONFIG;
   const { progress, smoothProgress, stageSubtitle, loaderState, isComplete, completeStage, forceComplete } = useSite00LoaderProgress(
     config.stages,
@@ -75,6 +77,12 @@ export function AsstsColdStartGate() {
     if (geometryReadyRef.current) return;
     geometryReadyRef.current = true;
     geometryReadyAt.current = Date.now();
+  }, []);
+
+  const handleAnimationOpeningHold = useCallback(() => {
+    if (openingHoldRef.current) return;
+    openingHoldRef.current = true;
+    openingHoldAt.current = Date.now();
   }, []);
 
   useEffect(() => {
@@ -112,8 +120,6 @@ export function AsstsColdStartGate() {
         await waitForGeometryReady(() => geometryReadyRef.current);
         if (cancelled) return;
 
-        const animationStartedAt = geometryReadyAt.current ?? Date.now();
-
         await advanceLoaderStagesFromTasks(
           [
             { stageId: 'bootstrap', task: backgroundTask },
@@ -130,10 +136,15 @@ export function AsstsColdStartGate() {
         const library = await libraryTask;
         if (library) primeAsstsLibraryCache(library);
 
-        await waitForMinCinematicHold(
-          animationStartedAt,
-          MIN_GEOMETRY_PLAY_MS,
-          MIN_CINEMATIC_MS,
+        await waitForLoaderAnimationOpeningHold(
+          () => openingHoldRef.current,
+          SITE00_LOADER_OPENING_HOLD_TIMEOUT_MS,
+        );
+        if (cancelled) return;
+
+        await waitForOpeningFrameHold(
+          openingHoldAt.current ?? Date.now(),
+          SITE00_LOADER_MIN_OPENING_HOLD_MS,
           () => cancelled,
         );
         if (cancelled) return;
@@ -203,6 +214,7 @@ export function AsstsColdStartGate() {
       isComplete={isComplete}
       phase={phase}
       onAnimationReady={handleAnimationReady}
+      onAnimationOpeningHold={handleAnimationOpeningHold}
       onExitComplete={handleExitComplete}
     />
   );
