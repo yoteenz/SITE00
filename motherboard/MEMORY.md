@@ -286,3 +286,11 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Issue:** Origin desktop bottom status strip still taller than Enter bottom panel despite prior −60% min-height (22px) attempt.
 - **Fix:** Shared `--site00-bottom-panel-height: 36px` token. Origin desktop artboard strip locked to 36px (match Enter); cells row-aligned (label + value inline); guidance compressed (20px avatar, label/title inline); zero vertical cell/guidance padding. Text/copy unchanged.
 - **Branch:** `cursor/origin-panel-height-match-enter-796f`.
+
+---
+
+## 2026-08-19 — Laptop Mobile tab: scaled 390×844 phone preview
+
+- **Issue:** Mobile toggle on laptop stretched mobile layout to full browser width — not a true phone preview.
+- **Fix:** `Site00MobileArtboardShell` — laptop + Mobile → scaled **390×844** artboard (scaleW edge-to-edge), env bg outside transform (mobile asset for Origin). Phone + Mobile stays native full-width. Re-anchor mobile `fixed` UI to artboard stage in `site00-mobile-artboard.css`. Wired via `Site00MobilePresentationShell` on Origin/Public route shells.
+- **Branch:** `cursor/laptop-mobile-scaled-preview-796f`.
