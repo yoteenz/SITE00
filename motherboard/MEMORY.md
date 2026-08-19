@@ -470,3 +470,10 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Request:** Black title (e.g. ASSEMBLING ORIGIN) lighter weight + +2px; red eyebrow above +4px; gray subtitle below +4px.
 - **Fix:** Title uses `--site00-weight-heading` (700) and +2px extra; eyebrow/subtitle +4px extra atop global bump. PR **#57**.
 
+---
+
+## 2026-08-19 — Loader footer signature up 6px
+
+- **Request:** Move 00 PNG asset and red SITE 00 label below it up 6px in tandem; overlay only.
+- **Fix:** Signature region `translateY(calc(54px / var(--loader-scale)))` (60px base − 6px). PR **#58**.
+
