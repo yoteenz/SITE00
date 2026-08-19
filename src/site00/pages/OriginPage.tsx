@@ -33,7 +33,12 @@ export default function OriginPage() {
         <Site00AppShell
           locationLabel={SITE00_ORIGIN_COPY.locationLabel}
           showStatusStrip
-          statusStrip={<StatusStrip layout={statusStripLayout} />}
+          statusStrip={
+            <StatusStrip
+              layout={statusStripLayout}
+              swipeHandlers={isMobileOrigin ? locationsTransition.swipeHandlers : undefined}
+            />
+          }
         >
           {isMobileOrigin ? (
             <div
