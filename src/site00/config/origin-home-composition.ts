@@ -45,10 +45,10 @@ export const SITE00_ORIGIN_DESKTOP_COMPOSITION = {
   expandedPanelScale: 0.74375,
   /** Framework pillar PNG size on expanded panels (32px base × 1.2). */
   frameworkIconSizePx: 38.4,
-  /** Bottom status strip — desktop artboard panel chrome (56px baseline −60% min-height). */
-  statusStripMinHeightPx: 22,
-  statusStripCellPaddingYPx: 3,
-  statusStripGuidancePaddingYPx: 3,
+  /** Bottom status strip — matches Enter panel height (`--site00-bottom-panel-height`). */
+  statusStripMinHeightPx: 36,
+  statusStripCellPaddingYPx: 0,
+  statusStripGuidancePaddingYPx: 0,
 } as const;
 
 /** @deprecated Use SITE00_ORIGIN_DESKTOP_COMPOSITION */

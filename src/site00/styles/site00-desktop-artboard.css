@@ -72,19 +72,58 @@
   min-width: 220px;
 }
 
-/** Origin desktop — bottom status strip panel height −60% (56px → 22px); text unchanged. */
+/** Origin desktop — bottom panel matches Enter strip height; text unchanged. */
 .site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip--layout-desktop {
-  min-height: var(--site00-origin-status-strip-min-height, 22px);
+  min-height: var(--site00-origin-status-strip-min-height, var(--site00-bottom-panel-height, 36px));
+  height: var(--site00-origin-status-strip-min-height, var(--site00-bottom-panel-height, 36px));
+  max-height: var(--site00-origin-status-strip-min-height, var(--site00-bottom-panel-height, 36px));
+  box-sizing: border-box;
+  align-items: center;
 }
 
 .site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__cell {
-  padding-top: var(--site00-origin-status-strip-cell-padding-y, 3px);
-  padding-bottom: var(--site00-origin-status-strip-cell-padding-y, 3px);
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  padding-top: var(--site00-origin-status-strip-cell-padding-y, 0px);
+  padding-bottom: var(--site00-origin-status-strip-cell-padding-y, 0px);
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__cell .site00-label {
+  white-space: nowrap;
+}
+
+.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__cell > div {
+  min-width: 0;
 }
 
 .site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__guidance {
-  padding-top: var(--site00-origin-status-strip-guidance-padding-y, 3px);
-  padding-bottom: var(--site00-origin-status-strip-guidance-padding-y, 3px);
+  padding-top: var(--site00-origin-status-strip-guidance-padding-y, 0px);
+  padding-bottom: var(--site00-origin-status-strip-guidance-padding-y, 0px);
+  padding-left: 12px;
+  padding-right: 12px;
+  gap: 8px;
+  min-height: 0;
+}
+
+.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__guidance > span[aria-hidden='true'] {
+  width: 20px;
+  height: 20px;
+}
+
+.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__guidance > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__guidance > div > .site00-label,
+.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__guidance > div > .site00-status-value {
+  white-space: nowrap;
 }
 
 .site00-desktop-artboard .site00-origin-hero__coordinate-value {

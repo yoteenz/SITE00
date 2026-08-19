@@ -936,8 +936,8 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
 /** ENTER 00 — always desktop env presentation (refresh-safe; not gated on preview toggle or 768px). */
 .site00-enter-page {
   --site00-enter-header-offset: 96px;
-  --site00-enter-status-strip-height: 36px;
-  --site00-summary-strip-height: 36px;
+  --site00-enter-status-strip-height: var(--site00-bottom-panel-height, 36px);
+  --site00-summary-strip-height: var(--site00-bottom-panel-height, 36px);
   height: 100dvh;
   max-height: 100dvh;
   overflow: hidden;
