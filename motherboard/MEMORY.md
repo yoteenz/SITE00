@@ -660,3 +660,12 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Root cause:** `creepLoaderProgress` used a bogus `* 60` multiplier (~480%/sec); after preload tasks finished (floor 82), creep ceiling was 99.99 so bar sprinted to 100 during the 4.2s cinematic hold before `forceComplete`.
 - **Fix:** Linear creep (~5.7 pts/s); cap pre-complete ceiling at **98** until gate calls `forceComplete`. Bar reaches high-90s over ~2.8s then holds until exit. PR #80.
 
+---
+
+## 2026-08-19 — Loader animation jump regression (revert + inline focal fix)
+
+- **Issue:** After PR #80 preview parity changes, animation **jumped** on cold start/preview instead of matching debug inspection (`?loaderMediaDebug=1&forceCopy=1` — inline bg `center 45%` / anim `center center`).
+- **Revert:** PR #80 focal parity commit reverted — no default `forceCopy`, no `syncSite00LoaderFocalDocumentVars`, no deferred boot teardown until MP4 playing (that made jump worse).
+- **Root cause (post-revert):** (1) Smooth progress creep re-rendered media stack ~60fps; (2) CSS `object-position: var(...)` competed with inline focal on img/video; (3) boot shell used `background-image` + `background-position` while React used `object-fit: cover` + inline `object-position` — handoff mismatch on `/`.
+- **Fix:** `ImmersiveLoaderMedia` memo isolates media from progress re-renders; inline `objectPosition` only (CSS vars removed from img/video); static bg fades out when `.site00-loader-animation--ready` (`:has()`); boot shell + boot.js use `<img object-fit: cover>` matching React; `/loader-preview` clears boot shell on mount (inspection = no handoff); boot gate includes `/` for early origin paint. PR #80 updated.
+
