@@ -1185,7 +1185,7 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
       100dvh - var(--site00-enter-header-offset) - var(--site00-enter-status-strip-height) - 48px
     );
     overflow: hidden;
-    transform: translate(198px, -48px);
+    transform: translate(204px, -48px);
   }
 
   .site00-desktop-artboard .site00-enter-menu {
