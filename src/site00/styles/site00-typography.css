@@ -36,7 +36,18 @@
 .site00-mobile-shell a[class*='site00-'],
 .site00-public-shell a[class*='site00-'],
 .site00-ctrl-room-shell a[class*='site00-'],
-.site00-desktop-artboard-shell a[class*='site00-'] {
+.site00-desktop-artboard-shell a[class*='site00-'],
+.site00-desktop-artboard--native-viewport a[class*='site00-'],
+.site00-desktop-artboard a[class*='site00-'] {
+  text-decoration: none;
+}
+
+a.site00-btn-ghost,
+a.site00-btn-ghost:hover,
+a.site00-btn-ghost:focus,
+a.site00-btn-ghost:focus-visible,
+a.site00-btn-ghost:visited,
+a.site00-btn-ghost:active {
   text-decoration: none;
 }
 

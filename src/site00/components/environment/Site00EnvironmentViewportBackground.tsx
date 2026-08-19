@@ -27,7 +27,10 @@ export function Site00EnvironmentViewportBackground({ environmentId }: Site00Env
       style={{
         ['--site00-env-desktop-position' as string]: enterFocal ?? config.desktopPosition,
         ['--site00-env-desktop-image' as string]: `url("${desktopAsset.replace(/"/g, '\\"')}")`,
-        ...(enterFocal ? { backgroundPosition: enterFocal } : {}),
+        backgroundImage: `url("${desktopAsset.replace(/"/g, '\\"')}")`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: enterFocal ?? config.desktopPosition,
       }}
     />
   );

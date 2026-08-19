@@ -1,5 +1,7 @@
-import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { useLayoutEffect, useRef, type ReactNode } from 'react';
+import { useLocation } from 'react-router-dom';
 import { installDesktopPreviewShellViewportLock } from '../../../utils/desktopPreview';
+import { SITE00_ROUTES } from '../../config/routes';
 import { Site00EnvironmentViewportBackground } from '../environment/Site00EnvironmentViewportBackground';
 import { Site00DesktopArtboardProvider } from './Site00DesktopArtboardContext';
 import { Site00DesktopPresentationProvider } from './Site00DesktopPresentationContext';
@@ -15,7 +17,8 @@ type Site00DesktopNativeViewportShellProps = {
  */
 export function Site00DesktopNativeViewportShell({ children }: Site00DesktopNativeViewportShellProps) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const [enterPageActive, setEnterPageActive] = useState(false);
+  const { pathname } = useLocation();
+  const enterPageActive = pathname === SITE00_ROUTES.enter;
 
   useLayoutEffect(
     () => installDesktopPreviewShellViewportLock({ background: '#f5f5f3' }),
@@ -38,29 +41,6 @@ export function Site00DesktopNativeViewportShell({ children }: Site00DesktopNati
       window.removeEventListener('resize', syncViewportHeight);
       window.removeEventListener('orientationchange', syncViewportHeight);
     };
-  }, []);
-
-  useLayoutEffect(() => {
-    const syncEnterPage = () => {
-      const root = rootRef.current;
-      const active =
-        root?.querySelector('.site00-enter-page') != null ||
-        (typeof window !== 'undefined' && window.location.pathname === '/enter');
-      setEnterPageActive((prev) => (prev === active ? prev : active));
-    };
-
-    syncEnterPage();
-
-    const root = rootRef.current;
-    const mutationObserver =
-      typeof MutationObserver !== 'undefined' && root
-        ? new MutationObserver(syncEnterPage)
-        : undefined;
-    if (root) {
-      mutationObserver?.observe(root, { childList: true, subtree: true });
-    }
-
-    return () => mutationObserver?.disconnect();
   }, []);
 
   return (

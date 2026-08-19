@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useReducer, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
+import { Site00PreviewDesktopDocumentFlag } from '../components/shell/Site00PreviewDesktopDocumentFlag';
 import { isSite00PublicDesktopPath, site00PublicMobilePath } from '../config/site00-public-pages';
 import { isSite00OriginDesktopPath } from '../config/routes';
 import {
@@ -74,7 +75,12 @@ export function Site00Provider({ children }: { children: ReactNode }) {
     isPreviewDesktop,
   };
 
-  return <Site00Context.Provider value={value}>{children}</Site00Context.Provider>;
+  return (
+    <Site00Context.Provider value={value}>
+      <Site00PreviewDesktopDocumentFlag />
+      {children}
+    </Site00Context.Provider>
+  );
 }
 
 export function useSite00(): Site00ContextValue {
