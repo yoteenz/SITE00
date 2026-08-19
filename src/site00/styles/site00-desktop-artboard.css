@@ -343,10 +343,10 @@
   height: calc(var(--site00-origin-panel-icon-size-px, 80px) * 1.1);
 }
 
-/** EVOLVE expanded panel header icon — +10% on desktop artboard. */
-.site00-desktop-artboard .site00-origin-evolve-expanded-panel .site00-origin-card__icon--lg {
-  width: calc(88px * 1.1);
-  height: calc(88px * 1.1);
+/** Expanded panel header icon (top-right) — 3× lg base; collapsed cards unchanged. */
+.site00-desktop-artboard .site00-home-expanded-column .site00-origin-card__icon--lg {
+  width: var(--site00-origin-expanded-header-icon-size-px, 264px);
+  height: var(--site00-origin-expanded-header-icon-size-px, 264px);
 }
 
 /** EVOLVE expanded — three paths centered (not left-aligned in 5-col grid). */
