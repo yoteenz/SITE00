@@ -812,3 +812,11 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
   - CSS: 5-column grid, icon slot, artboard-pinned nav in laptop Mobile preview.
 - **Branch:** `cursor/mobile-nav-geometric-icons-796f`.
 
+---
+
+## 2026-08-19 — IDNTY investment duplicate icons (mobile + desktop)
+
+- **Request:** Remove duplicate brand-state icons from IDNTY / INVESTMENT section; user reported icons still visible on mobile (prior PR #99 not merged to main).
+- **Fix:** Stop passing `brandStateId` to `InvestmentColumn` on `IdntyStatePage`; removed `brandStateId` from `InvestmentTier` config. Same component serves mobile and desktop — no viewport-specific icon path.
+- **Branch:** `cursor/idnty-investment-remove-icons-796f`.
+

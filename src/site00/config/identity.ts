@@ -89,7 +89,6 @@ export type InvestmentTier = {
   label: string;
   priceLabel: string;
   services: string[];
-  brandStateId: IdntyBrandStateIconId;
 };
 
 export const IDNTY_INVESTMENT_TIERS: InvestmentTier[] = [
@@ -98,28 +97,24 @@ export const IDNTY_INVESTMENT_TIERS: InvestmentTier[] = [
     label: 'FOUNDATION',
     priceLabel: 'FROM $2,500',
     services: ['LOGO', 'VISUAL IDENTITY', 'BRAND GUIDELINES'],
-    brandStateId: 'starting-at-zero',
   },
   {
     id: 'refine',
     label: 'REFINE',
     priceLabel: 'FROM $1,750',
     services: ['LOGO ENHANCEMENT', 'GUIDELINES', 'VISUAL SYSTEM'],
-    brandStateId: 'some-pieces',
   },
   {
     id: 'evolve',
     label: 'EVOLVE',
     priceLabel: 'FROM $3,500',
     services: ['REBRANDING', 'STRATEGY', 'VISUAL EVOLUTION'],
-    brandStateId: 'ready-evolution',
   },
   {
     id: 'build-ready-tier',
     label: 'BUILD READY',
     priceLabel: 'NO IDNTY PURCHASE REQUIRED',
     services: ['ASSET VERIFICATION', 'PROCEED TO BLDR'],
-    brandStateId: 'build-ready',
   },
 ];
 
