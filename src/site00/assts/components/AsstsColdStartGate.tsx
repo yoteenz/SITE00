@@ -16,7 +16,8 @@ import {
   shouldShowSite00ImmersiveLoader,
 } from '../../components/loader/site00LoaderSession';
 import { useSite00LoaderProgress } from '../../components/loader/useSite00LoaderProgress';
-import { runLoaderStageTimeline, waitForLoaderAnimationStart } from '../../components/loader/loaderProgressTimeline';
+import { advanceLoaderStagesFromTasks, waitForLoaderAnimationStart, waitForMinCinematicHold } from '../../components/loader/loaderProgressTimeline';
+import { preloadAsstsLibraryPage } from '../../components/loader/site00LoaderRoutePreload';
 import { Site00TypographyBootstrap } from '../../components/Site00TypographyBootstrap';
 import { ASSTS_ENVIRONMENT_SLOTS } from '../config/slots';
 import { fetchAsstsLibrary, primeAsstsLibraryCache, resolveAsstsSlot } from '../services/asstsApi';
@@ -91,44 +92,49 @@ export function AsstsColdStartGate() {
 
     async function bootstrap() {
       try {
-        void import('../pages/LibraryPage');
-
-        await preloadSite00LoaderBackground(
+        const backgroundTask = preloadSite00LoaderBackground(
           resolveSite00LoaderBackgroundUrl(resolveSite00LoaderMediaPresentation()),
         );
-        if (cancelled) return;
-
         const geometryUrl = await resolveSite00LoaderGeometryPreloadUrl();
-        const geometryPromise = preloadSite00LoaderAnimation(geometryUrl);
+        const animationTask = preloadSite00LoaderAnimation(geometryUrl);
+        const pageTask = preloadAsstsLibraryPage();
 
-        const libraryPromise = withTimeout(fetchAsstsLibrary(), BOOTSTRAP_API_TIMEOUT_MS, 'library').catch(
+        const libraryTask = withTimeout(fetchAsstsLibrary(), BOOTSTRAP_API_TIMEOUT_MS, 'library').catch(
           () => null,
         );
-        const slotPromise = withTimeout(
+        const slotTask = withTimeout(
           resolveAsstsSlot(ASSTS_ENVIRONMENT_SLOTS.library),
           BOOTSTRAP_API_TIMEOUT_MS,
           'slot',
         ).catch(() => null);
 
-        const [library] = await Promise.all([libraryPromise, slotPromise]);
-        if (cancelled) return;
-        if (library) primeAsstsLibraryCache(library);
-
-        await geometryPromise;
-        if (cancelled) return;
-
         await waitForGeometryReady(() => geometryReadyRef.current);
         if (cancelled) return;
 
         const animationStartedAt = geometryReadyAt.current ?? Date.now();
-        await runLoaderStageTimeline({
-          stageIds: ['bootstrap', 'preparing', 'connect', 'resolve', 'assemble'],
+
+        await advanceLoaderStagesFromTasks(
+          [
+            { stageId: 'bootstrap', task: backgroundTask },
+            { stageId: 'preparing', task: animationTask },
+            { stageId: 'connect', task: libraryTask },
+            { stageId: 'resolve', task: slotTask },
+            { stageId: 'assemble', task: pageTask },
+          ],
           completeStage,
+          () => cancelled,
+        );
+        if (cancelled) return;
+
+        const library = await libraryTask;
+        if (library) primeAsstsLibraryCache(library);
+
+        await waitForMinCinematicHold(
           animationStartedAt,
-          minGeometryPlayMs: MIN_GEOMETRY_PLAY_MS,
-          minCinematicMs: MIN_CINEMATIC_MS,
-          isCancelled: () => cancelled,
-        });
+          MIN_GEOMETRY_PLAY_MS,
+          MIN_CINEMATIC_MS,
+          () => cancelled,
+        );
         if (cancelled) return;
 
         completeStage('ready');
