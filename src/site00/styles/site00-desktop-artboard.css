@@ -83,6 +83,8 @@
 
 .site00-desktop-artboard .site00-shell {
   position: relative;
+  display: flex;
+  flex-direction: column;
   height: var(--site00-desktop-artboard-height, 900px);
   min-height: var(--site00-desktop-artboard-height, 900px);
   overflow: hidden;
@@ -97,6 +99,10 @@
 
 .site00-desktop-artboard .site00-ui-layer {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
   height: 100%;
   min-height: 100% !important;
 }
@@ -104,14 +110,21 @@
 .site00-desktop-artboard .site00-origin-page {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-height: 0;
   height: 100%;
-  min-height: 100%;
 }
 
 .site00-desktop-artboard .site00-origin-page > main {
   flex: 1;
   min-height: 0;
   position: relative;
+}
+
+.site00-desktop-artboard .site00-origin-page > footer,
+.site00-desktop-artboard .site00-status-strip-host--artboard {
+  flex-shrink: 0;
+  margin-top: auto;
 }
 
 .site00-desktop-artboard .site00-home-stage {

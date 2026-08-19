@@ -493,92 +493,99 @@
   }
 }
 
-/* ─── Origin homepage — mobile-only layout (scoped; desktop unchanged) ─── */
+/* ─── Origin homepage — mobile layout (class-scoped; works on desktop preview too) ─── */
 
 .site00-origin-mobile-swipe {
   display: none;
 }
 
-@media (max-width: 767px) {
-  .site00-origin-page--mobile-layout .site00-safe-ui {
-    display: block;
-    position: relative;
-    padding-top: 20px;
-  }
+.site00-origin-page--mobile-layout .site00-safe-ui {
+  display: block;
+  position: relative;
+  padding-top: 20px;
+}
 
-  .site00-origin-page--mobile-layout .site00-safe-ui > div:first-child {
-    display: none;
-  }
+.site00-origin-page--mobile-layout .site00-safe-ui > div:first-child {
+  display: none;
+}
 
-  .site00-origin-page--mobile-layout .site00-safe-ui > div:nth-child(2) {
-    display: none !important;
-  }
+.site00-origin-page--mobile-layout .site00-safe-ui > div:nth-child(2) {
+  display: none !important;
+}
 
-  .site00-origin-page--mobile-layout .site00-safe-ui > div:nth-child(3) {
-    display: none;
-  }
+.site00-origin-page--mobile-layout .site00-safe-ui > div:nth-child(3) {
+  display: none;
+}
 
-  .site00-origin-page--mobile-layout .site00-global-nav {
-    display: none !important;
-  }
+.site00-origin-page--mobile-layout .site00-global-nav {
+  display: none !important;
+}
 
-  .site00-origin-page--mobile-layout .site00-status-strip--layout-desktop {
-    display: none;
-  }
+.site00-origin-page--mobile-layout .site00-status-strip--layout-desktop {
+  display: none;
+}
 
-  .site00-origin-page--mobile-layout .site00-status-strip--layout-mobile {
-    display: flex;
-    flex-direction: column;
-    background: transparent;
-    border-top: none;
-    min-height: unset;
-    width: 100%;
-  }
+.site00-origin-page--mobile-layout .site00-status-strip--layout-mobile {
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  border-top: none;
+  min-height: unset;
+  width: 100%;
+}
 
-  .site00-origin-page--mobile-layout .site00-status-strip__metrics {
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x proximity;
-    scrollbar-width: none;
-    background: rgba(240, 240, 240, 0.95);
-    border-top: 1px solid var(--site-border);
-    touch-action: pan-x;
-  }
+.site00-origin-page--mobile-layout .site00-status-strip__metrics {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  background: rgba(240, 240, 240, 0.95);
+  border-top: 1px solid var(--site-border);
+  touch-action: pan-x;
+}
 
-  .site00-origin-page--mobile-layout .site00-status-strip__metrics::-webkit-scrollbar {
-    display: none;
-  }
+.site00-origin-page--mobile-layout .site00-status-strip__metrics::-webkit-scrollbar {
+  display: none;
+}
 
-  .site00-origin-page--mobile-layout .site00-status-strip--layout-mobile .site00-status-strip__cell {
-    flex: 0 0 auto;
-    width: calc(100vw / 2.6);
-    min-width: 132px;
-    max-width: 168px;
-    scroll-snap-align: start;
-    padding: 4px 12px;
-    min-height: 31px;
-    gap: 1px;
-  }
+.site00-origin-page--mobile-layout .site00-status-strip--layout-mobile .site00-status-strip__cell {
+  flex: 0 0 auto;
+  width: calc(100vw / 2.6);
+  min-width: 132px;
+  max-width: 168px;
+  scroll-snap-align: start;
+  padding: 4px 12px;
+  min-height: 31px;
+  gap: 1px;
+}
 
-  .site00-origin-page--mobile-layout .site00-status-strip--layout-mobile .site00-status-strip__guidance {
-    width: 100%;
-    min-width: unset;
-    margin: 0;
-    border-radius: 0;
-    box-sizing: border-box;
-    padding: 5px 20px;
-    gap: 8px;
-  }
+.site00-origin-page--mobile-layout .site00-status-strip--layout-mobile .site00-status-strip__guidance {
+  width: 100%;
+  min-width: unset;
+  margin: 0;
+  border-radius: 0;
+  box-sizing: border-box;
+  padding: 5px 20px;
+  gap: 8px;
+}
 
-  .site00-origin-page--mobile-layout .site00-status-strip--layout-mobile .site00-status-strip__guidance > span[aria-hidden='true'] {
-    width: 18px;
-    height: 18px;
-  }
+.site00-origin-page--mobile-layout .site00-status-strip--layout-mobile .site00-status-strip__guidance > span[aria-hidden='true'] {
+  width: 18px;
+  height: 18px;
+}
 
-  .site00-origin-page--mobile-layout .site00-home-hero {
+.site00-origin-page--desktop-artboard .site00-status-strip--layout-desktop {
+  display: grid;
+}
+
+.site00-origin-page--desktop-artboard .site00-status-strip--layout-mobile {
+  display: none;
+}
+
+.site00-origin-page--mobile-layout .site00-home-hero {
     display: block !important;
     position: fixed;
     top: calc(20px + env(safe-area-inset-top, 0px));
@@ -733,7 +740,6 @@
   .site00-origin-page--mobile-layout .site00-home-stage {
     padding-bottom: 120px;
   }
-}
 
 /* ─── Enter 00 — waiting room (/enter) ─── */
 
