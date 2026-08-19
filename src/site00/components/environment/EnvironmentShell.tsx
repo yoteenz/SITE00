@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { resolveSite00PublicAsset } from '../loader/site00LoaderConfig';
 import { SITE00_ENVIRONMENTS, type EnvironmentId } from '../../config/environments';
 import { useSite00DesktopArtboardPreview } from '../shell/Site00DesktopArtboardContext';
+import { useSite00DesktopViewportBackgroundActive } from '../shell/Site00DesktopPresentationContext';
 import '../../styles/site00.css';
 
 type EnvironmentShellProps = {
@@ -25,12 +26,13 @@ export function EnvironmentShell({ environmentId, children, className = '' }: En
   const desktopAsset = resolveEnvironmentDesktopAsset(config);
   const mobileAsset = config.mobileAssetPath ? resolveSite00PublicAsset(config.mobileAssetPath) : undefined;
   const inDesktopArtboard = useSite00DesktopArtboardPreview();
-  const suppressEnterArtboardEnv = environmentId === 'ENTER_00_WAITING_ROOM' && inDesktopArtboard;
+  const viewportBackgroundActive = useSite00DesktopViewportBackgroundActive();
+  const suppressEnvForViewportBg = inDesktopArtboard && viewportBackgroundActive && Boolean(desktopAsset);
 
   return (
     <div className={`site00-shell ${className}`.trim()} data-environment={environmentId}>
       <div
-        className={`site00-env-layer ${config.fallbackClass} ${config.lightingClass} ${desktopAsset ? 'site00-env-layer--has-desktop-asset' : ''} ${mobileAsset ? 'site00-env-layer--has-mobile-asset' : ''} ${suppressEnterArtboardEnv ? 'site00-env-layer--enter-artboard-suppressed' : ''}`.trim()}
+        className={`site00-env-layer ${config.fallbackClass} ${config.lightingClass} ${desktopAsset ? 'site00-env-layer--has-desktop-asset' : ''} ${mobileAsset ? 'site00-env-layer--has-mobile-asset' : ''} ${suppressEnvForViewportBg ? 'site00-env-layer--viewport-bg-suppressed' : ''}`.trim()}
         aria-hidden="true"
         style={{
           position: inDesktopArtboard ? 'absolute' : 'fixed',

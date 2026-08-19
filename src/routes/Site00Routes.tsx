@@ -9,10 +9,10 @@ import { Site00RouteLoadingFallback } from '../site00/components/loader/Site00Ro
 import { Site00WorldColdStartGate } from '../site00/components/loader/Site00WorldColdStartGate';
 import { Site00OriginRouteShell } from '../site00/components/shell/Site00OriginRouteShell';
 import { Site00AccountRouteGuard } from '../site00/components/guards/Site00AccountRouteGuard';
-import { Site00DesktopArtboardShell } from '../site00/components/shell/Site00DesktopArtboardShell';
 import { Site00PublicRouteShell } from '../site00/components/shell/Site00PublicRouteShell';
 import { Site00PublicDesktopLegacyRedirect } from '../site00/components/shell/Site00PublicWideDesktopRedirect';
 import { Site00OriginDesktopLegacyRedirect } from '../site00/components/shell/Site00OriginDesktopLegacyRedirect';
+import { Site00WorkflowDesktopLegacyRedirect } from '../site00/components/shell/Site00WorkflowDesktopLegacyRedirect';
 import { Site00TypographyBootstrap } from '../site00/components/Site00TypographyBootstrap';
 import { site00PublicDesktopPath } from '../site00/config/site00-public-pages';
 /* Eager-load SITE 00 + ASSTS styles (lazy route CSS was not applying on mobile preview). */
@@ -219,9 +219,11 @@ export function Site00Routes() {
         path={SITE00_ROUTES.idntyState}
         element={
           <Site00Layout>
-            <Site00Suspense>
-              <Site00IdntyStatePage />
-            </Site00Suspense>
+            <Site00PublicRouteShell>
+              <Site00Suspense>
+                <Site00IdntyStatePage />
+              </Site00Suspense>
+            </Site00PublicRouteShell>
           </Site00Layout>
         }
       />
@@ -229,11 +231,7 @@ export function Site00Routes() {
         path={SITE00_ROUTES.idntyStateDesktop}
         element={
           <Site00Layout>
-            <Site00DesktopArtboardShell>
-              <Site00Suspense>
-                <Site00IdntyStatePage />
-              </Site00Suspense>
-            </Site00DesktopArtboardShell>
+            <Site00WorkflowDesktopLegacyRedirect />
           </Site00Layout>
         }
       />
@@ -261,9 +259,11 @@ export function Site00Routes() {
         path={SITE00_ROUTES.bldrState}
         element={
           <Site00Layout>
-            <Site00Suspense>
-              <Site00BldrStatePage />
-            </Site00Suspense>
+            <Site00PublicRouteShell>
+              <Site00Suspense>
+                <Site00BldrStatePage />
+              </Site00Suspense>
+            </Site00PublicRouteShell>
           </Site00Layout>
         }
       />
@@ -271,11 +271,7 @@ export function Site00Routes() {
         path={SITE00_ROUTES.bldrStateDesktop}
         element={
           <Site00Layout>
-            <Site00DesktopArtboardShell>
-              <Site00Suspense>
-                <Site00BldrStatePage />
-              </Site00Suspense>
-            </Site00DesktopArtboardShell>
+            <Site00WorkflowDesktopLegacyRedirect />
           </Site00Layout>
         }
       />
@@ -284,9 +280,11 @@ export function Site00Routes() {
         path={SITE00_ROUTES.evolveState}
         element={
           <Site00Layout>
-            <Site00Suspense>
-              <Site00EvolveStatePage />
-            </Site00Suspense>
+            <Site00PublicRouteShell>
+              <Site00Suspense>
+                <Site00EvolveStatePage />
+              </Site00Suspense>
+            </Site00PublicRouteShell>
           </Site00Layout>
         }
       />
@@ -294,11 +292,7 @@ export function Site00Routes() {
         path={SITE00_ROUTES.evolveStateDesktop}
         element={
           <Site00Layout>
-            <Site00DesktopArtboardShell>
-              <Site00Suspense>
-                <Site00EvolveStatePage />
-              </Site00Suspense>
-            </Site00DesktopArtboardShell>
+            <Site00WorkflowDesktopLegacyRedirect />
           </Site00Layout>
         }
       />
@@ -391,9 +385,11 @@ export function Site00Routes() {
         path="/idnty/:stateSlug/*"
         element={
           <Site00Layout>
-            <Site00Suspense>
-              <IdntyAssessmentRouterPage />
-            </Site00Suspense>
+            <Site00PublicRouteShell>
+              <Site00Suspense>
+                <IdntyAssessmentRouterPage />
+              </Site00Suspense>
+            </Site00PublicRouteShell>
           </Site00Layout>
         }
       />
@@ -401,11 +397,7 @@ export function Site00Routes() {
         path="/idnty/:stateSlug/desktop/*"
         element={
           <Site00Layout>
-            <Site00DesktopArtboardShell>
-              <Site00Suspense>
-                <IdntyAssessmentRouterPage />
-              </Site00Suspense>
-            </Site00DesktopArtboardShell>
+            <Site00WorkflowDesktopLegacyRedirect />
           </Site00Layout>
         }
       />
@@ -426,9 +418,11 @@ export function Site00Routes() {
         path="/bldr/:classSlug/*"
         element={
           <Site00Layout>
-            <Site00Suspense>
-              <BldrAssessmentRouterPage />
-            </Site00Suspense>
+            <Site00PublicRouteShell>
+              <Site00Suspense>
+                <BldrAssessmentRouterPage />
+              </Site00Suspense>
+            </Site00PublicRouteShell>
           </Site00Layout>
         }
       />
@@ -436,11 +430,7 @@ export function Site00Routes() {
         path="/bldr/:classSlug/desktop/*"
         element={
           <Site00Layout>
-            <Site00DesktopArtboardShell>
-              <Site00Suspense>
-                <BldrAssessmentRouterPage />
-              </Site00Suspense>
-            </Site00DesktopArtboardShell>
+            <Site00WorkflowDesktopLegacyRedirect />
           </Site00Layout>
         }
       />
@@ -448,9 +438,11 @@ export function Site00Routes() {
         path="/evolve/:pathSlug/*"
         element={
           <Site00Layout>
-            <Site00Suspense>
-              <EvolveAssessmentRouterPage />
-            </Site00Suspense>
+            <Site00PublicRouteShell>
+              <Site00Suspense>
+                <EvolveAssessmentRouterPage />
+              </Site00Suspense>
+            </Site00PublicRouteShell>
           </Site00Layout>
         }
       />
@@ -458,11 +450,7 @@ export function Site00Routes() {
         path="/evolve/:pathSlug/desktop/*"
         element={
           <Site00Layout>
-            <Site00DesktopArtboardShell>
-              <Site00Suspense>
-                <EvolveAssessmentRouterPage />
-              </Site00Suspense>
-            </Site00DesktopArtboardShell>
+            <Site00WorkflowDesktopLegacyRedirect />
           </Site00Layout>
         }
       />

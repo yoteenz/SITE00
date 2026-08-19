@@ -951,12 +951,14 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
     overflow: hidden;
   }
 
-  .site00-env-layer--enter-artboard-suppressed {
+  .site00-env-layer--enter-artboard-suppressed,
+  .site00-env-layer--viewport-bg-suppressed {
     visibility: hidden;
     pointer-events: none;
   }
 
   .site00-enter-artboard-viewport-bg,
+  .site00-environment-viewport-bg,
   .site00-enter-page .site00-env-layer--has-desktop-asset {
     background-size: cover;
     background-position: var(--site00-env-desktop-position, center 32%);
@@ -964,6 +966,7 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
 
   @media (max-height: 799px) {
     .site00-enter-artboard-viewport-bg,
+    .site00-environment-viewport-bg,
     .site00-enter-page .site00-env-layer--has-desktop-asset {
       background-position: center 28%;
     }
@@ -971,6 +974,7 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
 
   @media (min-height: 900px) {
     .site00-enter-artboard-viewport-bg,
+    .site00-environment-viewport-bg,
     .site00-enter-page .site00-env-layer--has-desktop-asset {
       background-position: center 38%;
     }
@@ -978,6 +982,7 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
 
   @media (min-aspect-ratio: 21/9) {
     .site00-enter-artboard-viewport-bg,
+    .site00-environment-viewport-bg,
     .site00-enter-page .site00-env-layer--has-desktop-asset {
       background-position: center 35%;
     }

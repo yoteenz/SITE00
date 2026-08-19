@@ -1,5 +1,7 @@
 import { useLayoutEffect, useRef, type ReactNode } from 'react';
+import { installDesktopPreviewShellViewportLock } from '../../../utils/desktopPreview';
 import { Site00DesktopArtboardProvider } from './Site00DesktopArtboardContext';
+import { Site00DesktopPresentationProvider } from './Site00DesktopPresentationContext';
 import '../../styles/site00-desktop-artboard.css';
 
 type Site00DesktopNativeViewportShellProps = {
@@ -12,6 +14,11 @@ type Site00DesktopNativeViewportShellProps = {
  */
 export function Site00DesktopNativeViewportShell({ children }: Site00DesktopNativeViewportShellProps) {
   const rootRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(
+    () => installDesktopPreviewShellViewportLock({ background: '#f5f5f3' }),
+    [],
+  );
 
   useLayoutEffect(() => {
     const syncViewportHeight = () => {
@@ -32,10 +39,12 @@ export function Site00DesktopNativeViewportShell({ children }: Site00DesktopNati
   }, []);
 
   return (
-    <Site00DesktopArtboardProvider>
-      <div ref={rootRef} className="site00-desktop-artboard site00-desktop-artboard--native-viewport">
-        {children}
-      </div>
-    </Site00DesktopArtboardProvider>
+    <Site00DesktopPresentationProvider kind="native">
+      <Site00DesktopArtboardProvider>
+        <div ref={rootRef} className="site00-desktop-artboard site00-desktop-artboard--native-viewport">
+          {children}
+        </div>
+      </Site00DesktopArtboardProvider>
+    </Site00DesktopPresentationProvider>
   );
 }
