@@ -36,7 +36,7 @@ export const SITE00_ORIGIN_DESKTOP_COMPOSITION = {
   heroDescription1OffsetYPx: 0,
   heroDescription2OffsetYPx: 0,
   heroDescription3OffsetYPx: 0,
-  heroCoordinateOffsetYPx: 0,
+  heroCoordinateOffsetYPx: 4,
   /** @deprecated Use panelIconSizePx — kept for reference: 48.51/80 ≈ 0.606 */
   panelIconScale: 0.606,
   /** Expanded IDNTY/BLDR panel — centered over plaza (same anchor as collapsed cards). */
