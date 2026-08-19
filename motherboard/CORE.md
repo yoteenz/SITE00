@@ -104,6 +104,13 @@ Canonical config: `src/site00/config/desktop-environment-presentation.ts`.
 - **Auto-load:** `.cursor/rules/motherboard.mdc` — agents read README, CORE, CODEBASE, MEMORY at chat start.
 - **Auto-add:** Append `MEMORY.md` after completed tasks unless user says "stop adding to motherboard".
 
+## Shipping (git / PR)
+
+- **Default:** Feature branch → open PR → **merge to `main` immediately** in the same agent run (see `.cursor/rules/shipping.mdc`).
+- **PR purpose:** History and post-merge review for the founder (mobile GitHub app); not a manual merge gate.
+- **Opt-out phrases:** "draft PR", "don't merge yet", "wait for my review".
+- **`main` ≠ live site:** Merging to `main` updates GitHub (and Railway if connected); **site00.com** still needs GoDaddy deploy.
+
 ---
 
 ## Docs
