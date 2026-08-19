@@ -669,3 +669,10 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Root cause (post-revert):** (1) Smooth progress creep re-rendered media stack ~60fps; (2) CSS `object-position: var(...)` competed with inline focal on img/video; (3) boot shell used `background-image` + `background-position` while React used `object-fit: cover` + inline `object-position` — handoff mismatch on `/`.
 - **Fix:** `ImmersiveLoaderMedia` memo isolates media from progress re-renders; inline `objectPosition` only (CSS vars removed from img/video); **layer 1 unmounted on MP4 play** (`onPlaying`) — never restored during exit; boot shell + boot.js use `<img object-fit: cover>` matching React; `/loader-preview` clears boot shell on mount; boot gate includes `/` for early origin paint. PR #80 updated.
 
+---
+
+## 2026-08-19 — Loader bg focal revert 45%→40% + EXIT 00 gray mobile
+
+- **Loader jump:** Animation still played lower than static bg at handoff — `center 45%` tune (3c5a730) over-corrected from validated `center 40%` (89b3ce7). Reverted mobile bg focal to **40%** in config + boot.js; inline `objectFit: cover` on img/video for iOS parity.
+- **EXIT 00:** Locations directory header — mobile-only gray (`var(--site-text-muted)`) instead of red for `.site00-directory-exit` in `site00-fast-travel.css`.
+
