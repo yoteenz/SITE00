@@ -629,3 +629,17 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Issue:** Gray subtitle still felt static — tied to `displayProgress` (0 until copy-active) and discrete milestone jumps only; should be the one line visibly updating as preload work advances under the static black header.
 - **Fix:** `useSite00LoaderSmoothProgress` + `site00LoaderProgressCreep.ts` creep progress between stage floors; subtitle + bar driven by `liveProgress` (smooth creep, not copy-gated); subtitle crossfade on change. Wired in world + ASSTS cold-start gates. PR pending.
 
+---
+
+## 2026-08-19 — Loader subtitle word-count rule (max 3 words)
+
+- **Request:** Gray loader subtitle sentences max **3 words**; **4 words** only when every word is ≤3 letters.
+- **Fix:** Shortened all route + ASSTS stage subtitles (e.g. Origin: BOOTING MARBLE → LOADING MODULES → LINKING ORIGIN → BUILDING HOMEPAGE → FINALIZING). Added `site00LoaderSubtitleCopy.ts` with `assertLoaderSubtitle()` enforced at config build time. PR pending (same branch as live creep).
+
+---
+
+## 2026-08-19 — Loader subtitle dense dynamic copy (no assembling)
+
+- **Request:** Gray subtitles must not reuse "assembling" (reserved for status above progress bar); verbiage should be denser and more dynamic, not repetitive BOOTING/LOADING/LINKING patterns.
+- **Fix:** Rewrote all route + ASSTS stage subtitles with varied verbs (WAKING, PULLING, HANDSHAKE, STITCHING, SEALING, etc.). `assertLoaderSubtitle()` now rejects any `assembl*` term. Per-route unique ready-line copy (e.g. Origin: SEALING ORIGIN). PR #80 updated.
+
