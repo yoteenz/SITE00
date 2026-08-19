@@ -65,7 +65,7 @@ export const ASSTS_LOADER_COMPOSITION = {
   status: { x: 285, y: 1037, w: 141, h: 26, centerX: 355.5 },
   progressTrack: { x: 97, y: 1095, w: 482, h: 8 },
   progressPercentage: { x: 599, y: 1086, w: 40, h: 25 },
-  brandStatement: { x: 165, y: 1170, w: 380, h: 34, centerX: 355.5 },
+  brandStatement: { x: 96, y: 1170, w: 520, h: 34, centerX: 355.5 },
   siteMark: { x: 312, y: 1265, w: 88, h: 102, centerX: 355.5 },
 } as const;
 

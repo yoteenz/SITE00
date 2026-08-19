@@ -63,7 +63,7 @@ export function LoaderCopyRegions({
         <span className="site00-loader-copy__pct">{value}%</span>
       </LoaderRegion>
 
-      <LoaderRegion id="copy.tagline" className="site00-loader-copy-region site00-loader-copy-region--tagline">
+      <LoaderRegion id="copy.tagline" className="site00-loader-copy-region site00-loader-copy-region--tagline" allowOverflow>
         <div className="site00-loader-copy__tagline-group">
           <span className="site00-loader-copy__tagline-plus" aria-hidden="true">
             +
