@@ -812,3 +812,11 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
   - CSS: 5-column grid, icon slot, artboard-pinned nav in laptop Mobile preview.
 - **Branch:** `cursor/mobile-nav-geometric-icons-796f`.
 
+---
+
+## 2026-08-19 — Evolve state subhead single line (desktop)
+
+- **Request:** Keep “REFINE WHAT EXISTS, INSTALL NEW CAPABILITIES, OR TRANSFORM THE FOUNDATION.” on one row on Evolve state page (no wrap).
+- **Fix:** Removed inline `maxWidth: 560` on EvolveStatePage subhead; `@media (min-width: 768px)` + desktop artboard CSS apply `white-space: nowrap` and `max-width: none` for `.site00-state-page--evolve .site00-state-page__subhead`.
+- **Branch:** `cursor/evolve-state-subhead-nowrap-796f`.
+
