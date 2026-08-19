@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import type { IdentityBrandState } from '../../config/identity';
 import type { EnterMenuIconId } from '../../config/directory';
+import { resolveEnterDirectoryRowHref } from '../../config/directory';
+import { useSignedInFromStorage } from '../../../hooks/useSignedInFromStorage';
 import { GeometricIcon } from '../icons/GeometricIcon';
 import { BldrBuildClassIcon } from '../bldr/BldrBuildClassIcon';
 import type { BldrBuildClassIconId } from '../../config/bldr-build-class-icons';
@@ -149,10 +151,23 @@ type DirectoryRowProps = {
   description: string;
   href: string;
   enabled: boolean;
+  requiresAuth?: boolean;
   enterIcon?: EnterMenuIconId;
 };
 
-export function DirectoryRow({ number, title, description, href, enabled, enterIcon }: DirectoryRowProps) {
+export function DirectoryRow({
+  number,
+  title,
+  description,
+  href,
+  enabled,
+  requiresAuth = false,
+  enterIcon,
+}: DirectoryRowProps) {
+  const [isSignedIn] = useSignedInFromStorage();
+  const resolvedHref = resolveEnterDirectoryRowHref(href, requiresAuth, isSignedIn);
+  const locked = requiresAuth && !isSignedIn;
+
   const content = (
     <>
       <div className="site00-enter-row__main">
@@ -176,7 +191,11 @@ export function DirectoryRow({ number, title, description, href, enabled, enterI
 
   if (enabled) {
     return (
-      <Link to={href} className="site00-enter-row">
+      <Link
+        to={resolvedHref}
+        className={`site00-enter-row${locked ? ' site00-enter-row--locked' : ''}`.trim()}
+        aria-label={locked ? `${title} — sign in to enter` : undefined}
+      >
         {content}
       </Link>
     );

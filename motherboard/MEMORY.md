@@ -129,3 +129,21 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 - **Issue:** Bottom status panel (metrics + NEED GUIDANCE) disappeared when toggling Mobile/Desktop on wide viewports.
 - **Cause:** Mobile strip CSS was inside `@media (max-width: 767px)` but layout switch uses class `.site00-origin-page--mobile-layout` at any width; desktop artboard could clip footer when scaled height exceeded viewport.
 - **Fix (PR #10 → main):** Class-scoped mobile layout rules; explicit desktop-artboard strip visibility; Origin artboard `min(scaleW, scaleH)` (Enter keeps `scaleW`); flex pin footer in artboard column.
+
+---
+
+## 2026-08-19 — Wire ENTER 00 directory menu links to live routes
+
+Summary of this cloud agent run: user asked why all ENTER menu links on desktop were disabled when routes exist.
+
+- **Context:** `/enter` directory panel showed grayed-out rows for SITES, SERVICES, SYSTEM, ABOUT, JOURNAL, PROJECTS, ACCOUNT, SUPPORT — only BLDR STUDIO was clickable.
+
+- **Root cause:** `SITE00_DIRECTORY_SECTIONS` in `directory.ts` had `enabled: false` on all rows except BLDR (leftover from pre-inventory gating). Global nav and Locations directory already had these routes enabled.
+
+- **Fix (PR #12 on `cursor/wire-enter-menu-links-796f`):**
+  - Enabled all explore + your-space rows with `SITE00_ROUTES` hrefs.
+  - **Account** → `/control` (CTRL ROOM), not future `/account`.
+  - **Projects** + **Account** use `requiresAuth` — signed-out users route to `/origin/sign-in?returnTo=…` (same pattern as Locations directory).
+  - `resolveEnterDirectoryRowHref()` helper; `DirectoryRow` component updated.
+
+- **Convention:** Keep ENTER directory `enabled` flags aligned with registered routes in `Site00Routes.tsx`; use `requiresAuth` for guarded destinations instead of disabling links.
