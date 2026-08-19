@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom';
-import { useLayoutEffect, useState, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { useSite00DesktopArtboardPreview } from './Site00DesktopArtboardContext';
-import { useSite00EnterArtboardChromeHost } from './Site00EnterArtboardChromeContext';
+import { useSite00EnterArtboardChromeHostElement } from './Site00EnterArtboardChromeContext';
 
 /**
  * Phone Desktop toggle — pin bottom chrome (summary/status strips) to the artboard shell,
@@ -9,19 +9,10 @@ import { useSite00EnterArtboardChromeHost } from './Site00EnterArtboardChromeCon
  */
 export function Site00ArtboardBottomChromePortal({ children }: { children: ReactNode }) {
   const inDesktopArtboard = useSite00DesktopArtboardPreview();
-  const chromeHost = useSite00EnterArtboardChromeHost();
-  const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
+  const hostElement = useSite00EnterArtboardChromeHostElement();
 
-  useLayoutEffect(() => {
-    if (inDesktopArtboard && chromeHost?.current) {
-      setPortalTarget(chromeHost.current);
-      return;
-    }
-    setPortalTarget(null);
-  }, [inDesktopArtboard, chromeHost]);
-
-  if (portalTarget) {
-    return createPortal(children, portalTarget);
+  if (inDesktopArtboard && hostElement) {
+    return createPortal(children, hostElement);
   }
 
   return <>{children}</>;

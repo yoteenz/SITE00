@@ -439,10 +439,10 @@
 .site00-desktop-artboard-shell__enter-chrome {
   position: absolute;
   left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0;
   z-index: calc(var(--site-z-nav) + 2);
   pointer-events: none;
+  /* top + width synced in Site00DesktopArtboardShell layoutStage */
 }
 
 .site00-desktop-artboard-shell__enter-chrome .site00-enter-status-strip,
@@ -461,6 +461,14 @@
   right: auto;
   margin-top: 0;
   border-radius: 0;
+}
+
+@media (max-width: 767px) {
+  .site00-desktop-artboard-shell__enter-chrome .site00-workflow-summary-strip {
+    position: relative;
+    margin-top: 0;
+    border-radius: 0;
+  }
 }
 
 /** Portaled status strips — desktop layout outside scaled stage (phone Desktop toggle). */
