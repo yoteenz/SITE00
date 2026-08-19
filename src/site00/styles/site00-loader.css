@@ -516,7 +516,11 @@
   transition: opacity 0.32s ease;
 }
 
-/* Copy regions — center-aligned on x ≈ 356 axis */
+/* Copy regions — center-aligned on x ≈ 356 axis; nudge overlay down without moving media. */
+.site00-immersive-loader .site00-loader-copy-region {
+  transform: translateY(calc(60px / var(--loader-scale, 1)));
+}
+
 .site00-loader-copy-region {
   z-index: 3;
   display: flex;
