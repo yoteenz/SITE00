@@ -176,3 +176,11 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 - **Issue:** All desktop environment pages showed side letterboxing (gray bars); removing it stretched bg and clipped bottom panel.
 - **Root cause:** Scaled artboard used `min(scaleW, scaleH)` for Origin (side margins); env bg inside `transform: scale()`; ENTER bg suppressed on native viewport without replacement; workflow routes bypassed presentation shell.
 - **Fix:** Viewport `cover` bg on shell **outside** transform for Origin/Enter/Workflow/Assessment (scaled mode); `scaleW` only (no side margins); native viewport uses in-flow env cover (no suppress); workflow/state/assessment routes use `Site00PublicRouteShell`; legacy `/desktop` workflow paths redirect.
+
+---
+
+## 2026-08-19 — Lock desktop presentation + ENTER upward focal (Enter-only)
+
+- **Lock:** `desktop-environment-presentation.ts` + CORE.md — edge-to-edge formula, scaleW-only, focal-only bg tuning.
+- **ENTER focal:** `desktopPosition` 32% → **24%**; breakpoints Enter-only (20% short / 28% tall / 26% ultrawide). Origin/Workflow unchanged.
+- **Rule:** Never apply Enter focal breakpoints to `.site00-environment-viewport-bg` globally — scope `[data-environment='ENTER_00_WAITING_ROOM']`.

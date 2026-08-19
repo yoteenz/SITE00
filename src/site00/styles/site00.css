@@ -957,34 +957,42 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
     pointer-events: none;
   }
 
-  .site00-enter-artboard-viewport-bg,
+  /** All environment viewport / in-flow layers — focal from environments.ts (per env). */
   .site00-environment-viewport-bg,
   .site00-enter-page .site00-env-layer--has-desktop-asset {
     background-size: cover;
-    background-position: var(--site00-env-desktop-position, center 32%);
+    background-repeat: no-repeat;
+    background-position: var(--site00-env-desktop-position, center center);
+  }
+
+  /** ENTER 00 only — upward focal (lower %); does not affect Origin/Workflow/Assessment. */
+  .site00-enter-artboard-viewport-bg,
+  .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'],
+  .site00-enter-page .site00-env-layer--has-desktop-asset {
+    background-position: var(--site00-env-desktop-position, center 24%);
   }
 
   @media (max-height: 799px) {
     .site00-enter-artboard-viewport-bg,
-    .site00-environment-viewport-bg,
+    .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'],
     .site00-enter-page .site00-env-layer--has-desktop-asset {
-      background-position: center 28%;
+      background-position: center 20%;
     }
   }
 
   @media (min-height: 900px) {
     .site00-enter-artboard-viewport-bg,
-    .site00-environment-viewport-bg,
+    .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'],
     .site00-enter-page .site00-env-layer--has-desktop-asset {
-      background-position: center 38%;
+      background-position: center 28%;
     }
   }
 
   @media (min-aspect-ratio: 21/9) {
     .site00-enter-artboard-viewport-bg,
-    .site00-environment-viewport-bg,
+    .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'],
     .site00-enter-page .site00-env-layer--has-desktop-asset {
-      background-position: center 35%;
+      background-position: center 26%;
     }
   }
 
