@@ -755,3 +755,25 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Fix:** `Site00MobileArtboardShell` now renders a **centered phone device frame** (bezel, rounded screen, home indicator) with the 390×844 artboard inside the screen only. Scale uses `measureSite00MobileDevicePreviewScaleBox` — fits within viewport padding, max 1.15×, never full laptop width. Outer shell `overflow: auto` + pinch-zoom preserved. Actual phones unchanged (native full-width).
 - **Branch:** `cursor/mobile-device-frame-preview-796f`.
 
+---
+
+## 2026-08-19 — Fast Travel SIGN IN TO ENTER + site-wide uppercase audit
+
+Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one row and a **full site audit** converting all text to uppercase.
+
+- **Context:** Mobile Fast Travel panel showed "SIGN IN" / "TO ENTER" on two lines; several card descriptions (e.g. "Access your account.") were sentence-case. User wanted entire SITE 00 product uppercase.
+
+- **Fast Travel fixes:**
+  - `AuthLockedDestination.tsx` + `DirectoryCard.tsx` — single-line **SIGN IN TO ENTER** (no `<br />`); `white-space: nowrap` on auth labels in `site00-fast-travel.css`.
+  - `site00-copy.ts` — shared `SITE00_COPY_SIGN_IN_TO_ENTER`, `site00AuthLockedAriaLabel()`, `site00UppercaseCopy()`.
+  - `fast-travel.ts` — `d()` helper uppercases label/description at runtime; `resolveFastTravel()` uppercases location title/descriptor + section titles.
+
+- **Site-wide uppercase enforcement:**
+  - Extended brand uppercase law in `site00-typography.css` to portaled/off-shell surfaces: `.site00-fast-travel`, `.site00-origin-layout-switch`, `.site00-mobile-artboard`, `.site00-page`, `.site00-ecosystem-shell`, `.site00-signin-page`, `.composition-studio`.
+  - Password inputs remain lowercase (`text-transform: none`).
+  - Batch-uppercased `aria-label` values across public `src/site00/**` (~40 files) + admin shell (~24 files).
+  - Source copy fixes: CTRL overview CTAs, projects/sites search placeholders + empty states, GlobalNav disabled tooltip, account guard recovery message, composition studio "RETURN TO EDITOR".
+
+- **Branch:** `cursor/site-wide-uppercase-copy-796f`.
+- **Inspect:** Open Fast Travel from mobile header on sign-in/origin — auth-gated cards show one-line red **SIGN IN TO ENTER**; all panel copy uppercase.
+
