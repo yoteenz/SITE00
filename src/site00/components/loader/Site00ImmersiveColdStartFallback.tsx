@@ -23,7 +23,7 @@ export function Site00ImmersiveColdStartFallback() {
     <Site00ImmersiveLoader
       config={config}
       progress={0}
-      statusLabel=""
+      stageSubtitle={config.stages[0]?.subtitle ?? ''}
       loaderState="BOOTSTRAP"
     />
   );

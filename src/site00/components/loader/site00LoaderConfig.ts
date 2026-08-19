@@ -5,6 +5,7 @@ import {
   resolveSite00LoaderEnvironmentAnimationUrl,
   SITE00_PUBLIC_PROJECT_REF,
 } from './site00LoaderMedia';
+import { resolveSite00LoaderRouteCopy } from './site00LoaderRouteCopy';
 
 /** Resolve public live-preview asset at runtime (non-loader production assets). */
 export function resolveSite00PublicAsset(path: string): string {
@@ -25,7 +26,8 @@ export type Site00LoaderState =
 export type Site00LoaderStage = {
   id: string;
   state: Site00LoaderState;
-  label: string;
+  /** Gray subtitle — mock behind-the-scenes work copy for this stage. */
+  subtitle: string;
   /** Target progress 0–100 when this stage completes (monotonic). */
   progress: number;
 };
@@ -61,11 +63,11 @@ export const SITE00_WORLD_IMMERSIVE_LOADER_CONFIG: Site00ImmersiveLoaderConfig =
   environmentAnimationUrl: resolveSite00LoaderEnvironmentAnimationUrl('mobile'),
   desktopEnvironmentAnimationUrl: resolveSite00LoaderEnvironmentAnimationUrl('desktop'),
   stages: [
-    { id: 'bootstrap', state: 'BOOTSTRAP', label: 'INITIALIZING SITE 00', progress: 10 },
-    { id: 'preparing', state: 'PREPARING', label: 'ASSEMBLING SITE 00', progress: 35 },
-    { id: 'connect', state: 'CONNECTING', label: 'PREPARING YOUR DESTINATION', progress: 58 },
-    { id: 'assemble', state: 'ASSEMBLING', label: 'ASSEMBLING ENVIRONMENT', progress: 82 },
-    { id: 'ready', state: 'READY', label: 'SITE 00 READY', progress: 100 },
+    { id: 'bootstrap', state: 'BOOTSTRAP', subtitle: 'INITIALIZING ENVIRONMENT', progress: 10 },
+    { id: 'preparing', state: 'PREPARING', subtitle: 'LOADING CORE SYSTEMS', progress: 35 },
+    { id: 'connect', state: 'CONNECTING', subtitle: 'CONNECTING TO DESTINATION', progress: 58 },
+    { id: 'assemble', state: 'ASSEMBLING', subtitle: 'ASSEMBLING INTERFACE', progress: 82 },
+    { id: 'ready', state: 'READY', subtitle: 'FINALIZING', progress: 100 },
   ],
 };
 
@@ -84,12 +86,12 @@ export const ASSTS_IMMERSIVE_LOADER_CONFIG: Site00ImmersiveLoaderConfig = {
   environmentAnimationUrl: resolveSite00LoaderEnvironmentAnimationUrl('mobile'),
   desktopEnvironmentAnimationUrl: resolveSite00LoaderEnvironmentAnimationUrl('desktop'),
   stages: [
-    { id: 'bootstrap', state: 'BOOTSTRAP', label: 'INITIALIZING SITE 00', progress: 8 },
-    { id: 'preparing', state: 'PREPARING', label: 'PREPARING THE ASSET VAULT', progress: 22 },
-    { id: 'connect', state: 'CONNECTING', label: 'CONNECTING TO ASSET VAULT', progress: 38 },
-    { id: 'resolve', state: 'RESOLVING', label: 'RESOLVING PRODUCTION ASSETS', progress: 58 },
-    { id: 'assemble', state: 'ASSEMBLING', label: 'ASSEMBLING INTERFACE', progress: 82 },
-    { id: 'ready', state: 'READY', label: 'ASSET VAULT READY', progress: 100 },
+    { id: 'bootstrap', state: 'BOOTSTRAP', subtitle: 'INITIALIZING SITE 00', progress: 8 },
+    { id: 'preparing', state: 'PREPARING', subtitle: 'PREPARING THE ASSET VAULT', progress: 22 },
+    { id: 'connect', state: 'CONNECTING', subtitle: 'CONNECTING TO ASSET VAULT', progress: 38 },
+    { id: 'resolve', state: 'RESOLVING', subtitle: 'RESOLVING PRODUCTION ASSETS', progress: 58 },
+    { id: 'assemble', state: 'ASSEMBLING', subtitle: 'ASSEMBLING INTERFACE', progress: 82 },
+    { id: 'ready', state: 'READY', subtitle: 'FINALIZING', progress: 100 },
   ],
 };
 
@@ -100,7 +102,15 @@ const CONFIG_BY_ID: Record<string, Site00ImmersiveLoaderConfig> = {
 
 export function resolveSite00ImmersiveLoaderConfig(pathname: string): Site00ImmersiveLoaderConfig {
   if (pathname.startsWith('/assts')) return ASSTS_IMMERSIVE_LOADER_CONFIG;
-  return SITE00_WORLD_IMMERSIVE_LOADER_CONFIG;
+
+  const routeCopy = resolveSite00LoaderRouteCopy(pathname);
+  return {
+    ...SITE00_WORLD_IMMERSIVE_LOADER_CONFIG,
+    experienceTitle: routeCopy.experienceTitle,
+    experienceSubtitle: routeCopy.stages[0]?.subtitle ?? SITE00_WORLD_IMMERSIVE_LOADER_CONFIG.experienceSubtitle,
+    completionMessage: routeCopy.completionMessage ?? SITE00_WORLD_IMMERSIVE_LOADER_CONFIG.completionMessage,
+    stages: routeCopy.stages,
+  };
 }
 
 export function getSite00ImmersiveLoaderConfig(id: string): Site00ImmersiveLoaderConfig | null {

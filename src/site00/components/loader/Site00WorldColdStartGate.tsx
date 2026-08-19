@@ -41,7 +41,7 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
   const geometryReadyAt = useRef<number | null>(null);
   const geometryReadyRef = useRef(false);
   const config = resolveSite00ImmersiveLoaderConfig(pathname);
-  const { progress, statusLabel, loaderState, isComplete, completeStage, forceComplete } = useSite00LoaderProgress(
+  const { progress, stageSubtitle, loaderState, isComplete, completeStage, forceComplete } = useSite00LoaderProgress(
     config.stages,
     config.completionMessage,
   );
@@ -141,7 +141,7 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
     <Site00ImmersiveLoader
       config={config}
       progress={progress}
-      statusLabel={statusLabel}
+      stageSubtitle={stageSubtitle}
       loaderState={loaderState}
       isComplete={isComplete}
       phase={phase}
