@@ -554,8 +554,8 @@
 }
 
 /* Eyebrow + title only — extra 30px overlay nudge (media/animation unchanged). */
-.site00-loader-copy-region--eyebrow,
-.site00-loader-copy-region--title {
+.site00-immersive-loader .site00-loader-copy-region--eyebrow,
+.site00-immersive-loader .site00-loader-copy-region--title {
   transform: translateY(calc(90px / var(--loader-scale, 1)));
 }
 
