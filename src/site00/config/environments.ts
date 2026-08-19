@@ -80,7 +80,7 @@ export const SITE00_ENVIRONMENTS: Record<EnvironmentId, EnvironmentConfig> = {
   ENTER_00_WAITING_ROOM: {
     id: 'ENTER_00_WAITING_ROOM',
     desktopAssetPath: SITE00_ENTER_DESKTOP_BACKGROUND_PATH,
-    desktopPosition: 'center 24%',
+    desktopPosition: 'center 40%',
     mobilePosition: '55% center',
     desktopScale: 1,
     mobileScale: 1.1,

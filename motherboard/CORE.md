@@ -94,7 +94,7 @@ Canonical config: `src/site00/config/desktop-environment-presentation.ts`.
 | Environment background | Viewport `cover` layer **outside** UI transform (scaled mode) or in-flow cover (native) |
 | Bottom chrome | Origin: flex-pinned status strip · Enter: portaled status strip |
 
-**Focal tuning:** Change `background-position` / `desktopPosition` only — never move UI artboard or use bottom-anchor to crop bg. ENTER focal breakpoints are **Enter-only** in `site00.css` (24% / 20% / 28% / 26%).
+**Focal tuning:** Change `background-position` / `desktopPosition` only — never move UI artboard or use bottom-anchor to crop bg. ENTER focal: **higher Y% shifts image up** on the Enter asset (see `SITE00_ENTER_DESKTOP_FOCAL`). Breakpoints are Enter-only in `site00.css`.
 
 ---
 

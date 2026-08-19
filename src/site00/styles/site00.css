@@ -965,18 +965,18 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
     background-position: var(--site00-env-desktop-position, center center);
   }
 
-  /** ENTER 00 only — upward focal (lower %); does not affect Origin/Workflow/Assessment. */
+  /** ENTER 00 only — upward focal (higher Y% on this asset); does not affect Origin/Workflow/Assessment. */
   .site00-enter-artboard-viewport-bg,
   .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'],
   .site00-enter-page .site00-env-layer--has-desktop-asset {
-    background-position: var(--site00-env-desktop-position, center 24%);
+    background-position: var(--site00-env-desktop-position, center 40%);
   }
 
   @media (max-height: 799px) {
     .site00-enter-artboard-viewport-bg,
     .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'],
     .site00-enter-page .site00-env-layer--has-desktop-asset {
-      background-position: center 20%;
+      background-position: center 36%;
     }
   }
 
@@ -984,7 +984,7 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
     .site00-enter-artboard-viewport-bg,
     .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'],
     .site00-enter-page .site00-env-layer--has-desktop-asset {
-      background-position: center 28%;
+      background-position: center 46%;
     }
   }
 
@@ -992,7 +992,7 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
     .site00-enter-artboard-viewport-bg,
     .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'],
     .site00-enter-page .site00-env-layer--has-desktop-asset {
-      background-position: center 26%;
+      background-position: center 43%;
     }
   }
 

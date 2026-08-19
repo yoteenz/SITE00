@@ -14,16 +14,16 @@
  * `site00-desktop-artboard.css`, `site00DesktopPresentation.ts`
  */
 
-/** ENTER 00 desktop background focal — lower Y% shifts image up inside locked cover. */
+/** ENTER 00 desktop background focal — higher Y% shifts image up inside locked cover (ENTER asset). */
 export const SITE00_ENTER_DESKTOP_FOCAL = {
-  /** Default laptop / standard desktop */
-  default: 'center 24%',
+  /** Default laptop / standard desktop (baseline was 32%; +8 to shift up) */
+  default: 'center 40%',
   /** Shorter viewports (max-height 799px) */
-  short: 'center 20%',
+  short: 'center 36%',
   /** Taller viewports (min-height 900px) */
-  tall: 'center 28%',
+  tall: 'center 46%',
   /** Ultrawide (min-aspect-ratio 21/9) */
-  ultrawide: 'center 26%',
+  ultrawide: 'center 43%',
 } as const;
 
 export const SITE00_DESKTOP_PRESENTATION_LOCKED = {

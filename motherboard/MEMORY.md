@@ -182,5 +182,12 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 ## 2026-08-19 — Lock desktop presentation + ENTER upward focal (Enter-only)
 
 - **Lock:** `desktop-environment-presentation.ts` + CORE.md — edge-to-edge formula, scaleW-only, focal-only bg tuning.
-- **ENTER focal:** `desktopPosition` 32% → **24%**; breakpoints Enter-only (20% short / 28% tall / 26% ultrawide). Origin/Workflow unchanged.
+- **ENTER focal:** Reversed direction — **higher** Y% shifts Enter bg up on this asset (prior lower-% assumption was inverted). Baseline 32% → **40%** default (+8 mirror of wrong 24%); breakpoints 36% / 46% / 43% (Enter-only).
 - **Rule:** Never apply Enter focal breakpoints to `.site00-environment-viewport-bg` globally — scope `[data-environment='ENTER_00_WAITING_ROOM']`.
+
+---
+
+## 2026-08-19 — ENTER focal direction corrected (higher Y% = up)
+
+- **Issue:** Prior shift to 24% moved Enter bg **down** not up — Y% direction inverted for this asset.
+- **Fix:** Mirror from 32% baseline: **40%** default, **36%** short / **46%** tall / **43%** ultrawide. UI unchanged.
