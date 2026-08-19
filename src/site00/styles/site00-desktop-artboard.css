@@ -72,8 +72,12 @@
   color: var(--site-red);
 }
 
+.site00-desktop-artboard .site00-safe-ui .site00-logo-mark {
+  margin-top: 2px;
+}
+
 .site00-desktop-artboard .site00-home-hero__coordinate {
-  margin-top: 20px;
+  margin-top: 26px;
 }
 
 .site00-desktop-artboard .site00-home-cards,
