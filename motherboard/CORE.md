@@ -83,6 +83,21 @@ Clone path on cloud VM: `/home/ubuntu/SITE00` (may mirror `/workspace` checkout)
 
 ---
 
+## Desktop environment presentation (locked)
+
+Canonical config: `src/site00/config/desktop-environment-presentation.ts`.
+
+| Context | Behavior |
+|---------|----------|
+| Laptop + Desktop toggle | Native full viewport (`Site00DesktopNativeViewportShell`) — edge-to-edge, 100dvh, no scroll |
+| Phone + Desktop toggle | Scaled 1440×900 artboard — **scaleW only** (no side letterboxing) |
+| Environment background | Viewport `cover` layer **outside** UI transform (scaled mode) or in-flow cover (native) |
+| Bottom chrome | Origin: flex-pinned status strip · Enter: portaled status strip |
+
+**Focal tuning:** Change `background-position` / `desktopPosition` only — never move UI artboard or use bottom-anchor to crop bg. ENTER focal breakpoints are **Enter-only** in `site00.css` (24% / 20% / 28% / 26%).
+
+---
+
 ## Motherboard
 
 - **Folder:** `motherboard/` at repo root (FSBW-style parity established 2026-08-18).
