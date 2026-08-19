@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { resolveSite00PublicAsset } from '../loader/site00LoaderConfig';
-import { SITE00_SIGNIN_DESKTOP_BG_FILE } from '../../config/site00-auth-assets';
+import { SITE00_SIGNIN_DESKTOP_BG_FILE, SITE00_SIGNIN_ICON_PATH } from '../../config/site00-auth-assets';
 import { SITE00_ROUTES } from '../../config/routes';
 import { Site00AuthIntro } from './Site00AuthIntro';
 import { Site00OrbitalMark } from './Site00OrbitalMark';
@@ -14,6 +14,7 @@ type Site00AuthShellProps = {
 };
 
 const signInBgUrl = resolveSite00PublicAsset(SITE00_SIGNIN_DESKTOP_BG_FILE);
+const signInIconUrl = resolveSite00PublicAsset(SITE00_SIGNIN_ICON_PATH);
 
 export function Site00AuthShell({ children }: Site00AuthShellProps) {
   const [fastTravelOpen, setFastTravelOpen] = useState(false);
@@ -29,14 +30,28 @@ export function Site00AuthShell({ children }: Site00AuthShellProps) {
   }, [fastTravelOpen]);
 
   useEffect(() => {
-    if (!signInBgUrl) return;
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = signInBgUrl;
-    document.head.appendChild(link);
+    if (!signInBgUrl && !signInIconUrl) return;
+    const links: HTMLLinkElement[] = [];
+    if (signInBgUrl) {
+      const bg = document.createElement('link');
+      bg.rel = 'preload';
+      bg.as = 'image';
+      bg.href = signInBgUrl;
+      document.head.appendChild(bg);
+      links.push(bg);
+    }
+    if (signInIconUrl) {
+      const icon = document.createElement('link');
+      icon.rel = 'preload';
+      icon.as = 'image';
+      icon.href = signInIconUrl;
+      document.head.appendChild(icon);
+      links.push(icon);
+    }
     return () => {
-      document.head.removeChild(link);
+      links.forEach((link) => {
+        document.head.removeChild(link);
+      });
     };
   }, []);
 
