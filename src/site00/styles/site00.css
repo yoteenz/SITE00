@@ -870,8 +870,15 @@
     z-index: var(--site-z-env);
   }
 
+  /* Focal position only — lower % shifts image up inside the locked cover container */
   .site00-enter-page .site00-env-layer--has-desktop-asset {
-    background-position: center 34%;
+    background-position: center 32%;
+  }
+
+  @media (max-height: 799px) {
+    .site00-enter-page .site00-env-layer--has-desktop-asset {
+      background-position: center 28%;
+    }
   }
 
   @media (min-height: 900px) {
@@ -880,9 +887,9 @@
     }
   }
 
-  @media (min-height: 1080px) {
+  @media (min-aspect-ratio: 21/9) {
     .site00-enter-page .site00-env-layer--has-desktop-asset {
-      background-position: center 41%;
+      background-position: center 35%;
     }
   }
 
