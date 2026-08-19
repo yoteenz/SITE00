@@ -556,25 +556,27 @@
   background: transparent;
 }
 
-/* Top three copy rows — eyebrow, title, subtitle; +4px down overlay nudge. */
+/* Top three copy rows — composition-anchored at screen top; no down-nudge. */
 .site00-immersive-loader .site00-loader-copy-region--eyebrow,
-.site00-immersive-loader .site00-loader-copy-region--title {
-  transform: translateY(calc(94px / var(--loader-scale, 1)));
-}
-
+.site00-immersive-loader .site00-loader-copy-region--title,
 .site00-immersive-loader .site00-loader-copy-region--subtitle {
-  transform: translateY(calc(64px / var(--loader-scale, 1)));
+  transform: translateY(0);
 }
 
-/* Assembling status — extra 30px down, then 10px up overlay nudge. */
+/* Assembling status — 20px up from prior overlay nudge. */
 .site00-immersive-loader .site00-loader-copy-region--status {
-  transform: translateY(calc(80px / var(--loader-scale, 1)));
+  transform: translateY(calc(60px / var(--loader-scale, 1)));
 }
 
-/* Progress bar only — 78px total nudge (4px up from prior). */
+/* Progress bar — 20px up from prior overlay nudge. */
 .site00-immersive-loader .site00-loader-copy-region--progress-track,
 .site00-immersive-loader .site00-loader-copy-region--progress-pct {
-  transform: translateY(calc(78px / var(--loader-scale, 1)));
+  transform: translateY(calc(58px / var(--loader-scale, 1)));
+}
+
+/* Tagline — 20px up from prior base nudge. */
+.site00-immersive-loader .site00-loader-copy-region--tagline {
+  transform: translateY(calc(40px / var(--loader-scale, 1)));
 }
 
 .site00-immersive-loader .site00-loader-copy__eyebrow {
