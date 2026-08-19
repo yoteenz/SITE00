@@ -1,4 +1,8 @@
+import { createPortal } from 'react-dom';
+import { useLayoutEffect, useState } from 'react';
 import { SITE00_DIRECTORY_SECTIONS, SITE00_ENTER_COPY } from '../../config/directory';
+import { useSite00DesktopArtboardPreview } from '../shell/Site00DesktopArtboardContext';
+import { useSite00EnterArtboardChromeHost } from '../shell/Site00EnterArtboardChromeContext';
 import { Site00SummaryStripText } from '../shell/Site00SummaryStripText';
 import { ArchitecturalPanel } from '../panels/ArchitecturalPanel';
 import { SectionRule } from '../panels/SectionRule';
@@ -50,9 +54,27 @@ export function DirectoryPanel() {
 }
 
 export function EnterStatusStrip() {
-  return (
+  const inDesktopArtboard = useSite00DesktopArtboardPreview();
+  const chromeHost = useSite00EnterArtboardChromeHost();
+  const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
+
+  useLayoutEffect(() => {
+    if (inDesktopArtboard && chromeHost?.current) {
+      setPortalTarget(chromeHost.current);
+      return;
+    }
+    setPortalTarget(null);
+  }, [inDesktopArtboard, chromeHost]);
+
+  const strip = (
     <footer className="site00-summary-strip-panel site00-enter-status-strip">
       <Site00SummaryStripText text={SITE00_ENTER_COPY.statusStrip} />
     </footer>
   );
+
+  if (portalTarget) {
+    return createPortal(strip, portalTarget);
+  }
+
+  return strip;
 }

@@ -140,10 +140,14 @@ Summary of this cloud agent run: user asked why all ENTER menu links on desktop 
 
 - **Root cause:** `SITE00_DIRECTORY_SECTIONS` in `directory.ts` had `enabled: false` on all rows except BLDR (leftover from pre-inventory gating). Global nav and Locations directory already had these routes enabled.
 
-- **Fix (PR #12 on `cursor/wire-enter-menu-links-796f`):**
-  - Enabled all explore + your-space rows with `SITE00_ROUTES` hrefs.
-  - **Account** → `/control` (CTRL ROOM), not future `/account`.
-  - **Projects** + **Account** use `requiresAuth` — signed-out users route to `/origin/sign-in?returnTo=…` (same pattern as Locations directory).
-  - `resolveEnterDirectoryRowHref()` helper; `DirectoryRow` component updated.
+- **Fix (PR #12):** Enabled all explore + your-space rows with `SITE00_ROUTES` hrefs. Account → `/control`. Projects + Account use `requiresAuth`.
 
-- **Convention:** Keep ENTER directory `enabled` flags aligned with registered routes in `Site00Routes.tsx`; use `requiresAuth` for guarded destinations instead of disabling links.
+- **Convention:** Keep ENTER directory `enabled` flags aligned with registered routes; use `requiresAuth` for guarded destinations instead of disabling links.
+
+---
+
+## 2026-08-19 — ENTER 00: decouple viewport background from UI artboard (PR #17)
+
+- **Issue:** Enter desktop bg stretched; UI placement drifted when focal/anchor fixes applied together.
+- **Root cause:** `position: fixed` env layer inside scaled artboard; bottom-anchor moved whole artboard with UI.
+- **Fix:** Viewport `cover` bg on artboard **shell** (outside transform); UI artboard top-aligned; focal **32%** baseline; status strip portaled to shell chrome host. Suppress duplicate in-stage env on enter artboard.

@@ -1,10 +1,12 @@
-import { useLayoutEffect, useRef, type ReactNode } from 'react';
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import {
   SITE00_DESKTOP_ARTBOARD_MIN_HEIGHT,
   SITE00_DESKTOP_ARTBOARD_WIDTH,
 } from '../../config/desktop-artboard';
 import { installDesktopPreviewShellViewportLock } from '../../../utils/desktopPreview';
+import { Site00EnterArtboardViewportBackground } from '../enter00/Site00EnterArtboardViewportBackground';
 import { Site00DesktopArtboardProvider } from './Site00DesktopArtboardContext';
+import { Site00EnterArtboardChromeProvider } from './Site00EnterArtboardChromeContext';
 import '../../styles/site00-desktop-artboard.css';
 
 type Site00DesktopArtboardShellProps = {
@@ -19,6 +21,8 @@ export function Site00DesktopArtboardShell({ children }: Site00DesktopArtboardSh
   const shellRef = useRef<HTMLDivElement>(null);
   const scalerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const enterChromeHostRef = useRef<HTMLDivElement>(null);
+  const [enterActive, setEnterActive] = useState(false);
 
   useLayoutEffect(
     () => installDesktopPreviewShellViewportLock({ background: '#f7f7f5' }),
@@ -63,13 +67,17 @@ export function Site00DesktopArtboardShell({ children }: Site00DesktopArtboardSh
       stage.style.transformOrigin = 'top left';
       stage.style.transform = `scale(${scale})`;
 
+      const scaledHeight = contentHeight * scale;
       scaler.style.width = `${scaledWidth}px`;
-      scaler.style.height = `${contentHeight * scale}px`;
+      scaler.style.height = `${scaledHeight}px`;
       scaler.style.marginLeft = isEnterPage ? '0' : `${Math.max(0, (shell.clientWidth - scaledWidth) / 2)}px`;
-      scaler.style.marginTop = isEnterPage ? '0' : `${Math.max(0, (shell.clientHeight - contentHeight * scale) / 2)}px`;
+      // ENTER — top-aligned artboard preserves welcome/directory placement on the bg comp
+      scaler.style.marginTop = isEnterPage ? '0' : `${Math.max(0, (shell.clientHeight - scaledHeight) / 2)}px`;
 
       shell.classList.toggle('site00-desktop-artboard-shell--enter', isEnterPage);
       shell.classList.toggle('site00-desktop-artboard-shell--origin', isOriginPage);
+
+      setEnterActive((prev) => (prev === isEnterPage ? prev : isEnterPage));
     };
 
     layoutStage();
@@ -107,13 +115,17 @@ export function Site00DesktopArtboardShell({ children }: Site00DesktopArtboardSh
 
   return (
     <Site00DesktopArtboardProvider>
-      <div ref={shellRef} className="site00-desktop-artboard-shell">
-        <div ref={scalerRef} style={{ position: 'relative' }}>
-          <div ref={stageRef} className="site00-desktop-artboard">
-            {children}
+      <Site00EnterArtboardChromeProvider hostRef={enterChromeHostRef}>
+        <div ref={shellRef} className="site00-desktop-artboard-shell">
+          {enterActive ? <Site00EnterArtboardViewportBackground /> : null}
+          <div ref={scalerRef} className="site00-desktop-artboard-shell__stage-scaler">
+            <div ref={stageRef} className="site00-desktop-artboard">
+              {children}
+            </div>
           </div>
+          <div ref={enterChromeHostRef} className="site00-desktop-artboard-shell__enter-chrome" />
         </div>
-      </div>
+      </Site00EnterArtboardChromeProvider>
     </Site00DesktopArtboardProvider>
   );
 }
