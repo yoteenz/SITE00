@@ -104,6 +104,70 @@
   box-shadow: 0 12px 48px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.9);
 }
 
+/* Origin collapsed panels — <button.site00-glass-panel>.
+ * iOS Safari paints default blue button text; lock palette like state cards. */
+button.site00-glass-panel {
+  color: var(--site-text);
+  font: inherit;
+  text-decoration: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+button.site00-glass-panel .site00-panel-title,
+button.site00-glass-panel .site00-body {
+  color: var(--site-text);
+}
+
+button.site00-glass-panel .site00-label {
+  color: var(--site-text-muted);
+}
+
+button.site00-glass-panel .site00-label-red,
+button.site00-glass-panel .site00-origin-card__number {
+  color: var(--site00-origin-card-number-color, var(--site-red));
+}
+
+button.site00-glass-panel .site00-action-link {
+  color: var(--site-text);
+}
+
+button.site00-glass-panel:hover .site00-panel-title,
+button.site00-glass-panel:hover .site00-body,
+button.site00-glass-panel:focus .site00-panel-title,
+button.site00-glass-panel:focus .site00-body,
+button.site00-glass-panel:focus-visible .site00-panel-title,
+button.site00-glass-panel:focus-visible .site00-body,
+button.site00-glass-panel:active .site00-panel-title,
+button.site00-glass-panel:active .site00-body {
+  color: var(--site-text);
+}
+
+button.site00-glass-panel:hover .site00-label,
+button.site00-glass-panel:focus .site00-label,
+button.site00-glass-panel:focus-visible .site00-label,
+button.site00-glass-panel:active .site00-label {
+  color: var(--site-text-muted);
+}
+
+button.site00-glass-panel:hover .site00-label-red,
+button.site00-glass-panel:hover .site00-origin-card__number,
+button.site00-glass-panel:focus .site00-label-red,
+button.site00-glass-panel:focus .site00-origin-card__number,
+button.site00-glass-panel:focus-visible .site00-label-red,
+button.site00-glass-panel:focus-visible .site00-origin-card__number,
+button.site00-glass-panel:active .site00-label-red,
+button.site00-glass-panel:active .site00-origin-card__number {
+  color: var(--site00-origin-card-number-color, var(--site-red));
+}
+
+button.site00-glass-panel:hover .site00-action-link,
+button.site00-glass-panel:focus .site00-action-link,
+button.site00-glass-panel:focus-visible .site00-action-link,
+button.site00-glass-panel:active .site00-action-link {
+  color: var(--site-text);
+}
+
 /* ─── Bracket location indicator ─── */
 
 .site00-bracket-label {
