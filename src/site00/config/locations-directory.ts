@@ -25,7 +25,7 @@ export type LocationsDirectorySection = {
 
 export const SITE00_LOCATIONS_BACKGROUND_PATH = '0E226A0B-7533-433F-A9D0-7DD5109D77AC.png';
 
-export const SITE00_FAST_TRAVEL_ICON_PATH = '89815B1A-ACFF-474B-8AA3-E7B97E7B40F2.png';
+export const SITE00_FAST_TRAVEL_ICON_PATH = '3C9BC909-76E8-4FBB-8931-0AF91444DD40.png';
 
 const PUBLIC_WORLD: LocationsDirectoryEntry[] = [
   {
