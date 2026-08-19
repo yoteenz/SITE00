@@ -747,7 +747,7 @@
   display: block;
   width: auto;
   height: auto;
-  max-width: min(100%, 80px);
+  max-width: min(100%, 88px);
   max-height: none;
   object-fit: contain;
   object-position: center center;
