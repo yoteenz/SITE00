@@ -553,6 +553,12 @@
   background: transparent;
 }
 
+/* Eyebrow + title only — extra 30px overlay nudge (media/animation unchanged). */
+.site00-loader-copy-region--eyebrow,
+.site00-loader-copy-region--title {
+  transform: translateY(calc(90px / var(--loader-scale, 1)));
+}
+
 .site00-loader-copy__eyebrow {
   margin: 0;
   font-size: calc(var(--site00-size-label) / var(--loader-scale, 1));
