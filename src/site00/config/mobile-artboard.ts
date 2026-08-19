@@ -10,9 +10,15 @@ export const SITE00_MOBILE_DEVICE_BEZEL_PX = 14;
 export const SITE00_MOBILE_DEVICE_CHIN_PX = 22;
 
 export type Site00MobileDevicePreviewScaleBox = {
+  /** Scale applied to the entire phone frame (content stays 1:1 inside the screen). */
   scale: number;
-  deviceWidth: number;
-  deviceHeight: number;
+  /** Unscaled phone frame dimensions (CSS px). */
+  frameWidth: number;
+  frameHeight: number;
+  /** Layout slot size after frame scale — used to center the device in the shell. */
+  scaledFrameWidth: number;
+  scaledFrameHeight: number;
+  /** Screen viewport — always the canonical artboard size. */
   screenWidth: number;
   screenHeight: number;
 };
@@ -38,9 +44,11 @@ export function measureSite00MobileDevicePreviewScaleBox(
 
   return {
     scale,
-    deviceWidth: frameW * scale,
-    deviceHeight: frameH * scale,
-    screenWidth: screenW * scale,
-    screenHeight: screenH * scale,
+    frameWidth: frameW,
+    frameHeight: frameH,
+    scaledFrameWidth: frameW * scale,
+    scaledFrameHeight: frameH * scale,
+    screenWidth: screenW,
+    screenHeight: screenH,
   };
 }

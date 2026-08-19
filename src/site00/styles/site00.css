@@ -780,7 +780,7 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
     right: var(--site-spacing-md);
     left: auto;
     width: auto;
-    max-width: min(52vw, 220px);
+    max-width: min(60vw, 252px);
     padding-top: 0;
     text-align: right;
     z-index: calc(var(--site-z-nav) - 1);

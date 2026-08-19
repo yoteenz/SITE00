@@ -4,6 +4,7 @@ import { GlobalNav } from './GlobalNav';
 import { EntryToggle } from './EntryToggle';
 import { Site00ArtboardBottomChromePortal } from './Site00ArtboardBottomChromePortal';
 import { useSite00DesktopArtboardPreview } from './Site00DesktopArtboardContext';
+import { useSite00MobileArtboardPreview } from './Site00MobileArtboardContext';
 
 type Site00AppShellProps = {
   children: ReactNode;
@@ -19,15 +20,17 @@ export function Site00AppShell({
   statusStrip,
 }: Site00AppShellProps) {
   const desktopArtboardPreview = useSite00DesktopArtboardPreview();
+  const mobileArtboardPreview = useSite00MobileArtboardPreview();
+  const artboardPinnedFooter = desktopArtboardPreview || mobileArtboardPreview;
 
   const statusFooter =
     showStatusStrip && statusStrip ? (
       <Site00ArtboardBottomChromePortal>
         <footer
-          className={desktopArtboardPreview ? 'site00-status-strip-host--artboard' : undefined}
+          className={artboardPinnedFooter ? 'site00-status-strip-host--artboard' : undefined}
           style={
-            desktopArtboardPreview
-              ? { flexShrink: 0, zIndex: 'var(--site-z-nav)' }
+            artboardPinnedFooter
+              ? { position: 'absolute', bottom: 0, left: 0, right: 0, flexShrink: 0, zIndex: 'var(--site-z-nav)' }
               : {
                   position: 'fixed',
                   bottom: 0,

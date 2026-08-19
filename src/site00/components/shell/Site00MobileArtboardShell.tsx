@@ -18,10 +18,11 @@ type Site00MobileArtboardShellProps = {
 
 /**
  * Laptop Mobile tab — centered phone device frame with 390×844 artboard inside the screen.
- * Never stretches mobile layout to full browser width.
+ * Content renders at true mobile 1:1; only the phone hardware frame scales to fit the viewport.
  */
 export function Site00MobileArtboardShell({ children }: Site00MobileArtboardShellProps) {
   const shellRef = useRef<HTMLDivElement>(null);
+  const deviceScaleSlotRef = useRef<HTMLDivElement>(null);
   const deviceRef = useRef<HTMLDivElement>(null);
   const scalerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -35,24 +36,28 @@ export function Site00MobileArtboardShell({ children }: Site00MobileArtboardShel
   useLayoutEffect(() => {
     const layoutStage = () => {
       const shell = shellRef.current;
+      const deviceScaleSlot = deviceScaleSlotRef.current;
       const device = deviceRef.current;
       const scaler = scalerRef.current;
       const stage = stageRef.current;
-      if (!shell || !device || !scaler || !stage) return;
+      if (!shell || !deviceScaleSlot || !device || !scaler || !stage) return;
 
       const box = measureSite00MobileDevicePreviewScaleBox(shell.clientWidth, shell.clientHeight);
       const scale = box.scale;
-      const contentHeight = SITE00_MOBILE_ARTBOARD_HEIGHT;
 
-      device.style.width = `${box.deviceWidth}px`;
-      device.style.height = `${box.deviceHeight}px`;
+      deviceScaleSlot.style.width = `${box.scaledFrameWidth}px`;
+      deviceScaleSlot.style.height = `${box.scaledFrameHeight}px`;
+
+      device.style.width = `${box.frameWidth}px`;
+      device.style.height = `${box.frameHeight}px`;
+      device.style.transform = `scale(${scale})`;
+      device.style.transformOrigin = 'top left';
 
       stage.style.width = `${SITE00_MOBILE_ARTBOARD_WIDTH}px`;
-      stage.style.height = `${contentHeight}px`;
-      stage.style.minHeight = `${contentHeight}px`;
-      stage.style.setProperty('--site00-mobile-artboard-height', `${contentHeight}px`);
-      stage.style.transformOrigin = 'top left';
-      stage.style.transform = `scale(${scale})`;
+      stage.style.height = `${SITE00_MOBILE_ARTBOARD_HEIGHT}px`;
+      stage.style.minHeight = `${SITE00_MOBILE_ARTBOARD_HEIGHT}px`;
+      stage.style.setProperty('--site00-mobile-artboard-height', `${SITE00_MOBILE_ARTBOARD_HEIGHT}px`);
+      stage.style.transform = 'none';
 
       scaler.style.width = `${box.screenWidth}px`;
       scaler.style.height = `${box.screenHeight}px`;
@@ -102,23 +107,25 @@ export function Site00MobileArtboardShell({ children }: Site00MobileArtboardShel
       <Site00MobileArtboardProvider>
         <div ref={shellRef} className="site00-mobile-artboard-shell">
           <div className="site00-mobile-artboard-shell__center">
-            <div ref={deviceRef} className="site00-mobile-device" aria-label="MOBILE PHONE PREVIEW">
-              <div className="site00-mobile-device__bezel">
-                <div className="site00-mobile-device__screen">
-                  <div ref={scalerRef} className="site00-mobile-artboard-shell__stage-scaler">
-                    <div ref={stageRef} className="site00-mobile-artboard">
-                      {viewportEnvironmentId ? (
-                        <Site00EnvironmentViewportBackground
-                          environmentId={viewportEnvironmentId}
-                          assetKind={viewportAssetKind}
-                        />
-                      ) : null}
-                      {children}
+            <div ref={deviceScaleSlotRef} className="site00-mobile-device-scale">
+              <div ref={deviceRef} className="site00-mobile-device" aria-label="MOBILE PHONE PREVIEW">
+                <div className="site00-mobile-device__bezel">
+                  <div className="site00-mobile-device__screen">
+                    <div ref={scalerRef} className="site00-mobile-artboard-shell__stage-scaler">
+                      <div ref={stageRef} className="site00-mobile-artboard">
+                        {viewportEnvironmentId ? (
+                          <Site00EnvironmentViewportBackground
+                            environmentId={viewportEnvironmentId}
+                            assetKind={viewportAssetKind}
+                          />
+                        ) : null}
+                        {children}
+                      </div>
                     </div>
                   </div>
                 </div>
+                <div className="site00-mobile-device__home-indicator" aria-hidden="true" />
               </div>
-              <div className="site00-mobile-device__home-indicator" aria-hidden="true" />
             </div>
           </div>
         </div>
