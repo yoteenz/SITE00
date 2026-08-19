@@ -19,7 +19,6 @@ import { preloadSite00LoaderBackground } from './site00LoaderPreload';
 import { useLoaderMediaPresentation } from './useLoaderMediaPresentation';
 import { useLoaderPresentation } from './useLoaderPresentation';
 import { resolveActiveStageSubtitle } from './site00LoaderStageSubtitle';
-import { useSite00LoaderCyclingSubtitle } from './useSite00LoaderCyclingSubtitle';
 import '../../styles/site00-loader.css';
 
 export type Site00ImmersiveLoaderPhase = 'loading' | 'complete-hold' | 'exiting';
@@ -151,16 +150,14 @@ function ImmersiveLoaderBody({
   const progressLabel = error ? 'RETRY REQUIRED' : atComplete ? config.completionMessage : config.assemblingLabel;
   const liveProgress = smoothProgressProp ?? progress;
   const displayProgress = copyActive ? liveProgress : 0;
-  const subtitleCycleEnabled = copyActive && !error && !atComplete && config.stages.length > 0;
-  const cyclingSubtitle = useSite00LoaderCyclingSubtitle(config.stages, subtitleCycleEnabled);
   const displaySubtitle = useMemo(() => {
     if (error) return "WE COULDN'T COMPLETE THIS STEP";
     if (config.stages.length > 0) {
-      if (atComplete) return resolveActiveStageSubtitle(config.stages, 100);
-      return cyclingSubtitle;
+      const progressForSubtitle = atComplete ? 100 : copyActive ? liveProgress : 0;
+      return resolveActiveStageSubtitle(config.stages, progressForSubtitle);
     }
     return stageSubtitle || config.experienceSubtitle;
-  }, [atComplete, config.stages, config.experienceSubtitle, cyclingSubtitle, error, stageSubtitle]);
+  }, [atComplete, config.stages, config.experienceSubtitle, copyActive, error, liveProgress, stageSubtitle]);
 
   const rootClass = [
     'site00-immersive-loader',

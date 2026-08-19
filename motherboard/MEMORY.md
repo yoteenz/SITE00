@@ -712,3 +712,10 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Request:** 2s gray subtitle cycle + plain language applies to **all pages**, not just Origin — copy must reflect the page actually loading.
 - **Fix:** Rewrote every entry in `site00LoaderRouteCopy.ts` (Locations, Enter, IDNTY state/assessment/shell, BLDR, Evolve, Origin, default) + ASSTS vault stages in `site00LoaderConfig.ts`. Pattern per route: WAKING → LOADING [page] → OPENING → BUILDING → [PAGE] IS READY. `resolveSite00ImmersiveLoaderConfig(pathname)` already merges route copy for all world routes; cycling hook reads `config.stages`. PR #80.
 
+---
+
+## 2026-08-19 — Loader subtitle: stage-driven, no loop
+
+- **Issue:** Gray subtitle cycled on a blind 2s timer and **looped back** to the first line (e.g. after OPENING…) while the loader was still running — copy did not match actual preload work.
+- **Fix:** Removed `useSite00LoaderCyclingSubtitle`. Subtitle now comes from `resolveActiveStageSubtitle(config.stages, liveProgress)` — tied to milestone progress + smooth creep between stages. Each line stays until progress crosses the next stage threshold; final ready line holds until exit. No modulo wrap. PR #80.
+
