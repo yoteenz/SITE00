@@ -1,5 +1,9 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { resolveSite00LoaderEnvironmentAnimationUrl } from './site00LoaderMedia';
+import {
+  resolveSite00LoaderAnimationFocal,
+  resolveSite00LoaderBackgroundFocal,
+  resolveSite00LoaderEnvironmentAnimationUrl,
+} from './site00LoaderMedia';
 import { loaderLifecycleLog } from './loaderLifecycleLog';
 import { isLoaderMediaDebugEnabled } from './site00LoaderHeroStage';
 import {
@@ -133,6 +137,11 @@ export function Site00LoaderAnimation({
     .filter(Boolean)
     .join(' ');
 
+  const debugFocalLabel =
+    mediaDebug && typeof window !== 'undefined'
+      ? `ANIM ${resolveSite00LoaderAnimationFocal(mediaPresentation)} · BG ${resolveSite00LoaderBackgroundFocal(mediaPresentation)}`
+      : null;
+
   return (
     <div
       className={layerClass}
@@ -141,6 +150,9 @@ export function Site00LoaderAnimation({
       style={{ zIndex: 1, ['--site00-loader-animation-focal' as string]: mediaFocal }}
       aria-hidden="true"
     >
+      {debugFocalLabel ? (
+        <span className="site00-loader-media-debug-label">{debugFocalLabel}</span>
+      ) : null}
       <video
         key={sourceUrl}
         ref={videoRef}

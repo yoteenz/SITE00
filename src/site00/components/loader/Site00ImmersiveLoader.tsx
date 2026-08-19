@@ -117,12 +117,16 @@ function ImmersiveLoaderBody({
 
   const handleBootHandoff = useCallback(() => {
     loaderLifecycleLog('BACKGROUND_LOADED');
-    requestAnimationFrame(() => {
+    // Keep boot shell until the animation layer is playing — avoids a visible jump
+    // between early boot bg and the MP4 fade-in on cold start.
+    if (!animationEnabled) {
       requestAnimationFrame(() => {
-        teardownSite00AsstsBootShell();
+        requestAnimationFrame(() => {
+          teardownSite00AsstsBootShell();
+        });
       });
-    });
-  }, []);
+    }
+  }, [animationEnabled]);
 
   useEffect(() => {
     let cancelled = false;
@@ -137,6 +141,9 @@ function ImmersiveLoaderBody({
   const handleAnimationReady = useCallback(() => {
     setCopyActive(true);
     loaderLifecycleLog('ANIMATION_CANPLAY');
+    requestAnimationFrame(() => {
+      teardownSite00AsstsBootShell();
+    });
     onAnimationReady?.();
   }, [onAnimationReady]);
 

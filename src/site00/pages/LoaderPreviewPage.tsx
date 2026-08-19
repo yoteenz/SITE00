@@ -1,10 +1,11 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useLayoutEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { acquireLoadingScreenDocumentLock } from '../../platform-stabilization/loadingScreenLock';
 import { Site00ImmersiveLoader, type Site00ImmersiveLoaderPhase } from '../components/loader/Site00ImmersiveLoader';
-import { initSite00ImmersiveLoaderBoot, teardownSite00ImmersiveBootShell } from '../components/loader/site00LoaderBoot';
+import { teardownSite00ImmersiveBootShell } from '../components/loader/site00LoaderBoot';
 import { resolveSite00ImmersiveLoaderConfig } from '../components/loader/site00LoaderConfig';
 import { resolveActiveStageSubtitle } from '../components/loader/site00LoaderStageSubtitle';
+import { syncSite00LoaderFocalDocumentVars } from '../components/loader/site00LoaderMedia';
 
 function clampProgress(value: number): number {
   if (!Number.isFinite(value)) return 62;
@@ -14,6 +15,7 @@ function clampProgress(value: number): number {
 /**
  * Isolated loader surface — stays mounted so typography and animation can be inspected.
  * Query params: ?progress=62&complete=1&loaderDebug=1&route=/assts
+ * Copy is visible by default; ?forceCopy=0 simulates cold-start copy gating.
  */
 export default function LoaderPreviewPage() {
   const [params] = useSearchParams();
@@ -28,16 +30,22 @@ export default function LoaderPreviewPage() {
     return resolveActiveStageSubtitle(config.stages, progress);
   }, [config.stages, isComplete, progress]);
 
-  useEffect(() => {
-    initSite00ImmersiveLoaderBoot();
+  useLayoutEffect(() => {
+    // Preview is not an immersive boot path — clear stale boot chrome and seed focal tokens
+    // so static bg + animation use the same anchors as cold start (89b3ce7 / 3c5a730).
+    document.documentElement.classList.remove('site00-assts-boot');
+    teardownSite00ImmersiveBootShell();
+    syncSite00LoaderFocalDocumentVars();
     return () => {
-      teardownSite00ImmersiveBootShell();
+      document.documentElement.style.removeProperty('--site00-loader-bg-focal');
+      document.documentElement.style.removeProperty('--site00-loader-animation-focal');
     };
   }, []);
 
   useEffect(() => acquireLoadingScreenDocumentLock(), []);
 
-  const forceCopyActive = params.get('forceCopy') === '1';
+  // Inspection default: copy visible unless simulating cold-start gating.
+  const forceCopyActive = params.get('forceCopy') !== '0';
 
   return (
     <Site00ImmersiveLoader
