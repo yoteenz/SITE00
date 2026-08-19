@@ -6,6 +6,7 @@ import {
   SITE00_PUBLIC_PROJECT_REF,
 } from './site00LoaderMedia';
 import { resolveSite00LoaderRouteCopy } from './site00LoaderRouteCopy';
+import { assertLoaderSubtitle } from './site00LoaderSubtitleCopy';
 
 /** Resolve public live-preview asset at runtime (non-loader production assets). */
 export function resolveSite00PublicAsset(path: string): string {
@@ -53,7 +54,7 @@ export const SITE00_WORLD_IMMERSIVE_LOADER_CONFIG: Site00ImmersiveLoaderConfig =
   id: 'site00',
   siteLabel: 'SITE 00',
   experienceTitle: 'ASSEMBLING SITE 00',
-  experienceSubtitle: 'PREPARING YOUR DESTINATION',
+  experienceSubtitle: assertLoaderSubtitle('PREPARING DESTINATION'),
   assemblingLabel: 'ASSEMBLING',
   tagline: 'EVERYTHING WE BUILD LIVES HERE.',
   footerMark: '00',
@@ -63,11 +64,11 @@ export const SITE00_WORLD_IMMERSIVE_LOADER_CONFIG: Site00ImmersiveLoaderConfig =
   environmentAnimationUrl: resolveSite00LoaderEnvironmentAnimationUrl('mobile'),
   desktopEnvironmentAnimationUrl: resolveSite00LoaderEnvironmentAnimationUrl('desktop'),
   stages: [
-    { id: 'bootstrap', state: 'BOOTSTRAP', subtitle: 'INITIALIZING ENVIRONMENT', progress: 10 },
-    { id: 'preparing', state: 'PREPARING', subtitle: 'LOADING CORE SYSTEMS', progress: 35 },
-    { id: 'connect', state: 'CONNECTING', subtitle: 'CONNECTING TO DESTINATION', progress: 58 },
-    { id: 'assemble', state: 'ASSEMBLING', subtitle: 'ASSEMBLING INTERFACE', progress: 82 },
-    { id: 'ready', state: 'READY', subtitle: 'FINALIZING', progress: 100 },
+    { id: 'bootstrap', state: 'BOOTSTRAP', subtitle: assertLoaderSubtitle('BOOTING ENVIRONMENT'), progress: 10 },
+    { id: 'preparing', state: 'PREPARING', subtitle: assertLoaderSubtitle('LOADING SYSTEMS'), progress: 35 },
+    { id: 'connect', state: 'CONNECTING', subtitle: assertLoaderSubtitle('LINKING ROUTE'), progress: 58 },
+    { id: 'assemble', state: 'ASSEMBLING', subtitle: assertLoaderSubtitle('BUILDING INTERFACE'), progress: 82 },
+    { id: 'ready', state: 'READY', subtitle: assertLoaderSubtitle('FINALIZING'), progress: 100 },
   ],
 };
 
@@ -76,7 +77,7 @@ export const ASSTS_IMMERSIVE_LOADER_CONFIG: Site00ImmersiveLoaderConfig = {
   id: 'assts',
   siteLabel: 'SITE 00',
   experienceTitle: 'PREPARING THE ASSET VAULT',
-  experienceSubtitle: 'RESOLVING PRODUCTION ASSETS',
+  experienceSubtitle: assertLoaderSubtitle('RESOLVING ASSETS'),
   assemblingLabel: 'ASSEMBLING',
   tagline: 'EVERYTHING WE BUILD LIVES HERE.',
   footerMark: '00',
@@ -86,12 +87,12 @@ export const ASSTS_IMMERSIVE_LOADER_CONFIG: Site00ImmersiveLoaderConfig = {
   environmentAnimationUrl: resolveSite00LoaderEnvironmentAnimationUrl('mobile'),
   desktopEnvironmentAnimationUrl: resolveSite00LoaderEnvironmentAnimationUrl('desktop'),
   stages: [
-    { id: 'bootstrap', state: 'BOOTSTRAP', subtitle: 'INITIALIZING SITE 00', progress: 8 },
-    { id: 'preparing', state: 'PREPARING', subtitle: 'PREPARING THE ASSET VAULT', progress: 22 },
-    { id: 'connect', state: 'CONNECTING', subtitle: 'CONNECTING TO ASSET VAULT', progress: 38 },
-    { id: 'resolve', state: 'RESOLVING', subtitle: 'RESOLVING PRODUCTION ASSETS', progress: 58 },
-    { id: 'assemble', state: 'ASSEMBLING', subtitle: 'ASSEMBLING INTERFACE', progress: 82 },
-    { id: 'ready', state: 'READY', subtitle: 'FINALIZING', progress: 100 },
+    { id: 'bootstrap', state: 'BOOTSTRAP', subtitle: assertLoaderSubtitle('BOOTING SITE 00'), progress: 8 },
+    { id: 'preparing', state: 'PREPARING', subtitle: assertLoaderSubtitle('PREPARING VAULT'), progress: 22 },
+    { id: 'connect', state: 'CONNECTING', subtitle: assertLoaderSubtitle('LINKING VAULT'), progress: 38 },
+    { id: 'resolve', state: 'RESOLVING', subtitle: assertLoaderSubtitle('RESOLVING ASSETS'), progress: 58 },
+    { id: 'assemble', state: 'ASSEMBLING', subtitle: assertLoaderSubtitle('BUILDING INTERFACE'), progress: 82 },
+    { id: 'ready', state: 'READY', subtitle: assertLoaderSubtitle('FINALIZING'), progress: 100 },
   ],
 };
 
