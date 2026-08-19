@@ -812,3 +812,12 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
   - CSS: 5-column grid, icon slot, artboard-pinned nav in laptop Mobile preview.
 - **Branch:** `cursor/mobile-nav-geometric-icons-796f`.
 
+---
+
+## 2026-08-19 — Sign-in password input width match
+
+- **Request:** Password field on sign-in page was too wide vs email field above it.
+- **Cause:** Auth shell lacked `box-sizing: border-box`; password `width: 100%` + extra `padding-right` for SHOW overflowed the form column.
+- **Fix:** Added border-box on `.site00-auth-shell *`; constrained `.site00-signin-form__password-wrap` and `--password` input to `width/max-width: 100%`.
+- **Branch:** `cursor/signin-password-width-match-796f`.
+
