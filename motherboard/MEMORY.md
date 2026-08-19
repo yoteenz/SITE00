@@ -322,3 +322,12 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
   - Artboard-scoped iOS button palette for hub cards, filter tabs, assessment controls, ghost/action links.
   - `site00.css` — extend `site00-state-card` with `-webkit-appearance: none`, `.site00-panel-title`/`.site00-label` palette on button cards.
 - **Branch:** `cursor/phone-desktop-pages-parity-796f`.
+
+---
+
+## 2026-08-19 — Phone Desktop preview: bottom panels portaled like Enter
+
+- **Issue:** After layout/iOS fixes, workflow/public pages still missing bottom panels on phone Desktop toggle; Enter worked because its status strip portals outside the scaled stage.
+- **Root cause:** `position: fixed` bottom strips inside scaled `.site00-desktop-artboard` clip or anchor to phone viewport incorrectly; Enter alone used `Site00EnterArtboardChromeContext` + portal to `site00-desktop-artboard-shell__enter-chrome`.
+- **Fix:** `Site00ArtboardBottomChromePortal` shared component; wire Enter status strip, `WorkflowSummary`, `Site00PublicStatusRail`, and Origin `Site00AppShell` status footer through it. Chrome host CSS extended for workflow/public/status strips (desktop grid, 36px height, undo fixed positioning).
+- **Branch:** `cursor/phone-desktop-pages-parity-796f`.

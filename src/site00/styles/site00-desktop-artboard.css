@@ -370,14 +370,14 @@
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
   background: #f5f5f3;
-  touch-action: pan-y pinch-zoom;
+  touch-action: pan-x pan-y pinch-zoom;
 }
 
-/** ENTER 00 — lock viewport; background + UI must fit one screen without shell scroll */
+/** ENTER 00 — lock viewport scroll; pinch-zoom stays enabled for preview accessibility */
 .site00-desktop-artboard-shell:has(.site00-enter-page),
 .site00-desktop-artboard-shell--enter {
   overflow: hidden;
-  touch-action: none;
+  touch-action: pan-x pan-y pinch-zoom;
   background: #f5f5f3;
 }
 
@@ -522,11 +522,11 @@
   white-space: nowrap;
 }
 
-/** ORIGIN — lock viewport on collapsed homepage; expanded panels re-enable scroll below */
+/** ORIGIN — lock viewport scroll on collapsed homepage; pinch-zoom allowed */
 .site00-desktop-artboard-shell:has(.site00-origin-page):not(:has(.site00-home-expanded-column)),
 .site00-desktop-artboard-shell--origin:not(:has(.site00-home-expanded-column)) {
   overflow: hidden;
-  touch-action: none;
+  touch-action: pan-x pan-y pinch-zoom;
 }
 
 /** Desktop artboard preview — status strip sits at bottom of scaled composition. */
