@@ -301,3 +301,15 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 
 - **Issue:** Phone Desktop toggle — env bg rendered outside artboard transform at full viewport size while UI scaled inside artboard (bg "full screen" behind preview).
 - **Fix:** Move `Site00EnvironmentViewportBackground` inside scaled stage for `Site00DesktopArtboardShell` + `Site00MobileArtboardShell` so bg transforms with UI.
+
+---
+
+## 2026-08-19 — Merge conflict triage (mobile GitHub workflow + loader PRs)
+
+- **Context:** Founder merging from GitHub mobile app hit "Unable to merge — conflicts must be resolved." Requested conflict review after fetching latest `main`.
+- **Simple (fixed):** **PR #33** (`cursor/mobile-loader-regression-lock-4a83`) — only `package.json`: both branches added different npm scripts. Resolved by keeping **both** `strip:loader-audio` (main) and `verify:loader-mobile` (branch). Pushed; PR mergeable.
+- **Complicated (not auto-fixed):**
+  - **PR #30** — presentation-architecture + loader overhaul vs main’s loader/audio/desktop-preview changes; **11 files** (loader boot, routes, Origin/Public shells, `Site00Context`, `OriginPage`). Conflicting intents — needs manual design pass or rebase onto main.
+  - **PR #15, #13, #5** — older Enter/Origin bg/copy tweaks; conflict with later artboard/shell work on main. Likely **superseded** — close or cherry-pick if still needed.
+- **Already clean:** **PR #29**, **#28**, **#2** mergeable with main without conflicts.
+- **Deploy reminder:** merge to `main` does not update site00.com until GoDaddy deploy (Actions artifact/ZIP or FTP).
