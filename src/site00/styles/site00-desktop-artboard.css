@@ -350,10 +350,10 @@
   height: calc(var(--site00-origin-panel-icon-size-px, 80px) * 1.1);
 }
 
-/** Expanded panel header icon (top-right) — 3× lg base; collapsed cards unchanged. */
+/** Expanded panel header icon (top-right) — 3× lg base −40%; collapsed cards unchanged. */
 .site00-desktop-artboard .site00-home-expanded-column .site00-origin-card__icon--lg {
-  width: var(--site00-origin-expanded-header-icon-size-px, 264px);
-  height: var(--site00-origin-expanded-header-icon-size-px, 264px);
+  width: var(--site00-origin-expanded-header-icon-size-px, 158.4px);
+  height: var(--site00-origin-expanded-header-icon-size-px, 158.4px);
 }
 
 /** EVOLVE expanded — three paths centered (not left-aligned in 5-col grid). */
