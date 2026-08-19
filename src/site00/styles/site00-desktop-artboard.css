@@ -306,9 +306,10 @@
   position: fixed;
   z-index: calc(var(--site-z-overlay) + 20);
   pointer-events: auto;
-  bottom: calc(72px + env(safe-area-inset-bottom, 0px));
-  left: 50%;
-  transform: translateX(-50%);
+  top: calc(12px + env(safe-area-inset-top, 0px));
+  left: calc(12px + env(safe-area-inset-left, 0px));
+  bottom: auto;
+  transform: none;
   display: flex;
   gap: 8px;
   padding: 6px 10px;
