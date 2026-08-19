@@ -172,6 +172,7 @@
 .site00-desktop-artboard .site00-home-hero__coordinate {
   top: var(--site00-origin-hero-coordinate-offset-y, 0px);
   margin-top: 20px;
+  color: var(--site-text-muted);
 }
 
 .site00-desktop-artboard .site00-home-cards,

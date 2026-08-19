@@ -817,6 +817,6 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 ## 2026-08-19 — Origin expanded panel header icons 3× (desktop)
 
 - **Request:** Increase top-right corner icons on expanded panels only (IDNTY/BLDR/EVOLVE) by 3× on desktop Origin page; collapsed cards unchanged.
-- **Fix:** `expandedPanelHeaderIconSizePx: 264` (88px × 3); desktop hero merges description2+3 into one nowrap line (`site00-home-hero__line--desc-online`).
+- **Fix:** `expandedPanelHeaderIconSizePx: 264` (88px × 3); desktop hero merges description2+3 into one nowrap line (`site00-home-hero__line--desc-online`); coordinate line prefix/suffix gray (`--site-text-muted`), `00.00` stays red.
 - **Branch:** `cursor/origin-expanded-header-icons-796f`.
 
