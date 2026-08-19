@@ -52,19 +52,20 @@ function rect(x: number, y: number, w: number, h: number): LoaderDesktopRegionRe
   };
 }
 
-/** Centralized desktop composition — tuned to approved 1672×941 landscape master. */
+/** Centralized desktop composition — copy regions mirror mobile normalized anchors (1672×941). */
 export const ASSTS_LOADER_DESKTOP_COMPOSITION = {
   reference: { width: 1672, height: 941, centerX: 836 },
   wireframe: { x: 716, y: 88, w: 240, h: 372 },
   platform: { x: 586, y: 442, w: 500, h: 96 },
-  siteLabel: { x: 796, y: 48, w: 80, h: 22, centerX: 836 },
-  headline: { x: 396, y: 70, w: 880, h: 34, centerX: 836 },
-  subtitle: { x: 564, y: 100, w: 544, h: 24, centerX: 836 },
-  status: { x: 716, y: 644, w: 240, h: 22, centerX: 836 },
-  progressTrack: { x: 536, y: 674, w: 600, h: 8 },
-  progressPercentage: { x: 1144, y: 666, w: 44, h: 24 },
-  brandStatement: { x: 546, y: 704, w: 580, h: 28, centerX: 836 },
-  siteMark: { x: 792, y: 752, w: 88, h: 96, centerX: 836 },
+  /** copy.* below — same nx/ny/nw/nh as mobile master (711×1536). */
+  siteLabel: { x: 740, y: 44, w: 190, h: 20, centerX: 836 },
+  headline: { x: 113, y: 69, w: 1449, h: 64, centerX: 836 },
+  subtitle: { x: 282, y: 137, w: 1111, h: 25, centerX: 836 },
+  status: { x: 670, y: 635, w: 332, h: 16, centerX: 836 },
+  progressTrack: { x: 228, y: 671, w: 1134, h: 5 },
+  progressPercentage: { x: 1409, y: 665, w: 94, h: 15 },
+  brandStatement: { x: 226, y: 717, w: 1223, h: 21, centerX: 836 },
+  siteMark: { x: 734, y: 776, w: 207, h: 62, centerX: 836 },
 } as const;
 
 export const ASSTS_LOADER_DESKTOP_REGIONS: Record<LoaderDesktopRegionId, LoaderDesktopRegionRect> = {
@@ -131,17 +132,17 @@ export const ASSTS_LOADER_DESKTOP_REGIONS: Record<LoaderDesktopRegionId, LoaderD
   ),
 };
 
-/** Desktop typography — same Martian Mono system, modest readability bump. */
+/** Desktop typography — mirrors mobile master (live overlay uses mobile map). */
 export const ASSTS_LOADER_DESKTOP_TYPOGRAPHY = {
-  eyebrow: { size: 11, weight: 600, tracking: '0.1em', lh: 1.12 },
-  title: { size: 14, weight: 650, tracking: '0.035em', lh: 1.08 },
-  subtitle: { size: 11, weight: 450, tracking: '0.09em', lh: 1.2 },
-  status: { size: 10, weight: 450, tracking: '0.08em', lh: 1.15 },
-  progressPct: { size: 10, weight: 500, tracking: '0.02em', lh: 1 },
-  tagline: { size: 9, weight: 450, tracking: '0.07em', lh: 1.15 },
-  taglinePlus: { size: 11, weight: 500, tracking: '0', lh: 1 },
-  mark: { size: 28, weight: 800, tracking: '0.02em', lh: 1 },
-  signatureLabel: { size: 10, weight: 600, tracking: '0.1em', lh: 1.12 },
+  eyebrow: { size: 10, weight: 600, tracking: '0.1em', lh: 1.12 },
+  title: { size: 13, weight: 650, tracking: '0.035em', lh: 1.08 },
+  subtitle: { size: 10, weight: 450, tracking: '0.09em', lh: 1.2 },
+  status: { size: 9, weight: 450, tracking: '0.08em', lh: 1.15 },
+  progressPct: { size: 9, weight: 500, tracking: '0.02em', lh: 1 },
+  tagline: { size: 8, weight: 450, tracking: '0.07em', lh: 1.15 },
+  taglinePlus: { size: 10, weight: 500, tracking: '0', lh: 1 },
+  mark: { size: 26, weight: 800, tracking: '0.02em', lh: 1 },
+  signatureLabel: { size: 9, weight: 600, tracking: '0.1em', lh: 1.12 },
 } as const;
 
 export function loaderDesktopRegionStyleVars(id: LoaderDesktopRegionId): Record<string, string> {

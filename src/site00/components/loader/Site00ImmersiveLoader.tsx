@@ -191,7 +191,7 @@ function ImmersiveLoaderBody({
         onAnimationError={handleAnimationError}
       />
 
-      <LoaderCompositionProvider presentation={uiPresentation}>
+      <LoaderCompositionProvider presentation={uiPresentation} mediaPresentation={mediaPresentation}>
         {debug ? (
           <LoaderRegion id="pedestal" className="site00-loader-pedestal-debug" aria-hidden="true" />
         ) : null}
@@ -228,8 +228,7 @@ function ImmersiveLoaderBody({
 
 /**
  * Asset Vault + world immersive loader.
- * Asset Vault (assts): mobile <768px uses portrait master; desktop ≥768px uses landscape master.
- * World loader: always mobile composition (unchanged).
+ * Text overlay always uses mobile composition (711×1536). Media layer switches at ≥768px.
  */
 export function Site00ImmersiveLoader(props: Site00ImmersiveLoaderProps) {
   const uiPresentation = useLoaderPresentation(props.config.id);

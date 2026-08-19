@@ -1139,8 +1139,19 @@
   transition: width 0.35s ease;
 }
 
-/* ── Desktop Asset Vault loader (≥768px) — landscape composition ── */
+/* ── Desktop loader media (≥768px animation) — text overlay mirrors mobile composition ── */
 
+.site00-immersive-loader--media-desktop .site00-loader-stage-viewport {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+}
+
+.site00-immersive-loader--media-desktop .site00-loader-artboard-scaler {
+  margin-inline: auto;
+}
+
+/* Legacy Asset Vault desktop ui rules — retained for ref-map debug tooling only. */
 .site00-immersive-loader--desktop .site00-loader-stage-viewport--desktop {
   width: min(96vw, 1400px);
   margin-inline: auto;
