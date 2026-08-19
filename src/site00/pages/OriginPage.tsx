@@ -113,7 +113,7 @@ export default function OriginPage() {
                 ) : state.homeMode === 'bldr-expanded' ? (
                   <BldrExpandedPanel onCollapse={collapseExpandedPanel} />
                 ) : (
-                  <EvolveExpandedPanel onCollapse={collapseExpandedPanel} />
+                  <EvolveExpandedPanel onCollapse={collapseExpandedPanel} isDesktopArtboard={isDesktopArtboardLayout} />
                 )}
               </div>
             ) : null}
@@ -124,6 +124,7 @@ export default function OriginPage() {
                   onExpandIdnty={() => setHomeMode('idnty-expanded')}
                   onExpandBldr={() => setHomeMode('bldr-expanded')}
                   onExpandEvolve={() => setHomeMode('evolve-expanded')}
+                  isDesktopArtboard={isDesktopArtboardLayout}
                 />
               </section>
             ) : null}
