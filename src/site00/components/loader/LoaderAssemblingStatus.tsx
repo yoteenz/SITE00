@@ -1,23 +1,25 @@
 import { useEffect, useState } from 'react';
 
+const DOT_CYCLE = ['', '.', '..', '...'] as const;
+
 type LoaderAssemblingStatusProps = {
   active: boolean;
   /** Static label when not animating (complete / error). */
   label: string;
 };
 
-/** ASSEMBLING + cycling ellipsis — dots appear one-by-one, clear, repeat. */
+/** ASSEMBLING + cycling ellipsis — `.` → `..` → `...` → clear → repeat. */
 export function LoaderAssemblingStatus({ active, label }: LoaderAssemblingStatusProps) {
-  const [dotCount, setDotCount] = useState(0);
+  const [step, setStep] = useState(0);
 
   useEffect(() => {
     if (!active) {
-      setDotCount(0);
+      setStep(0);
       return;
     }
     const id = window.setInterval(() => {
-      setDotCount((count) => (count >= 3 ? 0 : count + 1));
-    }, 380);
+      setStep((prev) => (prev + 1) % DOT_CYCLE.length);
+    }, 420);
     return () => window.clearInterval(id);
   }, [active]);
 
@@ -27,9 +29,9 @@ export function LoaderAssemblingStatus({ active, label }: LoaderAssemblingStatus
 
   return (
     <p className="site00-loader-copy__status site00-loader-copy__status--animating" aria-label="Assembling">
-      ASSEMBLING
+      <span className="site00-loader-copy__status-label">ASSEMBLING</span>
       <span className="site00-loader-copy__status-dots" aria-hidden="true">
-        {'.'.repeat(dotCount)}
+        {DOT_CYCLE[step]}
       </span>
     </p>
   );
