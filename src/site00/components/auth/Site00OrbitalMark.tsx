@@ -16,7 +16,10 @@ export function Site00OrbitalMark({ className = '' }: Site00OrbitalMarkProps) {
         src={signInIconUrl}
         alt=""
         className="site00-orbital-mark__img"
+        width={1024}
+        height={1536}
         decoding="async"
+        fetchPriority="high"
       />
     </div>
   );

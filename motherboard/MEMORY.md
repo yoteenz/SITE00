@@ -828,3 +828,12 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 - **Fix:** Added `SITE00_SIGNIN_ICON_PATH` in `site00-auth-assets.ts`; `Site00OrbitalMark` now renders `<img>` via `resolveSite00PublicAsset` (desktop brand panel + mobile intro). CSS `object-fit: contain` on `.site00-orbital-mark__img`.
 - **Branch:** `cursor/signin-icon-update-2c3b`.
 
+---
+
+## 2026-08-19 — Sign-in icon not visible on fsbw-dev preview (cache + sizing)
+
+- **Issue:** Founder on `site00.fsbw-dev.com/origin/sign-in` still saw old red wireframe SVG; PNG not requested in network tab.
+- **Cause:** Preview tunnel can serve stale Vite module cache from prior connector session; portrait PNG (1024×1536) also cramped in square 220×220 box.
+- **Fix:** Restart cloud preview Vite with `--force`; preload sign-in icon in `Site00AuthShell`; portrait `aspect-ratio: 2/3` sizing + `fetchPriority="high"` on mark img. Branch `cursor/signin-icon-display-fix-2c3b`.
+- **User action:** Hard refresh sign-in page (mobile Safari: pull-to-refresh or clear site data) after preview reconnects.
+
