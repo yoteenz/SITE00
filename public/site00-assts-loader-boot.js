@@ -26,6 +26,14 @@
   var animation = isWide
     ? storageBase + 'BLDR/openart-output_1787109389654_e04aea07.mp4'
     : storageBase + 'BLDR/openart-output_1787107938282_745c8292.mp4';
+  var mediaFocal = 'center 75%';
+
+  function applyBootEnvStyle(env) {
+    if (!env) return;
+    env.style.backgroundImage = "url('" + bg + "')";
+    env.style.backgroundPosition = mediaFocal;
+    env.style.setProperty('--site00-loader-media-focal', mediaFocal);
+  }
 
   function preload(href, as) {
     if (!href || document.querySelector('link[rel="preload"][href="' + href + '"]')) return;
@@ -46,7 +54,7 @@
     if (shell) {
       shell.hidden = false;
       var env = shell.querySelector('.site00-assts-boot-shell__env');
-      if (env) env.style.backgroundImage = "url('" + bg + "')";
+      applyBootEnvStyle(env);
       return;
     }
 
@@ -54,8 +62,13 @@
     nextShell.id = 'site00-assts-boot-shell';
     nextShell.className = 'site00-assts-boot-shell';
     nextShell.setAttribute('aria-hidden', 'true');
+    nextShell.style.setProperty('--site00-loader-media-focal', mediaFocal);
     nextShell.innerHTML =
-      '<div class="site00-assts-boot-shell__env" style="background-image:url(\'' + bg + '\')"></div>';
+      '<div class="site00-assts-boot-shell__env" style="background-image:url(\'' +
+      bg +
+      "');background-position:" +
+      mediaFocal +
+      '"></div>';
 
     var mountTarget = document.body || document.documentElement;
     mountTarget.appendChild(nextShell);

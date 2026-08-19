@@ -11,6 +11,8 @@ import type { LoaderPresentation } from './loader-composition-resolver';
 type Site00LoaderAnimationProps = {
   /** Media presentation — selects mobile vs desktop animation asset only. */
   mediaPresentation?: LoaderPresentation;
+  /** Cover focal — must match static environment layer to prevent play-time shift. */
+  mediaFocal?: string;
   reducedMotion?: boolean;
   onReady?: () => void;
   onError?: (detail: unknown) => void;
@@ -22,6 +24,7 @@ type Site00LoaderAnimationProps = {
  */
 export function Site00LoaderAnimation({
   mediaPresentation = 'mobile',
+  mediaFocal = 'center center',
   reducedMotion = false,
   onReady,
   onError,
@@ -127,7 +130,7 @@ export function Site00LoaderAnimation({
       className={layerClass}
       data-media-ready={mediaReady ? '1' : '0'}
       data-loader-video-src={sourceUrl}
-      style={{ zIndex: 1 }}
+      style={{ zIndex: 1, ['--site00-loader-media-focal' as string]: mediaFocal }}
       aria-hidden="true"
     >
       <video
@@ -144,6 +147,7 @@ export function Site00LoaderAnimation({
         disableRemotePlayback
         controls={false}
         tabIndex={-1}
+        style={{ objectPosition: mediaFocal }}
         onLoadedData={handleCanPlay}
         onCanPlay={handleCanPlay}
         onError={handleError}

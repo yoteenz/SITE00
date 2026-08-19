@@ -28,6 +28,14 @@ export const SITE00_ENTER_DESKTOP_FOCAL = {
   ultrawide: 'center 75%',
 } as const;
 
+/** Immersive loader environment focal — static bg + animation share one cover anchor (prevents play-time shift). */
+export const SITE00_LOADER_MEDIA_FOCAL = {
+  /** Mobile portrait master (711×1536 ref / 1312×2816 animation) */
+  mobile: 'center 75%',
+  /** Desktop landscape master (2560×1440) */
+  desktop: 'center 75%',
+} as const;
+
 export const SITE00_DESKTOP_PRESENTATION_LOCKED = {
   artboardWidthPx: 1440,
   artboardMinHeightPx: 900,

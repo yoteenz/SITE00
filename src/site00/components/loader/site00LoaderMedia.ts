@@ -1,6 +1,7 @@
 /** Boot-critical loader media — versioned paths + approved Supabase production assets. */
 
 import { getSite00OriginWideViewportSnapshot } from '../shell/site00OriginViewport';
+import { SITE00_LOADER_MEDIA_FOCAL } from '../../config/desktop-environment-presentation';
 
 export const SITE00_LOADER_ASSET_VERSION = 'v1';
 
@@ -51,6 +52,11 @@ export function resolveSite00LoaderBackgroundUrl(presentation: 'mobile' | 'deskt
 export function resolveSite00LoaderMediaPresentation(): 'mobile' | 'desktop' {
   if (typeof window === 'undefined') return 'mobile';
   return getSite00OriginWideViewportSnapshot() ? 'desktop' : 'mobile';
+}
+
+/** Shared object-position / background-position for loader static + animation layers. */
+export function resolveSite00LoaderMediaFocal(presentation: 'mobile' | 'desktop'): string {
+  return presentation === 'desktop' ? SITE00_LOADER_MEDIA_FOCAL.desktop : SITE00_LOADER_MEDIA_FOCAL.mobile;
 }
 
 /** Reference map for artboard overlay test — falls back to approved background. */
