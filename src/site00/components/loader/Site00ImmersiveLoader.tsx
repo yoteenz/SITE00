@@ -212,6 +212,7 @@ function ImmersiveLoaderBody({
           footerLabel={config.footerLabel}
           progress={error ? 0 : displayProgress}
           progressLabel={copyActive ? progressLabel : ''}
+          assemblingActive={copyActive && !error && !atComplete}
         />
 
         {error && onRetry ? (

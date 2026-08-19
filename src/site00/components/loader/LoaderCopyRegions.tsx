@@ -1,4 +1,5 @@
 import { LoaderRegion } from './LoaderRegion';
+import { LoaderAssemblingStatus } from './LoaderAssemblingStatus';
 import { resolveSite00LoaderFooterMarkUrl } from './site00LoaderMedia';
 
 const LOADER_FOOTER_MARK_URL = resolveSite00LoaderFooterMarkUrl();
@@ -11,6 +12,7 @@ type LoaderCopyRegionsProps = {
   footerLabel: string;
   progress: number;
   progressLabel: string;
+  assemblingActive?: boolean;
 };
 
 /** Copy + progress + signature — each element in its mapped reference region. */
@@ -22,6 +24,7 @@ export function LoaderCopyRegions({
   footerLabel,
   progress,
   progressLabel,
+  assemblingActive = false,
 }: LoaderCopyRegionsProps) {
   const value = Math.min(100, Math.max(0, Math.round(progress)));
 
@@ -40,7 +43,7 @@ export function LoaderCopyRegions({
       </LoaderRegion>
 
       <LoaderRegion id="copy.status" className="site00-loader-copy-region site00-loader-copy-region--status">
-        <p className="site00-loader-copy__status">{progressLabel}</p>
+        <LoaderAssemblingStatus active={assemblingActive} label={progressLabel} />
       </LoaderRegion>
 
       <LoaderRegion id="copy.progressTrack" className="site00-loader-copy-region site00-loader-copy-region--progress-track">
@@ -72,7 +75,7 @@ export function LoaderCopyRegions({
         </div>
       </LoaderRegion>
 
-      <LoaderRegion id="copy.signature" className="site00-loader-copy-region site00-loader-copy-region--signature">
+      <LoaderRegion id="copy.signature" className="site00-loader-copy-region site00-loader-copy-region--signature" allowOverflow>
         <div className="site00-loader-copy__signature">
           <img
             src={LOADER_FOOTER_MARK_URL}
