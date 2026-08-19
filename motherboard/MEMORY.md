@@ -812,3 +812,11 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
   - CSS: 5-column grid, icon slot, artboard-pinned nav in laptop Mobile preview.
 - **Branch:** `cursor/mobile-nav-geometric-icons-796f`.
 
+---
+
+## 2026-08-19 — Fast Travel header icon swap
+
+- **Request:** Replace Fast Travel trigger icon with new Supabase asset `3C9BC909-76E8-4FBB-8931-0AF91444DD40.png`.
+- **Fix:** Updated `SITE00_FAST_TRAVEL_ICON_PATH` in `locations-directory.ts`; `FastTravelTrigger` resolves via existing `resolveSite00PublicAsset` (22×22, object-fit contain).
+- **Branch:** `cursor/fast-travel-icon-update-796f`.
+
