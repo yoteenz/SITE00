@@ -814,9 +814,9 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 
 ---
 
-## 2026-08-19 — Origin mobile tagline +2px
+## 2026-08-19 — Origin mobile tagline +4px
 
-- **Request:** Move red “WHERE DIGITAL PLACES BEGIN.” down 2px on Origin mobile only.
-- **Fix:** `.site00-origin-page--mobile-layout .site00-home-hero__tagline` `translateY(4px)` → `translateY(6px)` in `site00.css`.
+- **Request:** Move red “WHERE DIGITAL PLACES BEGIN.” down on Origin mobile (follow-up: 4px total, not 2px).
+- **Fix:** `.site00-origin-page--mobile-layout .site00-home-hero__tagline` `translateY(8px)` (+4px from base 4px).
 - **Branch:** `cursor/origin-mobile-tagline-nudge-2-796f`.
 
