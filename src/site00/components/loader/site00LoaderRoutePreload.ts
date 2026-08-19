@@ -1,7 +1,12 @@
 /**
- * Preload lazy route chunks during the immersive loader gate.
+ * Preload lazy route chunks and destination environment assets during the immersive loader gate.
  * Progress stages advance when these promises settle — not on timers.
  */
+
+import { getEnvironmentForPath, SITE00_ENVIRONMENTS } from '../../config/environments';
+import { resolveSite00PublicAsset } from './site00LoaderConfig';
+import { resolveSite00LoaderMediaPresentation } from './site00LoaderMedia';
+import { preloadSite00LoaderBackground } from './site00LoaderPreload';
 
 type RoutePreload = () => Promise<unknown>;
 
@@ -9,8 +14,23 @@ function preloadModule(loader: RoutePreload): Promise<void> {
   return loader().then(() => undefined).catch(() => undefined);
 }
 
-/** Map pathname → destination page module import. */
-export function preloadSite00RoutePage(pathname: string): Promise<void> {
+/** Destination page background — what renders under the loader overlay. */
+function preloadDestinationEnvironment(pathname: string): Promise<void> {
+  const environmentId = getEnvironmentForPath(pathname);
+  if (!environmentId) return Promise.resolve();
+
+  const config = SITE00_ENVIRONMENTS[environmentId];
+  const presentation = resolveSite00LoaderMediaPresentation();
+  const assetPath =
+    presentation === 'mobile'
+      ? config.mobileAssetPath ?? config.desktopAssetPath
+      : config.desktopAssetPath ?? config.mobileAssetPath;
+
+  if (!assetPath) return Promise.resolve();
+  return preloadSite00LoaderBackground(resolveSite00PublicAsset(assetPath));
+}
+
+function preloadRoutePageChunk(pathname: string): Promise<void> {
   const path = pathname || '/';
 
   if (path === '/' || path === '/origin' || path.startsWith('/origin/locations')) {
@@ -47,6 +67,14 @@ export function preloadSite00RoutePage(pathname: string): Promise<void> {
   }
 
   return Promise.resolve();
+}
+
+/** Page chunk + destination environment background for the route under the loader. */
+export function preloadSite00RoutePage(pathname: string): Promise<void> {
+  return Promise.all([
+    preloadRoutePageChunk(pathname),
+    preloadDestinationEnvironment(pathname),
+  ]).then(() => undefined);
 }
 
 /** ASSTS library shell — page chunk preload. */

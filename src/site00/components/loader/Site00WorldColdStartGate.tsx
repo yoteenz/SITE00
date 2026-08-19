@@ -82,6 +82,7 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
 
         const animationStartedAt = geometryReadyAt.current ?? Date.now();
 
+        // Stages advance when each backing preload settles (not timers).
         await advanceLoaderStagesFromTasks(
           [
             { stageId: 'bootstrap', task: backgroundTask },
