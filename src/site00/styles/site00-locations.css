@@ -118,7 +118,13 @@
     max-width: 82vw;
   }
 
-  .site00-directory-card {
+  .site00-directory-card,
+  .site00-directory-card:link,
+  .site00-directory-card:visited,
+  .site00-directory-card:hover,
+  .site00-directory-card:focus,
+  .site00-directory-card:focus-visible,
+  .site00-directory-card:active {
     display: flex;
     align-items: center;
     justify-content: space-between;

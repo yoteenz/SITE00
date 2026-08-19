@@ -309,9 +309,17 @@
   }
 
   .site00-directory-exit,
+<<<<<<< HEAD
   .site00-directory-exit:hover,
   .site00-directory-exit:focus-visible,
   .site00-directory-exit:visited,
+=======
+  .site00-directory-exit:link,
+  .site00-directory-exit:visited,
+  .site00-directory-exit:hover,
+  .site00-directory-exit:focus,
+  .site00-directory-exit:focus-visible,
+>>>>>>> origin/cursor/global-regression-recovery-4a83
   .site00-directory-exit:active {
     display: inline-flex;
     align-items: center;
