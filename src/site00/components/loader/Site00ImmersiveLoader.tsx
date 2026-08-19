@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { Site00ImmersiveLoaderConfig, Site00LoaderState } from './site00LoaderConfig';
 import {
   isLoaderAnimationEnabled,
@@ -19,6 +19,7 @@ import { resolveSite00LoaderBackgroundUrl, resolveSite00LoaderBackgroundFocal, r
 import { preloadSite00LoaderBackground } from './site00LoaderPreload';
 import { useLoaderMediaPresentation } from './useLoaderMediaPresentation';
 import { useLoaderPresentation } from './useLoaderPresentation';
+import { resolveActiveStageSubtitle } from './site00LoaderStageSubtitle';
 import '../../styles/site00-loader.css';
 
 export type Site00ImmersiveLoaderPhase = 'loading' | 'complete-hold' | 'exiting';
@@ -149,9 +150,13 @@ function ImmersiveLoaderBody({
   const atComplete = isComplete || phase === 'complete-hold' || progress >= 100;
   const progressLabel = error ? 'RETRY REQUIRED' : atComplete ? config.completionMessage : config.assemblingLabel;
   const displayProgress = copyActive ? progress : 0;
-  const displaySubtitle = error
-    ? "WE COULDN'T COMPLETE THIS STEP"
-    : stageSubtitle || config.experienceSubtitle;
+  const displaySubtitle = useMemo(() => {
+    if (error) return "WE COULDN'T COMPLETE THIS STEP";
+    if (config.stages.length > 0) {
+      return resolveActiveStageSubtitle(config.stages, displayProgress);
+    }
+    return stageSubtitle || config.experienceSubtitle;
+  }, [config.stages, config.experienceSubtitle, displayProgress, error, stageSubtitle]);
 
   const rootClass = [
     'site00-immersive-loader',

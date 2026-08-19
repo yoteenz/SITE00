@@ -39,7 +39,9 @@ export function LoaderCopyRegions({
       </LoaderRegion>
 
       <LoaderRegion id="copy.subtitle" className="site00-loader-copy-region site00-loader-copy-region--subtitle" allowOverflow>
-        <p className="site00-loader-copy__subtitle">{subtitle}</p>
+        <p className="site00-loader-copy__subtitle" key={subtitle}>
+          {subtitle}
+        </p>
       </LoaderRegion>
 
       <LoaderRegion id="copy.status" className="site00-loader-copy-region site00-loader-copy-region--status" allowOverflow>

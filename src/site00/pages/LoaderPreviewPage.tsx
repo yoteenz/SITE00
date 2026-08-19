@@ -4,6 +4,7 @@ import { acquireLoadingScreenDocumentLock } from '../../platform-stabilization/l
 import { Site00ImmersiveLoader, type Site00ImmersiveLoaderPhase } from '../components/loader/Site00ImmersiveLoader';
 import { initSite00ImmersiveLoaderBoot, teardownSite00ImmersiveBootShell } from '../components/loader/site00LoaderBoot';
 import { resolveSite00ImmersiveLoaderConfig } from '../components/loader/site00LoaderConfig';
+import { resolveActiveStageSubtitle } from '../components/loader/site00LoaderStageSubtitle';
 
 function clampProgress(value: number): number {
   if (!Number.isFinite(value)) return 62;
@@ -24,8 +25,7 @@ export default function LoaderPreviewPage() {
   const phase: Site00ImmersiveLoaderPhase = isComplete ? 'complete-hold' : 'loading';
   const stageSubtitle = useMemo(() => {
     if (isComplete) return config.stages[config.stages.length - 1]?.subtitle ?? '';
-    const stage = [...config.stages].reverse().find((s) => progress >= s.progress);
-    return stage?.subtitle ?? config.stages[0]?.subtitle ?? '';
+    return resolveActiveStageSubtitle(config.stages, progress);
   }, [config.stages, isComplete, progress]);
 
   useEffect(() => {

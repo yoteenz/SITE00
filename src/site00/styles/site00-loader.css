@@ -628,6 +628,7 @@
   text-transform: uppercase;
   color: var(--site-text-muted, #6b6b6b);
   white-space: nowrap;
+  transition: opacity 0.28s ease;
 }
 
 .site00-loader-copy__eyebrow {
