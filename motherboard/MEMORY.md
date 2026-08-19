@@ -477,3 +477,11 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Request:** Move 00 PNG asset and red SITE 00 label below it up 6px in tandem; overlay only.
 - **Fix:** Signature region `translateY(calc(54px / var(--loader-scale)))` (60px base − 6px). PR **#58**.
 
+---
+
+## 2026-08-19 — Loader copy typography + signature nudge fix
+
+- **Issue:** Founder reported signature moved down not up; headline typography changes (weight/size) not visible.
+- **Root cause:** Global utilities `.site00-heading-lg` / `.site00-label-red` / `.site00-body` overrode loader copy CSS. Positive region `translateY` nudges move overlay down — signature needed negative inner offset to move up.
+- **Fix:** Removed conflicting utilities from `LoaderCopyRegions`; scoped headline typography under `.site00-immersive-loader`. Signature uses inner `translateY(calc(-6px / scale))` on `.site00-loader-copy__signature`. PR **#59**.
+
