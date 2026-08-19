@@ -1,7 +1,6 @@
 import { shouldShowSite00ImmersiveLoader } from './site00LoaderSession';
 import { isSite00ImmersivePath } from './site00LoaderPaths';
-import { isSite00OriginWideViewport } from '../shell/site00OriginViewport';
-import { resolveSite00LoaderBackgroundUrl, site00LoaderGeometryPreloadUrl } from './site00LoaderMedia';
+import { resolveSite00LoaderBackgroundUrl, resolveSite00LoaderAnimationPreloadUrl, resolveSite00LoaderMediaPresentation, resolveSite00LoaderBackgroundFocal } from './site00LoaderMedia';
 import { preloadSite00LoaderAnimation, preloadSite00LoaderBackground } from './site00LoaderPreload';
 
 const BOOT_CLASS = 'site00-assts-boot';
@@ -29,8 +28,11 @@ function ensureBootShell(): void {
   shell.id = SHELL_ID;
   shell.className = 'site00-assts-boot-shell';
   shell.setAttribute('aria-hidden', 'true');
-  const bootBg = resolveSite00LoaderBackgroundUrl(isSite00OriginWideViewport() ? 'desktop' : 'mobile');
-  shell.innerHTML = `<div class="site00-assts-boot-shell__env" style="background-image:url('${bootBg}')"></div>`;
+  const bootPresentation = resolveSite00LoaderMediaPresentation();
+  const bootBg = resolveSite00LoaderBackgroundUrl(bootPresentation);
+  const bootFocal = resolveSite00LoaderBackgroundFocal(bootPresentation);
+  shell.style.setProperty('--site00-loader-bg-focal', bootFocal);
+  shell.innerHTML = `<div class="site00-assts-boot-shell__env" style="background-image:url('${bootBg}');background-position:${bootFocal}"></div>`;
   document.body.appendChild(shell);
 }
 
@@ -43,13 +45,16 @@ export function initSite00ImmersiveLoaderBoot(): void {
   document.documentElement.classList.add(BOOT_CLASS);
   ensureBootShell();
 
-  const bg = resolveSite00LoaderBackgroundUrl(isSite00OriginWideViewport() ? 'desktop' : 'mobile');
+  const presentation = resolveSite00LoaderMediaPresentation();
+  const bg = resolveSite00LoaderBackgroundUrl(presentation);
   injectPreload(bg, 'image');
   void preloadSite00LoaderBackground(bg);
 
-  const geometryUrl = site00LoaderGeometryPreloadUrl('screen');
-  injectPreload(geometryUrl, 'fetch');
-  void preloadSite00LoaderAnimation(geometryUrl);
+  const animationUrl = resolveSite00LoaderAnimationPreloadUrl(presentation);
+  if (animationUrl) {
+    injectPreload(animationUrl, 'fetch');
+    void preloadSite00LoaderAnimation(animationUrl);
+  }
 }
 
 /** @deprecated Use initSite00ImmersiveLoaderBoot */

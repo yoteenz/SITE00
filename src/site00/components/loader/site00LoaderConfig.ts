@@ -2,9 +2,7 @@
 
 import {
   site00LoaderBackgroundUrl,
-  site00LoaderGeometryApngUrl,
-  site00LoaderGeometrySourceUrl,
-  site00LoaderGeometryWebmUrl,
+  resolveSite00LoaderEnvironmentAnimationUrl,
 } from './site00LoaderMedia';
 
 /** Resolve public live-preview asset at runtime (non-loader production assets). */
@@ -41,9 +39,8 @@ export type Site00ImmersiveLoaderConfig = {
   footerLabel: string;
   completionMessage: string;
   backgroundUrl: string;
-  geometryWebmUrl: string;
-  geometryApngUrl: string;
-  geometrySourceUrl: string;
+  environmentAnimationUrl: string;
+  desktopEnvironmentAnimationUrl: string;
   stages: Site00LoaderStage[];
 };
 
@@ -59,9 +56,8 @@ export const SITE00_WORLD_IMMERSIVE_LOADER_CONFIG: Site00ImmersiveLoaderConfig =
   footerLabel: 'SITE 00',
   completionMessage: 'SITE 00 READY',
   backgroundUrl: site00LoaderBackgroundUrl(),
-  geometryWebmUrl: site00LoaderGeometryWebmUrl(),
-  geometryApngUrl: site00LoaderGeometryApngUrl(),
-  geometrySourceUrl: site00LoaderGeometrySourceUrl(),
+  environmentAnimationUrl: resolveSite00LoaderEnvironmentAnimationUrl('mobile'),
+  desktopEnvironmentAnimationUrl: resolveSite00LoaderEnvironmentAnimationUrl('desktop'),
   stages: [
     { id: 'bootstrap', state: 'BOOTSTRAP', label: 'INITIALIZING SITE 00', progress: 10 },
     { id: 'preparing', state: 'PREPARING', label: 'ASSEMBLING SITE 00', progress: 35 },
@@ -83,9 +79,8 @@ export const ASSTS_IMMERSIVE_LOADER_CONFIG: Site00ImmersiveLoaderConfig = {
   footerLabel: 'SITE 00',
   completionMessage: 'ASSET VAULT READY',
   backgroundUrl: site00LoaderBackgroundUrl(),
-  geometryWebmUrl: site00LoaderGeometryWebmUrl(),
-  geometryApngUrl: site00LoaderGeometryApngUrl(),
-  geometrySourceUrl: site00LoaderGeometrySourceUrl(),
+  environmentAnimationUrl: resolveSite00LoaderEnvironmentAnimationUrl('mobile'),
+  desktopEnvironmentAnimationUrl: resolveSite00LoaderEnvironmentAnimationUrl('desktop'),
   stages: [
     { id: 'bootstrap', state: 'BOOTSTRAP', label: 'INITIALIZING SITE 00', progress: 8 },
     { id: 'preparing', state: 'PREPARING', label: 'PREPARING THE ASSET VAULT', progress: 22 },

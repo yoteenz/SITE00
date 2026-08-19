@@ -1,91 +1,76 @@
-import { useEffect, useRef, useState } from 'react';
-import {
-  site00LoaderGeometryApngUrl,
-  site00LoaderGeometrySourceRemoteUrl,
-  site00LoaderGeometrySourceUrl,
-  site00LoaderGeometryWebmUrl,
-  site00LoaderPrefersApngGeometry,
-} from './site00LoaderMedia';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { resolveSite00LoaderEnvironmentAnimationUrl } from './site00LoaderMedia';
 import { loaderLifecycleLog } from './loaderLifecycleLog';
-import {
-  probeProductionAlphaAvailable,
-  resolveLoaderGeometryMode,
-  resolveLoaderGeometryModeFromQuery,
-  type LoaderGeometryMode,
-} from './site00LoaderGeometryMode';
 import { isLoaderMediaDebugEnabled } from './site00LoaderHeroStage';
+import {
+  bindSite00LoaderVideoSilentGuards,
+  enforceSite00LoaderVideoSilent,
+} from './site00LoaderVideoSilent';
+import type { LoaderPresentation } from './loader-composition-resolver';
 
 type Site00LoaderAnimationProps = {
+  /** Media presentation — selects mobile vs desktop animation asset only. */
+  mediaPresentation?: LoaderPresentation;
+  /** Cover focal — must match static environment layer to prevent play-time shift. */
+  mediaFocal?: string;
   reducedMotion?: boolean;
   onReady?: () => void;
   onError?: (detail: unknown) => void;
 };
 
 /**
- * Transparent geometry overlay — bounding box always visible; media fades in independently.
- * Parent loader never waits for this layer.
+ * Full-frame environment animation — Layer 2 above static background.
+ * Fades in once the video can render; static background remains underneath as fallback.
  */
-export function Site00LoaderAnimation({ reducedMotion = false, onReady, onError }: Site00LoaderAnimationProps) {
+export function Site00LoaderAnimation({
+  mediaPresentation = 'mobile',
+  mediaFocal = 'center center',
+  reducedMotion = false,
+  onReady,
+  onError,
+}: Site00LoaderAnimationProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const mountRef = useRef<HTMLDivElement>(null);
+  const readyRef = useRef(false);
   const [mediaReady, setMediaReady] = useState(false);
   const [mediaError, setMediaError] = useState(false);
-  const [mediaDebugSize, setMediaDebugSize] = useState('');
   const mediaDebug = isLoaderMediaDebugEnabled();
-  const forcedMode = resolveLoaderGeometryModeFromQuery();
-  const [mode, setMode] = useState<LoaderGeometryMode>(() => forcedMode ?? 'screen');
-  const [alphaUrl, setAlphaUrl] = useState<string | null>(() =>
-    (forcedMode ?? 'screen') === 'alpha'
-      ? site00LoaderPrefersApngGeometry()
-        ? site00LoaderGeometryApngUrl()
-        : site00LoaderGeometryWebmUrl()
-      : null,
-  );
-  const [sourceUrl, setSourceUrl] = useState(site00LoaderGeometrySourceUrl());
+  const sourceUrl = resolveSite00LoaderEnvironmentAnimationUrl(mediaPresentation);
+  const isLegacyLoaderAsset =
+    /geometry-v1|kling-v2|assts-loader-geometry/i.test(sourceUrl);
+
+  const signalReady = () => {
+    if (readyRef.current) return;
+    readyRef.current = true;
+    setMediaReady(true);
+    loaderLifecycleLog('ANIMATION_CANPLAY');
+    onReady?.();
+  };
 
   useEffect(() => {
-    loaderLifecycleLog('ANIMATION_SOURCE_RESOLVED', { mode, sourceUrl, alphaUrl });
-  }, [mode, sourceUrl, alphaUrl]);
+    if (!isLegacyLoaderAsset) return;
+    loaderLifecycleLog('ANIMATION_ERROR', { blockedLegacyAsset: sourceUrl });
+    signalReady();
+  }, [isLegacyLoaderAsset, sourceUrl]);
 
   useEffect(() => {
-    const forced = resolveLoaderGeometryModeFromQuery();
-    if (forced) {
-      setMode(forced);
-      return;
-    }
-    void probeProductionAlphaAvailable().then((hasAlpha) => {
-      const nextMode = resolveLoaderGeometryMode(hasAlpha);
-      setMode(nextMode);
-      if (nextMode === 'alpha') {
-        setAlphaUrl(
-          site00LoaderPrefersApngGeometry() ? site00LoaderGeometryApngUrl() : site00LoaderGeometryWebmUrl(),
-        );
-      }
-    });
-  }, []);
+    loaderLifecycleLog('ANIMATION_SOURCE_RESOLVED', { sourceUrl, mediaPresentation });
+  }, [sourceUrl, mediaPresentation]);
 
   useEffect(() => {
-    if (mode !== 'screen') return;
-    fetch(site00LoaderGeometrySourceUrl(), { method: 'HEAD' })
-      .then((r) => {
-        if (!r.ok) setSourceUrl(site00LoaderGeometrySourceRemoteUrl());
-      })
-      .catch(() => setSourceUrl(site00LoaderGeometrySourceRemoteUrl()));
-  }, [mode]);
+    if (sourceUrl) return;
+    signalReady();
+  }, [sourceUrl]);
+
+  useLayoutEffect(() => {
+    const video = videoRef.current;
+    if (video) enforceSite00LoaderVideoSilent(video);
+  }, [sourceUrl]);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !sourceUrl) return;
 
-    const enforceSilent = () => {
-      video.muted = true;
-      video.defaultMuted = true;
-      video.volume = 0;
-    };
-
-    enforceSilent();
-    video.addEventListener('volumechange', enforceSilent);
-    video.addEventListener('play', enforceSilent);
+    const unbindSilent = bindSite00LoaderVideoSilentGuards(video);
 
     if (reducedMotion) {
       video.pause();
@@ -98,65 +83,41 @@ export function Site00LoaderAnimation({ reducedMotion = false, onReady, onError 
       void video.play().catch(() => undefined);
     }
 
-    return () => {
-      video.removeEventListener('volumechange', enforceSilent);
-      video.removeEventListener('play', enforceSilent);
-    };
-  }, [reducedMotion, mode, sourceUrl, alphaUrl]);
+    return unbindSilent;
+  }, [reducedMotion, sourceUrl]);
 
-  useEffect(() => {
-    if (!mediaDebug) return;
-    const mount = mountRef.current;
-    const media = mount?.querySelector('.site00-loader-animation');
-    if (!mount || !media) return;
-
-    const update = () => {
-      const mr = mount.getBoundingClientRect();
-      const vr = media.getBoundingClientRect();
-      setMediaDebugSize(
-        `wrap ${Math.round(mr.width)}×${Math.round(mr.height)} · media ${Math.round(vr.width)}×${Math.round(vr.height)}`,
-      );
-    };
-
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(mount);
-    ro.observe(media);
-    window.addEventListener('resize', update);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener('resize', update);
-    };
-  }, [mediaDebug, mode, sourceUrl, alphaUrl, mediaReady]);
-
-  const handleReady = () => {
-    if (mediaReady) return;
-    setMediaReady(true);
-    loaderLifecycleLog('ANIMATION_CANPLAY');
-    onReady?.();
+  const handleCanPlay = () => {
+    const video = videoRef.current;
+    if (video) {
+      enforceSite00LoaderVideoSilent(video);
+      if (!reducedMotion) {
+        void video.play().catch(() => undefined);
+      }
+    }
+    signalReady();
   };
 
-  const handleAlphaMediaError = (event: unknown) => {
-    loaderLifecycleLog('ANIMATION_ERROR', { mode: 'alpha', event });
-    onError?.(event);
-    setMode('screen');
-    setAlphaUrl(null);
-    setMediaError(true);
-  };
-
-  const handleScreenMediaError = (event: unknown) => {
-    loaderLifecycleLog('ANIMATION_ERROR', { mode: 'screen', event });
+  const handleError = (event: unknown) => {
+    loaderLifecycleLog('ANIMATION_ERROR', { event });
     onError?.(event);
     setMediaError(true);
-    handleReady();
+    signalReady();
   };
 
-  const useAlphaMode = mode === 'alpha';
-  const useApng = useAlphaMode && site00LoaderPrefersApngGeometry();
-  const webmSrc = alphaUrl ?? site00LoaderGeometryWebmUrl();
+  if (!sourceUrl || isLegacyLoaderAsset) return null;
+
+  const layerClass = [
+    'site00-loader-animation-layer',
+    mediaPresentation === 'desktop' ? 'site00-loader-animation-layer--desktop' : 'site00-loader-animation-layer--mobile',
+    mediaDebug ? 'site00-loader-animation-layer--debug' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   const mediaClass = [
     'site00-loader-animation',
-    useAlphaMode ? 'site00-loader-animation--alpha' : 'site00-loader-animation--screen',
+    'site00-loader-animation--environment',
+    mediaPresentation === 'desktop' ? 'site00-loader-animation--environment-desktop' : 'site00-loader-animation--environment-mobile',
     reducedMotion ? 'site00-loader-animation--static' : '',
     mediaReady ? 'site00-loader-animation--ready' : '',
     mediaError ? 'site00-loader-animation--error' : '',
@@ -165,61 +126,32 @@ export function Site00LoaderAnimation({ reducedMotion = false, onReady, onError 
     .join(' ');
 
   return (
-    <div ref={mountRef} className="site00-loader-geometry-mount" data-media-ready={mediaReady ? '1' : '0'}>
-      {mediaDebug && mediaDebugSize ? (
-        <span className="site00-loader-media-debug-label" aria-hidden="true">
-          {mediaDebugSize}
-        </span>
-      ) : null}
-      {useAlphaMode ? (
-        useApng ? (
-          <img
-            className={mediaClass}
-            src={site00LoaderGeometryApngUrl()}
-            alt=""
-            decoding="async"
-            draggable={false}
-            aria-hidden="true"
-            onLoad={handleReady}
-            onError={handleAlphaMediaError}
-          />
-        ) : (
-          <video
-            ref={videoRef}
-            className={mediaClass}
-            muted
-            playsInline
-            autoPlay={!reducedMotion}
-            loop={!reducedMotion}
-            preload="auto"
-            disablePictureInPicture
-            aria-hidden="true"
-            tabIndex={-1}
-            onLoadedData={handleReady}
-            onCanPlay={handleReady}
-            onError={handleAlphaMediaError}
-          >
-            <source src={webmSrc} type="video/webm" />
-          </video>
-        )
-      ) : (
-        <video
-          ref={videoRef}
-          className={mediaClass}
-          src={sourceUrl}
-          muted
-          playsInline
-          autoPlay={!reducedMotion}
-          loop={!reducedMotion}
-          preload="auto"
-          disablePictureInPicture
-          aria-hidden="true"
-          tabIndex={-1}
-          onLoadedData={handleReady}
-          onCanPlay={handleReady}
-          onError={handleScreenMediaError}
-        />
-      )}
+    <div
+      className={layerClass}
+      data-media-ready={mediaReady ? '1' : '0'}
+      data-loader-video-src={sourceUrl}
+      style={{ zIndex: 1, ['--site00-loader-animation-focal' as string]: mediaFocal }}
+      aria-hidden="true"
+    >
+      <video
+        key={sourceUrl}
+        ref={videoRef}
+        className={mediaClass}
+        src={sourceUrl}
+        muted
+        playsInline
+        autoPlay={!reducedMotion}
+        loop={!reducedMotion}
+        preload="auto"
+        disablePictureInPicture
+        disableRemotePlayback
+        controls={false}
+        tabIndex={-1}
+        style={{ objectPosition: mediaFocal }}
+        onLoadedData={handleCanPlay}
+        onCanPlay={handleCanPlay}
+        onError={handleError}
+      />
     </div>
   );
 }

@@ -5,7 +5,7 @@
   var isSite00 =
     typeof window.site00IsSite00ImmersivePath === 'function'
       ? window.site00IsSite00ImmersivePath(path)
-      : path.indexOf('/assts') === 0 || path.indexOf('/origin') === 0;
+      : path.indexOf('/assts') === 0 || path.indexOf('/origin') === 0 || path === '/';
   if (!isSite00) return;
 
   var shouldBoot =
@@ -16,11 +16,27 @@
         : true;
   if (!shouldBoot) return;
 
-  var base = '/site00/loader/v1/';
-  var bg = base + 'assts-loader-background-v1.png';
+  var projectRef = 'hyycomvcaqxxvyrfupes';
+  var storageBase =
+    'https://' + projectRef + '.supabase.co/storage/v1/object/public/live-preview/site00/';
+  var isWide = window.matchMedia('(min-width: 768px)').matches;
+  var bg = isWide
+    ? storageBase + 'BLDR/4EEB4F70-BF07-4EFE-B324-10C94AE018B5.png'
+    : storageBase + 'IMG_0404.png';
+  var animation = isWide
+    ? storageBase + 'BLDR/openart-output_1787109389654_e04aea07.mp4'
+    : storageBase + 'BLDR/openart-output_1787107938282_745c8292.mp4';
+  var bgFocal = isWide ? 'center center' : 'center 45%';
+
+  function applyBootEnvStyle(env) {
+    if (!env) return;
+    env.style.backgroundImage = "url('" + bg + "')";
+    env.style.backgroundPosition = bgFocal;
+    env.style.setProperty('--site00-loader-bg-focal', bgFocal);
+  }
 
   function preload(href, as) {
-    if (document.querySelector('link[rel="preload"][href="' + href + '"]')) return;
+    if (!href || document.querySelector('link[rel="preload"][href="' + href + '"]')) return;
     var link = document.createElement('link');
     link.rel = 'preload';
     link.href = href;
@@ -31,35 +47,31 @@
 
   function ensureBootShell() {
     document.documentElement.classList.add('site00-assts-boot');
-
     preload(bg, 'image');
+    preload(animation, 'fetch');
 
-    var ua = navigator.userAgent || '';
-    var isIOSSafari =
-      (/iPad|iPhone|iPod/.test(ua) ||
-        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) &&
-      /Safari/i.test(ua) &&
-      !/CriOS|FxiOS|EdgiOS|Chrome/i.test(ua);
-    var geometry = isIOSSafari
-      ? base + 'assts-loader-geometry-v1-alpha.apng'
-      : base + 'assts-loader-geometry-v1-alpha.webm';
-    preload(geometry, 'fetch');
-
-    if (document.getElementById('site00-assts-boot-shell')) {
-      var existing = document.getElementById('site00-assts-boot-shell');
-      if (existing) existing.hidden = false;
+    var shell = document.getElementById('site00-assts-boot-shell');
+    if (shell) {
+      shell.hidden = false;
+      var env = shell.querySelector('.site00-assts-boot-shell__env');
+      applyBootEnvStyle(env);
       return;
     }
 
-    var shell = document.createElement('div');
-    shell.id = 'site00-assts-boot-shell';
-    shell.className = 'site00-assts-boot-shell';
-    shell.setAttribute('aria-hidden', 'true');
-    shell.innerHTML =
-      '<div class="site00-assts-boot-shell__env" style="background-image:url(\'' + bg + '\')"></div>';
+    var nextShell = document.createElement('div');
+    nextShell.id = 'site00-assts-boot-shell';
+    nextShell.className = 'site00-assts-boot-shell';
+    nextShell.setAttribute('aria-hidden', 'true');
+    nextShell.style.setProperty('--site00-loader-bg-focal', bgFocal);
+    nextShell.innerHTML =
+      '<div class="site00-assts-boot-shell__env" style="background-image:url(\'' +
+      bg +
+      "');background-position:" +
+      bgFocal +
+      '"></div>';
 
     var mountTarget = document.body || document.documentElement;
-    mountTarget.appendChild(shell);
+    mountTarget.appendChild(nextShell);
   }
 
   if (document.body) {
@@ -69,18 +81,6 @@
 
   document.documentElement.classList.add('site00-assts-boot');
   preload(bg, 'image');
-  var uaEarly = navigator.userAgent || '';
-  var isIOSSafariEarly =
-    (/iPad|iPhone|iPod/.test(uaEarly) ||
-      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) &&
-    /Safari/i.test(uaEarly) &&
-    !/CriOS|FxiOS|EdgiOS|Chrome/i.test(uaEarly);
-  preload(
-    isIOSSafariEarly
-      ? base + 'assts-loader-geometry-v1-alpha.apng'
-      : base + 'assts-loader-geometry-v1-alpha.webm',
-    'fetch',
-  );
-
+  preload(animation, 'fetch');
   document.addEventListener('DOMContentLoaded', ensureBootShell, { once: true });
 })();

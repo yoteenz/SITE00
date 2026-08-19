@@ -32,7 +32,7 @@ html.site00-assts-boot #root {
   background-color: #f5f5f3;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center center;
+  background-position: var(--site00-loader-bg-focal, center center);
 }
 
 .site00-assts-boot-shell--handoff {
@@ -44,6 +44,6 @@ html.site00-assts-boot #root {
 @media (min-width: 768px) {
   .site00-assts-boot-shell__env {
     background-size: cover;
-    background-position: center center;
+    background-position: var(--site00-loader-bg-focal, center center);
   }
 }
