@@ -22,6 +22,7 @@ import '../site00/styles/site00-fast-travel.css';
 import '../site00/styles/site00-bldr-entry.css';
 import '../site00/styles/site00-loader.css';
 import '../site00/styles/site00-desktop-artboard.css';
+import '../site00/styles/site00-mobile-artboard.css';
 import '../site00/styles/site00-auth.css';
 import '../site00/styles/site00-ctrl-room.css';
 import '../site00/styles/site00-ecosystem.css';

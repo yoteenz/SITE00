@@ -1,6 +1,7 @@
 import { type ReactNode } from 'react';
 import { Site00OriginLayoutSwitch } from './Site00OriginLayoutSwitch';
 import { Site00DesktopPresentationShell } from './Site00DesktopPresentationShell';
+import { Site00MobilePresentationShell } from './Site00MobilePresentationShell';
 import { useSite00 } from '../../state/Site00Context';
 
 type Site00OriginRouteShellProps = {
@@ -11,7 +12,7 @@ type Site00OriginRouteShellProps = {
 
 /**
  * Origin responsive shell — desktop presentation from shared preview mode.
- * Phone + Desktop → scaled artboard edge-to-edge; laptop + Desktop → native full viewport.
+ * Phone + Mobile → native full-width; laptop + Mobile → scaled 390×844 phone preview.
  */
 export function Site00OriginRouteShell({ children, forceArtboard = false }: Site00OriginRouteShellProps) {
   const { isPreviewDesktop } = useSite00();
@@ -22,7 +23,7 @@ export function Site00OriginRouteShell({ children, forceArtboard = false }: Site
       {isPreviewDesktop ? (
         <Site00DesktopPresentationShell forceArtboard={forceArtboard}>{children}</Site00DesktopPresentationShell>
       ) : (
-        children
+        <Site00MobilePresentationShell>{children}</Site00MobilePresentationShell>
       )}
     </>
   );

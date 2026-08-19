@@ -35,7 +35,7 @@ export function Site00OriginLayoutSwitch() {
           type="button"
           aria-current={!isPreviewDesktop ? 'page' : undefined}
           onClick={() => setPreviewDeviceMode('mobile')}
-          title="Phone layout preview — stacked mobile UI at full browser width"
+          title="Phone layout preview — scaled 390×844 mobile artboard on laptop"
         >
           Mobile
         </button>
