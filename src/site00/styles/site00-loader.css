@@ -526,42 +526,40 @@
   flex-direction: column;
 }
 
+.site00-loader-copy-region--eyebrow,
+.site00-loader-copy-region--title,
+.site00-loader-copy-region--subtitle {
+  overflow: visible;
+  align-items: flex-start;
+}
+
 .site00-loader-copy__eyebrow {
-  margin: 0 0 10px;
-  font-family: var(--site00-font-heading);
-  font-size: var(--loader-type-eyebrow-size, 10px);
-  font-weight: 600;
-  font-stretch: var(--site00-font-stretch-default);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--site-red, #e8192c);
+  margin: 0;
+  font-size: calc(var(--site00-size-label) / var(--loader-scale, 1));
+  font-weight: var(--site00-weight-label);
+  letter-spacing: var(--site00-tracking-label);
   line-height: var(--site00-lh-label);
   white-space: nowrap;
 }
 
 .site00-loader-copy__title {
-  margin: 0 0 var(--site00-stack-tight-lg);
-  font-family: var(--site00-font-heading);
-  font-size: var(--loader-type-title-size, 13px);
-  letter-spacing: 0.035em;
-  font-weight: 650;
-  font-stretch: var(--site00-font-stretch-default);
-  text-transform: uppercase;
-  color: var(--site-text, #0a0a0a);
+  margin: 0;
+  font-size: calc(var(--site00-size-display-xl) / var(--loader-scale, 1));
+  font-weight: var(--site00-weight-display);
+  font-stretch: var(--site00-font-stretch-display);
+  letter-spacing: var(--site00-tracking-display);
   line-height: var(--site00-lh-display-tight);
-  white-space: nowrap;
+  color: var(--site-text, #0a0a0a);
   max-width: 100%;
 }
 
 .site00-loader-copy__subtitle {
-  margin: var(--site00-stack-tight) 0 0;
-  font-family: var(--site00-font-body);
-  font-size: var(--loader-type-subtitle-size, 10px);
-  font-weight: 450;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
+  margin: calc(var(--site00-stack-tight) / var(--loader-scale, 1)) 0 0;
+  font-size: calc(var(--site00-size-subheading) / var(--loader-scale, 1));
+  font-weight: var(--site00-weight-heading);
+  letter-spacing: var(--site00-tracking-heading);
+  line-height: var(--site00-lh-heading);
   color: var(--site-text-muted, #6b6b6b);
-  line-height: var(--site00-lh-body);
   white-space: nowrap;
 }
 
@@ -964,12 +962,6 @@
 
 .site00-immersive-loader--complete .site00-loader-copy__fill {
   transition: width 0.35s ease;
-}
-
-@media (min-width: 768px) {
-  .site00-immersive-loader--desktop .site00-loader-copy__title {
-    font-size: var(--loader-type-title-size, 14px);
-  }
 }
 
 /* ── Desktop Asset Vault loader (≥768px) — landscape composition ── */
