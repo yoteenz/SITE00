@@ -378,6 +378,22 @@
 .site00-loader-animation--environment {
   object-fit: cover;
   object-position: center center;
+  mix-blend-mode: normal;
+  background: transparent;
+}
+
+/* Full-frame environment layer — must cover immersive loader, never a centered card */
+.site00-immersive-loader > .site00-loader-animation-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.site00-immersive-loader > .site00-loader-animation-layer .site00-loader-animation--environment {
+  object-fit: cover;
+  max-width: none;
+  max-height: none;
 }
 
 /* Portrait master — 1312×2816 aligns with 711×1536 static background (mobile only) */
