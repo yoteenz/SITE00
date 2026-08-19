@@ -55,7 +55,7 @@ export const SITE00_WORLD_IMMERSIVE_LOADER_CONFIG: Site00ImmersiveLoaderConfig =
   experienceTitle: 'ASSEMBLING SITE 00',
   experienceSubtitle: 'PREPARING YOUR DESTINATION',
   assemblingLabel: 'ASSEMBLING',
-  tagline: 'EVERYTHING STARTS AT 00.',
+  tagline: 'EVERYTHING WE BUILD LIVES HERE.',
   footerMark: '00',
   footerLabel: 'SITE',
   completionMessage: 'SITE 00 READY',
