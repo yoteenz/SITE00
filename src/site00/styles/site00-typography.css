@@ -269,6 +269,7 @@
   letter-spacing: var(--site00-tracking-nav);
   line-height: var(--site00-lh-micro);
   text-transform: uppercase;
+  text-decoration: none;
 }
 
 /* ─── Status strip values ─── */

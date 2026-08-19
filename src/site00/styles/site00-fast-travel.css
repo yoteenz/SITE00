@@ -308,7 +308,11 @@
     color: var(--site-text-muted);
   }
 
-  .site00-directory-exit {
+  .site00-directory-exit,
+  .site00-directory-exit:hover,
+  .site00-directory-exit:focus-visible,
+  .site00-directory-exit:visited,
+  .site00-directory-exit:active {
     display: inline-flex;
     align-items: center;
     gap: 6px;

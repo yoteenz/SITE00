@@ -172,7 +172,15 @@
   border-radius: var(--site-radius-sm);
   color: var(--site-text);
   cursor: pointer;
+  text-decoration: none;
   transition: background var(--site-motion-fast) var(--site-ease), border-color var(--site-motion-fast);
+}
+
+.site00-btn-ghost:hover:not(:disabled),
+.site00-btn-ghost:focus-visible,
+.site00-btn-ghost:visited,
+.site00-btn-ghost:active {
+  text-decoration: none;
 }
 
 .site00-btn-ghost:hover:not(:disabled) {
