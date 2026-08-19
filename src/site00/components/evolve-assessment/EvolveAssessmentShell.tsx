@@ -30,6 +30,36 @@ function EvolveAssessmentMobileBackground() {
   );
 }
 
+function EvolveIntroPanel({ state, pathId }: { state: EvolvePathAssessmentConfig; pathId: EvolvePathId }) {
+  return (
+    <aside className="site00-idnty-assessment__intro" aria-label="EVOLVE PATH OVERVIEW">
+      <div className="site00-idnty-assessment__intro-inner">
+        <div className="site00-idnty-assessment__icon">
+          <EvolvePathIcon id={pathId} title={state.title} size={88} />
+        </div>
+        <p className="site00-idnty-assessment__marker">{state.stageMarker}</p>
+        <h1 className="site00-idnty-assessment__title">{state.title}</h1>
+        <p className="site00-idnty-assessment__declaration">{state.declaration}</p>
+        <p className="site00-idnty-assessment__body">{state.editorialBody}</p>
+      </div>
+    </aside>
+  );
+}
+
+function EvolveMobileHero({ state, pathId }: { state: EvolvePathAssessmentConfig; pathId: EvolvePathId }) {
+  return (
+    <header className="site00-idnty-assessment__mobile-hero">
+      <div className="site00-idnty-assessment__icon site00-idnty-assessment__icon--mobile">
+        <EvolvePathIcon id={pathId} title={state.title} size={72} />
+      </div>
+      <p className="site00-idnty-assessment__marker">{state.stageMarker}</p>
+      <h1 className="site00-idnty-assessment__title">{state.title}</h1>
+      <p className="site00-idnty-assessment__declaration">{state.declaration}</p>
+      <p className="site00-idnty-assessment__body">{state.editorialBody}</p>
+    </header>
+  );
+}
+
 export function EvolveAssessmentBreadcrumb({ label }: { label: string }) {
   return (
     <nav className="site00-idnty-assessment__breadcrumb" aria-label="BREADCRUMB">
@@ -66,18 +96,6 @@ export function EvolveAssessmentActions({
 export function EvolveAssessmentShell({ state, pathId, children, panel }: EvolveAssessmentShellProps) {
   const isDesktopArtboard = useSite00DesktopArtboardPreview();
 
-  const hero = (
-    <>
-      <div className="site00-idnty-assessment__icon site00-idnty-assessment__icon--mobile">
-        <EvolvePathIcon id={pathId} title={state.title} size={72} />
-      </div>
-      <p className="site00-idnty-assessment__marker">{state.stageMarker}</p>
-      <h1 className="site00-idnty-assessment__title">{state.title}</h1>
-      <p className="site00-idnty-assessment__declaration">{state.declaration}</p>
-      <p className="site00-idnty-assessment__body">{state.editorialBody}</p>
-    </>
-  );
-
   if (!isDesktopArtboard) {
     return (
       <div className="site00-idnty-assessment site00-idnty-assessment--mobile">
@@ -85,7 +103,7 @@ export function EvolveAssessmentShell({ state, pathId, children, panel }: Evolve
         <Site00MobileShell showEnvironmentBackground={false} shellClassName="site00-idnty-assessment-mobile-shell">
           <div className="site00-idnty-assessment__mobile-content">
             <EvolveAssessmentBreadcrumb label={state.breadcrumb} />
-            <header className="site00-idnty-assessment__mobile-hero">{hero}</header>
+            <EvolveMobileHero state={state} pathId={pathId} />
             {panel ? <div className="site00-idnty-assessment__panel">{panel}</div> : null}
             {children}
             <Site00PageFooter />
@@ -99,14 +117,7 @@ export function EvolveAssessmentShell({ state, pathId, children, panel }: Evolve
     <EnvironmentShell environmentId="IDNTY_ASSESSMENT_ENVIRONMENT" className="site00-idnty-assessment site00-idnty-assessment--desktop">
       <Site00AppShell locationLabel={state.breadcrumb}>
         <div className="site00-idnty-assessment__desktop-grid">
-          <aside className="site00-idnty-assessment__intro" aria-label="EVOLVE PATH OVERVIEW">
-            <div className="site00-idnty-assessment__intro-inner">
-              <div className="site00-idnty-assessment__icon">
-                <EvolvePathIcon id={pathId} title={state.title} size={88} />
-              </div>
-              {hero}
-            </div>
-          </aside>
+          <EvolveIntroPanel state={state} pathId={pathId} />
           <div className="site00-idnty-assessment__main">
             <EvolveAssessmentBreadcrumb label={state.breadcrumb} />
             {panel}
