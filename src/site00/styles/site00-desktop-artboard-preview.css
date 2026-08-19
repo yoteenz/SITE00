@@ -263,6 +263,10 @@
   margin: 14px 0;
 }
 
+.site00-desktop-artboard .site00-enter-page .site00-enter-menu nav .site00-enter-row:last-child {
+  border-bottom: none;
+}
+
 /* Enter status strip portals to shell chrome — see Site00ArtboardBottomChromePortal */
 
 /* ─── Public composer pages — desktop grids ─── */

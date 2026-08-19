@@ -1228,6 +1228,11 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
     margin: 14px 0;
   }
 
+  /* Last row in each section — no trailing rule before diamond divider / panel bottom. */
+  .site00-enter-page .site00-enter-menu nav .site00-enter-row:last-child {
+    border-bottom: none;
+  }
+
   @media (max-height: 800px) {
     .site00-enter-layout {
       gap: 16px;
