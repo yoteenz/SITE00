@@ -35,10 +35,6 @@ export default function OriginPage() {
                 ['--site00-origin-status-strip-min-height' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.statusStripMinHeightPx}px`,
                 ['--site00-origin-status-strip-cell-padding-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.statusStripCellPaddingYPx}px`,
                 ['--site00-origin-status-strip-guidance-padding-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.statusStripGuidancePaddingYPx}px`,
-                ['--site00-origin-status-strip-guidance-avatar' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.statusStripGuidanceAvatarPx}px`,
-                ['--site00-origin-status-strip-content-scale' as string]: String(
-                  SITE00_ORIGIN_DESKTOP_COMPOSITION.statusStripContentScale,
-                ),
               }
             : undefined
         }
