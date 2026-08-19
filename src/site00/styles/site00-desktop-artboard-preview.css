@@ -263,6 +263,10 @@
   margin: 14px 0;
 }
 
+.site00-desktop-artboard .site00-enter-page .site00-enter-menu__heading {
+  margin-bottom: 16px;
+}
+
 .site00-desktop-artboard .site00-enter-page .site00-enter-menu nav .site00-enter-row:last-child {
   border-bottom: none;
 }
