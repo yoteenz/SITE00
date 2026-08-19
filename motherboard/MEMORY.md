@@ -92,3 +92,22 @@ Summary of the **whole conversation so far** in this cloud agent run.
 - **Conventions:**
   - Railway start command lives on **Service** settings (not Project settings).
   - Do not change Supabase Site URL (keep FSBW default); only add SITE 00 redirect URLs.
+
+---
+
+## 2026-08-19 — ENTER 00 desktop background focal shift (viewport lock preserved)
+
+Summary of this cloud agent run through ENTER 00 desktop background tuning.
+
+- **Request:** Shift ENTER 00 desktop background image **upward inside the fixed cover container** without changing locked viewport settings (100dvh, overflow hidden, cover, no letterbox, no scroll). Mobile unchanged. Foreground UI untouched.
+
+- **Root cause:** Tall-screen breakpoints used **higher** `background-position` Y values (38% → 41%), which shifts the image **down** — opposite of desired upward focal correction.
+
+- **Changes:**
+  - `site00.css` (desktop `@media min-width: 768px`): default focal `center 32%` (was 34%); short desktop `max-height: 799px` → `center 28%`; tall `min-height: 900px` → `center 38%`; ultrawide `min-aspect-ratio: 21/9` → `center 35%`; **removed** `min-height: 1080px` at 41%.
+  - `environments.ts`: `ENTER_00_WAITING_ROOM.desktopPosition` → `center 32%`.
+  - Viewport lock rules (env-layer inset, fixed positioning, shell 100dvh overflow hidden) **unchanged**.
+
+- **PR:** #9 `cursor/enter-desktop-bg-focal-796f` — focal position only; no transform/margin/scale hacks.
+
+- **Related open PRs:** #8 site-wide text stack margins; #7 origin mobile layout; #5/#6 enter/origin desktop fixes.

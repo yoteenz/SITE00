@@ -269,6 +269,7 @@
   letter-spacing: var(--site00-tracking-nav);
   line-height: var(--site00-lh-micro);
   text-transform: uppercase;
+  text-decoration: none;
 }
 
 /* ─── Status strip values ─── */
@@ -294,4 +295,129 @@
   letter-spacing: var(--site00-tracking-metadata);
   line-height: var(--site00-lh-micro);
   text-transform: uppercase;
+}
+
+/* ─── Text stack law (margin-based — never translateY for vertical text nudge) ───
+ * Role classes reset block margins; spacing comes from adjacency rules below or
+ * component BEM modifiers. Negative stack tokens tighten lines while keeping
+ * sibling positions stable when paired with compensating margin-top on followers.
+ */
+
+:is(
+  .site00-shell,
+  .site00-loader,
+  .site00-assts-shell,
+  .site00-public-shell,
+  .site00-ctrl-room-shell,
+  .site00-mobile-shell,
+  .site00-immersive-loader
+) :is(
+  .site00-display-xl,
+  .site00-heading-xl,
+  .site00-display-lg,
+  .site00-heading-lg,
+  .site00-display-md,
+  .site00-heading,
+  .site00-subheading,
+  .site00-label,
+  .site00-label-red,
+  .site00-micro,
+  .site00-body,
+  .site00-tagline,
+  .site00-coordinate,
+  .site00-panel-title,
+  .site00-mono,
+  .site00-id,
+  .site00-numeric,
+  .site00-status-value,
+  .site00-bracket-label
+) {
+  margin-block: 0;
+}
+
+/* Eyebrow / marker → title */
+:is(.site00-shell, .site00-loader, .site00-assts-shell) .site00-label:has(
+    + :is(
+      .site00-heading-xl,
+      .site00-display-xl,
+      .site00-heading-lg,
+      .site00-display-lg,
+      .site00-heading,
+      .site00-panel-title
+    )
+  ),
+:is(.site00-shell, .site00-loader, .site00-assts-shell) .site00-label-red:has(
+    + :is(
+      .site00-heading-xl,
+      .site00-display-xl,
+      .site00-heading-lg,
+      .site00-display-lg,
+      .site00-heading,
+      .site00-panel-title,
+      .site00-body
+    )
+  ) {
+  margin-bottom: var(--site00-stack-md);
+}
+
+/* Display XL — tight stack (SITE 00 hero headline) */
+.site00-display-xl,
+.site00-heading-xl {
+  line-height: var(--site00-lh-display-tight);
+  margin-bottom: var(--site00-stack-tight-lg);
+}
+
+.site00-display-xl + .site00-tagline,
+.site00-heading-xl + .site00-tagline {
+  margin-top: var(--site00-stack-tight);
+}
+
+/* Display LG — panels / enter welcome title */
+.site00-display-lg + .site00-tagline,
+.site00-heading-lg + .site00-tagline {
+  margin-top: var(--site00-stack-tight);
+}
+
+.site00-display-lg:has(+ .site00-tagline),
+.site00-heading-lg:has(+ .site00-tagline) {
+  line-height: var(--site00-lh-display-tight);
+  margin-bottom: var(--site00-stack-tight-lg);
+}
+
+/* Tagline → body copy */
+.site00-tagline + .site00-body {
+  margin-top: var(--site00-stack-md);
+}
+
+/* Body paragraph chains */
+.site00-body + .site00-body {
+  margin-top: var(--site00-stack-xs);
+}
+
+/* Section heading → body */
+.site00-heading + .site00-body,
+.site00-subheading + .site00-body,
+.site00-label-red + .site00-body {
+  margin-top: var(--site00-stack-md);
+}
+
+.site00-heading + .site00-label,
+.site00-panel-title + .site00-label {
+  margin-top: var(--site00-stack-sm);
+}
+
+.site00-label + .site00-body {
+  margin-top: var(--site00-stack-md);
+}
+
+.site00-micro + .site00-body {
+  margin-top: var(--site00-stack-sm);
+}
+
+.site00-label + .site00-micro {
+  margin-top: var(--site00-stack-xs);
+}
+
+.site00-label + .site00-status-value {
+  margin-top: var(--site00-stack-xs);
 }

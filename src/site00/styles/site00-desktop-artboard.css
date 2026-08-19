@@ -68,26 +68,14 @@
   min-width: 220px;
 }
 
-.site00-desktop-artboard .site00-origin-coordinate-anchor {
-  position: absolute;
-  left: calc(var(--site00-origin-coordinate-left) + var(--site00-origin-coordinate-offset-x));
-  top: var(--site00-origin-coordinate-top);
-  width: var(--site00-origin-hero-max-w);
-  max-width: var(--site00-origin-hero-max-w);
-  z-index: 2;
-  pointer-events: none;
-}
-
-.site00-desktop-artboard .site00-origin-coordinate-anchor__line {
-  margin: 0;
-  padding: 0;
-}
-
 .site00-desktop-artboard .site00-origin-hero__coordinate-value {
   color: var(--site-red);
 }
 
-.site00-desktop-artboard .site00-origin-coordinate-anchor,
+.site00-desktop-artboard .site00-home-hero__coordinate {
+  margin-top: 20px;
+}
+
 .site00-desktop-artboard .site00-home-cards,
 .site00-desktop-artboard .site00-home-expanded-column {
   display: block !important;
@@ -229,6 +217,10 @@
   transform-origin: center top;
 }
 
+.site00-desktop-artboard .site00-origin-cards__row--three {
+  flex-wrap: nowrap;
+}
+
 .site00-desktop-artboard .site00-origin-card__icon-wrap {
   margin-top: calc(12px + var(--site00-origin-panel-icon-offset-y, 0px) / var(--site00-origin-card-scale, 1));
   transform: scale(calc(1 / var(--site00-origin-card-scale, 1)));
@@ -261,6 +253,13 @@
   overflow: hidden;
   touch-action: none;
   background: #f5f5f3;
+}
+
+/** ORIGIN — lock viewport on collapsed homepage; expanded panels re-enable scroll below */
+.site00-desktop-artboard-shell:has(.site00-origin-page):not(:has(.site00-home-expanded-column)),
+.site00-desktop-artboard-shell--origin:not(:has(.site00-home-expanded-column)) {
+  overflow: hidden;
+  touch-action: none;
 }
 
 /** Desktop artboard preview — status strip sits at bottom of scaled composition. */
@@ -307,9 +306,10 @@
   position: fixed;
   z-index: calc(var(--site-z-overlay) + 20);
   pointer-events: auto;
-  bottom: calc(72px + env(safe-area-inset-bottom, 0px));
-  left: 50%;
-  transform: translateX(-50%);
+  top: calc(12px + env(safe-area-inset-top, 0px));
+  left: calc(12px + env(safe-area-inset-left, 0px));
+  bottom: auto;
+  transform: none;
   display: flex;
   gap: 8px;
   padding: 6px 10px;

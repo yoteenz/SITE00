@@ -33,7 +33,12 @@ export default function OriginPage() {
         <Site00AppShell
           locationLabel={SITE00_ORIGIN_COPY.locationLabel}
           showStatusStrip
-          statusStrip={<StatusStrip layout={statusStripLayout} />}
+          statusStrip={
+            <StatusStrip
+              layout={statusStripLayout}
+              swipeHandlers={isMobileOrigin ? locationsTransition.swipeHandlers : undefined}
+            />
+          }
         >
           {isMobileOrigin ? (
             <div
@@ -60,9 +65,6 @@ export default function OriginPage() {
               ['--site00-origin-expanded-max-w' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.expandedMaxWidthPx}px`,
               ['--site00-origin-expanded-panel-scale' as string]: String(SITE00_ORIGIN_DESKTOP_COMPOSITION.expandedPanelScale),
               ['--site00-origin-framework-icon-size' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.frameworkIconSizePx}px`,
-              ['--site00-origin-coordinate-top' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.coordinateAnchorTopPx}px`,
-              ['--site00-origin-coordinate-left' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.coordinateAnchorLeftPercent}%`,
-              ['--site00-origin-coordinate-offset-x' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.coordinateAnchorOffsetXPx}px`,
             }}
           >
             <div className="site00-home-grid">
@@ -81,22 +83,19 @@ export default function OriginPage() {
                 <p className="site00-body site00-body--technical site00-home-hero__line">
                   {SITE00_ORIGIN_COPY.description3}
                 </p>
+                {isDesktopArtboardLayout ? (
+                  <p className="site00-coordinate site00-home-hero__coordinate">
+                    {SITE00_ORIGIN_COPY.originPointLine.prefix}{' '}
+                    <span className="site00-origin-hero__coordinate-value">{SITE00_ORIGIN_COPY.originPointLine.coordinate}</span>{' '}
+                    {SITE00_ORIGIN_COPY.originPointLine.suffix}
+                  </p>
+                ) : null}
               </aside>
 
               {state.homeMode === 'origin' ? (
                 <div className="site00-home-grid__spacer" aria-hidden="true" />
               ) : null}
             </div>
-
-            {isDesktopArtboardLayout ? (
-              <div className="site00-origin-coordinate-anchor" aria-label="Origin coordinate">
-                <p className="site00-coordinate site00-origin-coordinate-anchor__line">
-                  {SITE00_ORIGIN_COPY.originPointLine.prefix}{' '}
-                  <span className="site00-origin-hero__coordinate-value">{SITE00_ORIGIN_COPY.originPointLine.coordinate}</span>{' '}
-                  {SITE00_ORIGIN_COPY.originPointLine.suffix}
-                </p>
-              </div>
-            ) : null}
 
             {state.homeMode !== 'origin' && !isMobileOrigin ? (
               <button
