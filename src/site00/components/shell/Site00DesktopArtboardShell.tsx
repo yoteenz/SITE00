@@ -43,8 +43,10 @@ export function Site00DesktopArtboardShell({ children }: Site00DesktopArtboardSh
             window.location.pathname === '/origin/desktop'));
       const isViewportLockedPage = isEnterPage || isOriginPage;
       const scaleW = shell.clientWidth / SITE00_DESKTOP_ARTBOARD_WIDTH;
+      const scaleH = shell.clientHeight / SITE00_DESKTOP_ARTBOARD_MIN_HEIGHT;
       // ENTER 00 — fill viewport width; crop vertically inside artboard (no side letterboxing).
-      const scale = scaleW;
+      // Origin/other routes — fit artboard in viewport so bottom status strip stays visible.
+      const scale = isEnterPage ? scaleW : Math.min(scaleW, scaleH);
       const scaledWidth = SITE00_DESKTOP_ARTBOARD_WIDTH * scale;
       const viewportArtboardHeight = isViewportLockedPage
         ? SITE00_DESKTOP_ARTBOARD_MIN_HEIGHT
@@ -63,8 +65,8 @@ export function Site00DesktopArtboardShell({ children }: Site00DesktopArtboardSh
 
       scaler.style.width = `${scaledWidth}px`;
       scaler.style.height = `${contentHeight * scale}px`;
-      scaler.style.marginLeft = '0';
-      scaler.style.marginTop = '0';
+      scaler.style.marginLeft = isEnterPage ? '0' : `${Math.max(0, (shell.clientWidth - scaledWidth) / 2)}px`;
+      scaler.style.marginTop = isEnterPage ? '0' : `${Math.max(0, (shell.clientHeight - contentHeight * scale) / 2)}px`;
 
       shell.classList.toggle('site00-desktop-artboard-shell--enter', isEnterPage);
       shell.classList.toggle('site00-desktop-artboard-shell--origin', isOriginPage);
