@@ -71,7 +71,41 @@
   color: var(--site-red);
 }
 
+/** Hero copy — each line nudges independently via composition tokens (OriginPage CSS vars). */
+.site00-desktop-artboard .site00-home-hero__eyebrow,
+.site00-desktop-artboard .site00-home-hero__headline,
+.site00-desktop-artboard .site00-home-hero__tagline,
+.site00-desktop-artboard .site00-home-hero__line,
 .site00-desktop-artboard .site00-home-hero__coordinate {
+  position: relative;
+}
+
+.site00-desktop-artboard .site00-home-hero__eyebrow {
+  top: var(--site00-origin-hero-eyebrow-offset-y, 0px);
+}
+
+.site00-desktop-artboard .site00-home-hero__headline {
+  top: var(--site00-origin-hero-headline-offset-y, 0px);
+}
+
+.site00-desktop-artboard .site00-home-hero__tagline {
+  top: var(--site00-origin-hero-tagline-offset-y, 0px);
+}
+
+.site00-desktop-artboard .site00-home-hero__line--desc1 {
+  top: var(--site00-origin-hero-desc1-offset-y, 0px);
+}
+
+.site00-desktop-artboard .site00-home-hero__line--desc2 {
+  top: var(--site00-origin-hero-desc2-offset-y, 0px);
+}
+
+.site00-desktop-artboard .site00-home-hero__line--desc3 {
+  top: var(--site00-origin-hero-desc3-offset-y, 0px);
+}
+
+.site00-desktop-artboard .site00-home-hero__coordinate {
+  top: var(--site00-origin-hero-coordinate-offset-y, 0px);
   margin-top: 20px;
 }
 
@@ -128,7 +162,7 @@
 
 .site00-desktop-artboard .site00-home-stage {
   --site00-origin-card-number-color: var(--site-red);
-  --site00-origin-hero-offset-y: 10px;
+  --site00-origin-hero-offset-y: var(--site00-origin-hero-block-offset-y, 10px);
   position: absolute;
   inset: 0;
   padding: 0;

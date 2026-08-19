@@ -65,6 +65,14 @@ export default function OriginPage() {
               ['--site00-origin-expanded-max-w' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.expandedMaxWidthPx}px`,
               ['--site00-origin-expanded-panel-scale' as string]: String(SITE00_ORIGIN_DESKTOP_COMPOSITION.expandedPanelScale),
               ['--site00-origin-framework-icon-size' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.frameworkIconSizePx}px`,
+              ['--site00-origin-hero-block-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroBlockOffsetYPx}px`,
+              ['--site00-origin-hero-eyebrow-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroEyebrowOffsetYPx}px`,
+              ['--site00-origin-hero-headline-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroHeadlineOffsetYPx}px`,
+              ['--site00-origin-hero-tagline-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroTaglineOffsetYPx}px`,
+              ['--site00-origin-hero-desc1-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroDescription1OffsetYPx}px`,
+              ['--site00-origin-hero-desc2-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroDescription2OffsetYPx}px`,
+              ['--site00-origin-hero-desc3-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroDescription3OffsetYPx}px`,
+              ['--site00-origin-hero-coordinate-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroCoordinateOffsetYPx}px`,
             }}
           >
             <div className="site00-home-grid">
@@ -76,11 +84,15 @@ export default function OriginPage() {
                 aria-label="Origin messaging"
               >
                 <p className="site00-label site00-home-hero__eyebrow">{SITE00_ORIGIN_COPY.headlineLine1}</p>
-                <h1 className="site00-heading-xl">{SITE00_ORIGIN_COPY.headlineLine2}</h1>
+                <h1 className="site00-heading-xl site00-home-hero__headline">{SITE00_ORIGIN_COPY.headlineLine2}</h1>
                 <p className="site00-tagline site00-home-hero__tagline">{SITE00_ORIGIN_COPY.tagline}</p>
-                <p className="site00-body site00-body--technical site00-home-hero__line">{SITE00_ORIGIN_COPY.description1}</p>
-                <p className="site00-body site00-body--technical site00-home-hero__line">{SITE00_ORIGIN_COPY.description2}</p>
-                <p className="site00-body site00-body--technical site00-home-hero__line">
+                <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc1">
+                  {SITE00_ORIGIN_COPY.description1}
+                </p>
+                <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc2">
+                  {SITE00_ORIGIN_COPY.description2}
+                </p>
+                <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc3">
                   {SITE00_ORIGIN_COPY.description3}
                 </p>
                 {isDesktopArtboardLayout ? (

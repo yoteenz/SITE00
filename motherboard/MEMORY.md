@@ -142,6 +142,7 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 
 - Viewport cover bg on shell outside transform; UI top-aligned; status strip portaled; focal 32% baseline.
 
+<<<<<<< HEAD
 ---
 
 ## 2026-08-19 — Laptop Desktop toggle = native full viewport (PR #11)
@@ -158,3 +159,16 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 - **Collapsed card:** No body line; subtitle “BUILD IS COMPLETE.”; CTA without arrow; icon +10%.
 - **Expanded panel:** Centered pillars; no HOW IT WORKS; plain START EVOLVE button; icon +10%.
 - **All expanded panels:** `expandedPanelScale` 0.74375 (−15%).
+=======
+- **Convention:** Keep ENTER directory `enabled` flags aligned with registered routes in `Site00Routes.tsx`; use `requiresAuth` for guarded destinations instead of disabling links.
+
+---
+
+## 2026-08-19 — Origin desktop hero/plaza layout nudges + ungrouped hero copy
+
+- **Request (desktop only):** Panel icons up 4px; ungroup hero header lines for independent positioning; plaza prompt + three cards up 4px together.
+- **Fix (`cursor/origin-desktop-hero-layout-796f`):**
+  - `panelIconOffsetYPx` 16 → 12; `cardsTopOffsetPx` 120 → 116.
+  - Hero copy lines stay separate DOM elements (`desc1`/`desc2`/`desc3`); per-line offset tokens in `origin-home-composition.ts` (`heroEyebrowOffsetYPx`, `heroHeadlineOffsetYPx`, `heroTaglineOffsetYPx`, `heroDescription*OffsetYPx`, `heroCoordinateOffsetYPx`) wired as CSS vars on `.site00-home-stage`; desktop CSS uses `position: relative; top: var(...)`.
+  - **Convention:** Nudge individual hero lines via composition tokens — not block-level merges or whole-hero transforms.
+>>>>>>> origin/cursor/origin-desktop-hero-layout-796f
