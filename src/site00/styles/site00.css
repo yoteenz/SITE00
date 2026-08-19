@@ -585,15 +585,17 @@
   }
 
   .site00-origin-page--mobile-layout .site00-home-hero__eyebrow {
-    margin-bottom: 6px;
+    margin-bottom: 2px;
   }
 
+  /* Tighten stack with margins — transform alone does not collapse line spacing in flow layout */
   .site00-origin-page--mobile-layout .site00-home-hero .site00-heading-xl {
-    transform: translateY(-4px);
+    margin: -4px 0 -4px 0;
+    line-height: 0.92;
   }
 
   .site00-origin-page--mobile-layout .site00-home-hero__tagline {
-    margin-top: 0;
+    margin-top: -8px;
     margin-bottom: 0;
     white-space: nowrap;
   }
