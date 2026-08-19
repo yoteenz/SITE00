@@ -812,3 +812,12 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
   - CSS: 5-column grid, icon slot, artboard-pinned nav in laptop Mobile preview.
 - **Branch:** `cursor/mobile-nav-geometric-icons-796f`.
 
+---
+
+## 2026-08-19 — Enter menu: remove trailing row dividers (desktop)
+
+- **Request:** Remove extra gray lines below JOURNAL and SUPPORT on Enter menu desktop page only.
+- **Root cause:** Each `.site00-enter-row` has `border-bottom`; last row in EXPLORE (Journal) and YOUR SPACE (Support) showed redundant rules above the diamond section divider / panel bottom.
+- **Fix:** Desktop-scoped CSS — `.site00-enter-page .site00-enter-menu nav .site00-enter-row:last-child { border-bottom: none }` (+ desktop artboard preview mirror).
+- **Branch:** `cursor/enter-menu-row-dividers-796f`.
+
