@@ -10,8 +10,7 @@ export const SITE00_ORIGIN_IDNTY_PANEL_ICON_PATH = 'A97879A2-FFEA-4BD5-AC0A-7435
 
 export const SITE00_ORIGIN_BLDR_PANEL_ICON_PATH = '0C81A5FC-35AD-4C8B-A292-5BF88E14193E.png';
 
-/** Placeholder until production EVOLVE master icon is supplied — swap file at /assets/evolve/evolve-master.svg */
-export const SITE00_ORIGIN_EVOLVE_PANEL_ICON_FALLBACK = '/assets/evolve/evolve-master.svg';
+export const SITE00_ORIGIN_EVOLVE_PANEL_ICON_PATH = 'EVOLVE/9E87E14E-63A7-4ED5-9054-5435136E1768.png';
 
 const SITE00_ORIGIN_PANEL_ICON_BASE = site00SupabasePublicStorageBase();
 
@@ -30,5 +29,5 @@ export function site00OriginBldrPanelIconUrl(): string {
 }
 
 export function site00OriginEvolvePanelIconUrl(): string {
-  return SITE00_ORIGIN_EVOLVE_PANEL_ICON_FALLBACK;
+  return site00OriginPanelIconUrl(SITE00_ORIGIN_EVOLVE_PANEL_ICON_PATH);
 }
