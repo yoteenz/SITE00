@@ -530,7 +530,6 @@
 .site00-loader-copy-region--title,
 .site00-loader-copy-region--subtitle {
   overflow: visible;
-  align-items: flex-start;
 }
 
 .site00-loader-copy__eyebrow {
@@ -543,8 +542,8 @@
 }
 
 .site00-loader-copy__title {
-  margin: 0;
-  font-size: calc(var(--site00-size-display-xl) / var(--loader-scale, 1));
+  margin: calc(var(--site00-stack-sm) / var(--loader-scale, 1)) 0 0;
+  font-size: calc(var(--site00-size-display-lg) / var(--loader-scale, 1));
   font-weight: var(--site00-weight-display);
   font-stretch: var(--site00-font-stretch-display);
   letter-spacing: var(--site00-tracking-display);
@@ -554,11 +553,11 @@
 }
 
 .site00-loader-copy__subtitle {
-  margin: calc(var(--site00-stack-tight) / var(--loader-scale, 1)) 0 0;
-  font-size: calc(var(--site00-size-subheading) / var(--loader-scale, 1));
-  font-weight: var(--site00-weight-heading);
-  letter-spacing: var(--site00-tracking-heading);
-  line-height: var(--site00-lh-heading);
+  margin: calc(var(--site00-stack-md) / var(--loader-scale, 1)) 0 0;
+  font-size: calc(var(--site00-size-body) / var(--loader-scale, 1));
+  font-weight: var(--site00-weight-body);
+  letter-spacing: var(--site00-tracking-body);
+  line-height: var(--site00-lh-body);
   color: var(--site-text-muted, #6b6b6b);
   white-space: nowrap;
 }
