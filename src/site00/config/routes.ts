@@ -31,6 +31,7 @@ export const SITE00_ROUTES = {
   about: '/about',
   journal: '/journal',
   signIn: '/origin/sign-in',
+  loaderPreview: '/loader-preview',
   control: '/control',
   controlSites: '/control/sites',
   controlDomains: '/control/domains',

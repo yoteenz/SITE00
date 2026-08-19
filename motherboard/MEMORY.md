@@ -401,3 +401,10 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Fix:** Applied Origin typography roles (`site00-label-red`, `site00-heading-xl`, `site00-body`) in `LoaderCopyRegions.tsx`. CSS uses design tokens with `calc(token / var(--loader-scale))` so text renders at viewport scale despite artboard transform. Expanded composition region boxes for larger headline/subtitle; overflow visible on top three regions.
 - **Hierarchy:** label 600 red → display-xl 800 black → subheading 700 gray muted.
 
+---
+
+## 2026-08-19 — Isolated loader preview route
+
+- **Request:** Link to loading animation page that stays open for inspection (production loader exits too fast).
+- **Fix:** Added `/loader-preview` — frozen immersive loader, no cold-start exit. Query params: `progress` (0–100, default 62), `complete=1`, `loaderDebug=1`.
+

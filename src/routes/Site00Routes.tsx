@@ -70,6 +70,7 @@ const ProjectProvisioningPage = lazy(() => import('../site00/pages/provisioning/
 const IdntyAssessmentRouterPage = lazy(() => import('../site00/pages/idnty/assessment/IdntyAssessmentRouterPage'));
 const BldrAssessmentRouterPage = lazy(() => import('../site00/pages/bldr/assessment/BldrAssessmentRouterPage'));
 const EvolveAssessmentRouterPage = lazy(() => import('../site00/pages/evolve/assessment/EvolveAssessmentRouterPage'));
+const LoaderPreviewPage = lazy(() => import('../site00/pages/LoaderPreviewPage'));
 
 function Site00Suspense({ children }: { children: ReactNode }) {
   return <Suspense fallback={<Site00RouteLoadingFallback />}>{children}</Suspense>;
@@ -115,6 +116,15 @@ function Site00Layout({ children }: { children: ReactNode }) {
   );
 }
 
+function Site00LoaderPreviewLayout({ children }: { children: ReactNode }) {
+  return (
+    <>
+      <Site00TypographyBootstrap />
+      {children}
+    </>
+  );
+}
+
 /**
  * SITE 00 Foundation V1.1 routes.
  * Invoke as `{Site00Routes()}` inside `<Routes>`.
@@ -155,6 +165,16 @@ export function Site00Routes() {
           }
         />
       ) : null}
+      <Route
+        path={SITE00_ROUTES.loaderPreview}
+        element={
+          <Site00LoaderPreviewLayout>
+            <Site00Suspense>
+              <LoaderPreviewPage />
+            </Site00Suspense>
+          </Site00LoaderPreviewLayout>
+        }
+      />
       <Route
         path={SITE00_ROUTES.locations}
         element={

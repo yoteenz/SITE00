@@ -40,6 +40,11 @@ export function isSite00DesktopArtboardPath(pathname: string): boolean {
 }
 
 /** Sign-in is a focused auth surface — skip cinematic cold-start loader. */
+export function isSite00LoaderPreviewPath(pathname: string): boolean {
+  if (!pathname) return false;
+  return pathname === SITE00_ROUTES.loaderPreview || pathname.startsWith(`${SITE00_ROUTES.loaderPreview}/`);
+}
+
 export function isSite00SignInPath(pathname: string): boolean {
   if (!pathname) return false;
   return pathname === SITE00_ROUTES.signIn || pathname.startsWith(`${SITE00_ROUTES.signIn}/`);
