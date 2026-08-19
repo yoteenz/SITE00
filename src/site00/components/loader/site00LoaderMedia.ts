@@ -1,44 +1,56 @@
 /** Boot-critical loader media — versioned paths + approved Supabase production assets. */
 
+import { getSite00OriginWideViewportSnapshot } from '../shell/site00OriginViewport';
+
 export const SITE00_LOADER_ASSET_VERSION = 'v1';
 
 export const SITE00_LOADER_ASSET_BASE = `/site00/loader/${SITE00_LOADER_ASSET_VERSION}`;
 
 /** Local fallback when Supabase env is unavailable (dev offline). */
 export const SITE00_LOADER_BACKGROUND_FILE = 'assts-loader-background-v1.png';
-/** Approved master environment — 711×1536 composition reference (Supabase live-preview). */
+/** Approved mobile environment — 711×1536 composition reference (Supabase live-preview). */
 export const SITE00_LOADER_BACKGROUND_REMOTE = 'IMG_0404.png';
-/** Approved desktop landscape environment — 1672×941 (Supabase live-preview). */
-export const SITE00_LOADER_BACKGROUND_DESKTOP_REMOTE = '4EEB4F70-BF07-4EFE-B324-10C94AE018B5.png';
+/** Approved desktop static environment — BLDR production asset (Supabase live-preview). */
+export const SITE00_LOADER_BACKGROUND_DESKTOP_REMOTE = 'BLDR/4EEB4F70-BF07-4EFE-B324-10C94AE018B5.png';
 /** Dev reference overlay — falls back to background when missing locally. */
 export const SITE00_LOADER_REF_MAP_FILE = 'assts-loader-ref-map-v1.png';
-/** Original OpenArt source — red luminous geometry on black (screen compositing). */
-export const SITE00_LOADER_GEOMETRY_SOURCE_FILE = 'assts-loader-geometry-v1-source.mp4';
-export const SITE00_LOADER_GEOMETRY_SOURCE_REMOTE = 'openart-output_kling-v2_aUsaRicK38pEp4ieayl8.mp4';
-export const SITE00_LOADER_GEOMETRY_WEBM_FILE = 'assts-loader-geometry-v1-alpha.webm';
-export const SITE00_LOADER_GEOMETRY_APNG_FILE = 'assts-loader-geometry-v1-alpha.apng';
+/** Approved mobile full-frame environment animation — 1312×2816 portrait. */
+export const SITE00_LOADER_ENVIRONMENT_ANIMATION_MOBILE_REMOTE = 'BLDR/openart-output_1787107938282_745c8292.mp4';
+/** Approved desktop full-frame environment animation — 2560×1440 landscape. */
+export const SITE00_LOADER_ENVIRONMENT_ANIMATION_DESKTOP_REMOTE = 'BLDR/openart-output_1787109389654_e04aea07.mp4';
 
-function supabaseLivePreviewUrl(filename: string): string | null {
-  const base = (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.replace(/\/$/, '') ?? '';
-  if (!base) return null;
-  return `${base}/storage/v1/object/public/live-preview/site00/${filename}`;
+/** Public project ref — live-preview bucket is intentionally public. */
+export const SITE00_PUBLIC_PROJECT_REF = 'hyycomvcaqxxvyrfupes';
+
+function site00LivePreviewStorageBase(): string {
+  const ref =
+    (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.match(/https?:\/\/([^.]+)\./)?.[1] ??
+    SITE00_PUBLIC_PROJECT_REF;
+  return `https://${ref}.supabase.co/storage/v1/object/public/live-preview/site00/`;
 }
 
-/** Approved loader environment — canonical 711×1536 artboard background. */
+function supabaseLivePreviewUrl(path: string): string {
+  return `${site00LivePreviewStorageBase()}${path}`;
+}
+
+/** Approved mobile loader environment — canonical 711×1536 artboard background. */
 export function site00LoaderBackgroundUrl(): string {
-  return supabaseLivePreviewUrl(SITE00_LOADER_BACKGROUND_REMOTE) ?? `${SITE00_LOADER_ASSET_BASE}/${SITE00_LOADER_BACKGROUND_FILE}`;
+  return supabaseLivePreviewUrl(SITE00_LOADER_BACKGROUND_REMOTE);
 }
 
-/** Approved Asset Vault desktop loader environment — landscape 1672×941 master. */
+/** Approved desktop loader environment — BLDR landscape master. */
 export function site00LoaderDesktopBackgroundUrl(): string {
-  return (
-    supabaseLivePreviewUrl(SITE00_LOADER_BACKGROUND_DESKTOP_REMOTE) ??
-    `${SITE00_LOADER_ASSET_BASE}/${SITE00_LOADER_BACKGROUND_FILE}`
-  );
+  return supabaseLivePreviewUrl(SITE00_LOADER_BACKGROUND_DESKTOP_REMOTE);
 }
 
 export function resolveSite00LoaderBackgroundUrl(presentation: 'mobile' | 'desktop'): string {
   return presentation === 'desktop' ? site00LoaderDesktopBackgroundUrl() : site00LoaderBackgroundUrl();
+}
+
+/** Viewport-driven media presentation — background + animation only (not UI composition). */
+export function resolveSite00LoaderMediaPresentation(): 'mobile' | 'desktop' {
+  if (typeof window === 'undefined') return 'mobile';
+  return getSite00OriginWideViewportSnapshot() ? 'desktop' : 'mobile';
 }
 
 /** Reference map for artboard overlay test — falls back to approved background. */
@@ -46,38 +58,27 @@ export function site00LoaderRefMapUrl(): string {
   return `${SITE00_LOADER_ASSET_BASE}/${SITE00_LOADER_REF_MAP_FILE}`;
 }
 
-export function site00LoaderGeometryWebmUrl(): string {
-  return `${SITE00_LOADER_ASSET_BASE}/${SITE00_LOADER_GEOMETRY_WEBM_FILE}`;
+/** Presentation-specific full-frame environment animation URL. */
+export function resolveSite00LoaderEnvironmentAnimationUrl(presentation: 'mobile' | 'desktop'): string {
+  const remote =
+    presentation === 'desktop'
+      ? SITE00_LOADER_ENVIRONMENT_ANIMATION_DESKTOP_REMOTE
+      : SITE00_LOADER_ENVIRONMENT_ANIMATION_MOBILE_REMOTE;
+  return supabaseLivePreviewUrl(remote);
 }
 
-export function site00LoaderGeometryApngUrl(): string {
-  return `${SITE00_LOADER_ASSET_BASE}/${SITE00_LOADER_GEOMETRY_APNG_FILE}`;
+/** Boot/cold-start preload — presentation-specific environment animation MP4. */
+export function resolveSite00LoaderAnimationPreloadUrl(presentation?: 'mobile' | 'desktop'): string {
+  const mode = presentation ?? resolveSite00LoaderMediaPresentation();
+  return resolveSite00LoaderEnvironmentAnimationUrl(mode);
 }
 
-/** Original OpenArt animation — black background, screen/lighten compositing in browser. */
-export function site00LoaderGeometrySourceUrl(): string {
-  return `${SITE00_LOADER_ASSET_BASE}/${SITE00_LOADER_GEOMETRY_SOURCE_FILE}`;
+/** @deprecated Use resolveSite00LoaderEnvironmentAnimationUrl — mobile default preserved for callers. */
+export function site00LoaderEnvironmentAnimationUrl(): string {
+  return resolveSite00LoaderEnvironmentAnimationUrl('mobile');
 }
 
-export function site00LoaderGeometrySourceRemoteUrl(): string {
-  return supabaseLivePreviewUrl(SITE00_LOADER_GEOMETRY_SOURCE_REMOTE) ?? site00LoaderGeometrySourceUrl();
-}
-
-/** Boot/cold-start preload — alpha derivative when available, not the heavy black-background master. */
-export function site00LoaderGeometryPreloadUrl(mode: 'alpha' | 'screen' = 'alpha'): string {
-  if (mode === 'screen') return site00LoaderGeometrySourceUrl();
-  return site00LoaderPrefersApngGeometry()
-    ? site00LoaderGeometryApngUrl()
-    : site00LoaderGeometryWebmUrl();
-}
-
-/** iOS Safari — WebM alpha is unreliable; use transcoded APNG with true alpha. */
-export function site00LoaderPrefersApngGeometry(): boolean {
-  if (typeof navigator === 'undefined') return false;
-  const ua = navigator.userAgent;
-  const isIOS =
-    /iPad|iPhone|iPod/.test(ua) ||
-    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  if (!isIOS) return false;
-  return /Safari/i.test(ua) && !/CriOS|FxiOS|EdgiOS|Chrome/i.test(ua);
+/** @deprecated Legacy geometry preload — redirects to presentation-aware animation preload. */
+export function site00LoaderGeometryPreloadUrl(_mode: 'alpha' | 'screen' = 'alpha'): string {
+  return resolveSite00LoaderAnimationPreloadUrl();
 }

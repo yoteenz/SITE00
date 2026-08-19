@@ -1,13 +1,6 @@
-import { probeProductionAlphaAvailable, resolveLoaderGeometryMode, resolveLoaderGeometryModeFromQuery } from './site00LoaderGeometryMode';
-import { site00LoaderGeometryPreloadUrl } from './site00LoaderMedia';
+import { resolveSite00LoaderAnimationPreloadUrl, resolveSite00LoaderMediaPresentation } from './site00LoaderMedia';
 
-/** Resolve which geometry asset to preload for cold-start (alpha WebM/APNG, not 6MB master MP4). */
+/** Resolve which environment animation asset to preload for cold-start. */
 export async function resolveSite00LoaderGeometryPreloadUrl(): Promise<string> {
-  const forced = resolveLoaderGeometryModeFromQuery();
-  if (forced === 'screen') return site00LoaderGeometryPreloadUrl('screen');
-  if (forced === 'alpha') return site00LoaderGeometryPreloadUrl('alpha');
-
-  const hasAlpha = await probeProductionAlphaAvailable();
-  const mode = resolveLoaderGeometryMode(hasAlpha);
-  return site00LoaderGeometryPreloadUrl(mode);
+  return resolveSite00LoaderAnimationPreloadUrl(resolveSite00LoaderMediaPresentation());
 }

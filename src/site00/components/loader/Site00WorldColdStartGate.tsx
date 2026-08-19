@@ -7,6 +7,7 @@ import { initSite00ImmersiveLoaderBoot, teardownSite00ImmersiveBootShell } from 
 import { resolveSite00ImmersiveLoaderConfig } from './site00LoaderConfig';
 import { preloadSite00LoaderAnimation, preloadSite00LoaderBackground } from './site00LoaderPreload';
 import { resolveSite00LoaderGeometryPreloadUrl } from './site00LoaderBootstrap';
+import { resolveSite00LoaderBackgroundUrl, resolveSite00LoaderMediaPresentation } from './site00LoaderMedia';
 import { loaderLifecycleLog } from './loaderLifecycleLog';
 import {
   markSite00ImmersiveComplete,
@@ -65,7 +66,9 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
     async function bootstrap() {
       try {
         completeStage('bootstrap');
-        void preloadSite00LoaderBackground(config.backgroundUrl);
+        void preloadSite00LoaderBackground(
+          resolveSite00LoaderBackgroundUrl(resolveSite00LoaderMediaPresentation()),
+        );
         if (cancelled) return;
         completeStage('preparing');
 
@@ -117,7 +120,7 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
     return () => {
       cancelled = true;
     };
-  }, [immersive, completeStage, forceComplete, config.backgroundUrl]);
+  }, [immersive, completeStage, forceComplete]);
 
   const handleExitComplete = () => {
     markSite00ImmersiveComplete();
