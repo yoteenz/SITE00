@@ -563,7 +563,7 @@
 }
 
 .site00-immersive-loader .site00-loader-copy-region--subtitle {
-  transform: translateY(calc(-8px / var(--loader-scale, 1)));
+  transform: translateY(calc(-10px / var(--loader-scale, 1)));
 }
 
 /* Assembling status — 40px total overlay nudge (20px up from prior). */
@@ -603,7 +603,7 @@
   margin: calc(var(--site00-stack-sm) / var(--loader-scale, 1)) 0 0;
   font-family: var(--site00-font-display);
   font-size: calc(
-    var(--site00-size-display-lg) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) - 12px
+    var(--site00-size-display-lg) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) - 14px
   );
   font-weight: 400;
   font-stretch: var(--site00-font-stretch-display);
