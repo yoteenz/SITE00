@@ -803,7 +803,7 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
     margin-top: calc(var(--site00-stack-tight) + 3px);
     margin-bottom: 0;
     white-space: nowrap;
-    transform: translateY(4px);
+    transform: translateY(6px);
   }
 
   .site00-origin-page--mobile-layout .site00-home-hero__line,
