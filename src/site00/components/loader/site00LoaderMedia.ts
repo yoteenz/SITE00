@@ -19,6 +19,8 @@ export const SITE00_LOADER_REF_MAP_FILE = 'assts-loader-ref-map-v1.png';
 export const SITE00_LOADER_ENVIRONMENT_ANIMATION_MOBILE_REMOTE = 'BLDR/openart-output_1787107938282_745c8292.mp4';
 /** Approved desktop full-frame environment animation — 2560×1440 landscape. */
 export const SITE00_LOADER_ENVIRONMENT_ANIMATION_DESKTOP_REMOTE = 'BLDR/openart-output_1787109389654_e04aea07.mp4';
+/** Footer double-00 mark above red SITE 00 signature (Supabase live-preview). */
+export const SITE00_LOADER_FOOTER_MARK_REMOTE = 'LOADING/2B361A6E-863F-4CAF-AAFD-40F49205EEA2.png';
 
 /** Public project ref — live-preview bucket is intentionally public. */
 export const SITE00_PUBLIC_PROJECT_REF = 'hyycomvcaqxxvyrfupes';
@@ -101,4 +103,9 @@ export function site00LoaderEnvironmentAnimationUrl(): string {
 /** @deprecated Legacy geometry preload — redirects to presentation-aware animation preload. */
 export function site00LoaderGeometryPreloadUrl(_mode: 'alpha' | 'screen' = 'alpha'): string {
   return resolveSite00LoaderAnimationPreloadUrl();
+}
+
+/** Footer double-00 mark — above red SITE 00 signature label. */
+export function resolveSite00LoaderFooterMarkUrl(): string {
+  return supabaseLivePreviewUrl(SITE00_LOADER_FOOTER_MARK_REMOTE);
 }

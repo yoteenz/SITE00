@@ -1,11 +1,13 @@
 import { LoaderRegion } from './LoaderRegion';
+import { resolveSite00LoaderFooterMarkUrl } from './site00LoaderMedia';
+
+const LOADER_FOOTER_MARK_URL = resolveSite00LoaderFooterMarkUrl();
 
 type LoaderCopyRegionsProps = {
   siteLabel: string;
   title: string;
   subtitle: string;
   tagline: string;
-  footerMark: string;
   footerLabel: string;
   progress: number;
   progressLabel: string;
@@ -17,7 +19,6 @@ export function LoaderCopyRegions({
   title,
   subtitle,
   tagline,
-  footerMark,
   footerLabel,
   progress,
   progressLabel,
@@ -73,9 +74,13 @@ export function LoaderCopyRegions({
 
       <LoaderRegion id="copy.signature" className="site00-loader-copy-region site00-loader-copy-region--signature">
         <div className="site00-loader-copy__signature">
-          <span className="site00-loader-copy__mark" aria-hidden="true">
-            {footerMark}
-          </span>
+          <img
+            src={LOADER_FOOTER_MARK_URL}
+            alt=""
+            className="site00-loader-copy__mark-img"
+            aria-hidden="true"
+            decoding="async"
+          />
           <span className="site00-loader-copy__signature-label">{footerLabel}</span>
         </div>
       </LoaderRegion>

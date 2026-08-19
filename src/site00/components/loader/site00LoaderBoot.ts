@@ -1,6 +1,6 @@
 import { shouldShowSite00ImmersiveLoader } from './site00LoaderSession';
 import { isSite00ImmersivePath } from './site00LoaderPaths';
-import { resolveSite00LoaderBackgroundUrl, resolveSite00LoaderAnimationPreloadUrl, resolveSite00LoaderMediaPresentation, resolveSite00LoaderBackgroundFocal } from './site00LoaderMedia';
+import { resolveSite00LoaderBackgroundUrl, resolveSite00LoaderAnimationPreloadUrl, resolveSite00LoaderMediaPresentation, resolveSite00LoaderBackgroundFocal, resolveSite00LoaderFooterMarkUrl } from './site00LoaderMedia';
 import { preloadSite00LoaderAnimation, preloadSite00LoaderBackground } from './site00LoaderPreload';
 
 const BOOT_CLASS = 'site00-assts-boot';
@@ -55,6 +55,10 @@ export function initSite00ImmersiveLoaderBoot(): void {
     injectPreload(animationUrl, 'fetch');
     void preloadSite00LoaderAnimation(animationUrl);
   }
+
+  const footerMarkUrl = resolveSite00LoaderFooterMarkUrl();
+  injectPreload(footerMarkUrl, 'image');
+  void preloadSite00LoaderBackground(footerMarkUrl);
 }
 
 /** @deprecated Use initSite00ImmersiveLoaderBoot */
