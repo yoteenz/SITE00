@@ -1142,18 +1142,23 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
     height: 100%;
   }
 
+  .site00-enter-page,
+  .site00-enter-page.site00-shell {
+    overflow: visible;
+  }
+
   .site00-enter-page .site00-ui-layer {
     display: flex;
     flex-direction: column;
     height: 100%;
     min-height: 0 !important;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .site00-enter-page main {
     flex: 1;
     min-height: 0;
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1171,6 +1176,8 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
 
   .site00-enter-page .site00-enter-welcome {
     transform: translate(-240px, -120px);
+    padding-top: 12px;
+    margin-top: -12px;
   }
 
   .site00-enter-page .site00-enter-welcome__body {

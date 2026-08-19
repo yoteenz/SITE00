@@ -656,7 +656,7 @@
 .site00-desktop-artboard--native-viewport .site00-enter-page {
   height: 100dvh;
   max-height: 100dvh;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .site00-desktop-artboard--native-viewport .site00-enter-page .site00-env-layer {
