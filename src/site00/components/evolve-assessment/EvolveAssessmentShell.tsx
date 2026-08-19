@@ -32,7 +32,7 @@ function EvolveAssessmentMobileBackground() {
 
 export function EvolveAssessmentBreadcrumb({ label }: { label: string }) {
   return (
-    <nav className="site00-idnty-assessment__breadcrumb" aria-label="Breadcrumb">
+    <nav className="site00-idnty-assessment__breadcrumb" aria-label="BREADCRUMB">
       {label}
     </nav>
   );
@@ -99,7 +99,7 @@ export function EvolveAssessmentShell({ state, pathId, children, panel }: Evolve
     <EnvironmentShell environmentId="IDNTY_ASSESSMENT_ENVIRONMENT" className="site00-idnty-assessment site00-idnty-assessment--desktop">
       <Site00AppShell locationLabel={state.breadcrumb}>
         <div className="site00-idnty-assessment__desktop-grid">
-          <aside className="site00-idnty-assessment__intro" aria-label="Evolve path overview">
+          <aside className="site00-idnty-assessment__intro" aria-label="EVOLVE PATH OVERVIEW">
             <div className="site00-idnty-assessment__intro-inner">
               <div className="site00-idnty-assessment__icon">
                 <EvolvePathIcon id={pathId} title={state.title} size={88} />

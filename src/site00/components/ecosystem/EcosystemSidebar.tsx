@@ -18,7 +18,7 @@ export function EcosystemSidebar() {
   };
 
   return (
-    <aside className="site00-ecosystem-sidebar" aria-label="SITE 00 ecosystem navigation">
+    <aside className="site00-ecosystem-sidebar" aria-label="SITE 00 ECOSYSTEM NAVIGATION">
       <Link to={SITE00_ROUTES.originAlias} className="site00-ecosystem-sidebar__logo">
         SITE 00 <span className="site00-ecosystem-sidebar__mark" aria-hidden="true">♦</span>
       </Link>

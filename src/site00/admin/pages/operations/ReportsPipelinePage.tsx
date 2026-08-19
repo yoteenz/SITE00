@@ -63,7 +63,7 @@ export default function ReportsPipelinePage() {
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 
       {loading ? (
-        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="Loading pipeline" />
+        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="LOADING PIPELINE" />
       ) : data ? (
         <>
           <section className="site00-admin-panel">

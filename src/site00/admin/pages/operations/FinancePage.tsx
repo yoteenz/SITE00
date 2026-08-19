@@ -49,7 +49,7 @@ export default function FinancePage() {
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 
       {loading ? (
-        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="Loading finance" />
+        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="LOADING FINANCE" />
       ) : data ? (
         <>
           <section className="site00-admin-kpi-row">

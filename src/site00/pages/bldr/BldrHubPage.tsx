@@ -19,7 +19,7 @@ export default function BldrHubPage() {
           subtitle="START YOUR BUILD. WE'LL GUIDE YOU FROM IDEA TO LAUNCH."
         />
         <div className="site00-bldr-split">
-          <section className="site00-bldr-split__steps" aria-label="Build process">
+          <section className="site00-bldr-split__steps" aria-label="BUILD PROCESS">
             <ol className="site00-bldr-step-list">
               {BLDR_STEPS.map((step) => (
                 <li key={step.num} className="site00-bldr-step-list__item">

@@ -30,7 +30,7 @@ export function Site00OriginLayoutSwitch() {
     isSite00OriginDesktopPath(pathname)
   ) {
     nav = (
-      <nav className="site00-origin-layout-switch" aria-label="Origin layout preview">
+      <nav className="site00-origin-layout-switch" aria-label="ORIGIN LAYOUT PREVIEW">
         <button
           type="button"
           aria-current={!isPreviewDesktop ? 'page' : undefined}
@@ -51,7 +51,7 @@ export function Site00OriginLayoutSwitch() {
     );
   } else if (pathname === SITE00_ROUTES.bldrState || isSite00BldrStateDesktopPath(pathname)) {
     nav = (
-      <nav className="site00-origin-layout-switch" aria-label="BLDR layout preview">
+      <nav className="site00-origin-layout-switch" aria-label="BLDR LAYOUT PREVIEW">
         <Link to={SITE00_ROUTES.bldrState} aria-current={pathname === SITE00_ROUTES.bldrState ? 'page' : undefined}>
           Mobile
         </Link>
@@ -62,7 +62,7 @@ export function Site00OriginLayoutSwitch() {
     );
   } else if (pathname === SITE00_ROUTES.idntyState || isSite00IdntyStateDesktopPath(pathname)) {
     nav = (
-      <nav className="site00-origin-layout-switch" aria-label="IDNTY layout preview">
+      <nav className="site00-origin-layout-switch" aria-label="IDNTY LAYOUT PREVIEW">
         <Link to={SITE00_ROUTES.idntyState} aria-current={pathname === SITE00_ROUTES.idntyState ? 'page' : undefined}>
           Mobile
         </Link>
@@ -74,7 +74,7 @@ export function Site00OriginLayoutSwitch() {
   } else if (isSite00IdntyAssessmentPath(pathname)) {
     const mobileBase = site00IdntyAssessmentMobilePath(pathname);
     nav = (
-      <nav className="site00-origin-layout-switch" aria-label="IDNTY assessment layout preview">
+      <nav className="site00-origin-layout-switch" aria-label="IDNTY ASSESSMENT LAYOUT PREVIEW">
         <Link to={mobileBase} aria-current={!isSite00IdntyAssessmentDesktopPath(pathname) ? 'page' : undefined}>
           Mobile
         </Link>
@@ -89,7 +89,7 @@ export function Site00OriginLayoutSwitch() {
   } else if (isSite00BldrAssessmentPath(pathname)) {
     const mobileBase = site00BldrAssessmentMobilePath(pathname);
     nav = (
-      <nav className="site00-origin-layout-switch" aria-label="BLDR assessment layout preview">
+      <nav className="site00-origin-layout-switch" aria-label="BLDR ASSESSMENT LAYOUT PREVIEW">
         <Link to={mobileBase} aria-current={!isSite00BldrAssessmentDesktopPath(pathname) ? 'page' : undefined}>
           Mobile
         </Link>

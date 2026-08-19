@@ -12,7 +12,7 @@ export function Site00MobileNav({ active }: Site00MobileNavProps) {
   const buildHref = site00MobileBuildNavHref(pathname);
 
   return (
-    <nav className="site00-mobile-nav" aria-label="SITE 00 mobile navigation">
+    <nav className="site00-mobile-nav" aria-label="SITE 00 MOBILE NAVIGATION">
       {SITE00_MOBILE_NAV.map((item, index) => {
         const href = item.id === 'build' ? buildHref : item.href;
         const isActive =

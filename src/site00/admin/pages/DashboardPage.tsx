@@ -68,7 +68,7 @@ export default function Site00AdminDashboardPage() {
           <h1 className="site00-admin-page-title">WELCOME BACK, {adminName}.</h1>
           <p className="site00-admin-page-subtitle">HERE&apos;S WHAT&apos;S HAPPENING ACROSS YOUR ECOSYSTEM.</p>
         </div>
-        <div className="site00-admin-period" role="tablist" aria-label="Dashboard period">
+        <div className="site00-admin-period" role="tablist" aria-label="DASHBOARD PERIOD">
           {PERIODS.map((p) => (
             <button
               key={p.value}
@@ -87,7 +87,7 @@ export default function Site00AdminDashboardPage() {
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 
       {loading ? (
-        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="Loading dashboard" />
+        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="LOADING DASHBOARD" />
       ) : data ? (
         <>
           <section className="site00-admin-kpi-row">

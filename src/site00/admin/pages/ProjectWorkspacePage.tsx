@@ -36,7 +36,7 @@ export default function Site00AdminProjectWorkspacePage() {
         {String(project?.build_class ?? '')} · {String(project?.current_phase ?? '')} · {String(project?.project_health ?? '')}
       </p>
 
-      <nav className="site00-admin-project-tabs" aria-label="Project workspace tabs">
+      <nav className="site00-admin-project-tabs" aria-label="PROJECT WORKSPACE TABS">
         {PROJECT_WORKSPACE_TABS.map((tab) => {
           const href =
             tab.id === 'overview'

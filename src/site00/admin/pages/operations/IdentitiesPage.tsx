@@ -53,14 +53,14 @@ export default function IdentitiesPage() {
           placeholder="SEARCH BY EMAIL OR NAME…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          aria-label="Search identities"
+          aria-label="SEARCH IDENTITIES"
         />
       </header>
 
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 
       {loading ? (
-        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="Loading identities" />
+        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="LOADING IDENTITIES" />
       ) : (
         <>
           <section className="site00-admin-kpi-row">

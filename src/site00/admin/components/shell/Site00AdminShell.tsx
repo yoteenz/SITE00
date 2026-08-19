@@ -169,7 +169,7 @@ export function Site00AdminShell({ children, approvalBadge }: Site00AdminShellPr
   return (
     <div className="site00-admin-shell site00-admin-shell--with-bg" style={adminBgStyle}>
       <div className="site00-admin-shell__layout">
-        <aside className="site00-admin-sidebar" aria-label="SITE 00 admin navigation">
+        <aside className="site00-admin-sidebar" aria-label="SITE 00 ADMIN NAVIGATION">
           <div className="site00-admin-sidebar__brand">
             SITE 00 <span aria-hidden="true">+</span>
           </div>
@@ -196,7 +196,7 @@ export function Site00AdminShell({ children, approvalBadge }: Site00AdminShellPr
           <div className="site00-admin-content">{children}</div>
         </div>
       </div>
-      <nav className="site00-admin-mobile-nav" aria-label="Mobile admin navigation">
+      <nav className="site00-admin-mobile-nav" aria-label="MOBILE ADMIN NAVIGATION">
         <div className="site00-admin-mobile-nav__inner">
           {SITE00_ADMIN_MOBILE_NAV.map((item) => (
             <Link

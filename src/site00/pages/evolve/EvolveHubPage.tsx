@@ -21,7 +21,7 @@ export default function EvolveHubPage() {
           title={<BracketHeading>EVOLVE</BracketHeading>}
           subtitle={EVOLVE_HOMEPAGE_EXPANDED.subtitle}
         />
-        <nav className="site00-evolve-hub-nav" aria-label="EVOLVE sections">
+        <nav className="site00-evolve-hub-nav" aria-label="EVOLVE SECTIONS">
           {EVOLVE_HUB_SECTIONS.map((section) => (
             <a key={section.id} href={`#${section.id}`} className="site00-evolve-hub-nav__link">
               {section.label}

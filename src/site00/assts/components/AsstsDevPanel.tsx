@@ -41,7 +41,7 @@ export function AsstsDevPanel({ batchId, onRefresh }: AsstsDevPanelProps) {
       <button
         type="button"
         className="site00-assts-dev-trigger"
-        aria-label="Asset Factory developer controls"
+        aria-label="ASSET FACTORY DEVELOPER CONTROLS"
         onClick={() => {
           tapRef.current += 1;
           if (tapRef.current >= 3) {
@@ -54,7 +54,7 @@ export function AsstsDevPanel({ batchId, onRefresh }: AsstsDevPanelProps) {
         }}
       />
       {open ? (
-        <div className="site00-assts-dev-panel site00-assts-panel" role="region" aria-label="Asset Factory controls">
+        <div className="site00-assts-dev-panel site00-assts-panel" role="region" aria-label="ASSET FACTORY CONTROLS">
           <div className="site00-assts-dev-panel__head">
             <span className="site00-label-red">ASSET FACTORY</span>
             <button type="button" className="site00-assts-dev-panel__close" onClick={() => setOpen(false)}>

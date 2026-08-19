@@ -59,7 +59,7 @@ export default function LeadsPage() {
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 
       {loading ? (
-        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="Loading leads" />
+        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="LOADING LEADS" />
       ) : (
         <section className="site00-admin-panel">
           <AdminTable

@@ -15,7 +15,7 @@ export function EntryToggle({ className }: EntryToggleProps) {
       <Link
         to={SITE00_ROUTES.originAlias}
         className={`site00-btn-ghost ${className ?? ''}`.trim()}
-        aria-label="Exit SITE 00 interior"
+        aria-label="EXIT SITE 00 INTERIOR"
       >
         EXIT 00
         <CrosshairIcon />
@@ -27,7 +27,7 @@ export function EntryToggle({ className }: EntryToggleProps) {
     <Link
       to={SITE00_ROUTES.enter}
       className={`site00-btn-ghost ${className ?? ''}`.trim()}
-      aria-label="Enter SITE 00 interior directory"
+      aria-label="ENTER SITE 00 INTERIOR DIRECTORY"
     >
       ENTER 00
       <CrosshairIcon />

@@ -13,7 +13,7 @@ export function Site00LogoBlock({ locationLabel, showBracket = true }: Site00Log
         <Link
           to={SITE00_ROUTES.originAlias}
           className="site00-logo-mark site00-logo-mark-link"
-          aria-label="Return to SITE 00 Origin"
+          aria-label="RETURN TO SITE 00 ORIGIN"
         >
           SITE 00
         </Link>

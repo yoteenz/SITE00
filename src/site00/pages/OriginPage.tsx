@@ -90,7 +90,7 @@ export default function OriginPage() {
                 style={{
                   ['--site00-origin-hero-top' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroTopPx}px`,
                 }}
-                aria-label="Origin messaging"
+                aria-label="ORIGIN MESSAGING"
               >
                 <p className="site00-label site00-home-hero__eyebrow">{SITE00_ORIGIN_COPY.headlineLine1}</p>
                 <h1 className="site00-heading-xl site00-home-hero__headline">{SITE00_ORIGIN_COPY.headlineLine2}</h1>
@@ -122,13 +122,13 @@ export default function OriginPage() {
               <button
                 type="button"
                 className="site00-home-expanded-backdrop"
-                aria-label="Close panel"
+                aria-label="CLOSE PANEL"
                 onClick={collapseExpandedPanel}
               />
             ) : null}
 
             {state.homeMode !== 'origin' ? (
-              <div className="site00-home-expanded-column" aria-label="Expanded panel">
+              <div className="site00-home-expanded-column" aria-label="EXPANDED PANEL">
                 {state.homeMode === 'idnty-expanded' ? (
                   <IdntyExpandedPanel onCollapse={collapseExpandedPanel} />
                 ) : state.homeMode === 'bldr-expanded' ? (
@@ -140,7 +140,7 @@ export default function OriginPage() {
             ) : null}
 
             {state.homeMode === 'origin' ? (
-              <section className="site00-home-cards" aria-label="Entry selection">
+              <section className="site00-home-cards" aria-label="ENTRY SELECTION">
                 <OriginCards
                   onExpandIdnty={() => setHomeMode('idnty-expanded')}
                   onExpandBldr={() => setHomeMode('bldr-expanded')}

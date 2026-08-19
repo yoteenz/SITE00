@@ -11,7 +11,7 @@ export function LoaderAssemblingStatus({ active, label }: LoaderAssemblingStatus
   }
 
   return (
-    <p className="site00-loader-copy__status site00-loader-copy__status--animating" aria-label="Assembling">
+    <p className="site00-loader-copy__status site00-loader-copy__status--animating" aria-label="ASSEMBLING">
       <span className="site00-loader-copy__status-label">ASSEMBLING</span>
       <span className="site00-loader-copy__status-dots" aria-hidden="true">
         <span className="site00-loader-copy__status-dots-track">...</span>

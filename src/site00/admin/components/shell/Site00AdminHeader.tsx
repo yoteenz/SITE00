@@ -25,14 +25,14 @@ export function Site00AdminHeader() {
             className="site00-admin-header__search"
             type="search"
             placeholder="SEARCH PROJECTS, CLIENTS, LEADS…"
-            aria-label="Global search"
+            aria-label="GLOBAL SEARCH"
             readOnly
             onFocus={() => setSearchOpen(true)}
             onClick={() => setSearchOpen(true)}
           />
           <kbd className="site00-admin-header__kbd">⌘K</kbd>
         </div>
-        <div className="site00-admin-health" aria-label="Admin user">
+        <div className="site00-admin-health" aria-label="ADMIN USER">
           <span className="site00-admin-health__dot" aria-hidden="true" />
           <span>ADMIN</span>
         </div>

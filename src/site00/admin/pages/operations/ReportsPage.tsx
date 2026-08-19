@@ -52,7 +52,7 @@ export default function ReportsPage() {
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 
       {loading ? (
-        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="Loading reports" />
+        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="LOADING REPORTS" />
       ) : data ? (
         <>
           <section className="site00-admin-panel">

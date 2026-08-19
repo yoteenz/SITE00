@@ -234,7 +234,7 @@ export function CompositionStudioCanvas({ controller, backgroundUrl }: Compositi
         className="composition-studio__stage"
         showCompositionDebug={false}
       >
-        <div className="composition-studio__canvas" aria-label="Composition canvas">
+        <div className="composition-studio__canvas" aria-label="COMPOSITION CANVAS">
           {showZones
             ? doc.zones.map((zone) => {
                 const zr = zoneViewportRects.get(zone.id);

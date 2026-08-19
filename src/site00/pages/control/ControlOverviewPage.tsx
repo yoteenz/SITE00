@@ -17,7 +17,7 @@ export default function ControlOverviewPage() {
             label="ACTIVE SITES"
             value={metrics.activeSites.value}
             state={metrics.activeSites.state}
-            actionLabel="View all sites →"
+            actionLabel="VIEW ALL SITES →"
             actionHref={SITE00_ROUTES.controlSites}
             icon="globe"
           />
@@ -25,7 +25,7 @@ export default function ControlOverviewPage() {
             label="DOMAINS"
             value={metrics.domains.value}
             state={metrics.domains.state}
-            actionLabel="Manage domains →"
+            actionLabel="MANAGE DOMAINS →"
             actionHref={SITE00_ROUTES.controlDomains}
             icon="target"
           />
@@ -33,7 +33,7 @@ export default function ControlOverviewPage() {
             label="PLAN"
             value={metrics.plan.value}
             state={metrics.plan.state}
-            actionLabel="Manage plan →"
+            actionLabel="MANAGE PLAN →"
             actionHref={SITE00_ROUTES.controlBilling}
             icon="cube"
           />
@@ -41,7 +41,7 @@ export default function ControlOverviewPage() {
             label="NEXT BILLING"
             value={metrics.nextBilling.value}
             state={metrics.nextBilling.state}
-            actionLabel="View billing →"
+            actionLabel="VIEW BILLING →"
             actionHref={SITE00_ROUTES.controlBilling}
             icon="calendar"
           />

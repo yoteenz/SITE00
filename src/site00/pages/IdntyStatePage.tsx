@@ -54,7 +54,7 @@ export default function IdntyStatePage() {
             </div>
           ) : null}
 
-          <div className="site00-idnty-state-grid" role="list" aria-label="Brand states">
+          <div className="site00-idnty-state-grid" role="list" aria-label="BRAND STATES">
             {IDNTY_BRAND_STATES.map((brandState) => (
               <StateCard
                 key={brandState.id}

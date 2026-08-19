@@ -102,7 +102,7 @@ export default function EvolveStatePage() {
               marginBottom: 40,
             }}
             role="list"
-            aria-label="Evolve paths"
+            aria-label="EVOLVE PATHS"
           >
             {EVOLVE_PATHS.map((path) => (
               <EvolvePathCard

@@ -67,8 +67,8 @@ export default function ProjectsPage() {
         </div>
 
         <div className="site00-page-toolbar">
-          <SearchField value={query} onChange={setQuery} placeholder="Search projects…" id="projects-search" />
-          <div className="site00-eco-filters" role="group" aria-label="Filter by status">
+          <SearchField value={query} onChange={setQuery} placeholder="SEARCH PROJECTS…" id="projects-search" />
+          <div className="site00-eco-filters" role="group" aria-label="FILTER BY STATUS">
             {STATUS_FILTERS.map((f) => (
               <button
                 key={f.id}
@@ -80,7 +80,7 @@ export default function ProjectsPage() {
               </button>
             ))}
           </div>
-          <div className="site00-eco-filters" role="group" aria-label="Filter by service">
+          <div className="site00-eco-filters" role="group" aria-label="FILTER BY SERVICE">
             {SERVICE_FILTERS.map((f) => (
               <button
                 key={f.id}
@@ -97,7 +97,7 @@ export default function ProjectsPage() {
         {filtered.length === 0 ? (
           <EmptyState
             title="NO PROJECTS YET"
-            body="Start from IDNTY, BLDR, or EVOLVE to create your first SITE 00 project."
+            body="START FROM IDNTY, BLDR, OR EVOLVE TO CREATE YOUR FIRST SITE 00 PROJECT."
           />
         ) : (
           <ul className="site00-project-list">

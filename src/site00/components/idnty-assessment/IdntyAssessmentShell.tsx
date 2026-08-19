@@ -40,7 +40,7 @@ function IdntyIntroPanel({ state }: { state: IdntyAssessmentStateConfig }) {
   const iconId = (state.iconId ?? state.id) as IdntyBrandStateIconId;
 
   return (
-    <aside className="site00-idnty-assessment__intro" aria-label="Identity state overview">
+    <aside className="site00-idnty-assessment__intro" aria-label="IDENTITY STATE OVERVIEW">
       <div className="site00-idnty-assessment__intro-inner">
         <div className="site00-idnty-assessment__icon">
           <IdntyBrandStateIcon id={iconId} title={state.title} />
@@ -75,7 +75,7 @@ function IdntyMobileHero({ state }: { state: IdntyAssessmentStateConfig }) {
 
 export function IdntyAssessmentBreadcrumb({ label }: { label: string }) {
   return (
-    <nav className="site00-idnty-assessment__breadcrumb" aria-label="Breadcrumb">
+    <nav className="site00-idnty-assessment__breadcrumb" aria-label="BREADCRUMB">
       {label}
     </nav>
   );

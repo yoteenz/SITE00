@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import type { IdentityBrandState } from '../../config/identity';
 import type { EnterMenuIconId } from '../../config/directory';
 import { resolveEnterDirectoryRowHref } from '../../config/directory';
+import { site00AuthLockedAriaLabel } from '../../config/site00-copy';
 import { useSignedInFromStorage } from '../../../hooks/useSignedInFromStorage';
 import { GeometricIcon } from '../icons/GeometricIcon';
 import { BldrBuildClassIcon } from '../bldr/BldrBuildClassIcon';
@@ -197,7 +198,7 @@ export function DirectoryRow({
       <Link
         to={resolvedHref}
         className={`site00-enter-row${locked ? ' site00-enter-row--locked' : ''}`.trim()}
-        aria-label={locked ? `${title} — sign in to enter` : undefined}
+        aria-label={locked ? site00AuthLockedAriaLabel(title) : undefined}
       >
         {content}
       </Link>

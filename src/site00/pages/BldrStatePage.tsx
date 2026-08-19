@@ -61,7 +61,7 @@ export default function BldrStatePage() {
               marginBottom: 40,
             }}
             role="list"
-            aria-label="Build classes"
+            aria-label="BUILD CLASSES"
           >
             {BLDR_BUILD_CLASSES.map((buildClass) => (
               <BuildClassCard

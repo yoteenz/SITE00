@@ -37,7 +37,7 @@ function StatusStripCells() {
               background: 'var(--site-success)',
               marginLeft: 4,
             }}
-            aria-label="Operational"
+            aria-label="OPERATIONAL"
           />
         ) : null}
       </div>
@@ -80,12 +80,12 @@ export function StatusStrip({ layout, swipeHandlers }: StatusStripProps) {
       <div
         className="site00-status-strip site00-status-strip--layout-mobile"
         role="region"
-        aria-label="System status"
+        aria-label="SYSTEM STATUS"
       >
         <div
           className="site00-status-strip__metrics"
           role="group"
-          aria-label="System metrics"
+          aria-label="SYSTEM METRICS"
           {...swipeHandlers}
         >
           <StatusStripCells />
@@ -99,7 +99,7 @@ export function StatusStrip({ layout, swipeHandlers }: StatusStripProps) {
     <div
       className="site00-status-strip site00-status-strip--layout-desktop"
       role="region"
-      aria-label="System status"
+      aria-label="SYSTEM STATUS"
     >
       <StatusStripCells />
       <StatusStripGuidance />

@@ -63,7 +63,7 @@ export default function DiscoveryDetailPage() {
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 
       {loading ? (
-        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="Loading booking" />
+        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="LOADING BOOKING" />
       ) : booking ? (
         <div className="site00-admin-dashboard-grid">
           <section className="site00-admin-panel">

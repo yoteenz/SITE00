@@ -15,7 +15,7 @@ export function CtrlRoomSidebar() {
   };
 
   return (
-    <aside className="site00-ctrl-sidebar" aria-label="CTRL ROOM navigation">
+    <aside className="site00-ctrl-sidebar" aria-label="CTRL ROOM NAVIGATION">
       <Link to={SITE00_ROUTES.originAlias} className="site00-ctrl-sidebar__logo">
         SITE 00 <span aria-hidden="true">♦</span>
       </Link>

@@ -9,7 +9,7 @@ export default function AsstsProfilePage() {
         <p className="assts-vault-subpage__panel-copy">Signed in with admin credentials for Asset Vault review.</p>
       </div>
 
-      <nav className="assts-vault-subpage__links" aria-label="Profile actions">
+      <nav className="assts-vault-subpage__links" aria-label="PROFILE ACTIONS">
         <Link to="/assts/loader-pipeline" className="assts-vault-subpage__link">
           Loader pipeline
         </Link>

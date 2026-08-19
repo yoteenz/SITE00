@@ -102,7 +102,7 @@ export function Site00MobileArtboardShell({ children }: Site00MobileArtboardShel
       <Site00MobileArtboardProvider>
         <div ref={shellRef} className="site00-mobile-artboard-shell">
           <div className="site00-mobile-artboard-shell__center">
-            <div ref={deviceRef} className="site00-mobile-device" aria-label="Mobile phone preview">
+            <div ref={deviceRef} className="site00-mobile-device" aria-label="MOBILE PHONE PREVIEW">
               <div className="site00-mobile-device__bezel">
                 <div className="site00-mobile-device__screen">
                   <div ref={scalerRef} className="site00-mobile-artboard-shell__stage-scaler">

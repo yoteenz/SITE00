@@ -100,7 +100,7 @@ export function Site00TypeTestOverlay() {
   const display = hover;
 
   return (
-    <div className="site00-type-test-panel" aria-label="SITE 00 typography test inspector">
+    <div className="site00-type-test-panel" aria-label="SITE 00 TYPOGRAPHY TEST INSPECTOR">
       <div className="site00-type-test-panel__head">
         <span className="site00-type-test-panel__title">SITE 00 TYPE TEST</span>
         <button type="button" className="site00-type-test-panel__toggle" onClick={() => setActive((v) => !v)}>
