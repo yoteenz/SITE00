@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { Site00LogoBlock } from './Site00LogoBlock';
 import { GlobalNav } from './GlobalNav';
 import { EntryToggle } from './EntryToggle';
+import { Site00ArtboardBottomChromePortal } from './Site00ArtboardBottomChromePortal';
 import { useSite00DesktopArtboardPreview } from './Site00DesktopArtboardContext';
 
 type Site00AppShellProps = {
@@ -21,22 +22,24 @@ export function Site00AppShell({
 
   const statusFooter =
     showStatusStrip && statusStrip ? (
-      <footer
-        className={desktopArtboardPreview ? 'site00-status-strip-host--artboard' : undefined}
-        style={
-          desktopArtboardPreview
-            ? { flexShrink: 0, zIndex: 'var(--site-z-nav)' }
-            : {
-                position: 'fixed',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                zIndex: 'var(--site-z-nav)',
-              }
-        }
-      >
-        {statusStrip}
-      </footer>
+      <Site00ArtboardBottomChromePortal>
+        <footer
+          className={desktopArtboardPreview ? 'site00-status-strip-host--artboard' : undefined}
+          style={
+            desktopArtboardPreview
+              ? { flexShrink: 0, zIndex: 'var(--site-z-nav)' }
+              : {
+                  position: 'fixed',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  zIndex: 'var(--site-z-nav)',
+                }
+          }
+        >
+          {statusStrip}
+        </footer>
+      </Site00ArtboardBottomChromePortal>
     ) : null;
 
   return (

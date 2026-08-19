@@ -445,9 +445,81 @@
   pointer-events: none;
 }
 
-.site00-desktop-artboard-shell__enter-chrome .site00-enter-status-strip {
+.site00-desktop-artboard-shell__enter-chrome .site00-enter-status-strip,
+.site00-desktop-artboard-shell__enter-chrome .site00-workflow-summary-strip,
+.site00-desktop-artboard-shell__enter-chrome .site00-public-status-rail,
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip-host--artboard {
   position: relative;
   pointer-events: auto;
+  width: 100%;
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-enter-status-strip,
+.site00-desktop-artboard-shell__enter-chrome .site00-workflow-summary-strip {
+  bottom: auto;
+  left: auto;
+  right: auto;
+  margin-top: 0;
+  border-radius: 0;
+}
+
+/** Portaled status strips — desktop layout outside scaled stage (phone Desktop toggle). */
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip--layout-mobile {
+  display: none !important;
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip--layout-desktop {
+  display: grid !important;
+  grid-template-columns: repeat(5, 1fr) auto;
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip--layout-desktop {
+  min-height: var(--site00-origin-status-strip-min-height, var(--site00-bottom-panel-height, 36px));
+  height: var(--site00-origin-status-strip-min-height, var(--site00-bottom-panel-height, 36px));
+  max-height: var(--site00-origin-status-strip-min-height, var(--site00-bottom-panel-height, 36px));
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip__cell {
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  padding-top: var(--site00-origin-status-strip-cell-padding-y, 0px);
+  padding-bottom: var(--site00-origin-status-strip-cell-padding-y, 0px);
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip__cell .site00-label {
+  white-space: nowrap;
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip__guidance {
+  padding-top: var(--site00-origin-status-strip-guidance-padding-y, 0px);
+  padding-bottom: var(--site00-origin-status-strip-guidance-padding-y, 0px);
+  padding-left: 12px;
+  padding-right: 12px;
+  gap: 8px;
+  min-height: 0;
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip__guidance > span[aria-hidden='true'] {
+  width: 20px;
+  height: 20px;
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip__guidance > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip__guidance > div > .site00-label,
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip__guidance > div > .site00-status-value {
+  white-space: nowrap;
 }
 
 /** ORIGIN — lock viewport on collapsed homepage; expanded panels re-enable scroll below */
