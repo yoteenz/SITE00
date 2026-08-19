@@ -72,7 +72,7 @@ export default function EvolveStatePage() {
             <p className="site00-label-red" style={{ marginBottom: 8 }}>
               {EVOLVE_STATE_COPY.headline}
             </p>
-            <p className="site00-body site00-state-page__subhead" style={{ maxWidth: 560, margin: '0 auto' }}>
+            <p className="site00-body site00-state-page__subhead" style={{ margin: '0 auto' }}>
               {EVOLVE_STATE_COPY.subhead}
             </p>
             <p className="site00-label" style={{ marginTop: 8 }}>

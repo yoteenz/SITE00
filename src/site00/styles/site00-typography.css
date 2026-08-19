@@ -208,6 +208,16 @@ a.site00-btn-ghost:active {
 .site00-state-page__subhead {
   font-weight: var(--site00-weight-heading);
   color: var(--site-text);
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  .site00-state-page--evolve .site00-state-page__subhead {
+    max-width: none;
+    white-space: nowrap;
+  }
 }
 
 /* ─── Mono / system IDs / numerics ─── */

@@ -676,3 +676,9 @@
   min-height: 100dvh;
   overflow: hidden;
 }
+
+/** Evolve state — subhead on one row (desktop artboard). */
+.site00-desktop-artboard .site00-state-page--evolve .site00-state-page__subhead {
+  max-width: none;
+  white-space: nowrap;
+}
