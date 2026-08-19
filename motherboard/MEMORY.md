@@ -812,3 +812,11 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
   - CSS: 5-column grid, icon slot, artboard-pinned nav in laptop Mobile preview.
 - **Branch:** `cursor/mobile-nav-geometric-icons-796f`.
 
+---
+
+## 2026-08-19 — Locations directory spine through journal + my sites dots
+
+- **Request:** Gray spine line should reach middle of JOURNAL card with red dot; MY SITES missing red dot in YOUR SPACE section.
+- **Fix:** `DirectorySpine` height now extends to last card vertical center (`cardMaxHeightPx`); red nodes at first + last card anchors per section. Node CSS uses `translate(-50%, -50%)` for center alignment.
+- **Branch:** `cursor/locations-spine-journal-mysites-796f`.
+
