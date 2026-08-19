@@ -812,3 +812,11 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
   - CSS: 5-column grid, icon slot, artboard-pinned nav in laptop Mobile preview.
 - **Branch:** `cursor/mobile-nav-geometric-icons-796f`.
 
+---
+
+## 2026-08-19 — Mobile nav PNG icons (Supabase NAV assets)
+
+- **Request:** Update mobile bottom-nav icons to approved Supabase PNGs for ORIGIN, IDNTY, LOCATIONS, PROJECTS, CTRL ROOM.
+- **Fix:** `mobile-nav-icons.ts` + `Site00MobileNavAssetIcon`; `MobileSiteNavigation` renders PNGs via `resolveSite00PublicAsset` (`live-preview/site00/NAV/*.png`). Legacy SVG components retained but unused in nav.
+- **Branch:** `cursor/mobile-nav-png-icons-796f`.
+
