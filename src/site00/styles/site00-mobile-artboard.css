@@ -113,7 +113,7 @@
 
 .site00-mobile-artboard .site00-origin-page--mobile-layout .site00-status-strip__metrics {
   width: 100%;
-  max-width: 100%;
+  max-width: none;
 }
 
 /** Enter — pin status strip to artboard bottom (not browser viewport). */
