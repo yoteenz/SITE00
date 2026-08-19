@@ -53,7 +53,7 @@ export const SITE00_ENVIRONMENTS: Record<EnvironmentId, EnvironmentConfig> = {
     id: 'ORIGIN_ENVIRONMENT',
     desktopAssetPath: SITE00_ORIGIN_DESKTOP_BACKGROUND_PATH,
     mobileAssetPath: SITE00_ORIGIN_MOBILE_BACKGROUND_PATH,
-    desktopPosition: 'center center',
+    desktopPosition: 'center 30%',
     mobilePosition: 'center center',
     desktopScale: 1,
     mobileScale: 1,

@@ -217,3 +217,10 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 ## 2026-08-19 — ENTER focal 75%
 
 - **Request:** Try **75%** (was 65%) for all Enter desktop focal breakpoints. Origin desktop bg remains **`center center`** (50% / 50%) in `environments.ts` — no custom Y% focal.
+
+---
+
+## 2026-08-19 — Origin desktop focal 30% + status strip −60% height
+
+- **Origin bg:** `ORIGIN_ENVIRONMENT.desktopPosition` → **`center 30%`** (desktop only; mobile stays `center center`).
+- **Bottom panel:** Origin desktop status strip min-height **56px → 22px** (−60%); cell/guidance padding, avatar, typography/icons scaled **0.4** via `origin-home-composition.ts` tokens + `site00-desktop-artboard.css` (Origin desktop artboard only).

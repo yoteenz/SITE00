@@ -29,6 +29,19 @@ export default function OriginPage() {
     <EnvironmentShell environmentId="ORIGIN_ENVIRONMENT">
       <div
         className={`site00-origin-page ${isDesktopArtboardLayout ? 'site00-origin-page--desktop-artboard' : 'site00-origin-page--mobile-layout'}`.trim()}
+        style={
+          isDesktopArtboardLayout
+            ? {
+                ['--site00-origin-status-strip-min-height' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.statusStripMinHeightPx}px`,
+                ['--site00-origin-status-strip-cell-padding-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.statusStripCellPaddingYPx}px`,
+                ['--site00-origin-status-strip-guidance-padding-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.statusStripGuidancePaddingYPx}px`,
+                ['--site00-origin-status-strip-guidance-avatar' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.statusStripGuidanceAvatarPx}px`,
+                ['--site00-origin-status-strip-content-scale' as string]: String(
+                  SITE00_ORIGIN_DESKTOP_COMPOSITION.statusStripContentScale,
+                ),
+              }
+            : undefined
+        }
       >
         <Site00AppShell
           locationLabel={SITE00_ORIGIN_COPY.locationLabel}

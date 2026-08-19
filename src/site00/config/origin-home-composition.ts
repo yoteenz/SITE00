@@ -45,6 +45,13 @@ export const SITE00_ORIGIN_DESKTOP_COMPOSITION = {
   expandedPanelScale: 0.74375,
   /** Framework pillar PNG size on expanded panels (32px base × 1.2). */
   frameworkIconSizePx: 38.4,
+  /** Bottom status strip — desktop artboard (56px baseline −60% height). */
+  statusStripMinHeightPx: 22,
+  statusStripCellPaddingYPx: 3,
+  statusStripGuidancePaddingYPx: 3,
+  statusStripGuidanceAvatarPx: 11,
+  /** Typography / icon scale inside status strip cells (0.4 = −60%). */
+  statusStripContentScale: 0.4,
 } as const;
 
 /** @deprecated Use SITE00_ORIGIN_DESKTOP_COMPOSITION */
