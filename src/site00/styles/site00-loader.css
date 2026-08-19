@@ -545,11 +545,6 @@
   flex-direction: column;
 }
 
-/* Footer 00 asset + red SITE 00 label — 6px up overlay nudge. */
-.site00-immersive-loader .site00-loader-copy-region--signature {
-  transform: translateY(calc(54px / var(--loader-scale, 1)));
-}
-
 .site00-loader-copy-region--eyebrow,
 .site00-loader-copy-region--title,
 .site00-loader-copy-region--subtitle {
@@ -576,19 +571,24 @@
   transform: translateY(calc(86px / var(--loader-scale, 1)));
 }
 
-.site00-loader-copy__eyebrow {
+.site00-immersive-loader .site00-loader-copy__eyebrow {
   margin: 0;
+  font-family: var(--site00-font-label);
   font-size: calc(
     var(--site00-size-label) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) + 4px
   );
   font-weight: var(--site00-weight-label);
+  font-stretch: var(--site00-font-stretch-default);
   letter-spacing: var(--site00-tracking-label);
   line-height: var(--site00-lh-label);
+  text-transform: uppercase;
+  color: var(--site-red, #e8192c);
   white-space: nowrap;
 }
 
-.site00-loader-copy__title {
+.site00-immersive-loader .site00-loader-copy__title {
   margin: calc(var(--site00-stack-sm) / var(--loader-scale, 1)) 0 0;
+  font-family: var(--site00-font-display);
   font-size: calc(
     var(--site00-size-display-lg) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) + 2px
   );
@@ -596,19 +596,38 @@
   font-stretch: var(--site00-font-stretch-display);
   letter-spacing: var(--site00-tracking-display);
   line-height: var(--site00-lh-display-tight);
+  text-transform: uppercase;
   color: var(--site-text, #0a0a0a);
+  max-width: 100%;
+}
+
+.site00-immersive-loader .site00-loader-copy__subtitle {
+  margin: calc(var(--site00-stack-md) / var(--loader-scale, 1)) 0 0;
+  font-family: var(--site00-font-body);
+  font-size: calc(
+    var(--site00-size-body) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) + 4px
+  );
+  font-weight: var(--site00-weight-body);
+  font-stretch: var(--site00-font-stretch-default);
+  letter-spacing: var(--site00-tracking-body);
+  line-height: var(--site00-lh-body);
+  text-transform: uppercase;
+  color: var(--site-text-muted, #6b6b6b);
+  white-space: nowrap;
+}
+
+.site00-loader-copy__eyebrow {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.site00-loader-copy__title {
+  margin: calc(var(--site00-stack-sm) / var(--loader-scale, 1)) 0 0;
   max-width: 100%;
 }
 
 .site00-loader-copy__subtitle {
   margin: calc(var(--site00-stack-md) / var(--loader-scale, 1)) 0 0;
-  font-size: calc(
-    var(--site00-size-body) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) + 4px
-  );
-  font-weight: var(--site00-weight-body);
-  letter-spacing: var(--site00-tracking-body);
-  line-height: var(--site00-lh-body);
-  color: var(--site-text-muted, #6b6b6b);
   white-space: nowrap;
 }
 
@@ -685,7 +704,7 @@
   white-space: nowrap;
 }
 
-.site00-loader-copy__signature {
+.site00-immersive-loader .site00-loader-copy__signature {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -693,6 +712,8 @@
   gap: 4px;
   width: 100%;
   height: 100%;
+  /* 6px up — inner overlay nudge (negative = up), independent of region transform. */
+  transform: translateY(calc(-6px / var(--loader-scale, 1)));
 }
 
 .site00-loader-copy__mark-img {
