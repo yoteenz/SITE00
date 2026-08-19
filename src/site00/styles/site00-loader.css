@@ -566,21 +566,21 @@
   transform: translateY(calc(-4px / var(--loader-scale, 1)));
 }
 
-/* Assembling status — 20px up from prior overlay nudge. */
+/* Assembling status — 40px total overlay nudge (20px up from prior). */
 .site00-immersive-loader .site00-loader-copy-region--status {
-  transform: translateY(calc(60px / var(--loader-scale, 1)));
+  transform: translateY(calc(40px / var(--loader-scale, 1)));
   overflow: visible;
 }
 
-/* Progress bar — 20px up from prior overlay nudge. */
+/* Progress bar — 38px total overlay nudge (20px up from prior). */
 .site00-immersive-loader .site00-loader-copy-region--progress-track,
 .site00-immersive-loader .site00-loader-copy-region--progress-pct {
-  transform: translateY(calc(58px / var(--loader-scale, 1)));
+  transform: translateY(calc(38px / var(--loader-scale, 1)));
 }
 
-/* Tagline — 20px up from prior base nudge. */
+/* Tagline — 20px total overlay nudge (20px up from prior). */
 .site00-immersive-loader .site00-loader-copy-region--tagline {
-  transform: translateY(calc(40px / var(--loader-scale, 1)));
+  transform: translateY(calc(20px / var(--loader-scale, 1)));
   overflow: visible;
 }
 
