@@ -163,6 +163,12 @@
   top: var(--site00-origin-hero-desc3-offset-y, 0px);
 }
 
+/** Desktop — full “every site… starts here” sentence on one row. */
+.site00-desktop-artboard .site00-home-hero__line--desc-online {
+  top: var(--site00-origin-hero-desc2-offset-y, 0px);
+  white-space: nowrap;
+}
+
 .site00-desktop-artboard .site00-home-hero__coordinate {
   top: var(--site00-origin-hero-coordinate-offset-y, 0px);
   margin-top: 20px;
