@@ -70,20 +70,6 @@ export function resolveSite00LoaderAnimationFocal(presentation: 'mobile' | 'desk
     : SITE00_LOADER_MEDIA_FOCAL.animation.mobile;
 }
 
-/** Seed document-level focal tokens (boot shell + /loader-preview inspection parity). */
-export function syncSite00LoaderFocalDocumentVars(presentation?: 'mobile' | 'desktop'): void {
-  if (typeof document === 'undefined') return;
-  const mode = presentation ?? resolveSite00LoaderMediaPresentation();
-  document.documentElement.style.setProperty(
-    '--site00-loader-bg-focal',
-    resolveSite00LoaderBackgroundFocal(mode),
-  );
-  document.documentElement.style.setProperty(
-    '--site00-loader-animation-focal',
-    resolveSite00LoaderAnimationFocal(mode),
-  );
-}
-
 /** @deprecated Use resolveSite00LoaderBackgroundFocal / resolveSite00LoaderAnimationFocal */
 export function resolveSite00LoaderMediaFocal(presentation: 'mobile' | 'desktop'): string {
   return resolveSite00LoaderBackgroundFocal(presentation);

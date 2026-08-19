@@ -1,6 +1,6 @@
 import { shouldShowSite00ImmersiveLoader } from './site00LoaderSession';
 import { isSite00ImmersivePath } from './site00LoaderPaths';
-import { resolveSite00LoaderBackgroundUrl, resolveSite00LoaderAnimationPreloadUrl, resolveSite00LoaderMediaPresentation, resolveSite00LoaderBackgroundFocal, resolveSite00LoaderFooterMarkUrl, syncSite00LoaderFocalDocumentVars } from './site00LoaderMedia';
+import { resolveSite00LoaderBackgroundUrl, resolveSite00LoaderAnimationPreloadUrl, resolveSite00LoaderMediaPresentation, resolveSite00LoaderBackgroundFocal, resolveSite00LoaderFooterMarkUrl } from './site00LoaderMedia';
 import { preloadSite00LoaderAnimation, preloadSite00LoaderBackground } from './site00LoaderPreload';
 
 const BOOT_CLASS = 'site00-assts-boot';
@@ -31,7 +31,6 @@ function ensureBootShell(): void {
   const bootPresentation = resolveSite00LoaderMediaPresentation();
   const bootBg = resolveSite00LoaderBackgroundUrl(bootPresentation);
   const bootFocal = resolveSite00LoaderBackgroundFocal(bootPresentation);
-  syncSite00LoaderFocalDocumentVars(bootPresentation);
   shell.style.setProperty('--site00-loader-bg-focal', bootFocal);
   shell.innerHTML = `<div class="site00-assts-boot-shell__env" style="background-image:url('${bootBg}');background-position:${bootFocal}"></div>`;
   document.body.appendChild(shell);

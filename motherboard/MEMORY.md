@@ -652,3 +652,11 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Root cause of mismatch:** Debug/inspection URLs typically use `?loaderDebug=1&forceCopy=1` (copy visible from start — only MP4 fades in). Plain `/loader-preview` hid copy until animation start (`701f2ca`), so copy + video appearing together read as “animation shift”. Preview also skipped boot path and never seeded focal document vars.
 - **Fix:** `/loader-preview` defaults `forceCopyActive` (opt out `?forceCopy=0`); seeds focal vars + clears stale boot shell; boot shell teardown deferred until animation playing; media debug label shows BG/ANIM focal. PR #80.
 
+---
+
+## 2026-08-19 — Loader progress bar sprinting to 100% early
+
+- **Issue:** Progress bar hit ~100% while environment animation still playing — marked done but still loading.
+- **Root cause:** `creepLoaderProgress` used a bogus `* 60` multiplier (~480%/sec); after preload tasks finished (floor 82), creep ceiling was 99.99 so bar sprinted to 100 during the 4.2s cinematic hold before `forceComplete`.
+- **Fix:** Linear creep (~5.7 pts/s); cap pre-complete ceiling at **98** until gate calls `forceComplete`. Bar reaches high-90s over ~2.8s then holds until exit. PR #80.
+
