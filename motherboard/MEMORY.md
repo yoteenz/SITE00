@@ -129,3 +129,12 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 - **Issue:** Bottom status panel (metrics + NEED GUIDANCE) disappeared when toggling Mobile/Desktop on wide viewports.
 - **Cause:** Mobile strip CSS was inside `@media (max-width: 767px)` but layout switch uses class `.site00-origin-page--mobile-layout` at any width; desktop artboard could clip footer when scaled height exceeded viewport.
 - **Fix (PR #10 → main):** Class-scoped mobile layout rules; explicit desktop-artboard strip visibility; Origin artboard `min(scaleW, scaleH)` (Enter keeps `scaleW`); flex pin footer in artboard column.
+
+---
+
+## 2026-08-19 — ENTER 00 desktop bg: reveal couch (lower focal Y%)
+
+- **Request:** Show more of image bottom (couch not cut off), less empty top — shift image up inside locked cover container only; no scroll, no letterbox, no viewport changes.
+- **Clarification:** Lower `background-position` Y% shifts image up in cover mode, cropping top empty architecture first.
+- **Change:** Default `center 24%` (was 32%); short desktop `20%`; tall `28%`; ultrawide `26%`. `environments.ts` `desktopPosition` synced. Locked rules unchanged (100dvh, overflow hidden, cover).
+- **PR:** `cursor/enter-bg-show-couch-796f` — tune further in ~18–30% if couch still clips.
