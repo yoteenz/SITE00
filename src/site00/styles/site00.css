@@ -1170,7 +1170,7 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
   }
 
   .site00-enter-page .site00-enter-welcome {
-    transform: translate(-240px, -60px);
+    transform: translate(-240px, -140px);
   }
 
   .site00-enter-page .site00-enter-welcome__body {
