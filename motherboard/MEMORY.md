@@ -733,3 +733,17 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Branch:** `cursor/loader-desktop-copy-parity-796f`.
 - **Inspect:** `/loader-preview?forceCopy=1` on wide viewport — copy positions should match mobile.
 
+---
+
+## 2026-08-19 — Loader animation: play once, hold opening frame, focal alignment
+
+- **Request:** Fix loading **animation** (not text overlay) — play once through build, hold on opening frame, align video focal with static layer; no visual loop/restart.
+- **Root causes:** MP4 `loop={true}` reset timeline; static stripped on first play while video at frame 0; mobile anim focal `center 40%` vs static `center center`; gate used wall-clock hold unrelated to video timeline.
+- **Fix:**
+  - `Site00LoaderAnimation`: `loop={false}`; `timeupdate` pauses at 50% duration (`site00LoaderAnimationPlayback.ts`); `onOpeningHold` callback.
+  - `ImmersiveLoaderMedia`: static layer strips on opening hold (not first play); video uses **background focal** (both `center center`).
+  - `Site00WorldColdStartGate` + `AsstsColdStartGate`: `waitForLoaderAnimationOpeningHold` + `waitForOpeningFrameHold` (1.8s min dwell) replace `waitForMinCinematicHold`.
+  - `SITE00_LOADER_MEDIA_FOCAL.animation.mobile` → `center center`.
+- **Branch:** `cursor/loader-animation-play-once-796f`.
+- **Inspect:** `/loader-preview?forceCopy=1&loaderMediaDebug=1` — build plays once, holds ~5s mark, no loop jump.
+
