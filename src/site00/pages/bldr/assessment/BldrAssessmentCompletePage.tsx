@@ -47,12 +47,14 @@ export default function BldrAssessmentCompletePage({ classSlug }: BldrAssessment
             {action.label}
           </Link>
         ))}
-        <Link to={SITE00_ROUTES.bldrState} className="site00-idnty-assessment__btn-secondary">
-          RETURN TO BLDR
-        </Link>
-        <Link to={SITE00_ROUTES.signIn} className="site00-idnty-assessment__btn-secondary">
-          SIGN IN TO SAVE
-        </Link>
+        <div className="site00-idnty-complete-actions__secondary-row">
+          <Link to={SITE00_ROUTES.bldrState} className="site00-idnty-assessment__btn-secondary">
+            RETURN TO BLDR
+          </Link>
+          <Link to={SITE00_ROUTES.signIn} className="site00-idnty-assessment__btn-secondary">
+            SIGN IN TO SAVE
+          </Link>
+        </div>
       </div>
     </div>
   );
