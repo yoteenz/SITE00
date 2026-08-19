@@ -1318,6 +1318,10 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
   color: var(--site-text-muted);
 }
 
+.site00-enter-menu .site00-enter-row__number {
+  color: var(--site-red);
+}
+
 .site00-enter-row__copy {
   min-width: 0;
 }
