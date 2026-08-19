@@ -8,6 +8,12 @@
   background: #fff;
 }
 
+.site00-auth-shell *,
+.site00-auth-shell *::before,
+.site00-auth-shell *::after {
+  box-sizing: border-box;
+}
+
 .site00-auth-shell__desktop {
   display: none;
 }
@@ -267,10 +273,15 @@
 
 .site00-signin-form__password-wrap {
   position: relative;
+  width: 100%;
+  max-width: 100%;
   margin-bottom: 8px;
 }
 
 .site00-signin-form__input--password {
+  display: block;
+  width: 100%;
+  max-width: 100%;
   padding-right: 64px;
   margin-bottom: 0;
   text-transform: none;
