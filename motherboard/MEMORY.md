@@ -785,3 +785,16 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 - **Fix:** `.site00-fast-travel__current-descriptor` (e.g. **NAVIGATE THE ECOSYSTEM.**) now uses `var(--site-red)` instead of `var(--site-text-muted)`.
 - **Branch:** `cursor/fast-travel-current-location-red-796f`.
 
+---
+
+## 2026-08-19 — Laptop Mobile preview: 1:1 phone screen, no clip
+
+- **Issue:** Mobile toggle on laptop showed phone device frame but Origin content was clipped — hero tagline truncated on right, bottom status/guidance overlapped home-indicator chin. Preview did not match real 390×844 phone.
+- **Root causes:** (1) Artboard content was `transform: scale()` inside a smaller clip box — layout box (390×844) overflowed scaled scaler and `overflow:hidden` cropped edges. (2) `position: fixed` footer still anchored to browser viewport in mobile artboard. (3) Typography tokens using `vw` resolved against laptop browser width inside frame — headline/tagline oversized vs real phone.
+- **Fix:**
+  - Scale the **entire phone device frame** to fit viewport; screen content stays **1:1 at 390×844** (no artboard transform).
+  - `Site00AppShell` pins footer `absolute` when `useSite00MobileArtboardPreview()`.
+  - Mobile-artboard CSS: re-anchor fixed Origin UI (hero, swipe, footer) to artboard; lock typography tokens to 390px-phone clamp floors.
+  - Origin mobile hero max-width widened slightly (`min(60vw/60%, 252px)`) for tagline fit.
+- **Branch:** `cursor/mobile-device-preview-fit-796f`.
+
