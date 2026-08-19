@@ -736,8 +736,8 @@
   gap: 4px;
   width: 100%;
   height: 100%;
-  /* 14px up — inner overlay nudge (negative = up), 00 asset + SITE label. */
-  transform: translateY(calc(-14px / var(--loader-scale, 1)));
+  /* 26px up — inner overlay nudge (negative = up), 00 asset + SITE label. */
+  transform: translateY(calc(-26px / var(--loader-scale, 1)));
 }
 
 .site00-loader-copy__mark-img {
