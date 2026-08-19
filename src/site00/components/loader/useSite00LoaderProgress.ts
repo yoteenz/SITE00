@@ -18,7 +18,7 @@ export function useSite00LoaderProgress(
   const stageMap = useMemo(() => new Map(stages.map((s) => [s.id, s])), [stages]);
   const completedRef = useRef<Set<string>>(new Set());
   const [progress, setProgress] = useState(0);
-  const [statusLabel, setStatusLabel] = useState(stages[0]?.label ?? 'INITIALIZING SITE 00');
+  const [statusLabel, setStatusLabel] = useState('');
   const [loaderState, setLoaderState] = useState<Site00LoaderState>(stages[0]?.state ?? 'BOOTSTRAP');
   const [isComplete, setIsComplete] = useState(false);
 

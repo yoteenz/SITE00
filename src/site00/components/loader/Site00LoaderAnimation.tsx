@@ -42,8 +42,26 @@ export function Site00LoaderAnimation({
     if (readyRef.current) return;
     readyRef.current = true;
     setMediaReady(true);
-    loaderLifecycleLog('ANIMATION_CANPLAY');
+    loaderLifecycleLog('ANIMATION_PLAYING');
     onReady?.();
+  };
+
+  const handleCanPlay = () => {
+    const video = videoRef.current;
+    if (video) {
+      enforceSite00LoaderVideoSilent(video);
+      if (!reducedMotion) {
+        void video.play().catch(() => undefined);
+      } else {
+        signalReady();
+      }
+    }
+  };
+
+  const handlePlaying = () => {
+    const video = videoRef.current;
+    if (video) enforceSite00LoaderVideoSilent(video);
+    signalReady();
   };
 
   useEffect(() => {
@@ -79,23 +97,13 @@ export function Site00LoaderAnimation({
       } catch {
         /* ignore */
       }
+      signalReady();
     } else {
       void video.play().catch(() => undefined);
     }
 
     return unbindSilent;
   }, [reducedMotion, sourceUrl]);
-
-  const handleCanPlay = () => {
-    const video = videoRef.current;
-    if (video) {
-      enforceSite00LoaderVideoSilent(video);
-      if (!reducedMotion) {
-        void video.play().catch(() => undefined);
-      }
-    }
-    signalReady();
-  };
 
   const handleError = (event: unknown) => {
     loaderLifecycleLog('ANIMATION_ERROR', { event });
@@ -150,6 +158,7 @@ export function Site00LoaderAnimation({
         style={{ objectPosition: mediaFocal }}
         onLoadedData={handleCanPlay}
         onCanPlay={handleCanPlay}
+        onPlaying={handlePlaying}
         onError={handleError}
       />
     </div>

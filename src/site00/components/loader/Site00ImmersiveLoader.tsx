@@ -35,6 +35,8 @@ type Site00ImmersiveLoaderProps = {
   onExitComplete?: () => void;
   error?: boolean;
   onRetry?: () => void;
+  /** Inspect surfaces — reveal copy/progress without waiting for animation playback. */
+  forceCopyActive?: boolean;
 };
 
 function usePrefersReducedMotion(): boolean {
@@ -70,6 +72,7 @@ function ImmersiveLoaderBody({
   onExitComplete,
   error = false,
   onRetry,
+  forceCopyActive = false,
   uiPresentation,
   mediaPresentation,
   backgroundUrl,
@@ -81,6 +84,23 @@ function ImmersiveLoaderBody({
   const debug = isLoaderDebugEnabled();
   const animationEnabled = isLoaderAnimationEnabled();
   const mediaDebug = isLoaderMediaDebugEnabled();
+  const [copyActive, setCopyActive] = useState(forceCopyActive || !animationEnabled || reducedMotion);
+
+  useEffect(() => {
+    if (forceCopyActive || !animationEnabled || reducedMotion) {
+      setCopyActive(true);
+    }
+  }, [forceCopyActive, animationEnabled, reducedMotion]);
+
+  useEffect(() => {
+    if (copyActive || !animationEnabled) return;
+    const fallbackMs = 8000;
+    const timer = window.setTimeout(() => {
+      setCopyActive(true);
+      onAnimationReady?.();
+    }, fallbackMs);
+    return () => window.clearTimeout(timer);
+  }, [animationEnabled, copyActive, onAnimationReady]);
 
   useEffect(() => {
     loaderLifecycleLog('LOADER_MOUNTED', { path: window.location.pathname, uiPresentation, mediaPresentation });
@@ -109,10 +129,11 @@ function ImmersiveLoaderBody({
     };
   }, [backgroundUrl, mediaPresentation]);
 
-  const handleAnimationReady = () => {
+  const handleAnimationReady = useCallback(() => {
+    setCopyActive(true);
     loaderLifecycleLog('ANIMATION_CANPLAY');
     onAnimationReady?.();
-  };
+  }, [onAnimationReady]);
 
   const handleAnimationError = (detail: unknown) => {
     loaderLifecycleLog('ANIMATION_ERROR', detail);
@@ -126,11 +147,13 @@ function ImmersiveLoaderBody({
 
   const atComplete = isComplete || phase === 'complete-hold' || progress >= 100;
   const progressLabel = error ? 'RETRY REQUIRED' : atComplete ? config.completionMessage : config.assemblingLabel;
+  const displayProgress = copyActive ? progress : 0;
 
   const rootClass = [
     'site00-immersive-loader',
     uiPresentation === 'desktop' ? 'site00-immersive-loader--desktop' : 'site00-immersive-loader--mobile',
     mediaPresentation === 'desktop' ? 'site00-immersive-loader--media-desktop' : 'site00-immersive-loader--media-mobile',
+    copyActive ? 'site00-immersive-loader--copy-active' : '',
     phase === 'exiting' ? 'site00-immersive-loader--exiting' : '',
     phase === 'complete-hold' ? 'site00-immersive-loader--complete' : '',
     error ? 'site00-immersive-loader--error' : '',
@@ -184,8 +207,8 @@ function ImmersiveLoaderBody({
           tagline={config.tagline}
           footerMark={config.footerMark}
           footerLabel={config.footerLabel}
-          progress={error ? 0 : progress}
-          progressLabel={progressLabel}
+          progress={error ? 0 : displayProgress}
+          progressLabel={copyActive ? progressLabel : ''}
         />
 
         {error && onRetry ? (

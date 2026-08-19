@@ -32,6 +32,8 @@ export default function LoaderPreviewPage() {
 
   useEffect(() => acquireLoadingScreenDocumentLock(), []);
 
+  const forceCopyActive = params.get('forceCopy') === '1';
+
   return (
     <Site00ImmersiveLoader
       config={config}
@@ -40,6 +42,7 @@ export default function LoaderPreviewPage() {
       loaderState={isComplete ? 'READY' : 'ASSEMBLING'}
       isComplete={isComplete}
       phase={phase}
+      forceCopyActive={forceCopyActive}
     />
   );
 }
