@@ -221,8 +221,12 @@
   margin: 0 auto;
 }
 
-.site00-desktop-artboard .site00-enter-welcome {
-  transform: translateX(-20px);
+.site00-desktop-artboard .site00-enter-page .site00-enter-welcome {
+  transform: translate(-40px, -60px);
+}
+
+.site00-desktop-artboard .site00-enter-page .site00-enter-welcome__body {
+  white-space: nowrap;
 }
 
 .site00-desktop-artboard .site00-enter-menu {
