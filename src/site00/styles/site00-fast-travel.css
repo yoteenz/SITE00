@@ -305,7 +305,8 @@
     letter-spacing: 0.05em;
     line-height: 1.35;
     text-transform: uppercase;
-    color: var(--site-text-muted);
+    color: var(--site-red);
+    white-space: nowrap;
   }
 
   .site00-directory-exit,
