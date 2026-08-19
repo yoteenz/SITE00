@@ -54,9 +54,23 @@ export function resolveSite00LoaderMediaPresentation(): 'mobile' | 'desktop' {
   return getSite00OriginWideViewportSnapshot() ? 'desktop' : 'mobile';
 }
 
-/** Shared object-position / background-position for loader static + animation layers. */
+/** Static background cover anchor — tuned down to match animation framing. */
+export function resolveSite00LoaderBackgroundFocal(presentation: 'mobile' | 'desktop'): string {
+  return presentation === 'desktop'
+    ? SITE00_LOADER_MEDIA_FOCAL.background.desktop
+    : SITE00_LOADER_MEDIA_FOCAL.background.mobile;
+}
+
+/** Animation cover anchor — locked center; bg layer is pre-shifted to meet it. */
+export function resolveSite00LoaderAnimationFocal(presentation: 'mobile' | 'desktop'): string {
+  return presentation === 'desktop'
+    ? SITE00_LOADER_MEDIA_FOCAL.animation.desktop
+    : SITE00_LOADER_MEDIA_FOCAL.animation.mobile;
+}
+
+/** @deprecated Use resolveSite00LoaderBackgroundFocal / resolveSite00LoaderAnimationFocal */
 export function resolveSite00LoaderMediaFocal(presentation: 'mobile' | 'desktop'): string {
-  return presentation === 'desktop' ? SITE00_LOADER_MEDIA_FOCAL.desktop : SITE00_LOADER_MEDIA_FOCAL.mobile;
+  return resolveSite00LoaderBackgroundFocal(presentation);
 }
 
 /** Reference map for artboard overlay test — falls back to approved background. */

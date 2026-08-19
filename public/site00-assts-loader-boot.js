@@ -26,13 +26,13 @@
   var animation = isWide
     ? storageBase + 'BLDR/openart-output_1787109389654_e04aea07.mp4'
     : storageBase + 'BLDR/openart-output_1787107938282_745c8292.mp4';
-  var mediaFocal = 'center 75%';
+  var bgFocal = isWide ? 'center center' : 'center 40%';
 
   function applyBootEnvStyle(env) {
     if (!env) return;
     env.style.backgroundImage = "url('" + bg + "')";
-    env.style.backgroundPosition = mediaFocal;
-    env.style.setProperty('--site00-loader-media-focal', mediaFocal);
+    env.style.backgroundPosition = bgFocal;
+    env.style.setProperty('--site00-loader-bg-focal', bgFocal);
   }
 
   function preload(href, as) {
@@ -62,12 +62,12 @@
     nextShell.id = 'site00-assts-boot-shell';
     nextShell.className = 'site00-assts-boot-shell';
     nextShell.setAttribute('aria-hidden', 'true');
-    nextShell.style.setProperty('--site00-loader-media-focal', mediaFocal);
+    nextShell.style.setProperty('--site00-loader-bg-focal', bgFocal);
     nextShell.innerHTML =
       '<div class="site00-assts-boot-shell__env" style="background-image:url(\'' +
       bg +
       "');background-position:" +
-      mediaFocal +
+      bgFocal +
       '"></div>';
 
     var mountTarget = document.body || document.documentElement;

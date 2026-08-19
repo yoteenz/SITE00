@@ -351,7 +351,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: var(--site00-loader-media-focal, center center);
+  object-position: var(--site00-loader-bg-focal, center center);
   opacity: 1;
   background: transparent;
 }
@@ -359,12 +359,12 @@
 /* Desktop landscape master — BLDR 16:9 static environment */
 .site00-loader-env--cover-landscape .site00-loader-env__img {
   object-fit: cover;
-  object-position: var(--site00-loader-media-focal, center center);
+  object-position: var(--site00-loader-bg-focal, center center);
 }
 
 .site00-immersive-loader--media-desktop .site00-loader-env--cover-landscape .site00-loader-env__img {
   object-fit: cover;
-  object-position: var(--site00-loader-media-focal, center center);
+  object-position: var(--site00-loader-bg-focal, center center);
 }
 
 /* Layer 2 — full-frame environment animation (matches static background geometry) */
@@ -398,7 +398,7 @@
 
 .site00-loader-animation--environment {
   object-fit: cover;
-  object-position: var(--site00-loader-media-focal, center center);
+  object-position: var(--site00-loader-animation-focal, center center);
   mix-blend-mode: normal;
   background: transparent;
 }
@@ -420,18 +420,18 @@
 /* Portrait master — 1312×2816 aligns with 711×1536 static background (mobile only) */
 .site00-loader-animation--environment-mobile {
   object-fit: cover;
-  object-position: var(--site00-loader-media-focal, center center);
+  object-position: var(--site00-loader-animation-focal, center center);
 }
 
 /* Landscape master — 2560×1440 aligns with BLDR desktop static background */
 .site00-loader-animation--environment-desktop {
   object-fit: cover;
-  object-position: var(--site00-loader-media-focal, center center);
+  object-position: var(--site00-loader-animation-focal, center center);
 }
 
 .site00-immersive-loader--media-desktop .site00-loader-animation--environment-desktop {
   object-fit: cover;
-  object-position: var(--site00-loader-media-focal, center center);
+  object-position: var(--site00-loader-animation-focal, center center);
 }
 
 .site00-loader-animation--ready {

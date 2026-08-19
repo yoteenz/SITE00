@@ -130,7 +130,7 @@ export function Site00LoaderAnimation({
       className={layerClass}
       data-media-ready={mediaReady ? '1' : '0'}
       data-loader-video-src={sourceUrl}
-      style={{ zIndex: 1, ['--site00-loader-media-focal' as string]: mediaFocal }}
+      style={{ zIndex: 1, ['--site00-loader-animation-focal' as string]: mediaFocal }}
       aria-hidden="true"
     >
       <video

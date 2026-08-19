@@ -49,7 +49,7 @@ export function Site00LoaderEnvironment({
     <div
       className={envClass}
       aria-hidden="true"
-      style={{ ['--site00-loader-media-focal' as string]: mediaFocal }}
+      style={{ ['--site00-loader-bg-focal' as string]: mediaFocal }}
     >
       <img
         ref={imgRef}
