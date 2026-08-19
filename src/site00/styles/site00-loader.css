@@ -580,6 +580,7 @@
 /* Tagline — 20px up from prior base nudge. */
 .site00-immersive-loader .site00-loader-copy-region--tagline {
   transform: translateY(calc(40px / var(--loader-scale, 1)));
+  overflow: visible;
 }
 
 .site00-immersive-loader .site00-loader-copy__eyebrow {
