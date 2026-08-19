@@ -248,6 +248,7 @@
   min-height: 100dvh;
   min-height: 100lvh;
   --loader-scale: 1;
+  --loader-copy-size-bump: 4px;
   isolation: isolate;
 }
 
@@ -568,7 +569,7 @@
 
 .site00-loader-copy__eyebrow {
   margin: 0;
-  font-size: calc(var(--site00-size-label) / var(--loader-scale, 1));
+  font-size: calc(var(--site00-size-label) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px));
   font-weight: var(--site00-weight-label);
   letter-spacing: var(--site00-tracking-label);
   line-height: var(--site00-lh-label);
@@ -577,7 +578,7 @@
 
 .site00-loader-copy__title {
   margin: calc(var(--site00-stack-sm) / var(--loader-scale, 1)) 0 0;
-  font-size: calc(var(--site00-size-display-lg) / var(--loader-scale, 1));
+  font-size: calc(var(--site00-size-display-lg) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px));
   font-weight: var(--site00-weight-display);
   font-stretch: var(--site00-font-stretch-display);
   letter-spacing: var(--site00-tracking-display);
@@ -588,7 +589,7 @@
 
 .site00-loader-copy__subtitle {
   margin: calc(var(--site00-stack-md) / var(--loader-scale, 1)) 0 0;
-  font-size: calc(var(--site00-size-body) / var(--loader-scale, 1));
+  font-size: calc(var(--site00-size-body) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px));
   font-weight: var(--site00-weight-body);
   letter-spacing: var(--site00-tracking-body);
   line-height: var(--site00-lh-body);
@@ -599,7 +600,7 @@
 .site00-loader-copy__status {
   margin: 0;
   font-family: var(--site00-font-body);
-  font-size: var(--loader-type-status-size, 9px);
+  font-size: calc(var(--loader-type-status-size, 9px) + var(--loader-copy-size-bump, 0px) / var(--loader-scale, 1));
   font-weight: 450;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -629,7 +630,7 @@
 
 .site00-loader-copy__pct {
   font-family: var(--site00-font-numeric);
-  font-size: var(--loader-type-pct-size, 9px);
+  font-size: calc(var(--loader-type-pct-size, 9px) + var(--loader-copy-size-bump, 0px) / var(--loader-scale, 1));
   font-weight: 500;
   font-stretch: var(--site00-font-stretch-numeric);
   letter-spacing: 0.02em;
@@ -651,7 +652,7 @@
 .site00-loader-copy__tagline-plus {
   flex: 0 0 auto;
   font-family: var(--site00-font-heading);
-  font-size: var(--loader-type-tagline-plus-size, 10px);
+  font-size: calc(var(--loader-type-tagline-plus-size, 10px) + var(--loader-copy-size-bump, 0px) / var(--loader-scale, 1));
   font-weight: 500;
   color: var(--site-red, #e8192c);
   line-height: 1;
@@ -660,7 +661,7 @@
 .site00-loader-copy__tagline {
   margin: 0;
   font-family: var(--site00-font-heading);
-  font-size: var(--loader-type-tagline-size, 8px);
+  font-size: calc(var(--loader-type-tagline-size, 8px) + var(--loader-copy-size-bump, 0px) / var(--loader-scale, 1));
   font-weight: 450;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -681,7 +682,7 @@
 
 .site00-loader-copy__mark {
   font-family: var(--site00-font-display);
-  font-size: var(--loader-type-mark-size, 26px);
+  font-size: calc(var(--loader-type-mark-size, 26px) + var(--loader-copy-size-bump, 0px) / var(--loader-scale, 1));
   font-weight: 800;
   font-stretch: var(--site00-font-stretch-display);
   letter-spacing: var(--site00-tracking-display);
@@ -693,7 +694,7 @@
 
 .site00-loader-copy__signature-label {
   font-family: var(--site00-font-heading);
-  font-size: var(--loader-type-signature-size, 9px);
+  font-size: calc(var(--loader-type-signature-size, 9px) + var(--loader-copy-size-bump, 0px) / var(--loader-scale, 1));
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
