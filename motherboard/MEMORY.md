@@ -129,3 +129,12 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 - **Issue:** Bottom status panel (metrics + NEED GUIDANCE) disappeared when toggling Mobile/Desktop on wide viewports.
 - **Cause:** Mobile strip CSS was inside `@media (max-width: 767px)` but layout switch uses class `.site00-origin-page--mobile-layout` at any width; desktop artboard could clip footer when scaled height exceeded viewport.
 - **Fix (PR #10 → main):** Class-scoped mobile layout rules; explicit desktop-artboard strip visibility; Origin artboard `min(scaleW, scaleH)` (Enter keeps `scaleW`); flex pin footer in artboard column.
+
+---
+
+## 2026-08-19 — EVOLVE Origin desktop panel icon (Supabase production asset)
+
+- **Issue:** EVOLVE expanded/collapsed panel on desktop Origin missing red geometric icon.
+- **Cause:** `site00OriginEvolvePanelIconUrl()` still returned local placeholder `/assets/evolve/evolve-master.svg`.
+- **Fix:** Wire to `EVOLVE/9E87E14E-63A7-4ED5-9054-5435136E1768.png` in `origin-panel-icons.ts` (same pattern as IDNTY/BLDR). Asset registry updated.
+- **PR:** `cursor/evolve-origin-panel-icon-796f`
