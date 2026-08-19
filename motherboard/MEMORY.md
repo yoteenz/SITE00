@@ -579,3 +579,10 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Request:** Move ASSEMBLING status, progress bar, and tagline below it upward in tandem 20px (overlay only).
 - **Fix:** Status nudge 60→**40px**, progress track/pct 58→**38px**, tagline 40→**20px**. PR **#72** merged to `main`.
 
+---
+
+## 2026-08-19 — Loader footer signature up 14px
+
+- **Request:** Move 00 PNG asset and red SITE label below it upward in tandem 14px (overlay only).
+- **Fix:** Signature inner `translateY` −26px → **−40px** on `.site00-loader-copy__signature`. PR **#73** merged to `main`.
+
