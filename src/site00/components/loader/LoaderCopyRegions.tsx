@@ -31,7 +31,7 @@ export function LoaderCopyRegions({
       </LoaderRegion>
 
       <LoaderRegion id="copy.title" className="site00-loader-copy-region site00-loader-copy-region--title" allowOverflow>
-        <h1 className="site00-heading-xl site00-loader-copy__title">{title}</h1>
+        <h1 className="site00-heading-lg site00-loader-copy__title">{title}</h1>
       </LoaderRegion>
 
       <LoaderRegion id="copy.subtitle" className="site00-loader-copy-region site00-loader-copy-region--subtitle" allowOverflow>
