@@ -132,6 +132,12 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 
 ---
 
+## 2026-08-19 — Wire ENTER 00 directory menu links to live routes (PR #12)
+
+- **Fix:** Enabled all EXPLORE + YOUR SPACE rows with live `SITE00_ROUTES` hrefs. Account → `/control`. Projects + Account use `requiresAuth`.
+
+---
+
 ## 2026-08-19 — ENTER 00: decouple viewport background from UI artboard (PR #17)
 
 - **Issue:** Enter desktop bg stretched; UI placement drifted when focal/anchor fixes applied together.
