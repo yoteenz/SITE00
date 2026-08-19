@@ -129,3 +129,11 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 - **Issue:** Bottom status panel (metrics + NEED GUIDANCE) disappeared when toggling Mobile/Desktop on wide viewports.
 - **Cause:** Mobile strip CSS was inside `@media (max-width: 767px)` but layout switch uses class `.site00-origin-page--mobile-layout` at any width; desktop artboard could clip footer when scaled height exceeded viewport.
 - **Fix (PR #10 → main):** Class-scoped mobile layout rules; explicit desktop-artboard strip visibility; Origin artboard `min(scaleW, scaleH)` (Enter keeps `scaleW`); flex pin footer in artboard column.
+
+---
+
+## 2026-08-19 — ENTER 00: revert viewport-fixed bg; focal shift only in artboard
+
+- **Issue:** Enter desktop bg looked stretched; bottom status strip clipped. User wanted only `background-position` shift inside locked cover — no scroll, no letterboxing.
+- **Root cause:** `position: fixed` on env layer inside scaled artboard — transform creates a containing block, so bg decoupled from UI and distorted. Changing focal % alone (PR #13) did not fix architecture.
+- **Fix (`cursor/enter-bg-in-artboard-only-796f`):** Remove artboard enter `position: fixed` on env layer; keep bg **absolute inside artboard** with `background-size: cover`. Focal `center 28%` (24% short / 30% tall / 28% ultrawide). Enter artboard scaleW + **bottom anchor** when scaled height exceeds viewport so status strip stays visible.
