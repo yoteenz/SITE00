@@ -560,11 +560,15 @@
   transform: translateY(calc(90px / var(--loader-scale, 1)));
 }
 
-/* Assembling status + progress bar — extra 30px overlay nudge (media unchanged). */
-.site00-immersive-loader .site00-loader-copy-region--status,
+/* Assembling status — extra 30px down, then 10px up overlay nudge. */
+.site00-immersive-loader .site00-loader-copy-region--status {
+  transform: translateY(calc(80px / var(--loader-scale, 1)));
+}
+
+/* Progress bar only — extra 30px down, then 4px up overlay nudge. */
 .site00-immersive-loader .site00-loader-copy-region--progress-track,
 .site00-immersive-loader .site00-loader-copy-region--progress-pct {
-  transform: translateY(calc(90px / var(--loader-scale, 1)));
+  transform: translateY(calc(86px / var(--loader-scale, 1)));
 }
 
 .site00-loader-copy__eyebrow {
@@ -603,7 +607,7 @@
   font-size: calc(var(--loader-type-status-size, 9px) + var(--loader-copy-size-bump, 0px) / var(--loader-scale, 1));
   font-weight: 450;
   letter-spacing: 0.08em;
-  text-transform: uppercase;
+  text-transform: none;
   color: rgba(10, 10, 10, 0.55);
   line-height: var(--site00-lh-label);
   white-space: nowrap;
@@ -678,6 +682,16 @@
   gap: 4px;
   width: 100%;
   height: 100%;
+}
+
+.site00-loader-copy__mark-img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(100%, 72px);
+  max-height: 64px;
+  object-fit: contain;
+  object-position: center bottom;
 }
 
 .site00-loader-copy__mark {

@@ -209,7 +209,6 @@ function ImmersiveLoaderBody({
           title={error ? 'BUILD INTERRUPTED' : config.experienceTitle}
           subtitle={displaySubtitle}
           tagline={config.tagline}
-          footerMark={config.footerMark}
           footerLabel={config.footerLabel}
           progress={error ? 0 : displayProgress}
           progressLabel={copyActive ? progressLabel : ''}
