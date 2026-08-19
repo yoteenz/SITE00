@@ -933,8 +933,8 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
   }
 }
 
-/** Desktop preview toggle on phones — mirror ENTER desktop env rules below 768px. */
-html[data-site00-preview-desktop='1'] .site00-enter-page {
+/** ENTER 00 — always desktop env presentation (refresh-safe; not gated on preview toggle or 768px). */
+.site00-enter-page {
   --site00-enter-header-offset: 96px;
   --site00-enter-status-strip-height: 36px;
   --site00-summary-strip-height: 36px;
@@ -943,50 +943,51 @@ html[data-site00-preview-desktop='1'] .site00-enter-page {
   overflow: hidden;
 }
 
-html[data-site00-preview-desktop='1'] .site00-enter-page .site00-env-layer {
+.site00-enter-page .site00-env-layer {
   inset: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
 
-html[data-site00-preview-desktop='1'] .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'],
-html[data-site00-preview-desktop='1'] .site00-enter-page .site00-env-layer--has-desktop-asset {
+.site00-env-layer--enter-artboard-suppressed,
+.site00-env-layer--viewport-bg-suppressed {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.site00-enter-page .site00-env-layer--has-desktop-asset {
+  background-image: var(--site00-env-desktop-image);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: var(--site00-env-desktop-position, center 75%);
+  transform: scale(var(--site00-env-desktop-scale, 1));
+  transform-origin: center center;
+}
+
+.site00-enter-artboard-viewport-bg,
+.site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'] {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: var(--site00-env-desktop-position, center 75%);
 }
 
-html[data-site00-preview-desktop='1'] .site00-enter-page.site00-shell {
+.site00-enter-page.site00-shell {
   height: 100dvh;
   max-height: 100dvh;
   overflow: hidden;
 }
 
+.site00-enter-page a.site00-btn-ghost,
+.site00-enter-page a.site00-btn-ghost:hover,
+.site00-enter-page a.site00-btn-ghost:focus,
+.site00-enter-page a.site00-btn-ghost:focus-visible,
+.site00-enter-page a.site00-btn-ghost:visited,
+.site00-enter-page a.site00-btn-ghost:active {
+  text-decoration: none;
+}
+
 @media (min-width: 768px) {
-  .site00-enter-page {
-    --site00-enter-header-offset: 96px;
-    --site00-enter-status-strip-height: 36px;
-    --site00-summary-strip-height: 36px;
-    height: 100dvh;
-    max-height: 100dvh;
-    overflow: hidden;
-  }
-
-  /* Desktop ENTER 00 — viewport cover on shell (artboard) or in-flow env; focal via background-position only */
-  .site00-enter-page .site00-env-layer {
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .site00-env-layer--enter-artboard-suppressed,
-  .site00-env-layer--viewport-bg-suppressed {
-    visibility: hidden;
-    pointer-events: none;
-  }
-
   /** All environment viewport / in-flow layers — focal from environments.ts (per env). */
   .site00-environment-viewport-bg,
   .site00-enter-page .site00-env-layer--has-desktop-asset {
@@ -1000,12 +1001,6 @@ html[data-site00-preview-desktop='1'] .site00-enter-page.site00-shell {
   .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'],
   .site00-enter-page .site00-env-layer--has-desktop-asset {
     background-position: var(--site00-env-desktop-position, center 75%);
-  }
-
-  .site00-enter-page.site00-shell {
-    height: 100dvh;
-    max-height: 100dvh;
-    overflow: hidden;
   }
 
   .site00-desktop-artboard .site00-enter-page {

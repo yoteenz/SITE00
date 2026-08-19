@@ -2,7 +2,6 @@ import type { ReactNode } from 'react';
 import { Fragment } from 'react';
 import { resolveSite00PublicAsset } from '../loader/site00LoaderConfig';
 import { SITE00_ENVIRONMENTS, type EnvironmentId } from '../../config/environments';
-import { useSite00 } from '../../state/Site00Context';
 import { useSite00DesktopArtboardPreview } from '../shell/Site00DesktopArtboardContext';
 import { useSite00DesktopViewportBackgroundActive } from '../shell/Site00DesktopPresentationContext';
 import { Site00EnvironmentViewportBackground } from './Site00EnvironmentViewportBackground';
@@ -28,15 +27,11 @@ export function EnvironmentShell({ environmentId, children, className = '' }: En
   const config = SITE00_ENVIRONMENTS[environmentId];
   const desktopAsset = resolveEnvironmentDesktopAsset(config);
   const mobileAsset = config.mobileAssetPath ? resolveSite00PublicAsset(config.mobileAssetPath) : undefined;
-  const { isPreviewDesktop } = useSite00();
   const inDesktopArtboard = useSite00DesktopArtboardPreview();
   const viewportBackgroundActive = useSite00DesktopViewportBackgroundActive();
-  /** Enter desktop bg lives on the page — not on presentation shell mount (prevents auto-regression). */
+  /** Enter desktop bg always on /enter — not gated on Mobile/Desktop toggle (refresh-safe). */
   const showEnterDesktopViewportBg =
-    environmentId === 'ENTER_00_WAITING_ROOM' &&
-    isPreviewDesktop &&
-    Boolean(desktopAsset) &&
-    !viewportBackgroundActive;
+    environmentId === 'ENTER_00_WAITING_ROOM' && Boolean(desktopAsset) && !viewportBackgroundActive;
   const suppressEnvForViewportBg =
     showEnterDesktopViewportBg ||
     (inDesktopArtboard && viewportBackgroundActive && Boolean(desktopAsset));
