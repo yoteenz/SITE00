@@ -198,3 +198,9 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 
 - **Request:** After direction fix, bg still low — shift up another ~10–15%.
 - **Change:** +12pp on all Enter-only focal breakpoints: **52%** default (was 40%), **48%** short / **58%** tall / **55%** ultrawide. `environments.ts` + Enter-scoped CSS only; UI unchanged.
+
+---
+
+## 2026-08-19 — ENTER focal default 65%
+
+- **Request:** Raise default focal from 52% to **65%** (+13pp); breakpoints shifted same delta: **61%** short / **71%** tall / **68%** ultrawide.
