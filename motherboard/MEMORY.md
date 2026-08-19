@@ -798,3 +798,17 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
   - Origin mobile hero max-width widened slightly (`min(60vw/60%, 252px)`) for tagline fit.
 - **Branch:** `cursor/mobile-device-preview-fit-796f`.
 
+---
+
+## 2026-08-19 — Mobile five-bay nav + geometric SVG icons
+
+- **Request:** Replace generic mobile bottom-nav icons with five approved intricate geometric icons; nav order ORIGIN · IDNTY · LOCATIONS · PROJECTS · CTRL ROOM. Use supplied SVG geometry directly (64×64, currentColor + #EB1C24 accents).
+- **Implementation:**
+  - `MobileSiteNavigation` + `mobile-site-nav.ts` — five equal bays, route-derived active state (red icon + label, no pill/glow).
+  - `src/site00/icons/mobile-nav/` — inline React SVG components at 26–28px (LOCATIONS center 28px).
+  - **00 ORIGIN** — verbatim supplied SVG paths in `Site00OriginNavIcon.tsx`.
+  - IDNTY / LOCATIONS / PROJECTS / CTRL ROOM — reference-matched drafting marks (same 64×64 language); swap when full SVG source pasted for icons 02–05.
+  - Wired through `Site00MobileShell`, `Site00EcosystemMobileShell`; removed legacy 3-bay `SITE00_MOBILE_NAV`.
+  - CSS: 5-column grid, icon slot, artboard-pinned nav in laptop Mobile preview.
+- **Branch:** `cursor/mobile-nav-geometric-icons-796f`.
+
