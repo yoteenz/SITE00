@@ -603,7 +603,7 @@
   margin: calc(var(--site00-stack-sm) / var(--loader-scale, 1)) 0 0;
   font-family: var(--site00-font-display);
   font-size: calc(
-    var(--site00-size-display-lg) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) - 14px
+    var(--site00-size-display-lg) / var(--loader-scale, 1) + var(--loader-copy-size-bump, 0px) - 18px
   );
   font-weight: 400;
   font-stretch: var(--site00-font-stretch-display);
