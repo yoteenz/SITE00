@@ -17,7 +17,7 @@ type Site00MobileArtboardShellProps = {
 
 /**
  * Fixed 390×844 mobile artboard scaled to laptop width — true phone preview on Desktop composer.
- * Environment bg renders outside transform; UI scales with scaleW (edge-to-edge width).
+ * Environment bg inside scaled stage so phone/laptop preview matches artboard (not full-viewport bleed).
  */
 export function Site00MobileArtboardShell({ children }: Site00MobileArtboardShellProps) {
   const shellRef = useRef<HTMLDivElement>(null);
@@ -99,14 +99,14 @@ export function Site00MobileArtboardShell({ children }: Site00MobileArtboardShel
     <Site00MobilePresentationProvider kind="scaled">
       <Site00MobileArtboardProvider>
         <div ref={shellRef} className="site00-mobile-artboard-shell">
-          {viewportEnvironmentId ? (
-            <Site00EnvironmentViewportBackground
-              environmentId={viewportEnvironmentId}
-              assetKind={viewportAssetKind}
-            />
-          ) : null}
           <div ref={scalerRef} className="site00-mobile-artboard-shell__stage-scaler">
             <div ref={stageRef} className="site00-mobile-artboard">
+              {viewportEnvironmentId ? (
+                <Site00EnvironmentViewportBackground
+                  environmentId={viewportEnvironmentId}
+                  assetKind={viewportAssetKind}
+                />
+              ) : null}
               {children}
             </div>
           </div>
