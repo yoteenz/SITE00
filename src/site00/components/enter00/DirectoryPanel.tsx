@@ -31,6 +31,7 @@ export function DirectoryPanel() {
                     description={row.description}
                     href={row.href}
                     enabled={row.enabled}
+                    requiresAuth={row.requiresAuth}
                     enterIcon={row.enterIcon}
                   />
                 ))}
