@@ -321,7 +321,7 @@
     min-height: 44px;
     padding: 0 4px;
     text-decoration: none;
-    color: var(--site-red);
+    color: var(--site-text-muted);
     -webkit-appearance: none;
     appearance: none;
   }
@@ -332,7 +332,7 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--site-red);
+    color: var(--site-text-muted);
   }
 
   .site00-locations-directory__section-title {

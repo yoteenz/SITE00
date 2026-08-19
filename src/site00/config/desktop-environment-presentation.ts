@@ -40,7 +40,7 @@ export const SITE00_LOADER_MEDIA_FOCAL = {
    * matches where the animation will sit when playback starts (opposite of Enter).
    */
   background: {
-    mobile: 'center 45%',
+    mobile: 'center 40%',
     desktop: 'center center',
   },
 } as const;

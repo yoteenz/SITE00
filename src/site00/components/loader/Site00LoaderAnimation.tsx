@@ -180,7 +180,7 @@ export function Site00LoaderAnimation({
         disableRemotePlayback
         controls={false}
         tabIndex={-1}
-        style={{ objectPosition: mediaFocal }}
+        style={{ objectPosition: mediaFocal, objectFit: 'cover' }}
         onLoadedData={handleCanPlay}
         onCanPlay={handleCanPlay}
         onPlaying={handlePlaying}

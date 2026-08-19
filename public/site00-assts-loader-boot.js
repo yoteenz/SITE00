@@ -26,7 +26,7 @@
   var animation = isWide
     ? storageBase + 'BLDR/openart-output_1787109389654_e04aea07.mp4'
     : storageBase + 'BLDR/openart-output_1787107938282_745c8292.mp4';
-  var bgFocal = isWide ? 'center center' : 'center 45%';
+  var bgFocal = isWide ? 'center center' : 'center 40%';
 
   function applyBootEnvStyle(env) {
     if (!env) return;

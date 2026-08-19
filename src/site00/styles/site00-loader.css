@@ -354,7 +354,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Focal set inline on element — matches debug inspection (bg center 45% / anim center). */
+  /* Focal set inline on element — bg center 40% / anim center (mobile). */
   opacity: 1;
   background: transparent;
 }
