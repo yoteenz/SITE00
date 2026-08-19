@@ -719,3 +719,17 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Issue:** Gray subtitle cycled on a blind 2s timer and **looped back** to the first line (e.g. after OPENING…) while the loader was still running — copy did not match actual preload work.
 - **Fix:** Removed `useSite00LoaderCyclingSubtitle`. Subtitle now comes from `resolveActiveStageSubtitle(config.stages, liveProgress)` — tied to milestone progress + smooth creep between stages. Each line stays until progress crosses the next stage threshold; final ready line holds until exit. No modulo wrap. PR #80.
 
+---
+
+## 2026-08-19 — Loader desktop text overlay mirrors mobile
+
+- **Request:** Update loading screen text overlay for **desktop only** to mirror mobile settings and position (desktop animation/media unchanged).
+- **Root cause:** ASSTS used a separate 1672×941 desktop composition + bumped typography at ≥768px; world routes used mobile map but portrait artboard letterboxed on landscape (`min(scaleW, scaleH)`), shifting copy vs mobile.
+- **Fix:**
+  - `useLoaderPresentation` → always `'mobile'` for live text overlay (all loaders).
+  - `LoaderCompositionProvider` accepts `mediaPresentation`; when desktop media, artboard scales with **scaleW** (full viewport width, same edge-to-edge feel as phone).
+  - `loader-composition-map-desktop.ts` copy regions + typography updated to mirror mobile normalized anchors (debug/ref-map parity).
+  - CSS: `.site00-immersive-loader--media-desktop` full-width stage viewport; legacy `--desktop` ui rules scoped to ref-map tooling only.
+- **Branch:** `cursor/loader-desktop-copy-parity-796f`.
+- **Inspect:** `/loader-preview?forceCopy=1` on wide viewport — copy positions should match mobile.
+
