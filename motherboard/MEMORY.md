@@ -129,3 +129,11 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 - **Issue:** Bottom status panel (metrics + NEED GUIDANCE) disappeared when toggling Mobile/Desktop on wide viewports.
 - **Cause:** Mobile strip CSS was inside `@media (max-width: 767px)` but layout switch uses class `.site00-origin-page--mobile-layout` at any width; desktop artboard could clip footer when scaled height exceeded viewport.
 - **Fix (PR #10 → main):** Class-scoped mobile layout rules; explicit desktop-artboard strip visibility; Origin artboard `min(scaleW, scaleH)` (Enter keeps `scaleW`); flex pin footer in artboard column.
+
+---
+
+## 2026-08-19 — Origin desktop hero copy spacing (desktop only)
+
+- **Request:** Desktop Origin — (1) SITE 00 header text down 2px, (2) “STARTS HERE.” same line as line above, (3) origin point line down 6px.
+- **Changes:** `site00-desktop-artboard.css` — logo mark `margin-top: 2px`; coordinate `margin-top: 26px` (was 20px). `OriginPage.tsx` — desktop merges description2+3 into one line; mobile unchanged.
+- **PR #15:** `cursor/origin-desktop-hero-copy-796f`
