@@ -138,3 +138,14 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 - **Cause:** `site00OriginEvolvePanelIconUrl()` still returned local placeholder `/assets/evolve/evolve-master.svg`.
 - **Fix:** Wire to `EVOLVE/9E87E14E-63A7-4ED5-9054-5435136E1768.png` in `origin-panel-icons.ts` (same pattern as IDNTY/BLDR). Asset registry updated.
 - **PR:** `cursor/evolve-origin-panel-icon-796f`
+
+---
+
+## 2026-08-19 — Origin EVOLVE desktop panel copy and layout polish
+
+- **Scope:** Desktop artboard only (`isDesktopArtboardLayout` / `.site00-desktop-artboard`).
+- **Collapsed EVOLVE card:** Removed body line (“BRING US WHAT EXISTS…”); subtitle → “BUILD IS COMPLETE.”; CTA “EXPLORE EVOLVE” without arrow (`hideCtaArrow`); icon +10% via `.site00-origin-card--evolve`.
+- **Expanded EVOLVE panel:** Header icon +10%; “Choose your path” pillars centered (3-col grid, max-width 420px); removed “HOW IT WORKS” and duplicate arrow — desktop uses plain red `START EVOLVE` text button; mobile unchanged.
+- **All expanded panels:** `expandedPanelScale` 0.875 → 0.74375 (−15%) in `origin-home-composition.ts`.
+- **Files:** `evolve.ts`, `OriginCards.tsx`, `EvolveExpandedPanel.tsx`, `OriginPage.tsx`, `site00-desktop-artboard.css`, `origin-home-composition.ts`.
+- **PR:** `cursor/evolve-origin-panel-icon-796f` (same branch as icon fix).
