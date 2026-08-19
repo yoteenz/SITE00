@@ -132,22 +132,16 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 
 ---
 
-## 2026-08-19 — Wire ENTER 00 directory menu links to live routes
-
-Summary of this cloud agent run: user asked why all ENTER menu links on desktop were disabled when routes exist.
-
-- **Context:** `/enter` directory panel showed grayed-out rows for SITES, SERVICES, SYSTEM, ABOUT, JOURNAL, PROJECTS, ACCOUNT, SUPPORT — only BLDR STUDIO was clickable.
-
-- **Root cause:** `SITE00_DIRECTORY_SECTIONS` in `directory.ts` had `enabled: false` on all rows except BLDR (leftover from pre-inventory gating). Global nav and Locations directory already had these routes enabled.
-
-- **Fix (PR #12):** Enabled all explore + your-space rows with `SITE00_ROUTES` hrefs. Account → `/control`. Projects + Account use `requiresAuth`.
-
-- **Convention:** Keep ENTER directory `enabled` flags aligned with registered routes; use `requiresAuth` for guarded destinations instead of disabling links.
-
----
-
 ## 2026-08-19 — ENTER 00: decouple viewport background from UI artboard (PR #17)
 
 - **Issue:** Enter desktop bg stretched; UI placement drifted when focal/anchor fixes applied together.
 - **Root cause:** `position: fixed` env layer inside scaled artboard; bottom-anchor moved whole artboard with UI.
 - **Fix:** Viewport `cover` bg on artboard **shell** (outside transform); UI artboard top-aligned; focal **32%** baseline; status strip portaled to shell chrome host. Suppress duplicate in-stage env on enter artboard.
+
+---
+
+## 2026-08-19 — Laptop Desktop toggle = native full viewport (PR #11)
+
+- **Issue:** On laptop tunnel preview, Mobile layout looked better than Desktop — Desktop showed gray margins + scaled 1440×900 artboard.
+- **Fix:** Wide viewport (≥768px) + Desktop → native full viewport shell (no transform scale). Narrow + Desktop → scaled artboard preview. `/origin/desktop` routes keep forced artboard.
+- **Convention:** On laptop, **Desktop** is canonical. **Mobile** is phone UI preview for QA.

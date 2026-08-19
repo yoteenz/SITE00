@@ -1,10 +1,9 @@
 /**
  * SITE 00 Origin — canonical desktop composition (1440×900 artboard).
  *
- * **Single source of truth** for desktop Origin layout. Wide viewports render inside
- * `Site00DesktopArtboardShell` (see `Site00OriginRouteShell`) — laptop, preview, and
- * `/origin/desktop` all use this file. Do **not** duplicate these rules in `site00.css`
- * `@media (min-width: 768px)` or composition will drift.
+ * **Single source of truth** for desktop Origin layout. Wide viewports render via
+ * `Site00DesktopNativeViewportShell`; phones previewing desktop use `Site00DesktopArtboardShell`.
+ * Do **not** duplicate these rules in `site00.css` `@media (min-width: 768px)` or composition drifts.
  *
  * Numeric tokens: `origin-home-composition.ts` → CSS vars on `.site00-home-stage` (OriginPage).
  */
@@ -381,4 +380,58 @@
 .site00-origin-layout-switch button[aria-current='page'] {
   background: var(--site-red, #eb1c24);
   color: #fff;
+}
+
+/**
+ * Native full-viewport desktop (laptop/tablet) — same composition tokens as artboard,
+ * but fills the browser without scaled 1440×900 preview chrome.
+ */
+.site00-desktop-artboard--native-viewport {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--site-bg, #f5f5f3);
+}
+
+.site00-desktop-artboard--native-viewport .site00-shell {
+  height: 100dvh;
+  min-height: 100dvh;
+}
+
+.site00-desktop-artboard--native-viewport .site00-origin-page {
+  height: 100%;
+  min-height: 100%;
+}
+
+.site00-desktop-artboard--native-viewport:has(.site00-home-expanded-column) {
+  height: auto;
+  min-height: 100dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.site00-desktop-artboard--native-viewport:has(.site00-home-expanded-column) .site00-shell {
+  min-height: 100dvh;
+  height: auto;
+}
+
+/** ENTER 00 — in-flow env layer on native viewport (not fixed full-window artboard hack) */
+.site00-desktop-artboard--native-viewport .site00-enter-page {
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+}
+
+.site00-desktop-artboard--native-viewport .site00-enter-page .site00-env-layer {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.site00-desktop-artboard--native-viewport .site00-enter-page.site00-shell {
+  height: 100dvh;
+  max-height: 100dvh;
 }

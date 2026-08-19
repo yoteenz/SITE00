@@ -35,6 +35,7 @@ export function Site00OriginLayoutSwitch() {
           type="button"
           aria-current={!isPreviewDesktop ? 'page' : undefined}
           onClick={() => setPreviewDeviceMode('mobile')}
+          title="Phone layout preview — stacked mobile UI at full browser width"
         >
           Mobile
         </button>
@@ -42,6 +43,7 @@ export function Site00OriginLayoutSwitch() {
           type="button"
           aria-current={isPreviewDesktop ? 'page' : undefined}
           onClick={() => setPreviewDeviceMode('desktop')}
+          title="Desktop design — full screen on laptop; scaled preview on phone"
         >
           Desktop
         </button>
