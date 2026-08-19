@@ -556,3 +556,11 @@ Summary of **this chat**: user reported Enter bg focal (75%) and ENTER/EXIT unde
 - **Request:** Increase footer 00 PNG asset size only by 10%.
 - **Fix:** `.site00-loader-copy__mark-img` max-width cap 80px → **88px**. PR **#69** merged to `main`.
 
+---
+
+## 2026-08-19 — Loader ASSEMBLING dots animation fix (CSS)
+
+- **Issue:** ASSEMBLING ellipsis still blinked only one dot instead of `.` → `..` → `...` → clear.
+- **Root cause:** JS `setInterval` + string cycle reset on frequent loader re-renders (progress ticks); consecutive `.` chars could also collapse under typography.
+- **Fix:** Three separate dot `<span>` elements with CSS keyframe phases (420ms × 4); `letter-spacing: 0`, `font-feature-settings: 'liga' 0`, fixed `1ch` per dot. PR **#70** merged to `main`.
+
