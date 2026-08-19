@@ -95,6 +95,19 @@ export const EVOLVE_ORIGIN_CARD = {
   cta: 'EXPLORE EVOLVE →',
 } as const;
 
+/** Desktop Origin collapsed EVOLVE card — copy overrides (mobile keeps EVOLVE_ORIGIN_CARD). */
+export const EVOLVE_ORIGIN_CARD_DESKTOP = {
+  number: EVOLVE_ORIGIN_CARD.number,
+  title: EVOLVE_ORIGIN_CARD.title,
+  subtitle: 'BUILD IS COMPLETE.',
+  cta: 'EXPLORE EVOLVE',
+} as const;
+
+export const EVOLVE_HOMEPAGE_EXPANDED_DESKTOP = {
+  ...EVOLVE_HOMEPAGE_EXPANDED,
+  cta: 'START EVOLVE',
+} as const;
+
 export const EVOLVE_STATE_COPY = {
   headline: 'CHOOSE YOUR EVOLVE PATH',
   subhead: 'REFINE WHAT EXISTS, INSTALL NEW CAPABILITIES, OR TRANSFORM THE FOUNDATION.',

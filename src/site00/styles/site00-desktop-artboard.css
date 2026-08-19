@@ -244,6 +244,27 @@
   height: var(--site00-origin-panel-icon-size-px, 80px);
 }
 
+/** EVOLVE collapsed card icon — +10% on desktop artboard. */
+.site00-desktop-artboard .site00-origin-card--evolve .site00-origin-card__icon {
+  width: calc(var(--site00-origin-panel-icon-size-px, 80px) * 1.1);
+  height: calc(var(--site00-origin-panel-icon-size-px, 80px) * 1.1);
+}
+
+/** EVOLVE expanded panel header icon — +10% on desktop artboard. */
+.site00-desktop-artboard .site00-origin-evolve-expanded-panel .site00-origin-card__icon--lg {
+  width: calc(88px * 1.1);
+  height: calc(88px * 1.1);
+}
+
+/** EVOLVE expanded — three paths centered (not left-aligned in 5-col grid). */
+.site00-desktop-artboard .site00-evolve-framework-pillars {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  justify-items: center;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .site00-desktop-artboard .site00-origin-mobile-swipe {
   display: none !important;
 }
