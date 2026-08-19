@@ -597,7 +597,7 @@
   }
 
   .site00-origin-page--mobile-layout .site00-home-hero .site00-home-hero__tagline {
-    margin-top: var(--site00-stack-tight);
+    margin-top: calc(var(--site00-stack-tight) + 3px);
     margin-bottom: 0;
     white-space: nowrap;
   }
