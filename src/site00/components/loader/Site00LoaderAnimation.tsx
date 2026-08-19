@@ -1,7 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { resolveSite00LoaderEnvironmentAnimationUrl } from './site00LoaderMedia';
 import { loaderLifecycleLog } from './loaderLifecycleLog';
 import { isLoaderMediaDebugEnabled } from './site00LoaderHeroStage';
+import {
+  bindSite00LoaderVideoSilentGuards,
+  enforceSite00LoaderVideoSilent,
+} from './site00LoaderVideoSilent';
 import type { LoaderPresentation } from './loader-composition-resolver';
 
 type Site00LoaderAnimationProps = {
@@ -54,19 +58,16 @@ export function Site00LoaderAnimation({
     signalReady();
   }, [sourceUrl]);
 
+  useLayoutEffect(() => {
+    const video = videoRef.current;
+    if (video) enforceSite00LoaderVideoSilent(video);
+  }, [sourceUrl]);
+
   useEffect(() => {
     const video = videoRef.current;
     if (!video || !sourceUrl) return;
 
-    const enforceSilent = () => {
-      video.muted = true;
-      video.defaultMuted = true;
-      video.volume = 0;
-    };
-
-    enforceSilent();
-    video.addEventListener('volumechange', enforceSilent);
-    video.addEventListener('play', enforceSilent);
+    const unbindSilent = bindSite00LoaderVideoSilentGuards(video);
 
     if (reducedMotion) {
       video.pause();
@@ -79,18 +80,13 @@ export function Site00LoaderAnimation({
       void video.play().catch(() => undefined);
     }
 
-    return () => {
-      video.removeEventListener('volumechange', enforceSilent);
-      video.removeEventListener('play', enforceSilent);
-    };
+    return unbindSilent;
   }, [reducedMotion, sourceUrl]);
 
   const handleCanPlay = () => {
     const video = videoRef.current;
     if (video) {
-      video.muted = true;
-      video.defaultMuted = true;
-      video.volume = 0;
+      enforceSite00LoaderVideoSilent(video);
       if (!reducedMotion) {
         void video.play().catch(() => undefined);
       }
@@ -145,6 +141,7 @@ export function Site00LoaderAnimation({
         loop={!reducedMotion}
         preload="auto"
         disablePictureInPicture
+        disableRemotePlayback
         controls={false}
         tabIndex={-1}
         onLoadedData={handleCanPlay}

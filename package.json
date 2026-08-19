@@ -11,7 +11,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --port 4174 --host",
     "start:api": "tsx server/index.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "strip:loader-audio": "tsx scripts/stripLoaderAnimationAudio.ts"
   },
   "dependencies": {
     "@fal-ai/client": "^1.4.0",
