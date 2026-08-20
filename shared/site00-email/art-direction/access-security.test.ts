@@ -44,11 +44,12 @@ describe('ACCESS / SECURITY reference fidelity', () => {
     expect(html).toContain('THIS LINK EXPIRES');
   });
 
-  it('uses single hero credential pass — no duplicate generic white ID card', () => {
+  it('uses single hero credential pass — responsive desktop/mobile glyphs only', () => {
     const { html } = renderEmailTemplateSync('access-credential-issued');
     expect(html).not.toContain('PREVIEW CLIENT');
     expect(html).not.toContain('SITE 00 ACCESS');
-    expect((html.match(/ACCESS<\/p>/g) ?? []).length).toBeLessThanOrEqual(2);
+    expect(html.match(/class="access-glyph-desktop"/g)?.length).toBe(1);
+    expect(html.match(/class="access-glyph-mobile"/g)?.length).toBe(1);
   });
 
   it('includes three-zone footer identity', () => {
@@ -63,5 +64,51 @@ describe('ACCESS / SECURITY reference fidelity', () => {
     expect(html).toContain('End-to-end encrypted');
     expect(html).toContain('Access validated at entry');
     expect(html).toContain('Protected environment for creators');
+  });
+});
+
+describe('ACCESS / SECURITY mobile responsive fidelity', () => {
+  it('includes composition-preserving mobile CSS scoped to access-terminal', () => {
+    const { html } = renderEmailTemplateSync('access-credential-issued');
+    expect(html).toContain('access-terminal .access-hero-left');
+    expect(html).toContain('access-terminal .access-hero-right');
+    expect(html).toContain('access-terminal .access-cred-left');
+    expect(html).toContain('access-terminal .access-cred-qr');
+    expect(html).toContain('access-sec-2x2');
+    expect(html).toContain('access-glyph-mobile');
+  });
+
+  it('does not use generic stack class on hero or credential columns', () => {
+    const { html } = renderEmailTemplateSync('access-credential-issued');
+    expect(html).not.toMatch(/class="stack access-hero/);
+    expect(html).not.toMatch(/class="stack access-cred/);
+    expect(html).not.toContain('class="stack footer-left"');
+  });
+
+  it('preserves grouped credential metadata and QR in same table row', () => {
+    const { html } = renderEmailTemplateSync('access-credential-issued');
+    expect(html).toContain('class="access-cred-left"');
+    expect(html).toContain('class="access-cred-qr"');
+    expect(html).toContain('MEMBER ID');
+    expect(html).toContain('SCAN TO ACCESS');
+  });
+
+  it('preserves three-zone footer classes for compact mobile columns', () => {
+    const { html } = renderEmailTemplateSync('access-credential-issued');
+    expect(html).toContain('access-footer-left');
+    expect(html).toContain('access-footer-center');
+    expect(html).toContain('access-footer-right');
+  });
+
+  it('uses proportional mobile hero headline class instead of generic hero-xl', () => {
+    const { html } = renderEmailTemplateSync('access-credential-issued');
+    expect(html).toContain('class="access-hero-xl"');
+    expect(html).toContain('access-terminal .access-hero-xl{font-size:22px');
+  });
+
+  it('does not affect welcome lifecycle template mobile structure', () => {
+    const { html } = renderEmailTemplateSync('welcome-location-assigned');
+    expect(html).not.toContain('access-terminal');
+    expect(html).not.toContain('access-hero-left');
   });
 });
