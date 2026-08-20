@@ -16,8 +16,11 @@
     position: relative;
     min-height: 100dvh;
     min-height: 100svh;
+    width: 100%;
+    max-width: 100%;
     color: var(--site-text);
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
   }
 
   .site00-mobile-env {
@@ -38,12 +41,20 @@
     flex-direction: column;
     min-height: 100dvh;
     min-height: 100svh;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
     padding-top: env(safe-area-inset-top, 0px);
   }
 
   .site00-mobile-shell__main {
     flex: 1;
     min-height: 0;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     padding: 0 0 calc(88px + env(safe-area-inset-bottom, 0px));

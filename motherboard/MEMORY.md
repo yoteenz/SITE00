@@ -956,3 +956,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 
 - **Branch:** `cursor/mobile-ecosystem-panel-icons-2c3b`.
 
+---
+
+## 2026-08-20 — Mobile horizontal scroll removed (vertical only)
+
+- **Request:** Remove horizontal page scroll on mobile — vertical scroll only.
+- **Fix:** Mobile overflow guards on `html`/`body`/`#root` when SITE 00 mobile shells are active; `overflow-x: hidden` + `max-width: 100%` on mobile shell chain; origin mobile layout + scaled env layer clipping; public page footer stacks on narrow widths; hub cards get `min-width: 0` on copy flex child.
+- **Branch:** `cursor/mobile-no-horizontal-scroll-2c3b`.
+

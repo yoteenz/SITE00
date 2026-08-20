@@ -1521,4 +1521,47 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
   .site00-home-grid__spacer {
     display: none;
   }
+
+  /* Mobile — vertical scroll only; clip accidental horizontal overflow. */
+  html:has(.site00-mobile-shell),
+  html:has(.site00-public-shell--mobile-layout),
+  html:has(.site00-origin-page--mobile-layout) {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  body:has(.site00-mobile-shell),
+  body:has(.site00-public-shell--mobile-layout),
+  body:has(.site00-origin-page--mobile-layout) {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  #root:has(.site00-mobile-shell),
+  #root:has(.site00-public-shell--mobile-layout),
+  #root:has(.site00-origin-page--mobile-layout) {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  .site00-origin-page--mobile-layout.site00-shell {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .site00-origin-page--mobile-layout .site00-ui-layer,
+  .site00-origin-page--mobile-layout .site00-environment-viewport-bg {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .site00-origin-page--mobile-layout .site00-status-strip__metrics {
+    max-width: 100%;
+  }
+
+  .site00-env-layer--has-mobile-asset {
+    overflow: hidden;
+  }
 }

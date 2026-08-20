@@ -61,6 +61,18 @@
   padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
 }
 
+@media (max-width: 767px) {
+  .site00-ecosystem-mobile-shell,
+  .site00-ecosystem-mobile-shell__main,
+  .site00-ecosystem-mobile__content {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+}
+
 .site00-ecosystem-mobile__content {
   padding: 0 20px 16px;
 }
