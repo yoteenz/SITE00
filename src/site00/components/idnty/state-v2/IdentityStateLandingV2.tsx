@@ -19,7 +19,6 @@ import { IdentityStateHero } from './IdentityStateProgress';
 import { IdentityStateProgress } from './IdentityStateProgress';
 import { IdentityStatusOverview } from './IdentityStatusOverview';
 import { IdentityInventoryScanner } from './IdentityInventoryScanner';
-import { IdentityProcessSystem } from './IdentityProcessSystem';
 
 type IdentityStateLandingV2Props = {
   stateSlug: IdntyAssessmentStateId;
@@ -265,7 +264,6 @@ export function IdentityStateLandingV2({ stateSlug, isDesktop }: IdentityStateLa
         />
       </div>
 
-      <IdentityProcessSystem strip={state.processStrip} stateId={stateSlug} />
     </div>
   );
 }

@@ -23,7 +23,7 @@ type IdntyAssessmentShellProps = {
   showProcessStrip?: boolean;
   processStrip?: ReactNode;
   /** Mobile diagnostic V2 — white system shell, no corridor photo background */
-  mobileLayout?: 'legacy' | 'diagnostic-v2';
+  mobileLayout?: 'legacy' | 'diagnostic-v2' | 'calibration';
 };
 
 function IdntyAssessmentMobileBackground() {
@@ -96,10 +96,12 @@ export function IdntyAssessmentShell({
 
   if (!isDesktopArtboard) {
     const isV2 = mobileLayout === 'diagnostic-v2';
+    const isCalibration = mobileLayout === 'calibration';
     const mobileClass = [
       'site00-idnty-assessment',
       'site00-idnty-assessment--mobile',
       isV2 ? 'site00-idnty-assessment--v2-mobile' : '',
+      isCalibration ? 'site00-idnty-assessment--calibration-mobile' : '',
     ]
       .filter(Boolean)
       .join(' ');
@@ -111,12 +113,12 @@ export function IdntyAssessmentShell({
           <div className="site00-idnty-assessment__mobile-content">
             <IdntyAssessmentBreadcrumb
               label={
-                mobileLayout === 'diagnostic-v2'
+                isV2 || isCalibration
                   ? `${state.breadcrumb} / ${getIdentityStateProgress(state.id).code}`
                   : state.breadcrumb
               }
             />
-            {isV2 ? (
+            {isV2 || isCalibration ? (
               children
             ) : (
               <>
@@ -128,7 +130,7 @@ export function IdntyAssessmentShell({
                 ) : null}
               </>
             )}
-            {!isV2 ? <Site00PageFooter /> : null}
+            {!isV2 && !isCalibration ? <Site00PageFooter /> : null}
           </div>
         </Site00MobileShell>
       </div>

@@ -355,15 +355,19 @@
   cursor: pointer;
   text-align: left;
   font: inherit;
+  color: var(--site-text);
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .site00-idnty-option-rows__row--selected {
-  color: var(--site-red, #e60000);
+  color: var(--site-text);
 }
 
 .site00-idnty-option-rows__label {
   font-size: 12px;
   font-weight: 600;
+  color: var(--site-text);
 }
 
 .site00-idnty-option-rows__check {

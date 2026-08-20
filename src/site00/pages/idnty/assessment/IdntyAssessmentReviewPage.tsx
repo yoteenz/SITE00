@@ -12,6 +12,7 @@ import {
 } from '../../../components/idnty-assessment/IdntyAssessmentShell';
 import { IdntyProcessStripPanel } from '../../../components/idnty-assessment/IdntyAssessmentPanels';
 import { formatAnswerLabel } from '../../../components/idnty-assessment/IdntyStepForm';
+import { IdentityCalibrationMobileReview } from '../../../components/idnty/calibration';
 import { useSite00DesktopArtboardPreview } from '../../../components/shell/Site00DesktopArtboardContext';
 import { site00IdntyAssessmentDesktopPath } from '../../../config/routes';
 
@@ -34,6 +35,14 @@ export default function IdntyAssessmentReviewPage({ stateSlug }: IdntyAssessment
     completeAssessment(stateSlug);
     navigateTo(idntyAssessmentCompletePath(stateSlug));
   };
+
+  if (!isDesktop) {
+    return (
+      <IdntyAssessmentShell state={state} mobileLayout="calibration" showProcessStrip={false}>
+        <IdentityCalibrationMobileReview stateSlug={stateSlug} />
+      </IdntyAssessmentShell>
+    );
+  }
 
   const processVariant =
     state.processStrip.id === 'next' ? 'timeline' : state.processStrip.id === 'journey' ? 'journey' : 'default';
