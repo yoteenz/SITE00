@@ -7,6 +7,7 @@ import { OriginPanelIcon } from '../homepage/OriginPanelIcon';
 import { Site00DirectoryArrowIcon } from '../mobile/Site00MobileIcons';
 import { AuthLockedDestination } from './AuthLockedDestination';
 import { FastTravelDestinationArt } from './FastTravelDestinationArt';
+import { FastTravelUpNextCardChrome } from './FastTravelUpNextCardChrome';
 
 type FastTravelSectionProps = {
   section: FastTravelSectionModel;
@@ -19,15 +20,18 @@ function FastTravelDestinationLink({
   ctx,
   onNavigate,
   variant,
+  upNextCardIndex,
 }: {
   dest: FastTravelDestination;
   ctx: FastTravelContext;
   onNavigate: () => void;
   variant: 'primary' | 'list';
+  upNextCardIndex?: number;
 }) {
   const href = resolveFastTravelHref(dest, ctx);
   const locked = dest.requiresAuth && !ctx.isSignedIn;
   const isPrimary = variant === 'primary';
+  const isUpNext = upNextCardIndex !== undefined;
 
   const showArrow = variant === 'list';
   const showSignInIcon = isPrimary && dest.id === 'sign-in';
@@ -44,6 +48,7 @@ function FastTravelDestinationLink({
         onNavigate={onNavigate}
         showArrow={showArrow}
         destinationId={isPrimary ? dest.id : undefined}
+        upNextCardIndex={upNextCardIndex}
       />
     );
   }
@@ -51,10 +56,11 @@ function FastTravelDestinationLink({
   return (
     <Link
       to={href}
-      className={`site00-fast-travel__dest site00-fast-travel__dest--${variant}${showSignInIcon ? ' site00-fast-travel__dest--sign-in' : ''}${showIdntyIcon ? ' site00-fast-travel__dest--idnty' : ''}${showTopVisual ? ' site00-fast-travel__dest--has-mark' : ''}${showPackArt ? ' site00-fast-travel__dest--has-art' : ''}`.trim()}
+      className={`site00-fast-travel__dest site00-fast-travel__dest--${variant}${isUpNext ? ' site00-fast-travel__dest--up-next' : ''}${showSignInIcon ? ' site00-fast-travel__dest--sign-in' : ''}${showIdntyIcon ? ' site00-fast-travel__dest--idnty' : ''}${showTopVisual ? ' site00-fast-travel__dest--has-mark' : ''}${showPackArt ? ' site00-fast-travel__dest--has-art' : ''}`.trim()}
       onClick={onNavigate}
       aria-label={dest.description ? `${dest.label} — ${dest.description}` : dest.label}
     >
+      {isUpNext ? <FastTravelUpNextCardChrome cardIndex={upNextCardIndex} /> : null}
       {showSignInIcon ? <Site00OrbitalMark className="site00-fast-travel__dest-mark" /> : null}
       {showIdntyIcon ? (
         <OriginPanelIcon panel="idnty" size="sm" className="site00-fast-travel__dest-panel-icon" />
@@ -80,13 +86,14 @@ export function FastTravelSection({ section, ctx, onNavigate }: FastTravelSectio
     <section className="site00-fast-travel__section" aria-label={section.title}>
       <h3 className="site00-fast-travel__section-title">{section.title}</h3>
       <div className={`site00-fast-travel__section-body ${isUpNext ? 'site00-fast-travel__section-body--grid' : ''}`.trim()}>
-        {section.destinations.map((dest) => (
+        {section.destinations.map((dest, index) => (
           <FastTravelDestinationLink
             key={dest.id}
             dest={dest}
             ctx={ctx}
             onNavigate={onNavigate}
             variant={isUpNext ? 'primary' : 'list'}
+            upNextCardIndex={isUpNext ? index : undefined}
           />
         ))}
       </div>

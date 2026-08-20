@@ -271,6 +271,49 @@
     gap: 6px;
   }
 
+  .site00-fast-travel__dest--up-next {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .site00-fast-travel__up-next-index {
+    position: absolute;
+    top: 6px;
+    left: 8px;
+    font-family: var(--site00-font-mono);
+    font-size: clamp(2.25rem, 11vw, 3rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: rgba(0, 0, 0, 0.055);
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+  }
+
+  .site00-fast-travel__up-next-registration {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    width: clamp(17px, 4.8vw, 21px);
+    height: clamp(17px, 4.8vw, 21px);
+    color: var(--site-red);
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .site00-fast-travel__dest--up-next .site00-fast-travel__dest-art,
+  .site00-fast-travel__dest--up-next .site00-fast-travel__dest-mark,
+  .site00-fast-travel__dest--up-next .site00-fast-travel__dest-panel-icon {
+    position: relative;
+    z-index: 2;
+  }
+
+  .site00-fast-travel__dest--up-next .site00-fast-travel__dest-copy {
+    position: relative;
+    z-index: 4;
+  }
+
   .site00-fast-travel__dest-art {
     display: flex;
     align-items: center;
