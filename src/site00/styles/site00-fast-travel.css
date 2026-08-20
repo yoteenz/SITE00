@@ -288,7 +288,7 @@
     color: rgba(0, 0, 0, 0.055);
     pointer-events: none;
     user-select: none;
-    z-index: 1;
+    z-index: 3;
   }
 
   .site00-fast-travel__up-next-registration {
@@ -299,19 +299,19 @@
     height: clamp(17px, 4.8vw, 21px);
     color: var(--site-red);
     pointer-events: none;
-    z-index: 3;
+    z-index: 4;
   }
 
   .site00-fast-travel__dest--up-next .site00-fast-travel__dest-art,
   .site00-fast-travel__dest--up-next .site00-fast-travel__dest-mark,
   .site00-fast-travel__dest--up-next .site00-fast-travel__dest-panel-icon {
     position: relative;
-    z-index: 2;
+    z-index: 1;
   }
 
   .site00-fast-travel__dest--up-next .site00-fast-travel__dest-copy {
     position: relative;
-    z-index: 4;
+    z-index: 5;
   }
 
   .site00-fast-travel__dest-art {
