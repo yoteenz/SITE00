@@ -17,8 +17,6 @@ export type FastTravelLocation = {
   title: string;
   descriptor: string;
   world: FastTravelWorld;
-  /** Origin expanded-panel icon — IDNTY / BLDR / EVOLVE only. */
-  panel?: 'idnty' | 'bldr' | 'evolve';
 };
 
 export type FastTravelDestination = {
@@ -262,7 +260,7 @@ function bldrProfile(): RouteProfile {
 function idntyProfile(): RouteProfile {
   return {
     match: (p) => p.startsWith(SITE00_ROUTES.idnty),
-    location: { index: '07', title: 'IDNTY', descriptor: 'YOUR ACCESS STARTS HERE.', world: 'public', panel: 'idnty' },
+    location: { index: '07', title: 'IDNTY', descriptor: 'YOUR ACCESS STARTS HERE.', world: 'public' },
     sections: (ctx) => {
       if (!ctx.isSignedIn) {
         return [
