@@ -62,6 +62,7 @@ import {
 } from '../_lib/site00Evolve/providers/firstPostCandidateService.js';
 import { getCanonicalMetaOAuthCallbackUrl } from '../_lib/site00Evolve/providers/oauthConstants.js';
 import { runNdxbookAssessment, generateNdxbookManifest, getNdxbookMarketingState } from '../_lib/site00Evolve/providers/ndxbookService.js';
+import { runNdxbookLegacyImport, getNdxbookImportReport, getNdxbookImportState } from '../_lib/site00Evolve/providers/ndxbookLegacyImportService.js';
 import { startOAuthAuthorization, getProviderOAuthConfig } from '../_lib/site00Evolve/providers/oauthService.js';
 import { validateSecretStoreConfiguration } from '../_lib/site00Evolve/providers/providerSecretStore.js';
 import { confirmConnectionAccount } from '../_lib/site00Evolve/providers/accountConfirmation.js';
@@ -176,6 +177,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             : res.status(200).json(await getPilotReadiness(orgSlug));
         case 'ndxbook_state':
           return res.status(200).json(await getNdxbookMarketingState());
+        case 'ndxbook_import_report':
+          return res.status(200).json(await getNdxbookImportReport());
+        case 'ndxbook_import_state':
+          return res.status(200).json(getNdxbookImportState());
         case 'provider_config':
           return res.status(200).json(getOwnerConfigurationChecklist());
         case 'fence_readiness':
@@ -372,6 +377,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         case 'first_post_dry_run':
           return res.status(200).json(
             await runFirstPostDryRun(orgSlug, String(body.candidateId ?? ''), String(body.approvalState ?? 'APPROVED')),
+          );
+        case 'import_ndxbook_legacy':
+          return res.status(200).json(
+            await runNdxbookLegacyImport({ approvedBy: auth.user.email }),
           );
         case 'analytics_baseline_sync':
           return res.status(200).json(

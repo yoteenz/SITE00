@@ -46,6 +46,7 @@ export async function ensurePilotConfig(orgSlug: string) {
     publishing_status: 'DISABLED',
     provider_status: 'NOT_CONNECTED',
     automation_status: 'DISABLED',
+    human_approval_required: orgSlug === 'ndxbook' ? true : undefined,
     metadata: {},
   };
   if (useMemoryConnections()) {

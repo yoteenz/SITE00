@@ -49,6 +49,15 @@ const SITE00_MANIFEST: ManifestTemplate[] = [
   { item_key: 'measurement', title: 'Platform Growth Measurement', description: 'Acquisition and activation KPIs', category: 'MEASUREMENT' },
 ];
 
+const NDXBOOK_MANIFEST: ManifestTemplate[] = [
+  { item_key: 'page_001_specimen', title: 'Page 001 — Credit / Debt Payoff', description: 'First candidate content specimen — NOT publication approved', category: 'CONTENT', channel_key: 'INSTAGRAM' },
+  { item_key: 'instagram_pilot', title: 'Instagram Pilot Pipeline', description: 'Prove intelligence → production → approval → distribution → measurement', category: 'SOCIAL', channel_key: 'INSTAGRAM' },
+  { item_key: 'content_taxonomy', title: 'Volume & Chapter Taxonomy', description: 'Five launch volumes programming architecture', category: 'STRATEGY' },
+  { item_key: 'voice_system', title: 'Voice & Hook System', description: 'Canonical voice and page structure rules', category: 'STRATEGY' },
+  { item_key: 'measurement_baseline', title: 'Measurement Baseline', description: 'Genuine provider evidence only — no fabricated targets', category: 'MEASUREMENT' },
+  { item_key: 'visual_direction', title: 'Visual / Creative Direction', description: 'Future identity process — placeholder DNA not canon', category: 'PRODUCTION' },
+];
+
 function selectTemplate(orgSlug: string): ManifestTemplate[] {
   switch (orgSlug) {
     case 'frontal-slayer':
@@ -57,6 +66,8 @@ function selectTemplate(orgSlug: string): ManifestTemplate[] {
       return AIO_MANIFEST;
     case 'site-00':
       return SITE00_MANIFEST;
+    case 'ndxbook':
+      return NDXBOOK_MANIFEST;
     default:
       return [];
   }
@@ -85,7 +96,7 @@ export async function generateMarketingManifest(
   const manifest: MarketingManifestRow = {
     id: manifestId,
     organization_id: orgId,
-    title: `${orgSlug === 'frontal-slayer' ? 'Flagship Launch' : orgSlug === 'all-in-one-enterprises' ? 'Service Growth' : 'Platform Growth'} Marketing Manifest`,
+    title: `${orgSlug === 'frontal-slayer' ? 'Flagship Launch' : orgSlug === 'all-in-one-enterprises' ? 'Service Growth' : orgSlug === 'ndxbook' ? 'NDXbook Founder Pilot' : 'Platform Growth'} Marketing Manifest`,
     manifest_state: 'PROPOSED',
     approval_state: 'PENDING',
     is_active: true,
@@ -94,6 +105,9 @@ export async function generateMarketingManifest(
       primaryObjective: profile?.primary_objective,
       channelStates: channels.map((c) => ({ key: c.channel_key, state: c.channel_state })),
       socialDeferred: channels.some((c) => c.channel_state === 'DEFERRED' && c.owner_decision === 'DEFERRED_BY_OWNER'),
+      ...(orgSlug === 'ndxbook'
+        ? { lineage: 'legacy recovery → founder confirmation → Content Brain → objectives → channels → manifest' }
+        : {}),
     },
     approved_by: null,
     approved_at: null,
