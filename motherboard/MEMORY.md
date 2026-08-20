@@ -1451,3 +1451,28 @@ Summary of this cloud agent run (SITE 00 Identity selection sprint).
 
 - **Conventions:** Identity mobile questionnaire steps use `mobileLayout="calibration"`; landing intake remains V2 white shell; process strip component kept for desktop only.
 
+---
+
+## 2026-08-20 — Post-payment Studio Production OS (client operating environment)
+
+Summary of this cloud agent run (SITE 00 Composer implementation sprint).
+
+- **Context:** Founder attached approved STUDIO ACTIVE PROJECT mobile reference. Sprint: build authenticated post-payment Studio operating environment — production spine, current state, client input, project signal, YOU/STUDIO operations, milestones, activity, next review — as real data-driven UI (not static mockup). Preserve CTRL ROOM, PROJECTS, IDNTY, Asset Vault, global nav.
+
+- **Decisions / outcomes:**
+  - Client Studio API: `/api/site00/client-production` registered in `server/routes.ts` + Vite local API plugin. Actions: `studio`, `projects`, `provisioning`, `ctrl-room`, POST `activate-project` (idempotent), POST `connect-service` (authorized).
+  - Backend: `clientStudio.ts` — `getClientStudioPayload`, `getClientProjectsPayload`, `activateClientProject`, project access via `client_email` / `client_user_id`. Production spine configurable by `build_class` (SITE, IDENTITY, EVOLVE). Progress/signals from deliverables + readiness graph; no fake percentages.
+  - Routes: `/studio/:projectSlug` + sub-routes (`input`, `operations`, `blueprint`, `assets`, `reviews`, `reviews/:reviewId`, `milestones`, `activity`).
+  - UI: `components/studio/*` (ProductionSpine, header, panels, loading/error/empty states), `site00-studio.css` mobile-first + desktop grid.
+  - PROJECTS page wired to real API projects list → links to Studio. CTRL ROOM signals remap to client Studio/provisioning routes. Provisioning page adds ENTER STUDIO link.
+  - Review detail foundation: A/B/C direction buttons, approve/revision placeholders (disabled until deliverables ready).
+
+- **Changes:**
+  - API: `api/_lib/site00Production/clientStudio.ts`, `api/site00/client-production.ts`, `service.ts` (client signal routes)
+  - Frontend: `pages/studio/*`, `components/studio/*`, `hooks/useStudioData.ts`, `hooks/useClientProjects.ts`, `clientProductionApi.ts`, `routes.ts`, `Site00Routes.tsx`, `ProjectsPage.tsx`, `ProjectProvisioningPage.tsx`
+  - Styles: `site00-studio.css`
+
+- **Deferred:** Full client approval POST handlers; Asset Vault deep integration beyond link; Stripe webhook (use `activate-project` when payment lands); dedicated milestone table (derived from activity events for now); ASSTS ↔ production deliverable linkage.
+
+- **Conventions:** Studio entered via active project (not 6th global nav item). Studio = project-level production command; CTRL ROOM = account-level. Empty states use honest copy, never hard-coded Frontal Slayer or fake timestamps.
+
