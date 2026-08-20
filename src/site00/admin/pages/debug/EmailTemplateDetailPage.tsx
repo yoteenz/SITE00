@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { referenceCompositionLabel } from '@site00-email/archetypes';
+import { resolveCompositionContract } from '@site00-email/art-direction/contracts';
+import { renderReferenceTarget } from '@site00-email/art-direction/reference-render';
 import { getReferenceSpec } from '@site00-email/design/reference';
 import { getTemplateById } from '@site00-email/registry/templates';
 import { renderEmailTemplate, resolveTemplateVars } from '@site00-email/render';
@@ -13,12 +15,20 @@ import type { EmailDebugStatus } from '@site00-email/types';
 
 type PreviewMode = 'mobile' | 'desktop';
 type InboxMode = 'light' | 'dark';
-type ReviewMode = 'implementation' | 'reference';
+type ReviewMode = 'implementation' | 'reference' | 'compare';
 
 const PREVIEW_WIDTHS: Record<PreviewMode, number> = {
   mobile: 375,
   desktop: 640,
 };
+
+function PreviewFrame({ html, width, minHeight }: { html: string; width: number; minHeight: number }) {
+  return (
+    <div className="site00-email-debug-inbox__frame" style={{ maxWidth: width }}>
+      <iframe title="Email preview" srcDoc={html} sandbox="" style={{ width: '100%', minHeight, border: 0 }} />
+    </div>
+  );
+}
 
 export default function EmailTemplateDetailPage() {
   const { templateId = '' } = useParams();
@@ -31,6 +41,7 @@ export default function EmailTemplateDetailPage() {
   const [loading, setLoading] = useState(true);
 
   const previewVars = template ? resolveTemplateVars(template.id) : null;
+  const contract = template ? resolveCompositionContract(template.id, template.family, template.archetype) : null;
 
   useEffect(() => {
     if (!template) return;
@@ -40,7 +51,12 @@ export default function EmailTemplateDetailPage() {
       .finally(() => setLoading(false));
   }, [template]);
 
-  if (!template) {
+  const referenceHtml = useMemo(() => {
+    if (!template) return '';
+    return renderReferenceTarget(template.archetype, referenceCompositionLabel(template.archetype));
+  }, [template]);
+
+  if (!template || !contract) {
     return (
       <Site00AdminShell>
         <ControlPageHeader kicker="EMAIL SYSTEM / DEBUG" title="TEMPLATE NOT FOUND" />
@@ -55,13 +71,14 @@ export default function EmailTemplateDetailPage() {
   const inboxBg = inboxMode === 'dark' ? '#1a1a1a' : '#e8e8e8';
   const refLabel = referenceCompositionLabel(template.archetype);
   const refSpec = getReferenceSpec(template.archetype);
+  const frameHeight = previewMode === 'mobile' ? 820 : 960;
 
   return (
     <Site00AdminShell>
       <ControlPageHeader
         kicker="SITE 00 ◆ EMAIL SYSTEM / DEBUG"
         title={template.name}
-        subtitle={`${String(template.num).padStart(2, '0')} / ${template.familyLabel} · ${template.event}`}
+        subtitle={`${String(template.num).padStart(2, '0')} / ${contract.visualFamily} · ${template.event}`}
         actions={
           <Link className="site00-admin-btn" to={SITE00_ADMIN_ROUTES.emailPack}>
             ← GALLERY
@@ -82,11 +99,27 @@ export default function EmailTemplateDetailPage() {
             </dl>
           </section>
 
+          <section className="site00-email-debug-meta-block site00-email-debug-meta-block--contract">
+            <h2>COMPOSITION CONTRACT</h2>
+            <dl>
+              <dt>FAMILY</dt><dd>{contract.visualFamily}</dd>
+              <dt>VISUAL THESIS</dt><dd>{contract.visualThesis}</dd>
+              <dt>PRIMARY FOCAL</dt><dd>{contract.primaryFocal}</dd>
+              <dt>DOMINANT FIELD</dt><dd>{contract.dominantField.toUpperCase()}</dd>
+              <dt>DENSITY</dt><dd>{contract.density.toUpperCase()}</dd>
+              <dt>SYMMETRY</dt><dd>{contract.symmetry.toUpperCase()}</dd>
+              <dt>FIDELITY STATUS</dt>
+              <dd className={`site00-email-debug-fidelity site00-email-debug-fidelity--${contract.fidelityStatus}`}>
+                {contract.fidelityStatus.replace(/-/g, ' ').toUpperCase()}
+              </dd>
+              <dt>PROHIBITED</dt><dd>{contract.prohibited.join(' · ')}</dd>
+            </dl>
+          </section>
+
           <section className="site00-email-debug-meta-block">
             <h2>METADATA</h2>
             <dl>
               <dt>ID</dt><dd>{template.id}</dd>
-              <dt>FAMILY</dt><dd>{template.familyLabel}</dd>
               <dt>ARCHETYPE</dt><dd>{template.archetype.toUpperCase()}</dd>
               <dt>CLASSIFICATION</dt><dd>{template.classification.toUpperCase()}</dd>
               <dt>TRIGGER</dt><dd>{template.event}</dd>
@@ -135,7 +168,8 @@ export default function EmailTemplateDetailPage() {
             <div>
               <span>REVIEW</span>
               <button type="button" className={reviewMode === 'implementation' ? 'active' : ''} onClick={() => setReviewMode('implementation')}>IMPLEMENTATION</button>
-              <button type="button" className={reviewMode === 'reference' ? 'active' : ''} onClick={() => setReviewMode('reference')}>REFERENCE BRIEF</button>
+              <button type="button" className={reviewMode === 'reference' ? 'active' : ''} onClick={() => setReviewMode('reference')}>REFERENCE</button>
+              <button type="button" className={reviewMode === 'compare' ? 'active' : ''} onClick={() => setReviewMode('compare')}>COMPARE</button>
             </div>
             <div>
               <span>INBOX</span>
@@ -147,18 +181,25 @@ export default function EmailTemplateDetailPage() {
           {loading || !rendered ? (
             <p className="site00-control-empty" aria-busy="true">RENDERING TEMPLATE…</p>
           ) : reviewMode === 'reference' ? (
-            <div className="site00-email-debug-reference-panel">
-              <p className="site00-email-debug-reference-panel__title">{refSpec.refId} — {refSpec.label}</p>
-              <p><strong>Composition</strong><br />{refSpec.composition}</p>
-              <p><strong>Approved copy</strong><br />{refSpec.copyNotes}</p>
-              <p><strong>Hero element</strong><br />{refSpec.heroElement}</p>
-              <p className="site00-email-debug-note">Switch to IMPLEMENTATION to compare rendered output at {previewMode} width.</p>
+            <div className="site00-email-debug-inbox" style={{ background: inboxBg }}>
+              <p className="site00-email-debug-compare-label">REFERENCE — {refSpec.refId}</p>
+              <PreviewFrame html={referenceHtml} width={previewWidth} minHeight={frameHeight} />
+            </div>
+          ) : reviewMode === 'compare' ? (
+            <div className="site00-email-debug-compare" style={{ background: inboxBg }}>
+              <div className="site00-email-debug-compare__panel">
+                <p className="site00-email-debug-compare-label">REFERENCE — {refSpec.refId}</p>
+                <PreviewFrame html={referenceHtml} width={previewWidth} minHeight={frameHeight} />
+              </div>
+              <div className="site00-email-debug-compare__panel">
+                <p className="site00-email-debug-compare-label">IMPLEMENTATION</p>
+                <PreviewFrame html={rendered.html} width={previewWidth} minHeight={frameHeight} />
+              </div>
             </div>
           ) : (
             <div className="site00-email-debug-inbox" style={{ background: inboxBg }}>
-              <div className="site00-email-debug-inbox__frame" style={{ maxWidth: previewWidth }}>
-                <iframe title={`${template.name} preview`} srcDoc={rendered.html} sandbox="" style={{ width: '100%', minHeight: previewMode === 'mobile' ? 820 : 960, border: 0 }} />
-              </div>
+              <p className="site00-email-debug-compare-label">IMPLEMENTATION</p>
+              <PreviewFrame html={rendered.html} width={previewWidth} minHeight={frameHeight} />
             </div>
           )}
 

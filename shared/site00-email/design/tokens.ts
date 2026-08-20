@@ -1,4 +1,4 @@
-/** SITE 00 email design tokens — reference-locked. */
+/** SITE 00 email design tokens — reference-locked, Martian Mono aligned with product. */
 export const EMAIL = {
   red: '#EB1C24',
   black: '#0A0A0A',
@@ -9,11 +9,11 @@ export const EMAIL = {
   green: '#1A8F4C',
   amber: '#D97706',
   maxWidth: 640,
-  /** Debug preview + web font loading */
-  fontUrl: 'https://fonts.googleapis.com/css2?family=Trebuchet+MS:wght@400;700&display=swap',
-  fontStack: "'Trebuchet MS', 'Futura PT', Futura, Arial, sans-serif",
-  monoStack: "'Courier New', Courier, monospace",
-  scriptAccent: "Georgia, 'Times New Roman', serif",
+  qrDisplaySize: 72,
+  /** Martian Mono — matches SITE 00 product typography (site00-fonts.css) */
+  fontUrl: 'https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap',
+  fontStack: "'Martian Mono', ui-monospace, 'Cascadia Code', Menlo, Monaco, Consolas, monospace",
+  monoStack: "'Martian Mono', ui-monospace, Menlo, Monaco, Consolas, monospace",
   footerTagline: 'WE BUILD. YOU GUIDE. TOGETHER.',
   assetBase: 'https://site00.com',
 } as const;

@@ -6,8 +6,8 @@ export async function qrDataUrlFor(destination: string): Promise<string> {
   const url = destination.trim() || 'https://site00.com';
   return QRCode.toDataURL(url, {
     errorCorrectionLevel: 'M',
-    margin: 1,
-    width: 180,
+    margin: 2,
+    width: 120,
     color: { dark: EMAIL.black, light: EMAIL.white },
   });
 }

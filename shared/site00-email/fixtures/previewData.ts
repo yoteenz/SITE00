@@ -38,6 +38,18 @@ export const DEBUG_EMAIL_FIXTURES: EmailTemplateVars = {
   ],
 };
 
-export function mergePreviewVars(overrides?: Partial<EmailTemplateVars>): EmailTemplateVars {
-  return { ...DEBUG_EMAIL_FIXTURES, ...overrides };
+/** Access templates omit production-stage bodyLines and inputItems. */
+const ACCESS_TEMPLATE_IDS = new Set(['access-credential-issued', 'sign-in-link', 'verify-email', 'password-reset']);
+
+export function mergePreviewVars(templateId: string, overrides?: Partial<EmailTemplateVars>): EmailTemplateVars {
+  const base = { ...DEBUG_EMAIL_FIXTURES };
+  if (ACCESS_TEMPLATE_IDS.has(templateId)) {
+    delete base.bodyLines;
+    delete base.inputItems;
+    delete base.dataFields;
+  }
+  if (templateId === 'sign-in-link') {
+    base.accentScript = 'WELCOME TO';
+  }
+  return { ...base, ...overrides };
 }
