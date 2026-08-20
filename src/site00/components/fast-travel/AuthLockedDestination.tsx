@@ -35,7 +35,7 @@ export function AuthLockedDestination({
       </span>
       {showArrow ? (
         <span className="site00-fast-travel__dest-arrow" aria-hidden="true">
-          <Site00DirectoryArrowIcon size={18} />
+          <Site00DirectoryArrowIcon size={18} className="site00-fast-travel__dest-arrow-svg" />
         </span>
       ) : null}
     </Link>

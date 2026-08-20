@@ -282,6 +282,16 @@
     transition: transform 180ms var(--site-ease);
   }
 
+  .site00-fast-travel__dest-arrow-svg {
+    display: block;
+    flex-shrink: 0;
+    color: var(--site-red);
+  }
+
+  .site00-fast-travel__dest-arrow-svg path {
+    stroke: var(--site-red, #e8192c);
+  }
+
   .site00-fast-travel__dest--list:active .site00-fast-travel__dest-arrow {
     transform: translateX(3px);
   }
