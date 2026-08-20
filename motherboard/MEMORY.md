@@ -1148,3 +1148,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** `FastTravelDestinationArt` `--idnty-entry` modifier + `translateY(4px)`.
 - **Branch:** `cursor/fast-travel-idnty-icon-offset-2c3b`.
 
+---
+
+## 2026-08-20 — Loader gray subtitle stuck on “IS READY”
+
+- **Issue:** Gray subtitle showed “BUILDER IS READY” etc. while bar still loading (e.g. 87%) — `resolveActiveStageSubtitle` treated final milestone as active whenever p < 100.
+- **Fix:** Ready copy only at 100%; penultimate stage subtitle until then. `completeStage` no longer advances to ready copy after assemble.
+- **Branch:** `cursor/loader-subtitle-stage-fix-2c3b`.
+
