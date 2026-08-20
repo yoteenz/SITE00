@@ -5,6 +5,7 @@ import { listSafeConnections } from './connectionService.js';
 import { getOwnerConfigurationChecklist } from './ownerConfigService.js';
 import { getExpandedPilotReadiness } from './pilotReadinessSprint04.js';
 import { getNdxbookImportState } from './ndxbookLegacyImportService.js';
+import { getCreativeDirectionPayload } from '../creativeDirection/engagementService.js';
 
 export async function buildConnectionCommandItems(orgSlug: string, orgName: string): Promise<EvolveCommandItem[]> {
   const items: EvolveCommandItem[] = [];
@@ -61,8 +62,39 @@ export async function buildConnectionCommandItems(orgSlug: string, orgName: stri
     const importState = getNdxbookImportState();
     const legacyImported = importState.state === 'IMPORTED';
     const pilotRoute = `/admin/site00/orchestration/${orgSlug}/evolve/pilot`;
+    const creativeDirectionRoute = `/admin/site00/orchestration/${orgSlug}/evolve/creative-direction`;
 
-    if (legacyImported) {
+    let visualDnaApproved = false;
+    try {
+      const cd = await getCreativeDirectionPayload(orgSlug);
+      visualDnaApproved = cd.engagement.visualDna.status === 'APPROVED';
+    } catch {
+      // engagement not started — creative direction still required
+    }
+
+    if (legacyImported && !visualDnaApproved) {
+      items.push({
+        id: 'ndxbook-focus-creative-direction',
+        organizationSlug: orgSlug,
+        organizationName: orgName,
+        category: 'FOCUS_NOW',
+        title: 'Review NDXbook Creative Direction territories',
+        reason: 'Three proposed directions ready — founder review required before visual DNA can be approved',
+        route: creativeDirectionRoute,
+        priority: 5,
+      });
+    } else if (legacyImported && visualDnaApproved) {
+      items.push({
+        id: 'ndxbook-focus-page001',
+        organizationSlug: orgSlug,
+        organizationName: orgName,
+        category: 'FOCUS_NOW',
+        title: 'Build NDXbook Page 001',
+        reason: 'Visual DNA approved — Page 001 production eligible through EVOLVE creative pipeline',
+        route: pilotRoute,
+        priority: 5,
+      });
+    } else if (legacyImported) {
       items.push({
         id: 'ndxbook-focus-visual-identity',
         organizationSlug: orgSlug,
@@ -70,7 +102,7 @@ export async function buildConnectionCommandItems(orgSlug: string, orgName: stri
         category: 'FOCUS_NOW',
         title: 'Finalize NDXbook visual identity / Creative Direction',
         reason: 'Legacy intelligence imported — placeholder visual DNA is reference-only until identity process completes',
-        route: pilotRoute,
+        route: creativeDirectionRoute,
         priority: 5,
       });
     }

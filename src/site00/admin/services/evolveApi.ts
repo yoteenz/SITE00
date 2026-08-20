@@ -275,4 +275,25 @@ export const site00EvolveApi = {
       method: 'POST',
       body: JSON.stringify({ action: 'first_post_dry_run', orgSlug, candidateId, approvalState }),
     }),
+
+  creativeDirection: (orgSlug: string) =>
+    evolveFetch<Record<string, unknown>>(`?action=creative_direction&orgSlug=${encodeURIComponent(orgSlug)}`),
+
+  creativeDirectionDebug: (orgSlug: string) =>
+    evolveFetch<Record<string, unknown>>(`?action=creative_direction_debug&orgSlug=${encodeURIComponent(orgSlug)}`),
+
+  creativeDirectionDecision: (
+    orgSlug: string,
+    body: {
+      type: 'APPROVE' | 'REFINE' | 'HYBRIDIZE' | 'REJECT';
+      selectedTerritoryId?: string;
+      hybridSelections?: Array<{ territoryId: string; elements: string[] }>;
+      refinementNotes?: string;
+      rejectedTerritoryIds?: string[];
+    },
+  ) =>
+    evolveFetch<Record<string, unknown>>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'creative_direction_decision', orgSlug, ...body }),
+    }),
 };
