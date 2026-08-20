@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import type { FastTravelContext, FastTravelDestination, FastTravelSection as FastTravelSectionModel } from '../../config/fast-travel';
 import { resolveFastTravelHref } from '../../config/fast-travel';
+import { Site00DirectoryArrowIcon } from '../mobile/Site00MobileIcons';
 import { AuthLockedDestination } from './AuthLockedDestination';
 
 type FastTravelSectionProps = {
@@ -23,9 +24,17 @@ function FastTravelDestinationLink({
   const href = resolveFastTravelHref(dest, ctx);
   const locked = dest.requiresAuth && !ctx.isSignedIn;
 
+  const showArrow = variant === 'list';
+
   if (locked) {
     return (
-      <AuthLockedDestination href={href} label={dest.label} description={dest.description} onNavigate={onNavigate} />
+      <AuthLockedDestination
+        href={href}
+        label={dest.label}
+        description={dest.description}
+        onNavigate={onNavigate}
+        showArrow={showArrow}
+      />
     );
   }
 
@@ -36,8 +45,15 @@ function FastTravelDestinationLink({
       onClick={onNavigate}
       aria-label={dest.description ? `${dest.label} — ${dest.description}` : dest.label}
     >
-      <span className="site00-fast-travel__dest-label">{dest.label}</span>
-      {dest.description ? <span className="site00-fast-travel__dest-desc">{dest.description}</span> : null}
+      <span className="site00-fast-travel__dest-copy">
+        <span className="site00-fast-travel__dest-label">{dest.label}</span>
+        {dest.description ? <span className="site00-fast-travel__dest-desc">{dest.description}</span> : null}
+      </span>
+      {showArrow ? (
+        <span className="site00-fast-travel__dest-arrow" aria-hidden="true">
+          <Site00DirectoryArrowIcon size={18} />
+        </span>
+      ) : null}
     </Link>
   );
 }

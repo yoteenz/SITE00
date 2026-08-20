@@ -892,3 +892,11 @@ Summary of the **whole conversation so far** in this cloud agent run.
 - **Canonical URL shown:** `https://site00.com/access/00-0001`. **LIVE ROUTE →** links to production `/access/:code`.
 - **Branch:** `cursor/access-debug-route-2c3b`.
 
+---
+
+## 2026-08-20 — Fast Travel list arrows (Quick Jump + Return)
+
+- **Request:** Add red arrows from locations directory to right side of Fast Travel QUICK JUMP and RETURN panels.
+- **Fix:** Reuse `Site00DirectoryArrowIcon` on `site00-fast-travel__dest--list` items; row layout with arrow on right; active translateX nudge matches directory cards.
+- **Branch:** `cursor/fast-travel-arrows-2c3b`.
+
