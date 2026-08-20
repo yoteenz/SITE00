@@ -417,6 +417,8 @@
 }
 
 .site00-signin-form__footer-link {
+  display: block;
+  margin-top: 4px;
   color: var(--site-red);
   text-decoration: none;
 }
