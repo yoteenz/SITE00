@@ -34,6 +34,7 @@ import '../site00/styles/site00-mobile-artboard.css';
 import '../site00/styles/site00-auth.css';
 import '../site00/styles/site00-access.css';
 import '../site00/styles/site00-ctrl-room.css';
+import '../site00/styles/site00-ctrl-room-mobile.css';
 import '../site00/styles/site00-ecosystem.css';
 import '../site00/styles/site00-idnty-assessment.css';
 import '../site00/styles/site00-idnty-state-v2.css';
