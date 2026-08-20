@@ -1,0 +1,232 @@
+/* SITE 00 — founder project index + command surface */
+
+.site00-projects-header {
+  margin-bottom: 1.25rem;
+}
+
+.site00-projects-header__title {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  text-transform: uppercase;
+  margin: 0.25rem 0 0.5rem;
+  letter-spacing: 0.04em;
+}
+
+.site00-projects-header__sub {
+  max-width: 52ch;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.site00-project-index-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.site00-project-index-card {
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+.site00-project-index-card__link {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 1rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.site00-project-index-card__link:hover,
+.site00-project-index-card__link:focus-visible {
+  outline: 2px solid #eb1c24;
+  outline-offset: -2px;
+}
+
+.site00-project-index-card__mark {
+  color: #eb1c24;
+  font-size: 1.1rem;
+}
+
+.site00-project-index-card__kicker {
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: #eb1c24;
+  margin: 0 0 0.2rem;
+}
+
+.site00-project-index-card__name {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+.site00-project-index-card__internal {
+  font-size: 0.65rem;
+  color: #666;
+  margin: 0.15rem 0 0;
+  letter-spacing: 0.08em;
+}
+
+.site00-project-index-card__phase,
+.site00-project-index-card__org {
+  font-size: 0.65rem;
+  color: #555;
+  margin: 0.25rem 0 0;
+  letter-spacing: 0.06em;
+}
+
+.site00-project-index-card__focus {
+  font-size: 0.65rem;
+  color: #111;
+  margin: 0.35rem 0 0;
+  font-weight: 600;
+}
+
+.site00-project-index-card__cta {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.site00-projects-client-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e5e5;
+}
+
+/* Project detail command surface */
+.site00-project-command__back {
+  margin-bottom: 1rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+}
+
+.site00-project-command__header {
+  margin-bottom: 1.5rem;
+}
+
+.site00-project-command__title {
+  font-size: clamp(1.35rem, 4vw, 1.85rem);
+  text-transform: uppercase;
+  margin: 0.25rem 0;
+}
+
+.site00-project-command__internal {
+  font-size: 0.7rem;
+  color: #666;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.5rem;
+}
+
+.site00-project-command__boundary {
+  font-size: 0.65rem;
+  color: #555;
+  border-left: 2px solid #eb1c24;
+  padding-left: 0.65rem;
+  margin-top: 0.75rem;
+  line-height: 1.45;
+}
+
+.site00-project-command__grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .site00-project-command__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .site00-project-command__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.site00-project-command__section {
+  border: 1px solid #e5e5e5;
+  padding: 0.85rem;
+  background: #fff;
+}
+
+.site00-project-command__section-title {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: #eb1c24;
+  margin: 0 0 0.65rem;
+}
+
+.site00-project-command__row {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 0.35rem;
+  font-size: 0.65rem;
+  margin-bottom: 0.35rem;
+}
+
+.site00-project-command__label {
+  color: #888;
+}
+
+.site00-project-command__value {
+  word-break: break-word;
+}
+
+.site00-project-command__note {
+  font-size: 0.6rem;
+  color: #666;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+
+.site00-project-command__cta {
+  display: inline-block;
+  margin-top: 0.65rem;
+  font-size: 0.65rem;
+}
+
+.site00-project-command__channels,
+.site00-project-command__activity,
+.site00-project-command__surfaces,
+.site00-project-command__command-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.65rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.site00-project-command__command-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  border-left: 2px solid #eb1c24;
+  padding-left: 0.5rem;
+}
+
+.site00-project-command__command-cat {
+  font-size: 0.55rem;
+  color: #eb1c24;
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 639px) {
+  .site00-project-index-card__link {
+    grid-template-columns: auto 1fr;
+  }
+
+  .site00-project-index-card__cta {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
