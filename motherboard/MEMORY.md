@@ -1052,3 +1052,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** Scoped `.site00-page--projects` rules in `site00-ecosystem.css` for continuation panel titles and feed/roles right-side text.
 - **Branch:** `cursor/projects-panel-text-colors-2c3b`.
 
+---
+
+## 2026-08-20 — Post sign-in Vite auditLog import error
+
+- **Issue:** After sign-in, Vite overlay: failed to resolve `./_lib/auditLog.js` from `api/profile.ts` — dev server was treating `/api/profile` as a frontend module.
+- **Fix:** Added `api/_lib/auditLog.ts` + `api/_lib/email/sendEmail.ts` stubs; replaced ASSTS-only Vite plugin with `scripts/vite-site00-local-api.mjs` serving profile/session/activity and other core API routes locally in dev.
+- **Branch:** `cursor/fix-profile-auditlog-import-2c3b`.
+
