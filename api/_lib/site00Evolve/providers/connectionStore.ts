@@ -50,6 +50,10 @@ export function toSafeConnectionView(row: ExternalConnectionRow): SafeConnection
     lastErrorMessage: row.last_error_message,
     credentialState: row.credential_state ?? 'NOT_CONFIGURED',
     recommendedAction,
+    verificationStatus: row.verification_status ?? null,
+    accountConfirmedAt: row.account_confirmed_at ?? (row.metadata?.account_confirmed_at as string | undefined) ?? null,
+    publishingCapability: row.publishing_capability ?? null,
+    analyticsCapability: row.analytics_capability ?? null,
   };
 }
 

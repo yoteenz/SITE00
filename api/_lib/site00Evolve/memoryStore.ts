@@ -175,6 +175,10 @@ export function getContentBrainByOrgId(orgId: string): Array<Record<string, unkn
   return getEvolveStore().contentBrain.filter((e) => e.organization_id === orgId);
 }
 
+export function insertContentBrainEntry(entry: Record<string, unknown>): void {
+  getEvolveStore().contentBrain.push(entry);
+}
+
 export function getEvolveRoadmapByOrgId(orgId: string): EvolveRoadmapSeed[] {
   return getEvolveStore().evolveRoadmap.filter((r) => r.organization_id === orgId);
 }

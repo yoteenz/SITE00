@@ -2,7 +2,8 @@
 
 import type { EvolveCommandItem } from '../types.js';
 import { listSafeConnections } from './connectionService.js';
-import { getPilotReadiness } from './pilotService.js';
+import { getOwnerConfigurationChecklist } from './ownerConfigService.js';
+import { getExpandedPilotReadiness } from './pilotReadinessSprint04.js';
 
 export async function buildConnectionCommandItems(orgSlug: string, orgName: string): Promise<EvolveCommandItem[]> {
   const items: EvolveCommandItem[] = [];
@@ -54,18 +55,84 @@ export async function buildConnectionCommandItems(orgSlug: string, orgName: stri
   }
 
   if (orgSlug === 'ndxbook') {
-    const readiness = await getPilotReadiness(orgSlug);
-    const blockedCount = readiness.items.filter((i) => i.state === 'BLOCKED' || i.state === 'NOT_CONNECTED').length;
-    if (blockedCount > 0) {
+    const readiness = await getExpandedPilotReadiness(orgSlug);
+    const ownerConfig = getOwnerConfigurationChecklist();
+
+    if (!ownerConfig.allConfigured) {
       items.push({
-        id: `ndxbook-pilot-upcoming`,
+        id: 'ndxbook-config-needs-you',
         organizationSlug: orgSlug,
         organizationName: orgName,
-        category: 'UPCOMING',
-        title: 'NDXbook publishing pilot readiness',
-        reason: `${blockedCount} readiness item(s) remain before controlled publishing pilot`,
+        category: 'NEEDS_YOU',
+        title: 'Configure Meta credentials',
+        reason: ownerConfig.items.filter((i) => i.status !== 'CONFIGURED').map((i) => i.label).join(', '),
         route: `/admin/site00/orchestration/${orgSlug}/evolve/pilot`,
-        priority: 55,
+        priority: 8,
+      });
+    }
+
+    const assessmentItem = readiness.items.find((i) => i.key === 'assessment');
+    if (assessmentItem?.state === 'NOT_STARTED' || assessmentItem?.state === 'PARTIAL') {
+      items.push({
+        id: 'ndxbook-assessment-needs-you',
+        organizationSlug: orgSlug,
+        organizationName: orgName,
+        category: 'NEEDS_YOU',
+        title: 'Complete NDXbook marketing assessment',
+        reason: 'Owner assessment required before manifest and pilot content',
+        route: `/admin/site00/orchestration/${orgSlug}/evolve/pilot`,
+        priority: 9,
+      });
+    }
+
+    const accountItem = readiness.items.find((i) => i.key === 'account_confirm');
+    if (accountItem?.state === 'PARTIAL') {
+      items.push({
+        id: 'ndxbook-account-needs-you',
+        organizationSlug: orgSlug,
+        organizationName: orgName,
+        category: 'NEEDS_YOU',
+        title: 'Confirm Instagram account',
+        reason: 'Verified connection requires owner account confirmation',
+        route: `/admin/site00/orchestration/${orgSlug}/evolve/pilot`,
+        priority: 10,
+      });
+    }
+
+    if (readiness.currentState === 'READY_FOR_FENCE_ENABLEMENT') {
+      items.push({
+        id: 'ndxbook-first-post-needs-you',
+        organizationSlug: orgSlug,
+        organizationName: orgName,
+        category: 'NEEDS_YOU',
+        title: 'Approve first pilot content',
+        reason: 'First-post candidate ready for owner approval',
+        route: `/admin/site00/orchestration/${orgSlug}/evolve/pilot`,
+        priority: 11,
+      });
+    }
+
+    items.push({
+      id: 'ndxbook-controlled-publish-upcoming',
+      organizationSlug: orgSlug,
+      organizationName: orgName,
+      category: 'UPCOMING',
+      title: 'Controlled first publication',
+      reason: 'Available after fence enablement in next sprint',
+      route: `/admin/site00/orchestration/${orgSlug}/evolve/pilot`,
+      priority: 50,
+    });
+
+    for (const deferred of ['Automation', 'Cross-posting', 'Paid promotion']) {
+      items.push({
+        id: `ndxbook-deferred-${deferred.toLowerCase().replace(/\s+/g, '-')}`,
+        organizationSlug: orgSlug,
+        organizationName: orgName,
+        category: 'DEFERRED',
+        title: deferred,
+        reason: 'Out of scope for Sprint 05A pilot activation',
+        route: `/admin/site00/orchestration/${orgSlug}/evolve/pilot`,
+        priority: 90,
       });
     }
   }

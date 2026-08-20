@@ -1871,7 +1871,6 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 ---
 
-<<<<<<< HEAD
 ## 2026-08-20 — Email Family System visual architecture correction sprint
 
 - **Problem:** Lifecycle templates (Access Credential, Identity Path/Input/Calibration/Review/Foundation) all rendered identical Welcome/Location Key composition because `family-map` collapsed them to `WELCOME_ONBOARDING` and `composeWelcomeOnboarding` hardcoded "YOUR LOCATION EXISTS NOW." copy.
@@ -1882,7 +1881,8 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Tests/build:** 156 tests PASS. Build PASS. No deploy. No emails sent.
 
-=======
+---
+
 ## 2026-08-20 — EVOLVE Sprint 04: NDXbook pilot readiness + live connection configuration
 
 - **Objective:** Prepare NDXbook for controlled publishing pilot without publishing, enabling fences, or inventing credentials.
@@ -1904,4 +1904,33 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Tests:** 161/161 PASS (15 new Sprint 04). Build PASS. Email Family unchanged. AIO deferral preserved.
 
 - **Status:** PARTIAL — architecture complete; live provider authorization blocked pending owner env configuration (META_* + EVOLVE_PROVIDER_SECRET_KEY).
->>>>>>> origin/main
+
+---
+
+## 2026-08-20 — EVOLVE Sprint 05A: NDXbook pilot activation + owner configuration
+
+- **Objective:** Complete all prerequisites for `READY_FOR_FENCE_ENABLEMENT` without publishing, enabling fences, automation, or deploy.
+
+- **Owner configuration checklist:** `ownerConfigService.ts` — META_APP_ID, META_APP_SECRET, META_OAUTH_REDIRECT_URI, EVOLVE_PROVIDER_SECRET_KEY show CONFIGURED/MISSING/INVALID with safe metadata only.
+
+- **Exact OAuth callback URL:** `https://api.site00.com/api/admin/site00-evolve/oauth/callback` (canonical via `oauthConstants.ts`); `META_OAUTH_REDIRECT_URI` must match exactly.
+
+- **Live OAuth callback:** `oauthCallbackHandler.ts` + route `api/admin/site00-evolve-oauth-callback.ts` — state validation, org+provider binding, single-use, token exchange server-side, encrypted storage, safe redirect to pilot route (no tokens in URL).
+
+- **NDXbook assessment UI:** Production form on `/admin/site00/orchestration/ndxbook/evolve/pilot` — owner answers persisted as OWNER_CONFIRMED; bootstraps profile, objectives, channels, Content Brain (CANONICAL vs REFERENCE), manifest.
+
+- **Account flow:** Discovery (`accountDiscoveryService.ts`), explicit multi-account selection, CONFIRM THIS ACCOUNT, capability verification (READ_PROFILE, READ_CONTENT, READ_ANALYTICS, PUBLISH_CONTENT, etc.).
+
+- **Analytics baseline:** `analyticsBaselineService.ts` — initial sync when READ_ANALYTICS granted; truthful UNAVAILABLE otherwise.
+
+- **First-post candidate UI:** SAVE DRAFT / SEND FOR APPROVAL / RUN DRY RUN — no PUBLISH action; fences remain DISABLED.
+
+- **Dry run semantics:** DRY_RUN_COMPLETE when account confirmed + approved; zero provider writes; fence state in preview only.
+
+- **Fence readiness:** `pilotActivationService.evaluateFenceEnablementReadiness()` → READY_FOR_FENCE_ENABLEMENT when all checks pass in test harness.
+
+- **COMMAND:** `commandConnections.ts` updated — NEEDS YOU (credentials, assessment, account confirm, first post), UPCOMING (controlled publication), DEFERRED (automation, cross-posting, paid promotion).
+
+- **Tests:** 199/199 PASS (28 new Sprint 05A). Build PASS. No deploy. No publication.
+
+- **Production truth:** Live Meta OAuth + account confirmation still require owner env vars on API host; code path complete in memory/test mode.

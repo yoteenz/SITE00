@@ -29,6 +29,14 @@ export function resetConnectionMemory(): void {
   memObservations.length = 0;
 }
 
+export async function recordConnectionEvent(event: Record<string, unknown>): Promise<void> {
+  if (useMemoryConnections()) {
+    memEvents.push({ id: randomUUID(), created_at: new Date().toISOString(), ...event });
+    return;
+  }
+  await db.insertConnectionEvent(event);
+}
+
 export async function ensurePilotConfig(orgSlug: string) {
   const orgId = orgIdFromSlug(orgSlug)!;
   const defaults = {
@@ -202,7 +210,7 @@ export async function verifyConnection(orgSlug: string, connectionId: string) {
     verification_status: result.healthy ? 'VERIFIED' : 'VERIFICATION_REQUIRED',
     granted_capabilities: granted,
     publishing_capability: granted.includes('PUBLISH_CONTENT') ? 'AVAILABLE' : 'NOT_AVAILABLE',
-    analytics_capability: granted.includes('READ_CONTENT_METRICS') ? 'AVAILABLE' : 'NOT_AVAILABLE',
+    analytics_capability: granted.includes('READ_ANALYTICS') || granted.includes('READ_CONTENT_METRICS') ? 'AVAILABLE' : 'NOT_AVAILABLE',
     last_verified_at: new Date().toISOString(),
     last_error_message: result.healthy ? null : result.message,
     updated_at: new Date().toISOString(),

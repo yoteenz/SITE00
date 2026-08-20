@@ -27,6 +27,7 @@ const LOCAL_API_ROUTES = [
   { path: '/api/admin/site00-access-credentials', file: 'api/admin/site00-access-credentials.ts' },
   { path: '/api/admin/site00-orchestration', file: 'api/admin/site00-orchestration.ts' },
   { path: '/api/admin/site00-evolve', file: 'api/admin/site00-evolve.ts' },
+  { path: '/api/admin/site00-evolve/oauth/callback', file: 'api/admin/site00-evolve-oauth-callback.ts' },
 ];
 
 function applyServerEnv() {

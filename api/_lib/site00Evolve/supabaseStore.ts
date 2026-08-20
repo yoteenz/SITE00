@@ -380,6 +380,23 @@ export async function verifyOrgAccess(orgId: string, recordOrgId: string): Promi
   return orgId === recordOrgId;
 }
 
+export async function loadContentBrain(orgId: string): Promise<Array<Record<string, unknown>>> {
+  const { data, error } = await getSupabaseAdmin()
+    .from('site00_content_brain_entries')
+    .select('*')
+    .eq('organization_id', orgId);
+  if (error) throw error;
+  return (data ?? []).map((r) => ({
+    ...r,
+    entry_class: (r.metadata as Record<string, unknown>)?.entry_class ?? 'REFERENCE',
+  }));
+}
+
+export async function insertContentBrainDb(row: Record<string, unknown>): Promise<void> {
+  const { error } = await getSupabaseAdmin().from('site00_content_brain_entries').insert(row);
+  if (error) throw error;
+}
+
 export const EVOLVE_EXPECTED_TABLES = [
   'site00_marketing_profiles',
   'site00_marketing_objectives',

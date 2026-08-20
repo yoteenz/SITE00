@@ -10,6 +10,25 @@ import type {
   EvolveSocialItem,
 } from '../types/evolve';
 
+export type ExpandedReadinessPayload = {
+  designation: string;
+  currentState: string;
+  globalPublishing: string;
+  humanApprovalRequired: boolean;
+  crossPosting: string;
+  nextAction: string;
+  pilotPurpose: string;
+  items: Array<{ key: string; label: string; state: string; detail?: string }>;
+  ownerConfiguration?: {
+    items: Array<{ key: string; label: string; status: string; lastValidated: string | null; validationResult: string }>;
+    exactCallbackUrl: string;
+    allConfigured: boolean;
+  };
+  exactCallbackUrl?: string;
+  publishingFence: Record<string, unknown>;
+  automationMode: string;
+};
+
 const BASE = '/api/admin/site00-evolve';
 
 async function evolveFetch<T>(path: string, init?: RequestInit): Promise<T> {
@@ -134,9 +153,7 @@ export const site00EvolveApi = {
     }>(`?action=connections&orgSlug=${encodeURIComponent(orgSlug)}`),
 
   pilotReadiness: (orgSlug: string) =>
-    evolveFetch<{ items: Array<{ key: string; label: string; state: string; detail?: string }>; publishingFence: Record<string, unknown>; automationMode: string }>(
-      `?action=pilot_readiness&orgSlug=${encodeURIComponent(orgSlug)}`,
-    ),
+    evolveFetch<ExpandedReadinessPayload>(`?action=pilot_readiness&orgSlug=${encodeURIComponent(orgSlug)}`),
 
   initiateConnection: (orgSlug: string, providerKey: string, displayName?: string) =>
     evolveFetch<{ connection: import('../types/evolve').SafeConnectionView }>('', {
@@ -160,5 +177,102 @@ export const site00EvolveApi = {
     evolveFetch<{ ok: boolean }>('', {
       method: 'POST',
       body: JSON.stringify({ action: 'disconnect_connection', orgSlug, connectionId }),
+    }),
+
+  providerConfig: () =>
+    evolveFetch<{
+      items: Array<{ key: string; label: string; status: string; lastValidated: string | null; validationResult: string }>;
+      exactCallbackUrl: string;
+      callbackPath: string;
+      allConfigured: boolean;
+      validatedAt: string;
+    }>('?action=provider_config'),
+
+  oauthCallbackUrl: () => evolveFetch<{ exactCallbackUrl: string }>('?action=oauth_callback_url'),
+
+  fenceReadiness: (orgSlug: string) =>
+    evolveFetch<{ readiness: string; checks: Record<string, boolean>; fenceEnablementNote: string }>(
+      `?action=fence_readiness&orgSlug=${encodeURIComponent(orgSlug)}`,
+    ),
+
+  ndxbookState: () => evolveFetch<Record<string, unknown>>('?action=ndxbook_state'),
+
+  runNdxbookAssessment: (answers: Record<string, unknown>) =>
+    evolveFetch<{ assessment: Record<string, unknown>; manifest?: Record<string, unknown> }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'run_ndxbook_assessment', orgSlug: 'ndxbook', answers }),
+    }),
+
+  startOAuth: (orgSlug: string, connectionId: string, providerKey = 'meta_instagram') =>
+    evolveFetch<{ ok: boolean; authorizationUrl?: string; code?: string; message?: string }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'start_oauth', orgSlug, connectionId, providerKey }),
+    }),
+
+  discoverIgAccounts: (orgSlug: string, connectionId: string) =>
+    evolveFetch<{ accounts: Array<Record<string, string>>; requiresSelection: boolean; message: string }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'discover_ig_accounts', orgSlug, connectionId }),
+    }),
+
+  selectConnectionAccount: (
+    orgSlug: string,
+    connectionId: string,
+    accountId: string,
+    accountName: string,
+    propertyId?: string,
+    propertyName?: string,
+  ) =>
+    evolveFetch<{ connection: import('../types/evolve').SafeConnectionView }>('', {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'select_connection_account',
+        orgSlug,
+        connectionId,
+        accountId,
+        accountName,
+        propertyId,
+        propertyName,
+      }),
+    }),
+
+  verifyCapabilities: (orgSlug: string, connectionId: string) =>
+    evolveFetch<{ capabilities: Record<string, string>; publishingCapability: string; analyticsCapability: string }>(
+      '',
+      { method: 'POST', body: JSON.stringify({ action: 'verify_capabilities', orgSlug, connectionId }) },
+    ),
+
+  confirmAccount: (orgSlug: string, connectionId: string) =>
+    evolveFetch<{ connection: import('../types/evolve').SafeConnectionView }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'confirm_account', orgSlug, connectionId }),
+    }),
+
+  analyticsBaseline: (orgSlug: string, connectionId: string) =>
+    evolveFetch<Record<string, unknown>>(
+      `?action=analytics_baseline&orgSlug=${encodeURIComponent(orgSlug)}&connectionId=${encodeURIComponent(connectionId)}`,
+    ),
+
+  firstPostCandidate: (orgSlug: string, candidateId?: string) =>
+    evolveFetch<Record<string, unknown>>(
+      `?action=first_post_candidate&orgSlug=${encodeURIComponent(orgSlug)}${candidateId ? `&candidateId=${encodeURIComponent(candidateId)}` : ''}`,
+    ),
+
+  saveFirstPostDraft: (orgSlug: string, data: Record<string, unknown>) =>
+    evolveFetch<{ candidate: Record<string, unknown> }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'save_first_post_draft', orgSlug, ...data }),
+    }),
+
+  sendFirstPostApproval: (orgSlug: string, candidateId: string) =>
+    evolveFetch<Record<string, unknown>>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'send_first_post_approval', orgSlug, candidateId }),
+    }),
+
+  firstPostDryRun: (orgSlug: string, candidateId: string, approvalState = 'APPROVED') =>
+    evolveFetch<Record<string, unknown>>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'first_post_dry_run', orgSlug, candidateId, approvalState }),
     }),
 };

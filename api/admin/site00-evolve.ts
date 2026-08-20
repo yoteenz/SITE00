@@ -51,12 +51,23 @@ import { getPilotReadiness, createDistributionJob } from '../_lib/site00Evolve/p
 import { buildPerformanceSnapshot, generateEvidenceInsights } from '../_lib/site00Evolve/providers/intelligenceService.js';
 import { verifySprint03Schema } from '../_lib/site00Evolve/providers/connectionStore.js';
 import { ProviderError } from '../_lib/site00Evolve/providers/errors.js';
-import { getExpandedPilotReadiness } from '../_lib/site00Evolve/providers/pilotReadinessSprint04.js';
+import { getOwnerConfigurationChecklist } from '../_lib/site00Evolve/providers/ownerConfigService.js';
+import { evaluateFenceEnablementReadiness } from '../_lib/site00Evolve/providers/pilotActivationService.js';
+import { discoverMetaInstagramAccounts, verifyConnectionCapabilities } from '../_lib/site00Evolve/providers/accountDiscoveryService.js';
+import {
+  saveFirstPostDraft,
+  sendFirstPostForApproval,
+  getFirstPostCandidateView,
+  runFirstPostDryRun,
+} from '../_lib/site00Evolve/providers/firstPostCandidateService.js';
+import { getCanonicalMetaOAuthCallbackUrl } from '../_lib/site00Evolve/providers/oauthConstants.js';
 import { runNdxbookAssessment, generateNdxbookManifest, getNdxbookMarketingState } from '../_lib/site00Evolve/providers/ndxbookService.js';
 import { startOAuthAuthorization, getProviderOAuthConfig } from '../_lib/site00Evolve/providers/oauthService.js';
 import { validateSecretStoreConfiguration } from '../_lib/site00Evolve/providers/providerSecretStore.js';
 import { confirmConnectionAccount } from '../_lib/site00Evolve/providers/accountConfirmation.js';
 import { runPublicationDryRun } from '../_lib/site00Evolve/providers/dryRunService.js';
+import { getExpandedPilotReadiness } from '../_lib/site00Evolve/providers/pilotReadinessSprint04.js';
+import { runAnalyticsBaseline } from '../_lib/site00Evolve/providers/analyticsBaselineService.js';
 
 function parseBody(req: VercelRequest): Record<string, unknown> | null {
   if (typeof req.body === 'object' && req.body !== null && !Array.isArray(req.body)) {
@@ -166,10 +177,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         case 'ndxbook_state':
           return res.status(200).json(await getNdxbookMarketingState());
         case 'provider_config':
-          return res.status(200).json({
-            meta_instagram: getProviderOAuthConfig('meta_instagram'),
-            secretStore: validateSecretStoreConfiguration(),
-          });
+          return res.status(200).json(getOwnerConfigurationChecklist());
+        case 'fence_readiness':
+          return res.status(200).json(await evaluateFenceEnablementReadiness(orgSlug));
+        case 'oauth_callback_url':
+          return res.status(200).json({ exactCallbackUrl: getCanonicalMetaOAuthCallbackUrl() });
+        case 'first_post_candidate':
+          return res.status(200).json(await getFirstPostCandidateView(orgSlug, String(req.query.candidateId ?? '') || undefined));
+        case 'analytics_baseline':
+          return res.status(200).json(
+            await runAnalyticsBaseline(orgSlug, String(req.query.connectionId ?? '')),
+          );
         case 'performance_snapshot':
           return res.status(200).json({
             snapshot: await buildPerformanceSnapshot(orgSlug, {
@@ -336,6 +354,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               approvalState: body.approvalState ? String(body.approvalState) : 'DRAFT',
               campaignId: body.campaignId ? String(body.campaignId) : undefined,
             }),
+          );
+        case 'discover_ig_accounts':
+          return res.status(200).json(
+            await discoverMetaInstagramAccounts(orgSlug, String(body.connectionId ?? '')),
+          );
+        case 'verify_capabilities':
+          return res.status(200).json(
+            await verifyConnectionCapabilities(orgSlug, String(body.connectionId ?? '')),
+          );
+        case 'save_first_post_draft':
+          return res.status(200).json({ candidate: await saveFirstPostDraft(orgSlug, body as never) });
+        case 'send_first_post_approval':
+          return res.status(200).json(
+            await sendFirstPostForApproval(orgSlug, String(body.candidateId ?? ''), auth.user.email),
+          );
+        case 'first_post_dry_run':
+          return res.status(200).json(
+            await runFirstPostDryRun(orgSlug, String(body.candidateId ?? ''), String(body.approvalState ?? 'APPROVED')),
+          );
+        case 'analytics_baseline_sync':
+          return res.status(200).json(
+            await runAnalyticsBaseline(orgSlug, String(body.connectionId ?? '')),
           );
         default:
           return res.status(400).json({ error: 'UNKNOWN ACTION' });

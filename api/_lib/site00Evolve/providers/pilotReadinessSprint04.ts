@@ -3,8 +3,9 @@
 import { orgIdFromSlug } from '../orgRegistry.js';
 import { ensurePilotConfig, listSafeConnections } from './connectionService.js';
 import { publishingFenceState, isGlobalPublishingEnabled } from './publishingFence.js';
+import { getOwnerConfigurationChecklist } from './ownerConfigService.js';
+import { getCanonicalMetaOAuthCallbackUrl } from './oauthConstants.js';
 import { getProviderOAuthConfig } from './oauthService.js';
-import { validateSecretStoreConfiguration } from './providerSecretStore.js';
 import { isAccountConfirmed } from './accountConfirmation.js';
 import { getNdxbookMarketingState, evaluateBrandReadiness, evaluateContentBrainReadiness } from './ndxbookService.js';
 import { getLatestAssessment, getProfileByOrgId } from '../storeAdapter.js';
@@ -22,13 +23,21 @@ export async function getExpandedPilotReadiness(orgSlug: string) {
   const brand = await evaluateBrandReadiness(orgSlug);
   const contentBrain = await evaluateContentBrainReadiness(orgSlug);
   const oauthCfg = getProviderOAuthConfig('meta_instagram');
-  const secretCfg = validateSecretStoreConfiguration();
+  const ownerConfig = getOwnerConfigurationChecklist();
   const globalFence = isGlobalPublishingEnabled();
   const orgFence = publishingFenceState(String(pilot.publishing_status) as 'DISABLED');
 
-  const accountConfirmed = social ? isAccountConfirmed({ account_confirmed_at: null, metadata: {} }) : false;
+  const accountConfirmed = social
+    ? isAccountConfirmed({
+        account_confirmed_at: social.accountConfirmedAt,
+        metadata: {},
+      })
+    : false;
   const connRow = social;
   const verified = connRow?.status === 'CONNECTED' || (connRow as { verification_status?: string })?.verification_status === 'VERIFIED';
+
+  const ndxState = await getNdxbookMarketingState();
+  const manifestReady = Boolean(ndxState.assessment) && ndxState.objectives.length > 0;
 
   const items: Array<PilotReadinessItem & { readiness?: PilotReadinessState }> = [
     { key: 'org', label: 'Organization Registered', state: 'READY' },
@@ -55,8 +64,8 @@ export async function getExpandedPilotReadiness(orgSlug: string) {
     {
       key: 'provider_config',
       label: 'Provider Configured',
-      state: oauthCfg.configured && secretCfg.configured ? 'READY' : 'BLOCKED',
-      detail: oauthCfg.configured ? undefined : `REQUIRES_OWNER_CONFIGURATION: ${oauthCfg.missing.join(', ')}`,
+      state: ownerConfig.allConfigured ? 'READY' : 'BLOCKED',
+      detail: ownerConfig.allConfigured ? undefined : ownerConfig.items.filter((i) => i.status !== 'CONFIGURED').map((i) => `${i.label}: ${i.status}`).join('; '),
     },
     {
       key: 'oauth',
@@ -92,7 +101,7 @@ export async function getExpandedPilotReadiness(orgSlug: string) {
     {
       key: 'manifest',
       label: 'Marketing Manifest',
-      state: 'NOT_STARTED',
+      state: manifestReady ? 'READY' : assessment ? 'PARTIAL' : 'NOT_STARTED',
     },
     {
       key: 'approval',
@@ -125,8 +134,8 @@ export async function getExpandedPilotReadiness(orgSlug: string) {
     {
       key: 'security',
       label: 'Security Configuration',
-      state: secretCfg.configured ? 'READY' : 'BLOCKED',
-      detail: secretCfg.configured ? undefined : secretCfg.message,
+      state: ownerConfig.items.find((i) => i.key === 'EVOLVE_PROVIDER_SECRET_KEY')?.status === 'CONFIGURED' ? 'READY' : 'BLOCKED',
+      detail: ownerConfig.items.find((i) => i.key === 'EVOLVE_PROVIDER_SECRET_KEY')?.validationResult,
     },
   ];
 
@@ -136,8 +145,8 @@ export async function getExpandedPilotReadiness(orgSlug: string) {
     profile.marketing_maturity !== 'ASSESSMENT_REQUIRED' &&
     verified &&
     accountConfirmed &&
-    oauthCfg.configured &&
-    secretCfg.configured;
+    ownerConfig.allConfigured &&
+    manifestReady;
 
   const overallReadiness: PilotReadinessState = prerequisitesMet
     ? 'READY_FOR_FENCE_ENABLEMENT'
@@ -145,23 +154,25 @@ export async function getExpandedPilotReadiness(orgSlug: string) {
       ? 'PARTIAL'
       : 'NOT_STARTED';
 
-  const nextAction = !assessment
-    ? 'Complete NDXbook marketing assessment'
-    : !oauthCfg.configured
-      ? `Configure provider: ${oauthCfg.missing.join(', ')}`
+  const nextAction = !ownerConfig.allConfigured
+    ? 'Configure Meta credentials'
+    : !assessment
+      ? 'Complete NDXbook marketing assessment'
       : !social
         ? 'Authorize NDXbook social account'
         : !verified
           ? 'Verify connection'
           : !accountConfirmed
-            ? 'Confirm connected account'
-            : 'Review pilot content draft';
+            ? 'Confirm Instagram account'
+            : 'Approve first pilot content';
 
   return {
     organizationSlug: orgSlug,
     designation: 'DISTRIBUTION_PUBLISHING_PILOT',
     currentState: overallReadiness,
     items,
+    ownerConfiguration: ownerConfig,
+    exactCallbackUrl: getCanonicalMetaOAuthCallbackUrl(),
     publishingFence: orgFence,
     globalPublishing: globalFence ? 'ENABLED' : 'DISABLED — OWNER ACTION REQUIRED',
     automationMode: String(pilot.automation_mode),

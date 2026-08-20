@@ -36,7 +36,7 @@ describe('EVOLVE Sprint 04 — NDXbook pilot readiness', () => {
       targetAudience: 'Owner-defined audience',
       provenance: { primaryObjective: 'OWNER_CONFIRMED' },
     });
-    expect(assessment.organization_id).toBe(orgIdFromSlug('ndxbook'));
+    expect(assessment.assessment?.organization_id).toBe(orgIdFromSlug('ndxbook'));
   });
 
   it('manifest requires completed assessment', async () => {
@@ -61,7 +61,7 @@ describe('EVOLVE Sprint 04 — NDXbook pilot readiness', () => {
   it('OAuth state is organization and provider bound', async () => {
     vi.stubEnv('META_APP_ID', 'app-id');
     vi.stubEnv('META_APP_SECRET', 'secret');
-    vi.stubEnv('META_OAUTH_REDIRECT_URI', 'https://api.site00.com/oauth/callback');
+    vi.stubEnv('META_OAUTH_REDIRECT_URI', 'https://api.site00.com/api/admin/site00-evolve/oauth/callback');
     const conn = await initiateConnection('ndxbook', 'meta_instagram', 'NDX IG');
     const start = await startOAuthAuthorization('ndxbook', 'meta_instagram', conn.id);
     expect(start.ok).toBe(true);
@@ -116,25 +116,34 @@ describe('EVOLVE Sprint 04 — NDXbook pilot readiness', () => {
     expect(JSON.stringify(conn)).not.toContain('secret-token');
   });
 
-  it('global fence blocks dry run publish path', async () => {
+  it('dry run completes with fences disabled — zero provider writes', async () => {
     const conn = await initiateConnection('ndxbook', 'meta_instagram', 'IG');
+    Object.assign(
+      (await import('./providers/connectionService.js')).memConnections.find((c) => c.id === conn.id)!,
+      { verification_status: 'VERIFIED', status: 'CONNECTED', account_confirmed_at: new Date().toISOString() },
+    );
     const result = await runPublicationDryRun('ndxbook', {
       connectionId: conn.id,
       approvalState: 'APPROVED',
     });
-    expect(result.status).toBe('DRY_RUN_BLOCKED');
-    expect(result.blockReason).toBe('BLOCKED_GLOBAL_PUBLISHING_FENCE');
+    expect(result.status).toBe('DRY_RUN_COMPLETE');
     expect(result.providerWriteCalled).toBe(false);
+    expect(result.preview?.fenceStates.global).toBe('DISABLED');
   });
 
-  it('organization fence blocks when global enabled but org disabled', async () => {
+  it('organization fence noted in dry run preview when global enabled', async () => {
     vi.stubEnv('EVOLVE_EXTERNAL_PUBLISHING_ENABLED', 'true');
     const conn = await initiateConnection('ndxbook', 'meta_instagram', 'IG');
+    Object.assign(
+      (await import('./providers/connectionService.js')).memConnections.find((c) => c.id === conn.id)!,
+      { verification_status: 'VERIFIED', status: 'CONNECTED', account_confirmed_at: new Date().toISOString() },
+    );
     const result = await runPublicationDryRun('ndxbook', {
       connectionId: conn.id,
       approvalState: 'APPROVED',
     });
-    expect(result.blockReason).toBe('BLOCKED_ORGANIZATION_PUBLISHING_FENCE');
+    expect(result.status).toBe('DRY_RUN_COMPLETE');
+    expect(result.preview?.fenceStates.organization).toBe('DISABLED');
   });
 
   it('approval fence blocks unapproved content', async () => {
