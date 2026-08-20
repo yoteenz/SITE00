@@ -1005,6 +1005,126 @@
   color: var(--site-red);
 }
 
+.site00-admin-access-form {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 16px;
+}
+
+.site00-admin-access-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--site00-font-label);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--site-text-muted);
+}
+
+.site00-admin-access-form label.site00-admin-access-form__full {
+  grid-column: 1 / -1;
+}
+
+.site00-admin-access-form input,
+.site00-admin-access-form textarea {
+  border: 1px solid var(--site-line);
+  background: #fff;
+  padding: 8px 10px;
+  font-family: var(--site00-font-body);
+  font-size: 11px;
+}
+
+.site00-admin-detail-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.site00-admin-panel--center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.site00-admin-dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 16px;
+  margin: 0;
+  font-size: 10px;
+}
+
+.site00-admin-dl dt {
+  color: var(--site-text-muted);
+  letter-spacing: 0.08em;
+}
+
+.site00-admin-dl dd {
+  margin: 0;
+}
+
+.site00-admin-mono {
+  font-family: var(--site00-font-mono);
+  font-size: 10px;
+  word-break: break-all;
+}
+
+.site00-admin-meta {
+  font-size: 9px;
+  color: var(--site-text-muted);
+  letter-spacing: 0.08em;
+}
+
+.site00-admin-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.site00-admin-link-btn {
+  border: none;
+  background: none;
+  color: var(--site-red);
+  font-family: var(--site00-font-label);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  padding: 0;
+}
+
+.site00-admin-event-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site00-admin-event-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--site-line);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+.site00-admin-btn--danger {
+  background: #fff;
+  border-color: var(--site-red);
+  color: var(--site-red);
+}
+
+@media (max-width: 767px) {
+  .site00-admin-detail-grid,
+  .site00-admin-access-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+
 .site00-admin-empty {
   margin: 0;
   font-size: 10px;

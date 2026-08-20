@@ -837,3 +837,15 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 - **Fix:** Restart cloud preview Vite with `--force`; preload sign-in icon in `Site00AuthShell`; portrait `aspect-ratio: 2/3` sizing + `fetchPriority="high"` on mark img. Branch `cursor/signin-icon-display-fix-2c3b`.
 - **User action:** Hard refresh sign-in page (mobile Safari: pull-to-refresh or clear site data) after preview reconnects.
 
+---
+
+## 2026-08-19 — Founder Access Credential system (physical-to-digital)
+
+- **Request:** Full sprint — serialized Founder Access Cards with QR → `/access/:credentialId` → ACCESS RECOGNIZED → ENTER SITE 00; admin CRUD; scan tracking; account association; RLS.
+- **Database:** `site00_access_credentials`, `site00_access_credential_events`, sequence + `site00_allocate_access_credential_code()` RPC. Migration `20260820000000_site00_access_credentials.sql` applied to Supabase.
+- **API:** Public `/api/site00-access` (resolve, scan, enter, associate); admin `/api/admin/site00-access-credentials` (list, detail, create, activate/revoke/deactivate).
+- **Public UI:** `/access/00-0001` with mobile/desktop layouts, 1.4s recognition sequence, invalid/revoked/inactive states. Skips cinematic loader.
+- **Session:** `sessionStorage` active credential + visit session id; auto-associate on sign-in via `onSignInSuccess`.
+- **Admin:** `/admin/site00/access-credentials` list + detail with QR (`qrcode` npm). Nav item ACCESS.
+- **Branch:** `cursor/founder-access-credentials-2c3b`.
+

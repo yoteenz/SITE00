@@ -31,6 +31,8 @@ export const SITE00_ADMIN_ROUTES = {
   reports: '/admin/site00/reports',
   reportsPipeline: '/admin/site00/reports/pipeline',
   activity: '/admin/site00/activity',
+  accessCredentials: '/admin/site00/access-credentials',
+  accessCredential: (id: string) => `/admin/site00/access-credentials/${id}`,
   settings: '/admin/site00/settings',
   settingsAutomation: '/admin/site00/settings/studio/automation',
   clientProvisioning: (slug: string) => `/project/${slug}/provisioning`,

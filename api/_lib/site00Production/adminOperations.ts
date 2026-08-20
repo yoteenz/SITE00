@@ -91,7 +91,7 @@ function isAfterPeriod(iso: string | null | undefined, start: Date | null): bool
   return new Date(iso).getTime() >= start.getTime();
 }
 
-async function logAdminActivity(
+export async function logAdminActivity(
   eventType: string,
   entityType: string,
   summary: string,

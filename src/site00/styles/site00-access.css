@@ -1,0 +1,290 @@
+/* SITE 00 Founder Access Credential — recognition threshold screens */
+
+.site00-access-page {
+  min-height: 100dvh;
+  background: #fff;
+  color: var(--site-text, #0a0a0a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(24px + env(safe-area-inset-top, 0px)) 22px calc(24px + env(safe-area-inset-bottom, 0px));
+}
+
+.site00-access-page--desktop {
+  padding: 48px 64px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.98) 100%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(10, 10, 10, 0.03) 0,
+      rgba(10, 10, 10, 0.03) 1px,
+      transparent 1px,
+      transparent 48px
+    );
+}
+
+.site00-access-page__loading {
+  font-family: var(--site00-font-label);
+  font-size: var(--site00-size-label);
+  letter-spacing: 0.14em;
+  color: var(--site-text-muted);
+}
+
+.site00-access-panel {
+  position: relative;
+  width: min(100%, 420px);
+  text-align: center;
+}
+
+.site00-access-panel--desktop {
+  width: min(100%, 560px);
+  padding: 48px 56px;
+  border: 1px solid rgba(10, 10, 10, 0.08);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 24px 80px rgba(10, 10, 10, 0.06);
+}
+
+.site00-access-panel__symbol {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 420ms ease, transform 420ms ease;
+  margin: 0 auto 28px;
+  color: var(--site-red, #e8192c);
+}
+
+.site00-access-panel__symbol.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.site00-access-symbol {
+  width: min(120px, 28vw);
+  aspect-ratio: 1;
+  margin-inline: auto;
+}
+
+.site00-access-panel--desktop .site00-access-symbol {
+  width: 140px;
+}
+
+.site00-access-symbol--muted {
+  color: rgba(10, 10, 10, 0.35);
+}
+
+.site00-access-symbol__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.site00-access-panel__lines {
+  position: absolute;
+  inset: 12% 8%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+
+.site00-access-panel__lines.is-active {
+  opacity: 1;
+}
+
+.site00-access-panel__line {
+  position: absolute;
+  background: rgba(232, 25, 44, 0.18);
+}
+
+.site00-access-panel__line--h {
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  transform: scaleX(0);
+  transform-origin: center;
+  animation: site00-access-line-h 680ms ease forwards;
+}
+
+.site00-access-panel__line--v {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  transform: scaleY(0);
+  transform-origin: center;
+  animation: site00-access-line-v 680ms ease forwards;
+}
+
+@keyframes site00-access-line-h {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes site00-access-line-v {
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.site00-access-copy__eyebrow,
+.site00-access-copy__title,
+.site00-access-copy__credential,
+.site00-access-copy__issued,
+.site00-access-copy__status,
+.site00-access-copy__message,
+.site00-access-copy__enter {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 360ms ease, transform 360ms ease;
+}
+
+.site00-access-copy__eyebrow.is-visible,
+.site00-access-copy__title.is-visible,
+.site00-access-copy__credential.is-visible,
+.site00-access-copy__issued.is-visible,
+.site00-access-copy__status.is-visible,
+.site00-access-copy__message.is-visible,
+.site00-access-copy__enter.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.site00-access-copy__eyebrow {
+  margin: 0 0 10px;
+  font-family: var(--site00-font-label);
+  font-size: var(--site00-size-label);
+  letter-spacing: 0.16em;
+  color: var(--site-red, #e8192c);
+}
+
+.site00-access-copy__title {
+  margin: 0 0 24px;
+  font-family: var(--site00-font-display);
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  font-weight: var(--site00-weight-display);
+  letter-spacing: 0.06em;
+  line-height: 0.95;
+}
+
+.site00-access-copy__credential {
+  margin: 0 0 20px;
+}
+
+.site00-access-copy__label {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--site00-font-label);
+  font-size: var(--site00-size-micro);
+  letter-spacing: 0.14em;
+  color: var(--site-text-muted);
+}
+
+.site00-access-copy__code {
+  display: block;
+  font-family: var(--site00-font-mono);
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  letter-spacing: 0.12em;
+  color: var(--site-text, #0a0a0a);
+}
+
+.site00-access-copy__issued {
+  margin: 0 0 16px;
+  font-family: var(--site00-font-body);
+  font-size: var(--site00-size-body);
+  line-height: 1.45;
+  letter-spacing: 0.06em;
+  color: var(--site-text-muted);
+}
+
+.site00-access-copy__status {
+  margin: 0 0 28px;
+}
+
+.site00-access-copy__status-value {
+  display: block;
+  font-family: var(--site00-font-label);
+  font-size: var(--site00-size-label);
+  letter-spacing: 0.14em;
+  color: var(--site-red, #e8192c);
+}
+
+.site00-access-copy__message {
+  margin: 0 0 28px;
+  font-family: var(--site00-font-body);
+  font-size: var(--site00-size-body);
+  line-height: 1.45;
+  letter-spacing: 0.06em;
+  color: var(--site-text-muted);
+}
+
+.site00-access-copy__enter {
+  appearance: none;
+  border: none;
+  background: var(--site-red, #e8192c);
+  color: #fff;
+  font-family: var(--site00-font-label);
+  font-size: var(--site00-size-label);
+  letter-spacing: 0.12em;
+  padding: 14px 28px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.site00-access-copy__enter:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.site00-access-copy__enter:not(:disabled):hover,
+.site00-access-copy__enter:not(:disabled):focus-visible {
+  filter: brightness(0.95);
+}
+
+/* Admin QR display */
+.site00-access-qr {
+  display: inline-block;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid rgba(10, 10, 10, 0.1);
+}
+
+.site00-access-qr img,
+.site00-access-qr canvas {
+  display: block;
+  width: 200px;
+  height: 200px;
+}
+
+.site00-access-qr--print {
+  padding: 24px;
+}
+
+.site00-access-qr--print img,
+.site00-access-qr--print canvas {
+  width: 256px;
+  height: 256px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site00-access-panel__symbol,
+  .site00-access-copy__eyebrow,
+  .site00-access-copy__title,
+  .site00-access-copy__credential,
+  .site00-access-copy__issued,
+  .site00-access-copy__status,
+  .site00-access-copy__message,
+  .site00-access-copy__enter {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .site00-access-panel__line--h,
+  .site00-access-panel__line--v {
+    animation: none;
+    transform: none;
+  }
+}
