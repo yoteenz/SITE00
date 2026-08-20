@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { referenceCompositionLabel } from '@site00-email/archetypes';
-import { resolveCompositionContract } from '@site00-email/art-direction/contracts';
-import { renderReferenceTarget } from '@site00-email/art-direction/reference-render';
-import { getReferenceSpec } from '@site00-email/design/reference';
+import { resolveCompositionContract, familyImplementationStatus } from '@site00-email/art-direction/contracts';
+import { renderReferenceTarget, referenceCompareLabel } from '@site00-email/art-direction/reference-render';
+import { getFamilySpec } from '@site00-email/families/registry';
+import { getPrimaryFamily } from '@site00-email/registry/family-map';
 import { getTemplateById } from '@site00-email/registry/templates';
 import { renderEmailTemplate, resolveTemplateVars } from '@site00-email/render';
 import type { RenderedEmail } from '@site00-email/types';
@@ -48,7 +49,7 @@ export default function EmailTemplateDetailPage() {
 
   const referenceHtml = useMemo(() => {
     if (!template) return '';
-    return renderReferenceTarget(template.archetype, referenceCompositionLabel(template.archetype));
+    return renderReferenceTarget(template.archetype, referenceCompositionLabel(template.archetype, template.id), template.id);
   }, [template]);
 
   if (!template || !contract) {
@@ -64,8 +65,10 @@ export default function EmailTemplateDetailPage() {
   const status = getStatus(template.id, template.debugStatus);
   const previewWidth = PREVIEW_WIDTHS[previewMode];
   const inboxBg = inboxMode === 'dark' ? '#1a1a1a' : '#e8e8e8';
-  const refLabel = referenceCompositionLabel(template.archetype);
-  const refSpec = getReferenceSpec(template.archetype);
+  const refLabel = referenceCompositionLabel(template.archetype, template.id);
+  const familyCanon = getPrimaryFamily(template.id);
+  const familySpec = getFamilySpec(familyCanon);
+  const familyStatus = familyImplementationStatus(familyCanon);
   const frameHeight = previewMode === 'mobile' ? 820 : 960;
 
   return (
@@ -87,10 +90,11 @@ export default function EmailTemplateDetailPage() {
             <h2>REFERENCE TARGET</h2>
             <p className="site00-email-debug-reference">{refLabel}</p>
             <dl>
-              <dt>THEME</dt><dd>{refSpec.theme.toUpperCase()}</dd>
-              <dt>HERO</dt><dd>{refSpec.heroElement}</dd>
-              <dt>COMPOSITION</dt><dd>{refSpec.composition}</dd>
-              <dt>COPY</dt><dd>{refSpec.copyNotes}</dd>
+              <dt>FAMILY</dt><dd>{familySpec.num} · {familySpec.label}</dd>
+              <dt>METAPHOR</dt><dd>{familySpec.metaphor}</dd>
+              <dt>SIGNATURE ARTIFACT</dt><dd>{familySpec.signatureArtifact}</dd>
+              <dt>DOMINANT FIELD</dt><dd>{familySpec.dominantField.toUpperCase()}</dd>
+              <dt>FAMILY IMPLEMENTATION</dt><dd>{familyStatus.implementation.toUpperCase()} · {familyStatus.templateCount} templates</dd>
             </dl>
           </section>
 
@@ -177,13 +181,13 @@ export default function EmailTemplateDetailPage() {
             <p className="site00-control-empty" aria-busy="true">RENDERING TEMPLATE…</p>
           ) : reviewMode === 'reference' ? (
             <div className="site00-email-debug-inbox" style={{ background: inboxBg }}>
-              <p className="site00-email-debug-compare-label">REFERENCE — {refSpec.refId}</p>
+              <p className="site00-email-debug-compare-label">{referenceCompareLabel(familyCanon)}</p>
               <EmailPreviewCanvas html={referenceHtml} canonicalWidth={previewWidth} minHeight={frameHeight} stagePadding={PREVIEW_STAGE_PADDING} />
             </div>
           ) : reviewMode === 'compare' ? (
             <div className="site00-email-debug-compare" style={{ background: inboxBg }}>
               <div className="site00-email-debug-compare__panel">
-                <p className="site00-email-debug-compare-label">REFERENCE — {refSpec.refId}</p>
+                <p className="site00-email-debug-compare-label">{referenceCompareLabel(familyCanon)}</p>
                 <EmailPreviewCanvas html={referenceHtml} canonicalWidth={previewWidth} minHeight={frameHeight} stagePadding={PREVIEW_STAGE_PADDING} />
               </div>
               <div className="site00-email-debug-compare__panel">

@@ -68,6 +68,47 @@ export type EmailTemplateVars = {
   accentScript?: string;
   familyLabel?: string;
   preheaderOverride?: string;
+  /** Location / member coordinates */
+  locationId?: string;
+  firstStop?: string;
+  occupancyStatus?: string;
+  /** Project production */
+  phase?: string;
+  phaseProgress?: number;
+  currentModule?: string;
+  nextMilestone?: string;
+  lastUpdate?: string;
+  componentCount?: string;
+  /** Review */
+  responseTime?: string;
+  reviewContext?: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaUrl?: string;
+  /** Milestone */
+  milestonePhase?: string;
+  milestoneImpact?: string;
+  /** Delivery */
+  packageId?: string;
+  packageContents?: string;
+  storageLocation?: string;
+  deliveredAt?: string;
+  /** Billing */
+  invoiceId?: string;
+  transactionId?: string;
+  amount?: string;
+  currency?: string;
+  paymentStatus?: 'FUNDED' | 'DUE' | 'FAILED' | 'REFUNDED';
+  lineItems?: Array<{ num: string; label: string; detail: string; amount: string; funded: boolean }>;
+  /** Blocker */
+  holdId?: string;
+  stoppedAt?: string;
+  waitingOn?: string;
+  nextModule?: string;
+  blockerReason?: string;
+  waitingItems?: string[];
+  /** Re-engagement */
+  belongingsStatus?: string;
+  demolitionStatus?: string;
 };
 
 export type EmailTemplateDefinition = {
