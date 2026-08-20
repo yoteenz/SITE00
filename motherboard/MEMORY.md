@@ -1319,3 +1319,29 @@ Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mo
 
 - **Conventions:** Evolve hub mobile under `components/evolve/hub-mobile/`; path cards use horizontal scroll-snap on phone widths; LOCATIONS bottom-nav active state unchanged for `/evolve*`.
 
+---
+
+## 2026-08-20 — EVOLVE mobile path selection visual system V2
+
+Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mobile sprints).
+
+- **Context:** Founder attached approved Evolve Path Selection reference (configuration environment). Sprint upgrades entire mobile Evolve route family: `/evolve/state` selection + assessment entry — without regressing hub V2 (PR #150), IDNTY, BLDR, or desktop.
+
+- **Topics covered (cumulative):** BLDR immersive selection (PR #149); EVOLVE hub V2 (PR #150); this turn = EVOLVE path selection / configuration environment on `/evolve/state` + mobile assessment shell.
+
+- **Decisions / outcomes:**
+  - `/evolve/state` mobile rebuilt as configuration console: PATH SELECTION hero, shared diagnostic rail, intensity rail with active nodes, compact 3-column path cards with SELECTED protocol state, PATH LOCKED output panel (dynamic metadata per path), horizontal operating process, path-specific scope capsules, contextual handoff CTA.
+  - Shared `EvolveDiagnosticStrip` in `components/evolve/shared/`; diagnostic stages centralized in `evolve-diagnostic.ts`.
+  - Path config: `EVOLVE_PATH_SELECTION_CARDS`, `EVOLVE_PATH_LOCKED_META`, `EVOLVE_PATH_SCOPE`, `EVOLVE_OPERATING_PROCESS_COPY`.
+  - Mobile assessment (`EvolveAssessmentShell`) uses white Evolve environment (not IDNTY photo bg); path breadcrumbs `EVOLVE / REFINE|INSTALL|TRANSFORM`; declarations updated per reference.
+  - Routing preserved: path select → PATH LOCKED → `BEGIN PROPERTY ASSESSMENT →` → `/evolve/{path}/property`.
+
+- **Changes:**
+  - `src/site00/components/evolve/mobile/*` (hero, cards, locked panel, process, scope, closing)
+  - `src/site00/components/evolve/shared/EvolveDiagnosticStrip.tsx`
+  - `src/site00/config/evolve-diagnostic.ts`, `evolve-assessment.ts` (presentation copy)
+  - `src/site00/components/evolve-assessment/EvolveAssessmentShell.tsx`
+  - `src/site00/styles/site00-evolve-mobile.css`, `site00-evolve-assessment-mobile.css`
+
+- **Conventions:** Evolve selection = configuration environment; hub = control center. One shared visual system renders three intervention protocols via config-driven components.
+
