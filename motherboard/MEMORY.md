@@ -1934,3 +1934,14 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Tests:** 199/199 PASS (28 new Sprint 05A). Build PASS. No deploy. No publication.
 
 - **Production truth:** Live Meta OAuth + account confirmation still require owner env vars on API host; code path complete in memory/test mode.
+
+---
+
+## 2026-08-20 — ACCESS / SECURITY reference-fidelity pass (Family 01)
+
+- **Problem:** ACCESS templates had correct dark credential routing but simplified layout vs approved Family 01 board (duplicate glyph, white ID card, tiny security labels, generic footer).
+
+- **Fix:** New `art-direction/access-security.ts` reference composer — hero credential-left/statement-right, dark technical credential panel, four icon-led security modules, terminal frame/crosshairs/waveform, three-zone footer. Wired into lifecycle ACCESS_CREDENTIAL + family composeAccessSecurity. EmailPreviewCanvas measures iframe content height to remove false empty preview space.
+
+- **Tests/build:** 205 tests PASS (6 new access-security fidelity). Build PASS. No deploy. No emails sent.
+

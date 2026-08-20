@@ -105,6 +105,7 @@ describe('lifecycle composition differentiation', () => {
     const { html } = renderEmailTemplateSync('access-credential-issued');
     expect(html).toContain('CREDENTIAL');
     expect(html).toContain('ACCESS GRANTED');
+    expect(html).toContain('DIGITAL CREDENTIAL');
     expect(html).not.toContain('LOCATION KEY');
   });
 

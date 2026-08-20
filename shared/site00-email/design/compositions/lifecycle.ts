@@ -4,8 +4,6 @@
  */
 import type { EmailCompositionId } from '../../art-direction/template-manifest.js';
 import {
-  accessCredentialArtifact,
-  accessGlyph,
   artifactFrame,
   coordinateMark,
   emailCTA,
@@ -16,55 +14,21 @@ import {
   systemHeader,
   technicalAnnotation,
 } from '../../art-direction/primitives.js';
+import { renderAccessSecurityReferenceEmail } from '../../art-direction/access-security.js';
 import type { CompositionInput } from '../compositions.js';
 import { EMAIL, esc } from '../tokens.js';
-
-function qrImg(dataUrl?: string, size = EMAIL.qrDisplaySize): string {
-  if (!dataUrl) return '';
-  return `<img src="${dataUrl}" width="${size}" height="${size}" alt="Scan to enter SITE 00" style="display:block;"/>`;
-}
 
 function coords(): string {
   return `<span style="font-family:${EMAIL.fontStack};font-size:8px;color:${EMAIL.stone};letter-spacing:0.12em;">00.000° · 00.000° · 00.000°</span>`;
 }
 
-/** ACCESS CREDENTIAL ISSUED — dark secure terminal, digital credential artifact */
+/** ACCESS CREDENTIAL ISSUED — Family 01 reference-fidelity secure terminal */
 export function composeAccessCredentialIssued(input: CompositionInput, subject: string, preheader: string): string {
-  const v = input.vars;
-  const name = esc(v.clientName ?? 'MEMBER');
-  const initials = esc(v.clientInitials ?? '00');
-  const memberId = esc(v.memberId ?? '00-0147');
-  const issued = esc(v.issuedDate ?? v.timestamp ?? '—');
-  const status = esc(v.statusLabel ?? 'AUTHORIZED');
-
-  const artifact = accessCredentialArtifact({
-    initials,
-    name,
-    memberId,
-    issued,
-    statusLabel: status,
-    qrImg: qrImg(input.qrDataUrl),
-  });
-
-  const securityStrip = `<table role="presentation" width="100%" style="margin-top:16px;"><tr>
-${['SECURE LINK', 'ONE-TIME USE', 'VERIFIED DEVICE', 'CONTROLLED ENTRY'].map((l) => `<td width="25%" align="center" style="padding:8px 4px;border-top:2px solid ${EMAIL.red};">
-<p style="margin:0;font-size:7px;letter-spacing:0.1em;color:#888;">${l}</p></td>`).join('')}
-</tr></table>`;
-
-  const body = `<table role="presentation" width="100%" style="background:${EMAIL.black};"><tr><td align="center" style="padding:20px 12px;">
-<table role="presentation" class="email-wrap" width="${EMAIL.maxWidth}" style="background:${EMAIL.black};">
-${systemHeader('ACCESS', 'dark', 'SECURITY · CONTROL')}
-<tr><td class="pad" style="padding:8px 36px 12px;"><table role="presentation" width="100%"><tr>
-<td class="stack" width="58%" valign="top" style="padding-right:12px;">
-<p style="margin:0 0 6px;font-size:10px;font-weight:700;letter-spacing:0.14em;color:${EMAIL.red};">ACCESS GRANTED</p>
-<p class="hero-xl" style="margin:0;font-size:40px;line-height:40px;font-weight:800;color:${EMAIL.white};">${esc(input.headline)}</p>
-${input.subheadline ? `<p style="margin:12px 0 0;font-size:10px;line-height:16px;color:#888;letter-spacing:0.06em;">${esc(input.subheadline)}</p>` : ''}
-</td><td class="stack" width="42%" valign="top" align="right">${accessGlyph('md')}</td>
-</tr></table></td></tr>
-<tr><td class="pad" style="padding:0 36px 8px;">${artifact}${securityStrip}</td></tr>
-${emailCTA(input.ctaLabel, input.ctaUrl, 'red')}${emailFooter('dark', input.classification)}
-</table></td></tr></table>`;
-  return emailDoc({ title: subject, preheader, bg: EMAIL.black, body });
+  return renderAccessSecurityReferenceEmail(
+    { ...input, headerCategory: 'SECURITY · CONTROL' },
+    subject,
+    preheader,
+  );
 }
 
 /** WELCOME LOCATION — light architectural, location key artifact */
