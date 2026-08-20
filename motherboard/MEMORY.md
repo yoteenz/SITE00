@@ -1825,3 +1825,11 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Tests/build:** 111 tests passing (21 evolve + 17 sprint02 + orchestration + email regression). Build PASS.
 
 - **Deferred:** External email/analytics/social provider connections; live Studio World dispatch; deploy.
+
+---
+
+## 2026-08-20 — Temporary preview admin bypass (email pack review)
+
+- **Context:** Founder could not load email pack debug on `site00.fsbw-dev.com` due to auth redirect + session-restore 503 on preview dev server.
+- **Change:** `AdminGuard` temporarily bypasses auth for `/admin/site00/*` on preview hosts only (`fsbw-dev`, localhost, cloudflare tunnel). Production `site00.com` remains gated.
+- **Flag:** `TEMPORARY_SITE00_ADMIN_BYPASS_ON_PREVIEW` in `AdminGuard.tsx` — set `false` or remove after email pack review complete.
