@@ -132,7 +132,11 @@ Canonical config: `src/site00/config/desktop-environment-presentation.ts`.
 - **Auto-load:** `.cursor/rules/motherboard.mdc` — agents read README, CORE, CODEBASE, MEMORY at chat start.
 - **Auto-add:** Append `MEMORY.md` after completed tasks unless user says "stop adding to motherboard".
 
-## Shipping (git / PR)
+## Production Orchestration (Sprint 01)
+
+Multi-project orchestration foundation at `api/_lib/site00Orchestration/`. Debug: `/admin/site00/debug/orchestration`. API: `/api/admin/site00-orchestration`. Docs: `docs/site00/`. Launch readiness calculated against **approved active manifest only** — not universal checklist. Studio World = `PRODUCTION_INFRASTRUCTURE`, not client brand. Evidence ≠ completion.
+
+---
 
 - **Default:** Feature branch → open PR → **merge to `main` immediately** in the same agent run (see `.cursor/rules/shipping.mdc`).
 - **PR purpose:** History and post-merge review for the founder (mobile GitHub app); not a manual merge gate.

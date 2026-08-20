@@ -34,6 +34,7 @@ const AccessCredentialDetailPage = lazy(() => import('../site00/admin/pages/acce
 const EmailPackGalleryPage = lazy(() => import('../site00/admin/pages/debug/EmailPackGalleryPage'));
 const EmailTemplateDetailPage = lazy(() => import('../site00/admin/pages/debug/EmailTemplateDetailPage'));
 const EvolveMarketingDebugPage = lazy(() => import('../site00/admin/pages/debug/EvolveMarketingDebugPage'));
+const OrchestrationDebugPage = lazy(() => import('../site00/admin/pages/debug/OrchestrationDebugPage'));
 const MarketingEngagementsAdminPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementsAdminPage'));
 const MarketingEngagementAdminDetailPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementAdminDetailPage'));
 
@@ -274,6 +275,14 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <EvolveMarketingDebugPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/debug/orchestration"
+        element={
+          <AdminSuspense>
+            <OrchestrationDebugPage />
           </AdminSuspense>
         }
       />
