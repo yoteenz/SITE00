@@ -1291,3 +1291,31 @@ Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mo
 
 - **Conventions:** Immersive BLDR classification lives under `components/bldr/classification/`; reference image drives composition; repository assets + routes win over mockup hallucinations. Enterprise portal renders asset-slot fallback until env PNG is approved.
 
+---
+
+## 2026-08-20 — EVOLVE mobile hub experience V2 (reference-locked)
+
+Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mobile sprints).
+
+- **Context:** Founder attached approved mobile Evolve reference (hero, diagnostic strip, path cards, process sequence, systems matrix, case studies, FAQ, final CTA). Sprint upgrades mobile `/evolve` hub to match enhanced IDNTY/BLDR operating environment — without redesigning desktop or breaking routing.
+
+- **Topics covered (cumulative):** BLDR immersive selection route (PR #149); this turn = EVOLVE hub mobile V2.
+
+- **Decisions / outcomes:**
+  - `/evolve` mobile now uses `EvolveHubMobileExperience`; desktop hub unchanged behind `useSite00DesktopArtboardPreview()`.
+  - `/evolve/state` mobile (`EvolveMobileExperience` from PR #146) preserved — path selection + assessment flow untouched.
+  - Hub path cards: ENTER PATH → `selectEvolvePath` + `resolveEvolveAssessmentDestination` (same as state page).
+  - START EVOLVE → `/evolve/state` (existing).
+  - Systems matrix: 5 modules with concise lists + EXPLORE progressive disclosure revealing capability-registry descriptions.
+  - Section index: compact scrollable nav with intersection-based active state; all anchor IDs preserved.
+  - Reuses existing Evolve artwork: `EvolveHeroArtwork`, `evolve-master.svg`, refine/install/transform SVG icons.
+
+- **Changes:**
+  - `src/site00/components/evolve/hub-mobile/*` (11 components)
+  - `src/site00/config/evolve-hub-mobile.ts`
+  - `src/site00/styles/site00-evolve-hub-mobile.css`
+  - `src/site00/pages/evolve/EvolveHubPage.tsx` (desktop/mobile split)
+  - `src/routes/Site00Routes.tsx` (CSS import)
+
+- **Conventions:** Evolve hub mobile under `components/evolve/hub-mobile/`; path cards use horizontal scroll-snap on phone widths; LOCATIONS bottom-nav active state unchanged for `/evolve*`.
+
