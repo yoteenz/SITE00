@@ -44,12 +44,21 @@ describe('ACCESS / SECURITY reference fidelity', () => {
     expect(html).toContain('THIS LINK EXPIRES');
   });
 
-  it('uses single hero credential pass — responsive desktop/mobile glyphs only', () => {
+  it('uses reference hero pass with white frame — responsive desktop/mobile sizes only', () => {
     const { html } = renderEmailTemplateSync('access-credential-issued');
     expect(html).not.toContain('PREVIEW CLIENT');
     expect(html).not.toContain('SITE 00 ACCESS');
     expect(html.match(/class="access-glyph-desktop"/g)?.length).toBe(1);
     expect(html.match(/class="access-glyph-mobile"/g)?.length).toBe(1);
+    expect(html).toContain('border:1px solid #FFFFFF');
+    expect(html).toContain('access-hero-noise');
+  });
+
+  it('credential body includes center crosshair between metadata and QR', () => {
+    const { html } = renderEmailTemplateSync('access-credential-issued');
+    expect(html).toContain('class="access-cred-mid"');
+    expect(html).toContain('class="access-cred-left"');
+    expect(html).toContain('class="access-cred-qr"');
   });
 
   it('includes three-zone footer identity', () => {
@@ -74,6 +83,7 @@ describe('ACCESS / SECURITY mobile responsive fidelity', () => {
     expect(html).toContain('access-terminal .access-hero-right');
     expect(html).toContain('access-terminal .access-cred-left');
     expect(html).toContain('access-terminal .access-cred-qr');
+    expect(html).toContain('access-terminal .access-cred-mid{display:none');
     expect(html).toContain('access-sec-2x2');
     expect(html).toContain('access-glyph-mobile');
   });
