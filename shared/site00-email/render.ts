@@ -1,6 +1,7 @@
 import { renderArchetypeHtml } from './archetypes.js';
 import { mergePreviewVars } from './fixtures/previewData.js';
-import { EMAIL_TEMPLATES, getTemplateById } from './registry/templates.js';
+import { qrDataUrlFor } from './qr.js';
+import { getTemplateById, EMAIL_TEMPLATES } from './registry/templates.js';
 import type { EmailTemplateVars, RenderedEmail } from './types.js';
 
 export function resolveTemplateVars(templateId: string, overrides?: Partial<EmailTemplateVars>): EmailTemplateVars {
@@ -9,7 +10,11 @@ export function resolveTemplateVars(templateId: string, overrides?: Partial<Emai
   return mergePreviewVars({ ...template.varsForPreview, familyLabel: template.familyLabel, ...overrides });
 }
 
-export function renderEmailTemplate(templateId: string, varOverrides?: Partial<EmailTemplateVars>): RenderedEmail {
+function needsQr(templateId: string): boolean {
+  return templateId === 'access-credential-issued' || templateId === 'sign-in-link';
+}
+
+export async function renderEmailTemplate(templateId: string, varOverrides?: Partial<EmailTemplateVars>): Promise<RenderedEmail> {
   const template = getTemplateById(templateId);
   if (!template) throw new Error(`Unknown email template: ${templateId}`);
 
@@ -19,9 +24,28 @@ export function renderEmailTemplate(templateId: string, varOverrides?: Partial<E
   const headline = template.headline(vars);
   const subheadline = template.subheadline?.(vars);
 
-  const html = renderArchetypeHtml({ template, vars, subject, preheader, headline, subheadline });
+  let qrDataUrl: string | undefined;
+  if (needsQr(templateId)) {
+    qrDataUrl = await qrDataUrlFor(vars.ctaUrl ?? 'https://site00.com/signin');
+  }
+
+  const html = renderArchetypeHtml({ template, vars, subject, preheader, headline, subheadline, qrDataUrl });
   const text = renderEmailText({ template, vars, subject, headline, subheadline });
 
+  return { html, text, subject, preheader };
+}
+
+/** @deprecated sync wrapper — prefer renderEmailTemplate async */
+export function renderEmailTemplateSync(templateId: string, varOverrides?: Partial<EmailTemplateVars>): RenderedEmail {
+  const template = getTemplateById(templateId);
+  if (!template) throw new Error(`Unknown email template: ${templateId}`);
+  const vars = resolveTemplateVars(templateId, varOverrides);
+  const subject = template.subject(vars);
+  const preheader = template.preheader(vars);
+  const headline = template.headline(vars);
+  const subheadline = template.subheadline?.(vars);
+  const html = renderArchetypeHtml({ template, vars, subject, preheader, headline, subheadline });
+  const text = renderEmailText({ template, vars, subject, headline, subheadline });
   return { html, text, subject, preheader };
 }
 
