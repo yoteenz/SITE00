@@ -1156,3 +1156,29 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** Ready copy only at 100%; penultimate stage subtitle until then. `completeStage` no longer advances to ready copy after assemble.
 - **Branch:** `cursor/loader-subtitle-stage-fix-2c3b`.
 
+---
+
+## 2026-08-20 — BLDR mobile BUILD SYSTEM visual rebuild
+
+Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mobile preview sprint).
+
+- **Context:** Founder attached approved mobile BLDR mockup — `/bldr` hub read as plain informational cards; sprint to recreate “BUILD SYSTEM” experience mobile-only without changing desktop.
+
+- **Topics covered (cumulative):** Projects/IDNTY/Fast Travel/loader fixes from prior turns; this turn = full BLDR mobile hub rebuild per 30-point spec (hero art, sequence nav, unified build system, spine, stage SVGs, terminal CTA, micro-motion, no horizontal scroll).
+
+- **Decisions / outcomes:**
+  - Mobile vs desktop split in `BldrHubPage` via `useSite00DesktopArtboardPreview()` — desktop keeps existing `EcosystemHubHero` + `.site00-bldr-split`; mobile renders new `BldrMobileExperience`.
+  - Stage copy centralized in `config/bldr-hub-stages.ts` (INPUT/ALIGN/PRODUCTION/RELEASE + DEFINE→GROW sequence).
+  - Hero uses approved BLDR panel icon + custom SVG linework; stage art = lightweight inline SVGs telling progressive construction story.
+  - CTA preserves `Link` to `SITE00_ROUTES.bldrStart`; three-corner mark from `FastTravelUpNextRegistrationMark`.
+  - Styles scoped in `site00-bldr-hub-mobile.css`; `prefers-reduced-motion` respected.
+
+- **Changes:**
+  - `src/site00/components/bldr/mobile/*` (BldrMobileExperience, Hero, SequenceIndicator, BuildSystem, Stage, StageArtwork, ActivationCTA, HeroArtwork, ActivationNodeArtwork)
+  - `src/site00/config/bldr-hub-stages.ts`
+  - `src/site00/styles/site00-bldr-hub-mobile.css`
+  - `src/site00/pages/bldr/BldrHubPage.tsx`
+  - `src/routes/Site00Routes.tsx` (CSS import)
+
+- **Conventions:** BLDR hub mobile rebuild is component-driven under `components/bldr/mobile/`; do not restyle desktop `.site00-bldr-split` for this experience.
+
