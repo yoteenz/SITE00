@@ -337,6 +337,10 @@
     pointer-events: none;
   }
 
+  .site00-fast-travel__dest-art--idnty-entry {
+    transform: translateY(4px);
+  }
+
   .site00-fast-travel__dest--sign-in .site00-fast-travel__dest-mark.site00-orbital-mark {
     width: 40px;
     aspect-ratio: 2 / 3;

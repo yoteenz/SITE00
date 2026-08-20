@@ -1140,3 +1140,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** `fast-travel-assets.ts` direct PACK paths; art version `4` for cache bust.
 - **Branch:** `cursor/fast-travel-signin-create-pack-icons-2c3b`.
 
+---
+
+## 2026-08-20 — Fast Travel sign-in/create icon nudge
+
+- **Request:** Move sign-in + create identity UP NEXT artwork down 4px only.
+- **Fix:** `FastTravelDestinationArt` `--idnty-entry` modifier + `translateY(4px)`.
+- **Branch:** `cursor/fast-travel-idnty-icon-offset-2c3b`.
+

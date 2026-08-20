@@ -9,13 +9,15 @@ type FastTravelDestinationArtProps = {
 export function FastTravelDestinationArt({ destinationId }: FastTravelDestinationArtProps) {
   const [failed, setFailed] = useState(false);
   const src = resolveFastTravelDestinationArtUrl(destinationId);
+  const nudgeDown = destinationId === 'sign-in' || destinationId === 'create';
+  const artClass = `site00-fast-travel__dest-art${nudgeDown ? ' site00-fast-travel__dest-art--idnty-entry' : ''}`.trim();
 
   if (!src || failed || !hasFastTravelDestinationArt(destinationId)) {
-    return <span className="site00-fast-travel__dest-art" aria-hidden="true" />;
+    return <span className={artClass} aria-hidden="true" />;
   }
 
   return (
-    <span className="site00-fast-travel__dest-art" aria-hidden="true">
+    <span className={artClass} aria-hidden="true">
       <img
         className="site00-fast-travel__dest-art__img"
         src={src}
