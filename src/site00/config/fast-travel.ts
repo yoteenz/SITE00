@@ -234,7 +234,7 @@ function bldrProfile(): RouteProfile {
         title: 'UP NEXT',
         destinations: [
           d('continue', 'CONTINUE BUILD', 'Resume your assessment.', (c) => c.pathname),
-          d('bldr-state', 'BUILD CLASS SELECTION', 'Choose SITE, WORLD, or ENTERPRISE.', SITE00_ROUTES.bldrState),
+          d('bldr-state', 'BUILD SELECTION', 'Choose build.', SITE00_ROUTES.bldrState),
         ],
       },
       {
