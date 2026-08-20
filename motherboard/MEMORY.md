@@ -2051,3 +2051,31 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Tests/build:** 340 tests PASS (30 new dual-context tests). Build PASS. PR merged to main.
 
+---
+
+## 2026-08-20 — Real Project Index runtime repair (INVALID JSON on /projects)
+
+- **Root cause:** `GET /api/site00/projects?action=index` was implemented in `api/site00/projects.ts` but **not registered** in `scripts/vite-site00-local-api.mjs` or `server/routes.ts`. fsbw-dev Vite preview returned SPA HTML for the API path → frontend `Invalid JSON response`.
+
+- **Fix:** Registered route in both local API plugin and server routes. Hardened `site00ProjectsApi` with content-type/body classification (`evaluateProjectsApiResponse`), truthful error messages, no empty-list masquerade. API responses now `{ ok, summary, projects }` with explicit JSON content-type. Resolver per-project error boundaries + partial enrichment fallback. ProjectsPage: SOURCE label LOADING/LIVE/PARTIAL/ERROR; metrics suppressed on error (— not 0).
+
+- **Runtime verified:** Dev server curl returns `application/json` 401 (not HTML). Resolver returns 3 founder projects in memory mode.
+
+- **Tests/build:** 353 tests PASS (13 new runtime/contract tests). Build PASS. PR merged to main. No deploy.
+
+---
+
+## 2026-08-20 — NDXBOOK Creative Direction structural differentiation + territory rebuild
+
+- **Context:** Founder QA FAILED creative differentiation — three territories were palette/copy swaps on one shared specimen system. Sprint rebuilds INDEX SIGNAL, EDITORIAL UTILITY, and KINETIC FIELD as structurally distinct creative systems while preserving PR #184 governance architecture.
+
+- **Root cause:** Single `TerritorySpecimenCanvas` generic SVG renderer + identical `SPECIMEN_TYPES` across territories + uniform 2-column grid in `CreativeDirectionExperience`.
+
+- **Rendering architecture:** `TerritoryRendererRegistry` → `IndexSignalTerritoryView` (catalog wall), `EditorialUtilityTerritoryView` (magazine spread), `KineticFieldTerritoryView` (motion board). Territory-native specimen sets (12 each) in `territories.ts` with `rendererKey` per territory.
+
+- **Experience upgrades:** Compare mode with common anchors (wordmark, Page 001, typography, volume system) + territory-native specimens. STRUCTURAL DIFFERENTIATION toggle (hide labels, grayscale). HYBRIDIZE contract UI (primary/secondary territory, elements keep/remove). Debug page shows side-by-side renderer preview.
+
+- **Governance unchanged:** Visual DNA INCOMPLETE until APPROVE, Page 001 gated, publishing DISABLED, recommendation ≠ approval, NDXBOOK UUID preserved.
+
+- **Tests/build:** 382 tests PASS (26 structural differentiation + 3 renderer registry). Build PASS. PR merged to main. No deploy.
+

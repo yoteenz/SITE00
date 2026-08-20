@@ -165,6 +165,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const engagement = await recordFounderDecision(slug, {
           type,
           selectedTerritoryId: body.selectedTerritoryId ? String(body.selectedTerritoryId) : undefined,
+          hybridSelections: Array.isArray(body.hybridSelections)
+            ? (body.hybridSelections as Array<{ territoryId: string; elements: string[] }>)
+            : undefined,
           refinementNotes: body.refinementNotes ? String(body.refinementNotes) : undefined,
           rejectedTerritoryIds: Array.isArray(body.rejectedTerritoryIds)
             ? body.rejectedTerritoryIds.map(String)

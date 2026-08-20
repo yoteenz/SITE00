@@ -43,20 +43,56 @@ export type CreativeBrief = {
   provenance: { source: 'CONTENT_BRAIN'; entryCount: number };
 };
 
+export type TerritoryRendererKey = 'index_signal' | 'editorial_utility' | 'kinetic_field';
+
+export type IndexSignalSpecimenType =
+  | 'brand_index_card'
+  | 'page_catalog_system'
+  | 'page_001_indexed'
+  | 'volume_registry'
+  | 'cross_reference_map'
+  | 'social_knowledge_card_916'
+  | 'feed_index_tile'
+  | 'navigation_archive_strip'
+  | 'typography_system'
+  | 'graphic_language'
+  | 'motion_storyboard'
+  | 'wordmark';
+
+export type EditorialUtilitySpecimenType =
+  | 'magazine_volume_opener'
+  | 'feature_article_opener'
+  | 'knowledge_page'
+  | 'page_001_editorial'
+  | 'quote_insight_card'
+  | 'social_carousel_cover'
+  | 'instagram_feed_tile'
+  | 'volume_color_system'
+  | 'typography_spread'
+  | 'article_sequence'
+  | 'motion_storyboard'
+  | 'wordmark';
+
+export type KineticFieldSpecimenType =
+  | 'motion_title_frame'
+  | 'hook_frame_916'
+  | 'page_001_kinetic'
+  | 'motion_sequence_3frame'
+  | 'page_number_transition'
+  | 'volume_stinger'
+  | 'social_feed_tile'
+  | 'signal_graphic'
+  | 'typography_system'
+  | 'dark_light_inversion'
+  | 'motion_storyboard'
+  | 'wordmark';
+
+export type TerritorySpecimenType = IndexSignalSpecimenType | EditorialUtilitySpecimenType | KineticFieldSpecimenType;
+
 export type TerritorySpecimen = {
   id: string;
   territoryId: string;
-  specimenType:
-    | 'brand_overview'
-    | 'wordmark'
-    | 'page_architecture'
-    | 'volume_architecture'
-    | 'social_916'
-    | 'feed_cover'
-    | 'typography'
-    | 'color_material'
-    | 'graphic_system'
-    | 'motion_storyboard';
+  specimenType: TerritorySpecimenType;
   title: string;
   status: CreativeAssetStatus;
   renderSpec: Record<string, unknown>;
@@ -87,6 +123,7 @@ export type CreativeTerritory = {
   relationshipToCanon: string;
   lifecycleState: CreativeDirectionLifecycle;
   legacyReferenceUsed: boolean;
+  rendererKey: TerritoryRendererKey;
   specimens: TerritorySpecimen[];
   evolveAnalysis: Record<string, QualitativeRating>;
 };
