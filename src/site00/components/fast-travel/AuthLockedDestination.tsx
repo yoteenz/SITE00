@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
+import { hasFastTravelDestinationArt } from '../../config/fast-travel-assets';
 import { site00AuthLockedAriaLabel } from '../../config/site00-copy';
 import { SITE00_FAST_TRAVEL_ARROW_SIZE } from '../../config/fast-travel';
 import { Site00DirectoryArrowIcon, Site00LockIcon } from '../mobile/Site00MobileIcons';
+import { FastTravelDestinationArt } from './FastTravelDestinationArt';
 
 type AuthLockedDestinationProps = {
   href: string;
@@ -9,6 +11,8 @@ type AuthLockedDestinationProps = {
   description?: string;
   onNavigate?: () => void;
   showArrow?: boolean;
+  /** When set on primary UP NEXT cards, show approved destination artwork above copy. */
+  destinationId?: string;
 };
 
 /** Signed-out treatment for auth-gated Fast Travel / Directory destinations. */
@@ -18,14 +22,18 @@ export function AuthLockedDestination({
   description,
   onNavigate,
   showArrow = false,
+  destinationId,
 }: AuthLockedDestinationProps) {
+  const showPackArt = Boolean(destinationId && hasFastTravelDestinationArt(destinationId));
+
   return (
     <Link
       to={href}
-      className={`site00-fast-travel__dest site00-fast-travel__dest--locked ${showArrow ? 'site00-fast-travel__dest--list' : ''}`.trim()}
+      className={`site00-fast-travel__dest site00-fast-travel__dest--locked ${showArrow ? 'site00-fast-travel__dest--list' : ''}${showPackArt ? ' site00-fast-travel__dest--has-art site00-fast-travel__dest--has-mark' : ''}`.trim()}
       onClick={onNavigate}
       aria-label={site00AuthLockedAriaLabel(label)}
     >
+      {showPackArt && destinationId ? <FastTravelDestinationArt destinationId={destinationId} /> : null}
       <span className="site00-fast-travel__dest-copy">
         <span className="site00-fast-travel__dest-label">{label}</span>
         {description ? <span className="site00-fast-travel__dest-desc">{description}</span> : null}
