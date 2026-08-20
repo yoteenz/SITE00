@@ -1581,3 +1581,31 @@ Summary of the **whole conversation so far** in this cloud agent run (repo: `yot
 
 - **Conventions:** Do not import Studio World code or duplicate production logic. Phase-based client progress (not fake percentages). Mock adapter must not run silently in production — env explicit.
 
+---
+
+## 2026-08-20 — Email pack visual fidelity + art-direction system
+
+Summary of the **whole conversation so far** in this cloud agent run (repo: `yoteenz/SITE00`).
+
+- **Context:** Founder correction sprint — current email pack infrastructure exists but visual fidelity was NOT approved. Approved design reference sheet is canonical; current implementation screenshots were negative references. Do not rebuild email system from scratch; preserve triggers/debug/delivery infrastructure.
+
+- **Topics covered:** Art-direction system architecture; SIGN-IN LINK calibration template; composition contracts; family grammar; debug gallery COMPARE mode; typography alignment with Martian Mono; QR rebalancing; template-specific text fallback; family-varied status-notice compositions.
+
+- **Decisions / outcomes:**
+  - New `shared/site00-email/art-direction/` — `primitives.ts`, `families.ts`, `contracts.ts`, `reference-render.ts` (reference targets for COMPARE mode).
+  - **SIGN-IN LINK / access-credential** rebuilt: asymmetric credential artifact (slab + compact strip), 72px QR, no serif "Welcome to", Martian Mono, dark field, access glyph — not generic white membership card.
+  - Email tokens updated: Martian Mono font stack, `qrDisplaySize: 72`.
+  - Debug gallery: visual-family filters (ACCESS/ONBOARDING/PRODUCTION/etc.), fidelity status, async thumbnails with real QR, COMPARE mode (reference + implementation side-by-side).
+  - Text fallback: access templates exclude production-stage `bodyLines`/`inputItems`; template-aware `renderEmailText`.
+  - Status-notice compositions vary by family (billing ledger, access verify/reset dark glyph, identity progress rail).
+
+- **Changes:**
+  - New: `shared/site00-email/art-direction/*`
+  - Modified: `design/compositions.ts`, `design/tokens.ts`, `render.ts`, `fixtures/previewData.ts`, `qr.ts`, `registry/templates.ts`, `EmailPackGalleryPage.tsx`, `EmailTemplateDetailPage.tsx`, `site00-email-debug.css`, `motherboard/CORE.md`
+
+- **Visual QA:** SIGN-IN LINK PASS at 375px and 640px (static HTML inspection); QR 72×72 confirmed scannable structure; no serif; no production-phase copy in text fallback.
+
+- **Deferred:** Raster reference sheet assets in repo (COMPARE uses rendered reference-target HTML); full screenshot regression test suite; wiring `MAGIC_LINK_REQUESTED` to Supabase custom auth template.
+
+- **Conventions:** Primitives ≠ universal EmailShell layout. Each family has composition grammar. Reference sheet controls visual hierarchy — textual REF metadata is supplementary only.
+

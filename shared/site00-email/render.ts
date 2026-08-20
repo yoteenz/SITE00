@@ -2,12 +2,12 @@ import { renderArchetypeHtml } from './archetypes.js';
 import { mergePreviewVars } from './fixtures/previewData.js';
 import { qrDataUrlFor } from './qr.js';
 import { getTemplateById, EMAIL_TEMPLATES } from './registry/templates.js';
-import type { EmailTemplateVars, RenderedEmail } from './types.js';
+import type { EmailTemplateDefinition, EmailTemplateVars, RenderedEmail } from './types.js';
 
 export function resolveTemplateVars(templateId: string, overrides?: Partial<EmailTemplateVars>): EmailTemplateVars {
   const template = getTemplateById(templateId);
   if (!template) throw new Error(`Unknown email template: ${templateId}`);
-  return mergePreviewVars({ ...template.varsForPreview, familyLabel: template.familyLabel, ...overrides });
+  return mergePreviewVars(template.id, { ...template.varsForPreview, familyLabel: template.familyLabel, ...overrides });
 }
 
 function needsQr(templateId: string): boolean {
@@ -49,8 +49,9 @@ export function renderEmailTemplateSync(templateId: string, varOverrides?: Parti
   return { html, text, subject, preheader };
 }
 
+/** Template-aware plain-text — no unrelated production copy in access emails. */
 export function renderEmailText(params: {
-  template: { ctaLabel: string; name: string };
+  template: EmailTemplateDefinition;
   vars: EmailTemplateVars;
   subject: string;
   headline: string;
@@ -59,15 +60,34 @@ export function renderEmailText(params: {
   const { template, vars, subject, headline, subheadline } = params;
   const lines: string[] = [subject, '', headline];
   if (subheadline) lines.push(subheadline);
-  if (vars.bodyLines?.length) lines.push('', ...vars.bodyLines);
-  if (vars.dataFields?.length) {
+
+  const archetype = template.archetype;
+
+  if (archetype === 'access-credential') {
+    lines.push('', 'WELCOME TO SITE 00');
+    if (vars.clientName) lines.push('', `ACCOUNT: ${vars.clientName}`);
+    if (vars.memberId) lines.push(`MEMBER ID: ${vars.memberId}`);
+    if (vars.issuedDate) lines.push(`ISSUED: ${vars.issuedDate}`);
+    lines.push('', `${template.ctaLabel}: ${vars.ctaUrl ?? 'https://site00.com/signin'}`);
+    lines.push('', '—', 'SITE 00', 'https://site00.com');
+    return lines.join('\n');
+  }
+
+  if (archetype === 'action-required' && vars.inputItems?.length) {
+    lines.push('');
+    vars.inputItems.forEach((item, i) => lines.push(`${String(i + 1).padStart(2, '0')} ${item}`));
+  } else if (archetype === 'project-record' && vars.dataFields?.length) {
+    lines.push('');
+    for (const f of vars.dataFields) lines.push(`${f.label}: ${f.value}`);
+  } else if (vars.bodyLines?.length && template.family !== 'access') {
+    lines.push('', ...vars.bodyLines);
+  }
+
+  if (vars.dataFields?.length && archetype !== 'project-record') {
     lines.push('');
     for (const f of vars.dataFields) lines.push(`${f.label}: ${f.value}`);
   }
-  if (vars.inputItems?.length) {
-    lines.push('');
-    vars.inputItems.forEach((item, i) => lines.push(`${String(i + 1).padStart(2, '0')} ${item}`));
-  }
+
   lines.push('', `${template.ctaLabel}: ${vars.ctaUrl ?? 'https://site00.com'}`);
   lines.push('', '—', 'SITE 00', 'https://site00.com');
   return lines.join('\n');
