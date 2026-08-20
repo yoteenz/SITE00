@@ -36,7 +36,14 @@ export type EmailEventId =
   | 'PRODUCTION_COMPLETE'
   | 'PAYMENT_FAILED'
   | 'DOMAIN_REQUIRED'
-  | 'DOMAIN_CONNECTED';
+  | 'DOMAIN_CONNECTED'
+  | 'MARKETING_INTAKE_RECEIVED'
+  | 'MARKETING_PAYMENT_CONFIRMED'
+  | 'MARKETING_PRODUCTION_STARTED'
+  | 'MARKETING_CLIENT_ACTION_REQUIRED'
+  | 'MARKETING_REVIEW_READY'
+  | 'MARKETING_DELIVERABLE_READY'
+  | 'MARKETING_CAMPAIGN_COMPLETE';
 
 export type EmailEventDefinition = {
   event: EmailEventId;
@@ -76,6 +83,13 @@ export const EMAIL_EVENT_REGISTRY: EmailEventDefinition[] = [
   { event: 'PAYMENT_FAILED', templateId: 'payment-failed', wired: false },
   { event: 'DOMAIN_REQUIRED', templateId: 'domain-connection-required', wired: false },
   { event: 'DOMAIN_CONNECTED', templateId: 'domain-connected', wired: false },
+  { event: 'MARKETING_INTAKE_RECEIVED', templateId: 'marketing-intake-received', wired: false, notes: 'Wire when marketing intake API persists' },
+  { event: 'MARKETING_PAYMENT_CONFIRMED', templateId: 'payment-confirmed-studio-access', wired: false, notes: 'Marketing engagement payment → studio access pattern' },
+  { event: 'MARKETING_PRODUCTION_STARTED', templateId: 'production-stage-started', wired: false },
+  { event: 'MARKETING_CLIENT_ACTION_REQUIRED', templateId: 'client-input-required', wired: false },
+  { event: 'MARKETING_REVIEW_READY', templateId: 'review-ready', wired: false },
+  { event: 'MARKETING_DELIVERABLE_READY', templateId: 'final-deliverables-ready', wired: false },
+  { event: 'MARKETING_CAMPAIGN_COMPLETE', templateId: 'production-complete', wired: false },
 ];
 
 export function getEventTemplate(event: EmailEventId): EmailEventDefinition | undefined {

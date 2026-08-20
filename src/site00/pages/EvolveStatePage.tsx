@@ -15,6 +15,7 @@ import { useSite00DesktopArtboardPreview } from '../components/shell/Site00Deskt
 import { site00EvolveAssessmentDesktopPath } from '../config/routes';
 import type { EvolvePathId } from '../config/evolve';
 import { ArrowIconSmall } from '../components/icons/ArrowAction';
+import { MarketingCapabilityCard } from '../components/evolve/marketing/MarketingCapabilityCard';
 
 function EvolvePathCard({
   path,
@@ -113,6 +114,10 @@ function EvolveDesktopStatePageBody({
             onSelect={() => onSelectPath(path.id)}
           />
         ))}
+      </div>
+
+      <div className="site00-evolve-marketing-band">
+        <MarketingCapabilityCard />
       </div>
 
       <ArchitecturalPanel variant="workflow">

@@ -140,10 +140,23 @@ Canonical config: `src/site00/config/desktop-environment-presentation.ts`.
 
 ---
 
+## EVOLVE — Marketing & Content
+
+Fourth complementary EVOLVE capability (alongside REFINE, INSTALL, TRANSFORM): ongoing brand/content production after the property exists.
+
+- **Routes:** `/evolve/marketing`, `/evolve/marketing/services`, intake/brief/engagement under `/evolve/marketing/*`
+- **Domain:** `shared/site00-marketing/`, DB `site00_marketing_engagements` (+ events, external_production_links)
+- **Studio World:** External production system — **not in this repo**. Server-side adapter only: `api/_lib/studioWorld/` (`STUDIO_WORLD_ADAPTER=mock` default until contract supplied)
+- **Admin:** `/admin/site00/marketing-engagements`, debug index `/admin/site00/debug/evolve-marketing`
+- **Docs:** `docs/SITE_00_EVOLVE_MARKETING.md`
+
+---
+
 ## Docs
 
 | Path | Purpose |
 |------|---------|
 | `docs/DEPLOYMENT.md` | GoDaddy, DNS, Supabase auth URLs, API hosting options |
 | `docs/MOTHERBOARD_COMMANDS.md` | Quick agent command reference |
+| `docs/SITE_00_EVOLVE_MARKETING.md` | EVOLVE Marketing service architecture, lifecycle, adapter |
 | `README.md` | Local dev, env vars, routing |

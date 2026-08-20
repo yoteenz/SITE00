@@ -21,6 +21,7 @@ export const CONTROL_OPERATOR_NAV: ControlNavItem[] = [
   { id: 'business', label: 'BUSINESS', href: SITE00_ADMIN_ROUTES.finance, icon: 'business' },
   { id: 'reports', label: 'REPORTS', href: SITE00_ADMIN_ROUTES.reports, icon: 'reports' },
   { id: 'email-pack', label: 'EMAIL / DEBUG', href: SITE00_ADMIN_ROUTES.emailPack, icon: 'email' },
+  { id: 'marketing', label: 'MARKETING', href: SITE00_ADMIN_ROUTES.marketingEngagements, icon: 'projects' },
   { id: 'settings', label: 'SETTINGS', href: SITE00_ADMIN_ROUTES.settings, icon: 'settings' },
 ];
 

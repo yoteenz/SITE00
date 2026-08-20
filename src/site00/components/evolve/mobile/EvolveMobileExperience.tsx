@@ -14,6 +14,7 @@ import { SelectedEvolutionPath } from './SelectedEvolutionPath';
 import { EvolveProcessTimeline } from './EvolveProcessTimeline';
 import { EvolveScopeModule } from './EvolveScopeModule';
 import { EvolveClosingModule } from './EvolveClosingModule';
+import { MarketingCapabilityCard } from '../marketing/MarketingCapabilityCard';
 
 type EvolveMobileExperienceProps = {
   selectedPathId: string | null;
@@ -114,6 +115,9 @@ export function EvolveMobileExperience({
       </section>
       <EvolveProcessTimeline />
       <EvolveScopeModule activePathId={activePathId} />
+      <div className="site00-evolve-mobile-marketing">
+        <MarketingCapabilityCard compact />
+      </div>
       <EvolveClosingModule
         hasSelectedPath={hasExplicitSelection}
         onBeginAssessment={() => handleProceed(activePathId)}

@@ -22,6 +22,12 @@ export const SITE00_ROUTES = {
   evolveState: '/evolve/state',
   evolveStateDesktop: '/evolve/state/desktop',
   evolveStart: '/evolve/start',
+  evolveMarketing: '/evolve/marketing',
+  evolveMarketingServices: '/evolve/marketing/services',
+  evolveMarketingIntake: '/evolve/marketing/intake/:serviceId',
+  evolveMarketingBrief: '/evolve/marketing/brief/:engagementId',
+  evolveMarketingEngagement: '/evolve/marketing/engagement/:engagementId',
+  evolveMarketingDebug: '/admin/site00/debug/evolve-marketing',
   assts: '/assts',
   asstsBatch: '/assts/batches/:batchId',
   asstsAsset: '/assts/:assetId',
@@ -177,6 +183,35 @@ export function site00EvolveAssessmentDesktopPath(mobilePath: string): string {
 
 export function site00EvolveAssessmentMobilePath(pathname: string): string {
   return pathname.replace(/\/desktop(\/|$)/, (_, slash) => slash || '');
+}
+
+export function evolveMarketingIntakePath(serviceId: string): string {
+  return `/evolve/marketing/intake/${serviceId}`;
+}
+
+export function evolveMarketingBriefPath(engagementId: string): string {
+  return `/evolve/marketing/brief/${engagementId}`;
+}
+
+export function evolveMarketingEngagementPath(engagementId: string): string {
+  return `/evolve/marketing/engagement/${engagementId}`;
+}
+
+/** Route helpers for templates */
+export const evolveMarketingRoutes = {
+  intake: evolveMarketingIntakePath,
+  brief: evolveMarketingBriefPath,
+  engagement: evolveMarketingEngagementPath,
+} as const;
+
+export function site00EvolveMarketingIntake(serviceId: string): string {
+  return evolveMarketingIntakePath(serviceId);
+}
+export function site00EvolveMarketingBrief(engagementId: string): string {
+  return evolveMarketingBriefPath(engagementId);
+}
+export function site00EvolveMarketingEngagement(engagementId: string): string {
+  return evolveMarketingEngagementPath(engagementId);
 }
 
 export function isSite00OriginDesktopPath(pathname: string): boolean {

@@ -33,6 +33,9 @@ const AccessCredentialsPage = lazy(() => import('../site00/admin/pages/access/Ac
 const AccessCredentialDetailPage = lazy(() => import('../site00/admin/pages/access/AccessCredentialDetailPage'));
 const EmailPackGalleryPage = lazy(() => import('../site00/admin/pages/debug/EmailPackGalleryPage'));
 const EmailTemplateDetailPage = lazy(() => import('../site00/admin/pages/debug/EmailTemplateDetailPage'));
+const EvolveMarketingDebugPage = lazy(() => import('../site00/admin/pages/debug/EvolveMarketingDebugPage'));
+const MarketingEngagementsAdminPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementsAdminPage'));
+const MarketingEngagementAdminDetailPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementAdminDetailPage'));
 
 function AdminSuspense({ children }: { children: React.ReactNode }) {
   return <Suspense fallback={<LoadingScreen />}>{children}</Suspense>;
@@ -263,6 +266,30 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <EmailTemplateDetailPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/debug/evolve-marketing"
+        element={
+          <AdminSuspense>
+            <EvolveMarketingDebugPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/marketing-engagements"
+        element={
+          <AdminSuspense>
+            <MarketingEngagementsAdminPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/marketing-engagements/:engagementId"
+        element={
+          <AdminSuspense>
+            <MarketingEngagementAdminDetailPage />
           </AdminSuspense>
         }
       />
