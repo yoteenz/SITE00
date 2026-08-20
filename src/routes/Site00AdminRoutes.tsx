@@ -37,6 +37,9 @@ const EvolveMarketingDebugPage = lazy(() => import('../site00/admin/pages/debug/
 const OrchestrationDebugPage = lazy(() => import('../site00/admin/pages/debug/OrchestrationDebugPage'));
 const ReconciliationInboxPage = lazy(() => import('../site00/admin/pages/ReconciliationInboxPage'));
 const OrchestrationProjectPage = lazy(() => import('../site00/admin/pages/OrchestrationProjectPage'));
+const EvolveOverviewPage = lazy(() => import('../site00/admin/pages/EvolveOverviewPage'));
+const EvolveOrgPage = lazy(() => import('../site00/admin/pages/EvolveOrgPage'));
+const EvolveDebugPage = lazy(() => import('../site00/admin/pages/debug/EvolveDebugPage'));
 const MarketingEngagementsAdminPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementsAdminPage'));
 const MarketingEngagementAdminDetailPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementAdminDetailPage'));
 
@@ -277,6 +280,30 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <EvolveMarketingDebugPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/evolve"
+        element={
+          <AdminSuspense>
+            <EvolveOverviewPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/orchestration/:orgSlug/evolve"
+        element={
+          <AdminSuspense>
+            <EvolveOrgPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/debug/evolve"
+        element={
+          <AdminSuspense>
+            <EvolveDebugPage />
           </AdminSuspense>
         }
       />

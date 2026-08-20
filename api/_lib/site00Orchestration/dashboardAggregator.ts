@@ -529,6 +529,82 @@ export async function getOrchestrationDashboardSnapshot(): Promise<Orchestration
 
   commandQueue.sort((a, b) => a.priority - b.priority);
 
+  // EVOLVE Marketing OS — merge marketing command items (non-blocking for orchestration)
+  try {
+    const { buildEvolveCommandItems, mergeEvolveIntoFocusNow } = await import('../site00Evolve/commandIntegration.js');
+    const evolveCmd = buildEvolveCommandItems();
+    for (const item of evolveCmd.needsYou) {
+      needsYou.push({
+        id: item.id,
+        organizationSlug: item.organizationSlug,
+        organizationName: item.organizationName,
+        title: item.title,
+        reason: item.reason,
+        category: 'NEEDS_YOU',
+        route: item.route,
+        priority: item.priority + 10,
+      });
+    }
+    for (const item of evolveCmd.blocked) {
+      commandQueue.push({
+        category: 'BLOCKED',
+        organizationSlug: item.organizationSlug,
+        organizationName: item.organizationName,
+        workstreamTitle: 'EVOLVE',
+        requirementTitle: item.title,
+        actionLabel: 'EVOLVE',
+        priority: item.priority,
+        reason: item.reason,
+        requirementId: null,
+        workstreamId: null,
+        id: item.id,
+        route: item.route,
+        lastUpdate: null,
+        evidenceState: 'EVOLVE_MARKETING',
+      });
+    }
+    for (const item of evolveCmd.running) {
+      commandQueue.push({
+        category: 'RUNNING',
+        organizationSlug: item.organizationSlug,
+        organizationName: item.organizationName,
+        workstreamTitle: 'EVOLVE',
+        requirementTitle: item.title,
+        actionLabel: 'EVOLVE',
+        priority: item.priority,
+        reason: item.reason,
+        requirementId: null,
+        workstreamId: null,
+        id: item.id,
+        route: item.route,
+        lastUpdate: null,
+        evidenceState: 'EVOLVE_MARKETING',
+      });
+    }
+    for (const item of evolveCmd.deferred) {
+      commandQueue.push({
+        category: 'POST_LAUNCH',
+        organizationSlug: item.organizationSlug,
+        organizationName: item.organizationName,
+        workstreamTitle: 'EVOLVE',
+        requirementTitle: item.title,
+        actionLabel: 'DEFERRED',
+        priority: item.priority,
+        reason: item.reason,
+        requirementId: null,
+        workstreamId: null,
+        id: item.id,
+        route: item.route,
+        lastUpdate: null,
+        evidenceState: 'EVOLVE_MARKETING',
+      });
+    }
+    const mergedFocus = mergeEvolveIntoFocusNow(focusNow);
+    focusNow.splice(0, focusNow.length, ...mergedFocus.slice(0, 5).map((f, i) => ({ ...f, rank: i + 1 })));
+  } catch {
+    /* EVOLVE store optional during orchestration-only tests */
+  }
+
   return {
     persistenceMode: mode,
     portfolio,

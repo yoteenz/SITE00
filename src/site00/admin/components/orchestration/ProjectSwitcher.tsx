@@ -5,9 +5,14 @@ type ProjectSwitcherProps = {
   organizations: Array<{ slug: string; name: string; clientFacing?: boolean }>;
   selected?: string;
   includeAll?: boolean;
+  /** When set, navigate to orchestration project sub-route instead of project root */
+  subRoute?: 'evolve';
 };
 
-export function ProjectSwitcher({ organizations, selected, includeAll }: ProjectSwitcherProps) {
+export function ProjectSwitcher({ organizations, selected, includeAll, subRoute }: ProjectSwitcherProps) {
+  const hrefFor = (slug: string) =>
+    subRoute === 'evolve' ? SITE00_ADMIN_ROUTES.evolveOrg(slug) : SITE00_ADMIN_ROUTES.orchestrationProject(slug);
+
   return (
     <label className="site00-orchestration-switcher">
       <span className="site00-orchestration-switcher__label">PROJECT</span>
@@ -19,7 +24,7 @@ export function ProjectSwitcher({ organizations, selected, includeAll }: Project
           if (!slug) {
             window.location.href = SITE00_ADMIN_ROUTES.dashboard;
           } else {
-            window.location.href = SITE00_ADMIN_ROUTES.orchestrationProject(slug);
+            window.location.href = hrefFor(slug);
           }
         }}
       >
