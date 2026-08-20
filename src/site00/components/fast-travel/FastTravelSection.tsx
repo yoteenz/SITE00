@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import type { FastTravelContext, FastTravelDestination, FastTravelSection as FastTravelSectionModel } from '../../config/fast-travel';
 import { resolveFastTravelHref, SITE00_FAST_TRAVEL_ARROW_SIZE } from '../../config/fast-travel';
 import { Site00OrbitalMark } from '../auth/Site00OrbitalMark';
+import { OriginPanelIcon } from '../homepage/OriginPanelIcon';
 import { Site00DirectoryArrowIcon } from '../mobile/Site00MobileIcons';
 import { AuthLockedDestination } from './AuthLockedDestination';
 
@@ -27,6 +28,8 @@ function FastTravelDestinationLink({
 
   const showArrow = variant === 'list';
   const showSignInIcon = variant === 'primary' && dest.id === 'sign-in';
+  const showIdntyIcon = variant === 'primary' && dest.id === 'create';
+  const showTopMark = showSignInIcon || showIdntyIcon;
 
   if (locked) {
     return (
@@ -43,11 +46,14 @@ function FastTravelDestinationLink({
   return (
     <Link
       to={href}
-      className={`site00-fast-travel__dest site00-fast-travel__dest--${variant}${showSignInIcon ? ' site00-fast-travel__dest--sign-in' : ''}`.trim()}
+      className={`site00-fast-travel__dest site00-fast-travel__dest--${variant}${showSignInIcon ? ' site00-fast-travel__dest--sign-in' : ''}${showIdntyIcon ? ' site00-fast-travel__dest--idnty' : ''}${showTopMark ? ' site00-fast-travel__dest--has-mark' : ''}`.trim()}
       onClick={onNavigate}
       aria-label={dest.description ? `${dest.label} — ${dest.description}` : dest.label}
     >
       {showSignInIcon ? <Site00OrbitalMark className="site00-fast-travel__dest-mark" /> : null}
+      {showIdntyIcon ? (
+        <OriginPanelIcon panel="idnty" size="sm" className="site00-fast-travel__dest-panel-icon" />
+      ) : null}
       <span className="site00-fast-travel__dest-copy">
         <span className="site00-fast-travel__dest-label">{dest.label}</span>
         {dest.description ? <span className="site00-fast-travel__dest-desc">{dest.description}</span> : null}

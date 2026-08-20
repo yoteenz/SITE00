@@ -259,7 +259,7 @@
     justify-content: flex-end;
   }
 
-  .site00-fast-travel__dest--primary.site00-fast-travel__dest--sign-in {
+  .site00-fast-travel__dest--primary.site00-fast-travel__dest--has-mark {
     justify-content: space-between;
   }
 
@@ -276,6 +276,13 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
+  }
+
+  .site00-fast-travel__dest--idnty .site00-fast-travel__dest-panel-icon.site00-origin-card__icon {
+    width: 40px;
+    height: 40px;
+    align-self: flex-start;
+    flex-shrink: 0;
   }
 
   .site00-fast-travel__dest--list {

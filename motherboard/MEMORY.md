@@ -972,3 +972,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** `FastTravelSection` renders `Site00OrbitalMark` (approved NAV PNG `7D83E4A6`) on primary `sign-in` destinations; card uses `space-between` layout with 40px mark at top.
 - **Branch:** `cursor/fast-travel-signin-icon-2c3b`.
 
+---
+
+## 2026-08-20 — Fast Travel Create Identity panel icon
+
+- **Request:** Put the Origin desktop expanded IDNTY panel geometric icon on the Fast Travel UP NEXT Create Identity card, above the text.
+- **Fix:** `FastTravelSection` renders `OriginPanelIcon panel="idnty"` on primary `create` destinations; shared `--has-mark` layout with Sign In card.
+- **Branch:** `cursor/fast-travel-idnty-icon-2c3b`.
+
