@@ -14,6 +14,7 @@ import site00StudioWorldWebhookHandler from '../api/site00/studio-world-webhook.
 import site00MarketingAdminHandler from '../api/admin/site00-marketing.js';
 import site00OrchestrationHandler from '../api/admin/site00-orchestration.js';
 import site00EvolveHandler from '../api/admin/site00-evolve.js';
+import site00EvolveOAuthCallbackHandler from '../api/admin/site00-evolve-oauth-callback.js';
 
 /** Express path → Vercel-style default export handler */
 export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = [
@@ -31,4 +32,5 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/admin/site00-access-credentials', handler: site00AccessCredentialsAdminHandler },
   { path: '/api/admin/site00-orchestration', handler: site00OrchestrationHandler },
   { path: '/api/admin/site00-evolve', handler: site00EvolveHandler },
+  { path: '/api/admin/site00-evolve/oauth/callback', handler: site00EvolveOAuthCallbackHandler },
 ];

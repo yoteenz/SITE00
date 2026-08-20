@@ -33,6 +33,10 @@ export type SafeConnectionView = {
   lastErrorMessage: string | null;
   credentialState: string;
   recommendedAction: string | null;
+  verificationStatus: string | null;
+  accountConfirmedAt: string | null;
+  publishingCapability: string | null;
+  analyticsCapability: string | null;
 };
 
 export type EvolveOverview = {

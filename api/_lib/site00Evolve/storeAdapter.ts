@@ -131,7 +131,15 @@ export async function getInsightsByOrgId(orgId: string): Promise<MarketingInsigh
 
 export async function getContentBrainByOrgId(orgId: string): Promise<Array<Record<string, unknown>>> {
   if ((await resolveStoreMode()) === 'memory') return mem.getContentBrainByOrgId(orgId);
-  return [];
+  return db.loadContentBrain(orgId);
+}
+
+export async function insertContentBrainEntry(entry: Record<string, unknown>): Promise<void> {
+  if ((await resolveStoreMode()) === 'memory') {
+    mem.insertContentBrainEntry(entry);
+    return;
+  }
+  await db.insertContentBrainDb(entry);
 }
 
 export async function getEvolveRoadmapByOrgId(orgId: string): Promise<EvolveRoadmapSeed[]> {

@@ -5,14 +5,15 @@ import { getSupabaseAdmin } from '../../supabase.js';
 import { orgIdFromSlug } from '../orgRegistry.js';
 import { validateSecretStoreConfiguration } from './providerSecretStore.js';
 
-const memStates = new Map<string, Record<string, unknown>>();
+import { memOAuthStates, resetOAuthStateStore } from './oauthStateStore.js';
+import { getCanonicalMetaOAuthCallbackUrl } from './oauthConstants.js';
 
 export function useMemoryOAuth(): boolean {
   return process.env.EVOLVE_USE_MEMORY === '1' || process.env.VITEST === 'true';
 }
 
 export function resetOAuthMemory(): void {
-  memStates.clear();
+  resetOAuthStateStore();
 }
 
 function generateStateToken(): string {
@@ -34,11 +35,14 @@ export function getProviderOAuthConfig(providerKey: string): {
     if (!process.env.META_APP_ID?.trim()) missing.push('META_APP_ID');
     if (!process.env.META_APP_SECRET?.trim()) missing.push('META_APP_SECRET');
     if (!process.env.META_OAUTH_REDIRECT_URI?.trim()) missing.push('META_OAUTH_REDIRECT_URI');
+    const redirectUri = process.env.META_OAUTH_REDIRECT_URI?.trim() || getCanonicalMetaOAuthCallbackUrl();
+    const canonical = getCanonicalMetaOAuthCallbackUrl();
+    const invalidRedirect = Boolean(process.env.META_OAUTH_REDIRECT_URI?.trim() && redirectUri !== canonical);
     return {
-      configured: missing.length === 0,
-      missing,
+      configured: missing.length === 0 && !invalidRedirect,
+      missing: invalidRedirect ? [...missing, 'META_OAUTH_REDIRECT_URI_INVALID'] : missing,
       clientId: process.env.META_APP_ID,
-      redirectUri: process.env.META_OAUTH_REDIRECT_URI,
+      redirectUri,
     };
   }
   return { configured: false, missing: [`${providerKey.toUpperCase()}_NOT_CONFIGURED`] };
@@ -69,10 +73,11 @@ export async function startOAuthAuthorization(
   const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString();
 
   if (useMemoryOAuth()) {
-    memStates.set(stateToken, {
+    memOAuthStates.set(stateToken, {
       organization_id: orgId,
       provider_key: providerKey,
       connection_id: connectionId,
+      redirect_uri: oauthCfg.redirectUri,
       expires_at: expiresAt,
     });
   } else {
@@ -92,7 +97,7 @@ export async function startOAuthAuthorization(
     const scopes = ['instagram_basic', 'instagram_content_publish', 'pages_show_list'];
     authorizationUrl =
       `https://www.facebook.com/v19.0/dialog/oauth?client_id=${encodeURIComponent(oauthCfg.clientId)}` +
-      `&redirect_uri=${encodeURIComponent(oauthCfg.redirectUri)}` +
+      `&redirect_uri=${encodeURIComponent(oauthCfg.redirectUri ?? getCanonicalMetaOAuthCallbackUrl())}` +
       `&state=${encodeURIComponent(stateToken)}` +
       `&scope=${encodeURIComponent(scopes.join(','))}`;
   }
@@ -106,7 +111,7 @@ export async function consumeOAuthState(
   organizationId: string,
 ): Promise<{ ok: boolean; connectionId?: string; error?: string }> {
   if (useMemoryOAuth()) {
-    const row = memStates.get(stateToken);
+    const row = memOAuthStates.get(stateToken);
     if (!row) return { ok: false, error: 'INVALID_STATE' };
     if (row.organization_id !== organizationId) return { ok: false, error: 'CROSS_ORG_DENIED' };
     if (row.provider_key !== providerKey) return { ok: false, error: 'WRONG_PROVIDER' };

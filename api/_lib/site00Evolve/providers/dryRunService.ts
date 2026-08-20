@@ -66,13 +66,6 @@ export async function runPublicationDryRun(
   const globalFence = isGlobalPublishingEnabled();
   const orgFence = publishingFenceState(String(pilot.publishing_status) as 'DISABLED');
 
-  if (!globalFence) {
-    return { status: 'DRY_RUN_BLOCKED', wouldPublish: false, providerWriteCalled: false, blockReason: 'BLOCKED_GLOBAL_PUBLISHING_FENCE' };
-  }
-  if (!orgFence.orgEnabled) {
-    return { status: 'DRY_RUN_BLOCKED', wouldPublish: false, providerWriteCalled: false, blockReason: 'BLOCKED_ORGANIZATION_PUBLISHING_FENCE' };
-  }
-
   const connection = await loadConnection(opts.connectionId, orgId);
   if (!connection) {
     return { status: 'DRY_RUN_BLOCKED', wouldPublish: false, providerWriteCalled: false, blockReason: 'CROSS_ORG_DENIED' };
@@ -89,6 +82,7 @@ export async function runPublicationDryRun(
 
   const oauthCfg = getProviderOAuthConfig(String(connection.provider_key));
   const secretCfg = validateSecretStoreConfiguration();
+  const fencesAllowPublish = globalFence && orgFence.orgEnabled;
 
   return {
     status: 'DRY_RUN_COMPLETE',
@@ -108,8 +102,9 @@ export async function runPublicationDryRun(
       },
       approvalState: approval,
       fenceStates: {
-        global: globalFence,
-        organization: orgFence,
+        global: globalFence ? 'ENABLED' : 'DISABLED',
+        organization: orgFence.orgEnabled ? 'ENABLED' : 'DISABLED',
+        wouldPublishWhenFencesEnabled: fencesAllowPublish,
         oauthConfigured: oauthCfg.configured,
         secretStoreConfigured: secretCfg.configured,
       },

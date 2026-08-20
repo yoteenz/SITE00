@@ -134,6 +134,11 @@ export type ExternalConnectionRow = {
   last_error_message: string | null;
   credential_state: string | null;
   secret_ref: string | null;
+  verification_status?: string | null;
+  account_confirmed_at?: string | null;
+  account_confirmed_by?: string | null;
+  publishing_capability?: string | null;
+  analytics_capability?: string | null;
   metadata: Record<string, unknown>;
   created_at: string;
   updated_at: string;
@@ -159,6 +164,10 @@ export type SafeConnectionView = {
   lastErrorMessage: string | null;
   credentialState: string;
   recommendedAction: string | null;
+  verificationStatus: string | null;
+  accountConfirmedAt: string | null;
+  publishingCapability: string | null;
+  analyticsCapability: string | null;
 };
 
 export type MetricObservationInput = {
