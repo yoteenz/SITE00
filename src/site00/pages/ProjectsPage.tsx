@@ -45,19 +45,8 @@ export default function ProjectsPage() {
     });
   }, [projects, query, statusFilter, serviceFilter]);
 
-  const headerActions = (
-    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-      <Link to={SITE00_ROUTES.evolveState} className="site00-btn-outline site00-ecosystem-header__cta">
-        + EVOLVE
-      </Link>
-      <Link to={SITE00_ROUTES.bldr} className="site00-btn-outline site00-ecosystem-header__cta">
-        + NEW BUILD
-      </Link>
-    </div>
-  );
-
   return (
-    <EcosystemShell headerActions={headerActions}>
+    <EcosystemShell>
       <div className="site00-page site00-page--projects">
         <div className="site00-eco-metrics site00-eco-metrics--4">
           <MetricCard label="TOTAL PROJECTS" value={String(projectMetrics.total)} />
@@ -141,6 +130,9 @@ export default function ProjectsPage() {
         <div className="site00-eco-mobile-cta">
           <Link to={SITE00_ROUTES.bldr} className="site00-btn-outline site00-btn-outline--block">
             + NEW PROJECT
+          </Link>
+          <Link to={SITE00_ROUTES.evolveState} className="site00-btn-outline site00-btn-outline--block">
+            + EVOLVE
           </Link>
         </div>
       </div>
