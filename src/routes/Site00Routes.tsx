@@ -32,6 +32,7 @@ import '../site00/styles/site00-access.css';
 import '../site00/styles/site00-ctrl-room.css';
 import '../site00/styles/site00-ecosystem.css';
 import '../site00/styles/site00-idnty-assessment.css';
+import '../site00/styles/site00-idnty-state-v2.css';
 import '../site00/styles/site00-pages.css';
 import '../site00/assts/styles/assts.css';
 import '../site00/assts/styles/assts-depth.css';

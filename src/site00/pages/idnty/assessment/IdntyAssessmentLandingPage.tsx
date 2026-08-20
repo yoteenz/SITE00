@@ -17,7 +17,9 @@ import {
   IdntyOptionRows,
 } from '../../../components/idnty-assessment/IdntyAssessmentPanels';
 import { useSite00DesktopArtboardPreview } from '../../../components/shell/Site00DesktopArtboardContext';
+import { IdentityStateLandingV2 } from '../../../components/idnty/state-v2/IdentityStateLandingV2';
 import { SITE00_ROUTES, site00IdntyAssessmentDesktopPath } from '../../../config/routes';
+import { Site00PageFooter } from '../../../components/shell/Site00PageFooter';
 
 type IdntyAssessmentLandingPageProps = {
   stateSlug: IdntyAssessmentStateId;
@@ -160,6 +162,15 @@ export default function IdntyAssessmentLandingPage({ stateSlug }: IdntyAssessmen
       />
     </div>
   );
+
+  if (!isDesktop) {
+    return (
+      <IdntyAssessmentShell state={state} mobileLayout="diagnostic-v2" showProcessStrip={false}>
+        <IdentityStateLandingV2 stateSlug={stateSlug} isDesktop={false} />
+        <Site00PageFooter />
+      </IdntyAssessmentShell>
+    );
+  }
 
   return (
     <IdntyAssessmentShell
