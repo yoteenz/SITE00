@@ -1,4 +1,5 @@
 import type { FastTravelLocation } from '../../config/fast-travel';
+import { OriginPanelIcon } from '../homepage/OriginPanelIcon';
 
 type CurrentLocationCardProps = {
   location: FastTravelLocation;
@@ -9,6 +10,9 @@ export function CurrentLocationCard({ location }: CurrentLocationCardProps) {
     <div className="site00-fast-travel__current" aria-label="CURRENT LOCATION">
       <span className="site00-fast-travel__current-label">CURRENT LOCATION</span>
       <div className="site00-fast-travel__current-body">
+        {location.panel ? (
+          <OriginPanelIcon panel={location.panel} size="sm" className="site00-fast-travel__current-icon" />
+        ) : null}
         {location.index ? (
           <span className="site00-fast-travel__current-index">{location.index}</span>
         ) : null}

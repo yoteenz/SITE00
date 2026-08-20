@@ -988,3 +988,18 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** `IdntyHubPage` SIGN IN `HubActionCard` uses `Site00OrbitalMark` (approved NAV PNG); hub-card CSS sizes mark at 40px width.
 - **Branch:** `cursor/idnty-signin-panel-icon-2c3b`.
 
+---
+
+## 2026-08-20 — Cloudflare preview tunnel restart
+
+- **Request:** Restart the preview tunnel.
+- **Action:** Killed `site00-preview-tunnel` tmux session; relaunched `/tmp/cloudflared tunnel --no-autoupdate run --token "$SITE00_CLOUDFLARE_TUNNEL_TOKEN"`. Vite on 5174 left running. Four tunnel connections registered; preview URL refreshed in `/tmp/site00-cloud-preview-url.txt`.
+
+---
+
+## 2026-08-20 — Fast Travel Current Location IDNTY icon
+
+- **Request:** Add the identity panel geometric icon to the Fast Travel Current Location panel.
+- **Fix:** `FastTravelLocation.panel` optional field; IDNTY route profile sets `panel: 'idnty'`; `CurrentLocationCard` renders `OriginPanelIcon` above location text.
+- **Branch:** `cursor/fast-travel-current-location-icon-2c3b`.
+
