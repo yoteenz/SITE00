@@ -103,14 +103,31 @@
   }
 
   .site00-fast-travel__close {
-    width: 44px;
-    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
     border: none;
     background: transparent;
-    font-size: 1.625rem;
+    font-size: 1.544rem;
     line-height: 1;
     color: var(--site-text);
     cursor: pointer;
+    outline: none;
+    box-shadow: none;
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .site00-fast-travel__close:focus,
+  .site00-fast-travel__close:focus-visible,
+  .site00-fast-travel__close:active {
+    outline: none;
+    box-shadow: none;
+    border: none;
   }
 
   .site00-fast-travel__hero {
@@ -155,7 +172,7 @@
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--site-text-muted);
+    color: var(--site-red);
   }
 
   .site00-fast-travel__current-body {
@@ -185,7 +202,7 @@
     font-size: 0.625rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--site-red);
+    color: var(--site-text-muted);
     line-height: 1.35;
   }
 
