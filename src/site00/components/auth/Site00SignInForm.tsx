@@ -251,7 +251,7 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
           <span className="site00-signin-form__magic-icon" aria-hidden="true">
             ✉
           </span>
-          SIGN IN WITH MAGIC LINK
+          <span className="site00-signin-form__magic-label">SIGN IN WITH MAGIC LINK</span>
         </button>
       </form>
 

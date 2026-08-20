@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { resolveSite00PublicAsset } from '../loader/site00LoaderConfig';
-import { SITE00_SIGNIN_DESKTOP_BG_FILE, SITE00_SIGNIN_ICON_PATH } from '../../config/site00-auth-assets';
+import { SITE00_SIGNIN_DESKTOP_BG_FILE, SITE00_SIGNIN_ICON_PATH, SITE00_SIGNIN_ICON_VERSION } from '../../config/site00-auth-assets';
 import { SITE00_ROUTES } from '../../config/routes';
 import { Site00AuthIntro } from './Site00AuthIntro';
 import { Site00OrbitalMark } from './Site00OrbitalMark';
@@ -14,7 +14,7 @@ type Site00AuthShellProps = {
 };
 
 const signInBgUrl = resolveSite00PublicAsset(SITE00_SIGNIN_DESKTOP_BG_FILE);
-const signInIconUrl = resolveSite00PublicAsset(SITE00_SIGNIN_ICON_PATH);
+const signInIconUrl = `${resolveSite00PublicAsset(SITE00_SIGNIN_ICON_PATH)}?v=${SITE00_SIGNIN_ICON_VERSION}`;
 
 export function Site00AuthShell({ children }: Site00AuthShellProps) {
   const [fastTravelOpen, setFastTravelOpen] = useState(false);

@@ -849,3 +849,10 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 - **Admin:** `/admin/site00/access-credentials` list + detail with QR (`qrcode` npm). Nav item ACCESS.
 - **Branch:** `cursor/founder-access-credentials-2c3b`.
 
+---
+
+## 2026-08-20 — Sign-in icon cache bust + magic link red on iOS
+
+- **Issue:** Sign-in page still showed old wireframe SVG on fsbw-dev preview; magic link button text/icon blue on iOS Safari.
+- **Fix:** `SITE00_SIGNIN_ICON_VERSION=2` cache bust on resolved NAV PNG; magic link `-webkit-appearance: none` + explicit red on button, icon, label spans. Branch `cursor/signin-icon-magic-link-fix-2c3b`.
+
