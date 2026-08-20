@@ -44,3 +44,7 @@ export function buildAccessCredentialPublicUrl(code: string): string {
     (typeof window !== 'undefined' ? window.location.origin : 'https://site00.com');
   return `${origin}${buildAccessCredentialPublicPath(code)}`;
 }
+
+/** Canonical geometric access reticle — Founder Card landing (transparent PNG). */
+export const SITE00_ACCESS_RETICLE_PATH = 'NAV/0DB32E47-6CE4-484F-841B-DBE2397218BE.png';
+export const SITE00_ACCESS_RETICLE_VERSION = '1';

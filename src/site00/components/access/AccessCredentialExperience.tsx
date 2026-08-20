@@ -80,39 +80,27 @@ export function AccessCredentialExperience() {
 
   if (loading) {
     return (
-      <div className={`site00-access-page site00-access-page--${layout}`.trim()} aria-busy="true">
+      <div className={`site00-access-page site00-access-page--${layout} site00-access-page--loading`.trim()} aria-busy="true">
         <div className="site00-access-page__loading">VERIFYING CREDENTIAL…</div>
       </div>
     );
   }
 
   if (!view || view.resolved === 'not_found') {
-    return (
-      <div className={`site00-access-page site00-access-page--${layout}`.trim()}>
-        <AccessCredentialNotRecognizedPanel layout={layout} />
-      </div>
-    );
+    return <AccessCredentialNotRecognizedPanel credentialId={credentialId} />;
   }
 
   if (view.resolved === 'revoked' || view.resolved === 'expired') {
     return (
-      <div className={`site00-access-page site00-access-page--${layout}`.trim()}>
-        <AccessCredentialClosedPanel layout={layout} onEnterPublic={() => navigate(SITE00_ROUTES.originAlias)} />
-      </div>
+      <AccessCredentialClosedPanel credentialId={credentialId} onEnterPublic={() => navigate(SITE00_ROUTES.originAlias)} />
     );
   }
 
   if (view.resolved === 'inactive') {
-    return (
-      <div className={`site00-access-page site00-access-page--${layout}`.trim()}>
-        <AccessCredentialInactivePanel layout={layout} />
-      </div>
-    );
+    return <AccessCredentialInactivePanel credentialId={credentialId} />;
   }
 
   return (
-    <div className={`site00-access-page site00-access-page--${layout}`.trim()}>
-      <AccessCredentialRecognizedPanel view={view} layout={layout} onEnter={() => void enterSite()} entering={entering} />
-    </div>
+    <AccessCredentialRecognizedPanel view={view} onEnter={() => void enterSite()} entering={entering} />
   );
 }
