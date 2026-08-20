@@ -1476,3 +1476,33 @@ Summary of this cloud agent run (SITE 00 Composer implementation sprint).
 
 - **Conventions:** Studio entered via active project (not 6th global nav item). Studio = project-level production command; CTRL ROOM = account-level. Empty states use honest copy, never hard-coded Frontal Slayer or fake timestamps.
 
+---
+
+## 2026-08-20 — 00 / CONTROL admin operating environment (full sprint)
+
+Summary of this cloud agent run (SITE 00 Composer implementation sprint — internal operator OS).
+
+- **Context:** Founder attached approved desktop + mobile 00 / CONTROL design references. Sprint: build complete internal administrator operating environment — COMMAND dashboard, operator shell, Priority Queue, Production Matrix, Mission Control, section pages — propagating SITE 00 operator design system across all admin destinations. Real data only; preserve admin auth; reuse existing production schema (no duplicate models).
+
+- **Topics covered:** Product model (SITE 00 / PROJECTS / STUDIO / CTRL ROOM / 00 / CONTROL); visual rules (dense, instrumented, red/black/white); audit of existing admin routes and data; authorization; global operator shell; desktop COMMAND + mobile COMMAND; Priority Queue; Production Matrix; Projects/Production/Reviews/Clients/Systems/Business/Reports/Settings pages; Project Mission Control; View as Client; Command Palette hint; activity ledger; system health (honest UNKNOWN where not measurable).
+
+- **Decisions / outcomes:**
+  - Backend: `controlCommand.ts` — `getControlCommandPayload(operatorEmail)` aggregates metrics, priority queue (blockers, approvals, reviews, milestones), production matrix (7 stages), activity, upcoming reviews, launch queue, system health from existing `site00_projects`, deliverables, blockers, approvals, activity tables.
+  - API: `site00-production.ts` action `command` → payload for authenticated admin.
+  - Frontend shell: `Site00AdminShell` rewritten as 00/CONTROL operator shell (sidebar desktop, mobile menu, operator profile); `CONTROL_OPERATOR_NAV` maps to existing admin routes; `site00-control.css` design system.
+  - COMMAND page: `DashboardPage` — `ControlCommandDesktop` + `ControlCommandMobile` + shared components (metric rail, priority queue, production matrix, activity, system health, reviews/launch panels).
+  - Section pages updated with `ControlPageHeader`: Projects, Production (Studio), Reviews (Approvals), Clients (Identities), Systems (Sites), Business (Finance), Reports, Settings, Activity, Team, Leads, Discovery, Placeholder (Automation).
+  - Mission Control: `ProjectWorkspacePage` — operator header, VIEW AS CLIENT (Studio new tab), next actions, studio summary; removed hardcoded production spine.
+  - Authorization: unchanged `AdminGuard`; no client access to `/admin/site00/*`.
+
+- **Changes:**
+  - API: `api/_lib/site00Production/controlCommand.ts`, `api/admin/site00-production.ts`
+  - Admin UI: `components/control/*`, `hooks/useControlCommand.ts`, `types/control.ts`, `config/control-nav.ts`, `styles/site00-control.css`
+  - Pages: `DashboardPage`, `ProjectsPage`, `StudioPage`, `ApprovalsPage`, `ProjectWorkspacePage`, operations pages (Identities, Finance, Reports, Settings, Sites, Activity, Team, Leads, Discovery), `PlaceholderSectionPage`
+  - Shell: `Site00AdminShell`, `Site00AdminHeader`; routes import control CSS
+  - Docs: `motherboard/CORE.md` (00/CONTROL product layer)
+
+- **Deferred:** Internal review POST actions (approve for client, request revision); realtime subscriptions; stage advance/pause/resume controls; alerts dropdown panel; Command Palette intent shortcuts beyond existing `AdminSearchModal`; Asset Vault admin deep integration (nav links to `/assts`); mobile SITE 00 bottom nav inside admin (admin uses mobile operator menu); dedicated automation job table UI (placeholder page); production spine in Mission Control from pipeline API (StudioPipelineBar needs pipeline data).
+
+- **Conventions:** 00 / CONTROL = `/admin/site00/*`. Reference mock names (NIA, Frontal Slayer, etc.) never in production UI. System health reports UNKNOWN when not measurable. Mobile admin prioritizes intervention (priority queue, production spine) over desktop matrix tables.
+
