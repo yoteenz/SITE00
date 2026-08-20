@@ -2,8 +2,6 @@ import { Link } from 'react-router-dom';
 import type { FastTravelContext, FastTravelDestination, FastTravelSection as FastTravelSectionModel } from '../../config/fast-travel';
 import { hasFastTravelDestinationArt } from '../../config/fast-travel-assets';
 import { resolveFastTravelHref, SITE00_FAST_TRAVEL_ARROW_SIZE } from '../../config/fast-travel';
-import { Site00OrbitalMark } from '../auth/Site00OrbitalMark';
-import { OriginPanelIcon } from '../homepage/OriginPanelIcon';
 import { Site00DirectoryArrowIcon } from '../mobile/Site00MobileIcons';
 import { AuthLockedDestination } from './AuthLockedDestination';
 import { FastTravelDestinationArt } from './FastTravelDestinationArt';
@@ -32,12 +30,9 @@ function FastTravelDestinationLink({
   const locked = dest.requiresAuth && !ctx.isSignedIn;
   const isPrimary = variant === 'primary';
   const isUpNext = upNextCardIndex !== undefined;
+  const showArt = isPrimary && hasFastTravelDestinationArt(dest.id);
 
   const showArrow = variant === 'list';
-  const showSignInIcon = isPrimary && dest.id === 'sign-in';
-  const showIdntyIcon = isPrimary && dest.id === 'create';
-  const showPackArt = isPrimary && !showSignInIcon && !showIdntyIcon && hasFastTravelDestinationArt(dest.id);
-  const showTopVisual = showSignInIcon || showIdntyIcon || showPackArt;
 
   if (locked) {
     return (
@@ -56,16 +51,12 @@ function FastTravelDestinationLink({
   return (
     <Link
       to={href}
-      className={`site00-fast-travel__dest site00-fast-travel__dest--${variant}${isUpNext ? ' site00-fast-travel__dest--up-next' : ''}${showSignInIcon ? ' site00-fast-travel__dest--sign-in' : ''}${showIdntyIcon ? ' site00-fast-travel__dest--idnty' : ''}${showTopVisual ? ' site00-fast-travel__dest--has-mark' : ''}${showPackArt ? ' site00-fast-travel__dest--has-art' : ''}`.trim()}
+      className={`site00-fast-travel__dest site00-fast-travel__dest--${variant}${isUpNext ? ' site00-fast-travel__dest--up-next' : ''}${showArt ? ' site00-fast-travel__dest--has-art site00-fast-travel__dest--has-mark' : ''}`.trim()}
       onClick={onNavigate}
       aria-label={dest.description ? `${dest.label} — ${dest.description}` : dest.label}
     >
       {isUpNext ? <FastTravelUpNextCardChrome cardIndex={upNextCardIndex} /> : null}
-      {showSignInIcon ? <Site00OrbitalMark className="site00-fast-travel__dest-mark" /> : null}
-      {showIdntyIcon ? (
-        <OriginPanelIcon panel="idnty" size="sm" className="site00-fast-travel__dest-panel-icon" />
-      ) : null}
-      {showPackArt ? <FastTravelDestinationArt destinationId={dest.id} /> : null}
+      {showArt ? <FastTravelDestinationArt destinationId={dest.id} /> : null}
       <span className="site00-fast-travel__dest-copy">
         <span className="site00-fast-travel__dest-label">{dest.label}</span>
         {dest.description ? <span className="site00-fast-travel__dest-desc">{dest.description}</span> : null}

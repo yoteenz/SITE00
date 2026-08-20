@@ -1100,3 +1100,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** Artwork/mark z-index 1; index 3; registration 4; copy 5.
 - **Branch:** `cursor/fast-travel-up-next-zindex-fix-2c3b`.
 
+---
+
+## 2026-08-20 — Fast Travel artwork audit (sign-in / create)
+
+- **Issue:** IDNTY signed-out UP NEXT showed tiny corner marks instead of full card artwork; sign-in/create bypassed `FastTravelDestinationArt`.
+- **Fix:** Added `sign-in` + `create` to `FAST_TRAVEL_DESTINATION_ART` (existing NAV/origin assets); unified all 11 UP NEXT destinations through one art component + `--has-art` layout.
+- **Branch:** `cursor/fast-travel-artwork-audit-2c3b`.
+

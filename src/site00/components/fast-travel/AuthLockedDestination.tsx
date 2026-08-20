@@ -28,18 +28,18 @@ export function AuthLockedDestination({
   destinationId,
   upNextCardIndex,
 }: AuthLockedDestinationProps) {
-  const showPackArt = Boolean(destinationId && hasFastTravelDestinationArt(destinationId));
+  const showArt = Boolean(destinationId && hasFastTravelDestinationArt(destinationId));
   const isUpNext = upNextCardIndex !== undefined;
 
   return (
     <Link
       to={href}
-      className={`site00-fast-travel__dest site00-fast-travel__dest--locked ${showArrow ? 'site00-fast-travel__dest--list' : ''}${isUpNext ? ' site00-fast-travel__dest--up-next site00-fast-travel__dest--primary' : ''}${showPackArt ? ' site00-fast-travel__dest--has-art site00-fast-travel__dest--has-mark' : ''}`.trim()}
+      className={`site00-fast-travel__dest site00-fast-travel__dest--locked ${showArrow ? 'site00-fast-travel__dest--list' : ''}${isUpNext ? ' site00-fast-travel__dest--up-next site00-fast-travel__dest--primary' : ''}${showArt ? ' site00-fast-travel__dest--has-art site00-fast-travel__dest--has-mark' : ''}`.trim()}
       onClick={onNavigate}
       aria-label={site00AuthLockedAriaLabel(label)}
     >
       {isUpNext ? <FastTravelUpNextCardChrome cardIndex={upNextCardIndex} /> : null}
-      {showPackArt && destinationId ? <FastTravelDestinationArt destinationId={destinationId} /> : null}
+      {showArt && destinationId ? <FastTravelDestinationArt destinationId={destinationId} /> : null}
       <span className="site00-fast-travel__dest-copy">
         <span className="site00-fast-travel__dest-label">{label}</span>
         {description ? <span className="site00-fast-travel__dest-desc">{description}</span> : null}
