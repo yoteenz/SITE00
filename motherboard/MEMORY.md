@@ -1652,3 +1652,26 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 
 - **Visual QA:** Auth blocked live browser test; static analysis + scale unit tests pass.
 
+---
+
+## 2026-08-20 — Sprint 01: Production orchestration foundation
+
+Summary of this cloud agent run (repo: `yoteenz/SITE00`).
+
+- **Context:** Founder Sprint 01 — transform SITE 00 into multi-project Brand + Production Operating System foundation: intelligent launch manifests, project registry, external system abstraction, evidence/reconciliation, Canon/Reference/Template/Instance, command queue data layer, debug fixtures. SITE 00 repo only; no external repo modifications; no deploy.
+
+- **Topics covered:** Four-layer production model; organization/brand registry (SITE 00, Frontal Slayer, AIO, Studio World as infrastructure); launch manifest with separate classification vs execution status; readiness against approved target only; deferral engine → EVOLVE; launch overrides; dependency graph; manifest builder; reconciliation (evidence ≠ completion); project ingestion architecture; debug route.
+
+- **Decisions / outcomes:**
+  - Migration `20260820180000_site00_production_orchestration.sql` — organizations, workstreams, launch manifests, requirements, dependencies, deferrals, overrides, external systems/connections, signals, evidence, reconciliation, canon/reference/template/instance, content brain, evolve roadmap, ingestions, orchestration events. Extended `site00_projects` with `organization_id`.
+  - Service layer `api/_lib/site00Orchestration/` — readinessCalculator, deferralEngine, manifestBuilder, commandQueue, dependencyGraph, reconciliationService, seedFixtures (DEMO / UNRECONCILED), memoryStore for dev/tests.
+  - API `GET/POST /api/admin/site00-orchestration` (admin-only).
+  - Debug UI `/admin/site00/debug/orchestration` — inspect registry, manifests, readiness, command queue, evolve, external connections.
+  - Docs: `docs/site00/PRODUCTION_METHODOLOGY.md`, `PROJECT_ORCHESTRATION.md`, `INTELLIGENT_LAUNCH_MANIFEST.md`, `EXISTING_PROJECT_INGESTION.md`, `EXTERNAL_SYSTEM_REGISTRY.md`, `CANON_REFERENCE_TEMPLATE_INSTANCE.md`.
+  - Tests: 23 orchestration tests (20 sprint scenarios + extras); 44 total passing. Build PASS.
+
+- **Fixtures:** SITE 00 (Full Platform Launch), Frontal Slayer (Flagship Brand Launch), AIO (Core Service Operations), Studio World (infrastructure, not client-facing). All labeled DEMO / UNRECONCILED.
+
+- **Deferred (Sprint 02):** Live GitHub/Studio World connections; deep repo reconciliation; replace fixtures with evidence-backed state; wire approved admin dashboard to orchestration services; apply migration to remote Supabase.
+
+- **Conventions:** Admin approval required for manifest activation, deferrals, overrides, reconciliation acceptance. Evidence never auto-completes requirements. Studio World ≠ client brand. Same physical repo can host multiple logical systems.

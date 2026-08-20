@@ -12,6 +12,7 @@ import site00ClientProductionHandler from '../api/site00/client-production.js';
 import site00MarketingEngagementsHandler from '../api/site00/marketing-engagements.js';
 import site00StudioWorldWebhookHandler from '../api/site00/studio-world-webhook.js';
 import site00MarketingAdminHandler from '../api/admin/site00-marketing.js';
+import site00OrchestrationHandler from '../api/admin/site00-orchestration.js';
 
 /** Express path → Vercel-style default export handler */
 export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = [
@@ -27,4 +28,5 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/admin/site00-production', handler: site00ProductionHandler },
   { path: '/api/admin/site00-assts', handler: site00AsstsHandler },
   { path: '/api/admin/site00-access-credentials', handler: site00AccessCredentialsAdminHandler },
+  { path: '/api/admin/site00-orchestration', handler: site00OrchestrationHandler },
 ];

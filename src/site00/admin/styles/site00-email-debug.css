@@ -469,3 +469,43 @@
 .site00-email-debug-note--center {
   text-align: center;
 }
+
+/* Orchestration debug */
+.site00-orchestration-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.site00-orchestration-section-title {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0 0 0.75rem;
+  color: #eb1c24;
+}
+
+.site00-orchestration-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+
+.site00-orchestration-table th,
+.site00-orchestration-table td {
+  border: 1px solid var(--site00-control-border, #e5e5e5);
+  padding: 0.5rem 0.65rem;
+  text-align: left;
+}
+
+.site00-orchestration-table th {
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: #fafafa;
+}
+
+.site00-orchestration-error {
+  color: #eb1c24;
+}
