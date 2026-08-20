@@ -1,17 +1,12 @@
 /**
- * SITE 00 Fast Travel — approved UP NEXT destination artwork (Supabase live-preview/site00/).
+ * SITE 00 Fast Travel — approved UP NEXT destination artwork (Supabase live-preview/site00/PACK/).
  * One canonical image per destination id; resolved at runtime via resolveSite00PublicAsset.
  */
 
 import { resolveSite00PublicAsset } from '../components/loader/site00LoaderConfig';
-import {
-  SITE00_IDNTY_GATEWAY_CREATE_ICON_PATH,
-  SITE00_IDNTY_GATEWAY_ICON_VERSION,
-  SITE00_IDNTY_GATEWAY_SIGNIN_ICON_PATH,
-} from './idnty-gateway-assets';
 
-/** Bump when replacing any PACK Fast Travel destination artwork. */
-export const SITE00_FAST_TRAVEL_ART_VERSION = '3';
+/** Bump when replacing any Fast Travel destination artwork. */
+export const SITE00_FAST_TRAVEL_ART_VERSION = '4';
 
 /** All UP NEXT primary destinations with approved illustration assets. */
 export type FastTravelArtDestinationId =
@@ -38,9 +33,8 @@ export const FAST_TRAVEL_DESTINATION_ART: Record<FastTravelArtDestinationId, str
   'bldr-state': 'PACK/895A4714-5E05-48CD-93FF-8AFF836280FD.png',
   services: 'PACK/18010437-3313-4797-9FB6-4E1B6DBC04B7.png',
   sites: 'PACK/DC04BE58-043D-481A-90B2-94836A824932.png',
-  /** Same approved NAV PNGs as IDNTY gateway hub cards — not auth orbital / origin panel marks. */
-  'sign-in': SITE00_IDNTY_GATEWAY_SIGNIN_ICON_PATH,
-  create: SITE00_IDNTY_GATEWAY_CREATE_ICON_PATH,
+  'sign-in': 'PACK/94368368-C1CF-43A2-8F18-5242CB944AFC.png',
+  create: 'PACK/EAC75AD6-1486-4476-888A-8C9F6734D308.png',
 };
 
 export function hasFastTravelDestinationArt(id: string): id is FastTravelArtDestinationId {
@@ -50,9 +44,7 @@ export function hasFastTravelDestinationArt(id: string): id is FastTravelArtDest
 export function resolveFastTravelDestinationArtUrl(id: string): string | null {
   if (!hasFastTravelDestinationArt(id)) return null;
   const path = FAST_TRAVEL_DESTINATION_ART[id];
-  const version =
-    id === 'sign-in' || id === 'create' ? SITE00_IDNTY_GATEWAY_ICON_VERSION : SITE00_FAST_TRAVEL_ART_VERSION;
-  return `${resolveSite00PublicAsset(path)}?v=${version}`;
+  return `${resolveSite00PublicAsset(path)}?v=${SITE00_FAST_TRAVEL_ART_VERSION}`;
 }
 
 /** Every UP NEXT destination id across all route profiles must map here. */

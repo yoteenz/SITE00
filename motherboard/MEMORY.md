@@ -1132,3 +1132,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** `fast-travel-assets.ts` maps `sign-in`/`create` to approved IDNTY gateway NAV PNGs (same as hub cards); bumped gateway + PACK art cache versions.
 - **Branch:** `cursor/fast-travel-idnty-icons-copy-2c3b`.
 
+---
+
+## 2026-08-20 — Fast Travel sign-in/create PACK folder icons
+
+- **Request:** Sign-in + create UP NEXT icons from `PACK/94368368…` and `PACK/EAC75AD6…` (not NAV folder).
+- **Fix:** `fast-travel-assets.ts` direct PACK paths; art version `4` for cache bust.
+- **Branch:** `cursor/fast-travel-signin-create-pack-icons-2c3b`.
+
