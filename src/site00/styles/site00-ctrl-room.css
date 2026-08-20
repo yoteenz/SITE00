@@ -408,6 +408,44 @@
   color: var(--site-text-muted);
 }
 
+.site00-ctrl-section--operator {
+  margin-bottom: 16px;
+  border-color: #eb1c24;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.site00-ctrl-section__kicker {
+  margin: 0 0 8px;
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #eb1c24;
+}
+
+.site00-ctrl-section__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.site00-ctrl-section__cta {
+  display: inline-block;
+  padding: 12px 16px;
+  border: 1px solid #eb1c24;
+  color: #eb1c24;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+}
+
+.site00-ctrl-section__cta--secondary {
+  border-color: var(--site-line);
+  color: var(--site-text);
+}
+
 /* ─── Mobile CTRL ROOM ─── */
 
 @media (max-width: 1023px) {

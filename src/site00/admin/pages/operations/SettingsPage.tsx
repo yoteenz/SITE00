@@ -53,7 +53,11 @@ export default function SettingsPage() {
               {section.items.map((item) => (
                 <li key={item} className="site00-admin-activity-list__item">
                   <span>{item}</span>
-                  <span className="site00-admin-badge site00-admin-badge--gray">READ ONLY</span>
+                  {'href' in section && section.href ? (
+                    <span className="site00-admin-badge site00-admin-badge--red">OPEN</span>
+                  ) : (
+                    <span className="site00-admin-badge site00-admin-badge--gray">READ ONLY</span>
+                  )}
                 </li>
               ))}
             </ul>
