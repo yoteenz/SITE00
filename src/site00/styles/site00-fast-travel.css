@@ -242,6 +242,33 @@
     justify-content: flex-end;
   }
 
+  .site00-fast-travel__dest--list {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .site00-fast-travel__dest--list .site00-fast-travel__dest-copy {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .site00-fast-travel__dest-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    flex-shrink: 0;
+    color: var(--site-red);
+    transition: transform 180ms var(--site-ease);
+  }
+
+  .site00-fast-travel__dest--list:active .site00-fast-travel__dest-arrow {
+    transform: translateX(3px);
+  }
+
   .site00-fast-travel__dest-label {
     font-family: var(--site00-font-nav);
     font-size: 0.625rem;
