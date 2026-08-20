@@ -283,7 +283,7 @@ export async function evaluateBrandReadiness(orgSlug: string) {
   const meta = (profile?.metadata ?? {}) as Record<string, unknown>;
   const checks: Record<string, { state: string; gap?: string }> = {
     LOGO: { state: meta.logo_available ? 'READY' : 'INSUFFICIENT', gap: meta.logo_available ? undefined : 'Logo not confirmed' },
-    COLORS: { state: meta.visual_identity_available ? 'PARTIAL' : 'INSUFFICIENT', gap: 'Brand colors not documented' },
+    COLORS: { state: meta.visual_dna_status === 'INCOMPLETE_REFERENCE_ONLY' ? 'INSUFFICIENT' : meta.visual_identity_available ? 'PARTIAL' : 'INSUFFICIENT', gap: 'Visual DNA requires Creative Direction — placeholder not canon' },
     TYPOGRAPHY: { state: 'INSUFFICIENT', gap: 'Typography not documented' },
     VOICE: { state: meta.brand_voice_available ? 'READY' : 'INSUFFICIENT', gap: meta.brand_voice_available ? undefined : 'Brand voice not confirmed' },
     AUDIENCE: { state: profile?.audience_summary ? 'READY' : 'INSUFFICIENT', gap: profile?.audience_summary ? undefined : 'Audience not defined' },

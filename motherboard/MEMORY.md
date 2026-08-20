@@ -1973,3 +1973,17 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Tests/build:** 214 tests PASS (3 new density assertions). Build PASS. No deploy. No other email families modified.
 
+---
+
+## 2026-08-20 — EVOLVE NDXbook legacy intelligence import + founder canonization
+
+- **Context:** Import recovered Studio World NDXbook intelligence from fsbw handoff into existing SITE 00 EVOLVE org (`ndxbook` / `7681ab75-bddc-43e5-b594-79fcf8168205`). Intelligence migration only — not publishing, not provider reconnection, not new org bootstrap.
+
+- **Topics covered:** Portable handoff package (`docs/studio-world/ndxbook/NDXBOOK_SITE00_HANDOFF.{json,md}`); import state machine DISCOVERED→IMPORTED; founder-locked decisions (audience, objectives, monetization deferral, visual DNA reference-only, Page 001 topic, Instagram reconciliation IDs, legacy demo pages 019–042 archived); Content Brain provenance; Page 001 candidate; manifest lineage; COMMAND post-import focus.
+
+- **Decisions / outcomes:** Demo metrics (12,400/100,000 readers, age 25–45) rejected; founder pipeline objective canonical; monetization DEFERRED; indigo/slate colors REFERENCE ONLY; lace-mastery MISATTRIBUTED; Instagram pageId/igBusinessId reconciliation-only; automation MANUAL; publishing DISABLED; Page 001 credit/debt topic MONEY volume NOT publication-approved; zero canonical published pages.
+
+- **Changes:** `ndxbookLegacyImportService.ts` (import/reconcile/idempotent Content Brain); `page001CandidateService.ts`; admin actions `import_ndxbook_legacy`, `ndxbook_import_report`, `ndxbook_import_state`; NDXBOOK manifest template + lineage; `commandConnections.ts` FOCUS_NOW visual identity + post-import UPCOMING/DEFERRED; `evolveNdxbookImport.test.ts` (29 tests). No fsbw runtime coupling; no credentials imported.
+
+- **Tests/build:** 255 tests PASS. Build PASS. PR merged to main. No deploy. No content published.
+
