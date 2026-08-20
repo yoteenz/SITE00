@@ -327,6 +327,65 @@
   pointer-events: none;
 }
 
+.site00-preview-tunnel {
+  margin: 0 0 20px;
+  padding: 16px 18px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.site00-preview-tunnel__kicker {
+  margin: 0;
+  font-family: var(--site00-font-label);
+  font-size: 0.4375rem;
+  letter-spacing: 0.12em;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.site00-preview-tunnel__title {
+  margin: 6px 0 0;
+  font-family: var(--site00-font-display);
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
+}
+
+.site00-preview-tunnel__detail {
+  margin: 8px 0 0;
+  max-width: 52ch;
+  font-size: 0.6875rem;
+  line-height: 1.45;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.site00-preview-tunnel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  margin-top: 14px;
+}
+
+.site00-preview-tunnel__link {
+  font-family: var(--site00-font-label);
+  font-size: 0.5625rem;
+  letter-spacing: 0.1em;
+  color: var(--site-red);
+  text-decoration: none;
+}
+
+.site00-preview-tunnel__hostname {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.625rem;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.site00-preview-tunnel__source {
+  font-family: var(--site00-font-label);
+  font-size: 0.4375rem;
+  letter-spacing: 0.08em;
+  color: rgba(0, 0, 0, 0.4);
+}
+
 /* ─── Metrics ─── */
 
 .site00-control-metrics {

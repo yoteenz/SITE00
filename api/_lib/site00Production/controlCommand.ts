@@ -2,6 +2,7 @@ import { getSupabaseAdmin } from '../supabase.js';
 import { ensureDemoProjectSeeded, refreshProjectDerivedState } from './seedDemo.js';
 import { normalizeProjectPhase, PHASE_ORDER } from './serviceAccess.js';
 import { enrichControlCommandWithOrchestration } from './orchestrationEnrichment.js';
+import { resolvePreviewTunnelUrl } from './previewTunnel.js';
 import type { StructuredBlocker } from './readinessTypes.js';
 
 export type ControlPrioritySeverity = 'CRITICAL' | 'ACTION' | 'READY' | 'BLOCKED' | 'MILESTONE' | 'INFO';
@@ -87,8 +88,16 @@ export type ControlSystemHealth = {
   systems: Array<{ id: string; label: string; state: string; detail: string }>;
 };
 
+export type PreviewTunnelPayload = {
+  url: string | null;
+  hostname: string | null;
+  source: 'env' | 'file' | 'unavailable';
+  label: string;
+};
+
 export type ControlCommandPayload = {
   operator: { displayName: string; role: string };
+  previewTunnel: PreviewTunnelPayload;
   metrics: ControlMetric[];
   priorityQueue: ControlPriorityItem[];
   matrixStages: ControlMatrixStage[];
@@ -406,6 +415,7 @@ export async function getControlCommandPayload(operatorEmail?: string): Promise<
 
   const basePayload: ControlCommandPayload = {
     operator: { displayName: operatorLocal, role: 'OWNER / ADMIN' },
+    previewTunnel: resolvePreviewTunnelUrl(),
     metrics: [
       { id: 'active', label: 'ACTIVE PROJECTS', sublabel: 'ACTIVE', value: projectRows.length, route: '/admin/site00/projects' },
       { id: 'input', label: 'NEED INPUT', sublabel: 'CLIENT', value: needInputCount, route: '/admin/site00/projects' },

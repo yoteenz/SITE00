@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { readLocalActivityForEmail } from '../../utils/activity';
+import { canAccessAdminPages } from '../../utils/adminAuth';
 import { useSite00CurrentUser } from './useSite00CurrentUser';
 import {
   formatAccountReference,
@@ -237,6 +238,7 @@ export function useCtrlRoomData() {
   }, [apiPayload?.signals, apiState]);
 
   const billingHint = null;
+  const showAdminAccess = canAccessAdminPages();
 
   return {
     user,
@@ -248,6 +250,7 @@ export function useCtrlRoomData() {
     signals,
     apiState,
     billingHint,
+    showAdminAccess,
     controlSitesHref: SITE00_ROUTES.controlSites,
     projectsHref: SITE00_ROUTES.projects,
     buildHref: SITE00_ROUTES.bldrState,

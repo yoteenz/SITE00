@@ -1987,3 +1987,13 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Tests/build:** 255 tests PASS. Build PASS. PR merged to main. No deploy. No content published.
 
+---
+
+## 2026-08-20 — Admin dashboard preview tunnel link + CTRL ROOM admin route
+
+- **Request:** Surface SITE 00 cloud preview tunnel URL on admin dashboard (`/admin/site00`); add permanent route from client CTRL ROOM (`/control`) to admin dash for founder/admin operators.
+
+- **Changes:** `previewTunnel.ts` resolves URL from `SITE00_CLOUDFLARE_TUNNEL_HOSTNAME` or `/tmp/site00-cloud-preview-url.txt`; included in `ControlCommandPayload` + `PreviewTunnelPanel` on admin dashboard. Client CTRL ROOM: admin-only `00 / CONTROL →` link in desktop sidebar + mobile `CtrlRoomAdminAccess` module (gated by `canAccessAdminPages()`). Route constant `SITE00_ROUTES.adminDashboard` = `/admin/site00`.
+
+- **Tests/build:** 258 tests PASS (3 preview tunnel resolver tests). Build PASS.
+

@@ -6,6 +6,7 @@ describe('orchestration enrichment mapping', () => {
     process.env.ORCHESTRATION_USE_MEMORY = '1';
     const base = {
       operator: { displayName: 'TEST', role: 'ADMIN' },
+      previewTunnel: { url: null, hostname: null, source: 'unavailable' as const, label: 'SITE 00 CLOUD PREVIEW' },
       metrics: [],
       priorityQueue: [],
       matrixStages: [],
