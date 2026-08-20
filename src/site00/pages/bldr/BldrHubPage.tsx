@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Site00PublicShell } from '../../components/shell/Site00PublicShell';
-import { BracketHeading, PageIntro } from '../../components/pages/Site00PagePrimitives';
+import { BracketHeading, EcosystemHubHero } from '../../components/pages/Site00PagePrimitives';
 import { SITE00_ROUTES } from '../../config/routes';
 
 const BLDR_STEPS = [
@@ -14,7 +14,8 @@ export default function BldrHubPage() {
   return (
     <Site00PublicShell>
       <div className="site00-page site00-page--bldr-hub">
-        <PageIntro
+        <EcosystemHubHero
+          panel="bldr"
           title={<BracketHeading>BLDR</BracketHeading>}
           subtitle="START YOUR BUILD. WE'LL GUIDE YOU FROM IDEA TO LAUNCH."
         />

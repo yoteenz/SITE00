@@ -1,7 +1,8 @@
 import { useLocation } from 'react-router-dom';
 import { Site00PublicShell } from '../../components/shell/Site00PublicShell';
 import { EcosystemShell } from '../../components/ecosystem/EcosystemShell';
-import { BracketHeading, HubActionCard, PageIntro } from '../../components/pages/Site00PagePrimitives';
+import { OriginPanelIcon } from '../../components/homepage/OriginPanelIcon';
+import { BracketHeading, EcosystemHubHero, HubActionCard } from '../../components/pages/Site00PagePrimitives';
 import { SITE00_IDNTY_HUB_MODULES } from '../../config/seed/site00-page-seed';
 import { SITE00_ROUTES } from '../../config/routes';
 import { site00SignInHrefWithReturnTo } from '../../config/mobile-directory-nav';
@@ -16,6 +17,8 @@ import {
   Site00TrashIcon,
   Site00UserIcon,
 } from '../../icons/Site00HubIcons';
+
+const IDNTY_PANEL_ICON = <OriginPanelIcon panel="idnty" size="sm" />;
 
 const ICONS: Record<string, typeof Site00LockIcon> = {
   security: Site00LockIcon,
@@ -36,13 +39,11 @@ function IdntySignedOutGateway() {
   return (
     <Site00PublicShell>
       <div className="site00-page site00-page--idnty-gateway">
-        <div className="site00-idnty-gateway__hero">
-          <PageIntro
-            title={<BracketHeading>IDNTY</BracketHeading>}
-            subtitle="ACCESS THE SYSTEM. YOUR WORK STARTS HERE."
-          />
-          <div className="site00-idnty-gateway__crosshair" aria-hidden="true" />
-        </div>
+        <EcosystemHubHero
+          panel="idnty"
+          title={<BracketHeading>IDNTY</BracketHeading>}
+          subtitle="ACCESS THE SYSTEM. YOUR WORK STARTS HERE."
+        />
 
         <div className="site00-idnty-gateway__actions">
           <HubActionCard
@@ -57,7 +58,7 @@ function IdntySignedOutGateway() {
             description="CREATE YOUR IDNTY. JOIN SITE 00."
             cta="GET STARTED →"
             href={createHref}
-            icon={<Site00KeyIcon size={24} />}
+            icon={IDNTY_PANEL_ICON}
           />
         </div>
       </div>

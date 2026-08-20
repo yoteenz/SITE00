@@ -1032,27 +1032,43 @@
   box-sizing: border-box;
 }
 
-/* ─── IDNTY gateway (signed out) ─── */
+/* ─── Ecosystem hub hero (IDNTY / BLDR / EVOLVE mobile) ─── */
 
-.site00-page--idnty-gateway {
-  max-width: 720px;
-}
-
-.site00-idnty-gateway__hero {
+.site00-ecosystem-hub__hero {
   position: relative;
   margin-bottom: 24px;
 }
 
-.site00-idnty-gateway__crosshair {
+.site00-ecosystem-hub__hero .site00-page-intro {
+  margin-bottom: 0;
+  padding-right: 56px;
+}
+
+.site00-ecosystem-hub__panel-icon {
   position: absolute;
   right: 0;
   top: 0;
+  flex-shrink: 0;
+}
+
+.site00-hub-card__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  min-height: 48px;
+}
+
+.site00-hub-card__icon .site00-origin-card__icon {
   width: 48px;
   height: 48px;
-  opacity: 0.35;
-  background:
-    linear-gradient(var(--site-red), var(--site-red)) center/1px 100% no-repeat,
-    linear-gradient(var(--site-red), var(--site-red)) center/100% 1px no-repeat;
+}
+
+/* ─── IDNTY gateway (signed out) ─── */
+
+.site00-page--idnty-gateway {
+  max-width: 720px;
 }
 
 .site00-idnty-gateway__actions {

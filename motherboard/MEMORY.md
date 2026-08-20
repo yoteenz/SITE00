@@ -932,3 +932,27 @@ Summary of the **whole conversation so far** in this cloud agent run.
 - **Fix:** `SITE00_FAST_TRAVEL_ARROW_SIZE = 16.2` (90% of directory 18px); locations directory unchanged.
 - **Branch:** `cursor/fast-travel-arrow-size-2c3b`.
 
+---
+
+## 2026-08-20 — Mobile ecosystem hub panel icons (IDNTY / BLDR / EVOLVE)
+
+Summary of the **whole conversation so far** in this cloud agent run (cumulative).
+
+- **Context:** Founder Card access landing moodboard, debug route, Fast Travel arrows/close/colors, sign-in footer wrap, cloud preview cache bust, Fast Travel arrow size; then mobile IDNTY page icons should match Origin desktop expanded-panel geometric PNGs (not generic user/key SVG or CSS crosshair).
+
+- **Request:** Icons on mobile IDNTY / BLDR / EVOLVE hub pages use the same approved `OriginPanelIcon` PNGs as Origin desktop expanded panels (`origin-panel-icons.ts`).
+
+- **Decisions / outcomes:**
+  - Reuse `OriginPanelIcon` with new `sm` size (48px) for mobile hub heroes and hub cards.
+  - Shared `EcosystemHubHero` in `Site00PagePrimitives` — `PageIntro` + top-right panel icon (replaces IDNTY gateway CSS crosshair).
+  - IDNTY signed-out gateway: hero + CREATE IDNTY card use IDNTY panel icon; SIGN IN keeps `Site00UserIcon`.
+  - BLDR and EVOLVE hub pages get matching hero panel icons.
+
+- **Changes:**
+  - `OriginPanelIcon.tsx` — `sm` size + `--sm` CSS class.
+  - `Site00PagePrimitives.tsx` — `EcosystemHubHero`.
+  - `IdntyHubPage.tsx`, `BldrHubPage.tsx`, `EvolveHubPage.tsx` — wire panel icons.
+  - `site00.css`, `site00-ecosystem.css` — hero/card icon layout; removed `.site00-idnty-gateway__crosshair`.
+
+- **Branch:** `cursor/mobile-ecosystem-panel-icons-2c3b`.
+

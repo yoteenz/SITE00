@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Site00PublicShell } from '../../components/shell/Site00PublicShell';
-import { BracketHeading, PageIntro } from '../../components/pages/Site00PagePrimitives';
+import { BracketHeading, EcosystemHubHero } from '../../components/pages/Site00PagePrimitives';
 import { SITE00_ROUTES } from '../../config/routes';
 import {
   EVOLVE_FRAMEWORK_PILLARS,
@@ -17,7 +17,8 @@ export default function EvolveHubPage() {
   return (
     <Site00PublicShell>
       <div className="site00-page site00-page--evolve-hub">
-        <PageIntro
+        <EcosystemHubHero
+          panel="evolve"
           title={<BracketHeading>EVOLVE</BracketHeading>}
           subtitle={EVOLVE_HOMEPAGE_EXPANDED.subtitle}
         />

@@ -1509,6 +1509,11 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
   height: 88px;
 }
 
+.site00-origin-card__icon--sm {
+  width: 48px;
+  height: 48px;
+}
+
 /* Origin desktop composition → site00-desktop-artboard.css only (1440px artboard via Site00OriginRouteShell).
    Do not re-add @media (min-width: 768px) home-stage/hero/cards rules here — they drift from the artboard. */
 
