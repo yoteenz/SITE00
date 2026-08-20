@@ -21,9 +21,11 @@ export function EmailPreviewCanvas({
   stagePadding = 0,
 }: EmailPreviewCanvasProps) {
   const stageRef = useRef<HTMLDivElement>(null);
-  const [box, setBox] = useState(() =>
-    measureEmailPreviewScaleBox(canonicalWidth, canonicalWidth, minHeight, stagePadding),
-  );
+  const [box, setBox] = useState(() => {
+    const initialWidth =
+      typeof window !== 'undefined' ? window.innerWidth : canonicalWidth;
+    return measureEmailPreviewScaleBox(initialWidth, canonicalWidth, minHeight, stagePadding);
+  });
 
   useLayoutEffect(() => {
     const stage = stageRef.current;
@@ -55,6 +57,7 @@ export function EmailPreviewCanvas({
             width: canonicalWidth,
             height: minHeight,
             transform: `scale(${box.scale})`,
+            transformOrigin: 'top left',
           }}
         >
           <div className="site00-email-debug-inbox__frame" style={{ width: canonicalWidth }}>

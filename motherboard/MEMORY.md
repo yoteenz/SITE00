@@ -1828,6 +1828,17 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 
 ---
 
+## 2026-08-20 — Email Pack mobile preview centering fix
+
+- **Context:** On the Email Pack review/debug interface, the IMPLEMENTATION preview on mobile was shifted/clipped to the right — full email width not visible. Founder needed fit-to-view width scaling with horizontal centering, without redesigning email templates.
+
+- **Root cause:** `transform: scale()` on `.site00-email-debug-preview-scaler` with `transform-origin: top center` — CSS transform does not shrink layout box; scaler remained `canonicalWidth` while slot was `scaledWidth`; asymmetric visual overflow was clipped by `overflow-x: clip` on stage, biasing preview right.
+
+- **Fix:** Changed `transform-origin` to `top left`; added `overflow: hidden` on `.site00-email-debug-preview-slot`; improved initial scale measurement using `window.innerWidth` in `EmailPreviewCanvas`. Files: `EmailPreviewCanvas.tsx`, `site00-email-debug.css`. Scale math unchanged in `emailPreviewScale.ts`.
+
+- **Verified:** MOBILE 375 + DESKTOP 640, LIGHT + DARK, IMPLEMENTATION mode, Access/Security + Welcome/Onboarding templates; all 9 families share same `EmailPreviewCanvas`. Build + unit tests PASS. No email design changes. No deploy.
+
+
 ## 2026-08-20 — Temporary preview admin bypass (email pack review)
 
 - **Context:** Founder could not load email pack debug on `site00.fsbw-dev.com` due to auth redirect + session-restore 503 on preview dev server.
