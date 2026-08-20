@@ -298,6 +298,7 @@
     width: clamp(17px, 4.8vw, 21px);
     height: clamp(17px, 4.8vw, 21px);
     color: var(--site-red);
+    overflow: visible;
     pointer-events: none;
     z-index: 4;
   }

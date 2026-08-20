@@ -1108,3 +1108,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** Added `sign-in` + `create` to `FAST_TRAVEL_DESTINATION_ART` (existing NAV/origin assets); unified all 11 UP NEXT destinations through one art component + `--has-art` layout.
 - **Branch:** `cursor/fast-travel-artwork-audit-2c3b`.
 
+---
+
+## 2026-08-20 — Fast Travel registration mark 3-bracket fix
+
+- **Issue:** UP NEXT registration SVG hid bottom-right bracket (`opacity="0"`); spec requires exactly 3 visible brackets (TL, TR, BR) — no bottom-left.
+- **Fix:** `FastTravelUpNextRegistrationMark` — 3 paths only; removed hidden fourth path; `overflow: visible` on mark container.
+- **Branch:** `cursor/fast-travel-registration-mark-3bracket-2c3b`.
+
