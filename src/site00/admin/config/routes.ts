@@ -42,6 +42,17 @@ export const SITE00_ADMIN_ROUTES = {
   orchestrationProject: (orgSlug: string) => `/admin/site00/orchestration/${orgSlug}`,
   evolve: '/admin/site00/evolve',
   evolveOrg: (orgSlug: string) => `/admin/site00/orchestration/${orgSlug}/evolve`,
+  evolveCampaigns: (orgSlug: string) => `/admin/site00/orchestration/${orgSlug}/evolve/campaigns`,
+  evolveCampaign: (orgSlug: string, campaignId: string) =>
+    `/admin/site00/orchestration/${orgSlug}/evolve/campaigns/${campaignId}`,
+  evolveCalendar: (orgSlug: string) => `/admin/site00/orchestration/${orgSlug}/evolve/calendar`,
+  evolveCalendarItem: (orgSlug: string, itemId: string) =>
+    `/admin/site00/orchestration/${orgSlug}/evolve/calendar/${itemId}`,
+  evolveEmails: (orgSlug: string) => `/admin/site00/orchestration/${orgSlug}/evolve/emails`,
+  evolveSocial: (orgSlug: string) => `/admin/site00/orchestration/${orgSlug}/evolve/social`,
+  evolveProductionNew: (orgSlug: string) => `/admin/site00/orchestration/${orgSlug}/evolve/production/new`,
+  evolvePlans: (orgSlug: string) => `/admin/site00/orchestration/${orgSlug}/evolve/plans`,
+  evolveApprovals: '/admin/site00/evolve/approvals',
   evolveDebug: '/admin/site00/debug/evolve',
   reconciliation: '/admin/site00/reconciliation',
   marketingEngagements: '/admin/site00/marketing-engagements',

@@ -14,10 +14,15 @@ import type {
   StudioProductionRequestRow,
 } from './types.js';
 import {
+  buildSeedCalendarItems,
+  buildSeedCampaigns,
   buildSeedChannels,
+  buildSeedEmailItems,
   buildSeedEvolveRoadmapItems,
+  buildSeedMarketingPlans,
   buildSeedObjectives,
   buildSeedProfiles,
+  buildSeedSocialItems,
   orgIdFromSlug,
   type EvolveRoadmapSeed,
 } from './seedFixtures.js';
@@ -36,6 +41,9 @@ export type EvolveMarketingStore = {
   insights: MarketingInsightRow[];
   evolveRoadmap: EvolveRoadmapSeed[];
   contentBrain: Array<Record<string, unknown>>;
+  emailItems: Array<Record<string, unknown>>;
+  socialItems: Array<Record<string, unknown>>;
+  marketingPlans: Array<Record<string, unknown>>;
   seeded: boolean;
 };
 
@@ -72,6 +80,9 @@ function createFreshStore(): EvolveMarketingStore {
     insights: [],
     evolveRoadmap: [],
     contentBrain: [],
+    emailItems: [],
+    socialItems: [],
+    marketingPlans: [],
     seeded: false,
   };
 }
@@ -81,6 +92,11 @@ function seedEvolveStore(s: EvolveMarketingStore): void {
   s.objectives = buildSeedObjectives();
   s.channels = buildSeedChannels();
   s.evolveRoadmap = buildSeedEvolveRoadmapItems();
+  s.campaigns = buildSeedCampaigns();
+  s.calendarItems = buildSeedCalendarItems();
+  s.emailItems = buildSeedEmailItems();
+  s.socialItems = buildSeedSocialItems();
+  s.marketingPlans = buildSeedMarketingPlans();
 
   // Frontal Slayer — sample content brain (REFERENCE + CANONICAL distinction)
   s.contentBrain = [
@@ -165,6 +181,30 @@ export function getEvolveRoadmapByOrgId(orgId: string): EvolveRoadmapSeed[] {
 
 export function getCalendarByOrgId(orgId: string): ContentCalendarItemRow[] {
   return getEvolveStore().calendarItems.filter((c) => c.organization_id === orgId);
+}
+
+export function getCalendarItemById(itemId: string): ContentCalendarItemRow | undefined {
+  return getEvolveStore().calendarItems.find((c) => c.id === itemId);
+}
+
+export function getCampaignById(campaignId: string): MarketingCampaignRow | undefined {
+  return getEvolveStore().campaigns.find((c) => c.id === campaignId);
+}
+
+export function getEmailItemsByOrgId(orgId: string): Array<Record<string, unknown>> {
+  return getEvolveStore().emailItems.filter((e) => e.organization_id === orgId);
+}
+
+export function getSocialItemsByOrgId(orgId: string): Array<Record<string, unknown>> {
+  return getEvolveStore().socialItems.filter((e) => e.organization_id === orgId);
+}
+
+export function getMarketingPlansByOrgId(orgId: string): Array<Record<string, unknown>> {
+  return getEvolveStore().marketingPlans.filter((p) => p.organization_id === orgId);
+}
+
+export function getAllPendingApprovals(): MarketingApprovalRow[] {
+  return getEvolveStore().approvals.filter((a) => a.status === 'PENDING');
 }
 
 export function insertAssessment(row: MarketingAssessmentRow): void {

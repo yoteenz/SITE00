@@ -1,5 +1,15 @@
 /** Admin client for EVOLVE Marketing OS API */
 
+import type {
+  EvolveApprovalItem,
+  EvolveCalendarItem,
+  EvolveCampaignListRow,
+  EvolveEmailItem,
+  EvolveMarketingPlan,
+  EvolveOverview,
+  EvolveSocialItem,
+} from '../types/evolve';
+
 const BASE = '/api/admin/site00-evolve';
 
 async function evolveFetch<T>(path: string, init?: RequestInit): Promise<T> {
@@ -16,18 +26,97 @@ async function evolveFetch<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const site00EvolveApi = {
-  organizations: () => evolveFetch<{ organizations: Array<{ slug: string; name: string; classification: string }> }>('?action=organizations'),
+  organizations: () =>
+    evolveFetch<{ organizations: Array<{ slug: string; name: string; classification: string }> }>('?action=organizations'),
+
   overview: (orgSlug: string) =>
-    evolveFetch<{ overview: Record<string, unknown> }>(`?action=overview&orgSlug=${encodeURIComponent(orgSlug)}`),
+    evolveFetch<{ overview: EvolveOverview }>(`?action=overview&orgSlug=${encodeURIComponent(orgSlug)}`),
+
   debug: (orgSlug: string) => evolveFetch<Record<string, unknown>>(`?action=debug&orgSlug=${encodeURIComponent(orgSlug)}`),
+
+  campaigns: (orgSlug: string) =>
+    evolveFetch<{ campaigns: EvolveCampaignListRow[] }>(`?action=campaigns&orgSlug=${encodeURIComponent(orgSlug)}`),
+
+  campaign: (orgSlug: string, campaignId: string) =>
+    evolveFetch<{
+      campaign: Record<string, unknown>;
+      listRow: EvolveCampaignListRow;
+      calendar: EvolveCalendarItem[];
+      production: Array<Record<string, unknown>>;
+      approvals: EvolveApprovalItem[];
+    }>(`?action=campaign&orgSlug=${encodeURIComponent(orgSlug)}&campaignId=${encodeURIComponent(campaignId)}`),
+
+  calendar: (orgSlug: string) =>
+    evolveFetch<{ calendar: EvolveCalendarItem[] }>(`?action=calendar&orgSlug=${encodeURIComponent(orgSlug)}`),
+
+  calendarItem: (orgSlug: string, itemId: string) =>
+    evolveFetch<{ item: EvolveCalendarItem }>(
+      `?action=calendar_item&orgSlug=${encodeURIComponent(orgSlug)}&itemId=${encodeURIComponent(itemId)}`,
+    ),
+
+  emails: (orgSlug: string) =>
+    evolveFetch<{
+      channel: Record<string, unknown> | undefined;
+      providerState: string;
+      items: EvolveEmailItem[];
+      blockers: string[];
+    }>(`?action=emails&orgSlug=${encodeURIComponent(orgSlug)}`),
+
+  social: (orgSlug: string) =>
+    evolveFetch<{
+      channels: Array<Record<string, unknown>>;
+      deferredByOwner: Array<Record<string, unknown>>;
+      items: EvolveSocialItem[];
+      roadmapDeferred: Array<Record<string, unknown>>;
+    }>(`?action=social&orgSlug=${encodeURIComponent(orgSlug)}`),
+
+  plans: (orgSlug: string) =>
+    evolveFetch<{
+      plans: EvolveMarketingPlan[];
+      roadmap: Array<Record<string, unknown>>;
+      objectives: Array<Record<string, unknown>>;
+    }>(`?action=plans&orgSlug=${encodeURIComponent(orgSlug)}`),
+
+  approvals: (orgSlug: string) =>
+    evolveFetch<{ approvals: EvolveApprovalItem[] }>(`?action=approvals&orgSlug=${encodeURIComponent(orgSlug)}`),
+
+  approvalsInbox: () => evolveFetch<{ approvals: EvolveApprovalItem[] }>('?action=approvals_inbox'),
+
+  channels: (orgSlug: string) =>
+    evolveFetch<{ channels: Array<Record<string, unknown>> }>(`?action=channels&orgSlug=${encodeURIComponent(orgSlug)}`),
+
+  manifest: (orgSlug: string) => evolveFetch<Record<string, unknown>>(`?action=manifest&orgSlug=${encodeURIComponent(orgSlug)}`),
+
   runAssessment: (orgSlug: string) =>
     evolveFetch<{ assessment: Record<string, unknown> }>('', {
       method: 'POST',
       body: JSON.stringify({ action: 'run_assessment', orgSlug }),
     }),
+
   generateManifest: (orgSlug: string) =>
     evolveFetch<{ manifest: Record<string, unknown>; items: unknown[] }>('', {
       method: 'POST',
       body: JSON.stringify({ action: 'generate_manifest', orgSlug }),
+    }),
+
+  requestProduction: (
+    orgSlug: string,
+    data: { productionType: string; objective?: string; brief?: string; campaignId?: string },
+  ) =>
+    evolveFetch<{ ok: boolean; request?: Record<string, unknown>; error?: string }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'request_production', orgSlug, ...data }),
+    }),
+
+  approveItem: (approvalId: string) =>
+    evolveFetch<{ ok: boolean }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'approve_item', approvalId }),
+    }),
+
+  rejectItem: (approvalId: string, reason?: string) =>
+    evolveFetch<{ ok: boolean }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'reject_item', approvalId, reason }),
     }),
 };

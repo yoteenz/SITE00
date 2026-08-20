@@ -39,6 +39,15 @@ const ReconciliationInboxPage = lazy(() => import('../site00/admin/pages/Reconci
 const OrchestrationProjectPage = lazy(() => import('../site00/admin/pages/OrchestrationProjectPage'));
 const EvolveOverviewPage = lazy(() => import('../site00/admin/pages/EvolveOverviewPage'));
 const EvolveOrgPage = lazy(() => import('../site00/admin/pages/EvolveOrgPage'));
+const EvolveCampaignsPage = lazy(() => import('../site00/admin/pages/evolve/EvolveCampaignsPage'));
+const EvolveCampaignDetailPage = lazy(() => import('../site00/admin/pages/evolve/EvolveCampaignDetailPage'));
+const EvolveCalendarPage = lazy(() => import('../site00/admin/pages/evolve/EvolveCalendarPage'));
+const EvolveContentDetailPage = lazy(() => import('../site00/admin/pages/evolve/EvolveContentDetailPage'));
+const EvolveEmailOpsPage = lazy(() => import('../site00/admin/pages/evolve/EvolveEmailOpsPage'));
+const EvolveSocialOpsPage = lazy(() => import('../site00/admin/pages/evolve/EvolveSocialOpsPage'));
+const EvolveProductionBriefPage = lazy(() => import('../site00/admin/pages/evolve/EvolveProductionBriefPage'));
+const EvolvePlansPage = lazy(() => import('../site00/admin/pages/evolve/EvolvePlansPage'));
+const EvolveApprovalsInboxPage = lazy(() => import('../site00/admin/pages/evolve/EvolveApprovalsInboxPage'));
 const EvolveDebugPage = lazy(() => import('../site00/admin/pages/debug/EvolveDebugPage'));
 const MarketingEngagementsAdminPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementsAdminPage'));
 const MarketingEngagementAdminDetailPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementAdminDetailPage'));
@@ -288,6 +297,78 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <EvolveOverviewPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/evolve/approvals"
+        element={
+          <AdminSuspense>
+            <EvolveApprovalsInboxPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/orchestration/:orgSlug/evolve/campaigns"
+        element={
+          <AdminSuspense>
+            <EvolveCampaignsPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/orchestration/:orgSlug/evolve/campaigns/:campaignId"
+        element={
+          <AdminSuspense>
+            <EvolveCampaignDetailPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/orchestration/:orgSlug/evolve/calendar"
+        element={
+          <AdminSuspense>
+            <EvolveCalendarPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/orchestration/:orgSlug/evolve/calendar/:itemId"
+        element={
+          <AdminSuspense>
+            <EvolveContentDetailPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/orchestration/:orgSlug/evolve/emails"
+        element={
+          <AdminSuspense>
+            <EvolveEmailOpsPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/orchestration/:orgSlug/evolve/social"
+        element={
+          <AdminSuspense>
+            <EvolveSocialOpsPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/orchestration/:orgSlug/evolve/production/new"
+        element={
+          <AdminSuspense>
+            <EvolveProductionBriefPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/orchestration/:orgSlug/evolve/plans"
+        element={
+          <AdminSuspense>
+            <EvolvePlansPage />
           </AdminSuspense>
         }
       />

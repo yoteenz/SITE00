@@ -10,28 +10,34 @@ import { requestStudioProduction, canTransitionCampaignToLive } from './producti
 import { listBlockedCapabilities, listAvailableCapabilities } from './governance.js';
 import {
   evolveUuid,
+  getAllPendingApprovals,
   getCalendarByOrgId,
+  getCalendarItemById,
+  getCampaignById,
   getCampaignsByOrgId,
   getChannelsByOrgId,
+  getEmailItemsByOrgId,
   getEvolveRoadmapByOrgId,
+  getEvolveStore,
   getInsightsByOrgId,
   getLatestAssessment,
+  getMarketingPlansByOrgId,
   getObjectivesByOrgId,
   getPendingApprovals,
   getProductionRequestsByOrgId,
   getProfileByOrgId,
+  getSocialItemsByOrgId,
   insertApproval,
   insertCampaign,
   insertInsight,
   insertObjective,
-  getEvolveStore,
   resetEvolveStore,
   updateCampaignStatus,
   updateObjective,
   approveSubject,
   rejectSubject,
 } from './memoryStore.js';
-import { isMarketingClientOrg, orgIdFromSlug } from './seedFixtures.js';
+import { isMarketingClientOrg, orgIdFromSlug, ORG_SLUG_TO_ID } from './seedFixtures.js';
 import type {
   EvolveOverview,
   MarketingCampaignRow,
@@ -326,4 +332,107 @@ export {
 
 export function listMarketingOrgs(): OrgContext[] {
   return Object.keys(ORG_NAMES).map((slug) => resolveOrgContext(slug));
+}
+
+export type CampaignListRow = {
+  id: string;
+  title: string;
+  objective: string | null;
+  status: string;
+  channels: string[];
+  targetDate: string | null;
+  nextMilestone: string | null;
+  productionState: string;
+  approvalState: string;
+  blockers: string[];
+};
+
+function enrichCampaignRow(campaign: MarketingCampaignRow, orgId: string): CampaignListRow {
+  const meta = campaign.metadata as Record<string, unknown>;
+  const production = getProductionRequestsByOrgId(orgId).filter((p) => p.campaign_id === campaign.id);
+  const approvals = getPendingApprovals(orgId).filter((a) => a.subject_id === campaign.id);
+  const prodState =
+    production.length > 0
+      ? production.some((p) => p.production_state === 'IN_PROGRESS')
+        ? 'IN_PROGRESS'
+        : production[0]?.production_state ?? 'REQUESTED'
+      : String(meta.production_state ?? 'NOT_STARTED');
+
+  return {
+    id: campaign.id,
+    title: campaign.title,
+    objective: (meta.objective_label as string) ?? campaign.why ?? null,
+    status: campaign.status,
+    channels: campaign.channels,
+    targetDate: (meta.target_date as string) ?? null,
+    nextMilestone: (meta.next_milestone as string) ?? null,
+    productionState: prodState,
+    approvalState: approvals.length > 0 ? 'PENDING' : String(meta.approval_state ?? 'DRAFT'),
+    blockers: (meta.blockers as string[]) ?? [],
+  };
+}
+
+export function getCampaignList(orgSlug: string): CampaignListRow[] {
+  const orgId = orgIdFromSlug(orgSlug)!;
+  return getCampaignsByOrgId(orgId).map((c) => enrichCampaignRow(c, orgId));
+}
+
+export function getCampaignDetail(orgSlug: string, campaignId: string) {
+  const orgId = orgIdFromSlug(orgSlug)!;
+  const campaign = getCampaignById(campaignId);
+  if (!campaign || campaign.organization_id !== orgId) return null;
+  const calendar = getCalendarByOrgId(orgId).filter((c) => c.campaign_id === campaignId);
+  const production = getProductionRequestsByOrgId(orgId).filter((p) => p.campaign_id === campaignId);
+  const approvals = getPendingApprovals(orgId).filter((a) => a.subject_id === campaignId);
+  return {
+    campaign,
+    listRow: enrichCampaignRow(campaign, orgId),
+    calendar,
+    production,
+    approvals,
+  };
+}
+
+export function getEmailOpsPayload(orgSlug: string) {
+  const orgId = orgIdFromSlug(orgSlug)!;
+  const channel = getChannelsByOrgId(orgId).find((c) => c.channel_key === 'EMAIL');
+  const providerState = process.env.EMAIL_PROVIDER?.trim() ? 'CONNECTED' : 'NOT_CONNECTED';
+  return {
+    channel,
+    providerState,
+    items: getEmailItemsByOrgId(orgId),
+    blockers: providerState === 'NOT_CONNECTED' ? ['EMAIL PROVIDER NOT CONNECTED'] : [],
+  };
+}
+
+export function getSocialOpsPayload(orgSlug: string) {
+  const orgId = orgIdFromSlug(orgSlug)!;
+  const channels = getChannelsByOrgId(orgId).filter((c) =>
+    ['INSTAGRAM', 'TIKTOK', 'FACEBOOK', 'LINKEDIN', 'PINTEREST', 'YOUTUBE'].includes(c.channel_key),
+  );
+  const deferred = channels.filter((c) => c.owner_decision === 'DEFERRED_BY_OWNER');
+  return {
+    channels,
+    deferredByOwner: deferred,
+    items: getSocialItemsByOrgId(orgId),
+    roadmapDeferred: getEvolveRoadmapByOrgId(orgId).filter((r) => r.status === 'DEFERRED_BY_OWNER'),
+  };
+}
+
+export function getPlansPayload(orgSlug: string) {
+  const orgId = orgIdFromSlug(orgSlug)!;
+  return {
+    plans: getMarketingPlansByOrgId(orgId),
+    roadmap: getEvolveRoadmapByOrgId(orgId),
+    objectives: getObjectivesByOrgId(orgId),
+  };
+}
+
+export function getApprovalsInbox() {
+  const pending = getAllPendingApprovals();
+  return pending.map((a) => {
+    const orgSlug = Object.entries(ORG_SLUG_TO_ID).find(([, id]) => id === a.organization_id)?.[0] ?? 'unknown';
+    const org = resolveOrgContext(orgSlug);
+    return { ...a, organizationSlug: orgSlug, organizationName: org.name };
+  });
 }

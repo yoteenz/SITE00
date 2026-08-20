@@ -6,9 +6,14 @@ import {
   createCampaign,
   createObjective,
   generateManifestForOrg,
+  getApprovalsInbox,
+  getCampaignDetail,
+  getCampaignList,
+  getEmailOpsPayload,
   getEvolveDebugPayload,
   getEvolveOverview,
-  getCampaignsByOrgId,
+  getPlansPayload,
+  getSocialOpsPayload,
   getChannelsByOrgId,
   getEvolveRoadmapByOrgId,
   getObjectivesByOrgId,
@@ -20,7 +25,7 @@ import {
   updateObjective,
 } from '../_lib/site00Evolve/evolveService.js';
 import { orgIdFromSlug } from '../_lib/site00Evolve/seedFixtures.js';
-import { getPendingApprovals } from '../_lib/site00Evolve/memoryStore.js';
+import { getCalendarByOrgId, getCalendarItemById, getPendingApprovals } from '../_lib/site00Evolve/memoryStore.js';
 import type { ProductionType } from '../_lib/site00Evolve/types.js';
 
 function parseBody(req: VercelRequest): Record<string, unknown> | null {
@@ -73,13 +78,37 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         case 'channels':
           return res.status(200).json({ channels: getChannelsByOrgId(orgIdFromSlug(orgSlug)!) });
         case 'campaigns':
-          return res.status(200).json({ campaigns: getCampaignsByOrgId(orgIdFromSlug(orgSlug)!) });
+          return res.status(200).json({ campaigns: getCampaignList(orgSlug) });
+        case 'campaign': {
+          const campaignId = String(req.query.campaignId ?? '');
+          const detail = getCampaignDetail(orgSlug, campaignId);
+          return res.status(detail ? 200 : 404).json(detail ?? { error: 'Campaign not found' });
+        }
+        case 'calendar':
+          return res.status(200).json({ calendar: getCalendarByOrgId(orgIdFromSlug(orgSlug)!) });
+        case 'calendar_item': {
+          const itemId = String(req.query.itemId ?? '');
+          const item = getCalendarItemById(itemId);
+          const orgId = orgIdFromSlug(orgSlug)!;
+          if (!item || item.organization_id !== orgId) {
+            return res.status(404).json({ error: 'Calendar item not found' });
+          }
+          return res.status(200).json({ item });
+        }
+        case 'emails':
+          return res.status(200).json(getEmailOpsPayload(orgSlug));
+        case 'social':
+          return res.status(200).json(getSocialOpsPayload(orgSlug));
+        case 'plans':
+          return res.status(200).json(getPlansPayload(orgSlug));
         case 'manifest': {
           const { getMarketingManifest } = await import('../_lib/site00Evolve/manifest.js');
           return res.status(200).json(getMarketingManifest(orgSlug));
         }
         case 'approvals':
           return res.status(200).json({ approvals: getPendingApprovals(orgIdFromSlug(orgSlug)!) });
+        case 'approvals_inbox':
+          return res.status(200).json({ approvals: getApprovalsInbox() });
         case 'roadmap':
           return res.status(200).json({ roadmap: getEvolveRoadmapByOrgId(orgIdFromSlug(orgSlug)!) });
         default:

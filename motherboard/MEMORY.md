@@ -1783,3 +1783,23 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Tests:** 72 passing (21 evolve + orchestration + email regression).
 
 - **Deferred:** Supabase store adapter (memory store used); live analytics/email provider adapters; full calendar/email/social CRUD UI; migration apply to remote Supabase.
+
+---
+
+## 2026-08-20 — EVOLVE Sprint 02 operator UI (marketing workspace pages)
+
+Summary of this cloud agent run (repo: `yoteenz/SITE00`).
+
+- **Context:** Implement EVOLVE Sprint 02 operator UI pages — operational workspace (not debug tabs or spreadsheet CRUD) for campaigns, calendar, email/social ops, production brief, plans, and cross-portfolio approvals inbox.
+
+- **Admin routes added:** `/admin/site00/orchestration/:orgSlug/evolve/campaigns`, `.../campaigns/:campaignId`, `.../calendar`, `.../calendar/:itemId`, `.../emails`, `.../social`, `.../production/new`, `.../plans`, `/admin/site00/evolve/approvals`.
+
+- **Frontend:** Nine pages under `src/site00/admin/pages/evolve/`; shared `EvolveOrgShell`, `EvolveOrgNav`, `evolveFormatters`; `site00-evolve-ops-*` CSS in `site00-control.css`. Upgraded `EvolveOrgPage` (operational overview) and `EvolveOverviewPage` (portfolio metrics). Extended `evolveApi.ts` + `types/evolve.ts`.
+
+- **Backend/API:** Extended `site00-evolve` actions: `campaign`, `calendar`, `calendar_item`, `emails`, `social`, `plans`, `approvals_inbox`; enriched `campaigns` list rows. Seed fixtures for campaigns, calendar, email/social items, plans in memory store.
+
+- **Operator rules preserved:** Email provider shown as `NOT_CONNECTED`; AIO social `DEFERRED_BY_OWNER` visible and not treated as blockers. Campaign list columns: CAMPAIGN, OBJECTIVE, STATUS, CHANNELS, TARGET DATE, NEXT MILESTONE, PRODUCTION STATE, APPROVAL STATE, BLOCKERS.
+
+- **Tests/build:** 94 tests passing. Build PASS.
+
+- **Deferred:** Supabase persistence adapter; live email provider connection; production send wiring.
