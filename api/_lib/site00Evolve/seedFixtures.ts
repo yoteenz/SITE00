@@ -12,15 +12,13 @@ import type {
   ObjectiveKey,
 } from './types.js';
 
-export const ORG_SLUG_TO_ID: Record<string, string> = {
-  'site-00': 'org-00000000-0000-4000-8000-000000000001',
-  'frontal-slayer': 'org-00000000-0000-4000-8000-000000000002',
-  'all-in-one-enterprises': 'org-00000000-0000-4000-8000-000000000003',
-  'studio-world': 'org-00000000-0000-4000-8000-000000000004',
-};
+import { MEMORY_ORG_SLUG_TO_ID, orgIdFromSlug as resolveOrgId } from './orgRegistry.js';
+
+/** Fixture org IDs for seed builders and memory store */
+export const ORG_SLUG_TO_ID = MEMORY_ORG_SLUG_TO_ID;
 
 export function orgIdFromSlug(slug: string): string | undefined {
-  return ORG_SLUG_TO_ID[slug];
+  return resolveOrgId(slug);
 }
 
 type ProfileSeed = Omit<MarketingProfileRow, 'id' | 'created_at' | 'updated_at'> & { orgSlug: string };

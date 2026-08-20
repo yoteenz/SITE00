@@ -1803,3 +1803,25 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Tests/build:** 94 tests passing. Build PASS.
 
 - **Deferred:** Supabase persistence adapter; live email provider connection; production send wiring.
+
+---
+
+## 2026-08-20 — EVOLVE Sprint 02 continuation (Supabase persistence + operator workspace completion)
+
+Summary of this cloud agent run (repo: `yoteenz/SITE00`).
+
+- **Context:** Complete EVOLVE Sprint 02 after partial delivery — finish remote schema, Supabase production store (fail loud, no silent memory fallback), bootstrap real org UUIDs, campaign lifecycle enforcement, audit events, method capture, and Sprint 02 test coverage. UI operator pages were merged earlier on `main` (commit `a9b6d05`).
+
+- **Supabase:** Project `hyycomvcaqxxvyrfupes`. Completion migration `20260820210000_site00_evolve_marketing_os_completion.sql` applied — all 21 EVOLVE tables + RLS verified. Bootstrap seeds profiles/channels/objectives/campaigns/calendar/email/social/plans using real org IDs (not fixture `org-00000000-*` or invalid seed UUIDs).
+
+- **Persistence layer:** `supabaseStore.ts`, `storeAdapter.ts`, `orgRegistry.ts` (production UUID map), `bootstrap.ts`, `campaignLifecycle.ts`. Production uses Supabase when configured; `EvolveStoreUnavailableError` (503) if schema/credentials missing — memory only for `VITEST` / `EVOLVE_USE_MEMORY=1`.
+
+- **Service refactor:** `evolveService.ts` async + store adapter; assessment/manifest/productionBridge/commandIntegration updated. Campaign events on create/status change. Manifest→campaign lineage via `createCampaignFromManifestItem`.
+
+- **Operator UI (from prior merge):** Campaigns, calendar, email/social ops, production brief, plans, approvals inbox; portfolio + org operational overviews.
+
+- **Docs:** `docs/site00/STUDIO_WORLD_METHOD_CAPTURE.md` — reusable production-method observations (not productized in fsbw).
+
+- **Tests/build:** 111 tests passing (21 evolve + 17 sprint02 + orchestration + email regression). Build PASS.
+
+- **Deferred:** External email/analytics/social provider connections; live Studio World dispatch; deploy.

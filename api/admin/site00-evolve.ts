@@ -4,7 +4,9 @@ import {
   approveManifestById,
   approveSubject,
   createCampaign,
+  createCampaignFromManifestItem,
   createObjective,
+  ensureEvolveSeeded,
   generateManifestForOrg,
   getApprovalsInbox,
   getCampaignDetail,
@@ -14,19 +16,20 @@ import {
   getEvolveOverview,
   getPlansPayload,
   getSocialOpsPayload,
-  getChannelsByOrgId,
+  getCalendarItemById,
   getEvolveRoadmapByOrgId,
-  getObjectivesByOrgId,
   listMarketingOrgs,
   rejectSubject,
   requestApproval,
   requestStudioProduction,
   runAssessmentForOrg,
+  transitionCampaignStatus,
   updateObjective,
 } from '../_lib/site00Evolve/evolveService.js';
-import { orgIdFromSlug } from '../_lib/site00Evolve/seedFixtures.js';
-import { getCalendarByOrgId, getCalendarItemById, getPendingApprovals } from '../_lib/site00Evolve/memoryStore.js';
-import type { ProductionType } from '../_lib/site00Evolve/types.js';
+import { orgIdFromSlug } from '../_lib/site00Evolve/orgRegistry.js';
+import { getCalendarByOrgId, getChannelsByOrgId, getObjectivesByOrgId, getPendingApprovals, getLatestAssessment } from '../_lib/site00Evolve/storeAdapter.js';
+import { resolveStoreMode, EvolveStoreUnavailableError } from '../_lib/site00Evolve/storeAdapter.js';
+import type { CampaignStatus, ProductionType } from '../_lib/site00Evolve/types.js';
 
 function parseBody(req: VercelRequest): Record<string, unknown> | null {
   if (typeof req.body === 'object' && req.body !== null && !Array.isArray(req.body)) {
@@ -57,38 +60,43 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!auth.ok) return res.status(auth.failure.status).json({ error: auth.failure.error });
 
   try {
+    await ensureEvolveSeeded();
+
     if (req.method === 'GET') {
       const action = String(req.query.action ?? 'overview');
       const orgSlug = orgSlugFromQuery(req);
 
       switch (action) {
         case 'overview':
-          return res.status(200).json({ orgSlug, overview: getEvolveOverview(orgSlug) });
+          return res.status(200).json({ orgSlug, overview: await getEvolveOverview(orgSlug) });
         case 'organizations':
           return res.status(200).json({ organizations: listMarketingOrgs() });
+        case 'store_mode': {
+          const mode = await resolveStoreMode();
+          return res.status(200).json({ mode });
+        }
         case 'debug':
-          return res.status(200).json(getEvolveDebugPayload(orgSlug));
+          return res.status(200).json(await getEvolveDebugPayload(orgSlug));
         case 'assessment': {
           const orgId = orgIdFromSlug(orgSlug);
-          const { getLatestAssessment } = await import('../_lib/site00Evolve/memoryStore.js');
-          return res.status(200).json({ assessment: orgId ? getLatestAssessment(orgId) : null });
+          return res.status(200).json({ assessment: orgId ? await getLatestAssessment(orgId) : null });
         }
         case 'objectives':
-          return res.status(200).json({ objectives: getObjectivesByOrgId(orgIdFromSlug(orgSlug)!) });
+          return res.status(200).json({ objectives: await getObjectivesByOrgId(orgIdFromSlug(orgSlug)!) });
         case 'channels':
-          return res.status(200).json({ channels: getChannelsByOrgId(orgIdFromSlug(orgSlug)!) });
+          return res.status(200).json({ channels: await getChannelsByOrgId(orgIdFromSlug(orgSlug)!) });
         case 'campaigns':
-          return res.status(200).json({ campaigns: getCampaignList(orgSlug) });
+          return res.status(200).json({ campaigns: await getCampaignList(orgSlug) });
         case 'campaign': {
           const campaignId = String(req.query.campaignId ?? '');
-          const detail = getCampaignDetail(orgSlug, campaignId);
+          const detail = await getCampaignDetail(orgSlug, campaignId);
           return res.status(detail ? 200 : 404).json(detail ?? { error: 'Campaign not found' });
         }
         case 'calendar':
-          return res.status(200).json({ calendar: getCalendarByOrgId(orgIdFromSlug(orgSlug)!) });
+          return res.status(200).json({ calendar: await getCalendarByOrgId(orgIdFromSlug(orgSlug)!) });
         case 'calendar_item': {
           const itemId = String(req.query.itemId ?? '');
-          const item = getCalendarItemById(itemId);
+          const item = await getCalendarItemById(itemId);
           const orgId = orgIdFromSlug(orgSlug)!;
           if (!item || item.organization_id !== orgId) {
             return res.status(404).json({ error: 'Calendar item not found' });
@@ -96,21 +104,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(200).json({ item });
         }
         case 'emails':
-          return res.status(200).json(getEmailOpsPayload(orgSlug));
+          return res.status(200).json(await getEmailOpsPayload(orgSlug));
         case 'social':
-          return res.status(200).json(getSocialOpsPayload(orgSlug));
+          return res.status(200).json(await getSocialOpsPayload(orgSlug));
         case 'plans':
-          return res.status(200).json(getPlansPayload(orgSlug));
+          return res.status(200).json(await getPlansPayload(orgSlug));
         case 'manifest': {
           const { getMarketingManifest } = await import('../_lib/site00Evolve/manifest.js');
-          return res.status(200).json(getMarketingManifest(orgSlug));
+          return res.status(200).json(await getMarketingManifest(orgSlug));
         }
         case 'approvals':
-          return res.status(200).json({ approvals: getPendingApprovals(orgIdFromSlug(orgSlug)!) });
+          return res.status(200).json({ approvals: await getPendingApprovals(orgIdFromSlug(orgSlug)!) });
         case 'approvals_inbox':
-          return res.status(200).json({ approvals: getApprovalsInbox() });
+          return res.status(200).json({ approvals: await getApprovalsInbox() });
         case 'roadmap':
-          return res.status(200).json({ roadmap: getEvolveRoadmapByOrgId(orgIdFromSlug(orgSlug)!) });
+          return res.status(200).json({ roadmap: await getEvolveRoadmapByOrgId(orgIdFromSlug(orgSlug)!) });
         default:
           return res.status(400).json({ error: 'UNKNOWN ACTION' });
       }
@@ -124,41 +132,65 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       switch (action) {
         case 'run_assessment':
           return res.status(200).json({
-            assessment: runAssessmentForOrg(orgSlug, auth.user.email, body.connections as never),
+            assessment: await runAssessmentForOrg(orgSlug, auth.user.email, body.connections as never),
           });
         case 'generate_manifest':
-          return res.status(200).json(generateManifestForOrg(orgSlug));
+          return res.status(200).json(await generateManifestForOrg(orgSlug));
         case 'approve_manifest': {
           const manifestId = String(body.manifestId ?? '');
-          const manifest = approveManifestById(manifestId, auth.user.email);
+          const manifest = await approveManifestById(manifestId, auth.user.email);
           return res.status(manifest ? 200 : 404).json({ manifest });
         }
         case 'create_objective':
-          return res.status(200).json({ objective: createObjective(orgSlug, body as never) });
+          return res.status(200).json({ objective: await createObjective(orgSlug, body as never) });
         case 'update_objective': {
           const id = String(body.id ?? '');
-          const objective = updateObjective(id, body as never);
+          const objective = await updateObjective(id, body as never);
           return res.status(objective ? 200 : 404).json({ objective });
         }
         case 'create_campaign':
-          return res.status(200).json({ campaign: createCampaign(orgSlug, body as never) });
+          return res.status(200).json({ campaign: await createCampaign(orgSlug, body as never) });
+        case 'create_campaign_from_manifest':
+          return res.status(200).json({
+            campaign: await createCampaignFromManifestItem(orgSlug, String(body.manifestItemKey ?? ''), auth.user.email),
+          });
+        case 'transition_campaign': {
+          const result = await transitionCampaignStatus(
+            orgSlug,
+            String(body.campaignId ?? ''),
+            String(body.status ?? '') as CampaignStatus,
+            {
+              hasRequiredApproval: Boolean(body.hasRequiredApproval),
+              productionComplete: body.productionComplete as boolean | undefined,
+              hasLiveEvidence: Boolean(body.hasLiveEvidence),
+              deliverablesComplete: Boolean(body.deliverablesComplete),
+              actorEmail: auth.user.email,
+            },
+          );
+          return res.status(result.ok ? 200 : 400).json(result);
+        }
         case 'request_production': {
           const { resolveOrgContext } = await import('../_lib/site00Evolve/evolveService.js');
           const org = resolveOrgContext(orgSlug);
-          const result = requestStudioProduction({
+          const result = await requestStudioProduction({
             orgSlug,
             orgClassification: org.classification,
             productionType: String(body.productionType ?? 'OTHER') as ProductionType,
             objective: body.objective ? String(body.objective) : undefined,
             brief: body.brief ? String(body.brief) : undefined,
             campaignId: body.campaignId ? String(body.campaignId) : undefined,
+            calendarItemId: body.calendarItemId ? String(body.calendarItemId) : undefined,
             createdBy: auth.user.email,
+            deliverables: body.deliverables as unknown[] | undefined,
+            canonRefs: body.canonRefs as unknown[] | undefined,
+            referenceRefs: body.referenceRefs as unknown[] | undefined,
+            dueDate: body.dueDate ? String(body.dueDate) : undefined,
           });
           return res.status(result.ok ? 200 : 400).json(result);
         }
         case 'request_approval':
           return res.status(200).json({
-            approval: requestApproval(
+            approval: await requestApproval(
               orgSlug,
               String(body.subjectType ?? 'campaign'),
               String(body.subjectId ?? ''),
@@ -167,11 +199,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             ),
           });
         case 'approve_item': {
-          approveSubject(String(body.approvalId ?? ''), auth.user.email);
+          await approveSubject(String(body.approvalId ?? ''), auth.user.email);
           return res.status(200).json({ ok: true });
         }
         case 'reject_item': {
-          rejectSubject(String(body.approvalId ?? ''), auth.user.email, String(body.reason ?? ''));
+          await rejectSubject(String(body.approvalId ?? ''), auth.user.email, String(body.reason ?? ''));
           return res.status(200).json({ ok: true });
         }
         default:
@@ -181,6 +213,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     return res.status(405).json({ error: 'METHOD NOT ALLOWED' });
   } catch (e) {
+    if (e instanceof EvolveStoreUnavailableError) {
+      return res.status(503).json({ error: e.message, storeUnavailable: true });
+    }
     const message = e instanceof Error ? e.message : 'EVOLVE API error';
     return res.status(500).json({ error: message });
   }

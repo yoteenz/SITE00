@@ -7,8 +7,8 @@ import {
   getManifestItems,
   upsertManifest,
   evolveUuid,
-} from './memoryStore.js';
-import { orgIdFromSlug } from './seedFixtures.js';
+} from './storeAdapter.js';
+import { orgIdFromSlug } from './orgRegistry.js';
 
 type ManifestTemplate = { item_key: string; title: string; description: string; category: string; channel_key?: string };
 
@@ -73,11 +73,11 @@ function filterByChannels(templates: ManifestTemplate[], channels: MarketingChan
   });
 }
 
-export function generateMarketingManifest(
+export async function generateMarketingManifest(
   orgSlug: string,
   profile: MarketingProfileRow | undefined,
   channels: MarketingChannelRow[],
-): { manifest: MarketingManifestRow; items: MarketingManifestItemRow[] } {
+): Promise<{ manifest: MarketingManifestRow; items: MarketingManifestItemRow[] }> {
   const orgId = orgIdFromSlug(orgSlug)!;
   const templates = filterByChannels(selectTemplate(orgSlug), channels);
   const manifestId = evolveUuid('mman', Date.now() % 100000);
@@ -116,28 +116,31 @@ export function generateMarketingManifest(
     metadata: {},
   }));
 
-  upsertManifest(manifest, items);
+  await upsertManifest(manifest, items);
   return { manifest, items };
 }
 
-export function getMarketingManifest(orgSlug: string): {
+export async function getMarketingManifest(orgSlug: string): Promise<{
   manifest: MarketingManifestRow | null;
   items: MarketingManifestItemRow[];
-} {
+}> {
   const orgId = orgIdFromSlug(orgSlug)!;
-  const manifest = getActiveManifest(orgId);
+  const manifest = await getActiveManifest(orgId);
   if (!manifest) return { manifest: null, items: [] };
-  return { manifest, items: getManifestItems(manifest.id) };
+  return { manifest, items: await getManifestItems(manifest.id) };
 }
 
-import { getEvolveStore } from './memoryStore.js';
-
-export function approveManifestById(manifestId: string, approvedBy: string): MarketingManifestRow | null {
-  const m = getEvolveStore().manifests.find((x) => x.id === manifestId);
-  if (!m) return null;
-  m.approval_state = 'APPROVED';
-  m.manifest_state = 'ACTIVE';
-  m.approved_by = approvedBy;
-  m.approved_at = new Date().toISOString();
-  return m;
+export async function approveManifestById(manifestId: string, approvedBy: string): Promise<MarketingManifestRow | null> {
+  if (process.env.VITEST === 'true' || process.env.EVOLVE_USE_MEMORY === '1') {
+    const { getEvolveStore } = await import('./memoryStore.js');
+    const m = getEvolveStore().manifests.find((x) => x.id === manifestId);
+    if (!m) return null;
+    m.approval_state = 'APPROVED';
+    m.manifest_state = 'ACTIVE';
+    m.approved_by = approvedBy;
+    m.approved_at = new Date().toISOString();
+    return m;
+  }
+  const { approveManifestById: dbApprove } = await import('./storeAdapter.js');
+  return dbApprove(manifestId, approvedBy);
 }
