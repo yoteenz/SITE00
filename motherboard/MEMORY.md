@@ -908,3 +908,11 @@ Summary of the **whole conversation so far** in this cloud agent run.
 - **Fix:** `site00-fast-travel.css` — close button `-webkit-appearance`, outline/tap-highlight reset; 44px→42px, font 1.625rem→1.544rem; label/descriptor color swap.
 - **Branch:** `cursor/fast-travel-close-colors-2c3b`.
 
+---
+
+## 2026-08-20 — Sign-in CREATE ACCOUNT line wrap
+
+- **Request:** Wrap "CREATE ACCOUNT" to next line below "NEW TO SITE 00?" on mobile sign-in footer.
+- **Fix:** `site00-signin-form__footer-link` `display: block` + small top margin in `site00-auth.css`.
+- **Branch:** `cursor/signin-create-account-wrap-2c3b`.
+

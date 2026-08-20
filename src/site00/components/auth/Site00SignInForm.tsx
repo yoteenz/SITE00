@@ -256,7 +256,7 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
       </form>
 
       <p className="site00-signin-form__footer">
-        NEW TO SITE 00?{' '}
+        NEW TO SITE 00?
         <Link to={createAccountHref} className="site00-signin-form__footer-link">
           CREATE ACCOUNT
         </Link>
