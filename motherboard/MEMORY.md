@@ -1182,3 +1182,30 @@ Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mo
 
 - **Conventions:** BLDR hub mobile rebuild is component-driven under `components/bldr/mobile/`; do not restyle desktop `.site00-bldr-split` for this experience.
 
+---
+
+## 2026-08-20 — IDNTY mobile IDENTITY DIAGNOSTIC visual upgrade
+
+Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mobile sprints).
+
+- **Context:** Founder attached approved mobile IDNTY / Identity Diagnostic mockup; `/idnty/state` mobile page was sparse with excessive whitespace. Sprint to match reference while preserving four states, artwork, routing, and desktop layout.
+
+- **Topics covered (cumulative):** Prior BLDR mobile BUILD SYSTEM rebuild (PR #144); this turn = full IDNTY mobile diagnostic upgrade per 24-point spec.
+
+- **Decisions / outcomes:**
+  - Mobile vs desktop split in `IdntyStatePage` — desktop keeps existing `IdntyDesktopStatePageBody`; mobile renders `IdntyMobileDiagnostic`.
+  - Mobile selection: tap card updates context + UI (progression, investment emphasis, handoff); explicit SELECT STATE / investment / handoff CTAs navigate (assessment routes; build-ready → `/bldr/start`).
+  - Pricing/services from existing `IDNTY_INVESTMENT_TIERS`; diagnostic copy/CTAs in `config/idnty-diagnostic.ts`.
+  - Shared `Site00ThreeCornerMark` (TL+TR+BR only); existing `IdntyBrandStateIcon` PNGs preserved.
+  - Styles in `site00-idnty-diagnostic-mobile.css`; responsive 4-col → 2×2 investment grid on narrow widths.
+
+- **Changes:**
+  - `src/site00/components/idnty/mobile/*` (Hero, Progression, StateGrid, DiagnosticStateCard, Investment, Handoff, MobileDiagnostic)
+  - `src/site00/components/mark/Site00ThreeCornerMark.tsx`
+  - `src/site00/config/idnty-diagnostic.ts`
+  - `src/site00/styles/site00-idnty-diagnostic-mobile.css`
+  - `src/site00/pages/IdntyStatePage.tsx`
+  - `src/routes/Site00Routes.tsx` (CSS import)
+
+- **Conventions:** IDNTY mobile diagnostic lives under `components/idnty/mobile/`; do not alter desktop `.site00-state-page-layout` presentation.
+
