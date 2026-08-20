@@ -1,6 +1,6 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
-import { site00AsstsLocalApiPlugin } from './scripts/vite-site00-assts-local-api.mjs';
+import { site00LocalApiPlugin } from './scripts/vite-site00-local-api.mjs';
 
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -104,7 +104,7 @@ export default defineConfig(({ mode, command }) => {
     },
     plugins: [
       react(cloudMobilePreview ? { fastRefresh: false } : undefined),
-      ...(command === 'serve' ? [site00AsstsLocalApiPlugin()] : []),
+      ...(command === 'serve' ? [site00LocalApiPlugin()] : []),
       ...(cloudMobilePreview && previewSessionId
         ? [
             stripViteClientForCloudPreviewPlugin(),
