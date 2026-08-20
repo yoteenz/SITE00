@@ -856,3 +856,29 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 - **Issue:** Sign-in page still showed old wireframe SVG on fsbw-dev preview; magic link button text/icon blue on iOS Safari.
 - **Fix:** `SITE00_SIGNIN_ICON_VERSION=2` cache bust on resolved NAV PNG; magic link `-webkit-appearance: none` + explicit red on button, icon, label spans. Branch `cursor/signin-icon-magic-link-fix-2c3b`.
 
+---
+
+## 2026-08-20 — Founder Card access landing moodboard (reticle PNG + desktop/mobile compositions)
+
+Summary of the **whole conversation so far** in this cloud agent run.
+
+- **Context:** Implement Founder Card digital access landing at `/access/:credentialId` per approved moodboard; use canonical geometric access icon PNG (`NAV/0DB32E47-6CE4-484F-841B-DBE2397218BE.png`) directly — no CSS/SVG redraw. Isolated route; do not restyle Origin, Sign In, Locations, etc.
+
+- **Topics covered (cumulative):** Sign-in icon cache bust + iOS magic link red; Founder Access Credential backend (Supabase tables, API, admin CRUD, scan tracking); this sprint = moodboard-faithful access landing UI.
+
+- **Decisions / outcomes:**
+  - Separate **desktop** and **mobile** compositions (`CredentialAccessDesktop`, `CredentialAccessMobile`) sharing credential state/routing via `CredentialAccessShell`.
+  - Approved reticle loaded via `AccessReticle` + `resolveSite00PublicAsset(SITE00_ACCESS_RETICLE_PATH)` with version cache bust.
+  - ~1.7s recognition sequence (detecting → scanning → recognized → authorized → ready); `prefers-reduced-motion` jumps to static authorized.
+  - Desktop: header grid (SITE 00 ♦ | [ ACCESS PROTOCOL ] | code + target), large reticle, clock, ACCESS RECOGNIZED, credential/status, CTA, footer strip (detection / ORIGIN AWAITS / IDENTITY • LOCATIONS • PROJECTS / CTRL ROOM).
+  - Mobile: custom header (logo + target + Fast Travel), protocol stack, reticle, copy, CTA, detection message, canonical **five-item** `MobileSiteNavigation` (LOCATIONS center).
+  - Credential URL remains **recognition + routing only** — does not bypass CTRL Room auth.
+
+- **Changes:**
+  - `src/site00/config/access-credentials.ts` — `SITE00_ACCESS_RETICLE_PATH`, version.
+  - New access components: `AccessReticle`, `AccessRegistrationChrome`, `CredentialAccessDesktop/Mobile/Shell`, headers, footer, protocol/clock/status/CTA/target marks.
+  - Rewrote `site00-access.css` scoped to `.site00-access-page`; updated recognition sequence + experience wiring.
+  - Branch: `cursor/founder-access-landing-2c3b`.
+
+- **Conventions:** Access page icon = PNG asset only; sign-in icon (`7D83E4A6`) is separate. Preview may need Vite `--force` + hard refresh on mobile Safari.
+
