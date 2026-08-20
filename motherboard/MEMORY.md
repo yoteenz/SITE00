@@ -1060,3 +1060,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** Added `api/_lib/auditLog.ts` + `api/_lib/email/sendEmail.ts` stubs; replaced ASSTS-only Vite plugin with `scripts/vite-site00-local-api.mjs` serving profile/session/activity and other core API routes locally in dev.
 - **Branch:** `cursor/fix-profile-auditlog-import-2c3b`.
 
+---
+
+## 2026-08-20 — Fast Travel CTRL ROOM subtitle copy
+
+- **Request:** IDNTY UP NEXT CTRL ROOM card — remove "your"; subtitle should read "OPERATING ENVIRONMENT."
+- **Fix:** `fast-travel.ts` signed-in IDNTY `ctrl-room` destination description.
+- **Branch:** `cursor/fast-travel-ctrl-room-copy-2c3b`.
+
