@@ -1076,3 +1076,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** `CurrentLocationCard` no longer renders `OriginPanelIcon`; dropped `panel` from `FastTravelLocation` / IDNTY route profile; removed unused CSS.
 - **Branch:** `cursor/fast-travel-no-current-location-icon-2c3b`.
 
+---
+
+## 2026-08-20 — Fast Travel UP NEXT artwork integration (9 PACK assets)
+
+- **Request:** Integrate 9 approved Supabase PACK illustrations into UP NEXT cards by destination id; preserve sign-in + create existing marks.
+- **Fix:** `fast-travel-assets.ts` canonical registry; `FastTravelDestinationArt` component; wired in `FastTravelSection` + auth-locked primary cards; `object-fit: contain` scoped CSS.
+- **Branch:** `cursor/fast-travel-up-next-artwork-2c3b`.
+
