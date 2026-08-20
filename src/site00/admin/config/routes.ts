@@ -35,5 +35,7 @@ export const SITE00_ADMIN_ROUTES = {
   accessCredential: (id: string) => `/admin/site00/access-credentials/${id}`,
   settings: '/admin/site00/settings',
   settingsAutomation: '/admin/site00/settings/studio/automation',
+  emailPack: '/admin/site00/debug/email-pack',
+  emailTemplate: (id: string) => `/admin/site00/debug/email-pack/${id}`,
   clientProvisioning: (slug: string) => `/project/${slug}/provisioning`,
 } as const;

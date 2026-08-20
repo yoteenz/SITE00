@@ -102,6 +102,16 @@ Privileged admin surface at `/admin/site00/*` (guarded by `AdminGuard` / `canAcc
 
 ---
 
+## Email system (transactional + lifecycle)
+
+- **Shared module:** `shared/site00-email/` — tokens, table-safe HTML primitives, 12 visual archetypes, 80-template registry, debug fixtures (preview only).
+- **Debug gallery:** `/admin/site00/debug/email-pack` (AdminGuard) — gallery, filters, master index, per-template review with mobile/desktop + light/dark inbox framing, text fallback, localStorage approval state.
+- **Production sends:** `api/_lib/email/sendEmail.ts` renders from registry; provider not configured until `EMAIL_PROVIDER` env set. Idempotency via in-memory send log stub. Legacy `welcome` → `access-credential-issued`.
+- **Auth emails:** Supabase Auth owns verification/reset — SITE 00 templates exist for gallery parity; document provider limitations.
+- **Rule:** Mock preview data never used in production sends. Debug route is read-only (no auto-send).
+
+---
+
 Canonical config: `src/site00/config/desktop-environment-presentation.ts`.
 
 | Context | Behavior |

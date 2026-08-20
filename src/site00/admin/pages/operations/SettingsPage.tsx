@@ -5,6 +5,12 @@ import { SITE00_ADMIN_ROUTES } from '../../config/routes';
 
 const SETTINGS_SECTIONS = [
   {
+    title: 'EMAIL SYSTEM',
+    description: 'REVIEW TRANSACTIONAL + LIFECYCLE TEMPLATES BEFORE PRODUCTION SENDS ARE ACTIVATED.',
+    items: ['TEMPLATE GALLERY', 'SUBJECT / PREHEADER QA', 'MOBILE + DESKTOP PREVIEW'],
+    href: SITE00_ADMIN_ROUTES.emailPack,
+  },
+  {
     title: 'INTEGRATIONS',
     description:
       'STRIPE, SUPABASE, FAL, AND OTHER SERVICE CONNECTIONS ARE CONFIGURED VIA BACKEND ENV VARS AND SUPABASE — NOT IN THIS UI.',
@@ -53,7 +59,7 @@ export default function SettingsPage() {
             </ul>
             {'href' in section && section.href ? (
               <Link className="site00-admin-link-cta" to={section.href}>
-                OPEN STUDIO AUTOMATION →
+                {section.title === 'EMAIL SYSTEM' ? 'OPEN EMAIL PACK →' : 'OPEN STUDIO AUTOMATION →'}
               </Link>
             ) : null}
           </section>

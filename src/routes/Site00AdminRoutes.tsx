@@ -3,6 +3,7 @@ import { Navigate, Route } from 'react-router-dom';
 import LoadingScreen from '../components/base/LoadingScreen';
 import '../site00/admin/styles/site00-admin.css';
 import '../site00/admin/styles/site00-control.css';
+import '../site00/admin/styles/site00-email-debug.css';
 
 const Site00AdminDashboardPage = lazy(() => import('../site00/admin/pages/DashboardPage'));
 const Site00AdminStudioPage = lazy(() => import('../site00/admin/pages/StudioPage'));
@@ -30,6 +31,8 @@ const ActivityPage = lazy(() => import('../site00/admin/pages/operations/Activit
 const SettingsPage = lazy(() => import('../site00/admin/pages/operations/SettingsPage'));
 const AccessCredentialsPage = lazy(() => import('../site00/admin/pages/access/AccessCredentialsPage'));
 const AccessCredentialDetailPage = lazy(() => import('../site00/admin/pages/access/AccessCredentialDetailPage'));
+const EmailPackGalleryPage = lazy(() => import('../site00/admin/pages/debug/EmailPackGalleryPage'));
+const EmailTemplateDetailPage = lazy(() => import('../site00/admin/pages/debug/EmailTemplateDetailPage'));
 
 function AdminSuspense({ children }: { children: React.ReactNode }) {
   return <Suspense fallback={<LoadingScreen />}>{children}</Suspense>;
@@ -244,6 +247,22 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <AccessCredentialDetailPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/debug/email-pack"
+        element={
+          <AdminSuspense>
+            <EmailPackGalleryPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/debug/email-pack/:templateId"
+        element={
+          <AdminSuspense>
+            <EmailTemplateDetailPage />
           </AdminSuspense>
         }
       />

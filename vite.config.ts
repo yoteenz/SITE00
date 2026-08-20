@@ -1,6 +1,10 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { site00LocalApiPlugin } from './scripts/vite-site00-local-api.mjs';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -101,6 +105,11 @@ export default defineConfig(({ mode, command }) => {
       'import.meta.env.VITE_APP_BUILD_ID': JSON.stringify(effectiveBuildId),
       'import.meta.env.VITE_APP_VERSION': JSON.stringify(effectiveBuildId),
       'import.meta.env.VITE_SITE00_ROOT': JSON.stringify('1'),
+    },
+    resolve: {
+      alias: {
+        '@site00-email': path.resolve(__dirname, 'shared/site00-email'),
+      },
     },
     plugins: [
       react(cloudMobilePreview ? { fastRefresh: false } : undefined),
