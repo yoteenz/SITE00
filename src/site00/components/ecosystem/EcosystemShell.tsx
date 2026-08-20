@@ -6,6 +6,7 @@ import { EcosystemPageHeader } from './EcosystemPageHeader';
 import { Site00EcosystemMobileShell } from '../mobile/Site00EcosystemMobileShell';
 import { OperatingWorldTopNav } from './OperatingWorldTopNav';
 import { OperatingWorldStatusRail } from './OperatingWorldStatusRail';
+import { ExperienceContextBar } from '../access/ExperienceContextBar';
 import { ecosystemPageMeta } from '../../config/ecosystem-nav';
 
 type EcosystemShellProps = {
@@ -48,6 +49,7 @@ export function EcosystemShell({ children, title, subtitle, headerActions, hideP
         style={{ ['--site00-ecosystem-bg' as string]: `url(${ecosystemBgUrl})` }}
       >
         <OperatingWorldTopNav />
+        <ExperienceContextBar variant="client" />
         <div className="site00-ecosystem-shell__main">
           <div className="site00-ecosystem-shell__content-wrap">
             {hidePageHeader ? null : (
@@ -61,6 +63,7 @@ export function EcosystemShell({ children, title, subtitle, headerActions, hideP
 
       <div className="site00-ecosystem-shell__mobile">
         <Site00EcosystemMobileShell shellClassName="site00-ecosystem-mobile-shell">
+          <ExperienceContextBar variant="client" />
           {hidePageHeader ? null : (
             <EcosystemPageHeader title={pageTitle} subtitle={pageSubtitle} actions={headerActions} />
           )}

@@ -2,8 +2,10 @@ import { Link, useParams } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { EmptyState } from '../components/pages/Site00PagePrimitives';
+import { ProjectPrivilegedUtilities } from '../components/access/ProjectPrivilegedUtilities';
 import { useSite00ProjectDetail } from '../hooks/useSite00Projects';
 import { SITE00_ROUTES } from '../config/routes';
+import type { Site00FounderProjectSlug } from '../../../shared/site00-projects/types';
 import '../styles/site00-projects.css';
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
@@ -30,7 +32,7 @@ export default function ProjectDetailPage() {
   const { project, state, error } = useSite00ProjectDetail(projectSlug);
 
   return (
-    <EcosystemShell>
+    <EcosystemShell hidePageHeader>
       <div className="site00-page site00-page--project-detail">
         <nav className="site00-project-command__back">
           <Link to={SITE00_ROUTES.projects}>← PROJECTS</Link>
@@ -55,7 +57,6 @@ export default function ProjectDetailPage() {
             <div className="site00-project-command__grid">
               <Section title="OVERVIEW">
                 <Row label="ORGANIZATION" value={project.organizationSlug} />
-                <Row label="UUID" value={project.organizationUuid} />
                 <Row label="CLASSIFICATION" value={project.classification.replace(/_/g, ' ')} />
                 <Row label="CURRENT PHASE" value={project.currentPhase} />
                 <Row label="LIFECYCLE" value={project.overview.lifecycleStage?.replace(/_/g, ' ') ?? null} />
@@ -69,9 +70,7 @@ export default function ProjectDetailPage() {
                     <Row label="CANONICAL" value={String(project.intelligence.canonical)} />
                     <Row label="REFERENCE" value={String(project.intelligence.reference)} />
                     <Row label="IDEAS" value={String(project.intelligence.ideas)} />
-                    <Link className="site00-action-link site00-action-link--red" to={project.intelligence.route}>
-                      OPEN INTELLIGENCE →
-                    </Link>
+                    <Row label="INSIGHTS" value={String(project.intelligence.insights)} />
                   </>
                 ) : (
                   <p className="site00-body">NO CONTENT BRAIN ENTRIES INDEXED YET.</p>
@@ -86,9 +85,11 @@ export default function ProjectDetailPage() {
                     <Row label="NEEDS APPROVAL" value={String(project.evolve.needsApproval)} />
                   </>
                 ) : null}
-                <Link className="site00-action-link site00-action-link--red" to={project.evolve.route}>
-                  OPEN EVOLVE →
-                </Link>
+                {project.evolve.isMarketingClient ? (
+                  <Link className="site00-action-link site00-action-link--red" to={project.evolve.route}>
+                    OPEN EVOLVE →
+                  </Link>
+                ) : null}
               </Section>
 
               {project.creativeDirection ? (
@@ -185,6 +186,11 @@ export default function ProjectDetailPage() {
                 </ul>
               </Section>
             </div>
+
+            <ProjectPrivilegedUtilities
+              slug={project.slug as Site00FounderProjectSlug}
+              organizationUuid={project.organizationUuid}
+            />
           </>
         )}
       </div>
