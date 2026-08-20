@@ -1415,3 +1415,17 @@ Summary of this cloud agent run (SITE 00 mobile layout fix).
 
 - **Conventions:** Mobile shell horizontal gutter is owned by `.site00-mobile-shell__main`; page inner wrappers should not add duplicate horizontal padding. All mobile grids need `minmax(0, 1fr)` + `min-width: 0` on children.
 
+---
+
+## 2026-08-20 — BLDR Enterprise panel background artwork
+
+Summary of this cloud agent run (SITE 00 asset update).
+
+- **Context:** Founder provided approved Supabase PACK artwork URL for the Enterprise panel on BLDR Build Classification mobile page (`/bldr/state`). Panel previously showed placeholder gradient with "ENTERPRISE ENVIRONMENT" watermark (`SITE00_BLDR_ENTRY_ENTERPRISE_IMAGE` was `null`).
+
+- **Decision / outcome:** Set `SITE00_BLDR_ENTRY_ENTERPRISE_IMAGE` to `PACK/D288C717-C092-4D37-95C7-D745A7E7B68A.png` in `bldr-entry.ts`. Resolved at runtime via `resolveSite00PublicAsset` → `BldrPortal` renders `<img>` background like Site and World portals.
+
+- **Changes:** `src/site00/config/bldr-entry.ts`
+
+- **Conventions:** BLDR entry/classification portal images live in `bldr-entry.ts`; PACK assets use `PACK/{uuid}.png` path prefix.
+
