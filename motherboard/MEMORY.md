@@ -817,6 +817,6 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 ## 2026-08-19 — Locations directory spine through journal + my sites dots
 
 - **Request:** Gray spine line should reach middle of JOURNAL card with red dot; MY SITES missing red dot in YOUR SPACE section.
-- **Fix:** `DirectorySpine` height now extends to last card vertical center (`cardMaxHeightPx`); red nodes at first + last card anchors per section. Node CSS uses `translate(-50%, -50%)` for center alignment.
+- **Fix:** `DirectorySpine` now measures first/last card centers from the DOM (`ResizeObserver`) so the gray line and red dots align with JOURNAL and MY SITES regardless of card height (auth rows, max-height). Red nodes at section start + last card midline. Node CSS uses `translate(-50%, -50%)`.
 - **Branch:** `cursor/locations-spine-journal-mysites-796f`.
 

@@ -1,37 +1,83 @@
-import { SITE00_LOCATIONS_COMPOSITION } from '../../config/locations-composition-map';
+import { useLayoutEffect, useRef, useState, type RefObject } from 'react';
 import { Site00DirectorySpineNodeIcon } from '../mobile/Site00MobileIcons';
 
 type DirectorySpineProps = {
-  cardCount: number;
+  cardsContainerRef: RefObject<HTMLDivElement | null>;
 };
 
-function directorySpineMetrics(cardCount: number) {
-  const { layout } = SITE00_LOCATIONS_COMPOSITION;
-  const stride = layout.cardMinHeightPx + layout.cardGapPx;
+type SpineMetrics = {
+  spineHeight: number;
+  nodeOffsetsPx: number[];
+};
 
-  if (cardCount <= 0) {
-    return { spineHeight: 0, nodeOffsetsPx: [] as number[] };
+function measureSpineMetrics(
+  spineEl: HTMLElement,
+  cardsContainer: HTMLElement,
+): SpineMetrics {
+  const cardWraps = cardsContainer.querySelectorAll<HTMLElement>(
+    '.site00-locations-directory__card-wrap',
+  );
+
+  if (cardWraps.length === 0) {
+    return { spineHeight: 0, nodeOffsetsPx: [] };
   }
 
-  const firstNodeTopPx = layout.cardMaxHeightPx / 2;
-  const lastCardCenterPx = (cardCount - 1) * stride + layout.cardMaxHeightPx / 2;
+  const spineTop = spineEl.getBoundingClientRect().top;
+  const cardCenterOffset = (card: DOMRect) => card.top + card.height / 2 - spineTop;
+  const firstCenter = cardCenterOffset(cardWraps[0].getBoundingClientRect());
   const nodeOffsetsPx =
-    cardCount === 1 ? [firstNodeTopPx] : [firstNodeTopPx, lastCardCenterPx];
-  const spineHeight = lastCardCenterPx + 5;
+    cardWraps.length === 1
+      ? [firstCenter]
+      : [firstCenter, cardCenterOffset(cardWraps[cardWraps.length - 1].getBoundingClientRect())];
 
-  return { spineHeight, nodeOffsetsPx };
+  const lastCenter = nodeOffsetsPx[nodeOffsetsPx.length - 1] ?? 0;
+
+  return {
+    spineHeight: Math.max(lastCenter + 5, 0),
+    nodeOffsetsPx,
+  };
 }
 
 /** Vertical directory spine — red nodes at first + last card anchors in the section. */
-export function DirectorySpine({ cardCount }: DirectorySpineProps) {
-  const { spineHeight, nodeOffsetsPx } = directorySpineMetrics(cardCount);
+export function DirectorySpine({ cardsContainerRef }: DirectorySpineProps) {
+  const spineRef = useRef<HTMLDivElement>(null);
+  const [metrics, setMetrics] = useState<SpineMetrics>({ spineHeight: 0, nodeOffsetsPx: [] });
+
+  useLayoutEffect(() => {
+    const spineEl = spineRef.current;
+    const cardsContainer = cardsContainerRef.current;
+    if (!spineEl || !cardsContainer) {
+      return;
+    }
+
+    const updateMetrics = () => {
+      setMetrics(measureSpineMetrics(spineEl, cardsContainer));
+    };
+
+    updateMetrics();
+
+    const resizeObserver = new ResizeObserver(updateMetrics);
+    resizeObserver.observe(cardsContainer);
+    cardsContainer.querySelectorAll('.site00-locations-directory__card-wrap').forEach((card) => {
+      resizeObserver.observe(card);
+    });
+
+    return () => resizeObserver.disconnect();
+  }, [cardsContainerRef]);
+
+  const { spineHeight, nodeOffsetsPx } = metrics;
 
   if (spineHeight <= 0) {
-    return null;
+    return <div ref={spineRef} className="site00-directory-spine" aria-hidden="true" />;
   }
 
   return (
-    <div className="site00-directory-spine" aria-hidden="true" style={{ height: spineHeight }}>
+    <div
+      ref={spineRef}
+      className="site00-directory-spine"
+      aria-hidden="true"
+      style={{ height: spineHeight }}
+    >
       <svg className="site00-directory-spine__line" width="2" height="100%" preserveAspectRatio="none">
         <line x1="1" y1="0" x2="1" y2="100%" stroke="rgba(0,0,0,0.14)" strokeWidth="1" />
       </svg>
