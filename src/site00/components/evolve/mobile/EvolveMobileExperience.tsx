@@ -6,11 +6,13 @@ import {
   EVOLVE_DEFAULT_PATH,
   resolveEvolveAssessmentDestination,
 } from '../../../config/evolve-diagnostic';
+import { EvolveDiagnosticStrip } from '../shared/EvolveDiagnosticStrip';
 import { EvolveMobileHero } from './EvolveMobileHero';
 import { EvolutionIntensityRail } from './EvolutionIntensityRail';
 import { EvolutionPathGrid } from './EvolutionPathGrid';
 import { SelectedEvolutionPath } from './SelectedEvolutionPath';
 import { EvolveProcessTimeline } from './EvolveProcessTimeline';
+import { EvolveScopeModule } from './EvolveScopeModule';
 import { EvolveClosingModule } from './EvolveClosingModule';
 
 type EvolveMobileExperienceProps = {
@@ -37,12 +39,13 @@ export function EvolveMobileExperience({
   resumePathLabel,
 }: EvolveMobileExperienceProps) {
   const navigate = useNavigate();
-  const selectedRef = useRef<HTMLElement>(null);
+  const lockedRef = useRef<HTMLElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const [revealed, setRevealed] = useState(false);
 
   const activePathId = resolveActivePathId(selectedPathId);
   const activeCode = EVOLVE_PATHS.find((path) => path.id === activePathId)?.code ?? '01';
+  const hasExplicitSelection = Boolean(selectedPathId && EVOLVE_PATHS.some((p) => p.id === selectedPathId));
 
   useEffect(() => {
     const root = rootRef.current;
@@ -73,8 +76,8 @@ export function EvolveMobileExperience({
       onSelectPath(pathId);
 
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!reducedMotion && selectedRef.current) {
-        selectedRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (!reducedMotion && lockedRef.current) {
+        lockedRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     },
     [onSelectPath],
@@ -103,17 +106,18 @@ export function EvolveMobileExperience({
       ) : null}
 
       <EvolveMobileHero />
+      <EvolveDiagnosticStrip />
       <EvolutionIntensityRail activeCode={activeCode} />
-      <EvolutionPathGrid
-        selectedPathId={activePathId}
-        onSelectPath={handleSelectPath}
-        onProceedPath={handleProceed}
-      />
-      <section ref={selectedRef}>
+      <EvolutionPathGrid selectedPathId={activePathId} onSelectPath={handleSelectPath} />
+      <section ref={lockedRef}>
         <SelectedEvolutionPath activePathId={activePathId} onBeginAssessment={handleProceed} />
       </section>
       <EvolveProcessTimeline />
-      <EvolveClosingModule onBeginAssessment={() => handleProceed(activePathId)} />
+      <EvolveScopeModule activePathId={activePathId} />
+      <EvolveClosingModule
+        hasSelectedPath={hasExplicitSelection}
+        onBeginAssessment={() => handleProceed(activePathId)}
+      />
     </div>
   );
 }

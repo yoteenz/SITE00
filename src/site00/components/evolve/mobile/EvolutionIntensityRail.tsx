@@ -7,6 +7,7 @@ type EvolutionIntensityRailProps = {
 export function EvolutionIntensityRail({ activeCode }: EvolutionIntensityRailProps) {
   return (
     <nav className="site00-evolve-mobile-intensity" aria-label="EVOLUTION INTENSITY">
+      <p className="site00-evolve-mobile-intensity__caption">EVOLUTION INTENSITY →</p>
       <ol className="site00-evolve-mobile-intensity__track">
         {EVOLVE_PATHS.map((path, index) => {
           const isLast = index === EVOLVE_PATHS.length - 1;
@@ -16,6 +17,7 @@ export function EvolutionIntensityRail({ activeCode }: EvolutionIntensityRailPro
               key={path.id}
               className={`site00-evolve-mobile-intensity__step ${active ? 'site00-evolve-mobile-intensity__step--active' : ''}`.trim()}
             >
+              <span className="site00-evolve-mobile-intensity__node" aria-hidden="true" />
               <span className="site00-evolve-mobile-intensity__marker" aria-current={active ? 'step' : undefined}>
                 <span className="site00-evolve-mobile-intensity__code">{path.code}</span>
                 <span className="site00-evolve-mobile-intensity__label">{path.title}</span>
@@ -25,7 +27,6 @@ export function EvolutionIntensityRail({ activeCode }: EvolutionIntensityRailPro
           );
         })}
       </ol>
-      <p className="site00-evolve-mobile-intensity__caption">EVOLUTION INTENSITY →</p>
     </nav>
   );
 }
