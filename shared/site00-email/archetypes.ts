@@ -1,5 +1,7 @@
 import type { EmailArchetype, EmailTemplateDefinition, EmailTemplateVars } from './types.js';
 import { renderFamilyEmail } from './design/families/render.js';
+import { renderLifecycleComposition } from './design/compositions/lifecycle.js';
+import { getTemplateComposition } from './art-direction/template-manifest.js';
 import { getPrimaryFamily } from './registry/family-map.js';
 import { getFamilySpec, type EmailFamilyCanon } from './families/registry.js';
 import type { CompositionInput } from './design/compositions.js';
@@ -30,9 +32,12 @@ function ctx(input: ArchetypeRenderInput): CompositionInput {
   };
 }
 
-/** Route every template through its primary nine-family hero composition. */
+/** Route templates through event-specific compositions or family-default renderer. */
 export function renderArchetypeHtml(input: ArchetypeRenderInput): string {
   const { template, subject, preheader } = input;
+  const composition = getTemplateComposition(template.id);
+  const lifecycle = renderLifecycleComposition(composition, ctx(input), subject, preheader);
+  if (lifecycle) return lifecycle;
   const canon = getPrimaryFamily(template.id);
   return renderFamilyEmail(canon, ctx(input), subject, preheader);
 }

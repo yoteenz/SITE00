@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { resolveCompositionContract, familyImplementationStatus } from '@site00-email/art-direction/contracts';
+import { getTemplateManifest } from '@site00-email/art-direction/template-manifest';
 import {
   EMAIL_FAMILY_CANON_LIST,
   EMAIL_FAMILY_REGISTRY,
@@ -146,13 +147,17 @@ export default function EmailPackGalleryPage() {
         {items.map((t) => {
           const status = resolvedStatuses[t.id];
           const contract = resolveCompositionContract(t.id, t.family, t.archetype);
+          const manifest = getTemplateManifest(t.id);
+          const visualMode = manifest?.visualMode ?? contract.dominantField;
+          const artifact = manifest?.signatureArtifact ?? contract.signatureArtifact;
           return (
-            <article key={t.id} className="site00-email-debug-card">
+            <article key={t.id} className="site00-email-debug-card site00-email-debug-card--compact">
               <EmailPreviewThumb templateId={t.id} />
               <div className="site00-email-debug-card__body">
                 <p className="site00-email-debug-card__num">{contract.familyNum} · {contract.visualFamily.replace(/_/g, ' ')}</p>
                 <h2>{t.name}</h2>
                 <p className="site00-email-debug-card__trigger">TRIGGER: {t.event}</p>
+                <p className="site00-email-debug-card__meta">MODE: {visualMode.toUpperCase()} · ARTIFACT: {artifact}</p>
                 <span className={`site00-email-debug-card__fidelity site00-email-debug-card__fidelity--${contract.fidelityStatus}`}>
                   {contract.fidelityStatus.replace(/-/g, ' ').toUpperCase()}
                 </span>

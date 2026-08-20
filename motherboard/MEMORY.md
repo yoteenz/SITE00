@@ -1871,6 +1871,18 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 ---
 
+<<<<<<< HEAD
+## 2026-08-20 — Email Family System visual architecture correction sprint
+
+- **Problem:** Lifecycle templates (Access Credential, Identity Path/Input/Calibration/Review/Foundation) all rendered identical Welcome/Location Key composition because `family-map` collapsed them to `WELCOME_ONBOARDING` and `composeWelcomeOnboarding` hardcoded "YOUR LOCATION EXISTS NOW." copy.
+
+- **Root cause:** Nine-family renderer treated approved design language as one reusable template; triggers selected copy only, not composition; LIGHT/DARK in debug was inbox chrome only.
+
+- **Fix:** Added `art-direction/template-manifest.ts` (per-template composition, visual mode, signature artifact); `design/compositions/lifecycle.ts` with 7 distinct event compositions; `archetypes.ts` routes manifest compositions before family fallback; `access-credential-issued` → ACCESS_SECURITY dark credential; new `welcome-location-assigned` (#81) retains Location Key welcome; gallery cards compact with mode/artifact metadata; COMPARE mode adds lifecycle differentiation grid on detail page.
+
+- **Tests/build:** 156 tests PASS. Build PASS. No deploy. No emails sent.
+
+=======
 ## 2026-08-20 — EVOLVE Sprint 04: NDXbook pilot readiness + live connection configuration
 
 - **Objective:** Prepare NDXbook for controlled publishing pilot without publishing, enabling fences, or inventing credentials.
@@ -1892,3 +1904,4 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Tests:** 161/161 PASS (15 new Sprint 04). Build PASS. Email Family unchanged. AIO deferral preserved.
 
 - **Status:** PARTIAL — architecture complete; live provider authorization blocked pending owner env configuration (META_* + EVOLVE_PROVIDER_SECRET_KEY).
+>>>>>>> origin/main

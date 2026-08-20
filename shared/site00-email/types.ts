@@ -109,6 +109,12 @@ export type EmailTemplateVars = {
   /** Re-engagement */
   belongingsStatus?: string;
   demolitionStatus?: string;
+  /** Identity lifecycle artifacts */
+  receiptId?: string;
+  captureSections?: string;
+  queuePosition?: string;
+  reviewEstimate?: string;
+  specVersion?: string;
 };
 
 export type EmailTemplateDefinition = {
