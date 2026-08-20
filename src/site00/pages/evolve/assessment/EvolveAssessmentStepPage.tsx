@@ -99,10 +99,10 @@ export default function EvolveAssessmentStepPage({ pathSlug, stepId }: EvolveAss
   };
 
   const panel = (
-    <div className="site00-idnty-assessment__form-panel">
-      <p className="site00-label-red">{progress}</p>
-      <h2 className="site00-heading">{step.title}</h2>
-      {step.subtitle ? <p className="site00-label">{step.subtitle}</p> : null}
+    <div className="site00-evolve-assessment__form-panel">
+      <p className="site00-evolve-assessment__step-label">{progress}</p>
+      <h2 className="site00-evolve-assessment__step-title">{step.title}</h2>
+      {step.subtitle ? <p className="site00-evolve-assessment__step-subtitle">{step.subtitle}</p> : null}
       <EvolveStepFields step={step} values={values} onChange={handleFieldChange} errors={errors} scope={scope} />
       <EvolveAssessmentActions
         primaryLabel={pathConfig.primaryCta}

@@ -12,23 +12,7 @@ export const EVOLVE_HUB_MOBILE_COPY = {
   overviewLabel: 'OVERVIEW',
 } as const;
 
-export const EVOLVE_DIAGNOSTIC_STAGES = [
-  {
-    id: 'existing',
-    title: 'EXISTING PROPERTY',
-    body: 'Your digital place already exists.',
-  },
-  {
-    id: 'assessment',
-    title: 'ASSESSMENT',
-    body: 'We evaluate your current foundation.',
-  },
-  {
-    id: 'path',
-    title: 'EVOLUTION PATH',
-    body: 'Choose how deep we evolve.',
-  },
-] as const;
+export { EVOLVE_DIAGNOSTIC_STAGES } from './evolve-diagnostic';
 
 export type EvolveHubPathCard = {
   pathId: EvolvePathId;
