@@ -20,6 +20,7 @@ const LOCAL_API_ROUTES = [
   { path: '/api/site00-access', file: 'api/site00-access.ts' },
   { path: '/api/site00/client-production', file: 'api/site00/client-production.ts' },
   { path: '/api/site00/marketing-engagements', file: 'api/site00/marketing-engagements.ts' },
+  { path: '/api/site00/studio-world-webhook', file: 'api/site00/studio-world-webhook.ts' },
   { path: '/api/admin/site00-marketing', file: 'api/admin/site00-marketing.ts' },
   { path: '/api/admin/site00-assts', file: 'api/admin/site00-assts.ts' },
   { path: '/api/admin/site00-production', file: 'api/admin/site00-production.ts' },
@@ -39,6 +40,10 @@ function applyServerEnv() {
     ['STUDIO_ASSETS_BUCKET', env.STUDIO_ASSETS_BUCKET],
     ['SITE00_ASSTS_BUCKET', env.SITE00_ASSTS_BUCKET],
     ['SITE00_ASSTS_LOADER_GEOMETRY_SECRET', env.SITE00_ASSTS_LOADER_GEOMETRY_SECRET],
+    ['STUDIO_WORLD_ADAPTER', env.STUDIO_WORLD_ADAPTER],
+    ['STUDIO_WORLD_API_BASE', env.STUDIO_WORLD_API_BASE],
+    ['STUDIO_WORLD_API_KEY', env.STUDIO_WORLD_API_KEY],
+    ['STUDIO_WORLD_WEBHOOK_SECRET', env.STUDIO_WORLD_WEBHOOK_SECRET],
   ];
   for (const [key, value] of pairs) {
     if (value && !process.env[key]) process.env[key] = value;

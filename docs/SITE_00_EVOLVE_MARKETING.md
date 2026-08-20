@@ -1,7 +1,8 @@
 # SITE 00 — EVOLVE / Marketing & Content
 
 **Repository:** SITE 00 only  
-**Studio World integration status:** `BLOCKED_PENDING_CONTRACT` (mock adapter active)  
+**Studio World integration status:** `LIVE` when configured · `MOCKED` in development  
+**Contract:** `docs/STUDIO_WORLD_EXTERNAL_INTEGRATION_CONTRACT.md`  
 **Last updated:** 2026-08-20
 
 ---
@@ -81,21 +82,27 @@ Migration: `supabase/migrations/20260820140000_site00_marketing_engagements.sql`
 
 ## Studio World adapter
 
-**Contract file:** NOT FOUND in this repository.
+**Contract file:** `docs/STUDIO_WORLD_EXTERNAL_INTEGRATION_CONTRACT.md`
 
 | Component | Path |
 |-----------|------|
 | Interface | `api/_lib/studioWorld/adapter.ts` |
-| Conceptual types | `api/_lib/studioWorld/types.ts` |
+| Contract paths | `api/_lib/studioWorld/contract.ts` |
+| HTTP client | `api/_lib/studioWorld/httpClient.ts` |
+| Live adapter | `api/_lib/studioWorld/liveAdapter.ts` |
 | Mock adapter | `api/_lib/studioWorld/mockAdapter.ts` |
 | Factory | `api/_lib/studioWorld/client.ts` |
+| Webhook | `api/site00/studio-world-webhook.ts` |
 
 **Environment:**
 
-- `STUDIO_WORLD_ADAPTER=mock` (default) — development mock
-- `STUDIO_WORLD_ADAPTER=live` — falls back to mock until real contract supplied
+- `STUDIO_WORLD_ADAPTER=mock` — development/testing (default in dev)
+- `STUDIO_WORLD_ADAPTER=live` — production (default in production; requires credentials)
+- `STUDIO_WORLD_API_BASE` — Studio World base URL
+- `STUDIO_WORLD_API_KEY` — Bearer token (server-only)
+- `STUDIO_WORLD_WEBHOOK_SECRET` — webhook HMAC verification
 
-**Status classification:** `MOCKED` / `BLOCKED_PENDING_CONTRACT`
+**Status classification:** `LIVE` | `MOCKED` | `LIVE_MISCONFIGURED`
 
 Credentials never exposed to browser. All calls server-side via `api/site00/marketing-engagements.ts` and `api/admin/site00-marketing.ts`.
 
@@ -166,8 +173,7 @@ Mock scenarios via `MockStudioWorldAdapter.setMockScenario()`:
 
 ## Known limitations (this sprint)
 
-- No live Studio World connection
-- No Stripe checkout — payment confirm is server action
-- Vault handoff metadata only — full ASSTS ingestion deferred
-- Identity reuse detection basic (identity_id link)
-- No subscription/recurring billing
+- Stripe checkout UI not wired — payment confirm remains server action
+- Vault handoff stores authorized delivery references (not full ASSTS file ingestion)
+- Apply migrations to remote Supabase before live use
+- Live integration requires Studio World service deployed with matching contract v1

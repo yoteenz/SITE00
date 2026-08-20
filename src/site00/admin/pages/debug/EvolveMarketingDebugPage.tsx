@@ -19,7 +19,7 @@ export default function EvolveMarketingDebugPage() {
       <ControlPageHeader
         kicker="DEBUG · EVOLVE MARKETING"
         title="MARKETING & CONTENT REVIEW ROUTES"
-        subtitle="MOCK STUDIO WORLD · BLOCKED_PENDING_CONTRACT"
+        subtitle="ADAPTER: mock (dev) / live (production) · docs/STUDIO_WORLD_EXTERNAL_INTEGRATION_CONTRACT.md"
       />
       <ul className="site00-email-debug-index">
         {DEBUG_STATES.map((s) => (
@@ -27,7 +27,9 @@ export default function EvolveMarketingDebugPage() {
         ))}
         <li><span>BRIEF / ENGAGEMENT — create via intake flow; example engagement path: {site00EvolveMarketingEngagement('{id}')}</span></li>
       </ul>
-      <p className="site00-marketing-note">Set mock scenarios via STUDIO_WORLD_ADAPTER=mock (default). Live adapter unavailable until contract supplied.</p>
+      <p className="site00-marketing-note">
+        Development: STUDIO_WORLD_ADAPTER=mock. Production: STUDIO_WORLD_ADAPTER=live with API credentials.
+      </p>
     </Site00AdminShell>
   );
 }

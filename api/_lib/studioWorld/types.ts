@@ -1,12 +1,9 @@
 /**
- * Studio World external integration — conceptual contract shapes.
- *
- * STATUS: BLOCKED_PENDING_STUDIO_WORLD_CONTRACT
- * No STUDIO_WORLD_EXTERNAL_INTEGRATION_CONTRACT.md found in this repository.
- * These types define the adapter interface SITE 00 expects — NOT fabricated HTTP endpoints.
+ * Studio World external integration types.
+ * Contract: docs/STUDIO_WORLD_EXTERNAL_INTEGRATION_CONTRACT.md
  */
 
-export const STUDIO_WORLD_INTEGRATION_STATUS = 'BLOCKED_PENDING_CONTRACT' as const;
+export const STUDIO_WORLD_INTEGRATION_STATUS = 'LIVE' as const;
 
 export type StudioWorldEngagementType = 'EVOLVE_MARKETING';
 
