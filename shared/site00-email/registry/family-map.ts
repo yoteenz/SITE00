@@ -1,7 +1,7 @@
 import type { EmailFamilyCanon } from '../families/registry.js';
 import { EMAIL_TEMPLATES } from './templates.js';
 
-/** Explicit template → primary family mapping (80 templates). */
+/** Explicit template → primary family mapping (81 templates). */
 const TEMPLATE_FAMILY_MAP: Record<string, EmailFamilyCanon> = {
   // 01 ACCESS / SECURITY
   'sign-in-link': 'ACCESS_SECURITY',
@@ -9,9 +9,10 @@ const TEMPLATE_FAMILY_MAP: Record<string, EmailFamilyCanon> = {
   'password-reset': 'ACCESS_SECURITY',
   'security-change-recorded': 'ACCESS_SECURITY',
   'unusual-access': 'ACCESS_SECURITY',
+  'access-credential-issued': 'ACCESS_SECURITY',
 
   // 02 WELCOME / ONBOARDING
-  'access-credential-issued': 'WELCOME_ONBOARDING',
+  'welcome-location-assigned': 'WELCOME_ONBOARDING',
   'identity-path-received': 'WELCOME_ONBOARDING',
   'identity-input-saved': 'WELCOME_ONBOARDING',
   'identity-calibration-complete': 'WELCOME_ONBOARDING',

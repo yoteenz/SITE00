@@ -2,6 +2,7 @@ import type { EmailArchetype, EmailFamily } from '../types.js';
 import type { EmailFamilyCanon } from '../families/registry.js';
 import { getFamilySpec } from '../families/registry.js';
 import { getPrimaryFamily, listTemplatesByFamily } from '../registry/family-map.js';
+import { getTemplateManifest } from './template-manifest.js';
 
 export type FidelityStatus = 'calibrated' | 'in-progress' | 'needs-calibration';
 
@@ -29,20 +30,21 @@ export function resolveCompositionContract(
 ): CompositionContract {
   const visualFamily = getPrimaryFamily(templateId);
   const spec = getFamilySpec(visualFamily);
+  const manifest = getTemplateManifest(templateId);
 
   return {
     templateId,
     family,
     visualFamily,
     familyNum: spec.num,
-    visualThesis: spec.metaphor,
-    signatureArtifact: spec.signatureArtifact,
-    primaryFocal: spec.signatureArtifact,
-    dominantField: spec.dominantField,
+    visualThesis: manifest?.purpose ?? spec.metaphor,
+    signatureArtifact: manifest?.signatureArtifact ?? spec.signatureArtifact,
+    primaryFocal: manifest?.signatureArtifact ?? spec.signatureArtifact,
+    dominantField: manifest?.visualMode === 'dark' ? 'dark' : manifest?.visualMode === 'warm' ? 'warm' : spec.dominantField,
     density: visualFamily === 'MILESTONE_CELEBRATION' ? 'low' : 'medium',
     symmetry: visualFamily === 'ACCESS_SECURITY' || visualFamily === 'ACTION_REVIEW' ? 'intentional-asymmetry' : 'split',
     prohibited: spec.prohibited,
-    fidelityStatus: ALL_FAMILIES_CALIBRATED ? 'calibrated' : 'needs-calibration',
+    fidelityStatus: manifest ? 'calibrated' : ALL_FAMILIES_CALIBRATED ? 'calibrated' : 'needs-calibration',
   };
 }
 

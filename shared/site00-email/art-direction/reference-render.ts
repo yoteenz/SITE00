@@ -1,11 +1,13 @@
 /**
- * Reference-target HTML for debug COMPARE mode — one per approved family board.
+ * Reference-target HTML for debug COMPARE mode — template-specific when manifest exists.
  */
 import type { EmailFamilyCanon } from '../families/registry.js';
 import { getFamilySpec } from '../families/registry.js';
 import { getPrimaryFamily } from '../registry/family-map.js';
+import { getTemplateManifest } from './template-manifest.js';
 import { DEBUG_EMAIL_FIXTURES } from '../fixtures/previewData.js';
 import { renderFamilyEmail } from '../design/families/render.js';
+import { renderLifecycleComposition } from '../design/compositions/lifecycle.js';
 import type { CompositionInput } from '../design/compositions.js';
 
 function refInput(canon: EmailFamilyCanon): CompositionInput {
@@ -81,10 +83,27 @@ export function renderReferenceTargetForFamily(canon: EmailFamilyCanon): string 
   return renderFamilyEmail(canon, input, `${spec.label} — Reference`, 'Approved family reference target');
 }
 
-/** Legacy archetype param ignored — routes by template primary family when available. */
+/** Legacy archetype param ignored — routes by template manifest or primary family. */
 export function renderReferenceTarget(_archetype: string, _refLabel: string, templateId?: string): string {
-  const canon = templateId ? getPrimaryFamily(templateId) : 'ACCESS_SECURITY';
-  return renderReferenceTargetForFamily(canon);
+  if (templateId) {
+    const manifest = getTemplateManifest(templateId);
+    if (manifest) {
+      const spec = getFamilySpec(manifest.family);
+      const input = refInput(manifest.family);
+      input.templateId = templateId;
+      input.headline = defaultHeadline(manifest.family);
+      input.subheadline = defaultSubheadline(manifest.family);
+      const lifecycle = renderLifecycleComposition(
+        manifest.composition,
+        input,
+        `${spec.label} — Reference`,
+        manifest.purpose,
+      );
+      if (lifecycle) return lifecycle;
+    }
+    return renderReferenceTargetForFamily(getPrimaryFamily(templateId));
+  }
+  return renderReferenceTargetForFamily('ACCESS_SECURITY');
 }
 
 export function referenceCompareLabel(canon: EmailFamilyCanon): string {

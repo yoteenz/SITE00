@@ -10,6 +10,8 @@ import { renderEmailTemplate, resolveTemplateVars } from '@site00-email/render';
 import type { RenderedEmail } from '@site00-email/types';
 import { ControlPageHeader } from '../../components/control/ControlPageHeader';
 import { EmailPreviewCanvas } from '../../components/debug/EmailPreviewCanvas';
+import { EmailLifecycleCompareGrid } from '../../components/debug/EmailLifecycleCompareGrid';
+import { getTemplateManifest } from '@site00-email/art-direction/template-manifest';
 import { Site00AdminShell } from '../../components/shell/Site00AdminShell';
 import { SITE00_ADMIN_ROUTES } from '../../config/routes';
 import { useEmailDebugStatus } from '../../hooks/useEmailDebugStatus';
@@ -185,16 +187,27 @@ export default function EmailTemplateDetailPage() {
               <EmailPreviewCanvas html={referenceHtml} canonicalWidth={previewWidth} minHeight={frameHeight} stagePadding={PREVIEW_STAGE_PADDING} />
             </div>
           ) : reviewMode === 'compare' ? (
-            <div className="site00-email-debug-compare" style={{ background: inboxBg }}>
-              <div className="site00-email-debug-compare__panel">
-                <p className="site00-email-debug-compare-label">{referenceCompareLabel(familyCanon)}</p>
-                <EmailPreviewCanvas html={referenceHtml} canonicalWidth={previewWidth} minHeight={frameHeight} stagePadding={PREVIEW_STAGE_PADDING} />
+            <>
+              <div className="site00-email-debug-compare" style={{ background: inboxBg }}>
+                <div className="site00-email-debug-compare__panel">
+                  <p className="site00-email-debug-compare-label">{referenceCompareLabel(familyCanon)}</p>
+                  <EmailPreviewCanvas html={referenceHtml} canonicalWidth={previewWidth} minHeight={frameHeight} stagePadding={PREVIEW_STAGE_PADDING} />
+                </div>
+                <div className="site00-email-debug-compare__panel">
+                  <p className="site00-email-debug-compare-label">IMPLEMENTATION · {contract.signatureArtifact}</p>
+                  <EmailPreviewCanvas html={rendered.html} canonicalWidth={previewWidth} minHeight={frameHeight} stagePadding={PREVIEW_STAGE_PADDING} />
+                </div>
               </div>
-              <div className="site00-email-debug-compare__panel">
-                <p className="site00-email-debug-compare-label">IMPLEMENTATION</p>
-                <EmailPreviewCanvas html={rendered.html} canonicalWidth={previewWidth} minHeight={frameHeight} stagePadding={PREVIEW_STAGE_PADDING} />
-              </div>
-            </div>
+              {getTemplateManifest(template.id) ? (
+                <EmailLifecycleCompareGrid
+                  activeTemplateId={template.id}
+                  previewWidth={previewWidth}
+                  frameHeight={Math.round(frameHeight * 0.55)}
+                  stagePadding={PREVIEW_STAGE_PADDING}
+                  inboxBg={inboxBg}
+                />
+              ) : null}
+            </>
           ) : (
             <div className="site00-email-debug-inbox" style={{ background: inboxBg }}>
               <p className="site00-email-debug-compare-label">IMPLEMENTATION</p>
