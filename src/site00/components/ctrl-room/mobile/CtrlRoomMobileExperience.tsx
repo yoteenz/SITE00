@@ -6,6 +6,7 @@ import { CtrlRoomPropertyNetwork } from './CtrlRoomPropertyNetwork';
 import { CtrlRoomActionQueue } from './CtrlRoomActionQueue';
 import { CtrlRoomActivityStream } from './CtrlRoomActivityStream';
 import { CtrlRoomClosingModule } from './CtrlRoomClosingModule';
+import { CtrlRoomAdminAccess } from './CtrlRoomAdminAccess';
 import type { useCtrlRoomData } from '../../../hooks/useCtrlRoomData';
 
 type CtrlRoomData = ReturnType<typeof useCtrlRoomData>;
@@ -26,6 +27,7 @@ export function CtrlRoomMobileExperience({ data }: CtrlRoomMobileExperienceProps
         <CtrlRoomActionQueue signals={data.signals} apiState={data.apiState} />
         <CtrlRoomActivityStream rows={data.activity} settingsHref={data.settingsHref} />
       </div>
+      {data.showAdminAccess ? <CtrlRoomAdminAccess /> : null}
       <CtrlRoomClosingModule projectsHref={data.projectsHref} buildHref={data.buildHref} />
     </div>
   );

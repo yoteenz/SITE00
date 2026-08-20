@@ -48,6 +48,8 @@ export const SITE00_ROUTES = {
   controlTeam: '/control/team',
   controlSettings: '/control/settings',
   controlSecurity: '/control/security',
+  /** Founder/admin operator dashboard — gated by AdminGuard */
+  adminDashboard: '/admin/site00',
   projects: '/projects',
   support: '/support',
   /** Client post-payment provisioning — project slug in path */

@@ -2,6 +2,7 @@ import { Site00AdminShell } from '../components/shell/Site00AdminShell';
 import { ControlCommandDesktop } from '../components/control/ControlCommandDesktop';
 import { ControlCommandHero } from '../components/control/ControlCommandHero';
 import { ControlCommandMobile } from '../components/control/ControlCommandMobile';
+import { PreviewTunnelPanel } from '../components/control/PreviewTunnelPanel';
 import { useControlCommand } from '../hooks/useControlCommand';
 
 export default function Site00AdminDashboardPage() {
@@ -30,6 +31,7 @@ export default function Site00AdminDashboardPage() {
       {data ? (
         <>
           <ControlCommandHero data={data} />
+          <PreviewTunnelPanel preview={data.previewTunnel} />
           <div className="site00-control-command__desktop-wrap">
             <ControlCommandDesktop data={data} />
           </div>

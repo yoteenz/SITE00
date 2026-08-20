@@ -42,6 +42,12 @@ export const CTRL_ROOM_MOBILE_COPY = {
     projectsCta: 'ENTER PROJECTS →',
     buildCta: 'START A BUILD →',
   },
+  adminAccess: {
+    kicker: 'OPERATOR ACCESS',
+    title: '00 / CONTROL',
+    body: 'Open the SITE 00 admin command center for production, projects, and orchestration.',
+    cta: 'ENTER ADMIN DASH →',
+  },
 } as const;
 
 export const CTRL_ROOM_COMMAND_CELLS = [
