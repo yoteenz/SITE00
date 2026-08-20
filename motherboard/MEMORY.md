@@ -1084,3 +1084,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** `fast-travel-assets.ts` canonical registry; `FastTravelDestinationArt` component; wired in `FastTravelSection` + auth-locked primary cards; `object-fit: contain` scoped CSS.
 - **Branch:** `cursor/fast-travel-up-next-artwork-2c3b`.
 
+---
+
+## 2026-08-20 — Fast Travel UP NEXT card index + registration mark
+
+- **Request:** Add faded positional index (0/1) top-left and red upper-right registration SVG to UP NEXT card shell; not baked into PACK PNGs.
+- **Fix:** `FastTravelUpNextCardChrome` + `FastTravelUpNextRegistrationMark`; index from map position in `FastTravelSection`; layered CSS on `--up-next` primary cards (sign-in/create included).
+- **Branch:** `cursor/fast-travel-up-next-card-chrome-2c3b`.
+
