@@ -13,6 +13,8 @@ type EcosystemShellProps = {
   title?: string;
   subtitle?: string;
   headerActions?: React.ReactNode;
+  /** When true, page supplies its own hero/header inside children. */
+  hidePageHeader?: boolean;
 };
 
 const ecosystemBgUrl = resolveSite00PublicAsset(SITE00_CTRL_ROOM_DESKTOP_BG_FILE);
@@ -21,7 +23,7 @@ const ecosystemBgUrl = resolveSite00PublicAsset(SITE00_CTRL_ROOM_DESKTOP_BG_FILE
  * Operating World shell — authenticated workspace.
  * Desktop: top navigation + architectural environment (no public-world sidebar).
  */
-export function EcosystemShell({ children, title, subtitle, headerActions }: EcosystemShellProps) {
+export function EcosystemShell({ children, title, subtitle, headerActions, hidePageHeader = false }: EcosystemShellProps) {
   const { pathname } = useLocation();
   const meta = ecosystemPageMeta(pathname);
   const pageTitle = title ?? meta.title;
@@ -48,7 +50,9 @@ export function EcosystemShell({ children, title, subtitle, headerActions }: Eco
         <OperatingWorldTopNav />
         <div className="site00-ecosystem-shell__main">
           <div className="site00-ecosystem-shell__content-wrap">
-            <EcosystemPageHeader title={pageTitle} subtitle={pageSubtitle} actions={headerActions} />
+            {hidePageHeader ? null : (
+              <EcosystemPageHeader title={pageTitle} subtitle={pageSubtitle} actions={headerActions} />
+            )}
             <div className="site00-ecosystem-shell__content">{children}</div>
           </div>
         </div>
@@ -57,8 +61,14 @@ export function EcosystemShell({ children, title, subtitle, headerActions }: Eco
 
       <div className="site00-ecosystem-shell__mobile">
         <Site00EcosystemMobileShell shellClassName="site00-ecosystem-mobile-shell">
-          <EcosystemPageHeader title={pageTitle} subtitle={pageSubtitle} actions={headerActions} />
-          <div className="site00-ecosystem-mobile__content">{children}</div>
+          {hidePageHeader ? null : (
+            <EcosystemPageHeader title={pageTitle} subtitle={pageSubtitle} actions={headerActions} />
+          )}
+          <div
+            className={`site00-ecosystem-mobile__content ${hidePageHeader ? 'site00-ecosystem-mobile__content--flush' : ''}`.trim()}
+          >
+            {children}
+          </div>
         </Site00EcosystemMobileShell>
       </div>
     </div>
