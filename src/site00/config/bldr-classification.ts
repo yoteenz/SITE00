@@ -3,10 +3,16 @@
  */
 
 import type { BldrBuildClassIconId } from './bldr-build-class-icons';
+import {
+  SITE00_BLDR_ENTRY_SITE_IMAGE,
+  SITE00_BLDR_ENTRY_WORLD_IMAGE,
+  SITE00_BLDR_ENTRY_ENTERPRISE_IMAGE,
+} from './bldr-entry';
 
 export const BLDR_CLASSIFICATION_COPY = {
   location: 'BLDR / BUILD CLASSIFICATION',
-  headline: 'WHAT ARE WE BUILDING?',
+  headlineLine1: 'WHAT ARE WE',
+  headlineLine2: 'BUILDING?',
   subhead: 'CHOOSE THE SCALE OF YOUR DIGITAL PLACE.',
   subheadAccent: 'BLDR WILL DEFINE THE SYSTEM FROM THERE.',
   resumeLabel: 'CONTINUE BUILD',
@@ -19,13 +25,78 @@ export type BldrScaleRailStep = {
   num: string;
   title: string;
   subtitle: string;
+  activeDots: number;
 };
 
 export const BLDR_SCALE_RAIL: readonly BldrScaleRailStep[] = [
-  { num: '01', title: 'SITE', subtitle: 'PROPERTY' },
-  { num: '02', title: 'WORLD', subtitle: 'EXPERIENCE' },
-  { num: '03', title: 'ENTERPRISE', subtitle: 'INFRASTRUCTURE' },
+  { num: '01', title: 'SITE', subtitle: 'PROPERTY', activeDots: 1 },
+  { num: '02', title: 'WORLD', subtitle: 'EXPERIENCE', activeDots: 2 },
+  { num: '03', title: 'ENTERPRISE', subtitle: 'INFRASTRUCTURE', activeDots: 3 },
 ] as const;
+
+export type BldrImmersivePortal = {
+  id: Extract<BldrBuildClassIconId, 'site' | 'world' | 'enterprise'>;
+  num: string;
+  scaleLabel: string;
+  title: string;
+  descriptorLines: string[];
+  capabilities: string;
+  price: string;
+  ctaLabel: string;
+  ariaLabel: string;
+  imagePath: string | null;
+  imageObjectPosition: string;
+};
+
+export const BLDR_IMMERSIVE_PORTALS: readonly BldrImmersivePortal[] = [
+  {
+    id: 'site',
+    num: '01',
+    scaleLabel: 'PROPERTY',
+    title: 'SITE',
+    descriptorLines: ['FOCUSED DIGITAL', 'PROPERTY.'],
+    capabilities: 'COMMERCE • BOOKING • MEMBERSHIP • MORE',
+    price: 'FROM $4K+',
+    ctaLabel: 'ENTER SITE',
+    ariaLabel: 'Enter Site build class',
+    imagePath: SITE00_BLDR_ENTRY_SITE_IMAGE,
+    imageObjectPosition: 'center 42%',
+  },
+  {
+    id: 'world',
+    num: '02',
+    scaleLabel: 'EXPERIENCE',
+    title: 'WORLD',
+    descriptorLines: ['IMMERSIVE DIGITAL', 'ENVIRONMENT.'],
+    capabilities: 'CONFIGURATORS • PLATFORMS • INTERACTION • MORE',
+    price: 'FROM $10K+',
+    ctaLabel: 'ENTER WORLD',
+    ariaLabel: 'Enter World build class',
+    imagePath: SITE00_BLDR_ENTRY_WORLD_IMAGE,
+    imageObjectPosition: 'center 38%',
+  },
+  {
+    id: 'enterprise',
+    num: '03',
+    scaleLabel: 'INFRASTRUCTURE',
+    title: 'ENTERPRISE',
+    descriptorLines: ['CONNECTED DIGITAL', 'INFRASTRUCTURE.'],
+    capabilities: 'MULTI-SYSTEM • INTEGRATIONS • SECURITY • MORE',
+    price: 'FROM $25K+',
+    ctaLabel: 'ENTER ENTERPRISE',
+    ariaLabel: 'Enter Enterprise build class',
+    imagePath: SITE00_BLDR_ENTRY_ENTERPRISE_IMAGE,
+    imageObjectPosition: 'center 40%',
+  },
+] as const;
+
+export const BLDR_DISCOVERY_PANEL = {
+  title: 'NOT SURE?',
+  headlineLines: ['LET BLDR MAP THE', 'ARCHITECTURE.'],
+  body: "TELL US YOUR IDEA AND WE'LL GUIDE YOU.",
+  cta: 'START DISCOVERY →',
+  ariaLabel: 'Start BLDR discovery',
+} as const;
 
 export type BldrClassificationCard = {
   id: BldrBuildClassIconId;
