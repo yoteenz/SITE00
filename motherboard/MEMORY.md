@@ -1973,3 +1973,25 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Tests/build:** 214 tests PASS (3 new density assertions). Build PASS. No deploy. No other email families modified.
 
+---
+
+## 2026-08-20 — Family 01 ACCESS / SECURITY Sonnet 5 visual fidelity pass (640px desktop)
+
+- **Scope:** Close remaining visual gap vs approved reference board at canonical 640px only. Mobile 375px preserved/untouched in intent — one compatibility adjustment made where a desktop change would otherwise leak into mobile.
+
+- **Method:** Rendered current implementation to static HTML (`renderEmailTemplate`), screenshotted with headless Chromium (Playwright, installed ad hoc) at 640px, visually compared against the attached reference board, then iterated: first pass (larger access pass + sentence-case subheadline), re-rendered, re-screenshotted, confirmed improvement before stopping.
+
+- **Hero access pass:** Enlarged from 76px→108px desktop (mobile untouched at 64px) so the "00 / ACCESS" object reads as the dominant signature artifact matching reference scale, not a small icon. Larger "ACCESS" label (6→8px desktop).
+
+- **Hero subheadline:** Reference uses legible sentence-case body copy, not tracked micro-caps. Changed desktop subheadline style to 10px/17px sentence case (`color:#999`, no forced uppercase); template copy/content unchanged (only presentation). Added explicit mobile-media override to restore prior uppercase/tracked mobile look so mobile visual behavior is unaffected by the desktop typography change.
+
+- **Credential panel:** Tightened header padding, reduced waveform amplitude/height for a subtler signal band, added a center crosshair divider column (`access-cred-mid`, hidden on mobile) between metadata and QR matching reference's coordinate-mark treatment, QR resized 96→88px.
+
+- **Security strip:** Removed left border on first module per row (cleaner rail), centered icon/title vertically, tightened padding.
+
+- **Footer/CTA/outer frame:** Standardized horizontal padding via `ACCESS_PAD_X` (32px) shared across hero/credential/CTA/security/footer for consistent terminal-document rhythm; footer column widths retuned (36/28/36), coordinate marks moved under the boxed 00; CTA padding tightened; outer frame border/inset lightly refined (2a2a2a→333, inset 16/10/20→20/12/24) for a more engineered terminal feel.
+
+- **Validation:** 227 tests PASS (2 new fidelity assertions replacing/extending prior glyph test). Build PASS. Verified via computed-style script at 400px viewport that mobile glyph swap, 28/72 hero split, and zero horizontal overflow all still hold. `welcome-location-assigned` confirmed to contain no `access-terminal`/`access-hero-left` markup (family isolation intact).
+
+- **Files:** `shared/site00-email/art-direction/access-security.ts`, `shared/site00-email/art-direction/access-security.test.ts`. No other families, no deploy, no emails sent.
+
