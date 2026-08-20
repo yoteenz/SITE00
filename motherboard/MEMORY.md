@@ -1345,3 +1345,26 @@ Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mo
 
 - **Conventions:** Evolve selection = configuration environment; hub = control center. One shared visual system renders three intervention protocols via config-driven components.
 
+---
+
+## 2026-08-20 — Signed-in IDNTY Control Center enhancement
+
+Summary of this cloud agent run (SITE 00 mobile sprint).
+
+- **Context:** Founder attached approved signed-in IDNTY / Control Center reference. Sprint upgrades `/idnty` signed-in profile from generic HubActionCard stack to identity control center — without changing auth, routes, or account logic.
+
+- **Decisions / outcomes:**
+  - Signed-in `/idnty` uses `IdntyControlCenterExperience`: hero (IDNTY / CONTROL CENTER), credential module, system status rail, three grouped control modules (ACCESS CONTROL, IDENTITY & PREFERENCES, ACCOUNT PROTOCOLS).
+  - Compact numbered `AccountControlRow` links preserve existing hrefs from `SITE00_IDNTY_HUB_MODULES` seed.
+  - `EcosystemShell` gains `hidePageHeader` for custom signed-in hero; signed-out gateway unchanged.
+  - Metadata from `useIdntyControlCenterMeta`: real display name, initials, masked account ref (from Supabase id), member since (createdAt). No fake VERIFIED/MFA/API counts. Security descriptor omits MFA (not available). Sessions row shows "1 ACTIVE SESSION" (matches sign-in security copy).
+
+- **Changes:**
+  - `src/site00/components/idnty/control-center/*`
+  - `src/site00/config/idnty-control-center.ts`
+  - `src/site00/hooks/useIdntyControlCenterMeta.ts`
+  - `src/site00/styles/site00-idnty-control-center.css`
+  - `src/site00/pages/idnty/IdntyHubPage.tsx`, `EcosystemShell.tsx`
+
+- **Conventions:** Signed-in IDNTY = operational control center; config-driven row groups; technical icon frames reuse existing `Site00HubIcons`.
+
