@@ -7,6 +7,9 @@ import { SITE00_CTRL_ROOM_PATH, site00SignInHrefWithReturnTo } from './mobile-di
 import { SITE00_ROUTES, site00MobileBuildNavHref } from './routes';
 import { site00UppercaseCopy } from './site00-copy';
 
+/** List-item arrows — 10% smaller than locations directory (18px). */
+export const SITE00_FAST_TRAVEL_ARROW_SIZE = 18 * 0.9;
+
 export type FastTravelWorld = 'public' | 'operating' | 'onboarding';
 
 export type FastTravelLocation = {

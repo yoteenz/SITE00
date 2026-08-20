@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { site00AuthLockedAriaLabel } from '../../config/site00-copy';
+import { SITE00_FAST_TRAVEL_ARROW_SIZE } from '../../config/fast-travel';
 import { Site00DirectoryArrowIcon, Site00LockIcon } from '../mobile/Site00MobileIcons';
 
 type AuthLockedDestinationProps = {
@@ -35,7 +36,7 @@ export function AuthLockedDestination({
       </span>
       {showArrow ? (
         <span className="site00-fast-travel__dest-arrow" aria-hidden="true">
-          <Site00DirectoryArrowIcon size={18} className="site00-fast-travel__dest-arrow-svg" />
+          <Site00DirectoryArrowIcon size={SITE00_FAST_TRAVEL_ARROW_SIZE} className="site00-fast-travel__dest-arrow-svg" />
         </span>
       ) : null}
     </Link>
