@@ -28,8 +28,9 @@ function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
-export function useAccessRecognitionSequence(enabled: boolean) {
-  const [phase, setPhase] = useState<AccessRecognitionPhase>('detecting');
+export function useAccessRecognitionSequence(enabled: boolean, options?: { immediate?: boolean }) {
+  const immediate = options?.immediate ?? false;
+  const [phase, setPhase] = useState<AccessRecognitionPhase>(immediate ? 'ready' : 'detecting');
 
   useEffect(() => {
     if (!enabled) {
@@ -37,7 +38,7 @@ export function useAccessRecognitionSequence(enabled: boolean) {
       return;
     }
 
-    if (prefersReducedMotion()) {
+    if (immediate || prefersReducedMotion()) {
       setPhase('ready');
       return;
     }
@@ -48,15 +49,15 @@ export function useAccessRecognitionSequence(enabled: boolean) {
     );
 
     return () => timers.forEach((t) => window.clearTimeout(t));
-  }, [enabled]);
+  }, [enabled, immediate]);
 
-  const showProtocol = phase !== 'ready' || enabled;
-  const showClock = phase === 'recognized' || phase === 'authorized' || phase === 'ready';
-  const showRecognized = phase === 'recognized' || phase === 'authorized' || phase === 'ready';
-  const showCredential = phase === 'authorized' || phase === 'ready';
-  const showEnter = phase === 'ready';
-  const reticleActive = phase !== 'detecting';
-  const reticleScanning = phase === 'scanning';
+  const showProtocol = immediate || phase !== 'ready' || enabled;
+  const showClock = immediate || phase === 'recognized' || phase === 'authorized' || phase === 'ready';
+  const showRecognized = immediate || phase === 'recognized' || phase === 'authorized' || phase === 'ready';
+  const showCredential = immediate || phase === 'authorized' || phase === 'ready';
+  const showEnter = immediate || phase === 'ready';
+  const reticleActive = immediate || phase !== 'detecting';
+  const reticleScanning = !immediate && phase === 'scanning';
 
   return {
     phase,

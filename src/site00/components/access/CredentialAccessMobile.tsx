@@ -14,6 +14,7 @@ export type CredentialAccessMobileProps = {
   variant: 'recognized' | 'not_found' | 'closed' | 'inactive';
   onEnter?: () => void;
   entering?: boolean;
+  staticAuthorized?: boolean;
 };
 
 export function CredentialAccessMobile({
@@ -22,8 +23,9 @@ export function CredentialAccessMobile({
   variant,
   onEnter,
   entering,
+  staticAuthorized = false,
 }: CredentialAccessMobileProps) {
-  const sequence = useAccessRecognitionSequence(variant === 'recognized');
+  const sequence = useAccessRecognitionSequence(variant === 'recognized', { immediate: staticAuthorized });
   const isError = variant !== 'recognized';
 
   const title =

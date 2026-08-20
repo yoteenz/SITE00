@@ -6,9 +6,17 @@ type AccessCredentialPanelsProps = {
   view: Site00AccessCredentialPublicView;
   onEnter: () => void;
   entering?: boolean;
+  staticAuthorized?: boolean;
+  forceLayout?: 'desktop' | 'mobile';
 };
 
-export function AccessCredentialRecognizedPanel({ view, onEnter, entering }: AccessCredentialPanelsProps) {
+export function AccessCredentialRecognizedPanel({
+  view,
+  onEnter,
+  entering,
+  staticAuthorized,
+  forceLayout,
+}: AccessCredentialPanelsProps) {
   return (
     <CredentialAccessShell
       credentialCode={view.credentialCode}
@@ -16,23 +24,71 @@ export function AccessCredentialRecognizedPanel({ view, onEnter, entering }: Acc
       variant="recognized"
       onEnter={onEnter}
       entering={entering}
+      staticAuthorized={staticAuthorized}
+      forceLayout={forceLayout}
     />
   );
 }
 
-export function AccessCredentialNotRecognizedPanel({ credentialId }: { credentialId: string }) {
-  const code = normalizeAccessCredentialCode(credentialId) ?? credentialId;
-  return <CredentialAccessShell credentialCode={code} variant="not_found" />;
-}
-
-export function AccessCredentialClosedPanel({ credentialId, onEnterPublic }: { credentialId: string; onEnterPublic: () => void }) {
+export function AccessCredentialNotRecognizedPanel({
+  credentialId,
+  staticAuthorized,
+  forceLayout,
+}: {
+  credentialId: string;
+  staticAuthorized?: boolean;
+  forceLayout?: 'desktop' | 'mobile';
+}) {
   const code = normalizeAccessCredentialCode(credentialId) ?? credentialId;
   return (
-    <CredentialAccessShell credentialCode={code} variant="closed" onEnter={onEnterPublic} />
+    <CredentialAccessShell
+      credentialCode={code}
+      variant="not_found"
+      staticAuthorized={staticAuthorized}
+      forceLayout={forceLayout}
+    />
   );
 }
 
-export function AccessCredentialInactivePanel({ credentialId }: { credentialId: string }) {
+export function AccessCredentialClosedPanel({
+  credentialId,
+  onEnterPublic,
+  staticAuthorized,
+  forceLayout,
+}: {
+  credentialId: string;
+  onEnterPublic: () => void;
+  staticAuthorized?: boolean;
+  forceLayout?: 'desktop' | 'mobile';
+}) {
   const code = normalizeAccessCredentialCode(credentialId) ?? credentialId;
-  return <CredentialAccessShell credentialCode={code} variant="inactive" />;
+  return (
+    <CredentialAccessShell
+      credentialCode={code}
+      variant="closed"
+      onEnter={onEnterPublic}
+      staticAuthorized={staticAuthorized}
+      forceLayout={forceLayout}
+    />
+  );
+}
+
+export function AccessCredentialInactivePanel({
+  credentialId,
+  staticAuthorized,
+  forceLayout,
+}: {
+  credentialId: string;
+  staticAuthorized?: boolean;
+  forceLayout?: 'desktop' | 'mobile';
+}) {
+  const code = normalizeAccessCredentialCode(credentialId) ?? credentialId;
+  return (
+    <CredentialAccessShell
+      credentialCode={code}
+      variant="inactive"
+      staticAuthorized={staticAuthorized}
+      forceLayout={forceLayout}
+    />
+  );
 }

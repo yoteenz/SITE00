@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useSite00OriginWideViewport } from '../shell/useSite00OriginWideViewport';
+import { site00OriginMobileLayoutPreviewActive } from '../shell/site00OriginViewport';
 import { CredentialAccessDesktop } from './CredentialAccessDesktop';
 import { CredentialAccessMobile } from './CredentialAccessMobile';
 import { accessReticleUrl } from './AccessReticle';
@@ -11,11 +13,26 @@ export type CredentialAccessShellProps = {
   variant: 'recognized' | 'not_found' | 'closed' | 'inactive';
   onEnter?: () => void;
   entering?: boolean;
+  /** Skip recognition animation — show final authorized state immediately. */
+  staticAuthorized?: boolean;
+  /** QA override — force desktop or mobile composition regardless of viewport. */
+  forceLayout?: 'desktop' | 'mobile';
 };
 
 /** Responsive access credential presentation — independent desktop/mobile compositions. */
-export function CredentialAccessShell(props: CredentialAccessShellProps) {
+export function CredentialAccessShell({
+  forceLayout,
+  ...props
+}: CredentialAccessShellProps) {
+  const { search } = useLocation();
   const isWide = useSite00OriginWideViewport();
+  const mobilePreview = site00OriginMobileLayoutPreviewActive(search);
+  const useDesktop =
+    forceLayout === 'desktop'
+      ? true
+      : forceLayout === 'mobile'
+        ? false
+        : isWide && !mobilePreview;
 
   useEffect(() => {
     const link = document.createElement('link');
@@ -28,7 +45,7 @@ export function CredentialAccessShell(props: CredentialAccessShellProps) {
     };
   }, []);
 
-  if (isWide) {
+  if (useDesktop) {
     return <CredentialAccessDesktop {...props} />;
   }
 
