@@ -1,14 +1,16 @@
 /**
- * SITE 00 Fast Travel — approved UP NEXT destination artwork (Supabase live-preview/site00/PACK/).
+ * SITE 00 Fast Travel — approved UP NEXT destination artwork (Supabase live-preview/site00/).
  * One canonical image per destination id; resolved at runtime via resolveSite00PublicAsset.
  */
 
 import { resolveSite00PublicAsset } from '../components/loader/site00LoaderConfig';
+import { SITE00_ORIGIN_IDNTY_PANEL_ICON_PATH } from './origin-panel-icons';
+import { SITE00_SIGNIN_ICON_PATH } from './site00-auth-assets';
 
 /** Bump when replacing any Fast Travel destination artwork. */
-export const SITE00_FAST_TRAVEL_ART_VERSION = '1';
+export const SITE00_FAST_TRAVEL_ART_VERSION = '2';
 
-/** Destination ids with PACK artwork (excludes sign-in + create — those use existing marks). */
+/** All UP NEXT primary destinations with approved illustration assets. */
 export type FastTravelArtDestinationId =
   | 'ctrl-room'
   | 'my-sites'
@@ -18,7 +20,9 @@ export type FastTravelArtDestinationId =
   | 'continue'
   | 'bldr-state'
   | 'services'
-  | 'sites';
+  | 'sites'
+  | 'sign-in'
+  | 'create';
 
 /** Canonical Supabase storage paths under live-preview/site00/ */
 export const FAST_TRAVEL_DESTINATION_ART: Record<FastTravelArtDestinationId, string> = {
@@ -31,6 +35,8 @@ export const FAST_TRAVEL_DESTINATION_ART: Record<FastTravelArtDestinationId, str
   'bldr-state': 'PACK/895A4714-5E05-48CD-93FF-8AFF836280FD.png',
   services: 'PACK/18010437-3313-4797-9FB6-4E1B6DBC04B7.png',
   sites: 'PACK/DC04BE58-043D-481A-90B2-94836A824932.png',
+  'sign-in': SITE00_SIGNIN_ICON_PATH,
+  create: SITE00_ORIGIN_IDNTY_PANEL_ICON_PATH,
 };
 
 export function hasFastTravelDestinationArt(id: string): id is FastTravelArtDestinationId {
@@ -42,3 +48,18 @@ export function resolveFastTravelDestinationArtUrl(id: string): string | null {
   const path = FAST_TRAVEL_DESTINATION_ART[id];
   return `${resolveSite00PublicAsset(path)}?v=${SITE00_FAST_TRAVEL_ART_VERSION}`;
 }
+
+/** Every UP NEXT destination id across all route profiles must map here. */
+export const FAST_TRAVEL_UP_NEXT_DESTINATION_IDS = [
+  'ctrl-room',
+  'my-sites',
+  'projects',
+  'start-build',
+  'build-type',
+  'continue',
+  'bldr-state',
+  'services',
+  'sites',
+  'sign-in',
+  'create',
+] as const satisfies readonly FastTravelArtDestinationId[];
