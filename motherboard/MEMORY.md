@@ -1236,3 +1236,32 @@ Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mo
 
 - **Conventions:** EVOLVE mobile experience under `components/evolve/mobile/`; desktop Evolve state page unchanged.
 
+---
+
+## 2026-08-20 — Identity State System V2 (assessment intake)
+
+Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mobile sprints).
+
+- **Context:** Founder attached approved mobile mockup for **01 SOME PIECES EXIST** as canonical visual reference. Sprint upgrades all four identity **assessment landing/intake** flows (00–03) after state selection from `/idnty/state` — without redesigning the recently upgraded IDNTY landing page.
+
+- **Topics covered (cumulative):** BLDR mobile BUILD SYSTEM (PR #144); IDNTY Identity Diagnostic landing (PR #145); EVOLVE Property Evolution (PR #146); this turn = Identity State System V2 for `/idnty/:stateSlug` assessment landings.
+
+- **Decisions / outcomes:**
+  - Shared mobile diagnostic shell (`mobileLayout="diagnostic-v2"`) — white system environment, no corridor photo background; IDNTY bottom nav stays active.
+  - Reusable V2 components under `components/idnty/state-v2/`: progress rail (accurate position 01/04–04/04), hero + artwork, dynamic overview panels, inventory/diagnostic/verification scanner, connected process system.
+  - Four distinct landing experiences: 00 Origin (question list + foundation %), 01 Inventory (FOUND/MISSING scanner + live completeness), 02 Evolution diagnostic (pathway selection), 03 Build verification (asset check + BLDR handoff when ≥60% marked found).
+  - Diagnostic values derive from user selections — no hard-coded 40%/2 FOUND/8 GAPS. SITE 00 red/black/gray only (no bright blue rows).
+  - Desktop assessment landings unchanged; mobile uses `IdentityStateLandingV2` via `IdntyAssessmentLandingPage`.
+  - Persistence reuses `useIdntyAssessment` localStorage (`site00_idnty_assessment_v1`).
+
+- **Changes:**
+  - `src/site00/components/idnty/state-v2/*`
+  - `src/site00/config/identity-state-v2.ts`
+  - `src/site00/styles/site00-idnty-state-v2.css`
+  - `src/site00/components/idnty-assessment/IdntyAssessmentShell.tsx` (V2 mobile layout)
+  - `src/site00/pages/idnty/assessment/IdntyAssessmentLandingPage.tsx`
+  - `src/site00/config/idnty-assessment.ts` (hero copy + unified process strip)
+  - `src/routes/Site00Routes.tsx` (CSS import)
+
+- **Conventions:** Assessment V2 mobile under `components/idnty/state-v2/`; IDNTY landing (`IdntyMobileDiagnostic`) untouched. Three-corner mark via shared `Site00ThreeCornerMark` (TL/TR/BR only).
+
