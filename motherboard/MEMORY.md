@@ -1044,3 +1044,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** `ProjectsPage.tsx` — dropped `headerActions`; stacked `+ EVOLVE` in `.site00-eco-mobile-cta` under `+ NEW PROJECT`. CSS: mobile CTA column flex + gap.
 - **Branch:** `cursor/projects-evolve-button-relocate-2c3b`.
 
+---
+
+## 2026-08-20 — Projects panel text colors
+
+- **Request:** Right-aligned meta in PROJECT ACTIVITY / MY ROLES (e.g. `2H AGO`, `4 projects`) → red; panel section titles → gray.
+- **Fix:** Scoped `.site00-page--projects` rules in `site00-ecosystem.css` for continuation panel titles and feed/roles right-side text.
+- **Branch:** `cursor/projects-panel-text-colors-2c3b`.
+
