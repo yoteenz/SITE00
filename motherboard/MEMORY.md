@@ -1265,3 +1265,29 @@ Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mo
 
 - **Conventions:** Assessment V2 mobile under `components/idnty/state-v2/`; IDNTY landing (`IdntyMobileDiagnostic`) untouched. Three-corner mark via shared `Site00ThreeCornerMark` (TL/TR/BR only).
 
+---
+
+## 2026-08-20 — BLDR immersive selection route enhancement (mobile /bldr/state)
+
+Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mobile sprints).
+
+- **Context:** Founder attached immersive BLDR classification reference (hero, 01→03 rail, environmental portals, route spine, NOT SURE diagnostic). Sprint enhances existing mobile `/bldr/state` route — not a rebuild; preserve canonical SITE/WORLD env artwork, routing, and intake logic.
+
+- **Topics covered (cumulative):** Identity State V2 (PR #147); BLDR Classification + intake V2 (PR #148); this turn = immersive portal presentation for mobile build-class selection on `/bldr/state`.
+
+- **Decisions / outcomes:**
+  - `/bldr/state` mobile now uses `BldrImmersiveSelection` via thin `BldrClassificationMobile` wrapper; desktop `/bldr/state` unchanged.
+  - Reusable components: `BldrImmersiveSelection`, `BldrPortal`, `BldrRouteSpine`, `BldrDiscoveryPanel`; `BuildScaleRail` gains progression dots (● ○ ○ → ● ● ●).
+  - Canonical env images from `bldr-entry.ts`: SITE `5E6EAEFD-2085-4FA5-91FA-71BA0610E99D.png`, WORLD `5E89B3D4-2C5A-4E41-9F49-2B065F44C819.png`; Enterprise env slot null until approved asset (`SITE00_BLDR_ENTRY_ENTERPRISE_IMAGE`).
+  - `/bldr/start` legacy entry (SITE/WORLD direction cards → `bldrState`) left unchanged — immersive system applies to classification route only.
+  - Selection handlers unchanged: SITE/WORLD/ENTERPRISE → assessment slug via `buildClassToAssessmentSlug`; NOT SURE → discovery flow.
+  - Three-corner glyph via shared `Site00ThreeCornerMark` (TL/TR/BR only).
+
+- **Changes:**
+  - `src/site00/components/bldr/classification/BldrImmersiveSelection.tsx`, `BldrPortal.tsx`, `BldrRouteSpine.tsx`, `BldrDiscoveryPanel.tsx`
+  - `src/site00/config/bldr-classification.ts` (immersive portal copy, rail activeDots, headline split)
+  - `src/site00/config/bldr-entry.ts` (enterprise image slot)
+  - `src/site00/styles/site00-bldr-classification-mobile.css` (immersive hero, rail dots, portals, spine, discovery panel)
+
+- **Conventions:** Immersive BLDR classification lives under `components/bldr/classification/`; reference image drives composition; repository assets + routes win over mockup hallucinations. Enterprise portal renders asset-slot fallback until env PNG is approved.
+
