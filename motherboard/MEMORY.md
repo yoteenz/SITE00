@@ -1028,3 +1028,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** Stop passing `brandStateId` to `InvestmentColumn` on `IdntyStatePage`.
 - **Branch:** `cursor/idnty-investment-no-icons-2c3b`.
 
+---
+
+## 2026-08-20 — Mobile IDNTY pages bottom navigation
+
+- **Request:** Mobile identity pages missing bottom navigation panel.
+- **Fix:** `IdntyStatePage` uses `Site00MobileShell` on mobile (like assessment); shell-scoped `.site00-mobile-nav` styles apply at all viewport widths; artboard nav gets full grid styling.
+- **Branch:** `cursor/idnty-mobile-bottom-nav-2c3b`.
+
