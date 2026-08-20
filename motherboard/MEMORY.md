@@ -1116,3 +1116,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** `FastTravelUpNextRegistrationMark` — 3 paths only; removed hidden fourth path; `overflow: visible` on mark container.
 - **Branch:** `cursor/fast-travel-registration-mark-3bracket-2c3b`.
 
+---
+
+## 2026-08-20 — Fast Travel BLDR build selection copy
+
+- **Request:** BLDR UP NEXT card — "BUILD CLASS SELECTION" → "BUILD SELECTION"; subtitle → "CHOOSE BUILD."
+- **Fix:** `fast-travel.ts` `bldr-state` destination label/description.
+- **Branch:** `cursor/fast-travel-build-selection-copy-2c3b`.
+
