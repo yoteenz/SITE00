@@ -199,7 +199,10 @@ export async function verifyConnection(orgSlug: string, connectionId: string) {
     status,
     connection_state: status,
     health,
+    verification_status: result.healthy ? 'VERIFIED' : 'VERIFICATION_REQUIRED',
     granted_capabilities: granted,
+    publishing_capability: granted.includes('PUBLISH_CONTENT') ? 'AVAILABLE' : 'NOT_AVAILABLE',
+    analytics_capability: granted.includes('READ_CONTENT_METRICS') ? 'AVAILABLE' : 'NOT_AVAILABLE',
     last_verified_at: new Date().toISOString(),
     last_error_message: result.healthy ? null : result.message,
     updated_at: new Date().toISOString(),
@@ -270,4 +273,4 @@ export function listProviderCatalog(category?: ProviderCategory) {
   }));
 }
 
-export { memObservations };
+export { memObservations, memConnections };
