@@ -294,7 +294,7 @@
   grid-template-columns: 44px minmax(0, 1fr) minmax(64px, 28%);
   gap: 10px 12px;
   align-items: start;
-  padding: 20px 16px 20px 40px;
+  padding: 20px 16px;
 }
 
 .site00-bldr-mobile-stage__label-col {

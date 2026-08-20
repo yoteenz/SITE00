@@ -1391,3 +1391,27 @@ Summary of this cloud agent run (SITE 00 mobile sprint).
 
 - **Conventions:** CTRL ROOM = cross-system operating view; mobile/desktop split via CSS; API errors show STATUS TEMPORARILY UNAVAILABLE, never raw parse errors.
 
+---
+
+## 2026-08-20 — Mobile viewport centering audit (all mobile pages)
+
+Summary of this cloud agent run (SITE 00 mobile layout fix).
+
+- **Context:** Founder reported mobile pages content shifted left with right-side panels clipped (screenshots: `/idnty/state` identity diagnostic 2-col state grid + investment 2×2 grid). Request: audit all mobile pages and fix centering/overflow.
+
+- **Root cause:** `.site00-mobile-shell` lacked the universal `box-sizing: border-box` contract that `.site00-shell` has — grid children with padding/borders exceeded 100% width and were clipped by `overflow-x: hidden`. Mobile shell `__main` also had zero horizontal padding (locations.css legacy), while some pages doubled padding inconsistently; IDNTY investment section defaulted to 4-column grid until 430px breakpoint.
+
+- **Decisions / outcomes:**
+  - New global contract: `site00-mobile-shell.css` loaded last — `box-sizing: border-box` on entire mobile shell subtree, symmetric `padding-inline: clamp(16px, 5vw, 20px)` on `__main`, `min-width: 0` on grid children.
+  - IDNTY diagnostic investment rail/cards default to 2 columns on mobile (not 4-col scroll).
+  - Removed duplicate horizontal padding from ecosystem, ctrl-room, public-mobile, idnty-assessment, bldr-intake inner wrappers (shell gutter is canonical).
+  - Fixed BLDR hub asymmetric stage padding (`40px` left-only → symmetric `16px`).
+  - Visual QA at 390×844: `/idnty/state`, `/evolve/state`, `/bldr/state`, `/control` — symmetric margins, no right clipping, no horizontal scroll.
+
+- **Changes:**
+  - `src/site00/styles/site00-mobile-shell.css` (new)
+  - `src/routes/Site00Routes.tsx` (import)
+  - `site00-idnty-diagnostic-mobile.css`, `site00.css`, `site00-ecosystem.css`, `site00-ctrl-room.css`, `site00-pages.css`, `site00-idnty-assessment.css`, `site00-idnty-state-v2.css`, `site00-bldr-intake-mobile.css`, `site00-bldr-hub-mobile.css`, `site00-locations.css`
+
+- **Conventions:** Mobile shell horizontal gutter is owned by `.site00-mobile-shell__main`; page inner wrappers should not add duplicate horizontal padding. All mobile grids need `minmax(0, 1fr)` + `min-width: 0` on children.
+

@@ -1067,7 +1067,8 @@ a.site00-state-card:active .site00-action-link.site00-action-link--red,
 }
 
 .site00-idnty-state-mobile-shell .site00-mobile-shell__main {
-  padding: 16px 20px calc(88px + env(safe-area-inset-bottom, 0px));
+  padding-top: 16px;
+  padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
 }
 
 .site00-state-page--mobile .site00-workflow-summary-strip {

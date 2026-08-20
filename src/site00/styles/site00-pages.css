@@ -306,7 +306,7 @@
 }
 
 .site00-public-mobile__main {
-  padding: 16px 20px calc(96px + env(safe-area-inset-bottom, 0px));
+  padding: 16px 0 calc(96px + env(safe-area-inset-bottom, 0px));
 }
 
 /* ─── Page primitives ─── */
