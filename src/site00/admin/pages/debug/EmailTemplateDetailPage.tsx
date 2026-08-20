@@ -8,6 +8,7 @@ import { getTemplateById } from '@site00-email/registry/templates';
 import { renderEmailTemplate, resolveTemplateVars } from '@site00-email/render';
 import type { RenderedEmail } from '@site00-email/types';
 import { ControlPageHeader } from '../../components/control/ControlPageHeader';
+import { EmailPreviewCanvas } from '../../components/debug/EmailPreviewCanvas';
 import { Site00AdminShell } from '../../components/shell/Site00AdminShell';
 import { SITE00_ADMIN_ROUTES } from '../../config/routes';
 import { useEmailDebugStatus } from '../../hooks/useEmailDebugStatus';
@@ -22,13 +23,7 @@ const PREVIEW_WIDTHS: Record<PreviewMode, number> = {
   desktop: 640,
 };
 
-function PreviewFrame({ html, width, minHeight }: { html: string; width: number; minHeight: number }) {
-  return (
-    <div className="site00-email-debug-inbox__frame" style={{ maxWidth: width }}>
-      <iframe title="Email preview" srcDoc={html} sandbox="" style={{ width: '100%', minHeight, border: 0 }} />
-    </div>
-  );
-}
+const PREVIEW_STAGE_PADDING = 12;
 
 export default function EmailTemplateDetailPage() {
   const { templateId = '' } = useParams();
@@ -183,23 +178,23 @@ export default function EmailTemplateDetailPage() {
           ) : reviewMode === 'reference' ? (
             <div className="site00-email-debug-inbox" style={{ background: inboxBg }}>
               <p className="site00-email-debug-compare-label">REFERENCE — {refSpec.refId}</p>
-              <PreviewFrame html={referenceHtml} width={previewWidth} minHeight={frameHeight} />
+              <EmailPreviewCanvas html={referenceHtml} canonicalWidth={previewWidth} minHeight={frameHeight} stagePadding={PREVIEW_STAGE_PADDING} />
             </div>
           ) : reviewMode === 'compare' ? (
             <div className="site00-email-debug-compare" style={{ background: inboxBg }}>
               <div className="site00-email-debug-compare__panel">
                 <p className="site00-email-debug-compare-label">REFERENCE — {refSpec.refId}</p>
-                <PreviewFrame html={referenceHtml} width={previewWidth} minHeight={frameHeight} />
+                <EmailPreviewCanvas html={referenceHtml} canonicalWidth={previewWidth} minHeight={frameHeight} stagePadding={PREVIEW_STAGE_PADDING} />
               </div>
               <div className="site00-email-debug-compare__panel">
                 <p className="site00-email-debug-compare-label">IMPLEMENTATION</p>
-                <PreviewFrame html={rendered.html} width={previewWidth} minHeight={frameHeight} />
+                <EmailPreviewCanvas html={rendered.html} canonicalWidth={previewWidth} minHeight={frameHeight} stagePadding={PREVIEW_STAGE_PADDING} />
               </div>
             </div>
           ) : (
             <div className="site00-email-debug-inbox" style={{ background: inboxBg }}>
               <p className="site00-email-debug-compare-label">IMPLEMENTATION</p>
-              <PreviewFrame html={rendered.html} width={previewWidth} minHeight={frameHeight} />
+              <EmailPreviewCanvas html={rendered.html} canonicalWidth={previewWidth} minHeight={frameHeight} stagePadding={PREVIEW_STAGE_PADDING} />
             </div>
           )}
 

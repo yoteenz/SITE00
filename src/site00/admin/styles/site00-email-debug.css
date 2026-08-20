@@ -188,12 +188,20 @@
   grid-template-columns: minmax(260px, 320px) 1fr;
   gap: 1.25rem;
   align-items: start;
+  min-width: 0;
+  width: 100%;
 }
 
 @media (max-width: 960px) {
   .site00-email-debug-detail {
     grid-template-columns: 1fr;
   }
+}
+
+.site00-email-debug-detail__preview {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
 }
 
 .site00-email-debug-meta-block {
@@ -335,9 +343,12 @@
   gap: 1rem;
   padding: 1.25rem;
   border: 1px solid #e5e5e5;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 768px) {
   .site00-email-debug-compare {
     grid-template-columns: 1fr;
   }
@@ -345,6 +356,7 @@
 
 .site00-email-debug-compare__panel {
   min-width: 0;
+  width: 100%;
 }
 
 .site00-email-debug-compare-label {
@@ -359,13 +371,41 @@
   padding: 1.25rem;
   border: 1px solid #e5e5e5;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.site00-email-debug-preview-stage {
+  width: 100%;
+  min-width: 0;
+  display: flex;
   justify-content: center;
+  overflow-x: clip;
+}
+
+.site00-email-debug-preview-slot {
+  position: relative;
+  flex-shrink: 0;
+  margin: 0 auto;
+}
+
+.site00-email-debug-preview-scaler {
+  transform-origin: top center;
+  will-change: transform;
 }
 
 .site00-email-debug-inbox__frame {
-  width: 100%;
   background: #fff;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  min-width: 0;
+}
+
+.site00-email-debug-inbox__frame iframe {
+  max-width: 100%;
 }
 
 .site00-email-debug-note {
@@ -377,6 +417,27 @@
 
 .site00-email-debug-detail__preview--full {
   min-width: 0;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .site00-email-debug-preview-controls {
+    gap: 0.65rem;
+  }
+
+  .site00-email-debug-preview-controls > div {
+    width: 100%;
+  }
+
+  .site00-email-debug-inbox,
+  .site00-email-debug-compare {
+    padding: 0.85rem;
+  }
+
+  .site00-control-content {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 }
 
 .site00-email-debug-meta-block--reference {
