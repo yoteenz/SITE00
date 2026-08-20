@@ -924,3 +924,11 @@ Summary of the **whole conversation so far** in this cloud agent run.
 - **Fix:** Vite cloud preview injects unique session id into `index.html` (`main.tsx?v=…`, app-build-id meta) on each dev-server boot. Explicit red stroke on Fast Travel arrow SVG paths.
 - **Branch:** `cursor/preview-cache-bust-arrows-2c3b`.
 
+---
+
+## 2026-08-20 — Fast Travel arrow size −10%
+
+- **Request:** Decrease red arrows on Fast Travel list panels by 10%.
+- **Fix:** `SITE00_FAST_TRAVEL_ARROW_SIZE = 16.2` (90% of directory 18px); locations directory unchanged.
+- **Branch:** `cursor/fast-travel-arrow-size-2c3b`.
+

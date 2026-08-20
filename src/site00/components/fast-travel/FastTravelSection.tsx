@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import type { FastTravelContext, FastTravelDestination, FastTravelSection as FastTravelSectionModel } from '../../config/fast-travel';
-import { resolveFastTravelHref } from '../../config/fast-travel';
+import { resolveFastTravelHref, SITE00_FAST_TRAVEL_ARROW_SIZE } from '../../config/fast-travel';
 import { Site00DirectoryArrowIcon } from '../mobile/Site00MobileIcons';
 import { AuthLockedDestination } from './AuthLockedDestination';
 
@@ -51,7 +51,7 @@ function FastTravelDestinationLink({
       </span>
       {showArrow ? (
         <span className="site00-fast-travel__dest-arrow" aria-hidden="true">
-          <Site00DirectoryArrowIcon size={18} className="site00-fast-travel__dest-arrow-svg" />
+          <Site00DirectoryArrowIcon size={SITE00_FAST_TRAVEL_ARROW_SIZE} className="site00-fast-travel__dest-arrow-svg" />
         </span>
       ) : null}
     </Link>
