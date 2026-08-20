@@ -1077,17 +1077,11 @@
   height: 48px;
 }
 
-.site00-hub-card__icon .site00-hub-card__signin-mark.site00-orbital-mark {
-  width: 40px;
-  aspect-ratio: 2 / 3;
-  height: auto;
-  margin: 0;
-}
-
-.site00-hub-card__icon .site00-hub-card__signin-mark .site00-orbital-mark__img {
-  width: 100%;
-  height: 100%;
+.site00-hub-card__icon .site00-idnty-gateway__hub-icon {
+  width: 48px;
+  height: 48px;
   object-fit: contain;
+  display: block;
 }
 
 /* ─── IDNTY gateway (signed out) ─── */

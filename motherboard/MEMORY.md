@@ -1003,3 +1003,12 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** `FastTravelLocation.panel` optional field; IDNTY route profile sets `panel: 'idnty'`; `CurrentLocationCard` renders `OriginPanelIcon` above location text.
 - **Branch:** `cursor/fast-travel-current-location-icon-2c3b`.
 
+---
+
+## 2026-08-20 — IDNTY gateway hub card icons (approved NAV PNGs)
+
+- **Request:** Replace Sign In and Create IDNTY panel icons on `/idnty` gateway with specific Supabase NAV PNGs; do not change header hero icon.
+- **Assets:** Sign In `NAV/94368368-C1CF-43A2-8F18-5242CB944AFC.png`; Create IDNTY `NAV/EAC75AD6-1486-4476-888A-8C9F6734D308.png`.
+- **Fix:** `idnty-gateway-assets.ts` + `IdntyGatewayHubIcon`; hub cards only — `EcosystemHubHero` Origin panel header unchanged.
+- **Branch:** `cursor/idnty-gateway-panel-icons-2c3b`.
+
