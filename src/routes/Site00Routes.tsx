@@ -25,6 +25,7 @@ import '../site00/styles/site00-desktop-artboard.css';
 import '../site00/styles/site00-desktop-artboard-preview.css';
 import '../site00/styles/site00-mobile-artboard.css';
 import '../site00/styles/site00-auth.css';
+import '../site00/styles/site00-access.css';
 import '../site00/styles/site00-ctrl-room.css';
 import '../site00/styles/site00-ecosystem.css';
 import '../site00/styles/site00-idnty-assessment.css';
@@ -44,6 +45,7 @@ const Site00BldrStatePage = lazy(() => import('../site00/pages/BldrStatePage'));
 const Site00EvolvePage = lazy(() => import('../site00/pages/EvolvePage'));
 const Site00EvolveStatePage = lazy(() => import('../site00/pages/EvolveStatePage'));
 const Site00SignInPage = lazy(() => import('../site00/pages/Site00SignInPage'));
+const AccessCredentialPage = lazy(() => import('../site00/pages/access/AccessCredentialPage'));
 const ControlOverviewPage = lazy(() => import('../site00/pages/control/ControlOverviewPage'));
 const ControlSectionPage = lazy(() => import('../site00/pages/control/ControlSectionPage'));
 const ControlSitesPage = lazy(() => import('../site00/pages/control/ControlSitesPage'));
@@ -485,6 +487,16 @@ export function Site00Routes() {
                 <ProjectProvisioningPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={`${SITE00_ROUTES.access}/:credentialId`}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <AccessCredentialPage />
+            </Site00Suspense>
           </Site00Layout>
         }
       />

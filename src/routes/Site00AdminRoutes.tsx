@@ -27,6 +27,8 @@ const ReportsPage = lazy(() => import('../site00/admin/pages/operations/ReportsP
 const ReportsPipelinePage = lazy(() => import('../site00/admin/pages/operations/ReportsPipelinePage'));
 const ActivityPage = lazy(() => import('../site00/admin/pages/operations/ActivityPage'));
 const SettingsPage = lazy(() => import('../site00/admin/pages/operations/SettingsPage'));
+const AccessCredentialsPage = lazy(() => import('../site00/admin/pages/access/AccessCredentialsPage'));
+const AccessCredentialDetailPage = lazy(() => import('../site00/admin/pages/access/AccessCredentialDetailPage'));
 
 function AdminSuspense({ children }: { children: React.ReactNode }) {
   return <Suspense fallback={<LoadingScreen />}>{children}</Suspense>;
@@ -225,6 +227,22 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <ActivityPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/access-credentials"
+        element={
+          <AdminSuspense>
+            <AccessCredentialsPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/access-credentials/:id"
+        element={
+          <AdminSuspense>
+            <AccessCredentialDetailPage />
           </AdminSuspense>
         }
       />

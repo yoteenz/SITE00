@@ -25,6 +25,7 @@ export const SITE00_ADMIN_NAV: Site00AdminNavItem[] = [
   { id: 'finance', label: 'FINANCE', href: SITE00_ADMIN_ROUTES.finance, icon: 'finance' },
   { id: 'team', label: 'TEAM', href: SITE00_ADMIN_ROUTES.team, icon: 'team' },
   { id: 'reports', label: 'REPORTS', href: SITE00_ADMIN_ROUTES.reports, icon: 'reports' },
+  { id: 'access-credentials', label: 'ACCESS', href: SITE00_ADMIN_ROUTES.accessCredentials, icon: 'access' },
   { id: 'settings', label: 'SETTINGS', href: SITE00_ADMIN_ROUTES.settings, icon: 'settings' },
 ];
 
