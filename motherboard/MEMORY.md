@@ -900,3 +900,11 @@ Summary of the **whole conversation so far** in this cloud agent run.
 - **Fix:** Reuse `Site00DirectoryArrowIcon` on `site00-fast-travel__dest--list` items; row layout with arrow on right; active translateX nudge matches directory cards.
 - **Branch:** `cursor/fast-travel-arrows-2c3b`.
 
+---
+
+## 2026-08-20 — Fast Travel close button + current location colors
+
+- **Request:** Remove blue square on X close; shrink close 5%; swap CURRENT LOCATION (gray→red) and descriptor NAVIGATE THE ECOSYSTEM (red→gray).
+- **Fix:** `site00-fast-travel.css` — close button `-webkit-appearance`, outline/tap-highlight reset; 44px→42px, font 1.625rem→1.544rem; label/descriptor color swap.
+- **Branch:** `cursor/fast-travel-close-colors-2c3b`.
+
