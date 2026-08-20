@@ -5,7 +5,7 @@ import {
   emailPackSummary,
   filterTemplates,
 } from '@site00-email/registry/templates';
-import { renderEmailTemplate } from '@site00-email/render';
+import { renderEmailTemplateSync } from '@site00-email/render';
 import { ControlPageHeader } from '../../components/control/ControlPageHeader';
 import { Site00AdminShell } from '../../components/shell/Site00AdminShell';
 import { SITE00_ADMIN_ROUTES } from '../../config/routes';
@@ -78,12 +78,19 @@ export default function EmailPackGalleryPage() {
       />
 
       <section className="site00-email-debug-summary">
+        <div><span>EMAIL PACK</span><strong>{summary.total}</strong></div>
         <div><span>TOTAL TEMPLATES</span><strong>{summary.total}</strong></div>
-        <div><span>APPROVED</span><strong>{summary.approved}</strong></div>
-        <div><span>NEEDS REVIEW</span><strong>{summary.needsReview}</strong></div>
         <div><span>TRANSACTIONAL</span><strong>{summary.transactional}</strong></div>
-        <div><span>PRODUCTION</span><strong>{summary.production}</strong></div>
-        <div><span>MARKETING</span><strong>{summary.marketing}</strong></div>
+        <div><span>IDENTITY</span><strong>{summary.identity}</strong></div>
+        <div><span>PROJECT</span><strong>{summary.project}</strong></div>
+        <div><span>STUDIO</span><strong>{summary.studio}</strong></div>
+        <div><span>BLDR / REVIEW</span><strong>{summary.review}</strong></div>
+        <div><span>EVOLVE</span><strong>{summary.property}</strong></div>
+        <div><span>ACCOUNT</span><strong>{summary.access}</strong></div>
+        <div><span>BILLING</span><strong>{summary.billing}</strong></div>
+        <div><span>LAUNCH</span><strong>{summary.launch}</strong></div>
+        <div><span>MARKETING</span><strong>{summary.marketing + summary.signal}</strong></div>
+        <div><span>NEEDS REVIEW</span><strong>{summary.needsReview}</strong></div>
       </section>
 
       <div className="site00-email-debug-filters">
@@ -115,7 +122,7 @@ export default function EmailPackGalleryPage() {
 
       <section className="site00-email-debug-gallery">
         {items.map((t) => {
-          const rendered = renderEmailTemplate(t.id);
+          const rendered = renderEmailTemplateSync(t.id);
           const status = resolvedStatuses[t.id];
           return (
             <article key={t.id} className="site00-email-debug-card">
@@ -156,7 +163,7 @@ export default function EmailPackGalleryPage() {
             </thead>
             <tbody>
               {items.map((t) => {
-                const rendered = renderEmailTemplate(t.id);
+                const rendered = renderEmailTemplateSync(t.id);
                 const status = resolvedStatuses[t.id];
                 return (
                   <tr key={t.id}>

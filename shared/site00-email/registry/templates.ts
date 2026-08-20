@@ -58,11 +58,11 @@ export const EMAIL_TEMPLATES: EmailTemplateDefinition[] = [
     classification: 'transactional',
     subject: subject('Your SITE 00 access has been issued.'),
     preheader: pre('Your digital credential into SITE 00 is ready.'),
-    headline: head('ACCESS CREDENTIAL ISSUED.'),
+    headline: head('SITE 00'),
     subheadline: sub('YOUR SITE 00 IDENTITY HAS BEEN RECOGNIZED.'),
     ctaLabel: 'ENTER SITE 00 →',
     defaultTheme: 'dark',
-    varsForPreview: { accentScript: 'Welcome to', theme: 'dark' },
+    varsForPreview: { accentScript: 'Welcome to', theme: 'dark', clientName: 'MEMBER', clientInitials: 'NK', memberId: '00-0147' },
   }),
   tpl({
     num: 2,
@@ -319,12 +319,12 @@ export const EMAIL_TEMPLATES: EmailTemplateDefinition[] = [
     archetype: 'studio-portal',
     classification: 'transactional',
     subject: subject('Studio access granted.'),
-    preheader: pre('Payment confirmed. Your project has entered production.'),
+    preheader: pre('Payment confirmed. Your project has entered the production environment.'),
     headline: head('STUDIO ACCESS GRANTED.'),
     subheadline: sub('PAYMENT CONFIRMED. YOUR PROJECT HAS ENTERED THE PRODUCTION ENVIRONMENT.'),
     ctaLabel: 'ENTER STUDIO →',
     defaultTheme: 'dark',
-    varsForPreview: { theme: 'dark' },
+    varsForPreview: { theme: 'dark', ctaUrl: 'https://site00.com/studio/preview-project' },
   }),
 
   // STUDIO / PRODUCTION
@@ -1296,8 +1296,22 @@ export function emailPackSummary(debugStatuses: Record<string, EmailDebugStatus>
   const total = EMAIL_TEMPLATES.length;
   const approved = EMAIL_TEMPLATES.filter((t) => (debugStatuses[t.id] ?? t.debugStatus) === 'approved').length;
   const needsReview = total - approved;
-  const transactional = EMAIL_TEMPLATES.filter((t) => t.classification === 'transactional').length;
-  const production = EMAIL_TEMPLATES.filter((t) => t.classification === 'production' || t.classification === 'operational').length;
-  const marketing = EMAIL_TEMPLATES.filter((t) => t.classification === 'marketing').length;
-  return { total, approved, needsReview, transactional, production, marketing };
+  const countFamily = (f: EmailFamily) => EMAIL_TEMPLATES.filter((t) => t.family === f).length;
+  return {
+    total,
+    approved,
+    needsReview,
+    transactional: EMAIL_TEMPLATES.filter((t) => t.classification === 'transactional').length,
+    production: EMAIL_TEMPLATES.filter((t) => t.classification === 'production' || t.classification === 'operational').length,
+    marketing: EMAIL_TEMPLATES.filter((t) => t.classification === 'marketing').length,
+    access: countFamily('access'),
+    identity: countFamily('identity'),
+    project: countFamily('project'),
+    studio: countFamily('studio'),
+    review: countFamily('review'),
+    property: countFamily('property'),
+    billing: countFamily('billing'),
+    launch: countFamily('launch'),
+    signal: countFamily('signal'),
+  };
 }

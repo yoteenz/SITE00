@@ -13,7 +13,7 @@ export const DEBUG_EMAIL_FIXTURES: EmailTemplateVars = {
   directionCount: 3,
   directionLabel: 'B',
   requiredInputCount: 2,
-  inputItems: ['DOMAIN ACCESS (Awaiting Connection)', 'BRAND PHOTOS (Awaiting Upload)'],
+  inputItems: ['01 BRAND PHOTOS (Awaiting Upload)', '02 DOMAIN ACCESS (Awaiting Connection)'],
   milestoneName: 'Blueprint Approved',
   launchUrl: 'https://site00.com/studio/preview-project/launch',
   liveUrl: 'https://preview-project.site00.com',

@@ -1,18 +1,21 @@
+import type { EmailArchetype, EmailTemplateDefinition, EmailTemplateVars } from './types.js';
 import {
-  emailBodyLines,
-  emailCredentialCard,
-  emailCTA,
-  emailDataGrid,
-  emailDocument,
-  emailFooter,
-  emailGraphicBlock,
-  emailHeadlineBlock,
-  emailHeader,
-  emailInputList,
-  emailOuterTable,
-  emailSignalModules,
-} from './primitives.js';
-import type { EmailArchetype, EmailClassification, EmailTemplateDefinition, EmailTemplateVars, EmailTheme } from './types.js';
+  composeAccessWelcome,
+  composeActionRequired,
+  composeInternalNotice,
+  composeLaunchAuthorization,
+  composeLocationLive,
+  composeMilestoneArtifact,
+  composeProductionComplete,
+  composeProjectInitiated,
+  composeReviewDossier,
+  composeRevisionNotice,
+  composeSignalEditorial,
+  composeStatusNotice,
+  composeStudioPortal,
+  composeSystemCheck,
+  type CompositionInput,
+} from './design/compositions.js';
 
 export type ArchetypeRenderInput = {
   template: EmailTemplateDefinition;
@@ -21,114 +24,80 @@ export type ArchetypeRenderInput = {
   preheader: string;
   headline: string;
   subheadline?: string;
+  qrDataUrl?: string;
 };
 
-function themeOf(template: EmailTemplateDefinition, vars: EmailTemplateVars): EmailTheme {
-  return vars.theme ?? template.defaultTheme ?? 'light';
-}
-
-function ctaVariant(template: EmailTemplateDefinition, theme: EmailTheme): 'red' | 'black' | 'white' {
-  if (template.archetype === 'studio-portal' && theme === 'dark') return 'white';
-  if (template.archetype === 'access-credential') return 'red';
-  if (template.archetype === 'launch-authorization') return theme === 'dark' ? 'white' : 'black';
-  return theme === 'dark' ? 'white' : 'red';
-}
-
-function graphicVariant(archetype: EmailArchetype): 'target' | 'portal' | 'artifact' | 'radar' | undefined {
-  switch (archetype) {
-    case 'access-credential':
-      return 'target';
-    case 'studio-portal':
-      return 'portal';
-    case 'milestone-artifact':
-    case 'production-complete':
-      return 'artifact';
-    case 'system-check':
-    case 'signal-editorial':
-      return 'radar';
-    case 'review-dossier':
-      return 'portal';
-    case 'launch-authorization':
-      return 'target';
-    case 'location-live':
-      return 'artifact';
-    default:
-      return 'target';
-  }
+function ctx(input: ArchetypeRenderInput): CompositionInput {
+  const { template, vars, headline, subheadline } = input;
+  return {
+    family: template.family,
+    familyLabel: vars.familyLabel ?? template.familyLabel,
+    templateId: template.id,
+    headline,
+    subheadline,
+    ctaLabel: template.ctaLabel,
+    ctaUrl: vars.ctaUrl ?? 'https://site00.com',
+    classification: template.classification,
+    vars: { ...vars, theme: vars.theme ?? template.defaultTheme },
+    qrDataUrl: input.qrDataUrl,
+  };
 }
 
 export function renderArchetypeHtml(input: ArchetypeRenderInput): string {
-  const { template, vars, subject, preheader, headline, subheadline } = input;
-  const theme = themeOf(template, vars);
-  const familyLabel = vars.familyLabel ?? template.familyLabel;
-  const ctaUrl = vars.ctaUrl ?? 'https://site00.com';
-  const parts: string[] = [];
+  const { template, subject, preheader } = input;
+  const c = ctx(input);
 
-  parts.push(emailHeader({ familyLabel, theme }));
-
-  if (template.archetype === 'access-credential') {
-    parts.push(
-      emailHeadlineBlock({
-        accentScript: vars.accentScript ?? 'Welcome to',
-        headline,
-        subheadline,
-        theme,
-      }),
-    );
-    parts.push(emailCredentialCard(vars, theme));
-  } else if (template.archetype === 'signal-editorial') {
-    parts.push(
-      emailHeadlineBlock({
-        headline: vars.issueNumber ? `SITE 00 SIGNAL — ISSUE ${vars.issueNumber}` : headline,
-        subheadline,
-        theme: 'light',
-      }),
-    );
-    if (vars.signalModules?.length) parts.push(emailSignalModules(vars.signalModules));
-    else parts.push(emailBodyLines(vars.bodyLines ?? [subheadline ?? ''], 'light'));
-  } else {
-    parts.push(
-      emailHeadlineBlock({
-        accentScript: vars.accentScript,
-        headline,
-        subheadline,
-        theme,
-      }),
-    );
-
-    if (template.archetype !== 'status-notice' && template.archetype !== 'internal-notice') {
-      parts.push(
-        emailGraphicBlock({
-          label: template.name,
-          theme,
-          variant: graphicVariant(template.archetype),
-        }),
-      );
-    }
-
-    if (vars.dataFields?.length) parts.push(emailDataGrid(vars.dataFields, theme));
-    if (vars.inputItems?.length) parts.push(emailInputList(vars.inputItems, theme));
-    if (vars.bodyLines?.length) parts.push(emailBodyLines(vars.bodyLines, theme));
+  switch (template.archetype as EmailArchetype) {
+    case 'access-credential':
+      return composeAccessWelcome(c, subject, preheader);
+    case 'project-record':
+      return composeProjectInitiated(c, subject, preheader);
+    case 'studio-portal':
+      return composeStudioPortal(c, subject, preheader);
+    case 'action-required':
+      return composeActionRequired(c, subject, preheader);
+    case 'review-dossier':
+      return composeReviewDossier(c, subject, preheader);
+    case 'milestone-artifact':
+      return composeMilestoneArtifact(c, subject, preheader);
+    case 'status-notice':
+      if (template.id === 'revision-received' || template.id === 'client-revision-received') {
+        return composeRevisionNotice(c, subject, preheader);
+      }
+      return composeStatusNotice(c, subject, preheader);
+    case 'system-check':
+      return composeSystemCheck(c, subject, preheader);
+    case 'launch-authorization':
+      return composeLaunchAuthorization(c, subject, preheader);
+    case 'location-live':
+      return composeLocationLive(c, subject, preheader);
+    case 'production-complete':
+      return composeProductionComplete(c, subject, preheader);
+    case 'signal-editorial':
+      return composeSignalEditorial(c, subject, preheader);
+    case 'internal-notice':
+      return composeInternalNotice(c, subject, preheader);
+    default:
+      return composeStatusNotice(c, subject, preheader);
   }
-
-  parts.push(emailCTA(template.ctaLabel, ctaUrl, theme, ctaVariant(template, theme)));
-  parts.push(emailFooter(template.classification, template.archetype === 'signal-editorial' ? 'light' : theme));
-
-  const body = emailOuterTable(parts.join(''), template.archetype === 'signal-editorial' ? 'light' : theme);
-  return emailDocument({ title: subject, preheader, theme: template.archetype === 'signal-editorial' ? 'light' : theme, body });
 }
 
-export function classificationLabel(c: EmailClassification): string {
-  switch (c) {
-    case 'transactional':
-      return 'TRANSACTIONAL';
-    case 'operational':
-      return 'OPERATIONAL';
-    case 'production':
-      return 'PRODUCTION';
-    case 'marketing':
-      return 'MARKETING';
-    case 'internal':
-      return 'INTERNAL';
-  }
+/** Reference sheet composition label for debug QA panel */
+export function referenceCompositionLabel(archetype: EmailArchetype): string {
+  const map: Record<EmailArchetype, string> = {
+    'access-credential': 'REF 01 — Access / Welcome credential',
+    'project-record': 'REF 02 — Project Initiated',
+    'studio-portal': 'REF 03 — Studio Access Granted',
+    'action-required': 'REF 04 — Input Required',
+    'review-dossier': 'REF 05 — Review Ready dossier',
+    'milestone-artifact': 'REF 06 — Milestone Recorded',
+    'status-notice': 'REF 07 — Status / Revision notice',
+    'system-check': 'REF 08 — Final System Check',
+    'launch-authorization': 'REF 09 — Launch Authorization',
+    'location-live': 'REF 10 — Location Live',
+    'production-complete': 'REF 11 — Production Complete',
+    'signal-editorial': 'REF 12 — SITE 00 Signal',
+    'internal-notice': 'INTERNAL — Operator notice',
+  };
+  return map[archetype] ?? archetype;
 }

@@ -317,6 +317,36 @@
   letter-spacing: 0.06em;
 }
 
+.site00-email-debug-detail__preview--full {
+  min-width: 0;
+}
+
+.site00-email-debug-meta-block--reference {
+  border-color: #eb1c24;
+}
+
+.site00-email-debug-reference-panel {
+  border: 1px solid #eb1c24;
+  background: #fff;
+  padding: 1.25rem 1.5rem;
+  max-width: 640px;
+  margin: 0 auto;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.site00-email-debug-reference-panel__title {
+  margin: 0 0 1rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #eb1c24;
+}
+
+.site00-email-debug-reference-panel p {
+  margin: 0 0 0.85rem;
+}
+
 .site00-email-debug-note--center {
   text-align: center;
 }
