@@ -269,7 +269,7 @@ function idntyProfile(): RouteProfile {
             title: 'UP NEXT',
             destinations: [
               d('sign-in', 'SIGN IN', 'Access your account.', signIn(ctx.pathname)),
-              d('create', 'CREATE IDENTITY', 'Start your SITE 00 identity.', SITE00_ROUTES.idntyState),
+              d('create', 'CREATE IDENTITY', 'Start your identity.', SITE00_ROUTES.idntyState),
             ],
           },
           {

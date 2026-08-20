@@ -1124,3 +1124,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** `fast-travel.ts` `bldr-state` destination label/description.
 - **Branch:** `cursor/fast-travel-build-selection-copy-2c3b`.
 
+---
+
+## 2026-08-20 — Fast Travel sign-in/create gateway icons + copy
+
+- **Request:** CREATE IDENTITY subtitle → "START YOUR IDENTITY."; sign-in/create UP NEXT still showing old orbital/origin panel icons.
+- **Fix:** `fast-travel-assets.ts` maps `sign-in`/`create` to approved IDNTY gateway NAV PNGs (same as hub cards); bumped gateway + PACK art cache versions.
+- **Branch:** `cursor/fast-travel-idnty-icons-copy-2c3b`.
+
