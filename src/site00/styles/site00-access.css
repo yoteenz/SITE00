@@ -745,3 +745,121 @@
     padding-inline: 20px;
   }
 }
+
+/* ─── Debug audit toolbar (/access/debug) ─── */
+
+.site00-access-debug {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: calc(var(--site-z-overlay, 1200) + 2);
+  pointer-events: none;
+}
+
+.site00-access-debug__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: calc(8px + env(safe-area-inset-top, 0px)) 12px 8px;
+  background: rgba(10, 10, 10, 0.92);
+  color: #fff;
+  pointer-events: auto;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.site00-access-debug__badge {
+  font-family: var(--site00-font-label);
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  color: var(--site-red, #e8192c);
+  padding: 4px 8px;
+  border: 1px solid rgba(232, 25, 44, 0.45);
+}
+
+.site00-access-debug__label {
+  font-family: var(--site00-font-label);
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.site00-access-debug__states {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.site00-access-debug__chip {
+  font-family: var(--site00-font-label);
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.78);
+  padding: 5px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.site00-access-debug__chip--active {
+  color: #fff;
+  border-color: var(--site-red, #e8192c);
+  background: rgba(232, 25, 44, 0.18);
+}
+
+.site00-access-debug__link {
+  margin-left: auto;
+  font-family: var(--site00-font-label);
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.site00-access-debug__canonical {
+  margin: 0;
+  padding: 6px 12px 8px;
+  background: rgba(10, 10, 10, 0.88);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  pointer-events: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.site00-access-debug__canonical code {
+  font-family: var(--site00-font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.9);
+  word-break: break-all;
+}
+
+.site00-access-debug-root .site00-access-page--loading,
+.site00-access-debug-root .site00-access-page--desktop,
+.site00-access-debug-root .site00-access-page--mobile {
+  padding-top: calc(56px + env(safe-area-inset-top, 0px));
+}
+
+.site00-access-debug-root .site00-access-header--desktop {
+  padding-top: 36px;
+}
+
+.site00-access-debug-root .site00-access-header--mobile {
+  padding-top: calc(18px + env(safe-area-inset-top, 0px));
+}
+
+@media (max-width: 767px) {
+  .site00-access-debug__bar {
+    gap: 6px 8px;
+  }
+
+  .site00-access-debug__link {
+    margin-left: 0;
+    width: 100%;
+    text-align: right;
+  }
+}

@@ -32,6 +32,7 @@ export const SITE00_ROUTES = {
   journal: '/journal',
   signIn: '/origin/sign-in',
   loaderPreview: '/loader-preview',
+  accessDebug: '/access/debug',
   access: '/access',
   accessCredential: (code: string) => `/access/${code}`,
   control: '/control',

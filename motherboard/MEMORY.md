@@ -882,3 +882,13 @@ Summary of the **whole conversation so far** in this cloud agent run.
 
 - **Conventions:** Access page icon = PNG asset only; sign-in icon (`7D83E4A6`) is separate. Preview may need Vite `--force` + hard refresh on mobile Safari.
 
+---
+
+## 2026-08-20 — Access landing debug route (`/access/debug`)
+
+- **Request:** Debug route to audit Founder Card access page design and function without live API/credential.
+- **Route:** `/access/debug` — mock data, no scan/enter API calls. Toolbar switches state, layout, static animation.
+- **Query params:** `state=recognized|not_found|closed|inactive|loading`, `code=00-0001`, `static=1`, `site00MobileLayout=1` (force mobile on desktop).
+- **Canonical URL shown:** `https://site00.com/access/00-0001`. **LIVE ROUTE →** links to production `/access/:code`.
+- **Branch:** `cursor/access-debug-route-2c3b`.
+

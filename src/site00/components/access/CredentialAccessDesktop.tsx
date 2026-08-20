@@ -15,6 +15,7 @@ export type CredentialAccessDesktopProps = {
   variant: 'recognized' | 'not_found' | 'closed' | 'inactive';
   onEnter?: () => void;
   entering?: boolean;
+  staticAuthorized?: boolean;
 };
 
 export function CredentialAccessDesktop({
@@ -23,8 +24,9 @@ export function CredentialAccessDesktop({
   variant,
   onEnter,
   entering,
+  staticAuthorized = false,
 }: CredentialAccessDesktopProps) {
-  const sequence = useAccessRecognitionSequence(variant === 'recognized');
+  const sequence = useAccessRecognitionSequence(variant === 'recognized', { immediate: staticAuthorized });
   const isError = variant !== 'recognized';
 
   const title =

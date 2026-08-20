@@ -46,6 +46,7 @@ const Site00EvolvePage = lazy(() => import('../site00/pages/EvolvePage'));
 const Site00EvolveStatePage = lazy(() => import('../site00/pages/EvolveStatePage'));
 const Site00SignInPage = lazy(() => import('../site00/pages/Site00SignInPage'));
 const AccessCredentialPage = lazy(() => import('../site00/pages/access/AccessCredentialPage'));
+const AccessCredentialDebugPage = lazy(() => import('../site00/pages/access/AccessCredentialDebugPage'));
 const ControlOverviewPage = lazy(() => import('../site00/pages/control/ControlOverviewPage'));
 const ControlSectionPage = lazy(() => import('../site00/pages/control/ControlSectionPage'));
 const ControlSitesPage = lazy(() => import('../site00/pages/control/ControlSitesPage'));
@@ -487,6 +488,16 @@ export function Site00Routes() {
                 <ProjectProvisioningPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.accessDebug}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <AccessCredentialDebugPage />
+            </Site00Suspense>
           </Site00Layout>
         }
       />
