@@ -1020,3 +1020,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** `EcosystemHubHero` title row flex layout — bracket heading + `OriginPanelIcon` inline; subtitle below; removed absolute top-right positioning.
 - **Branch:** `cursor/ecosystem-hero-icon-row-2c3b`.
 
+---
+
+## 2026-08-20 — IDNTY investment section icons removed
+
+- **Request:** Remove icons from IDNTY / INVESTMENT grid only; keep brand state card icons above.
+- **Fix:** Stop passing `brandStateId` to `InvestmentColumn` on `IdntyStatePage`.
+- **Branch:** `cursor/idnty-investment-no-icons-2c3b`.
+
