@@ -1209,3 +1209,30 @@ Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mo
 
 - **Conventions:** IDNTY mobile diagnostic lives under `components/idnty/mobile/`; do not alter desktop `.site00-state-page-layout` presentation.
 
+---
+
+## 2026-08-20 — EVOLVE mobile Property Evolution redesign
+
+Summary of the **whole conversation so far** in this cloud agent run (SITE 00 mobile sprints).
+
+- **Context:** Founder attached approved mobile EVOLVE / Property Evolution mockup for `/evolve/state`; page felt like plain stacked boxes. Sprint to match reference while preserving Refine/Install/Transform logic, assessment routing, and desktop layout.
+
+- **Topics covered (cumulative):** BLDR mobile BUILD SYSTEM (PR #144); IDNTY Identity Diagnostic (PR #145); this turn = EVOLVE mobile property evolution system.
+
+- **Decisions / outcomes:**
+  - Mobile vs desktop split in `EvolveStatePage` — desktop keeps existing state page body; mobile renders `EvolveMobileExperience`.
+  - Mobile: tap path card selects + updates intensity rail, selected-path module, closing CTA context; explicit SELECT / BEGIN ASSESSMENT navigates via `evolveAssessmentPath(pathId, 'property')`.
+  - Reuses existing `/assets/evolve/*.svg` path icons + evolve-master hero focal; timeline uses inline SVG step art.
+  - `resolveMobileSiteNavId` now treats `/evolve*` as LOCATIONS active bay per product IA.
+  - Styles in `site00-evolve-mobile.css`; three-corner mark via shared `Site00ThreeCornerMark`.
+
+- **Changes:**
+  - `src/site00/components/evolve/mobile/*`
+  - `src/site00/config/evolve-diagnostic.ts`
+  - `src/site00/styles/site00-evolve-mobile.css`
+  - `src/site00/pages/EvolveStatePage.tsx`
+  - `src/site00/config/mobile-site-nav.ts`
+  - `src/routes/Site00Routes.tsx` (CSS import)
+
+- **Conventions:** EVOLVE mobile experience under `components/evolve/mobile/`; desktop Evolve state page unchanged.
+
