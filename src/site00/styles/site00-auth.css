@@ -373,11 +373,37 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  color: var(--site-red, #e8192c);
+}
+
+.site00-signin-form__magic:hover,
+.site00-signin-form__magic:focus,
+.site00-signin-form__magic:focus-visible,
+.site00-signin-form__magic:active {
+  color: var(--site-red, #e8192c);
+}
+
+.site00-signin-form__magic:disabled {
+  opacity: 0.55;
+  cursor: wait;
+  color: var(--site-text-muted);
 }
 
 .site00-signin-form__magic-icon {
   font-size: 1rem;
   line-height: 1;
+  color: var(--site-red, #e8192c);
+}
+
+.site00-signin-form__magic-label {
+  color: var(--site-red, #e8192c);
+}
+
+.site00-signin-form__magic:disabled .site00-signin-form__magic-icon,
+.site00-signin-form__magic:disabled .site00-signin-form__magic-label {
+  color: var(--site-text-muted);
 }
 
 .site00-signin-form__footer {
