@@ -1012,3 +1012,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** `idnty-gateway-assets.ts` + `IdntyGatewayHubIcon`; hub cards only — `EcosystemHubHero` Origin panel header unchanged.
 - **Branch:** `cursor/idnty-gateway-panel-icons-2c3b`.
 
+---
+
+## 2026-08-20 — Ecosystem hub header icon on title row
+
+- **Request:** Header panel icons should sit on the same row as the header text, not vertically centered in the hero block.
+- **Fix:** `EcosystemHubHero` title row flex layout — bracket heading + `OriginPanelIcon` inline; subtitle below; removed absolute top-right positioning.
+- **Branch:** `cursor/ecosystem-hero-icon-row-2c3b`.
+

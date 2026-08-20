@@ -1047,20 +1047,32 @@
 /* ─── Ecosystem hub hero (IDNTY / BLDR / EVOLVE mobile) ─── */
 
 .site00-ecosystem-hub__hero {
-  position: relative;
   margin-bottom: 24px;
 }
 
-.site00-ecosystem-hub__hero .site00-page-intro {
+.site00-ecosystem-hub__intro {
   margin-bottom: 0;
-  padding-right: 56px;
+}
+
+.site00-ecosystem-hub__title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.site00-ecosystem-hub__title {
+  flex: 1;
+  min-width: 0;
+}
+
+.site00-ecosystem-hub__title .site00-bracket-heading {
+  margin: 0;
 }
 
 .site00-ecosystem-hub__panel-icon {
-  position: absolute;
-  right: 0;
-  top: 0;
   flex-shrink: 0;
+  margin-top: 0;
 }
 
 .site00-hub-card__icon {
