@@ -1036,3 +1036,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** `IdntyStatePage` uses `Site00MobileShell` on mobile (like assessment); shell-scoped `.site00-mobile-nav` styles apply at all viewport widths; artboard nav gets full grid styling.
 - **Branch:** `cursor/idnty-mobile-bottom-nav-2c3b`.
 
+---
+
+## 2026-08-20 — Projects page EVOLVE button relocation
+
+- **Request:** Remove `+ EVOLVE` and `+ NEW BUILD` from Projects header; add `+ EVOLVE` below bottom `+ NEW PROJECT` CTA.
+- **Fix:** `ProjectsPage.tsx` — dropped `headerActions`; stacked `+ EVOLVE` in `.site00-eco-mobile-cta` under `+ NEW PROJECT`. CSS: mobile CTA column flex + gap.
+- **Branch:** `cursor/projects-evolve-button-relocate-2c3b`.
+
