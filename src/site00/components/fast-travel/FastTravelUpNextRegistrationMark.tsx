@@ -29,15 +29,6 @@ export function FastTravelUpNextRegistrationMark({ className }: { className?: st
         strokeWidth="1.75"
         strokeLinecap="square"
         strokeLinejoin="miter"
-        opacity="0"
-      />
-      <path
-        d="M13 27H5V19"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="square"
-        strokeLinejoin="miter"
-        opacity="0"
       />
     </svg>
   );
