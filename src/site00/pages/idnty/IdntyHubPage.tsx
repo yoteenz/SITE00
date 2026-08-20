@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { Site00PublicShell } from '../../components/shell/Site00PublicShell';
 import { EcosystemShell } from '../../components/ecosystem/EcosystemShell';
 import { OriginPanelIcon } from '../../components/homepage/OriginPanelIcon';
+import { Site00OrbitalMark } from '../../components/auth/Site00OrbitalMark';
 import { BracketHeading, EcosystemHubHero, HubActionCard } from '../../components/pages/Site00PagePrimitives';
 import { SITE00_IDNTY_HUB_MODULES } from '../../config/seed/site00-page-seed';
 import { SITE00_ROUTES } from '../../config/routes';
@@ -19,6 +20,7 @@ import {
 } from '../../icons/Site00HubIcons';
 
 const IDNTY_PANEL_ICON = <OriginPanelIcon panel="idnty" size="sm" />;
+const SIGN_IN_ICON = <Site00OrbitalMark className="site00-hub-card__signin-mark" />;
 
 const ICONS: Record<string, typeof Site00LockIcon> = {
   security: Site00LockIcon,
@@ -51,7 +53,7 @@ function IdntySignedOutGateway() {
             description="ACCESS YOUR ACCOUNT."
             cta="SIGN IN →"
             href={signInHref}
-            icon={<Site00UserIcon size={24} />}
+            icon={SIGN_IN_ICON}
           />
           <HubActionCard
             title="CREATE IDNTY"

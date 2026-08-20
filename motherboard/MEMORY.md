@@ -980,3 +980,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** `FastTravelSection` renders `OriginPanelIcon panel="idnty"` on primary `create` destinations; shared `--has-mark` layout with Sign In card.
 - **Branch:** `cursor/fast-travel-idnty-icon-2c3b`.
 
+---
+
+## 2026-08-20 — IDNTY gateway Sign In panel icon
+
+- **Request:** Replace generic user icon on IDNTY mobile Sign In hub card with the geometric sign-in page icon.
+- **Fix:** `IdntyHubPage` SIGN IN `HubActionCard` uses `Site00OrbitalMark` (approved NAV PNG); hub-card CSS sizes mark at 40px width.
+- **Branch:** `cursor/idnty-signin-panel-icon-2c3b`.
+
