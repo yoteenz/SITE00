@@ -290,7 +290,7 @@ function idntyProfile(): RouteProfile {
           id: 'up-next',
           title: 'UP NEXT',
           destinations: [
-            d('ctrl-room', 'CTRL ROOM', 'Your operating environment.', SITE00_CTRL_ROOM_PATH),
+            d('ctrl-room', 'CTRL ROOM', 'Operating environment.', SITE00_CTRL_ROOM_PATH),
             d('projects', 'PROJECTS', 'Active engagements.', SITE00_ROUTES.projects),
           ],
         },
