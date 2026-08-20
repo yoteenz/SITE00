@@ -1,7 +1,7 @@
 /** Content Brain integration — IDEA must not silently become CANON */
 
 import { getContentBrainByOrgId } from './memoryStore.js';
-import { orgIdFromSlug } from './seedFixtures.js';
+import { orgIdFromSlug } from './orgRegistry.js';
 import type { ContentBrainEntryClass } from './types.js';
 
 export type ContentBrainEntry = {

@@ -532,7 +532,7 @@ export async function getOrchestrationDashboardSnapshot(): Promise<Orchestration
   // EVOLVE Marketing OS — merge marketing command items (non-blocking for orchestration)
   try {
     const { buildEvolveCommandItems, mergeEvolveIntoFocusNow } = await import('../site00Evolve/commandIntegration.js');
-    const evolveCmd = buildEvolveCommandItems();
+    const evolveCmd = await buildEvolveCommandItems();
     for (const item of evolveCmd.needsYou) {
       needsYou.push({
         id: item.id,
@@ -599,7 +599,7 @@ export async function getOrchestrationDashboardSnapshot(): Promise<Orchestration
         evidenceState: 'EVOLVE_MARKETING',
       });
     }
-    const mergedFocus = mergeEvolveIntoFocusNow(focusNow);
+    const mergedFocus = await mergeEvolveIntoFocusNow(focusNow);
     focusNow.splice(0, focusNow.length, ...mergedFocus.slice(0, 5).map((f, i) => ({ ...f, rank: i + 1 })));
   } catch {
     /* EVOLVE store optional during orchestration-only tests */

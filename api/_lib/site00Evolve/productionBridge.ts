@@ -2,8 +2,8 @@
 
 import type { ProductionType, StudioProductionRequestRow } from './types.js';
 import { governanceBlockReason, resolveProductionGovernance } from './governance.js';
-import { evolveUuid, getEvolveStore, insertProductionRequest } from './memoryStore.js';
-import { orgIdFromSlug } from './seedFixtures.js';
+import { evolveUuid, insertProductionRequest, getProductionRequestsByOrgId } from './storeAdapter.js';
+import { orgIdFromSlug } from './orgRegistry.js';
 
 export type ProductionRequestInput = {
   orgSlug: string;
@@ -14,13 +14,17 @@ export type ProductionRequestInput = {
   campaignId?: string;
   calendarItemId?: string;
   createdBy?: string;
+  deliverables?: unknown[];
+  canonRefs?: unknown[];
+  referenceRefs?: unknown[];
+  dueDate?: string;
 };
 
-export function requestStudioProduction(input: ProductionRequestInput): {
+export async function requestStudioProduction(input: ProductionRequestInput): Promise<{
   ok: boolean;
   request?: StudioProductionRequestRow;
   error?: string;
-} {
+}> {
   const orgId = orgIdFromSlug(input.orgSlug)!;
   const governance = resolveProductionGovernance(input.productionType, input.orgClassification);
 
@@ -35,8 +39,9 @@ export function requestStudioProduction(input: ProductionRequestInput): {
     return { ok: false, error: 'Studio World is production infrastructure — cannot request production against itself' };
   }
 
+  const existing = await getProductionRequestsByOrgId(orgId);
   const row: StudioProductionRequestRow = {
-    id: evolveUuid('spreq', getEvolveStore().productionRequests.length + 1),
+    id: evolveUuid('spreq', existing.length + 1),
     organization_id: orgId,
     project_id: null,
     campaign_id: input.campaignId ?? null,
@@ -44,12 +49,12 @@ export function requestStudioProduction(input: ProductionRequestInput): {
     production_type: input.productionType,
     objective: input.objective ?? null,
     brief: input.brief ?? null,
-    deliverables: [],
-    canon_refs: [],
-    reference_refs: [],
+    deliverables: input.deliverables ?? [],
+    canon_refs: input.canonRefs ?? [],
+    reference_refs: input.referenceRefs ?? [],
     asset_refs: [],
     priority: 'MEDIUM',
-    due_date: null,
+    due_date: input.dueDate ?? null,
     approval_state: 'PENDING',
     production_state: 'REQUESTED',
     governance_state: governance,
@@ -59,12 +64,19 @@ export function requestStudioProduction(input: ProductionRequestInput): {
     actual_cost: null,
     created_by: input.createdBy ?? null,
     approved_by: null,
-    metadata: { lineage: { campaignId: input.campaignId, calendarItemId: input.calendarItemId } },
+    metadata: {
+      lineage: { campaignId: input.campaignId, calendarItemId: input.calendarItemId },
+      dispatch_state: governance === 'BLOCKED_BY_GOVERNANCE' ? 'BLOCKED_BY_GOVERNANCE' : 'NOT_DISPATCHED',
+    },
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   };
 
-  insertProductionRequest(row);
+  if (governance === 'BLOCKED_BY_GOVERNANCE') {
+    return { ok: false, error: governanceBlockReason(input.productionType) };
+  }
+
+  await insertProductionRequest(row);
   return { ok: true, request: row };
 }
 

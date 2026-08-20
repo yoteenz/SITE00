@@ -1,6 +1,5 @@
 /**
- * EVOLVE Marketing OS — primary service layer.
- * Integrates with orchestration; does not replace it.
+ * EVOLVE Marketing OS — primary service layer (Supabase-backed in production).
  */
 
 import { runMarketingAssessment, explainMarketingHealth } from './assessment.js';
@@ -10,6 +9,7 @@ import { requestStudioProduction, canTransitionCampaignToLive } from './producti
 import { listBlockedCapabilities, listAvailableCapabilities } from './governance.js';
 import {
   evolveUuid,
+  ensureEvolveStoreReady,
   getAllPendingApprovals,
   getCalendarByOrgId,
   getCalendarItemById,
@@ -18,7 +18,6 @@ import {
   getChannelsByOrgId,
   getEmailItemsByOrgId,
   getEvolveRoadmapByOrgId,
-  getEvolveStore,
   getInsightsByOrgId,
   getLatestAssessment,
   getMarketingPlansByOrgId,
@@ -31,18 +30,20 @@ import {
   insertCampaign,
   insertInsight,
   insertObjective,
-  resetEvolveStore,
   updateCampaignStatus,
   updateObjective,
   approveSubject,
   rejectSubject,
-} from './memoryStore.js';
-import { isMarketingClientOrg, orgIdFromSlug, ORG_SLUG_TO_ID } from './seedFixtures.js';
+  assertOrgRecord,
+} from './storeAdapter.js';
+import { isMarketingClientOrg } from './seedFixtures.js';
+import { orgIdFromSlug, slugFromOrgId } from './orgRegistry.js';
+import { assertCampaignTransition } from './campaignLifecycle.js';
 import type {
+  CampaignStatus,
   EvolveOverview,
   MarketingCampaignRow,
   MarketingObjectiveRow,
-  NextBestAction,
   ProductionType,
 } from './types.js';
 import { buildNextBestActions } from './nextBestAction.js';
@@ -68,8 +69,8 @@ const ORG_CLASS: Record<string, string> = {
   'studio-world': 'PRODUCTION_INFRASTRUCTURE',
 };
 
-export function ensureEvolveSeeded(): void {
-  getEvolveStore();
+export async function ensureEvolveSeeded(): Promise<void> {
+  await ensureEvolveStoreReady();
 }
 
 export function resolveOrgContext(orgSlug: string): OrgContext {
@@ -80,7 +81,8 @@ export function resolveOrgContext(orgSlug: string): OrgContext {
   };
 }
 
-export function getEvolveOverview(orgSlug: string, ctx?: OrgContext): EvolveOverview {
+export async function getEvolveOverview(orgSlug: string, ctx?: OrgContext): Promise<EvolveOverview> {
+  await ensureEvolveStoreReady();
   const org = ctx ?? resolveOrgContext(orgSlug);
   const orgId = orgIdFromSlug(orgSlug)!;
   const isClient = isMarketingClientOrg(org.classification);
@@ -108,21 +110,21 @@ export function getEvolveOverview(orgSlug: string, ctx?: OrgContext): EvolveOver
     };
   }
 
-  const profile = getProfileByOrgId(orgId);
-  const channels = getChannelsByOrgId(orgId);
-  const campaigns = getCampaignsByOrgId(orgId);
-  const calendar = getCalendarByOrgId(orgId);
-  const production = getProductionRequestsByOrgId(orgId);
-  const approvals = getPendingApprovals(orgId);
-  const assessment = getLatestAssessment(orgId);
-  const roadmap = getEvolveRoadmapByOrgId(orgId);
+  const profile = await getProfileByOrgId(orgId);
+  const channels = await getChannelsByOrgId(orgId);
+  const campaigns = await getCampaignsByOrgId(orgId);
+  const calendar = await getCalendarByOrgId(orgId);
+  const production = await getProductionRequestsByOrgId(orgId);
+  const approvals = await getPendingApprovals(orgId);
+  const assessment = await getLatestAssessment(orgId);
+  const roadmap = await getEvolveRoadmapByOrgId(orgId);
 
   const activeCampaigns = campaigns.filter((c) =>
     ['IN_PRODUCTION', 'LIVE', 'MEASURING', 'APPROVED', 'SCHEDULED'].includes(c.status),
   ).length;
 
   const health = assessment?.marketing_health ?? (profile?.marketing_maturity === 'ASSESSMENT_REQUIRED' ? 'ASSESSMENT_REQUIRED' : 'ATTENTION_REQUIRED');
-  const healthDims = assessment?.health_dimensions ?? explainMarketingHealth(orgSlug).dimensions;
+  const healthDims = assessment?.health_dimensions ?? (await explainMarketingHealth(orgSlug)).dimensions;
 
   const nba = assessment?.next_best_actions[0] ?? buildNextBestActions({
     orgSlug,
@@ -154,7 +156,7 @@ export function getEvolveOverview(orgSlug: string, ctx?: OrgContext): EvolveOver
     productionQueue: production.filter((p) => ['REQUESTED', 'IN_PROGRESS'].includes(p.production_state)).length,
     needsApproval: approvals.length,
     nextPublishingEvent: calendar.find((c) => c.status === 'SCHEDULED' || c.status === 'READY')?.planned_date ?? null,
-    latestPerformanceSignal: assessment?.measurement_readiness?.analytics ?? 'UNKNOWN — ANALYTICS NOT CONNECTED',
+    latestPerformanceSignal: String(assessment?.measurement_readiness?.analytics ?? 'UNKNOWN — ANALYTICS NOT CONNECTED'),
     nextBestAction: nba ?? null,
     channels: channels.map((c) => ({
       channelKey: c.channel_key,
@@ -168,38 +170,44 @@ export function getEvolveOverview(orgSlug: string, ctx?: OrgContext): EvolveOver
   } as EvolveOverview & { contentBrainNote?: string };
 }
 
-export function getEvolveDebugPayload(orgSlug: string) {
+export async function getEvolveDebugPayload(orgSlug: string) {
+  await ensureEvolveStoreReady();
   const org = resolveOrgContext(orgSlug);
   const orgId = orgIdFromSlug(orgSlug)!;
-  const assessment = getLatestAssessment(orgId);
-  const manifest = getMarketingManifest(orgSlug);
+  const assessment = await getLatestAssessment(orgId);
+  const manifest = await getMarketingManifest(orgSlug);
 
   return {
     organization: org,
-    profile: getProfileByOrgId(orgId),
-    objectives: getObjectivesByOrgId(orgId),
-    channels: getChannelsByOrgId(orgId),
+    profile: await getProfileByOrgId(orgId),
+    objectives: await getObjectivesByOrgId(orgId),
+    channels: await getChannelsByOrgId(orgId),
     assessment,
     assessmentInputs: assessment?.inputs_snapshot,
     manifest: manifest.manifest,
     manifestItems: manifest.items,
-    campaigns: getCampaignsByOrgId(orgId),
-    calendar: getCalendarByOrgId(orgId),
-    productionRequests: getProductionRequestsByOrgId(orgId),
-    approvals: getPendingApprovals(orgId),
-    insights: getInsightsByOrgId(orgId),
+    campaigns: await getCampaignsByOrgId(orgId),
+    calendar: await getCalendarByOrgId(orgId),
+    productionRequests: await getProductionRequestsByOrgId(orgId),
+    approvals: await getPendingApprovals(orgId),
+    insights: await getInsightsByOrgId(orgId),
     nextBestActions: assessment?.next_best_actions ?? [],
-    roadmap: getEvolveRoadmapByOrgId(orgId),
+    roadmap: await getEvolveRoadmapByOrgId(orgId),
     contentBrain: marketingRetrievalSummary(orgSlug),
     studioWorld: {
       blockedCapabilities: listBlockedCapabilities(),
       availableCapabilities: listAvailableCapabilities(org.classification),
     },
-    overview: getEvolveOverview(orgSlug, org),
+    overview: await getEvolveOverview(orgSlug, org),
   };
 }
 
-export function runAssessmentForOrg(orgSlug: string, assessedBy?: string, connections?: OrgContext['externalConnections']) {
+export async function runAssessmentForOrg(
+  orgSlug: string,
+  assessedBy?: string,
+  connections?: OrgContext['externalConnections'],
+) {
+  await ensureEvolveStoreReady();
   const org = resolveOrgContext(orgSlug);
   return runMarketingAssessment(
     { orgSlug, orgClassification: org.classification, orgName: org.name, externalConnections: connections },
@@ -207,15 +215,18 @@ export function runAssessmentForOrg(orgSlug: string, assessedBy?: string, connec
   );
 }
 
-export function generateManifestForOrg(orgSlug: string) {
+export async function generateManifestForOrg(orgSlug: string) {
+  await ensureEvolveStoreReady();
   const orgId = orgIdFromSlug(orgSlug)!;
-  return generateMarketingManifest(orgSlug, getProfileByOrgId(orgId), getChannelsByOrgId(orgId));
+  return generateMarketingManifest(orgSlug, await getProfileByOrgId(orgId), await getChannelsByOrgId(orgId));
 }
 
-export function createObjective(orgSlug: string, data: Partial<MarketingObjectiveRow>): MarketingObjectiveRow {
+export async function createObjective(orgSlug: string, data: Partial<MarketingObjectiveRow>): Promise<MarketingObjectiveRow> {
+  await ensureEvolveStoreReady();
   const orgId = orgIdFromSlug(orgSlug)!;
+  const objectives = await getObjectivesByOrgId(orgId);
   const row: MarketingObjectiveRow = {
-    id: evolveUuid('mobj', getObjectivesByOrgId(orgId).length + 100),
+    id: evolveUuid('mobj', objectives.length + 100),
     organization_id: orgId,
     project_id: data.project_id ?? null,
     campaign_id: data.campaign_id ?? null,
@@ -231,18 +242,20 @@ export function createObjective(orgSlug: string, data: Partial<MarketingObjectiv
     owner_email: data.owner_email ?? null,
     source: data.source ?? 'OWNER_REQUEST',
     approval_state: 'DRAFT',
-    metadata: {},
+    metadata: data.metadata ?? {},
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   };
-  insertObjective(row);
+  await insertObjective(row);
   return row;
 }
 
-export function createCampaign(orgSlug: string, data: Partial<MarketingCampaignRow>): MarketingCampaignRow {
+export async function createCampaign(orgSlug: string, data: Partial<MarketingCampaignRow>): Promise<MarketingCampaignRow> {
+  await ensureEvolveStoreReady();
   const orgId = orgIdFromSlug(orgSlug)!;
+  const campaigns = await getCampaignsByOrgId(orgId);
   const row: MarketingCampaignRow = {
-    id: evolveUuid('mcamp', getCampaignsByOrgId(orgId).length + 1),
+    id: evolveUuid('mcamp', campaigns.length + 1000 + (Date.now() % 100000)),
     organization_id: orgId,
     project_id: data.project_id ?? null,
     campaign_key: data.campaign_key ?? `campaign-${Date.now()}`,
@@ -256,31 +269,56 @@ export function createCampaign(orgSlug: string, data: Partial<MarketingCampaignR
     deliverables_summary: data.deliverables_summary ?? null,
     approver_email: data.approver_email ?? null,
     success_metric: data.success_metric ?? null,
-    metadata: {},
+    metadata: {
+      ...(data.metadata ?? {}),
+      objective_label: data.metadata?.objective_label ?? data.why ?? null,
+      target_date: data.metadata?.target_date ?? null,
+      source: data.metadata?.source ?? 'OPERATOR',
+    },
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   };
-  insertCampaign(row);
+  await insertCampaign(row);
   return row;
 }
 
-export function attemptCampaignLive(campaignId: string, deliverablesComplete: boolean): { ok: boolean; error?: string } {
-  const campaign = getEvolveStore().campaigns.find((c) => c.id === campaignId);
+export async function transitionCampaignStatus(
+  orgSlug: string,
+  campaignId: string,
+  toStatus: CampaignStatus,
+  ctx: { hasRequiredApproval?: boolean; productionComplete?: boolean; hasLiveEvidence?: boolean; deliverablesComplete?: boolean; actorEmail?: string } = {},
+): Promise<{ ok: boolean; error?: string; campaign?: MarketingCampaignRow }> {
+  const orgId = orgIdFromSlug(orgSlug)!;
+  const campaign = await getCampaignById(campaignId);
+  try {
+    await assertOrgRecord(orgId, campaign, 'Campaign');
+    assertCampaignTransition(campaign!.status, toStatus, ctx);
+    const updated = await updateCampaignStatus(campaignId, toStatus, ctx.actorEmail);
+    return { ok: true, campaign: updated };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : 'Transition rejected' };
+  }
+}
+
+export async function attemptCampaignLive(campaignId: string, deliverablesComplete: boolean): Promise<{ ok: boolean; error?: string }> {
+  const campaign = await getCampaignById(campaignId);
   if (!campaign) return { ok: false, error: 'Campaign not found' };
   if (deliverablesComplete && !canTransitionCampaignToLive(campaign.status, true)) {
     return { ok: false, error: 'Asset completion does not authorize LIVE — campaign must be APPROVED or SCHEDULED' };
   }
   if (canTransitionCampaignToLive(campaign.status, deliverablesComplete)) {
-    updateCampaignStatus(campaignId, 'LIVE');
+    await updateCampaignStatus(campaignId, 'LIVE');
     return { ok: true };
   }
   return { ok: false, error: `Cannot transition from ${campaign.status} to LIVE` };
 }
 
-export function createInsightFromPerformance(orgSlug: string, title: string, summary: string, evidence: unknown[]) {
+export async function createInsightFromPerformance(orgSlug: string, title: string, summary: string, evidence: unknown[]) {
+  await ensureEvolveStoreReady();
   const orgId = orgIdFromSlug(orgSlug)!;
+  const insights = await getInsightsByOrgId(orgId);
   const row = {
-    id: evolveUuid('mins', getInsightsByOrgId(orgId).length + 1),
+    id: evolveUuid('mins', insights.length + 1),
     organization_id: orgId,
     insight_type: 'PERFORMANCE_LEARNING',
     title,
@@ -294,14 +332,22 @@ export function createInsightFromPerformance(orgSlug: string, title: string, sum
     metadata: { kind: 'INFERENCE' },
     created_at: new Date().toISOString(),
   };
-  insertInsight(row);
+  await insertInsight(row);
   return row;
 }
 
-export function requestApproval(orgSlug: string, subjectType: string, subjectId: string, approvalType: string, requestedBy?: string) {
+export async function requestApproval(
+  orgSlug: string,
+  subjectType: string,
+  subjectId: string,
+  approvalType: string,
+  requestedBy?: string,
+) {
+  await ensureEvolveStoreReady();
   const orgId = orgIdFromSlug(orgSlug)!;
+  const pending = await getPendingApprovals(orgId);
   const row = {
-    id: evolveUuid('mapp', getPendingApprovals(orgId).length + 1),
+    id: evolveUuid('mapp', pending.length + 1),
     organization_id: orgId,
     subject_type: subjectType,
     subject_id: subjectId,
@@ -314,7 +360,7 @@ export function requestApproval(orgSlug: string, subjectType: string, subjectId:
     metadata: {},
     created_at: new Date().toISOString(),
   };
-  insertApproval(row);
+  await insertApproval(row);
   return row;
 }
 
@@ -328,6 +374,7 @@ export {
   getChannelsByOrgId,
   getCampaignsByOrgId,
   getEvolveRoadmapByOrgId,
+  getCalendarItemById,
 };
 
 export function listMarketingOrgs(): OrgContext[] {
@@ -347,10 +394,10 @@ export type CampaignListRow = {
   blockers: string[];
 };
 
-function enrichCampaignRow(campaign: MarketingCampaignRow, orgId: string): CampaignListRow {
+async function enrichCampaignRow(campaign: MarketingCampaignRow, orgId: string): Promise<CampaignListRow> {
   const meta = campaign.metadata as Record<string, unknown>;
-  const production = getProductionRequestsByOrgId(orgId).filter((p) => p.campaign_id === campaign.id);
-  const approvals = getPendingApprovals(orgId).filter((a) => a.subject_id === campaign.id);
+  const production = (await getProductionRequestsByOrgId(orgId)).filter((p) => p.campaign_id === campaign.id);
+  const approvals = (await getPendingApprovals(orgId)).filter((a) => a.subject_id === campaign.id);
   const prodState =
     production.length > 0
       ? production.some((p) => p.production_state === 'IN_PROGRESS')
@@ -372,67 +419,91 @@ function enrichCampaignRow(campaign: MarketingCampaignRow, orgId: string): Campa
   };
 }
 
-export function getCampaignList(orgSlug: string): CampaignListRow[] {
+export async function getCampaignList(orgSlug: string): Promise<CampaignListRow[]> {
+  await ensureEvolveStoreReady();
   const orgId = orgIdFromSlug(orgSlug)!;
-  return getCampaignsByOrgId(orgId).map((c) => enrichCampaignRow(c, orgId));
+  const campaigns = await getCampaignsByOrgId(orgId);
+  return Promise.all(campaigns.map((c) => enrichCampaignRow(c, orgId)));
 }
 
-export function getCampaignDetail(orgSlug: string, campaignId: string) {
+export async function getCampaignDetail(orgSlug: string, campaignId: string) {
+  await ensureEvolveStoreReady();
   const orgId = orgIdFromSlug(orgSlug)!;
-  const campaign = getCampaignById(campaignId);
+  const campaign = await getCampaignById(campaignId);
   if (!campaign || campaign.organization_id !== orgId) return null;
-  const calendar = getCalendarByOrgId(orgId).filter((c) => c.campaign_id === campaignId);
-  const production = getProductionRequestsByOrgId(orgId).filter((p) => p.campaign_id === campaignId);
-  const approvals = getPendingApprovals(orgId).filter((a) => a.subject_id === campaignId);
+  const calendar = (await getCalendarByOrgId(orgId)).filter((c) => c.campaign_id === campaignId);
+  const production = (await getProductionRequestsByOrgId(orgId)).filter((p) => p.campaign_id === campaignId);
+  const approvals = (await getPendingApprovals(orgId)).filter((a) => a.subject_id === campaignId);
   return {
     campaign,
-    listRow: enrichCampaignRow(campaign, orgId),
+    listRow: await enrichCampaignRow(campaign, orgId),
     calendar,
     production,
     approvals,
   };
 }
 
-export function getEmailOpsPayload(orgSlug: string) {
+export async function getEmailOpsPayload(orgSlug: string) {
+  await ensureEvolveStoreReady();
   const orgId = orgIdFromSlug(orgSlug)!;
-  const channel = getChannelsByOrgId(orgId).find((c) => c.channel_key === 'EMAIL');
+  const channel = (await getChannelsByOrgId(orgId)).find((c) => c.channel_key === 'EMAIL');
   const providerState = process.env.EMAIL_PROVIDER?.trim() ? 'CONNECTED' : 'NOT_CONNECTED';
   return {
     channel,
     providerState,
-    items: getEmailItemsByOrgId(orgId),
+    items: await getEmailItemsByOrgId(orgId),
     blockers: providerState === 'NOT_CONNECTED' ? ['EMAIL PROVIDER NOT CONNECTED'] : [],
   };
 }
 
-export function getSocialOpsPayload(orgSlug: string) {
+export async function getSocialOpsPayload(orgSlug: string) {
+  await ensureEvolveStoreReady();
   const orgId = orgIdFromSlug(orgSlug)!;
-  const channels = getChannelsByOrgId(orgId).filter((c) =>
+  const channels = (await getChannelsByOrgId(orgId)).filter((c) =>
     ['INSTAGRAM', 'TIKTOK', 'FACEBOOK', 'LINKEDIN', 'PINTEREST', 'YOUTUBE'].includes(c.channel_key),
   );
   const deferred = channels.filter((c) => c.owner_decision === 'DEFERRED_BY_OWNER');
   return {
     channels,
     deferredByOwner: deferred,
-    items: getSocialItemsByOrgId(orgId),
-    roadmapDeferred: getEvolveRoadmapByOrgId(orgId).filter((r) => r.status === 'DEFERRED_BY_OWNER'),
+    items: await getSocialItemsByOrgId(orgId),
+    roadmapDeferred: (await getEvolveRoadmapByOrgId(orgId)).filter((r) => r.status === 'DEFERRED_BY_OWNER'),
   };
 }
 
-export function getPlansPayload(orgSlug: string) {
+export async function getPlansPayload(orgSlug: string) {
+  await ensureEvolveStoreReady();
   const orgId = orgIdFromSlug(orgSlug)!;
   return {
-    plans: getMarketingPlansByOrgId(orgId),
-    roadmap: getEvolveRoadmapByOrgId(orgId),
-    objectives: getObjectivesByOrgId(orgId),
+    plans: await getMarketingPlansByOrgId(orgId),
+    roadmap: await getEvolveRoadmapByOrgId(orgId),
+    objectives: await getObjectivesByOrgId(orgId),
   };
 }
 
-export function getApprovalsInbox() {
-  const pending = getAllPendingApprovals();
+export async function getApprovalsInbox() {
+  await ensureEvolveStoreReady();
+  const pending = await getAllPendingApprovals();
   return pending.map((a) => {
-    const orgSlug = Object.entries(ORG_SLUG_TO_ID).find(([, id]) => id === a.organization_id)?.[0] ?? 'unknown';
+    const orgSlug = slugFromOrgId(a.organization_id) ?? 'unknown';
     const org = resolveOrgContext(orgSlug);
     return { ...a, organizationSlug: orgSlug, organizationName: org.name };
+  });
+}
+
+export async function createCampaignFromManifestItem(orgSlug: string, manifestItemKey: string, actorEmail?: string) {
+  const manifest = await getMarketingManifest(orgSlug);
+  const item = manifest.items.find((i) => i.item_key === manifestItemKey);
+  if (!item) throw new Error('Manifest item not found');
+  return createCampaign(orgSlug, {
+    campaign_key: `manifest-${manifestItemKey}`,
+    title: item.title,
+    why: item.description ?? undefined,
+    metadata: {
+      source: 'MARKETING_MANIFEST',
+      manifest_item_key: manifestItemKey,
+      manifest_id: manifest.manifest?.id,
+      created_by: actorEmail,
+    },
   });
 }

@@ -15,13 +15,13 @@ export type EvolveCommandContribution = {
   deferred: EvolveCommandItem[];
 };
 
-export function buildEvolveCommandItems(): EvolveCommandContribution {
-  ensureEvolveSeeded();
+export async function buildEvolveCommandItems(): Promise<EvolveCommandContribution> {
+  await ensureEvolveSeeded();
   const items: EvolveCommandItem[] = [];
 
   for (const org of listMarketingOrgs()) {
     if (!isMarketingClientOrg(org.classification)) continue;
-    const overview = getEvolveOverview(org.slug, org);
+    const overview = await getEvolveOverview(org.slug, org);
     const nba = overview.nextBestAction;
     if (!nba) continue;
 
@@ -60,10 +60,10 @@ export function buildEvolveCommandItems(): EvolveCommandContribution {
   };
 }
 
-export function mergeEvolveIntoFocusNow(
+export async function mergeEvolveIntoFocusNow(
   focusNow: Array<{ organizationSlug: string; action: string; why: string; route: string; priority: number }>,
-): typeof focusNow {
-  const evolve = buildEvolveCommandItems();
+): Promise<typeof focusNow> {
+  const evolve = await buildEvolveCommandItems();
   const merged = [...focusNow];
   for (const item of evolve.items.filter((i) => i.category === 'NEEDS_YOU' || i.category === 'BLOCKED').slice(0, 5)) {
     merged.push({

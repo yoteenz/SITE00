@@ -21,8 +21,8 @@ import {
   getPendingApprovals,
   insertAssessment,
   evolveUuid,
-} from './memoryStore.js';
-import { orgIdFromSlug } from './seedFixtures.js';
+} from './storeAdapter.js';
+import { orgIdFromSlug } from './orgRegistry.js';
 import { buildNextBestActions } from './nextBestAction.js';
 
 export type AssessmentInput = {
@@ -151,15 +151,15 @@ function buildOpportunities(
   return opps;
 }
 
-export function runMarketingAssessment(input: AssessmentInput, assessedBy?: string): MarketingAssessmentRow {
+export async function runMarketingAssessment(input: AssessmentInput, assessedBy?: string): Promise<MarketingAssessmentRow> {
   const orgId = orgIdFromSlug(input.orgSlug)!;
-  const profile = getProfileByOrgId(orgId);
-  const channels = getChannelsByOrgId(orgId);
-  const objectives = getObjectivesByOrgId(orgId);
-  const contentBrain = getContentBrainByOrgId(orgId);
-  const roadmap = getEvolveRoadmapByOrgId(orgId);
-  const campaigns = getCampaignsByOrgId(orgId);
-  const production = getProductionRequestsByOrgId(orgId);
+  const profile = await getProfileByOrgId(orgId);
+  const channels = await getChannelsByOrgId(orgId);
+  const objectives = await getObjectivesByOrgId(orgId);
+  const contentBrain = await getContentBrainByOrgId(orgId);
+  const roadmap = await getEvolveRoadmapByOrgId(orgId);
+  const campaigns = await getCampaignsByOrgId(orgId);
+  const production = await getProductionRequestsByOrgId(orgId);
 
   const blockers = buildBlockers(channels, input.externalConnections);
   const opportunities = buildOpportunities(profile, channels, input.orgSlug);
@@ -185,11 +185,11 @@ export function runMarketingAssessment(input: AssessmentInput, assessedBy?: stri
     channels,
     blockers,
     opportunities,
-    pendingApprovals: getPendingApprovals(orgId).length,
+    pendingApprovals: (await getPendingApprovals(orgId)).length,
     productionCount: production.filter((p) => p.production_state === 'IN_PROGRESS').length,
   });
 
-  const prev = getLatestAssessment(orgId);
+  const prev = await getLatestAssessment(orgId);
   const version = (prev?.assessment_version ?? 0) + 1;
 
   const row: MarketingAssessmentRow = {
@@ -228,18 +228,18 @@ export function runMarketingAssessment(input: AssessmentInput, assessedBy?: stri
     assessed_by: assessedBy ?? null,
   };
 
-  insertAssessment(row);
+  await insertAssessment(row);
   return row;
 }
 
-export function explainMarketingHealth(orgSlug: string): {
+export async function explainMarketingHealth(orgSlug: string): Promise<{
   level: MarketingHealthLevel;
   dimensions: Record<string, string>;
   explanation: string[];
-} {
+}> {
   const orgId = orgIdFromSlug(orgSlug)!;
-  const latest = getLatestAssessment(orgId);
-  const profile = getProfileByOrgId(orgId);
+  const latest = await getLatestAssessment(orgId);
+  const profile = await getProfileByOrgId(orgId);
   if (latest) {
     return {
       level: latest.marketing_health,
@@ -247,7 +247,7 @@ export function explainMarketingHealth(orgSlug: string): {
       explanation: Object.entries(latest.health_dimensions).map(([k, v]) => `${k}: ${v}`),
     };
   }
-  const channels = getChannelsByOrgId(orgId);
+  const channels = await getChannelsByOrgId(orgId);
   const dims = deriveHealthDimensions(profile, channels, false);
   return {
     level: profile?.marketing_maturity === 'ASSESSMENT_REQUIRED' ? 'ASSESSMENT_REQUIRED' : 'ATTENTION_REQUIRED',
