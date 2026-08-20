@@ -1761,3 +1761,25 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Known gaps:** Reference COMPARE uses rendered HTML reference targets, not attached PNG boards; per-template copy/subject pass incomplete beyond hero samples; `marketing-intake-received` in events.ts but not in template registry (flagged); legacy `design/compositions.ts` bypassed but not removed; full visual QA at 375/390/430/640 for all 80 templates deferred to founder review via debug gallery.
 
 - **Conventions:** Reference boards outrank legacy implementation. Do not collapse families into one template. Do not wire production sends from debug. Family 02 ↔ 09 bookend (location created / location still yours) is canonical.
+
+---
+
+## 2026-08-20 — EVOLVE Marketing OS sprint (post-launch growth orchestration)
+
+Summary of this cloud agent run (repo: `yoteenz/SITE00`).
+
+- **Context:** Founder sprint to build EVOLVE as SITE 00's intelligent post-launch marketing and growth operating system — marketing profiles, channel intelligence, assessment, org-specific marketing manifests, campaigns, content calendar foundation, Studio World production bridge, approvals, performance/insights, next-best-action, COMMAND integration. No deploy, no external repo changes, no email pack redesign.
+
+- **Database:** Migration `20260820200000_site00_evolve_marketing_os.sql` — 21 new tables (profiles, objectives, channels, assessments, manifests, campaigns, calendar, email/social items, studio production requests, approvals, plans, metrics, snapshots, insights). Reuses `site00_content_brain_entries`, `site00_evolve_roadmap_items`, `site00_external_connections`.
+
+- **Service layer:** `api/_lib/site00Evolve/` — types, seedFixtures (SITE 00 / FS / AIO / Studio World baselines), memoryStore, assessment, manifest (org-specific: FS launch vs AIO service vs SITE 00 platform), nextBestAction, productionBridge (governance BLOCKED_BY_GOVERNANCE for product photography), contentBrain integration, commandIntegration merged into dashboardAggregator.
+
+- **AIO social:** INSTAGRAM/TIKTOK/FACEBOOK remain `DEFERRED_BY_OWNER` — not blockers. Manifest excludes social items for AIO.
+
+- **Admin API:** `/api/admin/site00-evolve` — overview, assessment, manifest, campaigns, production requests, approvals.
+
+- **Admin UI:** `/admin/site00/evolve` (index), `/admin/site00/orchestration/:orgSlug/evolve` (org EVOLVE), `/admin/site00/debug/evolve` (inspector). COMMAND bar link to EVOLVE.
+
+- **Tests:** 72 passing (21 evolve + orchestration + email regression).
+
+- **Deferred:** Supabase store adapter (memory store used); live analytics/email provider adapters; full calendar/email/social CRUD UI; migration apply to remote Supabase.

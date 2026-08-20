@@ -57,6 +57,7 @@ export default function OrchestrationProjectPage() {
       <ul className="site00-email-debug-index">
         <li><Link to={SITE00_ADMIN_ROUTES.dashboard}>← COMMAND</Link></li>
         <li><Link to={SITE00_ADMIN_ROUTES.reconciliation}>RECONCILIATION INBOX →</Link></li>
+        <li><Link to={SITE00_ADMIN_ROUTES.evolveOrg(orgSlug)}>EVOLVE →</Link></li>
       </ul>
 
       {loading ? <p>Loading project control…</p> : null}

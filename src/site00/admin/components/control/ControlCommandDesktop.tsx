@@ -31,6 +31,9 @@ export function ControlCommandDesktop({ data }: ControlCommandDesktopProps) {
           <Link to={SITE00_ADMIN_ROUTES.reconciliation} className="site00-control-panel__link">
             RECONCILIATION INBOX ({orch.reconciliationInbox.length}) →
           </Link>
+          <Link to={SITE00_ADMIN_ROUTES.evolve} className="site00-control-panel__link">
+            EVOLVE →
+          </Link>
         </div>
       ) : null}
 
