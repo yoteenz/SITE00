@@ -1,5 +1,39 @@
 /* SITE 00 — Email debug pack gallery */
 
+.site00-email-debug-family-index {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1px;
+  background: var(--site00-control-border, #e5e5e5);
+  border: 1px solid var(--site00-control-border, #e5e5e5);
+  margin-bottom: 1rem;
+}
+
+.site00-email-debug-family-index__item {
+  background: #fff;
+  padding: 0.65rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.site00-email-debug-family-index__item span {
+  font-size: 0.55rem;
+  color: #eb1c24;
+  font-weight: 700;
+}
+
+.site00-email-debug-family-index__item strong {
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+}
+
+.site00-email-debug-family-index__item em {
+  font-size: 0.55rem;
+  color: #808080;
+  font-style: normal;
+}
+
 .site00-email-debug-summary {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));

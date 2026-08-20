@@ -1723,3 +1723,41 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Deferred:** Full admin dashboard visual polish pass; automatic drift polling; Studio World live signal normalization UI.
 
 - **Conventions:** Debug route remains engineering-only; operator UI lives on approved COMMAND dashboard and orchestration routes.
+
+---
+
+## 2026-08-20 — Nine-family email system sprint (canonical reference boards 01–09)
+
+Summary of this cloud agent run (repo: `yoteenz/SITE00`).
+
+- **Context:** Founder sprint to replace generic SITE 00 email styling with the approved nine-family email system from canonical reference boards. Each family must have distinct visual mood/metaphor. No production email sends, no deploy, no Frontal Slayer/Studio World/AIO changes. Preserve `EmailPreviewCanvas` and existing debug preview work.
+
+- **Nine families implemented:**
+  1. `ACCESS_SECURITY` — Digital credential (dark)
+  2. `WELCOME_ONBOARDING` — Location key (light/architectural)
+  3. `PROJECT_PRODUCTION` — Living blueprint (light/technical)
+  4. `ACTION_REVIEW` — Review card (light/editorial)
+  5. `MILESTONE_CELEBRATION` — Milestone unlocked (dark/celebratory)
+  6. `DELIVERY_COMPLETE` — Delivery package (light/official)
+  7. `BILLING_PAYMENT` — Build receipt (light/ledger)
+  8. `ALERT_BLOCKER` — Build hold tag (light/industrial)
+  9. `REENGAGEMENT_HUMAN` — Occupancy notice / location remembers (light/warm)
+
+- **Architecture:**
+  - `shared/site00-email/families/registry.ts` — canonical family specs (metaphor, artifact, palette field, CTA patterns)
+  - `shared/site00-email/registry/family-map.ts` — explicit mapping of all 80 templates → primary family
+  - `shared/site00-email/design/families/render.ts` — nine distinct family hero compositions
+  - `shared/site00-email/design/assets.ts` — email-safe SVG data-URI assets
+  - `shared/site00-email/registry/trigger-map.ts` — event → template → family → CTA map
+  - `shared/site00-email/archetypes.ts` — rewired to route via `getPrimaryFamily()` → `renderFamilyEmail()`
+  - Extended `EmailTemplateVars`, preview fixtures, family-aware plain-text + QR (ACCESS only)
+
+- **Debug gallery:** `/admin/site00/debug/email-pack` — 9-family filter, family index panel, COMPARE mode with reference targets per family. Detail: `/admin/site00/debug/email-pack/:templateId`. `EmailPreviewCanvas` unchanged.
+
+- **Key routing decisions:** `sign-in-link`/`verify-email`/`password-reset` → ACCESS; `access-credential-issued` → WELCOME; `payment-failed`/`production-paused` → ALERT; marketing templates → RE-ENGAGEMENT.
+
+- **Tests:** 20 email tests passing (16 family-map + 4 preview scale). Build PASS.
+
+- **Known gaps:** Reference COMPARE uses rendered HTML reference targets, not attached PNG boards; per-template copy/subject pass incomplete beyond hero samples; `marketing-intake-received` in events.ts but not in template registry (flagged); legacy `design/compositions.ts` bypassed but not removed; full visual QA at 375/390/430/640 for all 80 templates deferred to founder review via debug gallery.
+
+- **Conventions:** Reference boards outrank legacy implementation. Do not collapse families into one template. Do not wire production sends from debug. Family 02 ↔ 09 bookend (location created / location still yours) is canonical.

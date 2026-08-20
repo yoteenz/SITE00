@@ -1,12 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { resolveCompositionContract } from '@site00-email/art-direction/contracts';
-import { visualFamilyForRegistryFamily } from '@site00-email/art-direction/families';
-import type { FidelityStatus } from '@site00-email/art-direction/contracts';
+import { resolveCompositionContract, familyImplementationStatus } from '@site00-email/art-direction/contracts';
+import {
+  EMAIL_FAMILY_CANON_LIST,
+  EMAIL_FAMILY_REGISTRY,
+  type EmailFamilyCanon,
+} from '@site00-email/families/registry';
+import { getPrimaryFamily } from '@site00-email/registry/family-map';
 import {
   EMAIL_TEMPLATES,
   emailPackSummary,
-  filterTemplates,
 } from '@site00-email/registry/templates';
 import { renderEmailTemplate } from '@site00-email/render';
 import { ControlPageHeader } from '../../components/control/ControlPageHeader';
@@ -16,31 +19,14 @@ import { useEmailDebugStatus } from '../../hooks/useEmailDebugStatus';
 import type { EmailClassification, EmailDebugStatus } from '@site00-email/types';
 import type { RenderedEmail } from '@site00-email/types';
 
-type VisualFamilyFilter =
-  | 'all'
-  | 'ACCESS'
-  | 'ONBOARDING'
-  | 'PRODUCTION'
-  | 'ACTION'
-  | 'MILESTONE'
-  | 'DELIVERY'
-  | 'BILLING'
-  | 'SECURITY'
-  | 'RE-ENGAGEMENT'
-  | 'launch-qa';
+type FamilyFilter = 'all' | EmailFamilyCanon;
 
-const VISUAL_FAMILY_FILTERS: Array<{ id: VisualFamilyFilter; label: string }> = [
+const FAMILY_FILTERS: Array<{ id: FamilyFilter; label: string }> = [
   { id: 'all', label: 'ALL' },
-  { id: 'ACCESS', label: 'ACCESS' },
-  { id: 'ONBOARDING', label: 'ONBOARDING' },
-  { id: 'PRODUCTION', label: 'PRODUCTION' },
-  { id: 'ACTION', label: 'ACTION' },
-  { id: 'MILESTONE', label: 'MILESTONE' },
-  { id: 'DELIVERY', label: 'DELIVERY' },
-  { id: 'BILLING', label: 'BILLING' },
-  { id: 'SECURITY', label: 'SECURITY' },
-  { id: 'RE-ENGAGEMENT', label: 'SIGNAL' },
-  { id: 'launch-qa', label: 'QA / LAUNCH' },
+  ...EMAIL_FAMILY_CANON_LIST.map((id) => ({
+    id,
+    label: EMAIL_FAMILY_REGISTRY[id].label.split(' / ')[0] ?? id,
+  })),
 ];
 
 const STATUS_FILTERS: Array<{ id: EmailDebugStatus | 'all'; label: string }> = [
@@ -48,13 +34,6 @@ const STATUS_FILTERS: Array<{ id: EmailDebugStatus | 'all'; label: string }> = [
   { id: 'needs-review', label: 'NEEDS REVIEW' },
   { id: 'approved', label: 'APPROVED' },
   { id: 'revision-needed', label: 'REVISION NEEDED' },
-];
-
-const FIDELITY_FILTERS: Array<{ id: FidelityStatus | 'all'; label: string }> = [
-  { id: 'all', label: 'ALL' },
-  { id: 'calibrated', label: 'CALIBRATED' },
-  { id: 'in-progress', label: 'IN PROGRESS' },
-  { id: 'needs-calibration', label: 'NEEDS CALIBRATION' },
 ];
 
 const CLASS_FILTERS: Array<{ id: EmailClassification | 'all'; label: string }> = [
@@ -87,9 +66,8 @@ function EmailPreviewThumb({ templateId }: { templateId: string }) {
 export default function EmailPackGalleryPage() {
   const navigate = useNavigate();
   const { statuses, getStatus } = useEmailDebugStatus();
-  const [visualFamily, setVisualFamily] = useState<VisualFamilyFilter>('all');
+  const [familyFilter, setFamilyFilter] = useState<FamilyFilter>('all');
   const [statusFilter, setStatusFilter] = useState<EmailDebugStatus | 'all'>('all');
-  const [fidelityFilter, setFidelityFilter] = useState<FidelityStatus | 'all'>('all');
   const [classFilter, setClassFilter] = useState<EmailClassification | 'all'>('all');
 
   const resolvedStatuses = useMemo(() => {
@@ -101,59 +79,47 @@ export default function EmailPackGalleryPage() {
   const summary = emailPackSummary(resolvedStatuses);
 
   const items = useMemo(() => {
-    let filtered = filterTemplates({
-      family: visualFamily === 'launch-qa' ? 'launch-qa' : 'all',
-      classification: classFilter,
-    });
-
-    if (visualFamily !== 'all' && visualFamily !== 'launch-qa') {
-      filtered = filtered.filter((t) => visualFamilyForRegistryFamily(t.family) === visualFamily);
-    }
-
-    return filtered.filter((t) => {
+    return EMAIL_TEMPLATES.filter((t) => {
+      if (familyFilter !== 'all' && getPrimaryFamily(t.id) !== familyFilter) return false;
+      if (classFilter !== 'all' && t.classification !== classFilter) return false;
       if (statusFilter !== 'all' && resolvedStatuses[t.id] !== statusFilter) return false;
-      if (fidelityFilter !== 'all') {
-        const contract = resolveCompositionContract(t.id, t.family, t.archetype);
-        if (contract.fidelityStatus !== fidelityFilter) return false;
-      }
       return true;
     });
-  }, [visualFamily, classFilter, statusFilter, fidelityFilter, resolvedStatuses]);
+  }, [familyFilter, classFilter, statusFilter, resolvedStatuses]);
 
   return (
     <Site00AdminShell>
       <ControlPageHeader
         kicker="SITE 00 ◆ EMAIL SYSTEM / DEBUG"
         title="TEMPLATE REVIEW ENVIRONMENT"
-        subtitle="REVIEW EVERY CLIENT COMMUNICATION BEFORE IT ENTERS PRODUCTION."
+        subtitle="ONE SYSTEM · NINE MOODS · REVIEW BEFORE PRODUCTION."
       />
+
+      <section className="site00-email-debug-family-index">
+        {EMAIL_FAMILY_CANON_LIST.map((canon) => {
+          const spec = EMAIL_FAMILY_REGISTRY[canon];
+          const fs = familyImplementationStatus(canon);
+          return (
+            <div key={canon} className="site00-email-debug-family-index__item">
+              <span>{spec.num}</span>
+              <strong>{spec.label}</strong>
+              <em>{fs.templateCount} templates · {fs.implementation}</em>
+            </div>
+          );
+        })}
+      </section>
 
       <section className="site00-email-debug-summary">
         <div><span>EMAIL PACK</span><strong>{summary.total}</strong></div>
         <div><span>NEEDS REVIEW</span><strong>{summary.needsReview}</strong></div>
-        <div><span>TRANSACTIONAL</span><strong>{summary.transactional}</strong></div>
-        <div><span>ACCESS</span><strong>{summary.access}</strong></div>
-        <div><span>PROJECT</span><strong>{summary.project}</strong></div>
-        <div><span>STUDIO</span><strong>{summary.studio}</strong></div>
-        <div><span>REVIEW</span><strong>{summary.review}</strong></div>
-        <div><span>BILLING</span><strong>{summary.billing}</strong></div>
-        <div><span>LAUNCH</span><strong>{summary.launch}</strong></div>
-        <div><span>MARKETING</span><strong>{summary.marketing + summary.signal}</strong></div>
+        <div><span>FAMILIES</span><strong>9</strong></div>
       </section>
 
       <div className="site00-email-debug-filters">
         <div>
           <span className="site00-email-debug-filters__label">FAMILY</span>
-          {VISUAL_FAMILY_FILTERS.map((f) => (
-            <button key={f.id} type="button" className={visualFamily === f.id ? 'active' : ''} onClick={() => setVisualFamily(f.id)}>
-              {f.label}
-            </button>
-          ))}
-        </div>
-        <div>
-          <span className="site00-email-debug-filters__label">FIDELITY</span>
-          {FIDELITY_FILTERS.map((f) => (
-            <button key={f.id} type="button" className={fidelityFilter === f.id ? 'active' : ''} onClick={() => setFidelityFilter(f.id)}>
+          {FAMILY_FILTERS.map((f) => (
+            <button key={f.id} type="button" className={familyFilter === f.id ? 'active' : ''} onClick={() => setFamilyFilter(f.id)}>
               {f.label}
             </button>
           ))}
@@ -184,7 +150,7 @@ export default function EmailPackGalleryPage() {
             <article key={t.id} className="site00-email-debug-card">
               <EmailPreviewThumb templateId={t.id} />
               <div className="site00-email-debug-card__body">
-                <p className="site00-email-debug-card__num">{String(t.num).padStart(2, '0')} / {contract.visualFamily}</p>
+                <p className="site00-email-debug-card__num">{contract.familyNum} · {contract.visualFamily.replace(/_/g, ' ')}</p>
                 <h2>{t.name}</h2>
                 <p className="site00-email-debug-card__trigger">TRIGGER: {t.event}</p>
                 <span className={`site00-email-debug-card__fidelity site00-email-debug-card__fidelity--${contract.fidelityStatus}`}>
@@ -209,7 +175,6 @@ export default function EmailPackGalleryPage() {
                 <th>ID</th>
                 <th>TEMPLATE</th>
                 <th>FAMILY</th>
-                <th>FIDELITY</th>
                 <th>TRIGGER</th>
                 <th>STATE</th>
               </tr>
@@ -217,13 +182,12 @@ export default function EmailPackGalleryPage() {
             <tbody>
               {items.map((t) => {
                 const status = resolvedStatuses[t.id];
-                const contract = resolveCompositionContract(t.id, t.family, t.archetype);
+                const canon = getPrimaryFamily(t.id);
                 return (
                   <tr key={t.id}>
                     <td>{String(t.num).padStart(2, '0')}</td>
                     <td><Link to={SITE00_ADMIN_ROUTES.emailTemplate(t.id)}>{t.name}</Link></td>
-                    <td>{contract.visualFamily}</td>
-                    <td>{contract.fidelityStatus.toUpperCase()}</td>
+                    <td>{EMAIL_FAMILY_REGISTRY[canon].label}</td>
                     <td>{t.event}</td>
                     <td>{status.toUpperCase()}</td>
                   </tr>
