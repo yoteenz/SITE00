@@ -1,58 +1,51 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
-import { ProjectRow } from '../components/ecosystem/ProjectRow';
 import { EmptyState, MetricCard, SearchField } from '../components/pages/Site00PagePrimitives';
-import { useEcosystemData } from '../hooks/useEcosystemData';
+import { useClientProjects } from '../hooks/useClientProjects';
 import { SITE00_ROUTES } from '../config/routes';
-import type { ProjectStatus } from '../config/seed/site00-ecosystem-seed';
+import { useEcosystemData } from '../hooks/useEcosystemData';
 
-const STATUS_FILTERS: { id: string; label: string; match?: ProjectStatus | 'ALL' }[] = [
-  { id: 'all', label: 'ALL', match: 'ALL' },
-  { id: 'active', label: 'ACTIVE', match: 'ACTIVE' },
-  { id: 'progress', label: 'IN PROGRESS', match: 'IN PROGRESS' },
-  { id: 'draft', label: 'DRAFT', match: 'DRAFT' },
-  { id: 'archived', label: 'ARCHIVED', match: 'ARCHIVED' },
-];
-
-const SERVICE_FILTERS: { id: string; label: string; match?: 'IDNTY' | 'BLDR' | 'EVOLVE' | 'ALL' }[] = [
-  { id: 'service-all', label: 'ALL', match: 'ALL' },
-  { id: 'service-idnty', label: 'IDNTY', match: 'IDNTY' },
-  { id: 'service-bldr', label: 'BLDR', match: 'BLDR' },
-  { id: 'service-evolve', label: 'EVOLVE', match: 'EVOLVE' },
-];
+const STATUS_FILTERS = [
+  { id: 'all', label: 'ALL' },
+  { id: 'active', label: 'ACTIVE' },
+] as const;
 
 export default function ProjectsPage() {
-  const { projects, projectMetrics, projectActivity, myRoles } = useEcosystemData();
+  const { projects: apiProjects, state: apiState } = useClientProjects();
+  const { projectMetrics, projectActivity, myRoles } = useEcosystemData();
   const [query, setQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [serviceFilter, setServiceFilter] = useState('service-all');
+  const [statusFilter, setStatusFilter] = useState<(typeof STATUS_FILTERS)[number]['id']>('all');
+
+  const projects = apiState === 'ready' && apiProjects.length > 0 ? apiProjects : [];
 
   const filtered = useMemo(() => {
-    const filterDef = STATUS_FILTERS.find((f) => f.id === statusFilter);
-    const serviceDef = SERVICE_FILTERS.find((f) => f.id === serviceFilter);
     return projects.filter((p) => {
       const matchesQuery =
         !query.trim() ||
         p.name.toLowerCase().includes(query.toLowerCase()) ||
-        p.description.toLowerCase().includes(query.toLowerCase());
-      const matchesStatus = !filterDef?.match || filterDef.match === 'ALL' || p.status === filterDef.match;
-      const matchesService =
-        !serviceDef?.match ||
-        serviceDef.match === 'ALL' ||
-        p.serviceLine === serviceDef.match;
-      return matchesQuery && matchesStatus && matchesService;
+        p.slug.toLowerCase().includes(query.toLowerCase());
+      const matchesStatus =
+        statusFilter === 'all' || p.status === 'ACTIVE' || p.paymentState === 'CONFIRMED';
+      return matchesQuery && matchesStatus;
     });
-  }, [projects, query, statusFilter, serviceFilter]);
+  }, [projects, query, statusFilter]);
+
+  const metrics = {
+    total: projects.length || projectMetrics.total,
+    active: projects.filter((p) => p.status === 'ACTIVE').length || projectMetrics.active,
+    completed: projectMetrics.completed,
+    archived: projectMetrics.archived,
+  };
 
   return (
     <EcosystemShell>
       <div className="site00-page site00-page--projects">
         <div className="site00-eco-metrics site00-eco-metrics--4">
-          <MetricCard label="TOTAL PROJECTS" value={String(projectMetrics.total)} />
-          <MetricCard label="ACTIVE PROJECTS" value={String(projectMetrics.active)} />
-          <MetricCard label="COMPLETED" value={String(projectMetrics.completed)} />
-          <MetricCard label="ARCHIVED" value={String(projectMetrics.archived)} />
+          <MetricCard label="TOTAL PROJECTS" value={String(metrics.total)} />
+          <MetricCard label="ACTIVE PROJECTS" value={String(metrics.active)} />
+          <MetricCard label="COMPLETED" value={String(metrics.completed)} />
+          <MetricCard label="ARCHIVED" value={String(metrics.archived)} />
         </div>
 
         <div className="site00-page-toolbar">
@@ -69,21 +62,11 @@ export default function ProjectsPage() {
               </button>
             ))}
           </div>
-          <div className="site00-eco-filters" role="group" aria-label="FILTER BY SERVICE">
-            {SERVICE_FILTERS.map((f) => (
-              <button
-                key={f.id}
-                type="button"
-                className={`site00-eco-filters__btn ${serviceFilter === f.id ? 'site00-eco-filters__btn--active' : ''}`.trim()}
-                onClick={() => setServiceFilter(f.id)}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
         </div>
 
-        {filtered.length === 0 ? (
+        {apiState === 'loading' ? (
+          <p className="site00-body">LOADING PROJECTS…</p>
+        ) : filtered.length === 0 ? (
           <EmptyState
             title="NO PROJECTS YET"
             body="START FROM IDNTY, BLDR, OR EVOLVE TO CREATE YOUR FIRST SITE 00 PROJECT."
@@ -91,7 +74,21 @@ export default function ProjectsPage() {
         ) : (
           <ul className="site00-project-list">
             {filtered.map((project) => (
-              <ProjectRow key={project.id} project={project} />
+              <li key={project.id} className="site00-project-row">
+                <Link to={project.studioRoute} className="site00-project-row__link">
+                  <div className="site00-project-row__thumb" aria-hidden="true" />
+                  <div className="site00-project-row__body">
+                    <p className="site00-project-row__name">{project.name}</p>
+                    <p className="site00-project-row__desc">
+                      {project.buildClass ?? 'SITE'} · {project.currentPhase.replace(/_/g, ' ')} · {project.productionReadinessPct}% READY
+                    </p>
+                    <div className="site00-project-row__meta">
+                      <span className="site00-project-row__date">{project.status}</span>
+                    </div>
+                  </div>
+                  <span className="site00-project-row__menu" aria-hidden="true">→</span>
+                </Link>
+              </li>
             ))}
           </ul>
         )}

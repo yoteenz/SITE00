@@ -18,6 +18,7 @@ const LOCAL_API_ROUTES = [
   { path: '/api/session-cookie', file: 'api/session-cookie.ts' },
   { path: '/api/session-restore', file: 'api/session-restore.ts' },
   { path: '/api/site00-access', file: 'api/site00-access.ts' },
+  { path: '/api/site00/client-production', file: 'api/site00/client-production.ts' },
   { path: '/api/admin/site00-assts', file: 'api/admin/site00-assts.ts' },
   { path: '/api/admin/site00-production', file: 'api/admin/site00-production.ts' },
   { path: '/api/admin/site00-access-credentials', file: 'api/admin/site00-access-credentials.ts' },

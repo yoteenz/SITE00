@@ -46,7 +46,30 @@ export const SITE00_ROUTES = {
   support: '/support',
   /** Client post-payment provisioning — project slug in path */
   projectProvisioning: '/project/:projectSlug/provisioning',
+  /** Client Studio operating environment — project slug in path */
+  studio: '/studio/:projectSlug',
+  studioInput: '/studio/:projectSlug/input',
+  studioOperations: '/studio/:projectSlug/operations',
+  studioBlueprint: '/studio/:projectSlug/blueprint',
+  studioAssets: '/studio/:projectSlug/assets',
+  studioReviews: '/studio/:projectSlug/reviews',
+  studioReviewDetail: '/studio/:projectSlug/reviews/:reviewId',
+  studioMilestones: '/studio/:projectSlug/milestones',
+  studioActivity: '/studio/:projectSlug/activity',
 } as const;
+
+export function site00StudioPath(projectSlug: string, section?: 'input' | 'operations' | 'blueprint' | 'assets' | 'reviews' | 'milestones' | 'activity'): string {
+  const base = `/studio/${projectSlug}`;
+  return section ? `${base}/${section}` : base;
+}
+
+export function site00StudioReviewPath(projectSlug: string, reviewId: string): string {
+  return `/studio/${projectSlug}/reviews/${reviewId}`;
+}
+
+export function isSite00StudioPath(pathname: string): boolean {
+  return pathname.startsWith('/studio/');
+}
 
 /** Future reserved stage namespaces — not yet populated */
 export const SITE00_FUTURE_ROUTES = {

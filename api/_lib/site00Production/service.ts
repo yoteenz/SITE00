@@ -248,8 +248,23 @@ export async function getClientCtrlRoomPayload(clientEmail: string) {
   const activeProjects = (base.projects ?? []).length;
   const connectedDomains = sites.filter((s) => Boolean(s.domain?.trim())).length;
 
+  const signals = (base.signals ?? []).map((s) => {
+    const slug = (s as { project_slug?: string }).project_slug;
+    const clientRoute = slug
+      ? s.signal_type === 'ACCESS_REQUIRED'
+        ? `/project/${slug}/provisioning`
+        : `/studio/${slug}`
+      : s.action_route.replace(/^\/admin\/site00\/projects\/[^/]+/, slug ? `/studio/${slug}` : '/projects');
+    return {
+      ...s,
+      action_route: clientRoute,
+      action_label: slug ? 'ENTER STUDIO →' : s.action_label,
+    };
+  });
+
   return {
     ...base,
+    signals,
     sites,
     counts: {
       properties: sites.length,
