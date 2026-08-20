@@ -986,6 +986,15 @@
   font-size: var(--site00-size-micro);
 }
 
+.site00-page--projects .site00-eco-continuation .site00-eco-panel__title {
+  color: var(--site-text-muted);
+}
+
+.site00-page--projects .site00-eco-activity-feed__time,
+.site00-page--projects .site00-eco-roles__count {
+  color: var(--site-red);
+}
+
 .site00-eco-team {
   list-style: none;
   margin: 0;
