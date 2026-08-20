@@ -1092,3 +1092,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** `FastTravelUpNextCardChrome` + `FastTravelUpNextRegistrationMark`; index from map position in `FastTravelSection`; layered CSS on `--up-next` primary cards (sign-in/create included).
 - **Branch:** `cursor/fast-travel-up-next-card-chrome-2c3b`.
 
+---
+
+## 2026-08-20 — Fast Travel UP NEXT z-index fix
+
+- **Issue:** PACK artwork painted over faded index + red registration mark (art z-index 2 > index z-index 1).
+- **Fix:** Artwork/mark z-index 1; index 3; registration 4; copy 5.
+- **Branch:** `cursor/fast-travel-up-next-zindex-fix-2c3b`.
+
