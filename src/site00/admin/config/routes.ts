@@ -37,6 +37,9 @@ export const SITE00_ADMIN_ROUTES = {
   settingsAutomation: '/admin/site00/settings/studio/automation',
   emailPack: '/admin/site00/debug/email-pack',
   emailTemplate: (id: string) => `/admin/site00/debug/email-pack/${id}`,
+  evolveMarketingDebug: '/admin/site00/debug/evolve-marketing',
+  marketingEngagements: '/admin/site00/marketing-engagements',
+  marketingEngagement: (id: string) => `/admin/site00/marketing-engagements/${id}`,
   /** Shorthand aliases (redirect to emailPack) */
   emailPackDebugShort: '/debug/email-pack',
   emailPackDebugControl: '/control/debug/email-pack',

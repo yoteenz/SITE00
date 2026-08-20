@@ -27,6 +27,7 @@ import '../site00/styles/site00-idnty-diagnostic-mobile.css';
 import '../site00/styles/site00-evolve-mobile.css';
 import '../site00/styles/site00-evolve-hub-mobile.css';
 import '../site00/styles/site00-evolve-assessment-mobile.css';
+import '../site00/styles/site00-marketing.css';
 import '../site00/styles/site00-loader.css';
 import '../site00/styles/site00-desktop-artboard.css';
 import '../site00/styles/site00-desktop-artboard-preview.css';
@@ -89,6 +90,11 @@ const StudioReviewDetailPage = lazy(() => import('../site00/pages/studio/StudioR
 const IdntyAssessmentRouterPage = lazy(() => import('../site00/pages/idnty/assessment/IdntyAssessmentRouterPage'));
 const BldrAssessmentRouterPage = lazy(() => import('../site00/pages/bldr/assessment/BldrAssessmentRouterPage'));
 const EvolveAssessmentRouterPage = lazy(() => import('../site00/pages/evolve/assessment/EvolveAssessmentRouterPage'));
+const MarketingLandingPage = lazy(() => import('../site00/pages/evolve/marketing/MarketingLandingPage'));
+const MarketingServicesPage = lazy(() => import('../site00/pages/evolve/marketing/MarketingServicesPage'));
+const MarketingIntakePage = lazy(() => import('../site00/pages/evolve/marketing/MarketingIntakePage'));
+const MarketingBriefPage = lazy(() => import('../site00/pages/evolve/marketing/MarketingBriefPage'));
+const MarketingEngagementPage = lazy(() => import('../site00/pages/evolve/marketing/MarketingEngagementPage'));
 const LoaderPreviewPage = lazy(() => import('../site00/pages/LoaderPreviewPage'));
 
 function Site00Suspense({ children }: { children: ReactNode }) {
@@ -472,6 +478,66 @@ export function Site00Routes() {
         element={
           <Site00Layout>
             <Site00WorkflowDesktopLegacyRedirect />
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.evolveMarketing}
+        element={
+          <Site00Layout>
+            <Site00PublicRouteShell>
+              <Site00Suspense>
+                <MarketingLandingPage />
+              </Site00Suspense>
+            </Site00PublicRouteShell>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.evolveMarketingServices}
+        element={
+          <Site00Layout>
+            <Site00PublicRouteShell>
+              <Site00Suspense>
+                <MarketingServicesPage />
+              </Site00Suspense>
+            </Site00PublicRouteShell>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.evolveMarketingIntake}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <MarketingIntakePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.evolveMarketingBrief}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <MarketingBriefPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.evolveMarketingEngagement}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <MarketingEngagementPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
           </Site00Layout>
         }
       />

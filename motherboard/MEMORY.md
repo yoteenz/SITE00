@@ -1555,3 +1555,29 @@ Summary of the **whole conversation so far** in this cloud agent run (repo: `yot
 
 - **Conventions:** Reference sheet = visual source of truth. Debug at `/admin/site00/debug/email-pack`. Short URLs redirect to admin route.
 
+---
+
+## 2026-08-20 — EVOLVE / Marketing & Content (full sprint)
+
+Summary of the **whole conversation so far** in this cloud agent run (repo: `yoteenz/SITE00`).
+
+- **Context:** Founder sprint spec to expand EVOLVE with **Marketing & Content** as a first-class capability — full client journey (discover → intake → scope → authorize/pay → provision → studio workspace → review → deliverables → repeat). Studio World is **external** (not in this repo); integrate only via documented contract or mock adapter. Prior work in same session: tunnel restart for preview.
+
+- **Topics covered:** Contract discovery (none found); EVOLVE selection enhancement; marketing landing/services/intake/brief/engagement pages; service taxonomy (7 categories); progressive intake; identity reuse + brand-setup-required path; scope architecture without invented pricing; payment gate reuse; server-side StudioWorldClient + mock adapter; idempotent provisioning; client-safe production phases; admin list/detail; debug route index; email event definitions (unwired); documentation.
+
+- **Decisions / outcomes:**
+  - **Integration status:** `MOCKED` / `BLOCKED_PENDING_CONTRACT` — no `STUDIO_WORLD_EXTERNAL_INTEGRATION_CONTRACT.md` in repo; mock adapter default (`STUDIO_WORLD_ADAPTER=mock`).
+  - **DB:** migration `20260820140000_site00_marketing_engagements.sql` — engagements, events, external_production_links.
+  - **Adapter:** `api/_lib/studioWorld/{adapter,mockAdapter,client,types}.ts` — centralized server-side; credentials never in browser.
+  - **Payment:** Reuses `payment_state` pattern; provisioning gated on `CONFIRMED`; no Stripe checkout UI yet — server confirm chain on brief page.
+  - **EVOLVE UI:** `MarketingCapabilityCard` on desktop (`EvolveStatePage`) and mobile (`EvolveMobileExperience`); preserves existing REFINE/INSTALL/TRANSFORM.
+  - **Email:** 7 marketing lifecycle events added to registry (`wired: false`).
+
+- **Changes:**
+  - New: `shared/site00-marketing/`, `api/_lib/marketingEngagements/`, `api/site00/marketing-engagements.ts`, `api/admin/site00-marketing.ts`, `src/site00/pages/evolve/marketing/*`, admin marketing pages, `EvolveMarketingDebugPage`, `site00-marketing.css`, `docs/SITE_00_EVOLVE_MARKETING.md`
+  - Modified: routes (client + admin), evolve config, email events, local/server API routes
+
+- **Deferred:** Live Studio World connection; Stripe checkout; full Vault handoff ingestion; subscription billing; automated marketing tests; apply migration to remote Supabase.
+
+- **Conventions:** Do not import Studio World code or duplicate production logic. Phase-based client progress (not fake percentages). Mock adapter must not run silently in production — env explicit.
+
