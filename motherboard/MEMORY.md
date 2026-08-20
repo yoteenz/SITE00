@@ -1609,3 +1609,28 @@ Summary of the **whole conversation so far** in this cloud agent run (repo: `yot
 
 - **Conventions:** Primitives ≠ universal EmailShell layout. Each family has composition grammar. Reference sheet controls visual hierarchy — textual REF metadata is supplementary only.
 
+---
+
+## 2026-08-20 — Studio World live bridge sprint (FINAL BRIDGE)
+
+Summary of the **whole conversation so far** in this cloud agent run (repo: `yoteenz/SITE00`).
+
+- **Context:** Founder FINAL BRIDGE sprint — replace mock Studio World adapter with live implementation using external integration contract; validate full flow payment → provision → status → review → approval → deliverables → Vault → completion. Keep mock for dev/testing only.
+
+- **Topics covered:** Contract formalization (`docs/STUDIO_WORLD_EXTERNAL_INTEGRATION_CONTRACT.md`); live HTTP adapter; webhook handler; vault deliverable links; adapter mode resolution (mock dev / live production); tests.
+
+- **Decisions / outcomes:**
+  - **Integration status:** `LIVE` when `STUDIO_WORLD_API_BASE` + `STUDIO_WORLD_API_KEY` configured; `MOCKED` when `STUDIO_WORLD_ADAPTER=mock`; production throws if live misconfigured.
+  - **Live adapter:** `LiveStudioWorldAdapter` — REST client with idempotency, retries, error translation.
+  - **Webhook:** `POST /api/site00/studio-world-webhook` with HMAC signature verification.
+  - **Vault handoff:** `site00_marketing_deliverable_links` table stores approved deliverable references (no duplicate media ingestion).
+  - **Tests:** 6 new adapter tests (17 total passing).
+
+- **Changes:**
+  - New: `docs/STUDIO_WORLD_EXTERNAL_INTEGRATION_CONTRACT.md`, `api/_lib/studioWorld/{contract,httpClient,liveAdapter,liveAdapter.test}.ts`, `api/_lib/marketingEngagements/{vaultHandoff,webhookHandler}.ts`, `api/site00/studio-world-webhook.ts`, migration `20260820160000_site00_marketing_deliverable_links.sql`
+  - Modified: `client.ts`, `types.ts`, `service.ts`, routes, engagement UI, docs, `.env.example`
+
+- **Deferred:** Apply migrations to remote Supabase; deploy Studio World service with matching contract v1 endpoints; Stripe checkout UI.
+
+- **Conventions:** Never silently fall back to mock in production. Mock explicit via env. All Studio World credentials server-side only.
+
