@@ -1703,3 +1703,23 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Deferred (Sprint 03):** Wire approved admin dashboard to real orchestration; dedicated SITE 00 Supabase project (optional); AIO GitHub access; full Studio World live signal normalization; automatic drift polling.
 
 - **Conventions:** Provisional manifests labeled until admin approval. Unknown stays unknown. Studio World = infrastructure, not client brand. External repos read-only from SITE 00.
+
+---
+
+## 2026-08-20 — Sprint 03: Admin Control Center × Live Orchestration
+
+Summary of this cloud agent run (repo: `yoteenz/SITE00`).
+
+- **Context:** Founder Sprint 03 — wire existing approved SITE 00 Admin Dashboard (COMMAND at `/admin/site00`) to live production orchestration from Sprints 01–02. No dashboard redesign, no email pack changes, no deploy.
+
+- **Backend:** `dashboardAggregator.ts` — server-side portfolio, NEEDS YOU, FOCUS NOW, command queue, connections, drift, reconciliation inbox, project detail. `orchestrationEnrichment.ts` merges orchestration into `getControlCommandPayload()`. API actions: `?action=dashboard`, `?action=project&orgSlug=`.
+
+- **Frontend:** Extended `ControlCommandDesktop/Mobile` with orchestration panels when `data.orchestration` present. New pages: `ReconciliationInboxPage` (`/admin/site00/reconciliation`), `OrchestrationProjectPage` (`/admin/site00/orchestration/:orgSlug`). Components: PortfolioPanel, NeedsYouPanel, FocusNowPanel, OrchestrationCommandQueue, LaunchManifestPanel, ProjectSwitcher, ExternalConnectionHealthPanel. `site00OrchestrationApi.ts` service.
+
+- **Rules preserved:** No parallel dashboard state; readiness from orchestration queries; deferred items excluded; AIO repo UNAVAILABLE shown honestly; Studio World as infrastructure; reconciliation CONFIRM/REJECT via server API with audit events.
+
+- **Tests:** 57 passing. Build PASS.
+
+- **Deferred:** Full admin dashboard visual polish pass; automatic drift polling; Studio World live signal normalization UI.
+
+- **Conventions:** Debug route remains engineering-only; operator UI lives on approved COMMAND dashboard and orchestration routes.

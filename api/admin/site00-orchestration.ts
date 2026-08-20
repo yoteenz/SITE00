@@ -5,7 +5,9 @@ import {
   deferRequirement,
   decideReconciliation,
   ensureBootstrapped,
+  getOrchestrationDashboardSnapshot,
   getOrchestrationDebugPayload,
+  getOrchestrationProjectDetail,
   getReadinessForOrg,
   getRequirementExplanation,
   ingestProject,
@@ -65,6 +67,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         case 'defer-preview': {
           const requirementId = String(req.query.requirementId ?? '');
           return res.status(200).json({ requirementId, impact: await previewDeferralImpact(requirementId) });
+        }
+        case 'dashboard': {
+          await ensureBootstrapped(WORKSPACE_ROOT);
+          return res.status(200).json(await getOrchestrationDashboardSnapshot());
+        }
+        case 'project': {
+          await ensureBootstrapped(WORKSPACE_ROOT);
+          const orgSlug = String(req.query.orgSlug ?? '');
+          const detail = await getOrchestrationProjectDetail(orgSlug);
+          if (!detail) return res.status(404).json({ error: 'ORGANIZATION NOT FOUND' });
+          return res.status(200).json(detail);
         }
         default:
           return res.status(400).json({ error: 'UNKNOWN ACTION' });

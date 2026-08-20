@@ -4,8 +4,11 @@ import { ActivityLedger } from './ActivityLedger';
 import { ControlMetricRail } from './ControlMetricRail';
 import { PriorityQueue } from './PriorityQueue';
 import { LaunchQueuePanel, UpcomingReviewsPanel } from './ReviewLaunchPanels';
+import { NeedsYouPanel, FocusNowPanel } from '../orchestration/NeedsYouPanel';
+import { OrchestrationCommandQueue } from '../orchestration/OrchestrationCommandQueue';
 import { CONTROL_MOBILE_QUICK_ACTIONS } from '../../config/control-nav';
 import { ProductionSpine } from '../../../components/studio/ProductionSpine';
+import { SITE00_ADMIN_ROUTES } from '../../config/routes';
 
 type ControlCommandMobileProps = {
   data: ControlCommandPayload;
@@ -33,8 +36,27 @@ function spineFromMatrix(data: ControlCommandPayload) {
 }
 
 export function ControlCommandMobile({ data }: ControlCommandMobileProps) {
+  const orch = data.orchestration;
   const topPriority = data.priorityQueue[0];
   const spineStages = spineFromMatrix(data);
+
+  if (orch) {
+    return (
+      <div className="site00-control-command site00-control-command--mobile">
+        <ControlMetricRail metrics={data.metrics} />
+        <NeedsYouPanel items={orch.needsYou} />
+        <FocusNowPanel items={orch.focusNow} />
+        <OrchestrationCommandQueue items={orch.commandQueue} compact />
+        <ActivityLedger items={data.activity} />
+        <nav className="site00-control-quick-actions" aria-label="OPERATOR QUICK ACTIONS">
+          <Link to={SITE00_ADMIN_ROUTES.reconciliation} className="site00-control-quick-actions__btn">RECONCILIATION</Link>
+          {CONTROL_MOBILE_QUICK_ACTIONS.map((a) => (
+            <Link key={a.id} to={a.href} className="site00-control-quick-actions__btn">{a.label}</Link>
+          ))}
+        </nav>
+      </div>
+    );
+  }
 
   return (
     <div className="site00-control-command site00-control-command--mobile">

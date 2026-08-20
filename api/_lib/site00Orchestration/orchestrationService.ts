@@ -468,4 +468,6 @@ export async function isParentBlockedByDependencies(parentKey: string, manifestI
 }
 
 export { CircularDependencyError, generateProposedManifest, calculateReadiness, resetOrchestrationStore };
+export { getOrchestrationDashboardSnapshot, getOrchestrationProjectDetail } from './dashboardAggregator.js';
+export type { OrchestrationDashboardSnapshot, ProjectControlSnapshot } from './dashboardAggregator.js';
 export type { ManifestRequirementRow, ManifestBuilderInput, IngestionInput };

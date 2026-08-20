@@ -39,6 +39,8 @@ export const SITE00_ADMIN_ROUTES = {
   emailTemplate: (id: string) => `/admin/site00/debug/email-pack/${id}`,
   evolveMarketingDebug: '/admin/site00/debug/evolve-marketing',
   orchestrationDebug: '/admin/site00/debug/orchestration',
+  orchestrationProject: (orgSlug: string) => `/admin/site00/orchestration/${orgSlug}`,
+  reconciliation: '/admin/site00/reconciliation',
   marketingEngagements: '/admin/site00/marketing-engagements',
   marketingEngagement: (id: string) => `/admin/site00/marketing-engagements/${id}`,
   /** Shorthand aliases (redirect to emailPack) */

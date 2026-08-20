@@ -35,6 +35,8 @@ const EmailPackGalleryPage = lazy(() => import('../site00/admin/pages/debug/Emai
 const EmailTemplateDetailPage = lazy(() => import('../site00/admin/pages/debug/EmailTemplateDetailPage'));
 const EvolveMarketingDebugPage = lazy(() => import('../site00/admin/pages/debug/EvolveMarketingDebugPage'));
 const OrchestrationDebugPage = lazy(() => import('../site00/admin/pages/debug/OrchestrationDebugPage'));
+const ReconciliationInboxPage = lazy(() => import('../site00/admin/pages/ReconciliationInboxPage'));
+const OrchestrationProjectPage = lazy(() => import('../site00/admin/pages/OrchestrationProjectPage'));
 const MarketingEngagementsAdminPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementsAdminPage'));
 const MarketingEngagementAdminDetailPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementAdminDetailPage'));
 
@@ -275,6 +277,22 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <EvolveMarketingDebugPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/reconciliation"
+        element={
+          <AdminSuspense>
+            <ReconciliationInboxPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/orchestration/:orgSlug"
+        element={
+          <AdminSuspense>
+            <OrchestrationProjectPage />
           </AdminSuspense>
         }
       />

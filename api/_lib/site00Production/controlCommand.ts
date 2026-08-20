@@ -1,6 +1,7 @@
 import { getSupabaseAdmin } from '../supabase.js';
 import { ensureDemoProjectSeeded, refreshProjectDerivedState } from './seedDemo.js';
 import { normalizeProjectPhase, PHASE_ORDER } from './serviceAccess.js';
+import { enrichControlCommandWithOrchestration } from './orchestrationEnrichment.js';
 import type { StructuredBlocker } from './readinessTypes.js';
 
 export type ControlPrioritySeverity = 'CRITICAL' | 'ACTION' | 'READY' | 'BLOCKED' | 'MILESTONE' | 'INFO';
@@ -98,6 +99,7 @@ export type ControlCommandPayload = {
   systemHealth: ControlSystemHealth;
   alertCount: number;
   productionSpineSummary: ControlMatrixStage[];
+  orchestration?: import('../site00Orchestration/dashboardAggregator.js').OrchestrationDashboardSnapshot | null;
 };
 
 const MATRIX_STAGES: ControlMatrixStage[] = [
@@ -402,7 +404,7 @@ export async function getControlCommandPayload(operatorEmail?: string): Promise<
 
   const operatorLocal = operatorEmail?.split('@')[0]?.replace(/\./g, ' ').toUpperCase() ?? 'OPERATOR';
 
-  return {
+  const basePayload: ControlCommandPayload = {
     operator: { displayName: operatorLocal, role: 'OWNER / ADMIN' },
     metrics: [
       { id: 'active', label: 'ACTIVE PROJECTS', sublabel: 'ACTIVE', value: projectRows.length, route: '/admin/site00/projects' },
@@ -421,4 +423,6 @@ export async function getControlCommandPayload(operatorEmail?: string): Promise<
     alertCount: priorityQueue.filter((p) => p.severity === 'CRITICAL' || p.severity === 'BLOCKED').length,
     productionSpineSummary: MATRIX_STAGES,
   };
+
+  return enrichControlCommandWithOrchestration(basePayload, operatorEmail);
 }

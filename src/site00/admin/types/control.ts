@@ -92,4 +92,6 @@ export type ControlCommandPayload = {
   systemHealth: ControlSystemHealth;
   alertCount: number;
   productionSpineSummary: ControlMatrixStage[];
+  /** Live orchestration snapshot — canonical portfolio/command state (Sprint 03) */
+  orchestration?: import('./orchestration').OrchestrationDashboardSnapshot | null;
 };
