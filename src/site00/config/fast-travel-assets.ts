@@ -4,11 +4,14 @@
  */
 
 import { resolveSite00PublicAsset } from '../components/loader/site00LoaderConfig';
-import { SITE00_ORIGIN_IDNTY_PANEL_ICON_PATH } from './origin-panel-icons';
-import { SITE00_SIGNIN_ICON_PATH } from './site00-auth-assets';
+import {
+  SITE00_IDNTY_GATEWAY_CREATE_ICON_PATH,
+  SITE00_IDNTY_GATEWAY_ICON_VERSION,
+  SITE00_IDNTY_GATEWAY_SIGNIN_ICON_PATH,
+} from './idnty-gateway-assets';
 
-/** Bump when replacing any Fast Travel destination artwork. */
-export const SITE00_FAST_TRAVEL_ART_VERSION = '2';
+/** Bump when replacing any PACK Fast Travel destination artwork. */
+export const SITE00_FAST_TRAVEL_ART_VERSION = '3';
 
 /** All UP NEXT primary destinations with approved illustration assets. */
 export type FastTravelArtDestinationId =
@@ -35,8 +38,9 @@ export const FAST_TRAVEL_DESTINATION_ART: Record<FastTravelArtDestinationId, str
   'bldr-state': 'PACK/895A4714-5E05-48CD-93FF-8AFF836280FD.png',
   services: 'PACK/18010437-3313-4797-9FB6-4E1B6DBC04B7.png',
   sites: 'PACK/DC04BE58-043D-481A-90B2-94836A824932.png',
-  'sign-in': SITE00_SIGNIN_ICON_PATH,
-  create: SITE00_ORIGIN_IDNTY_PANEL_ICON_PATH,
+  /** Same approved NAV PNGs as IDNTY gateway hub cards — not auth orbital / origin panel marks. */
+  'sign-in': SITE00_IDNTY_GATEWAY_SIGNIN_ICON_PATH,
+  create: SITE00_IDNTY_GATEWAY_CREATE_ICON_PATH,
 };
 
 export function hasFastTravelDestinationArt(id: string): id is FastTravelArtDestinationId {
@@ -46,7 +50,9 @@ export function hasFastTravelDestinationArt(id: string): id is FastTravelArtDest
 export function resolveFastTravelDestinationArtUrl(id: string): string | null {
   if (!hasFastTravelDestinationArt(id)) return null;
   const path = FAST_TRAVEL_DESTINATION_ART[id];
-  return `${resolveSite00PublicAsset(path)}?v=${SITE00_FAST_TRAVEL_ART_VERSION}`;
+  const version =
+    id === 'sign-in' || id === 'create' ? SITE00_IDNTY_GATEWAY_ICON_VERSION : SITE00_FAST_TRAVEL_ART_VERSION;
+  return `${resolveSite00PublicAsset(path)}?v=${version}`;
 }
 
 /** Every UP NEXT destination id across all route profiles must map here. */
