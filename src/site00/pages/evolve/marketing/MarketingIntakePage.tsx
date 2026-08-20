@@ -3,7 +3,7 @@ import { getMarketingService } from '../../../../../shared/site00-marketing/serv
 import type { MarketingIntakeRecord, MarketingServiceCategory } from '../../../../../shared/site00-marketing/types';
 import { formStateToIntakeRecord } from '../../../../../shared/site00-marketing/creativeIntake/fieldMapping';
 import { Site00AccountRouteGuard } from '../../../components/guards/Site00AccountRouteGuard';
-import { Site00AppShell } from '../../../components/shell/Site00AppShell';
+import { Site00PublicShell } from '../../../components/shell/Site00PublicShell';
 import { CreativeIntakeEngine } from '../../../components/evolve/creative-intake/CreativeIntakeEngine';
 import { SITE00_ROUTES, site00EvolveMarketingBrief } from '../../../config/routes';
 import { marketingEngagementApi } from '../../../services/marketingEngagementApi';
@@ -20,10 +20,10 @@ export default function MarketingIntakePage() {
 
   if (!service) {
     return (
-      <Site00AppShell>
-        <p>Unknown service.</p>
+      <Site00PublicShell>
+        <p>UNKNOWN SERVICE.</p>
         <Link to={SITE00_ROUTES.evolveMarketingServices}>← SERVICES</Link>
-      </Site00AppShell>
+      </Site00PublicShell>
     );
   }
 
@@ -39,7 +39,7 @@ export default function MarketingIntakePage() {
       localStorage.removeItem(`site00_creative_intake_draft_v1_${service!.id}`);
       navigate(site00EvolveMarketingBrief(engagement.id));
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Could not save intake');
+      setError(e instanceof Error ? e.message : 'COULD NOT SAVE INTAKE');
     } finally {
       setBusy(false);
     }
@@ -47,14 +47,14 @@ export default function MarketingIntakePage() {
 
   return (
     <Site00AccountRouteGuard>
-      <Site00AppShell>
+      <Site00PublicShell locationLabel="EVOLVE / MARKETING">
         <CreativeIntakeEngine
           service={service}
           busy={busy}
           onComplete={(form) => void handleComplete(formStateToIntakeRecord(form))}
         />
-        {error ? <p className="site00-marketing-error">{error}</p> : null}
-      </Site00AppShell>
+        {error ? <p className="site00-marketing-error">{error.toUpperCase()}</p> : null}
+      </Site00PublicShell>
     </Site00AccountRouteGuard>
   );
 }

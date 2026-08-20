@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import type { MarketingServiceDefinition } from '../../../../../shared/site00-marketing/serviceTaxonomy';
 import type { MarketingIntakeRecord } from '../../../../../shared/site00-marketing/types';
 import { formStateToIntakeRecord } from '../../../../../shared/site00-marketing/creativeIntake/fieldMapping';
@@ -20,6 +21,7 @@ type Props = {
 export function CreativeIntakeEngine({ service, busy, onComplete, hideHeading }: Props) {
   const intake = useCreativeIntake(service.id as MarketingServiceCategory);
   const { experience, stage, stageIndex, form, errors, draftRecovered, isLast, progress, updateField, goNext, goBack } = intake;
+  const [draftSavedFlash, setDraftSavedFlash] = useState(false);
 
   if (!stage) return null;
 
@@ -31,17 +33,28 @@ export function CreativeIntakeEngine({ service, busy, onComplete, hideHeading }:
     onComplete(form);
   }
 
+  function handleSaveDraft() {
+    setDraftSavedFlash(true);
+    window.setTimeout(() => setDraftSavedFlash(false), 2000);
+  }
+
+  const stageNum = String(stageIndex + 1).padStart(2, '0');
+
   return (
     <CreativeIntakeShell
       experience={experience}
       serviceTitle={hideHeading ? '' : service.title}
+      serviceDescription={service.tagline}
       stageIndex={stageIndex}
       progress={progress}
       artifact={renderSignatureArtifact({ experience, form, stageIndex })}
     >
-      {draftRecovered ? <p className="site00-creative-intake__draft-note">Draft recovered — your progress was restored.</p> : null}
+      {draftRecovered ? (
+        <p className="site00-creative-intake__draft-note">DRAFT RECOVERED — YOUR PROGRESS WAS RESTORED.</p>
+      ) : null}
+      {draftSavedFlash ? <p className="site00-creative-intake__draft-note is-flash">DRAFT SAVED.</p> : null}
 
-      <p className="site00-creative-intake__stage-label">{stage.progressLabel}</p>
+      <p className="site00-creative-intake__stage-index">{stageNum} / {stage.progressLabel}</p>
       <h2 id="creative-intake-prompt" className="site00-creative-intake__prompt">{stage.prompt}</h2>
       <p className="site00-creative-intake__hint">{stage.hint}</p>
 
@@ -50,7 +63,7 @@ export function CreativeIntakeEngine({ service, busy, onComplete, hideHeading }:
       {errors.length ? (
         <ul className="site00-creative-intake__errors" role="alert">
           {errors.map((e) => (
-            <li key={e}>{e}</li>
+            <li key={e}>{e.toUpperCase()}</li>
           ))}
         </ul>
       ) : null}
@@ -65,6 +78,9 @@ export function CreativeIntakeEngine({ service, busy, onComplete, hideHeading }:
             ← SERVICES
           </Link>
         )}
+        <button type="button" className="site00-btn site00-btn--ghost site00-creative-intake__save-draft" onClick={handleSaveDraft} disabled={busy} aria-label="SAVE DRAFT">
+          SAVE DRAFT
+        </button>
         <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={handleAdvance}>
           {busy ? 'SAVING…' : isLast ? `${experience.completionLanguage} →` : 'CONTINUE →'}
         </button>
