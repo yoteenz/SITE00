@@ -1945,3 +1945,13 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Tests/build:** 205 tests PASS (6 new access-security fidelity). Build PASS. No deploy. No emails sent.
 
+---
+
+## 2026-08-20 — Family 01 ACCESS / SECURITY mobile responsive fidelity
+
+- **Problem:** At 375px, generic `.stack` reflow from global emailDoc broke Family 01 composition — hero/credential/footer stacked into long newsletter column, oversized pass/headline, separated QR from metadata.
+
+- **Fix:** Composition-preserving mobile CSS scoped to `.access-terminal` — 32/68 hero columns retained, sm/md responsive glyph swap, proportional headline scale (22px), credential metadata+QR two-column preserved, security strip 2×2 mobile table, compact three-zone footer columns. Removed generic `stack` classes from Family 01 markup.
+
+- **Tests/build:** 211 tests PASS (6 new mobile fidelity). Build PASS. Desktop 640 unchanged structurally. No deploy.
+
