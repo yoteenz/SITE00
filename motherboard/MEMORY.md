@@ -1634,3 +1634,21 @@ Summary of the **whole conversation so far** in this cloud agent run (repo: `yot
 
 - **Conventions:** Never silently fall back to mock in production. Mock explicit via env. All Studio World credentials server-side only.
 
+---
+
+## 2026-08-20 — Email pack mobile preview alignment fix
+
+Summary of this cloud agent run (repo: `yoteenz/SITE00`).
+
+- **Context:** Founder sprint to fix Email Pack debug preview on mobile — email canvas shifted right, left edge clipped, horizontal overflow. Preview/QA correction only; preserve art-direction work.
+
+- **Root cause:** Flex/grid `min-width: auto` allowed iframe container to expand to email's intrinsic 640px width; centered overflow clipped left edge on narrow viewports. No proportional scaling in preview shell.
+
+- **Fix:** New `EmailPreviewCanvas` component with ResizeObserver + `computeEmailPreviewScale()` — renders iframe at canonical width (375/640), scales down with `transform-origin: top center`, compensates wrapper height. CSS: `min-width: 0` on preview chain, compare stacks below 768px, `overflow-x: clip` on stage only.
+
+- **Changes:** `EmailPreviewCanvas.tsx`, `emailPreviewScale.ts`, `EmailTemplateDetailPage.tsx`, `site00-email-debug.css`, unit tests.
+
+- **Production email HTML:** NOT changed.
+
+- **Visual QA:** Auth blocked live browser test; static analysis + scale unit tests pass.
+
