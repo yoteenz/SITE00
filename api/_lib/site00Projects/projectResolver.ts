@@ -191,7 +191,14 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
   const isClient = isMarketingClientOrg(orgCtx.classification);
   const overview = await getEvolveOverview(slug, orgCtx);
   const intel = marketingRetrievalSummary(slug);
-  const commandRaw = isClient ? await buildConnectionCommandItems(slug, orgCtx.name) : [];
+  let commandRaw: Awaited<ReturnType<typeof buildConnectionCommandItems>> = [];
+  if (isClient) {
+    try {
+      commandRaw = await buildConnectionCommandItems(slug, orgCtx.name);
+    } catch {
+      /* provider/command enrichment unavailable — project identity still valid */
+    }
+  }
   const commandItems = mapCommandItems(commandRaw);
   const currentPhase = await resolveProjectPhase(slug);
   const profile = isClient ? await getProfileByOrgId(orgUuid) : null;
@@ -236,7 +243,15 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
   if (slug === 'ndxbook') {
     importState = getNdxbookImportState().state;
     const page001 = getPage001Candidate('ndxbook');
-    const readiness = await getExpandedPilotReadiness('ndxbook');
+    let publishingEnabled = false;
+    let crossPostingEnabled = false;
+    try {
+      const readiness = await getExpandedPilotReadiness('ndxbook');
+      publishingEnabled = readiness.publishingFence === 'ENABLED' && readiness.globalPublishing.startsWith('ENABLED');
+      crossPostingEnabled = readiness.crossPosting === 'ENABLED';
+    } catch {
+      /* pilot readiness unavailable — publishing remains disabled */
+    }
     production = {
       launchState: 'PRE-LAUNCH PILOT',
       page001: page001
@@ -248,8 +263,8 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
             distribution: page001.distribution,
           }
         : null,
-      publishingEnabled: readiness.publishingFence === 'ENABLED' && readiness.globalPublishing.startsWith('ENABLED'),
-      crossPostingEnabled: readiness.crossPosting === 'ENABLED',
+      publishingEnabled,
+      crossPostingEnabled,
     };
   } else if (slug === 'frontal-slayer') {
     production = {
@@ -281,6 +296,7 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
     lastActivity: (await buildActivity(slug))[0]?.timestamp ?? null,
     surfaces: await buildSurfaces(slug, isClient),
     detailRoute: detailRoute(slug),
+    enrichmentStatus: 'COMPLETE',
   };
 
   const channelSummaries = channels.map((c) => ({
@@ -335,13 +351,69 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
   };
 }
 
+async function buildMinimalIndexEntry(
+  def: (typeof FOUNDER_PROJECTS)[number],
+  error?: unknown,
+): Promise<Site00ProjectIndexEntry | null> {
+  const orgUuid = orgIdFromSlug(def.slug);
+  if (!orgUuid) return null;
+  let orgCtx;
+  try {
+    orgCtx = resolveOrgContext(def.slug);
+  } catch {
+    return null;
+  }
+  const isClient = isMarketingClientOrg(orgCtx.classification);
+  return {
+    slug: def.slug,
+    name: def.name,
+    displayName: def.displayName,
+    internalLabel: def.internalLabel,
+    organizationSlug: def.slug,
+    organizationUuid: orgUuid,
+    classification: orgCtx.classification,
+    currentSystem: def.currentSystem,
+    currentPhase: 'ENRICHMENT PARTIAL',
+    focusNow: null,
+    lastActivity: null,
+    surfaces: await buildSurfaces(def.slug, isClient),
+    detailRoute: detailRoute(def.slug),
+    enrichmentStatus: 'PARTIAL',
+    enrichmentNote: error instanceof Error ? error.message : 'Project enrichment unavailable',
+  };
+}
+
 export async function listSite00FounderProjects(): Promise<Site00ProjectIndexEntry[]> {
+  try {
+    await ensureEvolveSeeded();
+  } catch {
+    /* seeding failure must not erase registry identities */
+  }
+
   const projects: Site00ProjectIndexEntry[] = [];
   for (const def of FOUNDER_PROJECTS) {
-    const detail = await resolveSite00Project(def.slug);
-    if (detail) projects.push(detail);
+    try {
+      const detail = await resolveSite00Project(def.slug);
+      if (detail) projects.push(detail);
+    } catch (err) {
+      const fallback = await buildMinimalIndexEntry(def, err);
+      if (fallback) projects.push(fallback);
+    }
   }
   return projects;
+}
+
+function buildIndexSummary(
+  projects: Site00ProjectIndexEntry[],
+  clientProjects?: Array<{ id: string; slug: string; name: string; studioRoute: string }>,
+): Site00ProjectsIndexPayload['summary'] {
+  const clientCount = clientProjects?.length ?? 0;
+  return {
+    total: projects.length + clientCount,
+    founderIndex: projects.length,
+    clientProjects: clientCount,
+    partial: projects.filter((p) => p.enrichmentStatus === 'PARTIAL').length,
+  };
 }
 
 export async function getSite00ProjectsIndexPayload(
@@ -349,8 +421,10 @@ export async function getSite00ProjectsIndexPayload(
 ): Promise<Site00ProjectsIndexPayload> {
   const projects = await listSite00FounderProjects();
   return {
+    ok: true,
     projects,
     source: 'site00_project_resolver',
+    summary: buildIndexSummary(projects, clientProjects),
     clientProjects,
   };
 }

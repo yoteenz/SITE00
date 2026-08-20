@@ -6,8 +6,10 @@ import { useSite00ProjectsIndex } from '../hooks/useSite00Projects';
 import { SITE00_ROUTES } from '../config/routes';
 import '../styles/site00-projects.css';
 
+const UNAVAILABLE = '—';
+
 export default function ProjectsPage() {
-  const { projects, clientProjects, state, error } = useSite00ProjectsIndex();
+  const { projects, clientProjects, summary, state, sourceLabel, error, reload } = useSite00ProjectsIndex();
   const [query, setQuery] = useState('');
 
   const filtered = useMemo(() => {
@@ -23,12 +25,18 @@ export default function ProjectsPage() {
     });
   }, [projects, query]);
 
-  const metrics = {
-    total: projects.length + (clientProjects?.length ?? 0),
-    active: projects.filter((p) => !p.currentPhase.includes('ARCHIVED')).length,
-    founder: projects.length,
-    client: clientProjects?.length ?? 0,
-  };
+  const showMetrics = state === 'ready' || state === 'partial';
+  const metrics = showMetrics && summary
+    ? {
+        total: String(summary.total),
+        founder: String(summary.founderIndex),
+        client: String(summary.clientProjects),
+      }
+    : {
+        total: UNAVAILABLE,
+        founder: UNAVAILABLE,
+        client: UNAVAILABLE,
+      };
 
   return (
     <EcosystemShell>
@@ -42,10 +50,10 @@ export default function ProjectsPage() {
         </header>
 
         <div className="site00-eco-metrics site00-eco-metrics--4">
-          <MetricCard label="TOTAL PROJECTS" value={String(metrics.total)} />
-          <MetricCard label="FOUNDER INDEX" value={String(metrics.founder)} />
-          <MetricCard label="CLIENT PROJECTS" value={String(metrics.client)} />
-          <MetricCard label="SOURCE" value="LIVE" />
+          <MetricCard label="TOTAL PROJECTS" value={metrics.total} />
+          <MetricCard label="FOUNDER INDEX" value={metrics.founder} />
+          <MetricCard label="CLIENT PROJECTS" value={metrics.client} />
+          <MetricCard label="SOURCE" value={sourceLabel} />
         </div>
 
         <div className="site00-page-toolbar">
@@ -55,39 +63,57 @@ export default function ProjectsPage() {
         {state === 'loading' ? (
           <p className="site00-body">LOADING PROJECTS…</p>
         ) : state === 'error' ? (
-          <EmptyState title="COULD NOT LOAD PROJECTS" body={error ?? 'REAL PROJECT DATA UNAVAILABLE — NO DEMO FALLBACK SHOWN.'} />
+          <div className="site00-projects-error">
+            <EmptyState
+              title="PROJECT INDEX UNAVAILABLE"
+              body={error ?? 'PROJECT DATA COULD NOT BE LOADED — NOT AN EMPTY PROJECT LIST.'}
+            />
+            <button type="button" className="site00-btn site00-btn--primary site00-projects-error__retry" onClick={reload}>
+              RETRY →
+            </button>
+          </div>
         ) : filtered.length === 0 ? (
           <EmptyState title="NO MATCHING PROJECTS" body="ADJUST SEARCH OR RETURN LATER." />
         ) : (
-          <ul className="site00-project-index-list">
-            {filtered.map((project) => (
-              <li key={project.slug} className="site00-project-index-card">
-                <Link to={project.detailRoute} className="site00-project-index-card__link">
-                  <div className="site00-project-index-card__mark" aria-hidden="true">◈</div>
-                  <div className="site00-project-index-card__body">
-                    <p className="site00-project-index-card__kicker">{project.currentSystem}</p>
-                    <p className="site00-project-index-card__name">{project.displayName}</p>
-                    {project.internalLabel ? (
-                      <p className="site00-project-index-card__internal">{project.internalLabel}</p>
-                    ) : null}
-                    <p className="site00-project-index-card__phase">{project.currentPhase}</p>
-                    {project.focusNow ? (
-                      <p className="site00-project-index-card__focus">
-                        FOCUS NOW · {project.focusNow}
+          <>
+            {state === 'partial' ? (
+              <p className="site00-project-command__note site00-projects-partial-note">
+                PARTIAL ENRICHMENT — SOME PROJECT METADATA UNAVAILABLE. IDENTITIES REMAIN TRUTHFUL.
+              </p>
+            ) : null}
+            <ul className="site00-project-index-list">
+              {filtered.map((project) => (
+                <li key={project.slug} className="site00-project-index-card">
+                  <Link to={project.detailRoute} className="site00-project-index-card__link">
+                    <div className="site00-project-index-card__mark" aria-hidden="true">◈</div>
+                    <div className="site00-project-index-card__body">
+                      <p className="site00-project-index-card__kicker">{project.currentSystem}</p>
+                      <p className="site00-project-index-card__name">{project.displayName}</p>
+                      {project.internalLabel ? (
+                        <p className="site00-project-index-card__internal">{project.internalLabel}</p>
+                      ) : null}
+                      <p className="site00-project-index-card__phase">{project.currentPhase}</p>
+                      {project.focusNow ? (
+                        <p className="site00-project-index-card__focus">
+                          FOCUS NOW · {project.focusNow}
+                        </p>
+                      ) : null}
+                      {project.enrichmentStatus === 'PARTIAL' ? (
+                        <p className="site00-project-index-card__partial">ENRICHMENT PARTIAL</p>
+                      ) : null}
+                      <p className="site00-project-index-card__org">
+                        {project.classification.replace(/_/g, ' ')}
                       </p>
-                    ) : null}
-                    <p className="site00-project-index-card__org">
-                      {project.classification.replace(/_/g, ' ')}
-                    </p>
-                  </div>
-                  <span className="site00-project-index-card__cta">OPEN PROJECT →</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+                    </div>
+                    <span className="site00-project-index-card__cta">OPEN PROJECT →</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </>
         )}
 
-        {clientProjects && clientProjects.length > 0 ? (
+        {showMetrics && clientProjects && clientProjects.length > 0 ? (
           <section className="site00-projects-client-section">
             <h2 className="site00-eco-panel__title">CLIENT STUDIO PROJECTS</h2>
             <ul className="site00-project-list">

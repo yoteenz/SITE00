@@ -230,3 +230,33 @@
     justify-self: start;
   }
 }
+
+.site00-project-index-card__partial {
+  margin: 0.25rem 0 0;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: #eb1c24;
+}
+
+.site00-projects-error__retry {
+  margin-top: 1rem;
+}
+
+.site00-projects-partial-note {
+  margin-bottom: 1rem;
+}
+
+.site00-project-index-card__partial {
+  margin: 0.25rem 0 0;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: #eb1c24;
+}
+
+.site00-projects-error__retry {
+  margin-top: 1rem;
+}
+
+.site00-projects-partial-note {
+  margin-bottom: 1rem;
+}

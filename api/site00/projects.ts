@@ -18,6 +18,12 @@ function setCors(res: VercelResponse): void {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 }
 
+function json(res: VercelResponse, status: number, payload: unknown): void {
+  res.status(status);
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  res.json(payload);
+}
+
 function parseBody(req: VercelRequest): Record<string, unknown> | null {
   if (!req.body) return null;
   if (typeof req.body === 'string') {
@@ -34,10 +40,22 @@ function parseBody(req: VercelRequest): Record<string, unknown> | null {
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   setCors(res);
   if (req.method === 'OPTIONS') return res.status(204).end();
-  if (req.method !== 'GET' && req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  if (req.method !== 'GET' && req.method !== 'POST') {
+    return json(res, 405, {
+      ok: false,
+      error: { code: 'METHOD_NOT_ALLOWED', message: 'Method not allowed' },
+      source: 'site00_project_resolver',
+    });
+  }
 
   const user = await getAuthUser(req);
-  if (!user?.email) return res.status(401).json({ error: 'Unauthorized' });
+  if (!user?.email) {
+    return json(res, 401, {
+      ok: false,
+      error: { code: 'UNAUTHORIZED', message: 'Unauthorized' },
+      source: 'site00_project_resolver',
+    });
+  }
 
   const action = String(req.query.action ?? (req.method === 'POST' ? parseBody(req)?.action : '') ?? 'index');
 
@@ -50,46 +68,99 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           .map((p) => ({ id: p.id, slug: p.slug, name: p.name, studioRoute: p.studioRoute }));
 
         if (!canAccessFounderProjectIndex(user.email)) {
-          return res.status(200).json({
+          return json(res, 200, {
+            ok: true,
             projects: [],
             source: 'site00_project_resolver',
+            summary: {
+              total: clientProjects.length,
+              founderIndex: 0,
+              clientProjects: clientProjects.length,
+              partial: 0,
+            },
             clientProjects,
           });
         }
 
         const payload = await getSite00ProjectsIndexPayload(clientProjects);
-        return res.status(200).json(payload);
+        return json(res, 200, payload);
       }
       case 'detail': {
         const slug = String(req.query.slug ?? '');
-        if (!slug) return res.status(400).json({ error: 'slug required' });
+        if (!slug) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'SLUG_REQUIRED', message: 'slug required' },
+            source: 'site00_project_resolver',
+          });
+        }
         if (isFounderProjectSlug(slug) && !canAccessFounderProjectAsOwner(user.email, slug)) {
-          return res.status(403).json({ error: 'Project access denied' });
+          return json(res, 403, {
+            ok: false,
+            error: { code: 'PROJECT_ACCESS_DENIED', message: 'Project access denied' },
+            source: 'site00_project_resolver',
+          });
         }
         const detail = await resolveSite00Project(slug);
-        if (!detail) return res.status(404).json({ error: 'Project not found' });
-        return res.status(200).json({ project: detail, source: 'site00_project_resolver' });
+        if (!detail) {
+          return json(res, 404, {
+            ok: false,
+            error: { code: 'NOT_FOUND', message: 'Project not found' },
+            source: 'site00_project_resolver',
+          });
+        }
+        return json(res, 200, { ok: true, project: detail, source: 'site00_project_resolver' });
       }
       case 'creative_direction': {
         const slug = String(req.query.slug ?? '');
-        if (!slug) return res.status(400).json({ error: 'slug required' });
+        if (!slug) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'SLUG_REQUIRED', message: 'slug required' },
+            source: 'site00_project_resolver',
+          });
+        }
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return res.status(403).json({ error: 'Project access denied' });
+          return json(res, 403, {
+            ok: false,
+            error: { code: 'PROJECT_ACCESS_DENIED', message: 'Project access denied' },
+            source: 'site00_project_resolver',
+          });
         }
         const payload = await getCreativeDirectionPayload(slug);
-        return res.status(200).json(payload);
+        return json(res, 200, payload);
       }
       case 'creative_direction_decision': {
-        if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });
+        if (req.method !== 'POST') {
+          return json(res, 405, {
+            ok: false,
+            error: { code: 'POST_REQUIRED', message: 'POST required' },
+            source: 'site00_project_resolver',
+          });
+        }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? req.query.slug ?? '');
-        if (!slug) return res.status(400).json({ error: 'slug required' });
+        if (!slug) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'SLUG_REQUIRED', message: 'slug required' },
+            source: 'site00_project_resolver',
+          });
+        }
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return res.status(403).json({ error: 'Project access denied' });
+          return json(res, 403, {
+            ok: false,
+            error: { code: 'PROJECT_ACCESS_DENIED', message: 'Project access denied' },
+            source: 'site00_project_resolver',
+          });
         }
         const type = String(body.type ?? '') as 'APPROVE' | 'REFINE' | 'HYBRIDIZE' | 'REJECT';
         if (!['APPROVE', 'REFINE', 'HYBRIDIZE', 'REJECT'].includes(type)) {
-          return res.status(400).json({ error: 'Invalid decision type' });
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_DECISION', message: 'Invalid decision type' },
+            source: 'site00_project_resolver',
+          });
         }
         const engagement = await recordFounderDecision(slug, {
           type,
@@ -100,14 +171,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             : undefined,
           by: user.email,
         });
-        return res.status(200).json({ engagement, source: 'canonical_founder_decision_service' });
+        return json(res, 200, { ok: true, engagement, source: 'canonical_founder_decision_service' });
       }
       default:
-        return res.status(400).json({ error: 'Unknown action' });
+        return json(res, 400, {
+          ok: false,
+          error: { code: 'UNKNOWN_ACTION', message: 'Unknown action' },
+          source: 'site00_project_resolver',
+        });
     }
   } catch (e) {
     console.error('[api/site00/projects]', e);
     const msg = e instanceof Error ? e.message : 'Internal error';
-    return res.status(500).json({ error: msg, source: 'site00_project_resolver' });
+    return json(res, 500, {
+      ok: false,
+      error: { code: 'INTERNAL_ERROR', message: msg },
+      source: 'site00_project_resolver',
+    });
   }
 }
