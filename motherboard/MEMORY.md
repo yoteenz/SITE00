@@ -1506,3 +1506,29 @@ Summary of this cloud agent run (SITE 00 Composer implementation sprint — inte
 
 - **Conventions:** 00 / CONTROL = `/admin/site00/*`. Reference mock names (NIA, Frontal Slayer, etc.) never in production UI. System health reports UNKNOWN when not measurable. Mobile admin prioritizes intervention (priority queue, production spine) over desktop matrix tables.
 
+---
+
+## 2026-08-20 — SITE 00 Email System + debug template gallery
+
+Summary of this cloud agent run (Email System + Debug Template Gallery sprint).
+
+- **Context:** Founder attached approved SITE 00 Email System design reference sheet. Sprint: build complete transactional + lifecycle email design family (variety + family resemblance), 80-template inventory mapped to 12 visual archetypes, private debug gallery for individual template review before production sends. No auto-send from debug route; mock data debug-only.
+
+- **Topics covered:** Email families (Access, Identity, Project, Studio, Review, Milestone, Launch, Signal); table-safe HTML with inline styles; archetype system; central template registry; event registry; debug gallery with filters/index; mobile/desktop + light/dark preview; text fallback; sendEmail integration with idempotency stub; auth email limitations (Supabase).
+
+- **Decisions / outcomes:**
+  - Shared module `shared/site00-email/`: tokens (#EB1C24), primitives (shell, header, credential card, data grid, CTA, footer), 12 archetypes (access-credential, project-record, studio-portal, action-required, review-dossier, milestone-artifact, etc.), `renderEmailTemplate()` used by both preview and send path.
+  - Registry: 80 templates (01–80) with metadata (family, event, subject, preheader, CTA, classification, debugStatus, enabled flags).
+  - Debug routes: `/admin/site00/debug/email-pack` (gallery + master index) and `/admin/site00/debug/email-pack/:templateId` (metadata, copy, text fallback, viewport/inbox controls). Approval state in localStorage.
+  - sendEmail.ts: renders real HTML from registry; skips send when no EMAIL_PROVIDER; idempotency via sendLog stub; legacy `welcome` maps to access-credential-issued.
+  - Event registry documents wired vs unwired triggers; most lifecycle events marked unwired until Stripe/webhooks/state transitions exist.
+
+- **Changes:**
+  - `shared/site00-email/*`, `api/_lib/email/sendEmail.ts`
+  - Admin UI: `EmailPackGalleryPage`, `EmailTemplateDetailPage`, `site00-email-debug.css`, routes, Settings link
+  - Config: tsconfig + vite alias `@site00-email`, motherboard CORE
+
+- **Deferred:** EMAIL_PROVIDER integration (Resend/SendGrid/Postmark); Supabase Auth custom templates; wiring PAYMENT_CONFIRMED, REVIEW_READY, etc. to state events; DB-backed send log; test-send button; raster hero artwork from reference sheet (using SVG data-uri placeholders for now).
+
+- **Conventions:** Preview fixtures in `fixtures/previewData.ts` only. Debug gallery never sends. Transactional vs marketing classifications separate. Auth provider emails may differ from gallery templates.
+
