@@ -31,6 +31,10 @@ export default defineConfig(({ mode, command }) => {
     (process.env.SITE00_CLOUD_MOBILE_PREVIEW === '1' ||
       process.env.SITE00_CLOUD_MOBILE_PREVIEW === 'true');
 
+  /** Unique per dev-server boot — busts mobile Safari module cache on cloud preview. */
+  const previewSessionId = cloudMobilePreview ? Date.now().toString(36) : null;
+  const effectiveBuildId = previewSessionId ?? buildId;
+
   const tunnelHostname = (
     process.env.SITE00_CLOUDFLARE_TUNNEL_HOSTNAME ||
     process.env.CLOUDFLARE_TUNNEL_HOSTNAME ||
@@ -59,6 +63,24 @@ export default defineConfig(({ mode, command }) => {
     };
   }
 
+  function cloudPreviewIndexCacheBustPlugin(sessionId: string) {
+    return {
+      name: 'site00-cloud-preview-index-cache-bust',
+      transformIndexHtml: {
+        order: 'post' as const,
+        handler(html: string) {
+          return html
+            .replace('content="__APP_BUILD_ID__"', `content="${sessionId}"`)
+            .replace('src="/src/main.tsx"', `src="/src/main.tsx?v=${sessionId}"`)
+            .replace(
+              'src="/site00-assts-loader-boot.js?v=environment-v2"',
+              `src="/site00-assts-loader-boot.js?v=${sessionId}"`,
+            );
+        },
+      },
+    };
+  }
+
   function cloudPreviewNoCachePlugin() {
     return {
       name: 'site00-cloud-preview-no-cache',
@@ -76,14 +98,20 @@ export default defineConfig(({ mode, command }) => {
 
   return {
     define: {
-      'import.meta.env.VITE_APP_BUILD_ID': JSON.stringify(buildId),
-      'import.meta.env.VITE_APP_VERSION': JSON.stringify(buildId),
+      'import.meta.env.VITE_APP_BUILD_ID': JSON.stringify(effectiveBuildId),
+      'import.meta.env.VITE_APP_VERSION': JSON.stringify(effectiveBuildId),
       'import.meta.env.VITE_SITE00_ROOT': JSON.stringify('1'),
     },
     plugins: [
       react(cloudMobilePreview ? { fastRefresh: false } : undefined),
       ...(command === 'serve' ? [site00AsstsLocalApiPlugin()] : []),
-      ...(cloudMobilePreview ? [stripViteClientForCloudPreviewPlugin(), cloudPreviewNoCachePlugin()] : []),
+      ...(cloudMobilePreview && previewSessionId
+        ? [
+            stripViteClientForCloudPreviewPlugin(),
+            cloudPreviewNoCachePlugin(),
+            cloudPreviewIndexCacheBustPlugin(previewSessionId),
+          ]
+        : []),
     ],
     base: '/',
     build: {

@@ -916,3 +916,11 @@ Summary of the **whole conversation so far** in this cloud agent run.
 - **Fix:** `site00-signin-form__footer-link` `display: block` + small top margin in `site00-auth.css`.
 - **Branch:** `cursor/signin-create-account-wrap-2c3b`.
 
+---
+
+## 2026-08-20 — Cloud preview cache bust (mobile Safari stale modules)
+
+- **Issue:** Founder not seeing Fast Travel arrows, close-button fix, or color swaps on tunnel — server had latest code; phone cached old JS modules (also showed gray CURRENT LOCATION + blue X = pre-PR-115 bundle).
+- **Fix:** Vite cloud preview injects unique session id into `index.html` (`main.tsx?v=…`, app-build-id meta) on each dev-server boot. Explicit red stroke on Fast Travel arrow SVG paths.
+- **Branch:** `cursor/preview-cache-bust-arrows-2c3b`.
+
