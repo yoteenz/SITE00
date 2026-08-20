@@ -1532,3 +1532,26 @@ Summary of this cloud agent run (Email System + Debug Template Gallery sprint).
 
 - **Conventions:** Preview fixtures in `fixtures/previewData.ts` only. Debug gallery never sends. Transactional vs marketing classifications separate. Auth provider emails may differ from gallery templates.
 
+---
+
+## 2026-08-20 — Email pack visual fidelity correction sprint (reference-locked rebuild)
+
+Summary of the **whole conversation so far** in this cloud agent run (repo: `yoteenz/SITE00`).
+
+- **Context:** Founder rejected generic transactional email implementation; attached approved Email Pack Design Reference Sheet. Required reference-faithful compositions, approved copy, real QR on welcome/access, controlled variety across 12 reference archetypes, enhanced debug design review system. Prior sprint (PR #159) added 80-template registry + debug gallery; PR #160 fixed routing to `/admin/site00/debug/email-pack`.
+
+- **Topics covered (cumulative):** 00/CONTROL admin (PR #158); email system + debug pack (PR #159); email pack routing fix (PR #160); **this sprint:** rebuild rendering layer to match reference sheet—not one generic black shell.
+
+- **Decisions / outcomes:**
+  - Replaced generic `primitives.ts` archetype renderer with **reference-locked compositions** in `shared/site00-email/design/compositions.ts` (12 compositions).
+  - **Real QR codes** via `qrcode` for `access-credential-issued` and `sign-in-link`; async `renderEmailTemplate()`.
+  - **Studio Access Granted** rebuilt: portal doorframe, ceremonial transition copy, STUDIO ACTIVE status card.
+  - Debug gallery enhanced: family summary counts, REFERENCE TARGET panel, IMPLEMENTATION vs REFERENCE BRIEF toggle, review state controls.
+  - Production send path: `sendEmailAsync` → `renderEmailTemplate()` from registry; provider stub until `EMAIL_PROVIDER`.
+
+- **Changes:** `shared/site00-email/design/*`, `qr.ts`, `archetypes.ts`, `render.ts`, debug admin pages, `sendEmail.ts`.
+
+- **Deferred:** Hosted raster hero artwork; full copy audit for all 80 templates; EMAIL_PROVIDER live send; test-send button.
+
+- **Conventions:** Reference sheet = visual source of truth. Debug at `/admin/site00/debug/email-pack`. Short URLs redirect to admin route.
+
