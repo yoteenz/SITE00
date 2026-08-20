@@ -51,6 +51,7 @@ export const SITE00_ROUTES = {
   /** Founder/admin operator dashboard — gated by AdminGuard */
   adminDashboard: '/admin/site00',
   projects: '/projects',
+  projectDetail: '/projects/:projectSlug',
   support: '/support',
   /** Client post-payment provisioning — project slug in path */
   projectProvisioning: '/project/:projectSlug/provisioning',
@@ -65,6 +66,10 @@ export const SITE00_ROUTES = {
   studioMilestones: '/studio/:projectSlug/milestones',
   studioActivity: '/studio/:projectSlug/activity',
 } as const;
+
+export function site00ProjectPath(projectSlug: string): string {
+  return `/projects/${projectSlug}`;
+}
 
 export function site00StudioPath(projectSlug: string, section?: 'input' | 'operations' | 'blueprint' | 'assets' | 'reviews' | 'milestones' | 'activity'): string {
   const base = `/studio/${projectSlug}`;

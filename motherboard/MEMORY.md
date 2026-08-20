@@ -2023,3 +2023,15 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Tests/build:** 291 tests PASS. Build PASS. PR merged to main. No deploy.
 
+---
+
+## 2026-08-20 — SITE 00 Projects real data injection + project command surface
+
+- **Context:** Founder-facing PROJECTS still showed mock/demo data via `ECOSYSTEM_PROJECTS_SEED` / `useEcosystemData` fallbacks while real Frontal Slayer, Studio World, and ndxbook intelligence existed in EVOLVE. Sprint replaces mock founder view with truthful project index + command surface.
+
+- **Architecture:** `api/_lib/site00Projects/projectResolver.ts` aggregates canonical org references (no duplicated snapshots). `FOUNDER_PROJECTS` registry maps `frontal-slayer`, `studio-world`, `ndxbook` → EVOLVE org UUIDs via `orgRegistry`. API: `GET /api/site00/projects?action=index|detail`. Frontend: `ProjectsPage` + new `ProjectDetailPage` at `/projects/:slug`. Demo seed data remains in `site00-ecosystem-seed.ts` for other ecosystem pages only — Projects page no longer imports it.
+
+- **NDXBOOK:** UUID `7681ab75-bddc-43e5-b594-79fcf8168205`, Creative Direction route exposed, founder decision PENDING, Visual DNA INCOMPLETE, Page 001 gated, publishing DISABLED.
+
+- **Tests/build:** 310 tests PASS (19 new project index tests). Build PASS. PR merged to main. No deploy.
+
