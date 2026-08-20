@@ -94,6 +94,29 @@ export default function MarketingEngagementPage() {
                 <article key={d.id}>
                   <h3>{d.title}</h3>
                   <p>{d.format} · {d.aspectRatio} · {d.version}</p>
+                  {d.downloadUrl ? (
+                    <a className="site00-btn site00-btn--ghost" href={d.downloadUrl} target="_blank" rel="noreferrer">
+                      ACCESS DELIVERABLE →
+                    </a>
+                  ) : null}
+                </article>
+              ))}
+            </section>
+          ) : null}
+
+          {data.vaultLinks?.length ? (
+            <section className="site00-marketing-deliverables">
+              <h2>VAULT</h2>
+              <p className="site00-label">APPROVED FINALS · STUDIO WORLD</p>
+              {data.vaultLinks.map((v) => (
+                <article key={v.id}>
+                  <h3>{v.title}</h3>
+                  <p>{v.format} · {v.aspectRatio} · {v.version}</p>
+                  {v.downloadUrl ? (
+                    <a className="site00-btn site00-btn--ghost" href={v.downloadUrl} target="_blank" rel="noreferrer">
+                      OPEN IN VAULT →
+                    </a>
+                  ) : null}
                 </article>
               ))}
             </section>

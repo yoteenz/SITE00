@@ -135,9 +135,21 @@ export type MarketingDeliverable = {
   status: 'APPROVED' | 'CLIENT_VISIBLE';
 };
 
+export type MarketingVaultLink = {
+  id: string;
+  title: string;
+  format?: string;
+  aspectRatio?: string;
+  version?: string;
+  previewUrl?: string;
+  downloadUrl?: string;
+  vaultStatus: string;
+};
+
 export type MarketingEngagementPayload = MarketingEngagementRecord & {
   reviews: MarketingClientReview[];
   deliverables: MarketingDeliverable[];
+  vaultLinks?: MarketingVaultLink[];
   campaignHistory: Array<{ code: string; name: string; status: MarketingEngagementStatus }>;
   reusedIdentity?: { name: string; source: string } | null;
 };

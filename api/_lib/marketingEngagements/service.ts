@@ -9,6 +9,7 @@ import type {
   MarketingScopeRecord,
   MarketingServiceCategory,
 } from '../../../shared/site00-marketing/types.js';
+import { linkApprovedDeliverablesToVault, listVaultLinksForEngagement } from './vaultHandoff.js';
 
 type DbRow = {
   id: string;
@@ -85,6 +86,16 @@ async function logEvent(engagementId: string, eventType: string, actor?: string,
     actor: actor ?? null,
     payload: payload ?? {},
   });
+}
+
+/** Exported for webhook handler. */
+export async function logEventPublic(
+  engagementId: string,
+  eventType: string,
+  actor?: string,
+  payload?: Record<string, unknown>,
+): Promise<void> {
+  await logEvent(engagementId, eventType, actor, payload);
 }
 
 export async function createMarketingEngagement(input: {
@@ -300,9 +311,13 @@ export async function syncMarketingEngagement(engagementId: string, clientEmail?
       client_action_required: status.clientActionRequired,
       client_action_label: status.clientActionLabel ?? null,
       external_sync_status: status.syncStatus,
+      status: deriveEngagementStatusFromSync(status, reviews, deliverables, payload.status),
       updated_at: new Date().toISOString(),
     })
     .eq('id', engagementId);
+
+  await linkApprovedDeliverablesToVault(engagementId, payload.studioWorldCampaignId!, deliverables);
+  const vaultLinks = await listVaultLinksForEngagement(engagementId);
 
   return {
     ...payload,
@@ -331,7 +346,32 @@ export async function syncMarketingEngagement(engagementId: string, clientEmail?
       downloadUrl: d.downloadUrl,
       status: d.visibility === 'APPROVED' ? 'APPROVED' : 'CLIENT_VISIBLE',
     })),
+    vaultLinks: vaultLinks.map((v) => ({
+      id: v.id,
+      title: v.title,
+      format: v.format,
+      aspectRatio: v.aspectRatio,
+      version: v.version,
+      previewUrl: v.previewUrl,
+      downloadUrl: v.downloadUrl,
+      vaultStatus: v.vaultStatus,
+    })),
   };
+}
+
+function deriveEngagementStatusFromSync(
+  status: { clientPhase: string; clientActionRequired: boolean },
+  reviews: Array<{ status: string }>,
+  deliverables: Array<{ visibility: string }>,
+  current: MarketingEngagementStatus,
+): MarketingEngagementStatus {
+  if (status.clientPhase === '07') return 'COMPLETE';
+  if (deliverables.some((d) => d.visibility === 'APPROVED')) return 'DELIVERABLE_READY';
+  if (reviews.some((r) => r.status === 'OPEN')) return 'REVIEW_READY';
+  if (reviews.some((r) => r.status === 'REVISION_REQUESTED')) return 'REVISION_IN_PROGRESS';
+  if (status.clientActionRequired) return 'CLIENT_ACTION_REQUIRED';
+  if (current === 'PROVISIONING_RETRY_REQUIRED') return current;
+  return current === 'PAID' || current === 'PROVISIONING' ? 'ACTIVE' : current;
 }
 
 export async function getMarketingEngagementPayload(engagementId: string, clientEmail?: string): Promise<MarketingEngagementPayload> {
