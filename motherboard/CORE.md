@@ -83,7 +83,24 @@ Clone path on cloud VM: `/home/ubuntu/SITE00` (may mirror `/workspace` checkout)
 
 ---
 
-## Desktop environment presentation (locked)
+## 00 / CONTROL — internal operator environment
+
+Privileged admin surface at `/admin/site00/*` (guarded by `AdminGuard` / `canAccessAdminPages()`). Distinct from client **CTRL ROOM** (`/control`) and client **Studio** (`/studio/:slug`).
+
+| Layer | Role |
+|-------|------|
+| **SITE 00** | Public / customer-facing system |
+| **PROJECTS** | Client project directory |
+| **STUDIO** | Client-facing project production environment |
+| **CTRL ROOM** | Customer account-level command center |
+| **00 / CONTROL** | Internal operator environment — monitor, approve, intervene, launch |
+
+- **COMMAND** dashboard: `/admin/site00` — desktop + mobile layouts from approved references; data via `getControlCommandPayload` (`api/_lib/site00Production/controlCommand.ts`, action `command`).
+- **Shell:** `Site00AdminShell` + `site00-control.css` + `CONTROL_OPERATOR_NAV` (`control-nav.ts`).
+- **Mission Control:** `/admin/site00/projects/:projectId` — **VIEW AS CLIENT** opens real Studio (`site00StudioPath(slug)`) in new tab; same underlying project state.
+- **Design:** Dense, instrumented, red/black/white — not generic SaaS admin. Real data only; no hard-coded reference mock names.
+
+---
 
 Canonical config: `src/site00/config/desktop-environment-presentation.ts`.
 

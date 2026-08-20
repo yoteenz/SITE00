@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ControlPageHeader } from '../../components/control/ControlPageHeader';
 import { Site00AdminShell } from '../../components/shell/Site00AdminShell';
 import { SITE00_ADMIN_ROUTES } from '../../config/routes';
 
@@ -31,12 +32,11 @@ const SETTINGS_SECTIONS = [
 export default function SettingsPage() {
   return (
     <Site00AdminShell>
-      <header className="site00-admin-dashboard-head">
-        <div>
-          <h1 className="site00-admin-page-title">[ SETTINGS ]</h1>
-          <p className="site00-admin-page-subtitle">ADMIN CONFIGURATION — READ-ONLY OVERVIEW.</p>
-        </div>
-      </header>
+      <ControlPageHeader
+        kicker="00 / CONTROL"
+        title="SETTINGS / OPERATOR"
+        subtitle="CONTROL THE SYSTEM"
+      />
 
       <div className="site00-admin-dashboard-grid">
         {SETTINGS_SECTIONS.map((section) => (
