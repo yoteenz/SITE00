@@ -25,6 +25,7 @@ import '../site00/styles/site00-bldr-classification-mobile.css';
 import '../site00/styles/site00-bldr-intake-mobile.css';
 import '../site00/styles/site00-idnty-diagnostic-mobile.css';
 import '../site00/styles/site00-evolve-mobile.css';
+import '../site00/styles/site00-evolve-hub-mobile.css';
 import '../site00/styles/site00-loader.css';
 import '../site00/styles/site00-desktop-artboard.css';
 import '../site00/styles/site00-desktop-artboard-preview.css';
