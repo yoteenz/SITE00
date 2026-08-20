@@ -1429,3 +1429,25 @@ Summary of this cloud agent run (SITE 00 asset update).
 
 - **Conventions:** BLDR entry/classification portal images live in `bldr-entry.ts`; PACK assets use `PACK/{uuid}.png` path prefix.
 
+---
+
+## 2026-08-20 — Identity Calibration mobile onboarding system
+
+Summary of this cloud agent run (SITE 00 Identity selection sprint).
+
+- **Context:** Founder attached approved visual reference for Identity "Starting at Zero" calibration experience. Sprint: replace conventional form UI across entire Identity onboarding with SITE 00 calibration instrument — progress rail, numbered target rows, capture status, architectural CONTINUE control — while preserving all routing, state, and business logic.
+
+- **Decisions / outcomes:**
+  - New `calibration` mobile layout on `IdntyAssessmentShell`: keeps architectural photo environment, translucent console, no process strip/footer on steps.
+  - Shared components in `components/idnty/calibration/`: console, progress rail, option rows with crosshair targets, capture status, navigation, step/review/complete mobile experiences.
+  - Config helpers in `idnty-calibration.ts` for step category labels and dynamic capture metadata.
+  - Mobile step/review/complete pages wired to calibration; desktop unchanged.
+  - Removed "YOUR IDENTITY. OUR PROCESS." from mobile landing V2 and page footer from calibration steps.
+  - Removed blue iOS-default styling from legacy option rows (explicit black/red/gray palette).
+
+- **Changes:**
+  - New: `idnty-calibration.ts`, `site00-idnty-calibration-mobile.css`, 10 calibration components
+  - Updated: `IdntyAssessmentShell`, `IdntyAssessmentStepPage`, `IdntyAssessmentReviewPage`, `IdntyAssessmentCompletePage`, `IdentityStateLandingV2`, `IdntyAssessmentLandingPage`, `Site00Routes.tsx`, `site00-idnty-assessment.css`
+
+- **Conventions:** Identity mobile questionnaire steps use `mobileLayout="calibration"`; landing intake remains V2 white shell; process strip component kept for desktop only.
+

@@ -14,6 +14,7 @@ import {
 } from '../../../components/idnty-assessment/IdntyAssessmentShell';
 import { IdntyProcessStripPanel } from '../../../components/idnty-assessment/IdntyAssessmentPanels';
 import { IdntyStepForm, useStepForm } from '../../../components/idnty-assessment/IdntyStepForm';
+import { IdentityCalibrationMobileStep } from '../../../components/idnty/calibration';
 import { useSite00DesktopArtboardPreview } from '../../../components/shell/Site00DesktopArtboardContext';
 import { site00IdntyAssessmentDesktopPath } from '../../../config/routes';
 
@@ -47,11 +48,19 @@ export default function IdntyAssessmentStepPage({ stateSlug, stepId }: IdntyAsse
     return null;
   }
 
+  if (!isDesktop) {
+    return (
+      <IdntyAssessmentShell state={state} mobileLayout="calibration" showProcessStrip={false}>
+        <IdentityCalibrationMobileStep stateSlug={stateSlug} stepId={stepId} />
+      </IdntyAssessmentShell>
+    );
+  }
+
   const stepIndex = state.steps.findIndex((s) => s.id === stepId);
   const stepProgress = `STEP ${stepIndex + 1} OF ${state.steps.length}`;
 
   const navigateTo = (path: string) => {
-    navigate(isDesktop ? site00IdntyAssessmentDesktopPath(path) : path);
+    navigate(site00IdntyAssessmentDesktopPath(path));
   };
 
   const handleNext = () => {

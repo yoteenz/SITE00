@@ -39,6 +39,7 @@ import '../site00/styles/site00-ecosystem.css';
 import '../site00/styles/site00-idnty-assessment.css';
 import '../site00/styles/site00-idnty-state-v2.css';
 import '../site00/styles/site00-idnty-control-center.css';
+import '../site00/styles/site00-idnty-calibration-mobile.css';
 import '../site00/styles/site00-pages.css';
 import '../site00/styles/site00-mobile-shell.css';
 import '../site00/assts/styles/assts.css';
