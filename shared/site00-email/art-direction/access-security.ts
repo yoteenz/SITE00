@@ -22,21 +22,27 @@ export type AccessSecurityRenderInput = CompositionInput & {
 /** Family 01 scoped responsive rules — preserves desktop composition at 375px. */
 export const ACCESS_SECURITY_MOBILE_STYLES = `@media only screen and (max-width:620px){
 .access-terminal .pad{padding-left:14px!important;padding-right:14px!important}
-.access-terminal .access-hero-left{width:32%!important;max-width:32%!important;display:table-cell!important;vertical-align:middle!important}
-.access-terminal .access-hero-right{width:68%!important;max-width:68%!important;display:table-cell!important;vertical-align:middle!important;padding-left:10px!important}
+.access-terminal .access-hero-left{width:28%!important;max-width:28%!important;display:table-cell!important;vertical-align:middle!important}
+.access-terminal .access-hero-right{width:72%!important;max-width:72%!important;display:table-cell!important;vertical-align:middle!important;padding-left:8px!important}
 .access-terminal .access-glyph-desktop{display:none!important}
 .access-terminal .access-glyph-mobile{display:block!important}
-.access-terminal .access-hero-xl{font-size:22px!important;line-height:24px!important}
+.access-terminal .access-hero-xl{font-size:22px!important;line-height:25px!important}
 .access-terminal .access-hero-sub{font-size:8px!important;line-height:13px!important}
-.access-terminal .access-cred-left{width:55%!important;max-width:55%!important;display:table-cell!important;vertical-align:top!important;padding-right:8px!important}
-.access-terminal .access-cred-qr{width:45%!important;max-width:45%!important;display:table-cell!important;vertical-align:top!important;padding-left:8px!important;border-left:1px solid #2a2a2a!important}
-.access-terminal .access-cred-panel{padding:12px 12px 14px!important}
-.access-terminal .access-member-id{font-size:18px!important;margin-bottom:10px!important}
-.access-terminal .access-issued-gap{margin-bottom:10px!important}
-.access-terminal .access-qr-img{width:72px!important;height:72px!important}
+.access-terminal .access-cred-header{padding:5px 10px 2px!important}
+.access-terminal .access-waveform-cell{height:24px!important;max-height:24px!important}
+.access-terminal .access-cred-left{width:55%!important;max-width:55%!important;display:table-cell!important;vertical-align:top!important;padding-right:6px!important}
+.access-terminal .access-cred-qr{width:45%!important;max-width:45%!important;display:table-cell!important;vertical-align:top!important;padding:2px 4px 2px 8px!important;border-left:1px solid #2a2a2a!important}
+.access-terminal .access-cred-panel{padding:8px 10px 10px!important}
+.access-terminal .access-member-id{font-size:18px!important;margin-bottom:6px!important}
+.access-terminal .access-issued-gap{margin-bottom:6px!important}
+.access-terminal .access-qr-img{width:64px!important;height:64px!important}
+.access-terminal .access-qr-scan{margin:4px 0 0!important}
+.access-terminal .access-qr-expiry{margin:2px 0 0!important;line-height:10px!important}
 .access-terminal .access-sec-4col{display:none!important}
 .access-terminal .access-sec-2x2{display:table!important;width:100%!important}
-.access-terminal .access-sec-2x2 td{width:50%!important;display:table-cell!important;vertical-align:top!important;padding:10px 6px!important}
+.access-terminal .access-sec-2x2 td{width:50%!important;display:table-cell!important;vertical-align:top!important;padding:8px 6px!important}
+.access-terminal .access-sec-2x2 td p:first-child{margin-bottom:4px!important}
+.access-terminal .access-sec-2x2 td p:nth-child(2){margin-bottom:2px!important}
 .access-terminal .access-footer-left{width:33%!important;display:table-cell!important;vertical-align:top!important;font-size:7px!important;line-height:12px!important}
 .access-terminal .access-footer-center{width:34%!important;display:table-cell!important;vertical-align:middle!important}
 .access-terminal .access-footer-right{width:33%!important;display:table-cell!important;vertical-align:top!important;text-align:right!important;font-size:7px!important;line-height:12px!important}
@@ -69,8 +75,8 @@ function credentialGridBg(): string {
 }
 
 function waveformBand(): string {
-  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
-${[40, 55, 35, 60, 45, 50, 38].map((h) => `<td style="width:14.28%;height:${h}px;border-bottom:1px solid #222;background:linear-gradient(180deg,#0f0f0f 0%,#111 100%);font-size:0;">&nbsp;</td>`).join('')}
+  return `<table role="presentation" class="access-waveform-band" width="100%" cellpadding="0" cellspacing="0"><tr>
+${[40, 55, 35, 60, 45, 50, 38].map((h) => `<td class="access-waveform-cell" style="width:14.28%;height:${h}px;border-bottom:1px solid #222;background:linear-gradient(180deg,#0f0f0f 0%,#111 100%);font-size:0;">&nbsp;</td>`).join('')}
 </tr></table>`;
 }
 
@@ -106,7 +112,7 @@ function digitalCredentialPanel(params: {
   const { memberId, issued, statusLabel, qrImg } = params;
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0d0d0d;border:1px solid #333;">
 <tr><td style="padding:0;">${credentialGridBg()}</td></tr>
-<tr><td style="padding:8px 14px 4px;border-bottom:1px solid #2a2a2a;">
+<tr><td class="access-cred-header" style="padding:8px 14px 4px;border-bottom:1px solid #2a2a2a;">
 <table role="presentation" width="100%"><tr>
 <td style="font-family:${EMAIL.fontStack};font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:${EMAIL.red};">CREDENTIAL • INDEX 00</td>
 <td align="right">${crosshairMark()}</td>
@@ -125,8 +131,8 @@ ${microLabel('STATUS', 'dark')}
 </td>
 <td class="access-cred-qr" valign="top" align="center" width="45%" style="border-left:1px solid #2a2a2a;padding-left:14px;">
 ${qrImg}
-<p style="margin:8px 0 0;font-family:${EMAIL.fontStack};font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:${EMAIL.white};text-align:center;">SCAN TO ACCESS</p>
-<p style="margin:4px 0 0;font-family:${EMAIL.fontStack};font-size:7px;line-height:12px;letter-spacing:0.1em;text-transform:uppercase;color:#666;text-align:center;">THIS LINK EXPIRES<br/>AFTER ONE USE.</p>
+<p class="access-qr-scan" style="margin:8px 0 0;font-family:${EMAIL.fontStack};font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:${EMAIL.white};text-align:center;">SCAN TO ACCESS</p>
+<p class="access-qr-expiry" style="margin:4px 0 0;font-family:${EMAIL.fontStack};font-size:7px;line-height:12px;letter-spacing:0.1em;text-transform:uppercase;color:#666;text-align:center;">THIS LINK EXPIRES<br/>AFTER ONE USE.</p>
 </td>
 </tr></table>
 </td></tr></table>`;

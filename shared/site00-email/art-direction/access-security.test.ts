@@ -106,6 +106,27 @@ describe('ACCESS / SECURITY mobile responsive fidelity', () => {
     expect(html).toContain('access-terminal .access-hero-xl{font-size:22px');
   });
 
+  it('final density pass: hero column split favors statement width at 375px', () => {
+    const { html } = renderEmailTemplateSync('access-credential-issued');
+    expect(html).toContain('access-terminal .access-hero-left{width:28%');
+    expect(html).toContain('access-terminal .access-hero-right{width:72%');
+  });
+
+  it('final density pass: compact credential panel and subordinate QR scale', () => {
+    const { html } = renderEmailTemplateSync('access-credential-issued');
+    expect(html).toContain('access-cred-header');
+    expect(html).toContain('access-waveform-band');
+    expect(html).toContain('access-terminal .access-cred-panel{padding:8px 10px 10px');
+    expect(html).toContain('access-terminal .access-waveform-cell{height:24px');
+    expect(html).toContain('access-terminal .access-qr-img{width:64px');
+  });
+
+  it('final density pass: security 2x2 grid uses reduced vertical padding', () => {
+    const { html } = renderEmailTemplateSync('access-credential-issued');
+    expect(html).toContain('access-terminal .access-sec-2x2 td{width:50%');
+    expect(html).toContain('padding:8px 6px!important}');
+  });
+
   it('does not affect welcome lifecycle template mobile structure', () => {
     const { html } = renderEmailTemplateSync('welcome-location-assigned');
     expect(html).not.toContain('access-terminal');

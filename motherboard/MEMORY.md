@@ -1955,3 +1955,21 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Tests/build:** 211 tests PASS (6 new mobile fidelity). Build PASS. Desktop 640 unchanged structurally. No deploy.
 
+---
+
+## 2026-08-20 — Family 01 ACCESS / SECURITY final responsive proportion + density pass
+
+- **Scope:** Final founder-QA refinement at 375px only — no redesign, no structural changes, 640px desktop locked.
+
+- **Mobile hero:** Column split 32/68 → 28/72 so statement column gains usable width; headline stays 22px bold with slightly improved line-height (25px). Two-column hero preserved.
+
+- **Mobile credential panel:** Reduced vertical density — cred header padding, waveform band height (24px cells via `.access-waveform-cell`), panel padding 8/10/10, metadata gaps 6px, QR zone padding tightened. Structure unchanged (metadata left, QR right, divider retained).
+
+- **QR hierarchy:** Mobile QR 72px → 64px; MEMBER ID remains primary datum.
+
+- **Security grid:** 2×2 layout unchanged; cell vertical padding 10px → 8px (~20% reduction) plus tighter icon/title margins.
+
+- **Footer:** No structural changes; rises naturally from density improvements. Three-zone architecture intact.
+
+- **Tests/build:** 214 tests PASS (3 new density assertions). Build PASS. No deploy. No other email families modified.
+
