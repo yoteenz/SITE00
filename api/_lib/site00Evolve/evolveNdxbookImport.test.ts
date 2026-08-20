@@ -316,7 +316,7 @@ describe('EVOLVE NDXbook legacy intelligence import', () => {
   it('COMMAND reflects post-import focus and upcoming pipeline after import', async () => {
     await runNdxbookLegacyImport({ approvedBy: 'founder@test.com' });
     const items = await buildConnectionCommandItems('ndxbook', 'NDXBOOK');
-    expect(items.some((i) => i.category === 'FOCUS_NOW' && i.title.includes('visual identity'))).toBe(true);
+    expect(items.some((i) => i.category === 'FOCUS_NOW' && i.title.includes('Creative Direction'))).toBe(true);
     expect(items.some((i) => i.category === 'UPCOMING' && i.title.includes('Page 001'))).toBe(true);
     expect(items.some((i) => i.category === 'DEFERRED' && i.title.includes('Monetization'))).toBe(true);
   });

@@ -69,6 +69,12 @@ import { confirmConnectionAccount } from '../_lib/site00Evolve/providers/account
 import { runPublicationDryRun } from '../_lib/site00Evolve/providers/dryRunService.js';
 import { getExpandedPilotReadiness } from '../_lib/site00Evolve/providers/pilotReadinessSprint04.js';
 import { runAnalyticsBaseline } from '../_lib/site00Evolve/providers/analyticsBaselineService.js';
+import {
+  getCreativeDirectionPayload,
+  recordFounderDecision,
+  ensureCreativeDirectionEngagement,
+  queueFalGenerationJobs,
+} from '../_lib/site00Evolve/creativeDirection/engagementService.js';
 
 function parseBody(req: VercelRequest): Record<string, unknown> | null {
   if (typeof req.body === 'object' && req.body !== null && !Array.isArray(req.body)) {
@@ -181,6 +187,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(200).json(await getNdxbookImportReport());
         case 'ndxbook_import_state':
           return res.status(200).json(getNdxbookImportState());
+        case 'creative_direction':
+          return res.status(200).json(await getCreativeDirectionPayload(orgSlug));
+        case 'creative_direction_debug':
+          return res.status(200).json({
+            ...(await getCreativeDirectionPayload(orgSlug)),
+            debug: true,
+          });
         case 'provider_config':
           return res.status(200).json(getOwnerConfigurationChecklist());
         case 'fence_readiness':
@@ -382,6 +395,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(200).json(
             await runNdxbookLegacyImport({ approvedBy: auth.user.email }),
           );
+        case 'creative_direction_start':
+          return res.status(200).json(await ensureCreativeDirectionEngagement(orgSlug));
+        case 'creative_direction_decision':
+          return res.status(200).json(
+            await recordFounderDecision(orgSlug, {
+              type: String(body.type ?? 'REFINE') as 'APPROVE' | 'REFINE' | 'HYBRIDIZE' | 'REJECT',
+              selectedTerritoryId: body.selectedTerritoryId ? String(body.selectedTerritoryId) : undefined,
+              hybridSelections: body.hybridSelections as never,
+              refinementNotes: body.refinementNotes ? String(body.refinementNotes) : undefined,
+              rejectedTerritoryIds: body.rejectedTerritoryIds as string[] | undefined,
+              by: auth.user.email,
+            }),
+          );
+        case 'creative_direction_queue_generation':
+          return res.status(200).json(await queueFalGenerationJobs(orgSlug));
         case 'analytics_baseline_sync':
           return res.status(200).json(
             await runAnalyticsBaseline(orgSlug, String(body.connectionId ?? '')),

@@ -51,6 +51,8 @@ const EvolveApprovalsInboxPage = lazy(() => import('../site00/admin/pages/evolve
 const EvolveConnectionsPortfolioPage = lazy(() => import('../site00/admin/pages/evolve/EvolveConnectionsPortfolioPage'));
 const EvolveOrgConnectionsPage = lazy(() => import('../site00/admin/pages/evolve/EvolveOrgConnectionsPage'));
 const EvolvePilotControlPage = lazy(() => import('../site00/admin/pages/evolve/EvolvePilotControlPage'));
+const EvolveCreativeDirectionPage = lazy(() => import('../site00/admin/pages/evolve/EvolveCreativeDirectionPage'));
+const EvolveCreativeDirectionDebugPage = lazy(() => import('../site00/admin/pages/debug/EvolveCreativeDirectionDebugPage'));
 const EvolveDebugPage = lazy(() => import('../site00/admin/pages/debug/EvolveDebugPage'));
 const MarketingEngagementsAdminPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementsAdminPage'));
 const MarketingEngagementAdminDetailPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementAdminDetailPage'));
@@ -332,6 +334,22 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <EvolvePilotControlPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/orchestration/:orgSlug/evolve/creative-direction"
+        element={
+          <AdminSuspense>
+            <EvolveCreativeDirectionPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/debug/evolve-creative-direction"
+        element={
+          <AdminSuspense>
+            <EvolveCreativeDirectionDebugPage />
           </AdminSuspense>
         }
       />

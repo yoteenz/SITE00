@@ -1997,3 +1997,17 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Tests/build:** 258 tests PASS (3 preview tunnel resolver tests). Build PASS.
 
+---
+
+## 2026-08-20 — EVOLVE NDXbook Creative Direction (first real client specimen)
+
+- **Context:** Post legacy intelligence import sprint. NDXbook needs founder-approved visual DNA via shared EVOLVE Creative Direction architecture — not NDXbook-only hack. No publishing, no Page 001 production, no provider bypass.
+
+- **Architecture:** `api/_lib/site00Evolve/creativeDirection/` — types, intelligence brief synthesis from Content Brain, three distinct territories (INDEX SIGNAL, EDITORIAL UTILITY, KINETIC FIELD), engagement service with founder decision lifecycle (PROPOSED→APPROVED), Visual DNA contract, Page 001 readiness gate. Legacy indigo/slate has no privileged territory.
+
+- **UI:** `/admin/site00/orchestration/ndxbook/evolve/creative-direction` — intelligence briefing, creative brief, territory tabs, comparison matrix, SVG specimens, founder decision controls. Debug: `/admin/site00/debug/evolve-creative-direction`. CSS: `site00-creative-direction.css`.
+
+- **COMMAND:** Focus Now → Review Creative Direction territories (until visual DNA approved); then Build Page 001.
+
+- **Tests/build:** 283 tests PASS (25 new Creative Direction tests). Build PASS. PR merged to main. No deploy.
+
