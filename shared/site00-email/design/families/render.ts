@@ -4,7 +4,6 @@
  */
 import type { EmailFamilyCanon } from '../../families/registry.js';
 import {
-  accessGlyph,
   dataStrip,
   emailCTA,
   emailDoc,
@@ -12,16 +11,11 @@ import {
   microLabel,
   progressRail,
   systemHeader,
-  technicalAnnotation,
 } from '../../art-direction/primitives.js';
+import { renderAccessSecurityReferenceEmail } from '../../art-direction/access-security.js';
 import { assetDeliveryPackage, assetLivingBlueprint, assetMilestoneCube, imgAsset } from '../assets.js';
 import type { CompositionInput } from '../compositions.js';
 import { EMAIL, esc } from '../tokens.js';
-
-function qrImg(dataUrl?: string, size = EMAIL.qrDisplaySize): string {
-  if (!dataUrl) return '';
-  return `<img src="${dataUrl}" width="${size}" height="${size}" alt="Scan to enter SITE 00" style="display:block;"/>`;
-}
 
 function coords(): string {
   return `<span style="font-family:${EMAIL.fontStack};font-size:8px;color:${EMAIL.stone};letter-spacing:0.12em;">00.000° · 00.000° · 00.000°</span>`;
@@ -39,48 +33,17 @@ function dualCTA(primary: string, primaryUrl: string, secondary?: string, second
   return `${emailCTA(primary, primaryUrl, variant)}${sec}`;
 }
 
-/** 01 ACCESS / SECURITY — Digital credential, dark field */
+/** 01 ACCESS / SECURITY — Digital credential, dark field (reference-fidelity) */
 export function composeAccessSecurity(input: CompositionInput, subject: string, preheader: string): string {
-  const v = input.vars;
-  const memberId = esc(v.memberId ?? '00-0147');
-  const issued = esc(v.issuedDate ?? v.timestamp ?? '—');
-  const status = esc(v.statusLabel ?? 'AUTHORIZED');
-  const qr = qrImg(input.qrDataUrl);
-
-  const credential = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#111;border:1px solid #333;border-radius:4px;">
-<tr><td style="padding:16px 18px;">
-<table role="presentation" width="100%"><tr>
-<td valign="top" width="55%">
-${microLabel('CREDENTIAL · INDEX 00', 'dark')}
-<p style="margin:6px 0 4px;font-family:${EMAIL.fontStack};font-size:9px;color:#888;">MEMBER ID</p>
-<p style="margin:0 0 12px;font-family:${EMAIL.fontStack};font-size:22px;font-weight:800;color:${EMAIL.red};">${memberId}</p>
-<p style="margin:0 0 4px;font-family:${EMAIL.fontStack};font-size:8px;color:#888;">ISSUED</p>
-<p style="margin:0 0 12px;font-family:${EMAIL.fontStack};font-size:10px;color:#ccc;">${issued}</p>
-<p style="margin:0 0 4px;font-family:${EMAIL.fontStack};font-size:8px;color:#888;">STATUS</p>
-<p style="margin:0;font-family:${EMAIL.fontStack};font-size:10px;font-weight:700;color:${EMAIL.green};">${status}</p>
-</td>
-<td valign="top" align="right" width="45%">${qr}${technicalAnnotation('SCAN TO ACCESS · ONE-TIME USE')}</td>
-</tr></table></td></tr></table>`;
-
-  const securityStrip = `<table role="presentation" width="100%" style="margin-top:16px;"><tr>
-${['SECURE LINK', 'ONE-TIME USE', 'VERIFIED DEVICE', 'CONTROLLED ENTRY'].map((l) => `<td width="25%" align="center" style="padding:8px 4px;border-top:2px solid ${EMAIL.red};">
-<p style="margin:0;font-size:7px;letter-spacing:0.1em;color:#888;">${l}</p></td>`).join('')}
-</tr></table>`;
-
-  const body = `<table role="presentation" width="100%" style="background:${EMAIL.black};"><tr><td align="center" style="padding:20px 12px;">
-<table role="presentation" class="email-wrap" width="${EMAIL.maxWidth}" style="background:${EMAIL.black};">
-${headerRow('ACCESS', 'dark', 'SECURITY · CONTROL')}
-<tr><td class="pad" style="padding:12px 36px;"><table role="presentation" width="100%"><tr>
-<td class="stack" width="28%" valign="top">${accessGlyph('sm')}</td>
-<td class="stack" valign="top" style="padding-left:12px;">
-<p style="margin:0 0 8px;font-family:${EMAIL.fontStack};font-size:10px;font-weight:700;color:${EMAIL.red};letter-spacing:0.14em;">ACCESS GRANTED</p>
-<p class="hero-xl" style="margin:0;font-family:${EMAIL.fontStack};font-size:32px;line-height:34px;font-weight:800;color:${EMAIL.white};">${esc(input.headline)}</p>
-${input.subheadline ? `<p style="margin:12px 0 0;font-size:10px;line-height:16px;color:#888;letter-spacing:0.06em;">${esc(input.subheadline)}</p>` : ''}
-</td></tr></table></td></tr>
-<tr><td class="pad" style="padding:0 36px 8px;">${credential}${securityStrip}</td></tr>
-${emailCTA(input.ctaLabel, input.ctaUrl, 'red')}${emailFooter('dark', input.classification)}
-</table></td></tr></table>`;
-  return emailDoc({ title: subject, preheader, bg: EMAIL.black, body });
+  const category =
+    input.templateId === 'sign-in-link'
+      ? 'ACCESS CARD'
+      : input.templateId === 'verify-email'
+        ? 'VERIFY'
+        : input.templateId === 'password-reset'
+          ? 'SECURITY'
+          : 'SECURITY · CONTROL';
+  return renderAccessSecurityReferenceEmail({ ...input, headerCategory: category }, subject, preheader);
 }
 
 /** 02 WELCOME / ONBOARDING — Location key, light architectural */
