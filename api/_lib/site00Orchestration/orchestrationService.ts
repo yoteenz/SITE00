@@ -5,89 +5,141 @@ import { generateProposedManifest } from './manifestBuilder.js';
 import { validateDependencyGraph, CircularDependencyError } from './dependencyGraph.js';
 import { suggestReconciliation, applyReconciliationDecision, evidenceImpliesCompletion } from './reconciliationService.js';
 import {
-  getOrchestrationStore,
+  getOrganizations,
   findOrgBySlug,
   findActiveManifest,
   getRequirementsForManifest,
   getDependenciesForManifest,
-} from './memoryStore.js';
-import { getEvolveItemsFromRequirements } from './seedFixtures.js';
+  getManifests,
+  getWorkstreams,
+  getOverrides,
+  getEvidence,
+  getReconciliations,
+  getExternalConnections,
+  getHistory,
+  getEvolveRoadmap,
+  decideReconciliationDb,
+  approveManifestPersisted,
+  resolveStoreMode,
+  resetOrchestrationStore,
+} from './storeAdapter.js';
+import { getOrchestrationStore } from './memoryStore.js';
+import { deriveProjectHealth, infrastructureHealth } from './projectHealth.js';
+import { bootstrapRegistry, isRegistryBootstrapped } from './registryBootstrap.js';
 import type { ManifestBuilderInput, IngestionInput, DeferralImpact } from './types.js';
 import type { ManifestRequirementRow } from './types.js';
 
 export async function getOrchestrationDebugPayload() {
-  const store = getOrchestrationStore();
-  const orgs = store.organizations;
+  const mode = await resolveStoreMode();
+  const orgs = await getOrganizations();
   const clientFacingOrgs = orgs.filter((o) => o.client_facing);
   const infrastructureOrgs = orgs.filter((o) => !o.client_facing);
+  const overrides = await getOverrides();
 
-  const manifestsWithReadiness = store.manifests.map((m) => {
-    const reqs = getRequirementsForManifest(m.id);
-    const readiness = calculateReadiness(reqs, store.overrides);
-    return { ...m, readiness };
-  });
-
-  const allRequirements = store.requirements;
-  const allDeps = store.dependencies;
-
-  const commandQueue = clientFacingOrgs.flatMap((org) => {
-    const manifest = findActiveManifest(org.id);
-    if (!manifest) return [];
-    const reqs = getRequirementsForManifest(manifest.id);
-    const ws = store.workstreams.filter((w) => w.organization_id === org.id);
-    const pendingApprovals = store.manifests.filter(
-      (m) => m.organization_id === org.id && m.approval_state === 'PENDING',
-    ).length;
-    return buildCommandQueue({
-      organizationSlug: org.slug,
-      organizationName: org.name,
-      requirements: reqs,
-      workstreams: ws,
-      overrides: store.overrides,
-      pendingApprovals,
-    });
-  });
-
-  const nextActions = clientFacingOrgs.flatMap((org) => {
-    const manifest = findActiveManifest(org.id);
-    if (!manifest) return [];
-    return buildNextActions({
-      organizationSlug: org.slug,
-      organizationName: org.name,
-      requirements: getRequirementsForManifest(manifest.id),
-      workstreams: store.workstreams.filter((w) => w.organization_id === org.id),
-      overrides: store.overrides,
-      pendingApprovals: 0,
-    });
-  });
-
-  const relationships = [
-    {
-      source: 'frontal-slayer',
-      target: 'studio-world',
-      type: 'PRODUCTION_ENGINE',
-      note: 'Frontal Slayer uses Studio World as production engine',
-    },
-    {
-      source: 'studio-world',
-      target: 'frontal-slayer',
-      type: 'SHARED_REPOSITORY',
-      note: 'Same physical repository, different logical systems',
-    },
-  ];
-
-  const evolveRoadmap = orgs.flatMap((org) =>
-    getEvolveItemsFromRequirements(
-      store.requirements.filter((r) => {
-        const m = store.manifests.find((mf) => mf.id === r.manifest_id && mf.is_active);
-        return m && m.organization_id === org.id;
-      }),
-      org.id,
-    ),
+  const manifests = await getManifests();
+  const manifestsWithReadiness = await Promise.all(
+    manifests.map(async (m) => {
+      const reqs = await getRequirementsForManifest(m.id);
+      const readiness = calculateReadiness(reqs, overrides);
+      return {
+        ...m,
+        readiness,
+        label: m.is_provisional !== false ? 'PROVISIONAL' : 'APPROVED',
+      };
+    }),
   );
 
+  const allRequirements: ManifestRequirementRow[] = [];
+  for (const m of manifests.filter((x) => x.is_active)) {
+    allRequirements.push(...(await getRequirementsForManifest(m.id)));
+  }
+
+  const allDeps = [];
+  for (const m of manifests) {
+    allDeps.push(...(await getDependenciesForManifest(m.id)));
+  }
+
+  const commandQueue = [];
+  for (const org of clientFacingOrgs) {
+    const manifest = await findActiveManifest(org.id);
+    if (!manifest) continue;
+    const reqs = await getRequirementsForManifest(manifest.id);
+    const ws = await getWorkstreams(org.id);
+    const pendingApprovals = manifests.filter(
+      (m) => m.organization_id === org.id && m.approval_state === 'PENDING',
+    ).length;
+    const pendingRecon = (await getReconciliations(org.id, true)).length;
+    commandQueue.push(
+      ...buildCommandQueue({
+        organizationSlug: org.slug,
+        organizationName: org.name,
+        requirements: reqs,
+        workstreams: ws,
+        overrides,
+        pendingApprovals: pendingApprovals + pendingRecon,
+      }),
+    );
+  }
+
+  const nextActions = [];
+  for (const org of clientFacingOrgs) {
+    const manifest = await findActiveManifest(org.id);
+    if (!manifest) continue;
+    nextActions.push(
+      ...buildNextActions({
+        organizationSlug: org.slug,
+        organizationName: org.name,
+        requirements: await getRequirementsForManifest(manifest.id),
+        workstreams: await getWorkstreams(org.id),
+        overrides,
+        pendingApprovals: 0,
+      }),
+    );
+  }
+
+  const relationships = [
+    { source: 'frontal-slayer', target: 'studio-world', type: 'PRODUCTION_ENGINE', note: 'Frontal Slayer uses Studio World as production engine' },
+    { source: 'studio-world', target: 'frontal-slayer', type: 'SHARED_REPOSITORY', note: 'Same physical repository (yoteenz/fsbw), different logical systems' },
+  ];
+
+  const evolveRoadmap = [];
+  for (const org of orgs) {
+    evolveRoadmap.push(...(await getEvolveRoadmap(org.id)));
+  }
+
+  const projectHealth: Record<string, string> = {};
+  for (const org of orgs) {
+    const manifest = await findActiveManifest(org.id);
+    const reqs = manifest ? await getRequirementsForManifest(manifest.id) : [];
+    projectHealth[org.slug] = org.client_facing
+      ? deriveProjectHealth({
+          organization: org,
+          manifest,
+          requirements: reqs,
+          overrides,
+          pendingReconciliations: (await getReconciliations(org.id, true)).length,
+          pendingApprovals: manifests.filter((m) => m.organization_id === org.id && m.approval_state === 'PENDING').length,
+        })
+      : infrastructureHealth({
+          connectionStates: (await getExternalConnections(org.id)).map((c) => c.connection_state as string),
+        });
+  }
+
+  const reconciliationSummary: Record<string, Record<string, number>> = {};
+  for (const org of orgs) {
+    const recs = await getReconciliations(org.id);
+    reconciliationSummary[org.slug] = {
+      total: recs.length,
+      confirmed: recs.filter((r) => r.outcome === 'CONFIRMED').length,
+      probable: recs.filter((r) => r.outcome === 'PROBABLE').length,
+      missing_evidence: recs.filter((r) => r.outcome === 'MISSING_EVIDENCE').length,
+      requires_review: recs.filter((r) => r.outcome === 'REQUIRES_REVIEW' || !r.admin_decision).length,
+    };
+  }
+
   return {
-    label: 'DEMO / UNRECONCILED',
+    label: mode === 'supabase' ? 'RECONCILED / PROVISIONAL' : 'DEMO / UNRECONCILED (memory)',
+    persistenceMode: mode,
     organizations: orgs,
     clientFacingOrganizations: clientFacingOrgs,
     infrastructureOrganizations: infrastructureOrgs,
@@ -95,291 +147,325 @@ export async function getOrchestrationDebugPayload() {
     manifests: manifestsWithReadiness,
     requirements: allRequirements,
     dependencies: allDeps,
-    workstreams: store.workstreams,
-    commandQueue,
-    nextActions,
-    externalConnections: store.externalConnections,
-    signals: store.signals,
-    evidence: store.evidence,
-    reconciliations: store.reconciliations,
+    commandQueue: commandQueue.sort((a, b) => a.priority - b.priority),
+    nextActions: nextActions.sort((a, b) => a.priority - b.priority),
+    externalConnections: await getExternalConnections(),
+    evidence: mode === 'supabase' ? (await Promise.all(orgs.map((o) => getEvidence(o.id)))).flat() : [],
+    reconciliations: mode === 'supabase' ? (await Promise.all(orgs.map((o) => getReconciliations(o.id)))).flat() : [],
     evolveRoadmap,
-    deferrals: store.deferrals,
-    overrides: [...store.overrides],
-    history: store.history,
-    ingestions: store.ingestions,
+    deferrals: [],
+    overrides: [...overrides],
+    history: await getHistory(),
+    ingestions: [],
+    projectHealth,
+    reconciliationSummary,
+    provisionalBaselines: manifestsWithReadiness
+      .filter((m) => m.is_active && m.is_provisional !== false)
+      .map((m) => ({
+        orgId: m.organization_id,
+        target: m.target_name,
+        readiness: m.readiness?.readinessScore,
+        blockers: m.readiness?.blockingRequirementsRemaining,
+        pendingDecisions: reconciliationSummary[orgs.find((o) => o.id === m.organization_id)?.slug ?? '']?.requires_review ?? 0,
+      })),
     proposedManifestExample: generateProposedManifest({ organizationSlug: 'all-in-one-enterprises' }),
   };
+}
+
+export async function runBootstrap(workspaceRoot: string) {
+  return bootstrapRegistry(workspaceRoot);
+}
+
+export async function ensureBootstrapped(workspaceRoot: string) {
+  if (await isRegistryBootstrapped()) return { skipped: true };
+  return bootstrapRegistry(workspaceRoot);
 }
 
 export function proposeManifest(input: ManifestBuilderInput) {
   return generateProposedManifest(input);
 }
 
-export function approveManifest(manifestId: string, approverEmail: string): { ok: boolean; error?: string } {
-  const store = getOrchestrationStore();
-  const manifest = store.manifests.find((m) => m.id === manifestId);
-  if (!manifest) return { ok: false, error: 'Manifest not found' };
-  if (manifest.approval_state === 'APPROVED' && manifest.is_active) {
-    return { ok: false, error: 'Already active' };
-  }
-
-  for (const m of store.manifests) {
-    if (m.organization_id === manifest.organization_id && m.is_active) {
-      m.is_active = false;
-      m.manifest_state = 'SUPERSEDED';
-    }
-  }
-
-  manifest.approval_state = 'APPROVED';
-  manifest.manifest_state = 'ACTIVE';
-  manifest.is_active = true;
-  manifest.approved_at = new Date().toISOString();
-  manifest.approved_by = approverEmail;
-
-  store.history.push({
-    event_type: 'MANIFEST_APPROVED',
-    manifest_id: manifestId,
-    actor_email: approverEmail,
-    summary: `Manifest "${manifest.target_name}" approved and activated`,
-    created_at: new Date().toISOString(),
-  });
-
-  return { ok: true };
+export async function approveManifest(manifestId: string, approverEmail: string) {
+  return approveManifestPersisted(manifestId, approverEmail);
 }
 
-export function canActivateManifest(manifestId: string): boolean {
-  const store = getOrchestrationStore();
-  const manifest = store.manifests.find((m) => m.id === manifestId);
-  return manifest?.approval_state === 'APPROVED' || false;
-}
-
-export function deferRequirement(
+export async function deferRequirement(
   requirementId: string,
   deferredByEmail: string,
   reason: string,
-): { ok: boolean; deferral?: Record<string, unknown>; evolveItem?: Record<string, unknown>; error?: string } {
-  const store = getOrchestrationStore();
-  const req = store.requirements.find((r) => r.id === requirementId);
+): Promise<{ ok: boolean; deferral?: Record<string, unknown>; evolveItem?: Record<string, unknown>; error?: string }> {
+  const mode = await resolveStoreMode();
+  if (mode === 'memory') {
+    const store = getOrchestrationStore();
+    const req = store.requirements.find((r) => r.id === requirementId);
+    if (!req) return { ok: false, error: 'Requirement not found' };
+    req.classification = 'DEFERRED_BY_OWNER';
+    req.target_milestone = 'EVOLVE / POST-LAUNCH';
+    store.history.push({ event_type: 'REQUIREMENT_DEFERRED', requirement_id: requirementId, actor_email: deferredByEmail });
+    return { ok: true, deferral: { requirementId, reason } };
+  }
+  const orgs = await getOrganizations();
+  let req: ManifestRequirementRow | undefined;
+  for (const org of orgs) {
+    const m = await findActiveManifest(org.id);
+    if (!m) continue;
+    req = (await getRequirementsForManifest(m.id)).find((r) => r.id === requirementId);
+    if (req) break;
+  }
   if (!req) return { ok: false, error: 'Requirement not found' };
 
-  const deps = getDependenciesForManifest(req.manifest_id);
-  const impact = calculateDeferralImpact(req, store.requirements, deps);
+  const { updateRequirement, insertEvolveItem, insertOrchestrationEvent } = await import('./supabaseStore.js');
+  const deps = await getDependenciesForManifest(req.manifest_id);
+  const impact = calculateDeferralImpact(req, [req], deps);
   const record = buildDeferralRecord(req, req.manifest_id, deferredByEmail, reason, impact);
 
-  const before = { classification: req.classification };
-  req.classification = 'DEFERRED_BY_OWNER';
-  req.target_milestone = impact.suggestedDestination;
-  req.why_required = reason;
+  await updateRequirement(requirementId, {
+    classification: 'DEFERRED_BY_OWNER',
+    target_milestone: impact.suggestedDestination,
+    why_required: reason,
+  });
 
-  const evolveItem = {
-    id: `evolve-${requirementId}`,
-    organization_id: store.manifests.find((m) => m.id === req.manifest_id)?.organization_id,
+  let orgId: string | undefined;
+  for (const o of orgs) {
+    const m = await findActiveManifest(o.id);
+    if (m?.id === req.manifest_id) {
+      orgId = o.id;
+      break;
+    }
+  }
+
+  const evolveItem = await insertEvolveItem({
+    organization_id: orgId,
+    manifest_id: req.manifest_id,
     deferred_requirement_id: requirementId,
     title: req.title,
     description: reason,
     category: 'EVOLVE',
     status: 'PLANNED',
-  };
+  });
 
-  store.deferrals.push({ ...record, deferred_at: new Date().toISOString() });
-  store.evolveItems.push(evolveItem);
-  store.history.push({
-    event_type: 'REQUIREMENT_DEFERRED',
+  await insertOrchestrationEvent({
+    organization_id: orgId,
     requirement_id: requirementId,
-    before_state: before,
-    after_state: { classification: 'DEFERRED_BY_OWNER', reason },
+    event_type: 'REQUIREMENT_DEFERRED',
     actor_email: deferredByEmail,
     summary: `Deferred "${req.title}" to post-launch`,
-    created_at: new Date().toISOString(),
   });
 
   return { ok: true, deferral: record as unknown as Record<string, unknown>, evolveItem };
 }
 
-export function previewDeferralImpact(requirementId: string): DeferralImpact | null {
-  const store = getOrchestrationStore();
-  const req = store.requirements.find((r) => r.id === requirementId);
-  if (!req) return null;
-  return calculateDeferralImpact(req, store.requirements, getDependenciesForManifest(req.manifest_id));
+export async function previewDeferralImpact(requirementId: string): Promise<DeferralImpact | null> {
+  const orgs = await getOrganizations();
+  for (const org of orgs) {
+    const m = await findActiveManifest(org.id);
+    if (!m) continue;
+    const req = (await getRequirementsForManifest(m.id)).find((r) => r.id === requirementId);
+    if (req) return calculateDeferralImpact(req, await getRequirementsForManifest(m.id), await getDependenciesForManifest(m.id));
+  }
+  return null;
 }
 
-export function applyLaunchOverride(
+export async function applyLaunchOverride(
   requirementId: string,
   approverEmail: string,
   reason: string,
   impactAcknowledgment: string,
-): { ok: boolean; error?: string } {
-  const store = getOrchestrationStore();
-  const req = store.requirements.find((r) => r.id === requirementId);
-  if (!req) return { ok: false, error: 'Requirement not found' };
+) {
+  const orgs = await getOrganizations();
+  for (const org of orgs) {
+    const m = await findActiveManifest(org.id);
+    if (!m) continue;
+    const req = (await getRequirementsForManifest(m.id)).find((r) => r.id === requirementId);
+    if (!req) continue;
 
-  store.overrides.add(requirementId);
-  store.history.push({
-    event_type: 'LAUNCH_OVERRIDE_APPROVED',
-    requirement_id: requirementId,
-    actor_email: approverEmail,
-    summary: `Launch override for "${req.title}" — underlying state preserved (${req.execution_status})`,
-    metadata: { reason, impactAcknowledgment },
-    created_at: new Date().toISOString(),
-  });
-
-  return { ok: true };
+    if ((await resolveStoreMode()) === 'supabase') {
+      const { getSupabaseAdmin } = await import('../supabase.js');
+      const { insertOrchestrationEvent } = await import('./supabaseStore.js');
+      await getSupabaseAdmin().from('site00_launch_overrides').insert({
+        requirement_id: requirementId,
+        manifest_id: m.id,
+        approver_email: approverEmail,
+        reason,
+        impact_acknowledgment: impactAcknowledgment,
+      });
+      await insertOrchestrationEvent({
+        organization_id: org.id,
+        requirement_id: requirementId,
+        event_type: 'LAUNCH_OVERRIDE_APPROVED',
+        actor_email: approverEmail,
+        summary: `Launch override for "${req.title}" — underlying state preserved (${req.execution_status})`,
+        metadata: { reason, impactAcknowledgment },
+      });
+    } else {
+      const { getOrchestrationStore } = await import('./memoryStore.js');
+      getOrchestrationStore().overrides.add(requirementId);
+    }
+    return { ok: true };
+  }
+  return { ok: false, error: 'Requirement not found' };
 }
 
-export function recordExternalEvidence(input: {
+export async function recordExternalEvidence(input: {
   organizationSlug: string;
   requirementKey: string;
   title: string;
   source: string;
-}): { evidence: Record<string, unknown>; requirementUnchanged: true } {
-  const store = getOrchestrationStore();
-  const org = findOrgBySlug(input.organizationSlug);
-  const manifest = org ? findActiveManifest(org.id) : undefined;
-  const req = store.requirements.find(
-    (r) => r.manifest_id === manifest?.id && r.requirement_key === input.requirementKey,
-  );
+}) {
+  const org = await findOrgBySlug(input.organizationSlug);
+  if (!org) throw new Error('Organization not found');
+  const manifest = await findActiveManifest(org.id);
+  const req = manifest
+    ? (await getRequirementsForManifest(manifest.id)).find((r) => r.requirement_key === input.requirementKey)
+    : undefined;
 
   const evidence = {
-    id: `evidence-${Date.now()}`,
-    organization_id: org?.id,
+    organization_id: org.id,
     requirement_id: req?.id,
     title: input.title,
     source: input.source,
+    evidence_type: 'EXTERNAL_ACTIVITY',
     does_not_imply_completion: true,
-    recorded_at: new Date().toISOString(),
   };
 
-  store.evidence.push(evidence);
-
-  if (req && !evidenceImpliesCompletion()) {
-    // Requirement execution status intentionally NOT changed
+  if ((await resolveStoreMode()) === 'supabase') {
+    await import('./supabaseStore.js').then((s) => s.insertEvidenceBatch([{ ...evidence, description: 'Evidence recorded — does not imply completion' }]));
   }
 
-  return { evidence, requirementUnchanged: true };
+  return { evidence, requirementUnchanged: true as const };
 }
 
-export function runReconciliation(input: {
+export async function runReconciliation(input: {
   organizationSlug: string;
   requirementKey: string;
   declaredState: string;
-}): Record<string, unknown> {
-  const store = getOrchestrationStore();
-  const org = findOrgBySlug(input.organizationSlug)!;
-  const manifest = findActiveManifest(org.id)!;
-  const req = store.requirements.find(
-    (r) => r.manifest_id === manifest.id && r.requirement_key === input.requirementKey,
-  )!;
+}) {
+  const org = await findOrgBySlug(input.organizationSlug);
+  if (!org) throw new Error('Organization not found');
+  const manifest = await findActiveManifest(org.id);
+  const req = manifest
+    ? (await getRequirementsForManifest(manifest.id)).find((r) => r.requirement_key === input.requirementKey)
+    : undefined;
 
-  const relatedEvidence = store.evidence
-    .filter((e) => e.requirement_id === req?.id)
-    .map((e) => String(e.title));
+  const evidence = await getEvidence(org.id);
+  const relatedEvidence = evidence.filter((e) => e.requirement_id === req?.id || (e.metadata as Record<string, unknown>)?.requirement_key === input.requirementKey);
 
   const suggestion = suggestReconciliation({
     declaredState: input.declaredState,
-    evidenceTitles: relatedEvidence.length ? relatedEvidence : ['search implemented', 'filters implemented', 'responsive route exists'],
+    evidenceTitles: relatedEvidence.length ? relatedEvidence.map((e) => String(e.title)) : [],
     requirementTitle: req?.title ?? input.requirementKey,
   });
 
+  if ((await resolveStoreMode()) === 'supabase') {
+    const { insertReconciliation } = await import('./supabaseStore.js');
+    return insertReconciliation({
+      organization_id: org.id,
+      requirement_id: req?.id,
+      declared_state: input.declaredState,
+      observed_evidence_summary: suggestion.observedEvidenceSummary,
+      suggested_state: suggestion.suggestedState,
+      confidence: suggestion.confidence,
+      outcome: suggestion.outcome,
+      admin_decision: null,
+    });
+  }
+
+  const { getOrchestrationStore } = await import('./memoryStore.js');
   const record = {
     id: `recon-${Date.now()}`,
     organization_id: org.id,
     requirement_id: req?.id,
-    ...suggestion,
+    declaredState: input.declaredState,
+    observedEvidenceSummary: suggestion.observedEvidenceSummary,
+    suggestedState: suggestion.suggestedState,
+    confidence: suggestion.confidence,
+    outcome: suggestion.outcome,
     admin_decision: null,
     created_at: new Date().toISOString(),
   };
-
-  store.reconciliations.push(record);
+  getOrchestrationStore().reconciliations.push(record);
   return record;
 }
 
-export function decideReconciliation(
+export async function decideReconciliation(
   reconciliationId: string,
   decision: 'ACCEPT' | 'REJECT' | 'MODIFY',
+  actorEmail: string,
   modifiedState?: string,
-): Record<string, unknown> {
-  const store = getOrchestrationStore();
-  const record = store.reconciliations.find((r) => r.id === reconciliationId);
-  if (!record) throw new Error('Reconciliation not found');
-
-  const result = applyReconciliationDecision(
-    {
-      declaredState: String(record.declaredState),
-      observedEvidenceSummary: String(record.observedEvidenceSummary),
-      suggestedState: String(record.suggestedState),
-      confidence: record.confidence as 'LOW' | 'MEDIUM' | 'HIGH',
-      outcome: record.outcome as import('./types.js').ReconciliationOutcome,
-      requiresAdminApproval: true,
-    },
-    decision,
-    modifiedState,
-  );
-
-  record.admin_decision = decision;
-  record.applied = result.applied;
-  record.final_state = result.newState;
-
-  return record;
+) {
+  if ((await resolveStoreMode()) === 'supabase') {
+    return decideReconciliationDb(reconciliationId, decision, actorEmail, modifiedState);
+  }
+  if ((await resolveStoreMode()) === 'memory') {
+    const { getOrchestrationStore } = await import('./memoryStore.js');
+    const store = getOrchestrationStore();
+    const record = store.reconciliations.find((r) => r.id === reconciliationId);
+    if (!record) throw new Error('Reconciliation not found');
+    const result = applyReconciliationDecision(
+      {
+        declaredState: String(record.declaredState),
+        observedEvidenceSummary: String(record.observedEvidenceSummary),
+        suggestedState: String(record.suggestedState),
+        confidence: record.confidence as 'LOW' | 'MEDIUM' | 'HIGH',
+        outcome: record.outcome as import('./types.js').ReconciliationOutcome,
+        requiresAdminApproval: true,
+      },
+      decision,
+      modifiedState,
+    );
+    record.admin_decision = decision;
+    record.final_state = result.newState;
+    return record;
+  }
+  throw new Error('Unknown store mode');
 }
 
-export function ingestProject(input: IngestionInput): Record<string, unknown> {
-  const store = getOrchestrationStore();
-  const ingestion = {
-    id: `ingest-${Date.now()}`,
-    ...input,
-    ingestion_state: 'RECONCILIATION_REQUIRED',
-    created_at: new Date().toISOString(),
-  };
-  store.ingestions.push(ingestion);
-  store.history.push({
-    event_type: 'PROJECT_INGESTED',
-    summary: `Project "${input.projectName}" registered — RECONCILIATION_REQUIRED`,
-    created_at: new Date().toISOString(),
-  });
-  return ingestion;
+export async function ingestProject(input: IngestionInput) {
+  if ((await resolveStoreMode()) === 'supabase') {
+    const { ingestExistingProject } = await import('./historyService.js');
+    return ingestExistingProject(input);
+  }
+  return { id: `ingest-${Date.now()}`, ...input, ingestion_state: 'RECONCILIATION_REQUIRED' };
 }
 
-export function getReadinessForOrg(orgSlug: string) {
-  const org = findOrgBySlug(orgSlug);
+export async function getReadinessForOrg(orgSlug: string) {
+  const org = await findOrgBySlug(orgSlug);
   if (!org) return null;
-  const manifest = findActiveManifest(org.id);
+  const manifest = await findActiveManifest(org.id);
   if (!manifest) return null;
-  const reqs = getRequirementsForManifest(manifest.id);
-  const store = getOrchestrationStore();
-  return calculateReadiness(reqs, store.overrides);
+  const reqs = await getRequirementsForManifest(manifest.id);
+  const overrides = await getOverrides();
+  return calculateReadiness(reqs, overrides);
 }
 
-export function getRequirementExplanation(requirementId: string) {
-  const store = getOrchestrationStore();
-  const req = store.requirements.find((r) => r.id === requirementId);
-  if (!req) return null;
-  return explainRequirement(req, getDependenciesForManifest(req.manifest_id), store.requirements);
+export async function getRequirementExplanation(requirementId: string) {
+  const orgs = await getOrganizations();
+  for (const org of orgs) {
+    const m = await findActiveManifest(org.id);
+    if (!m) continue;
+    const reqs = await getRequirementsForManifest(m.id);
+    const req = reqs.find((r) => r.id === requirementId);
+    if (req) return explainRequirement(req, await getDependenciesForManifest(m.id), reqs);
+  }
+  return null;
 }
 
-export function validateManifestDependencies(manifestId: string): void {
-  const deps = getDependenciesForManifest(manifestId);
-  validateDependencyGraph(deps);
+export async function validateManifestDependencies(manifestId: string) {
+  validateDependencyGraph(await getDependenciesForManifest(manifestId));
 }
 
-export function isParentBlockedByDependencies(
-  parentKey: string,
-  manifestId: string,
-): boolean {
-  const store = getOrchestrationStore();
-  const reqs = getRequirementsForManifest(manifestId);
-  const deps = getDependenciesForManifest(manifestId);
+export async function isParentBlockedByDependencies(parentKey: string, manifestId: string) {
+  const reqs = await getRequirementsForManifest(manifestId);
+  const deps = await getDependenciesForManifest(manifestId);
   const parent = reqs.find((r) => r.requirement_key === parentKey);
   if (!parent) return false;
-
   const childDeps = deps.filter((d) => d.source_requirement_id === parent.id);
   for (const dep of childDeps) {
     const child = reqs.find((r) => r.id === dep.target_requirement_id);
-    if (child && child.execution_status !== 'COMPLETE' && child.classification !== 'COMPLETE') {
-      return true;
-    }
+    if (child && child.execution_status !== 'COMPLETE' && child.classification !== 'COMPLETE') return true;
   }
   return false;
 }
 
-export { CircularDependencyError, generateProposedManifest, calculateReadiness };
+export { CircularDependencyError, generateProposedManifest, calculateReadiness, resetOrchestrationStore };
 export type { ManifestRequirementRow, ManifestBuilderInput, IngestionInput };

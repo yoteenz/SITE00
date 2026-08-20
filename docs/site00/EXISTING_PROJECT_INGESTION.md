@@ -1,6 +1,8 @@
 # Existing Project Ingestion
 
-Sprint 01 establishes SITE 00-side architecture for importing existing projects. **Deep repository reconciliation is Sprint 02.**
+Sprint 01 established intake architecture. **Sprint 02 completed deep repository reconciliation and real registry bootstrap.**
+
+See also: `EXTERNAL_PROJECT_RECONCILIATION.md`, `REPOSITORY_EVIDENCE.md`, `LAUNCH_BASELINE_ESTABLISHMENT.md`.
 
 ## Intake Fields
 

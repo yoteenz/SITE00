@@ -10,7 +10,14 @@ import type {
   RequirementDependencyRow,
   WorkstreamRow,
 } from './types.js';
-import { FIXTURE_ORGANIZATIONS, buildFixtureManifests, buildFixtureRequirements, buildFixtureWorkstreams, buildFixtureDependencies } from './seedFixtures.js';
+import {
+  FIXTURE_ORGANIZATIONS,
+  buildFixtureManifests,
+  buildFixtureRequirements,
+  buildFixtureWorkstreams,
+  buildFixtureDependencies,
+  getEvolveItemsFromRequirements,
+} from './seedFixtures.js';
 
 export type OrchestrationStore = {
   organizations: OrganizationRow[];
@@ -85,6 +92,16 @@ function seedStore(s: OrchestrationStore): void {
   s.manifests = buildFixtureManifests(orgBySlug);
   s.requirements = buildFixtureRequirements(s.manifests, s.workstreams, orgBySlug);
   s.dependencies = buildFixtureDependencies(s.requirements, s.manifests);
+
+  s.evolveItems = s.organizations.flatMap((org) =>
+    getEvolveItemsFromRequirements(
+      s.requirements.filter((r) => {
+        const manifest = s.manifests.find((m) => m.id === r.manifest_id);
+        return manifest?.organization_id === org.id;
+      }),
+      org.id,
+    ),
+  );
 
   s.externalConnections = [
     {

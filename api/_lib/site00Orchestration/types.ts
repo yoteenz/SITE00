@@ -91,6 +91,7 @@ export type OrganizationRow = {
   role: string | null;
   client_facing: boolean;
   reconciliation_state: ReconciliationState;
+  project_health?: string;
   metadata: Record<string, unknown>;
 };
 
@@ -109,6 +110,8 @@ export type LaunchManifestRow = {
   readiness_explanation: Record<string, unknown>;
   approved_by: string | null;
   approved_at: string | null;
+  is_provisional?: boolean;
+  master_roadmap_count?: number | null;
   metadata: Record<string, unknown>;
 };
 

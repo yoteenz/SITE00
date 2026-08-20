@@ -4,6 +4,7 @@ import {
   approveManifest,
   deferRequirement,
   decideReconciliation,
+  ensureBootstrapped,
   getOrchestrationDebugPayload,
   getReadinessForOrg,
   getRequirementExplanation,
@@ -12,6 +13,7 @@ import {
   proposeManifest,
   applyLaunchOverride,
   recordExternalEvidence,
+  runBootstrap,
   runReconciliation,
 } from '../_lib/site00Orchestration/orchestrationService.js';
 
@@ -29,9 +31,10 @@ function parseBody(req: VercelRequest): Record<string, unknown> | null {
   return null;
 }
 
+const WORKSPACE_ROOT = process.cwd();
+
 /**
  * SITE 00 Production Orchestration API (admin-only)
- * Debug-first foundation for multi-project launch manifests
  */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -47,22 +50,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const action = String(req.query.action ?? 'debug');
 
       switch (action) {
-        case 'debug':
+        case 'debug': {
+          await ensureBootstrapped(WORKSPACE_ROOT);
           return res.status(200).json(await getOrchestrationDebugPayload());
+        }
         case 'readiness': {
           const orgSlug = String(req.query.orgSlug ?? 'site-00');
-          const readiness = getReadinessForOrg(orgSlug);
-          return res.status(200).json({ orgSlug, readiness });
+          return res.status(200).json({ orgSlug, readiness: await getReadinessForOrg(orgSlug) });
         }
         case 'explain': {
           const requirementId = String(req.query.requirementId ?? '');
-          const explanation = getRequirementExplanation(requirementId);
-          return res.status(200).json({ requirementId, explanation });
+          return res.status(200).json({ requirementId, explanation: await getRequirementExplanation(requirementId) });
         }
         case 'defer-preview': {
           const requirementId = String(req.query.requirementId ?? '');
-          const impact = previewDeferralImpact(requirementId);
-          return res.status(200).json({ requirementId, impact });
+          return res.status(200).json({ requirementId, impact: await previewDeferralImpact(requirementId) });
         }
         default:
           return res.status(400).json({ error: 'UNKNOWN ACTION' });
@@ -74,14 +76,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const action = String(body.action ?? req.query.action ?? '');
 
       switch (action) {
+        case 'bootstrap':
+          return res.status(200).json(await runBootstrap(WORKSPACE_ROOT));
         case 'propose-manifest':
           return res.status(200).json(proposeManifest(body as Parameters<typeof proposeManifest>[0]));
         case 'approve-manifest': {
-          const result = approveManifest(String(body.manifestId), auth.user.email);
+          const result = await approveManifest(String(body.manifestId), auth.user.email);
           return res.status(result.ok ? 200 : 400).json(result);
         }
         case 'defer-requirement': {
-          const result = deferRequirement(
+          const result = await deferRequirement(
             String(body.requirementId),
             auth.user.email,
             String(body.reason ?? 'Deferred by admin'),
@@ -89,7 +93,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(result.ok ? 200 : 400).json(result);
         }
         case 'launch-override': {
-          const result = applyLaunchOverride(
+          const result = await applyLaunchOverride(
             String(body.requirementId),
             auth.user.email,
             String(body.reason ?? ''),
@@ -99,7 +103,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         case 'record-evidence':
           return res.status(200).json(
-            recordExternalEvidence({
+            await recordExternalEvidence({
               organizationSlug: String(body.organizationSlug),
               requirementKey: String(body.requirementKey),
               title: String(body.title),
@@ -108,7 +112,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           );
         case 'reconcile':
           return res.status(200).json(
-            runReconciliation({
+            await runReconciliation({
               organizationSlug: String(body.organizationSlug),
               requirementKey: String(body.requirementKey),
               declaredState: String(body.declaredState ?? 'BUILDING'),
@@ -116,14 +120,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           );
         case 'reconcile-decide':
           return res.status(200).json(
-            decideReconciliation(
+            await decideReconciliation(
               String(body.reconciliationId),
               body.decision as 'ACCEPT' | 'REJECT' | 'MODIFY',
+              auth.user.email,
               body.modifiedState ? String(body.modifiedState) : undefined,
             ),
           );
         case 'ingest-project':
-          return res.status(200).json(ingestProject(body as Parameters<typeof ingestProject>[0]));
+          return res.status(200).json(await ingestProject(body as Parameters<typeof ingestProject>[0]));
         default:
           return res.status(400).json({ error: 'UNKNOWN ACTION' });
       }

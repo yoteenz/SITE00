@@ -1675,3 +1675,31 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Deferred (Sprint 02):** Live GitHub/Studio World connections; deep repo reconciliation; replace fixtures with evidence-backed state; wire approved admin dashboard to orchestration services; apply migration to remote Supabase.
 
 - **Conventions:** Admin approval required for manifest activation, deferrals, overrides, reconciliation acceptance. Evidence never auto-completes requirements. Studio World ≠ client brand. Same physical repo can host multiple logical systems.
+
+---
+
+## 2026-08-20 — Sprint 02: Existing project reconciliation + real launch baselines
+
+Summary of this cloud agent run (repo: `yoteenz/SITE00`).
+
+- **Context:** Founder Sprint 02 — connect orchestration to real projects (SITE 00, Frontal Slayer, AIO, Studio World infrastructure); verify/apply Supabase migration; persist canonical state; GitHub evidence ingestion; deep reconciliation; provisional launch baselines. Continue from Sprint 01 PR #166. No external repo modifications, no email pack changes, no admin dashboard redesign, no deploy.
+
+- **Supabase identity:** No dedicated SITE 00-only Supabase project exists. Verified operational target: `hyycomvcaqxxvyrfupes` ("FS Website") — same project as existing SITE 00 tables and `VITE_SUPABASE_URL`. AIO separate project: `nnnljnhtmseagotvgxxt`. Did NOT apply to unknown projects.
+
+- **Migrations:** Applied `20260820180000_site00_production_orchestration.sql` (3 parts via MCP) + new `20260820190000_site00_reconciliation_sprint02.sql` (project_health, evidence lineage, is_provisional, master_roadmap_count, drift_events, supabase_aio system).
+
+- **Persistence:** `supabaseStore.ts` + `storeAdapter.ts` — Supabase canonical in production; memory store only for tests (`ORCHESTRATION_USE_MEMORY=1`). `registryBootstrap.ts` seeds 4 real orgs, connections, evidence, reconciliations, provisional manifests.
+
+- **GitHub:** Read-only client for `yoteenz/SITE00` (CONNECTED) and `yoteenz/fsbw` (CONNECTED, shared by Frontal Slayer + Studio World). AIO repo UNAVAILABLE (not in accessible repos).
+
+- **Reconciliation:** `repositoryInventory.ts`, `reconciliationRunner.ts`, `projectHealth.ts`. Evidence retains lineage; code existence ≠ completion. Admin ACCEPT/REJECT/MODIFY via debug UI + API. AIO social_marketing DEFERRED_BY_OWNER → EVOLVE, excluded from readiness.
+
+- **Debug UI:** Extended `/admin/site00/debug/orchestration` — project health, provisional baselines, reconciliation review, evidence sample.
+
+- **Docs:** `EXTERNAL_PROJECT_RECONCILIATION.md`, `REPOSITORY_EVIDENCE.md`, `STUDIO_WORLD_SIGNAL_INGESTION.md`, `LAUNCH_BASELINE_ESTABLISHMENT.md`, `PROJECT_HEALTH.md`, `DRIFT_DETECTION.md`; updated `EXISTING_PROJECT_INGESTION.md`.
+
+- **Tests:** 46 passing. Build PASS.
+
+- **Deferred (Sprint 03):** Wire approved admin dashboard to real orchestration; dedicated SITE 00 Supabase project (optional); AIO GitHub access; full Studio World live signal normalization; automatic drift polling.
+
+- **Conventions:** Provisional manifests labeled until admin approval. Unknown stays unknown. Studio World = infrastructure, not client brand. External repos read-only from SITE 00.
