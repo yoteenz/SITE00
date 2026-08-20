@@ -2011,3 +2011,15 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Tests/build:** 283 tests PASS (25 new Creative Direction tests). Build PASS. PR merged to main. No deploy.
 
+---
+
+## 2026-08-20 — EVOLVE Marketing 7-discipline creative intake visual fidelity sprint
+
+- **Context:** Founder supplied seven visual reference images for EVOLVE → Marketing & Content intake experiences (Social Content, Campaign, Product Campaign, Brand Film, UGC-Style, Launch Campaign, Content System). Prior sprint fixed architectural sameness but failed founder visual review — generic forms, serif leakage, missing SITE 00 shell, undifferentiated disciplines. User explicitly required **all text uppercase**.
+
+- **Decisions:** Preserve `CreativeIntakeEngine` + `experienceRegistry` + `MarketingIntakeRecord` / draft keys / API contracts. Split seven disciplines into unique families, artifacts, stage vocabularies, and workstation layouts. Use canonical `Site00PublicShell` (top nav + mobile bottom nav with LOCATIONS active on `/evolve/*`). Remove Georgia/serif editorial styling. Artifacts driven by captured state with PENDING/— empty marks — no fake metrics or provider state.
+
+- **Changes:** `experienceRegistry.ts` — seven unique experiences (ATTENTION, UGC_AUTHENTICITY, FILM_SET, CAMPAIGN_CONTROL, PRODUCT_STAGING, LAUNCH_SEQUENCE, CONTENT_ENGINE) with distinct artifacts (ATTENTION_MAP, UGC_STYLE_GUIDE, FILM_TREATMENT, CAMPAIGN_CONTROL, PRODUCT_STAGE, LAUNCH_BLUEPRINT, CONTENT_SYSTEM_MAP). `CreativeIntakeShell` — stage rail, horizontal progress dots, insights panel, technical marks. `SignatureArtifacts.tsx` — live-updating discipline artifacts. `site00-creative-intake.css` — global uppercase, 4-column workstation grid, serif regression guard. `MarketingIntakePage` → `Site00PublicShell`. Debug page covers all 7 disciplines. Tests expanded to 20 intake fidelity cases (291 total). Deferred: upstream Marketing entry + service-selection redesign.
+
+- **Tests/build:** 291 tests PASS. Build PASS. PR merged to main. No deploy.
+
