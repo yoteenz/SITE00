@@ -13,6 +13,28 @@ export type EvolveCampaignListRow = {
   blockers: string[];
 };
 
+export type SafeConnectionView = {
+  id: string;
+  organizationId: string;
+  providerKey: string;
+  providerCategory: string;
+  displayName: string;
+  status: string;
+  health: string;
+  externalAccountName: string | null;
+  externalPropertyName: string | null;
+  grantedCapabilities: string[];
+  supportedCapabilities: string[];
+  capabilityMap: Record<string, string>;
+  grantedScopes: string[];
+  lastVerifiedAt: string | null;
+  lastSyncAt: string | null;
+  lastErrorCode: string | null;
+  lastErrorMessage: string | null;
+  credentialState: string;
+  recommendedAction: string | null;
+};
+
 export type EvolveOverview = {
   organizationSlug: string;
   organizationName: string;

@@ -119,4 +119,46 @@ export const site00EvolveApi = {
       method: 'POST',
       body: JSON.stringify({ action: 'reject_item', approvalId, reason }),
     }),
+
+  connectionsPortfolio: () =>
+    evolveFetch<{ groups: Array<{ organizationSlug: string; organizationName: string; publishingStatus: string; connections: import('../types/evolve').SafeConnectionView[] }> }>(
+      '?action=connections_portfolio',
+    ),
+
+  connections: (orgSlug: string) =>
+    evolveFetch<{
+      buckets: Record<string, import('../types/evolve').SafeConnectionView[]>;
+      availableProviders: Array<{ providerKey: string; displayName: string; category: string; adapterStatus: string }>;
+      pilot: Record<string, unknown>;
+      publishingFence: Record<string, unknown>;
+    }>(`?action=connections&orgSlug=${encodeURIComponent(orgSlug)}`),
+
+  pilotReadiness: (orgSlug: string) =>
+    evolveFetch<{ items: Array<{ key: string; label: string; state: string; detail?: string }>; publishingFence: Record<string, unknown>; automationMode: string }>(
+      `?action=pilot_readiness&orgSlug=${encodeURIComponent(orgSlug)}`,
+    ),
+
+  initiateConnection: (orgSlug: string, providerKey: string, displayName?: string) =>
+    evolveFetch<{ connection: import('../types/evolve').SafeConnectionView }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'initiate_connection', orgSlug, providerKey, displayName }),
+    }),
+
+  verifyConnection: (orgSlug: string, connectionId: string) =>
+    evolveFetch<{ connection: import('../types/evolve').SafeConnectionView }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'verify_connection', orgSlug, connectionId }),
+    }),
+
+  syncConnection: (orgSlug: string, connectionId: string) =>
+    evolveFetch<{ syncRunId: string; recordsNormalized: number; state: string }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'sync_connection', orgSlug, connectionId }),
+    }),
+
+  disconnectConnection: (orgSlug: string, connectionId: string) =>
+    evolveFetch<{ ok: boolean }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'disconnect_connection', orgSlug, connectionId }),
+    }),
 };

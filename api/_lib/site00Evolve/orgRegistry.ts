@@ -8,6 +8,7 @@ export const MEMORY_ORG_SLUG_TO_ID: Record<string, string> = {
   'frontal-slayer': 'org-00000000-0000-4000-8000-000000000002',
   'all-in-one-enterprises': 'org-00000000-0000-4000-8000-000000000003',
   'studio-world': 'org-00000000-0000-4000-8000-000000000004',
+  ndxbook: 'org-00000000-0000-4000-8000-000000000005',
 };
 
 /** Verified SITE 00 operational Supabase org registry */
@@ -16,6 +17,7 @@ export const PRODUCTION_ORG_SLUG_TO_ID: Record<string, string> = {
   'frontal-slayer': 'b5b9c48a-f9e0-41e9-afd0-8478600b94fd',
   'all-in-one-enterprises': '3781f0b7-cbc5-470d-8af7-69b97cfa5729',
   'studio-world': 'e6b0ee2c-7140-486f-867f-a759ae731f9a',
+  ndxbook: '7681ab75-bddc-43e5-b594-79fcf8168205',
 };
 
 export function useMemoryOrgIds(): boolean {

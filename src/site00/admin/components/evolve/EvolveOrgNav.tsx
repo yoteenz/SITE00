@@ -3,12 +3,14 @@ import { SITE00_ADMIN_ROUTES } from '../../config/routes';
 
 const NAV_ITEMS = [
   { key: 'overview', label: 'OVERVIEW', path: (slug: string) => SITE00_ADMIN_ROUTES.evolveOrg(slug) },
+  { key: 'connections', label: 'CONNECTIONS', path: (slug: string) => SITE00_ADMIN_ROUTES.evolveOrgConnections(slug) },
   { key: 'campaigns', label: 'CAMPAIGNS', path: (slug: string) => SITE00_ADMIN_ROUTES.evolveCampaigns(slug) },
   { key: 'calendar', label: 'CALENDAR', path: (slug: string) => SITE00_ADMIN_ROUTES.evolveCalendar(slug) },
   { key: 'emails', label: 'EMAIL', path: (slug: string) => SITE00_ADMIN_ROUTES.evolveEmails(slug) },
   { key: 'social', label: 'SOCIAL', path: (slug: string) => SITE00_ADMIN_ROUTES.evolveSocial(slug) },
   { key: 'production', label: 'PRODUCTION', path: (slug: string) => SITE00_ADMIN_ROUTES.evolveProductionNew(slug) },
   { key: 'plans', label: 'PLANS', path: (slug: string) => SITE00_ADMIN_ROUTES.evolvePlans(slug) },
+  { key: 'pilot', label: 'PILOT', path: (slug: string) => SITE00_ADMIN_ROUTES.evolvePilot(slug) },
 ] as const;
 
 type EvolveOrgNavProps = {

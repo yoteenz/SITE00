@@ -5,6 +5,7 @@
 import type { EvolveCommandItem } from './types.js';
 import { listMarketingOrgs, getEvolveOverview, ensureEvolveSeeded } from './evolveService.js';
 import { isMarketingClientOrg } from './seedFixtures.js';
+import { buildConnectionCommandItems } from './providers/commandConnections.js';
 
 export type EvolveCommandContribution = {
   items: EvolveCommandItem[];
@@ -48,6 +49,9 @@ export async function buildEvolveCommandItems(): Promise<EvolveCommandContributi
         priority: 95,
       });
     }
+
+    const connItems = await buildConnectionCommandItems(org.slug, org.name);
+    items.push(...connItems);
   }
 
   return {

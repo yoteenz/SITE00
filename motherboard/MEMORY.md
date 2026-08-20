@@ -1844,3 +1844,27 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Context:** Founder could not load email pack debug on `site00.fsbw-dev.com` due to auth redirect + session-restore 503 on preview dev server.
 - **Change:** `AdminGuard` temporarily bypasses auth for `/admin/site00/*` on preview hosts only (`fsbw-dev`, localhost, cloudflare tunnel). Production `site00.com` remains gated.
 - **Flag:** `TEMPORARY_SITE00_ADMIN_BYPASS_ON_PREVIEW` in `AdminGuard.tsx` — set `false` or remove after email pack review complete.
+
+---
+
+## 2026-08-20 — EVOLVE Marketing OS Sprint 03: External Intelligence + Provider Connection Architecture
+
+Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
+
+- **Objective:** Provider-independent external connection layer, analytics ingestion architecture, distribution/publication foundation, publishing fences, NDXbook as future controlled pilot — **no live publishing**, no fake credentials/analytics.
+
+- **Supabase:** Migration `20260820220000_site00_evolve_external_intelligence.sql` applied to `hyycomvcaqxxvyrfupes`. Extended `site00_external_connections`; new tables: `site00_evolve_pilot_config`, `site00_connection_events`, `site00_connection_sync_runs`, `site00_marketing_metric_observations`, `site00_distribution_jobs`, `site00_external_publications`. RLS enabled on all new tables.
+
+- **NDXbook:** Registered org `slug: ndxbook`, UUID `7681ab75-bddc-43e5-b594-79fcf8168205`, `DISTRIBUTION_PUBLISHING_PILOT`, publishing/automation/provider all DISABLED/NOT_CONNECTED. Pilot config seeded in Supabase.
+
+- **Backend:** `api/_lib/site00Evolve/providers/` — adapter contract, registry, connection/sync/intelligence/pilot services, global + org publishing fences, COMMAND connection items. Admin API extended (`connections`, `pilot_readiness`, `sync_connection`, etc.). Production Supabase-backed; memory for tests only.
+
+- **Admin UI:** `/admin/site00/evolve/connections` (portfolio), `/admin/site00/orchestration/:orgSlug/evolve/connections` (org + wizard), `/admin/site00/orchestration/ndxbook/evolve/pilot` (generic pilot readiness component).
+
+- **Preserved:** AIO social DEFERRED_BY_OWNER; Studio World PRODUCTION_INFRASTRUCTURE boundary; no Email Family System changes; no external repo changes; no deploy.
+
+- **Tests/build:** 146/146 PASS (35 new Sprint 03 + full regression). Build PASS.
+
+- **Branch:** `cursor/evolve-sprint03-external-intelligence-84ff` → PR merge to `main`.
+
+- **Ready for controlled publishing sprint:** Architecture yes; publishing/automation remain disabled until owner authorization.

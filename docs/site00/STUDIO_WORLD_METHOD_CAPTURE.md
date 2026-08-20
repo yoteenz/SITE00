@@ -72,6 +72,40 @@ Roadmap items with DEFERRED_BY_OWNER retain history when later activated. EVOLVE
 
 ---
 
+## 7. Provider Abstraction + External Account Identity (Sprint 03)
+
+**Status:** CAPTURED
+
+Provider-independent adapter contract with normalized capability registry. Connections belong to one organization; granted vs supported capabilities tracked separately. Explicit account/property selection required.
+
+**Observation:** `ADAPTER_AVAILABLE ≠ ACCOUNT_CONNECTED`. Credentials use `REQUIRES_SECURE_CONFIGURATION` when secrets absent.
+
+---
+
+## 8. Evidence Normalization + Metric Provenance (Sprint 03)
+
+**Status:** CAPTURED
+
+Normalized metric observations retain provider, connection, property, source metadata, attribution state, confidence. Missing metrics = `NOT_AVAILABLE`.
+
+---
+
+## 9. Distribution Lineage + Publishing Fences (Sprint 03)
+
+**Status:** CAPTURED
+
+Distribution jobs and external publication records prepared. Global + org publishing fences enforced server-side. NDXbook = `DISTRIBUTION_PUBLISHING_PILOT` with publishing DISABLED.
+
+---
+
+## 10. Evidence-Backed Learning Boundary (Sprint 03)
+
+**Status:** CAPTURED
+
+Performance evidence → Insight → Suggested Learning → Human Review → Canonical Content Brain. No silent canon updates.
+
+---
+
 ## Productization Candidates (future Studio World)
 
 | Method | Status |

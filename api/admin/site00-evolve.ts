@@ -30,6 +30,27 @@ import { orgIdFromSlug } from '../_lib/site00Evolve/orgRegistry.js';
 import { getCalendarByOrgId, getChannelsByOrgId, getObjectivesByOrgId, getPendingApprovals, getLatestAssessment } from '../_lib/site00Evolve/storeAdapter.js';
 import { resolveStoreMode, EvolveStoreUnavailableError } from '../_lib/site00Evolve/storeAdapter.js';
 import type { CampaignStatus, ProductionType } from '../_lib/site00Evolve/types.js';
+import {
+  disconnectConnection,
+  getConnectionDetail,
+  initiateConnection,
+  listProviderCatalog,
+  listSafeConnections,
+  selectAccountProperty,
+  verifyConnection,
+  attemptPublish,
+} from '../_lib/site00Evolve/providers/connectionService.js';
+import {
+  getOrgConnectionsPayload,
+  getPortfolioConnectionsPayload,
+  getConnectionWizardPayload,
+  discoverAccountsForConnection,
+} from '../_lib/site00Evolve/providers/connectionsAdmin.js';
+import { runConnectionSync } from '../_lib/site00Evolve/providers/syncService.js';
+import { getPilotReadiness, createDistributionJob } from '../_lib/site00Evolve/providers/pilotService.js';
+import { buildPerformanceSnapshot, generateEvidenceInsights } from '../_lib/site00Evolve/providers/intelligenceService.js';
+import { verifySprint03Schema } from '../_lib/site00Evolve/providers/connectionStore.js';
+import { ProviderError } from '../_lib/site00Evolve/providers/errors.js';
 
 function parseBody(req: VercelRequest): Record<string, unknown> | null {
   if (typeof req.body === 'object' && req.body !== null && !Array.isArray(req.body)) {
@@ -119,6 +140,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(200).json({ approvals: await getApprovalsInbox() });
         case 'roadmap':
           return res.status(200).json({ roadmap: await getEvolveRoadmapByOrgId(orgIdFromSlug(orgSlug)!) });
+        case 'connections_portfolio':
+          return res.status(200).json(await getPortfolioConnectionsPayload());
+        case 'connections':
+          return res.status(200).json(await getOrgConnectionsPayload(orgSlug));
+        case 'connection_detail': {
+          const connectionId = String(req.query.connectionId ?? '');
+          const detail = await getConnectionDetail(orgSlug, connectionId);
+          return res.status(detail ? 200 : 404).json(detail ?? { error: 'Connection not found' });
+        }
+        case 'connection_wizard':
+          return res.status(200).json(await getConnectionWizardPayload(String(req.query.category ?? '') as never));
+        case 'provider_catalog':
+          return res.status(200).json({ providers: listProviderCatalog(String(req.query.category ?? '') as never) });
+        case 'pilot_readiness':
+          return res.status(200).json(await getPilotReadiness(orgSlug));
+        case 'performance_snapshot':
+          return res.status(200).json({
+            snapshot: await buildPerformanceSnapshot(orgSlug, {
+              campaignId: String(req.query.campaignId ?? '') || undefined,
+              connectionId: String(req.query.connectionId ?? '') || undefined,
+            }),
+          });
+        case 'sprint03_schema':
+          return res.status(200).json(await verifySprint03Schema());
         default:
           return res.status(400).json({ error: 'UNKNOWN ACTION' });
       }
@@ -205,6 +250,54 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         case 'reject_item': {
           await rejectSubject(String(body.approvalId ?? ''), auth.user.email, String(body.reason ?? ''));
           return res.status(200).json({ ok: true });
+        }
+        case 'initiate_connection':
+          return res.status(200).json({
+            connection: await initiateConnection(orgSlug, String(body.providerKey ?? ''), String(body.displayName ?? '')),
+          });
+        case 'select_connection_account':
+          return res.status(200).json({
+            connection: await selectAccountProperty(
+              orgSlug,
+              String(body.connectionId ?? ''),
+              String(body.accountId ?? ''),
+              String(body.accountName ?? ''),
+              body.propertyId ? String(body.propertyId) : undefined,
+              body.propertyName ? String(body.propertyName) : undefined,
+            ),
+          });
+        case 'verify_connection':
+          return res.status(200).json({
+            connection: await verifyConnection(orgSlug, String(body.connectionId ?? '')),
+          });
+        case 'disconnect_connection':
+          await disconnectConnection(orgSlug, String(body.connectionId ?? ''));
+          return res.status(200).json({ ok: true });
+        case 'sync_connection':
+          return res.status(200).json(await runConnectionSync(orgSlug, String(body.connectionId ?? '')));
+        case 'discover_accounts':
+          return res.status(200).json(await discoverAccountsForConnection(orgSlug, String(body.connectionId ?? '')));
+        case 'create_distribution_job':
+          return res.status(200).json({ job: await createDistributionJob(orgSlug, body) });
+        case 'attempt_publish':
+          try {
+            await attemptPublish(orgSlug, String(body.connectionId ?? ''));
+            return res.status(200).json({ ok: true });
+          } catch (e) {
+            if (e instanceof ProviderError) {
+              return res.status(403).json({ error: e.message, code: e.code });
+            }
+            throw e;
+          }
+        case 'generate_insights': {
+          const connections = await listSafeConnections(orgSlug);
+          return res.status(200).json({
+            insights: await generateEvidenceInsights(
+              orgSlug,
+              connections.map((c) => c.id),
+            ),
+            contentBrainBoundary: (await import('../_lib/site00Evolve/providers/intelligenceService.js')).contentBrainLearningBoundary(),
+          });
         }
         default:
           return res.status(400).json({ error: 'UNKNOWN ACTION' });

@@ -52,7 +52,7 @@ function deriveHealthDimensions(
       CONTENT: profile?.metadata?.content_brain_available ? 'REFERENCE_AVAILABLE' : 'UNKNOWN',
       PRODUCTION: 'NOT_STARTED',
       CHANNELS: channels.length > 0 ? 'CONFIGURED' : 'UNKNOWN',
-      MEASUREMENT: 'UNKNOWN',
+      MEASUREMENT: 'UNKNOWN — provider not connected',
       CAMPAIGN_EXECUTION: 'NOT_STARTED',
     };
   }
@@ -67,7 +67,7 @@ function deriveHealthDimensions(
     CONTENT: 'ACTIVE',
     PRODUCTION: 'ACTIVE',
     CHANNELS: socialDeferred ? 'PARTIAL — SOCIAL DEFERRED BY OWNER' : 'CONFIGURED',
-    MEASUREMENT: hasAssessment ? 'PARTIAL' : 'UNKNOWN — ANALYTICS NOT CONNECTED',
+    MEASUREMENT: hasAssessment ? 'PARTIAL' : 'UNKNOWN — provider not connected',
     CAMPAIGN_EXECUTION: 'NOT_STARTED',
     EMAIL: email?.channel_state === 'BLOCKED' ? 'BLOCKED — provider missing' : email?.channel_state ?? 'UNKNOWN',
   };

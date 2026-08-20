@@ -60,6 +60,7 @@ const ORG_NAMES: Record<string, string> = {
   'frontal-slayer': 'FRONTAL SLAYER',
   'all-in-one-enterprises': 'ALL IN ONE ENTERPRISES',
   'studio-world': 'STUDIO WORLD',
+  ndxbook: 'NDXBOOK',
 };
 
 const ORG_CLASS: Record<string, string> = {
@@ -67,10 +68,13 @@ const ORG_CLASS: Record<string, string> = {
   'frontal-slayer': 'INTERNAL_BRAND',
   'all-in-one-enterprises': 'MANAGED_BRAND',
   'studio-world': 'PRODUCTION_INFRASTRUCTURE',
+  ndxbook: 'MANAGED_BRAND',
 };
 
 export async function ensureEvolveSeeded(): Promise<void> {
   await ensureEvolveStoreReady();
+  const { bootstrapNdxbookPilot } = await import('./providers/pilotService.js');
+  await bootstrapNdxbookPilot();
 }
 
 export function resolveOrgContext(orgSlug: string): OrgContext {

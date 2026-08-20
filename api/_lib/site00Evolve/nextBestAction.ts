@@ -16,12 +16,28 @@ type NBAInput = {
   opportunities: Array<{ label: string; detail: string }>;
   pendingApprovals: number;
   productionCount: number;
+  connectionIssues?: Array<{ title: string; reason: string; category: CommandCategory; route: string }>;
 };
 
 export function buildNextBestActions(input: NBAInput): NextBestAction[] {
   const actions: NextBestAction[] = [];
   let rank = 1;
   const route = `/admin/site00/orchestration/${input.orgSlug}/evolve`;
+  const connectionsRoute = `/admin/site00/orchestration/${input.orgSlug}/evolve/connections`;
+
+  for (const issue of input.connectionIssues ?? []) {
+    actions.push({
+      rank: rank++,
+      category: issue.category,
+      title: issue.title,
+      reason: issue.reason,
+      source: 'EXTERNAL_CONNECTION',
+      dependency: null,
+      objectiveRelationship: input.profile?.primary_objective ?? null,
+      route: issue.route || connectionsRoute,
+      priority: issue.category === 'BLOCKED' ? 15 : issue.category === 'NEEDS_YOU' ? 18 : 45,
+    });
+  }
 
   if (input.pendingApprovals > 0) {
     actions.push({
