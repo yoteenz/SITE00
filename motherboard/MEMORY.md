@@ -892,3 +892,11 @@ Summary of the **whole conversation so far** in this cloud agent run.
 - **Canonical URL shown:** `https://site00.com/access/00-0001`. **LIVE ROUTE →** links to production `/access/:code`.
 - **Branch:** `cursor/access-debug-route-2c3b`.
 
+---
+
+## 2026-08-20 — Locations subtitle weight restored to 800
+
+- **Request:** Restore “WHERE DO YOU NEED TO GO?” to font weight 800 (`--site00-weight-display`).
+- **Fix:** `.site00-locations-directory-header__subtitle` in `site00-fast-travel.css` — `font-weight: var(--site00-weight-display)`.
+- **Branch:** `cursor/locations-subtitle-weight-796f`.
+
