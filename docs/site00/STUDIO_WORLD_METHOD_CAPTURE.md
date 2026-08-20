@@ -106,6 +106,22 @@ Performance evidence → Insight → Suggested Learning → Human Review → Can
 
 ---
 
+## Sprint 04 — NDXbook Pilot Methods
+
+### 11. Provider Authorization + Account Confirmation
+
+**Status:** CAPTURED — OAuth state org+provider bound; ProviderSecretStore encrypted refs; CONNECTED ≠ VERIFIED ≠ ACCOUNT_CONFIRMED.
+
+### 12. Publication Dry Run + Fence Architecture
+
+**Status:** CAPTURED — Internal pipeline stops before provider write; global/org/approval/account fences server-side.
+
+### 13. Pre-Publication Baseline
+
+**Status:** CAPTURED — Baseline sync when permissions exist; otherwise truthful NOT_AVAILABLE states.
+
+---
+
 ## Productization Candidates (future Studio World)
 
 | Method | Status |

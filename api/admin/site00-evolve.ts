@@ -51,6 +51,12 @@ import { getPilotReadiness, createDistributionJob } from '../_lib/site00Evolve/p
 import { buildPerformanceSnapshot, generateEvidenceInsights } from '../_lib/site00Evolve/providers/intelligenceService.js';
 import { verifySprint03Schema } from '../_lib/site00Evolve/providers/connectionStore.js';
 import { ProviderError } from '../_lib/site00Evolve/providers/errors.js';
+import { getExpandedPilotReadiness } from '../_lib/site00Evolve/providers/pilotReadinessSprint04.js';
+import { runNdxbookAssessment, generateNdxbookManifest, getNdxbookMarketingState } from '../_lib/site00Evolve/providers/ndxbookService.js';
+import { startOAuthAuthorization, getProviderOAuthConfig } from '../_lib/site00Evolve/providers/oauthService.js';
+import { validateSecretStoreConfiguration } from '../_lib/site00Evolve/providers/providerSecretStore.js';
+import { confirmConnectionAccount } from '../_lib/site00Evolve/providers/accountConfirmation.js';
+import { runPublicationDryRun } from '../_lib/site00Evolve/providers/dryRunService.js';
 
 function parseBody(req: VercelRequest): Record<string, unknown> | null {
   if (typeof req.body === 'object' && req.body !== null && !Array.isArray(req.body)) {
@@ -154,7 +160,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         case 'provider_catalog':
           return res.status(200).json({ providers: listProviderCatalog(String(req.query.category ?? '') as never) });
         case 'pilot_readiness':
-          return res.status(200).json(await getPilotReadiness(orgSlug));
+          return orgSlug === 'ndxbook'
+            ? res.status(200).json(await getExpandedPilotReadiness(orgSlug))
+            : res.status(200).json(await getPilotReadiness(orgSlug));
+        case 'ndxbook_state':
+          return res.status(200).json(await getNdxbookMarketingState());
+        case 'provider_config':
+          return res.status(200).json({
+            meta_instagram: getProviderOAuthConfig('meta_instagram'),
+            secretStore: validateSecretStoreConfiguration(),
+          });
         case 'performance_snapshot':
           return res.status(200).json({
             snapshot: await buildPerformanceSnapshot(orgSlug, {
@@ -299,6 +314,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             contentBrainBoundary: (await import('../_lib/site00Evolve/providers/intelligenceService.js')).contentBrainLearningBoundary(),
           });
         }
+        case 'run_ndxbook_assessment':
+          return res.status(200).json({
+            assessment: await runNdxbookAssessment(body.answers as never, auth.user.email),
+          });
+        case 'generate_ndxbook_manifest':
+          return res.status(200).json(await generateNdxbookManifest());
+        case 'start_oauth':
+          return res.status(200).json(
+            await startOAuthAuthorization(orgSlug, String(body.providerKey ?? 'meta_instagram'), String(body.connectionId ?? '')),
+          );
+        case 'confirm_account':
+          return res.status(200).json({
+            connection: await confirmConnectionAccount(orgSlug, String(body.connectionId ?? ''), auth.user.email),
+          });
+        case 'dry_run_publication':
+          return res.status(200).json(
+            await runPublicationDryRun(orgSlug, {
+              connectionId: String(body.connectionId ?? ''),
+              caption: body.caption ? String(body.caption) : undefined,
+              approvalState: body.approvalState ? String(body.approvalState) : 'DRAFT',
+              campaignId: body.campaignId ? String(body.campaignId) : undefined,
+            }),
+          );
         default:
           return res.status(400).json({ error: 'UNKNOWN ACTION' });
       }

@@ -5,6 +5,8 @@ import { evolveStatusPillClass, formatEvolveLabel } from '../../components/evolv
 import { site00EvolveApi } from '../../services/evolveApi';
 import { SITE00_ADMIN_ROUTES } from '../../config/routes';
 
+import type { SafeConnectionView } from '../../types/evolve';
+
 type ReadinessItem = {
   key: string;
   label: string;
@@ -12,11 +14,20 @@ type ReadinessItem = {
   detail?: string;
 };
 
+type ExpandedReadiness = {
+  designation: string;
+  currentState: string;
+  globalPublishing: string;
+  humanApprovalRequired: boolean;
+  crossPosting: string;
+  nextAction: string;
+  pilotPurpose: string;
+  items: ReadinessItem[];
+};
+
 export default function EvolvePilotControlPage() {
   const { orgSlug = 'ndxbook' } = useParams<{ orgSlug: string }>();
-  const [items, setItems] = useState<ReadinessItem[]>([]);
-  const [fence, setFence] = useState<Record<string, unknown>>({});
-  const [automationMode, setAutomationMode] = useState('MANUAL');
+  const [readiness, setReadiness] = useState<ExpandedReadiness | null>(null);
   const [organizations, setOrganizations] = useState<Array<{ slug: string; name: string }>>([]);
   const [orgName, setOrgName] = useState(orgSlug.toUpperCase());
   const [loading, setLoading] = useState(true);
@@ -26,16 +37,14 @@ export default function EvolvePilotControlPage() {
     setLoading(true);
     setError(null);
     try {
-      const [orgs, readiness, { overview }] = await Promise.all([
+      const [orgs, payload, { overview }] = await Promise.all([
         site00EvolveApi.organizations(),
         site00EvolveApi.pilotReadiness(orgSlug),
         site00EvolveApi.overview(orgSlug),
       ]);
       setOrganizations(orgs.organizations.map((o) => ({ slug: o.slug, name: o.name })));
       setOrgName(overview.organizationName);
-      setItems(readiness.items);
-      setFence(readiness.publishingFence);
-      setAutomationMode(readiness.automationMode);
+      setReadiness(payload as ExpandedReadiness);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to load pilot readiness');
     } finally {
@@ -59,20 +68,21 @@ export default function EvolvePilotControlPage() {
       {loading ? <p className="site00-evolve-ops-loading">Loading pilot readiness…</p> : null}
       {error ? <p className="site00-orchestration-error">{error}</p> : null}
 
-      {!loading && !error ? (
+      {!loading && !error && readiness ? (
         <>
           <section className="site00-control-panel site00-evolve-ops-callout--info">
-            <p>
-              Global + organization publishing fences: {fence.canPublish ? 'OPEN' : String(fence.reason ?? 'DISABLED')}
-            </p>
-            <p>Automation mode: {automationMode} — publishing and automation remain DISABLED this sprint.</p>
+            <h2 className="site00-control-panel__title">{readiness.designation}</h2>
+            <p>Current state: {readiness.currentState}</p>
+            <p>Global publishing: {readiness.globalPublishing}</p>
+            <p>Automation: MANUAL · Cross-posting: {readiness.crossPosting}</p>
+            <p>Next action: {readiness.nextAction}</p>
             <p>
               <Link to={SITE00_ADMIN_ROUTES.evolveOrgConnections(orgSlug)}>Manage provider connections →</Link>
             </p>
           </section>
 
           <div className="site00-orchestration-grid">
-            {items.map((item) => (
+            {readiness.items.map((item) => (
               <section key={item.key} className="site00-control-panel">
                 <h2 className="site00-control-panel__title">{item.label}</h2>
                 <span className={evolveStatusPillClass(item.state)}>{formatEvolveLabel(item.state)}</span>

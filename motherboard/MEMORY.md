@@ -1868,3 +1868,27 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Branch:** `cursor/evolve-sprint03-external-intelligence-84ff` → PR merge to `main`.
 
 - **Ready for controlled publishing sprint:** Architecture yes; publishing/automation remain disabled until owner authorization.
+
+---
+
+## 2026-08-20 — EVOLVE Sprint 04: NDXbook pilot readiness + live connection configuration
+
+- **Objective:** Prepare NDXbook for controlled publishing pilot without publishing, enabling fences, or inventing credentials.
+
+- **Migration:** `20260820230000_site00_evolve_sprint04_ndxbook_pilot.sql` applied — `site00_provider_secrets`, `site00_oauth_states`, connection verification/account confirmation columns, pilot config extensions.
+
+- **Credential security:** `ProviderSecretStore` — AES-256-GCM encrypted server-side refs; `EVOLVE_PROVIDER_SECRET_KEY` required in production; REQUIRES_SECURE_CONFIGURATION when absent.
+
+- **OAuth:** `oauthService.ts` — CSRF state tokens org+provider bound, single-use, 15min TTL; Meta/Instagram flow when META_APP_ID/SECRET/REDIRECT_URI configured; otherwise REQUIRES_OWNER_CONFIGURATION.
+
+- **NDXbook marketing:** Assessment/profile/channels/objectives/manifest API via `ndxbookService.ts`; provenance KNOWN/OWNER_CONFIRMED/UNKNOWN; no invented strategy.
+
+- **Pilot control center:** Expanded 19-item checklist via `pilotReadinessSprint04.ts`; route `/admin/site00/orchestration/ndxbook/evolve/pilot`.
+
+- **Dry run:** `dryRunService.ts` — full internal pipeline, zero provider writes; fence tests (global, org, approval, account confirmation, cross-org).
+
+- **Fences unchanged:** EVOLVE_EXTERNAL_PUBLISHING_ENABLED=false; NDXbook publishing_status=DISABLED; automation MANUAL.
+
+- **Tests:** 161/161 PASS (15 new Sprint 04). Build PASS. Email Family unchanged. AIO deferral preserved.
+
+- **Status:** PARTIAL — architecture complete; live provider authorization blocked pending owner env configuration (META_* + EVOLVE_PROVIDER_SECRET_KEY).
