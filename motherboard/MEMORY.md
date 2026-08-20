@@ -1068,3 +1068,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** `fast-travel.ts` signed-in IDNTY `ctrl-room` destination description.
 - **Branch:** `cursor/fast-travel-ctrl-room-copy-2c3b`.
 
+---
+
+## 2026-08-20 — Fast Travel current location icon removed
+
+- **Request:** Remove IDNTY geometric icon from Fast Travel CURRENT LOCATION panel.
+- **Fix:** `CurrentLocationCard` no longer renders `OriginPanelIcon`; dropped `panel` from `FastTravelLocation` / IDNTY route profile; removed unused CSS.
+- **Branch:** `cursor/fast-travel-no-current-location-icon-2c3b`.
+
