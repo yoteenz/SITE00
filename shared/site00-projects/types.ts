@@ -35,6 +35,35 @@ export type Site00ProjectIndexEntry = {
   lastActivity: string | null;
   surfaces: Site00ProjectSurface[];
   detailRoute: string;
+  /** COMPLETE when full resolver succeeded; PARTIAL when identity exists but enrichment failed */
+  enrichmentStatus?: 'COMPLETE' | 'PARTIAL';
+  enrichmentNote?: string | null;
+};
+
+export type Site00ProjectsIndexSummary = {
+  total: number;
+  founderIndex: number;
+  clientProjects: number;
+  partial: number;
+};
+
+export type Site00ProjectsApiErrorBody = {
+  code: string;
+  message: string;
+};
+
+export type Site00ProjectsIndexPayload = {
+  ok: true;
+  projects: Site00ProjectIndexEntry[];
+  source: 'site00_project_resolver';
+  summary: Site00ProjectsIndexSummary;
+  clientProjects?: Array<{ id: string; slug: string; name: string; studioRoute: string }>;
+};
+
+export type Site00ProjectsIndexFailure = {
+  ok: false;
+  error: Site00ProjectsApiErrorBody;
+  source: 'site00_project_resolver';
 };
 
 export type Site00ProjectIntelligenceSummary = {
@@ -117,8 +146,8 @@ export type Site00ProjectDetail = Site00ProjectIndexEntry & {
   activityNote: string | null;
 };
 
-export type Site00ProjectsIndexPayload = {
-  projects: Site00ProjectIndexEntry[];
+export type Site00ProjectDetailResponse = {
+  ok: true;
+  project: Site00ProjectDetail;
   source: 'site00_project_resolver';
-  clientProjects?: Array<{ id: string; slug: string; name: string; studioRoute: string }>;
 };
