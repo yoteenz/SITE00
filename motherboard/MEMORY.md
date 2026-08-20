@@ -1723,3 +1723,11 @@ Summary of this cloud agent run (repo: `yoteenz/SITE00`).
 - **Deferred:** Full admin dashboard visual polish pass; automatic drift polling; Studio World live signal normalization UI.
 
 - **Conventions:** Debug route remains engineering-only; operator UI lives on approved COMMAND dashboard and orchestration routes.
+
+---
+
+## 2026-08-20 — Temporary preview admin bypass (email pack review)
+
+- **Context:** Founder could not load email pack debug on `site00.fsbw-dev.com` due to auth redirect + session-restore 503 on preview dev server.
+- **Change:** `AdminGuard` temporarily bypasses auth for `/admin/site00/*` on preview hosts only (`fsbw-dev`, localhost, cloudflare tunnel). Production `site00.com` remains gated.
+- **Flag:** `TEMPORARY_SITE00_ADMIN_BYPASS_ON_PREVIEW` in `AdminGuard.tsx` — set `false` or remove after email pack review complete.
