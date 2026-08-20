@@ -1368,3 +1368,26 @@ Summary of this cloud agent run (SITE 00 mobile sprint).
 
 - **Conventions:** Signed-in IDNTY = operational control center; config-driven row groups; technical icon frames reuse existing `Site00HubIcons`.
 
+---
+
+## 2026-08-20 — CTRL ROOM mobile command center enhancement
+
+Summary of this cloud agent run (SITE 00 mobile sprint).
+
+- **Context:** Founder attached approved CTRL ROOM / Command Center reference. Sprint upgrades mobile `/control` overview to operational command center aligned with IDNTY/BLDR/EVOLVE visual system.
+
+- **Root cause fix:** `JSON PARSE ERROR: UNRECOGNIZED TOKEN '<'` — client called missing `/api/site00/client-production` route; HTML error page was parsed as JSON. Fixed by adding authenticated API route + hardened `clientProductionApi` JSON parsing (content-type check, safe errors).
+
+- **Decisions / outcomes:**
+  - Mobile `/control` uses `CtrlRoomMobileExperience`: hero, operator credential, operating status telemetry, command overview 2×2, property network, action queue + activity stream, closing module.
+  - Desktop layout preserved behind `@media (min-width: 1024px)` wrapper; shared `useCtrlRoomData` hook (single API fetch).
+  - Real data: properties/projects/domains counts from `getClientCtrlRoomPayload`; activity from local storage; signals from production API; no fake billing dates or screenshot values.
+  - Reused: `EcosystemShell hidePageHeader`, `Site00ThreeCornerMark`, account meta helpers in `site00AccountMeta.ts`, hex CTRL ROOM artwork from nav icon geometry.
+
+- **Changes:**
+  - `api/site00/client-production.ts`, `getClientCtrlRoomPayload` in service.ts
+  - `src/site00/components/ctrl-room/mobile/*`, `useCtrlRoomData.ts`, `clientProductionApi.ts`
+  - `src/site00/styles/site00-ctrl-room-mobile.css`, `ControlOverviewPage.tsx`, `CtrlRoomSignalsPanel.tsx`
+
+- **Conventions:** CTRL ROOM = cross-system operating view; mobile/desktop split via CSS; API errors show STATUS TEMPORARILY UNAVAILABLE, never raw parse errors.
+
