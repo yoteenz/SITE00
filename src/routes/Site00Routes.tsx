@@ -22,6 +22,7 @@ import '../site00/styles/site00-fast-travel.css';
 import '../site00/styles/site00-bldr-entry.css';
 import '../site00/styles/site00-bldr-hub-mobile.css';
 import '../site00/styles/site00-idnty-diagnostic-mobile.css';
+import '../site00/styles/site00-evolve-mobile.css';
 import '../site00/styles/site00-loader.css';
 import '../site00/styles/site00-desktop-artboard.css';
 import '../site00/styles/site00-desktop-artboard-preview.css';
