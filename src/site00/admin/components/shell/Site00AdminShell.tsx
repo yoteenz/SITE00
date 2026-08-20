@@ -5,6 +5,7 @@ import { SITE00_ADMIN_DESKTOP_BG_FILE } from '../../../config/site00-auth-assets
 import { getSupabase } from '../../../../utils/supabase';
 import { CONTROL_OPERATOR_NAV, controlNavIsActive, type ControlNavItem } from '../../config/control-nav';
 import { Site00AdminHeader } from './Site00AdminHeader';
+import { ExperienceContextBar } from '../../../components/access/ExperienceContextBar';
 
 type Site00AdminShellProps = {
   children: ReactNode;
@@ -139,6 +140,7 @@ export function Site00AdminShell({ children, approvalBadge, alertCount }: Site00
         </aside>
         <div className="site00-control-main site00-admin-main">
           <Site00AdminHeader alertCount={alertCount} />
+          <ExperienceContextBar variant="admin" />
           <div className="site00-control-content site00-admin-content">{children}</div>
         </div>
       </div>

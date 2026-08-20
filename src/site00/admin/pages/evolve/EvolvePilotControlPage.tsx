@@ -303,6 +303,11 @@ export default function EvolvePilotControlPage() {
 
       {!loading && !error && readiness ? (
         <>
+          {orgSlug === 'ndxbook' ? (
+            <p className="site00-evolve-ops-callout--info">
+              <Link to={SITE00_ADMIN_ROUTES.evolveCreativeDirection(orgSlug)}>CREATIVE DIRECTION STUDIO →</Link>
+            </p>
+          ) : null}
           <section className="site00-control-panel site00-evolve-ops-callout--info">
             <h2 className="site00-control-panel__title">{readiness.designation}</h2>
             <p>Current state: <span className={evolveStatusPillClass(readiness.currentState)}>{formatEvolveLabel(readiness.currentState)}</span></p>

@@ -4,19 +4,32 @@ import type { MarketingIntakeRecord, MarketingServiceCategory } from '../types.j
 
 export type CreativeIntakeFamily =
   | 'ATTENTION'
+  | 'UGC_AUTHENTICITY'
   | 'FILM_SET'
   | 'CAMPAIGN_CONTROL'
-  | 'EDITORIAL'
+  | 'PRODUCT_STAGING'
+  | 'LAUNCH_SEQUENCE'
+  | 'CONTENT_ENGINE'
   | 'UNSUPPORTED_FALLBACK';
 
 export type SignatureArtifact =
   | 'ATTENTION_MAP'
+  | 'UGC_STYLE_GUIDE'
   | 'FILM_TREATMENT'
   | 'CAMPAIGN_CONTROL'
-  | 'STORY_FILE'
+  | 'PRODUCT_STAGE'
+  | 'LAUNCH_BLUEPRINT'
+  | 'CONTENT_SYSTEM_MAP'
   | 'GENERIC_FALLBACK';
 
-export type CreativeIntakeFieldType = 'text' | 'textarea' | 'platform-select' | 'objective-select';
+export type CreativeIntakeFieldType =
+  | 'text'
+  | 'textarea'
+  | 'platform-select'
+  | 'objective-select'
+  | 'tone-select'
+  | 'launch-type-select'
+  | 'format-select';
 
 export type CreativeIntakeStageField = {
   id: keyof MarketingIntakeRecord | string;
@@ -47,7 +60,15 @@ export type CreativeIntakeExperience = {
   /** Headline-removal differentiation marker */
   differentiationMarker: SignatureArtifact;
   stages: CreativeIntakeStage[];
-  mobileMode: 'viewport-attention' | 'director-monitor' | 'active-node' | 'specimen-record' | 'stacked';
+  mobileMode:
+    | 'viewport-attention'
+    | 'creator-frame'
+    | 'director-monitor'
+    | 'active-node'
+    | 'product-stage'
+    | 'launch-countdown'
+    | 'system-architecture'
+    | 'stacked';
 };
 
 export type CreativeIntakeDraft = {
@@ -73,5 +94,42 @@ export const CAMPAIGN_OBJECTIVE_TERRITORIES = [
   'CONVERSION',
   'RETENTION',
   'REPOSITIONING',
+  'OTHER',
+] as const;
+
+export const UGC_TONE_OPTIONS = [
+  'CONVERSATIONAL',
+  'EDUCATIONAL',
+  'ENTERTAINING',
+  'RELATABLE',
+  'INSPIRING',
+  'DIRECT',
+] as const;
+
+export const UGC_CAMERA_STYLES = [
+  'TALKING HEAD',
+  'DEMO / HOW-TO',
+  'TESTIMONIAL',
+  'BEHIND THE SCENES',
+  'LIFESTYLE MOMENT',
+  'OTHER',
+] as const;
+
+export const LAUNCH_TYPE_OPTIONS = [
+  'PRODUCT LAUNCH',
+  'REBRAND LAUNCH',
+  'CAMPAIGN LAUNCH',
+  'EVENT / DROP',
+] as const;
+
+export const CONTENT_FORMAT_OPTIONS = [
+  'ARTICLES / BLOGS',
+  'SHORT-FORM VIDEO',
+  'LONG-FORM VIDEO',
+  'CAROUSELS',
+  'PODCAST / AUDIO',
+  'NEWSLETTER',
+  'DOWNLOADS / GUIDES',
+  'LIVE / WEBINAR',
   'OTHER',
 ] as const;

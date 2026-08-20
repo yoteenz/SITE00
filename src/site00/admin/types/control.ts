@@ -80,8 +80,16 @@ export type ControlSystemHealth = {
   systems: Array<{ id: string; label: string; state: string; detail: string }>;
 };
 
+export type PreviewTunnelPayload = {
+  url: string | null;
+  hostname: string | null;
+  source: 'env' | 'file' | 'unavailable';
+  label: string;
+};
+
 export type ControlCommandPayload = {
   operator: { displayName: string; role: string };
+  previewTunnel: PreviewTunnelPayload;
   metrics: ControlMetric[];
   priorityQueue: ControlPriorityItem[];
   matrixStages: ControlMatrixStage[];

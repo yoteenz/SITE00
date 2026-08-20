@@ -4,11 +4,18 @@ import type { EvolveCommandItem } from '../types.js';
 import { listSafeConnections } from './connectionService.js';
 import { getOwnerConfigurationChecklist } from './ownerConfigService.js';
 import { getExpandedPilotReadiness } from './pilotReadinessSprint04.js';
+import { getNdxbookImportState } from './ndxbookLegacyImportService.js';
+import { getCreativeDirectionPayload } from '../creativeDirection/engagementService.js';
+import {
+  site00ProjectCreativeDirectionRoute,
+  site00ProjectConnectionsRoute,
+  site00AdminEvolveRoute,
+} from '../../../../shared/site00-access/routes.js';
 
 export async function buildConnectionCommandItems(orgSlug: string, orgName: string): Promise<EvolveCommandItem[]> {
   const items: EvolveCommandItem[] = [];
   const connections = await listSafeConnections(orgSlug);
-  const route = `/admin/site00/orchestration/${orgSlug}/evolve/connections`;
+  const route = site00ProjectConnectionsRoute(orgSlug);
 
   const needsAuth = connections.filter((c) =>
     ['AUTHORIZATION_REQUIRED', 'REAUTH_REQUIRED'].includes(c.status),
@@ -57,6 +64,53 @@ export async function buildConnectionCommandItems(orgSlug: string, orgName: stri
   if (orgSlug === 'ndxbook') {
     const readiness = await getExpandedPilotReadiness(orgSlug);
     const ownerConfig = getOwnerConfigurationChecklist();
+    const importState = getNdxbookImportState();
+    const legacyImported = importState.state === 'IMPORTED';
+    const pilotRoute = site00AdminEvolveRoute(orgSlug, 'pilot');
+    const creativeDirectionRoute = site00ProjectCreativeDirectionRoute(orgSlug);
+
+    let visualDnaApproved = false;
+    try {
+      const cd = await getCreativeDirectionPayload(orgSlug);
+      visualDnaApproved = cd.engagement.visualDna.status === 'APPROVED';
+    } catch {
+      // engagement not started — creative direction still required
+    }
+
+    if (legacyImported && !visualDnaApproved) {
+      items.push({
+        id: 'ndxbook-focus-creative-direction',
+        organizationSlug: orgSlug,
+        organizationName: orgName,
+        category: 'FOCUS_NOW',
+        title: 'Review NDXbook Creative Direction territories',
+        reason: 'Three proposed directions ready — founder review required before visual DNA can be approved',
+        route: creativeDirectionRoute,
+        priority: 5,
+      });
+    } else if (legacyImported && visualDnaApproved) {
+      items.push({
+        id: 'ndxbook-focus-page001',
+        organizationSlug: orgSlug,
+        organizationName: orgName,
+        category: 'FOCUS_NOW',
+        title: 'Build NDXbook Page 001',
+        reason: 'Visual DNA approved — Page 001 production eligible through EVOLVE creative pipeline',
+        route: pilotRoute,
+        priority: 5,
+      });
+    } else if (legacyImported) {
+      items.push({
+        id: 'ndxbook-focus-visual-identity',
+        organizationSlug: orgSlug,
+        organizationName: orgName,
+        category: 'FOCUS_NOW',
+        title: 'Finalize NDXbook visual identity / Creative Direction',
+        reason: 'Legacy intelligence imported — placeholder visual DNA is reference-only until identity process completes',
+        route: creativeDirectionRoute,
+        priority: 5,
+      });
+    }
 
     if (!ownerConfig.allConfigured) {
       items.push({
@@ -72,7 +126,10 @@ export async function buildConnectionCommandItems(orgSlug: string, orgName: stri
     }
 
     const assessmentItem = readiness.items.find((i) => i.key === 'assessment');
-    if (assessmentItem?.state === 'NOT_STARTED' || assessmentItem?.state === 'PARTIAL') {
+    if (
+      !legacyImported &&
+      (assessmentItem?.state === 'NOT_STARTED' || assessmentItem?.state === 'PARTIAL')
+    ) {
       items.push({
         id: 'ndxbook-assessment-needs-you',
         organizationSlug: orgSlug,
@@ -112,26 +169,68 @@ export async function buildConnectionCommandItems(orgSlug: string, orgName: stri
       });
     }
 
-    items.push({
-      id: 'ndxbook-controlled-publish-upcoming',
-      organizationSlug: orgSlug,
-      organizationName: orgName,
-      category: 'UPCOMING',
-      title: 'Controlled first publication',
-      reason: 'Available after fence enablement in next sprint',
-      route: `/admin/site00/orchestration/${orgSlug}/evolve/pilot`,
-      priority: 50,
-    });
+    if (legacyImported) {
+      for (const upcoming of [
+        {
+          id: 'ndxbook-page001-rebuild-upcoming',
+          title: 'Rebuild Page 001 through EVOLVE creative/content pipeline',
+          reason: 'Topic approved — script, visual, and packaging require new pipeline pass',
+        },
+        {
+          id: 'ndxbook-human-review-upcoming',
+          title: 'Human review of Page 001 candidate',
+          reason: 'Publication, visual, and script approval all NOT_APPROVED',
+        },
+        {
+          id: 'ndxbook-measurement-baseline-upcoming',
+          title: 'Measurement baseline from provider evidence',
+          reason: 'No fabricated metrics — baseline starts after genuine Instagram evidence',
+        },
+        {
+          id: 'ndxbook-controlled-publish-upcoming',
+          title: 'Controlled Instagram publication',
+          reason: 'After Page 001 approval and fence enablement',
+        },
+      ]) {
+        items.push({
+          id: upcoming.id,
+          organizationSlug: orgSlug,
+          organizationName: orgName,
+          category: 'UPCOMING',
+          title: upcoming.title,
+          reason: upcoming.reason,
+          route: pilotRoute,
+          priority: 50,
+        });
+      }
+    } else {
+      items.push({
+        id: 'ndxbook-controlled-publish-upcoming',
+        organizationSlug: orgSlug,
+        organizationName: orgName,
+        category: 'UPCOMING',
+        title: 'Controlled first publication',
+        reason: 'Available after fence enablement in next sprint',
+        route: pilotRoute,
+        priority: 50,
+      });
+    }
 
-    for (const deferred of ['Automation', 'Cross-posting', 'Paid promotion']) {
+    const deferredItems = legacyImported
+      ? ['Autonomous publishing', 'Cross-platform distribution', 'Paid promotion', 'Monetization activation']
+      : ['Automation', 'Cross-posting', 'Paid promotion'];
+
+    for (const deferred of deferredItems) {
       items.push({
         id: `ndxbook-deferred-${deferred.toLowerCase().replace(/\s+/g, '-')}`,
         organizationSlug: orgSlug,
         organizationName: orgName,
         category: 'DEFERRED',
         title: deferred,
-        reason: 'Out of scope for Sprint 05A pilot activation',
-        route: `/admin/site00/orchestration/${orgSlug}/evolve/pilot`,
+        reason: legacyImported
+          ? 'Deferred until Instagram pilot pipeline produces real evidence'
+          : 'Out of scope for Sprint 05A pilot activation',
+        route: pilotRoute,
         priority: 90,
       });
     }

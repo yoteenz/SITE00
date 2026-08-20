@@ -1995,3 +1995,109 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Files:** `shared/site00-email/art-direction/access-security.ts`, `shared/site00-email/art-direction/access-security.test.ts`. No other families, no deploy, no emails sent.
 
+---
+
+## 2026-08-20 — EVOLVE NDXbook legacy intelligence import + founder canonization
+
+- **Context:** Import recovered Studio World NDXbook intelligence from fsbw handoff into existing SITE 00 EVOLVE org (`ndxbook` / `7681ab75-bddc-43e5-b594-79fcf8168205`). Intelligence migration only — not publishing, not provider reconnection, not new org bootstrap.
+
+- **Topics covered:** Portable handoff package (`docs/studio-world/ndxbook/NDXBOOK_SITE00_HANDOFF.{json,md}`); import state machine DISCOVERED→IMPORTED; founder-locked decisions (audience, objectives, monetization deferral, visual DNA reference-only, Page 001 topic, Instagram reconciliation IDs, legacy demo pages 019–042 archived); Content Brain provenance; Page 001 candidate; manifest lineage; COMMAND post-import focus.
+
+- **Decisions / outcomes:** Demo metrics (12,400/100,000 readers, age 25–45) rejected; founder pipeline objective canonical; monetization DEFERRED; indigo/slate colors REFERENCE ONLY; lace-mastery MISATTRIBUTED; Instagram pageId/igBusinessId reconciliation-only; automation MANUAL; publishing DISABLED; Page 001 credit/debt topic MONEY volume NOT publication-approved; zero canonical published pages.
+
+- **Changes:** `ndxbookLegacyImportService.ts` (import/reconcile/idempotent Content Brain); `page001CandidateService.ts`; admin actions `import_ndxbook_legacy`, `ndxbook_import_report`, `ndxbook_import_state`; NDXBOOK manifest template + lineage; `commandConnections.ts` FOCUS_NOW visual identity + post-import UPCOMING/DEFERRED; `evolveNdxbookImport.test.ts` (29 tests). No fsbw runtime coupling; no credentials imported.
+
+- **Tests/build:** 255 tests PASS. Build PASS. PR merged to main. No deploy. No content published.
+
+---
+
+## 2026-08-20 — Admin dashboard preview tunnel link + CTRL ROOM admin route
+
+- **Request:** Surface SITE 00 cloud preview tunnel URL on admin dashboard (`/admin/site00`); add permanent route from client CTRL ROOM (`/control`) to admin dash for founder/admin operators.
+
+- **Changes:** `previewTunnel.ts` resolves URL from `SITE00_CLOUDFLARE_TUNNEL_HOSTNAME` or `/tmp/site00-cloud-preview-url.txt`; included in `ControlCommandPayload` + `PreviewTunnelPanel` on admin dashboard. Client CTRL ROOM: admin-only `00 / CONTROL →` link in desktop sidebar + mobile `CtrlRoomAdminAccess` module (gated by `canAccessAdminPages()`). Route constant `SITE00_ROUTES.adminDashboard` = `/admin/site00`.
+
+- **Tests/build:** 258 tests PASS (3 preview tunnel resolver tests). Build PASS.
+
+---
+
+## 2026-08-20 — EVOLVE NDXbook Creative Direction (first real client specimen)
+
+- **Context:** Post legacy intelligence import sprint. NDXbook needs founder-approved visual DNA via shared EVOLVE Creative Direction architecture — not NDXbook-only hack. No publishing, no Page 001 production, no provider bypass.
+
+- **Architecture:** `api/_lib/site00Evolve/creativeDirection/` — types, intelligence brief synthesis from Content Brain, three distinct territories (INDEX SIGNAL, EDITORIAL UTILITY, KINETIC FIELD), engagement service with founder decision lifecycle (PROPOSED→APPROVED), Visual DNA contract, Page 001 readiness gate. Legacy indigo/slate has no privileged territory.
+
+- **UI:** `/admin/site00/orchestration/ndxbook/evolve/creative-direction` — intelligence briefing, creative brief, territory tabs, comparison matrix, SVG specimens, founder decision controls. Debug: `/admin/site00/debug/evolve-creative-direction`. CSS: `site00-creative-direction.css`.
+
+- **COMMAND:** Focus Now → Review Creative Direction territories (until visual DNA approved); then Build Page 001.
+
+- **Tests/build:** 283 tests PASS (25 new Creative Direction tests). Build PASS. PR merged to main. No deploy.
+
+---
+
+## 2026-08-20 — EVOLVE Marketing 7-discipline creative intake visual fidelity sprint
+
+- **Context:** Founder supplied seven visual reference images for EVOLVE → Marketing & Content intake experiences (Social Content, Campaign, Product Campaign, Brand Film, UGC-Style, Launch Campaign, Content System). Prior sprint fixed architectural sameness but failed founder visual review — generic forms, serif leakage, missing SITE 00 shell, undifferentiated disciplines. User explicitly required **all text uppercase**.
+
+- **Decisions:** Preserve `CreativeIntakeEngine` + `experienceRegistry` + `MarketingIntakeRecord` / draft keys / API contracts. Split seven disciplines into unique families, artifacts, stage vocabularies, and workstation layouts. Use canonical `Site00PublicShell` (top nav + mobile bottom nav with LOCATIONS active on `/evolve/*`). Remove Georgia/serif editorial styling. Artifacts driven by captured state with PENDING/— empty marks — no fake metrics or provider state.
+
+- **Changes:** `experienceRegistry.ts` — seven unique experiences (ATTENTION, UGC_AUTHENTICITY, FILM_SET, CAMPAIGN_CONTROL, PRODUCT_STAGING, LAUNCH_SEQUENCE, CONTENT_ENGINE) with distinct artifacts (ATTENTION_MAP, UGC_STYLE_GUIDE, FILM_TREATMENT, CAMPAIGN_CONTROL, PRODUCT_STAGE, LAUNCH_BLUEPRINT, CONTENT_SYSTEM_MAP). `CreativeIntakeShell` — stage rail, horizontal progress dots, insights panel, technical marks. `SignatureArtifacts.tsx` — live-updating discipline artifacts. `site00-creative-intake.css` — global uppercase, 4-column workstation grid, serif regression guard. `MarketingIntakePage` → `Site00PublicShell`. Debug page covers all 7 disciplines. Tests expanded to 20 intake fidelity cases (291 total). Deferred: upstream Marketing entry + service-selection redesign.
+
+- **Tests/build:** 291 tests PASS. Build PASS. PR merged to main. No deploy.
+
+---
+
+## 2026-08-20 — SITE 00 Projects real data injection + project command surface
+
+- **Context:** Founder-facing PROJECTS still showed mock/demo data via `ECOSYSTEM_PROJECTS_SEED` / `useEcosystemData` fallbacks while real Frontal Slayer, Studio World, and ndxbook intelligence existed in EVOLVE. Sprint replaces mock founder view with truthful project index + command surface.
+
+- **Architecture:** `api/_lib/site00Projects/projectResolver.ts` aggregates canonical org references (no duplicated snapshots). `FOUNDER_PROJECTS` registry maps `frontal-slayer`, `studio-world`, `ndxbook` → EVOLVE org UUIDs via `orgRegistry`. API: `GET /api/site00/projects?action=index|detail`. Frontend: `ProjectsPage` + new `ProjectDetailPage` at `/projects/:slug`. Demo seed data remains in `site00-ecosystem-seed.ts` for other ecosystem pages only — Projects page no longer imports it.
+
+- **NDXBOOK:** UUID `7681ab75-bddc-43e5-b594-79fcf8168205`, Creative Direction route exposed, founder decision PENDING, Visual DNA INCOMPLETE, Page 001 gated, publishing DISABLED.
+
+- **Tests/build:** 310 tests PASS (19 new project index tests). Build PASS. PR merged to main. No deploy.
+
+---
+
+## 2026-08-20 — Founder dual-context access + canonical client experience sprint
+
+- **Context:** Founder/admin must operate in two legitimate contexts: **CLIENT / PROJECT OWNER** (canonical product) and **SITE 00 ADMIN** (operator layer). Admin status must NOT bypass client experience or auto-approve governance gates. Extends Real Project Index sprint — does not rebuild Projects.
+
+- **Access model:** `shared/site00-access/` + `api/_lib/site00Access/accessModel.ts` — semantic separation of platform role (ADMIN/STANDARD), project membership, and active experience context (CLIENT/ADMIN). Context is UX state in `sessionStorage` only (`ExperienceContextProvider`); server authorization remains email/role authoritative. Founder project index gated to admin emails via projects API.
+
+- **Client routes:** Resolver + command items now emit canonical client paths: `/projects/:slug/evolve`, `/projects/:slug/creative-direction`, `/projects/:slug/connections`. Admin routes preserved as `adminRoute` / privileged utilities only. Shared `CreativeDirectionExperience` component powers both client page and admin page — decisions via canonical `recordFounderDecision` service (client API: `/api/site00/projects?action=creative_direction|creative_direction_decision`).
+
+- **Context navigation:** `ExperienceContextBar` in `EcosystemShell` (VIEWING AS · PROJECT OWNER + ADMIN CONTROL CENTER →) and `Site00AdminShell` (OPEN CLIENT EXPERIENCE →). Client QA mode hides admin utilities without weakening server auth. `ProjectPrivilegedUtilities` secondary menu on project detail for founder admin.
+
+- **NDXBOOK state unchanged:** Creative Direction PENDING, Visual DNA INCOMPLETE, Page 001 gated, publishing DISABLED. No deploy.
+
+- **Tests/build:** 340 tests PASS (30 new dual-context tests). Build PASS. PR merged to main.
+
+---
+
+## 2026-08-20 — Real Project Index runtime repair (INVALID JSON on /projects)
+
+- **Root cause:** `GET /api/site00/projects?action=index` was implemented in `api/site00/projects.ts` but **not registered** in `scripts/vite-site00-local-api.mjs` or `server/routes.ts`. fsbw-dev Vite preview returned SPA HTML for the API path → frontend `Invalid JSON response`.
+
+- **Fix:** Registered route in both local API plugin and server routes. Hardened `site00ProjectsApi` with content-type/body classification (`evaluateProjectsApiResponse`), truthful error messages, no empty-list masquerade. API responses now `{ ok, summary, projects }` with explicit JSON content-type. Resolver per-project error boundaries + partial enrichment fallback. ProjectsPage: SOURCE label LOADING/LIVE/PARTIAL/ERROR; metrics suppressed on error (— not 0).
+
+- **Runtime verified:** Dev server curl returns `application/json` 401 (not HTML). Resolver returns 3 founder projects in memory mode.
+
+- **Tests/build:** 353 tests PASS (13 new runtime/contract tests). Build PASS. PR merged to main. No deploy.
+
+---
+
+## 2026-08-20 — NDXBOOK Creative Direction structural differentiation + territory rebuild
+
+- **Context:** Founder QA FAILED creative differentiation — three territories were palette/copy swaps on one shared specimen system. Sprint rebuilds INDEX SIGNAL, EDITORIAL UTILITY, and KINETIC FIELD as structurally distinct creative systems while preserving PR #184 governance architecture.
+
+- **Root cause:** Single `TerritorySpecimenCanvas` generic SVG renderer + identical `SPECIMEN_TYPES` across territories + uniform 2-column grid in `CreativeDirectionExperience`.
+
+- **Rendering architecture:** `TerritoryRendererRegistry` → `IndexSignalTerritoryView` (catalog wall), `EditorialUtilityTerritoryView` (magazine spread), `KineticFieldTerritoryView` (motion board). Territory-native specimen sets (12 each) in `territories.ts` with `rendererKey` per territory.
+
+- **Experience upgrades:** Compare mode with common anchors (wordmark, Page 001, typography, volume system) + territory-native specimens. STRUCTURAL DIFFERENTIATION toggle (hide labels, grayscale). HYBRIDIZE contract UI (primary/secondary territory, elements keep/remove). Debug page shows side-by-side renderer preview.
+
+- **Governance unchanged:** Visual DNA INCOMPLETE until APPROVE, Page 001 gated, publishing DISABLED, recommendation ≠ approval, NDXBOOK UUID preserved.
+
+- **Tests/build:** 382 tests PASS (26 structural differentiation + 3 renderer registry). Build PASS. PR merged to main. No deploy.
+
