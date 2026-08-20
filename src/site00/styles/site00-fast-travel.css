@@ -259,6 +259,25 @@
     justify-content: flex-end;
   }
 
+  .site00-fast-travel__dest--primary.site00-fast-travel__dest--sign-in {
+    justify-content: space-between;
+  }
+
+  .site00-fast-travel__dest--sign-in .site00-fast-travel__dest-mark.site00-orbital-mark {
+    width: 40px;
+    aspect-ratio: 2 / 3;
+    height: auto;
+    margin: 0;
+    align-self: flex-start;
+    flex-shrink: 0;
+  }
+
+  .site00-fast-travel__dest--sign-in .site00-orbital-mark__img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
   .site00-fast-travel__dest--list {
     flex-direction: row;
     align-items: center;

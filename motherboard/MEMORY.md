@@ -964,3 +964,11 @@ Summary of the **whole conversation so far** in this cloud agent run (cumulative
 - **Fix:** Mobile overflow guards on `html`/`body`/`#root` when SITE 00 mobile shells are active; `overflow-x: hidden` + `max-width: 100%` on mobile shell chain; origin mobile layout + scaled env layer clipping; public page footer stacks on narrow widths; hub cards get `min-width: 0` on copy flex child.
 - **Branch:** `cursor/mobile-no-horizontal-scroll-2c3b`.
 
+---
+
+## 2026-08-20 — Fast Travel Sign In panel icon
+
+- **Request:** Put the geometric sign-in page icon on the Fast Travel UP NEXT Sign In card, above the text.
+- **Fix:** `FastTravelSection` renders `Site00OrbitalMark` (approved NAV PNG `7D83E4A6`) on primary `sign-in` destinations; card uses `space-between` layout with 40px mark at top.
+- **Branch:** `cursor/fast-travel-signin-icon-2c3b`.
+
