@@ -9,6 +9,7 @@ import {
   IDNTY_STATE_COPY,
 } from '../config/identity';
 import { StateCard, InvestmentColumn, WorkflowSummary } from '../components/workflow/WorkflowCards';
+import { IdntyMobileDiagnostic } from '../components/idnty/mobile/IdntyMobileDiagnostic';
 import { useSite00 } from '../state/Site00Context';
 import { ArchitecturalPanel } from '../components/panels/ArchitecturalPanel';
 import { useIdntyAssessment } from '../hooks/useIdntyAssessment';
@@ -26,7 +27,7 @@ type IdntyStatePageBodyProps = {
   resumeStateLabel: string;
 };
 
-function IdntyStatePageBody({
+function IdntyDesktopStatePageBody({
   isDesktopArtboard,
   selectedIdentityStateId,
   onSelectState,
@@ -96,7 +97,7 @@ export default function IdntyStatePage() {
   const isDesktopArtboard = useSite00DesktopArtboardPreview();
   const { hasResume, resumeTarget, record } = useIdntyAssessment();
 
-  const handleSelectState = (stateId: string) => {
+  const handleDesktopSelectState = (stateId: string) => {
     selectIdentityState(stateId);
     const slug = brandStateToAssessmentSlug(stateId);
     if (!slug) return;
@@ -104,23 +105,19 @@ export default function IdntyStatePage() {
     navigate(isDesktopArtboard ? site00IdntyAssessmentDesktopPath(path) : path);
   };
 
-  const body = (
-    <IdntyStatePageBody
-      isDesktopArtboard={isDesktopArtboard}
-      selectedIdentityStateId={state.selectedIdentityStateId}
-      onSelectState={handleSelectState}
-      hasResume={hasResume}
-      resumeTarget={resumeTarget}
-      resumeStateLabel={record.identityState?.replace(/-/g, ' ').toUpperCase() ?? ''}
-    />
-  );
+  const resumeStateLabel = record.identityState?.replace(/-/g, ' ').toUpperCase() ?? '';
 
   if (!isDesktopArtboard) {
     return (
       <Site00MobileShell showEnvironmentBackground={false} shellClassName="site00-idnty-state-mobile-shell">
         <div className="site00-state-page site00-state-page--idnty site00-state-page--mobile">
-          {body}
-          <WorkflowSummary text={IDNTY_STATE_COPY.footer} />
+          <IdntyMobileDiagnostic
+            selectedStateId={state.selectedIdentityStateId}
+            onSelectState={selectIdentityState}
+            hasResume={hasResume}
+            resumeTarget={resumeTarget}
+            resumeStateLabel={resumeStateLabel}
+          />
         </div>
       </Site00MobileShell>
     );
@@ -129,7 +126,14 @@ export default function IdntyStatePage() {
   return (
     <EnvironmentShell environmentId="WORKFLOW_ENVIRONMENT" className="site00-state-page site00-state-page--idnty">
       <Site00AppShell locationLabel={IDNTY_STATE_COPY.locationLabel}>
-        {body}
+        <IdntyDesktopStatePageBody
+          isDesktopArtboard={isDesktopArtboard}
+          selectedIdentityStateId={state.selectedIdentityStateId}
+          onSelectState={handleDesktopSelectState}
+          hasResume={hasResume}
+          resumeTarget={resumeTarget}
+          resumeStateLabel={resumeStateLabel}
+        />
         <WorkflowSummary text={IDNTY_STATE_COPY.footer} />
       </Site00AppShell>
       <Site00OriginLayoutSwitch />
