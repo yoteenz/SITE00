@@ -2035,3 +2035,19 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Tests/build:** 310 tests PASS (19 new project index tests). Build PASS. PR merged to main. No deploy.
 
+---
+
+## 2026-08-20 — Founder dual-context access + canonical client experience sprint
+
+- **Context:** Founder/admin must operate in two legitimate contexts: **CLIENT / PROJECT OWNER** (canonical product) and **SITE 00 ADMIN** (operator layer). Admin status must NOT bypass client experience or auto-approve governance gates. Extends Real Project Index sprint — does not rebuild Projects.
+
+- **Access model:** `shared/site00-access/` + `api/_lib/site00Access/accessModel.ts` — semantic separation of platform role (ADMIN/STANDARD), project membership, and active experience context (CLIENT/ADMIN). Context is UX state in `sessionStorage` only (`ExperienceContextProvider`); server authorization remains email/role authoritative. Founder project index gated to admin emails via projects API.
+
+- **Client routes:** Resolver + command items now emit canonical client paths: `/projects/:slug/evolve`, `/projects/:slug/creative-direction`, `/projects/:slug/connections`. Admin routes preserved as `adminRoute` / privileged utilities only. Shared `CreativeDirectionExperience` component powers both client page and admin page — decisions via canonical `recordFounderDecision` service (client API: `/api/site00/projects?action=creative_direction|creative_direction_decision`).
+
+- **Context navigation:** `ExperienceContextBar` in `EcosystemShell` (VIEWING AS · PROJECT OWNER + ADMIN CONTROL CENTER →) and `Site00AdminShell` (OPEN CLIENT EXPERIENCE →). Client QA mode hides admin utilities without weakening server auth. `ProjectPrivilegedUtilities` secondary menu on project detail for founder admin.
+
+- **NDXBOOK state unchanged:** Creative Direction PENDING, Visual DNA INCOMPLETE, Page 001 gated, publishing DISABLED. No deploy.
+
+- **Tests/build:** 340 tests PASS (30 new dual-context tests). Build PASS. PR merged to main.
+

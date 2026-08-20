@@ -5,7 +5,10 @@ export type Site00FounderProjectSlug = 'frontal-slayer' | 'studio-world' | 'ndxb
 export type Site00ProjectSurface = {
   id: string;
   label: string;
+  /** Canonical client-facing route */
   route: string;
+  /** Admin-only route when surface also exists in operator context */
+  adminRoute?: string;
   available: boolean;
   description?: string;
 };
@@ -41,6 +44,7 @@ export type Site00ProjectIntelligenceSummary = {
   ideas: number;
   insights: number;
   route: string;
+  adminRoute?: string;
 };
 
 export type Site00ProjectCreativeDirectionSummary = {
@@ -50,6 +54,7 @@ export type Site00ProjectCreativeDirectionSummary = {
   visualDnaStatus: string;
   territoriesGenerated: boolean;
   route: string;
+  adminRoute?: string;
   page001Gate: {
     visualDnaApproved: boolean;
     productionEligible: boolean;
@@ -87,6 +92,7 @@ export type Site00ProjectDetail = Site00ProjectIndexEntry & {
   intelligence: Site00ProjectIntelligenceSummary;
   evolve: {
     route: string;
+    adminRoute?: string;
     isMarketingClient: boolean;
     activeCampaigns: number;
     needsApproval: number;

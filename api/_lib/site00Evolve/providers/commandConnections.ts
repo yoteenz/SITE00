@@ -6,11 +6,16 @@ import { getOwnerConfigurationChecklist } from './ownerConfigService.js';
 import { getExpandedPilotReadiness } from './pilotReadinessSprint04.js';
 import { getNdxbookImportState } from './ndxbookLegacyImportService.js';
 import { getCreativeDirectionPayload } from '../creativeDirection/engagementService.js';
+import {
+  site00ProjectCreativeDirectionRoute,
+  site00ProjectConnectionsRoute,
+  site00AdminEvolveRoute,
+} from '../../../../shared/site00-access/routes.js';
 
 export async function buildConnectionCommandItems(orgSlug: string, orgName: string): Promise<EvolveCommandItem[]> {
   const items: EvolveCommandItem[] = [];
   const connections = await listSafeConnections(orgSlug);
-  const route = `/admin/site00/orchestration/${orgSlug}/evolve/connections`;
+  const route = site00ProjectConnectionsRoute(orgSlug);
 
   const needsAuth = connections.filter((c) =>
     ['AUTHORIZATION_REQUIRED', 'REAUTH_REQUIRED'].includes(c.status),
@@ -61,8 +66,8 @@ export async function buildConnectionCommandItems(orgSlug: string, orgName: stri
     const ownerConfig = getOwnerConfigurationChecklist();
     const importState = getNdxbookImportState();
     const legacyImported = importState.state === 'IMPORTED';
-    const pilotRoute = `/admin/site00/orchestration/${orgSlug}/evolve/pilot`;
-    const creativeDirectionRoute = `/admin/site00/orchestration/${orgSlug}/evolve/creative-direction`;
+    const pilotRoute = site00AdminEvolveRoute(orgSlug, 'pilot');
+    const creativeDirectionRoute = site00ProjectCreativeDirectionRoute(orgSlug);
 
     let visualDnaApproved = false;
     try {

@@ -2,6 +2,7 @@ import { lazy, Suspense, type ReactNode } from 'react';
 import { Route, Navigate } from 'react-router-dom';
 import AdminGuard from '../components/AdminGuard';
 import { Site00Provider } from '../site00/state/Site00Context';
+import { ExperienceContextProvider } from '../site00/state/experienceContext';
 import { SITE00_ROUTES } from '../site00/config/routes';
 import { AsstsRouteSuspense } from '../site00/assts/components/AsstsRouteSuspense';
 import { AsstsColdStartGate } from '../site00/assts/components/AsstsColdStartGate';
@@ -37,6 +38,7 @@ import '../site00/styles/site00-access.css';
 import '../site00/styles/site00-ctrl-room.css';
 import '../site00/styles/site00-ctrl-room-mobile.css';
 import '../site00/styles/site00-ecosystem.css';
+import '../site00/styles/site00-experience-context.css';
 import '../site00/styles/site00-idnty-assessment.css';
 import '../site00/styles/site00-idnty-state-v2.css';
 import '../site00/styles/site00-idnty-control-center.css';
@@ -71,6 +73,8 @@ const AboutPage = lazy(() => import('../site00/pages/AboutPage'));
 const JournalPage = lazy(() => import('../site00/pages/JournalPage'));
 const ProjectsPage = lazy(() => import('../site00/pages/ProjectsPage'));
 const ProjectDetailPage = lazy(() => import('../site00/pages/ProjectDetailPage'));
+const ProjectEvolvePage = lazy(() => import('../site00/pages/ProjectEvolvePage'));
+const ProjectCreativeDirectionPage = lazy(() => import('../site00/pages/ProjectCreativeDirectionPage'));
 const SupportPage = lazy(() => import('../site00/pages/SupportPage'));
 const IdntySignInSecurityPage = lazy(() => import('../site00/pages/idnty/IdntySignInSecurityPage'));
 const BldrTemplatesPage = lazy(() => import('../site00/pages/bldr/BldrTemplatesPage'));
@@ -136,8 +140,10 @@ function Site00PublicPageRoutes(path: string, Page: React.LazyExoticComponent<()
 function Site00Layout({ children }: { children: ReactNode }) {
   return (
     <Site00Provider>
-      <Site00TypographyBootstrap />
-      <Site00WorldColdStartGate>{children}</Site00WorldColdStartGate>
+      <ExperienceContextProvider>
+        <Site00TypographyBootstrap />
+        <Site00WorldColdStartGate>{children}</Site00WorldColdStartGate>
+      </ExperienceContextProvider>
     </Site00Provider>
   );
 }
@@ -468,6 +474,30 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectDetailPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectEvolve}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectEvolvePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCreativeDirection}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCreativeDirectionPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

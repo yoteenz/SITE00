@@ -18,20 +18,19 @@ import type {
   Site00ProjectsIndexPayload,
 } from '../../../shared/site00-projects/types.js';
 import { FOUNDER_PROJECTS, isFounderProjectSlug } from './projectRegistry.js';
+import {
+  site00ProjectCreativeDirectionRoute,
+  site00ProjectConnectionsRoute,
+  site00ProjectDetailRoute,
+  site00ProjectEvolveRoute,
+  site00AdminEvolveRoute,
+  site00AdminOrchestrationRoute,
+} from '../../../shared/site00-access/routes.js';
 
 const NDXBOOK_UUID = '7681ab75-bddc-43e5-b594-79fcf8168205';
 
-function orchestrationRoute(slug: string): string {
-  return `/admin/site00/orchestration/${slug}`;
-}
-
-function evolveRoute(slug: string, section?: string): string {
-  const base = `/admin/site00/orchestration/${slug}/evolve`;
-  return section ? `${base}/${section}` : base;
-}
-
 function detailRoute(slug: Site00FounderProjectSlug): string {
-  return `/projects/${slug}`;
+  return site00ProjectDetailRoute(slug);
 }
 
 function mapCommandItems(
@@ -55,23 +54,35 @@ function pickFocusNow(items: Site00ProjectCommandItem[]): string | null {
 }
 
 async function buildSurfaces(slug: Site00FounderProjectSlug, isClient: boolean): Promise<Site00ProjectIndexEntry['surfaces']> {
-  const base = orchestrationRoute(slug);
+  const adminBase = site00AdminOrchestrationRoute(slug);
   const surfaces: Site00ProjectIndexEntry['surfaces'] = [
     { id: 'overview', label: 'OVERVIEW', route: detailRoute(slug), available: true },
-    { id: 'orchestration', label: 'ORCHESTRATION', route: base, available: true },
   ];
 
   if (isClient) {
     surfaces.push(
-      { id: 'evolve', label: 'EVOLVE', route: evolveRoute(slug), available: true },
-      { id: 'connections', label: 'CONNECTIONS', route: evolveRoute(slug, 'connections'), available: true },
+      { id: 'evolve', label: 'EVOLVE', route: site00ProjectEvolveRoute(slug), adminRoute: site00AdminEvolveRoute(slug), available: true },
+      { id: 'connections', label: 'CONNECTIONS', route: site00ProjectConnectionsRoute(slug), adminRoute: site00AdminEvolveRoute(slug, 'connections'), available: true },
     );
   }
 
   if (slug === 'ndxbook') {
     surfaces.push(
-      { id: 'creative-direction', label: 'CREATIVE DIRECTION', route: evolveRoute('ndxbook', 'creative-direction'), available: true },
-      { id: 'pilot', label: 'PILOT CONTROL', route: evolveRoute('ndxbook', 'pilot'), available: true },
+      {
+        id: 'creative-direction',
+        label: 'CREATIVE DIRECTION',
+        route: site00ProjectCreativeDirectionRoute('ndxbook'),
+        adminRoute: site00AdminEvolveRoute('ndxbook', 'creative-direction'),
+        available: true,
+      },
+      {
+        id: 'pilot',
+        label: 'PILOT CONTROL',
+        route: site00ProjectEvolveRoute('ndxbook'),
+        adminRoute: site00AdminEvolveRoute('ndxbook', 'pilot'),
+        available: true,
+        description: 'PILOT OPERATIONS — ADMIN ORCHESTRATION WHEN REQUIRED',
+      },
     );
   }
 
@@ -79,7 +90,8 @@ async function buildSurfaces(slug: Site00FounderProjectSlug, isClient: boolean):
     surfaces.push({
       id: 'integration',
       label: 'INTEGRATION STATUS',
-      route: base,
+      route: detailRoute(slug),
+      adminRoute: adminBase,
       available: true,
       description: 'PRODUCTION INFRASTRUCTURE — NOT CLIENT MARKETING',
     });
@@ -192,10 +204,11 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
       creativeDirection = {
         available: true,
         lifecycleState: cd.engagement.lifecycle_state,
-        founderDecision: cd.engagement.founderDecision?.decision_type ?? 'PENDING',
+        founderDecision: cd.engagement.founderDecision?.type ?? 'PENDING',
         visualDnaStatus: cd.engagement.visualDna.status,
         territoriesGenerated: cd.engagement.territories.length > 0,
-        route: evolveRoute(slug, 'creative-direction'),
+        route: site00ProjectCreativeDirectionRoute(slug),
+        adminRoute: site00AdminEvolveRoute(slug, 'creative-direction'),
         page001Gate: cd.engagement.page001Gate,
       };
     } catch {
@@ -206,7 +219,8 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
             founderDecision: 'PENDING',
             visualDnaStatus: 'INCOMPLETE',
             territoriesGenerated: false,
-            route: evolveRoute(slug, 'creative-direction'),
+            route: site00ProjectCreativeDirectionRoute(slug),
+        adminRoute: site00AdminEvolveRoute(slug, 'creative-direction'),
             page001Gate: {
               visualDnaApproved: false,
               productionEligible: false,
@@ -290,10 +304,12 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
       reference: intel.reference,
       ideas: intel.ideas,
       insights: intel.insights,
-      route: orchestrationRoute(slug),
+      route: detailRoute(slug),
+      adminRoute: site00AdminOrchestrationRoute(slug),
     },
     evolve: {
-      route: evolveRoute(slug),
+      route: site00ProjectEvolveRoute(slug),
+      adminRoute: site00AdminEvolveRoute(slug),
       isMarketingClient: isClient,
       activeCampaigns: overview.activeCampaigns ?? 0,
       needsApproval: overview.needsApproval ?? 0,
@@ -306,7 +322,7 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
     },
     production,
     channels: channelSummaries,
-    channelsRoute: evolveRoute(slug, 'connections'),
+    channelsRoute: site00ProjectConnectionsRoute(slug),
     command: {
       focusNow: commandItems.filter((i) => i.category === 'FOCUS_NOW'),
       needsYou: commandItems.filter((i) => i.category === 'NEEDS_YOU'),

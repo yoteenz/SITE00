@@ -84,7 +84,7 @@ describe('SITE 00 real project index + command surface', () => {
   it('8. NDXBOOK exposes Creative Direction engagement', async () => {
     const ndx = await resolveSite00Project('ndxbook');
     expect(ndx?.creativeDirection?.available).toBe(true);
-    expect(ndx?.creativeDirection?.route).toContain('creative-direction');
+    expect(ndx?.creativeDirection?.route).toBe('/projects/ndxbook/creative-direction');
     expect(ndx?.creativeDirection?.territoriesGenerated).toBe(true);
   });
 
