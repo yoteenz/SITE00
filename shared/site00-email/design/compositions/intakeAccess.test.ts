@@ -7,8 +7,8 @@ import { renderEmailTemplateSync, listTemplateIds, getTemplatePrimaryFamily } fr
 import { EMAIL_TEMPLATES, getTemplateById } from '../../registry/templates.js';
 import { EMAIL_EVENT_REGISTRY } from '../../registry/events.js';
 import { getTemplateComposition } from '../../art-direction/template-manifest.js';
-import { INTAKE_ACCESS_ASSET_URLS } from '../../production/intake-access-asset-urls.generated.js';
-import { INTAKE_ACCESS_PRODUCTION_MANIFEST } from '../../production/intake-access-manifest.js';
+import { INTAKE_ACCESS_ASSET_URLS, INTAKE_ACCESS_LINEAGE_URLS } from '../../production/intake-access-asset-urls.generated.js';
+import { INTAKE_ACCESS_PRODUCTION_MANIFEST, INTAKE_ACCESS_RENDERING_MEDIUM_MATRIX } from '../../production/intake-access-manifest.js';
 
 const TEMPLATE_ID = 'intake-guest-access';
 
@@ -283,6 +283,180 @@ describe('Intake Access — production manifest', () => {
       } else {
         expect(['FAL_TEXT_TO_IMAGE', 'FAL_REFERENCE_CONDITIONED', 'DETERMINISTIC_COMPOSITE']).toContain(entry.generationMethod);
       }
+    }
+  });
+});
+
+describe('Intake Access — header technical marks (rendering medium fidelity pass)', () => {
+  it('renders SVG_NATIVE header crosshair ticks (not a raster) in both Builder and Identity headers', () => {
+    const builder = renderBuilder().html;
+    const identity = renderIdentity().html;
+    const tickSignature = 'viewBox="0 0 10 10"';
+    expect(builder).toContain(tickSignature);
+    expect(identity).toContain(tickSignature);
+  });
+
+  it('shows both a stone and an accent-colored tick on desktop, but only the stone tick on mobile-visible header markup', () => {
+    const { html } = renderBuilder();
+    const tickCount = (html.match(/viewBox="0 0 10 10"/g) ?? []).length;
+    expect(tickCount).toBe(2); // one stone (both breakpoints), one accent (desktop-only)
+  });
+});
+
+describe('Intake Access — production manifest metadata (rendering medium fidelity pass)', () => {
+  it('every manifest entry declares a renderingMedium', () => {
+    const validMediums = [
+      'HTML_TEXT',
+      'CSS_NATIVE',
+      'SVG_NATIVE',
+      'CODE_GENERATED_GRAPHIC',
+      'FAL_GENERATED_ASSET',
+      'FAL_GENERATED_AND_ISOLATED_ASSET',
+      'EXISTING_CANONICAL_ASSET',
+      'DETERMINISTIC_COMPOSITE',
+      'HYBRID_COMPOSITION',
+    ];
+    for (const entry of INTAKE_ACCESS_PRODUCTION_MANIFEST) {
+      expect(validMediums).toContain(entry.renderingMedium);
+      expect(entry.renderingMediumReason?.length ?? 0).toBeGreaterThan(10);
+    }
+  });
+
+  it('every GENERATED_ASSET / HYBRID_COMPOSITION entry declares a backgroundMode', () => {
+    const validModes = ['KEEP', 'REMOVE', 'GENERATE_TRANSPARENT', 'REMOVE_AND_REFINE', 'MASK_CUSTOM', 'COMPOSITE_ONLY', 'NOT_APPLICABLE'];
+    for (const entry of INTAKE_ACCESS_PRODUCTION_MANIFEST) {
+      if (entry.classification === 'CODE_NATIVE') continue;
+      expect(validModes).toContain(entry.backgroundMode);
+    }
+  });
+
+  it('every isolated (FAL_GENERATED_AND_ISOLATED_ASSET / HYBRID_COMPOSITION) asset declares a non-N/A edgePolicy', () => {
+    for (const entry of INTAKE_ACCESS_PRODUCTION_MANIFEST) {
+      if (entry.renderingMedium === 'FAL_GENERATED_AND_ISOLATED_ASSET' || entry.renderingMedium === 'HYBRID_COMPOSITION') {
+        expect(entry.edgePolicy).not.toBe('NOT_APPLICABLE');
+      }
+    }
+  });
+
+  it('every meaningful physical/generated asset declares a shadowPolicy', () => {
+    for (const entry of INTAKE_ACCESS_PRODUCTION_MANIFEST) {
+      if (entry.classification === 'CODE_NATIVE') continue;
+      expect(entry.shadowPolicy).toBeTruthy();
+    }
+  });
+
+  it('every asset requiring transparency has isolation-master lineage that resolves to a hosted URL', () => {
+    for (const entry of INTAKE_ACCESS_PRODUCTION_MANIFEST) {
+      if (!entry.requiresTransparency) continue;
+      if (entry.isolationMaster === null) continue; // e.g. HYBRID assets whose isolation feeds a composition, not shipped standalone
+      expect(entry.isolationMaster.startsWith('https://')).toBe(true);
+    }
+  });
+
+  it('the Identity seal, archival note and fingerprint each carry a resolvable isolation master (background-removal forensic fix)', () => {
+    expect(INTAKE_ACCESS_LINEAGE_URLS.identityArchivalNoteIsolated.startsWith('https://')).toBe(true);
+    expect(INTAKE_ACCESS_LINEAGE_URLS.identityFingerprintIsolated.startsWith('https://')).toBe(true);
+    expect(INTAKE_ACCESS_LINEAGE_URLS.identitySealIsolated.startsWith('https://')).toBe(true);
+  });
+
+  it('every major visual asset declares compositeMapDesktop or the literal "N/A"', () => {
+    for (const entry of INTAKE_ACCESS_PRODUCTION_MANIFEST) {
+      expect(entry.compositeMapDesktop).toBeDefined();
+      if (entry.compositeMapDesktop !== 'N/A') {
+        expect(typeof entry.compositeMapDesktop.x).toBe('string');
+        expect(typeof entry.compositeMapDesktop.zIndex).toBe('number');
+      }
+    }
+  });
+
+  it('every major visual asset declares compositeMapMobile or the literal "N/A"', () => {
+    for (const entry of INTAKE_ACCESS_PRODUCTION_MANIFEST) {
+      expect(entry.compositeMapMobile).toBeDefined();
+      if (entry.compositeMapMobile !== 'N/A') {
+        expect(typeof entry.compositeMapMobile.x).toBe('string');
+        expect(typeof entry.compositeMapMobile.zIndex).toBe('number');
+      }
+    }
+  });
+
+  it('desktop and mobile Identity evidence composites have independent art-direction maps (not a shared/scaled map)', () => {
+    const desktop = INTAKE_ACCESS_PRODUCTION_MANIFEST.find((e) => e.assetId === 'S00-EMAIL-INTAKE-ID-I05-DESKTOP');
+    const mobile = INTAKE_ACCESS_PRODUCTION_MANIFEST.find((e) => e.assetId === 'S00-EMAIL-INTAKE-ID-I05-MOBILE');
+    expect(desktop).toBeDefined();
+    expect(mobile).toBeDefined();
+    expect(desktop!.compositeMapMobile).toBe('N/A');
+    expect(mobile!.compositeMapDesktop).toBe('N/A');
+    expect(desktop!.compositionMaster).not.toBe(mobile!.compositionMaster);
+  });
+
+  it('no manifest entry with dynamic data is a rasterized GENERATED_ASSET (dynamic data always stays code-native)', () => {
+    for (const entry of INTAKE_ACCESS_PRODUCTION_MANIFEST) {
+      if (entry.containsDynamicData) {
+        expect(['FAL_GENERATED_ASSET', 'FAL_GENERATED_AND_ISOLATED_ASSET']).not.toContain(entry.renderingMedium);
+      }
+    }
+  });
+
+  it('the SITE 00 mark on the evidence seal is HYBRID_COMPOSITION, never FAL-owned branding', () => {
+    const seal = INTAKE_ACCESS_PRODUCTION_MANIFEST.find((e) => e.assetId === 'S00-EMAIL-INTAKE-ID-I04');
+    expect(seal?.renderingMedium).toBe('HYBRID_COMPOSITION');
+    expect(seal?.requiresExactText).toBe(true);
+  });
+
+  it('every entry with a non-null emailDerivative or desktopDerivative resolves to a hosted https URL', () => {
+    for (const entry of INTAKE_ACCESS_PRODUCTION_MANIFEST) {
+      for (const url of [entry.emailDerivative, entry.desktopDerivative, entry.mobileDerivative]) {
+        if (url) expect(url.startsWith('https://')).toBe(true);
+      }
+    }
+  });
+
+  it('every processingHistory rejection record documents a reason and a corrective change', () => {
+    for (const entry of INTAKE_ACCESS_PRODUCTION_MANIFEST) {
+      for (const record of entry.processingHistory) {
+        expect(record.reason.length).toBeGreaterThan(2);
+        expect(record.correctiveChange.length).toBeGreaterThan(0);
+        expect(['APPROVED', 'REJECTED', 'SUPERSEDED']).toContain(record.finalState);
+      }
+    }
+  });
+
+  it('every entry ends its processing history APPROVED (no asset ships with an open rejection)', () => {
+    for (const entry of INTAKE_ACCESS_PRODUCTION_MANIFEST) {
+      if (entry.processingHistory.length === 0) continue;
+      expect(entry.processingHistory[entry.processingHistory.length - 1].finalState).toBe('APPROVED');
+    }
+  });
+});
+
+describe('Intake Access — rendering medium matrix (§XI)', () => {
+  it('covers every meaningful visible element with a rendering-medium decision', () => {
+    expect(INTAKE_ACCESS_RENDERING_MEDIUM_MATRIX.length).toBeGreaterThanOrEqual(15);
+    for (const row of INTAKE_ACCESS_RENDERING_MEDIUM_MATRIX) {
+      expect(row.renderingMedium).toBeTruthy();
+      expect(row.reason.length).toBeGreaterThan(10);
+      expect(row.desktopStrategy.length).toBeGreaterThan(0);
+      expect(row.mobileStrategy.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('does not send simple deterministic UI elements (dividers, progress rail, CTA) through FAL', () => {
+    const simpleUiElements = INTAKE_ACCESS_RENDERING_MEDIUM_MATRIX.filter((r) =>
+      ['CTA button', 'Divider / rule lines', 'Completion percentage + progress rail', 'Outer email frame + background field'].includes(r.element)
+    );
+    expect(simpleUiElements.length).toBe(4);
+    for (const row of simpleUiElements) {
+      expect(row.requiresFal).toBe(false);
+    }
+  });
+
+  it('routes physically-realistic assets (blueprint, evidence cluster) through FAL, not simplistic CSS', () => {
+    const physicalElements = INTAKE_ACCESS_RENDERING_MEDIUM_MATRIX.filter((r) =>
+      ['Architectural building blueprint drawing (B01)', 'Identity evidence cluster (portrait + note + fingerprint + seal, I05)'].includes(r.element)
+    );
+    expect(physicalElements.length).toBe(2);
+    for (const row of physicalElements) {
+      expect(row.requiresFal).toBe(true);
     }
   });
 });
