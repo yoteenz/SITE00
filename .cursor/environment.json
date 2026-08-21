@@ -1,0 +1,18 @@
+{
+  "name": "SITE 00",
+  "user": "ubuntu",
+  "install": "npm ci && bash .cursor/scripts/install-cloudflared.sh",
+  "start": "bash .cursor/scripts/ensure-site00-preview-url.sh",
+  "terminals": [
+    {
+      "name": "site00-vite",
+      "command": "SITE00_CLOUD_MOBILE_PREVIEW=1 npm run dev",
+      "description": "Vite dev server for SITE 00 cloud preview on port 5174."
+    },
+    {
+      "name": "site00-preview-tunnel",
+      "command": "bash .cursor/scripts/run-site00-preview-tunnel.sh",
+      "description": "Cloudflare tunnel to localhost:5174. Auto-restarts on exit; hostname from SITE00_CLOUDFLARE_TUNNEL_HOSTNAME."
+    }
+  ]
+}

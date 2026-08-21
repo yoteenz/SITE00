@@ -2191,6 +2191,8 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 ---
 
+---
+
 ## 2026-08-21 — NDX BOOK three-direction Creative Direction reference-locked production cleanup + FAL pipeline
 
 - **Context:** Founder attached three approved reference boards (Editorial Utility / signal lime, Index Signal / electric cobalt, Kinetic Field / rose-orange-purple motion) and asked Sonnet to reconstruct the *visual systems* implied by each — not just palettes — using a new reference-to-production methodology, classify NDX BOOK's brand-expression context, and prove the system via a FAL asset pipeline with composite mapping. Repeated "send the conclusion in a code box" prompts across turns; this turn finished the outstanding implementation (Kinetic Field renderer) and ran real visual QA before returning the final conclusion.
@@ -2228,4 +2230,75 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Testing:** New `api/_lib/site00Evolve/creativeDirection/coreDirectionMethodology.test.ts` (15 tests) validates: Core Direction Boards are fully populated and conceptually distinct across all 3 territories; every one of the 28 branch declarations passes the lineage test; Index Signal/Kinetic Field have their own branch names (not copies of Editorial Utility); gate starts `CORE_DIRECTION_PENDING` with `conceptDna` null; expansion freedom is `LOW` pre-approval; on a real `APPROVE` decision, gate flips to `CORE_DIRECTION_APPROVED`, `conceptDna` is extracted with all 11 `CoreDNA` fields populated, and expansion freedom flips to `HIGH`; `REFINE`/`REJECT` never advance past `CORE_DIRECTION_REVISION_REQUESTED`; `HYBRIDIZE` (`SELECTED`) stays `CORE_DIRECTION_PENDING` with DNA `PROPOSED`-not-locked. Full suite 522/522 PASS (was 507; +15 new), `tsc --noEmit` clean, production build PASS.
 
 - **Conventions:** This is now the standing sequencing methodology for **all** future SITE 00/Studio World creative work (not NDX-specific) — first find the world (Stage A, LOW freedom), then prove it (Core Direction Board), then lock its DNA (Founder Core-Direction Gate → `CORE_DIRECTION_APPROVED` only), then let it expand (Stage B, HIGH freedom but every branch must pass the 7-question lineage test). Never populate `conceptDna`/DNA extraction speculatively before approval. Extend the founder-vocabulary mapping (`coreDirectionGateStatus`) rather than renaming the underlying lifecycle enum when adding gate semantics to existing engagements.
+
+---
+
+## 2026-08-21 — AIO project restoration verification + Projects subtitle copy
+
+- **Context:** Founder sprint to restore **All In One Enterprises Inc (AIO)** to the SITE 00 Projects page via canonical project architecture (not frontend mock). Forensic audit required before changes; no EVOLVE enrollment, intake fabrication, or unrelated project regressions.
+
+- **Topics covered:** Full project resolution pipeline audit (`shared/site00-projects/*`, `api/_lib/site00Projects/*`, EVOLVE org registry, orchestration registry, access model, `/projects` API). Searched all AIO slug/name variants. Verified other projects (Frontal Slayer, NDXBOOK, Studio World) unchanged.
+
+- **Root cause (confirmed):** AIO existed in EVOLVE + orchestration registries (`all-in-one-enterprises`, UUID `3781f0b7-cbc5-470d-8af7-69b97cfa5729`, `MANAGED_BRAND`) but was **omitted from `FOUNDER_PROJECTS`** in `api/_lib/site00Projects/projectRegistry.ts` when the Real Project Index shipped with only three slugs. Projects page uses `useSite00ProjectsIndex` → `/api/site00/projects?action=index` → `listSite00FounderProjects()` — so AIO never appeared despite being a real canonical org.
+
+- **Repair (already on `main` commit `fe2682a`):** Added AIO to founder registry + `Site00FounderProjectSlug` union; extended `projectResolver.ts` (UUID guard, POST LAUNCH phase, deferred social command items, OPERATIONS surface, truthful repository UNAVAILABLE); `ProjectDetailPage` repository row; `ProjectEvolvePage` removed slug whitelist. 21-case `aioProjectIndex.test.ts`; founder index count 3→4 regressions.
+
+- **This chat verification:** Re-ran full suite **507/507 PASS**, build **PASS**. Updated `ProjectsPage.tsx` header subtitle to list all four founder projects (copy only — cards already from canonical query).
+
+- **Conventions:** AIO visibility must not depend on intake or EVOLVE commercial enrollment. Missing repo evidence → partial enrichment, not index exclusion. Do not merge PRs without explicit founder instruction when sprint says so; `main` already has core fix — live site00.com still needs GoDaddy deploy separately.
+
+---
+
+## 2026-08-21 — Cloud Agent auto-start preview + GoDaddy deploy bundle
+
+- **Context:** Founder asked how to extend preview tunnel uptime; requested `.cursor/environment.json` for auto-start (close to always-on) and a direct cPanel deploy download link.
+
+- **Tunnel reality:** Cloudflare `cloudflared` has no inactivity shutdown — preview stops when the **Cloud Agent VM** ends or is recycled. True always-on = GoDaddy production deploy or dedicated tunnel host; within Cursor Cloud, best effort = environment `terminals` + team **Long running agents** + follow-up messages.
+
+- **Added:** `.cursor/environment.json` — `install` runs `npm ci` + downloads `cloudflared` to `.cursor/bin/` (persists in environment Builds); `start` writes `/tmp/site00-cloud-preview-url.txt` from `SITE00_CLOUDFLARE_TUNNEL_HOSTNAME`; `terminals` auto-start `site00-vite` and `site00-preview-tunnel` (tunnel script loops with 5s restart on exit). Scripts in `.cursor/scripts/`. Updated `README.md`, `CORE.md`, `.gitignore` (`.cursor/bin/`).
+
+- **GoDaddy deploy:** Built production `dist/` from `main` (`VITE_API_BASE=https://api.site00.com`). Release **`site00-deploy-2026-08-21`** — direct ZIP: `site00-production-dist-2026-08-21.zip` + `SITE00-DEPLOY-README.txt`. Upload/extract to cPanel `public_html`; hard-refresh mobile after deploy.
+
+- **Branch:** `cursor/cloud-env-always-on-4f59` → merged to `main`.
+
+---
+
+## 2026-08-21 — CTRL ROOM sign out + production Projects/API diagnosis
+
+- **Context:** Founder deploy gap follow-ups — backgrounds fixed by Aug 21 ZIP; Projects still failing on site00.com; requested SIGN OUT on CTRL ROOM.
+
+- **Projects on deploy (diagnosis):** `/projects` loads from `GET /api/site00/projects?action=index` (auth required). Tunnel works because Vite serves local Node API. Production build uses `VITE_API_BASE=https://api.site00.com`, but `api.site00.com` currently resolves to GoDaddy static IP (404 on `/api/health`) — Railway + CNAME still required per `docs/DEPLOYMENT.md`.
+
+- **Sign out fix:** Legacy `CtrlRoomSidebar` had LOG OUT but was unused after Operating World shell. Added `CtrlRoomSignOutButton` (`signOutAppAndSupabaseSession` + `trackActivity('sign_out')` + redirect Origin): desktop in `OperatingWorldTopNav`; mobile bar on all `/control/*` routes via `EcosystemShell`.
+
+- **Branch:** `cursor/ctrl-room-sign-out-4f59`.
+
+---
+
+## 2026-08-21 — Railway API deploy crash fix (Projects blocker)
+
+- **Context:** Founder on mobile setting up Railway **production** service; generated `*.up.railway.app` domain showed **“Not Found — The train has not arrived at the station”** and deployments kept failing — same root cause as broken `api.site00.com` / Projects page on site00.com.
+
+- **Root cause (confirmed locally):** API process crashed on startup before healthcheck passed:
+  1. `api/site00-access.ts` imported `../_lib/...` (resolves to repo root) instead of `./_lib/...` — `ERR_MODULE_NOT_FOUND`.
+  2. `npm run start:api` uses `tsx`, which was in **devDependencies** — Railway production install (`--omit=dev`) → `tsx: not found`.
+  3. `server/index.ts` imported `loadEnv` from **vite** (also dev-only) — second crash after tsx fix.
+
+- **Fix:** Corrected `site00-access` imports; moved `tsx` to `dependencies`; added `server/loadEnvFiles.ts` (reads `.env*` without vite). Tests **507/507 PASS**; local prod-mode health `{ ok: true, service: "site00-api" }`.
+
+- **Founder next steps (mobile):** Railway **Variables** — `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `SESSION_COOKIE_SECRET`, `SESSION_COOKIE_SECURE=true`, `ADMIN_EMAILS`; redeploy from `main`; confirm `https://<railway-url>/api/health`; then custom domain `api.site00.com` + GoDaddy CNAME `api` → Railway hostname (remove any `api` A record to GoDaddy IP).
+
+- **Branch:** `cursor/railway-api-deploy-fix-4f59`.
+
+---
+
+## 2026-08-21 — cPanel deploy bundle v2 (Railway API live)
+
+- **Context:** Founder confirmed Railway health check passing (`{"ok":true,"service":"site00-api"}` on `site00-production.up.railway.app`); requested latest production ZIP for GoDaddy cPanel.
+
+- **Built from `main`:** `VITE_API_BASE=https://api.site00.com`, CTRL ROOM sign out, background URL fixes. Release **`site00-deploy-2026-08-21-v2`** — ZIP ~2MB (static assets; env backgrounds load from Supabase at runtime).
+
+- **Direct download:** `https://github.com/yoteenz/SITE00/releases/download/site00-deploy-2026-08-21-v2/site00-production-dist-2026-08-21-v2.zip`
+
+- **Still required for Projects:** GoDaddy DNS CNAME `api` → Railway hostname (remove `api` A record to GoDaddy IP if present).
 
