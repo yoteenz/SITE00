@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import {
   getIdntyAssessmentState,
-  idntyAssessmentCompletePath,
   idntyAssessmentPath,
   type IdntyAssessmentStateId,
 } from '../../../config/idnty-assessment';
+import { idntyLorePath, idntyLoreFirstStep } from '../../../../../shared/site00-brand-lore/idnty-lore-questions';
 import { useIdntyAssessment } from '../../../hooks/useIdntyAssessment';
 import {
   IdntyAssessmentShell,
@@ -24,7 +24,7 @@ export default function IdntyAssessmentReviewPage({ stateSlug }: IdntyAssessment
   const navigate = useNavigate();
   const isDesktop = useSite00DesktopArtboardPreview();
   const state = getIdntyAssessmentState(stateSlug)!;
-  const { getAnswersForState, completeAssessment } = useIdntyAssessment();
+  const { getAnswersForState } = useIdntyAssessment();
   const answers = getAnswersForState(stateSlug);
 
   const navigateTo = (path: string) => {
@@ -32,8 +32,7 @@ export default function IdntyAssessmentReviewPage({ stateSlug }: IdntyAssessment
   };
 
   const handleSubmit = () => {
-    completeAssessment(stateSlug);
-    navigateTo(idntyAssessmentCompletePath(stateSlug));
+    navigateTo(idntyLorePath(stateSlug, idntyLoreFirstStep()));
   };
 
   if (!isDesktop) {
@@ -69,7 +68,7 @@ export default function IdntyAssessmentReviewPage({ stateSlug }: IdntyAssessment
       </dl>
 
       <IdntyAssessmentActions
-        primaryLabel="SUBMIT ASSESSMENT →"
+        primaryLabel="CONTINUE TO BRAND WORLD →"
         onPrimary={handleSubmit}
         secondaryLabel="BACK"
         onSecondary={() => {

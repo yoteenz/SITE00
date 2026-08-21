@@ -16,6 +16,10 @@ export type BldrAssessmentRecord = {
   currentStep: string | null;
   completedSteps: string[];
   answers: Record<string, BldrStepAnswers>;
+  experienceAnswers: Record<string, string | string[]>;
+  experienceCompletedSteps: string[];
+  /** Snapshot of Identity lore at Builder start — Builder does not re-ask these. */
+  inheritedLoreSnapshot: Record<string, unknown> | null;
   recommendedBuildClass: BldrAssessmentStateId | null;
   recommendationReasons: string[];
   submissionStatus: 'draft' | 'complete';
@@ -28,6 +32,9 @@ const EMPTY: BldrAssessmentRecord = {
   currentStep: null,
   completedSteps: [],
   answers: {},
+  experienceAnswers: {},
+  experienceCompletedSteps: [],
+  inheritedLoreSnapshot: null,
   recommendedBuildClass: null,
   recommendationReasons: [],
   submissionStatus: 'draft',
@@ -60,6 +67,29 @@ const IDNTY_TO_BLDR_SITE_TYPE: Record<string, string> = {
   membership: 'membership',
   'web-app': 'web-app',
 };
+
+function readIdntyLoreSnapshot(): Record<string, unknown> | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = localStorage.getItem(IDNTY_ASSESSMENT_STORAGE_KEY);
+    if (!raw) return null;
+    const idnty = JSON.parse(raw) as { loreAnswers?: Record<string, string | string[]> };
+    if (!idnty.loreAnswers || Object.keys(idnty.loreAnswers).length === 0) return null;
+    return {
+      emotionalPromise: idnty.loreAnswers.feeling,
+      audienceRelationship: idnty.loreAnswers.role,
+      brandBelief: idnty.loreAnswers.belief,
+      culturalOpposition: idnty.loreAnswers.enemy,
+      worldMetaphor: idnty.loreAnswers.world,
+      creativeTensions: idnty.loreAnswers.contradiction,
+      materialVocabulary: idnty.loreAnswers.objects,
+      creativeAntiPatterns: idnty.loreAnswers['no-go'],
+      socialSignal: idnty.loreAnswers.status,
+    };
+  } catch {
+    return null;
+  }
+}
 
 function readIdntyPrefill(): BldrStepAnswers {
   if (typeof window === 'undefined') return {};
@@ -115,6 +145,7 @@ export function useBldrAssessment() {
     (classId: BldrAssessmentStateId, firstStep?: string | null) => {
       const current = readRecord();
       const idntyPrefill = readIdntyPrefill();
+      const inheritedLoreSnapshot = readIdntyLoreSnapshot();
       const existingAnswers = current.answers[classId] ?? {};
       const merged = { ...idntyPrefill, ...existingAnswers };
 
@@ -124,6 +155,7 @@ export function useBldrAssessment() {
         currentStep: firstStep ?? null,
         startedAt: current.startedAt || new Date().toISOString(),
         submissionStatus: 'draft',
+        inheritedLoreSnapshot,
         answers: {
           ...current.answers,
           [classId]: merged,
@@ -133,6 +165,9 @@ export function useBldrAssessment() {
         domainLabel: classId,
         sourceRoute: typeof window !== 'undefined' ? window.location.pathname : undefined,
       });
+      if (inheritedLoreSnapshot) {
+        intakeSync.autosave({ draftPayload: { inheritedLoreSnapshot } });
+      }
     },
     [persist, intakeSync],
   );
@@ -203,6 +238,37 @@ export function useBldrAssessment() {
     [persist, intakeSync],
   );
 
+  const setExperienceAnswers = useCallback(
+    (stepId: string, value: string | string[]) => {
+      const current = readRecord();
+      const experienceAnswers = { ...current.experienceAnswers, [stepId]: value };
+      persist({ ...current, experienceAnswers, currentStep: `experience:${stepId}` });
+      intakeSync.autosave({
+        currentStep: `experience:${stepId}`,
+        draftPayload: {
+          buildClass: current.buildClass,
+          experienceAnswers,
+          experienceCompletedSteps: current.experienceCompletedSteps,
+          inheritedLoreSnapshot: current.inheritedLoreSnapshot,
+        },
+      });
+    },
+    [persist, intakeSync],
+  );
+
+  const markExperienceStepComplete = useCallback(
+    (stepId: string) => {
+      const current = readRecord();
+      const experienceCompletedSteps = Array.from(new Set([...current.experienceCompletedSteps, stepId]));
+      persist({ ...current, experienceCompletedSteps, currentStep: `experience:${stepId}` });
+      intakeSync.autosave({
+        currentStep: `experience:${stepId}`,
+        draftPayload: { experienceCompletedSteps, experienceAnswers: current.experienceAnswers },
+      });
+    },
+    [persist, intakeSync],
+  );
+
   const clearAssessment = useCallback(() => {
     if (typeof window === 'undefined') return;
     localStorage.removeItem(BLDR_ASSESSMENT_STORAGE_KEY);
@@ -234,6 +300,9 @@ export function useBldrAssessment() {
     completeAssessment,
     clearAssessment,
     getAnswersForClass,
+    setExperienceAnswers,
+    markExperienceStepComplete,
+    inheritedLoreSnapshot: record.inheritedLoreSnapshot,
     resumeTarget,
     hasResume: Boolean(resumeTarget),
     idntyPrefillAvailable: Object.keys(readIdntyPrefill()).length > 0,

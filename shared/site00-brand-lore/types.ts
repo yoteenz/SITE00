@@ -1,0 +1,195 @@
+/**
+ * SITE 00 — Brand Lore Intelligence types.
+ *
+ * Canonical model for structured brand-world intelligence collected upstream of Creative
+ * Direction. Raw founder answers live in intake draft/submitted payloads; synthesized lore
+ * lives in BrandLoreProfile with full provenance.
+ */
+
+/** Internal lore domain keys — not exposed verbatim to clients. */
+export type BrandLoreDomain =
+  | 'EMOTIONAL_FIRST_IMPRESSION'
+  | 'AUDIENCE_RELATIONSHIP'
+  | 'BRAND_BELIEF'
+  | 'CULTURAL_OPPOSITION'
+  | 'CORE_OBSESSIONS'
+  | 'WORLD_METAPHOR'
+  | 'MATERIAL_VOCABULARY'
+  | 'SYMBOLIC_VOCABULARY'
+  | 'REFERENCE_LINEAGE'
+  | 'CURRENT_REFERENCE_SIGNALS'
+  | 'CREATIVE_TENSIONS'
+  | 'AUTHENTIC_LANGUAGE'
+  | 'ANTI_LANGUAGE'
+  | 'SOCIAL_SIGNAL'
+  | 'AUDIENCE_RITUAL'
+  | 'MEMORY_GOAL'
+  | 'DESIRED_MYTHOLOGY'
+  | 'FUTURE_WORLD'
+  | 'CREATIVE_ANTI_PATTERNS';
+
+export type LoreFieldClassification =
+  | 'RAW_FOUNDER_INPUT'
+  | 'SYNTHESIZED'
+  | 'FOUNDER_CONFIRMED'
+  | 'REFERENCE'
+  | 'UNKNOWN';
+
+export type FounderConfirmationState = 'PENDING' | 'CONFIRMED' | 'REJECTED' | 'NOT_APPLICABLE';
+
+/** Provenance-backed value for one synthesized lore field. */
+export type BrandLoreField<T = unknown> = {
+  value: T;
+  classification: LoreFieldClassification;
+  confidence: 'HIGH' | 'MEDIUM' | 'LOW' | 'NONE';
+  sourceAnswerIds: string[];
+  sourceType: 'IDENTITY_LORE' | 'BUILDER_EXPERIENCE' | 'CONTENT_BRAIN' | 'INHERITED' | 'UNKNOWN';
+  founderConfirmationState: FounderConfirmationState;
+  updatedAt: string;
+};
+
+export type BrandLoreProfile = {
+  id: string;
+  organizationId: string | null;
+  projectId: string | null;
+  sourceIntakeId: string | null;
+  sourceIntakeType: 'IDENTITY' | 'BUILDER' | null;
+
+  brandWorld: BrandLoreField<string | null>;
+  audienceRelationship: BrandLoreField<string | null>;
+  brandBelief: BrandLoreField<string | null>;
+  culturalOpposition: BrandLoreField<string[]>;
+  coreObsessions: BrandLoreField<string | null>;
+  emotionalPromise: BrandLoreField<string[]>;
+  creativeTensions: BrandLoreField<string[]>;
+  worldMetaphor: BrandLoreField<string | null>;
+  materialVocabulary: BrandLoreField<string[]>;
+  symbolicVocabulary: BrandLoreField<string[]>;
+  referenceLineage: BrandLoreField<string | null>;
+  currentReferenceSignals: BrandLoreField<string | null>;
+  authenticLanguageSamples: BrandLoreField<string[]>;
+  antiLanguage: BrandLoreField<string[]>;
+  socialSignal: BrandLoreField<string | null>;
+  audienceRitual: BrandLoreField<string[]>;
+  memoryGoal: BrandLoreField<string | null>;
+  desiredMythology: BrandLoreField<string | null>;
+  futureWorld: BrandLoreField<string | null>;
+  creativeAntiPatterns: BrandLoreField<string[]>;
+  signatureDeviceSeeds: BrandLoreField<string | null>;
+
+  /** Raw answers preserved verbatim — never lossy. */
+  rawLoreAnswers: Record<string, string | string[]>;
+
+  contextClassification: BrandExpressionContext | null;
+  readinessState: CreativeDirectionReadinessState;
+  readinessMissingDomains: ReadinessDomain[];
+
+  createdAt: string;
+  updatedAt: string;
+};
+
+/** Brand expression context — consumed by Creative Direction for proof-artifact selection. */
+export type BrandExpressionContext =
+  | 'SOCIAL_FIRST_EDITORIAL'
+  | 'ECOMMERCE_FIRST'
+  | 'SERVICE_BUSINESS'
+  | 'PRODUCT_PLATFORM'
+  | 'CREATOR_BRAND'
+  | 'ENTERTAINMENT_MEDIA'
+  | 'PHYSICAL_RETAIL'
+  | 'HOSPITALITY'
+  | 'HYBRID'
+  | 'OTHER';
+
+export type CreativeDirectionReadinessState =
+  | 'CONTEXT_INCOMPLETE'
+  | 'CONTEXT_PARTIAL'
+  | 'CORE_DIRECTION_READY';
+
+/** Required domains before Creative Direction may auto-proceed. */
+export type ReadinessDomain =
+  | 'PURPOSE'
+  | 'AUDIENCE_RELATIONSHIP'
+  | 'WORLDVIEW'
+  | 'EMOTIONAL_PROMISE'
+  | 'CULTURAL_TENSION'
+  | 'PRIMARY_EXPRESSION_CONTEXT'
+  | 'REFERENCE_CONTEXT'
+  | 'ANTI_DIRECTION';
+
+export type OptionalEnrichmentDomain =
+  | 'MATERIAL_VOCABULARY'
+  | 'SYMBOLIC_VOCABULARY'
+  | 'AUTHENTIC_LANGUAGE'
+  | 'RITUAL'
+  | 'MYTHOLOGY'
+  | 'FUTURE_WORLD';
+
+/** Builder experience translation domains — digital behavior, not identity lore. */
+export type BuilderExperienceDomain =
+  | 'PRIMARY_ENTRY_BEHAVIOR'
+  | 'DIGITAL_METAPHOR'
+  | 'NAVIGATION_BEHAVIOR'
+  | 'DYNAMIC_SYSTEM_PRIORITIES'
+  | 'DIGITAL_ANTI_PATTERNS'
+  | 'SIGNATURE_EXPERIENCES'
+  | 'PHYSICAL_EXTENSIONS'
+  | 'PERSISTENT_USER_STATE'
+  | 'REPEAT_VISIT_BEHAVIOR'
+  | 'EXPERIENCE_DEPTH'
+  | 'SIGNATURE_DIGITAL_ADVANTAGE';
+
+export type BuilderExperienceProfile = {
+  primaryEntryBehavior: BrandLoreField<string | null>;
+  digitalMetaphor: BrandLoreField<string | null>;
+  navigationBehavior: BrandLoreField<string | null>;
+  dynamicSystemPriorities: BrandLoreField<string[]>;
+  digitalAntiPatterns: BrandLoreField<string | null>;
+  signatureExperiences: BrandLoreField<string[]>;
+  physicalExtensions: BrandLoreField<string[]>;
+  persistentUserState: BrandLoreField<string[]>;
+  repeatVisitBehavior: BrandLoreField<string | null>;
+  experienceDepth: BrandLoreField<string | null>;
+  signatureDigitalAdvantage: BrandLoreField<string | null>;
+  rawExperienceAnswers: Record<string, string | string[]>;
+  /** Snapshot of inherited Identity lore at time of Builder start — not re-asked. */
+  inheritedLoreSnapshot: Partial<BrandLoreProfile> | null;
+};
+
+/** Maps lore question step id → internal domain. */
+export const LORE_STEP_TO_DOMAIN: Record<string, BrandLoreDomain> = {
+  feeling: 'EMOTIONAL_FIRST_IMPRESSION',
+  role: 'AUDIENCE_RELATIONSHIP',
+  belief: 'BRAND_BELIEF',
+  enemy: 'CULTURAL_OPPOSITION',
+  obsession: 'CORE_OBSESSIONS',
+  world: 'WORLD_METAPHOR',
+  objects: 'MATERIAL_VOCABULARY',
+  evidence: 'REFERENCE_LINEAGE',
+  lineage: 'REFERENCE_LINEAGE',
+  now: 'CURRENT_REFERENCE_SIGNALS',
+  contradiction: 'CREATIVE_TENSIONS',
+  language: 'AUTHENTIC_LANGUAGE',
+  line: 'ANTI_LANGUAGE',
+  status: 'SOCIAL_SIGNAL',
+  ritual: 'AUDIENCE_RITUAL',
+  memory: 'MEMORY_GOAL',
+  symbol: 'SYMBOLIC_VOCABULARY',
+  myth: 'DESIRED_MYTHOLOGY',
+  future: 'FUTURE_WORLD',
+  'no-go': 'CREATIVE_ANTI_PATTERNS',
+};
+
+export const BUILDER_EXPERIENCE_STEP_TO_DOMAIN: Record<string, BuilderExperienceDomain> = {
+  arrival: 'PRIMARY_ENTRY_BEHAVIOR',
+  'digital-metaphor': 'DIGITAL_METAPHOR',
+  movement: 'NAVIGATION_BEHAVIOR',
+  alive: 'DYNAMIC_SYSTEM_PRIORITIES',
+  'anti-website': 'DIGITAL_ANTI_PATTERNS',
+  'signature-moment': 'SIGNATURE_EXPERIENCES',
+  physical: 'PHYSICAL_EXTENSIONS',
+  persistence: 'PERSISTENT_USER_STATE',
+  return: 'REPEAT_VISIT_BEHAVIOR',
+  depth: 'EXPERIENCE_DEPTH',
+  advantage: 'SIGNATURE_DIGITAL_ADVANTAGE',
+};

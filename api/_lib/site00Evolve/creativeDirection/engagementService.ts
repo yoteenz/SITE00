@@ -9,6 +9,7 @@ import {
   synthesizeCreativeBrief,
   OPEN_QUESTIONS,
 } from './intelligenceBrief.js';
+import { brandLoreReadinessGate, shouldEnforceLoreReadinessGate } from '../../site00BrandLore/brandLoreBridge.js';
 import { generateTerritories, buildComparison } from './territories.js';
 import {
   emptyVisualDnaContract,
@@ -48,16 +49,22 @@ function page001Gate(visualDnaStatus: string): CreativeDirectionEngagement['page
   };
 }
 
-export async function ensureCreativeDirectionEngagement(orgSlug: string): Promise<CreativeDirectionEngagement> {
+export async function ensureCreativeDirectionEngagement(
+  orgSlug: string,
+  brandLore?: import('../../../shared/site00-brand-lore/types.js').BrandLoreProfile | null,
+): Promise<CreativeDirectionEngagement> {
   const orgId = assertOrg(orgSlug);
   const existing = engagements.get(orgId);
   if (existing) return existing;
 
   const intel = await loadCanonicalIntelligence(orgSlug);
   const entries = await getContentBrainByOrgId(orgId);
-  const brief = synthesizeCreativeBrief(orgSlug, intel.sections, entries.length);
+  const brief = synthesizeCreativeBrief(orgSlug, intel.sections, entries.length, brandLore ?? null);
   const territories = generateTerritories(brief);
   const comparison = buildComparison(territories);
+
+  const readinessGate = brandLoreReadinessGate(brandLore ?? null);
+  const enforceGate = shouldEnforceLoreReadinessGate(orgSlug, brandLore ?? null);
 
   const engagement: CreativeDirectionEngagement = {
     id: randomUUID(),
@@ -67,6 +74,7 @@ export async function ensureCreativeDirectionEngagement(orgSlug: string): Promis
     lineage: [
       `${orgSlug} organization`,
       'Content Brain',
+      ...(brandLore ? ['Brand Lore Profile', 'Identity intake answers'] : []),
       'Creative Direction engagement',
       'direction territories',
       'founder decisions (pending)',
@@ -81,6 +89,14 @@ export async function ensureCreativeDirectionEngagement(orgSlug: string): Promis
     founderDecision: null,
     visualDna: emptyVisualDnaContract(),
     page001Gate: page001Gate('INCOMPLETE'),
+    brandLoreReadiness: enforceGate
+      ? {
+          state: readinessGate.state,
+          blocked: readinessGate.blocked,
+          message: readinessGate.message,
+          missingDomains: readinessGate.missingDomains,
+        }
+      : null,
     legacyReference: {
       indigoSlate: { status: 'REFERENCE_ONLY', promotedToCanon: false },
       laceMastery: { status: 'REJECTED_MISATTRIBUTED' },
@@ -204,11 +220,18 @@ export function getEngagementLifecycle(orgSlug: string): CreativeDirectionLifecy
   return engagements.get(orgId)?.lifecycle_state ?? null;
 }
 
-export async function queueFalGenerationJobs(orgSlug: string): Promise<{ queued: number; skipped: boolean }> {
+export async function queueFalGenerationJobs(orgSlug: string): Promise<{ queued: number; skipped: boolean; blockedReason?: string }> {
   if (!process.env.FAL_KEY?.trim()) {
     return { queued: 0, skipped: true };
   }
   const engagement = await ensureCreativeDirectionEngagement(orgSlug);
+  if (engagement.brandLoreReadiness?.blocked) {
+    return {
+      queued: 0,
+      skipped: true,
+      blockedReason: engagement.brandLoreReadiness.message ?? 'CONTEXT CALIBRATION REQUIRED',
+    };
+  }
   let queued = 0;
   for (const territory of engagement.territories) {
     for (const specimen of territory.specimens) {

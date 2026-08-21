@@ -15,6 +15,9 @@ export type IdntyAssessmentRecord = {
   currentStep: string | null;
   completedSteps: string[];
   answers: Record<string, IdntyStepAnswers>;
+  /** Brand World / Lore layer — shared across all identity states. */
+  loreAnswers: Record<string, string | string[]>;
+  loreCompletedSteps: string[];
   freeformNotes: string;
   submissionStatus: 'draft' | 'complete';
   updatedAt: string;
@@ -26,6 +29,8 @@ const EMPTY: IdntyAssessmentRecord = {
   currentStep: null,
   completedSteps: [],
   answers: {},
+  loreAnswers: {},
+  loreCompletedSteps: [],
   freeformNotes: '',
   submissionStatus: 'draft',
   updatedAt: new Date().toISOString(),
@@ -169,6 +174,39 @@ export function useIdntyAssessment() {
     [persist, intakeSync],
   );
 
+  const setLoreAnswers = useCallback(
+    (stepId: string, value: string | string[]) => {
+      const current = readRecord();
+      const loreAnswers = { ...current.loreAnswers, [stepId]: value };
+      persist({ ...current, loreAnswers, currentStep: `world:${stepId}` });
+      intakeSync.autosave({
+        currentStep: `world:${stepId}`,
+        draftPayload: {
+          identityState: current.identityState,
+          answers: current.identityState ? current.answers[current.identityState] ?? {} : {},
+          loreAnswers,
+          loreCompletedSteps: current.loreCompletedSteps,
+        },
+      });
+    },
+    [persist, intakeSync],
+  );
+
+  const markLoreStepComplete = useCallback(
+    (stepId: string) => {
+      const current = readRecord();
+      const loreCompletedSteps = Array.from(new Set([...current.loreCompletedSteps, stepId]));
+      persist({ ...current, loreCompletedSteps, currentStep: `world:${stepId}` });
+      intakeSync.autosave({
+        currentStep: `world:${stepId}`,
+        draftPayload: { loreCompletedSteps, loreAnswers: current.loreAnswers },
+      });
+    },
+    [persist, intakeSync],
+  );
+
+  const getLoreAnswers = useCallback((): Record<string, string | string[]> => record.loreAnswers ?? {}, [record.loreAnswers]);
+
   const clearAssessment = useCallback(() => {
     if (typeof window === 'undefined') return;
     localStorage.removeItem(IDNTY_ASSESSMENT_STORAGE_KEY);
@@ -200,6 +238,9 @@ export function useIdntyAssessment() {
     completeAssessment,
     clearAssessment,
     getAnswersForState,
+    getLoreAnswers,
+    setLoreAnswers,
+    markLoreStepComplete,
     resumeTarget,
     hasResume: Boolean(resumeTarget),
     /** Canonical server persistence state — truthful save state for the UI (IX). */

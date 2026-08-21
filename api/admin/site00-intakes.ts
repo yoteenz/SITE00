@@ -17,6 +17,7 @@ import {
   listIntakeAuditEvents,
   listIntakesForAdmin,
 } from '../_lib/site00Intakes/intakeService.js';
+import { getLoreForIntake } from '../_lib/site00BrandLore/loreService.js';
 import type { AdminIntakeFilters } from '../_lib/site00Intakes/types.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -56,7 +57,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const intake = await getIntakeForAdmin(intakeType, id);
         if (!intake) return res.status(404).json({ error: 'Intake not found' });
         const events = await listIntakeAuditEvents(intakeType, id);
-        return res.status(200).json({ intake, events });
+        const brandLore =
+          intakeType === 'IDENTITY' ? await getLoreForIntake('IDENTITY', id) : null;
+        return res.status(200).json({ intake, events, brandLore });
       }
 
       return res.status(400).json({ error: 'Unsupported action' });

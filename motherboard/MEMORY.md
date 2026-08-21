@@ -2189,3 +2189,25 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Conventions:** Do not create duplicate AIO org/UUID/EVOLVE profile. Social marketing deferral is owner decision — never a launch blocker. Missing GitHub repo evidence must not remove AIO from founder index; show partial/truthful enrichment instead.
 
+---
+
+## 2026-08-21 — Identity + Builder Brand Lore Intelligence Expansion
+
+- **Context:** Large sprint to expand Identity and Builder intake upstream of Creative Direction — collect structured brand-world intelligence (worldview, emotional promise, cultural tension, references, anti-direction, digital experience behavior) without turning intake into a corporate branding worksheet. Explicit: no deploy, no emails, **do not merge without founder instruction**.
+
+- **Forensic audit:** Identity previously captured operational scoping only (project type, goals, audience, timeline, budget) — 0/19 lore domains. Builder partially prefilled Identity via localStorage (audience, timeline, budget) but did not inherit lore server-side. Creative Direction consumed Content Brain + hardcoded NDXbook brief with no readiness gate. No canonical BrandLoreProfile existed.
+
+- **Architecture implemented:**
+  - `shared/site00-brand-lore/` — types, 19 lore question registry, 11 Builder experience questions, adaptivity, readiness (`CONTEXT_INCOMPLETE` / `CONTEXT_PARTIAL` / `CORE_DIRECTION_READY`), context classification (NDXBOOK → `SOCIAL_FIRST_EDITORIAL`, no website-default), lore synthesis (deterministic, shared for frontend + API).
+  - `api/_lib/site00BrandLore/` — loreService, memoryStore, experienceSynthesis, brandLoreBridge; wired into `intakeService.ts` autosave/submit for Identity lore + Builder experience.
+  - Identity UX: core calibration → review → `/world/:stepId` lore phase → `world-review` ("WHAT WE HEARD") → calibration injection if readiness incomplete → submit.
+  - Builder UX: experience translation at `/bldr/:slug/experience/:stepId`; inherits Identity lore snapshot; contextualized movement prompt when world metaphor known.
+  - Creative Direction: `intelligenceBrief.ts` blends Brand Lore when present; `engagementService.ts` exposes `brandLoreReadiness` gate (blocks FAL queue when incomplete); NDXBOOK bypass preserved.
+  - Admin: `BrandIntelligencePanel` on intake detail with structured sections + provenance; API returns `brandLore` on detail fetch.
+
+- **Tests:** 30 new brand-lore cases + intake lore autosave integration. Full suite **538/538 PASS**. Build PASS.
+
+- **Branch:** `cursor/identity-builder-brand-lore-1983`. PR opened, **not merged** (founder instruction).
+
+- **Conventions:** Raw founder answers stay in intake `loreAnswers`; synthesized profile is separate with per-field provenance (`RAW_FOUNDER_INPUT`, `FOUNDER_CONFIRMED`). Never auto-confirm AI synthesis. NDXBOOK canon unchanged. Builder must not re-ask Identity lore fields listed in `BUILDER_INHERITED_LORE_FIELDS`.
+
