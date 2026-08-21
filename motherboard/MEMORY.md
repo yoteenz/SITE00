@@ -2248,3 +2248,15 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Branch:** `cursor/railway-api-deploy-fix-4f59`.
 
+---
+
+## 2026-08-21 — cPanel deploy bundle v2 (Railway API live)
+
+- **Context:** Founder confirmed Railway health check passing (`{"ok":true,"service":"site00-api"}` on `site00-production.up.railway.app`); requested latest production ZIP for GoDaddy cPanel.
+
+- **Built from `main`:** `VITE_API_BASE=https://api.site00.com`, CTRL ROOM sign out, background URL fixes. Release **`site00-deploy-2026-08-21-v2`** — ZIP ~2MB (static assets; env backgrounds load from Supabase at runtime).
+
+- **Direct download:** `https://github.com/yoteenz/SITE00/releases/download/site00-deploy-2026-08-21-v2/site00-production-dist-2026-08-21-v2.zip`
+
+- **Still required for Projects:** GoDaddy DNS CNAME `api` → Railway hostname (remove `api` A record to GoDaddy IP if present).
+
