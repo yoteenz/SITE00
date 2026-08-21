@@ -13,6 +13,84 @@ import type { IntakeType, IntakeStatus, IntakeSummary, IntakeDetail } from '../.
 import { canTransitionIntakeStatus, normalizeIntakeStatus } from '../../../shared/site00-intakes/types.js';
 import type { IntakeRecord, AdminIntakeFilters } from './types.js';
 
+/**
+ * Canonical guest resume/view URL — reuses the existing secure guest access token, same origin
+ * convention as api/_lib/site00AccessCredentials/types.ts:buildAccessCredentialPublicUrl. Never a
+ * second token system; never includes the guest email.
+ */
+function intakeGuestAccessUrl(rawToken: string): string {
+  const base = (process.env.VITE_SITE00_CANONICAL_ORIGIN?.trim() || 'https://site00.com').replace(/\/$/, '');
+  return `${base}/intake/access/${rawToken}`;
+}
+
+/** Truthful, human-facing status label for the Intake Access email record card. */
+function formatIntakeStatusDisplay(status: IntakeStatus): string {
+  switch (status) {
+    case 'DRAFT':
+      return 'DRAFT';
+    case 'AWAITING_EMAIL_VERIFICATION':
+      return 'AWAITING VERIFICATION';
+    case 'ACTIVE':
+      return 'IN PROGRESS';
+    case 'SUBMITTED':
+      return 'SUBMITTED';
+    case 'IN_REVIEW':
+      return 'IN REVIEW';
+    case 'CONVERTED':
+      return 'CONVERTED';
+    case 'ARCHIVED':
+      return 'ARCHIVED';
+    default:
+      return status;
+  }
+}
+
+/** Formats a canonical ISO timestamp for display. Returns undefined (never a fabricated date) when absent/invalid. */
+function formatIntakeTimestampDisplay(iso: string | null | undefined): string | undefined {
+  if (!iso) return undefined;
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return undefined;
+  const formatted = new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZone: 'UTC',
+    timeZoneName: 'short',
+  }).format(date);
+  return formatted.toUpperCase();
+}
+
+/**
+ * Derives a truthful completion percent ONLY when currentStep encodes a numeric step index
+ * (e.g. "step-2") and totalSteps is a known positive count. Returns undefined otherwise — the
+ * email renders a non-numeric "IN PROGRESS" treatment rather than fabricating a figure (XXIII).
+ */
+function deriveIntakeCompletionPercent(currentStep: string | null | undefined, totalSteps: number | null | undefined): number | undefined {
+  if (!totalSteps || totalSteps <= 0 || !currentStep) return undefined;
+  const match = /(\d+)/.exec(currentStep);
+  if (!match) return undefined;
+  const stepIndex = Number(match[1]);
+  if (!Number.isFinite(stepIndex) || stepIndex <= 0) return undefined;
+  return Math.round(Math.min(1, stepIndex / totalSteps) * 100);
+}
+
+/** Canonical Intake Access email dynamic payload — one source of truth so no caller fabricates values. */
+function intakeAccessEmailVars(record: IntakeRecord, rawToken: string) {
+  const status = normalizeIntakeStatus(record.status);
+  return {
+    intakeReference: record.publicReference,
+    intakeType: record.intakeType,
+    secureViewUrl: intakeGuestAccessUrl(rawToken),
+    ctaUrl: intakeGuestAccessUrl(rawToken),
+    intakeStatusDisplay: formatIntakeStatusDisplay(status),
+    intakeLastSavedAtDisplay: formatIntakeTimestampDisplay(record.lastSavedAt),
+    intakeCompletionPercent: deriveIntakeCompletionPercent(record.currentStep, record.totalSteps),
+    nextStep: 'USE YOUR SECURE LINK TO RESUME OR REVIEW YOUR INTAKE.',
+  };
+}
+
 export class IntakeValidationError extends Error {
   constructor(message: string) {
     super(message);
@@ -294,11 +372,7 @@ export async function sendGuestAccess(
     templateType: 'intake-guest-access',
     recipientEmail: email,
     eventId: `INTAKE_ACCESS_REQUESTED:${intakeType}:${id}:${issued.tokenId}`,
-    variables: {
-      intakeReference: updated.publicReference,
-      intakeType: updated.intakeType,
-      nextStep: 'USE YOUR SECURE LINK TO RESUME OR REVIEW YOUR INTAKE.',
-    },
+    variables: intakeAccessEmailVars(updated, issued.rawToken),
   });
 
   return { intake: toDetail(updated), rawToken: issued.rawToken, expiresAt: issued.expiresAt };

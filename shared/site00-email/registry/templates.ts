@@ -1283,10 +1283,12 @@ export const EMAIL_TEMPLATES: EmailTemplateDefinition[] = [
     ctaLabel: 'OPEN SYSTEMS →',
   }),
 
-  // INTAKE — Identity + Builder intake persistence infrastructure sprint. Placeholders only.
-  // CREATIVE_DIRECTION_PENDING: a separate founder-led Intake Email Pack sprint designs the
-  // final visual composition. debugStatus stays 'needs-review' and enabled stays false so
-  // nothing here is mistaken for an approved, ready-to-send design.
+  // INTAKE — Identity + Builder intake persistence infrastructure sprint.
+  // 'intake-guest-access' below has approved FAL-native visual production (see
+  // shared/site00-email/production/intake-access-manifest.ts). 'intake-submission-receipt' and
+  // 'intake-claimed' remain CREATIVE_DIRECTION_PENDING placeholders — a later sprint designs
+  // their visual composition — so their debugStatus stays 'needs-review' and enabled stays
+  // false.
   tpl({
     num: 82,
     id: 'intake-guest-access',
@@ -1298,14 +1300,20 @@ export const EMAIL_TEMPLATES: EmailTemplateDefinition[] = [
     classification: 'transactional',
     subject: (v) => `Your ${v.intakeType === 'BUILDER' ? 'Builder' : 'Identity'} intake — secure access.`,
     preheader: pre('Use this secure link to resume or review your intake.'),
-    headline: head('YOUR SECURE INTAKE ACCESS.'),
-    subheadline: (v) => `${v.intakeReference ?? 'INTAKE'} · ${(v.intakeType ?? 'INTAKE').toUpperCase()}`,
+    headline: (v) => (v.intakeType === 'BUILDER' ? 'THE BRIEF HAS A LOCATION.' : 'THE EVIDENCE IS IN.'),
+    subheadline: (v) => `Your ${v.intakeType === 'BUILDER' ? 'Builder' : 'Identity'} intake is saved exactly where you left it.`,
     ctaLabel: 'ACCESS YOUR INTAKE →',
-    debugStatus: 'needs-review',
-    enabled: false,
+    debugStatus: 'approved',
+    enabled: true,
     notes:
-      'CREATIVE_DIRECTION_PENDING — placeholder only, no visual composition designed. Guest secure resume/view link. Payload: intakeReference, intakeType, secureViewUrl, nextStep. Never include raw email or token in URL path shown to guest beyond the token itself, which is single-purpose and hashed server-side.',
-    varsForPreview: { intakeType: 'IDENTITY', intakeReference: 'IDN-PREVIEW1' },
+      'FAL-native visual production pilot — see shared/site00-email/production/intake-access-manifest.ts. Builder ("architectural build brief") and Identity ("editorial identity evidence file") share this one template/composition and branch internally on intakeType. Payload: intakeReference, intakeType, secureViewUrl (also mapped into ctaUrl by intakeService.sendGuestAccess), intakeStatusDisplay, intakeLastSavedAtDisplay, intakeCompletionPercent (only set when truthfully derivable from currentStep/totalSteps — never fabricated). Never include raw email or token in URL path shown to guest beyond the token itself, which is single-purpose and hashed server-side.',
+    varsForPreview: {
+      intakeType: 'IDENTITY',
+      intakeReference: 'IDN-PREVIEW1',
+      intakeStatusDisplay: 'IN PROGRESS',
+      intakeLastSavedAtDisplay: 'AUG 20, 2026 · 6:16 PM EST',
+      intakeCompletionPercent: 65,
+    },
   }),
   tpl({
     num: 83,

@@ -10,6 +10,7 @@ export type EmailCompositionId =
   | 'IDENTITY_CALIBRATION'
   | 'IDENTITY_REVIEW'
   | 'IDENTITY_FOUNDATION'
+  | 'INTAKE_ACCESS'
   | 'FAMILY_DEFAULT';
 
 export type TemplateManifestEntry = {
@@ -94,6 +95,20 @@ export const TEMPLATE_MANIFEST: Record<string, TemplateManifestEntry> = {
     composition: 'IDENTITY_FOUNDATION',
     compositionType: 'SPECIFICATION_RECORD',
     statusTreatment: 'FOUNDATION LOCKED',
+  },
+  // INTAKE ACCESS — FAL-native visual production pilot (see shared/site00-email/production/
+  // intake-access-manifest.ts for the full reference decomposition). Single composition,
+  // branches BUILDER/IDENTITY internally on vars.intakeType — distinct art direction per
+  // the founder-approved concept board, shared lifecycle semantics.
+  'intake-guest-access': {
+    family: 'ACCESS_SECURITY',
+    trigger: 'INTAKE_ACCESS_REQUESTED',
+    purpose: 'Secure guest resume/view access to a saved Builder or Identity intake',
+    visualMode: 'light',
+    signatureArtifact: 'BUILD BRIEF RECORD (Builder) / IDENTITY FILE RECORD (Identity)',
+    composition: 'INTAKE_ACCESS',
+    compositionType: 'INTAKE_LIFECYCLE_ACCESS',
+    statusTreatment: 'SECURE ACCESS',
   },
 };
 

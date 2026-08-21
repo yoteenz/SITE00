@@ -97,7 +97,7 @@ export const EMAIL_EVENT_REGISTRY: EmailEventDefinition[] = [
     event: 'INTAKE_ACCESS_REQUESTED',
     templateId: 'intake-guest-access',
     wired: false,
-    notes: 'CREATIVE_DIRECTION_PENDING — Identity/Builder intake persistence infra sprint. Guest secure resume link. No provider configured; sendEmailAsync records a truthful not-configured state.',
+    notes: 'Guest secure resume link — visual production approved (FAL-native Intake Access pilot). "wired: false" reflects that no EMAIL_PROVIDER is configured yet, not the design status; sendEmailAsync renders the real template and records a truthful not-configured state.',
   },
   {
     event: 'INTAKE_SUBMITTED',
