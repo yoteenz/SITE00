@@ -74,7 +74,9 @@ import {
   recordFounderDecision,
   ensureCreativeDirectionEngagement,
   queueFalGenerationJobs,
+  resetCreativeDirectionMemory,
 } from '../_lib/site00Evolve/creativeDirection/engagementService.js';
+import { generateNdxbookVisualAssetPass } from '../_lib/site00Evolve/creativeDirection/assetGeneration.js';
 
 function parseBody(req: VercelRequest): Record<string, unknown> | null {
   if (typeof req.body === 'object' && req.body !== null && !Array.isArray(req.body)) {
@@ -410,6 +412,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           );
         case 'creative_direction_queue_generation':
           return res.status(200).json(await queueFalGenerationJobs(orgSlug));
+        case 'creative_direction_generate_visual_assets': {
+          const result = await generateNdxbookVisualAssetPass(orgSlug, auth.user.email, { onlyMissing: body.onlyMissing !== false });
+          if (result.generated.length > 0) resetCreativeDirectionMemory();
+          return res.status(200).json(result);
+        }
         case 'analytics_baseline_sync':
           return res.status(200).json(
             await runAnalyticsBaseline(orgSlug, String(body.connectionId ?? '')),

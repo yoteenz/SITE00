@@ -203,6 +203,28 @@
   letter-spacing: 0.06em;
 }
 
+/* Real FAL-generated visual assets — provenance stays visible, never implies approval. */
+.site00-cd-specimen--imaged {
+  border-color: rgba(0, 0, 0, 0.14);
+}
+
+.site00-cd-specimen__provenance {
+  color: #c41e3a;
+  opacity: 0.85;
+}
+
+.site00-cd-specimen__svg--imaged image {
+  filter: saturate(1);
+}
+
+.site00-cd-territory--index-signal .site00-cd-specimen__svg--imaged image {
+  filter: grayscale(0.15) contrast(1.05);
+}
+
+.site00-cd-territory--kinetic-field .site00-cd-specimen__svg--imaged image {
+  filter: saturate(1.1) contrast(1.08);
+}
+
 .site00-cd__compare-table {
   width: 100%;
   border-collapse: collapse;

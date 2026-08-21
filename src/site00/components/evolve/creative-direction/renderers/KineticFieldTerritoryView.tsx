@@ -15,11 +15,23 @@ function KineticTitleFrame({ gs }: { gs?: boolean }) {
   );
 }
 
-function KineticHook916({ gs }: { gs?: boolean }) {
+function KineticHook916({ gs, imageUrl }: { gs?: boolean; imageUrl?: string }) {
   const c = paletteFromGrayscale(gs, { primary: '#0F172A', secondary: '#E2E8F0', accent: '#666' });
   return (
-    <svg viewBox="0 0 108 192" className="site00-cd-specimen__svg" aria-hidden="true">
-      <rect width="108" height="192" fill={c.primary} />
+    <svg viewBox="0 0 108 192" className="site00-cd-specimen__svg site00-cd-specimen__svg--imaged" aria-hidden="true">
+      {imageUrl ? (
+        <>
+          <defs>
+            <clipPath id="ndx-kf-hook-clip"><rect width="108" height="192" /></clipPath>
+          </defs>
+          <g clipPath="url(#ndx-kf-hook-clip)">
+            <image href={imageUrl} x="0" y="0" width="108" height="192" preserveAspectRatio="xMidYMid slice" />
+            <rect x="0" y="0" width="108" height="192" fill={c.primary} opacity={gs ? 0.32 : 0.18} />
+          </g>
+        </>
+      ) : (
+        <rect width="108" height="192" fill={c.primary} />
+      )}
       <text x="-8" y="100" fill={c.secondary} fontSize="36" fontWeight="900" transform="rotate(-90 54 100)">DEBT?</text>
       <rect x="8" y="150" width="92" height="28" fill={c.accent} opacity="0.25" />
       <text x="14" y="168" fill={c.secondary} fontSize="6">HOOK FRAME · 9:16</text>
@@ -27,11 +39,23 @@ function KineticHook916({ gs }: { gs?: boolean }) {
   );
 }
 
-function KineticPage001({ gs }: { gs?: boolean }) {
+function KineticPage001({ gs, imageUrl }: { gs?: boolean; imageUrl?: string }) {
   const c = paletteFromGrayscale(gs, { primary: '#0F172A', secondary: '#E2E8F0', accent: '#666' });
   return (
-    <svg viewBox="0 0 108 192" className="site00-cd-specimen__svg" aria-hidden="true">
-      <rect width="108" height="192" fill={c.primary} />
+    <svg viewBox="0 0 108 192" className="site00-cd-specimen__svg site00-cd-specimen__svg--imaged" aria-hidden="true">
+      {imageUrl ? (
+        <>
+          <defs>
+            <clipPath id="ndx-kf-p001-clip"><rect width="108" height="192" /></clipPath>
+          </defs>
+          <g clipPath="url(#ndx-kf-p001-clip)">
+            <image href={imageUrl} x="0" y="0" width="108" height="192" preserveAspectRatio="xMidYMid slice" />
+            <rect x="0" y="0" width="108" height="192" fill={c.primary} opacity={gs ? 0.34 : 0.22} />
+          </g>
+        </>
+      ) : (
+        <rect width="108" height="192" fill={c.primary} />
+      )}
       <text x="8" y="40" fill={c.accent} fontSize="28" fontWeight="900">{PAGE_001_REFERENCE.id.split(' ')[1]}</text>
       <text x="8" y="100" fill={c.secondary} fontSize="11" fontWeight="700">CREDIT</text>
       <text x="8" y="118" fill={c.secondary} fontSize="11" fontWeight="700">SCORE</text>
@@ -102,8 +126,21 @@ function KineticFeedTile({ gs }: { gs?: boolean }) {
   );
 }
 
-function KineticSignalGraphic({ gs }: { gs?: boolean }) {
+function KineticSignalGraphic({ gs, imageUrl }: { gs?: boolean; imageUrl?: string }) {
   const c = paletteFromGrayscale(gs, { primary: '#0F172A', secondary: '#E2E8F0', accent: '#666' });
+  if (imageUrl) {
+    return (
+      <svg viewBox="0 0 280 120" className="site00-cd-specimen__svg site00-cd-specimen__svg--imaged" aria-hidden="true">
+        <defs>
+          <clipPath id="ndx-kf-signal-clip"><rect width="280" height="120" /></clipPath>
+        </defs>
+        <g clipPath="url(#ndx-kf-signal-clip)">
+          <image href={imageUrl} x="0" y="0" width="280" height="120" preserveAspectRatio="xMidYMid slice" />
+        </g>
+        <text x="14" y="18" fill={c.secondary} fontSize="7" fontWeight="700" letterSpacing="1">TECH</text>
+      </svg>
+    );
+  }
   return (
     <svg viewBox="0 0 280 120" className="site00-cd-specimen__svg" aria-hidden="true">
       <rect width="280" height="120" fill={c.primary} />
@@ -127,8 +164,21 @@ function KineticTypography({ gs }: { gs?: boolean }) {
   );
 }
 
-function KineticDarkLight({ gs }: { gs?: boolean }) {
+function KineticDarkLight({ gs, imageUrl }: { gs?: boolean; imageUrl?: string }) {
   const c = paletteFromGrayscale(gs, { primary: '#0F172A', secondary: '#E2E8F0', accent: '#666' });
+  if (imageUrl) {
+    return (
+      <svg viewBox="0 0 280 100" className="site00-cd-specimen__svg site00-cd-specimen__svg--imaged" aria-hidden="true">
+        <defs>
+          <clipPath id="ndx-kf-darklight-clip"><rect width="280" height="100" /></clipPath>
+        </defs>
+        <g clipPath="url(#ndx-kf-darklight-clip)">
+          <image href={imageUrl} x="0" y="0" width="280" height="100" preserveAspectRatio="xMidYMid slice" />
+        </g>
+        <text x="14" y="18" fill={c.secondary} fontSize="7" fontWeight="700" letterSpacing="1">BODY</text>
+      </svg>
+    );
+  }
   return (
     <svg viewBox="0 0 280 100" className="site00-cd-specimen__svg" aria-hidden="true">
       <rect x="0" y="0" width="130" height="100" fill={c.primary} />
@@ -158,7 +208,8 @@ function KineticWordmark({ gs }: { gs?: boolean }) {
   return <KineticTitleFrame gs={gs} />;
 }
 
-const SPECIMEN_MAP: Record<string, ComponentType<{ gs?: boolean }>> = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const SPECIMEN_MAP: Record<string, ComponentType<any>> = {
   motion_title_frame: KineticTitleFrame,
   hook_frame_916: KineticHook916,
   page_001_kinetic: KineticPage001,
@@ -191,8 +242,15 @@ export function KineticFieldTerritoryView({ specimens, options }: TerritoryViewP
                   ? 'wide'
                   : 'default';
           return (
-            <SpecimenFrame key={spec.id} title={spec.title} status={spec.status} hideLabels={hide} layout={layout}>
-              <Comp gs={gs} />
+            <SpecimenFrame
+              key={spec.id}
+              title={spec.title}
+              status={spec.status}
+              hideLabels={hide}
+              layout={layout}
+              provenance={spec.imageAsset ?? undefined}
+            >
+              <Comp gs={gs} imageUrl={spec.imageAsset?.url} />
             </SpecimenFrame>
           );
         })}

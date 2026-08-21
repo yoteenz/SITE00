@@ -11,8 +11,21 @@ export type TerritoryRenderOptions = {
   structuralDiffMode?: boolean;
 };
 
+export type SpecimenImageAsset = {
+  url: string;
+  approvalState: string;
+  model: string;
+  volume?: string;
+};
+
 export type TerritoryViewProps = {
-  specimens: Array<{ id: string; specimenType: string; title: string; status: string }>;
+  specimens: Array<{
+    id: string;
+    specimenType: string;
+    title: string;
+    status: string;
+    imageAsset?: SpecimenImageAsset | null;
+  }>;
   options?: TerritoryRenderOptions;
 };
 

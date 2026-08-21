@@ -89,6 +89,22 @@ export type KineticFieldSpecimenType =
 
 export type TerritorySpecimenType = IndexSignalSpecimenType | EditorialUtilitySpecimenType | KineticFieldSpecimenType;
 
+/** Truthful generation/approval state for a real FAL-produced visual asset. GENERATED never implies APPROVED. */
+export type CreativeAssetApprovalState = 'GENERATED' | 'PROPOSED' | 'APPROVED';
+
+export type TerritorySpecimenImageAsset = {
+  url: string;
+  storagePath: string;
+  model: string;
+  volume: string;
+  role: 'PAGE_001_PRIMARY' | 'PAGE_001_SECONDARY' | 'VOLUME_PROOF' | 'TEXTURE_MATERIAL';
+  brief: string;
+  negativePrompt: string;
+  generatedAt: string;
+  approvalState: CreativeAssetApprovalState;
+  provenance: Record<string, unknown>;
+};
+
 export type TerritorySpecimen = {
   id: string;
   territoryId: string;
@@ -98,6 +114,8 @@ export type TerritorySpecimen = {
   renderSpec: Record<string, unknown>;
   generationJobId: string | null;
   provenance: Record<string, unknown>;
+  /** Present only when a real FAL-generated asset has been produced for this specimen. Never auto-approved. */
+  imageAsset?: TerritorySpecimenImageAsset | null;
 };
 
 export type CreativeTerritory = {

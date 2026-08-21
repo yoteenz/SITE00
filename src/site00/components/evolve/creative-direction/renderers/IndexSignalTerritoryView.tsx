@@ -48,6 +48,29 @@ function IndexPageCatalog({ gs }: { gs?: boolean }) {
   );
 }
 
+/** Page 001 — the strongest Index Signal specimen. Falls back to the diagram treatment when no generated artifact exists yet. */
+function IndexPage001Artifact({ gs, imageUrl }: { gs?: boolean; imageUrl?: string }) {
+  const c = paletteFromGrayscale(gs, { primary: '#0A0A0B', secondary: '#F4F4F5', accent: '#888' });
+  if (!imageUrl) return <IndexPageCatalog gs={gs} />;
+  return (
+    <svg viewBox="0 0 280 360" className="site00-cd-specimen__svg site00-cd-specimen__svg--imaged" aria-hidden="true">
+      <defs>
+        <clipPath id="ndx-idx-p001-clip"><rect width="280" height="360" /></clipPath>
+      </defs>
+      <g clipPath="url(#ndx-idx-p001-clip)">
+        <image href={imageUrl} x="0" y="0" width="280" height="360" preserveAspectRatio="xMidYMid slice" />
+        <rect x="0" y="0" width="280" height="94" fill={c.secondary} opacity={gs ? 0.85 : 0.72} />
+        <rect x="0" y="330" width="280" height="30" fill={c.primary} opacity="0.85" />
+      </g>
+      <text x="16" y="24" fill={c.accent} fontSize="10" fontFamily="monospace" fontWeight="700">{PAGE_001_REFERENCE.id}</text>
+      <text x="16" y="42" fill={c.primary} fontSize="7" fontFamily="monospace">VOL · {PAGE_001_REFERENCE.volume} · {PAGE_001_REFERENCE.chapter}</text>
+      <text x="16" y="60" fill={c.primary} fontSize="9" fontWeight="700">{PAGE_001_REFERENCE.topic}</text>
+      <text x="16" y="78" fill={c.primary} fontSize="6" fontFamily="monospace" opacity="0.7">ARCHIVE CODE · NDX-MNY-001-A</text>
+      <text x="16" y="351" fill={c.secondary} fontSize="6" fontFamily="monospace">INDEXED KNOWLEDGE ARTIFACT — CROSS-REFERENCED ENTRY</text>
+    </svg>
+  );
+}
+
 function IndexVolumeRegistry({ gs }: { gs?: boolean }) {
   const c = paletteFromGrayscale(gs, { primary: '#0A0A0B', secondary: '#F4F4F5', accent: '#888' });
   return (
@@ -67,53 +90,104 @@ function IndexVolumeRegistry({ gs }: { gs?: boolean }) {
   );
 }
 
-function IndexCrossRefMap({ gs }: { gs?: boolean }) {
+function IndexCrossRefMap({ gs, imageUrl }: { gs?: boolean; imageUrl?: string }) {
   const c = paletteFromGrayscale(gs, { primary: '#0A0A0B', secondary: '#F4F4F5', accent: '#888' });
   return (
-    <svg viewBox="0 0 360 200" className="site00-cd-specimen__svg" aria-hidden="true">
-      <rect width="360" height="200" fill={c.secondary} />
-      <circle cx="60" cy="100" r="28" fill="none" stroke={c.primary} strokeWidth="1" />
-      <text x="48" y="104" fill={c.primary} fontSize="7" fontFamily="monospace">PAGE</text>
+    <svg viewBox="0 0 360 200" className="site00-cd-specimen__svg site00-cd-specimen__svg--imaged" aria-hidden="true">
+      {imageUrl ? (
+        <defs>
+          <clipPath id="ndx-idx-xref-clip"><rect width="360" height="200" /></clipPath>
+        </defs>
+      ) : null}
+      {imageUrl ? (
+        <g clipPath="url(#ndx-idx-xref-clip)">
+          <image href={imageUrl} x="0" y="0" width="360" height="200" preserveAspectRatio="xMidYMid slice" />
+          <rect x="230" y="0" width="130" height="200" fill={c.secondary} opacity={gs ? 0.9 : 0.82} />
+        </g>
+      ) : (
+        <rect width="360" height="200" fill={c.secondary} />
+      )}
+      <circle cx="60" cy="100" r="28" fill="none" stroke={imageUrl ? c.secondary : c.primary} strokeWidth="1" opacity={imageUrl ? 0.85 : 1} />
+      <text x="48" y="104" fill={imageUrl ? c.secondary : c.primary} fontSize="7" fontFamily="monospace">PAGE</text>
       <circle cx="180" cy="60" r="22" fill="none" stroke={c.accent} strokeWidth="1" />
       <text x="168" y="64" fill={c.accent} fontSize="6" fontFamily="monospace">CH</text>
       <circle cx="180" cy="140" r="22" fill="none" stroke={c.accent} strokeWidth="1" />
       <text x="168" y="144" fill={c.accent} fontSize="6" fontFamily="monospace">VOL</text>
       <circle cx="300" cy="100" r="28" fill="none" stroke={c.primary} strokeWidth="1" />
       <text x="282" y="104" fill={c.primary} fontSize="7" fontFamily="monospace">XREF</text>
-      <line x1="88" y1="92" x2="158" y2="68" stroke={c.primary} strokeWidth="0.5" />
-      <line x1="88" y1="108" x2="158" y2="132" stroke={c.primary} strokeWidth="0.5" />
+      <line x1="88" y1="92" x2="158" y2="68" stroke={imageUrl ? c.secondary : c.primary} strokeWidth="0.5" opacity={imageUrl ? 0.85 : 1} />
+      <line x1="88" y1="108" x2="158" y2="132" stroke={imageUrl ? c.secondary : c.primary} strokeWidth="0.5" opacity={imageUrl ? 0.85 : 1} />
       <line x1="202" y1="100" x2="272" y2="100" stroke={c.primary} strokeWidth="0.5" strokeDasharray="3 2" />
+      {imageUrl ? <text x="238" y="20" fill={c.primary} fontSize="6" fontFamily="monospace" opacity="0.7">ARCHIVE TEXTURE</text> : null}
     </svg>
   );
 }
 
-function IndexSocial916({ gs }: { gs?: boolean }) {
+function IndexSocial916({ gs, imageUrl }: { gs?: boolean; imageUrl?: string }) {
   const c = paletteFromGrayscale(gs, { primary: '#0A0A0B', secondary: '#F4F4F5', accent: '#888' });
   return (
-    <svg viewBox="0 0 108 192" className="site00-cd-specimen__svg" aria-hidden="true">
-      <rect width="108" height="192" fill={c.secondary} />
-      <rect x="0" y="0" width="20" height="192" fill={c.primary} />
+    <svg viewBox="0 0 108 192" className="site00-cd-specimen__svg site00-cd-specimen__svg--imaged" aria-hidden="true">
+      {imageUrl ? (
+        <>
+          <defs>
+            <clipPath id="ndx-idx-soc916-clip"><rect x="20" width="88" height="192" /></clipPath>
+          </defs>
+          <rect x="0" y="0" width="20" height="192" fill={c.primary} />
+          <g clipPath="url(#ndx-idx-soc916-clip)">
+            <image href={imageUrl} x="20" y="0" width="88" height="192" preserveAspectRatio="xMidYMid slice" />
+            <rect x="20" y="0" width="88" height="56" fill={c.secondary} opacity={gs ? 0.88 : 0.78} />
+            <rect x="20" y="140" width="88" height="52" fill={c.primary} opacity="0.72" />
+          </g>
+        </>
+      ) : (
+        <rect width="108" height="192" fill={c.secondary} />
+      )}
+      {!imageUrl ? <rect x="0" y="0" width="20" height="192" fill={c.primary} /> : null}
       <text x="4" y="24" fill={c.secondary} fontSize="5" fontFamily="monospace" transform="rotate(-90 4 24)">001</text>
-      <text x="28" y="32" fill={c.accent} fontSize="7" fontFamily="monospace">MONEY</text>
-      <text x="28" y="52" fill={c.primary} fontSize="8" fontWeight="700">CREDIT</text>
-      <text x="28" y="64" fill={c.primary} fontSize="8" fontWeight="700">SCORE</text>
-      <rect x="28" y="72" width="68" height="1" fill={c.primary} />
-      <text x="28" y="88" fill={c.primary} fontSize="5" fontFamily="monospace">INDEX CARD · 9:16</text>
-      <rect x="28" y="150" width="68" height="24" fill="none" stroke={c.primary} strokeWidth="0.5" />
-      <text x="32" y="166" fill={c.primary} fontSize="5" fontFamily="monospace">NDX-MNY-001</text>
+      <text x="28" y="32" fill={c.accent} fontSize="7" fontFamily="monospace">BODY</text>
+      <text x="28" y="52" fill={c.primary} fontSize="8" fontWeight="700">INDEXED</text>
+      <text x="28" y="64" fill={c.primary} fontSize="8" fontWeight="700">REFERENCE</text>
+      <rect x="28" y="72" width="68" height="1" fill={c.primary} opacity={imageUrl ? 0 : 1} />
+      <text x="28" y="88" fill={c.primary} fontSize="5" fontFamily="monospace" opacity={imageUrl ? 0 : 1}>INDEX CARD · 9:16</text>
+      <rect x="28" y="152" width="68" height="24" fill="none" stroke={c.secondary} strokeWidth="0.5" opacity={imageUrl ? 1 : 0} />
+      <text x="32" y="168" fill={c.secondary} fontSize="5" fontFamily="monospace" opacity={imageUrl ? 1 : 0}>NDX-BDY-001</text>
+      {!imageUrl ? (
+        <>
+          <rect x="28" y="150" width="68" height="24" fill="none" stroke={c.primary} strokeWidth="0.5" />
+          <text x="32" y="166" fill={c.primary} fontSize="5" fontFamily="monospace">NDX-MNY-001</text>
+        </>
+      ) : null}
     </svg>
   );
 }
 
-function IndexFeedTile({ gs }: { gs?: boolean }) {
+function IndexFeedTile({ gs, imageUrl }: { gs?: boolean; imageUrl?: string }) {
   const c = paletteFromGrayscale(gs, { primary: '#0A0A0B', secondary: '#F4F4F5', accent: '#888' });
   return (
-    <svg viewBox="0 0 120 120" className="site00-cd-specimen__svg" aria-hidden="true">
-      <rect width="120" height="120" fill={c.primary} />
-      <text x="8" y="20" fill={c.secondary} fontSize="6" fontFamily="monospace">001</text>
-      <text x="8" y="40" fill={c.secondary} fontSize="9" fontWeight="700">NDX</text>
-      <line x1="8" y1="48" x2="112" y2="48" stroke={c.accent} strokeWidth="1" />
-      <text x="8" y="64" fill={c.secondary} fontSize="5" fontFamily="monospace">MONEY · INDEX</text>
+    <svg viewBox="0 0 120 120" className="site00-cd-specimen__svg site00-cd-specimen__svg--imaged" aria-hidden="true">
+      {imageUrl ? (
+        <>
+          <defs>
+            <clipPath id="ndx-idx-feed-clip"><rect width="120" height="120" /></clipPath>
+          </defs>
+          <g clipPath="url(#ndx-idx-feed-clip)">
+            <image href={imageUrl} x="0" y="0" width="120" height="120" preserveAspectRatio="xMidYMid slice" />
+            <rect x="0" y="0" width="120" height="42" fill={c.primary} opacity="0.78" />
+          </g>
+        </>
+      ) : (
+        <rect width="120" height="120" fill={c.primary} />
+      )}
+      <text x="8" y="18" fill={c.secondary} fontSize="6" fontFamily="monospace">001</text>
+      <text x="8" y="36" fill={c.secondary} fontSize="9" fontWeight="700">{imageUrl ? 'MIND' : 'NDX'}</text>
+      {!imageUrl ? (
+        <>
+          <line x1="8" y1="48" x2="112" y2="48" stroke={c.accent} strokeWidth="1" />
+          <text x="8" y="64" fill={c.secondary} fontSize="5" fontFamily="monospace">MONEY · INDEX</text>
+        </>
+      ) : (
+        <text x="8" y="112" fill={c.secondary} fontSize="5" fontFamily="monospace">MIND · INDEX</text>
+      )}
     </svg>
   );
 }
@@ -179,10 +253,11 @@ function IndexMotionStoryboard({ gs }: { gs?: boolean }) {
   );
 }
 
-const SPECIMEN_MAP: Record<string, ComponentType<{ gs?: boolean }>> = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const SPECIMEN_MAP: Record<string, ComponentType<any>> = {
   brand_index_card: IndexBrandCard,
   page_catalog_system: IndexPageCatalog,
-  page_001_indexed: IndexPageCatalog,
+  page_001_indexed: IndexPage001Artifact,
   volume_registry: IndexVolumeRegistry,
   cross_reference_map: IndexCrossRefMap,
   social_knowledge_card_916: IndexSocial916,
@@ -212,8 +287,15 @@ export function IndexSignalTerritoryView({ specimens, options }: TerritoryViewPr
                   ? 'wide'
                   : 'default';
           return (
-            <SpecimenFrame key={spec.id} title={spec.title} status={spec.status} hideLabels={hide} layout={layout}>
-              <Comp gs={gs} />
+            <SpecimenFrame
+              key={spec.id}
+              title={spec.title}
+              status={spec.status}
+              hideLabels={hide}
+              layout={layout}
+              provenance={spec.imageAsset ?? undefined}
+            >
+              <Comp gs={gs} imageUrl={spec.imageAsset?.url} />
             </SpecimenFrame>
           );
         })}
