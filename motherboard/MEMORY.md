@@ -2227,3 +2227,12 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Conventions:** Raw founder answers stay in intake `loreAnswers`; synthesized profile is separate with per-field provenance (`RAW_FOUNDER_INPUT`, `FOUNDER_CONFIRMED`). Never auto-confirm AI synthesis. NDXBOOK canon unchanged. Builder must not re-ask Identity lore fields listed in `BUILDER_INHERITED_LORE_FIELDS`.
 
+---
+
+## 2026-08-21 — Cloudflare preview tunnel restart (fresh VM)
+
+- **Request:** Restart the preview tunnel.
+- **Context:** Fresh cloud agent VM — no tmux server was running at all (neither `site00-vite` nor `site00-preview-tunnel` existed yet), so this was a from-scratch bring-up, not just a kill/relaunch.
+- **Action:** Created `site00-vite` tmux session, ran `npm run dev` (Vite already defaults to `--port 5174 --host`) with `SITE00_CLOUD_MOBILE_PREVIEW=1`. `/tmp/cloudflared` binary was missing — downloaded `cloudflared-linux-amd64` from GitHub releases (v2026.8.2), `chmod +x`. Created `site00-preview-tunnel` tmux session running `/tmp/cloudflared tunnel --no-autoupdate run --token "$SITE00_CLOUDFLARE_TUNNEL_TOKEN"`. 4 QUIC connections registered, precheck healthy, ingress config resolved hostname → `http://localhost:5174`. Refreshed `/tmp/site00-cloud-preview-url.txt`; confirmed `curl` to the tunnel hostname returns `200`.
+- **Convention reinforced:** On a brand-new VM, don't assume `site00-vite`/`site00-preview-tunnel` tmux sessions or `/tmp/cloudflared` exist — check `tmux ls` and `ls /tmp/cloudflared` first and bootstrap both if absent, same steps as a warm restart.
+
