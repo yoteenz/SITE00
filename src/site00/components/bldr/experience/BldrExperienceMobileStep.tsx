@@ -24,10 +24,13 @@ type BldrExperienceMobileStepProps = {
 };
 
 function toLoreStep(step: NonNullable<ReturnType<typeof getExperienceQuestion>>, title: string): LoreQuestionStep {
+  const responseMode =
+    step.type === 'textarea' ? 'FREE_TEXT' : step.type === 'multi' ? 'MULTI_SELECT' : 'SINGLE_SELECT';
   return {
     id: step.id,
     title,
     subtitle: step.subtitle,
+    responseMode,
     type: step.type === 'textarea' ? 'textarea' : step.type,
     options: step.options,
     maxLength: step.maxLength,

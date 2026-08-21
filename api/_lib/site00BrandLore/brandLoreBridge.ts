@@ -34,15 +34,16 @@ export function brandLoreReadinessGate(profile: BrandLoreProfile | null): {
   };
 }
 
-/** NDXBOOK pilot uses Content Brain canon — do not block existing CD on lore readiness. */
-export function shouldEnforceLoreReadinessGate(orgSlug: string, profile: BrandLoreProfile | null): boolean {
-  if (orgSlug === 'ndxbook') return false;
+/** Enforce lore readiness gate whenever a Brand Lore profile exists — no org bypass. */
+export function shouldEnforceLoreReadinessGate(_orgSlug: string, profile: BrandLoreProfile | null): boolean {
   return profile !== null;
 }
 
 export function brandLoreLineageEntries(profile: BrandLoreProfile): string[] {
   const entries: string[] = [];
-  if (profile.audienceRelationship.value) entries.push(`audienceRelationship: ${profile.audienceRelationship.value}`);
+  if (profile.audienceRelationship.value?.length) {
+    entries.push(`audienceRelationship: ${profile.audienceRelationship.value.join(' + ')}`);
+  }
   if (profile.worldMetaphor.value) entries.push(`worldMetaphor: ${profile.worldMetaphor.value}`);
   if (profile.culturalOpposition.value?.length) entries.push(`culturalOpposition: ${profile.culturalOpposition.value.join(', ')}`);
   if (profile.coreObsessions.value) entries.push(`coreObsessions: ${profile.coreObsessions.value}`);

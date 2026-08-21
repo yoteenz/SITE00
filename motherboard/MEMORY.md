@@ -2211,3 +2211,28 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Conventions:** Raw founder answers stay in intake `loreAnswers`; synthesized profile is separate with per-field provenance (`RAW_FOUNDER_INPUT`, `FOUNDER_CONFIRMED`). Never auto-confirm AI synthesis. NDXBOOK canon unchanged. Builder must not re-ask Identity lore fields listed in `BUILDER_INHERITED_LORE_FIELDS`.
 
+---
+
+## 2026-08-21 — Brand Lore semantic multi-selection + compound identity intelligence
+
+- **Context:** NDX BOOK calibration QA exposed intelligence-loss defect: `role` and other lore questions behaved as single-select when multiple answers can coexist. Sprint upgrades question model at data-contract level — brand-agnostic, no NDX hardcoding.
+
+- **Forensic audit:** `role` was `type: 'single'` in question registry; synthesis used `strAnswer()` flattening role to scalar; `audienceRelationship` was `BrandLoreField<string>`. UI (`IdentityLoreStepForm`) already supported multi toggle when `type: 'multi'` but role was mis-typed. No `ProjectLoreCalibrationPage` exists — Identity lore routes at `/idnty/:slug/world/:stepId`. ProjectLoreCalibration not in repo.
+
+- **Implementation:**
+  - `LoreResponseMode`: SINGLE_SELECT | MULTI_SELECT | RANKED_MULTI_SELECT | FREE_TEXT on every question definition
+  - `role` → MULTI_SELECT; feeling, enemy, contradiction, objects, ritual remain MULTI; status stays SINGLE; free-text questions explicit FREE_TEXT
+  - `shared/site00-brand-lore/loreAnswerTypes.ts` — normalization, serialization, compound label formatting, backward-compat scalar→array migration
+  - `audienceRelationship` → `BrandLoreField<string[]>` with `sourceSelectionIds` per option provenance
+  - Synthesis uses compound select fields — all selections preserved as label arrays, no flattening to first/last
+  - Founder confirmation invalidated when underlying selections change (`priorProfile` compare in synthesis)
+  - WHAT WE HEARD uses ` + ` compound presentation with resolved option labels
+  - Removed NDXBOOK readiness gate bypass — gate enforced whenever Brand Lore profile exists
+  - UI: selection guidance copy, SELECTED marker on multi-select rows
+
+- **Tests:** 20 new `loreAnswerTypes.test.ts` cases. **558/558 PASS**. Build PASS. Browser QA on role multi-select at 390px.
+
+- **Branch:** `cursor/brand-lore-semantic-multi-select-1983`. PR opened, not merged.
+
+- **Conventions:** Question definition owns `responseMode` — never infer from option count. Multi-select persists as JSON arrays in `loreAnswers` / `rawLoreAnswers`. Do not comma-delimit or flatten before persistence.
+

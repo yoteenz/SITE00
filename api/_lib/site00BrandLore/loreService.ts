@@ -53,6 +53,7 @@ export async function upsertLoreFromIdentityIntake(params: {
       goals: extractOperationalGoals(operational),
     },
     existingProfileId: existing?.id ?? (params.draftPayload.brandLoreProfileId as string | null),
+    priorProfile: existing,
   };
 
   const profile = synthesizeBrandLoreProfile(input);
