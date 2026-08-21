@@ -8,7 +8,9 @@ import {
   REQUIRED_DOMAINS,
 } from './readiness.js';
 import { IDNTY_LORE_QUESTIONS } from './idnty-lore-questions.js';
-import { BUILDER_INHERITED_LORE_FIELDS } from './bldr-experience-questions.js';
+import { BUILDER_INHERITED_LORE_FIELDS, BLDR_EXPERIENCE_QUESTIONS, bldrExperienceFirstStep, bldrExperienceNextStep } from './bldr-experience-questions.js';
+import { buildReadinessInspector } from './readiness.js';
+import { synthesizeBrandLoreProfile, mergeCalibrationIntoProfile } from './loreSynthesis.js';
 import type { BrandLoreProfile } from './types.js';
 
 function minimalProfile(overrides: Partial<BrandLoreProfile> = {}): BrandLoreProfile {
@@ -50,6 +52,7 @@ function minimalProfile(overrides: Partial<BrandLoreProfile> = {}): BrandLorePro
     creativeAntiPatterns: emptyField(['corporate stock photos']),
     signatureDeviceSeeds: emptyField(null),
     rawLoreAnswers: {},
+    referenceEvidence: [],
     contextClassification: 'SOCIAL_FIRST_EDITORIAL',
     readinessState: 'CORE_DIRECTION_READY',
     readinessMissingDomains: [],
@@ -147,5 +150,139 @@ describe('SITE 00 brand lore — shared module', () => {
     expect(BUILDER_INHERITED_LORE_FIELDS).toContain('worldMetaphor');
     expect(BUILDER_INHERITED_LORE_FIELDS).toContain('creativeAntiPatterns');
     expect(BUILDER_INHERITED_LORE_FIELDS).not.toContain('primaryEntryBehavior');
+  });
+
+  it('15. readiness inspector reports READY/MISSING per domain without fake percentages (XXXIV)', () => {
+    const rows = buildReadinessInspector(minimalProfile());
+    expect(rows).toHaveLength(REQUIRED_DOMAINS.length);
+    expect(rows.every((r) => ['READY', 'MISSING', 'NEEDS_CONFIRMATION'].includes(r.status))).toBe(true);
+    expect(buildReadinessInspector(null).every((r) => r.status === 'MISSING')).toBe(true);
+  });
+
+  it('16. readiness inspector distinguishes NEEDS_CONFIRMATION from READY', () => {
+    const profile = minimalProfile();
+    const rows = buildReadinessInspector(profile);
+    // brandBelief/coreObsessions back PURPOSE and are not CONFIRMED in the fixture.
+    expect(rows.find((r) => r.domain === 'PURPOSE')?.status).toBe('NEEDS_CONFIRMATION');
+    profile.brandBelief.founderConfirmationState = 'CONFIRMED';
+    expect(buildReadinessInspector(profile).find((r) => r.domain === 'PURPOSE')?.status).toBe('READY');
+  });
+
+  it('17. Builder Experience Translation chain reaches all 11 domains exactly once', () => {
+    expect(BLDR_EXPERIENCE_QUESTIONS).toHaveLength(11);
+    const visited: string[] = [bldrExperienceFirstStep()];
+    let current: string | null = visited[0]!;
+    while ((current = bldrExperienceNextStep(current))) visited.push(current);
+    expect(visited).toHaveLength(11);
+    expect(new Set(visited).size).toBe(11);
+    expect(new Set(visited)).toEqual(new Set(BLDR_EXPERIENCE_QUESTIONS.map((q) => q.id)));
+  });
+
+  it('18. mergeCalibrationIntoProfile applies new calibration answers without losing unrelated existing content', () => {
+    const existing = minimalProfile({
+      sourceIntakeType: 'CONTENT_BRAIN',
+      sourceIntakeId: 'content-brain:org-1',
+      organizationId: 'org-1',
+      coreObsessions: {
+        value: 'the index for everyday knowledge.',
+        classification: 'SYNTHESIZED',
+        confidence: 'MEDIUM',
+        sourceAnswerIds: ['content_brain:brand.positioning'],
+        sourceType: 'CONTENT_BRAIN',
+        founderConfirmationState: 'PENDING',
+        updatedAt: new Date().toISOString(),
+      },
+      worldMetaphor: {
+        value: null,
+        classification: 'UNKNOWN',
+        confidence: 'NONE',
+        sourceAnswerIds: [],
+        sourceType: 'UNKNOWN',
+        founderConfirmationState: 'NOT_APPLICABLE',
+        updatedAt: new Date().toISOString(),
+      },
+      rawLoreAnswers: {},
+    });
+
+    const fresh = synthesizeBrandLoreProfile({
+      loreAnswers: { world: 'a place built entirely out of index cards' },
+      sourceIntakeId: 'calibration:org-1',
+      organizationId: 'org-1',
+    });
+
+    const merged = mergeCalibrationIntoProfile(existing, fresh);
+    // The newly answered domain is populated…
+    expect(merged.worldMetaphor.value).toBe('a place built entirely out of index cards');
+    // …and the pre-existing Content Brain field is NOT wiped by the narrow calibration answer.
+    expect(merged.coreObsessions.value).toBe('the index for everyday knowledge.');
+    expect(merged.coreObsessions.sourceType).toBe('CONTENT_BRAIN');
+    // Lineage identity is preserved so this durably upserts the same row.
+    expect(merged.sourceIntakeType).toBe('CONTENT_BRAIN');
+    expect(merged.sourceIntakeId).toBe('content-brain:org-1');
+    expect(merged.organizationId).toBe('org-1');
+  });
+
+  it('19. synthesis derives structured reference evidence from lineage/now answers with full lineage (XXI)', () => {
+    const profile = synthesizeBrandLoreProfile({
+      loreAnswers: {
+        lineage: 'Magazines\nDocumentary films',
+        now: 'Editorial Instagram accounts',
+      },
+      sourceIntakeId: 'intake-ref-1',
+      organizationId: 'org-ref-1',
+      projectId: 'project-ref-1',
+    });
+    expect(profile.referenceEvidence).toHaveLength(3);
+    for (const ref of profile.referenceEvidence) {
+      expect(ref.intakeId).toBe('intake-ref-1');
+      expect(ref.organizationId).toBe('org-ref-1');
+      expect(ref.projectId).toBe('project-ref-1');
+      expect(ref.source).toBe('TEXT');
+      expect(ref.assetId).toBeNull();
+      expect(typeof ref.referenceId).toBe('string');
+      expect(typeof ref.createdAt).toBe('string');
+    }
+    expect(profile.referenceEvidence.map((r) => r.founderNote)).toEqual([
+      'Magazines',
+      'Documentary films',
+      'Editorial Instagram accounts',
+    ]);
+  });
+
+  it('20. reference evidence is REFERENCE, not FOUNDER_CONFIRMED lore (XXII) — no classification field on the entry at all', () => {
+    const profile = synthesizeBrandLoreProfile({
+      loreAnswers: { lineage: 'Old family photographs' },
+      sourceIntakeId: 'intake-ref-2',
+    });
+    const ref = profile.referenceEvidence[0]!;
+    expect(ref).not.toHaveProperty('classification');
+    expect(ref).not.toHaveProperty('founderConfirmationState');
+    expect(ref.referenceRole).toBe('CULTURAL_REFERENCE');
+  });
+
+  it('21. mergeCalibrationIntoProfile never wipes existing reference evidence when calibration answers omit references', () => {
+    const existing = minimalProfile({
+      referenceEvidence: [
+        {
+          referenceId: 'ref-1',
+          source: 'TEXT',
+          assetId: null,
+          intakeId: 'content-brain:org-1',
+          projectId: null,
+          organizationId: 'org-1',
+          founderNote: 'archival ephemera',
+          referenceRole: 'CULTURAL_REFERENCE',
+          createdAt: new Date().toISOString(),
+        },
+      ],
+    });
+    const fresh = synthesizeBrandLoreProfile({
+      loreAnswers: { role: 'guide' },
+      sourceIntakeId: 'calibration:org-1',
+      organizationId: 'org-1',
+    });
+    const merged = mergeCalibrationIntoProfile(existing, fresh);
+    expect(merged.referenceEvidence).toHaveLength(1);
+    expect(merged.referenceEvidence[0]?.founderNote).toBe('archival ephemera');
   });
 });

@@ -4,6 +4,8 @@
 export {
   synthesizeBrandLoreProfile,
   assertSynthesisGrounded,
+  mergePreservingFounderConfirmations,
+  mergeCalibrationIntoProfile,
   extractOperationalProjectTypes,
   extractOperationalGoals,
   type LoreSynthesisInput,
