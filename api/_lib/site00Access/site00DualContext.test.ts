@@ -73,9 +73,9 @@ describe('SITE 00 founder dual-context access', () => {
     expect(inferExperienceContextFromPath('/projects/ndxbook/creative-direction')).toBe('CLIENT');
   });
 
-  it('6. founder can open PROJECTS — resolver lists three projects', async () => {
+  it('6. founder can open PROJECTS — resolver lists four projects', async () => {
     const projects = await listSite00FounderProjects();
-    expect(projects.length).toBe(3);
+    expect(projects.length).toBe(4);
     assertNoDemoProjectsInIndex(projects);
   });
 
@@ -175,10 +175,10 @@ describe('SITE 00 founder dual-context access', () => {
     expect(canAccessFounderProjectAsOwner(CLIENT_EMAIL, 'ndxbook')).toBe(false);
   });
 
-  it('21. organization isolation — three unique UUIDs in index', async () => {
+  it('21. organization isolation — four unique UUIDs in index', async () => {
     const payload = await getSite00ProjectsIndexPayload();
     const uuids = new Set(payload.projects.map((p) => p.organizationUuid));
-    expect(uuids.size).toBe(3);
+    expect(uuids.size).toBe(4);
   });
 
   it('22. founder project resolver does not aggregate cross-org data in single project', async () => {

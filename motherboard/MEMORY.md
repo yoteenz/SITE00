@@ -2175,3 +2175,17 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Changes:** `Site00SignInForm.tsx`, `site00SignInActions.ts`, `site00-auth.css`. Build PASS.
 
+---
+
+## 2026-08-21 — AIO project index integration (founder Projects)
+
+- **Context:** Follow-up sprint after Real Project Index + Command Surface, Founder Dual-Context Access, and Runtime Repair. Founder Projects index had three canonical projects (Frontal Slayer, Studio World, ndxbook) but omitted **ALL IN ONE ENTERPRISES** despite AIO already existing in EVOLVE + orchestration registries.
+
+- **Forensic audit:** Canonical slug `all-in-one-enterprises`; production UUID `3781f0b7-cbc5-470d-8af7-69b97cfa5729`; classification `MANAGED_BRAND`; orchestration `EXISTING_ACTIVE_PROJECT` with `MISSING_EVIDENCE` reconciliation; repository `UNVERIFIED` / `NOT_ACCESSIBLE`; EVOLVE profile `POST_LAUNCH` (trucking/logistics); social channels `DEFERRED_BY_OWNER`; no duplicate org needed.
+
+- **Implementation:** Added AIO to `FOUNDER_PROJECTS` in `api/_lib/site00Projects/projectRegistry.ts` and extended `Site00FounderProjectSlug` union. `projectResolver.ts` reuses canonical org UUID, merges EVOLVE deferred command items (Social Marketing stays DEFERRED not BLOCKED), derives POST LAUNCH phase + operations production state, surfaces OPERATIONS admin route, and reports truthful repository connection (`UNAVAILABLE — NEEDS CONFIGURATION`) from orchestration store. `ProjectDetailPage` shows repository row + deferred command items; `ProjectEvolvePage` shows privileged utilities for all founder projects (removed hardcoded slug whitelist).
+
+- **Tests:** New `aioProjectIndex.test.ts` (21 cases) + updated founder-index count regressions (3→4) in `site00Projects.test.ts`, `projectsIndexContract.test.ts`, `site00DualContext.test.ts`. Full suite 507/507 PASS. Build PASS.
+
+- **Conventions:** Do not create duplicate AIO org/UUID/EVOLVE profile. Social marketing deferral is owner decision — never a launch blocker. Missing GitHub repo evidence must not remove AIO from founder index; show partial/truthful enrichment instead.
+
