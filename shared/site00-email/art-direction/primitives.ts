@@ -24,7 +24,10 @@ img{border:0;display:block;outline:none;text-decoration:none;-ms-interpolation-m
 .cta-cell{display:block!important;width:100%!important}
 .cred-slab{margin-bottom:16px!important}
 .qr-cell{padding-top:12px!important;text-align:left!important}
+.intake-desktop-only{display:none!important}
+.intake-mobile-only{display:block!important}
 }
+.intake-mobile-only{display:none;mso-hide:all;}
 </style>
 </head>
 <body style="margin:0;padding:0;background:${params.bg};">

@@ -123,6 +123,16 @@ export type EmailTemplateVars = {
   secureViewUrl?: string;
   accountClaimUrl?: string;
   nextStep?: string;
+  /**
+   * Intake Access email family (FAL-native visual production pilot). `intakeStatusDisplay` and
+   * `intakeLastSavedAtDisplay` are the canonical intake record's status/lastSavedAt formatted for
+   * display. `intakeCompletionPercent` is ONLY set when a truthful figure is derivable from
+   * currentStep/totalSteps — never fabricated; the template renders a non-numeric "IN PROGRESS"
+   * treatment when it is undefined.
+   */
+  intakeStatusDisplay?: string;
+  intakeLastSavedAtDisplay?: string;
+  intakeCompletionPercent?: number;
 };
 
 export type EmailTemplateDefinition = {
