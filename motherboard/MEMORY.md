@@ -2163,3 +2163,15 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Conventions:** When adding padded full-width inputs inside SITE 00 auth/forms, ensure the parent shell or the inputs themselves use `box-sizing: border-box` so padding does not inflate width past sibling fields.
 
+---
+
+## 2026-08-21 — Sign-in magic link button feedback + OTP redirect
+
+- **Context:** Founder reported the "Sign in with magic link" button appeared to do nothing.
+
+- **Root cause (UX):** The handler was functional — Supabase OTP calls succeeded/failed correctly — but error/success messages rendered **above** the SIGN IN button, ~118px **above** the magic link button at the bottom of the form. On mobile especially, users clicked magic link and never saw feedback. Secondary issues: duplicate `id="site00-signin-email"` / `site00-signin-password` on desktop+mobile forms mounted simultaneously; message line-height too tight (~10px tall); async handlers lacked `try/finally` so a thrown error could leave the button stuck disabled.
+
+- **Fix:** Moved feedback block to immediately **below** the magic link button; added `scrollIntoView` on feedback; unique per-layout input/form ids (`-desktop` / `-mobile`); improved message line-height; `try/finally` on all async auth handlers. Magic link OTP now redirects through `/origin/sign-in?returnTo=…` (so Supabase session hash lands on the auth surface) and lowercases email before the Supabase call.
+
+- **Changes:** `Site00SignInForm.tsx`, `site00SignInActions.ts`, `site00-auth.css`. Build PASS.
+
