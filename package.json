@@ -25,7 +25,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^6.8.0",
-    "sharp": "^0.33.5"
+    "sharp": "^0.33.5",
+    "tsx": "^4.23.12"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
@@ -36,7 +37,6 @@
     "@vercel/node": "^3.0.0",
     "@vitejs/plugin-react": "^4.3.3",
     "cross-env": "^7.0.3",
-    "tsx": "^4.23.12",
     "typescript": "~5.6.2",
     "vite": "^5.4.10",
     "vitest": "^2.1.8"

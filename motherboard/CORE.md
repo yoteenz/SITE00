@@ -78,9 +78,11 @@ Separate from Frontal Slayer port 3001:
 | tmux session | Purpose |
 |--------------|---------|
 | `site00-vite` | Vite dev server on **5174** (`SITE00_CLOUD_MOBILE_PREVIEW=1`) |
-| `site00-preview-tunnel` | Cloudflare tunnel → localhost:5174 |
+| `site00-preview-tunnel` | Cloudflare tunnel → localhost:5174 (auto-restart loop) |
 
-Secrets: `SITE00_CLOUDFLARE_TUNNEL_TOKEN`, `SITE00_CLOUDFLARE_TUNNEL_HOSTNAME`. Preview URL file: `/tmp/site00-cloud-preview-url.txt`. Hostname comes from env, not hardcoded in repo.
+**Auto-start:** `.cursor/environment.json` runs both terminals on every Cloud Agent boot when the environment is linked. Requires secrets `SITE00_CLOUDFLARE_TUNNEL_TOKEN`, `SITE00_CLOUDFLARE_TUNNEL_HOSTNAME`. Preview URL file: `/tmp/site00-cloud-preview-url.txt`.
+
+**Always-on:** Cloud preview survives only while the agent VM is alive. For persistent public site, deploy `dist/` to GoDaddy (GitHub Releases ZIP) or run `cloudflared` on dedicated infrastructure. Team **Long running agents** setting extends VM lifetime between follow-ups.
 
 Clone path on cloud VM: `/home/ubuntu/SITE00` (may mirror `/workspace` checkout).
 

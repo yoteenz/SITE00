@@ -2207,6 +2207,8 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 ---
 
+---
+
 ## 2026-08-21 — Identity + Builder Brand Lore Intelligence Expansion
 
 - **Context:** Large sprint to expand Identity and Builder intake upstream of Creative Direction — collect structured brand-world intelligence (worldview, emotional promise, cultural tension, references, anti-direction, digital experience behavior) without turning intake into a corporate branding worksheet. Explicit: no deploy, no emails, **do not merge without founder instruction**.
@@ -2226,6 +2228,61 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Branch:** `cursor/identity-builder-brand-lore-1983`. PR opened, **not merged** (founder instruction).
 
 - **Conventions:** Raw founder answers stay in intake `loreAnswers`; synthesized profile is separate with per-field provenance (`RAW_FOUNDER_INPUT`, `FOUNDER_CONFIRMED`). Never auto-confirm AI synthesis. NDXBOOK canon unchanged. Builder must not re-ask Identity lore fields listed in `BUILDER_INHERITED_LORE_FIELDS`.
+
+---
+
+## 2026-08-21 — Cloud Agent auto-start preview + GoDaddy deploy bundle
+
+- **Context:** Founder asked how to extend preview tunnel uptime; requested `.cursor/environment.json` for auto-start (close to always-on) and a direct cPanel deploy download link.
+
+- **Tunnel reality:** Cloudflare `cloudflared` has no inactivity shutdown — preview stops when the **Cloud Agent VM** ends or is recycled. True always-on = GoDaddy production deploy or dedicated tunnel host; within Cursor Cloud, best effort = environment `terminals` + team **Long running agents** + follow-up messages.
+
+- **Added:** `.cursor/environment.json` — `install` runs `npm ci` + downloads `cloudflared` to `.cursor/bin/` (persists in environment Builds); `start` writes `/tmp/site00-cloud-preview-url.txt` from `SITE00_CLOUDFLARE_TUNNEL_HOSTNAME`; `terminals` auto-start `site00-vite` and `site00-preview-tunnel` (tunnel script loops with 5s restart on exit). Scripts in `.cursor/scripts/`. Updated `README.md`, `CORE.md`, `.gitignore` (`.cursor/bin/`).
+
+- **GoDaddy deploy:** Built production `dist/` from `main` (`VITE_API_BASE=https://api.site00.com`). Release **`site00-deploy-2026-08-21`** — direct ZIP: `site00-production-dist-2026-08-21.zip` + `SITE00-DEPLOY-README.txt`. Upload/extract to cPanel `public_html`; hard-refresh mobile after deploy.
+
+- **Branch:** `cursor/cloud-env-always-on-4f59` → merged to `main`.
+
+---
+
+## 2026-08-21 — CTRL ROOM sign out + production Projects/API diagnosis
+
+- **Context:** Founder deploy gap follow-ups — backgrounds fixed by Aug 21 ZIP; Projects still failing on site00.com; requested SIGN OUT on CTRL ROOM.
+
+- **Projects on deploy (diagnosis):** `/projects` loads from `GET /api/site00/projects?action=index` (auth required). Tunnel works because Vite serves local Node API. Production build uses `VITE_API_BASE=https://api.site00.com`, but `api.site00.com` currently resolves to GoDaddy static IP (404 on `/api/health`) — Railway + CNAME still required per `docs/DEPLOYMENT.md`.
+
+- **Sign out fix:** Legacy `CtrlRoomSidebar` had LOG OUT but was unused after Operating World shell. Added `CtrlRoomSignOutButton` (`signOutAppAndSupabaseSession` + `trackActivity('sign_out')` + redirect Origin): desktop in `OperatingWorldTopNav`; mobile bar on all `/control/*` routes via `EcosystemShell`.
+
+- **Branch:** `cursor/ctrl-room-sign-out-4f59`.
+
+---
+
+## 2026-08-21 — Railway API deploy crash fix (Projects blocker)
+
+- **Context:** Founder on mobile setting up Railway **production** service; generated `*.up.railway.app` domain showed **“Not Found — The train has not arrived at the station”** and deployments kept failing — same root cause as broken `api.site00.com` / Projects page on site00.com.
+
+- **Root cause (confirmed locally):** API process crashed on startup before healthcheck passed:
+  1. `api/site00-access.ts` imported `../_lib/...` (resolves to repo root) instead of `./_lib/...` — `ERR_MODULE_NOT_FOUND`.
+  2. `npm run start:api` uses `tsx`, which was in **devDependencies** — Railway production install (`--omit=dev`) → `tsx: not found`.
+  3. `server/index.ts` imported `loadEnv` from **vite** (also dev-only) — second crash after tsx fix.
+
+- **Fix:** Corrected `site00-access` imports; moved `tsx` to `dependencies`; added `server/loadEnvFiles.ts` (reads `.env*` without vite). Tests **507/507 PASS**; local prod-mode health `{ ok: true, service: "site00-api" }`.
+
+- **Founder next steps (mobile):** Railway **Variables** — `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `SESSION_COOKIE_SECRET`, `SESSION_COOKIE_SECURE=true`, `ADMIN_EMAILS`; redeploy from `main`; confirm `https://<railway-url>/api/health`; then custom domain `api.site00.com` + GoDaddy CNAME `api` → Railway hostname (remove any `api` A record to GoDaddy IP).
+
+- **Branch:** `cursor/railway-api-deploy-fix-4f59`.
+
+---
+
+## 2026-08-21 — cPanel deploy bundle v2 (Railway API live)
+
+- **Context:** Founder confirmed Railway health check passing (`{"ok":true,"service":"site00-api"}` on `site00-production.up.railway.app`); requested latest production ZIP for GoDaddy cPanel.
+
+- **Built from `main`:** `VITE_API_BASE=https://api.site00.com`, CTRL ROOM sign out, background URL fixes. Release **`site00-deploy-2026-08-21-v2`** — ZIP ~2MB (static assets; env backgrounds load from Supabase at runtime).
+
+- **Direct download:** `https://github.com/yoteenz/SITE00/releases/download/site00-deploy-2026-08-21-v2/site00-production-dist-2026-08-21-v2.zip`
+
+- **Still required for Projects:** GoDaddy DNS CNAME `api` → Railway hostname (remove `api` A record to GoDaddy IP if present).
 
 ---
 
