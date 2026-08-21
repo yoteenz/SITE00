@@ -45,7 +45,7 @@ export default function ProjectsPage() {
           <p className="site00-label-red">PROJECT INDEX</p>
           <h1 className="site00-projects-header__title">PROJECTS</h1>
           <p className="site00-body site00-projects-header__sub">
-            REAL SITE 00 PROJECT TRUTH — FRONTAL SLAYER, STUDIO WORLD, AND NDXBOOK INDEXED FROM CANONICAL SYSTEMS.
+            REAL SITE 00 PROJECT TRUTH — FRONTAL SLAYER, STUDIO WORLD, NDXBOOK, AND ALL IN ONE ENTERPRISES INDEXED FROM CANONICAL SYSTEMS.
           </p>
         </header>
 
