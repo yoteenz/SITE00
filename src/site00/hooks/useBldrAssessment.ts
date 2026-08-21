@@ -7,6 +7,7 @@ import {
 } from '../config/bldr-assessment';
 import { IDNTY_ASSESSMENT_STORAGE_KEY } from '../config/idnty-assessment';
 import { computeBldrRecommendation } from '../config/bldr-assessment-recommendation';
+import { useIntakeSync } from './useIntakeSync';
 
 export type BldrStepAnswers = Record<string, string | string[]>;
 
@@ -92,6 +93,7 @@ function readIdntyPrefill(): BldrStepAnswers {
 
 export function useBldrAssessment() {
   const [record, setRecord] = useState<BldrAssessmentRecord>(() => readRecord());
+  const intakeSync = useIntakeSync('BUILDER', 'site00-bldr');
 
   useEffect(() => {
     const refresh = () => setRecord(readRecord());
@@ -127,27 +129,30 @@ export function useBldrAssessment() {
           [classId]: merged,
         },
       });
+      void intakeSync.ensureStarted({
+        domainLabel: classId,
+        sourceRoute: typeof window !== 'undefined' ? window.location.pathname : undefined,
+      });
     },
-    [persist],
+    [persist, intakeSync],
   );
 
   const setStepAnswers = useCallback(
     (classId: BldrAssessmentStateId, stepId: string, answers: BldrStepAnswers) => {
       const current = readRecord();
+      const mergedForClass = { ...(current.answers[classId] ?? {}), ...answers };
       persist({
         ...current,
         buildClass: classId,
         currentStep: stepId,
         answers: {
           ...current.answers,
-          [classId]: {
-            ...(current.answers[classId] ?? {}),
-            ...answers,
-          },
+          [classId]: mergedForClass,
         },
       });
+      intakeSync.autosave({ currentStep: stepId, draftPayload: { buildClass: classId, answers: mergedForClass } });
     },
-    [persist],
+    [persist, intakeSync],
   );
 
   const markStepComplete = useCallback(
@@ -160,15 +165,17 @@ export function useBldrAssessment() {
         completedSteps: Array.from(completed),
         currentStep: stepId,
       });
+      intakeSync.autosave({ currentStep: stepId, draftPayload: { completedSteps: Array.from(completed) } });
     },
-    [persist],
+    [persist, intakeSync],
   );
 
   const setCurrentStep = useCallback(
     (classId: BldrAssessmentStateId, stepId: string | null) => {
       persist({ ...readRecord(), buildClass: classId, currentStep: stepId });
+      intakeSync.autosave({ currentStep: stepId });
     },
-    [persist],
+    [persist, intakeSync],
   );
 
   const completeAssessment = useCallback(
@@ -191,15 +198,17 @@ export function useBldrAssessment() {
         recommendedBuildClass,
         recommendationReasons,
       });
+      void intakeSync.submit();
     },
-    [persist],
+    [persist, intakeSync],
   );
 
   const clearAssessment = useCallback(() => {
     if (typeof window === 'undefined') return;
     localStorage.removeItem(BLDR_ASSESSMENT_STORAGE_KEY);
     setRecord(EMPTY);
-  }, []);
+    intakeSync.reset();
+  }, [intakeSync]);
 
   const getAnswersForClass = useCallback(
     (classId: BldrAssessmentStateId): BldrStepAnswers => record.answers[classId] ?? {},
@@ -228,5 +237,12 @@ export function useBldrAssessment() {
     resumeTarget,
     hasResume: Boolean(resumeTarget),
     idntyPrefillAvailable: Object.keys(readIdntyPrefill()).length > 0,
+    /** Canonical server persistence state — truthful save state for the UI (IX). */
+    serverSaveState: intakeSync.saveState,
+    serverLastSavedAt: intakeSync.lastSavedAt,
+    serverSaveError: intakeSync.errorMessage,
+    serverIntake: intakeSync.serverIntake,
+    serverIntakeId: intakeSync.serverIntakeId,
+    requestGuestAccess: intakeSync.requestGuestAccess,
   };
 }
