@@ -2149,3 +2149,17 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Shipping:** Branch `cursor/intake-access-fal-visual-pilot-1983`, PR #195 opened against `main` and merged in the same session per the default shipping workflow (no merge conflicts — clean fast-forward ahead of `main`). No deploy, no real emails sent, no changes to Frontal Slayer/Studio World runtime/AIO/NDXBOOK/Family 01.
 
+---
+
+## 2026-08-21 — Sign-in password input width alignment
+
+- **Context:** Founder reported the password input on the sign-in page was still wider than the email input and extended beyond it; both fields should be the exact same width.
+
+- **Root cause:** `.site00-auth-shell` lacked the `box-sizing: border-box` reset that `.site00-shell` applies elsewhere. The password field uses `width: 100%` plus `padding-right: 64px` for the SHOW toggle — under content-box sizing, that padding adds to the outer width and makes the field wider than the email input above it.
+
+- **Fix:** In `src/site00/styles/site00-auth.css`, added `box-sizing: border-box` to the auth shell and explicit `width: 100%` / `max-width: 100%` on `.site00-signin-form__password-wrap` and `.site00-signin-form__input--password` (with `display: block`). Minimal CSS-only change; no markup changes.
+
+- **Changes:** `src/site00/styles/site00-auth.css` only. `npm run build` PASS.
+
+- **Conventions:** When adding padded full-width inputs inside SITE 00 auth/forms, ensure the parent shell or the inputs themselves use `box-sizing: border-box` so padding does not inflate width past sibling fields.
+
