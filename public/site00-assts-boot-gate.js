@@ -28,7 +28,17 @@
     }
   }
 
+  function isPreviewTunnelHost() {
+    var host = (typeof window !== 'undefined' && window.location) ? window.location.hostname : '';
+    if (!host) return false;
+    host = host.toLowerCase();
+    if (host === 'site00.fsbw-dev.com') return true;
+    if (host.length > 18 && host.slice(-18) === '.trycloudflare.com') return true;
+    return false;
+  }
+
   function shouldBootSite00ImmersiveLoader() {
+    if (isPreviewTunnelHost()) return false;
     var path = (typeof window !== 'undefined' && window.location) ? window.location.pathname : '';
     if (path === '/origin/desktop' || path.indexOf('/origin/desktop/') === 0) return false;
     if (path === '/idnty/state/desktop' || path.indexOf('/idnty/state/desktop/') === 0) return false;
