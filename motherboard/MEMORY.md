@@ -2121,3 +2121,31 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Not merged:** PR #192 (`cursor/ndxbook-cd-fal-visual-assets-1983` → `main`) pushed and marked ready for review, but **not auto-merged** — cloud-agent system instructions for this run explicitly prohibit merging PRs without explicit user instruction (overrides the shipping.mdc default-merge convention). Founder should merge from GitHub when ready.
 
+---
+
+## 2026-08-21 — EVOLVE commercial productization + canonical pricing architecture
+
+- **Context:** EVOLVE had no canonical commercial/pricing layer — no service catalog, no plan concept, no Foundation/entitlement model, no billing readiness. Task: productize EVOLVE's existing governed workflow (Content Brain → Creative Direction → Visual DNA → campaign → assets → approval → distribution → performance) into a coherent paid-service architecture, without redesigning SITE 00, inventing services, faking checkout, or assigning fabricated billing to founder projects.
+
+- **Audit first:** Confirmed no prior EVOLVE pricing existed anywhere in the repo (no Stripe, no checkout, no subscription/entitlement model, no conflicting legacy pricing to migrate) — this was a greenfield commercial layer, not a migration.
+
+- **Canonical catalog (new `shared/site00-evolve-commercial/`):** `types.ts` defines the domain model (`EvolveBillingType`, `EvolvePriceQualifier`, plan/service IDs, `EvolveCommercialState`, etc.) with `priceCents` integer pricing and an optional `providerRef` (Stripe-ready but no IDs invented). `catalog.ts` is the single source of truth: `EVOLVE_FOUNDATION` ($1,500 one-time), `EVOLVE_RECURRING_PLANS` (Essential $1,250/mo, Growth $2,500/mo **recommended**, Studio $4,500/mo, Private from $7,500/mo `customScopeRequired`), `EVOLVE_PROJECT_SERVICES` (Creative Direction Intensive $1,500, Content Sprint from $1,250, Launch Campaign from $2,500, Campaign World from $4,000, Visual DNA Refresh from $750), `EVOLVE_PAID_MEDIA_SERVICE` ($750/mo min OR 15% of spend, whichever greater, `computePaidMediaFeeCents()`, ad spend explicitly separate). `formatEvolvePrice()` renders canonical display strings (`FROM $7,500 / MONTH`, never `$7.5k`).
+
+- **Foundation ↔ Identity qualification (new `api/_lib/site00Evolve/commercial/foundationQualification.ts`):** Server-side-only determination (never frontend) of `FOUNDATION_REQUIRED` / `FOUNDATION_WAIVED_WITH_CANONICAL_INTELLIGENCE` / `FOUNDATION_COMPLETED` by inspecting existing `MarketingProfileRow` + Content Brain canonical intelligence (positioning, audience, brand voice, objectives) — references existing intelligence, never duplicates it.
+
+- **Commercial state ≠ operational state (new `commercialState.ts`, `governedActions.ts`):** `resolveEvolveCommercialState(orgSlug)` aggregates applicability (`BILLABLE_CLIENT` / `INTERNAL_NON_BILLING` / `NOT_APPLICABLE`), active plan, Foundation status, entitlements, and paid-media status — strictly separate from Creative Direction / Visual DNA / publishing governance (tests assert plan selection never approves CD/Visual DNA/Page 001 and never enables publishing). `setEvolveCommercialPlan()` / `markEvolveFoundationCompleted()` are the only founder-controlled writes, persisted via a new `metadata.commercial` JSONB field on `MarketingProfileRow` (no migration needed) — wired through `storeAdapter.ts` → `memoryStore.ts` / `supabaseStore.ts` (`updateProfileCommercialMetadata`).
+
+- **Entitlements (new `entitlements.ts`):** Per-plan capacity (channel limit, asset capacity range) as informational-only guidance; explicitly does not gate publishing/provider-readiness/approval (regression-tested by scanning imports for forbidden governance-module references).
+
+- **Wiring:** `projectResolver.ts` adds a `commercial` field to `Site00ProjectDetail` (computed, not stored per-project — Frontal Slayer/Studio World/AIO stay `NOT_APPLICABLE`/`INTERNAL_NON_BILLING`, no fabricated subscriptions; NDXBOOK's approval/publishing state untouched). `api/admin/site00-evolve.ts` adds `commercial_catalog` / `commercial_state` (GET) and `commercial_set_plan` / `commercial_mark_foundation_completed` (POST) actions. `src/site00/admin/services/evolveApi.ts` adds matching client calls. Admin `EvolveOrgPage.tsx` gets a new "COMMERCIAL" panel (plan, Foundation, entitlements) — separate from client-facing context, no billing secrets exposed. Client `ProjectDetailPage.tsx` surfaces current plan + Foundation state truthfully (no fake usage metering — shows "USAGE METERING NOT YET AVAILABLE" style truthful state instead of fabricating "12 of 16 assets used").
+
+- **Public pricing page:** New route `/evolve/plans` (`shared/site00-access/routes.ts` → `site00ProjectCommercialRoute()`, `src/site00/config/routes.ts`, `src/routes/Site00Routes.tsx`) rendering `src/site00/pages/evolve/EvolveCommercialPage.tsx` inside the existing `Site00PublicShell` — Foundation, then Essential/Growth(recommended)/Studio/Private progression, then Project Services, then Paid Media — using only the canonical catalog (no hardcoded duplicate pricing in components) and existing SITE 00 visual system (no redesign). No fake checkout — plan/service selection uses truthful non-transactional CTAs.
+
+- **Studio World boundary preserved:** EVOLVE STUDIO is a plan-tier name only; no runtime/org-identity merge with Studio World's `PRODUCTION_INFRASTRUCTURE` boundary.
+
+- **Visual QA:** Used Playwright with `addInitScript` to inject the immersive-loader-skip `sessionStorage` keys (bypassing the cinematic loader for automated screenshots), verified `/evolve/plans` at 375/390/430/640/1024/1440+ with zero horizontal overflow. Temporary QA scripts (`scripts-tmp-shot.mjs`, `scripts-tmp-overflow-check.mjs`) were deleted before commit — not part of the repo.
+
+- **Tests/build:** 444 tests PASS (31 files, incl. new `catalog.test.ts`, `entitlements.test.ts`, `foundationQualification.test.ts`, `commercialState.test.ts` covering canonical pricing, paid-media higher-of calc, Foundation states, entitlement capacity, governance separation, and project-boundary non-fabrication). `tsc --noEmit` clean. Build PASS. No Stripe products created, no live charges, no emails, no deploy.
+
+- **Branch:** Work landed on `cursor/evolve-commercial-pricing-architecture-1983` (PR → `main`), separate from the concurrent NDXBOOK FAL visual-asset branch.
+

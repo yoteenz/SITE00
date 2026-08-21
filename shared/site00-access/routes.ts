@@ -16,6 +16,11 @@ export function site00ProjectConnectionsRoute(slug: string): string {
   return `/projects/${slug}/connections`;
 }
 
+/** Public EVOLVE commercial catalog (plans, Foundation, project services, paid media) — same surface for all orgs. */
+export function site00ProjectCommercialRoute(_slug?: string): string {
+  return '/evolve/plans';
+}
+
 export function site00AdminDashboardRoute(): string {
   return '/admin/site00';
 }

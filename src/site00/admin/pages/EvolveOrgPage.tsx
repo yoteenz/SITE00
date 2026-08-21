@@ -5,10 +5,13 @@ import { evolveStatusPillClass, formatEvolveLabel } from '../components/evolve/e
 import { site00EvolveApi } from '../services/evolveApi';
 import { SITE00_ADMIN_ROUTES } from '../config/routes';
 import type { EvolveOverview } from '../types/evolve';
+import type { EvolveCommercialState } from '../../../../shared/site00-evolve-commercial/types';
+import { formatEvolvePrice } from '../../../../shared/site00-evolve-commercial/catalog';
 
 export default function EvolveOrgPage() {
   const { orgSlug = 'site-00' } = useParams<{ orgSlug: string }>();
   const [overview, setOverview] = useState<EvolveOverview | null>(null);
+  const [commercial, setCommercial] = useState<EvolveCommercialState | null>(null);
   const [organizations, setOrganizations] = useState<Array<{ slug: string; name: string }>>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,12 +21,14 @@ export default function EvolveOrgPage() {
     setLoading(true);
     setError(null);
     try {
-      const [orgs, { overview: o }] = await Promise.all([
+      const [orgs, { overview: o }, { commercial: c }] = await Promise.all([
         site00EvolveApi.organizations(),
         site00EvolveApi.overview(orgSlug),
+        site00EvolveApi.commercialState(orgSlug),
       ]);
       setOrganizations(orgs.organizations.map((org) => ({ slug: org.slug, name: org.name })));
       setOverview(o);
+      setCommercial(c);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to load EVOLVE');
     } finally {
@@ -175,6 +180,45 @@ export default function EvolveOrgPage() {
                     </li>
                   ))}
                 </ul>
+              </section>
+            ) : null}
+
+            {commercial ? (
+              <section className="site00-control-panel">
+                <h2 className="site00-control-panel__title">COMMERCIAL</h2>
+                <dl className="site00-evolve-dl">
+                  <dt>APPLICABILITY</dt>
+                  <dd>{formatEvolveLabel(commercial.applicability)}</dd>
+                  <dt>PLAN</dt>
+                  <dd>
+                    {commercial.plan
+                      ? `${commercial.plan.name} \u2014 ${formatEvolvePrice(commercial.plan.priceCents, commercial.plan.priceQualifier, commercial.plan.billingInterval)}`
+                      : formatEvolveLabel(commercial.planStatus)}
+                  </dd>
+                  {commercial.foundation ? (
+                    <>
+                      <dt>FOUNDATION</dt>
+                      <dd>{formatEvolveLabel(commercial.foundation.status)}</dd>
+                    </>
+                  ) : null}
+                  {commercial.entitlements ? (
+                    <>
+                      <dt>CHANNEL CAPACITY</dt>
+                      <dd>{commercial.entitlements.channelLimit === null ? 'CUSTOM SCOPE' : `\u2264 ${commercial.entitlements.channelLimit}`}</dd>
+                      <dt>ASSET CAPACITY</dt>
+                      <dd>
+                        {commercial.entitlements.assetCapacity
+                          ? `${commercial.entitlements.assetCapacity.min}\u2013${commercial.entitlements.assetCapacity.max} / MONTH`
+                          : 'CUSTOM SCOPE'}
+                      </dd>
+                    </>
+                  ) : null}
+                  <dt>PAID MEDIA</dt>
+                  <dd>{formatEvolveLabel(commercial.paidMedia.status)}</dd>
+                  <dt>BILLING</dt>
+                  <dd>{commercial.billing.integrated ? 'INTEGRATED' : 'NOT INTEGRATED'}</dd>
+                </dl>
+                <p className="site00-evolve-ops-loading">{commercial.applicabilityNote}</p>
               </section>
             ) : null}
 

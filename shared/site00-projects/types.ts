@@ -110,6 +110,20 @@ export type Site00ProjectChannelSummary = {
   locked: boolean;
 };
 
+/** EVOLVE commercial snapshot for a project — intentionally separate from operational/governance state. */
+export type Site00ProjectCommercialSummary = {
+  applicability: 'BILLABLE_CLIENT' | 'INTERNAL_NON_BILLING' | 'NOT_APPLICABLE';
+  applicabilityNote: string;
+  plan: { id: string; name: string; priceLabel: string; serviceModel: string } | null;
+  planStatus: 'ACTIVE' | 'NOT_SELECTED' | 'NOT_APPLICABLE';
+  foundation: { status: string; missing: string[]; explanation: string } | null;
+  entitlements: { channelLimit: number | null; assetCapacityLabel: string | null; customScopeRequired: boolean } | null;
+  paidMediaStatus: string;
+  usageMetering: string;
+  billingIntegrated: boolean;
+  route: string;
+};
+
 export type Site00ProjectDetail = Site00ProjectIndexEntry & {
   overview: {
     description: string;
@@ -127,6 +141,7 @@ export type Site00ProjectDetail = Site00ProjectIndexEntry & {
     needsApproval: number;
   };
   creativeDirection: Site00ProjectCreativeDirectionSummary | null;
+  commercial: Site00ProjectCommercialSummary;
   assets: {
     available: boolean;
     route: string;
