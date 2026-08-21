@@ -22,6 +22,8 @@ const LOCAL_API_ROUTES = [
   { path: '/api/site00/projects', file: 'api/site00/projects.ts' },
   { path: '/api/site00/marketing-engagements', file: 'api/site00/marketing-engagements.ts' },
   { path: '/api/site00/studio-world-webhook', file: 'api/site00/studio-world-webhook.ts' },
+  { path: '/api/site00/intakes', file: 'api/site00/intakes.ts' },
+  { path: '/api/site00/intake-access', file: 'api/site00/intake-access.ts' },
   { path: '/api/admin/site00-marketing', file: 'api/admin/site00-marketing.ts' },
   { path: '/api/admin/site00-assts', file: 'api/admin/site00-assts.ts' },
   { path: '/api/admin/site00-production', file: 'api/admin/site00-production.ts' },
@@ -29,6 +31,7 @@ const LOCAL_API_ROUTES = [
   { path: '/api/admin/site00-orchestration', file: 'api/admin/site00-orchestration.ts' },
   { path: '/api/admin/site00-evolve', file: 'api/admin/site00-evolve.ts' },
   { path: '/api/admin/site00-evolve/oauth/callback', file: 'api/admin/site00-evolve-oauth-callback.ts' },
+  { path: '/api/admin/site00-intakes', file: 'api/admin/site00-intakes.ts' },
 ];
 
 function applyServerEnv() {

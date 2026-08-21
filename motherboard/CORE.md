@@ -59,6 +59,18 @@ Investment guide: 4 columns aligned to 4 states (`IDNTY_INVESTMENT_TIERS` with `
 
 ---
 
+## Intake persistence (Identity + Builder)
+
+Canonical intake entity is **`site00_idnty_submissions` / `site00_bldr_intakes`** (extended, not duplicated — see MEMORY 2026-08-21). Server draft is the system of record; `localStorage` is resilience/recovery only, never trusted over server state.
+
+- **Lifecycle:** `shared/site00-intakes/types.ts` — `DRAFT → AWAITING_EMAIL_VERIFICATION → ACTIVE → SUBMITTED → IN_REVIEW → CONVERTED → ARCHIVED`, illegal transitions rejected server-side.
+- **Server:** `api/_lib/site00Intakes/` (store adapter, hashed guest tokens, server-authoritative authorization incl. `ANONYMOUS_DIRECT` for same-session unowned drafts, lifecycle service). API: `/api/site00/intakes`, `/api/site00/intake-access`, `/api/admin/site00-intakes`.
+- **Frontend:** `useIntakeSync` hook wired into `useIdntyAssessment`/`useBldrAssessment`. **The real default UI for Identity/Builder is the mobile calibration/intake components (`IdentityCalibrationMobileStep/Complete`, `BldrIntakeShell`), not the `useSite00DesktopArtboardPreview()` branch** — any new save/resume UI must be wired into both, or guests won't see it. `IntakeSaveStatus`/`IntakeGuestAccessCapture` components.
+- **Client:** `/account/intakes` (+ detail). **Guest:** `/intake/access/:token`. **Admin:** `/admin/site00/intakes` (+ detail) — new nav item alongside the pre-existing builder-specific `BLDR INTAKE` admin page.
+- **Gotcha:** memoize hook return objects consumed by other hooks' `useCallback` deps — an unmemoized object returned every render cascaded into an infinite `useEffect` loop here (see MEMORY 2026-08-21).
+
+---
+
 ## Cloud Agent preview (development)
 
 Separate from Frontal Slayer port 3001:
@@ -66,9 +78,11 @@ Separate from Frontal Slayer port 3001:
 | tmux session | Purpose |
 |--------------|---------|
 | `site00-vite` | Vite dev server on **5174** (`SITE00_CLOUD_MOBILE_PREVIEW=1`) |
-| `site00-preview-tunnel` | Cloudflare tunnel → localhost:5174 |
+| `site00-preview-tunnel` | Cloudflare tunnel → localhost:5174 (auto-restart loop) |
 
-Secrets: `SITE00_CLOUDFLARE_TUNNEL_TOKEN`, `SITE00_CLOUDFLARE_TUNNEL_HOSTNAME`. Preview URL file: `/tmp/site00-cloud-preview-url.txt`. Hostname comes from env, not hardcoded in repo.
+**Auto-start:** `.cursor/environment.json` runs both terminals on every Cloud Agent boot when the environment is linked. Requires secrets `SITE00_CLOUDFLARE_TUNNEL_TOKEN`, `SITE00_CLOUDFLARE_TUNNEL_HOSTNAME`. Preview URL file: `/tmp/site00-cloud-preview-url.txt`.
+
+**Always-on:** Cloud preview survives only while the agent VM is alive. For persistent public site, deploy `dist/` to GoDaddy (GitHub Releases ZIP) or run `cloudflared` on dedicated infrastructure. Team **Long running agents** setting extends VM lifetime between follow-ups.
 
 Clone path on cloud VM: `/home/ubuntu/SITE00` (may mirror `/workspace` checkout).
 
@@ -104,7 +118,7 @@ Privileged admin surface at `/admin/site00/*` (guarded by `AdminGuard` / `canAcc
 
 ## Email system (transactional + lifecycle)
 
-- **Shared module:** `shared/site00-email/` — art-direction system (`art-direction/`: primitives, families, contracts, reference-render), 12 visual archetypes, 80-template registry, real QR for access templates, debug fixtures (preview only).
+- **Shared module:** `shared/site00-email/` — art-direction system (`art-direction/`: primitives, families, contracts, reference-render), 13 visual archetypes (incl. `intake-lifecycle`, placeholder only), 84-template registry, real QR for access templates, debug fixtures (preview only).
 - **Typography:** Martian Mono (matches product `site00-fonts.css`) — not Futura/serif in email HTML.
 - **Debug gallery:** `/admin/site00/debug/email-pack` (AdminGuard) — gallery with visual-family + fidelity filters, per-template REFERENCE / IMPLEMENTATION / COMPARE modes, mobile/desktop + light/dark inbox framing, composition contracts, text fallback, localStorage approval state.
 - **Production sends:** `api/_lib/email/sendEmail.ts` renders from registry; provider not configured until `EMAIL_PROVIDER` env set. Idempotency via in-memory send log stub. Legacy `welcome` → `access-credential-issued`.

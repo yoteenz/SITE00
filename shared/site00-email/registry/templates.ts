@@ -1282,6 +1282,79 @@ export const EMAIL_TEMPLATES: EmailTemplateDefinition[] = [
     headline: head('SYSTEM INCIDENT.'),
     ctaLabel: 'OPEN SYSTEMS →',
   }),
+
+  // INTAKE — Identity + Builder intake persistence infrastructure sprint.
+  // 'intake-guest-access' below has approved FAL-native visual production (see
+  // shared/site00-email/production/intake-access-manifest.ts). 'intake-submission-receipt' and
+  // 'intake-claimed' remain CREATIVE_DIRECTION_PENDING placeholders — a later sprint designs
+  // their visual composition — so their debugStatus stays 'needs-review' and enabled stays
+  // false.
+  tpl({
+    num: 82,
+    id: 'intake-guest-access',
+    name: 'INTAKE GUEST ACCESS',
+    family: 'intake',
+    familyLabel: 'INTAKE',
+    event: 'INTAKE_ACCESS_REQUESTED',
+    archetype: 'intake-lifecycle',
+    classification: 'transactional',
+    subject: (v) => `Your ${v.intakeType === 'BUILDER' ? 'Builder' : 'Identity'} intake — secure access.`,
+    preheader: pre('Use this secure link to resume or review your intake.'),
+    headline: (v) => (v.intakeType === 'BUILDER' ? 'THE BRIEF HAS A LOCATION.' : 'THE EVIDENCE IS IN.'),
+    subheadline: (v) => `Your ${v.intakeType === 'BUILDER' ? 'Builder' : 'Identity'} intake is saved exactly where you left it.`,
+    ctaLabel: 'ACCESS YOUR INTAKE →',
+    debugStatus: 'approved',
+    enabled: true,
+    notes:
+      'FAL-native visual production pilot — see shared/site00-email/production/intake-access-manifest.ts. Builder ("architectural build brief") and Identity ("editorial identity evidence file") share this one template/composition and branch internally on intakeType. Payload: intakeReference, intakeType, secureViewUrl (also mapped into ctaUrl by intakeService.sendGuestAccess), intakeStatusDisplay, intakeLastSavedAtDisplay, intakeCompletionPercent (only set when truthfully derivable from currentStep/totalSteps — never fabricated). Never include raw email or token in URL path shown to guest beyond the token itself, which is single-purpose and hashed server-side.',
+    varsForPreview: {
+      intakeType: 'IDENTITY',
+      intakeReference: 'IDN-PREVIEW1',
+      intakeStatusDisplay: 'IN PROGRESS',
+      intakeLastSavedAtDisplay: 'AUG 20, 2026 · 6:16 PM EST',
+      intakeCompletionPercent: 65,
+    },
+  }),
+  tpl({
+    num: 83,
+    id: 'intake-submission-receipt',
+    name: 'INTAKE SUBMISSION RECEIPT',
+    family: 'intake',
+    familyLabel: 'INTAKE',
+    event: 'INTAKE_SUBMITTED',
+    archetype: 'intake-lifecycle',
+    classification: 'transactional',
+    subject: (v) => `${v.intakeType === 'BUILDER' ? 'Builder' : 'Identity'} intake received — ${v.intakeReference ?? ''}`.trim(),
+    preheader: pre('Your intake has been received and recorded.'),
+    headline: head('INTAKE RECEIVED.'),
+    subheadline: (v) => `${v.intakeReference ?? 'INTAKE'} · ${(v.intakeType ?? 'INTAKE').toUpperCase()}`,
+    ctaLabel: 'VIEW YOUR INTAKE →',
+    debugStatus: 'needs-review',
+    enabled: false,
+    notes:
+      'CREATIVE_DIRECTION_PENDING — placeholder only. Completion receipt on SUBMITTED. intakeType distinguishes IDENTITY vs BUILDER. Payload: intakeReference, intakeType, submittedAt, secureViewUrl (guest) or ctaUrl (authenticated), accountClaimUrl (guest only), nextStep.',
+    varsForPreview: { intakeType: 'BUILDER', intakeReference: 'BLD-PREVIEW1' },
+  }),
+  tpl({
+    num: 84,
+    id: 'intake-claimed',
+    name: 'INTAKE CLAIMED',
+    family: 'intake',
+    familyLabel: 'INTAKE',
+    event: 'INTAKE_CLAIMED',
+    archetype: 'intake-lifecycle',
+    classification: 'transactional',
+    subject: (v) => `Your ${v.intakeType === 'BUILDER' ? 'Builder' : 'Identity'} intake is now linked to your account.`,
+    preheader: pre('A guest intake has been claimed by your account.'),
+    headline: head('INTAKE LINKED TO YOUR ACCOUNT.'),
+    subheadline: (v) => `${v.intakeReference ?? 'INTAKE'} · ${(v.intakeType ?? 'INTAKE').toUpperCase()}`,
+    ctaLabel: 'VIEW YOUR INTAKE →',
+    debugStatus: 'needs-review',
+    enabled: false,
+    notes:
+      'CREATIVE_DIRECTION_PENDING — placeholder only. Sent when a guest intake is claimed by an authenticated, verified-email account. Payload: intakeReference, intakeType, ctaUrl, nextStep.',
+    varsForPreview: { intakeType: 'IDENTITY', intakeReference: 'IDN-PREVIEW2' },
+  }),
 ];
 
 export function getTemplateById(id: string): EmailTemplateDefinition | undefined {

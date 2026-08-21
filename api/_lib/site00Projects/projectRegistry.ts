@@ -44,6 +44,15 @@ export const FOUNDER_PROJECTS: FounderProjectDefinition[] = [
     currentSystem: 'EVOLVE',
     description: 'INDEX BOOK FOUNDER PILOT — LEGACY INTELLIGENCE IMPORTED, CREATIVE DIRECTION AWAITING FOUNDER REVIEW.',
   },
+  {
+    slug: 'all-in-one-enterprises',
+    name: 'ALL IN ONE ENTERPRISES',
+    displayName: 'All In One Enterprises',
+    organizationSlug: 'all-in-one-enterprises',
+    classification: 'MANAGED_BRAND',
+    currentSystem: 'EVOLVE',
+    description: 'TRUCKING AND LOGISTICS MANAGED BRAND — CORE SERVICE OPERATIONS ACTIVE; SOCIAL MARKETING DEFERRED BY OWNER.',
+  },
 ];
 
 export const FOUNDER_PROJECT_SLUGS = FOUNDER_PROJECTS.map((p) => p.slug);

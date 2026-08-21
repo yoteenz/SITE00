@@ -2103,6 +2103,8 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 ---
 
+---
+
 ## 2026-08-21 — NDXBOOK Creative Direction: art-directed visual worlds + FAL asset production pass
 
 - **Context:** Founder approved the three structurally-distinct territories (INDEX SIGNAL, EDITORIAL UTILITY, KINETIC FIELD) from the prior sprint but they were still wireframe-quality — SVG-only specimens with placeholder boxes, no real imagery, not yet "founder-reviewable creative worlds." Task: elevate each territory to real, NDXBOOK-specific, art-directed presentations using the existing FAL pipeline, while preserving locked structural differentiation and founder decision gates (never auto-approve).
@@ -2120,4 +2122,163 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Also this session:** Restarted the `site00-preview-tunnel` cloudflared tunnel (it had dropped after a prior Vite restart) and confirmed the public preview tunnel + local `:5174` both return 200 before continuing the FAL work.
 
 - **Not merged:** PR #192 (`cursor/ndxbook-cd-fal-visual-assets-1983` → `main`) pushed and marked ready for review, but **not auto-merged** — cloud-agent system instructions for this run explicitly prohibit merging PRs without explicit user instruction (overrides the shipping.mdc default-merge convention). Founder should merge from GitHub when ready.
+
+---
+
+## 2026-08-21 — Identity + Builder intake persistence, guest access & retrieval (infrastructure sprint)
+
+- **Context:** Founder-specified infrastructure sprint (not a visual redesign). Identity and Builder intakes only ever persisted to `localStorage` — no server draft, no resume-by-email, no client/admin retrieval, no submission receipt, no lineage to downstream engagement/project. Explicitly out of scope: email art direction (placeholders only), deploy, real email sends, and any change to Frontal Slayer/Studio World/AIO/NDXBOOK/EVOLVE/Email Family 01.
+
+- **Forensic audit finding:** `site00_idnty_submissions` and `site00_bldr_intakes` already existed in Supabase (created in `20260818180000_site00_admin_operations.sql`, used only by demo-seeded admin pages) — **extended these instead of creating a new parallel `site00_intakes` table**, per the "prefer extending" directive.
+
+- **Canonical model:** Additive migrations (`20260821020947_site00_intake_persistence.sql`, `20260821021310_..._lineage_columns_v2.sql`, `20260821021755_..._identity_submitted_at.sql`) add `status`, `public_reference`, `user_id` (FK → `auth.users`), `organization_id`/`engagement_id`/`project_id` (plain uuid — no FK on `engagement_id`; the live schema has no single canonical engagements table yet, noted as a known gap), `guest_email`/`verified_email_at`, `draft_payload`/`submitted_payload` jsonb, `version`, `schema_version`, and timestamps to both tables. New `site00_intake_access_tokens` (hashed guest tokens only — raw token never persisted) and `site00_intake_events` (audit trail) tables, both polymorphic across `intake_type` (`IDENTITY`/`BUILDER`), both RLS-enabled.
+
+- **Lifecycle:** `shared/site00-intakes/types.ts` defines `DRAFT → AWAITING_EMAIL_VERIFICATION → ACTIVE → SUBMITTED → IN_REVIEW → CONVERTED → ARCHIVED` with a server-side transition table (`canTransitionIntakeStatus`) — illegal transitions rejected server-side regardless of frontend state.
+
+- **Server architecture (`api/_lib/site00Intakes/`):** `storeAdapter`/`memoryStore`/`supabaseStore` (same dual-backend pattern as EVOLVE's `storeAdapter.ts` — memory for tests, Supabase for dev/prod, service-role client). `tokens.ts` issues cryptographically random guest tokens, stores only the SHA-256 hash, supports expiry + rotation (old token revoked on new issuance) + replay protection. `authorization.ts` is server-authoritative: `AUTHENTICATED` (own `user_id`), `GUEST` (token scoped to exact intake id), `ANONYMOUS_DIRECT` (same-session access to a still-unowned draft via its unguessable UUID, before an email/token exists — deliberately narrower than "no auth required", documented trade-off). `intakeService.ts` orchestrates start/autosave/idempotent-submit (immutable `submitted_payload` snapshot, `submittedAt`, audit event, `INTAKE_SUBMITTED` email)/send-access/guest→account claim (verified-email-only, safe re-claim no-op, preserves original intake id)/admin actions (`MARK_IN_REVIEW`, `ARCHIVE` — conservative, never rewrites submitted data).
+
+- **API:** `/api/site00/intakes` (action-dispatch: `start`/`get`/`update`/`submit`/`send-access`/`claim`/`list`, following the existing `marketing-engagements.ts` query-param-action convention, not new dynamic path segments), `/api/site00/intake-access` (public guest token resolution), `/api/admin/site00-intakes` (list/detail/lifecycle actions, gated by `resolveAdminAuth`). Registered in both `server/routes.ts` and `scripts/vite-site00-local-api.mjs` (the latter is easy to forget — local dev 404s otherwise, as with the earlier Real Project Index incident).
+
+- **Email:** `INTAKE_ACCESS_REQUESTED`/`INTAKE_SUBMITTED`/`INTAKE_CLAIMED` registered in the Email Family registry with `wired: false` and `CREATIVE_DIRECTION_PENDING` notes only — new `intake` family / `intake-lifecycle` archetype so they aren't forced into an approved visual family. No real sends; `sendEmailAsync` logs a truthful "provider not configured" state, verified against real Supabase during QA. Also fixed a pre-existing wrong-relative-path bug in `api/_lib/email/sendEmail.ts` imports (not caught by `tsc` since `api/` isn't in the root tsconfig project — only surfaced at dev-server runtime).
+
+- **Frontend:** `useIntakeSync` generic hook (debounced server autosave, submit, guest access request) wired into `useIdntyAssessment`/`useBldrAssessment` — localStorage is resilience-only now, server draft is system of record, save state is truthful (never shows SAVED for a local-only write, FAILS LOUD on server error). New minimal `IntakeSaveStatus`/`IntakeGuestAccessCapture` components. **Important:** the "desktop artboard preview" branch (`useSite00DesktopArtboardPreview()`) is NOT what real users see by default — the actual default UI for Identity is `IdentityCalibrationMobileStep`/`Complete` and for Builder is `BldrIntakeShell`'s step panel, regardless of viewport width, unless navigating the special internal preview route. Both branches needed the new components wired in separately; the desktop-only wiring was caught during runtime QA (see bug below).
+
+- **New surfaces:** Client `/account/intakes` + detail (status/dates/project lineage/CONTINUE·VIEW·VIEW SUBMISSION, no admin fields) under the existing account guard, not folded into `/projects` (public portfolio surface). Guest `/intake/access/:token` (resume/view/claim prompt). Admin `/admin/site00/intakes` + detail (filters, search, sort, audit timeline, conservative actions) — new nav item alongside the pre-existing `BLDR INTAKE` builder-specific admin page (kept, not replaced).
+
+- **Bug found + fixed during runtime QA:** `useIntakeSync` returned a brand-new object every render; `useIdntyAssessment`/`useBldrAssessment` callbacks depended on that whole object, so their identities changed every render too, which retriggered a `useEffect([..., startState])` in the step pages on every render → **"Maximum update depth exceeded" infinite loop** on every Identity/Builder step page. Fixed by memoizing `useIntakeSync`'s return value on its actual state deps. Root cause confirmed by direct code trace; a computer-use QA pass verified the fix (clean console before/after) — note computer-use hallucinated the exact file/line names in its first report, so always verify against `Grep`/`Read` before trusting an agent-reported stack trace verbatim.
+
+- **Runtime QA (live dev Supabase, not mocks):** guest Identity + Builder full lifecycle (start → autosave → email capture → refresh/resume via both `ANONYMOUS_DIRECT` and token → submit → idempotent re-submit, same `version`/`submittedAt`), token rotation (old token 403s after a new one issues) + forged-token 404 + guest→admin 401 + unauthenticated→client-list 401, authenticated client start/autosave/list/detail/cross-user-denial/submit against a disposable real `auth.users` test account (created + deleted via `supabase.auth.admin`), guest→account claim (email-associated guest intake claimed by the matching authenticated user, `ownerKind` flips to `AUTHENTICATED`, `claimedAt` set, re-claim is a safe no-op), and admin data-layer list/detail/audit-timeline retrieval. Browser QA (computer-use) confirmed the render-loop fix, the mobile save-status/email-capture UI, admin Intake Inbox layout/filters, and no horizontal overflow at 375/390px.
+
+- **Tests/build:** 453 tests PASS (43 new intake tests across shared types, tokens, authorization, intake service, and all three API handlers). `tsc --noEmit` PASS. `npm run build` PASS. PR #194 opened (not merged — left for founder review per this task's explicit no-auto-merge framing; branch `cursor/identity-builder-intake-persistence-1983`). No deploy, no real emails sent, no changes to Frontal Slayer/Studio World/AIO/NDXBOOK/EVOLVE/Email Family 01.
+
+---
+
+## 2026-08-21 — Intake Access email family: FAL-native visual production pilot (Builder + Identity)
+
+- **Context:** Founder-approved concept board (Builder Intake Access + Identity Intake Access, desktop+mobile) as sole visual authority. Explicit new production doctrine: reference artwork ≠ code — every visual element classified `CODE_NATIVE` / `GENERATED_ASSET` / `EXISTING_ASSET` / `HYBRID_COMPOSITION` before any generation; produced artwork (architecture drawings, photography, paper, fingerprints, seals, collage) must never be approximated with CSS/SVG/gradients/emoji/placeholders. Pilot of a reusable methodology intended for later Studio World adoption — Studio World runtime explicitly untouched.
+
+- **FAL audit + gate:** `FAL_KEY` present and working (`fal-ai/nano-banana-pro`, text-to-image — no reference-image input file was accessible so reference-conditioning was approximated via detailed EXACT/RECONSTRUCTION prompts instead of true image-to-image). Gate passed → proceeded with real generation (not blocked).
+
+- **Production manifest:** `shared/site00-email/production/intake-access-manifest.ts` — full decomposition of every asset (id, family, visual role, reference region, classification, fidelity mode `EXACT_RECONSTRUCTION`, generation method, aspect ratio, background/alpha requirements, desktop/mobile usage, prompt, negative constraints, output filenames, generation result, inspection result, approval status) for B01 (Builder blueprint) and I01–I05 (Identity portrait/archival note/fingerprint/seal/evidence collage).
+
+- **Asset generation loop:** Builder B01 (architectural blueprint) approved after prompt refinement. Identity I01 (portrait) rejected once for including a manila-folder/desk background — refined and re-approved. I03 (fingerprint) rejected twice (readable "IDENTITY" text; visible gray surface) — refined and re-approved. I02 (archival note) rejected once (photographed on a wooden tabletop) — refined and re-approved. I04 (seal) generated as a `HYBRID_COMPOSITION` (base wax seal from FAL + code-composited SITE 00 mark). I05 (evidence collage) deliberately built as a `DETERMINISTIC_COMPOSITE` via `sharp` from the four approved assets rather than a single FAL regeneration — avoids logo/text hallucination and portrait drift risk. Compositing script: `scripts/site00-email-intake-assets/composite-i05.mjs` (custom `print()` helper adds synthetic drop shadows rather than attempting alpha-cutout masking, which produced hard box edges in early attempts); positions iterated multiple times for both desktop and mobile balance. Assets uploaded to Supabase Storage (`live-preview/site00/email/intake-access/{master,derived}/…`) via `scripts/site00-email-intake-assets/upload.mjs`, which also writes the public URLs directly into a generated TS module (`shared/site00-email/production/intake-access-asset-urls.generated.ts`) so literal URLs never pass through a chat transcript. **Gotcha:** the repo's secret scanner blocks committing the literal resolved Supabase project URL (matches the configured `SUPABASE_URL`/`VITE_SUPABASE_URL` secret value) even though it's a public-bucket asset URL — fixed by adding `// pragma: allowlist secret` per the tool's own guidance, not by architecture change, since re-deriving the base URL at runtime would have reintroduced the original `import.meta.env` vs `process.env` dual-context problem this generated-file approach was created to avoid.
+
+- **Implementation:** New `composeIntakeAccess` in `shared/site00-email/design/compositions/lifecycle.ts`, registered as a dedicated `INTAKE_ACCESS` art-direction composition (`shared/site00-email/art-direction/template-manifest.ts`) — kept fully separate from Family 01 Access/Security. Builder: black/white/red palette, vertical rail, Build Brief Record card (dynamic reference/status/last-saved/completion), B01 blueprint behind the record with a deep `-46px` overlap (its own artwork has empty space at the bottom). Identity: warm-paper/red palette, Identity File record card, I05 collage with a shallower `-14px` overlap (edge-to-edge collage would otherwise obscure the file reference). Completion is a numeric progress bar **only** when a truthful percent is supplied (`intakeCompletionPercent`, derived server-side from `currentStep`/`totalSteps` in `intakeService.ts` — `undefined` if not truthfully derivable, never fabricated); otherwise renders the status label as a non-numeric pill. Mobile has its own art-directed hero/evidence-strip crop, not a shrunk desktop image. `intake-guest-access` flipped to `enabled: true` / `debugStatus: 'approved'`. `intakeAccessEmailVars()` in `intakeService.ts` wires the canonical secure guest-resume URL (no second token system) plus the display-formatted status/timestamp/completion into `sendGuestAccess`'s email dispatch.
+
+- **Tests/build:** 33 new tests (`shared/site00-email/design/compositions/intakeAccess.test.ts`) covering registration/event-mapping/composition-routing, Builder-vs-Identity content and asset separation, dynamic-data truthfulness (no hardcoded concept-board sample values, non-fabricated completion fallback), canonical secure-CTA usage, no leaked secrets/base64/non-HTTPS asset URLs, a11y (alt text, explicit dimensions) + image-blocked semantic fallback, table-safe/JS-free/responsive markup, production-manifest approval invariants, and Family 01 + full-registry regression. Full suite: 486/486 tests PASS. `tsc --noEmit` PASS. `npm run build` PASS. Rendered real email HTML and screenshotted at 375/390/430/640px for both templates; compared against the founder reference through 2 refinement iterations (I05 collage positioning tuning; mobile header/wordmark-wrapping fix). All 4 hosted derivative asset URLs verified reachable (200).
+
+- **Methodology capture:** New `docs/site00/REFERENCE_TO_PRODUCTION_ASSET_PIPELINE.md` — 18-stage reference→production pipeline, 3 fidelity modes, 4 asset classifications, central rule ("approved produced artwork must not be downgraded into a code approximation"). Status: `PILOT_VALIDATED`. Explicitly not yet adopted into Studio World runtime — flagged as a `PRODUCTIZATION_CANDIDATE` for a future sprint.
+
+- **Shipping:** Branch `cursor/intake-access-fal-visual-pilot-1983`, PR #195 opened against `main` and merged in the same session per the default shipping workflow (no merge conflicts — clean fast-forward ahead of `main`). No deploy, no real emails sent, no changes to Frontal Slayer/Studio World runtime/AIO/NDXBOOK/Family 01.
+
+---
+
+## 2026-08-21 — Sign-in password input width alignment
+
+- **Context:** Founder reported the password input on the sign-in page was still wider than the email input and extended beyond it; both fields should be the exact same width.
+
+- **Root cause:** `.site00-auth-shell` lacked the `box-sizing: border-box` reset that `.site00-shell` applies elsewhere. The password field uses `width: 100%` plus `padding-right: 64px` for the SHOW toggle — under content-box sizing, that padding adds to the outer width and makes the field wider than the email input above it.
+
+- **Fix:** In `src/site00/styles/site00-auth.css`, added `box-sizing: border-box` to the auth shell and explicit `width: 100%` / `max-width: 100%` on `.site00-signin-form__password-wrap` and `.site00-signin-form__input--password` (with `display: block`). Minimal CSS-only change; no markup changes.
+
+- **Changes:** `src/site00/styles/site00-auth.css` only. `npm run build` PASS.
+
+- **Conventions:** When adding padded full-width inputs inside SITE 00 auth/forms, ensure the parent shell or the inputs themselves use `box-sizing: border-box` so padding does not inflate width past sibling fields.
+
+---
+
+## 2026-08-21 — Sign-in magic link button feedback + OTP redirect
+
+- **Context:** Founder reported the "Sign in with magic link" button appeared to do nothing.
+
+- **Root cause (UX):** The handler was functional — Supabase OTP calls succeeded/failed correctly — but error/success messages rendered **above** the SIGN IN button, ~118px **above** the magic link button at the bottom of the form. On mobile especially, users clicked magic link and never saw feedback. Secondary issues: duplicate `id="site00-signin-email"` / `site00-signin-password` on desktop+mobile forms mounted simultaneously; message line-height too tight (~10px tall); async handlers lacked `try/finally` so a thrown error could leave the button stuck disabled.
+
+- **Fix:** Moved feedback block to immediately **below** the magic link button; added `scrollIntoView` on feedback; unique per-layout input/form ids (`-desktop` / `-mobile`); improved message line-height; `try/finally` on all async auth handlers. Magic link OTP now redirects through `/origin/sign-in?returnTo=…` (so Supabase session hash lands on the auth surface) and lowercases email before the Supabase call.
+
+- **Changes:** `Site00SignInForm.tsx`, `site00SignInActions.ts`, `site00-auth.css`. Build PASS.
+
+---
+
+## 2026-08-21 — AIO project index integration (founder Projects)
+
+- **Context:** Follow-up sprint after Real Project Index + Command Surface, Founder Dual-Context Access, and Runtime Repair. Founder Projects index had three canonical projects (Frontal Slayer, Studio World, ndxbook) but omitted **ALL IN ONE ENTERPRISES** despite AIO already existing in EVOLVE + orchestration registries.
+
+- **Forensic audit:** Canonical slug `all-in-one-enterprises`; production UUID `3781f0b7-cbc5-470d-8af7-69b97cfa5729`; classification `MANAGED_BRAND`; orchestration `EXISTING_ACTIVE_PROJECT` with `MISSING_EVIDENCE` reconciliation; repository `UNVERIFIED` / `NOT_ACCESSIBLE`; EVOLVE profile `POST_LAUNCH` (trucking/logistics); social channels `DEFERRED_BY_OWNER`; no duplicate org needed.
+
+- **Implementation:** Added AIO to `FOUNDER_PROJECTS` in `api/_lib/site00Projects/projectRegistry.ts` and extended `Site00FounderProjectSlug` union. `projectResolver.ts` reuses canonical org UUID, merges EVOLVE deferred command items (Social Marketing stays DEFERRED not BLOCKED), derives POST LAUNCH phase + operations production state, surfaces OPERATIONS admin route, and reports truthful repository connection (`UNAVAILABLE — NEEDS CONFIGURATION`) from orchestration store. `ProjectDetailPage` shows repository row + deferred command items; `ProjectEvolvePage` shows privileged utilities for all founder projects (removed hardcoded slug whitelist).
+
+- **Tests:** New `aioProjectIndex.test.ts` (21 cases) + updated founder-index count regressions (3→4) in `site00Projects.test.ts`, `projectsIndexContract.test.ts`, `site00DualContext.test.ts`. Full suite 507/507 PASS. Build PASS.
+
+- **Conventions:** Do not create duplicate AIO org/UUID/EVOLVE profile. Social marketing deferral is owner decision — never a launch blocker. Missing GitHub repo evidence must not remove AIO from founder index; show partial/truthful enrichment instead.
+
+---
+
+## 2026-08-21 — AIO project restoration verification + Projects subtitle copy
+
+- **Context:** Founder sprint to restore **All In One Enterprises Inc (AIO)** to the SITE 00 Projects page via canonical project architecture (not frontend mock). Forensic audit required before changes; no EVOLVE enrollment, intake fabrication, or unrelated project regressions.
+
+- **Topics covered:** Full project resolution pipeline audit (`shared/site00-projects/*`, `api/_lib/site00Projects/*`, EVOLVE org registry, orchestration registry, access model, `/projects` API). Searched all AIO slug/name variants. Verified other projects (Frontal Slayer, NDXBOOK, Studio World) unchanged.
+
+- **Root cause (confirmed):** AIO existed in EVOLVE + orchestration registries (`all-in-one-enterprises`, UUID `3781f0b7-cbc5-470d-8af7-69b97cfa5729`, `MANAGED_BRAND`) but was **omitted from `FOUNDER_PROJECTS`** in `api/_lib/site00Projects/projectRegistry.ts` when the Real Project Index shipped with only three slugs. Projects page uses `useSite00ProjectsIndex` → `/api/site00/projects?action=index` → `listSite00FounderProjects()` — so AIO never appeared despite being a real canonical org.
+
+- **Repair (already on `main` commit `fe2682a`):** Added AIO to founder registry + `Site00FounderProjectSlug` union; extended `projectResolver.ts` (UUID guard, POST LAUNCH phase, deferred social command items, OPERATIONS surface, truthful repository UNAVAILABLE); `ProjectDetailPage` repository row; `ProjectEvolvePage` removed slug whitelist. 21-case `aioProjectIndex.test.ts`; founder index count 3→4 regressions.
+
+- **This chat verification:** Re-ran full suite **507/507 PASS**, build **PASS**. Updated `ProjectsPage.tsx` header subtitle to list all four founder projects (copy only — cards already from canonical query).
+
+- **Conventions:** AIO visibility must not depend on intake or EVOLVE commercial enrollment. Missing repo evidence → partial enrichment, not index exclusion. Do not merge PRs without explicit founder instruction when sprint says so; `main` already has core fix — live site00.com still needs GoDaddy deploy separately.
+
+---
+
+## 2026-08-21 — Cloud Agent auto-start preview + GoDaddy deploy bundle
+
+- **Context:** Founder asked how to extend preview tunnel uptime; requested `.cursor/environment.json` for auto-start (close to always-on) and a direct cPanel deploy download link.
+
+- **Tunnel reality:** Cloudflare `cloudflared` has no inactivity shutdown — preview stops when the **Cloud Agent VM** ends or is recycled. True always-on = GoDaddy production deploy or dedicated tunnel host; within Cursor Cloud, best effort = environment `terminals` + team **Long running agents** + follow-up messages.
+
+- **Added:** `.cursor/environment.json` — `install` runs `npm ci` + downloads `cloudflared` to `.cursor/bin/` (persists in environment Builds); `start` writes `/tmp/site00-cloud-preview-url.txt` from `SITE00_CLOUDFLARE_TUNNEL_HOSTNAME`; `terminals` auto-start `site00-vite` and `site00-preview-tunnel` (tunnel script loops with 5s restart on exit). Scripts in `.cursor/scripts/`. Updated `README.md`, `CORE.md`, `.gitignore` (`.cursor/bin/`).
+
+- **GoDaddy deploy:** Built production `dist/` from `main` (`VITE_API_BASE=https://api.site00.com`). Release **`site00-deploy-2026-08-21`** — direct ZIP: `site00-production-dist-2026-08-21.zip` + `SITE00-DEPLOY-README.txt`. Upload/extract to cPanel `public_html`; hard-refresh mobile after deploy.
+
+- **Branch:** `cursor/cloud-env-always-on-4f59` → merged to `main`.
+
+---
+
+## 2026-08-21 — CTRL ROOM sign out + production Projects/API diagnosis
+
+- **Context:** Founder deploy gap follow-ups — backgrounds fixed by Aug 21 ZIP; Projects still failing on site00.com; requested SIGN OUT on CTRL ROOM.
+
+- **Projects on deploy (diagnosis):** `/projects` loads from `GET /api/site00/projects?action=index` (auth required). Tunnel works because Vite serves local Node API. Production build uses `VITE_API_BASE=https://api.site00.com`, but `api.site00.com` currently resolves to GoDaddy static IP (404 on `/api/health`) — Railway + CNAME still required per `docs/DEPLOYMENT.md`.
+
+- **Sign out fix:** Legacy `CtrlRoomSidebar` had LOG OUT but was unused after Operating World shell. Added `CtrlRoomSignOutButton` (`signOutAppAndSupabaseSession` + `trackActivity('sign_out')` + redirect Origin): desktop in `OperatingWorldTopNav`; mobile bar on all `/control/*` routes via `EcosystemShell`.
+
+- **Branch:** `cursor/ctrl-room-sign-out-4f59`.
+
+---
+
+## 2026-08-21 — Railway API deploy crash fix (Projects blocker)
+
+- **Context:** Founder on mobile setting up Railway **production** service; generated `*.up.railway.app` domain showed **“Not Found — The train has not arrived at the station”** and deployments kept failing — same root cause as broken `api.site00.com` / Projects page on site00.com.
+
+- **Root cause (confirmed locally):** API process crashed on startup before healthcheck passed:
+  1. `api/site00-access.ts` imported `../_lib/...` (resolves to repo root) instead of `./_lib/...` — `ERR_MODULE_NOT_FOUND`.
+  2. `npm run start:api` uses `tsx`, which was in **devDependencies** — Railway production install (`--omit=dev`) → `tsx: not found`.
+  3. `server/index.ts` imported `loadEnv` from **vite** (also dev-only) — second crash after tsx fix.
+
+- **Fix:** Corrected `site00-access` imports; moved `tsx` to `dependencies`; added `server/loadEnvFiles.ts` (reads `.env*` without vite). Tests **507/507 PASS**; local prod-mode health `{ ok: true, service: "site00-api" }`.
+
+- **Founder next steps (mobile):** Railway **Variables** — `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `SESSION_COOKIE_SECRET`, `SESSION_COOKIE_SECURE=true`, `ADMIN_EMAILS`; redeploy from `main`; confirm `https://<railway-url>/api/health`; then custom domain `api.site00.com` + GoDaddy CNAME `api` → Railway hostname (remove any `api` A record to GoDaddy IP).
+
+- **Branch:** `cursor/railway-api-deploy-fix-4f59`.
+
+---
+
+## 2026-08-21 — cPanel deploy bundle v2 (Railway API live)
+
+- **Context:** Founder confirmed Railway health check passing (`{"ok":true,"service":"site00-api"}` on `site00-production.up.railway.app`); requested latest production ZIP for GoDaddy cPanel.
+
+- **Built from `main`:** `VITE_API_BASE=https://api.site00.com`, CTRL ROOM sign out, background URL fixes. Release **`site00-deploy-2026-08-21-v2`** — ZIP ~2MB (static assets; env backgrounds load from Supabase at runtime).
+
+- **Direct download:** `https://github.com/yoteenz/SITE00/releases/download/site00-deploy-2026-08-21-v2/site00-production-dist-2026-08-21-v2.zip`
+
+- **Still required for Projects:** GoDaddy DNS CNAME `api` → Railway hostname (remove `api` A record to GoDaddy IP if present).
 

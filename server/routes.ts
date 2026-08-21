@@ -16,6 +16,9 @@ import site00MarketingAdminHandler from '../api/admin/site00-marketing.js';
 import site00OrchestrationHandler from '../api/admin/site00-orchestration.js';
 import site00EvolveHandler from '../api/admin/site00-evolve.js';
 import site00EvolveOAuthCallbackHandler from '../api/admin/site00-evolve-oauth-callback.js';
+import site00IntakesHandler from '../api/site00/intakes.js';
+import site00IntakeAccessHandler from '../api/site00/intake-access.js';
+import site00IntakesAdminHandler from '../api/admin/site00-intakes.js';
 
 /** Express path → Vercel-style default export handler */
 export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = [
@@ -35,4 +38,7 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/admin/site00-orchestration', handler: site00OrchestrationHandler },
   { path: '/api/admin/site00-evolve', handler: site00EvolveHandler },
   { path: '/api/admin/site00-evolve/oauth/callback', handler: site00EvolveOAuthCallbackHandler },
+  { path: '/api/site00/intakes', handler: site00IntakesHandler },
+  { path: '/api/site00/intake-access', handler: site00IntakeAccessHandler },
+  { path: '/api/admin/site00-intakes', handler: site00IntakesAdminHandler },
 ];

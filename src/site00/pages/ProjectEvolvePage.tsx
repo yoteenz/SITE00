@@ -70,12 +70,10 @@ export default function ProjectEvolvePage() {
               </section>
             </div>
 
-            {project.slug === 'frontal-slayer' || project.slug === 'studio-world' || project.slug === 'ndxbook' ? (
-              <ProjectPrivilegedUtilities
-                slug={project.slug as Site00FounderProjectSlug}
-                organizationUuid={project.organizationUuid}
-              />
-            ) : null}
+            <ProjectPrivilegedUtilities
+              slug={project.slug as Site00FounderProjectSlug}
+              organizationUuid={project.organizationUuid}
+            />
           </>
         )}
       </div>

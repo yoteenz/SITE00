@@ -17,6 +17,7 @@ import { IdntyStepForm, useStepForm } from '../../../components/idnty-assessment
 import { IdentityCalibrationMobileStep } from '../../../components/idnty/calibration';
 import { useSite00DesktopArtboardPreview } from '../../../components/shell/Site00DesktopArtboardContext';
 import { site00IdntyAssessmentDesktopPath } from '../../../config/routes';
+import { IntakeSaveStatus } from '../../../components/intake/IntakeSaveStatus';
 
 type IdntyAssessmentStepPageProps = {
   stateSlug: IdntyAssessmentStateId;
@@ -29,7 +30,15 @@ export default function IdntyAssessmentStepPage({ stateSlug, stepId }: IdntyAsse
   const state = getIdntyAssessmentState(stateSlug)!;
   const step = state.steps.find((s) => s.id === stepId);
 
-  const { startState, setStepAnswers, markStepComplete, getAnswersForState } = useIdntyAssessment();
+  const {
+    startState,
+    setStepAnswers,
+    markStepComplete,
+    getAnswersForState,
+    serverSaveState,
+    serverLastSavedAt,
+    serverSaveError,
+  } = useIdntyAssessment();
   const existingAnswers = getAnswersForState(stateSlug);
   const existingValue = existingAnswers[stepId] ?? (step?.type === 'multi' ? [] : '');
 
@@ -93,6 +102,7 @@ export default function IdntyAssessmentStepPage({ stateSlug, stepId }: IdntyAsse
   const panel = (
     <div className="site00-idnty-assessment-card">
       <p className="site00-idnty-assessment-card__progress">{stepProgress}</p>
+      <IntakeSaveStatus state={serverSaveState} lastSavedAt={serverLastSavedAt} errorMessage={serverSaveError} />
       <IdntyStepForm
         step={step}
         value={form.value}

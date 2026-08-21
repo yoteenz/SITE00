@@ -13,7 +13,8 @@ export type EmailFamily =
   | 'domain'
   | 'support'
   | 'signal'
-  | 'internal';
+  | 'internal'
+  | 'intake';
 
 export type EmailArchetype =
   | 'access-credential'
@@ -28,7 +29,8 @@ export type EmailArchetype =
   | 'location-live'
   | 'production-complete'
   | 'signal-editorial'
-  | 'internal-notice';
+  | 'internal-notice'
+  | 'intake-lifecycle';
 
 export type EmailClassification = 'transactional' | 'operational' | 'production' | 'marketing' | 'internal';
 
@@ -115,6 +117,22 @@ export type EmailTemplateVars = {
   queuePosition?: string;
   reviewEstimate?: string;
   specVersion?: string;
+  /** Intake lifecycle (Identity + Builder persistence infrastructure) */
+  intakeReference?: string;
+  intakeType?: 'IDENTITY' | 'BUILDER';
+  secureViewUrl?: string;
+  accountClaimUrl?: string;
+  nextStep?: string;
+  /**
+   * Intake Access email family (FAL-native visual production pilot). `intakeStatusDisplay` and
+   * `intakeLastSavedAtDisplay` are the canonical intake record's status/lastSavedAt formatted for
+   * display. `intakeCompletionPercent` is ONLY set when a truthful figure is derivable from
+   * currentStep/totalSteps — never fabricated; the template renders a non-numeric "IN PROGRESS"
+   * treatment when it is undefined.
+   */
+  intakeStatusDisplay?: string;
+  intakeLastSavedAtDisplay?: string;
+  intakeCompletionPercent?: number;
 };
 
 export type EmailTemplateDefinition = {

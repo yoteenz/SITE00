@@ -68,7 +68,20 @@ export const SITE00_ROUTES = {
   studioReviewDetail: '/studio/:projectSlug/reviews/:reviewId',
   studioMilestones: '/studio/:projectSlug/milestones',
   studioActivity: '/studio/:projectSlug/activity',
+  /** Client canonical intake retrieval — Identity + Builder intake persistence infrastructure */
+  accountIntakes: '/account/intakes',
+  accountIntakeDetail: '/account/intakes/:intakeType/:intakeId',
+  /** Guest secure intake access/resume — no sign-in required */
+  intakeGuestAccess: '/intake/access/:token',
 } as const;
+
+export function site00AccountIntakeDetailPath(intakeType: string, intakeId: string): string {
+  return `/account/intakes/${intakeType.toLowerCase()}/${intakeId}`;
+}
+
+export function site00IntakeGuestAccessPath(token: string): string {
+  return `/intake/access/${token}`;
+}
 
 export function site00ProjectPath(projectSlug: string): string {
   return `/projects/${projectSlug}`;
