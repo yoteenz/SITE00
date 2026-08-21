@@ -1,6 +1,6 @@
 /** SITE 00 founder project index — shared types */
 
-export type Site00FounderProjectSlug = 'frontal-slayer' | 'studio-world' | 'ndxbook';
+export type Site00FounderProjectSlug = 'frontal-slayer' | 'studio-world' | 'ndxbook' | 'all-in-one-enterprises';
 
 export type Site00ProjectSurface = {
   id: string;
@@ -117,6 +117,7 @@ export type Site00ProjectDetail = Site00ProjectIndexEntry & {
     marketingHealth: string | null;
     importState: string | null;
     boundaryNote: string | null;
+    repositoryConnection?: string | null;
   };
   intelligence: Site00ProjectIntelligenceSummary;
   evolve: {

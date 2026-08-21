@@ -2149,3 +2149,43 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 - **Shipping:** Branch `cursor/intake-access-fal-visual-pilot-1983`, PR #195 opened against `main` and merged in the same session per the default shipping workflow (no merge conflicts — clean fast-forward ahead of `main`). No deploy, no real emails sent, no changes to Frontal Slayer/Studio World runtime/AIO/NDXBOOK/Family 01.
 
+---
+
+## 2026-08-21 — Sign-in password input width alignment
+
+- **Context:** Founder reported the password input on the sign-in page was still wider than the email input and extended beyond it; both fields should be the exact same width.
+
+- **Root cause:** `.site00-auth-shell` lacked the `box-sizing: border-box` reset that `.site00-shell` applies elsewhere. The password field uses `width: 100%` plus `padding-right: 64px` for the SHOW toggle — under content-box sizing, that padding adds to the outer width and makes the field wider than the email input above it.
+
+- **Fix:** In `src/site00/styles/site00-auth.css`, added `box-sizing: border-box` to the auth shell and explicit `width: 100%` / `max-width: 100%` on `.site00-signin-form__password-wrap` and `.site00-signin-form__input--password` (with `display: block`). Minimal CSS-only change; no markup changes.
+
+- **Changes:** `src/site00/styles/site00-auth.css` only. `npm run build` PASS.
+
+- **Conventions:** When adding padded full-width inputs inside SITE 00 auth/forms, ensure the parent shell or the inputs themselves use `box-sizing: border-box` so padding does not inflate width past sibling fields.
+
+---
+
+## 2026-08-21 — Sign-in magic link button feedback + OTP redirect
+
+- **Context:** Founder reported the "Sign in with magic link" button appeared to do nothing.
+
+- **Root cause (UX):** The handler was functional — Supabase OTP calls succeeded/failed correctly — but error/success messages rendered **above** the SIGN IN button, ~118px **above** the magic link button at the bottom of the form. On mobile especially, users clicked magic link and never saw feedback. Secondary issues: duplicate `id="site00-signin-email"` / `site00-signin-password` on desktop+mobile forms mounted simultaneously; message line-height too tight (~10px tall); async handlers lacked `try/finally` so a thrown error could leave the button stuck disabled.
+
+- **Fix:** Moved feedback block to immediately **below** the magic link button; added `scrollIntoView` on feedback; unique per-layout input/form ids (`-desktop` / `-mobile`); improved message line-height; `try/finally` on all async auth handlers. Magic link OTP now redirects through `/origin/sign-in?returnTo=…` (so Supabase session hash lands on the auth surface) and lowercases email before the Supabase call.
+
+- **Changes:** `Site00SignInForm.tsx`, `site00SignInActions.ts`, `site00-auth.css`. Build PASS.
+
+---
+
+## 2026-08-21 — AIO project index integration (founder Projects)
+
+- **Context:** Follow-up sprint after Real Project Index + Command Surface, Founder Dual-Context Access, and Runtime Repair. Founder Projects index had three canonical projects (Frontal Slayer, Studio World, ndxbook) but omitted **ALL IN ONE ENTERPRISES** despite AIO already existing in EVOLVE + orchestration registries.
+
+- **Forensic audit:** Canonical slug `all-in-one-enterprises`; production UUID `3781f0b7-cbc5-470d-8af7-69b97cfa5729`; classification `MANAGED_BRAND`; orchestration `EXISTING_ACTIVE_PROJECT` with `MISSING_EVIDENCE` reconciliation; repository `UNVERIFIED` / `NOT_ACCESSIBLE`; EVOLVE profile `POST_LAUNCH` (trucking/logistics); social channels `DEFERRED_BY_OWNER`; no duplicate org needed.
+
+- **Implementation:** Added AIO to `FOUNDER_PROJECTS` in `api/_lib/site00Projects/projectRegistry.ts` and extended `Site00FounderProjectSlug` union. `projectResolver.ts` reuses canonical org UUID, merges EVOLVE deferred command items (Social Marketing stays DEFERRED not BLOCKED), derives POST LAUNCH phase + operations production state, surfaces OPERATIONS admin route, and reports truthful repository connection (`UNAVAILABLE — NEEDS CONFIGURATION`) from orchestration store. `ProjectDetailPage` shows repository row + deferred command items; `ProjectEvolvePage` shows privileged utilities for all founder projects (removed hardcoded slug whitelist).
+
+- **Tests:** New `aioProjectIndex.test.ts` (21 cases) + updated founder-index count regressions (3→4) in `site00Projects.test.ts`, `projectsIndexContract.test.ts`, `site00DualContext.test.ts`. Full suite 507/507 PASS. Build PASS.
+
+- **Conventions:** Do not create duplicate AIO org/UUID/EVOLVE profile. Social marketing deferral is owner decision — never a launch blocker. Missing GitHub repo evidence must not remove AIO from founder index; show partial/truthful enrichment instead.
+
