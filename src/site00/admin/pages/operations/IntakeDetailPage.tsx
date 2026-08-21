@@ -36,6 +36,8 @@ export default function IntakeDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [confirmingField, setConfirmingField] = useState<string | null>(null);
+  const [confirmError, setConfirmError] = useState<string | null>(null);
 
   const load = () => {
     if (!intakeType || !intakeId) return;
@@ -71,6 +73,16 @@ export default function IntakeDetailPage() {
       .then(load)
       .catch((e) => setError(e instanceof Error ? e.message : 'FAILED TO ARCHIVE'))
       .finally(() => setActionLoading(null));
+  };
+
+  const handleConfirmLoreField = (fieldKey: keyof BrandLoreProfile) => {
+    setConfirmError(null);
+    setConfirmingField(String(fieldKey));
+    site00AdminIntakesApi
+      .confirmLoreField(intakeId, String(fieldKey))
+      .then((data) => setBrandLore(data.brandLore))
+      .catch((e) => setConfirmError(e instanceof Error ? e.message : 'CONFIRMATION FAILED — NOT PERSISTED'))
+      .finally(() => setConfirmingField(null));
   };
 
   if (!intakeType) {
@@ -155,6 +167,7 @@ export default function IntakeDetailPage() {
 
           <section className="site00-admin-panel">
             <h2 className="site00-admin-panel__title">BRAND INTELLIGENCE</h2>
+            {confirmError ? <p className="site00-admin-panel site00-admin-panel--error">{confirmError}</p> : null}
             <BrandIntelligencePanel
               profile={brandLore}
               rawLoreAnswers={
@@ -162,6 +175,8 @@ export default function IntakeDetailPage() {
                   | Record<string, string | string[]>
                   | undefined
               }
+              onConfirmField={intakeType === 'IDENTITY' ? handleConfirmLoreField : undefined}
+              confirmingField={confirmingField}
             />
           </section>
 
