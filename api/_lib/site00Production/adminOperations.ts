@@ -144,7 +144,7 @@ export async function ensureAdminOpsSeeded(): Promise<{ seeded: boolean }> {
     identity_id: identityId,
     email: DEMO_CLIENT_EMAIL,
     identity_state: 'SOME PIECES EXIST',
-    status: 'COMPLETE',
+    status: 'SUBMITTED',
     answers: {
       brand_maturity: 'PARTIAL',
       existing_assets: ['LOGO MARK', 'PRODUCT PHOTOGRAPHY'],

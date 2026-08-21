@@ -19,6 +19,7 @@ import { BldrIntakeShell } from '../../../components/bldr/intake/BldrIntakeShell
 import { BldrIntakeStepPanel } from '../../../components/bldr/intake/BldrIntakePanels';
 import { useSite00DesktopArtboardPreview } from '../../../components/shell/Site00DesktopArtboardContext';
 import { site00BldrAssessmentDesktopPath } from '../../../config/routes';
+import { IntakeSaveStatus } from '../../../components/intake/IntakeSaveStatus';
 
 type BldrAssessmentStepPageProps = {
   classSlug: BldrAssessmentStateId;
@@ -31,7 +32,15 @@ export default function BldrAssessmentStepPage({ classSlug, stepId }: BldrAssess
   const state = getBldrAssessmentState(classSlug)!;
   const step = state.steps.find((s) => s.id === stepId);
 
-  const { startClass, setStepAnswers, markStepComplete, getAnswersForClass } = useBldrAssessment();
+  const {
+    startClass,
+    setStepAnswers,
+    markStepComplete,
+    getAnswersForClass,
+    serverSaveState,
+    serverLastSavedAt,
+    serverSaveError,
+  } = useBldrAssessment();
   const existingAnswers = getAnswersForClass(classSlug);
   const existingValue = existingAnswers[stepId] ?? (step?.type === 'multi' ? [] : '');
 
@@ -90,6 +99,7 @@ export default function BldrAssessmentStepPage({ classSlug, stepId }: BldrAssess
     const discoveryIndex = classSlug === 'not-sure' ? stepIndex : stepIndex + 1;
     return (
       <BldrIntakeShell breadcrumb={state.breadcrumb}>
+        <IntakeSaveStatus state={serverSaveState} lastSavedAt={serverLastSavedAt} errorMessage={serverSaveError} />
         <BldrIntakeStepPanel
           state={state}
           stepId={stepId}
@@ -116,6 +126,7 @@ export default function BldrAssessmentStepPage({ classSlug, stepId }: BldrAssess
       <p className="site00-bldr-context-label">{state.contextLabel}</p>
       {discoveryStep ? <BldrDiscoveryProgress current={discoveryStep} /> : null}
       <p className="site00-idnty-assessment-card__progress">{stepProgress}</p>
+      <IntakeSaveStatus state={serverSaveState} lastSavedAt={serverLastSavedAt} errorMessage={serverSaveError} />
       <IdntyStepForm
         step={step as IdntyAssessmentStep}
         value={form.value}

@@ -1190,6 +1190,32 @@
   gap: 4px;
 }
 
+/* Canonical Intake Inbox — Identity + Builder intake persistence infrastructure */
+.site00-admin-intakes-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.site00-admin-intakes-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.site00-admin-sort-select {
+  border: 1px solid var(--site-line);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 8px 10px;
+  font-family: var(--site00-font-nav);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--site-text-muted);
+}
+
 @media (max-width: 1023px) {
   .site00-admin-dashboard-grid {
     grid-template-columns: 1fr;
@@ -1209,6 +1235,16 @@
 
   .site00-admin-header__kbd {
     display: none;
+  }
+
+  .site00-admin-intakes-toolbar {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .site00-admin-search-input {
+    min-width: 0;
+    flex: 1;
   }
 }
 

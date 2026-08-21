@@ -2,10 +2,10 @@
  * SITE 00 transactional email dispatch.
  * Renders from shared template registry; provider wiring deferred until configured.
  */
-import { renderEmailTemplate } from '../../shared/site00-email/render.js';
-import { getTemplateIdForLegacyType } from '../../shared/site00-email/registry/events.js';
-import { emailSendKey, hasEmailBeenSent, markEmailSent } from '../../shared/site00-email/sendLog.js';
-import type { EmailTemplateVars } from '../../shared/site00-email/types.js';
+import { renderEmailTemplate } from '../../../shared/site00-email/render.js';
+import { getTemplateIdForLegacyType } from '../../../shared/site00-email/registry/events.js';
+import { emailSendKey, hasEmailBeenSent, markEmailSent } from '../../../shared/site00-email/sendLog.js';
+import type { EmailTemplateVars } from '../../../shared/site00-email/types.js';
 
 export type SendEmailOptions = {
   templateType: string;
@@ -26,6 +26,11 @@ function mapLegacyVariables(vars?: Record<string, string>): Partial<EmailTemplat
     reviewName: vars.reviewName,
     milestoneName: vars.milestoneName,
     liveUrl: vars.liveUrl,
+    intakeReference: vars.intakeReference,
+    intakeType: vars.intakeType === 'BUILDER' ? 'BUILDER' : vars.intakeType === 'IDENTITY' ? 'IDENTITY' : undefined,
+    secureViewUrl: vars.secureViewUrl,
+    accountClaimUrl: vars.accountClaimUrl,
+    nextStep: vars.nextStep,
   };
 }
 

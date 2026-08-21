@@ -6,6 +6,7 @@ import {
   type IdntyAssessmentStateId,
   getIdntyAssessmentState,
 } from '../config/idnty-assessment';
+import { useIntakeSync } from './useIntakeSync';
 
 export type IdntyStepAnswers = Record<string, string | string[]>;
 
@@ -84,6 +85,7 @@ function readRecord(): IdntyAssessmentRecord {
 
 export function useIdntyAssessment() {
   const [record, setRecord] = useState<IdntyAssessmentRecord>(() => readRecord());
+  const intakeSync = useIntakeSync('IDENTITY', 'site00-idnty');
 
   useEffect(() => {
     const refresh = () => setRecord(readRecord());
@@ -110,27 +112,30 @@ export function useIdntyAssessment() {
         startedAt: new Date().toISOString(),
         submissionStatus: 'draft',
       });
+      void intakeSync.ensureStarted({
+        domainLabel: stateId,
+        sourceRoute: typeof window !== 'undefined' ? window.location.pathname : undefined,
+      });
     },
-    [persist],
+    [persist, intakeSync],
   );
 
   const setStepAnswers = useCallback(
     (stateId: IdntyAssessmentStateId, stepId: string, answers: IdntyStepAnswers) => {
       const current = readRecord();
+      const mergedForState = { ...(current.answers[stateId] ?? {}), ...answers };
       persist({
         ...current,
         identityState: stateId,
         currentStep: stepId,
         answers: {
           ...current.answers,
-          [stateId]: {
-            ...(current.answers[stateId] ?? {}),
-            ...answers,
-          },
+          [stateId]: mergedForState,
         },
       });
+      intakeSync.autosave({ currentStep: stepId, draftPayload: { identityState: stateId, answers: mergedForState } });
     },
-    [persist],
+    [persist, intakeSync],
   );
 
   const markStepComplete = useCallback(
@@ -143,29 +148,33 @@ export function useIdntyAssessment() {
         completedSteps: Array.from(completed),
         currentStep: stepId,
       });
+      intakeSync.autosave({ currentStep: stepId, draftPayload: { completedSteps: Array.from(completed) } });
     },
-    [persist],
+    [persist, intakeSync],
   );
 
   const setCurrentStep = useCallback(
     (stateId: IdntyAssessmentStateId, stepId: string | null) => {
       persist({ ...readRecord(), identityState: stateId, currentStep: stepId });
+      intakeSync.autosave({ currentStep: stepId });
     },
-    [persist],
+    [persist, intakeSync],
   );
 
   const completeAssessment = useCallback(
     (stateId: IdntyAssessmentStateId) => {
       persist({ ...readRecord(), identityState: stateId, submissionStatus: 'complete', currentStep: 'complete' });
+      void intakeSync.submit();
     },
-    [persist],
+    [persist, intakeSync],
   );
 
   const clearAssessment = useCallback(() => {
     if (typeof window === 'undefined') return;
     localStorage.removeItem(IDNTY_ASSESSMENT_STORAGE_KEY);
     setRecord(EMPTY);
-  }, []);
+    intakeSync.reset();
+  }, [intakeSync]);
 
   const getAnswersForState = useCallback(
     (stateId: IdntyAssessmentStateId): IdntyStepAnswers => record.answers[stateId] ?? {},
@@ -193,5 +202,12 @@ export function useIdntyAssessment() {
     getAnswersForState,
     resumeTarget,
     hasResume: Boolean(resumeTarget),
+    /** Canonical server persistence state — truthful save state for the UI (IX). */
+    serverSaveState: intakeSync.saveState,
+    serverLastSavedAt: intakeSync.lastSavedAt,
+    serverSaveError: intakeSync.errorMessage,
+    serverIntake: intakeSync.serverIntake,
+    serverIntakeId: intakeSync.serverIntakeId,
+    requestGuestAccess: intakeSync.requestGuestAccess,
   };
 }

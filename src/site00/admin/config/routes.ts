@@ -10,6 +10,9 @@ export const SITE00_ADMIN_ROUTES = {
   identity: (id: string) => `/admin/site00/identities/${id}`,
   bldrIntakes: '/admin/site00/bldr-intakes',
   bldrIntake: (id: string) => `/admin/site00/bldr-intakes/${id}`,
+  /** Canonical Identity + Builder Intake Inbox — Identity/Builder intake persistence infra */
+  intakes: '/admin/site00/intakes',
+  intake: (intakeType: string, id: string) => `/admin/site00/intakes/${intakeType.toLowerCase()}/${id}`,
   leads: '/admin/site00/leads',
   lead: (id: string) => `/admin/site00/leads/${id}`,
   discovery: '/admin/site00/discovery',

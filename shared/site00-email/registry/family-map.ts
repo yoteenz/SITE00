@@ -1,7 +1,7 @@
 import type { EmailFamilyCanon } from '../families/registry.js';
 import { EMAIL_TEMPLATES } from './templates.js';
 
-/** Explicit template → primary family mapping (81 templates). */
+/** Explicit template → primary family mapping (84 templates). */
 const TEMPLATE_FAMILY_MAP: Record<string, EmailFamilyCanon> = {
   // 01 ACCESS / SECURITY
   'sign-in-link': 'ACCESS_SECURITY',
@@ -101,6 +101,12 @@ const TEMPLATE_FAMILY_MAP: Record<string, EmailFamilyCanon> = {
   're-engagement': 'REENGAGEMENT_HUMAN',
   'abandoned-intake': 'REENGAGEMENT_HUMAN',
   'evolve-invitation': 'REENGAGEMENT_HUMAN',
+
+  // INTAKE — Identity + Builder intake persistence infrastructure sprint (placeholders only,
+  // CREATIVE_DIRECTION_PENDING — see registry/templates.ts).
+  'intake-guest-access': 'ACCESS_SECURITY',
+  'intake-submission-receipt': 'WELCOME_ONBOARDING',
+  'intake-claimed': 'ACCESS_SECURITY',
 };
 
 /** Fallback when template id missing from explicit map. */
@@ -127,6 +133,8 @@ function inferFamilyFromRegistry(templateId: string): EmailFamilyCanon {
     case 'support':
     case 'internal':
       return 'ALERT_BLOCKER';
+    case 'intake':
+      return 'WELCOME_ONBOARDING';
     default:
       return 'PROJECT_PRODUCTION';
   }
