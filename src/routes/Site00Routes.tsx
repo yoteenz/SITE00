@@ -73,6 +73,9 @@ const AboutPage = lazy(() => import('../site00/pages/AboutPage'));
 const JournalPage = lazy(() => import('../site00/pages/JournalPage'));
 const ProjectsPage = lazy(() => import('../site00/pages/ProjectsPage'));
 const ProjectDetailPage = lazy(() => import('../site00/pages/ProjectDetailPage'));
+const AccountIntakesPage = lazy(() => import('../site00/pages/account/AccountIntakesPage'));
+const AccountIntakeDetailPage = lazy(() => import('../site00/pages/account/AccountIntakeDetailPage'));
+const IntakeGuestAccessPage = lazy(() => import('../site00/pages/intake/IntakeGuestAccessPage'));
 const ProjectEvolvePage = lazy(() => import('../site00/pages/ProjectEvolvePage'));
 const ProjectCreativeDirectionPage = lazy(() => import('../site00/pages/ProjectCreativeDirectionPage'));
 const SupportPage = lazy(() => import('../site00/pages/SupportPage'));
@@ -500,6 +503,40 @@ export function Site00Routes() {
                 <ProjectCreativeDirectionPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.accountIntakes}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <AccountIntakesPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.accountIntakeDetail}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <AccountIntakeDetailPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.intakeGuestAccess}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <IntakeGuestAccessPage />
+            </Site00Suspense>
           </Site00Layout>
         }
       />
