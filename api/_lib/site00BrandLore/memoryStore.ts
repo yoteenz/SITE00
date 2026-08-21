@@ -25,12 +25,20 @@ export async function getBrandLoreProfileById(id: string): Promise<BrandLoreProf
 }
 
 export async function getBrandLoreProfileByIntake(
-  intakeType: 'IDENTITY' | 'BUILDER',
+  intakeType: 'IDENTITY' | 'BUILDER' | 'CONTENT_BRAIN',
   intakeId: string,
 ): Promise<BrandLoreProfile | null> {
   const pid = byIntake.get(`${intakeType}:${intakeId}`);
   if (!pid) return null;
   return profiles.get(pid) ?? null;
+}
+
+/** Most-recently-updated profile for an organization — mirrors supabaseStore.ts for test parity. */
+export async function getBrandLoreProfileByOrgId(orgId: string): Promise<BrandLoreProfile | null> {
+  const matches = [...profiles.values()]
+    .filter((p) => p.organizationId === orgId)
+    .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  return matches[0] ?? null;
 }
 
 export async function confirmLoreField(

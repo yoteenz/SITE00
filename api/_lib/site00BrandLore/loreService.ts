@@ -5,12 +5,16 @@
 import type { BrandLoreProfile } from '../../../shared/site00-brand-lore/types.js';
 import {
   synthesizeBrandLoreProfile,
+  mergePreservingFounderConfirmations,
+  mergeCalibrationIntoProfile,
   extractOperationalProjectTypes,
   extractOperationalGoals,
   type LoreSynthesisInput,
 } from './loreSynthesis.js';
 import { synthesizeBuilderExperienceProfile } from './experienceSynthesis.js';
-import * as store from './memoryStore.js';
+import * as store from './storeAdapter.js';
+import { getSupabaseAdmin, hasSupabaseServiceRole } from '../supabase.js';
+import { buildNdxbookReconciledProfile, contentBrainSourceIntakeId } from './ndxbookReconciliation.js';
 
 export { resetBrandLoreMemoryStore } from './memoryStore.js';
 
@@ -22,6 +26,28 @@ export type IntakeLorePayload = {
   brandLoreProfileId?: string | null;
   inheritedLoreSnapshot?: Partial<BrandLoreProfile> | null;
 };
+
+/**
+ * IntakeRecord (shared/site00-intakes) has no organizationId column — only projectId. Resolve the
+ * owning organization from the linked site00_projects row so BrandLoreProfile.organizationId is
+ * ever actually populated (previously always null — see XXV NDX BOOK reconciliation dependency on
+ * this working). Guarded so tests (VITEST=true, no live Supabase project rows) short-circuit.
+ */
+async function resolveOrganizationIdForProject(projectId: string | null | undefined): Promise<string | null> {
+  if (!projectId) return null;
+  if (process.env.VITEST === 'true' || !hasSupabaseServiceRole()) return null;
+  try {
+    const { data, error } = await getSupabaseAdmin()
+      .from('site00_projects')
+      .select('organization_id')
+      .eq('id', projectId)
+      .maybeSingle();
+    if (error || !data) return null;
+    return (data.organization_id as string | null) ?? null;
+  } catch {
+    return null;
+  }
+}
 
 export async function upsertLoreFromIdentityIntake(params: {
   intakeId: string;
@@ -41,11 +67,12 @@ export async function upsertLoreFromIdentityIntake(params: {
   const operational = stateAnswers[identityState] ?? {};
 
   const existing = await store.getBrandLoreProfileByIntake('IDENTITY', params.intakeId);
+  const organizationId = params.organizationId ?? (await resolveOrganizationIdForProject(params.projectId));
 
   const input: LoreSynthesisInput = {
     loreAnswers,
     sourceIntakeId: params.intakeId,
-    organizationId: params.organizationId ?? null,
+    organizationId,
     projectId: params.projectId ?? null,
     orgSlug: params.orgSlug ?? null,
     operationalAnswers: {
@@ -55,7 +82,10 @@ export async function upsertLoreFromIdentityIntake(params: {
     existingProfileId: existing?.id ?? (params.draftPayload.brandLoreProfileId as string | null),
   };
 
-  const profile = synthesizeBrandLoreProfile(input);
+  const freshlySynthesized = synthesizeBrandLoreProfile(input);
+  // Every autosave re-derives the whole profile from raw answers — merge so an unrelated
+  // FOUNDER_CONFIRMED field from a prior save is never silently reverted to PENDING (XII).
+  const profile = mergePreservingFounderConfirmations(existing, freshlySynthesized);
   return store.saveBrandLoreProfile(profile);
 }
 
@@ -64,6 +94,63 @@ export async function getLoreForIntake(
   intakeId: string,
 ): Promise<BrandLoreProfile | null> {
   return store.getBrandLoreProfileByIntake(intakeType, intakeId);
+}
+
+/** Most-recently-updated Brand Lore profile for an organization — used by Creative Direction
+ * readiness gating (no bypass — see brandLoreBridge.ts). */
+export async function getBrandLoreProfileForOrg(orgId: string): Promise<BrandLoreProfile | null> {
+  return store.getBrandLoreProfileByOrgId(orgId);
+}
+
+/**
+ * NDX BOOK readiness gate closure (XXIV-XXVIII): returns the real Brand Lore profile for the org.
+ * If a genuine IDENTITY/BUILDER-sourced profile already exists, it always wins (XXVII — reconciled
+ * Content Brain intelligence must never sit on top of / override real founder lore). Otherwise,
+ * reconciles pre-existing Content Brain intelligence into a durable, honestly-partial profile so
+ * readiness reflects reality instead of silently reporting "no gate" (the removed bypass).
+ */
+export async function getOrReconcileBrandLoreForOrg(
+  orgId: string,
+  orgSlug: string,
+): Promise<BrandLoreProfile | null> {
+  const existing = await store.getBrandLoreProfileByOrgId(orgId);
+  if (existing && existing.sourceIntakeType !== 'CONTENT_BRAIN') return existing;
+  if (orgSlug !== 'ndxbook') return existing;
+
+  const reconciledExisting = await store.getBrandLoreProfileByIntake(
+    'CONTENT_BRAIN',
+    contentBrainSourceIntakeId(orgId),
+  );
+  if (reconciledExisting) return reconciledExisting;
+
+  const reconciled = buildNdxbookReconciledProfile(orgId);
+  return store.saveBrandLoreProfile(reconciled);
+}
+
+/**
+ * NDX BOOK targeted calibration submission (XXIX/XXX) — accepts ONLY the missing-domain answers a
+ * client/founder just gave (via the client calibration surface) and merges them into the org's
+ * durable Brand Lore profile. Never fabricates other domains; never re-asks what's already known.
+ */
+export async function submitOrgLoreCalibration(params: {
+  orgId: string;
+  orgSlug: string;
+  answers: Record<string, string | string[]>;
+}): Promise<BrandLoreProfile> {
+  const existing = await getOrReconcileBrandLoreForOrg(params.orgId, params.orgSlug);
+  const mergedRawAnswers = { ...(existing?.rawLoreAnswers ?? {}), ...params.answers };
+
+  const fresh = synthesizeBrandLoreProfile({
+    loreAnswers: mergedRawAnswers,
+    sourceIntakeId: existing?.sourceIntakeId ?? `calibration:${params.orgId}`,
+    organizationId: params.orgId,
+    projectId: existing?.projectId ?? null,
+    orgSlug: params.orgSlug,
+    existingProfileId: existing?.id ?? null,
+  });
+
+  const profile = existing ? mergeCalibrationIntoProfile(existing, fresh) : fresh;
+  return store.saveBrandLoreProfile(profile);
 }
 
 export async function confirmFounderLoreField(

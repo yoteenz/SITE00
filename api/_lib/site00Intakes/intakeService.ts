@@ -256,7 +256,7 @@ export async function autosaveIntake(
     const profile = await upsertLoreFromIdentityIntake({
       intakeId: id,
       draftPayload: { ...record.draftPayload, ...input.draftPayload },
-      organizationId: record.organizationId,
+      // IntakeRecord has no organizationId column — loreService resolves it from projectId.
       projectId: record.projectId,
     });
     if (profile) {
@@ -323,7 +323,6 @@ export async function submitIntake(
     await upsertLoreFromIdentityIntake({
       intakeId: id,
       draftPayload: record.draftPayload,
-      organizationId: record.organizationId,
       projectId: record.projectId,
     });
   }
