@@ -4,7 +4,9 @@ import {
   type BldrAssessmentStateId,
   getBldrAssessmentState,
   bldrAssessmentPath,
+  bldrAssessmentReviewPath,
 } from '../config/bldr-assessment';
+import { bldrExperiencePath } from '../../../shared/site00-brand-lore/bldr-experience-questions';
 import { IDNTY_ASSESSMENT_STORAGE_KEY } from '../config/idnty-assessment';
 import { computeBldrRecommendation } from '../config/bldr-assessment-recommendation';
 import { useIntakeSync } from './useIntakeSync';
@@ -285,6 +287,14 @@ export function useBldrAssessment() {
     if (!record.buildClass || record.submissionStatus === 'complete') return null;
     const config = getBldrAssessmentState(record.buildClass);
     if (!config) return null;
+    if (record.currentStep?.startsWith('experience:')) {
+      const experienceStepId = record.currentStep.slice('experience:'.length);
+      // Resume the NEXT unanswered experience step, not the one already completed on save.
+      return bldrExperiencePath(config.slug, experienceStepId);
+    }
+    if (record.currentStep === 'review') {
+      return bldrAssessmentReviewPath(config.slug);
+    }
     if (record.currentStep && record.currentStep !== 'complete') {
       return bldrAssessmentPath(config.slug, record.currentStep);
     }
