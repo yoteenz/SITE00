@@ -24,6 +24,19 @@ const FILES = [
   { local: '/tmp/site00-intake-assets/master/site00-email-intake-identity-fingerprint-v3.png', remote: `${ROOT}/master/site00-email-intake-identity-fingerprint-v3.png` },
   { local: '/tmp/site00-intake-assets/master/site00-email-intake-identity-seal-base.png', remote: `${ROOT}/master/site00-email-intake-identity-seal-base.png` },
 
+  // Isolation masters (BiRefNet v2 background removal — see remove-background.mjs). Production
+  // lineage stage: GENERATION MASTER -> ISOLATION MASTER. Uploaded for traceability even though
+  // only the flattened COMPOSITION MASTER / email derivative is referenced at runtime.
+  { local: '/tmp/site00-intake-assets/isolation/site00-email-intake-identity-archival-note-isolated.png', remote: `${ROOT}/isolation/site00-email-intake-identity-archival-note-isolated.png` },
+  { local: '/tmp/site00-intake-assets/isolation/site00-email-intake-identity-fingerprint-isolated.png', remote: `${ROOT}/isolation/site00-email-intake-identity-fingerprint-isolated.png` },
+  { local: '/tmp/site00-intake-assets/isolation/site00-email-intake-identity-seal-isolated.png', remote: `${ROOT}/isolation/site00-email-intake-identity-seal-isolated.png` },
+
+  // Composition masters — full-resolution DETERMINISTIC_COMPOSITE canvases before the retina-safe
+  // email-display resize. Production lineage stage: ISOLATION MASTER -> COMPOSITION MASTER ->
+  // (desktop/mobile) DERIVATIVE -> EMAIL OPTIMIZED DERIVATIVE.
+  { local: '/tmp/site00-intake-assets/derived/site00-email-intake-identity-evidence-desktop-full.png', remote: `${ROOT}/composition/site00-email-intake-identity-evidence-desktop-composition-master.png` },
+  { local: '/tmp/site00-intake-assets/derived/site00-email-intake-identity-evidence-mobile-full.png', remote: `${ROOT}/composition/site00-email-intake-identity-evidence-mobile-composition-master.png` },
+
   { local: '/tmp/site00-intake-assets/derived/site00-email-intake-identity-evidence-desktop.png', remote: `${ROOT}/derived/site00-email-intake-identity-evidence-desktop.png` },
   { local: '/tmp/site00-intake-assets/derived/site00-email-intake-identity-evidence-mobile.png', remote: `${ROOT}/derived/site00-email-intake-identity-evidence-mobile.png` },
 ];
@@ -64,6 +77,25 @@ export const INTAKE_ACCESS_ASSET_URLS = {
   builderBlueprintMobile: ${JSON.stringify(byRemote['site00-email-intake-builder-blueprint-mobile.png'])}, // pragma: allowlist secret
   identityEvidenceDesktop: ${JSON.stringify(byRemote['site00-email-intake-identity-evidence-desktop.png'])}, // pragma: allowlist secret
   identityEvidenceMobile: ${JSON.stringify(byRemote['site00-email-intake-identity-evidence-mobile.png'])}, // pragma: allowlist secret
+} as const;
+
+/**
+ * Production LINEAGE reference URLs (masters / isolation masters / composition masters) — not
+ * consumed by the live email render (which only uses INTAKE_ACCESS_ASSET_URLS above), but kept
+ * resolvable for the manifest's generationMaster/isolationMaster/compositionMaster metadata so
+ * every stage of the reference->production pipeline stays independently inspectable.
+ */
+export const INTAKE_ACCESS_LINEAGE_URLS = {
+  builderBlueprintMaster: ${JSON.stringify(byRemote['site00-email-intake-builder-blueprint-master.png'])}, // pragma: allowlist secret
+  identityPortraitMaster: ${JSON.stringify(byRemote['site00-email-intake-identity-portrait-master-v2.png'])}, // pragma: allowlist secret
+  identityArchivalNoteMaster: ${JSON.stringify(byRemote['site00-email-intake-identity-archival-note-v3.png'])}, // pragma: allowlist secret
+  identityFingerprintMaster: ${JSON.stringify(byRemote['site00-email-intake-identity-fingerprint-v3.png'])}, // pragma: allowlist secret
+  identitySealMaster: ${JSON.stringify(byRemote['site00-email-intake-identity-seal-base.png'])}, // pragma: allowlist secret
+  identityArchivalNoteIsolated: ${JSON.stringify(byRemote['site00-email-intake-identity-archival-note-isolated.png'])}, // pragma: allowlist secret
+  identityFingerprintIsolated: ${JSON.stringify(byRemote['site00-email-intake-identity-fingerprint-isolated.png'])}, // pragma: allowlist secret
+  identitySealIsolated: ${JSON.stringify(byRemote['site00-email-intake-identity-seal-isolated.png'])}, // pragma: allowlist secret
+  identityEvidenceDesktopCompositionMaster: ${JSON.stringify(byRemote['site00-email-intake-identity-evidence-desktop-composition-master.png'])}, // pragma: allowlist secret
+  identityEvidenceMobileCompositionMaster: ${JSON.stringify(byRemote['site00-email-intake-identity-evidence-mobile-composition-master.png'])}, // pragma: allowlist secret
 } as const;
 `;
 await writeFile('shared/site00-email/production/intake-access-asset-urls.generated.ts', out, 'utf8');
