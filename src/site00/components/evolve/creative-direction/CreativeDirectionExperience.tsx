@@ -6,6 +6,41 @@ import {
 } from './compareAnchors';
 import { renderTerritoryView, territoryRendererKeyFromIndex } from './TerritoryRendererRegistry';
 
+export type CoreDirectionDefinition = {
+  directionName: string;
+  bigIdea: string;
+  oneLineThesis: string;
+  brandConnection: string;
+  culturalReference: string;
+  emotionalPromise: string;
+  visualMetaphor: string;
+  governingBehavior: string;
+  materialImageryLanguage: string;
+  typographicAttitude: string;
+  coreColorLogic: string;
+  signatureDevices: string[];
+  primaryBrandArtifact: string;
+  proprietaryQuality: string;
+  antiDirection: string[];
+};
+
+export type BranchLineageDeclaration = {
+  branchName: string;
+  specimenType: string;
+  branchPurpose: string;
+  coreLineage: string;
+  differentiation: string;
+  primaryBehavior: string;
+  lineageTest: { notes: string };
+};
+
+/** Founder-facing gate vocabulary — mirrors coreDirectionGateStatus() in api/_lib/site00Evolve/creativeDirection/types.ts */
+function coreDirectionGateLabel(lifecycleState: string): string {
+  if (lifecycleState === 'REVISION_REQUESTED') return 'CORE DIRECTION GATE · REVISION REQUESTED';
+  if (lifecycleState === 'APPROVED') return 'CORE DIRECTION GATE · APPROVED';
+  return 'CORE DIRECTION GATE · PENDING FOUNDER REVIEW';
+}
+
 export type CreativeDirectionTerritory = {
   id: string;
   index: number;
@@ -30,6 +65,8 @@ export type CreativeDirectionTerritory = {
   }>;
   evolveAnalysis: Record<string, string>;
   lifecycleState: string;
+  coreDirection?: CoreDirectionDefinition;
+  branchLineage?: BranchLineageDeclaration[];
 };
 
 export type CreativeDirectionPayload = {
@@ -339,6 +376,7 @@ export function CreativeDirectionExperience({ orgSlug, api, backLink, adminFoote
               {!structuralDiffMode ? (
                 <div className="site00-cd__territory-copy">
                   <h2 className="site00-cd__territory-name">{territory.name}</h2>
+                  <p className="site00-cd__gate-badge">{coreDirectionGateLabel(territory.lifecycleState)}</p>
                   <p className="site00-cd__thesis">{territory.thesis}</p>
                   <p>{territory.strategicRationale}</p>
                   <p className="site00-cd__character">{territory.emotionalCharacter}</p>
@@ -349,6 +387,52 @@ export function CreativeDirectionExperience({ orgSlug, api, backLink, adminFoote
                   <ul>{territory.strengths.map((s) => <li key={s}>{s}</li>)}</ul>
                   <h3>RISKS</h3>
                   <ul>{territory.risks.map((r) => <li key={r}>{r}</li>)}</ul>
+
+                  {territory.coreDirection ? (
+                    <div className="site00-cd__core-board" aria-label="Core Direction Board">
+                      <h3 className="site00-cd__core-board-title">CORE DIRECTION BOARD</h3>
+                      <p className="site00-cd__core-board-question">“DO WE BELIEVE THIS WORLD?”</p>
+                      <dl className="site00-cd__core-board-grid">
+                        <dt>BIG IDEA</dt>
+                        <dd>{territory.coreDirection.bigIdea}</dd>
+                        <dt>ONE-LINE THESIS</dt>
+                        <dd>{territory.coreDirection.oneLineThesis}</dd>
+                        <dt>CULTURAL / CONCEPTUAL REFERENCE</dt>
+                        <dd>{territory.coreDirection.culturalReference}</dd>
+                        <dt>VISUAL METAPHOR</dt>
+                        <dd>{territory.coreDirection.visualMetaphor}</dd>
+                        <dt>GOVERNING BEHAVIOR</dt>
+                        <dd>{territory.coreDirection.governingBehavior}</dd>
+                        <dt>EMOTIONAL PROMISE</dt>
+                        <dd>{territory.coreDirection.emotionalPromise}</dd>
+                        <dt>PRIMARY BRAND ARTIFACT</dt>
+                        <dd>{territory.coreDirection.primaryBrandArtifact}</dd>
+                        <dt>PROPRIETARY QUALITY</dt>
+                        <dd>{territory.coreDirection.proprietaryQuality}</dd>
+                      </dl>
+                      <h4>SIGNATURE DEVICES</h4>
+                      <ul>{territory.coreDirection.signatureDevices.map((d) => <li key={d}>{d}</li>)}</ul>
+                      <h4>ANTI-DIRECTION — MUST NEVER BECOME</h4>
+                      <ul className="site00-cd__anti-direction">
+                        {territory.coreDirection.antiDirection.map((d) => <li key={d}>{d}</li>)}
+                      </ul>
+                    </div>
+                  ) : null}
+
+                  {territory.branchLineage?.length ? (
+                    <div className="site00-cd__branch-lineage" aria-label="Branch lineage">
+                      <h3 className="site00-cd__core-board-title">BRANCH LINEAGE — STAGE B</h3>
+                      <ul className="site00-cd__branch-list">
+                        {territory.branchLineage.map((b) => (
+                          <li key={b.branchName} className="site00-cd__branch-item">
+                            <p className="site00-cd__branch-name">{b.branchName}</p>
+                            <p className="site00-cd__branch-lineage-text"><strong>LINEAGE:</strong> {b.coreLineage}</p>
+                            <p className="site00-cd__branch-lineage-text"><strong>DIFFERENTIATION:</strong> {b.differentiation}</p>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
               <div className="site00-cd__specimens site00-cd__specimens--territory-view">

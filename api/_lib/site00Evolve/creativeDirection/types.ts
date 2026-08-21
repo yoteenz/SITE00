@@ -200,6 +200,133 @@ export type SpecimenImageAsset = {
   compositeMap?: CompositeMap;
 };
 
+/**
+ * Core Direction Board schema — Stage A (Direction Formation). See
+ * docs/site00/CORE_DIRECTION_METHODOLOGY.md §2–3. Populated for every territory
+ * BEFORE any branch/expansion work exists; this is what answers "do we believe
+ * this world?" at the Founder Core-Direction Gate — deeper than a palette or a
+ * one-line thesis alone.
+ */
+export type CoreDirectionDefinition = {
+  directionName: string;
+  bigIdea: string;
+  oneLineThesis: string;
+  brandConnection: string;
+  /** The conceptual ancestor — a cultural object, behavior, system, or ritual, not aesthetic inspiration. */
+  culturalReference: string;
+  emotionalPromise: string;
+  visualMetaphor: string;
+  governingBehavior: string;
+  materialImageryLanguage: string;
+  typographicAttitude: string;
+  coreColorLogic: string;
+  signatureDevices: string[];
+  /** The single visual expression that most clearly proves the concept. */
+  primaryBrandArtifact: string;
+  /** Why this does not feel like a generic trend that could belong to any brand. */
+  proprietaryQuality: string;
+  /** What this concept must never become. */
+  antiDirection: string[];
+};
+
+/**
+ * Core DNA — the expansion grammar extracted from an APPROVED Core Direction
+ * Board (§6). Never populated for a territory that has not reached
+ * CORE_DIRECTION_APPROVED — see extractCoreDna() in coreDirection.ts and
+ * VisualDnaContract.conceptDna, which is the canonical gated implementation
+ * of this extraction for a real engagement.
+ */
+export type CoreDNA = {
+  conceptRules: string[];
+  visualRules: string[];
+  compositionRules: string[];
+  imageRules: string[];
+  materialRules: string[];
+  typographyRules: string[];
+  colorRules: string[];
+  motionRules: string[];
+  contentBehavior: string[];
+  signatureDevices: string[];
+  prohibitedDrift: string[];
+};
+
+/** Section 08 — the seven questions every branch must answer before it may exist. */
+export type BranchLineageTest = {
+  emergesFromCoreConcept: boolean;
+  explainableWithoutColorAlone: boolean;
+  preservesCoreDna: boolean;
+  introducesMeaningfulVariation: boolean;
+  servesActualPurpose: boolean;
+  recognizableWithoutBrandName: boolean;
+  distinctFromSiblings: boolean;
+  notes: string;
+};
+
+/** Section 07 — the mandatory declaration every branch must carry before it may be expanded into production. */
+export type BranchLineageDeclaration = {
+  branchName: string;
+  specimenType: TerritorySpecimenType;
+  branchPurpose: string;
+  coreLineage: string;
+  conceptualTranslation: string;
+  visualLineage: string;
+  differentiation: string;
+  primaryBehavior: string;
+  assetRequirements: string;
+  motionBehavior?: string;
+  channelApplicability: string[];
+  lineageTest: BranchLineageTest;
+};
+
+export function branchPassesLineageTest(declaration: BranchLineageDeclaration): boolean {
+  const t = declaration.lineageTest;
+  return (
+    t.emergesFromCoreConcept &&
+    t.explainableWithoutColorAlone &&
+    t.preservesCoreDna &&
+    t.introducesMeaningfulVariation &&
+    t.servesActualPurpose &&
+    t.recognizableWithoutBrandName &&
+    t.distinctFromSiblings
+  );
+}
+
+/** Founder-facing gate vocabulary — docs/site00/CORE_DIRECTION_METHODOLOGY.md §5. */
+export type CoreDirectionGateStatus =
+  | 'CORE_DIRECTION_PENDING'
+  | 'CORE_DIRECTION_REVISION_REQUESTED'
+  | 'CORE_DIRECTION_APPROVED'
+  | 'CORE_DIRECTION_REJECTED';
+
+/**
+ * Maps the existing CreativeDirectionLifecycle enum onto the founder-facing gate
+ * vocabulary — additive only. The underlying lifecycle values are NOT renamed
+ * (many consumers/tests depend on them); this is a derived display/decision layer.
+ * SELECTED (a HYBRIDIZE outcome) stays PENDING because Visual DNA is not locked
+ * (APPROVED) until an explicit APPROVE decision — see visualDnaContract.ts.
+ */
+export function coreDirectionGateStatus(lifecycleState: CreativeDirectionLifecycle): CoreDirectionGateStatus {
+  switch (lifecycleState) {
+    case 'REVISION_REQUESTED':
+      return 'CORE_DIRECTION_REVISION_REQUESTED';
+    case 'APPROVED':
+      return 'CORE_DIRECTION_APPROVED';
+    case 'PROPOSED':
+    case 'UNDER_REVIEW':
+    case 'SELECTED':
+    default:
+      return 'CORE_DIRECTION_PENDING';
+  }
+}
+
+export type ExpansionFreedom = { level: 'LOW' | 'HIGH'; conceptDriftTolerance: 'LOW' | 'HIGH' };
+
+/** Section 12 — creative freedom model: flips from LOW to HIGH exactly at CORE_DIRECTION_APPROVED, never before. */
+export function expansionFreedomFor(lifecycleState: CreativeDirectionLifecycle): ExpansionFreedom {
+  const approved = coreDirectionGateStatus(lifecycleState) === 'CORE_DIRECTION_APPROVED';
+  return { level: approved ? 'HIGH' : 'LOW', conceptDriftTolerance: 'LOW' };
+}
+
 export type TerritorySpecimen = {
   id: string;
   territoryId: string;
@@ -239,6 +366,10 @@ export type CreativeTerritory = {
   rendererKey: TerritoryRendererKey;
   specimens: TerritorySpecimen[];
   evolveAnalysis: Record<string, QualitativeRating>;
+  /** Stage A — Direction Formation. Required for every territory before any branch exists. */
+  coreDirection: CoreDirectionDefinition;
+  /** Stage B — Direction Expansion declarations for this territory's branches, each lineage-tested against coreDirection. */
+  branchLineage: BranchLineageDeclaration[];
 };
 
 export type TerritoryComparison = {
@@ -284,6 +415,8 @@ export type VisualDnaContract = {
   channelAdaptation: Record<string, unknown>;
   aiGeneration: Record<string, unknown>;
   provenance: Record<string, unknown>;
+  /** Section 06 — only ever non-null once status reaches APPROVED (Founder Core-Direction Gate). See coreDirection.ts extractCoreDna(). */
+  conceptDna: CoreDNA | null;
 };
 
 export type Page001ReadinessGate = {

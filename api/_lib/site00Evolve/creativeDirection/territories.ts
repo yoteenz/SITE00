@@ -10,6 +10,7 @@ import type {
   TerritorySpecimenType,
 } from './types.js';
 import { getGeneratedAsset } from './generatedAssets.js';
+import { NDXBOOK_CORE_DIRECTIONS, NDXBOOK_BRANCH_LINEAGE } from './coreDirectionDefinitions.js';
 
 const COMMON_ANCHORS: TerritorySpecimenType[] = ['wordmark', 'typography_system'];
 
@@ -186,6 +187,8 @@ export function generateTerritories(brief: CreativeBrief): CreativeTerritory[] {
       lifecycleState: 'PROPOSED',
       legacyReferenceUsed: false,
       evolveAnalysis: analysisFor(1),
+      coreDirection: NDXBOOK_CORE_DIRECTIONS.index_signal,
+      branchLineage: NDXBOOK_BRANCH_LINEAGE.index_signal,
     },
     {
       index: 2,
@@ -227,6 +230,8 @@ export function generateTerritories(brief: CreativeBrief): CreativeTerritory[] {
       lifecycleState: 'PROPOSED',
       legacyReferenceUsed: false,
       evolveAnalysis: analysisFor(2),
+      coreDirection: NDXBOOK_CORE_DIRECTIONS.editorial_utility,
+      branchLineage: NDXBOOK_BRANCH_LINEAGE.editorial_utility,
     },
     {
       index: 3,
@@ -270,6 +275,8 @@ export function generateTerritories(brief: CreativeBrief): CreativeTerritory[] {
       lifecycleState: 'PROPOSED',
       legacyReferenceUsed: false,
       evolveAnalysis: analysisFor(3),
+      coreDirection: NDXBOOK_CORE_DIRECTIONS.kinetic_field,
+      branchLineage: NDXBOOK_BRANCH_LINEAGE.kinetic_field,
     },
   ];
 

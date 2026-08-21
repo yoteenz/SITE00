@@ -2,6 +2,8 @@
 
 Canonical, brand-agnostic methodology. Persisted here so every future brand (EVOLVE, Identity, Builder, Studio World, email production, social/brand campaigns, website/application graphics, video preproduction) inherits it instead of re-deriving it per sprint. First formalized during the NDX BOOK three-direction reference-locked production cleanup.
 
+This document governs **asset production** once a direction is being produced. See `docs/site00/CORE_DIRECTION_METHODOLOGY.md` for the layer above it — **sequencing and gating**: when a direction may exist at all, when it may be expanded, and what founder approval locks.
+
 ## 1. Brand expression context classification (mandatory, before Creative Direction is produced)
 
 Before any Creative Direction territory is produced for a brand, classify its **dominant expression context**. Do not force every brand through the same presentation (e.g. a website mockup is not always the correct "proof" of a brand).
