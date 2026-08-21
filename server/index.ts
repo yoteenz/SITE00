@@ -2,13 +2,13 @@
  * SITE 00 standalone API server — mounts `api/` Vercel handlers on Express for Railway / Node hosts.
  */
 import express from 'express';
-import { loadEnv } from 'vite';
 import { API_ROUTES } from './routes.js';
+import { loadEnvFiles } from './loadEnvFiles.js';
 import { createVercelRequest, createVercelResponse } from './vercelAdapter.js';
 
 function applyServerEnv(): void {
   const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
-  const env = loadEnv(mode, process.cwd(), '');
+  const env = { ...process.env, ...loadEnvFiles(mode) } as Record<string, string | undefined>;
   const pairs: Array<[string, string | undefined]> = [
     ['SUPABASE_URL', env.SUPABASE_URL || env.VITE_SUPABASE_URL],
     ['SUPABASE_ANON_KEY', env.SUPABASE_ANON_KEY || env.VITE_SUPABASE_ANON_KEY],
