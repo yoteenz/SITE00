@@ -12,7 +12,10 @@ import {
   getCreativeDirectionPayload,
   recordFounderDecision,
   queueFalGenerationJobs,
+  invalidateCreativeDirectionEngagement,
 } from './engagementService.js';
+import { submitOrgLoreCalibration } from '../../site00BrandLore/loreService.js';
+import { resetBrandLoreMemoryStore } from '../../site00BrandLore/memoryStore.js';
 import { resetEvolveStore } from '../memoryStore.js';
 import { resetConnectionMemory } from '../providers/connectionService.js';
 import { resetNdxbookImportMemory, runNdxbookLegacyImport } from '../providers/ndxbookLegacyImportService.js';
@@ -60,6 +63,7 @@ describe('Creative Direction structural differentiation', () => {
     resetNdxbookImportMemory();
     resetPage001Memory();
     resetCreativeDirectionMemory();
+    resetBrandLoreMemoryStore();
     await runNdxbookLegacyImport({ approvedBy: 'founder@test.com' });
   });
 
@@ -175,8 +179,26 @@ describe('Creative Direction structural differentiation', () => {
     expect(payload.engagement.comparison.evolveRecommendation.isApproval).toBe(false);
   });
 
-  it('17. APPROVE remains explicit', async () => {
+  it('17. APPROVE remains explicit (once Brand Lore reaches CORE_DIRECTION_READY — XXXI)', async () => {
+    // Approval must respect the same readiness gate as FAL dispatch — calibrate the missing
+    // conceptual domains first, exactly as a founder would through targeted calibration.
+    const orgId = orgIdFromSlug('ndxbook')!;
+    await submitOrgLoreCalibration({
+      orgId,
+      orgSlug: 'ndxbook',
+      answers: {
+        role: 'guide',
+        world: 'a living index of everything worth knowing',
+        feeling: ['curious'],
+        enemy: ['gatekeeping'],
+        lineage: 'archival ephemera',
+        now: 'editorial accounts',
+        objects: ['paper'],
+      },
+    });
+    invalidateCreativeDirectionEngagement('ndxbook');
     let payload = await getCreativeDirectionPayload('ndxbook');
+    expect(payload.engagement.brandLoreReadiness?.state).toBe('CORE_DIRECTION_READY');
     expect(payload.engagement.visualDna.status).toBe('INCOMPLETE');
     await recordFounderDecision('ndxbook', {
       type: 'APPROVE',
@@ -185,6 +207,18 @@ describe('Creative Direction structural differentiation', () => {
     });
     payload = await getCreativeDirectionPayload('ndxbook');
     expect(payload.engagement.visualDna.status).toBe('APPROVED');
+  });
+
+  it('17b. APPROVE is blocked while Brand Lore context remains incomplete (XXXI)', async () => {
+    const payload = await getCreativeDirectionPayload('ndxbook');
+    expect(payload.engagement.brandLoreReadiness?.blocked).toBe(true);
+    await expect(
+      recordFounderDecision('ndxbook', {
+        type: 'APPROVE',
+        selectedTerritoryId: payload.engagement.territories[0].id,
+        by: 'founder@test.com',
+      }),
+    ).rejects.toThrow('CONTEXT CALIBRATION REQUIRED');
   });
 
   it('18. REFINE persists founder notes', async () => {

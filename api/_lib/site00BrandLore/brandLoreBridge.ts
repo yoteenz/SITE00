@@ -34,9 +34,13 @@ export function brandLoreReadinessGate(profile: BrandLoreProfile | null): {
   };
 }
 
-/** NDXBOOK pilot uses Content Brain canon — do not block existing CD on lore readiness. */
-export function shouldEnforceLoreReadinessGate(orgSlug: string, profile: BrandLoreProfile | null): boolean {
-  if (orgSlug === 'ndxbook') return false;
+/**
+ * XXIV — NDX BOOK readiness bypass removed. Every org, including ndxbook, is gated the same way:
+ * enforced whenever a Brand Lore profile exists (real or reconciled from Content Brain — see
+ * ndxbookReconciliation.ts). `orgSlug` param kept for call-site compatibility / future per-org
+ * overrides but no org is special-cased here anymore.
+ */
+export function shouldEnforceLoreReadinessGate(_orgSlug: string, profile: BrandLoreProfile | null): boolean {
   return profile !== null;
 }
 

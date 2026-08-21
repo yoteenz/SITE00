@@ -11,6 +11,8 @@ import {
   getCreativeDirectionPayload,
   recordFounderDecision,
 } from '../_lib/site00Evolve/creativeDirection/engagementService.js';
+import { orgIdFromSlug } from '../_lib/site00Evolve/orgRegistry.js';
+import { submitOrgLoreCalibration } from '../_lib/site00BrandLore/loreService.js';
 
 function setCors(res: VercelResponse): void {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -175,6 +177,56 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           by: user.email,
         });
         return json(res, 200, { ok: true, engagement, source: 'canonical_founder_decision_service' });
+      }
+      case 'lore_calibration_submit': {
+        if (req.method !== 'POST') {
+          return json(res, 405, {
+            ok: false,
+            error: { code: 'POST_REQUIRED', message: 'POST required' },
+            source: 'site00_project_resolver',
+          });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? req.query.slug ?? '');
+        if (!slug) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'SLUG_REQUIRED', message: 'slug required' },
+            source: 'site00_project_resolver',
+          });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, {
+            ok: false,
+            error: { code: 'PROJECT_ACCESS_DENIED', message: 'Project access denied' },
+            source: 'site00_project_resolver',
+          });
+        }
+        const orgId = orgIdFromSlug(slug);
+        if (!orgId) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'ORG_NOT_REGISTERED', message: 'Organization not registered' },
+            source: 'site00_project_resolver',
+          });
+        }
+        const answers = (body.answers ?? {}) as Record<string, string | string[]>;
+        if (!answers || typeof answers !== 'object' || Object.keys(answers).length === 0) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'ANSWERS_REQUIRED', message: 'At least one calibration answer required' },
+            source: 'site00_project_resolver',
+          });
+        }
+        const { invalidateCreativeDirectionEngagement } = await import(
+          '../_lib/site00Evolve/creativeDirection/engagementService.js'
+        );
+        await submitOrgLoreCalibration({ orgId, orgSlug: slug, answers });
+        // Force the next `creative_direction` read to re-resolve readiness from the just-updated
+        // profile instead of returning this org's cached in-memory engagement (see engagementService.ts).
+        invalidateCreativeDirectionEngagement(slug);
+        const payload = await getCreativeDirectionPayload(slug);
+        return json(res, 200, { ok: true, ...payload, source: 'site00_lore_calibration' });
       }
       default:
         return json(res, 400, {

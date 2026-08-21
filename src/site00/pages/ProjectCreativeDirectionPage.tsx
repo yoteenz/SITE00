@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { CreativeDirectionExperience } from '../components/evolve/creative-direction/CreativeDirectionExperience';
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
-import { site00ProjectPath } from '../config/routes';
+import { site00ProjectPath, site00ProjectLoreCalibrationPath } from '../config/routes';
 import '../styles/site00-creative-direction.css';
 
 const clientCreativeDirectionApi = {
@@ -21,6 +21,9 @@ export default function ProjectCreativeDirectionPage() {
         api={clientCreativeDirectionApi}
         backLink={
           <Link to={site00ProjectPath(projectSlug)}>← BACK TO PROJECT</Link>
+        }
+        calibrationLink={
+          <Link to={site00ProjectLoreCalibrationPath(projectSlug)}>COMPLETE CALIBRATION →</Link>
         }
       />
     </EcosystemShell>

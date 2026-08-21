@@ -9,7 +9,10 @@ import {
   getCreativeDirectionPayload,
   recordFounderDecision,
   queueFalGenerationJobs,
+  invalidateCreativeDirectionEngagement,
 } from './creativeDirection/engagementService.js';
+import { submitOrgLoreCalibration } from '../site00BrandLore/loreService.js';
+import { resetBrandLoreMemoryStore } from '../site00BrandLore/memoryStore.js';
 import { orgIdFromSlug } from './orgRegistry.js';
 import { getProfileByOrgId, getContentBrainByOrgId } from './storeAdapter.js';
 import { isGlobalPublishingEnabled } from './providers/publishingFence.js';
@@ -28,6 +31,7 @@ describe('EVOLVE NDXbook Creative Direction', () => {
     resetNdxbookImportMemory();
     resetPage001Memory();
     resetCreativeDirectionMemory();
+    resetBrandLoreMemoryStore();
     await runNdxbookLegacyImport({ approvedBy: 'founder@test.com' });
   });
 
@@ -109,7 +113,22 @@ describe('EVOLVE NDXbook Creative Direction', () => {
     expect(payload.engagement.creativeBrief.classification).toBe('PROPOSED');
   });
 
-  it('12. founder approval required for visual DNA promotion', async () => {
+  it('12. founder approval required for visual DNA promotion (after Brand Lore reaches readiness)', async () => {
+    const orgId = orgIdFromSlug('ndxbook')!;
+    await submitOrgLoreCalibration({
+      orgId,
+      orgSlug: 'ndxbook',
+      answers: {
+        role: 'guide',
+        world: 'a living index of everything worth knowing',
+        feeling: ['curious'],
+        enemy: ['gatekeeping'],
+        lineage: 'archival ephemera',
+        now: 'editorial accounts',
+        objects: ['paper'],
+      },
+    });
+    invalidateCreativeDirectionEngagement('ndxbook');
     let payload = await getCreativeDirectionPayload('ndxbook');
     expect(payload.engagement.visualDna.status).toBe('INCOMPLETE');
     await recordFounderDecision('ndxbook', {
@@ -119,6 +138,17 @@ describe('EVOLVE NDXbook Creative Direction', () => {
     });
     payload = await getCreativeDirectionPayload('ndxbook');
     expect(payload.engagement.visualDna.status).toBe('APPROVED');
+  });
+
+  it('12b. founder approval is blocked while Brand Lore context remains incomplete (XXXI)', async () => {
+    const payload = await getCreativeDirectionPayload('ndxbook');
+    await expect(
+      recordFounderDecision('ndxbook', {
+        type: 'APPROVE',
+        selectedTerritoryId: payload.engagement.territories[0].id,
+        by: 'founder@test.com',
+      }),
+    ).rejects.toThrow('CONTEXT CALIBRATION REQUIRED');
   });
 
   it('13. hybrid direction retains source provenance', async () => {

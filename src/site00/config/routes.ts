@@ -54,6 +54,7 @@ export const SITE00_ROUTES = {
   projectDetail: '/projects/:projectSlug',
   projectEvolve: '/projects/:projectSlug/evolve',
   projectCreativeDirection: '/projects/:projectSlug/creative-direction',
+  projectLoreCalibration: '/projects/:projectSlug/calibrate',
   projectConnections: '/projects/:projectSlug/connections',
   support: '/support',
   /** Client post-payment provisioning — project slug in path */
@@ -85,6 +86,10 @@ export function site00IntakeGuestAccessPath(token: string): string {
 
 export function site00ProjectPath(projectSlug: string): string {
   return `/projects/${projectSlug}`;
+}
+
+export function site00ProjectLoreCalibrationPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/calibrate`;
 }
 
 export function site00ProjectEvolvePath(projectSlug: string): string {
