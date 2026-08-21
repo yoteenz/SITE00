@@ -315,9 +315,10 @@
 }
 
 .site00-signin-form__message {
-  margin: 0 0 12px;
+  margin: 12px 0 0;
   font-family: var(--site00-font-label);
   font-size: var(--site00-size-micro);
+  line-height: 1.45;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }

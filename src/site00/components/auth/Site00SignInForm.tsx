@@ -27,6 +27,9 @@ type Site00SignInFormProps = {
 
 export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) {
   const location = useLocation();
+  const formId = `site00-signin-form-${layout}`;
+  const emailInputId = `site00-signin-email-${layout}`;
+  const passwordInputId = `site00-signin-password-${layout}`;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -35,6 +38,12 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
   const [info, setInfo] = useState('');
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const feedbackRef = useRef<HTMLParagraphElement>(null);
+
+  useEffect(() => {
+    if (!error && !info) return;
+    feedbackRef.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }, [error, info]);
 
   const redirectAfterSignIn = () => {
     const returnTo = new URLSearchParams(location.search).get('returnTo');
@@ -121,16 +130,19 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
     setError('');
     setInfo('');
     setSubmitting(true);
-    const result = await site00SignInWithPassword(
-      emailRef.current?.value ?? email,
-      passwordRef.current?.value ?? password,
-    );
-    setSubmitting(false);
-    if (!result.ok) {
-      setError(result.message);
-      return;
+    try {
+      const result = await site00SignInWithPassword(
+        emailRef.current?.value ?? email,
+        passwordRef.current?.value ?? password,
+      );
+      if (!result.ok) {
+        setError(result.message);
+        return;
+      }
+      redirectAfterSignIn();
+    } finally {
+      setSubmitting(false);
     }
-    redirectAfterSignIn();
   };
 
   const onMagicLink = async () => {
@@ -142,15 +154,18 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
       return;
     }
     setSubmitting(true);
-    const returnTo = new URLSearchParams(location.search).get('returnTo');
-    const target = resolveSite00ReturnToAfterSignIn(returnTo, location.state as { from?: string } | null);
-    const result = await site00SignInWithMagicLink(emailValue, target);
-    setSubmitting(false);
-    if (!result.ok) {
-      setError(result.message);
-      return;
+    try {
+      const returnTo = new URLSearchParams(location.search).get('returnTo');
+      const target = resolveSite00ReturnToAfterSignIn(returnTo, location.state as { from?: string } | null);
+      const result = await site00SignInWithMagicLink(emailValue, target);
+      if (!result.ok) {
+        setError(result.message);
+        return;
+      }
+      setInfo('CHECK YOUR EMAIL FOR A MAGIC LINK TO SIGN IN.');
+    } finally {
+      setSubmitting(false);
     }
-    setInfo('CHECK YOUR EMAIL FOR A MAGIC LINK TO SIGN IN.');
   };
 
   const onForgotPassword = async () => {
@@ -162,13 +177,16 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
       return;
     }
     setSubmitting(true);
-    const result = await site00RequestPasswordReset(emailValue);
-    setSubmitting(false);
-    if (!result.ok) {
-      setError(result.message);
-      return;
+    try {
+      const result = await site00RequestPasswordReset(emailValue);
+      if (!result.ok) {
+        setError(result.message);
+        return;
+      }
+      setInfo('PASSWORD RESET EMAIL SENT. CHECK YOUR INBOX.');
+    } finally {
+      setSubmitting(false);
     }
-    setInfo('PASSWORD RESET EMAIL SENT. CHECK YOUR INBOX.');
   };
 
   const createAccountHref = `/sign-in?returnTo=${encodeURIComponent(
@@ -183,13 +201,13 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
         </Link>
       ) : null}
 
-      <form id="site00-signin-form" className="site00-signin-form__body" onSubmit={onSubmit} autoComplete="on">
-        <label className="site00-signin-form__label" htmlFor="site00-signin-email">
+      <form id={formId} className="site00-signin-form__body" onSubmit={onSubmit} autoComplete="on">
+        <label className="site00-signin-form__label" htmlFor={emailInputId}>
           EMAIL
         </label>
         <input
           ref={emailRef}
-          id="site00-signin-email"
+          id={emailInputId}
           name="email"
           type="email"
           autoComplete="email"
@@ -199,13 +217,13 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
           disabled={submitting}
         />
 
-        <label className="site00-signin-form__label" htmlFor="site00-signin-password">
+        <label className="site00-signin-form__label" htmlFor={passwordInputId}>
           PASSWORD
         </label>
         <div className="site00-signin-form__password-wrap">
           <input
             ref={passwordRef}
-            id="site00-signin-password"
+            id={passwordInputId}
             name="password"
             type={showPassword ? 'text' : 'password'}
             autoComplete="current-password"
@@ -228,17 +246,6 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
           FORGOT PASSWORD?
         </button>
 
-        {error ? (
-          <p className="site00-signin-form__message site00-signin-form__message--error" role="alert">
-            {error}
-          </p>
-        ) : null}
-        {info ? (
-          <p className="site00-signin-form__message site00-signin-form__message--info" role="status">
-            {info}
-          </p>
-        ) : null}
-
         <button type="submit" className="site00-signin-form__cta" disabled={submitting}>
           SIGN IN →
         </button>
@@ -253,6 +260,25 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
           </span>
           <span className="site00-signin-form__magic-label">SIGN IN WITH MAGIC LINK</span>
         </button>
+
+        {error ? (
+          <p
+            ref={feedbackRef}
+            className="site00-signin-form__message site00-signin-form__message--error"
+            role="alert"
+          >
+            {error}
+          </p>
+        ) : null}
+        {info ? (
+          <p
+            ref={feedbackRef}
+            className="site00-signin-form__message site00-signin-form__message--info"
+            role="status"
+          >
+            {info}
+          </p>
+        ) : null}
       </form>
 
       <p className="site00-signin-form__footer">
