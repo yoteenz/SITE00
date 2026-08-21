@@ -11,8 +11,36 @@ export type TerritoryRenderOptions = {
   structuralDiffMode?: boolean;
 };
 
+export type SpecimenCompositePlacement = {
+  xPct: number;
+  yPct: number;
+  widthPct: number;
+  rotationDeg?: number;
+  anchor: string;
+  zIndex: number;
+};
+
+export type SpecimenImageAsset = {
+  assetId: string;
+  url: string;
+  classification: string;
+  generationMethod: string;
+  backgroundTreatment: string;
+  fidelityMode: string;
+  model: string;
+  approvalState: string;
+  compositeMap?: {
+    assetId: string;
+    desktop: SpecimenCompositePlacement;
+    mobile: SpecimenCompositePlacement;
+    overlapRelationship?: string;
+    shadow?: string;
+    safeArea?: string;
+  };
+};
+
 export type TerritoryViewProps = {
-  specimens: Array<{ id: string; specimenType: string; title: string; status: string }>;
+  specimens: Array<{ id: string; specimenType: string; title: string; status: string; imageAsset?: SpecimenImageAsset }>;
   options?: TerritoryRenderOptions;
 };
 

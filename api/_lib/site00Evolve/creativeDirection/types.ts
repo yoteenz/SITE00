@@ -27,6 +27,38 @@ export type IntelligenceBriefSection = {
   provenance: 'CANONICAL' | 'FOUNDER_CONFIRMED' | 'RECOVERED_CANON';
 };
 
+/**
+ * Dominant public-expression context for a brand — classified once per Creative Brief,
+ * before any territory is produced, so Creative Direction does not force every brand
+ * through the same (often website-first) presentation. See
+ * docs/site00/CREATIVE_DIRECTION_METHODOLOGY.md.
+ */
+export type BrandExpressionContext =
+  | 'SOCIAL_FIRST_EDITORIAL'
+  | 'ECOMMERCE_FIRST'
+  | 'SERVICE_BUSINESS'
+  | 'PRODUCT_PLATFORM'
+  | 'CREATOR_BRAND'
+  | 'ENTERTAINMENT_MEDIA'
+  | 'HOSPITALITY'
+  | 'PHYSICAL_RETAIL'
+  | 'HYBRID';
+
+/** Priority order of proof surfaces for a SOCIAL_FIRST_EDITORIAL brand — website is deliberately absent. */
+export const SOCIAL_FIRST_EDITORIAL_PROOF_PRIORITY = [
+  'FEED_BEHAVIOR',
+  'POST_FAMILIES',
+  'CAROUSEL_SYSTEMS',
+  'STORY_SYSTEMS',
+  'REEL_SHORT_FORM_SYSTEMS',
+  'PHOTOGRAPHY_ART_DIRECTION',
+  'GRAPHIC_DEVICES',
+  'TYPOGRAPHY_BEHAVIOR',
+  'RECURRING_EDITORIAL_FRANCHISES',
+  'MOTION_PRINCIPLES',
+  'CAMPAIGN_EXTENSIBILITY',
+] as const;
+
 export type CreativeBrief = {
   id: string;
   organizationSlug: string;
@@ -41,6 +73,8 @@ export type CreativeBrief = {
   voiceConstraints: { preserve: string[]; reject: string[] };
   classification: 'PROPOSED';
   provenance: { source: 'CONTENT_BRAIN'; entryCount: number };
+  /** Optional — brands classified before this field existed remain valid without it. */
+  primaryContext?: BrandExpressionContext;
 };
 
 export type TerritoryRendererKey = 'index_signal' | 'editorial_utility' | 'kinetic_field';
@@ -57,7 +91,17 @@ export type IndexSignalSpecimenType =
   | 'typography_system'
   | 'graphic_language'
   | 'motion_storyboard'
-  | 'wordmark';
+  | 'wordmark'
+  // Signal editorial-behavior branches (Section II, Direction 02)
+  | 'signal_pulse'
+  | 'signal_readout'
+  | 'signal_pattern'
+  | 'signal_scan'
+  | 'signal_forecast'
+  | 'signal_alert'
+  | 'signal_transmission'
+  | 'signal_coordinate'
+  | 'signal_projection';
 
 export type EditorialUtilitySpecimenType =
   | 'magazine_volume_opener'
@@ -71,7 +115,17 @@ export type EditorialUtilitySpecimenType =
   | 'typography_spread'
   | 'article_sequence'
   | 'motion_storyboard'
-  | 'wordmark';
+  | 'wordmark'
+  // Nine editorial branches (Section II, Direction 01)
+  | 'branch_burn_page'
+  | 'branch_receipts'
+  | 'branch_margin_notes'
+  | 'branch_the_list'
+  | 'branch_the_file'
+  | 'branch_the_insert'
+  | 'branch_redaction'
+  | 'branch_centerfold'
+  | 'branch_back_page';
 
 export type KineticFieldSpecimenType =
   | 'motion_title_frame'
@@ -85,9 +139,66 @@ export type KineticFieldSpecimenType =
   | 'typography_system'
   | 'dark_light_inversion'
   | 'motion_storyboard'
-  | 'wordmark';
+  | 'wordmark'
+  // Motion-principle branches (Section II, Direction 03)
+  | 'motion_push'
+  | 'motion_pull'
+  | 'motion_ripple'
+  | 'motion_collision'
+  | 'motion_current'
+  | 'motion_trajectory'
+  | 'motion_build'
+  | 'motion_break'
+  | 'motion_aftermath'
+  | 'motion_momentum';
 
 export type TerritorySpecimenType = IndexSignalSpecimenType | EditorialUtilitySpecimenType | KineticFieldSpecimenType;
+
+/**
+ * Mandatory background-treatment declaration for any generated visual —
+ * never left implicit. See docs/site00/CREATIVE_DIRECTION_METHODOLOGY.md §5.
+ */
+export type BackgroundTreatment =
+  | 'KEEP_BACKGROUND'
+  | 'REMOVE_BACKGROUND'
+  | 'GENERATE_TRANSPARENT_IF_SUPPORTED'
+  | 'MASK_AND_COMPOSITE'
+  | 'FULL_BLEED';
+
+export type AssetClassification = 'CODE_NATIVE' | 'GENERATED_ASSET' | 'EXISTING_ASSET' | 'HYBRID_COMPOSITION';
+export type FidelityMode = 'EXACT_RECONSTRUCTION' | 'DIRECTED_VARIATION' | 'NET_NEW_GENERATION';
+
+/** Normalized (percentage) placement for one asset within one composition — desktop and mobile authored independently, never proportionally derived. */
+export type CompositePlacement = {
+  xPct: number;
+  yPct: number;
+  widthPct: number;
+  rotationDeg?: number;
+  anchor: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center';
+  zIndex: number;
+};
+
+export type CompositeMap = {
+  assetId: string;
+  desktop: CompositePlacement;
+  mobile: CompositePlacement;
+  overlapRelationship?: string;
+  shadow?: string;
+  safeArea?: string;
+};
+
+/** Generated/hybrid image attached to a specimen — optional so SVG-only rendering always remains valid (structural specimens never require FAL). */
+export type SpecimenImageAsset = {
+  assetId: string;
+  url: string;
+  classification: AssetClassification;
+  generationMethod: string;
+  backgroundTreatment: BackgroundTreatment;
+  fidelityMode: FidelityMode;
+  model: string;
+  approvalState: 'GENERATED' | 'APPROVED';
+  compositeMap?: CompositeMap;
+};
 
 export type TerritorySpecimen = {
   id: string;
@@ -98,6 +209,8 @@ export type TerritorySpecimen = {
   renderSpec: Record<string, unknown>;
   generationJobId: string | null;
   provenance: Record<string, unknown>;
+  /** Present only for HYBRID_COMPOSITION / GENERATED_ASSET specimens; absent specimens render SVG-only. */
+  imageAsset?: SpecimenImageAsset;
 };
 
 export type CreativeTerritory = {
