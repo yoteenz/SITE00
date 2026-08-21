@@ -6,8 +6,8 @@ import { renderEmailTemplateSync } from '../render.js';
 import { getTemplateManifest } from '../art-direction/template-manifest.js';
 
 describe('family-map', () => {
-  it('maps all 81 templates to a primary family', () => {
-    expect(EMAIL_TEMPLATES).toHaveLength(81);
+  it('maps all 84 templates to a primary family', () => {
+    expect(EMAIL_TEMPLATES).toHaveLength(84);
     for (const t of EMAIL_TEMPLATES) {
       const canon = getPrimaryFamily(t.id);
       expect(EMAIL_FAMILY_CANON_LIST).toContain(canon);
@@ -16,7 +16,7 @@ describe('family-map', () => {
 
   it('has explicit mapping for every template', () => {
     const audit = familyMappingAudit();
-    expect(audit.total).toBe(81);
+    expect(audit.total).toBe(84);
     expect(audit.unresolved).toHaveLength(0);
   });
 
