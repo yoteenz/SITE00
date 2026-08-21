@@ -34,6 +34,7 @@ import '../site00/styles/site00-desktop-artboard.css';
 import '../site00/styles/site00-desktop-artboard-preview.css';
 import '../site00/styles/site00-mobile-artboard.css';
 import '../site00/styles/site00-auth.css';
+import '../site00/styles/site00-auth-create-account.css';
 import '../site00/styles/site00-access.css';
 import '../site00/styles/site00-ctrl-room.css';
 import '../site00/styles/site00-ctrl-room-mobile.css';
@@ -43,6 +44,7 @@ import '../site00/styles/site00-idnty-assessment.css';
 import '../site00/styles/site00-idnty-state-v2.css';
 import '../site00/styles/site00-idnty-control-center.css';
 import '../site00/styles/site00-idnty-calibration-mobile.css';
+import '../site00/styles/site00-project-lore-calibration.css';
 import '../site00/styles/site00-pages.css';
 import '../site00/styles/site00-mobile-shell.css';
 import '../site00/styles/site00-studio.css';
@@ -61,6 +63,7 @@ const Site00BldrStatePage = lazy(() => import('../site00/pages/BldrStatePage'));
 const Site00EvolvePage = lazy(() => import('../site00/pages/EvolvePage'));
 const Site00EvolveStatePage = lazy(() => import('../site00/pages/EvolveStatePage'));
 const Site00SignInPage = lazy(() => import('../site00/pages/Site00SignInPage'));
+const Site00CreateAccountPage = lazy(() => import('../site00/pages/Site00CreateAccountPage'));
 const AccessCredentialPage = lazy(() => import('../site00/pages/access/AccessCredentialPage'));
 const AccessCredentialDebugPage = lazy(() => import('../site00/pages/access/AccessCredentialDebugPage'));
 const ControlOverviewPage = lazy(() => import('../site00/pages/control/ControlOverviewPage'));
@@ -804,6 +807,19 @@ export function Site00Routes() {
           </Site00Layout>
         }
       />
+      <Route
+        path={SITE00_ROUTES.createAccount}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <Site00CreateAccountPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route path="/sign-in" element={<Navigate to={SITE00_ROUTES.signIn} replace />} />
+      <Route path="/register" element={<Navigate to={SITE00_ROUTES.createAccount} replace />} />
+      <Route path="/create-account" element={<Navigate to={SITE00_ROUTES.createAccount} replace />} />
       <Route
         path={SITE00_ROUTES.control}
         element={

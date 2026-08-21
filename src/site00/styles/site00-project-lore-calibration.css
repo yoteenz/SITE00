@@ -1,0 +1,50 @@
+.site00-project-lore-calibration {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 0 2rem;
+  overflow-x: hidden;
+}
+
+.site00-project-lore-calibration__hero {
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.site00-project-lore-calibration__kicker {
+  margin: 0;
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  color: #c41e3a;
+}
+
+.site00-project-lore-calibration__project {
+  margin: 0.35rem 0 0;
+  font-size: clamp(1.25rem, 5vw, 1.75rem);
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+}
+
+.site00-project-lore-calibration__headline {
+  margin: 0.5rem 0 0;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  line-height: 1.45;
+  max-width: 36ch;
+}
+
+.site00-cd__error-panel {
+  padding: 1rem;
+  border: 1px solid rgba(196, 30, 58, 0.35);
+  background: rgba(196, 30, 58, 0.04);
+}
+
+.site00-cd__error-panel button {
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .site00-project-lore-calibration {
+    max-width: 720px;
+  }
+}

@@ -12,7 +12,7 @@ import {
   recordFounderDecision,
 } from '../_lib/site00Evolve/creativeDirection/engagementService.js';
 import { orgIdFromSlug } from '../_lib/site00Evolve/orgRegistry.js';
-import { submitOrgLoreCalibration } from '../_lib/site00BrandLore/loreService.js';
+import { submitOrgLoreCalibration, getOrReconcileBrandLoreForOrg } from '../_lib/site00BrandLore/loreService.js';
 
 function setCors(res: VercelResponse): void {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -130,7 +130,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         const payload = await getCreativeDirectionPayload(slug);
-        return json(res, 200, payload);
+        const orgId = orgIdFromSlug(slug);
+        const loreProfile = orgId ? await getOrReconcileBrandLoreForOrg(orgId, slug) : null;
+        return json(res, 200, {
+          ...payload,
+          brandLoreCalibrationAnswers: loreProfile?.rawLoreAnswers ?? {},
+        });
       }
       case 'creative_direction_decision': {
         if (req.method !== 'POST') {

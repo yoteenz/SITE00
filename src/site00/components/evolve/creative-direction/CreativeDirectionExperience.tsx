@@ -55,6 +55,8 @@ export type CreativeDirectionPayload = {
   };
   meta: { visualDnaStatus: string };
   page001: { topic: string; productionStarted: boolean } | null;
+  /** Saved lore calibration answers for resume (canonical raw answers, server-side). */
+  brandLoreCalibrationAnswers?: Record<string, string | string[]>;
 };
 
 export type CreativeDirectionDecisionInput = {

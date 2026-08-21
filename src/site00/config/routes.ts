@@ -37,6 +37,7 @@ export const SITE00_ROUTES = {
   about: '/about',
   journal: '/journal',
   signIn: '/origin/sign-in',
+  createAccount: '/origin/create-account',
   loaderPreview: '/loader-preview',
   accessDebug: '/access/debug',
   access: '/access',
@@ -98,6 +99,11 @@ export function site00ProjectEvolvePath(projectSlug: string): string {
 
 export function site00ProjectCreativeDirectionPath(projectSlug: string): string {
   return `/projects/${projectSlug}/creative-direction`;
+}
+
+export function site00CreateAccountHrefWithReturnTo(returnToPath: string): string {
+  const safe = returnToPath.startsWith('/') ? returnToPath : `/${returnToPath}`;
+  return `${SITE00_ROUTES.createAccount}?returnTo=${encodeURIComponent(safe.slice(0, 1024))}`;
 }
 
 export function site00StudioPath(projectSlug: string, section?: 'input' | 'operations' | 'blueprint' | 'assets' | 'reviews' | 'milestones' | 'activity'): string {
