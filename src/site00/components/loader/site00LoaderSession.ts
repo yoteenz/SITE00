@@ -1,3 +1,5 @@
+import { isSite00PreviewTunnelHost } from './site00PreviewHost';
+
 const SITE00_IMMERSIVE_SESSION_KEY = 'site00-immersive-complete';
 /** @deprecated Migrated to SITE00_IMMERSIVE_SESSION_KEY */
 const LEGACY_ASSTS_SESSION_KEY = 'site00-assts-immersive-complete';
@@ -16,6 +18,7 @@ function isImmersiveSessionComplete(): boolean {
 /** Full cinematic loader on cold start / hard refresh — not on ordinary in-session navigation. */
 export function shouldShowSite00ImmersiveLoader(): boolean {
   if (typeof window === 'undefined') return true;
+  if (isSite00PreviewTunnelHost()) return false;
 
   try {
     const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;

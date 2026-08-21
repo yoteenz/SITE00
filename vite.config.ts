@@ -143,7 +143,15 @@ export default defineConfig(({ mode, command }) => {
       host: '0.0.0.0',
       strictPort: true,
       allowedHosts: ['.trycloudflare.com', ...(tunnelAllowedHost ? [tunnelAllowedHost] : [])],
-      hmr: cloudMobilePreview ? false : undefined,
+      hmr: cloudMobilePreview
+        ? false
+        : tunnelAllowedHost
+          ? {
+              host: tunnelAllowedHost,
+              protocol: 'wss',
+              clientPort: 443,
+            }
+          : undefined,
       proxy,
     },
   };
