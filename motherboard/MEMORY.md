@@ -2236,3 +2236,11 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Action:** Created `site00-vite` tmux session, ran `npm run dev` (Vite already defaults to `--port 5174 --host`) with `SITE00_CLOUD_MOBILE_PREVIEW=1`. `/tmp/cloudflared` binary was missing — downloaded `cloudflared-linux-amd64` from GitHub releases (v2026.8.2), `chmod +x`. Created `site00-preview-tunnel` tmux session running `/tmp/cloudflared tunnel --no-autoupdate run --token "$SITE00_CLOUDFLARE_TUNNEL_TOKEN"`. 4 QUIC connections registered, precheck healthy, ingress config resolved hostname → `http://localhost:5174`. Refreshed `/tmp/site00-cloud-preview-url.txt`; confirmed `curl` to the tunnel hostname returns `200`.
 - **Convention reinforced:** On a brand-new VM, don't assume `site00-vite`/`site00-preview-tunnel` tmux sessions or `/tmp/cloudflared` exist — check `tmux ls` and `ls /tmp/cloudflared` first and bootstrap both if absent, same steps as a warm restart.
 
+---
+
+## 2026-08-21 — Cloudflare preview tunnel restart (warm, second request same session)
+
+- **Request:** Restart the tunnel again (follow-up in the same chat, ~20 min after the first restart).
+- **Action:** `site00-vite` was already healthy (`curl localhost:5174` → 200) — left untouched. Sent `C-c` + `kill-session` to `site00-preview-tunnel`, `pkill -f "cloudflared tunnel"` to be sure the old process was gone, then created a **fresh** tmux session and relaunched `/tmp/cloudflared tunnel --no-autoupdate run --token "$SITE00_CLOUDFLARE_TUNNEL_TOKEN"`. 4 new QUIC connections registered, precheck healthy, `curl https://$SITE00_CLOUDFLARE_TUNNEL_HOSTNAME/` → 200.
+- **Gotcha:** `kill-session` immediately followed by `new-session` + `send-keys` for the *same session name* in one chained command sometimes raced and left no session at all (`tmux ls` showed it missing right after). Fix: create the new session and confirm with `tmux ls` **before** sending the `cloudflared` command into it, rather than chaining kill+create+send-keys in a single shot.
+
