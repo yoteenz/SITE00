@@ -276,6 +276,7 @@ export function CreativeDirectionExperience({
     visualProofPlans: unknown[];
     canonicalFormationVersion: number;
     proofAssetsByDirection?: Record<string, Record<string, unknown>>;
+    creativeDirectionBoardsByDirection?: Record<string, unknown>;
   } | null })?.founderComparisonSet ?? null;
 
   const showComparisonSet =
@@ -423,6 +424,9 @@ export function CreativeDirectionExperience({
               directionCount={showComparisonSet ? comparisonSet.directionCount : undefined}
               proofAssetsByDirection={
                 showComparisonSet ? (comparisonSet.proofAssetsByDirection as never) : undefined
+              }
+              creativeDirectionBoardsByDirection={
+                showComparisonSet ? (comparisonSet.creativeDirectionBoardsByDirection as never) : undefined
               }
             />
           ) : null}
