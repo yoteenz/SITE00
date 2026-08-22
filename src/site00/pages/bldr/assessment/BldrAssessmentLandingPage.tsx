@@ -9,11 +9,9 @@ import {
 import { useBldrAssessment } from '../../../hooks/useBldrAssessment';
 import { BldrAssessmentShell, BldrAssessmentActions } from '../../../components/bldr-assessment/BldrAssessmentShell';
 import { IdntyProcessStripPanel } from '../../../components/idnty-assessment/IdntyAssessmentPanels';
-import {
-  BldrScopeFields,
-  validateBldrFields,
-  BldrDiscoveryProgress,
-} from '../../../components/bldr-assessment/BldrScopeFields';
+import { BldrScopeFields, validateBldrFields, BldrDiscoveryProgress } from '../../../components/bldr-assessment/BldrScopeFields';
+import { BldrIntakeShell } from '../../../components/bldr/intake/BldrIntakeShell';
+import { BldrIntakeLandingPanel } from '../../../components/bldr/intake/BldrIntakePanels';
 import { useSite00DesktopArtboardPreview } from '../../../components/shell/Site00DesktopArtboardContext';
 import { SITE00_ROUTES, site00BldrAssessmentDesktopPath } from '../../../config/routes';
 
@@ -78,6 +76,21 @@ export default function BldrAssessmentLandingPage({ classSlug }: BldrAssessmentL
     setStepAnswers(classSlug, 'landing', values);
     navigate(SITE00_ROUTES.bldrState);
   };
+
+  if (!isDesktop) {
+    return (
+      <BldrIntakeShell breadcrumb={state.breadcrumb}>
+        <BldrIntakeLandingPanel
+          state={state}
+          values={values}
+          errors={errors}
+          onChange={handleFieldChange}
+          onPrimary={handleNext}
+          onSecondary={handleSaveExit}
+        />
+      </BldrIntakeShell>
+    );
+  }
 
   const discoveryStep = classSlug === 'not-sure' ? 1 : null;
 

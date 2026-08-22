@@ -106,21 +106,21 @@ export function FastTravelPanel({ open, onClose, returnFocusRef }: FastTravelPan
 
   return (
     <>
-      <button type="button" className="site00-fast-travel__backdrop" aria-label="Close Fast Travel" onClick={closePanel} />
+      <button type="button" className="site00-fast-travel__backdrop" aria-label="CLOSE FAST TRAVEL" onClick={closePanel} />
       <aside
         ref={panelRef}
         id="site00-fast-travel-panel"
         className="site00-fast-travel"
         role="dialog"
         aria-modal="true"
-        aria-label="Fast Travel"
+        aria-label="FAST TRAVEL"
       >
         <header className="site00-fast-travel__header">
           <div className="site00-fast-travel__brand">
             <span className="site00-fast-travel__brand-mark">SITE 00</span>
             <span className="site00-diamond" aria-hidden="true" />
           </div>
-          <button type="button" className="site00-fast-travel__close" onClick={closePanel} aria-label="Close Fast Travel">
+          <button type="button" className="site00-fast-travel__close" onClick={closePanel} aria-label="CLOSE FAST TRAVEL">
             ×
           </button>
         </header>
@@ -136,7 +136,7 @@ export function FastTravelPanel({ open, onClose, returnFocusRef }: FastTravelPan
 
         <CurrentLocationCard location={location} />
 
-        <nav className="site00-fast-travel__nav" aria-label="Fast Travel destinations">
+        <nav className="site00-fast-travel__nav" aria-label="FAST TRAVEL DESTINATIONS">
           {sections.map((section) => (
             <FastTravelSection key={section.id} section={section} ctx={ctx} onNavigate={navigateAndClose} />
           ))}

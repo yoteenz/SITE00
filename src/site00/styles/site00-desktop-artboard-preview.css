@@ -1,0 +1,338 @@
+/**
+ * Phone + Desktop toggle — scaled 1440×900 artboard preview parity.
+ * Viewport is often <768px while the artboard is desktop-width; @media (min-width: 768px)
+ * does not apply. These rules mirror desktop layout + iOS button palette inside the artboard.
+ */
+
+/* ─── iOS Safari — interactive buttons (workflow + assessments + composer) ─── */
+
+.site00-desktop-artboard button.site00-hub-card {
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.site00-desktop-artboard button.site00-hub-card .site00-hub-card__title {
+  color: var(--site-text);
+}
+
+.site00-desktop-artboard button.site00-hub-card .site00-hub-card__desc {
+  color: var(--site-text-muted);
+}
+
+.site00-desktop-artboard button.site00-hub-card .site00-hub-card__cta {
+  color: var(--site-red);
+}
+
+.site00-desktop-artboard button.site00-hub-card .site00-hub-card__chev {
+  color: var(--site-text-muted);
+}
+
+.site00-desktop-artboard button.site00-hub-card--destructive .site00-hub-card__title,
+.site00-desktop-artboard button.site00-hub-card--destructive .site00-hub-card__cta {
+  color: var(--site-red);
+}
+
+.site00-desktop-artboard button.site00-filter-tabs__tab {
+  -webkit-appearance: none;
+  appearance: none;
+  font: inherit;
+}
+
+.site00-desktop-artboard button.site00-idnty-question-list__item {
+  color: var(--site-text);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.site00-desktop-artboard button.site00-idnty-question-list__item .site00-idnty-question-list__num {
+  color: var(--site-red, #e60000);
+}
+
+.site00-desktop-artboard button.site00-idnty-question-list__item .site00-idnty-question-list__label {
+  color: var(--site-text);
+}
+
+.site00-desktop-artboard button.site00-idnty-question-list__item .site00-idnty-question-list__desc {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.site00-desktop-artboard button.site00-idnty-question-list__item .site00-idnty-question-list__arrow {
+  color: var(--site-red, #e60000);
+}
+
+.site00-desktop-artboard button.site00-idnty-option-grid__card {
+  -webkit-appearance: none;
+  appearance: none;
+  font: inherit;
+  color: var(--site-red, #e60000);
+}
+
+.site00-desktop-artboard button.site00-idnty-option-grid__card .site00-idnty-option-grid__label {
+  color: #000;
+}
+
+.site00-desktop-artboard button.site00-idnty-option-grid__card .site00-idnty-option-grid__desc {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.site00-desktop-artboard button.site00-idnty-option-grid__card .site00-idnty-option-grid__explore {
+  color: var(--site-red, #e60000);
+}
+
+.site00-desktop-artboard button.site00-idnty-option-rows__row {
+  color: var(--site-text);
+  -webkit-appearance: none;
+  appearance: none;
+  font: inherit;
+}
+
+.site00-desktop-artboard button.site00-idnty-option-rows__row .site00-idnty-option-rows__label {
+  color: var(--site-text);
+}
+
+.site00-desktop-artboard button.site00-idnty-review-list__edit {
+  color: var(--site-red, #e60000);
+  -webkit-appearance: none;
+  appearance: none;
+  font: inherit;
+}
+
+.site00-desktop-artboard button.site00-idnty-assessment__btn-secondary {
+  color: var(--site-text);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.site00-desktop-artboard button.site00-btn-ghost {
+  color: var(--site-text);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.site00-desktop-artboard button.site00-action-link {
+  color: var(--site-text);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.site00-desktop-artboard button.site00-action-link.site00-action-link--red {
+  color: var(--site-red);
+}
+
+.site00-desktop-artboard button.site00-build-direction-card__hit {
+  color: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  font: inherit;
+}
+
+.site00-desktop-artboard button.site00-build-direction-card__hit .site00-build-direction-card__title {
+  color: var(--site-text);
+}
+
+.site00-desktop-artboard button.site00-build-direction-card__hit .site00-build-direction-card__description-line {
+  color: var(--site-text-muted);
+}
+
+.site00-desktop-artboard button.site00-build-direction-card__hit .site00-build-direction-card__price {
+  color: var(--site-red);
+}
+
+/* ─── Workflow state pages (IDNTY / BLDR / Evolve selectors) ─── */
+
+.site00-desktop-artboard .site00-idnty-state-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.site00-desktop-artboard .site00-idnty-investment-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.site00-desktop-artboard .site00-state-page-layout {
+  padding-bottom: calc(var(--site00-summary-strip-height, 36px) + 48px);
+}
+
+.site00-desktop-artboard .site00-state-page.site00-shell {
+  position: relative;
+  height: var(--site00-desktop-artboard-height, 900px);
+  min-height: var(--site00-desktop-artboard-height, 900px);
+  overflow: hidden;
+}
+
+/* Bottom strips portal to shell chrome — see Site00ArtboardBottomChromePortal */
+
+/* ─── Assessments — keep desktop option grids (undo phone @media max-width) ─── */
+
+.site00-desktop-artboard .site00-idnty-option-grid--cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.site00-desktop-artboard .site00-idnty-option-grid--cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.site00-desktop-artboard .site00-idnty-option-grid--cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* ─── ENTER 00 — desktop two-column layout (undo phone single-column override) ─── */
+
+.site00-desktop-artboard .site00-enter-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100%;
+  max-height: 100%;
+}
+
+.site00-desktop-artboard .site00-enter-page > .site00-ui-layer {
+  flex: 1;
+  min-height: 0 !important;
+  height: 100%;
+}
+
+.site00-desktop-artboard .site00-enter-page .site00-ui-layer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0 !important;
+  overflow: hidden;
+}
+
+.site00-desktop-artboard .site00-enter-page main {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.site00-desktop-artboard .site00-enter-layout {
+  grid-template-columns: minmax(160px, 1fr) minmax(220px, 268px) !important;
+  gap: 24px;
+  align-items: start;
+  max-width: 640px;
+  width: 100%;
+  padding: 16px 24px calc(var(--site00-enter-status-strip-height) + 20px);
+  margin: 0 auto;
+}
+
+.site00-desktop-artboard .site00-enter-welcome {
+  transform: translateX(-20px);
+}
+
+.site00-desktop-artboard .site00-enter-menu {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: calc(
+    var(--site00-desktop-artboard-height, 900px) - var(--site00-enter-header-offset) -
+      var(--site00-enter-status-strip-height) - 48px
+  );
+  overflow: hidden;
+  transform: translate(12px, -8px);
+}
+
+.site00-desktop-artboard .site00-enter-menu__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding: 16px 14px;
+}
+
+.site00-desktop-artboard .site00-enter-menu .site00-enter-row {
+  padding: 8px 0;
+  gap: 10px;
+}
+
+.site00-desktop-artboard .site00-enter-menu .site00-enter-row__main {
+  gap: 10px;
+}
+
+.site00-desktop-artboard .site00-enter-menu__section {
+  margin-bottom: 16px;
+}
+
+.site00-desktop-artboard .site00-enter-menu__divider {
+  margin: 14px 0;
+}
+
+/* Enter status strip portals to shell chrome — see Site00ArtboardBottomChromePortal */
+
+/* ─── Public composer pages — desktop grids ─── */
+
+.site00-desktop-artboard .site00-hub-grid--2x4 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.site00-desktop-artboard .site00-hub-grid--2x2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.site00-desktop-artboard .site00-services-grid--capabilities {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.site00-desktop-artboard .site00-portfolio-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.site00-desktop-artboard .site00-system-foundation {
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+}
+
+.site00-desktop-artboard .site00-journal-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.site00-desktop-artboard .site00-bldr-split {
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: start;
+}
+
+.site00-desktop-artboard .site00-idnty-gateway__actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.site00-desktop-artboard .site00-idnty-gateway__actions .site00-hub-card {
+  min-height: 200px;
+  padding: 24px;
+}
+
+.site00-desktop-artboard .site00-system-status-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.site00-desktop-artboard .site00-about-mission {
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+.site00-desktop-artboard .site00-principles-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.site00-desktop-artboard .site00-about-meta {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.site00-desktop-artboard .site00-support-hero {
+  grid-template-columns: 1.2fr 0.8fr;
+}
+
+.site00-desktop-artboard .site00-support-topics {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* BLDR start is mobile-only markup — hide inside desktop artboard preview */
+.site00-desktop-artboard .site00-bldr-entry-page {
+  display: none !important;
+}

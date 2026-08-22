@@ -1,7 +1,4 @@
-/**
- * SITE 00 environment registry — separates ENVIRONMENT from INTERFACE.
- * Production assets referenced here; temporary CSS fallbacks when unavailable.
- */
+import { SITE00_ENTER_DESKTOP_FOCAL } from './desktop-environment-presentation';
 
 /** Approved Origin desktop environment (Supabase live-preview/site00/). */
 export const SITE00_ORIGIN_DESKTOP_BACKGROUND_PATH = '942898D3-6953-47CD-8987-0697EC1C9F11.png';
@@ -56,7 +53,7 @@ export const SITE00_ENVIRONMENTS: Record<EnvironmentId, EnvironmentConfig> = {
     id: 'ORIGIN_ENVIRONMENT',
     desktopAssetPath: SITE00_ORIGIN_DESKTOP_BACKGROUND_PATH,
     mobileAssetPath: SITE00_ORIGIN_MOBILE_BACKGROUND_PATH,
-    desktopPosition: 'center center',
+    desktopPosition: 'center 30%',
     mobilePosition: 'center center',
     desktopScale: 1,
     mobileScale: 1,
@@ -80,14 +77,14 @@ export const SITE00_ENVIRONMENTS: Record<EnvironmentId, EnvironmentConfig> = {
   ENTER_00_WAITING_ROOM: {
     id: 'ENTER_00_WAITING_ROOM',
     desktopAssetPath: SITE00_ENTER_DESKTOP_BACKGROUND_PATH,
-    desktopPosition: 'center 34%',
+    desktopPosition: SITE00_ENTER_DESKTOP_FOCAL.default,
     mobilePosition: '55% center',
     desktopScale: 1,
     mobileScale: 1.1,
     lightingClass: 'site00-env--enter-lighting',
     fallbackClass: 'site00-env-fallback--enter',
     routes: ['/enter'],
-    notes: 'Approved Enter 00 desktop menu — 89319E70 @ live-preview/site00; desktop bg shifted up (see .site00-enter-page CSS)',
+    notes: 'Approved Enter 00 desktop — 89319E70 @ live-preview/site00; focal via desktop-environment-presentation.ts + enter-only CSS breakpoints',
   },
   IDNTY_ASSESSMENT_ENVIRONMENT: {
     id: 'IDNTY_ASSESSMENT_ENVIRONMENT',

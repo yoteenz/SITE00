@@ -18,7 +18,7 @@ export function Site00PublicLayoutSwitch() {
   }
 
   const nav = (
-    <nav className="site00-origin-layout-switch" aria-label="Public page layout preview">
+    <nav className="site00-origin-layout-switch" aria-label="PUBLIC PAGE LAYOUT PREVIEW">
       <button
         type="button"
         aria-current={!isPreviewDesktop ? 'page' : undefined}

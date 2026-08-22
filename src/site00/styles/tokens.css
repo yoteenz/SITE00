@@ -13,7 +13,8 @@
   --site-red: #e8192c;
   --site-red-dim: rgba(232, 25, 44, 0.15);
   --site00-icon-stroke: 1.75;
-  --site00-enter-icon-slot: 38px;
+  /** Bottom status panel — shared height (Origin desktop + Enter). */
+  --site00-bottom-panel-height: 36px;
   --site-border: rgba(0, 0, 0, 0.08);
   --site-line: rgba(0, 0, 0, 0.12);
   --site-success: #22c55e;
@@ -64,6 +65,8 @@
   --site00-tracking-mono: 0.02em;
 
   --site00-lh-display: 0.98;
+  /* Tighter display stacks — pair with stack-tight* margins so layout stays stable */
+  --site00-lh-display-tight: 0.92;
   --site00-lh-heading: 1.1;
   --site00-lh-body: 1.45;
   --site00-lh-label: 1.12;
@@ -86,6 +89,15 @@
   --site-z-nav: 20;
   --site-z-panel: 30;
   --site-z-overlay: 40;
+  /* Text stack spacing — margin-based only (translateY does not affect document flow) */
+  --site00-stack-xs: 2px;
+  --site00-stack-sm: 4px;
+  --site00-stack-md: 8px;
+  --site00-stack-lg: 12px;
+  --site00-stack-xl: 16px;
+  --site00-stack-tight: -2px;
+  --site00-stack-tight-lg: -4px;
+
   --site-spacing-xs: 4px;
   --site-spacing-sm: 8px;
   --site-spacing-md: 16px;

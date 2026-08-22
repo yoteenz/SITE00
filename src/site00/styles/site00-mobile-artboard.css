@@ -1,0 +1,249 @@
+/**
+ * SITE 00 — laptop Mobile tab: centered phone device with 390×844 artboard inside.
+ * Re-parents mobile layout `fixed` UI into the artboard stage so scaling matches a real phone.
+ */
+
+.site00-mobile-artboard-shell {
+  position: fixed;
+  inset: 0;
+  overflow: auto;
+  touch-action: pan-x pan-y pinch-zoom;
+  background: #e8e8e6;
+  -webkit-overflow-scrolling: touch;
+}
+
+.site00-mobile-artboard-shell__center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  min-height: 100dvh;
+  padding: 36px 24px 48px;
+  box-sizing: border-box;
+}
+
+/** Layout slot sized to the scaled phone frame — device renders 1:1 inside, then transforms. */
+.site00-mobile-device-scale {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/** Phone hardware frame — site renders inside __screen only (390×844 at 1:1). */
+.site00-mobile-device {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 44px;
+  background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 48%, #1f1f1f 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 24px 64px rgba(0, 0, 0, 0.28),
+    0 8px 24px rgba(0, 0, 0, 0.18);
+  transform-origin: top left;
+}
+
+.site00-mobile-device__bezel {
+  position: absolute;
+  inset: 0;
+  padding: 14px;
+  box-sizing: border-box;
+  border-radius: inherit;
+}
+
+.site00-mobile-device__screen {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 22px);
+  overflow: hidden;
+  border-radius: 32px;
+  background: #f5f5f3;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+.site00-mobile-device__home-indicator {
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  width: 34%;
+  max-width: 120px;
+  height: 4px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.34);
+  pointer-events: none;
+}
+
+.site00-mobile-artboard-shell__stage-scaler {
+  position: relative;
+  z-index: 1;
+  width: 390px;
+  height: 844px;
+  overflow: hidden;
+}
+
+.site00-mobile-artboard-shell .site00-mobile-artboard {
+  position: relative;
+  overflow: hidden;
+}
+
+.site00-mobile-artboard > .site00-environment-viewport-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--site-z-env);
+  pointer-events: none;
+}
+
+.site00-mobile-artboard {
+  position: relative;
+  overflow: hidden;
+  background: var(--site-bg, #f5f5f3);
+  height: var(--site00-mobile-artboard-height, 844px);
+  min-height: var(--site00-mobile-artboard-height, 844px);
+  /*
+   * Lock typography to 390px-phone clamp floors — vw units otherwise resolve against
+   * the laptop browser width and blow up / clip Origin hero copy inside the frame.
+   */
+  --site00-size-display-xl: 2.75rem;
+  --site00-size-display-lg: 2rem;
+  --site00-size-display-md: 1.375rem;
+  --site00-size-heading: 0.875rem;
+  --site00-size-subheading: 0.75rem;
+  --site00-size-label: 0.5625rem;
+  --site00-size-body: 0.6875rem;
+  --site00-size-micro: 0.5rem;
+  --site00-size-mono: 0.625rem;
+  --site00-size-nav: 0.5625rem;
+  --site00-size-logo: 0.875rem;
+}
+
+.site00-mobile-artboard .site00-shell {
+  position: relative;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+.site00-mobile-artboard .site00-env-layer {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.site00-mobile-artboard .site00-ui-layer {
+  position: relative;
+  height: 100%;
+  min-height: 100%;
+}
+
+.site00-mobile-artboard .site00-env-layer--has-mobile-asset {
+  background-image: var(--site00-env-mobile-image);
+  background-size: cover;
+  background-position: var(--site00-env-mobile-position, center center);
+  background-repeat: no-repeat;
+  transform: scale(var(--site00-env-mobile-scale, 1));
+  transform-origin: center center;
+}
+
+.site00-mobile-artboard .site00-env-layer--has-desktop-asset {
+  background-image: var(--site00-env-desktop-image);
+  background-size: cover;
+  background-position: var(--site00-env-desktop-position, center center);
+  background-repeat: no-repeat;
+  transform: scale(var(--site00-env-desktop-scale, 1));
+  transform-origin: center center;
+}
+
+.site00-mobile-artboard .site00-origin-page--mobile-layout {
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+.site00-mobile-artboard .site00-origin-page--mobile-layout .site00-ui-layer {
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+/** Origin mobile layout — re-anchor viewport-fixed UI to artboard stage. */
+.site00-mobile-artboard .site00-origin-page--mobile-layout .site00-home-hero {
+  position: absolute;
+  top: 20px;
+  right: var(--site-spacing-md);
+  left: auto;
+  max-width: min(60%, 252px);
+}
+
+.site00-mobile-artboard .site00-origin-page--mobile-layout .site00-origin-swipe-surface {
+  position: absolute;
+  top: 72px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.site00-mobile-artboard .site00-origin-page--mobile-layout .site00-origin-mobile-swipe {
+  position: absolute;
+  left: 50%;
+  bottom: 88px;
+  transform: translateX(-50%);
+}
+
+.site00-mobile-artboard .site00-origin-page--mobile-layout footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.site00-mobile-artboard .site00-origin-page--mobile-layout .site00-status-strip--layout-mobile .site00-status-strip__cell {
+  flex: 0 0 50%;
+  width: 50%;
+  min-width: 50%;
+  max-width: 50%;
+}
+
+.site00-mobile-artboard .site00-origin-page--mobile-layout .site00-status-strip__metrics {
+  width: 100%;
+  max-width: none;
+}
+
+/** Enter — pin status strip to artboard bottom (not browser viewport). */
+.site00-mobile-artboard .site00-enter-status-strip,
+.site00-mobile-artboard .site00-workflow-summary-strip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.site00-mobile-artboard .site00-enter-page {
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.site00-mobile-artboard .site00-mobile-nav {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: stretch;
+  min-height: 56px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: rgba(255, 255, 255, 0.82);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: var(--site-z-nav);
+}

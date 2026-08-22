@@ -2,16 +2,14 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import { MobileEnvironmentBackground } from './MobileEnvironmentBackground';
 import { Site00MobileHeader, type Site00MobileHeaderVariant } from './Site00MobileHeader';
-import { Site00MobileNav } from './Site00MobileNav';
+import { MobileSiteNavigation } from './MobileSiteNavigation';
 import { FastTravelPanel } from '../fast-travel/FastTravelPanel';
-import type { Site00MobileNavId } from '../../config/locations-directory';
 import { isLocationsCompositionDebugEnabled } from '../../config/locations-composition-map';
 import { isBldrCompositionDebugEnabled } from '../../config/bldr-composition-map';
 import { LocationsCompositionDebug } from '../locations/LocationsCompositionDebug';
 import { BldrCompositionDebug } from '../bldr/BldrCompositionDebug';
 
 type Site00MobileShellProps = {
-  activeNav: Site00MobileNavId;
   children: ReactNode;
   enterClassName?: string;
   /** When false, page supplies its own pale shell background (Screen 02 BLDR entry). */
@@ -25,7 +23,6 @@ type Site00MobileShellProps = {
  * Desktop routes must not use this component.
  */
 export function Site00MobileShell({
-  activeNav,
   children,
   enterClassName = '',
   showEnvironmentBackground = true,
@@ -61,7 +58,7 @@ export function Site00MobileShell({
           fastTravelTriggerRef={fastTravelTriggerRef}
         />
         <main className="site00-mobile-shell__main">{children}</main>
-        <Site00MobileNav active={activeNav} />
+        <MobileSiteNavigation />
       </div>
       {resolvedHeaderVariant === 'default' ? (
         <FastTravelPanel

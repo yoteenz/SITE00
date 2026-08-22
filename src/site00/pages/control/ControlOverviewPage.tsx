@@ -1,57 +1,65 @@
-import { CtrlRoomShell } from '../../components/control/CtrlRoomShell';
+import { EcosystemShell } from '../../components/ecosystem/EcosystemShell';
 import { CtrlRoomMetricCard } from '../../components/control/CtrlRoomMetricCard';
 import { CtrlRoomActivityPanel } from '../../components/control/CtrlRoomActivityPanel';
 import { CtrlRoomSitesPanel } from '../../components/control/CtrlRoomSitesPanel';
 import { CtrlRoomSignalsPanel } from '../../components/control/CtrlRoomSignalsPanel';
-import { useCtrlRoomData } from '../../hooks/useCtrlRoomData';
+import { CtrlRoomMobileExperience } from '../../components/ctrl-room/mobile/CtrlRoomMobileExperience';
+import { useCtrlRoomData, toLegacyActivityRows } from '../../hooks/useCtrlRoomData';
 import { SITE00_ROUTES } from '../../config/routes';
 
 export default function ControlOverviewPage() {
-  const { metrics, activity, sites } = useCtrlRoomData();
+  const data = useCtrlRoomData();
+  const legacyActivity = toLegacyActivityRows(data.activity);
 
   return (
-    <CtrlRoomShell>
-      <div className="site00-ctrl-overview">
-        <div className="site00-ctrl-overview__metrics">
-          <CtrlRoomMetricCard
-            label="ACTIVE SITES"
-            value={metrics.activeSites.value}
-            state={metrics.activeSites.state}
-            actionLabel="View all sites →"
-            actionHref={SITE00_ROUTES.controlSites}
-            icon="globe"
-          />
-          <CtrlRoomMetricCard
-            label="DOMAINS"
-            value={metrics.domains.value}
-            state={metrics.domains.state}
-            actionLabel="Manage domains →"
-            actionHref={SITE00_ROUTES.controlDomains}
-            icon="target"
-          />
-          <CtrlRoomMetricCard
-            label="PLAN"
-            value={metrics.plan.value}
-            state={metrics.plan.state}
-            actionLabel="Manage plan →"
-            actionHref={SITE00_ROUTES.controlBilling}
-            icon="cube"
-          />
-          <CtrlRoomMetricCard
-            label="NEXT BILLING"
-            value={metrics.nextBilling.value}
-            state={metrics.nextBilling.state}
-            actionLabel="View billing →"
-            actionHref={SITE00_ROUTES.controlBilling}
-            icon="calendar"
-          />
+    <EcosystemShell hidePageHeader>
+      <div className="site00-ctrl-overview-page">
+        <div className="site00-ctrl-overview-page__mobile">
+          <CtrlRoomMobileExperience data={data} />
         </div>
-        <div className="site00-ctrl-overview__grid">
-          <CtrlRoomSignalsPanel />
-          <CtrlRoomActivityPanel rows={activity} />
-          <CtrlRoomSitesPanel rows={sites} />
+
+        <div className="site00-ctrl-overview-page__desktop site00-ctrl-overview">
+          <div className="site00-ctrl-overview__metrics">
+            <CtrlRoomMetricCard
+              label="ACTIVE SITES"
+              value={data.metrics.activeSites.value}
+              state={data.metrics.activeSites.state}
+              actionLabel="VIEW ALL SITES →"
+              actionHref={SITE00_ROUTES.controlSites}
+              icon="globe"
+            />
+            <CtrlRoomMetricCard
+              label="DOMAINS"
+              value={data.metrics.domains.value}
+              state={data.metrics.domains.state}
+              actionLabel="MANAGE DOMAINS →"
+              actionHref={SITE00_ROUTES.controlDomains}
+              icon="target"
+            />
+            <CtrlRoomMetricCard
+              label="PLAN"
+              value={data.metrics.plan.value}
+              state={data.metrics.plan.state}
+              actionLabel="MANAGE PLAN →"
+              actionHref={SITE00_ROUTES.controlBilling}
+              icon="cube"
+            />
+            <CtrlRoomMetricCard
+              label="NEXT BILLING"
+              value={data.metrics.nextBilling.value}
+              state={data.metrics.nextBilling.state}
+              actionLabel="VIEW BILLING →"
+              actionHref={SITE00_ROUTES.controlBilling}
+              icon="calendar"
+            />
+          </div>
+          <div className="site00-ctrl-overview__grid">
+            <CtrlRoomSignalsPanel signals={data.signals} apiState={data.apiState} />
+            <CtrlRoomActivityPanel rows={legacyActivity} />
+            <CtrlRoomSitesPanel rows={data.sites} />
+          </div>
         </div>
       </div>
-    </CtrlRoomShell>
+    </EcosystemShell>
   );
 }

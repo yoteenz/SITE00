@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useMemo, useReducer, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useLayoutEffect, useMemo, useReducer, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import { isSite00PublicDesktopPath, site00PublicMobilePath } from '../config/site00-public-pages';
-import { isSite00OriginDesktopPath } from '../config/routes';
+import { isSite00OriginDesktopPath, SITE00_ROUTES } from '../config/routes';
 import {
   defaultPreviewDeviceModeForViewport,
   readStoredPreviewDeviceMode,
@@ -12,6 +12,7 @@ import { INITIAL_SITE00_STATE, site00Reducer, type HomeMode, type Site00State } 
 import {
   site00OriginMobileLayoutPreviewActive,
 } from '../components/shell/site00OriginViewport';
+import { syncSite00PreviewDesktopDocument } from '../components/shell/syncSite00PreviewDesktopDocument';
 
 type Site00ContextValue = {
   state: Site00State;
@@ -28,7 +29,11 @@ type Site00ContextValue = {
 const Site00Context = createContext<Site00ContextValue | null>(null);
 
 function resolveInitialPreviewMode(pathname: string): Site00PreviewDeviceMode {
-  if (isSite00PublicDesktopPath(pathname) || isSite00OriginDesktopPath(pathname)) {
+  if (
+    pathname === SITE00_ROUTES.enter ||
+    isSite00PublicDesktopPath(pathname) ||
+    isSite00OriginDesktopPath(pathname)
+  ) {
     return 'desktop';
   }
   const stored = readStoredPreviewDeviceMode();
@@ -38,10 +43,13 @@ function resolveInitialPreviewMode(pathname: string): Site00PreviewDeviceMode {
 
 export function Site00Provider({ children }: { children: ReactNode }) {
   const { pathname, search } = useLocation();
-  const [state, dispatch] = useReducer(site00Reducer, INITIAL_SITE00_STATE, (base) => ({
-    ...base,
-    previewDeviceMode: resolveInitialPreviewMode(pathname),
-  }));
+  const [state, dispatch] = useReducer(site00Reducer, INITIAL_SITE00_STATE, (base) => {
+    const previewDeviceMode = resolveInitialPreviewMode(pathname);
+    const isDesktop =
+      previewDeviceMode === 'desktop' && !site00OriginMobileLayoutPreviewActive(search);
+    syncSite00PreviewDesktopDocument(isDesktop);
+    return { ...base, previewDeviceMode };
+  });
 
   useEffect(() => {
     if (isSite00PublicDesktopPath(pathname) || isSite00OriginDesktopPath(pathname)) {
@@ -63,6 +71,17 @@ export function Site00Provider({ children }: { children: ReactNode }) {
     return state.previewDeviceMode === 'desktop';
   }, [state.previewDeviceMode, search]);
 
+  useLayoutEffect(() => {
+    syncSite00PreviewDesktopDocument(isPreviewDesktop);
+  }, [isPreviewDesktop]);
+
+  const setPreviewDeviceMode = (mode: Site00PreviewDeviceMode) => {
+    const mobileLayoutForced = site00OriginMobileLayoutPreviewActive(search);
+    const nextIsDesktop = mode === 'desktop' && !mobileLayoutForced;
+    syncSite00PreviewDesktopDocument(nextIsDesktop);
+    dispatch({ type: 'SET_PREVIEW_DEVICE_MODE', mode });
+  };
+
   const value: Site00ContextValue = {
     state,
     setHomeMode: (mode) => dispatch({ type: 'SET_HOME_MODE', mode }),
@@ -70,11 +89,13 @@ export function Site00Provider({ children }: { children: ReactNode }) {
     selectBuildClass: (classId) => dispatch({ type: 'SELECT_BUILD_CLASS', classId }),
     selectEvolvePath: (pathId) => dispatch({ type: 'SELECT_EVOLVE_PATH', pathId }),
     clearSelections: () => dispatch({ type: 'CLEAR_SELECTIONS' }),
-    setPreviewDeviceMode: (mode) => dispatch({ type: 'SET_PREVIEW_DEVICE_MODE', mode }),
+    setPreviewDeviceMode,
     isPreviewDesktop,
   };
 
-  return <Site00Context.Provider value={value}>{children}</Site00Context.Provider>;
+  return (
+    <Site00Context.Provider value={value}>{children}</Site00Context.Provider>
+  );
 }
 
 export function useSite00(): Site00ContextValue {

@@ -7,3 +7,5 @@ dist/
 *.log
 .DS_Store
 .vercel
+.cursor/bin/
+site00-production-dist-*.zip

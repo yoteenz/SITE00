@@ -40,7 +40,7 @@ export default function LocationsPage() {
 
   return (
     <div className={`site00-locations-page ${enterClass}`.trim()}>
-      <Site00MobileShell activeNav="locations" headerVariant="directory" enterClassName={enterClass ? 'site00-locations-page--enter' : ''}>
+      <Site00MobileShell headerVariant="directory" enterClassName={enterClass ? 'site00-locations-page--enter' : ''}>
         <LocationsDirectory />
       </Site00MobileShell>
     </div>

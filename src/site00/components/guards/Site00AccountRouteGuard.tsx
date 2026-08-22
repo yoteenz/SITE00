@@ -111,7 +111,7 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
     return (
       <GuardLoadingRecovery
         guard="Site00AccountRouteGuard"
-        detail="CTRL ROOM session restore did not complete. Try reload or sign in again."
+        detail="CTRL ROOM SESSION RESTORE DID NOT COMPLETE. TRY RELOAD OR SIGN IN AGAIN."
         onRetry={() => setRecoveryDone(false)}
       />
     );

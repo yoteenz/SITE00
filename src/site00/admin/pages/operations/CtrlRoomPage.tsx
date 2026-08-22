@@ -48,7 +48,7 @@ export default function CtrlRoomPage() {
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 
       {loading ? (
-        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="Loading ctrl room" />
+        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="LOADING CTRL ROOM" />
       ) : (
         <div className="site00-admin-dashboard-grid">
           <section className="site00-admin-panel">

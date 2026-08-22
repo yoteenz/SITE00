@@ -10,7 +10,8 @@
 
 .site00-shell,
 .site00-assts-shell,
-.site00-loader {
+.site00-loader,
+.site00-mobile-shell {
   font-family: var(--site00-font-body);
   font-size: var(--site00-size-body);
   line-height: var(--site00-lh-body);
@@ -21,11 +22,34 @@
   font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  color: var(--site-text);
 }
 
 /* Block global heading/body defaults from leaking into SITE 00 */
-.site00-shell :is(h1, h2, h3, h4, h5, h6, p, button, nav, a, span, li) {
+.site00-shell :is(h1, h2, h3, h4, h5, h6, p, button, nav, a, span, li),
+.site00-mobile-shell :is(h1, h2, h3, h4, h5, h6, p, button, nav, a, span, li) {
   font-family: inherit;
+}
+
+/* SITE 00 anchors — strip browser default underline; component classes own color */
+.site00-shell a[class*='site00-'],
+.site00-mobile-shell a[class*='site00-'],
+.site00-public-shell a[class*='site00-'],
+.site00-ctrl-room-shell a[class*='site00-'],
+.site00-desktop-artboard-shell a[class*='site00-'],
+.site00-desktop-artboard--native-viewport a[class*='site00-'],
+.site00-desktop-artboard a[class*='site00-'],
+.site00-enter-page a[class*='site00-'] {
+  text-decoration: none;
+}
+
+a.site00-btn-ghost,
+a.site00-btn-ghost:hover,
+a.site00-btn-ghost:focus,
+a.site00-btn-ghost:focus-visible,
+a.site00-btn-ghost:visited,
+a.site00-btn-ghost:active {
+  text-decoration: none;
 }
 
 /* ─── Brand uppercase law (SITE 00) ───
@@ -39,7 +63,16 @@
 .site00-ctrl-room-shell,
 .site00-desktop-artboard-shell,
 .site00-mobile-shell,
-.site00-immersive-loader {
+.site00-immersive-loader,
+.site00-fast-travel,
+.site00-origin-layout-switch,
+.site00-mobile-artboard,
+.site00-mobile-artboard-shell,
+.site00-mobile-device,
+.site00-page,
+.site00-ecosystem-shell,
+.site00-signin-page,
+.composition-studio {
   text-transform: uppercase;
 }
 
@@ -57,6 +90,8 @@
 .site00-public-shell input:not([type='password']):not(.site00-signin-form__input--password)::placeholder,
 .site00-ctrl-room-shell input:not([type='password']):not(.site00-signin-form__input--password)::placeholder,
 .site00-mobile-shell input:not([type='password']):not(.site00-signin-form__input--password)::placeholder,
+.site00-fast-travel input:not([type='password'])::placeholder,
+.site00-page input:not([type='password'])::placeholder,
 .site00-shell textarea:not(.site00-signin-form__input--password)::placeholder,
 .site00-assts-shell textarea:not(.site00-signin-form__input--password)::placeholder {
   text-transform: uppercase;
@@ -269,6 +304,7 @@
   letter-spacing: var(--site00-tracking-nav);
   line-height: var(--site00-lh-micro);
   text-transform: uppercase;
+  text-decoration: none;
 }
 
 /* ─── Status strip values ─── */
@@ -294,4 +330,129 @@
   letter-spacing: var(--site00-tracking-metadata);
   line-height: var(--site00-lh-micro);
   text-transform: uppercase;
+}
+
+/* ─── Text stack law (margin-based — never translateY for vertical text nudge) ───
+ * Role classes reset block margins; spacing comes from adjacency rules below or
+ * component BEM modifiers. Negative stack tokens tighten lines while keeping
+ * sibling positions stable when paired with compensating margin-top on followers.
+ */
+
+:is(
+  .site00-shell,
+  .site00-loader,
+  .site00-assts-shell,
+  .site00-public-shell,
+  .site00-ctrl-room-shell,
+  .site00-mobile-shell,
+  .site00-immersive-loader
+) :is(
+  .site00-display-xl,
+  .site00-heading-xl,
+  .site00-display-lg,
+  .site00-heading-lg,
+  .site00-display-md,
+  .site00-heading,
+  .site00-subheading,
+  .site00-label,
+  .site00-label-red,
+  .site00-micro,
+  .site00-body,
+  .site00-tagline,
+  .site00-coordinate,
+  .site00-panel-title,
+  .site00-mono,
+  .site00-id,
+  .site00-numeric,
+  .site00-status-value,
+  .site00-bracket-label
+) {
+  margin-block: 0;
+}
+
+/* Eyebrow / marker → title */
+:is(.site00-shell, .site00-loader, .site00-assts-shell) .site00-label:has(
+    + :is(
+      .site00-heading-xl,
+      .site00-display-xl,
+      .site00-heading-lg,
+      .site00-display-lg,
+      .site00-heading,
+      .site00-panel-title
+    )
+  ),
+:is(.site00-shell, .site00-loader, .site00-assts-shell) .site00-label-red:has(
+    + :is(
+      .site00-heading-xl,
+      .site00-display-xl,
+      .site00-heading-lg,
+      .site00-display-lg,
+      .site00-heading,
+      .site00-panel-title,
+      .site00-body
+    )
+  ) {
+  margin-bottom: var(--site00-stack-md);
+}
+
+/* Display XL — tight stack (SITE 00 hero headline) */
+.site00-display-xl,
+.site00-heading-xl {
+  line-height: var(--site00-lh-display-tight);
+  margin-bottom: var(--site00-stack-tight-lg);
+}
+
+.site00-display-xl + .site00-tagline,
+.site00-heading-xl + .site00-tagline {
+  margin-top: var(--site00-stack-tight);
+}
+
+/* Display LG — panels / enter welcome title */
+.site00-display-lg + .site00-tagline,
+.site00-heading-lg + .site00-tagline {
+  margin-top: var(--site00-stack-tight);
+}
+
+.site00-display-lg:has(+ .site00-tagline),
+.site00-heading-lg:has(+ .site00-tagline) {
+  line-height: var(--site00-lh-display-tight);
+  margin-bottom: var(--site00-stack-tight-lg);
+}
+
+/* Tagline → body copy */
+.site00-tagline + .site00-body {
+  margin-top: var(--site00-stack-md);
+}
+
+/* Body paragraph chains */
+.site00-body + .site00-body {
+  margin-top: var(--site00-stack-xs);
+}
+
+/* Section heading → body */
+.site00-heading + .site00-body,
+.site00-subheading + .site00-body,
+.site00-label-red + .site00-body {
+  margin-top: var(--site00-stack-md);
+}
+
+.site00-heading + .site00-label,
+.site00-panel-title + .site00-label {
+  margin-top: var(--site00-stack-sm);
+}
+
+.site00-label + .site00-body {
+  margin-top: var(--site00-stack-md);
+}
+
+.site00-micro + .site00-body {
+  margin-top: var(--site00-stack-sm);
+}
+
+.site00-label + .site00-micro {
+  margin-top: var(--site00-stack-xs);
+}
+
+.site00-label + .site00-status-value {
+  margin-top: var(--site00-stack-xs);
 }

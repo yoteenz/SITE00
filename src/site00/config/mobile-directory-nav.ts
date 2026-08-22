@@ -25,21 +25,21 @@ export const SITE00_MOBILE_DIRECTORY_PRIMARY: Site00MobileDirectoryItem[] = [
     label: 'IDNTY',
     href: SITE00_ROUTES.idnty,
     enabled: true,
-    ariaLabel: 'Identity',
+    ariaLabel: 'IDENTITY',
   },
   {
     id: 'bldr',
     label: 'BLDR / START BUILD',
     href: SITE00_ROUTES.bldr,
     enabled: true,
-    ariaLabel: 'Builder — Start Build',
+    ariaLabel: 'BUILDER — START BUILD',
   },
   {
     id: 'evolve',
     label: 'EVOLVE',
     href: SITE00_ROUTES.evolve,
     enabled: true,
-    ariaLabel: 'Evolve — Transform what exists',
+    ariaLabel: 'EVOLVE — TRANSFORM WHAT EXISTS',
   },
 ];
 

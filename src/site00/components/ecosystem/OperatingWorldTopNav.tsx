@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { OPERATING_WORLD_TOP_NAV, isOperatingWorldNavActive } from '../../config/ecosystem-nav';
 import { SITE00_ROUTES } from '../../config/routes';
 import { site00UserDisplayName, site00UserInitials, useSite00CurrentUser } from '../../hooks/useSite00CurrentUser';
+import { CtrlRoomSignOutButton } from '../control/CtrlRoomSignOutButton';
 
 /** Authenticated workspace top navigation — Operating World board canon. */
 export function OperatingWorldTopNav() {
@@ -11,14 +12,14 @@ export function OperatingWorldTopNav() {
   const initials = site00UserInitials(user);
 
   return (
-    <header className="site00-operating-topnav" aria-label="Operating environment navigation">
+    <header className="site00-operating-topnav" aria-label="OPERATING ENVIRONMENT NAVIGATION">
       <div className="site00-operating-topnav__brand">
         <Link to={SITE00_ROUTES.control} className="site00-operating-topnav__logo">
           SITE 00
         </Link>
         <span className="site00-operating-topnav__env">CONTROL ENVIRONMENT</span>
       </div>
-      <nav className="site00-operating-topnav__links" aria-label="Workspace sections">
+      <nav className="site00-operating-topnav__links" aria-label="WORKSPACE SECTIONS">
         <ul>
           {OPERATING_WORLD_TOP_NAV.map((item) => {
             const active = isOperatingWorldNavActive(pathname, item);
@@ -32,13 +33,16 @@ export function OperatingWorldTopNav() {
           })}
         </ul>
       </nav>
-      <Link to={SITE00_ROUTES.idnty} className="site00-operating-topnav__profile" aria-label="Account and identity">
-        <span className="site00-operating-topnav__profile-label">IDNTY</span>
-        {displayName ? <span className="site00-operating-topnav__profile-name">{displayName}</span> : null}
-        <span className="site00-operating-topnav__avatar" aria-hidden="true">
-          {initials || '—'}
-        </span>
-      </Link>
+      <div className="site00-operating-topnav__account">
+        <Link to={SITE00_ROUTES.idnty} className="site00-operating-topnav__profile" aria-label="ACCOUNT AND IDENTITY">
+          <span className="site00-operating-topnav__profile-label">IDNTY</span>
+          {displayName ? <span className="site00-operating-topnav__profile-name">{displayName}</span> : null}
+          <span className="site00-operating-topnav__avatar" aria-hidden="true">
+            {initials || '—'}
+          </span>
+        </Link>
+        <CtrlRoomSignOutButton variant="topnav" />
+      </div>
     </header>
   );
 }
