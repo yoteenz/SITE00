@@ -108,8 +108,8 @@ export type BoardCreativeDirectorPass = {
   creativeDirectionAuthorityScore: number;
 };
 
-export const FAL_REFERENCE_EDIT_MODEL = 'fal-ai/nano-banana-pro/edit';
-export const FAL_TEXT_TO_IMAGE_MODEL = 'fal-ai/nano-banana-pro';
+export const FAL_REFERENCE_EDIT_MODEL = 'openai/gpt-image-2/edit';
+export const FAL_TEXT_TO_IMAGE_MODEL = 'openai/gpt-image-2';
 
 export type TextOwnership = 'CODE_NATIVE' | 'SVG_NATIVE' | 'FAL_FORBIDDEN' | 'HYBRID_OVERLAY';
 

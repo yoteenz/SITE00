@@ -50,6 +50,24 @@ async function uploadReferenceToFal(referenceUrl: string): Promise<string> {
   return fal.storage.upload(new File([bytes], name, { type }));
 }
 
+function aspectToGptImageSize(aspectRatio: string): string {
+  switch (aspectRatio) {
+    case '1:1':
+      return 'square_hd';
+    case '4:3':
+      return 'landscape_4_3';
+    case '16:9':
+    default:
+      return 'landscape_16_9';
+  }
+}
+
+function gptImage2Prompt(prompt: string, negativePrompt: string): string {
+  const trimmedNegative = negativePrompt.trim();
+  if (!trimmedNegative) return prompt;
+  return `${prompt}. Avoid: ${trimmedNegative}`;
+}
+
 async function defaultGenerateFalImage(params: {
   prompt: string;
   negativePrompt: string;
@@ -69,6 +87,7 @@ async function defaultGenerateFalImage(params: {
   const { fal } = await import('@fal-ai/client');
   fal.config({ credentials: falKey });
 
+  const prompt = gptImage2Prompt(params.prompt, params.negativePrompt);
   let input: Record<string, unknown>;
   if (hasRefs) {
     const uploaded: string[] = [];
@@ -76,22 +95,20 @@ async function defaultGenerateFalImage(params: {
       uploaded.push(url.startsWith('http') ? await uploadReferenceToFal(url) : url);
     }
     input = {
-      prompt: params.prompt,
-      negative_prompt: params.negativePrompt,
+      prompt,
       image_urls: uploaded,
-      aspect_ratio: params.aspectRatio,
-      output_format: 'webp',
-      resolution: '2K',
+      image_size: 'auto',
+      quality: 'high',
       num_images: 1,
+      output_format: 'webp',
     };
   } else {
     input = {
-      prompt: params.prompt,
-      negative_prompt: params.negativePrompt,
-      aspect_ratio: params.aspectRatio,
-      output_format: 'webp',
-      resolution: '2K',
+      prompt,
+      image_size: aspectToGptImageSize(params.aspectRatio),
+      quality: 'high',
       num_images: 1,
+      output_format: 'webp',
     };
   }
 
