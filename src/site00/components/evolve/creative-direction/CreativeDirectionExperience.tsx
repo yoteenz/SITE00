@@ -141,6 +141,17 @@ export type CreativeDirectionPayload = {
   page001: { topic: string; productionStarted: boolean } | null;
   /** Saved lore calibration answers for resume (canonical raw answers, server-side). */
   brandLoreCalibrationAnswers?: Record<string, string | string[]>;
+  founderComparisonSet?: Record<string, unknown> | null;
+  brandNativeVisualPilot?: {
+    pilotId: string;
+    directionName: string;
+    topic: string;
+    publicUrl: string;
+    founderPilotLabel: string;
+    founderPilotStatus: string;
+    rawImageQa: Record<string, unknown>;
+    codeOverlaysApplied: false;
+  } | null;
 };
 
 export type CreativeDirectionDecisionInput = {
@@ -432,6 +443,7 @@ export function CreativeDirectionExperience({
               creativeDirectionBoardsByDirection={
                 showComparisonSet ? (comparisonSet.creativeDirectionBoardsByDirection as never) : undefined
               }
+              brandNativeVisualPilot={payload.brandNativeVisualPilot as never}
             />
           ) : null}
 

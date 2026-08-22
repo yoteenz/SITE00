@@ -83,6 +83,7 @@ import { generateNdxbookVisualAssetPass } from '../_lib/site00Evolve/creativeDir
 import { completeNdxbookV1Directions } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/directionCompletionService.js';
 import { runSixDirectionProductionPipeline } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/sixDirectionProductionOrchestrator.js';
 import { runMarkedUpCopyBoardPilotV4 } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/markedUpCopyBoardPilotV4.js';
+import { runMarkedUpCopyBrandNativeVisualPilot } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/markedUpCopyBrandNativeVisualPilot.js';
 import {
   getLatestProductionJob,
   getProductionJobById,
@@ -482,7 +483,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             | 'v1_completion'
             | 'six_direction_proofs'
             | 'full_pipeline'
-            | 'marked_up_copy_board_v4';
+            | 'marked_up_copy_board_v4'
+            | 'marked_up_copy_brand_native_visual_pilot';
           const job = await startCreativeDirectionProductionJob({
             orgSlug,
             jobType,
@@ -516,6 +518,31 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             status: 'JOB_STARTED',
             job,
             message: 'Board v4 production runs on server — poll creative_direction_production_job.',
+            credentialExposed: false,
+          });
+        }
+        case 'creative_direction_marked_up_copy_brand_native_visual_pilot': {
+          if (orgSlug !== 'ndxbook') {
+            return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          }
+          if (body.dryRun === true) {
+            const result = await runMarkedUpCopyBrandNativeVisualPilot({
+              orgSlug,
+              dryRun: true,
+            });
+            return res.status(200).json({ ...result, credentialExposed: false });
+          }
+          const job = await startCreativeDirectionProductionJob({
+            orgSlug,
+            jobType: 'marked_up_copy_brand_native_visual_pilot',
+            requestedBy: auth.user.email,
+            options: { dryRun: false },
+          });
+          return res.status(202).json({
+            status: 'JOB_STARTED',
+            job,
+            message:
+              'Brand-native visual pilot runs on server — ONE hero only. Poll creative_direction_production_job.',
             credentialExposed: false,
           });
         }
