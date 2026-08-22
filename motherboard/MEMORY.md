@@ -2750,3 +2750,16 @@ Summary: Founder reported Step 1 module export error and Step 2 EVOLVE API 404 o
 - **API routing fix:** `evolveApi` falls back to `https://api.site00.com` when host is fsbw-dev / site00.com and `VITE_API_BASE` unset (fixes 404 on static preview hosts).
 - **Background jobs:** `site00_creative_direction_production_jobs` table + `sixDirectionProductionJobService.ts`. Admin action `creative_direction_start_production_job` returns immediately (202); poll `creative_direction_production_job`. UI: **RUN FULL PIPELINE (BACKGROUND)** — safe to leave page; auto-polls every 5s when job active.
 - **Migration applied** to Supabase FS project.
+
+---
+
+## 2026-08-22 — NDXbook board generation link below intelligence-ready banner
+
+Summary: Founder requested a direct link on the NDXbook project creative direction page to the board production route, placed below the **YOUR BRAND INTELLIGENCE IS READY** readiness panel.
+
+- **Placement:** `CreativeDirectionExperience` — new optional `boardProductionLink` prop rendered inside the `PROVIDER_UNAVAILABLE` readiness banner (below banner body), matching existing `site00-cd__readiness-banner-cta` styling used by calibration CTA.
+- **Founder route:** `/projects/ndxbook/creative-direction` — link shown for NDXbook when user is dual-context admin (`isDualContextUser`).
+- **Admin route:** `/admin/site00/orchestration/ndxbook/evolve/creative-direction` — same link for NDXbook on admin creative direction page.
+- **Target:** `/admin/site00/debug/evolve-creative-direction` (`SITE00_ADMIN_ROUTES.evolveCreativeDirectionDebug`) — existing production controls page with **RUN FULL PIPELINE (BACKGROUND)** and six-direction proof production.
+- **CTA copy:** **GENERATE BOARDS →**
+- **Tests:** 804/804 passing. Branch `cursor/ndxbook-board-generation-link-4f59`.
