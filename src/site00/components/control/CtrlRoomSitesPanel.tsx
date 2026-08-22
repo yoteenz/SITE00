@@ -6,6 +6,12 @@ type CtrlRoomSitesPanelProps = {
   rows: CtrlRoomSiteRow[];
 };
 
+function mapLegacyStatus(status: string): 'Published' | 'Draft' | 'Unknown' {
+  if (status === 'ACTIVE' || status === 'LIVE' || status === 'PUBLISHED') return 'Published';
+  if (status === 'DRAFT') return 'Draft';
+  return 'Unknown';
+}
+
 export function CtrlRoomSitesPanel({ rows }: CtrlRoomSitesPanelProps) {
   return (
     <section className="site00-ctrl-panel site00-ctrl-panel--sites" aria-labelledby="ctrl-room-sites-heading">
@@ -21,9 +27,9 @@ export function CtrlRoomSitesPanel({ rows }: CtrlRoomSitesPanelProps) {
               <Link to={SITE00_ROUTES.controlSites} className="site00-ctrl-sites-list__row">
                 <span className="site00-ctrl-sites-list__name">{row.name}</span>
                 <span
-                  className={`site00-ctrl-sites-list__status site00-ctrl-sites-list__status--${row.status.toLowerCase()}`.trim()}
+                  className={`site00-ctrl-sites-list__status site00-ctrl-sites-list__status--${mapLegacyStatus(row.status).toLowerCase()}`.trim()}
                 >
-                  {row.status}
+                  {mapLegacyStatus(row.status)}
                 </span>
                 <span className="site00-ctrl-sites-list__chev" aria-hidden="true">
                   ›

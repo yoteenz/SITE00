@@ -10,6 +10,7 @@ import type {
   AdminSearchResults,
   AdminSite,
 } from '../types/operations.js';
+import type { ControlCommandPayload } from '../types/control.js';
 import type {
   Site00ApprovalsPayload,
   Site00ProjectWorkspacePayload,
@@ -40,6 +41,8 @@ function qs(params: Record<string, string | number | undefined>): string {
 export const site00ProductionApi = {
   dashboard: (period: AdminPeriod = '30d') =>
     productionFetch<AdminDashboardPayload>(`/api/admin/site00-production?action=dashboard&period=${encodeURIComponent(period)}`),
+
+  command: () => productionFetch<ControlCommandPayload>('/api/admin/site00-production?action=command'),
 
   identities: (params?: { search?: string }) =>
     productionFetch<{ items: AdminIdentity[]; total: number }>(

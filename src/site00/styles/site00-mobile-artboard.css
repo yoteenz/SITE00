@@ -231,10 +231,19 @@
   overflow: hidden;
 }
 
-/** Pin bottom nav to artboard stage in laptop Mobile preview. */
 .site00-mobile-artboard .site00-mobile-nav {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: stretch;
+  min-height: 56px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: rgba(255, 255, 255, 0.82);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: var(--site-z-nav);
 }

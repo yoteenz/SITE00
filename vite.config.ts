@@ -1,6 +1,10 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
-import { site00AsstsLocalApiPlugin } from './scripts/vite-site00-assts-local-api.mjs';
+import { site00LocalApiPlugin } from './scripts/vite-site00-local-api.mjs';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -31,6 +35,10 @@ export default defineConfig(({ mode, command }) => {
     (process.env.SITE00_CLOUD_MOBILE_PREVIEW === '1' ||
       process.env.SITE00_CLOUD_MOBILE_PREVIEW === 'true');
 
+  /** Unique per dev-server boot — busts mobile Safari module cache on cloud preview. */
+  const previewSessionId = cloudMobilePreview ? Date.now().toString(36) : null;
+  const effectiveBuildId = previewSessionId ?? buildId;
+
   const tunnelHostname = (
     process.env.SITE00_CLOUDFLARE_TUNNEL_HOSTNAME ||
     process.env.CLOUDFLARE_TUNNEL_HOSTNAME ||
@@ -59,6 +67,24 @@ export default defineConfig(({ mode, command }) => {
     };
   }
 
+  function indexBuildStampPlugin(stamp: string) {
+    return {
+      name: 'site00-index-build-stamp',
+      transformIndexHtml: {
+        order: 'post' as const,
+        handler(html: string) {
+          return html
+            .replace('content="__APP_BUILD_ID__"', `content="${stamp}"`)
+            .replace('src="/src/main.tsx"', `src="/src/main.tsx?v=${stamp}"`)
+            .replace(
+              'src="/site00-assts-loader-boot.js?v=environment-v2"',
+              `src="/site00-assts-loader-boot.js?v=${stamp}"`,
+            );
+        },
+      },
+    };
+  }
+
   function cloudPreviewNoCachePlugin() {
     return {
       name: 'site00-cloud-preview-no-cache',
@@ -76,14 +102,22 @@ export default defineConfig(({ mode, command }) => {
 
   return {
     define: {
-      'import.meta.env.VITE_APP_BUILD_ID': JSON.stringify(buildId),
-      'import.meta.env.VITE_APP_VERSION': JSON.stringify(buildId),
+      'import.meta.env.VITE_APP_BUILD_ID': JSON.stringify(effectiveBuildId),
+      'import.meta.env.VITE_APP_VERSION': JSON.stringify(effectiveBuildId),
       'import.meta.env.VITE_SITE00_ROOT': JSON.stringify('1'),
+    },
+    resolve: {
+      alias: {
+        '@site00-email': path.resolve(__dirname, 'shared/site00-email'),
+      },
     },
     plugins: [
       react(cloudMobilePreview ? { fastRefresh: false } : undefined),
-      ...(command === 'serve' ? [site00AsstsLocalApiPlugin()] : []),
-      ...(cloudMobilePreview ? [stripViteClientForCloudPreviewPlugin(), cloudPreviewNoCachePlugin()] : []),
+      ...(command === 'serve' ? [site00LocalApiPlugin()] : []),
+      ...(cloudMobilePreview && previewSessionId
+        ? [stripViteClientForCloudPreviewPlugin(), cloudPreviewNoCachePlugin(), indexBuildStampPlugin(previewSessionId)]
+        : []),
+      ...(command === 'build' ? [indexBuildStampPlugin(effectiveBuildId.slice(0, 12))] : []),
     ],
     base: '/',
     build: {
@@ -106,7 +140,15 @@ export default defineConfig(({ mode, command }) => {
       host: '0.0.0.0',
       strictPort: true,
       allowedHosts: ['.trycloudflare.com', ...(tunnelAllowedHost ? [tunnelAllowedHost] : [])],
-      hmr: cloudMobilePreview ? false : undefined,
+      hmr: cloudMobilePreview
+        ? false
+        : tunnelAllowedHost
+          ? {
+              host: tunnelAllowedHost,
+              protocol: 'wss',
+              clientPort: 443,
+            }
+          : undefined,
       proxy,
     },
   };
