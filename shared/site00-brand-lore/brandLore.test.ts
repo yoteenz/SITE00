@@ -77,7 +77,7 @@ describe('SITE 00 brand lore — shared module', () => {
 
   it('3. adaptive logic skips answered lore steps', () => {
     const active = resolveActiveLoreSteps({
-      loreAnswers: { feeling: ['curious'], role: 'guide' },
+      loreAnswers: { feeling: ['curious'], role: ['guide'] },
     });
     expect(active.find((s) => s.id === 'feeling')).toBeUndefined();
     expect(active.find((s) => s.id === 'role')).toBeUndefined();

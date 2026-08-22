@@ -10,6 +10,11 @@ import { IdentityCalibrationNavigation } from '../idnty/calibration/IdentityCali
 import { IdentityLoreStepForm } from '../idnty/lore/IdentityLoreStepForm';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
 import { site00ProjectCreativeDirectionPath, site00ProjectPath } from '../../config/routes';
+import {
+  clearProjectLoreCalibrationResume,
+  resolveProjectLoreCalibrationResume,
+  writeProjectLoreCalibrationResume,
+} from './projectLoreCalibrationResume';
 import '../../styles/site00-idnty-calibration-mobile.css';
 
 type ProjectLoreCalibrationFlowProps = {
@@ -31,6 +36,10 @@ function isCaptured(value: StepFormValue, skippable?: boolean): boolean {
   return skippable ?? false;
 }
 
+function defaultValueForStep(step: LoreQuestionStep): StepFormValue {
+  return step.type === 'multi' ? [] : '';
+}
+
 export function ProjectLoreCalibrationFlow({
   projectSlug,
   projectTitle,
@@ -46,22 +55,35 @@ export function ProjectLoreCalibrationFlow({
   const [stepIndex, setStepIndex] = useState(0);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [resumeReady, setResumeReady] = useState(false);
 
   useEffect(() => {
-    setAnswers(initialAnswers);
-    setStepIndex(0);
-  }, [initialAnswers, steps]);
+    if (loading) return;
+    const resumed = resolveProjectLoreCalibrationResume(steps, initialAnswers, projectSlug);
+    setAnswers(resumed.answers);
+    setStepIndex(resumed.stepIndex);
+    setResumeReady(true);
+  }, [initialAnswers, steps, loading, projectSlug]);
 
   const step = steps[stepIndex] ?? null;
   const existingValue = step
-    ? (answers[step.id] as StepFormValue) ?? (step.type === 'multi' ? [] : '')
+    ? (answers[step.id] as StepFormValue) ?? defaultValueForStep(step)
     : '';
   const form = useStepForm(existingValue);
 
   useEffect(() => {
-    if (!step) return;
-    form.setValue((answers[step.id] as StepFormValue) ?? (step.type === 'multi' ? [] : ''));
-  }, [step?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+    if (!step || !resumeReady) return;
+    form.setValue((answers[step.id] as StepFormValue) ?? defaultValueForStep(step));
+  }, [step?.id, resumeReady]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (!resumeReady || loading || !step) return;
+    const draftValue = form.value as string | string[];
+    writeProjectLoreCalibrationResume(projectSlug, {
+      stepId: step.id,
+      answers: { ...answers, [step.id]: draftValue },
+    });
+  }, [answers, form.value, loading, projectSlug, resumeReady, step?.id]);
 
   const flushSave = useCallback(
     async (nextAnswers: Record<string, string | string[]>) => {
@@ -80,6 +102,11 @@ export function ProjectLoreCalibrationFlow({
     [projectSlug],
   );
 
+  const finishCalibration = useCallback(() => {
+    clearProjectLoreCalibrationResume(projectSlug);
+    onComplete();
+  }, [onComplete, projectSlug]);
+
   const handleContinue = async () => {
     if (!step) return;
     const nextAnswers = { ...answers, [step.id]: form.value as string | string[] };
@@ -90,13 +117,13 @@ export function ProjectLoreCalibrationFlow({
 
     const readiness = payload?.engagement.brandLoreReadiness;
     if (payload && !readiness?.blocked) {
-      onComplete();
+      finishCalibration();
       return;
     }
 
     if (stepIndex >= steps.length - 1) {
       if (payload && !readiness?.blocked) {
-        onComplete();
+        finishCalibration();
       }
       return;
     }
@@ -111,7 +138,7 @@ export function ProjectLoreCalibrationFlow({
     const payload = await flushSave(nextAnswers);
     if (payload === null) return;
     if (payload && !payload.engagement.brandLoreReadiness?.blocked) {
-      onComplete();
+      finishCalibration();
       return;
     }
     if (stepIndex < steps.length - 1) {
@@ -132,7 +159,7 @@ export function ProjectLoreCalibrationFlow({
     return 'CONTINUE';
   }, [isLastStep, saving]);
 
-  if (loading) {
+  if (loading || !resumeReady) {
     return <p className="site00-cd__loading" aria-busy="true">LOADING…</p>;
   }
 
