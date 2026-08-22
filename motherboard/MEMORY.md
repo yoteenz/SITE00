@@ -2611,3 +2611,20 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Conventions:** Business logic must use `getCreativeIntelligenceProvider()` — never direct Anthropic SDK in CD services. Model id centralized in `config.ts` (`SITE00_CREATIVE_INTELLIGENCE_MODEL` / `ANTHROPIC_CREATIVE_MODEL`). MAX_CREATIVE_REVISION_ROUNDS = 2.
 
 - **Branch:** `cursor/creative-intelligence-formation-4f59`.
+
+---
+
+## 2026-08-22 — Creative Intelligence Production Activation
+
+- **Context:** Productionize Creative Intelligence so NDX BOOK can perform first real Brand-Lore-driven Core Direction Formation with durable persistence and founder-facing presentation. No FAL, no approval changes, no deploy.
+
+- **Decisions / outcomes:**
+  - Durable store: `site00_core_direction_formations` Supabase table + migration `20260822140000_site00_core_direction_formations.sql` (applied to FS Website Supabase project). Store adapter pattern mirrors Brand Lore (`formationStore/memoryStore.ts`, `supabaseStore.ts`, `storeAdapter.ts`) — memory in tests only, fail loud in production without Supabase.
+  - `formationService.ts` refactored to persist every state transition via store adapter; idempotency by `idempotency_key` survives restart; FAILED records reusable only via explicit `retryCoreDirectionFormation` / admin `creative_direction_formation_retry`.
+  - `providerConfig.ts` adds CONFIGURED / UNAVAILABLE / MISCONFIGURED validation without costly LLM probe.
+  - Founder UI: `FormedCoreDirectionReview.tsx` shows three lore-derived directions primary; legacy INDEX SIGNAL / EDITORIAL UTILITY / KINETIC FIELD segregated under PRIOR EXPLORATIONS.
+  - Live formation blocked: `ANTHROPIC_API_KEY` not in runtime env → durable FAILED record with `CREATIVE_INTELLIGENCE_PROVIDER_UNAVAILABLE`; founder must add secret to API deployment (Railway/server env), not source code.
+
+- **Changes:** formation store layer, providerConfig, formationService durable refactor, engagementService client states + retry/reform, CreativeDirectionExperience + CSS, admin debug inspector timestamps, production activation tests (20). Tests 766/766; tsc + build clean.
+
+- **Branch:** `cursor/creative-intelligence-production-activation-4f59`.
