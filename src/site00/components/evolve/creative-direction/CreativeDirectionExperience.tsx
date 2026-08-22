@@ -275,6 +275,9 @@ export function CreativeDirectionExperience({
     formedDirections.length === 3 &&
     (payload?.coreDirectionFormation?.record?.status === 'READY_FOR_VISUAL_PRODUCTION' ||
       payload?.coreDirectionFormation?.record?.status === 'NEEDS_HUMAN_REVIEW');
+  const visualProductionState =
+    (payload?.coreDirectionFormation as { visualProductionState?: string } | undefined)
+      ?.visualProductionState ?? undefined;
 
   const territory = payload?.engagement.territories[activeTerritory];
   const renderOpts = renderOptions(structuralDiffMode);
@@ -380,6 +383,7 @@ export function CreativeDirectionExperience({
               brandLoreProfileVersion={payload.coreDirectionFormation?.record?.brandLoreProfileVersion}
               formationVersion={payload.coreDirectionFormation?.record?.formationVersion}
               status={payload.coreDirectionFormation?.record?.status}
+              visualProductionState={visualProductionState}
             />
           ) : null}
 
