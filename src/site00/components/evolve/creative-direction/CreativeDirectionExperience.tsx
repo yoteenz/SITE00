@@ -166,9 +166,21 @@ export type CreativeDirectionPayload = {
     rawImageQa: Record<string, unknown>;
     codeOverlaysApplied: false;
   } | null;
+  identityNativeV2VisualPilot?: {
+    pilotId: string;
+    assetId?: string;
+    directionName: string;
+    topic: string;
+    publicUrl: string;
+    founderPilotLabel: string;
+    founderPilotStatus: string;
+    rawImageQa: Record<string, unknown>;
+    codeOverlaysApplied: false;
+  } | null;
   visualPilotComparison?: {
     brandNativePilot: CreativeDirectionPayload['brandNativeVisualPilot'];
     identityNativePilot: CreativeDirectionPayload['identityNativeVisualPilot'];
+    identityNativeV2Pilot: CreativeDirectionPayload['identityNativeV2VisualPilot'];
   } | null;
 };
 
@@ -356,10 +368,12 @@ export function CreativeDirectionExperience({
       {loading ? <p className="site00-cd__loading" aria-busy="true">SYNTHESIZING CREATIVE DIRECTION…</p> : null}
 
       {payload?.visualPilotComparison?.brandNativePilot?.publicUrl ||
-      payload?.visualPilotComparison?.identityNativePilot?.publicUrl ? (
+      payload?.visualPilotComparison?.identityNativePilot?.publicUrl ||
+      payload?.visualPilotComparison?.identityNativeV2Pilot?.publicUrl ? (
         <VisualPilotComparisonPanel
           brandNativePilot={payload.visualPilotComparison.brandNativePilot}
           identityNativePilot={payload.visualPilotComparison.identityNativePilot}
+          identityNativeV2Pilot={payload.visualPilotComparison.identityNativeV2Pilot}
         />
       ) : payload?.brandNativeVisualPilot?.publicUrl ? (
         <BrandNativeVisualPilotPanel pilot={payload.brandNativeVisualPilot} />

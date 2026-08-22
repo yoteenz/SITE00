@@ -85,6 +85,7 @@ import { runSixDirectionProductionPipeline } from '../_lib/site00Evolve/creative
 import { runMarkedUpCopyBoardPilotV4 } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/markedUpCopyBoardPilotV4.js';
 import { runMarkedUpCopyBrandNativeVisualPilot } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/markedUpCopyBrandNativeVisualPilot.js';
 import { runMarkedUpCopyIdentityNativeHeroPilot } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/markedUpCopyIdentityNativeHeroPilot.js';
+import { runMarkedUpCopyIdentityNativeHeroPilotV2 } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/markedUpCopyIdentityNativeHeroPilotV2.js';
 import {
   getLatestProductionJob,
   getProductionJobById,
@@ -486,7 +487,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             | 'full_pipeline'
             | 'marked_up_copy_board_v4'
             | 'marked_up_copy_brand_native_visual_pilot'
-            | 'marked_up_copy_identity_native_hero_pilot';
+            | 'marked_up_copy_identity_native_hero_pilot'
+            | 'marked_up_copy_identity_native_hero_pilot_v2';
           const job = await startCreativeDirectionProductionJob({
             orgSlug,
             jobType,
@@ -570,6 +572,31 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             job,
             message:
               'Identity-native hero pilot runs on server — ONE hero only. Poll creative_direction_production_job.',
+            credentialExposed: false,
+          });
+        }
+        case 'creative_direction_marked_up_copy_identity_native_hero_pilot_v2': {
+          if (orgSlug !== 'ndxbook') {
+            return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          }
+          if (body.dryRun === true) {
+            const result = await runMarkedUpCopyIdentityNativeHeroPilotV2({
+              orgSlug,
+              dryRun: true,
+            });
+            return res.status(200).json({ ...result, credentialExposed: false });
+          }
+          const job = await startCreativeDirectionProductionJob({
+            orgSlug,
+            jobType: 'marked_up_copy_identity_native_hero_pilot_v2',
+            requestedBy: auth.user.email,
+            options: { dryRun: false },
+          });
+          return res.status(202).json({
+            status: 'JOB_STARTED',
+            job,
+            message:
+              'Creative-refined identity hero V2 runs on server — ONE hero only. Poll creative_direction_production_job.',
             credentialExposed: false,
           });
         }

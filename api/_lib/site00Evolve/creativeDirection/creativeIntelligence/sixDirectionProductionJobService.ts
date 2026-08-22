@@ -10,6 +10,7 @@ import { runSixDirectionProductionPipeline } from './sixDirectionProductionOrche
 import { runMarkedUpCopyBoardPilotV4 } from './markedUpCopyBoardPilotV4.js';
 import { runMarkedUpCopyBrandNativeVisualPilot } from './markedUpCopyBrandNativeVisualPilot.js';
 import { runMarkedUpCopyIdentityNativeHeroPilot } from './markedUpCopyIdentityNativeHeroPilot.js';
+import { runMarkedUpCopyIdentityNativeHeroPilotV2 } from './markedUpCopyIdentityNativeHeroPilotV2.js';
 import { resetCreativeDirectionMemory } from '../engagementService.js';
 
 const TABLE = 'site00_creative_direction_production_jobs';
@@ -20,7 +21,8 @@ export type CreativeDirectionProductionJobType =
   | 'full_pipeline'
   | 'marked_up_copy_board_v4'
   | 'marked_up_copy_brand_native_visual_pilot'
-  | 'marked_up_copy_identity_native_hero_pilot';
+  | 'marked_up_copy_identity_native_hero_pilot'
+  | 'marked_up_copy_identity_native_hero_pilot_v2';
 
 export type CreativeDirectionProductionJobStatus =
   | 'queued'
@@ -307,6 +309,24 @@ async function executeProductionJob(jobId: string): Promise<void> {
         dryRun: job.options.dryRun === true,
       });
       resultParts.markedUpCopyIdentityNativeHeroPilot = { ...pilotResult, credentialExposed: false };
+      resetCreativeDirectionMemory();
+    }
+
+    if (job.jobType === 'marked_up_copy_identity_native_hero_pilot_v2') {
+      await updateJob(jobId, {
+        status: 'running',
+        phase: 'marked_up_copy_identity_native_hero_pilot_v2',
+        progress: {
+          current: 0,
+          total: 1,
+          label: 'THE MARKED-UP COPY — Creative-refined identity hero V2 (ONE hero only)',
+        },
+      });
+      const pilotResult = await runMarkedUpCopyIdentityNativeHeroPilotV2({
+        orgSlug: job.orgSlug,
+        dryRun: job.options.dryRun === true,
+      });
+      resultParts.markedUpCopyIdentityNativeHeroPilotV2 = { ...pilotResult, credentialExposed: false };
       resetCreativeDirectionMemory();
     }
 

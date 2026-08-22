@@ -118,8 +118,3 @@ export type IdentityNativeVisualPilotRecord = {
   anthropicArtDirectorRequests: number;
   createdAt: string;
 };
-
-export type VisualPilotComparisonPayload = {
-  brandNativePilot: import('./brandNativeVisualBriefTypes.js').BrandNativeVisualPilotRecord | null;
-  identityNativePilot: IdentityNativeVisualPilotRecord | null;
-};

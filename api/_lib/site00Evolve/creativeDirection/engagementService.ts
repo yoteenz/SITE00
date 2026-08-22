@@ -435,6 +435,7 @@ export async function getCreativeDirectionPayload(
     founderComparisonSet,
     brandNativeVisualPilot: getVisualPilotComparisonPayload().brandNativePilot,
     identityNativeVisualPilot: getVisualPilotComparisonPayload().identityNativePilot,
+    identityNativeV2VisualPilot: getVisualPilotComparisonPayload().identityNativeV2Pilot,
     visualPilotComparison: getVisualPilotComparisonPayload(),
   };
 }

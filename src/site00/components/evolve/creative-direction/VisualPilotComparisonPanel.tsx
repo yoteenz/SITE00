@@ -2,10 +2,12 @@ import type { CreativeDirectionPayload } from './CreativeDirectionExperience';
 
 type BrandPilot = NonNullable<CreativeDirectionPayload['brandNativeVisualPilot']>;
 type IdentityPilot = NonNullable<CreativeDirectionPayload['identityNativeVisualPilot']>;
+type IdentityV2Pilot = NonNullable<CreativeDirectionPayload['identityNativeV2VisualPilot']>;
 
 type Props = {
   brandNativePilot: BrandPilot | null | undefined;
   identityNativePilot: IdentityPilot | null | undefined;
+  identityNativeV2Pilot: IdentityV2Pilot | null | undefined;
 };
 
 function QaScore({ label, value, invert }: { label: string; value: number | undefined; invert?: boolean }) {
@@ -19,10 +21,20 @@ function QaScore({ label, value, invert }: { label: string; value: number | unde
   );
 }
 
-export function VisualPilotComparisonPanel({ brandNativePilot, identityNativePilot }: Props) {
-  if (!brandNativePilot?.publicUrl && !identityNativePilot?.publicUrl) return null;
+export function VisualPilotComparisonPanel({
+  brandNativePilot,
+  identityNativePilot,
+  identityNativeV2Pilot,
+}: Props) {
+  if (
+    !brandNativePilot?.publicUrl &&
+    !identityNativePilot?.publicUrl &&
+    !identityNativeV2Pilot?.publicUrl
+  ) {
+    return null;
+  }
 
-  const identityQa = identityNativePilot?.rawImageQa as Record<string, unknown> | undefined;
+  const v2Qa = identityNativeV2Pilot?.rawImageQa as Record<string, unknown> | undefined;
 
   return (
     <section
@@ -36,19 +48,18 @@ export function VisualPilotComparisonPanel({ brandNativePilot, identityNativePil
           VISUAL GENERATION PILOT COMPARISON
         </h2>
         <p className="site00-cd__pilot-meta">
-          RAW HEROES — NO CODE OVERLAYS · FOUNDER REVIEW ONLY
+          A → SUBJECT BELONGS TO WORLD · B → IMAGE BELONGS TO IDENTITY · C → IMAGE SPEAKS WITH BRAND
+          PERSONALITY · RAW HEROES — NO CODE OVERLAYS
         </p>
       </header>
 
-      <div className="site00-cd__pilot-comparison-grid">
+      <div className="site00-cd__pilot-comparison-grid site00-cd__pilot-comparison-grid--three">
         {brandNativePilot?.publicUrl ? (
           <article className="site00-cd__pilot-card site00-cd__pilot-card--brand">
             <header className="site00-cd__pilot-card-head">
               <p className="site00-cd__pilot-card-label">A</p>
               <h3 className="site00-cd__pilot-card-title">BRAND-NATIVE PILOT</h3>
-              <p className="site00-cd__pilot-card-sub">
-                {brandNativePilot.founderPilotLabel ?? 'DIRECTION-NATIVE / IDENTITY-INCOMPLETE'}
-              </p>
+              <p className="site00-cd__pilot-card-sub">DIRECTION-NATIVE / IDENTITY-INCOMPLETE</p>
               <p className="site00-cd__pilot-card-meta" role="status">
                 {brandNativePilot.founderPilotStatus.replace(/_/g, ' ')}
               </p>
@@ -56,12 +67,12 @@ export function VisualPilotComparisonPanel({ brandNativePilot, identityNativePil
             <figure className="site00-cd__pilot-figure">
               <img
                 src={brandNativePilot.publicUrl}
-                alt="Brand-native visual pilot — direction-native hero before overlays"
+                alt="Brand-native visual pilot"
                 className="site00-cd__pilot-image"
                 loading="eager"
               />
               <figcaption className="site00-cd__pilot-caption">
-                {brandNativePilot.assetId ?? 'MUC-BRAND-NATIVE-HERO-PILOT'} · Topic: {brandNativePilot.topic}
+                MUC-BRAND-NATIVE-HERO-PILOT · {brandNativePilot.topic}
               </figcaption>
             </figure>
           </article>
@@ -71,10 +82,8 @@ export function VisualPilotComparisonPanel({ brandNativePilot, identityNativePil
           <article className="site00-cd__pilot-card site00-cd__pilot-card--identity">
             <header className="site00-cd__pilot-card-head">
               <p className="site00-cd__pilot-card-label">B</p>
-              <h3 className="site00-cd__pilot-card-title">IDENTITY-NATIVE VISUAL PILOT</h3>
-              <p className="site00-cd__pilot-card-sub">
-                {identityNativePilot.founderPilotLabel ?? 'IDENTITY-NATIVE VISUAL PILOT'}
-              </p>
+              <h3 className="site00-cd__pilot-card-title">IDENTITY-NATIVE PILOT</h3>
+              <p className="site00-cd__pilot-card-sub">IDENTITY-NATIVE VISUAL PILOT</p>
               <p className="site00-cd__pilot-card-meta" role="status">
                 {identityNativePilot.founderPilotStatus.replace(/_/g, ' ')}
               </p>
@@ -82,22 +91,49 @@ export function VisualPilotComparisonPanel({ brandNativePilot, identityNativePil
             <figure className="site00-cd__pilot-figure">
               <img
                 src={identityNativePilot.publicUrl}
-                alt="Identity-native visual pilot — custom editorial artwork before overlays"
+                alt="Identity-native visual pilot"
+                className="site00-cd__pilot-image"
+                loading="lazy"
+              />
+              <figcaption className="site00-cd__pilot-caption">
+                MUC-IDENTITY-NATIVE-HERO-PILOT · {identityNativePilot.topic}
+              </figcaption>
+            </figure>
+          </article>
+        ) : null}
+
+        {identityNativeV2Pilot?.publicUrl ? (
+          <article className="site00-cd__pilot-card site00-cd__pilot-card--v2">
+            <header className="site00-cd__pilot-card-head">
+              <p className="site00-cd__pilot-card-label">C</p>
+              <h3 className="site00-cd__pilot-card-title">CREATIVE-REFINED IDENTITY PILOT</h3>
+              <p className="site00-cd__pilot-card-sub">CREATIVE-REFINED IDENTITY PILOT · V2</p>
+              <p className="site00-cd__pilot-card-meta" role="status">
+                {identityNativeV2Pilot.founderPilotStatus.replace(/_/g, ' ')}
+              </p>
+            </header>
+            <figure className="site00-cd__pilot-figure">
+              <img
+                src={identityNativeV2Pilot.publicUrl}
+                alt="Creative-refined identity visual pilot V2"
                 className="site00-cd__pilot-image"
                 loading="eager"
               />
               <figcaption className="site00-cd__pilot-caption">
-                {identityNativePilot.assetId ?? 'MUC-IDENTITY-NATIVE-HERO-PILOT'} · Topic: {identityNativePilot.topic}
+                MUC-IDENTITY-NATIVE-HERO-PILOT-V2 · {identityNativeV2Pilot.topic}
               </figcaption>
             </figure>
-            <ul className="site00-cd__pilot-qa" aria-label="Identity-native QA scores">
-              <QaScore label="IDENTITY NATIVE" value={identityQa?.identityNativeScore as number | undefined} />
-              <QaScore label="DIRECTION NATIVE" value={identityQa?.directionNativeScore as number | undefined} />
-              <QaScore label="PALETTE" value={identityQa?.paletteFidelity as number | undefined} />
-              <QaScore label="TYPOGRAPHY" value={identityQa?.typographicDna as number | undefined} />
-              <QaScore label="GRAPHIC GRAMMAR" value={identityQa?.graphicGrammarFidelity as number | undefined} />
-              <QaScore label="ARTIFACT AUTHORITY" value={identityQa?.artifactDesignAuthority as number | undefined} />
-              <QaScore label="STOCK RESEMBLANCE" value={identityQa?.stockResemblance as number | undefined} invert />
+            <ul className="site00-cd__pilot-qa" aria-label="Creative-refined V2 QA scores">
+              <QaScore label="IDENTITY" value={v2Qa?.identityNativeScore as number | undefined} />
+              <QaScore label="TYPOGRAPHY" value={v2Qa?.typographicDna as number | undefined} />
+              <QaScore label="MARTIAN MONO" value={v2Qa?.martianMonoIntegration as number | undefined} />
+              <QaScore label="VOICE" value={v2Qa?.voicePersonality as number | undefined} />
+              <QaScore label="WIT" value={v2Qa?.wit as number | undefined} />
+              <QaScore label="GRAPHIC GRAMMAR" value={v2Qa?.graphicGrammarFidelity as number | undefined} />
+              <QaScore label="COMPOSITION" value={v2Qa?.compositionalArtistry as number | undefined} />
+              <QaScore label="SECOND READ" value={v2Qa?.secondReadDepth as number | undefined} />
+              <QaScore label="MEMORABILITY" value={v2Qa?.memorability as number | undefined} />
+              <QaScore label="STOCK RESEMBLANCE" value={v2Qa?.stockResemblance as number | undefined} invert />
             </ul>
           </article>
         ) : null}

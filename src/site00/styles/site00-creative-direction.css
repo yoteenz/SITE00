@@ -910,6 +910,16 @@
   border-left: 3px solid #1a6b3c;
 }
 
+.site00-cd__pilot-card--v2 {
+  border-left: 3px solid #5a8f00;
+}
+
+@media (min-width: 1100px) {
+  .site00-cd__pilot-comparison-grid--three {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
 .site00-cd__pilot-card-label {
   margin: 0;
   font-size: 0.75rem;
