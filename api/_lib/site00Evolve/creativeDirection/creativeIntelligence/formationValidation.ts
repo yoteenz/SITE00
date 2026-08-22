@@ -123,8 +123,12 @@ export function mergeCritiqueWithDeterministicChecks(
 }
 
 export function parseStructuredJson<T>(text: string): T {
-  const trimmed = text.trim();
-  const fenceMatch = trimmed.match(/```(?:json)?\s*([\s\S]*?)```/);
-  const payload = fenceMatch ? fenceMatch[1].trim() : trimmed;
+  let payload = text.trim();
+  const fenceMatch = payload.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (fenceMatch) {
+    payload = fenceMatch[1].trim();
+  } else if (payload.startsWith('```')) {
+    payload = payload.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
+  }
   return JSON.parse(payload) as T;
 }
