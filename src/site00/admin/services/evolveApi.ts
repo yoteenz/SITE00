@@ -70,10 +70,10 @@ async function evolveFetch<T>(path: string, init?: RequestInit): Promise<T> {
   };
   if (token) headers.Authorization = `Bearer ${token}`;
 
+  // Bearer auth only — do not send credentials; ACAO:* + credentials:'include' fails CORS on fsbw-dev → api.site00.com.
   const res = await fetch(evolveAdminUrl(path), {
     ...init,
     headers,
-    credentials: 'include',
   });
   if (!res.ok) {
     const err = (await res.json().catch(() => ({}))) as { error?: string };

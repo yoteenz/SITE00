@@ -85,7 +85,12 @@ export default function EvolveCreativeDirectionDebugPage() {
 
   useEffect(() => {
     reload().catch((e) => {
-      const msg = e instanceof Error ? e.message : 'LOAD FAILED';
+      const msg =
+        e instanceof Error
+          ? e.message
+          : typeof e === 'string'
+            ? e
+            : 'LOAD FAILED — check sign-in and network';
       setError(msg);
     });
     pollJob().catch(() => {
