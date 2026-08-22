@@ -1,0 +1,225 @@
+/**
+ * Creative Intelligence Infrastructure — provider-neutral formation types.
+ * Business logic depends on these interfaces, not on any LLM vendor SDK.
+ */
+
+import type { BrandExpressionContext } from '../../../../../shared/site00-brand-lore/types.js';
+import type { BrandLoreReferenceEntry } from '../../../../../shared/site00-brand-lore/types.js';
+import type { CoreDirectionDefinition } from '../types.js';
+
+/** Internal reasoning lifecycle — separate from founder approval lifecycle. */
+export type CoreDirectionFormationStatus =
+  | 'NOT_READY'
+  | 'READY_TO_FORM'
+  | 'FORMING'
+  | 'CRITIQUING'
+  | 'REVISING'
+  | 'READY_FOR_VISUAL_PRODUCTION'
+  | 'NEEDS_HUMAN_REVIEW'
+  | 'FAILED';
+
+export type PriorExplorationLabel = 'PRIOR_PROPOSED_EXPLORATION' | 'LEGACY_PROPOSED_EXPLORATION';
+
+export type ExistingCreativeExploration = {
+  label: PriorExplorationLabel;
+  directionName: string;
+  oneLineThesis: string;
+  bigIdea: string;
+  source: string;
+};
+
+/** Extended Core Direction Board — preserves canonical CoreDirectionDefinition fields. */
+export type FormedCoreDirection = CoreDirectionDefinition & {
+  directionId: string;
+  loreLineage: string[];
+  conceptualAncestor: string;
+  audienceRole: string;
+  brandRole: string;
+  imageryLanguage: string;
+  colorLogic: string;
+  motionSeed: string;
+  socialExpressionHypothesis: string;
+  risks: string[];
+  qualityConfidence?: 'HIGH' | 'MEDIUM' | 'LOW';
+};
+
+export type CoreDirectionFormationInput = {
+  organizationId: string;
+  projectId: string | null;
+  brandLoreProfileId: string;
+  brandLoreProfileVersion: number;
+  brandLoreFingerprint: string;
+  brandExpressionContext: BrandExpressionContext | null;
+  brandPurpose: string | null;
+  audienceRelationship: string[] | null;
+  brandBelief: string | null;
+  culturalOpposition: string[] | null;
+  coreObsessions: string | null;
+  emotionalPromise: string[] | null;
+  creativeTensions: string[] | null;
+  worldMetaphor: string | null;
+  materialVocabulary: string[] | null;
+  symbolicVocabulary: string[] | null;
+  referenceLineage: string | null;
+  currentReferenceSignals: string | null;
+  authenticLanguageSamples: string[] | null;
+  antiLanguage: string[] | null;
+  socialSignal: string | null;
+  audienceRitual: string[] | null;
+  memoryGoal: string | null;
+  desiredMythology: string | null;
+  futureWorld: string | null;
+  creativeAntiPatterns: string[] | null;
+  contentBrainSummary: string | null;
+  founderConfirmedCanon: string[];
+  referenceEvidence: BrandLoreReferenceEntry[];
+  existingCreativeExplorations: ExistingCreativeExploration[];
+  formationVersion: number;
+};
+
+export type CoreDirectionFormationResult = {
+  directions: FormedCoreDirection[];
+  rationaleSummary?: string;
+  requestUsage?: ProviderRequestUsage;
+};
+
+export type CriticDimension =
+  | 'BRAND_GROUNDEDNESS'
+  | 'CONCEPT_STRENGTH'
+  | 'DISTINCTIVENESS'
+  | 'CULTURAL_SPECIFICITY'
+  | 'EXPANSION_POTENTIAL'
+  | 'SOCIAL_FIRST_VIABILITY'
+  | 'VISUAL_POTENTIAL'
+  | 'PROPRIETARY_QUALITY'
+  | 'ANTI_GENERIC_RISK'
+  | 'LORE_LINEAGE_QUALITY';
+
+export type CriticAssessment = 'PASS' | 'WEAK' | 'FAIL';
+
+export type DirectionCritique = {
+  directionId: string;
+  directionName: string;
+  overall: CriticAssessment;
+  dimensions: Partial<Record<CriticDimension, CriticAssessment>>;
+  failureReasons: string[];
+  revisionGuidance: string | null;
+};
+
+export type DistinctivenessCheck = {
+  passed: boolean;
+  duplicatePairs: Array<{ directionA: string; directionB: string; overlapFields: string[] }>;
+  worldDifferentiationQuestion: string;
+  worldDifferentiationAnswer: string;
+};
+
+export type CoreDirectionCritiqueResult = {
+  critiques: DirectionCritique[];
+  distinctiveness: DistinctivenessCheck;
+  revisionRequired: boolean;
+  failedDirectionIds: string[];
+  requestUsage?: ProviderRequestUsage;
+};
+
+export type RenderingMediumRecommendation =
+  | 'CODE_NATIVE'
+  | 'SVG_NATIVE'
+  | 'FAL_GENERATED'
+  | 'FAL_GENERATED_AND_ISOLATED'
+  | 'HYBRID_COMPOSITION'
+  | 'DETERMINISTIC_COMPOSITE'
+  | 'EXISTING_ASSET';
+
+export type VisualProofComponent = {
+  purpose: string;
+  mediumRecommendation: RenderingMediumRecommendation;
+  referenceIntent?: string[];
+  generationNeed?: string;
+};
+
+export type VisualProofPlan = {
+  directionId: string;
+  directionName: string;
+  heroWorld: VisualProofComponent;
+  primaryArtifact: VisualProofComponent;
+  socialExpression: VisualProofComponent & { format: string };
+  typographicGraphicProof: VisualProofComponent & { codeVsGeneratedDecision: string };
+  materialObjectProof?: VisualProofComponent;
+  motionSeed: VisualProofComponent & { proofType: string };
+};
+
+export type ProviderCapability = {
+  providerId: string;
+  modelId: string;
+  supportsStructuredOutput: boolean;
+  supportsLongContext: boolean;
+  supportsVision: boolean;
+  supportsToolUse: boolean;
+  maxContext: number;
+  status: 'AVAILABLE' | 'UNAVAILABLE' | 'MISCONFIGURED';
+};
+
+export type ProviderRequestUsage = {
+  inputTokens?: number;
+  outputTokens?: number;
+  estimatedCostUsd?: number;
+};
+
+export type ProviderRequestAccounting = {
+  providerId: string;
+  modelId: string;
+  requestCount: number;
+  revisionCount: number;
+  formationRequests: number;
+  critiqueRequests: number;
+  reviseRequests: number;
+  tokenUsage: ProviderRequestUsage;
+};
+
+export type CoreDirectionFormationRecord = {
+  formationId: string;
+  organizationId: string;
+  projectId: string | null;
+  brandLoreProfileId: string;
+  brandLoreProfileVersion: number;
+  brandLoreFingerprint: string;
+  formationVersion: number;
+  providerId: string;
+  modelId: string;
+  promptVersion: string;
+  status: CoreDirectionFormationStatus;
+  idempotencyKey: string;
+  candidateDirections: FormedCoreDirection[];
+  criticResult: CoreDirectionCritiqueResult | null;
+  revisionRounds: number;
+  finalDirections: FormedCoreDirection[];
+  visualProofPlans: VisualProofPlan[];
+  legacyStaticPreview: 'PRESERVED';
+  proposedFormationLabel: 'PROPOSED_FORMATION';
+  providerAccounting: ProviderRequestAccounting;
+  error: string | null;
+  createdAt: string;
+  completedAt: string | null;
+};
+
+export type CreativeIntelligenceProviderStatus =
+  | 'CREATIVE_INTELLIGENCE_PROVIDER_UNAVAILABLE'
+  | 'CREATIVE_INTELLIGENCE_READY'
+  | 'CREATIVE_INTELLIGENCE_CONFIGURED';
+
+export type ReviseCoreDirectionsInput = {
+  formationInput: CoreDirectionFormationInput;
+  candidates: FormedCoreDirection[];
+  critique: CoreDirectionCritiqueResult;
+};
+
+export interface CreativeIntelligenceProvider {
+  readonly providerId: string;
+  readonly capability: ProviderCapability;
+  formCoreDirections(input: CoreDirectionFormationInput): Promise<CoreDirectionFormationResult>;
+  critiqueCoreDirections(
+    input: CoreDirectionFormationInput,
+    candidates: FormedCoreDirection[],
+  ): Promise<CoreDirectionCritiqueResult>;
+  reviseCoreDirections(input: ReviseCoreDirectionsInput): Promise<CoreDirectionFormationResult>;
+}

@@ -15,26 +15,49 @@ type Territory = {
 
 export default function EvolveCreativeDirectionDebugPage() {
   const [payload, setPayload] = useState<Record<string, unknown> | null>(null);
+  const [inspector, setInspector] = useState<Record<string, unknown> | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [structuralDiff, setStructuralDiff] = useState(false);
 
   useEffect(() => {
-    site00EvolveApi
-      .creativeDirectionDebug('ndxbook')
-      .then(setPayload)
+    Promise.all([
+      site00EvolveApi.creativeDirectionDebug('ndxbook'),
+      site00EvolveApi.creativeDirectionFormationInspector('ndxbook'),
+    ])
+      .then(([debugPayload, formationInspector]) => {
+        setPayload(debugPayload);
+        setInspector(formationInspector);
+      })
       .catch((e) => setError(e instanceof Error ? e.message : 'LOAD FAILED'));
   }, []);
 
   const engagement = payload?.engagement as { territories?: Territory[] } | undefined;
   const territories = engagement?.territories ?? [];
+  const formation = inspector?.formation as Record<string, unknown> | null | undefined;
+  const formationMeta = inspector?.inspector as Record<string, unknown> | null | undefined;
 
   return (
     <Site00AdminShell>
       <header className="site00-admin-dashboard-head">
         <h1 className="site00-admin-page-title">[ CREATIVE DIRECTION DEBUG ]</h1>
-        <p className="site00-admin-page-subtitle">NDXBOOK · structural differentiation · renderer registry</p>
+        <p className="site00-admin-page-subtitle">NDXBOOK · formation inspector · structural differentiation</p>
       </header>
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
+      <section className="site00-admin-panel" style={{ marginBottom: '1rem' }}>
+        <h2 className="site00-admin-panel-title">FORMATION INSPECTOR</h2>
+        <ul style={{ fontSize: '0.75rem', lineHeight: 1.6 }}>
+          <li>Brand Lore version: {String(formationMeta?.brandLoreProfileVersion ?? '—')}</li>
+          <li>Fingerprint: {String(formationMeta?.brandLoreFingerprint ?? '—')}</li>
+          <li>Provider: {String(formationMeta?.providerId ?? (inspector?.creativeIntelligence as Record<string, unknown> | undefined)?.providerId ?? '—')}</li>
+          <li>Model: {String(formationMeta?.modelId ?? '—')}</li>
+          <li>Formation version: {String(formationMeta?.formationVersion ?? '—')}</li>
+          <li>Status: {String(formationMeta?.status ?? formation?.status ?? '—')}</li>
+          <li>Candidate count: {String(formationMeta?.candidateCount ?? 0)}</li>
+          <li>Revision rounds: {String(formationMeta?.revisionRounds ?? 0)}</li>
+          <li>Final directions: {(formationMeta?.finalDirectionNames as string[] | undefined)?.join(', ') || '—'}</li>
+          <li>Visual proof plans: {String(formationMeta?.visualProofPlanCount ?? 0)}</li>
+        </ul>
+      </section>
       <p>
         <Link to={SITE00_ADMIN_ROUTES.evolveCreativeDirection('ndxbook')}>← CREATIVE DIRECTION STUDIO</Link>
       </p>

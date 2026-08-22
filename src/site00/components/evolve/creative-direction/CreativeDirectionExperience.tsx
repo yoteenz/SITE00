@@ -109,7 +109,20 @@ export type CreativeDirectionPayload = {
     } | null;
     intelligenceStatus?: 'CURRENT' | 'STALE_INTELLIGENCE' | 'UNKNOWN';
   };
-  meta: { visualDnaStatus: string };
+  meta: {
+    visualDnaStatus: string;
+    creativeIntelligence?: {
+      providerConfigured: boolean;
+      providerId: string;
+      modelId: string;
+      formationSurface: {
+        surface: 'PROVIDER_UNAVAILABLE' | 'STATIC_PREVIEW' | 'FORMING' | 'PROPOSED_FORMATION';
+        headline: string | null;
+        message: string | null;
+        staticPreviewLabel: string;
+      };
+    };
+  };
   page001: { topic: string; productionStarted: boolean } | null;
   /** Saved lore calibration answers for resume (canonical raw answers, server-side). */
   brandLoreCalibrationAnswers?: Record<string, string | string[]>;
@@ -287,6 +300,41 @@ export function CreativeDirectionExperience({
             YOUR BRAND LORE HAS CHANGED SINCE THE THREE DIRECTIONS BELOW WERE FORMED. THEY ARE PRESERVED AS HISTORY
             BUT DO NOT YET REFLECT YOUR NEWEST ANSWERS — TREAT THEM AS A PRE-CALIBRATION PREVIEW, NOT A FOUNDER-READY
             SET, UNTIL CORE DIRECTION FORMATION RUNS AGAIN.
+          </p>
+        </section>
+      ) : null}
+
+      {payload?.meta.creativeIntelligence?.formationSurface.surface === 'PROVIDER_UNAVAILABLE' ? (
+        <section className="site00-cd__readiness-banner" role="status">
+          <p className="site00-cd__readiness-banner-title">
+            {payload.meta.creativeIntelligence.formationSurface.headline}
+          </p>
+          <p className="site00-cd__readiness-banner-body">
+            {payload.meta.creativeIntelligence.formationSurface.message} THE DIRECTIONS BELOW ARE{' '}
+            {payload.meta.creativeIntelligence.formationSurface.staticPreviewLabel.replace(/_/g, ' ')} — NOT NEWLY FORMED FROM BRAND LORE.
+          </p>
+        </section>
+      ) : null}
+
+      {payload?.meta.creativeIntelligence?.formationSurface.surface === 'FORMING' ? (
+        <section className="site00-cd__readiness-banner" role="status">
+          <p className="site00-cd__readiness-banner-title">
+            {payload.meta.creativeIntelligence.formationSurface.headline}
+          </p>
+          <p className="site00-cd__readiness-banner-body">
+            BRAND-LORE CORE DIRECTION FORMATION IS IN PROGRESS. LEGACY STATIC PREVIEW REMAINS VISIBLE BELOW.
+          </p>
+        </section>
+      ) : null}
+
+      {payload?.meta.creativeIntelligence?.formationSurface.surface === 'PROPOSED_FORMATION' ? (
+        <section className="site00-cd__readiness-banner site00-cd__readiness-banner--stale" role="status">
+          <p className="site00-cd__readiness-banner-title">
+            {payload.meta.creativeIntelligence.formationSurface.headline}
+          </p>
+          <p className="site00-cd__readiness-banner-body">
+            NEW BRAND-LORE FORMATION IS AVAILABLE FOR REVIEW ({payload.meta.creativeIntelligence.formationSurface.message}).
+            STATIC TERRITORIES BELOW REMAIN {payload.meta.creativeIntelligence.formationSurface.staticPreviewLabel.replace(/_/g, ' ')}.
           </p>
         </section>
       ) : null}

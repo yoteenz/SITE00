@@ -75,6 +75,8 @@ import {
   ensureCreativeDirectionEngagement,
   queueFalGenerationJobs,
   resetCreativeDirectionMemory,
+  getCoreDirectionFormationInspector,
+  reformCoreDirections,
 } from '../_lib/site00Evolve/creativeDirection/engagementService.js';
 import { generateNdxbookVisualAssetPass } from '../_lib/site00Evolve/creativeDirection/assetGeneration.js';
 import { resolveEvolveCommercialState } from '../_lib/site00Evolve/commercial/commercialState.js';
@@ -200,6 +202,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             ...(await getCreativeDirectionPayload(orgSlug)),
             debug: true,
           });
+        case 'creative_direction_formation_inspector':
+          return res.status(200).json(await getCoreDirectionFormationInspector(orgSlug));
         case 'provider_config':
           return res.status(200).json(getOwnerConfigurationChecklist());
         case 'fence_readiness':
@@ -425,6 +429,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           if (result.generated.length > 0) resetCreativeDirectionMemory();
           return res.status(200).json(result);
         }
+        case 'creative_direction_reform':
+          return res.status(200).json(await reformCoreDirections(orgSlug));
         case 'analytics_baseline_sync':
           return res.status(200).json(
             await runAnalyticsBaseline(orgSlug, String(body.connectionId ?? '')),

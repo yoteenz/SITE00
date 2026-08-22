@@ -1,0 +1,106 @@
+/**
+ * Builds canonical CoreDirectionFormationInput from Brand Lore + Content Brain.
+ * Only includes fields actually available — never fabricates missing data.
+ */
+
+import { computeBrandLoreFingerprint } from '../../../../../shared/site00-brand-lore/fingerprint.js';
+import type { BrandLoreProfile } from '../../../../../shared/site00-brand-lore/types.js';
+import { NDXBOOK_CORE_DIRECTIONS } from '../coreDirectionDefinitions.js';
+import type { IntelligenceBriefSection } from '../types.js';
+import type { CoreDirectionFormationInput, ExistingCreativeExploration } from './types.js';
+
+function fieldValue<T>(field: { value: T } | undefined | null): T | null {
+  if (!field) return null;
+  return field.value ?? null;
+}
+
+function founderConfirmedEntries(profile: BrandLoreProfile): string[] {
+  const entries: string[] = [];
+  const fields: Array<[string, unknown]> = [
+    ['brandWorld', fieldValue(profile.brandWorld)],
+    ['audienceRelationship', fieldValue(profile.audienceRelationship)],
+    ['brandBelief', fieldValue(profile.brandBelief)],
+    ['culturalOpposition', fieldValue(profile.culturalOpposition)],
+    ['coreObsessions', fieldValue(profile.coreObsessions)],
+    ['worldMetaphor', fieldValue(profile.worldMetaphor)],
+    ['emotionalPromise', fieldValue(profile.emotionalPromise)],
+    ['creativeTensions', fieldValue(profile.creativeTensions)],
+  ];
+
+  for (const [key, value] of fields) {
+    const field = (profile as Record<string, { founderConfirmationState?: string }>)[key];
+    if (field?.founderConfirmationState === 'CONFIRMED' && value) {
+      entries.push(`${key}: ${Array.isArray(value) ? value.join(', ') : String(value)}`);
+    }
+  }
+  return entries;
+}
+
+export function buildLegacyProposedExplorations(): ExistingCreativeExploration[] {
+  return Object.values(NDXBOOK_CORE_DIRECTIONS).map((d) => ({
+    label: 'LEGACY_PROPOSED_EXPLORATION' as const,
+    directionName: d.directionName,
+    oneLineThesis: d.oneLineThesis,
+    bigIdea: d.bigIdea,
+    source: 'ndxbook-static-territories',
+  }));
+}
+
+export function buildCoreDirectionFormationInput(params: {
+  profile: BrandLoreProfile;
+  projectId?: string | null;
+  contentBrainSections?: IntelligenceBriefSection[];
+  formationVersion?: number;
+  includeLegacyExplorations?: boolean;
+}): CoreDirectionFormationInput {
+  const { profile, projectId = profile.projectId, contentBrainSections = [], formationVersion = 1 } = params;
+
+  const contentBrainSummary =
+    contentBrainSections.length > 0
+      ? contentBrainSections.map((s) => `${s.label}: ${s.value}`).join('\n')
+      : null;
+
+  return {
+    organizationId: profile.organizationId ?? '',
+    projectId: projectId ?? profile.projectId,
+    brandLoreProfileId: profile.id,
+    brandLoreProfileVersion: profile.profileVersion,
+    brandLoreFingerprint: computeBrandLoreFingerprint(profile),
+    brandExpressionContext: profile.contextClassification,
+    brandPurpose: fieldValue(profile.brandWorld),
+    audienceRelationship: fieldValue(profile.audienceRelationship),
+    brandBelief: fieldValue(profile.brandBelief),
+    culturalOpposition: fieldValue(profile.culturalOpposition),
+    coreObsessions: fieldValue(profile.coreObsessions),
+    emotionalPromise: fieldValue(profile.emotionalPromise),
+    creativeTensions: fieldValue(profile.creativeTensions),
+    worldMetaphor: fieldValue(profile.worldMetaphor),
+    materialVocabulary: fieldValue(profile.materialVocabulary),
+    symbolicVocabulary: fieldValue(profile.symbolicVocabulary),
+    referenceLineage: fieldValue(profile.referenceLineage),
+    currentReferenceSignals: fieldValue(profile.currentReferenceSignals),
+    authenticLanguageSamples: fieldValue(profile.authenticLanguageSamples),
+    antiLanguage: fieldValue(profile.antiLanguage),
+    socialSignal: fieldValue(profile.socialSignal),
+    audienceRitual: fieldValue(profile.audienceRitual),
+    memoryGoal: fieldValue(profile.memoryGoal),
+    desiredMythology: fieldValue(profile.desiredMythology),
+    futureWorld: fieldValue(profile.futureWorld),
+    creativeAntiPatterns: fieldValue(profile.creativeAntiPatterns),
+    contentBrainSummary,
+    founderConfirmedCanon: founderConfirmedEntries(profile),
+    referenceEvidence: profile.referenceEvidence ?? [],
+    existingCreativeExplorations: params.includeLegacyExplorations === false ? [] : buildLegacyProposedExplorations(),
+    formationVersion,
+  };
+}
+
+export function buildFormationIdempotencyKey(input: CoreDirectionFormationInput, promptVersion: string): string {
+  return [
+    input.organizationId,
+    input.projectId ?? 'none',
+    input.brandLoreFingerprint,
+    String(input.formationVersion),
+    promptVersion,
+  ].join(':');
+}

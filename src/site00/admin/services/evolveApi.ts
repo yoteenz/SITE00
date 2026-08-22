@@ -283,6 +283,9 @@ export const site00EvolveApi = {
   creativeDirectionDebug: (orgSlug: string) =>
     evolveFetch<Record<string, unknown>>(`?action=creative_direction_debug&orgSlug=${encodeURIComponent(orgSlug)}`),
 
+  creativeDirectionFormationInspector: (orgSlug: string) =>
+    evolveFetch<Record<string, unknown>>(`?action=creative_direction_formation_inspector&orgSlug=${encodeURIComponent(orgSlug)}`),
+
   commercialCatalog: () => evolveFetch<{ catalog: EvolveServiceCatalog }>('?action=commercial_catalog'),
 
   commercialState: (orgSlug: string) =>

@@ -489,6 +489,8 @@ export type CreativeDirectionEngagement = {
    * reformation). Frozen at whatever it was the moment a territory is APPROVED — an approved
    * Core Direction is a governance boundary and must never be silently relabeled stale. */
   intelligenceStatus: 'CURRENT' | 'STALE_INTELLIGENCE' | 'UNKNOWN';
+  /** Generative Core Direction formation (PROPOSED_FORMATION) — separate from legacy static territories. */
+  coreDirectionFormationRecordId?: string | null;
   legacyReference: {
     indigoSlate: { status: 'REFERENCE_ONLY'; promotedToCanon: false };
     laceMastery: { status: 'REJECTED_MISATTRIBUTED' };

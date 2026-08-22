@@ -19,6 +19,17 @@ import {
   buildProposedVisualDnaFromTerritory,
   promoteVisualDnaToApproved,
 } from './visualDnaContract.js';
+import {
+  getCreativeIntelligenceInspectorSummary,
+  getOrRunCoreDirectionFormation,
+  incrementFormationVersion,
+  listCoreDirectionFormationRecords,
+  resetCoreDirectionFormationMemory,
+} from './creativeIntelligence/formationService.js';
+import { getCreativeIntelligenceProvider } from './creativeIntelligence/providerRegistry.js';
+import type {
+  CoreDirectionFormationRecord,
+} from './creativeIntelligence/types.js';
 import type {
   CreativeDirectionEngagement,
   CreativeDirectionLifecycle,
@@ -32,6 +43,7 @@ const engagements = new Map<string, CreativeDirectionEngagement>();
 
 export function resetCreativeDirectionMemory(): void {
   engagements.clear();
+  resetCoreDirectionFormationMemory();
 }
 
 /** Evicts only one org's cached engagement — used after a lore calibration submission so the next
@@ -192,20 +204,97 @@ async function syncEngagementBrandLoreReadiness(
       : 'CURRENT';
 }
 
+function clientFormationSurface(record: CoreDirectionFormationRecord | null, providerConfigured: boolean) {
+  if (!providerConfigured) {
+    return {
+      surface: 'PROVIDER_UNAVAILABLE' as const,
+      headline: 'YOUR BRAND INTELLIGENCE IS READY.',
+      message: 'CREATIVE FORMATION IS WAITING ON THE PRODUCTION ENGINE.',
+      staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
+    };
+  }
+  if (!record) {
+    return {
+      surface: 'STATIC_PREVIEW' as const,
+      headline: null,
+      message: null,
+      staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
+    };
+  }
+  if (record.status === 'FORMING' || record.status === 'CRITIQUING' || record.status === 'REVISING') {
+    return {
+      surface: 'FORMING' as const,
+      headline: 'FORMING YOUR DIRECTIONS',
+      message: record.status,
+      staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
+    };
+  }
+  if (record.status === 'READY_FOR_VISUAL_PRODUCTION' || record.status === 'NEEDS_HUMAN_REVIEW') {
+    return {
+      surface: 'PROPOSED_FORMATION' as const,
+      headline: 'REVIEWING THE WORLDS',
+      message: record.status,
+      staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
+    };
+  }
+  return {
+    surface: 'STATIC_PREVIEW' as const,
+    headline: null,
+    message: record.error,
+    staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
+  };
+}
+
 export async function getCreativeDirectionPayload(orgSlug: string) {
   const engagement = await ensureCreativeDirectionEngagement(orgSlug);
   await syncEngagementBrandLoreReadiness(engagement, orgSlug);
   const profile = await getProfileByOrgId(engagement.organization_id);
   const page001 = orgSlug === 'ndxbook' ? getPage001Candidate(orgSlug) : null;
 
+  const brandLoreProfile = await getOrReconcileBrandLoreForOrg(engagement.organization_id, orgSlug);
+  let formationRecord: CoreDirectionFormationRecord | null = null;
+  let formationInspector = getCreativeIntelligenceInspectorSummary(null);
+  const provider = getCreativeIntelligenceProvider();
+  const providerConfigured = provider.providerId !== 'unavailable';
+
+  if (brandLoreProfile && !engagement.brandLoreReadiness?.blocked) {
+    const formationResult = await getOrRunCoreDirectionFormation({
+      orgSlug,
+      profile: brandLoreProfile,
+      formationVersion: engagement.brandLoreFormation?.formationVersion ?? 1,
+    });
+    formationRecord = formationResult.record;
+    formationInspector = getCreativeIntelligenceInspectorSummary(formationRecord);
+    engagement.coreDirectionFormationRecordId = formationRecord.formationId;
+  } else {
+    const existing = listCoreDirectionFormationRecords(engagement.organization_id);
+    formationRecord = existing[existing.length - 1] ?? null;
+    formationInspector = getCreativeIntelligenceInspectorSummary(formationRecord);
+  }
+
+  const formationSurface = clientFormationSurface(formationRecord, providerConfigured);
+
   return {
     engagement,
+    coreDirectionFormation: formationRecord
+      ? {
+          record: formationRecord,
+          inspector: formationInspector,
+          legacyStaticTerritoriesPreserved: true,
+        }
+      : null,
     meta: {
       organization: { slug: orgSlug, uuid: engagement.organization_id },
       duplicateOrgCreated: false,
       visualDnaStatus: engagement.visualDna.status,
       providerBlocksCreativeDirection: false,
       publishingEnabled: false,
+      creativeIntelligence: {
+        providerConfigured,
+        providerId: provider.providerId,
+        modelId: provider.capability.modelId,
+        formationSurface,
+      },
     },
     page001: page001
       ? {
@@ -336,4 +425,32 @@ export async function queueFalGenerationJobs(orgSlug: string): Promise<{ queued:
     }
   }
   return { queued, skipped: false };
+}
+
+export async function reformCoreDirections(orgSlug: string) {
+  const engagement = await ensureCreativeDirectionEngagement(orgSlug);
+  const profile = await getOrReconcileBrandLoreForOrg(engagement.organization_id, orgSlug);
+  if (!profile) throw new Error('Brand Lore profile required for reformation');
+  const nextVersion = incrementFormationVersion(engagement.brandLoreFormation?.formationVersion ?? 1);
+  const result = await getOrRunCoreDirectionFormation({
+    orgSlug,
+    profile,
+    formationVersion: nextVersion,
+    forceReform: true,
+  });
+  if (engagement.brandLoreFormation) {
+    engagement.brandLoreFormation.formationVersion = nextVersion;
+  }
+  engagement.coreDirectionFormationRecordId = result.record.formationId;
+  engagements.set(engagement.organization_id, engagement);
+  return result;
+}
+
+export async function getCoreDirectionFormationInspector(orgSlug: string) {
+  const payload = await getCreativeDirectionPayload(orgSlug);
+  return {
+    inspector: payload.coreDirectionFormation?.inspector ?? getCreativeIntelligenceInspectorSummary(null),
+    formation: payload.coreDirectionFormation?.record ?? null,
+    creativeIntelligence: payload.meta.creativeIntelligence,
+  };
 }
