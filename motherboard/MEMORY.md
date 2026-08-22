@@ -814,6 +814,14 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 
 ---
 
+
+## 2026-08-19 — Origin expanded panel header icons 3× (desktop)
+
+- **Request:** Increase top-right corner icons on expanded panels only (IDNTY/BLDR/EVOLVE) by 3× on desktop Origin page; collapsed cards unchanged.
+- **Fix:** `expandedPanelHeaderIconSizePx: 158.4` (264px −40%; collapsed cards unchanged); desktop hero merges description2+3 into one nowrap line (`site00-home-hero__line--desc-online`); coordinate line prefix/suffix gray (`--site-text-muted`), `00.00` stays red.
+- **Branch:** `cursor/origin-expanded-header-icons-796f`.
+
+---
 ## 2026-08-19 — Fast Travel trigger outline removal (mobile)
 
 - **Request:** Remove blue outline around mobile Fast Travel icon button.
@@ -2420,4 +2428,3 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Fix:** Freeze full `stepIds` at session start in `localStorage` (`v2` key); always render that list for progress (06/08 stays stable). Resume index uses server answers against frozen list. `missingDomainsToLoreSteps` now returns canonical `IDNTY_LORE_QUESTIONS` order.
 
 - **Branch:** `cursor/calibration-frozen-steps-4f59`.
-

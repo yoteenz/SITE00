@@ -73,6 +73,7 @@ export default function OriginPage() {
               ['--site00-origin-panel-icon-scale' as string]: String(SITE00_ORIGIN_DESKTOP_COMPOSITION.panelIconScale),
               ['--site00-origin-expanded-max-w' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.expandedMaxWidthPx}px`,
               ['--site00-origin-expanded-panel-scale' as string]: String(SITE00_ORIGIN_DESKTOP_COMPOSITION.expandedPanelScale),
+              ['--site00-origin-expanded-header-icon-size-px' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.expandedPanelHeaderIconSizePx}px`,
               ['--site00-origin-framework-icon-size' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.frameworkIconSizePx}px`,
               ['--site00-origin-hero-block-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroBlockOffsetYPx}px`,
               ['--site00-origin-hero-eyebrow-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroEyebrowOffsetYPx}px`,
@@ -98,12 +99,20 @@ export default function OriginPage() {
                 <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc1">
                   {SITE00_ORIGIN_COPY.description1}
                 </p>
-                <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc2">
-                  {SITE00_ORIGIN_COPY.description2}
-                </p>
-                <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc3">
-                  {SITE00_ORIGIN_COPY.description3}
-                </p>
+                {isDesktopArtboardLayout ? (
+                  <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc-online">
+                    {SITE00_ORIGIN_COPY.description2} {SITE00_ORIGIN_COPY.description3}
+                  </p>
+                ) : (
+                  <>
+                    <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc2">
+                      {SITE00_ORIGIN_COPY.description2}
+                    </p>
+                    <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc3">
+                      {SITE00_ORIGIN_COPY.description3}
+                    </p>
+                  </>
+                )}
                 {isDesktopArtboardLayout ? (
                   <p className="site00-coordinate site00-home-hero__coordinate">
                     {SITE00_ORIGIN_COPY.originPointLine.prefix}{' '}
