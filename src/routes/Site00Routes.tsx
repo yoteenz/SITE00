@@ -14,6 +14,7 @@ import { Site00PublicRouteShell } from '../site00/components/shell/Site00PublicR
 import { Site00PublicDesktopLegacyRedirect } from '../site00/components/shell/Site00PublicWideDesktopRedirect';
 import { Site00OriginDesktopLegacyRedirect } from '../site00/components/shell/Site00OriginDesktopLegacyRedirect';
 import { Site00WorkflowDesktopLegacyRedirect } from '../site00/components/shell/Site00WorkflowDesktopLegacyRedirect';
+import { Site00IdentityAliasRedirect, Site00SignInAliasRedirect } from '../site00/components/routing/Site00RouteAliases';
 import { Site00TypographyBootstrap } from '../site00/components/Site00TypographyBootstrap';
 import { site00PublicDesktopPath } from '../site00/config/site00-public-pages';
 /* Eager-load SITE 00 + ASSTS styles (lazy route CSS was not applying on mobile preview). */
@@ -107,6 +108,7 @@ const MarketingServicesPage = lazy(() => import('../site00/pages/evolve/marketin
 const MarketingIntakePage = lazy(() => import('../site00/pages/evolve/marketing/MarketingIntakePage'));
 const MarketingBriefPage = lazy(() => import('../site00/pages/evolve/marketing/MarketingBriefPage'));
 const MarketingEngagementPage = lazy(() => import('../site00/pages/evolve/marketing/MarketingEngagementPage'));
+const EvolveCommercialPage = lazy(() => import('../site00/pages/evolve/EvolveCommercialPage'));
 const LoaderPreviewPage = lazy(() => import('../site00/pages/LoaderPreviewPage'));
 
 function Site00Suspense({ children }: { children: ReactNode }) {
@@ -176,6 +178,9 @@ export function Site00Routes() {
 
   return (
     <>
+      <Route path="/sign-in" element={<Site00SignInAliasRedirect />} />
+      <Route path="/identity/*" element={<Site00IdentityAliasRedirect />} />
+      <Route path="/identity" element={<Navigate to={SITE00_ROUTES.idnty} replace />} />
       {site00Root ? (
         <Route
           index
@@ -235,7 +240,7 @@ export function Site00Routes() {
           </Site00Layout>
         }
       />
-      <Route path="/sign-in" element={<Navigate to={SITE00_ROUTES.signIn} replace />} />
+
       <Route path="/register" element={<Navigate to={SITE00_ROUTES.createAccount} replace />} />
       <Route path="/create-account" element={<Navigate to={SITE00_ROUTES.createAccount} replace />} />
       <Route
@@ -580,6 +585,14 @@ export function Site00Routes() {
           </Site00Layout>
         }
       />
+      <Route
+        path={site00PublicDesktopPath(SITE00_ROUTES.projects)}
+        element={
+          <Site00Layout>
+            <Site00PublicDesktopLegacyRedirect />
+          </Site00Layout>
+        }
+      />
       {Site00PublicPageRoutes(SITE00_ROUTES.bldrStart, BldrStartPage)}
       <Route
         path="/bldr/:classSlug/*"
@@ -620,6 +633,18 @@ export function Site00Routes() {
             <Site00PublicRouteShell>
               <Site00Suspense>
                 <MarketingServicesPage />
+              </Site00Suspense>
+            </Site00PublicRouteShell>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.evolvePlans}
+        element={
+          <Site00Layout>
+            <Site00PublicRouteShell>
+              <Site00Suspense>
+                <EvolveCommercialPage />
               </Site00Suspense>
             </Site00PublicRouteShell>
           </Site00Layout>

@@ -24,6 +24,11 @@ function isValidSlug(slug: string | undefined): slug is IdntyAssessmentStateId {
   return Boolean(slug && IDNTY_ASSESSMENT_STATE_SLUGS.includes(slug as IdntyAssessmentRouteSlug));
 }
 
+const RESERVED_IDNTY_ROUTE_SLUGS: Record<string, string> = {
+  state: SITE00_ROUTES.idntyState,
+  'sign-in-security': SITE00_ROUTES.idntySignInSecurity,
+};
+
 function parseAssessmentSegments(pathname: string, stateSlug: string): string | null {
   const prefix = `/idnty/${stateSlug}`;
   let rest = pathname;
@@ -41,6 +46,10 @@ function parseAssessmentSegments(pathname: string, stateSlug: string): string | 
 export default function IdntyAssessmentRouterPage() {
   const { stateSlug } = useParams<{ stateSlug: string }>();
   const { pathname } = useLocation();
+
+  if (stateSlug && RESERVED_IDNTY_ROUTE_SLUGS[stateSlug]) {
+    return <Navigate to={RESERVED_IDNTY_ROUTE_SLUGS[stateSlug]} replace />;
+  }
 
   if (!isValidSlug(stateSlug)) {
     const migratedSlug = migrateLegacyNeedsCohesionSlug(stateSlug ?? '');

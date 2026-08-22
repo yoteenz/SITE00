@@ -11,7 +11,7 @@ import { useSignedInFromStorage } from '../../../hooks/useSignedInFromStorage';
 function IdntySignedOutGateway() {
   const location = useLocation();
   const signInHref = site00SignInHrefWithReturnTo(location);
-  const createHref = `/sign-in?returnTo=${encodeURIComponent(SITE00_ROUTES.control)}`;
+  const createHref = SITE00_ROUTES.idntyState;
 
   return (
     <Site00PublicShell>

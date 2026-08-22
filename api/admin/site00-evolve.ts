@@ -77,6 +77,10 @@ import {
   resetCreativeDirectionMemory,
 } from '../_lib/site00Evolve/creativeDirection/engagementService.js';
 import { generateNdxbookVisualAssetPass } from '../_lib/site00Evolve/creativeDirection/assetGeneration.js';
+import { resolveEvolveCommercialState } from '../_lib/site00Evolve/commercial/commercialState.js';
+import { setEvolveCommercialPlan, markEvolveFoundationCompleted } from '../_lib/site00Evolve/commercial/governedActions.js';
+import { getEvolveServiceCatalog } from '../../shared/site00-evolve-commercial/catalog.js';
+import { EVOLVE_PLAN_IDS } from '../../shared/site00-evolve-commercial/types.js';
 
 function parseBody(req: VercelRequest): Record<string, unknown> | null {
   if (typeof req.body === 'object' && req.body !== null && !Array.isArray(req.body)) {
@@ -217,6 +221,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         case 'sprint03_schema':
           return res.status(200).json(await verifySprint03Schema());
+        case 'commercial_catalog':
+          return res.status(200).json({ catalog: getEvolveServiceCatalog() });
+        case 'commercial_state':
+          return res.status(200).json({ orgSlug, commercial: await resolveEvolveCommercialState(orgSlug) });
         default:
           return res.status(400).json({ error: 'UNKNOWN ACTION' });
       }
@@ -421,6 +429,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(200).json(
             await runAnalyticsBaseline(orgSlug, String(body.connectionId ?? '')),
           );
+        case 'commercial_set_plan': {
+          const planId = String(body.planId ?? '');
+          if (!EVOLVE_PLAN_IDS.includes(planId as never)) {
+            return res.status(400).json({ error: `Unknown EVOLVE plan id: ${planId}` });
+          }
+          await setEvolveCommercialPlan(orgSlug, planId as never, auth.user.email);
+          return res.status(200).json({ orgSlug, commercial: await resolveEvolveCommercialState(orgSlug) });
+        }
+        case 'commercial_mark_foundation_completed': {
+          await markEvolveFoundationCompleted(orgSlug, auth.user.email);
+          return res.status(200).json({ orgSlug, commercial: await resolveEvolveCommercialState(orgSlug) });
+        }
         default:
           return res.status(400).json({ error: 'UNKNOWN ACTION' });
       }

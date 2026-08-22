@@ -74,6 +74,20 @@ export async function getProfileByOrgId(orgId: string): Promise<MarketingProfile
   return db.loadProfile(orgId);
 }
 
+/**
+ * Merges `patch` into `profile.metadata.commercial` for an organization and
+ * persists the result. Used exclusively by EVOLVE commercial governed actions
+ * (plan selection, Foundation completion) — never by entitlement/read logic.
+ * Returns undefined when no profile row exists yet for the organization.
+ */
+export async function updateProfileCommercialMetadata(
+  orgId: string,
+  patch: Record<string, unknown>,
+): Promise<MarketingProfileRow | undefined> {
+  if ((await resolveStoreMode()) === 'memory') return mem.updateProfileCommercialMetadata(orgId, patch);
+  return db.updateProfileCommercialMetadataDb(orgId, patch);
+}
+
 export async function getChannelsByOrgId(orgId: string): Promise<MarketingChannelRow[]> {
   if ((await resolveStoreMode()) === 'memory') return mem.getChannelsByOrgId(orgId);
   return db.loadChannels(orgId);

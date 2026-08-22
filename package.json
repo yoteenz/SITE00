@@ -17,7 +17,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "strip:loader-audio": "tsx scripts/stripLoaderAnimationAudio.ts"
+    "strip:loader-audio": "tsx scripts/stripLoaderAnimationAudio.ts",
+    "verify:loader-mobile": "tsx scripts/verifySite00LoaderMobileAnimation.ts"
   },
   "dependencies": {
     "@fal-ai/client": "^1.4.0",

@@ -28,6 +28,7 @@ export const SITE00_ROUTES = {
   evolveMarketingBrief: '/evolve/marketing/brief/:engagementId',
   evolveMarketingEngagement: '/evolve/marketing/engagement/:engagementId',
   evolveMarketingDebug: '/admin/site00/debug/evolve-marketing',
+  evolvePlans: '/evolve/plans',
   assts: '/assts',
   asstsBatch: '/assts/batches/:batchId',
   asstsAsset: '/assts/:assetId',
