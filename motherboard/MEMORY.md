@@ -2460,3 +2460,13 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 - **Branch:** `cursor/brand-lore-semantic-multi-select-1983`. PR #205 updated, not merged.
 
+---
+
+## 2026-08-22 — Builder inherited lore multi-select typing
+
+- **Context:** Post-merge follow-up — `BldrExperienceMobileStep` cast `audienceRelationship` as scalar `string` though Identity role is multi-select (`string | string[]`).
+
+- **Fix:** Added `BuilderInheritedLoreContext`, `parseBuilderInheritedLoreContext()`, and `formatInheritedAudienceRelationship()` in `bldr-experience-questions.ts`. Builder mobile step uses shared parser instead of inline cast. Tests 17b/17c cover scalar + compound role ids.
+
+- **Branch:** `cursor/brand-lore-semantic-multi-select-1983`.
+
