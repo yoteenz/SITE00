@@ -2667,3 +2667,16 @@ Summary of this cloud agent sprint through forensic reconciliation and canonical
 - **Persistence:** Both v1 and v2 durable in `site00_core_direction_formations` (Supabase FS project). v2 complete fields + 3 Visual Proof Plans + critic PASS.
 - **FAL:** Not dispatched this sprint (0 requests). Visual proof generation scaffold/state only; founder visual review blocked until Stage A proofs produced.
 - **Tests:** 772 passing (+6 new canonical/field contract tests). Branch `cursor/core-direction-canonicalization-4f59` → PR #231 merged to main.
+
+---
+
+## 2026-08-22 — NDX BOOK six-direction founder comparison set (PR #232)
+
+Summary: NDX BOOK-only instance-scoped exception exposing all six Core Direction candidates from formations v1 + v2 for founder comparison before selection.
+
+- **`resolveNdxbookFounderComparisonSet()`** — NOT a formation/reform; projects v1 directions 01–03 then v2 04–06 with lineage (`sourceFormationId`, `sourceFormationVersion`, `sourceDirectionIndex`, fingerprint). Canonical remains v2 `39a27725`.
+- **v1 field audit:** THE MARKED-UP COPY / COUNTDOWN ROOM / PERSONAL ARCHIVE missing 11 production fields each (bigIdea, thesis, governingBehavior present). No frontend fabrication. `directionCompletionService.ts` scaffold for targeted Sonnet completion — **0 Anthropic requests** this sprint.
+- **Visual proof plans:** 6 Stage A plans prepared (hero, artifact, material, typographic, social, motion slots in UI). FAL not dispatched.
+- **Founder UI:** comparison mode header "CORE DIRECTION COMPARISON · 6 DIRECTIONS FOR FOUNDER REVIEW"; mobile single-column cards; collapsible lineage; no legacy/failed labeling on v1 directions.
+- **`recordFounderDecision`:** `selectedDirectionLineage` captures direction from either formation without promoting v1 formation.
+- **Tests:** 779 passing (+7). Branch `cursor/ndxbook-six-direction-comparison-4f59` → PR #232 merged.
