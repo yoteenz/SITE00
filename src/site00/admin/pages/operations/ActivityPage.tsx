@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { ControlPageHeader } from '../../components/control/ControlPageHeader';
 import { Site00AdminShell } from '../../components/shell/Site00AdminShell';
 import { site00ProductionApi } from '../../services/productionApi';
 import type { AdminActivityItem } from '../../types/operations';
@@ -27,12 +28,11 @@ export default function ActivityPage() {
 
   return (
     <Site00AdminShell>
-      <header className="site00-admin-dashboard-head">
-        <div>
-          <h1 className="site00-admin-page-title">[ ACTIVITY ]</h1>
-          <p className="site00-admin-page-subtitle">FULL ADMIN ACTIVITY FEED.</p>
-        </div>
-      </header>
+      <ControlPageHeader
+        kicker="00 / CONTROL"
+        title="ACTIVITY / LEDGER"
+        subtitle="OPERATOR EVENT STREAM"
+      />
 
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 

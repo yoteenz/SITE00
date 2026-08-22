@@ -39,7 +39,8 @@ export function useSite00LoaderProgress(
       completedRef.current.add(stageId);
       const stageIndex = stages.findIndex((s) => s.id === stageId);
       const nextStage = stageIndex >= 0 ? stages[stageIndex + 1] : undefined;
-      const subtitle = nextStage?.subtitle ?? stage.subtitle;
+      const penultimate = stageIndex === stages.length - 2;
+      const subtitle = penultimate ? stage.subtitle : (nextStage?.subtitle ?? stage.subtitle);
       const state = nextStage?.state ?? stage.state;
       applyProgress(stage.progress, subtitle, state);
     },
