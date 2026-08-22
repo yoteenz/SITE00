@@ -69,7 +69,7 @@ export default function ProjectLoreCalibrationPage() {
 
   return (
     <EcosystemShell hidePageHeader>
-      <div className="site00-cd">
+      <div className="site00-cd site00-cd--project-calibration">
         <ProjectLoreCalibrationFlow
           projectSlug={projectSlug}
           projectTitle={projectTitle}

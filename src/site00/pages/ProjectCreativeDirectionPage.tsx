@@ -23,7 +23,9 @@ export default function ProjectCreativeDirectionPage() {
           <Link to={site00ProjectPath(projectSlug)}>← BACK TO PROJECT</Link>
         }
         calibrationLink={
-          <Link to={site00ProjectLoreCalibrationPath(projectSlug)}>COMPLETE CALIBRATION →</Link>
+          <Link className="site00-cd__readiness-banner-cta" to={site00ProjectLoreCalibrationPath(projectSlug)}>
+            COMPLETE CALIBRATION →
+          </Link>
         }
       />
     </EcosystemShell>
