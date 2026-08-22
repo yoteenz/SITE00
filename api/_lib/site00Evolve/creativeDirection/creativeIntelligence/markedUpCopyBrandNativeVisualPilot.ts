@@ -263,6 +263,8 @@ export async function runMarkedUpCopyBrandNativeVisualPilot(params: {
   const topicTransform = transformTopicIntoDirectionNativeSubject(topic);
   const record: BrandNativeVisualPilotRecord = {
     pilotId,
+    pilotKind: 'BRAND_NATIVE',
+    assetId: BRAND_NATIVE_PILOT_ASSET_ID,
     directionId,
     directionName: MARKED_UP_COPY_DIRECTION_NAME,
     expressionSystemId: expressionSystem.expressionSystemId,
@@ -276,7 +278,7 @@ export async function runMarkedUpCopyBrandNativeVisualPilot(params: {
     publicUrl: uploaded.publicUrl,
     rawImageQa,
     founderPilotStatus: founderPilotStatusFromQa(rawImageQa),
-    founderPilotLabel: 'VISUAL LANGUAGE PILOT',
+    founderPilotLabel: 'DIRECTION-NATIVE / IDENTITY-INCOMPLETE',
     codeOverlaysApplied: false,
     estimatedCostUsd: generation.costEstimateUsd,
     createdAt: new Date().toISOString(),

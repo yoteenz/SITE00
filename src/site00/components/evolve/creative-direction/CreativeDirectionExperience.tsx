@@ -9,6 +9,7 @@ import {
 } from './compareAnchors';
 import { FormedCoreDirectionReview } from './FormedCoreDirectionReview';
 import { BrandNativeVisualPilotPanel } from './BrandNativeVisualPilotPanel';
+import { VisualPilotComparisonPanel } from './VisualPilotComparisonPanel';
 import { renderTerritoryView, territoryRendererKeyFromIndex } from './TerritoryRendererRegistry';
 
 export type CoreDirectionDefinition = {
@@ -145,6 +146,7 @@ export type CreativeDirectionPayload = {
   founderComparisonSet?: Record<string, unknown> | null;
   brandNativeVisualPilot?: {
     pilotId: string;
+    assetId?: string;
     directionName: string;
     topic: string;
     publicUrl: string;
@@ -152,6 +154,21 @@ export type CreativeDirectionPayload = {
     founderPilotStatus: string;
     rawImageQa: Record<string, unknown>;
     codeOverlaysApplied: false;
+  } | null;
+  identityNativeVisualPilot?: {
+    pilotId: string;
+    assetId?: string;
+    directionName: string;
+    topic: string;
+    publicUrl: string;
+    founderPilotLabel: string;
+    founderPilotStatus: string;
+    rawImageQa: Record<string, unknown>;
+    codeOverlaysApplied: false;
+  } | null;
+  visualPilotComparison?: {
+    brandNativePilot: CreativeDirectionPayload['brandNativeVisualPilot'];
+    identityNativePilot: CreativeDirectionPayload['identityNativeVisualPilot'];
   } | null;
 };
 
@@ -338,7 +355,13 @@ export function CreativeDirectionExperience({
       {error ? <p className="site00-cd__error" role="alert">{error}</p> : null}
       {loading ? <p className="site00-cd__loading" aria-busy="true">SYNTHESIZING CREATIVE DIRECTION…</p> : null}
 
-      {payload?.brandNativeVisualPilot?.publicUrl ? (
+      {payload?.visualPilotComparison?.brandNativePilot?.publicUrl ||
+      payload?.visualPilotComparison?.identityNativePilot?.publicUrl ? (
+        <VisualPilotComparisonPanel
+          brandNativePilot={payload.visualPilotComparison.brandNativePilot}
+          identityNativePilot={payload.visualPilotComparison.identityNativePilot}
+        />
+      ) : payload?.brandNativeVisualPilot?.publicUrl ? (
         <BrandNativeVisualPilotPanel pilot={payload.brandNativeVisualPilot} />
       ) : null}
 

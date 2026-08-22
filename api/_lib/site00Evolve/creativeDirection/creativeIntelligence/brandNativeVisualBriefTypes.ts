@@ -72,6 +72,8 @@ export type BrandNativeRawImageQa = {
 
 export type BrandNativeVisualPilotRecord = {
   pilotId: string;
+  pilotKind: 'BRAND_NATIVE';
+  assetId: 'MUC-BRAND-NATIVE-HERO-PILOT';
   directionId: string;
   directionName: string;
   expressionSystemId: string;
@@ -85,7 +87,7 @@ export type BrandNativeVisualPilotRecord = {
   publicUrl: string;
   rawImageQa: BrandNativeRawImageQa;
   founderPilotStatus: BrandNativeVisualPilotStatus;
-  founderPilotLabel: 'VISUAL LANGUAGE PILOT';
+  founderPilotLabel: 'VISUAL LANGUAGE PILOT' | 'DIRECTION-NATIVE / IDENTITY-INCOMPLETE';
   codeOverlaysApplied: false;
   estimatedCostUsd: number;
   createdAt: string;

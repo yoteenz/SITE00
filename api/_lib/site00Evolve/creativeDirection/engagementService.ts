@@ -27,7 +27,7 @@ import { assessFormationProductionCompleteness } from './creativeIntelligence/di
 import { resolveNdxbookFounderComparisonSet } from './creativeIntelligence/founderComparisonSet.js';
 import { attachProofAssetsToComparisonSet } from './creativeIntelligence/comparisonProofProduction.js';
 import { attachCreativeDirectionBoardsToComparisonSet } from './creativeIntelligence/boardStore.js';
-import { findLatestBrandNativeVisualPilot } from './creativeIntelligence/brandNativeVisualPilotStore.js';
+import { findLatestBrandNativeVisualPilot, getVisualPilotComparisonPayload } from './creativeIntelligence/brandNativeVisualPilotStore.js';
 import { deriveVisualProductionState } from './creativeIntelligence/visualProductionState.js';
 import {
   getCreativeIntelligenceInspectorSummary,
@@ -433,7 +433,9 @@ export async function getCreativeDirectionPayload(
       : null,
     profileVisualDna: (profile?.metadata as Record<string, unknown>)?.visual_dna_status ?? 'INCOMPLETE_REFERENCE_ONLY',
     founderComparisonSet,
-    brandNativeVisualPilot: orgSlug === 'ndxbook' ? findLatestBrandNativeVisualPilot() : null,
+    brandNativeVisualPilot: getVisualPilotComparisonPayload().brandNativePilot,
+    identityNativeVisualPilot: getVisualPilotComparisonPayload().identityNativePilot,
+    visualPilotComparison: getVisualPilotComparisonPayload(),
   };
 }
 

@@ -7,6 +7,7 @@ import {
   FAL_TEXT_TO_IMAGE_MODEL,
 } from './creativeDirectionBoardTypes.js';
 import type { BrandNativeVisualBrief } from './brandNativeVisualBriefTypes.js';
+import type { IdentityNativeVisualBrief } from './identityNativeArtDirectionTypes.js';
 
 export type GptImage2GenerationInput = {
   model: string;
@@ -64,6 +65,38 @@ export async function generateBrandNativeImageFromBrief(params: {
   referenceImageUrls?: string[];
   uploadReference?: (url: string) => Promise<string>;
 }): Promise<{ url: string; model: string; costEstimateUsd: number }> {
+  return generateImageFromCompiledBrief({
+    compiledPrompt: params.brief.compiledPrompt,
+    negativeInstructions: params.brief.negativeInstructions,
+    referenceImageUrls: params.referenceImageUrls,
+    uploadReference: params.uploadReference,
+    aspectRatio: '16:9',
+  });
+}
+
+export async function generateIdentityNativeImageFromBrief(params: {
+  brief: IdentityNativeVisualBrief;
+  referenceImageUrls?: string[];
+  uploadReference?: (url: string) => Promise<string>;
+}): Promise<{ url: string; model: string; costEstimateUsd: number }> {
+  return generateImageFromCompiledBrief({
+    compiledPrompt: params.brief.compiledPrompt,
+    negativeInstructions: params.brief.forbiddenGenericBehavior,
+    referenceImageUrls: undefined,
+    uploadReference: params.uploadReference,
+    aspectRatio: '16:9',
+    textOnly: true,
+  });
+}
+
+async function generateImageFromCompiledBrief(params: {
+  compiledPrompt: string;
+  negativeInstructions: string[];
+  referenceImageUrls?: string[];
+  uploadReference?: (url: string) => Promise<string>;
+  aspectRatio: string;
+  textOnly?: boolean;
+}): Promise<{ url: string; model: string; costEstimateUsd: number }> {
   const falKey = process.env.FAL_KEY?.trim();
   if (!falKey) throw new Error('FAL_KEY not configured');
 
@@ -75,11 +108,22 @@ export async function generateBrandNativeImageFromBrief(params: {
     }
   }
 
-  const { model, input } = briefToGptImage2Input({
-    brief: params.brief,
-    referenceImageUrls: refUrls.length ? refUrls : undefined,
-    aspectRatio: '16:9',
-  });
+  const useRefs = !params.textOnly && refUrls.length > 0;
+  const negativeSuffix = params.negativeInstructions.slice(0, 14).join('; ');
+  const prompt =
+    negativeSuffix.length > 0 ? `${params.compiledPrompt}\n\nAvoid: ${negativeSuffix}` : params.compiledPrompt;
+
+  const model = useRefs ? FAL_REFERENCE_EDIT_MODEL : FAL_TEXT_TO_IMAGE_MODEL;
+  const imageSize =
+    params.aspectRatio === '1:1'
+      ? 'square_hd'
+      : params.aspectRatio === '4:3'
+        ? 'landscape_4_3'
+        : 'landscape_16_9';
+
+  const input: Record<string, unknown> = useRefs
+    ? { prompt, image_urls: refUrls, image_size: 'auto', quality: 'high', num_images: 1, output_format: 'webp' }
+    : { prompt, image_size: imageSize, quality: 'high', num_images: 1, output_format: 'webp' };
 
   const { fal } = await import('@fal-ai/client');
   fal.config({ credentials: falKey });
