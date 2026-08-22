@@ -814,6 +814,14 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 
 ---
 
+
+## 2026-08-19 — Mobile nav PNG icons (Supabase NAV assets)
+
+- **Request:** Update mobile bottom-nav icons to approved Supabase PNGs for ORIGIN, IDNTY, LOCATIONS, PROJECTS, CTRL ROOM.
+- **Fix:** `mobile-nav-icons.ts` + `Site00MobileNavAssetIcon`; `MobileSiteNavigation` renders PNGs via `resolveSite00PublicAsset` (`live-preview/site00/NAV/*.png`). Legacy SVG components retained but unused in nav.
+- **Branch:** `cursor/mobile-nav-png-icons-796f`.
+
+---
 ## 2026-08-19 — Fast Travel trigger outline removal (mobile)
 
 - **Request:** Remove blue outline around mobile Fast Travel icon button.
@@ -2420,4 +2428,3 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Fix:** Freeze full `stepIds` at session start in `localStorage` (`v2` key); always render that list for progress (06/08 stays stable). Resume index uses server answers against frozen list. `missingDomainsToLoreSteps` now returns canonical `IDNTY_LORE_QUESTIONS` order.
 
 - **Branch:** `cursor/calibration-frozen-steps-4f59`.
-

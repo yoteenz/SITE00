@@ -309,6 +309,12 @@
     flex-shrink: 0;
   }
 
+  .site00-mobile-nav__asset {
+    display: block;
+    flex-shrink: 0;
+    object-fit: contain;
+  }
+
   .site00-mobile-nav__top {
     font-family: var(--site00-font-nav);
     font-size: 0.5625rem;

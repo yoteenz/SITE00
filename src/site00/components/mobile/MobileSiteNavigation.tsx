@@ -5,15 +5,7 @@ import {
   type MobileSiteNavIconId,
   type MobileSiteNavId,
 } from '../../config/mobile-site-nav';
-import {
-  SITE00_MOBILE_NAV_ICON_CENTER_SIZE,
-  SITE00_MOBILE_NAV_ICON_DEFAULT_SIZE,
-  Site00CtrlRoomNavIcon,
-  Site00IdntyNavIcon,
-  Site00LocationsNavIcon,
-  Site00OriginNavIcon,
-  Site00ProjectsNavIcon,
-} from '../../icons/mobile-nav';
+import { Site00MobileNavAssetIcon } from '../../icons/mobile-nav/Site00MobileNavAssetIcon';
 
 type MobileSiteNavigationProps = {
   /** Optional override — default is route-derived active state. */
@@ -27,23 +19,7 @@ function MobileSiteNavIcon({
   icon: MobileSiteNavIconId;
   center?: boolean;
 }) {
-  const size = center ? SITE00_MOBILE_NAV_ICON_CENTER_SIZE : SITE00_MOBILE_NAV_ICON_DEFAULT_SIZE;
-  const className = 'site00-mobile-nav__svg';
-
-  switch (icon) {
-    case 'origin':
-      return <Site00OriginNavIcon size={size} className={className} />;
-    case 'idnty':
-      return <Site00IdntyNavIcon size={size} className={className} />;
-    case 'locations':
-      return <Site00LocationsNavIcon size={size} className={className} />;
-    case 'projects':
-      return <Site00ProjectsNavIcon size={size} className={className} />;
-    case 'ctrl-room':
-      return <Site00CtrlRoomNavIcon size={size} className={className} />;
-    default:
-      return null;
-  }
+  return <Site00MobileNavAssetIcon icon={icon} center={center} className="site00-mobile-nav__svg" />;
 }
 
 /**
