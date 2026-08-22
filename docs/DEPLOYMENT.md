@@ -44,6 +44,8 @@ Upload `dist/` to GoDaddy `public_html/site00.com` as in Architecture A.
 | `SESSION_COOKIE_SECRET` | yes | Random 32+ char secret for HttpOnly session cookie signing |
 | `ADMIN_EMAILS` | optional | Comma-separated admin allowlist |
 | `FAL_KEY` | later | ASSTS generation |
+| `ANTHROPIC_API_KEY` | for Creative Direction | Server-side Sonnet formation |
+| `SITE00_CREATIVE_INTELLIGENCE_MODEL` | optional | Default `claude-sonnet-4-6` (do not use retired `claude-sonnet-4-20250514`) |
 | `PORT` | auto | Railway sets this |
 
 4. Deploy; confirm health: `GET https://<railway-url>/api/health` → `{ "ok": true, "service": "site00-api" }`.

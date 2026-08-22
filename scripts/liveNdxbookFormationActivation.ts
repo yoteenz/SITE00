@@ -106,13 +106,18 @@ async function main() {
   const inspectorBefore = await apiGet(token, 'creative_direction_formation_inspector');
   console.log(JSON.stringify(inspectorBefore, null, 2));
 
-  console.log('\n--- REFORM FORMATION (new formation version) ---');
+  console.log('\n--- RETRY FAILED FORMATION (canonical path) ---');
   let retryResult: unknown;
   try {
     retryResult = await apiPost(token, 'creative_direction_formation_retry');
-  } catch {
-    console.log('retry endpoint unavailable on production — using creative_direction_reform');
-    retryResult = await apiPost(token, 'creative_direction_reform');
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    if (message.includes('UNKNOWN ACTION') || message.includes('404')) {
+      console.log('retry endpoint unavailable on production — using creative_direction_reform fallback');
+      retryResult = await apiPost(token, 'creative_direction_reform');
+    } else {
+      throw err;
+    }
   }
   console.log(JSON.stringify(retryResult, null, 2));
 
