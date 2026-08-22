@@ -34,6 +34,16 @@
     border: none;
     background: transparent;
     cursor: pointer;
+    outline: none;
+    box-shadow: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .site00-fast-travel-trigger:focus,
+  .site00-fast-travel-trigger:focus-visible,
+  .site00-fast-travel-trigger:active {
+    outline: none;
+    box-shadow: none;
   }
 
   .site00-fast-travel-trigger__icon {
@@ -41,6 +51,8 @@
     width: 24.2px;
     height: 24.2px;
     object-fit: contain;
+    border: none;
+    outline: none;
   }
 
   /* ─── Fast Travel panel ─── */
@@ -91,14 +103,31 @@
   }
 
   .site00-fast-travel__close {
-    width: 44px;
-    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
     border: none;
     background: transparent;
-    font-size: 1.625rem;
+    font-size: 1.544rem;
     line-height: 1;
     color: var(--site-text);
     cursor: pointer;
+    outline: none;
+    box-shadow: none;
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .site00-fast-travel__close:focus,
+  .site00-fast-travel__close:focus-visible,
+  .site00-fast-travel__close:active {
+    outline: none;
+    box-shadow: none;
+    border: none;
   }
 
   .site00-fast-travel__hero {
@@ -143,7 +172,7 @@
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--site-text-muted);
+    color: var(--site-red);
   }
 
   .site00-fast-travel__current-body {
@@ -173,7 +202,7 @@
     font-size: 0.625rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--site-red);
+    color: var(--site-text-muted);
     line-height: 1.35;
   }
 
@@ -228,6 +257,147 @@
   .site00-fast-travel__dest--primary {
     min-height: 88px;
     justify-content: flex-end;
+  }
+
+  .site00-fast-travel__dest--primary.site00-fast-travel__dest--has-mark {
+    justify-content: space-between;
+  }
+
+  .site00-fast-travel__dest--primary.site00-fast-travel__dest--has-art {
+    min-height: 148px;
+    padding-top: 6px;
+    padding-bottom: 10px;
+    justify-content: space-between;
+    gap: 6px;
+  }
+
+  .site00-fast-travel__dest--up-next {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .site00-fast-travel__up-next-index {
+    position: absolute;
+    top: 6px;
+    left: 8px;
+    font-family: var(--site00-font-mono);
+    font-size: clamp(2.25rem, 11vw, 3rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: rgba(0, 0, 0, 0.055);
+    pointer-events: none;
+    user-select: none;
+    z-index: 3;
+  }
+
+  .site00-fast-travel__up-next-registration {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    width: clamp(17px, 4.8vw, 21px);
+    height: clamp(17px, 4.8vw, 21px);
+    color: var(--site-red);
+    overflow: visible;
+    pointer-events: none;
+    z-index: 4;
+  }
+
+  .site00-fast-travel__dest--up-next .site00-fast-travel__dest-art,
+  .site00-fast-travel__dest--up-next .site00-fast-travel__dest-mark,
+  .site00-fast-travel__dest--up-next .site00-fast-travel__dest-panel-icon {
+    position: relative;
+    z-index: 1;
+  }
+
+  .site00-fast-travel__dest--up-next .site00-fast-travel__dest-copy {
+    position: relative;
+    z-index: 5;
+  }
+
+  .site00-fast-travel__dest-art {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 72px;
+    max-height: 100px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .site00-fast-travel__dest-art__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: 100px;
+    object-fit: contain;
+    object-position: center;
+    pointer-events: none;
+  }
+
+  .site00-fast-travel__dest-art--idnty-entry {
+    transform: translateY(4px);
+  }
+
+  .site00-fast-travel__dest--sign-in .site00-fast-travel__dest-mark.site00-orbital-mark {
+    width: 40px;
+    aspect-ratio: 2 / 3;
+    height: auto;
+    margin: 0;
+    align-self: flex-start;
+    flex-shrink: 0;
+  }
+
+  .site00-fast-travel__dest--sign-in .site00-orbital-mark__img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .site00-fast-travel__dest--idnty .site00-fast-travel__dest-panel-icon.site00-origin-card__icon {
+    width: 40px;
+    height: 40px;
+    align-self: flex-start;
+    flex-shrink: 0;
+  }
+
+  .site00-fast-travel__dest--list {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .site00-fast-travel__dest--list .site00-fast-travel__dest-copy {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .site00-fast-travel__dest-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    flex-shrink: 0;
+    color: var(--site-red);
+    transition: transform 180ms var(--site-ease);
+  }
+
+  .site00-fast-travel__dest-arrow-svg {
+    display: block;
+    flex-shrink: 0;
+    color: var(--site-red);
+  }
+
+  .site00-fast-travel__dest-arrow-svg path {
+    stroke: var(--site-red, #e8192c);
+  }
+
+  .site00-fast-travel__dest--list:active .site00-fast-travel__dest-arrow {
+    transform: translateX(3px);
   }
 
   .site00-fast-travel__dest-label {

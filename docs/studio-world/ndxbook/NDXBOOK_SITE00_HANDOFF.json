@@ -1,0 +1,118 @@
+{
+  "handoffVersion": "1.0.0",
+  "sourceRepository": "yoteenz/fsbw",
+  "sourcePath": "docs/studio-world/ndxbook/NDXBOOK_SITE00_HANDOFF.json",
+  "recoveredAt": "2026-08-20",
+  "targetOrganization": {
+    "slug": "ndxbook",
+    "uuid": "7681ab75-bddc-43e5-b594-79fcf8168205"
+  },
+  "classification": "PORTABLE_INTELLIGENCE_ONLY",
+  "secretsEligible": false,
+  "brand": {
+    "publicName": "ndxbook",
+    "displayName": "NDXBOOK",
+    "internalName": "index book",
+    "positioning": "the index for everyday knowledge.",
+    "promise": "every page makes you smarter.",
+    "description": "ndxbook is an educational media brand built as the index for everyday knowledge. It publishes highly engaging short-form content that helps people understand money, health, psychology, AI, technology, consumer intelligence, & modern life.",
+    "internalMeaning": "ndxbook = index book",
+    "nameStylingRule": "NORMAL COPY / UI: ndxbook; DISPLAY / LOGO: NDXBOOK"
+  },
+  "taxonomy": {
+    "video": "pages",
+    "pillar": "volumes",
+    "category": "chapters",
+    "series": "collections",
+    "audience": "readers"
+  },
+  "voice": {
+    "traits": ["clear", "curious", "sharp", "useful", "slightly mysterious"],
+    "avoid": ["preachy", "childish", "overly academic", "fearmongering"],
+    "copyBehavior": ["short hooks", "fast explanations", "simple language", "specific examples", "no filler"],
+    "pageQuestions": ["What is this?", "Why does it matter?", "What should the reader do or remember?"]
+  },
+  "contentStructure": {
+    "volumes": [
+      { "code": "01", "name": "MONEY", "chapters": ["budgeting", "credit", "banking", "investing", "taxes", "retirement", "side hustles", "passive income", "financial scams"] },
+      { "code": "02", "name": "BODY", "chapters": ["health myths", "nutrition", "fitness", "sleep", "mental wellness", "supplements", "healthy habits", "medical misconceptions"] },
+      { "code": "03", "name": "MIND", "chapters": ["habits", "psychology", "body language", "relationships", "communication", "decision making", "productivity", "cognitive biases", "human behavior"] },
+      { "code": "04", "name": "TECH", "chapters": ["AI tools", "automation", "software", "cybersecurity", "gadgets", "digital productivity", "future technology"] },
+      { "code": "05", "name": "CONSUMER", "chapters": ["consumer rights", "shopping strategies", "travel", "subscriptions", "insurance", "warranties", "hidden fees", "online safety", "everyday money-saving strategies"] }
+    ]
+  },
+  "programmingCadence": [
+    { "day": "Monday", "label": "Money Monday", "volumes": ["MONEY"] },
+    { "day": "Tuesday", "label": "Truth Tuesday", "volumes": ["BODY", "MIND"] },
+    { "day": "Wednesday", "label": "Workflow Wednesday", "volumes": ["TECH"] },
+    { "day": "Thursday", "label": "Smart Living Thursday", "volumes": ["CONSUMER"] },
+    { "day": "Friday", "label": "Future Friday", "volumes": ["TECH", "INNOVATION"] }
+  ],
+  "businessModel": {
+    "concept": "indexed educational short-form media",
+    "productService": "short-form pages organized into volumes and chapters, with multi-platform distribution derivatives",
+    "valueProposition": "the index for everyday knowledge."
+  },
+  "launchState": {
+    "state": "PRE_LAUNCH_PILOT",
+    "canonicalPublishedPages": 0,
+    "startingPage": "PAGE_001"
+  },
+  "founderConfirmed": {
+    "targetAudience": "Curious adults seeking practical, useful knowledge that makes modern life easier to understand and navigate.",
+    "ageRange": "UNSPECIFIED / EVIDENCE_TO_BE_LEARNED",
+    "primaryObjective": "Prove the complete NDXbook content operating pipeline through Instagram: intelligence → concept → production → approval → distribution → measurement → learning",
+    "secondaryObjectives": ["establish launch awareness", "begin developing returning-reader habit"],
+    "monetization": "DEFERRED",
+    "visualDnaStatus": "NOT_APPROVED_AS_CANON",
+    "instagramAccountDisposition": "INTENDED_CANONICAL_PILOT_ACCOUNT"
+  },
+  "rejectedDemoData": {
+    "metrics": { "currentReaders": 12400, "targetReaders": 100000, "classification": "DEMO_OBSOLETE" },
+    "audienceAgeRange": { "min": 25, "max": 45, "classification": "DEMO_OBSOLETE" },
+    "legacyPages": { "range": "019-042", "classification": "REFERENCE_ARCHIVE_NON_CANONICAL" },
+    "publicationHistory": ["dist-ndx-page-042", "dist-ndx-money-monday-12", "dist-ndx-social-cuts", "VOLUME 3 LAUNCH"],
+    "laceMasteryRoute": { "path": "/ndxbook/lace-mastery/cutting-your-lace", "classification": "MISATTRIBUTED_NOT_NDXBOOK_CANON" }
+  },
+  "referenceOnly": {
+    "visualDnaPlaceholder": {
+      "colors": ["#6366F1", "#0F172A", "#F8FAFC"],
+      "attributes": ["editorial", "intelligent", "modern", "clean", "high contrast", "slightly futuristic", "trustworthy", "slightly mysterious"],
+      "classification": "REFERENCE_PLACEHOLDER"
+    },
+    "monetizationHypotheses": ["sponsorship", "affiliate", "premium volumes"],
+    "ctaRecovered": ["INDIGO CTA", "READ PAGE", "SUBSCRIBE"],
+    "page001LegacyAssets": {
+      "topic": "credit score / debt payoff",
+      "classification": "REFERENCE_CONTENT_NOT_PUBLICATION_APPROVED"
+    }
+  },
+  "instagramReconciliation": {
+    "pageName": "Ndxbook",
+    "pageId": "1253535611171453",
+    "instagramBusinessAccountId": "17841443306051610",
+    "note": "Safe identifiers for account matching only — no credentials"
+  },
+  "page001": {
+    "pageNumber": "001",
+    "topic": "credit score / debt payoff",
+    "volume": "MONEY",
+    "programmingDayNote": "Volume taxonomy MONEY — not forced into Truth Tuesday",
+    "contentState": "DRAFT_REFERENCE_IMPORTED",
+    "publicationApproval": "NOT_APPROVED",
+    "visualApproval": "NOT_APPROVED",
+    "scriptApproval": "NOT_APPROVED",
+    "distribution": "NOT_DISPATCHED",
+    "destination": "INSTAGRAM"
+  },
+  "platformRegistry": ["Instagram", "TikTok", "YouTube Shorts", "Facebook", "Threads", "X", "Pinterest"],
+  "pilotPolicy": {
+    "automationMode": "MANUAL",
+    "humanApprovalRequired": true,
+    "autonomousPublishing": false,
+    "crossPosting": false,
+    "paidPromotion": "DEFERRED",
+    "instagramChannel": "ACTIVE_PILOT_CHANNEL",
+    "otherPlatforms": "LOCKED_DURING_INITIAL_PILOT"
+  }
+}
