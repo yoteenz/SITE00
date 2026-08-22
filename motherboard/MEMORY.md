@@ -2421,3 +2421,13 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 - **Branch:** `cursor/calibration-frozen-steps-4f59`.
 
+---
+
+## 2026-08-22 — Calibration stuck at 06/06 instead of 08/08
+
+- **Symptom:** Founder on NDXBOOK calibration step 6 saw **06/06** (contradiction tensions) instead of **06/08**; stale frozen sessions dropped `lineage` + `now` when REFERENCE domain partially satisfied by `objects` answer.
+
+- **Fix:** `calibrationScopeDomains()` keeps all domains with saved answers in scope; `mergeCanonicalCalibrationStepIds()` expands frozen sessions (never shrinks); localStorage bumped to **v3**; NDXBOOK reconciled profile verified as **8 lore steps**.
+
+- **Branch:** `cursor/calibration-full-eight-steps-4f59`.
+
