@@ -82,7 +82,7 @@ import {
 import { generateNdxbookVisualAssetPass } from '../_lib/site00Evolve/creativeDirection/assetGeneration.js';
 import { completeNdxbookV1Directions } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/directionCompletionService.js';
 import { runSixDirectionProductionPipeline } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/sixDirectionProductionOrchestrator.js';
-import { runMarkedUpCopyBoardPilotV2 } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/markedUpCopyBoardPilotV2.js';
+import { runMarkedUpCopyBoardPilotV3 } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/markedUpCopyBoardPilotV3.js';
 import {
   getLatestProductionJob,
   getProductionJobById,
@@ -497,7 +497,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           if (orgSlug !== 'ndxbook') {
             return res.status(400).json({ error: 'NDXBOOK_ONLY' });
           }
-          const result = await runMarkedUpCopyBoardPilotV2({
+          const result = await runMarkedUpCopyBoardPilotV3({
             orgSlug,
             dryRun: body.dryRun === true,
           });

@@ -212,12 +212,18 @@ export function FormedCoreDirectionReview({
             creativeBoard &&
             (creativeBoard.presentationMode === 'BOARD_PRODUCTION' ||
               creativeBoard.presentationMode === 'BOARD_READY' ||
-              creativeBoard.boardPlanVersion.includes('pilot-v2'));
+              creativeBoard.boardPlanVersion.includes('pilot-v2') ||
+              creativeBoard.boardPlanVersion.includes('pilot-v3'));
           const showBoardFirst =
             isMarkedUpCopyBoard &&
             creativeBoard?.founderVisible &&
             creativeBoard.productionState === 'READY';
           const showBoardRefining = Boolean(isMarkedUpCopyBoard && !showBoardFirst);
+          const boardVersionLabel = creativeBoard?.boardPlanVersion.includes('pilot-v3')
+            ? 'V3'
+            : creativeBoard?.boardPlanVersion.includes('pilot-v2')
+              ? 'V2'
+              : '';
 
           return (
             <article key={`${direction.directionId}-${comparisonIndex}`} className="site00-cd__formed-card">
@@ -236,12 +242,20 @@ export function FormedCoreDirectionReview({
               </div>
 
               {showBoardFirst && creativeBoard ? (
-                <CreativeDirectionBoardView board={creativeBoard} defaultBreakpoint="mobile" />
+                <>
+                  {creativeBoard.founderVisualApproval === 'PENDING' ? (
+                    <p className="site00-cd__formed-proof site00-cd__formed-proof--refining" role="status">
+                      FOUNDER VISUAL REVIEW · PENDING
+                    </p>
+                  ) : null}
+                  <CreativeDirectionBoardView board={creativeBoard} defaultBreakpoint="mobile" />
+                </>
               ) : null}
 
               {showBoardRefining && creativeBoard ? (
                 <p className="site00-cd__formed-proof site00-cd__formed-proof--refining">
                   CREATIVE BOARD REFINING — {creativeBoard.productionState.replace(/_/g, ' ')}
+                  {boardVersionLabel ? ` · ${boardVersionLabel}` : ''}
                   {creativeBoard.qaScoreReport?.result
                     ? ` · QA ${creativeBoard.qaScoreReport.result}`
                     : ''}
