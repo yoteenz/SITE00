@@ -21,14 +21,14 @@ function codeNativeTypographyLayer(map: BoardCompositionMap): string {
   const zone = map.placements.find((p) => p.zoneId === 'typographicInterruption');
   if (!zone) return '';
   const { x, y, width } = zone;
-  const headline = 'THE RANKING IS THE ARGUMENT';
-  const struck = 'CLEAN TAKE PUBLISHING IS DEAD';
-  const replacement = 'WORKING DRAFT WITH MARGIN WARS';
-  const margin = '← disagree? show your receipts';
+  const headline = 'THE CLAIM IS STILL BEING ARGUED';
+  const struck = 'PUBLISH THE CLEAN VERSION';
+  const replacement = 'SHOW THE MARGIN WARS INSTEAD';
+  const margin = '← prior reader disagrees — prove it';
   return `
   <g id="typographic-interruption">
     <rect x="${x}" y="${y}" width="${width}" height="${zone.height}" fill="none"/>
-    <text x="${x + 8}" y="${y + 36}" font-family="Georgia, serif" font-size="11" fill="#c41e3a" letter-spacing="3">NDX BOOK · ISSUE 01 / PAGE 07</text>
+    <text x="${x + 8}" y="${y + 36}" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#c41e3a" letter-spacing="2">WORKING DRAFT · REVISION IN PROGRESS</text>
     <text x="${x + 8}" y="${y + 72}" font-family="Georgia, serif" font-size="28" fill="#111">${escapeXml(headline)}</text>
     <text x="${x + 8}" y="${y + 108}" font-family="Helvetica, Arial, sans-serif" font-size="18" fill="#888" text-decoration="line-through">${escapeXml(struck)}</text>
     <rect x="${x + 8}" y="${y + 118}" width="${Math.min(width - 16, 320)}" height="32" fill="#fff8e7" stroke="#e8dcc8"/>
@@ -46,9 +46,9 @@ function codeNativeSocialLayer(map: BoardCompositionMap): string {
   <g id="social-expression">
     <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="8" fill="#faf9f7" stroke="#ddd"/>
     <text x="${x + 12}" y="${y + 24}" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#888">SOCIAL · LIVE EDIT</text>
-    <text x="${x + 12}" y="${y + 48}" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#111">We ranked this before the room agreed.</text>
-    <text x="${x + 12}" y="${y + 68}" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#888" text-decoration="line-through">Final list locked.</text>
-    <text x="${x + 12}" y="${y + 88}" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#c41e3a">List still moving — watch the margin.</text>
+    <text x="${x + 12}" y="${y + 48}" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#111">We said credit scores were fixed.</text>
+    <text x="${x + 12}" y="${y + 68}" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#888" text-decoration="line-through">Scores are locked forever.</text>
+    <text x="${x + 12}" y="${y + 88}" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#c41e3a">Still moving — someone crossed that out.</text>
   </g>`;
 }
 
@@ -56,7 +56,7 @@ function codeNativeMotionLayer(map: BoardCompositionMap): string {
   const zone = map.placements.find((p) => p.zoneId === 'motionSeedStrip');
   if (!zone) return '';
   const { x, y, width, height } = zone;
-  const frames = ['CLEAN', 'STRIKE', 'REPLACE', 'MARGIN', 'FINAL'];
+  const frames = ['CLEAN', 'STRIKE', 'REPLACE', 'MARGIN', 'LIVE'];
   const fw = width / frames.length - 4;
   return `
   <g id="motion-seed">

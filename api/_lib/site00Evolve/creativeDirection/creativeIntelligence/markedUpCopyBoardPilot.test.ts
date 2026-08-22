@@ -131,7 +131,7 @@ describe('Board compositor', () => {
     });
     const svg = composeBoardSvg({ plan, map: plan.desktopMap, assets: [] });
     expect(svg).toContain('typographic-interruption');
-    expect(svg).toContain('NDX BOOK');
+    expect(svg).toContain('THE CLAIM IS STILL BEING ARGUED');
     expect(svg).toContain('text-decoration="line-through"');
     expect(svg).toContain('motion-seed');
   });

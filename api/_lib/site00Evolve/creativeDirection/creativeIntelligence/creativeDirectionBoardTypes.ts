@@ -7,6 +7,117 @@ import type { RenderingMediumRecommendation } from './types.js';
 
 export const MARKED_UP_COPY_DIRECTION_NAME = 'THE MARKED-UP COPY';
 export const MARKED_UP_COPY_BOARD_PLAN_VERSION = 'marked-up-copy-pilot-v1';
+export const MARKED_UP_COPY_BOARD_PLAN_VERSION_V2 = 'marked-up-copy-pilot-v2';
+
+export const FAL_REFERENCE_EDIT_MODEL = 'fal-ai/nano-banana-pro/edit';
+export const FAL_TEXT_TO_IMAGE_MODEL = 'fal-ai/nano-banana-pro';
+
+export type TextOwnership = 'CODE_NATIVE' | 'SVG_NATIVE' | 'FAL_FORBIDDEN' | 'HYBRID_OVERLAY';
+
+export type BoardPresentationMode = 'LEGACY_PROOF' | 'BOARD_PRODUCTION' | 'BOARD_READY';
+
+export type CreativeDirectionBoardArtDirection = {
+  boardStory: string;
+  firstRead: string;
+  secondRead: string;
+  thirdRead: string;
+  signatureMoment: string;
+  visualHierarchy: string;
+  compositionBehavior: string;
+  negativeSpaceStrategy: string;
+  imageLanguageApplication: string;
+  materialApplication: string;
+  typographicBehavior: string;
+  graphicGrammar: string;
+  annotationGrammar: string;
+  artifactBehavior: string;
+  socialBehavior: string;
+  motionBehavior: string;
+  referenceApplication: string[];
+  antiGenericRules: string[];
+  antiCousinRules: string[];
+  lineage: {
+    provider: string;
+    model: string;
+    promptVersion: string;
+    inputFingerprint: string;
+    outputHash: string;
+    createdAt: string;
+  };
+};
+
+export type ResolvedBoardReference = {
+  referenceId: string;
+  assetId: string;
+  source: 'SUPABASE_MANIFEST' | 'BOARD_V1_ASSET' | 'BRAND_LORE';
+  storagePath: string;
+  publicUrl: string;
+  mimeType: string;
+  width: number;
+  height: number;
+  founderNote: string;
+  referenceRole: string;
+};
+
+export type BoardReferenceCrop = {
+  cropId: string;
+  sourceReferenceId: string;
+  sourceX: number;
+  sourceY: number;
+  cropWidth: number;
+  cropHeight: number;
+  purpose: string;
+  boardZone: BoardZoneId;
+  influencedAssetIds: string[];
+  storagePath: string;
+  publicUrl: string;
+};
+
+export type BoardReferenceInfluenceEdge = {
+  referenceId: string;
+  cropId?: string;
+  trait: string;
+  boardZone: BoardZoneId;
+  assetManifestId: string;
+  application: 'FAL_REFERENCE_CONDITIONED' | 'CODE_NATIVE' | 'COMPOSITION_MAP' | 'HYBRID_OVERLAY';
+};
+
+export type BoardAssetInspectionReport = {
+  conceptFit: number;
+  roleFit: number;
+  referenceFidelity: number;
+  compositionUsability: number;
+  stockLikeness: number;
+  unwantedText: boolean;
+  unwantedLogo: boolean;
+  malformedObjects: boolean;
+  cropUsability: number;
+  materialFidelity: number;
+  directionSpecificity: number;
+  decision: 'ACCEPT' | 'REJECT' | 'NEEDS_HUMAN_REVIEW';
+  reasons: string[];
+  visionInspected: boolean;
+};
+
+export type BoardQaScoreReport = {
+  CONCEPT_IMMEDIACY: number;
+  BRAND_SPECIFICITY: number;
+  REFERENCE_TRANSLATION: number;
+  COMPOSITION_INTENT: number;
+  SYSTEM_EXTENSIBILITY: number;
+  TYPOGRAPHIC_INTEGRITY: number;
+  MATERIAL_RELEVANCE: number;
+  SOCIAL_APPLICABILITY: number;
+  MOTION_COHERENCE: number;
+  NON_STOCK_DISTINCTIVENESS: number;
+  total: number;
+  WORDMARK_REMOVAL_TEST: 'PASS' | 'FAIL';
+  GENERIC_STOCK_TEST: 'PASS' | 'FAIL';
+  DIRECTION_CONTAMINATION_TEST: 'PASS' | 'FAIL';
+  REFERENCE_TRANSLATION_TEST: 'PASS' | 'FAIL';
+  result: 'PASS' | 'FAIL' | 'NEEDS_HUMAN_REVIEW';
+  notes: string[];
+};
 
 export type BoardZoneId =
   | 'heroEditorialSpread'
@@ -92,6 +203,8 @@ export type BoardAssetManifestEntry = {
   classification: BoardAssetClassification;
   generationMethod: RenderingMediumRecommendation;
   referenceInputs: string[];
+  referenceCropIds?: string[];
+  textOwnership?: TextOwnership;
   backgroundTreatment: 'FULL_BLEED' | 'NEUTRAL_REMOVABLE' | 'TRANSPARENT' | 'CODE_FIELD';
   backgroundRemovalRequired: boolean;
   edgeTreatment: 'NOT_APPLICABLE' | 'PAPER_CLEAN' | 'HARD_ALPHA';
@@ -116,7 +229,11 @@ export type CreativeDirectionBoardPlan = {
   thesis: string;
   governingBehavior: string;
   artDirection: BoardArtDirectionSpec;
+  dynamicArtDirection?: CreativeDirectionBoardArtDirection;
   referenceDecompositions: BoardReferenceDecomposition[];
+  resolvedReferences?: ResolvedBoardReference[];
+  referenceCrops?: BoardReferenceCrop[];
+  referenceInfluenceGraph?: BoardReferenceInfluenceEdge[];
   desktopMap: BoardCompositionMap;
   mobileMap: BoardCompositionMap;
   assetManifest: BoardAssetManifestEntry[];
@@ -156,11 +273,14 @@ export type BoardAssetRecord = {
   model?: string;
   promptHash: string;
   referenceHash: string;
+  referenceImageInputs?: string[];
+  inspectionReport?: BoardAssetInspectionReport;
   qaState: 'ACCEPT' | 'REJECT' | 'NEEDS_HUMAN_REVIEW';
   productionState: BoardAssetProductionState;
   backgroundRemovalRequired: boolean;
   iteration: number;
   inspectionNotes: string[];
+  rejectionReason?: string;
   createdAt: string;
 };
 
@@ -199,9 +319,46 @@ export type CreativeDirectionBoard = {
   motionProofStoragePath?: string;
   assetRecords: BoardAssetRecord[];
   qaReport: BoardQaReport;
+  qaScoreReport?: BoardQaScoreReport;
+  presentationMode?: BoardPresentationMode;
   founderVisible: boolean;
   productionState: 'READY' | 'NEEDS_HUMAN_REVIEW' | 'FAILED';
   createdAt: string;
+};
+
+export type MarkedUpCopyBoardPilotV2Result = {
+  status:
+    | 'PASS'
+    | 'FAIL'
+    | 'NEEDS_HUMAN_REVIEW'
+    | 'PILOT_BLOCKED_ON_DIRECTION_COMPLETION'
+    | 'REVISE_METHODOLOGY';
+  plan: CreativeDirectionBoardPlan | null;
+  board: CreativeDirectionBoard | null;
+  directionCompletion: {
+    missingFieldsBefore: string[];
+    completionExecuted: boolean;
+    fieldsCompleted: string[];
+    fieldCompletenessAfter: boolean;
+    immutableAnchorsPreserved: boolean;
+  };
+  anthropic: {
+    completionRequests: number;
+    artDirectionRequests: number;
+    visionRequests: number;
+    inputTokens: number;
+    outputTokens: number;
+    estimatedCostUsd: number;
+  };
+  fal: {
+    referenceConditionedRequests: number;
+    textToImageRequests: number;
+    backgroundRemovalRequests: number;
+    regenerations: number;
+    rejectedGenerations: number;
+    estimatedCostUsd: number;
+  };
+  otherDirectionsTouched: false;
 };
 
 export type MarkedUpCopyBoardPilotResult = {

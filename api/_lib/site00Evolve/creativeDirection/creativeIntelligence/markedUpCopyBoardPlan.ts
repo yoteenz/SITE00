@@ -32,7 +32,7 @@ function placement(
   return { zoneId, ...partial };
 }
 
-function desktopMap(): BoardCompositionMap {
+export function desktopMap(): BoardCompositionMap {
   return {
     canvasWidth: 1440,
     canvasHeight: 900,
@@ -131,7 +131,7 @@ function desktopMap(): BoardCompositionMap {
   };
 }
 
-function mobileMap(): BoardCompositionMap {
+export function mobileMap(): BoardCompositionMap {
   return {
     canvasWidth: 390,
     canvasHeight: 780,

@@ -93,9 +93,11 @@ export function storagePathForBoardAsset(params: {
   manifestId: string;
   iteration: number;
   ext: 'webp' | 'svg' | 'png';
+  boardPlanVersion?: string;
 }): string {
   const iter = params.iteration > 0 ? `_i${params.iteration}` : '';
-  return `site00/creative-direction/ndxbook/boards/${String(params.comparisonIndex).padStart(2, '0')}/${params.manifestId}${iter}.${params.ext}`;
+  const versionDir = params.boardPlanVersion?.includes('pilot-v2') ? 'v2/' : '';
+  return `site00/creative-direction/ndxbook/boards/${String(params.comparisonIndex).padStart(2, '0')}/${versionDir}${params.manifestId}${iter}.${params.ext}`;
 }
 
 export function storagePathForFinalBoard(params: {
@@ -112,12 +114,12 @@ export function groupBoardsByDirection(
   comparisonSetKey: string,
 ): Record<string, CreativeDirectionBoard> {
   const grouped: Record<string, CreativeDirectionBoard> = {};
-  for (const board of boards) {
-    if (board.comparisonSetKey !== comparisonSetKey) continue;
-    if (board.directionName !== MARKED_UP_COPY_DIRECTION_NAME) continue;
-    if (board.productionState !== 'READY' && board.productionState !== 'NEEDS_HUMAN_REVIEW') continue;
-    if (!board.founderVisible) continue;
-    grouped[board.directionId] = board;
+  const forSet = boards.filter((b) => b.comparisonSetKey === comparisonSetKey && b.directionName === MARKED_UP_COPY_DIRECTION_NAME);
+  const v2 = forSet.filter((b) => b.boardPlanVersion.includes('pilot-v2'));
+  const preferred = v2.length ? v2 : forSet;
+  const best = preferred.sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0];
+  if (best && (best.founderVisible || best.presentationMode === 'BOARD_PRODUCTION' || best.presentationMode === 'BOARD_READY')) {
+    grouped[best.directionId] = best;
   }
   return grouped;
 }

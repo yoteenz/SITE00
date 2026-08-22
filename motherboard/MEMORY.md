@@ -2730,6 +2730,18 @@ Summary: Methodology correction sprint — validate board-first Creative Directi
 
 ---
 
+## 2026-08-22 — THE MARKED-UP COPY board engine v2 repair + reference-conditioned regeneration
+
+Summary: Remediation sprint implemented board engine v2 (not audit-only). Direction completion gate, reference file resolution from Supabase manifests, physical reference crops (sharp), influence graph, dynamic art direction service (Sonnet when configured; fallback from completed direction intelligence), reference-conditioned FAL via `fal-ai/nano-banana-pro/edit`, asset inspection gate (heuristic + optional Anthropic vision), hybrid primary artifact compositor, 0–5 board QA scoring, copy contract banning sibling-direction language, founder UI legacy isolation (`CREATIVE BOARD REFINING` vs proof slots).
+
+- **Runtime pilot v2:** `marked-up-copy-pilot-v2` board PASS 49/50, `founderVisible=true`, QA all dimensions ≥4. Reference crops REF-COMP-01, REF-ANNOT-01, REF-MAT-01, REF-PHOTO-01 persisted. v1 FAL assets reinspected and reused under v2 QA where passing; v2 storage paths under `boards/01/v2/`.
+- **Direction completion:** loreLineage backfilled (deterministic from formationInput when Anthropic unavailable); `fieldCompleteness.complete=true`.
+- **Admin action:** `creative_direction_marked_up_copy_board_pilot` now runs v2 orchestrator. Script: `scripts/runMarkedUpCopyBoardPilotV2.ts`.
+- **Tests:** 804 passing (+7 v2 tests). Branch `cursor/marked-up-copy-board-v2-repair-4f59`.
+- **Known gaps:** Anthropic vision QA not exercised this run (no API key in cloud agent); dynamic art direction used deterministic fallback enriched from completed direction fields; most FAL layers reused from v1 after reinspection — fresh reference-conditioned FAL edit calls not required on reuse path.
+
+---
+
 ## 2026-08-22 — Background production jobs + export fix (PR #236)
 
 Summary: Founder reported Step 1 module export error and Step 2 EVOLVE API 404 on fsbw-dev; blocking sync requests impractical on mobile.

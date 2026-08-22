@@ -207,10 +207,17 @@ export function FormedCoreDirectionReview({
           const proofState = plan ? 'planned' : status === 'READY_FOR_VISUAL_PRODUCTION' ? 'planned' : 'blocked';
           const directionProofs = proofAssetsByDirection[direction.directionId] ?? {};
           const creativeBoard = creativeDirectionBoardsByDirection[direction.directionId];
-          const showBoardFirst =
+          const isMarkedUpCopyBoard =
             direction.directionName === MARKED_UP_COPY_DIRECTION_NAME &&
+            creativeBoard &&
+            (creativeBoard.presentationMode === 'BOARD_PRODUCTION' ||
+              creativeBoard.presentationMode === 'BOARD_READY' ||
+              creativeBoard.boardPlanVersion.includes('pilot-v2'));
+          const showBoardFirst =
+            isMarkedUpCopyBoard &&
             creativeBoard?.founderVisible &&
             creativeBoard.productionState === 'READY';
+          const showBoardRefining = Boolean(isMarkedUpCopyBoard && !showBoardFirst);
 
           return (
             <article key={`${direction.directionId}-${comparisonIndex}`} className="site00-cd__formed-card">
@@ -232,7 +239,16 @@ export function FormedCoreDirectionReview({
                 <CreativeDirectionBoardView board={creativeBoard} defaultBreakpoint="mobile" />
               ) : null}
 
-              {!showBoardFirst ? (
+              {showBoardRefining && creativeBoard ? (
+                <p className="site00-cd__formed-proof site00-cd__formed-proof--refining">
+                  CREATIVE BOARD REFINING — {creativeBoard.productionState.replace(/_/g, ' ')}
+                  {creativeBoard.qaScoreReport?.result
+                    ? ` · QA ${creativeBoard.qaScoreReport.result}`
+                    : ''}
+                </p>
+              ) : null}
+
+              {!showBoardFirst && !showBoardRefining ? (
                 <>
                   <ProofSlot
                     label="HERO WORLD"

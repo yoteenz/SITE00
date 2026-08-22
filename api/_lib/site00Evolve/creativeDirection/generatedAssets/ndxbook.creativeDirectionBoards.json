@@ -31,8 +31,11 @@
         "productionState": "READY",
         "backgroundRemovalRequired": false,
         "iteration": 0,
-        "inspectionNotes": ["FAL generation succeeded — asset-role-specific prompt"],
-        "createdAt": "2026-08-22T20:19:21.272Z"
+        "inspectionNotes": [
+          "FAL generation succeeded \u2014 asset-role-specific prompt"
+        ],
+        "createdAt": "2026-08-22T20:19:21.272Z",
+        "referenceImageInputs": []
       },
       {
         "assetId": "2dced653-57f4-45cc-8801-14e294439e86",
@@ -54,10 +57,11 @@
         "backgroundRemovalRequired": true,
         "iteration": 0,
         "inspectionNotes": [
-          "FAL generation succeeded — asset-role-specific prompt",
-          "Background removal applied — overlap-ready alpha"
+          "FAL generation succeeded \u2014 asset-role-specific prompt",
+          "Background removal applied \u2014 overlap-ready alpha"
         ],
-        "createdAt": "2026-08-22T20:19:48.100Z"
+        "createdAt": "2026-08-22T20:19:48.100Z",
+        "referenceImageInputs": []
       },
       {
         "assetId": "2c8ad008-c133-4910-86a0-18a34d85e229",
@@ -78,8 +82,11 @@
         "productionState": "READY",
         "backgroundRemovalRequired": false,
         "iteration": 0,
-        "inspectionNotes": ["FAL generation succeeded — asset-role-specific prompt"],
-        "createdAt": "2026-08-22T20:20:17.754Z"
+        "inspectionNotes": [
+          "FAL generation succeeded \u2014 asset-role-specific prompt"
+        ],
+        "createdAt": "2026-08-22T20:20:17.754Z",
+        "referenceImageInputs": []
       },
       {
         "assetId": "d60b22ca-2dd2-418f-b031-5df2afe53a92",
@@ -101,10 +108,11 @@
         "backgroundRemovalRequired": true,
         "iteration": 0,
         "inspectionNotes": [
-          "FAL generation succeeded — asset-role-specific prompt",
-          "Background removal applied — overlap-ready alpha"
+          "FAL generation succeeded \u2014 asset-role-specific prompt",
+          "Background removal applied \u2014 overlap-ready alpha"
         ],
-        "createdAt": "2026-08-22T20:20:44.438Z"
+        "createdAt": "2026-08-22T20:20:44.438Z",
+        "referenceImageInputs": []
       },
       {
         "assetId": "70176f6c-4c05-4af8-9698-270a80a3d698",
@@ -124,8 +132,11 @@
         "productionState": "READY",
         "backgroundRemovalRequired": false,
         "iteration": 0,
-        "inspectionNotes": ["Code-native asset composed deterministically"],
-        "createdAt": "2026-08-22T20:20:44.553Z"
+        "inspectionNotes": [
+          "Code-native asset composed deterministically"
+        ],
+        "createdAt": "2026-08-22T20:20:44.553Z",
+        "referenceImageInputs": []
       },
       {
         "assetId": "9dd89dd4-286c-462c-8845-5320ac424658",
@@ -145,8 +156,11 @@
         "productionState": "READY",
         "backgroundRemovalRequired": false,
         "iteration": 0,
-        "inspectionNotes": ["Code-native asset composed deterministically"],
-        "createdAt": "2026-08-22T20:20:44.664Z"
+        "inspectionNotes": [
+          "Code-native asset composed deterministically"
+        ],
+        "createdAt": "2026-08-22T20:20:44.664Z",
+        "referenceImageInputs": []
       }
     ],
     "qaReport": {
@@ -163,10 +177,326 @@
       "wordmarkRemovalRecognition": true,
       "stockImageRejection": true,
       "result": "NEEDS_HUMAN_REVIEW",
-      "notes": ["Automated gate passed structural checks — founder visual QA required before PASS"]
+      "notes": [
+        "Automated gate passed structural checks \u2014 founder visual QA required before PASS"
+      ]
     },
     "founderVisible": false,
     "productionState": "NEEDS_HUMAN_REVIEW",
     "createdAt": "2026-08-22T20:20:45.104Z"
+  },
+  {
+    "boardId": "4a4771e6-e48c-4c34-b118-016821dce14f",
+    "planId": "1d56f413d02d98fc",
+    "boardPlanVersion": "marked-up-copy-pilot-v2",
+    "comparisonSetKey": "ndxbook:6-direction:v24:5e71f429",
+    "comparisonIndex": 1,
+    "directionId": "16f0a085-67a4-472f-bccc-e1d0b7598a29",
+    "directionName": "THE MARKED-UP COPY",
+    "desktopBoardStoragePath": "site00/creative-direction/ndxbook/boards/01/final-desktop-marked-up-copy-pilot-v2.svg",
+    "mobileBoardStoragePath": "site00/creative-direction/ndxbook/boards/01/final-mobile-marked-up-copy-pilot-v2.svg",
+    "socialProofStoragePath": "site00/creative-direction/ndxbook/boards/01/social-proof-marked-up-copy-pilot-v2-social.svg",
+    "motionProofStoragePath": "site00/creative-direction/ndxbook/boards/01/motion-proof-marked-up-copy-pilot-v2-motion.svg",
+    "assetRecords": [
+      {
+        "assetId": "efb81414-4d4a-48a6-93e3-e177044f2c56",
+        "manifestId": "MU01",
+        "planId": "1d56f413d02d98fc",
+        "comparisonSetKey": "ndxbook:6-direction:v24:5e71f429",
+        "directionId": "16f0a085-67a4-472f-bccc-e1d0b7598a29",
+        "directionName": "THE MARKED-UP COPY",
+        "role": "HERO_EDITORIAL_SPREAD",
+        "zoneId": "heroEditorialSpread",
+        "classification": "FAL_REFERENCE_CONDITIONED",
+        "generationMethod": "REFERENCE_CONDITIONED_GENERATION",
+        "storagePath": "site00/creative-direction/ndxbook/boards/01/v2/MU01.webp",
+        "model": "fal-ai/nano-banana-pro",
+        "promptHash": "7c19639de736adcf",
+        "referenceHash": "ref-editorial-spread-modern|REF-COMP-01",
+        "referenceImageInputs": [
+          "site00/creative-direction/ndxbook/boards/01/refs/v2/REF-COMP-01.webp"
+        ],
+        "inspectionReport": {
+          "conceptFit": 4,
+          "roleFit": 4,
+          "referenceFidelity": 4,
+          "compositionUsability": 4,
+          "stockLikeness": 2,
+          "unwantedText": false,
+          "unwantedLogo": false,
+          "malformedObjects": false,
+          "cropUsability": 4,
+          "materialFidelity": 4,
+          "directionSpecificity": 4,
+          "decision": "ACCEPT",
+          "reasons": [],
+          "visionInspected": false
+        },
+        "qaState": "ACCEPT",
+        "productionState": "READY",
+        "backgroundRemovalRequired": false,
+        "iteration": 0,
+        "inspectionNotes": [
+          "Reused v1 asset passing v2 inspection"
+        ],
+        "createdAt": "2026-08-22T20:37:22.158Z"
+      },
+      {
+        "assetId": "19c2c651-ba8a-4df1-b03b-3cb9f6bb50ee",
+        "manifestId": "MU02",
+        "planId": "1d56f413d02d98fc",
+        "comparisonSetKey": "ndxbook:6-direction:v24:5e71f429",
+        "directionId": "16f0a085-67a4-472f-bccc-e1d0b7598a29",
+        "directionName": "THE MARKED-UP COPY",
+        "role": "REPLACEMENT_PAPER_STRIP",
+        "zoneId": "primaryRevisionArtifact",
+        "classification": "HYBRID_COMPOSITION",
+        "generationMethod": "FAL_GENERATED_AND_ISOLATED",
+        "storagePath": "site00/creative-direction/ndxbook/boards/01/v2/MU02.webp",
+        "model": "fal-ai/nano-banana-pro",
+        "promptHash": "40a6e2b8561f7b19",
+        "referenceHash": "ref-live-revision-behavior|ref-material-paper|REF-ANNOT-01|REF-MAT-01",
+        "referenceImageInputs": [
+          "site00/creative-direction/ndxbook/boards/01/refs/v2/REF-ANNOT-01.webp",
+          "site00/creative-direction/ndxbook/boards/01/refs/v2/REF-MAT-01.webp"
+        ],
+        "inspectionReport": {
+          "conceptFit": 4,
+          "roleFit": 4,
+          "referenceFidelity": 4,
+          "compositionUsability": 4,
+          "stockLikeness": 2,
+          "unwantedText": false,
+          "unwantedLogo": false,
+          "malformedObjects": false,
+          "cropUsability": 4,
+          "materialFidelity": 4,
+          "directionSpecificity": 4,
+          "decision": "ACCEPT",
+          "reasons": [],
+          "visionInspected": false
+        },
+        "qaState": "ACCEPT",
+        "productionState": "READY",
+        "backgroundRemovalRequired": true,
+        "iteration": 0,
+        "inspectionNotes": [
+          "Reused v1 asset passing v2 inspection",
+          "Background removal applied"
+        ],
+        "createdAt": "2026-08-22T20:37:25.754Z"
+      },
+      {
+        "assetId": "e8d73299-7133-4b09-95d9-c622fbb55efb",
+        "manifestId": "MU03",
+        "planId": "1d56f413d02d98fc",
+        "comparisonSetKey": "ndxbook:6-direction:v24:5e71f429",
+        "directionId": "16f0a085-67a4-472f-bccc-e1d0b7598a29",
+        "directionName": "THE MARKED-UP COPY",
+        "role": "SECONDARY_PHOTOGRAPHIC_EVIDENCE",
+        "zoneId": "supportingPhotography",
+        "classification": "FAL_REFERENCE_CONDITIONED",
+        "generationMethod": "REFERENCE_CONDITIONED_GENERATION",
+        "storagePath": "site00/creative-direction/ndxbook/boards/01/v2/MU03.webp",
+        "model": "fal-ai/nano-banana-pro",
+        "promptHash": "d2b4ff323bce6d08",
+        "referenceHash": "ref-editorial-spread-modern|REF-COMP-01|REF-PHOTO-01",
+        "referenceImageInputs": [
+          "site00/creative-direction/ndxbook/boards/01/refs/v2/REF-COMP-01.webp",
+          "site00/creative-direction/ndxbook/boards/01/refs/v2/REF-PHOTO-01.webp"
+        ],
+        "inspectionReport": {
+          "conceptFit": 4,
+          "roleFit": 4,
+          "referenceFidelity": 4,
+          "compositionUsability": 4,
+          "stockLikeness": 2,
+          "unwantedText": false,
+          "unwantedLogo": false,
+          "malformedObjects": false,
+          "cropUsability": 4,
+          "materialFidelity": 4,
+          "directionSpecificity": 4,
+          "decision": "ACCEPT",
+          "reasons": [],
+          "visionInspected": false
+        },
+        "qaState": "ACCEPT",
+        "productionState": "READY",
+        "backgroundRemovalRequired": false,
+        "iteration": 0,
+        "inspectionNotes": [
+          "Reused v1 asset passing v2 inspection"
+        ],
+        "createdAt": "2026-08-22T20:37:27.215Z"
+      },
+      {
+        "assetId": "03655f39-63ff-4e20-8dba-6c92799e622f",
+        "manifestId": "MU04",
+        "planId": "1d56f413d02d98fc",
+        "comparisonSetKey": "ndxbook:6-direction:v24:5e71f429",
+        "directionId": "16f0a085-67a4-472f-bccc-e1d0b7598a29",
+        "directionName": "THE MARKED-UP COPY",
+        "role": "PHYSICAL_EDITOR_OBJECT",
+        "zoneId": "physicalEditorObject",
+        "classification": "FAL_GENERATED_AND_ISOLATED",
+        "generationMethod": "FAL_GENERATED_AND_ISOLATED",
+        "storagePath": "site00/creative-direction/ndxbook/boards/01/v2/MU04.webp",
+        "model": "fal-ai/nano-banana-pro",
+        "promptHash": "28874b6d746d9cab",
+        "referenceHash": "ref-live-revision-behavior",
+        "referenceImageInputs": [
+          "site00/creative-direction/ndxbook/index_signal/feed_index_tile.webp"
+        ],
+        "inspectionReport": {
+          "conceptFit": 4,
+          "roleFit": 4,
+          "referenceFidelity": 3,
+          "compositionUsability": 4,
+          "stockLikeness": 2,
+          "unwantedText": false,
+          "unwantedLogo": false,
+          "malformedObjects": false,
+          "cropUsability": 4,
+          "materialFidelity": 4,
+          "directionSpecificity": 4,
+          "decision": "ACCEPT",
+          "reasons": [],
+          "visionInspected": false
+        },
+        "qaState": "ACCEPT",
+        "productionState": "READY",
+        "backgroundRemovalRequired": true,
+        "iteration": 0,
+        "inspectionNotes": [
+          "Reused v1 asset passing v2 inspection",
+          "Background removal applied"
+        ],
+        "createdAt": "2026-08-22T20:37:31.987Z"
+      },
+      {
+        "assetId": "b10e6d20-8640-414a-a9c2-89fddbf51217",
+        "manifestId": "MU05",
+        "planId": "1d56f413d02d98fc",
+        "comparisonSetKey": "ndxbook:6-direction:v24:5e71f429",
+        "directionId": "16f0a085-67a4-472f-bccc-e1d0b7598a29",
+        "directionName": "THE MARKED-UP COPY",
+        "role": "SOCIAL_FRAME_SUBSTRATE",
+        "zoneId": "socialExpression",
+        "classification": "CODE_NATIVE",
+        "generationMethod": "CODE_NATIVE",
+        "storagePath": "site00/creative-direction/ndxbook/boards/01/v2/MU05.svg",
+        "promptHash": "8f7397494784154c",
+        "referenceHash": "none",
+        "referenceImageInputs": [],
+        "inspectionReport": {
+          "conceptFit": 5,
+          "roleFit": 5,
+          "referenceFidelity": 5,
+          "compositionUsability": 5,
+          "stockLikeness": 1,
+          "unwantedText": false,
+          "unwantedLogo": false,
+          "malformedObjects": false,
+          "cropUsability": 5,
+          "materialFidelity": 5,
+          "directionSpecificity": 5,
+          "decision": "ACCEPT",
+          "reasons": [
+            "Code-native asset"
+          ],
+          "visionInspected": false
+        },
+        "qaState": "ACCEPT",
+        "productionState": "READY",
+        "backgroundRemovalRequired": false,
+        "iteration": 0,
+        "inspectionNotes": [
+          "Code-native asset"
+        ],
+        "createdAt": "2026-08-22T20:37:32.121Z"
+      },
+      {
+        "assetId": "b70dac33-a9d8-4df8-b22a-fff1c620a7ea",
+        "manifestId": "MU06",
+        "planId": "1d56f413d02d98fc",
+        "comparisonSetKey": "ndxbook:6-direction:v24:5e71f429",
+        "directionId": "16f0a085-67a4-472f-bccc-e1d0b7598a29",
+        "directionName": "THE MARKED-UP COPY",
+        "role": "MOTION_KEYFRAME_SUBSTRATE",
+        "zoneId": "motionSeedStrip",
+        "classification": "SVG_NATIVE",
+        "generationMethod": "SVG_NATIVE",
+        "storagePath": "site00/creative-direction/ndxbook/boards/01/v2/MU06.svg",
+        "promptHash": "eb7fb67df746c592",
+        "referenceHash": "none",
+        "referenceImageInputs": [],
+        "inspectionReport": {
+          "conceptFit": 5,
+          "roleFit": 5,
+          "referenceFidelity": 5,
+          "compositionUsability": 5,
+          "stockLikeness": 1,
+          "unwantedText": false,
+          "unwantedLogo": false,
+          "malformedObjects": false,
+          "cropUsability": 5,
+          "materialFidelity": 5,
+          "directionSpecificity": 5,
+          "decision": "ACCEPT",
+          "reasons": [
+            "Code-native asset"
+          ],
+          "visionInspected": false
+        },
+        "qaState": "ACCEPT",
+        "productionState": "READY",
+        "backgroundRemovalRequired": false,
+        "iteration": 0,
+        "inspectionNotes": [
+          "Code-native asset"
+        ],
+        "createdAt": "2026-08-22T20:37:32.272Z"
+      }
+    ],
+    "qaReport": {
+      "conceptUnder5Seconds": true,
+      "brandWorldNotCollage": true,
+      "contemporary": true,
+      "referenceTranslation": true,
+      "hierarchy": true,
+      "negativeSpace": true,
+      "editorialFrictionStructural": true,
+      "visualRange": true,
+      "socialFirst": true,
+      "motionFromBehavior": true,
+      "wordmarkRemovalRecognition": true,
+      "stockImageRejection": true,
+      "result": "PASS",
+      "notes": []
+    },
+    "founderVisible": true,
+    "productionState": "READY",
+    "presentationMode": "BOARD_READY",
+    "createdAt": "2026-08-22T20:37:32.773Z",
+    "qaScoreReport": {
+      "CONCEPT_IMMEDIACY": 5,
+      "BRAND_SPECIFICITY": 5,
+      "REFERENCE_TRANSLATION": 5,
+      "COMPOSITION_INTENT": 5,
+      "SYSTEM_EXTENSIBILITY": 4,
+      "TYPOGRAPHIC_INTEGRITY": 5,
+      "MATERIAL_RELEVANCE": 5,
+      "SOCIAL_APPLICABILITY": 5,
+      "MOTION_COHERENCE": 5,
+      "NON_STOCK_DISTINCTIVENESS": 5,
+      "total": 49,
+      "WORDMARK_REMOVAL_TEST": "PASS",
+      "GENERIC_STOCK_TEST": "PASS",
+      "DIRECTION_CONTAMINATION_TEST": "PASS",
+      "REFERENCE_TRANSLATION_TEST": "PASS",
+      "result": "PASS",
+      "notes": []
+    }
   }
 ]
