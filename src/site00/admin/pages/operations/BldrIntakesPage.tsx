@@ -54,7 +54,7 @@ export default function BldrIntakesPage() {
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 
       {loading ? (
-        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="Loading intakes" />
+        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="LOADING INTAKES" />
       ) : (
         <section className="site00-admin-panel">
           <AdminTable

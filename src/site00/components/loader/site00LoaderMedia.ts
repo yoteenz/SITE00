@@ -19,6 +19,8 @@ export const SITE00_LOADER_REF_MAP_FILE = 'assts-loader-ref-map-v1.png';
 export const SITE00_LOADER_ENVIRONMENT_ANIMATION_MOBILE_REMOTE = 'BLDR/openart-output_1787107938282_745c8292.mp4';
 /** Approved desktop full-frame environment animation — 2560×1440 landscape. */
 export const SITE00_LOADER_ENVIRONMENT_ANIMATION_DESKTOP_REMOTE = 'BLDR/openart-output_1787109389654_e04aea07.mp4';
+/** Footer double-00 mark above red SITE 00 signature (Supabase live-preview). */
+export const SITE00_LOADER_FOOTER_MARK_REMOTE = 'LOADING/2B361A6E-863F-4CAF-AAFD-40F49205EEA2.png';
 
 /** Public project ref — live-preview bucket is intentionally public. */
 export const SITE00_PUBLIC_PROJECT_REF = 'hyycomvcaqxxvyrfupes';
@@ -54,14 +56,14 @@ export function resolveSite00LoaderMediaPresentation(): 'mobile' | 'desktop' {
   return getSite00OriginWideViewportSnapshot() ? 'desktop' : 'mobile';
 }
 
-/** Static background cover anchor — tuned down to match animation framing. */
+/** Static background cover anchor — locked center; fills viewport edge-to-edge. */
 export function resolveSite00LoaderBackgroundFocal(presentation: 'mobile' | 'desktop'): string {
   return presentation === 'desktop'
     ? SITE00_LOADER_MEDIA_FOCAL.background.desktop
     : SITE00_LOADER_MEDIA_FOCAL.background.mobile;
 }
 
-/** Animation cover anchor — locked center; bg layer is pre-shifted to meet it. */
+/** Animation cover anchor — mobile MP4 focal tuned to meet static still at center. */
 export function resolveSite00LoaderAnimationFocal(presentation: 'mobile' | 'desktop'): string {
   return presentation === 'desktop'
     ? SITE00_LOADER_MEDIA_FOCAL.animation.desktop
@@ -101,4 +103,9 @@ export function site00LoaderEnvironmentAnimationUrl(): string {
 /** @deprecated Legacy geometry preload — redirects to presentation-aware animation preload. */
 export function site00LoaderGeometryPreloadUrl(_mode: 'alpha' | 'screen' = 'alpha'): string {
   return resolveSite00LoaderAnimationPreloadUrl();
+}
+
+/** Footer double-00 mark — above red SITE 00 signature label. */
+export function resolveSite00LoaderFooterMarkUrl(): string {
+  return supabaseLivePreviewUrl(SITE00_LOADER_FOOTER_MARK_REMOTE);
 }

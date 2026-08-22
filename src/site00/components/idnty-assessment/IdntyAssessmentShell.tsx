@@ -11,6 +11,7 @@ import {
   SITE00_IDNTY_ASSESSMENT_MOBILE_BG,
 } from '../../config/idnty-assessment-env';
 import type { IdntyAssessmentStateConfig } from '../../config/idnty-assessment';
+import { getIdentityStateProgress } from '../../config/identity-state-v2';
 import { IdntyBrandStateIcon } from '../idnty/IdntyBrandStateIcon';
 import type { IdntyBrandStateIconId } from '../../config/idnty-brand-state-icons';
 
@@ -21,6 +22,8 @@ type IdntyAssessmentShellProps = {
   panel?: ReactNode;
   showProcessStrip?: boolean;
   processStrip?: ReactNode;
+  /** Mobile diagnostic V2 — white system shell, no corridor photo background */
+  mobileLayout?: 'legacy' | 'diagnostic-v2' | 'calibration';
 };
 
 function IdntyAssessmentMobileBackground() {
@@ -40,7 +43,7 @@ function IdntyIntroPanel({ state }: { state: IdntyAssessmentStateConfig }) {
   const iconId = (state.iconId ?? state.id) as IdntyBrandStateIconId;
 
   return (
-    <aside className="site00-idnty-assessment__intro" aria-label="Identity state overview">
+    <aside className="site00-idnty-assessment__intro" aria-label="IDENTITY STATE OVERVIEW">
       <div className="site00-idnty-assessment__intro-inner">
         <div className="site00-idnty-assessment__icon">
           <IdntyBrandStateIcon id={iconId} title={state.title} />
@@ -75,7 +78,7 @@ function IdntyMobileHero({ state }: { state: IdntyAssessmentStateConfig }) {
 
 export function IdntyAssessmentBreadcrumb({ label }: { label: string }) {
   return (
-    <nav className="site00-idnty-assessment__breadcrumb" aria-label="Breadcrumb">
+    <nav className="site00-idnty-assessment__breadcrumb" aria-label="BREADCRUMB">
       {label}
     </nav>
   );
@@ -87,23 +90,47 @@ export function IdntyAssessmentShell({
   panel,
   showProcessStrip = true,
   processStrip,
+  mobileLayout = 'legacy',
 }: IdntyAssessmentShellProps) {
   const isDesktopArtboard = useSite00DesktopArtboardPreview();
 
   if (!isDesktopArtboard) {
+    const isV2 = mobileLayout === 'diagnostic-v2';
+    const isCalibration = mobileLayout === 'calibration';
+    const mobileClass = [
+      'site00-idnty-assessment',
+      'site00-idnty-assessment--mobile',
+      isV2 ? 'site00-idnty-assessment--v2-mobile' : '',
+      isCalibration ? 'site00-idnty-assessment--calibration-mobile' : '',
+    ]
+      .filter(Boolean)
+      .join(' ');
+
     return (
-      <div className="site00-idnty-assessment site00-idnty-assessment--mobile">
-        <IdntyAssessmentMobileBackground />
-        <Site00MobileShell activeNav="build" showEnvironmentBackground={false} shellClassName="site00-idnty-assessment-mobile-shell">
+      <div className={mobileClass}>
+        {!isV2 ? <IdntyAssessmentMobileBackground /> : null}
+        <Site00MobileShell showEnvironmentBackground={false} shellClassName="site00-idnty-assessment-mobile-shell">
           <div className="site00-idnty-assessment__mobile-content">
-            <IdntyAssessmentBreadcrumb label={state.breadcrumb} />
-            <IdntyMobileHero state={state} />
-            {panel ? <div className="site00-idnty-assessment__panel">{panel}</div> : null}
-            {children}
-            {showProcessStrip && processStrip ? (
-              <div className="site00-idnty-assessment__process-mobile">{processStrip}</div>
-            ) : null}
-            <Site00PageFooter />
+            <IdntyAssessmentBreadcrumb
+              label={
+                isV2 || isCalibration
+                  ? `${state.breadcrumb} / ${getIdentityStateProgress(state.id).code}`
+                  : state.breadcrumb
+              }
+            />
+            {isV2 || isCalibration ? (
+              children
+            ) : (
+              <>
+                <IdntyMobileHero state={state} />
+                {panel ? <div className="site00-idnty-assessment__panel">{panel}</div> : null}
+                {children}
+                {showProcessStrip && processStrip ? (
+                  <div className="site00-idnty-assessment__process-mobile">{processStrip}</div>
+                ) : null}
+              </>
+            )}
+            {!isV2 && !isCalibration ? <Site00PageFooter /> : null}
           </div>
         </Site00MobileShell>
       </div>

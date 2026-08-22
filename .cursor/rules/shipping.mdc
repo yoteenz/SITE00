@@ -1,0 +1,30 @@
+---
+description: Default git shipping — open PR then merge to main immediately
+alwaysApply: true
+---
+
+# Shipping default (SITE 00)
+
+Founder codes primarily from **mobile**. Default workflow: **code lands on `main` quickly**, but every change still gets a **PR for history and review**.
+
+## Default (unless the user opts out)
+
+1. Work on a feature branch (`cursor/<descriptive-name>-796f`).
+2. Commit, push, and **open a PR** to `main` (title + short body describing what changed).
+3. **Merge the PR to `main` in the same agent session** after push — do not leave it open for the founder to merge manually.
+4. Resolve merge conflicts with `main` **before** merging (fetch `origin/main` first).
+5. After merge, confirm `main` has the commits; remind founder that **site00.com** still needs GoDaddy deploy (GitHub Actions artifact/ZIP or FTP) unless auto-FTP is enabled.
+
+## When NOT to auto-merge
+
+- User says **"draft PR"**, **"don't merge yet"**, or **"wait for my review"**.
+- Merge conflicts involve **conflicting intents** (not trivial line collisions) — fix if simple; otherwise report and leave PR open.
+- User explicitly wants to merge from the GitHub app.
+
+## PR role
+
+The PR is a **receipt** (diff, description, CI), not a waiting room. Founder may review on the GitHub app after merge.
+
+## Do not
+
+- Push directly to `main` while skipping the PR (unless user explicitly requests direct-to-main with no PR).

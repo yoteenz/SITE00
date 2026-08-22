@@ -84,22 +84,22 @@ export function Site00MobileMenuDrawer({ open, onClose, returnFocusRef }: Site00
 
   return (
     <>
-      <button type="button" className="site00-mobile-menu__backdrop" aria-label="Close menu" onClick={onClose} />
+      <button type="button" className="site00-mobile-menu__backdrop" aria-label="CLOSE MENU" onClick={onClose} />
       <aside
         ref={drawerRef}
         id="site00-mobile-menu"
         className="site00-mobile-menu"
         role="dialog"
         aria-modal="true"
-        aria-label="SITE 00 navigation"
+        aria-label="SITE 00 NAVIGATION"
       >
         <div className="site00-mobile-menu__header">
           <span className="site00-label">SITE 00</span>
-          <button type="button" className="site00-mobile-menu__close" onClick={onClose} aria-label="Close menu">
+          <button type="button" className="site00-mobile-menu__close" onClick={onClose} aria-label="CLOSE MENU">
             ×
           </button>
         </div>
-        <nav aria-label="Global SITE 00 links">
+        <nav aria-label="GLOBAL SITE 00 LINKS">
           <ul className="site00-mobile-menu__list">
             {SITE00_MOBILE_DIRECTORY_PRIMARY.map((item) => {
               const href =

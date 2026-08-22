@@ -1,6 +1,12 @@
 import { shouldShowSite00ImmersiveLoader } from './site00LoaderSession';
 import { isSite00ImmersivePath } from './site00LoaderPaths';
-import { resolveSite00LoaderBackgroundUrl, resolveSite00LoaderAnimationPreloadUrl, resolveSite00LoaderMediaPresentation, resolveSite00LoaderBackgroundFocal } from './site00LoaderMedia';
+import {
+  resolveSite00LoaderAnimationPreloadUrl,
+  resolveSite00LoaderBackgroundFocal,
+  resolveSite00LoaderBackgroundUrl,
+  resolveSite00LoaderFooterMarkUrl,
+  resolveSite00LoaderMediaPresentation,
+} from './site00LoaderMedia';
 import { preloadSite00LoaderAnimation, preloadSite00LoaderBackground } from './site00LoaderPreload';
 
 const BOOT_CLASS = 'site00-assts-boot';
@@ -32,7 +38,11 @@ function ensureBootShell(): void {
   const bootBg = resolveSite00LoaderBackgroundUrl(bootPresentation);
   const bootFocal = resolveSite00LoaderBackgroundFocal(bootPresentation);
   shell.style.setProperty('--site00-loader-bg-focal', bootFocal);
-  shell.innerHTML = `<div class="site00-assts-boot-shell__env" style="background-image:url('${bootBg}');background-position:${bootFocal}"></div>`;
+  shell.innerHTML =
+    `<div class="site00-assts-boot-shell__env">` +
+    `<img class="site00-assts-boot-shell__img" src="${bootBg}" alt="" decoding="sync" fetchpriority="high" ` +
+    `style="object-position:${bootFocal};object-fit:cover" draggable="false" />` +
+    `</div>`;
   document.body.appendChild(shell);
 }
 
@@ -55,12 +65,39 @@ export function initSite00ImmersiveLoaderBoot(): void {
     injectPreload(animationUrl, 'fetch');
     void preloadSite00LoaderAnimation(animationUrl);
   }
+
+  const footerMarkUrl = resolveSite00LoaderFooterMarkUrl();
+  injectPreload(footerMarkUrl, 'image');
+  void preloadSite00LoaderBackground(footerMarkUrl);
 }
 
 /** @deprecated Use initSite00ImmersiveLoaderBoot */
 export const initSite00AsstsLoaderBoot = initSite00ImmersiveLoaderBoot;
 
-/** Fade out boot shell, then release #root — only after React loader has painted. */
+/** Remove boot shell layer 1 — React static or MP4 owns the viewport after this. */
+export function stripSite00BootShellBackground(): void {
+  if (typeof document === 'undefined') return;
+  const shell = document.getElementById(SHELL_ID);
+  if (!shell) return;
+  shell.querySelector('.site00-assts-boot-shell__env')?.remove();
+}
+
+/** Allow #root to paint destination under the loader — boot class only, shell stays until exit. */
+export function releaseSite00ImmersiveBootRoot(): void {
+  if (typeof document === 'undefined') return;
+  document.documentElement.classList.remove(BOOT_CLASS);
+}
+
+/** Two frames so destination route can paint before loader portal is removed. */
+export function waitForLoaderExitPaint(): Promise<void> {
+  return new Promise((resolve) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => resolve());
+    });
+  });
+}
+
+/** Fade out boot shell and release #root — call once loader exit is complete. */
 export function teardownSite00ImmersiveBootShell(): void {
   if (typeof document === 'undefined') return;
 

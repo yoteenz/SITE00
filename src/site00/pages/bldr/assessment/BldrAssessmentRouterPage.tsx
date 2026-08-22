@@ -10,6 +10,8 @@ import BldrAssessmentStepPage from './BldrAssessmentStepPage';
 import BldrAssessmentReviewPage from './BldrAssessmentReviewPage';
 import BldrAssessmentCompletePage from './BldrAssessmentCompletePage';
 import BldrAssessmentRecommendationPage from './BldrAssessmentRecommendationPage';
+import { BldrExperienceMobileStep } from '../../../components/bldr/experience/BldrExperienceMobileStep';
+import { getExperienceQuestion } from '../../../../../shared/site00-brand-lore/bldr-experience-questions';
 
 function isValidSlug(slug: string | undefined): slug is BldrAssessmentStateId {
   return Boolean(slug && BLDR_ASSESSMENT_STATE_SLUGS.includes(slug as BldrAssessmentRouteSlug));
@@ -57,6 +59,11 @@ export default function BldrAssessmentRouterPage() {
 
   if (stepSegment === 'desktop') {
     return <BldrAssessmentLandingPage classSlug={classSlug} />;
+  }
+
+  const experienceMatch = pathname.match(/\/experience\/([^/]+)/);
+  if (experienceMatch?.[1] && getExperienceQuestion(experienceMatch[1])) {
+    return <BldrExperienceMobileStep classSlug={classSlug} stepId={experienceMatch[1]} />;
   }
 
   return <BldrAssessmentStepPage classSlug={classSlug} stepId={stepSegment} />;

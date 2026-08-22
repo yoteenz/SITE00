@@ -24,7 +24,7 @@ export function Site00PublicTopNav() {
   ];
 
   return (
-    <nav className="site00-public-topnav" aria-label="Top navigation">
+    <nav className="site00-public-topnav" aria-label="TOP NAVIGATION">
       <ul>
         {items.map((item) => {
           const href =

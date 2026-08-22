@@ -9,7 +9,7 @@ type Site00MobilePresentationShellProps = {
 };
 
 /**
- * Mobile preview on wide viewports — scaled 390×844 phone frame.
+ * Mobile preview on wide viewports — centered phone device with 390×844 screen.
  * On actual phones, children render at native full width.
  */
 export function Site00MobilePresentationShell({ children }: Site00MobilePresentationShellProps) {

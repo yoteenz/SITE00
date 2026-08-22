@@ -32,7 +32,7 @@ export function ProjectRow({ project, compact }: ProjectRowProps) {
           <div className="site00-project-row__meta">
             <StatusBadge status={project.status} tone={statusTone(project.status)} />
             <span className="site00-project-row__date">{formatEcosystemDate(project.lastUpdated)}</span>
-            <span className="site00-project-row__team" aria-label="Team">
+            <span className="site00-project-row__team" aria-label="TEAM">
               {project.teamInitials.map((initial) => (
                 <span key={initial} className="site00-project-row__avatar">
                   {initial}

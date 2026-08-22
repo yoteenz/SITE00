@@ -10,7 +10,7 @@ export function GlobalNav() {
   const navPath = site00PublicMobilePath(pathname);
 
   return (
-    <nav aria-label="Global navigation">
+    <nav aria-label="GLOBAL NAVIGATION">
       <ul className="site00-global-nav">
         {SITE00_GLOBAL_NAV.map((item) => {
           const href = site00PreviewNavHref(item.href, pathname);
@@ -18,7 +18,7 @@ export function GlobalNav() {
           if (!item.enabled) {
             return (
               <li key={item.id}>
-                <button type="button" disabled aria-disabled="true" title="Coming in a future sprint">
+                <button type="button" disabled aria-disabled="true" title="COMING IN A FUTURE SPRINT">
                   {item.label}
                 </button>
               </li>

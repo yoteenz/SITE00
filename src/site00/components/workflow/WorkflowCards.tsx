@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import type { IdentityBrandState } from '../../config/identity';
 import type { EnterMenuIconId } from '../../config/directory';
 import { resolveEnterDirectoryRowHref } from '../../config/directory';
+import { site00AuthLockedAriaLabel } from '../../config/site00-copy';
 import { useSignedInFromStorage } from '../../../hooks/useSignedInFromStorage';
 import { GeometricIcon } from '../icons/GeometricIcon';
 import { BldrBuildClassIcon } from '../bldr/BldrBuildClassIcon';
@@ -10,6 +11,7 @@ import { IdntyBrandStateIcon } from '../idnty/IdntyBrandStateIcon';
 import type { IdntyBrandStateIconId } from '../../config/idnty-brand-state-icons';
 import { ArrowIconSmall } from '../icons/ArrowAction';
 import { EnterMenuIcon, Site00ArrowRightIcon } from '../../icons';
+import { Site00ArtboardBottomChromePortal } from '../shell/Site00ArtboardBottomChromePortal';
 import { Site00SummaryStripText } from '../shell/Site00SummaryStripText';
 
 type StateCardProps = {
@@ -139,9 +141,11 @@ type WorkflowSummaryProps = {
 
 export function WorkflowSummary({ text }: WorkflowSummaryProps) {
   return (
-    <footer className="site00-summary-strip-panel site00-workflow-summary-strip">
-      <Site00SummaryStripText text={text} />
-    </footer>
+    <Site00ArtboardBottomChromePortal>
+      <footer className="site00-summary-strip-panel site00-workflow-summary-strip">
+        <Site00SummaryStripText text={text} />
+      </footer>
+    </Site00ArtboardBottomChromePortal>
   );
 }
 
@@ -194,7 +198,7 @@ export function DirectoryRow({
       <Link
         to={resolvedHref}
         className={`site00-enter-row${locked ? ' site00-enter-row--locked' : ''}`.trim()}
-        aria-label={locked ? `${title} — sign in to enter` : undefined}
+        aria-label={locked ? site00AuthLockedAriaLabel(title) : undefined}
       >
         {content}
       </Link>

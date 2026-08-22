@@ -9,7 +9,7 @@ type PipelineState = Record<(typeof STEPS)[number]['key'], string> | null | unde
 
 export function StudioPipelineBar({ pipeline }: { pipeline: PipelineState }) {
   return (
-    <div className="site00-admin-pipeline" aria-label="Production pipeline">
+    <div className="site00-admin-pipeline" aria-label="PRODUCTION PIPELINE">
       {STEPS.map((step) => {
         const status = pipeline?.[step.key] ?? 'PENDING';
         const className = [

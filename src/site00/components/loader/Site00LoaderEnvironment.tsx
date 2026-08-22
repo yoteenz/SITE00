@@ -46,11 +46,7 @@ export function Site00LoaderEnvironment({
   };
 
   return (
-    <div
-      className={envClass}
-      aria-hidden="true"
-      style={{ ['--site00-loader-bg-focal' as string]: mediaFocal }}
-    >
+    <div className={envClass} aria-hidden="true">
       <img
         ref={imgRef}
         className="site00-loader-env__img"
@@ -60,7 +56,7 @@ export function Site00LoaderEnvironment({
         fetchPriority="high"
         loading="eager"
         draggable={false}
-        style={{ objectPosition: mediaFocal }}
+        style={{ objectPosition: mediaFocal, objectFit: 'cover' }}
         onLoad={handleLoad}
         onError={() => {
           loaderLifecycleLog('BACKGROUND_ERROR', { url: backgroundUrl });

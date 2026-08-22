@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import {
   SITE00_DESKTOP_ARTBOARD_MIN_HEIGHT,
   SITE00_DESKTOP_ARTBOARD_WIDTH,
@@ -8,7 +8,10 @@ import { installDesktopPreviewShellViewportLock } from '../../../utils/desktopPr
 import { Site00EnvironmentViewportBackground } from '../environment/Site00EnvironmentViewportBackground';
 import { detectSite00ViewportEnvironment } from '../environment/detectSite00ViewportEnvironment';
 import { Site00DesktopArtboardProvider } from './Site00DesktopArtboardContext';
-import { Site00EnterArtboardChromeProvider } from './Site00EnterArtboardChromeContext';
+import {
+  Site00EnterArtboardChromeProvider,
+  useSite00EnterArtboardChromeHostActions,
+} from './Site00EnterArtboardChromeContext';
 import { Site00DesktopPresentationProvider } from './Site00DesktopPresentationContext';
 import '../../styles/site00-desktop-artboard.css';
 
@@ -16,16 +19,21 @@ type Site00DesktopArtboardShellProps = {
   children: ReactNode;
 };
 
-/**
- * Fixed-width SITE 00 desktop artboard scaled to device width.
- * Environment pages: viewport cover bg inside scaled stage (bg + UI scale together).
- */
-export function Site00DesktopArtboardShell({ children }: Site00DesktopArtboardShellProps) {
+function Site00DesktopArtboardShellInner({ children }: Site00DesktopArtboardShellProps) {
   const shellRef = useRef<HTMLDivElement>(null);
   const scalerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
-  const enterChromeHostRef = useRef<HTMLDivElement>(null);
+  const [bottomChromeEl, setBottomChromeEl] = useState<HTMLDivElement | null>(null);
   const [viewportEnvironmentId, setViewportEnvironmentId] = useState<EnvironmentId | null>(null);
+  const { setHostElement } = useSite00EnterArtboardChromeHostActions();
+
+  const bindBottomChromeHost = useCallback(
+    (element: HTMLDivElement | null) => {
+      setBottomChromeEl(element);
+      setHostElement(element);
+    },
+    [setHostElement],
+  );
 
   useLayoutEffect(
     () => installDesktopPreviewShellViewportLock({ background: '#f5f5f3' }),
@@ -37,6 +45,7 @@ export function Site00DesktopArtboardShell({ children }: Site00DesktopArtboardSh
       const shell = shellRef.current;
       const scaler = scalerRef.current;
       const stage = stageRef.current;
+      const bottomChrome = bottomChromeEl;
       if (!shell || !scaler || !stage) return;
 
       const enterPage =
@@ -72,6 +81,12 @@ export function Site00DesktopArtboardShell({ children }: Site00DesktopArtboardSh
       scaler.style.height = `${scaledHeight}px`;
       scaler.style.marginLeft = '0';
       scaler.style.marginTop = '0';
+
+      if (bottomChrome) {
+        bottomChrome.style.top = `${scaledHeight}px`;
+        bottomChrome.style.width = `${scaledWidth}px`;
+        bottomChrome.style.left = '0';
+      }
 
       shell.classList.toggle('site00-desktop-artboard-shell--enter', enterPage);
       shell.classList.toggle('site00-desktop-artboard-shell--origin', originPage);
@@ -111,23 +126,33 @@ export function Site00DesktopArtboardShell({ children }: Site00DesktopArtboardSh
       resizeObserver?.disconnect();
       mutationObserver?.disconnect();
     };
-  }, []);
+  }, [bottomChromeEl]);
 
+  return (
+    <div ref={shellRef} className="site00-desktop-artboard-shell">
+      <div ref={scalerRef} className="site00-desktop-artboard-shell__stage-scaler">
+        <div ref={stageRef} className="site00-desktop-artboard">
+          {viewportEnvironmentId ? (
+            <Site00EnvironmentViewportBackground environmentId={viewportEnvironmentId} />
+          ) : null}
+          {children}
+        </div>
+      </div>
+      <div ref={bindBottomChromeHost} className="site00-desktop-artboard-shell__enter-chrome" />
+    </div>
+  );
+}
+
+/**
+ * Fixed-width SITE 00 desktop artboard scaled to device width.
+ * Environment pages: viewport cover bg inside scaled stage (bg + UI scale together).
+ */
+export function Site00DesktopArtboardShell({ children }: Site00DesktopArtboardShellProps) {
   return (
     <Site00DesktopPresentationProvider kind="scaled">
       <Site00DesktopArtboardProvider>
-        <Site00EnterArtboardChromeProvider hostRef={enterChromeHostRef}>
-          <div ref={shellRef} className="site00-desktop-artboard-shell">
-            <div ref={scalerRef} className="site00-desktop-artboard-shell__stage-scaler">
-              <div ref={stageRef} className="site00-desktop-artboard">
-                {viewportEnvironmentId ? (
-                  <Site00EnvironmentViewportBackground environmentId={viewportEnvironmentId} />
-                ) : null}
-                {children}
-              </div>
-            </div>
-            <div ref={enterChromeHostRef} className="site00-desktop-artboard-shell__enter-chrome" />
-          </div>
+        <Site00EnterArtboardChromeProvider>
+          <Site00DesktopArtboardShellInner>{children}</Site00DesktopArtboardShellInner>
         </Site00EnterArtboardChromeProvider>
       </Site00DesktopArtboardProvider>
     </Site00DesktopPresentationProvider>

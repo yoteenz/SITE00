@@ -66,7 +66,7 @@ export function CompositionStudioLayers({ controller }: CompositionStudioLayersP
   );
 
   return (
-    <aside className="composition-studio__layers" aria-label="Layers">
+    <aside className="composition-studio__layers" aria-label="LAYERS">
       <h2 className="composition-studio__panel-title">Layers</h2>
       <div className="composition-studio__layer-group">
         <h3 className="composition-studio__layer-group-title">Environment</h3>

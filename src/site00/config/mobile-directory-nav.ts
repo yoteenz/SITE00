@@ -25,21 +25,21 @@ export const SITE00_MOBILE_DIRECTORY_PRIMARY: Site00MobileDirectoryItem[] = [
     label: 'IDNTY',
     href: SITE00_ROUTES.idnty,
     enabled: true,
-    ariaLabel: 'Identity',
+    ariaLabel: 'IDENTITY',
   },
   {
     id: 'bldr',
     label: 'BLDR / START BUILD',
     href: SITE00_ROUTES.bldr,
     enabled: true,
-    ariaLabel: 'Builder — Start Build',
+    ariaLabel: 'BUILDER — START BUILD',
   },
   {
     id: 'evolve',
     label: 'EVOLVE',
     href: SITE00_ROUTES.evolve,
     enabled: true,
-    ariaLabel: 'Evolve — Transform what exists',
+    ariaLabel: 'EVOLVE — TRANSFORM WHAT EXISTS',
   },
 ];
 
@@ -49,7 +49,12 @@ export const SITE00_CTRL_ROOM_PATH = '/control';
 /** SITE 00 branded sign-in with return path. */
 export function site00SignInHrefWithReturnTo(loc: { pathname: string; search?: string }): string {
   const path = `${loc.pathname}${loc.search || ''}`.slice(0, 1024);
-  return `/origin/sign-in?returnTo=${encodeURIComponent(path)}`;
+  return site00SignInHrefForReturnPath(path);
+}
+
+/** Sign-in URL for a post-auth destination path. */
+export function site00SignInHrefForReturnPath(returnPath: string): string {
+  return `${SITE00_ROUTES.signIn}?returnTo=${encodeURIComponent(returnPath.slice(0, 1024))}`;
 }
 
 export function isSite00MobileDirectoryItemActive(pathname: string, item: Site00MobileDirectoryItem): boolean {

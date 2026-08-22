@@ -1,16 +1,18 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { EnvironmentShell } from '../components/environment/EnvironmentShell';
 import { Site00AppShell } from '../components/shell/Site00AppShell';
 import { Site00OriginLayoutSwitch } from '../components/shell/Site00OriginLayoutSwitch';
+import { Site00PublicShell } from '../components/shell/Site00PublicShell';
 import { BLDR_BUILD_CLASSES, BLDR_INVESTMENT_TIERS, BLDR_STATE_COPY } from '../config/builder';
 import { BuildClassCard, InvestmentColumn, WorkflowSummary } from '../components/workflow/WorkflowCards';
+import { BldrClassificationMobile } from '../components/bldr/classification/BldrClassificationMobile';
 import { useSite00 } from '../state/Site00Context';
-import { ArchitecturalPanel } from '../components/panels/ArchitecturalPanel';
 import { useBldrAssessment } from '../hooks/useBldrAssessment';
 import { buildClassToAssessmentSlug } from '../config/bldr-assessment-brand-map';
 import { bldrAssessmentPath } from '../config/bldr-assessment';
 import { useSite00DesktopArtboardPreview } from '../components/shell/Site00DesktopArtboardContext';
 import { site00BldrAssessmentDesktopPath } from '../config/routes';
+import { ArchitecturalPanel } from '../components/panels/ArchitecturalPanel';
 
 export default function BldrStatePage() {
   const { state, selectBuildClass } = useSite00();
@@ -25,6 +27,29 @@ export default function BldrStatePage() {
     const path = bldrAssessmentPath(slug);
     navigate(isDesktop ? site00BldrAssessmentDesktopPath(path) : path);
   };
+
+  if (!isDesktop) {
+    const resumeHref =
+      hasResume && resumeTarget
+        ? resumeTarget
+        : null;
+
+    return (
+      <Site00PublicShell>
+        <div className="site00-page site00-page--bldr-classification">
+          <BldrClassificationMobile
+            onSelectClass={handleSelectClass}
+            resumeHref={resumeHref}
+            resumeLabel={
+              record.buildClass
+                ? `CONTINUE BUILD — ${record.buildClass.replace(/-/g, ' ').toUpperCase()}`
+                : undefined
+            }
+          />
+        </div>
+      </Site00PublicShell>
+    );
+  }
 
   return (
     <EnvironmentShell environmentId="WORKFLOW_ENVIRONMENT" className="site00-state-page site00-state-page--bldr">
@@ -47,7 +72,7 @@ export default function BldrStatePage() {
               <p className="site00-idnty-state-resume__label">
                 RESUME YOUR BUILD — {record.buildClass?.replace(/-/g, ' ').toUpperCase()}
               </p>
-              <Link to={isDesktop ? site00BldrAssessmentDesktopPath(resumeTarget) : resumeTarget} className="site00-idnty-state-resume__link">
+              <Link to={site00BldrAssessmentDesktopPath(resumeTarget)} className="site00-idnty-state-resume__link">
                 CONTINUE →
               </Link>
             </div>
@@ -61,7 +86,7 @@ export default function BldrStatePage() {
               marginBottom: 40,
             }}
             role="list"
-            aria-label="Build classes"
+            aria-label="BUILD CLASSES"
           >
             {BLDR_BUILD_CLASSES.map((buildClass) => (
               <BuildClassCard

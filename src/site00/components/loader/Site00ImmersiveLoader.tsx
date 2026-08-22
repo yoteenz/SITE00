@@ -1,24 +1,24 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { Site00ImmersiveLoaderConfig, Site00LoaderState } from './site00LoaderConfig';
 import {
   isLoaderAnimationEnabled,
   isLoaderDebugEnabled,
   isLoaderMediaDebugEnabled,
 } from './site00LoaderHeroStage';
-import { teardownSite00AsstsBootShell } from './site00LoaderBoot';
+import { stripSite00BootShellBackground } from './site00LoaderBoot';
+import { ImmersiveLoaderMedia } from './ImmersiveLoaderMedia';
 import { LoaderCopyRegions } from './LoaderCopyRegions';
 import { LoaderCompositionProvider } from './LoaderCompositionContext';
 import { LoaderReferenceMapDebug } from './LoaderReferenceMapDebug';
 import { LoaderReferenceOverlay } from './LoaderReferenceOverlay';
 import { LoaderRegion } from './LoaderRegion';
 import { loaderLifecycleLog } from './loaderLifecycleLog';
-import { Site00LoaderAnimation } from './Site00LoaderAnimation';
-import { Site00LoaderEnvironment } from './Site00LoaderEnvironment';
 import type { LoaderPresentation } from './loader-composition-resolver';
 import { resolveSite00LoaderBackgroundUrl, resolveSite00LoaderBackgroundFocal, resolveSite00LoaderAnimationFocal } from './site00LoaderMedia';
 import { preloadSite00LoaderBackground } from './site00LoaderPreload';
 import { useLoaderMediaPresentation } from './useLoaderMediaPresentation';
 import { useLoaderPresentation } from './useLoaderPresentation';
+import { resolveActiveStageSubtitle } from './site00LoaderStageSubtitle';
 import '../../styles/site00-loader.css';
 
 export type Site00ImmersiveLoaderPhase = 'loading' | 'complete-hold' | 'exiting';
@@ -26,15 +26,21 @@ export type Site00ImmersiveLoaderPhase = 'loading' | 'complete-hold' | 'exiting'
 type Site00ImmersiveLoaderProps = {
   config: Site00ImmersiveLoaderConfig;
   progress: number;
-  statusLabel: string;
+  /** Synthetic in-stage creep — drives gray subtitle + bar between milestone jumps. */
+  smoothProgress?: number;
+  /** Gray subtitle — stage-driven mock work copy. */
+  stageSubtitle?: string;
   loaderState?: Site00LoaderState;
   isComplete?: boolean;
   phase?: Site00ImmersiveLoaderPhase;
   reducedMotion?: boolean;
   onAnimationReady?: () => void;
+  onAnimationOpeningHold?: () => void;
   onExitComplete?: () => void;
   error?: boolean;
   onRetry?: () => void;
+  /** Inspect surfaces — reveal copy/progress without waiting for animation playback. */
+  forceCopyActive?: boolean;
 };
 
 function usePrefersReducedMotion(): boolean {
@@ -54,6 +60,7 @@ type ImmersiveLoaderBodyProps = Site00ImmersiveLoaderProps & {
   mediaPresentation: LoaderPresentation;
   backgroundUrl: string;
   backgroundFocal: string;
+  /** @deprecated Focal now unified via backgroundFocal — retained for prop plumbing. */
   animationFocal: string;
 };
 
@@ -61,26 +68,46 @@ type ImmersiveLoaderBodyProps = Site00ImmersiveLoaderProps & {
 function ImmersiveLoaderBody({
   config,
   progress,
-  statusLabel: _statusLabel,
+  smoothProgress: smoothProgressProp,
+  stageSubtitle,
   loaderState: _loaderState = 'BOOTSTRAP',
   isComplete = false,
   phase = 'loading',
   reducedMotion: reducedMotionProp,
   onAnimationReady,
+  onAnimationOpeningHold,
   onExitComplete,
   error = false,
   onRetry,
+  forceCopyActive = false,
   uiPresentation,
   mediaPresentation,
   backgroundUrl,
   backgroundFocal,
-  animationFocal,
+  animationFocal: _animationFocal,
 }: ImmersiveLoaderBodyProps) {
   const systemReducedMotion = usePrefersReducedMotion();
   const reducedMotion = reducedMotionProp ?? systemReducedMotion;
   const debug = isLoaderDebugEnabled();
   const animationEnabled = isLoaderAnimationEnabled();
   const mediaDebug = isLoaderMediaDebugEnabled();
+  const [copyActive, setCopyActive] = useState(forceCopyActive || !animationEnabled || reducedMotion);
+
+  useEffect(() => {
+    if (forceCopyActive || !animationEnabled || reducedMotion) {
+      setCopyActive(true);
+    }
+  }, [forceCopyActive, animationEnabled, reducedMotion]);
+
+  useEffect(() => {
+    if (copyActive || !animationEnabled) return;
+    const fallbackMs = 8000;
+    const timer = window.setTimeout(() => {
+      setCopyActive(true);
+      onAnimationReady?.();
+    }, fallbackMs);
+    return () => window.clearTimeout(timer);
+  }, [animationEnabled, copyActive, onAnimationReady]);
 
   useEffect(() => {
     loaderLifecycleLog('LOADER_MOUNTED', { path: window.location.pathname, uiPresentation, mediaPresentation });
@@ -92,11 +119,8 @@ function ImmersiveLoaderBody({
 
   const handleBootHandoff = useCallback(() => {
     loaderLifecycleLog('BACKGROUND_LOADED');
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        teardownSite00AsstsBootShell();
-      });
-    });
+    // Hand off boot layer 1 → React static only. Do not release #root until loader exit.
+    stripSite00BootShellBackground();
   }, []);
 
   useEffect(() => {
@@ -109,14 +133,15 @@ function ImmersiveLoaderBody({
     };
   }, [backgroundUrl, mediaPresentation]);
 
-  const handleAnimationReady = () => {
+  const handleAnimationReady = useCallback(() => {
+    setCopyActive(true);
     loaderLifecycleLog('ANIMATION_CANPLAY');
     onAnimationReady?.();
-  };
+  }, [onAnimationReady]);
 
-  const handleAnimationError = (detail: unknown) => {
+  const handleAnimationError = useCallback((detail: unknown) => {
     loaderLifecycleLog('ANIMATION_ERROR', detail);
-  };
+  }, []);
 
   useEffect(() => {
     if (phase !== 'exiting') return;
@@ -126,11 +151,22 @@ function ImmersiveLoaderBody({
 
   const atComplete = isComplete || phase === 'complete-hold' || progress >= 100;
   const progressLabel = error ? 'RETRY REQUIRED' : atComplete ? config.completionMessage : config.assemblingLabel;
+  const liveProgress = smoothProgressProp ?? progress;
+  const displayProgress = copyActive ? liveProgress : 0;
+  const displaySubtitle = useMemo(() => {
+    if (error) return "WE COULDN'T COMPLETE THIS STEP";
+    if (config.stages.length > 0) {
+      const progressForSubtitle = atComplete ? 100 : copyActive ? liveProgress : 0;
+      return resolveActiveStageSubtitle(config.stages, progressForSubtitle);
+    }
+    return stageSubtitle || config.experienceSubtitle;
+  }, [atComplete, config.stages, config.experienceSubtitle, copyActive, error, liveProgress, stageSubtitle]);
 
   const rootClass = [
     'site00-immersive-loader',
     uiPresentation === 'desktop' ? 'site00-immersive-loader--desktop' : 'site00-immersive-loader--mobile',
     mediaPresentation === 'desktop' ? 'site00-immersive-loader--media-desktop' : 'site00-immersive-loader--media-mobile',
+    copyActive ? 'site00-immersive-loader--copy-active' : '',
     phase === 'exiting' ? 'site00-immersive-loader--exiting' : '',
     phase === 'complete-hold' ? 'site00-immersive-loader--complete' : '',
     error ? 'site00-immersive-loader--error' : '',
@@ -145,34 +181,20 @@ function ImmersiveLoaderBody({
 
   return (
     <div className={rootClass} role="status" aria-live="polite" aria-label={progressLabel}>
-      <div
-        className="site00-immersive-loader__media"
-        aria-hidden="true"
-        style={{
-          ['--site00-loader-bg-focal' as string]: backgroundFocal,
-          ['--site00-loader-animation-focal' as string]: animationFocal,
-        }}
-      >
-        <Site00LoaderEnvironment
-          backgroundUrl={backgroundUrl}
-          viewport
-          fit={envFit}
-          mediaFocal={backgroundFocal}
-          onBackgroundLoad={handleBootHandoff}
-        />
+      <ImmersiveLoaderMedia
+        backgroundUrl={backgroundUrl}
+        envFit={envFit}
+        backgroundFocal={backgroundFocal}
+        animationEnabled={animationEnabled}
+        mediaPresentation={mediaPresentation}
+        reducedMotion={reducedMotion}
+        onBackgroundLoad={handleBootHandoff}
+        onAnimationReady={handleAnimationReady}
+        onAnimationOpeningHold={onAnimationOpeningHold}
+        onAnimationError={handleAnimationError}
+      />
 
-        {animationEnabled ? (
-          <Site00LoaderAnimation
-            mediaPresentation={mediaPresentation}
-            mediaFocal={animationFocal}
-            reducedMotion={reducedMotion}
-            onReady={handleAnimationReady}
-            onError={handleAnimationError}
-          />
-        ) : null}
-      </div>
-
-      <LoaderCompositionProvider presentation={uiPresentation}>
+      <LoaderCompositionProvider presentation={uiPresentation} mediaPresentation={mediaPresentation}>
         {debug ? (
           <LoaderRegion id="pedestal" className="site00-loader-pedestal-debug" aria-hidden="true" />
         ) : null}
@@ -180,12 +202,12 @@ function ImmersiveLoaderBody({
         <LoaderCopyRegions
           siteLabel={config.siteLabel}
           title={error ? 'BUILD INTERRUPTED' : config.experienceTitle}
-          subtitle={error ? "WE COULDN'T COMPLETE THIS STEP" : config.experienceSubtitle}
+          subtitle={displaySubtitle}
           tagline={config.tagline}
-          footerMark={config.footerMark}
           footerLabel={config.footerLabel}
-          progress={error ? 0 : progress}
-          progressLabel={progressLabel}
+          progress={error ? 0 : displayProgress}
+          progressLabel={copyActive ? progressLabel : ''}
+          assemblingActive={copyActive && !error && !atComplete}
         />
 
         {error && onRetry ? (
@@ -209,8 +231,7 @@ function ImmersiveLoaderBody({
 
 /**
  * Asset Vault + world immersive loader.
- * Asset Vault (assts): mobile <768px uses portrait master; desktop ≥768px uses landscape master.
- * World loader: always mobile composition (unchanged).
+ * Text overlay always uses mobile composition (711×1536). Media layer switches at ≥768px.
  */
 export function Site00ImmersiveLoader(props: Site00ImmersiveLoaderProps) {
   const uiPresentation = useLoaderPresentation(props.config.id);

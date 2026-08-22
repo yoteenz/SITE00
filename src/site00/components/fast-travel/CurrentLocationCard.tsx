@@ -6,7 +6,7 @@ type CurrentLocationCardProps = {
 
 export function CurrentLocationCard({ location }: CurrentLocationCardProps) {
   return (
-    <div className="site00-fast-travel__current" aria-label="Current location">
+    <div className="site00-fast-travel__current" aria-label="CURRENT LOCATION">
       <span className="site00-fast-travel__current-label">CURRENT LOCATION</span>
       <div className="site00-fast-travel__current-body">
         {location.index ? (

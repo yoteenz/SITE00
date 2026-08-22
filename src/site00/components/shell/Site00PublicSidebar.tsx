@@ -15,7 +15,7 @@ export function Site00PublicSidebar() {
     : site00SignInHrefWithReturnTo({ pathname: SITE00_CTRL_ROOM_PATH, search: '' });
 
   return (
-    <aside className="site00-public-sidebar" aria-label="SITE 00 navigation">
+    <aside className="site00-public-sidebar" aria-label="SITE 00 NAVIGATION">
       <Link to="/origin" className="site00-public-sidebar__logo">
         SITE 00 <span className="site00-public-sidebar__mark" aria-hidden="true">◆</span>
       </Link>
