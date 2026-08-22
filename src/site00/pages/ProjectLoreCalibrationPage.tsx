@@ -61,8 +61,8 @@ export default function ProjectLoreCalibrationPage() {
   }, [load]);
 
   const sessionStepIds = useMemo(
-    () => resolveCalibrationSessionStepIds(projectSlug, missingDomains),
-    [projectSlug, missingDomains],
+    () => resolveCalibrationSessionStepIds(projectSlug, missingDomains, savedAnswers),
+    [projectSlug, missingDomains, savedAnswers],
   );
 
   useEffect(() => {

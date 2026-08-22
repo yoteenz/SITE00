@@ -1,7 +1,7 @@
 import type { ReadinessDomain } from '../../../../shared/site00-brand-lore/types';
 import { missingDomainsToLoreSteps } from '../../../../shared/site00-brand-lore/readiness';
 import type { LoreQuestionStep } from '../../../../shared/site00-brand-lore/idnty-lore-questions';
-import { getLoreQuestion } from '../../../../shared/site00-brand-lore/idnty-lore-questions';
+import { getLoreQuestion, IDNTY_LORE_QUESTIONS } from '../../../../shared/site00-brand-lore/idnty-lore-questions';
 import { resolveProjectLoreCalibrationStepIndex } from '../../../../shared/site00-brand-lore/adaptivity';
 
 export type ProjectLoreCalibrationResumeState = {
@@ -82,14 +82,21 @@ export function clearProjectLoreCalibrationResume(projectSlug: string): void {
   }
 }
 
-/** Use frozen session steps when resuming; otherwise derive from current missing domains. */
+/** Use frozen session steps when resuming; otherwise derive from missing domains + saved answers. */
 export function resolveCalibrationSessionStepIds(
   projectSlug: string,
   missingDomains: ReadinessDomain[],
+  serverAnswers: Record<string, string | string[]> = {},
 ): string[] {
   const local = readProjectLoreCalibrationResume(projectSlug);
   if (local?.stepIds.length) return local.stepIds;
-  return missingDomainsToLoreSteps(missingDomains);
+
+  const fromMissing = missingDomainsToLoreSteps(missingDomains);
+  const ids = new Set(fromMissing);
+  for (const question of IDNTY_LORE_QUESTIONS) {
+    if (serverAnswers[question.id] !== undefined) ids.add(question.id);
+  }
+  return IDNTY_LORE_QUESTIONS.filter((q) => ids.has(q.id)).map((q) => q.id);
 }
 
 /** Persist the full step list the first time a calibration session starts. */

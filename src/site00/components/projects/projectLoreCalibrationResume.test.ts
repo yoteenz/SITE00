@@ -72,6 +72,15 @@ describe('resolveProjectLoreCalibrationStepIndex', () => {
 });
 
 describe('resolveCalibrationSessionStepIds', () => {
+  it('reconstructs session steps from saved answers when no frozen session exists', () => {
+    const ids = resolveCalibrationSessionStepIds(
+      'ndxbook',
+      ['AUDIENCE_RELATIONSHIP'],
+      { feeling: ['curious'], world: 'an index of everything' },
+    );
+    expect(ids).toEqual(['feeling', 'role', 'world']);
+  });
+
   it('freezes the initial step list for the session', () => {
     mockLocalStorage();
     bootstrapCalibrationSession('ndxbook', SESSION_STEP_IDS, {});
