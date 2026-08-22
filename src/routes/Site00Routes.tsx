@@ -107,6 +107,7 @@ const MarketingServicesPage = lazy(() => import('../site00/pages/evolve/marketin
 const MarketingIntakePage = lazy(() => import('../site00/pages/evolve/marketing/MarketingIntakePage'));
 const MarketingBriefPage = lazy(() => import('../site00/pages/evolve/marketing/MarketingBriefPage'));
 const MarketingEngagementPage = lazy(() => import('../site00/pages/evolve/marketing/MarketingEngagementPage'));
+const EvolveCommercialPage = lazy(() => import('../site00/pages/evolve/EvolveCommercialPage'));
 const LoaderPreviewPage = lazy(() => import('../site00/pages/LoaderPreviewPage'));
 
 function Site00Suspense({ children }: { children: ReactNode }) {
@@ -620,6 +621,18 @@ export function Site00Routes() {
             <Site00PublicRouteShell>
               <Site00Suspense>
                 <MarketingServicesPage />
+              </Site00Suspense>
+            </Site00PublicRouteShell>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.evolvePlans}
+        element={
+          <Site00Layout>
+            <Site00PublicRouteShell>
+              <Site00Suspense>
+                <EvolveCommercialPage />
               </Site00Suspense>
             </Site00PublicRouteShell>
           </Site00Layout>

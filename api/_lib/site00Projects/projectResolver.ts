@@ -10,6 +10,10 @@ import { getCreativeDirectionPayload } from '../site00Evolve/creativeDirection/e
 import { getPage001Candidate } from '../site00Evolve/providers/page001CandidateService.js';
 import { getExpandedPilotReadiness } from '../site00Evolve/providers/pilotReadinessSprint04.js';
 import { isMarketingClientOrg } from '../site00Evolve/seedFixtures.js';
+import { resolveEvolveCommercialState } from '../site00Evolve/commercial/commercialState.js';
+import { formatEvolvePrice } from '../../../shared/site00-evolve-commercial/catalog.js';
+import { site00ProjectCommercialRoute } from '../../../shared/site00-access/routes.js';
+import type { Site00ProjectCommercialSummary } from '../../../shared/site00-projects/types.js';
 import type {
   Site00FounderProjectSlug,
   Site00ProjectCommandItem,
@@ -221,6 +225,43 @@ async function buildActivity(slug: Site00FounderProjectSlug): Promise<Site00Proj
   return events;
 }
 
+async function buildCommercialSummary(slug: Site00FounderProjectSlug): Promise<Site00ProjectCommercialSummary> {
+  const commercial = await resolveEvolveCommercialState(slug);
+  return {
+    applicability: commercial.applicability,
+    applicabilityNote: commercial.applicabilityNote,
+    plan: commercial.plan
+      ? {
+          id: commercial.plan.id,
+          name: commercial.plan.name,
+          priceLabel: formatEvolvePrice(commercial.plan.priceCents, commercial.plan.priceQualifier, commercial.plan.billingInterval),
+          serviceModel: commercial.plan.serviceModel,
+        }
+      : null,
+    planStatus: commercial.planStatus,
+    foundation: commercial.foundation
+      ? {
+          status: commercial.foundation.status,
+          missing: commercial.foundation.missing,
+          explanation: commercial.foundation.explanation,
+        }
+      : null,
+    entitlements: commercial.entitlements
+      ? {
+          channelLimit: commercial.entitlements.channelLimit,
+          assetCapacityLabel: commercial.entitlements.assetCapacity
+            ? `${commercial.entitlements.assetCapacity.min}\u2013${commercial.entitlements.assetCapacity.max} / MONTH`
+            : null,
+          customScopeRequired: commercial.entitlements.customScopeRequired,
+        }
+      : null,
+    paidMediaStatus: commercial.paidMedia.status,
+    usageMetering: commercial.usageMetering,
+    billingIntegrated: commercial.billing.integrated,
+    route: site00ProjectCommercialRoute(slug),
+  };
+}
+
 export async function resolveSite00Project(slug: string): Promise<Site00ProjectDetail | null> {
   if (!isFounderProjectSlug(slug)) return null;
 
@@ -418,6 +459,7 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
       needsApproval: overview.needsApproval ?? 0,
     },
     creativeDirection,
+    commercial: await buildCommercialSummary(slug),
     assets: {
       available: false,
       route: `/admin/site00/projects/${slug}`,

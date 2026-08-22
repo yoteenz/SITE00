@@ -111,6 +111,33 @@ export default function ProjectDetailPage() {
                 </Section>
               ) : null}
 
+              <Section title="COMMERCIAL">
+                <Row label="APPLICABILITY" value={project.commercial.applicability.replace(/_/g, ' ')} />
+                <Row
+                  label="PLAN"
+                  value={project.commercial.plan ? `${project.commercial.plan.name} \u2014 ${project.commercial.plan.priceLabel}` : project.commercial.planStatus.replace(/_/g, ' ')}
+                />
+                {project.commercial.foundation ? (
+                  <Row label="FOUNDATION" value={project.commercial.foundation.status.replace(/_/g, ' ')} />
+                ) : null}
+                {project.commercial.entitlements ? (
+                  <>
+                    <Row
+                      label="CHANNEL CAPACITY"
+                      value={project.commercial.entitlements.customScopeRequired ? 'CUSTOM SCOPE' : String(project.commercial.entitlements.channelLimit ?? '—')}
+                    />
+                    <Row label="ASSET CAPACITY" value={project.commercial.entitlements.assetCapacityLabel ?? 'CUSTOM SCOPE'} />
+                  </>
+                ) : null}
+                <Row label="PAID MEDIA" value={project.commercial.paidMediaStatus.replace(/_/g, ' ')} />
+                <p className="site00-project-command__note">{project.commercial.applicabilityNote}</p>
+                {project.commercial.applicability === 'BILLABLE_CLIENT' ? (
+                  <Link className="site00-action-link site00-action-link--red" to={project.commercial.route}>
+                    VIEW EVOLVE PLANS →
+                  </Link>
+                ) : null}
+              </Section>
+
               <Section title="PRODUCTION">
                 <Row label="LAUNCH STATE" value={project.production.launchState} />
                 <Row label="PUBLISHING" value={project.production.publishingEnabled ? 'ENABLED' : 'DISABLED'} />

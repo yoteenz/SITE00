@@ -9,6 +9,7 @@ import type {
   EvolveOverview,
   EvolveSocialItem,
 } from '../types/evolve';
+import type { EvolveCommercialState, EvolveServiceCatalog } from '../../../../shared/site00-evolve-commercial/types';
 
 export type ExpandedReadinessPayload = {
   designation: string;
@@ -281,6 +282,23 @@ export const site00EvolveApi = {
 
   creativeDirectionDebug: (orgSlug: string) =>
     evolveFetch<Record<string, unknown>>(`?action=creative_direction_debug&orgSlug=${encodeURIComponent(orgSlug)}`),
+
+  commercialCatalog: () => evolveFetch<{ catalog: EvolveServiceCatalog }>('?action=commercial_catalog'),
+
+  commercialState: (orgSlug: string) =>
+    evolveFetch<{ orgSlug: string; commercial: EvolveCommercialState }>(`?action=commercial_state&orgSlug=${encodeURIComponent(orgSlug)}`),
+
+  commercialSetPlan: (orgSlug: string, planId: string) =>
+    evolveFetch<{ orgSlug: string; commercial: EvolveCommercialState }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'commercial_set_plan', orgSlug, planId }),
+    }),
+
+  commercialMarkFoundationCompleted: (orgSlug: string) =>
+    evolveFetch<{ orgSlug: string; commercial: EvolveCommercialState }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'commercial_mark_foundation_completed', orgSlug }),
+    }),
 
   creativeDirectionDecision: (
     orgSlug: string,
