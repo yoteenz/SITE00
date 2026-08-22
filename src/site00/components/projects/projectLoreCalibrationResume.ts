@@ -1,7 +1,11 @@
 import type { ReadinessDomain } from '../../../../shared/site00-brand-lore/types';
-import { missingDomainsToLoreSteps } from '../../../../shared/site00-brand-lore/readiness';
+import {
+  calibrationScopeDomains,
+  mergeCanonicalCalibrationStepIds,
+  missingDomainsToLoreSteps,
+} from '../../../../shared/site00-brand-lore/readiness';
 import type { LoreQuestionStep } from '../../../../shared/site00-brand-lore/idnty-lore-questions';
-import { getLoreQuestion, IDNTY_LORE_QUESTIONS } from '../../../../shared/site00-brand-lore/idnty-lore-questions';
+import { getLoreQuestion } from '../../../../shared/site00-brand-lore/idnty-lore-questions';
 import { resolveProjectLoreCalibrationStepIndex } from '../../../../shared/site00-brand-lore/adaptivity';
 
 export type ProjectLoreCalibrationResumeState = {
@@ -12,7 +16,7 @@ export type ProjectLoreCalibrationResumeState = {
   updatedAt: number;
 };
 
-const STORAGE_PREFIX = 'site00_project_lore_calibration_v2_';
+const STORAGE_PREFIX = 'site00_project_lore_calibration_v3_';
 
 function storageKey(projectSlug: string): string {
   return `${STORAGE_PREFIX}${projectSlug}`;
@@ -31,6 +35,13 @@ function loreStepsFromIds(stepIds: string[]): LoreQuestionStep[] {
   return stepIds
     .map((id) => getLoreQuestion(id))
     .filter((step): step is LoreQuestionStep => Boolean(step));
+}
+
+function scopeStepIds(
+  missingDomains: ReadinessDomain[],
+  serverAnswers: Record<string, string | string[]>,
+): string[] {
+  return missingDomainsToLoreSteps(calibrationScopeDomains(missingDomains, serverAnswers));
 }
 
 export function readProjectLoreCalibrationResume(
@@ -63,9 +74,15 @@ export function writeProjectLoreCalibrationResume(
 ): void {
   const storage = getStorage();
   if (!storage) return;
-  if (state.stepIds.length === 0) return;
+  const existing = readProjectLoreCalibrationResume(projectSlug);
+  const stepIds = mergeCanonicalCalibrationStepIds(existing?.stepIds ?? [], state.stepIds);
+  if (stepIds.length === 0) return;
   try {
-    const payload: ProjectLoreCalibrationResumeState = { ...state, updatedAt: Date.now() };
+    const payload: ProjectLoreCalibrationResumeState = {
+      ...state,
+      stepIds,
+      updatedAt: Date.now(),
+    };
     storage.setItem(storageKey(projectSlug), JSON.stringify(payload));
   } catch {
     // localStorage may be unavailable in private mode — resume still works from server answers.
@@ -82,21 +99,28 @@ export function clearProjectLoreCalibrationResume(projectSlug: string): void {
   }
 }
 
-/** Use frozen session steps when resuming; otherwise derive from missing domains + saved answers. */
+/** Use frozen session steps when resuming; expand if scope grows (e.g. 6 → 8 steps). */
 export function resolveCalibrationSessionStepIds(
   projectSlug: string,
   missingDomains: ReadinessDomain[],
   serverAnswers: Record<string, string | string[]> = {},
 ): string[] {
+  const computed = scopeStepIds(missingDomains, serverAnswers);
   const local = readProjectLoreCalibrationResume(projectSlug);
-  if (local?.stepIds.length) return local.stepIds;
 
-  const fromMissing = missingDomainsToLoreSteps(missingDomains);
-  const ids = new Set(fromMissing);
-  for (const question of IDNTY_LORE_QUESTIONS) {
-    if (serverAnswers[question.id] !== undefined) ids.add(question.id);
+  if (local?.stepIds.length) {
+    const merged = mergeCanonicalCalibrationStepIds(local.stepIds, computed);
+    if (merged.length > local.stepIds.length) {
+      writeProjectLoreCalibrationResume(projectSlug, {
+        stepIds: merged,
+        stepId: local.stepId,
+        answers: local.answers,
+      });
+    }
+    return merged;
   }
-  return IDNTY_LORE_QUESTIONS.filter((q) => ids.has(q.id)).map((q) => q.id);
+
+  return computed;
 }
 
 /** Persist the full step list the first time a calibration session starts. */
