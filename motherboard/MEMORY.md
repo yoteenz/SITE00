@@ -2542,3 +2542,15 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Fix:** `calibrationScopeDomains()` keeps all domains with saved answers in scope; `mergeCanonicalCalibrationStepIds()` expands frozen sessions (never shrinks); localStorage bumped to **v3**; NDXBOOK reconciled profile verified as **8 lore steps**.
 
 - **Branch:** `cursor/calibration-full-eight-steps-4f59`.
+
+---
+
+## 2026-08-22 — Uppercase calibration and site input text (password exception)
+
+- **Symptom:** Lore/calibration textareas (e.g. NDXBOOK step 06/08 lineage) showed typed text in lowercase despite SITE 00 uppercase brand law.
+
+- **Root cause:** Shell-level `text-transform: uppercase` in `site00-typography.css` did not reliably apply to `input`/`textarea` values (especially mobile Safari); only placeholders had explicit uppercase rules.
+
+- **Fix:** Added explicit uppercase on all non-password inputs and textareas across SITE 00 shells (`:is(...shells...) input:not([type='password'])...`, `textarea...`); password fields unchanged via existing `.site00-signin-form__input--password` + `input[type='password']` exceptions.
+
+- **Branch:** `cursor/uppercase-input-fields-4f59`.
