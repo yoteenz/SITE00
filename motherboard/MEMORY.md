@@ -2655,3 +2655,15 @@ Summary of this cloud agent run through live formation completion.
 - **Symptom:** `/projects` showed LOADING PROJECTS then white/blank screen (preview + production).
 - **Cause:** `Site00WorldColdStartGate` ran immersive loader on `/projects` even though `site00LoaderPaths` marks it public/skip — white overlay could remain; index API also resolved full project detail (~20s).
 - **Fix (PR #230):** Skip loader on public hub paths; cloud preview skips cinematic loader; lightweight index resolver; defensive ProjectsPage fields.
+
+---
+
+## 2026-08-22 — Core Direction canonicalization + founder field mapping (PR #231)
+
+Summary of this cloud agent sprint through forensic reconciliation and canonical founder payload.
+
+- **Forensic discrepancy:** Founder UI showed v1 `THE MARKED-UP COPY / THE COUNTDOWN ROOM / THE PERSONAL ARCHIVE` + NEEDS_HUMAN_REVIEW while live Sonnet v2 `THE ANNOTATED COPY / THE ROOM WHERE IT HAPPENS / THE INDEX` + READY_FOR_VISUAL_PRODUCTION existed in Supabase (`39a27725`). Root cause: engagement pinned formationVersion 1 + idempotency reuse of incomplete v1 record (`5db1b245`); not hardcoded UI data.
+- **Fix:** `resolveCanonicalCoreDirectionFormation()` — status rank + highest formationVersion + fingerprint scope; wired into `getCreativeDirectionPayload`. `directionFieldContract.ts` normalizes aliases and suppresses empty founder headings. `FormedCoreDirectionReview` mobile-first collapsible layout + proof slots + production state banner.
+- **Persistence:** Both v1 and v2 durable in `site00_core_direction_formations` (Supabase FS project). v2 complete fields + 3 Visual Proof Plans + critic PASS.
+- **FAL:** Not dispatched this sprint (0 requests). Visual proof generation scaffold/state only; founder visual review blocked until Stage A proofs produced.
+- **Tests:** 772 passing (+6 new canonical/field contract tests). Branch `cursor/core-direction-canonicalization-4f59` → PR #231 merged to main.
