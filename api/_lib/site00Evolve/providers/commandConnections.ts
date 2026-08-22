@@ -71,7 +71,7 @@ export async function buildConnectionCommandItems(orgSlug: string, orgName: stri
 
     let visualDnaApproved = false;
     try {
-      const cd = await getCreativeDirectionPayload(orgSlug);
+      const cd = await getCreativeDirectionPayload(orgSlug, { runFormation: false });
       visualDnaApproved = cd.engagement.visualDna.status === 'APPROVED';
     } catch {
       // engagement not started — creative direction still required

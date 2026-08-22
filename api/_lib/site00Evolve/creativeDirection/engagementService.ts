@@ -291,7 +291,10 @@ function clientFormationSurface(
   };
 }
 
-export async function getCreativeDirectionPayload(orgSlug: string) {
+export async function getCreativeDirectionPayload(
+  orgSlug: string,
+  options?: { runFormation?: boolean },
+) {
   const engagement = await ensureCreativeDirectionEngagement(orgSlug);
   await syncEngagementBrandLoreReadiness(engagement, orgSlug);
   const profile = await getProfileByOrgId(engagement.organization_id);
@@ -303,8 +306,9 @@ export async function getCreativeDirectionPayload(orgSlug: string) {
   const providerConfig = resolveCreativeIntelligenceProviderConfig();
   const provider = getCreativeIntelligenceProvider();
   const providerConfigured = provider.providerId !== 'unavailable';
+  const shouldRunFormation = options?.runFormation !== false;
 
-  if (brandLoreProfile && !engagement.brandLoreReadiness?.blocked) {
+  if (brandLoreProfile && !engagement.brandLoreReadiness?.blocked && shouldRunFormation) {
     const formationResult = await getOrRunCoreDirectionFormation({
       orgSlug,
       profile: brandLoreProfile,

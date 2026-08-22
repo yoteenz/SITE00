@@ -136,12 +136,15 @@ async function buildSurfaces(slug: Site00FounderProjectSlug, isClient: boolean):
   return surfaces;
 }
 
-async function resolveProjectPhase(slug: Site00FounderProjectSlug): Promise<string> {
+async function resolveProjectPhase(
+  slug: Site00FounderProjectSlug,
+  cdPayload?: Awaited<ReturnType<typeof getCreativeDirectionPayload>> | null,
+): Promise<string> {
   if (slug === 'ndxbook') {
     const importState = getNdxbookImportState();
     if (importState.state !== 'IMPORTED') return 'INTELLIGENCE IMPORT';
     try {
-      const cd = await getCreativeDirectionPayload('ndxbook');
+      const cd = cdPayload ?? (await getCreativeDirectionPayload('ndxbook', { runFormation: false }));
       if (cd.engagement.visualDna.status !== 'APPROVED') return 'CREATIVE DIRECTION REVIEW';
       return 'VISUAL DNA APPROVED';
     } catch {
@@ -163,7 +166,10 @@ async function resolveProjectPhase(slug: Site00FounderProjectSlug): Promise<stri
   return 'ACTIVE INFRASTRUCTURE';
 }
 
-async function buildActivity(slug: Site00FounderProjectSlug): Promise<Site00ProjectDetail['activity']> {
+async function buildActivity(
+  slug: Site00FounderProjectSlug,
+  cdPayload?: Awaited<ReturnType<typeof getCreativeDirectionPayload>> | null,
+): Promise<Site00ProjectDetail['activity']> {
   const events: Site00ProjectDetail['activity'] = [];
 
   if (slug === 'ndxbook') {
@@ -176,7 +182,7 @@ async function buildActivity(slug: Site00FounderProjectSlug): Promise<Site00Proj
       });
     }
     try {
-      const cd = await getCreativeDirectionPayload('ndxbook');
+      const cd = cdPayload ?? (await getCreativeDirectionPayload('ndxbook', { runFormation: false }));
       events.push({
         id: 'ndxbook-cd',
         summary: `CREATIVE DIRECTION TERRITORIES GENERATED — ${cd.engagement.founderDecision ? 'DECISION RECORDED' : 'AWAITING FOUNDER DECISION'}`,
@@ -318,14 +324,22 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
     }
   }
   const commandItems = mapCommandItems(commandRaw);
-  const currentPhase = await resolveProjectPhase(slug);
+  let cdPayload: Awaited<ReturnType<typeof getCreativeDirectionPayload>> | null = null;
+  if (isClient) {
+    try {
+      cdPayload = await getCreativeDirectionPayload(slug, { runFormation: false });
+    } catch {
+      cdPayload = null;
+    }
+  }
+  const currentPhase = await resolveProjectPhase(slug, cdPayload);
   const profile = isClient ? await getProfileByOrgId(orgUuid) : null;
   const channels = isClient ? await getChannelsByOrgId(orgUuid) : [];
 
   let creativeDirection: Site00ProjectDetail['creativeDirection'] = null;
   if (isClient) {
     try {
-      const cd = await getCreativeDirectionPayload(slug);
+      const cd = cdPayload ?? (await getCreativeDirectionPayload(slug, { runFormation: false }));
       creativeDirection = {
         available: true,
         lifecycleState: cd.engagement.lifecycle_state,
@@ -418,7 +432,7 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
     currentSystem: def.currentSystem,
     currentPhase,
     focusNow: pickFocusNow(commandItems),
-    lastActivity: (await buildActivity(slug))[0]?.timestamp ?? null,
+    lastActivity: (await buildActivity(slug, cdPayload))[0]?.timestamp ?? null,
     surfaces: await buildSurfaces(slug, isClient),
     detailRoute: detailRoute(slug),
     enrichmentStatus: 'COMPLETE',
@@ -475,7 +489,7 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
       upcoming: commandItems.filter((i) => i.category === 'UPCOMING'),
       deferred: commandItems.filter((i) => i.category === 'DEFERRED'),
     },
-    activity: await buildActivity(slug),
+    activity: await buildActivity(slug, cdPayload),
     activityNote: slug === 'studio-world' ? 'UNIFIED ACTIVITY TIMELINE NOT YET IMPLEMENTED — SHOWING TRUTHFUL INDEX EVENTS ONLY' : null,
   };
 }
