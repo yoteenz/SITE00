@@ -163,6 +163,8 @@ type CreativeDirectionExperienceProps = {
   adminFooter?: ReactNode;
   /** Rendered inside the readiness banner when Brand Lore context is incomplete (XXXV). */
   calibrationLink?: ReactNode;
+  /** Rendered below the intelligence-ready banner when production engine controls are available. */
+  boardProductionLink?: ReactNode;
 };
 
 function specimenForAnchor(
@@ -194,6 +196,7 @@ export function CreativeDirectionExperience({
   backLink,
   adminFooter,
   calibrationLink,
+  boardProductionLink,
 }: CreativeDirectionExperienceProps) {
   const location = useLocation();
   const [payload, setPayload] = useState<CreativeDirectionPayload | null>(null);
@@ -361,6 +364,7 @@ export function CreativeDirectionExperience({
             {payload.meta.creativeIntelligence.formationSurface.message} THE DIRECTIONS BELOW ARE{' '}
             {payload.meta.creativeIntelligence.formationSurface.staticPreviewLabel.replace(/_/g, ' ')} — NOT NEWLY FORMED FROM BRAND LORE.
           </p>
+          {boardProductionLink}
         </section>
       ) : null}
 
