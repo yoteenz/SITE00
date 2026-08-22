@@ -7,6 +7,7 @@ import type {
   CreativeDirectionReadinessState,
   ReadinessDomain,
 } from './types.js';
+import { IDNTY_LORE_QUESTIONS } from './idnty-lore-questions.js';
 
 const REQUIRED_DOMAINS: ReadinessDomain[] = [
   'PURPOSE',
@@ -85,7 +86,7 @@ export function evaluateCreativeDirectionReadiness(
   return { state, missingDomains, satisfiedDomains };
 }
 
-/** Map missing readiness domains → lore step ids for calibration injection. */
+/** Map missing readiness domains → lore step ids in canonical lore flow order. */
 export function missingDomainsToLoreSteps(missing: ReadinessDomain[]): string[] {
   const map: Partial<Record<ReadinessDomain, string[]>> = {
     PURPOSE: ['belief', 'obsession'],
@@ -97,11 +98,11 @@ export function missingDomainsToLoreSteps(missing: ReadinessDomain[]): string[] 
     REFERENCE_CONTEXT: ['lineage', 'now', 'objects'],
     ANTI_DIRECTION: ['no-go', 'line'],
   };
-  const steps = new Set<string>();
+  const ids = new Set<string>();
   for (const domain of missing) {
-    for (const step of map[domain] ?? []) steps.add(step);
+    for (const step of map[domain] ?? []) ids.add(step);
   }
-  return [...steps];
+  return IDNTY_LORE_QUESTIONS.filter((q) => ids.has(q.id)).map((q) => q.id);
 }
 
 export function canBeginCreativeDirection(readiness: CreativeDirectionReadinessState): boolean {

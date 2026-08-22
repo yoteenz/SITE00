@@ -80,10 +80,11 @@ export function ProjectLoreCalibrationFlow({
     if (!resumeReady || loading || !step) return;
     const draftValue = form.value as string | string[];
     writeProjectLoreCalibrationResume(projectSlug, {
+      stepIds: steps.map((s) => s.id),
       stepId: step.id,
       answers: { ...answers, [step.id]: draftValue },
     });
-  }, [answers, form.value, loading, projectSlug, resumeReady, step?.id]);
+  }, [answers, form.value, loading, projectSlug, resumeReady, step?.id, steps]);
 
   const flushSave = useCallback(
     async (nextAnswers: Record<string, string | string[]>) => {
