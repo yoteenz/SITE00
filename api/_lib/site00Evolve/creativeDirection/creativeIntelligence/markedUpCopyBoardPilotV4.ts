@@ -430,7 +430,7 @@ export async function runMarkedUpCopyBoardPilotV4(params: {
     if (produced.referenceConditionedCalls > 0) {
       fal.referenceConditionedCalls.push({
         manifestId: entry.manifestId,
-        model: produced.asset.model ?? 'fal-ai/nano-banana-pro/edit',
+        model: produced.asset.model ?? 'openai/gpt-image-2/edit',
         referenceInputs: produced.asset.referenceImageInputs ?? [],
         outputStoragePath: produced.asset.storagePath,
       });

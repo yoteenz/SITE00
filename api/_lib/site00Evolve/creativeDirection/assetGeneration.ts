@@ -23,7 +23,7 @@ import { getSupabaseAdmin } from '../../supabase.js';
 import { buildGenerationPrompt, NDXBOOK_CREATIVE_ASSET_BRIEFS, type CreativeAssetBrief } from './visualAssetStrategy.js';
 import type { TerritorySpecimenImageAsset } from './types.js';
 
-export const CREATIVE_DIRECTION_FAL_MODEL = 'fal-ai/nano-banana-pro';
+export const CREATIVE_DIRECTION_FAL_MODEL = 'openai/gpt-image-2';
 const CREATIVE_DIRECTION_STORAGE_ROOT = 'site00/creative-direction';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
