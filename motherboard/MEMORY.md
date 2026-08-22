@@ -814,6 +814,14 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 
 ---
 
+
+## 2026-08-19 — Assessment complete secondary links row layout
+
+- **Request:** On IDNTY (and BLDR) assessment complete panels, put “SIGN IN TO SAVE” on the same row as “RETURN TO IDNTY”, opposite side — not stacked below.
+- **Fix:** Wrapped secondary links in `.site00-idnty-complete-actions__secondary-row` with `display: flex; justify-content: space-between` in `IdntyAssessmentCompletePage.tsx`, `BldrAssessmentCompletePage.tsx`, `site00-idnty-assessment.css`.
+- **Branch:** `cursor/idnty-complete-secondary-row-796f`.
+
+---
 ## 2026-08-19 — Fast Travel trigger outline removal (mobile)
 
 - **Request:** Remove blue outline around mobile Fast Travel icon button.
@@ -2420,4 +2428,3 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Fix:** Freeze full `stepIds` at session start in `localStorage` (`v2` key); always render that list for progress (06/08 stays stable). Resume index uses server answers against frozen list. `missingDomainsToLoreSteps` now returns canonical `IDNTY_LORE_QUESTIONS` order.
 
 - **Branch:** `cursor/calibration-frozen-steps-4f59`.
-
