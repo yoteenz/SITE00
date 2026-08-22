@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { LoreQuestionStep } from '../../../../shared/site00-brand-lore/idnty-lore-questions';
 import { LORE_SKIP_VALUE } from '../../../../shared/site00-brand-lore/adaptivity';
+import { loreInteractionMode } from '../../../../shared/site00-brand-lore/loreAnswerTypes';
 import type { StepFormValue } from '../idnty-assessment/IdntyStepForm';
 import { useStepForm } from '../idnty-assessment/IdntyStepForm';
 import { IdentityCalibrationConsole } from '../idnty/calibration/IdentityCalibrationConsole';
@@ -53,14 +54,17 @@ export function ProjectLoreCalibrationFlow({
   }, [initialAnswers, steps]);
 
   const step = steps[stepIndex] ?? null;
+  const defaultValueForStep = (s: LoreQuestionStep): StepFormValue =>
+    loreInteractionMode(s) === 'multi' ? [] : '';
+
   const existingValue = step
-    ? (answers[step.id] as StepFormValue) ?? (step.type === 'multi' ? [] : '')
+    ? (answers[step.id] as StepFormValue) ?? defaultValueForStep(step)
     : '';
   const form = useStepForm(existingValue);
 
   useEffect(() => {
     if (!step) return;
-    form.setValue((answers[step.id] as StepFormValue) ?? (step.type === 'multi' ? [] : ''));
+    form.setValue((answers[step.id] as StepFormValue) ?? defaultValueForStep(step));
   }, [step?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const flushSave = useCallback(

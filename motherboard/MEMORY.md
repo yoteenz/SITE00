@@ -2451,3 +2451,13 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 - **Complicated (coexist, not unified):** Two asset pipelines — main's `assetGeneration.ts` (Supabase manifest) vs branch's `generatedAssets.ts` (static webp + compositeMap). `territories.ts` uses static registry for `ndxbook` org only. Stale on-disk `generatedAssets/ndxbook.assets.json` (main page_001 brief keys) does not match branch priority briefs — manifest module retained but not wired into territory build.
 
+---
+
+## 2026-08-22 — Brand Lore multi-select incorporated into NDXBOOK CD branch
+
+- **Context:** Founder reported multi-selection still missing for NDXBOOK calibration (`role` / WHO ARE YOU IN THEIR WORLD?).
+
+- **Fix:** Cherry-picked `cursor/brand-lore-semantic-multi-select-1983` (commit `e66c65e`) into `cursor/ndxbook-cd-reference-locked-production-4f59`. `role` is now `MULTI_SELECT` with `selectionGuidance: 'MORE THAN ONE CAN BE TRUE.'`; synthesis preserves compound selections in `audienceRelationship: string[]`; UI shows guidance + SELECTED markers; `ProjectLoreCalibrationFlow` uses `loreInteractionMode()` for default values.
+
+- **Key files:** `loreAnswerTypes.ts`, `idnty-lore-questions.ts`, `loreSynthesis.ts`, `IdentityLoreStepForm.tsx`, `IdentityCalibrationOptionRows.tsx`, `ProjectLoreCalibrationFlow.tsx`.
+

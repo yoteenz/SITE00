@@ -46,7 +46,9 @@ export function shouldEnforceLoreReadinessGate(_orgSlug: string, profile: BrandL
 
 export function brandLoreLineageEntries(profile: BrandLoreProfile): string[] {
   const entries: string[] = [];
-  if (profile.audienceRelationship.value) entries.push(`audienceRelationship: ${profile.audienceRelationship.value}`);
+  if (profile.audienceRelationship.value?.length) {
+    entries.push(`audienceRelationship: ${profile.audienceRelationship.value.join(' + ')}`);
+  }
   if (profile.worldMetaphor.value) entries.push(`worldMetaphor: ${profile.worldMetaphor.value}`);
   if (profile.culturalOpposition.value?.length) entries.push(`culturalOpposition: ${profile.culturalOpposition.value.join(', ')}`);
   if (profile.coreObsessions.value) entries.push(`coreObsessions: ${profile.coreObsessions.value}`);

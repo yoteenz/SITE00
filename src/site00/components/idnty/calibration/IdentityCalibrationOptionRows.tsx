@@ -31,6 +31,11 @@ export function IdentityCalibrationOptionRows({
               <span className="site00-idnty-calibration-options__index">{num}</span>
               <span className="site00-idnty-calibration-options__divider" aria-hidden="true" />
               <span className="site00-idnty-calibration-options__label">{option.label}</span>
+              {isSelected && mode === 'multi' ? (
+                <span className="site00-idnty-calibration-options__selected-mark" aria-hidden="true">
+                  SELECTED
+                </span>
+              ) : null}
               <IdentityTargetControl selected={isSelected} />
             </button>
           </li>
