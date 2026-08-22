@@ -2708,6 +2708,16 @@ Summary: Founder on mobile requested tap-to-run production instead of curl/Railw
 
 ---
 
+## 2026-08-22 — Evolve admin CORS fix on fsbw-dev (PR #238)
+
+Summary: Founder still saw **LOAD FAILED** / **FAILED TO FETCH** on Production Controls after PR #237 routing fix.
+
+- **Root cause:** Cross-origin `fetch` from `site00.fsbw-dev.com` → `api.site00.com` used `credentials: 'include'`. API returns `Access-Control-Allow-Origin: *`; browsers block that combo (CORS preflight passes but actual request fails).
+- **Fix:** Removed `credentials: 'include'` from `evolveApi.ts` — Bearer token auth only. Verified Railway API healthy (200 with admin token); fsbw-dev local `/api` still stale (500 prompts.js) but evolve calls no longer hit it.
+- **Still required:** Sign in on site00 (preview admin bypass does not authenticate API). Then reload `/admin/site00/debug/evolve-creative-direction` and tap **RUN FULL PIPELINE (BACKGROUND)**.
+
+---
+
 ## 2026-08-22 — Background production jobs + export fix (PR #236)
 
 Summary: Founder reported Step 1 module export error and Step 2 EVOLVE API 404 on fsbw-dev; blocking sync requests impractical on mobile.
