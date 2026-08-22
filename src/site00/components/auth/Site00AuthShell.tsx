@@ -5,18 +5,21 @@ import { SITE00_ROUTES } from '../../config/routes';
 import { Site00AuthIntro } from './Site00AuthIntro';
 import { Site00OrbitalMark } from './Site00OrbitalMark';
 import { Site00SignInForm } from './Site00SignInForm';
+import { Site00CreateAccountForm } from './Site00CreateAccountForm';
 import { Site00MobileHeader } from '../mobile/Site00MobileHeader';
 import { FastTravelPanel } from '../fast-travel/FastTravelPanel';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 type Site00AuthShellProps = {
   children?: ReactNode;
+  /** Which auth surface to render when children are omitted. */
+  variant?: 'sign-in' | 'create-account';
 };
 
 const signInBgUrl = resolveSite00PublicAsset(SITE00_SIGNIN_DESKTOP_BG_FILE);
 const signInIconUrl = `${resolveSite00PublicAsset(SITE00_SIGNIN_ICON_PATH)}?v=${SITE00_SIGNIN_ICON_VERSION}`;
 
-export function Site00AuthShell({ children }: Site00AuthShellProps) {
+export function Site00AuthShell({ children, variant = 'sign-in' }: Site00AuthShellProps) {
   const [fastTravelOpen, setFastTravelOpen] = useState(false);
   const fastTravelTriggerRef = useRef<HTMLButtonElement>(null);
 
@@ -55,6 +58,21 @@ export function Site00AuthShell({ children }: Site00AuthShellProps) {
     };
   }, []);
 
+  const desktopForm =
+    children ??
+    (variant === 'create-account' ? (
+      <Site00CreateAccountForm layout="desktop" />
+    ) : (
+      <Site00SignInForm layout="desktop" />
+    ));
+  const mobileForm =
+    children ??
+    (variant === 'create-account' ? (
+      <Site00CreateAccountForm layout="mobile" />
+    ) : (
+      <Site00SignInForm layout="mobile" />
+    ));
+
   return (
     <div className="site00-auth-shell">
       <div className="site00-auth-shell__desktop">
@@ -81,7 +99,7 @@ export function Site00AuthShell({ children }: Site00AuthShellProps) {
           </div>
         </aside>
         <section className="site00-auth-shell__form-panel">
-          {children ?? <Site00SignInForm layout="desktop" />}
+          {desktopForm}
         </section>
       </div>
 
@@ -93,7 +111,7 @@ export function Site00AuthShell({ children }: Site00AuthShellProps) {
         />
         <main className="site00-auth-shell__mobile-main">
           <Site00AuthIntro variant="mobile" />
-          {children ?? <Site00SignInForm layout="mobile" />}
+          {mobileForm}
         </main>
         <FastTravelPanel
           open={fastTravelOpen}

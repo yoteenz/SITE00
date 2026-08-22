@@ -11,6 +11,8 @@ import { SITE00_ADMIN_ROUTES } from '../../config/routes';
 import { site00AdminIntakesApi } from '../../services/intakesApi';
 import { isIntakeType } from '../../../../../shared/site00-intakes/types';
 import type { IntakeAuditEvent, IntakeDetail, IntakeType } from '../../../../../shared/site00-intakes/types';
+import type { BrandLoreProfile } from '../../../../../shared/site00-brand-lore/types';
+import { BrandIntelligencePanel } from '../../components/operations/BrandIntelligencePanel';
 
 function formatDateTime(iso?: string | null) {
   if (!iso) return '—';
@@ -29,10 +31,13 @@ export default function IntakeDetailPage() {
   const intakeType: IntakeType | null = isIntakeType(rawType?.toUpperCase()) ? (rawType!.toUpperCase() as IntakeType) : null;
 
   const [intake, setIntake] = useState<IntakeDetail | null>(null);
+  const [brandLore, setBrandLore] = useState<BrandLoreProfile | null>(null);
   const [events, setEvents] = useState<IntakeAuditEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [confirmingField, setConfirmingField] = useState<string | null>(null);
+  const [confirmError, setConfirmError] = useState<string | null>(null);
 
   const load = () => {
     if (!intakeType || !intakeId) return;
@@ -41,6 +46,7 @@ export default function IntakeDetailPage() {
       .detail(intakeType, intakeId)
       .then((data) => {
         setIntake(data.intake);
+        setBrandLore((data as { brandLore?: BrandLoreProfile | null }).brandLore ?? null);
         setEvents(data.events ?? []);
       })
       .catch((e) => setError(e instanceof Error ? e.message : 'FAILED TO LOAD INTAKE'))
@@ -67,6 +73,16 @@ export default function IntakeDetailPage() {
       .then(load)
       .catch((e) => setError(e instanceof Error ? e.message : 'FAILED TO ARCHIVE'))
       .finally(() => setActionLoading(null));
+  };
+
+  const handleConfirmLoreField = (fieldKey: keyof BrandLoreProfile) => {
+    setConfirmError(null);
+    setConfirmingField(String(fieldKey));
+    site00AdminIntakesApi
+      .confirmLoreField(intakeId, String(fieldKey))
+      .then((data) => setBrandLore(data.brandLore))
+      .catch((e) => setConfirmError(e instanceof Error ? e.message : 'CONFIRMATION FAILED — NOT PERSISTED'))
+      .finally(() => setConfirmingField(null));
   };
 
   if (!intakeType) {
@@ -147,6 +163,21 @@ export default function IntakeDetailPage() {
                 </>
               ) : null}
             </dl>
+          </section>
+
+          <section className="site00-admin-panel">
+            <h2 className="site00-admin-panel__title">BRAND INTELLIGENCE</h2>
+            {confirmError ? <p className="site00-admin-panel site00-admin-panel--error">{confirmError}</p> : null}
+            <BrandIntelligencePanel
+              profile={brandLore}
+              rawLoreAnswers={
+                (intake.draftPayload as Record<string, unknown>)?.loreAnswers as
+                  | Record<string, string | string[]>
+                  | undefined
+              }
+              onConfirmField={intakeType === 'IDENTITY' ? handleConfirmLoreField : undefined}
+              confirmingField={confirmingField}
+            />
           </section>
 
           <section className="site00-admin-panel">

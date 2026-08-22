@@ -7,7 +7,10 @@ import {
   resetCreativeDirectionMemory,
   ensureCreativeDirectionEngagement,
   recordFounderDecision,
+  invalidateCreativeDirectionEngagement,
 } from './engagementService.js';
+import { submitOrgLoreCalibration } from '../../site00BrandLore/loreService.js';
+import { orgIdFromSlug } from '../orgRegistry.js';
 import { extractCoreDna, allBranchesPassLineageTest } from './coreDirection.js';
 import { NDXBOOK_CORE_DIRECTIONS, NDXBOOK_BRANCH_LINEAGE } from './coreDirectionDefinitions.js';
 import { branchPassesLineageTest, coreDirectionGateStatus, expansionFreedomFor } from './types.js';
@@ -140,6 +143,22 @@ describe('SITE 00 Core Direction Formation + Controlled Expansion methodology', 
   });
 
   it('12. Concept DNA is null until CORE_DIRECTION_APPROVED, then extracted from the Core Direction Board (§6)', async () => {
+    const orgId = orgIdFromSlug('ndxbook')!;
+    await submitOrgLoreCalibration({
+      orgId,
+      orgSlug: 'ndxbook',
+      answers: {
+        role: 'guide',
+        world: 'a living index of everything worth knowing',
+        feeling: ['curious'],
+        enemy: ['gatekeeping'],
+        lineage: 'archival ephemera',
+        now: 'editorial accounts',
+        objects: ['paper'],
+      },
+    });
+    invalidateCreativeDirectionEngagement('ndxbook');
+
     const engagement = await ensureCreativeDirectionEngagement('ndxbook');
     const territoryId = engagement.territories[0].id;
 

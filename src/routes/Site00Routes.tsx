@@ -34,6 +34,7 @@ import '../site00/styles/site00-desktop-artboard.css';
 import '../site00/styles/site00-desktop-artboard-preview.css';
 import '../site00/styles/site00-mobile-artboard.css';
 import '../site00/styles/site00-auth.css';
+import '../site00/styles/site00-auth-create-account.css';
 import '../site00/styles/site00-access.css';
 import '../site00/styles/site00-ctrl-room.css';
 import '../site00/styles/site00-ctrl-room-mobile.css';
@@ -43,6 +44,7 @@ import '../site00/styles/site00-idnty-assessment.css';
 import '../site00/styles/site00-idnty-state-v2.css';
 import '../site00/styles/site00-idnty-control-center.css';
 import '../site00/styles/site00-idnty-calibration-mobile.css';
+import '../site00/styles/site00-project-lore-calibration.css';
 import '../site00/styles/site00-pages.css';
 import '../site00/styles/site00-mobile-shell.css';
 import '../site00/styles/site00-studio.css';
@@ -61,6 +63,7 @@ const Site00BldrStatePage = lazy(() => import('../site00/pages/BldrStatePage'));
 const Site00EvolvePage = lazy(() => import('../site00/pages/EvolvePage'));
 const Site00EvolveStatePage = lazy(() => import('../site00/pages/EvolveStatePage'));
 const Site00SignInPage = lazy(() => import('../site00/pages/Site00SignInPage'));
+const Site00CreateAccountPage = lazy(() => import('../site00/pages/Site00CreateAccountPage'));
 const AccessCredentialPage = lazy(() => import('../site00/pages/access/AccessCredentialPage'));
 const AccessCredentialDebugPage = lazy(() => import('../site00/pages/access/AccessCredentialDebugPage'));
 const ControlOverviewPage = lazy(() => import('../site00/pages/control/ControlOverviewPage'));
@@ -78,6 +81,7 @@ const AccountIntakeDetailPage = lazy(() => import('../site00/pages/account/Accou
 const IntakeGuestAccessPage = lazy(() => import('../site00/pages/intake/IntakeGuestAccessPage'));
 const ProjectEvolvePage = lazy(() => import('../site00/pages/ProjectEvolvePage'));
 const ProjectCreativeDirectionPage = lazy(() => import('../site00/pages/ProjectCreativeDirectionPage'));
+const ProjectLoreCalibrationPage = lazy(() => import('../site00/pages/ProjectLoreCalibrationPage'));
 const SupportPage = lazy(() => import('../site00/pages/SupportPage'));
 const IdntySignInSecurityPage = lazy(() => import('../site00/pages/idnty/IdntySignInSecurityPage'));
 const BldrTemplatesPage = lazy(() => import('../site00/pages/bldr/BldrTemplatesPage'));
@@ -210,6 +214,30 @@ export function Site00Routes() {
           </Site00LoaderPreviewLayout>
         }
       />
+      {/* Auth routes before /origin — prevents origin homepage from swallowing /origin/sign-in and /origin/create-account */}
+      <Route
+        path={SITE00_ROUTES.signIn}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <Site00SignInPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.createAccount}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <Site00CreateAccountPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route path="/sign-in" element={<Navigate to={SITE00_ROUTES.signIn} replace />} />
+      <Route path="/register" element={<Navigate to={SITE00_ROUTES.createAccount} replace />} />
+      <Route path="/create-account" element={<Navigate to={SITE00_ROUTES.createAccount} replace />} />
       <Route
         path={SITE00_ROUTES.locations}
         element={
@@ -507,6 +535,18 @@ export function Site00Routes() {
         }
       />
       <Route
+        path={SITE00_ROUTES.projectLoreCalibration}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectLoreCalibrationPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
         path={SITE00_ROUTES.accountIntakes}
         element={
           <Site00Layout>
@@ -777,16 +817,6 @@ export function Site00Routes() {
           <Site00Layout>
             <Site00Suspense>
               <AccessCredentialPage />
-            </Site00Suspense>
-          </Site00Layout>
-        }
-      />
-      <Route
-        path={SITE00_ROUTES.signIn}
-        element={
-          <Site00Layout>
-            <Site00Suspense>
-              <Site00SignInPage />
             </Site00Suspense>
           </Site00Layout>
         }

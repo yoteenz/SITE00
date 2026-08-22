@@ -72,9 +72,18 @@ export type CreativeBrief = {
   differentiation: string[];
   voiceConstraints: { preserve: string[]; reject: string[] };
   classification: 'PROPOSED';
-  provenance: { source: 'CONTENT_BRAIN'; entryCount: number };
+  provenance: {
+    source: 'CONTENT_BRAIN' | 'BRAND_LORE' | 'BLENDED';
+    entryCount: number;
+    brandLoreProfileId?: string | null;
+  };
   /** Optional — brands classified before this field existed remain valid without it. */
   primaryContext?: BrandExpressionContext;
+  /** Brand expression context — from lore classification, not website-default. */
+  brandContextClassification?: string | null;
+  /** Internal readiness — never a fake percentage. */
+  brandLoreReadiness?: 'CONTEXT_INCOMPLETE' | 'CONTEXT_PARTIAL' | 'CORE_DIRECTION_READY' | null;
+  brandLoreLineage?: string[];
 };
 
 export type TerritoryRendererKey = 'index_signal' | 'editorial_utility' | 'kinetic_field';
@@ -327,6 +336,23 @@ export function expansionFreedomFor(lifecycleState: CreativeDirectionLifecycle):
   return { level: approved ? 'HIGH' : 'LOW', conceptDriftTolerance: 'LOW' };
 }
 
+/** Truthful generation/approval state for a real FAL-produced visual asset. GENERATED never implies APPROVED. */
+export type CreativeAssetApprovalState = 'GENERATED' | 'PROPOSED' | 'APPROVED';
+
+/** Persisted manifest shape used by assetGeneration.ts (Supabase-backed governed generation). */
+export type TerritorySpecimenImageAsset = {
+  url: string;
+  storagePath: string;
+  model: string;
+  volume: string;
+  role: 'PAGE_001_PRIMARY' | 'PAGE_001_SECONDARY' | 'VOLUME_PROOF' | 'TEXTURE_MATERIAL';
+  brief: string;
+  negativePrompt: string;
+  generatedAt: string;
+  approvalState: CreativeAssetApprovalState;
+  provenance: Record<string, unknown>;
+};
+
 export type TerritorySpecimen = {
   id: string;
   territoryId: string;
@@ -337,7 +363,7 @@ export type TerritorySpecimen = {
   generationJobId: string | null;
   provenance: Record<string, unknown>;
   /** Present only for HYBRID_COMPOSITION / GENERATED_ASSET specimens; absent specimens render SVG-only. */
-  imageAsset?: SpecimenImageAsset;
+  imageAsset?: SpecimenImageAsset | null;
 };
 
 export type CreativeTerritory = {
@@ -439,6 +465,13 @@ export type CreativeDirectionEngagement = {
   founderDecision: FounderDecision | null;
   visualDna: VisualDnaContract;
   page001Gate: Page001ReadinessGate;
+  /** Brand lore readiness gate — blocks auto-generation when incomplete (non-NDXBOOK intake flows). */
+  brandLoreReadiness?: {
+    state: 'CONTEXT_INCOMPLETE' | 'CONTEXT_PARTIAL' | 'CORE_DIRECTION_READY';
+    blocked: boolean;
+    message: string | null;
+    missingDomains: string[];
+  } | null;
   legacyReference: {
     indigoSlate: { status: 'REFERENCE_ONLY'; promotedToCanon: false };
     laceMastery: { status: 'REJECTED_MISATTRIBUTED' };

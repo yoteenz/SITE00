@@ -9,6 +9,8 @@ import {
   synthesizeCreativeBrief,
   OPEN_QUESTIONS,
 } from './intelligenceBrief.js';
+import { brandLoreReadinessGate, shouldEnforceLoreReadinessGate } from '../../site00BrandLore/brandLoreBridge.js';
+import { getOrReconcileBrandLoreForOrg } from '../../site00BrandLore/loreService.js';
 import { generateTerritories, buildComparison } from './territories.js';
 import {
   emptyVisualDnaContract,
@@ -30,6 +32,13 @@ export function resetCreativeDirectionMemory(): void {
   engagements.clear();
 }
 
+/** Evicts only one org's cached engagement — used after a lore calibration submission so the next
+ * read re-resolves readiness, without discarding other orgs' in-flight founder decisions (XXIX). */
+export function invalidateCreativeDirectionEngagement(orgSlug: string): void {
+  const orgId = orgIdFromSlug(orgSlug);
+  if (orgId) engagements.delete(orgId);
+}
+
 function assertOrg(orgSlug: string): string {
   const orgId = orgIdFromSlug(orgSlug);
   if (!orgId) throw new Error('Organization not registered');
@@ -48,16 +57,28 @@ function page001Gate(visualDnaStatus: string): CreativeDirectionEngagement['page
   };
 }
 
-export async function ensureCreativeDirectionEngagement(orgSlug: string): Promise<CreativeDirectionEngagement> {
+export async function ensureCreativeDirectionEngagement(
+  orgSlug: string,
+  brandLore?: import('../../../shared/site00-brand-lore/types.js').BrandLoreProfile | null,
+): Promise<CreativeDirectionEngagement> {
   const orgId = assertOrg(orgSlug);
   const existing = engagements.get(orgId);
   if (existing) return existing;
 
+  // No bypass (XXIV): when the caller doesn't explicitly pass a profile, load the real one — for
+  // ndxbook this reconciles existing Content Brain intelligence into an honest, possibly-partial
+  // Brand Lore profile instead of silently skipping the gate (see loreService.getOrReconcileBrandLoreForOrg).
+  const resolvedBrandLore =
+    brandLore !== undefined ? brandLore : await getOrReconcileBrandLoreForOrg(orgId, orgSlug);
+
   const intel = await loadCanonicalIntelligence(orgSlug);
   const entries = await getContentBrainByOrgId(orgId);
-  const brief = synthesizeCreativeBrief(orgSlug, intel.sections, entries.length);
+  const brief = synthesizeCreativeBrief(orgSlug, intel.sections, entries.length, resolvedBrandLore ?? null);
   const territories = generateTerritories(brief);
   const comparison = buildComparison(territories);
+
+  const readinessGate = brandLoreReadinessGate(resolvedBrandLore ?? null);
+  const enforceGate = shouldEnforceLoreReadinessGate(orgSlug, resolvedBrandLore ?? null);
 
   const engagement: CreativeDirectionEngagement = {
     id: randomUUID(),
@@ -67,6 +88,7 @@ export async function ensureCreativeDirectionEngagement(orgSlug: string): Promis
     lineage: [
       `${orgSlug} organization`,
       'Content Brain',
+      ...(resolvedBrandLore ? ['Brand Lore Profile', 'Identity intake answers'] : []),
       'Creative Direction engagement',
       'direction territories',
       'founder decisions (pending)',
@@ -81,6 +103,14 @@ export async function ensureCreativeDirectionEngagement(orgSlug: string): Promis
     founderDecision: null,
     visualDna: emptyVisualDnaContract(),
     page001Gate: page001Gate('INCOMPLETE'),
+    brandLoreReadiness: enforceGate
+      ? {
+          state: readinessGate.state,
+          blocked: readinessGate.blocked,
+          message: readinessGate.message,
+          missingDomains: readinessGate.missingDomains,
+        }
+      : null,
     legacyReference: {
       indigoSlate: { status: 'REFERENCE_ONLY', promotedToCanon: false },
       laceMastery: { status: 'REJECTED_MISATTRIBUTED' },
@@ -170,6 +200,14 @@ export async function recordFounderDecision(
     if (!territory) throw new Error('Territory not found');
 
     if (input.type === 'APPROVE') {
+      // Visual DNA / Core Direction Formation approval must respect the same Brand Lore readiness
+      // gate as FAL dispatch (XXXI) — CORE_DIRECTION_READY is a prerequisite for approval, not the
+      // approval itself. Reviewing/selecting a territory (HYBRIDIZE) remains unaffected.
+      if (engagement.brandLoreReadiness?.blocked) {
+        throw new Error(
+          engagement.brandLoreReadiness.message ?? 'CONTEXT CALIBRATION REQUIRED — cannot approve Creative Direction yet.',
+        );
+      }
       engagement.lifecycle_state = 'APPROVED';
       territory.lifecycleState = 'APPROVED';
       engagement.visualDna = promoteVisualDnaToApproved(
@@ -205,11 +243,18 @@ export function getEngagementLifecycle(orgSlug: string): CreativeDirectionLifecy
   return engagements.get(orgId)?.lifecycle_state ?? null;
 }
 
-export async function queueFalGenerationJobs(orgSlug: string): Promise<{ queued: number; skipped: boolean }> {
+export async function queueFalGenerationJobs(orgSlug: string): Promise<{ queued: number; skipped: boolean; blockedReason?: string }> {
   if (!process.env.FAL_KEY?.trim()) {
     return { queued: 0, skipped: true };
   }
   const engagement = await ensureCreativeDirectionEngagement(orgSlug);
+  if (engagement.brandLoreReadiness?.blocked) {
+    return {
+      queued: 0,
+      skipped: true,
+      blockedReason: engagement.brandLoreReadiness.message ?? 'CONTEXT CALIBRATION REQUIRED',
+    };
+  }
   let queued = 0;
   for (const territory of engagement.territories) {
     for (const specimen of territory.specimens) {

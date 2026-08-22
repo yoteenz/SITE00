@@ -2103,6 +2103,28 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 ---
 
+---
+
+## 2026-08-21 — NDXBOOK Creative Direction: art-directed visual worlds + FAL asset production pass
+
+- **Context:** Founder approved the three structurally-distinct territories (INDEX SIGNAL, EDITORIAL UTILITY, KINETIC FIELD) from the prior sprint but they were still wireframe-quality — SVG-only specimens with placeholder boxes, no real imagery, not yet "founder-reviewable creative worlds." Task: elevate each territory to real, NDXBOOK-specific, art-directed presentations using the existing FAL pipeline, while preserving locked structural differentiation and founder decision gates (never auto-approve).
+
+- **Strategy layer (new file `api/_lib/site00Evolve/creativeDirection/visualAssetStrategy.ts`):** Per-territory `TerritoryVisualStrategy` (photographic/graphic/illustration language, texture/material, subject treatment, per-volume treatment across all 5 NDXBOOK volumes, prohibited clichés) for each territory, plus a curated `NDXBOOK_CREATIVE_ASSET_BRIEFS` set (12 briefs: Page 001 for credit score/debt payoff in each territory + additional-volume proofs across BODY/MIND/TECH/CONSUMER) and `buildGenerationPrompt()`.
+
+- **Governed FAL pipeline (new file `assetGeneration.ts`):** Reuses existing `fal-ai/nano-banana-pro` client + Supabase storage helpers (no new provider, no hardcoded secrets — `FAL_KEY`/`SUPABASE_SERVICE_ROLE_KEY` stay server-side). Every asset persists with `approvalState: 'GENERATED'` (never auto-`APPROVED`) plus full provenance. **Security fix:** manifest never writes the Supabase domain to disk (it's a configured secret and trips the commit secret-scanner) — only `storagePath` is persisted; `loadGeneratedAssetManifest()` reconstructs the public url at load time from `storagePath` + `SITE00_ASSETS_BUCKET`. New admin action `creative_direction_generate_visual_assets` in `api/admin/site00-evolve.ts` triggers the batch pass and calls `resetCreativeDirectionMemory()`.
+
+- **Rendering:** `TerritorySpecimen.imageAsset?: TerritorySpecimenImageAsset | null` (types.ts). `territories.ts` loads the manifest and attaches images to matching specimens by `territoryKey:specimenType`. All three renderers (`IndexSignalTerritoryView`, `EditorialUtilityTerritoryView`, `KineticFieldTerritoryView`) render real imagery via SVG `<image>` + `clipPath` + readability overlays when an asset is present, falling back to the existing SVG-only specimen otherwise — structural differentiation untouched. `SpecimenFrame` surfaces provenance (approval state, model, volume) under image-backed specimens. Per-territory CSS filters (grayscale for INDEX SIGNAL, saturate/contrast for KINETIC FIELD) keep imported photography cohesive with each territory's language.
+
+- **Render → inspect → refine (one loop per territory, done via `ReactDOMServer` + Playwright screenshots, not the live browser):** INDEX SIGNAL (archival still-life: folded statement + red thread, index cards + brass fasteners, anatomical chart + tape measure, annotated notebook) and EDITORIAL UTILITY (commissioned-magazine still life: wallet/cash/card, notebook + calculator, phone on desk, receipt + tags) passed review as-is. KINETIC FIELD's first pass read too close to the explicitly prohibited "generic AI-startup abstract mesh / cyberpunk neon" (converging fiber-optic light rays, digital-rain numerals) — **refined**: rewrote the strategy + 3 of 4 briefs to a sculptural kinetic-numeral + backlit index-tab visual system (ties to NDXBOOK's indexable-knowledge concept instead of generic tech-mesh), regenerated via FAL (deleted old Supabase objects first since `uploadSite00AssetBuffer` uses `upsert:false`), re-verified. Added new prohibited-cliché entries to lock this in for future generations.
+
+- **Tests/build:** 398 tests PASS (27 files, incl. new `visualAssetStrategy.test.ts` + `assetGeneration.test.ts`). `tsc --noEmit` clean. Build PASS. All 12 curated assets generated and persisted to Supabase (`live-preview` bucket, `site00/creative-direction/ndxbook/...`) + manifest (`generatedAssets/ndxbook.assets.json`, committed, url-free).
+
+- **Also this session:** Restarted the `site00-preview-tunnel` cloudflared tunnel (it had dropped after a prior Vite restart) and confirmed the public preview tunnel + local `:5174` both return 200 before continuing the FAL work.
+
+- **Not merged:** PR #192 (`cursor/ndxbook-cd-fal-visual-assets-1983` → `main`) pushed and marked ready for review, but **not auto-merged** — cloud-agent system instructions for this run explicitly prohibit merging PRs without explicit user instruction (overrides the shipping.mdc default-merge convention). Founder should merge from GitHub when ready.
+
+---
+
 ## 2026-08-21 — Identity + Builder intake persistence, guest access & retrieval (infrastructure sprint)
 
 - **Context:** Founder-specified infrastructure sprint (not a visual redesign). Identity and Builder intakes only ever persisted to `localStorage` — no server draft, no resume-by-email, no client/admin retrieval, no submission receipt, no lineage to downstream engagement/project. Explicitly out of scope: email art direction (placeholders only), deploy, real email sends, and any change to Frontal Slayer/Studio World/AIO/NDXBOOK/EVOLVE/Email Family 01.
@@ -2148,6 +2170,26 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Methodology capture:** New `docs/site00/REFERENCE_TO_PRODUCTION_ASSET_PIPELINE.md` — 18-stage reference→production pipeline, 3 fidelity modes, 4 asset classifications, central rule ("approved produced artwork must not be downgraded into a code approximation"). Status: `PILOT_VALIDATED`. Explicitly not yet adopted into Studio World runtime — flagged as a `PRODUCTIZATION_CANDIDATE` for a future sprint.
 
 - **Shipping:** Branch `cursor/intake-access-fal-visual-pilot-1983`, PR #195 opened against `main` and merged in the same session per the default shipping workflow (no merge conflicts — clean fast-forward ahead of `main`). No deploy, no real emails sent, no changes to Frontal Slayer/Studio World runtime/AIO/NDXBOOK/Family 01.
+
+---
+
+## 2026-08-21 — AIO Projects index integration + Intake Access rendering-medium/compositing fidelity pass
+
+This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRISES to the canonical founder Projects index, and (2) a stricter forensic fidelity/audit pass on the Intake Access email family's already-implemented FAL production pilot (above), re-auditing it against the founder-approved reference under a much more explicit rendering-medium/asset-treatment doctrine.
+
+- **AIO Projects index integration (completed first, separate PR):** Added `all-in-one-enterprises` to the canonical founder project registry/resolver reusing the existing org UUID `3781f0b7-cbc5-470d-8af7-69b97cfa5729` (no new org, no duplicate EVOLVE profile). Preserved `SOCIAL MARKETING: DEFERRED_BY_OWNER` (never `BLOCKED`), surfaced a truthful `REPOSITORY CONNECTION UNAVAILABLE` state rather than hiding the project, and removed the founder-project slug whitelist on `ProjectEvolvePage` so privileged utilities generalize to all four founder projects. Founder index now returns 4 projects (Frontal Slayer, Studio World, ndxbook, AIO) derived dynamically, not hardcoded. 21 new tests + regression fixes; branch `cursor/aio-project-index-integration-1983`, merged to `main` (commit `fe2682a`).
+
+- **Intake Access fidelity pass — forensic audit found the prior pilot's "APPROVED" isolation notes were not actually verified.** Direct pixel/metadata inspection (not visual approximation) found: (1) the archival note (`I02`) and fingerprint (`I03`) were flat-lay *photographs on white*, not true alpha-transparent isolation masters — each carried its own vignette that produced a visible rectangular halo once composited onto the collage's white canvas; (2) the evidence seal (`I04`) was believed to have a transparent background, but `sharp` metadata (`channels:3, hasAlpha:false`) proved the model had painted a literal opaque *checkerboard pattern* as background pixels — a known text-to-image failure mode of drawing the symbol of transparency instead of a real alpha channel; (3) once corrected, the mobile evidence strip's prior coordinates read as disconnected fragments, because the old vignettes had been (accidentally) visually bridging the gap between assets.
+
+- **Fixes:** New `scripts/site00-email-intake-assets/remove-background.mjs` runs `fal-ai/birefnet/v2` (background-removal model, not the original text-to-image model) on all three defective assets, producing real isolation masters verified via white/black/50%-gray isolation QA (composited over each, inspected for halo/residue). `composite-i05.mjs` updated to source from the isolation masters (`fit:'inside'` to preserve the full silhouette instead of `fit:'cover'` which cropped transparent edges) and mobile coordinates retightened so the fingerprint/note/seal/portrait read as one connected evidence strip. Also added `SVG_NATIVE` header crosshair ticks (`intakeHeaderTick()`) flanking the wordmark in both Builder and Identity headers — present in the reference, missing from the prior implementation; a genuine Rule 3 (exact vector geometry) gap-fill, not a defect fix.
+
+- **Manifest upgrade:** `shared/site00-email/production/intake-access-manifest.ts` now carries a full rendering-medium fidelity schema on every entry: `renderingMedium`/`renderingMediumReason` (one of `HTML_TEXT`/`CSS_NATIVE`/`SVG_NATIVE`/`CODE_GENERATED_GRAPHIC`/`FAL_GENERATED_ASSET`/`FAL_GENERATED_AND_ISOLATED_ASSET`/`EXISTING_CANONICAL_ASSET`/`DETERMINISTIC_COMPOSITE`/`HYBRID_COMPOSITION`), physical/geometry/dynamic-data requirement booleans, `compositingRole`, `backgroundMode`, `edgePolicy`, `shadowPolicy`, five-stage production lineage (`generationMaster`→`isolationMaster`→`compositionMaster`→`desktopDerivative`/`mobileDerivative`→`emailDerivative`), measured `compositeMapDesktop`/`compositeMapMobile` (normalized x/y/width/height/rotation/zIndex/overlap coordinates against the actual 1000x1100 desktop and 1100x620 mobile Identity canvases, and the Builder blueprint placement), full `processingHistory` (every rejection-loop iteration with reason/corrective-change/final-state — including the background-removal fixes above), `generationModel`/`processingModel`/`iterationCount`, and `deliveryStrategy`. Added a companion `INTAKE_ACCESS_RENDERING_MEDIUM_MATRIX` array covering ~19 fine-grained HTML/CSS/SVG elements (headline, CTA, progress rail, assurance icons/copy, dividers, coordinate marks, etc.) that the two `CODE_NATIVE` catch-all manifest entries only summarize at a coarse grain.
+
+- **Methodology doc generalized (v2):** `docs/site00/REFERENCE_TO_PRODUCTION_ASSET_PIPELINE.md` gained formal doctrine sections — Rendering Medium Decision (with the Visual Physics override and Fidelity-over-technical-cleverness rules), Asset Treatment Doctrine (compositing role, background mode table, edge policy, shadow ownership, why background removal is a distinct verified operation, isolation QA), Production Lineage, Composite Mapping (relational anchors/z-order/overlap, breakpoint-specific maps, static-vs-dynamic separation), Reference-Conditioned Generation + FAL model selection, Rejection Loops, the Runtime Visual Approval Gate (the actual lesson of this sprint: tests/URL-resolution/manifest "APPROVED" notes are not evidence of correctness — open the render and check the actual alpha channel), and Brand/Text Ownership. Documented this sprint's three forensic findings as a worked lesson. Added a documentation-only Universal Production Scope section and a Motion/Video Future Extension vocabulary (start/end frame, object identity, alpha assets, camera lock, motion/transition ownership, frame-by-frame composite map) — explicitly not implemented, Studio World runtime untouched.
+
+- **Verification:** Rendered both templates via `render-html.mjs` + Playwright screenshots (`screenshot.mjs`) at 375/390/430/640px; visually confirmed clean edges (no halo/checkerboard residue) and a connected evidence cluster on both breakpoints, no CTA wrap/overflow. ~30 new tests in `intakeAccess.test.ts` (manifest metadata validity, isolation-master URL resolution, independent desktop/mobile composite maps, no dynamic data through a rasterizing medium, seal mark stays `HYBRID_COMPOSITION`, header tick SVG presence). Full suite after merging AIO's `main` commits in: 526/526 tests PASS, `tsc --noEmit` PASS, `npm run build` PASS (two pre-existing Supabase-timeout test flakes under full-suite resource contention confirmed unrelated — pass individually).
+
+- **Shipping:** Branch `cursor/intake-access-fal-visual-pilot-1983` (same branch as the original pilot — its first PR #195 had already merged) got new commits, merged forward with `origin/main` (clean, no conflicts), and PR #200 opened + marked ready for review. Not merged to `main` by the agent — this cloud sandbox's `ManagePullRequest` tool has no merge action and its `gh` CLI access is read-only, so merging is left for the founder via the GitHub app, consistent with the tool-level "never merge without explicit instruction" constraint. No deploy, no real emails sent, no changes to Frontal Slayer/Studio World runtime/AIO/NDXBOOK/Family 01.
 
 ---
 
@@ -2249,6 +2291,30 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 ---
 
+---
+
+## 2026-08-21 — Identity + Builder Brand Lore Intelligence Expansion
+
+- **Context:** Large sprint to expand Identity and Builder intake upstream of Creative Direction — collect structured brand-world intelligence (worldview, emotional promise, cultural tension, references, anti-direction, digital experience behavior) without turning intake into a corporate branding worksheet. Explicit: no deploy, no emails, **do not merge without founder instruction**.
+
+- **Forensic audit:** Identity previously captured operational scoping only (project type, goals, audience, timeline, budget) — 0/19 lore domains. Builder partially prefilled Identity via localStorage (audience, timeline, budget) but did not inherit lore server-side. Creative Direction consumed Content Brain + hardcoded NDXbook brief with no readiness gate. No canonical BrandLoreProfile existed.
+
+- **Architecture implemented:**
+  - `shared/site00-brand-lore/` — types, 19 lore question registry, 11 Builder experience questions, adaptivity, readiness (`CONTEXT_INCOMPLETE` / `CONTEXT_PARTIAL` / `CORE_DIRECTION_READY`), context classification (NDXBOOK → `SOCIAL_FIRST_EDITORIAL`, no website-default), lore synthesis (deterministic, shared for frontend + API).
+  - `api/_lib/site00BrandLore/` — loreService, memoryStore, experienceSynthesis, brandLoreBridge; wired into `intakeService.ts` autosave/submit for Identity lore + Builder experience.
+  - Identity UX: core calibration → review → `/world/:stepId` lore phase → `world-review` ("WHAT WE HEARD") → calibration injection if readiness incomplete → submit.
+  - Builder UX: experience translation at `/bldr/:slug/experience/:stepId`; inherits Identity lore snapshot; contextualized movement prompt when world metaphor known.
+  - Creative Direction: `intelligenceBrief.ts` blends Brand Lore when present; `engagementService.ts` exposes `brandLoreReadiness` gate (blocks FAL queue when incomplete); NDXBOOK bypass preserved.
+  - Admin: `BrandIntelligencePanel` on intake detail with structured sections + provenance; API returns `brandLore` on detail fetch.
+
+- **Tests:** 30 new brand-lore cases + intake lore autosave integration. Full suite **538/538 PASS**. Build PASS.
+
+- **Branch:** `cursor/identity-builder-brand-lore-1983`. PR opened, **not merged** (founder instruction).
+
+- **Conventions:** Raw founder answers stay in intake `loreAnswers`; synthesized profile is separate with per-field provenance (`RAW_FOUNDER_INPUT`, `FOUNDER_CONFIRMED`). Never auto-confirm AI synthesis. NDXBOOK canon unchanged. Builder must not re-ask Identity lore fields listed in `BUILDER_INHERITED_LORE_FIELDS`.
+
+---
+
 ## 2026-08-21 — Cloud Agent auto-start preview + GoDaddy deploy bundle
 
 - **Context:** Founder asked how to extend preview tunnel uptime; requested `.cursor/environment.json` for auto-start (close to always-on) and a direct cPanel deploy download link.
@@ -2301,4 +2367,75 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 - **Direct download:** `https://github.com/yoteenz/SITE00/releases/download/site00-deploy-2026-08-21-v2/site00-production-dist-2026-08-21-v2.zip`
 
 - **Still required for Projects:** GoDaddy DNS CNAME `api` → Railway hostname (remove `api` A record to GoDaddy IP if present).
+
+---
+
+## 2026-08-21 — Cloudflare preview tunnel restart (fresh VM)
+
+- **Request:** Restart the preview tunnel.
+- **Context:** Fresh cloud agent VM — no tmux server was running at all (neither `site00-vite` nor `site00-preview-tunnel` existed yet), so this was a from-scratch bring-up, not just a kill/relaunch.
+- **Action:** Created `site00-vite` tmux session, ran `npm run dev` (Vite already defaults to `--port 5174 --host`) with `SITE00_CLOUD_MOBILE_PREVIEW=1`. `/tmp/cloudflared` binary was missing — downloaded `cloudflared-linux-amd64` from GitHub releases (v2026.8.2), `chmod +x`. Created `site00-preview-tunnel` tmux session running `/tmp/cloudflared tunnel --no-autoupdate run --token "$SITE00_CLOUDFLARE_TUNNEL_TOKEN"`. 4 QUIC connections registered, precheck healthy, ingress config resolved hostname → `http://localhost:5174`. Refreshed `/tmp/site00-cloud-preview-url.txt`; confirmed `curl` to the tunnel hostname returns `200`.
+- **Convention reinforced:** On a brand-new VM, don't assume `site00-vite`/`site00-preview-tunnel` tmux sessions or `/tmp/cloudflared` exist — check `tmux ls` and `ls /tmp/cloudflared` first and bootstrap both if absent, same steps as a warm restart.
+
+---
+
+## 2026-08-21 — Cloudflare preview tunnel restart (warm, second request same session)
+
+- **Request:** Restart the tunnel again (follow-up in the same chat, ~20 min after the first restart).
+- **Action:** `site00-vite` was already healthy (`curl localhost:5174` → 200) — left untouched. Sent `C-c` + `kill-session` to `site00-preview-tunnel`, `pkill -f "cloudflared tunnel"` to be sure the old process was gone, then created a **fresh** tmux session and relaunched `/tmp/cloudflared tunnel --no-autoupdate run --token "$SITE00_CLOUDFLARE_TUNNEL_TOKEN"`. 4 new QUIC connections registered, precheck healthy, `curl https://$SITE00_CLOUDFLARE_TUNNEL_HOSTNAME/` → 200.
+- **Gotcha:** `kill-session` immediately followed by `new-session` + `send-keys` for the *same session name* in one chained command sometimes raced and left no session at all (`tmux ls` showed it missing right after). Fix: create the new session and confirm with `tmux ls` **before** sending the `cloudflared` command into it, rather than chaining kill+create+send-keys in a single shot.
+
+---
+
+## 2026-08-21 — Mobile Brand Lore calibration + Create Account closure sprint
+
+- **Context:** Founder sprint to fix two blocking SITE 00 client-experience gaps on the brand-lore stack: (1) `/projects/:projectSlug/calibrate` not usable on mobile, (2) no production-ready CREATE ACCOUNT onboarding surface. Preserve Brand Lore readiness, intake persistence, dual-context, project authorization; do **not** merge/deploy/send emails/modify NDX BOOK Creative Direction without explicit founder instruction.
+
+- **Forensic audit root causes:**
+  - **Mobile calibration:** Route was registered correctly (`Site00AccountRouteGuard` + `EcosystemShell`); failure was UX/architecture — `ProjectLoreCalibrationPage` rendered all missing lore steps at once (desktop-dense layout), not Identity-style one-question-at-a-time flow; no per-step flush save; showed raw slug not friendly name (e.g. NDX BOOK).
+  - **Create account:** No canonical registration route; sign-in **CREATE ACCOUNT** link looped to `/sign-in?returnTo=...` (dead link).
+
+- **Mobile calibration fix:** New `ProjectLoreCalibrationFlow` reuses canonical `IdentityLoreStepForm`, `IdentityCalibrationConsole`, `IdentityCalibrationNavigation`; flush-save on each step via `site00ProjectsApi.submitLoreCalibration()` before advancing; `projectDisplayName()` maps `ndxbook` → **NDX BOOK**; API `creative_direction` action returns `brandLoreCalibrationAnswers` from org lore profile for resume.
+
+- **Create account fix:** Canonical route **`/origin/create-account`** (`SITE00_ROUTES.createAccount`); aliases `/register`, `/create-account` redirect; `/sign-in` → sign-in. `Site00CreateAccountForm` + `site00SignUpWithPassword()` (Supabase signUp, password mismatch/invalid email mapping, active session vs verification-required, `claimGuestIntakes()` on active session). Shared `Site00AuthShell` variant `create-account`. Sign-in CREATE ACCOUNT link fixed via `site00CreateAccountHrefWithReturnTo()`.
+
+- **Tests:** 12 new cases (routes, project display name, calibration step mapping, sign-up actions). Full suite **566/566 PASS**. `tsc --noEmit` PASS. `npm run build` PASS.
+
+- **Browser QA:** Create account verified at 375/390/430/640/1024/1440 — no horizontal overflow; labels/CTAs present; returnTo preserved in sign-in link. Sign-in CREATE ACCOUNT link points to `/origin/create-account`. Calibration route correctly auth-guards to sign-in with returnTo; full mobile calibration UI QA requires founder authenticated session (not attempted — no credentials in agent env).
+
+- **Branch:** `cursor/mobile-lore-calibration-account-4f59` (from `cursor/brand-lore-productionization-4f59`). PR opened, **not merged** (founder instruction).
+
+---
+
+## 2026-08-22 — Create account route homepage redirect fix
+
+- **Symptom:** Sign-in **CREATE ACCOUNT** sent users to SITE 00 homepage instead of registration form on production.
+
+- **Root cause:** Production GoDaddy bundle predated `/origin/create-account` route; App.tsx catch-all `*` → `/` when route missing. Sign-in link also passed resolved `/control` returnTo instead of preserving raw query.
+
+- **Fix:** Moved auth routes (`/origin/sign-in`, `/origin/create-account`, aliases) **before** `/origin` in `Site00Routes`; added `site00CreateAccountLinkTarget()` for React Router `Link` targets; sign-in footer uses object `to` with preserved `returnTo`. Requires redeploy of frontend from `main`.
+
+---
+
+## 2026-08-22 — Create account still routes to homepage (live deploy gap)
+
+- **Symptom:** Founder reports CREATE ACCOUNT still lands on homepage after code fixes merged (#210, #212).
+
+- **Diagnosis:** Live `site00.com` still serves pre-Aug-22 bundle `assets/index.BT7zuSxb.js` — zero `create-account` strings in JS; `SITE00_ROUTES` in that bundle has `signIn` but no `createAccount`. Unmatched `/origin/create-account` hits App.tsx catch-all → `/`. Code on `main` is correct; v3 release ZIP contains `index.CNB6EHR2.js` with route baked in.
+
+- **Action:** Not a code regression — **GoDaddy cPanel upload required**. Updated `SITE00-DEPLOY-README.txt` v4 with bundle hash check (BT7zuSxb = broken, CNB6EHR2+ = fixed); production `vite build` now stamps `app-build-id` meta (was `__APP_BUILD_ID__` placeholder on live). README deploy section notes view-source check.
+
+- **Founder deploy (mobile):** Download [site00-production-dist-2026-08-22.zip](https://github.com/yoteenz/SITE00/releases/download/site00-deploy-2026-08-22/site00-production-dist-2026-08-22.zip) → cPanel File Manager → public_html → upload → extract in place → hard refresh. Verify `/origin/create-account` shows form and page source no longer references `index.BT7zuSxb.js`.
+
+---
+
+## 2026-08-22 — Create account still redirects (confirmed undeployed Aug 22 bundle)
+
+- **Symptom:** Founder reports CREATE ACCOUNT still lands on Origin homepage after code fixes.
+
+- **Live verification:** `site00.com` still serves `index.BT7zuSxb.js` (Last-Modified **2026-08-21 20:49 UTC**). Browser QA: sign-in → CREATE ACCOUNT → `/` homepage; direct `/origin/create-account` → `/` homepage.
+
+- **Old bundle bug (forensic):** CREATE ACCOUNT link target is `` `/sign-in?returnTo=...` `` (not `/origin/create-account`); old bundle has no `/sign-in` alias route → App catch-all `*` → `/` (Origin). New bundle on main has `createAccount:"/origin/create-account"` and auth routes before `/origin`.
+
+- **Not a code regression** — Aug 22 release ZIP was never uploaded to GoDaddy. Added: `.htaccess` no-cache for index.html, boot-gate skip for `/origin/create-account`, `scripts/package-cpanel-deploy.sh`, deploy readme v5 with delete-old-files-first mobile steps.
 

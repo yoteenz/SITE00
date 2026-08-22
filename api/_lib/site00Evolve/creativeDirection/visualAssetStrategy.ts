@@ -253,3 +253,6 @@ export const NDXBOOK_PRIORITY_ASSET_BRIEFS: CreativeAssetBrief[] = [
     negativeSpaceRequirement: 'Generous margin around the object on all sides for clean background removal.',
   },
 ];
+
+/** Back-compat alias for assetGeneration.ts (main branch naming). */
+export const NDXBOOK_CREATIVE_ASSET_BRIEFS = NDXBOOK_PRIORITY_ASSET_BRIEFS;

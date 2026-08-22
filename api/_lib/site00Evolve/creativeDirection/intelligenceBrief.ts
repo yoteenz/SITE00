@@ -1,9 +1,11 @@
-/** Intelligence briefing + creative brief synthesis from Content Brain */
+/** Intelligence briefing + creative brief synthesis from Content Brain + Brand Lore */
 
 import { getContentBrainByOrgId, getProfileByOrgId } from '../storeAdapter.js';
 import { orgIdFromSlug } from '../orgRegistry.js';
+import type { BrandLoreProfile } from '../../../shared/site00-brand-lore/types.js';
 import type { CreativeBrief, IntelligenceBriefSection } from './types.js';
 import { randomUUID } from 'node:crypto';
+import { brandLoreLineageEntries } from '../../site00BrandLore/brandLoreBridge.js';
 
 const OPEN_QUESTIONS = [
   'Visual language',
@@ -104,6 +106,63 @@ function summarizeEntryContent(entry: Record<string, unknown>): string {
 }
 
 export function synthesizeCreativeBrief(
+  orgSlug: string,
+  sections: IntelligenceBriefSection[],
+  entryCount: number,
+  brandLore?: BrandLoreProfile | null,
+): CreativeBrief {
+  const base = ndxbookContentBrainBrief(orgSlug, sections, entryCount);
+
+  if (!brandLore) return base;
+
+  const loreLineage = brandLoreLineageEntries(brandLore);
+  const merged: CreativeBrief = {
+    ...base,
+    provenance: {
+      source: orgSlug === 'ndxbook' ? 'CONTENT_BRAIN' : 'BLENDED',
+      entryCount,
+      brandLoreProfileId: brandLore.id,
+    },
+    brandContextClassification: brandLore.contextClassification,
+    brandLoreReadiness: brandLore.readinessState,
+    brandLoreLineage: loreLineage,
+  };
+
+  if (brandLore.brandBelief.value) {
+    merged.mustCommunicate = [String(brandLore.brandBelief.value), ...merged.mustCommunicate.slice(0, 3)];
+  }
+  if (brandLore.emotionalPromise.value?.length) {
+    merged.mustFeelLike = [
+      ...brandLore.emotionalPromise.value.map((f) => String(f)),
+      ...merged.mustFeelLike.slice(0, 3),
+    ];
+  }
+  if (brandLore.creativeAntiPatterns.value?.length) {
+    merged.mustNotFeelLike = [
+      ...brandLore.creativeAntiPatterns.value.map((a) => String(a)),
+      ...merged.mustNotFeelLike.slice(0, 3),
+    ];
+  }
+  if (brandLore.creativeTensions.value?.length) {
+    merged.visualTensions = [
+      ...brandLore.creativeTensions.value.map((t) => String(t)),
+      ...merged.visualTensions.slice(0, 3),
+    ];
+  }
+  if (brandLore.authenticLanguageSamples.value?.length) {
+    merged.voiceConstraints = {
+      preserve: [...brandLore.authenticLanguageSamples.value.slice(0, 3), ...merged.voiceConstraints.preserve],
+      reject: brandLore.antiLanguage.value?.length
+        ? [...brandLore.antiLanguage.value.map(String), ...merged.voiceConstraints.reject]
+        : merged.voiceConstraints.reject,
+    };
+  }
+
+  return merged;
+}
+
+/** NDXBOOK Content Brain brief — preserved for existing pilot; not replaced by unconfirmed lore. */
+function ndxbookContentBrainBrief(
   orgSlug: string,
   sections: IntelligenceBriefSection[],
   entryCount: number,

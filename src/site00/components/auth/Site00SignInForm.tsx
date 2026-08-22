@@ -19,7 +19,7 @@ import {
   site00SignInWithPassword,
 } from '../../../utils/auth/site00SignInActions';
 import { resolveSite00ReturnToAfterSignIn } from '../../../utils/signInReturnTo';
-import { SITE00_ROUTES } from '../../config/routes';
+import { SITE00_ROUTES, site00CreateAccountLinkTarget } from '../../config/routes';
 
 type Site00SignInFormProps = {
   layout?: 'desktop' | 'mobile';
@@ -189,9 +189,7 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
     }
   };
 
-  const createAccountHref = `/sign-in?returnTo=${encodeURIComponent(
-    resolveSite00ReturnToAfterSignIn(new URLSearchParams(location.search).get('returnTo'), null),
-  )}`;
+  const createAccountTo = site00CreateAccountLinkTarget(location);
 
   return (
     <div className={`site00-signin-form site00-signin-form--${layout}`.trim()}>
@@ -283,7 +281,7 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
 
       <p className="site00-signin-form__footer">
         NEW TO SITE 00?
-        <Link to={createAccountHref} className="site00-signin-form__footer-link">
+        <Link to={createAccountTo} className="site00-signin-form__footer-link">
           CREATE ACCOUNT
         </Link>
       </p>

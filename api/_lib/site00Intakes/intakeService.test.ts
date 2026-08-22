@@ -336,4 +336,29 @@ describe('SITE 00 canonical Identity + Builder intake service', () => {
     await applyAdminIntakeAction('IDENTITY', started.id, 'ARCHIVE', 'admin@frontalslayer.com');
     await expect(submitIntake('IDENTITY', started.id, { kind: 'ANONYMOUS_DIRECT' })).rejects.toThrow();
   });
+
+  it('Identity autosave with loreAnswers synthesizes BrandLoreProfile server-side', async () => {
+    const { startIntake, autosaveIntake } = await importService();
+    const { getLoreForIntake, resetBrandLoreMemoryStore } = await import('../site00BrandLore/loreService.js');
+    resetBrandLoreMemoryStore();
+    const started = await startIntake({ intakeType: 'IDENTITY', domainLabel: 'starting-at-zero', userId: null });
+    const detail = await autosaveIntake('IDENTITY', started.id, { kind: 'ANONYMOUS_DIRECT' }, {
+      draftPayload: {
+        loreAnswers: {
+          feeling: ['curious'],
+          role: 'guide',
+          belief: 'Knowledge should be accessible.',
+          enemy: ['boring'],
+          world: 'A quiet library of ideas.',
+          lineage: 'Magazines and documentaries.',
+          'no-go': 'Generic stock imagery',
+        },
+        identityState: 'starting-at-zero',
+      },
+    });
+    expect((detail.draftPayload as Record<string, unknown>).brandLoreProfileId).toBeTruthy();
+    const lore = await getLoreForIntake('IDENTITY', started.id);
+    expect(lore?.brandBelief.value).toBe('Knowledge should be accessible.');
+    expect(lore?.rawLoreAnswers.belief).toBe('Knowledge should be accessible.');
+  });
 });

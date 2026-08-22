@@ -15,6 +15,7 @@ import { NDXBOOK_CORE_DIRECTIONS, NDXBOOK_BRANCH_LINEAGE } from './coreDirection
 const COMMON_ANCHORS: TerritorySpecimenType[] = ['wordmark', 'typography_system'];
 
 function buildSpecimens(
+  organizationSlug: string,
   territoryId: string,
   types: TerritorySpecimenType[],
   rendererKey: TerritoryRendererKey,
@@ -32,10 +33,9 @@ function buildSpecimens(
       classification: 'PROPOSED',
       approved: false,
     },
-    // Optional — only present for the curated priority specimens with real FAL imagery
-    // this pass. Absent for every other specimen, which renders SVG-only (structural
-    // rendering never requires FAL — see structuralDifferentiation.test.ts #25).
-    imageAsset: getGeneratedAsset(rendererKey, specimenType),
+    // Reference-locked NDXBOOK assets only — other orgs render SVG-only until their own pass exists.
+    imageAsset:
+      organizationSlug === 'ndxbook' ? getGeneratedAsset(rendererKey, specimenType) ?? null : null,
   }));
 }
 
@@ -144,7 +144,6 @@ function analysisFor(index: 1 | 2 | 3): Record<string, QualitativeRating> {
 }
 
 export function generateTerritories(brief: CreativeBrief): CreativeTerritory[] {
-  void brief;
   const definitions: Array<Omit<CreativeTerritory, 'id' | 'specimens'>> = [
     {
       index: 1,
@@ -287,7 +286,7 @@ export function generateTerritories(brief: CreativeBrief): CreativeTerritory[] {
     return {
       ...def,
       id,
-      specimens: buildSpecimens(id, [...specimenSets[i]], def.rendererKey),
+      specimens: buildSpecimens(brief.organizationSlug, id, [...specimenSets[i]], def.rendererKey),
     };
   });
 }

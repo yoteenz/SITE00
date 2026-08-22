@@ -17,7 +17,24 @@ import {
   listIntakeAuditEvents,
   listIntakesForAdmin,
 } from '../_lib/site00Intakes/intakeService.js';
+import { createIntakeEvent } from '../_lib/site00Intakes/storeAdapter.js';
+import { confirmFounderLoreField, getLoreForIntake } from '../_lib/site00BrandLore/loreService.js';
+import type { BrandLoreProfile } from '../../shared/site00-brand-lore/types.js';
 import type { AdminIntakeFilters } from '../_lib/site00Intakes/types.js';
+
+const CONFIRMABLE_LORE_FIELDS: ReadonlySet<string> = new Set([
+  'worldMetaphor',
+  'audienceRelationship',
+  'brandBelief',
+  'culturalOpposition',
+  'coreObsessions',
+  'creativeTensions',
+  'referenceLineage',
+  'authenticLanguageSamples',
+  'audienceRitual',
+  'desiredMythology',
+  'creativeAntiPatterns',
+]);
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -56,7 +73,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const intake = await getIntakeForAdmin(intakeType, id);
         if (!intake) return res.status(404).json({ error: 'Intake not found' });
         const events = await listIntakeAuditEvents(intakeType, id);
-        return res.status(200).json({ intake, events });
+        const brandLore =
+          intakeType === 'IDENTITY' ? await getLoreForIntake('IDENTITY', id) : null;
+        return res.status(200).json({ intake, events, brandLore });
       }
 
       return res.status(400).json({ error: 'Unsupported action' });
@@ -78,6 +97,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           auth.user.email,
         );
         return res.status(200).json({ intake });
+      }
+
+      // Founder "CONFIRM CANON" — server-authorized, single-field only (XI/XII). Never touches
+      // readiness, never approves Creative Direction/Visual DNA, never publishes.
+      if (action === 'confirm-lore-field') {
+        if (intakeType !== 'IDENTITY') return res.status(400).json({ error: 'Brand Lore confirmation applies to IDENTITY intakes only' });
+        const fieldKey = String(body.fieldKey ?? '');
+        if (!CONFIRMABLE_LORE_FIELDS.has(fieldKey)) {
+          return res.status(400).json({ error: 'Unsupported or non-confirmable lore field' });
+        }
+        const existingLore = await getLoreForIntake('IDENTITY', id);
+        if (!existingLore) return res.status(404).json({ error: 'No Brand Lore profile found for this intake' });
+
+        const before = existingLore[fieldKey as keyof BrandLoreProfile] as { founderConfirmationState?: string } | undefined;
+        const updated = await confirmFounderLoreField(existingLore.id, fieldKey as keyof BrandLoreProfile);
+        if (!updated) return res.status(500).json({ error: 'Confirmation did not persist — try again' });
+
+        await createIntakeEvent({
+          intakeType: 'IDENTITY',
+          intakeId: id,
+          eventType: 'BRAND_LORE_FIELD_CONFIRMED',
+          actor: auth.user.email,
+          metadata: { fieldKey, previousState: before?.founderConfirmationState ?? 'UNKNOWN' },
+        });
+
+        return res.status(200).json({ brandLore: updated });
       }
 
       return res.status(400).json({ error: 'Unsupported action' });
