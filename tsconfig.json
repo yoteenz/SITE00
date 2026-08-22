@@ -14,8 +14,12 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@site00-email": ["./shared/site00-email/index.ts"],
+      "@site00-email/*": ["./shared/site00-email/*"]
+    }
   },
-  "include": ["src"],
-  "exclude": ["src/**/*.test.ts"]
+  "include": ["src", "shared"],
+  "exclude": ["src/**/*.test.ts", "shared/**/*.test.ts"]
 }

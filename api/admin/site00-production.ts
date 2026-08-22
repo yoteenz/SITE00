@@ -23,6 +23,7 @@ import {
   globalAdminSearch,
   markIntakeReviewed,
 } from '../_lib/site00Production/adminOperations.js';
+import { getControlCommandPayload } from '../_lib/site00Production/controlCommand.js';
 import {
   approveBrief,
   decideApproval,
@@ -69,6 +70,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       switch (action) {
         case 'dashboard':
           return res.status(200).json(await getOperationsDashboard(String(req.query.period ?? '30d')));
+        case 'command':
+          return res.status(200).json(await getControlCommandPayload(auth.user.email));
         case 'identities':
           return res.status(200).json(
             await getIdentitiesList({

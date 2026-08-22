@@ -61,6 +61,9 @@ export function onSignInSuccess(method: 'session_restore' | 'password' | 'passke
         setTimeout(() => persistAuthBackup(), ms);
       });
     }
+    void import('./associateAccessCredential').then(({ associateActiveAccessCredentialIfPresent }) =>
+      associateActiveAccessCredentialIfPresent(),
+    );
   } catch (_) {}
 }
 
