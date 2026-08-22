@@ -104,7 +104,7 @@ export async function createReferenceCrops(params: {
       .toBuffer();
 
     const storagePath = `site00/creative-direction/ndxbook/boards/${String(params.comparisonIndex).padStart(2, '0')}/refs/v2/${spec.cropId}.webp`;
-    const upload = await uploadSite00AssetBuffer(storagePath, cropped, 'image/webp');
+    const upload = await uploadSite00AssetBuffer(storagePath, cropped, 'image/webp', { upsert: true });
 
     crops.push({
       cropId: spec.cropId,

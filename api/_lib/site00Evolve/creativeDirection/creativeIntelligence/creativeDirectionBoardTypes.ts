@@ -9,6 +9,7 @@ export const MARKED_UP_COPY_DIRECTION_NAME = 'THE MARKED-UP COPY';
 export const MARKED_UP_COPY_BOARD_PLAN_VERSION = 'marked-up-copy-pilot-v1';
 export const MARKED_UP_COPY_BOARD_PLAN_VERSION_V2 = 'marked-up-copy-pilot-v2';
 export const MARKED_UP_COPY_BOARD_PLAN_VERSION_V3 = 'marked-up-copy-pilot-v3';
+export const MARKED_UP_COPY_BOARD_PLAN_VERSION_V4 = 'marked-up-copy-pilot-v4';
 
 export const FOUNDER_VISUAL_FEEDBACK_V2 =
   'The board has the right idea, but it still feels mechanically assembled rather than fully creative-directed. It needs stronger visual hierarchy, more intentional tension, more variety in scale and material behavior, stronger reference translation, and a composition where the editorial argument transforms the page rather than appearing as decoration layered over it.';
@@ -209,11 +210,16 @@ export type BoardQaScoreReport = {
   MOTION_COHERENCE: number;
   NON_STOCK_DISTINCTIVENESS: number;
   CREATIVE_DIRECTION_AUTHORITY?: number;
+  IDENTITY_SYSTEM_COMPLETENESS?: number;
+  NO_EXPLANATION_STRENGTH?: number;
+  FIFTY_POST_EXTENSIBILITY?: number;
+  NON_TEMPLATE_DISTINCTIVENESS?: number;
   total: number;
   WORDMARK_REMOVAL_TEST: 'PASS' | 'FAIL';
   GENERIC_STOCK_TEST: 'PASS' | 'FAIL';
   DIRECTION_CONTAMINATION_TEST: 'PASS' | 'FAIL';
   REFERENCE_TRANSLATION_TEST: 'PASS' | 'FAIL';
+  TEMPLATE_SUBSTITUTION_TEST?: 'PASS' | 'FAIL';
   result: 'PASS' | 'FAIL' | 'NEEDS_HUMAN_REVIEW';
   notes: string[];
 };
@@ -333,6 +339,10 @@ export type CreativeDirectionBoardPlan = {
   resolvedReferences?: ResolvedBoardReference[];
   referenceCrops?: BoardReferenceCrop[];
   referenceInfluenceGraph?: BoardReferenceInfluenceEdge[];
+  /** v4 — derived from DirectionExpressionSystem */
+  expressionSystemId?: string;
+  boardStructureRationale?: string;
+  fixedTemplateInherited?: boolean;
   desktopMap: BoardCompositionMap;
   mobileMap: BoardCompositionMap;
   assetManifest: BoardAssetManifestEntry[];
@@ -420,11 +430,45 @@ export type CreativeDirectionBoard = {
   qaReport: BoardQaReport;
   qaScoreReport?: BoardQaScoreReport;
   creativeDirectorCritique?: BoardCreativeCritique;
+  expressionSystemId?: string;
   founderVisualApproval?: FounderVisualApproval;
   presentationMode?: BoardPresentationMode;
   founderVisible: boolean;
   productionState: 'READY' | 'NEEDS_HUMAN_REVIEW' | 'FAILED';
   createdAt: string;
+};
+
+export type MarkedUpCopyBoardPilotV4Result = {
+  status:
+    | 'PASS'
+    | 'FAIL'
+    | 'NEEDS_HUMAN_REVIEW'
+    | 'PILOT_BLOCKED_ON_DIRECTION_COMPLETION'
+    | 'BLOCKED_ON_PRODUCTION_SONNET_CREDENTIAL'
+    | 'EXPRESSION_SYSTEM_GATE_FAILED'
+    | 'REVISE_METHODOLOGY';
+  expressionSystem: import('./directionExpressionSystemTypes.js').DirectionExpressionSystem | null;
+  plan: CreativeDirectionBoardPlan | null;
+  board: CreativeDirectionBoard | null;
+  boardCritique: import('./directionExpressionSystemTypes.js').BoardV4CreativeCritique | null;
+  directionCompletion: MarkedUpCopyBoardPilotV2Result['directionCompletion'];
+  anthropic: MarkedUpCopyBoardPilotV2Result['anthropic'] & {
+    expressionSystemRequests: number;
+    boardArtDirectionRequests: number;
+    boardCritiqueRequests: number;
+  };
+  fal: MarkedUpCopyBoardPilotV2Result['fal'] & {
+    referenceConditionedCalls: Array<{
+      manifestId: string;
+      model: string;
+      referenceInputs: string[];
+      outputStoragePath?: string;
+    }>;
+  };
+  otherDirectionsTouched: false;
+  v2Preserved: boolean;
+  v3Preserved: boolean;
+  credentialExposed: false;
 };
 
 export type MarkedUpCopyBoardPilotV3Result = {
