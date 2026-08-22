@@ -291,7 +291,7 @@ describe('Creative Intelligence Infrastructure + Core Direction Formation', () =
       const orgId = orgIdFromSlug('ndxbook')!;
       const profile = await getOrReconcileBrandLoreForOrg(orgId, 'ndxbook');
       const { record } = await runCoreDirectionFormation({ orgSlug: 'ndxbook', profile: profile! });
-      const stored = getCoreDirectionFormationRecord(record.idempotencyKey);
+      const stored = await getCoreDirectionFormationRecord(record.idempotencyKey);
       expect(stored?.formationId).toBe(record.formationId);
     });
 
@@ -457,7 +457,7 @@ describe('Creative Intelligence Infrastructure + Core Direction Formation', () =
       const payload = await getCreativeDirectionPayload('ndxbook');
       expect(payload.meta.creativeIntelligence?.providerConfigured).toBe(false);
       expect(payload.meta.creativeIntelligence?.formationSurface.surface).toBe('PROVIDER_UNAVAILABLE');
-      expect(payload.coreDirectionFormation?.record?.error).toBe('CREATIVE_INTELLIGENCE_PROVIDER_UNAVAILABLE');
+      expect(payload.coreDirectionFormation?.record?.errorCode).toBe('CREATIVE_INTELLIGENCE_PROVIDER_UNAVAILABLE');
     });
   });
 });

@@ -7,6 +7,7 @@ import {
   COMMON_ANCHOR_LABELS,
   isTerritoryNativeSpecimen,
 } from './compareAnchors';
+import { FormedCoreDirectionReview } from './FormedCoreDirectionReview';
 import { renderTerritoryView, territoryRendererKeyFromIndex } from './TerritoryRendererRegistry';
 
 export type CoreDirectionDefinition = {
@@ -113,16 +114,30 @@ export type CreativeDirectionPayload = {
     visualDnaStatus: string;
     creativeIntelligence?: {
       providerConfigured: boolean;
+      providerStatus?: string;
       providerId: string;
       modelId: string;
       formationSurface: {
-        surface: 'PROVIDER_UNAVAILABLE' | 'STATIC_PREVIEW' | 'FORMING' | 'PROPOSED_FORMATION';
+        surface: 'PROVIDER_UNAVAILABLE' | 'STATIC_PREVIEW' | 'FORMING' | 'PROPOSED_FORMATION' | 'FORMATION_FAILED';
+        clientState?: string;
         headline: string | null;
         message: string | null;
         staticPreviewLabel: string;
       };
     };
   };
+  coreDirectionFormation?: {
+    record: {
+      formationId: string;
+      status: string;
+      brandLoreProfileVersion: number;
+      formationVersion: number;
+      finalDirections: Array<Record<string, unknown>>;
+      visualProofPlans: Array<Record<string, unknown>>;
+    };
+    inspector: Record<string, unknown>;
+    legacyStaticTerritoriesPreserved: boolean;
+  } | null;
   page001: { topic: string; productionStarted: boolean } | null;
   /** Saved lore calibration answers for resume (canonical raw answers, server-side). */
   brandLoreCalibrationAnswers?: Record<string, string | string[]>;
@@ -255,6 +270,12 @@ export function CreativeDirectionExperience({
     }
   };
 
+  const formedDirections = payload?.coreDirectionFormation?.record?.finalDirections ?? [];
+  const showFormedFormation =
+    formedDirections.length === 3 &&
+    (payload?.coreDirectionFormation?.record?.status === 'READY_FOR_VISUAL_PRODUCTION' ||
+      payload?.coreDirectionFormation?.record?.status === 'NEEDS_HUMAN_REVIEW');
+
   const territory = payload?.engagement.territories[activeTerritory];
   const renderOpts = renderOptions(structuralDiffMode);
 
@@ -339,8 +360,39 @@ export function CreativeDirectionExperience({
         </section>
       ) : null}
 
+      {payload?.meta.creativeIntelligence?.formationSurface.surface === 'FORMATION_FAILED' ? (
+        <section className="site00-cd__readiness-banner site00-cd__readiness-banner--stale" role="status">
+          <p className="site00-cd__readiness-banner-title">
+            {payload.meta.creativeIntelligence.formationSurface.headline}
+          </p>
+          <p className="site00-cd__readiness-banner-body">
+            {payload.meta.creativeIntelligence.formationSurface.message}. PRIOR EXPLORATIONS BELOW REMAIN REFERENCE ONLY.
+          </p>
+        </section>
+      ) : null}
+
       {payload && !loading ? (
         <>
+          {showFormedFormation ? (
+            <FormedCoreDirectionReview
+              directions={formedDirections as never}
+              visualProofPlans={(payload.coreDirectionFormation?.record?.visualProofPlans ?? []) as never}
+              brandLoreProfileVersion={payload.coreDirectionFormation?.record?.brandLoreProfileVersion}
+              formationVersion={payload.coreDirectionFormation?.record?.formationVersion}
+              status={payload.coreDirectionFormation?.record?.status}
+            />
+          ) : null}
+
+          {showFormedFormation ? (
+            <section className="site00-cd__legacy-explorations" aria-labelledby="cd-prior-explorations">
+              <h2 id="cd-prior-explorations" className="site00-cd__section-title">
+                PRIOR EXPLORATIONS · LEGACY PROPOSED EXPLORATION
+              </h2>
+              <p className="site00-cd__legacy-note">
+                Historical static directions preserved for reference — not the current Brand Lore formation output.
+              </p>
+            </section>
+          ) : null}
           {!structuralDiffMode ? (
             <>
               <section className="site00-cd__briefing" aria-labelledby="cd-briefing">

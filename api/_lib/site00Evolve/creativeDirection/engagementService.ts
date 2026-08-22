@@ -25,7 +25,9 @@ import {
   incrementFormationVersion,
   listCoreDirectionFormationRecords,
   resetCoreDirectionFormationMemory,
+  retryCoreDirectionFormation,
 } from './creativeIntelligence/formationService.js';
+import { resolveCreativeIntelligenceProviderConfig } from './creativeIntelligence/providerConfig.js';
 import { getCreativeIntelligenceProvider } from './creativeIntelligence/providerRegistry.js';
 import type {
   CoreDirectionFormationRecord,
@@ -204,10 +206,14 @@ async function syncEngagementBrandLoreReadiness(
       : 'CURRENT';
 }
 
-function clientFormationSurface(record: CoreDirectionFormationRecord | null, providerConfigured: boolean) {
+function clientFormationSurface(
+  record: CoreDirectionFormationRecord | null,
+  providerConfigured: boolean,
+) {
   if (!providerConfigured) {
     return {
       surface: 'PROVIDER_UNAVAILABLE' as const,
+      clientState: 'CREATIVE INTELLIGENCE NOT CONFIGURED' as const,
       headline: 'YOUR BRAND INTELLIGENCE IS READY.',
       message: 'CREATIVE FORMATION IS WAITING ON THE PRODUCTION ENGINE.',
       staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
@@ -216,29 +222,69 @@ function clientFormationSurface(record: CoreDirectionFormationRecord | null, pro
   if (!record) {
     return {
       surface: 'STATIC_PREVIEW' as const,
+      clientState: 'CREATIVE INTELLIGENCE READY' as const,
       headline: null,
       message: null,
       staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
     };
   }
-  if (record.status === 'FORMING' || record.status === 'CRITIQUING' || record.status === 'REVISING') {
+  if (record.status === 'FORMING') {
     return {
       surface: 'FORMING' as const,
+      clientState: 'FORMING YOUR DIRECTIONS' as const,
       headline: 'FORMING YOUR DIRECTIONS',
       message: record.status,
       staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
     };
   }
-  if (record.status === 'READY_FOR_VISUAL_PRODUCTION' || record.status === 'NEEDS_HUMAN_REVIEW') {
+  if (record.status === 'CRITIQUING') {
     return {
-      surface: 'PROPOSED_FORMATION' as const,
+      surface: 'FORMING' as const,
+      clientState: 'REVIEWING THE WORLDS' as const,
       headline: 'REVIEWING THE WORLDS',
       message: record.status,
       staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
     };
   }
+  if (record.status === 'REVISING') {
+    return {
+      surface: 'FORMING' as const,
+      clientState: 'REFINING THE DIRECTIONS' as const,
+      headline: 'REFINING THE DIRECTIONS',
+      message: record.status,
+      staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
+    };
+  }
+  if (record.status === 'READY_FOR_VISUAL_PRODUCTION') {
+    return {
+      surface: 'PROPOSED_FORMATION' as const,
+      clientState: 'READY FOR REVIEW' as const,
+      headline: 'FORMED FROM YOUR BRAND INTELLIGENCE',
+      message: record.status,
+      staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
+    };
+  }
+  if (record.status === 'NEEDS_HUMAN_REVIEW') {
+    return {
+      surface: 'PROPOSED_FORMATION' as const,
+      clientState: 'NEEDS HUMAN REVIEW' as const,
+      headline: 'REVIEWING THE WORLDS',
+      message: record.status,
+      staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
+    };
+  }
+  if (record.status === 'FAILED') {
+    return {
+      surface: 'FORMATION_FAILED' as const,
+      clientState: 'FORMATION FAILED' as const,
+      headline: 'FORMATION FAILED',
+      message: record.error ?? 'Formation could not complete',
+      staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
+    };
+  }
   return {
     surface: 'STATIC_PREVIEW' as const,
+    clientState: 'CREATIVE INTELLIGENCE READY' as const,
     headline: null,
     message: record.error,
     staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
@@ -254,6 +300,7 @@ export async function getCreativeDirectionPayload(orgSlug: string) {
   const brandLoreProfile = await getOrReconcileBrandLoreForOrg(engagement.organization_id, orgSlug);
   let formationRecord: CoreDirectionFormationRecord | null = null;
   let formationInspector = getCreativeIntelligenceInspectorSummary(null);
+  const providerConfig = resolveCreativeIntelligenceProviderConfig();
   const provider = getCreativeIntelligenceProvider();
   const providerConfigured = provider.providerId !== 'unavailable';
 
@@ -262,12 +309,13 @@ export async function getCreativeDirectionPayload(orgSlug: string) {
       orgSlug,
       profile: brandLoreProfile,
       formationVersion: engagement.brandLoreFormation?.formationVersion ?? 1,
+      engagementId: engagement.id,
     });
     formationRecord = formationResult.record;
     formationInspector = getCreativeIntelligenceInspectorSummary(formationRecord);
     engagement.coreDirectionFormationRecordId = formationRecord.formationId;
   } else {
-    const existing = listCoreDirectionFormationRecords(engagement.organization_id);
+    const existing = await listCoreDirectionFormationRecords(engagement.organization_id);
     formationRecord = existing[existing.length - 1] ?? null;
     formationInspector = getCreativeIntelligenceInspectorSummary(formationRecord);
   }
@@ -290,7 +338,8 @@ export async function getCreativeDirectionPayload(orgSlug: string) {
       providerBlocksCreativeDirection: false,
       publishingEnabled: false,
       creativeIntelligence: {
-        providerConfigured,
+        providerConfigured: providerConfig.status === 'CONFIGURED',
+        providerStatus: providerConfig.status,
         providerId: provider.providerId,
         modelId: provider.capability.modelId,
         formationSurface,
@@ -437,10 +486,27 @@ export async function reformCoreDirections(orgSlug: string) {
     profile,
     formationVersion: nextVersion,
     forceReform: true,
+    engagementId: engagement.id,
   });
   if (engagement.brandLoreFormation) {
     engagement.brandLoreFormation.formationVersion = nextVersion;
   }
+  engagement.coreDirectionFormationRecordId = result.record.formationId;
+  engagements.set(engagement.organization_id, engagement);
+  return result;
+}
+
+export async function retryFailedCoreDirectionFormation(orgSlug: string) {
+  const engagement = await ensureCreativeDirectionEngagement(orgSlug);
+  const profile = await getOrReconcileBrandLoreForOrg(engagement.organization_id, orgSlug);
+  if (!profile) throw new Error('Brand Lore profile required for formation retry');
+  const result = await retryCoreDirectionFormation({
+    orgSlug,
+    profile,
+    formationVersion: engagement.brandLoreFormation?.formationVersion ?? 1,
+    engagementId: engagement.id,
+    retryFailed: true,
+  });
   engagement.coreDirectionFormationRecordId = result.record.formationId;
   engagements.set(engagement.organization_id, engagement);
   return result;

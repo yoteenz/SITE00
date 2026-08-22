@@ -703,3 +703,98 @@
   font-size: 0.5625rem;
   letter-spacing: 0.1em;
 }
+
+.site00-cd__formed-formation {
+  margin: 2rem 0;
+  padding: 1rem 0 1.5rem;
+  border-top: 2px solid rgba(196, 30, 58, 0.35);
+}
+
+.site00-cd__formed-kicker {
+  margin: 0;
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  color: #c41e3a;
+}
+
+.site00-cd__formed-meta {
+  margin: 0.35rem 0 1rem;
+  font-size: 0.5625rem;
+  letter-spacing: 0.08em;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.site00-cd__formed-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  .site00-cd__formed-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.site00-cd__formed-card {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 0.85rem;
+  min-width: 0;
+}
+
+.site00-cd__formed-index {
+  margin: 0;
+  font-size: 0.5625rem;
+  letter-spacing: 0.12em;
+  color: #c41e3a;
+}
+
+.site00-cd__formed-name {
+  margin: 0.35rem 0 0.75rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
+  word-break: break-word;
+}
+
+.site00-cd__formed-fields {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  font-size: 0.6875rem;
+  line-height: 1.45;
+}
+
+.site00-cd__formed-fields dt {
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.site00-cd__formed-fields dd {
+  margin: 0 0 0.5rem;
+  word-break: break-word;
+}
+
+.site00-cd__formed-fields ul {
+  margin: 0;
+  padding-left: 1rem;
+}
+
+.site00-cd__formed-proof {
+  margin: 0.75rem 0 0;
+  font-size: 0.5625rem;
+  letter-spacing: 0.1em;
+  color: #1a6b3c;
+}
+
+.site00-cd__legacy-explorations {
+  margin: 2rem 0 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed rgba(0, 0, 0, 0.15);
+}
+
+.site00-cd__legacy-note {
+  margin: 0.35rem 0 0;
+  font-size: 0.625rem;
+  color: rgba(0, 0, 0, 0.55);
+  max-width: 60ch;
+}

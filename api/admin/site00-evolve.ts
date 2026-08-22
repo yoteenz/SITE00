@@ -77,6 +77,7 @@ import {
   resetCreativeDirectionMemory,
   getCoreDirectionFormationInspector,
   reformCoreDirections,
+  retryFailedCoreDirectionFormation,
 } from '../_lib/site00Evolve/creativeDirection/engagementService.js';
 import { generateNdxbookVisualAssetPass } from '../_lib/site00Evolve/creativeDirection/assetGeneration.js';
 import { resolveEvolveCommercialState } from '../_lib/site00Evolve/commercial/commercialState.js';
@@ -431,6 +432,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         case 'creative_direction_reform':
           return res.status(200).json(await reformCoreDirections(orgSlug));
+        case 'creative_direction_formation_retry':
+          return res.status(200).json(await retryFailedCoreDirectionFormation(orgSlug));
         case 'analytics_baseline_sync':
           return res.status(200).json(
             await runAnalyticsBaseline(orgSlug, String(body.connectionId ?? '')),

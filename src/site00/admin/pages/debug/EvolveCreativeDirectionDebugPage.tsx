@@ -55,8 +55,10 @@ export default function EvolveCreativeDirectionDebugPage() {
           <li>Candidate count: {String(formationMeta?.candidateCount ?? 0)}</li>
           <li>Revision rounds: {String(formationMeta?.revisionRounds ?? 0)}</li>
           <li>Final directions: {(formationMeta?.finalDirectionNames as string[] | undefined)?.join(', ') || '—'}</li>
-          <li>Visual proof plans: {String(formationMeta?.visualProofPlanCount ?? 0)}</li>
-        </ul>
+          <li>Request count: {String((formationMeta?.providerAccounting as { requestCount?: number } | undefined)?.requestCount ?? 0)}</li>
+          <li>Created: {String(formationMeta?.createdAt ?? '—')}</li>
+          <li>Updated: {String(formationMeta?.updatedAt ?? '—')}</li>
+          <li>Safe error: {String(formationMeta?.error ?? formation?.error ?? '—')}</li>
       </section>
       <p>
         <Link to={SITE00_ADMIN_ROUTES.evolveCreativeDirection('ndxbook')}>← CREATIVE DIRECTION STUDIO</Link>

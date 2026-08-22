@@ -1,5 +1,6 @@
 /**
  * Core Direction Formation orchestration — Brand Lore → 3 directions → critic → proof plans.
+ * Durable persistence via formationStore/storeAdapter.ts (Supabase in production).
  */
 
 import { randomUUID } from 'node:crypto';
@@ -28,6 +29,12 @@ import {
 } from './config.js';
 import { getCreativeIntelligenceProvider } from './providerRegistry.js';
 import { isProviderUnavailableError } from './unavailableProvider.js';
+import {
+  getFormationRecordByIdempotencyKey,
+  listFormationRecordsByOrganizationId,
+  resetFormationMemoryStore,
+  saveFormationRecord,
+} from './formationStore/storeAdapter.js';
 import type {
   CoreDirectionFormationInput,
   CoreDirectionFormationRecord,
@@ -37,18 +44,25 @@ import type {
   ProviderRequestAccounting,
 } from './types.js';
 
-const formationRecords = new Map<string, CoreDirectionFormationRecord>();
+const COMPLETED_STATUSES: CoreDirectionFormationStatus[] = [
+  'READY_FOR_VISUAL_PRODUCTION',
+  'NEEDS_HUMAN_REVIEW',
+];
 
 export function resetCoreDirectionFormationMemory(): void {
-  formationRecords.clear();
+  resetFormationMemoryStore();
 }
 
-export function getCoreDirectionFormationRecord(idempotencyKey: string): CoreDirectionFormationRecord | null {
-  return formationRecords.get(idempotencyKey) ?? null;
+export async function getCoreDirectionFormationRecord(
+  idempotencyKey: string,
+): Promise<CoreDirectionFormationRecord | null> {
+  return getFormationRecordByIdempotencyKey(idempotencyKey);
 }
 
-export function listCoreDirectionFormationRecords(organizationId: string): CoreDirectionFormationRecord[] {
-  return [...formationRecords.values()].filter((r) => r.organizationId === organizationId);
+export async function listCoreDirectionFormationRecords(
+  organizationId: string,
+): Promise<CoreDirectionFormationRecord[]> {
+  return listFormationRecordsByOrganizationId(organizationId);
 }
 
 function emptyAccounting(providerId: string, modelId: string): ProviderRequestAccounting {
@@ -67,7 +81,7 @@ function emptyAccounting(providerId: string, modelId: string): ProviderRequestAc
 function accumulateUsage(
   accounting: ProviderRequestAccounting,
   kind: 'formation' | 'critique' | 'revise',
-  usage?: { inputTokens?: number; outputTokens?: number },
+  usage?: { inputTokens?: number; outputTokens?: number; estimatedCostUsd?: number },
 ): void {
   accounting.requestCount += 1;
   if (kind === 'formation') accounting.formationRequests += 1;
@@ -75,6 +89,10 @@ function accumulateUsage(
   if (kind === 'revise') accounting.reviseRequests += 1;
   accounting.tokenUsage.inputTokens = (accounting.tokenUsage.inputTokens ?? 0) + (usage?.inputTokens ?? 0);
   accounting.tokenUsage.outputTokens = (accounting.tokenUsage.outputTokens ?? 0) + (usage?.outputTokens ?? 0);
+  if (usage?.estimatedCostUsd != null) {
+    accounting.tokenUsage.estimatedCostUsd =
+      (accounting.tokenUsage.estimatedCostUsd ?? 0) + usage.estimatedCostUsd;
+  }
 }
 
 function deriveInitialStatus(profile: BrandLoreProfile | null): CoreDirectionFormationStatus {
@@ -94,6 +112,11 @@ async function buildInputForProfile(
     contentBrainSections: intel.sections,
     includeLegacyExplorations: true,
   });
+}
+
+async function persistRecord(record: CoreDirectionFormationRecord): Promise<CoreDirectionFormationRecord> {
+  record.updatedAt = new Date().toISOString();
+  return saveFormationRecord(record);
 }
 
 async function runCritiquePass(
@@ -138,12 +161,25 @@ export type RunCoreDirectionFormationParams = {
   profile: BrandLoreProfile;
   formationVersion?: number;
   forceReform?: boolean;
+  engagementId?: string | null;
+  retryFailed?: boolean;
 };
 
 export type RunCoreDirectionFormationResult = {
   record: CoreDirectionFormationRecord;
   reused: boolean;
 };
+
+function shouldReuseRecord(
+  record: CoreDirectionFormationRecord,
+  forceReform: boolean,
+  retryFailed: boolean,
+): boolean {
+  if (forceReform) return false;
+  if (record.status === 'FAILED') return !retryFailed ? false : false;
+  if (COMPLETED_STATUSES.includes(record.status)) return true;
+  return record.status === 'FORMING' || record.status === 'CRITIQUING' || record.status === 'REVISING';
+}
 
 export async function runCoreDirectionFormation(
   params: RunCoreDirectionFormationParams,
@@ -156,8 +192,11 @@ export async function runCoreDirectionFormation(
   }
 
   const idempotencyKey = buildFormationIdempotencyKey(input, CREATIVE_INTELLIGENCE_PROMPT_VERSION);
-  const existing = formationRecords.get(idempotencyKey);
-  if (existing && !params.forceReform && existing.status !== 'FAILED') {
+  const existing = await getFormationRecordByIdempotencyKey(idempotencyKey);
+  if (existing && shouldReuseRecord(existing, Boolean(params.forceReform), Boolean(params.retryFailed))) {
+    return { record: existing, reused: true };
+  }
+  if (existing?.status === 'FAILED' && !params.retryFailed && !params.forceReform) {
     return { record: existing, reused: true };
   }
 
@@ -167,6 +206,7 @@ export async function runCoreDirectionFormation(
     formationId: existing?.formationId ?? randomUUID(),
     organizationId: input.organizationId,
     projectId: input.projectId,
+    engagementId: params.engagementId ?? existing?.engagementId ?? null,
     brandLoreProfileId: input.brandLoreProfileId,
     brandLoreProfileVersion: input.brandLoreProfileVersion,
     brandLoreFingerprint: input.brandLoreFingerprint,
@@ -176,35 +216,44 @@ export async function runCoreDirectionFormation(
     promptVersion: CREATIVE_INTELLIGENCE_PROMPT_VERSION,
     status: deriveInitialStatus(params.profile),
     idempotencyKey,
+    formationInput: input,
     candidateDirections: [],
     criticResult: null,
-    revisionRounds: 0,
+    revisionRounds: params.retryFailed ? 0 : (existing?.revisionRounds ?? 0),
     finalDirections: [],
     visualProofPlans: [],
     legacyStaticPreview: 'PRESERVED',
     proposedFormationLabel: 'PROPOSED_FORMATION',
-    providerAccounting: emptyAccounting(provider.providerId, provider.capability.modelId),
+    providerAccounting:
+      params.retryFailed || !existing
+        ? emptyAccounting(provider.providerId, provider.capability.modelId)
+        : existing.providerAccounting,
     error: null,
+    errorCode: null,
     createdAt: existing?.createdAt ?? now,
+    startedAt: null,
     completedAt: null,
+    failedAt: null,
   };
 
   if (record.status === 'NOT_READY') {
     record.error = 'Brand Lore not ready for Core Direction formation';
-    formationRecords.set(idempotencyKey, record);
-    return { record, reused: false };
+    record.errorCode = 'BRAND_LORE_NOT_READY';
+    return { record: await persistRecord(record), reused: false };
   }
 
   if (provider.providerId === 'unavailable') {
     record.status = 'FAILED';
-    record.error = 'CREATIVE_INTELLIGENCE_PROVIDER_UNAVAILABLE';
-    formationRecords.set(idempotencyKey, record);
-    return { record, reused: false };
+    record.error = 'CREATIVE INTELLIGENCE NOT CONFIGURED';
+    record.errorCode = 'CREATIVE_INTELLIGENCE_PROVIDER_UNAVAILABLE';
+    record.failedAt = now;
+    return { record: await persistRecord(record), reused: false };
   }
 
   try {
     record.status = 'FORMING';
-    formationRecords.set(idempotencyKey, { ...record });
+    record.startedAt = record.startedAt ?? now;
+    await persistRecord(record);
 
     let candidates: FormedCoreDirection[];
     const formationResult = await provider.formCoreDirections(input);
@@ -215,13 +264,15 @@ export async function runCoreDirectionFormation(
     if (outputErrors.length) {
       record.status = 'NEEDS_HUMAN_REVIEW';
       record.error = outputErrors.join('; ');
+      record.errorCode = 'VALIDATION_FAILED';
       record.candidateDirections = candidates;
-      formationRecords.set(idempotencyKey, record);
-      return { record, reused: false };
+      record.finalDirections = candidates;
+      return { record: await persistRecord(record), reused: false };
     }
 
     record.candidateDirections = candidates;
     record.status = 'CRITIQUING';
+    await persistRecord(record);
     let critique = await runCritiquePass(input, candidates, record.providerAccounting);
     record.criticResult = critique;
 
@@ -229,6 +280,7 @@ export async function runCoreDirectionFormation(
       record.status = 'REVISING';
       record.revisionRounds += 1;
       record.providerAccounting.revisionCount += 1;
+      await persistRecord(record);
       const revised = await provider.reviseCoreDirections({
         formationInput: input,
         candidates,
@@ -242,31 +294,36 @@ export async function runCoreDirectionFormation(
       record.status = 'CRITIQUING';
       critique = await runCritiquePass(input, candidates, record.providerAccounting);
       record.criticResult = critique;
+      await persistRecord(record);
     }
 
     if (critique.revisionRequired) {
       record.status = 'NEEDS_HUMAN_REVIEW';
       record.finalDirections = candidates;
-      formationRecords.set(idempotencyKey, record);
-      return { record, reused: false };
+      record.errorCode = 'CRITIC_REVISION_EXHAUSTED';
+      record.error = 'Formation requires human review after revision rounds exhausted';
+      return { record: await persistRecord(record), reused: false };
     }
 
     record.finalDirections = candidates;
     record.visualProofPlans = buildVisualProofPlans(candidates, input);
     record.status = 'READY_FOR_VISUAL_PRODUCTION';
     record.completedAt = new Date().toISOString();
-    formationRecords.set(idempotencyKey, record);
-    return { record, reused: false };
+    record.error = null;
+    record.errorCode = null;
+    return { record: await persistRecord(record), reused: false };
   } catch (error) {
     if (isProviderUnavailableError(error)) {
       record.status = 'FAILED';
-      record.error = 'CREATIVE_INTELLIGENCE_PROVIDER_UNAVAILABLE';
+      record.error = 'CREATIVE INTELLIGENCE NOT CONFIGURED';
+      record.errorCode = 'CREATIVE_INTELLIGENCE_PROVIDER_UNAVAILABLE';
     } else {
       record.status = 'FAILED';
-      record.error = error instanceof Error ? error.message : 'Formation failed';
+      record.error = error instanceof Error ? error.message.slice(0, 240) : 'Formation failed';
+      record.errorCode = 'FORMATION_FAILED';
     }
-    formationRecords.set(idempotencyKey, record);
-    return { record, reused: false };
+    record.failedAt = new Date().toISOString();
+    return { record: await persistRecord(record), reused: false };
   }
 }
 
@@ -274,19 +331,29 @@ export async function getOrRunCoreDirectionFormation(params: RunCoreDirectionFor
   return runCoreDirectionFormation(params);
 }
 
+export async function retryCoreDirectionFormation(params: RunCoreDirectionFormationParams) {
+  return runCoreDirectionFormation({ ...params, retryFailed: true, forceReform: false });
+}
+
 export function incrementFormationVersion(current: number): number {
   return current + 1;
 }
 
 export function getCreativeIntelligenceInspectorSummary(record: CoreDirectionFormationRecord | null) {
+  const providerConfigured = getCreativeIntelligenceProvider().providerId !== 'unavailable';
   if (!record) {
     return {
       status: 'NOT_READY' as CoreDirectionFormationStatus,
-      providerConfigured: getCreativeIntelligenceProvider().providerId !== 'unavailable',
+      providerConfigured,
       candidateCount: 0,
       revisionRounds: 0,
       finalDirectionNames: [] as string[],
       visualProofPlanCount: 0,
+      createdAt: null,
+      updatedAt: null,
+      startedAt: null,
+      completedAt: null,
+      failedAt: null,
     };
   }
   return {
@@ -298,8 +365,9 @@ export function getCreativeIntelligenceInspectorSummary(record: CoreDirectionFor
     modelId: record.modelId,
     promptVersion: record.promptVersion,
     status: record.status,
-    providerConfigured: record.providerId !== 'unavailable',
+    providerConfigured,
     candidateCount: record.candidateDirections.length,
+    candidateNames: record.candidateDirections.map((d) => d.directionName),
     criticResult: record.criticResult
       ? {
           revisionRequired: record.criticResult.revisionRequired,
@@ -312,7 +380,13 @@ export function getCreativeIntelligenceInspectorSummary(record: CoreDirectionFor
     visualProofPlanCount: record.visualProofPlans.length,
     providerAccounting: record.providerAccounting,
     error: record.error,
+    errorCode: record.errorCode,
     proposedFormationLabel: record.proposedFormationLabel,
     legacyStaticPreview: record.legacyStaticPreview,
+    createdAt: record.createdAt,
+    updatedAt: record.updatedAt ?? null,
+    startedAt: record.startedAt ?? null,
+    completedAt: record.completedAt,
+    failedAt: record.failedAt ?? null,
   };
 }

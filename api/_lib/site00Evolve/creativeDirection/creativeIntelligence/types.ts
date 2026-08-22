@@ -180,6 +180,7 @@ export type CoreDirectionFormationRecord = {
   formationId: string;
   organizationId: string;
   projectId: string | null;
+  engagementId?: string | null;
   brandLoreProfileId: string;
   brandLoreProfileVersion: number;
   brandLoreFingerprint: string;
@@ -189,6 +190,7 @@ export type CoreDirectionFormationRecord = {
   promptVersion: string;
   status: CoreDirectionFormationStatus;
   idempotencyKey: string;
+  formationInput?: CoreDirectionFormationInput | null;
   candidateDirections: FormedCoreDirection[];
   criticResult: CoreDirectionCritiqueResult | null;
   revisionRounds: number;
@@ -198,8 +200,12 @@ export type CoreDirectionFormationRecord = {
   proposedFormationLabel: 'PROPOSED_FORMATION';
   providerAccounting: ProviderRequestAccounting;
   error: string | null;
+  errorCode?: string | null;
   createdAt: string;
+  startedAt?: string | null;
   completedAt: string | null;
+  failedAt?: string | null;
+  updatedAt?: string | null;
 };
 
 export type CreativeIntelligenceProviderStatus =
