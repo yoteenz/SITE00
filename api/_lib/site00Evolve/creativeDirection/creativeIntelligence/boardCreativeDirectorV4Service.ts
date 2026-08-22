@@ -20,7 +20,10 @@ You receive a completed DirectionExpressionSystem. Design CreativeDirectionBoard
 The board must VISUALLY DEMONSTRATE the expression system — not explain it with text essays.
 Board structure emerges from the Expression System — NOT a fixed seven-zone template.
 
-Return JSON only:
+Return JSON only — no markdown fences. Do NOT return desktopPlacements or mobilePlacements (composition maps are derived server-side from the Expression System).
+
+Keep critique arrays to max 3 concise bullets each. assetManifest max 8 entries; prompts max 120 characters; assetDecisions cover MU01–MU06 plus any new assets.
+
 {
   "critique": {
     "whatWorked": [], "whatWasTooTemplateLike": [], "whatWasTooExplanatory": [],
@@ -51,8 +54,6 @@ Return JSON only:
     "rationale": "tied to expression system",
     "referenceConditioned": true
   }],
-  "desktopPlacements": [{ "zoneId", "x", "y", "width", "height", "rotation", "zIndex", "overlapTarget", "overlapAmount" }],
-  "mobilePlacements": [{ "zoneId", "x", "y", "width", "height", "rotation", "zIndex" }],
   "templateSubstitutionRisk": "LOW|MEDIUM|HIGH",
   "visualEvidenceDominance": "HIGH|MEDIUM|LOW"
 }`;
@@ -63,6 +64,29 @@ function arr(v: unknown): string[] {
 
 function fingerprintInput(payload: unknown): string {
   return createHash('sha256').update(JSON.stringify(payload)).digest('hex').slice(0, 16);
+}
+
+function summarizeExpressionSystemForBoard(system: DirectionExpressionSystem) {
+  return {
+    expressionSystemId: system.expressionSystemId,
+    conceptualWorld: system.conceptualWorld,
+    visualThesis: system.visualThesis,
+    governingVisualBehavior: system.governingVisualBehavior,
+    photographySystem: system.photographySystem,
+    typographySystem: system.typographySystem,
+    graphicGrammar: system.graphicGrammar,
+    annotationGrammar: system.annotationGrammar,
+    materialLanguage: system.materialLanguage,
+    colorSystem: system.colorSystem,
+    primaryBrandArtifacts: system.primaryBrandArtifacts,
+    recurringContentFranchises: system.recurringContentFranchises,
+    socialBehavior: system.socialBehavior,
+    signatureMoments: system.signatureMoments,
+    antiTemplateRules: system.antiTemplateRules,
+    antiGenericRules: system.antiGenericRules,
+    antiCousinRules: system.antiCousinRules,
+    qualityGates: system.qualityGates,
+  };
 }
 
 export function parseBoardV4CritiqueResponse(params: {
@@ -223,7 +247,7 @@ export async function runSonnetBoardArtDirectionV4(params: {
   });
 
   const userPayload = {
-    expressionSystem: params.expressionSystem,
+    expressionSystem: summarizeExpressionSystemForBoard(params.expressionSystem),
     priorV2: params.v2Board ? { version: params.v2Board.boardPlanVersion } : null,
     priorAssetInventory: params.priorAssetInventory,
     instruction: 'Board proves identity system visually — text supports, never carries.',
@@ -246,7 +270,7 @@ export async function runSonnetBoardArtDirectionV4(params: {
     const { text, usage } = await callAnthropicForCompletion(
       BOARD_V4_CRITIQUE_SYSTEM_PROMPT,
       payload,
-      { maxTokens: 8192 },
+      { maxTokens: 16384 },
     );
     anthropicRequests += 1;
     inputTokens += usage.inputTokens ?? 0;
