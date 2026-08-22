@@ -62,7 +62,19 @@ export function Site00CreateAccountForm({ layout = 'desktop' }: Site00CreateAcco
     }
   };
 
-  const signInHref = `${SITE00_ROUTES.signIn}?returnTo=${encodeURIComponent(returnTo)}`;
+  const signInTo = (() => {
+    const rawReturnTo = new URLSearchParams(location.search).get('returnTo');
+    if (rawReturnTo) {
+      return {
+        pathname: SITE00_ROUTES.signIn,
+        search: `?returnTo=${encodeURIComponent(rawReturnTo.slice(0, 1024))}`,
+      };
+    }
+    return {
+      pathname: SITE00_ROUTES.signIn,
+      search: `?returnTo=${encodeURIComponent(returnTo)}`,
+    };
+  })();
 
   if (verificationEmail) {
     return (
@@ -76,7 +88,7 @@ export function Site00CreateAccountForm({ layout = 'desktop' }: Site00CreateAcco
         <p className="site00-create-account-form__hint">
           CONFIRM YOUR EMAIL, THEN SIGN IN TO CONTINUE.
         </p>
-        <Link to={signInHref} className="site00-signin-form__cta site00-create-account-form__cta-link">
+        <Link to={signInTo} className="site00-signin-form__cta site00-create-account-form__cta-link">
           RETURN TO SIGN IN →
         </Link>
       </div>
@@ -182,7 +194,7 @@ export function Site00CreateAccountForm({ layout = 'desktop' }: Site00CreateAcco
 
       <p className="site00-signin-form__footer">
         ALREADY HAVE AN ACCOUNT?
-        <Link to={signInHref} className="site00-signin-form__footer-link">
+        <Link to={signInTo} className="site00-signin-form__footer-link">
           SIGN IN
         </Link>
       </p>

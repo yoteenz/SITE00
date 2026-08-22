@@ -214,6 +214,30 @@ export function Site00Routes() {
           </Site00LoaderPreviewLayout>
         }
       />
+      {/* Auth routes before /origin — prevents origin homepage from swallowing /origin/sign-in and /origin/create-account */}
+      <Route
+        path={SITE00_ROUTES.signIn}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <Site00SignInPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.createAccount}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <Site00CreateAccountPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route path="/sign-in" element={<Navigate to={SITE00_ROUTES.signIn} replace />} />
+      <Route path="/register" element={<Navigate to={SITE00_ROUTES.createAccount} replace />} />
+      <Route path="/create-account" element={<Navigate to={SITE00_ROUTES.createAccount} replace />} />
       <Route
         path={SITE00_ROUTES.locations}
         element={
@@ -797,29 +821,6 @@ export function Site00Routes() {
           </Site00Layout>
         }
       />
-      <Route
-        path={SITE00_ROUTES.signIn}
-        element={
-          <Site00Layout>
-            <Site00Suspense>
-              <Site00SignInPage />
-            </Site00Suspense>
-          </Site00Layout>
-        }
-      />
-      <Route
-        path={SITE00_ROUTES.createAccount}
-        element={
-          <Site00Layout>
-            <Site00Suspense>
-              <Site00CreateAccountPage />
-            </Site00Suspense>
-          </Site00Layout>
-        }
-      />
-      <Route path="/sign-in" element={<Navigate to={SITE00_ROUTES.signIn} replace />} />
-      <Route path="/register" element={<Navigate to={SITE00_ROUTES.createAccount} replace />} />
-      <Route path="/create-account" element={<Navigate to={SITE00_ROUTES.createAccount} replace />} />
       <Route
         path={SITE00_ROUTES.control}
         element={
