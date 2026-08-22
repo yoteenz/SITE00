@@ -2818,3 +2818,18 @@ Summary: Forensic prompt-architecture repair sprint — direction-system-first v
 - **Founder UI:** `brandNativeVisualPilot` exposed on creative direction payload; `FormedCoreDirectionReview` shows **VISUAL LANGUAGE PILOT** raw hero (no code overlays).
 - **Live generation (local FAL):** pilot `f0dcba34-b3c7-4df3-8066-5444df75a502` — GPT Image 2/edit with REF-COMP-01 reference; ~$0.045; raw QA NEEDS_HUMAN_REVIEW (no local Anthropic vision). Manifest: `ndxbook.brandNativeVisualPilots.json`.
 - **Tests:** 16 compiler/pilot tests pass. Build PASS. Do NOT scale to remaining board assets until founder approves hero pilot.
+
+---
+
+## 2026-08-22 — Identity-native hero pilot remediation (THE MARKED-UP COPY · ONE hero · A/B UI)
+
+Summary: Founder rejected brand-native pilot as direction-native but identity-incomplete (stock-like editorial photography). Remediation sprint replaced topic→photograph pipeline with identity-first artifact design. ONE new hero `MUC-IDENTITY-NATIVE-HERO-PILOT`; brand-native pilot preserved for A/B.
+
+- **Methodology shift:** CORE DIRECTION → Direction Expression System → Sonnet IDENTITY ART DIRECTOR → `IdentityNativeVisualBrief` → GPT Image 2 (text-only, no reference conditioning) → identity-native raw QA. Code overlays must NOT establish identity.
+- **Sonnet art director:** `identityNativeArtDirectorService.ts` — proprietary visual DNA, semantic palette roles with dominance, typographic architecture, reference trait→application translation, prior pilot anti-example rejection. Palette derived from intelligence (ink black / galley off-white / editorial lime sparse-accent) — not hard-coded lime without semantic justification.
+- **Compiler:** `identityNativeVisualPromptCompiler.ts` — artifact declaration first, topic subordinate last, anti-example rejection block, stranger test language.
+- **QA:** `identityNativeVisualRawInspector.ts` — IDENTITY_NATIVE_SCORE, PALETTE_FIDELITY, TYPOGRAPHIC_DNA, GRAPHIC_GRAMMAR_FIDELITY, ARTIFACT_DESIGN_AUTHORITY, STOCK_RESEMBLANCE, logo-removal v2, stranger test. Acceptance thresholds ≥4 identity metrics, stock ≤1.
+- **Orchestrator:** `markedUpCopyIdentityNativeHeroPilot.ts` — ONE hero, preserves `MUC-BRAND-NATIVE-HERO-PILOT`. Admin `creative_direction_marked_up_copy_identity_native_hero_pilot` + job `marked_up_copy_identity_native_hero_pilot` + script `runMarkedUpCopyIdentityNativeHeroPilot.ts`.
+- **Founder UI:** `VisualPilotComparisonPanel.tsx` — A brand-native (DIRECTION-NATIVE / IDENTITY-INCOMPLETE) vs B identity-native with QA scores. Payload `visualPilotComparison` on creative direction engagement.
+- **Live Railway run (job 2dc4bd2a):** pilot `6fe8fec1-1018-4ff1-8d0e-263935a07420` — Sonnet art director 1 request (`claude-sonnet-4-6`), GPT Image 2 text-only, ~$0.045, no refs. Sonnet vision QA ACCEPT: identity-native 5/5, palette 5/5, typographic DNA 5/5, graphic grammar 5/5, artifact authority 5/5, stock resemblance 0/5, stranger PASS, logo-removal v2 PASS. Storage: `ndxbook-identity-native-pilot/generated/6fe8fec1-...webp`.
+- **PR #250 merged to main.** 15 identity-native + 16 brand-native tests pass. STOP — no board regen, no directions 02–06 until founder identity-native review.
