@@ -6,11 +6,11 @@ import {
 
 type OriginPanelIconProps = {
   panel: 'idnty' | 'bldr' | 'evolve';
-  size?: 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg';
   className?: string;
 };
 
-const SIZE_PX = { md: 80, lg: 88 } as const;
+const SIZE_PX = { sm: 48, md: 80, lg: 88 } as const;
 
 /** Approved production panel icon — Origin desktop IDNTY/BLDR/EVOLVE panels. */
 export function OriginPanelIcon({ panel, size = 'md', className = '' }: OriginPanelIconProps) {
@@ -23,12 +23,14 @@ export function OriginPanelIcon({ panel, size = 'md', className = '' }: OriginPa
         : site00OriginEvolvePanelIconUrl();
   const alt =
     panel === 'idnty' ? 'IDNTY panel icon' : panel === 'bldr' ? 'BLDR panel icon' : 'EVOLVE panel icon';
+  const sizeClass =
+    size === 'lg' ? 'site00-origin-card__icon--lg' : size === 'sm' ? 'site00-origin-card__icon--sm' : '';
 
   return (
     <img
       src={src}
       alt={alt}
-      className={`site00-origin-card__icon ${size === 'lg' ? 'site00-origin-card__icon--lg' : ''} ${className}`.trim()}
+      className={`site00-origin-card__icon ${sizeClass} ${className}`.trim()}
       width={dim}
       height={dim}
       loading="eager"
