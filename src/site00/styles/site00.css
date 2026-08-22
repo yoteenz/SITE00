@@ -104,6 +104,70 @@
   box-shadow: 0 12px 48px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.9);
 }
 
+/* Origin collapsed panels — <button.site00-glass-panel>.
+ * iOS Safari paints default blue button text; lock palette like state cards. */
+button.site00-glass-panel {
+  color: var(--site-text);
+  font: inherit;
+  text-decoration: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+button.site00-glass-panel .site00-panel-title,
+button.site00-glass-panel .site00-body {
+  color: var(--site-text);
+}
+
+button.site00-glass-panel .site00-label {
+  color: var(--site-text-muted);
+}
+
+button.site00-glass-panel .site00-label-red,
+button.site00-glass-panel .site00-origin-card__number {
+  color: var(--site00-origin-card-number-color, var(--site-red));
+}
+
+button.site00-glass-panel .site00-action-link {
+  color: var(--site-text);
+}
+
+button.site00-glass-panel:hover .site00-panel-title,
+button.site00-glass-panel:hover .site00-body,
+button.site00-glass-panel:focus .site00-panel-title,
+button.site00-glass-panel:focus .site00-body,
+button.site00-glass-panel:focus-visible .site00-panel-title,
+button.site00-glass-panel:focus-visible .site00-body,
+button.site00-glass-panel:active .site00-panel-title,
+button.site00-glass-panel:active .site00-body {
+  color: var(--site-text);
+}
+
+button.site00-glass-panel:hover .site00-label,
+button.site00-glass-panel:focus .site00-label,
+button.site00-glass-panel:focus-visible .site00-label,
+button.site00-glass-panel:active .site00-label {
+  color: var(--site-text-muted);
+}
+
+button.site00-glass-panel:hover .site00-label-red,
+button.site00-glass-panel:hover .site00-origin-card__number,
+button.site00-glass-panel:focus .site00-label-red,
+button.site00-glass-panel:focus .site00-origin-card__number,
+button.site00-glass-panel:focus-visible .site00-label-red,
+button.site00-glass-panel:focus-visible .site00-origin-card__number,
+button.site00-glass-panel:active .site00-label-red,
+button.site00-glass-panel:active .site00-origin-card__number {
+  color: var(--site00-origin-card-number-color, var(--site-red));
+}
+
+button.site00-glass-panel:hover .site00-action-link,
+button.site00-glass-panel:focus .site00-action-link,
+button.site00-glass-panel:focus-visible .site00-action-link,
+button.site00-glass-panel:active .site00-action-link {
+  color: var(--site-text);
+}
+
 /* ─── Bracket location indicator ─── */
 
 .site00-bracket-label {
@@ -198,6 +262,14 @@
   cursor: not-allowed;
 }
 
+.site00-entry-toggle__icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .site00-action-link {
   display: inline-flex;
   align-items: center;
@@ -278,6 +350,11 @@
   transition: transform var(--site-motion-base) var(--site-ease), box-shadow var(--site-motion-base);
   cursor: pointer;
   text-align: center;
+  color: var(--site-text);
+  font: inherit;
+  text-decoration: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .site00-state-card:hover {
@@ -293,6 +370,100 @@
 .site00-state-card--selected {
   border-color: var(--site-red);
   box-shadow: 0 0 0 1px var(--site-red-dim);
+}
+
+/* IDNTY / BLDR state cards — explicit palette (red accents, black copy).
+ * Typography utilities (.site00-heading, .site00-body) set metrics only; without
+ * scoped colors, :link/:visited browser defaults can bleed through anchor-based cards. */
+.site00-state-card .site00-heading,
+.site00-state-card .site00-body {
+  color: var(--site-text);
+}
+
+.site00-state-card .site00-panel-title {
+  color: var(--site-text);
+}
+
+.site00-state-card .site00-label {
+  color: var(--site-text-muted);
+}
+
+.site00-state-card .site00-label-red {
+  color: var(--site-red);
+}
+
+.site00-state-card .site00-action-link.site00-action-link--red {
+  color: var(--site-red);
+}
+
+a.site00-state-card,
+a.site00-state-card:link,
+a.site00-state-card:visited,
+a.site00-state-card:hover,
+a.site00-state-card:focus,
+a.site00-state-card:focus-visible,
+a.site00-state-card:active {
+  color: var(--site-text);
+  text-decoration: none;
+}
+
+a.site00-state-card .site00-heading,
+a.site00-state-card .site00-body,
+.site00-state-card:is(a, button):hover .site00-heading,
+.site00-state-card:is(a, button):hover .site00-body,
+.site00-state-card:is(a, button):focus .site00-heading,
+.site00-state-card:is(a, button):focus .site00-body,
+.site00-state-card:is(a, button):focus-visible .site00-heading,
+.site00-state-card:is(a, button):focus-visible .site00-body,
+.site00-state-card:is(a, button):active .site00-heading,
+.site00-state-card:is(a, button):active .site00-body {
+  color: var(--site-text);
+}
+
+.site00-state-card:is(a, button) .site00-panel-title,
+.site00-state-card:is(a, button):hover .site00-panel-title,
+.site00-state-card:is(a, button):focus .site00-panel-title,
+.site00-state-card:is(a, button):focus-visible .site00-panel-title,
+.site00-state-card:is(a, button):active .site00-panel-title,
+a.site00-state-card .site00-panel-title,
+a.site00-state-card:hover .site00-panel-title,
+a.site00-state-card:focus-visible .site00-panel-title,
+a.site00-state-card:active .site00-panel-title {
+  color: var(--site-text);
+}
+
+.site00-state-card:is(a, button) .site00-label,
+.site00-state-card:is(a, button):hover .site00-label,
+.site00-state-card:is(a, button):focus .site00-label,
+.site00-state-card:is(a, button):focus-visible .site00-label,
+.site00-state-card:is(a, button):active .site00-label,
+a.site00-state-card .site00-label,
+a.site00-state-card:hover .site00-label,
+a.site00-state-card:focus-visible .site00-label,
+a.site00-state-card:active .site00-label {
+  color: var(--site-text-muted);
+}
+
+a.site00-state-card .site00-label-red,
+.site00-state-card:is(a, button) .site00-label-red,
+a.site00-state-card:hover .site00-label-red,
+.site00-state-card:is(a, button):hover .site00-label-red,
+a.site00-state-card:focus-visible .site00-label-red,
+.site00-state-card:is(a, button):focus-visible .site00-label-red,
+a.site00-state-card:active .site00-label-red,
+.site00-state-card:is(a, button):active .site00-label-red {
+  color: var(--site-red);
+}
+
+a.site00-state-card .site00-action-link.site00-action-link--red,
+.site00-state-card:is(a, button) .site00-action-link.site00-action-link--red,
+a.site00-state-card:hover .site00-action-link.site00-action-link--red,
+.site00-state-card:is(a, button):hover .site00-action-link.site00-action-link--red,
+a.site00-state-card:focus-visible .site00-action-link.site00-action-link--red,
+.site00-state-card:is(a, button):focus-visible .site00-action-link.site00-action-link--red,
+a.site00-state-card:active .site00-action-link.site00-action-link--red,
+.site00-state-card:is(a, button):active .site00-action-link.site00-action-link--red {
+  color: var(--site-red);
 }
 
 /* ─── Bottom summary strip (Enter + workflow state routes) ─── */
@@ -525,6 +696,14 @@
   display: none;
 }
 
+.site00-origin-page--mobile-layout footer {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .site00-origin-page--mobile-layout .site00-status-strip--layout-mobile {
   display: flex;
   flex-direction: column;
@@ -532,6 +711,10 @@
   border-top: none;
   min-height: unset;
   width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .site00-origin-page--mobile-layout .site00-status-strip__metrics {
@@ -540,11 +723,16 @@
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x proximity;
+  scroll-snap-type: x mandatory;
   scrollbar-width: none;
   background: rgba(240, 240, 240, 0.95);
   border-top: 1px solid var(--site-border);
   touch-action: pan-x;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .site00-origin-page--mobile-layout .site00-status-strip__metrics::-webkit-scrollbar {
@@ -552,14 +740,22 @@
 }
 
 .site00-origin-page--mobile-layout .site00-status-strip--layout-mobile .site00-status-strip__cell {
-  flex: 0 0 auto;
-  width: calc(100vw / 2.6);
-  min-width: 132px;
-  max-width: 168px;
+  flex: 0 0 50%;
+  width: 50%;
+  min-width: 50%;
+  max-width: 50%;
   scroll-snap-align: start;
-  padding: 4px 12px;
-  min-height: 31px;
-  gap: 1px;
+  scroll-snap-stop: always;
+  padding: 1px 12px;
+  min-height: calc(31px * 0.6);
+  max-height: calc(31px * 0.6);
+  gap: 0;
+  box-sizing: border-box;
+  border-right: 1px solid var(--site-border);
+}
+
+.site00-origin-page--mobile-layout .site00-status-strip--layout-mobile .site00-status-strip__cell:last-child {
+  border-right: none;
 }
 
 .site00-origin-page--mobile-layout .site00-status-strip--layout-mobile .site00-status-strip__guidance {
@@ -592,7 +788,7 @@
     right: var(--site-spacing-md);
     left: auto;
     width: auto;
-    max-width: min(52vw, 220px);
+    max-width: min(60vw, 252px);
     padding-top: 0;
     text-align: right;
     z-index: calc(var(--site-z-nav) - 1);
@@ -607,6 +803,7 @@
     margin-top: calc(var(--site00-stack-tight) + 3px);
     margin-bottom: 0;
     white-space: nowrap;
+    transform: translateY(4px);
   }
 
   .site00-origin-page--mobile-layout .site00-home-hero__line,
@@ -708,6 +905,7 @@
   .site00-origin-page--mobile-layout .site00-origin-mobile-swipe__swipe-btn {
     margin-top: 6px;
     margin-bottom: 4px;
+    transform: translateY(6px);
   }
 
   .site00-origin-page--mobile-layout .site00-origin-mobile-swipe__connector {
@@ -868,60 +1066,85 @@
   }
 }
 
+.site00-idnty-state-mobile-shell .site00-mobile-shell__main {
+  padding-top: 16px;
+  padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+}
+
+.site00-state-page--mobile .site00-workflow-summary-strip {
+  position: static;
+  margin-top: 24px;
+  border-radius: var(--site-radius-lg);
+}
+
+/** ENTER 00 — always desktop env presentation (refresh-safe; not gated on preview toggle or 768px). */
+.site00-enter-page {
+  --site00-enter-header-offset: 96px;
+  --site00-enter-status-strip-height: var(--site00-bottom-panel-height, 36px);
+  --site00-summary-strip-height: var(--site00-bottom-panel-height, 36px);
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+}
+
+.site00-enter-page .site00-env-layer {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.site00-env-layer--enter-artboard-suppressed,
+.site00-env-layer--viewport-bg-suppressed {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.site00-enter-page .site00-env-layer--has-desktop-asset {
+  background-image: var(--site00-env-desktop-image);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: var(--site00-env-desktop-position, center 75%);
+  transform: scale(var(--site00-env-desktop-scale, 1));
+  transform-origin: center center;
+}
+
+.site00-enter-artboard-viewport-bg,
+.site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'] {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: var(--site00-env-desktop-position, center 75%);
+}
+
+.site00-enter-page.site00-shell {
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+}
+
+.site00-enter-page a.site00-btn-ghost,
+.site00-enter-page a.site00-btn-ghost:hover,
+.site00-enter-page a.site00-btn-ghost:focus,
+.site00-enter-page a.site00-btn-ghost:focus-visible,
+.site00-enter-page a.site00-btn-ghost:visited,
+.site00-enter-page a.site00-btn-ghost:active {
+  text-decoration: none;
+}
+
 @media (min-width: 768px) {
-  .site00-enter-page {
-    --site00-enter-header-offset: 96px;
-    --site00-enter-status-strip-height: 36px;
-    --site00-summary-strip-height: 36px;
-    height: 100dvh;
-    max-height: 100dvh;
-    overflow: hidden;
-  }
-
-  /* Desktop ENTER 00 — shift background upward to use empty upper architecture; crop from top first */
-  .site00-enter-page .site00-env-layer {
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  /* Full-viewport background — UI artboard may scale/contain separately */
-  .site00-desktop-artboard .site00-enter-page .site00-env-layer {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: var(--site-z-env);
-  }
-
-  /* Focal position only — lower % shifts image up inside the locked cover container */
+  /** All environment viewport / in-flow layers — focal from environments.ts (per env). */
+  .site00-environment-viewport-bg,
   .site00-enter-page .site00-env-layer--has-desktop-asset {
-    background-position: center 32%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: var(--site00-env-desktop-position, center center);
   }
 
-  @media (max-height: 799px) {
-    .site00-enter-page .site00-env-layer--has-desktop-asset {
-      background-position: center 28%;
-    }
-  }
-
-  @media (min-height: 900px) {
-    .site00-enter-page .site00-env-layer--has-desktop-asset {
-      background-position: center 38%;
-    }
-  }
-
-  @media (min-aspect-ratio: 21/9) {
-    .site00-enter-page .site00-env-layer--has-desktop-asset {
-      background-position: center 35%;
-    }
-  }
-
-  .site00-enter-page.site00-shell {
-    height: 100dvh;
-    max-height: 100dvh;
-    overflow: hidden;
+  /** ENTER 00 only — focal inline on viewport bg element; fallback 75%. */
+  .site00-enter-artboard-viewport-bg,
+  .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'],
+  .site00-enter-page .site00-env-layer--has-desktop-asset {
+    background-position: var(--site00-env-desktop-position, center 75%);
   }
 
   .site00-desktop-artboard .site00-enter-page {
@@ -1297,11 +1520,59 @@
   height: 88px;
 }
 
+.site00-origin-card__icon--sm {
+  width: 48px;
+  height: 48px;
+}
+
 /* Origin desktop composition → site00-desktop-artboard.css only (1440px artboard via Site00OriginRouteShell).
    Do not re-add @media (min-width: 768px) home-stage/hero/cards rules here — they drift from the artboard. */
 
 @media (max-width: 767px) {
   .site00-home-grid__spacer {
     display: none;
+  }
+
+  /* Mobile — vertical scroll only; clip accidental horizontal overflow. */
+  html:has(.site00-mobile-shell),
+  html:has(.site00-public-shell--mobile-layout),
+  html:has(.site00-origin-page--mobile-layout) {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  body:has(.site00-mobile-shell),
+  body:has(.site00-public-shell--mobile-layout),
+  body:has(.site00-origin-page--mobile-layout) {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  #root:has(.site00-mobile-shell),
+  #root:has(.site00-public-shell--mobile-layout),
+  #root:has(.site00-origin-page--mobile-layout) {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  .site00-origin-page--mobile-layout.site00-shell {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .site00-origin-page--mobile-layout .site00-ui-layer,
+  .site00-origin-page--mobile-layout .site00-environment-viewport-bg {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .site00-origin-page--mobile-layout .site00-status-strip__metrics {
+    max-width: 100%;
+  }
+
+  .site00-env-layer--has-mobile-asset {
+    overflow: hidden;
   }
 }

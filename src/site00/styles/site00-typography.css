@@ -10,7 +10,8 @@
 
 .site00-shell,
 .site00-assts-shell,
-.site00-loader {
+.site00-loader,
+.site00-mobile-shell {
   font-family: var(--site00-font-body);
   font-size: var(--site00-size-body);
   line-height: var(--site00-lh-body);
@@ -21,11 +22,34 @@
   font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  color: var(--site-text);
 }
 
 /* Block global heading/body defaults from leaking into SITE 00 */
-.site00-shell :is(h1, h2, h3, h4, h5, h6, p, button, nav, a, span, li) {
+.site00-shell :is(h1, h2, h3, h4, h5, h6, p, button, nav, a, span, li),
+.site00-mobile-shell :is(h1, h2, h3, h4, h5, h6, p, button, nav, a, span, li) {
   font-family: inherit;
+}
+
+/* SITE 00 anchors — strip browser default underline; component classes own color */
+.site00-shell a[class*='site00-'],
+.site00-mobile-shell a[class*='site00-'],
+.site00-public-shell a[class*='site00-'],
+.site00-ctrl-room-shell a[class*='site00-'],
+.site00-desktop-artboard-shell a[class*='site00-'],
+.site00-desktop-artboard--native-viewport a[class*='site00-'],
+.site00-desktop-artboard a[class*='site00-'],
+.site00-enter-page a[class*='site00-'] {
+  text-decoration: none;
+}
+
+a.site00-btn-ghost,
+a.site00-btn-ghost:hover,
+a.site00-btn-ghost:focus,
+a.site00-btn-ghost:focus-visible,
+a.site00-btn-ghost:visited,
+a.site00-btn-ghost:active {
+  text-decoration: none;
 }
 
 /* ─── Brand uppercase law (SITE 00) ───
@@ -39,7 +63,16 @@
 .site00-ctrl-room-shell,
 .site00-desktop-artboard-shell,
 .site00-mobile-shell,
-.site00-immersive-loader {
+.site00-immersive-loader,
+.site00-fast-travel,
+.site00-origin-layout-switch,
+.site00-mobile-artboard,
+.site00-mobile-artboard-shell,
+.site00-mobile-device,
+.site00-page,
+.site00-ecosystem-shell,
+.site00-signin-page,
+.composition-studio {
   text-transform: uppercase;
 }
 
@@ -57,6 +90,8 @@
 .site00-public-shell input:not([type='password']):not(.site00-signin-form__input--password)::placeholder,
 .site00-ctrl-room-shell input:not([type='password']):not(.site00-signin-form__input--password)::placeholder,
 .site00-mobile-shell input:not([type='password']):not(.site00-signin-form__input--password)::placeholder,
+.site00-fast-travel input:not([type='password'])::placeholder,
+.site00-page input:not([type='password'])::placeholder,
 .site00-shell textarea:not(.site00-signin-form__input--password)::placeholder,
 .site00-assts-shell textarea:not(.site00-signin-form__input--password)::placeholder {
   text-transform: uppercase;

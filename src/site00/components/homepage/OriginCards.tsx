@@ -1,6 +1,6 @@
 import { OriginPanelIcon } from './OriginPanelIcon';
 import { ArrowIconSmall } from '../icons/ArrowAction';
-import { EVOLVE_ORIGIN_CARD } from '../../config/evolve';
+import { EVOLVE_ORIGIN_CARD, EVOLVE_ORIGIN_CARD_DESKTOP } from '../../config/evolve';
 
 type CollapsedCardProps = {
   number: string;
@@ -10,13 +10,25 @@ type CollapsedCardProps = {
   cta: string;
   panel: 'idnty' | 'bldr' | 'evolve';
   onExpand: () => void;
+  hideCtaArrow?: boolean;
+  className?: string;
 };
 
-export function CollapsedCard({ number, title, subtitle, body, cta, panel, onExpand }: CollapsedCardProps) {
+export function CollapsedCard({
+  number,
+  title,
+  subtitle,
+  body,
+  cta,
+  panel,
+  onExpand,
+  hideCtaArrow = false,
+  className = '',
+}: CollapsedCardProps) {
   return (
     <button
       type="button"
-      className="site00-glass-panel"
+      className={`site00-glass-panel ${className}`.trim()}
       onClick={onExpand}
       style={{
         display: 'flex',
@@ -56,7 +68,7 @@ export function CollapsedCard({ number, title, subtitle, body, cta, panel, onExp
       </div>
       <span className="site00-action-link" style={{ marginTop: 'auto' }}>
         {cta}
-        <ArrowIconSmall />
+        {!hideCtaArrow ? <ArrowIconSmall /> : null}
       </span>
     </button>
   );
@@ -66,9 +78,12 @@ type OriginCardsProps = {
   onExpandIdnty: () => void;
   onExpandBldr: () => void;
   onExpandEvolve: () => void;
+  isDesktopArtboard?: boolean;
 };
 
-export function OriginCards({ onExpandIdnty, onExpandBldr, onExpandEvolve }: OriginCardsProps) {
+export function OriginCards({ onExpandIdnty, onExpandBldr, onExpandEvolve, isDesktopArtboard = false }: OriginCardsProps) {
+  const evolveCard = isDesktopArtboard ? EVOLVE_ORIGIN_CARD_DESKTOP : EVOLVE_ORIGIN_CARD;
+
   return (
     <div className="site00-origin-cards">
       <p className="site00-label-red site00-origin-cards__prompt">WHERE DO WE BEGIN?</p>
@@ -95,12 +110,14 @@ export function OriginCards({ onExpandIdnty, onExpandBldr, onExpandEvolve }: Ori
           onExpand={onExpandBldr}
         />
         <CollapsedCard
-          number={EVOLVE_ORIGIN_CARD.number}
-          title={EVOLVE_ORIGIN_CARD.title}
-          subtitle={EVOLVE_ORIGIN_CARD.subtitle}
-          body={EVOLVE_ORIGIN_CARD.body}
-          cta={EVOLVE_ORIGIN_CARD.cta}
+          number={evolveCard.number}
+          title={evolveCard.title}
+          subtitle={evolveCard.subtitle}
+          body={isDesktopArtboard ? undefined : EVOLVE_ORIGIN_CARD.body}
+          cta={evolveCard.cta}
           panel="evolve"
+          className={isDesktopArtboard ? 'site00-origin-card--evolve' : ''}
+          hideCtaArrow={isDesktopArtboard}
           onExpand={onExpandEvolve}
         />
       </div>

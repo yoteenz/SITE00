@@ -31,7 +31,7 @@ export function OriginMobileSwipeUp({ transition }: OriginMobileSwipeUpProps) {
     <>
       <section
         className="site00-origin-mobile-swipe"
-        aria-label="Swipe up to open SITE 00 locations directory"
+        aria-label="SWIPE UP TO OPEN SITE 00 LOCATIONS DIRECTORY"
         {...swipeHandlers}
       >
         <Link to={SITE00_ROUTES.enter} className="site00-origin-mobile-swipe__enter">

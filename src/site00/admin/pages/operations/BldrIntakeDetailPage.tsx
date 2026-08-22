@@ -103,7 +103,7 @@ export default function BldrIntakeDetailPage() {
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 
       {loading ? (
-        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="Loading intake" />
+        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="LOADING INTAKE" />
       ) : intake ? (
         <div className="site00-admin-dashboard-grid">
           <section className="site00-admin-panel">

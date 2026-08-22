@@ -3,6 +3,9 @@
  * Environment is locked; this data drives the directory panel only.
  */
 
+import { SITE00_CTRL_ROOM_PATH, site00SignInHrefWithReturnTo } from './mobile-directory-nav';
+import { SITE00_ROUTES } from './routes';
+
 export type EnterMenuIconId = 'bldr-studio' | 'projects' | 'account' | 'support';
 
 export type DirectoryRow = {
@@ -12,6 +15,8 @@ export type DirectoryRow = {
   description: string;
   href: string;
   enabled: boolean;
+  /** When true, signed-out users route to sign-in with return path */
+  requiresAuth?: boolean;
   /** YOUR SPACE — production line-icon slot */
   enterIcon?: EnterMenuIconId;
 };
@@ -32,40 +37,40 @@ export const SITE00_DIRECTORY_SECTIONS: DirectorySection[] = [
         number: '01',
         title: 'SITES',
         description: 'EXPLORE DIGITAL PLACES',
-        href: '/sites',
-        enabled: false,
+        href: SITE00_ROUTES.sites,
+        enabled: true,
       },
       {
         id: 'explore-services',
         number: '02',
         title: 'SERVICES',
         description: 'WHAT SITE 00 DOES',
-        href: '/services',
-        enabled: false,
+        href: SITE00_ROUTES.services,
+        enabled: true,
       },
       {
         id: 'explore-system',
         number: '03',
         title: 'SYSTEM',
         description: 'HOW THE SYSTEM WORKS',
-        href: '/system',
-        enabled: false,
+        href: SITE00_ROUTES.system,
+        enabled: true,
       },
       {
         id: 'explore-about',
         number: '04',
         title: 'ABOUT',
         description: 'STUDIO AND METHODOLOGY',
-        href: '/about',
-        enabled: false,
+        href: SITE00_ROUTES.about,
+        enabled: true,
       },
       {
         id: 'explore-journal',
         number: '05',
         title: 'JOURNAL',
         description: 'NOTES FROM THE FIELD',
-        href: '/journal',
-        enabled: false,
+        href: SITE00_ROUTES.journal,
+        enabled: true,
       },
     ],
   },
@@ -77,7 +82,7 @@ export const SITE00_DIRECTORY_SECTIONS: DirectorySection[] = [
         id: 'bldr-studio',
         title: 'BLDR STUDIO',
         description: 'CREATE & DEPLOY',
-        href: '/bldr',
+        href: SITE00_ROUTES.bldr,
         enabled: true,
         enterIcon: 'bldr-studio',
       },
@@ -85,29 +90,42 @@ export const SITE00_DIRECTORY_SECTIONS: DirectorySection[] = [
         id: 'projects',
         title: 'PROJECTS',
         description: 'YOUR ACTIVE BUILDS',
-        href: '/projects',
-        enabled: false,
+        href: SITE00_ROUTES.projects,
+        enabled: true,
+        requiresAuth: true,
         enterIcon: 'projects',
       },
       {
         id: 'account',
         title: 'ACCOUNT',
         description: 'PROFILE & PREFERENCES',
-        href: '/account',
-        enabled: false,
+        href: SITE00_CTRL_ROOM_PATH,
+        enabled: true,
+        requiresAuth: true,
         enterIcon: 'account',
       },
       {
         id: 'support',
         title: 'SUPPORT',
         description: 'HELP & RESOURCES',
-        href: '/support',
-        enabled: false,
+        href: SITE00_ROUTES.support,
+        enabled: true,
         enterIcon: 'support',
       },
     ],
   },
 ];
+
+export function resolveEnterDirectoryRowHref(
+  href: string,
+  requiresAuth: boolean | undefined,
+  isSignedIn: boolean,
+): string {
+  if (requiresAuth && !isSignedIn) {
+    return site00SignInHrefWithReturnTo({ pathname: href, search: '' });
+  }
+  return href;
+}
 
 export const SITE00_ENTER_COPY = {
   locationLabel: 'LOCATION / ENTER 00',

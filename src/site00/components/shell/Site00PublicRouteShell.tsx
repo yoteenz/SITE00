@@ -1,29 +1,29 @@
 import { type ReactNode } from 'react';
-import { Site00DesktopArtboardShell } from './Site00DesktopArtboardShell';
 import { Site00PublicLayoutSwitch } from './Site00PublicLayoutSwitch';
+import { Site00DesktopPresentationShell } from './Site00DesktopPresentationShell';
+import { Site00MobilePresentationShell } from './Site00MobilePresentationShell';
 import { useSite00 } from '../../state/Site00Context';
 
 type Site00PublicRouteShellProps = {
   children: ReactNode;
-  /** Legacy `/desktop` routes — always use artboard shell. */
+  /** Legacy `/desktop` routes — always use scaled artboard shell. */
   forceArtboard?: boolean;
 };
 
 /**
- * Public Composer pages — desktop presentation driven by shared preview mode + artboard shell.
+ * Public Composer pages — desktop presentation driven by shared preview mode.
+ * Phone + Mobile → native full-width; laptop + Mobile → scaled 390×844 phone preview.
  */
 export function Site00PublicRouteShell({ children, forceArtboard = false }: Site00PublicRouteShellProps) {
   const { isPreviewDesktop } = useSite00();
 
-  const useArtboard = forceArtboard || isPreviewDesktop;
-
   return (
     <>
       <Site00PublicLayoutSwitch />
-      {useArtboard ? (
-        <Site00DesktopArtboardShell>{children}</Site00DesktopArtboardShell>
+      {isPreviewDesktop ? (
+        <Site00DesktopPresentationShell forceArtboard={forceArtboard}>{children}</Site00DesktopPresentationShell>
       ) : (
-        children
+        <Site00MobilePresentationShell>{children}</Site00MobilePresentationShell>
       )}
     </>
   );

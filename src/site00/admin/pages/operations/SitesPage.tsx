@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { ControlPageHeader } from '../../components/control/ControlPageHeader';
 import { Site00AdminShell } from '../../components/shell/Site00AdminShell';
 import { AdminTable } from '../../components/operations/AdminTable';
 import { AdminStatusBadge } from '../../components/operations/AdminStatusBadge';
@@ -32,32 +33,31 @@ export default function SitesPage() {
 
   return (
     <Site00AdminShell>
-      <header className="site00-admin-dashboard-head">
-        <div>
-          <h1 className="site00-admin-page-title">[ SITES ]</h1>
-          <p className="site00-admin-page-subtitle">
-            {issuesOnly ? 'SITES WITH HEALTH ISSUES.' : 'DEPLOYED AND IN-BUILD PROPERTIES.'}
-          </p>
-        </div>
-        {issuesOnly ? (
-          <button type="button" className="site00-admin-btn" onClick={() => navigate(SITE00_ADMIN_ROUTES.sites)}>
-            SHOW ALL SITES
-          </button>
-        ) : (
-          <button
-            type="button"
-            className="site00-admin-btn"
-            onClick={() => navigate(`${SITE00_ADMIN_ROUTES.sites}?filter=issues`)}
-          >
-            SHOW ISSUES ONLY
-          </button>
-        )}
-      </header>
+      <ControlPageHeader
+        kicker="00 / CONTROL"
+        title="SYSTEMS / INFRASTRUCTURE"
+        subtitle={issuesOnly ? 'SITES WITH HEALTH ISSUES' : 'WHAT IS CONNECTED? WHAT IS HEALTHY?'}
+        actions={
+          issuesOnly ? (
+            <button type="button" className="site00-admin-btn" onClick={() => navigate(SITE00_ADMIN_ROUTES.sites)}>
+              SHOW ALL SITES
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="site00-admin-btn"
+              onClick={() => navigate(`${SITE00_ADMIN_ROUTES.sites}?filter=issues`)}
+            >
+              SHOW ISSUES ONLY
+            </button>
+          )
+        }
+      />
 
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 
       {loading ? (
-        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="Loading sites" />
+        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="LOADING SITES" />
       ) : (
         <section className="site00-admin-panel">
           <AdminTable

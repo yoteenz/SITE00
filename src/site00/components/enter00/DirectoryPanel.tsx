@@ -1,4 +1,5 @@
 import { SITE00_DIRECTORY_SECTIONS, SITE00_ENTER_COPY } from '../../config/directory';
+import { Site00ArtboardBottomChromePortal } from '../shell/Site00ArtboardBottomChromePortal';
 import { Site00SummaryStripText } from '../shell/Site00SummaryStripText';
 import { ArchitecturalPanel } from '../panels/ArchitecturalPanel';
 import { SectionRule } from '../panels/SectionRule';
@@ -31,6 +32,7 @@ export function DirectoryPanel() {
                     description={row.description}
                     href={row.href}
                     enabled={row.enabled}
+                    requiresAuth={row.requiresAuth}
                     enterIcon={row.enterIcon}
                   />
                 ))}
@@ -50,8 +52,10 @@ export function DirectoryPanel() {
 
 export function EnterStatusStrip() {
   return (
-    <footer className="site00-summary-strip-panel site00-enter-status-strip">
-      <Site00SummaryStripText text={SITE00_ENTER_COPY.statusStrip} />
-    </footer>
+    <Site00ArtboardBottomChromePortal>
+      <footer className="site00-summary-strip-panel site00-enter-status-strip">
+        <Site00SummaryStripText text={SITE00_ENTER_COPY.statusStrip} />
+      </footer>
+    </Site00ArtboardBottomChromePortal>
   );
 }

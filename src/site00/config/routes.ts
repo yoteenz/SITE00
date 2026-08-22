@@ -22,6 +22,12 @@ export const SITE00_ROUTES = {
   evolveState: '/evolve/state',
   evolveStateDesktop: '/evolve/state/desktop',
   evolveStart: '/evolve/start',
+  evolveMarketing: '/evolve/marketing',
+  evolveMarketingServices: '/evolve/marketing/services',
+  evolveMarketingIntake: '/evolve/marketing/intake/:serviceId',
+  evolveMarketingBrief: '/evolve/marketing/brief/:engagementId',
+  evolveMarketingEngagement: '/evolve/marketing/engagement/:engagementId',
+  evolveMarketingDebug: '/admin/site00/debug/evolve-marketing',
   assts: '/assts',
   asstsBatch: '/assts/batches/:batchId',
   asstsAsset: '/assts/:assetId',
@@ -31,6 +37,11 @@ export const SITE00_ROUTES = {
   about: '/about',
   journal: '/journal',
   signIn: '/origin/sign-in',
+  createAccount: '/origin/create-account',
+  loaderPreview: '/loader-preview',
+  accessDebug: '/access/debug',
+  access: '/access',
+  accessCredential: (code: string) => `/access/${code}`,
   control: '/control',
   controlSites: '/control/sites',
   controlDomains: '/control/domains',
@@ -38,11 +49,97 @@ export const SITE00_ROUTES = {
   controlTeam: '/control/team',
   controlSettings: '/control/settings',
   controlSecurity: '/control/security',
+  /** Founder/admin operator dashboard — gated by AdminGuard */
+  adminDashboard: '/admin/site00',
   projects: '/projects',
+  projectDetail: '/projects/:projectSlug',
+  projectEvolve: '/projects/:projectSlug/evolve',
+  projectCreativeDirection: '/projects/:projectSlug/creative-direction',
+  projectLoreCalibration: '/projects/:projectSlug/calibrate',
+  projectConnections: '/projects/:projectSlug/connections',
   support: '/support',
   /** Client post-payment provisioning — project slug in path */
   projectProvisioning: '/project/:projectSlug/provisioning',
+  /** Client Studio operating environment — project slug in path */
+  studio: '/studio/:projectSlug',
+  studioInput: '/studio/:projectSlug/input',
+  studioOperations: '/studio/:projectSlug/operations',
+  studioBlueprint: '/studio/:projectSlug/blueprint',
+  studioAssets: '/studio/:projectSlug/assets',
+  studioReviews: '/studio/:projectSlug/reviews',
+  studioReviewDetail: '/studio/:projectSlug/reviews/:reviewId',
+  studioMilestones: '/studio/:projectSlug/milestones',
+  studioActivity: '/studio/:projectSlug/activity',
+  /** Client canonical intake retrieval — Identity + Builder intake persistence infrastructure */
+  accountIntakes: '/account/intakes',
+  accountIntakeDetail: '/account/intakes/:intakeType/:intakeId',
+  /** Guest secure intake access/resume — no sign-in required */
+  intakeGuestAccess: '/intake/access/:token',
 } as const;
+
+export function site00AccountIntakeDetailPath(intakeType: string, intakeId: string): string {
+  return `/account/intakes/${intakeType.toLowerCase()}/${intakeId}`;
+}
+
+export function site00IntakeGuestAccessPath(token: string): string {
+  return `/intake/access/${token}`;
+}
+
+export function site00ProjectPath(projectSlug: string): string {
+  return `/projects/${projectSlug}`;
+}
+
+export function site00ProjectLoreCalibrationPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/calibrate`;
+}
+
+export function site00ProjectEvolvePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/evolve`;
+}
+
+export function site00ProjectCreativeDirectionPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/creative-direction`;
+}
+
+export function site00CreateAccountHrefWithReturnTo(returnToPath: string): string {
+  const safe = returnToPath.startsWith('/') ? returnToPath : `/${returnToPath}`;
+  return `${SITE00_ROUTES.createAccount}?returnTo=${encodeURIComponent(safe.slice(0, 1024))}`;
+}
+
+/** Preserve raw returnTo from sign-in (or current location) for create-account navigation. */
+export function site00CreateAccountLinkTarget(location: {
+  pathname: string;
+  search: string;
+}): { pathname: string; search?: string } {
+  const rawReturnTo = new URLSearchParams(location.search).get('returnTo');
+  if (rawReturnTo) {
+    return {
+      pathname: SITE00_ROUTES.createAccount,
+      search: `?returnTo=${encodeURIComponent(rawReturnTo.slice(0, 1024))}`,
+    };
+  }
+  const fromPath = `${location.pathname}${location.search}`.slice(0, 1024);
+  if (fromPath.startsWith('/') && fromPath !== SITE00_ROUTES.createAccount) {
+    return {
+      pathname: SITE00_ROUTES.createAccount,
+      search: `?returnTo=${encodeURIComponent(fromPath)}`,
+    };
+  }
+  return { pathname: SITE00_ROUTES.createAccount };
+}
+
+export function site00StudioPath(projectSlug: string, section?: 'input' | 'operations' | 'blueprint' | 'assets' | 'reviews' | 'milestones' | 'activity'): string {
+  const base = `/studio/${projectSlug}`;
+  return section ? `${base}/${section}` : base;
+}
+
+export function site00StudioReviewPath(projectSlug: string, reviewId: string): string {
+  return `/studio/${projectSlug}/reviews/${reviewId}`;
+}
+
+export function isSite00StudioPath(pathname: string): boolean {
+  return pathname.startsWith('/studio/');
+}
 
 /** Future reserved stage namespaces — not yet populated */
 export const SITE00_FUTURE_ROUTES = {
@@ -150,6 +247,35 @@ export function site00EvolveAssessmentDesktopPath(mobilePath: string): string {
 
 export function site00EvolveAssessmentMobilePath(pathname: string): string {
   return pathname.replace(/\/desktop(\/|$)/, (_, slash) => slash || '');
+}
+
+export function evolveMarketingIntakePath(serviceId: string): string {
+  return `/evolve/marketing/intake/${serviceId}`;
+}
+
+export function evolveMarketingBriefPath(engagementId: string): string {
+  return `/evolve/marketing/brief/${engagementId}`;
+}
+
+export function evolveMarketingEngagementPath(engagementId: string): string {
+  return `/evolve/marketing/engagement/${engagementId}`;
+}
+
+/** Route helpers for templates */
+export const evolveMarketingRoutes = {
+  intake: evolveMarketingIntakePath,
+  brief: evolveMarketingBriefPath,
+  engagement: evolveMarketingEngagementPath,
+} as const;
+
+export function site00EvolveMarketingIntake(serviceId: string): string {
+  return evolveMarketingIntakePath(serviceId);
+}
+export function site00EvolveMarketingBrief(engagementId: string): string {
+  return evolveMarketingBriefPath(engagementId);
+}
+export function site00EvolveMarketingEngagement(engagementId: string): string {
+  return evolveMarketingEngagementPath(engagementId);
 }
 
 export function isSite00OriginDesktopPath(pathname: string): boolean {

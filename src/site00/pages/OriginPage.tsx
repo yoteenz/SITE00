@@ -29,6 +29,15 @@ export default function OriginPage() {
     <EnvironmentShell environmentId="ORIGIN_ENVIRONMENT">
       <div
         className={`site00-origin-page ${isDesktopArtboardLayout ? 'site00-origin-page--desktop-artboard' : 'site00-origin-page--mobile-layout'}`.trim()}
+        style={
+          isDesktopArtboardLayout
+            ? {
+                ['--site00-origin-status-strip-min-height' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.statusStripMinHeightPx}px`,
+                ['--site00-origin-status-strip-cell-padding-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.statusStripCellPaddingYPx}px`,
+                ['--site00-origin-status-strip-guidance-padding-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.statusStripGuidancePaddingYPx}px`,
+              }
+            : undefined
+        }
       >
         <Site00AppShell
           locationLabel={SITE00_ORIGIN_COPY.locationLabel}
@@ -65,6 +74,14 @@ export default function OriginPage() {
               ['--site00-origin-expanded-max-w' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.expandedMaxWidthPx}px`,
               ['--site00-origin-expanded-panel-scale' as string]: String(SITE00_ORIGIN_DESKTOP_COMPOSITION.expandedPanelScale),
               ['--site00-origin-framework-icon-size' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.frameworkIconSizePx}px`,
+              ['--site00-origin-hero-block-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroBlockOffsetYPx}px`,
+              ['--site00-origin-hero-eyebrow-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroEyebrowOffsetYPx}px`,
+              ['--site00-origin-hero-headline-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroHeadlineOffsetYPx}px`,
+              ['--site00-origin-hero-tagline-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroTaglineOffsetYPx}px`,
+              ['--site00-origin-hero-desc1-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroDescription1OffsetYPx}px`,
+              ['--site00-origin-hero-desc2-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroDescription2OffsetYPx}px`,
+              ['--site00-origin-hero-desc3-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroDescription3OffsetYPx}px`,
+              ['--site00-origin-hero-coordinate-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroCoordinateOffsetYPx}px`,
             }}
           >
             <div className="site00-home-grid">
@@ -73,20 +90,24 @@ export default function OriginPage() {
                 style={{
                   ['--site00-origin-hero-top' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroTopPx}px`,
                 }}
-                aria-label="Origin messaging"
+                aria-label="ORIGIN MESSAGING"
               >
                 <p className="site00-label site00-home-hero__eyebrow">{SITE00_ORIGIN_COPY.headlineLine1}</p>
-                <h1 className="site00-heading-xl">{SITE00_ORIGIN_COPY.headlineLine2}</h1>
+                <h1 className="site00-heading-xl site00-home-hero__headline">{SITE00_ORIGIN_COPY.headlineLine2}</h1>
                 <p className="site00-tagline site00-home-hero__tagline">{SITE00_ORIGIN_COPY.tagline}</p>
-                <p className="site00-body site00-body--technical site00-home-hero__line">{SITE00_ORIGIN_COPY.description1}</p>
+                <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc1">
+                  {SITE00_ORIGIN_COPY.description1}
+                </p>
                 {isDesktopArtboardLayout ? (
-                  <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desktop-flow">
+                  <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc2 site00-home-hero__line--desktop-flow">
                     {SITE00_ORIGIN_COPY.description2} {SITE00_ORIGIN_COPY.description3}
                   </p>
                 ) : (
                   <>
-                    <p className="site00-body site00-body--technical site00-home-hero__line">{SITE00_ORIGIN_COPY.description2}</p>
-                    <p className="site00-body site00-body--technical site00-home-hero__line">
+                    <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc2">
+                      {SITE00_ORIGIN_COPY.description2}
+                    </p>
+                    <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc3">
                       {SITE00_ORIGIN_COPY.description3}
                     </p>
                   </>
@@ -109,29 +130,30 @@ export default function OriginPage() {
               <button
                 type="button"
                 className="site00-home-expanded-backdrop"
-                aria-label="Close panel"
+                aria-label="CLOSE PANEL"
                 onClick={collapseExpandedPanel}
               />
             ) : null}
 
             {state.homeMode !== 'origin' ? (
-              <div className="site00-home-expanded-column" aria-label="Expanded panel">
+              <div className="site00-home-expanded-column" aria-label="EXPANDED PANEL">
                 {state.homeMode === 'idnty-expanded' ? (
                   <IdntyExpandedPanel onCollapse={collapseExpandedPanel} />
                 ) : state.homeMode === 'bldr-expanded' ? (
                   <BldrExpandedPanel onCollapse={collapseExpandedPanel} />
                 ) : (
-                  <EvolveExpandedPanel onCollapse={collapseExpandedPanel} />
+                  <EvolveExpandedPanel onCollapse={collapseExpandedPanel} isDesktopArtboard={isDesktopArtboardLayout} />
                 )}
               </div>
             ) : null}
 
             {state.homeMode === 'origin' ? (
-              <section className="site00-home-cards" aria-label="Entry selection">
+              <section className="site00-home-cards" aria-label="ENTRY SELECTION">
                 <OriginCards
                   onExpandIdnty={() => setHomeMode('idnty-expanded')}
                   onExpandBldr={() => setHomeMode('bldr-expanded')}
                   onExpandEvolve={() => setHomeMode('evolve-expanded')}
+                  isDesktopArtboard={isDesktopArtboardLayout}
                 />
               </section>
             ) : null}

@@ -9,6 +9,8 @@ type Site00LoaderEnvironmentProps = {
   viewport?: boolean;
   /** Mobile portrait uses cover; desktop landscape uses dedicated wide asset. */
   fit?: Site00LoaderEnvironmentFit;
+  /** Cover focal — inline so static bg matches animation layer (Enter-style viewport tuning). */
+  mediaFocal?: string;
   onBackgroundLoad?: () => void;
 };
 
@@ -17,6 +19,7 @@ export function Site00LoaderEnvironment({
   backgroundUrl,
   viewport = false,
   fit = 'cover',
+  mediaFocal = 'center center',
   onBackgroundLoad,
 }: Site00LoaderEnvironmentProps) {
   const imgRef = useRef<HTMLImageElement>(null);
@@ -53,6 +56,7 @@ export function Site00LoaderEnvironment({
         fetchPriority="high"
         loading="eager"
         draggable={false}
+        style={{ objectPosition: mediaFocal, objectFit: 'cover' }}
         onLoad={handleLoad}
         onError={() => {
           loaderLifecycleLog('BACKGROUND_ERROR', { url: backgroundUrl });

@@ -1,10 +1,9 @@
 /**
  * SITE 00 Origin — canonical desktop composition (1440×900 artboard).
  *
- * **Single source of truth** for desktop Origin layout. Wide viewports render inside
- * `Site00DesktopArtboardShell` (see `Site00OriginRouteShell`) — laptop, preview, and
- * `/origin/desktop` all use this file. Do **not** duplicate these rules in `site00.css`
- * `@media (min-width: 768px)` or composition will drift.
+ * **Single source of truth** for desktop Origin layout. Wide viewports render via
+ * `Site00DesktopNativeViewportShell`; phones previewing desktop use `Site00DesktopArtboardShell`
+ * (scaleW edge-to-edge — full 1440×900 composition).
  *
  * Numeric tokens: `origin-home-composition.ts` → CSS vars on `.site00-home-stage` (OriginPage).
  */
@@ -16,6 +15,11 @@
   background-repeat: no-repeat;
   transform: scale(var(--site00-env-desktop-scale, 1));
   transform-origin: center center;
+}
+
+/** Native viewport — in-flow env cover, no transform scale (edge-to-edge). */
+.site00-desktop-artboard--native-viewport .site00-env-layer--has-desktop-asset {
+  transform: none;
 }
 
 .site00-desktop-artboard .site00-env-layer--has-mobile-asset {
@@ -68,6 +72,60 @@
   min-width: 220px;
 }
 
+/** Origin desktop — bottom panel matches Enter strip height; text unchanged. */
+.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip--layout-desktop {
+  min-height: var(--site00-origin-status-strip-min-height, var(--site00-bottom-panel-height, 36px));
+  height: var(--site00-origin-status-strip-min-height, var(--site00-bottom-panel-height, 36px));
+  max-height: var(--site00-origin-status-strip-min-height, var(--site00-bottom-panel-height, 36px));
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__cell {
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  padding-top: var(--site00-origin-status-strip-cell-padding-y, 0px);
+  padding-bottom: var(--site00-origin-status-strip-cell-padding-y, 0px);
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__cell .site00-label {
+  white-space: nowrap;
+}
+
+.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__cell > div {
+  min-width: 0;
+}
+
+.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__guidance {
+  padding-top: var(--site00-origin-status-strip-guidance-padding-y, 0px);
+  padding-bottom: var(--site00-origin-status-strip-guidance-padding-y, 0px);
+  padding-left: 12px;
+  padding-right: 12px;
+  gap: 8px;
+  min-height: 0;
+}
+
+.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__guidance > span[aria-hidden='true'] {
+  width: 20px;
+  height: 20px;
+}
+
+.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__guidance > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__guidance > div > .site00-label,
+.site00-desktop-artboard .site00-origin-page--desktop-artboard .site00-status-strip__guidance > div > .site00-status-value {
+  white-space: nowrap;
+}
+
 .site00-desktop-artboard .site00-origin-hero__coordinate-value {
   color: var(--site-red);
 }
@@ -76,7 +134,41 @@
   margin-top: 2px;
 }
 
+/** Hero copy — each line nudges independently via composition tokens (OriginPage CSS vars). */
+.site00-desktop-artboard .site00-home-hero__eyebrow,
+.site00-desktop-artboard .site00-home-hero__headline,
+.site00-desktop-artboard .site00-home-hero__tagline,
+.site00-desktop-artboard .site00-home-hero__line,
 .site00-desktop-artboard .site00-home-hero__coordinate {
+  position: relative;
+}
+
+.site00-desktop-artboard .site00-home-hero__eyebrow {
+  top: var(--site00-origin-hero-eyebrow-offset-y, 0px);
+}
+
+.site00-desktop-artboard .site00-home-hero__headline {
+  top: var(--site00-origin-hero-headline-offset-y, 0px);
+}
+
+.site00-desktop-artboard .site00-home-hero__tagline {
+  top: var(--site00-origin-hero-tagline-offset-y, 0px);
+}
+
+.site00-desktop-artboard .site00-home-hero__line--desc1 {
+  top: var(--site00-origin-hero-desc1-offset-y, 0px);
+}
+
+.site00-desktop-artboard .site00-home-hero__line--desc2 {
+  top: var(--site00-origin-hero-desc2-offset-y, 0px);
+}
+
+.site00-desktop-artboard .site00-home-hero__line--desc3 {
+  top: var(--site00-origin-hero-desc3-offset-y, 0px);
+}
+
+.site00-desktop-artboard .site00-home-hero__coordinate {
+  top: var(--site00-origin-hero-coordinate-offset-y, 0px);
   margin-top: 26px;
 }
 
@@ -133,7 +225,7 @@
 
 .site00-desktop-artboard .site00-home-stage {
   --site00-origin-card-number-color: var(--site-red);
-  --site00-origin-hero-offset-y: 10px;
+  --site00-origin-hero-offset-y: var(--site00-origin-hero-block-offset-y, 10px);
   position: absolute;
   inset: 0;
   padding: 0;
@@ -249,6 +341,27 @@
   height: var(--site00-origin-panel-icon-size-px, 80px);
 }
 
+/** EVOLVE collapsed card icon — +10% on desktop artboard. */
+.site00-desktop-artboard .site00-origin-card--evolve .site00-origin-card__icon {
+  width: calc(var(--site00-origin-panel-icon-size-px, 80px) * 1.1);
+  height: calc(var(--site00-origin-panel-icon-size-px, 80px) * 1.1);
+}
+
+/** EVOLVE expanded panel header icon — +10% on desktop artboard. */
+.site00-desktop-artboard .site00-origin-evolve-expanded-panel .site00-origin-card__icon--lg {
+  width: calc(88px * 1.1);
+  height: calc(88px * 1.1);
+}
+
+/** EVOLVE expanded — three paths centered (not left-aligned in 5-col grid). */
+.site00-desktop-artboard .site00-evolve-framework-pillars {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  justify-items: center;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .site00-desktop-artboard .site00-origin-mobile-swipe {
   display: none !important;
 }
@@ -260,23 +373,172 @@
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
-  background: #e8e8e8;
-  touch-action: pan-y pinch-zoom;
+  background: #f5f5f3;
+  touch-action: pan-x pan-y pinch-zoom;
 }
 
-/** ENTER 00 — lock viewport; background + UI must fit one screen without shell scroll */
+/** ENTER 00 — lock viewport scroll; pinch-zoom stays enabled for preview accessibility */
 .site00-desktop-artboard-shell:has(.site00-enter-page),
 .site00-desktop-artboard-shell--enter {
   overflow: hidden;
-  touch-action: none;
+  touch-action: pan-x pan-y pinch-zoom;
   background: #f5f5f3;
 }
 
-/** ORIGIN — lock viewport on collapsed homepage; expanded panels re-enable scroll below */
+.site00-environment-viewport-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--site-z-env);
+  pointer-events: none;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transform: none;
+}
+
+/** Enter desktop bg owned by EnvironmentShell — fixed to viewport (not shell mount). */
+.site00-environment-viewport-bg--viewport-fixed {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--site-z-env);
+}
+
+/** ENTER 00 — viewport cover on native shell (same layer as scaled preview). */
+.site00-desktop-artboard--native-viewport > .site00-environment-viewport-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--site-z-env);
+}
+
+/** Scaled artboard stage — env bg is a child so it transforms with UI (not full-viewport). */
+.site00-desktop-artboard-shell .site00-desktop-artboard {
+  position: relative;
+  overflow: hidden;
+}
+
+.site00-desktop-artboard > .site00-environment-viewport-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--site-z-env);
+  pointer-events: none;
+}
+
+.site00-desktop-artboard > .site00-environment-viewport-bg[data-environment='ENTER_00_WAITING_ROOM'] {
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.site00-desktop-artboard-shell__stage-scaler {
+  position: relative;
+  z-index: 1;
+}
+
+.site00-desktop-artboard-shell__enter-chrome {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: calc(var(--site-z-nav) + 2);
+  pointer-events: none;
+  /* top + width synced in Site00DesktopArtboardShell layoutStage */
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-enter-status-strip,
+.site00-desktop-artboard-shell__enter-chrome .site00-workflow-summary-strip,
+.site00-desktop-artboard-shell__enter-chrome .site00-public-status-rail,
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip-host--artboard {
+  position: relative;
+  pointer-events: auto;
+  width: 100%;
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-enter-status-strip,
+.site00-desktop-artboard-shell__enter-chrome .site00-workflow-summary-strip {
+  bottom: auto;
+  left: auto;
+  right: auto;
+  margin-top: 0;
+  border-radius: 0;
+}
+
+@media (max-width: 767px) {
+  .site00-desktop-artboard-shell__enter-chrome .site00-workflow-summary-strip {
+    position: relative;
+    margin-top: 0;
+    border-radius: 0;
+  }
+}
+
+/** Portaled status strips — desktop layout outside scaled stage (phone Desktop toggle). */
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip--layout-mobile {
+  display: none !important;
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip--layout-desktop {
+  display: grid !important;
+  grid-template-columns: repeat(5, 1fr) auto;
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip--layout-desktop {
+  min-height: var(--site00-origin-status-strip-min-height, var(--site00-bottom-panel-height, 36px));
+  height: var(--site00-origin-status-strip-min-height, var(--site00-bottom-panel-height, 36px));
+  max-height: var(--site00-origin-status-strip-min-height, var(--site00-bottom-panel-height, 36px));
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip__cell {
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  padding-top: var(--site00-origin-status-strip-cell-padding-y, 0px);
+  padding-bottom: var(--site00-origin-status-strip-cell-padding-y, 0px);
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip__cell .site00-label {
+  white-space: nowrap;
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip__guidance {
+  padding-top: var(--site00-origin-status-strip-guidance-padding-y, 0px);
+  padding-bottom: var(--site00-origin-status-strip-guidance-padding-y, 0px);
+  padding-left: 12px;
+  padding-right: 12px;
+  gap: 8px;
+  min-height: 0;
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip__guidance > span[aria-hidden='true'] {
+  width: 20px;
+  height: 20px;
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip__guidance > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip__guidance > div > .site00-label,
+.site00-desktop-artboard-shell__enter-chrome .site00-status-strip__guidance > div > .site00-status-value {
+  white-space: nowrap;
+}
+
+/** ORIGIN — lock viewport scroll on collapsed homepage; pinch-zoom allowed */
 .site00-desktop-artboard-shell:has(.site00-origin-page):not(:has(.site00-home-expanded-column)),
 .site00-desktop-artboard-shell--origin:not(:has(.site00-home-expanded-column)) {
   overflow: hidden;
-  touch-action: none;
+  touch-action: pan-x pan-y pinch-zoom;
 }
 
 /** Desktop artboard preview — status strip sits at bottom of scaled composition. */
@@ -357,4 +619,64 @@
 .site00-origin-layout-switch button[aria-current='page'] {
   background: var(--site-red, #eb1c24);
   color: #fff;
+}
+
+/**
+ * Native full-viewport desktop (laptop/tablet) — same composition tokens as artboard,
+ * but fills the browser without scaled 1440×900 preview chrome.
+ */
+.site00-desktop-artboard--native-viewport {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--site-bg, #f5f5f3);
+}
+
+.site00-desktop-artboard--native-viewport .site00-shell {
+  height: 100dvh;
+  min-height: 100dvh;
+}
+
+.site00-desktop-artboard--native-viewport .site00-origin-page {
+  height: 100%;
+  min-height: 100%;
+}
+
+.site00-desktop-artboard--native-viewport:has(.site00-home-expanded-column) {
+  height: auto;
+  min-height: 100dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.site00-desktop-artboard--native-viewport:has(.site00-home-expanded-column) .site00-shell {
+  min-height: 100dvh;
+  height: auto;
+}
+
+/** ENTER 00 — in-flow env layer on native viewport (not fixed full-window artboard hack) */
+.site00-desktop-artboard--native-viewport .site00-enter-page {
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+}
+
+.site00-desktop-artboard--native-viewport .site00-enter-page .site00-env-layer {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.site00-desktop-artboard--native-viewport .site00-enter-page.site00-shell {
+  height: 100dvh;
+  max-height: 100dvh;
+}
+
+.site00-desktop-artboard--native-viewport .site00-state-page.site00-shell {
+  height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
 }

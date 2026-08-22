@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { ControlPageHeader } from '../../components/control/ControlPageHeader';
 import { Site00AdminShell } from '../../components/shell/Site00AdminShell';
 import { AdminTable } from '../../components/operations/AdminTable';
 import { AdminStatusBadge } from '../../components/operations/AdminStatusBadge';
@@ -42,24 +43,25 @@ export default function LeadsPage() {
 
   return (
     <Site00AdminShell>
-      <header className="site00-admin-dashboard-head">
-        <div>
-          <h1 className="site00-admin-page-title">[ LEADS ]</h1>
-          <p className="site00-admin-page-subtitle">INBOUND PROSPECTS AND PIPELINE ENTRIES.</p>
-        </div>
-        <div className="site00-admin-period">
-          {STATUS_FILTERS.map((s) => (
-            <button key={s || 'all'} type="button" className={status === s ? 'active' : undefined} onClick={() => setStatus(s)}>
-              {s || 'ALL'}
-            </button>
-          ))}
-        </div>
-      </header>
+      <ControlPageHeader
+        kicker="00 / CONTROL"
+        title="LEADS / PIPELINE"
+        subtitle="INBOUND PROSPECTS AND PIPELINE ENTRIES"
+        actions={
+          <div className="site00-admin-period">
+            {STATUS_FILTERS.map((s) => (
+              <button key={s || 'all'} type="button" className={status === s ? 'active' : undefined} onClick={() => setStatus(s)}>
+                {s || 'ALL'}
+              </button>
+            ))}
+          </div>
+        }
+      />
 
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 
       {loading ? (
-        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="Loading leads" />
+        <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="LOADING LEADS" />
       ) : (
         <section className="site00-admin-panel">
           <AdminTable

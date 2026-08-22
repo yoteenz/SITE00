@@ -8,6 +8,12 @@
   background: #fff;
 }
 
+.site00-auth-shell *,
+.site00-auth-shell *::before,
+.site00-auth-shell *::after {
+  box-sizing: border-box;
+}
+
 .site00-auth-shell__desktop {
   display: none;
 }
@@ -88,8 +94,9 @@
 }
 
 .site00-auth-shell__orbital {
-  width: min(280px, 42vw);
-  height: min(280px, 42vw);
+  width: min(240px, 36vw);
+  aspect-ratio: 2 / 3;
+  height: auto;
   margin-bottom: 8px;
 }
 
@@ -181,19 +188,19 @@
   display: grid;
   place-items: center;
   pointer-events: none;
-  width: min(220px, 62vw);
-  height: min(220px, 62vw);
+  width: min(200px, 56vw);
+  aspect-ratio: 2 / 3;
+  height: auto;
   margin-inline: auto;
+  color: var(--site-red, #e8192c);
 }
 
-.site00-auth-shell__orbital {
-  width: min(280px, 42vw);
-  height: min(280px, 42vw);
-}
-
-.site00-orbital-mark .site00-loader-geometry-mount {
+.site00-orbital-mark__svg,
+.site00-orbital-mark__img {
+  display: block;
   width: 100%;
   height: 100%;
+  object-fit: contain;
 }
 
 /* ─── Form panel ─── */
@@ -265,10 +272,15 @@
 
 .site00-signin-form__password-wrap {
   position: relative;
+  width: 100%;
+  max-width: 100%;
   margin-bottom: 8px;
 }
 
 .site00-signin-form__input--password {
+  display: block;
+  width: 100%;
+  max-width: 100%;
   padding-right: 64px;
   margin-bottom: 0;
   text-transform: none;
@@ -303,9 +315,10 @@
 }
 
 .site00-signin-form__message {
-  margin: 0 0 12px;
+  margin: 12px 0 0;
   font-family: var(--site00-font-label);
   font-size: var(--site00-size-micro);
+  line-height: 1.45;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -372,11 +385,37 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  color: var(--site-red, #e8192c);
+}
+
+.site00-signin-form__magic:hover,
+.site00-signin-form__magic:focus,
+.site00-signin-form__magic:focus-visible,
+.site00-signin-form__magic:active {
+  color: var(--site-red, #e8192c);
+}
+
+.site00-signin-form__magic:disabled {
+  opacity: 0.55;
+  cursor: wait;
+  color: var(--site-text-muted);
 }
 
 .site00-signin-form__magic-icon {
   font-size: 1rem;
   line-height: 1;
+  color: var(--site-red, #e8192c);
+}
+
+.site00-signin-form__magic-label {
+  color: var(--site-red, #e8192c);
+}
+
+.site00-signin-form__magic:disabled .site00-signin-form__magic-icon,
+.site00-signin-form__magic:disabled .site00-signin-form__magic-label {
+  color: var(--site-text-muted);
 }
 
 .site00-signin-form__footer {
@@ -390,6 +429,8 @@
 }
 
 .site00-signin-form__footer-link {
+  display: block;
+  margin-top: 4px;
   color: var(--site-red);
   text-decoration: none;
 }
@@ -400,8 +441,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site00-orbital-mark .site00-loader-animation video,
-  .site00-orbital-mark .site00-loader-animation img {
+  .site00-orbital-mark__svg {
     animation: none !important;
   }
 }

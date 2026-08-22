@@ -61,8 +61,20 @@
   padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
 }
 
+@media (max-width: 767px) {
+  .site00-ecosystem-mobile-shell,
+  .site00-ecosystem-mobile-shell__main,
+  .site00-ecosystem-mobile__content {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+}
+
 .site00-ecosystem-mobile__content {
-  padding: 0 20px 16px;
+  padding: 0 0 16px;
 }
 
 /* ─── Operating World top navigation ─── */
@@ -167,6 +179,52 @@
   font-family: var(--site00-font-label);
   font-size: 0.625rem;
   background: rgba(255, 255, 255, 0.9);
+}
+
+.site00-operating-topnav__account {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-self: end;
+}
+
+.site00-ctrl-sign-out {
+  border: none;
+  background: transparent;
+  font-family: var(--site00-font-nav);
+  font-size: var(--site00-size-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--site-text-muted);
+  cursor: pointer;
+  padding: 0;
+}
+
+.site00-ctrl-sign-out:hover,
+.site00-ctrl-sign-out:focus-visible {
+  color: var(--site-red);
+}
+
+.site00-ctrl-sign-out--topnav {
+  padding: 8px 0;
+}
+
+.site00-ctrl-sign-out-mobile-bar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 16px 8px;
+  border-bottom: 1px solid var(--site-line);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.site00-ctrl-sign-out--mobile-bar {
+  padding: 8px 0;
+}
+
+@media (min-width: 1024px) {
+  .site00-ctrl-sign-out-mobile-bar {
+    display: none;
+  }
 }
 
 .site00-operating-status-rail {
@@ -974,6 +1032,15 @@
   font-size: var(--site00-size-micro);
 }
 
+.site00-page--projects .site00-eco-continuation .site00-eco-panel__title {
+  color: var(--site-text-muted);
+}
+
+.site00-page--projects .site00-eco-activity-feed__time,
+.site00-page--projects .site00-eco-roles__count {
+  color: var(--site-red);
+}
+
 .site00-eco-team {
   list-style: none;
   margin: 0;
@@ -1014,7 +1081,9 @@
 }
 
 .site00-eco-mobile-cta {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   margin-top: 16px;
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
@@ -1032,27 +1101,62 @@
   box-sizing: border-box;
 }
 
+/* ─── Ecosystem hub hero (IDNTY / BLDR / EVOLVE mobile) ─── */
+
+.site00-ecosystem-hub__hero {
+  margin-bottom: 24px;
+}
+
+.site00-ecosystem-hub__intro {
+  margin-bottom: 0;
+}
+
+.site00-ecosystem-hub__title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.site00-ecosystem-hub__title {
+  flex: 1;
+  min-width: 0;
+}
+
+.site00-ecosystem-hub__title .site00-bracket-heading {
+  margin: 0;
+}
+
+.site00-ecosystem-hub__panel-icon {
+  flex-shrink: 0;
+  margin-top: 0;
+}
+
+.site00-hub-card__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  min-height: 48px;
+}
+
+.site00-hub-card__icon .site00-origin-card__icon {
+  width: 48px;
+  height: 48px;
+}
+
+.site00-hub-card__icon .site00-idnty-gateway__hub-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  display: block;
+}
+
 /* ─── IDNTY gateway (signed out) ─── */
 
 .site00-page--idnty-gateway {
   max-width: 720px;
-}
-
-.site00-idnty-gateway__hero {
-  position: relative;
-  margin-bottom: 24px;
-}
-
-.site00-idnty-gateway__crosshair {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 48px;
-  height: 48px;
-  opacity: 0.35;
-  background:
-    linear-gradient(var(--site-red), var(--site-red)) center/1px 100% no-repeat,
-    linear-gradient(var(--site-red), var(--site-red)) center/100% 1px no-repeat;
 }
 
 .site00-idnty-gateway__actions {

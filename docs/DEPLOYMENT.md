@@ -47,6 +47,9 @@ Upload `dist/` to GoDaddy `public_html/site00.com` as in Architecture A.
 | `PORT` | auto | Railway sets this |
 
 4. Deploy; confirm health: `GET https://<railway-url>/api/health` → `{ "ok": true, "service": "site00-api" }`.
+
+**If Railway shows “Not Found — The train has not arrived at the station”:** the public domain exists but no healthy deployment is running behind it. Open **Deployments → latest → View logs** and look for crash lines before `[site00-api] listening`. Common fixes (Aug 2026): ensure `tsx` is a production dependency, server must not import `vite` at runtime, and `api/site00-access.ts` must import `./_lib/...` not `../_lib/...`.
+
 5. **Service → Settings → Networking → Custom Domain:** add `api.site00.com`.
 6. **GoDaddy DNS:** CNAME `api` → Railway-provided hostname.
 
