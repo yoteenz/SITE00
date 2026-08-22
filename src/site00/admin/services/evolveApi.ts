@@ -31,9 +31,26 @@ export type ExpandedReadinessPayload = {
   automationMode: string;
 };
 
-const API_BASE = (
-  (import.meta as unknown as { env?: { VITE_API_BASE?: string } }).env?.VITE_API_BASE ?? ''
-).replace(/\/$/, '');
+const API_BASE = resolveEvolveApiBase();
+
+function resolveEvolveApiBase(): string {
+  const envBase = (
+    (import.meta as unknown as { env?: { VITE_API_BASE?: string } }).env?.VITE_API_BASE ?? ''
+  ).replace(/\/$/, '');
+  if (envBase) return envBase;
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname.toLowerCase();
+    if (
+      host === 'site00.com' ||
+      host.endsWith('.site00.com') ||
+      host.includes('fsbw-dev.com') ||
+      host.endsWith('.trycloudflare.com')
+    ) {
+      return 'https://api.site00.com';
+    }
+  }
+  return '';
+}
 const EVOLVE_ADMIN_PATH = '/api/admin/site00-evolve';
 
 function evolveAdminUrl(path: string): string {
@@ -357,4 +374,31 @@ export const site00EvolveApi = {
         dryRun: options?.dryRun ?? false,
       }),
     }),
+
+  /** Background job — returns immediately; poll creativeDirectionProductionJob for status. */
+  creativeDirectionStartProductionJob: (
+    orgSlug: string,
+    options?: {
+      jobType?: 'v1_completion' | 'six_direction_proofs' | 'full_pipeline';
+      includeAllProofTypes?: boolean;
+      completeV1InProofStep?: boolean;
+    },
+  ) =>
+    evolveFetch<{ job: Record<string, unknown>; message?: string }>('', {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'creative_direction_start_production_job',
+        orgSlug,
+        jobType: options?.jobType ?? 'full_pipeline',
+        includeAllProofTypes: options?.includeAllProofTypes ?? true,
+        completeV1InProofStep: options?.completeV1InProofStep ?? false,
+      }),
+    }),
+
+  creativeDirectionProductionJob: (orgSlug: string, jobId?: string) =>
+    evolveFetch<{ job: Record<string, unknown> | null }>(
+      `?action=creative_direction_production_job&orgSlug=${encodeURIComponent(orgSlug)}${
+        jobId ? `&jobId=${encodeURIComponent(jobId)}` : ''
+      }`,
+    ),
 };

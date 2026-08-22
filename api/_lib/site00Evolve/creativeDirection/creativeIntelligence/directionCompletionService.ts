@@ -6,7 +6,7 @@
 import {
   DIRECTION_PRODUCTION_COMPLETION_PROMPT_VERSION,
   DIRECTION_PRODUCTION_COMPLETION_SYSTEM_PROMPT,
-} from './prompts.js';
+} from './directionCompletionPrompts.js';
 import { parseStructuredJson } from './formationValidation.js';
 import { getCreativeIntelligenceProvider } from './providerRegistry.js';
 import { saveFormationRecord, getFormationRecordById } from './formationStore/storeAdapter.js';

@@ -25,7 +25,19 @@ type ComparisonSetSummary = {
   directions?: Array<{ directionName?: string; fieldCompleteness?: { complete?: boolean } }>;
 };
 
+type ProductionJob = {
+  id?: string;
+  status?: string;
+  phase?: string;
+  jobType?: string;
+  progress?: { current?: number; total?: number; label?: string };
+  errorMessage?: string | null;
+  result?: Record<string, unknown> | null;
+  updatedAt?: string;
+};
+
 const ORG_SLUG = 'ndxbook';
+const POLL_MS = 5000;
 
 function countReadyProofs(proofAssets?: ComparisonSetSummary['proofAssetsByDirection']): number {
   if (!proofAssets) return 0;
@@ -38,15 +50,19 @@ function countReadyProofs(proofAssets?: ComparisonSetSummary['proofAssetsByDirec
   return count;
 }
 
+function isJobActive(job: ProductionJob | null): boolean {
+  return job?.status === 'queued' || job?.status === 'running';
+}
+
 export default function EvolveCreativeDirectionDebugPage() {
   const [payload, setPayload] = useState<Record<string, unknown> | null>(null);
   const [inspector, setInspector] = useState<Record<string, unknown> | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [structuralDiff, setStructuralDiff] = useState(false);
-  const [productionBusy, setProductionBusy] = useState<'v1' | 'proofs' | null>(null);
-  const [productionResult, setProductionResult] = useState<Record<string, unknown> | null>(null);
-  const [productionError, setProductionError] = useState<string | null>(null);
   const [includeAllProofTypes, setIncludeAllProofTypes] = useState(true);
+  const [activeJob, setActiveJob] = useState<ProductionJob | null>(null);
+  const [startingJob, setStartingJob] = useState(false);
+  const [productionError, setProductionError] = useState<string | null>(null);
 
   const reload = useCallback(async () => {
     setError(null);
@@ -58,9 +74,31 @@ export default function EvolveCreativeDirectionDebugPage() {
     setInspector(formationInspector);
   }, []);
 
+  const pollJob = useCallback(async (jobId?: string) => {
+    const { job } = await site00EvolveApi.creativeDirectionProductionJob(ORG_SLUG, jobId);
+    setActiveJob(job);
+    if (job?.status === 'completed') {
+      await reload();
+    }
+    return job;
+  }, [reload]);
+
   useEffect(() => {
     reload().catch((e) => setError(e instanceof Error ? e.message : 'LOAD FAILED'));
-  }, [reload]);
+    pollJob().catch(() => {
+      /* job table may not exist until migration applied */
+    });
+  }, [reload, pollJob]);
+
+  useEffect(() => {
+    if (!isJobActive(activeJob)) return undefined;
+    const id = window.setInterval(() => {
+      void pollJob(activeJob?.id).catch((e) => {
+        setProductionError(e instanceof Error ? e.message : 'JOB POLL FAILED');
+      });
+    }, POLL_MS);
+    return () => window.clearInterval(id);
+  }, [activeJob, pollJob]);
 
   const comparisonSet = (payload?.founderComparisonSet ?? null) as ComparisonSetSummary | null;
   const readyProofCount = useMemo(
@@ -76,36 +114,24 @@ export default function EvolveCreativeDirectionDebugPage() {
     [comparisonSet?.directions],
   );
 
-  async function runV1Completion() {
-    setProductionBusy('v1');
+  async function startBackgroundJob(
+    jobType: 'v1_completion' | 'six_direction_proofs' | 'full_pipeline',
+  ) {
+    setStartingJob(true);
     setProductionError(null);
-    setProductionResult(null);
     try {
-      const result = await site00EvolveApi.creativeDirectionCompleteV1Directions(ORG_SLUG);
-      setProductionResult(result);
-      await reload();
-    } catch (e) {
-      setProductionError(e instanceof Error ? e.message : 'V1 COMPLETION FAILED');
-    } finally {
-      setProductionBusy(null);
-    }
-  }
-
-  async function runProofProduction() {
-    setProductionBusy('proofs');
-    setProductionError(null);
-    setProductionResult(null);
-    try {
-      const result = await site00EvolveApi.creativeDirectionRunSixDirectionProduction(ORG_SLUG, {
-        completeV1: false,
+      const { job, message } = await site00EvolveApi.creativeDirectionStartProductionJob(ORG_SLUG, {
+        jobType,
         includeAllProofTypes,
       });
-      setProductionResult(result);
-      await reload();
+      setActiveJob(job);
+      if (message) {
+        setProductionError(null);
+      }
     } catch (e) {
-      setProductionError(e instanceof Error ? e.message : 'PROOF PRODUCTION FAILED');
+      setProductionError(e instanceof Error ? e.message : 'FAILED TO START JOB');
     } finally {
-      setProductionBusy(null);
+      setStartingJob(false);
     }
   }
 
@@ -113,12 +139,13 @@ export default function EvolveCreativeDirectionDebugPage() {
   const territories = engagement?.territories ?? [];
   const formation = inspector?.formation as Record<string, unknown> | null | undefined;
   const formationMeta = inspector?.inspector as Record<string, unknown> | null | undefined;
+  const jobRunning = isJobActive(activeJob) || startingJob;
 
   return (
     <Site00AdminShell>
       <header className="site00-admin-dashboard-head">
         <h1 className="site00-admin-page-title">[ CREATIVE DIRECTION DEBUG ]</h1>
-        <p className="site00-admin-page-subtitle">NDXBOOK · six-direction production · formation inspector</p>
+        <p className="site00-admin-page-subtitle">NDXBOOK · background production · formation inspector</p>
       </header>
 
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
@@ -128,8 +155,8 @@ export default function EvolveCreativeDirectionDebugPage() {
           SIX-DIRECTION PRODUCTION
         </h2>
         <p className="site00-cd-production-panel__lead">
-          Tap in order. Step 1 fills v1 directions 01–03 (Sonnet on Railway). Step 2 generates Stage A proofs
-          for all six. Keep this tab open — Step 2 can take several minutes.
+          Jobs run on Railway in the background. Tap once, then you can leave this page — come back anytime and tap
+          Refresh Status. No need to keep your phone open for 15 minutes.
         </p>
 
         <dl className="site00-cd-production-panel__status">
@@ -146,19 +173,39 @@ export default function EvolveCreativeDirectionDebugPage() {
             <dd>{readyProofCount}</dd>
           </div>
           <div>
-            <dt>Overlays applied</dt>
-            <dd>{String(comparisonSet?.v1CompletionStatus?.overlaysApplied ?? 0)}</dd>
+            <dt>Server job</dt>
+            <dd>{activeJob?.status?.toUpperCase() ?? 'NONE'}</dd>
           </div>
         </dl>
+
+        {activeJob ? (
+          <div className="site00-cd-production-panel__job" role="status" aria-live="polite">
+            <p className="site00-cd-production-panel__job-label">
+              {activeJob.progress?.label ?? activeJob.phase ?? activeJob.status}
+            </p>
+            {activeJob.progress?.total ? (
+              <p className="site00-cd-production-panel__job-progress">
+                Step {activeJob.progress.current ?? 0} / {activeJob.progress.total}
+              </p>
+            ) : null}
+            {activeJob.status === 'failed' && activeJob.errorMessage ? (
+              <p className="site00-admin-panel site00-admin-panel--error">{activeJob.errorMessage}</p>
+            ) : null}
+          </div>
+        ) : null}
 
         <div className="site00-cd-production-panel__actions">
           <button
             type="button"
-            className="site00-cd-production-panel__btn"
-            disabled={productionBusy !== null}
-            onClick={() => void runV1Completion()}
+            className="site00-cd-production-panel__btn site00-cd-production-panel__btn--primary"
+            disabled={jobRunning}
+            onClick={() => void startBackgroundJob('full_pipeline')}
           >
-            {productionBusy === 'v1' ? 'STEP 1 · COMPLETING V1…' : 'STEP 1 · COMPLETE V1 DIRECTIONS (01–03)'}
+            {startingJob
+              ? 'STARTING…'
+              : jobRunning
+                ? 'PIPELINE RUNNING ON SERVER…'
+                : 'RUN FULL PIPELINE (BACKGROUND)'}
           </button>
 
           <label className="site00-cd-production-panel__check">
@@ -166,27 +213,38 @@ export default function EvolveCreativeDirectionDebugPage() {
               type="checkbox"
               checked={includeAllProofTypes}
               onChange={(e) => setIncludeAllProofTypes(e.target.checked)}
-              disabled={productionBusy !== null}
+              disabled={jobRunning}
             />
             Include material, typographic, and motion proofs
           </label>
 
           <button
             type="button"
-            className="site00-cd-production-panel__btn site00-cd-production-panel__btn--primary"
-            disabled={productionBusy !== null}
-            onClick={() => void runProofProduction()}
+            className="site00-cd-production-panel__btn"
+            disabled={jobRunning}
+            onClick={() => void startBackgroundJob('v1_completion')}
           >
-            {productionBusy === 'proofs'
-              ? 'STEP 2 · GENERATING PROOFS…'
-              : 'STEP 2 · RUN SIX-DIRECTION PROOF PRODUCTION'}
+            STEP 1 ONLY · V1 COMPLETION
+          </button>
+
+          <button
+            type="button"
+            className="site00-cd-production-panel__btn"
+            disabled={jobRunning}
+            onClick={() => void startBackgroundJob('six_direction_proofs')}
+          >
+            STEP 2 ONLY · PROOF PRODUCTION
           </button>
 
           <button
             type="button"
             className="site00-cd-production-panel__btn site00-cd-production-panel__btn--ghost"
-            disabled={productionBusy !== null}
-            onClick={() => void reload().catch((e) => setError(e instanceof Error ? e.message : 'REFRESH FAILED'))}
+            onClick={() => {
+              void pollJob(activeJob?.id).catch((e) =>
+                setProductionError(e instanceof Error ? e.message : 'REFRESH FAILED'),
+              );
+              void reload().catch((e) => setError(e instanceof Error ? e.message : 'REFRESH FAILED'));
+            }}
           >
             REFRESH STATUS
           </button>
@@ -198,9 +256,9 @@ export default function EvolveCreativeDirectionDebugPage() {
           </p>
         ) : null}
 
-        {productionResult ? (
+        {activeJob?.status === 'completed' && activeJob.result ? (
           <pre className="site00-evolve-debug-pre site00-cd-production-panel__result" aria-live="polite">
-            {JSON.stringify(productionResult, null, 2)}
+            {JSON.stringify(activeJob.result, null, 2)}
           </pre>
         ) : null}
 
