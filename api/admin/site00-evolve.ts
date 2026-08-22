@@ -481,7 +481,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           const jobType = String(body.jobType ?? 'full_pipeline') as
             | 'v1_completion'
             | 'six_direction_proofs'
-            | 'full_pipeline';
+            | 'full_pipeline'
+            | 'marked_up_copy_board_v4';
           const job = await startCreativeDirectionProductionJob({
             orgSlug,
             jobType,
@@ -489,6 +490,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             options: {
               includeAllProofTypes: body.includeAllProofTypes !== false,
               completeV1InProofStep: body.completeV1InProofStep === true,
+              dryRun: body.dryRun === true,
             },
           });
           return res.status(202).json({ job, message: 'Production job started on server — safe to leave this page.' });
@@ -497,12 +499,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           if (orgSlug !== 'ndxbook') {
             return res.status(400).json({ error: 'NDXBOOK_ONLY' });
           }
-          const result = await runMarkedUpCopyBoardPilotV4({
+          if (body.dryRun === true) {
+            const result = await runMarkedUpCopyBoardPilotV4({
+              orgSlug,
+              dryRun: true,
+            });
+            return res.status(200).json({ ...result, credentialExposed: false });
+          }
+          const job = await startCreativeDirectionProductionJob({
             orgSlug,
-            dryRun: body.dryRun === true,
+            jobType: 'marked_up_copy_board_v4',
+            requestedBy: auth.user.email,
+            options: { dryRun: false },
           });
-          // Never expose server credentials in response
-          return res.status(200).json({ ...result, credentialExposed: false });
+          return res.status(202).json({
+            status: 'JOB_STARTED',
+            job,
+            message: 'Board v4 production runs on server — poll creative_direction_production_job.',
+            credentialExposed: false,
+          });
         }
         case 'analytics_baseline_sync':
           return res.status(200).json(

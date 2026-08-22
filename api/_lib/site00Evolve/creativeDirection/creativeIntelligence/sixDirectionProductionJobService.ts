@@ -7,6 +7,7 @@ import { getSupabaseAdmin } from '../../../supabase.js';
 import { orgIdFromSlug } from '../../orgRegistry.js';
 import { completeNdxbookV1Directions } from './directionCompletionService.js';
 import { runSixDirectionProductionPipeline } from './sixDirectionProductionOrchestrator.js';
+import { runMarkedUpCopyBoardPilotV4 } from './markedUpCopyBoardPilotV4.js';
 import { resetCreativeDirectionMemory } from '../engagementService.js';
 
 const TABLE = 'site00_creative_direction_production_jobs';
@@ -14,7 +15,8 @@ const TABLE = 'site00_creative_direction_production_jobs';
 export type CreativeDirectionProductionJobType =
   | 'v1_completion'
   | 'six_direction_proofs'
-  | 'full_pipeline';
+  | 'full_pipeline'
+  | 'marked_up_copy_board_v4';
 
 export type CreativeDirectionProductionJobStatus =
   | 'queued'
@@ -139,6 +141,7 @@ export async function startCreativeDirectionProductionJob(params: {
   options?: {
     includeAllProofTypes?: boolean;
     completeV1InProofStep?: boolean;
+    dryRun?: boolean;
   };
 }): Promise<CreativeDirectionProductionJob> {
   if (params.orgSlug !== 'ndxbook') {
@@ -249,12 +252,35 @@ async function executeProductionJob(jobId: string): Promise<void> {
       resetCreativeDirectionMemory();
     }
 
+    if (job.jobType === 'marked_up_copy_board_v4') {
+      await updateJob(jobId, {
+        status: 'running',
+        phase: 'marked_up_copy_board_v4',
+        progress: {
+          current: 0,
+          total: 1,
+          label: 'THE MARKED-UP COPY v4 — Expression System + Sonnet board production',
+        },
+      });
+      const boardResult = await runMarkedUpCopyBoardPilotV4({
+        orgSlug: job.orgSlug,
+        dryRun: job.options.dryRun === true,
+      });
+      resultParts.markedUpCopyBoardV4 = { ...boardResult, credentialExposed: false };
+      resetCreativeDirectionMemory();
+    }
+
+    const completedTotal =
+      job.jobType === 'full_pipeline' ? 2 : 1;
+    const completedCurrent =
+      job.jobType === 'full_pipeline' ? 2 : 1;
+
     await updateJob(jobId, {
       status: 'completed',
       phase: 'completed',
       progress: {
-        current: job.jobType === 'full_pipeline' ? 2 : 1,
-        total: job.jobType === 'full_pipeline' ? 2 : 1,
+        current: completedCurrent,
+        total: completedTotal,
         label: 'Completed',
       },
       result: resultParts,
