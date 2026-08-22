@@ -230,14 +230,20 @@ export async function runMarkedUpCopyBoardPilotV4(params: {
     anthropic.outputTokens += esResult.usage.outputTokens;
 
     if (!expressionSystemGatesPass(esResult.system)) {
-      esResult = await runSonnetDirectionExpressionSystem({
-        direction,
-        formationInput: v1Formation?.formationInput ?? null,
-        references: refResolution.resolved,
-        v2Board,
-        v2Plan: null,
-        revisionHint: 'Revise Expression System — 50-post and no-explanation gates failed',
-      });
+      try {
+        esResult = await runSonnetDirectionExpressionSystem({
+          direction,
+          formationInput: v1Formation?.formationInput ?? null,
+          references: refResolution.resolved,
+          v2Board,
+          v2Plan: null,
+          revisionHint: 'Revise Expression System — 50-post and no-explanation gates failed. Return compact valid JSON.',
+        });
+      } catch (retryErr) {
+        if (!(retryErr instanceof SyntaxError) && !(retryErr instanceof Error && retryErr.message.includes('JSON'))) {
+          throw retryErr;
+        }
+      }
       anthropic.expressionSystemRequests += esResult.anthropicRequests;
       anthropic.inputTokens += esResult.usage.inputTokens;
       anthropic.outputTokens += esResult.usage.outputTokens;
