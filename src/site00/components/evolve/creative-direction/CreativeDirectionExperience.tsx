@@ -1,4 +1,9 @@
-import { useCallback, useEffect, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useLocation } from 'react-router-dom';
+import {
+  remainingCalibrationStepIds,
+  type ReadinessDomain,
+} from '../../../../../shared/site00-brand-lore/readiness';
 import {
   anchorSpecimenType,
   COMMON_ANCHOR_LABELS,
@@ -155,6 +160,7 @@ export function CreativeDirectionExperience({
   adminFooter,
   calibrationLink,
 }: CreativeDirectionExperienceProps) {
+  const location = useLocation();
   const [payload, setPayload] = useState<CreativeDirectionPayload | null>(null);
   const [activeTerritory, setActiveTerritory] = useState(0);
   const [compareMode, setCompareMode] = useState(false);
@@ -185,6 +191,22 @@ export function CreativeDirectionExperience({
   useEffect(() => {
     void reload();
   }, [reload]);
+
+  useEffect(() => {
+    const completedAt = (location.state as { calibrationCompletedAt?: number } | null)?.calibrationCompletedAt;
+    if (!completedAt) return;
+    void reload();
+  }, [location.state, reload]);
+
+  const remainingCalibrationSteps = useMemo(() => {
+    if (!payload?.engagement.brandLoreReadiness) return [];
+    return remainingCalibrationStepIds(
+      (payload.engagement.brandLoreReadiness.missingDomains ?? []) as ReadinessDomain[],
+      payload.brandLoreCalibrationAnswers ?? {},
+    );
+  }, [payload]);
+
+  const showCalibrationCta = remainingCalibrationSteps.length > 0;
 
   const submitDecision = async (type: CreativeDirectionDecisionInput['type']) => {
     if (!payload) return;
@@ -236,15 +258,18 @@ export function CreativeDirectionExperience({
       {payload?.engagement.brandLoreReadiness?.blocked ? (
         <section className="site00-cd__readiness-banner" role="status">
           <p className="site00-cd__readiness-banner-title">
-            {payload.engagement.brandLoreReadiness.state === 'CONTEXT_PARTIAL'
-              ? 'WE KNOW PART OF THE STORY.'
-              : 'ONE MORE THING BEFORE WE DECIDE WHAT THIS LOOKS LIKE.'}
+            {showCalibrationCta
+              ? payload.engagement.brandLoreReadiness.state === 'CONTEXT_PARTIAL'
+                ? 'WE KNOW PART OF THE STORY.'
+                : 'ONE MORE THING BEFORE WE DECIDE WHAT THIS LOOKS LIKE.'
+              : 'CALIBRATION SAVED.'}
           </p>
           <p className="site00-cd__readiness-banner-body">
-            WE NEED A LITTLE MORE OF THE WORLD BEHIND {orgSlug.toUpperCase()} BEFORE CREATIVE DIRECTION CAN BE
-            APPROVED. THE DIRECTIONS BELOW ARE A PREVIEW ONLY — NOT YET READY FOR A FOUNDER DECISION.
+            {showCalibrationCta
+              ? `WE NEED A LITTLE MORE OF THE WORLD BEHIND ${orgSlug.toUpperCase()} BEFORE CREATIVE DIRECTION CAN BE APPROVED. THE DIRECTIONS BELOW ARE A PREVIEW ONLY — NOT YET READY FOR A FOUNDER DECISION.`
+              : `YOUR CALIBRATION RESPONSES ARE ON FILE FOR ${orgSlug.toUpperCase()}. THE DIRECTIONS BELOW REMAIN A PREVIEW UNTIL INTERNAL READINESS CLEARS — NOT YET READY FOR A FOUNDER DECISION.`}
           </p>
-          {calibrationLink}
+          {showCalibrationCta ? calibrationLink : null}
         </section>
       ) : null}
 

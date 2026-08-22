@@ -324,4 +324,39 @@ describe('SITE 00 brand lore — synthesis + service', () => {
     expect(resolved?.sourceIntakeType).toBe('IDENTITY');
     expect(resolved?.sourceIntakeId).toBe('real-ndxbook-intake');
   });
+
+  it('38. Creative Direction payload refreshes stale engagement readiness after lore calibration', async () => {
+    vi.stubEnv('VITEST', 'true');
+    vi.stubEnv('EVOLVE_USE_MEMORY', '1');
+    const { orgIdFromSlug } = await import('../site00Evolve/orgRegistry.js');
+    const { resetBrandLoreMemoryStore } = await import('./memoryStore.js');
+    const { submitOrgLoreCalibration } = await import('./loreService.js');
+    const { resetCreativeDirectionMemory, getCreativeDirectionPayload } = await import(
+      '../site00Evolve/creativeDirection/engagementService.js',
+    );
+    resetBrandLoreMemoryStore();
+    resetCreativeDirectionMemory();
+    const orgId = orgIdFromSlug('ndxbook')!;
+    let payload = await getCreativeDirectionPayload('ndxbook');
+    expect(payload.engagement.brandLoreReadiness?.blocked).toBe(true);
+
+    await submitOrgLoreCalibration({
+      orgId,
+      orgSlug: 'ndxbook',
+      answers: {
+        role: ['guide'],
+        world: 'a living index of everything worth knowing',
+        feeling: ['curious'],
+        enemy: ['gatekeeping'],
+        lineage: 'archival ephemera',
+        now: 'editorial accounts',
+        objects: ['paper'],
+        contradiction: ['polished', 'messy'],
+      },
+    });
+
+    payload = await getCreativeDirectionPayload('ndxbook');
+    expect(payload.engagement.brandLoreReadiness?.state).toBe('CORE_DIRECTION_READY');
+    expect(payload.engagement.brandLoreReadiness?.blocked).toBe(false);
+  });
 });

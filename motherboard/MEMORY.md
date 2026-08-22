@@ -2578,3 +2578,15 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Fix:** Explicit `grid-template-areas` (index | divider | label | selected | target) with fixed cell placement; console header uses 3-column grid (kicker | counter | mark) instead of absolute mark overlap.
 
 - **Branch:** `cursor/calibration-option-layout-fix-4f59`.
+
+---
+
+## 2026-08-22 — Calibration banner persists after save (stale readiness + CTA logic)
+
+- **Symptom:** After completing all 8 calibration steps (answers saved; calibrate page shows selections), Creative Direction still showed **COMPLETE CALIBRATION** banner as if nothing saved.
+
+- **Root cause:** (1) In-memory Creative Direction engagement cached `brandLoreReadiness.blocked` at first load and was not re-synced from the updated Brand Lore profile on later reads. (2) Banner showed calibration CTA whenever `blocked === true`, even when no lore steps remained unanswered.
+
+- **Fix:** `syncEngagementBrandLoreReadiness()` on every `getCreativeDirectionPayload` / cached engagement return; `remainingCalibrationStepIds()` drives CTA visibility; post-calibration redirect passes `calibrationCompletedAt` to force CD reload; saved-with-no-steps-left banner copy becomes **CALIBRATION SAVED** without CTA.
+
+- **Branch:** `cursor/calibration-readiness-banner-fix-4f59`.
