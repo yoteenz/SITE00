@@ -8,6 +8,7 @@ import type {
   ReadinessDomain,
 } from './types.js';
 import { IDNTY_LORE_QUESTIONS } from './idnty-lore-questions.js';
+import { isLoreStepAnswered } from './adaptivity.js';
 
 const REQUIRED_DOMAINS: ReadinessDomain[] = [
   'PURPOSE',
@@ -142,6 +143,16 @@ export function mergeCanonicalCalibrationStepIds(...lists: string[][]): string[]
     for (const id of list) ids.add(id);
   }
   return IDNTY_LORE_QUESTIONS.filter((q) => ids.has(q.id)).map((q) => q.id);
+}
+
+/** Lore steps still missing answers within the current calibration scope. */
+export function remainingCalibrationStepIds(
+  missingDomains: ReadinessDomain[],
+  serverAnswers: Record<string, string | string[]>,
+): string[] {
+  const scoped = calibrationScopeDomains(missingDomains, serverAnswers);
+  const stepIds = missingDomainsToLoreSteps(scoped);
+  return stepIds.filter((id) => !isLoreStepAnswered(serverAnswers, id));
 }
 
 export function canBeginCreativeDirection(readiness: CreativeDirectionReadinessState): boolean {

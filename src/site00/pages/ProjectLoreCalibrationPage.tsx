@@ -104,7 +104,12 @@ export default function ProjectLoreCalibrationPage() {
           loading={loading}
           loadError={error}
           onReload={() => void load()}
-          onComplete={() => navigate(returnTo, { replace: true })}
+          onComplete={() =>
+            navigate(returnTo, {
+              replace: true,
+              state: { returnTo, calibrationCompletedAt: Date.now() },
+            })
+          }
         />
       </div>
     </EcosystemShell>

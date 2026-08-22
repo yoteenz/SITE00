@@ -63,7 +63,10 @@ export async function ensureCreativeDirectionEngagement(
 ): Promise<CreativeDirectionEngagement> {
   const orgId = assertOrg(orgSlug);
   const existing = engagements.get(orgId);
-  if (existing) return existing;
+  if (existing) {
+    await syncEngagementBrandLoreReadiness(existing, orgSlug);
+    return existing;
+  }
 
   // No bypass (XXIV): when the caller doesn't explicitly pass a profile, load the real one — for
   // ndxbook this reconciles existing Content Brain intelligence into an honest, possibly-partial
@@ -124,8 +127,34 @@ export async function ensureCreativeDirectionEngagement(
   return engagement;
 }
 
+/** Re-resolve Brand Lore readiness from the durable profile on every read — cached engagements
+ * must not keep stale `blocked` after lore calibration writes (XXIX). */
+async function syncEngagementBrandLoreReadiness(
+  engagement: CreativeDirectionEngagement,
+  orgSlug: string,
+): Promise<void> {
+  const orgId = orgIdFromSlug(orgSlug);
+  if (!orgId) return;
+
+  const profile = await getOrReconcileBrandLoreForOrg(orgId, orgSlug);
+  const enforceGate = shouldEnforceLoreReadinessGate(orgSlug, profile);
+  if (!enforceGate) {
+    engagement.brandLoreReadiness = null;
+    return;
+  }
+
+  const readinessGate = brandLoreReadinessGate(profile);
+  engagement.brandLoreReadiness = {
+    state: readinessGate.state,
+    blocked: readinessGate.blocked,
+    message: readinessGate.message,
+    missingDomains: readinessGate.missingDomains,
+  };
+}
+
 export async function getCreativeDirectionPayload(orgSlug: string) {
   const engagement = await ensureCreativeDirectionEngagement(orgSlug);
+  await syncEngagementBrandLoreReadiness(engagement, orgSlug);
   const profile = await getProfileByOrgId(engagement.organization_id);
   const page001 = orgSlug === 'ndxbook' ? getPage001Candidate(orgSlug) : null;
 

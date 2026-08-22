@@ -5,6 +5,7 @@ import {
   evaluateCreativeDirectionReadiness,
   canBeginCreativeDirection,
   missingDomainsToLoreSteps,
+  remainingCalibrationStepIds,
   REQUIRED_DOMAINS,
 } from './readiness.js';
 import { IDNTY_LORE_QUESTIONS } from './idnty-lore-questions.js';
@@ -143,6 +144,13 @@ describe('SITE 00 brand lore — shared module', () => {
   it('13. missing domains map to calibration lore steps in canonical order', () => {
     const steps = missingDomainsToLoreSteps(['WORLDVIEW', 'EMOTIONAL_PROMISE']);
     expect(steps).toEqual(['feeling', 'world']);
+  });
+
+  it('13b. remaining calibration steps exclude answered lore ids in scope', () => {
+    const missing: typeof REQUIRED_DOMAINS = ['WORLDVIEW', 'EMOTIONAL_PROMISE', 'CULTURAL_TENSION'];
+    const answers = { feeling: ['curious'], world: 'living index' };
+    expect(remainingCalibrationStepIds(missing, answers)).toEqual(['enemy', 'contradiction']);
+    expect(remainingCalibrationStepIds(missing, { ...answers, enemy: ['gatekeeping'], contradiction: ['polished', 'messy'] })).toEqual([]);
   });
 
   it('14. Builder inherited lore fields list excludes Identity-only domains', () => {
