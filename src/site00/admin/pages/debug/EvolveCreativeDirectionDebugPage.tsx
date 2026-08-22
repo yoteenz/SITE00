@@ -59,6 +59,7 @@ export default function EvolveCreativeDirectionDebugPage() {
           <li>Created: {String(formationMeta?.createdAt ?? '—')}</li>
           <li>Updated: {String(formationMeta?.updatedAt ?? '—')}</li>
           <li>Safe error: {String(formationMeta?.error ?? formation?.error ?? '—')}</li>
+        </ul>
       </section>
       <p>
         <Link to={SITE00_ADMIN_ROUTES.evolveCreativeDirection('ndxbook')}>← CREATIVE DIRECTION STUDIO</Link>
