@@ -2790,3 +2790,16 @@ Summary: Follow-up sprint adds canonical intermediate layer **DirectionExpressio
 - **Storage:** upsert on board asset + crop uploads; v4 under `boards/01/v4/`; v2/v3 preserved; founder UI prefers v4.
 - **Health check:** Railway reports `creativeIntelligence.status: CONFIGURED` (Anthropic available on production API).
 - **Tests:** 833 passing (+12 v4). Branch `cursor/marked-up-copy-expression-v4-4f59`.
+
+---
+
+## 2026-08-22 — Marked-Up Copy v4 live production execution (Sonnet PASS · FAL blocked on Railway)
+
+Summary: Completed live production run for THE MARKED-UP COPY v4 via Railway background job after fixing Sonnet JSON truncation and HTTP 502 timeout.
+
+- **Hotfixes merged:** PR #244 (8192→16384 max_tokens + JSON parse retry), PR #245 (background job `marked_up_copy_board_v4` — sync pilot returns 202 for non-dryRun), PR #246 (compact board Sonnet output — no placement arrays; summarized Expression System payload).
+- **Live run (job 309a1b69):** Sonnet executed on Railway (`claude-sonnet-4-6`, 9540 in / 9984 out tokens, 2 requests). DirectionExpressionSystem id `d9b359cc201aa165` persisted. BoardPlan v4 id `5a5d3036346f167f`. Real Sonnet critique + art direction persisted.
+- **FAL blocked:** Railway API lacks `FAL_KEY` — all 8 reference-conditioned manifest assets failed (`FAL_KEY not configured`). No successful reference-conditioned FAL calls despite prompts + reference crop inputs prepared.
+- **Board QA:** FAIL 45/50 — `MATERIAL_RELEVANCE: 3` (FAL assets missing). Expression-system gates PASS (50-post 5/5, no-explanation 5/5). Template/substitution/contamination tests PASS. `founderVisible: false`; `founderVisualApproval: PENDING`.
+- **Board SVGs:** Desktop/mobile v4 composed and stored (`final-desktop-marked-up-copy-pilot-v4.svg`, `final-mobile-marked-up-copy-pilot-v4.svg`) — compositor-only (no FAL imagery).
+- **Next:** Configure `FAL_KEY` on Railway API runtime and re-run board v4 job for asset production + QA PASS.
