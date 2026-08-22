@@ -31,31 +31,35 @@ export type ExpandedReadinessPayload = {
   automationMode: string;
 };
 
-const API_BASE = resolveEvolveApiBase();
+const EVOLVE_ADMIN_PATH = '/api/admin/site00-evolve';
 
 function resolveEvolveApiBase(): string {
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname.toLowerCase();
+    // Preview hosts proxy a local API that is often stale — always use Railway production.
+    if (host.includes('fsbw-dev.com') || host.endsWith('.trycloudflare.com')) {
+      return 'https://api.site00.com';
+    }
+  }
+
   const envBase = (
     (import.meta as unknown as { env?: { VITE_API_BASE?: string } }).env?.VITE_API_BASE ?? ''
   ).replace(/\/$/, '');
   if (envBase) return envBase;
+
   if (typeof window !== 'undefined') {
     const host = window.location.hostname.toLowerCase();
-    if (
-      host === 'site00.com' ||
-      host.endsWith('.site00.com') ||
-      host.includes('fsbw-dev.com') ||
-      host.endsWith('.trycloudflare.com')
-    ) {
+    if (host === 'site00.com' || host.endsWith('.site00.com')) {
       return 'https://api.site00.com';
     }
   }
   return '';
 }
-const EVOLVE_ADMIN_PATH = '/api/admin/site00-evolve';
 
 function evolveAdminUrl(path: string): string {
+  const apiBase = resolveEvolveApiBase();
   const suffix = path.startsWith('?') ? path : path.startsWith('/') ? path : `/${path}`;
-  return API_BASE ? `${API_BASE}${EVOLVE_ADMIN_PATH}${suffix}` : `${EVOLVE_ADMIN_PATH}${suffix}`;
+  return apiBase ? `${apiBase}${EVOLVE_ADMIN_PATH}${suffix}` : `${EVOLVE_ADMIN_PATH}${suffix}`;
 }
 
 async function evolveFetch<T>(path: string, init?: RequestInit): Promise<T> {
@@ -73,6 +77,13 @@ async function evolveFetch<T>(path: string, init?: RequestInit): Promise<T> {
   });
   if (!res.ok) {
     const err = (await res.json().catch(() => ({}))) as { error?: string };
+    if (res.status === 401) {
+      throw new Error(
+        err.error === 'Sign in required'
+          ? 'Sign in required — sign in on site00.com (same account), then reload this page.'
+          : (err.error ?? 'Sign in required'),
+      );
+    }
     throw new Error(err.error ?? `EVOLVE API ${res.status}`);
   }
   return res.json() as Promise<T>;

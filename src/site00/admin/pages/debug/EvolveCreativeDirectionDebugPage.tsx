@@ -84,9 +84,12 @@ export default function EvolveCreativeDirectionDebugPage() {
   }, [reload]);
 
   useEffect(() => {
-    reload().catch((e) => setError(e instanceof Error ? e.message : 'LOAD FAILED'));
+    reload().catch((e) => {
+      const msg = e instanceof Error ? e.message : 'LOAD FAILED';
+      setError(msg);
+    });
     pollJob().catch(() => {
-      /* job table may not exist until migration applied */
+      /* no job yet is fine */
     });
   }, [reload, pollJob]);
 
@@ -156,8 +159,14 @@ export default function EvolveCreativeDirectionDebugPage() {
         </h2>
         <p className="site00-cd-production-panel__lead">
           Jobs run on Railway in the background. Tap once, then you can leave this page — come back anytime and tap
-          Refresh Status. No need to keep your phone open for 15 minutes.
+          Refresh Status. Uses <strong>api.site00.com</strong> (not the fsbw-dev preview API).
         </p>
+        {error?.includes('Sign in required') ? (
+          <p className="site00-admin-panel site00-admin-panel--error">
+            You must be signed in for production controls. Preview admin bypass does not apply to the API — sign in
+            first, then reload.
+          </p>
+        ) : null}
 
         <dl className="site00-cd-production-panel__status">
           <div>
