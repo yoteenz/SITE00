@@ -2554,3 +2554,15 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Fix:** Added explicit uppercase on all non-password inputs and textareas across SITE 00 shells (`:is(...shells...) input:not([type='password'])...`, `textarea...`); password fields unchanged via existing `.site00-signin-form__input--password` + `input[type='password']` exceptions.
 
 - **Branch:** `cursor/uppercase-input-fields-4f59`.
+
+---
+
+## 2026-08-22 — Calibration complete loop (save → redirect)
+
+- **Symptom:** On final calibration step (08/08), tapping **COMPLETE CALIBRATION** flashed **SAVING…** then reverted to **COMPLETE CALIBRATION** with no redirect back to Creative Direction.
+
+- **Root cause:** `ProjectLoreCalibrationFlow.handleContinue` only called `finishCalibration()` when `brandLoreReadiness.blocked === false`. An 8-step frozen session can finish while server readiness is still blocked (e.g. domains like `PRIMARY_EXPRESSION_CONTEXT` have no lore step). Last-step save succeeded but completion never fired.
+
+- **Fix:** `shouldFinishProjectLoreCalibration()` — finish after successful save on the last session step regardless of readiness gate; still finish early if readiness clears mid-session. Added **CALIBRATION COMPLETE** UI + ~1.4s redirect; `returnTo` via router `location.state` (Creative Direction link passes it; default remains CD path). Removed duplicate button label (`nextStepLabel` was mirroring `continueLabel`).
+
+- **Branch:** `cursor/calibration-complete-redirect-4f59`.

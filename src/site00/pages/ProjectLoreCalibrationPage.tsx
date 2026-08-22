@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { ProjectLoreCalibrationFlow } from '../components/projects/ProjectLoreCalibrationFlow';
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
@@ -22,6 +22,10 @@ import '../styles/site00-project-lore-calibration.css';
 export default function ProjectLoreCalibrationPage() {
   const { projectSlug = '' } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const returnTo =
+    (location.state as { returnTo?: string } | null)?.returnTo ??
+    site00ProjectCreativeDirectionPath(projectSlug);
   const [missingDomains, setMissingDomains] = useState<ReadinessDomain[]>([]);
   const [savedAnswers, setSavedAnswers] = useState<Record<string, string | string[]>>({});
   const [projectTitle, setProjectTitle] = useState(() => projectDisplayName(projectSlug));
@@ -100,7 +104,7 @@ export default function ProjectLoreCalibrationPage() {
           loading={loading}
           loadError={error}
           onReload={() => void load()}
-          onComplete={() => navigate(site00ProjectCreativeDirectionPath(projectSlug))}
+          onComplete={() => navigate(returnTo, { replace: true })}
         />
       </div>
     </EcosystemShell>

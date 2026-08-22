@@ -16,6 +16,10 @@ import {
   resolveProjectLoreCalibrationResume,
   writeProjectLoreCalibrationResume,
 } from './projectLoreCalibrationResume';
+import {
+  PROJECT_LORE_CALIBRATION_COMPLETE_REDIRECT_MS,
+  shouldFinishProjectLoreCalibration,
+} from './projectLoreCalibrationCompletion';
 import '../../styles/site00-idnty-calibration-mobile.css';
 
 type ProjectLoreCalibrationFlowProps = {
@@ -57,6 +61,7 @@ export function ProjectLoreCalibrationFlow({
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [resumeReady, setResumeReady] = useState(false);
+  const [completed, setCompleted] = useState(false);
 
   useEffect(() => {
     if (loading) return;
@@ -106,27 +111,30 @@ export function ProjectLoreCalibrationFlow({
 
   const finishCalibration = useCallback(() => {
     clearProjectLoreCalibrationResume(projectSlug);
-    onComplete();
+    setCompleted(true);
+    window.setTimeout(() => {
+      onComplete();
+    }, PROJECT_LORE_CALIBRATION_COMPLETE_REDIRECT_MS);
   }, [onComplete, projectSlug]);
 
   const handleContinue = async () => {
-    if (!step) return;
+    if (!step || saving || completed) return;
     const nextAnswers = { ...answers, [step.id]: form.value as string | string[] };
     setAnswers(nextAnswers);
 
     const payload = await flushSave(nextAnswers);
     if (payload === null) return;
 
-    const readiness = payload?.engagement.brandLoreReadiness;
-    if (payload && !readiness?.blocked) {
+    const isLast = stepIndex >= steps.length - 1;
+    const readinessBlocked = payload.engagement.brandLoreReadiness?.blocked ?? false;
+    if (
+      shouldFinishProjectLoreCalibration({
+        isLastStep: isLast,
+        saveSucceeded: true,
+        readinessBlocked,
+      })
+    ) {
       finishCalibration();
-      return;
-    }
-
-    if (stepIndex >= steps.length - 1) {
-      if (payload && !readiness?.blocked) {
-        finishCalibration();
-      }
       return;
     }
 
@@ -134,15 +142,25 @@ export function ProjectLoreCalibrationFlow({
   };
 
   const handleSkip = async () => {
-    if (!step?.skippable) return;
+    if (!step?.skippable || saving || completed) return;
     const nextAnswers = { ...answers, [step.id]: LORE_SKIP_VALUE };
     setAnswers(nextAnswers);
     const payload = await flushSave(nextAnswers);
     if (payload === null) return;
-    if (payload && !payload.engagement.brandLoreReadiness?.blocked) {
+
+    const isLast = stepIndex >= steps.length - 1;
+    const readinessBlocked = payload.engagement.brandLoreReadiness?.blocked ?? false;
+    if (
+      shouldFinishProjectLoreCalibration({
+        isLastStep: isLast,
+        saveSucceeded: true,
+        readinessBlocked,
+      })
+    ) {
       finishCalibration();
       return;
     }
+
     if (stepIndex < steps.length - 1) {
       setStepIndex((i) => i + 1);
     }
@@ -155,11 +173,14 @@ export function ProjectLoreCalibrationFlow({
 
   const captured = step ? isCaptured(form.value, step.skippable) : false;
   const isLastStep = stepIndex >= steps.length - 1;
+  const nextStep = steps[stepIndex + 1];
   const continueLabel = useMemo(() => {
+    if (completed) return 'CALIBRATION COMPLETE';
     if (saving) return 'SAVING…';
     if (isLastStep) return 'COMPLETE CALIBRATION';
     return 'CONTINUE';
-  }, [isLastStep, saving]);
+  }, [completed, isLastStep, saving]);
+  const nextStepLabel = completed || saving || isLastStep ? undefined : (nextStep?.helper ?? nextStep?.subtitle ?? 'NEXT');
 
   if (loading || !resumeReady) {
     return <p className="site00-cd__loading" aria-busy="true">LOADING…</p>;
@@ -209,6 +230,13 @@ export function ProjectLoreCalibrationFlow({
         <p className="site00-cd__error" role="alert">{saveError}</p>
       ) : null}
 
+      {completed ? (
+        <section className="site00-cd__readiness-banner" role="status" aria-live="polite">
+          <p className="site00-cd__readiness-banner-title">CALIBRATION COMPLETE.</p>
+          <p className="site00-cd__readiness-banner-body">RETURNING YOU TO CREATIVE DIRECTION…</p>
+        </section>
+      ) : null}
+
       <div className="site00-idnty-calibration-flow">
         <IdentityCalibrationConsole
           stepIndex={stepIndex}
@@ -228,8 +256,8 @@ export function ProjectLoreCalibrationFlow({
               onPrevious={handleBack}
               onContinue={() => void handleContinue()}
               continueLabel={continueLabel}
-              nextStepLabel={continueLabel}
-              continueDisabled={(!captured && !!step.required) || saving}
+              nextStepLabel={nextStepLabel}
+              continueDisabled={(!captured && !!step.required) || saving || completed}
             />
           }
         >
@@ -239,7 +267,7 @@ export function ProjectLoreCalibrationFlow({
               type="button"
               className="site00-idnty-calibration-nav__skip"
               onClick={() => void handleSkip()}
-              disabled={saving}
+              disabled={saving || completed}
             >
               SKIP / NOT SURE YET
             </button>
