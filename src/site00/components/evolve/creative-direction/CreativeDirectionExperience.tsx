@@ -20,7 +20,14 @@ export type CreativeDirectionTerritory = {
   rendererKey?: string;
   strengths: string[];
   risks: string[];
-  specimens: Array<{ id: string; specimenType: string; title: string; status: string; renderSpec?: Record<string, unknown> }>;
+  specimens: Array<{
+    id: string;
+    specimenType: string;
+    title: string;
+    status: string;
+    renderSpec?: Record<string, unknown>;
+    imageAsset?: { url: string; approvalState: string; model: string; volume?: string } | null;
+  }>;
   evolveAnalysis: Record<string, string>;
   lifecycleState: string;
 };

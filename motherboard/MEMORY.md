@@ -2103,6 +2103,28 @@ Summary of the **whole conversation** for Sprint 03 (SITE 00 EVOLVE).
 
 ---
 
+---
+
+## 2026-08-21 — NDXBOOK Creative Direction: art-directed visual worlds + FAL asset production pass
+
+- **Context:** Founder approved the three structurally-distinct territories (INDEX SIGNAL, EDITORIAL UTILITY, KINETIC FIELD) from the prior sprint but they were still wireframe-quality — SVG-only specimens with placeholder boxes, no real imagery, not yet "founder-reviewable creative worlds." Task: elevate each territory to real, NDXBOOK-specific, art-directed presentations using the existing FAL pipeline, while preserving locked structural differentiation and founder decision gates (never auto-approve).
+
+- **Strategy layer (new file `api/_lib/site00Evolve/creativeDirection/visualAssetStrategy.ts`):** Per-territory `TerritoryVisualStrategy` (photographic/graphic/illustration language, texture/material, subject treatment, per-volume treatment across all 5 NDXBOOK volumes, prohibited clichés) for each territory, plus a curated `NDXBOOK_CREATIVE_ASSET_BRIEFS` set (12 briefs: Page 001 for credit score/debt payoff in each territory + additional-volume proofs across BODY/MIND/TECH/CONSUMER) and `buildGenerationPrompt()`.
+
+- **Governed FAL pipeline (new file `assetGeneration.ts`):** Reuses existing `fal-ai/nano-banana-pro` client + Supabase storage helpers (no new provider, no hardcoded secrets — `FAL_KEY`/`SUPABASE_SERVICE_ROLE_KEY` stay server-side). Every asset persists with `approvalState: 'GENERATED'` (never auto-`APPROVED`) plus full provenance. **Security fix:** manifest never writes the Supabase domain to disk (it's a configured secret and trips the commit secret-scanner) — only `storagePath` is persisted; `loadGeneratedAssetManifest()` reconstructs the public url at load time from `storagePath` + `SITE00_ASSETS_BUCKET`. New admin action `creative_direction_generate_visual_assets` in `api/admin/site00-evolve.ts` triggers the batch pass and calls `resetCreativeDirectionMemory()`.
+
+- **Rendering:** `TerritorySpecimen.imageAsset?: TerritorySpecimenImageAsset | null` (types.ts). `territories.ts` loads the manifest and attaches images to matching specimens by `territoryKey:specimenType`. All three renderers (`IndexSignalTerritoryView`, `EditorialUtilityTerritoryView`, `KineticFieldTerritoryView`) render real imagery via SVG `<image>` + `clipPath` + readability overlays when an asset is present, falling back to the existing SVG-only specimen otherwise — structural differentiation untouched. `SpecimenFrame` surfaces provenance (approval state, model, volume) under image-backed specimens. Per-territory CSS filters (grayscale for INDEX SIGNAL, saturate/contrast for KINETIC FIELD) keep imported photography cohesive with each territory's language.
+
+- **Render → inspect → refine (one loop per territory, done via `ReactDOMServer` + Playwright screenshots, not the live browser):** INDEX SIGNAL (archival still-life: folded statement + red thread, index cards + brass fasteners, anatomical chart + tape measure, annotated notebook) and EDITORIAL UTILITY (commissioned-magazine still life: wallet/cash/card, notebook + calculator, phone on desk, receipt + tags) passed review as-is. KINETIC FIELD's first pass read too close to the explicitly prohibited "generic AI-startup abstract mesh / cyberpunk neon" (converging fiber-optic light rays, digital-rain numerals) — **refined**: rewrote the strategy + 3 of 4 briefs to a sculptural kinetic-numeral + backlit index-tab visual system (ties to NDXBOOK's indexable-knowledge concept instead of generic tech-mesh), regenerated via FAL (deleted old Supabase objects first since `uploadSite00AssetBuffer` uses `upsert:false`), re-verified. Added new prohibited-cliché entries to lock this in for future generations.
+
+- **Tests/build:** 398 tests PASS (27 files, incl. new `visualAssetStrategy.test.ts` + `assetGeneration.test.ts`). `tsc --noEmit` clean. Build PASS. All 12 curated assets generated and persisted to Supabase (`live-preview` bucket, `site00/creative-direction/ndxbook/...`) + manifest (`generatedAssets/ndxbook.assets.json`, committed, url-free).
+
+- **Also this session:** Restarted the `site00-preview-tunnel` cloudflared tunnel (it had dropped after a prior Vite restart) and confirmed the public preview tunnel + local `:5174` both return 200 before continuing the FAL work.
+
+- **Not merged:** PR #192 (`cursor/ndxbook-cd-fal-visual-assets-1983` → `main`) pushed and marked ready for review, but **not auto-merged** — cloud-agent system instructions for this run explicitly prohibit merging PRs without explicit user instruction (overrides the shipping.mdc default-merge convention). Founder should merge from GitHub when ready.
+
+---
+
 ## 2026-08-21 — Identity + Builder intake persistence, guest access & retrieval (infrastructure sprint)
 
 - **Context:** Founder-specified infrastructure sprint (not a visual redesign). Identity and Builder intakes only ever persisted to `localStorage` — no server draft, no resume-by-email, no client/admin retrieval, no submission receipt, no lineage to downstream engagement/project. Explicitly out of scope: email art direction (placeholders only), deploy, real email sends, and any change to Frontal Slayer/Studio World/AIO/NDXBOOK/EVOLVE/Email Family 01.

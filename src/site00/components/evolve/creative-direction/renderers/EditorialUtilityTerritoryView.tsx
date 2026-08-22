@@ -18,15 +18,26 @@ function EditorialMagazineCover({ gs }: { gs?: boolean }) {
   );
 }
 
-function EditorialFeatureOpener({ gs }: { gs?: boolean }) {
+function EditorialFeatureOpener({ gs, imageUrl }: { gs?: boolean; imageUrl?: string }) {
   const c = paletteFromGrayscale(gs, { primary: '#1C1917', secondary: '#FAFAF9', accent: '#666' });
   return (
-    <svg viewBox="0 0 360 240" className="site00-cd-specimen__svg" aria-hidden="true">
+    <svg viewBox="0 0 360 240" className="site00-cd-specimen__svg site00-cd-specimen__svg--imaged" aria-hidden="true">
       <rect width="360" height="240" fill={c.secondary} />
       <text x="24" y="32" fill={c.accent} fontSize="7" letterSpacing="2">FEATURE</text>
       <text x="24" y="72" fill={c.primary} fontSize="24" fontFamily="Georgia, serif">Why your credit score is lying to you</text>
       <text x="24" y="96" fill={c.primary} fontSize="10" opacity="0.7">A clear-eyed explainer on debt payoff without fear tactics.</text>
-      <rect x="24" y="120" width="200" height="100" fill={c.primary} opacity="0.08" />
+      {imageUrl ? (
+        <>
+          <defs>
+            <clipPath id="ndx-ed-feature-clip"><rect x="24" y="120" width="200" height="100" /></clipPath>
+          </defs>
+          <g clipPath="url(#ndx-ed-feature-clip)">
+            <image href={imageUrl} x="24" y="120" width="200" height="100" preserveAspectRatio="xMidYMid slice" />
+          </g>
+        </>
+      ) : (
+        <rect x="24" y="120" width="200" height="100" fill={c.primary} opacity="0.08" />
+      )}
       <rect x="240" y="120" width="96" height="100" fill="none" stroke={c.primary} strokeWidth="0.5" />
       <text x="248" y="140" fill={c.primary} fontSize="6">PULL QUOTE ZONE</text>
     </svg>
@@ -48,8 +59,27 @@ function EditorialKnowledgePage({ gs }: { gs?: boolean }) {
   );
 }
 
-function EditorialPage001({ gs }: { gs?: boolean }) {
-  return <EditorialKnowledgePage gs={gs} />;
+/** Page 001 — the strongest Editorial Utility specimen: a commissioned still life sharing the frame with the headline. */
+function EditorialPage001({ gs, imageUrl }: { gs?: boolean; imageUrl?: string }) {
+  const c = paletteFromGrayscale(gs, { primary: '#1C1917', secondary: '#FAFAF9', accent: '#B45309' });
+  if (!imageUrl) return <EditorialKnowledgePage gs={gs} />;
+  return (
+    <svg viewBox="0 0 280 360" className="site00-cd-specimen__svg site00-cd-specimen__svg--imaged" aria-hidden="true">
+      <defs>
+        <clipPath id="ndx-ed-p001-clip"><rect width="280" height="360" /></clipPath>
+      </defs>
+      <g clipPath="url(#ndx-ed-p001-clip)">
+        <image href={imageUrl} x="0" y="0" width="280" height="360" preserveAspectRatio="xMidYMid slice" />
+        <rect x="0" y="0" width="280" height="128" fill={c.secondary} opacity={gs ? 0.88 : 0.8} />
+      </g>
+      <rect x="0" y="0" width="280" height="4" fill={c.accent} />
+      <text x="20" y="34" fill={c.accent} fontSize="8" letterSpacing="3">VOLUME · MONEY</text>
+      <text x="20" y="76" fill={c.primary} fontSize="22" fontFamily="Georgia, serif">Credit score / debt payoff</text>
+      <text x="20" y="102" fill={c.primary} fontSize="9" fontFamily="Georgia, serif" opacity="0.75">A clear-eyed feature on getting free of debt — without the lecture.</text>
+      <rect x="0" y="330" width="280" height="30" fill={c.primary} opacity="0.85" />
+      <text x="20" y="350" fill={c.secondary} fontSize="7" fontWeight="600">ISSUE 001 · PROPOSED</text>
+    </svg>
+  );
 }
 
 function EditorialQuoteCard({ gs }: { gs?: boolean }) {
@@ -64,27 +94,62 @@ function EditorialQuoteCard({ gs }: { gs?: boolean }) {
   );
 }
 
-function EditorialSocialCarousel({ gs }: { gs?: boolean }) {
+function EditorialSocialCarousel({ gs, imageUrl }: { gs?: boolean; imageUrl?: string }) {
   const c = paletteFromGrayscale(gs, { primary: '#1C1917', secondary: '#FAFAF9', accent: '#666' });
   return (
-    <svg viewBox="0 0 108 192" className="site00-cd-specimen__svg" aria-hidden="true">
-      <rect width="108" height="192" fill={c.secondary} />
-      <text x="12" y="28" fill={c.accent} fontSize="6">MONEY</text>
-      <text x="12" y="72" fill={c.primary} fontSize="14" fontFamily="Georgia, serif" fontWeight="600">Debt payoff</text>
-      <text x="12" y="92" fill={c.primary} fontSize="8">without the lecture</text>
-      <rect x="12" y="120" width="84" height="56" fill={c.primary} opacity="0.07" />
+    <svg viewBox="0 0 108 192" className="site00-cd-specimen__svg site00-cd-specimen__svg--imaged" aria-hidden="true">
+      {imageUrl ? (
+        <>
+          <defs>
+            <clipPath id="ndx-ed-carousel-clip"><rect width="108" height="192" /></clipPath>
+          </defs>
+          <g clipPath="url(#ndx-ed-carousel-clip)">
+            <image href={imageUrl} x="0" y="0" width="108" height="192" preserveAspectRatio="xMidYMid slice" />
+            <rect x="0" y="90" width="108" height="102" fill={c.secondary} opacity={gs ? 0.9 : 0.82} />
+          </g>
+        </>
+      ) : (
+        <rect width="108" height="192" fill={c.secondary} />
+      )}
+      <text x="12" y="28" fill={c.accent} fontSize="6">TECH</text>
+      <text x="12" y="118" fill={c.primary} fontSize="13" fontFamily="Georgia, serif" fontWeight="600">Your phone,</text>
+      <text x="12" y="136" fill={c.primary} fontSize="13" fontFamily="Georgia, serif" fontWeight="600">simplified</text>
+      {!imageUrl ? (
+        <>
+          <text x="12" y="92" fill={c.primary} fontSize="8">without the lecture</text>
+          <rect x="12" y="120" width="84" height="56" fill={c.primary} opacity="0.07" />
+        </>
+      ) : null}
     </svg>
   );
 }
 
-function EditorialFeedTile({ gs }: { gs?: boolean }) {
+function EditorialFeedTile({ gs, imageUrl }: { gs?: boolean; imageUrl?: string }) {
   const c = paletteFromGrayscale(gs, { primary: '#1C1917', secondary: '#FAFAF9', accent: '#666' });
   return (
-    <svg viewBox="0 0 120 120" className="site00-cd-specimen__svg" aria-hidden="true">
-      <rect width="120" height="120" fill={c.secondary} />
-      <text x="8" y="24" fill={c.accent} fontSize="6">MONEY</text>
-      <text x="8" y="48" fill={c.primary} fontSize="11" fontFamily="Georgia, serif">Credit</text>
-      <rect x="8" y="56" width="40" height="3" fill={c.accent} />
+    <svg viewBox="0 0 120 120" className="site00-cd-specimen__svg site00-cd-specimen__svg--imaged" aria-hidden="true">
+      {imageUrl ? (
+        <>
+          <defs>
+            <clipPath id="ndx-ed-feedtile-clip"><rect width="120" height="120" /></clipPath>
+          </defs>
+          <g clipPath="url(#ndx-ed-feedtile-clip)">
+            <image href={imageUrl} x="0" y="0" width="120" height="120" preserveAspectRatio="xMidYMid slice" />
+            <rect x="0" y="86" width="120" height="34" fill={c.secondary} opacity={gs ? 0.9 : 0.82} />
+          </g>
+        </>
+      ) : (
+        <rect width="120" height="120" fill={c.secondary} />
+      )}
+      <text x="8" y="16" fill={c.accent} fontSize="6">{imageUrl ? 'CONSUMER' : 'MONEY'}</text>
+      {!imageUrl ? (
+        <>
+          <text x="8" y="48" fill={c.primary} fontSize="11" fontFamily="Georgia, serif">Credit</text>
+          <rect x="8" y="56" width="40" height="3" fill={c.accent} />
+        </>
+      ) : (
+        <text x="8" y="108" fill={c.primary} fontSize="9" fontFamily="Georgia, serif">Smart spending</text>
+      )}
     </svg>
   );
 }
@@ -158,7 +223,8 @@ function EditorialWordmark({ gs }: { gs?: boolean }) {
   );
 }
 
-const SPECIMEN_MAP: Record<string, ComponentType<{ gs?: boolean }>> = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const SPECIMEN_MAP: Record<string, ComponentType<any>> = {
   magazine_volume_opener: EditorialMagazineCover,
   feature_article_opener: EditorialFeatureOpener,
   knowledge_page: EditorialKnowledgePage,
@@ -189,8 +255,15 @@ export function EditorialUtilityTerritoryView({ specimens, options }: TerritoryV
                 ? 'wide'
                 : 'default';
           return (
-            <SpecimenFrame key={spec.id} title={spec.title} status={spec.status} hideLabels={hide} layout={layout}>
-              <Comp gs={gs} />
+            <SpecimenFrame
+              key={spec.id}
+              title={spec.title}
+              status={spec.status}
+              hideLabels={hide}
+              layout={layout}
+              provenance={spec.imageAsset ?? undefined}
+            >
+              <Comp gs={gs} imageUrl={spec.imageAsset?.url} />
             </SpecimenFrame>
           );
         })}

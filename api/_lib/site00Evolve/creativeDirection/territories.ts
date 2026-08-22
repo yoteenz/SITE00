@@ -7,8 +7,10 @@ import type {
   QualitativeRating,
   TerritoryRendererKey,
   TerritorySpecimen,
+  TerritorySpecimenImageAsset,
   TerritorySpecimenType,
 } from './types.js';
+import { loadGeneratedAssetManifest, manifestKey } from './assetGeneration.js';
 
 const COMMON_ANCHORS: TerritorySpecimenType[] = ['wordmark', 'typography_system'];
 
@@ -16,6 +18,7 @@ function buildSpecimens(
   territoryId: string,
   types: TerritorySpecimenType[],
   rendererKey: TerritoryRendererKey,
+  assetManifest: Record<string, TerritorySpecimenImageAsset>,
 ): TerritorySpecimen[] {
   return types.map((specimenType) => ({
     id: randomUUID(),
@@ -30,6 +33,7 @@ function buildSpecimens(
       classification: 'PROPOSED',
       approved: false,
     },
+    imageAsset: assetManifest[manifestKey(rendererKey, specimenType)] ?? null,
   }));
 }
 
@@ -107,7 +111,10 @@ function analysisFor(index: 1 | 2 | 3): Record<string, QualitativeRating> {
 }
 
 export function generateTerritories(brief: CreativeBrief): CreativeTerritory[] {
-  void brief;
+  // Real FAL-generated visual assets are stored on disk per-org (see assetGeneration.ts).
+  // Loading a manifest never requires FAL_KEY — it only reads previously-persisted results,
+  // so structural specimen rendering stays fully independent of live provider availability.
+  const assetManifest = loadGeneratedAssetManifest(brief.organizationSlug);
   const definitions: Array<Omit<CreativeTerritory, 'id' | 'specimens'>> = [
     {
       index: 1,
@@ -241,7 +248,7 @@ export function generateTerritories(brief: CreativeBrief): CreativeTerritory[] {
     return {
       ...def,
       id,
-      specimens: buildSpecimens(id, [...specimenSets[i]], def.rendererKey),
+      specimens: buildSpecimens(id, [...specimenSets[i]], def.rendererKey, assetManifest),
     };
   });
 }
