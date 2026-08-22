@@ -80,6 +80,17 @@ export async function upsertProfile(row: MarketingProfileRow): Promise<Marketing
   return mapProfile(data);
 }
 
+export async function updateProfileCommercialMetadataDb(
+  orgId: string,
+  patch: Record<string, unknown>,
+): Promise<MarketingProfileRow | undefined> {
+  const existing = await loadProfile(orgId);
+  if (!existing) return undefined;
+  const existingCommercial = (existing.metadata?.commercial as Record<string, unknown>) ?? {};
+  const metadata = { ...existing.metadata, commercial: { ...existingCommercial, ...patch } };
+  return upsertProfile({ ...existing, metadata });
+}
+
 export async function loadChannels(orgId: string): Promise<MarketingChannelRow[]> {
   const { data, error } = await getSupabaseAdmin()
     .from('site00_marketing_channels')
