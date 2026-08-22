@@ -19,6 +19,7 @@ function isImmersiveSessionComplete(): boolean {
 export function shouldShowSite00ImmersiveLoader(): boolean {
   if (typeof window === 'undefined') return true;
   if (isSite00PreviewTunnelHost()) return false;
+  if (import.meta.env.VITE_SITE00_CLOUD_PREVIEW === '1') return false;
 
   try {
     const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;

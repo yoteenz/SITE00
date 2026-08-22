@@ -268,6 +268,55 @@ async function buildCommercialSummary(slug: Site00FounderProjectSlug): Promise<S
   };
 }
 
+export async function resolveSite00ProjectIndexEntry(
+  slug: Site00FounderProjectSlug,
+): Promise<Site00ProjectIndexEntry | null> {
+  await ensureEvolveSeeded();
+  const def = FOUNDER_PROJECTS.find((p) => p.slug === slug);
+  if (!def) return null;
+
+  const orgCtx = resolveOrgContext(slug);
+  const orgUuid = orgIdFromSlug(slug);
+  if (!orgUuid) return null;
+
+  const isClient = isMarketingClientOrg(orgCtx.classification);
+  let cdPayload: Awaited<ReturnType<typeof getCreativeDirectionPayload>> | null = null;
+  if (isClient) {
+    try {
+      cdPayload = await getCreativeDirectionPayload(slug, { runFormation: false });
+    } catch {
+      cdPayload = null;
+    }
+  }
+
+  let focusNow: string | null = null;
+  if (isClient) {
+    try {
+      const commandRaw = await buildConnectionCommandItems(slug, orgCtx.name);
+      focusNow = pickFocusNow(mapCommandItems(commandRaw));
+    } catch {
+      focusNow = null;
+    }
+  }
+
+  return {
+    slug,
+    name: def.name,
+    displayName: def.displayName,
+    internalLabel: def.internalLabel,
+    organizationSlug: slug,
+    organizationUuid: orgUuid,
+    classification: orgCtx.classification,
+    currentSystem: def.currentSystem,
+    currentPhase: await resolveProjectPhase(slug, cdPayload),
+    focusNow,
+    lastActivity: null,
+    surfaces: await buildSurfaces(slug, isClient),
+    detailRoute: detailRoute(slug),
+    enrichmentStatus: 'COMPLETE',
+  };
+}
+
 export async function resolveSite00Project(slug: string): Promise<Site00ProjectDetail | null> {
   if (!isFounderProjectSlug(slug)) return null;
 
@@ -536,8 +585,8 @@ export async function listSite00FounderProjects(): Promise<Site00ProjectIndexEnt
   const projects: Site00ProjectIndexEntry[] = [];
   for (const def of FOUNDER_PROJECTS) {
     try {
-      const detail = await resolveSite00Project(def.slug);
-      if (detail) projects.push(detail);
+      const entry = await resolveSite00ProjectIndexEntry(def.slug);
+      if (entry) projects.push(entry);
     } catch (err) {
       const fallback = await buildMinimalIndexEntry(def, err);
       if (fallback) projects.push(fallback);

@@ -13,7 +13,7 @@ import {
   markSite00ImmersiveComplete,
   shouldShowSite00ImmersiveLoader,
 } from './site00LoaderSession';
-import { isSite00LoaderPreviewPath, isSite00SignInPath } from './site00LoaderPaths';
+import { isSite00LoaderPreviewPath, isSite00SignInPath, isSite00PublicHubPath } from './site00LoaderPaths';
 import {
   advanceLoaderStagesFromTasks,
   waitForLoaderAnimationOpeningHold,
@@ -40,6 +40,7 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
   const skipForRoute =
     isSite00LoaderPreviewPath(pathname) ||
     isSite00SignInPath(pathname) ||
+    isSite00PublicHubPath(pathname) ||
     pathname === '/control' ||
     pathname.startsWith('/control/');
   const immersive = !skipForRoute && shouldShowSite00ImmersiveLoader();

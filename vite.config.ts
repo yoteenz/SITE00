@@ -105,6 +105,7 @@ export default defineConfig(({ mode, command }) => {
       'import.meta.env.VITE_APP_BUILD_ID': JSON.stringify(effectiveBuildId),
       'import.meta.env.VITE_APP_VERSION': JSON.stringify(effectiveBuildId),
       'import.meta.env.VITE_SITE00_ROOT': JSON.stringify('1'),
+      'import.meta.env.VITE_SITE00_CLOUD_PREVIEW': JSON.stringify(cloudMobilePreview ? '1' : '0'),
     },
     resolve: {
       alias: {

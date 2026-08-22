@@ -65,6 +65,9 @@ function preloadRoutePageChunk(pathname: string): Promise<void> {
   if (path.startsWith('/control')) {
     return preloadModule(() => import('../../pages/control/ControlOverviewPage'));
   }
+  if (path === '/projects' || path.startsWith('/projects/')) {
+    return preloadModule(() => import('../../pages/ProjectsPage'));
+  }
 
   return Promise.resolve();
 }

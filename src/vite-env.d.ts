@@ -10,6 +10,7 @@ interface ImportMetaEnv {
   readonly VITE_APP_BUILD_ID?: string;
   readonly VITE_APP_VERSION?: string;
   readonly VITE_SITE00_CANONICAL_ORIGIN?: string;
+  readonly VITE_SITE00_CLOUD_PREVIEW?: string;
   readonly DEV: boolean;
   readonly PROD: boolean;
   readonly MODE: string;

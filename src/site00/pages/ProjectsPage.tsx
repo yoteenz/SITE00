@@ -16,10 +16,13 @@ export default function ProjectsPage() {
     return projects.filter((p) => {
       if (!query.trim()) return true;
       const q = query.toLowerCase();
+      const name = (p.name ?? '').toLowerCase();
+      const displayName = (p.displayName ?? '').toLowerCase();
+      const slug = (p.slug ?? '').toLowerCase();
       return (
-        p.name.toLowerCase().includes(q) ||
-        p.displayName.toLowerCase().includes(q) ||
-        p.slug.toLowerCase().includes(q) ||
+        name.includes(q) ||
+        displayName.includes(q) ||
+        slug.includes(q) ||
         (p.internalLabel?.toLowerCase().includes(q) ?? false)
       );
     });
@@ -102,7 +105,7 @@ export default function ProjectsPage() {
                         <p className="site00-project-index-card__partial">ENRICHMENT PARTIAL</p>
                       ) : null}
                       <p className="site00-project-index-card__org">
-                        {project.classification.replace(/_/g, ' ')}
+                        {(project.classification ?? 'UNKNOWN').replace(/_/g, ' ')}
                       </p>
                     </div>
                     <span className="site00-project-index-card__cta">OPEN PROJECT →</span>
