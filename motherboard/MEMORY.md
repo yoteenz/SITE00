@@ -2439,3 +2439,15 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 - **Not a code regression** — Aug 22 release ZIP was never uploaded to GoDaddy. Added: `.htaccess` no-cache for index.html, boot-gate skip for `/origin/create-account`, `scripts/package-cpanel-deploy.sh`, deploy readme v5 with delete-old-files-first mobile steps.
 
+---
+
+## 2026-08-22 — PR #201 merge conflict resolution (main into ndxbook CD branch)
+
+- **Branch:** `cursor/ndxbook-cd-reference-locked-production-4f59` (PR #201) merged `origin/main` after create-account/deploy sprint.
+
+- **8 conflict files:** `types.ts`, `territories.ts`, `visualAssetStrategy.ts`, `CreativeDirectionExperience.tsx`, `TerritoryRendererRegistry.tsx`, three territory renderer views.
+
+- **Simple (fixed):** Brand-lore brief fields merged into `types.ts` alongside Core Direction methodology types; `CreativeDirectionExperience` keeps Core Direction board UI + adds lore readiness banner/calibrationLink from main; renderer/registry/strategy kept branch reference-locked versions; tests updated for priority brief set + lore calibration before APPROVE. PR #201 now mergeable.
+
+- **Complicated (coexist, not unified):** Two asset pipelines — main's `assetGeneration.ts` (Supabase manifest) vs branch's `generatedAssets.ts` (static webp + compositeMap). `territories.ts` uses static registry for `ndxbook` org only. Stale on-disk `generatedAssets/ndxbook.assets.json` (main page_001 brief keys) does not match branch priority briefs — manifest module retained but not wired into territory build.
+
