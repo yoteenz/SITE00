@@ -894,6 +894,14 @@ Summary of the **whole conversation so far** in this cloud agent run.
 
 ---
 
+
+## 2026-08-20 — Locations subtitle weight restored to 800
+
+- **Request:** Restore “WHERE DO YOU NEED TO GO?” to font weight 800 (`--site00-weight-display`).
+- **Fix:** `.site00-locations-directory-header__subtitle` in `site00-fast-travel.css` — `font-weight: var(--site00-weight-display)`.
+- **Branch:** `cursor/locations-subtitle-weight-796f`.
+
+---
 ## 2026-08-20 — Fast Travel list arrows (Quick Jump + Return)
 
 - **Request:** Add red arrows from locations directory to right side of Fast Travel QUICK JUMP and RETURN panels.
@@ -2408,4 +2416,3 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Fix:** `resolveProjectLoreCalibrationStepIndex()` in `adaptivity.ts` resumes at first step without a server answer; `projectLoreCalibrationResume.ts` persists step + draft to `localStorage` on every change and merges on reload; clears on completion. Flow waits for resume hydration before rendering steps.
 
 - **Branch:** `cursor/calibration-resume-on-refresh-4f59`.
-
