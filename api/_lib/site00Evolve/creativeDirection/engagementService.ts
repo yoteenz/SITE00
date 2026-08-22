@@ -25,6 +25,7 @@ import {
 } from './creativeIntelligence/canonicalFormationResolver.js';
 import { assessFormationProductionCompleteness } from './creativeIntelligence/directionFieldContract.js';
 import { resolveNdxbookFounderComparisonSet } from './creativeIntelligence/founderComparisonSet.js';
+import { attachProofAssetsToComparisonSet } from './creativeIntelligence/comparisonProofProduction.js';
 import { deriveVisualProductionState } from './creativeIntelligence/visualProductionState.js';
 import {
   getCreativeIntelligenceInspectorSummary,
@@ -367,7 +368,7 @@ export async function getCreativeDirectionPayload(
 
   const formationSurface = clientFormationSurface(formationRecord, providerConfigured);
 
-  const founderComparisonSet =
+  const founderComparisonSetRaw =
     orgSlug === 'ndxbook'
       ? await resolveNdxbookFounderComparisonSet({
           orgSlug,
@@ -385,6 +386,10 @@ export async function getCreativeDirectionPayload(
           canonicalFormation: formationRecord,
         })
       : null;
+
+  const founderComparisonSet = founderComparisonSetRaw
+    ? attachProofAssetsToComparisonSet(founderComparisonSetRaw)
+    : null;
 
   return {
     engagement,

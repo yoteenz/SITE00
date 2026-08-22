@@ -128,7 +128,105 @@ export type RenderingMediumRecommendation =
   | 'FAL_GENERATED_AND_ISOLATED'
   | 'HYBRID_COMPOSITION'
   | 'DETERMINISTIC_COMPOSITE'
-  | 'EXISTING_ASSET';
+  | 'EXISTING_ASSET'
+  | 'REFERENCE_CONDITIONED_GENERATION';
+
+export type ComparisonProofType =
+  | 'heroWorld'
+  | 'primaryArtifact'
+  | 'materialObject'
+  | 'typographicGraphic'
+  | 'socialExpression'
+  | 'motionSeed';
+
+export type ComparisonProofProductionState =
+  | 'PLANNED'
+  | 'GENERATING'
+  | 'INSPECTING'
+  | 'REGENERATING'
+  | 'READY'
+  | 'NEEDS_REVIEW'
+  | 'FAILED';
+
+export type ComparisonProofInspectionOutcome = 'ACCEPT' | 'REJECT' | 'NEEDS_HUMAN_REVIEW';
+
+export type ComparisonProofCompositePlacement = {
+  canvasWidth: number;
+  canvasHeight: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  rotation: number;
+  zIndex: number;
+  anchor: string;
+  shadowOwner: 'ASSET_INTRINSIC' | 'CODE_NATIVE_SHADOW' | 'COMPOSITE_SHADOW' | 'NONE';
+  breakpoint: 'MOBILE' | 'DESKTOP';
+};
+
+export type ComparisonProofAsset = {
+  assetId: string;
+  comparisonSetKey: string;
+  comparisonIndex: number;
+  directionId: string;
+  directionName: string;
+  sourceFormationId: string;
+  sourceFormationVersion: number;
+  proofType: ComparisonProofType;
+  url: string;
+  storagePath: string;
+  medium: RenderingMediumRecommendation;
+  model?: string;
+  promptHash: string;
+  referenceHash?: string;
+  qaState: ComparisonProofInspectionOutcome;
+  productionState: ComparisonProofProductionState;
+  backgroundRemovalRequired?: boolean;
+  edgeTreatment?: string;
+  shadowOwner?: ComparisonProofCompositePlacement['shadowOwner'];
+  compositeMaps?: ComparisonProofCompositePlacement[];
+  sourceGenerationUrl?: string;
+  iteration: number;
+  inspectionNotes?: string[];
+  createdAt: string;
+};
+
+export type ComparisonProofProductionPlan = {
+  plannedFalCalls: number;
+  backgroundRemovalCalls: number;
+  codeNativeProofs: number;
+  motionVideoCalls: number;
+  estimatedCostUsd: number;
+  proofTypesByDirection: Record<string, ComparisonProofType[]>;
+};
+
+export type ComparisonDistinctivenessResult = {
+  pair: [string, string];
+  result: 'DISTINCT' | 'TOO_SIMILAR' | 'NEEDS_HUMAN_REVIEW';
+  notes: string;
+};
+
+export type SixDirectionProductionResult = {
+  v1Completion: {
+    anthropicRequestCount: number;
+    directionsCompleted: number;
+    tokenUsage?: ProviderRequestUsage;
+  };
+  production: {
+    skipped: boolean;
+    falRequestCount: number;
+    backgroundRemovalCount: number;
+    codeNativeCount: number;
+    estimatedCostUsd: number;
+    actualCostUsd: number;
+    assetsAccepted: number;
+    assetsRejected: number;
+    assetsNeedReview: number;
+  };
+  distinctiveness: ComparisonDistinctivenessResult[];
+  sixWorldGate: 'PASS' | 'FAIL' | 'NEEDS_HUMAN_REVIEW';
+  assets: ComparisonProofAsset[];
+};
 
 export type VisualProofComponent = {
   purpose: string;
@@ -266,6 +364,12 @@ export type FounderComparisonSet = {
     relationship: 'conceptual_cousin';
     differentiationNote: string;
   }>;
+  /** Accepted Stage A proof assets keyed by directionId then proofType. */
+  proofAssetsByDirection?: Record<
+    string,
+    Partial<Record<ComparisonProofType, ComparisonProofAsset>>
+  >;
+  productionSummary?: ComparisonProofProductionPlan;
 };
 
 /** Founder-selected direction lineage — independent from canonical formation. */

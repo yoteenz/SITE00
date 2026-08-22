@@ -1,6 +1,8 @@
 import { useState, type ReactNode } from 'react';
 import type {
   ComparisonDirectionCandidate,
+  ComparisonProofAsset,
+  ComparisonProofType,
   FormedCoreDirection,
   VisualProofPlan,
 } from '../../../../../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/types.js';
@@ -18,6 +20,7 @@ export type FormedDirectionReviewProps = {
   visualProductionState?: string;
   mode?: 'canonical' | 'comparison';
   directionCount?: number;
+  proofAssetsByDirection?: Record<string, Partial<Record<ComparisonProofType, ComparisonProofAsset>>>;
 };
 
 const PRIMARY_KEYS = new Set<FounderDirectionFieldKey>([
@@ -75,13 +78,52 @@ function CollapsibleSection({
   );
 }
 
-function ProofSlot({ label, state }: { label: string; state?: 'planned' | 'generating' | 'ready' | 'blocked' }) {
-  const status = state ?? 'planned';
+function ProofSlot({
+  label,
+  asset,
+  fallbackState,
+}: {
+  label: string;
+  asset?: ComparisonProofAsset;
+  fallbackState?: 'planned' | 'generating' | 'ready' | 'blocked' | 'failed' | 'needs_review';
+}) {
+  const state = asset?.productionState
+    ? asset.productionState === 'READY'
+      ? 'ready'
+      : asset.productionState === 'GENERATING' || asset.productionState === 'INSPECTING' || asset.productionState === 'REGENERATING'
+        ? 'generating'
+        : asset.productionState === 'FAILED'
+          ? 'failed'
+          : asset.productionState === 'NEEDS_REVIEW'
+            ? 'needs_review'
+            : 'planned'
+    : (fallbackState ?? 'planned');
+
+  const statusLabel =
+    state === 'ready'
+      ? 'READY'
+      : state === 'generating'
+        ? 'GENERATING…'
+        : state === 'failed'
+          ? 'FAILED'
+          : state === 'needs_review'
+            ? 'NEEDS REVIEW'
+            : 'STAGED FOR PRODUCTION';
+
   return (
-    <figure className={`site00-cd__proof-slot site00-cd__proof-slot--${status}`}>
+    <figure className={`site00-cd__proof-slot site00-cd__proof-slot--${state}`}>
       <figcaption>{label}</figcaption>
-      <div className="site00-cd__proof-slot-frame" aria-hidden={status === 'planned'}>
-        {status === 'ready' ? 'PROOF READY' : status === 'generating' ? 'GENERATING…' : 'STAGED FOR PRODUCTION'}
+      <div className="site00-cd__proof-slot-frame">
+        {asset?.url && state === 'ready' ? (
+          <img
+            src={asset.url}
+            alt={`${label} — ${asset.directionName}`}
+            className="site00-cd__proof-slot-image"
+            loading="lazy"
+          />
+        ) : (
+          <span className="site00-cd__proof-slot-status">{statusLabel}</span>
+        )}
       </div>
     </figure>
   );
@@ -102,6 +144,7 @@ export function FormedCoreDirectionReview({
   visualProductionState,
   mode = 'canonical',
   directionCount,
+  proofAssetsByDirection = {},
 }: FormedDirectionReviewProps) {
   if (!directions.length) return null;
 
@@ -157,6 +200,7 @@ export function FormedCoreDirectionReview({
             (f) => !PRIMARY_KEYS.has(f.key) && !VISUAL_LANGUAGE_KEYS.has(f.key),
           );
           const proofState = plan ? 'planned' : status === 'READY_FOR_VISUAL_PRODUCTION' ? 'planned' : 'blocked';
+          const directionProofs = proofAssetsByDirection[direction.directionId] ?? {};
 
           return (
             <article key={`${direction.directionId}-${comparisonIndex}`} className="site00-cd__formed-card">
@@ -174,8 +218,16 @@ export function FormedCoreDirectionReview({
                 ))}
               </div>
 
-              <ProofSlot label="HERO WORLD" state={proofState} />
-              <ProofSlot label="PRIMARY ARTIFACT" state={proofState} />
+              <ProofSlot
+                label="HERO WORLD"
+                asset={directionProofs.heroWorld}
+                fallbackState={directionProofs.heroWorld ? undefined : proofState}
+              />
+              <ProofSlot
+                label="PRIMARY ARTIFACT"
+                asset={directionProofs.primaryArtifact}
+                fallbackState={directionProofs.primaryArtifact ? undefined : proofState}
+              />
 
               {visualLanguageFields.length ? (
                 <CollapsibleSection title="VISUAL LANGUAGE" defaultOpen={false}>
@@ -190,8 +242,16 @@ export function FormedCoreDirectionReview({
                 </CollapsibleSection>
               ) : null}
 
-              <ProofSlot label="SOCIAL EXPRESSION PROOF" state={proofState} />
-              <ProofSlot label="MOTION SEED PROOF" state={proofState} />
+              <ProofSlot
+                label="SOCIAL EXPRESSION PROOF"
+                asset={directionProofs.socialExpression}
+                fallbackState={directionProofs.socialExpression ? undefined : proofState}
+              />
+              <ProofSlot
+                label="MOTION SEED PROOF"
+                asset={directionProofs.motionSeed}
+                fallbackState={directionProofs.motionSeed ? undefined : proofState}
+              />
 
               {secondaryFields.length || isComparisonCandidate(direction) ? (
                 <CollapsibleSection title="LINEAGE · RISKS · DETAIL" defaultOpen={false}>

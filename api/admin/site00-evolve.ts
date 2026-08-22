@@ -80,6 +80,8 @@ import {
   retryFailedCoreDirectionFormation,
 } from '../_lib/site00Evolve/creativeDirection/engagementService.js';
 import { generateNdxbookVisualAssetPass } from '../_lib/site00Evolve/creativeDirection/assetGeneration.js';
+import { completeNdxbookV1Directions } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/directionCompletionService.js';
+import { runSixDirectionProductionPipeline } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/sixDirectionProductionOrchestrator.js';
 import { resolveEvolveCommercialState } from '../_lib/site00Evolve/commercial/commercialState.js';
 import { setEvolveCommercialPlan, markEvolveFoundationCompleted } from '../_lib/site00Evolve/commercial/governedActions.js';
 import { getEvolveServiceCatalog } from '../../shared/site00-evolve-commercial/catalog.js';
@@ -417,6 +419,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             await recordFounderDecision(orgSlug, {
               type: String(body.type ?? 'REFINE') as 'APPROVE' | 'REFINE' | 'HYBRIDIZE' | 'REJECT',
               selectedTerritoryId: body.selectedTerritoryId ? String(body.selectedTerritoryId) : undefined,
+              selectedComparisonDirectionId: body.selectedComparisonDirectionId
+                ? String(body.selectedComparisonDirectionId)
+                : undefined,
               hybridSelections: body.hybridSelections as never,
               refinementNotes: body.refinementNotes ? String(body.refinementNotes) : undefined,
               rejectedTerritoryIds: body.rejectedTerritoryIds as string[] | undefined,
@@ -434,6 +439,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(200).json(await reformCoreDirections(orgSlug));
         case 'creative_direction_formation_retry':
           return res.status(200).json(await retryFailedCoreDirectionFormation(orgSlug));
+        case 'creative_direction_complete_v1_directions': {
+          if (orgSlug !== 'ndxbook') {
+            return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          }
+          const result = await completeNdxbookV1Directions();
+          resetCreativeDirectionMemory();
+          return res.status(200).json(result);
+        }
+        case 'creative_direction_run_six_direction_production': {
+          if (orgSlug !== 'ndxbook') {
+            return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          }
+          const result = await runSixDirectionProductionPipeline({
+            completeV1: body.completeV1 !== false,
+            dryRun: body.dryRun === true,
+            includeAllProofTypes: body.includeAllProofTypes === true,
+          });
+          resetCreativeDirectionMemory();
+          return res.status(200).json(result);
+        }
         case 'analytics_baseline_sync':
           return res.status(200).json(
             await runAnalyticsBaseline(orgSlug, String(body.connectionId ?? '')),

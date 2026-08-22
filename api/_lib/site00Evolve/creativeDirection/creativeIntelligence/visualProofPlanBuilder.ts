@@ -54,12 +54,13 @@ export function buildVisualProofPlans(
       mediumRecommendation: 'CODE_NATIVE',
       codeVsGeneratedDecision: 'Prefer code-native typography proof unless lore demands photographic type treatment',
     },
-    materialObjectProof: d.materialImageryLanguage
-      ? {
-          purpose: `Material language sample: ${d.materialImageryLanguage.slice(0, 120)}`,
-          mediumRecommendation: 'FAL_GENERATED' as const,
-        }
-      : undefined,
+    materialObjectProof: {
+      purpose: d.materialImageryLanguage
+        ? `Material language sample: ${d.materialImageryLanguage.slice(0, 120)}`
+        : `Material/object proof for ${d.directionName}`,
+      mediumRecommendation: 'FAL_GENERATED' as const,
+      generationNeed: d.materialImageryLanguage || d.primaryBrandArtifact,
+    },
     motionSeed: {
       purpose: d.motionSeed || `Motion seed derived from ${d.governingBehavior}`,
       mediumRecommendation: 'FAL_GENERATED',
