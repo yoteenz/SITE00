@@ -2421,3 +2421,11 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 - **Branch:** `cursor/calibration-frozen-steps-4f59`.
 
+---
+
+## 2026-08-22 — Batch merge conflict resolution + #103 mobile routes
+
+- **#103 `fix-mobile-routes-bc8e`:** Merged `main`; kept legacy `/sign-in` + `/identity/*` aliases, IDNTY reserved slug guards, projects desktop redirect, public-page coverage. Uses main `IdntyMobileDiagnostic` + `site00CreateAccountLinkTarget`.
+- **Closed superseded:** #81 (five-bay nav), #89 (Fast Travel icon — already `NAV/3C9BC909…` on main), #94 (Evolve assessment dedupe — main redesign).
+- **Prior batch:** #94–#15, #106–#107, #96–#99, #93, etc. — mostly MEMORY-only conflicts resolved.
+
