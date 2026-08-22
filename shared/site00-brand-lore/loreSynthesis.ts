@@ -103,7 +103,7 @@ function deriveReferenceEvidence(
   const entries: BrandLoreReferenceEntry[] = [];
   const ts = nowIso();
   const fromStep = (stepId: string, role: ReferenceRole) => {
-    const raw = strAnswer(answers, stepId);
+    const raw = freeText(answers, stepId);
     if (!raw) return;
     for (const line of raw.split('\n').map((l) => l.trim()).filter(Boolean)) {
       entries.push({
