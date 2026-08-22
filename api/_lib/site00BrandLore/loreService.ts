@@ -80,6 +80,7 @@ export async function upsertLoreFromIdentityIntake(params: {
       goals: extractOperationalGoals(operational),
     },
     existingProfileId: existing?.id ?? (params.draftPayload.brandLoreProfileId as string | null),
+    priorProfile: existing,
   };
 
   const freshlySynthesized = synthesizeBrandLoreProfile(input);
@@ -184,7 +185,10 @@ export function buildInheritedLoreSummary(lore: Partial<BrandLoreProfile> | null
   if (!lore?.worldMetaphor?.value) return null;
   const world = lore.worldMetaphor.value;
   const role = lore.audienceRelationship?.value;
-  if (role) return `WORLD: ${world} · ROLE: ${role}`;
+  if (role?.length) {
+    const roleLabel = Array.isArray(role) ? role.join(' + ') : role;
+    return `WORLD: ${world} · ROLE: ${roleLabel}`;
+  }
   return `WORLD: ${world}`;
 }
 

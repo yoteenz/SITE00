@@ -2273,6 +2273,31 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 ---
 
+## 2026-08-21 — Brand Lore semantic multi-selection + compound identity intelligence
+
+- **Context:** NDX BOOK calibration QA exposed intelligence-loss defect: `role` and other lore questions behaved as single-select when multiple answers can coexist. Sprint upgrades question model at data-contract level — brand-agnostic, no NDX hardcoding.
+
+- **Forensic audit:** `role` was `type: 'single'` in question registry; synthesis used `strAnswer()` flattening role to scalar; `audienceRelationship` was `BrandLoreField<string>`. UI (`IdentityLoreStepForm`) already supported multi toggle when `type: 'multi'` but role was mis-typed. No `ProjectLoreCalibrationPage` exists — Identity lore routes at `/idnty/:slug/world/:stepId`. ProjectLoreCalibration not in repo.
+
+- **Implementation:**
+  - `LoreResponseMode`: SINGLE_SELECT | MULTI_SELECT | RANKED_MULTI_SELECT | FREE_TEXT on every question definition
+  - `role` → MULTI_SELECT; feeling, enemy, contradiction, objects, ritual remain MULTI; status stays SINGLE; free-text questions explicit FREE_TEXT
+  - `shared/site00-brand-lore/loreAnswerTypes.ts` — normalization, serialization, compound label formatting, backward-compat scalar→array migration
+  - `audienceRelationship` → `BrandLoreField<string[]>` with `sourceSelectionIds` per option provenance
+  - Synthesis uses compound select fields — all selections preserved as label arrays, no flattening to first/last
+  - Founder confirmation invalidated when underlying selections change (`priorProfile` compare in synthesis)
+  - WHAT WE HEARD uses ` + ` compound presentation with resolved option labels
+  - Removed NDXBOOK readiness gate bypass — gate enforced whenever Brand Lore profile exists
+  - UI: selection guidance copy, SELECTED marker on multi-select rows
+
+- **Tests:** 20 new `loreAnswerTypes.test.ts` cases. **558/558 PASS**. Build PASS. Browser QA on role multi-select at 390px.
+
+- **Branch:** `cursor/brand-lore-semantic-multi-select-1983`. PR opened, not merged.
+
+- **Conventions:** Question definition owns `responseMode` — never infer from option count. Multi-select persists as JSON arrays in `loreAnswers` / `rawLoreAnswers`. Do not comma-delimit or flatten before persistence.
+
+---
+
 ## 2026-08-21 — Cloud Agent auto-start preview + GoDaddy deploy bundle
 
 - **Context:** Founder asked how to extend preview tunnel uptime; requested `.cursor/environment.json` for auto-start (close to always-on) and a direct cPanel deploy download link.
@@ -2420,4 +2445,28 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Fix:** Freeze full `stepIds` at session start in `localStorage` (`v2` key); always render that list for progress (06/08 stays stable). Resume index uses server answers against frozen list. `missingDomainsToLoreSteps` now returns canonical `IDNTY_LORE_QUESTIONS` order.
 
 - **Branch:** `cursor/calibration-frozen-steps-4f59`.
+
+---
+
+## 2026-08-22 — Merge origin/main into brand-lore semantic multi-select branch
+
+- **Context:** Founder requested merge conflict review on `cursor/brand-lore-semantic-multi-select-1983` vs latest `origin/main` (includes productionization, calibration resume, frozen session steps).
+
+- **Conflict classification:**
+  - **Simple (resolved):** `brandLoreBridge.ts` — comment-only; kept main's richer XXIV comment, identical implementation. `brandLore.test.ts` test 26 — same intent; kept main's fuller null+profile assertions. `MEMORY.md` — append-only; kept both multi-select sprint entry and all main entries.
+  - **Complicated (resolved in branch):** Test 34 and downstream code assumed scalar `audienceRelationship` (`'guide'`) after calibration; multi-select branch uses `BrandLoreField<string[]>`. Updated test 34 to expect `['THE GUIDE SHOWING THE WAY']`, `ndxbookReconciliation.ts` unknown field to `string[]`, `buildInheritedLoreSummary` to join compound roles. Post-merge bug: `deriveReferenceEvidence` still called removed `strAnswer` — fixed to use `freeText`.
+
+- **Verification:** Merged `origin/main` twice (initial conflict resolution + new commits through calibration frozen steps). **635/635 tests PASS**. Build PASS.
+
+- **Branch:** `cursor/brand-lore-semantic-multi-select-1983`. PR #205 updated, not merged.
+
+---
+
+## 2026-08-22 — Builder inherited lore multi-select typing
+
+- **Context:** Post-merge follow-up — `BldrExperienceMobileStep` cast `audienceRelationship` as scalar `string` though Identity role is multi-select (`string | string[]`).
+
+- **Fix:** Added `BuilderInheritedLoreContext`, `parseBuilderInheritedLoreContext()`, and `formatInheritedAudienceRelationship()` in `bldr-experience-questions.ts`. Builder mobile step uses shared parser instead of inline cast. Tests 17b/17c cover scalar + compound role ids.
+
+- **Branch:** `cursor/brand-lore-semantic-multi-select-1983`.
 

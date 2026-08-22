@@ -14,7 +14,7 @@ import { canBeginCreativeDirection } from '../../../shared/site00-brand-lore/rea
 
 const FULL_LORE_ANSWERS: Record<string, string | string[]> = {
   feeling: ['curious', 'inspired'],
-  role: 'guide',
+  role: ['friend', 'tastemaker', 'entertainer'],
   belief: 'Knowledge should be accessible to everyone.',
   enemy: ['gatekeeping', 'boring'],
   obsession: 'How everyday systems actually work.',
@@ -47,7 +47,12 @@ describe('SITE 00 brand lore — synthesis + service', () => {
       orgSlug: null,
     });
     expect(profile.brandBelief.value).toBe(FULL_LORE_ANSWERS.belief);
-    expect(profile.emotionalPromise.value).toEqual(FULL_LORE_ANSWERS.feeling);
+    expect(profile.emotionalPromise.value).toEqual(['CURIOUS', 'INSPIRED']);
+    expect(profile.audienceRelationship.value).toEqual([
+      'THE FRIEND WHO KNOWS EVERYTHING',
+      'THE TASTEMAKER',
+      'THE ENTERTAINER WITH A POINT OF VIEW',
+    ]);
     expect(profile.worldMetaphor.value).toBe(FULL_LORE_ANSWERS.world);
     expect(profile.authenticLanguageSamples.value).toHaveLength(3);
   });
@@ -112,7 +117,11 @@ describe('SITE 00 brand lore — synthesis + service', () => {
     });
     const inherited = await resolveInheritedLoreForBuilder({ identityIntakeId: 'intake-idnty' });
     expect(inherited?.worldMetaphor?.value).toBe(FULL_LORE_ANSWERS.world);
-    expect(inherited?.audienceRelationship?.value).toBe('guide');
+    expect(inherited?.audienceRelationship?.value).toEqual([
+      'THE FRIEND WHO KNOWS EVERYTHING',
+      'THE TASTEMAKER',
+      'THE ENTERTAINER WITH A POINT OF VIEW',
+    ]);
   });
 
   it('24. Builder experience profile persists digital metaphor', () => {
@@ -249,7 +258,7 @@ describe('SITE 00 brand lore — synthesis + service', () => {
       answers: { world: 'the index for everything you almost knew', role: 'guide' },
     });
     expect(updated.worldMetaphor.value).toBe('the index for everything you almost knew');
-    expect(updated.audienceRelationship.value).toBe('guide');
+    expect(updated.audienceRelationship.value).toEqual(['THE GUIDE SHOWING THE WAY']);
     // Reconciled Content Brain fields survive an unrelated-domain calibration submission.
     expect(updated.coreObsessions.sourceType).toBe('CONTENT_BRAIN');
     expect(updated.sourceIntakeType).toBe('CONTENT_BRAIN');

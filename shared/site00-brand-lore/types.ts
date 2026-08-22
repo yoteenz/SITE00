@@ -78,7 +78,10 @@ export type BrandLoreField<T = unknown> = {
   value: T;
   classification: LoreFieldClassification;
   confidence: 'HIGH' | 'MEDIUM' | 'LOW' | 'NONE';
+  /** Lore question step id(s) that contributed. */
   sourceAnswerIds: string[];
+  /** Selected option ids when answer is compound multi-select. */
+  sourceSelectionIds?: string[];
   sourceType: 'IDENTITY_LORE' | 'BUILDER_EXPERIENCE' | 'CONTENT_BRAIN' | 'INHERITED' | 'UNKNOWN';
   founderConfirmationState: FounderConfirmationState;
   updatedAt: string;
@@ -95,7 +98,8 @@ export type BrandLoreProfile = {
   sourceIntakeType: 'IDENTITY' | 'BUILDER' | 'CONTENT_BRAIN' | null;
 
   brandWorld: BrandLoreField<string | null>;
-  audienceRelationship: BrandLoreField<string | null>;
+  /** Compound audience roles — multiple simultaneous truths preserved as label array. */
+  audienceRelationship: BrandLoreField<string[]>;
   brandBelief: BrandLoreField<string | null>;
   culturalOpposition: BrandLoreField<string[]>;
   coreObsessions: BrandLoreField<string | null>;

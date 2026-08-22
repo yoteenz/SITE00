@@ -5,6 +5,7 @@ import {
   idntyLorePath,
   idntyLoreReviewPath,
 } from '../../../../../shared/site00-brand-lore/idnty-lore-questions';
+import { resolveResponseMode } from '../../../../../shared/site00-brand-lore/loreAnswerTypes';
 import { resolveActiveLoreSteps, LORE_SKIP_VALUE } from '../../../../../shared/site00-brand-lore/adaptivity';
 import type { IdntyAssessmentStateId } from '../../../config/idnty-assessment';
 import { useIdntyAssessment } from '../../../hooks/useIdntyAssessment';
@@ -56,7 +57,9 @@ export function IdentityLoreMobileStep({ stateSlug, stepId, calibrationMode }: I
     [record.loreAnswers, calibrationMode, stepId],
   );
 
-  const existingValue = record.loreAnswers[stepId] ?? (step?.type === 'multi' ? [] : '');
+  const existingValue =
+    record.loreAnswers[stepId] ??
+    (step && resolveResponseMode(step) !== 'FREE_TEXT' && resolveResponseMode(step) !== 'SINGLE_SELECT' ? [] : '');
   const form = useStepForm(existingValue);
 
   useEffect(() => {
