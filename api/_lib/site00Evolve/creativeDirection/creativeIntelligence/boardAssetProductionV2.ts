@@ -168,7 +168,9 @@ export async function produceBoardManifestAssetV2(params: {
   const deps = params.deps ?? {};
   const generateFal = deps.generateFalImage ?? defaultGenerateFalImage;
   const removeBg = deps.removeBackground ?? defaultRemoveBackground;
-  const upload = deps.uploadBuffer ?? uploadSite00AssetBuffer;
+  const baseUpload = deps.uploadBuffer ?? uploadSite00AssetBuffer;
+  const upload = (storagePath: string, buffer: Buffer, contentType: string) =>
+    baseUpload(storagePath, buffer, contentType, { upsert: true });
   const iteration = params.iteration ?? 0;
 
   const prompt = params.promptRevision ?? entry.prompt;

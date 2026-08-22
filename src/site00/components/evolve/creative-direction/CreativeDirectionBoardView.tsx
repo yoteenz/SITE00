@@ -13,11 +13,13 @@ export function CreativeDirectionBoardView({
   const [breakpoint, setBreakpoint] = useState(defaultBreakpoint);
   const src = breakpoint === 'mobile' ? board.mobileBoardUrl : board.desktopBoardUrl;
 
-  const versionSuffix = board.boardPlanVersion.includes('pilot-v3')
-    ? ' V3'
-    : board.boardPlanVersion.includes('pilot-v2')
-      ? ' V2'
-      : '';
+  const versionSuffix = board.boardPlanVersion.includes('pilot-v4')
+    ? ' V4'
+    : board.boardPlanVersion.includes('pilot-v3')
+      ? ' V3'
+      : board.boardPlanVersion.includes('pilot-v2')
+        ? ' V2'
+        : '';
 
   return (
     <figure className="site00-cd__creative-board" aria-label={`Creative direction board — ${board.directionName}`}>

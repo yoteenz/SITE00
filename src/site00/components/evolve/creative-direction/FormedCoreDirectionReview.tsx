@@ -213,17 +213,20 @@ export function FormedCoreDirectionReview({
             (creativeBoard.presentationMode === 'BOARD_PRODUCTION' ||
               creativeBoard.presentationMode === 'BOARD_READY' ||
               creativeBoard.boardPlanVersion.includes('pilot-v2') ||
-              creativeBoard.boardPlanVersion.includes('pilot-v3'));
+              creativeBoard.boardPlanVersion.includes('pilot-v3') ||
+              creativeBoard.boardPlanVersion.includes('pilot-v4'));
           const showBoardFirst =
             isMarkedUpCopyBoard &&
             creativeBoard?.founderVisible &&
             creativeBoard.productionState === 'READY';
           const showBoardRefining = Boolean(isMarkedUpCopyBoard && !showBoardFirst);
-          const boardVersionLabel = creativeBoard?.boardPlanVersion.includes('pilot-v3')
-            ? 'V3'
-            : creativeBoard?.boardPlanVersion.includes('pilot-v2')
-              ? 'V2'
-              : '';
+          const boardVersionLabel = creativeBoard?.boardPlanVersion.includes('pilot-v4')
+            ? 'V4'
+            : creativeBoard?.boardPlanVersion.includes('pilot-v3')
+              ? 'V3'
+              : creativeBoard?.boardPlanVersion.includes('pilot-v2')
+                ? 'V2'
+                : '';
 
           return (
             <article key={`${direction.directionId}-${comparisonIndex}`} className="site00-cd__formed-card">

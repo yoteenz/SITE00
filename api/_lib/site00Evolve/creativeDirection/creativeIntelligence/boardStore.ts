@@ -96,11 +96,13 @@ export function storagePathForBoardAsset(params: {
   boardPlanVersion?: string;
 }): string {
   const iter = params.iteration > 0 ? `_i${params.iteration}` : '';
-  const versionDir = params.boardPlanVersion?.includes('pilot-v3')
-    ? 'v3/'
-    : params.boardPlanVersion?.includes('pilot-v2')
-      ? 'v2/'
-      : '';
+  const versionDir = params.boardPlanVersion?.includes('pilot-v4')
+    ? 'v4/'
+    : params.boardPlanVersion?.includes('pilot-v3')
+      ? 'v3/'
+      : params.boardPlanVersion?.includes('pilot-v2')
+        ? 'v2/'
+        : '';
   return `site00/creative-direction/ndxbook/boards/${String(params.comparisonIndex).padStart(2, '0')}/${versionDir}${params.manifestId}${iter}.${params.ext}`;
 }
 
@@ -119,9 +121,10 @@ export function groupBoardsByDirection(
 ): Record<string, CreativeDirectionBoard> {
   const grouped: Record<string, CreativeDirectionBoard> = {};
   const forSet = boards.filter((b) => b.comparisonSetKey === comparisonSetKey && b.directionName === MARKED_UP_COPY_DIRECTION_NAME);
+  const v4 = forSet.filter((b) => b.boardPlanVersion.includes('pilot-v4'));
   const v3 = forSet.filter((b) => b.boardPlanVersion.includes('pilot-v3'));
   const v2 = forSet.filter((b) => b.boardPlanVersion.includes('pilot-v2'));
-  const preferred = v3.length ? v3 : v2.length ? v2 : forSet;
+  const preferred = v4.length ? v4 : v3.length ? v3 : v2.length ? v2 : forSet;
   const best = preferred.sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0];
   if (best && (best.founderVisible || best.presentationMode === 'BOARD_PRODUCTION' || best.presentationMode === 'BOARD_READY')) {
     grouped[best.directionId] = best;

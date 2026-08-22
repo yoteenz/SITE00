@@ -24,11 +24,12 @@ export async function uploadSite00AssetBuffer(
   storagePath: string,
   buffer: Buffer,
   contentType: string,
+  options?: { upsert?: boolean },
 ): Promise<{ publicUrl: string; storagePath: string }> {
   const supabase = getSupabaseAdmin();
   const { error } = await supabase.storage.from(SITE00_ASSETS_BUCKET).upload(storagePath, buffer, {
     contentType,
-    upsert: false,
+    upsert: options?.upsert === true,
   });
   if (error) throw new Error(`Storage upload failed: ${error.message}`);
   const { data } = supabase.storage.from(SITE00_ASSETS_BUCKET).getPublicUrl(storagePath);
