@@ -2705,3 +2705,14 @@ Summary: Founder on mobile requested tap-to-run production instead of curl/Railw
 - **`evolveApi.ts`:** Fixed admin EVOLVE fetch to use `VITE_API_BASE` + Supabase `Bearer` token (required for `api.site00.com` from mobile). Added `creativeDirectionCompleteV1Directions` and `creativeDirectionRunSixDirectionProduction`.
 - **`EvolveCreativeDirectionPage`:** Footer link renamed **PRODUCTION CONTROLS →** pointing to debug page.
 - **Mobile flow:** Sign in on site00.com → Admin → EVOLVE → Creative Direction → **PRODUCTION CONTROLS** → tap Step 1, wait, tap Step 2 (keep tab open several minutes) → **OPEN FOUNDER COMPARISON VIEW**.
+
+---
+
+## 2026-08-22 — Background production jobs + export fix (PR #236)
+
+Summary: Founder reported Step 1 module export error and Step 2 EVOLVE API 404 on fsbw-dev; blocking sync requests impractical on mobile.
+
+- **Export fix:** Moved completion prompts to `directionCompletionPrompts.ts` (avoids stale `prompts.js` export resolution on Railway).
+- **API routing fix:** `evolveApi` falls back to `https://api.site00.com` when host is fsbw-dev / site00.com and `VITE_API_BASE` unset (fixes 404 on static preview hosts).
+- **Background jobs:** `site00_creative_direction_production_jobs` table + `sixDirectionProductionJobService.ts`. Admin action `creative_direction_start_production_job` returns immediately (202); poll `creative_direction_production_job`. UI: **RUN FULL PIPELINE (BACKGROUND)** — safe to leave page; auto-polls every 5s when job active.
+- **Migration applied** to Supabase FS project.
