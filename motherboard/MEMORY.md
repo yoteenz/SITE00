@@ -2777,3 +2777,16 @@ Summary: Surgical creative-direction upgrade sprint — Sonnet owns production b
 - **Storage:** v3 assets under `boards/01/v3/`; v2 preserved separately; founder comparison prefers v3 when present.
 - **Runtime (cloud agent):** ANTHROPIC_API_KEY unset → BLOCKED_ON_SONNET_ART_DIRECTION (no deterministic-fallback v3 board generated). Run on Railway with key via production controls.
 - **Tests:** 821 passing (+17 v3). tsc + build green. Branch `cursor/marked-up-copy-board-v3-sonnet-4f59`.
+
+---
+
+## 2026-08-22 — DirectionExpressionSystem + board v4 (live Sonnet production sprint)
+
+Summary: Follow-up sprint adds canonical intermediate layer **DirectionExpressionSystem** (Core Direction → Expression System → Board Art Direction → Board Production) for THE MARKED-UP COPY only. Admin board-pilot action now runs v4 orchestrator via Railway API runtime.
+
+- **DirectionExpressionSystem:** `directionExpressionSystemTypes.ts`, `directionExpressionSystemService.ts` (Sonnet brand-system designer), `directionExpressionSystemStore.ts`. Quality gates: FIFTY_POST_TEST, NO_EXPLANATION_TEST. PRE-VISUAL-DNA · PROPOSED · founder-review evidence.
+- **Board v4:** `boardCreativeDirectorV4Service.ts`, `markedUpCopyBoardPlanV4.ts`, `boardCompositorV4.ts` (franchise specimens), `boardInspectorV4.ts` (+IDENTITY_SYSTEM_COMPLETENESS, NO_EXPLANATION_STRENGTH, FIFTY_POST_EXTENSIBILITY, NON_TEMPLATE_DISTINCTIVENESS, TEMPLATE_SUBSTITUTION_TEST), `markedUpCopyBoardPilotV4.ts`.
+- **Production:** Authenticated `creative_direction_marked_up_copy_board_pilot` → Railway `api.site00.com` with server-side ANTHROPIC_API_KEY; response sanitized (`credentialExposed: false`). Script: `scripts/liveMarkedUpCopyBoardV4.ts`.
+- **Storage:** upsert on board asset + crop uploads; v4 under `boards/01/v4/`; v2/v3 preserved; founder UI prefers v4.
+- **Health check:** Railway reports `creativeIntelligence.status: CONFIGURED` (Anthropic available on production API).
+- **Tests:** 833 passing (+12 v4). Branch `cursor/marked-up-copy-expression-v4-4f59`.
