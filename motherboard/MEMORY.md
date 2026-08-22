@@ -2385,3 +2385,15 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 - **Founder deploy (mobile):** Download [site00-production-dist-2026-08-22.zip](https://github.com/yoteenz/SITE00/releases/download/site00-deploy-2026-08-22/site00-production-dist-2026-08-22.zip) → cPanel File Manager → public_html → upload → extract in place → hard refresh. Verify `/origin/create-account` shows form and page source no longer references `index.BT7zuSxb.js`.
 
+---
+
+## 2026-08-22 — Create account still redirects (confirmed undeployed Aug 22 bundle)
+
+- **Symptom:** Founder reports CREATE ACCOUNT still lands on Origin homepage after code fixes.
+
+- **Live verification:** `site00.com` still serves `index.BT7zuSxb.js` (Last-Modified **2026-08-21 20:49 UTC**). Browser QA: sign-in → CREATE ACCOUNT → `/` homepage; direct `/origin/create-account` → `/` homepage.
+
+- **Old bundle bug (forensic):** CREATE ACCOUNT link target is `` `/sign-in?returnTo=...` `` (not `/origin/create-account`); old bundle has no `/sign-in` alias route → App catch-all `*` → `/` (Origin). New bundle on main has `createAccount:"/origin/create-account"` and auth routes before `/origin`.
+
+- **Not a code regression** — Aug 22 release ZIP was never uploaded to GoDaddy. Added: `.htaccess` no-cache for index.html, boot-gate skip for `/origin/create-account`, `scripts/package-cpanel-deploy.sh`, deploy readme v5 with delete-old-files-first mobile steps.
+
