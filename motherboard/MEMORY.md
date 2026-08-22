@@ -814,6 +814,14 @@ Summary of **this chat**: user requested Fast Travel **SIGN IN TO ENTER** on one
 
 ---
 
+
+## 2026-08-19 — IDNTY state subhead line break before WE'LL
+
+- **Request:** On IDNTY state page, wrap subhead so “WE'LL DETERMINE…” starts on line 2 instead of “WE'LL” hanging at end of line 1.
+- **Fix:** Split `IDNTY_STATE_COPY` into `subheadLine1` / `subheadLine2`; render with `<br />` in `IdntyStatePage.tsx`.
+- **Branch:** `cursor/idnty-state-subhead-wrap-796f`.
+
+---
 ## 2026-08-19 — Fast Travel trigger outline removal (mobile)
 
 - **Request:** Remove blue outline around mobile Fast Travel icon button.
@@ -2420,4 +2428,3 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Fix:** Freeze full `stepIds` at session start in `localStorage` (`v2` key); always render that list for progress (06/08 stays stable). Resume index uses server answers against frozen list. `missingDomainsToLoreSteps` now returns canonical `IDNTY_LORE_QUESTIONS` order.
 
 - **Branch:** `cursor/calibration-frozen-steps-4f59`.
-
