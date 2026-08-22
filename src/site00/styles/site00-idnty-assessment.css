@@ -28,7 +28,7 @@
 }
 
 .site00-idnty-assessment__mobile-content {
-  padding: 0 16px 24px;
+  padding: 0 0 24px;
 }
 
 .site00-idnty-assessment__breadcrumb {
@@ -355,15 +355,19 @@
   cursor: pointer;
   text-align: left;
   font: inherit;
+  color: var(--site-text);
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .site00-idnty-option-rows__row--selected {
-  color: var(--site-red, #e60000);
+  color: var(--site-text);
 }
 
 .site00-idnty-option-rows__label {
   font-size: 12px;
   font-weight: 600;
+  color: var(--site-text);
 }
 
 .site00-idnty-option-rows__check {
@@ -696,4 +700,112 @@
 .site00-bldr-recommendation-reasons li::before {
   content: '♦ ';
   color: var(--site-red, #e60000);
+}
+
+/* Intake persistence — canonical server save state + guest secure access (shared IDNTY/BLDR). */
+.site00-intake-save-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--site-font-mono, 'Martian Mono', monospace);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: rgba(0, 0, 0, 0.45);
+  margin: 0 0 12px;
+}
+
+.site00-intake-save-status__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.25);
+  flex-shrink: 0;
+}
+
+.site00-intake-save-status--saved .site00-intake-save-status__dot {
+  background: #1a9d5c;
+}
+
+.site00-intake-save-status--saving .site00-intake-save-status__dot {
+  background: #d9a300;
+}
+
+.site00-intake-save-status--error {
+  color: var(--site-red, #e60000);
+}
+
+.site00-intake-save-status--error .site00-intake-save-status__dot {
+  background: var(--site-red, #e60000);
+}
+
+.site00-intake-guest-access {
+  margin-top: 20px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+
+.site00-intake-guest-access__label {
+  font-family: var(--site-font-mono, 'Martian Mono', monospace);
+  font-size: 11px;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 0 0 10px;
+}
+
+.site00-intake-guest-access__row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.site00-intake-guest-access__input {
+  flex: 1 1 200px;
+  min-width: 0;
+  padding: 10px 12px;
+  font-size: 13px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  font-family: inherit;
+}
+
+.site00-intake-guest-access__btn {
+  padding: 10px 16px;
+  font-family: var(--site-font-mono, 'Martian Mono', monospace);
+  font-size: 11px;
+  font-weight: 700;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.site00-intake-guest-access__btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.site00-intake-guest-access__confirmation {
+  margin: 10px 0 0;
+  font-family: var(--site-font-mono, 'Martian Mono', monospace);
+  font-size: 11px;
+  color: #1a9d5c;
+}
+
+.site00-intake-guest-access__error {
+  margin: 10px 0 0;
+  font-family: var(--site-font-mono, 'Martian Mono', monospace);
+  font-size: 11px;
+  color: var(--site-red, #e60000);
+}
+
+@media (max-width: 480px) {
+  .site00-intake-guest-access__row {
+    flex-direction: column;
+  }
+  .site00-intake-guest-access__btn {
+    width: 100%;
+  }
 }

@@ -6,13 +6,18 @@ import { EcosystemPageHeader } from './EcosystemPageHeader';
 import { Site00EcosystemMobileShell } from '../mobile/Site00EcosystemMobileShell';
 import { OperatingWorldTopNav } from './OperatingWorldTopNav';
 import { OperatingWorldStatusRail } from './OperatingWorldStatusRail';
+import { ExperienceContextBar } from '../access/ExperienceContextBar';
+import { CtrlRoomSignOutButton } from '../control/CtrlRoomSignOutButton';
 import { ecosystemPageMeta } from '../../config/ecosystem-nav';
+import { SITE00_ROUTES } from '../../config/routes';
 
 type EcosystemShellProps = {
   children: ReactNode;
   title?: string;
   subtitle?: string;
   headerActions?: React.ReactNode;
+  /** When true, page supplies its own hero/header inside children. */
+  hidePageHeader?: boolean;
 };
 
 const ecosystemBgUrl = resolveSite00PublicAsset(SITE00_CTRL_ROOM_DESKTOP_BG_FILE);
@@ -21,11 +26,12 @@ const ecosystemBgUrl = resolveSite00PublicAsset(SITE00_CTRL_ROOM_DESKTOP_BG_FILE
  * Operating World shell — authenticated workspace.
  * Desktop: top navigation + architectural environment (no public-world sidebar).
  */
-export function EcosystemShell({ children, title, subtitle, headerActions }: EcosystemShellProps) {
+export function EcosystemShell({ children, title, subtitle, headerActions, hidePageHeader = false }: EcosystemShellProps) {
   const { pathname } = useLocation();
   const meta = ecosystemPageMeta(pathname);
   const pageTitle = title ?? meta.title;
   const pageSubtitle = subtitle ?? meta.subtitle;
+  const isCtrlRoomRoute = pathname === SITE00_ROUTES.control || pathname.startsWith(`${SITE00_ROUTES.control}/`);
 
   useEffect(() => {
     if (!ecosystemBgUrl) return;
@@ -46,9 +52,12 @@ export function EcosystemShell({ children, title, subtitle, headerActions }: Eco
         style={{ ['--site00-ecosystem-bg' as string]: `url(${ecosystemBgUrl})` }}
       >
         <OperatingWorldTopNav />
+        <ExperienceContextBar variant="client" />
         <div className="site00-ecosystem-shell__main">
           <div className="site00-ecosystem-shell__content-wrap">
-            <EcosystemPageHeader title={pageTitle} subtitle={pageSubtitle} actions={headerActions} />
+            {hidePageHeader ? null : (
+              <EcosystemPageHeader title={pageTitle} subtitle={pageSubtitle} actions={headerActions} />
+            )}
             <div className="site00-ecosystem-shell__content">{children}</div>
           </div>
         </div>
@@ -57,8 +66,20 @@ export function EcosystemShell({ children, title, subtitle, headerActions }: Eco
 
       <div className="site00-ecosystem-shell__mobile">
         <Site00EcosystemMobileShell shellClassName="site00-ecosystem-mobile-shell">
-          <EcosystemPageHeader title={pageTitle} subtitle={pageSubtitle} actions={headerActions} />
-          <div className="site00-ecosystem-mobile__content">{children}</div>
+          <ExperienceContextBar variant="client" />
+          {isCtrlRoomRoute ? (
+            <div className="site00-ctrl-sign-out-mobile-bar">
+              <CtrlRoomSignOutButton variant="mobile-bar" />
+            </div>
+          ) : null}
+          {hidePageHeader ? null : (
+            <EcosystemPageHeader title={pageTitle} subtitle={pageSubtitle} actions={headerActions} />
+          )}
+          <div
+            className={`site00-ecosystem-mobile__content ${hidePageHeader ? 'site00-ecosystem-mobile__content--flush' : ''}`.trim()}
+          >
+            {children}
+          </div>
         </Site00EcosystemMobileShell>
       </div>
     </div>
