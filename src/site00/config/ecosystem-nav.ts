@@ -17,6 +17,7 @@ export type OperatingWorldNavItem = {
 export const OPERATING_WORLD_TOP_NAV: OperatingWorldNavItem[] = [
   { id: 'control', label: 'CTRL ROOM', href: SITE00_ROUTES.control },
   { id: 'projects', label: 'PROJECTS', href: SITE00_ROUTES.projects },
+  { id: 'intakes', label: 'INTAKES', href: SITE00_ROUTES.accountIntakes },
   { id: 'sites', label: 'SITES', href: SITE00_ROUTES.controlSites },
   { id: 'studio', label: 'STUDIO', href: '/admin/site00/studio' },
   { id: 'approvals', label: 'APPROVALS', href: '/admin/site00/approvals' },
@@ -59,6 +60,9 @@ export function isOperatingWorldNavActive(pathname: string, item: OperatingWorld
   if (item.id === 'projects') {
     return pathname.startsWith(SITE00_ROUTES.projects);
   }
+  if (item.id === 'intakes') {
+    return pathname.startsWith(SITE00_ROUTES.accountIntakes);
+  }
   if (item.id === 'sites') {
     return pathname.startsWith(SITE00_ROUTES.controlSites);
   }
@@ -92,6 +96,9 @@ export type EcosystemPageMeta = {
 };
 
 export function ecosystemPageMeta(pathname: string): EcosystemPageMeta {
+  if (pathname.startsWith(SITE00_ROUTES.accountIntakes)) {
+    return { title: 'INTAKES', subtitle: 'YOUR IDENTITY + BUILDER INTAKE HISTORY.' };
+  }
   if (pathname.startsWith(SITE00_ROUTES.projects)) {
     return { title: 'PROJECTS', subtitle: 'WHAT ARE WE WORKING ON?' };
   }
