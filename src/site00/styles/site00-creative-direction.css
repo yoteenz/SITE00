@@ -917,6 +917,28 @@
   background: rgba(196, 30, 58, 0.04);
 }
 
+.site00-cd__proof-slot-image {
+  width: 100%;
+  height: auto;
+  max-height: 320px;
+  object-fit: cover;
+  display: block;
+}
+
+.site00-cd__proof-slot-status {
+  font-size: 0.5625rem;
+  letter-spacing: 0.08em;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.site00-cd__proof-slot--failed .site00-cd__proof-slot-frame {
+  border-color: rgba(196, 30, 58, 0.5);
+}
+
+.site00-cd__proof-slot--needs_review .site00-cd__proof-slot-frame {
+  border-color: rgba(0, 0, 0, 0.35);
+}
+
 @media (min-width: 1024px) {
   .site00-cd__formed-card {
     display: flex;

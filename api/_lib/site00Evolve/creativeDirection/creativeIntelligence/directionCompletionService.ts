@@ -9,7 +9,11 @@ import {
 } from './prompts.js';
 import { parseStructuredJson } from './formationValidation.js';
 import { getCreativeIntelligenceProvider } from './providerRegistry.js';
-import { saveFormationRecord } from './formationStore/storeAdapter.js';
+import { saveFormationRecord, getFormationRecordById } from './formationStore/storeAdapter.js';
+import {
+  NDXBOOK_V1_FORMATION_ID,
+  NDXBOOK_V2_FORMATION_ID,
+} from './founderComparisonSet.js';
 import {
   assessDirectionProductionCompleteness,
   normalizeFormedDirection,
@@ -22,6 +26,49 @@ import type {
   FormedCoreDirection,
   ProviderRequestUsage,
 } from './types.js';
+
+const COUSIN_WARNINGS: Record<string, { cousin: string; preserve: string[]; doNot: string[] }> = {
+  'THE MARKED-UP COPY': {
+    cousin: 'THE ANNOTATED COPY',
+    preserve: [
+      'active edit state',
+      'work-in-progress thinking',
+      'crossed-out replacements',
+      'secondary voices interrupting',
+      'margin argument',
+      'evidence of thought happening live',
+    ],
+    doNot: ['pre-lived-in reading copy', 'passive annotation history'],
+  },
+  'THE COUNTDOWN ROOM': {
+    cousin: 'THE ROOM WHERE IT HAPPENS',
+    preserve: [
+      'rankings',
+      'countdown logic',
+      'scoreboards',
+      'placements',
+      'opinionated ordering',
+      'public argument',
+      'list revisions',
+      'competitive editorial energy',
+    ],
+    doNot: ['newsroom access', 'production-space architecture without ranking'],
+  },
+  'THE PERSONAL ARCHIVE': {
+    cousin: 'THE INDEX',
+    preserve: [
+      'saved files',
+      'screenshot stashes',
+      'personal folders',
+      'link dumps',
+      'useful disorder',
+      'prior ownership',
+      'taste-driven curation',
+      'found-object energy',
+    ],
+    doNot: ['taxonomy', 'reference system', 'classification database'],
+  },
+};
 
 const IMMUTABLE_FIELDS = new Set([
   'directionId',
@@ -117,6 +164,8 @@ export async function completeDirectionProductionFields(params: {
     throw new Error('CREATIVE_INTELLIGENCE_PROVIDER_UNAVAILABLE');
   }
 
+  const cousinWarning = COUSIN_WARNINGS[direction.directionName];
+
   const userPayload = {
     directionId: direction.directionId,
     directionName: direction.directionName,
@@ -127,10 +176,21 @@ export async function completeDirectionProductionFields(params: {
     },
     missingFields: missingFields.map((f) => FIELD_TO_DIRECTION_KEY[f]),
     brandLore: params.formationInput,
+    cousinDirectionWarning: cousinWarning
+      ? {
+          cousinDirectionName: cousinWarning.cousin,
+          mustPreserve: cousinWarning.preserve,
+          mustNotBecome: cousinWarning.doNot,
+        }
+      : null,
     constraints: [
+      'THIS IS A COMPLETION TASK, NOT A REFORMATION TASK',
       'Do not rename the direction',
       'Do not rewrite bigIdea, oneLineThesis, or governingBehavior',
       'Do not merge with similar directions from other formations',
+      cousinWarning
+        ? `Do not collapse into cousin direction "${cousinWarning.cousin}"`
+        : 'No cousin direction for this completion',
     ],
   };
 
@@ -244,3 +304,29 @@ export function mergeCompletionUsage(
     {} as ProviderRequestUsage,
   );
 }
+
+/** Complete NDX BOOK v1 formation directions 01–03 only — additive overlays, no reformation. */
+export async function completeNdxbookV1Directions(): Promise<CompleteFormationDirectionsResult> {
+  const v1 = await getFormationRecordById(NDXBOOK_V1_FORMATION_ID);
+  if (!v1) {
+    throw new Error('NDXBOOK_V1_FORMATION_NOT_FOUND');
+  }
+  if (v1.formationVersion !== 1) {
+    throw new Error('EXPECTED_V1_FORMATION');
+  }
+  return completeFormationDirectionsIfNeeded(v1);
+}
+
+export function validateImmutableAnchorsPreserved(
+  before: FormedCoreDirection,
+  after: FormedCoreDirection,
+): boolean {
+  return (
+    before.bigIdea === after.bigIdea &&
+    before.oneLineThesis === after.oneLineThesis &&
+    before.governingBehavior === after.governingBehavior &&
+    before.directionName === after.directionName
+  );
+}
+
+export { NDXBOOK_V1_FORMATION_ID, NDXBOOK_V2_FORMATION_ID };
