@@ -106,6 +106,28 @@ export function site00CreateAccountHrefWithReturnTo(returnToPath: string): strin
   return `${SITE00_ROUTES.createAccount}?returnTo=${encodeURIComponent(safe.slice(0, 1024))}`;
 }
 
+/** Preserve raw returnTo from sign-in (or current location) for create-account navigation. */
+export function site00CreateAccountLinkTarget(location: {
+  pathname: string;
+  search: string;
+}): { pathname: string; search?: string } {
+  const rawReturnTo = new URLSearchParams(location.search).get('returnTo');
+  if (rawReturnTo) {
+    return {
+      pathname: SITE00_ROUTES.createAccount,
+      search: `?returnTo=${encodeURIComponent(rawReturnTo.slice(0, 1024))}`,
+    };
+  }
+  const fromPath = `${location.pathname}${location.search}`.slice(0, 1024);
+  if (fromPath.startsWith('/') && fromPath !== SITE00_ROUTES.createAccount) {
+    return {
+      pathname: SITE00_ROUTES.createAccount,
+      search: `?returnTo=${encodeURIComponent(fromPath)}`,
+    };
+  }
+  return { pathname: SITE00_ROUTES.createAccount };
+}
+
 export function site00StudioPath(projectSlug: string, section?: 'input' | 'operations' | 'blueprint' | 'assets' | 'reviews' | 'milestones' | 'activity'): string {
   const base = `/studio/${projectSlug}`;
   return section ? `${base}/${section}` : base;
