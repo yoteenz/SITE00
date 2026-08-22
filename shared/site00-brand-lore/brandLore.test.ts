@@ -140,10 +140,9 @@ describe('SITE 00 brand lore — shared module', () => {
     expect(result).not.toHaveProperty('score');
   });
 
-  it('13. missing domains map to calibration lore steps', () => {
+  it('13. missing domains map to calibration lore steps in canonical order', () => {
     const steps = missingDomainsToLoreSteps(['WORLDVIEW', 'EMOTIONAL_PROMISE']);
-    expect(steps).toContain('world');
-    expect(steps).toContain('feeling');
+    expect(steps).toEqual(['feeling', 'world']);
   });
 
   it('14. Builder inherited lore fields list excludes Identity-only domains', () => {

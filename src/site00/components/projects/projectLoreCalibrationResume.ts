@@ -1,13 +1,18 @@
+import type { ReadinessDomain } from '../../../../shared/site00-brand-lore/types';
+import { missingDomainsToLoreSteps } from '../../../../shared/site00-brand-lore/readiness';
 import type { LoreQuestionStep } from '../../../../shared/site00-brand-lore/idnty-lore-questions';
+import { getLoreQuestion, IDNTY_LORE_QUESTIONS } from '../../../../shared/site00-brand-lore/idnty-lore-questions';
 import { resolveProjectLoreCalibrationStepIndex } from '../../../../shared/site00-brand-lore/adaptivity';
 
 export type ProjectLoreCalibrationResumeState = {
+  /** Frozen questionnaire for this calibration session — never shrinks on refresh. */
+  stepIds: string[];
   stepId: string;
   answers: Record<string, string | string[]>;
   updatedAt: number;
 };
 
-const STORAGE_PREFIX = 'site00_project_lore_calibration_v1_';
+const STORAGE_PREFIX = 'site00_project_lore_calibration_v2_';
 
 function storageKey(projectSlug: string): string {
   return `${STORAGE_PREFIX}${projectSlug}`;
@@ -22,6 +27,12 @@ function getStorage(): Storage | null {
   }
 }
 
+function loreStepsFromIds(stepIds: string[]): LoreQuestionStep[] {
+  return stepIds
+    .map((id) => getLoreQuestion(id))
+    .filter((step): step is LoreQuestionStep => Boolean(step));
+}
+
 export function readProjectLoreCalibrationResume(
   projectSlug: string,
 ): ProjectLoreCalibrationResumeState | null {
@@ -31,7 +42,15 @@ export function readProjectLoreCalibrationResume(
     const raw = storage.getItem(storageKey(projectSlug));
     if (!raw) return null;
     const parsed = JSON.parse(raw) as ProjectLoreCalibrationResumeState;
-    if (!parsed || typeof parsed.stepId !== 'string' || typeof parsed.answers !== 'object') return null;
+    if (
+      !parsed ||
+      typeof parsed.stepId !== 'string' ||
+      typeof parsed.answers !== 'object' ||
+      !Array.isArray(parsed.stepIds) ||
+      parsed.stepIds.length === 0
+    ) {
+      return null;
+    }
     return parsed;
   } catch {
     return null;
@@ -44,6 +63,7 @@ export function writeProjectLoreCalibrationResume(
 ): void {
   const storage = getStorage();
   if (!storage) return;
+  if (state.stepIds.length === 0) return;
   try {
     const payload: ProjectLoreCalibrationResumeState = { ...state, updatedAt: Date.now() };
     storage.setItem(storageKey(projectSlug), JSON.stringify(payload));
@@ -62,19 +82,55 @@ export function clearProjectLoreCalibrationResume(projectSlug: string): void {
   }
 }
 
+/** Use frozen session steps when resuming; otherwise derive from missing domains + saved answers. */
+export function resolveCalibrationSessionStepIds(
+  projectSlug: string,
+  missingDomains: ReadinessDomain[],
+  serverAnswers: Record<string, string | string[]> = {},
+): string[] {
+  const local = readProjectLoreCalibrationResume(projectSlug);
+  if (local?.stepIds.length) return local.stepIds;
+
+  const fromMissing = missingDomainsToLoreSteps(missingDomains);
+  const ids = new Set(fromMissing);
+  for (const question of IDNTY_LORE_QUESTIONS) {
+    if (serverAnswers[question.id] !== undefined) ids.add(question.id);
+  }
+  return IDNTY_LORE_QUESTIONS.filter((q) => ids.has(q.id)).map((q) => q.id);
+}
+
+/** Persist the full step list the first time a calibration session starts. */
+export function bootstrapCalibrationSession(
+  projectSlug: string,
+  sessionStepIds: string[],
+  serverAnswers: Record<string, string | string[]>,
+): void {
+  if (sessionStepIds.length === 0) return;
+  if (readProjectLoreCalibrationResume(projectSlug)?.stepIds.length) return;
+
+  const steps = loreStepsFromIds(sessionStepIds);
+  const stepIndex = resolveProjectLoreCalibrationStepIndex(steps, serverAnswers);
+  writeProjectLoreCalibrationResume(projectSlug, {
+    stepIds: sessionStepIds,
+    stepId: sessionStepIds[stepIndex] ?? sessionStepIds[0]!,
+    answers: { ...serverAnswers },
+  });
+}
+
 /** Merge server-persisted answers with local draft; pick the correct step index on refresh. */
 export function resolveProjectLoreCalibrationResume(
   steps: LoreQuestionStep[],
   serverAnswers: Record<string, string | string[]>,
   projectSlug: string,
 ): { answers: Record<string, string | string[]>; stepIndex: number } {
-  const baseIndex = resolveProjectLoreCalibrationStepIndex(steps, serverAnswers);
   const local = readProjectLoreCalibrationResume(projectSlug);
+  const sessionSteps = local?.stepIds.length ? loreStepsFromIds(local.stepIds) : steps;
+  const baseIndex = resolveProjectLoreCalibrationStepIndex(sessionSteps, serverAnswers);
   let stepIndex = baseIndex;
   let answers = { ...serverAnswers };
 
   if (local?.stepId) {
-    const localIndex = steps.findIndex((step) => step.id === local.stepId);
+    const localIndex = sessionSteps.findIndex((step) => step.id === local.stepId);
     if (localIndex >= 0 && localIndex >= baseIndex) {
       stepIndex = localIndex;
       const draft = local.answers[local.stepId];

@@ -2434,3 +2434,15 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 - **Branch:** `cursor/calibration-resume-on-refresh-4f59`.
 
+---
+
+## 2026-08-22 — Calibration step counter reset (frozen session steps)
+
+- **Symptom:** Near end of calibration, progress jumped (e.g. 06/08 → 01/01) as if a different questionnaire; tunnel refresh landed on step 1 with total count 1.
+
+- **Root cause:** `steps` was recomputed from **current** `missingDomains` on every load. Each saved answer satisfied domains, shrinking the step list on refresh. Counter used `steps.length` so total dropped mid-session.
+
+- **Fix:** Freeze full `stepIds` at session start in `localStorage` (`v2` key); always render that list for progress (06/08 stays stable). Resume index uses server answers against frozen list. `missingDomainsToLoreSteps` now returns canonical `IDNTY_LORE_QUESTIONS` order.
+
+- **Branch:** `cursor/calibration-frozen-steps-4f59`.
+

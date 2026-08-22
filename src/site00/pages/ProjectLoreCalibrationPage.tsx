@@ -5,9 +5,13 @@ import { ProjectLoreCalibrationFlow } from '../components/projects/ProjectLoreCa
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
 import { site00ProjectCreativeDirectionPath } from '../config/routes';
 import { projectDisplayName } from '../utils/projectDisplayName';
-import { missingDomainsToLoreSteps } from '../../../shared/site00-brand-lore/readiness';
-import type { ReadinessDomain } from '../../../shared/site00-brand-lore/types';
 import { getLoreQuestion } from '../../../shared/site00-brand-lore/idnty-lore-questions';
+import type { ReadinessDomain } from '../../../shared/site00-brand-lore/types';
+import {
+  bootstrapCalibrationSession,
+  clearProjectLoreCalibrationResume,
+  resolveCalibrationSessionStepIds,
+} from '../components/projects/projectLoreCalibrationResume';
 import '../styles/site00-creative-direction.css';
 import '../styles/site00-project-lore-calibration.css';
 
@@ -37,9 +41,14 @@ export default function ProjectLoreCalibrationPage() {
         setProjectTitle(projectDisplayName(projectSlug, detail.project.displayName));
       }
       const readiness = payload.engagement.brandLoreReadiness;
+      const answers = payload.brandLoreCalibrationAnswers ?? {};
+      const blocked = readiness?.blocked ?? false;
       setMissingDomains((readiness?.missingDomains as ReadinessDomain[] | undefined) ?? []);
-      setSavedAnswers(payload.brandLoreCalibrationAnswers ?? {});
-      setReadyNow(!readiness?.blocked);
+      setSavedAnswers(answers);
+      setReadyNow(!blocked);
+      if (!blocked) {
+        clearProjectLoreCalibrationResume(projectSlug);
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : 'UNABLE TO LOAD CALIBRATION CONTEXT');
     } finally {
@@ -51,21 +60,33 @@ export default function ProjectLoreCalibrationPage() {
     void load();
   }, [load]);
 
-  const stepIds = useMemo(() => missingDomainsToLoreSteps(missingDomains), [missingDomains]);
+  const sessionStepIds = useMemo(
+    () => resolveCalibrationSessionStepIds(projectSlug, missingDomains, savedAnswers),
+    [projectSlug, missingDomains, savedAnswers],
+  );
+
+  useEffect(() => {
+    if (loading || readyNow || sessionStepIds.length === 0) return;
+    bootstrapCalibrationSession(projectSlug, sessionStepIds, savedAnswers);
+  }, [loading, readyNow, projectSlug, savedAnswers, sessionStepIds]);
+
   const steps = useMemo(
-    () => stepIds.map((id) => getLoreQuestion(id)).filter((s): s is NonNullable<typeof s> => Boolean(s)),
-    [stepIds],
+    () =>
+      sessionStepIds
+        .map((id) => getLoreQuestion(id))
+        .filter((step): step is NonNullable<typeof step> => Boolean(step)),
+    [sessionStepIds],
   );
 
   const initialAnswers = useMemo(() => {
     const out: Record<string, string | string[]> = {};
-    for (const step of steps) {
-      if (savedAnswers[step.id] !== undefined) {
-        out[step.id] = savedAnswers[step.id];
+    for (const id of sessionStepIds) {
+      if (savedAnswers[id] !== undefined) {
+        out[id] = savedAnswers[id];
       }
     }
     return out;
-  }, [savedAnswers, steps]);
+  }, [savedAnswers, sessionStepIds]);
 
   return (
     <EcosystemShell hidePageHeader>
