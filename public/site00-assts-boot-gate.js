@@ -44,6 +44,7 @@
     if (path === '/idnty/state/desktop' || path.indexOf('/idnty/state/desktop/') === 0) return false;
     if (path === '/bldr/state/desktop' || path.indexOf('/bldr/state/desktop/') === 0) return false;
     if (path === '/origin/sign-in' || path.indexOf('/origin/sign-in/') === 0) return false;
+    if (path === '/origin/create-account' || path.indexOf('/origin/create-account/') === 0) return false;
     try {
       var nav = performance.getEntriesByType('navigation')[0];
       if (nav && nav.type === 'reload') return true;
