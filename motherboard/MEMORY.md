@@ -2373,3 +2373,15 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 - **Fix:** Moved auth routes (`/origin/sign-in`, `/origin/create-account`, aliases) **before** `/origin` in `Site00Routes`; added `site00CreateAccountLinkTarget()` for React Router `Link` targets; sign-in footer uses object `to` with preserved `returnTo`. Requires redeploy of frontend from `main`.
 
+---
+
+## 2026-08-22 — Create account still routes to homepage (live deploy gap)
+
+- **Symptom:** Founder reports CREATE ACCOUNT still lands on homepage after code fixes merged (#210, #212).
+
+- **Diagnosis:** Live `site00.com` still serves pre-Aug-22 bundle `assets/index.BT7zuSxb.js` — zero `create-account` strings in JS; `SITE00_ROUTES` in that bundle has `signIn` but no `createAccount`. Unmatched `/origin/create-account` hits App.tsx catch-all → `/`. Code on `main` is correct; v3 release ZIP contains `index.CNB6EHR2.js` with route baked in.
+
+- **Action:** Not a code regression — **GoDaddy cPanel upload required**. Updated `SITE00-DEPLOY-README.txt` v4 with bundle hash check (BT7zuSxb = broken, CNB6EHR2+ = fixed); production `vite build` now stamps `app-build-id` meta (was `__APP_BUILD_ID__` placeholder on live). README deploy section notes view-source check.
+
+- **Founder deploy (mobile):** Download [site00-production-dist-2026-08-22.zip](https://github.com/yoteenz/SITE00/releases/download/site00-deploy-2026-08-22/site00-production-dist-2026-08-22.zip) → cPanel File Manager → public_html → upload → extract in place → hard refresh. Verify `/origin/create-account` shows form and page source no longer references `index.BT7zuSxb.js`.
+

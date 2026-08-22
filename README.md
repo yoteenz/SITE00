@@ -54,6 +54,8 @@ Production SPA for **site00.com** — upload and extract into `public_html` (not
 
 After upload: hard-refresh on mobile (Safari → pull to refresh or clear site data). Cloud preview tunnel reflects workspace code immediately; **site00.com** only updates after cPanel deploy.
 
+**Create account still goes to homepage?** View page source on site00.com. If the script tag still references `index.BT7zuSxb.js`, the old bundle is live — upload the latest release ZIP and extract in place.
+
 Setup guide in Frontal Slayer repo: `docs/cloud-agent/site00-preview-tunnel.md` (cloud agent scripts live there until moved).
 
 
