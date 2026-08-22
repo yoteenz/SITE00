@@ -298,25 +298,50 @@ export async function runSonnetDirectionExpressionSystem(params: {
     revisionHint: params.revisionHint ?? null,
   };
 
-  const { text, usage } = await callAnthropicForCompletion(
-    DIRECTION_EXPRESSION_SYSTEM_SYSTEM_PROMPT,
-    userPayload,
-  );
+  let anthropicRequests = 0;
+  let inputTokens = 0;
+  let outputTokens = 0;
 
-  const system = parseDirectionExpressionSystemResponse({
-    text,
-    direction: params.direction,
-    brandLoreFingerprint: params.direction.brandLoreFingerprint,
-    brandLoreVersion: params.direction.brandLoreProfileVersion,
-    inputFingerprint,
-  });
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    const payload =
+      attempt === 0
+        ? userPayload
+        : {
+            ...userPayload,
+            revisionHint:
+              params.revisionHint ??
+              'Prior response was invalid or truncated JSON. Return ONE complete valid JSON object only — no markdown fences.',
+          };
 
-  return {
-    system,
-    anthropicRequests: 1,
-    usage: {
-      inputTokens: usage.inputTokens ?? 0,
-      outputTokens: usage.outputTokens ?? 0,
-    },
-  };
+    const { text, usage } = await callAnthropicForCompletion(
+      DIRECTION_EXPRESSION_SYSTEM_SYSTEM_PROMPT,
+      payload,
+      { maxTokens: 8192 },
+    );
+    anthropicRequests += 1;
+    inputTokens += usage.inputTokens ?? 0;
+    outputTokens += usage.outputTokens ?? 0;
+
+    try {
+      const system = parseDirectionExpressionSystemResponse({
+        text,
+        direction: params.direction,
+        brandLoreFingerprint: params.direction.brandLoreFingerprint,
+        brandLoreVersion: params.direction.brandLoreProfileVersion,
+        inputFingerprint,
+      });
+      return {
+        system,
+        anthropicRequests,
+        usage: { inputTokens, outputTokens },
+      };
+    } catch (err) {
+      const jsonErr =
+        err instanceof SyntaxError ||
+        (err instanceof Error && /JSON|Unexpected token|Unterminated string/i.test(err.message));
+      if (!jsonErr || attempt === 1) throw err;
+    }
+  }
+
+  throw new Error('DirectionExpressionSystem JSON parse failed after retry');
 }
