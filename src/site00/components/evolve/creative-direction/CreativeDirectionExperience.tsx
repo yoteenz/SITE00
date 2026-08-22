@@ -8,6 +8,7 @@ import {
   isTerritoryNativeSpecimen,
 } from './compareAnchors';
 import { FormedCoreDirectionReview } from './FormedCoreDirectionReview';
+import { BrandNativeVisualPilotPanel } from './BrandNativeVisualPilotPanel';
 import { renderTerritoryView, territoryRendererKeyFromIndex } from './TerritoryRendererRegistry';
 
 export type CoreDirectionDefinition = {
@@ -336,6 +337,10 @@ export function CreativeDirectionExperience({
 
       {error ? <p className="site00-cd__error" role="alert">{error}</p> : null}
       {loading ? <p className="site00-cd__loading" aria-busy="true">SYNTHESIZING CREATIVE DIRECTION…</p> : null}
+
+      {payload?.brandNativeVisualPilot?.publicUrl ? (
+        <BrandNativeVisualPilotPanel pilot={payload.brandNativeVisualPilot} />
+      ) : null}
 
       {payload?.engagement.brandLoreReadiness?.blocked ? (
         <section className="site00-cd__readiness-banner" role="status">
