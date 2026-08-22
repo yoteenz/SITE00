@@ -11,7 +11,7 @@ export const REQUIRED_DIRECTION_COUNT = 3;
 export const ANTHROPIC_CREATIVE_MODEL =
   process.env.SITE00_CREATIVE_INTELLIGENCE_MODEL?.trim() ||
   process.env.ANTHROPIC_CREATIVE_MODEL?.trim() ||
-  'claude-sonnet-4-20250514';
+  'claude-sonnet-4-6';
 
 export const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages';
 
