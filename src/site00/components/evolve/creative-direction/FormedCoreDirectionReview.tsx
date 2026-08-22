@@ -6,6 +6,9 @@ import type {
   FormedCoreDirection,
   VisualProofPlan,
 } from '../../../../../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/types.js';
+import type { CreativeDirectionBoard } from '../../../../../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/creativeDirectionBoardTypes.js';
+import { CreativeDirectionBoardView } from './CreativeDirectionBoardView';
+import { MARKED_UP_COPY_DIRECTION_NAME } from '../../../../../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/creativeDirectionBoardTypes.js';
 import {
   buildFounderDirectionPresentationFields,
   type FounderDirectionFieldKey,
@@ -21,6 +24,7 @@ export type FormedDirectionReviewProps = {
   mode?: 'canonical' | 'comparison';
   directionCount?: number;
   proofAssetsByDirection?: Record<string, Partial<Record<ComparisonProofType, ComparisonProofAsset>>>;
+  creativeDirectionBoardsByDirection?: Record<string, CreativeDirectionBoard>;
 };
 
 const PRIMARY_KEYS = new Set<FounderDirectionFieldKey>([
@@ -145,6 +149,7 @@ export function FormedCoreDirectionReview({
   mode = 'canonical',
   directionCount,
   proofAssetsByDirection = {},
+  creativeDirectionBoardsByDirection = {},
 }: FormedDirectionReviewProps) {
   if (!directions.length) return null;
 
@@ -201,6 +206,11 @@ export function FormedCoreDirectionReview({
           );
           const proofState = plan ? 'planned' : status === 'READY_FOR_VISUAL_PRODUCTION' ? 'planned' : 'blocked';
           const directionProofs = proofAssetsByDirection[direction.directionId] ?? {};
+          const creativeBoard = creativeDirectionBoardsByDirection[direction.directionId];
+          const showBoardFirst =
+            direction.directionName === MARKED_UP_COPY_DIRECTION_NAME &&
+            creativeBoard?.founderVisible &&
+            creativeBoard.productionState === 'READY';
 
           return (
             <article key={`${direction.directionId}-${comparisonIndex}`} className="site00-cd__formed-card">
@@ -218,40 +228,59 @@ export function FormedCoreDirectionReview({
                 ))}
               </div>
 
-              <ProofSlot
-                label="HERO WORLD"
-                asset={directionProofs.heroWorld}
-                fallbackState={directionProofs.heroWorld ? undefined : proofState}
-              />
-              <ProofSlot
-                label="PRIMARY ARTIFACT"
-                asset={directionProofs.primaryArtifact}
-                fallbackState={directionProofs.primaryArtifact ? undefined : proofState}
-              />
-
-              {visualLanguageFields.length ? (
-                <CollapsibleSection title="VISUAL LANGUAGE" defaultOpen={false}>
-                  <dl className="site00-cd__formed-fields site00-cd__formed-fields--compact">
-                    {visualLanguageFields.map((field) => (
-                      <div key={field.key}>
-                        <dt>{field.label}</dt>
-                        <dd>{renderFieldValue(field.value)}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </CollapsibleSection>
+              {showBoardFirst && creativeBoard ? (
+                <CreativeDirectionBoardView board={creativeBoard} defaultBreakpoint="mobile" />
               ) : null}
 
-              <ProofSlot
-                label="SOCIAL EXPRESSION PROOF"
-                asset={directionProofs.socialExpression}
-                fallbackState={directionProofs.socialExpression ? undefined : proofState}
-              />
-              <ProofSlot
-                label="MOTION SEED PROOF"
-                asset={directionProofs.motionSeed}
-                fallbackState={directionProofs.motionSeed ? undefined : proofState}
-              />
+              {!showBoardFirst ? (
+                <>
+                  <ProofSlot
+                    label="HERO WORLD"
+                    asset={directionProofs.heroWorld}
+                    fallbackState={directionProofs.heroWorld ? undefined : proofState}
+                  />
+                  <ProofSlot
+                    label="PRIMARY ARTIFACT"
+                    asset={directionProofs.primaryArtifact}
+                    fallbackState={directionProofs.primaryArtifact ? undefined : proofState}
+                  />
+                </>
+              ) : null}
+
+              {showBoardFirst ? (
+                <CollapsibleSection title="VIEW DETAILS" defaultOpen={false}>
+                  <ProofSlot label="HERO WORLD" asset={directionProofs.heroWorld} fallbackState={proofState} />
+                  <ProofSlot label="PRIMARY ARTIFACT" asset={directionProofs.primaryArtifact} fallbackState={proofState} />
+                  <ProofSlot label="SOCIAL EXPRESSION PROOF" asset={directionProofs.socialExpression} fallbackState={proofState} />
+                  <ProofSlot label="MOTION SEED PROOF" asset={directionProofs.motionSeed} fallbackState={proofState} />
+                </CollapsibleSection>
+              ) : (
+                <>
+                  {visualLanguageFields.length ? (
+                    <CollapsibleSection title="VISUAL LANGUAGE" defaultOpen={false}>
+                      <dl className="site00-cd__formed-fields site00-cd__formed-fields--compact">
+                        {visualLanguageFields.map((field) => (
+                          <div key={field.key}>
+                            <dt>{field.label}</dt>
+                            <dd>{renderFieldValue(field.value)}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </CollapsibleSection>
+                  ) : null}
+
+                  <ProofSlot
+                    label="SOCIAL EXPRESSION PROOF"
+                    asset={directionProofs.socialExpression}
+                    fallbackState={directionProofs.socialExpression ? undefined : proofState}
+                  />
+                  <ProofSlot
+                    label="MOTION SEED PROOF"
+                    asset={directionProofs.motionSeed}
+                    fallbackState={directionProofs.motionSeed ? undefined : proofState}
+                  />
+                </>
+              )}
 
               {secondaryFields.length || isComparisonCandidate(direction) ? (
                 <CollapsibleSection title="LINEAGE · RISKS · DETAIL" defaultOpen={false}>

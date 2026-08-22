@@ -26,6 +26,7 @@ import {
 import { assessFormationProductionCompleteness } from './creativeIntelligence/directionFieldContract.js';
 import { resolveNdxbookFounderComparisonSet } from './creativeIntelligence/founderComparisonSet.js';
 import { attachProofAssetsToComparisonSet } from './creativeIntelligence/comparisonProofProduction.js';
+import { attachCreativeDirectionBoardsToComparisonSet } from './creativeIntelligence/boardStore.js';
 import { deriveVisualProductionState } from './creativeIntelligence/visualProductionState.js';
 import {
   getCreativeIntelligenceInspectorSummary,
@@ -388,7 +389,7 @@ export async function getCreativeDirectionPayload(
       : null;
 
   const founderComparisonSet = founderComparisonSetRaw
-    ? attachProofAssetsToComparisonSet(founderComparisonSetRaw)
+    ? attachCreativeDirectionBoardsToComparisonSet(attachProofAssetsToComparisonSet(founderComparisonSetRaw))
     : null;
 
   return {

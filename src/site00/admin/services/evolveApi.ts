@@ -412,4 +412,11 @@ export const site00EvolveApi = {
         jobId ? `&jobId=${encodeURIComponent(jobId)}` : ''
       }`,
     ),
+
+  /** Single-board pilot — THE MARKED-UP COPY only (board-first methodology). */
+  creativeDirectionMarkedUpCopyBoardPilot: (orgSlug: string, dryRun = false) =>
+    evolveFetch<Record<string, unknown>>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'creative_direction_marked_up_copy_board_pilot', orgSlug, dryRun }),
+    }),
 };

@@ -369,6 +369,8 @@ export type FounderComparisonSet = {
     string,
     Partial<Record<ComparisonProofType, ComparisonProofAsset>>
   >;
+  /** Board-first creative direction boards (pilot: THE MARKED-UP COPY only). */
+  creativeDirectionBoardsByDirection?: Record<string, import('./creativeDirectionBoardTypes.js').CreativeDirectionBoard>;
   productionSummary?: ComparisonProofProductionPlan;
 };
 

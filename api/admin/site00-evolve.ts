@@ -82,6 +82,7 @@ import {
 import { generateNdxbookVisualAssetPass } from '../_lib/site00Evolve/creativeDirection/assetGeneration.js';
 import { completeNdxbookV1Directions } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/directionCompletionService.js';
 import { runSixDirectionProductionPipeline } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/sixDirectionProductionOrchestrator.js';
+import { runMarkedUpCopyBoardPilot } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/markedUpCopyBoardPilot.js';
 import {
   getLatestProductionJob,
   getProductionJobById,
@@ -491,6 +492,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             },
           });
           return res.status(202).json({ job, message: 'Production job started on server — safe to leave this page.' });
+        }
+        case 'creative_direction_marked_up_copy_board_pilot': {
+          if (orgSlug !== 'ndxbook') {
+            return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          }
+          const result = await runMarkedUpCopyBoardPilot({
+            orgSlug,
+            dryRun: body.dryRun === true,
+          });
+          return res.status(200).json(result);
         }
         case 'analytics_baseline_sync':
           return res.status(200).json(
