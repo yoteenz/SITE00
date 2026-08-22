@@ -48,8 +48,8 @@ Production SPA for **site00.com** — upload and extract into `public_html` (not
 
 | Item | Link |
 |------|------|
-| Latest production ZIP | [site00-production-dist-2026-08-21-v2.zip](https://github.com/yoteenz/SITE00/releases/download/site00-deploy-2026-08-21-v2/site00-production-dist-2026-08-21-v2.zip) |
-| Deploy readme | [SITE00-DEPLOY-README.txt](https://github.com/yoteenz/SITE00/releases/download/site00-deploy-2026-08-21-v2/SITE00-DEPLOY-README.txt) |
+| Latest production ZIP | [site00-production-dist-2026-08-22.zip](https://github.com/yoteenz/SITE00/releases/download/site00-deploy-2026-08-22/site00-production-dist-2026-08-22.zip) |
+| Deploy readme | [SITE00-DEPLOY-README.txt](https://github.com/yoteenz/SITE00/releases/download/site00-deploy-2026-08-22/SITE00-DEPLOY-README.txt) |
 | All releases | [GitHub Releases](https://github.com/yoteenz/SITE00/releases) |
 
 After upload: hard-refresh on mobile (Safari → pull to refresh or clear site data). Cloud preview tunnel reflects workspace code immediately; **site00.com** only updates after cPanel deploy.

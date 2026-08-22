@@ -2363,3 +2363,13 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 - **Branch:** `cursor/mobile-lore-calibration-account-4f59` (from `cursor/brand-lore-productionization-4f59`). PR opened, **not merged** (founder instruction).
 
+---
+
+## 2026-08-22 — Create account route homepage redirect fix
+
+- **Symptom:** Sign-in **CREATE ACCOUNT** sent users to SITE 00 homepage instead of registration form on production.
+
+- **Root cause:** Production GoDaddy bundle predated `/origin/create-account` route; App.tsx catch-all `*` → `/` when route missing. Sign-in link also passed resolved `/control` returnTo instead of preserving raw query.
+
+- **Fix:** Moved auth routes (`/origin/sign-in`, `/origin/create-account`, aliases) **before** `/origin` in `Site00Routes`; added `site00CreateAccountLinkTarget()` for React Router `Link` targets; sign-in footer uses object `to` with preserved `returnTo`. Requires redeploy of frontend from `main`.
+
