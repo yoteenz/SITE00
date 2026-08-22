@@ -2694,3 +2694,14 @@ Summary: Composer production sprint implementing v1 Sonnet completion wiring, St
 - **Distinctiveness QA:** Automated cousin-pair check — NEEDS_HUMAN_REVIEW until v1 hero proofs exist.
 - **Tests:** 787 passing (+8). tsc + build green. Branch `cursor/six-direction-proof-production-4f59` → PR #233.
 - **Not ready:** Founder six-direction visual review blocked until v1 Sonnet completion + proofs for all six directions.
+
+---
+
+## 2026-08-22 — Mobile production controls on Creative Direction debug page (PR #235)
+
+Summary: Founder on mobile requested tap-to-run production instead of curl/Railway CLI.
+
+- **`EvolveCreativeDirectionDebugPage`:** Added **SIX-DIRECTION PRODUCTION** panel with Step 1 (complete v1 directions) and Step 2 (run proof production) buttons, status summary, refresh, and link to founder comparison view. Large 48px tap targets.
+- **`evolveApi.ts`:** Fixed admin EVOLVE fetch to use `VITE_API_BASE` + Supabase `Bearer` token (required for `api.site00.com` from mobile). Added `creativeDirectionCompleteV1Directions` and `creativeDirectionRunSixDirectionProduction`.
+- **`EvolveCreativeDirectionPage`:** Footer link renamed **PRODUCTION CONTROLS →** pointing to debug page.
+- **Mobile flow:** Sign in on site00.com → Admin → EVOLVE → Creative Direction → **PRODUCTION CONTROLS** → tap Step 1, wait, tap Step 2 (keep tab open several minutes) → **OPEN FOUNDER COMPARISON VIEW**.

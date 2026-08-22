@@ -1,5 +1,6 @@
 /** Admin client for EVOLVE Marketing OS API */
 
+import { getAccessToken } from '../../../utils/api.js';
 import type {
   EvolveApprovalItem,
   EvolveCalendarItem,
@@ -30,12 +31,27 @@ export type ExpandedReadinessPayload = {
   automationMode: string;
 };
 
-const BASE = '/api/admin/site00-evolve';
+const API_BASE = (
+  (import.meta as unknown as { env?: { VITE_API_BASE?: string } }).env?.VITE_API_BASE ?? ''
+).replace(/\/$/, '');
+const EVOLVE_ADMIN_PATH = '/api/admin/site00-evolve';
+
+function evolveAdminUrl(path: string): string {
+  const suffix = path.startsWith('?') ? path : path.startsWith('/') ? path : `/${path}`;
+  return API_BASE ? `${API_BASE}${EVOLVE_ADMIN_PATH}${suffix}` : `${EVOLVE_ADMIN_PATH}${suffix}`;
+}
 
 async function evolveFetch<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${BASE}${path}`, {
+  const token = await getAccessToken();
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...((init?.headers as Record<string, string> | undefined) ?? {}),
+  };
+  if (token) headers.Authorization = `Bearer ${token}`;
+
+  const res = await fetch(evolveAdminUrl(path), {
     ...init,
-    headers: { 'Content-Type': 'application/json', ...init?.headers },
+    headers,
     credentials: 'include',
   });
   if (!res.ok) {
@@ -308,6 +324,7 @@ export const site00EvolveApi = {
     body: {
       type: 'APPROVE' | 'REFINE' | 'HYBRIDIZE' | 'REJECT';
       selectedTerritoryId?: string;
+      selectedComparisonDirectionId?: string;
       hybridSelections?: Array<{ territoryId: string; elements: string[] }>;
       refinementNotes?: string;
       rejectedTerritoryIds?: string[];
@@ -316,5 +333,28 @@ export const site00EvolveApi = {
     evolveFetch<Record<string, unknown>>('', {
       method: 'POST',
       body: JSON.stringify({ action: 'creative_direction_decision', orgSlug, ...body }),
+    }),
+
+  /** Step 1 — Sonnet completion for v1 directions 01–03 only (NDX BOOK). */
+  creativeDirectionCompleteV1Directions: (orgSlug: string) =>
+    evolveFetch<Record<string, unknown>>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'creative_direction_complete_v1_directions', orgSlug }),
+    }),
+
+  /** Step 2 — Stage A visual proof production for all six comparison directions. */
+  creativeDirectionRunSixDirectionProduction: (
+    orgSlug: string,
+    options?: { completeV1?: boolean; includeAllProofTypes?: boolean; dryRun?: boolean },
+  ) =>
+    evolveFetch<Record<string, unknown>>('', {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'creative_direction_run_six_direction_production',
+        orgSlug,
+        completeV1: options?.completeV1 ?? false,
+        includeAllProofTypes: options?.includeAllProofTypes ?? true,
+        dryRun: options?.dryRun ?? false,
+      }),
     }),
 };

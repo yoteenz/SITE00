@@ -21,7 +21,7 @@ export default function EvolveCreativeDirectionPage() {
         api={adminCreativeDirectionApi}
         adminFooter={
           <>
-            <Link to={SITE00_ADMIN_ROUTES.evolveCreativeDirectionDebug}>DEBUG / QA →</Link>
+            <Link to={SITE00_ADMIN_ROUTES.evolveCreativeDirectionDebug}>PRODUCTION CONTROLS →</Link>
             <Link to={SITE00_ADMIN_ROUTES.evolvePilot(orgSlug)}>PILOT CONTROL →</Link>
           </>
         }
