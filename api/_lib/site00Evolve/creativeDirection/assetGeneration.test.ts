@@ -30,29 +30,24 @@ describe('NDXBOOK Creative Direction — governed FAL asset generation', () => {
     }
   });
 
-  it('manifest keys correspond to real curated briefs, and territories.js attaches them onto matching specimens', () => {
-    const manifest = loadGeneratedAssetManifest('ndxbook');
-    const briefKeys = new Set(NDXBOOK_CREATIVE_ASSET_BRIEFS.map((b) => manifestKey(b.territoryKey, b.specimenType)));
-    for (const key of Object.keys(manifest)) {
-      expect(briefKeys.has(key)).toBe(true);
-    }
-
-    if (Object.keys(manifest).length > 0) {
-      const brief = synthesizeCreativeBrief('ndxbook', [], 5);
-      const territories = generateTerritories(brief);
-      let attached = 0;
-      for (const t of territories) {
-        for (const s of t.specimens) {
-          const key = manifestKey(t.rendererKey, s.specimenType);
-          if (manifest[key]) {
-            expect(s.imageAsset).toBeTruthy();
-            expect(s.imageAsset?.url).toBe(manifest[key].url);
-            attached++;
-          }
+  it('static reference registry attaches priority assets for ndxbook only', () => {
+    const briefKeys = new Set(
+      NDXBOOK_CREATIVE_ASSET_BRIEFS.map((b) => manifestKey(b.territoryKey, b.specimenType)),
+    );
+    const ndxbookBrief = synthesizeCreativeBrief('ndxbook', [], 5);
+    const ndxbookTerritories = generateTerritories(ndxbookBrief);
+    let attached = 0;
+    for (const t of ndxbookTerritories) {
+      for (const s of t.specimens) {
+        const key = manifestKey(t.rendererKey, s.specimenType);
+        if (briefKeys.has(key)) {
+          expect(s.imageAsset).toBeTruthy();
+          expect(s.imageAsset?.url).toMatch(/^\/site00\/creative-direction\/ndxbook\//);
+          attached++;
         }
       }
-      expect(attached).toBe(Object.keys(manifest).length);
     }
+    expect(attached).toBe(briefKeys.size);
   });
 
   it('org isolation — a non-ndxbook org never receives NDXBOOK-specific generated imagery', () => {

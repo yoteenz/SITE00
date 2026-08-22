@@ -31,7 +31,7 @@ function minimalProfile(overrides: Partial<BrandLoreProfile> = {}): BrandLorePro
     sourceIntakeId: 'intake-1',
     sourceIntakeType: 'IDENTITY',
     brandWorld: emptyField('a quiet library'),
-    audienceRelationship: emptyField('guide'),
+    audienceRelationship: emptyField(['THE GUIDE SHOWING THE WAY']),
     brandBelief: emptyField('knowledge should be accessible'),
     culturalOpposition: emptyField(['boring']),
     coreObsessions: emptyField('how things work'),

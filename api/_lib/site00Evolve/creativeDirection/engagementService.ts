@@ -213,6 +213,7 @@ export async function recordFounderDecision(
       engagement.visualDna = promoteVisualDnaToApproved(
         buildProposedVisualDnaFromTerritory(territory, input.hybridSelections ?? [], input.by),
         decision,
+        territory,
       );
       engagement.page001Gate = page001Gate('APPROVED');
 

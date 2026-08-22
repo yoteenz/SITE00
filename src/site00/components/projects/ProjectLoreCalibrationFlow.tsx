@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { LoreQuestionStep } from '../../../../shared/site00-brand-lore/idnty-lore-questions';
 import { LORE_SKIP_VALUE } from '../../../../shared/site00-brand-lore/adaptivity';
+import { loreInteractionMode } from '../../../../shared/site00-brand-lore/loreAnswerTypes';
 import type { StepFormValue } from '../idnty-assessment/IdntyStepForm';
 import { useStepForm } from '../idnty-assessment/IdntyStepForm';
 import { IdentityCalibrationConsole } from '../idnty/calibration/IdentityCalibrationConsole';
@@ -37,7 +38,7 @@ function isCaptured(value: StepFormValue, skippable?: boolean): boolean {
 }
 
 function defaultValueForStep(step: LoreQuestionStep): StepFormValue {
-  return step.type === 'multi' ? [] : '';
+  return loreInteractionMode(step) === 'multi' ? [] : '';
 }
 
 export function ProjectLoreCalibrationFlow({

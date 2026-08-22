@@ -3,7 +3,14 @@
  */
 
 import type { BrandLoreProfile } from './types.js';
-import { IDNTY_LORE_QUESTIONS } from './idnty-lore-questions.js';
+import { IDNTY_LORE_QUESTIONS, getLoreQuestion } from './idnty-lore-questions.js';
+import {
+  formatCompoundLabels,
+  normalizeSelectedOptionIds,
+  normalizeFreeText,
+  resolveOptionLabels,
+  resolveResponseMode,
+} from './loreAnswerTypes.js';
 
 export type LoreSummarySection = {
   key: string;
@@ -11,14 +18,24 @@ export type LoreSummarySection = {
   value: string;
 };
 
-function formatFieldValue(value: unknown): string | null {
-  if (value === null || value === undefined) return null;
-  if (typeof value === 'string' && value.trim()) return value.trim();
-  if (Array.isArray(value) && value.length > 0) return value.join(' · ');
-  return null;
+function formatRawAnswerForReview(stepId: string, raw: string | string[] | undefined): string | null {
+  if (raw === undefined || raw === null) return null;
+  const step = getLoreQuestion(stepId);
+  if (!step) return null;
+
+  const mode = resolveResponseMode(step);
+  if (mode === 'FREE_TEXT') {
+    const text = normalizeFreeText(raw);
+    return text || null;
+  }
+
+  const ids = normalizeSelectedOptionIds(step, raw);
+  if (ids.length === 0) return null;
+  const labels = resolveOptionLabels(ids, step.options ?? []);
+  return formatCompoundLabels(labels, ' + ');
 }
 
-/** Build concise review sections from raw lore answers (preserves founder language). */
+/** Build concise review sections from raw lore answers (preserves compound selections). */
 export function buildLoreSummaryFromAnswers(
   loreAnswers: Record<string, string | string[]>,
 ): LoreSummarySection[] {
@@ -33,11 +50,11 @@ export function buildLoreSummaryFromAnswers(
     'no-go': 'YOUR NO-GO ZONE',
     feeling: 'YOUR FEELING',
     enemy: 'YOUR OPPOSITION',
+    objects: 'YOUR OBJECTS',
   };
 
   for (const [stepId, label] of Object.entries(labels)) {
-    const raw = loreAnswers[stepId];
-    const formatted = formatFieldValue(raw);
+    const formatted = formatRawAnswerForReview(stepId, loreAnswers[stepId]);
     if (formatted) sections.push({ key: stepId, label, value: formatted });
   }
 
@@ -54,13 +71,21 @@ export function buildLoreSummaryFromProfile(profile: BrandLoreProfile): LoreSumm
     { key: 'referenceLineage', label: 'YOUR REFERENCES' },
     { key: 'currentReferenceSignals', label: 'YOUR ATTENTION NOW' },
     { key: 'creativeAntiPatterns', label: 'YOUR NO-GO ZONE' },
+    { key: 'materialVocabulary', label: 'YOUR OBJECTS' },
+    { key: 'emotionalPromise', label: 'YOUR FEELING' },
+    { key: 'culturalOpposition', label: 'YOUR OPPOSITION' },
   ];
 
   return map
     .map(({ key, label }) => {
       const field = profile[key] as { value: unknown } | undefined;
-      const formatted = formatFieldValue(field?.value);
-      return formatted ? { key: String(key), label, value: formatted } : null;
+      const v = field?.value;
+      if (v === null || v === undefined) return null;
+      if (typeof v === 'string' && v.trim()) return { key: String(key), label, value: v.trim() };
+      if (Array.isArray(v) && v.length > 0) {
+        return { key: String(key), label, value: formatCompoundLabels(v.map(String), ' + ') };
+      }
+      return null;
     })
     .filter((s): s is LoreSummarySection => s !== null);
 }

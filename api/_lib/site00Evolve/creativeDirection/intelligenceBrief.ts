@@ -222,6 +222,10 @@ function ndxbookContentBrainBrief(
     },
     classification: 'PROPOSED',
     provenance: { source: 'CONTENT_BRAIN', entryCount },
+    // NDXBOOK's primary public expression is social content, not a website — see
+    // docs/site00/CREATIVE_DIRECTION_METHODOLOGY.md §1. Other orgs remain unclassified
+    // until their own Creative Direction pass explicitly sets this.
+    primaryContext: orgSlug === 'ndxbook' ? 'SOCIAL_FIRST_EDITORIAL' : undefined,
   };
 }
 

@@ -7,18 +7,18 @@ import type {
   QualitativeRating,
   TerritoryRendererKey,
   TerritorySpecimen,
-  TerritorySpecimenImageAsset,
   TerritorySpecimenType,
 } from './types.js';
-import { loadGeneratedAssetManifest, manifestKey } from './assetGeneration.js';
+import { getGeneratedAsset } from './generatedAssets.js';
+import { NDXBOOK_CORE_DIRECTIONS, NDXBOOK_BRANCH_LINEAGE } from './coreDirectionDefinitions.js';
 
 const COMMON_ANCHORS: TerritorySpecimenType[] = ['wordmark', 'typography_system'];
 
 function buildSpecimens(
+  organizationSlug: string,
   territoryId: string,
   types: TerritorySpecimenType[],
   rendererKey: TerritoryRendererKey,
-  assetManifest: Record<string, TerritorySpecimenImageAsset>,
 ): TerritorySpecimen[] {
   return types.map((specimenType) => ({
     id: randomUUID(),
@@ -33,7 +33,9 @@ function buildSpecimens(
       classification: 'PROPOSED',
       approved: false,
     },
-    imageAsset: assetManifest[manifestKey(rendererKey, specimenType)] ?? null,
+    // Reference-locked NDXBOOK assets only — other orgs render SVG-only until their own pass exists.
+    imageAsset:
+      organizationSlug === 'ndxbook' ? getGeneratedAsset(rendererKey, specimenType) ?? null : null,
   }));
 }
 
@@ -50,6 +52,16 @@ const INDEX_SIGNAL_SPECIMENS: TerritorySpecimenType[] = [
   'graphic_language',
   'motion_storyboard',
   'wordmark',
+  // Signal editorial-behavior branches — visual range within one system (Section II.02)
+  'signal_pulse',
+  'signal_readout',
+  'signal_pattern',
+  'signal_scan',
+  'signal_forecast',
+  'signal_alert',
+  'signal_transmission',
+  'signal_coordinate',
+  'signal_projection',
 ];
 
 const EDITORIAL_UTILITY_SPECIMENS: TerritorySpecimenType[] = [
@@ -65,6 +77,16 @@ const EDITORIAL_UTILITY_SPECIMENS: TerritorySpecimenType[] = [
   'article_sequence',
   'motion_storyboard',
   'wordmark',
+  // Nine editorial branches — behaviors, not templates (Section II.01)
+  'branch_burn_page',
+  'branch_receipts',
+  'branch_margin_notes',
+  'branch_the_list',
+  'branch_the_file',
+  'branch_the_insert',
+  'branch_redaction',
+  'branch_centerfold',
+  'branch_back_page',
 ];
 
 const KINETIC_FIELD_SPECIMENS: TerritorySpecimenType[] = [
@@ -80,6 +102,17 @@ const KINETIC_FIELD_SPECIMENS: TerritorySpecimenType[] = [
   'dark_light_inversion',
   'motion_storyboard',
   'wordmark',
+  // Motion-principle branches — each a distinct kinetic behavior (Section II.03)
+  'motion_push',
+  'motion_pull',
+  'motion_ripple',
+  'motion_collision',
+  'motion_current',
+  'motion_trajectory',
+  'motion_build',
+  'motion_break',
+  'motion_aftermath',
+  'motion_momentum',
 ];
 
 export const TERRITORY_SPECIMEN_SETS = {
@@ -111,10 +144,6 @@ function analysisFor(index: 1 | 2 | 3): Record<string, QualitativeRating> {
 }
 
 export function generateTerritories(brief: CreativeBrief): CreativeTerritory[] {
-  // Real FAL-generated visual assets are stored on disk per-org (see assetGeneration.ts).
-  // Loading a manifest never requires FAL_KEY — it only reads previously-persisted results,
-  // so structural specimen rendering stays fully independent of live provider availability.
-  const assetManifest = loadGeneratedAssetManifest(brief.organizationSlug);
   const definitions: Array<Omit<CreativeTerritory, 'id' | 'specimens'>> = [
     {
       index: 1,
@@ -131,10 +160,11 @@ export function generateTerritories(brief: CreativeBrief): CreativeTerritory[] {
         'Monochrome base with single signal accent',
       ],
       colorLogic: {
-        primary: '#0A0A0B',
-        secondary: '#F4F4F5',
-        accent: '#C41E3A',
-        volumeDifferentiation: 'Accent stripe per volume — same neutral base',
+        primary: '#14151A',
+        secondary: '#EAF4FF',
+        accent: '#2457F7',
+        accentSecondary: '#0EA5FF',
+        volumeDifferentiation: 'Accent stripe per volume — same graphite/ice base, ELECTRIC COBALT signal',
       },
       typographyLogic: {
         display: 'Geometric sans — tight tracking for NDXBOOK wordmark',
@@ -156,6 +186,8 @@ export function generateTerritories(brief: CreativeBrief): CreativeTerritory[] {
       lifecycleState: 'PROPOSED',
       legacyReferenceUsed: false,
       evolveAnalysis: analysisFor(1),
+      coreDirection: NDXBOOK_CORE_DIRECTIONS.index_signal,
+      branchLineage: NDXBOOK_BRANCH_LINEAGE.index_signal,
     },
     {
       index: 2,
@@ -172,10 +204,10 @@ export function generateTerritories(brief: CreativeBrief): CreativeTerritory[] {
         'Soft geometry — rounded containers, not playful cartoon',
       ],
       colorLogic: {
-        primary: '#1C1917',
-        secondary: '#FAFAF9',
-        accent: '#B45309',
-        volumeDifferentiation: 'Muted volume palettes — proposed bands per volume',
+        primary: '#0B0B0B',
+        secondary: '#F7F5F0',
+        accent: '#D6FF3B',
+        volumeDifferentiation: 'Muted volume palettes — SIGNAL LIME reserved for editorial intervention only, never a flood fill',
       },
       typographyLogic: {
         display: 'Modern serif-accent for NDXBOOK',
@@ -197,6 +229,8 @@ export function generateTerritories(brief: CreativeBrief): CreativeTerritory[] {
       lifecycleState: 'PROPOSED',
       legacyReferenceUsed: false,
       evolveAnalysis: analysisFor(2),
+      coreDirection: NDXBOOK_CORE_DIRECTIONS.editorial_utility,
+      branchLineage: NDXBOOK_BRANCH_LINEAGE.editorial_utility,
     },
     {
       index: 3,
@@ -213,10 +247,12 @@ export function generateTerritories(brief: CreativeBrief): CreativeTerritory[] {
         'Dark-mode forward with luminous highlights',
       ],
       colorLogic: {
-        primary: '#0F172A',
-        secondary: '#E2E8F0',
-        accent: '#22D3EE',
-        volumeDifferentiation: 'Hue shift on accent glow per volume — shared dark field',
+        primary: '#0A0A0C',
+        secondary: '#F2F0EC',
+        accent: '#FF2E7E',
+        accentSecondary: '#FF7A2E',
+        accentTertiary: '#5B21B6',
+        volumeDifferentiation: 'Hue shift across rose/orange/deep-purple kinetic spectrum per volume — shared dark field',
       },
       typographyLogic: {
         display: 'Compressed display sans — NDXBOOK as signal block',
@@ -238,6 +274,8 @@ export function generateTerritories(brief: CreativeBrief): CreativeTerritory[] {
       lifecycleState: 'PROPOSED',
       legacyReferenceUsed: false,
       evolveAnalysis: analysisFor(3),
+      coreDirection: NDXBOOK_CORE_DIRECTIONS.kinetic_field,
+      branchLineage: NDXBOOK_BRANCH_LINEAGE.kinetic_field,
     },
   ];
 
@@ -248,7 +286,7 @@ export function generateTerritories(brief: CreativeBrief): CreativeTerritory[] {
     return {
       ...def,
       id,
-      specimens: buildSpecimens(id, [...specimenSets[i]], def.rendererKey, assetManifest),
+      specimens: buildSpecimens(brief.organizationSlug, id, [...specimenSets[i]], def.rendererKey),
     };
   });
 }

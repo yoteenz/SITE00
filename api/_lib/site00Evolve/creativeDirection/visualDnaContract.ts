@@ -1,5 +1,6 @@
 /** Visual DNA contract schema — promotion gate requires APPROVED lifecycle */
 
+import { extractCoreDna } from './coreDirection.js';
 import type { CreativeTerritory, FounderDecision, HybridSelection, VisualDnaContract } from './types.js';
 
 export function emptyVisualDnaContract(): VisualDnaContract {
@@ -16,6 +17,7 @@ export function emptyVisualDnaContract(): VisualDnaContract {
     channelAdaptation: {},
     aiGeneration: {},
     provenance: {},
+    conceptDna: null,
   };
 }
 
@@ -66,12 +68,15 @@ export function buildProposedVisualDnaFromTerritory(
       approvedAt: new Date().toISOString(),
       lifecycle: 'PROPOSED',
     },
+    // Section 6 — DNA is not extracted until CORE_DIRECTION_APPROVED (promoteVisualDnaToApproved).
+    conceptDna: null,
   };
 }
 
 export function promoteVisualDnaToApproved(
   contract: VisualDnaContract,
   decision: FounderDecision,
+  territory: CreativeTerritory,
 ): VisualDnaContract {
   return {
     ...contract,
@@ -83,5 +88,6 @@ export function promoteVisualDnaToApproved(
       approvedBy: decision.by,
       lifecycle: 'APPROVED',
     },
+    conceptDna: extractCoreDna(territory),
   };
 }

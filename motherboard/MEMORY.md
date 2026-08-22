@@ -2273,6 +2273,48 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 ---
 
+---
+
+## 2026-08-21 — NDX BOOK three-direction Creative Direction reference-locked production cleanup + FAL pipeline
+
+- **Context:** Founder attached three approved reference boards (Editorial Utility / signal lime, Index Signal / electric cobalt, Kinetic Field / rose-orange-purple motion) and asked Sonnet to reconstruct the *visual systems* implied by each — not just palettes — using a new reference-to-production methodology, classify NDX BOOK's brand-expression context, and prove the system via a FAL asset pipeline with composite mapping. Repeated "send the conclusion in a code box" prompts across turns; this turn finished the outstanding implementation (Kinetic Field renderer) and ran real visual QA before returning the final conclusion.
+
+- **Methodology formalized:** `docs/site00/CREATIVE_DIRECTION_METHODOLOGY.md` — `BrandExpressionContext` classification (`SOCIAL_FIRST_EDITORIAL` for ndxbook, set in `intelligenceBrief.ts`'s `synthesizeCreativeBrief`), mandatory reference decomposition manifest (`docs/studio-world/ndxbook/NDXBOOK_CD_REFERENCE_DECOMPOSITION.md`), `CODE_NATIVE` vs `GENERATED_ASSET` vs `HYBRID_COMPOSITION` decision rules, FAL production pipeline (fidelity modes, background-treatment declaration), and mandatory composite mapping (desktop + independently recomposed mobile, via CSS custom properties + media query in `HybridAssetLayer`).
+
+- **Assets:** 6 real FAL-generated assets via `fal-ai/nano-banana-pro` (+ `fal-ai/birefnet/v2` background removal for 3 of them), stored as static `.webp` in `public/site00/creative-direction/ndxbook/`, registered with full provenance + composite maps in `api/_lib/site00Evolve/creativeDirection/generatedAssets.ts`. One asset (`is_scan_hero`) went through 2 real regeneration cycles after visual inspection rejected an early candidate (baked-in HUD/lens-flare overlay, wrong tone, unwanted person) — genuine reject/regenerate loop, not just a technical pass.
+
+- **Renderers rewritten** (all three, each now with 9–10 new behavior/motion-principle specimens beyond the pre-existing set): `EditorialUtilityTerritoryView.tsx` (signal lime `#D6FF3B`, 9 editorial branches: burn page/receipts/margin notes/list/file/insert/redaction/centerfold/back page), `IndexSignalTerritoryView.tsx` (electric cobalt `#2457F7`, 9 signal behaviors: pulse/readout/pattern/scan/forecast/alert/transmission/coordinate/projection), `KineticFieldTerritoryView.tsx` (rose/orange/deep-purple `#FF2E7E`/`#FF7A2E`/`#5B21B6`, 10 motion principles: push/pull/ripple/collision/current/trajectory/build/break/aftermath/momentum). `territories.ts` specimen-type arrays expanded to match; `types.ts` extended with the new specimen-type unions plus `BackgroundTreatment`, `AssetClassification`, `FidelityMode`, `CompositeMap`, `SpecimenImageAsset`. `SpecimenFrame.tsx` gained `HybridAssetLayer` (renders GENERATED/HYBRID images with independent desktop/mobile composite recomposition) and `AssetProvenanceTag`; `paletteFromGrayscale` made generic so palettes with extra accent keys (`accent2`/`accent3` for Kinetic) type-check.
+
+- **Visual QA this turn:** Built a temporary unauthenticated preview route + Playwright script (both removed after use — not committed) to screenshot all three renderers at 375/390/430/640/1024/1440px. Confirmed **zero horizontal overflow at every breakpoint**, confirmed the three directions are visually distinct (lime/black/white editorial vs cobalt/graphite signal vs dark rose-orange-purple kinetic), and confirmed the 6 FAL hero/prop images composite correctly with SVG overlays via `HybridAssetLayer`. Full suite 507/507 PASS, `tsc --noEmit` clean, build PASS after every change.
+
+- **Known gaps (reported honestly, not glossed over):** No reference-conditioned FAL generation was used (attached founder images weren't available as files to the model this session — used detailed text-to-image prompts derived from visual inspection instead, `DIRECTED_VARIATION` fidelity). Only 6 of many possible specimens have real FAL imagery; the rest are intentionally `CODE_NATIVE` SVG (by design per the code-vs-generated decision rules, not a shortcut). Carousel/Stories/Reels social-first proof exists as individual specimen types within each renderer, not yet as a dedicated swipeable/sequential UI. No direction was marked founder-approved in system state — these remain `PROPOSED`/`GENERATED`, per governance.
+
+- **Conventions:** Never generate everything through FAL or recreate everything in CSS — decide per-component. Every `HYBRID_COMPOSITION`/`GENERATED_ASSET` needs an explicit composite map with independently authored (not proportionally shrunk) mobile placement. Reject-and-regenerate is normal production, not failure — document it. Visual QA (real screenshots at real breakpoints) is mandatory before declaring a Creative Direction pass complete; tests/build passing is necessary but not sufficient.
+
+---
+
+## 2026-08-21 — Core Direction Formation + Controlled Expansion methodology (Stage A/B gating), applied to NDX BOOK
+
+- **Context:** Immediately after the NDX BOOK three-direction Creative Direction sprint above, the founder issued a standing methodology directive: **"Do not design the entire brand world before the core creative idea has been proven."** It mandates two non-collapsible stages — Stage A (Direction Formation: brand context classification, three conceptually distinct Core Direction Boards, Founder Core-Direction Gate) and Stage B (Direction Expansion: DNA extraction, controlled branch expansion with mandatory lineage declarations, a seven-question lineage test, channel translation, production expansion) — with "expansion freedom LOW before core approval, HIGH after, concept-drift tolerance always LOW." NDX BOOK was named as the validation example; the directive is explicitly universal for all future SITE 00/Studio World creative work, not NDX-specific.
+
+- **Key discovery:** The existing `CreativeDirectionEngagement` architecture (`api/_lib/site00Evolve/creativeDirection/`) already implemented ~90% of this gating model under different names — `CreativeDirectionLifecycle` (PROPOSED/UNDER_REVIEW/REVISION_REQUESTED/SELECTED/APPROVED), a founder-decision UI (APPROVE/REFINE/HYBRIDIZE/REJECT in `CreativeDirectionExperience.tsx`), and `VisualDnaContract` promotion gated strictly behind an `APPROVE` decision (`visualDnaContract.ts` / `engagementService.ts`), with `Page001ReadinessGate` blocked until DNA is `APPROVED`. Rather than rename/rebuild this (would break many existing tests/consumers), formalized the founder's exact vocabulary as an **additive derived layer**.
+
+- **New code:** `types.ts` gained `CoreDirectionDefinition` (bigIdea/oneLineThesis/brandConnection/culturalReference/emotionalPromise/visualMetaphor/governingBehavior/materialImageryLanguage/typographicAttitude/coreColorLogic/signatureDevices/primaryBrandArtifact/proprietaryQuality/antiDirection), `CoreDNA` (conceptRules/visualRules/compositionRules/imageRules/materialRules/typographyRules/colorRules/motionRules/contentBehavior/signatureDevices/prohibitedDrift), `BranchLineageDeclaration` + `BranchLineageTest` (the 7 founder questions as explicit booleans) + `branchPassesLineageTest()`, `CoreDirectionGateStatus` + `coreDirectionGateStatus()` (maps existing lifecycle → founder vocabulary; `SELECTED` stays `CORE_DIRECTION_PENDING` since DNA isn't locked), and `expansionFreedomFor()` (LOW pre-approval, HIGH post-approval, drift tolerance always LOW). `CreativeTerritory` gained `coreDirection` + `branchLineage` fields; `VisualDnaContract` gained `conceptDna: CoreDNA | null`, populated only inside `promoteVisualDnaToApproved()` (now takes the territory) via new `extractCoreDna()` in `coreDirection.ts` — never speculatively.
+
+- **NDX BOOK retrofit:** New `coreDirectionDefinitions.ts` formally authors a full `CoreDirectionDefinition` for all three territories (Editorial Utility/`ANNOTATION`/Burn-Book ancestor, Index Signal/`SCANNING`/instrumentation ancestor, Kinetic Field/`MOVEMENT`/physics ancestor) and retroactively documents **all 28 already-built branches** (9 + 9 + 10) as `BranchLineageDeclaration`s, each answering the 7-question lineage test — every one passes. Wired into `territories.ts` so every territory carries `coreDirection`/`branchLineage` end-to-end through the API payload (no extra plumbing needed — the admin/site00-evolve endpoint serializes the engagement object directly).
+
+- **Governance honesty:** None of NDX BOOK's three directions has reached `CORE_DIRECTION_APPROVED` — all sit at `CORE_DIRECTION_PENDING`, `conceptDna` is `null` for all three, expansion freedom is `LOW`. Explicitly flagged in the new methodology doc that the 28 branches were built *before* formal Stage A founder approval (prior sprint), which the new methodology says should not happen going forward — nothing was reverted, but future branch work must wait for `CORE_DIRECTION_APPROVED` per direction.
+
+- **Frontend:** `CreativeDirectionExperience.tsx` now renders a "CORE DIRECTION BOARD" panel (big idea, one-line thesis, cultural reference, visual metaphor, governing behavior, emotional promise, primary artifact, proprietary quality, signature devices, anti-direction) and a "BRANCH LINEAGE — STAGE B" panel per territory, plus a gate-status badge (`coreDirectionGateLabel()`), inside the existing territory-detail view (new CSS in `site00-creative-direction.css`). This makes the Founder Core-Direction Gate concretely reviewable in-product, not just documented.
+
+- **Docs:** New `docs/site00/CORE_DIRECTION_METHODOLOGY.md` — the full two-stage methodology, the lifecycle→gate-status mapping table, and the NDX BOOK validation example with an explicit process note about the pre-approval branch-expansion gap. Cross-referenced from the top of the existing `docs/site00/CREATIVE_DIRECTION_METHODOLOGY.md` (that doc governs asset production once a direction IS being produced; the new doc governs sequencing/gating — when a direction may exist or expand at all).
+
+- **Testing:** New `api/_lib/site00Evolve/creativeDirection/coreDirectionMethodology.test.ts` (15 tests) validates: Core Direction Boards are fully populated and conceptually distinct across all 3 territories; every one of the 28 branch declarations passes the lineage test; Index Signal/Kinetic Field have their own branch names (not copies of Editorial Utility); gate starts `CORE_DIRECTION_PENDING` with `conceptDna` null; expansion freedom is `LOW` pre-approval; on a real `APPROVE` decision, gate flips to `CORE_DIRECTION_APPROVED`, `conceptDna` is extracted with all 11 `CoreDNA` fields populated, and expansion freedom flips to `HIGH`; `REFINE`/`REJECT` never advance past `CORE_DIRECTION_REVISION_REQUESTED`; `HYBRIDIZE` (`SELECTED`) stays `CORE_DIRECTION_PENDING` with DNA `PROPOSED`-not-locked. Full suite 522/522 PASS (was 507; +15 new), `tsc --noEmit` clean, production build PASS.
+
+- **Conventions:** This is now the standing sequencing methodology for **all** future SITE 00/Studio World creative work (not NDX-specific) — first find the world (Stage A, LOW freedom), then prove it (Core Direction Board), then lock its DNA (Founder Core-Direction Gate → `CORE_DIRECTION_APPROVED` only), then let it expand (Stage B, HIGH freedom but every branch must pass the 7-question lineage test). Never populate `conceptDna`/DNA extraction speculatively before approval. Extend the founder-vocabulary mapping (`coreDirectionGateStatus`) rather than renaming the underlying lifecycle enum when adding gate semantics to existing engagements.
+
+---
+
 ## 2026-08-21 — AIO project restoration verification + Projects subtitle copy
 
 - **Context:** Founder sprint to restore **All In One Enterprises Inc (AIO)** to the SITE 00 Projects page via canonical project architecture (not frontend mock). Forensic audit required before changes; no EVOLVE enrollment, intake fabrication, or unrelated project regressions.
@@ -2439,6 +2481,28 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 ---
 
+## 2026-08-22 — PR #201 merge conflict resolution (main into ndxbook CD branch)
+
+- **Branch:** `cursor/ndxbook-cd-reference-locked-production-4f59` (PR #201) merged `origin/main` after create-account/deploy sprint.
+
+- **8 conflict files:** `types.ts`, `territories.ts`, `visualAssetStrategy.ts`, `CreativeDirectionExperience.tsx`, `TerritoryRendererRegistry.tsx`, three territory renderer views.
+
+- **Simple (fixed):** Brand-lore brief fields merged into `types.ts` alongside Core Direction methodology types; `CreativeDirectionExperience` keeps Core Direction board UI + adds lore readiness banner/calibrationLink from main; renderer/registry/strategy kept branch reference-locked versions; tests updated for priority brief set + lore calibration before APPROVE. PR #201 now mergeable.
+
+- **Complicated (coexist, not unified):** Two asset pipelines — main's `assetGeneration.ts` (Supabase manifest) vs branch's `generatedAssets.ts` (static webp + compositeMap). `territories.ts` uses static registry for `ndxbook` org only. Stale on-disk `generatedAssets/ndxbook.assets.json` (main page_001 brief keys) does not match branch priority briefs — manifest module retained but not wired into territory build.
+
+---
+
+## 2026-08-22 — Brand Lore multi-select incorporated into NDXBOOK CD branch
+
+- **Context:** Founder reported multi-selection still missing for NDXBOOK calibration (`role` / WHO ARE YOU IN THEIR WORLD?).
+
+- **Fix:** Cherry-picked `cursor/brand-lore-semantic-multi-select-1983` (commit `e66c65e`) into `cursor/ndxbook-cd-reference-locked-production-4f59`. `role` is now `MULTI_SELECT` with `selectionGuidance: 'MORE THAN ONE CAN BE TRUE.'`; synthesis preserves compound selections in `audienceRelationship: string[]`; UI shows guidance + SELECTED markers; `ProjectLoreCalibrationFlow` uses `loreInteractionMode()` for default values.
+
+- **Key files:** `loreAnswerTypes.ts`, `idnty-lore-questions.ts`, `loreSynthesis.ts`, `IdentityLoreStepForm.tsx`, `IdentityCalibrationOptionRows.tsx`, `ProjectLoreCalibrationFlow.tsx`.
+
+---
+
 ## 2026-08-22 — Project lore calibration resume on refresh
 
 - **Symptom:** Founder on cloud preview tunnel — refreshing `/projects/ndxbook/calibrate` restarted at step 1 despite saved progress.
@@ -2463,7 +2527,6 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 ---
 
-
 ## 2026-08-22 — Batch merge conflict resolution + #103 mobile routes
 
 - **#103 `fix-mobile-routes-bc8e`:** Merged `main`; kept legacy `/sign-in` + `/identity/*` aliases, IDNTY reserved slug guards, projects desktop redirect, public-page coverage. Uses main `IdntyMobileDiagnostic` + `site00CreateAccountLinkTarget`.
@@ -2471,6 +2534,7 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Prior batch:** #94–#15, #106–#107, #96–#99, #93, etc. — mostly MEMORY-only conflicts resolved.
 
 ---
+
 ## 2026-08-22 — Calibration stuck at 06/06 instead of 08/08
 
 - **Symptom:** Founder on NDXBOOK calibration step 6 saw **06/06** (contradiction tensions) instead of **06/08**; stale frozen sessions dropped `lineage` + `now` when REFERENCE domain partially satisfied by `objects` answer.
