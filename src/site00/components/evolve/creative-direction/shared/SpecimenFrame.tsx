@@ -15,12 +15,15 @@ export function SpecimenFrame({
   status,
   hideLabels,
   layout = 'default',
+  provenance,
   children,
 }: {
   title: string;
   status: string;
   hideLabels?: boolean;
   layout?: 'default' | 'wide' | 'tall' | 'full';
+  /** Truthful FAL asset provenance — only rendered when a real generated image backs this specimen. */
+  provenance?: { approvalState: string; model: string; volume?: string } | null;
   children: ReactNode;
 }) {
   const layoutClass =
@@ -32,11 +35,17 @@ export function SpecimenFrame({
           ? 'site00-cd-specimen--full'
           : '';
   return (
-    <figure className={`site00-cd-specimen ${layoutClass}`.trim()}>
+    <figure className={`site00-cd-specimen ${provenance ? 'site00-cd-specimen--imaged' : ''} ${layoutClass}`.trim()}>
       {children}
       {hideLabels ? null : (
         <figcaption>
           {title} · {status}
+          {provenance ? (
+            <span className="site00-cd-specimen__provenance">
+              {' '}
+              · {provenance.approvalState} (FAL{provenance.volume ? ` · ${provenance.volume}` : ''})
+            </span>
+          ) : null}
         </figcaption>
       )}
     </figure>

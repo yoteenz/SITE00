@@ -16,13 +16,28 @@ export type LoreAdaptivityContext = {
   calibrationStepIds?: string[] | null;
 };
 
-function isAnswered(answers: Record<string, string | string[]>, stepId: string): boolean {
+export function isLoreStepAnswered(answers: Record<string, string | string[]>, stepId: string): boolean {
   const v = answers[stepId];
   if (v === undefined || v === null) return false;
-  if (v === 'skip' || v === 'not-sure') return true;
+  if (v === LORE_SKIP_VALUE || v === LORE_NOT_SURE_VALUE) return true;
   if (typeof v === 'string') return v.trim().length > 0;
   if (Array.isArray(v)) return v.length > 0;
   return false;
+}
+
+/** @deprecated alias */
+function isAnswered(answers: Record<string, string | string[]>, stepId: string): boolean {
+  return isLoreStepAnswered(answers, stepId);
+}
+
+/** Resume project lore calibration at the first step without a saved (server) answer. */
+export function resolveProjectLoreCalibrationStepIndex(
+  steps: LoreQuestionStep[],
+  serverAnswers: Record<string, string | string[]>,
+): number {
+  if (steps.length === 0) return 0;
+  const firstIncomplete = steps.findIndex((step) => !isLoreStepAnswered(serverAnswers, step.id));
+  return firstIncomplete === -1 ? steps.length - 1 : firstIncomplete;
 }
 
 function profileCoversStep(profile: BrandLoreProfile, step: LoreQuestionStep): boolean {

@@ -125,4 +125,10 @@ export const site00ProjectsApi = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ slug, ...input }),
     }),
+  submitLoreCalibration: (slug: string, answers: Record<string, string | string[]>) =>
+    projectsFetch<CreativeDirectionPayload>('/api/site00/projects?action=lore_calibration_submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug, answers }),
+    }),
 };

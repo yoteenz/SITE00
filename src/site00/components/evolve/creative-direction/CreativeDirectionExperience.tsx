@@ -20,7 +20,14 @@ export type CreativeDirectionTerritory = {
   rendererKey?: string;
   strengths: string[];
   risks: string[];
-  specimens: Array<{ id: string; specimenType: string; title: string; status: string; renderSpec?: Record<string, unknown> }>;
+  specimens: Array<{
+    id: string;
+    specimenType: string;
+    title: string;
+    status: string;
+    renderSpec?: Record<string, unknown>;
+    imageAsset?: { url: string; approvalState: string; model: string; volume?: string } | null;
+  }>;
   evolveAnalysis: Record<string, string>;
   lifecycleState: string;
 };
@@ -45,9 +52,18 @@ export type CreativeDirectionPayload = {
     visualDna: { status: string };
     page001Gate: { productionEligible: boolean; blockedReason: string | null };
     founderDecision: Record<string, unknown> | null;
+    /** Brand Lore readiness gate (XXXI) — no org, including NDX BOOK, bypasses this. */
+    brandLoreReadiness?: {
+      state: 'CONTEXT_INCOMPLETE' | 'CONTEXT_PARTIAL' | 'CORE_DIRECTION_READY';
+      blocked: boolean;
+      message: string | null;
+      missingDomains: string[];
+    } | null;
   };
   meta: { visualDnaStatus: string };
   page001: { topic: string; productionStarted: boolean } | null;
+  /** Saved lore calibration answers for resume (canonical raw answers, server-side). */
+  brandLoreCalibrationAnswers?: Record<string, string | string[]>;
 };
 
 export type CreativeDirectionDecisionInput = {
@@ -68,6 +84,8 @@ type CreativeDirectionExperienceProps = {
   api: CreativeDirectionApi;
   backLink?: ReactNode;
   adminFooter?: ReactNode;
+  /** Rendered inside the readiness banner when Brand Lore context is incomplete (XXXV). */
+  calibrationLink?: ReactNode;
 };
 
 function specimenForAnchor(
@@ -93,7 +111,13 @@ function renderOptions(structuralDiffMode: boolean) {
   };
 }
 
-export function CreativeDirectionExperience({ orgSlug, api, backLink, adminFooter }: CreativeDirectionExperienceProps) {
+export function CreativeDirectionExperience({
+  orgSlug,
+  api,
+  backLink,
+  adminFooter,
+  calibrationLink,
+}: CreativeDirectionExperienceProps) {
   const [payload, setPayload] = useState<CreativeDirectionPayload | null>(null);
   const [activeTerritory, setActiveTerritory] = useState(0);
   const [compareMode, setCompareMode] = useState(false);
@@ -171,6 +195,21 @@ export function CreativeDirectionExperience({ orgSlug, api, backLink, adminFoote
 
       {error ? <p className="site00-cd__error" role="alert">{error}</p> : null}
       {loading ? <p className="site00-cd__loading" aria-busy="true">SYNTHESIZING CREATIVE DIRECTION…</p> : null}
+
+      {payload?.engagement.brandLoreReadiness?.blocked ? (
+        <section className="site00-cd__readiness-banner" role="status">
+          <p className="site00-cd__readiness-banner-title">
+            {payload.engagement.brandLoreReadiness.state === 'CONTEXT_PARTIAL'
+              ? 'WE KNOW PART OF THE STORY.'
+              : 'ONE MORE THING BEFORE WE DECIDE WHAT THIS LOOKS LIKE.'}
+          </p>
+          <p className="site00-cd__readiness-banner-body">
+            WE NEED A LITTLE MORE OF THE WORLD BEHIND {orgSlug.toUpperCase()} BEFORE CREATIVE DIRECTION CAN BE
+            APPROVED. THE DIRECTIONS BELOW ARE A PREVIEW ONLY — NOT YET READY FOR A FOUNDER DECISION.
+          </p>
+          {calibrationLink}
+        </section>
+      ) : null}
 
       {payload && !loading ? (
         <>

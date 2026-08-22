@@ -314,6 +314,19 @@ ${row('LAST SAVED', lastSavedDisplay ?? 'JUST NOW')}
 </td></tr></table>`;
 }
 
+/**
+ * Small technical registration/coordinate tick — SVG_NATIVE. RULE 3 (technical/vector geometry):
+ * a drafting-mark crosshair, not photographic material, so it is drawn as exact vector geometry
+ * rather than generated. Flanks the SITE 00 header row on both Builder and Identity per the
+ * approved reference's technical/architectural + editorial-precision header treatment.
+ */
+function intakeHeaderTick(color: string): string {
+  return `<svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;">
+<line x1="5" y1="0" x2="5" y2="10" stroke="${color}" stroke-width="1"/>
+<line x1="0" y1="5" x2="10" y2="5" stroke="${color}" stroke-width="1"/>
+</svg>`;
+}
+
 /** Narrow vertical rail label along the left edge of the desktop hero — CODE_NATIVE. */
 function intakeVerticalRail(label: string, accent: string): string {
   return `<td width="30" valign="middle" style="border-right:1px solid ${EMAIL.border};padding-right:10px;">
@@ -390,8 +403,10 @@ ${intakeVerticalRail(railLabel, accent)}
   const body = `<table role="presentation" width="100%" style="background:${isBuilder ? EMAIL.light : '#F7F1EA'};"><tr><td align="center" style="padding:20px 12px;">
 <table role="presentation" class="email-wrap" width="${EMAIL.maxWidth}" style="background:${EMAIL.white};border:1px solid ${EMAIL.border};">
 <tr><td class="pad" style="padding:22px 32px 10px;"><table role="presentation" width="100%"><tr>
+<td width="14" style="padding-right:6px;">${intakeHeaderTick(EMAIL.stone)}</td>
 <td>${site00Wordmark('light')}</td>
 <td class="intake-desktop-only" align="right" style="font-family:${EMAIL.fontStack};font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:${EMAIL.stone};">${esc(tagline)}</td>
+<td class="intake-desktop-only" width="14" style="padding-left:6px;">${intakeHeaderTick(accent)}</td>
 </tr></table></td></tr>
 <tr><td class="pad intake-desktop-only" style="padding:8px 32px 0;">
 <table role="presentation" width="100%"><tr><td style="font-family:${EMAIL.fontStack};font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:${EMAIL.stone};">${esc(categoryRight)} ACCESS</td></tr></table>

@@ -108,4 +108,42 @@ export function canBeginCreativeDirection(readiness: CreativeDirectionReadinessS
   return readiness === 'CORE_DIRECTION_READY';
 }
 
+export type DomainInspectorStatus = 'READY' | 'MISSING' | 'NEEDS_CONFIRMATION';
+
+export type ReadinessInspectorRow = {
+  domain: ReadinessDomain;
+  status: DomainInspectorStatus;
+};
+
+/** Maps a required domain to the field(s) that back it, for founder-confirmation status. */
+const DOMAIN_FIELDS: Partial<Record<ReadinessDomain, Array<keyof BrandLoreProfile>>> = {
+  PURPOSE: ['brandBelief', 'coreObsessions'],
+  AUDIENCE_RELATIONSHIP: ['audienceRelationship'],
+  WORLDVIEW: ['worldMetaphor', 'brandWorld'],
+  EMOTIONAL_PROMISE: ['emotionalPromise'],
+  CULTURAL_TENSION: ['culturalOpposition', 'creativeTensions'],
+  REFERENCE_CONTEXT: ['referenceLineage', 'currentReferenceSignals', 'materialVocabulary'],
+  ANTI_DIRECTION: ['creativeAntiPatterns', 'antiLanguage'],
+};
+
+/**
+ * Truthful, no-fake-percentage readiness breakdown for admin/founder debugging (XXXIV) — READY,
+ * MISSING, or NEEDS_CONFIRMATION (satisfied but no field backing it has been founder-confirmed
+ * yet) per conceptual domain.
+ */
+export function buildReadinessInspector(profile: BrandLoreProfile | null): ReadinessInspectorRow[] {
+  return REQUIRED_DOMAINS.map((domain) => {
+    if (!profile || !domainSatisfied(profile, domain)) {
+      return { domain, status: 'MISSING' as const };
+    }
+    const fields = DOMAIN_FIELDS[domain];
+    if (!fields) return { domain, status: 'READY' as const };
+    const anyConfirmed = fields.some((key) => {
+      const f = profile[key] as { founderConfirmationState?: string } | undefined;
+      return f?.founderConfirmationState === 'CONFIRMED';
+    });
+    return { domain, status: anyConfirmed ? ('READY' as const) : ('NEEDS_CONFIRMATION' as const) };
+  });
+}
+
 export { REQUIRED_DOMAINS };

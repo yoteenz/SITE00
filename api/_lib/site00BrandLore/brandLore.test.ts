@@ -152,10 +152,12 @@ describe('SITE 00 brand lore — synthesis + service', () => {
     expect(canBeginCreativeDirection(gate.state)).toBe(false);
   });
 
-  it('26. lore readiness gate enforced for all orgs when profile exists', () => {
+  it('26. NDXBOOK readiness bypass is removed — gate enforcement is identical for every org', () => {
+    const profile = synthesizeBrandLoreProfile({ loreAnswers: FULL_LORE_ANSWERS });
+    expect(shouldEnforceLoreReadinessGate('ndxbook', profile)).toBe(true);
+    expect(shouldEnforceLoreReadinessGate('site-00', profile)).toBe(true);
     expect(shouldEnforceLoreReadinessGate('ndxbook', null)).toBe(false);
-    expect(shouldEnforceLoreReadinessGate('ndxbook', synthesizeBrandLoreProfile({ loreAnswers: FULL_LORE_ANSWERS }))).toBe(true);
-    expect(shouldEnforceLoreReadinessGate('site-00', synthesizeBrandLoreProfile({ loreAnswers: FULL_LORE_ANSWERS }))).toBe(true);
+    expect(shouldEnforceLoreReadinessGate('site-00', null)).toBe(false);
   });
 
   it('27. synthesis grounding check passes for mapped answers', () => {
@@ -188,7 +190,7 @@ describe('SITE 00 brand lore — synthesis + service', () => {
     expect(engagement.brandLoreReadiness?.message).toBe('CONTEXT CALIBRATION REQUIRED');
   });
 
-  it('30. NDXBOOK Creative Direction remains unblocked without lore profile', async () => {
+  it('30. NDXBOOK Creative Direction is gated the same as every other org (bypass removed)', async () => {
     vi.stubEnv('VITEST', 'true');
     vi.stubEnv('EVOLVE_USE_MEMORY', '1');
     const { resetEvolveStore } = await import('../site00Evolve/memoryStore.js');
@@ -203,7 +205,123 @@ describe('SITE 00 brand lore — synthesis + service', () => {
     resetCreativeDirectionMemory();
     await runNdxbookLegacyImport({ approvedBy: 'founder@test.com' });
     const engagement = await ensureCreativeDirectionEngagement('ndxbook');
-    expect(engagement.brandLoreReadiness).toBeNull();
+    // Reconciled from Content Brain (XXVI) — real gate, real state, never forced to READY.
+    expect(engagement.brandLoreReadiness).not.toBeNull();
+    expect(engagement.brandLoreReadiness?.state).toBe('CONTEXT_INCOMPLETE');
+    expect(engagement.brandLoreReadiness?.blocked).toBe(true);
+    // Territory preview generation itself is unaffected — only FAL dispatch is blocked (see
+    // queueFalGenerationJobs / test 31).
     expect(engagement.territories).toHaveLength(3);
+  });
+
+  it('31. NDXBOOK FAL generation is blocked while lore context is incomplete', async () => {
+    vi.stubEnv('VITEST', 'true');
+    vi.stubEnv('EVOLVE_USE_MEMORY', '1');
+    vi.stubEnv('FAL_KEY', 'test-fal-key');
+    const { resetEvolveStore } = await import('../site00Evolve/memoryStore.js');
+    const { resetNdxbookImportMemory, runNdxbookLegacyImport } = await import(
+      '../site00Evolve/providers/ndxbookLegacyImportService.js',
+    );
+    const { resetCreativeDirectionMemory, queueFalGenerationJobs } = await import(
+      '../site00Evolve/creativeDirection/engagementService.js',
+    );
+    resetEvolveStore();
+    resetNdxbookImportMemory();
+    resetCreativeDirectionMemory();
+    await runNdxbookLegacyImport({ approvedBy: 'founder@test.com' });
+    const result = await queueFalGenerationJobs('ndxbook');
+    expect(result.skipped).toBe(true);
+    expect(result.queued).toBe(0);
+    expect(result.blockedReason).toBe('CONTEXT CALIBRATION REQUIRED');
+  });
+
+  it('32. NDXBOOK reconciliation maps only genuinely known Content Brain facts, not prior Creative Direction output', async () => {
+    const { buildNdxbookReconciledProfile } = await import('./ndxbookReconciliation.js');
+    const profile = buildNdxbookReconciledProfile('org-ndxbook-test');
+    expect(profile.sourceIntakeType).toBe('CONTENT_BRAIN');
+    expect(profile.coreObsessions.classification).toBe('SYNTHESIZED');
+    expect(profile.coreObsessions.founderConfirmationState).toBe('PENDING');
+    // Domains with no genuine founder/business-fact source stay MISSING — never fabricated.
+    expect(profile.worldMetaphor.value).toBeNull();
+    expect(profile.emotionalPromise.value).toEqual([]);
+    expect(profile.culturalOpposition.value).toEqual([]);
+    expect(profile.readinessMissingDomains).toContain('WORLDVIEW');
+    expect(profile.readinessMissingDomains).toContain('EMOTIONAL_PROMISE');
+    expect(profile.readinessState).not.toBe('CORE_DIRECTION_READY');
+  });
+
+  it('34. submitOrgLoreCalibration merges missing-domain answers into the reconciled NDXBOOK profile', async () => {
+    const { submitOrgLoreCalibration } = await import('./loreService.js');
+    const updated = await submitOrgLoreCalibration({
+      orgId: 'org-ndxbook-calibration',
+      orgSlug: 'ndxbook',
+      answers: { world: 'the index for everything you almost knew', role: 'guide' },
+    });
+    expect(updated.worldMetaphor.value).toBe('the index for everything you almost knew');
+    expect(updated.audienceRelationship.value).toEqual(['THE GUIDE SHOWING THE WAY']);
+    // Reconciled Content Brain fields survive an unrelated-domain calibration submission.
+    expect(updated.coreObsessions.sourceType).toBe('CONTENT_BRAIN');
+    expect(updated.sourceIntakeType).toBe('CONTENT_BRAIN');
+  });
+
+  it('35. submitOrgLoreCalibration for an org with no existing profile creates a real founder-input profile', async () => {
+    const { submitOrgLoreCalibration } = await import('./loreService.js');
+    const created = await submitOrgLoreCalibration({
+      orgId: 'org-fresh-calibration',
+      orgSlug: 'some-future-brand',
+      answers: { belief: 'good design is invisible.' },
+    });
+    expect(created.brandBelief.value).toBe('good design is invisible.');
+    expect(created.sourceIntakeType).toBe('IDENTITY');
+    expect(created.organizationId).toBe('org-fresh-calibration');
+  });
+
+  it('36. calibration submissions never leak across organizations', async () => {
+    const { submitOrgLoreCalibration, getBrandLoreProfileForOrg } = await import('./loreService.js');
+    await submitOrgLoreCalibration({
+      orgId: 'org-isolation-a',
+      orgSlug: 'brand-a',
+      answers: { belief: 'brand A belief' },
+    });
+    await submitOrgLoreCalibration({
+      orgId: 'org-isolation-b',
+      orgSlug: 'brand-b',
+      answers: { belief: 'brand B belief' },
+    });
+    const a = await getBrandLoreProfileForOrg('org-isolation-a');
+    const b = await getBrandLoreProfileForOrg('org-isolation-b');
+    expect(a?.brandBelief.value).toBe('brand A belief');
+    expect(b?.brandBelief.value).toBe('brand B belief');
+    expect(a?.organizationId).not.toBe(b?.organizationId);
+  });
+
+  it('37. reference evidence survives full round-trip persistence with project/org lineage intact (downstream retrieval — XXIII)', async () => {
+    const profile = await upsertLoreFromIdentityIntake({
+      intakeId: 'intake-ref-roundtrip',
+      draftPayload: {
+        loreAnswers: { ...FULL_LORE_ANSWERS, lineage: 'Vintage travel posters', now: 'Independent bookshops' },
+      },
+    });
+    expect(profile?.referenceEvidence.length).toBeGreaterThanOrEqual(2);
+    const reloaded = await getLoreForIntake('IDENTITY', 'intake-ref-roundtrip');
+    expect(reloaded?.referenceEvidence).toEqual(profile?.referenceEvidence);
+    expect(reloaded?.referenceEvidence.every((r) => r.intakeId === 'intake-ref-roundtrip')).toBe(true);
+    // Confirming an unrelated field must never promote a reference to canon (XXII).
+    const confirmed = await confirmFounderLoreField(profile!.id, 'brandBelief');
+    expect(confirmed?.referenceEvidence).toEqual(profile?.referenceEvidence);
+  });
+
+  it('33. reconciliation never overrides a real IDENTITY-sourced profile for the same org', async () => {
+    const { getOrReconcileBrandLoreForOrg } = await import('./loreService.js');
+    const { saveBrandLoreProfile } = await import('./storeAdapter.js');
+    const real = synthesizeBrandLoreProfile({
+      loreAnswers: FULL_LORE_ANSWERS,
+      sourceIntakeId: 'real-ndxbook-intake',
+      organizationId: 'org-ndxbook-real',
+    });
+    await saveBrandLoreProfile(real);
+    const resolved = await getOrReconcileBrandLoreForOrg('org-ndxbook-real', 'ndxbook');
+    expect(resolved?.sourceIntakeType).toBe('IDENTITY');
+    expect(resolved?.sourceIntakeId).toBe('real-ndxbook-intake');
   });
 });

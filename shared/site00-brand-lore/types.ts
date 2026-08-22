@@ -37,6 +37,42 @@ export type LoreFieldClassification =
 
 export type FounderConfirmationState = 'PENDING' | 'CONFIRMED' | 'REJECTED' | 'NOT_APPLICABLE';
 
+/** How a reference was captured. UPLOAD is a known gap in this sprint — see
+ * api/_lib/site00BrandLore/loreSynthesis.ts (referenceEvidence derivation) and the
+ * "KNOWN GAPS" section of the productionization conclusion: there is no canonical
+ * client-facing binary upload pipeline yet, so every reference this sprint produces is TEXT. */
+export type ReferenceSource = 'TEXT' | 'URL' | 'UPLOAD';
+
+export type ReferenceRole =
+  | 'FEELS_LIKE_US'
+  | 'DOES_NOT_FEEL_LIKE_US'
+  | 'VISUAL_LANGUAGE'
+  | 'MATERIAL'
+  | 'COLOR'
+  | 'TYPOGRAPHY'
+  | 'IMAGERY'
+  | 'COMPOSITION'
+  | 'CULTURAL_REFERENCE'
+  | 'OTHER';
+
+/**
+ * A single piece of evidence the founder associated with their brand world — NOT canon (XXII).
+ * Downstream Creative Direction consumes REFERENCE + founderNote + Brand Lore together; it never
+ * treats a reference as "copy this". assetId is reserved for the future canonical upload/asset
+ * vault integration (site00Assts) — null until that pipeline exists (known gap, see above).
+ */
+export type BrandLoreReferenceEntry = {
+  referenceId: string;
+  source: ReferenceSource;
+  assetId: string | null;
+  intakeId: string | null;
+  projectId: string | null;
+  organizationId: string | null;
+  founderNote: string;
+  referenceRole: ReferenceRole;
+  createdAt: string;
+};
+
 /** Provenance-backed value for one synthesized lore field. */
 export type BrandLoreField<T = unknown> = {
   value: T;
@@ -56,7 +92,10 @@ export type BrandLoreProfile = {
   organizationId: string | null;
   projectId: string | null;
   sourceIntakeId: string | null;
-  sourceIntakeType: 'IDENTITY' | 'BUILDER' | null;
+  /** CONTENT_BRAIN = reconciled from pre-existing org intelligence, not a founder intake — see
+   * api/_lib/site00BrandLore/ndxbookReconciliation.ts (XXV/XXVI). Never fabricated; only genuinely
+   * equivalent business facts are mapped, and it never overwrites a real IDENTITY/BUILDER profile. */
+  sourceIntakeType: 'IDENTITY' | 'BUILDER' | 'CONTENT_BRAIN' | null;
 
   brandWorld: BrandLoreField<string | null>;
   /** Compound audience roles — multiple simultaneous truths preserved as label array. */
@@ -84,9 +123,15 @@ export type BrandLoreProfile = {
   /** Raw answers preserved verbatim — never lossy. */
   rawLoreAnswers: Record<string, string | string[]>;
 
+  /** Evidence, not canon (XXII) — see BrandLoreReferenceEntry. Never confirmable to FOUNDER_CONFIRMED. */
+  referenceEvidence: BrandLoreReferenceEntry[];
+
   contextClassification: BrandExpressionContext | null;
   readinessState: CreativeDirectionReadinessState;
   readinessMissingDomains: ReadinessDomain[];
+
+  /** Monotonically increments on every durable save — see supabaseStore.ts saveBrandLoreProfile(). */
+  profileVersion: number;
 
   createdAt: string;
   updatedAt: string;

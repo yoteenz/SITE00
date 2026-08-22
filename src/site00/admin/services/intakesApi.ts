@@ -63,4 +63,13 @@ export const site00AdminIntakesApi = {
       method: 'POST',
       body: { action: 'archive', intakeType, id },
     }),
+
+  confirmLoreField: (id: string, fieldKey: string) =>
+    intakesFetch<{ brandLore: import('../../../../shared/site00-brand-lore/types').BrandLoreProfile }>(
+      '/api/admin/site00-intakes',
+      {
+        method: 'POST',
+        body: { action: 'confirm-lore-field', intakeType: 'IDENTITY', id, fieldKey },
+      },
+    ),
 };
