@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import {
   getIdntyAssessmentState,
-  idntyAssessmentCompletePath,
   idntyAssessmentPath,
   type IdntyAssessmentStateId,
 } from '../../../config/idnty-assessment';
+import { idntyLorePath, idntyLoreFirstStep } from '../../../../../shared/site00-brand-lore/idnty-lore-questions';
 import { useIdntyAssessment } from '../../../hooks/useIdntyAssessment';
 import { formatAnswerLabel } from '../../idnty-assessment/IdntyStepForm';
 import { IdentityStateHero } from '../state-v2/IdentityStateProgress';
@@ -23,7 +23,7 @@ export function IdentityCalibrationMobileReview({ stateSlug }: IdentityCalibrati
   const navigate = useNavigate();
   const isDesktop = useSite00DesktopArtboardPreview();
   const state = getIdntyAssessmentState(stateSlug)!;
-  const { getAnswersForState, completeAssessment } = useIdntyAssessment();
+  const { getAnswersForState } = useIdntyAssessment();
   const answers = getAnswersForState(stateSlug);
 
   const navigateTo = (path: string) => {
@@ -31,8 +31,7 @@ export function IdentityCalibrationMobileReview({ stateSlug }: IdentityCalibrati
   };
 
   const handleSubmit = () => {
-    completeAssessment(stateSlug);
-    navigateTo(idntyAssessmentCompletePath(stateSlug));
+    navigateTo(idntyLorePath(stateSlug, idntyLoreFirstStep()));
   };
 
   const lastStep = state.steps[state.steps.length - 1];
@@ -64,8 +63,8 @@ export function IdentityCalibrationMobileReview({ stateSlug }: IdentityCalibrati
               if (lastStep) navigateTo(idntyAssessmentPath(stateSlug, lastStep.id));
             }}
             onContinue={handleSubmit}
-            continueLabel="SUBMIT ASSESSMENT"
-            nextStepLabel="COMPLETE"
+            continueLabel="CONTINUE TO BRAND WORLD"
+            nextStepLabel="WORLD"
           />
         }
       >

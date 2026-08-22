@@ -7,7 +7,9 @@ import { Site00EcosystemMobileShell } from '../mobile/Site00EcosystemMobileShell
 import { OperatingWorldTopNav } from './OperatingWorldTopNav';
 import { OperatingWorldStatusRail } from './OperatingWorldStatusRail';
 import { ExperienceContextBar } from '../access/ExperienceContextBar';
+import { CtrlRoomSignOutButton } from '../control/CtrlRoomSignOutButton';
 import { ecosystemPageMeta } from '../../config/ecosystem-nav';
+import { SITE00_ROUTES } from '../../config/routes';
 
 type EcosystemShellProps = {
   children: ReactNode;
@@ -29,6 +31,7 @@ export function EcosystemShell({ children, title, subtitle, headerActions, hideP
   const meta = ecosystemPageMeta(pathname);
   const pageTitle = title ?? meta.title;
   const pageSubtitle = subtitle ?? meta.subtitle;
+  const isCtrlRoomRoute = pathname === SITE00_ROUTES.control || pathname.startsWith(`${SITE00_ROUTES.control}/`);
 
   useEffect(() => {
     if (!ecosystemBgUrl) return;
@@ -64,6 +67,11 @@ export function EcosystemShell({ children, title, subtitle, headerActions, hideP
       <div className="site00-ecosystem-shell__mobile">
         <Site00EcosystemMobileShell shellClassName="site00-ecosystem-mobile-shell">
           <ExperienceContextBar variant="client" />
+          {isCtrlRoomRoute ? (
+            <div className="site00-ctrl-sign-out-mobile-bar">
+              <CtrlRoomSignOutButton variant="mobile-bar" />
+            </div>
+          ) : null}
           {hidePageHeader ? null : (
             <EcosystemPageHeader title={pageTitle} subtitle={pageSubtitle} actions={headerActions} />
           )}

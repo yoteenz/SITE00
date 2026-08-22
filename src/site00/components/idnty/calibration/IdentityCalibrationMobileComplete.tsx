@@ -11,6 +11,9 @@ import { IdentityTargetControl } from './IdentityTargetControl';
 import { IdntyBrandStateIcon } from '../IdntyBrandStateIcon';
 import type { IdntyBrandStateIconId } from '../../../config/idnty-brand-state-icons';
 import { SITE00_ROUTES } from '../../../config/routes';
+import { isSignedIn } from '../../../../utils/adminAuth';
+import { IntakeSaveStatus } from '../../intake/IntakeSaveStatus';
+import { IntakeGuestAccessCapture } from '../../intake/IntakeGuestAccessCapture';
 
 type IdentityCalibrationMobileCompleteProps = {
   stateSlug: IdntyAssessmentStateId;
@@ -18,13 +21,23 @@ type IdentityCalibrationMobileCompleteProps = {
 
 export function IdentityCalibrationMobileComplete({ stateSlug }: IdentityCalibrationMobileCompleteProps) {
   const state = getIdntyAssessmentState(stateSlug)!;
-  const { getAnswersForState, record } = useIdntyAssessment();
+  const { getAnswersForState, record, serverSaveState, serverLastSavedAt, serverSaveError, serverIntake, requestGuestAccess } =
+    useIdntyAssessment();
   const answers = getAnswersForState(stateSlug);
   const iconId = (state.iconId ?? state.id) as IdntyBrandStateIconId;
+  const signedIn = isSignedIn();
 
   return (
     <div className="site00-idnty-calibration-flow site00-idnty-calibration-flow--complete">
       <IdentityStateProgress stateId={stateSlug} />
+      <IntakeSaveStatus state={serverSaveState} lastSavedAt={serverLastSavedAt} errorMessage={serverSaveError} />
+      {!signedIn && (
+        <IntakeGuestAccessCapture
+          intakeType="IDENTITY"
+          onRequestAccess={requestGuestAccess}
+          alreadyIssued={Boolean(serverIntake?.verifiedEmailAt) || Boolean(serverIntake?.email)}
+        />
+      )}
       <IdentityCalibrationConsole
         stepIndex={state.steps.length - 1}
         totalSteps={state.steps.length}

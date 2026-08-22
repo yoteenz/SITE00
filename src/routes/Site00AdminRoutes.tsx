@@ -15,6 +15,8 @@ const IdentitiesPage = lazy(() => import('../site00/admin/pages/operations/Ident
 const IdentityDetailPage = lazy(() => import('../site00/admin/pages/operations/IdentityDetailPage'));
 const BldrIntakesPage = lazy(() => import('../site00/admin/pages/operations/BldrIntakesPage'));
 const BldrIntakeDetailPage = lazy(() => import('../site00/admin/pages/operations/BldrIntakeDetailPage'));
+const IntakesPage = lazy(() => import('../site00/admin/pages/operations/IntakesPage'));
+const IntakeDetailPage = lazy(() => import('../site00/admin/pages/operations/IntakeDetailPage'));
 const LeadsPage = lazy(() => import('../site00/admin/pages/operations/LeadsPage'));
 const LeadDetailPage = lazy(() => import('../site00/admin/pages/operations/LeadDetailPage'));
 const DiscoveryPage = lazy(() => import('../site00/admin/pages/operations/DiscoveryPage'));
@@ -150,6 +152,22 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <BldrIntakeDetailPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/intakes"
+        element={
+          <AdminSuspense>
+            <IntakesPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/intakes/:intakeType/:intakeId"
+        element={
+          <AdminSuspense>
+            <IntakeDetailPage />
           </AdminSuspense>
         }
       />

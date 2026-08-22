@@ -38,6 +38,7 @@ export const SITE00_ROUTES = {
   about: '/about',
   journal: '/journal',
   signIn: '/origin/sign-in',
+  createAccount: '/origin/create-account',
   loaderPreview: '/loader-preview',
   accessDebug: '/access/debug',
   access: '/access',
@@ -55,6 +56,7 @@ export const SITE00_ROUTES = {
   projectDetail: '/projects/:projectSlug',
   projectEvolve: '/projects/:projectSlug/evolve',
   projectCreativeDirection: '/projects/:projectSlug/creative-direction',
+  projectLoreCalibration: '/projects/:projectSlug/calibrate',
   projectConnections: '/projects/:projectSlug/connections',
   support: '/support',
   /** Client post-payment provisioning — project slug in path */
@@ -69,10 +71,27 @@ export const SITE00_ROUTES = {
   studioReviewDetail: '/studio/:projectSlug/reviews/:reviewId',
   studioMilestones: '/studio/:projectSlug/milestones',
   studioActivity: '/studio/:projectSlug/activity',
+  /** Client canonical intake retrieval — Identity + Builder intake persistence infrastructure */
+  accountIntakes: '/account/intakes',
+  accountIntakeDetail: '/account/intakes/:intakeType/:intakeId',
+  /** Guest secure intake access/resume — no sign-in required */
+  intakeGuestAccess: '/intake/access/:token',
 } as const;
+
+export function site00AccountIntakeDetailPath(intakeType: string, intakeId: string): string {
+  return `/account/intakes/${intakeType.toLowerCase()}/${intakeId}`;
+}
+
+export function site00IntakeGuestAccessPath(token: string): string {
+  return `/intake/access/${token}`;
+}
 
 export function site00ProjectPath(projectSlug: string): string {
   return `/projects/${projectSlug}`;
+}
+
+export function site00ProjectLoreCalibrationPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/calibrate`;
 }
 
 export function site00ProjectEvolvePath(projectSlug: string): string {
@@ -81,6 +100,33 @@ export function site00ProjectEvolvePath(projectSlug: string): string {
 
 export function site00ProjectCreativeDirectionPath(projectSlug: string): string {
   return `/projects/${projectSlug}/creative-direction`;
+}
+
+export function site00CreateAccountHrefWithReturnTo(returnToPath: string): string {
+  const safe = returnToPath.startsWith('/') ? returnToPath : `/${returnToPath}`;
+  return `${SITE00_ROUTES.createAccount}?returnTo=${encodeURIComponent(safe.slice(0, 1024))}`;
+}
+
+/** Preserve raw returnTo from sign-in (or current location) for create-account navigation. */
+export function site00CreateAccountLinkTarget(location: {
+  pathname: string;
+  search: string;
+}): { pathname: string; search?: string } {
+  const rawReturnTo = new URLSearchParams(location.search).get('returnTo');
+  if (rawReturnTo) {
+    return {
+      pathname: SITE00_ROUTES.createAccount,
+      search: `?returnTo=${encodeURIComponent(rawReturnTo.slice(0, 1024))}`,
+    };
+  }
+  const fromPath = `${location.pathname}${location.search}`.slice(0, 1024);
+  if (fromPath.startsWith('/') && fromPath !== SITE00_ROUTES.createAccount) {
+    return {
+      pathname: SITE00_ROUTES.createAccount,
+      search: `?returnTo=${encodeURIComponent(fromPath)}`,
+    };
+  }
+  return { pathname: SITE00_ROUTES.createAccount };
 }
 
 export function site00StudioPath(projectSlug: string, section?: 'input' | 'operations' | 'blueprint' | 'assets' | 'reviews' | 'milestones' | 'activity'): string {

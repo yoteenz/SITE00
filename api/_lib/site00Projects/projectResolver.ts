@@ -32,6 +32,27 @@ import {
 } from '../../../shared/site00-access/routes.js';
 
 const NDXBOOK_UUID = '7681ab75-bddc-43e5-b594-79fcf8168205';
+const AIO_UUID = '3781f0b7-cbc5-470d-8af7-69b97cfa5729';
+
+async function resolveRepositoryConnection(slug: Site00FounderProjectSlug): Promise<string | null> {
+  if (slug !== 'all-in-one-enterprises') return null;
+  try {
+    const { findOrgBySlug } = await import('../site00Orchestration/storeAdapter.js');
+    const org = await findOrgBySlug(slug);
+    if (!org) return 'UNAVAILABLE — NEEDS CONFIGURATION';
+    const meta = (org.metadata ?? {}) as Record<string, unknown>;
+    if (
+      org.external_repository === 'UNVERIFIED' ||
+      org.external_repository === 'TO_BE_CONNECTED_IN_SPRINT_02' ||
+      meta.github_repo === 'NOT_ACCESSIBLE'
+    ) {
+      return 'UNAVAILABLE — NEEDS CONFIGURATION';
+    }
+    return org.external_repository ? String(org.external_repository) : 'UNAVAILABLE — NEEDS CONFIGURATION';
+  } catch {
+    return 'UNAVAILABLE — NEEDS CONFIGURATION';
+  }
+}
 
 function detailRoute(slug: Site00FounderProjectSlug): string {
   return site00ProjectDetailRoute(slug);
@@ -101,6 +122,17 @@ async function buildSurfaces(slug: Site00FounderProjectSlug, isClient: boolean):
     });
   }
 
+  if (slug === 'all-in-one-enterprises') {
+    surfaces.push({
+      id: 'operations',
+      label: 'OPERATIONS',
+      route: detailRoute(slug),
+      adminRoute: adminBase,
+      available: true,
+      description: 'CORE SERVICE OPERATIONS — ADMIN ORCHESTRATION FOR LAUNCH MANIFEST',
+    });
+  }
+
   return surfaces;
 }
 
@@ -120,6 +152,12 @@ async function resolveProjectPhase(slug: Site00FounderProjectSlug): Promise<stri
   if (slug === 'frontal-slayer') {
     const profile = await getProfileByOrgId(orgIdFromSlug('frontal-slayer')!);
     return profile?.lifecycle_stage?.replace(/_/g, ' ') ?? 'PRE LAUNCH';
+  }
+
+  if (slug === 'all-in-one-enterprises') {
+    const profile = await getProfileByOrgId(orgIdFromSlug('all-in-one-enterprises')!);
+    if (profile?.lifecycle_stage === 'POST_LAUNCH') return 'POST LAUNCH — CORE SERVICE OPERATIONS';
+    return profile?.lifecycle_stage?.replace(/_/g, ' ') ?? 'CORE SERVICE OPERATIONS';
   }
 
   return 'ACTIVE INFRASTRUCTURE';
@@ -172,6 +210,14 @@ async function buildActivity(slug: Site00FounderProjectSlug): Promise<Site00Proj
     events.push({
       id: 'sw-boundary',
       summary: 'PRODUCTION INFRASTRUCTURE REGISTERED — RUNTIME BOUNDARY MAINTAINED',
+      timestamp: null,
+    });
+  }
+
+  if (slug === 'all-in-one-enterprises') {
+    events.push({
+      id: 'aio-lifecycle',
+      summary: 'MANAGED BRAND REGISTERED — CORE SERVICE OPERATIONS ACTIVE',
       timestamp: null,
     });
   }
@@ -229,6 +275,10 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
     if (orgUuid !== NDXBOOK_UUID) throw new Error('NDXbook UUID mismatch');
   }
 
+  if (slug === 'all-in-one-enterprises' && process.env.EVOLVE_USE_MEMORY !== '1' && process.env.VITEST !== 'true') {
+    if (orgUuid !== AIO_UUID) throw new Error('AIO UUID mismatch');
+  }
+
   const isClient = isMarketingClientOrg(orgCtx.classification);
   const overview = await getEvolveOverview(slug, orgCtx);
   const intel = marketingRetrievalSummary(slug);
@@ -238,6 +288,33 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
       commandRaw = await buildConnectionCommandItems(slug, orgCtx.name);
     } catch {
       /* provider/command enrichment unavailable — project identity still valid */
+    }
+
+    for (const deferred of overview.deferredItems) {
+      commandRaw.push({
+        id: `evolve-deferred-${slug}-${deferred.replace(/\s+/g, '-').toLowerCase()}`,
+        organizationSlug: slug,
+        organizationName: orgCtx.name,
+        category: 'DEFERRED',
+        title: `${deferred} — deferred by owner`,
+        reason: 'Owner decision — not a launch or EVOLVE blocker',
+        route: site00ProjectEvolveRoute(slug),
+        priority: 95,
+      });
+    }
+
+    const nba = overview.nextBestAction;
+    if (nba && !commandRaw.some((i) => i.id === `evolve-nba-${slug}`)) {
+      commandRaw.push({
+        id: `evolve-nba-${slug}`,
+        organizationSlug: slug,
+        organizationName: orgCtx.name,
+        category: nba.category,
+        title: nba.title,
+        reason: nba.reason,
+        route: nba.route,
+        priority: nba.priority,
+      });
     }
   }
   const commandItems = mapCommandItems(commandRaw);
@@ -314,6 +391,13 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
       publishingEnabled: false,
       crossPostingEnabled: false,
     };
+  } else if (slug === 'all-in-one-enterprises') {
+    production = {
+      launchState: profile?.lifecycle_stage === 'POST_LAUNCH' ? 'POST-LAUNCH OPERATIONS' : 'PRE-LAUNCH',
+      page001: null,
+      publishingEnabled: false,
+      crossPostingEnabled: false,
+    };
   } else {
     production = {
       launchState: 'INFRASTRUCTURE',
@@ -346,6 +430,8 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
     locked: slug === 'ndxbook' && c.channel_key !== 'INSTAGRAM',
   }));
 
+  const repositoryConnection = await resolveRepositoryConnection(slug);
+
   return {
     ...indexEntry,
     overview: {
@@ -354,6 +440,7 @@ export async function resolveSite00Project(slug: string): Promise<Site00ProjectD
       marketingHealth: overview.marketingHealth,
       importState,
       boundaryNote: def.boundaryNote ?? null,
+      repositoryConnection,
     },
     intelligence: {
       available: intel.available,

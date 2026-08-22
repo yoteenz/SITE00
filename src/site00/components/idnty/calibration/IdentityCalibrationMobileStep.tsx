@@ -23,6 +23,7 @@ import { IdentityCalibrationNavigation } from './IdentityCalibrationNavigation';
 import { IdentityCalibrationStepForm } from './IdentityCalibrationStepForm';
 import { useSite00DesktopArtboardPreview } from '../../shell/Site00DesktopArtboardContext';
 import { site00IdntyAssessmentDesktopPath } from '../../../config/routes';
+import { IntakeSaveStatus } from '../../intake/IntakeSaveStatus';
 
 type IdentityCalibrationMobileStepProps = {
   stateSlug: IdntyAssessmentStateId;
@@ -35,7 +36,16 @@ export function IdentityCalibrationMobileStep({ stateSlug, stepId }: IdentityCal
   const state = getIdntyAssessmentState(stateSlug)!;
   const step = state.steps.find((s) => s.id === stepId);
 
-  const { startState, setStepAnswers, markStepComplete, getAnswersForState, record } = useIdntyAssessment();
+  const {
+    startState,
+    setStepAnswers,
+    markStepComplete,
+    getAnswersForState,
+    record,
+    serverSaveState,
+    serverLastSavedAt,
+    serverSaveError,
+  } = useIdntyAssessment();
   const existingAnswers = getAnswersForState(stateSlug);
   const existingValue = existingAnswers[stepId] ?? (step?.type === 'multi' ? [] : '');
 
@@ -97,6 +107,7 @@ export function IdentityCalibrationMobileStep({ stateSlug, stepId }: IdentityCal
     <div className="site00-idnty-calibration-flow">
       <IdentityStateProgress stateId={stateSlug} />
       <IdentityStateHero state={state} />
+      <IntakeSaveStatus state={serverSaveState} lastSavedAt={serverLastSavedAt} errorMessage={serverSaveError} />
       <IdentityCalibrationConsole
         stepIndex={stepIndex}
         totalSteps={state.steps.length}

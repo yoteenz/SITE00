@@ -62,6 +62,9 @@ export default function ProjectDetailPage() {
                 <Row label="LIFECYCLE" value={project.overview.lifecycleStage?.replace(/_/g, ' ') ?? null} />
                 <Row label="FOCUS NOW" value={project.focusNow} />
                 {project.overview.importState ? <Row label="IMPORT STATE" value={project.overview.importState} /> : null}
+                {project.overview.repositoryConnection ? (
+                  <Row label="REPOSITORY CONNECTION" value={project.overview.repositoryConnection} />
+                ) : null}
               </Section>
 
               <Section title="INTELLIGENCE">
@@ -170,9 +173,9 @@ export default function ProjectDetailPage() {
               </Section>
 
               <Section title="DECISIONS / COMMAND">
-                {[...project.command.focusNow, ...project.command.needsYou, ...project.command.blocked].length ? (
+                {[...project.command.focusNow, ...project.command.needsYou, ...project.command.blocked, ...project.command.deferred].length ? (
                   <ul className="site00-project-command__command-list">
-                    {[...project.command.focusNow, ...project.command.needsYou, ...project.command.blocked].map((item) => (
+                    {[...project.command.focusNow, ...project.command.needsYou, ...project.command.blocked, ...project.command.deferred].map((item) => (
                       <li key={item.id}>
                         <span className="site00-project-command__command-cat">{item.category}</span>
                         <strong>{item.title}</strong>

@@ -25,18 +25,23 @@ describe('GET /api/site00/projects?action=index runtime contract', () => {
     expect(typeof mod.default).toBe('function');
   });
 
-  it('resolver index returns three canonical founder projects', async () => {
+  it('resolver index returns four canonical founder projects', async () => {
     const projects = await listSite00FounderProjects();
-    expect(projects.length).toBe(3);
+    expect(projects.length).toBe(4);
     assertNoDemoProjectsInIndex(projects);
-    expect(projects.map((p) => p.slug).sort()).toEqual(['frontal-slayer', 'ndxbook', 'studio-world']);
+    expect(projects.map((p) => p.slug).sort()).toEqual([
+      'all-in-one-enterprises',
+      'frontal-slayer',
+      'ndxbook',
+      'studio-world',
+    ]);
   });
 
   it('index payload includes ok summary contract', async () => {
     const payload = await getSite00ProjectsIndexPayload([]);
     expect(payload.ok).toBe(true);
-    expect(payload.summary.founderIndex).toBe(3);
-    expect(payload.summary.total).toBe(3);
+    expect(payload.summary.founderIndex).toBe(4);
+    expect(payload.summary.total).toBe(4);
     expect(payload.projects.some((p) => p.slug === 'ndxbook')).toBe(true);
   });
 

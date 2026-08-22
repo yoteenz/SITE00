@@ -25,7 +25,10 @@ import {
   getCreativeDirectionPayload,
   recordFounderDecision,
   resetCreativeDirectionMemory,
+  invalidateCreativeDirectionEngagement,
 } from '../site00Evolve/creativeDirection/engagementService.js';
+import { submitOrgLoreCalibration } from '../site00BrandLore/loreService.js';
+import { resetBrandLoreMemoryStore } from '../site00BrandLore/memoryStore.js';
 import { resetPage001Memory } from '../site00Evolve/providers/page001CandidateService.js';
 import { getExpandedPilotReadiness } from '../site00Evolve/providers/pilotReadinessSprint04.js';
 import { orgIdFromSlug } from '../site00Evolve/orgRegistry.js';
@@ -45,6 +48,7 @@ describe('SITE 00 founder dual-context access', () => {
     resetNdxbookImportMemory();
     resetCreativeDirectionMemory();
     resetPage001Memory();
+    resetBrandLoreMemoryStore();
     await runNdxbookLegacyImport({ approvedBy: 'founder@test.com' });
   });
 
@@ -73,9 +77,9 @@ describe('SITE 00 founder dual-context access', () => {
     expect(inferExperienceContextFromPath('/projects/ndxbook/creative-direction')).toBe('CLIENT');
   });
 
-  it('6. founder can open PROJECTS — resolver lists three projects', async () => {
+  it('6. founder can open PROJECTS — resolver lists four projects', async () => {
     const projects = await listSite00FounderProjects();
-    expect(projects.length).toBe(3);
+    expect(projects.length).toBe(4);
     assertNoDemoProjectsInIndex(projects);
   });
 
@@ -143,6 +147,22 @@ describe('SITE 00 founder dual-context access', () => {
   it('16. APPROVE promotes visual DNA through canonical service — publishing still fenced separately', async () => {
     resetCreativeDirectionMemory();
     await runNdxbookLegacyImport({ approvedBy: 'founder@test.com' });
+    // Brand Lore readiness gates approval (XXXI) — calibrate the missing conceptual domains first.
+    const orgId = orgIdFromSlug('ndxbook')!;
+    await submitOrgLoreCalibration({
+      orgId,
+      orgSlug: 'ndxbook',
+      answers: {
+        role: 'guide',
+        world: 'a living index of everything worth knowing',
+        feeling: ['curious'],
+        enemy: ['gatekeeping'],
+        lineage: 'archival ephemera',
+        now: 'editorial accounts',
+        objects: ['paper'],
+      },
+    });
+    invalidateCreativeDirectionEngagement('ndxbook');
     const payload = await getCreativeDirectionPayload('ndxbook');
     const territoryId = payload.engagement.territories[0]?.id;
     await recordFounderDecision('ndxbook', {
@@ -175,10 +195,10 @@ describe('SITE 00 founder dual-context access', () => {
     expect(canAccessFounderProjectAsOwner(CLIENT_EMAIL, 'ndxbook')).toBe(false);
   });
 
-  it('21. organization isolation — three unique UUIDs in index', async () => {
+  it('21. organization isolation — four unique UUIDs in index', async () => {
     const payload = await getSite00ProjectsIndexPayload();
     const uuids = new Set(payload.projects.map((p) => p.organizationUuid));
-    expect(uuids.size).toBe(3);
+    expect(uuids.size).toBe(4);
   });
 
   it('22. founder project resolver does not aggregate cross-org data in single project', async () => {

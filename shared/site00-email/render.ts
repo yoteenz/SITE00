@@ -87,6 +87,16 @@ function appendFamilyText(
   vars: EmailTemplateVars,
   _template: EmailTemplateDefinition,
 ): void {
+  // Intake Access/lifecycle emails carry their own dynamic record fields regardless of which
+  // canon family they map into for the family-default shell (ACCESS_SECURITY / WELCOME_ONBOARDING) —
+  // handled once here rather than duplicated across those canon branches.
+  if (vars.intakeReference) {
+    lines.push('', `${(vars.intakeType ?? 'INTAKE').toUpperCase()} REFERENCE: ${vars.intakeReference}`);
+    if (vars.intakeStatusDisplay) lines.push(`STATUS: ${vars.intakeStatusDisplay}`);
+    if (vars.intakeLastSavedAtDisplay) lines.push(`LAST SAVED: ${vars.intakeLastSavedAtDisplay}`);
+    if (typeof vars.intakeCompletionPercent === 'number') lines.push(`COMPLETION: ${vars.intakeCompletionPercent}%`);
+    return;
+  }
   switch (canon) {
     case 'ACCESS_SECURITY':
       if (vars.memberId) lines.push('', `MEMBER ID: ${vars.memberId}`);

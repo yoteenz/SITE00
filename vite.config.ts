@@ -67,18 +67,18 @@ export default defineConfig(({ mode, command }) => {
     };
   }
 
-  function cloudPreviewIndexCacheBustPlugin(sessionId: string) {
+  function indexBuildStampPlugin(stamp: string) {
     return {
-      name: 'site00-cloud-preview-index-cache-bust',
+      name: 'site00-index-build-stamp',
       transformIndexHtml: {
         order: 'post' as const,
         handler(html: string) {
           return html
-            .replace('content="__APP_BUILD_ID__"', `content="${sessionId}"`)
-            .replace('src="/src/main.tsx"', `src="/src/main.tsx?v=${sessionId}"`)
+            .replace('content="__APP_BUILD_ID__"', `content="${stamp}"`)
+            .replace('src="/src/main.tsx"', `src="/src/main.tsx?v=${stamp}"`)
             .replace(
               'src="/site00-assts-loader-boot.js?v=environment-v2"',
-              `src="/site00-assts-loader-boot.js?v=${sessionId}"`,
+              `src="/site00-assts-loader-boot.js?v=${stamp}"`,
             );
         },
       },
@@ -115,12 +115,9 @@ export default defineConfig(({ mode, command }) => {
       react(cloudMobilePreview ? { fastRefresh: false } : undefined),
       ...(command === 'serve' ? [site00LocalApiPlugin()] : []),
       ...(cloudMobilePreview && previewSessionId
-        ? [
-            stripViteClientForCloudPreviewPlugin(),
-            cloudPreviewNoCachePlugin(),
-            cloudPreviewIndexCacheBustPlugin(previewSessionId),
-          ]
+        ? [stripViteClientForCloudPreviewPlugin(), cloudPreviewNoCachePlugin(), indexBuildStampPlugin(previewSessionId)]
         : []),
+      ...(command === 'build' ? [indexBuildStampPlugin(effectiveBuildId.slice(0, 12))] : []),
     ],
     base: '/',
     build: {

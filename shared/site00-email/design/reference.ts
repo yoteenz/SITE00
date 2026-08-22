@@ -115,6 +115,15 @@ const SPECS: Record<EmailArchetype, ReferenceCompositionSpec> = {
     copyNotes: 'Event-specific operational copy.',
     heroElement: 'Minimal system header',
   },
+  'intake-lifecycle': {
+    refId: 'INTAKE-PENDING',
+    label: 'Intake lifecycle (placeholder — creative direction pending)',
+    theme: 'light',
+    composition:
+      'CREATIVE_DIRECTION_PENDING — no visual composition designed yet. Renders through the default status-notice-style fallback until the founder-led Intake Email Pack sprint art-directs these.',
+    copyNotes: 'Do not treat as an approved design. Infra-sprint placeholder only.',
+    heroElement: 'None — placeholder',
+  },
 };
 
 export function getReferenceSpec(archetype: EmailArchetype): ReferenceCompositionSpec {

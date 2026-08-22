@@ -40,7 +40,16 @@ export type CreativeBrief = {
   differentiation: string[];
   voiceConstraints: { preserve: string[]; reject: string[] };
   classification: 'PROPOSED';
-  provenance: { source: 'CONTENT_BRAIN'; entryCount: number };
+  provenance: {
+    source: 'CONTENT_BRAIN' | 'BRAND_LORE' | 'BLENDED';
+    entryCount: number;
+    brandLoreProfileId?: string | null;
+  };
+  /** Brand expression context — from lore classification, not website-default. */
+  brandContextClassification?: string | null;
+  /** Internal readiness — never a fake percentage. */
+  brandLoreReadiness?: 'CONTEXT_INCOMPLETE' | 'CONTEXT_PARTIAL' | 'CORE_DIRECTION_READY' | null;
+  brandLoreLineage?: string[];
 };
 
 export type TerritoryRendererKey = 'index_signal' | 'editorial_utility' | 'kinetic_field';
@@ -211,6 +220,13 @@ export type CreativeDirectionEngagement = {
   founderDecision: FounderDecision | null;
   visualDna: VisualDnaContract;
   page001Gate: Page001ReadinessGate;
+  /** Brand lore readiness gate — blocks auto-generation when incomplete (non-NDXBOOK intake flows). */
+  brandLoreReadiness?: {
+    state: 'CONTEXT_INCOMPLETE' | 'CONTEXT_PARTIAL' | 'CORE_DIRECTION_READY';
+    blocked: boolean;
+    message: string | null;
+    missingDomains: string[];
+  } | null;
   legacyReference: {
     indigoSlate: { status: 'REFERENCE_ONLY'; promotedToCanon: false };
     laceMastery: { status: 'REJECTED_MISATTRIBUTED' };

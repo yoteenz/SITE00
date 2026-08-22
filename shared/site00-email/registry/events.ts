@@ -43,7 +43,10 @@ export type EmailEventId =
   | 'MARKETING_CLIENT_ACTION_REQUIRED'
   | 'MARKETING_REVIEW_READY'
   | 'MARKETING_DELIVERABLE_READY'
-  | 'MARKETING_CAMPAIGN_COMPLETE';
+  | 'MARKETING_CAMPAIGN_COMPLETE'
+  | 'INTAKE_ACCESS_REQUESTED'
+  | 'INTAKE_SUBMITTED'
+  | 'INTAKE_CLAIMED';
 
 export type EmailEventDefinition = {
   event: EmailEventId;
@@ -90,6 +93,24 @@ export const EMAIL_EVENT_REGISTRY: EmailEventDefinition[] = [
   { event: 'MARKETING_REVIEW_READY', templateId: 'review-ready', wired: false },
   { event: 'MARKETING_DELIVERABLE_READY', templateId: 'final-deliverables-ready', wired: false },
   { event: 'MARKETING_CAMPAIGN_COMPLETE', templateId: 'production-complete', wired: false },
+  {
+    event: 'INTAKE_ACCESS_REQUESTED',
+    templateId: 'intake-guest-access',
+    wired: false,
+    notes: 'Guest secure resume link — visual production approved (FAL-native Intake Access pilot). "wired: false" reflects that no EMAIL_PROVIDER is configured yet, not the design status; sendEmailAsync renders the real template and records a truthful not-configured state.',
+  },
+  {
+    event: 'INTAKE_SUBMITTED',
+    templateId: 'intake-submission-receipt',
+    wired: false,
+    notes: 'CREATIVE_DIRECTION_PENDING — Identity/Builder completion receipt. intakeType in payload distinguishes IDENTITY vs BUILDER.',
+  },
+  {
+    event: 'INTAKE_CLAIMED',
+    templateId: 'intake-claimed',
+    wired: false,
+    notes: 'CREATIVE_DIRECTION_PENDING — guest intake claimed by an authenticated account.',
+  },
 ];
 
 export function getEventTemplate(event: EmailEventId): EmailEventDefinition | undefined {

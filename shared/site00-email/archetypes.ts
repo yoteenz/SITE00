@@ -63,6 +63,7 @@ export function referenceCompositionLabel(archetype: EmailArchetype, templateId?
     'production-complete': 'FAMILY 06 — DELIVERY / COMPLETE',
     'signal-editorial': 'FAMILY 09 — RE-ENGAGEMENT',
     'internal-notice': 'INTERNAL — OPERATOR',
+    'intake-lifecycle': 'INTAKE — CREATIVE DIRECTION PENDING',
   };
   return legacy[archetype] ?? archetype;
 }
