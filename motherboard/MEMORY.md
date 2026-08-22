@@ -2647,3 +2647,11 @@ Summary of this cloud agent run through live formation completion.
 - **Symptom:** `/projects` would not load after live CI activation — stuck on LOADING or timing out.
 - **Cause:** `projectResolver` called `getCreativeDirectionPayload` during index enrichment, which invoked `getOrRunCoreDirectionFormation` (multi-minute Sonnet run) on every projects load after Railway restart.
 - **Fix (PR #229):** `getCreativeDirectionPayload(orgSlug, { runFormation: false })` for project index + command connections; cached single read per project resolve.
+
+---
+
+## 2026-08-22 — Projects page blank screen after LOADING PROJECTS
+
+- **Symptom:** `/projects` showed LOADING PROJECTS then white/blank screen (preview + production).
+- **Cause:** `Site00WorldColdStartGate` ran immersive loader on `/projects` even though `site00LoaderPaths` marks it public/skip — white overlay could remain; index API also resolved full project detail (~20s).
+- **Fix (PR #230):** Skip loader on public hub paths; cloud preview skips cinematic loader; lightweight index resolver; defensive ProjectsPage fields.
