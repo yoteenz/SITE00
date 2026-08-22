@@ -2397,3 +2397,15 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 - **Not a code regression** — Aug 22 release ZIP was never uploaded to GoDaddy. Added: `.htaccess` no-cache for index.html, boot-gate skip for `/origin/create-account`, `scripts/package-cpanel-deploy.sh`, deploy readme v5 with delete-old-files-first mobile steps.
 
+---
+
+## 2026-08-22 — Project lore calibration resume on refresh
+
+- **Symptom:** Founder on cloud preview tunnel — refreshing `/projects/ndxbook/calibrate` restarted at step 1 despite saved progress.
+
+- **Root cause:** `ProjectLoreCalibrationFlow` always reset `stepIndex` to 0 on load even though API returns `brandLoreCalibrationAnswers` from server `rawLoreAnswers`. In-progress selections before CONTINUE were also lost (no local draft).
+
+- **Fix:** `resolveProjectLoreCalibrationStepIndex()` in `adaptivity.ts` resumes at first step without a server answer; `projectLoreCalibrationResume.ts` persists step + draft to `localStorage` on every change and merges on reload; clears on completion. Flow waits for resume hydration before rendering steps.
+
+- **Branch:** `cursor/calibration-resume-on-refresh-4f59`.
+
