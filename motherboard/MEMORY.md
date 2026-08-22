@@ -2680,3 +2680,17 @@ Summary: NDX BOOK-only instance-scoped exception exposing all six Core Direction
 - **Founder UI:** comparison mode header "CORE DIRECTION COMPARISON · 6 DIRECTIONS FOR FOUNDER REVIEW"; mobile single-column cards; collapsible lineage; no legacy/failed labeling on v1 directions.
 - **`recordFounderDecision`:** `selectedDirectionLineage` captures direction from either formation without promoting v1 formation.
 - **Tests:** 779 passing (+7). Branch `cursor/ndxbook-six-direction-comparison-4f59` → PR #232 merged.
+
+---
+
+## 2026-08-22 — Six-direction intelligence completion + controlled FAL visual proof production (PR #233)
+
+Summary: Composer production sprint implementing v1 Sonnet completion wiring, Stage A proof production pipeline, and founder UI proof asset display for NDX BOOK six-direction comparison.
+
+- **V1 completion:** `completeNdxbookV1Directions()` + cousin-direction guards in `directionCompletionService.ts` / `prompts.ts` v2. Admin action `creative_direction_complete_v1_directions`. **Anthropic not configured on cloud agent VM** — v1 directions 01–03 remain PARTIAL (11 fields missing each). Must run completion on Railway production API where Anthropic is configured.
+- **Proof production pipeline:** `comparisonProofPromptCompiler.ts`, `comparisonProofProduction.ts`, `comparisonProofStore.ts`, `comparisonProofInspector.ts`, `sixDirectionProductionOrchestrator.ts`. Admin action `creative_direction_run_six_direction_production`. Script `scripts/runNdxbookSixDirectionProduction.ts`.
+- **Runtime production (partial):** FAL_KEY configured — generated **9 accepted Stage A proofs** for v2 directions 04–06 only (hero + primary artifact + social × 3). Durable Supabase storage + manifest `generatedAssets/ndxbook.comparisonProofs.json`. BiRefNet background removal on isolated artifacts. v1 directions skipped (incomplete fields). **0 proofs for directions 01–03.**
+- **Founder UI:** `FormedCoreDirectionReview` ProofSlot renders real images when `proofAssetsByDirection` READY; states GENERATING/FAILED/NEEDS REVIEW. `engagementService` attaches proof assets via `attachProofAssetsToComparisonSet()`.
+- **Distinctiveness QA:** Automated cousin-pair check — NEEDS_HUMAN_REVIEW until v1 hero proofs exist.
+- **Tests:** 787 passing (+8). tsc + build green. Branch `cursor/six-direction-proof-production-4f59` → PR #233.
+- **Not ready:** Founder six-direction visual review blocked until v1 Sonnet completion + proofs for all six directions.
