@@ -2639,3 +2639,11 @@ Summary of this cloud agent run through live formation completion.
 - **Live formation:** NDX BOOK Brand Lore v24 fingerprint `5e71f429`, readiness `CORE_DIRECTION_READY`. Reform v2 on production after deploy → `READY_FOR_VISUAL_PRODUCTION` with 3 directions: THE ANNOTATED COPY, THE ROOM WHERE IT HAPPENS, THE INDEX. Critic PASS all three, distinctiveness passed, 0 revision rounds. Provider anthropic/claude-sonnet-4-6, 4 requests, 11563 in / 18169 out tokens. 3 Visual Proof Plans persisted. FAL not invoked.
 - **Persistence:** Production API still in-memory formation store (Supabase `site00_core_direction_formations` empty from cloud agent queries); records survive until Railway restart.
 - **Founder UI:** `PROPOSED_FORMATION` surface active; legacy INDEX SIGNAL / EDITORIAL UTILITY / KINETIC FIELD under `LEGACY_PROPOSED_EXPLORATION`.
+
+---
+
+## 2026-08-22 — Projects page hang fix (formation guard on index)
+
+- **Symptom:** `/projects` would not load after live CI activation — stuck on LOADING or timing out.
+- **Cause:** `projectResolver` called `getCreativeDirectionPayload` during index enrichment, which invoked `getOrRunCoreDirectionFormation` (multi-minute Sonnet run) on every projects load after Railway restart.
+- **Fix (PR #229):** `getCreativeDirectionPayload(orgSlug, { runFormation: false })` for project index + command connections; cached single read per project resolve.
