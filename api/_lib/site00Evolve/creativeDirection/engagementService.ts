@@ -20,10 +20,15 @@ import {
   promoteVisualDnaToApproved,
 } from './visualDnaContract.js';
 import {
+  resolveCanonicalCoreDirectionFormation,
+  syncEngagementFormationVersionFromCanonical,
+} from './creativeIntelligence/canonicalFormationResolver.js';
+import { assessFormationProductionCompleteness } from './creativeIntelligence/directionFieldContract.js';
+import { deriveVisualProductionState } from './creativeIntelligence/visualProductionState.js';
+import {
   getCreativeIntelligenceInspectorSummary,
   getOrRunCoreDirectionFormation,
   incrementFormationVersion,
-  listCoreDirectionFormationRecords,
   resetCoreDirectionFormationMemory,
   retryCoreDirectionFormation,
 } from './creativeIntelligence/formationService.js';
@@ -308,21 +313,56 @@ export async function getCreativeDirectionPayload(
   const providerConfigured = provider.providerId !== 'unavailable';
   const shouldRunFormation = options?.runFormation !== false;
 
+  const canonicalResolution = await resolveCanonicalCoreDirectionFormation({
+    organizationId: engagement.organization_id,
+    projectId: brandLoreProfile?.projectId ?? null,
+    brandLoreProfile,
+    currentBrandLoreFingerprint: brandLoreProfile
+      ? computeBrandLoreFingerprint(brandLoreProfile)
+      : engagement.brandLoreFormation?.brandLoreFingerprint,
+    preferredFormationVersion: engagement.brandLoreFormation?.formationVersion,
+  });
+
   if (brandLoreProfile && !engagement.brandLoreReadiness?.blocked && shouldRunFormation) {
-    const formationResult = await getOrRunCoreDirectionFormation({
-      orgSlug,
-      profile: brandLoreProfile,
-      formationVersion: engagement.brandLoreFormation?.formationVersion ?? 1,
-      engagementId: engagement.id,
-    });
-    formationRecord = formationResult.record;
+    const engagementVersion = syncEngagementFormationVersionFromCanonical(
+      engagement.brandLoreFormation?.formationVersion,
+      canonicalResolution.record,
+    );
+    if (engagement.brandLoreFormation) {
+      engagement.brandLoreFormation.formationVersion = engagementVersion;
+    }
+
+    const canonicalReady =
+      canonicalResolution.record?.status === 'READY_FOR_VISUAL_PRODUCTION' &&
+      canonicalResolution.record.brandLoreFingerprint === computeBrandLoreFingerprint(brandLoreProfile);
+
+    if (canonicalReady) {
+      formationRecord = canonicalResolution.record;
+    } else {
+      const formationResult = await getOrRunCoreDirectionFormation({
+        orgSlug,
+        profile: brandLoreProfile,
+        formationVersion: engagementVersion,
+        engagementId: engagement.id,
+      });
+      formationRecord = formationResult.record;
+    }
     formationInspector = getCreativeIntelligenceInspectorSummary(formationRecord);
     engagement.coreDirectionFormationRecordId = formationRecord.formationId;
   } else {
-    const existing = await listCoreDirectionFormationRecords(engagement.organization_id);
-    formationRecord = existing[existing.length - 1] ?? null;
+    formationRecord = canonicalResolution.record;
     formationInspector = getCreativeIntelligenceInspectorSummary(formationRecord);
+    if (engagement.brandLoreFormation && formationRecord) {
+      engagement.brandLoreFormation.formationVersion = syncEngagementFormationVersionFromCanonical(
+        engagement.brandLoreFormation.formationVersion,
+        formationRecord,
+      );
+    }
   }
+
+  const productionCompleteness = formationRecord?.finalDirections?.length
+    ? assessFormationProductionCompleteness(formationRecord.finalDirections)
+    : null;
 
   const formationSurface = clientFormationSurface(formationRecord, providerConfigured);
 
@@ -333,6 +373,12 @@ export async function getCreativeDirectionPayload(
           record: formationRecord,
           inspector: formationInspector,
           legacyStaticTerritoriesPreserved: true,
+          canonicalSelection: {
+            reason: canonicalResolution.selectionReason,
+            candidatesConsidered: canonicalResolution.candidatesConsidered,
+          },
+          productionCompleteness,
+          visualProductionState: deriveVisualProductionState(formationRecord),
         }
       : null,
     meta: {
