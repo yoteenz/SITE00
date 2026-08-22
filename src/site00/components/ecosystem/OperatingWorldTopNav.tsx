@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { OPERATING_WORLD_TOP_NAV, isOperatingWorldNavActive } from '../../config/ecosystem-nav';
 import { SITE00_ROUTES } from '../../config/routes';
 import { site00UserDisplayName, site00UserInitials, useSite00CurrentUser } from '../../hooks/useSite00CurrentUser';
+import { CtrlRoomSignOutButton } from '../control/CtrlRoomSignOutButton';
 
 /** Authenticated workspace top navigation — Operating World board canon. */
 export function OperatingWorldTopNav() {
@@ -32,13 +33,16 @@ export function OperatingWorldTopNav() {
           })}
         </ul>
       </nav>
-      <Link to={SITE00_ROUTES.idnty} className="site00-operating-topnav__profile" aria-label="ACCOUNT AND IDENTITY">
-        <span className="site00-operating-topnav__profile-label">IDNTY</span>
-        {displayName ? <span className="site00-operating-topnav__profile-name">{displayName}</span> : null}
-        <span className="site00-operating-topnav__avatar" aria-hidden="true">
-          {initials || '—'}
-        </span>
-      </Link>
+      <div className="site00-operating-topnav__account">
+        <Link to={SITE00_ROUTES.idnty} className="site00-operating-topnav__profile" aria-label="ACCOUNT AND IDENTITY">
+          <span className="site00-operating-topnav__profile-label">IDNTY</span>
+          {displayName ? <span className="site00-operating-topnav__profile-name">{displayName}</span> : null}
+          <span className="site00-operating-topnav__avatar" aria-hidden="true">
+            {initials || '—'}
+          </span>
+        </Link>
+        <CtrlRoomSignOutButton variant="topnav" />
+      </div>
     </header>
   );
 }

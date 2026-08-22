@@ -3,6 +3,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import AdminGuard from './components/AdminGuard';
 import { Site00Routes } from './routes/Site00Routes';
 import { Site00AdminRoutes } from './routes/Site00AdminRoutes';
+import { EmailPackRedirect } from './routes/EmailPackRedirect';
 import { ensureAuthRestoredFromBackup, isSignedIn, persistAuthBackup } from './utils/adminAuth';
 
 export default function App() {
@@ -21,6 +22,11 @@ export default function App() {
         <Route index element={<Navigate to="/admin/site00" replace />} />
         {Site00AdminRoutes()}
       </Route>
+      {/* Shorthand debug paths — canonical route is /admin/site00/debug/email-pack */}
+      <Route path="/debug/email-pack" element={<EmailPackRedirect />} />
+      <Route path="/debug/email-pack/:templateId" element={<EmailPackRedirect />} />
+      <Route path="/control/debug/email-pack" element={<EmailPackRedirect />} />
+      <Route path="/control/debug/email-pack/:templateId" element={<EmailPackRedirect />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

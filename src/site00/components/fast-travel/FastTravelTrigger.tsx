@@ -1,14 +1,11 @@
 import type { RefObject } from 'react';
-import { resolveSite00PublicAsset } from '../loader/site00LoaderConfig';
-import { SITE00_FAST_TRAVEL_ICON_PATH } from '../../config/locations-directory';
+import { Site00FastTravelIcon } from './Site00FastTravelIcon';
 
 type FastTravelTriggerProps = {
   onOpen: () => void;
   expanded?: boolean;
   buttonRef?: RefObject<HTMLButtonElement>;
 };
-
-const fastTravelIconUrl = resolveSite00PublicAsset(SITE00_FAST_TRAVEL_ICON_PATH);
 
 /** Mobile header control — opens contextual Fast Travel (not the full directory). */
 export function FastTravelTrigger({ onOpen, expanded = false, buttonRef }: FastTravelTriggerProps) {
@@ -22,14 +19,7 @@ export function FastTravelTrigger({ onOpen, expanded = false, buttonRef }: FastT
       aria-controls="site00-fast-travel-panel"
       onClick={onOpen}
     >
-      <img
-        src={fastTravelIconUrl}
-        alt=""
-        className="site00-fast-travel-trigger__icon"
-        width={22}
-        height={22}
-        decoding="async"
-      />
+      <Site00FastTravelIcon className="site00-fast-travel-trigger__icon" size={24.2} />
     </button>
   );
 }
