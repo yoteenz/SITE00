@@ -207,7 +207,17 @@ export async function runMarkedUpCopyBoardPilot(params: {
   const qaReport = inspectCreativeDirectionBoard({ plan, board: draftBoard });
   draftBoard.qaReport = qaReport;
   draftBoard.founderVisible = qaReport.result === 'PASS';
-  draftBoard.productionState = qaReport.result === 'PASS' ? 'READY' : qaReport.result === 'FAIL' ? 'FAILED' : 'NEEDS_HUMAN_REVIEW';
+  draftBoard.productionState =
+    qaReport.result === 'PASS'
+      ? 'READY'
+      : qaReport.result === 'FAIL'
+        ? 'FAILED'
+        : 'NEEDS_HUMAN_REVIEW';
+  if (qaReport.result === 'NEEDS_HUMAN_REVIEW') {
+    draftBoard.qaReport.notes.push(
+      'Automated gate passed structural checks — founder visual QA required before PASS',
+    );
+  }
 
   const board = upsertCreativeDirectionBoard(draftBoard);
 

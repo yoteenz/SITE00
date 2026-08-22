@@ -2718,6 +2718,18 @@ Summary: Founder still saw **LOAD FAILED** / **FAILED TO FETCH** on Production C
 
 ---
 
+## 2026-08-22 — THE MARKED-UP COPY single-board production pilot (board-first)
+
+Summary: Methodology correction sprint — validate board-first Creative Direction production on ONE direction before scaling to remaining five.
+
+- **Built:** `CreativeDirectionBoardPlan`, board art direction spec, reference decomposition, desktop/mobile composition maps, 6-asset manifest, per-asset FAL prompts, BiRefNet isolation, deterministic SVG compositor (code-native typography/strike-through/annotations), board-level QA gate, `ndxbook.creativeDirectionBoards.json` manifest.
+- **Pilot scope:** THE MARKED-UP COPY only (comparisonIndex 01). Directions 02–06 untouched.
+- **Runtime:** 4 FAL text-to-image + 2 BiRefNet + 2 code-native SVG assets → desktop (1440×900) + mobile (390×780) composed boards stored in Supabase. Admin action `creative_direction_marked_up_copy_board_pilot`.
+- **Founder UI:** `CreativeDirectionBoardView` replaces proof slots for direction 01 when board QA = PASS (`founderVisible`). Currently `NEEDS_HUMAN_REVIEW` — board hidden from founder comparison until visual QA.
+- **Tests:** 797 passing (+10 board pilot tests). Branch `cursor/marked-up-copy-board-pilot-4f59`.
+
+---
+
 ## 2026-08-22 — Background production jobs + export fix (PR #236)
 
 Summary: Founder reported Step 1 module export error and Step 2 EVOLVE API 404 on fsbw-dev; blocking sync requests impractical on mobile.
