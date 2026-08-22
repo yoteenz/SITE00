@@ -2566,3 +2566,15 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Fix:** `shouldFinishProjectLoreCalibration()` — finish after successful save on the last session step regardless of readiness gate; still finish early if readiness clears mid-session. Added **CALIBRATION COMPLETE** UI + ~1.4s redirect; `returnTo` via router `location.state` (Creative Direction link passes it; default remains CD path). Removed duplicate button label (`nextStepLabel` was mirroring `continueLabel`).
 
 - **Branch:** `cursor/calibration-complete-redirect-4f59`.
+
+---
+
+## 2026-08-22 — Calibration option row layout shift on multi-select
+
+- **Symptom:** On multi-select lore steps (e.g. contradictions 08/08), selecting an option jumped label/icon positions — **SELECTED** in top-right corner, target icon dropped to bottom-left, rows grew taller; header **08 / 08** overlapped the red corner mark.
+
+- **Root cause:** Option row grid was 4 columns but multi-select injected a 5th child (`SELECTED`), forcing grid wrap. Console step counter shared top-right with absolutely positioned `Site00ThreeCornerMark`.
+
+- **Fix:** Explicit `grid-template-areas` (index | divider | label | selected | target) with fixed cell placement; console header uses 3-column grid (kicker | counter | mark) instead of absolute mark overlap.
+
+- **Branch:** `cursor/calibration-option-layout-fix-4f59`.
