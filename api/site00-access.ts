@@ -4,8 +4,8 @@ import {
   recordAccessCredentialEnter,
   recordAccessCredentialScan,
   resolveAccessCredentialPublic,
-} from '../_lib/site00AccessCredentials/service.js';
-import { getAuthUser } from '../_lib/auth.js';
+} from './_lib/site00AccessCredentials/service.js';
+import { getAuthUser } from './_lib/auth.js';
 
 function parseBody(req: VercelRequest): Record<string, unknown> | null {
   if (typeof req.body === 'object' && req.body !== null && !Array.isArray(req.body)) {

@@ -123,7 +123,7 @@ export async function site00SignInWithPassword(email: string, password: string):
 }
 
 export async function site00SignInWithMagicLink(email: string, redirectTo: string): Promise<Site00SignInResult> {
-  const emailTrim = email.trim();
+  const emailTrim = email.trim().toLowerCase();
   if (!emailTrim) return { ok: false, message: 'EMAIL IS REQUIRED.' };
 
   if (!isSupabaseConfigured()) {
@@ -135,10 +135,14 @@ export async function site00SignInWithMagicLink(email: string, redirectTo: strin
 
   try {
     const origin = typeof window !== 'undefined' ? window.location.origin : '';
+    const postAuthPath = redirectTo.startsWith('http')
+      ? redirectTo
+      : `${origin}/origin/sign-in?returnTo=${encodeURIComponent(redirectTo.startsWith('/') ? redirectTo : `/${redirectTo}`)}`;
     const { error } = await supabase.auth.signInWithOtp({
       email: emailTrim,
       options: {
-        emailRedirectTo: redirectTo.startsWith('http') ? redirectTo : `${origin}${redirectTo}`,
+        emailRedirectTo: postAuthPath,
+        shouldCreateUser: true,
       },
     });
     if (error) return { ok: false, message: normalizeAuthError(error.message) };

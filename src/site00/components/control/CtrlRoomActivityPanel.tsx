@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import type { CtrlRoomActivityRow } from '../../hooks/useCtrlRoomData';
+import type { LegacyCtrlRoomActivityRow } from '../../hooks/useCtrlRoomData';
 import { SITE00_ROUTES } from '../../config/routes';
 
 type CtrlRoomActivityPanelProps = {
-  rows: CtrlRoomActivityRow[];
+  rows: LegacyCtrlRoomActivityRow[];
 };
 
 export function CtrlRoomActivityPanel({ rows }: CtrlRoomActivityPanelProps) {

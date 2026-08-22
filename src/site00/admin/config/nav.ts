@@ -16,6 +16,7 @@ export const SITE00_ADMIN_PRODUCTION_NAV: Site00AdminNavItem[] = [
 export const SITE00_ADMIN_NAV: Site00AdminNavItem[] = [
   { id: 'dashboard', label: 'DASHBOARD', href: SITE00_ADMIN_ROUTES.dashboard, icon: 'dashboard' },
   { id: 'identities', label: 'IDENTITIES', href: SITE00_ADMIN_ROUTES.identities, icon: 'identities' },
+  { id: 'intakes', label: 'INTAKES', href: SITE00_ADMIN_ROUTES.intakes, icon: 'intake' },
   { id: 'bldr-intakes', label: 'BLDR INTAKE', href: SITE00_ADMIN_ROUTES.bldrIntakes, icon: 'intake' },
   { id: 'projects', label: 'PROJECTS', href: SITE00_ADMIN_ROUTES.projects, icon: 'projects' },
   { id: 'sites', label: 'SITES', href: SITE00_ADMIN_ROUTES.sites, icon: 'sites' },
