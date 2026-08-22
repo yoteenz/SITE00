@@ -266,7 +266,7 @@ export function synthesizeBrandLoreProfile(input: LoreSynthesisInput): BrandLore
 
 /** Every BrandLoreField-typed key on BrandLoreProfile — used to merge re-synthesis with prior
  * founder confirmations without hardcoding the field list in two places. */
-const LORE_FIELD_KEYS: Array<keyof BrandLoreProfile> = [
+export const LORE_FIELD_KEYS: Array<keyof BrandLoreProfile> = [
   'brandWorld',
   'audienceRelationship',
   'brandBelief',
@@ -322,7 +322,7 @@ export function mergePreservingFounderConfirmations(
   return merged;
 }
 
-function fieldHasContent(f: BrandLoreField | undefined): boolean {
+export function fieldHasContent(f: BrandLoreField | undefined): boolean {
   if (!f) return false;
   const v = f.value;
   if (v === null || v === undefined) return false;

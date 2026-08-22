@@ -11,6 +11,8 @@ import {
 } from './intelligenceBrief.js';
 import { brandLoreReadinessGate, shouldEnforceLoreReadinessGate } from '../../site00BrandLore/brandLoreBridge.js';
 import { getOrReconcileBrandLoreForOrg } from '../../site00BrandLore/loreService.js';
+import { computeBrandLoreFingerprint } from '../../../../shared/site00-brand-lore/fingerprint.js';
+import type { BrandLoreProfile } from '../../../../shared/site00-brand-lore/types.js';
 import { generateTerritories, buildComparison } from './territories.js';
 import {
   emptyVisualDnaContract,
@@ -48,6 +50,20 @@ function assertOrg(orgSlug: string): string {
   return orgId;
 }
 
+function buildBrandLoreFormation(
+  profile: BrandLoreProfile | null,
+  formedAt: string,
+): CreativeDirectionEngagement['brandLoreFormation'] {
+  if (!profile) return null;
+  return {
+    brandLoreProfileId: profile.id,
+    brandLoreProfileVersion: profile.profileVersion,
+    brandLoreFingerprint: computeBrandLoreFingerprint(profile),
+    formedAt,
+    formationVersion: 1,
+  };
+}
+
 function page001Gate(visualDnaStatus: string): CreativeDirectionEngagement['page001Gate'] {
   const approved = visualDnaStatus === 'APPROVED';
   return {
@@ -82,6 +98,8 @@ export async function ensureCreativeDirectionEngagement(
 
   const readinessGate = brandLoreReadinessGate(resolvedBrandLore ?? null);
   const enforceGate = shouldEnforceLoreReadinessGate(orgSlug, resolvedBrandLore ?? null);
+  const formedAt = new Date().toISOString();
+  const brandLoreFormation = buildBrandLoreFormation(resolvedBrandLore ?? null, formedAt);
 
   const engagement: CreativeDirectionEngagement = {
     id: randomUUID(),
@@ -114,6 +132,8 @@ export async function ensureCreativeDirectionEngagement(
           missingDomains: readinessGate.missingDomains,
         }
       : null,
+    brandLoreFormation,
+    intelligenceStatus: brandLoreFormation ? 'CURRENT' : 'UNKNOWN',
     legacyReference: {
       indigoSlate: { status: 'REFERENCE_ONLY', promotedToCanon: false },
       laceMastery: { status: 'REJECTED_MISATTRIBUTED' },
@@ -128,7 +148,12 @@ export async function ensureCreativeDirectionEngagement(
 }
 
 /** Re-resolve Brand Lore readiness from the durable profile on every read — cached engagements
- * must not keep stale `blocked` after lore calibration writes (XXIX). */
+ * must not keep stale `blocked` after lore calibration writes (XXIX). Also re-evaluates the
+ * intelligence-staleness signal (Section IV/V): if the founder's calibration answers have changed
+ * since these territories were formed, and no territory has been approved yet, the engagement is
+ * truthfully labeled STALE_INTELLIGENCE instead of silently presenting pre-calibration proposals
+ * as current. Once a territory is APPROVED the status freezes — approval is a governance boundary
+ * and must never be silently relabeled by a later lore change. */
 async function syncEngagementBrandLoreReadiness(
   engagement: CreativeDirectionEngagement,
   orgSlug: string,
@@ -138,18 +163,33 @@ async function syncEngagementBrandLoreReadiness(
 
   const profile = await getOrReconcileBrandLoreForOrg(orgId, orgSlug);
   const enforceGate = shouldEnforceLoreReadinessGate(orgSlug, profile);
-  if (!enforceGate) {
-    engagement.brandLoreReadiness = null;
+  engagement.brandLoreReadiness = enforceGate
+    ? (() => {
+        const readinessGate = brandLoreReadinessGate(profile);
+        return {
+          state: readinessGate.state,
+          blocked: readinessGate.blocked,
+          message: readinessGate.message,
+          missingDomains: readinessGate.missingDomains,
+        };
+      })()
+    : null;
+
+  if (engagement.lifecycle_state === 'APPROVED') return;
+
+  const currentFingerprint = profile ? computeBrandLoreFingerprint(profile) : null;
+  if (!engagement.brandLoreFormation) {
+    if (profile) {
+      engagement.brandLoreFormation = buildBrandLoreFormation(profile, new Date().toISOString());
+      engagement.intelligenceStatus = 'CURRENT';
+    }
     return;
   }
 
-  const readinessGate = brandLoreReadinessGate(profile);
-  engagement.brandLoreReadiness = {
-    state: readinessGate.state,
-    blocked: readinessGate.blocked,
-    message: readinessGate.message,
-    missingDomains: readinessGate.missingDomains,
-  };
+  engagement.intelligenceStatus =
+    currentFingerprint && currentFingerprint !== engagement.brandLoreFormation.brandLoreFingerprint
+      ? 'STALE_INTELLIGENCE'
+      : 'CURRENT';
 }
 
 export async function getCreativeDirectionPayload(orgSlug: string) {

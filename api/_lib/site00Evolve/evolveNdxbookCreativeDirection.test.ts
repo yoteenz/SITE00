@@ -237,4 +237,85 @@ describe('EVOLVE NDXbook Creative Direction', () => {
     expect(candidate?.publicationApproval).toBe('NOT_APPROVED');
     expect(candidate?.distribution).toBe('NOT_DISPATCHED');
   });
+
+  it('26. new engagement stamps Brand Lore lineage (profile id/version/fingerprint) once intelligence exists', async () => {
+    const orgId = orgIdFromSlug('ndxbook')!;
+    await submitOrgLoreCalibration({
+      orgId,
+      orgSlug: 'ndxbook',
+      answers: { role: ['guide'], world: 'a living index', feeling: ['curious'] },
+    });
+    invalidateCreativeDirectionEngagement('ndxbook');
+    const payload = await getCreativeDirectionPayload('ndxbook');
+    expect(payload.engagement.brandLoreFormation?.brandLoreProfileId).toBeTruthy();
+    expect(payload.engagement.brandLoreFormation?.brandLoreFingerprint).toMatch(/^[0-9a-f]{8}$/);
+    expect(payload.engagement.intelligenceStatus).toBe('CURRENT');
+  });
+
+  it('27. changed calibration fingerprint marks unapproved directions STALE_INTELLIGENCE, unchanged fingerprint does not', async () => {
+    const orgId = orgIdFromSlug('ndxbook')!;
+    await submitOrgLoreCalibration({
+      orgId,
+      orgSlug: 'ndxbook',
+      answers: { role: ['guide'], world: 'a living index', feeling: ['curious'] },
+    });
+    invalidateCreativeDirectionEngagement('ndxbook');
+    let payload = await getCreativeDirectionPayload('ndxbook');
+    expect(payload.engagement.intelligenceStatus).toBe('CURRENT');
+    const fingerprintBefore = payload.engagement.brandLoreFormation?.brandLoreFingerprint;
+
+    // Re-reading with no new answers must NOT flip staleness — refresh must not fabricate drift.
+    payload = await getCreativeDirectionPayload('ndxbook');
+    expect(payload.engagement.intelligenceStatus).toBe('CURRENT');
+    expect(payload.engagement.brandLoreFormation?.brandLoreFingerprint).toBe(fingerprintBefore);
+
+    // A genuine calibration change must flip the signal truthfully.
+    await submitOrgLoreCalibration({
+      orgId,
+      orgSlug: 'ndxbook',
+      answers: { world: 'an entirely different founding metaphor for the brand' },
+    });
+    payload = await getCreativeDirectionPayload('ndxbook');
+    expect(payload.engagement.intelligenceStatus).toBe('STALE_INTELLIGENCE');
+    expect(payload.engagement.brandLoreFormation?.brandLoreFingerprint).toBe(fingerprintBefore);
+  });
+
+  it('28. approved Core Direction freezes intelligenceStatus — a later lore change is never silently relabeled/regenerated', async () => {
+    const orgId = orgIdFromSlug('ndxbook')!;
+    await submitOrgLoreCalibration({
+      orgId,
+      orgSlug: 'ndxbook',
+      answers: {
+        role: ['guide'],
+        world: 'a living index of everything worth knowing',
+        feeling: ['curious'],
+        enemy: ['gatekeeping'],
+        lineage: 'archival ephemera',
+        now: 'editorial accounts',
+        objects: ['paper'],
+      },
+    });
+    invalidateCreativeDirectionEngagement('ndxbook');
+    let payload = await getCreativeDirectionPayload('ndxbook');
+    expect(payload.engagement.brandLoreReadiness?.blocked).toBe(false);
+
+    await recordFounderDecision('ndxbook', {
+      type: 'APPROVE',
+      selectedTerritoryId: payload.engagement.territories[0].id,
+      by: 'founder@test.com',
+    });
+    payload = await getCreativeDirectionPayload('ndxbook');
+    expect(payload.engagement.lifecycle_state).toBe('APPROVED');
+    const statusAtApproval = payload.engagement.intelligenceStatus;
+
+    await submitOrgLoreCalibration({
+      orgId,
+      orgSlug: 'ndxbook',
+      answers: { world: 'a completely different founding metaphor after approval' },
+    });
+    payload = await getCreativeDirectionPayload('ndxbook');
+    expect(payload.engagement.lifecycle_state).toBe('APPROVED');
+    expect(payload.engagement.intelligenceStatus).toBe(statusAtApproval);
+    expect(payload.engagement.territories[0].lifecycleState).toBe('APPROVED');
+  });
 });

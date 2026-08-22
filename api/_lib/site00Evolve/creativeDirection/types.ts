@@ -472,6 +472,23 @@ export type CreativeDirectionEngagement = {
     message: string | null;
     missingDomains: string[];
   } | null;
+  /** Intelligence lineage (Section IV) — which Brand Lore profile/version produced the current
+   * territories, and a content fingerprint so calibration changes can be detected even when
+   * profileVersion increments for unrelated reasons (e.g. a truthful-readiness resync). Null only
+   * when no Brand Lore profile exists yet for this org (pre-calibration, non-NDXBOOK orgs). */
+  brandLoreFormation?: {
+    brandLoreProfileId: string;
+    brandLoreProfileVersion: number;
+    brandLoreFingerprint: string;
+    formedAt: string;
+    formationVersion: number;
+  } | null;
+  /** Truthful staleness signal (Section IV/V) — CURRENT when the territories were formed from the
+   * Brand Lore fingerprint currently on file; STALE_INTELLIGENCE when calibration answers have
+   * changed since formation and no territory has been founder-approved yet (eligible for
+   * reformation). Frozen at whatever it was the moment a territory is APPROVED — an approved
+   * Core Direction is a governance boundary and must never be silently relabeled stale. */
+  intelligenceStatus: 'CURRENT' | 'STALE_INTELLIGENCE' | 'UNKNOWN';
   legacyReference: {
     indigoSlate: { status: 'REFERENCE_ONLY'; promotedToCanon: false };
     laceMastery: { status: 'REJECTED_MISATTRIBUTED' };
