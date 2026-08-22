@@ -2803,3 +2803,18 @@ Summary: Completed live production run for THE MARKED-UP COPY v4 via Railway bac
 - **Board QA:** FAIL 45/50 — `MATERIAL_RELEVANCE: 3` (FAL assets missing). Expression-system gates PASS (50-post 5/5, no-explanation 5/5). Template/substitution/contamination tests PASS. `founderVisible: false`; `founderVisualApproval: PENDING`.
 - **Board SVGs:** Desktop/mobile v4 composed and stored (`final-desktop-marked-up-copy-pilot-v4.svg`, `final-mobile-marked-up-copy-pilot-v4.svg`) — compositor-only (no FAL imagery).
 - **Next:** Configure `FAL_KEY` on Railway API runtime and re-run board v4 job for asset production + QA PASS.
+
+---
+
+## 2026-08-22 — Brand-native visual prompt compiler + ONE hero pilot (THE MARKED-UP COPY)
+
+Summary: Forensic prompt-architecture repair sprint — direction-system-first visual generation (not topic→stock). ONE hero pilot only; no board regen; directions 02–06 untouched.
+
+- **Root cause:** Prior FAL prompts were topic-first → generic stock imagery (calculator/ledger finance scenes). GPT Image 2 model switch alone does not fix prompting.
+- **BrandNativeVisualPromptCompiler:** `brandNativeVisualPromptCompiler.ts` — world premise → photography/material/color → subject transformation (topic last). `transformTopicIntoDirectionNativeSubject()`, `TOPIC_CLICHE_BLACKLIST`, role-specific strategies (`HERO_EDITORIAL_WORLD`, etc.).
+- **Provider adapter:** `gptImage2VisualProviderAdapter.ts` — `BrandNativeVisualBrief` → FAL `openai/gpt-image-2` / `openai/gpt-image-2/edit` (provider-agnostic brief layer).
+- **Raw QA:** `brandNativeVisualRawInspector.ts` — PRE_OVERLAY_DIRECTION_RECOGNITION_TEST via Sonnet vision when configured; heuristic NEEDS_HUMAN_REVIEW fallback.
+- **Pilot orchestrator:** `markedUpCopyBrandNativeVisualPilot.ts` — ONE hero (`MUC-BRAND-NATIVE-HERO-PILOT`), topic `credit utilization`, STOP after QA. Admin action `creative_direction_marked_up_copy_brand_native_visual_pilot` + job type `marked_up_copy_brand_native_visual_pilot`.
+- **Founder UI:** `brandNativeVisualPilot` exposed on creative direction payload; `FormedCoreDirectionReview` shows **VISUAL LANGUAGE PILOT** raw hero (no code overlays).
+- **Live generation (local FAL):** pilot `f0dcba34-b3c7-4df3-8066-5444df75a502` — GPT Image 2/edit with REF-COMP-01 reference; ~$0.045; raw QA NEEDS_HUMAN_REVIEW (no local Anthropic vision). Manifest: `ndxbook.brandNativeVisualPilots.json`.
+- **Tests:** 16 compiler/pilot tests pass. Build PASS. Do NOT scale to remaining board assets until founder approves hero pilot.

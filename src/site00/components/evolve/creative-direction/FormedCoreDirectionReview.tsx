@@ -7,6 +7,7 @@ import type {
   VisualProofPlan,
 } from '../../../../../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/types.js';
 import type { CreativeDirectionBoard } from '../../../../../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/creativeDirectionBoardTypes.js';
+import type { BrandNativeVisualPilotRecord } from '../../../../../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/brandNativeVisualBriefTypes.js';
 import { CreativeDirectionBoardView } from './CreativeDirectionBoardView';
 import { MARKED_UP_COPY_DIRECTION_NAME } from '../../../../../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/creativeDirectionBoardTypes.js';
 import {
@@ -25,6 +26,7 @@ export type FormedDirectionReviewProps = {
   directionCount?: number;
   proofAssetsByDirection?: Record<string, Partial<Record<ComparisonProofType, ComparisonProofAsset>>>;
   creativeDirectionBoardsByDirection?: Record<string, CreativeDirectionBoard>;
+  brandNativeVisualPilot?: BrandNativeVisualPilotRecord | null;
 };
 
 const PRIMARY_KEYS = new Set<FounderDirectionFieldKey>([
@@ -150,6 +152,7 @@ export function FormedCoreDirectionReview({
   directionCount,
   proofAssetsByDirection = {},
   creativeDirectionBoardsByDirection = {},
+  brandNativeVisualPilot = null,
 }: FormedDirectionReviewProps) {
   if (!directions.length) return null;
 
@@ -228,6 +231,9 @@ export function FormedCoreDirectionReview({
                 ? 'V2'
                 : '';
 
+          const showBrandNativePilot =
+            direction.directionName === MARKED_UP_COPY_DIRECTION_NAME && brandNativeVisualPilot?.publicUrl;
+
           return (
             <article key={`${direction.directionId}-${comparisonIndex}`} className="site00-cd__formed-card">
               <p className="site00-cd__formed-index">DIRECTION {displayIndex}</p>
@@ -243,6 +249,22 @@ export function FormedCoreDirectionReview({
                   </div>
                 ))}
               </div>
+
+              {showBrandNativePilot && brandNativeVisualPilot ? (
+                <figure className="site00-cd__formed-proof-asset">
+                  <p className="site00-cd__formed-proof site00-cd__formed-proof--refining" role="status">
+                    {brandNativeVisualPilot.founderPilotLabel} · {brandNativeVisualPilot.founderPilotStatus.replace(/_/g, ' ')}
+                  </p>
+                  <img
+                    src={brandNativeVisualPilot.publicUrl}
+                    alt="THE MARKED-UP COPY visual language pilot — raw generation before overlays"
+                    className="site00-cd__formed-proof-image"
+                  />
+                  <figcaption className="site00-cd__formed-proof-caption">
+                    Raw hero · topic: {brandNativeVisualPilot.topic} · no code overlays applied
+                  </figcaption>
+                </figure>
+              ) : null}
 
               {showBoardFirst && creativeBoard ? (
                 <>

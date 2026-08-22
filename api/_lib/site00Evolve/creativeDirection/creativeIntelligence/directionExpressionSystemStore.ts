@@ -48,3 +48,10 @@ export function upsertDirectionExpressionSystem(system: DirectionExpressionSyste
   writeFileSync(manifestPath(), `${JSON.stringify(all, null, 2)}\n`, 'utf8');
   return system;
 }
+
+export function findLatestMarkedUpCopyExpressionSystem(): DirectionExpressionSystem | null {
+  const systems = loadDirectionExpressionSystems().filter(
+    (e) => e.directionName === MARKED_UP_COPY_DIRECTION_NAME,
+  );
+  return systems.sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0] ?? null;
+}
