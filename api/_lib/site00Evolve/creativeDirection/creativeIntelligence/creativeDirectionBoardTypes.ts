@@ -8,6 +8,104 @@ import type { RenderingMediumRecommendation } from './types.js';
 export const MARKED_UP_COPY_DIRECTION_NAME = 'THE MARKED-UP COPY';
 export const MARKED_UP_COPY_BOARD_PLAN_VERSION = 'marked-up-copy-pilot-v1';
 export const MARKED_UP_COPY_BOARD_PLAN_VERSION_V2 = 'marked-up-copy-pilot-v2';
+export const MARKED_UP_COPY_BOARD_PLAN_VERSION_V3 = 'marked-up-copy-pilot-v3';
+
+export const FOUNDER_VISUAL_FEEDBACK_V2 =
+  'The board has the right idea, but it still feels mechanically assembled rather than fully creative-directed. It needs stronger visual hierarchy, more intentional tension, more variety in scale and material behavior, stronger reference translation, and a composition where the editorial argument transforms the page rather than appearing as decoration layered over it.';
+
+export type FounderVisualApproval = 'PENDING' | 'APPROVED' | 'REVISION_REQUESTED';
+
+export type BoardAssetReuseDecision =
+  | 'REUSE_AS_IS'
+  | 'REUSE_WITH_NEW_CROP'
+  | 'REUSE_WITH_EDIT'
+  | 'REGENERATE'
+  | 'REMOVE'
+  | 'NEW_ASSET_REQUIRED';
+
+export type BoardCreativeCritique = {
+  whatWorks: string[];
+  whatFeelsMechanical: string[];
+  whatIsTooSafe: string[];
+  whatIsTooClean: string[];
+  whatIsTooEven: string[];
+  whatNeedsMoreTension: string[];
+  whatNeedsMoreNegativeSpace: string[];
+  whatNeedsMoreScaleContrast: string[];
+  whatNeedsMoreMateriality: string[];
+  whatNeedsMoreReferenceTranslation: string[];
+  whatNeedsMoreBrandSpecificity: string[];
+  whatShouldBeRemoved: string[];
+  whatShouldBecomeDominant: string[];
+  whatShouldBecomeSecondary: string[];
+  whatShouldOverlap: string[];
+  whatShouldBreakTheGrid: string[];
+  whatShouldRemainQuiet: string[];
+  lineage: {
+    provider: string;
+    model: string;
+    promptVersion: string;
+    inputFingerprint: string;
+    outputHash: string;
+    createdAt: string;
+  };
+};
+
+export type BoardReferenceTranslationDecision = {
+  referenceId: string;
+  cropId?: string;
+  trait: string;
+  currentBoardUnderuse: string;
+  newBoardTranslation: string;
+  zone: BoardZoneId;
+  assetManifestId: string;
+  compositionDecision: string;
+};
+
+export type BoardTypographicVoiceSystem = {
+  cleanVoice: string;
+  revisionVoice: string;
+  marginVoice: string;
+  metadataVoice: string;
+};
+
+export type BoardGraphicGrammarSystem = {
+  selectedDevices: string[];
+  semanticBehavior: string;
+};
+
+export type BoardColorRoleSystem = Record<string, string>;
+
+export type BoardHierarchyPlan = {
+  dominantEvent: string;
+  supportingDiscoveries: string[];
+  minorEvidence: string[];
+  quietZone: string;
+};
+
+export type BoardAssetDecision = {
+  manifestId: string;
+  decision: BoardAssetReuseDecision;
+  rationale: string;
+  referenceConditioned?: boolean;
+};
+
+export type BoardCreativeDirectorPass = {
+  critique: BoardCreativeCritique;
+  artDirection: CreativeDirectionBoardArtDirection;
+  hierarchy: BoardHierarchyPlan;
+  referenceTranslations: BoardReferenceTranslationDecision[];
+  typographicVoices: BoardTypographicVoiceSystem;
+  graphicGrammar: BoardGraphicGrammarSystem;
+  colorRoles: BoardColorRoleSystem;
+  socialSystem: string;
+  motionSystem: string;
+  desktopMap: BoardCompositionMap;
+  mobileMap: BoardCompositionMap;
+  assetManifest: BoardAssetManifestEntry[];
+  assetDecisions: BoardAssetDecision[];
+  creativeDirectionAuthorityScore: number;
+};
 
 export const FAL_REFERENCE_EDIT_MODEL = 'fal-ai/nano-banana-pro/edit';
 export const FAL_TEXT_TO_IMAGE_MODEL = 'fal-ai/nano-banana-pro';
@@ -110,6 +208,7 @@ export type BoardQaScoreReport = {
   SOCIAL_APPLICABILITY: number;
   MOTION_COHERENCE: number;
   NON_STOCK_DISTINCTIVENESS: number;
+  CREATIVE_DIRECTION_AUTHORITY?: number;
   total: number;
   WORDMARK_REMOVAL_TEST: 'PASS' | 'FAIL';
   GENERIC_STOCK_TEST: 'PASS' | 'FAIL';
@@ -320,10 +419,30 @@ export type CreativeDirectionBoard = {
   assetRecords: BoardAssetRecord[];
   qaReport: BoardQaReport;
   qaScoreReport?: BoardQaScoreReport;
+  creativeDirectorCritique?: BoardCreativeCritique;
+  founderVisualApproval?: FounderVisualApproval;
   presentationMode?: BoardPresentationMode;
   founderVisible: boolean;
   productionState: 'READY' | 'NEEDS_HUMAN_REVIEW' | 'FAILED';
   createdAt: string;
+};
+
+export type MarkedUpCopyBoardPilotV3Result = {
+  status:
+    | 'PASS'
+    | 'FAIL'
+    | 'NEEDS_HUMAN_REVIEW'
+    | 'PILOT_BLOCKED_ON_DIRECTION_COMPLETION'
+    | 'BLOCKED_ON_SONNET_ART_DIRECTION'
+    | 'REVISE_METHODOLOGY';
+  plan: CreativeDirectionBoardPlan | null;
+  board: CreativeDirectionBoard | null;
+  creativeDirectorPass: BoardCreativeDirectorPass | null;
+  directionCompletion: MarkedUpCopyBoardPilotV2Result['directionCompletion'];
+  anthropic: MarkedUpCopyBoardPilotV2Result['anthropic'] & { creativeDirectorRequests: number };
+  fal: MarkedUpCopyBoardPilotV2Result['fal'];
+  otherDirectionsTouched: false;
+  v2Preserved: boolean;
 };
 
 export type MarkedUpCopyBoardPilotV2Result = {

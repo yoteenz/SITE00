@@ -13,9 +13,17 @@ export function CreativeDirectionBoardView({
   const [breakpoint, setBreakpoint] = useState(defaultBreakpoint);
   const src = breakpoint === 'mobile' ? board.mobileBoardUrl : board.desktopBoardUrl;
 
+  const versionSuffix = board.boardPlanVersion.includes('pilot-v3')
+    ? ' V3'
+    : board.boardPlanVersion.includes('pilot-v2')
+      ? ' V2'
+      : '';
+
   return (
     <figure className="site00-cd__creative-board" aria-label={`Creative direction board — ${board.directionName}`}>
-      <figcaption className="site00-cd__creative-board-label">FINAL CREATIVE DIRECTION BOARD</figcaption>
+      <figcaption className="site00-cd__creative-board-label">
+        FINAL CREATIVE DIRECTION BOARD{versionSuffix}
+      </figcaption>
       <div className="site00-cd__creative-board-toolbar">
         <button
           type="button"
@@ -46,6 +54,11 @@ export function CreativeDirectionBoardView({
           <span className="site00-cd__creative-board-pending">BOARD RENDER PENDING</span>
         )}
       </div>
+      {board.founderVisualApproval === 'PENDING' ? (
+        <p className="site00-cd__creative-board-qa" role="status">
+          FOUNDER VISUAL REVIEW · PENDING
+        </p>
+      ) : null}
       {board.qaReport.result !== 'PASS' ? (
         <p className="site00-cd__creative-board-qa" role="status">
           BOARD QA · {board.qaReport.result.replace(/_/g, ' ')}

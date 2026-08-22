@@ -2763,3 +2763,17 @@ Summary: Founder requested a direct link on the NDXbook project creative directi
 - **Target:** `/admin/site00/debug/evolve-creative-direction` (`SITE00_ADMIN_ROUTES.evolveCreativeDirectionDebug`) — existing production controls page with **RUN FULL PIPELINE (BACKGROUND)** and six-direction proof production.
 - **CTA copy:** **GENERATE BOARDS →**
 - **Tests:** 804/804 passing. Branch `cursor/ndxbook-board-generation-link-4f59`.
+
+---
+
+## 2026-08-22 — THE MARKED-UP COPY Sonnet creative-director pass (board v3)
+
+Summary: Surgical creative-direction upgrade sprint — Sonnet owns production board art direction for THE MARKED-UP COPY only. v2 engine substrate preserved; v3 plan/composition/critique layer added.
+
+- **New modules:** `boardCreativeDirectorService.ts` (Sonnet senior CD critique + v3 art direction; deterministic fallback NOT founder-ready), `markedUpCopyBoardPlanV3.ts` (dramatic desktop/mobile maps, manifest recomposition), `boardInspectorV3.ts` (+CREATIVE_DIRECTION_AUTHORITY gate), `markedUpCopyBoardPilotV3.ts` (orchestrator; BLOCKED_ON_SONNET_ART_DIRECTION before FAL when Anthropic unavailable).
+- **Types:** `BoardCreativeCritique`, `BoardCreativeDirectorPass`, `FounderVisualApproval`, `BoardAssetReuseDecision`, `MARKED_UP_COPY_BOARD_PLAN_VERSION_V3`.
+- **Admin action:** `creative_direction_marked_up_copy_board_pilot` now runs v3 orchestrator. Script: `scripts/runMarkedUpCopyBoardPilotV3.ts`.
+- **Founder UI:** v3 board label, FOUNDER VISUAL REVIEW · PENDING on technical PASS (approval ≠ automated QA PASS).
+- **Storage:** v3 assets under `boards/01/v3/`; v2 preserved separately; founder comparison prefers v3 when present.
+- **Runtime (cloud agent):** ANTHROPIC_API_KEY unset → BLOCKED_ON_SONNET_ART_DIRECTION (no deterministic-fallback v3 board generated). Run on Railway with key via production controls.
+- **Tests:** 821 passing (+17 v3). tsc + build green. Branch `cursor/marked-up-copy-board-v3-sonnet-4f59`.
