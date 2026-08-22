@@ -15,8 +15,11 @@ import { IdntyProcessStripPanel } from '../../../components/idnty-assessment/Idn
 import { IdntyStepForm, useStepForm } from '../../../components/idnty-assessment/IdntyStepForm';
 import type { IdntyAssessmentStep } from '../../../config/idnty-assessment';
 import { BldrDiscoveryProgress } from '../../../components/bldr-assessment/BldrScopeFields';
+import { BldrIntakeShell } from '../../../components/bldr/intake/BldrIntakeShell';
+import { BldrIntakeStepPanel } from '../../../components/bldr/intake/BldrIntakePanels';
 import { useSite00DesktopArtboardPreview } from '../../../components/shell/Site00DesktopArtboardContext';
 import { site00BldrAssessmentDesktopPath } from '../../../config/routes';
+import { IntakeSaveStatus } from '../../../components/intake/IntakeSaveStatus';
 
 type BldrAssessmentStepPageProps = {
   classSlug: BldrAssessmentStateId;
@@ -29,7 +32,15 @@ export default function BldrAssessmentStepPage({ classSlug, stepId }: BldrAssess
   const state = getBldrAssessmentState(classSlug)!;
   const step = state.steps.find((s) => s.id === stepId);
 
-  const { startClass, setStepAnswers, markStepComplete, getAnswersForClass } = useBldrAssessment();
+  const {
+    startClass,
+    setStepAnswers,
+    markStepComplete,
+    getAnswersForClass,
+    serverSaveState,
+    serverLastSavedAt,
+    serverSaveError,
+  } = useBldrAssessment();
   const existingAnswers = getAnswersForClass(classSlug);
   const existingValue = existingAnswers[stepId] ?? (step?.type === 'multi' ? [] : '');
 
@@ -84,6 +95,30 @@ export default function BldrAssessmentStepPage({ classSlug, stepId }: BldrAssess
     navigateTo(bldrAssessmentPath(classSlug, prev.id));
   };
 
+  if (!isDesktop) {
+    const discoveryIndex = classSlug === 'not-sure' ? stepIndex : stepIndex + 1;
+    return (
+      <BldrIntakeShell breadcrumb={state.breadcrumb}>
+        <IntakeSaveStatus state={serverSaveState} lastSavedAt={serverLastSavedAt} errorMessage={serverSaveError} />
+        <BldrIntakeStepPanel
+          state={state}
+          stepId={stepId}
+          stepTitle={step.title}
+          stepSubtitle={step.subtitle}
+          stepIndex={classSlug === 'not-sure' ? discoveryIndex : stepIndex + 1}
+          stepTotal={allSteps.length}
+          value={form.value}
+          error={form.error}
+          options={step.options}
+          stepType={step.type === 'audience-row' ? 'single' : step.type}
+          onChange={form.setValue}
+          onPrimary={handleNext}
+          onBack={handleBack}
+        />
+      </BldrIntakeShell>
+    );
+  }
+
   const discoveryStep = classSlug === 'not-sure' ? stepIndex + 1 : null;
 
   const panel = (
@@ -91,6 +126,7 @@ export default function BldrAssessmentStepPage({ classSlug, stepId }: BldrAssess
       <p className="site00-bldr-context-label">{state.contextLabel}</p>
       {discoveryStep ? <BldrDiscoveryProgress current={discoveryStep} /> : null}
       <p className="site00-idnty-assessment-card__progress">{stepProgress}</p>
+      <IntakeSaveStatus state={serverSaveState} lastSavedAt={serverLastSavedAt} errorMessage={serverSaveError} />
       <IdntyStepForm
         step={step as IdntyAssessmentStep}
         value={form.value}

@@ -10,11 +10,15 @@ import {
   IDNTY_LEGACY_NEEDS_COHESION_SLUG,
   migrateLegacyNeedsCohesionSlug,
   migrateLegacyNeedsCohesionStep,
+  getIdntyAssessmentState,
 } from '../../../config/idnty-assessment';
 import IdntyAssessmentLandingPage from './IdntyAssessmentLandingPage';
 import IdntyAssessmentStepPage from './IdntyAssessmentStepPage';
 import IdntyAssessmentReviewPage from './IdntyAssessmentReviewPage';
 import IdntyAssessmentCompletePage from './IdntyAssessmentCompletePage';
+import { IdentityLoreMobileStep, IdentityLoreWorldReview } from '../../../components/idnty/lore';
+import { getLoreQuestion } from '../../../../../shared/site00-brand-lore/idnty-lore-questions';
+import { IdntyAssessmentShell } from '../../../components/idnty-assessment/IdntyAssessmentShell';
 
 function isValidSlug(slug: string | undefined): slug is IdntyAssessmentStateId {
   return Boolean(slug && IDNTY_ASSESSMENT_STATE_SLUGS.includes(slug as IdntyAssessmentRouteSlug));
@@ -74,6 +78,32 @@ export default function IdntyAssessmentRouterPage() {
 
   if (stepSegment === 'complete') {
     return <IdntyAssessmentCompletePage stateSlug={stateSlug} />;
+  }
+
+  if (stepSegment === 'world-review') {
+    return (
+      <IdntyAssessmentShell state={getIdntyAssessmentState(stateSlug)!} mobileLayout="calibration" showProcessStrip={false}>
+        <IdentityLoreWorldReview stateSlug={stateSlug} />
+      </IdntyAssessmentShell>
+    );
+  }
+
+  const loreWorldMatch = pathname.match(/\/world\/([^/]+)/);
+  if (loreWorldMatch?.[1] && getLoreQuestion(loreWorldMatch[1])) {
+    return (
+      <IdntyAssessmentShell state={getIdntyAssessmentState(stateSlug)!} mobileLayout="calibration" showProcessStrip={false}>
+        <IdentityLoreMobileStep stateSlug={stateSlug} stepId={loreWorldMatch[1]} />
+      </IdntyAssessmentShell>
+    );
+  }
+
+  const calibrateMatch = pathname.match(/\/calibrate\/([^/]+)/);
+  if (calibrateMatch?.[1] && getLoreQuestion(calibrateMatch[1])) {
+    return (
+      <IdntyAssessmentShell state={getIdntyAssessmentState(stateSlug)!} mobileLayout="calibration" showProcessStrip={false}>
+        <IdentityLoreMobileStep stateSlug={stateSlug} stepId={calibrateMatch[1]} calibrationMode />
+      </IdntyAssessmentShell>
+    );
   }
 
   if (stepSegment === 'desktop') {

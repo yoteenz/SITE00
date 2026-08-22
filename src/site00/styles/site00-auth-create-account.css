@@ -1,0 +1,43 @@
+.site00-create-account-form__title {
+  margin: 0 0 0.5rem;
+  font-family: var(--site00-font-label);
+  font-size: clamp(1.125rem, 4vw, 1.5rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.site00-create-account-form__subtitle {
+  margin: 0 0 1.25rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  line-height: 1.45;
+  color: var(--site-text-muted);
+  max-width: 36ch;
+}
+
+.site00-create-account-form__optional {
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+.site00-create-account-form__hint {
+  margin: 0.35rem 0 1rem;
+  font-size: 0.625rem;
+  letter-spacing: 0.05em;
+  color: var(--site-text-muted);
+  line-height: 1.4;
+}
+
+.site00-create-account-form__verification {
+  margin: 1rem 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+}
+
+.site00-create-account-form__cta-link {
+  display: inline-block;
+  margin-top: 1rem;
+  text-decoration: none;
+  text-align: center;
+}

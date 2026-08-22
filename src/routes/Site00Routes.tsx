@@ -2,6 +2,7 @@ import { lazy, Suspense, type ReactNode } from 'react';
 import { Route, Navigate } from 'react-router-dom';
 import AdminGuard from '../components/AdminGuard';
 import { Site00Provider } from '../site00/state/Site00Context';
+import { ExperienceContextProvider } from '../site00/state/experienceContext';
 import { SITE00_ROUTES } from '../site00/config/routes';
 import { AsstsRouteSuspense } from '../site00/assts/components/AsstsRouteSuspense';
 import { AsstsColdStartGate } from '../site00/assts/components/AsstsColdStartGate';
@@ -21,15 +22,33 @@ import '../site00/styles/site00.css';
 import '../site00/styles/site00-locations.css';
 import '../site00/styles/site00-fast-travel.css';
 import '../site00/styles/site00-bldr-entry.css';
+import '../site00/styles/site00-bldr-hub-mobile.css';
+import '../site00/styles/site00-bldr-classification-mobile.css';
+import '../site00/styles/site00-bldr-intake-mobile.css';
+import '../site00/styles/site00-idnty-diagnostic-mobile.css';
+import '../site00/styles/site00-evolve-mobile.css';
+import '../site00/styles/site00-evolve-hub-mobile.css';
+import '../site00/styles/site00-evolve-assessment-mobile.css';
+import '../site00/styles/site00-marketing.css';
 import '../site00/styles/site00-loader.css';
 import '../site00/styles/site00-desktop-artboard.css';
 import '../site00/styles/site00-desktop-artboard-preview.css';
 import '../site00/styles/site00-mobile-artboard.css';
 import '../site00/styles/site00-auth.css';
+import '../site00/styles/site00-auth-create-account.css';
+import '../site00/styles/site00-access.css';
 import '../site00/styles/site00-ctrl-room.css';
+import '../site00/styles/site00-ctrl-room-mobile.css';
 import '../site00/styles/site00-ecosystem.css';
+import '../site00/styles/site00-experience-context.css';
 import '../site00/styles/site00-idnty-assessment.css';
+import '../site00/styles/site00-idnty-state-v2.css';
+import '../site00/styles/site00-idnty-control-center.css';
+import '../site00/styles/site00-idnty-calibration-mobile.css';
+import '../site00/styles/site00-project-lore-calibration.css';
 import '../site00/styles/site00-pages.css';
+import '../site00/styles/site00-mobile-shell.css';
+import '../site00/styles/site00-studio.css';
 import '../site00/assts/styles/assts.css';
 import '../site00/assts/styles/assts-depth.css';
 import '../site00/assts/styles/assts-composition.css';
@@ -45,6 +64,9 @@ const Site00BldrStatePage = lazy(() => import('../site00/pages/BldrStatePage'));
 const Site00EvolvePage = lazy(() => import('../site00/pages/EvolvePage'));
 const Site00EvolveStatePage = lazy(() => import('../site00/pages/EvolveStatePage'));
 const Site00SignInPage = lazy(() => import('../site00/pages/Site00SignInPage'));
+const Site00CreateAccountPage = lazy(() => import('../site00/pages/Site00CreateAccountPage'));
+const AccessCredentialPage = lazy(() => import('../site00/pages/access/AccessCredentialPage'));
+const AccessCredentialDebugPage = lazy(() => import('../site00/pages/access/AccessCredentialDebugPage'));
 const ControlOverviewPage = lazy(() => import('../site00/pages/control/ControlOverviewPage'));
 const ControlSectionPage = lazy(() => import('../site00/pages/control/ControlSectionPage'));
 const ControlSitesPage = lazy(() => import('../site00/pages/control/ControlSitesPage'));
@@ -54,6 +76,13 @@ const SystemPage = lazy(() => import('../site00/pages/SystemPage'));
 const AboutPage = lazy(() => import('../site00/pages/AboutPage'));
 const JournalPage = lazy(() => import('../site00/pages/JournalPage'));
 const ProjectsPage = lazy(() => import('../site00/pages/ProjectsPage'));
+const ProjectDetailPage = lazy(() => import('../site00/pages/ProjectDetailPage'));
+const AccountIntakesPage = lazy(() => import('../site00/pages/account/AccountIntakesPage'));
+const AccountIntakeDetailPage = lazy(() => import('../site00/pages/account/AccountIntakeDetailPage'));
+const IntakeGuestAccessPage = lazy(() => import('../site00/pages/intake/IntakeGuestAccessPage'));
+const ProjectEvolvePage = lazy(() => import('../site00/pages/ProjectEvolvePage'));
+const ProjectCreativeDirectionPage = lazy(() => import('../site00/pages/ProjectCreativeDirectionPage'));
+const ProjectLoreCalibrationPage = lazy(() => import('../site00/pages/ProjectLoreCalibrationPage'));
 const SupportPage = lazy(() => import('../site00/pages/SupportPage'));
 const IdntySignInSecurityPage = lazy(() => import('../site00/pages/idnty/IdntySignInSecurityPage'));
 const BldrTemplatesPage = lazy(() => import('../site00/pages/bldr/BldrTemplatesPage'));
@@ -68,9 +97,17 @@ const AsstsSearchPage = lazy(() => import('../site00/assts/pages/SearchPage'));
 const AsstsNotificationsPage = lazy(() => import('../site00/assts/pages/NotificationsPage'));
 const AsstsProfilePage = lazy(() => import('../site00/assts/pages/ProfilePage'));
 const ProjectProvisioningPage = lazy(() => import('../site00/pages/provisioning/ProjectProvisioningPage'));
+const StudioDashboardPage = lazy(() => import('../site00/pages/studio/StudioDashboardPage'));
+const StudioWorkspaceRouterPage = lazy(() => import('../site00/pages/studio/StudioWorkspaceRouterPage'));
+const StudioReviewDetailPage = lazy(() => import('../site00/pages/studio/StudioReviewDetailPage'));
 const IdntyAssessmentRouterPage = lazy(() => import('../site00/pages/idnty/assessment/IdntyAssessmentRouterPage'));
 const BldrAssessmentRouterPage = lazy(() => import('../site00/pages/bldr/assessment/BldrAssessmentRouterPage'));
 const EvolveAssessmentRouterPage = lazy(() => import('../site00/pages/evolve/assessment/EvolveAssessmentRouterPage'));
+const MarketingLandingPage = lazy(() => import('../site00/pages/evolve/marketing/MarketingLandingPage'));
+const MarketingServicesPage = lazy(() => import('../site00/pages/evolve/marketing/MarketingServicesPage'));
+const MarketingIntakePage = lazy(() => import('../site00/pages/evolve/marketing/MarketingIntakePage'));
+const MarketingBriefPage = lazy(() => import('../site00/pages/evolve/marketing/MarketingBriefPage'));
+const MarketingEngagementPage = lazy(() => import('../site00/pages/evolve/marketing/MarketingEngagementPage'));
 const LoaderPreviewPage = lazy(() => import('../site00/pages/LoaderPreviewPage'));
 
 function Site00Suspense({ children }: { children: ReactNode }) {
@@ -111,8 +148,10 @@ function Site00PublicPageRoutes(path: string, Page: React.LazyExoticComponent<()
 function Site00Layout({ children }: { children: ReactNode }) {
   return (
     <Site00Provider>
-      <Site00TypographyBootstrap />
-      <Site00WorldColdStartGate>{children}</Site00WorldColdStartGate>
+      <ExperienceContextProvider>
+        <Site00TypographyBootstrap />
+        <Site00WorldColdStartGate>{children}</Site00WorldColdStartGate>
+      </ExperienceContextProvider>
     </Site00Provider>
   );
 }
@@ -179,6 +218,30 @@ export function Site00Routes() {
           </Site00LoaderPreviewLayout>
         }
       />
+      {/* Auth routes before /origin — prevents origin homepage from swallowing /origin/sign-in and /origin/create-account */}
+      <Route
+        path={SITE00_ROUTES.signIn}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <Site00SignInPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.createAccount}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <Site00CreateAccountPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+
+      <Route path="/register" element={<Navigate to={SITE00_ROUTES.createAccount} replace />} />
+      <Route path="/create-account" element={<Navigate to={SITE00_ROUTES.createAccount} replace />} />
       <Route
         path={SITE00_ROUTES.locations}
         element={
@@ -440,6 +503,88 @@ export function Site00Routes() {
         }
       />
       <Route
+        path={SITE00_ROUTES.projectDetail}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectDetailPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectEvolve}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectEvolvePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCreativeDirection}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCreativeDirectionPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectLoreCalibration}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectLoreCalibrationPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.accountIntakes}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <AccountIntakesPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.accountIntakeDetail}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <AccountIntakeDetailPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.intakeGuestAccess}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <IntakeGuestAccessPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
         path={site00PublicDesktopPath(SITE00_ROUTES.projects)}
         element={
           <Site00Layout>
@@ -465,6 +610,66 @@ export function Site00Routes() {
         element={
           <Site00Layout>
             <Site00WorkflowDesktopLegacyRedirect />
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.evolveMarketing}
+        element={
+          <Site00Layout>
+            <Site00PublicRouteShell>
+              <Site00Suspense>
+                <MarketingLandingPage />
+              </Site00Suspense>
+            </Site00PublicRouteShell>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.evolveMarketingServices}
+        element={
+          <Site00Layout>
+            <Site00PublicRouteShell>
+              <Site00Suspense>
+                <MarketingServicesPage />
+              </Site00Suspense>
+            </Site00PublicRouteShell>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.evolveMarketingIntake}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <MarketingIntakePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.evolveMarketingBrief}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <MarketingBriefPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.evolveMarketingEngagement}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <MarketingEngagementPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
           </Site00Layout>
         }
       />
@@ -501,11 +706,129 @@ export function Site00Routes() {
         }
       />
       <Route
-        path={SITE00_ROUTES.signIn}
+        path={SITE00_ROUTES.studio}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <StudioDashboardPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.studioInput}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <StudioWorkspaceRouterPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.studioOperations}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <StudioWorkspaceRouterPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.studioBlueprint}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <StudioWorkspaceRouterPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.studioAssets}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <StudioWorkspaceRouterPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.studioReviews}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <StudioWorkspaceRouterPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.studioReviewDetail}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <StudioReviewDetailPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.studioMilestones}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <StudioWorkspaceRouterPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.studioActivity}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <StudioWorkspaceRouterPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.accessDebug}
         element={
           <Site00Layout>
             <Site00Suspense>
-              <Site00SignInPage />
+              <AccessCredentialDebugPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={`${SITE00_ROUTES.access}/:credentialId`}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <AccessCredentialPage />
             </Site00Suspense>
           </Site00Layout>
         }

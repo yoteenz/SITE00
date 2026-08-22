@@ -1,0 +1,210 @@
+/**
+ * EVOLVE assessment — mobile intake (path-specific configuration).
+ */
+
+.site00-evolve-assessment--mobile {
+  background:
+    radial-gradient(ellipse 120% 80% at 50% -10%, rgba(255, 255, 255, 0.96), transparent 55%),
+    linear-gradient(180deg, #f8f8f6 0%, #f3f3f1 48%, #efefed 100%);
+}
+
+.site00-evolve-assessment-mobile-shell .site00-mobile-shell__main {
+  padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+}
+
+.site00-evolve-assessment__mobile-content {
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  min-width: 0;
+  overflow-x: clip;
+  padding: 0 0 12px;
+}
+
+.site00-evolve-assessment__mobile-hero {
+  position: relative;
+  margin-bottom: 14px;
+}
+
+.site00-evolve-assessment__mark {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  color: var(--site-red);
+}
+
+.site00-evolve-assessment__breadcrumb {
+  margin: 0 0 10px;
+  padding-right: 22px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--site-red);
+  font-weight: 600;
+}
+
+.site00-evolve-assessment__hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(80px, 34%);
+  gap: 8px;
+  align-items: start;
+}
+
+.site00-evolve-assessment__icon {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 8px;
+}
+
+.site00-evolve-assessment__icon .site00-evolve-path-icon {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+.site00-evolve-assessment__marker {
+  margin: 0 0 4px;
+  font-family: var(--site00-font-display);
+  font-size: 0.625rem;
+  color: var(--site-red);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.site00-evolve-assessment__title {
+  margin: 0 0 4px;
+  font-family: var(--site00-font-heading);
+  font-size: clamp(1.25rem, 5.5vw, 1.5rem);
+  font-weight: var(--site00-weight-heading);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.site00-evolve-assessment__declaration {
+  margin: 0 0 8px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5625rem, 2.5vw, 0.625rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--site-red);
+  font-weight: 600;
+}
+
+.site00-evolve-assessment__body {
+  margin: 0;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  letter-spacing: 0.04em;
+  line-height: 1.45;
+  text-transform: uppercase;
+  color: var(--site-text-muted);
+}
+
+.site00-evolve-assessment__hero-art {
+  max-width: 100px !important;
+  width: 100% !important;
+  aspect-ratio: 1 !important;
+  opacity: 0.5;
+  justify-self: end;
+}
+
+.site00-evolve-assessment__panel {
+  margin-bottom: 12px;
+}
+
+.site00-evolve-assessment__form-panel {
+  padding: 14px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.site00-evolve-assessment__step-label {
+  margin: 0 0 6px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.4375rem, 2vw, 0.5rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--site-red);
+  font-weight: 600;
+}
+
+.site00-evolve-assessment__step-title {
+  margin: 0 0 4px;
+  font-family: var(--site00-font-heading);
+  font-size: clamp(1rem, 4.5vw, 1.125rem);
+  font-weight: var(--site00-weight-heading);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.site00-evolve-assessment__step-subtitle {
+  margin: 0 0 12px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--site-text-muted);
+}
+
+.site00-evolve-assessment__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.site00-evolve-assessment__cta-primary {
+  min-height: 44px;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 999px;
+  background: var(--site-red);
+  color: #fff;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5625rem, 2.5vw, 0.625rem);
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.site00-evolve-assessment__cta-secondary {
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--site-text-muted);
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.site00-evolve-assessment__cta-primary:focus-visible,
+.site00-evolve-assessment__cta-secondary:focus-visible {
+  outline: 2px solid var(--site-red);
+  outline-offset: 2px;
+}
+
+.site00-evolve-assessment__complete {
+  padding: 16px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  background: #fff;
+}
+
+@media (max-width: 360px) {
+  .site00-evolve-assessment__hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .site00-evolve-assessment__hero-art {
+    display: none;
+  }
+}

@@ -51,6 +51,12 @@ export function isSite00SignInPath(pathname: string): boolean {
   return pathname === SITE00_ROUTES.signIn || pathname.startsWith(`${SITE00_ROUTES.signIn}/`);
 }
 
+/** Access credential threshold — skip cinematic cold-start loader. */
+export function isSite00AccessCredentialPath(pathname: string): boolean {
+  if (!pathname) return false;
+  return pathname === SITE00_ROUTES.access || pathname.startsWith(`${SITE00_ROUTES.access}/`);
+}
+
 export function isSite00PublicHubPath(pathname: string): boolean {
   if (!pathname) return false;
   const mobilePath = site00PublicMobilePath(pathname);
@@ -62,6 +68,7 @@ export function isSite00PublicHubPath(pathname: string): boolean {
 export function isSite00ImmersivePath(pathname: string): boolean {
   if (isSite00DesktopArtboardPath(pathname)) return false;
   if (isSite00SignInPath(pathname)) return false;
+  if (isSite00AccessCredentialPath(pathname)) return false;
   if (isSite00PublicHubPath(pathname)) return false;
   if (!pathname) return false;
   if (pathname === '/' && import.meta.env.VITE_SITE00_ROOT === '1') return true;
