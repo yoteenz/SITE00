@@ -12,7 +12,7 @@ const ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY ?? process.env.SUPABASE_ANON
 const API_BASE = (process.env.VITE_API_BASE ?? 'https://api.site00.com').replace(/\/$/, '');
 const ADMIN_EMAIL = (process.env.ADMIN_EMAILS ?? 'kateenaarmstrong@gmail.com').split(',')[0].trim();
 const POLL_MS = 15_000;
-const MAX_WAIT_MS = 20 * 60_000;
+const MAX_WAIT_MS = 60 * 60_000;
 
 async function getAdminAccessToken(): Promise<string> {
   const admin = createClient(SUPABASE_URL, SERVICE_ROLE, {
