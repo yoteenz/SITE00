@@ -8,6 +8,9 @@ import { useBldrAssessment } from '../../../hooks/useBldrAssessment';
 import { BldrAssessmentShell } from '../../../components/bldr-assessment/BldrAssessmentShell';
 import { formatAnswerLabel } from '../../../components/idnty-assessment/IdntyStepForm';
 import { SITE00_ROUTES } from '../../../config/routes';
+import { isSignedIn } from '../../../../utils/adminAuth';
+import { IntakeSaveStatus } from '../../../components/intake/IntakeSaveStatus';
+import { IntakeGuestAccessCapture } from '../../../components/intake/IntakeGuestAccessCapture';
 
 type BldrAssessmentCompletePageProps = {
   classSlug: BldrAssessmentStateId;
@@ -15,9 +18,17 @@ type BldrAssessmentCompletePageProps = {
 
 export default function BldrAssessmentCompletePage({ classSlug }: BldrAssessmentCompletePageProps) {
   const state = getBldrAssessmentState(classSlug)!;
-  const { getAnswersForClass } = useBldrAssessment();
+  const {
+    getAnswersForClass,
+    serverSaveState,
+    serverLastSavedAt,
+    serverSaveError,
+    serverIntake,
+    requestGuestAccess,
+  } = useBldrAssessment();
   const answers = getAnswersForClass(classSlug);
   const allSteps = bldrAssessmentAllSteps(state);
+  const signedIn = isSignedIn();
 
   const panel = (
     <div className="site00-idnty-assessment-card site00-idnty-assessment-card--complete">
@@ -40,6 +51,16 @@ export default function BldrAssessmentCompletePage({ classSlug }: BldrAssessment
           ))}
         </dl>
       </div>
+
+      <IntakeSaveStatus state={serverSaveState} lastSavedAt={serverLastSavedAt} errorMessage={serverSaveError} />
+
+      {!signedIn && (
+        <IntakeGuestAccessCapture
+          intakeType="BUILDER"
+          onRequestAccess={requestGuestAccess}
+          alreadyIssued={Boolean(serverIntake?.verifiedEmailAt) || Boolean(serverIntake?.email)}
+        />
+      )}
 
       <div className="site00-idnty-complete-actions">
         {state.recommendedActions.map((action) => (

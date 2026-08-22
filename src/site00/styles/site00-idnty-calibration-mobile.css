@@ -1,0 +1,629 @@
+/**
+ * Identity Calibration — mobile onboarding instrument UI.
+ * Scoped to `.site00-idnty-calibration-*` and `.site00-idnty-assessment--calibration-mobile`.
+ */
+
+.site00-idnty-assessment--calibration-mobile .site00-idnty-assessment-mobile-bg {
+  opacity: 0.72;
+}
+
+.site00-idnty-assessment--calibration-mobile .site00-idnty-state-v2__hero {
+  margin-bottom: 12px;
+}
+
+.site00-idnty-assessment--calibration-mobile .site00-idnty-state-v2__progress {
+  margin-bottom: 10px;
+}
+
+.site00-idnty-calibration-flow {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* ─── Console shell ─── */
+
+.site00-idnty-calibration-console {
+  position: relative;
+  margin-top: 4px;
+  padding: 14px 14px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+}
+
+.site00-idnty-calibration-console__header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  gap: 2px 8px;
+  align-items: start;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.site00-idnty-calibration-console__kicker {
+  margin: 0;
+  grid-column: 1;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  letter-spacing: 0.12em;
+  color: var(--site-red);
+}
+
+.site00-idnty-calibration-console__state {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  align-self: start;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  letter-spacing: 0.08em;
+  color: var(--site-text-muted);
+}
+
+.site00-idnty-calibration-console__mark {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 16px;
+  height: 16px;
+  color: var(--site-red);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.site00-idnty-calibration-console__body {
+  min-width: 0;
+}
+
+/* ─── Progress rail ─── */
+
+.site00-idnty-calibration-rail {
+  margin-bottom: 14px;
+}
+
+.site00-idnty-calibration-rail__track {
+  list-style: none;
+  margin: 0;
+  padding: 0 2px;
+  display: flex;
+  align-items: center;
+}
+
+.site00-idnty-calibration-rail__step {
+  position: relative;
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.site00-idnty-calibration-rail__step:last-child {
+  flex: 0 0 auto;
+}
+
+.site00-idnty-calibration-rail__node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  font-family: var(--site00-font-display);
+  font-size: 0.5rem;
+  color: var(--site-text-muted);
+  background: rgba(255, 255, 255, 0.9);
+  transition:
+    border-color 200ms ease,
+    color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.site00-idnty-calibration-rail__node--current {
+  border-color: var(--site-red);
+  color: var(--site-red);
+  box-shadow: 0 0 0 2px rgba(196, 30, 58, 0.1);
+}
+
+.site00-idnty-calibration-rail__node--complete {
+  border-color: var(--site-red);
+  color: var(--site-red);
+  background: rgba(196, 30, 58, 0.06);
+}
+
+.site00-idnty-calibration-rail__connector {
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 12px);
+  width: calc(100% - 24px);
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.site00-idnty-calibration-rail__connector--resolved {
+  background: var(--site-red);
+  opacity: 0.65;
+}
+
+.site00-idnty-calibration-rail__category {
+  margin: 8px 0 0;
+  text-align: center;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.4375rem, 2vw, 0.5rem);
+  letter-spacing: 0.14em;
+  color: var(--site-text-muted);
+}
+
+.site00-idnty-calibration-rail__category--review,
+.site00-idnty-calibration-rail__category--resolved {
+  color: var(--site-red);
+}
+
+/* ─── Question ─── */
+
+.site00-idnty-calibration-question__title {
+  margin: 0 0 4px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.6875rem, 3vw, 0.75rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.25;
+  color: var(--site-text);
+}
+
+.site00-idnty-calibration-question__subtitle {
+  margin: 0 0 12px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  letter-spacing: 0.06em;
+  color: var(--site-text-muted);
+}
+
+.site00-idnty-calibration-question__error {
+  margin: 0 0 10px;
+  font-family: var(--site00-font-label);
+  font-size: 0.5625rem;
+  letter-spacing: 0.06em;
+  color: var(--site-red);
+}
+
+/* ─── Option rows ─── */
+
+.site00-idnty-calibration-options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.site00-idnty-calibration-options__row {
+  display: grid;
+  grid-template-columns: 28px 1px minmax(0, 1fr) 28px;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.72);
+  text-align: left;
+  font: inherit;
+  color: var(--site-text);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.site00-idnty-calibration-options__row:focus-visible {
+  outline: 2px solid var(--site-red);
+  outline-offset: 2px;
+}
+
+.site00-idnty-calibration-options__row--selected {
+  border-color: rgba(196, 30, 58, 0.4);
+  background: rgba(196, 30, 58, 0.03);
+  box-shadow: 0 0 0 1px rgba(196, 30, 58, 0.08);
+}
+
+.site00-idnty-calibration-options__index {
+  font-family: var(--site00-font-display);
+  font-size: clamp(0.5625rem, 2.4vw, 0.625rem);
+  font-weight: 700;
+  color: var(--site-red);
+  text-align: center;
+}
+
+.site00-idnty-calibration-options__divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.site00-idnty-calibration-options__label {
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5625rem, 2.4vw, 0.625rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.site00-idnty-calibration-target {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: rgba(0, 0, 0, 0.22);
+  flex-shrink: 0;
+  transition: color 180ms ease;
+}
+
+.site00-idnty-calibration-target--selected {
+  color: var(--site-red);
+}
+
+.site00-idnty-calibration-target__svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+/* ─── Text field ─── */
+
+.site00-idnty-calibration-field__label {
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.6875rem, 3vw, 0.75rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.site00-idnty-calibration-field__subtitle {
+  margin: 0 0 10px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  letter-spacing: 0.06em;
+  color: var(--site-text-muted);
+}
+
+.site00-idnty-calibration-field__input-wrap {
+  position: relative;
+}
+
+.site00-idnty-calibration-field__input {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px 12px 28px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.85);
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5625rem, 2.4vw, 0.625rem);
+  letter-spacing: 0.04em;
+  line-height: 1.45;
+  color: var(--site-text);
+  resize: vertical;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.site00-idnty-calibration-field__input:focus {
+  outline: none;
+  border-color: rgba(196, 30, 58, 0.45);
+  box-shadow: 0 0 0 1px rgba(196, 30, 58, 0.12);
+}
+
+.site00-idnty-calibration-field__input--error {
+  border-color: var(--site-red);
+}
+
+.site00-idnty-calibration-field__counter {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  font-family: var(--site00-font-label);
+  font-size: 0.4375rem;
+  letter-spacing: 0.06em;
+  color: var(--site-text-muted);
+}
+
+.site00-idnty-calibration-field__error {
+  margin: 8px 0 0;
+  font-family: var(--site00-font-label);
+  font-size: 0.5625rem;
+  color: var(--site-red);
+}
+
+/* ─── Capture status ─── */
+
+.site00-idnty-calibration-capture {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.site00-idnty-calibration-capture__icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.site00-idnty-calibration-capture__primary {
+  margin: 0 0 2px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--site-text);
+}
+
+.site00-idnty-calibration-capture--resolved .site00-idnty-calibration-capture__primary {
+  color: var(--site-text);
+}
+
+.site00-idnty-calibration-capture__secondary {
+  margin: 0;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.4375rem, 2vw, 0.5rem);
+  letter-spacing: 0.06em;
+  color: var(--site-text-muted);
+}
+
+.site00-idnty-calibration-capture--resolved .site00-idnty-calibration-capture__secondary {
+  color: var(--site-red);
+}
+
+/* ─── Navigation ─── */
+
+.site00-idnty-calibration-nav {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.site00-idnty-calibration-nav__prev-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.site00-idnty-calibration-nav__prev {
+  border: none;
+  background: none;
+  padding: 4px 0;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--site-text);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.site00-idnty-calibration-nav__position {
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.4375rem, 2vw, 0.5rem);
+  letter-spacing: 0.08em;
+  color: var(--site-text-muted);
+}
+
+.site00-idnty-calibration-nav__continue {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--site-red);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
+  transition:
+    background 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.site00-idnty-calibration-nav__continue:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.site00-idnty-calibration-nav__continue:not(:disabled):active {
+  background: rgba(196, 30, 58, 0.04);
+}
+
+.site00-idnty-calibration-nav__continue-label {
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5625rem, 2.4vw, 0.625rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--site-red);
+}
+
+.site00-idnty-calibration-nav__continue-next {
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.4375rem, 2vw, 0.5rem);
+  letter-spacing: 0.08em;
+  color: var(--site-text-muted);
+}
+
+/* ─── Review ─── */
+
+.site00-idnty-calibration-review__title {
+  margin: 0 0 4px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.6875rem, 3vw, 0.75rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.site00-idnty-calibration-review__subtitle {
+  margin: 0 0 14px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  letter-spacing: 0.06em;
+  color: var(--site-text-muted);
+}
+
+.site00-idnty-calibration-review__list {
+  margin: 0;
+  padding: 0;
+}
+
+.site00-idnty-calibration-review__row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.site00-idnty-calibration-review__row dt {
+  grid-column: 1;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.site00-idnty-calibration-review__row dd {
+  grid-column: 1;
+  margin: 0;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.4375rem, 2vw, 0.5rem);
+  letter-spacing: 0.04em;
+  color: var(--site-text-muted);
+  line-height: 1.4;
+}
+
+.site00-idnty-calibration-review__index {
+  margin-right: 6px;
+  color: var(--site-red);
+}
+
+.site00-idnty-calibration-review__edit {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  align-self: center;
+  border: none;
+  background: none;
+  font-family: var(--site00-font-label);
+  font-size: 0.4375rem;
+  letter-spacing: 0.08em;
+  color: var(--site-red);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* ─── Complete ─── */
+
+.site00-idnty-calibration-complete__hero-art {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+  opacity: 0.9;
+}
+
+.site00-idnty-calibration-complete__hero-art .site00-idnty-brand-state-icon {
+  width: 56px;
+  height: 56px;
+}
+
+.site00-idnty-calibration-complete__title {
+  margin: 0 0 6px;
+  text-align: center;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.75rem, 3.2vw, 0.8125rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.site00-idnty-calibration-complete__subtitle {
+  margin: 0 0 16px;
+  text-align: center;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  letter-spacing: 0.06em;
+  color: var(--site-text-muted);
+}
+
+.site00-idnty-calibration-complete__status {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.site00-idnty-calibration-complete__status-primary {
+  margin: 0 0 2px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5625rem, 2.4vw, 0.625rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.site00-idnty-calibration-complete__status-secondary {
+  margin: 0;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  letter-spacing: 0.06em;
+  color: var(--site-red);
+}
+
+.site00-idnty-calibration-complete__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.site00-idnty-calibration-complete__secondary {
+  display: block;
+  text-align: center;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  letter-spacing: 0.08em;
+  color: var(--site-text-muted);
+  text-decoration: none;
+  padding: 6px 0;
+}
+
+.site00-idnty-calibration-complete__summary-heading {
+  margin: 0 0 10px;
+  font-family: var(--site00-font-label);
+  font-size: clamp(0.5rem, 2.2vw, 0.5625rem);
+  letter-spacing: 0.1em;
+  color: var(--site-red);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site00-idnty-calibration-options__row,
+  .site00-idnty-calibration-rail__node,
+  .site00-idnty-calibration-target,
+  .site00-idnty-calibration-nav__continue {
+    transition: none;
+  }
+}

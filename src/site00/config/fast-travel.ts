@@ -7,6 +7,9 @@ import { SITE00_CTRL_ROOM_PATH, site00SignInHrefWithReturnTo } from './mobile-di
 import { SITE00_ROUTES, site00MobileBuildNavHref } from './routes';
 import { site00UppercaseCopy } from './site00-copy';
 
+/** List-item arrows — 10% smaller than locations directory (18px). */
+export const SITE00_FAST_TRAVEL_ARROW_SIZE = 18 * 0.9;
+
 export type FastTravelWorld = 'public' | 'operating' | 'onboarding';
 
 export type FastTravelLocation = {
@@ -231,7 +234,7 @@ function bldrProfile(): RouteProfile {
         title: 'UP NEXT',
         destinations: [
           d('continue', 'CONTINUE BUILD', 'Resume your assessment.', (c) => c.pathname),
-          d('bldr-state', 'BUILD CLASS SELECTION', 'Choose SITE, WORLD, or ENTERPRISE.', SITE00_ROUTES.bldrState),
+          d('bldr-state', 'BUILD SELECTION', 'Choose build.', SITE00_ROUTES.bldrState),
         ],
       },
       {
@@ -266,7 +269,7 @@ function idntyProfile(): RouteProfile {
             title: 'UP NEXT',
             destinations: [
               d('sign-in', 'SIGN IN', 'Access your account.', signIn(ctx.pathname)),
-              d('create', 'CREATE IDENTITY', 'Start your SITE 00 identity.', SITE00_ROUTES.idntyState),
+              d('create', 'CREATE IDENTITY', 'Start your identity.', SITE00_ROUTES.idntyState),
             ],
           },
           {
@@ -285,7 +288,7 @@ function idntyProfile(): RouteProfile {
           id: 'up-next',
           title: 'UP NEXT',
           destinations: [
-            d('ctrl-room', 'CTRL ROOM', 'Your operating environment.', SITE00_CTRL_ROOM_PATH),
+            d('ctrl-room', 'CTRL ROOM', 'Operating environment.', SITE00_CTRL_ROOM_PATH),
             d('projects', 'PROJECTS', 'Active engagements.', SITE00_ROUTES.projects),
           ],
         },

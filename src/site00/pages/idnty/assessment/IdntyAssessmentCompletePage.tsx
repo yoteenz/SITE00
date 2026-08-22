@@ -1,24 +1,45 @@
-import { Link } from 'react-router-dom';
 import {
   getIdntyAssessmentState,
   type IdntyAssessmentStateId,
 } from '../../../config/idnty-assessment';
 import { useIdntyAssessment } from '../../../hooks/useIdntyAssessment';
-import {
-  IdntyAssessmentShell,
-} from '../../../components/idnty-assessment/IdntyAssessmentShell';
+import { IdntyAssessmentShell } from '../../../components/idnty-assessment/IdntyAssessmentShell';
 import { IdntyProcessStripPanel } from '../../../components/idnty-assessment/IdntyAssessmentPanels';
 import { formatAnswerLabel } from '../../../components/idnty-assessment/IdntyStepForm';
+import { IdentityCalibrationMobileComplete } from '../../../components/idnty/calibration';
+import { useSite00DesktopArtboardPreview } from '../../../components/shell/Site00DesktopArtboardContext';
+import { Link } from 'react-router-dom';
 import { SITE00_ROUTES } from '../../../config/routes';
+import { isSignedIn } from '../../../../utils/adminAuth';
+import { IntakeSaveStatus } from '../../../components/intake/IntakeSaveStatus';
+import { IntakeGuestAccessCapture } from '../../../components/intake/IntakeGuestAccessCapture';
 
 type IdntyAssessmentCompletePageProps = {
   stateSlug: IdntyAssessmentStateId;
 };
 
 export default function IdntyAssessmentCompletePage({ stateSlug }: IdntyAssessmentCompletePageProps) {
+  const isDesktop = useSite00DesktopArtboardPreview();
   const state = getIdntyAssessmentState(stateSlug)!;
-  const { getAnswersForState, record } = useIdntyAssessment();
+  const {
+    getAnswersForState,
+    record,
+    serverSaveState,
+    serverLastSavedAt,
+    serverSaveError,
+    serverIntake,
+    requestGuestAccess,
+  } = useIdntyAssessment();
   const answers = getAnswersForState(stateSlug);
+  const signedIn = isSignedIn();
+
+  if (!isDesktop) {
+    return (
+      <IdntyAssessmentShell state={state} mobileLayout="calibration" showProcessStrip={false}>
+        <IdentityCalibrationMobileComplete stateSlug={stateSlug} />
+      </IdntyAssessmentShell>
+    );
+  }
 
   const processVariant =
     state.processStrip.id === 'next' ? 'timeline' : state.processStrip.id === 'journey' ? 'journey' : 'default';
@@ -44,6 +65,16 @@ export default function IdntyAssessmentCompletePage({ stateSlug }: IdntyAssessme
           ))}
         </dl>
       </div>
+
+      <IntakeSaveStatus state={serverSaveState} lastSavedAt={serverLastSavedAt} errorMessage={serverSaveError} />
+
+      {!signedIn && (
+        <IntakeGuestAccessCapture
+          intakeType="IDENTITY"
+          onRequestAccess={requestGuestAccess}
+          alreadyIssued={Boolean(serverIntake?.verifiedEmailAt) || Boolean(serverIntake?.email)}
+        />
+      )}
 
       <div className="site00-idnty-complete-actions">
         {state.recommendedActions.map((action) => (
