@@ -157,10 +157,13 @@ export function resolveProjectLoreCalibrationResume(
     const localIndex = sessionSteps.findIndex((step) => step.id === local.stepId);
     if (localIndex >= 0 && localIndex >= baseIndex) {
       stepIndex = localIndex;
-      const draft = local.answers[local.stepId];
-      if (draft !== undefined) {
-        answers = { ...answers, [local.stepId]: draft };
-      }
+      // Merge the WHOLE locally-accumulated answers map, not just the current step's draft —
+      // otherwise a mid-session refresh whose server save for an EARLIER step hasn't landed yet
+      // (slow network, tab closed mid-request) silently drops that earlier answer for the rest
+      // of the session, permanently blocking readiness even though the founder did answer it
+      // (see Section III forensic finding — audienceRelationship persisted null despite the
+      // founder having answered "role").
+      answers = { ...answers, ...local.answers };
     }
   }
 

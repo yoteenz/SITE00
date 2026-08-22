@@ -183,6 +183,33 @@ describe('resolveProjectLoreCalibrationResume', () => {
     vi.unstubAllGlobals();
   });
 
+  it('does not silently drop an earlier locally-answered step whose server save has not landed yet on refresh', () => {
+    // Reproduces the forensic root cause: founder answers "role" (an earlier step), then
+    // refreshes before that save round-trip lands, then continues answering later steps. The
+    // resumed session must never lose "role" for the rest of the session just because the
+    // server hasn't confirmed it yet — only the CURRENT step ("enemy") would previously survive.
+    mockLocalStorage();
+
+    writeProjectLoreCalibrationResume('ndxbook', {
+      stepIds: SESSION_STEP_IDS,
+      stepId: 'enemy',
+      answers: {
+        role: ['guide', 'tastemaker'],
+        feeling: ['curious'],
+        enemy: ['boring'],
+      },
+    });
+
+    // Server has NOT yet confirmed "role" — simulates the slow/failed first save round-trip.
+    const result = resolveProjectLoreCalibrationResume(STEPS, { feeling: ['curious'] }, 'ndxbook');
+
+    expect(result.answers.role).toEqual(['guide', 'tastemaker']);
+    expect(result.answers.enemy).toEqual(['boring']);
+    expect(result.answers.feeling).toEqual(['curious']);
+
+    vi.unstubAllGlobals();
+  });
+
   it('keeps full questionnaire progress after domains shrink on the server', () => {
     mockLocalStorage();
 

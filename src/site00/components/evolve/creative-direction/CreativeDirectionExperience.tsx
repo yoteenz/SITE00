@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
-import {
-  remainingCalibrationStepIds,
-  type ReadinessDomain,
-} from '../../../../../shared/site00-brand-lore/readiness';
+import { remainingCalibrationStepIds } from '../../../../../shared/site00-brand-lore/readiness';
+import type { ReadinessDomain } from '../../../../../shared/site00-brand-lore/types';
 import {
   anchorSpecimenType,
   COMMON_ANCHOR_LABELS,
@@ -101,6 +99,15 @@ export type CreativeDirectionPayload = {
       message: string | null;
       missingDomains: string[];
     } | null;
+    /** Intelligence lineage + staleness (Section IV/V) — see engagementService.ts. */
+    brandLoreFormation?: {
+      brandLoreProfileId: string;
+      brandLoreProfileVersion: number;
+      brandLoreFingerprint: string;
+      formedAt: string;
+      formationVersion: number;
+    } | null;
+    intelligenceStatus?: 'CURRENT' | 'STALE_INTELLIGENCE' | 'UNKNOWN';
   };
   meta: { visualDnaStatus: string };
   page001: { topic: string; productionStarted: boolean } | null;
@@ -270,6 +277,17 @@ export function CreativeDirectionExperience({
               : `YOUR CALIBRATION RESPONSES ARE ON FILE FOR ${orgSlug.toUpperCase()}. THE DIRECTIONS BELOW REMAIN A PREVIEW UNTIL INTERNAL READINESS CLEARS — NOT YET READY FOR A FOUNDER DECISION.`}
           </p>
           {showCalibrationCta ? calibrationLink : null}
+        </section>
+      ) : null}
+
+      {!payload?.engagement.brandLoreReadiness?.blocked && payload?.engagement.intelligenceStatus === 'STALE_INTELLIGENCE' ? (
+        <section className="site00-cd__readiness-banner site00-cd__readiness-banner--stale" role="status">
+          <p className="site00-cd__readiness-banner-title">THESE DIRECTIONS PREDATE YOUR LATEST CALIBRATION.</p>
+          <p className="site00-cd__readiness-banner-body">
+            YOUR BRAND LORE HAS CHANGED SINCE THE THREE DIRECTIONS BELOW WERE FORMED. THEY ARE PRESERVED AS HISTORY
+            BUT DO NOT YET REFLECT YOUR NEWEST ANSWERS — TREAT THEM AS A PRE-CALIBRATION PREVIEW, NOT A FOUNDER-READY
+            SET, UNTIL CORE DIRECTION FORMATION RUNS AGAIN.
+          </p>
         </section>
       ) : null}
 
