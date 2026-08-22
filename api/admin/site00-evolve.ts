@@ -82,6 +82,11 @@ import {
 import { generateNdxbookVisualAssetPass } from '../_lib/site00Evolve/creativeDirection/assetGeneration.js';
 import { completeNdxbookV1Directions } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/directionCompletionService.js';
 import { runSixDirectionProductionPipeline } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/sixDirectionProductionOrchestrator.js';
+import {
+  getLatestProductionJob,
+  getProductionJobById,
+  startCreativeDirectionProductionJob,
+} from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/sixDirectionProductionJobService.js';
 import { resolveEvolveCommercialState } from '../_lib/site00Evolve/commercial/commercialState.js';
 import { setEvolveCommercialPlan, markEvolveFoundationCompleted } from '../_lib/site00Evolve/commercial/governedActions.js';
 import { getEvolveServiceCatalog } from '../../shared/site00-evolve-commercial/catalog.js';
@@ -207,6 +212,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         case 'creative_direction_formation_inspector':
           return res.status(200).json(await getCoreDirectionFormationInspector(orgSlug));
+        case 'creative_direction_production_job': {
+          const jobId = String(req.query.jobId ?? '');
+          if (jobId) {
+            const job = await getProductionJobById(jobId);
+            return job ? res.status(200).json({ job }) : res.status(404).json({ error: 'JOB_NOT_FOUND' });
+          }
+          const job = await getLatestProductionJob(orgSlug);
+          return res.status(200).json({ job });
+        }
         case 'provider_config':
           return res.status(200).json(getOwnerConfigurationChecklist());
         case 'fence_readiness':
@@ -458,6 +472,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
           resetCreativeDirectionMemory();
           return res.status(200).json(result);
+        }
+        case 'creative_direction_start_production_job': {
+          if (orgSlug !== 'ndxbook') {
+            return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          }
+          const jobType = String(body.jobType ?? 'full_pipeline') as
+            | 'v1_completion'
+            | 'six_direction_proofs'
+            | 'full_pipeline';
+          const job = await startCreativeDirectionProductionJob({
+            orgSlug,
+            jobType,
+            requestedBy: auth.user.email,
+            options: {
+              includeAllProofTypes: body.includeAllProofTypes !== false,
+              completeV1InProofStep: body.completeV1InProofStep === true,
+            },
+          });
+          return res.status(202).json({ job, message: 'Production job started on server — safe to leave this page.' });
         }
         case 'analytics_baseline_sync':
           return res.status(200).json(

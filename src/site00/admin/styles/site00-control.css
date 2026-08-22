@@ -1161,6 +1161,26 @@
   font-weight: 600;
 }
 
+.site00-cd-production-panel__job {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(196, 30, 58, 0.25);
+  background: rgba(196, 30, 58, 0.04);
+}
+
+.site00-cd-production-panel__job-label {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.site00-cd-production-panel__job-progress {
+  margin: 0.35rem 0 0;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  color: rgba(0, 0, 0, 0.55);
+}
+
 /* EVOLVE Sprint 02 — operator workspace */
 .site00-evolve-ops-nav {
   display: flex;
