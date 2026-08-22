@@ -2446,3 +2446,17 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 - **Branch:** `cursor/calibration-frozen-steps-4f59`.
 
+---
+
+## 2026-08-22 — Merge origin/main into brand-lore semantic multi-select branch
+
+- **Context:** Founder requested merge conflict review on `cursor/brand-lore-semantic-multi-select-1983` vs latest `origin/main` (includes productionization, calibration resume, frozen session steps).
+
+- **Conflict classification:**
+  - **Simple (resolved):** `brandLoreBridge.ts` — comment-only; kept main's richer XXIV comment, identical implementation. `brandLore.test.ts` test 26 — same intent; kept main's fuller null+profile assertions. `MEMORY.md` — append-only; kept both multi-select sprint entry and all main entries.
+  - **Complicated (resolved in branch):** Test 34 and downstream code assumed scalar `audienceRelationship` (`'guide'`) after calibration; multi-select branch uses `BrandLoreField<string[]>`. Updated test 34 to expect `['THE GUIDE SHOWING THE WAY']`, `ndxbookReconciliation.ts` unknown field to `string[]`, `buildInheritedLoreSummary` to join compound roles. Post-merge bug: `deriveReferenceEvidence` still called removed `strAnswer` — fixed to use `freeText`.
+
+- **Verification:** Merged `origin/main` twice (initial conflict resolution + new commits through calibration frozen steps). **635/635 tests PASS**. Build PASS.
+
+- **Branch:** `cursor/brand-lore-semantic-multi-select-1983`. PR #205 updated, not merged.
+
