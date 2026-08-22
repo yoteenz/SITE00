@@ -24,6 +24,7 @@ import {
   syncEngagementFormationVersionFromCanonical,
 } from './creativeIntelligence/canonicalFormationResolver.js';
 import { assessFormationProductionCompleteness } from './creativeIntelligence/directionFieldContract.js';
+import { resolveNdxbookFounderComparisonSet } from './creativeIntelligence/founderComparisonSet.js';
 import { deriveVisualProductionState } from './creativeIntelligence/visualProductionState.js';
 import {
   getCreativeIntelligenceInspectorSummary,
@@ -366,6 +367,25 @@ export async function getCreativeDirectionPayload(
 
   const formationSurface = clientFormationSurface(formationRecord, providerConfigured);
 
+  const founderComparisonSet =
+    orgSlug === 'ndxbook'
+      ? await resolveNdxbookFounderComparisonSet({
+          orgSlug,
+          organizationId: engagement.organization_id,
+          brandLoreFingerprint:
+            formationRecord?.brandLoreFingerprint ??
+            (brandLoreProfile
+              ? computeBrandLoreFingerprint(brandLoreProfile)
+              : engagement.brandLoreFormation?.brandLoreFingerprint ?? '5e71f429'),
+          brandLoreProfileVersion:
+            formationRecord?.brandLoreProfileVersion ??
+            brandLoreProfile?.profileVersion ??
+            engagement.brandLoreFormation?.brandLoreProfileVersion ??
+            24,
+          canonicalFormation: formationRecord,
+        })
+      : null;
+
   return {
     engagement,
     coreDirectionFormation: formationRecord
@@ -405,6 +425,7 @@ export async function getCreativeDirectionPayload(
         }
       : null,
     profileVisualDna: (profile?.metadata as Record<string, unknown>)?.visual_dna_status ?? 'INCOMPLETE_REFERENCE_ONLY',
+    founderComparisonSet,
   };
 }
 
@@ -417,11 +438,56 @@ export async function recordFounderDecision(
     refinementNotes?: string;
     rejectedTerritoryIds?: string[];
     by: string;
+    /** Select any direction from the NDX BOOK six-direction comparison set. */
+    selectedComparisonDirectionId?: string;
   },
 ): Promise<CreativeDirectionEngagement> {
   const orgId = assertOrg(orgSlug);
   const engagement = await ensureCreativeDirectionEngagement(orgSlug);
   const now = new Date().toISOString();
+
+  let selectedDirectionLineage: import('./types.js').FounderSelectedDirectionLineage | null = null;
+  if (input.selectedComparisonDirectionId && orgSlug === 'ndxbook') {
+    const brandLoreProfile = await getOrReconcileBrandLoreForOrg(orgId, orgSlug);
+    const canonicalResolution = await resolveCanonicalCoreDirectionFormation({
+      organizationId: orgId,
+      brandLoreProfile,
+      currentBrandLoreFingerprint: brandLoreProfile
+        ? computeBrandLoreFingerprint(brandLoreProfile)
+        : undefined,
+    });
+    if (canonicalResolution.record || orgSlug === 'ndxbook') {
+      const comparisonSet = await resolveNdxbookFounderComparisonSet({
+        orgSlug,
+        organizationId: orgId,
+        brandLoreFingerprint:
+          canonicalResolution.record?.brandLoreFingerprint ??
+          (brandLoreProfile
+            ? computeBrandLoreFingerprint(brandLoreProfile)
+            : '5e71f429'),
+        brandLoreProfileVersion:
+          canonicalResolution.record?.brandLoreProfileVersion ??
+          brandLoreProfile?.profileVersion ??
+          24,
+        canonicalFormation: canonicalResolution.record,
+      });
+      const match = comparisonSet?.directions.find(
+        (d) => d.directionId === input.selectedComparisonDirectionId,
+      );
+      if (match) {
+        selectedDirectionLineage = {
+          selectedDirectionId: match.directionId,
+          directionName: match.directionName,
+          sourceFormationId: match.sourceFormationId,
+          sourceFormationVersion: match.sourceFormationVersion,
+          sourceDirectionIndex: match.sourceDirectionIndex,
+          brandLoreProfileVersion: match.brandLoreProfileVersion,
+          brandLoreFingerprint: match.brandLoreFingerprint,
+          comparisonIndex: match.comparisonIndex,
+        };
+      }
+    }
+  }
 
   const decision: FounderDecision = {
     type: input.type,
@@ -432,6 +498,7 @@ export async function recordFounderDecision(
     refinementNotes: input.refinementNotes ?? null,
     rejectedTerritoryIds: input.rejectedTerritoryIds ?? [],
     provenance: { source: 'FOUNDER_DECISION', engagementId: engagement.id },
+    selectedDirectionLineage,
   };
 
   engagement.founderDecision = decision;

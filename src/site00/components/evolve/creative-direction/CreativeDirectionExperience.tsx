@@ -270,14 +270,36 @@ export function CreativeDirectionExperience({
     }
   };
 
-  const formedDirections = payload?.coreDirectionFormation?.record?.finalDirections ?? [];
-  const showFormedFormation =
-    formedDirections.length === 3 &&
-    (payload?.coreDirectionFormation?.record?.status === 'READY_FOR_VISUAL_PRODUCTION' ||
-      payload?.coreDirectionFormation?.record?.status === 'NEEDS_HUMAN_REVIEW');
-  const visualProductionState =
-    (payload?.coreDirectionFormation as { visualProductionState?: string } | undefined)
-      ?.visualProductionState ?? undefined;
+  const comparisonSet = (payload as { founderComparisonSet?: {
+    directionCount: number;
+    directions: unknown[];
+    visualProofPlans: unknown[];
+    canonicalFormationVersion: number;
+  } | null })?.founderComparisonSet ?? null;
+
+  const showComparisonSet =
+    orgSlug === 'ndxbook' &&
+    comparisonSet != null &&
+    comparisonSet.directionCount === 6;
+
+  const formedDirections = showComparisonSet
+    ? comparisonSet.directions
+    : (payload?.coreDirectionFormation?.record?.finalDirections ?? []);
+
+  const showFormedFormation = showComparisonSet
+    ? true
+    : formedDirections.length === 3 &&
+      (payload?.coreDirectionFormation?.record?.status === 'READY_FOR_VISUAL_PRODUCTION' ||
+        payload?.coreDirectionFormation?.record?.status === 'NEEDS_HUMAN_REVIEW');
+
+  const visualProofPlans = showComparisonSet
+    ? comparisonSet.visualProofPlans
+    : (payload?.coreDirectionFormation?.record?.visualProofPlans ?? []);
+
+  const visualProductionState = showComparisonSet
+    ? 'PREPARING VISUAL PROOFS · SIX-DIRECTION COMPARISON'
+    : ((payload?.coreDirectionFormation as { visualProductionState?: string } | undefined)
+        ?.visualProductionState ?? undefined);
 
   const territory = payload?.engagement.territories[activeTerritory];
   const renderOpts = renderOptions(structuralDiffMode);
@@ -379,11 +401,25 @@ export function CreativeDirectionExperience({
           {showFormedFormation ? (
             <FormedCoreDirectionReview
               directions={formedDirections as never}
-              visualProofPlans={(payload.coreDirectionFormation?.record?.visualProofPlans ?? []) as never}
-              brandLoreProfileVersion={payload.coreDirectionFormation?.record?.brandLoreProfileVersion}
-              formationVersion={payload.coreDirectionFormation?.record?.formationVersion}
-              status={payload.coreDirectionFormation?.record?.status}
+              visualProofPlans={visualProofPlans as never}
+              brandLoreProfileVersion={
+                showComparisonSet
+                  ? payload.engagement.brandLoreFormation?.brandLoreProfileVersion
+                  : payload.coreDirectionFormation?.record?.brandLoreProfileVersion
+              }
+              formationVersion={
+                showComparisonSet
+                  ? undefined
+                  : payload.coreDirectionFormation?.record?.formationVersion
+              }
+              status={
+                showComparisonSet
+                  ? undefined
+                  : payload.coreDirectionFormation?.record?.status
+              }
               visualProductionState={visualProductionState}
+              mode={showComparisonSet ? 'comparison' : 'canonical'}
+              directionCount={showComparisonSet ? comparisonSet.directionCount : undefined}
             />
           ) : null}
 

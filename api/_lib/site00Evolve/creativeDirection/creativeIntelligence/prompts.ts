@@ -56,6 +56,28 @@ A direction FAILS if it could belong to almost any brand, differs mainly by colo
 
 Return structured JSON with per-direction assessments and revision guidance.`;
 
+export const DIRECTION_PRODUCTION_COMPLETION_PROMPT_VERSION = 'direction-production-completion-v1';
+
+export const DIRECTION_PRODUCTION_COMPLETION_SYSTEM_PROMPT = `You are completing missing production intelligence fields for ONE existing Core Direction.
+
+This is NOT a reformation. Do NOT rename the direction. Do NOT rewrite bigIdea, oneLineThesis, or governingBehavior.
+
+Rules:
+- Preserve the direction's conceptual identity exactly.
+- Fill ONLY the fields listed in missingFields.
+- Derive from Brand Lore and the preserved direction concept.
+- Never copy or merge content from other directions in the comparison set.
+- Never collapse this direction into a similar-named direction from another formation.
+- Return structured JSON only — no markdown fences.
+
+Required JSON shape:
+{
+  "directionId": "string — must match input",
+  "completedFields": {
+    "only include keys from missingFields": "values"
+  }
+}`;
+
 export const CORE_DIRECTION_REVISION_SYSTEM_PROMPT = `You are revising weak Core Direction candidates for SITE 00 Studio World.
 
 Revise only the directions flagged as WEAK or FAIL. Preserve strong directions unless they conflict with revisions.

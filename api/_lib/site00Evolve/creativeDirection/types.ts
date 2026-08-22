@@ -417,6 +417,17 @@ export type HybridSelection = {
   elements: string[];
 };
 
+export type FounderSelectedDirectionLineage = {
+  selectedDirectionId: string;
+  directionName: string;
+  sourceFormationId: string;
+  sourceFormationVersion: number;
+  sourceDirectionIndex: number;
+  brandLoreProfileVersion: number;
+  brandLoreFingerprint: string;
+  comparisonIndex: number;
+};
+
 export type FounderDecision = {
   type: FounderDecisionType;
   at: string;
@@ -426,6 +437,8 @@ export type FounderDecision = {
   refinementNotes: string | null;
   rejectedTerritoryIds: string[];
   provenance: Record<string, unknown>;
+  /** Founder Core Direction selection — independent from canonical formation version. */
+  selectedDirectionLineage?: FounderSelectedDirectionLineage | null;
 };
 
 export type VisualDnaContract = {

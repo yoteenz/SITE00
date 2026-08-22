@@ -176,6 +176,19 @@ export type ProviderRequestAccounting = {
   tokenUsage: ProviderRequestUsage;
 };
 
+/** Targeted completion of missing production fields — separate from full reformation. */
+export type DirectionCompletionOverlay = {
+  directionId: string;
+  directionName: string;
+  completedAt: string;
+  promptVersion: string;
+  fieldsRequested: string[];
+  fieldsCompleted: string[];
+  preservedFields: string[];
+  completedFields: Partial<FormedCoreDirection>;
+  requestUsage?: ProviderRequestUsage;
+};
+
 export type CoreDirectionFormationRecord = {
   formationId: string;
   organizationId: string;
@@ -196,6 +209,8 @@ export type CoreDirectionFormationRecord = {
   revisionRounds: number;
   finalDirections: FormedCoreDirection[];
   visualProofPlans: VisualProofPlan[];
+  /** Stored separately from original Sonnet output — does not rewrite formation identity. */
+  directionCompletionOverlays?: DirectionCompletionOverlay[];
   legacyStaticPreview: 'PRESERVED';
   proposedFormationLabel: 'PROPOSED_FORMATION';
   providerAccounting: ProviderRequestAccounting;
@@ -206,6 +221,63 @@ export type CoreDirectionFormationRecord = {
   completedAt: string | null;
   failedAt?: string | null;
   updatedAt?: string | null;
+};
+
+/** Instance-scoped founder review projection — NOT a formation, NOT a reform. */
+export type ComparisonDirectionCandidate = FormedCoreDirection & {
+  comparisonIndex: number;
+  sourceFormationId: string;
+  sourceFormationVersion: number;
+  sourceDirectionIndex: number;
+  brandLoreProfileVersion: number;
+  brandLoreFingerprint: string;
+  fieldCompleteness: {
+    complete: boolean;
+    missingFields: string[];
+  };
+  completionLineage: DirectionCompletionOverlay | null;
+};
+
+export type ComparisonVisualProofPlan = VisualProofPlan & {
+  comparisonIndex: number;
+  sourceFormationId: string;
+  sourceFormationVersion: number;
+};
+
+export type FounderComparisonSet = {
+  kind: 'INSTANCE_SCOPED_FOUNDER_COMPARISON';
+  orgSlug: 'ndxbook';
+  organizationId: string;
+  brandLoreFingerprint: string;
+  brandLoreProfileVersion: number;
+  canonicalFormationId: string;
+  canonicalFormationVersion: number;
+  persistent: true;
+  directionCount: number;
+  directions: ComparisonDirectionCandidate[];
+  visualProofPlans: ComparisonVisualProofPlan[];
+  v1CompletionStatus: {
+    required: boolean;
+    missingByDirection: Record<string, string[]>;
+    overlaysApplied: number;
+  };
+  distinctivenessPairs: Array<{
+    pair: [string, string];
+    relationship: 'conceptual_cousin';
+    differentiationNote: string;
+  }>;
+};
+
+/** Founder-selected direction lineage — independent from canonical formation. */
+export type FounderSelectedDirectionLineage = {
+  selectedDirectionId: string;
+  directionName: string;
+  sourceFormationId: string;
+  sourceFormationVersion: number;
+  sourceDirectionIndex: number;
+  brandLoreProfileVersion: number;
+  brandLoreFingerprint: string;
+  comparisonIndex: number;
 };
 
 export type CreativeIntelligenceProviderStatus =
