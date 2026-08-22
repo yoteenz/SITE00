@@ -75,7 +75,9 @@ Required top-level shape:
 }
 
 FIFTY_POST_TEST: Could a competent designer create 50 different posts from this system without another CD meeting? Score >=4 and PASS required.
-NO_EXPLANATION_TEST: Could a founder understand the world from visual system rules alone (no strategy essay)? Score >=4 and PASS required.`;
+NO_EXPLANATION_TEST: Could a founder understand the world from visual system rules alone (no strategy essay)? Score >=4 and PASS required.
+
+OUTPUT SIZE: Keep every string field to 1-2 sentences max. Arrays max 6 items unless franchises (max 4). Return complete valid JSON — never truncate mid-string.`;
 
 function fingerprintInput(payload: unknown): string {
   return createHash('sha256').update(JSON.stringify(payload)).digest('hex').slice(0, 16);
@@ -316,7 +318,7 @@ export async function runSonnetDirectionExpressionSystem(params: {
     const { text, usage } = await callAnthropicForCompletion(
       DIRECTION_EXPRESSION_SYSTEM_SYSTEM_PROMPT,
       payload,
-      { maxTokens: 8192 },
+      { maxTokens: 16384 },
     );
     anthropicRequests += 1;
     inputTokens += usage.inputTokens ?? 0;
