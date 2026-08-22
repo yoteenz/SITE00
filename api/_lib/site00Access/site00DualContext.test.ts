@@ -25,7 +25,10 @@ import {
   getCreativeDirectionPayload,
   recordFounderDecision,
   resetCreativeDirectionMemory,
+  invalidateCreativeDirectionEngagement,
 } from '../site00Evolve/creativeDirection/engagementService.js';
+import { submitOrgLoreCalibration } from '../site00BrandLore/loreService.js';
+import { resetBrandLoreMemoryStore } from '../site00BrandLore/memoryStore.js';
 import { resetPage001Memory } from '../site00Evolve/providers/page001CandidateService.js';
 import { getExpandedPilotReadiness } from '../site00Evolve/providers/pilotReadinessSprint04.js';
 import { orgIdFromSlug } from '../site00Evolve/orgRegistry.js';
@@ -45,6 +48,7 @@ describe('SITE 00 founder dual-context access', () => {
     resetNdxbookImportMemory();
     resetCreativeDirectionMemory();
     resetPage001Memory();
+    resetBrandLoreMemoryStore();
     await runNdxbookLegacyImport({ approvedBy: 'founder@test.com' });
   });
 
@@ -143,6 +147,22 @@ describe('SITE 00 founder dual-context access', () => {
   it('16. APPROVE promotes visual DNA through canonical service — publishing still fenced separately', async () => {
     resetCreativeDirectionMemory();
     await runNdxbookLegacyImport({ approvedBy: 'founder@test.com' });
+    // Brand Lore readiness gates approval (XXXI) — calibrate the missing conceptual domains first.
+    const orgId = orgIdFromSlug('ndxbook')!;
+    await submitOrgLoreCalibration({
+      orgId,
+      orgSlug: 'ndxbook',
+      answers: {
+        role: 'guide',
+        world: 'a living index of everything worth knowing',
+        feeling: ['curious'],
+        enemy: ['gatekeeping'],
+        lineage: 'archival ephemera',
+        now: 'editorial accounts',
+        objects: ['paper'],
+      },
+    });
+    invalidateCreativeDirectionEngagement('ndxbook');
     const payload = await getCreativeDirectionPayload('ndxbook');
     const territoryId = payload.engagement.territories[0]?.id;
     await recordFounderDecision('ndxbook', {

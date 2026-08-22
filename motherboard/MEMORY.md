@@ -2249,6 +2249,30 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 ---
 
+---
+
+## 2026-08-21 — Identity + Builder Brand Lore Intelligence Expansion
+
+- **Context:** Large sprint to expand Identity and Builder intake upstream of Creative Direction — collect structured brand-world intelligence (worldview, emotional promise, cultural tension, references, anti-direction, digital experience behavior) without turning intake into a corporate branding worksheet. Explicit: no deploy, no emails, **do not merge without founder instruction**.
+
+- **Forensic audit:** Identity previously captured operational scoping only (project type, goals, audience, timeline, budget) — 0/19 lore domains. Builder partially prefilled Identity via localStorage (audience, timeline, budget) but did not inherit lore server-side. Creative Direction consumed Content Brain + hardcoded NDXbook brief with no readiness gate. No canonical BrandLoreProfile existed.
+
+- **Architecture implemented:**
+  - `shared/site00-brand-lore/` — types, 19 lore question registry, 11 Builder experience questions, adaptivity, readiness (`CONTEXT_INCOMPLETE` / `CONTEXT_PARTIAL` / `CORE_DIRECTION_READY`), context classification (NDXBOOK → `SOCIAL_FIRST_EDITORIAL`, no website-default), lore synthesis (deterministic, shared for frontend + API).
+  - `api/_lib/site00BrandLore/` — loreService, memoryStore, experienceSynthesis, brandLoreBridge; wired into `intakeService.ts` autosave/submit for Identity lore + Builder experience.
+  - Identity UX: core calibration → review → `/world/:stepId` lore phase → `world-review` ("WHAT WE HEARD") → calibration injection if readiness incomplete → submit.
+  - Builder UX: experience translation at `/bldr/:slug/experience/:stepId`; inherits Identity lore snapshot; contextualized movement prompt when world metaphor known.
+  - Creative Direction: `intelligenceBrief.ts` blends Brand Lore when present; `engagementService.ts` exposes `brandLoreReadiness` gate (blocks FAL queue when incomplete); NDXBOOK bypass preserved.
+  - Admin: `BrandIntelligencePanel` on intake detail with structured sections + provenance; API returns `brandLore` on detail fetch.
+
+- **Tests:** 30 new brand-lore cases + intake lore autosave integration. Full suite **538/538 PASS**. Build PASS.
+
+- **Branch:** `cursor/identity-builder-brand-lore-1983`. PR opened, **not merged** (founder instruction).
+
+- **Conventions:** Raw founder answers stay in intake `loreAnswers`; synthesized profile is separate with per-field provenance (`RAW_FOUNDER_INPUT`, `FOUNDER_CONFIRMED`). Never auto-confirm AI synthesis. NDXBOOK canon unchanged. Builder must not re-ask Identity lore fields listed in `BUILDER_INHERITED_LORE_FIELDS`.
+
+---
+
 ## 2026-08-21 — Cloud Agent auto-start preview + GoDaddy deploy bundle
 
 - **Context:** Founder asked how to extend preview tunnel uptime; requested `.cursor/environment.json` for auto-start (close to always-on) and a direct cPanel deploy download link.
@@ -2301,4 +2325,41 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Direct download:** `https://github.com/yoteenz/SITE00/releases/download/site00-deploy-2026-08-21-v2/site00-production-dist-2026-08-21-v2.zip`
 
 - **Still required for Projects:** GoDaddy DNS CNAME `api` → Railway hostname (remove `api` A record to GoDaddy IP if present).
+
+---
+
+## 2026-08-21 — Cloudflare preview tunnel restart (fresh VM)
+
+- **Request:** Restart the preview tunnel.
+- **Context:** Fresh cloud agent VM — no tmux server was running at all (neither `site00-vite` nor `site00-preview-tunnel` existed yet), so this was a from-scratch bring-up, not just a kill/relaunch.
+- **Action:** Created `site00-vite` tmux session, ran `npm run dev` (Vite already defaults to `--port 5174 --host`) with `SITE00_CLOUD_MOBILE_PREVIEW=1`. `/tmp/cloudflared` binary was missing — downloaded `cloudflared-linux-amd64` from GitHub releases (v2026.8.2), `chmod +x`. Created `site00-preview-tunnel` tmux session running `/tmp/cloudflared tunnel --no-autoupdate run --token "$SITE00_CLOUDFLARE_TUNNEL_TOKEN"`. 4 QUIC connections registered, precheck healthy, ingress config resolved hostname → `http://localhost:5174`. Refreshed `/tmp/site00-cloud-preview-url.txt`; confirmed `curl` to the tunnel hostname returns `200`.
+- **Convention reinforced:** On a brand-new VM, don't assume `site00-vite`/`site00-preview-tunnel` tmux sessions or `/tmp/cloudflared` exist — check `tmux ls` and `ls /tmp/cloudflared` first and bootstrap both if absent, same steps as a warm restart.
+
+---
+
+## 2026-08-21 — Cloudflare preview tunnel restart (warm, second request same session)
+
+- **Request:** Restart the tunnel again (follow-up in the same chat, ~20 min after the first restart).
+- **Action:** `site00-vite` was already healthy (`curl localhost:5174` → 200) — left untouched. Sent `C-c` + `kill-session` to `site00-preview-tunnel`, `pkill -f "cloudflared tunnel"` to be sure the old process was gone, then created a **fresh** tmux session and relaunched `/tmp/cloudflared tunnel --no-autoupdate run --token "$SITE00_CLOUDFLARE_TUNNEL_TOKEN"`. 4 new QUIC connections registered, precheck healthy, `curl https://$SITE00_CLOUDFLARE_TUNNEL_HOSTNAME/` → 200.
+- **Gotcha:** `kill-session` immediately followed by `new-session` + `send-keys` for the *same session name* in one chained command sometimes raced and left no session at all (`tmux ls` showed it missing right after). Fix: create the new session and confirm with `tmux ls` **before** sending the `cloudflared` command into it, rather than chaining kill+create+send-keys in a single shot.
+
+---
+
+## 2026-08-21 — Mobile Brand Lore calibration + Create Account closure sprint
+
+- **Context:** Founder sprint to fix two blocking SITE 00 client-experience gaps on the brand-lore stack: (1) `/projects/:projectSlug/calibrate` not usable on mobile, (2) no production-ready CREATE ACCOUNT onboarding surface. Preserve Brand Lore readiness, intake persistence, dual-context, project authorization; do **not** merge/deploy/send emails/modify NDX BOOK Creative Direction without explicit founder instruction.
+
+- **Forensic audit root causes:**
+  - **Mobile calibration:** Route was registered correctly (`Site00AccountRouteGuard` + `EcosystemShell`); failure was UX/architecture — `ProjectLoreCalibrationPage` rendered all missing lore steps at once (desktop-dense layout), not Identity-style one-question-at-a-time flow; no per-step flush save; showed raw slug not friendly name (e.g. NDX BOOK).
+  - **Create account:** No canonical registration route; sign-in **CREATE ACCOUNT** link looped to `/sign-in?returnTo=...` (dead link).
+
+- **Mobile calibration fix:** New `ProjectLoreCalibrationFlow` reuses canonical `IdentityLoreStepForm`, `IdentityCalibrationConsole`, `IdentityCalibrationNavigation`; flush-save on each step via `site00ProjectsApi.submitLoreCalibration()` before advancing; `projectDisplayName()` maps `ndxbook` → **NDX BOOK**; API `creative_direction` action returns `brandLoreCalibrationAnswers` from org lore profile for resume.
+
+- **Create account fix:** Canonical route **`/origin/create-account`** (`SITE00_ROUTES.createAccount`); aliases `/register`, `/create-account` redirect; `/sign-in` → sign-in. `Site00CreateAccountForm` + `site00SignUpWithPassword()` (Supabase signUp, password mismatch/invalid email mapping, active session vs verification-required, `claimGuestIntakes()` on active session). Shared `Site00AuthShell` variant `create-account`. Sign-in CREATE ACCOUNT link fixed via `site00CreateAccountHrefWithReturnTo()`.
+
+- **Tests:** 12 new cases (routes, project display name, calibration step mapping, sign-up actions). Full suite **566/566 PASS**. `tsc --noEmit` PASS. `npm run build` PASS.
+
+- **Browser QA:** Create account verified at 375/390/430/640/1024/1440 — no horizontal overflow; labels/CTAs present; returnTo preserved in sign-in link. Sign-in CREATE ACCOUNT link points to `/origin/create-account`. Calibration route correctly auth-guards to sign-in with returnTo; full mobile calibration UI QA requires founder authenticated session (not attempted — no credentials in agent env).
+
+- **Branch:** `cursor/mobile-lore-calibration-account-4f59` (from `cursor/brand-lore-productionization-4f59`). PR opened, **not merged** (founder instruction).
 

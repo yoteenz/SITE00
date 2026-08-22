@@ -12,6 +12,11 @@ import { sendEmailAsync } from '../email/sendEmail.js';
 import type { IntakeType, IntakeStatus, IntakeSummary, IntakeDetail } from '../../../shared/site00-intakes/types.js';
 import { canTransitionIntakeStatus, normalizeIntakeStatus } from '../../../shared/site00-intakes/types.js';
 import type { IntakeRecord, AdminIntakeFilters } from './types.js';
+import {
+  upsertLoreFromIdentityIntake,
+  upsertExperienceFromBuilderIntake,
+  getLoreForIntake,
+} from '../site00BrandLore/loreService.js';
 
 /**
  * Canonical guest resume/view URL — reuses the existing secure guest access token, same origin
@@ -245,7 +250,35 @@ export async function autosaveIntake(
     });
   }
 
-  return toDetail(updated);
+  let finalRecord = updated;
+
+  if (intakeType === 'IDENTITY' && input.draftPayload?.loreAnswers) {
+    const profile = await upsertLoreFromIdentityIntake({
+      intakeId: id,
+      draftPayload: { ...record.draftPayload, ...input.draftPayload },
+      // IntakeRecord has no organizationId column — loreService resolves it from projectId.
+      projectId: record.projectId,
+    });
+    if (profile) {
+      finalRecord = await store.updateIntake(intakeType, id, {
+        draftPayload: { ...finalRecord.draftPayload, brandLoreProfileId: profile.id },
+      });
+    }
+  }
+
+  if (intakeType === 'BUILDER' && input.draftPayload?.experienceAnswers) {
+    const experience = await upsertExperienceFromBuilderIntake({
+      intakeId: id,
+      draftPayload: { ...record.draftPayload, ...input.draftPayload },
+    });
+    if (experience) {
+      finalRecord = await store.updateIntake(intakeType, id, {
+        draftPayload: { ...finalRecord.draftPayload, builderExperienceProfile: experience },
+      });
+    }
+  }
+
+  return toDetail(finalRecord);
 }
 
 export type SubmitIntakeInput = {
@@ -285,6 +318,15 @@ export async function submitIntake(
 
   const submittedAt = new Date().toISOString();
   const nextVersion = record.version + 1;
+
+  if (intakeType === 'IDENTITY' && (record.draftPayload as Record<string, unknown>).loreAnswers) {
+    await upsertLoreFromIdentityIntake({
+      intakeId: id,
+      draftPayload: record.draftPayload,
+      projectId: record.projectId,
+    });
+  }
+
   const updated = await store.updateIntake(intakeType, id, {
     status: 'SUBMITTED',
     submittedPayload: record.draftPayload,
