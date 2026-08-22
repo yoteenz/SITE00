@@ -7,6 +7,8 @@ import { SITE00_ROUTES } from './routes';
 
 export const SITE00_BLDR_ENTRY_SITE_IMAGE = '5E6EAEFD-2085-4FA5-91FA-71BA0610E99D.png';
 export const SITE00_BLDR_ENTRY_WORLD_IMAGE = '5E89B3D4-2C5A-4E41-9F49-2B065F44C819.png';
+/** Approved Enterprise environment — PACK artwork. */
+export const SITE00_BLDR_ENTRY_ENTERPRISE_IMAGE = 'PACK/D288C717-C092-4D37-95C7-D745A7E7B68A.png';
 
 export type BldrBuildDirectionId = 'site' | 'world';
 

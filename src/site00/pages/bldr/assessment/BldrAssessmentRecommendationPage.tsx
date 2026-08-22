@@ -1,11 +1,15 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getBldrAssessmentState, bldrAssessmentPath } from '../../../config/bldr-assessment';
 import { useBldrAssessment } from '../../../hooks/useBldrAssessment';
 import { BldrAssessmentShell } from '../../../components/bldr-assessment/BldrAssessmentShell';
 import { computeBldrRecommendation } from '../../../config/bldr-assessment-recommendation';
+import { BLDR_CLASSIFICATION_CARDS } from '../../../config/bldr-classification';
+import { BldrIntakeShell } from '../../../components/bldr/intake/BldrIntakeShell';
+import { BldrClassificationResultPanel } from '../../../components/bldr/intake/BldrIntakePanels';
 import { SITE00_ROUTES, site00BldrAssessmentDesktopPath } from '../../../config/routes';
 import { useSite00DesktopArtboardPreview } from '../../../components/shell/Site00DesktopArtboardContext';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function BldrAssessmentRecommendationPage() {
   const navigate = useNavigate();
@@ -20,9 +24,25 @@ export default function BldrAssessmentRecommendationPage() {
   }, [completeAssessment]);
 
   const recommendedState = getBldrAssessmentState(result.recommended)!;
+  const recommendedCard = BLDR_CLASSIFICATION_CARDS.find((c) => c.id === result.recommended);
+
   const navigateTo = (path: string) => {
     navigate(isDesktop ? site00BldrAssessmentDesktopPath(path) : path);
   };
+
+  if (!isDesktop) {
+    return (
+      <BldrIntakeShell breadcrumb="BLDR / DISCOVERY / RESULT">
+        <BldrClassificationResultPanel
+          recommendedTitle={recommendedState.title}
+          recommendedDescriptor={recommendedCard?.descriptor ?? recommendedState.declaration}
+          reasons={result.reasons}
+          onContinue={() => navigateTo(bldrAssessmentPath(result.recommended))}
+          reviewHref={bldrAssessmentPath('not-sure')}
+        />
+      </BldrIntakeShell>
+    );
+  }
 
   const panel = (
     <div className="site00-idnty-assessment-card site00-idnty-assessment-card--complete">
