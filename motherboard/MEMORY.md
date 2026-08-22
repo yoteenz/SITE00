@@ -2628,3 +2628,14 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Changes:** formation store layer, providerConfig, formationService durable refactor, engagementService client states + retry/reform, CreativeDirectionExperience + CSS, admin debug inspector timestamps, production activation tests (20). Tests 766/766; tsc + build clean.
 
 - **Branch:** `cursor/creative-intelligence-production-activation-4f59`.
+
+---
+
+## 2026-08-22 — Live NDX BOOK Core Direction Formation activation (Railway deploy + Sonnet run)
+
+Summary of this cloud agent run through live formation completion.
+
+- **Deploy blockers resolved:** Railway build failed on unclosed `</ul>` in `EvolveCreativeDirectionDebugPage.tsx` (PR #227). Retired model `claude-sonnet-4-20250514` → default `claude-sonnet-4-6` (PR #225). Health endpoint exposes Creative Intelligence model for deploy verify (PR #226). Sonnet omitted required JSON fields → explicit schema in formation prompt (PR #228). Markdown fence parse fix in `parseStructuredJson` (main c32ba7e).
+- **Live formation:** NDX BOOK Brand Lore v24 fingerprint `5e71f429`, readiness `CORE_DIRECTION_READY`. Reform v2 on production after deploy → `READY_FOR_VISUAL_PRODUCTION` with 3 directions: THE ANNOTATED COPY, THE ROOM WHERE IT HAPPENS, THE INDEX. Critic PASS all three, distinctiveness passed, 0 revision rounds. Provider anthropic/claude-sonnet-4-6, 4 requests, 11563 in / 18169 out tokens. 3 Visual Proof Plans persisted. FAL not invoked.
+- **Persistence:** Production API still in-memory formation store (Supabase `site00_core_direction_formations` empty from cloud agent queries); records survive until Railway restart.
+- **Founder UI:** `PROPOSED_FORMATION` surface active; legacy INDEX SIGNAL / EDITORIAL UTILITY / KINETIC FIELD under `LEGACY_PROPOSED_EXPLORATION`.
