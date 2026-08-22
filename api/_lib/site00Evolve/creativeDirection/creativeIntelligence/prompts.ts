@@ -18,6 +18,32 @@ Rules:
 - Stop before branch expansion — no specimen branches, no 9–10 asset lists.
 - Return structured JSON only — no markdown fences.
 
+Required JSON shape (all fields mandatory on every direction):
+{
+  "directions": [
+    {
+      "directionName": "string",
+      "bigIdea": "string",
+      "oneLineThesis": "string",
+      "brandConnection": "string citing Brand Lore",
+      "loreLineage": ["array of strings — each cites a specific Brand Lore field/value"],
+      "conceptualAncestor": "string",
+      "visualMetaphor": "string",
+      "governingBehavior": "string",
+      "primaryBrandArtifact": "string — one concrete artifact per world",
+      "materialImageryLanguage": "string",
+      "imageryLanguage": "string",
+      "typographicAttitude": "string",
+      "coreColorLogic": "string",
+      "motionSeed": "string",
+      "socialExpressionHypothesis": "string",
+      "proprietaryQuality": "string",
+      "risks": ["string"]
+    }
+  ],
+  "rationaleSummary": "optional string"
+}
+
 Each direction must feel like a different world even if names and colors were removed.`;
 
 export const CORE_DIRECTION_CRITIC_SYSTEM_PROMPT = `You are the Creative Critic for SITE 00 Studio World.
