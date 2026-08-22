@@ -2590,3 +2590,24 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Fix:** `syncEngagementBrandLoreReadiness()` on every `getCreativeDirectionPayload` / cached engagement return; `remainingCalibrationStepIds()` drives CTA visibility; post-calibration redirect passes `calibrationCompletedAt` to force CD reload; saved-with-no-steps-left banner copy becomes **CALIBRATION SAVED** without CTA.
 
 - **Branch:** `cursor/calibration-readiness-banner-fix-4f59`.
+
+---
+
+## 2026-08-22 — Creative Intelligence Infrastructure + Core Direction Reasoning Engine
+
+- **Context:** User requested Composer Foundation Sprint to build provider-neutral generative-reasoning layer between Brand Lore → Core Direction Formation → FAL Visual Production. Sprint ends at FINAL CORE DIRECTION BOARDS + VISUAL PROOF PLANS (no FAL invocation, no deploy, no founder approval changes).
+
+- **Topics covered:** Full XXXIV spec — CreativeIntelligenceProvider abstraction, Anthropic/Sonnet first adapter, formation input from Brand Lore, exactly-three enforcement, Creative Critic + bounded revision loop, Visual Proof Plans, formation persistence/idempotency, admin inspector, client forming/unavailable states, 45+ tests, NDX BOOK fixture validation.
+
+- **Decisions / outcomes:**
+  - New module `api/_lib/site00Evolve/creativeDirection/creativeIntelligence/` — types, config, prompts, provider registry, Anthropic fetch adapter, unavailable provider, mock provider for tests, formation input builder, validation, deterministic critic, visual proof plan builder, formation service with in-memory records keyed by org+project+fingerprint+formationVersion+promptVersion.
+  - Static INDEX SIGNAL / EDITORIAL UTILITY / KINETIC FIELD preserved as `LEGACY_PROPOSED_EXPLORATION`; new runs stored as `PROPOSED_FORMATION` separately on payload (`coreDirectionFormation`).
+  - No LLM keys in env → truthful `CREATIVE_INTELLIGENCE_PROVIDER_UNAVAILABLE`; client banner: "YOUR BRAND INTELLIGENCE IS READY. CREATIVE FORMATION IS WAITING ON THE PRODUCTION ENGINE."
+  - Admin: `creative_direction_formation_inspector` GET + debug page formation inspector panel; POST `creative_direction_reform` increments formationVersion.
+  - Extended `CoreDirectionDefinition` usage via `FormedCoreDirection` (directionId, loreLineage, motionSeed, socialExpressionHypothesis, etc.) without replacing static territory boards.
+
+- **Changes:** creativeIntelligence/* (new), engagementService.ts, types.ts, site00-evolve.ts admin routes, CreativeDirectionExperience.tsx banners, EvolveCreativeDirectionDebugPage.tsx, evolveApi.ts, creativeIntelligenceFormation.test.ts (46 tests). Tests 754/754; tsc + build clean.
+
+- **Conventions:** Business logic must use `getCreativeIntelligenceProvider()` — never direct Anthropic SDK in CD services. Model id centralized in `config.ts` (`SITE00_CREATIVE_INTELLIGENCE_MODEL` / `ANTHROPIC_CREATIVE_MODEL`). MAX_CREATIVE_REVISION_ROUNDS = 2.
+
+- **Branch:** `cursor/creative-intelligence-formation-4f59`.
