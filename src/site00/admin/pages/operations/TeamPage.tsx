@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { ControlPageHeader } from '../../components/control/ControlPageHeader';
 import { Site00AdminShell } from '../../components/shell/Site00AdminShell';
 import { AdminStatusBadge } from '../../components/operations/AdminStatusBadge';
 import { AdminKpiCard } from '../../components/operations/AdminKpiCard';
@@ -33,12 +34,11 @@ export default function TeamPage() {
 
   return (
     <Site00AdminShell>
-      <header className="site00-admin-dashboard-head">
-        <div>
-          <h1 className="site00-admin-page-title">[ TEAM ]</h1>
-          <p className="site00-admin-page-subtitle">ADMIN TEAM AND PROJECT LOAD.</p>
-        </div>
-      </header>
+      <ControlPageHeader
+        kicker="00 / CONTROL"
+        title="OPERATORS / TEAM"
+        subtitle="ACTIVE OPERATORS AND PROJECT LOAD"
+      />
 
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 

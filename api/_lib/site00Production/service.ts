@@ -222,6 +222,58 @@ export async function getCtrlRoomPayload(clientEmail?: string) {
   return { signals, projects: projects ?? [] };
 }
 
+/** Client CTRL ROOM payload — scoped to authenticated user email. */
+export async function getClientCtrlRoomPayload(clientEmail: string) {
+  const supabase = getSupabaseAdmin();
+  const email = clientEmail.trim().toLowerCase();
+  const base = await getCtrlRoomPayload(email);
+
+  const { data: identity } = await supabase
+    .from('site00_identities')
+    .select('id')
+    .eq('email', email)
+    .maybeSingle();
+
+  let sites: Array<{ id: string; name: string; domain: string | null; status: string | null; updated_at: string | null }> = [];
+  if (identity?.id) {
+    const { data } = await supabase
+      .from('site00_sites')
+      .select('id, name, domain, status, updated_at')
+      .eq('identity_id', identity.id)
+      .order('updated_at', { ascending: false })
+      .limit(8);
+    sites = data ?? [];
+  }
+
+  const activeProjects = (base.projects ?? []).length;
+  const connectedDomains = sites.filter((s) => Boolean(s.domain?.trim())).length;
+
+  const signals = (base.signals ?? []).map((s) => {
+    const slug = (s as { project_slug?: string }).project_slug;
+    const clientRoute = slug
+      ? s.signal_type === 'ACCESS_REQUIRED'
+        ? `/project/${slug}/provisioning`
+        : `/studio/${slug}`
+      : s.action_route.replace(/^\/admin\/site00\/projects\/[^/]+/, slug ? `/studio/${slug}` : '/projects');
+    return {
+      ...s,
+      action_route: clientRoute,
+      action_label: slug ? 'ENTER STUDIO →' : s.action_label,
+    };
+  });
+
+  return {
+    ...base,
+    signals,
+    sites,
+    counts: {
+      properties: sites.length,
+      projects: activeProjects,
+      domains: connectedDomains,
+    },
+  };
+}
+
 export async function getProvisioningPayload(projectSlug: string) {
   const supabase = getSupabaseAdmin();
   await ensureDemoProjectSeeded();
