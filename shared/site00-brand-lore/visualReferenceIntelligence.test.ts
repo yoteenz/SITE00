@@ -370,6 +370,8 @@ describe('Visual Reference Intelligence sprint', () => {
     const reloadBlock = VD_REVIEW.match(/const reload = useCallback[\s\S]*?\}, \[projectSlug\]\);/)?.[0] ?? '';
     expect(reloadBlock).toContain('visualDevelopmentGet');
     expect(reloadBlock).not.toContain('visualDevelopmentGenerate');
+    expect(VD_REVIEW).toContain('site00-vd__error-panel');
+    expect(VD_REVIEW).toContain('setLoading(true)');
   });
 
   it('25. Reference capture causes zero image-generation calls', () => {

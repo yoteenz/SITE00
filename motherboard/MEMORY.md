@@ -3549,3 +3549,17 @@ Summary of follow-up sprint formalizing automated visual reference intelligence 
 
 - Tests **1424** pass (+50 visual reference intelligence); build pass. Deploy **v26** pending. `NEW_PROJECTS_PROOF_GENERATED: false` until founder triggers reference-conditioned generation on visual-development route.
 
+---
+
+## 2026-08-23 — Visual development page infinite loading fix
+
+- **Symptom:** `/projects/ndxbook/experience-expression/visual-development` on fsbw-dev appeared broken — stuck on "Loading visual development…" or never reaching content.
+
+- **Root cause:** `ProjectWorkspaceVisualDevelopmentReview` treated `run === null` as loading forever. Any API failure (401/403/503, empty payload) left `run` null with no error state — indistinguishable from in-progress load.
+
+- **Fix:** Added explicit `loading` + `error` states (mirrors `ProjectExperimentEPage` pattern): try/catch on `visualDevelopmentGet`, `finally` clears loading, error panel with RETRY when fetch fails or run missing. CSS for error panel.
+
+- **Note:** Route and page exist on `main`; unauthenticated users still correctly redirect to sign-in via `Site00AccountRouteGuard`. Signed-in failures now surface actionable error instead of infinite spinner.
+
+- **Branch:** `cursor/visual-development-page-load-fix-1983`.
+
