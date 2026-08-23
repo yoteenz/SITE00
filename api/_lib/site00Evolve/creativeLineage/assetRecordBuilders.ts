@@ -10,6 +10,7 @@ import type {
 import type { CanonicalCreativeRangeDirection } from '../../../../shared/site00-brand-lore/canonicalCreativeRangeTypes.js';
 import {
   applyFounderJudgmentToAsset,
+  buildRevisionChildAssetDefaults,
   defaultBrandLineageFields,
   mapFounderJudgmentToReviewState,
 } from '../../../../shared/site00-brand-lore/creativeLineage/founderJudgmentLineage.js';
@@ -252,4 +253,67 @@ export function buildCarouselSlideAssetRecord(params: {
     slide.founderJudgment,
     ts,
   );
+}
+
+export function buildRevisionStoragePath(rootAssetId: string, revisionNumber: number): string {
+  const safeRoot = rootAssetId.replace(/[^a-zA-Z0-9-_]/g, '_');
+  const rev = String(revisionNumber).padStart(2, '0');
+  return `site00/validation/ndxbook/revisions/${safeRoot}/rev-${rev}.webp`;
+}
+
+/** Full immutable child CreativeAssetRecord from successful revision generation. */
+export function buildRevisionChildAssetRecord(params: {
+  parent: CreativeAssetRecord;
+  childAssetId: string;
+  revisionNumber: number;
+  revisionSpecId: string;
+  storagePath: string;
+  generationReceipt: {
+    provider: string;
+    model: string;
+    requestId: string | null;
+    costEstimateUsd: number | null;
+    referenceAssetIds: string[];
+    imageConditioningUsed: boolean;
+  };
+  ts?: string;
+}): CreativeAssetRecord {
+  const ts = params.ts ?? new Date().toISOString();
+  const childDefaults = buildRevisionChildAssetDefaults(
+    params.parent,
+    params.childAssetId,
+    params.revisionNumber,
+    ts,
+  );
+
+  return {
+    ...params.parent,
+    ...defaultBrandLineageFields(),
+    ...childDefaults,
+    sourceType: 'DERIVED',
+    generationLineage: {
+      provider: params.generationReceipt.provider,
+      model: params.generationReceipt.model,
+      requestId: params.generationReceipt.requestId,
+      generationVersion: 'revision-v1',
+      parentAssetIds: [params.parent.assetId],
+      referenceAssetIds: params.generationReceipt.referenceAssetIds,
+      imageConditioningUsed: params.generationReceipt.imageConditioningUsed,
+      promptVersion: null,
+      generatedAt: ts,
+      generationCostUsd: params.generationReceipt.costEstimateUsd,
+      storagePath: params.storagePath,
+    },
+    revisionSpecId: params.revisionSpecId,
+    preferredRevisionAssetId: null,
+    founderNotes: null,
+    internalNotes: `Surgical revision child of ${params.parent.assetId} via ${params.revisionSpecId}`,
+    immutable: true,
+    brandLineageMembership: 'ACTIVE',
+    brandDisposition: 'ACTIVE',
+    revisionPending: false,
+    currentRevisionId: null,
+    createdAt: ts,
+    updatedAt: ts,
+  };
 }

@@ -43,7 +43,7 @@ export function runJudgmentForensicAudit(params: {
       `${params.revisionSpecs.length} revision spec(s) in persistence`,
       'Revision Studio captures structured categories + lock/mutable elements',
       'compileCreativeRevision produces delta-based brief',
-      'Live GENERATE REVISION gated — GENERATION_NOT_YET_ENABLED',
+      'Live GENERATE REVISION — founder-triggered, explicit approval required, single-asset boundary',
     ],
     deletionRisks: [
       excluded.length

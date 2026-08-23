@@ -131,8 +131,13 @@ function sampleRevisionSpec(parent: CreativeAssetRecord, overrides: Partial<Crea
     requestedTypographyChanges: [],
     status: 'DRAFT',
     generationMode: 'IMAGE_EDIT',
-    generationGate: { liveGenerationEnabled: false, gateReason: 'GENERATION_NOT_YET_ENABLED' },
+    generationGate: { liveGenerationEnabled: false, gateReason: 'Save spec is free — approval required' },
     childAssetId: null,
+    generationReceipt: null,
+    complianceDiff: null,
+    idempotencyKey: null,
+    approvedAt: null,
+    generationAttempt: 1,
     createdAt: ts,
     updatedAt: ts,
     ...overrides,
@@ -228,7 +233,7 @@ describe('founder creative judgment + revision sprint', () => {
       directionName: parent.directionLineage.directionName,
       worldId: parent.directionLineage.worldId,
     });
-    expect(brief.change.some((c) => c.includes('credit report fragment'))).toBe(true);
+    expect(brief.assetExchanges.some((c) => c.includes('credit report fragment'))).toBe(true);
   });
 
   it('REVISION_COMPILER_TEST — delta based brief', () => {
@@ -242,7 +247,7 @@ describe('founder creative judgment + revision sprint', () => {
     expect(brief.deltaPrompt).toContain('REVISION MODE:');
     expect(brief.deltaPrompt).toContain('PRESERVE:');
     expect(brief.deltaPrompt).toContain('CHANGE:');
-    expect(brief.deltaPrompt).toContain('DO NOT:');
+    expect(brief.deltaPrompt).toContain('DO NOT CHANGE');
   });
 
   it('REVISION_SURGICALITY_TEST', () => {
@@ -373,7 +378,7 @@ describe('founder creative judgment + revision sprint', () => {
     expect(spec.creativeFamilyId).toBeTruthy();
   });
 
-  it('GENERATION_GATE_TEST — live generation blocked', () => {
+  it('GENERATION_GATE_TEST — requires APPROVED_FOR_GENERATION status', () => {
     const parent = sampleAsset();
     const spec = sampleRevisionSpec(parent);
     const brief = compileCreativeRevision(spec, {
@@ -388,15 +393,26 @@ describe('founder creative judgment + revision sprint', () => {
       compiledBrief: brief,
       originDirectionName: parent.directionLineage.directionName,
     });
-    const gate = canApproveRevisionGeneration({
+    const gateDraft = canApproveRevisionGeneration({
       spec: { ...spec, status: 'READY_FOR_REVIEW' },
       surgicality,
       contamination,
+      hostFont: runHostFontRevisionLeakageTest(brief),
       parentAssetAvailable: true,
       parentPromptLineageAvailable: true,
     });
-    expect(gate.approved).toBe(false);
-    expect(gate.gateReason).toContain('GENERATION_NOT_YET_ENABLED');
+    expect(gateDraft.approved).toBe(false);
+    expect(gateDraft.gateReason).toMatch(/APPROVED_FOR_GENERATION|founder must explicitly approve/i);
+
+    const gateApproved = canApproveRevisionGeneration({
+      spec: { ...spec, status: 'APPROVED_FOR_GENERATION' },
+      surgicality,
+      contamination,
+      hostFont: runHostFontRevisionLeakageTest(brief),
+      parentAssetAvailable: true,
+      parentPromptLineageAvailable: true,
+    });
+    expect(gateApproved.approved).toBe(true);
   });
 
   it('REVISION_VS_NEW_EXPLORATION_TEST', () => {

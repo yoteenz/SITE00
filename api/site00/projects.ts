@@ -57,6 +57,9 @@ import {
   compileRevisionSpec,
   getRevisionHistory,
   attemptGenerateRevision,
+  approveRevisionSpecForGeneration,
+  getRevisionComparisonState,
+  setPreferredRevisionVersion,
   runFounderJudgmentForensicAudit,
 } from '../_lib/site00Evolve/creativeLineage/founderJudgmentRevisionService.js';
 import type { CarouselExecuteMode } from '../../shared/site00-brand-lore/canonicalCarouselExpansionTypes.js';
@@ -975,6 +978,51 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const history = await getRevisionHistory(assetId);
         return json(res, 200, { ok: true, history, source: 'site00_founder_revision' });
       }
+      case 'founder_revision_spec_approve': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook' || !body.revisionId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const spec = await approveRevisionSpecForGeneration(String(body.revisionId));
+        return json(res, 200, { ok: true, spec, source: 'site00_founder_revision' });
+      }
+      case 'founder_revision_comparison': {
+        const slug = String(req.query.slug ?? '');
+        const revisionId = String(req.query.revisionId ?? '');
+        if (slug !== 'ndxbook' || !revisionId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await getRevisionComparisonState(revisionId);
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_revision' });
+      }
+      case 'founder_revision_preferred_version': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook' || !body.rootAssetId || !body.preferredAssetId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const asset = await setPreferredRevisionVersion({
+          rootAssetId: String(body.rootAssetId),
+          preferredAssetId: String(body.preferredAssetId),
+        });
+        return json(res, 200, { ok: true, asset, source: 'site00_founder_revision' });
+      }
       case 'founder_revision_generate': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -987,8 +1035,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const gate = await attemptGenerateRevision(String(body.revisionId));
-        return json(res, 200, { ok: true, gate, source: 'site00_founder_revision' });
+        const result = await attemptGenerateRevision(String(body.revisionId), {
+          technicalRetry: Boolean(body.technicalRetry),
+        });
+        return json(res, 200, { ok: true, result, source: 'site00_founder_revision' });
       }
       case 'founder_judgment_forensic_audit': {
         const slug = String(req.query.slug ?? '');

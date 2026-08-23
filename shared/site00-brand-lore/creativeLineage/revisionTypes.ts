@@ -52,10 +52,59 @@ export const REVISION_SPEC_STATUSES = [
   'APPROVED_FOR_GENERATION',
   'GENERATING',
   'GENERATED',
+  'COMPARISON_READY',
+  'ACCEPTED',
+  'REVISION_REQUESTED',
+  'REJECTED',
   'CANCELLED',
   'FAILED',
+  'GENERATION_FAILED',
+  'STORAGE_FAILED',
 ] as const;
 export type RevisionSpecStatus = (typeof REVISION_SPEC_STATUSES)[number];
+
+export const REVISION_GENERATION_MODES = [
+  'IMAGE_EDIT',
+  'REFERENCE_CONDITIONED_REGENERATION',
+  'PROMPT_REGENERATION',
+] as const;
+export type RevisionGenerationMode = (typeof REVISION_GENERATION_MODES)[number];
+
+export const REVISION_COMPLIANCE_RESULTS = ['PASS', 'PARTIAL', 'FAIL', 'NOT_EVALUATED'] as const;
+export type RevisionComplianceResult = (typeof REVISION_COMPLIANCE_RESULTS)[number];
+
+export type RevisionComplianceCategory = {
+  category: string;
+  requestedChange: string | null;
+  result: RevisionComplianceResult;
+  evidence: string;
+};
+
+export type RevisionGenerationReceipt = {
+  receiptId: string;
+  revisionSpecId: string;
+  parentAssetId: string;
+  rootAssetId: string;
+  childAssetId: string | null;
+  revisionNumber: number;
+  branchId: string;
+  generationMode: RevisionGenerationMode;
+  provider: string;
+  model: string;
+  promptHash: string;
+  sourceImageReference: string | null;
+  referenceAssetIds: string[];
+  generationStartedAt: string;
+  generationCompletedAt: string | null;
+  costEstimateUsd: number | null;
+  providerRequestId: string | null;
+  storagePath: string | null;
+  failureReason: string | null;
+  surgicalityPreflight: string;
+  contaminationPreflight: string;
+  idempotencyKey: string;
+  isTechnicalRetry: boolean;
+};
 
 export type AssetExchangeInstruction = {
   instructionId: string;
@@ -91,12 +140,17 @@ export type CreativeRevisionSpec = {
   requestedColorChanges: string[];
   requestedTypographyChanges: string[];
   status: RevisionSpecStatus;
-  generationMode: 'IMAGE_EDIT' | 'PROMPT_REGENERATION' | null;
+  generationMode: RevisionGenerationMode | null;
   generationGate: {
-    liveGenerationEnabled: false;
+    liveGenerationEnabled: boolean;
     gateReason: string;
   };
   childAssetId: string | null;
+  generationReceipt: RevisionGenerationReceipt | null;
+  complianceDiff: CreativeRevisionDiff | null;
+  idempotencyKey: string | null;
+  approvedAt: string | null;
+  generationAttempt: number;
   createdAt: string;
   updatedAt: string;
 };
@@ -120,25 +174,44 @@ export type RevisionGenerationBrief = {
   preserve: string[];
   change: string[];
   doNot: string[];
+  hardLocks: string[];
+  softPreservation: string[];
+  antiDriftRules: string[];
   typographyRevision: string | null;
   colorRevision: string | null;
   compositionRevision: string | null;
   copyRevision: string | null;
   imageryRevision: string | null;
+  assetExchanges: string[];
+  worldDnaPreserve: string[];
+  brandDnaPreserve: string[];
+  formatRequirements: string[];
   deltaPrompt: string;
   compiledAt: string;
+};
+
+export type ChangeSatisfactionEntry = {
+  requestedChange: string;
+  result: RevisionComplianceResult;
+  evidence: string;
 };
 
 export type CreativeRevisionDiff = {
   revisionId: string;
   parentAssetId: string;
   childAssetId: string | null;
-  requestedChanges: string[];
-  actualChanges: string[];
-  lockedElementsPreserved: string[];
-  unexpectedChanges: string[];
+  requestedChanges: ChangeSatisfactionEntry[];
+  lockedElementsPreserved: ChangeSatisfactionEntry[];
+  unrequestedDrift: ChangeSatisfactionEntry[];
+  categoryResults: RevisionComplianceCategory[];
+  preserveUnspecified: boolean;
   visualDriftDetected: boolean;
-  compliance: 'PASS' | 'PARTIAL' | 'FAIL';
+  summaryCompliance: RevisionComplianceResult;
+  copyProvenance: {
+    parentCopy: string | null;
+    requestedCopy: string | null;
+    generatedCopyNote: string | null;
+  };
 };
 
 export type CreativeFamilyRevisionSpec = {
@@ -177,6 +250,10 @@ export type RevisionComparisonState = {
   parentAssetId: string;
   childAssetId: string | null;
   revisionId: string;
+  specStatus: RevisionSpecStatus;
   diff: CreativeRevisionDiff | null;
-  founderActions: Array<'LOVE_REVISION' | 'REVISE_AGAIN' | 'KEEP_ORIGINAL' | 'NOT_FOR_ME'>;
+  generationReceipt: RevisionGenerationReceipt | null;
+  parentStoragePath: string | null;
+  childStoragePath: string | null;
+  founderActions: Array<'LOVE_IT' | 'REVISE_AGAIN' | 'NOT_FOR_ME' | 'SET_PREFERRED_VERSION'>;
 };

@@ -186,13 +186,18 @@ export function NdxbookContentLibrary({ projectSlug }: NdxbookContentLibraryProp
                     {asset.productionState} · {asset.reuseState}
                     {asset.brandLineageMembership === 'EXCLUDED' ? ' · EXCLUDED FROM NDXBOOK' : ''}
                     {asset.revisionPending ? ' · REVISION PENDING' : ''}
+                    {(asset.relationship.derivedAssetIds?.length ?? 0) > 0
+                      ? ` · ${asset.relationship.derivedAssetIds.length} REVISION(S)`
+                      : ''}
+                    {asset.preferredRevisionAssetId ? ' · PREFERRED VERSION SET' : ''}
                     {asset.ideaPortabilityEligible ? ' · IDEA PORTABILITY ELIGIBLE' : ''}
                   </p>
                   <p>{asset.canonStatus}</p>
                   <div className="site00-content-library__actions">
                     {(asset.revisionPending ||
                       asset.creativeValue === 'PROMISING_REFINE' ||
-                      asset.creativeValue === 'REVISE') && url ? (
+                      asset.creativeValue === 'REVISE' ||
+                      (asset.relationship.derivedAssetIds?.length ?? 0) > 0) && url ? (
                       <button
                         type="button"
                         onClick={() =>

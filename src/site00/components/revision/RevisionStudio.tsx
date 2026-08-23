@@ -8,6 +8,7 @@ import type {
 } from '../../../../shared/site00-brand-lore/creativeLineage/revisionTypes';
 import { REVISION_CATEGORY_KEYS, REVISION_ELEMENT_KEYS } from '../../../../shared/site00-brand-lore/creativeLineage/revisionTypes';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
+import { RevisionComparisonReview } from './RevisionComparisonReview';
 
 const CATEGORY_LABELS: Record<RevisionCategoryKey, string> = {
   typography: 'TYPOGRAPHY',
@@ -44,6 +45,8 @@ const ELEMENT_LABELS: Record<RevisionElementKey, string> = {
   DIRECTION_DNA: 'DIRECTION DNA',
 };
 
+const COST_ESTIMATE_USD = 0.045;
+
 type RevisionStudioProps = {
   projectSlug: string;
   parentAssetId: string;
@@ -72,18 +75,39 @@ export function RevisionStudio({
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [compiling, setCompiling] = useState(false);
+  const [approving, setApproving] = useState(false);
+  const [generating, setGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [gateReason, setGateReason] = useState<string | null>(null);
+  const [lockConflicts, setLockConflicts] = useState<string[]>([]);
+  const [showComparison, setShowComparison] = useState(false);
+  const [reviseAgainParentId, setReviseAgainParentId] = useState<string | null>(null);
+
+  const effectiveParentId = reviseAgainParentId ?? parentAssetId;
 
   const loadDraft = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const history = await site00ProjectsApi.founderRevisionHistory(projectSlug, parentAssetId);
-      const pending = history.history.revisions.find((r) => r.status === 'DRAFT' || r.status === 'READY_FOR_REVIEW');
+      const history = await site00ProjectsApi.founderRevisionHistory(projectSlug, effectiveParentId);
+      const comparisonReady = history.history.revisions.find((r) => r.status === 'COMPARISON_READY');
+      if (comparisonReady) {
+        setSpec(comparisonReady);
+        setShowComparison(true);
+        return;
+      }
+      const pending = history.history.revisions.find(
+        (r) =>
+          r.status === 'DRAFT' ||
+          r.status === 'READY_FOR_REVIEW' ||
+          r.status === 'APPROVED_FOR_GENERATION' ||
+          r.status === 'GENERATING',
+      );
       let draft = pending ?? null;
       if (!draft) {
-        const created = await site00ProjectsApi.founderRevisionSpecCreate(projectSlug, { parentAssetId });
+        const created = await site00ProjectsApi.founderRevisionSpecCreate(projectSlug, {
+          parentAssetId: effectiveParentId,
+        });
         draft = created.spec;
       }
       setSpec(draft);
@@ -94,16 +118,25 @@ export function RevisionStudio({
       setMutableElements(draft.mutableElements ?? []);
       setSeverity(draft.severity ?? 'TARGETED');
       setGateReason(draft.generationGate?.gateReason ?? null);
+      setShowComparison(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load revision studio');
     } finally {
       setLoading(false);
     }
-  }, [parentAssetId, projectSlug]);
+  }, [effectiveParentId, projectSlug]);
 
   useEffect(() => {
     void loadDraft();
   }, [loadDraft]);
+
+  useEffect(() => {
+    if (spec?.status !== 'GENERATING') return;
+    const interval = window.setInterval(() => {
+      void loadDraft();
+    }, 4000);
+    return () => window.clearInterval(interval);
+  }, [loadDraft, spec?.status]);
 
   const toggleCategory = (key: RevisionCategoryKey) => {
     setSelectedCategories((prev) =>
@@ -135,6 +168,10 @@ export function RevisionStudio({
     }
     return notes;
   }, [categoryNotes, selectedCategories]);
+
+  const canApprove = spec?.status === 'READY_FOR_REVIEW';
+  const canGenerate = spec?.status === 'APPROVED_FOR_GENERATION';
+  const isGenerating = spec?.status === 'GENERATING';
 
   const save = useCallback(async () => {
     if (!spec) return;
@@ -178,6 +215,7 @@ export function RevisionStudio({
       setSpec(result.spec);
       setBrief(result.brief);
       setGateReason(result.generationGate.gateReason);
+      setLockConflicts((result as { lockConflicts?: Array<{ message: string }> }).lockConflicts?.map((c) => c.message) ?? []);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Compile failed');
     } finally {
@@ -185,10 +223,68 @@ export function RevisionStudio({
     }
   }, [projectSlug, save, spec]);
 
+  const approve = useCallback(async () => {
+    if (!spec) return;
+    setApproving(true);
+    setError(null);
+    try {
+      const result = await site00ProjectsApi.founderRevisionSpecApprove(projectSlug, spec.revisionId);
+      setSpec(result.spec);
+      setGateReason(result.spec.generationGate.gateReason);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Approve failed');
+    } finally {
+      setApproving(false);
+    }
+  }, [projectSlug, spec]);
+
+  const generate = useCallback(async () => {
+    if (!spec) return;
+    setGenerating(true);
+    setError(null);
+    try {
+      const result = await site00ProjectsApi.founderRevisionGenerate(projectSlug, spec.revisionId);
+      if (!result.result.allowed) {
+        setError(result.result.reason ?? 'Generation blocked');
+        if (result.result.spec) setSpec(result.result.spec);
+        return;
+      }
+      if (result.result.spec) {
+        setSpec(result.result.spec);
+        setShowComparison(true);
+      }
+      onSaved?.();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Generation failed');
+    } finally {
+      setGenerating(false);
+    }
+  }, [onSaved, projectSlug, spec]);
+
   if (loading) {
     return (
       <div className="site00-revision-studio" role="dialog" aria-label="Revision Studio">
         <p className="site00-revision-studio__pending">LOADING REVISION STUDIO…</p>
+      </div>
+    );
+  }
+
+  if (showComparison && spec) {
+    return (
+      <div className="site00-revision-studio" role="dialog" aria-label="Revision Comparison">
+        <RevisionComparisonReview
+          projectSlug={projectSlug}
+          spec={spec}
+          parentPreviewUrl={previewUrl}
+          parentLabel={previewLabel}
+          onClose={onClose}
+          onReviseAgain={(childId) => {
+            setReviseAgainParentId(childId);
+            setShowComparison(false);
+            void loadDraft();
+          }}
+          onJudgmentRecorded={onSaved}
+        />
       </div>
     );
   }
@@ -288,21 +384,46 @@ export function RevisionStudio({
         </select>
       </section>
 
+      {lockConflicts.length > 0 ? (
+        <section className="site00-revision-studio__section">
+          <h3>LOCK CONFLICTS</h3>
+          <ul>
+            {lockConflicts.map((msg) => (
+              <li key={msg} className="site00-revision-studio__error">
+                {msg}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
       {error ? (
         <p className="site00-revision-studio__error" role="alert">
           {error}
         </p>
       ) : null}
 
+      <p className="site00-revision-studio__meta">
+        GENERATES 1 IMAGE · ESTIMATED PROVIDER COST: ${COST_ESTIMATE_USD.toFixed(2)}
+      </p>
+
       <div className="site00-revision-studio__actions">
-        <button type="button" disabled={saving} onClick={() => void save()}>
+        <button type="button" disabled={saving || isGenerating} onClick={() => void save()}>
           {saving ? 'SAVING…' : 'SAVE SPEC'}
         </button>
-        <button type="button" disabled={compiling || !spec} onClick={() => void compile()}>
+        <button type="button" disabled={compiling || !spec || isGenerating} onClick={() => void compile()}>
           {compiling ? 'COMPILING…' : 'COMPILE DELTA BRIEF'}
         </button>
-        <button type="button" disabled title={gateReason ?? 'Generation gated this sprint'}>
-          REVISION READY — GENERATION NOT YET ENABLED
+        <button type="button" disabled={!canApprove || approving || isGenerating} onClick={() => void approve()}>
+          {approving ? 'APPROVING…' : 'APPROVE FOR GENERATION'}
+        </button>
+        <button
+          type="button"
+          disabled={!canGenerate || generating || isGenerating}
+          title={gateReason ?? undefined}
+          onClick={() => void generate()}
+        >
+          {generating || isGenerating ? 'GENERATING…' : 'GENERATE REVISION'}
         </button>
       </div>
 
