@@ -85,7 +85,11 @@ export const NEUTRAL_TOPIC_SUBSTITUTION_SET = [
   'STUDENT LOAN TRADEOFFS',
 ] as const;
 
-export const FORMATION_QUARANTINE_BLOCKLIST = [
+/**
+ * Hard-fail tokens for successor formation **model output** — historical/topic contamination only.
+ * Generic editorial artifact words (journal, notebook, etc.) are evaluated post-formation, not blocked here.
+ */
+export const SUCCESSOR_FORMATION_OUTPUT_BLOCKLIST = [
   'CREDIT UTILIZATION',
   'credit utilization',
   'THE CREDIT THRESHOLD',
@@ -110,16 +114,10 @@ export const FORMATION_QUARANTINE_BLOCKLIST = [
   'Burn Book',
   'burn book',
   'CANON BURN BOOK',
-  'notebook',
-  'encyclopedia',
-  'newspaper',
-  'magazine',
-  'journal',
-  'dossier',
-  'archive',
-  'index',
-  'publication',
 ] as const;
+
+/** @deprecated Use SUCCESSOR_FORMATION_OUTPUT_BLOCKLIST for output quarantine; EDITORIAL_ARTIFACT_ANTI_ANCHORS for evaluators. */
+export const FORMATION_QUARANTINE_BLOCKLIST = SUCCESSOR_FORMATION_OUTPUT_BLOCKLIST;
 
 export const EDITORIAL_ARTIFACT_ANTI_ANCHORS = [
   'book',
