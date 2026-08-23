@@ -47,6 +47,7 @@ import {
   refreshVisualReferences,
   resetVisualReferenceServiceMemory,
 } from '../../../site00VisualReference/visualReferenceService.js';
+import { hydrateVisualReferencePackage } from '../../../site00VisualReference/referenceUrlResolver.js';
 import { evaluateReferenceAdherence } from '../../../../../shared/site00-visual-reference/referenceAdherenceQA.js';
 import type { VisualReferencePackage } from '../../../../../shared/site00-visual-reference/types.js';
 import {
@@ -194,7 +195,34 @@ export async function getProjectWorkspaceVisualDevelopmentRun(
   projectId = 'ndxbook',
 ): Promise<ProjectWorkspaceVisualDevelopmentRun | null> {
   const run = await store.getVisualDevelopmentRun();
-  return run ? normalizeVisualDevelopmentRun(run) : null;
+  if (!run) return null;
+  return hydrateVisualDevelopmentRunReferences(normalizeVisualDevelopmentRun(run));
+}
+
+async function hydrateProofReferencePackage(proof: SurfaceDesignProof): Promise<SurfaceDesignProof> {
+  if (!proof.referencePackage) return proof;
+  const referencePackage = await hydrateVisualReferencePackage(proof.referencePackage);
+  if (referencePackage === proof.referencePackage) return proof;
+  const updated = { ...proof, referencePackage };
+  refreshSurfaceClassification(updated);
+  return updated;
+}
+
+async function hydrateVisualDevelopmentRunReferences(
+  run: ProjectWorkspaceVisualDevelopmentRun,
+): Promise<ProjectWorkspaceVisualDevelopmentRun> {
+  const site00ProjectsIndex = await hydrateProofReferencePackage(run.proofs.site00ProjectsIndex);
+  const ndxbookProjectHome = await hydrateProofReferencePackage(run.proofs.ndxbookProjectHome);
+  const changed =
+    site00ProjectsIndex !== run.proofs.site00ProjectsIndex ||
+    ndxbookProjectHome !== run.proofs.ndxbookProjectHome;
+  if (!changed) return run;
+  const next = {
+    ...run,
+    proofs: { site00ProjectsIndex, ndxbookProjectHome },
+    compiledAt: nowIso(),
+  };
+  return store.saveVisualDevelopmentRun(next);
 }
 
 export async function refreshProjectWorkspaceVisualDevelopmentRun(
@@ -489,7 +517,8 @@ export async function compileVisualDevelopmentReferencePackage(
   refreshSurfaceClassification(proof);
   proof.lifecycle = 'GENERATION_READY';
   setProof(run, proof);
-  return await store.saveVisualDevelopmentRun(run);
+  const saved = await store.saveVisualDevelopmentRun(run);
+  return hydrateVisualDevelopmentRunReferences(saved);
 }
 
 export async function createReferenceConditionedChildProof(

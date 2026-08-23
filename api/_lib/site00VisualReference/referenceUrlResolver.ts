@@ -63,3 +63,30 @@ export function collectInvalidReferenceUrls(references: Array<{ referenceId: str
 export function formatReferenceCaptureRequiredError(invalidReferenceIds: string[]): string {
   return `REFERENCE_CAPTURE_REQUIRED — FAL cannot download reference images (${invalidReferenceIds.join(', ')}). Tap CAPTURE / REFRESH REFERENCES on visual development (API must reach ${process.env.SITE00_CAPTURE_BASE_URL?.trim() || 'https://site00.com'} with Playwright).`;
 }
+
+export async function resolveReferencePackageEntryPublicUrl(entry: {
+  storagePath: string;
+  publicUrl: string | null;
+}): Promise<string | null> {
+  if (isFalAccessibleReferenceUrl(entry.publicUrl)) return entry.publicUrl;
+
+  if (entry.storagePath) {
+    const resolved = await resolveStoragePathPublicUrl(entry.storagePath);
+    if (resolved) return resolved;
+  }
+
+  return null;
+}
+
+export async function hydrateVisualReferencePackage<T extends {
+  references: Array<{ storagePath: string; publicUrl: string | null; referenceId: string }>;
+}>(pkg: T): Promise<T> {
+  const references = await Promise.all(
+    pkg.references.map(async (ref) => {
+      const publicUrl = await resolveReferencePackageEntryPublicUrl(ref);
+      return publicUrl && publicUrl !== ref.publicUrl ? { ...ref, publicUrl } : ref;
+    }),
+  );
+  const changed = references.some((ref, index) => ref.publicUrl !== pkg.references[index]?.publicUrl);
+  return changed ? { ...pkg, references } : pkg;
+}
