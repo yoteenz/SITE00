@@ -96,8 +96,9 @@ Clone path on cloud VM: `/home/ubuntu/SITE00` (may mirror `/workspace` checkout)
 - **API on cPanel static:** Not supported without separate Node/API host (`VITE_API_BASE`).
 - **Agent session close (required format):** When wrapping a session (or when the founder needs production updated), deliver **two parts** — never one without the other:
   1. **Text summary** — normal prose: what changed, why, what to do next (Railway redeploy, etc.).
-  2. **Code box** — immediately after the text, a fenced block labeled `=== CPANEL DEPLOY (site00.com) ===` with fresh **download URL**, release page, **verify bundle** path, and upload steps.
-- Build the ZIP from current `main`, publish to GitHub Releases (`site00-deploy-YYYY-MM-DD-vN`), and include links in the code box. Do not wait for the founder to ask. Do **not** send only the code box with no text summary, and do **not** omit the code box when frontend code changed or a deploy refresh is relevant.
+  2. **Deploy links** — immediately after the text, send each copy-paste item **on its own line** (plain markdown links or bare URLs). The founder copies links **one at a time** on mobile — do **not** bundle download URL, release page, verify bundle, and upload steps into a single fenced code box.
+- **Typical deploy close (separate lines):** ZIP download URL · release page URL · verify bundle path (e.g. `/assets/index.XXXX.js`) · one-line upload reminder.
+- Build the ZIP from current `main`, publish to GitHub Releases (`site00-deploy-YYYY-MM-DD-vN`). Do not wait for the founder to ask. Do **not** send only links with no text summary, and do **not** omit deploy links when frontend code changed or a deploy refresh is relevant.
 
 ---
 
