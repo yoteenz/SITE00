@@ -2958,3 +2958,13 @@ Summary: Two follow-up production sprints closed personality pipeline gaps and n
 **Known gaps:** Builder translation UI not in BLDR shell; founder personality confirm UI not wired; responsive visual QA not browser-verified this sprint.
 
 **Branch:** `cursor/personality-expression-pipeline-closure-4f59`.
+
+---
+
+## 2026-08-23 — Cloudflare preview tunnel restart
+
+Summary: Founder requested tunnel restart.
+
+- **Symptom:** Public tunnel returned 000; cloudflared logs showed connection failures.
+- **Action:** Killed `site00-preview-tunnel` tmux session + `pkill cloudflared`. Relaunched fresh session with `.cursor/scripts/run-site00-preview-tunnel.sh`. Left `site00-vite` running (localhost:5174 already 200).
+- **Verified:** Tunnel + Vite both return 200; preview URL refreshed in `/tmp/site00-cloud-preview-url.txt`.
