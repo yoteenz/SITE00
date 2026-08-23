@@ -3488,3 +3488,31 @@ Summary of sprint building reusable infrastructure to capture business/founder i
 - NDXBOOK ClientProjectExpressionProfile — Martian Mono excluded, host/client typography separation, color ownership guards.
 - Tests **1351** pass (+30 workspace); build pass. `WORLD_FORMATION_IMPLEMENTED: false`.
 
+---
+
+## 2026-08-23 — Experiment E visual development before implementation (correction sprint)
+
+Summary of follow-up sprint correcting implementation sequence: visual development must precede production page redesign.
+
+- **Context:** Universal Project Workspace sprint correctly discovered methodology (SITE 00 Host → Project Workspace Canon → Client Expression) but prematurely redesigned live `/projects` before founder-approved visual proofs. FAL pipeline existed but was not required gate before Composer implementation.
+
+- **Phase 0 rollback:** Restored baseline `ProjectsPage` (PROJECT INDEX flat list + metrics). Kept all methodology infrastructure: `projectWorkspace/*`, Experiment E discovery records, FAL bridges, hero subset, tests.
+
+- **New architecture (`experienceExpression/`):**
+  - `surfaceDesignLifecycle.ts` — `ExperienceSurfaceDesignLifecycle` states + `assertSurfaceApprovedForImplementation()` + `visualDevelopmentSubstantive()`
+  - `designProofManifest.ts` — `Site00ProjectsIndexProofManifest` + `NdxbookProjectHomeProofManifest` (small subsets)
+  - `designProofArtDirection.ts` — distinct art direction per proof (SITE 00 vs NDXBOOK expression)
+  - `experienceAssetFalProvider.ts` — **live FAL path** (`fal-ai/nano-banana-pro`) + composed proof generation; no CSS fallback
+  - `designProofImplementationContract.ts` — approved image as first-class implementation reference
+  - `projectsIndexFunctionalCanon.ts` — `/projects` functional grounding
+
+- **Service:** `visualDevelopmentService.ts` — founder-triggered generate/compose/judgment/prepare/orchestrate; independent proof approval.
+
+- **Route/UI:** `/projects/ndxbook/experience-expression/visual-development` — `ProjectWorkspaceVisualDevelopmentReview` (large image review, methodology hidden by default). Link from Experiment E page.
+
+- **API:** `visual_development_*` actions in `api/site00/projects.ts`.
+
+- **Gates:** Production presentation blocked until `APPROVED_FOR_IMPLEMENTATION`; approval does not mutate live UI or auto-trigger Composer; `PREPARE IMPLEMENTATION` → contract → `ORCHESTRATE IMPLEMENTATION`.
+
+- Tests **1371** pass (+20 visual development); build pass. Deploy **v24**. `WORLD_FORMATION_IMPLEMENTED: false`. `READY_FOR_IMPLEMENTATION: false` until founder approves generated design proofs.
+
