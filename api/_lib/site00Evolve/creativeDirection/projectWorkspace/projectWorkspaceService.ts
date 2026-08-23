@@ -22,15 +22,31 @@ import {
   receiptToProductionAsset,
   validateGenerationScope,
 } from '../../../../../shared/site00-brand-lore/experienceExpression/assetGeneration.js';
-import { extractNdxbookFunctionalCanon } from '../../../../../shared/site00-brand-lore/experienceExpression/functionalCanon.js';
+import {
+  composeNdxbookHeroFrameViaFal,
+  generateExperienceHeroAssetViaFal,
+} from '../../../../../shared/site00-brand-lore/experienceExpression/experienceAssetFalProvider.js';
+import { publicUrlForStoragePath } from '../../../site00Assts/service.js';
 import { buildHostExperienceCanon } from '../../../../../shared/site00-brand-lore/experienceExpression/hostExperienceCanon.js';
 import { buildClientExperienceCanon } from '../../../../../shared/site00-brand-lore/experienceExpression/clientExperienceCanon.js';
+import { extractNdxbookFunctionalCanon } from '../../../../../shared/site00-brand-lore/experienceExpression/functionalCanon.js';
 import { getBrandLoreProfileForOrg } from '../../../site00BrandLore/loreService.js';
 import { NDXBOOK_ORG_ID } from '../creativeIntelligence/founderComparisonSet.js';
 import * as store from './memoryStore.js';
 
 function nowIso(): string {
   return new Date().toISOString();
+}
+
+export function enrichProjectWorkspaceHeroRun(run: ProjectWorkspaceHeroRun): ProjectWorkspaceHeroRun {
+  if (!run.heroComposition) return run;
+  return {
+    ...run,
+    heroComposition: {
+      ...run.heroComposition,
+      publicUrl: run.heroComposition.publicUrl ?? publicUrlForStoragePath(run.heroComposition.storagePath),
+    },
+  };
 }
 
 function initRun(projectId: string): ProjectWorkspaceHeroRun {
@@ -52,7 +68,8 @@ function initRun(projectId: string): ProjectWorkspaceHeroRun {
 }
 
 export async function getProjectWorkspaceHeroRun(projectId: string = 'ndxbook'): Promise<ProjectWorkspaceHeroRun | null> {
-  return store.getProjectWorkspaceHeroRun(projectId);
+  const run = store.getProjectWorkspaceHeroRun(projectId);
+  return run ? enrichProjectWorkspaceHeroRun(run) : null;
 }
 
 export async function refreshProjectWorkspaceHeroRun(projectId: string = 'ndxbook'): Promise<ProjectWorkspaceHeroRun> {
@@ -141,7 +158,7 @@ export async function generateNdxbookHeroAssets(): Promise<ProjectWorkspaceHeroR
   let accounting = { ...run.accounting };
 
   for (const req of requirements) {
-    const { promptHash } = buildAssetGenerationBrief({
+    const { compiledPrompt, promptHash } = buildAssetGenerationBrief({
       requirement: req,
       concept,
       bible,
@@ -153,6 +170,18 @@ export async function generateNdxbookHeroAssets(): Promise<ProjectWorkspaceHeroR
       deviceClass: 'DESKTOP',
     });
 
+    const storagePath = `site00/project-workspace/ndxbook/hero/${req.assetFamily.toLowerCase()}-desktop.webp`;
+
+    const falResult = await generateExperienceHeroAssetViaFal({
+      compiledPrompt,
+      promptHash,
+      storagePath,
+      requirementId: req.id,
+    });
+    if (!falResult.ok) {
+      throw new Error(`Hero asset generation failed (${req.assetFamily}): ${falResult.error}`);
+    }
+
     const receipt = createGenerationReceipt({
       requirement: req,
       concept,
@@ -160,8 +189,10 @@ export async function generateNdxbookHeroAssets(): Promise<ProjectWorkspaceHeroR
       promptHash,
       deviceClass: 'DESKTOP',
     });
-
-    const storagePath = `site00/project-workspace/ndxbook/hero/${req.assetFamily.toLowerCase()}-desktop.webp`;
+    receipt.requestId = falResult.requestId;
+    receipt.provider = falResult.provider;
+    receipt.model = falResult.model;
+    receipt.costUsd = falResult.costUsd;
 
     const visualAsset = {
       assetId: `HERO-${req.id.slice(-8)}`,
@@ -214,11 +245,11 @@ export async function generateNdxbookHeroAssets(): Promise<ProjectWorkspaceHeroR
   run.generationReceipts = generationReceipts;
   run.accounting = accounting;
 
-  return store.saveProjectWorkspaceHeroRun(run);
+  return enrichProjectWorkspaceHeroRun(store.saveProjectWorkspaceHeroRun(run));
 }
 
 export async function composeNdxbookHeroFrame(): Promise<ProjectWorkspaceHeroRun> {
-  let run = await getProjectWorkspaceHeroRun('ndxbook');
+  let run = store.getProjectWorkspaceHeroRun('ndxbook');
   if (!run?.generatedAssets.length && !run?.heroSubset?.reusableAssetCount) {
     throw new Error('Generate hero assets before composition');
   }
@@ -229,12 +260,27 @@ export async function composeNdxbookHeroFrame(): Promise<ProjectWorkspaceHeroRun
     ),
   );
 
+  const storagePath = `site00/project-workspace/ndxbook/hero/ndxbook-project-home-hero-desktop.webp`;
+  const composeResult = await composeNdxbookHeroFrameViaFal({
+    storagePath,
+    workspaceConceptLabel: run.workspaceCanon.conceptLabel,
+    clientExpressionSummary: run.clientExpression.expressiveTypographyBehavior,
+    componentAssetDescriptions: run.generatedAssets.map(
+      (a) => `${a.assetId}${a.storagePath ? `: ${a.storagePath}` : ''}`,
+    ),
+  });
+
+  if (!composeResult.ok) {
+    throw new Error(`Hero composition failed: ${composeResult.error}`);
+  }
+
   const composition: NdxbookHeroFrameComposition = {
     compositionId: `hero-comp-ndxbook-${Date.now()}`,
     projectId: 'ndxbook',
     surface: 'PROJECT_HOME',
     deviceClass: 'DESKTOP',
-    storagePath: `site00/project-workspace/ndxbook/hero/ndxbook-project-home-hero-desktop.webp`,
+    storagePath: composeResult.storagePath,
+    publicUrl: composeResult.publicUrl,
     workspaceRecognizable: true,
     clientRecognizable: true,
     artworkParticipates: true,
@@ -247,14 +293,16 @@ export async function composeNdxbookHeroFrame(): Promise<ProjectWorkspaceHeroRun
 
   run.heroComposition = composition;
   run.heroGenerated = true;
+  run.accounting.falRequests += 1;
+  run.accounting.estimatedCostUsd += composeResult.costUsd;
 
-  return store.saveProjectWorkspaceHeroRun(run);
+  return enrichProjectWorkspaceHeroRun(store.saveProjectWorkspaceHeroRun(run));
 }
 
 export async function setNdxbookHeroJudgment(judgment: HeroFrameJudgment): Promise<ProjectWorkspaceHeroRun> {
-  const run = await getProjectWorkspaceHeroRun('ndxbook');
+  const run = store.getProjectWorkspaceHeroRun('ndxbook');
   if (!run) throw new Error('Hero run not found');
-  return store.saveProjectWorkspaceHeroRun({ ...run, heroJudgment: judgment });
+  return enrichProjectWorkspaceHeroRun(store.saveProjectWorkspaceHeroRun({ ...run, heroJudgment: judgment }));
 }
 
 export { resetProjectWorkspaceHeroMemory } from './memoryStore.js';

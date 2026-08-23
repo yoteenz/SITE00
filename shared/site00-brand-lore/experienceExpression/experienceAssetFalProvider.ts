@@ -283,6 +283,66 @@ export async function composeDesignProofViaFal(params: {
   return { ...result, requirementId: `compose-${params.proofId}`, generationMode };
 }
 
+export function buildNdxbookHeroFrameComposePrompt(params: {
+  workspaceConceptLabel: string;
+  clientExpressionSummary: string;
+  componentAssetDescriptions: string[];
+}): { prompt: string; negativePrompt: string; promptHash: string } {
+  const prompt = [
+    'Single complete desktop hero frame design proof for NDXBOOK project home inside SITE 00 Project Workspace.',
+    `Workspace canon: ${params.workspaceConceptLabel}`,
+    `Client expression: ${params.clientExpressionSummary}`,
+    `Hero component assets: ${params.componentAssetDescriptions.join('; ') || 'authored client artwork + environment plate'}`,
+    'ONE coherent project-home hero — active workbench + dossier structural sophistication.',
+    'Client-native expressive typography and artwork participation; not a generic SaaS dashboard.',
+    '16:9 desktop design review frame.',
+    'No wireframe, no equal card grid, no literal workshop carpentry, no literal detective case file.',
+  ].join('\n');
+
+  const negativePrompt =
+    'wireframe, placeholder, screenshot of existing page, equal cards, admin portal, literal workshop, generic dashboard, text-only layout';
+
+  const promptHash = createHash('sha256').update(prompt).digest('hex').slice(0, 16);
+  return { prompt, negativePrompt, promptHash };
+}
+
+/** Server-only — composes NDXBOOK project-home hero frame via FAL when configured. */
+export async function composeNdxbookHeroFrameViaFal(params: {
+  storagePath: string;
+  workspaceConceptLabel: string;
+  clientExpressionSummary: string;
+  componentAssetDescriptions: string[];
+}): Promise<FalGenerationResult> {
+  const { prompt, negativePrompt, promptHash } = buildNdxbookHeroFrameComposePrompt(params);
+  return runFalGeneration({
+    prompt,
+    negativePrompt,
+    promptHash,
+    storagePath: params.storagePath,
+    aspectRatio: '16:9',
+    requirementId: 'compose-ndxbook-hero',
+  });
+}
+
+/** Server-only — generates one experience hero component asset via FAL when configured. */
+export async function generateExperienceHeroAssetViaFal(params: {
+  compiledPrompt: string;
+  promptHash: string;
+  storagePath: string;
+  requirementId: string;
+}): Promise<FalGenerationResult> {
+  const negativePrompt =
+    'wireframe, placeholder, stock photo, generic admin dashboard, equal cards, literal workshop, literal case file, text-only layout';
+  return runFalGeneration({
+    prompt: params.compiledPrompt,
+    negativePrompt,
+    promptHash: params.promptHash,
+    storagePath: params.storagePath,
+    aspectRatio: '16:9',
+    requirementId: params.requirementId,
+  });
+}
+
 export function cssFallbackBlocked(): true {
   return true;
 }

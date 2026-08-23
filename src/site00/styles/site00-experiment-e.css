@@ -114,3 +114,21 @@
 .site00-experiment-e__territory-select button {
   font-size: 0.7rem;
 }
+
+.site00-pws-hero-review {
+  margin-top: 1.5rem;
+}
+
+.site00-pws-hero-review__preview {
+  margin: 1rem 0;
+}
+
+.site00-pws-hero-review__image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  background: #111;
+}
