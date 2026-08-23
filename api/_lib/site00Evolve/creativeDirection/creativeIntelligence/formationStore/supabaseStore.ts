@@ -4,6 +4,7 @@
 
 import { getSupabaseAdmin } from '../../../../supabase.js';
 import type { CoreDirectionFormationRecord } from '../types.js';
+import { resolveProjectDbIdForSupabaseFk } from '../../../../site00Projects/founderProjectDbId.js';
 
 const TABLE = 'site00_core_direction_formations';
 
@@ -85,11 +86,12 @@ function mapRow(row: Row): CoreDirectionFormationRecord {
   };
 }
 
-function toColumns(record: CoreDirectionFormationRecord): Record<string, unknown> {
+async function toColumns(record: CoreDirectionFormationRecord): Promise<Record<string, unknown>> {
   const now = new Date().toISOString();
+  const projectDbId = await resolveProjectDbIdForSupabaseFk(record.projectId);
   return {
     organization_id: record.organizationId,
-    project_id: record.projectId,
+    project_id: projectDbId,
     engagement_id: record.engagementId ?? null,
     brand_lore_profile_id: record.brandLoreProfileId,
     brand_lore_profile_version: record.brandLoreProfileVersion,
@@ -129,7 +131,7 @@ export async function saveFormationRecord(record: CoreDirectionFormationRecord):
     .maybeSingle();
   if (findErr) throw findErr;
 
-  const columns = toColumns(record);
+  const columns = await toColumns(record);
   if (existing) {
     const { data, error } = await getSupabaseAdmin()
       .from(TABLE)

@@ -10,6 +10,7 @@ import {
 } from '../../../../../shared/site00-brand-lore/experienceExpression/constants.js';
 import { NDXBOOK_ORG_ID } from '../creativeIntelligence/founderComparisonSet.js';
 import { StaleWriteConflictError } from '../../../../../shared/site00-studio-world-execution/errors.js';
+import { resolveProjectDbIdForSupabaseFk } from '../../../site00Projects/founderProjectDbId.js';
 
 const TABLE = 'site00_methodology_validation_runs';
 const MODE = 'NDX_EXPERIENCE_EXPRESSION';
@@ -48,10 +49,12 @@ export async function saveExperienceExpressionRun(
     );
   }
 
+  const projectDbId = await resolveProjectDbIdForSupabaseFk(run.projectId);
+
   const row = {
     id: EXPERIMENT_E_DB_ID,
     organization_id: run.organizationId || NDXBOOK_ORG_ID,
-    project_id: run.projectId,
+    project_id: projectDbId,
     mode: MODE,
     status: run.status,
     record: run,

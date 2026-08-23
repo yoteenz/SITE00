@@ -4,6 +4,7 @@
 
 import { getSupabaseAdmin } from '../../../../supabase.js';
 import type { BrandPersonalityReplayRecord } from '../../../../../shared/site00-brand-lore/personalityReplayTypes.js';
+import { resolveProjectDbIdForSupabaseFk } from '../../../../site00Projects/founderProjectDbId.js';
 
 const TABLE = 'site00_methodology_validation_runs';
 
@@ -15,10 +16,11 @@ export async function methodologyValidationTablesExist(): Promise<boolean> {
 export async function savePersonalityReplayRecord(
   record: BrandPersonalityReplayRecord,
 ): Promise<BrandPersonalityReplayRecord> {
+  const projectDbId = await resolveProjectDbIdForSupabaseFk(record.projectId);
   const row = {
     id: record.replayId,
     organization_id: record.organizationId,
-    project_id: record.projectId,
+    project_id: projectDbId,
     mode: record.mode,
     status: record.status,
     record: record,
