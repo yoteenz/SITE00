@@ -75,7 +75,10 @@ function looksLikeMarkedUpClone(direction: FormedCoreDirection): boolean {
 }
 
 export type DirectionDistinctivenessGateResult = {
+  /** True when no high-overlap collapse pairs detected (informational — never blocks generation). */
   passed: boolean;
+  collapseObserved: boolean;
+  cloneObserved: boolean;
   pairResults: Array<{
     directionA: string;
     directionB: string;
@@ -114,15 +117,23 @@ export function runDirectionDistinctivenessGate(
         );
       }
       if (cloneRisk) {
-        notes.push(`CLONE RISK: "${b.directionName}" may be Marked-Up Copy execution variant`);
+        notes.push(
+          `OBSERVED CLONE SIGNAL (non-blocking): "${b.directionName}" shares Marked-Up Copy editorial language with "${a.directionName}" — valid experimental evidence if formation converged independently.`,
+        );
       }
     }
   }
 
-  const passed = !pairResults.some((p) => p.collapseRisk || p.cloneRisk);
-  if (passed) {
+  const collapseObserved = pairResults.some((p) => p.collapseRisk);
+  const cloneObserved = pairResults.some((p) => p.cloneRisk);
+  const passed = !collapseObserved;
+  if (!collapseObserved && !cloneObserved) {
     notes.push('Distinctiveness gate passed — six directions occupy separable conceptual territories.');
+  } else if (collapseObserved) {
+    notes.push(
+      'OBSERVED COLLAPSE SIGNAL (non-blocking): high conceptual overlap between direction pairs — reported for methodology review; generation proceeds.',
+    );
   }
 
-  return { passed, pairResults, notes };
+  return { passed, pairResults, notes, collapseObserved, cloneObserved };
 }

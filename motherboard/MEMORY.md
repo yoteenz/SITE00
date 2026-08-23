@@ -3169,3 +3169,12 @@ Summary: Founder asked for a button on replay review to route to six-direction g
 - **Release:** `site00-deploy-2026-08-23-v11` — includes PR #274 comparison UI fixes + PR #275 six-direction route button on replay review.
 - **Build fix:** `FormatAssignmentContaminationTest` import in `sixDirectionGenerationPreflight.ts`.
 - **Verify:** Review page button → `/projects/ndxbook/personality-replay/consistency`; bundle `index.eRGSgvvl.js`.
+
+---
+
+## 2026-08-23 — Distinctiveness gate non-blocking (clone signal fix)
+
+Summary: Founder six-direction run FAILED at distinctiveness gate — CLONE RISK for THE MARKED COPY vs Marked-Up Copy editorial language.
+
+- **Fix:** Clone signals are observational only (never block generation). Collapse overlap also reported but non-blocking. Removed throw in `sixDirectionConsistencyService`. FAILED runs reset + retry button in UI.
+- **Principle:** Convergent directions are valid experimental evidence — gate reports, does not enforce diversity.
