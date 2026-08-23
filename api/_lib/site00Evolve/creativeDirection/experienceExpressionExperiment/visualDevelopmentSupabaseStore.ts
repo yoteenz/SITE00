@@ -6,9 +6,12 @@ import { getSupabaseAdmin } from '../../../supabase.js';
 import type { ProjectWorkspaceVisualDevelopmentRun } from '../../../../../shared/site00-brand-lore/experienceExpression/designProofTypes.js';
 import { NDXBOOK_ORG_ID } from '../creativeIntelligence/founderComparisonSet.js';
 import { StaleWriteConflictError } from '../../../../../shared/site00-studio-world-execution/errors.js';
+import { ensureFounderProjectDbId } from '../../../site00Projects/founderProjectDbId.js';
 
 const TABLE = 'site00_visual_development_runs';
-const DEFAULT_RUN_ID = 'ndxbook-visual-development';
+/** Must match initRun().runId in visualDevelopmentService.ts */
+const DEFAULT_RUN_ID = 'project-workspace-visual-development';
+const FOUNDER_PROJECT_SLUG = 'ndxbook';
 
 export async function visualDevelopmentTablesExist(): Promise<boolean> {
   const { error } = await getSupabaseAdmin().from(TABLE).select('id').limit(1);
@@ -44,11 +47,12 @@ export async function saveVisualDevelopmentRun(
     );
   }
 
+  const projectDbId = await ensureFounderProjectDbId(FOUNDER_PROJECT_SLUG);
   const row = {
     run_id: next.runId || DEFAULT_RUN_ID,
     organization_id: NDXBOOK_ORG_ID,
-    project_id: next.projectId,
-    project_slug: 'ndxbook',
+    project_id: projectDbId,
+    project_slug: FOUNDER_PROJECT_SLUG,
     record: next,
     version: currentVersion + 1,
     updated_at: next.compiledAt ?? new Date().toISOString(),

@@ -10,6 +10,8 @@ import type {
 } from '../../../shared/site00-visual-reference/types.js';
 import { NDXBOOK_ORG_ID } from '../site00Evolve/creativeDirection/creativeIntelligence/founderComparisonSet.js';
 import { StaleWriteConflictError } from '../../../shared/site00-studio-world-execution/errors.js';
+import { ensureFounderProjectDbId, resolveFounderProjectDbId } from '../site00Projects/founderProjectDbId.js';
+import { isFounderProjectSlug } from '../site00Projects/projectRegistry.js';
 
 const STATE_TABLE = 'site00_visual_reference_state';
 const RECORDS_TABLE = 'site00_visual_reference_records';
@@ -60,9 +62,30 @@ async function upsertState(params: {
   if (existing?.id) {
     const { error } = await getSupabaseAdmin().from(STATE_TABLE).update(row).eq('id', existing.id);
     if (error) throw new Error(error.message);
-  } else {
-    const { error } = await getSupabaseAdmin().from(STATE_TABLE).insert(row);
-    if (error) throw new Error(error.message);
+    return;
+  }
+
+  const { error } = await getSupabaseAdmin().from(STATE_TABLE).insert(row);
+  if (error?.code === '23505') {
+    const { data: retry } = await query.maybeSingle();
+    if (retry?.id) {
+      const { error: updateError } = await getSupabaseAdmin()
+        .from(STATE_TABLE)
+        .update({ ...row, version: ((retry.version as number) ?? 0) + 1 })
+        .eq('id', retry.id);
+      if (updateError) throw new Error(updateError.message);
+      return;
+    }
+  }
+  if (error) throw new Error(error.message);
+}
+
+async function resolveClientProjectDbId(projectSlug: string): Promise<string | null> {
+  if (!isFounderProjectSlug(projectSlug)) return null;
+  try {
+    return await ensureFounderProjectDbId(projectSlug);
+  } catch {
+    return await resolveFounderProjectDbId(projectSlug);
   }
 }
 
@@ -85,10 +108,11 @@ export async function getClientVisualMemory(projectId: string): Promise<ClientVi
 }
 
 export async function saveClientVisualMemory(next: ClientVisualMemory): Promise<ClientVisualMemory> {
+  const projectDbId = await resolveClientProjectDbId(next.projectId);
   await upsertState({
     scope: 'CLIENT',
     projectSlug: next.projectId,
-    projectId: next.projectId,
+    projectId: projectDbId,
     record: next,
   });
   for (const ref of next.references) {
