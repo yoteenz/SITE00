@@ -5,7 +5,7 @@ import { EmptyState } from '../components/pages/Site00PagePrimitives';
 import { ProjectPrivilegedUtilities } from '../components/access/ProjectPrivilegedUtilities';
 import { ProjectPersonalityReplayStatus } from '../components/validation/ProjectPersonalityReplayStatus';
 import { useSite00ProjectDetail } from '../hooks/useSite00Projects';
-import { SITE00_ROUTES, site00ProjectCreativeAppetitePath, site00ProjectExperimentsPath, site00ProjectPersonalityReplayPath } from '../config/routes';
+import { SITE00_ROUTES, site00ProjectCreativeAppetitePath, site00ProjectExperimentsPath, site00ProjectExperimentGPath, site00ProjectPersonalityReplayPath } from '../config/routes';
 import type { Site00FounderProjectSlug } from '../../../shared/site00-projects/types';
 import '../styles/site00-projects.css';
 
@@ -60,8 +60,12 @@ export default function ProjectDetailPage() {
                 <Link className="site00-btn site00-btn--primary site00-project-command__experiments-cta" to={site00ProjectExperimentsPath(projectSlug)}>
                   EXPERIMENTS &amp; VALIDATION HUB →
                 </Link>
+                <Link className="site00-btn site00-project-command__experiments-cta" to={site00ProjectExperimentGPath(projectSlug)}>
+                  EXPERIMENT G — BRAND PRESENTATION CONCEPTS →
+                </Link>
                 <p className="site00-project-command__experiments-note">
-                  All intake steps, Experiments A–F, experience expression, visual development, and content library in one place.
+                  All intake steps, Experiments A–G, experience expression, visual development, and content library in one place.
+                  Experiment G is the corrected six brand-presentation concepts (topic-blind) — not Experiment F.
                 </p>
               </div>
             ) : null}

@@ -4,7 +4,7 @@ import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperime
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { ExperimentFSixConceptReformationReview } from '../components/validation/ExperimentFSixConceptReformationReview';
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
-import { site00ProjectPath } from '../config/routes';
+import { site00ProjectPath, site00ProjectExperimentGPath } from '../config/routes';
 import { projectDisplayName } from '../utils/projectDisplayName';
 import type { SixConceptReformationRun } from '../../../shared/site00-brand-lore/conceptTerritoryV2/types';
 import '../styles/site00-replay-execution.css';
@@ -52,6 +52,17 @@ export default function ProjectExperimentFPage() {
             <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
           </header>
           <ProjectExperimentsHubNav projectSlug={projectSlug} />
+
+          <div className="site00-experiment-f__g-banner" role="note">
+            <p className="site00-experiment-f__g-banner-title">NEED SIX BRAND-PRESENTATION CONCEPTS?</p>
+            <p className="site00-experiment-f__g-banner-copy">
+              Experiment F below is <strong>content</strong> research (Credit Utilization topic). For the updated six{' '}
+              <strong>brand-presentation</strong> hero concepts, use Experiment G.
+            </p>
+            <Link className="site00-btn site00-btn--primary" to={site00ProjectExperimentGPath(projectSlug)}>
+              OPEN EXPERIMENT G →
+            </Link>
+          </div>
 
           {loading ? (
             <p className="site00-experiment-f__pending">LOADING…</p>
