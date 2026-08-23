@@ -230,4 +230,58 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, comparisonIndex, judgment }),
       },
     ),
+  canonicalCarouselExpansionPreflight: (slug: string) =>
+    projectsFetch<{ ok: true; preflight: Record<string, unknown> }>(
+      `/api/site00/projects?action=canonical_carousel_expansion_preflight&slug=${encodeURIComponent(slug)}`,
+    ),
+  canonicalCarouselExpansionGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=canonical_carousel_expansion_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  canonicalCarouselExpansionExecute: (
+    slug: string,
+    mode: 'INITIALIZE' | 'NEXT_SLIDE' | 'REST_OF_CAROUSEL' | 'NEXT_CAROUSEL' | 'ALL_REMAINING',
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      '/api/site00/projects?action=canonical_carousel_expansion_execute',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, mode }),
+      },
+    ),
+  canonicalCarouselExpansionSlideJudgment: (
+    slug: string,
+    comparisonIndex: number,
+    slideNumber: number,
+    judgment: 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_FOR_ME' | null,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=canonical_carousel_expansion_slide_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, comparisonIndex, slideNumber, judgment }),
+      },
+    ),
+  canonicalCarouselExpansionDirectionVerdict: (
+    slug: string,
+    comparisonIndex: number,
+    verdict:
+      | 'LOVE_THIS_DIRECTION'
+      | 'KEEP_IN_CONTENTION'
+      | 'BEAUTIFUL_BUT_TOO_NARROW'
+      | 'TOO_REPETITIVE'
+      | 'NOT_NDXBOOK'
+      | null,
+    note?: string | null,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=canonical_carousel_expansion_direction_verdict',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, comparisonIndex, verdict, note }),
+      },
+    ),
 };
