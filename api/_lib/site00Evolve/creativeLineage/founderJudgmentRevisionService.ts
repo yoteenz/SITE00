@@ -1,0 +1,373 @@
+/**
+ * Founder creative judgment + surgical revision lineage service.
+ */
+
+import { randomUUID } from 'node:crypto';
+import type { CreativeAssetRecord } from '../../../../shared/site00-brand-lore/creativeLineage/types.js';
+import {
+  applyFounderJudgmentToAsset,
+  normalizeBrandLineageFields,
+  type FounderSlideJudgment,
+} from '../../../../shared/site00-brand-lore/creativeLineage/founderJudgmentLineage.js';
+import {
+  crossBrandEligibilityForAction,
+  dispositionForAction,
+  normalizeFounderAction,
+  type BrandAssetDispositionRecord,
+  type FounderCreativeAction,
+  type FounderCreativeJudgment,
+  type FounderJudgmentHistoryEntry,
+} from '../../../../shared/site00-brand-lore/creativeLineage/founderCreativeJudgmentTypes.js';
+import type {
+  CreativeRevisionSpec,
+  RevisionBranch,
+  RevisionCategoryNotes,
+  RevisionElementKey,
+  RevisionGenerationBrief,
+  RevisionSeverity,
+} from '../../../../shared/site00-brand-lore/creativeLineage/revisionTypes.js';
+import {
+  compileCreativeRevision,
+  defaultRevisionSeverity,
+  preferredGenerationMode,
+} from '../../../../shared/site00-brand-lore/creativeLineage/revisionCompiler.js';
+import {
+  canApproveRevisionGeneration,
+  runHostFontRevisionLeakageTest,
+  runRevisionSurgicalityTest,
+  runRevisionWorldContaminationTest,
+} from '../../../../shared/site00-brand-lore/creativeLineage/revisionValidation.js';
+import { extractPreferenceEvidenceFromRevision } from '../../../../shared/site00-brand-lore/creativeLineage/preferenceEvidence.js';
+import { runJudgmentForensicAudit } from '../../../../shared/site00-brand-lore/creativeLineage/judgmentForensicAudit.js';
+import { NDXBOOK_ORG_ID } from '../creativeDirection/creativeIntelligence/founderComparisonSet.js';
+import * as assetStore from './storeAdapter.js';
+import * as judgmentStore from './founderJudgmentRevisionStoreAdapter.js';
+
+const BRAND_SLUG = 'ndxbook';
+
+function nowIso(): string {
+  return new Date().toISOString();
+}
+
+export async function recordFounderCreativeJudgment(params: {
+  assetId: string;
+  founderAction: FounderSlideJudgment;
+  judgmentReason?: string | null;
+  carouselRunGenerating?: boolean;
+}): Promise<{
+  asset: CreativeAssetRecord;
+  judgment: FounderCreativeJudgment;
+  disposition: BrandAssetDispositionRecord;
+}> {
+  const action = normalizeFounderAction(params.founderAction);
+  if (!action) throw new Error('Founder action required');
+
+  const assets = await assetStore.listCreativeAssets(BRAND_SLUG);
+  const existing = assets.find((a) => a.assetId === params.assetId);
+  if (!existing) throw new Error(`Asset not found: ${params.assetId}`);
+
+  const ts = nowIso();
+  const prior = await judgmentStore.getFounderCreativeJudgment(BRAND_SLUG, params.assetId);
+  const previousAction = prior?.founderAction ?? null;
+
+  const historyEntry: FounderJudgmentHistoryEntry = {
+    judgmentId: `judgment-event-${randomUUID()}`,
+    founderAction: action,
+    previousJudgment: previousAction,
+    judgmentReason: params.judgmentReason ?? null,
+    createdAt: ts,
+  };
+
+  const judgment: FounderCreativeJudgment = {
+    judgmentId: prior?.judgmentId ?? `judgment-${randomUUID()}`,
+    assetId: params.assetId,
+    brandSlug: BRAND_SLUG,
+    projectId: existing.projectId,
+    directionId: existing.directionLineage.directionId,
+    worldId: existing.directionLineage.worldId,
+    founderAction: action,
+    previousJudgment: previousAction,
+    judgmentReason: params.judgmentReason ?? null,
+    judgmentHistory: [...(prior?.judgmentHistory ?? []), historyEntry],
+    createdAt: prior?.createdAt ?? ts,
+    updatedAt: ts,
+  };
+
+  const disposition: BrandAssetDispositionRecord = {
+    dispositionId: `disposition-${params.assetId}`,
+    assetId: params.assetId,
+    brandSlug: BRAND_SLUG,
+    projectId: existing.projectId,
+    brandDisposition: dispositionForAction(action),
+    crossBrandReuseEligibility: crossBrandEligibilityForAction(action),
+    reason: params.judgmentReason ?? null,
+    createdAt: ts,
+    updatedAt: ts,
+  };
+
+  let updatedAsset = applyFounderJudgmentToAsset(existing, params.founderAction, ts);
+  updatedAsset = {
+    ...updatedAsset,
+    rootAssetId: updatedAsset.rootAssetId ?? updatedAsset.assetId,
+  };
+
+  if (params.carouselRunGenerating) {
+    updatedAsset.internalNotes = [
+      updatedAsset.internalNotes,
+      'Judgment recorded during active Experiment C generation — does not alter generation inputs',
+    ]
+      .filter(Boolean)
+      .join(' · ');
+  }
+
+  await judgmentStore.upsertFounderCreativeJudgment(judgment);
+  await judgmentStore.upsertBrandAssetDisposition(disposition);
+  await assetStore.upsertCreativeAsset(updatedAsset);
+
+  return { asset: updatedAsset, judgment, disposition };
+}
+
+export async function createRevisionSpecDraft(params: {
+  parentAssetId: string;
+  founderOriginalNote?: string;
+  categoryNotes?: RevisionCategoryNotes;
+  lockedElements?: RevisionElementKey[];
+  mutableElements?: RevisionElementKey[];
+  severity?: RevisionSeverity;
+  branchId?: string | null;
+}): Promise<CreativeRevisionSpec> {
+  const assets = await assetStore.listCreativeAssets(BRAND_SLUG);
+  const parent = assets.find((a) => a.assetId === params.parentAssetId);
+  if (!parent) throw new Error('Parent asset not found');
+
+  const rootAssetId = parent.rootAssetId ?? parent.assetId;
+  const existing = await judgmentStore.listCreativeRevisionSpecs({
+    brandSlug: BRAND_SLUG,
+    rootAssetId,
+  });
+  const revisionNumber = existing.length + 1;
+  const ts = nowIso();
+  const branchId = params.branchId ?? `branch-${rootAssetId}`;
+
+  const priorBranch = await judgmentStore.getRevisionBranch(branchId);
+  const branch: RevisionBranch = {
+    branchId,
+    rootAssetId,
+    brandSlug: BRAND_SLUG,
+    label: priorBranch?.label ?? `Revision branch ${revisionNumber}`,
+    revisionIds: priorBranch?.revisionIds ?? [],
+    parentBranchId: priorBranch?.parentBranchId ?? null,
+    createdAt: priorBranch?.createdAt ?? ts,
+    updatedAt: ts,
+  };
+
+  const spec: CreativeRevisionSpec = {
+    revisionId: `revision-${randomUUID()}`,
+    parentAssetId: parent.assetId,
+    rootAssetId: parent.rootAssetId ?? parent.assetId,
+    revisionNumber,
+    branchId,
+    brandSlug: BRAND_SLUG,
+    projectId: parent.projectId,
+    directionId: parent.directionLineage.directionId,
+    worldId: parent.directionLineage.worldId,
+    creativeFamilyId: parent.creativeFamilyId,
+    severity: params.severity ?? defaultRevisionSeverity(),
+    founderOriginalNote: params.founderOriginalNote ?? '',
+    categoryNotes: params.categoryNotes ?? {},
+    elementStates: {},
+    lockedElements: params.lockedElements ?? [],
+    mutableElements: params.mutableElements ?? [],
+    preserveUnspecified: true,
+    requestedAssetExchange: [],
+    requestedCopyChanges: [],
+    requestedColorChanges: [],
+    requestedTypographyChanges: [],
+    status: 'DRAFT',
+    generationMode: preferredGenerationMode(params.severity ?? defaultRevisionSeverity()),
+    generationGate: {
+      liveGenerationEnabled: false,
+      gateReason: 'GENERATION_NOT_YET_ENABLED',
+    },
+    childAssetId: null,
+    createdAt: ts,
+    updatedAt: ts,
+  };
+
+  branch.revisionIds = [...existing.map((s) => s.revisionId), spec.revisionId];
+  await judgmentStore.upsertRevisionBranch(branch);
+  await judgmentStore.upsertCreativeRevisionSpec(spec);
+
+  const updatedParent: CreativeAssetRecord = {
+    ...normalizeBrandLineageFields(parent),
+    revisionPending: true,
+    brandDisposition: 'REVISION_PENDING',
+    reviewState: 'REVISE',
+    currentRevisionId: spec.revisionId,
+    updatedAt: ts,
+  };
+  await assetStore.upsertCreativeAsset(updatedParent);
+
+  for (const ev of extractPreferenceEvidenceFromRevision(spec, BRAND_SLUG, parent.projectId)) {
+    await judgmentStore.upsertPreferenceEvidence(ev);
+  }
+
+  return spec;
+}
+
+function buildElementStates(
+  locked: RevisionElementKey[],
+  mutable: RevisionElementKey[],
+): Partial<Record<RevisionElementKey, 'LOCKED' | 'MUTABLE' | 'UNSPECIFIED'>> {
+  const states: Partial<Record<RevisionElementKey, 'LOCKED' | 'MUTABLE' | 'UNSPECIFIED'>> = {};
+  for (const key of locked) states[key] = 'LOCKED';
+  for (const key of mutable) states[key] = key in states ? states[key] : 'MUTABLE';
+  return states;
+}
+
+export async function updateCreativeRevisionSpec(params: {
+  revisionId: string;
+  founderOriginalNote?: string;
+  categoryNotes?: RevisionCategoryNotes;
+  lockedElements?: RevisionElementKey[];
+  mutableElements?: RevisionElementKey[];
+  severity?: RevisionSeverity;
+  requestedAssetExchange?: CreativeRevisionSpec['requestedAssetExchange'];
+  requestedCopyChanges?: string[];
+  requestedColorChanges?: string[];
+  requestedTypographyChanges?: string[];
+  status?: CreativeRevisionSpec['status'];
+}): Promise<CreativeRevisionSpec> {
+  const spec = await judgmentStore.getCreativeRevisionSpec(params.revisionId);
+  if (!spec) throw new Error('Revision spec not found');
+
+  const locked = params.lockedElements ?? spec.lockedElements;
+  const mutable = params.mutableElements ?? spec.mutableElements;
+  const ts = nowIso();
+
+  const updated: CreativeRevisionSpec = {
+    ...spec,
+    founderOriginalNote: params.founderOriginalNote ?? spec.founderOriginalNote,
+    categoryNotes: params.categoryNotes ?? spec.categoryNotes,
+    lockedElements: locked,
+    mutableElements: mutable,
+    elementStates: buildElementStates(locked, mutable),
+    severity: params.severity ?? spec.severity,
+    generationMode: preferredGenerationMode(params.severity ?? spec.severity),
+    requestedAssetExchange: params.requestedAssetExchange ?? spec.requestedAssetExchange,
+    requestedCopyChanges: params.requestedCopyChanges ?? spec.requestedCopyChanges,
+    requestedColorChanges: params.requestedColorChanges ?? spec.requestedColorChanges,
+    requestedTypographyChanges: params.requestedTypographyChanges ?? spec.requestedTypographyChanges,
+    status: params.status ?? spec.status,
+    updatedAt: ts,
+  };
+
+  await judgmentStore.upsertCreativeRevisionSpec(updated);
+
+  const assets = await assetStore.listCreativeAssets(BRAND_SLUG);
+  const parent = assets.find((a) => a.assetId === spec.parentAssetId);
+  if (parent) {
+    for (const ev of extractPreferenceEvidenceFromRevision(updated, BRAND_SLUG, parent.projectId)) {
+      await judgmentStore.upsertPreferenceEvidence(ev);
+    }
+  }
+
+  return updated;
+}
+
+export async function compileRevisionSpec(revisionId: string): Promise<{
+  spec: CreativeRevisionSpec;
+  brief: RevisionGenerationBrief;
+  surgicality: ReturnType<typeof runRevisionSurgicalityTest>;
+  contamination: ReturnType<typeof runRevisionWorldContaminationTest>;
+  hostFont: ReturnType<typeof runHostFontRevisionLeakageTest>;
+  generationGate: ReturnType<typeof canApproveRevisionGeneration>;
+}> {
+  const spec = await judgmentStore.getCreativeRevisionSpec(revisionId);
+  if (!spec) throw new Error('Revision spec not found');
+
+  const assets = await assetStore.listCreativeAssets(BRAND_SLUG);
+  const parent = assets.find((a) => a.assetId === spec.parentAssetId);
+  if (!parent) throw new Error('Parent asset not found');
+
+  const brief = compileCreativeRevision(spec, {
+    parentAsset: parent,
+    directionName: parent.directionLineage.directionName,
+    worldId: parent.directionLineage.worldId,
+    topicName: parent.contentLineage.topicName,
+  });
+
+  const surgicality = runRevisionSurgicalityTest({ spec, compiledBrief: brief });
+  const contamination = runRevisionWorldContaminationTest({
+    spec,
+    parentAsset: parent,
+    compiledBrief: brief,
+    originDirectionName: parent.directionLineage.directionName,
+  });
+  const hostFont = runHostFontRevisionLeakageTest(brief);
+  const generationGate = canApproveRevisionGeneration({
+    spec,
+    surgicality,
+    contamination,
+    parentAssetAvailable: Boolean(parent.generationLineage.storagePath),
+    parentPromptLineageAvailable: Boolean(parent.intelligenceLineage.promptHash),
+  });
+
+  const nextStatus: CreativeRevisionSpec['status'] =
+    surgicality.passed && contamination.passed ? 'READY_FOR_REVIEW' : spec.status;
+
+  const updated: CreativeRevisionSpec = {
+    ...spec,
+    status: nextStatus,
+    generationGate: {
+      liveGenerationEnabled: false,
+      gateReason: generationGate.gateReason,
+    },
+    updatedAt: nowIso(),
+  };
+  await judgmentStore.upsertCreativeRevisionSpec(updated);
+
+  return { spec: updated, brief, surgicality, contamination, hostFont, generationGate };
+}
+
+export async function getRevisionHistory(assetId: string): Promise<{
+  rootAssetId: string;
+  revisions: CreativeRevisionSpec[];
+  branches: RevisionBranch[];
+}> {
+  const assets = await assetStore.listCreativeAssets(BRAND_SLUG);
+  const asset = assets.find((a) => a.assetId === assetId);
+  if (!asset) throw new Error('Asset not found');
+  const rootAssetId = asset.rootAssetId ?? asset.assetId;
+  const revisions = await judgmentStore.listCreativeRevisionSpecs({ brandSlug: BRAND_SLUG, rootAssetId });
+  const branchIds = [...new Set(revisions.map((r) => r.branchId))];
+  const branches: RevisionBranch[] = [];
+  for (const branchId of branchIds) {
+    const branch = await judgmentStore.getRevisionBranch(branchId);
+    if (branch) branches.push(branch);
+  }
+  return {
+    rootAssetId,
+    revisions: revisions.sort((a, b) => a.revisionNumber - b.revisionNumber),
+    branches,
+  };
+}
+
+export async function runFounderJudgmentForensicAudit() {
+  const assets = await assetStore.listCreativeAssets(BRAND_SLUG);
+  const judgments = await judgmentStore.listFounderCreativeJudgments(BRAND_SLUG);
+  const revisionSpecs = await judgmentStore.listCreativeRevisionSpecs({ brandSlug: BRAND_SLUG });
+  return runJudgmentForensicAudit({ brandSlug: BRAND_SLUG, assets, judgments, revisionSpecs });
+}
+
+export async function attemptGenerateRevision(_revisionId: string): Promise<{
+  allowed: false;
+  reason: string;
+}> {
+  return {
+    allowed: false,
+    reason: 'GENERATION_NOT_YET_ENABLED — live revision generation gated this sprint',
+  };
+}
+
+export { NDXBOOK_ORG_ID };

@@ -32,7 +32,7 @@ function nowIso(): string {
 }
 
 function mapRangeJudgment(j: string | null | undefined): FounderSlideJudgment {
-  if (j === 'LOVE_IT' || j === 'PROMISING_REFINE') return j;
+  if (j === 'LOVE_IT' || j === 'PROMISING_REFINE' || j === 'REVISE') return j === 'PROMISING_REFINE' ? 'REVISE' : j;
   if (j === 'NOT_NDXBOOK') return 'NOT_FOR_ME';
   return null;
 }
@@ -105,9 +105,8 @@ async function syncLaunchSeedSetForAsset(asset: CreativeAssetRecord): Promise<La
 
   if (isExcluded) {
     selectedAssets = selectedAssets.filter((id) => id !== asset.assetId);
-  } else if (isProductionCandidate && !selectedAssets.includes(asset.assetId)) {
-    selectedAssets = [...selectedAssets, asset.assetId];
   }
+  // LOVE IT does NOT auto-add to launch seed set — founder selects launch contents explicitly
 
   if (selectedAssets.length === seedSet.selectedAssets.length && selectedAssets.every((id, i) => id === seedSet.selectedAssets[i])) {
     return seedSet;
@@ -286,7 +285,7 @@ export function lineageSyncMessage(asset: CreativeAssetRecord): string {
     return 'Production candidate — added to brand lineage for reuse (winner not required)';
   }
   if (asset.revisionPending) {
-    return 'Marked for revision — detailed notes and regeneration wired in a future sprint';
+    return 'Revision pending — open Revision Studio for structured surgical spec';
   }
   return 'Synced to NDXBOOK brand lineage';
 }

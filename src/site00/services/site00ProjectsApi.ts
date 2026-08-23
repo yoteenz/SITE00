@@ -254,7 +254,7 @@ export const site00ProjectsApi = {
     slug: string,
     comparisonIndex: number,
     slideNumber: number,
-    judgment: 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_FOR_ME' | null,
+    judgment: 'LOVE_IT' | 'REVISE' | 'PROMISING_REFINE' | 'NOT_FOR_ME' | null,
   ) =>
     projectsFetch<{
       ok: true;
@@ -334,5 +334,73 @@ export const site00ProjectsApi = {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ slug, ...params }),
       },
+    ),
+  founderRevisionSpecCreate: (
+    slug: string,
+    params: {
+      parentAssetId: string;
+      founderOriginalNote?: string;
+      categoryNotes?: Record<string, string>;
+      lockedElements?: string[];
+      mutableElements?: string[];
+      severity?: string;
+      branchId?: string | null;
+    },
+  ) =>
+    projectsFetch<{ ok: true; spec: import('../../../shared/site00-brand-lore/creativeLineage/revisionTypes').CreativeRevisionSpec }>(
+      '/api/site00/projects?action=founder_revision_spec_create',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, ...params }),
+      },
+    ),
+  founderRevisionSpecUpdate: (
+    slug: string,
+    params: {
+      revisionId: string;
+      founderOriginalNote?: string;
+      categoryNotes?: Record<string, string>;
+      lockedElements?: string[];
+      mutableElements?: string[];
+      severity?: string;
+      status?: string;
+    },
+  ) =>
+    projectsFetch<{ ok: true; spec: import('../../../shared/site00-brand-lore/creativeLineage/revisionTypes').CreativeRevisionSpec }>(
+      '/api/site00/projects?action=founder_revision_spec_update',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, ...params }),
+      },
+    ),
+  founderRevisionSpecCompile: (slug: string, revisionId: string) =>
+    projectsFetch<{
+      ok: true;
+      spec: import('../../../shared/site00-brand-lore/creativeLineage/revisionTypes').CreativeRevisionSpec;
+      brief: import('../../../shared/site00-brand-lore/creativeLineage/revisionTypes').RevisionGenerationBrief;
+      surgicality: { result: string; passed: boolean };
+      contamination: { result: string; passed: boolean };
+      generationGate: { approved: boolean; gateReason: string };
+    }>('/api/site00/projects?action=founder_revision_spec_compile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug, revisionId }),
+    }),
+  founderRevisionHistory: (slug: string, assetId: string) =>
+    projectsFetch<{
+      ok: true;
+      history: {
+        rootAssetId: string;
+        revisions: import('../../../shared/site00-brand-lore/creativeLineage/revisionTypes').CreativeRevisionSpec[];
+        branches: import('../../../shared/site00-brand-lore/creativeLineage/revisionTypes').RevisionBranch[];
+      };
+    }>(
+      `/api/site00/projects?action=founder_revision_history&slug=${encodeURIComponent(slug)}&assetId=${encodeURIComponent(assetId)}`,
+    ),
+  founderJudgmentForensicAudit: (slug: string) =>
+    projectsFetch<{ ok: true; report: Record<string, unknown> }>(
+      `/api/site00/projects?action=founder_judgment_forensic_audit&slug=${encodeURIComponent(slug)}`,
     ),
 };

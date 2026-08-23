@@ -3283,3 +3283,33 @@ Summary of the **whole conversation so far** in this cloud agent run.
 
 - **Founder next:** Railway redeploy API from `main`; cPanel v15 for judgment lineage UI hints + Content Library EXCLUDED filter.
 
+---
+
+## 2026-08-23 — Carousel slide 02 broken preview (ghost SUCCESS)
+
+- **Symptom:** Experiment C slide 2 preview broken on site00.com; fal.ai shows successful generation in recent history.
+- **Root cause:** Run JSONB claims `SUCCESS` + `storagePath` for slide-02, but **no blob** in Supabase `live-preview` bucket (`storage.objects` empty for slide-02; slides 03–04 exist). Likely from slide-02 API crash window — fal billed, upload never persisted. Skip guard treated phantom SUCCESS as done, blocking regen.
+- **Note:** fal screenshot "MARGIN ARGUMENT" matches slide **04** role, not slide 02 "ORIGINAL CLAIM".
+- **Fix:** `carouselSlideStorageReconciliation.ts` + `site00StorageObjectExists()` — on get/execute, clear SUCCESS slides missing storage → `TRANSPORT_FAILURE` → RUN NEXT SLIDE regenerates + uploads.
+
+---
+
+## 2026-08-23 — Founder creative judgment + surgical revision lineage sprint
+
+Summary of the **whole conversation so far** in this cloud agent run (35-phase sprint).
+
+- **Context:** Formalize LOVE IT / REVISE / NOT FOR ME as operational founder creative decisions with durable judgment history, brand-scoped disposition, Revision Studio UI, delta-based revision compiler, validation gates, and lineage infrastructure — **without** wiring live image regeneration this sprint.
+
+- **Decisions / outcomes:**
+  - `FounderCreativeJudgment` + `BrandAssetDispositionRecord` — judgment history append-only; current state on asset + disposition table.
+  - LOVE IT → `PRODUCTION_CANDIDATE`, `LOVED` disposition; **no** auto launch seed, **no** auto canon.
+  - NOT FOR ME → `REJECTED_FOR_BRAND`, `EXCLUDED` from active NDXBOOK views; storage + lineage preserved; `crossBrandPortable`.
+  - REVISE replaces PROMISING REFINE (legacy alias preserved) → opens **Revision Studio**; `CreativeRevisionSpec` with categories, lock/change, severity, asset exchange; `compileCreativeRevision()` delta brief; surgicality + contamination tests; `GENERATION_NOT_YET_ENABLED` gate.
+  - Supabase migration `20260823140000_site00_founder_judgment_revision.sql`; memory store fallback for tests.
+  - Experiment C: REVISE button + Revision Studio modal; durable judgment on slide tap; judgments during active generation do not alter generation inputs.
+  - Content Library filters: LOVED, REVISION_PENDING, REVISED, REJECTED_FOR_BRAND, CANON_REVIEW (rejected hidden from default ALL).
+
+- **Changes:** shared revision/judgment types + compiler/validation/preference evidence; `founderJudgmentRevisionService` + API routes; carousel + library UI; 42+ tests; build passes.
+
+- **Founder next:** Railway redeploy API; cPanel **v16** for Revision Studio + REVISE buttons; apply migration `20260823140000` on Supabase if not applied.
+

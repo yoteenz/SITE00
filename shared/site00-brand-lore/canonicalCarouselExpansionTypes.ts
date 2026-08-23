@@ -170,7 +170,7 @@ export type CarouselSlideGenerationReceipt = {
   generatedAt: string | null;
 };
 
-export type CarouselSlideFounderJudgment = 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_FOR_ME' | null;
+export type CarouselSlideFounderJudgment = 'LOVE_IT' | 'REVISE' | 'PROMISING_REFINE' | 'NOT_FOR_ME' | null;
 
 export type CarouselDirectionFounderVerdict =
   | 'LOVE_THIS_DIRECTION'

@@ -539,6 +539,28 @@ export async function setCarouselSlideFounderJudgment(params: {
     console.error('[carousel-lineage-sync] judgment sync failed', syncErr);
   }
 
+  if (params.judgment) {
+    const dir = saved.directions.find((d) => d.comparisonIndex === params.comparisonIndex);
+    const slide = dir?.slides.find((s) => s.slideNumber === params.slideNumber);
+    if (dir && slide) {
+      const { resolveCarouselSlideAssetId } = await import('../../creativeLineage/assetRecordBuilders.js');
+      const { recordFounderCreativeJudgment } = await import('../../creativeLineage/founderJudgmentRevisionService.js');
+      const generating =
+        saved.status !== 'COMPLETE' &&
+        saved.status !== 'FAILED' &&
+        saved.status !== 'BLOCKED_MISSING_COVERS';
+      try {
+        await recordFounderCreativeJudgment({
+          assetId: resolveCarouselSlideAssetId(dir, slide),
+          founderAction: params.judgment,
+          carouselRunGenerating: generating,
+        });
+      } catch (judgmentErr) {
+        console.error('[founder-judgment] durable record failed', judgmentErr);
+      }
+    }
+  }
+
   return { run: saved, lineage };
 }
 

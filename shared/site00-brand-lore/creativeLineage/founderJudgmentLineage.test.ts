@@ -91,7 +91,7 @@ describe('founderJudgmentLineage', () => {
   it('LOVE_IT marks production candidate without requiring winner', () => {
     const result = applyFounderJudgmentToAsset(sampleAsset(), 'LOVE_IT');
     expect(result.productionState).toBe('PRODUCTION_CANDIDATE');
-    expect(result.reuseState).toBe('REUSABLE_AS_IS');
+    expect(result.reuseState).toBe('REUSABLE_WITH_ADAPTATION');
     expect(result.brandLineageMembership).toBe('ACTIVE');
     expect(isActiveInBrandLineage(result)).toBe(true);
   });
@@ -107,10 +107,18 @@ describe('founderJudgmentLineage', () => {
     expect(result.excludedFromBrandAt).toBeTruthy();
   });
 
-  it('PROMISING_REFINE flags revision pending without retiring asset', () => {
-    const result = applyFounderJudgmentToAsset(sampleAsset(), 'PROMISING_REFINE');
+  it('REVISE flags revision pending without retiring asset', () => {
+    const result = applyFounderJudgmentToAsset(sampleAsset(), 'REVISE');
     expect(result.revisionPending).toBe(true);
+    expect(result.reviewState).toBe('REVISE');
+    expect(result.brandDisposition).toBe('REVISION_PENDING');
     expect(result.productionState).toBe('EXPERIMENTAL');
     expect(result.brandLineageMembership).toBe('ACTIVE');
+  });
+
+  it('PROMISING_REFINE legacy alias maps to REVISE', () => {
+    const result = applyFounderJudgmentToAsset(sampleAsset(), 'PROMISING_REFINE');
+    expect(result.revisionPending).toBe(true);
+    expect(result.reviewState).toBe('REVISE');
   });
 });
