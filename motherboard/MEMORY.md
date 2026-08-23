@@ -2981,8 +2981,6 @@ Summary: Closed remaining production-path gaps before NDXBOOK blind personality 
 - **Wired:** Core Direction (`anthropicProvider`), DES, Identity Art Direction, Hero concept (`primaryProofFormat`), Identity visual brief, GPT Image 2 prompt normalization, board compositor NDXBOOK labels
 - **Tests:** 12 new in `productionPromptNormalization.test.ts`; 955 total passing. Build green.
 - **Branch:** `cursor/production-prompt-normalization-4f59`.
-<<<<<<< Updated upstream
-=======
 
 ---
 
@@ -2993,4 +2991,14 @@ Summary: Founder completed personality intake but review showed **NO ANSWERS YET
 - **Root cause:** `ProjectPersonalityReplayPage` and `PersonalityReplayIntakeStep` each called `usePersonalityReplayIntake()` separately — parent review shell kept empty bootstrap state while child step form held answers. Server reload could also overwrite local answers with empty server payload.
 - **Fix:** `PersonalityReplayIntakeProvider` shared context; atomic `advanceStep()` save; merge local+server answers on reload; preserve local cache on reload failure; single bootstrap guard per slug.
 - **Branch:** `cursor/personality-replay-review-fix-4f59`.
->>>>>>> Stashed changes
+
+---
+
+## 2026-08-23 — Personality replay SAVE FAILED · LOAD FAILED on site00.com
+
+Summary: Founder on production **site00.com** saw **SAVE FAILED · LOAD FAILED** on NDXBOOK personality intake step 10/15 after selecting an answer.
+
+- **Root cause:** `site00ProjectsApi` POST calls pass `body: JSON.stringify(...)` into `apiFetch`, which JSON-stringified again. Express body parser rejected the double-encoded payload with HTTP 500 **without CORS headers**. Mobile Safari blocked the opaque cross-origin error → fetch rejected with **"Load failed"** (shown as save error). GET bootstrap worked; every POST save failed.
+- **Fix:** `serializeApiFetchBody()` in `src/utils/api.ts` — pass through string bodies; global API CORS middleware in `server/index.ts` so parse/error responses still include `Access-Control-Allow-Origin`.
+- **Deploy:** Frontend fix requires new cPanel ZIP; API CORS fix requires Railway redeploy.
+- **Branch:** `cursor/personality-replay-save-cors-fix-4f59`.
