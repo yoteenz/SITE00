@@ -104,6 +104,12 @@ import {
 } from '../_lib/site00Evolve/creativeLineage/founderJudgmentRevisionService.js';
 import type { CarouselExecuteMode } from '../../shared/site00-brand-lore/canonicalCarouselExpansionTypes.js';
 import type { CreativeLineageLibraryFilters } from '../../shared/site00-brand-lore/creativeLineage/types.js';
+import type { ProjectExperienceClass } from '../../shared/site00-world-intake/constants.js';
+import {
+  compileProjectIntelligenceManifest,
+  getProjectIntelligenceState,
+  resolveExperienceClassForProject,
+} from '../_lib/site00ProjectIntelligence/projectIntelligenceService.js';
 
 function setCors(res: VercelResponse): void {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -1651,6 +1657,63 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const result = await reconcileNdxbookLaunchSeedSemantics();
         return json(res, 200, { ok: true, ...result, source: 'site00_creative_lineage' });
+      }
+      case 'project_intelligence_manifest_get': {
+        const slug = String(req.query.slug ?? '');
+        if (!slug) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'SLUG_REQUIRED', message: 'slug required' },
+          });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const state = getProjectIntelligenceState(slug);
+        return json(res, 200, {
+          ok: true,
+          ...state,
+          readiness: state.readiness ?? 'PROJECT_INTELLIGENCE_NOT_STARTED',
+          formationGate: state.formationGate ?? { allowed: false, reason: 'Manifest not compiled' },
+          source: 'site00_project_intelligence',
+        });
+      }
+      case 'project_intelligence_manifest_compile': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!slug) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'SLUG_REQUIRED', message: 'slug required' },
+          });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const detail = await resolveSite00Project(slug);
+        if (!detail) {
+          return json(res, 404, { ok: false, error: { code: 'PROJECT_NOT_FOUND', message: 'Project not found' } });
+        }
+        const experienceClass = resolveExperienceClassForProject({
+          projectSlug: slug,
+          override: (body.experienceClass as ProjectExperienceClass | undefined) ?? null,
+        });
+        const { manifest, readiness } = await compileProjectIntelligenceManifest({
+          projectId: detail.organizationUuid,
+          projectSlug: slug,
+          experienceClass,
+        });
+        const formationGate = getProjectIntelligenceState(slug).formationGate;
+        return json(res, 200, {
+          ok: true,
+          manifest,
+          readiness,
+          formationGate,
+          source: 'site00_project_intelligence',
+        });
       }
       default:
         return json(res, 400, {
