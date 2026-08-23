@@ -105,8 +105,8 @@ export function compileIdentityNativeV2VisualBrief(params: {
   ];
 
   const typographyRolesBlock = typographyRolesCondensedPromptBlock(params.creativeExpression.typographyRoles);
-  const martianBlock = params.heroConcept.martianMonoApplication.map(
-    (m) => `MARTIAN MONO METADATA: ${m}`,
+  const systemMetadataBlock = params.heroConcept.martianMonoApplication.map(
+    (m) => `SYSTEM/METADATA VOICE: ${m}`,
   );
 
   const compiledPrompt = [
@@ -121,7 +121,7 @@ export function compileIdentityNativeV2VisualBrief(params: {
     '=== TYPOGRAPHY ROLES V2 ===',
     ...typographyRolesBlock,
     `- DOMINANT TYPE: ${params.heroConcept.dominantTypeBehavior}`,
-    ...martianBlock,
+    ...systemMetadataBlock,
     '',
     '=== HERO CREATIVE CONCEPT (specific artifact — authored copy, not generic demo) ===',
     ...heroConceptBlock,
@@ -130,7 +130,7 @@ export function compileIdentityNativeV2VisualBrief(params: {
     '- Artifact must feel AUTHORED, OPINIONATED, WITTY — not an identity-system demonstration',
     '- Wit emerges from claim → disagreement → correction → margin structure',
     '- ONE dominant event, 2-3 supporting discoveries, ONE quiet zone, ONE surprising detail',
-    '- Martian Mono ONLY for system/metadata/evidence voice — NOT all text',
+    '- SYSTEM/METADATA voice ONLY for evidence/indexing — NOT all text — font derived from direction',
     '- Do NOT add clutter, stickers, or decorative scribbles for "artistic flair"',
     '- Signal lime remains SINGLE decisive intervention moment',
     '- Typography may touch edges, be interrupted, partially hidden — with editorial reason',
@@ -145,7 +145,7 @@ export function compileIdentityNativeV2VisualBrief(params: {
     heroConceptId: params.heroConcept.conceptId,
     creativeExpressionBlock,
     heroConceptBlock,
-    typographyRolesBlock: [...typographyRolesBlock, ...martianBlock],
+    typographyRolesBlock: [...typographyRolesBlock, ...systemMetadataBlock],
     copyQualityScores: params.copyQualityScores,
     typographicArchitecture: [
       ...base.typographicArchitecture,
@@ -166,6 +166,11 @@ export function v2BriefIncludesMartianMono(brief: IdentityNativeV2VisualBrief): 
     brief.compiledPrompt.includes('MARTIAN MONO') ||
     brief.typographyRolesBlock.some((t) => t.toLowerCase().includes('martian'))
   );
+}
+
+/** Production/replay briefs must NOT include SITE 00 host font references */
+export function v2BriefExcludesHostTypography(brief: IdentityNativeV2VisualBrief): boolean {
+  return !v2BriefIncludesMartianMono(brief);
 }
 
 export { identityBriefPromptPrecedesTopic, identityBriefAvoidsPhotographOf };

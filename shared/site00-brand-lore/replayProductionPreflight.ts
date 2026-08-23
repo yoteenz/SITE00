@@ -11,6 +11,15 @@ import { buildDeterministicIdentityArtDirection } from '../../api/_lib/site00Evo
 import { briefToGptImage2Input } from '../../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/gptImage2VisualProviderAdapter.js';
 import { runDefaultHardcodingAudit } from './personalityReplayHardcodingAudit.js';
 import { assertReplayFormationInputAllowed } from './personalityReplayLeakage.js';
+import {
+  buildReplayClientTypographyState,
+  runHostFontLeakageTest,
+  runSite00VisualDnaLeakageTest,
+  runClientTypographyProvenanceTest,
+  runFontAvailabilityIsNotCanonTest,
+  runHistoricalOutputIsNotCanonTest,
+  assertNoHostFontInPayload,
+} from './typographyProvenance.js';
 import type { BrandLoreProfile } from './types.js';
 
 export type ReplayProductionPreflightReport = {
@@ -33,6 +42,12 @@ export type ReplayProductionPreflightReport = {
   formatLineageContinuous: boolean;
   benchmarkIsolationIntact: boolean;
   hardcodingAuditPassed: boolean;
+  hostUiTypographySeparated: boolean;
+  clientTypographyProvenanceValid: boolean;
+  hostFontLeakagePassed: boolean;
+  typographyInitiallyUnresolved: boolean;
+  typographyDerivationEnabled: boolean;
+  benchmarkTypographyExcluded: boolean;
   personalityReplayInfrastructureReady: boolean;
   personalityReplayProductionReady: boolean;
   violations: string[];
@@ -159,6 +174,26 @@ export function buildReplayProductionPreflightReport(orgSlug = 'ndxbook'): Repla
 
   const hardcodingAudit = runDefaultHardcodingAudit();
 
+  const typographyState = buildReplayClientTypographyState(orgSlug);
+  const hostUiTypographySeparated =
+    typographyState.hostTypographyExcluded && typographyState.invariant.includes('HOST_UI');
+  const clientTypographyProvenanceValid = runClientTypographyProvenanceTest(typographyState);
+  const hostFontLeakagePassed =
+    runHostFontLeakageTest(corePayload) &&
+    runHostFontLeakageTest(desPayload) &&
+    runHostFontLeakageTest(iadPayload) &&
+    runHostFontLeakageTest(heroPayload) &&
+    runHostFontLeakageTest(gptInput);
+  const typographyInitiallyUnresolved = typographyState.clientTypographyUnresolved;
+  const typographyDerivationEnabled = typographyState.typographyDerivationEnabled;
+  const benchmarkTypographyExcluded = typographyState.benchmarkTypographyExcluded;
+  const site00DnaLeakagePassed = runSite00VisualDnaLeakageTest(corePayload);
+  const fontAvailabilityNotCanon = runFontAvailabilityIsNotCanonTest();
+  const historicalIsolation = runHistoricalOutputIsNotCanonTest(
+    'Martian Mono footer: STATUS REVISED — historical V2 pilot output',
+    corePayload,
+  );
+
   if (!coreDirectionPromptNormalized) violations.push('Core Direction prompt normalization incomplete');
   if (!desPromptNormalized) violations.push('DES prompt normalization incomplete');
   if (!identityArtDirectionPromptNormalized) violations.push('Identity Art Direction prompt normalization incomplete');
@@ -168,6 +203,17 @@ export function buildReplayProductionPreflightReport(orgSlug = 'ndxbook'): Repla
   if (!boardProof.pass) violations.push(...boardProof.violations);
   if (!guard.allowed) violations.push(...guard.violations);
   if (!hardcodingAudit.passed) violations.push('Hardcoding audit failed');
+  if (!hostUiTypographySeparated) violations.push('Host UI typography not separated from client canon');
+  if (!clientTypographyProvenanceValid) violations.push('Client typography provenance invalid');
+  if (!hostFontLeakagePassed) violations.push('Host font leakage detected in production payloads');
+  if (!typographyInitiallyUnresolved) violations.push('Typography must begin UNRESOLVED at replay start');
+  if (!typographyDerivationEnabled) violations.push('Typography derivation not enabled');
+  if (!benchmarkTypographyExcluded) violations.push('Benchmark typography not excluded');
+  if (!site00DnaLeakagePassed) violations.push('SITE 00 visual DNA leakage in Core Direction payload');
+  if (!fontAvailabilityNotCanon) violations.push('Font availability incorrectly treated as client canon');
+  if (!historicalIsolation) violations.push('Historical typography leaking into replay input');
+  const brandTypographyLeak = assertNoHostFontInPayload(ctx.brandPromptTypographyBlock);
+  if (!brandTypographyLeak.passed) violations.push(...brandTypographyLeak.violations.map((v) => `Brand typography: ${v}`));
 
   const personalityReplayInfrastructureReady = true;
   const allGates =
@@ -181,7 +227,17 @@ export function buildReplayProductionPreflightReport(orgSlug = 'ndxbook'): Repla
     gptImagePromptNormalized &&
     boardProof.pass &&
     guard.allowed &&
-    hardcodingAudit.passed;
+    hardcodingAudit.passed &&
+    hostUiTypographySeparated &&
+    clientTypographyProvenanceValid &&
+    hostFontLeakagePassed &&
+    typographyInitiallyUnresolved &&
+    typographyDerivationEnabled &&
+    benchmarkTypographyExcluded &&
+    site00DnaLeakagePassed &&
+    fontAvailabilityNotCanon &&
+    historicalIsolation &&
+    brandTypographyLeak.passed;
 
   return {
     evaluatedAt: new Date().toISOString(),
@@ -203,6 +259,12 @@ export function buildReplayProductionPreflightReport(orgSlug = 'ndxbook'): Repla
     formatLineageContinuous: ctx.formatLineage.length > 0,
     benchmarkIsolationIntact: guard.allowed,
     hardcodingAuditPassed: hardcodingAudit.passed,
+    hostUiTypographySeparated,
+    clientTypographyProvenanceValid,
+    hostFontLeakagePassed,
+    typographyInitiallyUnresolved,
+    typographyDerivationEnabled,
+    benchmarkTypographyExcluded,
     personalityReplayInfrastructureReady,
     personalityReplayProductionReady: allGates,
     violations,

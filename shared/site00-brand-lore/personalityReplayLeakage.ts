@@ -18,6 +18,10 @@ export const FORBIDDEN_FORMATION_DIRECTION_NAMES = [
 export const FORBIDDEN_REPLAY_INPUT_KEYS = [
   'benchmarkHeroImage',
   'benchmarkHeroPrompt',
+  'benchmarkHeroTypography',
+  'canonicalHeroTypography',
+  'historicalPilotTypography',
+  'martianMonoTypographyRoles',
   'canonicalIdentityNativeArtDirection',
   'canonicalCreativeExpressionSystem',
   'canonicalHeroCreativeConcept',

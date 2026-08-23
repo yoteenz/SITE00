@@ -18,7 +18,7 @@ import {
   type CreativeExpressionSystem,
   type HeroCreativeConcept,
 } from './creativeExpressionTypes.js';
-import { inspectMartianMonoAvailability, typographyRolesPromptBlock } from './martianMonoTypography.js';
+import { buildClientTypographyRolesForProduction, typographyRolesPromptBlock } from './martianMonoTypography.js';
 import { buildPersonalityLineageFromProfile } from '../../../../../shared/site00-brand-lore/personalityLineage.js';
 import { buildFormatLineage } from '../../../../../shared/site00-brand-lore/formatLineage.js';
 import {
@@ -44,7 +44,9 @@ Translate upstream Brand Personality — do NOT invent personality ex nihilo. pe
 Wit is NOT: comedy, memes, forced slang, excessive snark, trendy internet language.
 Wit IS: someone intelligent noticed what everyone else ignored and wrote in the margin.
 
-Martian Mono = THE BOOK AS A SYSTEM (metadata, evidence, issue IDs, receipts). NOT decoration. NOT every text element.
+Typography must be DERIVED from Brand Lore + Personality + Core Direction — NOT inherited from SITE 00 host UI fonts.
+Separate TYPOGRAPHIC BEHAVIOR (casing) from FONT SELECTION (unresolved until Identity Art Direction).
+Multi-voice architecture: DISPLAY, SYSTEM/EVIDENCE, REVISION, MARGIN, MICRO — derive specific typefaces from direction.
 
 Return JSON only:
 {
@@ -71,7 +73,8 @@ Identity + Creative Expression are LOCKED. Create the specific creative concept 
 
 Topic (credit utilization) is TEST CONTENT subordinate to identity and personality.
 
-Martian Mono documents the system (metadata/evidence). Display voice makes argument. Revision challenges. Margin reacts.
+SYSTEM/EVIDENCE voice documents metadata (issue IDs, receipts). Display voice makes argument. Revision challenges. Margin reacts.
+Derive typography font families from creative direction — do NOT use SITE 00 host UI fonts (e.g. Martian Mono).
 
 Return JSON only:
 {
@@ -85,7 +88,7 @@ Return JSON only:
   "evidenceDevice": "string — chart/table/receipt that proves the margin",
   "visualPunchline": "string — the clever visual/copy relationship",
   "dominantTypeBehavior": "string",
-  "martianMonoApplication": ["string — exact metadata labels in Martian Mono character"],
+  "martianMonoApplication": ["string — exact metadata labels in SYSTEM/EVIDENCE voice (font derived from direction)"],
   "graphicInterventions": [{ "device": "STRIKE|CARET|etc", "semanticPurpose": "string" }],
   "intentionalGridBreak": "string — ONE chosen grid violation with meaning",
   "quietZone": "string",
@@ -94,7 +97,7 @@ Return JSON only:
 }`;
 
 const FOUNDER_V1_CRITIQUE = [
-  'Typography needs refinement — Martian Mono must enter typographic DNA',
+  'Typography needs refinement — derive typographic DNA from direction, not SITE 00 host UI',
   'Copy needs more wit and personality — should feel authored by NDX BOOK not generated to demonstrate a concept',
   'Markups need more semantic cleverness not decorative scribbles',
   'Composition needs additional artistic flare via juxtaposition/scale/tension not clutter',
@@ -108,7 +111,7 @@ function arr(v: unknown): string[] {
 
 export function buildDeterministicCreativeExpression(params: {
   artDirection: IdentityNativeArtDirection;
-  typographyRoles: ReturnType<typeof inspectMartianMonoAvailability>;
+  typographyRoles: ReturnType<typeof buildClientTypographyRolesForProduction>;
   upstreamPersonality?: BrandPersonalityProfile | null;
   expressionContext?: BrandExpressionContext;
 }): CreativeExpressionSystem {
@@ -135,7 +138,7 @@ export function buildDeterministicCreativeExpression(params: {
       'Delayed payoff in footnote or micro label',
     ],
     headlineBehavior: ['Display claim at architectural scale', 'Claim overstates certainty then gets corrected'],
-    microcopyBehavior: ['Martian Mono metadata rewards close read', 'Issue IDs and dates imply recent argument change'],
+    microcopyBehavior: ['System/metadata voice rewards close read', 'Issue IDs and dates imply recent argument change'],
     annotationVoice: ['Prior reader knows something clean copy does not', 'Reactive not decorative'],
     typographyPersonality: typographyRolesPromptBlock(params.typographyRoles),
     compositionPersonality: [
@@ -176,10 +179,10 @@ export function buildDeterministicHeroConcept(topic: string, expressionContext: 
     revisionMove: 'Strike "locked" and "ninety-two" — the number moved twice this quarter',
     replacementMove: 'Tape insert: "Utilization shifts. The question is whether you noticed."',
     marginCounterpoint: 'HOW IS 92% STILL THE HEADLINE IF IT WAS 78% IN MARCH? SHOW THE RECEIPTS.',
-    microcopyDiscovery: 'Martian Mono footer: STATUS REVISED 05.12 · PRIOR READER 7B · NOT FINAL',
+    microcopyDiscovery: 'Footer metadata: STATUS REVISED 05.12 · PRIOR READER 7B · NOT FINAL',
     evidenceDevice: 'Small utilization table with circled 78%→92% shift — margin arrow points to Q1 row',
     visualPunchline: 'Enormous certainty crossed out by tiny dated evidence',
-    dominantTypeBehavior: 'Display serif claim ~45% height; Martian Mono metadata absurdly small beside it',
+    dominantTypeBehavior: 'Display serif claim ~45% height; system/metadata voice absurdly small beside it',
     martianMonoApplication: [
       'VOL.04 · DRAFT 7B · WORKING PROOF',
       'FILE: UTIL-RECPT-0412 · PAGE 03 · REV 2',
@@ -195,7 +198,7 @@ export function buildDeterministicHeroConcept(topic: string, expressionContext: 
     readingSequence: [
       'FIRST READ: oversized struck claim dominates',
       'SECOND READ: lime replacement + red strike sequence',
-      'THIRD READ: tiny Martian Mono date/status proves argument changed recently',
+      'THIRD READ: tiny date/status metadata proves argument changed recently',
     ],
     restraintDecision: 'No extra arrows, stickers, or decorative scribbles — three semantic marks only',
     primaryProofFormat,
@@ -205,7 +208,7 @@ export function buildDeterministicHeroConcept(topic: string, expressionContext: 
 export function parseCreativeExpressionResponse(params: {
   text: string;
   artDirection: IdentityNativeArtDirection;
-  typographyRoles: ReturnType<typeof inspectMartianMonoAvailability>;
+  typographyRoles: ReturnType<typeof buildClientTypographyRolesForProduction>;
   provider: string;
   model: string;
   upstreamPersonality?: BrandPersonalityProfile | null;
@@ -294,7 +297,7 @@ export async function runCreativeExpressionDirector(params: {
   heroConcept: HeroCreativeConcept;
   anthropicRequests: number;
 }> {
-  const typographyRoles = inspectMartianMonoAvailability();
+  const typographyRoles = buildClientTypographyRolesForProduction();
   const context = params.expressionContext ?? 'SOCIAL_FIRST_EDITORIAL';
   const formatProfile = deriveFormatNativeExpressionProfile({
     context,

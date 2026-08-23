@@ -123,10 +123,13 @@ export function brandPromptTypographyBlock(brandSlug: string): string {
   const lines = [
     `BRAND DISPLAY NAME (exact): ${ctx.displayName}`,
     `BRAND NAME IS ONE WORD: ${ctx.displayName}`,
+    'TYPOGRAPHY IDENTITY STATUS: UNRESOLVED — derive font architecture from upstream brand intelligence.',
+    'HOST_UI typography cannot automatically become CLIENT_BRAND typography.',
   ];
   if (ctx.visibleCopyUppercase) {
-    lines.push('ALL NDXBOOK-BRANDED VISIBLE DISPLAY TYPOGRAPHY MUST READ AS UPPERCASE.');
-    lines.push('MARTIAN MONO SYSTEM/METADATA VOICE: UPPERCASE.');
+    lines.push(`ALL ${ctx.displayName}-BRANDED VISIBLE DISPLAY TYPOGRAPHY MUST READ AS UPPERCASE.`);
+    lines.push('TYPOGRAPHIC BEHAVIOR — HEADLINE/METADATA CASE: UPPERCASE.');
+    lines.push('UPPERCASE IS A CASING RULE — NOT A FONT-FAMILY DECISION.');
   }
   if (ctx.suppressVisibleBrandNameInImage) {
     lines.push('IF BRAND NAME NOT REQUIRED IN RAW IMAGE: NO BRAND NAME / NO LOGO — code-native layer owns wordmark.');
