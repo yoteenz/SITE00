@@ -157,9 +157,19 @@ export const site00ProjectsApi = {
       body: JSON.stringify({ slug, replayId, ...payload }),
     }),
   personalityReplayComplete: (slug: string, replayId: string) =>
-    projectsFetch<{ ok: true; replay: { status: string } }>('/api/site00/projects?action=personality_replay_complete', {
+    projectsFetch<{ ok: true; replay: Record<string, unknown> }>('/api/site00/projects?action=personality_replay_complete', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ slug, replayId }),
     }),
+  personalityReplayExecute: (slug: string, replayId: string) =>
+    projectsFetch<{ ok: true; replay: Record<string, unknown> }>('/api/site00/projects?action=personality_replay_execute', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug, replayId }),
+    }),
+  personalityReplayDiagnostic: (slug: string, replayId: string) =>
+    projectsFetch<{ ok: true; diagnostic: Record<string, unknown> }>(
+      `/api/site00/projects?action=personality_replay_diagnostic&slug=${encodeURIComponent(slug)}&replayId=${encodeURIComponent(replayId)}`,
+    ),
 };

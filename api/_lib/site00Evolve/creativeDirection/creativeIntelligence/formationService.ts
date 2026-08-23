@@ -109,13 +109,14 @@ async function buildInputForProfile(
   profile: BrandLoreProfile,
   orgSlug: string,
   formationVersion: number,
+  includeLegacyExplorations = true,
 ): Promise<CoreDirectionFormationInput> {
   const intel = await loadCanonicalIntelligence(orgSlug);
   return buildCoreDirectionFormationInput({
     profile,
     formationVersion,
     contentBrainSections: intel.sections,
-    includeLegacyExplorations: true,
+    includeLegacyExplorations,
     orgSlug,
   });
 }
@@ -169,6 +170,8 @@ export type RunCoreDirectionFormationParams = {
   forceReform?: boolean;
   engagementId?: string | null;
   retryFailed?: boolean;
+  /** Shadow replay must pass false to exclude legacy direction names. */
+  includeLegacyExplorations?: boolean;
 };
 
 export type RunCoreDirectionFormationResult = {
@@ -191,7 +194,12 @@ export async function runCoreDirectionFormation(
   params: RunCoreDirectionFormationParams,
 ): Promise<RunCoreDirectionFormationResult> {
   const formationVersion = params.formationVersion ?? 1;
-  const input = await buildInputForProfile(params.profile, params.orgSlug, formationVersion);
+  const input = await buildInputForProfile(
+    params.profile,
+    params.orgSlug,
+    formationVersion,
+    params.includeLegacyExplorations ?? true,
+  );
   const inputErrors = validateFormationInput(input);
   if (inputErrors.length) {
     throw new Error(`Invalid formation input: ${inputErrors.join(', ')}`);

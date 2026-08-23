@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { EmptyState } from '../components/pages/Site00PagePrimitives';
 import { ProjectPrivilegedUtilities } from '../components/access/ProjectPrivilegedUtilities';
+import { ProjectPersonalityReplayStatus } from '../components/validation/ProjectPersonalityReplayStatus';
 import { useSite00ProjectDetail } from '../hooks/useSite00Projects';
 import { SITE00_ROUTES, site00ProjectPersonalityReplayPath } from '../config/routes';
 import type { Site00FounderProjectSlug } from '../../../shared/site00-projects/types';
@@ -109,12 +110,15 @@ export default function ProjectDetailPage() {
                     REVIEW CREATIVE DIRECTION →
                   </Link>
                   {projectSlug === 'ndxbook' ? (
-                    <Link
-                      className="site00-btn site00-project-command__cta site00-project-command__cta--secondary"
-                      to={site00ProjectPersonalityReplayPath(projectSlug)}
-                    >
-                      HOW YOU SHOW UP — PERSONALITY INTAKE →
-                    </Link>
+                    <>
+                      <Link
+                        className="site00-btn site00-project-command__cta site00-project-command__cta--secondary"
+                        to={site00ProjectPersonalityReplayPath(projectSlug)}
+                      >
+                        HOW YOU SHOW UP — PERSONALITY INTAKE →
+                      </Link>
+                      <ProjectPersonalityReplayStatus projectSlug={projectSlug} />
+                    </>
                   ) : null}
                 </Section>
               ) : null}

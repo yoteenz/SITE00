@@ -19,6 +19,8 @@ import {
   completeReplayPersonalityIntake,
   resolvePersonalityReplayResumeStepId,
   getPersonalityReplay,
+  executePersonalityReplayDownstream,
+  getReplayExecutionDiagnosticForId,
 } from '../_lib/site00Evolve/creativeDirection/personalityReplay/replayService.js';
 
 function setCors(res: VercelResponse): void {
@@ -416,6 +418,78 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               error: { code: 'REPLAY_NOT_FOUND', message: 'Replay not found' },
               source: 'site00_personality_replay',
             });
+      }
+      case 'personality_replay_diagnostic': {
+        const slug = String(req.query.slug ?? '');
+        const replayId = String(req.query.replayId ?? '');
+        if (slug !== 'ndxbook' || !replayId) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'ndxbook slug and replayId required' },
+            source: 'site00_personality_replay',
+          });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, {
+            ok: false,
+            error: { code: 'PROJECT_ACCESS_DENIED', message: 'Project access denied' },
+            source: 'site00_personality_replay',
+          });
+        }
+        const diagnostic = await getReplayExecutionDiagnosticForId(replayId);
+        return diagnostic
+          ? json(res, 200, { ok: true, diagnostic, source: 'site00_personality_replay' })
+          : json(res, 404, {
+              ok: false,
+              error: { code: 'REPLAY_NOT_FOUND', message: 'Replay not found' },
+              source: 'site00_personality_replay',
+            });
+      }
+      case 'personality_replay_execute': {
+        if (req.method !== 'POST') {
+          return json(res, 405, {
+            ok: false,
+            error: { code: 'POST_REQUIRED', message: 'POST required' },
+            source: 'site00_personality_replay',
+          });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? req.query.slug ?? '');
+        const replayId = String(body.replayId ?? '');
+        if (slug !== 'ndxbook' || !replayId) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'ndxbook slug and replayId required' },
+            source: 'site00_personality_replay',
+          });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, {
+            ok: false,
+            error: { code: 'PROJECT_ACCESS_DENIED', message: 'Project access denied' },
+            source: 'site00_personality_replay',
+          });
+        }
+        const existing = await getPersonalityReplay(replayId);
+        if (!existing) {
+          return json(res, 404, {
+            ok: false,
+            error: { code: 'REPLAY_NOT_FOUND', message: 'Replay not found' },
+            source: 'site00_personality_replay',
+          });
+        }
+        if (existing.status === 'COMPARISON_READY' || existing.comparisonReport) {
+          return json(res, 200, { ok: true, replay: existing, source: 'site00_personality_replay' });
+        }
+        if (process.env.VITEST === 'true') {
+          const replay = await executePersonalityReplayDownstream(replayId);
+          return json(res, 200, { ok: true, replay, source: 'site00_personality_replay' });
+        }
+        void executePersonalityReplayDownstream(replayId).catch((err) => {
+          console.error('[personality-replay] resume execution failed', err);
+        });
+        const replay = await getPersonalityReplay(replayId);
+        return json(res, 202, { ok: true, replay, source: 'site00_personality_replay' });
       }
       default:
         return json(res, 400, {
