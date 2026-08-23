@@ -138,7 +138,7 @@ describe('comparisonProofPromptCompiler', () => {
       directionId: 'dir-1',
       proofType: 'heroWorld',
       promptHash: 'abc123',
-      model: 'fal-ai/nano-banana-pro',
+      model: 'openai/gpt-image-2',
       referenceHash: 'ref1',
     });
     expect(key).toContain('dir-1');

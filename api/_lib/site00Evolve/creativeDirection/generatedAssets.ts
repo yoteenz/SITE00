@@ -14,7 +14,7 @@
 import type { SpecimenImageAsset, TerritorySpecimenType } from './types.js';
 
 const BASE = '/site00/creative-direction/ndxbook';
-const MODEL = 'fal-ai/nano-banana-pro';
+const MODEL = 'openai/gpt-image-2';
 
 type RegistryKey = `${'editorial_utility' | 'index_signal' | 'kinetic_field'}:${TerritorySpecimenType}`;
 

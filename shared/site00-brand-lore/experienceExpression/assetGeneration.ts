@@ -19,6 +19,7 @@ import type { ExperienceSurfaceType } from './constants.js';
 import type { DeviceClass } from './constants.js';
 import { EXPERIENCE_VISUAL_COST_ESTIMATE_USD } from './constants.js';
 import { literalWorkshopImageryBlocked } from './assetDirection.js';
+import { SITE00_FAL_TEXT_TO_IMAGE_MODEL } from '../../site00-visual-generation/falImageModels.js';
 
 export type ExperienceAssetGenerationReceipt = {
   receiptId: string;
@@ -124,8 +125,8 @@ export function createGenerationReceipt(params: {
     experienceBibleId: params.bible.experienceBibleId,
     surfaceId: params.requirement.surfaceId,
     assetFamily: params.requirement.assetFamily,
-    provider: isVitest ? 'vitest-mock' : 'fal-ai/nano-banana-pro',
-    model: isVitest ? 'vitest-mock' : 'fal-ai/nano-banana-pro',
+    provider: isVitest ? 'vitest-mock' : 'fal',
+    model: isVitest ? 'vitest-mock' : SITE00_FAL_TEXT_TO_IMAGE_MODEL,
     requestId: null,
     promptHash: params.promptHash,
     costUsd: isVitest ? 0 : EXPERIENCE_VISUAL_COST_ESTIMATE_USD,

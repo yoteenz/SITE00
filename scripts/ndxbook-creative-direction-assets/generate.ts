@@ -3,7 +3,7 @@
  *
  * One-off production script. Reads the curated priority briefs from
  * api/_lib/site00Evolve/creativeDirection/visualAssetStrategy.ts, generates each via
- * fal-ai/nano-banana-pro, downloads the raw PNG to /tmp for inspection, then for any
+ * openai/gpt-image-2 via FAL, downloads the raw PNG to /tmp for inspection, then for any
  * brief declared REMOVE_BACKGROUND runs fal-ai/birefnet/v2 and writes the isolated
  * PNG alongside it. Nothing is copied into public/ automatically — that happens only
  * after a human/agent visual inspection pass (see integrate.ts).
@@ -31,12 +31,14 @@ await mkdir(OUT_DIR, { recursive: true });
 async function generateOne(briefId: string, prompt: string, aspectRatio: string) {
   console.log(`→ generating ${briefId} (${aspectRatio})`);
   const started = Date.now();
-  const result = await fal.subscribe('fal-ai/nano-banana-pro', {
+  const imageSize =
+    aspectRatio === '1:1' ? 'square_hd' : aspectRatio === '4:3' ? 'landscape_4_3' : 'landscape_16_9';
+  const result = await fal.subscribe('openai/gpt-image-2', {
     input: {
       prompt,
-      aspect_ratio: aspectRatio,
+      image_size: imageSize,
+      quality: 'high',
       output_format: 'png',
-      resolution: '2K',
       num_images: 1,
     },
     logs: false,

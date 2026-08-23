@@ -146,7 +146,7 @@ describe('Visual development gate sprint', () => {
 
   it('13-15. Generate invokes FAL path; failure blocks ready; no CSS fallback', async () => {
     expect(EXPERIENCE_FAL_PROVIDER).toBe('fal');
-    expect(EXPERIENCE_FAL_MODEL).toContain('fal-ai');
+    expect(EXPERIENCE_FAL_MODEL).toBe('openai/gpt-image-2');
     expect(cssFallbackBlocked()).toBe(true);
     const run = await generateVisualDevelopmentDesignProof('SITE00_PROJECTS_INDEX');
     expect(run.accounting.falRequests).toBeGreaterThan(0);

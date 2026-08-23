@@ -4,6 +4,10 @@
  */
 
 import type { RenderingMediumRecommendation } from './types.js';
+import {
+  SITE00_FAL_REFERENCE_EDIT_MODEL,
+  SITE00_FAL_TEXT_TO_IMAGE_MODEL,
+} from '../../../../../shared/site00-visual-generation/falImageModels.js';
 
 export const MARKED_UP_COPY_DIRECTION_NAME = 'THE MARKED-UP COPY';
 export const MARKED_UP_COPY_BOARD_PLAN_VERSION = 'marked-up-copy-pilot-v1';
@@ -108,8 +112,8 @@ export type BoardCreativeDirectorPass = {
   creativeDirectionAuthorityScore: number;
 };
 
-export const FAL_REFERENCE_EDIT_MODEL = 'openai/gpt-image-2/edit';
-export const FAL_TEXT_TO_IMAGE_MODEL = 'openai/gpt-image-2';
+export const FAL_REFERENCE_EDIT_MODEL = SITE00_FAL_REFERENCE_EDIT_MODEL;
+export const FAL_TEXT_TO_IMAGE_MODEL = SITE00_FAL_TEXT_TO_IMAGE_MODEL;
 
 export type TextOwnership = 'CODE_NATIVE' | 'SVG_NATIVE' | 'FAL_FORBIDDEN' | 'HYBRID_OVERLAY';
 
