@@ -440,17 +440,210 @@
   margin-bottom: 1rem;
 }
 
-.site00-project-index-card__partial {
-  margin: 0.25rem 0 0;
-  font-size: 0.6rem;
+/* ── Experiments hub (NDXBOOK methodology index) ── */
+
+.site00-project-command__experiments-banner {
+  margin: 0 0 1.5rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid #eb1c24;
+  background: #fff;
+}
+
+.site00-project-command__experiments-cta {
+  display: inline-block;
+  width: 100%;
+  max-width: 28rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.site00-project-command__experiments-note {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: #555;
+  max-width: 52ch;
+}
+
+.site00-experiments-hub-header {
+  margin-bottom: 1rem;
+}
+
+.site00-experiments-hub-header__title {
+  font-size: clamp(1.35rem, 4vw, 1.85rem);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0.25rem 0 0.35rem;
+}
+
+.site00-experiments-hub-header__project {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 0.5rem;
+}
+
+.site00-experiments-hub-header__sub {
+  max-width: 58ch;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.site00-experiments-hub-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+  margin: 0 0 1.25rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  font-size: 0.65rem;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.site00-experiments-hub-nav__hub {
+  color: #eb1c24;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.site00-experiments-hub-nav__step {
+  color: #222;
+  text-decoration: none;
+}
+
+.site00-experiments-hub-nav__step--muted {
+  color: #999;
+}
+
+.site00-experiments-hub-section {
+  margin-bottom: 1.5rem;
+}
+
+.site00-experiments-hub-section__title {
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: #eb1c24;
+  margin: 0 0 0.65rem;
+}
+
+.site00-experiments-hub-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.site00-experiments-hub-card {
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+.site00-experiments-hub-card__link {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.75rem;
+  align-items: start;
+  padding: 0.85rem 1rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.site00-experiments-hub-card__link:hover,
+.site00-experiments-hub-card__link:focus-visible {
+  outline: 2px solid #eb1c24;
+  outline-offset: -2px;
+}
+
+.site00-experiments-hub-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 3.5rem;
+}
+
+.site00-experiments-hub-card__order {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ccc;
+  line-height: 1;
+}
+
+.site00-experiments-hub-card__letter {
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
   color: #eb1c24;
 }
 
-.site00-projects-error__retry {
-  margin-top: 1rem;
+.site00-experiments-hub-card__headline {
+  margin: 0 0 0.15rem;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  color: #eb1c24;
 }
 
-.site00-projects-partial-note {
-  margin-bottom: 1rem;
+.site00-experiments-hub-card__title {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.site00-experiments-hub-card__desc {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: #444;
+}
+
+.site00-experiments-hub-card__status {
+  margin: 0.35rem 0 0;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  color: #888;
+}
+
+.site00-experiments-hub-card__cta {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  align-self: center;
+  color: #eb1c24;
+}
+
+.site00-experiments-hub-card__children {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid #eee;
+}
+
+.site00-experiments-hub-card__child-link {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.35rem 0.75rem;
+  padding: 0.65rem 1rem 0.65rem 2.5rem;
+  text-decoration: none;
+  color: inherit;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-top: 1px solid #f0f0f0;
+}
+
+.site00-experiments-hub-card__child-desc {
+  grid-column: 1 / -1;
+  font-size: 0.65rem;
+  text-transform: none;
+  letter-spacing: normal;
+  color: #666;
+  line-height: 1.4;
+}
+
+.site00-experiments-hub-card__child-cta {
+  color: #eb1c24;
 }

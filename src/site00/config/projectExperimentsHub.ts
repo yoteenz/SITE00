@@ -1,0 +1,196 @@
+/**
+ * NDXBOOK methodology & experiments — single hub index and sequential navigation.
+ */
+
+import {
+  site00ProjectCanonicalCarouselExpansionPath,
+  site00ProjectCanonicalCreativeRangePath,
+  site00ProjectContentLibraryPath,
+  site00ProjectCreativeAppetitePath,
+  site00ProjectExperimentDPath,
+  site00ProjectExperimentEPath,
+  site00ProjectExperimentEVisualDevelopmentPath,
+  site00ProjectExperimentFPath,
+  site00ProjectLoreCalibrationPath,
+  site00ProjectPersonalityReplayConsistencyPath,
+  site00ProjectPersonalityReplayPath,
+} from './routes';
+
+export type ProjectExperimentHubPhase = 'INTAKE' | 'EXPERIMENT' | 'EXPERIENCE' | 'LINEAGE';
+
+export type ProjectExperimentHubChild = {
+  id: string;
+  title: string;
+  path: string;
+  description?: string;
+};
+
+export type ProjectExperimentHubEntry = {
+  id: string;
+  phase: ProjectExperimentHubPhase;
+  order: number;
+  letter?: string;
+  title: string;
+  headline: string;
+  description: string;
+  path: string;
+  statusNote?: string;
+  children?: ProjectExperimentHubChild[];
+};
+
+export type ProjectExperimentHubNavItem = {
+  id: string;
+  title: string;
+  path: string;
+  letter?: string;
+};
+
+const PHASE_LABELS: Record<ProjectExperimentHubPhase, string> = {
+  INTAKE: 'INTAKE & INTELLIGENCE',
+  EXPERIMENT: 'VALIDATION EXPERIMENTS',
+  EXPERIENCE: 'EXPERIENCE & WORKSPACE',
+  LINEAGE: 'CREATIVE LINEAGE',
+};
+
+export function projectExperimentsHubPhaseLabel(phase: ProjectExperimentHubPhase): string {
+  return PHASE_LABELS[phase];
+}
+
+/** Canonical ordered hub for NDXBOOK founder methodology surfaces. */
+export function getProjectExperimentsHubEntries(projectSlug: string): ProjectExperimentHubEntry[] {
+  if (projectSlug !== 'ndxbook') return [];
+
+  return [
+    {
+      id: 'lore-calibration',
+      phase: 'INTAKE',
+      order: 1,
+      title: 'LORE CALIBRATION',
+      headline: 'BRAND LORE GAPS',
+      description: 'Targeted XXIX/XXX calibration before creative direction can proceed.',
+      path: site00ProjectLoreCalibrationPath(projectSlug),
+    },
+    {
+      id: 'creative-appetite',
+      phase: 'INTAKE',
+      order: 2,
+      title: 'CREATIVE APPETITE',
+      headline: 'HOW FAR CAN WE TAKE IT?',
+      description: 'Founder creative appetite questionnaire and intelligence inspector.',
+      path: site00ProjectCreativeAppetitePath(projectSlug),
+    },
+    {
+      id: 'personality-replay',
+      phase: 'INTAKE',
+      order: 3,
+      title: 'PERSONALITY REPLAY',
+      headline: 'HOW YOU SHOW UP',
+      description: 'Blind personality intake and replay execution — no benchmark exposure during answers.',
+      path: site00ProjectPersonalityReplayPath(projectSlug),
+    },
+    {
+      id: 'experiment-a',
+      phase: 'EXPERIMENT',
+      order: 4,
+      letter: 'A',
+      title: 'BLIND FORMATION CONSISTENCY',
+      headline: 'EXPERIMENT A',
+      description: 'Six-direction blind creative consistency validation from shadow formations.',
+      path: site00ProjectPersonalityReplayConsistencyPath(projectSlug),
+    },
+    {
+      id: 'experiment-b',
+      phase: 'EXPERIMENT',
+      order: 5,
+      letter: 'B',
+      title: 'CANONICAL CREATIVE RANGE',
+      headline: 'EXPERIMENT B',
+      description: 'One first-pass hero per established canonical direction (v1 + v2 roster).',
+      path: site00ProjectCanonicalCreativeRangePath(projectSlug),
+    },
+    {
+      id: 'experiment-c',
+      phase: 'EXPERIMENT',
+      order: 6,
+      letter: 'C',
+      title: 'SAME-TOPIC CAROUSEL EXPANSION',
+      headline: 'EXPERIMENT C',
+      description: 'Six-slide CREDIT UTILIZATION carousels per direction — preserved; generation superseded.',
+      path: site00ProjectCanonicalCarouselExpansionPath(projectSlug),
+      statusNote: 'SUPERSEDED — evidence preserved; no new carousel generation',
+    },
+    {
+      id: 'experiment-d',
+      phase: 'EXPERIMENT',
+      order: 7,
+      letter: 'D',
+      title: 'CONCEPT TERRITORY V1',
+      headline: 'EXPERIMENT D',
+      description: 'Six concept territory heroes — frozen snapshot; no appetite injection.',
+      path: site00ProjectExperimentDPath(projectSlug),
+      statusNote: 'FROZEN V1',
+    },
+    {
+      id: 'experiment-f',
+      phase: 'EXPERIMENT',
+      order: 8,
+      letter: 'F',
+      title: 'SIX-CONCEPT REFORMATION',
+      headline: 'EXPERIMENT F',
+      description: 'Concept Territory V2 — genuinely orthogonal creative concepts before direction work.',
+      path: site00ProjectExperimentFPath(projectSlug),
+    },
+    {
+      id: 'experiment-e',
+      phase: 'EXPERIENCE',
+      order: 9,
+      letter: 'E',
+      title: 'EXPERIENCE EXPRESSION',
+      headline: 'EXPERIMENT E',
+      description: 'How the interactive product feels, organizes information, and behaves.',
+      path: site00ProjectExperimentEPath(projectSlug),
+      children: [
+        {
+          id: 'visual-development',
+          title: 'PROJECT WORKSPACE VISUAL DEVELOPMENT',
+          path: site00ProjectExperimentEVisualDevelopmentPath(projectSlug),
+          description: 'Design proofs for Projects Index + NDXBOOK project home before implementation.',
+        },
+      ],
+    },
+    {
+      id: 'content-library',
+      phase: 'LINEAGE',
+      order: 10,
+      title: 'CONTENT LIBRARY',
+      headline: 'CREATIVE LINEAGE',
+      description: 'Normalized assets from validation runs — founder judgment, promotion, and salvage.',
+      path: site00ProjectContentLibraryPath(projectSlug),
+    },
+  ];
+}
+
+export function flattenProjectExperimentsHubNav(
+  entries: ProjectExperimentHubEntry[],
+): ProjectExperimentHubNavItem[] {
+  const flat: ProjectExperimentHubNavItem[] = [];
+  for (const entry of entries) {
+    flat.push({ id: entry.id, title: entry.title, path: entry.path, letter: entry.letter });
+    for (const child of entry.children ?? []) {
+      flat.push({ id: child.id, title: child.title, path: child.path, letter: entry.letter });
+    }
+  }
+  return flat;
+}
+
+function normalizePath(pathname: string): string {
+  return pathname.replace(/\/+$/, '') || '/';
+}
+
+export function resolveProjectExperimentsHubNavIndex(
+  pathname: string,
+  items: ProjectExperimentHubNavItem[],
+): number {
+  const current = normalizePath(pathname);
+  return items.findIndex((item) => normalizePath(item.path) === current);
+}

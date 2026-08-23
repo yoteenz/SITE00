@@ -9,6 +9,7 @@ import {
   projectPersonalityReplayReviewPath,
 } from '../config/personalityReplayRoutes';
 import { site00ProjectPath, site00ProjectCreativeDirectionPath } from '../config/routes';
+import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
 import { IdntyAssessmentShell } from '../components/idnty-assessment/IdntyAssessmentShell';
 import { getIdntyAssessmentState } from '../config/idnty-assessment';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
@@ -127,6 +128,7 @@ function ProjectPersonalityReplayPageInner({
               </p>
               <Link to={site00ProjectPath(projectSlug)}>← BACK TO PROJECT</Link>
             </header>
+            <ProjectExperimentsHubNav projectSlug={projectSlug} />
             <IdntyAssessmentShell state={REPLAY_SHELL_STATE} mobileLayout="calibration" showProcessStrip={false}>
               <div className="site00-idnty-calibration-flow">
                 <h2 className="site00-idnty-calibration-rail__category">REVIEW</h2>
@@ -216,6 +218,7 @@ function ProjectPersonalityReplayPageInner({
             {' · '}
             <Link to={site00ProjectCreativeDirectionPath(projectSlug)}>CREATIVE DIRECTION →</Link>
           </header>
+          <ProjectExperimentsHubNav projectSlug={projectSlug} />
           <IdntyAssessmentShell state={REPLAY_SHELL_STATE} mobileLayout="calibration" showProcessStrip={false}>
             <PersonalityReplayIntakeStep projectSlug={projectSlug} stepId={stepId} />
           </IdntyAssessmentShell>

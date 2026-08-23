@@ -94,6 +94,13 @@ async function buildSurfaces(slug: Site00FounderProjectSlug, isClient: boolean):
   if (slug === 'ndxbook') {
     surfaces.push(
       {
+        id: 'experiments-hub',
+        label: 'EXPERIMENTS HUB',
+        route: '/projects/ndxbook/experiments',
+        available: true,
+        description: 'All methodology experiments and validation surfaces in one index',
+      },
+      {
         id: 'creative-direction',
         label: 'CREATIVE DIRECTION',
         route: site00ProjectCreativeDirectionRoute('ndxbook'),

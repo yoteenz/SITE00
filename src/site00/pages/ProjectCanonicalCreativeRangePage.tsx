@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
+import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { CanonicalCreativeRangeReview } from '../components/validation/CanonicalCreativeRangeReview';
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
@@ -50,6 +51,7 @@ export default function ProjectCanonicalCreativeRangePage() {
             <p className="site00-project-lore-calibration__headline">CANONICAL CREATIVE RANGE VALIDATION</p>
             <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
           </header>
+          <ProjectExperimentsHubNav projectSlug={projectSlug} />
 
           {loading ? (
             <p className="site00-six-dir-review__pending">LOADING…</p>

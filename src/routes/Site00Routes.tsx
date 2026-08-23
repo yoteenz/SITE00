@@ -93,6 +93,7 @@ const ProjectExperimentEPage = lazy(() => import('../site00/pages/ProjectExperim
 const ProjectWorkspaceVisualDevelopmentPage = lazy(
   () => import('../site00/pages/ProjectWorkspaceVisualDevelopmentPage'),
 );
+const ProjectExperimentsHubPage = lazy(() => import('../site00/pages/ProjectExperimentsHubPage'));
 const ProjectContentLibraryPage = lazy(() => import('../site00/pages/ProjectContentLibraryPage'));
 const PersonalityReplayIntakeRouterPage = lazy(
   () => import('../site00/pages/validation/PersonalityReplayIntakeRouterPage'),
@@ -587,6 +588,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <PersonalityReplayIntakeRouterPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExperiments}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExperimentsHubPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

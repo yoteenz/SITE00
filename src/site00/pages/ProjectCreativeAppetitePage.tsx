@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { ProjectCreativeAppetiteFlow } from '../components/projects/ProjectCreativeAppetiteFlow';
 import { CREATIVE_APPETITE_STEPS } from '../components/projects/projectCreativeAppetiteResume';
@@ -52,6 +53,7 @@ export default function ProjectCreativeAppetitePage() {
   return (
     <EcosystemShell hidePageHeader>
       <div className="site00-cd site00-cd--project-calibration">
+        {projectSlug === 'ndxbook' ? <ProjectExperimentsHubNav projectSlug={projectSlug} /> : null}
         <ProjectCreativeAppetiteFlow
           projectSlug={projectSlug}
           projectTitle={projectTitle}

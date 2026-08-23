@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
+import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { NdxbookContentLibrary } from '../components/library/NdxbookContentLibrary';
 import { site00ProjectPath } from '../config/routes';
@@ -44,6 +45,7 @@ export default function ProjectContentLibraryPage() {
             <p className="site00-project-lore-calibration__headline">CONTENT LIBRARY</p>
             <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
           </header>
+          <ProjectExperimentsHubNav projectSlug={projectSlug} />
           <NdxbookContentLibrary projectSlug={projectSlug} />
         </div>
       </div>

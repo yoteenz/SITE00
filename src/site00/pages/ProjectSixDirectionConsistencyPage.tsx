@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
+import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { SixDirectionConsistencyReview } from '../components/validation/SixDirectionConsistencyReview';
 import { usePersonalityReplayIntake, PersonalityReplayIntakeProvider } from '../hooks/usePersonalityReplayIntake';
@@ -47,6 +48,7 @@ function ProjectSixDirectionConsistencyPageInner({ projectSlug }: { projectSlug:
             {' · '}
             <Link to={site00ProjectPath(projectSlug)}>PROJECT</Link>
           </header>
+          <ProjectExperimentsHubNav projectSlug={projectSlug} />
 
           {bootstrapping || !replayId ? (
             <p className="site00-six-dir-review__pending">LOADING REPLAY…</p>
