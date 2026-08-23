@@ -1,10 +1,11 @@
 /**
- * Successor formation quarantine — Experiment F, topics, editorial anchors excluded.
+ * Successor formation quarantine — Experiment F, topics, and named historical anchors excluded.
+ * Generic editorial artifact vocabulary is post-formation evaluator territory, not a hard block.
  */
 
 import {
   EXPERIMENT_F_FORMATION_SUBJECT,
-  FORMATION_QUARANTINE_BLOCKLIST,
+  SUCCESSOR_FORMATION_OUTPUT_BLOCKLIST,
 } from './constants.js';
 
 /** Safe metadata tokens allowed in formation system payload (not model creative output). */
@@ -40,7 +41,7 @@ function stripMetadataAllowlist(text: string): string {
 
 export function containsSuccessorFormationContamination(text: string): string | null {
   const normalized = stripMetadataAllowlist(text).toLowerCase();
-  for (const blocked of FORMATION_QUARANTINE_BLOCKLIST) {
+  for (const blocked of SUCCESSOR_FORMATION_OUTPUT_BLOCKLIST) {
     if (normalized.includes(blocked.toLowerCase())) {
       return blocked;
     }

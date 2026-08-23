@@ -213,6 +213,12 @@ describe('NDXBOOK Brand Presentation Concept Correction', () => {
     const snap = compileExperimentGIntelligenceSnapshot({ profile: null });
     expect(snap.referenceEvidence[0]?.policy).toBe('CALIBRATION_ONLY');
     expect(() => assertSuccessorFormationQuarantined('concept about credit utilization topic')).toThrow();
+    expect(() =>
+      assertSuccessorFormationQuarantined(
+        'NDXBOOK as a persistent social brand — not a journal or editorial artifact metaphor',
+      ),
+    ).not.toThrow();
+    expect(() => assertSuccessorFormationQuarantined('THE RITUAL CHECK-IN recurring brand behavior')).not.toThrow();
   });
 
   it('19–20. Brand Presentation ≠ Brand Canon; LOVE ≠ Brand Canon', () => {
