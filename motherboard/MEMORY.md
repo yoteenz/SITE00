@@ -3833,3 +3833,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (PR #319):** `SUCCESSOR_FORMATION_OUTPUT_BLOCKLIST` now only hard-blocks historical/topic contamination (credit utilization, Experiment D/F names, Burn Book). Editorial artifact vocabulary stays in post-formation evaluators only.
 - **Deploy:** **Railway redeploy from main** (api.site00.com) — API-side fix; cPanel static bundle unchanged. Then RETRY FORMATION on Experiment G.
 
+---
+
+## 2026-08-23 — NDXBOOK Hero Proof no preview after compose
+
+- **Issue:** Experiment E → NDXBOOK Hero Proof — COMPOSE HERO FRAME finished but no preview image below controls.
+- **Cause:** `composeNdxbookHeroFrame` was stub-only (saved storagePath, no FAL image). UI showed path in collapsed details, no `<img>`.
+- **Fix (PR #320):** Generate + compose call FAL; `heroComposition.publicUrl`; full-width preview below buttons.
+- **Deploy:** cPanel **v34** + **Railway redeploy** (FAL_KEY required for live images).
+
