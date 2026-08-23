@@ -61,6 +61,8 @@ export type ReplayConvergenceReport = {
   divergenceStage: string | null;
   shadowMarkedUpAnalogDirectionId: string | null;
   benchmarkLoadedAt: string | null;
+  /** Unlocked post-hero — founder comparison panel only. */
+  benchmarkHeroStoragePath?: string | null;
 };
 
 export type FounderReplayValidationJudgment =

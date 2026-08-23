@@ -226,6 +226,9 @@ export function buildShadowReplayFormationInput(replay: BrandPersonalityReplayRe
   return input;
 }
 
+const REPLAY_BENCHMARK_HERO_STORAGE_PATH =
+  'site00/assts/batches/ndxbook-identity-native-v2-pilot/generated/801b6bb9-abc6-47a4-8e56-2c0b22cb26ce.webp';
+
 /**
  * Load benchmark snapshot — ONLY for post-generation comparison.
  * Must not be called before shadow hero generation.
@@ -246,7 +249,7 @@ export async function loadReplayBenchmarkSnapshot(params: {
     directionExpressionId: null,
     creativeExpressionId: null,
     identityArtDirectionId: null,
-    heroAssetPath: 'ndxbook-identity-native-v2-pilot/generated/801b6bb9-abc6-47a4-8e56-2c0b22cb26ce.webp',
+    heroAssetPath: REPLAY_BENCHMARK_HERO_STORAGE_PATH,
     loadedAt: nowIso(),
   };
 }
@@ -278,6 +281,7 @@ export async function runPostGenerationPersonalityComparison(replayId: string): 
     divergenceStage: null,
     shadowMarkedUpAnalogDirectionId: replay.selectedShadowDirectionId,
     benchmarkLoadedAt: benchmark.loadedAt,
+    benchmarkHeroStoragePath: benchmark.heroAssetPath,
   };
 
   const updated: BrandPersonalityReplayRecord = {
