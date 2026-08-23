@@ -1,33 +1,42 @@
-SITE 00 — GoDaddy cPanel deploy bundle (2026-08-23 v14)
+SITE 00 — GoDaddy cPanel deploy bundle (2026-08-23 v32)
 ========================================================
 
 WHAT THIS IS
 ------------
 Production static SPA for https://site00.com (Architecture C: static GoDaddy + API on Railway).
 
-Includes (merged main as of 2026-08-23, PR #280 + #281):
-- EXPERIMENT C — Canonical Carousel Expansion page
-  /projects/ndxbook/canonical-carousel-expansion
-- NDXBOOK Content Library
-  /projects/ndxbook/content-library
-- Experiment C FAILED error message now visible in UI
-- Carousel slide 02+ generation brief fix (API-side — Railway redeploy required)
+Includes (merged main as of 2026-08-23, PR #316 + #317):
+- EXPERIMENT G — Brand Presentation Concepts (six topic-blind hero concepts)
+  /projects/ndxbook/experiment-g-brand-presentation-concepts
+- Experiments Hub lists 09 / EXP G between F and E
+- NDXBOOK project page: direct "EXPERIMENT G" button + F page banner linking to G
+- P1 Composer orchestration infrastructure (SITE00 Projects proof path)
 
 WHAT TO UPLOAD (mobile cPanel — ~5 min)
 ---------------------------------------
-1. Download site00-production-dist-2026-08-23-v14.zip from this GitHub Release
-2. GoDaddy → File Manager → public_html → delete old files → upload → extract
-3. Hard refresh in private tab
+1. Download site00-production-dist-2026-08-23-v32.zip from this GitHub Release
+2. GoDaddy → File Manager → public_html
+3. DELETE old files in public_html (especially assets/ and index.html)
+4. Upload ZIP → Extract in place
+5. Hard refresh in private tab (Safari: hold reload → Empty Cache)
 
-VERIFY
-------
-- /projects/ndxbook/canonical-carousel-expansion shows six worlds + RUN NEXT SLIDE
-- /projects/ndxbook/content-library shows CONTENT LIBRARY tabs
-- View page source — index.html must NOT reference index.BT7zuSxb.js
+VERIFY (critical — if G still missing, deploy did not land)
+-------------------------------------------------------------
+View page source on https://site00.com/projects/ndxbook/experiments
+Search for: experiment-g-brand-presentation
 
-API (Railway — required for carousel generation + lineage)
-----------------------------------------------------------
-Redeploy api.site00.com from main — carousel expansion + creative lineage endpoints.
+  ✓ FOUND  → deploy succeeded; open Experiment G from hub or direct URL
+  ✗ NOT FOUND → old bundle still live; repeat delete + extract
+
+Also verify index.html references a NEW bundle hash (NOT index.XTPjkzI0.js).
+
+Direct URL after deploy:
+  https://site00.com/projects/ndxbook/experiment-g-brand-presentation-concepts
+
+API (Railway — required for FORM SIX BRAND PRESENTATION CONCEPTS)
+-----------------------------------------------------------------
+Redeploy api.site00.com from main — experiment_g_* endpoints must be live.
+If formation fails with "API NOT UPDATED", trigger Railway redeploy from main.
 
 ROLLBACK
 --------
