@@ -89,6 +89,7 @@ const ProjectCanonicalCreativeRangePage = lazy(() => import('../site00/pages/Pro
 const ProjectCanonicalCarouselExpansionPage = lazy(() => import('../site00/pages/ProjectCanonicalCarouselExpansionPage'));
 const ProjectExperimentDPage = lazy(() => import('../site00/pages/ProjectExperimentDPage'));
 const ProjectExperimentFPage = lazy(() => import('../site00/pages/ProjectExperimentFPage'));
+const ProjectExperimentGPage = lazy(() => import('../site00/pages/ProjectExperimentGPage'));
 const ProjectExperimentEPage = lazy(() => import('../site00/pages/ProjectExperimentEPage'));
 const ProjectWorkspaceVisualDevelopmentPage = lazy(
   () => import('../site00/pages/ProjectWorkspaceVisualDevelopmentPage'),
@@ -696,6 +697,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectExperimentFPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExperimentG}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExperimentGPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>
