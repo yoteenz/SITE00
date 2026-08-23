@@ -3107,3 +3107,13 @@ Summary: Founder hit **CORE DIRECTION FORMATION FAILED** on mobile replay execut
 - **Likely causes:** (1) stale in-progress formation record reused (FORMING with zero `finalDirections` → generic error), (2) `ANTHROPIC_API_KEY` missing on Railway API (`CREATIVE INTELLIGENCE NOT CONFIGURED`).
 - **Fix (PR):** `replayExecutionService` — `forceReform: true` + `retryFailed: true` on replay formation; fail-fast if creative intelligence provider unavailable with explicit Railway env message; richer `describeFormationFailure()` errors; clear `executionError` on retry; shadow profile `id` fallback from `sourceProfileId`.
 - **Founder action:** **Railway redeploy API from `main`** (required — cPanel ZIP does not fix this). Tap **RETRY EXECUTION** on replay review. If error mentions `ANTHROPIC_API_KEY`, add key to Railway API service env and redeploy again.
+
+---
+
+## 2026-08-23 — Replay pipeline JSON parse hardening (Sonnet truncation)
+
+Summary: Founder hit repeated Sonnet JSON errors during blind replay (`Unterminated string`, `Expected double-quoted property name`) at ~35k char positions — `[FORMATION_FAILED]` and similar across formation / DES / CES / IAD steps.
+
+- **Root cause:** (1) `parseStructuredJson` was bare `JSON.parse` — no repair for truncated/malformed LLM output; (2) Core Direction formation used **8192 max_tokens** while 3-direction payloads exceed that (truncation → unterminated strings); (3) DES/board v4 already had retry loops but formation, critique, revise, CES, IAD, copy gate did not.
+- **Fix (PR):** New `structuredJson.ts` with `jsonrepair`, balanced JSON extraction, `isJsonParseError`, `withStructuredJsonRetry`; formation `max_tokens` raised to **16384**; automatic **2-attempt retry** with revision hint on: `anthropicProvider` (form/critique/revise), `creativeExpressionService`, `identityNativeArtDirectorService`, `copyQualityGate`; 988 tests pass.
+- **Founder action:** Railway redeploy API from `main`; RETRY EXECUTION on replay (no questionnaire reset).
