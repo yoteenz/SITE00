@@ -3857,6 +3857,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 - **User question:** Brand concepts still say FORMING after a long time — still processing?
 - **Answer:** **No.** Experiment G formation is **synchronous** (single Anthropic call, ~2–5 min). Status `FORMING` saved at start; if the Railway request times out, client disconnects, or the process crashes mid-call, the record stays `FORMING` forever with no background worker to finish it.
-- **Fix (PR pending):** Stale `FORMING` records older than 10 minutes auto-reconcile to `FAILED` on GET; `formationStartedAt` tracked on enter; **RETRY STALLED FORMATION** button + clearer UI copy; `forceRetry` API flag to restart without waiting.
-- **Founder action now (before deploy):** Refresh Experiment G page — if still FORMING, wait for Railway deploy then tap **RETRY STALLED FORMATION** or **RETRY FORMATION** after refresh marks it failed.
+- **Fix (PR #322):** Stale `FORMING` records older than 10 minutes auto-reconcile to `FAILED` on GET; `formationStartedAt` tracked on enter; **RETRY STALLED FORMATION** button + clearer UI copy; `forceRetry` API flag to restart without waiting.
+- **Deploy:** Railway redeploy (API) + cPanel **v36** (UI). Refresh page → stale FORMING becomes FAILED → RETRY.
+
+---
+
+## 2026-08-23 — Hero PREPARE UUID error (`ndxbook` slug in FK column)
+
+- **Issue:** `INVALID INPUT SYNTAX FOR TYPE UUID: "NDXBOOK"` on **PREPARE EXPERIMENT E + HERO SUBSET** (fsbw-dev screenshot).
+- **Cause:** `site00_methodology_validation_runs.project_id` is a UUID FK; Experiment E (and other methodology stores) wrote `run.projectId` = founder slug `'ndxbook'` directly to Postgres.
+- **Fix (PR #323):** `resolveProjectDbIdForSupabaseFk()` in `founderProjectDbId.ts` — resolves slug → `site00_projects.id` before insert. Wired into Experiment E, Core Direction formation, personality replay, project intelligence, studio world, visual reference stores.
+- **Deploy:** **Railway redeploy from main only** — API-side fix; static bundle unchanged. After deploy, tap **PREPARE EXPERIMENT E + HERO SUBSET** again.
 
