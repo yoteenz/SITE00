@@ -2927,3 +2927,34 @@ Summary: Founder saw **UNKNOWN ACTION** (uppercase "Unknown action") on personal
 - **Fix:** Shared `resolveSite00ApiBase()` in `src/utils/site00ApiBase.ts` — fsbw-dev + cloudflare tunnel hosts always use `https://api.site00.com`. Wired into `apiFetch` and `evolveApi` (deduped).
 - **Tests:** 3 new in `site00ApiBase.test.ts`. Full regression 926 passing.
 - **Branch:** `cursor/fsbw-dev-projects-api-routing-4f59`.
+
+---
+
+## 2026-08-23 — Brand Personality + Primary Expression Context pipeline closure + NDXBOOK naming
+
+Summary: Two follow-up production sprints closed personality pipeline gaps and normalized NDXBOOK canonical naming/uppercase typography before blind personality replay validation.
+
+**Pipeline closure (no reformation, no FAL, no Anthropic creative generation):**
+- `FormatNativeExpressionProfile` derived from `BrandExpressionContext` + lore + personality (`formatNativeExpression.ts`) with proof priorities, anti-resize rules, website-first block for social-first
+- `BrandVoiceBehavior` derived from personality with format adaptations (`brandVoiceBehavior.ts`)
+- `formatLineage` + CES `formatLineage` field wired alongside `personalityLineage`
+- Combined readiness resolver (`creativeIntelligenceReadiness.ts`)
+- Content Brain personality bridge (`contentBrainPersonalityBridge.ts`) wired into `intelligenceBrief` + formation input
+- Formation input extended: `formatNativeExpressionSummary`, `brandVoiceBehaviorSummary`, `contentBrainPersonalitySummary`, `formatLineageSummary`
+- DES Sonnet payload receives personality + format summaries
+- CES `runCreativeExpressionDirector` accepts upstream personality + expression context; deterministic fallback includes lineage
+- Builder: `inheritedBrandPersonalitySnapshot` + `personalityTranslation` synthesis wired in `experienceSynthesis.ts`
+- Personality-only calibration: `submitOrgPersonalityCalibration`, `personality_calibration_submit` API, lore calibration merge accepts `personalityAnswers`
+- `confirmFounderPersonalityField` API added
+- Methodology updated with expression context + format-native doctrine
+
+**NDXBOOK naming + uppercase:**
+- `brandIdentity.ts` — `canonicalBrandDisplayName('ndxbook')` → `NDXBOOK`, typography policy, `normalizeBrandPromptContext()`, `brandPromptTypographyBlock()`
+- `projectDisplayName` → NDXBOOK (not NDX BOOK)
+- CES prompt de-hardcoded NDX BOOK voice; brand-agnostic with upstream personality translation
+
+**Tests:** 17 new in `pipelineClosure.test.ts`; 943 total passing. Build green.
+
+**Known gaps:** Builder translation UI not in BLDR shell; founder personality confirm UI not wired; responsive visual QA not browser-verified this sprint.
+
+**Branch:** `cursor/personality-expression-pipeline-closure-4f59`.

@@ -212,12 +212,18 @@ export async function submitOrgLoreCalibration(params: {
   orgId: string;
   orgSlug: string;
   answers: Record<string, string | string[]>;
+  personalityAnswers?: Record<string, string | string[]>;
 }): Promise<BrandLoreProfile> {
   const existing = await getOrReconcileBrandLoreForOrg(params.orgId, params.orgSlug);
   const mergedRawAnswers = { ...(existing?.rawLoreAnswers ?? {}), ...params.answers };
+  const mergedPersonalityAnswers = {
+    ...(existing?.brandPersonality?.rawPersonalityAnswers ?? {}),
+    ...(params.personalityAnswers ?? {}),
+  };
 
   const fresh = synthesizeBrandLoreProfile({
     loreAnswers: mergedRawAnswers,
+    personalityAnswers: Object.keys(mergedPersonalityAnswers).length ? mergedPersonalityAnswers : undefined,
     sourceIntakeId: existing?.sourceIntakeId ?? `calibration:${params.orgId}`,
     organizationId: params.orgId,
     projectId: existing?.projectId ?? null,
@@ -226,6 +232,33 @@ export async function submitOrgLoreCalibration(params: {
   });
 
   const profile = existing ? mergeCalibrationIntoProfile(existing, fresh) : fresh;
+  return store.saveBrandLoreProfile(profile);
+}
+
+export async function submitOrgPersonalityCalibration(params: {
+  orgId: string;
+  orgSlug: string;
+  personalityAnswers: Record<string, string | string[]>;
+}): Promise<BrandLoreProfile> {
+  return submitOrgLoreCalibration({
+    orgId: params.orgId,
+    orgSlug: params.orgSlug,
+    answers: {},
+    personalityAnswers: params.personalityAnswers,
+  });
+}
+
+export async function confirmFounderPersonalityField(
+  profileId: string,
+  fieldKey: keyof import('../../../shared/site00-brand-lore/personalityTypes.js').BrandPersonalityProfile,
+): Promise<BrandLoreProfile | null> {
+  const profile = await store.getBrandLoreProfileById(profileId);
+  if (!profile?.brandPersonality) return profile;
+  const field = profile.brandPersonality[fieldKey];
+  if (!field || typeof field !== 'object' || !('founderConfirmationState' in field)) return profile;
+  field.founderConfirmationState = 'CONFIRMED';
+  field.classification = 'FOUNDER_CONFIRMED';
+  profile.updatedAt = new Date().toISOString();
   return store.saveBrandLoreProfile(profile);
 }
 
@@ -253,6 +286,7 @@ export async function resolveInheritedLoreForBuilder(params: {
     socialSignal: profile.socialSignal,
     brandBelief: profile.brandBelief,
     contextClassification: profile.contextClassification,
+    brandPersonality: profile.brandPersonality,
   };
 }
 

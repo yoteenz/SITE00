@@ -116,6 +116,7 @@ async function buildInputForProfile(
     formationVersion,
     contentBrainSections: intel.sections,
     includeLegacyExplorations: true,
+    orgSlug,
   });
 }
 

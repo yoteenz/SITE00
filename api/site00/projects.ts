@@ -223,7 +223,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         const answers = (body.answers ?? {}) as Record<string, string | string[]>;
-        if (!answers || typeof answers !== 'object' || Object.keys(answers).length === 0) {
+        const personalityAnswers = (body.personalityAnswers ?? {}) as Record<string, string | string[]>;
+        if (
+          (!answers || typeof answers !== 'object' || Object.keys(answers).length === 0) &&
+          (!personalityAnswers || Object.keys(personalityAnswers).length === 0)
+        ) {
           return json(res, 400, {
             ok: false,
             error: { code: 'ANSWERS_REQUIRED', message: 'At least one calibration answer required' },
@@ -233,12 +237,69 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const { invalidateCreativeDirectionEngagement } = await import(
           '../_lib/site00Evolve/creativeDirection/engagementService.js'
         );
-        await submitOrgLoreCalibration({ orgId, orgSlug: slug, answers });
+        await submitOrgLoreCalibration({
+          orgId,
+          orgSlug: slug,
+          answers,
+          personalityAnswers: Object.keys(personalityAnswers).length ? personalityAnswers : undefined,
+        });
         // Force the next `creative_direction` read to re-resolve readiness from the just-updated
         // profile instead of returning this org's cached in-memory engagement (see engagementService.ts).
         invalidateCreativeDirectionEngagement(slug);
         const payload = await getCreativeDirectionPayload(slug);
         return json(res, 200, { ok: true, ...payload, source: 'site00_lore_calibration' });
+      }
+      case 'personality_calibration_submit': {
+        if (req.method !== 'POST') {
+          return json(res, 405, {
+            ok: false,
+            error: { code: 'POST_REQUIRED', message: 'POST required' },
+            source: 'site00_personality_calibration',
+          });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? req.query.slug ?? '');
+        if (!slug) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'SLUG_REQUIRED', message: 'slug required' },
+            source: 'site00_personality_calibration',
+          });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, {
+            ok: false,
+            error: { code: 'PROJECT_ACCESS_DENIED', message: 'Project access denied' },
+            source: 'site00_personality_calibration',
+          });
+        }
+        const orgId = orgIdFromSlug(slug);
+        if (!orgId) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'ORG_NOT_REGISTERED', message: 'Organization not registered' },
+            source: 'site00_personality_calibration',
+          });
+        }
+        const personalityAnswers = (body.personalityAnswers ?? body.answers ?? {}) as Record<
+          string,
+          string | string[]
+        >;
+        if (!personalityAnswers || Object.keys(personalityAnswers).length === 0) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'ANSWERS_REQUIRED', message: 'At least one personality answer required' },
+            source: 'site00_personality_calibration',
+          });
+        }
+        const { submitOrgPersonalityCalibration } = await import('../_lib/site00BrandLore/loreService.js');
+        const { invalidateCreativeDirectionEngagement } = await import(
+          '../_lib/site00Evolve/creativeDirection/engagementService.js'
+        );
+        await submitOrgPersonalityCalibration({ orgId, orgSlug: slug, personalityAnswers });
+        invalidateCreativeDirectionEngagement(slug);
+        const payload = await getCreativeDirectionPayload(slug);
+        return json(res, 200, { ok: true, ...payload, source: 'site00_personality_calibration' });
       }
       case 'personality_replay_bootstrap': {
         const slug = String(req.query.slug ?? '');
