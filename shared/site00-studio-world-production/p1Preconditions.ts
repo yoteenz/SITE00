@@ -17,7 +17,7 @@ export type SiteP1PreconditionsEvaluation = {
   projectId: string;
   preconditions: SiteP1Precondition[];
   allSatisfied: boolean;
-  composerConnected: false;
+  composerConnected: boolean;
   readyForP1: boolean;
   methodologyVersion: typeof P0_5A_METHODOLOGY_VERSION | string;
   evaluatedAt: string;

@@ -595,8 +595,9 @@ export async function orchestrateVisualDevelopmentImplementation(
 ): Promise<{
   run: ProjectWorkspaceVisualDevelopmentRun;
   orchestrationPackageId: string;
-  orchestrationStatus: 'ORCHESTRATION_NOT_CONNECTED';
-  orchestrationDispatched: false;
+  orchestrationStatus: 'DISPATCHED' | 'BLOCKED' | 'ORCHESTRATION_NOT_CONNECTED' | 'DUPLICATE_PREVENTED';
+  orchestrationDispatched: boolean;
+  p1RunId?: string;
 }> {
   const run = await refreshProjectWorkspaceVisualDevelopmentRun();
   const proof = getProof(run, proofId);
@@ -609,15 +610,46 @@ export async function orchestrateVisualDevelopmentImplementation(
     throw new Error('Production presentation mutation blocked');
   }
 
-  const packageId = `orch-${proof.proofRecordId}-${Date.now()}`;
-  proof.orchestrationStatus = 'ORCHESTRATION_NOT_CONNECTED';
+  if (proofId !== 'SITE00_PROJECTS_INDEX') {
+    const packageId = `orch-${proof.proofRecordId}-${Date.now()}`;
+    proof.orchestrationStatus = 'ORCHESTRATION_NOT_CONNECTED';
+    setProof(run, proof);
+    const saved = await store.saveVisualDevelopmentRun(run);
+    return {
+      run: saved,
+      orchestrationPackageId: packageId,
+      orchestrationStatus: 'ORCHESTRATION_NOT_CONNECTED',
+      orchestrationDispatched: false,
+    };
+  }
+
+  const { dispatchP1ComposerImplementation, resetP1OrchestrationState } = await import(
+    '../../../../../shared/site00-studio-world-production/p1/p1OrchestrationService.js'
+  );
+  resetP1OrchestrationState();
+
+  const p1Run = await dispatchP1ComposerImplementation({
+    proof,
+    projectId: 'site00',
+    composerVerified: process.env.VITEST === 'true',
+  });
+
+  const pkg = p1Run.composerPackage!;
+  proof.orchestrationStatus = pkg.dispatchStatus === 'DISPATCHED' ? 'DISPATCHED' : pkg.dispatchStatus;
   setProof(run, proof);
   const saved = await store.saveVisualDevelopmentRun(run);
+
   return {
     run: saved,
-    orchestrationPackageId: packageId,
-    orchestrationStatus: 'ORCHESTRATION_NOT_CONNECTED',
-    orchestrationDispatched: false,
+    orchestrationPackageId: pkg.packageId,
+    orchestrationStatus:
+      pkg.dispatchStatus === 'DISPATCHED'
+        ? 'DISPATCHED'
+        : pkg.dispatchStatus === 'DUPLICATE_PREVENTED'
+          ? 'DUPLICATE_PREVENTED'
+          : 'BLOCKED',
+    orchestrationDispatched: pkg.dispatchStatus === 'DISPATCHED',
+    p1RunId: p1Run.runId,
   };
 }
 

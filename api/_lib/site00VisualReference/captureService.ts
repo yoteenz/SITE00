@@ -119,7 +119,7 @@ async function captureWithPlaywright(params: CaptureRouteParams): Promise<Buffer
       await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 });
       await page.waitForTimeout(500);
       await page.evaluate(() => document.fonts?.ready);
-      const screenshot = await page.screenshot({ type: 'webp', fullPage: params.captureType === 'FULL_PAGE' });
+      const screenshot = await page.screenshot({ type: 'png', fullPage: params.captureType === 'FULL_PAGE' });
       return Buffer.from(screenshot);
     } finally {
       await browser.close();

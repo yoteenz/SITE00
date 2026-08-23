@@ -6,7 +6,7 @@ export const P0_5A_METHODOLOGY_VERSION = 'P0.5A_PRODUCTION_METHODOLOGY_CORRECTIO
 
 export const PRODUCT_EXPRESSION_IMPLEMENTED = false as const;
 
-export const COMPOSER_ORCHESTRATION_IMPLEMENTED = false as const;
+export const COMPOSER_ORCHESTRATION_IMPLEMENTED = true as const;
 
 export const WORLD_FORMATION_IMPLEMENTED = false as const;
 
