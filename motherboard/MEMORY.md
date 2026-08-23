@@ -3151,3 +3151,13 @@ Summary: Founder blocked six-direction trigger — format rotation/diversity quo
 - **Added:** `directionNativeFormatSelection.ts` — per-direction format derived from thesis/social behavior + FormatNativeExpressionProfile; duplicate formats allowed; `computeObservedFormatDiversity` post-hoc only; `FORMAT_ASSIGNMENT_CONTAMINATION_TEST`; Direction 01 audit (MECHANICAL_PROFILE_DEFAULT vs direction-derived).
 - **Comparison UI:** Legacy stub 0/5 labeled LEGACY INVALID COMPARISON; new reports use NOT_EVALUATED for unimplemented scorers (never 0 = unavailable).
 - **Preflight:** `buildSixDirectionGenerationPreflight` — no Anthropic/FAL calls.
+
+---
+
+## 2026-08-23 — Six-direction route button on replay review
+
+Summary: Founder asked for a button on replay review to route to six-direction generated heroes page.
+
+- **UI:** Primary button on replay review (below methodology comparison) — `VIEW N GENERATED HEROES` when complete, `SIX-DIRECTION CONSISTENCY REVIEW` when not started, `VIEW SIX-DIRECTION PROGRESS` when in flight. Routes to `/projects/ndxbook/personality-replay/consistency`.
+- **Component:** `PersonalityReplayExecutionProgress.tsx` — passes `sixDirectionConsistency` from replay snapshot for dynamic label.
+- **Removed:** Duplicate text link on review rail (button replaces it).
