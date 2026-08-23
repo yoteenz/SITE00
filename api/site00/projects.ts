@@ -69,10 +69,14 @@ import {
 } from '../_lib/site00Evolve/creativeDirection/projectWorkspace/projectWorkspaceService.js';
 import {
   generateVisualDevelopmentDesignProof,
+  generateReferenceConditionedDesignProof,
   getProjectWorkspaceVisualDevelopmentRun,
   orchestrateVisualDevelopmentImplementation,
   prepareVisualDevelopmentImplementation,
   refreshProjectWorkspaceVisualDevelopmentRun,
+  refreshVisualDevelopmentReferences,
+  compileVisualDevelopmentReferencePackage,
+  excludeVisualDevelopmentReference,
   setVisualDevelopmentProofJudgment,
 } from '../_lib/site00Evolve/creativeDirection/experienceExpressionExperiment/visualDevelopmentService.js';
 import {
@@ -1214,6 +1218,73 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const run = await generateVisualDevelopmentDesignProof(proofId);
         return json(res, 200, { ok: true, run, source: 'site00_visual_development' });
+      }
+      case 'visual_development_refresh_references': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
+        if (slug !== 'ndxbook' || !proofId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await refreshVisualDevelopmentReferences(proofId);
+        return json(res, 200, { ok: true, run, source: 'site00_visual_reference' });
+      }
+      case 'visual_development_compile_references': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
+        if (slug !== 'ndxbook' || !proofId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await compileVisualDevelopmentReferencePackage(proofId, {
+          excludedReferenceIds: body.excludedReferenceIds as string[] | undefined,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_visual_reference' });
+      }
+      case 'visual_development_generate_reference_conditioned': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
+        if (slug !== 'ndxbook' || !proofId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await generateReferenceConditionedDesignProof(proofId);
+        return json(res, 200, { ok: true, run, source: 'site00_visual_reference' });
+      }
+      case 'visual_development_exclude_reference': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
+        const referenceId = String(body.referenceId ?? '');
+        if (slug !== 'ndxbook' || !proofId || !referenceId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await excludeVisualDevelopmentReference(proofId, referenceId);
+        return json(res, 200, { ok: true, run, source: 'site00_visual_reference' });
       }
       case 'visual_development_judgment': {
         if (req.method !== 'POST') {

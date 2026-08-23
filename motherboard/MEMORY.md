@@ -3525,3 +3525,27 @@ Summary of follow-up sprint correcting implementation sequence: visual developme
 - Updated: experience visual development (`experienceAssetFalProvider.ts`), experience asset receipts, ASSTS generation/manifests/canonicalMaster, studio builder default path, email intake manifests, scripts.
 - Tests **1374** pass (+3 model tests); build pass.
 
+---
+
+## 2026-08-23 — Visual Reference Intelligence + reference-conditioned design proofs (Experiment E)
+
+Summary of follow-up sprint formalizing automated visual reference intelligence for Studio World / Experiment E visual development.
+
+- **Context:** First SITE 00 Projects Index design proof (Proof A) understood Workbench hierarchy conceptually but generated generic dark sci-fi command-center UI — methodology gap: text Host Canon without actual SITE 00 visual evidence. Founder must NOT manually screenshot SITE 00 for every generation.
+
+- **Core methodology:** Visual Memory ≠ Canon. HOST CANON (semantic) vs HOST VISUAL REFERENCE SET (evidence). Every reference declares authority (STRICT/STRUCTURAL_ONLY/FUNCTIONAL_ONLY/NEGATIVE_ONLY) per dimension (STYLE, COLOR, TYPOGRAPHY, etc.). Reference conflict hierarchy: Functional Canon > Host/Client Canon > approved strict visual > structural > experimental.
+
+- **New module `shared/site00-visual-reference/`:** `VisualReferenceRecord`, `HostVisualMemory`, `ClientVisualMemory`, `VisualCaptureManifest`, `VisualReferencePackage`, selection (`selectVisualReferencesForIntent`), prompt compiler (preserve/ignore/do-not-inherit per reference), contamination guards, provider capability registry (GPT Image 2 edit multi-ref), `resolveVisualGenerationMode()`, staleness, deduplication.
+
+- **Capture service `api/_lib/site00VisualReference/`:** Playwright dynamic import for route capture (desktop 1440, mobile 390); vitest mock path; durable Supabase storage under `visual-references/site00/`; dedup by route+viewport+commit+fingerprint; zero FAL on capture/compile.
+
+- **Integration:** Extended `visualDevelopmentService.ts` — refresh references, compile reference package, classify Proof A as STRUCTURAL+NEGATIVE, child Proof B lineage (`HOST_VISUAL_FIDELITY_FAILURE`), reference-conditioned compose via `composeDesignProofViaFal({ referencePackage })` with strict-host fallback failure (no silent T2I).
+
+- **API:** `visual_development_refresh_references`, `_compile_references`, `_generate_reference_conditioned`, `_exclude_reference`.
+
+- **UI:** `ProjectWorkspaceVisualDevelopmentReview` — VISUAL REFERENCE INTELLIGENCE panel with thumbnails, authority labels, REFRESH/COMPILE/EXCLUDE, GENERATE REFERENCE-CONDITIONED PROOF (founder-triggered; Proof A preserved for A/B).
+
+- **Rules preserved:** Production `/projects` unchanged; NDXBOOK Project Home proof not rerun; World Formation unimplemented; Experiment D frozen; founder manual screenshots not required for SITE 00 routes.
+
+- Tests **1424** pass (+50 visual reference intelligence); build pass. Deploy **v26** pending. `NEW_PROJECTS_PROOF_GENERATED: false` until founder triggers reference-conditioned generation on visual-development route.
+

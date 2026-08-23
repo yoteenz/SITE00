@@ -40,6 +40,15 @@ import { extractSite00ProjectsIndexFunctionalCanon } from '../../../../../shared
 import { extractNdxbookFunctionalCanon } from '../../../../../shared/site00-brand-lore/experienceExpression/functionalCanon.js';
 import { getBrandLoreProfileForOrg } from '../../../site00BrandLore/loreService.js';
 import { NDXBOOK_ORG_ID } from '../creativeIntelligence/founderComparisonSet.js';
+import {
+  classifyExistingProofAsStructuralReference,
+  compileReferencePackageForIntent,
+  initializeVisualReferenceMemory,
+  refreshVisualReferences,
+  resetVisualReferenceServiceMemory,
+} from '../../../site00VisualReference/visualReferenceService.js';
+import { evaluateReferenceAdherence } from '../../../../../shared/site00-visual-reference/referenceAdherenceQA.js';
+import type { VisualReferencePackage } from '../../../../../shared/site00-visual-reference/types.js';
 import * as store from './visualDevelopmentMemoryStore.js';
 
 function nowIso(): string {
@@ -88,6 +97,13 @@ function initProof(
     orchestrationPrepared: false,
     generationError: null,
     generationStarted: false,
+    referencePackage: null,
+    referenceConditioned: false,
+    proofLabel: null,
+    revisionReason: null,
+    proofLineage: [],
+    excludedReferenceIds: [],
+    referenceAdherenceResult: null,
   };
 }
 
@@ -138,9 +154,120 @@ export async function refreshProjectWorkspaceVisualDevelopmentRun(
     return store.saveVisualDevelopmentRun(existing);
   }
 
+  await initializeVisualReferenceMemory();
   const profile = await getBrandLoreProfileForOrg(NDXBOOK_ORG_ID);
   const clientExpression = compileNdxbookClientExpressionProfile(profile);
   return store.saveVisualDevelopmentRun(initRun(projectId, clientExpression));
+}
+
+export async function refreshVisualDevelopmentReferences(
+  proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
+): Promise<ProjectWorkspaceVisualDevelopmentRun> {
+  const run = await refreshProjectWorkspaceVisualDevelopmentRun();
+  const intent =
+    proofId === 'SITE00_PROJECTS_INDEX' ? 'SITE00_PROJECTS_INDEX_DESIGN_PROOF' : 'NDXBOOK_PROJECT_HOME_DESIGN_PROOF';
+  await refreshVisualReferences({ generationIntent: intent, targetDevice: 'DESKTOP' });
+  return run;
+}
+
+export async function compileVisualDevelopmentReferencePackage(
+  proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
+  options?: { excludedReferenceIds?: string[] },
+): Promise<ProjectWorkspaceVisualDevelopmentRun> {
+  const run = await refreshProjectWorkspaceVisualDevelopmentRun();
+  const proof = getProof(run, proofId);
+  const intent =
+    proofId === 'SITE00_PROJECTS_INDEX' ? 'SITE00_PROJECTS_INDEX_DESIGN_PROOF' : 'NDXBOOK_PROJECT_HOME_DESIGN_PROOF';
+
+  let structuralRef = null;
+  let negativeRef = null;
+  if (proof.composedProof && proof.proofLabel === 'PROOF_A') {
+    const classified = classifyExistingProofAsStructuralReference({
+      proofRecordId: proof.proofRecordId,
+      storagePath: proof.composedProof.storagePath,
+      publicUrl: proof.composedProof.publicUrl,
+    });
+    structuralRef = classified.structural;
+    negativeRef = classified.negative;
+  } else if (proof.proofLineage.length > 0) {
+    const parentEntry = proof.proofLineage.find((e) => e.proofLabel === 'PROOF_A');
+    if (parentEntry?.composedProofStoragePath) {
+      const classified = classifyExistingProofAsStructuralReference({
+        proofRecordId: parentEntry.proofRecordId,
+        storagePath: parentEntry.composedProofStoragePath,
+        publicUrl: null,
+      });
+      structuralRef = classified.structural;
+      negativeRef = classified.negative;
+    }
+  }
+
+  const referencePackage = await compileReferencePackageForIntent({
+    generationIntent: intent,
+    targetDevice: 'DESKTOP',
+    structuralProofReference: structuralRef,
+    negativeProofReference: negativeRef,
+    excludedReferenceIds: options?.excludedReferenceIds ?? proof.excludedReferenceIds,
+  });
+
+  proof.referencePackage = referencePackage;
+  proof.lifecycle = 'GENERATION_READY';
+  setProof(run, proof);
+  return store.saveVisualDevelopmentRun(run);
+}
+
+export async function createReferenceConditionedChildProof(
+  proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
+): Promise<ProjectWorkspaceVisualDevelopmentRun> {
+  const run = await refreshProjectWorkspaceVisualDevelopmentRun();
+  const parent = getProof(run, proofId);
+
+  if (!parent.composedProof) {
+    throw new Error('Parent proof required before creating reference-conditioned child proof');
+  }
+
+  const parentLineageEntry = {
+    proofRecordId: parent.proofRecordId,
+    parentProofRecordId: parent.parentProofRecordId,
+    revisionReason: null,
+    proofLabel: parent.proofLabel ?? ('PROOF_A' as const),
+    referencePackageFingerprint: parent.referencePackage?.fingerprint ?? null,
+    referenceConditioned: parent.referenceConditioned,
+    composedProofStoragePath: parent.composedProof.storagePath,
+    classification: {
+      structuralAuthority: true,
+      styleAuthority: false,
+      negativeStyle: true,
+      approvalStatus: 'STRUCTURAL_REFERENCE' as const,
+    },
+    createdAt: parent.composedProof.composedAt,
+  };
+
+  const child: SurfaceDesignProof = {
+    ...parent,
+    proofRecordId: proofRecordId(proofId, parent.proofRecordId),
+    parentProofRecordId: parent.proofRecordId,
+    lifecycle: 'BASELINE',
+    proofLabel: 'PROOF_B',
+    revisionReason: 'HOST_VISUAL_FIDELITY_FAILURE',
+    referenceConditioned: true,
+    referencePackage: null,
+    composedProof: null,
+    generatedAssets: [],
+    generationReceipts: [],
+    qaResult: null,
+    founderJudgment: null,
+    revisionNote: null,
+    implementationContract: null,
+    orchestrationPrepared: false,
+    generationError: null,
+    generationStarted: false,
+    referenceAdherenceResult: null,
+    proofLineage: [...parent.proofLineage, parentLineageEntry],
+  };
+
+  setProof(run, child);
+  return store.saveVisualDevelopmentRun(run);
 }
 
 export async function compileVisualDevelopmentProofManifest(
@@ -174,14 +301,32 @@ export async function compileVisualDevelopmentProofManifest(
 
 async function generateProofInternal(
   proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
+  options?: { referenceConditioned?: boolean },
 ): Promise<ProjectWorkspaceVisualDevelopmentRun> {
   let run = await compileVisualDevelopmentProofManifest(proofId);
-  const proof = getProof(run, proofId);
+
+  const initialProof = getProof(run, proofId);
+  const useReferenceConditioning =
+    options?.referenceConditioned ??
+    initialProof.referenceConditioned ??
+    (proofId === 'SITE00_PROJECTS_INDEX' && initialProof.proofLabel === 'PROOF_B');
+
+  if (useReferenceConditioning) {
+    run = await compileVisualDevelopmentReferencePackage(proofId);
+  }
+
+  let proof = getProof(run, proofId);
   if (!proof.manifest) throw new Error('Manifest required');
 
   proof.lifecycle = 'GENERATING';
   proof.generationStarted = true;
   proof.generationError = null;
+  if (useReferenceConditioning) {
+    proof.referenceConditioned = true;
+    if (!proof.proofLabel) proof.proofLabel = 'PROOF_B';
+  } else if (!proof.proofLabel && proofId === 'SITE00_PROJECTS_INDEX') {
+    proof.proofLabel = 'PROOF_A';
+  }
   setProof(run, proof);
   store.saveVisualDevelopmentRun(run);
 
@@ -278,7 +423,7 @@ async function generateProofInternal(
     return store.saveVisualDevelopmentRun(run);
   }
 
-  const composeStoragePath = `site00/visual-development/${proofId.toLowerCase()}/composed-desktop-proof.webp`;
+  const composeStoragePath = `site00/visual-development/${proofId.toLowerCase()}/${proof.proofRecordId}/composed-desktop-proof.webp`;
   const composeResult = await composeDesignProofViaFal({
     proofId,
     storagePath: composeStoragePath,
@@ -287,6 +432,7 @@ async function generateProofInternal(
     artDirectionSummary: artSummary,
     functionalSummary,
     componentAssetDescriptions: generatedAssets.map((a) => `${a.assetRole}: ${a.storagePath}`),
+    referencePackage: useReferenceConditioning ? proof.referencePackage : null,
   });
 
   if (!composeResult.ok) {
@@ -348,6 +494,19 @@ async function generateProofInternal(
     proofId,
   });
 
+  if (useReferenceConditioning) {
+    const adherence = evaluateReferenceAdherence({ visionEvaluationAvailable: false });
+    proof.referenceAdherenceResult = adherence.overallResult;
+  }
+
+  if (!useReferenceConditioning && proofId === 'SITE00_PROJECTS_INDEX' && proof.composedProof) {
+    classifyExistingProofAsStructuralReference({
+      proofRecordId: proof.proofRecordId,
+      storagePath: proof.composedProof.storagePath,
+      publicUrl: proof.composedProof.publicUrl,
+    });
+  }
+
   const substantive = proof.qaResult.substantiveGate.passes;
   proof.lifecycle = substantive ? 'DESIGN_PROOF_READY' : 'FOUNDER_REVIEW';
   if (substantive) proof.lifecycle = 'FOUNDER_REVIEW';
@@ -360,8 +519,33 @@ async function generateProofInternal(
 
 export async function generateVisualDevelopmentDesignProof(
   proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
+  options?: { referenceConditioned?: boolean },
 ): Promise<ProjectWorkspaceVisualDevelopmentRun> {
-  return generateProofInternal(proofId);
+  return generateProofInternal(proofId, options);
+}
+
+export async function generateReferenceConditionedDesignProof(
+  proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
+): Promise<ProjectWorkspaceVisualDevelopmentRun> {
+  const run = await refreshProjectWorkspaceVisualDevelopmentRun();
+  const proof = getProof(run, proofId);
+  if (proof.proofLabel === 'PROOF_A' && proof.composedProof) {
+    await createReferenceConditionedChildProof(proofId);
+  }
+  return generateProofInternal(proofId, { referenceConditioned: true });
+}
+
+export async function excludeVisualDevelopmentReference(
+  proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
+  referenceId: string,
+): Promise<ProjectWorkspaceVisualDevelopmentRun> {
+  const run = await refreshProjectWorkspaceVisualDevelopmentRun();
+  const proof = getProof(run, proofId);
+  if (!proof.excludedReferenceIds.includes(referenceId)) {
+    proof.excludedReferenceIds = [...proof.excludedReferenceIds, referenceId];
+  }
+  setProof(run, proof);
+  return store.saveVisualDevelopmentRun(run);
 }
 
 export async function setVisualDevelopmentProofJudgment(params: {
@@ -426,6 +610,7 @@ export async function orchestrateVisualDevelopmentImplementation(
 
 export function resetVisualDevelopmentRunMemory(): void {
   store.resetVisualDevelopmentMemory();
+  resetVisualReferenceServiceMemory();
 }
 
 export { EXPERIENCE_FAL_MODEL, EXPERIENCE_FAL_PROVIDER };

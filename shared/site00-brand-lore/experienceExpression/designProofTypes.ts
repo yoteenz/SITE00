@@ -13,6 +13,10 @@ import type { ExperienceImplementationContract } from './types.js';
 import type { ProjectWorkspaceCanon } from '../projectWorkspace/projectWorkspaceCanon.js';
 import type { ClientProjectExpressionProfile } from '../projectWorkspace/clientProjectExpressionProfile.js';
 import type { ExperienceFunctionalCanon } from './types.js';
+import type {
+  DesignProofLineageEntry,
+  VisualReferencePackage,
+} from '../../site00-visual-reference/types.js';
 
 export type DesignProofGenerationReceipt = {
   receiptId: string;
@@ -75,6 +79,13 @@ export type SurfaceDesignProof = {
   orchestrationPrepared: boolean;
   generationError: string | null;
   generationStarted: boolean;
+  referencePackage: VisualReferencePackage | null;
+  referenceConditioned: boolean;
+  proofLabel: 'PROOF_A' | 'PROOF_B' | null;
+  revisionReason: string | null;
+  proofLineage: DesignProofLineageEntry[];
+  excludedReferenceIds: string[];
+  referenceAdherenceResult: 'NOT_EVALUATED' | 'PASS' | 'FAIL' | null;
 };
 
 export type ProjectWorkspaceVisualDevelopmentRun = {

@@ -12,6 +12,16 @@ import {
   EXPERIENCE_FAL_MODEL,
   SITE00_FAL_TEXT_TO_IMAGE_MODEL,
 } from '../../site00-visual-generation/falImageModels.js';
+import type { VisualReferencePackage, VisualGenerationMode } from '../../site00-visual-reference/types.js';
+import { compileReferenceConditionedPrompt } from '../../site00-visual-reference/referencePromptCompiler.js';
+import {
+  assertReferenceConditioningSupported,
+  getCurrentExperienceProviderCapability,
+} from '../../site00-visual-reference/providerCapabilityRegistry.js';
+import {
+  resolveVisualGenerationMode,
+  shouldFailWithoutReferenceConditioning,
+} from '../../site00-visual-reference/generationModeResolver.js';
 
 export { EXPERIENCE_FAL_MODEL, SITE00_FAL_TEXT_TO_IMAGE_MODEL };
 export const EXPERIENCE_FAL_PROVIDER = 'fal';
@@ -101,6 +111,8 @@ async function runFalGeneration(params: {
   storagePath: string;
   aspectRatio?: string;
   requirementId: string;
+  referenceImageUrls?: string[];
+  strictHostRequired?: boolean;
 }): Promise<FalGenerationResult> {
   const isVitest = process.env.VITEST === 'true';
   const falKey = process.env.FAL_KEY?.trim();
@@ -126,11 +138,24 @@ async function runFalGeneration(params: {
     const { fal } = await import('@fal-ai/client');
     fal.config({ credentials: falKey });
 
+    const refUrls = params.referenceImageUrls?.filter(Boolean) ?? [];
+    const profile = getCurrentExperienceProviderCapability();
+    const supportCheck = assertReferenceConditioningSupported({
+      providerId: profile.providerId,
+      modelId: profile.modelId,
+      referenceCount: refUrls.length,
+      strictHostRequired: Boolean(params.strictHostRequired && refUrls.length > 0),
+    });
+    if (!supportCheck.ok) {
+      return { ok: false, error: supportCheck.error, requirementId: params.requirementId };
+    }
+
     const fullPrompt = `${params.prompt}\n\nAvoid: ${params.negativePrompt}`;
     const { model, input } = buildFalImageInput({
       prompt: fullPrompt,
       aspectRatio: params.aspectRatio ?? '16:9',
       outputFormat: 'webp',
+      referenceImageUrls: refUrls.length > 0 ? refUrls : undefined,
     });
 
     const result = (await fal.subscribe(model, { input: input as never, logs: false })) as {
@@ -203,8 +228,46 @@ export async function composeDesignProofViaFal(params: {
   artDirectionSummary: string;
   functionalSummary: string;
   componentAssetDescriptions: string[];
-}): Promise<FalGenerationResult & { requirementId: string }> {
-  const { prompt, negativePrompt, promptHash } = buildComposedDesignProofPrompt(params);
+  referencePackage?: VisualReferencePackage | null;
+}): Promise<FalGenerationResult & { requirementId: string; generationMode?: VisualGenerationMode }> {
+  const { prompt: basePrompt, negativePrompt: baseNegative, promptHash } = buildComposedDesignProofPrompt(params);
+
+  let prompt = basePrompt;
+  let negativePrompt = baseNegative;
+  let referenceImageUrls: string[] | undefined;
+  let generationMode: VisualGenerationMode = 'TEXT_TO_IMAGE';
+  let strictHostRequired = false;
+
+  if (params.referencePackage) {
+    strictHostRequired = params.referencePackage.strictHostVisualConditioning;
+    generationMode = resolveVisualGenerationMode({ referencePackage: params.referencePackage });
+    referenceImageUrls = params.referencePackage.references
+      .map((r) => r.publicUrl)
+      .filter((u): u is string => Boolean(u));
+
+    if (
+      shouldFailWithoutReferenceConditioning({
+        strictHostVisualConditioning: strictHostRequired,
+        generationMode,
+        referenceCount: referenceImageUrls.length,
+      })
+    ) {
+      return {
+        ok: false,
+        error: 'STRICT_HOST_VISUAL_CONDITIONING requires reference-conditioned generation; cannot fall back to text-to-image',
+        requirementId: `compose-${params.proofId}`,
+        generationMode,
+      };
+    }
+
+    const compiled = compileReferenceConditionedPrompt({
+      referencePackage: params.referencePackage,
+      basePrompt,
+      negativePrompt: baseNegative,
+    });
+    prompt = compiled.prompt;
+    negativePrompt = compiled.negativePrompt;
+  }
 
   const result = await runFalGeneration({
     prompt,
@@ -213,9 +276,11 @@ export async function composeDesignProofViaFal(params: {
     storagePath: params.storagePath,
     aspectRatio: '16:9',
     requirementId: `compose-${params.proofId}`,
+    referenceImageUrls,
+    strictHostRequired,
   });
 
-  return { ...result, requirementId: `compose-${params.proofId}` };
+  return { ...result, requirementId: `compose-${params.proofId}`, generationMode };
 }
 
 export function cssFallbackBlocked(): true {
