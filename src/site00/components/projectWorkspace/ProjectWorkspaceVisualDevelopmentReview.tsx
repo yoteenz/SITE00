@@ -4,23 +4,139 @@ import type {
   ProjectWorkspaceVisualDevelopmentRun,
   SurfaceDesignProof,
 } from '../../../../shared/site00-brand-lore/experienceExpression/designProofTypes.js';
+import type { VisualReferencePackage } from '../../../../shared/site00-visual-reference/types.js';
 import '../../styles/site00-visual-development.css';
 
 type ProofPanelProps = {
   proof: SurfaceDesignProof;
   title: string;
+  projectSlug: string;
+  showReferenceIntelligence?: boolean;
   onGenerate: () => Promise<void>;
+  onGenerateReferenceConditioned?: () => Promise<void>;
+  onRefreshReferences?: () => Promise<void>;
+  onCompileReferences?: () => Promise<void>;
+  onExcludeReference?: (referenceId: string) => Promise<void>;
   onJudgment: (judgment: 'LOVE_THE_DIRECTION' | 'PROMISING_REVISE' | 'NOT_THE_DIRECTION') => Promise<void>;
   onPrepare: () => Promise<void>;
   onOrchestrate: () => Promise<void>;
   busy: boolean;
 };
 
-function ProofPanel({ proof, title, onGenerate, onJudgment, onPrepare, onOrchestrate, busy }: ProofPanelProps) {
+function ReferenceThumbnail({ entry }: { entry: VisualReferencePackage['references'][0] }) {
+  return (
+    <div className="site00-vd-ref">
+      {entry.publicUrl ? (
+        <img src={entry.publicUrl} alt={entry.label} className="site00-vd-ref__thumb" />
+      ) : (
+        <div className="site00-vd-ref__placeholder">{entry.storagePath.split('/').pop()}</div>
+      )}
+      <p className="site00-vd-ref__label">{entry.label}</p>
+      <p className="site00-vd-ref__why">{entry.whyIncluded}</p>
+    </div>
+  );
+}
+
+function ReferenceIntelligencePanel({
+  proof,
+  onRefreshReferences,
+  onCompileReferences,
+  onExcludeReference,
+  busy,
+}: {
+  proof: SurfaceDesignProof;
+  onRefreshReferences?: () => Promise<void>;
+  onCompileReferences?: () => Promise<void>;
+  onExcludeReference?: (referenceId: string) => Promise<void>;
+  busy: boolean;
+}) {
+  const pkg = proof.referencePackage;
+  return (
+    <section className="site00-vd-refs" aria-label="Visual Reference Intelligence">
+      <h3 className="site00-vd-refs__title">VISUAL REFERENCE INTELLIGENCE</h3>
+      <p className="site00-vd-refs__sub">HOST REFERENCES — automated selection; manual upload not required for SITE 00 routes.</p>
+
+      <div className="site00-vd-refs__actions">
+        {onRefreshReferences ? (
+          <button type="button" className="site00-btn" disabled={busy} onClick={() => void onRefreshReferences()}>
+            REFRESH VISUAL REFERENCES
+          </button>
+        ) : null}
+        {onCompileReferences ? (
+          <button type="button" className="site00-btn" disabled={busy} onClick={() => void onCompileReferences()}>
+            COMPILE REFERENCE PACKAGE
+          </button>
+        ) : null}
+      </div>
+
+      {pkg ? (
+        <>
+          <p className="site00-vd-refs__status">
+            REFERENCE PACKAGE <strong>{proof.lifecycle === 'GENERATION_READY' ? 'READY' : proof.lifecycle.replace(/_/g, ' ')}</strong>
+            {' · '}
+            Mode: {pkg.generationMode.replace(/_/g, ' ')}
+            {' · '}
+            Fingerprint: {pkg.fingerprint}
+          </p>
+          <div className="site00-vd-refs__grid">
+            {pkg.references.map((ref) => (
+              <div key={ref.referenceId} className="site00-vd-ref-wrap">
+                <ReferenceThumbnail entry={ref} />
+                {onExcludeReference ? (
+                  <button
+                    type="button"
+                    className="site00-btn site00-btn--small"
+                    disabled={busy}
+                    onClick={() => void onExcludeReference(ref.referenceId)}
+                  >
+                    EXCLUDE
+                  </button>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </>
+      ) : (
+        <p className="site00-vd-refs__empty">Compile reference package to preview selected host references.</p>
+      )}
+
+      {proof.proofLineage.length > 0 ? (
+        <div className="site00-vd-refs__lineage">
+          <h4>A/B METHODOLOGY LINEAGE</h4>
+          <ul>
+            {proof.proofLineage.map((entry) => (
+              <li key={entry.proofRecordId}>
+                {entry.proofLabel ?? 'PROOF'} — {entry.revisionReason ?? 'baseline'}
+                {entry.referencePackageFingerprint ? ` · ref fp: ${entry.referencePackageFingerprint}` : ''}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
+function ProofPanel({
+  proof,
+  title,
+  showReferenceIntelligence,
+  onGenerate,
+  onGenerateReferenceConditioned,
+  onRefreshReferences,
+  onCompileReferences,
+  onExcludeReference,
+  onJudgment,
+  onPrepare,
+  onOrchestrate,
+  busy,
+}: ProofPanelProps) {
   const [showDetails, setShowDetails] = useState(false);
   const manifest = proof.manifest;
   const composed = proof.composedProof;
   const approved = proof.lifecycle === 'APPROVED_FOR_IMPLEMENTATION' || proof.lifecycle === 'IMPLEMENTATION_CONTRACT_READY';
+  const hasProofA = proof.proofLabel === 'PROOF_A' || (composed && !proof.referenceConditioned);
+  const canGenerateReferenceConditioned = hasProofA && composed && onGenerateReferenceConditioned;
 
   return (
     <section className="site00-vd-proof" aria-label={title}>
@@ -28,8 +144,25 @@ function ProofPanel({ proof, title, onGenerate, onJudgment, onPrepare, onOrchest
         <h2 className="site00-vd-proof__title">{title}</h2>
         <p className="site00-vd-proof__status">
           Status: <strong>{proof.lifecycle.replace(/_/g, ' ')}</strong>
+          {proof.proofLabel ? (
+            <>
+              {' '}
+              · <strong>{proof.proofLabel}</strong>
+            </>
+          ) : null}
+          {proof.revisionReason ? <> · {proof.revisionReason.replace(/_/g, ' ')}</> : null}
         </p>
       </header>
+
+      {showReferenceIntelligence ? (
+        <ReferenceIntelligencePanel
+          proof={proof}
+          onRefreshReferences={onRefreshReferences}
+          onCompileReferences={onCompileReferences}
+          onExcludeReference={onExcludeReference}
+          busy={busy}
+        />
+      ) : null}
 
       {manifest ? (
         <div className="site00-vd-proof__cost">
@@ -43,22 +176,46 @@ function ProofPanel({ proof, title, onGenerate, onJudgment, onPrepare, onOrchest
       ) : null}
 
       {!composed ? (
-        <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void onGenerate()}>
-          GENERATE DESIGN PROOF
-        </button>
+        <div className="site00-vd-proof__generate">
+          <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void onGenerate()}>
+            GENERATE DESIGN PROOF
+          </button>
+          {proof.referencePackage && onGenerateReferenceConditioned ? (
+            <button
+              type="button"
+              className="site00-btn site00-btn--primary"
+              disabled={busy}
+              onClick={() => void onGenerateReferenceConditioned()}
+            >
+              GENERATE NEW DESIGN PROOF
+            </button>
+          ) : null}
+        </div>
       ) : (
         <div className="site00-vd-proof__image-wrap">
           {composed.publicUrl ? (
-            <img
-              src={composed.publicUrl}
-              alt={`${title} design proof`}
-              className="site00-vd-proof__image"
-            />
+            <img src={composed.publicUrl} alt={`${title} design proof`} className="site00-vd-proof__image" />
           ) : (
             <p className="site00-vd-proof__path">Proof stored: {composed.storagePath}</p>
           )}
         </div>
       )}
+
+      {canGenerateReferenceConditioned ? (
+        <div className="site00-vd-proof__generate">
+          <p className="site00-vd-proof__ab-note">
+            PREVIOUS PROOF (Proof A — textual host canon) preserved. Generate reference-conditioned Proof B below.
+          </p>
+          <button
+            type="button"
+            className="site00-btn site00-btn--primary"
+            disabled={busy}
+            onClick={() => void onGenerateReferenceConditioned!()}
+          >
+            GENERATE REFERENCE-CONDITIONED PROOF
+          </button>
+        </div>
+      ) : null}
 
       {proof.generationError ? (
         <p className="site00-vd-proof__error">GENERATION_FAILED — {proof.generationError}</p>
@@ -105,6 +262,9 @@ function ProofPanel({ proof, title, onGenerate, onJudgment, onPrepare, onOrchest
         <div className="site00-vd-proof__details">
           <pre className="site00-vd-proof__pre">{JSON.stringify(proof.artDirection, null, 2)}</pre>
           {manifest ? <pre className="site00-vd-proof__pre">{JSON.stringify(manifest, null, 2)}</pre> : null}
+          {proof.referencePackage ? (
+            <pre className="site00-vd-proof__pre">{JSON.stringify(proof.referencePackage, null, 2)}</pre>
+          ) : null}
           {proof.generationReceipts.length > 0 ? (
             <pre className="site00-vd-proof__pre">{JSON.stringify(proof.generationReceipts, null, 2)}</pre>
           ) : null}
@@ -150,16 +310,47 @@ export function ProjectWorkspaceVisualDevelopmentReview({ projectSlug }: Project
       <header className="site00-vd__header">
         <p className="site00-label-red">EXPERIMENT E</p>
         <h1 className="site00-vd__title">PROJECT WORKSPACE VISUAL DEVELOPMENT</h1>
-        <p className="site00-vd__sub">Control / review surface — not the production page.</p>
+        <p className="site00-vd__sub">
+          Control / review surface — not the production page. Visual Reference Intelligence selects host references
+          automatically; founder manual screenshot collection is not required.
+        </p>
       </header>
 
       <ProofPanel
         title="PROOF 01 — SITE 00 PROJECTS INDEX"
         proof={run.proofs.site00ProjectsIndex}
+        projectSlug={projectSlug}
+        showReferenceIntelligence
         busy={busy}
         onGenerate={() =>
           wrap(async () => {
             await site00ProjectsApi.visualDevelopmentGenerate(projectSlug, 'SITE00_PROJECTS_INDEX');
+          })
+        }
+        onGenerateReferenceConditioned={() =>
+          wrap(async () => {
+            await site00ProjectsApi.visualDevelopmentCompileReferences(projectSlug, 'SITE00_PROJECTS_INDEX');
+            await site00ProjectsApi.visualDevelopmentGenerateReferenceConditioned(projectSlug, 'SITE00_PROJECTS_INDEX');
+          })
+        }
+        onRefreshReferences={() =>
+          wrap(async () => {
+            await site00ProjectsApi.visualDevelopmentRefreshReferences(projectSlug, 'SITE00_PROJECTS_INDEX');
+          })
+        }
+        onCompileReferences={() =>
+          wrap(async () => {
+            await site00ProjectsApi.visualDevelopmentCompileReferences(projectSlug, 'SITE00_PROJECTS_INDEX');
+          })
+        }
+        onExcludeReference={(referenceId) =>
+          wrap(async () => {
+            await site00ProjectsApi.visualDevelopmentExcludeReference(
+              projectSlug,
+              'SITE00_PROJECTS_INDEX',
+              referenceId,
+            );
+            await site00ProjectsApi.visualDevelopmentCompileReferences(projectSlug, 'SITE00_PROJECTS_INDEX');
           })
         }
         onJudgment={(judgment) =>
@@ -182,6 +373,7 @@ export function ProjectWorkspaceVisualDevelopmentReview({ projectSlug }: Project
       <ProofPanel
         title="PROOF 02 — NDXBOOK PROJECT HOME"
         proof={run.proofs.ndxbookProjectHome}
+        projectSlug={projectSlug}
         busy={busy}
         onGenerate={() =>
           wrap(async () => {

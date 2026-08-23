@@ -531,6 +531,55 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, proofId }),
       },
     ),
+  visualDevelopmentRefreshReferences: (
+    slug: string,
+    proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=visual_development_refresh_references',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, proofId }),
+      },
+    ),
+  visualDevelopmentCompileReferences: (
+    slug: string,
+    proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=visual_development_compile_references',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, proofId }),
+      },
+    ),
+  visualDevelopmentGenerateReferenceConditioned: (
+    slug: string,
+    proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=visual_development_generate_reference_conditioned',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, proofId }),
+      },
+    ),
+  visualDevelopmentExcludeReference: (
+    slug: string,
+    proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
+    referenceId: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=visual_development_exclude_reference',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, proofId, referenceId }),
+      },
+    ),
   creativeLineageForensicAudit: (slug: string) =>
     projectsFetch<{ ok: true; report: Record<string, unknown> }>(
       `/api/site00/projects?action=creative_lineage_forensic_audit&slug=${encodeURIComponent(slug)}`,
