@@ -3929,3 +3929,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - Extended tests in `experimentGStaleForming.test.ts` (8 cases).
 - **Deploy:** Railway redeploy (API) + cPanel static for UI skip-prepare fix.
 
+---
+
+## 2026-08-23 — Visual development FAL failure (storage already exists)
+
+- **Context:** Founder screenshot on visual development page — `GENERATION_FAILED — ONE OR MORE FAL ASSET GENERATIONS FAILED` for SITE00 Projects Index composed interface (5 missing FAL assets, MOBILE PROJECTS BASELINE reference surface). Separate from Experiment G formation.
+- **Root cause (Supabase):** FAL generation succeeded but **Supabase storage upload failed** with `Storage upload failed: The resource already exists` on all 5 deterministic paths (`site00/visual-development/site00_projects_index/*-desktop.webp`). Retries re-called FAL then failed again on upload because `uploadSite00AssetBuffer` did not use `upsert: true`.
+- **Fix (branch `cursor/fal-asset-storage-upsert-fix-4f59`):** Reuse existing storage objects before calling FAL; upload with `upsert: true` on regeneration; clearer error detail in API + per-receipt failure list in UI; test `experienceAssetFalStorage.test.ts`.
+- **Founder action:** Railway redeploy, then tap **GENERATE MISSING ASSETS** again — should reuse existing files or overwrite without failing.
+

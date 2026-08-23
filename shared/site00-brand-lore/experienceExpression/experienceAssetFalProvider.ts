@@ -32,6 +32,7 @@ import {
   compileBehavioralVisualTranslation,
   sanitizeProviderPrompt,
 } from '../../site00-studio-world-production/p1/generationBoundary/behavioralVisualTranslation.js';
+import { isFalAccessibleReferenceUrl } from '../../site00-visual-reference/referencePublicUrl.js';
 
 export { EXPERIENCE_FAL_MODEL, SITE00_FAL_TEXT_TO_IMAGE_MODEL };
 export const EXPERIENCE_FAL_PROVIDER = 'fal';
@@ -258,6 +259,16 @@ export async function generateDesignProofAssetViaFal(params: {
     referenceImageUrls = params.referencePackage.references
       .map((r) => r.publicUrl)
       .filter((u): u is string => Boolean(u));
+
+    const invalidRefs = params.referencePackage.references.filter((r) => !isFalAccessibleReferenceUrl(r.publicUrl));
+    if (strictHostRequired && invalidRefs.length > 0) {
+      return {
+        ok: false,
+        error: `REFERENCE_CAPTURE_REQUIRED — FAL cannot download: ${invalidRefs.map((r) => r.referenceId).join(', ')}. Refresh visual references first.`,
+        requirementId: params.requirement.id,
+        generationMode,
+      };
+    }
 
     if (
       shouldFailWithoutReferenceConditioning({

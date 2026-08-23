@@ -33,7 +33,10 @@ export function seedNdxbookClientVisualMemory(): ClientVisualMemory {
     deploymentId: null,
     environment: 'seed',
     storagePath: 'visual-references/projects/ndxbook/client-typography.webp',
-    publicUrl: 'https://vitest.local/visual-references/projects/ndxbook/client-typography.webp',
+    publicUrl:
+      process.env.VITEST === 'true'
+        ? 'https://vitest.local/visual-references/projects/ndxbook/client-typography.webp'
+        : null,
     imageFingerprint: 'fp-ndxbook-client',
     pageFingerprint: null,
     referenceRoles: ['CLIENT_VISUAL_IDENTITY', 'CLIENT_TYPOGRAPHY'],

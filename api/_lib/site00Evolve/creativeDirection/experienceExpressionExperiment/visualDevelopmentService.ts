@@ -217,11 +217,10 @@ export async function refreshProjectWorkspaceVisualDevelopmentRun(
 export async function refreshVisualDevelopmentReferences(
   proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
 ): Promise<ProjectWorkspaceVisualDevelopmentRun> {
-  const run = await refreshProjectWorkspaceVisualDevelopmentRun();
   const intent =
     proofId === 'SITE00_PROJECTS_INDEX' ? 'SITE00_PROJECTS_INDEX_DESIGN_PROOF' : 'NDXBOOK_PROJECT_HOME_DESIGN_PROOF';
   await refreshVisualReferences({ generationIntent: intent, targetDevice: 'DESKTOP' });
-  return run;
+  return compileVisualDevelopmentReferencePackage(proofId);
 }
 
 function refreshSurfaceClassification(proof: SurfaceDesignProof): void {
