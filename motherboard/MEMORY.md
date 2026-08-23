@@ -3313,3 +3313,25 @@ Summary of the **whole conversation so far** in this cloud agent run (35-phase s
 
 - **Founder next:** Railway redeploy API; cPanel **v16** for Revision Studio + REVISE buttons; apply migration `20260823140000` on Supabase if not applied.
 
+---
+
+## 2026-08-23 — Founder judgment semantics + revision lifecycle integration
+
+Summary of follow-up integration sprint after PR #286 + #288.
+
+- **Context:** Reconcile PR #286 judgment behavior with completed revision architecture; correct LOVE IT semantics; separate creative value / brand disposition / production destiny; connect PROMISING REFINE to Revision Studio without auto-generation.
+
+- **Decisions / outcomes:**
+  - Three independent dimensions: `creativeValue`, `brandDisposition`, `productionDestiny` (+ launch seed state).
+  - LOVE IT → production candidate only; **never** auto launch seed, canon, or winner.
+  - Launch Seed Set requires explicit `FOUNDER_SELECTED` provenance via `creative_lineage_launch_seed_select` API.
+  - Historical auto-seed: remove only `AUTO_LOVE_IT_LEGACY` provenance; flag `UNKNOWN` as `LAUNCH_SEED_REVIEW_REQUIRED`.
+  - PROMISING_REFINE preserves creative value (not collapsed to REVISE); both open Revision Studio.
+  - NOT FOR ME: brand excluded, blob/lineage preserved; `ideaPortabilityEligible` not exact asset cross-brand reuse.
+  - Revision child defaults UNREVIEWED; lifecycle events appended on judgment transitions.
+  - Content Library: lifecycle disclosure, Revision Studio + explicit launch seed select buttons.
+
+- **Changes:** `assetLifecycleDimensions.ts`, `assetLifecycleEvents.ts`, `launchSeedSemanticsService.ts`, judgment/lineage updates, library UI, 20 integration tests.
+
+- **Founder next:** Railway redeploy API from main; cPanel **v17** for library lifecycle UI; run launch seed reconcile once if historical seed entries exist.
+
