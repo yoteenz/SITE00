@@ -26,12 +26,19 @@ type ProofPanelProps = {
 };
 
 function ReferenceThumbnail({ entry }: { entry: VisualReferencePackage['references'][0] }) {
+  const displayable =
+    entry.publicUrl &&
+    !/vitest\.local|localhost|127\.0\.0\.1/i.test(entry.publicUrl);
+
   return (
     <div className="site00-vd-ref">
-      {entry.publicUrl ? (
-        <img src={entry.publicUrl} alt={entry.label} className="site00-vd-ref__thumb" />
+      {displayable ? (
+        <img src={entry.publicUrl!} alt={entry.label} className="site00-vd-ref__thumb" />
       ) : (
-        <div className="site00-vd-ref__placeholder">{entry.storagePath.split('/').pop()}</div>
+        <div className="site00-vd-ref__placeholder">
+          {entry.storagePath.split('/').pop()}
+          <span className="site00-vd-ref__placeholder-note">CAPTURE REQUIRED</span>
+        </div>
       )}
       <p className="site00-vd-ref__label">{entry.label}</p>
       <p className="site00-vd-ref__why">{entry.whyIncluded}</p>

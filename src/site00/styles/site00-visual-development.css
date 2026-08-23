@@ -91,11 +91,21 @@
   width: 100%;
   aspect-ratio: 16 / 10;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.35rem;
   font-size: 0.7rem;
   border: 1px dashed rgba(255, 255, 255, 0.2);
   opacity: 0.7;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.site00-vd-ref__placeholder-note {
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: #c44;
 }
 
 .site00-vd-ref__label {
