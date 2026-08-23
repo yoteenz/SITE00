@@ -7,6 +7,7 @@ import type {
   CanonicalCarouselExpansionRun,
   CarouselSlideRecord,
 } from '../../../../../shared/site00-brand-lore/canonicalCarouselExpansionTypes.js';
+import { isCarouselRunSuperseded } from '../../../../../shared/site00-brand-lore/canonicalCarouselSupersession.js';
 import { site00StorageObjectExists } from '../../../site00Assts/storage.js';
 
 function clearSlideForRegeneration(slide: CarouselSlideRecord): CarouselSlideRecord {
@@ -28,6 +29,10 @@ function clearSlideForRegeneration(slide: CarouselSlideRecord): CarouselSlideRec
 export async function reconcileCarouselRunMissingStorage(
   run: CanonicalCarouselExpansionRun,
 ): Promise<{ run: CanonicalCarouselExpansionRun; repairedSlideCount: number }> {
+  if (isCarouselRunSuperseded(run)) {
+    return { run, repairedSlideCount: 0 };
+  }
+
   let repairedSlideCount = 0;
   const directions = await Promise.all(
     run.directions.map(async (dir) => {

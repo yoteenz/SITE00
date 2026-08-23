@@ -75,7 +75,13 @@ export function CanonicalCarouselExpansionReview({
   }, [onUpdate]);
 
   useEffect(() => {
-    if (!run || run.status === 'COMPLETE' || run.status === 'FAILED' || run.status === 'BLOCKED_MISSING_COVERS') {
+    if (
+      !run ||
+      run.status === 'COMPLETE' ||
+      run.status === 'FAILED' ||
+      run.status === 'BLOCKED_MISSING_COVERS' ||
+      run.status === 'SUPERSEDED_BY_METHODOLOGY'
+    ) {
       return;
     }
     const id = window.setInterval(() => void poll(), 5000);
@@ -154,34 +160,30 @@ export function CanonicalCarouselExpansionReview({
     return (
       <section className="site00-carousel-expansion" aria-label="Canonical carousel expansion">
         <p className="site00-carousel-expansion__experiment">EXPERIMENT C — SAME-TOPIC CAROUSEL WORLD EXPANSION</p>
-        <h3 className="site00-carousel-expansion__title">CANONICAL SIX · CREDIT UTILIZATION CAROUSELS</h3>
-        <p className="site00-carousel-expansion__meta">
-          Expand each canonical direction into a 6-slide carousel. Experiment B heroes become Slide 01 — preserved,
-          never regenerated.
+        <h3 className="site00-carousel-expansion__title">EXPERIMENT SUPERSEDED</h3>
+        <p className="site00-carousel-expansion__meta site00-carousel-expansion__superseded">
+          CREATIVE CONCEPT TERRITORY METHODOLOGY INTRODUCED
         </p>
         <p className="site00-carousel-expansion__meta">
+          GENERATION INTENTIONALLY STOPPED. EXISTING CREATIVE PRESERVED. Experiment C world expansion is
+          generation-read-only.
+        </p>
+        <p className="site00-carousel-expansion__meta">
+          <Link to={SITE00_ROUTES.projectExperimentD.replace(':projectSlug', projectSlug)}>
+            Experiment D — six concept territory heroes →
+          </Link>
+          {' · '}
           <Link to={SITE00_ROUTES.projectCanonicalCreativeRange.replace(':projectSlug', projectSlug)}>
-            Experiment B — canonical heroes →
+            Experiment B — preserved heroes →
           </Link>
         </p>
-        <button
-          type="button"
-          className="site00-btn site00-btn--primary"
-          disabled={executing}
-          onClick={() => void execute('INITIALIZE')}
-        >
-          {executing ? 'INITIALIZING…' : 'INITIALIZE CAROUSEL WORLDS'}
-        </button>
-        {error ? (
-          <p className="site00-carousel-expansion__error" role="alert">
-            {error}
-          </p>
-        ) : null}
       </section>
     );
   }
 
-  const inProgress = ['GENERATING_SLIDE', 'BUILDING_WORLD_BIBLES', 'LOADING_COVERS'].includes(run.status);
+  const isSuperseded = run.status === 'SUPERSEDED_BY_METHODOLOGY';
+  const inProgress =
+    !isSuperseded && ['GENERATING_SLIDE', 'BUILDING_WORLD_BIBLES', 'LOADING_COVERS'].includes(run.status);
 
   return (
     <section className="site00-carousel-expansion" aria-label="Canonical carousel expansion">
@@ -189,16 +191,39 @@ export function CanonicalCarouselExpansionReview({
       <h3 className="site00-carousel-expansion__title">CANONICAL SIX · CREDIT UTILIZATION CAROUSELS</h3>
       <p className="site00-carousel-expansion__meta">
         TOPIC: {run.sharedTopic?.topicName ?? 'CREDIT UTILIZATION'} · STATUS: {run.status.replace(/_/g, ' ')}
-        {run.currentDirectionIndex
+        {run.supersession
+          ? ` · ${run.supersession.generatedSlideCount}/${run.supersession.plannedSlideCount} SLIDES GENERATED`
+          : ''}
+        {run.currentDirectionIndex && !isSuperseded
           ? ` · WORLD ${String(run.currentDirectionIndex).padStart(2, '0')} / 06`
           : ''}
-        {run.currentSlideNumber ? ` · SLIDE ${String(run.currentSlideNumber).padStart(2, '0')} / 06` : ''}
+        {run.currentSlideNumber && !isSuperseded
+          ? ` · SLIDE ${String(run.currentSlideNumber).padStart(2, '0')} / 06`
+          : ''}
       </p>
       <p className="site00-carousel-expansion__meta">
         <Link to={SITE00_ROUTES.projectCanonicalCreativeRange.replace(':projectSlug', projectSlug)}>
           Experiment B — preserved covers →
         </Link>
+        {' · '}
+        <Link to={SITE00_ROUTES.projectExperimentD.replace(':projectSlug', projectSlug)}>
+          Experiment D — concept territory heroes →
+        </Link>
       </p>
+
+      {isSuperseded ? (
+        <div className="site00-carousel-expansion__superseded-banner" role="status">
+          <p className="site00-carousel-expansion__superseded-title">EXPERIMENT SUPERSEDED</p>
+          <p>CREATIVE CONCEPT TERRITORY METHODOLOGY INTRODUCED</p>
+          <p>GENERATION INTENTIONALLY STOPPED. EXISTING CREATIVE PRESERVED.</p>
+          {run.supersession ? (
+            <p>
+              {run.supersession.generatedSlideCount} / {run.supersession.plannedSlideCount} GENERATED · SUPERSEDED —
+              CREATIVE METHODOLOGY UPDATED
+            </p>
+          ) : null}
+        </div>
+      ) : null}
 
       {run.status === 'BLOCKED_MISSING_COVERS' ? (
         <p className="site00-carousel-expansion__error" role="alert">
@@ -222,25 +247,32 @@ export function CanonicalCarouselExpansionReview({
         </p>
       ) : null}
 
-      <div className="site00-carousel-expansion__controls">
-        <button type="button" className="site00-btn" disabled={executing} onClick={() => void execute('NEXT_SLIDE')}>
-          RUN NEXT SLIDE
-        </button>
-        <button
-          type="button"
-          className="site00-btn"
-          disabled={executing}
-          onClick={() => void execute('REST_OF_CAROUSEL')}
-        >
-          RUN REST OF THIS CAROUSEL
-        </button>
-        <button type="button" className="site00-btn" disabled={executing} onClick={() => void execute('NEXT_CAROUSEL')}>
-          RUN NEXT CAROUSEL
-        </button>
-        <button type="button" className="site00-btn site00-btn--primary" disabled={executing} onClick={() => void execute('ALL_REMAINING')}>
-          RUN ALL REMAINING
-        </button>
-      </div>
+      {!isSuperseded ? (
+        <div className="site00-carousel-expansion__controls">
+          <button type="button" className="site00-btn" disabled={executing} onClick={() => void execute('NEXT_SLIDE')}>
+            RUN NEXT SLIDE
+          </button>
+          <button
+            type="button"
+            className="site00-btn"
+            disabled={executing}
+            onClick={() => void execute('REST_OF_CAROUSEL')}
+          >
+            RUN REST OF THIS CAROUSEL
+          </button>
+          <button type="button" className="site00-btn" disabled={executing} onClick={() => void execute('NEXT_CAROUSEL')}>
+            RUN NEXT CAROUSEL
+          </button>
+          <button
+            type="button"
+            className="site00-btn site00-btn--primary"
+            disabled={executing}
+            onClick={() => void execute('ALL_REMAINING')}
+          >
+            RUN ALL REMAINING
+          </button>
+        </div>
+      ) : null}
 
       <div className="site00-carousel-expansion__tabs">
         {(['DIRECTIONS', 'CAROUSEL', 'COMPARE'] as const).map((tab) => (
@@ -260,13 +292,18 @@ export function CanonicalCarouselExpansionReview({
       {view === 'DIRECTIONS' ? (
         <div className="site00-carousel-expansion__grid">
           {run.directions.map((dir) => {
-            const slidesDone = dir.slides.filter((s) => s.asset).length;
+            const slidesDone =
+              dir.generatedSlideCount ??
+              dir.slides.filter((s) => s.preserved || s.generationReceipt?.firstGenerationResult === 'SUCCESS').length;
+            const slideLabel = isSuperseded
+              ? `${slidesDone}/${dir.plannedSlideCount ?? 6} GENERATED · ${dir.carouselStatus?.replace(/_/g, ' ') ?? 'SUPERSEDED PARTIAL'}`
+              : `${slidesDone}/6 slides · ${dir.compositionModesUsed.length} composition modes`;
             return (
               <article key={dir.comparisonIndex} className="site00-carousel-expansion__card">
                 <header>
                   <span>{String(dir.comparisonIndex).padStart(2, '0')}</span>
                   <h4>{dir.directionName}</h4>
-                  <p>{slidesDone}/6 slides · {dir.compositionModesUsed.length} composition modes</p>
+                  <p>{slideLabel}</p>
                 </header>
                 {dir.slides[0]?.asset ? (
                   <figure>

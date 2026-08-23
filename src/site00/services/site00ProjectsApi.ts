@@ -288,6 +288,42 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, comparisonIndex, verdict, note }),
       },
     ),
+  experimentDGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=experiment_d_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  experimentDFormTerritories: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_d_form_territories',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentDExecuteHeroes: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_d_execute_heroes',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentDHeroJudgment: (
+    slug: string,
+    comparisonIndex: number,
+    judgment: 'LOVE_THE_CONCEPT' | 'PROMISING_REFINE' | 'TOO_CLOSE_TO_ANOTHER' | 'NOT_NDXBOOK' | null,
+    tooCloseSibling?: string | null,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_d_hero_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, comparisonIndex, judgment, tooCloseSibling }),
+      },
+    ),
   creativeLineageForensicAudit: (slug: string) =>
     projectsFetch<{ ok: true; report: Record<string, unknown> }>(
       `/api/site00/projects?action=creative_lineage_forensic_audit&slug=${encodeURIComponent(slug)}`,

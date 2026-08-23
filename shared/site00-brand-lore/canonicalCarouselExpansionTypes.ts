@@ -18,7 +18,28 @@ export type CarouselExpansionStatus =
   | 'ANALYZING'
   | 'COMPLETE'
   | 'FAILED'
-  | 'BLOCKED_MISSING_COVERS';
+  | 'BLOCKED_MISSING_COVERS'
+  | 'SUPERSEDED_BY_METHODOLOGY';
+
+export type CarouselDirectionCarouselStatus = 'ACTIVE' | 'SUPERSEDED_PARTIAL' | 'SUPERSEDED_COMPLETE';
+
+export type MethodologyLineageTag = 'PRE_CONCEPT_TERRITORY_METHODOLOGY' | 'CONCEPT_TERRITORY_V1';
+
+export type CarouselSupersessionRecord = {
+  runId: string;
+  supersededAt: string;
+  supersededReason: string;
+  supersededByMethodologyVersion: string;
+  plannedAssetCount: number;
+  generatedAssetCount: number;
+  plannedSlideCount: number;
+  generatedSlideCount: number;
+  cancelledPendingCount: number;
+  inFlightCountAtCancellation: number;
+  providerRequestsAfterCancellationBoundary: number;
+  generationCostBeforeCancellation: number;
+  generationCostAfterCancellationBoundary: number;
+};
 
 export type CarouselExecuteMode =
   | 'NEXT_SLIDE'
@@ -193,6 +214,9 @@ export type CarouselDirectionCarousel = {
   founderVerdict: CarouselDirectionFounderVerdict;
   founderNote: string | null;
   rangeAnalysis: CarouselDirectionRangeAnalysis | null;
+  carouselStatus?: CarouselDirectionCarouselStatus;
+  generatedSlideCount?: number;
+  plannedSlideCount?: number;
 };
 
 export type CarouselDirectionRangeAnalysis = {
@@ -288,4 +312,6 @@ export type CanonicalCarouselExpansionRun = {
   error: string | null;
   startedAt: string | null;
   completedAt: string | null;
+  supersession?: CarouselSupersessionRecord | null;
+  methodologyLineage?: MethodologyLineageTag | null;
 };

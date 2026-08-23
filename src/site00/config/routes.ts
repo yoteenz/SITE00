@@ -61,6 +61,7 @@ export const SITE00_ROUTES = {
   projectPersonalityReplayConsistency: '/projects/:projectSlug/personality-replay/consistency',
   projectCanonicalCreativeRange: '/projects/:projectSlug/canonical-creative-range',
   projectCanonicalCarouselExpansion: '/projects/:projectSlug/canonical-carousel-expansion',
+  projectExperimentD: '/projects/:projectSlug/experiment-d-concept-territory',
   projectContentLibrary: '/projects/:projectSlug/content-library',
   projectPersonalityReplayStep: '/projects/:projectSlug/personality-replay/:stepId',
   projectConnections: '/projects/:projectSlug/connections',

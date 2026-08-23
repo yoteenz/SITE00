@@ -59,6 +59,14 @@ import {
 import { NDXBOOK_ORG_ID } from '../creativeIntelligence/founderComparisonSet.js';
 import * as carouselStore from './storeAdapter.js';
 import { reconcileCarouselRunMissingStorage } from './carouselSlideStorageReconciliation.js';
+import {
+  applyCarouselSupersession,
+  assertCarouselGenerationAllowed,
+  isCarouselRunSuperseded,
+  isExperimentCSupersessionError,
+  isExperimentCSupersessionEnforced,
+  shouldAutoSupersedeExperimentC,
+} from '../../../../../shared/site00-brand-lore/canonicalCarouselSupersession.js';
 
 function nowIso(): string {
   return new Date().toISOString();
@@ -155,10 +163,13 @@ async function generateCarouselSlideAsset(params: {
   direction: CarouselDirectionCarousel;
   topic: ReturnType<typeof buildSharedCarouselTopicContext>;
   accounting: CarouselExecutionAccounting;
+  runGuard?: () => void | Promise<void>;
 }): Promise<{ slide: CarouselSlideRecord; accounting: CarouselExecutionAccounting }> {
   const { comparisonIndex, direction, topic } = params;
   let slide = params.slide;
   let accounting = { ...params.accounting };
+
+  await params.runGuard?.();
 
   if (slide.preserved) {
     return { slide, accounting };
@@ -167,6 +178,7 @@ async function generateCarouselSlideAsset(params: {
   if (slide.asset && slide.generationReceipt?.firstGenerationResult === 'SUCCESS') {
     const exists = await site00StorageObjectExists(slide.asset.storagePath);
     if (exists) return { slide, accounting };
+    await params.runGuard?.();
     slide = {
       ...slide,
       asset: null,
@@ -199,6 +211,8 @@ async function generateCarouselSlideAsset(params: {
   if (!contamination.passed && process.env.VITEST !== 'true') {
     throw new Error(`Cross-direction contamination: ${contamination.notes.join('; ')}`);
   }
+
+  await params.runGuard?.();
 
   const compiledBrief = compileIdentityNativeV2VisualBrief({
     artDirection: buildCarouselSlideArtDirection({ direction, slide }),
@@ -240,6 +254,8 @@ async function generateCarouselSlideAsset(params: {
     }
     throw new Error('FAL_KEY not configured — carousel slide generation blocked');
   }
+
+  await params.runGuard?.();
 
   const generation = await generateIdentityNativeImageFromBrief({
     brief: compiledBrief,
@@ -374,8 +390,18 @@ export async function getCarouselExpansionPreflight() {
 }
 
 export async function getCanonicalCarouselExpansionRun(): Promise<CanonicalCarouselExpansionRun | null> {
-  const run = await carouselStore.getCanonicalCarouselExpansionRun();
+  let run = await carouselStore.getCanonicalCarouselExpansionRun();
   if (!run) return null;
+
+  if (shouldAutoSupersedeExperimentC(run)) {
+    run = applyCarouselSupersession(run, run.status === 'GENERATING_SLIDE' ? 1 : 0);
+    return carouselStore.saveCanonicalCarouselExpansionRun(run);
+  }
+
+  if (isCarouselRunSuperseded(run)) {
+    return run;
+  }
+
   const { run: reconciled, repairedSlideCount } = await reconcileCarouselRunMissingStorage(run);
   if (repairedSlideCount > 0) {
     return carouselStore.saveCanonicalCarouselExpansionRun(reconciled);
@@ -383,16 +409,48 @@ export async function getCanonicalCarouselExpansionRun(): Promise<CanonicalCarou
   return reconciled;
 }
 
+export async function supersedeExperimentCRun(): Promise<CanonicalCarouselExpansionRun> {
+  const existing = await carouselStore.getCanonicalCarouselExpansionRun();
+  if (!existing) throw new Error('Carousel expansion run not found');
+  if (isCarouselRunSuperseded(existing)) return existing;
+  const superseded = applyCarouselSupersession(existing, existing.status === 'GENERATING_SLIDE' ? 1 : 0);
+  return carouselStore.saveCanonicalCarouselExpansionRun(superseded);
+}
+
 export async function executeCanonicalCarouselExpansion(params: {
   mode?: CarouselExecuteMode;
 }): Promise<CanonicalCarouselExpansionRun> {
   const mode = params.mode ?? 'ALL_REMAINING';
   const startMs = Date.now();
-  let existing = await getCanonicalCarouselExpansionRun();
+  let existing = await carouselStore.getCanonicalCarouselExpansionRun();
+
+  if (existing && isCarouselRunSuperseded(existing)) {
+    throw new Error('EXPERIMENT SUPERSEDED — generation read-only');
+  }
+
+  if (existing && shouldAutoSupersedeExperimentC(existing)) {
+    const superseded = applyCarouselSupersession(existing, existing.status === 'GENERATING_SLIDE' ? 1 : 0);
+    await carouselStore.saveCanonicalCarouselExpansionRun(superseded);
+    throw new Error('EXPERIMENT SUPERSEDED — generation read-only');
+  }
+
   if (existing?.status === 'COMPLETE' && mode === 'INITIALIZE') return existing;
 
-  let run = initRun(existing?.status === 'FAILED' ? { ...existing, status: 'NOT_STARTED', error: null } : existing);
+  if (!existing && mode === 'INITIALIZE' && isExperimentCSupersessionEnforced()) {
+    throw new Error('EXPERIMENT SUPERSEDED — Experiment C closed; Concept Territory methodology active');
+  }
+
+  let run = initRun(
+    existing?.status === 'FAILED' && !isCarouselRunSuperseded(existing)
+      ? { ...existing, status: 'NOT_STARTED', error: null }
+      : existing,
+  );
   let accounting = { ...run.accounting };
+
+  async function runGuard(): Promise<void> {
+    const fresh = await carouselStore.getCanonicalCarouselExpansionRun(run.runId);
+    assertCarouselGenerationAllowed(fresh);
+  }
 
   try {
     const rangeRun = await getCanonicalCreativeRangeRun();
@@ -443,6 +501,9 @@ export async function executeCanonicalCarouselExpansion(params: {
         : planSlideTargets(run, mode === 'ALL_REMAINING' ? 'ALL_REMAINING' : mode);
 
     for (const target of targets) {
+      const fresh = await carouselStore.getCanonicalCarouselExpansionRun(run.runId);
+      assertCarouselGenerationAllowed(fresh);
+
       run = {
         ...run,
         status: 'GENERATING_SLIDE',
@@ -463,6 +524,10 @@ export async function executeCanonicalCarouselExpansion(params: {
         direction,
         topic,
         accounting,
+        runGuard: async () => {
+          const latest = await carouselStore.getCanonicalCarouselExpansionRun(run.runId);
+          assertCarouselGenerationAllowed(latest);
+        },
       });
       accounting = result.accounting;
       slide = result.slide;
@@ -504,6 +569,12 @@ export async function executeCanonicalCarouselExpansion(params: {
     return carouselStore.saveCanonicalCarouselExpansionRun(run);
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
+    if (isExperimentCSupersessionError(message)) {
+      const fresh = await carouselStore.getCanonicalCarouselExpansionRun(run.runId);
+      if (fresh && isCarouselRunSuperseded(fresh)) return fresh;
+      const superseded = applyCarouselSupersession(run, run.status === 'GENERATING_SLIDE' ? 1 : 0);
+      return carouselStore.saveCanonicalCarouselExpansionRun(superseded);
+    }
     run = { ...run, status: 'FAILED', error: message, accounting };
     run.accounting.durationMs += Date.now() - startMs;
     return carouselStore.saveCanonicalCarouselExpansionRun(run);
@@ -546,6 +617,7 @@ export async function setCarouselSlideFounderJudgment(params: {
       const { resolveCarouselSlideAssetId } = await import('../../creativeLineage/assetRecordBuilders.js');
       const { recordFounderCreativeJudgment } = await import('../../creativeLineage/founderJudgmentRevisionService.js');
       const generating =
+        !isCarouselRunSuperseded(saved) &&
         saved.status !== 'COMPLETE' &&
         saved.status !== 'FAILED' &&
         saved.status !== 'BLOCKED_MISSING_COVERS';

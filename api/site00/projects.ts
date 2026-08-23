@@ -40,6 +40,12 @@ import {
   setCarouselSlideFounderJudgment,
 } from '../_lib/site00Evolve/creativeDirection/canonicalCarouselExpansion/canonicalCarouselExpansionService.js';
 import {
+  executeExperimentDHeroGeneration,
+  formExperimentDTerritories,
+  getSixConceptHeroRangeRun,
+  setExperimentDHeroJudgment,
+} from '../_lib/site00Evolve/creativeDirection/conceptTerritoryExperiment/experimentDService.js';
+import {
   getCreativeLineageLibrary,
   normalizeNdxbookCreativeLineage,
   runNdxbookForensicAudit,
@@ -766,6 +772,77 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const run = await setCarouselDirectionFounderVerdict({ comparisonIndex, verdict, note });
         return json(res, 200, { ok: true, run, source: 'site00_canonical_carousel_expansion' });
+      }
+      case 'experiment_d_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await getSixConceptHeroRangeRun();
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_d' });
+      }
+      case 'experiment_d_form_territories': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await formExperimentDTerritories();
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_d' });
+      }
+      case 'experiment_d_execute_heroes': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        if (process.env.VITEST === 'true') {
+          const run = await executeExperimentDHeroGeneration();
+          return json(res, 200, { ok: true, run, source: 'site00_experiment_d' });
+        }
+        void executeExperimentDHeroGeneration().catch((err) => {
+          console.error('[experiment-d] hero generation failed', err);
+        });
+        const run = await getSixConceptHeroRangeRun();
+        return json(res, 202, { ok: true, run, source: 'site00_experiment_d' });
+      }
+      case 'experiment_d_hero_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const comparisonIndex = Number(body.comparisonIndex ?? 0);
+        const judgment = body.judgment as
+          | 'LOVE_THE_CONCEPT'
+          | 'PROMISING_REFINE'
+          | 'TOO_CLOSE_TO_ANOTHER'
+          | 'NOT_NDXBOOK'
+          | null;
+        const tooCloseSibling = body.tooCloseSibling ? String(body.tooCloseSibling) : null;
+        if (slug !== 'ndxbook' || !comparisonIndex) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await setExperimentDHeroJudgment({ comparisonIndex, judgment, tooCloseSibling });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_d' });
       }
       case 'creative_lineage_forensic_audit': {
         const slug = String(req.query.slug ?? '');
