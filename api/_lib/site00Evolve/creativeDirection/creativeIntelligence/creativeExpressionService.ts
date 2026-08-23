@@ -20,21 +20,25 @@ import {
 } from './creativeExpressionTypes.js';
 import { inspectMartianMonoAvailability, typographyRolesPromptBlock } from './martianMonoTypography.js';
 import { buildPersonalityLineageFromProfile } from '../../../../../shared/site00-brand-lore/personalityLineage.js';
+import { buildFormatLineage } from '../../../../../shared/site00-brand-lore/formatLineage.js';
+import {
+  deriveFormatNativeExpressionProfile,
+  summarizeFormatNativeExpression,
+} from '../../../../../shared/site00-brand-lore/formatNativeExpression.js';
+import { brandPromptTypographyBlock, normalizeBrandPromptContext } from '../../../../../shared/site00-brand-lore/brandIdentity.js';
 import type { BrandPersonalityProfile } from '../../../../../shared/site00-brand-lore/personalityTypes.js';
+import type { BrandExpressionContext } from '../../../../../shared/site00-brand-lore/types.js';
 
-export const CREATIVE_EXPRESSION_SYSTEM_PROMPT = `You are SENIOR EDITORIAL CREATIVE DIRECTOR + COPY DIRECTOR for NDX BOOK / THE MARKED-UP COPY.
+export const CREATIVE_EXPRESSION_SYSTEM_PROMPT = `You are SENIOR EDITORIAL CREATIVE DIRECTOR + COPY DIRECTOR.
 
 DO NOT redesign the visual identity. Identity Art Direction is LOCKED.
 
 Your job: add PERSONALITY — wit, voice, typographic character, compositional surprise, second-read discoveries.
 
-NDX BOOK voice: UNFILTERED, FEARLESS, INVESTIGATIVE, WITTY, INTELLIGENT, HONEST, RELATABLE, HUMAN, OPINIONATED, USEFUL.
+Translate upstream Brand Personality — do NOT invent personality ex nihilo. personalityLineage must cite upstream fields.
 
 Wit is NOT: comedy, memes, forced slang, excessive snark, trendy internet language.
 Wit IS: someone intelligent noticed what everyone else ignored and wrote in the margin.
-
-THE MARKED-UP COPY wit mechanism:
-PRIMARY CLAIM → SOMEONE DISAGREES → INTERRUPTION → REPLACEMENT CHANGES MEANING → MARGIN ADDS LAYER
 
 Martian Mono = THE BOOK AS A SYSTEM (metadata, evidence, issue IDs, receipts). NOT decoration. NOT every text element.
 
@@ -102,8 +106,16 @@ export function buildDeterministicCreativeExpression(params: {
   artDirection: IdentityNativeArtDirection;
   typographyRoles: ReturnType<typeof inspectMartianMonoAvailability>;
   upstreamPersonality?: BrandPersonalityProfile | null;
+  expressionContext?: BrandExpressionContext;
 }): CreativeExpressionSystem {
   const personalityLineage = buildPersonalityLineageFromProfile(params.upstreamPersonality);
+  const context = params.expressionContext ?? 'SOCIAL_FIRST_EDITORIAL';
+  const formatProfile = deriveFormatNativeExpressionProfile({ context, personality: params.upstreamPersonality });
+  const formatLineage = buildFormatLineage({
+    context,
+    formatProfile,
+    personality: params.upstreamPersonality,
+  });
   return {
     expressionId: createHash('sha256').update(`creative-fallback:${params.artDirection.artDirectionId}`).digest('hex').slice(0, 16),
     directionId: params.artDirection.directionId,
@@ -139,6 +151,7 @@ export function buildDeterministicCreativeExpression(params: {
     antiGenericCreativeRules: FOUNDER_V1_CRITIQUE,
     typographyRoles: params.typographyRoles,
     personalityLineage,
+    formatLineage,
     provider: 'deterministic-fallback',
     model: 'fallback',
     promptVersion: CREATIVE_EXPRESSION_PROMPT_VERSION,
@@ -187,9 +200,17 @@ export function parseCreativeExpressionResponse(params: {
   provider: string;
   model: string;
   upstreamPersonality?: BrandPersonalityProfile | null;
+  expressionContext?: BrandExpressionContext;
 }): CreativeExpressionSystem {
   const parsed = parseStructuredJson(params.text) as Record<string, unknown>;
   const personalityLineage = buildPersonalityLineageFromProfile(params.upstreamPersonality);
+  const context = params.expressionContext ?? 'SOCIAL_FIRST_EDITORIAL';
+  const formatProfile = deriveFormatNativeExpressionProfile({ context, personality: params.upstreamPersonality });
+  const formatLineage = buildFormatLineage({
+    context,
+    formatProfile,
+    personality: params.upstreamPersonality,
+  });
   return {
     expressionId: createHash('sha256').update(params.text).digest('hex').slice(0, 16),
     directionId: params.artDirection.directionId,
@@ -213,6 +234,7 @@ export function parseCreativeExpressionResponse(params: {
     antiGenericCreativeRules: arr(parsed.antiGenericCreativeRules),
     typographyRoles: params.typographyRoles,
     personalityLineage,
+    formatLineage,
     provider: params.provider,
     model: params.model,
     promptVersion: CREATIVE_EXPRESSION_PROMPT_VERSION,
@@ -254,17 +276,30 @@ export async function runCreativeExpressionDirector(params: {
   artDirection: IdentityNativeArtDirection;
   v1Pilot: IdentityNativeVisualPilotRecord | null;
   topic: string;
+  upstreamPersonality?: BrandPersonalityProfile | null;
+  expressionContext?: BrandExpressionContext;
+  brandSlug?: string;
 }): Promise<{
   creativeExpression: CreativeExpressionSystem;
   heroConcept: HeroCreativeConcept;
   anthropicRequests: number;
 }> {
   const typographyRoles = inspectMartianMonoAvailability();
+  const context = params.expressionContext ?? 'SOCIAL_FIRST_EDITORIAL';
+  const formatProfile = deriveFormatNativeExpressionProfile({
+    context,
+    personality: params.upstreamPersonality,
+  });
+  const brandSlug = params.brandSlug ?? 'ndxbook';
+  const brandPromptBlock = brandPromptTypographyBlock(brandSlug);
+  const brandCtx = normalizeBrandPromptContext(brandSlug);
 
   if (!isProductionSonnetConfigured()) {
     const creativeExpression = buildDeterministicCreativeExpression({
       artDirection: params.artDirection,
       typographyRoles,
+      upstreamPersonality: params.upstreamPersonality,
+      expressionContext: context,
     });
     return {
       creativeExpression,
@@ -297,6 +332,12 @@ export async function runCreativeExpressionDirector(params: {
   const expressionPayload = {
     task: 'CREATIVE EXPRESSION SYSTEM — personality layer only',
     immutable: MARKED_UP_COPY_IMMUTABLE,
+    brandIdentity: brandCtx,
+    brandTypography: brandPromptBlock,
+    formatNativeExpression: summarizeFormatNativeExpression(formatProfile),
+    upstreamPersonalitySummary: params.upstreamPersonality
+      ? buildPersonalityLineageFromProfile(params.upstreamPersonality)
+      : [],
     identityArtDirection: {
       identityPremise: params.artDirection.identityPremise,
       proprietaryVisualDNA: params.artDirection.proprietaryVisualDNA,
@@ -322,17 +363,22 @@ export async function runCreativeExpressionDirector(params: {
     typographyRoles,
     provider: 'anthropic',
     model: ANTHROPIC_CREATIVE_MODEL,
+    upstreamPersonality: params.upstreamPersonality,
+    expressionContext: context,
   });
 
   if (!creativeExpression.editorialPersonality) {
     creativeExpression = buildDeterministicCreativeExpression({
       artDirection: params.artDirection,
       typographyRoles,
+      upstreamPersonality: params.upstreamPersonality,
+      expressionContext: context,
     });
   }
 
   const conceptPayload = {
     task: 'HERO CREATIVE CONCEPT V2 — specific artifact idea',
+    brandTypography: brandPromptBlock,
     creativeExpression,
     identityArtDirection: params.artDirection,
     typographyRoles,

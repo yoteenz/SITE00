@@ -5,6 +5,19 @@
 
 import { computeBrandLoreFingerprint } from '../../../../../shared/site00-brand-lore/fingerprint.js';
 import type { BrandLoreProfile } from '../../../../../shared/site00-brand-lore/types.js';
+import {
+  deriveFormatNativeExpressionProfile,
+  summarizeFormatNativeExpression,
+} from '../../../../../shared/site00-brand-lore/formatNativeExpression.js';
+import {
+  deriveBrandVoiceBehavior,
+  summarizeBrandVoiceBehavior,
+} from '../../../../../shared/site00-brand-lore/brandVoiceBehavior.js';
+import {
+  buildContentBrainPersonalityInput,
+  summarizeContentBrainPersonalityInput,
+} from '../../../../../shared/site00-brand-lore/contentBrainPersonalityBridge.js';
+import { buildFormatLineage } from '../../../../../shared/site00-brand-lore/formatLineage.js';
 import { NDXBOOK_CORE_DIRECTIONS } from '../coreDirectionDefinitions.js';
 import type { IntelligenceBriefSection } from '../types.js';
 import type { CoreDirectionFormationInput, ExistingCreativeExploration } from './types.js';
@@ -52,6 +65,7 @@ export function buildCoreDirectionFormationInput(params: {
   contentBrainSections?: IntelligenceBriefSection[];
   formationVersion?: number;
   includeLegacyExplorations?: boolean;
+  orgSlug?: string | null;
 }): CoreDirectionFormationInput {
   const { profile, projectId = profile.projectId, contentBrainSections = [], formationVersion = 1 } = params;
 
@@ -88,6 +102,33 @@ export function buildCoreDirectionFormationInput(params: {
         .join('\n')
     : null;
 
+  const expressionContext = profile.contextClassification ?? 'OTHER';
+  const formatProfile = deriveFormatNativeExpressionProfile({
+    context: expressionContext,
+    profile,
+    personality,
+  });
+  const formatNativeExpressionSummary = summarizeFormatNativeExpression(formatProfile);
+  const voice = deriveBrandVoiceBehavior({
+    personality,
+    formatProfile,
+    brandSlug: params.orgSlug ?? null,
+  });
+  const brandVoiceBehaviorSummary = summarizeBrandVoiceBehavior(voice);
+  const cbPersonality = buildContentBrainPersonalityInput(personality);
+  const contentBrainPersonalitySummary = cbPersonality
+    ? summarizeContentBrainPersonalityInput(cbPersonality)
+    : null;
+  const formatLineage = buildFormatLineage({
+    context: expressionContext,
+    formatProfile,
+    personality,
+  });
+  const formatLineageSummary =
+    formatLineage.length > 0
+      ? formatLineage.map((e) => `${e.targetFormat}: ${e.derivedFormatBehavior} ← ${e.upstreamSource}`).join('\n')
+      : null;
+
   return {
     organizationId: profile.organizationId ?? '',
     projectId: projectId ?? profile.projectId,
@@ -117,6 +158,10 @@ export function buildCoreDirectionFormationInput(params: {
     creativeAntiPatterns: fieldValue(profile.creativeAntiPatterns),
     contentBrainSummary,
     brandPersonalitySummary,
+    formatNativeExpressionSummary,
+    brandVoiceBehaviorSummary,
+    contentBrainPersonalitySummary,
+    formatLineageSummary,
     founderConfirmedCanon: founderConfirmedEntries(profile),
     referenceEvidence: profile.referenceEvidence ?? [],
     existingCreativeExplorations: params.includeLegacyExplorations === false ? [] : buildLegacyProposedExplorations(),

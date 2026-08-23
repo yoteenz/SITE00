@@ -72,6 +72,10 @@ export type CoreDirectionFormationInput = {
   creativeAntiPatterns: string[] | null;
   contentBrainSummary: string | null;
   brandPersonalitySummary: string | null;
+  formatNativeExpressionSummary: string | null;
+  brandVoiceBehaviorSummary: string | null;
+  contentBrainPersonalitySummary: string | null;
+  formatLineageSummary: string | null;
   founderConfirmedCanon: string[];
   referenceEvidence: BrandLoreReferenceEntry[];
   existingCreativeExplorations: ExistingCreativeExploration[];

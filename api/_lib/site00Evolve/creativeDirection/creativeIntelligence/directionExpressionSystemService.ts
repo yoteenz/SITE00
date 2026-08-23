@@ -287,7 +287,11 @@ export async function runSonnetDirectionExpressionSystem(params: {
     },
     direction: params.direction,
     brandLore: params.formationInput,
-    expressionContext: params.expressionContext ?? 'SOCIAL_FIRST_EDITORIAL',
+    brandPersonalitySummary: params.formationInput?.brandPersonalitySummary ?? null,
+    formatNativeExpressionSummary: params.formationInput?.formatNativeExpressionSummary ?? null,
+    formatLineageSummary: params.formationInput?.formatLineageSummary ?? null,
+    brandVoiceBehaviorSummary: params.formationInput?.brandVoiceBehaviorSummary ?? null,
+    expressionContext: params.expressionContext ?? params.formationInput?.brandExpressionContext ?? 'SOCIAL_FIRST_EDITORIAL',
     references: params.references.map((r) => ({
       referenceId: r.referenceId,
       founderNote: r.founderNote,

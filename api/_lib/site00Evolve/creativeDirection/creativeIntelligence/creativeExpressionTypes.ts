@@ -49,6 +49,13 @@ export type CreativeExpressionSystem = {
     derivedBehavior: string;
     classification: string;
   }>;
+  /** Format-native behavior lineage — expression context → format behavior. */
+  formatLineage: Array<{
+    upstreamSource: string;
+    upstreamValue: string;
+    derivedFormatBehavior: string;
+    targetFormat: string;
+  }>;
   provider: string;
   model: string;
   promptVersion: string;
