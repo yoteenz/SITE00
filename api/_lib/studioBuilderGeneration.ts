@@ -19,7 +19,7 @@ export async function resolveStudioBuilderFalModel(): Promise<string> {
   return cachedWorldArchitectModel;
 }
 
-import { SITE00_FAL_REFERENCE_EDIT_MODEL } from '../../../shared/site00-visual-generation/falImageModels.js';
+import { SITE00_FAL_REFERENCE_EDIT_MODEL } from '../../shared/site00-visual-generation/falImageModels.js';
 
 /** @deprecated Use resolveStudioBuilderFalModel() — retained for diagnostic fallbacks only. */
 export const STUDIO_BUILDER_FAL_MODEL = SITE00_FAL_REFERENCE_EDIT_MODEL;
