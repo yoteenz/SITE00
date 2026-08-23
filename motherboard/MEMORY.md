@@ -3804,3 +3804,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Added hub entry **09 / EXP G — Brand Presentation Concepts** between F and E; updated F description/status to content-concept historical; renumbered E + Content Library.
 - **Direct URL (works even before hub deploy):** `/projects/ndxbook/experiment-g-brand-presentation-concepts`
 
+---
+
+## 2026-08-23 — Experiment G still missing on live site00.com (deploy gap)
+
+- **Context:** Founder reported "still doesn't exist" after hub fix (PR #316) and v31 release — Experiment G not visible on production site00.com.
+- **Root cause:** Live GoDaddy bundle is **stale**. Production serves `index.XTPjkzI0.js` with **zero** matches for `experiment-g-brand-presentation` or `ProjectExperimentGPage`. Code on `main` is correct; founder has not successfully uploaded v31+ to cPanel `public_html`.
+- **Additional UX fix (PR #317):** Direct **EXPERIMENT G** button on NDXBOOK project detail; red banner on Experiment F page linking to G (F = content concepts, G = brand presentation).
+- **Deploy:** GitHub Release **`site00-deploy-2026-08-23-v32`** — bundle `index.BCBpJVeK.js`, includes `ProjectExperimentGPage` chunk. Verify: view page source → search `experiment-g-brand-presentation`. If absent, delete old public_html files and re-extract ZIP.
+- **Direct URL after deploy:** `https://site00.com/projects/ndxbook/experiment-g-brand-presentation-concepts`
+- **API:** Railway must have `experiment_g_*` endpoints from main for FORM SIX BRAND PRESENTATION CONCEPTS.
+
