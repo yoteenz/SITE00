@@ -5,6 +5,7 @@
 import type { HostVisualMemory, VisualReferenceRecord } from './types.js';
 import { SITE00_CAPTURE_ROUTES } from './visualCaptureManifest.js';
 import { getViewportSpec } from './viewportConfig.js';
+import { buildHostReferenceStoragePath } from './referenceStoragePaths.js';
 
 function hostStrictAuthority() {
   return {
@@ -48,8 +49,9 @@ export function buildHostVisualMemoryReferenceSeed(params: {
   const spec = getViewportSpec(params.viewportClass);
   const now = new Date().toISOString();
   const storagePath =
-    params.storagePath ??
-    `visual-references/site00/host/${params.viewportClass.toLowerCase()}/${params.route.replace(/\//g, '_') || 'root'}.webp`;
+    params.storagePath ?? buildHostReferenceStoragePath(params.route, params.viewportClass);
+  const defaultPublicUrl =
+    process.env.VITEST === 'true' ? `https://vitest.local/${storagePath}` : null;
 
   return {
     id: params.id,
@@ -68,7 +70,7 @@ export function buildHostVisualMemoryReferenceSeed(params: {
     deploymentId: null,
     environment: 'seed',
     storagePath,
-    publicUrl: params.publicUrl ?? `https://vitest.local/${storagePath}`,
+    publicUrl: params.publicUrl ?? defaultPublicUrl,
     imageFingerprint: `fp-${params.id}`,
     pageFingerprint: `page-${params.route}-${params.viewportClass}`,
     referenceRoles: params.roles,

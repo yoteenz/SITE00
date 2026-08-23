@@ -11,5 +11,7 @@ export * from './referencePromptCompiler.js';
 export * from './referenceSelection.js';
 export * from './referencePackage.js';
 export * from './referenceAdherenceQA.js';
+export * from './referenceStoragePaths.js';
+export * from './referencePublicUrl.js';
 export * from './hostVisualMemory.js';
 export * from './clientVisualMemory.js';

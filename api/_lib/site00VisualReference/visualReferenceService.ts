@@ -21,6 +21,11 @@ import {
 } from '../../../shared/site00-visual-reference/index.js';
 import type { ReferenceSelectionInput } from '../../../shared/site00-visual-reference/referenceSelection.js';
 import { captureSite00RouteReference } from './captureService.js';
+import {
+  formatReferenceCaptureRequiredError,
+  hydrateHostVisualMemory,
+  resolveReferenceRecordPublicUrl,
+} from './referenceUrlResolver.js';
 import * as store from './storeAdapter.js';
 
 function getSourceCommit(): string | null {
@@ -36,7 +41,7 @@ function getCaptureBaseUrl(): string {
   return (
     process.env.SITE00_CAPTURE_BASE_URL?.trim() ||
     process.env.VITE_SITE00_CANONICAL_ORIGIN?.trim() ||
-    'http://127.0.0.1:5174'
+    'https://site00.com'
   );
 }
 
@@ -46,9 +51,13 @@ export async function initializeVisualReferenceMemory(): Promise<{
 }> {
   const existing = await store.getHostVisualMemory();
   if (existing) {
+    const host = await hydrateHostVisualMemory(existing);
+    if (host !== existing) {
+      await store.saveHostVisualMemory(host);
+    }
     const client = (await store.getClientVisualMemory('ndxbook')) ?? seedNdxbookClientVisualMemory();
     await store.saveClientVisualMemory(client);
-    return { host: existing, client };
+    return { host, client };
   }
 
   const sourceCommit = getSourceCommit();
@@ -93,10 +102,15 @@ export async function refreshVisualReferences(params: {
     if (result.ok) {
       if (result.reused) reused += 1;
       else captured.push(result.reference);
-      const exists = host.references.some((r) => r.id === result.reference.id);
-      if (!exists) {
-        host = { ...host, references: [...host.references, result.reference] };
-      }
+      host = {
+        ...host,
+        references: [
+          ...host.references.filter(
+            (r) => !(r.route === result.reference.route && r.viewportClass === result.reference.viewportClass),
+          ),
+          result.reference,
+        ],
+      };
     }
   }
 
@@ -129,7 +143,18 @@ export async function compileReferencePackageForIntent(params: {
   excludedReferenceIds?: string[];
   founderAuthorityOverrides?: Record<string, Partial<VisualReferenceRecord['authority']>>;
 }): Promise<VisualReferencePackage> {
-  const { host, client } = await initializeVisualReferenceMemory();
+  const { host: rawHost, client } = await initializeVisualReferenceMemory();
+  const host = await hydrateHostVisualMemory(rawHost);
+  if (host !== rawHost) {
+    await store.saveHostVisualMemory(host);
+  }
+
+  const structuralProofReference = params.structuralProofReference
+    ? await resolveReferenceRecordPublicUrl(params.structuralProofReference)
+    : null;
+  const negativeProofReference = params.negativeProofReference
+    ? await resolveReferenceRecordPublicUrl(params.negativeProofReference)
+    : null;
 
   const selectionInput: ReferenceSelectionInput = {
     generationIntent: params.generationIntent,
@@ -137,8 +162,8 @@ export async function compileReferencePackageForIntent(params: {
     targetDevice: params.targetDevice ?? 'DESKTOP',
     hostMemory: host,
     clientMemory: client,
-    structuralProofReference: params.structuralProofReference ?? null,
-    negativeProofReference: params.negativeProofReference ?? null,
+    structuralProofReference,
+    negativeProofReference,
     excludedReferenceIds: params.excludedReferenceIds,
     founderAuthorityOverrides: params.founderAuthorityOverrides,
   };

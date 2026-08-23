@@ -11,6 +11,7 @@ import type {
   ViewportClass,
 } from '../../../shared/site00-visual-reference/types.js';
 import { getViewportSpec } from '../../../shared/site00-visual-reference/viewportConfig.js';
+import { buildHostReferenceStoragePath } from '../../../shared/site00-visual-reference/referenceStoragePaths.js';
 import {
   computeImageFingerprint,
   computePageFingerprint,
@@ -39,8 +40,7 @@ export type CaptureResult =
   | { ok: false; error: string; incomplete: boolean };
 
 function buildStoragePath(route: string, viewportClass: ViewportClass): string {
-  const routePart = route === '/' ? 'origin' : route.replace(/^\//, '').replace(/\//g, '-');
-  return `visual-references/site00/host/${viewportClass.toLowerCase()}/${routePart}.webp`;
+  return buildHostReferenceStoragePath(route, viewportClass);
 }
 
 function buildReferenceRecord(params: {
