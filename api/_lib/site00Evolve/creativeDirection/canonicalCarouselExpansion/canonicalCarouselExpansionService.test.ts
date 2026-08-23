@@ -12,7 +12,18 @@ vi.mock('../canonicalCreativeRange/canonicalCreativeRangeService.js', () => ({
   getCanonicalCreativeRangeRun: vi.fn(),
 }));
 
+vi.mock('../creativeIntelligence/gptImage2VisualProviderAdapter.js', () => ({
+  generateIdentityNativeImageFromBrief: vi.fn(),
+}));
+
+vi.mock('../../../site00Assts/storage.js', () => ({
+  downloadUrlToBuffer: vi.fn(),
+  uploadSite00AssetBuffer: vi.fn(),
+}));
+
 import { getCanonicalCreativeRangeRun } from '../canonicalCreativeRange/canonicalCreativeRangeService.js';
+import { generateIdentityNativeImageFromBrief } from '../creativeIntelligence/gptImage2VisualProviderAdapter.js';
+import { downloadUrlToBuffer, uploadSite00AssetBuffer } from '../../../site00Assts/storage.js';
 import {
   executeCanonicalCarouselExpansion,
   getCarouselExpansionPreflight,
@@ -102,6 +113,9 @@ describe('canonical carousel expansion service', () => {
   beforeEach(() => {
     carouselStore.resetCanonicalCarouselExpansionMemory();
     vi.mocked(getCanonicalCreativeRangeRun).mockResolvedValue(mockRangeRun());
+    vi.mocked(generateIdentityNativeImageFromBrief).mockReset();
+    vi.mocked(downloadUrlToBuffer).mockReset();
+    vi.mocked(uploadSite00AssetBuffer).mockReset();
   });
 
   it('preflight ready when 6 covers exist', async () => {
@@ -145,5 +159,28 @@ describe('canonical carousel expansion service', () => {
     await executeCanonicalCarouselExpansion({ mode: 'INITIALIZE' });
     const run = await getCanonicalCarouselExpansionRun();
     expect(run?.directions.length).toBe(6);
+  });
+
+  it('FAL path receives compiled V2 brief with compiledPrompt (not merged wrapper)', async () => {
+    vi.stubEnv('VITEST', '');
+    vi.stubEnv('FAL_KEY', 'test-fal-key');
+    vi.mocked(generateIdentityNativeImageFromBrief).mockResolvedValue({
+      url: 'https://example.com/carousel-slide.webp',
+      model: 'openai/gpt-image-2',
+      costEstimateUsd: 0.045,
+    });
+    vi.mocked(downloadUrlToBuffer).mockResolvedValue(Buffer.from('webp'));
+    vi.mocked(uploadSite00AssetBuffer).mockResolvedValue(undefined);
+
+    await executeCanonicalCarouselExpansion({ mode: 'INITIALIZE' });
+    await executeCanonicalCarouselExpansion({ mode: 'NEXT_SLIDE' });
+
+    expect(generateIdentityNativeImageFromBrief).toHaveBeenCalledTimes(1);
+    const call = vi.mocked(generateIdentityNativeImageFromBrief).mock.calls[0]![0];
+    expect(call.brief.compiledPrompt).toBeTruthy();
+    expect(call.brief.compiledPrompt).toContain('CREATIVE EXPRESSION LAYER');
+    expect((call.brief as { compiled?: unknown }).compiled).toBeUndefined();
+
+    vi.unstubAllEnvs();
   });
 });

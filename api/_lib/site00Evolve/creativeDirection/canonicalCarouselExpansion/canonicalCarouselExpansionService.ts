@@ -218,7 +218,7 @@ async function generateCarouselSlideAsset(params: {
   }
 
   const generation = await generateIdentityNativeImageFromBrief({
-    brief: mergedBrief as never,
+    brief: compiledBrief,
     aspectRatio: '1:1',
   });
   accounting.falRequests += 1;
