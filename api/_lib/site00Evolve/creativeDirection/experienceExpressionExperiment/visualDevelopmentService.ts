@@ -49,7 +49,7 @@ import {
 } from '../../../site00VisualReference/visualReferenceService.js';
 import { evaluateReferenceAdherence } from '../../../../../shared/site00-visual-reference/referenceAdherenceQA.js';
 import type { VisualReferencePackage } from '../../../../../shared/site00-visual-reference/types.js';
-import * as store from './visualDevelopmentMemoryStore.js';
+import * as store from './visualDevelopmentStoreAdapter.js';
 
 function nowIso(): string {
   return new Date().toISOString();
@@ -141,23 +141,23 @@ function setProof(run: ProjectWorkspaceVisualDevelopmentRun, proof: SurfaceDesig
 export async function getProjectWorkspaceVisualDevelopmentRun(
   projectId = 'ndxbook',
 ): Promise<ProjectWorkspaceVisualDevelopmentRun | null> {
-  return store.getVisualDevelopmentRun();
+  return await store.getVisualDevelopmentRun();
 }
 
 export async function refreshProjectWorkspaceVisualDevelopmentRun(
   projectId = 'ndxbook',
 ): Promise<ProjectWorkspaceVisualDevelopmentRun> {
-  const existing = store.getVisualDevelopmentRun();
+  const existing = await store.getVisualDevelopmentRun();
   if (existing) {
     existing.workspaceCanon = buildProjectWorkspaceCanon();
     existing.compiledAt = nowIso();
-    return store.saveVisualDevelopmentRun(existing);
+    return await store.saveVisualDevelopmentRun(existing);
   }
 
   await initializeVisualReferenceMemory();
   const profile = await getBrandLoreProfileForOrg(NDXBOOK_ORG_ID);
   const clientExpression = compileNdxbookClientExpressionProfile(profile);
-  return store.saveVisualDevelopmentRun(initRun(projectId, clientExpression));
+  return await store.saveVisualDevelopmentRun(initRun(projectId, clientExpression));
 }
 
 export async function refreshVisualDevelopmentReferences(
@@ -182,7 +182,7 @@ export async function compileVisualDevelopmentReferencePackage(
   let structuralRef = null;
   let negativeRef = null;
   if (proof.composedProof && proof.proofLabel === 'PROOF_A') {
-    const classified = classifyExistingProofAsStructuralReference({
+    const classified = await classifyExistingProofAsStructuralReference({
       proofRecordId: proof.proofRecordId,
       storagePath: proof.composedProof.storagePath,
       publicUrl: proof.composedProof.publicUrl,
@@ -192,7 +192,7 @@ export async function compileVisualDevelopmentReferencePackage(
   } else if (proof.proofLineage.length > 0) {
     const parentEntry = proof.proofLineage.find((e) => e.proofLabel === 'PROOF_A');
     if (parentEntry?.composedProofStoragePath) {
-      const classified = classifyExistingProofAsStructuralReference({
+      const classified = await classifyExistingProofAsStructuralReference({
         proofRecordId: parentEntry.proofRecordId,
         storagePath: parentEntry.composedProofStoragePath,
         publicUrl: null,
@@ -213,7 +213,7 @@ export async function compileVisualDevelopmentReferencePackage(
   proof.referencePackage = referencePackage;
   proof.lifecycle = 'GENERATION_READY';
   setProof(run, proof);
-  return store.saveVisualDevelopmentRun(run);
+  return await store.saveVisualDevelopmentRun(run);
 }
 
 export async function createReferenceConditionedChildProof(
@@ -267,7 +267,7 @@ export async function createReferenceConditionedChildProof(
   };
 
   setProof(run, child);
-  return store.saveVisualDevelopmentRun(run);
+  return await store.saveVisualDevelopmentRun(run);
 }
 
 export async function compileVisualDevelopmentProofManifest(
@@ -296,7 +296,7 @@ export async function compileVisualDevelopmentProofManifest(
   proof.lifecycle = 'GENERATION_READY';
   proof.functionalCanon = ctx.functionalCanon;
   setProof(run, proof);
-  return store.saveVisualDevelopmentRun(run);
+  return await store.saveVisualDevelopmentRun(run);
 }
 
 async function generateProofInternal(
@@ -328,7 +328,7 @@ async function generateProofInternal(
     proof.proofLabel = 'PROOF_A';
   }
   setProof(run, proof);
-  store.saveVisualDevelopmentRun(run);
+  await store.saveVisualDevelopmentRun(run);
 
   const ctx = buildDesignProofArtDirectionContext(proofId, proof.clientExpression);
   const artSummary = [
@@ -420,7 +420,7 @@ async function generateProofInternal(
     run.accounting.falRequests = falRequests;
     run.accounting.estimatedCostUsd = estimatedCostUsd;
     setProof(run, proof);
-    return store.saveVisualDevelopmentRun(run);
+    return await store.saveVisualDevelopmentRun(run);
   }
 
   const composeStoragePath = `site00/visual-development/${proofId.toLowerCase()}/${proof.proofRecordId}/composed-desktop-proof.webp`;
@@ -443,7 +443,7 @@ async function generateProofInternal(
     run.accounting.falRequests = falRequests;
     run.accounting.estimatedCostUsd = estimatedCostUsd;
     setProof(run, proof);
-    return store.saveVisualDevelopmentRun(run);
+    return await store.saveVisualDevelopmentRun(run);
   }
 
   falRequests += 1;
@@ -500,7 +500,7 @@ async function generateProofInternal(
   }
 
   if (!useReferenceConditioning && proofId === 'SITE00_PROJECTS_INDEX' && proof.composedProof) {
-    classifyExistingProofAsStructuralReference({
+    await classifyExistingProofAsStructuralReference({
       proofRecordId: proof.proofRecordId,
       storagePath: proof.composedProof.storagePath,
       publicUrl: proof.composedProof.publicUrl,
@@ -514,7 +514,7 @@ async function generateProofInternal(
   run.accounting.falRequests = falRequests;
   run.accounting.estimatedCostUsd = estimatedCostUsd;
   setProof(run, proof);
-  return store.saveVisualDevelopmentRun(run);
+  return await store.saveVisualDevelopmentRun(run);
 }
 
 export async function generateVisualDevelopmentDesignProof(
@@ -545,7 +545,7 @@ export async function excludeVisualDevelopmentReference(
     proof.excludedReferenceIds = [...proof.excludedReferenceIds, referenceId];
   }
   setProof(run, proof);
-  return store.saveVisualDevelopmentRun(run);
+  return await store.saveVisualDevelopmentRun(run);
 }
 
 export async function setVisualDevelopmentProofJudgment(params: {
@@ -566,7 +566,7 @@ export async function setVisualDevelopmentProofJudgment(params: {
   }
 
   setProof(run, proof);
-  return store.saveVisualDevelopmentRun(run);
+  return await store.saveVisualDevelopmentRun(run);
 }
 
 export async function prepareVisualDevelopmentImplementation(
@@ -587,12 +587,17 @@ export async function prepareVisualDevelopmentImplementation(
   proof.lifecycle = 'IMPLEMENTATION_CONTRACT_READY';
   proof.orchestrationPrepared = true;
   setProof(run, proof);
-  return store.saveVisualDevelopmentRun(run);
+  return await store.saveVisualDevelopmentRun(run);
 }
 
 export async function orchestrateVisualDevelopmentImplementation(
   proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
-): Promise<{ run: ProjectWorkspaceVisualDevelopmentRun; orchestrationPackageId: string }> {
+): Promise<{
+  run: ProjectWorkspaceVisualDevelopmentRun;
+  orchestrationPackageId: string;
+  orchestrationStatus: 'ORCHESTRATION_NOT_CONNECTED';
+  orchestrationDispatched: false;
+}> {
   const run = await refreshProjectWorkspaceVisualDevelopmentRun();
   const proof = getProof(run, proofId);
 
@@ -605,7 +610,15 @@ export async function orchestrateVisualDevelopmentImplementation(
   }
 
   const packageId = `orch-${proof.proofRecordId}-${Date.now()}`;
-  return { run: store.saveVisualDevelopmentRun(run), orchestrationPackageId: packageId };
+  proof.orchestrationStatus = 'ORCHESTRATION_NOT_CONNECTED';
+  setProof(run, proof);
+  const saved = await store.saveVisualDevelopmentRun(run);
+  return {
+    run: saved,
+    orchestrationPackageId: packageId,
+    orchestrationStatus: 'ORCHESTRATION_NOT_CONNECTED',
+    orchestrationDispatched: false,
+  };
 }
 
 export function resetVisualDevelopmentRunMemory(): void {

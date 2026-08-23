@@ -3624,3 +3624,29 @@ Summary of read-only end-to-end audit sprint — no large remediation performed.
 - **Artifacts:** `audit/SITE00_STUDIO_WORLD_MASTER_ASSURANCE_AUDIT.md` + JSON inventories (findings, readiness, dependency graph, remediation roadmap, live-verification gaps).
 
 - **Recommended next action:** Durable Run Persistence Sprint (P0) before treating any creative run as research-grade or ops-ready.
+
+---
+
+## 2026-08-23 — P0 Durable Run Persistence + Execution Truth
+
+Summary of production-hardening sprint addressing MA-001 and related P0 audit findings.
+
+- **Context:** Master Assurance Audit identified ephemeral memory stores for Experiment E, visual development, project intelligence, and visual reference as CRITICAL (API restart = operational amnesia). Sprint goal: durable Supabase-backed execution layer without redesigning methodology.
+
+- **Execution truth layer:** `shared/site00-studio-world-execution/` — `StudioWorldRunRecord` types, normalized statuses, failure taxonomy, `resolveDurableStoreMode()` fail-loud policy (`PRODUCTION_DURABLE_REQUIRED` / explicit dev fallback only with `SITE00_ALLOW_MEMORY_FALLBACK=1`).
+
+- **Supabase migration:** `20260823200000_site00_studio_world_execution.sql` — `site00_studio_world_runs`, idempotency keys, project intelligence manifests, visual reference state/records, visual development runs, capability verifications; version columns on methodology validation runs + founder judgments.
+
+- **Store migrations:** Experiment E gained `supabaseStore.ts` + fail-loud adapter; Experiment F/D, creative lineage, founder judgment adapters now fail loud (Brand Lore pattern). Project intelligence, visual reference, visual development gained durable store adapters.
+
+- **Orchestration truth:** `orchestrateVisualDevelopmentImplementation` returns `ORCHESTRATION_NOT_CONNECTED` + `orchestrationDispatched: false` — no false completion claims.
+
+- **Admin visibility:** `?action=studio_world_execution_debug` on projects API lists durable runs + capability verification registry.
+
+- **Forensic inventory:** `audit/persistence-forensic-inventory.json` (12 stores classified).
+
+- **Tests:** `durablePersistence.test.ts` (+restart/idempotency/multi-instance simulation); **1535** pass; build pass. Live Supabase restart test reports `DURABLE_RESTART_VERIFICATION_NOT_EXECUTED` when `SITE00_DURABLE_INTEGRATION_TEST` unset.
+
+- **Untouched:** Experiment D snapshot, Experiment F methodology, World Formation, Product Expression, Composer dispatch implementation.
+
+- **Apply migration on Supabase** before production deploy expects durable paths.

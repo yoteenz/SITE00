@@ -16,7 +16,7 @@ import type {
   ProjectIntelligenceModuleId,
   ProjectIntelligenceIntakeManifest,
 } from '../../../shared/site00-project-intelligence/types.js';
-import * as store from './projectIntelligenceMemoryStore.js';
+import * as store from './storeAdapter.js';
 
 const LEGACY_COMPLETED_MODULES: Record<string, ProjectIntelligenceModuleId[]> = {
   ndxbook: ['BRAND_LORE', 'BRAND_PERSONALITY', 'FOUNDER_CREATIVE_APPETITE', 'PRIMARY_EXPRESSION_CONTEXT'],
@@ -65,7 +65,7 @@ export async function compileProjectIntelligenceManifest(params: {
   readiness: ReturnType<typeof evaluateProjectIntelligenceReadiness>;
 }> {
   const commercialState = params.commercialState ?? getCommercialStateForProject({ projectSlug: params.projectSlug });
-  const previous = store.getLatestManifest(params.projectSlug);
+  const previous = await store.getLatestManifest(params.projectSlug);
   const completedModuleIds = LEGACY_COMPLETED_MODULES[params.projectSlug] ?? [];
 
   const manifest = compileProjectIntelligenceIntakeManifest({
@@ -80,17 +80,17 @@ export async function compileProjectIntelligenceManifest(params: {
     scopeChangeReason: params.scopeChangeReason ?? null,
   });
 
-  store.saveManifest(manifest);
+  await store.saveManifest(manifest);
   const readiness = evaluateProjectIntelligenceReadiness({ manifest, commercialState });
   return { manifest, readiness };
 }
 
-export function expandProjectScopeManifest(params: {
+export async function expandProjectScopeManifest(params: {
   projectSlug: string;
   newExperienceClass: ProjectExperienceClass;
   reason: string;
-}): ProjectIntelligenceIntakeManifest {
-  const previous = store.getLatestManifest(params.projectSlug);
+}): Promise<ProjectIntelligenceIntakeManifest> {
+  const previous = await store.getLatestManifest(params.projectSlug);
   if (!previous) {
     throw new Error('No existing manifest to expand');
   }
@@ -103,16 +103,16 @@ export function expandProjectScopeManifest(params: {
     reason: params.reason,
     completedModuleIds: completed,
   });
-  store.saveManifest(expanded);
+  await store.saveManifest(expanded);
   return expanded;
 }
 
-export function getProjectIntelligenceState(projectSlug: string): {
+export async function getProjectIntelligenceState(projectSlug: string): Promise<{
   manifest: ProjectIntelligenceIntakeManifest | null;
   readiness: ReturnType<typeof evaluateProjectIntelligenceReadiness> | null;
   formationGate: ReturnType<typeof assertProjectReadyForFormation> | null;
-} {
-  const manifest = store.getLatestManifest(projectSlug);
+}> {
+  const manifest = await store.getLatestManifest(projectSlug);
   if (!manifest) return { manifest: null, readiness: null, formationGate: null };
   const readiness = evaluateProjectIntelligenceReadiness({
     manifest,
@@ -127,6 +127,7 @@ export function getProjectIntelligenceState(projectSlug: string): {
 
 export function resetProjectIntelligenceServiceMemory(): void {
   store.resetProjectIntelligenceMemory();
+  store.resetProjectIntelligenceStoreModeCache();
 }
 
 export function legacyProjectIntelligenceSatisfiesModules(projectSlug: string): boolean {

@@ -77,6 +77,7 @@ export type SurfaceDesignProof = {
   revisionNote: string | null;
   implementationContract: ExperienceImplementationContract | null;
   orchestrationPrepared: boolean;
+  orchestrationStatus?: import('../../site00-studio-world-execution/types.js').OrchestrationDispatchStatus;
   generationError: string | null;
   generationStarted: boolean;
   referencePackage: VisualReferencePackage | null;

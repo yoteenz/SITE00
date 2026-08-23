@@ -130,7 +130,7 @@ async function captureWithPlaywright(params: CaptureRouteParams): Promise<Buffer
 }
 
 function createVitestMockBuffer(route: string, viewportClass: ViewportClass): Buffer {
-  const raw = `vitest-mock-capture:${route}:${viewportClass}:${Date.now()}`;
+  const raw = `vitest-mock-capture:${route}:${viewportClass}`;
   return Buffer.from(createHash('sha256').update(raw).digest());
 }
 

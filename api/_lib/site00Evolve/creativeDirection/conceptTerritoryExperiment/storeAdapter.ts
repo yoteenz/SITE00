@@ -1,8 +1,8 @@
 /**
- * Experiment D persistence — Supabase in production, memory in tests.
+ * Experiment D persistence — Supabase in production (fail loud), memory in tests.
  */
 
-import { hasSupabaseServiceRole } from '../../../supabase.js';
+import { resolveDurableStoreMode } from '../../../../../shared/site00-studio-world-execution/persistencePolicy.js';
 import type { SixConceptHeroRangeRun } from '../../../../../shared/site00-brand-lore/conceptTerritory/conceptTerritoryTypes.js';
 import { EXPERIMENT_D_RUN_ID } from '../../../../../shared/site00-brand-lore/conceptTerritory/conceptTerritoryConstants.js';
 import * as mem from './memoryStore.js';
@@ -15,17 +15,13 @@ export function useExperimentDMemoryStore(): boolean {
 let storeModeCache: 'memory' | 'supabase' | null = null;
 
 export async function resolveExperimentDStoreMode(): Promise<'memory' | 'supabase'> {
-  if (useExperimentDMemoryStore()) {
-    storeModeCache = null;
-    return 'memory';
-  }
   if (storeModeCache) return storeModeCache;
-  if (!hasSupabaseServiceRole()) {
-    storeModeCache = 'memory';
-    return 'memory';
-  }
-  const exists = await db.methodologyValidationTablesExist();
-  storeModeCache = exists ? 'supabase' : 'memory';
+  storeModeCache = await resolveDurableStoreMode({
+    storeName: 'ExperimentD',
+    explicitUseMemory: useExperimentDMemoryStore(),
+    schemaExists: db.methodologyValidationTablesExist,
+    migrationHint: 'run supabase/migrations/20260823010000_site00_methodology_validation_runs.sql',
+  });
   return storeModeCache;
 }
 

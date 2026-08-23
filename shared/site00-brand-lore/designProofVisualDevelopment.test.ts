@@ -191,6 +191,8 @@ describe('Visual development gate sprint', () => {
     expect(composerSubstitutionProhibited(contract!)).toBe(true);
     const orch = await orchestrateVisualDevelopmentImplementation('SITE00_PROJECTS_INDEX');
     expect(orch.orchestrationPackageId).toContain('orch-');
+    expect(orch.orchestrationStatus).toBe('ORCHESTRATION_NOT_CONNECTED');
+    expect(orch.orchestrationDispatched).toBe(false);
   });
 
   it('28-33. Substantive gate flags generic/card/workbench/dossier failures', () => {

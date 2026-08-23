@@ -344,7 +344,7 @@ describe('PROJECT INTELLIGENCE — manifest and readiness', () => {
       experienceClass: 'SITE',
       commercialState: 'ACTIVATED',
     });
-    const expanded = expandProjectScopeManifest({
+    const expanded = await expandProjectScopeManifest({
       projectSlug: 'expand-test',
       newExperienceClass: 'APPLICATION',
       reason: 'Scope expanded to application',
@@ -359,12 +359,12 @@ describe('PROJECT INTELLIGENCE — manifest and readiness', () => {
       experienceClass: 'SITE',
       commercialState: 'ACTIVATED',
     });
-    expandProjectScopeManifest({
+    await expandProjectScopeManifest({
       projectSlug: 'preserve-test',
       newExperienceClass: 'APPLICATION',
       reason: 'Upgrade',
     });
-    const state = getProjectIntelligenceState('preserve-test');
+    const state = await getProjectIntelligenceState('preserve-test');
     expect(state.manifest?.previousManifestId).toBeTruthy();
   });
 
@@ -375,7 +375,7 @@ describe('PROJECT INTELLIGENCE — manifest and readiness', () => {
       experienceClass: 'IMMERSIVE_SITE',
       commercialState: 'ACTIVATED',
     });
-    const expanded = expandProjectScopeManifest({
+    const expanded = await expandProjectScopeManifest({
       projectSlug: 'ndxbook',
       newExperienceClass: 'APPLICATION',
       reason: 'Added application behavior',

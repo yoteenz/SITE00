@@ -118,6 +118,8 @@ import {
   getProjectIntelligenceState,
   resolveExperienceClassForProject,
 } from '../_lib/site00ProjectIntelligence/projectIntelligenceService.js';
+import { listStudioWorldRuns, listCapabilityVerifications } from '../_lib/site00StudioWorldExecution/storeAdapter.js';
+import { mergeCapabilityVerifications } from '../../shared/site00-studio-world-execution/capabilityVerification.js';
 
 function setCors(res: VercelResponse): void {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -1434,8 +1436,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const { run, orchestrationPackageId } = await orchestrateVisualDevelopmentImplementation(proofId);
-        return json(res, 200, { ok: true, run, orchestrationPackageId, source: 'site00_visual_development' });
+        const { run, orchestrationPackageId, orchestrationStatus, orchestrationDispatched } =
+          await orchestrateVisualDevelopmentImplementation(proofId);
+        return json(res, 200, {
+          ok: true,
+          run,
+          orchestrationPackageId,
+          orchestrationStatus,
+          orchestrationDispatched,
+          source: 'site00_visual_development',
+        });
       }
       case 'creative_lineage_forensic_audit': {
         const slug = String(req.query.slug ?? '');
@@ -1761,7 +1771,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const state = getProjectIntelligenceState(slug);
+        const state = await getProjectIntelligenceState(slug);
         return json(res, 200, {
           ok: true,
           ...state,
@@ -1798,13 +1808,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           projectSlug: slug,
           experienceClass,
         });
-        const formationGate = getProjectIntelligenceState(slug).formationGate;
+        const formationGate = (await getProjectIntelligenceState(slug)).formationGate;
         return json(res, 200, {
           ok: true,
           manifest,
           readiness,
           formationGate,
           source: 'site00_project_intelligence',
+        });
+      }
+      case 'studio_world_execution_debug': {
+        const slug = String(req.query.slug ?? '');
+        if (!canAccessFounderProjectAsOwner(user.email, slug || 'ndxbook')) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const runs = await listStudioWorldRuns({ projectSlug: slug || undefined, limit: 25 });
+        const persistedCapabilities = await listCapabilityVerifications();
+        const capabilities = mergeCapabilityVerifications(persistedCapabilities);
+        return json(res, 200, {
+          ok: true,
+          runs,
+          capabilities,
+          source: 'site00_studio_world_execution',
         });
       }
       default:

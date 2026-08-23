@@ -499,8 +499,8 @@ describe('Visual Reference Intelligence sprint', () => {
     );
   });
 
-  it('classify existing proof as structural + negative references', () => {
-    const { structural, negative } = classifyExistingProofAsStructuralReference({
+  it('classify existing proof as structural + negative references', async () => {
+    const { structural, negative } = await classifyExistingProofAsStructuralReference({
       proofRecordId: 'site00-projects-index-v1',
       storagePath: 'site00/visual-development/site00_projects_index/composed-desktop-proof.webp',
       publicUrl: 'https://vitest.local/proof.webp',

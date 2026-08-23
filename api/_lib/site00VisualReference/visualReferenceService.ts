@@ -21,7 +21,7 @@ import {
 } from '../../../shared/site00-visual-reference/index.js';
 import type { ReferenceSelectionInput } from '../../../shared/site00-visual-reference/referenceSelection.js';
 import { captureSite00RouteReference } from './captureService.js';
-import * as store from './visualReferenceMemoryStore.js';
+import * as store from './storeAdapter.js';
 
 function getSourceCommit(): string | null {
   if (process.env.VITEST === 'true') return 'vitest-seed';
@@ -44,18 +44,18 @@ export async function initializeVisualReferenceMemory(): Promise<{
   host: HostVisualMemory;
   client: ReturnType<typeof seedNdxbookClientVisualMemory>;
 }> {
-  const existing = store.getHostVisualMemory();
+  const existing = await store.getHostVisualMemory();
   if (existing) {
-    const client = store.getClientVisualMemory('ndxbook') ?? seedNdxbookClientVisualMemory();
-    store.saveClientVisualMemory(client);
+    const client = (await store.getClientVisualMemory('ndxbook')) ?? seedNdxbookClientVisualMemory();
+    await store.saveClientVisualMemory(client);
     return { host: existing, client };
   }
 
   const sourceCommit = getSourceCommit();
   const host = seedDefaultHostVisualMemory(sourceCommit);
-  store.saveHostVisualMemory(host);
+  await store.saveHostVisualMemory(host);
   const client = seedNdxbookClientVisualMemory();
-  store.saveClientVisualMemory(client);
+  await store.saveClientVisualMemory(client);
   return { host, client };
 }
 
@@ -68,7 +68,7 @@ export async function refreshVisualReferences(params: {
     targetDevice: params.targetDevice,
   });
 
-  let host = store.getHostVisualMemory() ?? seedDefaultHostVisualMemory(getSourceCommit());
+  let host = (await store.getHostVisualMemory()) ?? seedDefaultHostVisualMemory(getSourceCommit());
   const sourceCommit = getSourceCommit();
   const baseUrl = getCaptureBaseUrl();
   const captured: VisualReferenceRecord[] = [];
@@ -105,19 +105,19 @@ export async function refreshVisualReferences(params: {
     lastRefreshedAt: new Date().toISOString(),
     sourceCommit,
   };
-  store.saveHostVisualMemory(host);
+  await store.saveHostVisualMemory(host);
   return { host, captured, reused };
 }
 
-export function classifyExistingProofAsStructuralReference(params: {
+export async function classifyExistingProofAsStructuralReference(params: {
   proofRecordId: string;
   storagePath: string;
   publicUrl: string | null;
-}): { structural: VisualReferenceRecord; negative: VisualReferenceRecord } {
+}): Promise<{ structural: VisualReferenceRecord; negative: VisualReferenceRecord }> {
   const structural = buildStructuralProofReference(params);
   const negative = buildNegativeStyleProofReference(structural);
-  store.saveVisualReference(structural);
-  store.saveVisualReference(negative);
+  await store.saveVisualReference(structural);
+  await store.saveVisualReference(negative);
   return { structural, negative };
 }
 
@@ -151,34 +151,35 @@ export async function compileReferencePackageForIntent(params: {
   });
 }
 
-export function excludeVisualReference(referenceId: string): boolean {
-  const ref = store.getVisualReferenceById(referenceId);
+export async function excludeVisualReference(referenceId: string): Promise<boolean> {
+  const ref = await store.getVisualReferenceById(referenceId);
   if (!ref) return false;
-  store.saveVisualReference({ ...ref, stalenessState: 'SUPERSEDED', updatedAt: new Date().toISOString() });
+  await store.saveVisualReference({ ...ref, stalenessState: 'SUPERSEDED', updatedAt: new Date().toISOString() });
   return true;
 }
 
-export function approveHostVisualBaseline(referenceId: string): boolean {
-  const host = store.getHostVisualMemory();
+export async function approveHostVisualBaseline(referenceId: string): Promise<boolean> {
+  const host = await store.getHostVisualMemory();
   if (!host) return false;
   if (!host.references.some((r) => r.id === referenceId)) return false;
   const approvedHostBaselineIds = host.approvedHostBaselineIds.includes(referenceId)
     ? host.approvedHostBaselineIds
     : [...host.approvedHostBaselineIds, referenceId];
-  store.saveHostVisualMemory({ ...host, approvedHostBaselineIds });
+  await store.saveHostVisualMemory({ ...host, approvedHostBaselineIds });
   return true;
 }
 
 export function resetVisualReferenceServiceMemory(): void {
   store.resetVisualReferenceMemory();
+  store.resetVisualReferenceStoreModeCache();
 }
 
-export function getVisualReferenceIntelligenceState(): {
+export async function getVisualReferenceIntelligenceState(): Promise<{
   host: HostVisualMemory | null;
   client: ReturnType<typeof createEmptyClientVisualMemory> | null;
-} {
+}> {
   return {
-    host: store.getHostVisualMemory(),
-    client: store.getClientVisualMemory('ndxbook'),
+    host: await store.getHostVisualMemory(),
+    client: await store.getClientVisualMemory('ndxbook'),
   };
 }

@@ -1,8 +1,8 @@
 /**
- * Founder judgment + revision persistence adapter.
+ * Founder judgment + revision persistence adapter — fail loud in production.
  */
 
-import { hasSupabaseServiceRole } from '../../supabase.js';
+import { resolveDurableStoreMode } from '../../../../shared/site00-studio-world-execution/persistencePolicy.js';
 
 export function useFounderJudgmentRevisionMemoryStore(): boolean {
   return process.env.SITE00_FOUNDER_JUDGMENT_USE_MEMORY === '1' || process.env.VITEST === 'true';
@@ -11,19 +11,19 @@ export function useFounderJudgmentRevisionMemoryStore(): boolean {
 let mode: 'memory' | 'supabase' | null = null;
 
 async function resolveMode(): Promise<'memory' | 'supabase'> {
-  if (useFounderJudgmentRevisionMemoryStore()) {
-    mode = null;
-    return 'memory';
-  }
   if (mode) return mode;
-  if (!hasSupabaseServiceRole()) {
-    mode = 'memory';
-    return 'memory';
-  }
   const db = await import('./founderJudgmentRevisionSupabaseStore.js');
-  const exists = await db.revisionJudgmentTablesExist();
-  mode = exists ? 'supabase' : 'memory';
+  mode = await resolveDurableStoreMode({
+    storeName: 'FounderJudgmentRevision',
+    explicitUseMemory: useFounderJudgmentRevisionMemoryStore(),
+    schemaExists: db.revisionJudgmentTablesExist,
+    migrationHint: 'run supabase/migrations/20260823140000_site00_founder_judgment_revision.sql',
+  });
   return mode;
+}
+
+export function resetFounderJudgmentRevisionStoreModeCache(): void {
+  mode = null;
 }
 
 async function store() {

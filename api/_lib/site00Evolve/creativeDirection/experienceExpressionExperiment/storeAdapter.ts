@@ -1,29 +1,28 @@
 /**
- * Experiment E persistence — memory in tests, memory fallback in dev.
+ * Experiment E persistence — Supabase in production (fail loud), memory in tests.
  */
 
-import { hasSupabaseServiceRole } from '../../../supabase.js';
+import { resolveDurableStoreMode } from '../../../../../shared/site00-studio-world-execution/persistencePolicy.js';
 import type { ExperienceExpressionRun } from '../../../../../shared/site00-brand-lore/experienceExpression/types.js';
 import { EXPERIMENT_E_RUN_ID } from '../../../../../shared/site00-brand-lore/experienceExpression/constants.js';
 import * as mem from './memoryStore.js';
+import * as db from './supabaseStore.js';
 
 export function useExperimentEMemoryStore(): boolean {
   return process.env.SITE00_EXPERIMENT_E_USE_MEMORY === '1' || process.env.VITEST === 'true';
 }
 
-let storeModeCache: 'memory' | null = null;
+let storeModeCache: 'memory' | 'supabase' | null = null;
 
-export async function resolveExperimentEStoreMode(): Promise<'memory'> {
-  if (useExperimentEMemoryStore()) {
-    storeModeCache = 'memory';
-    return 'memory';
-  }
-  if (!hasSupabaseServiceRole()) {
-    storeModeCache = 'memory';
-    return 'memory';
-  }
-  storeModeCache = 'memory';
-  return 'memory';
+export async function resolveExperimentEStoreMode(): Promise<'memory' | 'supabase'> {
+  if (storeModeCache) return storeModeCache;
+  storeModeCache = await resolveDurableStoreMode({
+    storeName: 'ExperimentE',
+    explicitUseMemory: useExperimentEMemoryStore(),
+    schemaExists: db.methodologyValidationTablesExist,
+    migrationHint: 'run supabase/migrations/20260823010000_site00_methodology_validation_runs.sql',
+  });
+  return storeModeCache;
 }
 
 export function resetExperimentEStoreModeCache(): void {
@@ -31,8 +30,7 @@ export function resetExperimentEStoreModeCache(): void {
 }
 
 async function store() {
-  await resolveExperimentEStoreMode();
-  return mem;
+  return (await resolveExperimentEStoreMode()) === 'memory' ? mem : db;
 }
 
 export async function getExperienceExpressionRun(

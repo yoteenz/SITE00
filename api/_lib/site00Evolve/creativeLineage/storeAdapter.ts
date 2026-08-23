@@ -1,8 +1,8 @@
 /**
- * Creative lineage persistence — Supabase in production, memory in tests.
+ * Creative lineage persistence — Supabase in production (fail loud), memory in tests.
  */
 
-import { hasSupabaseServiceRole } from '../../supabase.js';
+import { resolveDurableStoreMode } from '../../../../shared/site00-studio-world-execution/persistencePolicy.js';
 
 export function useCreativeLineageMemoryStore(): boolean {
   return process.env.SITE00_CREATIVE_LINEAGE_USE_MEMORY === '1' || process.env.VITEST === 'true';
@@ -11,19 +11,19 @@ export function useCreativeLineageMemoryStore(): boolean {
 let mode: 'memory' | 'supabase' | null = null;
 
 async function resolveMode(): Promise<'memory' | 'supabase'> {
-  if (useCreativeLineageMemoryStore()) {
-    mode = null;
-    return 'memory';
-  }
   if (mode) return mode;
-  if (!hasSupabaseServiceRole()) {
-    mode = 'memory';
-    return 'memory';
-  }
   const db = await import('./supabaseStore.js');
-  const exists = await db.lineageTablesExist();
-  mode = exists ? 'supabase' : 'memory';
+  mode = await resolveDurableStoreMode({
+    storeName: 'CreativeLineage',
+    explicitUseMemory: useCreativeLineageMemoryStore(),
+    schemaExists: db.lineageTablesExist,
+    migrationHint: 'run supabase/migrations/20260823120000_site00_creative_lineage.sql',
+  });
   return mode;
+}
+
+export function resetCreativeLineageStoreModeCache(): void {
+  mode = null;
 }
 
 async function store() {

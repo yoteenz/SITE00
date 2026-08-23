@@ -18,6 +18,7 @@ const REQUIRED_ARTIFACTS = [
   'state-machine-audit.json',
   'remediation-roadmap.json',
   'SITE00_STUDIO_WORLD_MASTER_ASSURANCE_AUDIT.md',
+  'persistence-forensic-inventory.json',
 ];
 
 describe('Master Assurance Audit artifacts', () => {
