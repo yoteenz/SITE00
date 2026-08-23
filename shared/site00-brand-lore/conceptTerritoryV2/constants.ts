@@ -1,0 +1,128 @@
+/**
+ * Experiment F — Six-Concept Reformation (Concept Territory V2).
+ */
+
+export const CONCEPT_TERRITORY_V2_METHODOLOGY = 'CONCEPT_TERRITORY_V2' as const;
+
+export const EXPERIMENT_F_CLASSIFICATION = 'SIX_CONCEPT_REFORMATION_EXPERIMENT' as const;
+
+export const EXPERIMENT_F_RUN_ID = 'ndxbook-six-concept-reformation';
+
+export const EXPERIMENT_F_DB_ID = 'c4e1a2b3-0005-4000-8000-000000000001';
+
+export const EXPERIMENT_F_TOPIC_ID = 'credit-utilization';
+
+export const EXPERIMENT_F_TOPIC_NAME = 'CREDIT UTILIZATION';
+
+export const EXPERIMENT_F_INTELLIGENCE_SNAPSHOT_VERSION = 2;
+
+export const EXPERIMENT_F_PREDECESSOR_EXPERIMENT = 'EXPERIMENT_D' as const;
+
+export const EXPERIMENT_F_SUPERSEDES_METHODOLOGY = 'CONCEPT_TERRITORY_V1' as const;
+
+export const EXPERIMENT_F_REFORMATION_REASON = 'DIRECTION_LEVEL_CLUSTERING_DETECTED' as const;
+
+export const EXPERIMENT_D_CONCEPT_DISTINCTIVENESS = 'INSUFFICIENT_AT_CONCEPT_LEVEL' as const;
+
+export const EXPERIMENT_D_LATER_INTERPRETATION = 'DIRECTION_LEVEL_CLUSTERING' as const;
+
+export const EXPERIMENT_D_FOUNDER_CONCLUSION = 'CONCEPTUAL_ORTHOGONALITY_INSUFFICIENT' as const;
+
+export const EXPERIMENT_EVIDENCE_POLICIES = [
+  'FORMATION_INPUT',
+  'EVALUATION_ONLY',
+  'POST_FORMATION_COMPARISON',
+  'EXCLUDED',
+  'NEGATIVE_EVIDENCE',
+] as const;
+
+export type ExperimentEvidencePolicy = (typeof EXPERIMENT_EVIDENCE_POLICIES)[number];
+
+export const EXPERIMENT_D_TERRITORY_EVIDENCE_POLICY: ExperimentEvidencePolicy = 'POST_FORMATION_COMPARISON';
+
+export const CONCEPT_VS_DIRECTION_RESULTS = [
+  'CONCEPT',
+  'DIRECTION_NOT_CONCEPT',
+  'STYLE_DEPENDENT',
+  'FORMAT_DEPENDENT_CONCEPT_RISK',
+] as const;
+
+export type ConceptVsDirectionResult = (typeof CONCEPT_VS_DIRECTION_RESULTS)[number];
+
+export const DISTINCTIVENESS_V2_RESULTS = [
+  'PASS',
+  'COUSIN_BUT_DISTINCT',
+  'PARENT_CONCEPT_COLLAPSE',
+  'DIRECTION_LEVEL_VARIATION',
+  'STYLE_LEVEL_VARIATION',
+  'INSUFFICIENT_DISTINCTIVENESS',
+  'NEEDS_REFORMATION',
+] as const;
+
+export type ConceptDistinctivenessV2Result = (typeof DISTINCTIVENESS_V2_RESULTS)[number];
+
+export const EXPERIMENT_F_CONCEPT_JUDGMENTS = [
+  'LOVE_THE_CONCEPT',
+  'PROMISING_DEVELOP',
+  'TOO_CLOSE',
+  'NOT_NDXBOOK',
+  'REFORM_SET',
+] as const;
+
+export type ExperimentFConceptJudgment = (typeof EXPERIMENT_F_CONCEPT_JUDGMENTS)[number] | null;
+
+export const HISTORICAL_COMPARISON_RELATIONS = [
+  'NO_MEANINGFUL_RELATION',
+  'POSSIBLE_SHARED_ANCESTRY',
+  'OLD_DIRECTION_MAY_FIT_UNDER_NEW_CONCEPT',
+  'NEW_CONCEPT_TOO_CLOSE_TO_OLD_CLUSTER',
+  'INDEPENDENT_CONCEPT',
+] as const;
+
+export type HistoricalConceptComparisonRelation =
+  (typeof HISTORICAL_COMPARISON_RELATIONS)[number];
+
+export const EXPERIMENT_D_HISTORICAL_SIX_NAMES = [
+  'THE MARKED-UP COPY',
+  'THE COUNTDOWN ROOM',
+  'THE PERSONAL ARCHIVE',
+  'THE ANNOTATED COPY',
+  'THE ROOM WHERE IT HAPPENS',
+  'THE INDEX',
+] as const;
+
+export const FORMATION_CONTAMINATION_BLOCKLIST = [
+  ...EXPERIMENT_D_HISTORICAL_SIX_NAMES,
+  'MARKED-UP COPY',
+  'COUNTDOWN ROOM',
+  'PERSONAL ARCHIVE',
+  'ANNOTATED COPY',
+  'ROOM WHERE IT HAPPENS',
+  'site00/projects',
+  'Project Workspace',
+  'Active Workbench',
+  'Workbench-Dossier',
+  'Host Visual Memory',
+  'visual reference package',
+  'Frontal Slayer Mansion',
+  'tarot',
+  'Martian Mono',
+] as const;
+
+export const CONCEPT_ORTHOGONALITY_DIMENSIONS = [
+  'CORE_IDEA',
+  'VIEWER_ROLE',
+  'AUDIENCE_RELATIONSHIP',
+  'CONTENT_MECHANISM',
+  'INFORMATION_BEHAVIOR',
+  'EMOTIONAL_TENSION',
+  'PARTICIPATION_LOGIC',
+  'SPATIAL_TEMPORAL_LOGIC',
+  'ARTIFACT_LOGIC',
+  'NARRATIVE_LOGIC',
+  'KNOWLEDGE_MODEL',
+  'AUTHORITY_MODEL',
+  'TRANSFORMATION_MODEL',
+] as const;
+
+export type ConceptOrthogonalityDimension = (typeof CONCEPT_ORTHOGONALITY_DIMENSIONS)[number];

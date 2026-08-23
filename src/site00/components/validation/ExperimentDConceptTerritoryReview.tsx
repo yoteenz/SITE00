@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import type { SixConceptHeroRangeRun } from '../../../../shared/site00-brand-lore/conceptTerritory/conceptTerritoryTypes';
 import type { CanonicalNdxbookDirectionName } from '../../../../shared/site00-brand-lore/canonicalCreativeRangeConstants';
 import { buildCrossWorldComparisonMatrix } from '../../../../shared/site00-brand-lore/conceptTerritory/crossWorldComparisonMatrix';
+import { getExperimentDMethodologyOverlay } from '../../../../shared/site00-brand-lore/conceptTerritoryV2/experimentDInterpretation';
 import { site00StoragePublicUrl } from '../../utils/replayStorageUrl';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
-import { SITE00_ROUTES } from '../../config/routes';
+import { SITE00_ROUTES, site00ProjectExperimentFPath } from '../../config/routes';
 
 type ExperimentDConceptTerritoryReviewProps = {
   projectSlug: string;
@@ -93,6 +94,8 @@ export function ExperimentDConceptTerritoryReview({
     return buildCrossWorldComparisonMatrix(run.territories, run.expressionSystems);
   }, [run]);
 
+  const methodologyOverlay = useMemo(() => getExperimentDMethodologyOverlay(), []);
+
   const activeHero = run?.heroes.find((h) => h.comparisonIndex === activeIndex) ?? null;
 
   if (!run) {
@@ -128,6 +131,10 @@ export function ExperimentDConceptTerritoryReview({
         <Link to={SITE00_ROUTES.projectCanonicalCreativeRange.replace(':projectSlug', projectSlug)}>
           Experiment B — previous methodology heroes →
         </Link>
+        {' · '}
+        <Link to={site00ProjectExperimentFPath(projectSlug)}>
+          Experiment F — Six-Concept Reformation →
+        </Link>
       </p>
 
       {run.conceptOrthogonality ? (
@@ -136,6 +143,12 @@ export function ExperimentDConceptTerritoryReview({
           {run.visualOrthogonality?.blocksGeneration ? 'CLONE RISK BLOCK' : run.visualOrthogonality?.passed ? 'PASS' : 'REVIEW'}
         </p>
       ) : null}
+
+      <p className="site00-experiment-d__meta site00-experiment-d__interpretation">
+        LATER METHODOLOGY INTERPRETATION: {methodologyOverlay.laterMethodologyInterpretation.replace(/_/g, ' ')} ·{' '}
+        FOUNDER CONCLUSION: {methodologyOverlay.founderConclusion.replace(/_/g, ' ')} ·{' '}
+        DISTINCTIVENESS AT CONCEPT LEVEL: {methodologyOverlay.experimentDistinctiveness.replace(/_/g, ' ')}
+      </p>
 
       {error ? <p className="site00-experiment-d__error" role="alert">{error}</p> : null}
 

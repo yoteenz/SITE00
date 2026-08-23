@@ -333,6 +333,51 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, comparisonIndex, judgment, tooCloseSibling }),
       },
     ),
+  experimentFGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=experiment_f_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  experimentFPrepareSnapshot: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_f_prepare_snapshot',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentFFormConcepts: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_f_form_concepts',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentFConceptJudgment: (
+    slug: string,
+    conceptId: string,
+    judgment: 'LOVE_THE_CONCEPT' | 'PROMISING_DEVELOP' | 'TOO_CLOSE' | 'NOT_NDXBOOK' | 'REFORM_SET' | null,
+    note?: string | null,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_f_concept_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, conceptId, judgment, note }),
+      },
+    ),
+  experimentFReformSet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_f_reform_set',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
   experimentEGet: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
       `/api/site00/projects?action=experiment_e_get&slug=${encodeURIComponent(slug)}`,

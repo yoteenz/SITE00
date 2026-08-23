@@ -88,6 +88,7 @@ const ProjectSixDirectionConsistencyPage = lazy(() => import('../site00/pages/Pr
 const ProjectCanonicalCreativeRangePage = lazy(() => import('../site00/pages/ProjectCanonicalCreativeRangePage'));
 const ProjectCanonicalCarouselExpansionPage = lazy(() => import('../site00/pages/ProjectCanonicalCarouselExpansionPage'));
 const ProjectExperimentDPage = lazy(() => import('../site00/pages/ProjectExperimentDPage'));
+const ProjectExperimentFPage = lazy(() => import('../site00/pages/ProjectExperimentFPage'));
 const ProjectExperimentEPage = lazy(() => import('../site00/pages/ProjectExperimentEPage'));
 const ProjectWorkspaceVisualDevelopmentPage = lazy(
   () => import('../site00/pages/ProjectWorkspaceVisualDevelopmentPage'),
@@ -670,6 +671,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectExperimentDPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExperimentF}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExperimentFPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

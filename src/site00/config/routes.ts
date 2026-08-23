@@ -64,6 +64,7 @@ export const SITE00_ROUTES = {
   projectCanonicalCreativeRange: '/projects/:projectSlug/canonical-creative-range',
   projectCanonicalCarouselExpansion: '/projects/:projectSlug/canonical-carousel-expansion',
   projectExperimentD: '/projects/:projectSlug/experiment-d-concept-territory',
+  projectExperimentF: '/projects/:projectSlug/experiment-f-six-concept-reformation',
   projectExperimentE: '/projects/:projectSlug/experience-expression',
   projectExperimentEVisualDevelopment: '/projects/:projectSlug/experience-expression/visual-development',
   projectContentLibrary: '/projects/:projectSlug/content-library',
@@ -133,6 +134,14 @@ export function site00ProjectCreativeDirectionPath(projectSlug: string): string 
 
 export function site00ProjectExperimentEPath(projectSlug: string): string {
   return `/projects/${projectSlug}/experience-expression`;
+}
+
+export function site00ProjectExperimentDPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/experiment-d-concept-territory`;
+}
+
+export function site00ProjectExperimentFPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/experiment-f-six-concept-reformation`;
 }
 
 export function site00ProjectExperimentEVisualDevelopmentPath(projectSlug: string): string {
