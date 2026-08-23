@@ -76,7 +76,7 @@ function ReferenceIntelligencePanel({
           <p className="site00-vd-refs__status">
             REFERENCE PACKAGE <strong>{proof.lifecycle === 'GENERATION_READY' ? 'READY' : proof.lifecycle.replace(/_/g, ' ')}</strong>
             {' · '}
-            Mode: {pkg.generationMode.replace(/_/g, ' ')}
+            Mode: {(pkg.generationMode ?? 'UNKNOWN').replace(/_/g, ' ')}
             {' · '}
             Fingerprint: {pkg.fingerprint}
           </p>
@@ -102,7 +102,7 @@ function ReferenceIntelligencePanel({
         <p className="site00-vd-refs__empty">Compile reference package to preview selected host references.</p>
       )}
 
-      {proof.proofLineage.length > 0 ? (
+      {proof.proofLineage && proof.proofLineage.length > 0 ? (
         <div className="site00-vd-refs__lineage">
           <h4>A/B METHODOLOGY LINEAGE</h4>
           <ul>
@@ -153,9 +153,9 @@ function ProofPanel({
         <p className="site00-vd-proof__status">
           Status: <strong>{proof.lifecycle.replace(/_/g, ' ')}</strong>
           {' · '}
-          Surface mode: <strong>{proof.surfaceGenerationMode.replace(/_/g, ' ')}</strong>
+          Surface mode: <strong>{(proof.surfaceGenerationMode ?? 'UNKNOWN').replace(/_/g, ' ')}</strong>
           {' · '}
-          Reference status: <strong>{proof.referencePipelineStatus.replace(/_/g, ' ')}</strong>
+          Reference status: <strong>{(proof.referencePipelineStatus ?? 'NOT_STARTED').replace(/_/g, ' ')}</strong>
           {proof.proofLabel ? (
             <>
               {' '}
@@ -179,7 +179,7 @@ function ProofPanel({
       {manifest ? (
         <div className="site00-vd-proof__cost">
           <p>
-            Expected: {manifest.expectedFalCalls} FAL assets · ${manifest.estimatedCostUsd.toFixed(2)} estimated
+            Expected: {manifest.expectedFalCalls} FAL assets · ${(manifest.estimatedCostUsd ?? 0).toFixed(2)} estimated
           </p>
           <p>
             Reusable: {manifest.reusableAssetCount} · Missing: {manifest.missingAssetCount}

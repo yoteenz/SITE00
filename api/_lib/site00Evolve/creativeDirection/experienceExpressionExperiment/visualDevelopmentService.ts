@@ -153,10 +153,48 @@ function setProof(run: ProjectWorkspaceVisualDevelopmentRun, proof: SurfaceDesig
   else run.proofs.ndxbookProjectHome = proof;
 }
 
+/** Backfill P1 fields on persisted proofs saved before generation-boundary correction. */
+export function hydrateSurfaceDesignProof(proof: SurfaceDesignProof): SurfaceDesignProof {
+  const defaults = initProof(
+    proof.proofId,
+    proof.proofId === 'NDXBOOK_PROJECT_HOME' ? proof.clientExpression : null,
+  );
+  const merged: SurfaceDesignProof = {
+    ...defaults,
+    ...proof,
+    proofLineage: proof.proofLineage ?? [],
+    excludedReferenceIds: proof.excludedReferenceIds ?? [],
+    executionTraces: proof.executionTraces ?? [],
+    generatedAssets: proof.generatedAssets ?? [],
+    generationReceipts: proof.generationReceipts ?? [],
+    surfaceVisualAuthorityPackage: proof.surfaceVisualAuthorityPackage ?? null,
+    interfaceAssetManifest: proof.interfaceAssetManifest ?? null,
+    referencePipelineStatus: proof.referencePipelineStatus ?? 'NOT_STARTED',
+    surfaceGenerationMode:
+      proof.surfaceGenerationMode ??
+      (proof.proofId === 'SITE00_PROJECTS_INDEX' ? 'COMPOSED_INTERFACE' : 'VISUAL_PROOF'),
+  };
+  refreshSurfaceClassification(merged);
+  return merged;
+}
+
+export function normalizeVisualDevelopmentRun(
+  run: ProjectWorkspaceVisualDevelopmentRun,
+): ProjectWorkspaceVisualDevelopmentRun {
+  return {
+    ...run,
+    proofs: {
+      site00ProjectsIndex: hydrateSurfaceDesignProof(run.proofs.site00ProjectsIndex),
+      ndxbookProjectHome: hydrateSurfaceDesignProof(run.proofs.ndxbookProjectHome),
+    },
+  };
+}
+
 export async function getProjectWorkspaceVisualDevelopmentRun(
   projectId = 'ndxbook',
 ): Promise<ProjectWorkspaceVisualDevelopmentRun | null> {
-  return await store.getVisualDevelopmentRun();
+  const run = await store.getVisualDevelopmentRun();
+  return run ? normalizeVisualDevelopmentRun(run) : null;
 }
 
 export async function refreshProjectWorkspaceVisualDevelopmentRun(
@@ -164,9 +202,10 @@ export async function refreshProjectWorkspaceVisualDevelopmentRun(
 ): Promise<ProjectWorkspaceVisualDevelopmentRun> {
   const existing = await store.getVisualDevelopmentRun();
   if (existing) {
-    existing.workspaceCanon = buildProjectWorkspaceCanon();
-    existing.compiledAt = nowIso();
-    return await store.saveVisualDevelopmentRun(existing);
+    const normalized = normalizeVisualDevelopmentRun(existing);
+    normalized.workspaceCanon = buildProjectWorkspaceCanon();
+    normalized.compiledAt = nowIso();
+    return await store.saveVisualDevelopmentRun(normalized);
   }
 
   await initializeVisualReferenceMemory();
