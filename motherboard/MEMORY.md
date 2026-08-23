@@ -3757,3 +3757,17 @@ Summary of minimum methodology corrections before P1 — dependency invalidation
 
 - **Founder next:** Railway redeploy API from `main`; hard-refresh visual development page → RETRY.
 
+---
+
+## 2026-08-23 — NDXBOOK Experiments Hub (single methodology index)
+
+- **Context:** Founder tired of hunting scattered experiment routes across the NDXBOOK project surface.
+
+- **Added:** `/projects/ndxbook/experiments` — **Experiments & Validation Hub** listing all intake steps, Experiments A–F, Experience Expression + Visual Development, and Content Library in recommended order with phase groupings.
+
+- **Navigation:** `ProjectExperimentsHubNav` on every methodology page — EXPERIMENTS HUB + sequential prev/next links.
+
+- **Project page:** Red banner CTA near top of `/projects/ndxbook` — **EXPERIMENTS & VALIDATION HUB →**
+
+- **Config:** `src/site00/config/projectExperimentsHub.ts` (canonical ordered index).
+

@@ -5,7 +5,7 @@ import { EmptyState } from '../components/pages/Site00PagePrimitives';
 import { ProjectPrivilegedUtilities } from '../components/access/ProjectPrivilegedUtilities';
 import { ProjectPersonalityReplayStatus } from '../components/validation/ProjectPersonalityReplayStatus';
 import { useSite00ProjectDetail } from '../hooks/useSite00Projects';
-import { SITE00_ROUTES, site00ProjectCreativeAppetitePath, site00ProjectPersonalityReplayPath } from '../config/routes';
+import { SITE00_ROUTES, site00ProjectCreativeAppetitePath, site00ProjectExperimentsPath, site00ProjectPersonalityReplayPath } from '../config/routes';
 import type { Site00FounderProjectSlug } from '../../../shared/site00-projects/types';
 import '../styles/site00-projects.css';
 
@@ -54,6 +54,17 @@ export default function ProjectDetailPage() {
                 <p className="site00-project-command__boundary">{project.overview.boundaryNote}</p>
               ) : null}
             </header>
+
+            {projectSlug === 'ndxbook' ? (
+              <div className="site00-project-command__experiments-banner">
+                <Link className="site00-btn site00-btn--primary site00-project-command__experiments-cta" to={site00ProjectExperimentsPath(projectSlug)}>
+                  EXPERIMENTS &amp; VALIDATION HUB →
+                </Link>
+                <p className="site00-project-command__experiments-note">
+                  All intake steps, Experiments A–F, experience expression, visual development, and content library in one place.
+                </p>
+              </div>
+            ) : null}
 
             <div className="site00-project-command__grid">
               <Section title="OVERVIEW">

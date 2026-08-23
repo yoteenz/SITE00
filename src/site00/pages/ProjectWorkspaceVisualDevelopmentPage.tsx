@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
+import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { ProjectWorkspaceVisualDevelopmentReview } from '../components/projectWorkspace/ProjectWorkspaceVisualDevelopmentReview';
 import { site00ProjectExperimentEPath } from '../config/routes';
@@ -22,6 +23,7 @@ export default function ProjectWorkspaceVisualDevelopmentPage() {
           <Link to={site00ProjectExperimentEPath(projectSlug)}>← EXPERIENCE EXPRESSION</Link>
         </p>
         <p className="site00-vd__project">{projectDisplayName(projectSlug)}</p>
+        <ProjectExperimentsHubNav projectSlug={projectSlug} />
         <ProjectWorkspaceVisualDevelopmentReview projectSlug={projectSlug} />
       </div>
     </EcosystemShell>

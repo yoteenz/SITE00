@@ -67,6 +67,7 @@ export const SITE00_ROUTES = {
   projectExperimentF: '/projects/:projectSlug/experiment-f-six-concept-reformation',
   projectExperimentE: '/projects/:projectSlug/experience-expression',
   projectExperimentEVisualDevelopment: '/projects/:projectSlug/experience-expression/visual-development',
+  projectExperiments: '/projects/:projectSlug/experiments',
   projectContentLibrary: '/projects/:projectSlug/content-library',
   projectPersonalityReplayStep: '/projects/:projectSlug/personality-replay/:stepId',
   projectConnections: '/projects/:projectSlug/connections',
@@ -120,6 +121,18 @@ export function site00ProjectPersonalityReplayPath(projectSlug: string): string 
   return `/projects/${projectSlug}/personality-replay`;
 }
 
+export function site00ProjectPersonalityReplayConsistencyPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/personality-replay/consistency`;
+}
+
+export function site00ProjectCanonicalCreativeRangePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/canonical-creative-range`;
+}
+
+export function site00ProjectCanonicalCarouselExpansionPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/canonical-carousel-expansion`;
+}
+
 export function site00ProjectPersonalityReplayStepPath(projectSlug: string, stepId: string): string {
   return `/projects/${projectSlug}/personality-replay/${stepId}`;
 }
@@ -146,6 +159,14 @@ export function site00ProjectExperimentFPath(projectSlug: string): string {
 
 export function site00ProjectExperimentEVisualDevelopmentPath(projectSlug: string): string {
   return `/projects/${projectSlug}/experience-expression/visual-development`;
+}
+
+export function site00ProjectExperimentsPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/experiments`;
+}
+
+export function site00ProjectContentLibraryPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-library`;
 }
 
 export function site00CreateAccountHrefWithReturnTo(returnToPath: string): string {

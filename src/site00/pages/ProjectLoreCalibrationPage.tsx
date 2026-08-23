@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { ProjectLoreCalibrationFlow } from '../components/projects/ProjectLoreCalibrationFlow';
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
@@ -95,6 +96,7 @@ export default function ProjectLoreCalibrationPage() {
   return (
     <EcosystemShell hidePageHeader>
       <div className="site00-cd site00-cd--project-calibration">
+        {projectSlug === 'ndxbook' ? <ProjectExperimentsHubNav projectSlug={projectSlug} /> : null}
         <ProjectLoreCalibrationFlow
           projectSlug={projectSlug}
           projectTitle={projectTitle}
