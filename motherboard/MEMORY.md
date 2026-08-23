@@ -3034,3 +3034,16 @@ Summary: Founder asked if any SITE 00 migrations were missing; agent audited rep
 - **Already present:** Other 23 repo migrations (tables/columns/constraints) — applied earlier under alternate migration timestamps.
 - **Post-audit:** 105 `site00_*` tables in Supabase; no remaining missing CREATE TABLE objects from repo migrations.
 - **Note:** Railway API must redeploy after migration so replay store cache switches from memory → Supabase.
+
+---
+
+## 2026-08-23 — Full session: personality replay production fixes + migration audit + cPanel ZIP convention
+
+Summary: Founder debugged NDXBOOK personality replay on **site00.com** through save failures, dead submit button, replay-not-found, migration gaps, and established a standing deploy workflow.
+
+- **Context:** Production personality intake on mobile showed **SAVE FAILED · LOAD FAILED**, then submit appeared dead, then **SUBMIT ERROR: REPLAY NOT FOUND** with **STATUS: CREATED** despite full local answers.
+- **Fixes merged:** PR #263 double-JSON POST body + API CORS; PR #264 submit button treated `PERSONALITY_READY` as already submitted; PR #265 replay-not-found recovery + Supabase persistence.
+- **Supabase audit:** Applied missing migrations — `site00_methodology_validation_runs`, marketing engagements (+ events + external links), marketing deliverable links. Other 23 repo migrations already present.
+- **Deploy ZIPs published:** v2 (save fix), v3 (submit fix), v4 (replay recovery). Latest before this entry: **v4**.
+- **New convention (founder request):** Every agent **conclusion/summary** must **automatically** include a fresh **cPanel deploy ZIP download link** in a **code box** after the text summary — no need to ask. Recorded in `CORE.md` Production deployment section.
+- **Still required by founder:** Railway redeploy from `main`; upload latest cPanel ZIP to GoDaddy `public_html`.

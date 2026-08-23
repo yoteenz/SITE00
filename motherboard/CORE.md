@@ -94,6 +94,7 @@ Clone path on cloud VM: `/home/ubuntu/SITE00` (may mirror `/workspace` checkout)
 - **Build:** `npm ci && npm run build` → upload **contents of `dist/`** only.
 - **Founder often on mobile:** Build in cloud agent → ZIP `dist/` → upload/extract via mobile cPanel File Manager; do not assume local machine access.
 - **API on cPanel static:** Not supported without separate Node/API host (`VITE_API_BASE`).
+- **Agent conclusion box (required):** After any session that changes frontend code (or when the founder needs to refresh production), **automatically build a fresh cPanel ZIP from current `main`**, publish to GitHub Releases (`site00-deploy-YYYY-MM-DD-vN`), and include the **download link + verify bundle** in the **conclusion code box** alongside/after the text summary. Do not wait for the founder to ask. Railway/API deploy notes stay separate when backend changed.
 
 ---
 
