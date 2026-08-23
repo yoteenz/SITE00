@@ -43,6 +43,12 @@ import type { CanonicalCreativeRangeRun } from '../../../../../shared/site00-bra
 import { assertNoHostFontInPayload } from '../../../../../shared/site00-brand-lore/typographyProvenance.js';
 import { compileIdentityNativeV2VisualBrief } from '../creativeIntelligence/identityNativeVisualBriefV2Compiler.js';
 import { generateIdentityNativeImageFromBrief } from '../creativeIntelligence/gptImage2VisualProviderAdapter.js';
+import {
+  buildCarouselSlideArtDirection,
+  buildCarouselSlideCreativeExpression,
+  buildCarouselSlideHeroConcept,
+  carouselSlideCopyQualityScores,
+} from './carouselSlideBriefBuilder.js';
 import { downloadUrlToBuffer, uploadSite00AssetBuffer } from '../../../site00Assts/storage.js';
 import { getCanonicalCreativeRangeRun } from '../canonicalCreativeRange/canonicalCreativeRangeService.js';
 import { NDXBOOK_ORG_ID } from '../creativeIntelligence/founderComparisonSet.js';
@@ -171,25 +177,10 @@ async function generateCarouselSlideAsset(params: {
   }
 
   const compiledBrief = compileIdentityNativeV2VisualBrief({
-    artDirection: {
-      visualWorld: direction.worldBible?.compositionSystem ?? direction.directionName,
-      compositionLogic: slide.compositionMode,
-      typographicAttitude: slide.typography.typographyDevice,
-      colorLogic: slide.colorLogic,
-      materialLanguage: direction.worldBible?.artifactBehavior ?? '',
-      imageLanguage: direction.worldBible?.imageBehavior ?? '',
-    } as never,
-    creativeExpression: {
-      headline: slide.copy.headline,
-      supportingCopy: slide.copy.supportingCopy,
-      visualPunchline: slide.copy.visualPunchline,
-    } as never,
-    heroConcept: {
-      primaryHeadline: slide.copy.headline,
-      supportingLines: [slide.copy.supportingCopy],
-      primaryProofFormat: 'CAROUSEL_SEQUENCE',
-    } as never,
-    copyQualityScores: null,
+    artDirection: buildCarouselSlideArtDirection({ direction, slide }),
+    creativeExpression: buildCarouselSlideCreativeExpression({ direction, slide }),
+    heroConcept: buildCarouselSlideHeroConcept({ direction, slide, topic }),
+    copyQualityScores: carouselSlideCopyQualityScores(),
     role: 'SOCIAL_APPLICATION_SUBSTRATE',
     topic: topic.topicName,
   });

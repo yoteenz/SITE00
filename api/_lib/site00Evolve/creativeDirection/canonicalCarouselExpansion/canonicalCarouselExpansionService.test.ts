@@ -12,10 +12,6 @@ vi.mock('../canonicalCreativeRange/canonicalCreativeRangeService.js', () => ({
   getCanonicalCreativeRangeRun: vi.fn(),
 }));
 
-vi.mock('../creativeIntelligence/identityNativeVisualBriefV2Compiler.js', () => ({
-  compileIdentityNativeV2VisualBrief: vi.fn(() => ({ briefId: 'carousel-brief' })),
-}));
-
 import { getCanonicalCreativeRangeRun } from '../canonicalCreativeRange/canonicalCreativeRangeService.js';
 import {
   executeCanonicalCarouselExpansion,

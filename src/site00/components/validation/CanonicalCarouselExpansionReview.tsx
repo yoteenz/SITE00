@@ -168,6 +168,12 @@ export function CanonicalCarouselExpansionReview({
         </p>
       ) : null}
 
+      {run.status === 'FAILED' && run.error ? (
+        <p className="site00-carousel-expansion__error" role="alert">
+          GENERATION FAILED: {run.error}
+        </p>
+      ) : null}
+
       {inProgress ? (
         <p className="site00-carousel-expansion__pending">GENERATING SEQUENTIALLY — REFRESH SAFE · SAVED AFTER EACH SLIDE</p>
       ) : null}
