@@ -10,6 +10,7 @@ import {
   deriveNativeFormatForDirection,
   runFormatAssignmentContaminationTest,
   type DirectionNativeFormatSelection,
+  type FormatAssignmentContaminationTest,
 } from './directionNativeFormatSelection.js';
 
 export type SixDirectionGenerationPreflight = {
