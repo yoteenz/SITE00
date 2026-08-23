@@ -3824,3 +3824,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (PR #318):** Show **RETRY FORMATION** on FAILED; surface `run.error`; mirror Experiment F refresh/re-form when concepts exist.
 - **Deploy:** **`site00-deploy-2026-08-23-v33`**. If retry still fails, read red error line — likely Railway API needs redeploy for `experiment_g_*` or Anthropic/formation error.
 
+---
+
+## 2026-08-23 — Experiment G quarantine false-positive (journal)
+
+- **Issue:** RETRY FORMATION failed with `Successor formation quarantine blocked: journal` on fsbw-dev / production API.
+- **Cause:** Output quarantine blocklist included generic editorial words (journal, notebook, archive, etc.). Model output often mentions these in negation (`not a journal`) or incidental copy — hard-failing entire formation.
+- **Fix (PR #319):** `SUCCESSOR_FORMATION_OUTPUT_BLOCKLIST` now only hard-blocks historical/topic contamination (credit utilization, Experiment D/F names, Burn Book). Editorial artifact vocabulary stays in post-formation evaluators only.
+- **Deploy:** **Railway redeploy from main** (api.site00.com) — API-side fix; cPanel static bundle unchanged. Then RETRY FORMATION on Experiment G.
+
