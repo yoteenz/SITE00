@@ -71,6 +71,15 @@ export async function listCreativeAssets(brandSlug: string): Promise<CreativeAss
   return [...store.assets.values()].filter((a) => a.brandSlug === brandSlug);
 }
 
+export async function getCreativeAssetById(
+  brandSlug: string,
+  assetId: string,
+): Promise<CreativeAssetRecord | null> {
+  const asset = store.assets.get(assetId);
+  if (!asset || asset.brandSlug !== brandSlug) return null;
+  return asset;
+}
+
 export async function upsertCreativeConcept(record: CreativeConceptRecord): Promise<CreativeConceptRecord> {
   store.concepts.set(record.conceptId, record);
   return record;

@@ -660,8 +660,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await setCanonicalRangeFounderJudgment({ comparisonIndex, judgment });
-        return json(res, 200, { ok: true, run, source: 'site00_canonical_creative_range' });
+        const { run, lineage } = await setCanonicalRangeFounderJudgment({ comparisonIndex, judgment });
+        return json(res, 200, { ok: true, run, lineage, source: 'site00_canonical_creative_range' });
       }
       case 'canonical_carousel_expansion_preflight': {
         if (req.method !== 'GET' && req.method !== 'POST') {
@@ -726,8 +726,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await setCarouselSlideFounderJudgment({ comparisonIndex, slideNumber, judgment });
-        return json(res, 200, { ok: true, run, source: 'site00_canonical_carousel_expansion' });
+        const { run, lineage } = await setCarouselSlideFounderJudgment({ comparisonIndex, slideNumber, judgment });
+        return json(res, 200, { ok: true, run, lineage, source: 'site00_canonical_carousel_expansion' });
       }
       case 'canonical_carousel_expansion_direction_verdict': {
         if (req.method !== 'POST') {

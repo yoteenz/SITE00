@@ -77,6 +77,20 @@ export async function listCreativeAssets(brandSlug: string): Promise<CreativeAss
   return (data ?? []).map((r) => r.record as CreativeAssetRecord);
 }
 
+export async function getCreativeAssetById(
+  brandSlug: string,
+  assetId: string,
+): Promise<CreativeAssetRecord | null> {
+  const { data, error } = await getSupabaseAdmin()
+    .from(ASSETS)
+    .select('record')
+    .eq('brand_slug', brandSlug)
+    .eq('asset_id', assetId)
+    .maybeSingle();
+  if (error) throw new Error(error.message);
+  return data ? (data.record as CreativeAssetRecord) : null;
+}
+
 export async function upsertCreativeConcept(record: CreativeConceptRecord): Promise<CreativeConceptRecord> {
   const row = {
     concept_id: record.conceptId,

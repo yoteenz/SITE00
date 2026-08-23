@@ -3,7 +3,6 @@
  * Idempotent — does NOT mutate source JSONB runs.
  */
 
-import { randomUUID } from 'node:crypto';
 import type { CanonicalCarouselExpansionRun } from '../../../../shared/site00-brand-lore/canonicalCarouselExpansionTypes.js';
 import type { CanonicalCreativeRangeRun } from '../../../../shared/site00-brand-lore/canonicalCreativeRangeTypes.js';
 import type {
@@ -15,20 +14,16 @@ import type {
 } from '../../../../shared/site00-brand-lore/creativeLineage/types.js';
 import { CANONICAL_NDXBOOK_DIRECTION_NAMES } from '../../../../shared/site00-brand-lore/canonicalCreativeRangeConstants.js';
 import { NDXBOOK_ORG_ID } from '../creativeDirection/creativeIntelligence/founderComparisonSet.js';
+import {
+  buildCarouselSlideAssetRecord,
+  buildRangeHeroAssetRecord,
+} from './assetRecordBuilders.js';
 
 const TOPIC_ID = 'credit-utilization';
 const TOPIC_NAME = 'CREDIT UTILIZATION';
 
 function nowIso(): string {
   return new Date().toISOString();
-}
-
-function mapReviewState(j: string | null | undefined): CreativeAssetRecord['reviewState'] {
-  if (j === 'LOVE_IT') return 'LOVE_IT';
-  if (j === 'PROMISING_REFINE') return 'PROMISING_REFINE';
-  if (j === 'NOT_NDXBOOK' || j === 'NOT_FOR_ME') return 'NOT_FOR_ME';
-  if (j === 'APPROVED') return 'APPROVED';
-  return 'UNREVIEWED';
 }
 
 function familyId(topicId: string, directionId: string): string {
@@ -48,7 +43,7 @@ function buildHeroAssetFromRange(params: {
 
     const worldId = `world-${dir.directionId}`;
     const fid = familyId(TOPIC_ID, dir.directionId);
-    const assetId = dir.heroAsset.assetId || `NDX-RANGE-HERO-${String(dir.comparisonIndex).padStart(2, '0')}`;
+    const asset = buildRangeHeroAssetRecord({ dir, canonVersion: params.canonVersion, ts });
 
     families.push({
       familyId: fid,
@@ -59,8 +54,8 @@ function buildHeroAssetFromRange(params: {
       directionName: dir.canonicalName,
       worldId,
       name: `${TOPIC_NAME} / ${dir.canonicalName} / HERO FAMILY`,
-      primaryAssetId: assetId,
-      memberAssetIds: [assetId],
+      primaryAssetId: asset.assetId,
+      memberAssetIds: [asset.assetId],
       memberConceptIds: [],
       memberFranchiseIds: [],
       status: 'ACTIVE',
@@ -68,76 +63,7 @@ function buildHeroAssetFromRange(params: {
       updatedAt: ts,
     });
 
-    assets.push({
-      assetId,
-      orgId: NDXBOOK_ORG_ID,
-      projectId: 'ndxbook',
-      brandSlug: 'ndxbook',
-      brandDisplayName: 'NDXBOOK',
-      assetType: 'HERO',
-      sourceType: 'GENERATED',
-      creativeStage: 'VALIDATION',
-      directionLineage: {
-        directionId: dir.directionId,
-        directionName: dir.canonicalName,
-        formationId: dir.sourceFormationId,
-        formationVersion: dir.sourceFormationVersion,
-        canonicalAtCreation: true,
-        worldId,
-        worldVersion: 'v1',
-        experimentClassification: 'CANONICAL_CREATIVE_RANGE_VALIDATION',
-      },
-      contentLineage: {
-        topicId: TOPIC_ID,
-        topicName: TOPIC_NAME,
-        contentFranchiseId: null,
-        episodeId: null,
-        carouselId: null,
-        slideNumber: null,
-        format: dir.formatSelection?.nativeFormat ?? 'CAROUSEL_COVER',
-        nativeFormatReason: dir.formatSelection?.nativeFormatReason ?? null,
-      },
-      intelligenceLineage: {
-        brandLoreVersion: null,
-        brandLoreFingerprint: null,
-        personalityFingerprint: null,
-        expressionContext: 'SOCIAL_FIRST_EDITORIAL',
-        directionExpressionSystemId: null,
-        creativeExpressionSystemId: null,
-        identityArtDirectionId: null,
-        visualBriefId: null,
-        promptHash: dir.generationReceipt?.firstGenerationPromptHash ?? null,
-      },
-      generationLineage: {
-        provider: dir.heroAsset.provider,
-        model: dir.generationReceipt?.firstGenerationModel ?? 'openai/gpt-image-2',
-        requestId: null,
-        generationVersion: 'canonical-range-v1',
-        parentAssetIds: [],
-        referenceAssetIds: [],
-        imageConditioningUsed: false,
-        promptVersion: null,
-        generatedAt: dir.heroAsset.generatedAt,
-        generationCostUsd: dir.generationReceipt?.firstGenerationCostUsd ?? null,
-        storagePath: dir.heroAsset.storagePath,
-      },
-      reviewState: mapReviewState(dir.founderJudgment),
-      productionState: 'EXPERIMENTAL',
-      reuseState: 'ORIGINAL_USE_ONLY',
-      canonStatus: 'DIRECTION_CANON',
-      relationship: { parentAssetId: null, derivedAssetIds: [], adaptationType: null },
-      creativeFamilyId: fid,
-      brandCanonVersionAtGeneration: params.canonVersion,
-      contentCanonVersionAtGeneration: params.canonVersion,
-      founderNotes: null,
-      internalNotes: null,
-      salvageClassification: null,
-      publishingReadiness: null,
-      historicalSourceRef: `site00_methodology_validation_runs:CANONICAL_CREATIVE_RANGE:${dir.comparisonIndex}`,
-      immutable: true,
-      createdAt: ts,
-      updatedAt: ts,
-    });
+    assets.push(asset);
   }
   return { assets, families };
 }
@@ -164,92 +90,16 @@ function buildCarouselAssets(params: {
         continue;
       }
 
-      const assetId =
-        slide.asset.assetId ||
-        `NDX-CAROUSEL-${String(dir.comparisonIndex).padStart(2, '0')}-S${String(slide.slideNumber).padStart(2, '0')}`;
-      memberIds.push(assetId);
-
-      const parentId =
-        slide.slideNumber === 1 && hero
-          ? null
-          : slide.slideNumber > 1 && hero
-            ? hero.assetId
-            : null;
-
-      assets.push({
-        assetId,
-        orgId: NDXBOOK_ORG_ID,
-        projectId: 'ndxbook',
-        brandSlug: 'ndxbook',
-        brandDisplayName: 'NDXBOOK',
-        assetType: slide.slideNumber === 1 ? 'HERO' : 'CAROUSEL_SLIDE',
-        sourceType: slide.preserved ? 'REFERENCE' : 'GENERATED',
-        creativeStage: 'VALIDATION',
-        directionLineage: {
-          directionId: dir.directionId,
-          directionName: dir.directionName,
-          formationId: null,
-          formationVersion: null,
-          canonicalAtCreation: true,
-          worldId,
-          worldVersion: 'carousel-v1',
-          experimentClassification: 'CANONICAL_SAME_TOPIC_CAROUSEL_EXPANSION',
-        },
-        contentLineage: {
-          topicId: TOPIC_ID,
-          topicName: TOPIC_NAME,
-          contentFranchiseId: null,
-          episodeId: null,
-          carouselId: `carousel-${dir.directionId}-${TOPIC_ID}`,
-          slideNumber: slide.slideNumber,
-          format: 'CAROUSEL_SEQUENCE',
-          nativeFormatReason: slide.slideRole,
-        },
-        intelligenceLineage: {
-          brandLoreVersion: null,
-          brandLoreFingerprint: null,
-          personalityFingerprint: null,
-          expressionContext: 'SOCIAL_FIRST_EDITORIAL',
-          directionExpressionSystemId: null,
-          creativeExpressionSystemId: null,
-          identityArtDirectionId: null,
-          visualBriefId: null,
-          promptHash: slide.generationReceipt?.firstGenerationPromptHash ?? null,
-        },
-        generationLineage: {
-          provider: slide.asset.provider,
-          model: slide.generationReceipt?.firstGenerationModel ?? 'openai/gpt-image-2',
-          requestId: null,
-          generationVersion: params.carouselRun.carouselExperimentVersion,
-          parentAssetIds: parentId ? [parentId] : [],
-          referenceAssetIds: slide.preserved && hero ? [hero.assetId] : [],
-          imageConditioningUsed: false,
-          promptVersion: null,
-          generatedAt: slide.asset.generatedAt,
-          generationCostUsd: slide.generationReceipt?.firstGenerationCostUsd ?? null,
-          storagePath: slide.asset.storagePath,
-        },
-        reviewState: mapReviewState(slide.founderJudgment),
-        productionState: 'EXPERIMENTAL',
-        reuseState: slide.preserved ? 'ORIGINAL_USE_ONLY' : 'REUSABLE_WITH_ADAPTATION',
-        canonStatus: 'DIRECTION_CANON',
-        relationship: {
-          parentAssetId: parentId,
-          derivedAssetIds: [],
-          adaptationType: slide.preserved ? 'CANONICAL_CAROUSEL_COVER' : 'CAROUSEL_CONTINUATION',
-        },
-        creativeFamilyId: fid,
-        brandCanonVersionAtGeneration: params.canonVersion,
-        contentCanonVersionAtGeneration: params.canonVersion,
-        founderNotes: null,
-        internalNotes: slide.preserved ? 'Preserved Experiment B cover — not regenerated' : null,
-        salvageClassification: null,
-        publishingReadiness: null,
-        historicalSourceRef: `site00_methodology_validation_runs:CAROUSEL_EXPANSION:${dir.comparisonIndex}:slide${slide.slideNumber}`,
-        immutable: true,
-        createdAt: ts,
-        updatedAt: ts,
+      const asset = buildCarouselSlideAssetRecord({
+        dir,
+        slide,
+        carouselExperimentVersion: params.carouselRun.carouselExperimentVersion,
+        canonVersion: params.canonVersion,
+        hero: hero ?? null,
+        ts,
       });
+      memberIds.push(asset.assetId);
+      assets.push(asset);
     }
 
     if (hero && memberIds.length > 1) {
@@ -473,3 +323,5 @@ export async function persistNormalization(
     ideasNormalized: data.ideas.length,
   };
 }
+
+export { buildCarouselSlideAssetRecord, buildRangeHeroAssetRecord } from './assetRecordBuilders.js';
