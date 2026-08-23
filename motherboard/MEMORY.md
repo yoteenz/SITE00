@@ -3263,3 +3263,23 @@ Summary: Founder asked to close the last gap — Cloud Agent environment instruc
 - **Wired:** `CORE.md` agent output contract + `motherboard/README.md` + `docs/MOTHERBOARD_COMMANDS.md` reference AGENTS.md as cloud injection layer.
 - **Cursor docs:** Cloud agents read AGENTS.md at session start; complements `.cursor/rules/*.mdc` for handoff-safe procedural requirements.
 
+---
+
+## 2026-08-23 — Founder judgment → brand-scoped lineage wiring
+
+Summary of the **whole conversation so far** in this cloud agent run.
+
+- **Context:** Founder requested wiring Experiment C judgment buttons (LOVE IT / PROMISING REFINE / NOT FOR ME) to the creative asset lineage system with brand-scoped behavior — auto-backup all assets to lineage, NOT FOR ME excludes from NDXBOOK active library without deleting storage (cross-brand portable), LOVE IT marks production candidate without winner promotion, PROMISING REFINE stubs revision notes for future regeneration sprint.
+
+- **Decisions / outcomes:**
+  - `brandLineageMembership: ACTIVE | EXCLUDED` on `CreativeAssetRecord` — brand-scoped visibility distinct from global storage preservation.
+  - NOT FOR ME → `EXCLUDED`, `crossBrandPortable: true`, removed from launch seed set; blob + record preserved.
+  - LOVE IT → `PRODUCTION_CANDIDATE`, `REUSABLE_AS_IS`, auto-added to launch seed set when one exists.
+  - PROMISING REFINE → `revisionPending: true`, stays experimental; UI notes detailed revision wiring is future sprint.
+  - Auto-sync on carousel slide generation + on judgment tap (Experiment B range heroes too).
+  - Content Library hides EXCLUDED from default ALL view; new `EXCLUDED_FROM_BRAND` filter section.
+
+- **Changes:** `founderJudgmentLineage.ts`, `assetRecordBuilders.ts`, `lineageAssetSync.ts`, store `getCreativeAssetById`, carousel/range judgment hooks, library filter + UI hints, tests.
+
+- **Founder next:** Railway redeploy API from `main`; cPanel v15 for judgment lineage UI hints + Content Library EXCLUDED filter.
+

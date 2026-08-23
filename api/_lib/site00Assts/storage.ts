@@ -41,3 +41,16 @@ export async function downloadUrlToBuffer(url: string): Promise<Buffer> {
   if (!res.ok) throw new Error(`Download failed (${res.status})`);
   return Buffer.from(await res.arrayBuffer());
 }
+
+/** Returns true when the object exists in the configured assets bucket. */
+export async function site00StorageObjectExists(storagePath: string): Promise<boolean> {
+  const normalized = storagePath.replace(/^\/+/, '').trim();
+  if (!normalized) return false;
+  const supabase = getSupabaseAdmin();
+  const lastSlash = normalized.lastIndexOf('/');
+  const folder = lastSlash >= 0 ? normalized.slice(0, lastSlash) : '';
+  const name = lastSlash >= 0 ? normalized.slice(lastSlash + 1) : normalized;
+  const { data, error } = await supabase.storage.from(SITE00_ASSETS_BUCKET).list(folder, { limit: 100 });
+  if (error) return false;
+  return (data ?? []).some((entry) => entry.name === name);
+}

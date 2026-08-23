@@ -49,7 +49,7 @@ import {
   buildCarouselSlideHeroConcept,
   carouselSlideCopyQualityScores,
 } from './carouselSlideBriefBuilder.js';
-import { downloadUrlToBuffer, uploadSite00AssetBuffer } from '../../../site00Assts/storage.js';
+import { downloadUrlToBuffer, uploadSite00AssetBuffer, site00StorageObjectExists } from '../../../site00Assts/storage.js';
 import { getCanonicalCreativeRangeRun } from '../canonicalCreativeRange/canonicalCreativeRangeService.js';
 import {
   syncCarouselSlideToLineage,
@@ -58,6 +58,7 @@ import {
 } from '../../creativeLineage/lineageAssetSync.js';
 import { NDXBOOK_ORG_ID } from '../creativeIntelligence/founderComparisonSet.js';
 import * as carouselStore from './storeAdapter.js';
+import { reconcileCarouselRunMissingStorage } from './carouselSlideStorageReconciliation.js';
 
 function nowIso(): string {
   return new Date().toISOString();
@@ -159,8 +160,26 @@ async function generateCarouselSlideAsset(params: {
   let slide = params.slide;
   let accounting = { ...params.accounting };
 
-  if (slide.preserved || (slide.asset && slide.generationReceipt?.firstGenerationResult === 'SUCCESS')) {
+  if (slide.preserved) {
     return { slide, accounting };
+  }
+
+  if (slide.asset && slide.generationReceipt?.firstGenerationResult === 'SUCCESS') {
+    const exists = await site00StorageObjectExists(slide.asset.storagePath);
+    if (exists) return { slide, accounting };
+    slide = {
+      ...slide,
+      asset: null,
+      generationReceipt: {
+        firstGenerationResult: 'TRANSPORT_FAILURE',
+        creativeAttemptCount: slide.generationReceipt?.creativeAttemptCount ?? 0,
+        firstGenerationPromptHash: slide.generationReceipt?.firstGenerationPromptHash ?? null,
+        firstGenerationModel: slide.generationReceipt?.firstGenerationModel ?? 'openai/gpt-image-2',
+        firstGenerationCostUsd: slide.generationReceipt?.firstGenerationCostUsd ?? 0,
+        failureReason: 'Storage blob missing — regenerating',
+        generatedAt: slide.generationReceipt?.generatedAt ?? null,
+      },
+    };
   }
 
   const brief = buildCarouselBrief({ slide, direction, topic });
@@ -355,7 +374,13 @@ export async function getCarouselExpansionPreflight() {
 }
 
 export async function getCanonicalCarouselExpansionRun(): Promise<CanonicalCarouselExpansionRun | null> {
-  return carouselStore.getCanonicalCarouselExpansionRun();
+  const run = await carouselStore.getCanonicalCarouselExpansionRun();
+  if (!run) return null;
+  const { run: reconciled, repairedSlideCount } = await reconcileCarouselRunMissingStorage(run);
+  if (repairedSlideCount > 0) {
+    return carouselStore.saveCanonicalCarouselExpansionRun(reconciled);
+  }
+  return reconciled;
 }
 
 export async function executeCanonicalCarouselExpansion(params: {
@@ -363,7 +388,7 @@ export async function executeCanonicalCarouselExpansion(params: {
 }): Promise<CanonicalCarouselExpansionRun> {
   const mode = params.mode ?? 'ALL_REMAINING';
   const startMs = Date.now();
-  let existing = await carouselStore.getCanonicalCarouselExpansionRun();
+  let existing = await getCanonicalCarouselExpansionRun();
   if (existing?.status === 'COMPLETE' && mode === 'INITIALIZE') return existing;
 
   let run = initRun(existing?.status === 'FAILED' ? { ...existing, status: 'NOT_STARTED', error: null } : existing);
