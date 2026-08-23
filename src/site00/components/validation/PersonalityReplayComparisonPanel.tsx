@@ -2,6 +2,11 @@ import type {
   PersonalityConvergenceClassification,
   ReplayConvergenceReport,
 } from '../../../../shared/site00-brand-lore/personalityReplayTypes';
+import {
+  formatConvergenceScore,
+  isLegacyInvalidComparisonReport,
+  methodologyVerdictFromReport,
+} from '../../../../shared/site00-brand-lore/replayConvergencePresentation';
 import { site00StoragePublicUrl } from '../../utils/replayStorageUrl';
 
 type HeroAsset = {
@@ -22,12 +27,6 @@ function classificationLabel(c: PersonalityConvergenceClassification): string {
   return c.replace(/_/g, ' ');
 }
 
-function methodologyVerdict(score: number): string {
-  if (score >= 4) return 'PIPELINE VALIDATED';
-  if (score >= 2.5) return 'PARTIAL — REVIEW DIVERGENCE';
-  return 'FAILED — METHODOLOGY DRIFT';
-}
-
 export function PersonalityReplayComparisonPanel({
   heroAsset,
   nativeProofFormat,
@@ -42,11 +41,19 @@ export function PersonalityReplayComparisonPanel({
   const benchmarkUrl = benchmarkPath ? site00StoragePublicUrl(benchmarkPath) : '';
 
   const scores = comparisonReport?.scores;
-  const personalityScore = scores?.personalityConvergence ?? 0;
+  const legacyInvalid = comparisonReport ? isLegacyInvalidComparisonReport(comparisonReport) : false;
+  const verdict = methodologyVerdictFromReport(comparisonReport);
 
   return (
     <section className="site00-replay-comparison" aria-label="Blind replay comparison results">
       <h3 className="site00-replay-comparison__title">METHODOLOGY COMPARISON</h3>
+
+      {legacyInvalid ? (
+        <p className="site00-replay-comparison__legacy" role="status">
+          LEGACY INVALID COMPARISON RESULT — preserved as forensic evidence. Stub scorers returned 0/5 for
+          creative/identity/hero; not an authoritative methodology failure.
+        </p>
+      ) : null}
 
       {nativeProofFormat ? (
         <p className="site00-replay-comparison__meta">NATIVE PROOF: {nativeProofFormat.replace(/_/g, ' ')}</p>
@@ -69,13 +76,18 @@ export function PersonalityReplayComparisonPanel({
 
       {scores ? (
         <>
-          <p className="site00-replay-comparison__verdict">{methodologyVerdict(personalityScore)}</p>
+          {verdict ? <p className="site00-replay-comparison__verdict">{verdict}</p> : null}
           <ul className="site00-replay-comparison__scores">
-            <li>PERSONALITY: {scores.personalityConvergence}/5</li>
-            <li>CREATIVE: {scores.creativeConvergence}/5</li>
-            <li>IDENTITY: {scores.identityConvergence}/5</li>
-            <li>HERO: {scores.heroConvergence}/5</li>
+            <li>PERSONALITY: {formatConvergenceScore(scores.personalityConvergence)}</li>
+            <li>CREATIVE: {formatConvergenceScore(scores.creativeConvergence)}</li>
+            <li>IDENTITY: {formatConvergenceScore(scores.identityConvergence)}</li>
+            <li>HERO: {formatConvergenceScore(scores.heroConvergence)}</li>
           </ul>
+          {comparisonReport?.personalityScorerMode ? (
+            <p className="site00-replay-comparison__meta">
+              PERSONALITY SCORER: {comparisonReport.personalityScorerMode.replace(/_/g, ' ')}
+            </p>
+          ) : null}
         </>
       ) : null}
 

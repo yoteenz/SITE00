@@ -14,6 +14,15 @@ import type {
 import type { BrandLoreProfile } from '../../../../../shared/site00-brand-lore/types.js';
 import { assertNoHostFontInPayload } from '../../../../../shared/site00-brand-lore/typographyProvenance.js';
 import { buildPersonalityLineageFromProfile } from '../../../../../shared/site00-brand-lore/personalityLineage.js';
+import { deriveFormatNativeExpressionProfile } from '../../../../../shared/site00-brand-lore/formatNativeExpression.js';
+import {
+  auditPreservedDirectionFormat,
+  deriveNativeFormatForDirection,
+  runFormatAssignmentContaminationTest,
+  computeObservedFormatDiversity,
+  type DirectionNativeFormatSelection,
+} from '../../../../../shared/site00-brand-lore/directionNativeFormatSelection.js';
+import type { DirectionFormatSelectionRecord } from '../../../../../shared/site00-brand-lore/sixDirectionConsistencyTypes.js';
 import { runCoreDirectionFormation } from '../creativeIntelligence/formationService.js';
 import { getCreativeIntelligenceProvider } from '../creativeIntelligence/providerRegistry.js';
 import { runSonnetDirectionExpressionSystem } from '../creativeIntelligence/directionExpressionSystemService.js';
@@ -37,15 +46,6 @@ import {
 import { runDirectionDistinctivenessGate } from './directionDistinctivenessGate.js';
 import { auditComparisonScorer } from './comparisonScorerAudit.js';
 import * as replayStore from './replayStore/storeAdapter.js';
-
-const FORMAT_ROTATION: string[] = [
-  'CAROUSEL_COVER',
-  'FEED_TILE',
-  'STORY_FRAME',
-  'SAVEABLE_REFERENCE_POST',
-  'REEL_HOOK',
-  'CAROUSEL_SEQUENCE',
-];
 
 const FORBIDDEN_CONTAMINATION_KEYS = [
   'benchmarkHeroImage',
@@ -120,27 +120,20 @@ function aspectRatioForNativeFormat(format: string): string {
   return '1:1';
 }
 
-function selectNativeFormatForIndex(
-  comparisonIndex: number,
-  usedFormats: Set<string>,
-  direction: FormedCoreDirection,
-): { format: string; rationale: string } {
-  const preferred = FORMAT_ROTATION[(comparisonIndex - 1) % FORMAT_ROTATION.length];
-  if (!usedFormats.has(preferred)) {
-    return {
-      format: preferred,
-      rationale: `Format ${preferred} best proves "${direction.directionName}" social-first behavior without duplicating prior direction proofs.`,
-    };
-  }
-  for (const fmt of FORMAT_ROTATION) {
-    if (!usedFormats.has(fmt)) {
-      return {
-        format: fmt,
-        rationale: `Fallback format ${fmt} — avoids resize-only alias of prior direction native proof.`,
-      };
-    }
-  }
-  return { format: preferred, rationale: `Default ${preferred} for direction ${comparisonIndex}.` };
+function toFormatSelectionRecord(selection: DirectionNativeFormatSelection): DirectionFormatSelectionRecord {
+  const contamination = runFormatAssignmentContaminationTest(selection);
+  return {
+    nativeFormat: selection.nativeFormat,
+    nativeFormatReason: selection.nativeFormatReason,
+    alternativeFormatsConsidered: selection.alternativeFormatsConsidered,
+    whyAlternativesWereWeaker: selection.whyAlternativesWereWeaker,
+    formatSelectionEvidence: selection.formatSelectionEvidence,
+    formatSelectionDerivedFromDirection: selection.formatSelectionDerivedFromDirection,
+    formatAssignmentContaminationTest: {
+      passed: contamination.passed,
+      notes: contamination.notes,
+    },
+  };
 }
 
 function buildPersonalityTranslationReceipt(
@@ -194,8 +187,7 @@ function scoreFirstPassStructural(params: {
     visualSurprise: 'NEEDS_HUMAN_REVIEW',
     restraint: 'NEEDS_HUMAN_REVIEW',
     memorability: 'NEEDS_HUMAN_REVIEW',
-    socialApplicability:
-      params.nativeFormat.includes('STORY') || params.nativeFormat.includes('CAROUSEL') ? base + 1 : base,
+    socialApplicability: params.nativeFormat ? base + 1 : base,
     systemExtensibility: params.direction.signatureDevices?.length ? base + 1 : base,
     stockResemblance: 'NEEDS_HUMAN_REVIEW',
     genericAiResemblance: 'NEEDS_HUMAN_REVIEW',
@@ -297,6 +289,7 @@ function initRun(replay: BrandPersonalityReplayRecord): SixDirectionConsistencyR
       crossDirectionTests: null,
       consistencyVerdict: null,
       comparisonScorerAudit: null,
+      observedFormatDiversity: null,
       accounting: replay.executionAccounting ?? emptyAccounting(),
       error: null,
       startedAt: nowIso(),
@@ -308,11 +301,12 @@ function initRun(replay: BrandPersonalityReplayRecord): SixDirectionConsistencyR
 async function generateDirectionHero(params: {
   replay: BrandPersonalityReplayRecord;
   rosterEntry: { direction: FormedCoreDirection; formation: CoreDirectionFormationRecord; comparisonIndex: number };
-  nativeFormat: string;
-  nativeFormatRationale: string;
+  formatSelection: DirectionFormatSelectionRecord;
   accounting: ReturnType<typeof emptyAccounting>;
 }): Promise<{ slot: SixDirectionConsistencyDirection; accounting: ReturnType<typeof emptyAccounting> }> {
-  const { replay, rosterEntry, nativeFormat, nativeFormatRationale } = params;
+  const { replay, rosterEntry, formatSelection } = params;
+  const nativeFormat = formatSelection.nativeFormat;
+  const nativeFormatRationale = formatSelection.nativeFormatReason;
   let accounting = { ...params.accounting };
   const formationInput = buildShadowReplayFormationInput(replay);
   const hostCheck = assertNoHostFontInPayload(formationInput);
@@ -447,6 +441,7 @@ async function generateDirectionHero(params: {
       summary: buildDirectionSummary(rosterEntry.direction),
       nativeProofFormat: nativeFormat,
       nativeFormatRationale,
+      formatSelection,
       scrollHookBehavior: rosterEntry.direction.socialExpressionHypothesis ?? null,
       repeatableContentSystem: rosterEntry.direction.primaryBrandArtifact ?? null,
       typographyRationale: rosterEntry.direction.typographicAttitude ?? null,
@@ -472,6 +467,19 @@ function buildPreservedDirectionSlot(
   replay: BrandPersonalityReplayRecord,
   rosterEntry: { direction: FormedCoreDirection; formation: CoreDirectionFormationRecord; comparisonIndex: number },
 ): SixDirectionConsistencyDirection {
+  const profile = shadowProfile(replay);
+  const formatProfile = deriveFormatNativeExpressionProfile({
+    context: 'SOCIAL_FIRST_EDITORIAL',
+    profile,
+    personality: replay.synthesizedPersonality,
+  });
+  const derived = auditPreservedDirectionFormat({
+    direction: rosterEntry.direction,
+    assignedFormat: replay.nativeProofFormat,
+    formatProfile,
+  });
+  const formatSelection = toFormatSelectionRecord(derived);
+
   return {
     comparisonIndex: 1,
     directionId: rosterEntry.direction.directionId,
@@ -479,8 +487,9 @@ function buildPreservedDirectionSlot(
     sourceFormationId: rosterEntry.formation.formationId,
     sourceFormationVersion: rosterEntry.formation.formationVersion,
     summary: buildDirectionSummary(rosterEntry.direction),
-    nativeProofFormat: replay.nativeProofFormat ?? 'CAROUSEL_COVER',
-    nativeFormatRationale: 'Validation output #1 — preserved blind replay first-pass hero.',
+    nativeProofFormat: formatSelection.nativeFormat,
+    nativeFormatRationale: formatSelection.nativeFormatReason,
+    formatSelection,
     scrollHookBehavior: rosterEntry.direction.socialExpressionHypothesis ?? null,
     repeatableContentSystem: rosterEntry.direction.primaryBrandArtifact ?? null,
     typographyRationale: rosterEntry.direction.typographicAttitude ?? null,
@@ -587,7 +596,11 @@ export async function executeSixDirectionConsistencyValidation(
       replay = await persistReplay(replay, { sixDirectionConsistency: run });
     }
 
-    const usedFormats = new Set(run.directions.map((d) => d.nativeProofFormat));
+    const formatProfile = deriveFormatNativeExpressionProfile({
+      context: 'SOCIAL_FIRST_EDITORIAL',
+      profile,
+      personality: replay.synthesizedPersonality,
+    });
 
     for (const entry of roster.slice(1)) {
       if (run.directions.some((d) => d.comparisonIndex === entry.comparisonIndex)) continue;
@@ -595,14 +608,16 @@ export async function executeSixDirectionConsistencyValidation(
       run = { ...run, status: 'GENERATING_DIRECTION', currentDirectionIndex: entry.comparisonIndex };
       replay = await persistReplay(replay, { sixDirectionConsistency: run });
 
-      const { format, rationale } = selectNativeFormatForIndex(entry.comparisonIndex, usedFormats, entry.direction);
-      usedFormats.add(format);
+      const derived = deriveNativeFormatForDirection({
+        direction: entry.direction,
+        formatProfile,
+      });
+      const formatSelection = toFormatSelectionRecord(derived);
 
       const { slot, accounting: nextAccounting } = await generateDirectionHero({
         replay,
         rosterEntry: entry,
-        nativeFormat: format,
-        nativeFormatRationale: rationale,
+        formatSelection,
         accounting,
       });
       accounting = nextAccounting;
@@ -626,6 +641,9 @@ export async function executeSixDirectionConsistencyValidation(
     });
     const crossDirectionTests = runCrossDirectionTests(run.directions);
     const consistencyVerdict = computeConsistencyVerdict(run.directions);
+    const observedFormatDiversity = computeObservedFormatDiversity(
+      run.directions.map((d) => d.nativeProofFormat),
+    );
 
     run = {
       ...run,
@@ -633,6 +651,12 @@ export async function executeSixDirectionConsistencyValidation(
       crossDirectionTests,
       consistencyVerdict,
       comparisonScorerAudit,
+      observedFormatDiversity: {
+        uniqueFormats: observedFormatDiversity.uniqueFormats,
+        totalDirections: observedFormatDiversity.totalDirections,
+        formatCounts: observedFormatDiversity.formatCounts,
+        notes: observedFormatDiversity.notes,
+      },
       completedAt: nowIso(),
       error: null,
       accounting,
@@ -663,6 +687,8 @@ export function buildSixDirectionDirectionReport(
     )
     .join('\n\n');
 }
+
+export { buildSixDirectionGenerationPreflight } from '../../../../../shared/site00-brand-lore/sixDirectionGenerationPreflight.js';
 
 export async function setSixDirectionFounderJudgment(params: {
   replayId: string;

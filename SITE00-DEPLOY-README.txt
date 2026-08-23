@@ -6,6 +6,7 @@ WHAT THIS IS
 Production static SPA for https://site00.com (Architecture C: static GoDaddy + API on Railway).
 
 Includes (merged main as of 2026-08-23):
+- Six-direction blind creative consistency review (founder UI + API pipeline)
 - Personality replay methodology comparison on review page (blind hero + benchmark + scores)
 - Blind replay execution progress panel on HOW YOU SHOW UP → REVIEW
 - JSON parse hardening for replay pipeline (API on Railway — redeploy if not already)

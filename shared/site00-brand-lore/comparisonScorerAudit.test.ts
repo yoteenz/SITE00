@@ -73,7 +73,7 @@ describe('auditComparisonScorer', () => {
     });
     expect(audit.bugFound).toBe(true);
     expect(audit.sonnetComparisonExecuted).toBe(false);
-    expect(audit.creativeScoreExplanation).toContain('hardcoded');
+    expect(audit.creativeScoreExplanation).toContain('NOT_EVALUATED');
     expect(audit.personalityScoreExplanation).toContain('null');
   });
 

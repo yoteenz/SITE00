@@ -270,18 +270,25 @@ export async function runPostGenerationPersonalityComparison(replayId: string): 
     shadow: replay.synthesizedPersonality,
   });
 
+  const personalityScore = benchmark.brandPersonality
+    ? scorePersonalityConvergence(domainReports)
+    : ('NEEDS_HUMAN_REVIEW' as const);
+
   const comparisonReport: ReplayConvergenceReport = {
     personalityDomains: domainReports,
     scores: {
-      personalityConvergence: scorePersonalityConvergence(domainReports),
-      creativeConvergence: 0,
-      identityConvergence: 0,
-      heroConvergence: 0,
+      personalityConvergence: personalityScore,
+      creativeConvergence: 'NOT_EVALUATED',
+      identityConvergence: 'NOT_EVALUATED',
+      heroConvergence: 'NOT_EVALUATED',
     },
     divergenceStage: null,
     shadowMarkedUpAnalogDirectionId: replay.selectedShadowDirectionId,
     benchmarkLoadedAt: benchmark.loadedAt,
     benchmarkHeroStoragePath: benchmark.heroAssetPath,
+    scorerVersion: 'LEGACY_HEURISTIC_V1',
+    legacyInvalidComparison: false,
+    personalityScorerMode: benchmark.brandPersonality ? 'HEURISTIC' : 'NOT_EVALUATED',
   };
 
   const updated: BrandPersonalityReplayRecord = {
@@ -380,6 +387,7 @@ export {
   executeSixDirectionConsistencyValidation,
   setSixDirectionFounderJudgment,
   buildSixDirectionDirectionReport,
+  buildSixDirectionGenerationPreflight,
 } from './sixDirectionConsistencyService.js';
 
 /** Resume an in-progress replay or create a fresh shadow validation run. */
