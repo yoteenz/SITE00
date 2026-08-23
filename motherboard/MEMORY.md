@@ -3448,3 +3448,11 @@ Summary of sprint building reusable infrastructure to capture business/founder i
 
 - **Founder next:** Railway API redeploy; cPanel **v22**; admin → CLIENT INTAKES → CREATE → copy link to sister. `WORLD_FORMATION_IMPLEMENTED: false`.
 
+---
+
+## 2026-08-23 — World intake foundation shipped (PR merge + Supabase persistence)
+
+- Continued sprint: added `api/_lib/site00WorldIntake/supabaseStore.ts` (auto-select Supabase when tables + service role exist; memory in Vitest); admin CLIENT INTAKES cards with REGENERATE LINK, VIEW INTELLIGENCE, MARK READY; guest WHAT WE HEARD review step before submit.
+- Merged to `main` via PR. Tests **1290** pass; build pass.
+- Founder: redeploy Railway API, apply migration `20260823160000_site00_world_intake_foundation.sql` if not applied, cPanel **v22**, set `SITE00_PUBLIC_INTAKE_BASE_URL` for correct guest link host.
+
