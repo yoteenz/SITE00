@@ -29,6 +29,7 @@ import {
 } from './brandVoiceBehavior.js';
 import { buildFormatLineage } from './formatLineage.js';
 import { buildPersonalityLineageFromProfile } from './personalityLineage.js';
+import { buildTypographyProvenanceEnvelope, assertNoHostFontInPayload } from './typographyProvenance.js';
 
 export type ProductionStage =
   | 'CORE_DIRECTION'
@@ -136,6 +137,7 @@ export function buildProductionPromptEnvelope(
       typographyPolicy: ctx.typographyPolicy,
     },
     brandPromptTypography: ctx.brandPromptTypographyBlock,
+    ...buildTypographyProvenanceEnvelope(ctx.brandSlug),
     primaryExpressionContext: ctx.expressionContext,
     formatNativeExpressionProfile: ctx.formatProfile,
     formatNativeExpressionSummary: ctx.formatProfileSummary,
@@ -303,8 +305,10 @@ export function inspectProductionPayload(
   hasPersonalityLineage: boolean;
   hasFormatLineage: boolean;
   forbiddenBrandVariant: boolean;
+  hostFontLeakage: boolean;
 } {
   const text = JSON.stringify(payload);
+  const hostCheck = assertNoHostFontInPayload(payload);
   return {
     hasDisplayName: text.includes(displayName),
     hasTypographyPolicy: text.includes('typographyPolicy') || text.includes('UPPERCASE'),
@@ -313,6 +317,7 @@ export function inspectProductionPayload(
     hasPersonalityLineage: text.includes('personalityLineage') || text.includes('personalityBehavior'),
     hasFormatLineage: text.includes('formatLineage') || text.includes('formatLineageSummary'),
     forbiddenBrandVariant: /\bNDX\s+BOOK\b/i.test(text),
+    hostFontLeakage: !hostCheck.passed,
   };
 }
 
@@ -327,13 +332,15 @@ The identity is NOT being designed in a vacuum. Design FOR THE BRAND'S PRIMARY O
 DO NOT default to generic poster, website hero, presentation canvas, or moodboard tile as the primary proof surface unless expression context explicitly requires it.
 
 ${ctx.visibleCopyUppercase ? `ALL ${ctx.displayName}-BRANDED VISIBLE DISPLAY TYPOGRAPHY MUST READ AS UPPERCASE.` : ''}
+${ctx.visibleCopyUppercase ? 'UPPERCASE IS A CASING RULE — NOT A FONT-FAMILY DECISION. Typography font selection is UNRESOLVED until derived from direction.' : ''}
+${ctx.visibleCopyUppercase ? 'HOST_UI typography cannot automatically become CLIENT_BRAND typography.' : ''}
 
 Return JSON only — no markdown fences:
 {
   "identityPremise": "string",
   "proprietaryVisualDNA": ["string"],
   "paletteSystem": [{ "role": "string", "colorDescription": "string", "semanticUse": "string", "visualDominance": "dominant|secondary|sparse-accent|functional" }],
-  "typographyBehavior": ["string"],
+  "typographyBehavior": ["string — WHY this typography belongs to this brand; derive font architecture from direction; explain personality fit, editorial authority, cultural fit, social readability"],
   "imageTreatment": "string",
   "photographicBehavior": "string",
   "graphicGrammar": ["string"],

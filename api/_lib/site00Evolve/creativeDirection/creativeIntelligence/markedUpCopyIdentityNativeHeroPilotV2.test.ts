@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { inspectMartianMonoAvailability } from './martianMonoTypography.js';
+import { inspectHostUiTypography, buildClientTypographyRolesForProduction } from './martianMonoTypography.js';
 import {
   buildDeterministicCreativeExpression,
   buildDeterministicHeroConcept,
@@ -13,7 +13,7 @@ import {
   compileIdentityNativeV2VisualBrief,
   IDENTITY_NATIVE_V2_MAX_PROMPT_CHARS,
   v2BriefIncludesCreativeExpression,
-  v2BriefIncludesMartianMono,
+  v2BriefExcludesHostTypography,
 } from './identityNativeVisualBriefV2Compiler.js';
 import { evaluateIdentityNativeV2QaFromScores } from './identityNativeVisualRawInspectorV2.js';
 import { buildDeterministicIdentityArtDirection } from './identityNativeArtDirectorService.js';
@@ -30,17 +30,20 @@ import * as copyGate from './copyQualityGate.js';
 
 const expressionSystem = buildMarkedUpCopyExpressionSystemFallback({ directionId: 'marked-up-copy' });
 const artDirection = buildDeterministicIdentityArtDirection({ expressionSystem, directionId: 'marked-up-copy' });
-const typographyRoles = inspectMartianMonoAvailability();
+const typographyRoles = buildClientTypographyRolesForProduction();
 
-describe('MartianMonoTypography', () => {
-  it('1. detects Martian Mono in project fonts', () => {
-    expect(typographyRoles.martianMonoAvailable).toBe(true);
-    expect(typographyRoles.actualSource).toContain('site00-fonts.css');
+describe('HostUiTypography (SITE 00)', () => {
+  it('1. detects Martian Mono as HOST UI font in project CSS', () => {
+    const host = inspectHostUiTypography();
+    expect(host.provenance).toBe('HOST_UI');
+    expect(host.available).toBe(true);
+    expect(host.cssSource).toContain('site00-fonts.css');
   });
 
-  it('2. defines multi-voice typographic roles', () => {
+  it('2. production typography roles exclude host font as client canon', () => {
     expect(typographyRoles.displayVoice).toContain('DISPLAY');
-    expect(typographyRoles.systemVoice.toLowerCase()).toContain('martian mono');
+    expect(typographyRoles.systemVoice.toLowerCase()).not.toContain('martian mono');
+    expect(typographyRoles.typographyIdentityStatus).toBe('UNRESOLVED');
     expect(typographyRoles.marginVoice).toContain('MARGIN');
   });
 });
@@ -87,7 +90,7 @@ describe('CopyQualityGate', () => {
 });
 
 describe('IdentityNativeV2BriefCompiler', () => {
-  it('6. includes creative expression and Martian Mono in prompt', () => {
+  it('6. includes creative expression and excludes host typography in prompt', () => {
     const ce = buildDeterministicCreativeExpression({ artDirection, typographyRoles });
     const concept = buildDeterministicHeroConcept(BRAND_NATIVE_PILOT_TOPIC);
     const brief = compileIdentityNativeV2VisualBrief({
@@ -100,7 +103,8 @@ describe('IdentityNativeV2BriefCompiler', () => {
     });
     expect(brief.assetId).toBe(IDENTITY_NATIVE_HERO_V2_ASSET_ID);
     expect(v2BriefIncludesCreativeExpression(brief)).toBe(true);
-    expect(v2BriefIncludesMartianMono(brief)).toBe(true);
+    expect(v2BriefExcludesHostTypography(brief)).toBe(true);
+    expect(brief.compiledPrompt).toContain('SYSTEM/METADATA VOICE');
     expect(brief.compiledPrompt).toContain(concept.cleanClaim);
     expect(brief.compiledPrompt.length).toBeLessThanOrEqual(IDENTITY_NATIVE_V2_MAX_PROMPT_CHARS);
   });

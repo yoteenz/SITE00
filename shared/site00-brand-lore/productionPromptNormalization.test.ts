@@ -202,12 +202,15 @@ describe('Replay isolation + preflight', () => {
     expect(JSON.stringify(input)).not.toContain('THE MARKED-UP COPY');
   });
 
-  it('40-41. Preflight report gates production readiness', () => {
+  it('40-41. Preflight report gates production readiness including typography', () => {
     const report = buildReplayProductionPreflightReport('ndxbook');
     expect(report.personalityReplayInfrastructureReady).toBe(true);
     expect(report.personalityReplayProductionReady).toBe(true);
     expect(report.coreDirectionPromptNormalized).toBe(true);
     expect(report.boardProofPriorityEnforced).toBe(true);
+    expect(report.hostUiTypographySeparated).toBe(true);
+    expect(report.hostFontLeakagePassed).toBe(true);
+    expect(report.typographyInitiallyUnresolved).toBe(true);
     expect(() => assertReplayProductionReadyForDownstream('ndxbook')).not.toThrow();
   });
 

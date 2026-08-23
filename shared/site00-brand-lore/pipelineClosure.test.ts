@@ -18,7 +18,7 @@ import { synthesizeBrandPersonalityProfile } from './personalitySynthesis.js';
 import { synthesizeBrandLoreProfile } from './loreSynthesis.js';
 import { buildCoreDirectionFormationInput } from '../../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/formationInputBuilder.js';
 import { buildDeterministicCreativeExpression } from '../../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/creativeExpressionService.js';
-import { inspectMartianMonoAvailability } from '../../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/martianMonoTypography.js';
+import { buildClientTypographyRolesForProduction } from '../../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/martianMonoTypography.js';
 import { synthesizeBuilderExperienceProfile } from '../../api/_lib/site00BrandLore/experienceSynthesis.js';
 import {
   canonicalBrandDisplayName,
@@ -122,7 +122,7 @@ describe('Creative Expression format + personality lineage', () => {
         paletteSystem: {},
         artifactDesignLanguage: '',
       } as never,
-      typographyRoles: inspectMartianMonoAvailability(),
+      typographyRoles: buildClientTypographyRolesForProduction(),
       upstreamPersonality: profile.brandPersonality,
       expressionContext: 'SOCIAL_FIRST_EDITORIAL',
     });
@@ -184,11 +184,12 @@ describe('NDXBOOK canonical naming + uppercase', () => {
     expect(assertCreativeDisplayCase('THE MARKED-UP COPY', ctx.typographyPolicy)).toBe(true);
   });
 
-  it('includes NDXBOOK and uppercase in prompt block', () => {
+  it('includes NDXBOOK and uppercase in prompt block without Martian Mono', () => {
     const block = brandPromptTypographyBlock('ndxbook');
     expect(block).toContain('NDXBOOK');
     expect(block).toContain('UPPERCASE');
     expect(block).not.toContain('NDX BOOK');
+    expect(block).not.toMatch(/\bmartian\s*mono\b/i);
   });
 
   it('derives uppercase brand voice for NDXBOOK', () => {

@@ -9,15 +9,12 @@ export const CREATIVE_EXPRESSION_PROMPT_VERSION = 'marked-up-copy-creative-expre
 
 export const IDENTITY_NATIVE_HERO_V2_ASSET_ID = 'MUC-IDENTITY-NATIVE-HERO-PILOT-V2';
 
-export type MartianMonoTypographyRoles = {
-  martianMonoAvailable: boolean;
-  actualSource: string;
-  displayVoice: string;
-  systemVoice: string;
-  revisionVoice: string;
-  marginVoice: string;
-  microVoice: string;
-  rolesSummary: string[];
+import type { DirectionDerivedTypographyRoles } from '../../../../../shared/site00-brand-lore/typographyProvenance.js';
+
+/** @deprecated Use DirectionDerivedTypographyRoles — MartianMono prefix is historical only */
+export type MartianMonoTypographyRoles = DirectionDerivedTypographyRoles & {
+  martianMonoAvailable?: boolean;
+  actualSource?: string;
 };
 
 export type CreativeExpressionSystem = {
@@ -41,7 +38,7 @@ export type CreativeExpressionSystem = {
   culturalIntelligenceRules: string[];
   artifactPersonalityTest: string[];
   antiGenericCreativeRules: string[];
-  typographyRoles: MartianMonoTypographyRoles;
+  typographyRoles: DirectionDerivedTypographyRoles;
   /** Upstream Brand Personality fields this expression translates — not invented ex nihilo. */
   personalityLineage: Array<{
     upstreamField: string;
@@ -74,7 +71,9 @@ export type HeroCreativeConcept = {
   evidenceDevice: string;
   visualPunchline: string;
   dominantTypeBehavior: string;
+  /** System/metadata voice labels — font family derived from direction, NOT SITE 00 host UI */
   martianMonoApplication: string[];
+  systemMetadataApplication?: string[];
   graphicInterventions: Array<{ device: string; semanticPurpose: string }>;
   intentionalGridBreak: string;
   quietZone: string;
