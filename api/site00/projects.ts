@@ -46,6 +46,14 @@ import {
   setExperimentDHeroJudgment,
 } from '../_lib/site00Evolve/creativeDirection/conceptTerritoryExperiment/experimentDService.js';
 import {
+  formSixConcepts,
+  getSixConceptReformationRun,
+  prepareExperimentFSnapshot,
+  reformExperimentFSet,
+  setExperimentFConceptJudgment,
+} from '../_lib/site00Evolve/creativeDirection/conceptTerritoryV2Experiment/experimentFService.js';
+import { getExperimentDMethodologyOverlay } from '../../shared/site00-brand-lore/conceptTerritoryV2/experimentDInterpretation.js';
+import {
   compileExperienceImplementationContractForConcept,
   compileExperienceAssetDirectionForConcept,
   compileExperienceAssetManifestForConcept,
@@ -104,6 +112,12 @@ import {
 } from '../_lib/site00Evolve/creativeLineage/founderJudgmentRevisionService.js';
 import type { CarouselExecuteMode } from '../../shared/site00-brand-lore/canonicalCarouselExpansionTypes.js';
 import type { CreativeLineageLibraryFilters } from '../../shared/site00-brand-lore/creativeLineage/types.js';
+import type { ProjectExperienceClass } from '../../shared/site00-world-intake/constants.js';
+import {
+  compileProjectIntelligenceManifest,
+  getProjectIntelligenceState,
+  resolveExperienceClassForProject,
+} from '../_lib/site00ProjectIntelligence/projectIntelligenceService.js';
 
 function setCors(res: VercelResponse): void {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -882,7 +896,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await getSixConceptHeroRangeRun();
-        return json(res, 200, { ok: true, run, source: 'site00_experiment_d' });
+        const methodologyOverlay = getExperimentDMethodologyOverlay();
+        return json(res, 200, { ok: true, run, methodologyOverlay, source: 'site00_experiment_d' });
       }
       case 'experiment_d_form_territories': {
         if (req.method !== 'POST') {
@@ -943,6 +958,89 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const run = await setExperimentDHeroJudgment({ comparisonIndex, judgment, tooCloseSibling });
         return json(res, 200, { ok: true, run, source: 'site00_experiment_d' });
+      }
+      case 'experiment_f_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await getSixConceptReformationRun();
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_f' });
+      }
+      case 'experiment_f_prepare_snapshot': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await prepareExperimentFSnapshot();
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_f' });
+      }
+      case 'experiment_f_form_concepts': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await formSixConcepts();
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_f' });
+      }
+      case 'experiment_f_concept_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const conceptId = String(body.conceptId ?? '');
+        const judgment = body.judgment as
+          | 'LOVE_THE_CONCEPT'
+          | 'PROMISING_DEVELOP'
+          | 'TOO_CLOSE'
+          | 'NOT_NDXBOOK'
+          | 'REFORM_SET'
+          | null;
+        if (slug !== 'ndxbook' || !conceptId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await setExperimentFConceptJudgment({
+          conceptId,
+          judgment,
+          note: body.note ? String(body.note) : null,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_f' });
+      }
+      case 'experiment_f_reform_set': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await reformExperimentFSet();
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_f' });
       }
       case 'experiment_e_get': {
         const slug = String(req.query.slug ?? '');
@@ -1651,6 +1749,63 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const result = await reconcileNdxbookLaunchSeedSemantics();
         return json(res, 200, { ok: true, ...result, source: 'site00_creative_lineage' });
+      }
+      case 'project_intelligence_manifest_get': {
+        const slug = String(req.query.slug ?? '');
+        if (!slug) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'SLUG_REQUIRED', message: 'slug required' },
+          });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const state = getProjectIntelligenceState(slug);
+        return json(res, 200, {
+          ok: true,
+          ...state,
+          readiness: state.readiness ?? 'PROJECT_INTELLIGENCE_NOT_STARTED',
+          formationGate: state.formationGate ?? { allowed: false, reason: 'Manifest not compiled' },
+          source: 'site00_project_intelligence',
+        });
+      }
+      case 'project_intelligence_manifest_compile': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!slug) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'SLUG_REQUIRED', message: 'slug required' },
+          });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const detail = await resolveSite00Project(slug);
+        if (!detail) {
+          return json(res, 404, { ok: false, error: { code: 'PROJECT_NOT_FOUND', message: 'Project not found' } });
+        }
+        const experienceClass = resolveExperienceClassForProject({
+          projectSlug: slug,
+          override: (body.experienceClass as ProjectExperienceClass | undefined) ?? null,
+        });
+        const { manifest, readiness } = await compileProjectIntelligenceManifest({
+          projectId: detail.organizationUuid,
+          projectSlug: slug,
+          experienceClass,
+        });
+        const formationGate = getProjectIntelligenceState(slug).formationGate;
+        return json(res, 200, {
+          ok: true,
+          manifest,
+          readiness,
+          formationGate,
+          source: 'site00_project_intelligence',
+        });
       }
       default:
         return json(res, 400, {

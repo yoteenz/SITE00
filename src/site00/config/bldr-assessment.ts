@@ -402,6 +402,10 @@ export function bldrAssessmentRecommendationPath(): string {
   return `${SITE00_ROUTES.bldr}/not-sure/recommendation`;
 }
 
+export function bldrDiscoveryResultPath(classSlug: string): string {
+  return `${SITE00_ROUTES.bldr}/${classSlug}/discovery-result`;
+}
+
 export function getBldrAssessmentState(slug: string): BldrAssessmentStateConfig | undefined {
   return BLDR_ASSESSMENT_STATE_LIST.find((s) => s.slug === slug);
 }

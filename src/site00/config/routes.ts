@@ -54,6 +54,7 @@ export const SITE00_ROUTES = {
   adminDashboard: '/admin/site00',
   projects: '/projects',
   projectDetail: '/projects/:projectSlug',
+  projectSetup: '/projects/:projectSlug/setup',
   projectEvolve: '/projects/:projectSlug/evolve',
   projectCreativeDirection: '/projects/:projectSlug/creative-direction',
   projectLoreCalibration: '/projects/:projectSlug/calibrate',
@@ -63,6 +64,7 @@ export const SITE00_ROUTES = {
   projectCanonicalCreativeRange: '/projects/:projectSlug/canonical-creative-range',
   projectCanonicalCarouselExpansion: '/projects/:projectSlug/canonical-carousel-expansion',
   projectExperimentD: '/projects/:projectSlug/experiment-d-concept-territory',
+  projectExperimentF: '/projects/:projectSlug/experiment-f-six-concept-reformation',
   projectExperimentE: '/projects/:projectSlug/experience-expression',
   projectExperimentEVisualDevelopment: '/projects/:projectSlug/experience-expression/visual-development',
   projectContentLibrary: '/projects/:projectSlug/content-library',
@@ -102,6 +104,10 @@ export function site00ProjectPath(projectSlug: string): string {
   return `/projects/${projectSlug}`;
 }
 
+export function site00ProjectSetupPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/setup`;
+}
+
 export function site00ProjectLoreCalibrationPath(projectSlug: string): string {
   return `/projects/${projectSlug}/calibrate`;
 }
@@ -128,6 +134,14 @@ export function site00ProjectCreativeDirectionPath(projectSlug: string): string 
 
 export function site00ProjectExperimentEPath(projectSlug: string): string {
   return `/projects/${projectSlug}/experience-expression`;
+}
+
+export function site00ProjectExperimentDPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/experiment-d-concept-territory`;
+}
+
+export function site00ProjectExperimentFPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/experiment-f-six-concept-reformation`;
 }
 
 export function site00ProjectExperimentEVisualDevelopmentPath(projectSlug: string): string {
