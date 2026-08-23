@@ -17,7 +17,12 @@ type Section =
   | 'CONCEPTS'
   | 'ADAPTABLE'
   | 'RETIRED'
-  | 'EXCLUDED_FROM_BRAND';
+  | 'EXCLUDED_FROM_BRAND'
+  | 'LOVED'
+  | 'REVISION_PENDING'
+  | 'REVISED'
+  | 'REJECTED_FOR_BRAND'
+  | 'CANON_REVIEW';
 
 type NdxbookContentLibraryProps = {
   projectSlug: string;
@@ -126,12 +131,17 @@ export function NdxbookContentLibrary({ projectSlug }: NdxbookContentLibraryProp
                 'ALL',
                 'CANONICAL',
                 'PRODUCTION_CANDIDATES',
+                'LOVED',
+                'REVISION_PENDING',
+                'REVISED',
                 'CAROUSELS',
                 'FRANCHISES',
                 'CONCEPTS',
                 'ADAPTABLE',
                 'RETIRED',
+                'REJECTED_FOR_BRAND',
                 'EXCLUDED_FROM_BRAND',
+                'CANON_REVIEW',
               ] as Section[]
             ).map((s) => (
               <button
@@ -156,7 +166,9 @@ export function NdxbookContentLibrary({ projectSlug }: NdxbookContentLibraryProp
                   <p>{asset.contentLineage.topicName ?? '—'}</p>
                   <p>
                     {asset.productionState} · {asset.reuseState}
+                    {asset.brandDisposition ? ` · ${asset.brandDisposition.replace(/_/g, ' ')}` : ''}
                     {asset.brandLineageMembership === 'EXCLUDED' ? ' · EXCLUDED FROM NDXBOOK' : ''}
+                    {asset.revisionPending ? ' · REVISION PENDING' : ''}
                     {asset.crossBrandPortable ? ' · CROSS-BRAND PORTABLE' : ''}
                   </p>
                   <p>{asset.canonStatus}</p>

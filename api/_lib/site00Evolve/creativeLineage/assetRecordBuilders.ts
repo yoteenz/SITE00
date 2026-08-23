@@ -36,8 +36,10 @@ export function resolveRangeHeroAssetId(dir: CanonicalCreativeRangeDirection): s
 
 function mapReviewState(j: string | null | undefined): CreativeAssetRecord['reviewState'] {
   return mapFounderJudgmentToReviewState(
-    j === 'LOVE_IT' || j === 'PROMISING_REFINE' || j === 'NOT_FOR_ME'
-      ? j
+    j === 'LOVE_IT' || j === 'PROMISING_REFINE' || j === 'REVISE' || j === 'NOT_FOR_ME'
+      ? j === 'PROMISING_REFINE'
+        ? 'REVISE'
+        : j
       : j === 'NOT_NDXBOOK'
         ? 'NOT_FOR_ME'
         : j === 'APPROVED'
@@ -55,6 +57,7 @@ export function finalizeAssetRecord(
   if (
     founderJudgment === 'LOVE_IT' ||
     founderJudgment === 'PROMISING_REFINE' ||
+    founderJudgment === 'REVISE' ||
     founderJudgment === 'NOT_FOR_ME'
   ) {
     return applyFounderJudgmentToAsset(withDefaults, founderJudgment, ts);

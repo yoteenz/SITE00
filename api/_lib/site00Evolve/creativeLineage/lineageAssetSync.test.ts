@@ -162,7 +162,7 @@ describe('lineageAssetSync', () => {
     expect(updatedSeed?.selectedAssets).not.toContain(asset.assetId);
   });
 
-  it('LOVE_IT adds asset to launch seed set as production candidate', async () => {
+  it('LOVE_IT marks production candidate without auto launch seed add', async () => {
     const run = mockCarouselRun();
     await syncCarouselSlideToLineage({ carouselRun: run, comparisonIndex: 1, slideNumber: 2 });
     const asset = (await store.listCreativeAssets('ndxbook'))[0]!;
@@ -184,7 +184,9 @@ describe('lineageAssetSync', () => {
 
     await applyFounderJudgmentToLineage({ assetId: asset.assetId, judgment: 'LOVE_IT' });
     const updatedSeed = await store.getLaunchSeedSet('ndxbook');
-    expect(updatedSeed?.selectedAssets).toContain(asset.assetId);
+    expect(updatedSeed?.selectedAssets).not.toContain(asset.assetId);
+    const updated = await store.getCreativeAssetById('ndxbook', asset.assetId);
+    expect(updated?.productionState).toBe('PRODUCTION_CANDIDATE');
   });
 });
 

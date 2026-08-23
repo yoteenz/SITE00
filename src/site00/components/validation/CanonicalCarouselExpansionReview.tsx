@@ -9,6 +9,8 @@ import type {
 import { site00StoragePublicUrl } from '../../utils/replayStorageUrl';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
 import { SITE00_ROUTES } from '../../config/routes';
+import { RevisionStudio } from '../revision/RevisionStudio';
+import '../../styles/site00-revision-studio.css';
 
 function founderApiErrorMessage(err: unknown): string {
   const raw = err instanceof Error ? err.message : 'Unable to run carousel expansion';
@@ -30,15 +32,22 @@ function slideUrl(slide: CarouselSlideRecord): string {
   return slide.asset?.storagePath ? site00StoragePublicUrl(slide.asset.storagePath) : '';
 }
 
+function slideAssetId(comparisonIndex: number, slide: CarouselSlideRecord): string {
+  return (
+    slide.asset?.assetId ??
+    `NDX-CAROUSEL-${String(comparisonIndex).padStart(2, '0')}-S${String(slide.slideNumber).padStart(2, '0')}`
+  );
+}
+
 function judgmentLineageHint(judgment: CarouselSlideRecord['founderJudgment']): string | null {
   if (judgment === 'NOT_FOR_ME') {
     return 'Excluded from NDXBOOK brand lineage — storage preserved for cross-brand reuse';
   }
   if (judgment === 'LOVE_IT') {
-    return 'Production candidate — added to brand lineage for reuse (winner not required)';
+    return 'Production candidate — not canon, not winner, not auto launch seed';
   }
-  if (judgment === 'PROMISING_REFINE') {
-    return 'Marked for revision — detailed notes and regeneration wired in a future sprint';
+  if (judgment === 'REVISE' || judgment === 'PROMISING_REFINE') {
+    return 'Revision pending — open Revision Studio for structured surgical spec';
   }
   return null;
 }
@@ -55,6 +64,11 @@ export function CanonicalCarouselExpansionReview({
   const [compareSlide, setCompareSlide] = useState(2);
   const [previewIndex, setPreviewIndex] = useState(0);
   const [judging, setJudging] = useState<string | null>(null);
+  const [revisionStudio, setRevisionStudio] = useState<{
+    assetId: string;
+    previewUrl: string;
+    label: string;
+  } | null>(null);
 
   const poll = useCallback(async () => {
     onUpdate?.();
@@ -90,17 +104,28 @@ export function CanonicalCarouselExpansionReview({
   );
 
   const setSlideJudgment = useCallback(
-    async (comparisonIndex: number, slideNumber: number, judgment: CarouselSlideRecord['founderJudgment']) => {
-      const key = `${comparisonIndex}-${slideNumber}`;
+    async (
+      comparisonIndex: number,
+      slide: CarouselSlideRecord,
+      judgment: CarouselSlideRecord['founderJudgment'],
+    ) => {
+      const key = `${comparisonIndex}-${slide.slideNumber}`;
       setJudging(key);
       try {
         await site00ProjectsApi.canonicalCarouselExpansionSlideJudgment(
           projectSlug,
           comparisonIndex,
-          slideNumber,
+          slide.slideNumber,
           judgment,
         );
         await poll();
+        if (judgment === 'REVISE' || judgment === 'PROMISING_REFINE') {
+          setRevisionStudio({
+            assetId: slideAssetId(comparisonIndex, slide),
+            previewUrl: slideUrl(slide),
+            label: `Direction ${comparisonIndex} · Slide ${slide.slideNumber}`,
+          });
+        }
       } catch (err) {
         setError(founderApiErrorMessage(err));
       } finally {
@@ -343,25 +368,36 @@ export function CanonicalCarouselExpansionReview({
                     </div>
                   </dl>
                   <div className="site00-carousel-expansion__judgment">
-                    {(['LOVE_IT', 'PROMISING_REFINE', 'NOT_FOR_ME'] as const).map((j) => (
+                    {(['LOVE_IT', 'REVISE', 'NOT_FOR_ME'] as const).map((j) => (
                       <button
                         key={j}
                         type="button"
                         className={
-                          slide.founderJudgment === j ? 'site00-carousel-expansion__judgment-btn--active' : ''
+                          slide.founderJudgment === j ||
+                          (j === 'REVISE' && slide.founderJudgment === 'PROMISING_REFINE')
+                            ? 'site00-carousel-expansion__judgment-btn--active'
+                            : ''
                         }
                         disabled={judging === `${direction.comparisonIndex}-${slide.slideNumber}`}
-                        onClick={() =>
-                          void setSlideJudgment(direction.comparisonIndex, slide.slideNumber, j)
-                        }
+                        onClick={() => void setSlideJudgment(direction.comparisonIndex, slide, j)}
                       >
                         {j.replace(/_/g, ' ')}
                       </button>
                     ))}
-                    {slide.founderJudgment === 'PROMISING_REFINE' ? (
-                      <p className="site00-carousel-expansion__meta">
-                        REVISION NOTES (typography, color, composition, asset exchange) — wired in a future sprint
-                      </p>
+                    {(slide.founderJudgment === 'REVISE' || slide.founderJudgment === 'PROMISING_REFINE') ? (
+                      <button
+                        type="button"
+                        className="site00-carousel-expansion__judgment-open-revision"
+                        onClick={() =>
+                          setRevisionStudio({
+                            assetId: slideAssetId(direction.comparisonIndex, slide),
+                            previewUrl: slideUrl(slide),
+                            label: `Direction ${direction.comparisonIndex} · Slide ${slide.slideNumber}`,
+                          })
+                        }
+                      >
+                        OPEN REVISION STUDIO
+                      </button>
                     ) : null}
                     {judgmentLineageHint(slide.founderJudgment) ? (
                       <p className="site00-carousel-expansion__meta">{judgmentLineageHint(slide.founderJudgment)}</p>
@@ -470,6 +506,17 @@ export function CanonicalCarouselExpansionReview({
           <p>Font system: {run.emergentDna.fontSystemStatus}</p>
           <p>Pairs analyzed: {run.crossDirectionPairs.length}</p>
         </details>
+      ) : null}
+
+      {revisionStudio ? (
+        <RevisionStudio
+          projectSlug={projectSlug}
+          parentAssetId={revisionStudio.assetId}
+          previewUrl={revisionStudio.previewUrl}
+          previewLabel={revisionStudio.label}
+          onClose={() => setRevisionStudio(null)}
+          onSaved={() => void poll()}
+        />
       ) : null}
     </section>
   );

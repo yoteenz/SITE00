@@ -2,6 +2,8 @@
  * NDXBOOK creative asset lineage — canonical record types.
  */
 
+import type { BrandAssetDisposition, CrossBrandReuseEligibility } from './founderCreativeJudgmentTypes.js';
+
 export const CREATIVE_ASSET_TYPES = [
   'HERO',
   'CAROUSEL_SLIDE',
@@ -50,6 +52,7 @@ export type CreativeStage = (typeof CREATIVE_STAGES)[number];
 export const REVIEW_STATES = [
   'UNREVIEWED',
   'LOVE_IT',
+  'REVISE',
   'PROMISING_REFINE',
   'NOT_FOR_ME',
   'APPROVED',
@@ -300,6 +303,13 @@ export type CreativeAssetRecord = {
   crossBrandPortable: boolean;
   /** PROMISING REFINE — detailed revision notes + regeneration wired later. */
   revisionPending: boolean;
+  /** Brand-scoped disposition distinct from global asset existence. */
+  brandDisposition: BrandAssetDisposition;
+  crossBrandReuseEligibility: CrossBrandReuseEligibility;
+  /** Revision tree — root asset for lineage branch. */
+  rootAssetId: string | null;
+  revisionNumber: number;
+  currentRevisionId: string | null;
   createdAt: string;
   updatedAt: string;
 };
@@ -542,7 +552,12 @@ export type CreativeLineageLibraryFilters = {
     | 'CONCEPTS'
     | 'ADAPTABLE'
     | 'RETIRED'
-    | 'EXCLUDED_FROM_BRAND';
+    | 'EXCLUDED_FROM_BRAND'
+    | 'LOVED'
+    | 'REVISION_PENDING'
+    | 'REVISED'
+    | 'REJECTED_FOR_BRAND'
+    | 'CANON_REVIEW';
   directionId?: string;
   worldId?: string;
   topicId?: string;

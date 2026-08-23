@@ -82,11 +82,28 @@ export async function normalizeNdxbookCreativeLineage(): Promise<{
 
 function filterAssets(assets: CreativeAssetRecord[], filters: CreativeLineageLibraryFilters): CreativeAssetRecord[] {
   return assets.filter((a) => {
-    if (filters.section === 'EXCLUDED_FROM_BRAND') {
-      return a.brandLineageMembership === 'EXCLUDED';
+    if (filters.section === 'EXCLUDED_FROM_BRAND' || filters.section === 'REJECTED_FOR_BRAND') {
+      return a.brandDisposition === 'REJECTED_FOR_BRAND' || a.brandLineageMembership === 'EXCLUDED';
     }
-    if (filters.section !== 'RETIRED' && a.brandLineageMembership === 'EXCLUDED') {
+    if (
+      filters.section !== 'RETIRED' &&
+      filters.section !== 'EXCLUDED_FROM_BRAND' &&
+      filters.section !== 'REJECTED_FOR_BRAND' &&
+      (a.brandLineageMembership === 'EXCLUDED' || a.brandDisposition === 'REJECTED_FOR_BRAND')
+    ) {
       return false;
+    }
+    if (filters.section === 'LOVED') {
+      return a.brandDisposition === 'LOVED' || a.reviewState === 'LOVE_IT';
+    }
+    if (filters.section === 'REVISION_PENDING') {
+      return a.brandDisposition === 'REVISION_PENDING' || a.revisionPending === true;
+    }
+    if (filters.section === 'REVISED') {
+      return (a.revisionNumber ?? 0) > 0 || Boolean(a.relationship.parentAssetId);
+    }
+    if (filters.section === 'CANON_REVIEW') {
+      return a.brandDisposition === 'CANON_CANDIDATE' || a.canonStatus === 'BRAND_CANON_CANDIDATE';
     }
     if (filters.directionId && a.directionLineage.directionId !== filters.directionId) return false;
     if (filters.worldId && a.directionLineage.worldId !== filters.worldId) return false;
