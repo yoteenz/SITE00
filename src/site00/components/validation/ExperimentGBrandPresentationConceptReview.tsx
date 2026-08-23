@@ -86,12 +86,12 @@ export function ExperimentGBrandPresentationConceptReview({
   const [judgingId, setJudgingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const formConcepts = useCallback(async () => {
+  const formConcepts = useCallback(async (options?: { forceRetry?: boolean }) => {
     setForming(true);
     setError(null);
     try {
       await site00ProjectsApi.experimentGPrepareSnapshot(projectSlug);
-      await site00ProjectsApi.experimentGFormConcepts(projectSlug);
+      await site00ProjectsApi.experimentGFormConcepts(projectSlug, options);
       onUpdate?.();
     } catch (err) {
       setError(founderApiErrorMessage(err));
@@ -141,6 +141,7 @@ export function ExperimentGBrandPresentationConceptReview({
       run?.status === 'SNAPSHOT_READY' ||
       run?.status === 'FAILED' ||
       !run);
+  const canRetryStalledFormation = !forming && !reforming && run?.status === 'FORMING';
   const canReformSet = !formationBlocked && concepts.length > 0;
   const formButtonLabel =
     run?.status === 'FAILED'
@@ -175,6 +176,16 @@ export function ExperimentGBrandPresentationConceptReview({
             {formButtonLabel}
           </button>
         ) : null}
+        {canRetryStalledFormation ? (
+          <button
+            type="button"
+            className="site00-btn site00-btn--primary"
+            disabled={forming || reforming}
+            onClick={() => void formConcepts({ forceRetry: true })}
+          >
+            {forming ? 'RETRYING…' : 'RETRY STALLED FORMATION'}
+          </button>
+        ) : null}
         {canReformSet ? (
           <>
             <button type="button" className="site00-btn" disabled={formationBlocked} onClick={() => void formConcepts()}>
@@ -187,7 +198,10 @@ export function ExperimentGBrandPresentationConceptReview({
         ) : null}
       </div>
       {run?.status === 'FORMING' ? (
-        <p className="site00-experiment-g__pending">Formation in progress…</p>
+        <p className="site00-experiment-g__pending">
+          Formation in progress… This runs synchronously (usually 2–5 minutes). It is not a background job.
+          If this message persists more than 10 minutes, refresh the page or tap RETRY STALLED FORMATION.
+        </p>
       ) : concepts.length === 0 ? (
         <p className="site00-experiment-g__pending">
           {run?.status === 'FAILED'

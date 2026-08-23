@@ -40,7 +40,7 @@ export async function saveBrandPresentationConceptFormationRun(
     mode: MODE,
     status: run.status,
     record: run,
-    updated_at: run.completedAt ?? run.startedAt ?? new Date().toISOString(),
+    updated_at: new Date().toISOString(),
   };
   const { error } = await getSupabaseAdmin().from(TABLE).upsert(row, { onConflict: 'id' });
   if (error) throw new Error(error.message);

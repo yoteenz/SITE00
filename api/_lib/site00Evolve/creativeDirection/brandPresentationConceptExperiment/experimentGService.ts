@@ -38,8 +38,31 @@ import { getBrandLoreProfileForOrg } from '../../../site00BrandLore/loreService.
 import { NDXBOOK_ORG_ID } from '../creativeIntelligence/founderComparisonSet.js';
 import * as experimentGStore from './storeAdapter.js';
 
+/** Anthropic formation is synchronous; longer than this implies a crashed/timed-out request. */
+const STALE_FORMING_MS = 10 * 60 * 1000;
+
 function nowIso(): string {
   return new Date().toISOString();
+}
+
+function isFormationStale(run: BrandPresentationConceptFormationRun): boolean {
+  if (run.status !== 'FORMING') return false;
+  const anchor = run.formationStartedAt ?? run.startedAt;
+  if (!anchor) return true;
+  return Date.now() - new Date(anchor).getTime() > STALE_FORMING_MS;
+}
+
+async function reconcileStaleFormingRun(
+  run: BrandPresentationConceptFormationRun | null,
+): Promise<BrandPresentationConceptFormationRun | null> {
+  if (!run || !isFormationStale(run)) return run;
+  const updated: BrandPresentationConceptFormationRun = {
+    ...run,
+    status: 'FAILED',
+    formationStartedAt: null,
+    error: 'Formation interrupted (server timeout or disconnect). Tap RETRY FORMATION.',
+  };
+  return experimentGStore.saveBrandPresentationConceptFormationRun(updated);
 }
 
 function hash(value: string): string {
@@ -87,6 +110,7 @@ function initRun(existing?: BrandPresentationConceptFormationRun | null): BrandP
     brandCanonMutationAllowed: false,
     accounting: emptyAccounting(),
     error: null,
+    formationStartedAt: null,
     startedAt: nowIso(),
     completedAt: null,
   };
@@ -329,7 +353,8 @@ async function dispatchBrandPresentationFormation(params: {
 }
 
 export async function getBrandPresentationConceptFormationRun(): Promise<BrandPresentationConceptFormationRun | null> {
-  return experimentGStore.getBrandPresentationConceptFormationRun();
+  const run = await experimentGStore.getBrandPresentationConceptFormationRun();
+  return reconcileStaleFormingRun(run);
 }
 
 export async function prepareExperimentGSnapshot(): Promise<BrandPresentationConceptFormationRun> {
@@ -348,9 +373,12 @@ export async function prepareExperimentGSnapshot(): Promise<BrandPresentationCon
 
 export async function formSixBrandPresentationConcepts(params?: {
   forceReform?: boolean;
+  /** Bypass stale guard when founder retries a stalled FORMING record. */
+  forceRetry?: boolean;
 }): Promise<BrandPresentationConceptFormationRun> {
   let run = await experimentGStore.getBrandPresentationConceptFormationRun();
   run = initRun(run);
+  run = (await reconcileStaleFormingRun(run)) ?? run;
 
   if (!run.intelligenceSnapshot) {
     run = await prepareExperimentGSnapshot();
@@ -370,7 +398,11 @@ export async function formSixBrandPresentationConcepts(params?: {
     return run;
   }
 
-  run = { ...run, status: 'FORMING', idempotencyKey, error: null };
+  if (run.status === 'FORMING' && !params?.forceRetry && !isFormationStale(run)) {
+    return run;
+  }
+
+  run = { ...run, status: 'FORMING', idempotencyKey, error: null, formationStartedAt: nowIso() };
   await experimentGStore.saveBrandPresentationConceptFormationRun(run);
 
   try {
@@ -403,6 +435,7 @@ export async function formSixBrandPresentationConcepts(params?: {
       formationReceipt: receipt,
       intelligenceSnapshot: { ...run.intelligenceSnapshot!, frozen: true },
       status,
+      formationStartedAt: null,
       directionDevelopmentAllowed: false,
       visualGenerationAllowed: false,
       contentGenerationAllowed: false,
@@ -423,6 +456,7 @@ export async function formSixBrandPresentationConcepts(params?: {
     run = {
       ...run,
       status: 'FAILED',
+      formationStartedAt: null,
       error: err instanceof Error ? err.message : 'Formation failed',
     };
     return experimentGStore.saveBrandPresentationConceptFormationRun(run);

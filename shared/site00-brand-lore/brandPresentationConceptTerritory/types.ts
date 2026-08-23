@@ -191,6 +191,8 @@ export type BrandPresentationConceptFormationRun = {
     visualGenerationCostUsd: 0;
   };
   error: string | null;
+  /** Set when status enters FORMING; used to recover stale in-progress records. */
+  formationStartedAt: string | null;
   startedAt: string | null;
   completedAt: string | null;
 };

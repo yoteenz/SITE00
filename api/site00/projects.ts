@@ -1096,7 +1096,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await formSixBrandPresentationConcepts();
+        const run = await formSixBrandPresentationConcepts({
+          forceRetry: body.forceRetry === true,
+        });
         return json(res, 200, { ok: true, run, source: 'site00_experiment_g' });
       }
       case 'experiment_g_concept_judgment': {
