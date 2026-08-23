@@ -85,6 +85,8 @@ export const SITE00_ROUTES = {
   accountIntakeDetail: '/account/intakes/:intakeType/:intakeId',
   /** Guest secure intake access/resume — no sign-in required */
   intakeGuestAccess: '/intake/access/:token',
+  /** World-class client guest discovery — private token link */
+  worldIntakeGuest: '/intake/:token',
 } as const;
 
 export function site00AccountIntakeDetailPath(intakeType: string, intakeId: string): string {

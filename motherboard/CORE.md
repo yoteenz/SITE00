@@ -206,6 +206,7 @@ Canonical upstream-to-downstream layers (methodology v20+):
 | **World Expression System** | What is the persistent visual/verbal universe? |
 | **Medium Expression** | How does the same concept express in a given medium? |
 | **Experience Expression** | How does concept + world become interactive product behavior (Experiment E)? |
+| **World Readiness Intake** | Guest discovery + WorldReadinessProfile — capture intelligence now, form world later |
 | **Sequence Creative System** | What is the post-level art-direction contract for one multi-frame execution? |
 | **Frame / Asset** | Individual generated expression |
 
