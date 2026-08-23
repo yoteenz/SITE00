@@ -3906,3 +3906,26 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `hydrateSurfaceDesignProof` / `normalizeVisualDevelopmentRun` on API load; defensive optional rendering in `ProjectWorkspaceVisualDevelopmentReview`.
 - **Deploy:** Railway redeploy + cPanel **v39** static bundle.
 
+---
+
+## 2026-08-23 — Experiment G formation corruption fix (stall beyond background job)
+
+- **Context:** Founder reported brand formation still stalling/timing out even after PR #325 background-job change; suspected another process corrupting formation.
+- **Root causes identified:**
+  1. **`activeFormationRuns` Set blocked retries** — hung first worker left run in `FORMING`; `forceRetry` enqueued a new worker that immediately exited because runId was still "active".
+  2. **No Anthropic fetch timeout** — hung HTTP requests left status `FORMING` indefinitely.
+  3. **UI always called `prepareSnapshot` before form** — reset status to `SNAPSHOT_READY` mid-formation, clobbering in-progress work.
+  4. **Superseded workers could overwrite state** — old background worker completing after retry/reform wrote stale results.
+  5. **No resume on poll** — if worker died (process restart), `FORMING` persisted until 15-min stale guard.
+  6. **Experiment G Supabase store** still wrote `project_id: null` / slug instead of resolved UUID FK (same class of bug as PR #323).
+- **Fix (branch `cursor/experiment-g-formation-corruption-fix-4f59`):**
+  - Replaced `activeFormationRuns` with `activeFormationAttempts` Map + `formationAttemptId` UUID per formation start; workers verify attempt before save.
+  - `prepareExperimentGSnapshot` throws `SNAPSHOT_BLOCKED` when status is `FORMING`.
+  - `maybeResumeFormation()` on GET re-enqueues after 45s if no active worker for that attempt.
+  - Anthropic formation timeout 8 minutes via `AbortSignal.timeout`.
+  - `enqueueBrandPresentationFormationWork` uses `setImmediate` (not `queueMicrotask`).
+  - UI skips redundant `prepareSnapshot` when snapshot already exists.
+  - Experiment G Supabase store uses `resolveProjectDbIdForSupabaseFk`.
+  - Extended tests in `experimentGStaleForming.test.ts` (8 cases).
+- **Deploy:** Railway redeploy (API) + cPanel static for UI skip-prepare fix.
+
