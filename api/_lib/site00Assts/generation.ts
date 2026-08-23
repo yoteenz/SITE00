@@ -156,7 +156,6 @@ async function submitEnvironmentFalJob(
   const { request_id: providerRequestId } = await fal.queue.submit(model, { input: falInput });
   return { providerRequestId, model };
 }
-}
 
 async function assetNeedsNewGeneration(
   asset: DbAsset,
