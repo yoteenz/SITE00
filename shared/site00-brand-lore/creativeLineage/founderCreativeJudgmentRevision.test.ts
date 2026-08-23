@@ -141,7 +141,7 @@ function sampleRevisionSpec(parent: CreativeAssetRecord, overrides: Partial<Crea
 
 describe('founder creative judgment + revision sprint', () => {
   it('FOUNDER_JUDgment_PERSISTENCE_TEST — judgment history model supports durable events', () => {
-    expect(normalizeFounderAction('PROMISING_REFINE')).toBe('REVISE');
+    expect(normalizeFounderAction('PROMISING_REFINE')).toBe('PROMISING_REFINE');
     expect(dispositionForAction('LOVE_IT')).toBe('LOVED');
     expect(dispositionForAction('NOT_FOR_ME')).toBe('REJECTED_FOR_BRAND');
   });
@@ -169,7 +169,9 @@ describe('founder creative judgment + revision sprint', () => {
 
   it('CROSS_BRAND_ARCHIVE_ISOLATION_TEST', () => {
     const result = applyFounderJudgmentToAsset(sampleAsset(), 'NOT_FOR_ME');
-    expect(result.crossBrandPortable).toBe(true);
+    expect(result.crossBrandPortable).toBe(false);
+    expect(result.ideaPortabilityEligible).toBe(true);
+    expect(result.exactAssetCrossBrandReuse).toBe(false);
     expect(result.crossBrandReuseEligibility).toBe('NOT_EVALUATED');
   });
 
@@ -349,6 +351,7 @@ describe('founder creative judgment + revision sprint', () => {
   it('CAROUSEL_SLIDE_JUDGMENT_TEST — REVISE distinct from carousel verdict', () => {
     const revise = applyFounderJudgmentToAsset(sampleAsset(), 'REVISE');
     expect(revise.reviewState).toBe('REVISE');
+    expect(revise.creativeValue).toBe('REVISE');
     expect(revise.revisionPending).toBe(true);
   });
 

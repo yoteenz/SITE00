@@ -25,6 +25,11 @@ import {
 } from '../../../../shared/site00-brand-lore/creativeLineage/canonVersioning.js';
 import { buildSalvageReviewItems } from '../../../../shared/site00-brand-lore/creativeLineage/salvageClassification.js';
 import { translateConceptIntoWinningWorld } from '../../../../shared/site00-brand-lore/creativeLineage/worldTranslationEngine.js';
+import {
+  applyLaunchSeedReviewFlagsToAssets,
+  createEmptyLaunchSeedSet,
+  reconcileLaunchSeedSemantics,
+} from './launchSeedSemanticsService.js';
 import { getCanonicalCarouselExpansionRun } from '../creativeDirection/canonicalCarouselExpansion/canonicalCarouselExpansionService.js';
 import { getCanonicalCreativeRangeRun } from '../creativeDirection/canonicalCreativeRange/canonicalCreativeRangeService.js';
 import { NDXBOOK_ORG_ID } from '../creativeDirection/creativeIntelligence/founderComparisonSet.js';
@@ -77,7 +82,21 @@ export async function normalizeNdxbookCreativeLineage(): Promise<{
 
   const normalized = await persistNormalization(data, store);
   const report = await runNdxbookForensicAudit();
-  return { report, normalized };
+
+  const assets = await store.listCreativeAssets('ndxbook');
+  const seedSet = await store.getLaunchSeedSet('ndxbook');
+  const reconcile = reconcileLaunchSeedSemantics(seedSet, assets);
+  if (reconcile.launchSeedSet) {
+    await store.upsertLaunchSeedSet(reconcile.launchSeedSet);
+    const flagged = applyLaunchSeedReviewFlagsToAssets(assets, reconcile.launchSeedSet);
+    for (const asset of flagged) {
+      if (asset.launchSeedReviewRequired || asset.productionDestiny === 'LAUNCH_SEED_REVIEW_REQUIRED') {
+        await store.upsertCreativeAsset(asset);
+      }
+    }
+  }
+
+  return { report, normalized, launchSeedReconcile: reconcile };
 }
 
 function filterAssets(assets: CreativeAssetRecord[], filters: CreativeLineageLibraryFilters): CreativeAssetRecord[] {
@@ -142,7 +161,7 @@ export async function getCreativeLineageLibrary(
     ]);
 
   return {
-    assets: filterAssets(assets, filters),
+    assets: filterAssets(applyLaunchSeedReviewFlagsToAssets(assets, launchSeedSet), filters),
     concepts,
     franchises,
     families,
@@ -180,6 +199,69 @@ export async function updateCreativeAssetProduction(params: {
     updatedAt: nowIso(),
   };
   return store.upsertCreativeAsset(updated);
+}
+
+export async function selectAssetForLaunchSeed(assetId: string): Promise<{
+  asset: CreativeAssetRecord;
+  launchSeedSet: LaunchSeedSet;
+}> {
+  const assets = await store.listCreativeAssets('ndxbook');
+  const asset = assets.find((a) => a.assetId === assetId);
+  if (!asset) throw new Error('Asset not found');
+
+  let seedSet = await store.getLaunchSeedSet('ndxbook');
+  if (!seedSet) {
+    seedSet = createEmptyLaunchSeedSet({ brandSlug: 'ndxbook', orgId: NDXBOOK_ORG_ID });
+  }
+
+  const { addAssetToLaunchSeedSet } = await import('./launchSeedSemanticsService.js');
+  const updatedSeed = addAssetToLaunchSeedSet(seedSet, assetId, 'FOUNDER_SELECTED');
+  await store.upsertLaunchSeedSet(updatedSeed);
+
+  const updatedAsset: CreativeAssetRecord = {
+    ...asset,
+    productionDestiny: 'LAUNCH_SELECTED',
+    launchSeedReviewRequired: false,
+    updatedAt: nowIso(),
+  };
+  await store.upsertCreativeAsset(updatedAsset);
+
+  const { appendAssetLifecycleEvent } = await import('./assetLifecycleEventStore.js');
+  const { randomUUID } = await import('node:crypto');
+  await appendAssetLifecycleEvent({
+    eventId: `event-${randomUUID()}`,
+    assetId,
+    brandSlug: 'ndxbook',
+    kind: 'ASSET_SELECTED_FOR_LAUNCH',
+    creativeValue: updatedAsset.creativeValue,
+    productionDestiny: 'LAUNCH_SELECTED',
+    detail: 'Founder explicitly selected asset for Launch Seed Set',
+    createdAt: nowIso(),
+  });
+
+  return { asset: updatedAsset, launchSeedSet: updatedSeed };
+}
+
+export async function reconcileNdxbookLaunchSeedSemantics(): Promise<
+  Awaited<ReturnType<typeof reconcileLaunchSeedSemantics>>
+> {
+  const assets = await store.listCreativeAssets('ndxbook');
+  const seedSet = await store.getLaunchSeedSet('ndxbook');
+  const result = reconcileLaunchSeedSemantics(seedSet, assets);
+  if (result.launchSeedSet) {
+    await store.upsertLaunchSeedSet(result.launchSeedSet);
+    const flagged = applyLaunchSeedReviewFlagsToAssets(assets, result.launchSeedSet);
+    for (const asset of flagged) {
+      if (
+        asset.launchSeedReviewRequired !==
+          assets.find((a) => a.assetId === asset.assetId)?.launchSeedReviewRequired ||
+        asset.productionDestiny !== assets.find((a) => a.assetId === asset.assetId)?.productionDestiny
+      ) {
+        await store.upsertCreativeAsset(asset);
+      }
+    }
+  }
+  return result;
 }
 
 export async function createWinningWorldPromotionPlan(params: {
@@ -263,20 +345,12 @@ export async function promoteWinningWorld(planId: string): Promise<{
     await store.upsertCreativeAsset(asset);
   }
 
-  const launchSeedSet: LaunchSeedSet = {
-    launchSeedSetId: `launch-seed-${randomUUID()}`,
+  const launchSeedSet = createEmptyLaunchSeedSet({
     brandSlug: 'ndxbook',
     orgId: NDXBOOK_ORG_ID,
     winningDirectionId: plan.winningDirectionId,
-    selectedAssets: [],
-    selectedConcepts: [],
-    selectedFranchises: [],
-    launchOrder: [],
-    notes: 'Empty launch seed set — founder selects contents',
-    status: 'DRAFT',
-    createdAt: nowIso(),
-    updatedAt: nowIso(),
-  };
+    notes: 'Empty launch seed set — founder selects contents explicitly after promotion',
+  });
   await store.upsertLaunchSeedSet(launchSeedSet);
 
   const losingDirections = [...new Set(assets.map((a) => a.directionLineage.directionId))].filter(

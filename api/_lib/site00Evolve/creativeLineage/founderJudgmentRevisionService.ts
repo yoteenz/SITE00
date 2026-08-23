@@ -4,17 +4,25 @@
 
 import { randomUUID } from 'node:crypto';
 import type { CreativeAssetRecord } from '../../../../shared/site00-brand-lore/creativeLineage/types.js';
+import { extractPreferenceEvidenceFromRevision } from '../../../../shared/site00-brand-lore/creativeLineage/preferenceEvidence.js';
+import { runJudgmentForensicAudit } from '../../../../shared/site00-brand-lore/creativeLineage/judgmentForensicAudit.js';
+import { resolveCreativeValueFromJudgment } from '../../../../shared/site00-brand-lore/creativeLineage/assetLifecycleDimensions.js';
+import { eventKindForCreativeValue } from '../../../../shared/site00-brand-lore/creativeLineage/assetLifecycleEvents.js';
 import {
   applyFounderJudgmentToAsset,
+  buildRevisionChildAssetDefaults,
   normalizeBrandLineageFields,
   type FounderSlideJudgment,
 } from '../../../../shared/site00-brand-lore/creativeLineage/founderJudgmentLineage.js';
+import { NDXBOOK_ORG_ID } from '../creativeDirection/creativeIntelligence/founderComparisonSet.js';
+import * as assetStore from './storeAdapter.js';
+import * as judgmentStore from './founderJudgmentRevisionStoreAdapter.js';
+import { appendAssetLifecycleEvent } from './assetLifecycleEventStore.js';
 import {
   crossBrandEligibilityForAction,
   dispositionForAction,
   normalizeFounderAction,
   type BrandAssetDispositionRecord,
-  type FounderCreativeAction,
   type FounderCreativeJudgment,
   type FounderJudgmentHistoryEntry,
 } from '../../../../shared/site00-brand-lore/creativeLineage/founderCreativeJudgmentTypes.js';
@@ -37,11 +45,6 @@ import {
   runRevisionSurgicalityTest,
   runRevisionWorldContaminationTest,
 } from '../../../../shared/site00-brand-lore/creativeLineage/revisionValidation.js';
-import { extractPreferenceEvidenceFromRevision } from '../../../../shared/site00-brand-lore/creativeLineage/preferenceEvidence.js';
-import { runJudgmentForensicAudit } from '../../../../shared/site00-brand-lore/creativeLineage/judgmentForensicAudit.js';
-import { NDXBOOK_ORG_ID } from '../creativeDirection/creativeIntelligence/founderComparisonSet.js';
-import * as assetStore from './storeAdapter.js';
-import * as judgmentStore from './founderJudgmentRevisionStoreAdapter.js';
 
 const BRAND_SLUG = 'ndxbook';
 
@@ -59,6 +62,7 @@ export async function recordFounderCreativeJudgment(params: {
   judgment: FounderCreativeJudgment;
   disposition: BrandAssetDispositionRecord;
 }> {
+  const creativeValue = resolveCreativeValueFromJudgment(params.founderAction);
   const action = normalizeFounderAction(params.founderAction);
   if (!action) throw new Error('Founder action required');
 
@@ -123,6 +127,20 @@ export async function recordFounderCreativeJudgment(params: {
   await judgmentStore.upsertFounderCreativeJudgment(judgment);
   await judgmentStore.upsertBrandAssetDisposition(disposition);
   await assetStore.upsertCreativeAsset(updatedAsset);
+
+  const eventKind = eventKindForCreativeValue(creativeValue);
+  if (eventKind) {
+    await appendAssetLifecycleEvent({
+      eventId: `event-${randomUUID()}`,
+      assetId: params.assetId,
+      brandSlug: BRAND_SLUG,
+      kind: eventKind,
+      creativeValue,
+      productionDestiny: updatedAsset.productionDestiny,
+      detail: params.judgmentReason ?? null,
+      createdAt: ts,
+    });
+  }
 
   return { asset: updatedAsset, judgment, disposition };
 }
@@ -360,14 +378,28 @@ export async function runFounderJudgmentForensicAudit() {
   return runJudgmentForensicAudit({ brandSlug: BRAND_SLUG, assets, judgments, revisionSpecs });
 }
 
-export async function attemptGenerateRevision(_revisionId: string): Promise<{
+export async function attemptGenerateRevision(revisionId: string): Promise<{
   allowed: false;
   reason: string;
+  childDefaults?: ReturnType<typeof buildRevisionChildAssetDefaults>;
 }> {
+  const spec = await judgmentStore.getCreativeRevisionSpec(revisionId);
+  if (!spec) {
+    return { allowed: false, reason: 'Revision spec not found' };
+  }
+  const assets = await assetStore.listCreativeAssets(BRAND_SLUG);
+  const parent = assets.find((a) => a.assetId === spec.parentAssetId);
+  const childDefaults = parent
+    ? buildRevisionChildAssetDefaults(parent, `revision-child-${revisionId}`, spec.revisionNumber + 1)
+    : undefined;
+
   return {
     allowed: false,
-    reason: 'GENERATION_NOT_YET_ENABLED — live revision generation gated this sprint',
+    reason: 'GENERATION_NOT_YET_ENABLED — live revision generation gated; child would start UNREVIEWED',
+    childDefaults,
   };
 }
+
+export { buildRevisionChildAssetDefaults };
 
 export { NDXBOOK_ORG_ID };

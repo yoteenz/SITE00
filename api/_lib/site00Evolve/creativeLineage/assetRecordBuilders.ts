@@ -37,9 +37,7 @@ export function resolveRangeHeroAssetId(dir: CanonicalCreativeRangeDirection): s
 function mapReviewState(j: string | null | undefined): CreativeAssetRecord['reviewState'] {
   return mapFounderJudgmentToReviewState(
     j === 'LOVE_IT' || j === 'PROMISING_REFINE' || j === 'REVISE' || j === 'NOT_FOR_ME'
-      ? j === 'PROMISING_REFINE'
-        ? 'REVISE'
-        : j
+      ? j
       : j === 'NOT_NDXBOOK'
         ? 'NOT_FOR_ME'
         : j === 'APPROVED'

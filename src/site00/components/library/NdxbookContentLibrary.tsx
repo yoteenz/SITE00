@@ -7,6 +7,9 @@ import type {
 import { site00StoragePublicUrl } from '../../utils/replayStorageUrl';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
 import { SITE00_ROUTES } from '../../config/routes';
+import { RevisionStudio } from '../revision/RevisionStudio';
+import { resolveAssetLifecycleDimensions } from '../../../../shared/site00-brand-lore/creativeLineage/assetLifecycleDimensions';
+import '../../styles/site00-revision-studio.css';
 
 type Section =
   | 'ALL'
@@ -39,6 +42,11 @@ export function NdxbookContentLibrary({ projectSlug }: NdxbookContentLibraryProp
   const [normalizing, setNormalizing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [view, setView] = useState<'LIBRARY' | 'SALVAGE' | 'AUDIT'>('LIBRARY');
+  const [revisionStudio, setRevisionStudio] = useState<{
+    assetId: string;
+    previewUrl: string;
+    label: string;
+  } | null>(null);
 
   const reload = useCallback(async () => {
     try {
@@ -158,21 +166,58 @@ export function NdxbookContentLibrary({ projectSlug }: NdxbookContentLibraryProp
           <div className="site00-content-library__grid">
             {(library?.assets ?? []).map((asset) => {
               const url = assetPreview(asset);
+              const dims = resolveAssetLifecycleDimensions(asset, library?.launchSeedSet ?? null);
+              const inLaunch = library?.launchSeedSet?.selectedAssets.includes(asset.assetId);
               return (
                 <article key={asset.assetId} className="site00-content-library__card">
                   {url ? <img src={url} alt={asset.assetType} loading="lazy" /> : <p>NO PREVIEW</p>}
                   <h4>{asset.assetType.replace(/_/g, ' ')}</h4>
                   <p>{asset.directionLineage.directionName}</p>
                   <p>{asset.contentLineage.topicName ?? '—'}</p>
+                  <details className="site00-content-library__lifecycle">
+                    <summary>LIFECYCLE</summary>
+                    <p>Creative value: {dims.creativeValue.replace(/_/g, ' ')}</p>
+                    <p>Brand status: {dims.brandDisposition.replace(/_/g, ' ')}</p>
+                    <p>Production destiny: {dims.productionDestiny.replace(/_/g, ' ')}</p>
+                    {inLaunch ? <p>Launch seed: SELECTED</p> : null}
+                    {dims.launchSeedReviewRequired ? <p>Launch seed: REVIEW REQUIRED</p> : null}
+                  </details>
                   <p>
                     {asset.productionState} · {asset.reuseState}
-                    {asset.brandDisposition ? ` · ${asset.brandDisposition.replace(/_/g, ' ')}` : ''}
                     {asset.brandLineageMembership === 'EXCLUDED' ? ' · EXCLUDED FROM NDXBOOK' : ''}
                     {asset.revisionPending ? ' · REVISION PENDING' : ''}
-                    {asset.crossBrandPortable ? ' · CROSS-BRAND PORTABLE' : ''}
+                    {asset.ideaPortabilityEligible ? ' · IDEA PORTABILITY ELIGIBLE' : ''}
                   </p>
                   <p>{asset.canonStatus}</p>
                   <div className="site00-content-library__actions">
+                    {(asset.revisionPending ||
+                      asset.creativeValue === 'PROMISING_REFINE' ||
+                      asset.creativeValue === 'REVISE') && url ? (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setRevisionStudio({
+                            assetId: asset.assetId,
+                            previewUrl: url,
+                            label: `${asset.directionLineage.directionName} · ${asset.assetType}`,
+                          })
+                        }
+                      >
+                        OPEN REVISION STUDIO
+                      </button>
+                    ) : null}
+                    {dims.productionDestiny === 'PRODUCTION_CANDIDATE' && !inLaunch ? (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          void site00ProjectsApi
+                            .creativeLineageLaunchSeedSelect(projectSlug, asset.assetId)
+                            .then(() => reload())
+                        }
+                      >
+                        SELECT FOR LAUNCH SEED
+                      </button>
+                    ) : null}
                     <button type="button" onClick={() => void updateAsset(asset.assetId, 'REUSABLE_AS_IS')}>
                       MARK REUSABLE
                     </button>
@@ -280,6 +325,17 @@ export function NdxbookContentLibrary({ projectSlug }: NdxbookContentLibraryProp
             ))}
           </ol>
         </div>
+      ) : null}
+
+      {revisionStudio ? (
+        <RevisionStudio
+          projectSlug={projectSlug}
+          parentAssetId={revisionStudio.assetId}
+          previewUrl={revisionStudio.previewUrl}
+          previewLabel={revisionStudio.label}
+          onClose={() => setRevisionStudio(null)}
+          onSaved={() => void reload()}
+        />
       ) : null}
     </section>
   );

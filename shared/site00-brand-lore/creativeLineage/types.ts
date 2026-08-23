@@ -62,6 +62,35 @@ export const REVIEW_STATES = [
 
 export type ReviewState = (typeof REVIEW_STATES)[number];
 
+/** Founder creative admiration — independent from production destiny. */
+export const CREATIVE_VALUES = [
+  'UNREVIEWED',
+  'LOVE_IT',
+  'PROMISING_REFINE',
+  'REVISE',
+  'NOT_FOR_ME',
+] as const;
+export type CreativeValue = (typeof CREATIVE_VALUES)[number];
+
+/** What should happen to this asset — independent from creative value. */
+export const PRODUCTION_DESTINIES = [
+  'UNDECIDED',
+  'PRODUCTION_CANDIDATE',
+  'LAUNCH_CANDIDATE',
+  'LAUNCH_SELECTED',
+  'LAUNCH_SEED_REVIEW_REQUIRED',
+  'REUSE_AS_IS',
+  'TRANSLATE_TO_WINNING_WORLD',
+  'IDEA_ONLY',
+  'FRANCHISE_CANDIDATE',
+  'COPY_SALVAGE',
+  'MOTION_SALVAGE',
+  'VISUAL_DEVICE_SALVAGE',
+  'RETIRED',
+  'ARCHIVED',
+] as const;
+export type ProductionDestiny = (typeof PRODUCTION_DESTINIES)[number];
+
 export const PRODUCTION_STATES = [
   'EXPERIMENTAL',
   'PRODUCTION_CANDIDATE',
@@ -283,7 +312,11 @@ export type CreativeAssetRecord = {
   intelligenceLineage: IntelligenceLineage;
   generationLineage: GenerationLineage;
   reviewState: ReviewState;
+  /** Independent creative-value dimension (defaults from reviewState when unset). */
+  creativeValue: CreativeValue;
   productionState: ProductionState;
+  /** Independent production-destiny dimension (derived when unset). */
+  productionDestiny: ProductionDestiny | null;
   reuseState: ReuseState;
   canonStatus: CanonStatus;
   relationship: AssetRelationship;
@@ -299,8 +332,14 @@ export type CreativeAssetRecord = {
   /** ACTIVE = visible in this brand's library; EXCLUDED = founder NOT FOR ME (record + storage preserved). */
   brandLineageMembership: BrandLineageMembership;
   excludedFromBrandAt: string | null;
-  /** When excluded — asset may suit another brand without deleting storage. */
+  /** When excluded — idea may be portable; exact asset is NOT auto cross-brand reusable. */
   crossBrandPortable: boolean;
+  /** Concept-level portability eligible after NOT FOR ME (not exact asset reuse). */
+  ideaPortabilityEligible: boolean;
+  /** Exact asset cross-brand reuse requires explicit future evaluation. */
+  exactAssetCrossBrandReuse: boolean;
+  /** Historical launch seed inclusion needs founder review when provenance unknown. */
+  launchSeedReviewRequired: boolean;
   /** PROMISING REFINE — detailed revision notes + regeneration wired later. */
   revisionPending: boolean;
   /** Brand-scoped disposition distinct from global asset existence. */
@@ -452,6 +491,12 @@ export type WinningWorldPromotionPlan = {
   updatedAt: string;
 };
 
+export type LaunchSeedAssetProvenance = {
+  source: 'FOUNDER_SELECTED' | 'AUTO_LOVE_IT_LEGACY' | 'PROMOTION_SURFACED' | 'UNKNOWN';
+  addedAt: string;
+  notes?: string | null;
+};
+
 export type LaunchSeedSet = {
   launchSeedSetId: string;
   brandSlug: string;
@@ -461,6 +506,10 @@ export type LaunchSeedSet = {
   selectedConcepts: string[];
   selectedFranchises: string[];
   launchOrder: string[];
+  /** Per-asset provenance — never auto-add without recording source. */
+  assetProvenance: Record<string, LaunchSeedAssetProvenance>;
+  /** Assets in seed set with ambiguous auto-inclusion history. */
+  reviewRequiredAssetIds: string[];
   notes: string | null;
   status: 'DRAFT' | 'FOUNDER_REVIEW' | 'READY' | 'USED';
   createdAt: string;

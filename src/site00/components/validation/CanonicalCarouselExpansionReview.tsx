@@ -41,13 +41,13 @@ function slideAssetId(comparisonIndex: number, slide: CarouselSlideRecord): stri
 
 function judgmentLineageHint(judgment: CarouselSlideRecord['founderJudgment']): string | null {
   if (judgment === 'NOT_FOR_ME') {
-    return 'Excluded from NDXBOOK brand lineage — storage preserved for cross-brand reuse';
+    return 'Excluded from NDXBOOK active library — global lineage preserved';
   }
   if (judgment === 'LOVE_IT') {
-    return 'Production candidate — not canon, not winner, not auto launch seed';
+    return 'Production candidate — not launch seed, not canon, not winner';
   }
   if (judgment === 'REVISE' || judgment === 'PROMISING_REFINE') {
-    return 'Revision pending — open Revision Studio for structured surgical spec';
+    return 'Revision pending — open Revision Studio (generation requires explicit approval)';
   }
   return null;
 }
