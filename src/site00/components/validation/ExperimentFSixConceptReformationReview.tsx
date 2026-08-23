@@ -7,7 +7,7 @@ import type {
   DirectionSeed,
 } from '../../../../shared/site00-brand-lore/conceptTerritoryV2/types';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
-import { site00ProjectExperimentDPath } from '../../config/routes';
+import { site00ProjectExperimentDPath, site00ProjectExperimentGPath } from '../../config/routes';
 
 type ExperimentFSixConceptReformationReviewProps = {
   projectSlug: string;
@@ -140,6 +140,10 @@ export function ExperimentFSixConceptReformationReview({
       </p>
       <p className="site00-experiment-f__meta">
         DISTINCTIVENESS: {run.orthogonality?.setResult?.replace(/_/g, ' ') ?? 'NOT EVALUATED'} · VISUAL GENERATION: BLOCKED
+      </p>
+      <p className="site00-experiment-f__meta">
+        Historical record — reinterpreted as CONTENT CONCEPT TERRITORY (credit utilization topic). Preserved for downstream research.{' '}
+        <Link to={site00ProjectExperimentGPath(projectSlug)}>Successor: Experiment G Brand Presentation →</Link>
       </p>
       <p className="site00-experiment-f__meta">
         <Link to={site00ProjectExperimentDPath(projectSlug)}>Experiment D — historical evidence (preserved) →</Link>

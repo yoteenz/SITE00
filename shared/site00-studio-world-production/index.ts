@@ -10,6 +10,7 @@ export * from './identityConceptTerritory.js';
 export * from './semanticDistinctiveness.js';
 export * from './orchestrationPolicy.js';
 export * from './p1Preconditions.js';
+export * from './brandPresentationVsContentConcept.js';
 
 export const P0_5A_COMPLETE = true as const;
 

@@ -1,0 +1,87 @@
+.site00-experiment-g {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.site00-experiment-g__experiment {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+}
+
+.site00-experiment-g__title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.site00-experiment-g__meta {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.site00-experiment-g__banner {
+  border: 1px solid rgba(255, 200, 100, 0.35);
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.site00-experiment-g__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.site00-experiment-g__grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.site00-experiment-g__card {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.site00-experiment-g__card-title {
+  margin: 0 0 0.5rem;
+}
+
+.site00-experiment-g__thesis {
+  margin: 0 0 0.75rem;
+  font-weight: 600;
+}
+
+.site00-experiment-g__dl div {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  gap: 0.35rem 0.75rem;
+  margin-bottom: 0.35rem;
+  font-size: 0.85rem;
+}
+
+.site00-experiment-g__dl dt {
+  opacity: 0.65;
+  letter-spacing: 0.06em;
+  font-size: 0.7rem;
+}
+
+.site00-experiment-g__judgment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.site00-experiment-g__pending {
+  opacity: 0.7;
+}
+
+.site00-experiment-g__details summary {
+  cursor: pointer;
+  font-size: 0.8rem;
+  opacity: 0.75;
+  margin-top: 0.5rem;
+}

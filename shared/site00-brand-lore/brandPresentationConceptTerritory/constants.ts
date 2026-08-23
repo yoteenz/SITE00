@@ -1,0 +1,149 @@
+/**
+ * Experiment G — NDXBOOK Brand Presentation Concept Formation.
+ */
+
+export const BRAND_PRESENTATION_CONCEPT_TERRITORY_V1 = 'BRAND_PRESENTATION_CONCEPT_TERRITORY_V1' as const;
+
+export const EXPERIMENT_G_CLASSIFICATION = 'BRAND_PRESENTATION_CONCEPT_FORMATION' as const;
+
+export const EXPERIMENT_G_RUN_ID = 'ndxbook-brand-presentation-concept-formation';
+
+export const EXPERIMENT_G_DB_ID = 'c4e1a2b3-0006-4000-8000-000000000001';
+
+export const EXPERIMENT_G_INTELLIGENCE_SNAPSHOT_VERSION = 1;
+
+export const EXPERIMENT_G_PREDECESSOR_EXPERIMENT = 'EXPERIMENT_F' as const;
+
+export const EXPERIMENT_G_SUPERSESSION = 'CORRECTED_UPSTREAM_FORMATION' as const;
+
+export const EXPERIMENT_F_REINTERPRETATION = 'REINTERPRETED_DOWNSTREAM' as const;
+
+/** Topic-blind — no formation subject. */
+export const EXPERIMENT_G_FORMATION_SUBJECT = null;
+
+export const EXPERIMENT_F_ORIGINAL_CLASSIFICATION = 'CREATIVE_CONCEPT_TERRITORY_V2' as const;
+
+export const EXPERIMENT_F_LATER_INTERPRETATION = 'CONTENT_CONCEPT_TERRITORY_EXPERIMENT' as const;
+
+export const EXPERIMENT_F_REINTERPRETATION_REASON = 'TOPIC_LEVEL_FORMATION_DETECTED' as const;
+
+export const EXPERIMENT_F_FORMATION_SUBJECT = 'CREDIT UTILIZATION' as const;
+
+export const EXPERIMENT_F_BRAND_PRESENTATION_AUTHORITY = 'NONE' as const;
+
+export const EXPERIMENT_F_HISTORICAL_VALUE = 'VALID_DOWNSTREAM_CONTENT_CONCEPT_RESEARCH' as const;
+
+export const BURN_BOOK_REFERENCE_PURPOSE = 'BRAND_PRESENTATION_LEVEL_CALIBRATION' as const;
+
+export const BURN_BOOK_EVIDENCE_CLASSIFICATION = 'FOUNDER_REFERENCE_EVIDENCE' as const;
+
+export const BRAND_PRESENTATION_CONCEPT_COUNT = 6;
+
+export const MIN_DIRECTION_SEEDS_REQUIRED = 3;
+
+export const EXPERIMENT_G_CONCEPT_JUDGMENTS = [
+  'LOVE_THE_CONCEPT',
+  'PROMISING_DEVELOP',
+  'TOO_CLOSE_TO_ANOTHER',
+  'TOO_CONTENT_SPECIFIC',
+  'NOT_NDXBOOK',
+  'REFORM_SET',
+] as const;
+
+export type ExperimentGConceptJudgment = (typeof EXPERIMENT_G_CONCEPT_JUDGMENTS)[number] | null;
+
+export const BRAND_PRESENTATION_LEVEL_RESULTS = [
+  'PASS_BRAND_PRESENTATION',
+  'CONTENT_CONCEPT_NOT_BRAND_PRESENTATION',
+  'CAMPAIGN_CONCEPT_NOT_BRAND_PRESENTATION',
+  'FORMAT_NOT_BRAND_PRESENTATION',
+  'STYLE_NOT_BRAND_PRESENTATION',
+  'ARTIFACT_NOT_BRAND_PRESENTATION',
+  'DIRECTION_NOT_BRAND_PRESENTATION',
+] as const;
+
+export type BrandPresentationLevelResult = (typeof BRAND_PRESENTATION_LEVEL_RESULTS)[number];
+
+export const TOPIC_INDEPENDENCE_RESULTS = [
+  'PASS_BRAND_LEVEL',
+  'CONTENT_LEVEL_COLLAPSE',
+  'CAMPAIGN_LEVEL_COLLAPSE',
+  'FORMAT_DEPENDENT',
+  'STYLE_DEPENDENT',
+  'AMBIGUOUS_REQUIRES_SEMANTIC_REVIEW',
+] as const;
+
+export type TopicIndependenceResult = (typeof TOPIC_INDEPENDENCE_RESULTS)[number];
+
+export const RECURRENCE_RESULTS = ['PASS', 'ONE_CAMPAIGN', 'ONE_JOKE', 'ONE_METAPHOR', 'ONE_GIMMICK', 'NOT_EVALUATED'] as const;
+
+export type RecurrenceResult = (typeof RECURRENCE_RESULTS)[number];
+
+export const NEUTRAL_TOPIC_SUBSTITUTION_SET = [
+  'RETIREMENT PLANNING DECISIONS',
+  'SMALL BUSINESS CASH FLOW',
+  'STUDENT LOAN TRADEOFFS',
+] as const;
+
+export const FORMATION_QUARANTINE_BLOCKLIST = [
+  'CREDIT UTILIZATION',
+  'credit utilization',
+  'THE CREDIT THRESHOLD',
+  'THE UTILIZATION CONFESSIONAL',
+  'THE SCOREBOARD THAT LIES',
+  'THE UTILIZATION TRIAL',
+  'THE PARALLEL STATEMENT',
+  'THE UTILIZATION WEATHER',
+  'MARKED-UP COPY',
+  'COUNTDOWN ROOM',
+  'PERSONAL ARCHIVE',
+  'ANNOTATED COPY',
+  'ROOM WHERE IT HAPPENS',
+  'THE INDEX',
+  'site00/projects',
+  'Project Workspace',
+  'Active Workbench',
+  'Workbench-Dossier',
+  'Host Visual Memory',
+  'Frontal Slayer',
+  'tarot',
+  'Burn Book',
+  'burn book',
+  'CANON BURN BOOK',
+  'notebook',
+  'encyclopedia',
+  'newspaper',
+  'magazine',
+  'journal',
+  'dossier',
+  'archive',
+  'index',
+  'publication',
+] as const;
+
+export const EDITORIAL_ARTIFACT_ANTI_ANCHORS = [
+  'book',
+  'notebook',
+  'encyclopedia',
+  'index',
+  'newspaper',
+  'magazine',
+  'journal',
+  'dossier',
+  'archive',
+  'publication',
+  'editorial document',
+] as const;
+
+export const INTELLIGENCE_PROVENANCE_CLASSES = [
+  'BRAND_CANON',
+  'BRAND_INTELLIGENCE',
+  'FOUNDER_CREATIVE_LATITUDE',
+  'PREFERENCE_EVIDENCE',
+  'PRIMARY_EXPRESSION_CONTEXT',
+  'REFERENCE_EVIDENCE',
+  'NEGATIVE_EVIDENCE',
+  'EXCLUDED_HISTORICAL_EXPERIMENT_EVIDENCE',
+] as const;
+
+export type IntelligenceProvenanceClass = (typeof INTELLIGENCE_PROVENANCE_CLASSES)[number];
