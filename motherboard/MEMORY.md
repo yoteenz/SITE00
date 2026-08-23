@@ -3127,3 +3127,4 @@ Summary: Founder completed blind replay pipeline; asked where to see results; re
 - **Gap:** Execution panel showed REPLAY COMPLETE but no hero image or methodology comparison on founder mobile UI.
 - **Fix:** `PersonalityReplayComparisonPanel` on replay review + project detail — blind hero image, benchmark hero (post-unlock), convergence scores, personality domain classifications, methodology verdict line. `comparisonReport.benchmarkHeroStoragePath` persisted on comparison. Context reload includes `comparisonReport`.
 - **Where to view:** PROJECTS → NDXBOOK → HOW YOU SHOW UP → REVIEW (scroll below execution checklist after REPLAY COMPLETE).
+- **Deploy:** PR #271 merged; cPanel ZIP **`site00-deploy-2026-08-23-v9`** — founder hard-refresh review page after upload.
