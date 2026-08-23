@@ -145,7 +145,13 @@ export async function upsertLaunchSeedSet(record: LaunchSeedSet): Promise<Launch
 }
 
 export async function getLaunchSeedSet(brandSlug: string): Promise<LaunchSeedSet | null> {
-  return [...store.launchSeedSets.values()].find((s) => s.brandSlug === brandSlug) ?? null;
+  const found = [...store.launchSeedSets.values()].find((s) => s.brandSlug === brandSlug) ?? null;
+  if (!found) return null;
+  return {
+    ...found,
+    assetProvenance: found.assetProvenance ?? {},
+    reviewRequiredAssetIds: found.reviewRequiredAssetIds ?? [],
+  };
 }
 
 export async function saveSalvageReview(review: SalvageReviewProgress): Promise<SalvageReviewProgress> {

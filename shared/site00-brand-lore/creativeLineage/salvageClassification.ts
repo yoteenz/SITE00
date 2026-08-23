@@ -66,12 +66,16 @@ export function buildSalvageReviewItems(params: {
 }): SalvageReviewItem[] {
   const items: SalvageReviewItem[] = [];
   for (const asset of params.assets.filter((a) => a.directionLineage.directionId === params.losingDirectionId)) {
+    const loved =
+      asset.creativeValue === 'LOVE_IT' ||
+      asset.reviewState === 'LOVE_IT' ||
+      asset.productionState === 'PRODUCTION_CANDIDATE';
     items.push({
       itemId: asset.assetId,
       itemKind: 'ASSET',
       originDirectionId: params.losingDirectionId,
       originDirectionName: params.losingDirectionName,
-      title: `${asset.assetType} — ${asset.contentLineage.topicName ?? 'untitled'}`,
+      title: `${asset.assetType}${loved ? ' · LOVED PRODUCTION CANDIDATE' : ''} — ${asset.contentLineage.topicName ?? 'untitled'}`,
       classification: asset.salvageClassification,
       founderAction: null,
       translationPreview: null,

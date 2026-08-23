@@ -2,15 +2,19 @@
  * Founder creative judgment — durable events + brand-scoped disposition.
  */
 
-export const FOUNDER_CREATIVE_ACTIONS = ['LOVE_IT', 'REVISE', 'NOT_FOR_ME'] as const;
+export const FOUNDER_CREATIVE_ACTIONS = ['LOVE_IT', 'PROMISING_REFINE', 'REVISE', 'NOT_FOR_ME'] as const;
 export type FounderCreativeAction = (typeof FOUNDER_CREATIVE_ACTIONS)[number];
 
-/** Legacy alias — maps to REVISE */
-export type FounderCreativeActionInput = FounderCreativeAction | 'PROMISING_REFINE' | null;
+/** Legacy alias — maps to PROMISING_REFINE creative value */
+export type FounderCreativeActionInput = FounderCreativeAction | null;
 
-export function normalizeFounderAction(action: FounderCreativeActionInput): FounderCreativeAction | null {
-  if (action === 'PROMISING_REFINE') return 'REVISE';
+export function normalizeFounderAction(action: FounderCreativeActionInput | 'NOT_NDXBOOK'): FounderCreativeAction | null {
+  if (action === 'NOT_NDXBOOK') return 'NOT_FOR_ME';
   return action;
+}
+
+export function isRevisionCreativeAction(action: FounderCreativeAction | null): boolean {
+  return action === 'PROMISING_REFINE' || action === 'REVISE';
 }
 
 export const BRAND_ASSET_DISPOSITIONS = [
@@ -70,7 +74,7 @@ export type BrandAssetDispositionRecord = {
 
 export function dispositionForAction(action: FounderCreativeAction): BrandAssetDisposition {
   if (action === 'LOVE_IT') return 'LOVED';
-  if (action === 'REVISE') return 'REVISION_PENDING';
+  if (isRevisionCreativeAction(action)) return 'REVISION_PENDING';
   return 'REJECTED_FOR_BRAND';
 }
 

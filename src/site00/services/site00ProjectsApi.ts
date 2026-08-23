@@ -403,4 +403,22 @@ export const site00ProjectsApi = {
     projectsFetch<{ ok: true; report: Record<string, unknown> }>(
       `/api/site00/projects?action=founder_judgment_forensic_audit&slug=${encodeURIComponent(slug)}`,
     ),
+  creativeLineageLaunchSeedSelect: (slug: string, assetId: string) =>
+    projectsFetch<{ ok: true; asset: Record<string, unknown>; launchSeedSet: Record<string, unknown> }>(
+      '/api/site00/projects?action=creative_lineage_launch_seed_select',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, assetId }),
+      },
+    ),
+  creativeLineageLaunchSeedReconcile: (slug: string) =>
+    projectsFetch<{ ok: true; launchSeedSet: Record<string, unknown> | null; reviewRequiredCount: number }>(
+      '/api/site00/projects?action=creative_lineage_launch_seed_reconcile',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
 };

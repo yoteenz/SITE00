@@ -47,6 +47,8 @@ import {
   createWinningWorldPromotionPlan,
   promoteWinningWorld,
   saveSalvageReviewAction,
+  selectAssetForLaunchSeed,
+  reconcileNdxbookLaunchSeedSemantics,
 } from '../_lib/site00Evolve/creativeLineage/creativeLineageService.js';
 import {
   recordFounderCreativeJudgment,
@@ -998,6 +1000,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const report = await runFounderJudgmentForensicAudit();
         return json(res, 200, { ok: true, report, source: 'site00_founder_judgment' });
+      }
+      case 'creative_lineage_launch_seed_select': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook' || !body.assetId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await selectAssetForLaunchSeed(String(body.assetId));
+        return json(res, 200, { ok: true, ...result, source: 'site00_creative_lineage' });
+      }
+      case 'creative_lineage_launch_seed_reconcile': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const slug = String(parseBody(req)?.slug ?? req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await reconcileNdxbookLaunchSeedSemantics();
+        return json(res, 200, { ok: true, ...result, source: 'site00_creative_lineage' });
       }
       default:
         return json(res, 400, {

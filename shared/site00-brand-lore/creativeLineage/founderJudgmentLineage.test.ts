@@ -100,7 +100,9 @@ describe('founderJudgmentLineage', () => {
     const asset = sampleAsset();
     const result = applyFounderJudgmentToAsset(asset, 'NOT_FOR_ME');
     expect(result.brandLineageMembership).toBe('EXCLUDED');
-    expect(result.crossBrandPortable).toBe(true);
+    expect(result.crossBrandPortable).toBe(false);
+    expect(result.ideaPortabilityEligible).toBe(true);
+    expect(result.exactAssetCrossBrandReuse).toBe(false);
     expect(result.productionState).toBe('RETIRED');
     expect(result.generationLineage.storagePath).toBe(asset.generationLineage.storagePath);
     expect(isActiveInBrandLineage(result)).toBe(false);
@@ -116,9 +118,10 @@ describe('founderJudgmentLineage', () => {
     expect(result.brandLineageMembership).toBe('ACTIVE');
   });
 
-  it('PROMISING_REFINE legacy alias maps to REVISE', () => {
+  it('PROMISING_REFINE legacy alias preserves creative value', () => {
     const result = applyFounderJudgmentToAsset(sampleAsset(), 'PROMISING_REFINE');
     expect(result.revisionPending).toBe(true);
-    expect(result.reviewState).toBe('REVISE');
+    expect(result.reviewState).toBe('PROMISING_REFINE');
+    expect(result.creativeValue).toBe('PROMISING_REFINE');
   });
 });

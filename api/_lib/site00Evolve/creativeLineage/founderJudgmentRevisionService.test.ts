@@ -132,11 +132,12 @@ describe('founderJudgmentRevisionService', () => {
     expect(history.revisions).toHaveLength(1);
   });
 
-  it('blocks live revision generation', async () => {
+  it('blocks live revision generation with UNREVIEWED child defaults', async () => {
     const asset = seedAsset();
     await assetStore.upsertCreativeAsset(asset);
     const spec = await createRevisionSpecDraft({ parentAssetId: asset.assetId });
     const gate = await attemptGenerateRevision(spec.revisionId);
     expect(gate.allowed).toBe(false);
+    expect(gate.childDefaults?.creativeValue).toBe('UNREVIEWED');
   });
 });

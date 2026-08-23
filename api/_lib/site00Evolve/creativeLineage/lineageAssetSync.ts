@@ -32,7 +32,7 @@ function nowIso(): string {
 }
 
 function mapRangeJudgment(j: string | null | undefined): FounderSlideJudgment {
-  if (j === 'LOVE_IT' || j === 'PROMISING_REFINE' || j === 'REVISE') return j === 'PROMISING_REFINE' ? 'REVISE' : j;
+  if (j === 'LOVE_IT' || j === 'PROMISING_REFINE' || j === 'REVISE' || j === 'NOT_FOR_ME') return j;
   if (j === 'NOT_NDXBOOK') return 'NOT_FOR_ME';
   return null;
 }
@@ -101,12 +101,11 @@ async function syncLaunchSeedSetForAsset(asset: CreativeAssetRecord): Promise<La
 
   let selectedAssets = [...seedSet.selectedAssets];
   const isExcluded = asset.brandLineageMembership === 'EXCLUDED';
-  const isProductionCandidate = asset.productionState === 'PRODUCTION_CANDIDATE';
 
   if (isExcluded) {
     selectedAssets = selectedAssets.filter((id) => id !== asset.assetId);
   }
-  // LOVE IT does NOT auto-add to launch seed set — founder selects launch contents explicitly
+  // LOVE IT / production candidate does NOT auto-add to launch seed set
 
   if (selectedAssets.length === seedSet.selectedAssets.length && selectedAssets.every((id, i) => id === seedSet.selectedAssets[i])) {
     return seedSet;
@@ -279,10 +278,10 @@ export async function applyFounderJudgmentToLineage(params: {
 
 export function lineageSyncMessage(asset: CreativeAssetRecord): string {
   if (asset.brandLineageMembership === 'EXCLUDED') {
-    return 'Excluded from NDXBOOK brand lineage — storage preserved for cross-brand reuse';
+    return 'Excluded from NDXBOOK active library — global lineage preserved; idea portability evaluated separately';
   }
   if (asset.productionState === 'PRODUCTION_CANDIDATE') {
-    return 'Production candidate — added to brand lineage for reuse (winner not required)';
+    return 'Production candidate — eligible for future launch consideration (not auto launch seed)';
   }
   if (asset.revisionPending) {
     return 'Revision pending — open Revision Studio for structured surgical spec';
