@@ -1,0 +1,24 @@
+{
+  "auditId": "SITE00-STUDIO-WORLD-MASTER-ASSURANCE-2026-08-23",
+  "overall": "PARTIAL — strong contracts and tests; weak durable runtime chain",
+  "entities": [
+    {"entity": "Brand Lore", "canonical": "site00_brand_lore_profiles", "derived": ["Experience Bible traits", "formation inputs"], "risk": "LOW"},
+    {"entity": "Brand Personality", "canonical": "BrandLoreProfile.brandPersonality", "derived": ["replay envelopes"], "risk": "LOW"},
+    {"entity": "Founder Creative Appetite", "canonical": "BrandLoreProfile.founderCreativeAppetite", "derived": ["formation latitude summaries"], "risk": "MEDIUM — excluded from Experiment D by design"},
+    {"entity": "Creative Concept Territory", "canonical": "Experiment run concepts[] / CreativeConceptTerritory records", "derived": ["World Expression (Experiment D only)"], "risk": "MEDIUM — hierarchy still merging"},
+    {"entity": "World Expression System", "canonical": "Experiment D expressionSystems", "derived": [], "risk": "LOW for D; blocked in F formation"},
+    {"entity": "Visual Reference Memory", "canonical": "VisualReferenceRecord[] in memory store", "derived": ["VisualReferencePackage"], "risk": "HIGH — not canon but may drive generation; memory-only"},
+    {"entity": "Host Canon", "canonical": "projectWorkspaceCanon + functional canon extractors", "derived": ["design proof prompts"], "risk": "MEDIUM — text canon without live refs unverified"},
+    {"entity": "Client Expression", "canonical": "clientProjectExpressionProfile", "derived": ["NDXBOOK home proof"], "risk": "MEDIUM"},
+    {"entity": "Design Proof", "canonical": "SurfaceDesignProof in visual dev run", "derived": ["implementation contract"], "risk": "HIGH — ephemeral store"},
+    {"entity": "Founder Judgment", "canonical": "creative lineage + run judgment fields", "derived": [], "risk": "MEDIUM — auto canon promotion guarded by tests"}
+  ],
+  "leakageRisks": [
+    {"path": "EXPERIMENTAL → BRAND_CANON", "guard": "assetLifecycle + launchSeedSemantics tests", "status": "GUARDED_IN_TESTS"},
+    {"path": "DISCOVERY_EVIDENCE → PRODUCTION_INTELLIGENCE", "guard": "intakeSynthesisGate", "status": "GUARDED"},
+    {"path": "FOUNDER_PREFERENCE → BRAND_CANON", "guard": "explicit transitions required", "status": "GUARDED_IN_TESTS"},
+    {"path": "VISUAL_REFERENCE → CANON", "guard": "methodology docs + reference roles", "status": "GUARDED_CONCEPTUALLY"},
+    {"path": "HOST → CLIENT typography", "guard": "typographyProvenance.ts", "status": "GUARDED_IN_TESTS"},
+    {"path": "In-memory run loss", "guard": "NONE", "status": "PROVENANCE_BREAK_ON_RESTART"}
+  ]
+}

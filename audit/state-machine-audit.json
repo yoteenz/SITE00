@@ -1,0 +1,43 @@
+{
+  "auditId": "SITE00-STUDIO-WORLD-MASTER-ASSURANCE-2026-08-23",
+  "stateMachines": [
+    {
+      "name": "Commercial / Project Lifecycle",
+      "states": ["DISCOVERY", "RECOMMENDED", "SELECTED", "CHECKOUT_PENDING", "PAID", "ACTIVATED"],
+      "issues": ["Pilot slug shortcuts bypass real payment for ndxbook/frontal-slayer"],
+      "recoverable": true,
+      "observable": "PARTIAL"
+    },
+    {
+      "name": "Project Intelligence Readiness",
+      "states": ["NOT_STARTED", "INCOMPLETE", "PARTIAL", "NEEDS_CLARIFICATION", "READY"],
+      "issues": ["Manifest in memory; legacy COMPLETE modules for ndxbook"],
+      "recoverable": false,
+      "observable": true
+    },
+    {
+      "name": "Surface Design Proof Lifecycle",
+      "states": ["BASELINE", "GENERATING", "GENERATED", "APPROVED_FOR_IMPLEMENTATION", "IMPLEMENTATION_CONTRACT_READY", "..."],
+      "issues": ["APPROVED without durable storage may disappear; ORCHESTRATE does not advance to IMPLEMENTED"],
+      "impossibleStates": ["IMPLEMENTATION_CONTRACT_READY without composedProof — guarded by throw"],
+      "recoverable": false
+    },
+    {
+      "name": "Experiment F Concept Formation",
+      "states": ["NOT_STARTED", "SNAPSHOT_READY", "FORMING", "CONCEPTS_FORMED", "DISTINCTIVENESS_VALIDATED", "NEEDS_REFORMATION", "FAILED"],
+      "issues": ["Memory fallback silent"],
+      "idempotent": true,
+      "recoverable": "PARTIAL"
+    },
+    {
+      "name": "Experiment D Hero Generation",
+      "states": ["COMPLETE", "generationReady", "generationStarted"],
+      "issues": ["Historical; separate from F"],
+      "recoverable": true
+    }
+  ],
+  "ambiguousStates": [
+    {"state": "DISTINCTIVENESS_VALIDATED", "risk": "Heuristic PASS may not equal conceptual orthogonality"},
+    {"state": "IMPLEMENTATION_CONTRACT_READY + orchestrationPackageId", "risk": "Appears complete; Composer not invoked"}
+  ]
+}
