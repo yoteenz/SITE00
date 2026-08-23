@@ -80,6 +80,7 @@ export type CoreDirectionFormationInput = {
   referenceEvidence: BrandLoreReferenceEntry[];
   existingCreativeExplorations: ExistingCreativeExploration[];
   formationVersion: number;
+  orgSlug?: string | null;
 };
 
 export type CoreDirectionFormationResult = {

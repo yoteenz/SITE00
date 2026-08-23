@@ -2,7 +2,7 @@
  * Sonnet IDENTITY ART DIRECTOR — proprietary visual DNA before GPT Image generation.
  */
 
-import { createHash, randomUUID } from 'node:crypto';
+import { createHash } from 'node:crypto';
 import { parseStructuredJson } from './formationValidation.js';
 import { callAnthropicForCompletion } from './anthropicCompletion.js';
 import { ANTHROPIC_CREATIVE_MODEL } from './config.js';
@@ -21,6 +21,10 @@ import {
   type IdentityNativeArtDirection,
   type PaletteRole,
 } from './identityNativeArtDirectionTypes.js';
+import {
+  buildIdentityArtDirectorSystemPrompt,
+  enrichIdentityArtDirectionPayload,
+} from '../../../../../shared/site00-brand-lore/productionPromptNormalization.js';
 
 export const IDENTITY_ART_DIRECTOR_SYSTEM_PROMPT = `You are IDENTITY ART DIRECTOR for NDX BOOK — not a board layout designer.
 
@@ -250,6 +254,8 @@ export async function runIdentityNativeArtDirector(params: {
   topic: string;
   references: ResolvedBoardReference[];
   founderPilotAntiExample?: string;
+  orgSlug?: string;
+  expressionContext?: string;
 }): Promise<{
   artDirection: IdentityNativeArtDirection;
   anthropicRequests: number;
@@ -266,7 +272,11 @@ export async function runIdentityNativeArtDirector(params: {
     };
   }
 
-  const userPayload = {
+  const orgSlug = params.orgSlug ?? 'ndxbook';
+  const expressionContext = (params.expressionContext ?? 'SOCIAL_FIRST_EDITORIAL') as import('../../../../../shared/site00-brand-lore/types.js').BrandExpressionContext;
+
+  const userPayload = enrichIdentityArtDirectionPayload(
+    {
     task: 'IDENTITY ART DIRECTOR — proprietary visual DNA for GPT Image artifact design',
     immutable: MARKED_UP_COPY_IMMUTABLE,
     expressionSystem: {
@@ -281,6 +291,7 @@ export async function runIdentityNativeArtDirector(params: {
       colorSystem: params.expressionSystem.colorSystem,
       antiGenericRules: params.expressionSystem.antiGenericRules,
       antiCousinRules: params.expressionSystem.antiCousinRules,
+      socialBehavior: params.expressionSystem.socialBehavior,
     },
     topicTestContent: params.topic,
     founderFeedback: {
@@ -300,14 +311,19 @@ export async function runIdentityNativeArtDirector(params: {
       doNotBorrow: r.doNotBorrow,
     })),
     siblingContaminationForbidden: FORBIDDEN_SIBLING_VOCABULARY.slice(0, 8),
-    ndxEditorialLineageNote:
-      'NDX BOOK editorial boards historically used black/white foundation with sparse signal-lime intervention — derive palette from intelligence, do not default beige/red/blue stationery clichés',
     socialCopyContext: MARKED_UP_COPY_BOARD_COPY,
-  };
+    },
+    orgSlug,
+    expressionContext,
+  );
 
-  const { text, usage } = await callAnthropicForCompletion(IDENTITY_ART_DIRECTOR_SYSTEM_PROMPT, userPayload, {
+  const { text, usage } = await callAnthropicForCompletion(
+    buildIdentityArtDirectorSystemPrompt(orgSlug),
+    userPayload,
+    {
     maxTokens: 8192,
-  });
+  },
+  );
 
   const artDirection = parseIdentityNativeArtDirectionResponse({
     text,

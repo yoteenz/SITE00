@@ -41,7 +41,7 @@ function founderConfirmedEntries(profile: BrandLoreProfile): string[] {
   ];
 
   for (const [key, value] of fields) {
-    const field = (profile as Record<string, { founderConfirmationState?: string }>)[key];
+    const field = (profile as unknown as Record<string, { founderConfirmationState?: string }>)[key];
     if (field?.founderConfirmationState === 'CONFIRMED' && value) {
       entries.push(`${key}: ${Array.isArray(value) ? value.join(', ') : String(value)}`);
     }
@@ -166,6 +166,7 @@ export function buildCoreDirectionFormationInput(params: {
     referenceEvidence: profile.referenceEvidence ?? [],
     existingCreativeExplorations: params.includeLegacyExplorations === false ? [] : buildLegacyProposedExplorations(),
     formationVersion,
+    orgSlug: params.orgSlug ?? null,
   };
 }
 

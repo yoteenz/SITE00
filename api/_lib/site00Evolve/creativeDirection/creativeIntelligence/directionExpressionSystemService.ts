@@ -10,7 +10,6 @@ import { ANTHROPIC_CREATIVE_MODEL } from './config.js';
 import type { CreativeDirectionBoard, CreativeDirectionBoardPlan } from './creativeDirectionBoardTypes.js';
 import {
   FOUNDER_VISUAL_FEEDBACK_V2,
-  MARKED_UP_COPY_DIRECTION_NAME,
 } from './creativeDirectionBoardTypes.js';
 import { MARKED_UP_COPY_IMMUTABLE } from './markedUpCopyCopyContract.js';
 import type {
@@ -28,6 +27,7 @@ import type {
 import { DIRECTION_EXPRESSION_SYSTEM_PROMPT_VERSION } from './directionExpressionSystemTypes.js';
 import type { ComparisonDirectionCandidate, CoreDirectionFormationInput } from './types.js';
 import type { ResolvedBoardReference } from './creativeDirectionBoardTypes.js';
+import { enrichDesPayload } from '../../../../../shared/site00-brand-lore/productionPromptNormalization.js';
 
 export const DIRECTION_EXPRESSION_SYSTEM_SYSTEM_PROMPT = `You are a SENIOR CREATIVE DIRECTOR + BRAND SYSTEM DESIGNER.
 
@@ -304,12 +304,14 @@ export async function runSonnetDirectionExpressionSystem(params: {
     revisionHint: params.revisionHint ?? null,
   };
 
+  const orgSlug = params.formationInput?.orgSlug ?? 'ndxbook';
+
   let anthropicRequests = 0;
   let inputTokens = 0;
   let outputTokens = 0;
 
   for (let attempt = 0; attempt < 2; attempt += 1) {
-    const payload =
+    const basePayload =
       attempt === 0
         ? userPayload
         : {
@@ -318,6 +320,8 @@ export async function runSonnetDirectionExpressionSystem(params: {
               params.revisionHint ??
               'Prior response was invalid or truncated JSON. Return ONE complete valid JSON object only — no markdown fences.',
           };
+
+    const payload = enrichDesPayload(basePayload, orgSlug, params.formationInput);
 
     const { text, usage } = await callAnthropicForCompletion(
       DIRECTION_EXPRESSION_SYSTEM_SYSTEM_PROMPT,

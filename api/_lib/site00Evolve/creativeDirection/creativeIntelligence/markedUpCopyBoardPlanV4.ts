@@ -20,6 +20,7 @@ import { MARKED_UP_COPY_REFERENCE_DECOMPOSITIONS } from './markedUpCopyPilotCons
 import { buildMarkedUpCopyArtDirectionSpec } from './markedUpCopyPilotConstants.js';
 import type { DirectionExpressionSystem } from './directionExpressionSystemTypes.js';
 import type { parseBoardV4CritiqueResponse } from './boardCreativeDirectorV4Service.js';
+import { assertSocialFirstBoardProof } from '../../../../../shared/site00-brand-lore/boardProofEnforcement.js';
 
 const FAL_COST = 0.04;
 const BIREFNET_COST = 0.02;
@@ -320,6 +321,11 @@ export function buildMarkedUpCopyBoardPlanV4(params: {
     params.boardArtDirection.mobileMap.placements.length > 0
       ? params.boardArtDirection.mobileMap
       : mobileMapFromExpression(params.expressionSystem);
+
+  assertSocialFirstBoardProof({
+    expressionContext: 'SOCIAL_FIRST_EDITORIAL',
+    presentZoneIds: desktopMap.placements.map((p) => p.zoneId),
+  });
 
   const assetManifest =
     params.boardArtDirection.assetManifest.length > 0
