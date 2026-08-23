@@ -4,7 +4,7 @@ import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { ExperimentEExperienceExpressionReview } from '../components/validation/ExperimentEExperienceExpressionReview';
 import { ProjectWorkspaceHeroReview } from '../components/projectWorkspace/ProjectWorkspaceHeroReview';
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
-import { site00ProjectPath } from '../config/routes';
+import { site00ProjectPath, site00ProjectExperimentEVisualDevelopmentPath } from '../config/routes';
 import { projectDisplayName } from '../utils/projectDisplayName';
 import type { ExperienceExpressionRun } from '../../../shared/site00-brand-lore/experienceExpression/types';
 import '../styles/site00-replay-execution.css';
@@ -57,6 +57,11 @@ export default function ProjectExperimentEPage() {
           ) : (
             <>
               <ExperimentEExperienceExpressionReview projectSlug={projectSlug} run={run} onUpdate={() => void reload()} />
+              <p className="site00-experiment-e__visual-dev-link">
+                <Link to={site00ProjectExperimentEVisualDevelopmentPath(projectSlug)}>
+                  PROJECT WORKSPACE VISUAL DEVELOPMENT →
+                </Link>
+              </p>
               <ProjectWorkspaceHeroReview projectSlug={projectSlug} />
             </>
           )}

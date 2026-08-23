@@ -68,6 +68,14 @@ import {
   setNdxbookHeroJudgment,
 } from '../_lib/site00Evolve/creativeDirection/projectWorkspace/projectWorkspaceService.js';
 import {
+  generateVisualDevelopmentDesignProof,
+  getProjectWorkspaceVisualDevelopmentRun,
+  orchestrateVisualDevelopmentImplementation,
+  prepareVisualDevelopmentImplementation,
+  refreshProjectWorkspaceVisualDevelopmentRun,
+  setVisualDevelopmentProofJudgment,
+} from '../_lib/site00Evolve/creativeDirection/experienceExpressionExperiment/visualDevelopmentService.js';
+import {
   getCreativeLineageLibrary,
   normalizeNdxbookCreativeLineage,
   runNdxbookForensicAudit,
@@ -1178,6 +1186,87 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const run = await setNdxbookHeroJudgment(judgment ?? null);
         return json(res, 200, { ok: true, run, source: 'site00_project_workspace' });
+      }
+      case 'visual_development_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        let run = await getProjectWorkspaceVisualDevelopmentRun(slug);
+        if (!run) run = await refreshProjectWorkspaceVisualDevelopmentRun(slug);
+        return json(res, 200, { ok: true, run, source: 'site00_visual_development' });
+      }
+      case 'visual_development_generate': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
+        if (slug !== 'ndxbook' || !proofId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await generateVisualDevelopmentDesignProof(proofId);
+        return json(res, 200, { ok: true, run, source: 'site00_visual_development' });
+      }
+      case 'visual_development_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
+        const judgment = body.judgment as 'LOVE_THE_DIRECTION' | 'PROMISING_REVISE' | 'NOT_THE_DIRECTION' | null;
+        if (slug !== 'ndxbook' || !proofId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await setVisualDevelopmentProofJudgment({
+          proofId,
+          judgment,
+          revisionNote: body.revisionNote ?? null,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_visual_development' });
+      }
+      case 'visual_development_prepare_implementation': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
+        if (slug !== 'ndxbook' || !proofId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await prepareVisualDevelopmentImplementation(proofId);
+        return json(res, 200, { ok: true, run, source: 'site00_visual_development' });
+      }
+      case 'visual_development_orchestrate': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
+        if (slug !== 'ndxbook' || !proofId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { run, orchestrationPackageId } = await orchestrateVisualDevelopmentImplementation(proofId);
+        return json(res, 200, { ok: true, run, orchestrationPackageId, source: 'site00_visual_development' });
       }
       case 'creative_lineage_forensic_audit': {
         const slug = String(req.query.slug ?? '');

@@ -64,6 +64,7 @@ export const SITE00_ROUTES = {
   projectCanonicalCarouselExpansion: '/projects/:projectSlug/canonical-carousel-expansion',
   projectExperimentD: '/projects/:projectSlug/experiment-d-concept-territory',
   projectExperimentE: '/projects/:projectSlug/experience-expression',
+  projectExperimentEVisualDevelopment: '/projects/:projectSlug/experience-expression/visual-development',
   projectContentLibrary: '/projects/:projectSlug/content-library',
   projectPersonalityReplayStep: '/projects/:projectSlug/personality-replay/:stepId',
   projectConnections: '/projects/:projectSlug/connections',
@@ -127,6 +128,10 @@ export function site00ProjectCreativeDirectionPath(projectSlug: string): string 
 
 export function site00ProjectExperimentEPath(projectSlug: string): string {
   return `/projects/${projectSlug}/experience-expression`;
+}
+
+export function site00ProjectExperimentEVisualDevelopmentPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/experience-expression/visual-development`;
 }
 
 export function site00CreateAccountHrefWithReturnTo(returnToPath: string): string {
