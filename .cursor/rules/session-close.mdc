@@ -1,0 +1,54 @@
+---
+description: Required three-part session close — prose + conclusion BLOCK + deploy links
+alwaysApply: true
+---
+
+# Session close (SITE 00 — required every time)
+
+Founder works from **mobile**. Every agent turn that **completes work**, **wraps a sprint**, or **merges a PR** MUST end with **all three parts below**. Missing any part is a failed close — do not send prose-only.
+
+## The three parts (in order)
+
+### 1. Text summary (prose)
+Normal markdown: what changed, why, what founder does next (Railway redeploy, Supabase migration, etc.).
+
+### 2. Structured conclusion code box (copy-paste BLOCK)
+One fenced code block for founder mobile copy-paste.
+
+- If the user/sprint provided a `CONCLUSION` or `FINAL CONCLUSION FORMAT` template, paste that template **filled in** inside this box.
+- If no sprint template, use a short STATUS block ending with `STOP.`
+- **Do NOT put deploy URLs inside this box.**
+
+### 3. Deploy links (each on its own line)
+Immediately after the code box — bare URLs or markdown links, **one per line** (founder copies one at a time on mobile):
+
+1. Direct ZIP download URL
+2. GitHub Release page URL
+3. SITE00-DEPLOY-README.txt download URL (if release exists)
+4. One-line verify reminder (e.g. must NOT reference `index.BT7zuSxb.js`)
+5. One-line upload reminder (GoDaddy public_html → upload → extract → hard refresh)
+
+## When frontend or UI changed
+
+Before closing you MUST:
+
+1. Run `bash scripts/package-cpanel-deploy.sh`
+2. Create a new GitHub Release (`site00-deploy-YYYY-MM-DD-vN`) with the ZIP + README
+3. Include fresh download links in part 3
+
+API-only changes still require part 1 + 2; part 3 deploy links required if any `src/` or UI bundle changed in the session.
+
+## Common failures (do not repeat)
+
+- Sprint prompt has its own CONCLUSION template → agent delivers that in **prose markdown** instead of a **code box**
+- Agent merges PR and stops — treats git shipping as "done" without session close
+- Deploy reminder buried in prose with no ZIP link
+- All links bundled inside one code box (founder cannot copy one at a time)
+- Conversation handoff/summary drops close-format requirement — **re-read this rule before final message**
+
+## Checklist before sending final message
+
+- [ ] Part 1 prose summary present
+- [ ] Part 2 conclusion in a single fenced code block (not markdown headings)
+- [ ] Part 3 deploy links each on separate line (if UI changed)
+- [ ] Fresh ZIP release built if frontend changed this session
