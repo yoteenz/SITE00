@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { ExperimentEExperienceExpressionReview } from '../components/validation/ExperimentEExperienceExpressionReview';
+import { ProjectWorkspaceHeroReview } from '../components/projectWorkspace/ProjectWorkspaceHeroReview';
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
 import { site00ProjectPath } from '../config/routes';
 import { projectDisplayName } from '../utils/projectDisplayName';
@@ -54,7 +55,10 @@ export default function ProjectExperimentEPage() {
           {loading ? (
             <p className="site00-experiment-e__pending">LOADING…</p>
           ) : (
-            <ExperimentEExperienceExpressionReview projectSlug={projectSlug} run={run} onUpdate={() => void reload()} />
+            <>
+              <ExperimentEExperienceExpressionReview projectSlug={projectSlug} run={run} onUpdate={() => void reload()} />
+              <ProjectWorkspaceHeroReview projectSlug={projectSlug} />
+            </>
           )}
         </div>
       </div>

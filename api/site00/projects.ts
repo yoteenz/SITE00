@@ -60,6 +60,14 @@ import {
   estimateVisualDevelopmentCost,
 } from '../_lib/site00Evolve/creativeDirection/experienceExpressionExperiment/experimentEService.js';
 import {
+  composeNdxbookHeroFrame,
+  compileNdxbookHeroFrameSubset,
+  generateNdxbookHeroAssets,
+  getProjectWorkspaceHeroRun,
+  refreshProjectWorkspaceHeroRun,
+  setNdxbookHeroJudgment,
+} from '../_lib/site00Evolve/creativeDirection/projectWorkspace/projectWorkspaceService.js';
+import {
   getCreativeLineageLibrary,
   normalizeNdxbookCreativeLineage,
   runNdxbookForensicAudit,
@@ -1097,6 +1105,79 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           promotedBy: user.email ?? 'founder',
         });
         return json(res, 200, { ok: true, run, source: 'site00_experiment_e' });
+      }
+      case 'project_workspace_hero_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        let run = await getProjectWorkspaceHeroRun(slug);
+        if (!run) run = await refreshProjectWorkspaceHeroRun(slug);
+        return json(res, 200, { ok: true, run, source: 'site00_project_workspace' });
+      }
+      case 'project_workspace_compile_hero_subset': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await compileNdxbookHeroFrameSubset();
+        return json(res, 200, { ok: true, run, source: 'site00_project_workspace' });
+      }
+      case 'project_workspace_generate_hero': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await generateNdxbookHeroAssets();
+        return json(res, 200, { ok: true, run, source: 'site00_project_workspace' });
+      }
+      case 'project_workspace_compose_hero': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await composeNdxbookHeroFrame();
+        return json(res, 200, { ok: true, run, source: 'site00_project_workspace' });
+      }
+      case 'project_workspace_hero_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const judgment = body.judgment as 'LOVE_THE_DIRECTION' | 'PROMISING_REVISE' | 'NOT_THE_DIRECTION' | null;
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await setNdxbookHeroJudgment(judgment ?? null);
+        return json(res, 200, { ok: true, run, source: 'site00_project_workspace' });
       }
       case 'creative_lineage_forensic_audit': {
         const slug = String(req.query.slug ?? '');

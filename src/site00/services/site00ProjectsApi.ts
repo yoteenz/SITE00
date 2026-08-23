@@ -434,6 +434,49 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, assetId }),
       },
     ),
+  projectWorkspaceHeroGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=project_workspace_hero_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  projectWorkspaceCompileHeroSubset: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=project_workspace_compile_hero_subset',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  projectWorkspaceGenerateHero: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=project_workspace_generate_hero',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  projectWorkspaceComposeHero: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=project_workspace_compose_hero',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  projectWorkspaceHeroJudgment: (
+    slug: string,
+    judgment: 'LOVE_THE_DIRECTION' | 'PROMISING_REVISE' | 'NOT_THE_DIRECTION' | null,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=project_workspace_hero_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, judgment }),
+      },
+    ),
   creativeLineageForensicAudit: (slug: string) =>
     projectsFetch<{ ok: true; report: Record<string, unknown> }>(
       `/api/site00/projects?action=creative_lineage_forensic_audit&slug=${encodeURIComponent(slug)}`,
