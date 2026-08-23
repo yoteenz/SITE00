@@ -90,25 +90,48 @@ export function ProjectWorkspaceHeroReview({ projectSlug }: ProjectWorkspaceHero
       <div className="site00-experiment-e__controls">
         <button
           type="button"
+          className="site00-btn site00-btn--primary"
           disabled={busy || !run.heroSubset?.scopeValid}
           onClick={() => void act(() => site00ProjectsApi.projectWorkspaceGenerateHero(projectSlug))}
         >
-          GENERATE HERO ASSETS (FOUNDER TRIGGER)
+          {busy ? 'GENERATING…' : 'GENERATE HERO ASSETS (FOUNDER TRIGGER)'}
         </button>
         <button
           type="button"
-          disabled={busy || run.generatedAssets.length === 0}
+          className="site00-btn site00-btn--primary"
+          disabled={busy || (run.generatedAssets.length === 0 && !run.heroSubset?.reusableAssetCount)}
           onClick={() => void act(() => site00ProjectsApi.projectWorkspaceComposeHero(projectSlug))}
         >
-          COMPOSE HERO FRAME
+          {busy ? 'COMPOSING…' : 'COMPOSE HERO FRAME'}
         </button>
       </div>
 
       {run.heroComposition ? (
-        <details className="site00-experiment-e__canon" open>
-          <summary>HERO VISUAL DEVELOPMENT</summary>
+        <div className="site00-pws-hero-review__preview">
+          <p className="site00-experiment-e__meta">
+            Hero preview · {run.heroGenerated ? 'READY FOR REVIEW' : 'PENDING'}
+          </p>
+          {run.heroComposition.publicUrl ? (
+            <img
+              src={run.heroComposition.publicUrl}
+              alt="NDXBOOK project home hero frame"
+              className="site00-pws-hero-review__image"
+            />
+          ) : (
+            <p className="site00-experiment-e__meta">
+              Proof stored at {run.heroComposition.storagePath ?? 'unknown path'} — preview URL unavailable until Railway
+              has FAL_KEY and composition completes.
+            </p>
+          )}
+        </div>
+      ) : run.generationStarted ? (
+        <p className="site00-experiment-e__pending">Assets generated — compose hero frame to render the full preview below.</p>
+      ) : null}
+
+      {run.heroComposition ? (
+        <details className="site00-experiment-e__canon">
+          <summary>HERO COMPOSITION METADATA</summary>
           <p>{run.heroComposition.storagePath}</p>
-          <p>Status: {run.heroGenerated ? 'READY FOR REVIEW' : 'PENDING'}</p>
         </details>
       ) : null}
 

@@ -379,6 +379,7 @@ describe('NDXBOOK_HERO_COMPOSE_TEST', () => {
     const run = await composeNdxbookHeroFrame();
     expect(run.heroGenerated).toBe(true);
     expect(run.heroComposition?.storagePath).toBeTruthy();
+    expect(run.heroComposition?.publicUrl).toBeTruthy();
     expect(ndxbookNamingCorrect('NDXBOOK')).toBe(true);
   });
 });

@@ -16,6 +16,7 @@ export type NdxbookHeroFrameComposition = {
   surface: 'PROJECT_HOME';
   deviceClass: 'DESKTOP';
   storagePath: string | null;
+  publicUrl: string | null;
   workspaceRecognizable: true;
   clientRecognizable: true;
   artworkParticipates: true;
