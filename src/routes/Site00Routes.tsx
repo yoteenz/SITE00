@@ -85,6 +85,7 @@ const ProjectCreativeDirectionPage = lazy(() => import('../site00/pages/ProjectC
 const ProjectPersonalityReplayPage = lazy(() => import('../site00/pages/ProjectPersonalityReplayPage'));
 const ProjectSixDirectionConsistencyPage = lazy(() => import('../site00/pages/ProjectSixDirectionConsistencyPage'));
 const ProjectCanonicalCreativeRangePage = lazy(() => import('../site00/pages/ProjectCanonicalCreativeRangePage'));
+const ProjectCanonicalCarouselExpansionPage = lazy(() => import('../site00/pages/ProjectCanonicalCarouselExpansionPage'));
 const PersonalityReplayIntakeRouterPage = lazy(
   () => import('../site00/pages/validation/PersonalityReplayIntakeRouterPage'),
 );
@@ -612,6 +613,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectCanonicalCreativeRangePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCanonicalCarouselExpansion}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCanonicalCarouselExpansionPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

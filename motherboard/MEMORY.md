@@ -3203,3 +3203,16 @@ Summary: Founder asked if heroes generated overnight — page showed **GENERATIN
 - **Fix (517570b):** Supabase persistence via `site00_methodology_validation_runs` + `recoverCanonicalRangeRunFromStorage()` on page load to rebuild COMPLETE run from storage.
 - **Founder action:** Railway redeploy from `main`; hard refresh canonical range page — six heroes should appear without re-spending credits.
 
+---
+
+## 2026-08-23 — Canonical six same-topic carousel world expansion (Experiment C)
+
+Summary: Founder requested Experiment C — expand each canonical six direction into a 6-slide **CREDIT UTILIZATION** carousel. Experiment B heroes become immutable Slide 01; generate slides 02–06 only (30 new images). Resumable execution, cross-direction isolation, founder carousel + same-slide comparison UI.
+
+- **Experiment C:** `/projects/ndxbook/canonical-carousel-expansion` — `CANONICAL_SAME_TOPIC_CAROUSEL_EXPANSION`; separate Supabase row `c4e1a2b3-0002-4000-8000-000000000001`; never mix with Experiment A/B verdicts.
+- **Pipeline:** `canonicalCarouselExpansionService.ts` — preflight requires 6/6 Experiment B covers → `SharedCarouselTopicContext` → per-direction `DirectionCarouselWorldBible` + direction-derived slide roles → GPT Image 2 slides 02–06 with `COVER_INFLUENCE_CONTRACT` (world not layout clone). Modes: `INITIALIZE`, `NEXT_SLIDE`, `REST_OF_CAROUSEL`, `NEXT_CAROUSEL`, `ALL_REMAINING`.
+- **Storage:** Covers stay at `canonical-creative-range/01–06/hero.webp`; new slides at `canonical-carousel-expansion/01–06/slide-02..06.webp`.
+- **UI:** `CanonicalCarouselExpansionReview` — six world cards, ENTER CAROUSEL WORLD (vertical slides + horizontal preview), SAME SLIDE ACROSS WORLDS comparison, slide + direction founder judgments. Link from Experiment B when complete.
+- **Tests:** 28 new tests (23 shared + 5 service); 1050 total pass; build pass.
+- **Founder action:** Merge PR; Railway redeploy API; cPanel frontend deploy; open carousel expansion page → INITIALIZE then RUN ALL REMAINING (or step through resumable controls). Experiment B must have 6/6 heroes first.
+

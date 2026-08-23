@@ -32,6 +32,14 @@ import {
   getCanonicalRangePreflight,
   setCanonicalRangeFounderJudgment,
 } from '../_lib/site00Evolve/creativeDirection/canonicalCreativeRange/canonicalCreativeRangeService.js';
+import {
+  executeCanonicalCarouselExpansion,
+  getCarouselExpansionPreflight,
+  getCanonicalCarouselExpansionRun,
+  setCarouselDirectionFounderVerdict,
+  setCarouselSlideFounderJudgment,
+} from '../_lib/site00Evolve/creativeDirection/canonicalCarouselExpansion/canonicalCarouselExpansionService.js';
+import type { CarouselExecuteMode } from '../../shared/site00-brand-lore/canonicalCarouselExpansionTypes.js';
 
 function setCors(res: VercelResponse): void {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -644,6 +652,96 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const run = await setCanonicalRangeFounderJudgment({ comparisonIndex, judgment });
         return json(res, 200, { ok: true, run, source: 'site00_canonical_creative_range' });
+      }
+      case 'canonical_carousel_expansion_preflight': {
+        if (req.method !== 'GET' && req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'METHOD_NOT_ALLOWED', message: 'GET or POST required' } });
+        }
+        const slug = String(req.query.slug ?? parseBody(req)?.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const preflight = await getCarouselExpansionPreflight();
+        return json(res, 200, { ok: true, preflight, source: 'site00_canonical_carousel_expansion' });
+      }
+      case 'canonical_carousel_expansion_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await getCanonicalCarouselExpansionRun();
+        return json(res, 200, { ok: true, run, source: 'site00_canonical_carousel_expansion' });
+      }
+      case 'canonical_carousel_expansion_execute': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? req.query.slug ?? '');
+        const mode = String(body.mode ?? 'ALL_REMAINING') as CarouselExecuteMode;
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        if (process.env.VITEST === 'true') {
+          const run = await executeCanonicalCarouselExpansion({ mode });
+          return json(res, 200, { ok: true, run, source: 'site00_canonical_carousel_expansion' });
+        }
+        void executeCanonicalCarouselExpansion({ mode }).catch((err) => {
+          console.error('[canonical-carousel-expansion] execute failed', err);
+        });
+        const run = await getCanonicalCarouselExpansionRun();
+        return json(res, 202, { ok: true, run, source: 'site00_canonical_carousel_expansion' });
+      }
+      case 'canonical_carousel_expansion_slide_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const comparisonIndex = Number(body.comparisonIndex ?? 0);
+        const slideNumber = Number(body.slideNumber ?? 0);
+        const judgment = body.judgment as 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_FOR_ME' | null;
+        if (slug !== 'ndxbook' || !comparisonIndex || !slideNumber) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await setCarouselSlideFounderJudgment({ comparisonIndex, slideNumber, judgment });
+        return json(res, 200, { ok: true, run, source: 'site00_canonical_carousel_expansion' });
+      }
+      case 'canonical_carousel_expansion_direction_verdict': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const comparisonIndex = Number(body.comparisonIndex ?? 0);
+        const verdict = body.verdict as
+          | 'LOVE_THIS_DIRECTION'
+          | 'KEEP_IN_CONTENTION'
+          | 'BEAUTIFUL_BUT_TOO_NARROW'
+          | 'TOO_REPETITIVE'
+          | 'NOT_NDXBOOK'
+          | null;
+        const note = body.note as string | null | undefined;
+        if (slug !== 'ndxbook' || !comparisonIndex) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await setCarouselDirectionFounderVerdict({ comparisonIndex, verdict, note });
+        return json(res, 200, { ok: true, run, source: 'site00_canonical_carousel_expansion' });
       }
       default:
         return json(res, 400, {

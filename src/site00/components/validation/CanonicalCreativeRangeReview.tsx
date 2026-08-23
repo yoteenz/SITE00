@@ -249,6 +249,14 @@ export function CanonicalCreativeRangeReview({
           ))}
         </details>
       ) : null}
+
+      {run.status === 'COMPLETE' ? (
+        <p className="site00-six-dir-review__meta">
+          <Link to={SITE00_ROUTES.projectCanonicalCarouselExpansion.replace(':projectSlug', projectSlug)}>
+            Experiment C — expand into same-topic carousels →
+          </Link>
+        </p>
+      ) : null}
     </section>
   );
 }
