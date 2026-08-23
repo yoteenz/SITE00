@@ -9,6 +9,7 @@ import {
   EXPERIMENT_G_DB_ID,
 } from '../../../../../shared/site00-brand-lore/brandPresentationConceptTerritory/constants.js';
 import { NDXBOOK_ORG_ID } from '../creativeIntelligence/founderComparisonSet.js';
+import { resolveProjectDbIdForSupabaseFk } from '../../../site00Projects/founderProjectDbId.js';
 
 const TABLE = 'site00_methodology_validation_runs';
 const MODE = 'NDX_BRAND_PRESENTATION_CONCEPT_FORMATION';
@@ -33,10 +34,11 @@ export async function getBrandPresentationConceptFormationRun(
 export async function saveBrandPresentationConceptFormationRun(
   run: BrandPresentationConceptFormationRun,
 ): Promise<BrandPresentationConceptFormationRun> {
+  const projectDbId = await resolveProjectDbIdForSupabaseFk(run.projectId, 'ndxbook');
   const row = {
     id: EXPERIMENT_G_DB_ID,
     organization_id: run.organizationId || NDXBOOK_ORG_ID,
-    project_id: null,
+    project_id: projectDbId,
     mode: MODE,
     status: run.status,
     record: run,

@@ -90,7 +90,10 @@ export function ExperimentGBrandPresentationConceptReview({
     setForming(true);
     setError(null);
     try {
-      await site00ProjectsApi.experimentGPrepareSnapshot(projectSlug);
+      // Snapshot prep runs server-side when missing. Avoid clobbering FORMING by re-preparing here.
+      if (!run?.intelligenceSnapshot) {
+        await site00ProjectsApi.experimentGPrepareSnapshot(projectSlug);
+      }
       await site00ProjectsApi.experimentGFormConcepts(projectSlug, options);
       onUpdate?.();
     } catch (err) {
@@ -98,7 +101,7 @@ export function ExperimentGBrandPresentationConceptReview({
     } finally {
       setForming(false);
     }
-  }, [onUpdate, projectSlug]);
+  }, [onUpdate, projectSlug, run?.intelligenceSnapshot]);
 
   const reformSet = useCallback(async () => {
     setReforming(true);
