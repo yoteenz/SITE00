@@ -3079,3 +3079,20 @@ Summary of the **whole conversation so far** in this cloud agent run: NDXBOOK bl
 - **Solution:** New `typographyProvenance.ts`; refactored pipeline; extended `replayProductionPreflight` typography gates; 980/980 tests pass.
 - **Prior session fixes (main):** PR #263–#265 personality replay save/submit/replay-not-found; Supabase migrations; deploy ZIP v5.
 - **Conventions:** Separate `TYPOGRAPHIC_BEHAVIOR` from `FONT_SELECTION`. Historical pilot Martian Mono = `HISTORICAL_OUTPUT`, never replay input.
+
+---
+
+## 2026-08-23 — Blind personality replay post-submission execution + resume
+
+Summary of the **whole conversation so far** in this cloud agent run: typography provenance sprint merged (PR #266–#267); founder requested motherboard three-part session close (prose + conclusion code box + deploy links on separate lines); then NDXBOOK blind personality replay post-submission diagnostic + resume sprint.
+
+- **Context:** Founder completed all 15 blind personality questions and pressed SUBMIT — no downstream creative output appeared. Must NOT reset replay, re-ask questionnaire, mutate canonical personality, or expose benchmark before hero.
+- **Root cause:** `personality_replay_complete` only called `completeReplayPersonalityIntake()` → status `FORMATION_READY` with **no downstream pipeline**. UI redirected to project page with no execution indicator. Supabase `site00_methodology_validation_runs` had 0 rows — production replay likely on Railway in-memory store (lost on API restart).
+- **Fix (PR branch `cursor/personality-replay-execution-resume-4f59`):**
+  - `replayExecutionService.ts` — idempotent blind chain: Core Direction → DES → IAD → CES → Hero Concept → Visual Brief → GPT/FAL hero → methodology comparison.
+  - Submit auto-dispatches downstream (async in production, awaited in vitest); `personality_replay_execute` + `personality_replay_diagnostic` API actions.
+  - Execution phases persisted (`replayExecutionPhases.ts`); founder UI progression panel on review + project detail.
+  - Typography: Martian Mono remains HOST_UI excluded; NDXBOOK uppercase casing preserved; font derivation unresolved at replay start.
+  - Tests: `personalityReplayExecution.test.ts`, `replayExecutionPhases.test.ts`; **983/983** pass; build green.
+- **Motherboard:** `CORE.md` three-part session close confirmed (prose + conclusion code box + deploy links each on own line — URLs **not** inside code box).
+- **Founder action:** Railway redeploy from `main` (API execution + Supabase persistence); cPanel ZIP for frontend. After redeploy, re-open replay review — execution should resume same replay idempotently (or bootstrap recovers from local answers if API restarted).
