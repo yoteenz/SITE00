@@ -85,6 +85,11 @@ export type GenericTemplateResemblanceAudit = {
   primaryIssues: string[];
 };
 
+export type CurrentExperienceAudit = GenericTemplateResemblanceAudit & {
+  /** Structured forensic audit label — not a visual quality score. */
+  auditType: 'CURRENT_NDXBOOK_EXPERIENCE_FORENSIC';
+};
+
 export type ExperienceConcept = {
   experienceConceptId: string;
   conceptIndex: number;
@@ -92,6 +97,8 @@ export type ExperienceConcept = {
   centralThesis: string;
   experienceMetaphor: string;
   whyItBelongsToSelectedTerritory: string;
+  /** Provenance-safe evidence refs from Experiment E snapshot — not auto-promoted territories. */
+  evidenceReferences: string[];
   whyItBelongsInsideSite00: string;
   viewerRole: string;
   projectRelationship: string;
@@ -283,15 +290,19 @@ export type ExperienceExpressionReadiness = {
   expressionContextReady: boolean;
   appetiteAvailable: boolean;
   appetiteIncluded: boolean;
+  /** @deprecated Use crossMediumEvidenceStatus — territory selection is not required. */
   conceptTerritorySelected: boolean;
   worldExpressionAvailable: boolean;
   hostCanonReady: boolean;
   functionalCanonReady: boolean;
+  snapshotCompiled: boolean;
+  crossMediumEvidenceStatus: 'NONE' | 'MEDIUM_SPECIFIC_ONLY' | 'EXPLICITLY_PROMOTED_AVAILABLE';
   blockers: string[];
 };
 
 export type ExperienceExpressionRunStatus =
   | 'NOT_STARTED'
+  | 'WAITING_FOR_SNAPSHOT'
   | 'WAITING_FOR_TERRITORY'
   | 'READY_TO_FORM'
   | 'FORMING'
@@ -318,6 +329,9 @@ export type ExperienceExpressionRun = {
   hostCanon: HostExperienceCanon | null;
   clientCanon: ClientExperienceCanon | null;
   templateAudit: GenericTemplateResemblanceAudit | null;
+  currentExperienceAudit: CurrentExperienceAudit | null;
+  experimentSnapshot: import('./experienceExpressionSnapshot.js').ExperimentEIntelligenceSnapshot | null;
+  crossMediumEvidence: import('./crossMediumConceptEvidence.js').CrossMediumConceptEvidence[];
   experienceConcepts: ExperienceConcept[];
   experienceBibles: ExperienceBible[];
   responsiveTranslations: ResponsiveExperienceTranslation[];

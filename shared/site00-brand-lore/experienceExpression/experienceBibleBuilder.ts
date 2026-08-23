@@ -9,13 +9,27 @@ import type { ExperienceBible, ExperienceConcept } from './types.js';
 
 export function buildExperienceBible(params: {
   concept: ExperienceConcept;
-  territory: CreativeConceptTerritory;
-  world: WorldExpressionSystem;
   host: HostExperienceCanon;
   client: ClientExperienceCanon;
+  territory?: CreativeConceptTerritory | null;
+  world?: WorldExpressionSystem | null;
 }): ExperienceBible {
-  const { concept, territory, world, host, client } = params;
+  const { concept, host, client, territory, world } = params;
   const bibleId = `bible-${concept.experienceConceptId}`;
+
+  const clientTypography =
+    world?.typographySystem ??
+    client.traits.find((t) => t.provenance === 'WORLD_EXPRESSION')?.trait ??
+    'Client expressive typography from brand intelligence — not Martian Mono';
+
+  const clientPalette =
+    world?.paletteSystem ??
+    client.traits.find((t) => t.provenance === 'BRAND_CANON')?.trait ??
+    'NDXBOOK brand palette from canon';
+
+  const materialBehavior = world
+    ? `${host.hostMaterialBehavior[0] ?? 'Host glass surfaces'} × ${world.materialSystem} × ${concept.compositionBehavior}`
+    : `${host.hostMaterialBehavior[0] ?? 'Host glass surfaces'} × client brand materials × ${concept.compositionBehavior}`;
 
   return {
     experienceBibleId: bibleId,
@@ -27,22 +41,26 @@ export function buildExperienceBible(params: {
     interactionGrammar: concept.interactionGrammar,
     hierarchyGrammar: concept.hierarchyBehavior,
     spatialCompositionGrammar: concept.spatialBehavior,
-    materialBehavior: `${host.hostMaterialBehavior[0] ?? 'Host glass surfaces'} × ${world.materialSystem} × ${concept.compositionBehavior}`,
+    materialBehavior,
     typographyBehavior: {
       hostUiTypography: host.hostUiTypography,
-      clientExpressiveTypography: world.typographySystem,
-      environmentalType: `Territory-scale type from ${territory.directionName} world expression`,
+      clientExpressiveTypography: clientTypography,
+      environmentalType: territory
+        ? `Territory-scale type from ${territory.directionName} world expression`
+        : 'Environmental type from client brand intelligence — host/client separated',
       metadataType: 'Host stack for system metadata — Martian Mono roles',
       actionType: 'Host red wayfinding for global actions; client accent for project-native actions',
       statusType: 'Distinct status typography — never host font as client canon',
     },
     colorBehavior: {
       hostWayfinding: host.hostColorBehavior[0] ?? 'Red host accent',
-      clientWorldColor: world.paletteSystem,
+      clientWorldColor: clientPalette,
       statusColor: 'Semantic status colors independent of brand palette',
       attentionColor: 'Founder attention queue — derived from concept urgency grammar',
       interactiveStateColor: 'Selection/hover states follow experience interaction grammar',
-      backgroundEnvironment: `${host.hostSpatialBehavior[0] ?? 'SITE 00 white architectural field'} with ${territory.directionName} client lighting`,
+      backgroundEnvironment: territory
+        ? `${host.hostSpatialBehavior[0] ?? 'SITE 00 white architectural field'} with ${territory.directionName} client lighting`
+        : `${host.hostSpatialBehavior[0] ?? 'SITE 00 white architectural field'} with NDXBOOK client expression`,
     },
     motionBehavior: concept.motionPhilosophy,
     responsivePhilosophy: concept.responsivePhilosophy,

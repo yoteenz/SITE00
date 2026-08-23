@@ -61,36 +61,49 @@ export function ExperimentEExperienceExpressionReview({
       <p className="site00-experiment-e__experiment">EXPERIMENT E — EXPERIENCE EXPRESSION</p>
       <h3 className="site00-experiment-e__title">{run.methodologyVersion.replace(/_/g, ' ')}</h3>
       <p className="site00-experiment-e__meta">
-        Intelligence snapshot v{run.intelligenceSnapshotVersion} · Founder Creative Appetite{' '}
+        Intelligence snapshot v{run.intelligenceSnapshotVersion}
+        {run.experimentSnapshot ? ` · fingerprint ${run.experimentSnapshot.fingerprint}` : ''}
+        · Founder Creative Appetite{' '}
         {run.readiness.appetiteIncluded ? 'included' : 'excluded'} ({run.readiness.appetiteAvailable ? 'available' : 'partial'})
       </p>
       <p className="site00-experiment-e__meta">Readiness: {run.readiness.state.replace(/_/g, ' ')}</p>
+      <p className="site00-experiment-e__meta">
+        Cross-medium Concept Territory status: {run.readiness.crossMediumEvidenceStatus.replace(/_/g, ' ')}
+        · {run.crossMediumEvidence.length} Experiment D evidence records (medium-specific — not Experience Concepts)
+      </p>
 
-      {!run.experienceTestTerritoryId ? (
-        <>
-          <p className="site00-experiment-e__meta" role="status">
-            SELECT CONCEPT TERRITORY FOR EXPERIENCE TEST — selectionPurpose=EXPERIMENT_E_ONLY (does not promote to Brand Canon)
-          </p>
-          <div className="site00-experiment-e__territory-select">
-            {CANONICAL_NDXBOOK_DIRECTION_NAMES.map((name) => (
-              <button
-                key={name}
-                type="button"
-                disabled={busy}
-                onClick={() =>
-                  void act(() => site00ProjectsApi.experimentESelectTerritory(projectSlug, { directionName: name }))
-                }
-              >
-                {name}
-              </button>
-            ))}
-          </div>
-        </>
-      ) : (
-        <p className="site00-experiment-e__meta">
-          Selected territory: {run.experienceTestTerritoryName} · {run.selectionPurpose}
+      <details className="site00-experiment-e__canon">
+        <summary>EXPERIMENT E SNAPSHOT</summary>
+        <p>
+          {run.experimentSnapshot
+            ? `${run.experimentSnapshot.inputs.filter((i) => i.included).length} inputs included · compiled ${run.experimentSnapshot.compiledAt}`
+            : 'Not compiled'}
         </p>
-      )}
+      </details>
+
+      <details className="site00-experiment-e__canon">
+        <summary>OPTIONAL — PROMOTE CROSS-MEDIUM EVIDENCE</summary>
+        <p className="site00-experiment-e__meta">
+          Creative Concept Territories are provenance evidence only — not required for Experience Concept formation.
+        </p>
+        <div className="site00-experiment-e__territory-select">
+          {CANONICAL_NDXBOOK_DIRECTION_NAMES.map((name) => (
+            <button
+              key={name}
+              type="button"
+              disabled={busy}
+              onClick={() =>
+                void act(() => site00ProjectsApi.experimentESelectTerritory(projectSlug, { directionName: name }))
+              }
+            >
+              PROMOTE {name}
+            </button>
+          ))}
+        </div>
+        {run.experienceTestTerritoryName ? (
+          <p>Promoted evidence: {run.experienceTestTerritoryName} · {run.selectionPurpose}</p>
+        ) : null}
+      </details>
 
       <details className="site00-experiment-e__canon">
         <summary>FUNCTIONAL CANON</summary>
@@ -105,9 +118,13 @@ export function ExperimentEExperienceExpressionReview({
         <p>{run.clientCanon?.traits.length ?? 0} traits with provenance</p>
       </details>
       <details className="site00-experiment-e__canon">
-        <summary>CURRENT TEMPLATE RESEMBLANCE</summary>
-        <p>{run.templateAudit?.overallResemblance} — {run.templateAudit?.primaryIssues[0]}</p>
+        <summary>CURRENT EXPERIENCE AUDIT</summary>
+        <p>{run.currentExperienceAudit?.overallResemblance ?? run.templateAudit?.overallResemblance} — {(run.currentExperienceAudit ?? run.templateAudit)?.primaryIssues[0]}</p>
       </details>
+
+      <p className="site00-experiment-e__meta" role="status">
+        CONCEPT REVIEW ≠ VISUAL REVIEW — no images generate from opening this page.
+      </p>
 
       {error ? <p className="site00-experiment-e__error" role="alert">{error}</p> : null}
 
@@ -126,14 +143,14 @@ export function ExperimentEExperienceExpressionReview({
                 void act(() => site00ProjectsApi.experimentEGenerateVisuals(projectSlug, { conceptIndex: activeIndex }))
               }
             >
-              GENERATE THIS CONCEPT (8 frames)
+              APPROVE FOR VISUAL DEVELOPMENT — THIS CONCEPT (8 frames)
             </button>
             <button
               type="button"
               disabled={busy}
               onClick={() => void act(() => site00ProjectsApi.experimentEGenerateVisuals(projectSlug, { allConcepts: true }))}
             >
-              GENERATE ALL 3 CONCEPTS (24 max)
+              APPROVE ALL 3 CONCEPTS (24 max)
             </button>
           </>
         ) : null}
@@ -143,6 +160,9 @@ export function ExperimentEExperienceExpressionReview({
         <p className="site00-experiment-e__meta">
           Distinctiveness: {run.distinctiveness.result}
           {run.distinctiveness.conceptualCollapse ? ' — CONCEPTUAL COLLAPSE reported' : ''}
+          {run.distinctiveness.cousinPairs.length
+            ? ` · Cousin pairs: ${run.distinctiveness.cousinPairs.map((p) => `${p.conceptA}/${p.conceptB}`).join(', ')}`
+            : ''}
         </p>
       ) : null}
 
@@ -173,6 +193,7 @@ export function ExperimentEExperienceExpressionReview({
                 <div><dt>NAVIGATION</dt><dd>{concept.navigationBehavior}</dd></div>
                 <div><dt>RESPONSIVE</dt><dd>{concept.responsivePhilosophy}</dd></div>
                 <div><dt>HOST / CLIENT</dt><dd>{concept.hostClientRelationship}</dd></div>
+                <div><dt>EVIDENCE</dt><dd>{concept.evidenceReferences.join(', ')}</dd></div>
                 <div><dt>FEASIBILITY</dt><dd>{concept.implementationFeasibility}</dd></div>
               </dl>
 
@@ -181,6 +202,8 @@ export function ExperimentEExperienceExpressionReview({
                   <summary>EXPERIENCE BIBLE</summary>
                   <p>{bible.experienceThesis}</p>
                   <p>{bible.interactionGrammar}</p>
+                  <p>Host typography: {bible.typographyBehavior.hostUiTypography}</p>
+                  <p>Client typography: {bible.typographyBehavior.clientExpressiveTypography}</p>
                 </details>
               ) : null}
 

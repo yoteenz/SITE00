@@ -17,6 +17,14 @@ import { buildClientExperienceCanon, experimentalAssetNotCanon } from './experie
 import { auditNdxbookProjectHomeTemplate, cardDefaultNotRequired } from './experienceExpression/genericTemplateAudit.js';
 import { assessExperienceExpressionReadiness } from './experienceExpression/readiness.js';
 import { buildExperienceConceptsForTerritory, experienceConceptIsolationValid } from './experienceExpression/experienceConceptSeeds.js';
+import { buildExperienceConceptsFromSnapshot } from './experienceExpression/experienceConceptFormation.js';
+import { compileExperimentEIntelligenceSnapshot } from './experienceExpression/experienceExpressionSnapshot.js';
+import {
+  buildAllExperimentDTerritoryEvidence,
+  crossMediumEvidenceStatus,
+  historicalRepetitionNotAutoCanon,
+} from './experienceExpression/crossMediumConceptEvidence.js';
+import { buildCurrentExperienceAudit } from './experienceExpression/genericTemplateAudit.js';
 import { buildExperienceBible, experienceBibleCompletenessTest } from './experienceExpression/experienceBibleBuilder.js';
 import { runExperienceConceptDistinctivenessGate, noStyleOnlyCollapseFixAllowed } from './experienceExpression/distinctiveness.js';
 import { translateWorldBehaviorIntoExperienceBehavior } from './experienceExpression/behaviorTranslation.js';
@@ -108,41 +116,83 @@ describe('FOUNDER_APPETITE_AVAILABLE_TO_EXPERIMENT_E_TEST', () => {
 });
 
 describe('EXPERIENCE_EXPRESSION_READINESS_TEST', () => {
-  it('blocks without territory selection', () => {
+  it('ready without territory when snapshot compiled', () => {
+    const functionalCanon = extractNdxbookFunctionalCanon();
+    const hostCanon = buildHostExperienceCanon();
+    const crossMediumEvidence = buildAllExperimentDTerritoryEvidence();
+    const snapshot = compileExperimentEIntelligenceSnapshot({
+      profile: { brandWorld: { value: 'x' }, brandPersonality: {}, contextClassification: 'ctx' } as BrandLoreProfile,
+      functionalCanon,
+      hostCanon,
+      clientCanon: buildClientExperienceCanon({ profile: null, territory: null, world: null, crossMediumEvidence }),
+      currentExperienceAudit: buildCurrentExperienceAudit(),
+      crossMediumEvidence,
+    });
     const readiness = assessExperienceExpressionReadiness({
       profile: { brandWorld: { value: 'x' }, brandPersonality: {}, contextClassification: 'ctx' } as BrandLoreProfile,
       territory: null,
       world: null,
-      functionalCanon: extractNdxbookFunctionalCanon(),
-      hostCanon: buildHostExperienceCanon(),
-      experienceTestTerritoryId: null,
+      functionalCanon,
+      hostCanon,
+      experimentSnapshot: snapshot,
+      crossMediumEvidence,
     });
-    expect(readiness.state).toBe('WAITING_FOR_CONCEPT_SELECTION');
-    expect(readiness.blockers.some((b) => b.includes('SELECT CONCEPT TERRITORY'))).toBe(true);
+    expect(readiness.state).toBe('READY_FOR_EXPERIENCE_FORMATION');
+    expect(readiness.snapshotCompiled).toBe(true);
+    expect(readiness.crossMediumEvidenceStatus).toBe('MEDIUM_SPECIFIC_ONLY');
   });
 });
 
-describe('CONCEPT_TERRITORY_REQUIRED_FOR_EXPERIENCE_TEST', () => {
+describe('CONCEPT_TERRITORY_NOT_REQUIRED_FOR_EXPERIENCE_TEST', () => {
   beforeEach(() => resetExperimentEMemory());
 
-  it('requires territory before formation', async () => {
+  it('forms concepts without territory selection', async () => {
     await refreshExperienceExpressionRun();
-    await expect(formExperienceConcepts()).rejects.toThrow(/SELECT CONCEPT TERRITORY/);
+    const run = await formExperienceConcepts();
+    expect(run.experienceConcepts.length).toBe(3);
+    expect(run.experimentSnapshot?.fingerprint).toBeTruthy();
   });
 });
 
-describe('WORLD_EXPRESSION_REQUIRED_FOR_EXPERIENCE_TEST', () => {
-  it('readiness fails without world', () => {
+describe('CROSS_MEDIUM_EVIDENCE_STATUS_TEST', () => {
+  it('medium-specific evidence does not auto-promote', () => {
+    const evidence = buildAllExperimentDTerritoryEvidence();
+    expect(crossMediumEvidenceStatus(evidence)).toBe('MEDIUM_SPECIFIC_ONLY');
+    expect(historicalRepetitionNotAutoCanon(evidence)).toBe(true);
+  });
+});
+
+describe('EXPERIMENT_E_SNAPSHOT_INDEPENDENCE_TEST', () => {
+  it('Experiment E snapshot has independent fingerprint', () => {
+    const evidence = buildAllExperimentDTerritoryEvidence();
+    const snapshot = compileExperimentEIntelligenceSnapshot({
+      profile: { brandWorld: { value: 'NDXBOOK' }, brandPersonality: {}, contextClassification: 'CONTENT_FIRST' } as BrandLoreProfile,
+      functionalCanon: extractNdxbookFunctionalCanon(),
+      hostCanon: buildHostExperienceCanon(),
+      clientCanon: buildClientExperienceCanon({ profile: null, territory: null, world: null, crossMediumEvidence: evidence }),
+      currentExperienceAudit: buildCurrentExperienceAudit(),
+      crossMediumEvidence: evidence,
+    });
+    expect(snapshot.snapshotVersion).toBe(2);
+    expect(snapshot.fingerprint).toHaveLength(16);
+  });
+});
+
+describe('WORLD_EXPRESSION_EVIDENCE_OPTIONAL_TEST', () => {
+  it('world evidence available via cross-medium records', () => {
     const { territory } = territoryPair();
+    const evidence = buildAllExperimentDTerritoryEvidence();
     const readiness = assessExperienceExpressionReadiness({
       profile: null,
       territory,
       world: null,
       functionalCanon: extractNdxbookFunctionalCanon(),
       hostCanon: buildHostExperienceCanon(),
+      experimentSnapshot: null,
+      crossMediumEvidence: evidence,
       experienceTestTerritoryId: territory.territoryId,
     });
-    expect(readiness.worldExpressionAvailable).toBe(false);
+    expect(readiness.worldExpressionAvailable).toBe(true);
   });
 });
 
@@ -225,17 +275,33 @@ describe('CARD_DEFAULT_NOT_REQUIRED_TEST', () => {
 });
 
 describe('EXPERIENCE_CONCEPT_ISOLATION_TEST', () => {
-  it('concepts form in isolation', () => {
-    const { territory, expression } = territoryPair();
-    const concepts = buildExperienceConceptsForTerritory({ territory, world: expression, appetiteLineage: null });
+  it('concepts form in isolation from snapshot', () => {
+    const evidence = buildAllExperimentDTerritoryEvidence();
+    const snapshot = compileExperimentEIntelligenceSnapshot({
+      profile: null,
+      functionalCanon: extractNdxbookFunctionalCanon(),
+      hostCanon: buildHostExperienceCanon(),
+      clientCanon: buildClientExperienceCanon({ profile: null, territory: null, world: null, crossMediumEvidence: evidence }),
+      currentExperienceAudit: buildCurrentExperienceAudit(),
+      crossMediumEvidence: evidence,
+    });
+    const concepts = buildExperienceConceptsFromSnapshot({ snapshot, profile: null, crossMediumEvidence: evidence, appetiteLineage: null });
     expect(experienceConceptIsolationValid(concepts)).toBe(true);
   });
 });
 
 describe('EXPERIENCE_CONCEPT_DISTINCTIVENESS_TEST', () => {
-  it('passes for three territory concepts', () => {
-    const { territory, expression } = territoryPair();
-    const concepts = buildExperienceConceptsForTerritory({ territory, world: expression, appetiteLineage: null });
+  it('passes for three snapshot concepts', () => {
+    const evidence = buildAllExperimentDTerritoryEvidence();
+    const snapshot = compileExperimentEIntelligenceSnapshot({
+      profile: null,
+      functionalCanon: extractNdxbookFunctionalCanon(),
+      hostCanon: buildHostExperienceCanon(),
+      clientCanon: buildClientExperienceCanon({ profile: null, territory: null, world: null, crossMediumEvidence: evidence }),
+      currentExperienceAudit: buildCurrentExperienceAudit(),
+      crossMediumEvidence: evidence,
+    });
+    const concepts = buildExperienceConceptsFromSnapshot({ snapshot, profile: null, crossMediumEvidence: evidence, appetiteLineage: null });
     const report = runExperienceConceptDistinctivenessGate(concepts);
     expect(['PASS', 'COUSIN_BUT_DISTINCT']).toContain(report.result);
     expect(report.artificialDiversityUsed).toBe(false);
@@ -260,12 +326,20 @@ describe('NO_STYLE_ONLY_COLLAPSE_FIX_TEST', () => {
 });
 
 describe('EXPERIENCE_BIBLE_COMPLETENESS_TEST', () => {
-  it('builds complete bible', () => {
-    const { territory, expression } = territoryPair();
+  it('builds complete bible without territory', () => {
     const host = buildHostExperienceCanon();
-    const client = buildClientExperienceCanon({ profile: null, territory, world: expression });
-    const concept = buildExperienceConceptsForTerritory({ territory, world: expression, appetiteLineage: null })[0];
-    const bible = buildExperienceBible({ concept, territory, world: expression, host, client });
+    const client = buildClientExperienceCanon({ profile: null, territory: null, world: null });
+    const evidence = buildAllExperimentDTerritoryEvidence();
+    const snapshot = compileExperimentEIntelligenceSnapshot({
+      profile: null,
+      functionalCanon: extractNdxbookFunctionalCanon(),
+      hostCanon: host,
+      clientCanon: client,
+      currentExperienceAudit: buildCurrentExperienceAudit(),
+      crossMediumEvidence: evidence,
+    });
+    const concept = buildExperienceConceptsFromSnapshot({ snapshot, profile: null, crossMediumEvidence: evidence, appetiteLineage: null })[0];
+    const bible = buildExperienceBible({ concept, host, client });
     expect(experienceBibleCompletenessTest(bible)).toBe(true);
   });
 });
@@ -280,9 +354,17 @@ describe('INFORMATION_BEHAVIOR_TEST', () => {
 
 describe('INTERACTION_GRAMMAR_TEST', () => {
   it('defines interaction grammar', () => {
-    const { territory, expression } = territoryPair();
-    const concept = buildExperienceConceptsForTerritory({ territory, world: expression, appetiteLineage: null })[0];
-    expect(concept.interactionGrammar).toMatch(/INSPECT|OPEN|ENTER/);
+    const evidence = buildAllExperimentDTerritoryEvidence();
+    const snapshot = compileExperimentEIntelligenceSnapshot({
+      profile: null,
+      functionalCanon: extractNdxbookFunctionalCanon(),
+      hostCanon: buildHostExperienceCanon(),
+      clientCanon: buildClientExperienceCanon({ profile: null, territory: null, world: null, crossMediumEvidence: evidence }),
+      currentExperienceAudit: buildCurrentExperienceAudit(),
+      crossMediumEvidence: evidence,
+    });
+    const concept = buildExperienceConceptsFromSnapshot({ snapshot, profile: null, crossMediumEvidence: evidence, appetiteLineage: null })[0];
+    expect(concept.interactionGrammar).toMatch(/TUNE|OPEN|PICK UP|INSPECT|ACKNOWLEDGE/);
   });
 });
 
@@ -505,10 +587,11 @@ describe('NO_DEPLOY_TIME_VISUAL_GENERATION_TEST', () => {
   beforeEach(() => resetExperimentEMemory());
 
   it('does not auto-generate visuals on concept formation', async () => {
-    await selectExperienceTestTerritory({ directionName: 'THE MARKED-UP COPY' });
+    await refreshExperienceExpressionRun();
     const run = await formExperienceConcepts();
     expect(run.visualGenerationStarted).toBe(false);
     expect(run.visualAssets.length).toBe(0);
+    expect(run.accounting.gptImage2Requests).toBe(0);
   });
 });
 
