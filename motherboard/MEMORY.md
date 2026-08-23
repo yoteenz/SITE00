@@ -3178,3 +3178,16 @@ Summary: Founder six-direction run FAILED at distinctiveness gate — CLONE RISK
 
 - **Fix:** Clone signals are observational only (never block generation). Collapse overlap also reported but non-blocking. Removed throw in `sixDirectionConsistencyService`. FAILED runs reset + retry button in UI.
 - **Principle:** Convergent directions are valid experimental evidence — gate reports, does not enforce diversity.
+
+---
+
+## 2026-08-23 — Canonical six-direction creative range validation (Experiment B)
+
+Summary: Founder requested correction from blind shadow-formation Experiment A to canonical six-direction creative range validation — generate one first-pass hero per established NDXBOOK direction from canonical formation intelligence, not shadow v1+v2 roster.
+
+- **Experiment A preserved:** `/projects/ndxbook/personality-replay/consistency` — BLIND FORMATION CONSISTENCY VALIDATION; shadow formations; convergence evidence unchanged.
+- **Experiment B added:** `/projects/ndxbook/canonical-creative-range` — CANONICAL CREATIVE RANGE VALIDATION; roster from founder comparison set v1 (01–03) + v2 (04–06) via `resolveCanonicalCreativeRangeDirectionsFromFormations()`; hard fail on near-miss names (e.g. THE MARKED COPY).
+- **Pipeline:** `canonicalCreativeRangeService.ts` — preflight → per-direction DNA envelope → cross-direction isolation → DES→IAD→CES→brief→GPT Image 2; first-pass only; separate in-memory store `ndxbook-canonical-creative-range`.
+- **Preflight:** `buildCanonicalRangeGenerationPreflight` — blocks if roster/palette/typography/format derivation fails; zero image credits until ready. Fixed v1 palette bug: empty `coreColorLogic` must not mask populated `colorLogic` (`firstNonEmpty` in `directionDnaEnvelope.ts`).
+- **Tests:** 1019 pass — roster, near-miss, contamination, host font, format rotation, experiment isolation, service integration stub.
+- **Founder action:** Merge PR; Railway redeploy API; cPanel v13 for UI; open canonical range page → RUN CANONICAL RANGE VALIDATION (6 sequential heroes). Experiment A and B verdicts must never be mixed.

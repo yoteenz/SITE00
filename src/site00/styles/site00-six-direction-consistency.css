@@ -133,8 +133,15 @@
   line-height: 1.45;
 }
 
-.site00-six-dir-review__audit summary {
-  cursor: pointer;
-  letter-spacing: 0.06em;
-  margin-bottom: 0.5rem;
+.site00-six-dir-review__experiment {
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  opacity: 0.75;
+  margin-bottom: 0.35rem;
+}
+
+@media (min-width: 1100px) {
+  .site00-six-dir-review__grid--canonical {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }

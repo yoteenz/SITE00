@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { SixDirectionConsistencyReview } from '../components/validation/SixDirectionConsistencyReview';
 import { usePersonalityReplayIntake, PersonalityReplayIntakeProvider } from '../hooks/usePersonalityReplayIntake';
-import { site00ProjectPath } from '../config/routes';
+import { site00ProjectPath, SITE00_ROUTES } from '../config/routes';
 import { projectPersonalityReplayReviewPath } from '../config/personalityReplayRoutes';
 import { projectDisplayName } from '../utils/projectDisplayName';
 import '../styles/site00-replay-execution.css';
@@ -40,6 +40,10 @@ function ProjectSixDirectionConsistencyPageInner({ projectSlug }: { projectSlug:
             <h1 className="site00-project-lore-calibration__project">{projectTitle}</h1>
             <p className="site00-project-lore-calibration__headline">SIX-DIRECTION BLIND CREATIVE CONSISTENCY</p>
             <Link to={projectPersonalityReplayReviewPath(projectSlug)}>← BACK TO REPLAY REVIEW</Link>
+            {' · '}
+            <Link to={SITE00_ROUTES.projectCanonicalCreativeRange.replace(':projectSlug', projectSlug)}>
+              EXPERIMENT B — CANONICAL RANGE →
+            </Link>
             {' · '}
             <Link to={site00ProjectPath(projectSlug)}>PROJECT</Link>
           </header>

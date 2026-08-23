@@ -76,7 +76,10 @@ export function SixDirectionConsistencyReview({
   if (!consistency) {
     return (
       <section className="site00-six-dir-review" aria-label="Six-direction consistency validation">
-        <h3 className="site00-six-dir-review__title">SIX-DIRECTION CONSISTENCY REVIEW</h3>
+        <h3 className="site00-six-dir-review__title">BLIND FORMATION CONSISTENCY VALIDATION</h3>
+        <p className="site00-six-dir-review__meta site00-six-dir-review__experiment">
+          EXPERIMENT A — blind personality → independent formation
+        </p>
         <p className="site00-six-dir-review__meta">
           Test whether the blind replay methodology produces six strong, differentiated heroes — not five
           variations of direction #1.
@@ -102,7 +105,10 @@ export function SixDirectionConsistencyReview({
 
   return (
     <section className="site00-six-dir-review" aria-label="Six-direction consistency validation">
-      <h3 className="site00-six-dir-review__title">SIX-DIRECTION CONSISTENCY REVIEW</h3>
+      <h3 className="site00-six-dir-review__title">BLIND FORMATION CONSISTENCY VALIDATION</h3>
+      <p className="site00-six-dir-review__meta site00-six-dir-review__experiment">
+        EXPERIMENT A — blind personality → independent formation
+      </p>
       <p className="site00-six-dir-review__meta">
         STATUS: {consistency.status.replace(/_/g, ' ')}
         {consistency.currentDirectionIndex ? ` · DIRECTION ${consistency.currentDirectionIndex}` : ''}

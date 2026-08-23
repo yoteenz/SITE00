@@ -59,6 +59,7 @@ export const SITE00_ROUTES = {
   projectLoreCalibration: '/projects/:projectSlug/calibrate',
   projectPersonalityReplay: '/projects/:projectSlug/personality-replay',
   projectPersonalityReplayConsistency: '/projects/:projectSlug/personality-replay/consistency',
+  projectCanonicalCreativeRange: '/projects/:projectSlug/canonical-creative-range',
   projectPersonalityReplayStep: '/projects/:projectSlug/personality-replay/:stepId',
   projectConnections: '/projects/:projectSlug/connections',
   support: '/support',

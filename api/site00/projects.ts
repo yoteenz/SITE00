@@ -26,6 +26,12 @@ import {
   executeSixDirectionConsistencyValidation,
   setSixDirectionFounderJudgment,
 } from '../_lib/site00Evolve/creativeDirection/personalityReplay/sixDirectionConsistencyService.js';
+import {
+  executeCanonicalCreativeRangeValidation,
+  getCanonicalCreativeRangeRun,
+  getCanonicalRangePreflight,
+  setCanonicalRangeFounderJudgment,
+} from '../_lib/site00Evolve/creativeDirection/canonicalCreativeRange/canonicalCreativeRangeService.js';
 
 function setCors(res: VercelResponse): void {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -570,6 +576,74 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const replay = await setSixDirectionFounderJudgment({ replayId, comparisonIndex, judgment });
         return json(res, 200, { ok: true, replay, source: 'site00_personality_replay' });
+      }
+      case 'canonical_creative_range_preflight': {
+        if (req.method !== 'GET' && req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'METHOD_NOT_ALLOWED', message: 'GET or POST required' } });
+        }
+        const slug = String(req.query.slug ?? parseBody(req)?.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const preflight = await getCanonicalRangePreflight();
+        return json(res, 200, { ok: true, preflight, source: 'site00_canonical_creative_range' });
+      }
+      case 'canonical_creative_range_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await getCanonicalCreativeRangeRun();
+        return json(res, 200, { ok: true, run, source: 'site00_canonical_creative_range' });
+      }
+      case 'canonical_creative_range_execute': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const existing = await getCanonicalCreativeRangeRun();
+        if (existing?.status === 'COMPLETE') {
+          return json(res, 200, { ok: true, run: existing, source: 'site00_canonical_creative_range' });
+        }
+        if (process.env.VITEST === 'true') {
+          const run = await executeCanonicalCreativeRangeValidation();
+          return json(res, 200, { ok: true, run, source: 'site00_canonical_creative_range' });
+        }
+        void executeCanonicalCreativeRangeValidation().catch((err) => {
+          console.error('[canonical-creative-range] execute failed', err);
+        });
+        const run = await getCanonicalCreativeRangeRun();
+        return json(res, 202, { ok: true, run, source: 'site00_canonical_creative_range' });
+      }
+      case 'canonical_creative_range_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const comparisonIndex = Number(body.comparisonIndex ?? 0);
+        const judgment = body.judgment as 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_NDXBOOK' | null;
+        if (slug !== 'ndxbook' || !comparisonIndex) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await setCanonicalRangeFounderJudgment({ comparisonIndex, judgment });
+        return json(res, 200, { ok: true, run, source: 'site00_canonical_creative_range' });
       }
       default:
         return json(res, 400, {

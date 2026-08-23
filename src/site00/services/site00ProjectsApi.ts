@@ -195,4 +195,34 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, replayId, comparisonIndex, judgment }),
       },
     ),
+  canonicalCreativeRangePreflight: (slug: string) =>
+    projectsFetch<{ ok: true; preflight: Record<string, unknown> }>(
+      `/api/site00/projects?action=canonical_creative_range_preflight&slug=${encodeURIComponent(slug)}`,
+    ),
+  canonicalCreativeRangeGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=canonical_creative_range_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  canonicalCreativeRangeExecute: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      '/api/site00/projects?action=canonical_creative_range_execute',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  canonicalCreativeRangeJudgment: (
+    slug: string,
+    comparisonIndex: number,
+    judgment: 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_NDXBOOK' | null,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=canonical_creative_range_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, comparisonIndex, judgment }),
+      },
+    ),
 };
