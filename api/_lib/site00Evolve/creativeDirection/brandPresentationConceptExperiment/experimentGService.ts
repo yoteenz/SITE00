@@ -39,7 +39,14 @@ import { NDXBOOK_ORG_ID } from '../creativeIntelligence/founderComparisonSet.js'
 import * as experimentGStore from './storeAdapter.js';
 
 /** Anthropic formation is synchronous; longer than this implies a crashed/timed-out request. */
-const STALE_FORMING_MS = 10 * 60 * 1000;
+const STALE_FORMING_MS = 15 * 60 * 1000;
+
+/** In-flight formation guard — one background worker per run id per process. */
+const activeFormationRuns = new Set<string>();
+
+function shouldRunFormationSynchronously(): boolean {
+  return process.env.VITEST === 'true';
+}
 
 function nowIso(): string {
   return new Date().toISOString();
@@ -371,6 +378,83 @@ export async function prepareExperimentGSnapshot(): Promise<BrandPresentationCon
   return experimentGStore.saveBrandPresentationConceptFormationRun(updated);
 }
 
+async function executeBrandPresentationFormationWork(runId: string): Promise<void> {
+  if (activeFormationRuns.has(runId)) return;
+  activeFormationRuns.add(runId);
+
+  try {
+    let run = await experimentGStore.getBrandPresentationConceptFormationRun(runId);
+    if (!run || run.status !== 'FORMING') return;
+
+    const { concepts: rawConcepts, receipt, accountingDelta } = await dispatchBrandPresentationFormation({
+      snapshot: run.intelligenceSnapshot,
+      formationVersion: run.formationVersion,
+    });
+
+    const promptFingerprint = receipt.promptFingerprint;
+    const concepts = rawConcepts.map((c) =>
+      normalizeConcept(c, {
+        formationVersion: run!.formationVersion,
+        snapshotFingerprint: run!.intelligenceSnapshot!.fingerprint,
+        promptFingerprint,
+      }),
+    );
+    const orthogonality = runBrandPresentationOrthogonalityEvaluation(concepts);
+
+    const status =
+      orthogonality.reformationRecommended
+        ? 'NEEDS_REFORMATION'
+        : concepts.every((c) => c.brandPresentationLevel?.answersBrandPresentationQuestion)
+          ? 'EVALUATIONS_COMPLETE'
+          : 'CONCEPTS_FORMED';
+
+    run = {
+      ...run,
+      concepts,
+      orthogonality,
+      formationReceipt: receipt,
+      intelligenceSnapshot: { ...run.intelligenceSnapshot!, frozen: true },
+      status,
+      formationStartedAt: null,
+      directionDevelopmentAllowed: false,
+      visualGenerationAllowed: false,
+      contentGenerationAllowed: false,
+      brandCanonMutationAllowed: false,
+      accounting: {
+        ...run.accounting,
+        anthropicRequests: run.accounting.anthropicRequests + (accountingDelta.anthropicRequests ?? 0),
+        anthropicInputTokens: run.accounting.anthropicInputTokens + (accountingDelta.anthropicInputTokens ?? 0),
+        anthropicOutputTokens: run.accounting.anthropicOutputTokens + (accountingDelta.anthropicOutputTokens ?? 0),
+        anthropicEstimatedCostUsd:
+          run.accounting.anthropicEstimatedCostUsd + (accountingDelta.anthropicEstimatedCostUsd ?? 0),
+      },
+      completedAt: nowIso(),
+      error: null,
+    };
+
+    await experimentGStore.saveBrandPresentationConceptFormationRun(run);
+  } catch (err) {
+    const failed = await experimentGStore.getBrandPresentationConceptFormationRun(runId);
+    if (!failed || failed.status !== 'FORMING') return;
+    await experimentGStore.saveBrandPresentationConceptFormationRun({
+      ...failed,
+      status: 'FAILED',
+      formationStartedAt: null,
+      error: err instanceof Error ? err.message : 'Formation failed',
+    });
+  } finally {
+    activeFormationRuns.delete(runId);
+  }
+}
+
+function enqueueBrandPresentationFormationWork(runId: string): void {
+  queueMicrotask(() => {
+    void executeBrandPresentationFormationWork(runId).catch((err) => {
+      console.error('[experiment-g] background formation failed', runId, err);
+    });
+  });
+}
+
 export async function formSixBrandPresentationConcepts(params?: {
   forceReform?: boolean;
   /** Bypass stale guard when founder retries a stalled FORMING record. */
@@ -405,62 +489,14 @@ export async function formSixBrandPresentationConcepts(params?: {
   run = { ...run, status: 'FORMING', idempotencyKey, error: null, formationStartedAt: nowIso() };
   await experimentGStore.saveBrandPresentationConceptFormationRun(run);
 
-  try {
-    const { concepts: rawConcepts, receipt, accountingDelta } = await dispatchBrandPresentationFormation({
-      snapshot: run.intelligenceSnapshot,
-      formationVersion: run.formationVersion,
-    });
-
-    const promptFingerprint = receipt.promptFingerprint;
-    const concepts = rawConcepts.map((c) =>
-      normalizeConcept(c, {
-        formationVersion: run.formationVersion,
-        snapshotFingerprint: run.intelligenceSnapshot!.fingerprint,
-        promptFingerprint,
-      }),
-    );
-    const orthogonality = runBrandPresentationOrthogonalityEvaluation(concepts);
-
-    const status =
-      orthogonality.reformationRecommended
-        ? 'NEEDS_REFORMATION'
-        : concepts.every((c) => c.brandPresentationLevel?.answersBrandPresentationQuestion)
-          ? 'EVALUATIONS_COMPLETE'
-          : 'CONCEPTS_FORMED';
-
-    run = {
-      ...run,
-      concepts,
-      orthogonality,
-      formationReceipt: receipt,
-      intelligenceSnapshot: { ...run.intelligenceSnapshot!, frozen: true },
-      status,
-      formationStartedAt: null,
-      directionDevelopmentAllowed: false,
-      visualGenerationAllowed: false,
-      contentGenerationAllowed: false,
-      brandCanonMutationAllowed: false,
-      accounting: {
-        ...run.accounting,
-        anthropicRequests: run.accounting.anthropicRequests + (accountingDelta.anthropicRequests ?? 0),
-        anthropicInputTokens: run.accounting.anthropicInputTokens + (accountingDelta.anthropicInputTokens ?? 0),
-        anthropicOutputTokens: run.accounting.anthropicOutputTokens + (accountingDelta.anthropicOutputTokens ?? 0),
-        anthropicEstimatedCostUsd:
-          run.accounting.anthropicEstimatedCostUsd + (accountingDelta.anthropicEstimatedCostUsd ?? 0),
-      },
-      completedAt: nowIso(),
-    };
-
-    return experimentGStore.saveBrandPresentationConceptFormationRun(run);
-  } catch (err) {
-    run = {
-      ...run,
-      status: 'FAILED',
-      formationStartedAt: null,
-      error: err instanceof Error ? err.message : 'Formation failed',
-    };
-    return experimentGStore.saveBrandPresentationConceptFormationRun(run);
+  if (shouldRunFormationSynchronously()) {
+    await executeBrandPresentationFormationWork(EXPERIMENT_G_RUN_ID);
+    const completed = await experimentGStore.getBrandPresentationConceptFormationRun();
+    return completed ?? run;
   }
+
+  enqueueBrandPresentationFormationWork(EXPERIMENT_G_RUN_ID);
+  return run;
 }
 
 export async function setExperimentGConceptJudgment(params: {

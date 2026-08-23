@@ -199,8 +199,9 @@ export function ExperimentGBrandPresentationConceptReview({
       </div>
       {run?.status === 'FORMING' ? (
         <p className="site00-experiment-g__pending">
-          Formation in progress… This runs synchronously (usually 2–5 minutes). It is not a background job.
-          If this message persists more than 10 minutes, refresh the page or tap RETRY STALLED FORMATION.
+          Formation running as a background job on the server (usually 2–5 minutes). You can leave this page —
+          status refreshes every few seconds. If it stays stuck more than 15 minutes, refresh or tap RETRY STALLED
+          FORMATION.
         </p>
       ) : concepts.length === 0 ? (
         <p className="site00-experiment-g__pending">

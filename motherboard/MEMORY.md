@@ -3887,3 +3887,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Constraints honored:** No `/projects` production mutation; no new Projects design proof generated during sprint; World Formation blocked; Experiment D/F/G untouched.
 - **Deploy:** Railway redeploy (API) + cPanel static **v37+** for visual-development UI. Founder flow: CAPTURE/REFRESH REFERENCES → PREPARE INTERFACE → GENERATE MISSING ASSETS → PREPARE IMPLEMENTATION → ORCHESTRATE (Composer).
 
+---
+
+## 2026-08-23 — Experiment G background formation job
+
+- **Issue:** Experiment G formation ran synchronously inside the HTTP request (~2–5 min Anthropic call), causing Railway/gateway timeouts and stuck `FORMING` status.
+- **Fix:** `formSixBrandPresentationConcepts` now sets `FORMING`, returns immediately, and runs Anthropic formation via `queueMicrotask` on the server (same pattern as creative-direction production jobs). Vitest still runs synchronously for tests.
+- **UI:** Experiment G page polls every 5s while `FORMING`; copy updated to say background job — safe to leave page.
+- **Stale guard:** Extended to 15 minutes before auto-FAILED on orphaned `FORMING`.
+- **Deploy:** Railway redeploy (API) + cPanel static for Experiment G UI polling copy.
+
