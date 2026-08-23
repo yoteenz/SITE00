@@ -2904,3 +2904,15 @@ Summary: Founder requested a **project-page button** for blind personality repla
 - **Legacy redirect:** `/validation/ndxbook/replay/:replayId/personality/*` routes redirect to project tunnel (no broken bookmarks).
 - **Tests/build:** 923 tests pass; `tsc --noEmit` + `npm run build` green.
 - **Branch:** `cursor/ndxbook-personality-replay-project-button-4f59`.
+
+---
+
+## 2026-08-23 — Personality replay intake bootstrap fix (stuck on PREPARING)
+
+Summary: Founder reported personality replay page stuck on **"PREPARING PERSONALITY INTAKE…"** on fsbw-dev mobile tunnel.
+
+- **Root cause:** Bootstrap only ran on base route (`/personality-replay`), not on step routes. React Router remounts the page when redirecting to `/personality-replay/:stepId`, and the stepId guard prevented bootstrap from ever firing when localStorage lacked a replay id.
+- **Fix:** Auto-bootstrap inside `usePersonalityReplayIntake` whenever ndxbook + no replayId (any route). Resume redirect moved to a separate effect after bootstrap completes. Stale local replay ids cleared on failed reload. TRY AGAIN button on bootstrap errors.
+- **Dev resilience:** Replay store falls back to in-memory when Supabase service role or validation migration table is missing (instead of hard 500).
+- **Shared:** `resolvePersonalityReplayResumeStepId()` moved to `personalityReadiness.ts` for client + server reuse.
+- **Branch:** `cursor/personality-replay-bootstrap-fix-4f59`.

@@ -27,15 +27,17 @@ export async function resolveReplayStoreMode(): Promise<'memory' | 'supabase'> {
   }
   if (storeModeCache) return storeModeCache;
   if (!hasSupabaseServiceRole()) {
-    throw new PersonalityReplayStoreUnavailableError(
-      'Replay persistence requires SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY',
-    );
+    console.warn('[personality-replay] Supabase unavailable — using in-memory replay store');
+    storeModeCache = 'memory';
+    return 'memory';
   }
   const exists = await db.methodologyValidationTablesExist();
   if (!exists) {
-    throw new PersonalityReplayStoreUnavailableError(
-      'Run supabase/migrations/20260823010000_site00_methodology_validation_runs.sql',
+    console.warn(
+      '[personality-replay] Validation tables missing — using in-memory replay store. Run supabase/migrations/20260823010000_site00_methodology_validation_runs.sql',
     );
+    storeModeCache = 'memory';
+    return 'memory';
   }
   storeModeCache = 'supabase';
   return 'supabase';
