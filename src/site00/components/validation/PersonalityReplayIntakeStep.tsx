@@ -15,10 +15,13 @@ import { useSite00DesktopArtboardPreview } from '../shell/Site00DesktopArtboardC
 import { site00IdntyAssessmentDesktopPath } from '../../config/routes';
 import { IntakeSaveStatus } from '../intake/IntakeSaveStatus';
 import { usePersonalityReplayIntake } from '../../hooks/usePersonalityReplayIntake';
-import { personalityReplayIntakePath, personalityReplayReviewPath } from '../../config/personalityReplayRoutes';
+import {
+  projectPersonalityReplayStepPath,
+  projectPersonalityReplayReviewPath,
+} from '../../config/personalityReplayRoutes';
 
 type PersonalityReplayIntakeStepProps = {
-  replayId: string;
+  projectSlug: string;
   stepId: string;
 };
 
@@ -30,12 +33,12 @@ function isCaptured(value: unknown, skippable?: boolean): boolean {
 }
 
 /** Blind replay intake — canonical personality UI, no benchmark exposure. */
-export function PersonalityReplayIntakeStep({ replayId, stepId }: PersonalityReplayIntakeStepProps) {
+export function PersonalityReplayIntakeStep({ projectSlug, stepId }: PersonalityReplayIntakeStepProps) {
   const navigate = useNavigate();
   const isDesktop = useSite00DesktopArtboardPreview();
   const step = getPersonalityQuestion(stepId);
-  const { answers, setAnswer, markStepComplete, saveState, saveError, lastSavedAt } =
-    usePersonalityReplayIntake(replayId);
+  const { answers, setAnswer, markStepComplete, saveState, saveError, lastSavedAt, replayId } =
+    usePersonalityReplayIntake(projectSlug);
 
   const activeSteps = useMemo(() => IDNTY_PERSONALITY_QUESTIONS, []);
   const existingValue =
@@ -47,8 +50,10 @@ export function PersonalityReplayIntakeStep({ replayId, stepId }: PersonalityRep
     form.setValue(existingValue);
   }, [stepId]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  if (!replayId) return null;
+
   if (!step) {
-    navigate(personalityReplayIntakePath(replayId, IDNTY_PERSONALITY_QUESTIONS[0]!.id));
+    navigate(projectPersonalityReplayStepPath(projectSlug, IDNTY_PERSONALITY_QUESTIONS[0]!.id));
     return null;
   }
 
@@ -63,9 +68,9 @@ export function PersonalityReplayIntakeStep({ replayId, stepId }: PersonalityRep
 
     const nextIdx = IDNTY_PERSONALITY_QUESTIONS.findIndex((q) => q.id === stepId) + 1;
     if (nextIdx < IDNTY_PERSONALITY_QUESTIONS.length) {
-      navigateTo(personalityReplayIntakePath(replayId, IDNTY_PERSONALITY_QUESTIONS[nextIdx]!.id));
+      navigateTo(projectPersonalityReplayStepPath(projectSlug, IDNTY_PERSONALITY_QUESTIONS[nextIdx]!.id));
     } else {
-      navigateTo(personalityReplayReviewPath(replayId));
+      navigateTo(projectPersonalityReplayReviewPath(projectSlug));
     }
   };
 
@@ -78,7 +83,7 @@ export function PersonalityReplayIntakeStep({ replayId, stepId }: PersonalityRep
   const handleBack = () => {
     if (stepIndex <= 0) return;
     const prev = activeSteps[stepIndex - 1];
-    if (prev) navigateTo(personalityReplayIntakePath(replayId, prev.id));
+    if (prev) navigateTo(projectPersonalityReplayStepPath(projectSlug, prev.id));
   };
 
   const captured = isCaptured(form.value, step.skippable);

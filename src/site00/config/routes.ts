@@ -57,6 +57,8 @@ export const SITE00_ROUTES = {
   projectEvolve: '/projects/:projectSlug/evolve',
   projectCreativeDirection: '/projects/:projectSlug/creative-direction',
   projectLoreCalibration: '/projects/:projectSlug/calibrate',
+  projectPersonalityReplay: '/projects/:projectSlug/personality-replay',
+  projectPersonalityReplayStep: '/projects/:projectSlug/personality-replay/:stepId',
   projectConnections: '/projects/:projectSlug/connections',
   support: '/support',
   /** Client post-payment provisioning — project slug in path */
@@ -92,6 +94,14 @@ export function site00ProjectPath(projectSlug: string): string {
 
 export function site00ProjectLoreCalibrationPath(projectSlug: string): string {
   return `/projects/${projectSlug}/calibrate`;
+}
+
+export function site00ProjectPersonalityReplayPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/personality-replay`;
+}
+
+export function site00ProjectPersonalityReplayStepPath(projectSlug: string, stepId: string): string {
+  return `/projects/${projectSlug}/personality-replay/${stepId}`;
 }
 
 export function site00ProjectEvolvePath(projectSlug: string): string {

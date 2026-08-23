@@ -131,4 +131,30 @@ export const site00ProjectsApi = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ slug, answers }),
     }),
+  personalityReplayBootstrap: (slug: string) =>
+    projectsFetch<{
+      ok: true;
+      replay: { replayId: string; status: string; rawPersonalityAnswers: Record<string, string | string[]> };
+      resumeStepId: string;
+    }>(`/api/site00/projects?action=personality_replay_bootstrap&slug=${encodeURIComponent(slug)}`),
+  personalityReplayGet: (slug: string, replayId: string) =>
+    projectsFetch<{ ok: true; replay: Record<string, unknown> }>(
+      `/api/site00/projects?action=personality_replay_get&slug=${encodeURIComponent(slug)}&replayId=${encodeURIComponent(replayId)}`,
+    ),
+  personalityReplaySave: (
+    slug: string,
+    replayId: string,
+    payload: { answers: Record<string, string | string[]>; completedSteps?: string[] },
+  ) =>
+    projectsFetch<{ ok: true; replay: { status: string } }>('/api/site00/projects?action=personality_replay_save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug, replayId, ...payload }),
+    }),
+  personalityReplayComplete: (slug: string, replayId: string) =>
+    projectsFetch<{ ok: true; replay: { status: string } }>('/api/site00/projects?action=personality_replay_complete', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug, replayId }),
+    }),
 };
