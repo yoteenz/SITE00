@@ -3002,3 +3002,13 @@ Summary: Founder on production **site00.com** saw **SAVE FAILED · LOAD FAILED**
 - **Fix:** `serializeApiFetchBody()` in `src/utils/api.ts` — pass through string bodies; global API CORS middleware in `server/index.ts` so parse/error responses still include `Access-Control-Allow-Origin`.
 - **Deploy:** Frontend fix requires new cPanel ZIP; API CORS fix requires Railway redeploy.
 - **Branch:** `cursor/personality-replay-save-cors-fix-4f59`.
+
+---
+
+## 2026-08-23 — Personality replay submit button dead on review
+
+Summary: After save fix deployed, founder reached review and **SUBMIT PERSONALITY** appeared to do nothing.
+
+- **Root cause:** Review treated replay status `PERSONALITY_READY` (set by autosave when all domains satisfied) as already submitted — button disabled with label **PERSONALITY SUBMITTED** before `personality_replay_complete` ran. Submit errors were also swallowed with no UI feedback; success navigated to admin-only validation URL.
+- **Fix:** Only `FORMATION_READY`+ counts as submitted; submit loading/error state in intake context; visible **SUBMIT ERROR** on failure; success returns founder to project page.
+- **Branch:** `cursor/personality-replay-submit-fix-4f59`.
