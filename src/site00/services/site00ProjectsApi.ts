@@ -284,4 +284,51 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, comparisonIndex, verdict, note }),
       },
     ),
+  creativeLineageForensicAudit: (slug: string) =>
+    projectsFetch<{ ok: true; report: Record<string, unknown> }>(
+      `/api/site00/projects?action=creative_lineage_forensic_audit&slug=${encodeURIComponent(slug)}`,
+    ),
+  creativeLineageNormalize: (slug: string) =>
+    projectsFetch<{ ok: true; report: Record<string, unknown>; normalized: Record<string, unknown> }>(
+      '/api/site00/projects?action=creative_lineage_normalize',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  creativeLineageLibrary: (slug: string, section = 'ALL') =>
+    projectsFetch<{ ok: true; library: Record<string, unknown> }>(
+      `/api/site00/projects?action=creative_lineage_library&slug=${encodeURIComponent(slug)}&section=${encodeURIComponent(section)}`,
+    ),
+  creativeLineageAssetUpdate: (
+    slug: string,
+    assetId: string,
+    updates: { productionState?: string; reuseState?: string; reviewState?: string },
+  ) =>
+    projectsFetch<{ ok: true; asset: Record<string, unknown> }>(
+      '/api/site00/projects?action=creative_lineage_asset_update',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, assetId, ...updates }),
+      },
+    ),
+  creativeLineageSalvageAction: (
+    slug: string,
+    params: {
+      winningDirectionId: string;
+      losingDirectionId: string;
+      itemId: string;
+      action: string;
+    },
+  ) =>
+    projectsFetch<{ ok: true; review: Record<string, unknown> }>(
+      '/api/site00/projects?action=creative_lineage_salvage_action',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, ...params }),
+      },
+    ),
 };
