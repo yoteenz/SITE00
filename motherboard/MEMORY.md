@@ -3897,3 +3897,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Stale guard:** Extended to 15 minutes before auto-FAILED on orphaned `FORMING`.
 - **Deploy:** Railway redeploy (API) + cPanel static for Experiment G UI polling copy.
 
+---
+
+## 2026-08-23 — Visual development blank page fix (legacy proof hydration)
+
+- **Issue:** `/projects/ndxbook/experience-expression/visual-development` white blank page on tunnel and deployed site after P1 correction deploy.
+- **Cause:** Persisted Supabase proofs predating P1 lacked `surfaceGenerationMode`, `referencePipelineStatus`, `proofLineage`, etc. UI called `.replace()` on undefined → React crash.
+- **Fix:** `hydrateSurfaceDesignProof` / `normalizeVisualDevelopmentRun` on API load; defensive optional rendering in `ProjectWorkspaceVisualDevelopmentReview`.
+- **Deploy:** Railway redeploy + cPanel **v39** static bundle.
+
