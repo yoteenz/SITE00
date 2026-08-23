@@ -3012,3 +3012,14 @@ Summary: After save fix deployed, founder reached review and **SUBMIT PERSONALIT
 - **Root cause:** Review treated replay status `PERSONALITY_READY` (set by autosave when all domains satisfied) as already submitted — button disabled with label **PERSONALITY SUBMITTED** before `personality_replay_complete` ran. Submit errors were also swallowed with no UI feedback; success navigated to admin-only validation URL.
 - **Fix:** Only `FORMATION_READY`+ counts as submitted; submit loading/error state in intake context; visible **SUBMIT ERROR** on failure; success returns founder to project page.
 - **Branch:** `cursor/personality-replay-submit-fix-4f59`.
+
+---
+
+## 2026-08-23 — Personality replay SUBMIT ERROR: REPLAY NOT FOUND
+
+Summary: After v3 deploy, founder saw **SUBMIT ERROR: REPLAY NOT FOUND** with **STATUS: CREATED** despite full local answers on review.
+
+- **Root cause:** Supabase table `site00_methodology_validation_runs` was never migrated — Railway API used **in-memory replay store**. Replays vanished on redeploy/restart; phone localStorage kept stale `replayId`. Reload failed silently and fell back to cached answers + CREATED status.
+- **Fix:** Applied migration to FS Website Supabase; client `rebindReplayFromLocal()` on replay-not-found (reload/save/submit); API maps Replay not found → 404 REPLAY_NOT_FOUND.
+- **Deploy:** Railway redeploy required so API picks up Supabase store; new cPanel ZIP for client recovery.
+- **Branch:** `cursor/personality-replay-not-found-fix-4f59`.
