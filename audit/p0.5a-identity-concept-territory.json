@@ -1,0 +1,36 @@
+{
+  "specId": "SITE00-P0.5A-IDENTITY-CONCEPT-TERRITORY",
+  "methodologyVersion": "P0.5A_PRODUCTION_METHODOLOGY_CORRECTIONS",
+  "correctedPipeline": [
+    "BRAND_BUSINESS_INTELLIGENCE",
+    "IDENTITY_FORMATION",
+    "IDENTITY_CONCEPT_TERRITORIES",
+    "DISTINCTIVENESS",
+    "FOUNDER_SELECTION",
+    "IDENTITY_DIRECTION",
+    "IDENTITY_SYSTEM",
+    "PRODUCTION",
+    "GUIDELINES",
+    "MEDIUM_EXPRESSIONS"
+  ],
+  "model": "IdentityConceptTerritory",
+  "conceptDefinition": "Governing idea for how brand identity embodies truth across verbal, visual, behavioral, and potentially motion/material expression",
+  "notAConcept": [
+    "logo idea",
+    "mood board",
+    "font",
+    "palette",
+    "visual style",
+    "slogan"
+  ],
+  "evaluators": {
+    "conceptVsDirection": "evaluateIdentityConceptVsDirection",
+    "distinctiveness": "IdentityConceptDistinctivenessEvaluation",
+    "productionReadiness": "IdentityProductionReadiness"
+  },
+  "directionModel": "IdentityDirectionCandidate",
+  "systemContract": "IdentitySystemContract",
+  "scopeAware": true,
+  "guidelinesBoundary": "IdentityGuidelinesCompiler is downstream evidence, not methodology core",
+  "generationImplemented": false
+}

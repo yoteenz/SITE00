@@ -1,0 +1,26 @@
+{
+  "specId": "SITE00-P0.5A-SEMANTIC-DISTINCTIVENESS-POLICY",
+  "methodologyVersion": "P0.5A_PRODUCTION_METHODOLOGY_CORRECTIONS",
+  "architecture": "DETERMINISTIC_PRE_CHECK → MODEL_BASED_SET_AUDIT → FOUNDER_REVIEW",
+  "deterministicPreFilter": "runDeterministicDistinctivenessPreCheck",
+  "modelBasedAuditContract": "SemanticConceptSetAudit",
+  "liveSonnetAuditExecutedInP05A": false,
+  "heuristicPassDistinction": "HEURISTIC_PASS",
+  "semanticAuditNotEvaluated": "SEMANTIC_AUDIT_NOT_EVALUATED",
+  "experimentFCompatibility": {
+    "frozenRunsImmutable": true,
+    "distinctivenessCanCarryHeuristicPassOnly": true
+  },
+  "dimensions": [
+    "shared parent concept",
+    "conceptual ancestry",
+    "direction-level clustering",
+    "viewer-role overlap",
+    "content-mechanism overlap",
+    "artifact-logic overlap",
+    "transformation-model overlap",
+    "artificial diversity"
+  ],
+  "founderReviewRequired": true,
+  "doesNotReplaceFounderJudgment": true
+}
