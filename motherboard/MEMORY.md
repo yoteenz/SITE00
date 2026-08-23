@@ -3047,3 +3047,13 @@ Summary: Founder debugged NDXBOOK personality replay on **site00.com** through s
 - **Deploy ZIPs published:** v2 (save fix), v3 (submit fix), v4 (replay recovery). Latest before this entry: **v4**.
 - **New convention (founder request):** Every agent **conclusion/summary** must **automatically** include a fresh **cPanel deploy ZIP download link** in a **code box** after the text summary — no need to ask. Recorded in `CORE.md` Production deployment section.
 - **Still required by founder:** Railway redeploy from `main`; upload latest cPanel ZIP to GoDaddy `public_html`.
+
+---
+
+## 2026-08-23 — Conclusion format: text summary + cPanel code box
+
+Summary: Founder clarified prior agent responses sent **only** the deploy code box; they want **both** every time.
+
+- **Required close format:** (1) normal **text summary** in prose, then (2) **code box** with `=== CPANEL DEPLOY (site00.com) ===`, download link, verify bundle, upload steps.
+- **Not:** code-box-only replies; not summary-only when a deploy ZIP is relevant.
+- **Updated:** `CORE.md` Production deployment section.
