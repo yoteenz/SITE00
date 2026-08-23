@@ -2968,3 +2968,16 @@ Summary: Founder requested tunnel restart.
 - **Symptom:** Public tunnel returned 000; cloudflared logs showed connection failures.
 - **Action:** Killed `site00-preview-tunnel` tmux session + `pkill cloudflared`. Relaunched fresh session with `.cursor/scripts/run-site00-preview-tunnel.sh`. Left `site00-vite` running (localhost:5174 already 200).
 - **Verified:** Tunnel + Vite both return 200; preview URL refreshed in `/tmp/site00-cloud-preview-url.txt`.
+
+---
+
+## 2026-08-23 — Production prompt normalization + format-proof enforcement (pre-replay closure)
+
+Summary: Closed remaining production-path gaps before NDXBOOK blind personality replay downstream execution.
+
+- **`productionPromptNormalization.ts`** — canonical brand context envelope for all Sonnet stages; `enrichFormationInputPayload`, `enrichDesPayload`, `enrichIdentityArtDirectionPayload`, `enrichHeroConceptPayload`, `buildVisualBriefProductionContext`, `buildIdentityArtDirectorSystemPrompt`
+- **`boardProofEnforcement.ts`** — social-first board proof validation; `assertSocialFirstBoardProof` wired into `markedUpCopyBoardPlanV4`
+- **`replayProductionPreflight.ts`** — separates `PERSONALITY_REPLAY_INFRASTRUCTURE_READY` vs `PERSONALITY_REPLAY_PRODUCTION_READY`; blocks `buildShadowReplayFormationInput` until all gates pass
+- **Wired:** Core Direction (`anthropicProvider`), DES, Identity Art Direction, Hero concept (`primaryProofFormat`), Identity visual brief, GPT Image 2 prompt normalization, board compositor NDXBOOK labels
+- **Tests:** 12 new in `productionPromptNormalization.test.ts`; 955 total passing. Build green.
+- **Branch:** `cursor/production-prompt-normalization-4f59`.
