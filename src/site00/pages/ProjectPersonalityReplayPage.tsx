@@ -6,13 +6,16 @@ import { usePersonalityReplayIntake, PersonalityReplayIntakeProvider } from '../
 import {
   projectPersonalityReplayStepPath,
   projectPersonalityReplayReviewPath,
-  personalityReplayValidationAdminPath,
 } from '../config/personalityReplayRoutes';
 import { site00ProjectPath, site00ProjectCreativeDirectionPath } from '../config/routes';
 import { IdntyAssessmentShell } from '../components/idnty-assessment/IdntyAssessmentShell';
 import { getIdntyAssessmentState } from '../config/idnty-assessment';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { projectDisplayName } from '../utils/projectDisplayName';
+import {
+  canSubmitPersonalityReplayIntake,
+  isPersonalityReplayIntakeSubmitted,
+} from '../utils/personalityReplaySubmit';
 import '../styles/site00-project-lore-calibration.css';
 import '../styles/site00-creative-direction.css';
 
@@ -50,6 +53,8 @@ function ProjectPersonalityReplayPageInner({
     resumeStepId,
     retryBootstrap,
     saveError,
+    submitState,
+    submitError,
   } = usePersonalityReplayIntake(projectSlug);
 
   useEffect(() => {
@@ -94,7 +99,12 @@ function ProjectPersonalityReplayPageInner({
 
   if (!stepId || stepId === 'review') {
     const sections = buildPersonalitySummaryFromAnswers(answers);
-    const intakeComplete = status === 'FORMATION_READY' || status === 'PERSONALITY_READY';
+    const intakeSubmitted = isPersonalityReplayIntakeSubmitted(status);
+    const canSubmit = canSubmitPersonalityReplayIntake({
+      status,
+      hasAnswers: sections.length > 0,
+      submitting: submitState === 'submitting',
+    });
     return (
       <EcosystemShell hidePageHeader>
         <div className="site00-cd site00-cd--project-calibration">
@@ -123,20 +133,32 @@ function ProjectPersonalityReplayPageInner({
                 {saveError ? (
                   <p className="site00-idnty-calibration-review__empty">SAVE ERROR: {saveError}</p>
                 ) : null}
+                {submitError ? (
+                  <p className="site00-idnty-calibration-review__empty" role="alert">
+                    SUBMIT ERROR: {submitError}
+                  </p>
+                ) : null}
                 <button
                   type="button"
                   className="site00-idnty-calibration-nav__continue"
-                  disabled={!sections.length || intakeComplete}
+                  disabled={!canSubmit}
                   onClick={async () => {
-                    await submitIntake();
-                    if (replayId) {
-                      navigate(personalityReplayValidationAdminPath(replayId));
-                    }
+                    const ok = await submitIntake();
+                    if (ok) navigate(site00ProjectPath(projectSlug));
                   }}
                 >
-                  {intakeComplete ? 'PERSONALITY SUBMITTED' : 'SUBMIT PERSONALITY'}
+                  {submitState === 'submitting'
+                    ? 'SUBMITTING…'
+                    : intakeSubmitted
+                      ? 'PERSONALITY SUBMITTED'
+                      : 'SUBMIT PERSONALITY'}
                 </button>
                 <p className="site00-idnty-calibration-rail__category">STATUS: {status ?? 'IN PROGRESS'}</p>
+                {intakeSubmitted ? (
+                  <p className="site00-idnty-calibration-rail__category">
+                    YOUR PERSONALITY INTAKE IS ON FILE. RETURN TO THE PROJECT TO CONTINUE.
+                  </p>
+                ) : null}
               </div>
             </IdntyAssessmentShell>
           </div>

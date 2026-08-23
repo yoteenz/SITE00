@@ -26,6 +26,8 @@ export type PersonalityReplayIntakeState = {
   status: string | null;
   saveState: 'idle' | 'saving' | 'saved' | 'error';
   saveError: string | null;
+  submitState: 'idle' | 'submitting' | 'submitted' | 'error';
+  submitError: string | null;
   lastSavedAt: string | null;
   bootstrapping: boolean;
   bootstrapError: string | null;
@@ -36,7 +38,7 @@ type PersonalityReplayIntakeContextValue = PersonalityReplayIntakeState & {
   setAnswer: (stepId: string, value: string | string[]) => void;
   markStepComplete: (stepId: string) => void;
   advanceStep: (stepId: string, value: string | string[]) => Promise<void>;
-  submitIntake: () => Promise<void>;
+  submitIntake: () => Promise<boolean>;
   reload: () => Promise<void>;
   bootstrap: () => Promise<string | null>;
   retryBootstrap: () => void;
@@ -102,6 +104,8 @@ export function PersonalityReplayIntakeProvider({
   const [status, setStatus] = useState<string | null>(local?.status ?? null);
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [submitState, setSubmitState] = useState<'idle' | 'submitting' | 'submitted' | 'error'>('idle');
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [lastSavedAt, setLastSavedAt] = useState<string | null>(local?.lastSavedAt ?? null);
   const [bootstrapping, setBootstrapping] = useState(false);
   const [bootstrapError, setBootstrapError] = useState<string | null>(null);
@@ -306,10 +310,20 @@ export function PersonalityReplayIntakeProvider({
     [saveToServer],
   );
 
-  const submitIntake = useCallback(async () => {
-    if (!replayId) return;
-    await site00ProjectsApi.personalityReplayComplete(projectSlug, replayId);
-    await reload();
+  const submitIntake = useCallback(async (): Promise<boolean> => {
+    if (!replayId) return false;
+    setSubmitState('submitting');
+    setSubmitError(null);
+    try {
+      await site00ProjectsApi.personalityReplayComplete(projectSlug, replayId);
+      await reload();
+      setSubmitState('submitted');
+      return true;
+    } catch (err) {
+      setSubmitState('error');
+      setSubmitError(err instanceof Error ? err.message : 'Submit failed');
+      return false;
+    }
   }, [projectSlug, replayId, reload]);
 
   const value = useMemo<PersonalityReplayIntakeContextValue>(
@@ -321,6 +335,8 @@ export function PersonalityReplayIntakeProvider({
       status,
       saveState,
       saveError,
+      submitState,
+      submitError,
       lastSavedAt,
       bootstrapping,
       bootstrapError,
@@ -341,6 +357,8 @@ export function PersonalityReplayIntakeProvider({
       status,
       saveState,
       saveError,
+      submitState,
+      submitError,
       lastSavedAt,
       bootstrapping,
       bootstrapError,
