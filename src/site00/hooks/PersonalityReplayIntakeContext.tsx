@@ -14,6 +14,7 @@ import {
   type ReactNode,
 } from 'react';
 import { resolvePersonalityReplayResumeStepId } from '../../../shared/site00-brand-lore/personalityReadiness';
+import type { ReplayConvergenceReport } from '../../../shared/site00-brand-lore/personalityReplayTypes';
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
 import { isReplayNotFoundError } from '../utils/personalityReplayErrors';
 
@@ -30,6 +31,7 @@ export type PersonalityReplayIntakeState = {
   executionJobId: string | null;
   nativeProofFormat: string | null;
   heroAsset: { assetId?: string; storagePath?: string } | null;
+  comparisonReport: ReplayConvergenceReport | null;
   saveState: 'idle' | 'saving' | 'saved' | 'error';
   saveError: string | null;
   submitState: 'idle' | 'submitting' | 'submitted' | 'error';
@@ -113,6 +115,7 @@ export function PersonalityReplayIntakeProvider({
   const [executionJobId, setExecutionJobId] = useState<string | null>(null);
   const [nativeProofFormat, setNativeProofFormat] = useState<string | null>(null);
   const [heroAsset, setHeroAsset] = useState<{ assetId?: string; storagePath?: string } | null>(null);
+  const [comparisonReport, setComparisonReport] = useState<ReplayConvergenceReport | null>(null);
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [saveError, setSaveError] = useState<string | null>(null);
   const [submitState, setSubmitState] = useState<'idle' | 'submitting' | 'submitted' | 'error'>('idle');
@@ -156,6 +159,7 @@ export function PersonalityReplayIntakeProvider({
       executionJobId?: string | null;
       nativeProofFormat?: string | null;
       heroAsset?: { assetId?: string; storagePath?: string } | null;
+      comparisonReport?: ReplayConvergenceReport | null;
     }) => {
       const serverAnswers = payload.rawPersonalityAnswers ?? {};
       const localAnswers = readLocal(projectSlug)?.answers ?? answersRef.current;
@@ -173,6 +177,7 @@ export function PersonalityReplayIntakeProvider({
       setExecutionJobId(payload.executionJobId ?? null);
       setNativeProofFormat(payload.nativeProofFormat ?? null);
       setHeroAsset(payload.heroAsset ?? null);
+      setComparisonReport(payload.comparisonReport ?? null);
       setResumeStepId(resolvePersonalityReplayResumeStepId(nextAnswers));
       persistLocal({
         replayId: payload.replayId,
@@ -284,6 +289,7 @@ export function PersonalityReplayIntakeProvider({
         executionJobId?: string | null;
         nativeProofFormat?: string | null;
         heroAsset?: { assetId?: string; storagePath?: string } | null;
+        comparisonReport?: ReplayConvergenceReport | null;
       };
       applyReplayPayload({
         replayId: replay.replayId ?? activeReplayId,
@@ -295,6 +301,7 @@ export function PersonalityReplayIntakeProvider({
         executionJobId: replay.executionJobId,
         nativeProofFormat: replay.nativeProofFormat,
         heroAsset: replay.heroAsset,
+        comparisonReport: replay.comparisonReport,
       });
     } catch (err) {
       if (isReplayNotFoundError(err)) {
@@ -339,6 +346,7 @@ export function PersonalityReplayIntakeProvider({
           executionJobId: (result.replay as { executionJobId?: string }).executionJobId,
           nativeProofFormat: (result.replay as { nativeProofFormat?: string }).nativeProofFormat,
           heroAsset: (result.replay as { heroAsset?: { assetId?: string; storagePath?: string } }).heroAsset,
+          comparisonReport: (result.replay as { comparisonReport?: ReplayConvergenceReport }).comparisonReport,
         });
         return result.resumeStepId;
       } catch (err) {
@@ -452,6 +460,7 @@ export function PersonalityReplayIntakeProvider({
       executionJobId,
       nativeProofFormat,
       heroAsset,
+      comparisonReport,
       saveState,
       saveError,
       submitState,
@@ -479,6 +488,7 @@ export function PersonalityReplayIntakeProvider({
       executionJobId,
       nativeProofFormat,
       heroAsset,
+      comparisonReport,
       saveState,
       saveError,
       submitState,

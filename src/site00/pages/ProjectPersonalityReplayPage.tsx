@@ -62,6 +62,7 @@ function ProjectPersonalityReplayPageInner({
     executionJobId,
     nativeProofFormat,
     heroAsset,
+    comparisonReport,
     reload,
   } = usePersonalityReplayIntake(projectSlug);
 
@@ -179,6 +180,7 @@ function ProjectPersonalityReplayPageInner({
                     executionJobId,
                     nativeProofFormat,
                     heroAsset,
+                    comparisonReport,
                   }}
                   onReplayUpdate={() => {
                     void reload();

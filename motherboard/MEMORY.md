@@ -3117,3 +3117,13 @@ Summary: Founder hit repeated Sonnet JSON errors during blind replay (`Untermina
 - **Root cause:** (1) `parseStructuredJson` was bare `JSON.parse` — no repair for truncated/malformed LLM output; (2) Core Direction formation used **8192 max_tokens** while 3-direction payloads exceed that (truncation → unterminated strings); (3) DES/board v4 already had retry loops but formation, critique, revise, CES, IAD, copy gate did not.
 - **Fix (PR):** New `structuredJson.ts` with `jsonrepair`, balanced JSON extraction, `isJsonParseError`, `withStructuredJsonRetry`; formation `max_tokens` raised to **16384**; automatic **2-attempt retry** with revision hint on: `anthropicProvider` (form/critique/revise), `creativeExpressionService`, `identityNativeArtDirectorService`, `copyQualityGate`; 988 tests pass.
 - **Founder action:** Railway redeploy API from `main`; RETRY EXECUTION on replay (no questionnaire reset).
+
+---
+
+## 2026-08-23 — Founder replay comparison panel on review page
+
+Summary: Founder completed blind replay pipeline; asked where to see results; requested comparison on same page.
+
+- **Gap:** Execution panel showed REPLAY COMPLETE but no hero image or methodology comparison on founder mobile UI.
+- **Fix:** `PersonalityReplayComparisonPanel` on replay review + project detail — blind hero image, benchmark hero (post-unlock), convergence scores, personality domain classifications, methodology verdict line. `comparisonReport.benchmarkHeroStoragePath` persisted on comparison. Context reload includes `comparisonReport`.
+- **Where to view:** PROJECTS → NDXBOOK → HOW YOU SHOW UP → REVIEW (scroll below execution checklist after REPLAY COMPLETE).

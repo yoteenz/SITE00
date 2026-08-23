@@ -6,6 +6,8 @@ import {
 } from '../../../../shared/site00-brand-lore/replayExecutionPhases';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
 import { isPersonalityReplayIntakeSubmitted } from '../../utils/personalityReplaySubmit';
+import { PersonalityReplayComparisonPanel } from './PersonalityReplayComparisonPanel';
+import type { ReplayConvergenceReport } from '../../../../shared/site00-brand-lore/personalityReplayTypes';
 
 type ReplaySnapshot = {
   status?: string;
@@ -14,7 +16,7 @@ type ReplaySnapshot = {
   executionJobId?: string | null;
   heroAsset?: { storagePath?: string; assetId?: string } | null;
   nativeProofFormat?: string | null;
-  comparisonReport?: unknown | null;
+  comparisonReport?: ReplayConvergenceReport | null;
 };
 
 const TERMINAL_STATUSES = new Set([
@@ -75,12 +77,13 @@ export function PersonalityReplayExecutionProgress({
   }, [onReplayUpdate, projectSlug, replayId]);
 
   useEffect(() => {
-    if (!replayId || !replay || !isExecutionInProgress(replay)) return;
+    if (!replayId || !replay) return;
+    if (!complete && !isExecutionInProgress(replay)) return;
     const id = window.setInterval(() => {
       void poll();
-    }, 4000);
+    }, complete ? 12000 : 4000);
     return () => window.clearInterval(id);
-  }, [poll, replay, replayId]);
+  }, [poll, replay, replayId, complete]);
 
   const resumeExecution = useCallback(async () => {
     if (!replayId) return;
@@ -154,7 +157,14 @@ export function PersonalityReplayExecutionProgress({
         </button>
       ) : null}
       {complete ? (
-        <p className="site00-replay-execution__complete">REPLAY COMPLETE — METHODOLOGY COMPARISON READY.</p>
+        <>
+          <p className="site00-replay-execution__complete">REPLAY COMPLETE — METHODOLOGY COMPARISON READY.</p>
+          <PersonalityReplayComparisonPanel
+            heroAsset={replay?.heroAsset}
+            nativeProofFormat={replay?.nativeProofFormat}
+            comparisonReport={replay?.comparisonReport}
+          />
+        </>
       ) : isExecutionInProgress(replay ?? {}) ? (
         <p className="site00-replay-execution__pending">DOWNSTREAM CREATIVE WORK IN PROGRESS…</p>
       ) : null}

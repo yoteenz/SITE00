@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import type { ReplayConvergenceReport } from '../../../../shared/site00-brand-lore/personalityReplayTypes';
 import type { ReplayExecutionPhase } from '../../../../shared/site00-brand-lore/replayExecutionPhases';
 import { PersonalityReplayExecutionProgress } from './PersonalityReplayExecutionProgress';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
@@ -15,7 +16,7 @@ type ReplayPayload = {
   executionJobId?: string | null;
   nativeProofFormat?: string | null;
   heroAsset?: { assetId?: string; storagePath?: string } | null;
-  comparisonReport?: unknown | null;
+  comparisonReport?: ReplayConvergenceReport | null;
 };
 
 /**
