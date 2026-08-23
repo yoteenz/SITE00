@@ -477,6 +477,60 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, judgment }),
       },
     ),
+  visualDevelopmentGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=visual_development_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  visualDevelopmentGenerate: (
+    slug: string,
+    proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=visual_development_generate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, proofId }),
+      },
+    ),
+  visualDevelopmentJudgment: (
+    slug: string,
+    proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
+    judgment: 'LOVE_THE_DIRECTION' | 'PROMISING_REVISE' | 'NOT_THE_DIRECTION',
+    revisionNote?: string | null,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=visual_development_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, proofId, judgment, revisionNote }),
+      },
+    ),
+  visualDevelopmentPrepareImplementation: (
+    slug: string,
+    proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=visual_development_prepare_implementation',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, proofId }),
+      },
+    ),
+  visualDevelopmentOrchestrate: (
+    slug: string,
+    proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; orchestrationPackageId: string }>(
+      '/api/site00/projects?action=visual_development_orchestrate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, proofId }),
+      },
+    ),
   creativeLineageForensicAudit: (slug: string) =>
     projectsFetch<{ ok: true; report: Record<string, unknown> }>(
       `/api/site00/projects?action=creative_lineage_forensic_audit&slug=${encodeURIComponent(slug)}`,

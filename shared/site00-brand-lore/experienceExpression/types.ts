@@ -280,6 +280,21 @@ export type ExperienceImplementationContract = {
   doNotConstraints: string[];
   acceptanceCriteria: string[];
   compiledAt: string;
+  /** Approved design proof reference — required before production implementation */
+  approvedDesignProofId?: string | null;
+  approvedDesignProofVersion?: string | null;
+  approvedDesignProofStoragePath?: string | null;
+  approvedDesignProofFingerprint?: string | null;
+  surfaceArtDirectionId?: string | null;
+  assetManifestId?: string | null;
+  approvedAssetBindings?: ExperienceImplementationContractAssetBinding[];
+  functionalCanonFingerprint?: string | null;
+  workspaceCanonFingerprint?: string | null;
+  clientExpressionFingerprint?: string | null;
+  responsiveIntent?: string | null;
+  motionIntent?: string | null;
+  doNotConstraintsExtended?: string[];
+  implementationBlockers?: string[];
 };
 
 export type ExperienceImplementationEvaluation = {

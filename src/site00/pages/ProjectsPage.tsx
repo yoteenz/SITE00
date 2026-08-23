@@ -1,132 +1,122 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
-import { EmptyState, SearchField } from '../components/pages/Site00PagePrimitives';
-import { ProjectWorkspaceEntry } from '../components/projectWorkspace/ProjectWorkspaceEntry';
-import { Site00ProjectWorkspace } from '../components/projectWorkspace/Site00ProjectWorkspace';
-import { mapProjectsToWorkspaceIndex } from '../../../shared/site00-brand-lore/projectWorkspace/projectsPageMapping.js';
-import { buildProjectWorkspaceBible } from '../../../shared/site00-brand-lore/projectWorkspace/projectWorkspaceBible.js';
+import { EmptyState, MetricCard, SearchField } from '../components/pages/Site00PagePrimitives';
 import { useSite00ProjectsIndex } from '../hooks/useSite00Projects';
 import { SITE00_ROUTES } from '../config/routes';
 import '../styles/site00-projects.css';
 
-const workspaceBible = buildProjectWorkspaceBible();
+const UNAVAILABLE = '—';
 
 export default function ProjectsPage() {
-  const { projects, clientProjects, state, error, reload } = useSite00ProjectsIndex();
+  const { projects, clientProjects, summary, state, sourceLabel, error, reload } = useSite00ProjectsIndex();
   const [query, setQuery] = useState('');
 
   const filtered = useMemo(() => {
     return projects.filter((p) => {
       if (!query.trim()) return true;
       const q = query.toLowerCase();
+      const name = (p.name ?? '').toLowerCase();
+      const displayName = (p.displayName ?? '').toLowerCase();
+      const slug = (p.slug ?? '').toLowerCase();
       return (
-        (p.name ?? '').toLowerCase().includes(q) ||
-        (p.displayName ?? '').toLowerCase().includes(q) ||
-        (p.slug ?? '').toLowerCase().includes(q) ||
+        name.includes(q) ||
+        displayName.includes(q) ||
+        slug.includes(q) ||
         (p.internalLabel?.toLowerCase().includes(q) ?? false)
       );
     });
   }, [projects, query]);
 
-  const workspaceIndex = useMemo(
-    () => mapProjectsToWorkspaceIndex(filtered),
-    [filtered],
-  );
+  const showMetrics = state === 'ready' || state === 'partial';
+  const metrics = showMetrics && summary
+    ? {
+        total: String(summary.total),
+        founder: String(summary.founderIndex),
+        client: String(summary.clientProjects),
+      }
+    : {
+        total: UNAVAILABLE,
+        founder: UNAVAILABLE,
+        client: UNAVAILABLE,
+      };
 
   return (
     <EcosystemShell>
-      <div className="site00-page site00-page--projects site00-page--projects-workspace">
-        <Site00ProjectWorkspace activeZone="ON_THE_BENCH" reviewTrayVisible={workspaceIndex.reviewTray.length > 0}>
-          <header className="site00-projects-header site00-pws-index-header">
-            <p className="site00-label-red">SITE 00 · PROJECT WORKSPACE</p>
-            <h1 className="site00-projects-header__title">ACTIVE PRODUCTION FLOOR</h1>
-            <p className="site00-body site00-projects-header__sub">{workspaceBible.workspaceThesis}</p>
-            <p className="site00-body site00-pws-index-header__prompt">
-              WHAT IS BEING WORKED ON? · WHAT NEEDS YOUR ATTENTION? · WHERE DO YOU ENTER A PROJECT?
-            </p>
-          </header>
+      <div className="site00-page site00-page--projects">
+        <header className="site00-projects-header">
+          <p className="site00-label-red">PROJECT INDEX</p>
+          <h1 className="site00-projects-header__title">PROJECTS</h1>
+          <p className="site00-body site00-projects-header__sub">
+            REAL SITE 00 PROJECT TRUTH — FRONTAL SLAYER, STUDIO WORLD, NDXBOOK, AND ALL IN ONE ENTERPRISES INDEXED FROM CANONICAL SYSTEMS.
+          </p>
+        </header>
 
-          <div className="site00-page-toolbar">
-            <SearchField value={query} onChange={setQuery} placeholder="FIND PROJECT…" id="projects-search" />
+        <div className="site00-eco-metrics site00-eco-metrics--4">
+          <MetricCard label="TOTAL PROJECTS" value={metrics.total} />
+          <MetricCard label="FOUNDER INDEX" value={metrics.founder} />
+          <MetricCard label="CLIENT PROJECTS" value={metrics.client} />
+          <MetricCard label="SOURCE" value={sourceLabel} />
+        </div>
+
+        <div className="site00-page-toolbar">
+          <SearchField value={query} onChange={setQuery} placeholder="SEARCH PROJECTS…" id="projects-search" />
+        </div>
+
+        {state === 'loading' ? (
+          <p className="site00-body">LOADING PROJECTS…</p>
+        ) : state === 'error' ? (
+          <div className="site00-projects-error">
+            <EmptyState
+              title="PROJECT INDEX UNAVAILABLE"
+              body={error ?? 'PROJECT DATA COULD NOT BE LOADED — NOT AN EMPTY PROJECT LIST.'}
+            />
+            <button type="button" className="site00-btn site00-btn--primary site00-projects-error__retry" onClick={reload}>
+              RETRY →
+            </button>
           </div>
+        ) : filtered.length === 0 ? (
+          <EmptyState title="NO MATCHING PROJECTS" body="ADJUST SEARCH OR RETURN LATER." />
+        ) : (
+          <>
+            {state === 'partial' ? (
+              <p className="site00-project-command__note site00-projects-partial-note">
+                PARTIAL ENRICHMENT — SOME PROJECT METADATA UNAVAILABLE. IDENTITIES REMAIN TRUTHFUL.
+              </p>
+            ) : null}
+            <ul className="site00-project-index-list">
+              {filtered.map((project) => (
+                <li key={project.slug} className="site00-project-index-card">
+                  <Link to={project.detailRoute} className="site00-project-index-card__link">
+                    <div className="site00-project-index-card__mark" aria-hidden="true">◈</div>
+                    <div className="site00-project-index-card__body">
+                      <p className="site00-project-index-card__kicker">{project.currentSystem}</p>
+                      <p className="site00-project-index-card__name">{project.displayName}</p>
+                      {project.internalLabel ? (
+                        <p className="site00-project-index-card__internal">{project.internalLabel}</p>
+                      ) : null}
+                      <p className="site00-project-index-card__phase">{project.currentPhase}</p>
+                      {project.focusNow ? (
+                        <p className="site00-project-index-card__focus">
+                          FOCUS NOW · {project.focusNow}
+                        </p>
+                      ) : null}
+                      {project.enrichmentStatus === 'PARTIAL' ? (
+                        <p className="site00-project-index-card__partial">ENRICHMENT PARTIAL</p>
+                      ) : null}
+                      <p className="site00-project-index-card__org">
+                        {(project.classification ?? 'UNKNOWN').replace(/_/g, ' ')}
+                      </p>
+                    </div>
+                    <span className="site00-project-index-card__cta">OPEN PROJECT →</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
 
-          {state === 'loading' ? (
-            <p className="site00-body">LOADING WORKSPACE…</p>
-          ) : state === 'error' ? (
-            <div className="site00-projects-error">
-              <EmptyState
-                title="WORKSPACE INDEX UNAVAILABLE"
-                body={error ?? 'PROJECT DATA COULD NOT BE LOADED.'}
-              />
-              <button type="button" className="site00-btn site00-btn--primary site00-projects-error__retry" onClick={reload}>
-                RETRY →
-              </button>
-            </div>
-          ) : filtered.length === 0 ? (
-            <EmptyState title="NO MATCHING PROJECTS" body="ADJUST SEARCH OR RETURN LATER." />
-          ) : (
-            <>
-              {workspaceIndex.activePiece ? (
-                <section className="site00-pws-index-active" aria-label="Active piece">
-                  <h2 className="site00-pws-zone__title">ACTIVE PIECE</h2>
-                  <ProjectWorkspaceEntry entry={workspaceIndex.activePiece} variant="dominant" />
-                </section>
-              ) : null}
-
-              <section className="site00-pws-index-bench" aria-label="On the bench">
-                <h2 className="site00-pws-zone__title">ON THE BENCH</h2>
-                <div className="site00-pws-entry-list site00-pws-entry-list--asymmetric">
-                  {workspaceIndex.onTheBench
-                    .filter((e) => e.slug !== workspaceIndex.activePiece?.slug)
-                    .map((entry) => (
-                      <ProjectWorkspaceEntry key={entry.slug} entry={entry} />
-                    ))}
-                </div>
-              </section>
-
-              {workspaceIndex.reviewTray.length > 0 ? (
-                <section className="site00-pws-index-review" aria-label="Review tray">
-                  <h2 className="site00-pws-zone__title">REVIEW TRAY · NEEDS YOUR EYES</h2>
-                  <div className="site00-pws-entry-list">
-                    {workspaceIndex.reviewTray.map((entry) => (
-                      <ProjectWorkspaceEntry key={entry.slug} entry={entry} variant="compact" />
-                    ))}
-                  </div>
-                </section>
-              ) : (
-                <p className="site00-project-command__note">
-                  REVIEW TRAY empty — {workspaceIndex.dataDependencies[0] ?? 'no pending judgments on index'}
-                </p>
-              )}
-
-              {workspaceIndex.workHistory.length > 0 ? (
-                <section className="site00-pws-index-history site00-pws-zone--peripheral" aria-label="Work history">
-                  <h2 className="site00-pws-zone__title">RECENT WORK</h2>
-                  <ul className="site00-pws-history-list">
-                    {workspaceIndex.workHistory.slice(0, 5).map((entry) => (
-                      <li key={entry.slug}>
-                        <Link to={entry.detailRoute}>{entry.displayName}</Link>
-                        {entry.recentActivity ? <span> · {entry.recentActivity}</span> : null}
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              ) : null}
-
-              <section className="site00-pws-index-dossier site00-pws-zone--contextual" aria-label="Dossier access">
-                <h2 className="site00-pws-zone__title">DOSSIER ACCESS</h2>
-                <div className="site00-pws-entry-list site00-pws-entry-list--dossier">
-                  {workspaceIndex.dossierAccess.map((entry) => (
-                    <ProjectWorkspaceEntry key={`dossier-${entry.slug}`} entry={entry} variant="compact" />
-                  ))}
-                </div>
-              </section>
-            </>
-          )}
-        </Site00ProjectWorkspace>
-
-        {clientProjects && clientProjects.length > 0 ? (
+        {showMetrics && clientProjects && clientProjects.length > 0 ? (
           <section className="site00-projects-client-section">
             <h2 className="site00-eco-panel__title">CLIENT STUDIO PROJECTS</h2>
             <ul className="site00-project-list">
