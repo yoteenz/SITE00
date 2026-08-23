@@ -10,7 +10,6 @@ import {
   assessDirectionProductionCompleteness,
   normalizeFormedDirection,
   normalizeFormedDirections,
-  type FounderDirectionFieldKey,
 } from './directionFieldContract.js';
 import {
   getFormationRecordById,
@@ -200,7 +199,7 @@ export async function resolveNdxbookFounderComparisonSet(
     ),
   ];
 
-  const missingByDirection: Record<string, FounderDirectionFieldKey[]> = {};
+  const missingByDirection: Record<string, string[]> = {};
   let overlaysApplied = 0;
   for (const d of directions.slice(0, 3)) {
     if (d.completionLineage) overlaysApplied += 1;

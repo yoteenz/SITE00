@@ -2,7 +2,12 @@
  * Stage A Visual Proof Plans — handoff contract to FAL (recommendation only, no execution).
  */
 
-import type { CoreDirectionFormationInput, FormedCoreDirection, VisualProofPlan } from './types.js';
+import type {
+  CoreDirectionFormationInput,
+  FormedCoreDirection,
+  RenderingMediumRecommendation,
+  VisualProofPlan,
+} from './types.js';
 
 function referenceIntents(input: CoreDirectionFormationInput): string[] {
   const intents: string[] = [];
@@ -18,7 +23,9 @@ function referenceIntents(input: CoreDirectionFormationInput): string[] {
   return intents;
 }
 
-function mediumForExpression(context: CoreDirectionFormationInput['brandExpressionContext']): 'FAL_GENERATED' | 'CODE_NATIVE' {
+function mediumForExpression(
+  context: CoreDirectionFormationInput['brandExpressionContext'],
+): RenderingMediumRecommendation {
   return context === 'SOCIAL_FIRST_EDITORIAL' ? 'FAL_GENERATED' : 'HYBRID_COMPOSITION';
 }
 
