@@ -3815,3 +3815,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Direct URL after deploy:** `https://site00.com/projects/ndxbook/experiment-g-brand-presentation-concepts`
 - **API:** Railway must have `experiment_g_*` endpoints from main for FORM SIX BRAND PRESENTATION CONCEPTS.
 
+---
+
+## 2026-08-23 — Experiment G FAILED with no retry button
+
+- **Issue:** After v32 deploy, founder reached Experiment G but saw STATUS: FAILED with "No concepts formed yet" and **no buttons** to restart.
+- **Cause:** UI only showed FORM when status was NOT_STARTED or SNAPSHOT_READY; FAILED with zero concepts hid all controls (RE-FORM SET also required concepts.length > 0).
+- **Fix (PR #318):** Show **RETRY FORMATION** on FAILED; surface `run.error`; mirror Experiment F refresh/re-form when concepts exist.
+- **Deploy:** **`site00-deploy-2026-08-23-v33`**. If retry still fails, read red error line — likely Railway API needs redeploy for `experiment_g_*` or Anthropic/formation error.
+
