@@ -1,0 +1,64 @@
+{
+  "auditId": "SITE00-P0.5-PRODUCTION-METHODOLOGY-2026-08-23",
+  "priorities": {
+    "P0.5A": {
+      "label": "Methodology corrections before P1 live pipeline",
+      "issues": [
+        {"id": "P05A-001", "title": "Formalize dependency invalidation graph", "severity": "CRITICAL", "blocks": "Trustworthy READY states after upstream changes"},
+        {"id": "P05A-002", "title": "Define Site Architecture + Page Family stage between hero proof and Composer", "severity": "CRITICAL", "blocks": "Full site implementation without Composer creative drift"},
+        {"id": "P05A-003", "title": "Reposition Experience Expression — behavior/IA separate from visual metaphor", "severity": "HIGH", "blocks": "Correct medium-native experience methodology"},
+        {"id": "P05A-004", "title": "Remove ndxbook legacy intelligence shortcuts or quarantine as pilot records", "severity": "HIGH", "blocks": "Honest project intelligence gates"},
+        {"id": "P05A-005", "title": "Hybrid orthogonality/distinctiveness — deterministic pre-filter + model auditor", "severity": "HIGH", "blocks": "Concept collapse recurrence"},
+        {"id": "P05A-006", "title": "Identity Concept Territory methodology spec (no implementation yet)", "severity": "HIGH", "blocks": "Identity projects avoiding style-only output"}
+      ]
+    },
+    "P1": {
+      "label": "Live visual pipeline + implementation orchestration",
+      "issues": [
+        {"id": "P1-001", "title": "Composer dispatch adapter with contract fingerprint binding", "dependency": "P05A-002"},
+        {"id": "P1-002", "title": "Live FAL + reference-conditioned generation verification", "dependency": "P0 migration deploy"},
+        {"id": "P1-003", "title": "Playwright capture on Railway", "dependency": "P0 migration deploy"},
+        {"id": "P1-004", "title": "Fidelity evaluation MVP with vision evidence", "dependency": "P1-001"},
+        {"id": "P1-005", "title": "Layout grammar + design token compiler for site families", "dependency": "P05A-002"}
+      ]
+    },
+    "P1.5": {
+      "label": "Production methodology formalization before broad automation",
+      "issues": [
+        {"id": "P15-001", "title": "ProductionOrchestrationPolicy type + gate registry", "dependency": "P05A-001"},
+        {"id": "P15-002", "title": "Content planning engine spec (topic strategy, calendar, campaign)", "dependency": "None"},
+        {"id": "P15-003", "title": "Project budget envelope + cost multiplication guards", "dependency": "P0 telemetry foundation"},
+        {"id": "P15-004", "title": "Unified project production state dashboard", "dependency": "StudioWorldRunRecord wiring"}
+      ]
+    },
+    "P2": {
+      "label": "Product Expression architecture",
+      "issues": [
+        {"id": "P2-001", "title": "Product Expression methodology document + module wiring", "dependency": "P05A-003", "implement": false},
+        {"id": "P2-002", "title": "User/role/workflow/state/notification models", "dependency": "P2-001", "implement": false}
+      ]
+    },
+    "P2.5": {
+      "label": "Cross-medium orchestration + learning",
+      "issues": [
+        {"id": "P25-001", "title": "Performance evidence ingestion (≠ canon)", "dependency": "P15-001"},
+        {"id": "P25-002", "title": "Cross-medium promotion registry with founder gate", "dependency": "crossMediumConceptEvidence.ts"}
+      ]
+    },
+    "P3": {
+      "label": "World Formation research readiness",
+      "issues": [
+        {"id": "P3-001", "title": "Document blocker domains: presence, economy, moderation, sync, UGC", "dependency": "futureContracts.ts review"},
+        {"id": "P3-002", "title": "World concept formation spec (no runtime)", "implement": false}
+      ]
+    },
+    "P4": {
+      "label": "Multi-client scale hardening",
+      "issues": [
+        {"id": "P4-001", "title": "Remove ndxbook-only API gates in projects.ts", "dependency": "P05A-004"},
+        {"id": "P4-002", "title": "Tenant isolation audit across all durable tables", "dependency": "P0 persistence"}
+      ]
+    }
+  },
+  "implementationPerformedInAudit": false
+}

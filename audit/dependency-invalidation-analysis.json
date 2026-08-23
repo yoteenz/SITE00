@@ -1,0 +1,29 @@
+{
+  "auditId": "SITE00-P0.5-PRODUCTION-METHODOLOGY-2026-08-23",
+  "formalGraphExists": false,
+  "recommendedSemantics": ["HARD_INVALIDATION", "SOFT_REVIEW_REQUIRED", "EVIDENCE_STALE", "NO_INVALIDATION", "RECOMPILE_ONLY", "REGENERATE_REQUIRED", "FOUNDER_REVIEW_REQUIRED"],
+  "relationships": [
+    {"upstream": "BrandLoreProfile", "downstream": "BrandPersonality", "current": "SOFT_REVIEW_REQUIRED", "implemented": "PARTIAL", "evidence": "readiness recalculated on load"},
+    {"upstream": "BrandLoreProfile", "downstream": "CoreDirectionFormation", "current": "REGENERATE_REQUIRED", "implemented": "PARTIAL", "evidence": "invalidateCreativeDirectionEngagement on calibration submit"},
+    {"upstream": "BrandLoreProfile", "downstream": "ExperimentFRun", "current": "REGENERATE_REQUIRED", "implemented": "NO", "evidence": "No run supersession on lore change"},
+    {"upstream": "BrandLoreProfile", "downstream": "ExperimentERun", "current": "REGENERATE_REQUIRED", "implemented": "NO"},
+    {"upstream": "FounderCreativeAppetite", "downstream": "ExperimentFConcepts", "current": "REGENERATE_REQUIRED", "implemented": "NO", "evidence": "Snapshot frozen after formation but no invalidation policy"},
+    {"upstream": "ExperimentFConcepts", "downstream": "WorldExpressionSystem", "current": "HARD_INVALIDATION", "implemented": "PARTIAL", "evidence": "directionDevelopmentAllowed gate"},
+    {"upstream": "FunctionalCanon", "downstream": "DesignProof", "current": "SOFT_REVIEW_REQUIRED", "implemented": "NO", "evidence": "No route-change invalidation of proofs"},
+    {"upstream": "DesignProof", "downstream": "ImplementationContract", "current": "HARD_INVALIDATION", "implemented": "PARTIAL", "evidence": "Contract recompiled on prepare; no version linkage"},
+    {"upstream": "ImplementationContract", "downstream": "ComposerDispatch", "current": "HARD_INVALIDATION", "implemented": "NO", "evidence": "Stub does not track contract fingerprint"},
+    {"upstream": "VisualReferenceCapture", "downstream": "ReferenceConditionedGeneration", "current": "EVIDENCE_STALE", "implemented": "PARTIAL", "evidence": "staleness.ts + SUPERSEDED state; does not invalidate proofs"},
+    {"upstream": "ApprovedDesignProof", "downstream": "SiteImplementation", "current": "FOUNDER_REVIEW_REQUIRED", "implemented": "PARTIAL"},
+    {"upstream": "ProjectIntelligenceScopeExpansion", "downstream": "PriorManifestModules", "current": "NO_INVALIDATION", "implemented": "YES", "evidence": "expandScopeManifest preserves completed modules"},
+    {"upstream": "PerformanceEvidence", "downstream": "BrandCanon", "current": "NO_INVALIDATION", "implemented": "YES", "evidence": "Canon promotion requires explicit founder action"}
+  ],
+  "majorMissingDependencies": [
+    "Upstream intelligence change → experiment run supersession",
+    "Functional canon route change → design proof stale marking",
+    "Visual reference staleness → proof regeneration requirement",
+    "Concept change → downstream asset lineage invalidation graph",
+    "Implementation contract fingerprint → orchestration dispatch binding"
+  ],
+  "staleArtifactRisk": "HIGH",
+  "lineageAdequacy": "PARTIAL — creative asset lineage strong; cross-system invalidation weak"
+}

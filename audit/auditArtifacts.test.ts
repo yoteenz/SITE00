@@ -19,6 +19,11 @@ const REQUIRED_ARTIFACTS = [
   'remediation-roadmap.json',
   'SITE00_STUDIO_WORLD_MASTER_ASSURANCE_AUDIT.md',
   'persistence-forensic-inventory.json',
+  'production-system-inventory.json',
+  'production-methodology-maturity.json',
+  'current-vs-required-pipelines.json',
+  'production-remediation-roadmap.json',
+  'SITE00_P0.5_PRODUCTION_METHODOLOGY_AUDIT.md',
 ];
 
 describe('Master Assurance Audit artifacts', () => {

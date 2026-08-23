@@ -3665,3 +3665,33 @@ Summary of production-hardening sprint addressing MA-001 and related P0 audit fi
 
 - **Branch:** `cursor/railway-fal-import-path-fix-1983` → PR merge to `main`.
 
+---
+
+## 2026-08-23 — P0.5 Production Methodology + Automation Assurance Audit
+
+Summary of read-only forensic audit — no large remediation, no Product Expression, no World Formation.
+
+- **Context:** After P0 durable persistence (PR #307), founder requested deeper audit: *Is the factory process itself correct?* Not existence/connectivity — methodological correctness per production discipline.
+
+- **Verdict:** Studio World is a **constellation of sophisticated pipelines**, not yet a coherent **Production Operating System**. GRAPHIC→PAGE branch strongest; PAGE→PRODUCT→WORLD mostly contracts or absent.
+
+- **Largest methodology risk:** Hero proof → full site bridge missing — without page families/layout grammar, Composer would become creative director for remaining pages (FM-02, FM-03).
+
+- **Largest automation risk:** No formal dependency invalidation graph — P0 durability means stale READY states can persist durably after upstream intelligence changes.
+
+- **Product Expression:** Correctly unimplemented; intake modules exist but no formation pipeline — APPLICATION projects would be forced through page/experience metaphors.
+
+- **Identity gap:** No Identity Concept Territory — risk of Brand Intelligence → Style without concept layer.
+
+- **Content gap:** No topic strategy, calendar, campaign engine — cannot operate ongoing content engine.
+
+- **Experience repositioning:** Too page-centric/visual-metaphor; should own behavior/IA, not site architecture.
+
+- **World:** Contracts useful research; missing blocker domains (presence, economy, moderation, sync); runtime correctly blocked.
+
+- **Artifacts:** 13 new files under `audit/` including `production-system-inventory.json`, maturity matrix, pipelines, actor matrix, dependency/quality/gate analyses, failure modes, remediation roadmap P0.5A–P4, `studio-world-production-operating-model.md`.
+
+- **Tests:** `audit/p0.5MethodologyAudit.test.ts` (+13); **1564** pass; build pass.
+
+- **Recommended next:** P0.5A methodology spec sprint (invalidation graph, site page families, Product Expression boundary doc, Identity Concept Territory spec) before P1 live pipeline + Composer adapter.
+

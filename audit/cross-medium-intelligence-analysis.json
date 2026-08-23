@@ -1,0 +1,51 @@
+{
+  "auditId": "SITE00-P0.5-PRODUCTION-METHODOLOGY-2026-08-23",
+  "classifications": ["BRAND_LEVEL", "BUSINESS_LEVEL", "FOUNDER_LEVEL", "MEDIUM_CONTEXT", "MEDIUM_SPECIFIC", "CONCEPT_SPECIFIC", "DIRECTION_SPECIFIC", "ASSET_SPECIFIC", "PERFORMANCE_EVIDENCE"],
+  "sharedCorrectly": [
+    {"intelligence": "Brand Lore", "classification": "BRAND_LEVEL", "consumers": ["Identity", "Content", "Site", "Experience", "World prep"]},
+    {"intelligence": "Brand Personality", "classification": "BRAND_LEVEL", "consumers": ["Creative formation", "Experience snapshot"]},
+    {"intelligence": "Founder Creative Appetite", "classification": "FOUNDER_LEVEL", "consumers": ["Experiment F/E snapshots"], "excludedFrom": ["Experiment D"]},
+    {"intelligence": "Functional Canon", "classification": "MEDIUM_SPECIFIC", "consumers": ["Experience E", "Visual Development"]},
+    {"intelligence": "Host Experience Canon", "classification": "MEDIUM_CONTEXT", "consumers": ["Experience E", "Site proofs"]},
+    {"intelligence": "Visual Reference Memory", "classification": "MEDIUM_SPECIFIC", "rule": "EVIDENCE not BRAND_CANON", "consumers": ["FAL conditioning"]}
+  ],
+  "duplicated": [
+    {"issue": "Commercial state computed in multiple places", "risk": "MEDIUM"},
+    {"issue": "Readiness evaluated per-service without unified gate registry", "risk": "MEDIUM"},
+    {"issue": "Accounting fragments per run without rollup", "risk": "LOW"}
+  ],
+  "missing": [
+    {"intelligence": "Site strategy / conversion objectives", "neededBy": ["SITE"]},
+    {"intelligence": "Product role/workflow model", "neededBy": ["APPLICATION"]},
+    {"intelligence": "Content topic strategy", "neededBy": ["CONTENT"]},
+    {"intelligence": "Cross-medium promotion registry", "neededBy": ["ALL"]}
+  ],
+  "contaminationRisks": [
+    {"risk": "Experiment D territories leaking into Experience formation", "mitigation": "EXPERIMENT_E_ONLY selection purpose; contamination guards", "residual": "MEDIUM"},
+    {"risk": "Host visual conditioning overriding client expression", "mitigation": "reference authority scopes", "residual": "LOW"},
+    {"risk": "Frontal Slayer / tarot / Mansion leakage", "mitigation": "FORBIDDEN terms + world contamination guards", "residual": "LOW"},
+    {"risk": "Performance evidence → Brand Canon", "mitigation": "Explicit founder canon promotion only", "residual": "LOW if maintained"}
+  ],
+  "neverAskTwice": [
+    "Brand Lore core truths",
+    "Brand Personality domains",
+    "Business truth (once in project intelligence)",
+    "Founder Creative Appetite",
+    "Anti-direction",
+    "Functional requirements (per project scope)"
+  ],
+  "mustReDerivePerMedium": [
+    "Concept formation",
+    "Direction / expression system",
+    "Visual/behavior contracts",
+    "Asset manifests",
+    "Implementation contracts",
+    "Fidelity criteria"
+  ],
+  "crossMediumEvidenceModel": {
+    "location": "crossMediumConceptEvidence.ts",
+    "classifications": ["BRAND_LEVEL", "MEDIUM_SPECIFIC", "EXPLICITLY_PROMOTED_CROSS_MEDIUM"],
+    "gateEnforced": false,
+    "recommendation": "Require founder promotion before cross-medium evidence influences formation"
+  }
+}

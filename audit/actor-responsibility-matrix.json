@@ -1,0 +1,40 @@
+{
+  "auditId": "SITE00-P0.5-PRODUCTION-METHODOLOGY-2026-08-23",
+  "actors": ["DETERMINISTIC_CODE", "ANTHROPIC_REASONING", "VISION_MODEL", "IMAGE_GENERATION", "MOTION_GENERATION", "COMPOSER", "HUMAN_FOUNDER", "CLIENT", "HYBRID"],
+  "assignments": [
+    {"stage": "Public discovery intake", "discipline": "ALL", "actor": "DETERMINISTIC_CODE", "evidence": "intakeSynthesisGate.ts"},
+    {"stage": "Brand Lore synthesis", "discipline": "IDENTITY", "actor": "DETERMINISTIC_CODE", "evidence": "loreSynthesis.ts"},
+    {"stage": "Brand Personality synthesis", "discipline": "IDENTITY", "actor": "DETERMINISTIC_CODE", "evidence": "personalitySynthesis.ts"},
+    {"stage": "Readiness gates (lore, personality, intelligence)", "discipline": "ALL", "actor": "DETERMINISTIC_CODE", "evidence": "*/readiness.ts"},
+    {"stage": "Core Direction formation", "discipline": "CREATIVE", "actor": "ANTHROPIC_REASONING", "evidence": "formationService.ts"},
+    {"stage": "Core Direction critique", "discipline": "CREATIVE", "actor": "HYBRID", "evidence": "formationService.ts + creativeCritic.ts"},
+    {"stage": "Experiment F concept formation", "discipline": "CREATIVE", "actor": "ANTHROPIC_REASONING", "evidence": "experimentFService.ts"},
+    {"stage": "Concept vs Direction gate", "discipline": "CREATIVE", "actor": "DETERMINISTIC_CODE", "evidence": "conceptVsDirection.ts"},
+    {"stage": "Orthogonality V2 evaluation", "discipline": "CREATIVE", "actor": "DETERMINISTIC_CODE", "evidence": "orthogonalityV2.ts", "note": "SHOULD_BE_MODEL_REASONED for set-level audit"},
+    {"stage": "Experiment E concept formation", "discipline": "EXPERIENCE", "actor": "DETERMINISTIC_CODE", "evidence": "experienceConceptFormation.ts", "note": "SHOULD_BE_MODEL_REASONED for generative concepts"},
+    {"stage": "Experience distinctiveness", "discipline": "EXPERIENCE", "actor": "DETERMINISTIC_CODE", "evidence": "distinctiveness.ts"},
+    {"stage": "Generic template detection", "discipline": "EXPERIENCE", "actor": "DETERMINISTIC_CODE", "evidence": "genericTemplateAudit.ts", "note": "SHOULD_BE_VISION_EVALUATED for production proofs"},
+    {"stage": "Visual prompt compilation", "discipline": "SITE/EXPERIENCE", "actor": "DETERMINISTIC_CODE", "evidence": "visualPromptCompiler.ts, referencePromptCompiler.ts"},
+    {"stage": "Hero/slide/design proof generation", "discipline": "CREATIVE/SITE", "actor": "IMAGE_GENERATION", "evidence": "experienceAssetFalProvider.ts, falImageModels.ts"},
+    {"stage": "Reference capture", "discipline": "SITE", "actor": "DETERMINISTIC_CODE", "evidence": "captureService.ts + Playwright", "note": "Playwright optional; vitest mock in CI"},
+    {"stage": "Reference adherence QA", "discipline": "SITE", "actor": "VISION_MODEL", "evidence": "referenceAdherenceQA.ts", "note": "Returns NOT_EVALUATED without vision"},
+    {"stage": "Design proof QA", "discipline": "SITE", "actor": "HYBRID", "evidence": "designProofQA.ts"},
+    {"stage": "Implementation contract compilation", "discipline": "SITE", "actor": "DETERMINISTIC_CODE", "evidence": "designProofImplementationContract.ts"},
+    {"stage": "Composer implementation dispatch", "discipline": "SITE", "actor": "COMPOSER", "evidence": "visualDevelopmentService.ts", "status": "NOT_CONNECTED"},
+    {"stage": "Implementation fidelity", "discipline": "SITE", "actor": "VISION_MODEL", "evidence": "implementationEvaluation.ts", "status": "SCAFFOLDED"},
+    {"stage": "Founder creative judgments", "discipline": "ALL", "actor": "HUMAN_FOUNDER", "evidence": "founderJudgmentRevisionService.ts"},
+    {"stage": "Surgical revision generation", "discipline": "CREATIVE", "actor": "IMAGE_GENERATION", "evidence": "revisionGenerationService.ts", "trigger": "FOUNDER_TRIGGERED"},
+    {"stage": "Canon promotion", "discipline": "ALL", "actor": "HUMAN_FOUNDER", "evidence": "creativeLineage types — no auto canon"},
+    {"stage": "World intake synthesis", "discipline": "WORLD", "actor": "DETERMINISTIC_CODE", "evidence": "worldIntakeService.ts"},
+    {"stage": "Project intelligence manifest compile", "discipline": "SITE", "actor": "DETERMINISTIC_CODE", "evidence": "manifestCompiler.ts"}
+  ],
+  "violations": [
+    {"id": "ARV-001", "type": "MODEL_OVERREACH", "severity": "MEDIUM", "finding": "Core Direction formation may produce style-heavy directions without identity concept grounding", "recommendation": "Add identity concept layer or constrain formation inputs"},
+    {"id": "ARV-002", "type": "DETERMINISTIC_OVERREACH", "severity": "HIGH", "finding": "Orthogonality V2 and concept distinctiveness use token heuristics for judgments that require semantic set audit", "recommendation": "Hybrid: deterministic pre-filter + model auditor for formation sets"},
+    {"id": "ARV-003", "type": "DETERMINISTIC_OVERREACH", "severity": "MEDIUM", "finding": "Experiment E uses hardcoded deterministic concepts instead of generative concept discovery", "recommendation": "Model-reasoned concept formation with deterministic contamination guards"},
+    {"id": "ARV-004", "type": "COMPOSER_OVERREACH_RISK", "severity": "CRITICAL", "finding": "Without page-family contracts, Composer would invent remaining site pages at implementation", "recommendation": "Never dispatch Composer without surface-family contracts and layout grammar"},
+    {"id": "ARV-005", "type": "MISSING_AI_REASONING", "severity": "HIGH", "finding": "No content planning or topic strategy reasoning layer", "recommendation": "P1.5 content planning methodology"},
+    {"id": "ARV-006", "type": "FOUNDER_BOTTLENECK", "severity": "MEDIUM", "finding": "All expensive generation is founder-triggered with no batch planning", "recommendation": "Acceptable for now; add cost-aware batch proposals later"},
+    {"id": "ARV-007", "type": "UNNECESSARY_AI_CALL", "severity": "LOW", "finding": "Some formation paths mock Anthropic in tests/dev without surfacing LIVE_PATH_UNVERIFIED in UI", "recommendation": "Capability verification registry already added in P0 — surface in UI"}
+  ]
+}
