@@ -3096,3 +3096,14 @@ Summary of the **whole conversation so far** in this cloud agent run: typography
   - Tests: `personalityReplayExecution.test.ts`, `replayExecutionPhases.test.ts`; **983/983** pass; build green.
 - **Motherboard:** `CORE.md` three-part session close confirmed (prose + conclusion code box + deploy links each on own line — URLs **not** inside code box).
 - **Founder action:** Railway redeploy from `main` (API execution + Supabase persistence); cPanel ZIP for frontend. After redeploy, re-open replay review — execution should resume same replay idempotently (or bootstrap recovers from local answers if API restarted).
+
+---
+
+## 2026-08-23 — Replay Core Direction formation failure hotfix
+
+Summary: Founder hit **CORE DIRECTION FORMATION FAILED** on mobile replay execution UI after PR #268 deploy.
+
+- **Symptom:** Execution panel showed generic failure at FORMING CORE DIRECTION; STATUS `FORMATION_READY`; RETRY EXECUTION visible.
+- **Likely causes:** (1) stale in-progress formation record reused (FORMING with zero `finalDirections` → generic error), (2) `ANTHROPIC_API_KEY` missing on Railway API (`CREATIVE INTELLIGENCE NOT CONFIGURED`).
+- **Fix (PR):** `replayExecutionService` — `forceReform: true` + `retryFailed: true` on replay formation; fail-fast if creative intelligence provider unavailable with explicit Railway env message; richer `describeFormationFailure()` errors; clear `executionError` on retry; shadow profile `id` fallback from `sourceProfileId`.
+- **Founder action:** **Railway redeploy API from `main`** (required — cPanel ZIP does not fix this). Tap **RETRY EXECUTION** on replay review. If error mentions `ANTHROPIC_API_KEY`, add key to Railway API service env and redeploy again.
