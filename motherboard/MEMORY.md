@@ -2833,3 +2833,18 @@ Summary: Founder rejected brand-native pilot as direction-native but identity-in
 - **Founder UI:** `VisualPilotComparisonPanel.tsx` — A brand-native (DIRECTION-NATIVE / IDENTITY-INCOMPLETE) vs B identity-native with QA scores. Payload `visualPilotComparison` on creative direction engagement.
 - **Live Railway run (job 2dc4bd2a):** pilot `6fe8fec1-1018-4ff1-8d0e-263935a07420` — Sonnet art director 1 request (`claude-sonnet-4-6`), GPT Image 2 text-only, ~$0.045, no refs. Sonnet vision QA ACCEPT: identity-native 5/5, palette 5/5, typographic DNA 5/5, graphic grammar 5/5, artifact authority 5/5, stock resemblance 0/5, stranger PASS, logo-removal v2 PASS. Storage: `ndxbook-identity-native-pilot/generated/6fe8fec1-...webp`.
 - **PR #250 merged to main.** 15 identity-native + 16 brand-native tests pass. STOP — no board regen, no directions 02–06 until founder identity-native review.
+
+---
+
+## 2026-08-22 — Creative-refined identity hero V2 (THE MARKED-UP COPY · ONE hero · A/B/C UI)
+
+Summary: Founder approved identity-native methodology (pilot B) but not final creative quality — typography, Martian Mono, wit, personality, compositional artistry. V2 sprint added Creative Expression Layer between Identity Art Direction and Visual Brief. ONE new hero `MUC-IDENTITY-NATIVE-HERO-PILOT-V2`; pilots A (brand-native) and B (identity V1) preserved.
+
+- **Pipeline:** CORE DIRECTION → Expression System → Identity Art Director → **Creative Expression Layer** (Sonnet) → HeroCreativeConcept → Copy QA Gate → IdentityNativeV2VisualBrief → GPT Image 2 → Extended V2 QA.
+- **New modules:** `creativeExpressionTypes.ts`, `creativeExpressionService.ts`, `martianMonoTypography.ts`, `copyQualityGate.ts`, `identityNativeVisualBriefV2Compiler.ts`, `identityNativeVisualRawInspectorV2.ts`, `markedUpCopyIdentityNativeHeroPilotV2.ts`. Admin job `marked_up_copy_identity_native_hero_pilot_v2`.
+- **Martian Mono:** Confirmed in `src/site00/styles/site00-fonts.css` (Google Fonts). System/micro voice only — display/revision/margin remain separate typographic roles.
+- **Founder UI:** `VisualPilotComparisonPanel.tsx` A/B/C — A brand-native, B identity-native V1, C creative-refined V2 with extended QA scores under C.
+- **PR #251 merged:** V2 architecture + tests (9 V2 tests). First Railway run failed FAL 422 (prompt ~9.6k duplicate stack).
+- **PR #252 merged:** Condensed V2 prompt compiler (~6.5k stored locally; Sonnet verbose concept blocks expand stored brief on Railway). Cap negative instructions for V2 briefs.
+- **Live Railway V2 run (job 0767ee31):** pilot `801b6bb9-abc6-47a4-8e56-2c0b22cb26ce` — Sonnet creative expression (`claude-sonnet-4-6`, 3 Anthropic requests). Copy QA vision PASS 5/5 all dimensions, 0 revision rounds. GPT Image 2 text-only, ~$0.045, prompt hash `d4bde4fb01e7bcda`, no reference inputs. Storage: `ndxbook-identity-native-v2-pilot/generated/801b6bb9-...webp`. Image vision QA fell back to NEEDS_HUMAN_REVIEW (vision parse/unavailable on Railway runtime for V2 inspector). Founder status: NEEDS_HUMAN_REVIEW pending visual inspection.
+- **Preserved:** A `49828b9e` (brand-native), B `6fe8fec1` (identity V1). STOP — no board regen, no directions 02–06 until founder approves pilot C.
