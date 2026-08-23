@@ -1,13 +1,16 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   REPLAY_EXECUTION_PROGRESS_PHASES,
   replayExecutionPhaseLabel,
   type ReplayExecutionPhase,
 } from '../../../../shared/site00-brand-lore/replayExecutionPhases';
+import type { SixDirectionConsistencyRun } from '../../../../shared/site00-brand-lore/sixDirectionConsistencyTypes';
+import type { ReplayConvergenceReport } from '../../../../shared/site00-brand-lore/personalityReplayTypes';
+import { projectPersonalityReplayConsistencyPath } from '../../config/personalityReplayRoutes';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
 import { isPersonalityReplayIntakeSubmitted } from '../../utils/personalityReplaySubmit';
 import { PersonalityReplayComparisonPanel } from './PersonalityReplayComparisonPanel';
-import type { ReplayConvergenceReport } from '../../../../shared/site00-brand-lore/personalityReplayTypes';
 
 type ReplaySnapshot = {
   status?: string;
@@ -17,7 +20,18 @@ type ReplaySnapshot = {
   heroAsset?: { storagePath?: string; assetId?: string } | null;
   nativeProofFormat?: string | null;
   comparisonReport?: ReplayConvergenceReport | null;
+  sixDirectionConsistency?: SixDirectionConsistencyRun | null;
 };
+
+function sixDirectionHeroesButtonLabel(run: SixDirectionConsistencyRun | null | undefined): string {
+  if (!run || run.status === 'NOT_STARTED') return 'SIX-DIRECTION CONSISTENCY REVIEW';
+  if (run.status === 'COMPLETE') {
+    const heroCount = run.directions.filter((d) => d.heroAsset?.storagePath).length;
+    return heroCount > 0 ? `VIEW ${heroCount} GENERATED HEROES` : 'VIEW SIX-DIRECTION HEROES';
+  }
+  if (run.status === 'FAILED') return 'VIEW SIX-DIRECTION VALIDATION';
+  return 'VIEW SIX-DIRECTION PROGRESS';
+}
 
 const TERMINAL_STATUSES = new Set([
   'COMPARISON_READY',
@@ -164,6 +178,14 @@ export function PersonalityReplayExecutionProgress({
             nativeProofFormat={replay?.nativeProofFormat}
             comparisonReport={replay?.comparisonReport}
           />
+          {projectSlug === 'ndxbook' ? (
+            <Link
+              to={projectPersonalityReplayConsistencyPath(projectSlug)}
+              className="site00-btn site00-btn--primary site00-replay-execution__six-direction"
+            >
+              {sixDirectionHeroesButtonLabel(replay?.sixDirectionConsistency)} →
+            </Link>
+          ) : null}
         </>
       ) : isExecutionInProgress(replay ?? {}) ? (
         <p className="site00-replay-execution__pending">DOWNSTREAM CREATIVE WORK IN PROGRESS…</p>

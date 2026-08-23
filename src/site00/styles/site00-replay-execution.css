@@ -50,6 +50,13 @@
   margin-top: 0.75rem;
 }
 
+.site00-replay-execution__six-direction {
+  display: inline-block;
+  margin-top: 1rem;
+  text-decoration: none;
+  text-align: center;
+}
+
 .site00-replay-comparison {
   margin-top: 1.5rem;
   padding-top: 1rem;
