@@ -3067,3 +3067,15 @@ Summary: Founder copies deploy links **one at a time** on mobile — do not bund
 - **Format:** Text summary in prose, then each link/path on its **own line** (download URL, release page, verify bundle, upload reminder).
 - **Not:** One code box containing all links together.
 - **Updated:** `CORE.md` Production deployment section.
+
+---
+
+## 2026-08-23 — HOST UI vs CLIENT typography provenance (pre-replay corrective sprint)
+
+Summary of the **whole conversation so far** in this cloud agent run: NDXBOOK blind personality replay blocked on methodology contamination — Martian Mono (SITE 00 host UI font) was leaking into client creative intelligence as if it were NDXBOOK brand typography.
+
+- **Context:** Founder pre-replay corrective sprint before submitting current NDXBOOK personality replay. Must NOT regenerate creative direction, generate images, mutate founder answers, or expose benchmark.
+- **Problem:** `martianMonoTypography.ts`, `brandIdentity.ts`, `creativeExpressionService.ts`, V2 visual brief compiler, and production envelopes treated Martian Mono availability in CSS as NDXBOOK typography canon.
+- **Solution:** New `typographyProvenance.ts`; refactored pipeline; extended `replayProductionPreflight` typography gates; 980/980 tests pass.
+- **Prior session fixes (main):** PR #263–#265 personality replay save/submit/replay-not-found; Supabase migrations; deploy ZIP v5.
+- **Conventions:** Separate `TYPOGRAPHIC_BEHAVIOR` from `FONT_SELECTION`. Historical pilot Martian Mono = `HISTORICAL_OUTPUT`, never replay input.
