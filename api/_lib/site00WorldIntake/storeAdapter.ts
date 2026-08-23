@@ -1,15 +1,38 @@
 /**
- * World intake store adapter — memory in tests.
+ * World intake store adapter — Supabase in production, memory in tests.
  */
 
+import { hasSupabaseServiceRole } from '../supabase.js';
 import * as mem from './memoryStore.js';
+import * as db from './supabaseStore.js';
 
 export function useWorldIntakeMemoryStore(): boolean {
   return process.env.SITE00_WORLD_INTAKE_USE_MEMORY === '1' || process.env.VITEST === 'true';
 }
 
+let storeModeCache: 'memory' | 'supabase' | null = null;
+
+export async function resolveWorldIntakeStoreMode(): Promise<'memory' | 'supabase'> {
+  if (useWorldIntakeMemoryStore()) {
+    storeModeCache = null;
+    return 'memory';
+  }
+  if (storeModeCache) return storeModeCache;
+  if (!hasSupabaseServiceRole()) {
+    storeModeCache = 'memory';
+    return 'memory';
+  }
+  const exists = await db.worldIntakeTablesExist();
+  storeModeCache = exists ? 'supabase' : 'memory';
+  return storeModeCache;
+}
+
+export function resetWorldIntakeStoreModeCache(): void {
+  storeModeCache = null;
+}
+
 async function store() {
-  return mem;
+  return (await resolveWorldIntakeStoreMode()) === 'memory' ? mem : db;
 }
 
 export async function saveInvite(invite: Parameters<typeof mem.saveInvite>[0]) {

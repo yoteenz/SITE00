@@ -17,6 +17,17 @@ type IntakeSummary = {
   createdAt: string;
 };
 
+type IntelligencePayload = {
+  invite: IntakeSummary & { projectSlug?: string };
+  session: {
+    completionPercentage: number;
+    synthesized: Record<string, unknown>;
+    rawAnswers: Record<string, unknown>;
+    submittedAt: string | null;
+  } | null;
+  snapshot: { snapshotId: string; readiness: { state: string } } | null;
+};
+
 const AMBITIONS = ['SITE', 'APPLICATION', 'IMMERSIVE', 'WORLD', 'UNSURE'] as const;
 
 async function adminClientIntakesFetch<T>(path: string, init?: RequestInit): Promise<T> {
@@ -34,6 +45,8 @@ export default function ClientIntakesPage() {
   const [recipientLabel, setRecipientLabel] = useState('');
   const [ambition, setAmbition] = useState<(typeof AMBITIONS)[number]>('WORLD');
   const [createdLink, setCreatedLink] = useState<string | null>(null);
+  const [linkByInvite, setLinkByInvite] = useState<Record<string, string>>({});
+  const [intelligence, setIntelligence] = useState<IntelligencePayload | null>(null);
   const [busy, setBusy] = useState(false);
 
   const reload = useCallback(async () => {
@@ -60,7 +73,7 @@ export default function ClientIntakesPage() {
     setBusy(true);
     setCreatedLink(null);
     try {
-      const data = await adminClientIntakesFetch<{ privateLink: string }>(
+      const data = await adminClientIntakesFetch<{ privateLink: string; invite: { inviteId: string } }>(
         '/api/admin/site00-client-intakes?action=create',
         {
           method: 'POST',
@@ -73,6 +86,7 @@ export default function ClientIntakesPage() {
         },
       );
       setCreatedLink(data.privateLink);
+      setLinkByInvite((prev) => ({ ...prev, [data.invite.inviteId]: data.privateLink }));
       setProjectName('');
       setRecipientLabel('');
       await reload();
@@ -102,6 +116,58 @@ export default function ClientIntakesPage() {
       await reload();
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Revoke failed');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const regenerate = async (inviteId: string) => {
+    setBusy(true);
+    try {
+      const data = await adminClientIntakesFetch<{ privateLink: string }>(
+        '/api/admin/site00-client-intakes?action=regenerate',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ inviteId }),
+        },
+      );
+      setLinkByInvite((prev) => ({ ...prev, [inviteId]: data.privateLink }));
+      setCreatedLink(data.privateLink);
+      await reload();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Regenerate failed');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const viewIntelligence = async (inviteId: string) => {
+    setBusy(true);
+    try {
+      const data = await adminClientIntakesFetch<IntelligencePayload>(
+        `/api/admin/site00-client-intakes?action=intelligence&inviteId=${encodeURIComponent(inviteId)}`,
+      );
+      setIntelligence(data);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Intelligence load failed');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const markWorldReady = async (inviteId: string) => {
+    setBusy(true);
+    try {
+      await adminClientIntakesFetch('/api/admin/site00-client-intakes?action=mark-world-ready', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ inviteId }),
+      });
+      await reload();
+      await viewIntelligence(inviteId);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Mark ready failed — intake may be incomplete');
     } finally {
       setBusy(false);
     }
@@ -154,36 +220,56 @@ export default function ClientIntakesPage() {
       {error ? <p role="alert">{error}</p> : null}
       {loading ? <p>Loading…</p> : null}
 
-      <table className="site00-admin-table">
-        <thead>
-          <tr>
-            <th>Project</th>
-            <th>Client</th>
-            <th>Class</th>
-            <th>Status</th>
-            <th>Progress</th>
-            <th>World readiness</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {intakes.map((row) => (
-            <tr key={row.inviteId}>
-              <td>{row.projectDisplayName}</td>
-              <td>{row.recipientLabel}</td>
-              <td>{row.projectExperienceClass}</td>
-              <td>{row.status}</td>
-              <td>{row.completionPercentage}%</td>
-              <td>{row.worldFormationReadiness}</td>
-              <td>
+      <div className="site00-admin-intakes-list">
+        {intakes.map((row) => {
+          const link = linkByInvite[row.inviteId];
+          return (
+            <article key={row.inviteId} className="site00-admin-intake-card" style={{ marginBottom: '1rem', padding: '1rem', border: '1px solid #333' }}>
+              <h3>{row.projectDisplayName}</h3>
+              <p>{row.recipientLabel} · {row.projectExperienceClass} · {row.status}</p>
+              <p>Progress {row.completionPercentage}% · {row.worldFormationReadiness}</p>
+              {row.lastSavedAt ? <p>Last saved {new Date(row.lastSavedAt).toLocaleString()}</p> : null}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.5rem' }}>
+                {link ? (
+                  <>
+                    <button type="button" onClick={() => void copyLink(link)}>COPY LINK</button>
+                    <a href={link} target="_blank" rel="noreferrer">OPEN</a>
+                  </>
+                ) : (
+                  <button type="button" disabled={busy} onClick={() => void regenerate(row.inviteId)}>
+                    REGENERATE LINK
+                  </button>
+                )}
+                <button type="button" disabled={busy} onClick={() => void viewIntelligence(row.inviteId)}>
+                  VIEW INTELLIGENCE
+                </button>
+                {row.worldFormationReadiness === 'WORLD_FORMATION_READY' ? (
+                  <button type="button" disabled={busy} onClick={() => void markWorldReady(row.inviteId)}>
+                    MARK READY FOR FUTURE WORLD FORMATION
+                  </button>
+                ) : null}
                 <button type="button" disabled={busy} onClick={() => void revoke(row.inviteId)}>
                   REVOKE
                 </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+      {intelligence ? (
+        <dialog open className="site00-admin-intelligence-panel" style={{ marginTop: '2rem', padding: '1rem' }}>
+          <h2>INTELLIGENCE — {intelligence.invite.projectDisplayName}</h2>
+          <p>Completion {intelligence.session?.completionPercentage ?? 0}%</p>
+          {intelligence.snapshot ? (
+            <p>Snapshot {intelligence.snapshot.snapshotId} · {intelligence.snapshot.readiness.state}</p>
+          ) : null}
+          <pre style={{ whiteSpace: 'pre-wrap', fontSize: '0.75rem', maxHeight: '40vh', overflow: 'auto' }}>
+            {JSON.stringify(intelligence.session?.synthesized ?? {}, null, 2)}
+          </pre>
+          <button type="button" onClick={() => setIntelligence(null)}>Close</button>
+        </dialog>
+      ) : null}
     </Site00AdminShell>
   );
 }

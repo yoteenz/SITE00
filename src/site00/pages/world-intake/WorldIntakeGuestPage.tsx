@@ -9,7 +9,28 @@ type GuestSession = {
   completionPercentage: number;
   currentStep: string | null;
   submittedAt: string | null;
+  synthesized?: Record<string, unknown>;
 };
+
+const REVIEW_SECTIONS: Array<{ title: string; questionIds: string[] }> = [
+  { title: 'YOUR BUSINESS', questionIds: ['business-model', 'revenue-sources', 'operational-constraints'] },
+  { title: 'YOUR CUSTOMERS', questionIds: ['audience-who', 'audience-need'] },
+  { title: 'WHAT YOU OFFER', questionIds: ['offerings-primary', 'offerings-live'] },
+  { title: 'HOW YOU SHOW UP', questionIds: ['expression-context'] },
+  { title: 'HOW FAR WE CAN PUSH IT', questionIds: ['hard-boundaries'] },
+  { title: 'HOW YOU WANT PEOPLE TO ENTER', questionIds: ['entry-experience'] },
+  { title: 'HOW CUSTOMERS EXIST INSIDE IT', questionIds: ['customer-identity', 'avatar-customization'] },
+  { title: 'HOW YOU EXIST INSIDE IT', questionIds: ['founder-presence', 'ai-representation'] },
+  { title: 'HOW PEOPLE BUY / BOOK / PARTICIPATE', questionIds: ['commerce-feel', 'live-interaction'] },
+  { title: 'WHAT SHOULD NEVER HAPPEN', questionIds: ['hard-boundaries', 'founder-world-hypothesis'] },
+];
+
+function answerText(rawAnswers: GuestSession['rawAnswers'], questionId: string): string {
+  const entry = rawAnswers[questionId];
+  if (!entry) return '—';
+  const v = entry.verbatim ?? entry.value;
+  return typeof v === 'string' && v.trim() ? v : '—';
+}
 
 type ResolvePayload = {
   ok: boolean;
@@ -56,7 +77,8 @@ export default function WorldIntakeGuestPage() {
   }, [reload]);
 
   const steps = payload?.steps ?? [];
-  const current = steps[stepIndex];
+  const onReview = stepIndex >= steps.length && steps.length > 0;
+  const current = onReview ? null : steps[stepIndex];
 
   useEffect(() => {
     if (!current || !payload) return;
@@ -109,10 +131,18 @@ export default function WorldIntakeGuestPage() {
 
   const goNext = async () => {
     await saveAnswer();
-    if (stepIndex < steps.length - 1) setStepIndex((i) => i + 1);
+    if (stepIndex < steps.length - 1) {
+      setStepIndex((i) => i + 1);
+    } else if (stepIndex === steps.length - 1) {
+      setStepIndex(steps.length);
+    }
   };
 
   const goBack = () => {
+    if (onReview) {
+      setStepIndex(steps.length - 1);
+      return;
+    }
     if (stepIndex > 0) setStepIndex((i) => i - 1);
   };
 
@@ -139,7 +169,7 @@ export default function WorldIntakeGuestPage() {
     );
   }
 
-  if (!payload || !current) {
+  if (!payload || (!current && !onReview)) {
     return <div className="site00-world-intake-guest"><p>Loading…</p></div>;
   }
 
@@ -155,6 +185,31 @@ export default function WorldIntakeGuestPage() {
     );
   }
 
+  if (onReview) {
+    return (
+      <div className="site00-world-intake-guest">
+        <header className="site00-world-intake-guest__header">
+          <p className="site00-world-intake-guest__kicker">WHAT WE HEARD</p>
+          <h1>{payload.invite.projectDisplayName}</h1>
+          <p>Review your answers before submitting. You can edit any section.</p>
+        </header>
+        {REVIEW_SECTIONS.map((section) => (
+          <section key={section.title} className="site00-world-intake-guest__review-block">
+            <h3>{section.title}</h3>
+            {section.questionIds.map((qid) => (
+              <p key={qid}>{answerText(payload.session.rawAnswers, qid)}</p>
+            ))}
+          </section>
+        ))}
+        {error ? <p className="site00-world-intake-guest__error">{error}</p> : null}
+        <div className="site00-world-intake-guest__nav">
+          <button type="button" onClick={goBack}>Edit</button>
+          <button type="button" onClick={() => void handleSubmit()} disabled={saving}>Submit</button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="site00-world-intake-guest">
       <header className="site00-world-intake-guest__header">
@@ -166,13 +221,13 @@ export default function WorldIntakeGuestPage() {
       </header>
 
       <section className="site00-world-intake-guest__step">
-        <p className="site00-world-intake-guest__section">{current.section.replace(/_/g, ' ')}</p>
-        <h2>{current.title}</h2>
-        {current.helper ? <p className="site00-world-intake-guest__helper">{current.helper}</p> : null}
+        <p className="site00-world-intake-guest__section">{current!.section.replace(/_/g, ' ')}</p>
+        <h2>{current!.title}</h2>
+        {current!.helper ? <p className="site00-world-intake-guest__helper">{current!.helper}</p> : null}
 
-        {current.responseMode === 'SINGLE_SELECT' && current.options ? (
+        {current!.responseMode === 'SINGLE_SELECT' && current!.options ? (
           <div className="site00-world-intake-guest__options">
-            {current.options.map((opt: { id: string; label: string }) => (
+            {current!.options.map((opt: { id: string; label: string }) => (
               <button
                 key={opt.id}
                 type="button"
@@ -188,7 +243,7 @@ export default function WorldIntakeGuestPage() {
             className="site00-world-intake-guest__textarea"
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            placeholder={current.placeholder ?? 'Your answer…'}
+            placeholder={current!.placeholder ?? 'Your answer…'}
             rows={6}
           />
         )}
@@ -199,15 +254,9 @@ export default function WorldIntakeGuestPage() {
           <button type="button" onClick={goBack} disabled={stepIndex === 0}>
             Back
           </button>
-          {stepIndex < steps.length - 1 ? (
-            <button type="button" onClick={() => void goNext()} disabled={saving}>
-              Continue
-            </button>
-          ) : (
-            <button type="button" onClick={() => void handleSubmit()} disabled={saving}>
-              Submit
-            </button>
-          )}
+          <button type="button" onClick={() => void goNext()} disabled={saving}>
+            {stepIndex < steps.length - 1 ? 'Continue' : 'Review'}
+          </button>
         </div>
       </section>
     </div>
