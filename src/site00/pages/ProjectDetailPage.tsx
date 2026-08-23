@@ -5,7 +5,7 @@ import { EmptyState } from '../components/pages/Site00PagePrimitives';
 import { ProjectPrivilegedUtilities } from '../components/access/ProjectPrivilegedUtilities';
 import { ProjectPersonalityReplayStatus } from '../components/validation/ProjectPersonalityReplayStatus';
 import { useSite00ProjectDetail } from '../hooks/useSite00Projects';
-import { SITE00_ROUTES, site00ProjectPersonalityReplayPath } from '../config/routes';
+import { SITE00_ROUTES, site00ProjectCreativeAppetitePath, site00ProjectPersonalityReplayPath } from '../config/routes';
 import type { Site00FounderProjectSlug } from '../../../shared/site00-projects/types';
 import '../styles/site00-projects.css';
 
@@ -108,6 +108,12 @@ export default function ProjectDetailPage() {
                   ) : null}
                   <Link className="site00-btn site00-btn--primary site00-project-command__cta" to={project.creativeDirection.route}>
                     REVIEW CREATIVE DIRECTION →
+                  </Link>
+                  <Link
+                    className="site00-btn site00-project-command__cta site00-project-command__cta--secondary"
+                    to={site00ProjectCreativeAppetitePath(projectSlug)}
+                  >
+                    HOW FAR CAN WE TAKE IT? →
                   </Link>
                   {projectSlug === 'ndxbook' ? (
                     <>

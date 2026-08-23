@@ -92,6 +92,7 @@ const PersonalityReplayIntakeRouterPage = lazy(
   () => import('../site00/pages/validation/PersonalityReplayIntakeRouterPage'),
 );
 const ProjectLoreCalibrationPage = lazy(() => import('../site00/pages/ProjectLoreCalibrationPage'));
+const ProjectCreativeAppetitePage = lazy(() => import('../site00/pages/ProjectCreativeAppetitePage'));
 const SupportPage = lazy(() => import('../site00/pages/SupportPage'));
 const IdntySignInSecurityPage = lazy(() => import('../site00/pages/idnty/IdntySignInSecurityPage'));
 const BldrTemplatesPage = lazy(() => import('../site00/pages/bldr/BldrTemplatesPage'));
@@ -579,6 +580,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectLoreCalibrationPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCreativeAppetite}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCreativeAppetitePage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

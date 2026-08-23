@@ -13,6 +13,16 @@ export const NDXBOOK_CANONICAL_CAROUSEL_EXPANSION_DB_ID = 'c4e1a2b3-0002-4000-80
 
 export const CAROUSEL_EXPERIMENT_VERSION = 'carousel-v1-credit-utilization';
 
+/** Future carousel runs with Sequence Creative System — do not mutate v1 mid-run. */
+export const CAROUSEL_SEQUENCE_METHODOLOGY_VERSION = 'carousel-v2-sequence';
+
+export function usesSequenceCreativeMethodology(carouselExperimentVersion: string): boolean {
+  return (
+    carouselExperimentVersion === CAROUSEL_SEQUENCE_METHODOLOGY_VERSION ||
+    carouselExperimentVersion.includes('sequence')
+  );
+}
+
 export const CAROUSEL_TOTAL_SLIDES = 6;
 
 export const CAROUSEL_NEW_SLIDES_PER_DIRECTION = 5;

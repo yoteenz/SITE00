@@ -19,6 +19,13 @@ import {
 } from '../../../../../shared/site00-brand-lore/contentBrainPersonalityBridge.js';
 import { buildFormatLineage } from '../../../../../shared/site00-brand-lore/formatLineage.js';
 import { NDXBOOK_CORE_DIRECTIONS } from '../coreDirectionDefinitions.js';
+import {
+  shouldIncludeCreativeAppetiteInFormation,
+} from '../../../../../shared/site00-brand-lore/founderCreativeAppetite/experimentExclusion.js';
+import {
+  summarizeCreativeAppetiteForFormation,
+} from '../../../../../shared/site00-brand-lore/founderCreativeAppetite/synthesis.js';
+import { computeCreativeAppetiteFingerprint } from '../../../../../shared/site00-brand-lore/founderCreativeAppetite/fingerprint.js';
 import type { IntelligenceBriefSection } from '../types.js';
 import type { CoreDirectionFormationInput, ExistingCreativeExploration } from './types.js';
 
@@ -66,8 +73,20 @@ export function buildCoreDirectionFormationInput(params: {
   formationVersion?: number;
   includeLegacyExplorations?: boolean;
   orgSlug?: string | null;
+  experimentId?: string | null;
+  intelligenceSnapshotVersion?: number | null;
 }): CoreDirectionFormationInput {
   const { profile, projectId = profile.projectId, contentBrainSections = [], formationVersion = 1 } = params;
+
+  const includeAppetite = shouldIncludeCreativeAppetiteInFormation({
+    experimentId: params.experimentId ?? null,
+    intelligenceSnapshotVersion: params.intelligenceSnapshotVersion ?? null,
+  });
+  const appetite = profile.founderCreativeAppetite ?? null;
+  const founderCreativeAppetiteSummary =
+    includeAppetite && appetite ? summarizeCreativeAppetiteForFormation(appetite) : null;
+  const creativeAppetiteFingerprint =
+    includeAppetite && appetite ? computeCreativeAppetiteFingerprint(appetite) : null;
 
   const contentBrainSummary =
     contentBrainSections.length > 0
@@ -167,6 +186,9 @@ export function buildCoreDirectionFormationInput(params: {
     existingCreativeExplorations: params.includeLegacyExplorations === false ? [] : buildLegacyProposedExplorations(),
     formationVersion,
     orgSlug: params.orgSlug ?? null,
+    founderCreativeAppetiteSummary,
+    creativeAppetiteFingerprint,
+    intelligenceSnapshotVersion: params.intelligenceSnapshotVersion ?? undefined,
   };
 }
 

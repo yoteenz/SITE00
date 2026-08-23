@@ -81,6 +81,10 @@ export type CoreDirectionFormationInput = {
   existingCreativeExplorations: ExistingCreativeExploration[];
   formationVersion: number;
   orgSlug?: string | null;
+  /** Future experiments only — excluded from frozen NDXBOOK concept territory snapshot. */
+  founderCreativeAppetiteSummary?: string | null;
+  creativeAppetiteFingerprint?: string | null;
+  intelligenceSnapshotVersion?: number;
 };
 
 export type CoreDirectionFormationResult = {

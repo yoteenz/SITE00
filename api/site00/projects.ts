@@ -189,9 +189,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const payload = await getCreativeDirectionPayload(slug);
         const orgId = orgIdFromSlug(slug);
         const loreProfile = orgId ? await getOrReconcileBrandLoreForOrg(orgId, slug) : null;
+        const appetitePayload = orgId
+          ? await (async () => {
+              const { getCreativeAppetiteInspectorPayload } = await import(
+                '../_lib/site00BrandLore/creativeAppetiteService.js'
+              );
+              return getCreativeAppetiteInspectorPayload(slug, orgId);
+            })()
+          : null;
         return json(res, 200, {
           ...payload,
           brandLoreCalibrationAnswers: loreProfile?.rawLoreAnswers ?? {},
+          ...(appetitePayload ?? {}),
         });
       }
       case 'creative_direction_decision': {
@@ -350,6 +359,63 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         invalidateCreativeDirectionEngagement(slug);
         const payload = await getCreativeDirectionPayload(slug);
         return json(res, 200, { ok: true, ...payload, source: 'site00_personality_calibration' });
+      }
+      case 'creative_appetite_submit': {
+        if (req.method !== 'POST') {
+          return json(res, 405, {
+            ok: false,
+            error: { code: 'POST_REQUIRED', message: 'POST required' },
+            source: 'site00_creative_appetite',
+          });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? req.query.slug ?? '');
+        if (!slug) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'SLUG_REQUIRED', message: 'slug required' },
+            source: 'site00_creative_appetite',
+          });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, {
+            ok: false,
+            error: { code: 'PROJECT_ACCESS_DENIED', message: 'Project access denied' },
+            source: 'site00_creative_appetite',
+          });
+        }
+        const orgId = orgIdFromSlug(slug);
+        if (!orgId) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'ORG_NOT_REGISTERED', message: 'Organization not registered' },
+            source: 'site00_creative_appetite',
+          });
+        }
+        const appetiteAnswers = (body.answers ?? body.appetiteAnswers ?? {}) as Record<string, string | string[]>;
+        if (!appetiteAnswers || typeof appetiteAnswers !== 'object' || Object.keys(appetiteAnswers).length === 0) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'ANSWERS_REQUIRED', message: 'At least one appetite answer required' },
+            source: 'site00_creative_appetite',
+          });
+        }
+        const { submitOrgCreativeAppetite, getCreativeAppetiteInspectorPayload } = await import(
+          '../_lib/site00BrandLore/creativeAppetiteService.js'
+        );
+        const { invalidateCreativeDirectionEngagement } = await import(
+          '../_lib/site00Evolve/creativeDirection/engagementService.js'
+        );
+        await submitOrgCreativeAppetite({ orgId, orgSlug: slug, appetiteAnswers });
+        invalidateCreativeDirectionEngagement(slug);
+        const payload = await getCreativeDirectionPayload(slug);
+        const inspector = await getCreativeAppetiteInspectorPayload(slug, orgId);
+        return json(res, 200, {
+          ok: true,
+          ...payload,
+          ...inspector,
+          source: 'site00_creative_appetite',
+        });
       }
       case 'personality_replay_bootstrap': {
         const slug = String(req.query.slug ?? '');

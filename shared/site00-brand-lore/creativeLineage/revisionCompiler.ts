@@ -20,6 +20,7 @@ export type RevisionCompilerContext = {
   directionName: string;
   worldId: string;
   topicName?: string | null;
+  sequenceLockContext?: Record<string, unknown> | null;
 };
 
 const CATEGORY_TO_ELEMENT: Partial<Record<RevisionCategoryKey, RevisionElementKey>> = {
@@ -161,7 +162,10 @@ function buildFormatRequirements(ctx: RevisionCompilerContext, spec: CreativeRev
   return reqs;
 }
 
-function buildDeltaPrompt(brief: Omit<RevisionGenerationBrief, 'deltaPrompt' | 'compiledAt'>): string {
+function buildDeltaPrompt(
+  brief: Omit<RevisionGenerationBrief, 'deltaPrompt' | 'compiledAt'>,
+  sequenceLockContext?: Record<string, unknown> | null,
+): string {
   const section = (title: string, items: string[]) =>
     items.length ? ['', `${title}:`, ...items.map((p) => `- ${p}`)] : [];
 
@@ -182,6 +186,10 @@ function buildDeltaPrompt(brief: Omit<RevisionGenerationBrief, 'deltaPrompt' | '
     ...section('BRAND DNA TO PRESERVE', brief.brandDnaPreserve),
     ...section('FORMAT REQUIREMENTS', brief.formatRequirements),
   ];
+
+  if (sequenceLockContext) {
+    lines.push('', 'SEQUENCE IDENTITY LOCK:', JSON.stringify(sequenceLockContext, null, 2));
+  }
 
   if (brief.typographyRevision) lines.push('', 'TYPOGRAPHY DELTA:', brief.typographyRevision);
   if (brief.colorRevision) lines.push('', 'COLOR DELTA:', brief.colorRevision);
@@ -227,7 +235,7 @@ export function compileCreativeRevision(
 
   return {
     ...partial,
-    deltaPrompt: buildDeltaPrompt(partial),
+    deltaPrompt: buildDeltaPrompt(partial, ctx.sequenceLockContext),
     compiledAt: new Date().toISOString(),
   };
 }

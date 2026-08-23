@@ -30,6 +30,8 @@ import { downloadUrlToBuffer, uploadSite00AssetBuffer } from '../../../site00Ass
 import { getCanonicalCarouselExpansionRun } from '../canonicalCarouselExpansion/canonicalCarouselExpansionService.js';
 import { getCanonicalCreativeRangeRun } from '../canonicalCreativeRange/canonicalCreativeRangeService.js';
 import { NDXBOOK_ORG_ID } from '../creativeIntelligence/founderComparisonSet.js';
+import { assertCreativeAppetiteNotInjectedIntoFrozenExperiment } from '../../../../../shared/site00-brand-lore/founderCreativeAppetite/experimentExclusion.js';
+import { NDXBOOK_CONCEPT_EXPERIMENT_SNAPSHOT_VERSION } from '../../../../../shared/site00-brand-lore/founderCreativeAppetite/constants.js';
 import * as experimentDStore from './storeAdapter.js';
 
 function nowIso(): string {
@@ -54,13 +56,20 @@ function aspectRatioForFormat(format: string): string {
 }
 
 function initRun(existing?: SixConceptHeroRangeRun | null): SixConceptHeroRangeRun {
-  if (existing) return existing;
+  if (existing) {
+    return {
+      ...existing,
+      intelligenceSnapshotVersion:
+        existing.intelligenceSnapshotVersion ?? NDXBOOK_CONCEPT_EXPERIMENT_SNAPSHOT_VERSION,
+    };
+  }
   return {
     experimentClassification: EXPERIMENT_D_CLASSIFICATION,
     runId: EXPERIMENT_D_RUN_ID,
     organizationId: NDXBOOK_ORG_ID,
     projectId: 'ndxbook',
     methodologyVersion: CONCEPT_TERRITORY_METHODOLOGY_VERSION,
+    intelligenceSnapshotVersion: NDXBOOK_CONCEPT_EXPERIMENT_SNAPSHOT_VERSION,
     topicId: EXPERIMENT_D_TOPIC_ID,
     topicName: EXPERIMENT_D_TOPIC_NAME,
     status: 'NOT_STARTED',
@@ -79,11 +88,12 @@ function initRun(existing?: SixConceptHeroRangeRun | null): SixConceptHeroRangeR
   };
 }
 
-function buildConceptFirstHeroBrief(candidate: ExperimentDHeroCandidate): Record<string, unknown> {
+export function buildConceptFirstHeroBrief(candidate: ExperimentDHeroCandidate): Record<string, unknown> {
   const { territory, expressionSystem } = candidate;
-  return {
+  const brief = {
     methodologyVersion: CONCEPT_TERRITORY_METHODOLOGY_VERSION,
     experimentClassification: EXPERIMENT_D_CLASSIFICATION,
+    intelligenceSnapshotVersion: NDXBOOK_CONCEPT_EXPERIMENT_SNAPSHOT_VERSION,
     topic: EXPERIMENT_D_TOPIC_NAME,
     directionName: territory.directionName,
     conceptTerritory: {
@@ -111,6 +121,8 @@ function buildConceptFirstHeroBrief(candidate: ExperimentDHeroCandidate): Record
     ],
     role: 'CONCEPT_TERRITORY_HERO',
   };
+  assertCreativeAppetiteNotInjectedIntoFrozenExperiment(JSON.stringify(brief));
+  return brief;
 }
 
 function buildHeroCandidates(

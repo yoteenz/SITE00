@@ -248,6 +248,15 @@ export async function submitOrgPersonalityCalibration(params: {
   });
 }
 
+export async function submitOrgCreativeAppetite(params: {
+  orgId: string;
+  orgSlug: string;
+  appetiteAnswers: Record<string, string | string[]>;
+}): Promise<BrandLoreProfile> {
+  const { submitOrgCreativeAppetite: submit } = await import('./creativeAppetiteService.js');
+  return submit(params);
+}
+
 export async function confirmFounderPersonalityField(
   profileId: string,
   fieldKey: keyof import('../../../shared/site00-brand-lore/personalityTypes.js').BrandPersonalityProfile,

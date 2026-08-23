@@ -192,6 +192,25 @@ Fourth complementary EVOLVE capability (alongside REFINE, INSTALL, TRANSFORM): o
 
 ---
 
+## Studio World — Creative Intelligence Hierarchy
+
+Canonical upstream-to-downstream layers (methodology v20+):
+
+| Layer | Question |
+|-------|----------|
+| **Brand Lore** | What does the brand believe / world context? |
+| **Brand Personality** | How does the brand behave? |
+| **Primary Expression Context** | Where does the brand primarily live? |
+| **Founder Creative Appetite** | How far may creative exploration push? |
+| **Concept Territory** | What is the big creative idea? |
+| **World Expression System** | What is the persistent visual/verbal universe? |
+| **Sequence Creative System** | What is the post-level art-direction contract for one multi-frame execution? |
+| **Frame / Asset** | Individual generated expression |
+
+**Rules:** Founder Creative Appetite ≠ Brand Personality ≠ visual canon. Brand wins on conflict. Frozen NDXBOOK concept experiment excludes appetite from serialized production payloads (`assertCreativeAppetiteNotInjectedIntoFrozenExperiment`). Sequence Creative System preserves palette usage hierarchy and Slide 01 anchor — cohesion ≠ sameness.
+
+---
+
 ## Docs
 
 | Path | Purpose |

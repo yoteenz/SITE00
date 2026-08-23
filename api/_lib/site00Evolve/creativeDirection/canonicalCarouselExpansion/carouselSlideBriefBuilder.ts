@@ -16,6 +16,8 @@ import type {
   CreativeExpressionSystem,
   HeroCreativeConcept,
 } from '../creativeIntelligence/creativeExpressionTypes.js';
+import type { SequenceCreativeSystem } from '../../../../../shared/site00-brand-lore/sequenceCreative/types.js';
+import { buildCarouselSlideSequenceBrief } from '../../../../../shared/site00-brand-lore/sequenceCreative/integration.js';
 
 function nowIso(): string {
   return new Date().toISOString();
@@ -236,5 +238,33 @@ export function carouselSlideCopyQualityScores(): CopyQualityScores {
     directionFit: 9,
     pass: true,
     reasons: ['Carousel slide plan — copy pre-authored from direction world bible'],
+  };
+}
+
+/** Merge sequence-native brief for v2+ carousel methodology — never mutates v1 frozen runs. */
+export function buildCarouselSlideGenerationPayload(params: {
+  direction: CarouselDirectionCarousel;
+  slide: CarouselSlideRecord;
+  carouselExperimentVersion: string;
+  sequenceSystem?: SequenceCreativeSystem | null;
+  anchorSlide?: CarouselSlideRecord | null;
+  previousSlide?: CarouselSlideRecord | null;
+  brandIntelligenceSummary?: string;
+}): Record<string, unknown> {
+  const artDirection = buildCarouselSlideArtDirection(params);
+  const sequenceBrief = buildCarouselSlideSequenceBrief({
+    carouselExperimentVersion: params.carouselExperimentVersion,
+    sequenceSystem: params.sequenceSystem ?? null,
+    direction: params.direction,
+    slide: params.slide,
+    anchorSlide: params.anchorSlide ?? null,
+    previousSlide: params.previousSlide ?? null,
+    brandIntelligenceSummary: params.brandIntelligenceSummary,
+  });
+
+  return {
+    artDirection,
+    sequenceCreativeBrief: sequenceBrief,
+    carouselExperimentVersion: params.carouselExperimentVersion,
   };
 }

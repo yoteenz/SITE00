@@ -15,6 +15,8 @@ import {
   mapFounderJudgmentToReviewState,
 } from '../../../../shared/site00-brand-lore/creativeLineage/founderJudgmentLineage.js';
 import type { CreativeAssetRecord } from '../../../../shared/site00-brand-lore/creativeLineage/types.js';
+import type { SequenceCreativeSystem } from '../../../../shared/site00-brand-lore/sequenceCreative/types.js';
+import { buildSequenceLineageExtension } from '../../../../shared/site00-brand-lore/sequenceCreative/integration.js';
 import { NDXBOOK_ORG_ID } from '../creativeDirection/creativeIntelligence/founderComparisonSet.js';
 
 const TOPIC_ID = 'credit-utilization';
@@ -161,6 +163,8 @@ export function buildCarouselSlideAssetRecord(params: {
   canonVersion: number;
   hero: CreativeAssetRecord | null;
   ts: string;
+  sequenceSystem?: SequenceCreativeSystem | null;
+  anchorAssetId?: string | null;
 }): CreativeAssetRecord {
   const { dir, slide, carouselExperimentVersion, canonVersion, hero, ts } = params;
   const worldId = `world-${dir.directionId}`;
@@ -208,12 +212,15 @@ export function buildCarouselSlideAssetRecord(params: {
         brandLoreVersion: null,
         brandLoreFingerprint: null,
         personalityFingerprint: null,
+        creativeAppetiteFingerprint: null,
+        creativeAppetiteAvailability: 'EXCLUDED_CURRENT_EXPERIMENT',
         expressionContext: 'SOCIAL_FIRST_EDITORIAL',
         directionExpressionSystemId: null,
         creativeExpressionSystemId: null,
         identityArtDirectionId: null,
         visualBriefId: null,
         promptHash: slide.generationReceipt?.firstGenerationPromptHash ?? null,
+        sequenceCreativeSystemId: params.sequenceSystem?.sequenceCreativeSystemId ?? null,
       },
       generationLineage: {
         provider: slide.asset!.provider,
@@ -246,6 +253,14 @@ export function buildCarouselSlideAssetRecord(params: {
       publishingReadiness: null,
       historicalSourceRef: `site00_methodology_validation_runs:CAROUSEL_EXPANSION:${dir.comparisonIndex}:slide${slide.slideNumber}`,
       immutable: true,
+      sequenceLineage:
+        params.sequenceSystem && params.anchorAssetId
+          ? buildSequenceLineageExtension({
+              sequenceSystem: params.sequenceSystem,
+              slide,
+              anchorAssetId: params.anchorAssetId,
+            })
+          : null,
       createdAt: ts,
       updatedAt: ts,
       ...defaultBrandLineageFields(),

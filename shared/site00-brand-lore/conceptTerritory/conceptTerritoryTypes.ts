@@ -199,6 +199,8 @@ export type SixConceptHeroRangeRun = {
   organizationId: string;
   projectId: string;
   methodologyVersion: string;
+  /** Intelligence boundary frozen at experiment start — appetite excluded when < 2. */
+  intelligenceSnapshotVersion: number;
   topicId: string;
   topicName: string;
   status: ExperimentDStatus;

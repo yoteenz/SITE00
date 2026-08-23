@@ -136,6 +136,12 @@ export type BrandLoreProfile = {
   /** Behavioral personality canon — how the brand acts, speaks, jokes, reacts (upstream of Creative Direction). */
   brandPersonality?: import('./personalityTypes.js').BrandPersonalityProfile | null;
 
+  /**
+   * Founder exploration envelope — how far creative may push before feeling wrong.
+   * NOT brand personality, NOT visual canon. Brand wins on conflict.
+   */
+  founderCreativeAppetite?: import('./founderCreativeAppetite/types.js').FounderCreativeAppetiteProfile | null;
+
   createdAt: string;
   updatedAt: string;
 };

@@ -57,6 +57,7 @@ export const SITE00_ROUTES = {
   projectEvolve: '/projects/:projectSlug/evolve',
   projectCreativeDirection: '/projects/:projectSlug/creative-direction',
   projectLoreCalibration: '/projects/:projectSlug/calibrate',
+  projectCreativeAppetite: '/projects/:projectSlug/creative-appetite',
   projectPersonalityReplay: '/projects/:projectSlug/personality-replay',
   projectPersonalityReplayConsistency: '/projects/:projectSlug/personality-replay/consistency',
   projectCanonicalCreativeRange: '/projects/:projectSlug/canonical-creative-range',
@@ -99,6 +100,10 @@ export function site00ProjectPath(projectSlug: string): string {
 
 export function site00ProjectLoreCalibrationPath(projectSlug: string): string {
   return `/projects/${projectSlug}/calibrate`;
+}
+
+export function site00ProjectCreativeAppetitePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/creative-appetite`;
 }
 
 export function site00ProjectPersonalityReplayPath(projectSlug: string): string {

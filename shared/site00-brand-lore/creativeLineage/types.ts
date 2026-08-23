@@ -270,12 +270,15 @@ export type IntelligenceLineage = {
   brandLoreVersion: number | null;
   brandLoreFingerprint: string | null;
   personalityFingerprint: string | null;
+  creativeAppetiteFingerprint: string | null;
+  creativeAppetiteAvailability: string | null;
   expressionContext: string | null;
   directionExpressionSystemId: string | null;
   creativeExpressionSystemId: string | null;
   identityArtDirectionId: string | null;
   visualBriefId: string | null;
   promptHash: string | null;
+  sequenceCreativeSystemId: string | null;
 };
 
 export type GenerationLineage = {
@@ -353,6 +356,8 @@ export type CreativeAssetRecord = {
   preferredRevisionAssetId?: string | null;
   /** Revision spec that produced this child asset. */
   revisionSpecId?: string | null;
+  /** Post-level art direction contract for multi-frame executions. */
+  sequenceLineage?: import('../sequenceCreative/types.js').SequenceLineageExtension | null;
   createdAt: string;
   updatedAt: string;
 };
