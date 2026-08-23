@@ -2,7 +2,7 @@
  * Generic template resemblance audit — current NDXBOOK project home presentation.
  */
 
-import type { GenericTemplateResemblanceAudit } from './types.js';
+import type { GenericTemplateResemblanceAudit, CurrentExperienceAudit } from './types.js';
 
 export function auditNdxbookProjectHomeTemplate(): GenericTemplateResemblanceAudit {
   const dimensions = [
@@ -64,4 +64,9 @@ export function auditNdxbookProjectHomeTemplate(): GenericTemplateResemblanceAud
 export function cardDefaultNotRequired(audit: GenericTemplateResemblanceAudit): boolean {
   const cardDim = audit.dimensions.find((d) => d.dimension === 'CARD_DEPENDENCE');
   return cardDim?.score === 'HIGH';
+}
+
+export function buildCurrentExperienceAudit(): CurrentExperienceAudit {
+  const base = auditNdxbookProjectHomeTemplate();
+  return { ...base, auditType: 'CURRENT_NDXBOOK_EXPERIENCE_FORENSIC' };
 }

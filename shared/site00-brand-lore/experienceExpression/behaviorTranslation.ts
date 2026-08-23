@@ -9,24 +9,42 @@ import type {
   ExperienceFunctionalCanon,
   HostExperienceCanon,
 } from './types.js';
+import type { CrossMediumConceptEvidence } from './crossMediumConceptEvidence.js';
 
 export function translateWorldBehaviorIntoExperienceBehavior(params: {
-  territory: CreativeConceptTerritory;
-  world: WorldExpressionSystem;
+  territory: CreativeConceptTerritory | null;
+  world: WorldExpressionSystem | null;
   concept: ExperienceConcept;
   functionalCanon: ExperienceFunctionalCanon;
   hostCanon: HostExperienceCanon;
+  crossMediumEvidence?: CrossMediumConceptEvidence[];
 }): ExperienceBehaviorTranslation {
-  const { territory, world, concept, functionalCanon } = params;
+  const { territory, world, concept, functionalCanon, crossMediumEvidence = [] } = params;
   const translations: ExperienceBehaviorTranslation['translations'] = [];
 
-  translations.push({
-    worldBehavior: territory.primaryVisualMechanism,
-    experienceBehavior: concept.informationBehavior,
-    rationale: `Primary visual mechanism becomes ${concept.experienceMetaphor} information delivery — not social layout paste`,
-  });
+  const promoted = crossMediumEvidence.find((e) => e.classification === 'EXPLICITLY_PROMOTED_CROSS_MEDIUM');
 
-  if (world.motionSystem) {
+  if (territory) {
+    translations.push({
+      worldBehavior: territory.primaryVisualMechanism,
+      experienceBehavior: concept.informationBehavior,
+      rationale: `Primary visual mechanism becomes ${concept.experienceMetaphor} information delivery — not social layout paste`,
+    });
+  } else if (promoted) {
+    translations.push({
+      worldBehavior: promoted.primaryVisualMechanism,
+      experienceBehavior: concept.informationBehavior,
+      rationale: `Cross-medium evidence ${promoted.directionName} behavior translated — not copied as page layout`,
+    });
+  } else {
+    translations.push({
+      worldBehavior: 'Brand intelligence behavioral signals',
+      experienceBehavior: concept.informationBehavior,
+      rationale: 'Experience behavior derived from snapshot — no social layout copying',
+    });
+  }
+
+  if (world?.motionSystem) {
     translations.push({
       worldBehavior: world.motionSystem,
       experienceBehavior: concept.motionPhilosophy,
@@ -34,7 +52,7 @@ export function translateWorldBehaviorIntoExperienceBehavior(params: {
     });
   }
 
-  if (world.socialBehavior) {
+  if (world?.socialBehavior) {
     translations.push({
       worldBehavior: world.socialBehavior,
       experienceBehavior: concept.interactionGrammar,
@@ -44,15 +62,15 @@ export function translateWorldBehaviorIntoExperienceBehavior(params: {
 
   for (const route of functionalCanon.routes.slice(0, 3)) {
     translations.push({
-      worldBehavior: territory.contentBehavior,
+      worldBehavior: territory?.contentBehavior ?? 'Functional route requirement',
       experienceBehavior: `Navigate to ${route} via ${concept.navigationBehavior}`,
       rationale: 'Functional route preserved; presentation follows experience concept',
     });
   }
 
   return {
-    territoryId: territory.territoryId,
-    worldExpressionSystemId: world.expressionSystemId,
+    territoryId: territory?.territoryId ?? promoted?.territoryId ?? 'snapshot-derived',
+    worldExpressionSystemId: world?.expressionSystemId ?? promoted?.worldExpressionSystemId ?? 'none',
     experienceConceptId: concept.experienceConceptId,
     translations,
     socialLayoutCopyingBlocked: true,

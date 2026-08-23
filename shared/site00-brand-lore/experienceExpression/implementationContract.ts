@@ -16,8 +16,8 @@ import type { ClientExperienceCanon } from './types.js';
 export function compileExperienceImplementationContract(params: {
   concept: ExperienceConcept;
   bible: ExperienceBible;
-  territory: CreativeConceptTerritory;
-  world: WorldExpressionSystem;
+  territory?: CreativeConceptTerritory | null;
+  world?: WorldExpressionSystem | null;
   functionalCanon: ExperienceFunctionalCanon;
   host: HostExperienceCanon;
   client: ClientExperienceCanon;
@@ -29,8 +29,8 @@ export function compileExperienceImplementationContract(params: {
     contractId: `contract-${concept.experienceConceptId}`,
     selectedExperienceConceptId: concept.experienceConceptId,
     selectedExperienceBibleId: bible.experienceBibleId,
-    selectedConceptTerritoryId: territory.territoryId,
-    worldExpressionSystemId: world.expressionSystemId,
+    selectedConceptTerritoryId: territory?.territoryId ?? 'snapshot-derived',
+    worldExpressionSystemId: world?.expressionSystemId ?? 'none',
     functionalPreservation: [
       ...functionalCanon.routes.map((r) => `Route preserved: ${r}`),
       ...functionalCanon.actions.map((a) => `Action preserved: ${a}`),
@@ -46,9 +46,8 @@ export function compileExperienceImplementationContract(params: {
       'Global host wayfinding accent',
     ],
     clientExpression: [
-      territory.centralConcept,
-      world.paletteSystem,
-      world.typographySystem,
+      ...(territory ? [territory.centralConcept] : []),
+      ...(world ? [world.paletteSystem, world.typographySystem] : []),
       ...client.traits.filter((t) => t.provenance !== 'EXPERIMENTAL_ASSET').map((t) => t.trait),
     ],
     interactionGrammar: bible.interactionGrammar.split(';').map((s) => s.trim()).filter(Boolean),

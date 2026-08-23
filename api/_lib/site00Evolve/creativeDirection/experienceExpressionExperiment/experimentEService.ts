@@ -22,9 +22,9 @@ import type {
 import { extractNdxbookFunctionalCanon } from '../../../../../shared/site00-brand-lore/experienceExpression/functionalCanon.js';
 import { buildHostExperienceCanon } from '../../../../../shared/site00-brand-lore/experienceExpression/hostExperienceCanon.js';
 import { buildClientExperienceCanon } from '../../../../../shared/site00-brand-lore/experienceExpression/clientExperienceCanon.js';
-import { auditNdxbookProjectHomeTemplate } from '../../../../../shared/site00-brand-lore/experienceExpression/genericTemplateAudit.js';
+import { buildCurrentExperienceAudit } from '../../../../../shared/site00-brand-lore/experienceExpression/genericTemplateAudit.js';
 import { assessExperienceExpressionReadiness } from '../../../../../shared/site00-brand-lore/experienceExpression/readiness.js';
-import { buildExperienceConceptsForTerritory } from '../../../../../shared/site00-brand-lore/experienceExpression/experienceConceptSeeds.js';
+import { buildExperienceConceptsFromSnapshot } from '../../../../../shared/site00-brand-lore/experienceExpression/experienceConceptFormation.js';
 import { buildExperienceBible } from '../../../../../shared/site00-brand-lore/experienceExpression/experienceBibleBuilder.js';
 import { runExperienceConceptDistinctivenessGate } from '../../../../../shared/site00-brand-lore/experienceExpression/distinctiveness.js';
 import { translateWorldBehaviorIntoExperienceBehavior } from '../../../../../shared/site00-brand-lore/experienceExpression/behaviorTranslation.js';
@@ -34,6 +34,11 @@ import {
 } from '../../../../../shared/site00-brand-lore/experienceExpression/visualPromptCompiler.js';
 import { runAllExperienceContaminationTests } from '../../../../../shared/site00-brand-lore/experienceExpression/contaminationGuards.js';
 import { compileExperienceImplementationContract } from '../../../../../shared/site00-brand-lore/experienceExpression/implementationContract.js';
+import {
+  buildAllExperimentDTerritoryEvidence,
+  classifyExperimentDTerritoryEvidence,
+} from '../../../../../shared/site00-brand-lore/experienceExpression/crossMediumConceptEvidence.js';
+import { compileExperimentEIntelligenceSnapshot } from '../../../../../shared/site00-brand-lore/experienceExpression/experienceExpressionSnapshot.js';
 import { buildConceptTerritorySeed } from '../../../../../shared/site00-brand-lore/conceptTerritory/conceptTerritorySeeds.js';
 import type { CanonicalNdxbookDirectionName } from '../../../../../shared/site00-brand-lore/canonicalCreativeRangeConstants.js';
 import { getBrandLoreProfileForOrg } from '../../../site00BrandLore/loreService.js';
@@ -61,6 +66,11 @@ function initRun(existing?: ExperienceExpressionRun | null): ExperienceExpressio
       ...existing,
       intelligenceSnapshotVersion:
         existing.intelligenceSnapshotVersion ?? EXPERIENCE_E_INTELLIGENCE_SNAPSHOT_VERSION,
+      crossMediumEvidence: existing.crossMediumEvidence ?? buildAllExperimentDTerritoryEvidence(),
+      experimentSnapshot: existing.experimentSnapshot ?? null,
+      currentExperienceAudit: existing.currentExperienceAudit ?? existing.templateAudit
+        ? { ...existing.templateAudit!, auditType: 'CURRENT_NDXBOOK_EXPERIENCE_FORENSIC' as const }
+        : null,
     };
   }
   return {
@@ -77,7 +87,8 @@ function initRun(existing?: ExperienceExpressionRun | null): ExperienceExpressio
       world: null,
       functionalCanon: null,
       hostCanon: null,
-      experienceTestTerritoryId: null,
+      experimentSnapshot: null,
+      crossMediumEvidence: buildAllExperimentDTerritoryEvidence(),
     }),
     experienceTestTerritoryId: null,
     experienceTestTerritoryName: null,
@@ -88,6 +99,9 @@ function initRun(existing?: ExperienceExpressionRun | null): ExperienceExpressio
     hostCanon: null,
     clientCanon: null,
     templateAudit: null,
+    currentExperienceAudit: null,
+    experimentSnapshot: null,
+    crossMediumEvidence: buildAllExperimentDTerritoryEvidence(),
     experienceConcepts: [],
     experienceBibles: [],
     responsiveTranslations: [],
@@ -110,12 +124,29 @@ async function buildBaseContext(run: ExperienceExpressionRun) {
   const profile = await getBrandLoreProfileForOrg(NDXBOOK_ORG_ID);
   const functionalCanon = extractNdxbookFunctionalCanon();
   const hostCanon = buildHostExperienceCanon();
-  const templateAudit = auditNdxbookProjectHomeTemplate();
+  const currentExperienceAudit = buildCurrentExperienceAudit();
+  const crossMediumEvidence = run.crossMediumEvidence.length
+    ? run.crossMediumEvidence
+    : buildAllExperimentDTerritoryEvidence();
 
   const territory = run.selectedTerritory;
   const world = run.worldExpressionSystem;
 
-  const clientCanon = buildClientExperienceCanon({ profile, territory: territory ?? null, world: world ?? null });
+  const clientCanon = buildClientExperienceCanon({
+    profile,
+    territory: territory ?? null,
+    world: world ?? null,
+    crossMediumEvidence,
+  });
+
+  const experimentSnapshot = compileExperimentEIntelligenceSnapshot({
+    profile,
+    functionalCanon,
+    hostCanon,
+    clientCanon,
+    currentExperienceAudit,
+    crossMediumEvidence,
+  });
 
   const readiness = assessExperienceExpressionReadiness({
     profile,
@@ -123,10 +154,22 @@ async function buildBaseContext(run: ExperienceExpressionRun) {
     world: world ?? null,
     functionalCanon,
     hostCanon,
+    experimentSnapshot,
+    crossMediumEvidence,
     experienceTestTerritoryId: run.experienceTestTerritoryId,
   });
 
-  return { profile, functionalCanon, hostCanon, templateAudit, clientCanon, readiness };
+  return {
+    profile,
+    functionalCanon,
+    hostCanon,
+    templateAudit: currentExperienceAudit,
+    currentExperienceAudit,
+    clientCanon,
+    experimentSnapshot,
+    crossMediumEvidence,
+    readiness,
+  };
 }
 
 function territoryNameToDirection(name: string): CanonicalNdxbookDirectionName | null {
@@ -157,8 +200,18 @@ export async function refreshExperienceExpressionRun(): Promise<ExperienceExpres
     hostCanon: ctx.hostCanon,
     clientCanon: ctx.clientCanon,
     templateAudit: ctx.templateAudit,
+    currentExperienceAudit: ctx.currentExperienceAudit,
+    experimentSnapshot: ctx.experimentSnapshot,
+    crossMediumEvidence: ctx.crossMediumEvidence,
     readiness: ctx.readiness,
-    status: ctx.readiness.conceptTerritorySelected ? run.status : 'WAITING_FOR_TERRITORY',
+    status:
+      ctx.readiness.state === 'READY_FOR_EXPERIENCE_FORMATION' && run.experienceConcepts.length === 0
+        ? 'READY_TO_FORM'
+        : run.experienceConcepts.length === 3
+          ? run.status
+          : ctx.readiness.snapshotCompiled
+            ? 'READY_TO_FORM'
+            : 'WAITING_FOR_SNAPSHOT',
     formationReady: ctx.readiness.state === 'READY_FOR_EXPERIENCE_FORMATION' && run.experienceConcepts.length === 3,
     visualGenerationReady: run.experienceConcepts.length === 3 && run.distinctiveness !== null,
   };
@@ -166,6 +219,7 @@ export async function refreshExperienceExpressionRun(): Promise<ExperienceExpres
   return experimentEStore.saveExperienceExpressionRun(run);
 }
 
+/** Optional — promote Experiment D territory as cross-medium evidence (not required for formation). */
 export async function selectExperienceTestTerritory(params: {
   territoryId?: string | null;
   directionName?: string | null;
@@ -193,15 +247,30 @@ export async function selectExperienceTestTerritory(params: {
   }
 
   if (!directionName) {
-    throw new Error('Invalid territory selection — founder must choose a Concept Territory for Experiment E');
+    throw new Error('Invalid cross-medium evidence promotion — founder must choose valid Concept Territory evidence');
   }
 
   const { territory, expression: world } = buildConceptTerritorySeed(directionName);
+
+  const crossMediumEvidence = (run.crossMediumEvidence.length ? run.crossMediumEvidence : buildAllExperimentDTerritoryEvidence()).map(
+    (ev) =>
+      ev.directionName === directionName
+        ? classifyExperimentDTerritoryEvidence(territory, world, {
+            explicitlyPromoted: true,
+            promotionPurpose: EXPERIENCE_TERRITORY_SELECTION_PURPOSE,
+            promotedAt: nowIso(),
+          })
+        : ev,
+  );
+
   const ctx = await buildBaseContext({
     ...run,
     experienceTestTerritoryId: territory.territoryId,
+    experienceTestTerritoryName: territory.directionName,
+    selectionPurpose: EXPERIENCE_TERRITORY_SELECTION_PURPOSE,
     selectedTerritory: territory,
     worldExpressionSystem: world,
+    crossMediumEvidence,
   });
 
   run = {
@@ -211,12 +280,15 @@ export async function selectExperienceTestTerritory(params: {
     selectionPurpose: EXPERIENCE_TERRITORY_SELECTION_PURPOSE,
     selectedTerritory: territory,
     worldExpressionSystem: world,
+    crossMediumEvidence,
     functionalCanon: ctx.functionalCanon,
     hostCanon: ctx.hostCanon,
     clientCanon: ctx.clientCanon,
     templateAudit: ctx.templateAudit,
+    currentExperienceAudit: ctx.currentExperienceAudit,
+    experimentSnapshot: ctx.experimentSnapshot,
     readiness: ctx.readiness,
-    status: ctx.readiness.state === 'READY_FOR_EXPERIENCE_FORMATION' ? 'READY_TO_FORM' : 'WAITING_FOR_TERRITORY',
+    status: 'READY_TO_FORM',
     experienceConcepts: [],
     experienceBibles: [],
     responsiveTranslations: [],
@@ -234,11 +306,15 @@ export async function selectExperienceTestTerritory(params: {
 
 export async function formExperienceConcepts(): Promise<ExperienceExpressionRun> {
   let run = await experimentEStore.getExperienceExpressionRun();
-  if (!run?.selectedTerritory || !run.worldExpressionSystem) {
-    throw new Error('SELECT CONCEPT TERRITORY FOR EXPERIENCE TEST before formation');
-  }
+  run = initRun(run);
+  await refreshExperienceExpressionRun();
+  run = (await experimentEStore.getExperienceExpressionRun())!;
+
   if (run.readiness.state !== 'READY_FOR_EXPERIENCE_FORMATION') {
-    throw new Error(`Experience Expression not ready: ${run.readiness.state}`);
+    throw new Error(`Experience Expression not ready: ${run.readiness.state} — ${run.readiness.blockers.join('; ')}`);
+  }
+  if (!run.experimentSnapshot) {
+    throw new Error('Experiment E intelligence snapshot required before formation');
   }
 
   run = { ...run, status: 'FORMING' };
@@ -250,38 +326,50 @@ export async function formExperienceConcepts(): Promise<ExperienceExpressionRun>
       ? summarizeCreativeAppetiteForFormation(profile.founderCreativeAppetite)
       : 'PARTIAL_APPETITE_CONTEXT';
 
-  const territory = run.selectedTerritory;
-  const world = run.worldExpressionSystem;
   const functionalCanon = run.functionalCanon ?? extractNdxbookFunctionalCanon();
   const hostCanon = run.hostCanon ?? buildHostExperienceCanon();
   const clientCanon =
-    run.clientCanon ?? buildClientExperienceCanon({ profile, territory, world });
+    run.clientCanon ??
+    buildClientExperienceCanon({
+      profile,
+      territory: run.selectedTerritory,
+      world: run.worldExpressionSystem,
+      crossMediumEvidence: run.crossMediumEvidence,
+    });
 
-  const experienceConcepts = buildExperienceConceptsForTerritory({
-    territory,
-    world,
+  const experienceConcepts = buildExperienceConceptsFromSnapshot({
+    snapshot: run.experimentSnapshot,
+    profile,
+    crossMediumEvidence: run.crossMediumEvidence,
     appetiteLineage,
   });
 
   const experienceBibles = experienceConcepts.map((concept) =>
-    buildExperienceBible({ concept, territory, world, host: hostCanon, client: clientCanon }),
+    buildExperienceBible({
+      concept,
+      host: hostCanon,
+      client: clientCanon,
+      territory: run.selectedTerritory,
+      world: run.worldExpressionSystem,
+    }),
   );
 
   const responsiveTranslations = experienceConcepts.map(buildResponsiveExperienceTranslation);
 
   const behaviorTranslations = experienceConcepts.map((concept) =>
     translateWorldBehaviorIntoExperienceBehavior({
-      territory,
-      world,
+      territory: run.selectedTerritory,
+      world: run.worldExpressionSystem,
       concept,
       functionalCanon,
       hostCanon,
+      crossMediumEvidence: run.crossMediumEvidence,
     }),
   );
 
   const distinctiveness = runExperienceConceptDistinctivenessGate(experienceConcepts);
 
-  let accounting = { ...run.accounting, anthropicRequests: run.accounting.anthropicRequests + 1 };
+  const accounting = { ...run.accounting, anthropicRequests: run.accounting.anthropicRequests + 1 };
 
   run = {
     ...run,
@@ -318,11 +406,11 @@ export async function generateExperienceVisualDevelopment(params: {
     throw new Error('Form three experience concepts before visual development');
   }
   if (!run.visualGenerationReady) {
-    throw new Error('Visual generation not ready');
+    throw new Error('Visual generation not ready — founder must approve for visual development');
   }
 
-  const territory = run.selectedTerritory!;
-  const world = run.worldExpressionSystem!;
+  const territory = run.selectedTerritory;
+  const world = run.worldExpressionSystem;
   const functionalCanon = run.functionalCanon ?? extractNdxbookFunctionalCanon();
   const hostCanon = run.hostCanon ?? buildHostExperienceCanon();
   const clientCanon = run.clientCanon!;
@@ -357,8 +445,8 @@ export async function generateExperienceVisualDevelopment(params: {
         const brief = compileExperienceVisualPrompt({
           concept,
           bible,
-          territory,
-          world,
+          territory: territory ?? null,
+          world: world ?? null,
           host: hostCanon,
           client: clientCanon,
           functionalCanon,
@@ -386,8 +474,8 @@ export async function generateExperienceVisualDevelopment(params: {
           experienceBibleId: bible.experienceBibleId,
           surfaceType,
           deviceClass,
-          selectedConceptTerritoryId: territory.territoryId,
-          worldExpressionSystemId: world.expressionSystemId,
+          selectedConceptTerritoryId: territory?.territoryId ?? 'snapshot-derived',
+          worldExpressionSystemId: world?.expressionSystemId ?? 'none',
           functionalCanonVersion: functionalCanon.version,
           hostCanonVersion: hostCanon.version,
           clientCanonVersion: clientCanon.version,
@@ -449,7 +537,7 @@ export async function compileExperienceImplementationContractForConcept(
   conceptIndex: number,
 ): Promise<ExperienceExpressionRun> {
   const run = await experimentEStore.getExperienceExpressionRun();
-  if (!run?.selectedTerritory || !run.worldExpressionSystem) {
+  if (!run?.experimentSnapshot) {
     throw new Error('Experiment E run incomplete');
   }
 

@@ -38,8 +38,8 @@ function surfaceLabel(surface: ExperienceSurfaceType): string {
 export function compileExperienceVisualPrompt(params: {
   concept: ExperienceConcept;
   bible: ExperienceBible;
-  territory: CreativeConceptTerritory;
-  world: WorldExpressionSystem;
+  territory: CreativeConceptTerritory | null;
+  world: WorldExpressionSystem | null;
   host: HostExperienceCanon;
   client: ClientExperienceCanon;
   functionalCanon: ExperienceFunctionalCanon;
@@ -51,7 +51,9 @@ export function compileExperienceVisualPrompt(params: {
   const environmentBrief = [
     `Digital place: ${concept.experienceMetaphor} inside SITE 00 project location for NDXBOOK.`,
     `Founder is ${concept.viewerRole}.`,
-    `Territory: ${territory.directionName} — ${territory.centralConcept}.`,
+    territory
+      ? `Cross-medium evidence: ${territory.directionName} — ${territory.centralConcept}.`
+      : 'Experience derived from Experiment E snapshot — no selected Concept Territory required.',
     `Surface: ${surfaceLabel(surfaceType)}.`,
     `Device: ${deviceClass}.`,
     `The user is actively ${concept.projectRelationship}.`,
@@ -59,16 +61,20 @@ export function compileExperienceVisualPrompt(params: {
     `Information active: ${concept.informationBehavior}.`,
     `Hierarchy communicated through ${concept.hierarchyBehavior}.`,
     `SITE 00 host remains visible: ${host.hostNavigation[0] ?? 'global shell'}.`,
-    `NDXBOOK enters through ${world.paletteSystem} and ${world.materialSystem}.`,
+    world
+      ? `NDXBOOK enters through ${world.paletteSystem} and ${world.materialSystem}.`
+      : `NDXBOOK client expression from brand intelligence canon.`,
     `Responsive: ${deviceClass === 'MOBILE' ? concept.responsivePhilosophy.split(';')[0] : concept.responsivePhilosophy.split(';').slice(-1)[0] ?? concept.responsivePhilosophy}.`,
   ].join(' ');
 
   const compiledPrompt = [
     'VISUAL DEVELOPMENT / PRODUCTION DESIGN — not functional architecture source.',
     environmentBrief,
-    `World expression: ${world.typographySystem}; ${world.compositionSystem}.`,
+    world
+      ? `World expression: ${world.typographySystem}; ${world.compositionSystem}.`
+      : `Client typography: ${bible.typographyBehavior.clientExpressiveTypography}.`,
     `Host elements: ${host.hostPersistentControls.join(', ')}.`,
-    `Client expression: ${client.territorySummary ?? territory.centralConcept}.`,
+    `Client expression: ${client.territorySummary ?? territory?.centralConcept ?? 'snapshot-derived'}.`,
     `Interaction state shown: ${concept.interactionGrammar}.`,
     'Forbidden: generic SaaS dashboard, card grid default, social post layout pasted on software.',
   ].join('\n');
@@ -98,7 +104,7 @@ export function compileExperienceVisualPrompt(params: {
       bible.colorBehavior.hostWayfinding,
       bible.colorBehavior.clientWorldColor,
     ],
-    materialRules: [world.materialSystem, host.hostMaterialBehavior[0] ?? ''],
+    materialRules: [world?.materialSystem ?? 'client brand materials', host.hostMaterialBehavior[0] ?? ''],
     lightingRules: [bible.colorBehavior.backgroundEnvironment],
     motionImplication: concept.motionPhilosophy,
     informationBehaviorShown: concept.informationBehavior,

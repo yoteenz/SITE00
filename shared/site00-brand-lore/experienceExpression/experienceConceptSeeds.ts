@@ -10,8 +10,8 @@ import type { ExperienceConcept } from './types.js';
 
 type ConceptSeedPartial = Omit<
   ExperienceConcept,
-  'experienceConceptId' | 'conceptIndex' | 'founderJudgment' | 'appetiteLineage' | 'formedInIsolation'
->;
+  'experienceConceptId' | 'conceptIndex' | 'founderJudgment' | 'appetiteLineage' | 'formedInIsolation' | 'evidenceReferences'
+> & { evidenceReferences?: string[] };
 
 function baseConcept(
   index: number,
@@ -24,6 +24,7 @@ function baseConcept(
     experienceConceptId: `exp-concept-${territory.territoryId}-${index}`,
     conceptIndex: index,
     whyItBelongsToSelectedTerritory: partial.whyItBelongsToSelectedTerritory,
+    evidenceReferences: partial.evidenceReferences ?? [territory.territoryId],
     founderJudgment: null,
     appetiteLineage,
     formedInIsolation: true,

@@ -2,6 +2,9 @@
  * Experiment E — Experience Expression public exports.
  */
 
+export * from './crossMediumConceptEvidence.js';
+export * from './experienceExpressionSnapshot.js';
+export * from './experienceConceptFormation.js';
 export * from './constants.js';
 export * from './types.js';
 export * from './readiness.js';

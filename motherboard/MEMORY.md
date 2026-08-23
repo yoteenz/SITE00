@@ -3456,3 +3456,12 @@ Summary of sprint building reusable infrastructure to capture business/founder i
 - Merged to `main` via PR. Tests **1290** pass; build pass.
 - Founder: redeploy Railway API, apply migration `20260823160000_site00_world_intake_foundation.sql` if not applied, cPanel **v22**, set `SITE00_PUBLIC_INTAKE_BASE_URL` for correct guest link host.
 
+---
+
+## 2026-08-23 — Experiment E follow-up: cross-medium evidence + snapshot independence
+
+- Corrected Concept Territory dependency: Experiment E no longer requires selected Experiment D territory; `CrossMediumConceptEvidence` classifies evidence (MEDIUM_SPECIFIC / EXPLICITLY_PROMOTED_CROSS_MEDIUM); optional founder promotion only.
+- Added `compileExperimentEIntelligenceSnapshot()` (v2 fingerprint independent of Experiment D v1); `buildExperienceConceptsFromSnapshot()` forms 3 concepts from brand intelligence (THE SIGNAL CONSOLE, THE CASE DOSSIER, THE ACTIVE WORKBENCH).
+- UI: cross-medium status, snapshot panel, optional PROMOTE evidence, APPROVE FOR VISUAL DEVELOPMENT (founder-triggered).
+- Tests **1292** pass; build pass. Experiment D unchanged. Deploy cPanel **v23**.
+
