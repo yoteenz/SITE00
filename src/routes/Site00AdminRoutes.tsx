@@ -55,6 +55,9 @@ const EvolveOrgConnectionsPage = lazy(() => import('../site00/admin/pages/evolve
 const EvolvePilotControlPage = lazy(() => import('../site00/admin/pages/evolve/EvolvePilotControlPage'));
 const EvolveCreativeDirectionPage = lazy(() => import('../site00/admin/pages/evolve/EvolveCreativeDirectionPage'));
 const EvolveCreativeDirectionDebugPage = lazy(() => import('../site00/admin/pages/debug/EvolveCreativeDirectionDebugPage'));
+const NdxbookPipelineReplayValidationPage = lazy(
+  () => import('../site00/admin/pages/evolve/NdxbookPipelineReplayValidationPage'),
+);
 const EvolveDebugPage = lazy(() => import('../site00/admin/pages/debug/EvolveDebugPage'));
 const MarketingEngagementsAdminPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementsAdminPage'));
 const MarketingEngagementAdminDetailPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementAdminDetailPage'));
@@ -368,6 +371,14 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <EvolveCreativeDirectionDebugPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/orchestration/:orgSlug/evolve/pipeline-replay-validation/:replayId?"
+        element={
+          <AdminSuspense>
+            <NdxbookPipelineReplayValidationPage />
           </AdminSuspense>
         }
       />

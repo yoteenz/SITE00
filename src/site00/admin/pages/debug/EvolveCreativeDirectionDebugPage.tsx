@@ -302,6 +302,8 @@ export default function EvolveCreativeDirectionDebugPage() {
 
       <p>
         <Link to={SITE00_ADMIN_ROUTES.evolveCreativeDirection(ORG_SLUG)}>← CREATIVE DIRECTION STUDIO</Link>
+        {' · '}
+        <Link to={SITE00_ADMIN_ROUTES.evolvePipelineReplayValidation(ORG_SLUG)}>PIPELINE REPLAY VALIDATION →</Link>
       </p>
 
       <label className="site00-cd__structural-toggle">

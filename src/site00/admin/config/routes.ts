@@ -61,6 +61,10 @@ export const SITE00_ADMIN_ROUTES = {
   evolvePilot: (orgSlug: string) => `/admin/site00/orchestration/${orgSlug}/evolve/pilot`,
   evolveCreativeDirection: (orgSlug: string) => `/admin/site00/orchestration/${orgSlug}/evolve/creative-direction`,
   evolveCreativeDirectionDebug: '/admin/site00/debug/evolve-creative-direction',
+  evolvePipelineReplayValidation: (orgSlug: string, replayId?: string) =>
+    replayId
+      ? `/admin/site00/orchestration/${orgSlug}/evolve/pipeline-replay-validation/${replayId}`
+      : `/admin/site00/orchestration/${orgSlug}/evolve/pipeline-replay-validation`,
   evolveDebug: '/admin/site00/debug/evolve',
   reconciliation: '/admin/site00/reconciliation',
   marketingEngagements: '/admin/site00/marketing-engagements',

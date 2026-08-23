@@ -419,4 +419,57 @@ export const site00EvolveApi = {
       method: 'POST',
       body: JSON.stringify({ action: 'creative_direction_marked_up_copy_board_pilot', orgSlug, dryRun }),
     }),
+
+  personalityReplayList: (orgSlug: string) =>
+    evolveFetch<{ replays: Array<Record<string, unknown>> }>(
+      `?action=personality_replay_list&orgSlug=${encodeURIComponent(orgSlug)}`,
+    ),
+
+  personalityReplayGet: (orgSlug: string, replayId: string) =>
+    evolveFetch<{ replay: Record<string, unknown> }>(
+      `?action=personality_replay_get&orgSlug=${encodeURIComponent(orgSlug)}&replayId=${encodeURIComponent(replayId)}`,
+    ),
+
+  personalityReplayCreate: (orgSlug: string) =>
+    evolveFetch<{ replay: Record<string, unknown> }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'personality_replay_create', orgSlug }),
+    }),
+
+  personalityReplaySaveAnswers: (
+    orgSlug: string,
+    replayId: string,
+    payload: { answers: Record<string, string | string[]>; completedSteps?: string[] },
+  ) =>
+    evolveFetch<{ replay: Record<string, unknown> }>('', {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'personality_replay_save_answers',
+        orgSlug,
+        replayId,
+        answers: payload.answers,
+        completedSteps: payload.completedSteps,
+      }),
+    }),
+
+  personalityReplayCompleteIntake: (orgSlug: string, replayId: string) =>
+    evolveFetch<{ replay: Record<string, unknown> }>('', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'personality_replay_complete_intake', orgSlug, replayId }),
+    }),
+
+  personalityReplaySetJudgment: (
+    orgSlug: string,
+    replayId: string,
+    judgment: 'PIPELINE_VALIDATED' | 'PARTIAL_REVIEW_DIVERGENCE' | 'FAILED_METHODOLOGY_DRIFT',
+  ) =>
+    evolveFetch<{ replay: Record<string, unknown> }>('', {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'personality_replay_set_judgment',
+        orgSlug,
+        replayId,
+        judgment,
+      }),
+    }),
 };

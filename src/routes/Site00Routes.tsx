@@ -82,6 +82,9 @@ const AccountIntakeDetailPage = lazy(() => import('../site00/pages/account/Accou
 const IntakeGuestAccessPage = lazy(() => import('../site00/pages/intake/IntakeGuestAccessPage'));
 const ProjectEvolvePage = lazy(() => import('../site00/pages/ProjectEvolvePage'));
 const ProjectCreativeDirectionPage = lazy(() => import('../site00/pages/ProjectCreativeDirectionPage'));
+const PersonalityReplayIntakeRouterPage = lazy(
+  () => import('../site00/pages/validation/PersonalityReplayIntakeRouterPage'),
+);
 const ProjectLoreCalibrationPage = lazy(() => import('../site00/pages/ProjectLoreCalibrationPage'));
 const SupportPage = lazy(() => import('../site00/pages/SupportPage'));
 const IdntySignInSecurityPage = lazy(() => import('../site00/pages/idnty/IdntySignInSecurityPage'));
@@ -534,6 +537,30 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectCreativeDirectionPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path="/validation/ndxbook/replay/:replayId/personality/:stepId"
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <PersonalityReplayIntakeRouterPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path="/validation/ndxbook/replay/:replayId/personality/review"
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <PersonalityReplayIntakeRouterPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

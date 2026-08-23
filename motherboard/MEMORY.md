@@ -2870,3 +2870,21 @@ Summary: Follow-up production sprint formalizes **Brand Personality** as first-c
 - **Tests:** 21 new in `brandPersonality.test.ts`; full regression 894 passing. `tsc --noEmit` + `npm run build` green.
 - **Known gaps (next sprint):** Builder translation UX/synthesis + inheritance resolver; Content Brain + DES personality input wiring; per-field founder confirm for nested personality fields; responsive overflow visual QA (375/390/430); personality-only calibration API merge on submit.
 - **Branch/PR:** `cursor/brand-personality-intelligence-4f59` merged to `main`.
+
+---
+
+## 2026-08-23 — NDX BOOK personality replay validation infrastructure (shadow E2E test)
+
+Summary: Follow-up sprint builds **shadow replay validation infrastructure** for NDX BOOK — proves methodology can reproduce creative DNA from fresh founder input without benchmark leakage. Phase 1 only — **WAITING_FOR_FOUNDER_PERSONALITY_REPLAY** before pipeline execution.
+
+- **Context:** After Brand Personality formalization (PR #253), need end-to-end acceptance test: fresh intake → personality → formation → DES → CES → identity art direction → ONE hero — compared post-hoc to canonical benchmark without copying approved hero.
+- **Replay mode:** `NDX_PERSONALITY_REPLAY_VALIDATION` — isolated shadow context; never mutates canonical lore/personality/formation/hero.
+- **Fixed lore:** `FIXED_LORE_REPLAY` — canonical Brand Lore snapshotted (personality stripped); only personality re-answered.
+- **Storage:** `site00_methodology_validation_runs` table + memory store adapter; full `BrandPersonalityReplayRecord` in JSONB.
+- **Leakage guards:** `personalityReplayLeakage.ts` — forbidden benchmark keys, no legacy direction names in formation (`includeLegacyExplorations: false`), benchmark load blocked until `HERO_GENERATED`.
+- **Blind intake:** `/validation/ndxbook/replay/:replayId/personality/:stepId` — reuses canonical personality UI; no benchmark/direction/hero exposure during answering; autosave to replay record via `usePersonalityReplayIntake`.
+- **Admin UI:** `/admin/site00/orchestration/ndxbook/evolve/pipeline-replay-validation` — create replay, link to blind intake, comparison cards (post-generation), founder methodology judgment (independent from CD approval).
+- **API:** `personality_replay_create|list|get|save_answers|complete_intake|set_judgment` on site00-evolve admin API.
+- **Tests:** 29 new in `personalityReplay.test.ts`; full regression green. tsc + build green.
+- **NOT run this sprint:** Formation, DES, CES, identity art direction, FAL hero (Phases 5–11 await founder personality intake).
+- **Branch:** `cursor/ndxbook-personality-replay-validation-4f59`.
