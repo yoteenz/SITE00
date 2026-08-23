@@ -50,6 +50,19 @@ export type SixDirectionContaminationAudit = {
   auditedAt: string;
 };
 
+export type DirectionFormatSelectionRecord = {
+  nativeFormat: string;
+  nativeFormatReason: string;
+  alternativeFormatsConsidered: string[];
+  whyAlternativesWereWeaker: string;
+  formatSelectionEvidence: string[];
+  formatSelectionDerivedFromDirection: boolean;
+  formatAssignmentContaminationTest?: {
+    passed: boolean;
+    notes: string[];
+  } | null;
+};
+
 export type SixDirectionGenerationReceipt = {
   firstGenerationResult: 'SUCCESS' | 'TRANSPORT_FAILURE' | 'BLOCKED';
   firstGenerationPromptHash: string | null;
@@ -89,6 +102,7 @@ export type SixDirectionConsistencyDirection = {
   summary: SixDirectionDirectionSummary;
   nativeProofFormat: string;
   nativeFormatRationale: string;
+  formatSelection: DirectionFormatSelectionRecord;
   scrollHookBehavior: string | null;
   repeatableContentSystem: string | null;
   typographyRationale: string | null;
@@ -159,6 +173,12 @@ export type SixDirectionConsistencyRun = {
   crossDirectionTests: SixDirectionCrossDirectionTests | null;
   consistencyVerdict: SixDirectionConsistencyVerdict | null;
   comparisonScorerAudit: ComparisonScorerAuditReceipt | null;
+  observedFormatDiversity: {
+    uniqueFormats: number;
+    totalDirections: number;
+    formatCounts: Record<string, number>;
+    notes: string[];
+  } | null;
   accounting: ReplayExecutionAccounting;
   error: string | null;
   startedAt: string | null;

@@ -49,11 +49,13 @@ export type PersonalityDomainConvergenceReport = {
   classification: PersonalityConvergenceClassification;
 };
 
+export type ReplayConvergenceScoreValue = number | 'NOT_EVALUATED' | 'NEEDS_HUMAN_REVIEW';
+
 export type ReplayConvergenceScores = {
-  personalityConvergence: number;
-  creativeConvergence: number;
-  identityConvergence: number;
-  heroConvergence: number;
+  personalityConvergence: ReplayConvergenceScoreValue;
+  creativeConvergence: ReplayConvergenceScoreValue;
+  identityConvergence: ReplayConvergenceScoreValue;
+  heroConvergence: ReplayConvergenceScoreValue;
 };
 
 export type ReplayConvergenceReport = {
@@ -64,6 +66,10 @@ export type ReplayConvergenceReport = {
   benchmarkLoadedAt: string | null;
   /** Unlocked post-hero — founder comparison panel only. */
   benchmarkHeroStoragePath?: string | null;
+  /** LEGACY_HEURISTIC_V1 = pre-semantic stub era; do not treat 0/5 as real failure. */
+  scorerVersion?: 'LEGACY_HEURISTIC_V1' | 'SEMANTIC_V2';
+  legacyInvalidComparison?: boolean;
+  personalityScorerMode?: 'HEURISTIC' | 'SEMANTIC' | 'NOT_EVALUATED';
 };
 
 export type FounderReplayValidationJudgment =

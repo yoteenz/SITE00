@@ -64,7 +64,7 @@ export function auditComparisonScorer(params: {
       domainReports,
     }),
     creativeScoreExplanation:
-      'creativeConvergence is hardcoded to 0 in runPostGenerationPersonalityComparison — Sonnet creative convergence not implemented; not a runtime evaluation failure.',
+      'creativeConvergence is NOT_EVALUATED — Sonnet creative convergence not yet implemented; zero must never mean scorer unavailable.',
     identityScoreExplanation:
       'identityConvergence is hardcoded to 0 — canonical IAD not loaded in benchmark snapshot (formationDirections empty, identityArtDirectionId null).',
     heroScoreExplanation:

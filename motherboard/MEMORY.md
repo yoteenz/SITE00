@@ -3140,3 +3140,14 @@ Summary: Founder requested repeatability test — generate other five Core Direc
 - **Founder UI:** `/projects/ndxbook/personality-replay/consistency` — six heroes art-first, expandable evidence, LOVE IT / PROMISING / NOT NDXBOOK per direction; link from replay review after COMPARISON_READY.
 - **API:** `personality_replay_six_direction_execute`, `personality_replay_six_direction_judgment`. Script: `scripts/runSixDirectionConsistencyValidation.ts`.
 - **Action:** Railway redeploy API; founder tap RUN SIX-DIRECTION VALIDATION on consistency page (5 FAL images, sequential).
+
+---
+
+## 2026-08-23 — Six-direction format selection correction (pre-generation)
+
+Summary: Founder blocked six-direction trigger — format rotation/diversity quota violated experimental integrity. Corrected before any generation.
+
+- **Removed:** FORMAT_ROTATION pool, usedFormats tracking, diversity-quota socialApplicability bias.
+- **Added:** `directionNativeFormatSelection.ts` — per-direction format derived from thesis/social behavior + FormatNativeExpressionProfile; duplicate formats allowed; `computeObservedFormatDiversity` post-hoc only; `FORMAT_ASSIGNMENT_CONTAMINATION_TEST`; Direction 01 audit (MECHANICAL_PROFILE_DEFAULT vs direction-derived).
+- **Comparison UI:** Legacy stub 0/5 labeled LEGACY INVALID COMPARISON; new reports use NOT_EVALUATED for unimplemented scorers (never 0 = unavailable).
+- **Preflight:** `buildSixDirectionGenerationPreflight` — no Anthropic/FAL calls.
