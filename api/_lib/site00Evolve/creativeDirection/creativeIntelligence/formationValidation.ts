@@ -3,6 +3,12 @@
  */
 
 import { REQUIRED_DIRECTION_COUNT } from './config.js';
+import {
+  parseStructuredJson as parseStructuredJsonImpl,
+  isJsonParseError,
+  withStructuredJsonRetry,
+  STRUCTURED_JSON_REVISION_HINT,
+} from './structuredJson.js';
 import type {
   CoreDirectionFormationInput,
   FormedCoreDirection,
@@ -123,12 +129,7 @@ export function mergeCritiqueWithDeterministicChecks(
 }
 
 export function parseStructuredJson<T>(text: string): T {
-  let payload = text.trim();
-  const fenceMatch = payload.match(/```(?:json)?\s*([\s\S]*?)```/);
-  if (fenceMatch) {
-    payload = fenceMatch[1].trim();
-  } else if (payload.startsWith('```')) {
-    payload = payload.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
-  }
-  return JSON.parse(payload) as T;
+  return parseStructuredJsonImpl<T>(text);
 }
+
+export { isJsonParseError, withStructuredJsonRetry, STRUCTURED_JSON_REVISION_HINT };

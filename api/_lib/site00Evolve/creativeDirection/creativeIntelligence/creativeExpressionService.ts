@@ -3,7 +3,7 @@
  */
 
 import { createHash, randomUUID } from 'node:crypto';
-import { parseStructuredJson } from './formationValidation.js';
+import { parseStructuredJson, isJsonParseError, STRUCTURED_JSON_REVISION_HINT } from './formationValidation.js';
 import { callAnthropicForCompletion } from './anthropicCompletion.js';
 import { ANTHROPIC_CREATIVE_MODEL } from './config.js';
 import { isProductionSonnetConfigured } from './directionExpressionSystemService.js';
@@ -364,11 +364,31 @@ export async function runCreativeExpressionDirector(params: {
     topicTestContent: params.topic,
   };
 
-  const { text: expressionText } = await callAnthropicForCompletion(
-    CREATIVE_EXPRESSION_SYSTEM_PROMPT,
-    expressionPayload,
-    { maxTokens: 8192 },
-  );
+  const { text: expressionText } = await (async () => {
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      const revisionHint = attempt === 0 ? null : STRUCTURED_JSON_REVISION_HINT;
+      const { text } = await callAnthropicForCompletion(
+        CREATIVE_EXPRESSION_SYSTEM_PROMPT,
+        revisionHint ? { ...expressionPayload, revisionHint } : expressionPayload,
+        { maxTokens: 16384 },
+      );
+      try {
+        parseCreativeExpressionResponse({
+          text,
+          artDirection: params.artDirection,
+          typographyRoles,
+          provider: 'anthropic',
+          model: ANTHROPIC_CREATIVE_MODEL,
+          upstreamPersonality: params.upstreamPersonality,
+          expressionContext: context,
+        });
+        return { text };
+      } catch (err) {
+        if (!isJsonParseError(err) || attempt === 1) throw err;
+      }
+    }
+    throw new Error('Creative Expression JSON parse failed after retry');
+  })();
 
   let creativeExpression = parseCreativeExpressionResponse({
     text: expressionText,
@@ -404,9 +424,23 @@ export async function runCreativeExpressionDirector(params: {
     context,
   );
 
-  const { text: conceptText } = await callAnthropicForCompletion(HERO_CREATIVE_CONCEPT_PROMPT, conceptPayload, {
-    maxTokens: 8192,
-  });
+  const { text: conceptText } = await (async () => {
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      const revisionHint = attempt === 0 ? null : STRUCTURED_JSON_REVISION_HINT;
+      const { text } = await callAnthropicForCompletion(
+        HERO_CREATIVE_CONCEPT_PROMPT,
+        revisionHint ? { ...conceptPayload, revisionHint } : conceptPayload,
+        { maxTokens: 16384 },
+      );
+      try {
+        parseHeroCreativeConcept(text);
+        return { text };
+      } catch (err) {
+        if (!isJsonParseError(err) || attempt === 1) throw err;
+      }
+    }
+    throw new Error('Hero Creative Concept JSON parse failed after retry');
+  })();
 
   let heroConcept = parseHeroCreativeConcept(conceptText);
   if (!heroConcept.cleanClaim) {

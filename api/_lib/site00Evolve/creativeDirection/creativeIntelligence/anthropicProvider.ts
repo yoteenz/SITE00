@@ -15,7 +15,7 @@ import {
   CORE_DIRECTION_REVISION_SYSTEM_PROMPT,
 } from './prompts.js';
 import { enrichFormationInputPayload } from '../../../../../shared/site00-brand-lore/productionPromptNormalization.js';
-import { parseStructuredJson } from './formationValidation.js';
+import { parseStructuredJson, isJsonParseError, STRUCTURED_JSON_REVISION_HINT } from './formationValidation.js';
 import type {
   CoreDirectionCritiqueResult,
   CoreDirectionFormationInput,
@@ -41,7 +41,11 @@ function sanitizeInputForLog(input: CoreDirectionFormationInput): Record<string,
   };
 }
 
-async function callAnthropic(system: string, userPayload: unknown): Promise<{ text: string; usage: ProviderRequestUsage }> {
+async function callAnthropic(
+  system: string,
+  userPayload: unknown,
+  options?: { maxTokens?: number },
+): Promise<{ text: string; usage: ProviderRequestUsage }> {
   const apiKey = process.env.ANTHROPIC_API_KEY?.trim();
   if (!apiKey) throw new Error('CREATIVE_INTELLIGENCE_PROVIDER_UNAVAILABLE');
 
@@ -54,7 +58,7 @@ async function callAnthropic(system: string, userPayload: unknown): Promise<{ te
     },
     body: JSON.stringify({
       model: ANTHROPIC_CREATIVE_MODEL,
-      max_tokens: 8192,
+      max_tokens: options?.maxTokens ?? 16384,
       system,
       messages: [{ role: 'user', content: JSON.stringify(userPayload) }],
     }),
@@ -108,6 +112,23 @@ function normalizeDirection(raw: Record<string, unknown>, index: number): Formed
   };
 }
 
+async function callAnthropicWithJsonRetry<T>(params: {
+  system: string;
+  buildPayload: (revisionHint: string | null) => unknown;
+  parse: (text: string) => T;
+}): Promise<{ result: T; usage: ProviderRequestUsage }> {
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    const revisionHint = attempt === 0 ? null : STRUCTURED_JSON_REVISION_HINT;
+    const { text, usage } = await callAnthropic(params.system, params.buildPayload(revisionHint));
+    try {
+      return { result: params.parse(text), usage };
+    } catch (err) {
+      if (!isJsonParseError(err) || attempt === 1) throw err;
+    }
+  }
+  throw new Error('Structured JSON parse failed after retry');
+}
+
 export function createAnthropicCreativeIntelligenceProvider(): CreativeIntelligenceProvider {
   const capability = {
     providerId: 'anthropic',
@@ -129,8 +150,15 @@ export function createAnthropicCreativeIntelligenceProvider(): CreativeIntellige
       }
       const orgSlug = input.orgSlug ?? 'ndxbook';
       const payload = enrichFormationInputPayload(input, orgSlug);
-      const { text, usage } = await callAnthropic(CORE_DIRECTION_FORMATION_SYSTEM_PROMPT, payload);
-      const parsed = parseStructuredJson<{ directions: Record<string, unknown>[]; rationaleSummary?: string }>(text);
+      const { result: parsed, usage } = await callAnthropicWithJsonRetry({
+        system: CORE_DIRECTION_FORMATION_SYSTEM_PROMPT,
+        buildPayload: (revisionHint) => ({
+          ...payload,
+          ...(revisionHint ? { revisionHint } : {}),
+        }),
+        parse: (text) =>
+          parseStructuredJson<{ directions: Record<string, unknown>[]; rationaleSummary?: string }>(text),
+      });
       return {
         directions: (parsed.directions ?? []).map(normalizeDirection),
         rationaleSummary: parsed.rationaleSummary,
@@ -143,18 +171,31 @@ export function createAnthropicCreativeIntelligenceProvider(): CreativeIntellige
     ): Promise<CoreDirectionCritiqueResult> {
       const orgSlug = input.orgSlug ?? 'ndxbook';
       const payload = enrichFormationInputPayload(input, orgSlug);
-      const { text, usage } = await callAnthropic(CORE_DIRECTION_CRITIC_SYSTEM_PROMPT, { input: payload, candidates });
-      const parsed = parseStructuredJson<CoreDirectionCritiqueResult>(text);
+      const { result: parsed, usage } = await callAnthropicWithJsonRetry({
+        system: CORE_DIRECTION_CRITIC_SYSTEM_PROMPT,
+        buildPayload: (revisionHint) => ({
+          input: payload,
+          candidates,
+          ...(revisionHint ? { revisionHint } : {}),
+        }),
+        parse: (text) => parseStructuredJson<CoreDirectionCritiqueResult>(text),
+      });
       return { ...parsed, requestUsage: usage };
     },
     async reviseCoreDirections(reviseInput: ReviseCoreDirectionsInput): Promise<CoreDirectionFormationResult> {
       const orgSlug = reviseInput.formationInput.orgSlug ?? 'ndxbook';
-      const payload = {
+      const basePayload = {
         ...reviseInput,
         formationInput: enrichFormationInputPayload(reviseInput.formationInput, orgSlug),
       };
-      const { text, usage } = await callAnthropic(CORE_DIRECTION_REVISION_SYSTEM_PROMPT, payload);
-      const parsed = parseStructuredJson<{ directions: Record<string, unknown>[] }>(text);
+      const { result: parsed, usage } = await callAnthropicWithJsonRetry({
+        system: CORE_DIRECTION_REVISION_SYSTEM_PROMPT,
+        buildPayload: (revisionHint) => ({
+          ...basePayload,
+          ...(revisionHint ? { revisionHint } : {}),
+        }),
+        parse: (text) => parseStructuredJson<{ directions: Record<string, unknown>[] }>(text),
+      });
       return {
         directions: (parsed.directions ?? []).map(normalizeDirection),
         requestUsage: usage,
