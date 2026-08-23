@@ -16,12 +16,15 @@ import { synthesizeBuilderExperienceProfile } from './experienceSynthesis.js';
 import * as store from './storeAdapter.js';
 import { getSupabaseAdmin, hasSupabaseServiceRole } from '../supabase.js';
 import { buildNdxbookReconciledProfile, contentBrainSourceIntakeId } from './ndxbookReconciliation.js';
+import { reconcileNdxbookPersonality } from '../../../shared/site00-brand-lore/ndxbookPersonalityReconciliation.js';
 
 export { resetBrandLoreMemoryStore } from './memoryStore.js';
 
 export type IntakeLorePayload = {
   loreAnswers?: Record<string, string | string[]>;
   loreCompletedSteps?: string[];
+  personalityAnswers?: Record<string, string | string[]>;
+  personalityCompletedSteps?: string[];
   experienceAnswers?: Record<string, string | string[]>;
   experienceCompletedSteps?: string[];
   brandLoreProfileId?: string | null;
@@ -58,7 +61,13 @@ export async function upsertLoreFromIdentityIntake(params: {
   orgSlug?: string | null;
 }): Promise<BrandLoreProfile | null> {
   const loreAnswers = (params.draftPayload.loreAnswers ?? {}) as Record<string, string | string[]>;
-  if (Object.keys(loreAnswers).length === 0) return null;
+  const personalityAnswers = (params.draftPayload.personalityAnswers ?? {}) as Record<
+    string,
+    string | string[]
+  >;
+  if (Object.keys(loreAnswers).length === 0 && Object.keys(personalityAnswers).length === 0) {
+    return null;
+  }
 
   const stateAnswers = (params.draftPayload.answers ?? {}) as Record<
     string,
@@ -72,6 +81,7 @@ export async function upsertLoreFromIdentityIntake(params: {
 
   const input: LoreSynthesisInput = {
     loreAnswers,
+    personalityAnswers,
     sourceIntakeId: params.intakeId,
     organizationId,
     projectId: params.projectId ?? null,
@@ -125,6 +135,7 @@ export function reconcileProfileFromRawAnswers(
 
   const fresh = synthesizeBrandLoreProfile({
     loreAnswers: profile.rawLoreAnswers,
+    personalityAnswers: profile.brandPersonality?.rawPersonalityAnswers ?? {},
     sourceIntakeId: profile.sourceIntakeId,
     organizationId: profile.organizationId,
     projectId: profile.projectId,

@@ -5,6 +5,10 @@
 
 import { classifyBrandExpressionContext, type ContextClassificationInput } from './contextClassification.js';
 import { evaluateCreativeDirectionReadiness } from './readiness.js';
+import {
+  mergePreservingPersonalityConfirmations,
+  synthesizeBrandPersonalityProfile,
+} from './personalitySynthesis.js';
 import { LORE_STEP_TO_DOMAIN } from './types.js';
 import type { BrandLoreField, BrandLoreProfile, BrandLoreReferenceEntry, ReferenceRole } from './types.js';
 import { isSkippedAnswer } from './adaptivity.js';
@@ -126,6 +130,7 @@ function deriveReferenceEvidence(
 
 export type LoreSynthesisInput = {
   loreAnswers: Record<string, string | string[]>;
+  personalityAnswers?: Record<string, string | string[]>;
   sourceIntakeId?: string | null;
   organizationId?: string | null;
   projectId?: string | null;
@@ -261,6 +266,23 @@ export function synthesizeBrandLoreProfile(input: LoreSynthesisInput): BrandLore
   profile.readinessState = readiness.state;
   profile.readinessMissingDomains = readiness.missingDomains;
 
+  const personalityAnswers =
+    input.personalityAnswers ?? prior?.brandPersonality?.rawPersonalityAnswers ?? {};
+  if (Object.keys(personalityAnswers).length > 0) {
+    const freshPersonality = synthesizeBrandPersonalityProfile({
+      personalityAnswers,
+      prior: prior?.brandPersonality,
+    });
+    profile.brandPersonality = mergePreservingPersonalityConfirmations(
+      prior?.brandPersonality,
+      freshPersonality,
+    );
+  } else if (prior?.brandPersonality) {
+    profile.brandPersonality = prior.brandPersonality;
+  } else {
+    profile.brandPersonality = null;
+  }
+
   return profile;
 }
 
@@ -356,6 +378,9 @@ export function mergeCalibrationIntoProfile(
   }
   if (merged.referenceEvidence.length === 0 && existing.referenceEvidence.length > 0) {
     merged.referenceEvidence = existing.referenceEvidence;
+  }
+  if (!merged.brandPersonality && existing.brandPersonality) {
+    merged.brandPersonality = existing.brandPersonality;
   }
   merged.sourceIntakeType = existing.sourceIntakeType;
   merged.sourceIntakeId = existing.sourceIntakeId;

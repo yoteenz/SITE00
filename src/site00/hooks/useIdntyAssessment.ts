@@ -18,6 +18,9 @@ export type IdntyAssessmentRecord = {
   /** Brand World / Lore layer — shared across all identity states. */
   loreAnswers: Record<string, string | string[]>;
   loreCompletedSteps: string[];
+  /** Brand Personality layer — behavioral canon upstream of Creative Direction. */
+  personalityAnswers: Record<string, string | string[]>;
+  personalityCompletedSteps: string[];
   freeformNotes: string;
   submissionStatus: 'draft' | 'complete';
   updatedAt: string;
@@ -31,6 +34,8 @@ const EMPTY: IdntyAssessmentRecord = {
   answers: {},
   loreAnswers: {},
   loreCompletedSteps: [],
+  personalityAnswers: {},
+  personalityCompletedSteps: [],
   freeformNotes: '',
   submissionStatus: 'draft',
   updatedAt: new Date().toISOString(),
@@ -199,10 +204,55 @@ export function useIdntyAssessment() {
       persist({ ...current, loreCompletedSteps, currentStep: `world:${stepId}` });
       intakeSync.autosave({
         currentStep: `world:${stepId}`,
-        draftPayload: { loreCompletedSteps, loreAnswers: current.loreAnswers },
+        draftPayload: {
+          loreCompletedSteps,
+          loreAnswers: current.loreAnswers,
+          personalityAnswers: current.personalityAnswers,
+        },
       });
     },
     [persist, intakeSync],
+  );
+
+  const setPersonalityAnswers = useCallback(
+    (stepId: string, value: string | string[]) => {
+      const current = readRecord();
+      const personalityAnswers = { ...current.personalityAnswers, [stepId]: value };
+      persist({ ...current, personalityAnswers, currentStep: `personality:${stepId}` });
+      intakeSync.autosave({
+        currentStep: `personality:${stepId}`,
+        draftPayload: {
+          identityState: current.identityState,
+          answers: current.identityState ? current.answers[current.identityState] ?? {} : {},
+          loreAnswers: current.loreAnswers,
+          personalityAnswers,
+          personalityCompletedSteps: current.personalityCompletedSteps,
+        },
+      });
+    },
+    [persist, intakeSync],
+  );
+
+  const markPersonalityStepComplete = useCallback(
+    (stepId: string) => {
+      const current = readRecord();
+      const personalityCompletedSteps = Array.from(new Set([...current.personalityCompletedSteps, stepId]));
+      persist({ ...current, personalityCompletedSteps, currentStep: `personality:${stepId}` });
+      intakeSync.autosave({
+        currentStep: `personality:${stepId}`,
+        draftPayload: {
+          personalityCompletedSteps,
+          personalityAnswers: current.personalityAnswers,
+          loreAnswers: current.loreAnswers,
+        },
+      });
+    },
+    [persist, intakeSync],
+  );
+
+  const getPersonalityAnswers = useCallback(
+    (): Record<string, string | string[]> => record.personalityAnswers ?? {},
+    [record.personalityAnswers],
   );
 
   const getLoreAnswers = useCallback((): Record<string, string | string[]> => record.loreAnswers ?? {}, [record.loreAnswers]);
@@ -241,6 +291,9 @@ export function useIdntyAssessment() {
     getLoreAnswers,
     setLoreAnswers,
     markLoreStepComplete,
+    getPersonalityAnswers,
+    setPersonalityAnswers,
+    markPersonalityStepComplete,
     resumeTarget,
     hasResume: Boolean(resumeTarget),
     /** Canonical server persistence state — truthful save state for the UI (IX). */
