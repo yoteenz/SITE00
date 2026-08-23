@@ -3216,3 +3216,19 @@ Summary: Founder requested Experiment C — expand each canonical six direction 
 - **Tests:** 28 new tests (23 shared + 5 service); 1050 total pass; build pass.
 - **Founder action:** Merge PR; Railway redeploy API; cPanel frontend deploy; open carousel expansion page → INITIALIZE then RUN ALL REMAINING (or step through resumable controls). Experiment B must have 6/6 heroes first.
 
+---
+
+## 2026-08-23 — NDXBOOK creative asset lineage + winning world promotion + salvage system
+
+Summary: Founder requested a 25-phase production sprint to formalize durable creative intelligence for NDXBOOK validation outputs — lineage, winning-world promotion (founder-triggered only), losing-direction salvage, translation engine, content library UI, canon versioning, and full test coverage. No new creative generation; no auto winner selection; no visual system merging.
+
+- **Context:** Stop treating direction-validation outputs as disposable experiments; every asset and concept must carry origin, direction, topic, format, world, version, status, reuse rights, adaptation state, founder judgment, and canon status.
+- **Phase 0 — Forensic audit:** `shared/site00-brand-lore/creativeLineage/forensicAudit.ts` documents storage paths (heroes, carousel slides, boards, proofs, pilots), record stores (`site00_methodology_validation_runs` JSONB, formations, ephemeral engagement decisions), ephemeral risks, missing lineage, and idempotent migration plan. Historical JSONB runs are never mutated.
+- **Phases 1–18 — Core infrastructure:** Supabase migration `20260823120000_site00_creative_lineage.sql` — `site00_creative_asset_records`, `site00_creative_concept_records`, `site00_content_franchise_records`, `site00_editorial_idea_records`, `site00_creative_families`, `site00_brand_canon_traits`, `site00_brand_canon_state`, `site00_winning_world_promotion_plans`, `site00_launch_seed_sets`. Shared types in `creativeLineage/types.ts`. Logic: `worldTranslationEngine.ts` (`translateConceptIntoWinningWorld`), `contaminationGuard.ts` (`LOSING_WORLD_VISUAL_DNA_CONTAMINATION_TEST`), `salvageClassification.ts` (A–H classes), `canonVersioning.ts` (brand/content canon versions, staleness, publishing readiness, duplicate detection).
+- **API:** `api/_lib/site00Evolve/creativeLineage/` — memory + Supabase store adapters, `assetNormalizer.ts` (Experiment B heroes + Experiment C slides, idempotent, skips duplicate slide-01 if hero exists), `creativeLineageService.ts`. Routes: `creative_lineage_forensic_audit`, `normalize`, `library`, `asset_update`, `promotion_plan`, `promote_world`, `salvage_action`.
+- **UI:** `/projects/ndxbook/content-library` — `NdxbookContentLibrary.tsx` with LIBRARY / SALVAGE / AUDIT tabs, section filters (ALL, CANONICAL, PRODUCTION CANDIDATES, CAROUSELS, FRANCHISES, CONCEPTS, ADAPTABLE, RETIRED), asset actions (MARK REUSABLE, ADAPTABLE, IDEA ONLY, RETIRE, PROMOTE TO PRODUCTION CANDIDATE). Salvage review per losing direction after winner promotion.
+- **Doctrine:** `docs/ndxbook-creative-lineage.md` — validation output may become first live brand content; Brand Canon vs Content Canon separation; trait-level canon promotion requires explicit founder approval.
+- **Tests:** 22 tests in `creativeLineage.test.ts` + 2 service tests; 1074 total pass; build pass. All Phase 25 test names covered.
+- **Gaps (future):** Normalizer covers Exp B heroes + Exp C slides only (not boards, replay heroes, six-direction consistency yet); engagement founder decisions still ephemeral; translation preview UI (Phase 19 backend exists, no dedicated button); link from project page to Content Library optional.
+- **Founder action:** Apply Supabase migration; Railway redeploy API; cPanel deploy for Content Library UI; open `/projects/ndxbook/content-library` → NORMALIZE LINEAGE FROM VALIDATION RUNS; winner promotion and salvage remain founder-controlled — do not auto-trigger.
+
