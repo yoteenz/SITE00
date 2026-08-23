@@ -2,7 +2,7 @@
  * Copy quality gate — reject generic copy before GPT Image generation.
  */
 
-import { parseStructuredJson } from './formationValidation.js';
+import { parseStructuredJson, isJsonParseError, STRUCTURED_JSON_REVISION_HINT } from './formationValidation.js';
 import { callAnthropicForCompletion } from './anthropicCompletion.js';
 import { ANTHROPIC_CREATIVE_MODEL } from './config.js';
 import { isProductionSonnetConfigured } from './directionExpressionSystemService.js';
@@ -87,8 +87,22 @@ export async function runCopyQualityGate(params: {
     },
   };
 
-  const { text } = await callAnthropicForCompletion(COPY_QA_PROMPT, payload, { maxTokens: 4096 });
-  const parsed = parseStructuredJson(text) as Record<string, unknown>;
+  let parsed: Record<string, unknown> | null = null;
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    const revisionHint = attempt === 0 ? null : STRUCTURED_JSON_REVISION_HINT;
+    const { text } = await callAnthropicForCompletion(
+      COPY_QA_PROMPT,
+      revisionHint ? { ...payload, revisionHint } : payload,
+      { maxTokens: 8192 },
+    );
+    try {
+      parsed = parseStructuredJson(text) as Record<string, unknown>;
+      break;
+    } catch (err) {
+      if (!isJsonParseError(err) || attempt === 1) throw err;
+    }
+  }
+  if (!parsed) throw new Error('Copy quality gate JSON parse failed after retry');
 
   const scores = evaluateCopyQualityFromScores({
     editorialVoice: Number(parsed.editorialVoice ?? 0),

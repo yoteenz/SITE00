@@ -3,7 +3,7 @@
  */
 
 import { createHash } from 'node:crypto';
-import { parseStructuredJson } from './formationValidation.js';
+import { parseStructuredJson, isJsonParseError, STRUCTURED_JSON_REVISION_HINT } from './formationValidation.js';
 import { callAnthropicForCompletion } from './anthropicCompletion.js';
 import { ANTHROPIC_CREATIVE_MODEL } from './config.js';
 import { isProductionSonnetConfigured } from './directionExpressionSystemService.js';
@@ -317,13 +317,33 @@ export async function runIdentityNativeArtDirector(params: {
     expressionContext,
   );
 
-  const { text, usage } = await callAnthropicForCompletion(
-    buildIdentityArtDirectorSystemPrompt(orgSlug),
-    userPayload,
-    {
-    maxTokens: 8192,
-  },
-  );
+  let text = '';
+  let usage = { inputTokens: 0, outputTokens: 0 };
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    const revisionHint = attempt === 0 ? null : STRUCTURED_JSON_REVISION_HINT;
+    const response = await callAnthropicForCompletion(
+      buildIdentityArtDirectorSystemPrompt(orgSlug),
+      revisionHint ? { ...userPayload, revisionHint } : userPayload,
+      { maxTokens: 16384 },
+    );
+    text = response.text;
+    usage = {
+      inputTokens: response.usage.inputTokens ?? 0,
+      outputTokens: response.usage.outputTokens ?? 0,
+    };
+    try {
+      parseIdentityNativeArtDirectionResponse({
+        text,
+        directionId: params.directionId,
+        expressionSystemId: params.expressionSystem.expressionSystemId,
+        provider: 'anthropic',
+        model: ANTHROPIC_CREATIVE_MODEL,
+      });
+      break;
+    } catch (err) {
+      if (!isJsonParseError(err) || attempt === 1) throw err;
+    }
+  }
 
   const artDirection = parseIdentityNativeArtDirectionResponse({
     text,
