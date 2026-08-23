@@ -10,6 +10,11 @@ import {
   NDXBOOK_V2_FORMATION_ID,
 } from '../creativeIntelligence/founderComparisonSet.js';
 
+vi.mock('./canonicalRangeStorageRecovery.js', () => ({
+  shouldReconcileCanonicalRangeRun: vi.fn(() => false),
+  recoverCanonicalRangeRunFromStorage: vi.fn(),
+}));
+
 vi.mock('../../../site00BrandLore/loreService.js', () => ({
   getOrReconcileBrandLoreForOrg: vi.fn(),
 }));

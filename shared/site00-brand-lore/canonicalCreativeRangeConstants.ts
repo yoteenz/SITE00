@@ -46,3 +46,6 @@ export const NEAR_MISS_DIRECTION_NAMES = [
 ] as const;
 
 export const NDXBOOK_CANONICAL_CREATIVE_RANGE_RUN_ID = 'ndxbook-canonical-creative-range';
+
+/** Fixed Supabase row id for methodology_validation_runs persistence. */
+export const NDXBOOK_CANONICAL_CREATIVE_RANGE_DB_ID = 'c4e1a2b3-0001-4000-8000-000000000001';

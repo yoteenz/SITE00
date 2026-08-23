@@ -51,6 +51,10 @@ import type { DirectionNativeFormatSelection } from '../../../../../shared/site0
 import { runFormatAssignmentContaminationTest } from '../../../../../shared/site00-brand-lore/directionNativeFormatSelection.js';
 import { getOrReconcileBrandLoreForOrg } from '../../../site00BrandLore/loreService.js';
 import * as rangeStore from './storeAdapter.js';
+import {
+  recoverCanonicalRangeRunFromStorage,
+  shouldReconcileCanonicalRangeRun,
+} from './canonicalRangeStorageRecovery.js';
 
 const HERO_TOPIC = 'credit utilization';
 
@@ -314,7 +318,7 @@ function buildDefaultAudit(): CanonicalCreativeRangeRun['audit'] {
 }
 
 export async function executeCanonicalCreativeRangeValidation(): Promise<CanonicalCreativeRangeRun> {
-  const existing = await rangeStore.getCanonicalCreativeRangeRun();
+  let existing = await getCanonicalCreativeRangeRun();
   if (existing?.status === 'COMPLETE') return existing;
 
   let run = initRun(existing?.status === 'FAILED' ? { ...existing, status: 'NOT_STARTED', error: null } : existing);
@@ -476,7 +480,14 @@ export async function executeCanonicalCreativeRangeValidation(): Promise<Canonic
 }
 
 export async function getCanonicalCreativeRangeRun(): Promise<CanonicalCreativeRangeRun | null> {
-  return rangeStore.getCanonicalCreativeRangeRun();
+  let run = await rangeStore.getCanonicalCreativeRangeRun();
+  if (shouldReconcileCanonicalRangeRun(run)) {
+    const recovered = await recoverCanonicalRangeRunFromStorage();
+    if (recovered) {
+      run = await rangeStore.saveCanonicalCreativeRangeRun(recovered);
+    }
+  }
+  return run;
 }
 
 export async function setCanonicalRangeFounderJudgment(params: {
