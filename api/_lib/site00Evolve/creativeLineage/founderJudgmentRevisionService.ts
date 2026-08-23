@@ -37,7 +37,6 @@ import type {
 import {
   compileCreativeRevision,
   defaultRevisionSeverity,
-  preferredGenerationMode,
 } from '../../../../shared/site00-brand-lore/creativeLineage/revisionCompiler.js';
 import {
   canApproveRevisionGeneration,
@@ -45,6 +44,15 @@ import {
   runRevisionSurgicalityTest,
   runRevisionWorldContaminationTest,
 } from '../../../../shared/site00-brand-lore/creativeLineage/revisionValidation.js';
+import { detectRevisionLockConflicts } from '../../../../shared/site00-brand-lore/creativeLineage/revisionLockConflictDetection.js';
+import { severityDefaultMode } from '../../../../shared/site00-brand-lore/creativeLineage/revisionGenerationModeResolver.js';
+import {
+  approveRevisionSpecForGeneration,
+  executeRevisionGeneration,
+  getRevisionComparisonState,
+  REVISION_GENERATION_COST_ESTIMATE_USD,
+  setPreferredRevisionVersion,
+} from './revisionGenerationService.js';
 
 const BRAND_SLUG = 'ndxbook';
 
@@ -166,6 +174,7 @@ export async function createRevisionSpecDraft(params: {
   const revisionNumber = existing.length + 1;
   const ts = nowIso();
   const branchId = params.branchId ?? `branch-${rootAssetId}`;
+  const severity = params.severity ?? defaultRevisionSeverity();
 
   const priorBranch = await judgmentStore.getRevisionBranch(branchId);
   const branch: RevisionBranch = {
@@ -190,7 +199,7 @@ export async function createRevisionSpecDraft(params: {
     directionId: parent.directionLineage.directionId,
     worldId: parent.directionLineage.worldId,
     creativeFamilyId: parent.creativeFamilyId,
-    severity: params.severity ?? defaultRevisionSeverity(),
+    severity,
     founderOriginalNote: params.founderOriginalNote ?? '',
     categoryNotes: params.categoryNotes ?? {},
     elementStates: {},
@@ -202,12 +211,17 @@ export async function createRevisionSpecDraft(params: {
     requestedColorChanges: [],
     requestedTypographyChanges: [],
     status: 'DRAFT',
-    generationMode: preferredGenerationMode(params.severity ?? defaultRevisionSeverity()),
+    generationMode: severityDefaultMode(severity),
     generationGate: {
       liveGenerationEnabled: false,
-      gateReason: 'GENERATION_NOT_YET_ENABLED',
+      gateReason: 'Save spec is free — explicit founder approval required before generation',
     },
     childAssetId: null,
+    generationReceipt: null,
+    complianceDiff: null,
+    idempotencyKey: null,
+    approvedAt: null,
+    generationAttempt: 1,
     createdAt: ts,
     updatedAt: ts,
   };
@@ -259,9 +273,14 @@ export async function updateCreativeRevisionSpec(params: {
   const spec = await judgmentStore.getCreativeRevisionSpec(params.revisionId);
   if (!spec) throw new Error('Revision spec not found');
 
+  if (spec.status === 'GENERATING') {
+    throw new Error('Cannot update spec while generation is in progress');
+  }
+
   const locked = params.lockedElements ?? spec.lockedElements;
   const mutable = params.mutableElements ?? spec.mutableElements;
   const ts = nowIso();
+  const severity = params.severity ?? spec.severity;
 
   const updated: CreativeRevisionSpec = {
     ...spec,
@@ -270,13 +289,13 @@ export async function updateCreativeRevisionSpec(params: {
     lockedElements: locked,
     mutableElements: mutable,
     elementStates: buildElementStates(locked, mutable),
-    severity: params.severity ?? spec.severity,
-    generationMode: preferredGenerationMode(params.severity ?? spec.severity),
+    severity,
+    generationMode: severityDefaultMode(severity),
     requestedAssetExchange: params.requestedAssetExchange ?? spec.requestedAssetExchange,
     requestedCopyChanges: params.requestedCopyChanges ?? spec.requestedCopyChanges,
     requestedColorChanges: params.requestedColorChanges ?? spec.requestedColorChanges,
     requestedTypographyChanges: params.requestedTypographyChanges ?? spec.requestedTypographyChanges,
-    status: params.status ?? spec.status,
+    status: params.status ?? (spec.status === 'COMPARISON_READY' ? spec.status : 'DRAFT'),
     updatedAt: ts,
   };
 
@@ -299,7 +318,9 @@ export async function compileRevisionSpec(revisionId: string): Promise<{
   surgicality: ReturnType<typeof runRevisionSurgicalityTest>;
   contamination: ReturnType<typeof runRevisionWorldContaminationTest>;
   hostFont: ReturnType<typeof runHostFontRevisionLeakageTest>;
+  lockConflicts: ReturnType<typeof detectRevisionLockConflicts>;
   generationGate: ReturnType<typeof canApproveRevisionGeneration>;
+  costEstimateUsd: number;
 }> {
   const spec = await judgmentStore.getCreativeRevisionSpec(revisionId);
   if (!spec) throw new Error('Revision spec not found');
@@ -323,29 +344,44 @@ export async function compileRevisionSpec(revisionId: string): Promise<{
     originDirectionName: parent.directionLineage.directionName,
   });
   const hostFont = runHostFontRevisionLeakageTest(brief);
+  const lockConflicts = detectRevisionLockConflicts(spec);
+
   const generationGate = canApproveRevisionGeneration({
     spec,
     surgicality,
     contamination,
+    hostFont,
     parentAssetAvailable: Boolean(parent.generationLineage.storagePath),
     parentPromptLineageAvailable: Boolean(parent.intelligenceLineage.promptHash),
+    lockConflicts,
   });
 
   const nextStatus: CreativeRevisionSpec['status'] =
-    surgicality.passed && contamination.passed ? 'READY_FOR_REVIEW' : spec.status;
+    surgicality.passed && contamination.passed && hostFont.passed && lockConflicts.length === 0
+      ? 'READY_FOR_REVIEW'
+      : spec.status;
 
   const updated: CreativeRevisionSpec = {
     ...spec,
     status: nextStatus,
     generationGate: {
-      liveGenerationEnabled: false,
+      liveGenerationEnabled: generationGate.approved,
       gateReason: generationGate.gateReason,
     },
     updatedAt: nowIso(),
   };
   await judgmentStore.upsertCreativeRevisionSpec(updated);
 
-  return { spec: updated, brief, surgicality, contamination, hostFont, generationGate };
+  return {
+    spec: updated,
+    brief,
+    surgicality,
+    contamination,
+    hostFont,
+    lockConflicts,
+    generationGate,
+    costEstimateUsd: REVISION_GENERATION_COST_ESTIMATE_USD,
+  };
 }
 
 export async function getRevisionHistory(assetId: string): Promise<{
@@ -378,28 +414,19 @@ export async function runFounderJudgmentForensicAudit() {
   return runJudgmentForensicAudit({ brandSlug: BRAND_SLUG, assets, judgments, revisionSpecs });
 }
 
-export async function attemptGenerateRevision(revisionId: string): Promise<{
-  allowed: false;
-  reason: string;
-  childDefaults?: ReturnType<typeof buildRevisionChildAssetDefaults>;
-}> {
-  const spec = await judgmentStore.getCreativeRevisionSpec(revisionId);
-  if (!spec) {
-    return { allowed: false, reason: 'Revision spec not found' };
-  }
-  const assets = await assetStore.listCreativeAssets(BRAND_SLUG);
-  const parent = assets.find((a) => a.assetId === spec.parentAssetId);
-  const childDefaults = parent
-    ? buildRevisionChildAssetDefaults(parent, `revision-child-${revisionId}`, spec.revisionNumber + 1)
-    : undefined;
-
-  return {
-    allowed: false,
-    reason: 'GENERATION_NOT_YET_ENABLED — live revision generation gated; child would start UNREVIEWED',
-    childDefaults,
-  };
+export async function attemptGenerateRevision(
+  revisionId: string,
+  options?: { technicalRetry?: boolean },
+) {
+  return executeRevisionGeneration(revisionId, options);
 }
 
-export { buildRevisionChildAssetDefaults };
+export {
+  approveRevisionSpecForGeneration,
+  getRevisionComparisonState,
+  setPreferredRevisionVersion,
+  buildRevisionChildAssetDefaults,
+  REVISION_GENERATION_COST_ESTIMATE_USD,
+};
 
 export { NDXBOOK_ORG_ID };

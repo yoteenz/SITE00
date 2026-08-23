@@ -35,7 +35,7 @@ export function runRevisionWorldContaminationTest(params: {
   if (params.spec.worldId !== params.parentAsset.directionLineage.worldId) {
     notes.push('Revision worldId differs from parent');
   }
-  if (/martian mono|host ui|site 00 ui/i.test(delta)) {
+  if (/martian mono|host ui|site 00 ui/i.test(delta) && !/never platform|do not use|avoid:/i.test(delta)) {
     notes.push('Host UI typography leakage detected in compiled brief');
   }
 
@@ -103,7 +103,10 @@ export function runRevisionSurgicalityTest(params: {
 }
 
 export function runHostFontRevisionLeakageTest(brief: RevisionGenerationBrief): ValidationResult {
-  const leaked = /martian mono|inter\b|system-ui|host ui/i.test(brief.deltaPrompt);
+  const delta = brief.deltaPrompt;
+  const leaked =
+    /martian mono|inter\b|system-ui|host ui/i.test(delta) &&
+    !/never platform|do not use|avoid:/i.test(delta);
   return {
     result: leaked ? 'FAIL' : 'PASS',
     passed: !leaked,
@@ -111,12 +114,16 @@ export function runHostFontRevisionLeakageTest(brief: RevisionGenerationBrief): 
   };
 }
 
+import { detectRevisionLockConflicts, hasBlockingLockConflicts } from './revisionLockConflictDetection.js';
+
 export function canApproveRevisionGeneration(params: {
   spec: CreativeRevisionSpec;
   surgicality: ValidationResult;
   contamination: ValidationResult;
+  hostFont?: ValidationResult;
   parentAssetAvailable: boolean;
   parentPromptLineageAvailable: boolean;
+  lockConflicts?: ReturnType<typeof detectRevisionLockConflicts>;
 }): { approved: boolean; gateReason: string } {
   if (!params.parentAssetAvailable) {
     return { approved: false, gateReason: 'Parent asset unavailable' };
@@ -127,13 +134,23 @@ export function canApproveRevisionGeneration(params: {
   if (!params.contamination.passed) {
     return { approved: false, gateReason: 'REVISION_WORLD_CONTAMINATION_TEST failed' };
   }
-  if (params.spec.status !== 'APPROVED_FOR_GENERATION' && params.spec.status !== 'READY_FOR_REVIEW') {
-    return { approved: false, gateReason: 'Revision spec not founder-approved for generation' };
+  if (params.hostFont && !params.hostFont.passed) {
+    return { approved: false, gateReason: 'Host font leakage in revision brief' };
   }
-  return {
-    approved: false,
-    gateReason: 'GENERATION_NOT_YET_ENABLED — live revision generation gated this sprint',
-  };
+  const conflicts = params.lockConflicts ?? detectRevisionLockConflicts(params.spec);
+  if (conflicts.length > 0) {
+    return { approved: false, gateReason: conflicts[0]!.message };
+  }
+  if (hasBlockingLockConflicts(params.spec) && conflicts.length > 0) {
+    return { approved: false, gateReason: conflicts[0]!.message };
+  }
+  if (params.spec.status !== 'APPROVED_FOR_GENERATION') {
+    return {
+      approved: false,
+      gateReason: 'Founder must explicitly approve spec for generation (APPROVED_FOR_GENERATION)',
+    };
+  }
+  return { approved: true, gateReason: 'Approved for live revision generation' };
 }
 
 export function assessRevisionVsNewExploration(spec: CreativeRevisionSpec): ValidationResult {

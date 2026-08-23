@@ -349,6 +349,10 @@ export type CreativeAssetRecord = {
   rootAssetId: string | null;
   revisionNumber: number;
   currentRevisionId: string | null;
+  /** Founder-preferred execution within this asset's revision family (not canon). */
+  preferredRevisionAssetId?: string | null;
+  /** Revision spec that produced this child asset. */
+  revisionSpecId?: string | null;
   createdAt: string;
   updatedAt: string;
 };

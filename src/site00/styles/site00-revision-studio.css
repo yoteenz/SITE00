@@ -1,3 +1,16 @@
+.site00-revision-comparison__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 640px) {
+  .site00-revision-comparison__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 .site00-revision-studio {
   position: fixed;
   inset: 0;

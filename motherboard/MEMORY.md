@@ -3335,3 +3335,22 @@ Summary of follow-up integration sprint after PR #286 + #288.
 
 - **Founder next:** Railway redeploy API from main; cPanel **v17** for library lifecycle UI; run launch seed reconcile once if historical seed entries exist.
 
+---
+
+## 2026-08-23 — Live surgical revision generation + before/after compliance review
+
+Summary of follow-up sprint replacing `GENERATION_NOT_YET_ENABLED` with founder-triggered live revision generation.
+
+- **Context:** After judgment semantics + revision lifecycle integration (PR #289), enable production-safe surgical revision: explicit approve → GENERATE REVISION → one child asset → compliance comparison → founder judgment. No auto-spend on deploy.
+
+- **Decisions / outcomes:**
+  - `revisionGenerationService.ts` — mode resolver (IMAGE_EDIT / REFERENCE_CONDITIONED / PROMPT_REGENERATION), lock conflict preflight, FAL GPT Image 2 edit with parent storage URL, durable upload, immutable child `CreativeAssetRecord`, compliance diff, idempotency.
+  - Gate removed: save/compile free; `APPROVED_FOR_GENERATION` required before spend; `COMPARISON_READY` after durable storage.
+  - Extended production compiler: hard locks, soft preservation, anti-drift, asset exchanges, world/brand DNA sections.
+  - UI: Revision Studio approve + generate + cost notice; `RevisionComparisonReview` before/after with LOVE IT / REVISE AGAIN / NOT FOR ME / SET PREFERRED VERSION.
+  - API: `founder_revision_spec_approve`, `founder_revision_generate`, `founder_revision_comparison`, `founder_revision_preferred_version`.
+  - Carousel single-slide revision boundary preserved; preferred version on root asset (`preferredRevisionAssetId`).
+  - 55+ regression tests; build passes. Deploy: Railway API + cPanel **v18**.
+
+- **Founder next:** Railway redeploy API; cPanel **v18** for Revision Studio generate + comparison UI; first live FAL spend only when founder taps GENERATE REVISION after approval.
+

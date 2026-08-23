@@ -335,6 +335,23 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, ...params }),
       },
     ),
+  founderCreativeJudgmentRecord: (
+    slug: string,
+    params: {
+      assetId: string;
+      founderAction: 'LOVE_IT' | 'REVISE' | 'NOT_FOR_ME' | 'PROMISING_REFINE';
+      judgmentReason?: string | null;
+      carouselRunGenerating?: boolean;
+    },
+  ) =>
+    projectsFetch<{ ok: true; asset: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_creative_judgment_record',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, ...params }),
+      },
+    ),
   founderRevisionSpecCreate: (
     slug: string,
     params: {
@@ -398,6 +415,47 @@ export const site00ProjectsApi = {
       };
     }>(
       `/api/site00/projects?action=founder_revision_history&slug=${encodeURIComponent(slug)}&assetId=${encodeURIComponent(assetId)}`,
+    ),
+  founderRevisionSpecApprove: (slug: string, revisionId: string) =>
+    projectsFetch<{ ok: true; spec: import('../../../shared/site00-brand-lore/creativeLineage/revisionTypes').CreativeRevisionSpec }>(
+      '/api/site00/projects?action=founder_revision_spec_approve',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, revisionId }),
+      },
+    ),
+  founderRevisionGenerate: (slug: string, revisionId: string, technicalRetry?: boolean) =>
+    projectsFetch<{
+      ok: true;
+      result: {
+        allowed: boolean;
+        reason?: string;
+        spec?: import('../../../shared/site00-brand-lore/creativeLineage/revisionTypes').CreativeRevisionSpec;
+        child?: Record<string, unknown>;
+        diff?: import('../../../shared/site00-brand-lore/creativeLineage/revisionTypes').CreativeRevisionDiff;
+        receipt?: import('../../../shared/site00-brand-lore/creativeLineage/revisionTypes').RevisionGenerationReceipt;
+      };
+    }>('/api/site00/projects?action=founder_revision_generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug, revisionId, technicalRetry: technicalRetry === true }),
+    }),
+  founderRevisionComparison: (slug: string, revisionId: string) =>
+    projectsFetch<{
+      ok: true;
+      comparison: import('../../../shared/site00-brand-lore/creativeLineage/revisionTypes').RevisionComparisonState;
+    }>(
+      `/api/site00/projects?action=founder_revision_comparison&slug=${encodeURIComponent(slug)}&revisionId=${encodeURIComponent(revisionId)}`,
+    ),
+  founderRevisionPreferredVersion: (slug: string, rootAssetId: string, preferredAssetId: string) =>
+    projectsFetch<{ ok: true; asset: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_revision_preferred_version',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, rootAssetId, preferredAssetId }),
+      },
     ),
   founderJudgmentForensicAudit: (slug: string) =>
     projectsFetch<{ ok: true; report: Record<string, unknown> }>(

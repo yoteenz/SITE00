@@ -143,3 +143,29 @@ async function generateImageFromCompiledBrief(params: {
 
   return { url, model, costEstimateUsd: 0.045 };
 }
+
+/** Live surgical revision generation — parent image as reference when mode allows. */
+export async function generateRevisionImageFromBrief(params: {
+  compiledPrompt: string;
+  generationMode: 'IMAGE_EDIT' | 'REFERENCE_CONDITIONED_REGENERATION' | 'PROMPT_REGENERATION';
+  referenceImageUrls?: string[];
+  aspectRatio?: string;
+}): Promise<{ url: string; model: string; costEstimateUsd: number }> {
+  const useParent =
+    params.generationMode !== 'PROMPT_REGENERATION' && (params.referenceImageUrls?.length ?? 0) > 0;
+  return generateImageFromCompiledBrief({
+    compiledPrompt: params.compiledPrompt,
+    negativeInstructions: [
+      'redesign from scratch',
+      'change topic',
+      'host UI typography',
+      'Martian Mono',
+      'unrelated improvements',
+    ],
+    referenceImageUrls: useParent ? params.referenceImageUrls : undefined,
+    aspectRatio: params.aspectRatio ?? '16:9',
+    textOnly: !useParent,
+  });
+}
+
+export { generateImageFromCompiledBrief };
