@@ -5,6 +5,8 @@ alwaysApply: true
 
 # Session close (SITE 00 — required every time)
 
+**Founder formalized this rule so they never type it again.** Do not suggest the founder add session-close text to sprint prompts. This file is always-applied — compliance is mandatory, not optional.
+
 Founder works from **mobile**. Every agent turn that **completes work**, **wraps a sprint**, or **merges a PR** MUST end with **all three parts below**. Missing any part is a failed close — do not send prose-only.
 
 ## The three parts (in order)

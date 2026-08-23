@@ -13,6 +13,20 @@ Canonical reference for stack, design, and main flows. Keep this updated when th
 
 ---
 
+## Agent output contract (every session — founder must NOT re-prompt)
+
+Founder formalized this once. **Do not tell the founder to paste session-close instructions into sprint prompts.**
+
+Before any final message that completes work: follow **`.cursor/rules/session-close.mdc`** (always-applied):
+
+1. Prose summary  
+2. Sprint `CONCLUSION` (if any) inside **one fenced code block** — not markdown headings  
+3. Deploy links **each on its own line** after the box (ZIP · release · README · verify · upload)
+
+Sprint prompts may include their own `FINAL CONCLUSION FORMAT` — that content goes **inside part 2**. It does not replace parts 1 or 3.
+
+---
+
 ## Stack & repo
 
 - **Frontend:** React 19, TypeScript, Vite 5, React Router 6. Styles in `src/site00/styles/`. No Tailwind in standalone SITE 00.
