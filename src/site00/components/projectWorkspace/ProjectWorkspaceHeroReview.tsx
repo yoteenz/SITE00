@@ -41,6 +41,9 @@ export function ProjectWorkspaceHeroReview({ projectSlug }: ProjectWorkspaceHero
     return <p className="site00-experiment-e__meta">Loading project workspace hero…</p>;
   }
 
+  const needsExperimentE =
+    !run.heroSubset || run.heroSubset.fullManifestRequirementCount === 0 || !run.heroSubset.scopeValid;
+
   return (
     <section className="site00-pws-hero-review" aria-label="NDXBOOK hero proof">
       <h3 className="site00-experiment-e__title">PROJECT WORKSPACE · NDXBOOK HERO PROOF</h3>
@@ -82,10 +85,27 @@ export function ProjectWorkspaceHeroReview({ projectSlug }: ProjectWorkspaceHero
           </ul>
         </details>
       ) : (
-        <button type="button" disabled={busy} onClick={() => void act(() => site00ProjectsApi.projectWorkspaceCompileHeroSubset(projectSlug))}>
+        <button type="button" className="site00-btn" disabled={busy} onClick={() => void act(() => site00ProjectsApi.projectWorkspaceCompileHeroSubset(projectSlug))}>
           COMPILE HERO FRAME ASSET SUBSET
         </button>
       )}
+
+      {needsExperimentE ? (
+        <div className="site00-pws-hero-review__bootstrap">
+          <p className="site00-experiment-e__meta">
+            Hero asset lineage requires Experiment E — form three experience concepts and compile the Active Workbench
+            PROJECT_HOME manifest. Tap prepare below (forms E if intake is ready), then generate.
+          </p>
+          <button
+            type="button"
+            className="site00-btn site00-btn--primary"
+            disabled={busy}
+            onClick={() => void act(() => site00ProjectsApi.projectWorkspacePrepareHero(projectSlug))}
+          >
+            {busy ? 'PREPARING…' : 'PREPARE EXPERIMENT E + HERO SUBSET'}
+          </button>
+        </div>
+      ) : null}
 
       <div className="site00-experiment-e__controls">
         <button

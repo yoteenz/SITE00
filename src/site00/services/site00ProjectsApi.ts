@@ -544,6 +544,15 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug }),
       },
     ),
+  projectWorkspacePrepareHero: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=project_workspace_prepare_hero',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
   projectWorkspaceGenerateHero: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=project_workspace_generate_hero',
