@@ -2,7 +2,8 @@
  * Shadow personality replay intake — autosave to validation record, not canonical profile.
  */
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { resolvePersonalityReplayResumeStepId } from '../../../shared/site00-brand-lore/personalityReadiness';
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
 
 const LOCAL_KEY_PREFIX = 'site00-personality-replay:';
@@ -18,6 +19,7 @@ export type PersonalityReplayIntakeState = {
   lastSavedAt: string | null;
   bootstrapping: boolean;
   bootstrapError: string | null;
+  resumeStepId: string | null;
 };
 
 function localKey(projectSlug: string): string {
@@ -39,12 +41,18 @@ function writeLocal(projectSlug: string, data: Partial<PersonalityReplayIntakeSt
   localStorage.setItem(localKey(projectSlug), JSON.stringify(data));
 }
 
+function clearLocal(projectSlug: string): void {
+  if (typeof window === 'undefined') return;
+  localStorage.removeItem(localKey(projectSlug));
+}
+
 export function usePersonalityReplayIntake(projectSlug: string): PersonalityReplayIntakeState & {
   setAnswer: (stepId: string, value: string | string[]) => void;
   markStepComplete: (stepId: string) => void;
   submitIntake: () => Promise<void>;
   reload: () => Promise<void>;
   bootstrap: () => Promise<string | null>;
+  retryBootstrap: () => void;
 } {
   const local = useMemo(() => readLocal(projectSlug), [projectSlug]);
   const [replayId, setReplayId] = useState<string | null>(local?.replayId ?? null);
@@ -56,6 +64,8 @@ export function usePersonalityReplayIntake(projectSlug: string): PersonalityRepl
   const [lastSavedAt, setLastSavedAt] = useState<string | null>(local?.lastSavedAt ?? null);
   const [bootstrapping, setBootstrapping] = useState(false);
   const [bootstrapError, setBootstrapError] = useState<string | null>(null);
+  const [resumeStepId, setResumeStepId] = useState<string | null>(null);
+  const bootstrapInFlightRef = useRef(false);
 
   const persistLocal = useCallback(
     (next: Partial<PersonalityReplayIntakeState>) => {
@@ -71,35 +81,64 @@ export function usePersonalityReplayIntake(projectSlug: string): PersonalityRepl
     [projectSlug, replayId, answers, completedSteps, status, lastSavedAt],
   );
 
-  const reload = useCallback(async () => {
-    if (!replayId) return;
-    const result = await site00ProjectsApi.personalityReplayGet(projectSlug, replayId);
-    const replay = result.replay as {
+  const applyReplayPayload = useCallback(
+    (payload: {
+      replayId: string;
       rawPersonalityAnswers?: Record<string, string | string[]>;
       personalityCompletedSteps?: string[];
       status?: string;
-    };
-    setAnswers(replay.rawPersonalityAnswers ?? {});
-    setCompletedSteps(replay.personalityCompletedSteps ?? []);
-    setStatus(replay.status ?? null);
-    persistLocal({
-      answers: replay.rawPersonalityAnswers ?? {},
-      completedSteps: replay.personalityCompletedSteps ?? [],
-      status: replay.status ?? null,
-    });
-  }, [projectSlug, replayId, persistLocal]);
+    }) => {
+      const nextAnswers = payload.rawPersonalityAnswers ?? {};
+      setReplayId(payload.replayId);
+      setAnswers(nextAnswers);
+      setCompletedSteps(payload.personalityCompletedSteps ?? []);
+      setStatus(payload.status ?? null);
+      setResumeStepId(resolvePersonalityReplayResumeStepId(nextAnswers));
+      persistLocal({
+        replayId: payload.replayId,
+        answers: nextAnswers,
+        completedSteps: payload.personalityCompletedSteps ?? [],
+        status: payload.status ?? null,
+      });
+    },
+    [persistLocal],
+  );
+
+  const reload = useCallback(async () => {
+    if (!replayId) return;
+    try {
+      const result = await site00ProjectsApi.personalityReplayGet(projectSlug, replayId);
+      const replay = result.replay as {
+        replayId?: string;
+        rawPersonalityAnswers?: Record<string, string | string[]>;
+        personalityCompletedSteps?: string[];
+        status?: string;
+      };
+      applyReplayPayload({
+        replayId: replay.replayId ?? replayId,
+        rawPersonalityAnswers: replay.rawPersonalityAnswers,
+        personalityCompletedSteps: replay.personalityCompletedSteps,
+        status: replay.status,
+      });
+    } catch {
+      clearLocal(projectSlug);
+      setReplayId(null);
+      setAnswers({});
+      setCompletedSteps([]);
+      setStatus(null);
+      setResumeStepId(null);
+    }
+  }, [applyReplayPayload, projectSlug, replayId]);
 
   const bootstrap = useCallback(async (): Promise<string | null> => {
+    if (projectSlug !== 'ndxbook') return null;
     setBootstrapping(true);
     setBootstrapError(null);
     try {
       const result = await site00ProjectsApi.personalityReplayBootstrap(projectSlug);
-      setReplayId(result.replay.replayId);
-      setAnswers(result.replay.rawPersonalityAnswers ?? {});
-      setStatus(result.replay.status);
-      persistLocal({
+      applyReplayPayload({
         replayId: result.replay.replayId,
-        answers: result.replay.rawPersonalityAnswers ?? {},
+        rawPersonalityAnswers: result.replay.rawPersonalityAnswers,
         status: result.replay.status,
       });
       return result.resumeStepId;
@@ -109,13 +148,33 @@ export function usePersonalityReplayIntake(projectSlug: string): PersonalityRepl
     } finally {
       setBootstrapping(false);
     }
-  }, [persistLocal, projectSlug]);
+  }, [applyReplayPayload, projectSlug]);
+
+  const retryBootstrap = useCallback(() => {
+    bootstrapInFlightRef.current = false;
+    clearLocal(projectSlug);
+    setReplayId(null);
+    setAnswers({});
+    setCompletedSteps([]);
+    setStatus(null);
+    setResumeStepId(null);
+    setBootstrapError(null);
+  }, [projectSlug]);
 
   useEffect(() => {
-    if (replayId) {
-      void reload().catch(() => undefined);
-    }
-  }, [replayId, reload]);
+    if (!replayId) return;
+    void reload().catch(() => undefined);
+    // Reload once when replay id becomes available (including after route remount).
+  }, [replayId]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (projectSlug !== 'ndxbook') return;
+    if (replayId || bootstrapping || bootstrapError || bootstrapInFlightRef.current) return;
+    bootstrapInFlightRef.current = true;
+    void bootstrap().finally(() => {
+      bootstrapInFlightRef.current = false;
+    });
+  }, [bootstrap, bootstrapError, bootstrapping, projectSlug, replayId]);
 
   const saveToServer = useCallback(
     async (nextAnswers: Record<string, string | string[]>, nextCompleted: string[]) => {
@@ -131,6 +190,7 @@ export function usePersonalityReplayIntake(projectSlug: string): PersonalityRepl
         setStatus(result.replay.status);
         setLastSavedAt(ts);
         setSaveState('saved');
+        setResumeStepId(resolvePersonalityReplayResumeStepId(nextAnswers));
         persistLocal({
           answers: nextAnswers,
           completedSteps: nextCompleted,
@@ -184,10 +244,12 @@ export function usePersonalityReplayIntake(projectSlug: string): PersonalityRepl
     lastSavedAt,
     bootstrapping,
     bootstrapError,
+    resumeStepId,
     setAnswer,
     markStepComplete,
     submitIntake,
     reload,
     bootstrap,
+    retryBootstrap,
   };
 }

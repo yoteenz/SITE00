@@ -21,6 +21,7 @@ import {
   evaluateBrandPersonalityReadiness,
   canBeginCoreDirectionFormation,
   isPersonalityStepAnswered,
+  resolvePersonalityReplayResumeStepId,
 } from '../../../../../shared/site00-brand-lore/personalityReadiness.js';
 import { IDNTY_PERSONALITY_QUESTIONS } from '../../../../../shared/site00-brand-lore/idnty-personality-questions.js';
 import type { PersonalityReplayStatus } from '../../../../../shared/site00-brand-lore/personalityReplayTypes.js';
@@ -328,16 +329,7 @@ const RESUMABLE_REPLAY_STATUSES: PersonalityReplayStatus[] = [
   'PERSONALITY_READY',
 ];
 
-export function resolvePersonalityReplayResumeStepId(
-  answers: Record<string, string | string[]>,
-): string {
-  for (const question of IDNTY_PERSONALITY_QUESTIONS) {
-    if (!isPersonalityStepAnswered(answers, question.id)) {
-      return question.id;
-    }
-  }
-  return 'review';
-}
+export { resolvePersonalityReplayResumeStepId };
 
 /** Resume an in-progress replay or create a fresh shadow validation run. */
 export async function getOrCreateActivePersonalityReplay(params: {

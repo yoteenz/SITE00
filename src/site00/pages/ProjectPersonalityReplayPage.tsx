@@ -4,8 +4,8 @@ import { buildPersonalitySummaryFromAnswers } from '../../../shared/site00-brand
 import { PersonalityReplayIntakeStep } from '../components/validation/PersonalityReplayIntakeStep';
 import { usePersonalityReplayIntake } from '../hooks/usePersonalityReplayIntake';
 import {
-  projectPersonalityReplayPath,
   projectPersonalityReplayStepPath,
+  projectPersonalityReplayReviewPath,
   personalityReplayValidationAdminPath,
 } from '../config/personalityReplayRoutes';
 import { site00ProjectPath, site00ProjectCreativeDirectionPath } from '../config/routes';
@@ -29,24 +29,21 @@ export default function ProjectPersonalityReplayPage() {
     answers,
     submitIntake,
     status,
-    bootstrap,
     bootstrapping,
     bootstrapError,
     replayId,
+    resumeStepId,
+    retryBootstrap,
   } = usePersonalityReplayIntake(projectSlug);
 
   useEffect(() => {
-    if (projectSlug !== 'ndxbook') return;
-    if (stepId && stepId !== 'review') return;
-    if (replayId || bootstrapping) return;
-    void bootstrap().then((resumeStepId) => {
-      if (!stepId && resumeStepId && resumeStepId !== 'review') {
-        navigate(projectPersonalityReplayStepPath(projectSlug, resumeStepId), { replace: true });
-      } else if (!stepId && resumeStepId === 'review') {
-        navigate(`${projectPersonalityReplayPath(projectSlug)}/review`, { replace: true });
-      }
-    });
-  }, [bootstrap, bootstrapping, navigate, projectSlug, replayId, stepId]);
+    if (projectSlug !== 'ndxbook' || !replayId || !resumeStepId || stepId) return;
+    if (resumeStepId === 'review') {
+      navigate(projectPersonalityReplayReviewPath(projectSlug), { replace: true });
+      return;
+    }
+    navigate(projectPersonalityReplayStepPath(projectSlug, resumeStepId), { replace: true });
+  }, [navigate, projectSlug, replayId, resumeStepId, stepId]);
 
   if (projectSlug !== 'ndxbook') {
     return (
@@ -69,6 +66,9 @@ export default function ProjectPersonalityReplayPage() {
     return (
       <EcosystemShell hidePageHeader>
         <p className="site00-body">{bootstrapError}</p>
+        <button type="button" className="site00-btn site00-btn--primary" onClick={retryBootstrap}>
+          TRY AGAIN
+        </button>
         <Link to={site00ProjectPath(projectSlug)}>← BACK TO PROJECT</Link>
       </EcosystemShell>
     );

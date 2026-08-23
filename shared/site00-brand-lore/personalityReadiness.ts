@@ -148,3 +148,15 @@ export function remainingPersonalityCalibrationStepIds(
   const stepIds = missingPersonalityDomainsToSteps(missingDomains);
   return stepIds.filter((id) => !isPersonalityStepAnswered(serverAnswers, id));
 }
+
+/** First unanswered personality step, or `review` when intake is complete. */
+export function resolvePersonalityReplayResumeStepId(
+  answers: Record<string, string | string[]>,
+): string {
+  for (const question of IDNTY_PERSONALITY_QUESTIONS) {
+    if (!isPersonalityStepAnswered(answers, question.id)) {
+      return question.id;
+    }
+  }
+  return 'review';
+}
