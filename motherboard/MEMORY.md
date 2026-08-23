@@ -3232,3 +3232,14 @@ Summary: Founder requested a 25-phase production sprint to formalize durable cre
 - **Gaps (future):** Normalizer covers Exp B heroes + Exp C slides only (not boards, replay heroes, six-direction consistency yet); engagement founder decisions still ephemeral; translation preview UI (Phase 19 backend exists, no dedicated button); link from project page to Content Library optional.
 - **Founder action:** Apply Supabase migration; Railway redeploy API; cPanel deploy for Content Library UI; open `/projects/ndxbook/content-library` → NORMALIZE LINEAGE FROM VALIDATION RUNS; winner promotion and salvage remain founder-controlled — do not auto-trigger.
 
+---
+
+## 2026-08-23 — Experiment C carousel FAILED at slide 02 — brief compiler crash
+
+Summary: Founder reported Experiment C stuck at **FAILED · WORLD 01 / 06 · SLIDE 02 / 06** on fsbw-dev.com; slide 01 (preserved Experiment B cover) visible but generation would not continue.
+
+- **Root cause:** Supabase run error was `Cannot read properties of undefined (reading 'map')`. `canonicalCarouselExpansionService` passed an incomplete stub into `compileIdentityNativeV2VisualBrief` (missing `paletteSystem`, `proprietaryVisualDNA`, etc.). Experiment B heroes run full DES→IAD→CES; Experiment C tried to shortcut and crashed on first new slide.
+- **Fix:** `carouselSlideBriefBuilder.ts` builds complete `IdentityNativeArtDirection`, `CreativeExpressionSystem`, and `HeroCreativeConcept` from carousel world bible + DNA envelope. UI now surfaces `run.error` when status is FAILED.
+- **Tests:** New `carouselSlideBriefBuilder.test.ts`; service test no longer mocks V2 compiler; 1075 pass.
+- **Founder action:** Merge PR; Railway redeploy API; hard refresh carousel page → tap **RUN NEXT SLIDE** (FAILED runs auto-reset on retry). No re-initialize needed unless worlds missing.
+
