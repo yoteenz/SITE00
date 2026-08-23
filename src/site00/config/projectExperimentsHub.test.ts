@@ -8,8 +8,9 @@ import {
 describe('projectExperimentsHub', () => {
   it('lists NDXBOOK methodology surfaces in order', () => {
     const entries = getProjectExperimentsHubEntries('ndxbook');
-    expect(entries.length).toBeGreaterThanOrEqual(10);
+    expect(entries.length).toBeGreaterThanOrEqual(11);
     expect(entries[0]?.id).toBe('lore-calibration');
+    expect(entries.find((e) => e.letter === 'G')?.path).toContain('experiment-g-brand-presentation-concepts');
     expect(entries.find((e) => e.letter === 'E')?.children?.[0]?.id).toBe('visual-development');
   });
 

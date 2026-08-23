@@ -3795,3 +3795,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 - **Founder next:** Review visual development proof at `/projects/ndxbook/experience-expression/visual-development`; LOVE THE DIRECTION before Composer implementation branch; Railway redeploy after merge; live Playwright + FAL verification in deployed environment when ready.
 
+---
+
+## 2026-08-23 — Experiment G missing from Experiments Hub
+
+- **Issue:** Founder on site00.com Experiments Hub saw 07 D → 08 F → 09 E with no Experiment G, despite G route/API existing from Brand Presentation correction (PR #314).
+- **Cause:** `projectExperimentsHub.ts` never listed Experiment G — only F and E.
+- **Fix:** Added hub entry **09 / EXP G — Brand Presentation Concepts** between F and E; updated F description/status to content-concept historical; renumbered E + Content Library.
+- **Direct URL (works even before hub deploy):** `/projects/ndxbook/experiment-g-brand-presentation-concepts`
+
