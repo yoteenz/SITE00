@@ -3740,3 +3740,20 @@ Summary of minimum methodology corrections before P1 — dependency invalidation
 
 - **Apply migration on Supabase** before production expects durable invalidation event persistence.
 
+---
+
+## 2026-08-23 — Visual development Supabase store bugs (three errors on site00.com)
+
+- **Symptoms on `/projects/ndxbook/experience-expression/visual-development`:**
+  1. `INVALID INPUT SYNTAX FOR TYPE UUID: "NDXBOOK"` — slug written to `project_id` UUID columns
+  2. `DUPLICATE KEY … site00_visual_reference_state_scope_slug_uid` — concurrent/racy HOST/CLIENT state insert
+  3. `VISUAL DEVELOPMENT UNAVAILABLE` — `run_id` mismatch (`get` used `ndxbook-visual-development`, save used `project-workspace-visual-development`)
+
+- **Root causes:** No `site00_projects` row for slug `ndxbook`; visual reference store passed client slug as UUID; visual development Supabase get/save used different run_id constants.
+
+- **Fix:** `founderProjectDbId.ts` (`ensureFounderProjectDbId`); aligned `DEFAULT_RUN_ID`; resolve UUID for visual development + client visual reference saves; duplicate-key retry on reference state upsert.
+
+- **DB:** Seeded `site00_projects` row for `ndxbook` (`89a0eb4f-b4e6-4951-aa60-45973b47aa2a`).
+
+- **Founder next:** Railway redeploy API from `main`; hard-refresh visual development page → RETRY.
+
