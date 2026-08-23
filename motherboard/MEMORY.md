@@ -3842,3 +3842,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (PR #320):** Generate + compose call FAL; `heroComposition.publicUrl`; full-width preview below buttons.
 - **Deploy:** cPanel **v34** + **Railway redeploy** (FAL_KEY required for live images).
 
+---
+
+## 2026-08-23 — Hero proof blocked: Experiment E run required
+
+- **Issue:** fsbw-dev hero proof showed FULL MANIFEST HAD 0, missing assets, error `Experiment E run required for hero asset lineage` on generate.
+- **Cause:** Experiment E never formed/persisted — hero subset compiled without PROJECT_HOME manifest requirements.
+- **Fix (PR #321):** `ensureExperimentEHeroPrerequisites()` auto-forms E + compiles Active Workbench manifest; **PREPARE EXPERIMENT E + HERO SUBSET** button in UI when manifest count is 0.
+- **Deploy:** v35 static + Railway redeploy.
+
