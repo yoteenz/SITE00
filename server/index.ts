@@ -55,9 +55,20 @@ app.use(express.json({ limit: '2mb' }));
 
 app.get('/api/health', (_req, res) => {
   const provider = resolveCreativeIntelligenceProviderConfig();
+  const supabaseUrl = process.env.SUPABASE_URL?.replace(/\/$/, '') ?? '';
+  let supabaseHost: string | null = null;
+  try {
+    supabaseHost = supabaseUrl ? new URL(supabaseUrl).hostname : null;
+  } catch {
+    supabaseHost = null;
+  }
   res.json({
     ok: true,
     service: 'site00-api',
+    auth: {
+      supabaseConfigured: Boolean(supabaseUrl && process.env.SUPABASE_ANON_KEY?.trim()),
+      supabaseHost,
+    },
     creativeIntelligence: {
       status: provider.status,
       providerId: provider.providerId,

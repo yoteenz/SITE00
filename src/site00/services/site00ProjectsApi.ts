@@ -92,10 +92,15 @@ async function projectsFetch<T>(path: string, init?: RequestInit): Promise<T> {
   }
 
   if (!res.ok) {
-    const message =
+    const code = typeof data.error === 'object' && data.error?.code ? data.error.code : '';
+    let message =
       typeof data.error === 'string'
         ? data.error
         : data.error?.message ?? data.error?.code ?? `Projects API ${res.status}`;
+    if (res.status === 401 || code === 'UNAUTHORIZED') {
+      message =
+        'SESSION EXPIRED OR NOT SIGNED IN — open Ctrl Room, sign out, sign back in, then retry Projects.';
+    }
     console.error(developerDiagnostic(diagnostics), message);
     throw new Site00ProjectsApiError(message, diagnostics);
   }
