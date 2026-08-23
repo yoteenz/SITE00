@@ -3650,3 +3650,18 @@ Summary of production-hardening sprint addressing MA-001 and related P0 audit fi
 - **Untouched:** Experiment D snapshot, Experiment F methodology, World Formation, Product Expression, Composer dispatch implementation.
 
 - **Apply migration on Supabase** before production deploy expects durable paths.
+
+---
+
+## 2026-08-23 — Railway API crash: falImageModels import path
+
+- **Symptom:** Railway production deploy failed on boot with `ERR_MODULE_NOT_FOUND: Cannot find module '/shared/site00-visual-generation/falImageModels.js'` imported from `api/_lib/studioBuilderGeneration.ts`.
+
+- **Root cause:** Static import used `../../../shared/...` from a file directly under `api/_lib/` (only two hops to repo root). Node resolved to filesystem `/shared/...` instead of `/app/shared/...`.
+
+- **Fix:** Corrected to `../../shared/site00-visual-generation/falImageModels.js` (dynamic import on line 288 was already correct).
+
+- **Verification:** `node --import tsx` import of `studioBuilderGeneration.ts` succeeds; `npm run start:api` boots; **1535/1535** tests pass.
+
+- **Branch:** `cursor/railway-fal-import-path-fix-1983` → PR merge to `main`.
+
