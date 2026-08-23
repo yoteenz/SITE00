@@ -39,6 +39,24 @@ import {
   classifyExperimentDTerritoryEvidence,
 } from '../../../../../shared/site00-brand-lore/experienceExpression/crossMediumConceptEvidence.js';
 import { compileExperimentEIntelligenceSnapshot } from '../../../../../shared/site00-brand-lore/experienceExpression/experienceExpressionSnapshot.js';
+import { compileExperienceAssetDirection, isActiveWorkbenchConcept } from '../../../../../shared/site00-brand-lore/experienceExpression/assetDirection.js';
+import { compileExperienceAssetManifest } from '../../../../../shared/site00-brand-lore/experienceExpression/assetManifest.js';
+import { defaultNdxbookProductionScope } from '../../../../../shared/site00-brand-lore/experienceExpression/productionScope.js';
+import {
+  assetStoragePath,
+  buildAssetGenerationBrief,
+  createGenerationReceipt,
+  filterRequirementsForAction,
+  receiptToProductionAsset,
+  receiptToVisualAsset,
+  validateGenerationScope,
+  type ExperienceAssetGenerationAction,
+} from '../../../../../shared/site00-brand-lore/experienceExpression/assetGeneration.js';
+import {
+  promoteAssetToProduction,
+  type ExperienceProductionAsset,
+} from '../../../../../shared/site00-brand-lore/experienceExpression/assetLifecycle.js';
+import { EXPERIENCE_E_INITIAL_SURFACES } from '../../../../../shared/site00-brand-lore/experienceExpression/constants.js';
 import { buildConceptTerritorySeed } from '../../../../../shared/site00-brand-lore/conceptTerritory/conceptTerritorySeeds.js';
 import type { CanonicalNdxbookDirectionName } from '../../../../../shared/site00-brand-lore/canonicalCreativeRangeConstants.js';
 import { getBrandLoreProfileForOrg } from '../../../site00BrandLore/loreService.js';
@@ -56,6 +74,7 @@ function emptyAccounting(): ExperienceExpressionRun['accounting'] {
     anthropicInputTokens: 0,
     anthropicOutputTokens: 0,
     gptImage2Requests: 0,
+    falRequests: 0,
     estimatedCostUsd: 0,
   };
 }
@@ -71,6 +90,19 @@ function initRun(existing?: ExperienceExpressionRun | null): ExperienceExpressio
       currentExperienceAudit: existing.currentExperienceAudit ?? existing.templateAudit
         ? { ...existing.templateAudit!, auditType: 'CURRENT_NDXBOOK_EXPERIENCE_FORENSIC' as const }
         : null,
+      productionScope: existing.productionScope ?? null,
+      assetDirection: existing.assetDirection ?? null,
+      assetManifest: existing.assetManifest ?? null,
+      assetRequirements: existing.assetRequirements ?? [],
+      productionAssets: existing.productionAssets ?? [],
+      assetGenerationReceipts: existing.assetGenerationReceipts ?? [],
+      assetManifestCompiled: existing.assetManifestCompiled ?? false,
+      assetGenerationStarted: existing.assetGenerationStarted ?? false,
+      accounting: {
+        ...emptyAccounting(),
+        ...existing.accounting,
+        falRequests: existing.accounting?.falRequests ?? 0,
+      },
     };
   }
   return {
@@ -109,6 +141,14 @@ function initRun(existing?: ExperienceExpressionRun | null): ExperienceExpressio
     distinctiveness: null,
     visualBriefs: [],
     visualAssets: [],
+    productionScope: null,
+    assetDirection: null,
+    assetManifest: null,
+    assetRequirements: [],
+    productionAssets: [],
+    assetGenerationReceipts: [],
+    assetManifestCompiled: false,
+    assetGenerationStarted: false,
     implementationContract: null,
     formationReady: false,
     visualGenerationReady: false,
@@ -296,6 +336,14 @@ export async function selectExperienceTestTerritory(params: {
     distinctiveness: null,
     visualBriefs: [],
     visualAssets: [],
+    productionScope: null,
+    assetDirection: null,
+    assetManifest: null,
+    assetRequirements: [],
+    productionAssets: [],
+    assetGenerationReceipts: [],
+    assetManifestCompiled: false,
+    assetGenerationStarted: false,
     implementationContract: null,
     formationReady: false,
     visualGenerationReady: false,
@@ -378,6 +426,7 @@ export async function formExperienceConcepts(): Promise<ExperienceExpressionRun>
     responsiveTranslations,
     behaviorTranslations,
     distinctiveness,
+    productionScope: defaultNdxbookProductionScope(run.projectId),
     status: 'CONCEPTS_READY',
     formationReady: true,
     visualGenerationReady: true,
@@ -554,9 +603,267 @@ export async function compileExperienceImplementationContractForConcept(
     host: run.hostCanon ?? buildHostExperienceCanon(),
     client: run.clientCanon!,
     visualAssets: run.visualAssets,
+    assetManifest: run.assetManifest,
+    productionAssets: run.productionAssets,
   });
 
   return experimentEStore.saveExperienceExpressionRun({ ...run, implementationContract: contract });
+}
+
+export async function compileExperienceAssetDirectionForConcept(
+  conceptIndex: number,
+): Promise<ExperienceExpressionRun> {
+  let run = await experimentEStore.getExperienceExpressionRun();
+  if (!run || run.experienceConcepts.length !== 3) {
+    throw new Error('Form three experience concepts before asset direction');
+  }
+
+  const concept = run.experienceConcepts.find((c) => c.conceptIndex === conceptIndex);
+  const bible = run.experienceBibles.find((b) => b.experienceConceptId === concept?.experienceConceptId);
+  if (!concept || !bible) throw new Error('Experience concept not found');
+
+  const scope = run.productionScope ?? defaultNdxbookProductionScope(run.projectId);
+  const functionalCanon = run.functionalCanon ?? extractNdxbookFunctionalCanon();
+  const clientCanon = run.clientCanon ?? buildClientExperienceCanon({
+    profile: await getBrandLoreProfileForOrg(NDXBOOK_ORG_ID),
+    territory: run.selectedTerritory,
+    world: run.worldExpressionSystem,
+    crossMediumEvidence: run.crossMediumEvidence,
+  });
+
+  const assetDirection = compileExperienceAssetDirection({
+    projectId: run.projectId,
+    concept,
+    bible,
+    functionalCanon,
+    client: clientCanon,
+    scope,
+    surfaces: EXPERIENCE_E_INITIAL_SURFACES,
+    revisedWorkbenchDossier: isActiveWorkbenchConcept(concept),
+  });
+
+  run = {
+    ...run,
+    productionScope: scope,
+    assetDirection,
+  };
+
+  return experimentEStore.saveExperienceExpressionRun(run);
+}
+
+export async function compileExperienceAssetManifestForConcept(
+  conceptIndex: number,
+): Promise<ExperienceExpressionRun> {
+  let run = await experimentEStore.getExperienceExpressionRun();
+  if (!run) throw new Error('Experiment E run not found');
+
+  if (!run.assetDirection) {
+    run = await compileExperienceAssetDirectionForConcept(conceptIndex);
+  }
+
+  const concept = run.experienceConcepts.find((c) => c.conceptIndex === conceptIndex);
+  const bible = run.experienceBibles.find((b) => b.experienceConceptId === concept?.experienceConceptId);
+  if (!concept || !bible || !run.assetDirection) throw new Error('Asset direction required');
+
+  const scope = run.productionScope ?? defaultNdxbookProductionScope(run.projectId);
+  const functionalCanon = run.functionalCanon ?? extractNdxbookFunctionalCanon();
+  const clientCanon = run.clientCanon!;
+
+  const assetManifest = compileExperienceAssetManifest({
+    projectId: run.projectId,
+    concept,
+    bible,
+    assetDirection: run.assetDirection,
+    functionalCanon,
+    client: clientCanon,
+    scope,
+    existingRequirements: run.assetRequirements,
+  });
+
+  run = {
+    ...run,
+    assetManifest,
+    assetRequirements: assetManifest.requirements,
+    assetManifestCompiled: true,
+    productionScope: scope,
+  };
+
+  return experimentEStore.saveExperienceExpressionRun(run);
+}
+
+export async function generateExperienceAssetVisualDevelopment(params: {
+  conceptIndex: number;
+  action?: ExperienceAssetGenerationAction;
+  assetFamily?: string;
+  requirementIds?: string[];
+}): Promise<ExperienceExpressionRun> {
+  let run = await experimentEStore.getExperienceExpressionRun();
+  if (!run) throw new Error('Experiment E run not found');
+
+  if (!run.assetManifestCompiled || !run.assetManifest) {
+    run = await compileExperienceAssetManifestForConcept(params.conceptIndex);
+  }
+
+  const concept = run.experienceConcepts.find((c) => c.conceptIndex === params.conceptIndex);
+  const bible = run.experienceBibles.find((b) => b.experienceConceptId === concept?.experienceConceptId);
+  if (!concept || !bible || !run.assetManifest) throw new Error('Asset manifest required');
+
+  const action = params.action ?? 'GENERATE_VISUAL_DEVELOPMENT';
+  const scope = run.productionScope ?? defaultNdxbookProductionScope(run.projectId);
+  const requirements = filterRequirementsForAction(run.assetManifest, action, {
+    assetFamily: params.assetFamily,
+    requirementIds: params.requirementIds,
+  });
+
+  const scopeCheck = validateGenerationScope({
+    scope,
+    manifest: run.assetManifest,
+    requirements,
+    spentUsd: run.accounting.estimatedCostUsd,
+  });
+  if (!scopeCheck.allowed) {
+    throw new Error(`Generation blocked by scope: ${scopeCheck.reason}`);
+  }
+
+  run = { ...run, assetGenerationStarted: true, visualGenerationStarted: true, status: 'GENERATING_VISUALS' };
+  await experimentEStore.saveExperienceExpressionRun(run);
+
+  const territory = run.selectedTerritory;
+  const world = run.worldExpressionSystem;
+  const functionalCanon = run.functionalCanon ?? extractNdxbookFunctionalCanon();
+  const hostCanon = run.hostCanon ?? buildHostExperienceCanon();
+  const clientCanon = run.clientCanon!;
+
+  let visualAssets = [...run.visualAssets];
+  let productionAssets = [...run.productionAssets];
+  let assetGenerationReceipts = [...run.assetGenerationReceipts];
+  let assetRequirements = [...run.assetRequirements];
+  let accounting = { ...run.accounting };
+
+  for (const requirement of requirements) {
+    const existing = visualAssets.find((a) => a.idempotencyKey === requirement.idempotencyKey && a.storagePath);
+    if (existing && action !== 'REGENERATE_SELECTED_ASSET') continue;
+
+    const deviceClass = requirement.mobileRequirement ? 'MOBILE' : 'DESKTOP';
+    const { promptHash } = buildAssetGenerationBrief({
+      requirement,
+      concept,
+      bible,
+      territory: territory ?? null,
+      world: world ?? null,
+      host: hostCanon,
+      client: clientCanon,
+      functionalCanon,
+      deviceClass,
+    });
+
+    const receipt = createGenerationReceipt({
+      requirement,
+      concept,
+      bible,
+      promptHash,
+      deviceClass,
+    });
+
+    const storagePath = assetStoragePath({
+      conceptIndex: concept.conceptIndex,
+      surfaceId: requirement.surfaceId,
+      assetFamily: requirement.assetFamily,
+      deviceClass,
+    });
+
+    const visualAsset = receiptToVisualAsset({
+      receipt,
+      requirement,
+      orgId: NDXBOOK_ORG_ID,
+      experimentId: EXPERIMENT_E_RUN_ID,
+      territoryId: territory?.territoryId ?? 'snapshot-derived',
+      worldId: world?.expressionSystemId ?? 'none',
+      functionalCanonVersion: functionalCanon.version,
+      hostCanonVersion: hostCanon.version,
+      clientCanonVersion: clientCanon.version,
+      intelligenceSnapshotVersion: EXPERIENCE_E_INTELLIGENCE_SNAPSHOT_VERSION,
+      storagePath,
+    });
+
+    const productionAsset = receiptToProductionAsset({ receipt, requirement, visualAsset });
+
+    visualAssets = visualAssets.filter((a) => a.idempotencyKey !== requirement.idempotencyKey);
+    visualAssets.push(visualAsset);
+    productionAssets = productionAssets.filter((a) => a.requirementId !== requirement.id);
+    productionAssets.push(productionAsset);
+    assetGenerationReceipts = assetGenerationReceipts.filter((r) => r.requirementId !== requirement.id);
+    assetGenerationReceipts.push(receipt);
+
+    assetRequirements = assetRequirements.map((r) =>
+      r.id === requirement.id ? { ...r, status: 'GENERATED' as const, updatedAt: nowIso() } : r,
+    );
+
+    accounting.falRequests += 1;
+    accounting.gptImage2Requests += 1;
+    accounting.estimatedCostUsd += receipt.costUsd;
+  }
+
+  run = {
+    ...run,
+    visualAssets,
+    productionAssets,
+    assetGenerationReceipts,
+    assetRequirements,
+    assetManifest: run.assetManifest ? { ...run.assetManifest, requirements: assetRequirements } : null,
+    accounting,
+    status: 'GENERATING_VISUALS',
+    error: null,
+  };
+
+  return experimentEStore.saveExperienceExpressionRun(run);
+}
+
+export async function promoteExperienceAssetToProduction(params: {
+  assetId: string;
+  promotedBy: string;
+}): Promise<ExperienceExpressionRun> {
+  const run = await experimentEStore.getExperienceExpressionRun();
+  if (!run) throw new Error('Experiment E run not found');
+
+  const assetIndex = run.productionAssets.findIndex((a) => a.assetId === params.assetId);
+  if (assetIndex < 0) throw new Error('Asset not found');
+
+  const asset = run.productionAssets[assetIndex];
+  const approvedFirst: ExperienceProductionAsset = {
+    ...asset,
+    productionState: 'APPROVED_VISUAL_DEVELOPMENT',
+    founderJudgment: 'LOVE_IT',
+  };
+
+  const promoted = promoteAssetToProduction(approvedFirst, { promotedBy: params.promotedBy });
+  const productionAssets = [...run.productionAssets];
+  productionAssets[assetIndex] = promoted;
+
+  const assetRequirements = run.assetRequirements.map((r) =>
+    r.id === promoted.requirementId
+      ? {
+          ...r,
+          status: 'PROMOTED_TO_PRODUCTION' as const,
+          productionEligibility: 'PRODUCTION_ELIGIBLE' as const,
+          updatedAt: nowIso(),
+        }
+      : r,
+  );
+
+  const visualAssets = run.visualAssets.map((a) =>
+    a.assetId === params.assetId
+      ? { ...a, productionState: 'PROMOTED_TO_PRODUCTION', canonStatus: 'PRODUCTION' }
+      : a,
+  );
+
+  return experimentEStore.saveExperienceExpressionRun({
+    ...run,
+    productionAssets,
+    assetRequirements,
+    visualAssets,
+    assetManifest: run.assetManifest ? { ...run.assetManifest, requirements: assetRequirements } : null,
+  });
 }
 
 export function estimateVisualDevelopmentCost(conceptCount: number): number {

@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { CANONICAL_NDXBOOK_DIRECTION_NAMES } from '../../../../shared/site00-brand-lore/canonicalCreativeRangeConstants';
 import type { ExperienceExpressionRun } from '../../../../shared/site00-brand-lore/experienceExpression/types';
+import { buildWorldFormationReadinessArchitecture, WORLD_FORMATION_IMPLEMENTED } from '../../../../shared/site00-brand-lore/worldFormation/futureContracts.js';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
 
 type ExperimentEExperienceExpressionReviewProps = {
@@ -55,6 +56,8 @@ export function ExperimentEExperienceExpressionReview({
     ? run.experienceBibles.find((b) => b.experienceConceptId === concept.experienceConceptId)
     : null;
   const conceptAssets = run.visualAssets.filter((a) => a.experienceConceptId === concept?.experienceConceptId);
+  const worldReadiness = buildWorldFormationReadinessArchitecture();
+  const isWorkbenchConcept = concept?.name === 'THE ACTIVE WORKBENCH';
 
   return (
     <section className="site00-experiment-e" aria-label="Experiment E experience expression">
@@ -245,6 +248,114 @@ export function ExperimentEExperienceExpressionReview({
                   ))}
                 </div>
               ) : null}
+
+              {run.experienceConcepts.length > 0 ? (
+                <details className="site00-experiment-e__canon">
+                  <summary>EXPERIENCE ASSET DIRECTION</summary>
+                  {run.assetDirection && run.assetDirection.experienceConceptId === concept?.experienceConceptId ? (
+                    <>
+                      <p>{run.assetDirection.revisedDirectionLabel ?? run.assetDirection.interactionMetaphor}</p>
+                      <p>{run.assetDirection.structuralSophistication}</p>
+                      <p>Families: {run.assetDirection.derivedAssetFamilies.join(', ')}</p>
+                      {run.assetDirection.literalImageryBlocked.length ? (
+                        <p>Blocked: {run.assetDirection.literalImageryBlocked.join(', ')}</p>
+                      ) : null}
+                    </>
+                  ) : (
+                    <button
+                      type="button"
+                      disabled={busy}
+                      onClick={() =>
+                        void act(() => site00ProjectsApi.experimentECompileAssetDirection(projectSlug, activeIndex))
+                      }
+                    >
+                      COMPILE ASSET DIRECTION
+                    </button>
+                  )}
+                </details>
+              ) : null}
+
+              {run.experienceConcepts.length > 0 ? (
+                <details className="site00-experiment-e__canon">
+                  <summary>EXPERIENCE ASSET MANIFEST</summary>
+                  {run.assetManifest && run.assetManifest.experienceConceptId === concept?.experienceConceptId ? (
+                    <>
+                      <p>
+                        {run.assetManifest.summary.totalRequirements} requirements ·{' '}
+                        {run.assetManifest.summary.requiredCount} required · fingerprint{' '}
+                        {run.assetManifest.manifestFingerprint}
+                      </p>
+                      <p>Families: {run.assetManifest.summary.assetFamilies.join(', ')}</p>
+                      <p>
+                        Visual development: {run.assetManifest.summary.visualDevelopmentOnly} · Production eligible:{' '}
+                        {run.assetManifest.summary.productionEligible}
+                      </p>
+                      <p>Est. cost: ${run.assetManifest.summary.generationBudgetEstimateUsd.toFixed(2)}</p>
+                    </>
+                  ) : (
+                    <button
+                      type="button"
+                      disabled={busy}
+                      onClick={() =>
+                        void act(() => site00ProjectsApi.experimentECompileAssetManifest(projectSlug, activeIndex))
+                      }
+                    >
+                      COMPILE ASSET MANIFEST
+                    </button>
+                  )}
+                </details>
+              ) : null}
+
+              {run.assetManifestCompiled && isWorkbenchConcept ? (
+                <div className="site00-experiment-e__controls">
+                  <button
+                    type="button"
+                    disabled={busy}
+                    onClick={() =>
+                      void act(() =>
+                        site00ProjectsApi.experimentEGenerateAssetVisuals(projectSlug, {
+                          conceptIndex: activeIndex,
+                          action: 'GENERATE_VISUAL_DEVELOPMENT',
+                        }),
+                      )
+                    }
+                  >
+                    GENERATE VISUAL DEVELOPMENT (FOUNDER TRIGGER)
+                  </button>
+                </div>
+              ) : null}
+
+              {run.productionAssets.length > 0 ? (
+                <details className="site00-experiment-e__canon">
+                  <summary>PRODUCTION ASSET STATUS · VAULT LINKAGE</summary>
+                  {run.productionAssets
+                    .filter((a) => run.assetRequirements.some((r) => r.id === a.requirementId && r.experienceConceptId === concept?.experienceConceptId))
+                    .map((a) => (
+                      <div key={a.assetId}>
+                        <p>
+                          {a.assetId} · {a.productionState} · {a.provenanceClass}
+                          {a.vaultAssetId ? ` · vault ${a.vaultAssetId}` : ''}
+                        </p>
+                        {a.productionState === 'VISUAL_DEVELOPMENT' ? (
+                          <button
+                            type="button"
+                            disabled={busy}
+                            onClick={() => void act(() => site00ProjectsApi.experimentEPromoteAsset(projectSlug, a.assetId))}
+                          >
+                            PROMOTE TO PRODUCTION
+                          </button>
+                        ) : null}
+                      </div>
+                    ))}
+                </details>
+              ) : null}
+
+              {run.accounting ? (
+                <p className="site00-experiment-e__meta">
+                  Generation cost: ${run.accounting.estimatedCostUsd.toFixed(3)} · FAL requests:{' '}
+                  {run.accounting.falRequests ?? 0}
+                </p>
+              ) : null}
             </article>
           ) : null}
         </>
@@ -254,9 +365,23 @@ export function ExperimentEExperienceExpressionReview({
         <details className="site00-experiment-e__canon">
           <summary>IMPLEMENTATION CONTRACT (no auto-implement)</summary>
           <p>{run.implementationContract.contractId}</p>
+          <p>Status: {run.implementationContract.implementationStatus}</p>
+          {run.implementationContract.missingRequiredAssets.length ? (
+            <p>Missing assets: {run.implementationContract.missingRequiredAssets.join(' · ')}</p>
+          ) : null}
           <p>{run.implementationContract.acceptanceCriteria.join(' · ')}</p>
+          <p>Asset bindings: {run.implementationContract.assetBindings.length}</p>
         </details>
       ) : null}
+
+      <details className="site00-experiment-e__canon">
+        <summary>WORLD FORMATION READINESS — NOT IMPLEMENTED</summary>
+        <p>WORLD FORMATION: {WORLD_FORMATION_IMPLEMENTED ? 'IMPLEMENTED' : 'NOT IMPLEMENTED'}</p>
+        <p>Methodology: {worldReadiness.methodologyVersion}</p>
+        <p>Pipeline stages: {worldReadiness.pipelineStages.length}</p>
+        <p>World generation count: {worldReadiness.worldAssetManifest.generationCount}</p>
+        <p>Contamination guards: {worldReadiness.premise.antiWorldDirection.length} forbidden defaults</p>
+      </details>
     </section>
   );
 }

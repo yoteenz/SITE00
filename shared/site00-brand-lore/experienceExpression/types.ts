@@ -12,6 +12,11 @@ import type {
   ExperienceProvenance,
   ExperienceSurfaceType,
 } from './constants.js';
+import type { ExperienceAssetDirection } from './assetDirection.js';
+import type { ExperienceAssetManifest, ExperienceAssetRequirement } from './assetManifest.js';
+import type { ExperienceAssetGenerationReceipt } from './assetGeneration.js';
+import type { ExperienceProductionAsset } from './assetLifecycle.js';
+import type { ProjectProductionScope } from './productionScope.js';
 
 export type ExperienceFunctionalCanonItem = {
   id: string;
@@ -239,6 +244,20 @@ export type ExperienceVisualDevelopmentAsset = {
   idempotencyKey: string;
 };
 
+export type ExperienceImplementationContractAssetBinding = {
+  requirementId: string;
+  assetId: string | null;
+  assetRole: string;
+  assetFamily: string;
+  surfaceId: string;
+  pageRoute: string | null;
+  responsiveVariants: Array<{ deviceClass: DeviceClass; storagePath: string | null }>;
+  interactionRelationship: string;
+  fallbackBehavior: string;
+  productionState: string;
+  approved: boolean;
+};
+
 export type ExperienceImplementationContract = {
   contractId: string;
   selectedExperienceConceptId: string;
@@ -254,6 +273,9 @@ export type ExperienceImplementationContract = {
   responsiveBehavior: string[];
   motionBehavior: string[];
   approvedVisualReferences: string[];
+  assetBindings: ExperienceImplementationContractAssetBinding[];
+  missingRequiredAssets: string[];
+  implementationStatus: 'READY' | 'IMPLEMENTATION_BLOCKED_MISSING_ASSET' | 'NOT_COMPILED';
   antiTemplateConstraints: string[];
   doNotConstraints: string[];
   acceptanceCriteria: string[];
@@ -339,6 +361,14 @@ export type ExperienceExpressionRun = {
   distinctiveness: ExperienceConceptDistinctivenessReport | null;
   visualBriefs: ExperienceVisualDevelopmentBrief[];
   visualAssets: ExperienceVisualDevelopmentAsset[];
+  productionScope: ProjectProductionScope | null;
+  assetDirection: ExperienceAssetDirection | null;
+  assetManifest: ExperienceAssetManifest | null;
+  assetRequirements: ExperienceAssetRequirement[];
+  productionAssets: ExperienceProductionAsset[];
+  assetGenerationReceipts: ExperienceAssetGenerationReceipt[];
+  assetManifestCompiled: boolean;
+  assetGenerationStarted: boolean;
   implementationContract: ExperienceImplementationContract | null;
   formationReady: boolean;
   visualGenerationReady: boolean;
@@ -348,6 +378,7 @@ export type ExperienceExpressionRun = {
     anthropicInputTokens: number;
     anthropicOutputTokens: number;
     gptImage2Requests: number;
+    falRequests: number;
     estimatedCostUsd: number;
   };
   error: string | null;

@@ -1,5 +1,5 @@
 /**
- * Experience Implementation Evaluation — intended vs implemented (architecture only).
+ * Experience Implementation Evaluation — intended vs implemented including asset system.
  */
 
 import type { ExperienceImplementationContract, ExperienceImplementationEvaluation } from './types.js';
@@ -18,12 +18,17 @@ const EVAL_DIMENSIONS = [
   'RESPONSIVE_TRANSLATION',
   'GENERIC_TEMPLATE_RESEMBLANCE',
   'ACCESSIBILITY_RISK',
+  'ASSET_ROLE_FIDELITY',
+  'ASSET_INTEGRATION_FIDELITY',
+  'MISSING_ASSET_SUBSTITUTION',
+  'RESPONSIVE_ASSET_FIDELITY',
 ] as const;
 
 export function evaluateExperienceImplementation(params: {
   contract: ExperienceImplementationContract | null;
   renderedEvidence?: Record<string, unknown> | null;
   surfaceMetadata?: Record<string, unknown> | null;
+  assetIntegrationEvidence?: Record<string, unknown> | null;
 }): ExperienceImplementationEvaluation {
   if (!params.contract || !params.renderedEvidence) {
     return {
@@ -37,13 +42,18 @@ export function evaluateExperienceImplementation(params: {
     };
   }
 
+  const notes: string[] = ['Evaluator scaffold ready — autonomous code mutation disabled'];
+  if (params.contract.implementationStatus === 'IMPLEMENTATION_BLOCKED_MISSING_ASSET') {
+    notes.push(`Missing required assets: ${params.contract.missingRequiredAssets.join('; ')}`);
+  }
+
   return {
     evaluatedAt: new Date().toISOString(),
     overallResult: 'NOT_EVALUATED',
     dimensions: EVAL_DIMENSIONS.map((dimension) => ({
       dimension,
       result: 'NOT_EVALUATED',
-      notes: ['Evaluator scaffold ready — autonomous code mutation disabled'],
+      notes,
     })),
   };
 }
@@ -53,4 +63,8 @@ export function implementationEvaluationNotEvaluatedBehavior(
 ): boolean {
   if (evaluation.overallResult === 'NOT_EVALUATED') return true;
   return evaluation.dimensions.every((d) => d.result === 'NOT_EVALUATED' || d.result !== 'FAIL');
+}
+
+export function assetFidelityDimensionsPresent(evaluation: ExperienceImplementationEvaluation): boolean {
+  return evaluation.dimensions.some((d) => d.dimension === 'ASSET_ROLE_FIDELITY');
 }

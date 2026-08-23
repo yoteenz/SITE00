@@ -47,6 +47,10 @@ import {
 } from '../_lib/site00Evolve/creativeDirection/conceptTerritoryExperiment/experimentDService.js';
 import {
   compileExperienceImplementationContractForConcept,
+  compileExperienceAssetDirectionForConcept,
+  compileExperienceAssetManifestForConcept,
+  generateExperienceAssetVisualDevelopment,
+  promoteExperienceAssetToProduction,
   formExperienceConcepts,
   generateExperienceVisualDevelopment,
   getExperienceExpressionRun,
@@ -1020,6 +1024,78 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await compileExperienceImplementationContractForConcept(conceptIndex);
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_e' });
+      }
+      case 'experiment_e_compile_asset_direction': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const conceptIndex = Number(body.conceptIndex ?? 0);
+        if (slug !== 'ndxbook' || !conceptIndex) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await compileExperienceAssetDirectionForConcept(conceptIndex);
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_e' });
+      }
+      case 'experiment_e_compile_asset_manifest': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const conceptIndex = Number(body.conceptIndex ?? 0);
+        if (slug !== 'ndxbook' || !conceptIndex) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await compileExperienceAssetManifestForConcept(conceptIndex);
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_e' });
+      }
+      case 'experiment_e_generate_asset_visuals': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const conceptIndex = Number(body.conceptIndex ?? 0);
+        if (slug !== 'ndxbook' || !conceptIndex) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await generateExperienceAssetVisualDevelopment({
+          conceptIndex,
+          action: body.action ? String(body.action) as 'GENERATE_VISUAL_DEVELOPMENT' | 'GENERATE_SELECTED_ASSET_FAMILY' | 'GENERATE_REQUIRED_PRODUCTION_ASSETS' | 'REGENERATE_SELECTED_ASSET' : undefined,
+          assetFamily: body.assetFamily ? String(body.assetFamily) : undefined,
+          requirementIds: Array.isArray(body.requirementIds) ? body.requirementIds.map(String) : undefined,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_e' });
+      }
+      case 'experiment_e_promote_asset': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const assetId = String(body.assetId ?? '');
+        if (slug !== 'ndxbook' || !assetId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await promoteExperienceAssetToProduction({
+          assetId,
+          promotedBy: user.email ?? 'founder',
+        });
         return json(res, 200, { ok: true, run, source: 'site00_experiment_e' });
       }
       case 'creative_lineage_forensic_audit': {

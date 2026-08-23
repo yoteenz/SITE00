@@ -395,6 +395,45 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, conceptIndex }),
       },
     ),
+  experimentECompileAssetDirection: (slug: string, conceptIndex: number) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_e_compile_asset_direction',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, conceptIndex }),
+      },
+    ),
+  experimentECompileAssetManifest: (slug: string, conceptIndex: number) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_e_compile_asset_manifest',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, conceptIndex }),
+      },
+    ),
+  experimentEGenerateAssetVisuals: (
+    slug: string,
+    params: { conceptIndex: number; action?: string; assetFamily?: string; requirementIds?: string[] },
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_e_generate_asset_visuals',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, ...params }),
+      },
+    ),
+  experimentEPromoteAsset: (slug: string, assetId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_e_promote_asset',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, assetId }),
+      },
+    ),
   creativeLineageForensicAudit: (slug: string) =>
     projectsFetch<{ ok: true; report: Record<string, unknown> }>(
       `/api/site00/projects?action=creative_lineage_forensic_audit&slug=${encodeURIComponent(slug)}`,

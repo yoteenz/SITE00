@@ -2,7 +2,7 @@
  * Experiment E — Experience Expression methodology constants.
  */
 
-export const EXPERIENCE_EXPRESSION_METHODOLOGY_VERSION = 'EXPERIENCE_EXPRESSION_V1' as const;
+export const EXPERIENCE_EXPRESSION_METHODOLOGY_VERSION = 'EXPERIENCE_EXPRESSION_V2' as const;
 
 export const EXPERIMENT_E_CLASSIFICATION = 'EXPERIENCE_EXPRESSION_EXPERIMENT' as const;
 
