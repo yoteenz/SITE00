@@ -30,6 +30,12 @@ import {
   vaultReferencePromptBlock,
 } from './vaultLineage.js';
 import {
+  buildFalImageInput,
+  isGptImage2Model,
+  SITE00_FAL_REFERENCE_EDIT_MODEL,
+  SITE00_FAL_TEXT_TO_IMAGE_MODEL,
+} from '../../../shared/site00-visual-generation/falImageModels.js';
+import {
   ASSTS_WORLD_IDENTITY,
   CANONICAL_MASTER_ASSET_KEY,
   CANONICAL_REFERENCE_MODEL,
@@ -39,8 +45,8 @@ import {
   manifestUsesCanonicalReference,
 } from './canonicalMaster.js';
 
-const T2I_MODEL = 'fal-ai/nano-banana-pro';
-const EDIT_MODEL = 'fal-ai/nano-banana-pro/edit';
+const T2I_MODEL = SITE00_FAL_TEXT_TO_IMAGE_MODEL;
+const EDIT_MODEL = SITE00_FAL_REFERENCE_EDIT_MODEL;
 
 /** Edit model requires image_urls — never use /edit for text-only generation. */
 function resolveEnvironmentModel(referenceImageUrls?: string[]): string {
@@ -95,16 +101,34 @@ async function submitEnvironmentFalJob(
     throw new Error('REFERENCE CONDITIONING FAILED: canonical reference required but not supplied to FAL');
   }
 
-  const model = hasRefs ? CANONICAL_REFERENCE_MODEL : opts.requireReference ? CANONICAL_REFERENCE_MODEL : T2I_MODEL;
+  fal.config({ credentials: falKey });
+
+  let falInput: Record<string, unknown>;
+  let model = hasRefs ? CANONICAL_REFERENCE_MODEL : opts.requireReference ? CANONICAL_REFERENCE_MODEL : T2I_MODEL;
 
   if (opts.requireReference && model === T2I_MODEL) {
     throw new Error('REFERENCE CONDITIONING FAILED: text-to-image fallback prohibited for canonical derivatives');
   }
 
-  fal.config({ credentials: falKey });
-
-  let falInput: Record<string, unknown>;
-  if (hasRefs) {
+  if (isGptImage2Model(model)) {
+    let refUrls: string[] = [];
+    if (hasRefs) {
+      refUrls = [];
+      for (const url of opts.referenceImageUrls ?? []) {
+        refUrls.push(url.startsWith('http') ? await uploadReferenceToFal(url) : url);
+      }
+    } else if (opts.requireReference) {
+      throw new Error('REFERENCE CONDITIONING FAILED: no image_urls for required reference generation');
+    }
+    const built = buildFalImageInput({
+      prompt,
+      aspectRatio,
+      outputFormat,
+      referenceImageUrls: refUrls.length ? refUrls : undefined,
+    });
+    model = built.model;
+    falInput = built.input;
+  } else if (hasRefs) {
     const uploaded: string[] = [];
     for (const url of opts.referenceImageUrls ?? []) {
       uploaded.push(url.startsWith('http') ? await uploadReferenceToFal(url) : url);
@@ -131,6 +155,7 @@ async function submitEnvironmentFalJob(
 
   const { request_id: providerRequestId } = await fal.queue.submit(model, { input: falInput });
   return { providerRequestId, model };
+}
 }
 
 async function assetNeedsNewGeneration(

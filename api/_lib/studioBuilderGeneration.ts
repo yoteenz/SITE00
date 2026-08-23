@@ -19,8 +19,10 @@ export async function resolveStudioBuilderFalModel(): Promise<string> {
   return cachedWorldArchitectModel;
 }
 
+import { SITE00_FAL_REFERENCE_EDIT_MODEL } from '../../../shared/site00-visual-generation/falImageModels.js';
+
 /** @deprecated Use resolveStudioBuilderFalModel() — retained for diagnostic fallbacks only. */
-export const STUDIO_BUILDER_FAL_MODEL = 'fal-ai/nano-banana-pro/edit';
+export const STUDIO_BUILDER_FAL_MODEL = SITE00_FAL_REFERENCE_EDIT_MODEL;
 
 async function resolveDefaultBuilderModel(input: StudioBuilderGenerateInput): Promise<string> {
   const { getWorldArchitectDefaultModel, resolveModelRoutingFromLayerId, resolveModelRoutingDecision } =
@@ -281,6 +283,24 @@ export async function submitStudioBuilderFalQueue(
       const resolvedModel = nb2.usesReferences ? nb2.endpoint : model;
       const { request_id: providerRequestId } = await fal.queue.submit(resolvedModel, { input: falInput });
       return { ok: true, providerRequestId, model: resolvedModel, imageUrls };
+    }
+
+    const { buildFalImageInput, isGptImage2Model } = await import(
+      '../../shared/site00-visual-generation/falImageModels.js'
+    );
+
+    if (isGptImage2Model(model)) {
+      const refs = textToImageOnly ? [] : imageUrls.length ? imageUrls : brandRefs;
+      const built = buildFalImageInput({
+        prompt: input.prompt,
+        aspectRatio: input.aspectRatio,
+        outputFormat: input.outputFormat,
+        referenceImageUrls: refs.length ? refs : undefined,
+      });
+      const { request_id: providerRequestId } = await fal.queue.submit(built.model, {
+        input: built.input as never,
+      });
+      return { ok: true, providerRequestId, model: built.model, imageUrls };
     }
 
     falInput = textToImageOnly
