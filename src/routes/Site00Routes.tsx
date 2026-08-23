@@ -83,6 +83,7 @@ const IntakeGuestAccessPage = lazy(() => import('../site00/pages/intake/IntakeGu
 const ProjectEvolvePage = lazy(() => import('../site00/pages/ProjectEvolvePage'));
 const ProjectCreativeDirectionPage = lazy(() => import('../site00/pages/ProjectCreativeDirectionPage'));
 const ProjectPersonalityReplayPage = lazy(() => import('../site00/pages/ProjectPersonalityReplayPage'));
+const ProjectSixDirectionConsistencyPage = lazy(() => import('../site00/pages/ProjectSixDirectionConsistencyPage'));
 const PersonalityReplayIntakeRouterPage = lazy(
   () => import('../site00/pages/validation/PersonalityReplayIntakeRouterPage'),
 );
@@ -586,6 +587,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectPersonalityReplayPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectPersonalityReplayConsistency}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectSixDirectionConsistencyPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

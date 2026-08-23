@@ -15,6 +15,7 @@ import {
 } from 'react';
 import { resolvePersonalityReplayResumeStepId } from '../../../shared/site00-brand-lore/personalityReadiness';
 import type { ReplayConvergenceReport } from '../../../shared/site00-brand-lore/personalityReplayTypes';
+import type { SixDirectionConsistencyRun } from '../../../shared/site00-brand-lore/sixDirectionConsistencyTypes';
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
 import { isReplayNotFoundError } from '../utils/personalityReplayErrors';
 
@@ -32,6 +33,7 @@ export type PersonalityReplayIntakeState = {
   nativeProofFormat: string | null;
   heroAsset: { assetId?: string; storagePath?: string } | null;
   comparisonReport: ReplayConvergenceReport | null;
+  sixDirectionConsistency: SixDirectionConsistencyRun | null;
   saveState: 'idle' | 'saving' | 'saved' | 'error';
   saveError: string | null;
   submitState: 'idle' | 'submitting' | 'submitted' | 'error';
@@ -116,6 +118,7 @@ export function PersonalityReplayIntakeProvider({
   const [nativeProofFormat, setNativeProofFormat] = useState<string | null>(null);
   const [heroAsset, setHeroAsset] = useState<{ assetId?: string; storagePath?: string } | null>(null);
   const [comparisonReport, setComparisonReport] = useState<ReplayConvergenceReport | null>(null);
+  const [sixDirectionConsistency, setSixDirectionConsistency] = useState<SixDirectionConsistencyRun | null>(null);
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [saveError, setSaveError] = useState<string | null>(null);
   const [submitState, setSubmitState] = useState<'idle' | 'submitting' | 'submitted' | 'error'>('idle');
@@ -160,6 +163,7 @@ export function PersonalityReplayIntakeProvider({
       nativeProofFormat?: string | null;
       heroAsset?: { assetId?: string; storagePath?: string } | null;
       comparisonReport?: ReplayConvergenceReport | null;
+      sixDirectionConsistency?: SixDirectionConsistencyRun | null;
     }) => {
       const serverAnswers = payload.rawPersonalityAnswers ?? {};
       const localAnswers = readLocal(projectSlug)?.answers ?? answersRef.current;
@@ -178,6 +182,7 @@ export function PersonalityReplayIntakeProvider({
       setNativeProofFormat(payload.nativeProofFormat ?? null);
       setHeroAsset(payload.heroAsset ?? null);
       setComparisonReport(payload.comparisonReport ?? null);
+      setSixDirectionConsistency(payload.sixDirectionConsistency ?? null);
       setResumeStepId(resolvePersonalityReplayResumeStepId(nextAnswers));
       persistLocal({
         replayId: payload.replayId,
@@ -290,6 +295,7 @@ export function PersonalityReplayIntakeProvider({
         nativeProofFormat?: string | null;
         heroAsset?: { assetId?: string; storagePath?: string } | null;
         comparisonReport?: ReplayConvergenceReport | null;
+        sixDirectionConsistency?: SixDirectionConsistencyRun | null;
       };
       applyReplayPayload({
         replayId: replay.replayId ?? activeReplayId,
@@ -302,6 +308,7 @@ export function PersonalityReplayIntakeProvider({
         nativeProofFormat: replay.nativeProofFormat,
         heroAsset: replay.heroAsset,
         comparisonReport: replay.comparisonReport,
+        sixDirectionConsistency: replay.sixDirectionConsistency,
       });
     } catch (err) {
       if (isReplayNotFoundError(err)) {
@@ -347,6 +354,8 @@ export function PersonalityReplayIntakeProvider({
           nativeProofFormat: (result.replay as { nativeProofFormat?: string }).nativeProofFormat,
           heroAsset: (result.replay as { heroAsset?: { assetId?: string; storagePath?: string } }).heroAsset,
           comparisonReport: (result.replay as { comparisonReport?: ReplayConvergenceReport }).comparisonReport,
+          sixDirectionConsistency: (result.replay as { sixDirectionConsistency?: SixDirectionConsistencyRun })
+            .sixDirectionConsistency,
         });
         return result.resumeStepId;
       } catch (err) {
@@ -461,6 +470,7 @@ export function PersonalityReplayIntakeProvider({
       nativeProofFormat,
       heroAsset,
       comparisonReport,
+      sixDirectionConsistency,
       saveState,
       saveError,
       submitState,
@@ -489,6 +499,7 @@ export function PersonalityReplayIntakeProvider({
       nativeProofFormat,
       heroAsset,
       comparisonReport,
+      sixDirectionConsistency,
       saveState,
       saveError,
       submitState,

@@ -22,6 +22,10 @@ import {
   executePersonalityReplayDownstream,
   getReplayExecutionDiagnosticForId,
 } from '../_lib/site00Evolve/creativeDirection/personalityReplay/replayService.js';
+import {
+  executeSixDirectionConsistencyValidation,
+  setSixDirectionFounderJudgment,
+} from '../_lib/site00Evolve/creativeDirection/personalityReplay/sixDirectionConsistencyService.js';
 
 function setCors(res: VercelResponse): void {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -490,6 +494,82 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         });
         const replay = await getPersonalityReplay(replayId);
         return json(res, 202, { ok: true, replay, source: 'site00_personality_replay' });
+      }
+      case 'personality_replay_six_direction_execute': {
+        if (req.method !== 'POST') {
+          return json(res, 405, {
+            ok: false,
+            error: { code: 'POST_REQUIRED', message: 'POST required' },
+            source: 'site00_personality_replay',
+          });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? req.query.slug ?? '');
+        const replayId = String(body.replayId ?? '');
+        if (slug !== 'ndxbook' || !replayId) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'ndxbook slug and replayId required' },
+            source: 'site00_personality_replay',
+          });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, {
+            ok: false,
+            error: { code: 'PROJECT_ACCESS_DENIED', message: 'Project access denied' },
+            source: 'site00_personality_replay',
+          });
+        }
+        const existing = await getPersonalityReplay(replayId);
+        if (!existing) {
+          return json(res, 404, {
+            ok: false,
+            error: { code: 'REPLAY_NOT_FOUND', message: 'Replay not found' },
+            source: 'site00_personality_replay',
+          });
+        }
+        if (existing.sixDirectionConsistency?.status === 'COMPLETE') {
+          return json(res, 200, { ok: true, replay: existing, source: 'site00_personality_replay' });
+        }
+        if (process.env.VITEST === 'true') {
+          const replay = await executeSixDirectionConsistencyValidation(replayId);
+          return json(res, 200, { ok: true, replay, source: 'site00_personality_replay' });
+        }
+        void executeSixDirectionConsistencyValidation(replayId).catch((err) => {
+          console.error('[personality-replay] six-direction consistency failed', err);
+        });
+        const replay = await getPersonalityReplay(replayId);
+        return json(res, 202, { ok: true, replay, source: 'site00_personality_replay' });
+      }
+      case 'personality_replay_six_direction_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, {
+            ok: false,
+            error: { code: 'POST_REQUIRED', message: 'POST required' },
+            source: 'site00_personality_replay',
+          });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const replayId = String(body.replayId ?? '');
+        const comparisonIndex = Number(body.comparisonIndex ?? 0);
+        const judgment = body.judgment as 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_NDXBOOK' | null;
+        if (slug !== 'ndxbook' || !replayId || !comparisonIndex) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'slug, replayId, comparisonIndex required' },
+            source: 'site00_personality_replay',
+          });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, {
+            ok: false,
+            error: { code: 'PROJECT_ACCESS_DENIED', message: 'Project access denied' },
+            source: 'site00_personality_replay',
+          });
+        }
+        const replay = await setSixDirectionFounderJudgment({ replayId, comparisonIndex, judgment });
+        return json(res, 200, { ok: true, replay, source: 'site00_personality_replay' });
       }
       default:
         return json(res, 400, {

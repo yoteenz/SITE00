@@ -7,6 +7,7 @@
 import type { BrandLoreProfile } from './types.js';
 import type { BrandPersonalityProfile, BrandPersonalityReadinessState } from './personalityTypes.js';
 import type { ReplayExecutionPhase } from './replayExecutionPhases.js';
+import type { SixDirectionConsistencyRun } from './sixDirectionConsistencyTypes.js';
 
 /** Opaque pipeline artifacts — canonical types live in creativeIntelligence modules. */
 export type ReplayFormationRecord = Record<string, unknown> | null;
@@ -126,6 +127,9 @@ export type BrandPersonalityReplayRecord = {
   executionError?: string | null;
   nativeProofFormat?: string | null;
   executionAccounting?: ReplayExecutionAccounting | null;
+
+  /** Six-direction blind creative consistency validation (directions 2–6). */
+  sixDirectionConsistency?: SixDirectionConsistencyRun | null;
 
   /** Validation-only — never promotes to founder canon. */
   classification: 'SHADOW_VALIDATION';

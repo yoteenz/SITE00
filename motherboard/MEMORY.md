@@ -3128,3 +3128,15 @@ Summary: Founder completed blind replay pipeline; asked where to see results; re
 - **Fix:** `PersonalityReplayComparisonPanel` on replay review + project detail — blind hero image, benchmark hero (post-unlock), convergence scores, personality domain classifications, methodology verdict line. `comparisonReport.benchmarkHeroStoragePath` persisted on comparison. Context reload includes `comparisonReport`.
 - **Where to view:** PROJECTS → NDXBOOK → HOW YOU SHOW UP → REVIEW (scroll below execution checklist after REPLAY COMPLETE).
 - **Deploy:** PR #271 merged; cPanel ZIP **`site00-deploy-2026-08-23-v9`** — founder hard-refresh review page after upload.
+
+---
+
+## 2026-08-23 — Six-direction blind creative consistency validation sprint
+
+Summary: Founder requested repeatability test — generate other five Core Direction heroes through same blind replay methodology (not Marked-Up Copy clones), audit 0/5 comparison scores, founder six-hero review UI.
+
+- **Pipeline:** `sixDirectionConsistencyService.ts` — preserves validation output #1 hero; shadow formation v2 for directions 4–6; v1 roster + distinctiveness gate; sequential DES→IAD→CES→brief→GPT Image 2 for directions 2–6; first-pass-only (no retry/rescue); contamination audit per direction; cross-direction tests + consistency verdict; comparison scorer audit persisted.
+- **0/5 audit:** `creativeConvergence`/`identityConvergence`/`heroConvergence` hardcoded 0 (stubs); personality 0 often from null canonical personality or token-overlap heuristic vs shadow synthesis — not Sonnet comparison.
+- **Founder UI:** `/projects/ndxbook/personality-replay/consistency` — six heroes art-first, expandable evidence, LOVE IT / PROMISING / NOT NDXBOOK per direction; link from replay review after COMPARISON_READY.
+- **API:** `personality_replay_six_direction_execute`, `personality_replay_six_direction_judgment`. Script: `scripts/runSixDirectionConsistencyValidation.ts`.
+- **Action:** Railway redeploy API; founder tap RUN SIX-DIRECTION VALIDATION on consistency page (5 FAL images, sequential).
