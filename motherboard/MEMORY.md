@@ -3663,7 +3663,27 @@ Summary of production-hardening sprint addressing MA-001 and related P0 audit fi
 
 - **Verification:** `node --import tsx` import of `studioBuilderGeneration.ts` succeeds; `npm run start:api` boots; **1535/1535** tests pass.
 
-- **Branch:** `cursor/railway-fal-import-path-fix-1983` → PR merge to `main`.
+- **Branch:** `cursor/railway-fal-import-path-fix-1983` → PR #308 merged to `main`.
+
+---
+
+## 2026-08-23 — Supabase migration audit + cPanel v29 deploy bundle
+
+- **Context:** Founder asked to apply missing Supabase migrations and receive cPanel direct download link after Railway build failures.
+
+- **Migration audit:** Compared repo `supabase/migrations/*site00*` against Supabase project `hyycomvcaqxxvyrfupes`. Four migrations were missing on production DB.
+
+- **Applied via Supabase MCP:**
+  1. `site00_creative_lineage` — creative asset/concept/franchise/canon tables
+  2. `site00_founder_judgment_revision` — founder judgments, dispositions, revision specs
+  3. `site00_world_intake_foundation` — intake invites, guest sessions, intelligence snapshots
+  4. `site00_studio_world_execution` — studio world runs, idempotency, visual reference/development runs, capability verifications (unique index on visual_reference_state uses expression index, not inline coalesce constraint)
+
+- **Verified tables:** `site00_intake_invites`, `site00_studio_world_runs`, `site00_visual_development_runs`, `site00_visual_reference_*` present.
+
+- **Deploy:** GitHub Release **`site00-deploy-2026-08-23-v29`** — bundle `index.DdnO_yFh.js`. Railway should auto-redeploy from merged PR #308 import fix.
+
+- **Founder next:** Upload v29 ZIP to GoDaddy `public_html`; confirm Railway API healthy at `/api/health`; hard-refresh mobile.
 
 ---
 
