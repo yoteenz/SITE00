@@ -3423,3 +3423,28 @@ Summary of production sprint extending Studio World so Concept Territory + World
 
 - **Founder next:** Railway redeploy API; cPanel **v21**; open Experiment E → **SELECT CONCEPT TERRITORY FOR EXPERIENCE TEST** → **FORM THREE EXPERIENCE CONCEPTS** → review concepts/bibles → **GENERATE VISUAL DEVELOPMENT** per concept when ready. `READY_FOR_IMPLEMENTATION: false` until founder selects experience concept.
 
+---
+
+## 2026-08-23 — World-class client intake foundation (guest discovery + World Readiness)
+
+Summary of sprint building reusable infrastructure to capture business/founder intelligence before World Formation exists.
+
+- **Context:** Future WORLD-class clients (e.g. immersive commerce) need private guest intake without SITE 00 accounts. No tarot-specific pipeline, no world generation, no avatars/AI characters in this sprint.
+
+- **Architecture (`shared/site00-world-intake/` + `api/_lib/site00WorldIntake/`):**
+  - `ProjectExperienceClass` (SITE/APPLICATION/IMMERSIVE_SITE/WORLD/UNRESOLVED)
+  - Secure invite tokens (hash-only storage), guest route `/intake/:token`
+  - `GuestIntakeSession` server-side autosave/resume
+  - Reuses Brand Lore / Personality / Creative Appetite question IDs (no duplicate identity truths)
+  - `BusinessOfferingMap`, `WorldReadinessProfile`, `evaluateWorldFormationReadiness()`, `WorldFormationInput`, `WorldIntelligenceSnapshot`
+  - Founder world hypothesis = `FOUNDER_PROPOSED_CONCEPT` (not canon)
+  - Submit creates snapshot — zero Anthropic/FAL/world generation
+
+- **Admin:** `/admin/site00/client-intakes` — CREATE PRIVATE LINK, COPY, REVOKE, progress + readiness inbox
+
+- **Migration:** `20260823160000_site00_world_intake_foundation.sql`
+
+- **Tests:** 26 new; full suite **1290** pass
+
+- **Founder next:** Railway API redeploy; cPanel **v22**; admin → CLIENT INTAKES → CREATE → copy link to sister. `WORLD_FORMATION_IMPLEMENTED: false`.
+

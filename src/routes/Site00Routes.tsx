@@ -80,6 +80,7 @@ const ProjectDetailPage = lazy(() => import('../site00/pages/ProjectDetailPage')
 const AccountIntakesPage = lazy(() => import('../site00/pages/account/AccountIntakesPage'));
 const AccountIntakeDetailPage = lazy(() => import('../site00/pages/account/AccountIntakeDetailPage'));
 const IntakeGuestAccessPage = lazy(() => import('../site00/pages/intake/IntakeGuestAccessPage'));
+const WorldIntakeGuestPage = lazy(() => import('../site00/pages/world-intake/WorldIntakeGuestPage'));
 const ProjectEvolvePage = lazy(() => import('../site00/pages/ProjectEvolvePage'));
 const ProjectCreativeDirectionPage = lazy(() => import('../site00/pages/ProjectCreativeDirectionPage'));
 const ProjectPersonalityReplayPage = lazy(() => import('../site00/pages/ProjectPersonalityReplayPage'));
@@ -715,6 +716,16 @@ export function Site00Routes() {
                 <AccountIntakeDetailPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.worldIntakeGuest}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <WorldIntakeGuestPage />
+            </Site00Suspense>
           </Site00Layout>
         }
       />

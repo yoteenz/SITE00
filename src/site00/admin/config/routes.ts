@@ -13,6 +13,8 @@ export const SITE00_ADMIN_ROUTES = {
   /** Canonical Identity + Builder Intake Inbox — Identity/Builder intake persistence infra */
   intakes: '/admin/site00/intakes',
   intake: (intakeType: string, id: string) => `/admin/site00/intakes/${intakeType.toLowerCase()}/${id}`,
+  /** World-class guest client discovery intakes */
+  clientIntakes: '/admin/site00/client-intakes',
   leads: '/admin/site00/leads',
   lead: (id: string) => `/admin/site00/leads/${id}`,
   discovery: '/admin/site00/discovery',
