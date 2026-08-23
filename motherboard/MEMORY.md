@@ -3567,5 +3567,28 @@ Summary of follow-up architecture sprint separating **pre-purchase discovery** f
 
 - **Rules preserved:** No duplicate intelligence systems; guest world intake `/intake/:token` preserved; Experiment D frozen v1; World Formation unimplemented; zero provider requests on public discovery autosave.
 
-- Tests **1480** pass (+56 discovery/project intelligence); build pass. Deploy **v27** (`site00-deploy-2026-08-23-v27`). PR **#302** merged.
+---
 
+## 2026-08-23 — NDXBOOK Six-Concept Reformation (Experiment F / Concept Territory V2)
+
+Summary of follow-up sprint correcting Creative Concept Territory methodology after founder review found Experiment D's six territories were direction-level clusterings of a shared parent concept, not genuinely orthogonal creative concepts.
+
+- **Context:** Founder review determined Experiment D (CONCEPT_TERRITORY_V1) produced useful experimental evidence but visual/directional distinctiveness ≠ conceptual distinctiveness. Sprint must step methodology back one level: CONCEPT before DIRECTION, without mutating Experiment D, regenerating images, or manually prescribing six replacements.
+
+- **Experiment D preservation:** Non-destructive overlay only — `INSUFFICIENT_AT_CONCEPT_LEVEL`, `DIRECTION_LEVEL_CLUSTERING`, `CONCEPTUAL_ORTHOGONALITY_INSUFFICIENT`; historical six names/records/assets/WES preserved; `experiment_d_get` returns `methodologyOverlay`; UI shows later interpretation banner. Snapshot v1 frozen; Founder Creative Appetite excluded from D.
+
+- **Experiment F successor:** `EXPERIMENT F — SIX-CONCEPT REFORMATION` (`CONCEPT_TERRITORY_V2`, run id `ndxbook-six-concept-reformation`); predecessor EXPERIMENT_D; reason `DIRECTION_LEVEL_CLUSTERING_DETECTED`; topic CREDIT UTILIZATION; brand NDXBOOK; intelligence snapshot v2 with Founder Creative Appetite allowed; blind formation quarantine (`POST_FORMATION_COMPARISON` for old six).
+
+- **New module `shared/site00-brand-lore/conceptTerritoryV2/`:** `CreativeConceptTerritoryV2`, concept-vs-direction gate, orthogonality V2 (conceptual dimensions), shared-parent collapse detector, concept family analysis, evidence quarantine, intelligence snapshot compiler, Creative Concept Director Sonnet prompt, historical comparison post-formation.
+
+- **Service/API:** `api/_lib/site00Evolve/creativeDirection/conceptTerritoryV2Experiment/` — `formSixConcepts()` (0 GPT Image / 0 FAL), idempotent formation, reformation versioning; actions `experiment_f_get|prepare_snapshot|form_concepts|concept_judgment|reform_set`.
+
+- **UI:** Route `/projects/ndxbook/experiment-f-six-concept-reformation`; `ExperimentFSixConceptReformationReview` — FORM SIX CONCEPTS, concept cards, founder judgments, RE-FORM SET, post-formation Compare with Experiment D. Experiment D links to F successor.
+
+- **Hierarchy formalized:** BRAND → CONCEPT TERRITORY → DIRECTION → WORLD EXPRESSION → FORMAT → SEQUENCE → ASSET. No WES/format/sequence/asset creation during formation.
+
+- **Tests:** `sixConceptReformation.test.ts` (+28 grouped cases covering immutability, snapshot, quarantine, gates, generation boundary); full suite **1508** pass; build pass.
+
+- **Parallel work untouched:** Experiment E, Projects UX, intake architecture, World Formation unimplemented.
+
+- Deploy **v28** pending (GoDaddy ZIP after merge). `SIX_NEW_CONCEPTS_FORMED: false` until founder triggers FORM SIX CONCEPTS on production API.
