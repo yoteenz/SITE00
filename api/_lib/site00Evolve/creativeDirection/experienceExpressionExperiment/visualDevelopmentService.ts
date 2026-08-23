@@ -419,8 +419,16 @@ export async function generateMissingInterfaceAssets(
   run.accounting.estimatedCostUsd = estimatedCostUsd;
 
   if (anyFailed) {
+    const failedReceipts = generationReceipts.filter((r) => r.status === 'FAILED');
+    const detail = failedReceipts
+      .map((r) => r.error)
+      .filter(Boolean)
+      .slice(0, 2)
+      .join(' · ');
     proof.lifecycle = 'GENERATION_FAILED';
-    proof.generationError = 'One or more interface asset generations failed';
+    proof.generationError = detail
+      ? `One or more interface asset generations failed — ${detail}`
+      : 'One or more interface asset generations failed';
     setProof(run, proof);
     return await store.saveVisualDevelopmentRun(run);
   }

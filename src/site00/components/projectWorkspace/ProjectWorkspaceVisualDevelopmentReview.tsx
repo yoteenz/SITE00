@@ -278,7 +278,20 @@ function ProofPanel({
       ) : null}
 
       {proof.generationError ? (
-        <p className="site00-vd-proof__error">GENERATION_FAILED — {proof.generationError}</p>
+        <div className="site00-vd-proof__error-wrap">
+          <p className="site00-vd-proof__error" role="alert">GENERATION_FAILED — {proof.generationError}</p>
+          {proof.generationReceipts?.some((r) => r.status === 'FAILED') ? (
+            <ul className="site00-vd-proof__error-list">
+              {proof.generationReceipts
+                .filter((r) => r.status === 'FAILED')
+                .map((r) => (
+                  <li key={r.receiptId}>
+                    {r.requirementId}: {r.error ?? 'Unknown error'}
+                  </li>
+                ))}
+            </ul>
+          ) : null}
+        </div>
       ) : null}
 
       {composed || (composedInterface && assetsReady) ? (
