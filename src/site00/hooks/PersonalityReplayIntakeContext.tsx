@@ -15,6 +15,7 @@ import {
 } from 'react';
 import { resolvePersonalityReplayResumeStepId } from '../../../shared/site00-brand-lore/personalityReadiness';
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
+import { isReplayNotFoundError } from '../utils/personalityReplayErrors';
 
 const LOCAL_KEY_PREFIX = 'site00-personality-replay:';
 
@@ -115,21 +116,23 @@ export function PersonalityReplayIntakeProvider({
 
   const answersRef = useRef(answers);
   const completedStepsRef = useRef(completedSteps);
+  const replayIdRef = useRef(replayId);
   answersRef.current = answers;
   completedStepsRef.current = completedSteps;
+  replayIdRef.current = replayId;
 
   const persistLocal = useCallback(
     (next: Partial<PersonalityReplayIntakeState>) => {
       writeLocal(projectSlug, {
         projectSlug,
-        replayId: next.replayId ?? replayId,
+        replayId: next.replayId ?? replayIdRef.current,
         answers: next.answers ?? answersRef.current,
         completedSteps: next.completedSteps ?? completedStepsRef.current,
         status: next.status ?? status,
         lastSavedAt: next.lastSavedAt ?? lastSavedAt,
       });
     },
-    [projectSlug, replayId, status, lastSavedAt],
+    [projectSlug, status, lastSavedAt],
   );
 
   const applyReplayPayload = useCallback(
@@ -161,13 +164,60 @@ export function PersonalityReplayIntakeProvider({
     [persistLocal, projectSlug],
   );
 
+  /** Stale replayId (e.g. in-memory API restart) — bootstrap fresh run and push local answers. */
+  const rebindReplayFromLocal = useCallback(async (): Promise<string | null> => {
+    if (projectSlug !== 'ndxbook') return null;
+
+    const localAnswers = answersRef.current;
+    const localCompleted = completedStepsRef.current;
+
+    bootstrapInflightBySlug.delete(projectSlug);
+    setBootstrapping(true);
+    setBootstrapError(null);
+
+    try {
+      const result = await site00ProjectsApi.personalityReplayBootstrap(projectSlug);
+      const newReplayId = result.replay.replayId;
+      replayIdRef.current = newReplayId;
+      setReplayId(newReplayId);
+
+      let nextStatus = result.replay.status;
+      if (Object.keys(localAnswers).length > 0) {
+        const saved = await site00ProjectsApi.personalityReplaySave(projectSlug, newReplayId, {
+          answers: localAnswers,
+          completedSteps: localCompleted,
+        });
+        nextStatus = saved.replay.status;
+      }
+
+      applyReplayPayload({
+        replayId: newReplayId,
+        rawPersonalityAnswers: localAnswers,
+        personalityCompletedSteps: localCompleted,
+        status: nextStatus,
+      });
+      return newReplayId;
+    } catch (err) {
+      setBootstrapError(err instanceof Error ? err.message : 'Unable to recover personality intake');
+      return null;
+    } finally {
+      setBootstrapping(false);
+      bootstrapInflightBySlug.delete(projectSlug);
+    }
+  }, [applyReplayPayload, projectSlug]);
+
   const saveToServer = useCallback(
-    async (nextAnswers: Record<string, string | string[]>, nextCompleted: string[]) => {
-      if (!replayId) return;
+    async (
+      nextAnswers: Record<string, string | string[]>,
+      nextCompleted: string[],
+      replayIdOverride?: string,
+    ) => {
+      const activeReplayId = replayIdOverride ?? replayIdRef.current;
+      if (!activeReplayId) return;
       setSaveState('saving');
       setSaveError(null);
       try {
-        const result = await site00ProjectsApi.personalityReplaySave(projectSlug, replayId, {
+        const result = await site00ProjectsApi.personalityReplaySave(projectSlug, activeReplayId, {
           answers: nextAnswers,
           completedSteps: nextCompleted,
         });
@@ -177,24 +227,33 @@ export function PersonalityReplayIntakeProvider({
         setSaveState('saved');
         setResumeStepId(resolvePersonalityReplayResumeStepId(nextAnswers));
         persistLocal({
+          replayId: activeReplayId,
           answers: nextAnswers,
           completedSteps: nextCompleted,
           status: result.replay.status,
           lastSavedAt: ts,
         });
       } catch (err) {
+        if (!replayIdOverride && isReplayNotFoundError(err)) {
+          const rebound = await rebindReplayFromLocal();
+          if (rebound) {
+            await saveToServer(nextAnswers, nextCompleted, rebound);
+            return;
+          }
+        }
         setSaveState('error');
         setSaveError(err instanceof Error ? err.message : 'Save failed');
         persistLocal({ answers: nextAnswers, completedSteps: nextCompleted });
       }
     },
-    [projectSlug, replayId, persistLocal],
+    [projectSlug, persistLocal, rebindReplayFromLocal],
   );
 
   const reload = useCallback(async () => {
-    if (!replayId) return;
+    const activeReplayId = replayIdRef.current;
+    if (!activeReplayId) return;
     try {
-      const result = await site00ProjectsApi.personalityReplayGet(projectSlug, replayId);
+      const result = await site00ProjectsApi.personalityReplayGet(projectSlug, activeReplayId);
       const replay = result.replay as {
         replayId?: string;
         rawPersonalityAnswers?: Record<string, string | string[]>;
@@ -202,12 +261,16 @@ export function PersonalityReplayIntakeProvider({
         status?: string;
       };
       applyReplayPayload({
-        replayId: replay.replayId ?? replayId,
+        replayId: replay.replayId ?? activeReplayId,
         rawPersonalityAnswers: replay.rawPersonalityAnswers,
         personalityCompletedSteps: replay.personalityCompletedSteps,
         status: replay.status,
       });
-    } catch {
+    } catch (err) {
+      if (isReplayNotFoundError(err)) {
+        await rebindReplayFromLocal();
+        return;
+      }
       const cached = readLocal(projectSlug);
       if (cached?.answers && Object.keys(cached.answers).length > 0) {
         setAnswers(cached.answers);
@@ -223,7 +286,7 @@ export function PersonalityReplayIntakeProvider({
       setStatus(null);
       setResumeStepId(null);
     }
-  }, [applyReplayPayload, projectSlug, replayId]);
+  }, [applyReplayPayload, projectSlug, rebindReplayFromLocal]);
 
   const bootstrap = useCallback(async (): Promise<string | null> => {
     if (projectSlug !== 'ndxbook') return null;
@@ -311,20 +374,36 @@ export function PersonalityReplayIntakeProvider({
   );
 
   const submitIntake = useCallback(async (): Promise<boolean> => {
-    if (!replayId) return false;
+    let activeReplayId = replayIdRef.current;
+    if (!activeReplayId) return false;
     setSubmitState('submitting');
     setSubmitError(null);
     try {
-      await site00ProjectsApi.personalityReplayComplete(projectSlug, replayId);
+      await site00ProjectsApi.personalityReplayComplete(projectSlug, activeReplayId);
       await reload();
       setSubmitState('submitted');
       return true;
     } catch (err) {
+      if (isReplayNotFoundError(err)) {
+        activeReplayId = await rebindReplayFromLocal();
+        if (activeReplayId) {
+          try {
+            await site00ProjectsApi.personalityReplayComplete(projectSlug, activeReplayId);
+            await reload();
+            setSubmitState('submitted');
+            return true;
+          } catch (retryErr) {
+            setSubmitState('error');
+            setSubmitError(retryErr instanceof Error ? retryErr.message : 'Submit failed');
+            return false;
+          }
+        }
+      }
       setSubmitState('error');
       setSubmitError(err instanceof Error ? err.message : 'Submit failed');
       return false;
     }
-  }, [projectSlug, replayId, reload]);
+  }, [projectSlug, reload, rebindReplayFromLocal]);
 
   const value = useMemo<PersonalityReplayIntakeContextValue>(
     () => ({

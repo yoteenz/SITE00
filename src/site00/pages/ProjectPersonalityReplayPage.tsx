@@ -136,6 +136,14 @@ function ProjectPersonalityReplayPageInner({
                 {submitError ? (
                   <p className="site00-idnty-calibration-review__empty" role="alert">
                     SUBMIT ERROR: {submitError}
+                    {submitError.toLowerCase().includes('replay not found') ? (
+                      <>
+                        {' '}
+                        <button type="button" className="site00-idnty-calibration-nav__skip" onClick={retryBootstrap}>
+                          START FRESH INTAKE
+                        </button>
+                      </>
+                    ) : null}
                   </p>
                 ) : null}
                 <button
