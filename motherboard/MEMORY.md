@@ -3516,3 +3516,12 @@ Summary of follow-up sprint correcting implementation sequence: visual developme
 
 - Tests **1371** pass (+20 visual development); build pass. Deploy **v24**. `WORLD_FORMATION_IMPLEMENTED: false`. `READY_FOR_IMPLEMENTATION: false` until founder approves generated design proofs.
 
+---
+
+## 2026-08-23 — Canonical image model: GPT Image 2 (not nano-banana-pro)
+
+- Founder directive: use **GPT Image 2** (`openai/gpt-image-2` / `openai/gpt-image-2/edit` via FAL) for visual development and all image generation settings moving forward.
+- Added `shared/site00-visual-generation/falImageModels.ts` as single source of truth + `buildFalImageInput()` helper (image_size/quality shape).
+- Updated: experience visual development (`experienceAssetFalProvider.ts`), experience asset receipts, ASSTS generation/manifests/canonicalMaster, studio builder default path, email intake manifests, scripts.
+- Tests **1374** pass (+3 model tests); build pass.
+
