@@ -3715,3 +3715,28 @@ Summary of read-only forensic audit — no large remediation, no Product Express
 
 - **Recommended next:** P0.5A methodology spec sprint (invalidation graph, site page families, Product Expression boundary doc, Identity Concept Territory spec) before P1 live pipeline + Composer adapter.
 
+---
+
+## 2026-08-23 — P0.5A Production Methodology Corrections
+
+Summary of minimum methodology corrections before P1 — dependency invalidation, site page families, experience scope, identity concept territory.
+
+- **Context:** After P0 (durable execution truth, PR #307) and P0.5 read-only audit (PR #309), founder requested P0.5A sprint to formalize four missing layers without implementing Composer, Product Expression, World Formation, or live Anthropic/FAL dispatch.
+
+- **Deliverables:**
+  - New module `shared/site00-studio-world-production/` — dependency graph (`StudioWorldDependencyGraph`, `ProductionDependencyEdge`, `ProductionInvalidationEvent`), `resolveDownstreamInvalidation()`, `computeEffectiveReadiness()`, frozen experiment protection, site production models (Strategy → Architecture → IA → Page Inventory → Page Families → Surface Briefs → Coherence → Readiness), experience scope correction + concept-vs-layout + metaphor-behavior gates, identity concept territory + evaluators, hybrid `SemanticConceptSetAudit` contract, `ProductionOrchestrationPolicy` scaffold, P1 preconditions.
+  - Supabase migration `20260823210000_site00_production_invalidation.sql` — durable `site00_production_invalidation_events` + `site00_production_dependency_edges`.
+  - Seven audit artifacts: `audit/p0.5a-*.json`.
+  - Tests: `shared/site00-studio-world-production/p0.5aMethodologyCorrections.test.ts` (47 tests); **1611** total pass; build pass.
+
+- **Key methodology conclusions:**
+  - Hero proof = directional north star, NOT full site spec; representative family proofs bridge to implementation.
+  - Experience Expression corrected: owns interaction/information behavior; does NOT own site route inventory or IA.
+  - Identity pipeline formalized: Intelligence → Identity Concept Territories → Direction → System → Production → Guidelines.
+  - `READY_FOR_P1 = false` — methodology trustworthy but Composer not connected; P1 wires contracts into live orchestration.
+  - Product Expression and World Formation remain unimplemented; Experiment D/F/E history preserved.
+
+- **Branch:** `cursor/p0.5a-methodology-corrections-4f59` → PR merge to `main`.
+
+- **Apply migration on Supabase** before production expects durable invalidation event persistence.
+

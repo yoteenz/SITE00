@@ -1,0 +1,39 @@
+{
+  "specId": "SITE00-P0.5A-P1-PRECONDITIONS",
+  "methodologyVersion": "P0.5A_PRODUCTION_METHODOLOGY_CORRECTIONS",
+  "readyForP1": false,
+  "productionMethodologyTrustworthyForP1": true,
+  "composerOrchestrationImplemented": false,
+  "preconditions": [
+    { "id": "SITE_STRATEGY", "required": true, "state": "READY" },
+    { "id": "SITE_ARCHITECTURE", "required": true, "state": "READY" },
+    { "id": "INFORMATION_ARCHITECTURE", "required": true, "state": "READY" },
+    { "id": "PAGE_INVENTORY", "required": true, "state": "READY" },
+    { "id": "PAGE_FAMILIES", "required": true, "state": "READY" },
+    { "id": "EXPERIENCE_DIRECTION", "required": true, "state": "APPROVED" },
+    { "id": "REPRESENTATIVE_PROOFS", "required": true, "state": "APPROVED" },
+    { "id": "PRODUCTION_ASSETS", "required": true, "state": "AVAILABLE" },
+    { "id": "SITE_COHERENCE", "required": true, "state": "READY_OR_NOT_EVALUATED_WITH_OVERRIDE" },
+    { "id": "FUNCTIONAL_CANON", "required": true, "state": "CURRENT" },
+    { "id": "DEPENDENCY_GRAPH", "required": true, "state": "CURRENT" },
+    { "id": "IMPLEMENTATION_CONTRACT", "required": true, "state": "COMPILED" },
+    { "id": "COMPOSER_LIVE", "required": true, "state": "VERIFIED" }
+  ],
+  "implementationContractFingerprints": [
+    "siteStrategyFingerprint",
+    "siteArchitectureFingerprint",
+    "informationArchitectureFingerprint",
+    "pageInventoryFingerprint",
+    "pageFamiliesFingerprint",
+    "experienceDirectionFingerprint",
+    "approvedProofsFingerprint",
+    "functionalCanonFingerprint",
+    "hostCanonFingerprint",
+    "clientExpressionFingerprint",
+    "assetBindingsFingerprint"
+  ],
+  "contractMutationPolicy": "Compile new version; do not mutate in place",
+  "productExpressionImplemented": false,
+  "worldFormationImplemented": false,
+  "recommendedNextAction": "P1 — wire methodology contracts into live production orchestration with Composer adapter gated on page-family contracts"
+}
