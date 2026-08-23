@@ -2848,3 +2848,25 @@ Summary: Founder approved identity-native methodology (pilot B) but not final cr
 - **PR #252 merged:** Condensed V2 prompt compiler (~6.5k stored locally; Sonnet verbose concept blocks expand stored brief on Railway). Cap negative instructions for V2 briefs.
 - **Live Railway V2 run (job 0767ee31):** pilot `801b6bb9-abc6-47a4-8e56-2c0b22cb26ce` — Sonnet creative expression (`claude-sonnet-4-6`, 3 Anthropic requests). Copy QA vision PASS 5/5 all dimensions, 0 revision rounds. GPT Image 2 text-only, ~$0.045, prompt hash `d4bde4fb01e7bcda`, no reference inputs. Storage: `ndxbook-identity-native-v2-pilot/generated/801b6bb9-...webp`. Image vision QA fell back to NEEDS_HUMAN_REVIEW (vision parse/unavailable on Railway runtime for V2 inspector). Founder status: NEEDS_HUMAN_REVIEW pending visual inspection.
 - **Preserved:** A `49828b9e` (brand-native), B `6fe8fec1` (identity V1). STOP — no board regen, no directions 02–06 until founder approves pilot C.
+
+---
+
+## 2026-08-23 — Brand Personality Intelligence formalization (upstream canon · Identity + pipeline)
+
+Summary: Follow-up production sprint formalizes **Brand Personality** as first-class upstream intelligence — behavioral canon sibling to Brand Lore, not adjective soup or downstream Creative Direction invention.
+
+- **Context:** NDX BOOK Creative Direction exposed personality (humor, confidence, social posture, correction behavior) being invented at moodboard/CD time. Spec required forensic audit, canonical domain, Identity intake, Builder translation (inherit not re-ask), pipeline integration, NDX reconciliation, readiness gates, fingerprint staleness, tests, and methodology doc.
+- **Forensic audit:** No first-class personality layer existed — fragmented across Brand Lore fields, Content Brain `brand_voice`, and direction-scoped CES/DES. Duplicates/overloads: `brandWorld` vs `worldMetaphor`, voice in three silos, Builder experience not org-canonical.
+- **Architecture decision:** Extend `BrandLoreProfile` JSONB with nested `brandPersonality: BrandPersonalityProfile | null` — **not** a new Supabase table. Reuse `BrandLoreField<T>`, provenance, fingerprint, readiness patterns.
+- **Identity intake:** 15 personality questions (A–O) in `idnty-personality-questions.ts` — 1 single-select (edge), 11 multi-select (capped), 3 free-text, 0 ranked. Integrated after lore steps; routes `/personality/:step`, `/calibrate-personality/:step`, `/personality-review`. Autosave via `useIdntyAssessment` `personalityAnswers`.
+- **Synthesis:** `synthesizeBrandPersonalityProfile()` deterministic — every field carries value/classification/confidence/sourceAnswerIds/sourceSelectionIds/sourceType/founderConfirmationState/updatedAt; never invents without source.
+- **Readiness:** 8 required domains (`SOCIAL_INSTINCT`, `CONFIDENCE_BEHAVIOR`, `VERBAL_PERSONALITY`, `WIT_BEHAVIOR`, `HUMANITY`, `DISAGREEMENT_BEHAVIOR`, `PERSONALITY_TENSION`, `ANTI_PERSONALITY`). `canBeginCoreDirectionFormation()` requires lore `CORE_DIRECTION_READY` **AND** `PERSONALITY_READY`. Legacy profiles → `PERSONALITY_INCOMPLETE` (blocks **new** formation only).
+- **WHAT WE HEARD:** "HOW YOU SHOW UP" sections in `IdentityLoreWorldReview` — YOUR INSTINCT, CONFIDENCE, HUMOR, EDGE, HUMAN SIDE, DISAGREEMENT, WHAT YOU NOTICE, WHAT STICKS, ANTI-PERSONALITY; per-domain edit routing.
+- **Pipeline:** Formation input adds `brandPersonalitySummary`. Creative Expression Layer adds `personalityLineage[]` — role shifted from invention to translation citing upstream fields. Fingerprint includes personality canonical fields + raw answers.
+- **NDX BOOK:** `reconcileNdxbookPersonality()` maps known traits from LEGACY_CANON/CONTENT_BRAIN; `isProposedCreativePersonalitySource()` blocks CES/DES auto-promotion. No reformation, no FAL, no Anthropic spend.
+- **Builder:** 8 translation questions registered (`bldr-personality-translation-questions.ts`); `BuilderPersonalityTranslationProfile` + `inheritedBrandPersonalitySnapshot` types defined — **UI/synthesis wiring deferred**.
+- **Admin:** `BrandIntelligencePanel` PERSONALITY section (read-only field rows + readiness state).
+- **Methodology:** `docs/site00/BRAND_PERSONALITY_METHODOLOGY.md` — Lore = what world is true; Personality = who brand is inside it; CD = creative world; DES = visual system; CES = personality inside system.
+- **Tests:** 21 new in `brandPersonality.test.ts`; full regression 894 passing. `tsc --noEmit` + `npm run build` green.
+- **Known gaps (next sprint):** Builder translation UX/synthesis + inheritance resolver; Content Brain + DES personality input wiring; per-field founder confirm for nested personality fields; responsive overflow visual QA (375/390/430); personality-only calibration API merge on submit.
+- **Branch/PR:** `cursor/brand-personality-intelligence-4f59` merged to `main`.
