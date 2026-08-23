@@ -14,6 +14,7 @@ import {
   CORE_DIRECTION_FORMATION_SYSTEM_PROMPT,
   CORE_DIRECTION_REVISION_SYSTEM_PROMPT,
 } from './prompts.js';
+import { enrichFormationInputPayload } from '../../../../../shared/site00-brand-lore/productionPromptNormalization.js';
 import { parseStructuredJson } from './formationValidation.js';
 import type {
   CoreDirectionCritiqueResult,
@@ -126,7 +127,9 @@ export function createAnthropicCreativeIntelligenceProvider(): CreativeIntellige
       if (creativeIntelligenceDebugLoggingEnabled()) {
         console.info('[creative-intelligence] formCoreDirections', sanitizeInputForLog(input));
       }
-      const { text, usage } = await callAnthropic(CORE_DIRECTION_FORMATION_SYSTEM_PROMPT, input);
+      const orgSlug = input.orgSlug ?? 'ndxbook';
+      const payload = enrichFormationInputPayload(input, orgSlug);
+      const { text, usage } = await callAnthropic(CORE_DIRECTION_FORMATION_SYSTEM_PROMPT, payload);
       const parsed = parseStructuredJson<{ directions: Record<string, unknown>[]; rationaleSummary?: string }>(text);
       return {
         directions: (parsed.directions ?? []).map(normalizeDirection),
@@ -138,12 +141,19 @@ export function createAnthropicCreativeIntelligenceProvider(): CreativeIntellige
       input: CoreDirectionFormationInput,
       candidates: FormedCoreDirection[],
     ): Promise<CoreDirectionCritiqueResult> {
-      const { text, usage } = await callAnthropic(CORE_DIRECTION_CRITIC_SYSTEM_PROMPT, { input, candidates });
+      const orgSlug = input.orgSlug ?? 'ndxbook';
+      const payload = enrichFormationInputPayload(input, orgSlug);
+      const { text, usage } = await callAnthropic(CORE_DIRECTION_CRITIC_SYSTEM_PROMPT, { input: payload, candidates });
       const parsed = parseStructuredJson<CoreDirectionCritiqueResult>(text);
       return { ...parsed, requestUsage: usage };
     },
     async reviseCoreDirections(reviseInput: ReviseCoreDirectionsInput): Promise<CoreDirectionFormationResult> {
-      const { text, usage } = await callAnthropic(CORE_DIRECTION_REVISION_SYSTEM_PROMPT, reviseInput);
+      const orgSlug = reviseInput.formationInput.orgSlug ?? 'ndxbook';
+      const payload = {
+        ...reviseInput,
+        formationInput: enrichFormationInputPayload(reviseInput.formationInput, orgSlug),
+      };
+      const { text, usage } = await callAnthropic(CORE_DIRECTION_REVISION_SYSTEM_PROMPT, payload);
       const parsed = parseStructuredJson<{ directions: Record<string, unknown>[] }>(text);
       return {
         directions: (parsed.directions ?? []).map(normalizeDirection),

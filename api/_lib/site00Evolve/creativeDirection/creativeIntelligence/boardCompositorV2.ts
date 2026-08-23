@@ -8,6 +8,7 @@ import type {
   CreativeDirectionBoardPlan,
 } from './creativeDirectionBoardTypes.js';
 import { MARKED_UP_COPY_BOARD_COPY } from './markedUpCopyCopyContract.js';
+import { canonicalBrandDisplayName } from '../../../../../shared/site00-brand-lore/brandIdentity.js';
 
 function escapeXml(s: string): string {
   return s.replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' })[c] ?? c);
@@ -22,7 +23,8 @@ function codeNativeTypographyLayer(map: BoardCompositionMap, hideBrand = false):
   if (!zone) return '';
   const { x, y, width } = zone;
   const c = MARKED_UP_COPY_BOARD_COPY;
-  const issueLabel = hideBrand ? c.issueLabel.replace(/NDX BOOK/gi, '').trim() || c.issueLabel : c.issueLabel;
+  const brandLabel = hideBrand ? '' : `${canonicalBrandDisplayName('ndxbook')} · `;
+  const issueLabel = hideBrand ? c.issueLabel : `${brandLabel}${c.issueLabel}`;
   return `
   <g id="typographic-interruption">
     <rect x="${x}" y="${y}" width="${width}" height="${zone.height}" fill="none"/>

@@ -8,6 +8,7 @@ import {
 } from './creativeDirectionBoardTypes.js';
 import type { BrandNativeVisualBrief } from './brandNativeVisualBriefTypes.js';
 import type { IdentityNativeVisualBrief } from './identityNativeArtDirectionTypes.js';
+import { normalizeCreativePromptText } from '../../../../../shared/site00-brand-lore/productionPromptNormalization.js';
 
 export type GptImage2GenerationInput = {
   model: string;
@@ -29,10 +30,11 @@ export function briefToGptImage2Input(params: {
         : 'landscape_16_9';
 
   const negativeSuffix = params.brief.negativeInstructions.slice(0, 12).join('; ');
+  const normalizedPrompt = normalizeCreativePromptText(params.brief.compiledPrompt, 'ndxbook');
   const prompt =
     negativeSuffix.length > 0
-      ? `${params.brief.compiledPrompt}\n\nAvoid: ${negativeSuffix}`
-      : params.brief.compiledPrompt;
+      ? `${normalizedPrompt}\n\nAvoid: ${negativeSuffix}`
+      : normalizedPrompt;
 
   if (hasRefs) {
     return {
@@ -113,8 +115,9 @@ async function generateImageFromCompiledBrief(params: {
 
   const useRefs = !params.textOnly && refUrls.length > 0;
   const negativeSuffix = params.negativeInstructions.slice(0, 14).join('; ');
+  const normalizedCompiled = normalizeCreativePromptText(params.compiledPrompt, 'ndxbook');
   const prompt =
-    negativeSuffix.length > 0 ? `${params.compiledPrompt}\n\nAvoid: ${negativeSuffix}` : params.compiledPrompt;
+    negativeSuffix.length > 0 ? `${normalizedCompiled}\n\nAvoid: ${negativeSuffix}` : normalizedCompiled;
 
   const model = useRefs ? FAL_REFERENCE_EDIT_MODEL : FAL_TEXT_TO_IMAGE_MODEL;
   const imageSize =

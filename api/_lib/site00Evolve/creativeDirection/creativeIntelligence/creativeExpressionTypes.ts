@@ -80,6 +80,8 @@ export type HeroCreativeConcept = {
   quietZone: string;
   readingSequence: string[];
   restraintDecision: string;
+  /** Native format this hero concept must prove — derived from Primary Expression Context. */
+  primaryProofFormat?: string;
 };
 
 export type CopyQualityScores = {

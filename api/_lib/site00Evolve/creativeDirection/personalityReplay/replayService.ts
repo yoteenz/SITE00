@@ -25,6 +25,7 @@ import {
 } from '../../../../../shared/site00-brand-lore/personalityReadiness.js';
 import { IDNTY_PERSONALITY_QUESTIONS } from '../../../../../shared/site00-brand-lore/idnty-personality-questions.js';
 import type { PersonalityReplayStatus } from '../../../../../shared/site00-brand-lore/personalityReplayTypes.js';
+import { assertReplayProductionReadyForDownstream, buildReplayProductionPreflightReport } from '../../../../../shared/site00-brand-lore/replayProductionPreflight.js';
 import { buildCoreDirectionFormationInput } from '../creativeIntelligence/formationInputBuilder.js';
 import * as replayStore from './replayStore/storeAdapter.js';
 import { getOrReconcileBrandLoreForOrg } from '../../../site00BrandLore/loreService.js';
@@ -178,6 +179,8 @@ export async function completeReplayPersonalityIntake(replayId: string): Promise
 
 /** Build shadow formation input — no legacy direction names, no benchmark leakage. */
 export function buildShadowReplayFormationInput(replay: BrandPersonalityReplayRecord) {
+  assertReplayProductionReadyForDownstream('ndxbook');
+
   const profile: BrandLoreProfile = {
     ...replay.brandLoreSnapshot,
     brandPersonality: replay.synthesizedPersonality,
@@ -186,6 +189,7 @@ export function buildShadowReplayFormationInput(replay: BrandPersonalityReplayRe
   const input = buildCoreDirectionFormationInput({
     profile,
     includeLegacyExplorations: false,
+    orgSlug: 'ndxbook',
   });
 
   const guard = assertReplayFormationInputAllowed({
@@ -330,6 +334,8 @@ const RESUMABLE_REPLAY_STATUSES: PersonalityReplayStatus[] = [
 ];
 
 export { resolvePersonalityReplayResumeStepId };
+
+export { buildReplayProductionPreflightReport, assertReplayProductionReadyForDownstream };
 
 /** Resume an in-progress replay or create a fresh shadow validation run. */
 export async function getOrCreateActivePersonalityReplay(params: {

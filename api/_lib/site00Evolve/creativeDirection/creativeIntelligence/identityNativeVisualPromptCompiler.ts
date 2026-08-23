@@ -9,7 +9,13 @@ import type {
   IdentityNativeArtDirection,
   IdentityNativeVisualBrief,
 } from './identityNativeArtDirectionTypes.js';
-import { MARKED_UP_COPY_DIRECTION_NAME } from './creativeDirectionBoardTypes.js';
+import {
+  appendVisualBriefProductionBlock,
+  buildVisualBriefProductionContext,
+  normalizeCreativePromptText,
+  type VisualBriefProductionContext,
+} from '../../../../../shared/site00-brand-lore/productionPromptNormalization.js';
+import { canonicalBrandDisplayName } from '../../../../../shared/site00-brand-lore/brandIdentity.js';
 
 export const IDENTITY_NATIVE_HERO_ASSET_ID = 'MUC-IDENTITY-NATIVE-HERO-PILOT';
 
@@ -27,7 +33,14 @@ export function compileIdentityNativeVisualBrief(params: {
   role: BrandNativeAssetRole;
   topic: string;
   referenceTranslation?: IdentityNativeVisualBrief['referenceTranslation'];
+  brandSlug?: string;
+  productionContext?: VisualBriefProductionContext;
 }): IdentityNativeVisualBrief {
+  const brandSlug = params.brandSlug ?? 'ndxbook';
+  const displayName = canonicalBrandDisplayName(brandSlug);
+  const productionContext =
+    params.productionContext ??
+    buildVisualBriefProductionContext({ orgSlug: brandSlug, expressionContext: 'SOCIAL_FIRST_EDITORIAL' });
   const topicTransform = transformTopicIntoDirectionNativeSubject(params.topic);
   const cliches = topicClichesFor(params.topic);
   const ad = params.artDirection;
@@ -43,7 +56,7 @@ export function compileIdentityNativeVisualBrief(params: {
     topicOriginal: params.topic,
     topicContentLayer: `Editorial content layer ONLY: ${topicTransform.transformed}. Topic is subordinate to identity artifact design.`,
     artifactDeclaration:
-      `Design an original bespoke visual artifact for ${MARKED_UP_COPY_DIRECTION_NAME} — custom NDX BOOK editorial campaign artwork, identity-system specimen, art-directed publication object. NOT a stock photograph.`,
+      `Design an original bespoke visual artifact for ${displayName} — custom editorial campaign artwork, identity-system specimen, art-directed publication object. NOT a stock photograph.`,
     proprietaryVisualDNA: ad.proprietaryVisualDNA,
     paletteOwnership,
     typographicArchitecture: ad.typographyBehavior,
@@ -73,13 +86,16 @@ export function compileIdentityNativeVisualBrief(params: {
       'office desk',
     ],
     preOverlayRequirement:
-      'PRE-OVERLAY IDENTITY: Raw image must already read as proprietary NDX BOOK custom artwork — not merely direction-appropriate subject matter.',
+      `PRE-OVERLAY IDENTITY: Raw image must already read as proprietary ${displayName} custom artwork — not merely direction-appropriate subject matter.`,
     antiExampleRejection: ad.antiExampleCharacteristics.length ? ad.antiExampleCharacteristics : ANTI_EXAMPLE_DEFAULT,
     artDirectionId: ad.artDirectionId,
     expressionSystemId: ad.expressionSystemId,
   };
 
-  const compiledPrompt = compilePromptFromIdentityBrief(briefWithoutPrompt, ad);
+  const compiledPrompt = normalizeCreativePromptText(
+    compilePromptFromIdentityBrief(briefWithoutPrompt, ad, productionContext),
+    brandSlug,
+  );
   const promptHash = createHash('sha256').update(compiledPrompt).digest('hex').slice(0, 16);
 
   return { ...briefWithoutPrompt, compiledPrompt, promptHash };
@@ -88,6 +104,7 @@ export function compileIdentityNativeVisualBrief(params: {
 export function compilePromptFromIdentityBrief(
   brief: Omit<IdentityNativeVisualBrief, 'compiledPrompt' | 'promptHash'>,
   artDirection: IdentityNativeArtDirection,
+  productionContext?: VisualBriefProductionContext,
 ): string {
   const refBlock = brief.referenceTranslation
     .map(
@@ -96,7 +113,7 @@ export function compilePromptFromIdentityBrief(
     )
     .join('\n');
 
-  return [
+  const baseLines = [
     `ARTIFACT DECLARATION:`,
     brief.artifactDeclaration,
     `You are designing custom editorial campaign artwork — NOT photographing a found scene.`,
@@ -123,7 +140,7 @@ export function compilePromptFromIdentityBrief(
     `COMPOSITION / HIERARCHY / TENSION:`,
     ...brief.compositionalHierarchy.map((c) => `- ${c}`),
     '',
-    `DIRECTION BEHAVIOR (THE MARKED-UP COPY):`,
+    `DIRECTION BEHAVIOR:`,
     brief.directionBehavior,
     ...artDirection.annotationGrammar.map((a) => `- ${a}`),
     '',
@@ -147,7 +164,13 @@ export function compilePromptFromIdentityBrief(
     '',
     `STRANGER TEST: Must NOT look downloadable from a stock-photo site. Must NOT plausibly belong to ten unrelated editorial brands.`,
     `Must feel like someone art-directed and designed this specific visual object according to a coherent identity system.`,
-  ].join('\n');
+  ];
+
+  if (productionContext) {
+    return appendVisualBriefProductionBlock(baseLines, productionContext).join('\n');
+  }
+
+  return baseLines.join('\n');
 }
 
 export function identityBriefPromptPrecedesTopic(brief: IdentityNativeVisualBrief): boolean {

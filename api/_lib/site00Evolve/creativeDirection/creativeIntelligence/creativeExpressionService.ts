@@ -26,6 +26,10 @@ import {
   summarizeFormatNativeExpression,
 } from '../../../../../shared/site00-brand-lore/formatNativeExpression.js';
 import { brandPromptTypographyBlock, normalizeBrandPromptContext } from '../../../../../shared/site00-brand-lore/brandIdentity.js';
+import {
+  enrichHeroConceptPayload,
+  selectNativeProofFormat,
+} from '../../../../../shared/site00-brand-lore/productionPromptNormalization.js';
 import type { BrandPersonalityProfile } from '../../../../../shared/site00-brand-lore/personalityTypes.js';
 import type { BrandExpressionContext } from '../../../../../shared/site00-brand-lore/types.js';
 
@@ -159,7 +163,11 @@ export function buildDeterministicCreativeExpression(params: {
   };
 }
 
-export function buildDeterministicHeroConcept(topic: string): HeroCreativeConcept {
+export function buildDeterministicHeroConcept(topic: string, expressionContext: BrandExpressionContext = 'SOCIAL_FIRST_EDITORIAL'): HeroCreativeConcept {
+  const primaryProofFormat = selectNativeProofFormat(
+    expressionContext,
+    deriveFormatNativeExpressionProfile({ context: expressionContext }),
+  );
   return {
     conceptId: randomUUID().slice(0, 16),
     centralEditorialArgument: 'Utilization rates move — treating a snapshot as destiny is the real mistake',
@@ -190,6 +198,7 @@ export function buildDeterministicHeroConcept(topic: string): HeroCreativeConcep
       'THIRD READ: tiny Martian Mono date/status proves argument changed recently',
     ],
     restraintDecision: 'No extra arrows, stickers, or decorative scribbles — three semantic marks only',
+    primaryProofFormat,
   };
 }
 
@@ -268,6 +277,7 @@ export function parseHeroCreativeConcept(text: string): HeroCreativeConcept {
     quietZone: String(parsed.quietZone ?? ''),
     readingSequence: arr(parsed.readingSequence),
     restraintDecision: String(parsed.restraintDecision ?? ''),
+    primaryProofFormat: String(parsed.primaryProofFormat ?? parsed.nativeProofFormat ?? ''),
   };
 }
 
@@ -303,7 +313,7 @@ export async function runCreativeExpressionDirector(params: {
     });
     return {
       creativeExpression,
-      heroConcept: buildDeterministicHeroConcept(params.topic),
+      heroConcept: buildDeterministicHeroConcept(params.topic, context),
       anthropicRequests: 0,
     };
   }
@@ -376,7 +386,8 @@ export async function runCreativeExpressionDirector(params: {
     });
   }
 
-  const conceptPayload = {
+  const conceptPayload = enrichHeroConceptPayload(
+    {
     task: 'HERO CREATIVE CONCEPT V2 — specific artifact idea',
     brandTypography: brandPromptBlock,
     creativeExpression,
@@ -385,7 +396,10 @@ export async function runCreativeExpressionDirector(params: {
     topic: params.topic,
     v1ImageUrl: params.v1Pilot?.publicUrl ?? null,
     doNot: ['redesign identity', 'add clutter', 'use corporate finance voice', 'copy V1 layout exactly'],
-  };
+    },
+    brandSlug,
+    context,
+  );
 
   const { text: conceptText } = await callAnthropicForCompletion(HERO_CREATIVE_CONCEPT_PROMPT, conceptPayload, {
     maxTokens: 8192,
@@ -393,7 +407,7 @@ export async function runCreativeExpressionDirector(params: {
 
   let heroConcept = parseHeroCreativeConcept(conceptText);
   if (!heroConcept.cleanClaim) {
-    heroConcept = buildDeterministicHeroConcept(params.topic);
+    heroConcept = buildDeterministicHeroConcept(params.topic, context);
   }
 
   return {
