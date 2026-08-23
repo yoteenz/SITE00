@@ -3549,3 +3549,23 @@ Summary of follow-up sprint formalizing automated visual reference intelligence 
 
 - Tests **1424** pass (+50 visual reference intelligence); build pass. Deploy **v26** pending. `NEW_PROJECTS_PROOF_GENERATED: false` until founder triggers reference-conditioned generation on visual-development route.
 
+---
+
+## 2026-08-23 — Discovery → Purchase → Project Intelligence Activation
+
+Summary of follow-up architecture sprint separating **pre-purchase discovery** from **post-purchase production intelligence**.
+
+- **Context:** Public Identity/Builder intake was routing visitors into deep Brand Lore, Brand Personality, Experience Expression, and related production-intelligence formation before purchase. Methodology requires: public intake diagnoses the purchase; post-purchase intelligence intake enables the work.
+
+- **Pre-purchase (`shared/site00-project-discovery/`):** `ProjectDiscoverySnapshot`, `ProjectScopeDiagnosis`, `ProjectRecommendation`; identity need diagnosis; builder `ProjectExperienceClass` diagnosis; creative-depth as `DISCOVERY_EVIDENCE` (not Founder Creative Appetite); deterministic question audit (84 questions); handoff/prefill without canonization; `intakeSynthesisGate` blocks lore/experience synthesis on `PRE_PURCHASE_DISCOVERY` provenance.
+
+- **Post-purchase (`shared/site00-project-intelligence/`):** `ProjectCommercialState`, `ProjectIntelligenceIntakeManifest`, module registry mapped to existing calibrate/creative-appetite/world intake routes; scope-derived manifest compiler (SITE/APPLICATION/IMMERSIVE_SITE/WORLD); `evaluateProjectIntelligenceReadiness()` + `assertProjectReadyForFormation()`; manifest fingerprint + scope expansion versioning.
+
+- **API/service:** `api/_lib/site00ProjectIntelligence/` — manifest compile/get; `project_intelligence_manifest_get|compile` on `api/site00/projects.ts`. Legacy NDXBOOK marks BRAND_LORE/PERSONALITY/APPETITE/PRIMARY_EXPRESSION_CONTEXT COMPLETE.
+
+- **Public UX:** Identity/Builder review → `/discovery-result` recommendation panel; lore/personality/experience routes → `PostPurchaseIntelligenceRedirect`. Project setup minimal UI at `/projects/:slug/setup`.
+
+- **Rules preserved:** No duplicate intelligence systems; guest world intake `/intake/:token` preserved; Experiment D frozen v1; World Formation unimplemented; zero provider requests on public discovery autosave.
+
+- Tests **1480** pass (+56 discovery/project intelligence); build pass. Deploy **v27** (`site00-deploy-2026-08-23-v27`). PR **#302** merged.
+
