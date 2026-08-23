@@ -17,7 +17,20 @@ export function compileDesignProofImplementationContract(params: {
   workspaceCanon: ProjectWorkspaceCanon;
 }): ExperienceImplementationContract {
   const { proof, workspaceCanon } = params;
-  const composed = proof.composedProof!;
+  const composed = proof.composedProof;
+  const composedInterface = proof.surfaceGenerationMode === 'COMPOSED_INTERFACE';
+  const approvedVersion = composed?.proofVersion ?? proof.proofRecordId;
+  const approvedStoragePath =
+    composed?.storagePath ??
+    proof.surfaceVisualAuthorityPackage?.packageId ??
+    `composed-interface/${proof.proofRecordId}`;
+  const approvedFingerprint =
+    composed?.fingerprint ??
+    proof.surfaceVisualAuthorityPackage?.fingerprint ??
+    createHash('sha256')
+      .update(proof.generatedAssets.map((a) => a.storagePath).join(':'))
+      .digest('hex')
+      .slice(0, 16);
 
   const assetBindings = proof.generatedAssets.map((asset) => ({
     requirementId: asset.requirementId,
@@ -40,9 +53,9 @@ export function compileDesignProofImplementationContract(params: {
 
   const blockers = evaluateImplementationBlockers({
     lifecycle: proof.lifecycle,
-    approvedDesignProofId: composed.proofVersion,
-    approvedDesignProofVersion: composed.proofVersion,
-    contractProofVersion: composed.proofVersion,
+    approvedDesignProofId: approvedVersion,
+    approvedDesignProofVersion: approvedVersion,
+    contractProofVersion: approvedVersion,
     missingRequiredAssets: [],
     functionalCanonFingerprint: functionalFingerprint,
     contractFunctionalFingerprint: functionalFingerprint,
@@ -75,7 +88,11 @@ export function compileDesignProofImplementationContract(params: {
     surfaceBehavior: [proof.artDirection.experientialRole],
     responsiveBehavior: [proof.artDirection.responsiveTransformation],
     motionBehavior: [proof.artDirection.motionBehavior],
-    approvedVisualReferences: [composed.storagePath],
+    approvedVisualReferences: composedInterface
+      ? proof.generatedAssets.map((a) => a.storagePath)
+      : composed
+        ? [composed.storagePath]
+        : [],
     assetBindings,
     missingRequiredAssets: [],
     implementationStatus: approved && blockers.length === 0 ? 'READY' : 'IMPLEMENTATION_BLOCKED_MISSING_ASSET',
@@ -85,20 +102,29 @@ export function compileDesignProofImplementationContract(params: {
       'Do not substitute stock or generated assets with CSS',
       'Do not revert to equal cards',
       'Do not invent client typography without provenance',
-      'Composer must receive approved visual proof image',
+      composedInterface
+        ? 'Composer must assemble from SurfaceVisualAuthorityPackage + bound assets — not invent host shell'
+        : 'Composer must receive approved visual proof image',
       'No production mutation without approved proof',
     ],
-    acceptanceCriteria: [
-      'CONCEPT_FIDELITY to approved design proof',
-      'COMPOSITION_FIDELITY to composed image',
-      'ASSET_FIDELITY — bound generated assets',
-      'WORKSPACE_FIDELITY — ProjectWorkspaceCanon',
-    ],
+    acceptanceCriteria: composedInterface
+      ? [
+          'HOST_FIDELITY to SurfaceVisualAuthorityPackage',
+          'ASSET_FIDELITY — bound generated assets',
+          'WORKSPACE_FIDELITY — ProjectWorkspaceCanon',
+          'FUNCTIONAL_FIDELITY — preserved routes and actions',
+        ]
+      : [
+          'CONCEPT_FIDELITY to approved design proof',
+          'COMPOSITION_FIDELITY to composed image',
+          'ASSET_FIDELITY — bound generated assets',
+          'WORKSPACE_FIDELITY — ProjectWorkspaceCanon',
+        ],
     compiledAt: new Date().toISOString(),
-    approvedDesignProofId: composed.proofVersion,
-    approvedDesignProofVersion: composed.proofVersion,
-    approvedDesignProofStoragePath: composed.storagePath,
-    approvedDesignProofFingerprint: composed.fingerprint,
+    approvedDesignProofId: approvedVersion,
+    approvedDesignProofVersion: approvedVersion,
+    approvedDesignProofStoragePath: approvedStoragePath,
+    approvedDesignProofFingerprint: approvedFingerprint,
     surfaceArtDirectionId: proof.artDirection.surfaceArtDirectionId,
     assetManifestId: proof.manifest?.manifestId ?? null,
     approvedAssetBindings: assetBindings,
@@ -114,7 +140,7 @@ export function compileDesignProofImplementationContract(params: {
 
 export function orchestrationRequiresValidContract(contract: ExperienceImplementationContract | null): boolean {
   if (!contract) return false;
-  return Boolean(contract.approvedDesignProofStoragePath && contract.approvedDesignProofFingerprint);
+  return Boolean(contract.approvedDesignProofFingerprint && (contract.approvedAssetBindings?.length ?? 0) > 0);
 }
 
 export function composerReceivesApprovedVisualReference(contract: ExperienceImplementationContract): boolean {

@@ -12,5 +12,6 @@ export * from './preconditionAudit.js';
 export * from './capabilityRegistry.js';
 export * from './p1OrchestrationService.js';
 export * from './p1RunStore.js';
+export * from './generationBoundary/index.js';
 
 export const P1_CONTROLLED_PROOF_SPRINT = 'P1_LIVE_VISUAL_PIPELINE_COMPOSER_ORCHESTRATION' as const;

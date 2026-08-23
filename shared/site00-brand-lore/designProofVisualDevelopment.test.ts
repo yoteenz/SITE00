@@ -50,14 +50,17 @@ import { assertCreativeAppetiteNotInjectedIntoFrozenExperiment, shouldIncludeCre
 import { worldFormationGenerationCountZero, WORLD_FORMATION_IMPLEMENTED } from './worldFormation/futureContracts.js';
 import {
   compileVisualDevelopmentProofManifest,
+  generateMissingInterfaceAssets,
   generateVisualDevelopmentDesignProof,
   getProjectWorkspaceVisualDevelopmentRun,
   orchestrateVisualDevelopmentImplementation,
+  prepareComposedInterfaceSurface,
   prepareVisualDevelopmentImplementation,
   refreshProjectWorkspaceVisualDevelopmentRun,
   resetVisualDevelopmentRunMemory,
   setVisualDevelopmentProofJudgment,
 } from '../../api/_lib/site00Evolve/creativeDirection/experienceExpressionExperiment/visualDevelopmentService.js';
+import { FULL_PAGE_GENERATION_NOT_ALLOWED_FOR_COMPOSED_INTERFACE } from '../site00-studio-world-production/p1/generationBoundary/fullPageGenerationGuard.js';
 import { buildConceptFirstHeroBrief } from '../../api/_lib/site00Evolve/creativeDirection/conceptTerritoryExperiment/experimentDService.js';
 
 vi.mock('../../api/_lib/site00BrandLore/loreService.js', () => ({
@@ -148,9 +151,14 @@ describe('Visual development gate sprint', () => {
     expect(EXPERIENCE_FAL_PROVIDER).toBe('fal');
     expect(EXPERIENCE_FAL_MODEL).toBe('openai/gpt-image-2');
     expect(cssFallbackBlocked()).toBe(true);
-    const run = await generateVisualDevelopmentDesignProof('SITE00_PROJECTS_INDEX');
+    await expect(generateVisualDevelopmentDesignProof('SITE00_PROJECTS_INDEX')).rejects.toThrow(
+      FULL_PAGE_GENERATION_NOT_ALLOWED_FOR_COMPOSED_INTERFACE,
+    );
+    await prepareComposedInterfaceSurface('SITE00_PROJECTS_INDEX');
+    const run = await generateMissingInterfaceAssets('SITE00_PROJECTS_INDEX');
     expect(run.accounting.falRequests).toBeGreaterThan(0);
-    expect(run.proofs.site00ProjectsIndex.composedProof).not.toBeNull();
+    expect(run.proofs.site00ProjectsIndex.composedProof).toBeNull();
+    expect(run.proofs.site00ProjectsIndex.generatedAssets.length).toBeGreaterThan(0);
   });
 
   it('16-20. Complete composed image with storage, receipt, lineage', async () => {
@@ -162,7 +170,8 @@ describe('Visual development gate sprint', () => {
   });
 
   it('21. Visual-development assets non-production by default', async () => {
-    const run = await generateVisualDevelopmentDesignProof('SITE00_PROJECTS_INDEX');
+    await prepareComposedInterfaceSurface('SITE00_PROJECTS_INDEX');
+    const run = await generateMissingInterfaceAssets('SITE00_PROJECTS_INDEX');
     for (const asset of run.proofs.site00ProjectsIndex.generatedAssets) {
       expect(asset.productionState).toBe('VISUAL_DEVELOPMENT');
     }
@@ -179,7 +188,8 @@ describe('Visual development gate sprint', () => {
     expect(blocked.allowed).toBe(false);
     expect(productionPresentationMutationBlocked('DESIGN_PROOF_READY')).toBe(true);
 
-    await generateVisualDevelopmentDesignProof('SITE00_PROJECTS_INDEX');
+    await prepareComposedInterfaceSurface('SITE00_PROJECTS_INDEX');
+    await generateMissingInterfaceAssets('SITE00_PROJECTS_INDEX');
     await setVisualDevelopmentProofJudgment({
       proofId: 'SITE00_PROJECTS_INDEX',
       judgment: 'LOVE_THE_DIRECTION',
@@ -228,7 +238,8 @@ describe('Visual development gate sprint', () => {
   });
 
   it('37-39. Independent approval and revision lineage', async () => {
-    await generateVisualDevelopmentDesignProof('SITE00_PROJECTS_INDEX');
+    await prepareComposedInterfaceSurface('SITE00_PROJECTS_INDEX');
+    await generateMissingInterfaceAssets('SITE00_PROJECTS_INDEX');
     await setVisualDevelopmentProofJudgment({
       proofId: 'SITE00_PROJECTS_INDEX',
       judgment: 'LOVE_THE_DIRECTION',

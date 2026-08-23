@@ -22,6 +22,11 @@ import {
   resolveVisualGenerationMode,
   shouldFailWithoutReferenceConditioning,
 } from '../../site00-visual-reference/generationModeResolver.js';
+import {
+  assertNoLiteralMetaphorLeakage,
+  compileBehavioralVisualTranslation,
+  sanitizeProviderPrompt,
+} from '../../site00-studio-world-production/p1/generationBoundary/behavioralVisualTranslation.js';
 
 export { EXPERIENCE_FAL_MODEL, SITE00_FAL_TEXT_TO_IMAGE_MODEL };
 export const EXPERIENCE_FAL_PROVIDER = 'fal';
@@ -46,19 +51,26 @@ export function buildDesignProofAssetPrompt(params: {
   owner: string;
   functionalSummary: string;
   antiDirection: string[];
+  compositionalHierarchy?: string[];
 }): { prompt: string; negativePrompt: string; promptHash: string } {
-  const prompt = [
-    'Complete desktop UI design proof fragment for SITE 00 Studio World.',
-    `Proof: ${params.proofConcept}`,
-    `Owner: ${params.owner}`,
-    `Asset role: ${params.requirement.assetRole}`,
-    `Category: ${params.requirement.category}`,
-    `Purpose: ${params.requirement.purpose}`,
-    `Art direction: ${params.artDirectionSummary}`,
-    `Functional grounding: ${params.functionalSummary}`,
-    'Requirements: authored visual expression, material depth, asymmetric hierarchy, no SaaS dashboard, no equal card grid, no wireframe, no placeholder rectangles, no literal workshop, no literal detective case file.',
-    'High fidelity designed composition fragment suitable for final page assembly.',
-  ].join('\n');
+  const behavioral = compileBehavioralVisualTranslation({
+    compositionalHierarchy: params.compositionalHierarchy ?? [],
+    informationHierarchy: params.functionalSummary.split(',').map((s) => s.trim()).filter(Boolean),
+  });
+
+  const prompt = sanitizeProviderPrompt(
+    [
+      'Isolated visual production asset for SITE 00 Studio World — NOT a full page design.',
+      `Surface owner: ${params.owner}`,
+      `Asset role: ${sanitizeProviderPrompt(params.requirement.assetRole.replace(/_/g, ' '))}`,
+      `Category: ${params.requirement.category}`,
+      `Production purpose: ${params.requirement.purpose}`,
+      behavioral,
+      `Visual behavior summary: ${params.artDirectionSummary}`,
+      'Requirements: material depth, asymmetric hierarchy, authored graphic layer, no SaaS dashboard, no equal card grid, no wireframe, no placeholder rectangles, no literal workshop, no literal detective case file, no dark command center.',
+      'Asset fragment suitable for Composer assembly into an existing SITE 00 interface.',
+    ].join('\n'),
+  );
 
   const negativePrompt = [
     ...params.antiDirection,
@@ -69,6 +81,9 @@ export function buildDesignProofAssetPrompt(params: {
     'equal cards',
     'white document page only',
     'text-only',
+    'full page ui',
+    'dark command center',
+    'cyberpunk dashboard',
   ].join(', ');
 
   const promptHash = createHash('sha256').update(prompt).digest('hex').slice(0, 16);
@@ -83,19 +98,21 @@ export function buildComposedDesignProofPrompt(params: {
   functionalSummary: string;
   componentAssetDescriptions: string[];
 }): { prompt: string; negativePrompt: string; promptHash: string } {
-  const prompt = [
-    'Single complete desktop page design proof image for SITE 00.',
-    `Surface: ${params.proofId}`,
-    `Concept: ${params.proofConcept}`,
-    `Owner: ${params.owner}`,
-    params.artDirectionSummary,
-    `Functional categories to represent: ${params.functionalSummary}`,
-    `Component assets integrated: ${params.componentAssetDescriptions.join('; ')}`,
-    'ONE coherent full-page design — not a collage of separate panels.',
-    'Asymmetric focal hierarchy, dossier structural sophistication, authored graphic layer, environmental depth.',
-    '16:9 desktop aspect ratio design review frame.',
-    'No wireframe, no CSS mockup, no bordered equal cards, no SaaS dashboard.',
-  ].join('\n');
+  const prompt = sanitizeProviderPrompt(
+    [
+      'Single complete desktop page design proof image for SITE 00 — VISUAL PROOF mode only.',
+      `Surface: ${params.proofId}`,
+      `Owner: ${params.owner}`,
+      params.artDirectionSummary,
+      `Functional categories to represent: ${params.functionalSummary}`,
+      `Component assets integrated: ${params.componentAssetDescriptions.join('; ')}`,
+      'ONE coherent full-page design — evidence frame for founder comparison, NOT automatic implementation spec.',
+      'Asymmetric focal hierarchy, layered evidence structure, authored graphic layer, environmental depth.',
+      '16:9 desktop aspect ratio design review frame.',
+      'No wireframe, no CSS mockup, no bordered equal cards, no SaaS dashboard.',
+    ].join('\n'),
+  );
+  assertNoLiteralMetaphorLeakage(prompt);
 
   const negativePrompt =
     'wireframe, placeholder, screenshot of existing page, equal cards, admin portal, literal workshop, literal case file, text-only layout';
@@ -190,7 +207,7 @@ async function runFalGeneration(params: {
   }
 }
 
-/** Server-only — invokes real FAL when FAL_KEY configured. */
+/** Server-only — invokes real FAL when FAL_KEY configured. Asset-level generation only. */
 export async function generateDesignProofAssetViaFal(params: {
   requirement: DesignProofAssetRequirement;
   storagePath: string;
@@ -200,7 +217,9 @@ export async function generateDesignProofAssetViaFal(params: {
   functionalSummary: string;
   antiDirection: string[];
   aspectRatio?: string;
-}): Promise<FalGenerationResult> {
+  compositionalHierarchy?: string[];
+  referencePackage?: VisualReferencePackage | null;
+}): Promise<FalGenerationResult & { generationMode?: VisualGenerationMode }> {
   const { prompt, negativePrompt, promptHash } = buildDesignProofAssetPrompt({
     requirement: params.requirement,
     artDirectionSummary: params.artDirectionSummary,
@@ -208,16 +227,66 @@ export async function generateDesignProofAssetViaFal(params: {
     owner: params.owner,
     functionalSummary: params.functionalSummary,
     antiDirection: params.antiDirection,
+    compositionalHierarchy: params.compositionalHierarchy,
   });
 
-  return runFalGeneration({
+  let referenceImageUrls: string[] | undefined;
+  let generationMode: VisualGenerationMode = 'TEXT_TO_IMAGE';
+  let strictHostRequired = false;
+
+  if (params.referencePackage) {
+    strictHostRequired = params.referencePackage.strictHostVisualConditioning;
+    generationMode = resolveVisualGenerationMode({ referencePackage: params.referencePackage });
+    referenceImageUrls = params.referencePackage.references
+      .map((r) => r.publicUrl)
+      .filter((u): u is string => Boolean(u));
+
+    if (
+      shouldFailWithoutReferenceConditioning({
+        strictHostVisualConditioning: strictHostRequired,
+        generationMode,
+        referenceCount: referenceImageUrls.length,
+      })
+    ) {
+      return {
+        ok: false,
+        error: 'STRICT_HOST_VISUAL_CONDITIONING requires reference-conditioned asset generation',
+        requirementId: params.requirement.id,
+        generationMode,
+      };
+    }
+
+    if (strictHostRequired && referenceImageUrls.length > 0) {
+      const compiled = compileReferenceConditionedPrompt({
+        referencePackage: params.referencePackage,
+        basePrompt: prompt,
+        negativePrompt,
+      });
+      const result = await runFalGeneration({
+        prompt: compiled.prompt,
+        negativePrompt: compiled.negativePrompt,
+        promptHash,
+        storagePath: params.storagePath,
+        aspectRatio: params.aspectRatio,
+        requirementId: params.requirement.id,
+        referenceImageUrls,
+        strictHostRequired,
+      });
+      return { ...result, generationMode };
+    }
+  }
+
+  const result = await runFalGeneration({
     prompt,
     negativePrompt,
     promptHash,
     storagePath: params.storagePath,
     aspectRatio: params.aspectRatio,
     requirementId: params.requirement.id,
+    referenceImageUrls,
+    strictHostRequired,
   });
+  return { ...result, generationMode };
 }
 
 export async function composeDesignProofViaFal(params: {
@@ -229,7 +298,17 @@ export async function composeDesignProofViaFal(params: {
   functionalSummary: string;
   componentAssetDescriptions: string[];
   referencePackage?: VisualReferencePackage | null;
+  surfaceGenerationMode?: import('../../site00-studio-world-production/p1/generationBoundary/surfaceGenerationMode.js').SurfaceGenerationMode;
 }): Promise<FalGenerationResult & { requirementId: string; generationMode?: VisualGenerationMode }> {
+  if (params.surfaceGenerationMode === 'COMPOSED_INTERFACE') {
+    return {
+      ok: false,
+      error: 'FULL_PAGE_GENERATION_NOT_ALLOWED_FOR_COMPOSED_INTERFACE',
+      requirementId: `compose-${params.proofId}`,
+      generationMode: 'TEXT_TO_IMAGE',
+    };
+  }
+
   const { prompt: basePrompt, negativePrompt: baseNegative, promptHash } = buildComposedDesignProofPrompt(params);
 
   let prompt = basePrompt;

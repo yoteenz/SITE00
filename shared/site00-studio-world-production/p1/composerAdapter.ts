@@ -29,13 +29,18 @@ export type BuildComposerPackageInput = {
 };
 
 export function buildComposerImplementationPackage(input: BuildComposerPackageInput): ComposerImplementationPackage {
-  const composed = input.proof.composedProof!;
+  const composed = input.proof.composedProof;
+  const assetFingerprint = createHash('sha256')
+    .update(input.proof.generatedAssets.map((a) => a.storagePath).join(':'))
+    .digest('hex')
+    .slice(0, 16);
+  const approvedFingerprint = composed?.fingerprint ?? assetFingerprint;
   const idempotencyKey = createHash('sha256')
     .update(
       [
         input.surfaceContract.route,
         input.surfaceContract.id,
-        composed.fingerprint,
+        approvedFingerprint,
         input.sourceCommit ?? 'unknown',
         input.pageFamilyContract.id,
       ].join(':'),
@@ -58,7 +63,7 @@ export function buildComposerImplementationPackage(input: BuildComposerPackageIn
     pageFamilyContractId: input.pageFamilyContract.id,
     surfaceContractId: input.surfaceContract.id,
     approvedProofId: input.proof.proofRecordId,
-    approvedProofFingerprint: composed.fingerprint,
+    approvedProofFingerprint: approvedFingerprint,
     assetBindings: input.proof.generatedAssets.map((a) => ({
       requirementId: a.requirementId,
       assetId: a.requirementId,

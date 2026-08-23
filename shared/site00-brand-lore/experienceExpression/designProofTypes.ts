@@ -17,6 +17,13 @@ import type {
   DesignProofLineageEntry,
   VisualReferencePackage,
 } from '../../site00-visual-reference/types.js';
+import type {
+  InterfaceAssetManifest,
+  ReferencePipelineStatus,
+  SurfaceGenerationMode,
+  SurfaceVisualAuthorityPackage,
+  VisualGenerationExecutionTrace,
+} from '../../site00-studio-world-production/p1/generationBoundary/index.js';
 
 export type DesignProofGenerationReceipt = {
   receiptId: string;
@@ -87,6 +94,11 @@ export type SurfaceDesignProof = {
   proofLineage: DesignProofLineageEntry[];
   excludedReferenceIds: string[];
   referenceAdherenceResult: 'NOT_EVALUATED' | 'PASS' | 'FAIL' | null;
+  surfaceGenerationMode: SurfaceGenerationMode;
+  referencePipelineStatus: ReferencePipelineStatus;
+  surfaceVisualAuthorityPackage: SurfaceVisualAuthorityPackage | null;
+  interfaceAssetManifest: InterfaceAssetManifest | null;
+  executionTraces: VisualGenerationExecutionTrace[];
 };
 
 export type ProjectWorkspaceVisualDevelopmentRun = {

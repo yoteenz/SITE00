@@ -55,6 +55,7 @@ import {
 import { EXPERIMENT_D_FROZEN_SNAPSHOT_VERSION } from '../../site00-brand-lore/experienceExpression/constants.js';
 import { NDXBOOK_CONCEPT_EXPERIMENT_SNAPSHOT_VERSION } from '../../site00-brand-lore/founderCreativeAppetite/constants.js';
 import { buildProjectWorkspaceCanon } from '../../site00-brand-lore/projectWorkspace/projectWorkspaceCanon.js';
+import type { SurfaceDesignProof } from '../../site00-brand-lore/experienceExpression/designProofTypes.js';
 
 vi.mock('../../../api/_lib/site00BrandLore/loreService.js', () => ({
   getBrandLoreProfileForOrg: vi.fn().mockResolvedValue({
@@ -71,7 +72,9 @@ vi.mock('../../../api/_lib/site00BrandLore/loreService.js', () => ({
 }));
 
 import {
+  generateMissingInterfaceAssets,
   generateVisualDevelopmentDesignProof,
+  prepareComposedInterfaceSurface,
   prepareVisualDevelopmentImplementation,
   resetVisualDevelopmentRunMemory,
   setVisualDevelopmentProofJudgment,
@@ -79,12 +82,21 @@ import {
 import { compileReferencePackageForIntent } from '../../../api/_lib/site00VisualReference/visualReferenceService.js';
 import { buildFalImageInput } from '../../site00-visual-generation/falImageModels.js';
 
+function projectsProofFingerprint(proof: SurfaceDesignProof) {
+  return (
+    proof.composedProof?.fingerprint ??
+    proof.surfaceVisualAuthorityPackage?.fingerprint ??
+    proof.proofRecordId
+  );
+}
+
 function approvedProjectsProof() {
   return async () => {
     resetVisualDevelopmentRunMemory();
     resetP1OrchestrationState();
     resetComposerDispatchRegistry();
-    await generateVisualDevelopmentDesignProof('SITE00_PROJECTS_INDEX');
+    await prepareComposedInterfaceSurface('SITE00_PROJECTS_INDEX');
+    await generateMissingInterfaceAssets('SITE00_PROJECTS_INDEX');
     await setVisualDevelopmentProofJudgment({
       proofId: 'SITE00_PROJECTS_INDEX',
       judgment: 'LOVE_THE_DIRECTION',
@@ -167,7 +179,7 @@ describe('P1 CONTRACTS', () => {
     const contracts = compileP1ContractsForProjectsIndex({
       projectId: 'site00',
       proof,
-      approvedProofsFingerprint: proof.composedProof!.fingerprint,
+      approvedProofsFingerprint: projectsProofFingerprint(proof),
     });
     expect(contracts.pageFamilyContract.familyId).toBe('PROJECT_WORKSPACE');
   });
@@ -177,7 +189,7 @@ describe('P1 CONTRACTS', () => {
     const contracts = compileP1ContractsForProjectsIndex({
       projectId: 'site00',
       proof,
-      approvedProofsFingerprint: proof.composedProof!.fingerprint,
+      approvedProofsFingerprint: projectsProofFingerprint(proof),
     });
     expect(contracts.surfaceContract.route).toBe('/projects');
   });
@@ -223,7 +235,7 @@ describe('P1 COMPOSER', () => {
     const contracts = compileP1ContractsForProjectsIndex({
       projectId: 'site00',
       proof,
-      approvedProofsFingerprint: proof.composedProof!.fingerprint,
+      approvedProofsFingerprint: projectsProofFingerprint(proof),
     });
     await initializeP1ControlledProofRun({ proof });
     const pkg = buildComposerImplementationPackage({
@@ -396,7 +408,7 @@ describe('P1 dispatch safety integration', () => {
     const contracts = compileP1ContractsForProjectsIndex({
       projectId: 'site00',
       proof,
-      approvedProofsFingerprint: proof.composedProof!.fingerprint,
+      approvedProofsFingerprint: projectsProofFingerprint(proof),
     });
     const gate = runAllDispatchSafetyGates({
       proof,

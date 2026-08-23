@@ -332,12 +332,12 @@ describe('Visual Reference Intelligence sprint', () => {
   });
 
   it('20. Previous proof remains immutable', async () => {
-    await generateVisualDevelopmentDesignProof('SITE00_PROJECTS_INDEX');
-    const before = (await compileVisualDevelopmentReferencePackage('SITE00_PROJECTS_INDEX')).proofs.site00ProjectsIndex;
+    await generateVisualDevelopmentDesignProof('NDXBOOK_PROJECT_HOME');
+    const before = (await compileVisualDevelopmentReferencePackage('NDXBOOK_PROJECT_HOME')).proofs.ndxbookProjectHome;
     const parentId = before.proofRecordId;
     const parentPath = before.composedProof?.storagePath;
-    await createReferenceConditionedChildProof('SITE00_PROJECTS_INDEX');
-    const after = (await compileVisualDevelopmentReferencePackage('SITE00_PROJECTS_INDEX')).proofs.site00ProjectsIndex;
+    await createReferenceConditionedChildProof('NDXBOOK_PROJECT_HOME');
+    const after = (await compileVisualDevelopmentReferencePackage('NDXBOOK_PROJECT_HOME')).proofs.ndxbookProjectHome;
     expect(after.proofRecordId).not.toBe(parentId);
     expect(after.proofLineage.some((e) => e.proofRecordId === parentId)).toBe(true);
     expect(parentProofRemainsImmutable()).toBe(true);
@@ -345,12 +345,12 @@ describe('Visual Reference Intelligence sprint', () => {
   });
 
   it('21. New proof is child lineage', async () => {
-    await generateVisualDevelopmentDesignProof('SITE00_PROJECTS_INDEX');
-    await createReferenceConditionedChildProof('SITE00_PROJECTS_INDEX');
-    const run = await compileVisualDevelopmentReferencePackage('SITE00_PROJECTS_INDEX');
-    expect(run.proofs.site00ProjectsIndex.parentProofRecordId).toBeTruthy();
-    expect(run.proofs.site00ProjectsIndex.proofLabel).toBe('PROOF_B');
-    expect(run.proofs.site00ProjectsIndex.revisionReason).toBe('HOST_VISUAL_FIDELITY_FAILURE');
+    await generateVisualDevelopmentDesignProof('NDXBOOK_PROJECT_HOME');
+    await createReferenceConditionedChildProof('NDXBOOK_PROJECT_HOME');
+    const run = await compileVisualDevelopmentReferencePackage('NDXBOOK_PROJECT_HOME');
+    expect(run.proofs.ndxbookProjectHome.parentProofRecordId).toBeTruthy();
+    expect(run.proofs.ndxbookProjectHome.proofLabel).toBe('PROOF_B');
+    expect(run.proofs.ndxbookProjectHome.revisionReason).toBe('HOST_VISUAL_FIDELITY_FAILURE');
   });
 
   it('22. Reference package fingerprint is deterministic', async () => {
@@ -384,11 +384,11 @@ describe('Visual Reference Intelligence sprint', () => {
   });
 
   it('27. Founder-triggered proof generation uses selected references', async () => {
-    await generateVisualDevelopmentDesignProof('SITE00_PROJECTS_INDEX');
-    await compileVisualDevelopmentReferencePackage('SITE00_PROJECTS_INDEX');
-    const run = await generateReferenceConditionedDesignProof('SITE00_PROJECTS_INDEX');
-    expect(run.proofs.site00ProjectsIndex.referenceConditioned).toBe(true);
-    expect(run.proofs.site00ProjectsIndex.referencePackage).not.toBeNull();
+    await generateVisualDevelopmentDesignProof('NDXBOOK_PROJECT_HOME');
+    await compileVisualDevelopmentReferencePackage('NDXBOOK_PROJECT_HOME');
+    const run = await generateReferenceConditionedDesignProof('NDXBOOK_PROJECT_HOME');
+    expect(run.proofs.ndxbookProjectHome.referenceConditioned).toBe(true);
+    expect(run.proofs.ndxbookProjectHome.referencePackage).not.toBeNull();
   });
 
   it('28. Provider receives actual image references when supported', () => {
