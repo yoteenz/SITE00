@@ -391,13 +391,13 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug }),
       },
     ),
-  experimentGFormConcepts: (slug: string) =>
+  experimentGFormConcepts: (slug: string, options?: { forceRetry?: boolean }) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=experiment_g_form_concepts',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug }),
+        body: JSON.stringify({ slug, forceRetry: options?.forceRetry === true }),
       },
     ),
   experimentGConceptJudgment: (

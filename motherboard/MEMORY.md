@@ -3851,3 +3851,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (PR #321):** `ensureExperimentEHeroPrerequisites()` auto-forms E + compiles Active Workbench manifest; **PREPARE EXPERIMENT E + HERO SUBSET** button in UI when manifest count is 0.
 - **Deploy:** v35 static + Railway redeploy.
 
+---
+
+## 2026-08-23 — Experiment G stuck on FORMING (not background processing)
+
+- **User question:** Brand concepts still say FORMING after a long time — still processing?
+- **Answer:** **No.** Experiment G formation is **synchronous** (single Anthropic call, ~2–5 min). Status `FORMING` saved at start; if the Railway request times out, client disconnects, or the process crashes mid-call, the record stays `FORMING` forever with no background worker to finish it.
+- **Fix (PR pending):** Stale `FORMING` records older than 10 minutes auto-reconcile to `FAILED` on GET; `formationStartedAt` tracked on enter; **RETRY STALLED FORMATION** button + clearer UI copy; `forceRetry` API flag to restart without waiting.
+- **Founder action now (before deploy):** Refresh Experiment G page — if still FORMING, wait for Railway deploy then tap **RETRY STALLED FORMATION** or **RETRY FORMATION** after refresh marks it failed.
+
