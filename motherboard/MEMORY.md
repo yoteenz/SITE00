@@ -3354,3 +3354,26 @@ Summary of follow-up sprint replacing `GENERATION_NOT_YET_ENABLED` with founder-
 
 - **Founder next:** Railway redeploy API; cPanel **v18** for Revision Studio generate + comparison UI; first live FAL spend only when founder taps GENERATE REVISION after approval.
 
+---
+
+## 2026-08-23 — Experiment C supersession + Creative Concept Territory architecture (Experiment D ready)
+
+Summary of sprint stopping NDXBOOK Experiment C carousel/world-expansion generation and introducing four-layer creative methodology (Brand Intelligence → Creative Concept Territory → World Expression System → Format Expression).
+
+- **Context:** Experiment C same-topic carousel expansion produced individually strong assets but six directions converged on one parent visual concept (editorial paper, condensed type, lime, correction marks, annotation). Founder requested immediate generation stop, preserve all creative, reform methodology, prepare Experiment D (six hero max, founder-triggered only).
+
+- **Mission A — Supersession:**
+  - `SUPERSEDED_BY_METHODOLOGY` terminal status + `CarouselSupersessionRecord` (runId, counts, cost boundary, reason).
+  - Auto-supersede active/partial Experiment C runs on `getCanonicalCarouselExpansionRun()`; cooperative `runGuard` before every FAL dispatch; block INITIALIZE/retry/resume/storage reconciliation regen when superseded.
+  - Partial carousels valid (`SUPERSEDED_PARTIAL`); existing assets immutable; judgment/revision/lineage preserved.
+  - UI: superseded banner, hide RUN ALL/NEXT/RESUME; link to Experiment D.
+
+- **Mission B — Concept Territory:**
+  - First-class `CreativeConceptTerritory` + `WorldExpressionSystem` models; deterministic concept-first seeds for canonical six; forensic convergence audit; cousin-pair disentanglement; concept + visual orthogonality gates; cross-world comparison matrix.
+  - Experiment D service + store (`c4e1a2b3-0003-4000-8000-000000000001`): `formExperimentDTerritories`, founder-triggered `executeExperimentDHeroGeneration` (max 6 heroes, no auto-start).
+  - Route: `/projects/ndxbook/experiment-d-concept-territory`; mobile-first founder review UI.
+
+- **Tests:** 1194 vitest pass; build passes. Deploy: Railway API + cPanel **v19**.
+
+- **Founder next:** Railway redeploy API from main; cPanel **v19** for superseded Experiment C UI + Experiment D review; tap **FORM SIX CONCEPT TERRITORIES** then **RUN SIX CONCEPT TERRITORY HEROES** when ready (max 6 heroes, no carousel expansion).
+
