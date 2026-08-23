@@ -132,3 +132,13 @@
   border-radius: 4px;
   background: #111;
 }
+
+.site00-pws-hero-review__bootstrap {
+  margin: 1rem 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(200, 0, 0, 0.35);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}

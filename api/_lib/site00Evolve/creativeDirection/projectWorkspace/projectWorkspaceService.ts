@@ -13,9 +13,15 @@ import type {
   ProjectWorkspaceHeroRun,
 } from '../../../../../shared/site00-brand-lore/projectWorkspace/types.js';
 import type { HeroFrameJudgment } from '../../../../../shared/site00-brand-lore/projectWorkspace/constants.js';
+import type { ExperienceExpressionRun } from '../../../../../shared/site00-brand-lore/experienceExpression/types.js';
 import { defaultNdxbookProductionScope } from '../../../../../shared/site00-brand-lore/experienceExpression/productionScope.js';
-import { compileExperienceAssetManifestForConcept } from '../experienceExpressionExperiment/experimentEService.js';
-import { getExperienceExpressionRun } from '../experienceExpressionExperiment/experimentEService.js';
+import {
+  compileExperienceAssetDirectionForConcept,
+  compileExperienceAssetManifestForConcept,
+  formExperienceConcepts,
+  getExperienceExpressionRun,
+  refreshExperienceExpressionRun,
+} from '../experienceExpressionExperiment/experimentEService.js';
 import {
   buildAssetGenerationBrief,
   createGenerationReceipt,
@@ -33,6 +39,47 @@ import { extractNdxbookFunctionalCanon } from '../../../../../shared/site00-bran
 import { getBrandLoreProfileForOrg } from '../../../site00BrandLore/loreService.js';
 import { NDXBOOK_ORG_ID } from '../creativeIntelligence/founderComparisonSet.js';
 import * as store from './memoryStore.js';
+
+const HERO_EXPERIENCE_CONCEPT_INDEX = 3;
+
+/** Ensures Experiment E concepts + PROJECT_HOME manifest exist for hero asset lineage. */
+export async function ensureExperimentEHeroPrerequisites(): Promise<ExperienceExpressionRun> {
+  let run = await getExperienceExpressionRun();
+  if (!run) {
+    run = await refreshExperienceExpressionRun();
+  }
+
+  if (run.experienceConcepts.length !== 3) {
+    try {
+      run = await formExperienceConcepts();
+    } catch (err) {
+      const detail = err instanceof Error ? err.message : 'formation failed';
+      throw new Error(`Experiment E must be formed before hero generation — ${detail}`);
+    }
+  }
+
+  if (!run.assetDirection) {
+    run = await compileExperienceAssetDirectionForConcept(HERO_EXPERIENCE_CONCEPT_INDEX);
+  }
+
+  if (!run.assetManifestCompiled || !run.assetManifest) {
+    run = await compileExperienceAssetManifestForConcept(HERO_EXPERIENCE_CONCEPT_INDEX);
+  }
+
+  const projectHomeReqs = run.assetRequirements.filter(
+    (req) => req.surfaceId === 'PROJECT_HOME' && req.desktopRequirement,
+  );
+  if (projectHomeReqs.length === 0) {
+    throw new Error('Experiment E asset manifest has no PROJECT_HOME desktop requirements for hero generation');
+  }
+
+  return run;
+}
+
+export async function prepareNdxbookHeroPrerequisites(): Promise<ProjectWorkspaceHeroRun> {
+  await ensureExperimentEHeroPrerequisites();
+  return compileNdxbookHeroFrameSubset();
+}
 
 function nowIso(): string {
   return new Date().toISOString();
@@ -85,11 +132,20 @@ export async function refreshProjectWorkspaceHeroRun(projectId: string = 'ndxboo
 export async function compileNdxbookHeroFrameSubset(): Promise<ProjectWorkspaceHeroRun> {
   let run = await refreshProjectWorkspaceHeroRun('ndxbook');
 
-  const expRun = await getExperienceExpressionRun();
-  if (!expRun?.assetManifest && expRun?.experienceConcepts.length === 3) {
-    await compileExperienceAssetManifestForConcept(3);
+  let refreshedExp: ExperienceExpressionRun | null = null;
+  try {
+    refreshedExp = await ensureExperimentEHeroPrerequisites();
+  } catch {
+    refreshedExp = await getExperienceExpressionRun();
+    if (!refreshedExp) {
+      try {
+        refreshedExp = await refreshExperienceExpressionRun();
+      } catch {
+        refreshedExp = null;
+      }
+    }
   }
-  const refreshedExp = await getExperienceExpressionRun();
+
   const scope = refreshedExp?.productionScope ?? defaultNdxbookProductionScope('ndxbook');
 
   const existingPaths =
@@ -114,6 +170,7 @@ export async function compileNdxbookHeroFrameSubset(): Promise<ProjectWorkspaceH
 }
 
 export async function generateNdxbookHeroAssets(): Promise<ProjectWorkspaceHeroRun> {
+  await ensureExperimentEHeroPrerequisites();
   let run = await compileNdxbookHeroFrameSubset();
   if (!run.heroSubset?.scopeValid) {
     throw new Error(`Hero generation blocked: ${run.heroSubset?.scopeBlockReason ?? 'SCOPE_INVALID'}`);
