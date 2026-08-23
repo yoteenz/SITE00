@@ -172,4 +172,27 @@ export const site00ProjectsApi = {
     projectsFetch<{ ok: true; diagnostic: Record<string, unknown> }>(
       `/api/site00/projects?action=personality_replay_diagnostic&slug=${encodeURIComponent(slug)}&replayId=${encodeURIComponent(replayId)}`,
     ),
+  personalityReplaySixDirectionExecute: (slug: string, replayId: string) =>
+    projectsFetch<{ ok: true; replay: Record<string, unknown> }>(
+      '/api/site00/projects?action=personality_replay_six_direction_execute',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, replayId }),
+      },
+    ),
+  personalityReplaySixDirectionJudgment: (
+    slug: string,
+    replayId: string,
+    comparisonIndex: number,
+    judgment: 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_NDXBOOK' | null,
+  ) =>
+    projectsFetch<{ ok: true; replay: Record<string, unknown> }>(
+      '/api/site00/projects?action=personality_replay_six_direction_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, replayId, comparisonIndex, judgment }),
+      },
+    ),
 };

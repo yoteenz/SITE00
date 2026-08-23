@@ -12,6 +12,10 @@ export function projectPersonalityReplayReviewPath(projectSlug: string): string 
   return `/projects/${projectSlug}/personality-replay/review`;
 }
 
+export function projectPersonalityReplayConsistencyPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/personality-replay/consistency`;
+}
+
 /** Legacy validation namespace — still supported for admin deep links. */
 export function personalityReplayIntakePath(replayId: string, stepId: string): string {
   return `/validation/ndxbook/replay/${replayId}/personality/${stepId}`;
@@ -31,6 +35,7 @@ export const PERSONALITY_REPLAY_VALIDATION_ROUTES = {
   project: projectPersonalityReplayPath,
   projectStep: projectPersonalityReplayStepPath,
   projectReview: projectPersonalityReplayReviewPath,
+  projectConsistency: projectPersonalityReplayConsistencyPath,
   intake: personalityReplayIntakePath,
   review: personalityReplayReviewPath,
   admin: personalityReplayValidationAdminPath,

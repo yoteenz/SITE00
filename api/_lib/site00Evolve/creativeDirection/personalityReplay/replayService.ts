@@ -376,6 +376,11 @@ export {
   buildReplayExecutionDiagnostic,
   findActiveSubmittedReplay,
 } from './replayExecutionService.js';
+export {
+  executeSixDirectionConsistencyValidation,
+  setSixDirectionFounderJudgment,
+  buildSixDirectionDirectionReport,
+} from './sixDirectionConsistencyService.js';
 
 /** Resume an in-progress replay or create a fresh shadow validation run. */
 export async function getOrCreateActivePersonalityReplay(params: {

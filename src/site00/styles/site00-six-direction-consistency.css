@@ -1,0 +1,140 @@
+.site00-six-dir-review {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.site00-six-dir-review__title {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  margin: 0 0 0.5rem;
+}
+
+.site00-six-dir-review__meta,
+.site00-six-dir-review__verdict,
+.site00-six-dir-review__pending,
+.site00-six-dir-review__idea {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  margin: 0 0 0.75rem;
+  opacity: 0.9;
+}
+
+.site00-six-dir-review__error {
+  color: #ff6b6b;
+  font-size: 0.8125rem;
+  margin: 0.5rem 0 0;
+}
+
+.site00-six-dir-review__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 900px) {
+  .site00-six-dir-review__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.site00-six-dir-review__card {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.site00-six-dir-review__card-header {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.site00-six-dir-review__card-header h4 {
+  margin: 0;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+}
+
+.site00-six-dir-review__index {
+  font-size: 1.25rem;
+  font-weight: 700;
+  opacity: 0.7;
+  min-width: 2rem;
+}
+
+.site00-six-dir-review__format,
+.site00-six-dir-review__status {
+  margin: 0.15rem 0 0;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  opacity: 0.75;
+}
+
+.site00-six-dir-review__hero {
+  margin: 0 0 0.75rem;
+}
+
+.site00-six-dir-review__hero img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.site00-six-dir-review__judgment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.site00-six-dir-review__judgment-btn {
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: transparent;
+  color: inherit;
+}
+
+.site00-six-dir-review__judgment-btn--active {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.site00-six-dir-review__toggle {
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0.8;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.site00-six-dir-review__evidence {
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  opacity: 0.85;
+}
+
+.site00-six-dir-review__evidence p {
+  margin: 0 0 0.5rem;
+}
+
+.site00-six-dir-review__audit {
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.site00-six-dir-review__audit summary {
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
+}

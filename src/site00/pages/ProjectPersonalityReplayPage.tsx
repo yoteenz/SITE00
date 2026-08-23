@@ -7,6 +7,7 @@ import { usePersonalityReplayIntake, PersonalityReplayIntakeProvider } from '../
 import {
   projectPersonalityReplayStepPath,
   projectPersonalityReplayReviewPath,
+  projectPersonalityReplayConsistencyPath,
 } from '../config/personalityReplayRoutes';
 import { site00ProjectPath, site00ProjectCreativeDirectionPath } from '../config/routes';
 import { IdntyAssessmentShell } from '../components/idnty-assessment/IdntyAssessmentShell';
@@ -186,6 +187,13 @@ function ProjectPersonalityReplayPageInner({
                     void reload();
                   }}
                 />
+                {intakeSubmitted && (status === 'COMPARISON_READY' || comparisonReport) ? (
+                  <p className="site00-idnty-calibration-rail__category">
+                    <Link to={projectPersonalityReplayConsistencyPath(projectSlug)}>
+                      SIX-DIRECTION CONSISTENCY REVIEW →
+                    </Link>
+                  </p>
+                ) : null}
                 <p className="site00-idnty-calibration-rail__category">STATUS: {status ?? 'IN PROGRESS'}</p>
                 {intakeSubmitted ? (
                   <p className="site00-idnty-calibration-rail__category">
