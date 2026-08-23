@@ -30,6 +30,14 @@ export default function ProjectExperimentGPage() {
     void reload();
   }, [reload]);
 
+  useEffect(() => {
+    if (run?.status !== 'FORMING') return;
+    const pollId = window.setInterval(() => {
+      void reload();
+    }, 5000);
+    return () => window.clearInterval(pollId);
+  }, [run?.status, reload]);
+
   if (projectSlug !== 'ndxbook') {
     return (
       <EcosystemShell hidePageHeader>

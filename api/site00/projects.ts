@@ -1101,7 +1101,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const run = await formSixBrandPresentationConcepts({
           forceRetry: body.forceRetry === true,
         });
-        return json(res, 200, { ok: true, run, source: 'site00_experiment_g' });
+        return json(res, 200, {
+          ok: true,
+          run,
+          background: run.status === 'FORMING' && process.env.VITEST !== 'true',
+          source: 'site00_experiment_g',
+        });
       }
       case 'experiment_g_concept_judgment': {
         if (req.method !== 'POST') {
@@ -1144,7 +1149,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await reformExperimentGSet();
-        return json(res, 200, { ok: true, run, source: 'site00_experiment_g' });
+        return json(res, 200, {
+          ok: true,
+          run,
+          background: run.status === 'FORMING' && process.env.VITEST !== 'true',
+          source: 'site00_experiment_g',
+        });
       }
       case 'experiment_e_get': {
         const slug = String(req.query.slug ?? '');

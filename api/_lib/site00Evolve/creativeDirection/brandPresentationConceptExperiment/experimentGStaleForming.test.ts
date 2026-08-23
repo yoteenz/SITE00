@@ -74,4 +74,33 @@ describe('Experiment G stale FORMING recovery', () => {
     expect(run.status).not.toBe('FORMING');
     expect(run.concepts).toHaveLength(6);
   });
+
+  it('returns FORMING immediately and completes in background outside vitest', async () => {
+    vi.useRealTimers();
+    const originalVitest = process.env.VITEST;
+    delete process.env.VITEST;
+    process.env.SITE00_EXPERIMENT_G_USE_MEMORY = '1';
+    try {
+      await prepareExperimentGSnapshot();
+      const started = await formSixBrandPresentationConcepts();
+      expect(started.status).toBe('FORMING');
+      expect(started.concepts).toHaveLength(0);
+
+      await new Promise<void>((resolve) => {
+        setImmediate(() => resolve());
+      });
+      await new Promise<void>((resolve) => {
+        setImmediate(() => resolve());
+      });
+
+      const completed = await getBrandPresentationConceptFormationRun();
+      expect(completed?.status).not.toBe('FORMING');
+      expect(completed?.concepts).toHaveLength(6);
+    } finally {
+      process.env.VITEST = originalVitest;
+      process.env.SITE00_EXPERIMENT_G_USE_MEMORY = '1';
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date('2026-08-23T22:00:00.000Z'));
+    }
+  });
 });
