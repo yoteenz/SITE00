@@ -4,9 +4,8 @@
 
 import { createHash } from 'node:crypto';
 import type { BrandNativeAssetRole } from './brandNativeVisualBriefTypes.js';
-import type { IdentityNativeArtDirection } from './identityNativeArtDirectionTypes.js';
+import type { IdentityNativeArtDirection, IdentityNativeVisualBrief } from './identityNativeArtDirectionTypes.js';
 import {
-  compilePromptFromIdentityBrief,
   identityBriefAvoidsPhotographOf,
   identityBriefPromptPrecedesTopic,
 } from './identityNativeVisualPromptCompiler.js';
@@ -17,13 +16,51 @@ import type {
   IdentityNativeV2VisualBrief,
 } from './creativeExpressionTypes.js';
 import { IDENTITY_NATIVE_HERO_V2_ASSET_ID } from './creativeExpressionTypes.js';
-import { typographyRolesPromptBlock } from './martianMonoTypography.js';
+import { typographyRolesCondensedPromptBlock } from './martianMonoTypography.js';
 import {
   compileIdentityNativeVisualBrief,
   IDENTITY_NATIVE_HERO_ASSET_ID,
 } from './identityNativeVisualPromptCompiler.js';
 
 export { IDENTITY_NATIVE_HERO_V2_ASSET_ID };
+
+/** FAL gpt-image-2 rejects ~10k+ char prompts; V2 uses condensed identity + expression layers. */
+export const IDENTITY_NATIVE_V2_MAX_PROMPT_CHARS = 7200;
+
+function compileCondensedIdentityBaseForV2(
+  brief: Omit<IdentityNativeVisualBrief, 'compiledPrompt' | 'promptHash'>,
+  artDirection: IdentityNativeArtDirection,
+): string[] {
+  return [
+    'ARTIFACT DECLARATION:',
+    brief.artifactDeclaration,
+    'Custom editorial campaign artwork — NOT photographing a found scene.',
+    '',
+    'PROPRIETARY VISUAL DNA:',
+    ...brief.proprietaryVisualDNA.slice(0, 5).map((d) => `- ${d}`),
+    artDirection.identityPremise,
+    '',
+    'PALETTE (semantic ownership):',
+    ...brief.paletteOwnership.slice(0, 6).map((p) => `- ${p}`),
+    '',
+    'GRAPHIC GRAMMAR:',
+    ...brief.graphicDevices.slice(0, 6).map((g) => `- ${g}`),
+    '',
+    'MATERIAL + COMPOSITION:',
+    ...brief.materialSystem.slice(0, 4).map((m) => `- ${m}`),
+    `- ${brief.imageTreatment}`,
+    ...brief.compositionalHierarchy.slice(0, 3).map((c) => `- ${c}`),
+    '',
+    'DIRECTION:',
+    brief.directionBehavior,
+    '',
+    'TOPIC (subordinate layer):',
+    brief.topicContentLayer,
+    '',
+    'ANTI-STOCK (do NOT reproduce):',
+    ...brief.antiExampleRejection.slice(0, 6).map((a) => `- ${a}`),
+  ];
+}
 
 export function compileIdentityNativeV2VisualBrief(params: {
   artDirection: IdentityNativeArtDirection;
@@ -67,18 +104,16 @@ export function compileIdentityNativeV2VisualBrief(params: {
     ),
   ];
 
-  const typographyRolesBlock = typographyRolesPromptBlock(params.creativeExpression.typographyRoles);
+  const typographyRolesBlock = typographyRolesCondensedPromptBlock(params.creativeExpression.typographyRoles);
   const martianBlock = params.heroConcept.martianMonoApplication.map(
     (m) => `MARTIAN MONO METADATA: ${m}`,
   );
 
-  const basePrompt = compilePromptFromIdentityBrief(
-    { ...base, assetId: IDENTITY_NATIVE_HERO_V2_ASSET_ID },
-    params.artDirection,
-  );
-
   const compiledPrompt = [
-    basePrompt,
+    ...compileCondensedIdentityBaseForV2(
+      { ...base, assetId: IDENTITY_NATIVE_HERO_V2_ASSET_ID },
+      params.artDirection,
+    ),
     '',
     '=== CREATIVE EXPRESSION LAYER (PERSONALITY — preserve identity methodology) ===',
     ...creativeExpressionBlock,

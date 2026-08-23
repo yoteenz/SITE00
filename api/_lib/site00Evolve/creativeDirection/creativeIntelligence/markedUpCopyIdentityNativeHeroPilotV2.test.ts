@@ -11,6 +11,7 @@ import {
 import { evaluateCopyQualityFromScores } from './copyQualityGate.js';
 import {
   compileIdentityNativeV2VisualBrief,
+  IDENTITY_NATIVE_V2_MAX_PROMPT_CHARS,
   v2BriefIncludesCreativeExpression,
   v2BriefIncludesMartianMono,
 } from './identityNativeVisualBriefV2Compiler.js';
@@ -101,6 +102,7 @@ describe('IdentityNativeV2BriefCompiler', () => {
     expect(v2BriefIncludesCreativeExpression(brief)).toBe(true);
     expect(v2BriefIncludesMartianMono(brief)).toBe(true);
     expect(brief.compiledPrompt).toContain(concept.cleanClaim);
+    expect(brief.compiledPrompt.length).toBeLessThanOrEqual(IDENTITY_NATIVE_V2_MAX_PROMPT_CHARS);
   });
 });
 

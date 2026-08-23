@@ -46,6 +46,18 @@ export function inspectMartianMonoAvailability(): MartianMonoTypographyRoles {
   };
 }
 
+export function typographyRolesCondensedPromptBlock(roles: MartianMonoTypographyRoles): string[] {
+  return [
+    'TYPOGRAPHY ROLES (multi-voice — NOT one font everywhere):',
+    `- DISPLAY: ${roles.displayVoice.split('—')[0]?.trim() ?? roles.displayVoice}`,
+    `- SYSTEM: ${roles.martianMonoAvailable ? 'Martian Mono' : 'mono approx'} — metadata, issue IDs, evidence, FILE/SOURCE/PAGE/STATUS`,
+    `- REVISION: condensed grotesque intervention voice`,
+    `- MARGIN: handwriting-adjacent reactive counter-voice`,
+    `- MICRO: ${roles.martianMonoAvailable ? 'Martian Mono' : 'mono approx'} at extreme small scale`,
+    ...roles.rolesSummary.map((r) => `- ${r}`),
+  ];
+}
+
 export function typographyRolesPromptBlock(roles: MartianMonoTypographyRoles): string[] {
   return [
     `TYPOGRAPHIC ROLES (multi-voice system — NOT one font everywhere):`,
