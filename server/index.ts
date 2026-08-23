@@ -35,6 +35,22 @@ applyServerEnv();
 
 const app = express();
 app.set('trust proxy', 1);
+
+function applyApiCors(req: express.Request, res: express.Response): void {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  if (req.method === 'OPTIONS') {
+    res.status(204).end();
+  }
+}
+
+app.use((req, res, next) => {
+  applyApiCors(req, res);
+  if (req.method === 'OPTIONS') return;
+  next();
+});
+
 app.use(express.json({ limit: '2mb' }));
 
 app.get('/api/health', (_req, res) => {
@@ -64,10 +80,11 @@ for (const { path, handler } of API_ROUTES) {
   });
 }
 
-app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+app.use((err: unknown, req: express.Request, res: express.Response, _next: express.NextFunction) => {
   const message = err instanceof Error ? err.message : 'Internal server error';
   console.error('[site00-api]', err);
   if (!res.headersSent) {
+    applyApiCors(req, res);
     res.status(500).json({ error: message });
   }
 });

@@ -104,6 +104,12 @@ export async function getAccessToken(): Promise<string | null> {
 
 type ApiFetchOptions = Omit<RequestInit, 'body'> & { body?: unknown };
 
+/** Serialize apiFetch body once — callers may pass objects or pre-stringified JSON. */
+export function serializeApiFetchBody(body: unknown): string {
+  if (typeof body === 'string') return body;
+  return JSON.stringify(body);
+}
+
 export async function apiFetch(path: string, options: ApiFetchOptions = {}): Promise<Response> {
   const token = await getAccessToken();
   const url = site00ApiUrl(path);
@@ -113,7 +119,7 @@ export async function apiFetch(path: string, options: ApiFetchOptions = {}): Pro
   };
   if (token) headers.Authorization = `Bearer ${token}`;
   const body: BodyInit | null | undefined =
-    options.body !== undefined ? JSON.stringify(options.body) : undefined;
+    options.body !== undefined ? serializeApiFetchBody(options.body) : undefined;
   const { body: _omit, ...rest } = options;
   return fetch(url, { ...rest, headers, body });
 }
