@@ -9,3 +9,5 @@ When the user says **"add to motherboard"**, **"load motherboard"**, or **"Snaps
   - **"Snapshot codebase to motherboard"** → Overwrite `motherboard/CODEBASE.md` with a structured summary of the current codebase (see `motherboard/README.md`).
 
 Do **not** reply that there is no motherboard or ask the user to clarify. The motherboard folder exists; read it and follow the instructions there.
+
+**Cloud Agents:** repo-root `AGENTS.md` duplicates session-close + git shipping for handoff-safe cloud runs (read at cloud session start).

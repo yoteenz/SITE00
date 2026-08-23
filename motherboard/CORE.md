@@ -17,6 +17,8 @@ Canonical reference for stack, design, and main flows. Keep this updated when th
 
 Founder formalized this once. **Do not tell the founder to paste session-close instructions into sprint prompts.**
 
+**Cloud Agents:** `AGENTS.md` § Session close mirrors this contract and is read at cloud session start — handoff-safe.
+
 Before any final message that completes work: follow **`.cursor/rules/session-close.mdc`** (always-applied):
 
 1. Prose summary  

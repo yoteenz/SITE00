@@ -3253,3 +3253,13 @@ Summary: Founder reported agents repeatedly omitting copy-paste BLOCK + deploy l
 - **Fix:** New always-applied `.cursor/rules/session-close.mdc` — checklist: prose + conclusion code box + deploy links each on own line; build ZIP release when UI changes. Updated `shipping.mdc` step 6 and `motherboard.mdc` to reference it.
 - **Convention for future sprints:** Sprint CONCLUSION template goes **inside** part 2 code box; deploy links remain part 3 separate lines per CORE.md.
 
+---
+
+## 2026-08-23 — AGENTS.md cloud handoff layer for session close
+
+Summary: Founder asked to close the last gap — Cloud Agent environment instructions only mandated git/PR workflow, not three-part session close. Handoffs dropped close format even after session-close.mdc.
+
+- **Fix:** Repo-root `AGENTS.md` with **Cursor Cloud specific instructions** — motherboard load, git shipping, mandatory three-part session close (mirrors `.cursor/rules/session-close.mdc`), handoff checklist, deploy ZIP/release commands, production split table.
+- **Wired:** `CORE.md` agent output contract + `motherboard/README.md` + `docs/MOTHERBOARD_COMMANDS.md` reference AGENTS.md as cloud injection layer.
+- **Cursor docs:** Cloud agents read AGENTS.md at session start; complements `.cursor/rules/*.mdc` for handoff-safe procedural requirements.
+
