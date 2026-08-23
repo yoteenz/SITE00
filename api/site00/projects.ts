@@ -39,7 +39,17 @@ import {
   setCarouselDirectionFounderVerdict,
   setCarouselSlideFounderJudgment,
 } from '../_lib/site00Evolve/creativeDirection/canonicalCarouselExpansion/canonicalCarouselExpansionService.js';
+import {
+  getCreativeLineageLibrary,
+  normalizeNdxbookCreativeLineage,
+  runNdxbookForensicAudit,
+  updateCreativeAssetProduction,
+  createWinningWorldPromotionPlan,
+  promoteWinningWorld,
+  saveSalvageReviewAction,
+} from '../_lib/site00Evolve/creativeLineage/creativeLineageService.js';
 import type { CarouselExecuteMode } from '../../shared/site00-brand-lore/canonicalCarouselExpansionTypes.js';
+import type { CreativeLineageLibraryFilters } from '../../shared/site00-brand-lore/creativeLineage/types.js';
 
 function setCors(res: VercelResponse): void {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -742,6 +752,120 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const run = await setCarouselDirectionFounderVerdict({ comparisonIndex, verdict, note });
         return json(res, 200, { ok: true, run, source: 'site00_canonical_carousel_expansion' });
+      }
+      case 'creative_lineage_forensic_audit': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const report = await runNdxbookForensicAudit();
+        return json(res, 200, { ok: true, report, source: 'site00_creative_lineage' });
+      }
+      case 'creative_lineage_normalize': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const slug = String(parseBody(req)?.slug ?? req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await normalizeNdxbookCreativeLineage();
+        return json(res, 200, { ok: true, ...result, source: 'site00_creative_lineage' });
+      }
+      case 'creative_lineage_library': {
+        const slug = String(req.query.slug ?? '');
+        const section = String(req.query.section ?? 'ALL') as CreativeLineageLibraryFilters['section'];
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const library = await getCreativeLineageLibrary({ section });
+        return json(res, 200, { ok: true, library, source: 'site00_creative_lineage' });
+      }
+      case 'creative_lineage_asset_update': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook' || !body.assetId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const asset = await updateCreativeAssetProduction({
+          assetId: String(body.assetId),
+          productionState: body.productionState,
+          reuseState: body.reuseState,
+          reviewState: body.reviewState,
+          founderNotes: body.founderNotes,
+        });
+        return json(res, 200, { ok: true, asset, source: 'site00_creative_lineage' });
+      }
+      case 'creative_lineage_promotion_plan': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const plan = await createWinningWorldPromotionPlan({
+          winningDirectionId: String(body.winningDirectionId),
+          winningDirectionName: String(body.winningDirectionName),
+          winningWorldId: String(body.winningWorldId),
+          founderDecisionId: body.founderDecisionId ?? null,
+          governingWorld: body.governingWorld ?? {},
+        });
+        return json(res, 200, { ok: true, plan, source: 'site00_creative_lineage' });
+      }
+      case 'creative_lineage_promote_world': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook' || !body.planId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await promoteWinningWorld(String(body.planId));
+        return json(res, 200, { ok: true, ...result, source: 'site00_creative_lineage' });
+      }
+      case 'creative_lineage_salvage_action': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const review = await saveSalvageReviewAction({
+          winningDirectionId: String(body.winningDirectionId),
+          losingDirectionId: String(body.losingDirectionId),
+          itemId: String(body.itemId),
+          action: body.action,
+        });
+        return json(res, 200, { ok: true, review, source: 'site00_creative_lineage' });
       }
       default:
         return json(res, 400, {
