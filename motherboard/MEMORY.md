@@ -3057,3 +3057,13 @@ Summary: Founder clarified prior agent responses sent **only** the deploy code b
 - **Required close format:** (1) normal **text summary** in prose, then (2) **code box** with `=== CPANEL DEPLOY (site00.com) ===`, download link, verify bundle, upload steps.
 - **Not:** code-box-only replies; not summary-only when a deploy ZIP is relevant.
 - **Updated:** `CORE.md` Production deployment section.
+
+---
+
+## 2026-08-23 — Deploy links sent separately (not one code box)
+
+Summary: Founder copies deploy links **one at a time** on mobile — do not bundle them in a single fenced CPANEL DEPLOY code box.
+
+- **Format:** Text summary in prose, then each link/path on its **own line** (download URL, release page, verify bundle, upload reminder).
+- **Not:** One code box containing all links together.
+- **Updated:** `CORE.md` Production deployment section.
