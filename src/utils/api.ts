@@ -1,8 +1,7 @@
 /**
  * Minimal API client for SITE 00 standalone — profile sync and admin/production routes.
  */
-const API_BASE =
-  (import.meta as unknown as { env?: { VITE_API_BASE?: string } }).env?.VITE_API_BASE ?? '';
+import { site00ApiUrl } from './site00ApiBase';
 
 function getSupabaseAuthStorageKey(): string | null {
   const url = (import.meta as unknown as { env?: { VITE_SUPABASE_URL?: string } }).env?.VITE_SUPABASE_URL;
@@ -107,7 +106,7 @@ type ApiFetchOptions = Omit<RequestInit, 'body'> & { body?: unknown };
 
 export async function apiFetch(path: string, options: ApiFetchOptions = {}): Promise<Response> {
   const token = await getAccessToken();
-  const url = `${API_BASE.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
+  const url = site00ApiUrl(path);
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...((options.headers as Record<string, string>) ?? {}),

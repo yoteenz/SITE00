@@ -2916,3 +2916,14 @@ Summary: Founder reported personality replay page stuck on **"PREPARING PERSONAL
 - **Dev resilience:** Replay store falls back to in-memory when Supabase service role or validation migration table is missing (instead of hard 500).
 - **Shared:** `resolvePersonalityReplayResumeStepId()` moved to `personalityReadiness.ts` for client + server reuse.
 - **Branch:** `cursor/personality-replay-bootstrap-fix-4f59`.
+
+---
+
+## 2026-08-23 — fsbw-dev projects API routing fix (UNKNOWN ACTION on personality intake)
+
+Summary: Founder saw **UNKNOWN ACTION** (uppercase "Unknown action") on personality replay intake on `site00.fsbw-dev.com` after bootstrap fix.
+
+- **Root cause:** `site00ProjectsApi` / `apiFetch` used same-origin `/api` on fsbw-dev preview when `VITE_API_BASE` empty. Vite local API middleware serves **stale** handler code without `personality_replay_bootstrap` — same class of bug fixed for EVOLVE admin API in PR #238.
+- **Fix:** Shared `resolveSite00ApiBase()` in `src/utils/site00ApiBase.ts` — fsbw-dev + cloudflare tunnel hosts always use `https://api.site00.com`. Wired into `apiFetch` and `evolveApi` (deduped).
+- **Tests:** 3 new in `site00ApiBase.test.ts`. Full regression 926 passing.
+- **Branch:** `cursor/fsbw-dev-projects-api-routing-4f59`.

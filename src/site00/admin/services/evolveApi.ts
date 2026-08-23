@@ -1,6 +1,7 @@
 /** Admin client for EVOLVE Marketing OS API */
 
 import { getAccessToken } from '../../../utils/api.js';
+import { site00ApiUrl } from '../../../utils/site00ApiBase.js';
 import type {
   EvolveApprovalItem,
   EvolveCalendarItem,
@@ -33,33 +34,9 @@ export type ExpandedReadinessPayload = {
 
 const EVOLVE_ADMIN_PATH = '/api/admin/site00-evolve';
 
-function resolveEvolveApiBase(): string {
-  if (typeof window !== 'undefined') {
-    const host = window.location.hostname.toLowerCase();
-    // Preview hosts proxy a local API that is often stale — always use Railway production.
-    if (host.includes('fsbw-dev.com') || host.endsWith('.trycloudflare.com')) {
-      return 'https://api.site00.com';
-    }
-  }
-
-  const envBase = (
-    (import.meta as unknown as { env?: { VITE_API_BASE?: string } }).env?.VITE_API_BASE ?? ''
-  ).replace(/\/$/, '');
-  if (envBase) return envBase;
-
-  if (typeof window !== 'undefined') {
-    const host = window.location.hostname.toLowerCase();
-    if (host === 'site00.com' || host.endsWith('.site00.com')) {
-      return 'https://api.site00.com';
-    }
-  }
-  return '';
-}
-
 function evolveAdminUrl(path: string): string {
-  const apiBase = resolveEvolveApiBase();
   const suffix = path.startsWith('?') ? path : path.startsWith('/') ? path : `/${path}`;
-  return apiBase ? `${apiBase}${EVOLVE_ADMIN_PATH}${suffix}` : `${EVOLVE_ADMIN_PATH}${suffix}`;
+  return site00ApiUrl(`${EVOLVE_ADMIN_PATH}${suffix}`);
 }
 
 async function evolveFetch<T>(path: string, init?: RequestInit): Promise<T> {

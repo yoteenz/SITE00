@@ -95,7 +95,7 @@ async function projectsFetch<T>(path: string, init?: RequestInit): Promise<T> {
     const message =
       typeof data.error === 'string'
         ? data.error
-        : data.error?.message ?? `Projects API ${res.status}`;
+        : data.error?.message ?? data.error?.code ?? `Projects API ${res.status}`;
     console.error(developerDiagnostic(diagnostics), message);
     throw new Site00ProjectsApiError(message, diagnostics);
   }
@@ -104,7 +104,7 @@ async function projectsFetch<T>(path: string, init?: RequestInit): Promise<T> {
     const message =
       typeof data.error === 'string'
         ? data.error
-        : data.error?.message ?? 'Project index unavailable';
+        : data.error?.message ?? data.error?.code ?? 'Project index unavailable';
     throw new Site00ProjectsApiError(message, diagnostics);
   }
 
