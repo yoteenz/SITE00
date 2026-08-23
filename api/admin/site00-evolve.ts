@@ -87,6 +87,14 @@ import { runMarkedUpCopyBrandNativeVisualPilot } from '../_lib/site00Evolve/crea
 import { runMarkedUpCopyIdentityNativeHeroPilot } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/markedUpCopyIdentityNativeHeroPilot.js';
 import { runMarkedUpCopyIdentityNativeHeroPilotV2 } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/markedUpCopyIdentityNativeHeroPilotV2.js';
 import {
+  createNdxbookPersonalityReplay,
+  saveReplayPersonalityAnswers,
+  completeReplayPersonalityIntake,
+  getPersonalityReplay,
+  listPersonalityReplays,
+  setFounderReplayValidationJudgment,
+} from '../_lib/site00Evolve/creativeDirection/personalityReplay/replayService.js';
+import {
   getLatestProductionJob,
   getProductionJobById,
   startCreativeDirectionProductionJob,
@@ -250,6 +258,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(200).json({ catalog: getEvolveServiceCatalog() });
         case 'commercial_state':
           return res.status(200).json({ orgSlug, commercial: await resolveEvolveCommercialState(orgSlug) });
+        case 'personality_replay_list': {
+          if (orgSlug !== 'ndxbook') return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          const orgId = orgIdFromSlug(orgSlug)!;
+          const replays = await listPersonalityReplays(orgId);
+          return res.status(200).json({ replays });
+        }
+        case 'personality_replay_get': {
+          if (orgSlug !== 'ndxbook') return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          const replayId = String(req.query.replayId ?? '');
+          const replay = await getPersonalityReplay(replayId);
+          return replay ? res.status(200).json({ replay }) : res.status(404).json({ error: 'REPLAY_NOT_FOUND' });
+        }
         default:
           return res.status(400).json({ error: 'UNKNOWN ACTION' });
       }
@@ -599,6 +619,41 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               'Creative-refined identity hero V2 runs on server — ONE hero only. Poll creative_direction_production_job.',
             credentialExposed: false,
           });
+        }
+        case 'personality_replay_create': {
+          if (orgSlug !== 'ndxbook') return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          const orgId = orgIdFromSlug(orgSlug)!;
+          const replay = await createNdxbookPersonalityReplay({
+            organizationId: orgId,
+            orgSlug,
+            createdBy: auth.user.email,
+          });
+          return res.status(201).json({ replay });
+        }
+        case 'personality_replay_save_answers': {
+          if (orgSlug !== 'ndxbook') return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          const replayId = String(body.replayId ?? '');
+          const replay = await saveReplayPersonalityAnswers({
+            replayId,
+            answers: (body.answers ?? {}) as Record<string, string | string[]>,
+            completedSteps: body.completedSteps as string[] | undefined,
+          });
+          return res.status(200).json({ replay });
+        }
+        case 'personality_replay_complete_intake': {
+          if (orgSlug !== 'ndxbook') return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          const replayId = String(body.replayId ?? '');
+          const replay = await completeReplayPersonalityIntake(replayId);
+          return res.status(200).json({ replay });
+        }
+        case 'personality_replay_set_judgment': {
+          if (orgSlug !== 'ndxbook') return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          const replayId = String(body.replayId ?? '');
+          const replay = await setFounderReplayValidationJudgment({
+            replayId,
+            judgment: String(body.judgment ?? '') as never,
+          });
+          return res.status(200).json({ replay });
         }
         case 'analytics_baseline_sync':
           return res.status(200).json(
