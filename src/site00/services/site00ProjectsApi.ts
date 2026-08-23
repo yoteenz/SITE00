@@ -256,7 +256,11 @@ export const site00ProjectsApi = {
     slideNumber: number,
     judgment: 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_FOR_ME' | null,
   ) =>
-    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+    projectsFetch<{
+      ok: true;
+      run: Record<string, unknown>;
+      lineage?: { message?: string; brandLineageMembership?: string; productionState?: string } | null;
+    }>(
       '/api/site00/projects?action=canonical_carousel_expansion_slide_judgment',
       {
         method: 'POST',

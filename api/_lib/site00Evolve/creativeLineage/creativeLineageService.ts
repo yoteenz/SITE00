@@ -82,6 +82,12 @@ export async function normalizeNdxbookCreativeLineage(): Promise<{
 
 function filterAssets(assets: CreativeAssetRecord[], filters: CreativeLineageLibraryFilters): CreativeAssetRecord[] {
   return assets.filter((a) => {
+    if (filters.section === 'EXCLUDED_FROM_BRAND') {
+      return a.brandLineageMembership === 'EXCLUDED';
+    }
+    if (filters.section !== 'RETIRED' && a.brandLineageMembership === 'EXCLUDED') {
+      return false;
+    }
     if (filters.directionId && a.directionLineage.directionId !== filters.directionId) return false;
     if (filters.worldId && a.directionLineage.worldId !== filters.worldId) return false;
     if (filters.topicId && a.contentLineage.topicId !== filters.topicId) return false;
@@ -94,7 +100,8 @@ function filterAssets(assets: CreativeAssetRecord[], filters: CreativeLineageLib
     if (filters.section === 'CAROUSELS' && a.assetType !== 'CAROUSEL_SLIDE' && a.contentLineage.carouselId === null)
       return false;
     if (filters.section === 'ADAPTABLE' && a.reuseState !== 'REUSABLE_WITH_ADAPTATION') return false;
-    if (filters.section === 'RETIRED' && a.productionState !== 'RETIRED') return false;
+    if (filters.section === 'RETIRED' && a.productionState !== 'RETIRED' && a.brandLineageMembership !== 'EXCLUDED')
+      return false;
     return true;
   });
 }

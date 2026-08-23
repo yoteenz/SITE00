@@ -44,6 +44,12 @@ export async function listCreativeAssets(
   return (await store()).listCreativeAssets(...args);
 }
 
+export async function getCreativeAssetById(
+  ...args: Parameters<Awaited<ReturnType<typeof store>>['getCreativeAssetById']>
+) {
+  return (await store()).getCreativeAssetById(...args);
+}
+
 export async function upsertCreativeConcept(
   ...args: Parameters<Awaited<ReturnType<typeof store>>['upsertCreativeConcept']>
 ) {

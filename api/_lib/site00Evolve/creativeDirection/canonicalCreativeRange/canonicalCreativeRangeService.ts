@@ -19,6 +19,7 @@ import {
   type CanonicalCreativeRangeRosterEntry,
 } from '../../../../../shared/site00-brand-lore/canonicalCreativeRangeResolver.js';
 import { buildCanonicalRangeGenerationPreflight } from '../../../../../shared/site00-brand-lore/canonicalRangeGenerationPreflight.js';
+import { syncRangeHeroToLineage, type LineageSyncResult } from '../../creativeLineage/lineageAssetSync.js';
 import {
   compileDirectionDnaEnvelope,
   compareDnaEnvelopes,
@@ -493,13 +494,22 @@ export async function getCanonicalCreativeRangeRun(): Promise<CanonicalCreativeR
 export async function setCanonicalRangeFounderJudgment(params: {
   comparisonIndex: number;
   judgment: CanonicalCreativeRangeDirection['founderJudgment'];
-}): Promise<CanonicalCreativeRangeRun> {
+}): Promise<{ run: CanonicalCreativeRangeRun; lineage: LineageSyncResult | null }> {
   const run = await rangeStore.getCanonicalCreativeRangeRun();
   if (!run) throw new Error('Canonical creative range run not found');
   const directions = run.directions.map((d) =>
     d.comparisonIndex === params.comparisonIndex ? { ...d, founderJudgment: params.judgment } : d,
   );
-  return rangeStore.saveCanonicalCreativeRangeRun({ ...run, directions });
+  const saved = await rangeStore.saveCanonicalCreativeRangeRun({ ...run, directions });
+
+  let lineage: LineageSyncResult | null = null;
+  try {
+    lineage = await syncRangeHeroToLineage({ rangeRun: saved, comparisonIndex: params.comparisonIndex });
+  } catch (syncErr) {
+    console.error('[range-lineage-sync] judgment sync failed', syncErr);
+  }
+
+  return { run: saved, lineage };
 }
 
 export { buildCanonicalRangeGenerationPreflight, runCanonicalSixDirectionRosterTest };

@@ -204,6 +204,10 @@ export const DUPLICATE_RELATIONSHIPS = ['POSSIBLE_DUPLICATE', 'RELATED_CONCEPT',
 
 export type DuplicateRelationship = (typeof DUPLICATE_RELATIONSHIPS)[number];
 
+export const BRAND_LINEAGE_MEMBERSHIPS = ['ACTIVE', 'EXCLUDED'] as const;
+
+export type BrandLineageMembership = (typeof BRAND_LINEAGE_MEMBERSHIPS)[number];
+
 export const PUBLISHING_READINESS_STATES = ['NOT_READY', 'NEEDS_REVIEW', 'READY_TO_PUBLISH'] as const;
 
 export type PublishingReadinessState = (typeof PUBLISHING_READINESS_STATES)[number];
@@ -289,6 +293,13 @@ export type CreativeAssetRecord = {
   publishingReadiness: PublishingReadiness | null;
   historicalSourceRef: string | null;
   immutable: true;
+  /** ACTIVE = visible in this brand's library; EXCLUDED = founder NOT FOR ME (record + storage preserved). */
+  brandLineageMembership: BrandLineageMembership;
+  excludedFromBrandAt: string | null;
+  /** When excluded — asset may suit another brand without deleting storage. */
+  crossBrandPortable: boolean;
+  /** PROMISING REFINE — detailed revision notes + regeneration wired later. */
+  revisionPending: boolean;
   createdAt: string;
   updatedAt: string;
 };
@@ -530,7 +541,8 @@ export type CreativeLineageLibraryFilters = {
     | 'FRANCHISES'
     | 'CONCEPTS'
     | 'ADAPTABLE'
-    | 'RETIRED';
+    | 'RETIRED'
+    | 'EXCLUDED_FROM_BRAND';
   directionId?: string;
   worldId?: string;
   topicId?: string;

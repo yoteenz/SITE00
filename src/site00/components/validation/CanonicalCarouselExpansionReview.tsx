@@ -30,6 +30,19 @@ function slideUrl(slide: CarouselSlideRecord): string {
   return slide.asset?.storagePath ? site00StoragePublicUrl(slide.asset.storagePath) : '';
 }
 
+function judgmentLineageHint(judgment: CarouselSlideRecord['founderJudgment']): string | null {
+  if (judgment === 'NOT_FOR_ME') {
+    return 'Excluded from NDXBOOK brand lineage — storage preserved for cross-brand reuse';
+  }
+  if (judgment === 'LOVE_IT') {
+    return 'Production candidate — added to brand lineage for reuse (winner not required)';
+  }
+  if (judgment === 'PROMISING_REFINE') {
+    return 'Marked for revision — detailed notes and regeneration wired in a future sprint';
+  }
+  return null;
+}
+
 export function CanonicalCarouselExpansionReview({
   projectSlug,
   run,
@@ -345,6 +358,14 @@ export function CanonicalCarouselExpansionReview({
                         {j.replace(/_/g, ' ')}
                       </button>
                     ))}
+                    {slide.founderJudgment === 'PROMISING_REFINE' ? (
+                      <p className="site00-carousel-expansion__meta">
+                        REVISION NOTES (typography, color, composition, asset exchange) — wired in a future sprint
+                      </p>
+                    ) : null}
+                    {judgmentLineageHint(slide.founderJudgment) ? (
+                      <p className="site00-carousel-expansion__meta">{judgmentLineageHint(slide.founderJudgment)}</p>
+                    ) : null}
                   </div>
                 </article>
               );

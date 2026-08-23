@@ -51,6 +51,11 @@ import {
 } from './carouselSlideBriefBuilder.js';
 import { downloadUrlToBuffer, uploadSite00AssetBuffer } from '../../../site00Assts/storage.js';
 import { getCanonicalCreativeRangeRun } from '../canonicalCreativeRange/canonicalCreativeRangeService.js';
+import {
+  syncCarouselSlideToLineage,
+  syncAllCarouselAssetsFromRun,
+  type LineageSyncResult,
+} from '../../creativeLineage/lineageAssetSync.js';
 import { NDXBOOK_ORG_ID } from '../creativeIntelligence/founderComparisonSet.js';
 import * as carouselStore from './storeAdapter.js';
 
@@ -391,6 +396,11 @@ export async function executeCanonicalCarouselExpansion(params: {
       }
       await carouselStore.saveCanonicalCarouselExpansionRun(run);
       if (mode === 'INITIALIZE') {
+        try {
+          await syncAllCarouselAssetsFromRun(run);
+        } catch (syncErr) {
+          console.error('[carousel-lineage-sync] initialize sync failed', syncErr);
+        }
         run.accounting.durationMs += Date.now() - startMs;
         return carouselStore.saveCanonicalCarouselExpansionRun(run);
       }
@@ -442,6 +452,16 @@ export async function executeCanonicalCarouselExpansion(params: {
       };
       run = { ...run, directions: updatedDirections, accounting };
       await carouselStore.saveCanonicalCarouselExpansionRun(run);
+
+      try {
+        await syncCarouselSlideToLineage({
+          carouselRun: run,
+          comparisonIndex: target.directionIndex,
+          slideNumber: target.slideNumber,
+        });
+      } catch (syncErr) {
+        console.error('[carousel-lineage-sync] slide sync failed', syncErr);
+      }
     }
 
     if (isRunComplete(run)) {
@@ -469,7 +489,7 @@ export async function setCarouselSlideFounderJudgment(params: {
   comparisonIndex: number;
   slideNumber: number;
   judgment: CarouselSlideRecord['founderJudgment'];
-}): Promise<CanonicalCarouselExpansionRun> {
+}): Promise<{ run: CanonicalCarouselExpansionRun; lineage: LineageSyncResult | null }> {
   const run = await carouselStore.getCanonicalCarouselExpansionRun();
   if (!run) throw new Error('Carousel expansion run not found');
   const directions = run.directions.map((d) => {
@@ -481,7 +501,20 @@ export async function setCarouselSlideFounderJudgment(params: {
       ),
     };
   });
-  return carouselStore.saveCanonicalCarouselExpansionRun({ ...run, directions });
+  const saved = await carouselStore.saveCanonicalCarouselExpansionRun({ ...run, directions });
+
+  let lineage: LineageSyncResult | null = null;
+  try {
+    lineage = await syncCarouselSlideToLineage({
+      carouselRun: saved,
+      comparisonIndex: params.comparisonIndex,
+      slideNumber: params.slideNumber,
+    });
+  } catch (syncErr) {
+    console.error('[carousel-lineage-sync] judgment sync failed', syncErr);
+  }
+
+  return { run: saved, lineage };
 }
 
 export async function setCarouselDirectionFounderVerdict(params: {

@@ -4,6 +4,7 @@
 
 import { describe, expect, it } from 'vitest';
 import { randomUUID } from 'node:crypto';
+import { defaultBrandLineageFields } from './founderJudgmentLineage.js';
 import { buildForensicAuditReport, runHistoricalProvenanceImmutabilityTest } from './forensicAudit.js';
 import { translateConceptIntoWinningWorld, runWorldTranslationTest } from './worldTranslationEngine.js';
 import { runLosingWorldVisualDnaContaminationTest, runHostFontLeakageTest, runSite00VisualDnaLeakageTest } from './contaminationGuard.js';
@@ -91,6 +92,7 @@ function sampleAsset(overrides: Partial<CreativeAssetRecord> = {}): CreativeAsse
     publishingReadiness: null,
     historicalSourceRef: 'test:ref',
     immutable: true,
+    ...defaultBrandLineageFields(),
     createdAt: ts,
     updatedAt: ts,
     ...overrides,

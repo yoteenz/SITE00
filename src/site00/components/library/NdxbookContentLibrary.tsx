@@ -8,7 +8,16 @@ import { site00StoragePublicUrl } from '../../utils/replayStorageUrl';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
 import { SITE00_ROUTES } from '../../config/routes';
 
-type Section = 'ALL' | 'CANONICAL' | 'PRODUCTION_CANDIDATES' | 'CAROUSELS' | 'FRANCHISES' | 'CONCEPTS' | 'ADAPTABLE' | 'RETIRED';
+type Section =
+  | 'ALL'
+  | 'CANONICAL'
+  | 'PRODUCTION_CANDIDATES'
+  | 'CAROUSELS'
+  | 'FRANCHISES'
+  | 'CONCEPTS'
+  | 'ADAPTABLE'
+  | 'RETIRED'
+  | 'EXCLUDED_FROM_BRAND';
 
 type NdxbookContentLibraryProps = {
   projectSlug: string;
@@ -113,7 +122,17 @@ export function NdxbookContentLibrary({ projectSlug }: NdxbookContentLibraryProp
         <>
           <div className="site00-content-library__filters">
             {(
-              ['ALL', 'CANONICAL', 'PRODUCTION_CANDIDATES', 'CAROUSELS', 'FRANCHISES', 'CONCEPTS', 'ADAPTABLE', 'RETIRED'] as Section[]
+              [
+                'ALL',
+                'CANONICAL',
+                'PRODUCTION_CANDIDATES',
+                'CAROUSELS',
+                'FRANCHISES',
+                'CONCEPTS',
+                'ADAPTABLE',
+                'RETIRED',
+                'EXCLUDED_FROM_BRAND',
+              ] as Section[]
             ).map((s) => (
               <button
                 key={s}
@@ -137,6 +156,8 @@ export function NdxbookContentLibrary({ projectSlug }: NdxbookContentLibraryProp
                   <p>{asset.contentLineage.topicName ?? '—'}</p>
                   <p>
                     {asset.productionState} · {asset.reuseState}
+                    {asset.brandLineageMembership === 'EXCLUDED' ? ' · EXCLUDED FROM NDXBOOK' : ''}
+                    {asset.crossBrandPortable ? ' · CROSS-BRAND PORTABLE' : ''}
                   </p>
                   <p>{asset.canonStatus}</p>
                   <div className="site00-content-library__actions">
