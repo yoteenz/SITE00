@@ -3161,3 +3161,11 @@ Summary: Founder asked for a button on replay review to route to six-direction g
 - **UI:** Primary button on replay review (below methodology comparison) — `VIEW N GENERATED HEROES` when complete, `SIX-DIRECTION CONSISTENCY REVIEW` when not started, `VIEW SIX-DIRECTION PROGRESS` when in flight. Routes to `/projects/ndxbook/personality-replay/consistency`.
 - **Component:** `PersonalityReplayExecutionProgress.tsx` — passes `sixDirectionConsistency` from replay snapshot for dynamic label.
 - **Removed:** Duplicate text link on review rail (button replaces it).
+
+---
+
+## 2026-08-23 — cPanel deploy v11 (six-direction route button + comparison UI)
+
+- **Release:** `site00-deploy-2026-08-23-v11` — includes PR #274 comparison UI fixes + PR #275 six-direction route button on replay review.
+- **Build fix:** `FormatAssignmentContaminationTest` import in `sixDirectionGenerationPreflight.ts`.
+- **Verify:** Review page button → `/projects/ndxbook/personality-replay/consistency`; bundle `index.eRGSgvvl.js`.
