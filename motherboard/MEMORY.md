@@ -3377,3 +3377,27 @@ Summary of sprint stopping NDXBOOK Experiment C carousel/world-expansion generat
 
 - **Founder next:** Railway redeploy API from main; cPanel **v19** for superseded Experiment C UI + Experiment D review; tap **FORM SIX CONCEPT TERRITORIES** then **RUN SIX CONCEPT TERRITORY HEROES** when ready (max 6 heroes, no carousel expansion).
 
+---
+
+## 2026-08-23 — Founder Creative Appetite + Sequence Creative System methodology (Experiment D frozen)
+
+Summary of follow-up sprint formalizing two Studio World discoveries without contaminating the frozen NDXBOOK Concept Territory experiment.
+
+- **Context:** Brand Personality ≠ Founder Creative Appetite. Multi-frame executions (carousel) need a Sequence Creative System layer between World Expression System and individual frames to prevent accent/palette drift (e.g. Slide 01 sparse lime → Slides 02–06 lime dominant).
+
+- **Founder Creative Appetite:**
+  - Canonical `FounderCreativeAppetiteProfile` + 12-question tolerance questionnaire (`founderCreativeAppetite/`).
+  - Persisted on `BrandLoreProfile.founderCreativeAppetite`; API `creative_appetite_submit`; UI route `/projects/:slug/creative-appetite` ("HOW FAR CAN WE TAKE IT?").
+  - Experiment exclusion: `assertCreativeAppetiteNotInjectedIntoFrozenExperiment(serializedPayload)`; `shouldIncludeCreativeAppetiteInFormation()` gates formation input; NDXBOOK snapshot version 1 frozen.
+  - Intelligence inspector payload on `creative_direction` read — separate domains for Personality / Expression Context / Creative Appetite with exclusion banner.
+  - Brand wins on conflict (`resolveBrandFounderCreativeConflict`).
+
+- **Sequence Creative System:**
+  - `SequenceCreativeSystem` model + anchor capture from Slide 01, palette usage hierarchy, typography/graphic grammar, drift detection, cohesion gate, sequence-native brief compiler, revision lock context.
+  - Carousel v2 gate: `CAROUSEL_SEQUENCE_METHODOLOGY_VERSION` — v1 frozen runs unchanged.
+  - Lineage extension on `CreativeAssetRecord.sequenceLineage`; intelligence lineage fields for appetite + sequence system id.
+
+- **Tests:** 23 new methodology tests + full suite 1217 pass; tsc + build pass. Deploy: **v20**.
+
+- **Founder next:** Railway redeploy API; cPanel **v20** for Creative Appetite questionnaire + intelligence inspector; Experiment D continues without appetite injection; future carousel v2 uses Sequence Creative System.
+
