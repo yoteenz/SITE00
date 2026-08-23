@@ -13,6 +13,7 @@ import {
   StaleWriteConflictError,
 } from '../../../shared/site00-studio-world-execution/errors.js';
 import { NDXBOOK_ORG_ID } from '../site00Evolve/creativeDirection/creativeIntelligence/founderComparisonSet.js';
+import { resolveProjectDbIdForSupabaseFk } from '../site00Projects/founderProjectDbId.js';
 
 const RUNS = 'site00_studio_world_runs';
 const IDEMPOTENCY = 'site00_studio_world_idempotency_keys';
@@ -23,11 +24,12 @@ export async function studioWorldExecutionTablesExist(): Promise<boolean> {
   return !error;
 }
 
-function runRow(record: StudioWorldRunRecord, organizationId = NDXBOOK_ORG_ID) {
+async function runRow(record: StudioWorldRunRecord, organizationId = NDXBOOK_ORG_ID) {
+  const projectDbId = await resolveProjectDbIdForSupabaseFk(record.projectId, record.projectSlug);
   return {
     id: record.id,
     organization_id: organizationId,
-    project_id: record.projectId,
+    project_id: projectDbId,
     project_slug: record.projectSlug,
     brand_id: record.brandId,
     brand_slug: record.brandSlug,
@@ -107,7 +109,7 @@ function rowToRun(row: Record<string, unknown>): StudioWorldRunRecord {
 }
 
 export async function saveStudioWorldRun(record: StudioWorldRunRecord): Promise<StudioWorldRunRecord> {
-  const { error } = await getSupabaseAdmin().from(RUNS).upsert(runRow(record), { onConflict: 'id' });
+  const { error } = await getSupabaseAdmin().from(RUNS).upsert(await runRow(record), { onConflict: 'id' });
   if (error) throw new Error(error.message);
   return record;
 }
@@ -139,7 +141,7 @@ export async function saveStudioWorldRunWithVersionCheck(
   const next = { ...record, version: expectedVersion + 1, updatedAt: new Date().toISOString() };
   const { data, error } = await getSupabaseAdmin()
     .from(RUNS)
-    .update(runRow(next))
+    .update(await runRow(next))
     .eq('id', record.id)
     .eq('version', expectedVersion)
     .select('*')
@@ -170,9 +172,10 @@ export async function registerIdempotencyKey(
       existing.runId,
     );
   }
+  const projectDbId = await resolveProjectDbIdForSupabaseFk(record.projectId, record.projectSlug);
   const row = {
     organization_id: NDXBOOK_ORG_ID,
-    project_id: record.projectId,
+    project_id: projectDbId,
     project_slug: record.projectSlug,
     idempotency_key: record.idempotencyKey,
     input_fingerprint: record.inputFingerprint,

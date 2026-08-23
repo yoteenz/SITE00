@@ -10,8 +10,7 @@ import type {
 } from '../../../shared/site00-visual-reference/types.js';
 import { NDXBOOK_ORG_ID } from '../site00Evolve/creativeDirection/creativeIntelligence/founderComparisonSet.js';
 import { StaleWriteConflictError } from '../../../shared/site00-studio-world-execution/errors.js';
-import { ensureFounderProjectDbId, resolveFounderProjectDbId } from '../site00Projects/founderProjectDbId.js';
-import { isFounderProjectSlug } from '../site00Projects/projectRegistry.js';
+import { resolveProjectDbIdForSupabaseFk } from '../site00Projects/founderProjectDbId.js';
 
 const STATE_TABLE = 'site00_visual_reference_state';
 const RECORDS_TABLE = 'site00_visual_reference_records';
@@ -81,12 +80,7 @@ async function upsertState(params: {
 }
 
 async function resolveClientProjectDbId(projectSlug: string): Promise<string | null> {
-  if (!isFounderProjectSlug(projectSlug)) return null;
-  try {
-    return await ensureFounderProjectDbId(projectSlug);
-  } catch {
-    return await resolveFounderProjectDbId(projectSlug);
-  }
+  return resolveProjectDbIdForSupabaseFk(projectSlug, projectSlug);
 }
 
 export async function getHostVisualMemory(): Promise<HostVisualMemory | null> {

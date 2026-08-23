@@ -6,6 +6,7 @@ import { getSupabaseAdmin } from '../supabase.js';
 import type { ProjectIntelligenceIntakeManifest } from '../../../shared/site00-project-intelligence/types.js';
 import { NDXBOOK_ORG_ID } from '../site00Evolve/creativeDirection/creativeIntelligence/founderComparisonSet.js';
 import { StaleWriteConflictError } from '../../../shared/site00-studio-world-execution/errors.js';
+import { resolveProjectDbIdForSupabaseFk } from '../site00Projects/founderProjectDbId.js';
 
 const TABLE = 'site00_project_intelligence_manifests';
 
@@ -55,10 +56,14 @@ export async function saveManifest(
     );
   }
 
+  const projectDbId = await resolveProjectDbIdForSupabaseFk(manifest.projectId, manifest.projectSlug);
+  if (!projectDbId) {
+    throw new Error(`Cannot resolve project UUID for manifest slug ${manifest.projectSlug}`);
+  }
   const row = {
     manifest_id: manifest.manifestId,
     organization_id: NDXBOOK_ORG_ID,
-    project_id: manifest.projectId,
+    project_id: projectDbId,
     project_slug: manifest.projectSlug,
     manifest_version: manifest.manifestVersion,
     fingerprint: manifest.fingerprint,
