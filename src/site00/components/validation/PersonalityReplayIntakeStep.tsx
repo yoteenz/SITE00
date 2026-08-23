@@ -37,7 +37,7 @@ export function PersonalityReplayIntakeStep({ projectSlug, stepId }: Personality
   const navigate = useNavigate();
   const isDesktop = useSite00DesktopArtboardPreview();
   const step = getPersonalityQuestion(stepId);
-  const { answers, setAnswer, markStepComplete, saveState, saveError, lastSavedAt, replayId } =
+  const { answers, advanceStep, saveState, saveError, lastSavedAt, replayId } =
     usePersonalityReplayIntake(projectSlug);
 
   const activeSteps = useMemo(() => IDNTY_PERSONALITY_QUESTIONS, []);
@@ -62,9 +62,8 @@ export function PersonalityReplayIntakeStep({ projectSlug, stepId }: Personality
     navigate(isDesktop ? site00IdntyAssessmentDesktopPath(path) : path);
   };
 
-  const handleNext = () => {
-    setAnswer(stepId, form.value as string | string[]);
-    markStepComplete(stepId);
+  const handleNext = async () => {
+    await advanceStep(stepId, form.value as string | string[]);
 
     const nextIdx = IDNTY_PERSONALITY_QUESTIONS.findIndex((q) => q.id === stepId) + 1;
     if (nextIdx < IDNTY_PERSONALITY_QUESTIONS.length) {
@@ -74,10 +73,14 @@ export function PersonalityReplayIntakeStep({ projectSlug, stepId }: Personality
     }
   };
 
-  const handleSkip = () => {
-    setAnswer(stepId, LORE_SKIP_VALUE);
-    markStepComplete(stepId);
-    handleNext();
+  const handleSkip = async () => {
+    await advanceStep(stepId, LORE_SKIP_VALUE);
+    const nextIdx = IDNTY_PERSONALITY_QUESTIONS.findIndex((q) => q.id === stepId) + 1;
+    if (nextIdx < IDNTY_PERSONALITY_QUESTIONS.length) {
+      navigateTo(projectPersonalityReplayStepPath(projectSlug, IDNTY_PERSONALITY_QUESTIONS[nextIdx]!.id));
+    } else {
+      navigateTo(projectPersonalityReplayReviewPath(projectSlug));
+    }
   };
 
   const handleBack = () => {

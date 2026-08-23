@@ -2981,3 +2981,16 @@ Summary: Closed remaining production-path gaps before NDXBOOK blind personality 
 - **Wired:** Core Direction (`anthropicProvider`), DES, Identity Art Direction, Hero concept (`primaryProofFormat`), Identity visual brief, GPT Image 2 prompt normalization, board compositor NDXBOOK labels
 - **Tests:** 12 new in `productionPromptNormalization.test.ts`; 955 total passing. Build green.
 - **Branch:** `cursor/production-prompt-normalization-4f59`.
+<<<<<<< Updated upstream
+=======
+
+---
+
+## 2026-08-23 — Personality replay review empty answers fix
+
+Summary: Founder completed personality intake but review showed **NO ANSWERS YET** / **STATUS: CREATED**.
+
+- **Root cause:** `ProjectPersonalityReplayPage` and `PersonalityReplayIntakeStep` each called `usePersonalityReplayIntake()` separately — parent review shell kept empty bootstrap state while child step form held answers. Server reload could also overwrite local answers with empty server payload.
+- **Fix:** `PersonalityReplayIntakeProvider` shared context; atomic `advanceStep()` save; merge local+server answers on reload; preserve local cache on reload failure; single bootstrap guard per slug.
+- **Branch:** `cursor/personality-replay-review-fix-4f59`.
+>>>>>>> Stashed changes

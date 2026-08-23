@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { buildPersonalitySummaryFromAnswers } from '../../../shared/site00-brand-lore/personalitySummary';
 import { PersonalityReplayIntakeStep } from '../components/validation/PersonalityReplayIntakeStep';
-import { usePersonalityReplayIntake } from '../hooks/usePersonalityReplayIntake';
+import { usePersonalityReplayIntake, PersonalityReplayIntakeProvider } from '../hooks/usePersonalityReplayIntake';
 import {
   projectPersonalityReplayStepPath,
   projectPersonalityReplayReviewPath,
@@ -24,6 +24,21 @@ const REPLAY_SHELL_STATE = getIdntyAssessmentState('ready-for-evolution')!;
  */
 export default function ProjectPersonalityReplayPage() {
   const { projectSlug = '', stepId } = useParams<{ projectSlug: string; stepId?: string }>();
+
+  return (
+    <PersonalityReplayIntakeProvider projectSlug={projectSlug}>
+      <ProjectPersonalityReplayPageInner projectSlug={projectSlug} stepId={stepId} />
+    </PersonalityReplayIntakeProvider>
+  );
+}
+
+function ProjectPersonalityReplayPageInner({
+  projectSlug,
+  stepId,
+}: {
+  projectSlug: string;
+  stepId?: string;
+}) {
   const navigate = useNavigate();
   const {
     answers,
@@ -34,6 +49,7 @@ export default function ProjectPersonalityReplayPage() {
     replayId,
     resumeStepId,
     retryBootstrap,
+    saveError,
   } = usePersonalityReplayIntake(projectSlug);
 
   useEffect(() => {
@@ -78,6 +94,7 @@ export default function ProjectPersonalityReplayPage() {
 
   if (!stepId || stepId === 'review') {
     const sections = buildPersonalitySummaryFromAnswers(answers);
+    const intakeComplete = status === 'FORMATION_READY' || status === 'PERSONALITY_READY';
     return (
       <EcosystemShell hidePageHeader>
         <div className="site00-cd site00-cd--project-calibration">
@@ -103,9 +120,13 @@ export default function ProjectPersonalityReplayPage() {
                 ) : (
                   <p className="site00-idnty-calibration-review__empty">NO ANSWERS YET.</p>
                 )}
+                {saveError ? (
+                  <p className="site00-idnty-calibration-review__empty">SAVE ERROR: {saveError}</p>
+                ) : null}
                 <button
                   type="button"
                   className="site00-idnty-calibration-nav__continue"
+                  disabled={!sections.length || intakeComplete}
                   onClick={async () => {
                     await submitIntake();
                     if (replayId) {
@@ -113,7 +134,7 @@ export default function ProjectPersonalityReplayPage() {
                     }
                   }}
                 >
-                  SUBMIT PERSONALITY
+                  {intakeComplete ? 'PERSONALITY SUBMITTED' : 'SUBMIT PERSONALITY'}
                 </button>
                 <p className="site00-idnty-calibration-rail__category">STATUS: {status ?? 'IN PROGRESS'}</p>
               </div>

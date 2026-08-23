@@ -131,10 +131,15 @@ export const site00ProjectsApi = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ slug, answers }),
     }),
-  personalityReplayBootstrap: (slug: string) =>
+    personalityReplayBootstrap: (slug: string) =>
     projectsFetch<{
       ok: true;
-      replay: { replayId: string; status: string; rawPersonalityAnswers: Record<string, string | string[]> };
+      replay: {
+        replayId: string;
+        status: string;
+        rawPersonalityAnswers: Record<string, string | string[]>;
+        personalityCompletedSteps?: string[];
+      };
       resumeStepId: string;
     }>(`/api/site00/projects?action=personality_replay_bootstrap&slug=${encodeURIComponent(slug)}`),
   personalityReplayGet: (slug: string, replayId: string) =>
