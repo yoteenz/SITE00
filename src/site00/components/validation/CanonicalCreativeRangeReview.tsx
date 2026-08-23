@@ -15,6 +15,8 @@ function founderApiErrorMessage(err: unknown): string {
   }
   return raw;
 }
+
+type CanonicalCreativeRangeReviewProps = {
   projectSlug: string;
   run: CanonicalCreativeRangeRun | null | undefined;
   onUpdate?: () => void;
