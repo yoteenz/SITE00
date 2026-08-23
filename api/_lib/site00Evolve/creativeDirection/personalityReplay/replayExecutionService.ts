@@ -18,6 +18,7 @@ import {
 import { deriveFormatNativeExpressionProfile } from '../../../../../shared/site00-brand-lore/formatNativeExpression.js';
 import { assertNoHostFontInPayload } from '../../../../../shared/site00-brand-lore/typographyProvenance.js';
 import { runCoreDirectionFormation } from '../creativeIntelligence/formationService.js';
+import { getCreativeIntelligenceProvider } from '../creativeIntelligence/providerRegistry.js';
 import { runSonnetDirectionExpressionSystem } from '../creativeIntelligence/directionExpressionSystemService.js';
 import { runIdentityNativeArtDirector } from '../creativeIntelligence/identityNativeArtDirectorService.js';
 import {
@@ -58,6 +59,7 @@ function emptyAccounting(): ReplayExecutionAccounting {
 function shadowProfile(replay: BrandPersonalityReplayRecord): BrandLoreProfile {
   return {
     ...replay.brandLoreSnapshot,
+    id: replay.brandLoreSnapshot.id ?? replay.sourceProfileId ?? undefined,
     brandPersonality: replay.synthesizedPersonality,
   };
 }
@@ -101,6 +103,30 @@ function aspectRatioForNativeFormat(format: string): string {
   if (format === 'FEED_TILE' || format === 'CAROUSEL_COVER') return '1:1';
   if (format === 'STORY_FRAME' || format === 'REEL_HOOK' || format === 'TIKTOK_VERTICAL') return '9:16';
   return '1:1';
+}
+
+function assertCreativeIntelligenceConfigured(): void {
+  const provider = getCreativeIntelligenceProvider();
+  if (provider.providerId === 'unavailable') {
+    throw new Error(
+      'CREATIVE INTELLIGENCE NOT CONFIGURED — set ANTHROPIC_API_KEY on the Railway API service and redeploy',
+    );
+  }
+}
+
+function describeFormationFailure(formation: CoreDirectionFormationRecord): string {
+  if (formation.error?.trim()) return formation.error.trim();
+  if (formation.status === 'NOT_READY') return 'Brand Lore not ready for Core Direction formation';
+  if (formation.status === 'FORMING' || formation.status === 'CRITIQUING' || formation.status === 'REVISING') {
+    return `Core Direction formation incomplete (stale ${formation.status} record — retry with fresh run)`;
+  }
+  return 'Core Direction formation failed — no directions produced';
+}
+
+function isFormationUsable(formation: CoreDirectionFormationRecord): boolean {
+  if (formation.finalDirections.length === 0) return false;
+  if (formation.status === 'FAILED' || formation.status === 'NOT_READY') return false;
+  return true;
 }
 
 async function persistReplay(
@@ -210,6 +236,7 @@ export async function executePersonalityReplayDownstream(
   }
 
   assertReplayProductionReadyForDownstream('ndxbook');
+  assertCreativeIntelligenceConfigured();
 
   const eligibleStatuses = new Set<BrandPersonalityReplayRecord['status']>([
     'FORMATION_READY',
@@ -232,6 +259,8 @@ export async function executePersonalityReplayDownstream(
       executionPhase: 'PERSONALITY_SUBMITTED',
       executionAccounting: accounting,
     });
+  } else if (replay.executionError) {
+    replay = await persistReplay(replay, { executionError: null });
   }
 
   if (replay.synthesizedPersonality && replay.executionPhase === 'PERSONALITY_SUBMITTED') {
@@ -260,9 +289,13 @@ export async function executePersonalityReplayDownstream(
         orgSlug: 'ndxbook',
         profile,
         includeLegacyExplorations: false,
+        forceReform: true,
+        retryFailed: true,
       });
-      if (formation.status === 'FAILED' || formation.finalDirections.length === 0) {
-        throw new Error(formation.error ?? 'Core Direction formation failed');
+      if (!isFormationUsable(formation)) {
+        const detail = describeFormationFailure(formation);
+        const code = formation.errorCode ? ` [${formation.errorCode}]` : '';
+        throw new Error(`${detail}${code}`);
       }
       accounting = {
         ...accounting,
