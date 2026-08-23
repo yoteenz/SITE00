@@ -3551,6 +3551,20 @@ Summary of follow-up sprint formalizing automated visual reference intelligence 
 
 ---
 
+<<<<<<< HEAD
+## 2026-08-23 — Visual development page infinite loading fix
+
+- **Symptom:** `/projects/ndxbook/experience-expression/visual-development` on fsbw-dev appeared broken — stuck on "Loading visual development…" or never reaching content.
+
+- **Root cause:** `ProjectWorkspaceVisualDevelopmentReview` treated `run === null` as loading forever. Any API failure (401/403/503, empty payload) left `run` null with no error state — indistinguishable from in-progress load.
+
+- **Fix:** Added explicit `loading` + `error` states (mirrors `ProjectExperimentEPage` pattern): try/catch on `visualDevelopmentGet`, `finally` clears loading, error panel with RETRY when fetch fails or run missing. CSS for error panel.
+
+- **Note:** Route and page exist on `main`; unauthenticated users still correctly redirect to sign-in via `Site00AccountRouteGuard`. Signed-in failures now surface actionable error instead of infinite spinner.
+
+- **Branch:** `cursor/visual-development-page-load-fix-1983`.
+
+=======
 ## 2026-08-23 — Discovery → Purchase → Project Intelligence Activation
 
 Summary of follow-up architecture sprint separating **pre-purchase discovery** from **post-purchase production intelligence**.
@@ -3592,3 +3606,4 @@ Summary of follow-up sprint correcting Creative Concept Territory methodology af
 - **Parallel work untouched:** Experiment E, Projects UX, intake architecture, World Formation unimplemented.
 
 - Deploy **v28** pending (GoDaddy ZIP after merge). `SIX_NEW_CONCEPTS_FORMED: false` until founder triggers FORM SIX CONCEPTS on production API.
+>>>>>>> origin/main

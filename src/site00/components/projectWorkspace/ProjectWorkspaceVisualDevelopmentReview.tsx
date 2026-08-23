@@ -280,14 +280,29 @@ type ProjectWorkspaceVisualDevelopmentReviewProps = {
 
 export function ProjectWorkspaceVisualDevelopmentReview({ projectSlug }: ProjectWorkspaceVisualDevelopmentReviewProps) {
   const [run, setRun] = useState<ProjectWorkspaceVisualDevelopmentRun | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
   const reload = useCallback(async () => {
-    const res = await site00ProjectsApi.visualDevelopmentGet(projectSlug);
-    setRun((res.run as ProjectWorkspaceVisualDevelopmentRun | null) ?? null);
+    setError(null);
+    try {
+      const res = await site00ProjectsApi.visualDevelopmentGet(projectSlug);
+      const nextRun = (res.run as ProjectWorkspaceVisualDevelopmentRun | null) ?? null;
+      setRun(nextRun);
+      if (!nextRun) {
+        setError('VISUAL DEVELOPMENT UNAVAILABLE — NO RUN PAYLOAD FROM SERVER.');
+      }
+    } catch (err) {
+      setRun(null);
+      setError(err instanceof Error ? err.message : 'FAILED TO LOAD VISUAL DEVELOPMENT.');
+    } finally {
+      setLoading(false);
+    }
   }, [projectSlug]);
 
   useEffect(() => {
+    setLoading(true);
     void reload();
   }, [reload]);
 
@@ -301,8 +316,19 @@ export function ProjectWorkspaceVisualDevelopmentReview({ projectSlug }: Project
     }
   };
 
-  if (!run) {
+  if (loading) {
     return <p className="site00-vd__loading">Loading visual development…</p>;
+  }
+
+  if (error || !run) {
+    return (
+      <div className="site00-vd__error-panel" role="alert">
+        <p className="site00-vd__error">{error ?? 'VISUAL DEVELOPMENT UNAVAILABLE.'}</p>
+        <button type="button" className="site00-btn" onClick={() => void reload()}>
+          RETRY
+        </button>
+      </div>
+    );
   }
 
   return (
