@@ -54,7 +54,7 @@ export const DEFAULT_CAPABILITY_VERIFICATIONS: CapabilityVerificationRecord[] = 
     verificationMethod: null,
     verificationRunId: null,
     sourceCommit: null,
-    notes: 'Stub only — returns package ID without dispatch',
+    notes: 'P1 adapter implemented — live production dispatch requires SITE00_COMPOSER_LIVE_VERIFIED',
     updatedAt: new Date().toISOString(),
   },
   {

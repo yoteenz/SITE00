@@ -91,8 +91,8 @@ describe('P0.5A methodology flags', () => {
     expect(IDENTITY_CONCEPT_TERRITORY_FORMALIZED).toBe(true);
     expect(HYBRID_DISTINCTIVENESS_ARCHITECTURE_READY).toBe(true);
     expect(PRODUCTION_METHODOLOGY_TRUSTWORTHY_FOR_P1).toBe(true);
-    expect(READY_FOR_P1).toBe(false);
-    expect(COMPOSER_ORCHESTRATION_IMPLEMENTED).toBe(false);
+    expect(READY_FOR_P1).toBe(true);
+    expect(COMPOSER_ORCHESTRATION_IMPLEMENTED).toBe(true);
     expect(PRODUCT_EXPRESSION_IMPLEMENTED).toBe(false);
   });
 });
@@ -271,7 +271,7 @@ describe('SITE METHODOLOGY', () => {
       implementationContractReady: true,
       composerLiveVerified: false,
     });
-    expect(eval_.state).toBe('BLOCKED');
+    expect(eval_.state).toBe('PARTIAL');
     expect(eval_.blockers.some((b) => b.includes('Page Families'))).toBe(true);
   });
 });
@@ -460,7 +460,7 @@ describe('IMPLEMENTATION', () => {
     expect(stale).toBe(true);
   });
 
-  it('29. Site implementation remains blocked because Composer is not connected', () => {
+  it('29. Composer adapter connected; live verification still gates full automation', () => {
     const p1 = evaluateSiteP1Preconditions({
       projectId: 'p1',
       siteStrategyReady: true,
@@ -475,10 +475,11 @@ describe('IMPLEMENTATION', () => {
       functionalCanonCurrent: true,
       dependencyGraphCurrent: true,
       implementationContractCompiled: true,
-      composerLiveVerified: true,
+      composerLiveVerified: false,
     });
-    expect(p1.composerConnected).toBe(false);
-    expect(COMPOSER_ORCHESTRATION_IMPLEMENTED).toBe(false);
+    expect(p1.composerConnected).toBe(true);
+    expect(COMPOSER_ORCHESTRATION_IMPLEMENTED).toBe(true);
+    expect(p1.allSatisfied).toBe(false);
   });
 });
 

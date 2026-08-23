@@ -3769,5 +3769,29 @@ Summary of minimum methodology corrections before P1 — dependency invalidation
 
 - **Project page:** Red banner CTA near top of `/projects/ndxbook` — **EXPERIMENTS & VALIDATION HUB →**
 
-- **Config:** `src/site00/config/projectExperimentsHub.ts` (canonical ordered index).
+- **Config:** `src/site00/config/projectExperimentsHub.ts` (canonical ordered ordered index).
+
+---
+
+## 2026-08-23 — P1 Live Visual Pipeline + Contract-Driven Composer Orchestration
+
+Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
+
+- **Context:** After P0 (durable runs), P0.5 audit, and P0.5A methodology corrections, founder requested P1 to prove one real contract-driven production loop: approved visual proof → page-family contract → surface contract → Composer dispatch → capture → fidelity → founder review — without whole-site scale, Product Expression, or World Formation.
+
+- **Deliverables:**
+  - New module `shared/site00-studio-world-production/p1/` — precondition audit, site methodology snapshot, P1 contract compilation (page-family + surface + experience brief), dispatch safety gates, Composer adapter + `ComposerImplementationPackage`, budget guard, accessibility MVP, functional preservation checks, hybrid fidelity evaluator, implementation revision delta, capability registry updates, orchestration service.
+  - Wired `orchestrateVisualDevelopmentImplementation('SITE00_PROJECTS_INDEX')` to P1 dispatch (returns DISPATCHED in test path; blocks without approved proof / mobile policy / stale fingerprints).
+  - `COMPOSER_ORCHESTRATION_IMPLEMENTED = true`; `READY_FOR_P1 = true`.
+  - Audit: `audit/p1-controlled-proof-spec.json`.
+  - Tests: `shared/site00-studio-world-production/p1/p1ControlledProof.test.ts` (27 tests); **1665** total pass; build pass.
+  - Dev dependency: `playwright` (capture service already referenced it).
+
+- **Honest live status:** PRODUCTION_VERIFIED not claimed for Playwright capture, reference-conditioned FAL, Composer live dispatch, or fidelity — infrastructure TEST_VERIFIED only. Founder must review live reference-conditioned SITE00_PROJECTS_INDEX proof before implementation proceeds in production.
+
+- **Controlled target:** SITE00_PROJECTS_INDEX (`/projects`), page family PROJECT_WORKSPACE only — no NDXBOOK home, no whole-site automation.
+
+- **Branch:** `cursor/p1-composer-orchestration-4f59` → PR merge to `main`.
+
+- **Founder next:** Review visual development proof at `/projects/ndxbook/experience-expression/visual-development`; LOVE THE DIRECTION before Composer implementation branch; Railway redeploy after merge; live Playwright + FAL verification in deployed environment when ready.
 

@@ -289,6 +289,7 @@ export type PageFamilyImplementationContract = {
   approvedFamilyProofIds: string[];
   assetBindings: string[];
   functionalRequirements: string[];
+  accessibilityRequirements: string[];
   doNotConstraints: string[];
   fingerprints: SiteMethodologyFingerprints;
   lifecycleState: 'DRAFT' | 'READY' | 'STALE' | 'BLOCKED';

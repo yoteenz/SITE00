@@ -28,4 +28,6 @@ export const HYBRID_DISTINCTIVENESS_ARCHITECTURE_READY = true as const;
 
 export const PRODUCTION_METHODOLOGY_TRUSTWORTHY_FOR_P1 = true as const;
 
-export const READY_FOR_P1 = false as const;
+export const READY_FOR_P1 = true as const;
+
+export * from './p1/index.js';

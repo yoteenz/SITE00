@@ -1,0 +1,46 @@
+/**
+ * P1 — Live Visual Pipeline + Contract-Driven Composer Orchestration constants.
+ */
+
+export const P1_METHODOLOGY_VERSION = 'P1_LIVE_VISUAL_PIPELINE_COMPOSER_ORCHESTRATION' as const;
+
+export const P1_CONTROLLED_SURFACE = 'SITE00_PROJECTS_INDEX' as const;
+
+export const P1_CONTROLLED_ROUTE = '/projects' as const;
+
+export const P1_PAGE_FAMILY_ID = 'PROJECT_WORKSPACE' as const;
+
+export const COMPOSER_ROLE = 'PRODUCTION_ENGINEER' as const;
+
+export const COMPOSER_PROHIBITED_ROLES = [
+  'CREATIVE_DIRECTOR',
+  'EXPERIENCE_DIRECTOR',
+  'BRAND_STRATEGIST',
+  'VISUAL_CONCEPT_GENERATOR',
+  'PAGE_FAMILY_INVENTOR',
+] as const;
+
+export const DEFAULT_P1_BUDGET = {
+  maxVisualGenerationAttempts: 3,
+  maxReferenceConditionedProofAttempts: 2,
+  maxComposerDispatchAttempts: 2,
+  maxFidelityEvaluations: 3,
+  maxRevisionLoops: 2,
+  maxEstimatedCostUsd: 25,
+} as const;
+
+export const P1_CAPABILITY_IDS = [
+  'DURABLE_PERSISTENCE',
+  'PLAYWRIGHT_CAPTURE',
+  'VISUAL_REFERENCE_SELECTION',
+  'REFERENCE_CONDITIONED_GPT_IMAGE_EDIT',
+  'FAL_ASSET_GENERATION',
+  'DESIGN_PROOF_COMPOSITION',
+  'PAGE_FAMILY_CONTRACT_COMPILATION',
+  'SURFACE_CONTRACT_COMPILATION',
+  'COMPOSER_DISPATCH',
+  'POST_IMPLEMENTATION_CAPTURE',
+  'IMPLEMENTATION_FIDELITY',
+] as const;
+
+export type P1CapabilityId = (typeof P1_CAPABILITY_IDS)[number];

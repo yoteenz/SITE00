@@ -1,9 +1,9 @@
 {
   "specId": "SITE00-P0.5A-P1-PRECONDITIONS",
   "methodologyVersion": "P0.5A_PRODUCTION_METHODOLOGY_CORRECTIONS",
-  "readyForP1": false,
+  "readyForP1": true,
   "productionMethodologyTrustworthyForP1": true,
-  "composerOrchestrationImplemented": false,
+  "composerOrchestrationImplemented": true,
   "preconditions": [
     { "id": "SITE_STRATEGY", "required": true, "state": "READY" },
     { "id": "SITE_ARCHITECTURE", "required": true, "state": "READY" },
