@@ -771,4 +771,22 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug }),
       },
     ),
+  projectIntelligenceManifestGet: (slug: string) =>
+    projectsFetch<{
+      ok: true;
+      manifest: Record<string, unknown> | null;
+      readiness: string;
+      formationGate: { allowed: boolean; reason: string | null };
+    }>(`/api/site00/projects?action=project_intelligence_manifest_get&slug=${encodeURIComponent(slug)}`),
+  projectIntelligenceManifestCompile: (slug: string, experienceClass?: string) =>
+    projectsFetch<{
+      ok: true;
+      manifest: Record<string, unknown>;
+      readiness: string;
+      formationGate: { allowed: boolean; reason: string | null };
+    }>('/api/site00/projects?action=project_intelligence_manifest_compile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug, experienceClass }),
+    }),
 };

@@ -16,10 +16,8 @@ import IdntyAssessmentLandingPage from './IdntyAssessmentLandingPage';
 import IdntyAssessmentStepPage from './IdntyAssessmentStepPage';
 import IdntyAssessmentReviewPage from './IdntyAssessmentReviewPage';
 import IdntyAssessmentCompletePage from './IdntyAssessmentCompletePage';
-import { IdentityLoreMobileStep, IdentityLoreWorldReview } from '../../../components/idnty/lore';
-import { IdentityPersonalityMobileStep } from '../../../components/idnty/personality';
-import { getLoreQuestion } from '../../../../../shared/site00-brand-lore/idnty-lore-questions';
-import { getPersonalityQuestion } from '../../../../../shared/site00-brand-lore/idnty-personality-questions';
+import IdntyDiscoveryResultPage from './IdntyDiscoveryResultPage';
+import { PostPurchaseIntelligenceRedirect } from '../../../components/discovery/PostPurchaseIntelligenceRedirect';
 import { IdntyAssessmentShell } from '../../../components/idnty-assessment/IdntyAssessmentShell';
 
 function isValidSlug(slug: string | undefined): slug is IdntyAssessmentStateId {
@@ -82,54 +80,50 @@ export default function IdntyAssessmentRouterPage() {
     return <IdntyAssessmentCompletePage stateSlug={stateSlug} />;
   }
 
-  if (stepSegment === 'world-review') {
+  if (stepSegment === 'discovery-result') {
+    return <IdntyDiscoveryResultPage stateSlug={stateSlug} />;
+  }
+
+  if (stepSegment === 'world-review' || stepSegment === 'personality-review') {
     return (
       <IdntyAssessmentShell state={getIdntyAssessmentState(stateSlug)!} mobileLayout="calibration" showProcessStrip={false}>
-        <IdentityLoreWorldReview stateSlug={stateSlug} />
+        <PostPurchaseIntelligenceRedirect moduleLabel="BRAND LORE & PERSONALITY" />
       </IdntyAssessmentShell>
     );
   }
 
   const loreWorldMatch = pathname.match(/\/world\/([^/]+)/);
-  if (loreWorldMatch?.[1] && getLoreQuestion(loreWorldMatch[1])) {
+  if (loreWorldMatch?.[1]) {
     return (
       <IdntyAssessmentShell state={getIdntyAssessmentState(stateSlug)!} mobileLayout="calibration" showProcessStrip={false}>
-        <IdentityLoreMobileStep stateSlug={stateSlug} stepId={loreWorldMatch[1]} />
+        <PostPurchaseIntelligenceRedirect moduleLabel="BRAND LORE" />
       </IdntyAssessmentShell>
     );
   }
 
   const calibrateMatch = pathname.match(/\/calibrate\/([^/]+)/);
-  if (calibrateMatch?.[1] && getLoreQuestion(calibrateMatch[1])) {
+  if (calibrateMatch?.[1]) {
     return (
       <IdntyAssessmentShell state={getIdntyAssessmentState(stateSlug)!} mobileLayout="calibration" showProcessStrip={false}>
-        <IdentityLoreMobileStep stateSlug={stateSlug} stepId={calibrateMatch[1]} calibrationMode />
+        <PostPurchaseIntelligenceRedirect moduleLabel="BRAND LORE CALIBRATION" />
       </IdntyAssessmentShell>
     );
   }
 
   const personalityMatch = pathname.match(/\/personality\/([^/]+)/);
-  if (personalityMatch?.[1] && getPersonalityQuestion(personalityMatch[1])) {
+  if (personalityMatch?.[1]) {
     return (
       <IdntyAssessmentShell state={getIdntyAssessmentState(stateSlug)!} mobileLayout="calibration" showProcessStrip={false}>
-        <IdentityPersonalityMobileStep stateSlug={stateSlug} stepId={personalityMatch[1]} />
+        <PostPurchaseIntelligenceRedirect moduleLabel="BRAND PERSONALITY" />
       </IdntyAssessmentShell>
     );
   }
 
   const calibratePersonalityMatch = pathname.match(/\/calibrate-personality\/([^/]+)/);
-  if (calibratePersonalityMatch?.[1] && getPersonalityQuestion(calibratePersonalityMatch[1])) {
+  if (calibratePersonalityMatch?.[1]) {
     return (
       <IdntyAssessmentShell state={getIdntyAssessmentState(stateSlug)!} mobileLayout="calibration" showProcessStrip={false}>
-        <IdentityPersonalityMobileStep stateSlug={stateSlug} stepId={calibratePersonalityMatch[1]} calibrationMode />
-      </IdntyAssessmentShell>
-    );
-  }
-
-  if (stepSegment === 'personality-review') {
-    return (
-      <IdntyAssessmentShell state={getIdntyAssessmentState(stateSlug)!} mobileLayout="calibration" showProcessStrip={false}>
-        <IdentityLoreWorldReview stateSlug={stateSlug} includePersonalityReview />
+        <PostPurchaseIntelligenceRedirect moduleLabel="BRAND PERSONALITY CALIBRATION" />
       </IdntyAssessmentShell>
     );
   }

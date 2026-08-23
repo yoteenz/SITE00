@@ -54,6 +54,7 @@ export const SITE00_ROUTES = {
   adminDashboard: '/admin/site00',
   projects: '/projects',
   projectDetail: '/projects/:projectSlug',
+  projectSetup: '/projects/:projectSlug/setup',
   projectEvolve: '/projects/:projectSlug/evolve',
   projectCreativeDirection: '/projects/:projectSlug/creative-direction',
   projectLoreCalibration: '/projects/:projectSlug/calibrate',
@@ -100,6 +101,10 @@ export function site00IntakeGuestAccessPath(token: string): string {
 
 export function site00ProjectPath(projectSlug: string): string {
   return `/projects/${projectSlug}`;
+}
+
+export function site00ProjectSetupPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/setup`;
 }
 
 export function site00ProjectLoreCalibrationPath(projectSlug: string): string {
