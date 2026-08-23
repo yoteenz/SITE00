@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { buildPersonalitySummaryFromAnswers } from '../../../shared/site00-brand-lore/personalitySummary';
 import { PersonalityReplayIntakeStep } from '../components/validation/PersonalityReplayIntakeStep';
+import { PersonalityReplayExecutionProgress } from '../components/validation/PersonalityReplayExecutionProgress';
 import { usePersonalityReplayIntake, PersonalityReplayIntakeProvider } from '../hooks/usePersonalityReplayIntake';
 import {
   projectPersonalityReplayStepPath,
@@ -18,6 +19,7 @@ import {
 } from '../utils/personalityReplaySubmit';
 import '../styles/site00-project-lore-calibration.css';
 import '../styles/site00-creative-direction.css';
+import '../styles/site00-replay-execution.css';
 
 const REPLAY_SHELL_STATE = getIdntyAssessmentState('ready-for-evolution')!;
 
@@ -55,6 +57,12 @@ function ProjectPersonalityReplayPageInner({
     saveError,
     submitState,
     submitError,
+    executionPhase,
+    executionError,
+    executionJobId,
+    nativeProofFormat,
+    heroAsset,
+    reload,
   } = usePersonalityReplayIntake(projectSlug);
 
   useEffect(() => {
@@ -152,7 +160,7 @@ function ProjectPersonalityReplayPageInner({
                   disabled={!canSubmit}
                   onClick={async () => {
                     const ok = await submitIntake();
-                    if (ok) navigate(site00ProjectPath(projectSlug));
+                    if (ok) await reload();
                   }}
                 >
                   {submitState === 'submitting'
@@ -161,10 +169,25 @@ function ProjectPersonalityReplayPageInner({
                       ? 'PERSONALITY SUBMITTED'
                       : 'SUBMIT PERSONALITY'}
                 </button>
+                <PersonalityReplayExecutionProgress
+                  projectSlug={projectSlug}
+                  replayId={replayId}
+                  replay={{
+                    status: status ?? undefined,
+                    executionPhase: executionPhase as import('../../../shared/site00-brand-lore/replayExecutionPhases').ReplayExecutionPhase | null,
+                    executionError,
+                    executionJobId,
+                    nativeProofFormat,
+                    heroAsset,
+                  }}
+                  onReplayUpdate={() => {
+                    void reload();
+                  }}
+                />
                 <p className="site00-idnty-calibration-rail__category">STATUS: {status ?? 'IN PROGRESS'}</p>
                 {intakeSubmitted ? (
                   <p className="site00-idnty-calibration-rail__category">
-                    YOUR PERSONALITY INTAKE IS ON FILE. RETURN TO THE PROJECT TO CONTINUE.
+                    PERSONALITY ON FILE. EXECUTION PROGRESS SHOWN ABOVE — REFRESH SAFE.
                   </p>
                 ) : null}
               </div>

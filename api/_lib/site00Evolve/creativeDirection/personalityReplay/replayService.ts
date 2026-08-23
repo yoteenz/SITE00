@@ -27,6 +27,11 @@ import { IDNTY_PERSONALITY_QUESTIONS } from '../../../../../shared/site00-brand-
 import type { PersonalityReplayStatus } from '../../../../../shared/site00-brand-lore/personalityReplayTypes.js';
 import { assertReplayProductionReadyForDownstream, buildReplayProductionPreflightReport } from '../../../../../shared/site00-brand-lore/replayProductionPreflight.js';
 import { buildCoreDirectionFormationInput } from '../creativeIntelligence/formationInputBuilder.js';
+import {
+  executePersonalityReplayDownstream,
+  getReplayExecutionDiagnosticForId,
+  buildReplayExecutionDiagnostic,
+} from './replayExecutionService.js';
 import * as replayStore from './replayStore/storeAdapter.js';
 import { getOrReconcileBrandLoreForOrg } from '../../../site00BrandLore/loreService.js';
 import * as brandLoreStore from '../../../site00BrandLore/storeAdapter.js';
@@ -171,10 +176,27 @@ export async function completeReplayPersonalityIntake(replayId: string): Promise
     personalityReadiness: readiness.state,
     personalityMissingDomains: readiness.missingDomains,
     status: 'FORMATION_READY',
+    personalitySubmittedAt: existing.personalitySubmittedAt ?? nowIso(),
+    executionPhase: existing.executionPhase ?? 'PERSONALITY_SUBMITTED',
     updatedAt: nowIso(),
   };
 
-  return replayStore.savePersonalityReplayRecord(updated);
+  const saved = await replayStore.savePersonalityReplayRecord(updated);
+
+  if (
+    saved.status !== 'COMPARISON_READY' &&
+    !saved.comparisonReport &&
+    (!saved.executionJobId || saved.executionError) &&
+    !saved.heroAsset
+  ) {
+    if (process.env.VITEST === 'true') {
+      return executePersonalityReplayDownstream(saved.replayId);
+    }
+    void executePersonalityReplayDownstream(saved.replayId).catch((err) => {
+      console.error('[personality-replay] downstream execution failed', err);
+    });
+  }
+  return saved;
 }
 
 /** Build shadow formation input — no legacy direction names, no benchmark leakage. */
@@ -331,11 +353,25 @@ const RESUMABLE_REPLAY_STATUSES: PersonalityReplayStatus[] = [
   'CREATED',
   'INTAKE_IN_PROGRESS',
   'PERSONALITY_READY',
+  'FORMATION_READY',
+  'CORE_DIRECTION_FORMED',
+  'DIRECTION_EXPRESSION_READY',
+  'CREATIVE_EXPRESSION_READY',
+  'IDENTITY_ART_DIRECTION_READY',
+  'HERO_GENERATED',
+  'COMPARISON_READY',
+  'FOUNDER_REVIEW',
 ];
 
 export { resolvePersonalityReplayResumeStepId };
 
 export { buildReplayProductionPreflightReport, assertReplayProductionReadyForDownstream };
+export {
+  executePersonalityReplayDownstream,
+  getReplayExecutionDiagnosticForId,
+  buildReplayExecutionDiagnostic,
+  findActiveSubmittedReplay,
+} from './replayExecutionService.js';
 
 /** Resume an in-progress replay or create a fresh shadow validation run. */
 export async function getOrCreateActivePersonalityReplay(params: {

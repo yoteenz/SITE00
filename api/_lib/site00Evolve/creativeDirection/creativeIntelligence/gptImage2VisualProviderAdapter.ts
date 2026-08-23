@@ -80,6 +80,7 @@ export async function generateIdentityNativeImageFromBrief(params: {
   brief: IdentityNativeVisualBrief;
   referenceImageUrls?: string[];
   uploadReference?: (url: string) => Promise<string>;
+  aspectRatio?: string;
 }): Promise<{ url: string; model: string; costEstimateUsd: number }> {
   const isV2CreativeRefinement = params.brief.compiledPrompt.includes('CREATIVE EXPRESSION LAYER');
   return generateImageFromCompiledBrief({
@@ -89,7 +90,7 @@ export async function generateIdentityNativeImageFromBrief(params: {
       : params.brief.forbiddenGenericBehavior.slice(0, 10),
     referenceImageUrls: undefined,
     uploadReference: params.uploadReference,
-    aspectRatio: '16:9',
+    aspectRatio: params.aspectRatio ?? '16:9',
     textOnly: true,
   });
 }

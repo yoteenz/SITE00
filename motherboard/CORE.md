@@ -94,11 +94,11 @@ Clone path on cloud VM: `/home/ubuntu/SITE00` (may mirror `/workspace` checkout)
 - **Build:** `npm ci && npm run build` → upload **contents of `dist/`** only.
 - **Founder often on mobile:** Build in cloud agent → ZIP `dist/` → upload/extract via mobile cPanel File Manager; do not assume local machine access.
 - **API on cPanel static:** Not supported without separate Node/API host (`VITE_API_BASE`).
-- **Agent session close (required format):** When wrapping a session (or when the founder needs production updated), deliver **two parts** — never one without the other:
+- **Agent session close (required format — three parts):** When wrapping a session (or when the founder needs production updated), deliver **all three** — never omit one:
   1. **Text summary** — normal prose: what changed, why, what to do next (Railway redeploy, etc.).
-  2. **Deploy links** — immediately after the text, send each copy-paste item **on its own line** (plain markdown links or bare URLs). The founder copies links **one at a time** on mobile — do **not** bundle download URL, release page, verify bundle, and upload steps into a single fenced code box.
-- **Typical deploy close (separate lines):** ZIP download URL · release page URL · verify bundle path (e.g. `/assets/index.XXXX.js`) · one-line upload reminder.
-- Build the ZIP from current `main`, publish to GitHub Releases (`site00-deploy-YYYY-MM-DD-vN`). Do not wait for the founder to ask. Do **not** send only links with no text summary, and do **not** omit deploy links when frontend code changed or a deploy refresh is relevant.
+  2. **Structured conclusion code box** — one fenced code block containing the sprint's `CONCLUSION` template (STATUS blocks, preflight booleans, FINAL line, `STOP.`). This is for founder copy-paste on mobile; **do not** put deploy URLs inside this box.
+  3. **Deploy links** — immediately after the code box, each copy-paste item **on its own line** (plain markdown links or bare URLs): ZIP download · release page · verify bundle path · one-line upload reminder. Founder copies links **one at a time** on mobile.
+- **Not:** prose-only close with no conclusion code box; conclusion-only with no prose; deploy URLs bundled inside the conclusion code box; deploy links omitted when frontend/API changed.
 
 ---
 

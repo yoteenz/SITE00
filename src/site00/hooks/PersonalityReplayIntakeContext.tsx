@@ -25,6 +25,11 @@ export type PersonalityReplayIntakeState = {
   answers: Record<string, string | string[]>;
   completedSteps: string[];
   status: string | null;
+  executionPhase: string | null;
+  executionError: string | null;
+  executionJobId: string | null;
+  nativeProofFormat: string | null;
+  heroAsset: { assetId?: string; storagePath?: string } | null;
   saveState: 'idle' | 'saving' | 'saved' | 'error';
   saveError: string | null;
   submitState: 'idle' | 'submitting' | 'submitted' | 'error';
@@ -103,6 +108,11 @@ export function PersonalityReplayIntakeProvider({
   const [answers, setAnswers] = useState<Record<string, string | string[]>>(local?.answers ?? {});
   const [completedSteps, setCompletedSteps] = useState<string[]>(local?.completedSteps ?? []);
   const [status, setStatus] = useState<string | null>(local?.status ?? null);
+  const [executionPhase, setExecutionPhase] = useState<string | null>(null);
+  const [executionError, setExecutionError] = useState<string | null>(null);
+  const [executionJobId, setExecutionJobId] = useState<string | null>(null);
+  const [nativeProofFormat, setNativeProofFormat] = useState<string | null>(null);
+  const [heroAsset, setHeroAsset] = useState<{ assetId?: string; storagePath?: string } | null>(null);
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [saveError, setSaveError] = useState<string | null>(null);
   const [submitState, setSubmitState] = useState<'idle' | 'submitting' | 'submitted' | 'error'>('idle');
@@ -141,6 +151,11 @@ export function PersonalityReplayIntakeProvider({
       rawPersonalityAnswers?: Record<string, string | string[]>;
       personalityCompletedSteps?: string[];
       status?: string;
+      executionPhase?: string | null;
+      executionError?: string | null;
+      executionJobId?: string | null;
+      nativeProofFormat?: string | null;
+      heroAsset?: { assetId?: string; storagePath?: string } | null;
     }) => {
       const serverAnswers = payload.rawPersonalityAnswers ?? {};
       const localAnswers = readLocal(projectSlug)?.answers ?? answersRef.current;
@@ -153,6 +168,11 @@ export function PersonalityReplayIntakeProvider({
       setAnswers(nextAnswers);
       setCompletedSteps(nextCompleted);
       setStatus(payload.status ?? null);
+      setExecutionPhase(payload.executionPhase ?? null);
+      setExecutionError(payload.executionError ?? null);
+      setExecutionJobId(payload.executionJobId ?? null);
+      setNativeProofFormat(payload.nativeProofFormat ?? null);
+      setHeroAsset(payload.heroAsset ?? null);
       setResumeStepId(resolvePersonalityReplayResumeStepId(nextAnswers));
       persistLocal({
         replayId: payload.replayId,
@@ -259,12 +279,22 @@ export function PersonalityReplayIntakeProvider({
         rawPersonalityAnswers?: Record<string, string | string[]>;
         personalityCompletedSteps?: string[];
         status?: string;
+        executionPhase?: string | null;
+        executionError?: string | null;
+        executionJobId?: string | null;
+        nativeProofFormat?: string | null;
+        heroAsset?: { assetId?: string; storagePath?: string } | null;
       };
       applyReplayPayload({
         replayId: replay.replayId ?? activeReplayId,
         rawPersonalityAnswers: replay.rawPersonalityAnswers,
         personalityCompletedSteps: replay.personalityCompletedSteps,
         status: replay.status,
+        executionPhase: replay.executionPhase,
+        executionError: replay.executionError,
+        executionJobId: replay.executionJobId,
+        nativeProofFormat: replay.nativeProofFormat,
+        heroAsset: replay.heroAsset,
       });
     } catch (err) {
       if (isReplayNotFoundError(err)) {
@@ -304,6 +334,11 @@ export function PersonalityReplayIntakeProvider({
           rawPersonalityAnswers: result.replay.rawPersonalityAnswers,
           personalityCompletedSteps: result.replay.personalityCompletedSteps,
           status: result.replay.status,
+          executionPhase: (result.replay as { executionPhase?: string }).executionPhase,
+          executionError: (result.replay as { executionError?: string }).executionError,
+          executionJobId: (result.replay as { executionJobId?: string }).executionJobId,
+          nativeProofFormat: (result.replay as { nativeProofFormat?: string }).nativeProofFormat,
+          heroAsset: (result.replay as { heroAsset?: { assetId?: string; storagePath?: string } }).heroAsset,
         });
         return result.resumeStepId;
       } catch (err) {
@@ -412,6 +447,11 @@ export function PersonalityReplayIntakeProvider({
       answers,
       completedSteps,
       status,
+      executionPhase,
+      executionError,
+      executionJobId,
+      nativeProofFormat,
+      heroAsset,
       saveState,
       saveError,
       submitState,
@@ -434,6 +474,11 @@ export function PersonalityReplayIntakeProvider({
       answers,
       completedSteps,
       status,
+      executionPhase,
+      executionError,
+      executionJobId,
+      nativeProofFormat,
+      heroAsset,
       saveState,
       saveError,
       submitState,

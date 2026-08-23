@@ -6,6 +6,7 @@
 
 import type { BrandLoreProfile } from './types.js';
 import type { BrandPersonalityProfile, BrandPersonalityReadinessState } from './personalityTypes.js';
+import type { ReplayExecutionPhase } from './replayExecutionPhases.js';
 
 /** Opaque pipeline artifacts — canonical types live in creativeIntelligence modules. */
 export type ReplayFormationRecord = Record<string, unknown> | null;
@@ -76,6 +77,12 @@ export type ReplayHeroAsset = {
   generatedAt: string;
 };
 
+export type ReplayExecutionAccounting = {
+  anthropicRequests: number;
+  falRequests: number;
+  estimatedCostUsd: number;
+};
+
 export type BrandPersonalityReplayRecord = {
   replayId: string;
   mode: typeof NDX_PERSONALITY_REPLAY_MODE;
@@ -107,6 +114,16 @@ export type BrandPersonalityReplayRecord = {
   comparisonReport: ReplayConvergenceReport | null;
   founderValidationJudgment: FounderReplayValidationJudgment;
   hardcodingAudit: HardcodingAuditReport | null;
+
+  /** When founder tapped Submit Personality on review screen. */
+  personalitySubmittedAt?: string | null;
+  /** Fine-grained UI progression — persisted across refresh. */
+  executionPhase?: ReplayExecutionPhase | null;
+  /** Idempotency guard — one downstream job per replay submission. */
+  executionJobId?: string | null;
+  executionError?: string | null;
+  nativeProofFormat?: string | null;
+  executionAccounting?: ReplayExecutionAccounting | null;
 
   /** Validation-only — never promotes to founder canon. */
   classification: 'SHADOW_VALIDATION';
