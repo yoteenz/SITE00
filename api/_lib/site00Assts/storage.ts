@@ -20,6 +20,12 @@ export function buildThumbnailPath(fullPath: string): string {
   return fullPath.replace(/(\.[a-z]+)$/i, '_thumb$1');
 }
 
+export function getSite00AssetPublicUrl(storagePath: string): string {
+  const supabase = getSupabaseAdmin();
+  const { data } = supabase.storage.from(SITE00_ASSETS_BUCKET).getPublicUrl(storagePath);
+  return data.publicUrl;
+}
+
 export async function uploadSite00AssetBuffer(
   storagePath: string,
   buffer: Buffer,
@@ -32,8 +38,7 @@ export async function uploadSite00AssetBuffer(
     upsert: options?.upsert === true,
   });
   if (error) throw new Error(`Storage upload failed: ${error.message}`);
-  const { data } = supabase.storage.from(SITE00_ASSETS_BUCKET).getPublicUrl(storagePath);
-  return { publicUrl: data.publicUrl, storagePath };
+  return { publicUrl: getSite00AssetPublicUrl(storagePath), storagePath };
 }
 
 export async function downloadUrlToBuffer(url: string): Promise<Buffer> {

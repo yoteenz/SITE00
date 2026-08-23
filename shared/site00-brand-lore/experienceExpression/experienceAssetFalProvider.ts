@@ -4,7 +4,12 @@
  */
 
 import { createHash } from 'node:crypto';
-import { downloadUrlToBuffer, uploadSite00AssetBuffer } from '../../../api/_lib/site00Assts/storage.js';
+import {
+  downloadUrlToBuffer,
+  getSite00AssetPublicUrl,
+  site00StorageObjectExists,
+  uploadSite00AssetBuffer,
+} from '../../../api/_lib/site00Assts/storage.js';
 import { EXPERIENCE_VISUAL_COST_ESTIMATE_USD } from './constants.js';
 import type { DesignProofAssetRequirement } from './designProofManifest.js';
 import {
@@ -151,6 +156,19 @@ async function runFalGeneration(params: {
     return { ok: false, error: 'FAL_KEY not configured on server', requirementId: params.requirementId };
   }
 
+  if (await site00StorageObjectExists(params.storagePath)) {
+    return {
+      ok: true,
+      storagePath: params.storagePath,
+      publicUrl: getSite00AssetPublicUrl(params.storagePath),
+      requestId: null,
+      promptHash: params.promptHash,
+      costUsd: 0,
+      provider: 'storage-reuse',
+      model: 'existing-object',
+    };
+  }
+
   try {
     const { fal } = await import('@fal-ai/client');
     fal.config({ credentials: falKey });
@@ -186,7 +204,7 @@ async function runFalGeneration(params: {
     }
 
     const buffer = await downloadUrlToBuffer(imageUrl);
-    const upload = await uploadSite00AssetBuffer(params.storagePath, buffer, 'image/webp');
+    const upload = await uploadSite00AssetBuffer(params.storagePath, buffer, 'image/webp', { upsert: true });
 
     return {
       ok: true,
