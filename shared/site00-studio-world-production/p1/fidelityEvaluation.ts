@@ -35,7 +35,11 @@ export function evaluateImplementationFidelity(params: {
   route?: string;
 }): ExperienceImplementationEvaluationResult {
   const hasCapture = params.implementedCaptures.length > 0;
-  const hasApprovedProof = Boolean(params.proof.composedProof);
+  const hasApprovedProof =
+    Boolean(params.proof.composedProof) ||
+    (params.proof.surfaceGenerationMode === 'COMPOSED_INTERFACE' &&
+      Boolean(params.proof.surfaceVisualAuthorityPackage) &&
+      params.proof.generatedAssets.length > 0);
 
   const functionalChecks = runDeterministicFunctionalChecks({
     route: params.route ?? params.proof.surface,

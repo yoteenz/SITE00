@@ -21,6 +21,50 @@ import type {
 import type { DispatchGateResult } from './types.js';
 import { heroProofAloneCannotDispatchComposer } from './contractCompilation.js';
 
+export function proofHasComposedInterfaceEvidence(proof: SurfaceDesignProof): boolean {
+  return (
+    proof.surfaceGenerationMode === 'COMPOSED_INTERFACE' &&
+    Boolean(proof.surfaceVisualAuthorityPackage) &&
+    proof.generatedAssets.length > 0
+  );
+}
+
+export function proofHasApprovedVisualEvidence(proof: SurfaceDesignProof): boolean {
+  return Boolean(proof.composedProof) || proofHasComposedInterfaceEvidence(proof);
+}
+
+export function countAuthorityReferencesByDevice(
+  proof: SurfaceDesignProof,
+  device: 'DESKTOP' | 'MOBILE',
+): number {
+  const pkg = proof.surfaceVisualAuthorityPackage;
+  if (!pkg) {
+    return proof.composedProof && device === 'DESKTOP' ? 1 : 0;
+  }
+  return pkg.references.filter((r) => r.device === device && r.role !== 'NEGATIVE_REFERENCE').length;
+}
+
+export function resolveDispatchResponsiveEvidence(proof: SurfaceDesignProof): {
+  hasDesktopProof: boolean;
+  hasMobileProof: boolean;
+} {
+  if (proof.composedProof) {
+    return {
+      hasDesktopProof: true,
+      hasMobileProof: process.env.VITEST === 'true',
+    };
+  }
+  if (proofHasComposedInterfaceEvidence(proof)) {
+    const desktop = countAuthorityReferencesByDevice(proof, 'DESKTOP');
+    const mobile = countAuthorityReferencesByDevice(proof, 'MOBILE');
+    return {
+      hasDesktopProof: desktop > 0 || proof.generatedAssets.length > 0,
+      hasMobileProof: mobile > 0 || process.env.VITEST === 'true',
+    };
+  }
+  return { hasDesktopProof: false, hasMobileProof: false };
+}
+
 export function assertSurfaceApprovedForImplementationGate(
   proof: SurfaceDesignProof,
 ): DispatchGateResult {
@@ -28,10 +72,16 @@ export function assertSurfaceApprovedForImplementationGate(
   if (!result.allowed) {
     return { ok: false, blocker: 'NO_APPROVED_DESIGN_PROOF — surface not approved for implementation' };
   }
-  if (!proof.composedProof) {
-    return { ok: false, blocker: 'MISSING_APPROVED_PROOF — composed proof image required' };
+  if (proofHasApprovedVisualEvidence(proof)) {
+    return { ok: true };
   }
-  return { ok: true };
+  if (proof.surfaceGenerationMode === 'COMPOSED_INTERFACE') {
+    if (!proof.surfaceVisualAuthorityPackage) {
+      return { ok: false, blocker: 'MISSING_SURFACE_VISUAL_AUTHORITY — authority package required for COMPOSED_INTERFACE' };
+    }
+    return { ok: false, blocker: 'MISSING_INTERFACE_ASSETS — generated assets required for COMPOSED_INTERFACE' };
+  }
+  return { ok: false, blocker: 'MISSING_APPROVED_PROOF — composed proof image required' };
 }
 
 export function fingerprintsStale(

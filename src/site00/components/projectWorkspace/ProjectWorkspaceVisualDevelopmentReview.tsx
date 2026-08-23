@@ -17,6 +17,8 @@ type ProofPanelProps = {
   onRefreshReferences?: () => Promise<void>;
   onCompileReferences?: () => Promise<void>;
   onExcludeReference?: (referenceId: string) => Promise<void>;
+  onPrepareInterface?: () => Promise<void>;
+  onGenerateMissingAssets?: () => Promise<void>;
   onJudgment: (judgment: 'LOVE_THE_DIRECTION' | 'PROMISING_REVISE' | 'NOT_THE_DIRECTION') => Promise<void>;
   onPrepare: () => Promise<void>;
   onOrchestrate: () => Promise<void>;
@@ -126,6 +128,8 @@ function ProofPanel({
   onRefreshReferences,
   onCompileReferences,
   onExcludeReference,
+  onPrepareInterface,
+  onGenerateMissingAssets,
   onJudgment,
   onPrepare,
   onOrchestrate,
@@ -138,12 +142,20 @@ function ProofPanel({
   const hasProofA = proof.proofLabel === 'PROOF_A' || (composed && !proof.referenceConditioned);
   const canGenerateReferenceConditioned = hasProofA && composed && onGenerateReferenceConditioned;
 
+  const composedInterface = proof.surfaceGenerationMode === 'COMPOSED_INTERFACE';
+  const interfaceManifest = proof.interfaceAssetManifest;
+  const assetsReady = proof.generatedAssets.length > 0 && !composed;
+
   return (
     <section className="site00-vd-proof" aria-label={title}>
       <header className="site00-vd-proof__header">
         <h2 className="site00-vd-proof__title">{title}</h2>
         <p className="site00-vd-proof__status">
           Status: <strong>{proof.lifecycle.replace(/_/g, ' ')}</strong>
+          {' · '}
+          Surface mode: <strong>{proof.surfaceGenerationMode.replace(/_/g, ' ')}</strong>
+          {' · '}
+          Reference status: <strong>{proof.referencePipelineStatus.replace(/_/g, ' ')}</strong>
           {proof.proofLabel ? (
             <>
               {' '}
@@ -175,7 +187,34 @@ function ProofPanel({
         </div>
       ) : null}
 
-      {!composed ? (
+      {composedInterface ? (
+        <div className="site00-vd-proof__composed-interface">
+          <p>
+            FULL-PAGE IMAGE GENERATION: <strong>NOT REQUIRED</strong> — Composer assembles the live interface from host
+            references + missing assets.
+          </p>
+          {interfaceManifest ? (
+            <p>
+              Assets required: {interfaceManifest.requirements.length} · Reusable: {interfaceManifest.reusableCount} ·
+              Missing: {interfaceManifest.missingCount} · Generation required: {interfaceManifest.generationRequiredCount}
+            </p>
+          ) : null}
+          <div className="site00-vd-proof__generate">
+            {onPrepareInterface ? (
+              <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void onPrepareInterface()}>
+                CAPTURE / REFRESH REFERENCES + PREPARE INTERFACE
+              </button>
+            ) : null}
+            {onGenerateMissingAssets ? (
+              <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void onGenerateMissingAssets()}>
+                GENERATE MISSING ASSETS
+              </button>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
+
+      {!composedInterface && !composed ? (
         <div className="site00-vd-proof__generate">
           <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void onGenerate()}>
             GENERATE DESIGN PROOF
@@ -191,7 +230,28 @@ function ProofPanel({
             </button>
           ) : null}
         </div>
-      ) : (
+      ) : null}
+
+      {composedInterface && assetsReady ? (
+        <div className="site00-vd-proof__assets">
+          <p className="site00-vd-proof__assets-title">GENERATED INTERFACE ASSETS</p>
+          <ul>
+            {proof.generatedAssets.map((asset) => (
+              <li key={asset.requirementId}>
+                {asset.assetRole}
+                {asset.publicUrl ? (
+                  <>
+                    {' '}
+                    — <a href={asset.publicUrl}>preview</a>
+                  </>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
+      {composed && !composedInterface ? (
         <div className="site00-vd-proof__image-wrap">
           {composed.publicUrl ? (
             <img src={composed.publicUrl} alt={`${title} design proof`} className="site00-vd-proof__image" />
@@ -199,9 +259,9 @@ function ProofPanel({
             <p className="site00-vd-proof__path">Proof stored: {composed.storagePath}</p>
           )}
         </div>
-      )}
+      ) : null}
 
-      {canGenerateReferenceConditioned ? (
+      {canGenerateReferenceConditioned && !composedInterface ? (
         <div className="site00-vd-proof__generate">
           <p className="site00-vd-proof__ab-note">
             PREVIOUS PROOF (Proof A — textual host canon) preserved. Generate reference-conditioned Proof B below.
@@ -221,7 +281,7 @@ function ProofPanel({
         <p className="site00-vd-proof__error">GENERATION_FAILED — {proof.generationError}</p>
       ) : null}
 
-      {composed ? (
+      {composed || (composedInterface && assetsReady) ? (
         <div className="site00-vd-proof__judgment">
           <button type="button" className="site00-btn" disabled={busy} onClick={() => void onJudgment('LOVE_THE_DIRECTION')}>
             LOVE THE DIRECTION
@@ -377,6 +437,16 @@ export function ProjectWorkspaceVisualDevelopmentReview({ projectSlug }: Project
               referenceId,
             );
             await site00ProjectsApi.visualDevelopmentCompileReferences(projectSlug, 'SITE00_PROJECTS_INDEX');
+          })
+        }
+        onPrepareInterface={() =>
+          wrap(async () => {
+            await site00ProjectsApi.visualDevelopmentPrepareInterface(projectSlug, 'SITE00_PROJECTS_INDEX');
+          })
+        }
+        onGenerateMissingAssets={() =>
+          wrap(async () => {
+            await site00ProjectsApi.visualDevelopmentGenerateAssets(projectSlug, 'SITE00_PROJECTS_INDEX');
           })
         }
         onJudgment={(judgment) =>

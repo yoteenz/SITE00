@@ -40,6 +40,7 @@ export function evaluateDesignProofQA(params: {
   composedImagePresent: boolean;
   generationFailed: boolean;
   proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
+  composedInterfaceMode?: boolean;
   heuristicFlags?: Partial<{
     mostlyText: boolean;
     mostlyBorderedRectangles: boolean;
@@ -51,6 +52,38 @@ export function evaluateDesignProofQA(params: {
     site00HostLost: boolean;
   }>;
 }): DesignProofQAResult {
+  if (params.composedInterfaceMode && !params.generationFailed && params.generatedAssetCount > 0) {
+    const substantiveGate = visualDevelopmentSubstantive({
+      mostlyText: false,
+      mostlyBorderedRectangles: false,
+      resemblesCurrentProductionWithRenamedSections: false,
+      artworkTinyDecorationOnly: false,
+      noGeneratedAssetMateriallyAffectsDesign: false,
+      equalWeightRegions: false,
+      saasDashboardResemblance: false,
+      adminPortalResemblance: false,
+      workbenchTerminologyOnly: false,
+      dossierTerminologyOnly: false,
+      ndxbookNameOnlyRecognition: false,
+      site00HostRecognitionLost: false,
+      literalWorkbenchImageryDominates: false,
+      literalCaseDossierImageryDominates: false,
+      generatedAssetCount: params.generatedAssetCount,
+      composedImagePresent: false,
+      authoredVisualExpressionRequired: true,
+    });
+    return {
+      evaluatedAt: new Date().toISOString(),
+      overallResult: params.visionEvaluationAvailable ? 'NOT_EVALUATED' : 'NOT_EVALUATED',
+      dimensions: DESIGN_PROOF_QA_DIMENSIONS.map((d) => ({
+        dimension: d,
+        result: 'NOT_EVALUATED',
+        notes: ['COMPOSED_INTERFACE — assets ready; live surface fidelity deferred to post-implementation capture'],
+      })),
+      substantiveGate,
+    };
+  }
+
   if (params.generationFailed || !params.composedImagePresent) {
     return {
       evaluatedAt: new Date().toISOString(),

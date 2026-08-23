@@ -20,6 +20,7 @@ import {
   evaluateImplementationFidelity,
   buildImplementationRevisionDelta,
 } from './fidelityEvaluation.js';
+import { resolveDispatchResponsiveEvidence } from './dispatchGates.js';
 import { getP1ControlledProofRun, saveP1ControlledProofRun, resetP1ControlledProofRun } from './p1RunStore.js';
 import { updateP1CapabilityVerification, mergeP1CapabilityVerifications } from './capabilityRegistry.js';
 
@@ -126,6 +127,7 @@ export async function dispatchP1ComposerImplementation(params: {
     sourceCommit: run.preconditionAudit?.sourceCommit ?? null,
   });
 
+  const responsiveEvidence = resolveDispatchResponsiveEvidence(params.proof);
   const dispatchResult = dispatchComposerPackage({
     pkg,
     proof: params.proof,
@@ -134,8 +136,8 @@ export async function dispatchP1ComposerImplementation(params: {
       composerVerified: params.composerVerified ?? process.env.VITEST === 'true',
       dependencyGraphCurrent: true,
       functionalCanonCurrent: true,
-      hasDesktopProof: Boolean(params.proof.composedProof),
-      hasMobileProof: process.env.VITEST === 'true',
+      hasDesktopProof: responsiveEvidence.hasDesktopProof,
+      hasMobileProof: responsiveEvidence.hasMobileProof,
     },
     storedFingerprints: contracts.pageFamilyContract.fingerprints,
   });

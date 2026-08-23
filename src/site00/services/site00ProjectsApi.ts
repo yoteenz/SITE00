@@ -599,6 +599,30 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, proofId }),
       },
     ),
+  visualDevelopmentGenerateAssets: (
+    slug: string,
+    proofId: 'SITE00_PROJECTS_INDEX',
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=visual_development_generate_assets',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, proofId }),
+      },
+    ),
+  visualDevelopmentPrepareInterface: (
+    slug: string,
+    proofId: 'SITE00_PROJECTS_INDEX',
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=visual_development_prepare_interface',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, proofId }),
+      },
+    ),
   visualDevelopmentJudgment: (
     slug: string,
     proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',

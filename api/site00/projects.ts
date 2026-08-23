@@ -94,6 +94,8 @@ import {
   refreshVisualDevelopmentReferences,
   compileVisualDevelopmentReferencePackage,
   excludeVisualDevelopmentReference,
+  generateMissingInterfaceAssets,
+  prepareComposedInterfaceSurface,
   setVisualDevelopmentProofJudgment,
 } from '../_lib/site00Evolve/creativeDirection/experienceExpressionExperiment/visualDevelopmentService.js';
 import {
@@ -1500,6 +1502,38 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const run = await excludeVisualDevelopmentReference(proofId, referenceId);
         return json(res, 200, { ok: true, run, source: 'site00_visual_reference' });
+      }
+      case 'visual_development_prepare_interface': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
+        if (slug !== 'ndxbook' || proofId !== 'SITE00_PROJECTS_INDEX') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await prepareComposedInterfaceSurface(proofId);
+        return json(res, 200, { ok: true, run, source: 'site00_visual_development' });
+      }
+      case 'visual_development_generate_assets': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
+        if (slug !== 'ndxbook' || proofId !== 'SITE00_PROJECTS_INDEX') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await generateMissingInterfaceAssets(proofId);
+        return json(res, 200, { ok: true, run, source: 'site00_visual_development' });
       }
       case 'visual_development_judgment': {
         if (req.method !== 'POST') {

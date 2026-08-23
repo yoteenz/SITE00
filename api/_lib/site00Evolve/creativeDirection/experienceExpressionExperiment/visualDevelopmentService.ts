@@ -49,6 +49,16 @@ import {
 } from '../../../site00VisualReference/visualReferenceService.js';
 import { evaluateReferenceAdherence } from '../../../../../shared/site00-visual-reference/referenceAdherenceQA.js';
 import type { VisualReferencePackage } from '../../../../../shared/site00-visual-reference/types.js';
+import {
+  assertFullPageGenerationAllowed,
+  assertReferencePipelineReady,
+  buildVisualGenerationExecutionTrace,
+  classifySurfaceGenerationMode,
+  compileInterfaceAssetManifest,
+  compileSurfaceVisualAuthorityPackage,
+  evaluateReferencePipelineStatus,
+  FULL_PAGE_GENERATION_NOT_ALLOWED_FOR_COMPOSED_INTERFACE,
+} from '../../../../../shared/site00-studio-world-production/p1/generationBoundary/index.js';
 import * as store from './visualDevelopmentStoreAdapter.js';
 
 function nowIso(): string {
@@ -104,6 +114,11 @@ function initProof(
     proofLineage: [],
     excludedReferenceIds: [],
     referenceAdherenceResult: null,
+    surfaceGenerationMode: isProjects ? 'COMPOSED_INTERFACE' : 'VISUAL_PROOF',
+    referencePipelineStatus: 'NOT_STARTED',
+    surfaceVisualAuthorityPackage: null,
+    interfaceAssetManifest: null,
+    executionTraces: [],
   };
 }
 
@@ -170,6 +185,220 @@ export async function refreshVisualDevelopmentReferences(
   return run;
 }
 
+function refreshSurfaceClassification(proof: SurfaceDesignProof): void {
+  proof.surfaceGenerationMode = classifySurfaceGenerationMode({
+    proofId: proof.proofId,
+    hasHostVisualAuthority: Boolean(proof.referencePackage?.references.length),
+    visualDirectionUnresolved: proof.proofId === 'NDXBOOK_PROJECT_HOME',
+  });
+  proof.referencePipelineStatus = evaluateReferencePipelineStatus({
+    referencePackage: proof.referencePackage,
+    requireStrictHost: proof.proofId === 'SITE00_PROJECTS_INDEX',
+    requireMobileEvidence: false,
+    mobileReferenceCount: proof.referencePackage?.references.filter((r) =>
+      r.roles.includes('HOST_RESPONSIVE_BEHAVIOR'),
+    ).length ?? 0,
+  });
+}
+
+export async function prepareComposedInterfaceSurface(
+  proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
+): Promise<ProjectWorkspaceVisualDevelopmentRun> {
+  if (proofId !== 'SITE00_PROJECTS_INDEX') {
+    throw new Error('prepareComposedInterfaceSurface is scoped to SITE00_PROJECTS_INDEX in P1 correction');
+  }
+
+  await refreshVisualReferences({
+    generationIntent: 'SITE00_PROJECTS_INDEX_DESIGN_PROOF',
+    targetDevice: 'DESKTOP',
+  });
+
+  let run = await compileVisualDevelopmentReferencePackage(proofId);
+  run = await compileVisualDevelopmentProofManifest(proofId);
+  const proof = getProof(run, proofId);
+
+  if (!proof.referencePackage) {
+    throw new Error('REFERENCE_PACKAGE_INCOMPLETE');
+  }
+
+  proof.surfaceVisualAuthorityPackage = compileSurfaceVisualAuthorityPackage({
+    surfaceId: proofId,
+    referencePackage: proof.referencePackage,
+  });
+
+  if (!proof.manifest) throw new Error('Manifest required');
+  proof.interfaceAssetManifest = compileInterfaceAssetManifest({
+    surfaceId: proofId,
+    designProofManifest: proof.manifest,
+  });
+
+  refreshSurfaceClassification(proof);
+  assertReferencePipelineReady(proof.referencePipelineStatus);
+  proof.lifecycle = 'GENERATION_READY';
+  setProof(run, proof);
+  return await store.saveVisualDevelopmentRun(run);
+}
+
+export async function generateMissingInterfaceAssets(
+  proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
+): Promise<ProjectWorkspaceVisualDevelopmentRun> {
+  let run = await refreshProjectWorkspaceVisualDevelopmentRun();
+  let proof = getProof(run, proofId);
+
+  if (!proof.interfaceAssetManifest || !proof.surfaceVisualAuthorityPackage) {
+    run = await prepareComposedInterfaceSurface(proofId);
+    proof = getProof(run, proofId);
+  }
+
+  refreshSurfaceClassification(proof);
+  if (proof.referencePipelineStatus !== 'READY_FOR_REFERENCE_CONDITIONED_GENERATION') {
+    throw new Error(`REFERENCE_PIPELINE_BLOCKED: ${proof.referencePipelineStatus}`);
+  }
+
+  if (!proof.manifest) throw new Error('Manifest required');
+
+  proof.lifecycle = 'GENERATING';
+  proof.generationStarted = true;
+  proof.generationError = null;
+  setProof(run, proof);
+  await store.saveVisualDevelopmentRun(run);
+
+  const ctx = buildDesignProofArtDirectionContext(proofId, proof.clientExpression);
+  const artSummary = [
+    proof.artDirection.dominantVisualBehavior,
+    proof.artDirection.compositionalHierarchy.join(' > '),
+  ].join('. ');
+  const functionalSummary = proof.functionalCanon.items
+    .filter((i) => i.classification !== 'LEGACY_PRESENTATION')
+    .map((i) => i.label)
+    .slice(0, 6)
+    .join(', ');
+
+  const missingReqs = proof.manifest.requirements.filter((r) => r.missing && r.generationAllowed);
+  let generatedAssets = [...proof.generatedAssets];
+  let generationReceipts = [...proof.generationReceipts];
+  let executionTraces = [...proof.executionTraces];
+  let falRequests = run.accounting.falRequests;
+  let estimatedCostUsd = run.accounting.estimatedCostUsd;
+  let anyFailed = false;
+
+  for (const req of missingReqs) {
+    const storagePath = `site00/visual-development/${proofId.toLowerCase()}/${req.assetRole.toLowerCase()}-desktop.webp`;
+    const result = await generateDesignProofAssetViaFal({
+      requirement: req,
+      storagePath,
+      artDirectionSummary: artSummary,
+      proofConcept: proof.concept,
+      owner: proof.owner,
+      functionalSummary,
+      antiDirection: ctx.antiDirection,
+      compositionalHierarchy: proof.artDirection.compositionalHierarchy,
+      referencePackage: proof.referencePackage,
+    });
+
+    const refUrls = proof.referencePackage?.references.map((r) => r.publicUrl).filter(Boolean) ?? [];
+    executionTraces.push(
+      buildVisualGenerationExecutionTrace({
+        surfaceId: proofId,
+        projectId: run.projectId,
+        generationIntent: `${proofId}_INTERFACE_ASSET`,
+        surfaceGenerationMode: proof.surfaceGenerationMode,
+        generationMode: result.generationMode ?? 'TEXT_TO_IMAGE',
+        referencePackageId: proof.referencePackage?.fingerprint ?? null,
+        referenceCount: refUrls.length,
+        selectedReferenceIds: proof.referencePackage?.references.map((r) => r.referenceId) ?? [],
+        authoritySummary: proof.surfaceVisualAuthorityPackage?.fingerprint ?? '',
+        provider: result.ok ? result.provider : EXPERIENCE_FAL_PROVIDER,
+        model: result.ok ? result.model : EXPERIENCE_FAL_MODEL,
+        providerRequestId: result.ok ? result.requestId : null,
+        promptHash: result.ok ? result.promptHash : '',
+        inputFingerprintSeed: `${req.id}:${proof.referencePackage?.fingerprint ?? 'none'}`,
+        outputAssetIds: result.ok ? [req.id] : [],
+        fallbackAttempted: false,
+        fallbackBlocked: proof.referencePackage?.strictHostVisualConditioning ?? false,
+        failureReason: result.ok ? null : result.error,
+        blocked: !result.ok,
+      }),
+    );
+
+    if (!result.ok) {
+      anyFailed = true;
+      generationReceipts.push({
+        receiptId: `rcpt-fail-${req.id}`,
+        requirementId: req.id,
+        proofId,
+        provider: EXPERIENCE_FAL_PROVIDER,
+        model: EXPERIENCE_FAL_MODEL,
+        requestId: null,
+        promptHash: '',
+        storagePath,
+        publicUrl: null,
+        costUsd: 0,
+        lineageKey: req.idempotencyKey,
+        parentLineageKey: proof.parentProofRecordId,
+        status: 'FAILED',
+        generatedAt: nowIso(),
+        error: result.error,
+      });
+      continue;
+    }
+
+    falRequests += 1;
+    estimatedCostUsd += result.costUsd;
+    generationReceipts.push({
+      receiptId: `rcpt-${req.idempotencyKey}`,
+      requirementId: req.id,
+      proofId,
+      provider: result.provider,
+      model: result.model,
+      requestId: result.requestId,
+      promptHash: result.promptHash,
+      storagePath: result.storagePath,
+      publicUrl: result.publicUrl,
+      costUsd: result.costUsd,
+      lineageKey: req.idempotencyKey,
+      parentLineageKey: proof.parentProofRecordId,
+      status: 'GENERATED',
+      generatedAt: nowIso(),
+      error: null,
+    });
+    generatedAssets = generatedAssets.filter((a) => a.requirementId !== req.id);
+    generatedAssets.push({
+      requirementId: req.id,
+      storagePath: result.storagePath,
+      publicUrl: result.publicUrl,
+      assetRole: req.assetRole,
+      category: req.category,
+      productionState: 'VISUAL_DEVELOPMENT',
+    });
+  }
+
+  proof.generatedAssets = generatedAssets;
+  proof.generationReceipts = generationReceipts;
+  proof.executionTraces = executionTraces;
+  run.accounting.falRequests = falRequests;
+  run.accounting.estimatedCostUsd = estimatedCostUsd;
+
+  if (anyFailed) {
+    proof.lifecycle = 'GENERATION_FAILED';
+    proof.generationError = 'One or more interface asset generations failed';
+    setProof(run, proof);
+    return await store.saveVisualDevelopmentRun(run);
+  }
+
+  proof.qaResult = evaluateDesignProofQA({
+    visionEvaluationAvailable: false,
+    generatedAssetCount: generatedAssets.length,
+    composedImagePresent: false,
+    generationFailed: false,
+    proofId,
+    composedInterfaceMode: true,
+  });
+  proof.lifecycle = 'FOUNDER_REVIEW';
+  setProof(run, proof);
+  return await store.saveVisualDevelopmentRun(run);
+}
+
 export async function compileVisualDevelopmentReferencePackage(
   proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
   options?: { excludedReferenceIds?: string[] },
@@ -211,6 +440,7 @@ export async function compileVisualDevelopmentReferencePackage(
   });
 
   proof.referencePackage = referencePackage;
+  refreshSurfaceClassification(proof);
   proof.lifecycle = 'GENERATION_READY';
   setProof(run, proof);
   return await store.saveVisualDevelopmentRun(run);
@@ -306,6 +536,10 @@ async function generateProofInternal(
   let run = await compileVisualDevelopmentProofManifest(proofId);
 
   const initialProof = getProof(run, proofId);
+  if (initialProof.surfaceGenerationMode === 'COMPOSED_INTERFACE') {
+    throw new Error(FULL_PAGE_GENERATION_NOT_ALLOWED_FOR_COMPOSED_INTERFACE);
+  }
+
   const useReferenceConditioning =
     options?.referenceConditioned ??
     initialProof.referenceConditioned ??
@@ -433,6 +667,7 @@ async function generateProofInternal(
     functionalSummary,
     componentAssetDescriptions: generatedAssets.map((a) => `${a.assetRole}: ${a.storagePath}`),
     referencePackage: useReferenceConditioning ? proof.referencePackage : null,
+    surfaceGenerationMode: proof.surfaceGenerationMode,
   });
 
   if (!composeResult.ok) {
@@ -521,6 +756,12 @@ export async function generateVisualDevelopmentDesignProof(
   proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
   options?: { referenceConditioned?: boolean },
 ): Promise<ProjectWorkspaceVisualDevelopmentRun> {
+  const run = await refreshProjectWorkspaceVisualDevelopmentRun();
+  const proof = getProof(run, proofId);
+  refreshSurfaceClassification(proof);
+  if (proof.surfaceGenerationMode === 'COMPOSED_INTERFACE') {
+    throw new Error(FULL_PAGE_GENERATION_NOT_ALLOWED_FOR_COMPOSED_INTERFACE);
+  }
   return generateProofInternal(proofId, options);
 }
 
@@ -529,6 +770,9 @@ export async function generateReferenceConditionedDesignProof(
 ): Promise<ProjectWorkspaceVisualDevelopmentRun> {
   const run = await refreshProjectWorkspaceVisualDevelopmentRun();
   const proof = getProof(run, proofId);
+  if (proof.surfaceGenerationMode === 'COMPOSED_INTERFACE') {
+    throw new Error(FULL_PAGE_GENERATION_NOT_ALLOWED_FOR_COMPOSED_INTERFACE);
+  }
   if (proof.proofLabel === 'PROOF_A' && proof.composedProof) {
     await createReferenceConditionedChildProof(proofId);
   }
@@ -576,7 +820,20 @@ export async function prepareVisualDevelopmentImplementation(
   const proof = getProof(run, proofId);
 
   const approval = assertSurfaceApprovedForImplementation(proof.lifecycle);
-  if (!approval.allowed || !proof.composedProof) {
+  const composedInterface = proof.surfaceGenerationMode === 'COMPOSED_INTERFACE';
+
+  if (!approval.allowed) {
+    throw new Error('PREPARE_IMPLEMENTATION requires approved surface lifecycle');
+  }
+
+  if (composedInterface) {
+    if (proof.generatedAssets.length === 0) {
+      throw new Error('PREPARE_IMPLEMENTATION requires generated interface assets for COMPOSED_INTERFACE');
+    }
+    if (!proof.surfaceVisualAuthorityPackage) {
+      throw new Error('PREPARE_IMPLEMENTATION requires SurfaceVisualAuthorityPackage');
+    }
+  } else if (!proof.composedProof) {
     throw new Error('PREPARE_IMPLEMENTATION requires approved proof with composed image');
   }
 

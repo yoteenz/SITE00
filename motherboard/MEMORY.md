@@ -3869,3 +3869,21 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (PR #323):** `resolveProjectDbIdForSupabaseFk()` in `founderProjectDbId.ts` — resolves slug → `site00_projects.id` before insert. Wired into Experiment E, Core Direction formation, personality replay, project intelligence, studio world, visual reference stores.
 - **Deploy:** **Railway redeploy from main only** — API-side fix; static bundle unchanged. After deploy, tap **PREPARE EXPERIMENT E + HERO SUBSET** again.
 
+---
+
+## 2026-08-23 — P1 Correction: reference-locked UX orchestration + asset-level generation
+
+- **Context:** Founder-triggered Projects UX generation in FAL ran `openai/gpt-image-2` TEXT_TO_IMAGE and invented a dark workbench/dossier UI — image model was acting as interface designer instead of asset generator.
+- **Root cause:** Proof A path by design used unconstrained TEXT_TO_IMAGE full-page compose when reference URLs absent; Visual Reference Intelligence was optional on first pass; methodology treated "workbench/dossier" as visual style instructions.
+- **Fix (branch `cursor/p1-generation-boundary-correction-4f59`):**
+  - **`SurfaceGenerationMode`** — `SITE00_PROJECTS_INDEX` → `COMPOSED_INTERFACE`; `NDXBOOK_PROJECT_HOME` stays `VISUAL_PROOF` while visual direction unresolved.
+  - **Full-page guard** — `assertFullPageGenerationAllowed()` blocks COMPOSED_INTERFACE; `generateVisualDevelopmentDesignProof` throws `FULL_PAGE_GENERATION_NOT_ALLOWED_FOR_COMPOSED_INTERFACE`.
+  - **New pipeline** — `prepareComposedInterfaceSurface` → `generateMissingInterfaceAssets` (asset-level FAL only); `SurfaceVisualAuthorityPackage`, `InterfaceAssetManifest`, `VisualGenerationExecutionTrace`.
+  - **Behavior translation** — workbench/dossier/active piece/review tray compiled to behavioral instructions; metaphor leakage sanitization on provider prompts.
+  - **Reference fail-loud** — strict host conditioning blocks silent TEXT_TO_IMAGE fallback; reference pipeline statuses formalized.
+  - **Composer** — dispatch gates accept COMPOSED_INTERFACE evidence (authority package + assets, not composed proof image); Composer assembles, does not invent host shell.
+  - **UI** — visual-development review shows COMPOSED_INTERFACE mode, reference status, CAPTURE/PREPARE/GENERATE MISSING ASSETS (replaces Generate Design Proof for Projects Index).
+  - **25 regression tests** in `p1GenerationBoundaryCorrection.test.ts`; updated legacy design-proof and visual-reference tests.
+- **Constraints honored:** No `/projects` production mutation; no new Projects design proof generated during sprint; World Formation blocked; Experiment D/F/G untouched.
+- **Deploy:** Railway redeploy (API) + cPanel static **v37+** for visual-development UI. Founder flow: CAPTURE/REFRESH REFERENCES → PREPARE INTERFACE → GENERATE MISSING ASSETS → PREPARE IMPLEMENTATION → ORCHESTRATE (Composer).
+
