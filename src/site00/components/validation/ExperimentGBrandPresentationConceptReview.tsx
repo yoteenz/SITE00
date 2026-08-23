@@ -133,7 +133,23 @@ export function ExperimentGBrandPresentationConceptReview({
   );
 
   const concepts = run?.concepts ?? [];
-  const readyToForm = run?.status === 'SNAPSHOT_READY' || run?.status === 'NOT_STARTED' || !run;
+  const formationBlocked = forming || reforming || run?.status === 'FORMING';
+  const canFormConcepts =
+    !formationBlocked &&
+    (concepts.length === 0 ||
+      run?.status === 'NOT_STARTED' ||
+      run?.status === 'SNAPSHOT_READY' ||
+      run?.status === 'FAILED' ||
+      !run);
+  const canReformSet = !formationBlocked && concepts.length > 0;
+  const formButtonLabel =
+    run?.status === 'FAILED'
+      ? forming
+        ? 'RETRYING…'
+        : 'RETRY FORMATION'
+      : forming
+        ? 'FORMING…'
+        : 'FORM SIX BRAND PRESENTATION CONCEPTS';
 
   return (
     <div className="site00-experiment-g">
@@ -147,21 +163,37 @@ export function ExperimentGBrandPresentationConceptReview({
         Experiment F preserved as downstream content-concept research.{' '}
         <Link to={site00ProjectExperimentFPath(projectSlug)}>View Experiment F history</Link>
       </div>
-      {error ? <p role="alert">{error}</p> : null}
+      {run?.error ? (
+        <p className="site00-experiment-g__error" role="alert">
+          Last formation error: {run.error}
+        </p>
+      ) : null}
+      {error ? <p className="site00-experiment-g__error" role="alert">{error}</p> : null}
       <div className="site00-experiment-g__controls">
-        {readyToForm ? (
-          <button type="button" className="site00-btn site00-btn--primary" disabled={forming} onClick={() => void formConcepts()}>
-            {forming ? 'FORMING…' : 'FORM SIX BRAND PRESENTATION CONCEPTS'}
+        {canFormConcepts ? (
+          <button type="button" className="site00-btn site00-btn--primary" disabled={formationBlocked} onClick={() => void formConcepts()}>
+            {formButtonLabel}
           </button>
         ) : null}
-        {concepts.length > 0 ? (
-          <button type="button" className="site00-btn" disabled={reforming} onClick={() => void reformSet()}>
-            {reforming ? 'REFORMING…' : 'RE-FORM SET'}
-          </button>
+        {canReformSet ? (
+          <>
+            <button type="button" className="site00-btn" disabled={formationBlocked} onClick={() => void formConcepts()}>
+              {forming ? 'REFRESHING…' : 'REFRESH FORMATION (IDEMPOTENT)'}
+            </button>
+            <button type="button" className="site00-btn" disabled={formationBlocked} onClick={() => void reformSet()}>
+              {reforming ? 'REFORMING…' : 'RE-FORM SET'}
+            </button>
+          </>
         ) : null}
       </div>
-      {concepts.length === 0 ? (
-        <p className="site00-experiment-g__pending">No concepts formed yet. Founder-triggered formation required.</p>
+      {run?.status === 'FORMING' ? (
+        <p className="site00-experiment-g__pending">Formation in progress…</p>
+      ) : concepts.length === 0 ? (
+        <p className="site00-experiment-g__pending">
+          {run?.status === 'FAILED'
+            ? 'Formation failed. Use RETRY FORMATION above to run again.'
+            : 'No concepts formed yet. Founder-triggered formation required.'}
+        </p>
       ) : (
         <div className="site00-experiment-g__grid">
           {concepts.map((concept) => (
