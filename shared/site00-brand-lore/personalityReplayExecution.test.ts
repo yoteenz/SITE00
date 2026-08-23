@@ -158,6 +158,7 @@ function mockDownstreamChain() {
 beforeEach(() => {
   vi.stubEnv('VITEST', 'true');
   vi.stubEnv('FAL_KEY', '');
+  vi.stubEnv('ANTHROPIC_API_KEY', 'test-key-for-replay-execution');
   resetPersonalityReplayMemoryStore();
   const lore = buildReadyLoreProfile();
   vi.mocked(getOrReconcileBrandLoreForOrg).mockResolvedValue(lore);
