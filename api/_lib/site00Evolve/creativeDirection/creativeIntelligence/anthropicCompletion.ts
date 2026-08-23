@@ -16,7 +16,7 @@ type AnthropicMessageResponse = {
 export async function callAnthropicForCompletion(
   system: string,
   userPayload: unknown,
-  options?: { maxTokens?: number },
+  options?: { maxTokens?: number; timeoutMs?: number },
 ): Promise<{ text: string; usage: ProviderRequestUsage }> {
   const apiKey = process.env.ANTHROPIC_API_KEY?.trim();
   if (!apiKey) throw new Error('CREATIVE_INTELLIGENCE_PROVIDER_UNAVAILABLE');
@@ -34,6 +34,7 @@ export async function callAnthropicForCompletion(
       system,
       messages: [{ role: 'user', content: JSON.stringify(userPayload) }],
     }),
+    signal: options?.timeoutMs ? AbortSignal.timeout(options.timeoutMs) : undefined,
   });
 
   if (!response.ok) {

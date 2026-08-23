@@ -40,12 +40,19 @@ import * as experimentGStore from './storeAdapter.js';
 
 /** Anthropic formation is synchronous; longer than this implies a crashed/timed-out request. */
 const STALE_FORMING_MS = 15 * 60 * 1000;
+/** Re-enqueue background worker if FORMING with no active worker after this interval. */
+const FORMATION_RESUME_MS = 45 * 1000;
+const ANTHROPIC_FORMATION_TIMEOUT_MS = 8 * 60 * 1000;
 
-/** In-flight formation guard — one background worker per run id per process. */
-const activeFormationRuns = new Set<string>();
+/** Active formation attempts — attemptId per runId (in-memory per Railway process). */
+const activeFormationAttempts = new Map<string, string>();
 
 function shouldRunFormationSynchronously(): boolean {
   return process.env.VITEST === 'true';
+}
+
+export function resetExperimentGFormationWorkers(): void {
+  activeFormationAttempts.clear();
 }
 
 function nowIso(): string {
@@ -118,6 +125,7 @@ function initRun(existing?: BrandPresentationConceptFormationRun | null): BrandP
     accounting: emptyAccounting(),
     error: null,
     formationStartedAt: null,
+    formationAttemptId: null,
     startedAt: nowIso(),
     completedAt: null,
   };
@@ -328,7 +336,7 @@ async function dispatchBrandPresentationFormation(params: {
   const { text, usage } = await callAnthropicForCompletion(
     BRAND_PRESENTATION_DIRECTOR_SYSTEM_PROMPT,
     payload,
-    { maxTokens: 8192 },
+    { maxTokens: 8192, timeoutMs: ANTHROPIC_FORMATION_TIMEOUT_MS },
   );
   assertSuccessorFormationQuarantined(text);
   const parsed = parseStructuredJson<{ concepts: RawBrandPresentationPayload[] }>(text);
@@ -360,12 +368,21 @@ async function dispatchBrandPresentationFormation(params: {
 }
 
 export async function getBrandPresentationConceptFormationRun(): Promise<BrandPresentationConceptFormationRun | null> {
-  const run = await experimentGStore.getBrandPresentationConceptFormationRun();
-  return reconcileStaleFormingRun(run);
+  let run = await experimentGStore.getBrandPresentationConceptFormationRun();
+  run = await reconcileStaleFormingRun(run);
+  if (run) {
+    await maybeResumeFormation(run);
+  }
+  return run;
 }
 
-export async function prepareExperimentGSnapshot(): Promise<BrandPresentationConceptFormationRun> {
+export async function prepareExperimentGSnapshot(params?: {
+  force?: boolean;
+}): Promise<BrandPresentationConceptFormationRun> {
   const existing = await experimentGStore.getBrandPresentationConceptFormationRun();
+  if (existing?.status === 'FORMING' && !params?.force) {
+    throw new Error('SNAPSHOT_BLOCKED — formation in progress');
+  }
   const run = initRun(existing);
   const profile = await getBrandLoreProfileForOrg(NDXBOOK_ORG_ID);
   const snapshot = compileExperimentGIntelligenceSnapshot({ profile, freeze: false });
@@ -378,24 +395,26 @@ export async function prepareExperimentGSnapshot(): Promise<BrandPresentationCon
   return experimentGStore.saveBrandPresentationConceptFormationRun(updated);
 }
 
-async function executeBrandPresentationFormationWork(runId: string): Promise<void> {
-  if (activeFormationRuns.has(runId)) return;
-  activeFormationRuns.add(runId);
+async function executeBrandPresentationFormationWork(runId: string, attemptId: string): Promise<void> {
+  activeFormationAttempts.set(runId, attemptId);
 
   try {
     let run = await experimentGStore.getBrandPresentationConceptFormationRun(runId);
-    if (!run || run.status !== 'FORMING') return;
+    if (!run || run.status !== 'FORMING' || run.formationAttemptId !== attemptId) return;
 
     const { concepts: rawConcepts, receipt, accountingDelta } = await dispatchBrandPresentationFormation({
       snapshot: run.intelligenceSnapshot,
       formationVersion: run.formationVersion,
     });
 
+    run = await experimentGStore.getBrandPresentationConceptFormationRun(runId);
+    if (!run || run.status !== 'FORMING' || run.formationAttemptId !== attemptId) return;
+
     const promptFingerprint = receipt.promptFingerprint;
     const concepts = rawConcepts.map((c) =>
       normalizeConcept(c, {
-        formationVersion: run!.formationVersion,
-        snapshotFingerprint: run!.intelligenceSnapshot!.fingerprint,
+        formationVersion: run.formationVersion,
+        snapshotFingerprint: run.intelligenceSnapshot!.fingerprint,
         promptFingerprint,
       }),
     );
@@ -416,6 +435,7 @@ async function executeBrandPresentationFormationWork(runId: string): Promise<voi
       intelligenceSnapshot: { ...run.intelligenceSnapshot!, frozen: true },
       status,
       formationStartedAt: null,
+      formationAttemptId: null,
       directionDevelopmentAllowed: false,
       visualGenerationAllowed: false,
       contentGenerationAllowed: false,
@@ -435,22 +455,38 @@ async function executeBrandPresentationFormationWork(runId: string): Promise<voi
     await experimentGStore.saveBrandPresentationConceptFormationRun(run);
   } catch (err) {
     const failed = await experimentGStore.getBrandPresentationConceptFormationRun(runId);
-    if (!failed || failed.status !== 'FORMING') return;
+    if (!failed || failed.status !== 'FORMING' || failed.formationAttemptId !== attemptId) return;
     await experimentGStore.saveBrandPresentationConceptFormationRun({
       ...failed,
       status: 'FAILED',
       formationStartedAt: null,
+      formationAttemptId: null,
       error: err instanceof Error ? err.message : 'Formation failed',
     });
   } finally {
-    activeFormationRuns.delete(runId);
+    if (activeFormationAttempts.get(runId) === attemptId) {
+      activeFormationAttempts.delete(runId);
+    }
   }
 }
 
-function enqueueBrandPresentationFormationWork(runId: string): void {
-  queueMicrotask(() => {
-    void executeBrandPresentationFormationWork(runId).catch((err) => {
-      console.error('[experiment-g] background formation failed', runId, err);
+async function maybeResumeFormation(run: BrandPresentationConceptFormationRun): Promise<void> {
+  if (shouldRunFormationSynchronously()) return;
+  if (run.status !== 'FORMING' || !run.formationAttemptId || !run.formationStartedAt) return;
+
+  const ageMs = Date.now() - new Date(run.formationStartedAt).getTime();
+  if (ageMs < FORMATION_RESUME_MS) return;
+
+  const activeAttempt = activeFormationAttempts.get(EXPERIMENT_G_RUN_ID);
+  if (activeAttempt === run.formationAttemptId) return;
+
+  enqueueBrandPresentationFormationWork(EXPERIMENT_G_RUN_ID, run.formationAttemptId);
+}
+
+function enqueueBrandPresentationFormationWork(runId: string, attemptId: string): void {
+  setImmediate(() => {
+    void executeBrandPresentationFormationWork(runId, attemptId).catch((err) => {
+      console.error('[experiment-g] background formation failed', runId, attemptId, err);
     });
   });
 }
@@ -486,16 +522,24 @@ export async function formSixBrandPresentationConcepts(params?: {
     return run;
   }
 
-  run = { ...run, status: 'FORMING', idempotencyKey, error: null, formationStartedAt: nowIso() };
+  const attemptId = randomUUID();
+  run = {
+    ...run,
+    status: 'FORMING',
+    idempotencyKey,
+    error: null,
+    formationStartedAt: nowIso(),
+    formationAttemptId: attemptId,
+  };
   await experimentGStore.saveBrandPresentationConceptFormationRun(run);
 
   if (shouldRunFormationSynchronously()) {
-    await executeBrandPresentationFormationWork(EXPERIMENT_G_RUN_ID);
+    await executeBrandPresentationFormationWork(EXPERIMENT_G_RUN_ID, attemptId);
     const completed = await experimentGStore.getBrandPresentationConceptFormationRun();
     return completed ?? run;
   }
 
-  enqueueBrandPresentationFormationWork(EXPERIMENT_G_RUN_ID);
+  enqueueBrandPresentationFormationWork(EXPERIMENT_G_RUN_ID, attemptId);
   return run;
 }
 
@@ -539,6 +583,8 @@ export async function reformExperimentGSet(): Promise<BrandPresentationConceptFo
       : null,
     directionDevelopmentAllowed: false,
     error: null,
+    formationAttemptId: null,
+    formationStartedAt: null,
   };
   await experimentGStore.saveBrandPresentationConceptFormationRun(reformed);
   return formSixBrandPresentationConcepts({ forceReform: true });

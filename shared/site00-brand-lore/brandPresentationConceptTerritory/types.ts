@@ -193,6 +193,8 @@ export type BrandPresentationConceptFormationRun = {
   error: string | null;
   /** Set when status enters FORMING; used to recover stale in-progress records. */
   formationStartedAt: string | null;
+  /** Monotonic attempt token — background worker must match before persisting results. */
+  formationAttemptId: string | null;
   startedAt: string | null;
   completedAt: string | null;
 };
