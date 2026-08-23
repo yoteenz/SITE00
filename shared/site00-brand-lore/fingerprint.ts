@@ -11,7 +11,9 @@
  */
 
 import { LORE_FIELD_KEYS } from './loreSynthesis.js';
+import { PERSONALITY_FIELD_KEYS } from './personalityTypes.js';
 import type { BrandLoreField, BrandLoreProfile } from './types.js';
+import type { BrandPersonalityProfile } from './personalityTypes.js';
 
 /** FNV-1a 32-bit — fast, dependency-free, stable across Node/browser. Not cryptographic; this is
  * a change-detection signature, not a security boundary. */
@@ -29,10 +31,22 @@ export function computeBrandLoreFingerprint(profile: Pick<BrandLoreProfile, 'raw
     const field = (profile as Record<string, unknown>)[key] as BrandLoreField | undefined;
     return [key, field?.value ?? null];
   });
+  const personality = profile.brandPersonality as BrandPersonalityProfile | null | undefined;
+  const personalityValues = personality
+    ? PERSONALITY_FIELD_KEYS.map((key) => {
+        const field = personality[key] as BrandLoreField | undefined;
+        return [`personality.${key}`, field?.value ?? null];
+      })
+    : [];
   const payload = JSON.stringify({
     rawLoreAnswers: profile.rawLoreAnswers ?? {},
+    rawPersonalityAnswers: personality?.rawPersonalityAnswers ?? {},
     contextClassification: profile.contextClassification ?? null,
     fields: fieldValues,
+    personalityFields: personalityValues,
   });
   return fnv1a(payload);
 }
+
+/** @deprecated alias — includes Brand Lore + Brand Personality canonical fields. */
+export const computeBrandIntelligenceFingerprint = computeBrandLoreFingerprint;

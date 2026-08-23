@@ -1,13 +1,13 @@
 import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  getLoreQuestion,
-  idntyLorePath,
-  idntyLoreReviewPath,
-} from '../../../../../shared/site00-brand-lore/idnty-lore-questions';
-import { idntyPersonalityPath, personalityFirstStep } from '../../../../../shared/site00-brand-lore/idnty-personality-questions';
+  getPersonalityQuestion,
+  idntyPersonalityPath,
+  idntyPersonalityReviewPath,
+  IDNTY_PERSONALITY_QUESTIONS,
+} from '../../../../../shared/site00-brand-lore/idnty-personality-questions';
 import { resolveResponseMode } from '../../../../../shared/site00-brand-lore/loreAnswerTypes';
-import { resolveActiveLoreSteps, LORE_SKIP_VALUE } from '../../../../../shared/site00-brand-lore/adaptivity';
+import { LORE_SKIP_VALUE } from '../../../../../shared/site00-brand-lore/adaptivity';
 import type { IdntyAssessmentStateId } from '../../../config/idnty-assessment';
 import { useIdntyAssessment } from '../../../hooks/useIdntyAssessment';
 import { useStepForm } from '../../idnty-assessment/IdntyStepForm';
@@ -16,12 +16,12 @@ import { getIdntyAssessmentState } from '../../../config/idnty-assessment';
 import { IdentityCalibrationConsole } from '../calibration/IdentityCalibrationConsole';
 import { IdentityCalibrationCaptureStatus } from '../calibration/IdentityCalibrationCaptureStatus';
 import { IdentityCalibrationNavigation } from '../calibration/IdentityCalibrationNavigation';
-import { IdentityLoreStepForm } from './IdentityLoreStepForm';
+import { IdentityPersonalityStepForm } from './IdentityPersonalityStepForm';
 import { useSite00DesktopArtboardPreview } from '../../shell/Site00DesktopArtboardContext';
 import { site00IdntyAssessmentDesktopPath } from '../../../config/routes';
 import { IntakeSaveStatus } from '../../intake/IntakeSaveStatus';
 
-type IdentityLoreMobileStepProps = {
+type IdentityPersonalityMobileStepProps = {
   stateSlug: IdntyAssessmentStateId;
   stepId: string;
   calibrationMode?: boolean;
@@ -34,15 +34,15 @@ function isCaptured(value: unknown, skippable?: boolean): boolean {
   return skippable ?? false;
 }
 
-export function IdentityLoreMobileStep({ stateSlug, stepId, calibrationMode }: IdentityLoreMobileStepProps) {
+export function IdentityPersonalityMobileStep({ stateSlug, stepId, calibrationMode }: IdentityPersonalityMobileStepProps) {
   const navigate = useNavigate();
   const isDesktop = useSite00DesktopArtboardPreview();
   const state = getIdntyAssessmentState(stateSlug)!;
-  const step = getLoreQuestion(stepId);
+  const step = getPersonalityQuestion(stepId);
 
   const {
-    setLoreAnswers,
-    markLoreStepComplete,
+    setPersonalityAnswers,
+    markPersonalityStepComplete,
     record,
     serverSaveState,
     serverLastSavedAt,
@@ -50,16 +50,12 @@ export function IdentityLoreMobileStep({ stateSlug, stepId, calibrationMode }: I
   } = useIdntyAssessment();
 
   const activeSteps = useMemo(
-    () =>
-      resolveActiveLoreSteps({
-        loreAnswers: record.loreAnswers,
-        calibrationStepIds: calibrationMode ? [stepId] : null,
-      }),
-    [record.loreAnswers, calibrationMode, stepId],
+    () => (calibrationMode ? IDNTY_PERSONALITY_QUESTIONS.filter((q) => q.id === stepId) : IDNTY_PERSONALITY_QUESTIONS),
+    [calibrationMode, stepId],
   );
 
   const existingValue =
-    record.loreAnswers[stepId] ??
+    record.personalityAnswers[stepId] ??
     (step && resolveResponseMode(step) !== 'FREE_TEXT' && resolveResponseMode(step) !== 'SINGLE_SELECT' ? [] : '');
   const form = useStepForm(existingValue);
 
@@ -68,7 +64,7 @@ export function IdentityLoreMobileStep({ stateSlug, stepId, calibrationMode }: I
   }, [stepId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!step) {
-    navigate(idntyLorePath(stateSlug, activeSteps[0]?.id ?? 'feeling'));
+    navigate(idntyPersonalityPath(stateSlug, IDNTY_PERSONALITY_QUESTIONS[0]!.id));
     return null;
   }
 
@@ -78,41 +74,40 @@ export function IdentityLoreMobileStep({ stateSlug, stepId, calibrationMode }: I
   };
 
   const handleNext = () => {
-    const nextAnswers = { ...record.loreAnswers, [stepId]: form.value as string | string[] };
-    setLoreAnswers(stepId, form.value as string | string[]);
-    markLoreStepComplete(stepId);
+    setPersonalityAnswers(stepId, form.value as string | string[]);
+    markPersonalityStepComplete(stepId);
 
     if (calibrationMode) {
-      navigateTo(idntyLoreReviewPath(stateSlug));
+      navigateTo(idntyPersonalityReviewPath(stateSlug));
       return;
     }
 
-    const remaining = resolveActiveLoreSteps({ loreAnswers: nextAnswers }).filter((s) => s.id !== stepId);
-    if (remaining.length > 0) {
-      navigateTo(idntyLorePath(stateSlug, remaining[0]!.id));
+    const nextIdx = IDNTY_PERSONALITY_QUESTIONS.findIndex((q) => q.id === stepId) + 1;
+    if (nextIdx < IDNTY_PERSONALITY_QUESTIONS.length) {
+      navigateTo(idntyPersonalityPath(stateSlug, IDNTY_PERSONALITY_QUESTIONS[nextIdx]!.id));
     } else {
-      navigateTo(idntyPersonalityPath(stateSlug, personalityFirstStep().id));
+      navigateTo(idntyPersonalityReviewPath(stateSlug));
     }
   };
 
   const handleSkip = () => {
-    setLoreAnswers(stepId, LORE_SKIP_VALUE);
-    markLoreStepComplete(stepId);
+    setPersonalityAnswers(stepId, LORE_SKIP_VALUE);
+    markPersonalityStepComplete(stepId);
     handleNext();
   };
 
   const handleBack = () => {
     if (stepIndex <= 0) {
-      navigateTo(`/idnty/${stateSlug}/review`);
+      navigateTo(`/idnty/${stateSlug}/world-review`);
       return;
     }
     const prev = activeSteps[stepIndex - 1];
-    if (prev) navigateTo(idntyLorePath(stateSlug, prev.id));
+    if (prev) navigateTo(idntyPersonalityPath(stateSlug, prev.id));
   };
 
   const captured = isCaptured(form.value, step.skippable);
-  const nextRemaining = resolveActiveLoreSteps({ loreAnswers: record.loreAnswers }).filter((s) => s.id !== stepId);
-  const nextLabel = nextRemaining.length > 0 ? 'NEXT' : 'REVIEW WORLD';
+  const nextIdx = IDNTY_PERSONALITY_QUESTIONS.findIndex((q) => q.id === stepId) + 1;
+  const nextLabel = nextIdx < IDNTY_PERSONALITY_QUESTIONS.length ? 'NEXT' : 'REVIEW';
 
   return (
     <div className="site00-idnty-calibration-flow">
@@ -124,15 +119,15 @@ export function IdentityLoreMobileStep({ stateSlug, stepId, calibrationMode }: I
         totalSteps={activeSteps.length}
         progressRail={
           calibrationMode ? (
-            <p className="site00-idnty-calibration-rail__category">CALIBRATION</p>
+            <p className="site00-idnty-calibration-rail__category">PERSONALITY CALIBRATION</p>
           ) : (
-            <p className="site00-idnty-calibration-rail__category">BRAND WORLD</p>
+            <p className="site00-idnty-calibration-rail__category">HOW YOU SHOW UP</p>
           )
         }
         captureStatus={
           <IdentityCalibrationCaptureStatus
             primary={captured ? 'CAPTURED' : 'OPTIONAL'}
-            secondary={step.helper ?? step.subtitle ?? 'YOUR WORLD'}
+            secondary={step.helper ?? step.subtitle ?? 'YOUR PERSONALITY'}
             captured={captured}
           />
         }
@@ -148,7 +143,7 @@ export function IdentityLoreMobileStep({ stateSlug, stepId, calibrationMode }: I
           />
         }
       >
-        <IdentityLoreStepForm step={step} value={form.value} onChange={form.setValue} error={form.error} />
+        <IdentityPersonalityStepForm step={step} value={form.value} onChange={form.setValue} error={form.error} />
         {step.skippable ? (
           <button type="button" className="site00-idnty-calibration-nav__skip" onClick={handleSkip}>
             SKIP / NOT SURE YET

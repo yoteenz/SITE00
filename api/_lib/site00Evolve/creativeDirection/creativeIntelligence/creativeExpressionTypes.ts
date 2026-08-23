@@ -42,6 +42,13 @@ export type CreativeExpressionSystem = {
   artifactPersonalityTest: string[];
   antiGenericCreativeRules: string[];
   typographyRoles: MartianMonoTypographyRoles;
+  /** Upstream Brand Personality fields this expression translates — not invented ex nihilo. */
+  personalityLineage: Array<{
+    upstreamField: string;
+    upstreamValue: string;
+    derivedBehavior: string;
+    classification: string;
+  }>;
   provider: string;
   model: string;
   promptVersion: string;

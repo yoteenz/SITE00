@@ -133,6 +133,9 @@ export type BrandLoreProfile = {
   /** Monotonically increments on every durable save — see supabaseStore.ts saveBrandLoreProfile(). */
   profileVersion: number;
 
+  /** Behavioral personality canon — how the brand acts, speaks, jokes, reacts (upstream of Creative Direction). */
+  brandPersonality?: import('./personalityTypes.js').BrandPersonalityProfile | null;
+
   createdAt: string;
   updatedAt: string;
 };
@@ -203,6 +206,12 @@ export type BuilderExperienceProfile = {
   rawExperienceAnswers: Record<string, string | string[]>;
   /** Snapshot of inherited Identity lore at time of Builder start — not re-asked. */
   inheritedLoreSnapshot: Partial<BrandLoreProfile> | null;
+  /** Snapshot of inherited Identity personality — Builder translates, does not redefine. */
+  inheritedBrandPersonalitySnapshot?: Partial<
+    import('./personalityTypes.js').BrandPersonalityProfile
+  > | null;
+  /** Digital translation of upstream personality — not second identity canon. */
+  personalityTranslation?: import('./personalityTypes.js').BuilderPersonalityTranslationProfile | null;
 };
 
 /** Maps lore question step id → internal domain. */

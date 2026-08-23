@@ -19,6 +19,8 @@ import {
   type HeroCreativeConcept,
 } from './creativeExpressionTypes.js';
 import { inspectMartianMonoAvailability, typographyRolesPromptBlock } from './martianMonoTypography.js';
+import { buildPersonalityLineageFromProfile } from '../../../../../shared/site00-brand-lore/personalityLineage.js';
+import type { BrandPersonalityProfile } from '../../../../../shared/site00-brand-lore/personalityTypes.js';
 
 export const CREATIVE_EXPRESSION_SYSTEM_PROMPT = `You are SENIOR EDITORIAL CREATIVE DIRECTOR + COPY DIRECTOR for NDX BOOK / THE MARKED-UP COPY.
 
@@ -99,7 +101,9 @@ function arr(v: unknown): string[] {
 export function buildDeterministicCreativeExpression(params: {
   artDirection: IdentityNativeArtDirection;
   typographyRoles: ReturnType<typeof inspectMartianMonoAvailability>;
+  upstreamPersonality?: BrandPersonalityProfile | null;
 }): CreativeExpressionSystem {
+  const personalityLineage = buildPersonalityLineageFromProfile(params.upstreamPersonality);
   return {
     expressionId: createHash('sha256').update(`creative-fallback:${params.artDirection.artDirectionId}`).digest('hex').slice(0, 16),
     directionId: params.artDirection.directionId,
@@ -134,6 +138,7 @@ export function buildDeterministicCreativeExpression(params: {
     artifactPersonalityTest: ['Would generic copy replacement lose meaningful identity? YES required'],
     antiGenericCreativeRules: FOUNDER_V1_CRITIQUE,
     typographyRoles: params.typographyRoles,
+    personalityLineage,
     provider: 'deterministic-fallback',
     model: 'fallback',
     promptVersion: CREATIVE_EXPRESSION_PROMPT_VERSION,
@@ -181,8 +186,10 @@ export function parseCreativeExpressionResponse(params: {
   typographyRoles: ReturnType<typeof inspectMartianMonoAvailability>;
   provider: string;
   model: string;
+  upstreamPersonality?: BrandPersonalityProfile | null;
 }): CreativeExpressionSystem {
   const parsed = parseStructuredJson(params.text) as Record<string, unknown>;
+  const personalityLineage = buildPersonalityLineageFromProfile(params.upstreamPersonality);
   return {
     expressionId: createHash('sha256').update(params.text).digest('hex').slice(0, 16),
     directionId: params.artDirection.directionId,
@@ -205,6 +212,7 @@ export function parseCreativeExpressionResponse(params: {
     artifactPersonalityTest: arr(parsed.artifactPersonalityTest),
     antiGenericCreativeRules: arr(parsed.antiGenericCreativeRules),
     typographyRoles: params.typographyRoles,
+    personalityLineage,
     provider: params.provider,
     model: params.model,
     promptVersion: CREATIVE_EXPRESSION_PROMPT_VERSION,

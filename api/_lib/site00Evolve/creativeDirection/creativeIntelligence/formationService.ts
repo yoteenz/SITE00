@@ -4,7 +4,7 @@
  */
 
 import { randomUUID } from 'node:crypto';
-import { canBeginCreativeDirection } from '../../../../../shared/site00-brand-lore/readiness.js';
+import { canBeginCoreDirectionFormation } from '../../../../../shared/site00-brand-lore/personalityReadiness.js';
 import type { BrandLoreProfile } from '../../../../../shared/site00-brand-lore/types.js';
 import { loadCanonicalIntelligence } from '../intelligenceBrief.js';
 import {
@@ -97,7 +97,12 @@ function accumulateUsage(
 
 function deriveInitialStatus(profile: BrandLoreProfile | null): CoreDirectionFormationStatus {
   if (!profile) return 'NOT_READY';
-  return canBeginCreativeDirection(profile.readinessState) ? 'READY_TO_FORM' : 'NOT_READY';
+  return canBeginCoreDirectionFormation({
+    loreState: profile.readinessState,
+    personalityState: profile.brandPersonality?.personalityReadinessState ?? null,
+  })
+    ? 'READY_TO_FORM'
+    : 'NOT_READY';
 }
 
 async function buildInputForProfile(

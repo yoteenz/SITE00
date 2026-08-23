@@ -71,6 +71,7 @@ export type CoreDirectionFormationInput = {
   futureWorld: string | null;
   creativeAntiPatterns: string[] | null;
   contentBrainSummary: string | null;
+  brandPersonalitySummary: string | null;
   founderConfirmedCanon: string[];
   referenceEvidence: BrandLoreReferenceEntry[];
   existingCreativeExplorations: ExistingCreativeExploration[];

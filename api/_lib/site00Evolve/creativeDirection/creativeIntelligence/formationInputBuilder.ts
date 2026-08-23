@@ -60,6 +60,34 @@ export function buildCoreDirectionFormationInput(params: {
       ? contentBrainSections.map((s) => `${s.label}: ${s.value}`).join('\n')
       : null;
 
+  const personality = profile.brandPersonality;
+  const brandPersonalitySummary = personality
+    ? [
+        personality.socialInstinct.value?.length
+          ? `socialInstinct: ${personality.socialInstinct.value.join(', ')}`
+          : null,
+        personality.witBehavior.value?.length ? `wit: ${personality.witBehavior.value.join(', ')}` : null,
+        personality.confidenceBehavior.value?.length
+          ? `confidence: ${personality.confidenceBehavior.value.join(', ')}`
+          : null,
+        personality.humanityBehavior.value?.length
+          ? `humanity: ${personality.humanityBehavior.value.join(', ')}`
+          : null,
+        personality.disagreementBehavior.value?.length
+          ? `disagreement: ${personality.disagreementBehavior.value.join(', ')}`
+          : null,
+        personality.observationalBehavior.value
+          ? `observation: ${personality.observationalBehavior.value}`
+          : null,
+        personality.antiPersonality.value ? `antiPersonality: ${personality.antiPersonality.value}` : null,
+        personality.signatureMoves.value?.length
+          ? `signatureMoves: ${personality.signatureMoves.value.join('; ')}`
+          : null,
+      ]
+        .filter(Boolean)
+        .join('\n')
+    : null;
+
   return {
     organizationId: profile.organizationId ?? '',
     projectId: projectId ?? profile.projectId,
@@ -88,6 +116,7 @@ export function buildCoreDirectionFormationInput(params: {
     futureWorld: fieldValue(profile.futureWorld),
     creativeAntiPatterns: fieldValue(profile.creativeAntiPatterns),
     contentBrainSummary,
+    brandPersonalitySummary,
     founderConfirmedCanon: founderConfirmedEntries(profile),
     referenceEvidence: profile.referenceEvidence ?? [],
     existingCreativeExplorations: params.includeLegacyExplorations === false ? [] : buildLegacyProposedExplorations(),

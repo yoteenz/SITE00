@@ -17,7 +17,9 @@ import IdntyAssessmentStepPage from './IdntyAssessmentStepPage';
 import IdntyAssessmentReviewPage from './IdntyAssessmentReviewPage';
 import IdntyAssessmentCompletePage from './IdntyAssessmentCompletePage';
 import { IdentityLoreMobileStep, IdentityLoreWorldReview } from '../../../components/idnty/lore';
+import { IdentityPersonalityMobileStep } from '../../../components/idnty/personality';
 import { getLoreQuestion } from '../../../../../shared/site00-brand-lore/idnty-lore-questions';
+import { getPersonalityQuestion } from '../../../../../shared/site00-brand-lore/idnty-personality-questions';
 import { IdntyAssessmentShell } from '../../../components/idnty-assessment/IdntyAssessmentShell';
 
 function isValidSlug(slug: string | undefined): slug is IdntyAssessmentStateId {
@@ -102,6 +104,32 @@ export default function IdntyAssessmentRouterPage() {
     return (
       <IdntyAssessmentShell state={getIdntyAssessmentState(stateSlug)!} mobileLayout="calibration" showProcessStrip={false}>
         <IdentityLoreMobileStep stateSlug={stateSlug} stepId={calibrateMatch[1]} calibrationMode />
+      </IdntyAssessmentShell>
+    );
+  }
+
+  const personalityMatch = pathname.match(/\/personality\/([^/]+)/);
+  if (personalityMatch?.[1] && getPersonalityQuestion(personalityMatch[1])) {
+    return (
+      <IdntyAssessmentShell state={getIdntyAssessmentState(stateSlug)!} mobileLayout="calibration" showProcessStrip={false}>
+        <IdentityPersonalityMobileStep stateSlug={stateSlug} stepId={personalityMatch[1]} />
+      </IdntyAssessmentShell>
+    );
+  }
+
+  const calibratePersonalityMatch = pathname.match(/\/calibrate-personality\/([^/]+)/);
+  if (calibratePersonalityMatch?.[1] && getPersonalityQuestion(calibratePersonalityMatch[1])) {
+    return (
+      <IdntyAssessmentShell state={getIdntyAssessmentState(stateSlug)!} mobileLayout="calibration" showProcessStrip={false}>
+        <IdentityPersonalityMobileStep stateSlug={stateSlug} stepId={calibratePersonalityMatch[1]} calibrationMode />
+      </IdntyAssessmentShell>
+    );
+  }
+
+  if (stepSegment === 'personality-review') {
+    return (
+      <IdntyAssessmentShell state={getIdntyAssessmentState(stateSlug)!} mobileLayout="calibration" showProcessStrip={false}>
+        <IdentityLoreWorldReview stateSlug={stateSlug} includePersonalityReview />
       </IdntyAssessmentShell>
     );
   }
