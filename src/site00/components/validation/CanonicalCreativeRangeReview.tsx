@@ -8,7 +8,13 @@ import { site00StoragePublicUrl } from '../../utils/replayStorageUrl';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
 import { SITE00_ROUTES } from '../../config/routes';
 
-type CanonicalCreativeRangeReviewProps = {
+function founderApiErrorMessage(err: unknown): string {
+  const raw = err instanceof Error ? err.message : 'Unable to start canonical range validation';
+  if (/unknown action/i.test(raw)) {
+    return 'API NOT UPDATED — redeploy api.site00.com from main on Railway, then retry.';
+  }
+  return raw;
+}
   projectSlug: string;
   run: CanonicalCreativeRangeRun | null | undefined;
   onUpdate?: () => void;
@@ -47,7 +53,7 @@ export function CanonicalCreativeRangeReview({
       await site00ProjectsApi.canonicalCreativeRangeExecute(projectSlug);
       await poll();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unable to start canonical range validation');
+      setError(founderApiErrorMessage(err));
     } finally {
       setStarting(false);
     }
@@ -60,7 +66,7 @@ export function CanonicalCreativeRangeReview({
         await site00ProjectsApi.canonicalCreativeRangeJudgment(projectSlug, comparisonIndex, judgment);
         await poll();
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unable to save judgment');
+        setError(founderApiErrorMessage(err));
       } finally {
         setJudging(null);
       }
