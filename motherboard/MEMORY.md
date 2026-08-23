@@ -3191,3 +3191,15 @@ Summary: Founder requested correction from blind shadow-formation Experiment A t
 - **Preflight:** `buildCanonicalRangeGenerationPreflight` — blocks if roster/palette/typography/format derivation fails; zero image credits until ready. Fixed v1 palette bug: empty `coreColorLogic` must not mask populated `colorLogic` (`firstNonEmpty` in `directionDnaEnvelope.ts`).
 - **Tests:** 1019 pass — roster, near-miss, contamination, host font, format rotation, experiment isolation, service integration stub.
 - **Founder action:** Merge PR; Railway redeploy API; cPanel v13 for UI; open canonical range page → RUN CANONICAL RANGE VALIDATION (6 sequential heroes). Experiment A and B verdicts must never be mixed.
+
+---
+
+## 2026-08-23 — Canonical range heroes exist in storage; UI stuck on Direction 01
+
+Summary: Founder asked if heroes generated overnight — page showed **GENERATING DIRECTION · DIRECTION 01** with no images.
+
+- **Finding:** All **6 heroes exist** in Supabase storage at `site00/validation/ndxbook/canonical-creative-range/01–06/hero.webp` (HTTP 200 verified). Generation did complete.
+- **Root cause:** Run metadata was **in-memory only** on Railway — redeploy wiped state; UI showed stale in-flight status with empty `directions` array.
+- **Fix (517570b):** Supabase persistence via `site00_methodology_validation_runs` + `recoverCanonicalRangeRunFromStorage()` on page load to rebuild COMPLETE run from storage.
+- **Founder action:** Railway redeploy from `main`; hard refresh canonical range page — six heroes should appear without re-spending credits.
+
