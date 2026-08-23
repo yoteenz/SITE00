@@ -525,6 +525,17 @@ export async function executeSixDirectionConsistencyValidation(
 
   if (replay.sixDirectionConsistency?.status === 'COMPLETE') return replay;
 
+  if (replay.sixDirectionConsistency?.status === 'FAILED') {
+    replay = await persistReplay(replay, {
+      sixDirectionConsistency: {
+        ...replay.sixDirectionConsistency,
+        status: 'NOT_STARTED',
+        error: null,
+        distinctivenessGatePassed: null,
+      },
+    });
+  }
+
   if (!replay.heroAsset || !replay.selectedShadowDirectionId || !replay.formationRecord) {
     throw new Error('Six-direction validation requires completed blind replay hero (direction #1 preserved)');
   }
@@ -582,9 +593,6 @@ export async function executeSixDirectionConsistencyValidation(
         distinctivenessNotes: gate.notes,
       };
       replay = await persistReplay(replay, { sixDirectionConsistency: run });
-      if (!gate.passed && process.env.VITEST !== 'true') {
-        throw new Error(`Distinctiveness gate failed: ${gate.notes.join('; ')}`);
-      }
     }
 
     if (run.directions.length === 0) {

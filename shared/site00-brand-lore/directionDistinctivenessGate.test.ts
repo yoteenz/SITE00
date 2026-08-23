@@ -122,6 +122,48 @@ describe('runDirectionDistinctivenessGate', () => {
       direction({ directionName: 'DIR B', ...shared }),
     ]);
     expect(result.passed).toBe(false);
+    expect(result.collapseObserved).toBe(true);
     expect(result.notes.some((n) => n.includes('COLLAPSE'))).toBe(true);
+  });
+
+  it('does not fail gate on clone signals alone (observational only)', () => {
+    const result = runDirectionDistinctivenessGate([
+      direction({
+        directionName: 'THE MARKED-UP COPY',
+        oneLineThesis: 'Live editorial strike-through on credit myths',
+        visualMetaphor: 'Handwritten margin annotation on proof sheet',
+        governingBehavior: 'Mid-argument correction',
+        materialImageryLanguage: 'Distressed print cream background',
+        typographicAttitude: 'Editorial serif with lime accent',
+        coreColorLogic: 'Cream field red strike lime highlight',
+        primaryBrandArtifact: 'Marked document carousel cover',
+        socialExpressionHypothesis: 'Swipe through annotated claims',
+      }),
+      direction({
+        directionName: 'THE COUNTDOWN ROOM',
+        oneLineThesis: 'Timer tension before statement drop',
+        visualMetaphor: 'Clock faces and progress rings',
+        governingBehavior: 'Urgency without panic',
+        materialImageryLanguage: 'LED segments and chrome',
+        typographicAttitude: 'Condensed countdown numerals',
+        coreColorLogic: 'Black field amber digits',
+        primaryBrandArtifact: 'Story frame countdown',
+        socialExpressionHypothesis: 'Hold to reveal utilization',
+      }),
+      direction({
+        directionName: 'THE MARKED COPY',
+        oneLineThesis: 'Duplicate editorial annotation variant test',
+        visualMetaphor: 'Document table with strikethrough margin notes',
+        governingBehavior: 'Proof sheet editorial behavior',
+        materialImageryLanguage: 'Cream background distressed print annotation',
+        typographicAttitude: 'Marked-up copy editorial margin type',
+        coreColorLogic: 'Cream lime accent editorial',
+        primaryBrandArtifact: 'Annotated proof sheet post',
+        socialExpressionHypothesis: 'Marked-up copy social carousel',
+      }),
+    ]);
+    expect(result.cloneObserved).toBe(true);
+    expect(result.passed).toBe(true);
+    expect(result.notes.some((n) => n.includes('OBSERVED CLONE SIGNAL'))).toBe(true);
   });
 });

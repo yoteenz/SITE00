@@ -130,6 +130,26 @@ export function SixDirectionConsistencyReview({
         </p>
       ) : null}
 
+      {consistency.distinctivenessNotes?.length ? (
+        <details className="site00-six-dir-review__audit" open={consistency.status === 'FAILED'}>
+          <summary>DISTINCTIVENESS OBSERVATIONS</summary>
+          {consistency.distinctivenessNotes.map((note) => (
+            <p key={note}>{note}</p>
+          ))}
+        </details>
+      ) : null}
+
+      {consistency.status === 'FAILED' ? (
+        <button
+          type="button"
+          className="site00-btn site00-btn--primary"
+          disabled={starting}
+          onClick={() => void startValidation()}
+        >
+          {starting ? 'RETRYING…' : 'RETRY SIX-DIRECTION VALIDATION'}
+        </button>
+      ) : null}
+
       <div className="site00-six-dir-review__grid">
         {consistency.directions.map((direction) => {
           const url = heroUrl(direction);
