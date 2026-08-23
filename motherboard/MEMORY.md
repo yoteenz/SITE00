@@ -3465,3 +3465,14 @@ Summary of sprint building reusable infrastructure to capture business/founder i
 - UI: cross-medium status, snapshot panel, optional PROMOTE evidence, APPROVE FOR VISUAL DEVELOPMENT (founder-triggered).
 - Tests **1292** pass; build pass. Experiment D unchanged. Deploy cPanel **v23**.
 
+---
+
+## 2026-08-23 — Experience Asset Direction + FAL pipeline + World Formation future-depth
+
+- Closed methodology gap: Experience Expression now commissions client-native visual materials via generalized **ExperienceAssetDirection → ExperienceAssetRequirement → ExperienceAssetManifest → FAL generation → review → production promotion → Implementation Contract asset bindings**.
+- New modules under `shared/site00-brand-lore/experienceExpression/`: `assetDirection.ts`, `surfaceArtDirection.ts`, `assetManifest.ts`, `productionScope.ts`, `assetLifecycle.ts`, `assetQA.ts`, `assetGeneration.ts`. Extended `implementationContract.ts`, `implementationEvaluation.ts`, `types.ts`, `experimentEService.ts`.
+- **NDXBOOK proof:** Active Workbench (concept 3) + dossier structural sophistication; literal workshop imagery blocked; founder-trigger-only generation via `experiment_e_generate_asset_visuals`.
+- **World Formation:** `shared/site00-brand-lore/worldFormation/futureContracts.ts` — full future pipeline contracts/readiness only; `WORLD_FORMATION_IMPLEMENTED: false`; contamination guards for Mansion/tarot/generic metaverse.
+- Admin UI: Experiment E panels for asset direction, manifest, generation cost, vault linkage, world readiness (NOT IMPLEMENTED label).
+- Tests **1321** pass (+29 asset direction); build pass. Experiment D v1 frozen; appetite not in D.
+
