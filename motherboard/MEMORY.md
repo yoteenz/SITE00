@@ -3243,3 +3243,13 @@ Summary: Founder reported Experiment C stuck at **FAILED · WORLD 01 / 06 · SLI
 - **Tests:** New `carouselSlideBriefBuilder.test.ts`; service test no longer mocks V2 compiler; 1075 pass.
 - **Founder action:** Merge PR; Railway redeploy API; hard refresh carousel page → tap **RUN NEXT SLIDE** (FAILED runs auto-reset on retry). No re-initialize needed unless worlds missing.
 
+---
+
+## 2026-08-23 — Why agents skip three-part session close (root cause + fix)
+
+Summary: Founder reported agents repeatedly omitting copy-paste BLOCK + deploy links despite CORE.md convention (at least third occurrence). Diagnosis and structural fix applied.
+
+- **Root causes:** (1) Close format buried in CORE.md §Production deployment — not in always-applied cursor rules until now. (2) Sprint prompts with their own FINAL CONCLUSION FORMAT compete — agents treat sprint template as entire deliverable and skip deploy links. (3) shipping.mdc ends at "merge PR" with no mandatory close step — completion = git done. (4) Conversation handoffs/summaries drop procedural close requirements. (5) Format evolved 3× in MEMORY same day (code box only → prose+box → links outside box) — inconsistent signal.
+- **Fix:** New always-applied `.cursor/rules/session-close.mdc` — checklist: prose + conclusion code box + deploy links each on own line; build ZIP release when UI changes. Updated `shipping.mdc` step 6 and `motherboard.mdc` to reference it.
+- **Convention for future sprints:** Sprint CONCLUSION template goes **inside** part 2 code box; deploy links remain part 3 separate lines per CORE.md.
+
