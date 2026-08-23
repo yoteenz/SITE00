@@ -3476,3 +3476,15 @@ Summary of sprint building reusable infrastructure to capture business/founder i
 - Admin UI: Experiment E panels for asset direction, manifest, generation cost, vault linkage, world readiness (NOT IMPLEMENTED label).
 - Tests **1321** pass (+29 asset direction); build pass. Experiment D v1 frozen; appetite not in D.
 
+---
+
+## 2026-08-23 — Universal Project Workspace + NDXBOOK hero proof
+
+- Methodology correction: **Active Workbench + Dossier** reclassified from NDXBOOK Experience Concept → **SITE 00 PROJECT WORKSPACE CANON** (Experiment E discovery record preserved; historical records immutable).
+- Three-layer architecture: Global Host Canon / Project Workspace Canon / Client Project Expression (`shared/site00-brand-lore/projectWorkspace/`).
+- **Projects page redesigned** as workspace entry (ON THE BENCH, ACTIVE PIECE, REVIEW TRAY, WORK HISTORY, DOSSIER) — asymmetric hierarchy, no equal-card grid.
+- Components: `Site00ProjectWorkspace`, `ProjectWorkspaceEntry`, `ProjectWorkspaceHeroReview`.
+- **HeroFrameAssetSubset** — minimum desktop Project Home assets (not full 56-requirement manifest); founder-trigger FAL via `project_workspace_*` API.
+- NDXBOOK ClientProjectExpressionProfile — Martian Mono excluded, host/client typography separation, color ownership guards.
+- Tests **1351** pass (+30 workspace); build pass. `WORLD_FORMATION_IMPLEMENTED: false`.
+
