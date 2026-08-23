@@ -427,6 +427,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   } catch (e) {
     console.error('[api/site00/projects]', e);
     const msg = e instanceof Error ? e.message : 'Internal error';
+    if (msg === 'Replay not found') {
+      return json(res, 404, {
+        ok: false,
+        error: { code: 'REPLAY_NOT_FOUND', message: msg },
+        source: 'site00_personality_replay',
+      });
+    }
     return json(res, 500, {
       ok: false,
       error: { code: 'INTERNAL_ERROR', message: msg },
