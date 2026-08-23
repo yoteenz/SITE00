@@ -79,6 +79,13 @@
   opacity: 0.7;
 }
 
+.site00-experiment-g__error {
+  margin: 0;
+  color: #f87171;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
 .site00-experiment-g__details summary {
   cursor: pointer;
   font-size: 0.8rem;
