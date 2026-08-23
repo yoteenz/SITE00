@@ -3023,3 +3023,14 @@ Summary: After v3 deploy, founder saw **SUBMIT ERROR: REPLAY NOT FOUND** with **
 - **Fix:** Applied migration to FS Website Supabase; client `rebindReplayFromLocal()` on replay-not-found (reload/save/submit); API maps Replay not found → 404 REPLAY_NOT_FOUND.
 - **Deploy:** Railway redeploy required so API picks up Supabase store; new cPanel ZIP for client recovery.
 - **Branch:** `cursor/personality-replay-not-found-fix-4f59`.
+
+---
+
+## 2026-08-23 — Supabase migration audit (FS Website)
+
+Summary: Founder asked if any SITE 00 migrations were missing; agent audited repo `supabase/migrations/` vs production Supabase project **FS Website** (`hyycomvcaqxxvyrfupes`).
+
+- **Missing (now applied):** `site00_methodology_validation_runs`; `site00_marketing_engagements` + `site00_marketing_engagement_events` + `site00_external_production_links`; `site00_marketing_deliverable_links`.
+- **Already present:** Other 23 repo migrations (tables/columns/constraints) — applied earlier under alternate migration timestamps.
+- **Post-audit:** 105 `site00_*` tables in Supabase; no remaining missing CREATE TABLE objects from repo migrations.
+- **Note:** Railway API must redeploy after migration so replay store cache switches from memory → Supabase.
