@@ -204,10 +204,12 @@ Canonical upstream-to-downstream layers (methodology v20+):
 | **Founder Creative Appetite** | How far may creative exploration push? |
 | **Concept Territory** | What is the big creative idea? |
 | **World Expression System** | What is the persistent visual/verbal universe? |
+| **Medium Expression** | How does the same concept express in a given medium? |
+| **Experience Expression** | How does concept + world become interactive product behavior (Experiment E)? |
 | **Sequence Creative System** | What is the post-level art-direction contract for one multi-frame execution? |
 | **Frame / Asset** | Individual generated expression |
 
-**Rules:** Founder Creative Appetite ≠ Brand Personality ≠ visual canon. Brand wins on conflict. Frozen NDXBOOK concept experiment excludes appetite from serialized production payloads (`assertCreativeAppetiteNotInjectedIntoFrozenExperiment`). Sequence Creative System preserves palette usage hierarchy and Slide 01 anchor — cohesion ≠ sameness.
+**Rules:** Founder Creative Appetite ≠ Brand Personality ≠ visual canon. Brand wins on conflict. Frozen NDXBOOK concept experiment excludes appetite from serialized production payloads (`assertCreativeAppetiteNotInjectedIntoFrozenExperiment`). Sequence Creative System preserves palette usage hierarchy and Slide 01 anchor — cohesion ≠ sameness. **Experience Expression** (Experiment E) consumes Concept Territory + World Expression downstream; requires founder-selected territory (`EXPERIMENT_E_ONLY`); intelligence snapshot v2; no auto-implement; SITE 00 host canon (Martian Mono) ≠ client canon.
 
 ---
 

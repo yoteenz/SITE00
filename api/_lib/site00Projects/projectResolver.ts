@@ -101,6 +101,13 @@ async function buildSurfaces(slug: Site00FounderProjectSlug, isClient: boolean):
         available: true,
       },
       {
+        id: 'experience-expression',
+        label: 'EXPERIMENT E — EXPERIENCE EXPRESSION',
+        route: '/projects/ndxbook/experience-expression',
+        available: true,
+        description: 'Concept Territory → interactive experience direction',
+      },
+      {
         id: 'pilot',
         label: 'PILOT CONTROL',
         route: site00ProjectEvolveRoute('ndxbook'),

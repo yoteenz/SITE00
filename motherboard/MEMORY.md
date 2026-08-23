@@ -3401,3 +3401,25 @@ Summary of follow-up sprint formalizing two Studio World discoveries without con
 
 - **Founder next:** Railway redeploy API; cPanel **v20** for Creative Appetite questionnaire + intelligence inspector; Experiment D continues without appetite injection; future carousel v2 uses Sequence Creative System.
 
+---
+
+## 2026-08-23 — Experiment E Experience Expression (NDXBOOK interactive experience direction)
+
+Summary of production sprint extending Studio World so Concept Territory + World Expression can creative-direct interactive digital product experience — not a dashboard facelift.
+
+- **Context:** Founder asked whether the same brand intelligence that forms concepts and social visuals can also direct how an interactive product feels, organizes information, moves, and behaves. NDXBOOK is the controlled benchmark. Experiment D remains frozen (snapshot v1, no appetite injection). World Formation not implemented.
+
+- **Experiment E architecture (`shared/site00-brand-lore/experienceExpression/`):**
+  - Readiness gate (`ExperienceExpressionReadiness`) — requires founder-selected Concept Territory (`experienceTestTerritoryId`, `selectionPurpose=EXPERIMENT_E_ONLY`); no auto-select.
+  - Three truth layers: Functional Canon (from real routes/ProjectDetailPage), Host Experience Canon (SITE 00 shell/Martian Mono), Client Experience Canon (brand + territory + world with provenance).
+  - Generic template resemblance audit on current project home (HIGH card/dashboard resemblance).
+  - Three isolated Experience Concepts per selected territory + Experience Bibles + distinctiveness gate + world→experience behavior translation.
+  - Visual development architecture: 8 frames/concept (4 surfaces × mobile/desktop), founder-triggered, idempotent; generic dashboard prompt block; contamination guards (Mansion/tarot/brainstorm).
+  - Implementation contract compiler + evaluation scaffold (NOT_EVALUATED default) + ExperienceRevisionDelta — no auto-implement.
+
+- **API/UI:** `experimentEService` + memory store; routes `experiment_e_*` in `api/site00/projects.ts`; founder page `/projects/ndxbook/experience-expression`; surface link on NDXBOOK project index.
+
+- **Tests:** 47 new Experiment E tests; full suite **1264** pass; tsc + build pass.
+
+- **Founder next:** Railway redeploy API; cPanel **v21**; open Experiment E → **SELECT CONCEPT TERRITORY FOR EXPERIENCE TEST** → **FORM THREE EXPERIENCE CONCEPTS** → review concepts/bibles → **GENERATE VISUAL DEVELOPMENT** per concept when ready. `READY_FOR_IMPLEMENTATION: false` until founder selects experience concept.
+

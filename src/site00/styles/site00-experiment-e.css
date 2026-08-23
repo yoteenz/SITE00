@@ -1,0 +1,116 @@
+.site00-experiment-e {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.site00-experiment-e__experiment {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: #c00;
+  margin: 0 0 0.5rem;
+}
+
+.site00-experiment-e__title {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+}
+
+.site00-experiment-e__meta,
+.site00-experiment-e__pending {
+  font-size: 0.85rem;
+  margin: 0.35rem 0;
+}
+
+.site00-experiment-e__error {
+  color: #c00;
+  font-size: 0.85rem;
+}
+
+.site00-experiment-e__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.site00-experiment-e__concept-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.site00-experiment-e__concept-tabs button {
+  font-size: 0.75rem;
+  padding: 0.35rem 0.6rem;
+}
+
+.site00-experiment-e__tab-btn--active {
+  background: #000;
+  color: #fff;
+}
+
+.site00-experiment-e__card {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.site00-experiment-e__concept dl {
+  display: grid;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.site00-experiment-e__concept dt {
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+}
+
+.site00-experiment-e__concept dd {
+  margin: 0 0 0.5rem;
+}
+
+.site00-experiment-e__canon {
+  margin: 1rem 0;
+  font-size: 0.85rem;
+}
+
+.site00-experiment-e__canon summary {
+  cursor: pointer;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.site00-experiment-e__judgment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+}
+
+.site00-experiment-e__visual-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.site00-experiment-e__visual-grid figure {
+  margin: 0;
+  font-size: 0.65rem;
+}
+
+.site00-experiment-e__territory-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.75rem 0;
+}
+
+.site00-experiment-e__territory-select button {
+  font-size: 0.7rem;
+}

@@ -333,6 +333,68 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, comparisonIndex, judgment, tooCloseSibling }),
       },
     ),
+  experimentEGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=experiment_e_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  experimentESelectTerritory: (slug: string, params: { directionName?: string; territoryId?: string }) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_e_select_territory',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, ...params }),
+      },
+    ),
+  experimentEFormConcepts: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_e_form_concepts',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentEGenerateVisuals: (
+    slug: string,
+    params: { conceptIndex?: number; allConcepts?: boolean },
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; costPreview?: number }>(
+      '/api/site00/projects?action=experiment_e_generate_visuals',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, ...params }),
+      },
+    ),
+  experimentEConceptJudgment: (
+    slug: string,
+    conceptIndex: number,
+    judgment:
+      | 'LOVE_THE_EXPERIENCE'
+      | 'PROMISING_EXPLORE'
+      | 'NOT_FOR_THIS_PROJECT'
+      | 'TOO_TEMPLATE_LIKE'
+      | 'TOO_CLOSE_TO_ANOTHER'
+      | null,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_e_concept_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, conceptIndex, judgment }),
+      },
+    ),
+  experimentECompileContract: (slug: string, conceptIndex: number) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_e_compile_contract',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, conceptIndex }),
+      },
+    ),
   creativeLineageForensicAudit: (slug: string) =>
     projectsFetch<{ ok: true; report: Record<string, unknown> }>(
       `/api/site00/projects?action=creative_lineage_forensic_audit&slug=${encodeURIComponent(slug)}`,
