@@ -13,6 +13,13 @@ import {
 } from '../_lib/site00Evolve/creativeDirection/engagementService.js';
 import { orgIdFromSlug } from '../_lib/site00Evolve/orgRegistry.js';
 import { submitOrgLoreCalibration, getOrReconcileBrandLoreForOrg } from '../_lib/site00BrandLore/loreService.js';
+import {
+  getOrCreateActivePersonalityReplay,
+  saveReplayPersonalityAnswers,
+  completeReplayPersonalityIntake,
+  resolvePersonalityReplayResumeStepId,
+  getPersonalityReplay,
+} from '../_lib/site00Evolve/creativeDirection/personalityReplay/replayService.js';
 
 function setCors(res: VercelResponse): void {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -232,6 +239,122 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         invalidateCreativeDirectionEngagement(slug);
         const payload = await getCreativeDirectionPayload(slug);
         return json(res, 200, { ok: true, ...payload, source: 'site00_lore_calibration' });
+      }
+      case 'personality_replay_bootstrap': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'NDXBOOK_ONLY', message: 'Personality replay is NDX BOOK only' },
+            source: 'site00_personality_replay',
+          });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, {
+            ok: false,
+            error: { code: 'PROJECT_ACCESS_DENIED', message: 'Project access denied' },
+            source: 'site00_personality_replay',
+          });
+        }
+        const orgId = orgIdFromSlug(slug)!;
+        const replay = await getOrCreateActivePersonalityReplay({
+          organizationId: orgId,
+          orgSlug: slug,
+          createdBy: user.email,
+        });
+        const resumeStepId = resolvePersonalityReplayResumeStepId(replay.rawPersonalityAnswers);
+        return json(res, 200, {
+          ok: true,
+          replay,
+          resumeStepId,
+          source: 'site00_personality_replay',
+        });
+      }
+      case 'personality_replay_save': {
+        if (req.method !== 'POST') {
+          return json(res, 405, {
+            ok: false,
+            error: { code: 'POST_REQUIRED', message: 'POST required' },
+            source: 'site00_personality_replay',
+          });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? req.query.slug ?? '');
+        const replayId = String(body.replayId ?? '');
+        if (slug !== 'ndxbook' || !replayId) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'ndxbook slug and replayId required' },
+            source: 'site00_personality_replay',
+          });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, {
+            ok: false,
+            error: { code: 'PROJECT_ACCESS_DENIED', message: 'Project access denied' },
+            source: 'site00_personality_replay',
+          });
+        }
+        const replay = await saveReplayPersonalityAnswers({
+          replayId,
+          answers: (body.answers ?? {}) as Record<string, string | string[]>,
+          completedSteps: body.completedSteps as string[] | undefined,
+        });
+        return json(res, 200, { ok: true, replay, source: 'site00_personality_replay' });
+      }
+      case 'personality_replay_complete': {
+        if (req.method !== 'POST') {
+          return json(res, 405, {
+            ok: false,
+            error: { code: 'POST_REQUIRED', message: 'POST required' },
+            source: 'site00_personality_replay',
+          });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? req.query.slug ?? '');
+        const replayId = String(body.replayId ?? '');
+        if (slug !== 'ndxbook' || !replayId) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'ndxbook slug and replayId required' },
+            source: 'site00_personality_replay',
+          });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, {
+            ok: false,
+            error: { code: 'PROJECT_ACCESS_DENIED', message: 'Project access denied' },
+            source: 'site00_personality_replay',
+          });
+        }
+        const replay = await completeReplayPersonalityIntake(replayId);
+        return json(res, 200, { ok: true, replay, source: 'site00_personality_replay' });
+      }
+      case 'personality_replay_get': {
+        const slug = String(req.query.slug ?? '');
+        const replayId = String(req.query.replayId ?? '');
+        if (slug !== 'ndxbook' || !replayId) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'ndxbook slug and replayId required' },
+            source: 'site00_personality_replay',
+          });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, {
+            ok: false,
+            error: { code: 'PROJECT_ACCESS_DENIED', message: 'Project access denied' },
+            source: 'site00_personality_replay',
+          });
+        }
+        const replay = await getPersonalityReplay(replayId);
+        return replay
+          ? json(res, 200, { ok: true, replay, source: 'site00_personality_replay' })
+          : json(res, 404, {
+              ok: false,
+              error: { code: 'REPLAY_NOT_FOUND', message: 'Replay not found' },
+              source: 'site00_personality_replay',
+            });
       }
       default:
         return json(res, 400, {

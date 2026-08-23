@@ -20,7 +20,10 @@ import { synthesizeBrandPersonalityProfile } from '../../../../../shared/site00-
 import {
   evaluateBrandPersonalityReadiness,
   canBeginCoreDirectionFormation,
+  isPersonalityStepAnswered,
 } from '../../../../../shared/site00-brand-lore/personalityReadiness.js';
+import { IDNTY_PERSONALITY_QUESTIONS } from '../../../../../shared/site00-brand-lore/idnty-personality-questions.js';
+import type { PersonalityReplayStatus } from '../../../../../shared/site00-brand-lore/personalityReplayTypes.js';
 import { buildCoreDirectionFormationInput } from '../creativeIntelligence/formationInputBuilder.js';
 import * as replayStore from './replayStore/storeAdapter.js';
 import { getOrReconcileBrandLoreForOrg } from '../../../site00BrandLore/loreService.js';
@@ -317,4 +320,33 @@ export async function setFounderReplayValidationJudgment(params: {
     status,
     updatedAt: nowIso(),
   });
+}
+
+const RESUMABLE_REPLAY_STATUSES: PersonalityReplayStatus[] = [
+  'CREATED',
+  'INTAKE_IN_PROGRESS',
+  'PERSONALITY_READY',
+];
+
+export function resolvePersonalityReplayResumeStepId(
+  answers: Record<string, string | string[]>,
+): string {
+  for (const question of IDNTY_PERSONALITY_QUESTIONS) {
+    if (!isPersonalityStepAnswered(answers, question.id)) {
+      return question.id;
+    }
+  }
+  return 'review';
+}
+
+/** Resume an in-progress replay or create a fresh shadow validation run. */
+export async function getOrCreateActivePersonalityReplay(params: {
+  organizationId: string;
+  orgSlug: string;
+  createdBy?: string | null;
+}): Promise<BrandPersonalityReplayRecord> {
+  const existing = await replayStore.listPersonalityReplayRecordsForOrg(params.organizationId);
+  const active = existing.find((r) => RESUMABLE_REPLAY_STATUSES.includes(r.status));
+  if (active) return active;
+  return createNdxbookPersonalityReplay(params);
 }

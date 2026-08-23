@@ -2,7 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Site00AdminShell } from '../../components/shell/Site00AdminShell';
 import { site00EvolveApi } from '../../services/evolveApi';
-import { personalityReplayIntakePath } from '../../../config/personalityReplayRoutes';
+import {
+  projectPersonalityReplayPath,
+} from '../../../config/personalityReplayRoutes';
 import { SITE00_ADMIN_ROUTES } from '../../config/routes';
 
 type ReplayRecord = {
@@ -103,9 +105,7 @@ export default function NdxbookPipelineReplayValidationPage() {
 
             {['CREATED', 'INTAKE_IN_PROGRESS', 'PERSONALITY_READY', 'FORMATION_READY'].includes(active.status) ? (
               <p>
-                <Link to={personalityReplayIntakePath(active.replayId, 'social-instinct')}>
-                  OPEN BLIND PERSONALITY INTAKE →
-                </Link>
+                <Link to={projectPersonalityReplayPath('ndxbook')}>OPEN BLIND PERSONALITY INTAKE →</Link>
               </p>
             ) : null}
 

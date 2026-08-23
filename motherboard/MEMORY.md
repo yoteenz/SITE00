@@ -2888,3 +2888,19 @@ Summary: Follow-up sprint builds **shadow replay validation infrastructure** for
 - **Tests:** 29 new in `personalityReplay.test.ts`; full regression green. tsc + build green.
 - **NOT run this sprint:** Formation, DES, CES, identity art direction, FAL hero (Phases 5–11 await founder personality intake).
 - **Branch:** `cursor/ndxbook-personality-replay-validation-4f59`.
+
+---
+
+## 2026-08-23 — NDX project tunnel entry for personality replay intake
+
+Summary: Founder requested a **project-page button** for blind personality replay intake — same mobile tunnel pattern as lore calibration (`/projects/ndxbook/calibrate`) so they can reach intake directly from the NDX project command page without hunting admin validation URLs.
+
+- **Context:** After replay validation infrastructure (PR #255), blind intake lived at `/validation/ndxbook/replay/:replayId/personality/...` and admin panel only. Founder needed founder-facing tunnel entry from `/projects/ndxbook`.
+- **Project routes:** `/projects/:slug/personality-replay`, `/projects/:slug/personality-replay/:stepId`, review at `.../review`. Helpers in `personalityReplayRoutes.ts` + `routes.ts`.
+- **Founder API (projects.ts):** `personality_replay_bootstrap|save|complete|get` — NDXBOOK-only, `canAccessFounderProjectAsOwner` guard. Bootstrap uses `getOrCreateActivePersonalityReplay()` to resume in-progress shadow runs or create fresh.
+- **UI:** `ProjectPersonalityReplayPage` mirrors `ProjectLoreCalibrationPage` shell (HOW YOU SHOW UP hero, blind intake, review/submit). Hook `usePersonalityReplayIntake` switched from admin evolve API to `site00ProjectsApi` keyed by `projectSlug` with localStorage resume.
+- **Project page button:** NDX BOOK **CREATIVE DIRECTION** section on `ProjectDetailPage` — **HOW YOU SHOW UP — PERSONALITY INTAKE →** links to `/projects/ndxbook/personality-replay`.
+- **Admin link updated:** `NdxbookPipelineReplayValidationPage` "OPEN BLIND PERSONALITY INTAKE" now points to project tunnel path.
+- **Legacy redirect:** `/validation/ndxbook/replay/:replayId/personality/*` routes redirect to project tunnel (no broken bookmarks).
+- **Tests/build:** 923 tests pass; `tsc --noEmit` + `npm run build` green.
+- **Branch:** `cursor/ndxbook-personality-replay-project-button-4f59`.
