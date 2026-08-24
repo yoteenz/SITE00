@@ -14,15 +14,18 @@ export function registerBrandPresentationDirectionDependencies(params: {
 }): StudioWorldDependencyGraph {
   return registerDependencyEdge(
     params.graph,
-    instantiateCanonicalEdge(params.projectId, {
-      upstreamType: 'DIRECTION',
-      downstreamType: 'DESIGN_PROOF',
-      invalidationPolicy: 'BLOCK_DOWNSTREAM_EXECUTION',
-      reason: `Brand presentation direction ${params.directionRunId} parent ${params.parentConceptId} — visual formulation blocked until founder review`,
-      changeTypes: ['APPROVED_DESIGN_PROOF_REVISION'],
-    }),
-    params.parentConceptId,
-    params.directionRunId,
+    instantiateCanonicalEdge(
+      params.projectId,
+      {
+        upstreamType: 'DIRECTION',
+        downstreamType: 'DESIGN_PROOF',
+        invalidationPolicy: 'BLOCK_DOWNSTREAM_EXECUTION',
+        reason: `Brand presentation direction ${params.directionRunId} parent ${params.parentConceptId} — visual formulation blocked until founder review`,
+        changeTypes: ['APPROVED_DESIGN_PROOF_REVISION'],
+      },
+      params.parentConceptId,
+      params.directionRunId,
+    ),
   );
 }
 
