@@ -4404,3 +4404,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **UI/API:** `/projects/ndxbook/embodied-character` — Character Discovery workspace with 17 sections, interview save/resume, founder judgments, founder-triggered synthesis.
 - **Tests:** 16 requirements in `embodiedCharacterDiscoveryP05E3.test.ts`. Build green. Deploy v57.
 
+---
+
+## 2026-08-24 — V2.3 batch GENERATE ALL parallel FAL + durable attempt tracking
+
+- **Context:** Founder reported V2.3 board **GENERATE ALL NINE** stopped/timed out after slide 2 — not firing all FAL requests at once.
+- **Root causes:** (1) `executeExperiment01GenerationWork` looped sequentially (9× FAL wall time); (2) `activeGenerationAttempts` in-memory only — Railway poll on another instance triggered `reconcileStaleExperiment01Generation` and reset remaining GENERATING slides to NOT_GENERATED mid-batch.
+- **Fix:** Parallel FAL via `Promise.all` over pending artifact IDs; single merge save (visual formulation pattern). Persist `experiment01GenerationTracking` `{ version, attemptId, startedAt }` on run; stale reconcile skips when fresh attempt &lt; 15 min (matches synthesis pattern). Cleared on batch finalize.
+- **Tests:** `experiment01StaleGeneration.test.ts` — fresh V2.3 attempt not reconciled; V2.3 generateAll fires 9 FAL in one batch. All targeted marketing-expression tests green.
+- **Ship:** API-only — Railway redeploy from `main` after merge; no cPanel ZIP unless UI touched.
+

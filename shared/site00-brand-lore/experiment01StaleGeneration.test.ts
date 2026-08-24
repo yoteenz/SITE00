@@ -7,12 +7,16 @@ import {
   formulateMarketingExpressionExperiment01,
   formulateMarketingExpressionExperiment01V2,
   formulateMarketingExpressionExperiment01V21,
+  formulateMarketingExpressionExperiment01V22,
+  formulateMarketingExpressionExperiment01V23,
   generateAllExperiment01V21ArtifactAssets,
+  generateAllExperiment01V23ArtifactAssets,
   getBrandMarketingExpressionState,
   prepareBrandMarketingExpression,
   compileBrandMarketingExpression,
   resetBrandMarketingExpressionWorkers,
   isExperiment01GenerationWorkerActive,
+  hasFreshExperiment01GenerationAttemptForVersion,
   seedVitestNdxbookMarketingExpressionPrerequisites,
 } from '../../api/_lib/site00Evolve/creativeDirection/brandMarketingExpressionExperiment/brandMarketingExpressionService.js';
 import {
@@ -31,6 +35,8 @@ beforeEach(async () => {
   await formulateMarketingExpressionExperiment01({ projectId: 'ndxbook' });
   await formulateMarketingExpressionExperiment01V2({ projectId: 'ndxbook' });
   await formulateMarketingExpressionExperiment01V21({ projectId: 'ndxbook' });
+  await formulateMarketingExpressionExperiment01V22({ projectId: 'ndxbook' });
+  await formulateMarketingExpressionExperiment01V23({ projectId: 'ndxbook' });
 });
 
 describe('Experiment 01 stale generation recovery', () => {
@@ -95,5 +101,48 @@ describe('Experiment 01 stale generation recovery', () => {
     const generated = await generateAllExperiment01V21ArtifactAssets({ projectId: 'ndxbook' });
     expect(generated.experiment01V21?.generatedArtifacts.every((a) => a.generationStatus === 'GENERATED')).toBe(true);
     expect(generated.accounting.falRequests).toBe(8);
+  });
+
+  it('does not reconcile fresh V2.3 GENERATING state when persisted attempt is active', async () => {
+    const run = await getBrandMarketingExpressionState({ projectId: 'ndxbook' });
+    const attemptId = 'vitest-v23-batch-attempt';
+    const artifacts = run!.experiment01V23!.generatedArtifacts.map((artifact, index) =>
+      index === 0
+        ? {
+            ...artifact,
+            generationStatus: 'GENERATED' as const,
+            generatedAssetUrl: 'https://vitest.local/slide-1.png',
+            generatedAssetId: 'asset-1',
+          }
+        : { ...artifact, generationStatus: 'GENERATING' as const },
+    );
+
+    await saveBrandMarketingExpressionRun({
+      ...run!,
+      status: 'EXPERIMENT_01_V23_GENERATING',
+      experiment01V23: {
+        ...run!.experiment01V23!,
+        status: 'GENERATING',
+        generatedArtifacts: artifacts,
+      },
+      experiment01GenerationTracking: {
+        version: 'v23',
+        attemptId,
+        startedAt: new Date().toISOString(),
+      },
+    });
+
+    expect(isExperiment01GenerationWorkerActive('ndxbook', 'v23')).toBe(false);
+    const persisted = await getBrandMarketingExpressionState({ projectId: 'ndxbook' });
+    expect(hasFreshExperiment01GenerationAttemptForVersion(persisted!, 'v23')).toBe(true);
+    expect(persisted?.experiment01V23?.generatedArtifacts.filter((a) => a.generationStatus === 'GENERATING').length).toBe(8);
+    expect(persisted?.status).toBe('EXPERIMENT_01_V23_GENERATING');
+  });
+
+  it('generateAll V2.3 dispatches all nine FAL requests in one parallel batch', async () => {
+    const generated = await generateAllExperiment01V23ArtifactAssets({ projectId: 'ndxbook' });
+    expect(generated.experiment01V23?.generatedArtifacts.every((a) => a.generationStatus === 'GENERATED')).toBe(true);
+    expect(generated.accounting.falRequests).toBe(9);
+    expect(generated.experiment01GenerationTracking).toBeNull();
   });
 });

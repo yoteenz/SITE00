@@ -345,6 +345,14 @@ export type MarketingExpressionForensicAudit = {
   auditedAt: string;
 };
 
+export type Experiment01GenerationVersion = 'v1' | 'v2' | 'v21' | 'v22' | 'v23';
+
+export type Experiment01GenerationTracking = {
+  version: Experiment01GenerationVersion;
+  attemptId: string;
+  startedAt: string;
+} | null;
+
 export type BrandMarketingExpressionRun = {
   runId: string;
   projectId: string;
@@ -384,6 +392,7 @@ export type BrandMarketingExpressionRun = {
   experiment01V22: import('../characterRetention/types.js').MarketingExpressionExperiment01V22 | null;
   experiment01V23: import('../artBoardMateriality/types.js').MarketingExpressionExperiment01V23 | null;
   experimentGCharacterReevaluationRequired: boolean;
+  experiment01GenerationTracking: Experiment01GenerationTracking;
   error: string | null;
   accounting: {
     anthropicRequests: number;
