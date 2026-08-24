@@ -48,7 +48,14 @@ import {
   v23GenerationJobStatusLabel,
 } from '../../../shared/site00-brand-lore/artBoardMateriality/v23BoardReadinessClient';
 import { Site00ImageInspectLightbox } from '../components/common/Site00ImageInspectLightbox';
+import { FounderWorkspaceShell } from '../components/founderWorkspace/FounderWorkspaceShell';
+import {
+  Experiment01OperateLayer,
+  Experiment01UnderstandLayer,
+} from '../components/founderWorkspace/Experiment01OperateLayer';
+import { NDX_EXPERIMENT_01_CANONICAL_TITLE } from '../config/ndxFounderWorkspace';
 import '../styles/site00-replay-execution.css';
+import '../styles/site00-founder-workspace.css';
 
 const POLL_MS = 5000;
 
@@ -423,21 +430,20 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
     !isGeneratingBoard &&
     generatedCount > 0;
   const canGenerateRemaining = pendingCount > 0 && !isGeneratingBoard && !(versionTab === 'V23' && v23Superseded);
+  const useFounderWorkspaceShell = versionTab === 'V23' && v23Artifacts.length > 0;
 
-  return (
-    <EcosystemShell hidePageHeader>
-      <div className="site00-cd site00-cd--project-calibration">
-        <div className="site00-project-lore-calibration">
-          <header className="site00-project-lore-calibration__hero">
-            <ProjectExperimentsHubNav projectSlug={projectSlug} />
-            <p className="site00-project-lore-calibration__kicker">EXPERIMENT 01 — V1 / V2 / V2.1 / V2.2 / V2.3</p>
-            <h1 className="site00-project-lore-calibration__project">{projectDisplayName(projectSlug)}</h1>
-            <p className="site00-project-lore-calibration__headline">NDX FEED — NINE FIRST SLIDES</p>
-            <Link to={site00ProjectBrandMarketingExpressionPath(projectSlug)}>← MARKETING EXPRESSION</Link>
-            <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
-          </header>
+  const legacyExperiment01Body = (
+    <>
+      <header className="site00-project-lore-calibration__hero">
+        <ProjectExperimentsHubNav projectSlug={projectSlug} />
+        <p className="site00-project-lore-calibration__kicker">EXPERIMENT 01 — V1 / V2 / V2.1 / V2.2 / V2.3</p>
+        <h1 className="site00-project-lore-calibration__project">{projectDisplayName(projectSlug)}</h1>
+        <p className="site00-project-lore-calibration__headline">NDX FEED — NINE FIRST SLIDES</p>
+        <Link to={site00ProjectBrandMarketingExpressionPath(projectSlug)}>← MARKETING EXPRESSION</Link>
+        <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
+      </header>
 
-          {loading ? (
+      {loading ? (
             <p>Loading Experiment 01…</p>
           ) : (
             <>
@@ -1052,8 +1058,58 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
               )}
             </>
           )}
+    </>
+  );
+
+  return (
+    <EcosystemShell hidePageHeader>
+      {useFounderWorkspaceShell ? (
+        <FounderWorkspaceShell
+          projectSlug={projectSlug}
+          title="EXPERIMENT 01"
+          subtitle={NDX_EXPERIMENT_01_CANONICAL_TITLE}
+          attentionBadge={
+            isGeneratingBoard ? 'DEVELOPING' : allGenerated ? 'READY TO REVIEW' : pendingCount > 0 ? 'DEVELOPING' : undefined
+          }
+          operate={
+            <Experiment01OperateLayer
+              artifacts={v23Artifacts}
+              selectedId={selectedId}
+              onSelect={(id) => {
+                setSelectedId(id);
+                cancelV23RevisionDraft();
+              }}
+              generatedCount={generatedCount}
+              total={activeArtifacts.length}
+              isGenerating={isGeneratingBoard}
+              canGenerateRemaining={canGenerateRemaining}
+              canRegenerateAll={canRegenerateAllV23}
+              busy={busy}
+              onGenerateRemaining={() => void generateAll()}
+              onRegenerateAll={() => void regenerateAllV23()}
+              onRegenerateCurrent={(id) => void regenerateCurrentV23(id)}
+              selected={selectedV23}
+              onJudgmentTap={onV23JudgmentTap}
+              onReplayHistorical={(id) =>
+                void site00ProjectsApi
+                  .marketingExpressionExperiment01V23Replay(projectSlug, id)
+                  .then((r) => setRun(r.run as BrandMarketingExpressionRun))
+              }
+              onInspectImage={(url, alt) => setInspectImage({ url, alt })}
+            />
+          }
+          understand={<Experiment01UnderstandLayer />}
+          inspect={
+            <div className="site00-cd site00-cd--project-calibration site00-fws-legacy-inspect">
+              <div className="site00-project-lore-calibration">{legacyExperiment01Body}</div>
+            </div>
+          }
+        />
+      ) : (
+        <div className="site00-cd site00-cd--project-calibration">
+          <div className="site00-project-lore-calibration">{legacyExperiment01Body}</div>
         </div>
-      </div>
+      )}
 
       {v23RevisionDraft && (
         <div

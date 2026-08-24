@@ -1,6 +1,8 @@
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
+import { FounderWorkspaceShell } from '../components/founderWorkspace/FounderWorkspaceShell';
+import { CharacterLabOperateLayer } from '../components/founderWorkspace/CharacterLabOperateLayer';
 import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
 import { site00ProjectsApi, Site00ProjectsApiError } from '../services/site00ProjectsApi';
 import {
@@ -43,6 +45,7 @@ import {
   nextNeuralRoundUnlockHint,
 } from '../utils/voiceLabTabs';
 import '../styles/site00-replay-execution.css';
+import '../styles/site00-founder-workspace.css';
 
 type RoomSection =
   | 'CALIBRATION'
@@ -320,10 +323,9 @@ export default function ProjectFounderCharacterDiscoveryPage() {
     setInspectSection(target.inspectSection as InspectionSection);
   };
 
-  return (
-    <EcosystemShell hidePageHeader>
-      <div className="site00-cd site00-cd--project-calibration">
-        <div className="site00-project-lore-calibration">
+  const characterLegacyBody = (
+    <div className="site00-cd site00-cd--project-calibration site00-fws-legacy-inspect">
+      <div className="site00-project-lore-calibration">
           <header className="site00-project-lore-calibration__hero">
             <ProjectExperimentsHubNav projectSlug={projectSlug} />
             <p className="site00-project-lore-calibration__kicker">P0.5E.4A — ADAPTIVE FOUNDER CHARACTER CALIBRATION</p>
@@ -1534,6 +1536,31 @@ export default function ProjectFounderCharacterDiscoveryPage() {
           )}
         </div>
       </div>
+  );
+
+  return (
+    <EcosystemShell hidePageHeader>
+      {projectSlug === 'ndxbook' ? (
+        <FounderWorkspaceShell
+          projectSlug={projectSlug}
+          title="CHARACTER LAB"
+          subtitle="WHO DO WE THINK SHE IS RIGHT NOW?"
+          attentionBadge={discoveryProgress?.readyForCharacterSynthesis ? 'READY TO REVIEW' : undefined}
+          operate={
+            <>
+              <CharacterLabOperateLayer
+                projectSlug={projectSlug}
+                run={run}
+                loading={loading}
+                discoveryProgress={discoveryProgress}
+              />
+              {characterLegacyBody}
+            </>
+          }
+        />
+      ) : (
+        characterLegacyBody
+      )}
       {voiceRevisionDraft && (
         <div
           role="presentation"

@@ -316,7 +316,7 @@ describe('P0.5C.5 First-Person Authorship + Caption Synthesis', () => {
     expect(productExpressionBlocked()).toBe(true);
     expect(worldFormationBlocked()).toBe(true);
 
-    const boardPage = readFileSync(join(ROOT, 'src/site00/pages/ProjectContentOperationsCampaignBoardPage.tsx'), 'utf8');
+    const boardPage = readFileSync(join(ROOT, 'src/site00/components/founderWorkspace/CampaignBoardProductionWall.tsx'), 'utf8');
     const api = readFileSync(join(ROOT, 'src/site00/services/site00ProjectsApi.ts'), 'utf8');
     expect(boardPage).toContain('CAPTIONS — P0.5C.5');
     expect(boardPage).toContain('THAT_SOUNDS_LIKE_ME');

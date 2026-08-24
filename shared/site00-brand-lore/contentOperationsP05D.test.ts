@@ -437,10 +437,12 @@ describe('P0.5D Content Operations', () => {
   });
 
   it('57. Frontend routes wired', () => {
+    const SHELL = readFileSync(join(process.cwd(), 'src/site00/components/founderWorkspace/FounderWorkspaceShell.tsx'), 'utf8');
+    const PERF_ROOM = readFileSync(join(process.cwd(), 'src/site00/components/founderWorkspace/PerformanceLearningRoom.tsx'), 'utf8');
     expect(ROUTES).toContain('projectContentOperations');
     expect(SITE_ROUTES).toContain('ProjectContentOperationsPage');
-    expect(OPS_PAGE).toContain('ASSISTED_AUTONOMY');
-    expect(PERF_PAGE).toContain('WHAT NOT TO CONCLUDE');
+    expect(SHELL).toContain('ASSISTED AUTONOMY');
+    expect(PERF_ROOM).toContain('WHAT NOT TO CONCLUDE');
   });
 
   it('58. Live cultural intelligence layer implemented with manual ingestion', () => {

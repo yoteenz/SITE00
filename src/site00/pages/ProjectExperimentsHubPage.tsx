@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
+import { ExperimentJourneyBar, FounderWorkspaceShell } from '../components/founderWorkspace/FounderWorkspaceShell';
 import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
 import { useExperimentsHubScrollRestore } from '../hooks/useExperimentsHubScrollRestore';
 import {
@@ -8,9 +9,11 @@ import {
   type ProjectExperimentHubEntry,
   type ProjectExperimentHubPhase,
 } from '../config/projectExperimentsHub';
+import { ndxExperimentJourneyStages, ndxFounderWorkspaceEnabled } from '../config/ndxFounderWorkspace';
 import { site00ProjectPath } from '../config/routes';
 import { projectDisplayName } from '../utils/projectDisplayName';
 import '../styles/site00-projects.css';
+import '../styles/site00-founder-workspace.css';
 
 function groupByPhase(entries: ProjectExperimentHubEntry[]): Map<ProjectExperimentHubPhase, ProjectExperimentHubEntry[]> {
   const map = new Map<ProjectExperimentHubPhase, ProjectExperimentHubEntry[]>();
@@ -61,6 +64,9 @@ export default function ProjectExperimentsHubPage() {
   const entries = getProjectExperimentsHubEntries(projectSlug);
   const grouped = groupByPhase(entries);
   const phaseOrder: ProjectExperimentHubPhase[] = ['INTAKE', 'EXPERIMENT', 'EXPERIENCE', 'LINEAGE'];
+  const journeyStages = ndxExperimentJourneyStages();
+  const resolveExperimentPath = (experimentId: string) => entries.find((e) => e.id === experimentId)?.path ?? null;
+  const useWorkspace = ndxFounderWorkspaceEnabled(projectSlug);
 
   if (!entries.length) {
     return (
@@ -70,40 +76,57 @@ export default function ProjectExperimentsHubPage() {
     );
   }
 
+  const hubContent = (
+    <div className="site00-page site00-page--experiments-hub">
+      <nav className="site00-project-command__back">
+        <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
+      </nav>
+
+      <header className="site00-experiments-hub-header">
+        <p className="site00-label-red">NDXBOOK METHODOLOGY</p>
+        <h1 className="site00-experiments-hub-header__title">EXPERIMENTS &amp; VALIDATION</h1>
+        <p className="site00-experiments-hub-header__project">{projectDisplayName(projectSlug)}</p>
+        <p className="site00-body site00-experiments-hub-header__sub">
+          Methodology journey above · full experiment index below. Technical lineage remains inspectable on every page.
+        </p>
+      </header>
+
+      <ProjectExperimentsHubNav projectSlug={projectSlug} />
+
+      {useWorkspace ? (
+        <ExperimentJourneyBar stages={journeyStages} resolvePath={resolveExperimentPath} />
+      ) : null}
+
+      {phaseOrder.map((phase) => {
+        const phaseEntries = grouped.get(phase);
+        if (!phaseEntries?.length) return null;
+        return (
+          <section key={phase} className="site00-experiments-hub-section" aria-label={projectExperimentsHubPhaseLabel(phase)}>
+            <h2 className="site00-experiments-hub-section__title">{projectExperimentsHubPhaseLabel(phase)}</h2>
+            <ol className="site00-experiments-hub-list">
+              {phaseEntries.map((entry) => (
+                <ExperimentHubCard key={entry.id} entry={entry} />
+              ))}
+            </ol>
+          </section>
+        );
+      })}
+    </div>
+  );
+
   return (
     <EcosystemShell hidePageHeader>
-      <div className="site00-page site00-page--experiments-hub">
-        <nav className="site00-project-command__back">
-          <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
-        </nav>
-
-        <header className="site00-experiments-hub-header">
-          <p className="site00-label-red">NDXBOOK METHODOLOGY</p>
-          <h1 className="site00-experiments-hub-header__title">EXPERIMENTS &amp; VALIDATION</h1>
-          <p className="site00-experiments-hub-header__project">{projectDisplayName(projectSlug)}</p>
-          <p className="site00-body site00-experiments-hub-header__sub">
-            One index for every intake step, validation experiment, experience surface, and lineage tool — in recommended
-            order. Use prev/next on each page to move through the pipeline without hunting routes.
-          </p>
-        </header>
-
-        <ProjectExperimentsHubNav projectSlug={projectSlug} />
-
-        {phaseOrder.map((phase) => {
-          const phaseEntries = grouped.get(phase);
-          if (!phaseEntries?.length) return null;
-          return (
-            <section key={phase} className="site00-experiments-hub-section" aria-label={projectExperimentsHubPhaseLabel(phase)}>
-              <h2 className="site00-experiments-hub-section__title">{projectExperimentsHubPhaseLabel(phase)}</h2>
-              <ol className="site00-experiments-hub-list">
-                {phaseEntries.map((entry) => (
-                  <ExperimentHubCard key={entry.id} entry={entry} />
-                ))}
-              </ol>
-            </section>
-          );
-        })}
-      </div>
+      {useWorkspace ? (
+        <FounderWorkspaceShell
+          projectSlug={projectSlug}
+          title="EXPERIMENTS HUB"
+          subtitle="METHODOLOGY JOURNEY + FULL INDEX"
+          hideWorkspaceNav
+          operate={hubContent}
+        />
+      ) : (
+        hubContent
+      )}
     </EcosystemShell>
   );
 }

@@ -4641,3 +4641,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `embodiedCharacterVoiceP05E4B.test.ts` (19 tests); full suite 2634 pass; build OK (`ProjectFounderCharacterDiscoveryPage.Dv5N4LYo.js`).
 - **Founder:** Railway redeploy for API. GoDaddy deploy for UI. Character Discovery → INSPECT → VOICE LAB → START VOICE AUDITION.
 
+---
+
+## 2026-08-24 — Founder Workspace Experience Architecture (P0.5E.6)
+
+- **Context:** Founder sprint to remodel NDXBOOK Studio World as one cohesive operating environment — editorial command-center IA, progressive disclosure (OPERATE / UNDERSTAND / INSPECT), artwork-first surfaces. Attached concept = visual authority; production screenshots = functional evidence only.
+- **Architecture:** Generic `shared/site00-studio-world-production/founderWorkspace/` (attention hierarchy, experiment journey, types); NDX adapter `src/site00/config/ndxFounderWorkspace.ts`; `FounderWorkspaceShell` with persistent rail (OVERVIEW/CREATE/REVIEW/LEARN/INTELLIGENCE/CHARACTER/ARCHIVE), inspector drawer, shared components + `site00-founder-workspace.css`.
+- **Surfaces:** Content Operations → editorial desk; Campaign Board → production wall + day lanes; Experiment 01 → board-first V2.3 shell with full legacy methodology in INSPECT; Experiments Hub → 6-stage methodology journey bar; Cultural Intelligence → radar room; Performance → observation room; Character Lab → synthesis operate layer + full calibration below; Archive page at `/projects/ndxbook/archive`.
+- **Preservation:** All Layer 3 methodology (contracts, captions ROUND_VIEW, generation authority, trait/voice lab) moved to INSPECT — not deleted. No Brand Character/Canon mutation. No decorative FAL. 2680 tests pass; build green.
+- **Founder:** GoDaddy deploy v79 ZIP → hard refresh. Railway redeploy optional (UI-heavy). Open CREATE/REVIEW/EXPERIMENT 01 on desktop for full rail + wall experience.
+
