@@ -1545,6 +1545,28 @@ export const site00ProjectsApi = {
       '/api/site00/projects?action=cultural_intelligence_promote_opportunities',
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
     ),
+  culturalIntelligenceAddManualSignal: (
+    slug: string,
+    payload: { founderNote: string; whatCaughtAttention: string; referenceUrl?: string; urgency?: string },
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=cultural_intelligence_add_manual_signal',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, ...payload }),
+      },
+    ),
+  culturalIntelligenceProvingRun: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=cultural_intelligence_proving_run',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  culturalIntelligencePromoteItem: (slug: string, interpretationId: string) =>
+    projectsFetch<{ ok: true; intelRun: Record<string, unknown>; contentOpsRun: Record<string, unknown> }>(
+      '/api/site00/projects?action=cultural_intelligence_promote_item',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, interpretationId }) },
+    ),
   projectIntelligenceManifestCompile: (slug: string, experienceClass?: string) =>
     projectsFetch<{
       ok: true;

@@ -141,6 +141,10 @@ import {
   getLiveCulturalIntelligenceState,
   configureLiveCulturalIntelligence,
   refreshLiveSignals,
+  refreshLiveIntelligence,
+  addManualFounderSignal,
+  runLiveProvingRun,
+  promoteLiveOpportunityItem,
   generateWeeklyCulturalForecast,
   promoteLiveOpportunitiesToContentOps,
 } from '../_lib/site00Evolve/liveCulturalIntelligence/liveCulturalIntelligenceService.js';
@@ -2274,8 +2278,62 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await refreshLiveSignals({ projectId: 'ndxbook' });
+        const run = await refreshLiveIntelligence({ projectId: 'ndxbook' });
         return json(res, 200, { ok: true, run, source: 'site00_cultural_intelligence' });
+      }
+      case 'cultural_intelligence_add_manual_signal': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await addManualFounderSignal({
+          projectId: 'ndxbook',
+          founderNote: String(body.founderNote ?? ''),
+          whatCaughtAttention: String(body.whatCaughtAttention ?? ''),
+          referenceUrl: body.referenceUrl ? String(body.referenceUrl) : null,
+          possibleConnection: body.possibleConnection ? String(body.possibleConnection) : null,
+          whyRelevant: body.whyRelevant ? String(body.whyRelevant) : null,
+          urgency: (body.urgency as 'LOW' | 'MEDIUM' | 'HIGH') ?? 'MEDIUM',
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_cultural_intelligence' });
+      }
+      case 'cultural_intelligence_proving_run': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await runLiveProvingRun({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_cultural_intelligence' });
+      }
+      case 'cultural_intelligence_promote_item': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const interpretationId = String(body.interpretationId ?? '');
+        if (slug !== 'ndxbook' || !interpretationId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook + interpretationId required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await promoteLiveOpportunityItem({ projectId: 'ndxbook', interpretationId });
+        return json(res, 200, { ok: true, ...result, source: 'site00_cultural_intelligence' });
       }
       case 'cultural_intelligence_weekly_forecast': {
         if (req.method !== 'POST') {
