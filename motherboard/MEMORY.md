@@ -4651,3 +4651,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preservation:** No Brand Character/Canon mutation, no FAL decorative generation, no methodology deletion — Layer 3 moved to INSPECT drawer/details. Regression tests in `founderWorkspaceP0.test.ts` (10 passing). Build green.
 - **Ship:** PR #408 merged to `main`. Founder deploy: GitHub Actions artifact/ZIP or FTP to site00.com for UI changes.
 
+---
+
+## 2026-08-24 — Account pages Desktop preview fix (PROJECTS / CTRL ROOM)
+
+- **Symptom:** Founder toggled Desktop on mobile but PROJECTS kept showing mobile shell (bottom nav, ORIGIN bay) — felt blocked from desktop account pages.
+- **Root cause:** `EcosystemShell` switched layouts only via CSS `@media (min-width: 1024px)`, ignoring shared `isPreviewDesktop` composer state used by IDNTY/Origin public routes.
+- **Fix:** `EcosystemShell` now respects preview mode; phone + Desktop uses scaled artboard; `Site00EcosystemLayoutSwitch` on `/projects` and `/control` routes.
+
