@@ -1,17 +1,28 @@
 /**
- * Campaign Board — visual production wall.
+ * Campaign Board — visual production wall (P0.VR.1C structural empty state + artwork authority).
  */
 
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import type { MarketingCampaignProductionRun } from '../../../../shared/site00-studio-world-production/marketingCampaignProduction/types';
+import { CampaignDaySelector, CreativeAssetCard } from './FounderWorkspaceShell';
+import { WorkspaceLoadingState } from './WorkspaceLoadingState';
 import {
-  CampaignDaySelector,
-  ContentLane,
-  CreativeAssetCard,
-  FounderEmptyState,
-  FounderWorkspacePanel,
-} from './FounderWorkspaceShell';
+  ArtworkLane,
+  AsymmetricGrid,
+  EditorialRail,
+  GhostSlot,
+  InlineMeta,
+  MediaBand,
+  QuietAction,
+  SpatialSection,
+  WorkspaceField,
+} from './WorkspaceCompositionPrimitives';
+import {
+  resolveCampaignBoardLanes,
+  resolveCampaignIdentity,
+  type CampaignBoardLane,
+} from './campaignBoardLaneSchema';
 import { site00ProjectBrandMarketingExpressionExperiment01Path } from '../../config/routes';
 
 const WEEK_DAYS = [
@@ -37,6 +48,24 @@ type Props = {
   onSelectAsset?: (assetId: string) => void;
 };
 
+function renderLaneSlots(lane: CampaignBoardLane, slateTitle: (id: string, fallback: string) => string) {
+  return lane.slots.map((slot) => {
+    if (slot.asset) {
+      const title = slateTitle(slot.contentPieceId, slot.title);
+      return (
+        <CreativeAssetCard
+          key={slot.slotId}
+          title={title}
+          previewUrl={slot.asset.generatedAssetUrl}
+          format={slot.format}
+          statusLabel={slot.asset.status.replace(/_/g, ' ')}
+        />
+      );
+    }
+    return <GhostSlot key={slot.slotId} variant={lane.ghostVariant} label={slot.title.slice(0, 40)} />;
+  });
+}
+
 export function CampaignBoardProductionWall({
   projectSlug,
   run,
@@ -50,116 +79,110 @@ export function CampaignBoardProductionWall({
 }: Props) {
   const board = run?.board;
   const slate = run?.slate;
+  const identity = resolveCampaignIdentity(run);
+  const lanes = resolveCampaignBoardLanes(run);
+  const pagesLane = lanes.find((l) => l.laneId === 'PAGES')!;
+  const marginsLane = lanes.find((l) => l.laneId === 'MARGINS')!;
+  const motionLane = lanes.find((l) => l.laneId === 'MOTION')!;
+
   const slide01Assets = board?.assets.filter((a) => a.sequencePosition === 1) ?? [];
   const generatedCount = slide01Assets.filter((a) => a.generatedAssetUrl).length;
   const round01 = board?.rounds.find((r) => r.sequencePosition === 1);
 
-  if (loading) return <p>Loading production wall…</p>;
+  const slateTitle = (contentPieceId: string, fallback: string) =>
+    slate?.entries.find((e) => e.contentPieceId === contentPieceId)?.title ?? fallback;
 
-  if (!board) {
+  if (loading) {
     return (
-      <FounderWorkspacePanel title="INITIALIZE">
-        <FounderEmptyState
-          title="CAMPAIGN BOARD NOT STARTED"
-          body="Initialize from Experiment 01 V2.3 — same nine topics, horizontal production."
-        />
-        <button type="button" className="site00-fws-pulse__cta" disabled={busy} onClick={onInitialize} style={{ marginTop: 16 }}>
-          INITIALIZE CAMPAIGN BOARD
-        </button>
-      </FounderWorkspacePanel>
+      <WorkspaceLoadingState
+        label="Loading production wall…"
+        preserveGeometry
+        rows={4}
+      />
     );
   }
 
-  const pagesAssets = slide01Assets.filter((_, i) => i < 3);
-  const marginsAssets = slide01Assets.filter((_, i) => i >= 3 && i < 7);
-  const motionAssets = slide01Assets.filter((_, i) => i >= 7);
-
   return (
-    <div className="site00-fws-campaign-wall" data-visual-reconstruction="campaign-board">
-      <FounderWorkspacePanel title={`${run?.campaign?.name ?? 'MARKET TEST 01'} · WEEK 01`}>
-        <CampaignDaySelector days={WEEK_DAYS} selectedDay={selectedDay} onSelect={onSelectDay} />
-        <p style={{ fontSize: 11, color: '#888', margin: '0 0 16px' }}>
-          Slide 01: {generatedCount}/{slide01Assets.length} generated · Round 01: {round01?.status ?? '—'}
-        </p>
-      </FounderWorkspacePanel>
-
-      <ContentLane title="THE PAGES">
-        <div className="site00-fws-production-grid--scroll">
-          {(pagesAssets.length ? pagesAssets : slide01Assets.slice(0, 3)).map((a) => {
-            const title = slate?.entries.find((e) => e.contentPieceId === a.contentPieceId)?.title ?? a.contentPieceId;
-            return (
-              <CreativeAssetCard
-                key={a.assetId}
-                title={title}
-                previewUrl={a.generatedAssetUrl}
-                format="PAGE"
-                statusLabel={a.status.replace(/_/g, ' ')}
+    <WorkspaceField className="site00-fws-campaign-wall" data-visual-reconstruction="campaign-board">
+      <SpatialSection mode="dense">
+        <EditorialRail
+          identity={identity.campaignLabel}
+          period={identity.periodLabel}
+          status={identity.statusLabel}
+          cadence={identity.cadenceLabel}
+          meta={
+            board ? (
+              <InlineMeta
+                label="Slide 01"
+                value={`${generatedCount}/${slide01Assets.length} generated · Round 01 ${round01?.status ?? '—'}`}
               />
-            );
-          })}
-        </div>
-      </ContentLane>
+            ) : null
+          }
+          navigation={
+            <CampaignDaySelector days={WEEK_DAYS} selectedDay={selectedDay} onSelect={onSelectDay} />
+          }
+        />
+      </SpatialSection>
 
-      <ContentLane title="THE MARGINS">
-        <div className="site00-fws-production-grid--scroll">
-          {(marginsAssets.length ? marginsAssets : slide01Assets.slice(3, 6)).map((a) => {
-            const title = slate?.entries.find((e) => e.contentPieceId === a.contentPieceId)?.title ?? a.contentPieceId;
-            return (
-              <CreativeAssetCard
-                key={a.assetId}
-                title={title}
-                previewUrl={a.generatedAssetUrl}
-                format="MARGIN"
-                statusLabel={a.status.replace(/_/g, ' ')}
-              />
-            );
-          })}
-        </div>
-      </ContentLane>
+      <SpatialSection mode="focal" ariaLabel="The Pages">
+        <ArtworkLane title={pagesLane.label} authority="primary">
+          <AsymmetricGrid variant="pages">{renderLaneSlots(pagesLane, slateTitle)}</AsymmetricGrid>
+        </ArtworkLane>
+      </SpatialSection>
 
-      <ContentLane title="BOOK IN MOTION">
-        <div className="site00-fws-production-grid">
-          {(motionAssets.length ? motionAssets : slide01Assets.slice(6, 9)).map((a) => {
-            const title = slate?.entries.find((e) => e.contentPieceId === a.contentPieceId)?.title ?? a.contentPieceId;
-            return (
-              <CreativeAssetCard
-                key={a.assetId}
-                title={title}
-                previewUrl={a.generatedAssetUrl}
-                format="MOTION"
-                statusLabel={a.status.replace(/_/g, ' ')}
-              />
-            );
-          })}
-        </div>
-      </ContentLane>
+      <SpatialSection mode="standard" ariaLabel="The Margins">
+        <ArtworkLane title={marginsLane.label} authority="secondary">
+          <AsymmetricGrid variant="margins">{renderLaneSlots(marginsLane, slateTitle)}</AsymmetricGrid>
+        </ArtworkLane>
+      </SpatialSection>
 
-      <FounderWorkspacePanel title="PRODUCTION ACTIONS">
-        {round01?.status !== 'LOCKED' && (
-          <button
-            type="button"
-            className="site00-fws-pulse__cta"
-            disabled={busy || generatedCount < slide01Assets.length}
-            onClick={onLockRound01}
-            style={{ marginRight: 8 }}
-          >
-            LOCK ROUND 01 (SLIDE 01)
-          </button>
+      <SpatialSection mode="breathing" ariaLabel="Book in Motion">
+        <ArtworkLane title={motionLane.label} authority="secondary">
+          <MediaBand label={motionLane.label}>
+            <AsymmetricGrid variant="motion">{renderLaneSlots(motionLane, slateTitle)}</AsymmetricGrid>
+          </MediaBand>
+        </ArtworkLane>
+      </SpatialSection>
+
+      <SpatialSection mode="break" className="site00-fws-campaign-wall__periphery">
+        {!board ? (
+          <QuietAction onClick={onInitialize} disabled={busy}>
+            INITIALIZE CAMPAIGN BOARD →
+          </QuietAction>
+        ) : (
+          <div className="site00-fws-campaign-wall__actions">
+            {round01?.status !== 'LOCKED' ? (
+              <QuietAction
+                onClick={onLockRound01}
+                disabled={busy || generatedCount < slide01Assets.length}
+              >
+                LOCK ROUND 01 (SLIDE 01) →
+              </QuietAction>
+            ) : null}
+            {round01?.status === 'LOCKED' ? (
+              <QuietAction onClick={onFormulateRound02} disabled={busy}>
+                FORMULATE ROUND 02 →
+              </QuietAction>
+            ) : null}
+            <InlineMeta
+              label="Generate"
+              value={
+                <>
+                  Slide 01 on{' '}
+                  <Link
+                    to={site00ProjectBrandMarketingExpressionExperiment01Path(projectSlug)}
+                    className="site00-fws-quiet-action__link"
+                  >
+                    Experiment 01
+                  </Link>{' '}
+                  first
+                </>
+              }
+            />
+          </div>
         )}
-        {round01?.status === 'LOCKED' && (
-          <button type="button" className="site00-fws-pulse__cta" disabled={busy} onClick={onFormulateRound02}>
-            FORMULATE ROUND 02
-          </button>
-        )}
-        <p style={{ fontSize: 10, color: '#666', marginTop: 12 }}>
-          Generate Slide 01 on{' '}
-          <Link to={site00ProjectBrandMarketingExpressionExperiment01Path(projectSlug)} style={{ color: '#c8ff00' }}>
-            Experiment 01
-          </Link>{' '}
-          first.
-        </p>
-      </FounderWorkspacePanel>
-    </div>
+      </SpatialSection>
+    </WorkspaceField>
   );
 }
 

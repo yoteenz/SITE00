@@ -63,8 +63,9 @@ export default function ProjectContentOperationsCampaignBoardPage() {
       <FounderWorkspaceShell
         projectSlug={projectSlug}
         title="CAMPAIGN BOARD"
-        subtitle={clientMode ? 'YOUR CONTENT PLAN' : run?.campaign?.name ?? 'MARKET TEST 01'}
-        attentionBadge={generatedCount < totalSlide01 ? 'DEVELOPING' : 'READY TO REVIEW'}
+        subtitle={clientMode ? 'YOUR CONTENT PLAN' : run?.campaign?.name ?? undefined}
+        attentionBadge={generatedCount < totalSlide01 && totalSlide01 > 0 ? 'DEVELOPING' : totalSlide01 > 0 ? 'READY TO REVIEW' : undefined}
+        hideWorkspaceHeader
         operate={
           <CampaignBoardProductionWall
             projectSlug={projectSlug}

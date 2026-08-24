@@ -45,6 +45,7 @@ type FounderWorkspaceShellProps = {
   inspectLabel?: string;
   actions?: ReactNode;
   hideWorkspaceNav?: boolean;
+  hideWorkspaceHeader?: boolean;
 };
 
 export function FounderWorkspaceShell({
@@ -58,6 +59,7 @@ export function FounderWorkspaceShell({
   inspectLabel = 'INSPECT METHODOLOGY + SYSTEM',
   actions,
   hideWorkspaceNav = false,
+  hideWorkspaceHeader = false,
 }: FounderWorkspaceShellProps) {
   const location = useLocation();
   const enabled = ndxFounderWorkspaceEnabled(projectSlug);
@@ -121,14 +123,16 @@ export function FounderWorkspaceShell({
         ) : null}
 
         <main className="site00-fws-canvas">
-          <header className="site00-fws-header">
-            <div className="site00-fws-header__titles">
-              {attentionBadge ? <span className="site00-fws-header__badge">{attentionBadge}</span> : null}
-              <h1 className="site00-fws-header__title">{title}</h1>
-              {subtitle ? <p className="site00-fws-header__subtitle">{subtitle}</p> : null}
-            </div>
-            {actions ? <div className="site00-fws-header__actions">{actions}</div> : null}
-          </header>
+          {!hideWorkspaceHeader ? (
+            <header className="site00-fws-header">
+              <div className="site00-fws-header__titles">
+                {attentionBadge ? <span className="site00-fws-header__badge">{attentionBadge}</span> : null}
+                <h1 className="site00-fws-header__title">{title}</h1>
+                {subtitle ? <p className="site00-fws-header__subtitle">{subtitle}</p> : null}
+              </div>
+              {actions ? <div className="site00-fws-header__actions">{actions}</div> : null}
+            </header>
+          ) : null}
 
           <section className="site00-fws-layer site00-fws-layer--operate" aria-label="Operate">
             {operate}
