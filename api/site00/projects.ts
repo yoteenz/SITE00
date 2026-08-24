@@ -59,6 +59,14 @@ import {
   reformExperimentGSet,
   setExperimentGConceptJudgment,
 } from '../_lib/site00Evolve/creativeDirection/brandPresentationConceptExperiment/experimentGService.js';
+import {
+  formBrandPresentationDirections,
+  getBrandPresentationDirectionFormationRun,
+  prepareBrandPresentationDirectionParents,
+  reviseBrandPresentationDirection,
+  setBrandPresentationDirectionJudgment,
+  estimateDirectionFormationCost,
+} from '../_lib/site00Evolve/creativeDirection/brandPresentationDirectionExperiment/directionService.js';
 import { getExperimentFMethodologyOverlay } from '../../shared/site00-brand-lore/brandPresentationConceptTerritory/experimentFInterpretation.js';
 import { getExperimentDMethodologyOverlay } from '../../shared/site00-brand-lore/conceptTerritoryV2/experimentDInterpretation.js';
 import {
@@ -1155,6 +1163,106 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           background: run.status === 'FORMING' && process.env.VITEST !== 'true',
           source: 'site00_experiment_g',
         });
+      }
+      case 'experiment_g_direction_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await getBrandPresentationDirectionFormationRun();
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_g_direction' });
+      }
+      case 'experiment_g_direction_prepare': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await prepareBrandPresentationDirectionParents();
+        const costPreview = estimateDirectionFormationCost(run.parentConceptSnapshots.length);
+        return json(res, 200, { ok: true, run, costPreview, source: 'site00_experiment_g_direction' });
+      }
+      case 'experiment_g_direction_form': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await formBrandPresentationDirections({ forceRetry: body.forceRetry === true });
+        const costPreview = estimateDirectionFormationCost(3);
+        return json(res, 200, {
+          ok: true,
+          run,
+          costPreview,
+          background: run.status === 'FORMING' && process.env.VITEST !== 'true',
+          source: 'site00_experiment_g_direction',
+        });
+      }
+      case 'experiment_g_direction_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const directionId = String(body.directionId ?? '');
+        const judgment = body.judgment as
+          | 'LOVE_THE_DIRECTION'
+          | 'PROMISING_DEVELOP'
+          | 'TOO_CLOSE_TO_SIBLING'
+          | 'DRIFTS_FROM_CONCEPT'
+          | 'TOO_CONTENT_SPECIFIC'
+          | 'TOO_FORMAT_SPECIFIC'
+          | 'TOO_STYLE_DEPENDENT'
+          | 'NOT_NDXBOOK'
+          | null;
+        if (slug !== 'ndxbook' || !directionId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await setBrandPresentationDirectionJudgment({
+          directionId,
+          judgment,
+          note: body.note ? String(body.note) : null,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_g_direction' });
+      }
+      case 'experiment_g_direction_revise': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const directionId = String(body.directionId ?? '');
+        if (slug !== 'ndxbook' || !directionId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await reviseBrandPresentationDirection({
+          directionId,
+          preserve: Array.isArray(body.preserve) ? body.preserve.map(String) : [],
+          change: Array.isArray(body.change) ? body.change.map(String) : [],
+          doNotBecome: Array.isArray(body.doNotBecome) ? body.doNotBecome.map(String) : [],
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_g_direction' });
       }
       case 'experiment_e_get': {
         const slug = String(req.query.slug ?? '');

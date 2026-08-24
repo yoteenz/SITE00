@@ -1,0 +1,85 @@
+import { Link, useParams } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
+import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
+import { ExperimentGBrandPresentationDirectionReview } from '../components/validation/ExperimentGBrandPresentationDirectionReview';
+import { site00ProjectsApi } from '../services/site00ProjectsApi';
+import { site00ProjectExperimentGPath, site00ProjectPath } from '../config/routes';
+import { projectDisplayName } from '../utils/projectDisplayName';
+import type { BrandPresentationDirectionFormationRun } from '../../../shared/site00-brand-lore/brandPresentationDirectionTerritory/types';
+import '../styles/site00-replay-execution.css';
+import '../styles/site00-experiment-g-directions.css';
+
+export default function ProjectExperimentGDirectionsPage() {
+  const { projectSlug = '' } = useParams<{ projectSlug: string }>();
+  const [run, setRun] = useState<BrandPresentationDirectionFormationRun | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const reload = useCallback(async () => {
+    if (projectSlug !== 'ndxbook') return;
+    try {
+      const result = await site00ProjectsApi.experimentGDirectionGet(projectSlug);
+      setRun((result.run as BrandPresentationDirectionFormationRun | null) ?? null);
+    } catch {
+      setRun(null);
+    } finally {
+      setLoading(false);
+    }
+  }, [projectSlug]);
+
+  useEffect(() => {
+    void reload();
+  }, [reload]);
+
+  useEffect(() => {
+    if (run?.status !== 'FORMING') return;
+    const pollId = window.setInterval(() => {
+      void reload();
+    }, 5000);
+    return () => window.clearInterval(pollId);
+  }, [run?.status, reload]);
+
+  if (projectSlug !== 'ndxbook') {
+    return (
+      <EcosystemShell hidePageHeader>
+        <p>Experiment G direction development is NDXBOOK-only.</p>
+      </EcosystemShell>
+    );
+  }
+
+  const projectTitle = projectDisplayName(projectSlug);
+
+  return (
+    <EcosystemShell hidePageHeader>
+      <div className="site00-cd site00-cd--project-calibration">
+        <div className="site00-project-lore-calibration">
+          <header className="site00-project-lore-calibration__hero">
+            <p className="site00-project-lore-calibration__kicker">BRAND BEFORE TOPIC</p>
+            <h1 className="site00-project-lore-calibration__project">{projectTitle}</h1>
+            <p className="site00-project-lore-calibration__headline">BRAND PRESENTATION DIRECTION DEVELOPMENT</p>
+            <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
+            {' · '}
+            <Link to={site00ProjectExperimentGPath(projectSlug)}>← CONCEPTS</Link>
+          </header>
+          <ProjectExperimentsHubNav projectSlug={projectSlug} />
+
+          {loading ? (
+            <p className="site00-experiment-g-dir__pending">LOADING…</p>
+          ) : (
+            <ExperimentGBrandPresentationDirectionReview
+              projectSlug={projectSlug}
+              run={run}
+              onUpdate={(updated) => {
+                if (updated) {
+                  setRun(updated);
+                  return;
+                }
+                void reload();
+              }}
+            />
+          )}
+        </div>
+      </div>
+    </EcosystemShell>
+  );
+}

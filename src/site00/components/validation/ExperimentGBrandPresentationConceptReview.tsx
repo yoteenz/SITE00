@@ -6,7 +6,8 @@ import type {
 } from '../../../../shared/site00-brand-lore/brandPresentationConceptTerritory/types';
 import { EXPERIMENT_G_CONCEPT_JUDGMENTS } from '../../../../shared/site00-brand-lore/brandPresentationConceptTerritory/constants';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
-import { site00ProjectExperimentFPath } from '../../config/routes';
+import { site00ProjectExperimentFPath, site00ProjectExperimentGDirectionsPath } from '../../config/routes';
+import { canDevelopTop3Directions } from '../../../../shared/site00-brand-lore/brandPresentationDirectionTerritory/parentConceptSelection';
 
 type ExperimentGBrandPresentationConceptReviewProps = {
   projectSlug: string;
@@ -261,6 +262,16 @@ export function ExperimentGBrandPresentationConceptReview({
           <strong>REFRESH FORMATION</strong> only to re-run the same snapshot idempotently. Formation runs on the API
           (2–5 min) — leave the page if needed; status polls automatically.
         </p>
+      ) : null}
+      {canDevelopTop3Directions(run) ? (
+        <div className="site00-experiment-g__direction-cta">
+          <p className="site00-experiment-g__direction-cta-copy">
+            Three concepts loved — ready for direction development (3 × 3 = 9 directions, no visual generation).
+          </p>
+          <Link to={site00ProjectExperimentGDirectionsPath(projectSlug)} className="site00-btn site00-btn--primary">
+            DEVELOP TOP 3 DIRECTIONS →
+          </Link>
+        </div>
       ) : null}
       {run?.status === 'FORMING' ? (
         <p className="site00-experiment-g__pending">

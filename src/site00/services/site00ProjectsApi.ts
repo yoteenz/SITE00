@@ -430,6 +430,64 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug }),
       },
     ),
+  experimentGDirectionGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=experiment_g_direction_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  experimentGDirectionPrepare: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; costPreview: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_direction_prepare',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentGDirectionForm: (slug: string, options?: { forceRetry?: boolean }) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; costPreview: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_direction_form',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, forceRetry: options?.forceRetry === true }),
+      },
+    ),
+  experimentGDirectionJudgment: (
+    slug: string,
+    directionId: string,
+    judgment:
+      | 'LOVE_THE_DIRECTION'
+      | 'PROMISING_DEVELOP'
+      | 'TOO_CLOSE_TO_SIBLING'
+      | 'DRIFTS_FROM_CONCEPT'
+      | 'TOO_CONTENT_SPECIFIC'
+      | 'TOO_FORMAT_SPECIFIC'
+      | 'TOO_STYLE_DEPENDENT'
+      | 'NOT_NDXBOOK'
+      | null,
+    note?: string | null,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_direction_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, directionId, judgment, note }),
+      },
+    ),
+  experimentGDirectionRevise: (
+    slug: string,
+    directionId: string,
+    revision: { preserve: string[]; change: string[]; doNotBecome: string[] },
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_direction_revise',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, directionId, ...revision }),
+      },
+    ),
   experimentEGet: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
       `/api/site00/projects?action=experiment_e_get&slug=${encodeURIComponent(slug)}`,
