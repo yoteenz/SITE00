@@ -1595,6 +1595,20 @@ export const site00ProjectsApi = {
       '/api/site00/projects?action=cultural_intelligence_promote_item',
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, interpretationId }) },
     ),
+  motionCharacterBookLanguageGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=motion_character_book_language_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  motionCharacterBookLanguageInitialize: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=motion_character_book_language_initialize',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  motionCharacterBookLanguageRefresh: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=motion_character_book_language_refresh',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
   projectIntelligenceManifestCompile: (slug: string, experienceClass?: string) =>
     projectsFetch<{
       ok: true;

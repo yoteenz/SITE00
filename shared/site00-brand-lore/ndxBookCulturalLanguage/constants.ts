@@ -1,0 +1,131 @@
+/**
+ * P0.5E.2 — NDXBOOK Book Cultural Language + Content Ontology constants.
+ */
+
+export const NDXBOOK_CULTURAL_LANGUAGE_SYSTEM_ID = 'ndxbook-cultural-language-v1' as const;
+export const NDXBOOK_MOTION_CHARACTER_SYSTEM_ID = 'ndxbook-motion-character-v1' as const;
+export const NDXBOOK_MOTION_CHARACTER_RUN_ID = 'ndxbook-motion-character-book-language' as const;
+
+export const NDX_CANONICAL_BOOK_TERMS = [
+  'PAGE',
+  'TURN_THE_PAGE',
+  'BOOKMARK',
+  'BOOKMARKED',
+  'FLIP_BACK',
+  'DOG_EAR',
+  'DOG_EARED',
+  'MARGIN_NOTE',
+  'FOOTNOTE',
+  'ERRATA',
+  'CHAPTER',
+  'OPEN_CHAPTER',
+  'THE_INDEX',
+  'ADD_IT_TO_THE_BOOK',
+  'KEEP_READING',
+  'BOOKMARK_THIS',
+  'NEXT_PAGE',
+  'PAGE_STILL_OPEN',
+] as const;
+
+export const NDX_CONTENT_ONTOLOGY_SURFACES = {
+  FEED: 'THE_PAGES',
+  STORIES: 'THE_MARGINS',
+  REELS: 'THE_BOOK_IN_MOTION',
+  TIKTOK: 'THE_THOUGHT_BEING_SPOKEN',
+  INDEX: 'ACCUMULATED_MEMORY',
+} as const;
+
+export const NDX_MOTION_BEHAVIOR_MODES = [
+  'RABBIT_HOLE',
+  'RECEIPT_CAME_BACK',
+  'I_HAVE_A_THEORY',
+  'BE_SERIOUS',
+  'TINY_EXPERIMENT',
+  'I_WAS_WRONG',
+  'THE_GROUP_CHAT_WAS_RIGHT',
+  'FLIP_BACK',
+  'DOG_EAR_THIS',
+  'ADD_IT_TO_THE_BOOK',
+  'ERRATA',
+  'PAGE_IN_PROGRESS',
+] as const;
+
+export const NDX_MOTION_THESIS_CHAIN = [
+  'NOTICE',
+  'GET_CURIOUS',
+  'FOLLOW_IT',
+  'REACT',
+  'TEST_CONNECT_RESEARCH',
+  'DECIDE_OR_REMAIN_UNCERTAIN',
+  'DOCUMENT',
+  'BOOKMARK_PAGE_DOG_EAR_ERRATA',
+] as const;
+
+export const NDX_MOTION_THESIS_COMPRESSED = [
+  'NOTICE',
+  'INVESTIGATE',
+  'REACT',
+  'DOCUMENT',
+] as const;
+
+export const NDX_CONTENT_LINEAGE = [
+  'WORLD_SIGNAL',
+  'CONTENT_INTELLIGENCE',
+  'THOUGHT',
+  'REACTION',
+  'DECISION',
+  'BEHAVIOR',
+  'TRACE',
+  'PAGE_MOTION_MARGIN_EXPRESSION',
+  'MEMORY',
+] as const;
+
+export const NDX_CROSS_SURFACE_PROGRESSION_STAGES = [
+  'NOTICE',
+  'MARGIN',
+  'SPOKEN_THOUGHT',
+  'MOTION_INVESTIGATION',
+  'PAGE',
+  'BOOKMARK',
+  'FLIP_BACK',
+] as const;
+
+export const NDX_AUDIENCE_BOOK_BEHAVIORS = [
+  'ADD_IT_TO_THE_BOOK',
+  'BOOKMARK_THIS',
+  'TURN_THE_PAGE',
+  'FLIP_BACK',
+  'KEEP_READING',
+  'DOG_EAR_THIS',
+  'CHECK_THE_FOOTNOTES',
+] as const;
+
+export const NDX_PLATFORM_MOTION_BEHAVIORS = {
+  INSTAGRAM_REEL: 'ART_DIRECTED_PROCESS_DOCUMENTATION',
+  TIKTOK: 'CONVERSATIONAL_DISCOVERY',
+  STORY: 'THE_MARGINS',
+  FEED: 'THE_PAGES',
+} as const;
+
+export const NDX_BOOK_CULTURAL_LANGUAGE_IMPLEMENTED = true as const;
+export const NDX_CONTENT_ONTOLOGY_IMPLEMENTED = true as const;
+export const NDX_MOTION_CHARACTER_SYSTEM_IMPLEMENTED = true as const;
+export const NDX_MOTION_THESIS_IMPLEMENTED = true as const;
+export const NDX_MOTION_BEHAVIOR_LIBRARY_IMPLEMENTED = true as const;
+export const INSTAGRAM_REEL_BEHAVIOR_IMPLEMENTED = true as const;
+export const TIKTOK_BEHAVIOR_IMPLEMENTED = true as const;
+export const STORY_MARGIN_BEHAVIOR_IMPLEMENTED = true as const;
+export const CROSS_SURFACE_BOOK_PROGRESSION_IMPLEMENTED = true as const;
+export const EMBODIED_NDX_CHARACTER_FOUNDATION_IMPLEMENTED = true as const;
+export const EMBODIED_CHARACTER_DISTINCT_FROM_FOUNDER = true as const;
+export const EMBODIED_CHARACTER_DISTINCT_FROM_BRAND_CHARACTER = true as const;
+export const COPYRIGHT_CHARACTER_CLONING_BLOCKED = true as const;
+export const EMBODIED_CHARACTER_VISUAL_DESIGN_FINALIZED = false as const;
+export const CHARACTER_IMAGES_GENERATED = false as const;
+export const CHARACTER_VIDEO_GENERATED = false as const;
+export const AUTONOMOUS_PUBLISHING_ENABLED = false as const;
+export const BRAND_CHARACTER_MUTATED = false as const;
+export const BRAND_CANON_MUTATED = false as const;
+export const PRODUCT_EXPRESSION_IMPLEMENTED = false as const;
+export const WORLD_FORMATION_IMPLEMENTED = false as const;
+export const READY_FOR_EMBODIED_CHARACTER_DISCOVERY = true as const;

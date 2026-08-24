@@ -152,6 +152,11 @@ import {
   promoteLiveOpportunitiesToContentOps,
 } from '../_lib/site00Evolve/liveCulturalIntelligence/liveCulturalIntelligenceService.js';
 import {
+  getMotionCharacterBookLanguageState,
+  initializeMotionCharacterBookLanguage,
+  refreshMotionCharacterBookLanguage,
+} from '../_lib/site00Evolve/motionCharacterBookLanguage/motionCharacterBookLanguageService.js';
+import {
   formBrandPresentationDirections,
   getBrandPresentationDirectionFormationRun,
   prepareBrandPresentationDirectionParents,
@@ -2428,6 +2433,47 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const result = await promoteLiveOpportunitiesToContentOps({ projectId: 'ndxbook' });
         return json(res, 200, { ok: true, ...result, source: 'site00_cultural_intelligence' });
+      }
+      case 'motion_character_book_language_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await getMotionCharacterBookLanguageState({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_motion_character_book_language' });
+      }
+      case 'motion_character_book_language_initialize': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await initializeMotionCharacterBookLanguage({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_motion_character_book_language' });
+      }
+      case 'motion_character_book_language_refresh': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await refreshMotionCharacterBookLanguage({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_motion_character_book_language' });
       }
       case 'experiment_g_get': {
         const slug = String(req.query.slug ?? '');
