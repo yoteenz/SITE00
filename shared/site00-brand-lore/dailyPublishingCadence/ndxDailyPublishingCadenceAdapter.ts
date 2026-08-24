@@ -25,11 +25,15 @@ import type {
 import type { ContentOpportunity } from '../contentOperations/types.js';
 import {
   NDX_DAILY_PUBLISHING_CADENCE_ID,
+  NDX_DAILY_BASELINE_PUBLISHING_UNITS,
+  NDX_DAILY_MAX_NORMAL_PUBLISHING_UNITS,
   NDX_INSTAGRAM_FEED_TARGET_PER_DAY,
   NDX_INSTAGRAM_REEL_MAX_NORMAL_PER_DAY,
   NDX_INSTAGRAM_REEL_TARGET_PER_DAY,
   NDX_INSTAGRAM_STORY_TARGET_PER_DAY,
   NDX_PRIMARY_EVENTS_PER_DAY,
+  NDX_WEEKLY_BASELINE_PUBLISHING_UNITS,
+  NDX_WEEKLY_MAX_NORMAL_PUBLISHING_UNITS,
   NDX_WEEKLY_PRIMARY_EVENTS_TARGET,
 } from './constants.js';
 
@@ -52,6 +56,7 @@ export function buildNdxDailyPublishingCadencePolicy(params: {
         targetPerDay: NDX_INSTAGRAM_FEED_TARGET_PER_DAY,
         maxNormalPerDay: NDX_INSTAGRAM_FEED_TARGET_PER_DAY,
         optionalSlotPolicy: null,
+        semanticLevel: 'TARGET',
       },
       {
         platform: 'INSTAGRAM',
@@ -59,6 +64,7 @@ export function buildNdxDailyPublishingCadencePolicy(params: {
         targetPerDay: NDX_INSTAGRAM_STORY_TARGET_PER_DAY,
         maxNormalPerDay: NDX_INSTAGRAM_STORY_TARGET_PER_DAY,
         optionalSlotPolicy: null,
+        semanticLevel: 'TARGET',
       },
       {
         platform: 'INSTAGRAM',
@@ -66,6 +72,7 @@ export function buildNdxDailyPublishingCadencePolicy(params: {
         targetPerDay: NDX_INSTAGRAM_REEL_TARGET_PER_DAY,
         maxNormalPerDay: NDX_INSTAGRAM_REEL_MAX_NORMAL_PER_DAY,
         optionalSlotPolicy: 'SECOND_REEL_ONLY_WHEN_ELIGIBLE',
+        semanticLevel: 'OPTIONAL_CAPACITY',
       },
     ],
   });
@@ -73,9 +80,38 @@ export function buildNdxDailyPublishingCadencePolicy(params: {
 
 export function ndxWeeklyVolumeSummary(policy: PublishingCadencePolicy): ReturnType<typeof weeklyPublishingUnitVolume> & {
   primaryEventsPerWeek: number;
+  baselineLabel: string;
+  maxNormalLabel: string;
 } {
   const volume = weeklyPublishingUnitVolume(policy);
-  return { ...volume, primaryEventsPerWeek: NDX_WEEKLY_PRIMARY_EVENTS_TARGET };
+  return {
+    ...volume,
+    primaryEventsPerWeek: NDX_WEEKLY_PRIMARY_EVENTS_TARGET,
+    baselineLabel: `${NDX_WEEKLY_BASELINE_PUBLISHING_UNITS} Instagram publishing units/week (baseline rhythm)`,
+    maxNormalLabel: `${NDX_WEEKLY_MAX_NORMAL_PUBLISHING_UNITS} Instagram publishing units/week (max-normal capacity)`,
+  };
+}
+
+export function ndxCanonicalVolumeSemantics(): {
+  feedPerDay: number;
+  storiesPerDay: number;
+  reelTargetPerDay: number;
+  reelMaxNormalPerDay: number;
+  dailyBaseline: number;
+  weeklyBaseline: number;
+  dailyMaxNormal: number;
+  weeklyMaxNormal: number;
+} {
+  return {
+    feedPerDay: NDX_INSTAGRAM_FEED_TARGET_PER_DAY,
+    storiesPerDay: NDX_INSTAGRAM_STORY_TARGET_PER_DAY,
+    reelTargetPerDay: NDX_INSTAGRAM_REEL_TARGET_PER_DAY,
+    reelMaxNormalPerDay: NDX_INSTAGRAM_REEL_MAX_NORMAL_PER_DAY,
+    dailyBaseline: NDX_DAILY_BASELINE_PUBLISHING_UNITS,
+    weeklyBaseline: NDX_WEEKLY_BASELINE_PUBLISHING_UNITS,
+    dailyMaxNormal: NDX_DAILY_MAX_NORMAL_PUBLISHING_UNITS,
+    weeklyMaxNormal: NDX_WEEKLY_MAX_NORMAL_PUBLISHING_UNITS,
+  };
 }
 
 export function ndxCadenceNotHardcodedInGenericModels(): true {

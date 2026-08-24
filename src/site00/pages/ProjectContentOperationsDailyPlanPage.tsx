@@ -10,6 +10,13 @@ import {
 } from '../config/routes';
 import { projectDisplayName } from '../utils/projectDisplayName';
 import type { DailyPublishingCadenceRun } from '../../../shared/site00-studio-world-production/dailyPublishingCadence/types';
+import { formatSecondReelSlotLabel } from '../../../shared/site00-studio-world-production/dailyPublishingCadence/reelSlotPresentation.js';
+import {
+  NDX_DAILY_BASELINE_PUBLISHING_UNITS,
+  NDX_DAILY_MAX_NORMAL_PUBLISHING_UNITS,
+  NDX_WEEKLY_BASELINE_PUBLISHING_UNITS,
+  NDX_WEEKLY_MAX_NORMAL_PUBLISHING_UNITS,
+} from '../../../shared/site00-brand-lore/dailyPublishingCadence/constants.js';
 import '../styles/site00-replay-execution.css';
 
 type ViewMode = 'DAILY' | 'WEEK' | 'BY_EVENT' | 'BY_PLATFORM';
@@ -64,6 +71,8 @@ export default function ProjectContentOperationsDailyPlanPage() {
   const dayEvents = run?.primaryEvents.filter((e) => e.date === selectedDate) ?? [];
   const dayExpressions = run?.platformExpressions.filter((e) => dayEvents.some((ev) => ev.id === e.primaryContentEventId)) ?? [];
   const secondReel = run?.secondReelEligibilityByDate[selectedDate];
+  const reelSlots = formatSecondReelSlotLabel(secondReel);
+  const fulfillmentEval = run?.cadenceFulfillmentEvaluationsByDate?.[selectedDate];
 
   return (
     <EcosystemShell hidePageHeader>
@@ -88,7 +97,14 @@ export default function ProjectContentOperationsDailyPlanPage() {
                 <p>
                   {feedTarget} FEED / DAY · {storyTarget} STORY UNITS / DAY · {reelTarget} REEL TARGET / DAY · MAX {reelMax} REELS
                 </p>
-                <p>~3 PRIMARY CONTENT EVENTS / DAY → MULTIPLE PLATFORM-NATIVE EXPRESSIONS</p>
+                <p>
+                  BASELINE: {NDX_DAILY_BASELINE_PUBLISHING_UNITS}/DAY · {NDX_WEEKLY_BASELINE_PUBLISHING_UNITS}/WEEK (21 FEED + 28 STORIES + 7 REELS)
+                </p>
+                <p>
+                  MAX NORMAL: {NDX_DAILY_MAX_NORMAL_PUBLISHING_UNITS}/DAY · {NDX_WEEKLY_MAX_NORMAL_PUBLISHING_UNITS}/WEEK — optional second Reel capacity, not baseline
+                </p>
+                <p>CADENCE IS AN OPERATING RHYTHM, NOT A CONTENT QUOTA.</p>
+                <p>~3 PRIMARY CONTENT EVENTS / DAY → MULTIPLE PLATFORM-NATIVE EXPRESSIONS (planning capacity ~21/week)</p>
                 <p>REUSE THE THINKING. RE-DERIVE THE EXPRESSION. DO NOT REUSE THE POST.</p>
                 {!run?.publishingCadencePolicy && (
                   <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void act(() => site00ProjectsApi.dailyPublishingConfigure(projectSlug))}>
@@ -125,10 +141,17 @@ export default function ProjectContentOperationsDailyPlanPage() {
               {viewMode === 'DAILY' && (
                 <section className="site00-experiment-g__panel">
                   <h2>DAILY PLAN — {selectedDate}</h2>
-                  {run?.cadenceFulfillmentByDate[selectedDate] && (
-                    <p>CADENCE FULFILLMENT: {run.cadenceFulfillmentByDate[selectedDate]}</p>
+                  {(fulfillmentEval || run?.cadenceFulfillmentByDate[selectedDate]) && (
+                    <p>
+                      CADENCE FULFILLMENT: {fulfillmentEval?.state ?? run?.cadenceFulfillmentByDate[selectedDate]}
+                      {fulfillmentEval?.healthy ? ' (HEALTHY)' : ''}
+                    </p>
                   )}
-                  {secondReel && <p>SECOND REEL: {secondReel.eligibility} — {secondReel.reason}</p>}
+                  <p>{reelSlots.reel01}</p>
+                  <p>{reelSlots.reel02}</p>
+                  {secondReel && secondReel.eligibility !== 'NOT_JUSTIFIED' && (
+                    <p>SECOND REEL: {secondReel.eligibility} — {secondReel.reason}</p>
+                  )}
                   {dayEvents.map((event, i) => (
                     <div key={event.id} style={{ marginBottom: '16px', borderTop: '1px solid #ccc', paddingTop: '8px' }}>
                       <strong>EVENT {String.fromCharCode(65 + i)}</strong> — {event.primarySubject}
@@ -157,8 +180,9 @@ export default function ProjectContentOperationsDailyPlanPage() {
                   <p>STATUS: {run.status}</p>
                   {run.costBreakdown && (
                     <p>
-                      WEEKLY ESTIMATE: ${run.costBreakdown.weeklyEstimateUsd.toFixed(0)} (SHARED RESEARCH: $
-                      {run.costBreakdown.sharedIntelligenceUsd.toFixed(0)})
+                      BASELINE ESTIMATE: ${run.costBreakdown.baselineWeeklyEstimateUsd.toFixed(0)} · MAX NORMAL CAPACITY: $
+                      {run.costBreakdown.maxNormalWeeklyEstimateUsd.toFixed(0)} · ACTUAL PLANNED: $
+                      {run.costBreakdown.actualPlannedWeeklyEstimateUsd.toFixed(0)} ({run.costBreakdown.baselineReelsPerWeek} baseline Reels/week)
                     </p>
                   )}
                 </section>

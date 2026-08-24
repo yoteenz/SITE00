@@ -105,6 +105,7 @@ import {
   NDX_PRIMARY_EVENTS_PER_DAY,
   NDX_WEEKLY_APPROVAL_FLOW_IMPLEMENTED,
   NDX_WEEKLY_PRIMARY_EVENTS_TARGET,
+  SECOND_REEL_OPTIONAL_POLICY_IMPLEMENTED,
   THIRD_REEL_OPTIONAL_POLICY_IMPLEMENTED,
 } from './dailyPublishingCadence/constants.js';
 import {
@@ -200,6 +201,7 @@ describe('P0.5E.1 Daily Publishing Cadence', () => {
     const reel = channelTargetFor(policy, 'INSTAGRAM', 'REEL');
     expect(reel?.targetPerDay).toBe(NDX_INSTAGRAM_REEL_TARGET_PER_DAY);
     expect(reel?.maxNormalPerDay).toBe(NDX_INSTAGRAM_REEL_MAX_NORMAL_PER_DAY);
+    expect(SECOND_REEL_OPTIONAL_POLICY_IMPLEMENTED).toBe(true);
     expect(THIRD_REEL_OPTIONAL_POLICY_IMPLEMENTED).toBe(true);
   });
 
@@ -391,7 +393,7 @@ describe('P0.5E.1 Daily Publishing Cadence', () => {
     expect(plan.dailyMatrix.uniqueExpressionCount).toBeGreaterThan(plan.dailyMatrix.reuseIntelligenceCount);
   });
 
-  it('19. Cadence fulfillment evaluates FULLY_SUPPLIED when targets met', () => {
+  it('19. Cadence fulfillment evaluates HEALTHY_BASELINE when baseline met', () => {
     const policy = ndxPolicy();
     const state = evaluateCadenceFulfillment({
       policy,
@@ -401,7 +403,7 @@ describe('P0.5E.1 Daily Publishing Cadence', () => {
       evergreenAvailable: false,
       watchQueueTriggered: false,
     });
-    expect(state).toBe('FULLY_SUPPLIED');
+    expect(state).toBe('HEALTHY_BASELINE');
   });
 
   it('20. Cadence does not force filler content', () => {

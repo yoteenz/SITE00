@@ -4267,3 +4267,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Boundaries:** V1–V2.2 immutable; P0.5C.3 character preserved; no torn-paper-everywhere; no fake texture filter.
 - **Tests:** +15 P0.5C.4. Full suite 2320 passing. Build green.
 
+---
+
+## 2026-08-24 — P0.5E.1A Daily Cadence Reconciliation + Second-Reel Policy Cleanup + Volume Semantics
+
+- **Context:** Focused cleanup of P0.5E.1 daily publishing cadence — not a new methodology sprint. Founder-approved NDX Instagram cadence: **3 Feed + 4 Stories + 1 Reel/day baseline (8/day, 56/week)**; optional second Reel max-normal **9/day, 63/week** (63 is NOT baseline). Cadence is operating rhythm, not content quota.
+- **Forensic fixes:** Replaced stale third-Reel current-state terminology with **SECOND_REEL_*** canonical names; preserved `THIRD_REEL_OPTIONAL_POLICY_IMPLEMENTED` and `FAIL_THIRD_REEL_FORCED` as deprecated compatibility aliases. Single derived volume path via `dailyPublishingUnitVolume` / `weeklyPublishingUnitVolume`.
+- **Domain:** `CadenceFulfillmentEvaluation` (HEALTHY_BASELINE, HOLD_SLOT_EMPTY, etc.), `PrimaryEventLifecycleState` + `reactivatePrimaryContentEvent` for callbacks, `detectForcedPremiseCreation`, cost breakdown with baseline (7 Reels/week) vs max-normal (14) vs actual planned, browser-safe `reelSlotPresentation.ts` for UI.
+- **UI:** Daily Plan page shows baseline 56 / max-normal 63 labels, Reel 01 target + Reel 02 optional/held semantics, baseline vs max-normal cost lines.
+- **Service:** Second Reel no longer auto-approved from `dayEvents.length > 1`; stores `cadenceFulfillmentEvaluationsByDate`.
+- **Tests:** +14 P0.5E.1A regression tests; P0.5E.1 test 19 updated to HEALTHY_BASELINE. Cadence suite 75 passing; full suite 2333+ passing; build green.
+

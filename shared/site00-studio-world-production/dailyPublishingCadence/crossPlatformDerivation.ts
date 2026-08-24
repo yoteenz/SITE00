@@ -44,6 +44,8 @@ export function buildDailyPrimaryContentEvent(params: {
   behavioralMode: string;
   characterTemperature: string;
   priority?: DailyPrimaryContentEvent['priority'];
+  lifecycleState?: DailyPrimaryContentEvent['lifecycleState'];
+  priorEventId?: string | null;
 }): DailyPrimaryContentEvent {
   return {
     id: params.id,
@@ -65,8 +67,30 @@ export function buildDailyPrimaryContentEvent(params: {
     requiredEvidence: [],
     recommendedChannelExpressions: [],
     status: 'PLANNED',
+    lifecycleState: params.lifecycleState ?? 'DISCOVERED',
+    priorEventId: params.priorEventId ?? null,
     fingerprint: hash(`${params.id}-${params.primarySubject}`),
   };
+}
+
+export function reactivatePrimaryContentEvent(params: {
+  priorEvent: DailyPrimaryContentEvent;
+  newId: string;
+  date: string;
+  newAngle: string;
+}): DailyPrimaryContentEvent {
+  return buildDailyPrimaryContentEvent({
+    id: params.newId,
+    projectId: params.priorEvent.projectId,
+    date: params.date,
+    planningRole: 'EVENT_C_CALLBACK_REASSESSMENT',
+    contentOpportunityId: params.priorEvent.contentOpportunityId,
+    primarySubject: params.newAngle,
+    behavioralMode: 'CALLBACK',
+    characterTemperature: params.priorEvent.characterTemperature,
+    lifecycleState: 'REACTIVATED',
+    priorEventId: params.priorEvent.id,
+  });
 }
 
 export function buildCrossPlatformContentIntelligence(params: {

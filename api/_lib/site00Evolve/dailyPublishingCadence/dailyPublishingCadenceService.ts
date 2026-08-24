@@ -9,7 +9,7 @@ import {
   initializeNdxDailyPublishingRun,
   ndxWeeklyVolumeSummary,
 } from '../../../../shared/site00-brand-lore/dailyPublishingCadence/ndxDailyPublishingCadenceAdapter.js';
-import { evaluateSecondReelEligibility, evaluateCadenceFulfillment } from '../../../../shared/site00-studio-world-production/dailyPublishingCadence/contentSupply.js';
+import { evaluateSecondReelEligibility, evaluateCadenceFulfillment, evaluateCadenceFulfillmentDetailed } from '../../../../shared/site00-studio-world-production/dailyPublishingCadence/contentSupply.js';
 import { evaluateContentFatigue, evaluateDailyEditorialHealth, evaluateWeeklyEditorialHealth } from '../../../../shared/site00-studio-world-production/dailyPublishingCadence/editorialHealth.js';
 import { estimateWeeklyContentCost } from '../../../../shared/site00-studio-world-production/dailyPublishingCadence/costModel.js';
 import { buildVideoHookRound, buildWeeklyMarketingProductionBoard } from '../../../../shared/site00-studio-world-production/dailyPublishingCadence/weeklyProductionBoard.js';
@@ -44,6 +44,7 @@ function emptyRun(projectId: string): DailyPublishingCadenceRun {
     channelExpressionLearning: [],
     costBreakdown: null,
     cadenceFulfillmentByDate: {},
+    cadenceFulfillmentEvaluationsByDate: {},
     secondReelEligibilityByDate: {},
     error: null,
     updatedAt: nowIso(),
@@ -99,29 +100,35 @@ export async function planWeeklyPrimaryEvents(params: {
 
   const policy = existing.publishingCadencePolicy!;
   const cadenceFulfillmentByDate: DailyPublishingCadenceRun['cadenceFulfillmentByDate'] = {};
+  const cadenceFulfillmentEvaluationsByDate: DailyPublishingCadenceRun['cadenceFulfillmentEvaluationsByDate'] = {};
   const secondReelEligibilityByDate: DailyPublishingCadenceRun['secondReelEligibilityByDate'] = {};
 
   for (let day = 0; day < 7; day += 1) {
     const date = addDays(params.weekStart, day);
     const dayEvents = primaryEvents.filter((e) => e.date === date);
-    cadenceFulfillmentByDate[date] = evaluateCadenceFulfillment({
+    const secondReelEval = evaluateSecondReelEligibility({
+      policy,
+      date,
+      firstReelPlanned: true,
+      strongSecondOpportunity: false,
+      breakingCulturalSignal: false,
+      campaignRequired: false,
+      evergreenHighValue: false,
+      founderRequested: false,
+    });
+    secondReelEligibilityByDate[date] = secondReelEval;
+    const fulfillmentEval = evaluateCadenceFulfillmentDetailed({
       policy,
       date,
       primaryEventCount: dayEvents.length,
       strongOpportunityCount: dayEvents.length,
       evergreenAvailable: (existing.evergreenReserve?.entries.length ?? 0) > 0,
       watchQueueTriggered: false,
+      secondReelNotJustified: secondReelEval.eligibility === 'NOT_JUSTIFIED',
+      secondReelApproved: secondReelEval.decision === 'SECOND_REEL_APPROVED',
     });
-    secondReelEligibilityByDate[date] = evaluateSecondReelEligibility({
-      policy,
-      date,
-      firstReelPlanned: true,
-      strongSecondOpportunity: dayEvents.length > 1,
-      breakingCulturalSignal: false,
-      campaignRequired: false,
-      evergreenHighValue: false,
-      founderRequested: false,
-    });
+    cadenceFulfillmentEvaluationsByDate[date] = fulfillmentEval;
+    cadenceFulfillmentByDate[date] = fulfillmentEval.state;
   }
 
   return cadenceStore.saveDailyPublishingCadenceRun({
@@ -130,6 +137,7 @@ export async function planWeeklyPrimaryEvents(params: {
     weeklyBoard,
     status: 'WEEK_PLANNED',
     cadenceFulfillmentByDate,
+    cadenceFulfillmentEvaluationsByDate,
     secondReelEligibilityByDate,
     updatedAt: nowIso(),
   });
@@ -183,9 +191,15 @@ export async function buildDailyPublishingPlan(params: {
     expressions: plan.platformExpressions,
   });
 
+  const approvedSecondReels = Object.values(existing.secondReelEligibilityByDate).filter(
+    (e) => e.decision === 'SECOND_REEL_APPROVED',
+  ).length;
+
   const costBreakdown = estimateWeeklyContentCost({
     primaryEventCount: existing.primaryEvents.length,
     expressionCount: platformExpressions.length,
+    policy: existing.publishingCadencePolicy ?? undefined,
+    approvedSecondReelsPerWeek: approvedSecondReels,
   });
 
   const reelExpressions = platformExpressions.filter((e) => e.surface === 'REEL' && e.platform === 'INSTAGRAM');
