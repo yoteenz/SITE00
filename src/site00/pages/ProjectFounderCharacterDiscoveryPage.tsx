@@ -29,6 +29,14 @@ import {
   founderTraitJudgmentLabel,
   groupFounderTraitsBySection,
 } from '../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/ndxFounderTraitPropositionsClient';
+import {
+  countCurrentVoiceLabItems,
+  countPriorVoiceLabItems,
+  filterVoiceLabRounds,
+  listSupersededClipsFromLatestRound,
+  resolveLatestNeuralRoundId,
+  type VoiceLabTabId,
+} from '../utils/voiceLabTabs';
 import '../styles/site00-replay-execution.css';
 
 type RoomSection =
@@ -91,6 +99,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
   const [neuralStatusError, setNeuralStatusError] = useState<string | null>(null);
   const [voiceRevisionDraft, setVoiceRevisionDraft] = useState<{ hypothesisId: string; judgment: string } | null>(null);
   const [voiceRevisionNote, setVoiceRevisionNote] = useState('');
+  const [voiceLabTab, setVoiceLabTab] = useState<VoiceLabTabId>('CURRENT');
   const [currentInteraction, setCurrentInteraction] = useState<CharacterCalibrationInteraction | null>(null);
   const [showWhyThisCameUp, setShowWhyThisCameUp] = useState(false);
 
@@ -264,6 +273,28 @@ export default function ProjectFounderCharacterDiscoveryPage() {
 
   const forensic = run?.forensicReport;
   const casting = run?.castingReadiness;
+  const voiceRounds = run?.voiceCalibrationState?.rounds ?? [];
+  const voiceHypotheses = run?.voiceCalibrationState?.hypotheses ?? [];
+  const latestNeuralRoundId = resolveLatestNeuralRoundId(voiceRounds);
+  const voiceLabRounds = filterVoiceLabRounds({
+    rounds: voiceRounds,
+    tab: voiceLabTab,
+    latestNeuralRoundId,
+  });
+  const currentVoiceCount = countCurrentVoiceLabItems({
+    rounds: voiceRounds,
+    hypotheses: voiceHypotheses,
+    latestNeuralRoundId,
+  });
+  const priorVoiceCount = countPriorVoiceLabItems({
+    rounds: voiceRounds,
+    hypotheses: voiceHypotheses,
+    latestNeuralRoundId,
+  });
+  const supersededVoiceClips = listSupersededClipsFromLatestRound({
+    hypotheses: voiceHypotheses,
+    latestNeuralRoundId,
+  });
 
   return (
     <EcosystemShell hidePageHeader>
@@ -788,7 +819,38 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                         ))}
                       </ul>
                     )}
-                    {neuralConfigured && !run.voiceCalibrationState?.rounds.some((r) => r.isNeuralRound) && (
+                    <nav className="site00-experiment-g__tabs" aria-label="Voice lab auditions">
+                      <button
+                        type="button"
+                        className={
+                          voiceLabTab === 'CURRENT'
+                            ? 'site00-experiment-g__tab site00-experiment-g__tab--active'
+                            : 'site00-experiment-g__tab'
+                        }
+                        onClick={() => setVoiceLabTab('CURRENT')}
+                      >
+                        CURRENT ({currentVoiceCount})
+                      </button>
+                      <button
+                        type="button"
+                        className={
+                          voiceLabTab === 'PRIOR'
+                            ? 'site00-experiment-g__tab site00-experiment-g__tab--active'
+                            : 'site00-experiment-g__tab'
+                        }
+                        onClick={() => setVoiceLabTab('PRIOR')}
+                      >
+                        PRIOR ({priorVoiceCount})
+                      </button>
+                    </nav>
+                    <p style={{ fontSize: '0.8rem', margin: '8px 0 12px' }}>
+                      {voiceLabTab === 'CURRENT'
+                        ? 'Latest neural audition only — judge, revise, and regenerate here.'
+                        : 'Earlier rounds, placeholder evidence, and superseded clips from revisions.'}
+                    </p>
+                    {voiceLabTab === 'CURRENT' &&
+                      neuralConfigured &&
+                      !run.voiceCalibrationState?.rounds.some((r) => r.isNeuralRound) && (
                       <button
                         type="button"
                         className="site00-btn site00-btn--primary"
@@ -803,16 +865,50 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                         START NEURAL VOICE AUDITION
                       </button>
                     )}
-                    {run.voiceCalibrationState?.rounds.map((round) => {
-                      const roundHypos = (run.voiceCalibrationState?.hypotheses ?? []).filter(
-                        (h) => h.roundId === round.roundId,
-                      );
+                    {voiceLabTab === 'CURRENT' && latestNeuralRoundId && currentVoiceCount === 0 && (
+                      <p style={{ fontSize: '0.85rem', marginBottom: '12px' }}>
+                        No current neural auditions yet — use START NEURAL VOICE AUDITION or GENERATE NEXT NEURAL ROUND.
+                      </p>
+                    )}
+                    {voiceLabTab === 'PRIOR' && voiceLabRounds.length === 0 && supersededVoiceClips.length === 0 && (
+                      <p style={{ fontSize: '0.85rem' }}>No prior rounds or superseded clips yet.</p>
+                    )}
+                    {voiceLabTab === 'PRIOR' && supersededVoiceClips.length > 0 && (
+                      <article className="site00-experiment-g__panel" style={{ marginBottom: '12px' }}>
+                        <h3 style={{ fontSize: '0.85rem', textTransform: 'uppercase' }}>Superseded clips (revisions)</h3>
+                        <p style={{ fontSize: '0.8rem', marginBottom: '8px' }}>
+                          Prior audio from REGENERATE / founder revision — listen only, not for new judgments.
+                        </p>
+                        {supersededVoiceClips.map((clip) => (
+                          <div key={clip.assetId} style={{ marginBottom: '10px' }}>
+                            <p style={{ fontSize: '0.85rem', margin: '0 0 4px' }}>
+                              <strong>{clip.hypothesisLabel}</strong> · prior clip
+                            </p>
+                            <button
+                              type="button"
+                              className="site00-btn"
+                              style={{ width: '100%' }}
+                              onClick={() => {
+                                setPlayingHypothesisId(clip.hypothesisId);
+                                void new Audio(clip.audioUrl).play();
+                              }}
+                            >
+                              ▶ PLAY PRIOR CLIP
+                            </button>
+                          </div>
+                        ))}
+                      </article>
+                    )}
+                    {voiceLabRounds.map((round) => {
+                      const roundHypos = voiceHypotheses.filter((h) => h.roundId === round.roundId);
                       const isPlaceholderRound = round.isNeuralRound === false || round.castingMode === 'DEV_PLACEHOLDER';
+                      const isCurrentRound = voiceLabTab === 'CURRENT' && round.roundId === latestNeuralRoundId;
+                      const showJudgmentControls = isCurrentRound && !isPlaceholderRound;
                       return (
                         <article key={round.roundId} className="site00-experiment-g__panel" style={{ marginTop: '12px' }}>
                           <p style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>
                             ROUND {round.roundNumber} · {round.roundType.replace(/_/g, ' ')}
-                            {isPlaceholderRound ? ' · PLACEHOLDER EVIDENCE' : ' · NEURAL'}
+                            {isPlaceholderRound ? ' · PLACEHOLDER EVIDENCE' : isCurrentRound ? ' · CURRENT NEURAL' : ' · PRIOR NEURAL'}
                           </p>
                           <p><strong>{round.question}</strong></p>
                           <p style={{ fontSize: '0.85rem', marginBottom: '12px' }}>
@@ -826,6 +922,11 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                           {roundHypos.map((hypo) => (
                             <div key={hypo.id} style={{ marginBottom: '20px', paddingBottom: '16px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
                               <p><strong>{hypo.hypothesisLabel}</strong></p>
+                              {isCurrentRound && (hypo.revisionHistory?.length ?? 0) > 0 && (
+                                <p style={{ fontSize: '0.75rem', color: '#f5a623' }}>
+                                  REVISED · {(hypo.revisionHistory ?? []).length} founder note{(hypo.revisionHistory ?? []).length === 1 ? '' : 's'}
+                                </p>
+                              )}
                               {!round.blindAudition && !isPlaceholderRound && (
                                 <p style={{ fontSize: '0.8rem' }}>{hypo.vocalCharacter}</p>
                               )}
@@ -838,7 +939,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                               >
                                 {playingHypothesisId === hypo.id ? '▶ PLAYING' : hypo.generationStatus === 'GENERATING' ? '▶ RE-SYNTHESIZING…' : '▶ PLAY'}
                               </button>
-                              {!isPlaceholderRound && hypo.audioUrl && (
+                              {!isPlaceholderRound && hypo.audioUrl && showJudgmentControls && (
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '8px' }}>
                                   <button
                                     type="button"
@@ -880,7 +981,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                                   </button>
                                 </div>
                               )}
-                              {!isPlaceholderRound && (
+                              {!isPlaceholderRound && showJudgmentControls && (
                                 <>
                                   <p style={{ fontSize: '0.75rem', marginTop: '12px', textTransform: 'uppercase' }}>
                                     Does this sound like an actual woman speaking?
@@ -920,6 +1021,8 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                                   </div>
                                 </>
                               )}
+                              {showJudgmentControls && (
+                                <>
                               <p style={{ fontSize: '0.75rem', marginTop: '12px', textTransform: 'uppercase' }}>
                                 Is this her?
                               </p>
@@ -928,7 +1031,6 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                                   <strong>Saved:</strong> {hypo.founderJudgment.replace(/_/g, ' ')}
                                 </p>
                               )}
-                              {!isPlaceholderRound && (
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '6px' }}>
                                   {[
                                     { j: 'YES_THATS_HER', label: "YES — THAT'S HER" },
@@ -949,9 +1051,6 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                                     </button>
                                   ))}
                                 </div>
-                              )}
-                              {!isPlaceholderRound && (
-                                <>
                                   <p style={{ fontSize: '0.75rem', marginTop: '12px', textTransform: 'uppercase' }}>
                                     Revision labels (note → re-synthesize)
                                   </p>
@@ -979,7 +1078,12 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                                   </p>
                                 </>
                               )}
-                              {(hypo.revisionHistory?.length ?? 0) > 0 && (
+                              {!showJudgmentControls && !isPlaceholderRound && hypo.founderJudgment && (
+                                <p style={{ fontSize: '0.85rem', marginTop: '8px' }}>
+                                  <strong>Saved judgment:</strong> {hypo.founderJudgment.replace(/_/g, ' ')}
+                                </p>
+                              )}
+                              {showJudgmentControls && (hypo.revisionHistory?.length ?? 0) > 0 && (
                                 <div style={{ marginTop: '10px', fontSize: '0.85rem' }}>
                                   <strong>REVISIONS</strong>
                                   {(hypo.revisionHistory ?? []).map((rev) => (
@@ -990,7 +1094,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                                   ))}
                                 </div>
                               )}
-                              {!isPlaceholderRound && (
+                              {showJudgmentControls && (
                                 <button
                                   type="button"
                                   className="site00-btn"
@@ -1011,7 +1115,9 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                         </article>
                       );
                     })}
-                    {compareIds && compareIds[0] !== compareIds[1] && (
+                    {voiceLabTab === 'CURRENT' &&
+                      compareIds &&
+                      compareIds[0] !== compareIds[1] && (
                       <article className="site00-experiment-g__panel">
                         <h3>COMPARE A ↔ B</h3>
                         <p>Which feels more like her?</p>
@@ -1039,7 +1145,8 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                         ))}
                       </article>
                     )}
-                    {run.voiceCalibrationState?.rounds.some((r) => r.status === 'JUDGMENTS_COMPLETE' && r.isNeuralRound) &&
+                    {voiceLabTab === 'CURRENT' &&
+                      run.voiceCalibrationState?.rounds.some((r) => r.status === 'JUDGMENTS_COMPLETE' && r.isNeuralRound) &&
                       neuralConfigured && (
                       <button
                         type="button"
