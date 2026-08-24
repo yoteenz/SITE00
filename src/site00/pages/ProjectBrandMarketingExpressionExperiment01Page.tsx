@@ -395,7 +395,8 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
     run?.status === 'EXPERIMENT_01_V23_GENERATING';
   const isGeneratingBoard = isRunStatusGenerating || generatingCount > 0;
   const allGenerated = activeArtifacts.length > 0 && generatedCount === activeArtifacts.length;
-  const canGenerateRemaining = pendingCount > 0 && !isGeneratingBoard;
+  const v23Superseded = expV23?.generationRunStatus === 'SUPERSEDED_BY_METHODOLOGY';
+  const canGenerateRemaining = pendingCount > 0 && !isGeneratingBoard && !(versionTab === 'V23' && v23Superseded);
 
   return (
     <EcosystemShell hidePageHeader>
@@ -524,6 +525,11 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                     )}
                     {!isGeneratingBoard && pendingCount > 0 && generatedCount > 0 && (
                       <p>{generatedCount}/{activeArtifacts.length} COMPLETE — REMAINING SLIDES READY TO GENERATE</p>
+                    )}
+                    {!isGeneratingBoard && pendingCount > 0 && versionTab === 'V23' && v23Superseded && (
+                      <p style={{ marginBottom: '12px' }}>
+                        Batch generation paused after methodology supersession. Select a pending slide below and tap GENERATE CURRENT.
+                      </p>
                     )}
                     {canGenerateRemaining && (
                       <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void generateAll()} style={{ marginBottom: '12px' }}>
@@ -660,7 +666,7 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                           </div>
                         );
                       })()}
-                      {selectedV23.generatedAssetUrl && (
+                      {selectedV23.generatedAssetUrl ? (
                         <div style={{ marginBottom: '12px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                           <button
                             type="button"
@@ -682,6 +688,22 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                           >
                             REPLAY HISTORICAL PROMPT
                           </button>
+                        </div>
+                      ) : (
+                        <div style={{ marginBottom: '12px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                          <button
+                            type="button"
+                            className="site00-btn site00-btn--primary"
+                            disabled={busy}
+                            onClick={() => void regenerateCurrentV23(selectedV23.id)}
+                          >
+                            GENERATE CURRENT
+                          </button>
+                          {selectedV23.generationJobStatus === 'CANCELLED_SUPERSEDED' && (
+                            <p style={{ fontSize: '0.85rem', margin: 0 }}>
+                              Prior queue job cancelled at methodology supersession — current contract is ready.
+                            </p>
+                          )}
                         </div>
                       )}
                       <dl>
