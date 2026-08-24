@@ -4256,3 +4256,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Boundaries:** P0.5C.1/C.2 preserved; Brand Character/Canon, Experiment F/G unchanged; no auto-generation.
 - **Tests:** +17 P0.5C.3. Full suite 2305 passing. Build green.
 
+---
+
+## 2026-08-24 — P0.5C.4 Art-Board Materiality + Imperfect Canvas Composition
+
+- **Context:** V2.2 character retention succeeded but artifacts still read as graphics on clean templates. Core principle: **THE CANVAS IS AN OBJECT** — material surface participates, not neutral background texture.
+- **Domain:** `shared/site00-brand-lore/artBoardMateriality/` — ArtifactMaterialitySystem, CanvasObjectContract, ArtBoardDirectionContract, construction history, layers, attachment causality, imperfect canvas + material density evaluations, feed material rhythm, 33-section FAL prompt with template guard.
+- **V2.3 pipeline:** amend V2.2 → art-board contracts → founder review (20 V23 judgments) → founder-triggered FAL only. Topic-specific artifact forms (receipt stack, graph notebook, archival file, magazine tear, thermal receipt, screenshot print, art board, etc.).
+- **Integration:** P0.5E Round 01 lock requires V2.3 generated + material gate. P0.5D `artBoardDirectionContractId`. Experiment 01 UI V2.3 tab.
+- **Boundaries:** V1–V2.2 immutable; P0.5C.3 character preserved; no torn-paper-everywhere; no fake texture filter.
+- **Tests:** +15 P0.5C.4. Full suite 2320 passing. Build green.
+

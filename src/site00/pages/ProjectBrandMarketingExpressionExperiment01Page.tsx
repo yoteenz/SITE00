@@ -24,12 +24,17 @@ import type {
 import { MARKETING_ARTIFACT_FOUNDER_JUDGMENTS, MARKETING_SET_FOUNDER_JUDGMENTS } from '../../../shared/site00-brand-lore/brandMarketingExpression/constants';
 import { V2_FOUNDER_JUDGMENTS } from '../../../shared/site00-brand-lore/editorialInformationArchitecture/constants';
 import { V21_FOUNDER_JUDGMENTS } from '../../../shared/site00-brand-lore/culturalVisualParticipation/constants';
+import type {
+  Experiment01V23Artifact,
+  MarketingExpressionExperiment01V23,
+} from '../../../shared/site00-brand-lore/artBoardMateriality/types';
 import { V22_FOUNDER_JUDGMENTS } from '../../../shared/site00-brand-lore/characterRetention/constants';
+import { V23_FOUNDER_JUDGMENTS } from '../../../shared/site00-brand-lore/artBoardMateriality/constants';
 import '../styles/site00-replay-execution.css';
 
 const POLL_MS = 5000;
 
-type VersionTab = 'V1' | 'V2' | 'V21' | 'V22';
+type VersionTab = 'V1' | 'V2' | 'V21' | 'V22' | 'V23';
 
 export default function ProjectBrandMarketingExpressionExperiment01Page() {
   const { projectSlug = '' } = useParams<{ projectSlug: string }>();
@@ -37,7 +42,7 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [versionTab, setVersionTab] = useState<VersionTab>('V22');
+  const [versionTab, setVersionTab] = useState<VersionTab>('V23');
 
   const reload = useCallback(async () => {
     if (projectSlug !== 'ndxbook') return;
@@ -45,18 +50,21 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
       const result = await site00ProjectsApi.marketingExpressionGet(projectSlug);
       const next = (result.run as BrandMarketingExpressionRun | null) ?? null;
       setRun(next);
+      const v23 = next?.experiment01V23?.generatedArtifacts ?? [];
       const v22 = next?.experiment01V22?.generatedArtifacts ?? [];
       const v21 = next?.experiment01V21?.generatedArtifacts ?? [];
       const v2 = next?.experiment01V2?.generatedArtifacts ?? [];
       const v1 = next?.experiment01?.artifacts ?? [];
       const list =
-        versionTab === 'V22' && v22.length
-          ? v22
-          : versionTab === 'V21' && v21.length
-            ? v21
-            : versionTab === 'V2' && v2.length
-              ? v2
-              : v1;
+        versionTab === 'V23' && v23.length
+          ? v23
+          : versionTab === 'V22' && v22.length
+            ? v22
+            : versionTab === 'V21' && v21.length
+              ? v21
+              : versionTab === 'V2' && v2.length
+                ? v2
+                : v1;
       if (!selectedId && list.length > 0) setSelectedId(list[0]!.id);
     } catch {
       setRun(null);
@@ -76,10 +84,12 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
       run?.status === 'EXPERIMENT_01_V2_GENERATING' ||
       run?.status === 'EXPERIMENT_01_V21_GENERATING' ||
       run?.status === 'EXPERIMENT_01_V22_GENERATING' ||
+      run?.status === 'EXPERIMENT_01_V23_GENERATING' ||
       run?.experiment01?.artifacts.some((artifact) => artifact.generationStatus === 'GENERATING') ||
       run?.experiment01V2?.generatedArtifacts.some((artifact) => artifact.generationStatus === 'GENERATING') ||
       run?.experiment01V21?.generatedArtifacts.some((artifact) => artifact.generationStatus === 'GENERATING') ||
-      run?.experiment01V22?.generatedArtifacts.some((artifact) => artifact.generationStatus === 'GENERATING');
+      run?.experiment01V22?.generatedArtifacts.some((artifact) => artifact.generationStatus === 'GENERATING') ||
+      run?.experiment01V23?.generatedArtifacts.some((artifact) => artifact.generationStatus === 'GENERATING');
     if (!generating) return;
     const id = window.setInterval(() => void reload(), POLL_MS);
     return () => window.clearInterval(id);
@@ -132,12 +142,26 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
     }
   };
 
+  const formulateV23 = async () => {
+    setBusy(true);
+    try {
+      const result = await site00ProjectsApi.marketingExpressionExperiment01V23Formulate(projectSlug);
+      setRun((result.run as BrandMarketingExpressionRun) ?? null);
+      setVersionTab('V23');
+      await reload();
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const generateAll = async () => {
     setBusy(true);
     try {
       const fn =
-        versionTab === 'V22'
-          ? site00ProjectsApi.marketingExpressionExperiment01V22GenerateAll
+        versionTab === 'V23'
+          ? site00ProjectsApi.marketingExpressionExperiment01V23GenerateAll
+          : versionTab === 'V22'
+            ? site00ProjectsApi.marketingExpressionExperiment01V22GenerateAll
           : versionTab === 'V21'
             ? site00ProjectsApi.marketingExpressionExperiment01V21GenerateAll
             : versionTab === 'V2'
@@ -155,8 +179,10 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
     setBusy(true);
     try {
       const fn =
-        versionTab === 'V22'
-          ? site00ProjectsApi.marketingExpressionExperiment01V22ArtifactJudgment
+        versionTab === 'V23'
+          ? site00ProjectsApi.marketingExpressionExperiment01V23ArtifactJudgment
+          : versionTab === 'V22'
+            ? site00ProjectsApi.marketingExpressionExperiment01V22ArtifactJudgment
           : versionTab === 'V21'
             ? site00ProjectsApi.marketingExpressionExperiment01V21ArtifactJudgment
             : versionTab === 'V2'
@@ -195,15 +221,19 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
   const v2Artifacts = expV2?.generatedArtifacts ?? [];
   const v21Artifacts = expV21?.generatedArtifacts ?? [];
   const v22Artifacts = expV22?.generatedArtifacts ?? [];
-  const showingV22 = versionTab === 'V22' && v22Artifacts.length > 0;
-  const showingV21 = versionTab === 'V21' && v21Artifacts.length > 0 && !showingV22;
-  const showingV2 = versionTab === 'V2' && v2Artifacts.length > 0 && !showingV21 && !showingV22;
+  const expV23 = run?.experiment01V23 as MarketingExpressionExperiment01V23 | null | undefined;
+  const v23Artifacts = expV23?.generatedArtifacts ?? [];
+  const showingV23 = versionTab === 'V23' && v23Artifacts.length > 0;
+  const showingV22 = versionTab === 'V22' && v22Artifacts.length > 0 && !showingV23;
+  const showingV21 = versionTab === 'V21' && v21Artifacts.length > 0 && !showingV22 && !showingV23;
+  const showingV2 = versionTab === 'V2' && v2Artifacts.length > 0 && !showingV21 && !showingV22 && !showingV23;
+  const selectedV23: Experiment01V23Artifact | undefined = v23Artifacts.find((a) => a.id === selectedId) ?? v23Artifacts[0];
   const selectedV22: Experiment01V22Artifact | undefined = v22Artifacts.find((a) => a.id === selectedId) ?? v22Artifacts[0];
   const selectedV21: Experiment01V21Artifact | undefined = v21Artifacts.find((a) => a.id === selectedId) ?? v21Artifacts[0];
   const selectedV1: BrandMarketingArtifact | undefined = v1Artifacts.find((a) => a.id === selectedId) ?? v1Artifacts[0];
   const selectedV2: Experiment01V2Artifact | undefined = v2Artifacts.find((a) => a.id === selectedId) ?? v2Artifacts[0];
-  const selected = showingV22 ? selectedV22 : showingV21 ? selectedV21 : showingV2 ? selectedV2 : selectedV1;
-  const activeArtifacts = showingV22 ? v22Artifacts : showingV21 ? v21Artifacts : showingV2 ? v2Artifacts : v1Artifacts;
+  const selected = showingV23 ? selectedV23 : showingV22 ? selectedV22 : showingV21 ? selectedV21 : showingV2 ? selectedV2 : selectedV1;
+  const activeArtifacts = showingV23 ? v23Artifacts : showingV22 ? v22Artifacts : showingV21 ? v21Artifacts : showingV2 ? v2Artifacts : v1Artifacts;
   const generatedCount = activeArtifacts.filter((a) => a.generationStatus === 'GENERATED' && a.generatedAssetUrl).length;
   const pendingCount = activeArtifacts.filter((a) => a.generationStatus !== 'GENERATED' || !a.generatedAssetUrl).length;
   const generatingCount = activeArtifacts.filter((a) => a.generationStatus === 'GENERATING').length;
@@ -211,7 +241,8 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
     run?.status === 'EXPERIMENT_01_GENERATING' ||
     run?.status === 'EXPERIMENT_01_V2_GENERATING' ||
     run?.status === 'EXPERIMENT_01_V21_GENERATING' ||
-    run?.status === 'EXPERIMENT_01_V22_GENERATING';
+    run?.status === 'EXPERIMENT_01_V22_GENERATING' ||
+    run?.status === 'EXPERIMENT_01_V23_GENERATING';
   const isGeneratingBoard = isRunStatusGenerating || generatingCount > 0;
   const allGenerated = activeArtifacts.length > 0 && generatedCount === activeArtifacts.length;
   const canGenerateRemaining = pendingCount > 0 && !isGeneratingBoard;
@@ -222,7 +253,7 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
         <div className="site00-project-lore-calibration">
           <header className="site00-project-lore-calibration__hero">
             <ProjectExperimentsHubNav projectSlug={projectSlug} />
-            <p className="site00-project-lore-calibration__kicker">EXPERIMENT 01 — V1 / V2 / V2.1 / V2.2</p>
+            <p className="site00-project-lore-calibration__kicker">EXPERIMENT 01 — V1 / V2 / V2.1 / V2.2 / V2.3</p>
             <h1 className="site00-project-lore-calibration__project">{projectDisplayName(projectSlug)}</h1>
             <p className="site00-project-lore-calibration__headline">NDX FEED — NINE FIRST SLIDES</p>
             <Link to={site00ProjectBrandMarketingExpressionPath(projectSlug)}>← MARKETING EXPRESSION</Link>
@@ -244,8 +275,11 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                 <button type="button" className={versionTab === 'V21' ? 'site00-btn site00-btn--primary' : 'site00-btn'} disabled={busy} onClick={() => { setVersionTab('V21'); setSelectedId(v21Artifacts[0]?.id ?? v2Artifacts[0]?.id ?? v1Artifacts[0]?.id ?? null); }}>
                   V2.1 — CULTURAL IMAGE PARTICIPATION
                 </button>
-                <button type="button" className={versionTab === 'V22' ? 'site00-btn site00-btn--primary' : 'site00-btn'} disabled={busy} onClick={() => { setVersionTab('V22'); setSelectedId(v22Artifacts[0]?.id ?? v21Artifacts[0]?.id ?? null); }}>
+                <button type="button" className={versionTab === 'V22' ? 'site00-btn site00-btn--primary' : 'site00-btn'} disabled={busy} onClick={() => { setVersionTab('V22'); setSelectedId(v22Artifacts[0]?.id ?? null); }}>
                   V2.2 — CHARACTER RETENTION
+                </button>
+                <button type="button" className={versionTab === 'V23' ? 'site00-btn site00-btn--primary' : 'site00-btn'} disabled={busy} onClick={() => { setVersionTab('V23'); setSelectedId(v23Artifacts[0]?.id ?? v22Artifacts[0]?.id ?? null); }}>
+                  V2.3 — ART-BOARD MATERIALITY
                 </button>
               </section>
 
@@ -276,7 +310,16 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                 </section>
               )}
 
-              {(showingV22 ? v22Artifacts : showingV21 ? v21Artifacts : showingV2 ? v2Artifacts : v1Artifacts).length > 0 && (
+              {v22Artifacts.length > 0 && !v23Artifacts.length && (
+                <section className="site00-experiment-g__panel">
+                  <p>P0.5C.3 preserved. Formulate V2.3 art-board materiality contracts (canvas-as-object, not background texture).</p>
+                  <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void formulateV23()}>
+                    FORMULATE V2.3 CONTRACTS
+                  </button>
+                </section>
+              )}
+
+              {(showingV23 ? v23Artifacts : showingV22 ? v22Artifacts : showingV21 ? v21Artifacts : showingV2 ? v2Artifacts : v1Artifacts).length > 0 && (
                 <>
                   <section className="site00-experiment-g__panel">
                     <h2>3×3 FEED PREVIEW — {versionTab}</h2>
@@ -297,9 +340,11 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                       <p style={{ marginBottom: '12px' }}>ALL NINE FIRST SLIDES GENERATED — SELECT ANY CELL TO REVIEW AND JUDGE</p>
                     )}
                     <div className="site00-marketing-exp01-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
-                      {(showingV22 ? v22Artifacts : showingV21 ? v21Artifacts : showingV2 ? v2Artifacts : v1Artifacts).map((a) => {
-                        const headline = showingV22
-                          ? (a as Experiment01V22Artifact).contract.primaryHook
+                      {(showingV23 ? v23Artifacts : showingV22 ? v22Artifacts : showingV21 ? v21Artifacts : showingV2 ? v2Artifacts : v1Artifacts).map((a) => {
+                        const headline = showingV23
+                          ? (a as Experiment01V23Artifact).contract.primaryHook
+                          : showingV22
+                            ? (a as Experiment01V22Artifact).contract.primaryHook
                           : showingV21
                             ? (a as Experiment01V21Artifact).contract.primaryHook
                             : showingV2
@@ -327,6 +372,37 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                       })}
                     </div>
                   </section>
+
+                  {showingV23 && selectedV23 && (
+                    <section className="site00-experiment-g__panel">
+                      <h2>V2.3 ART-BOARD REVIEW — {selectedV23.contract.primaryHook}</h2>
+                      <dl>
+                        <dt>PRIMARY IDEA</dt><dd>{selectedV23.contract.primaryHook}</dd>
+                        <dt>CHARACTER BEAT</dt><dd>{selectedV23.contract.characterRetention.primaryCharacterBeat.text ?? '—'}</dd>
+                        <dt>ARTIFACT FORM</dt><dd>{selectedV23.contract.artBoardDirection.artifactForm}</dd>
+                        <dt>BASE SURFACE</dt><dd>{selectedV23.contract.artBoardDirection.materialitySystem.baseSurface}</dd>
+                        <dt>PAGE CONSTRUCTION</dt><dd>{selectedV23.contract.artBoardDirection.pageConstructionMode.replace(/_/g, ' ')}</dd>
+                        <dt>EDGE BEHAVIOR</dt><dd>{selectedV23.contract.artBoardDirection.edgeBehavior.replace(/_/g, ' ')}</dd>
+                        <dt>LAYERS</dt><dd>{selectedV23.contract.artBoardDirection.secondaryLayers.map((l) => l.layerType).join(', ') || 'base only'}</dd>
+                        <dt>ATTACHMENT</dt><dd>{selectedV23.contract.artBoardDirection.attachmentLogic.map((a) => a.mechanism).join(', ') || 'integrated'}</dd>
+                        <dt>CONSTRUCTION HISTORY</dt><dd>{selectedV23.contract.artBoardDirection.constructionHistory.firstPresent}</dd>
+                        <dt>MATERIAL DEPTH</dt><dd>{selectedV23.contract.artBoardDirection.depthBehavior.replace(/_/g, ' ')}</dd>
+                        <dt>PRINT / SCAN</dt><dd>{selectedV23.contract.artBoardDirection.materialitySystem.printingBehavior.replace(/_/g, ' ')}</dd>
+                        <dt>MATERIAL DENSITY</dt><dd>{selectedV23.materialityEvaluation.materialDensity.level}</dd>
+                        <dt>ART-BOARD QUALITY</dt><dd>{selectedV23.materialityEvaluation.artBoardQuality.result}</dd>
+                        <dt>WHY NOT TEMPLATE</dt><dd>{selectedV23.contract.artBoardDirection.whyNotCleanTemplate}</dd>
+                        <dt>APPROVAL GATE</dt><dd>{selectedV23.materialityEvaluation.passesApprovalGate ? 'PASS' : 'BLOCKED'}</dd>
+                      </dl>
+                      <div style={{ marginTop: '12px' }}>
+                        <p>V2.3 artifact judgment:</p>
+                        {V23_FOUNDER_JUDGMENTS.map((j) => (
+                          <button key={j} type="button" className="site00-btn" disabled={busy} style={{ margin: '2px' }} onClick={() => void setArtifactJudgment(selectedV23.id, j)}>
+                            {j.replace(/_/g, ' ')}
+                          </button>
+                        ))}
+                      </div>
+                    </section>
+                  )}
 
                   {showingV22 && selectedV22 && (
                     <section className="site00-experiment-g__panel">
@@ -452,7 +528,7 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                     </section>
                   )}
 
-                  {!showingV2 && !showingV21 && !showingV22 && selectedV1 && (
+                  {!showingV2 && !showingV21 && !showingV22 && !showingV23 && selectedV1 && (
                     <section className="site00-experiment-g__panel">
                       <h2>{selectedV1.headline}</h2>
                       <dl>
@@ -494,6 +570,17 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                         <li>Information architecture changed: {String(expV2.boardEvaluation.informationArchitectureChanged)}</li>
                         <li>Typography governance changed: {String(expV2.boardEvaluation.typographyGovernanceChanged)}</li>
                         <li>Density rhythm: {expV2.boardEvaluation.boardEvaluation.densityRhythm}</li>
+                      </ul>
+                    </section>
+                  )}
+                  {expV23?.feedMaterialRhythm && versionTab === 'V23' && (
+                    <section className="site00-experiment-g__panel">
+                      <h2>V2.3 BOARD EVALUATION — MATERIAL RHYTHM</h2>
+                      <ul>
+                        <li>Surface variation adequate: {expV23.feedMaterialRhythm.variationAdequate ? 'yes' : 'review'}</li>
+                        <li>All same canvas: {expV23.feedMaterialRhythm.allSameCanvas ? 'FAIL' : 'no'}</li>
+                        <li>All torn paper: {expV23.feedMaterialRhythm.allTornPaper ? 'FAIL' : 'no'}</li>
+                        <li>All notebook: {expV23.feedMaterialRhythm.allNotebook ? 'FAIL' : 'no'}</li>
                       </ul>
                     </section>
                   )}

@@ -30,6 +30,10 @@ import {
   v22ContractReviewBeforeGeneration,
 } from '../../../../../shared/site00-brand-lore/characterRetention/experiment01V22.js';
 import {
+  formulateExperiment01V23,
+  v23ContractReviewBeforeGeneration,
+} from '../../../../../shared/site00-brand-lore/artBoardMateriality/experiment01V23.js';
+import {
   evaluateExperiment01Set,
   evaluateMarketingArtifact,
   evaluateMarketingCharacterRecognition,
@@ -58,7 +62,7 @@ const STALE_GENERATING_MS = 15 * 60 * 1000;
 const activeFormulationAttempts = new Map<string, string>();
 const activeGenerationAttempts = new Map<string, string>();
 
-type Experiment01GenerationVersion = 'v1' | 'v2' | 'v21' | 'v22';
+type Experiment01GenerationVersion = 'v1' | 'v2' | 'v21' | 'v22' | 'v23';
 
 function generationKey(projectId: string, version: Experiment01GenerationVersion): string {
   return `${projectId}:${version}`;
@@ -211,6 +215,32 @@ async function reconcileStaleExperiment01Generation(
     }
   }
 
+  if (run.experiment01V23?.generatedArtifacts.length) {
+    const needs = experiment01VersionNeedsGenerationReconcile({
+      projectId: run.projectId,
+      version: 'v23',
+      runGenerating: run.status === 'EXPERIMENT_01_V23_GENERATING',
+      experimentGenerating: run.experiment01V23.status === 'GENERATING',
+      artifacts: run.experiment01V23.generatedArtifacts,
+    });
+    if (needs) {
+      const artifacts = run.experiment01V23.generatedArtifacts.map(resetStaleGeneratingArtifact);
+      const allGenerated = artifacts.every((a) => a.generationStatus === 'GENERATED' && a.generatedAssetUrl);
+      next = {
+        ...next,
+        status: allGenerated ? 'EXPERIMENT_01_V23_COMPLETE' : 'EXPERIMENT_01_V23_READY',
+        experiment01V23: {
+          ...run.experiment01V23,
+          status: allGenerated ? 'GENERATED' : 'CONTRACTS_READY',
+          generatedArtifacts: artifacts,
+        },
+        error: allGenerated ? next.error : next.error ?? 'Slide generation stalled — tap GENERATE REMAINING to retry',
+        updatedAt: nowIso(),
+      };
+      changed = true;
+    }
+  }
+
   if (!changed) return run;
   return marketingStore.saveBrandMarketingExpressionRun(next);
 }
@@ -247,6 +277,7 @@ function initRun(projectId: string): BrandMarketingExpressionRun {
     experiment01V2: null,
     experiment01V21: null,
     experiment01V22: null,
+    experiment01V23: null,
     experimentGCharacterReevaluationRequired: true,
     error: null,
     accounting: emptyAccounting(),
@@ -1116,6 +1147,27 @@ async function finalizeExperiment01BatchGeneration(params: {
           : run.error,
       updatedAt: nowIso(),
     });
+    return;
+  }
+
+  if (params.version === 'v23' && run.experiment01V23) {
+    const artifacts = run.experiment01V23.generatedArtifacts.map(resetStaleGeneratingArtifact);
+    const allGenerated = artifacts.every((a) => a.generationStatus === 'GENERATED' && a.generatedAssetUrl);
+    const anyFailed = artifacts.some((a) => a.generationStatus === 'FAILED');
+    await marketingStore.saveBrandMarketingExpressionRun({
+      ...run,
+      status: allGenerated ? 'EXPERIMENT_01_V23_COMPLETE' : 'EXPERIMENT_01_V23_READY',
+      experiment01V23: {
+        ...run.experiment01V23,
+        status: allGenerated ? 'GENERATED' : 'CONTRACTS_READY',
+        generatedArtifacts: artifacts,
+      },
+      error:
+        anyFailed && !allGenerated
+          ? 'Some slides failed to generate — tap GENERATE REMAINING to retry'
+          : run.error,
+      updatedAt: nowIso(),
+    });
   }
 }
 
@@ -1136,8 +1188,10 @@ async function executeExperiment01GenerationWork(params: {
           await generateExperiment01V2ArtifactAsset({ projectId: params.projectId, artifactId });
         } else if (params.version === 'v21') {
           await generateExperiment01V21ArtifactAsset({ projectId: params.projectId, artifactId });
-        } else {
+        } else if (params.version === 'v22') {
           await generateExperiment01V22ArtifactAsset({ projectId: params.projectId, artifactId });
+        } else {
+          await generateExperiment01V23ArtifactAsset({ projectId: params.projectId, artifactId });
         }
       } catch (error) {
         const message = error instanceof Error ? error.message : 'Generation failed';
@@ -1192,6 +1246,18 @@ async function executeExperiment01GenerationWork(params: {
             error: message,
             updatedAt: nowIso(),
           });
+        } else if (params.version === 'v23' && current.experiment01V23) {
+          const artifacts = current.experiment01V23.generatedArtifacts.map((artifact) =>
+            artifact.id === artifactId
+              ? { ...artifact, generationStatus: 'FAILED' as const, updatedAt: nowIso() }
+              : artifact,
+          );
+          await marketingStore.saveBrandMarketingExpressionRun({
+            ...current,
+            experiment01V23: { ...current.experiment01V23, generatedArtifacts: artifacts },
+            error: message,
+            updatedAt: nowIso(),
+          });
         }
       }
     }
@@ -1231,8 +1297,15 @@ async function pendingArtifactIdsForVersion(
         .map((artifact) => artifact.id) ?? []
     );
   }
+  if (version === 'v22') {
+    return (
+      run.experiment01V22?.generatedArtifacts
+        .filter((artifact) => artifact.generationStatus !== 'GENERATED' || !artifact.generatedAssetUrl)
+        .map((artifact) => artifact.id) ?? []
+    );
+  }
   return (
-    run.experiment01V22?.generatedArtifacts
+    run.experiment01V23?.generatedArtifacts
       .filter((artifact) => artifact.generationStatus !== 'GENERATED' || !artifact.generatedAssetUrl)
       .map((artifact) => artifact.id) ?? []
   );
@@ -1413,6 +1486,163 @@ export async function generateAllExperiment01V22ArtifactAssets(params: {
         ...current.experiment01V22!,
         status: 'GENERATING',
         generatedArtifacts: current.experiment01V22!.generatedArtifacts.map((a) =>
+          a.generationStatus === 'GENERATED' && a.generatedAssetUrl
+            ? a
+            : { ...a, generationStatus: 'GENERATING' as const, updatedAt: nowIso() },
+        ),
+      },
+      updatedAt: nowIso(),
+    }),
+  });
+}
+
+export async function formulateMarketingExpressionExperiment01V23(params: {
+  projectId: string;
+}): Promise<BrandMarketingExpressionRun> {
+  const run = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
+  if (!run?.experiment01?.artifacts.length) {
+    throw new Error('Experiment 01 V1 required — history preserved');
+  }
+  if (!run.experiment01V22?.generatedArtifacts.length) {
+    throw new Error('Experiment 01 V2.2 required before V2.3 art-board materiality formulation');
+  }
+  if (!run.expressionSystem) {
+    throw new Error('Marketing Expression System must be compiled');
+  }
+
+  const { experiment } = formulateExperiment01V23({
+    v1Artifacts: run.experiment01.artifacts,
+    v22Experiment: run.experiment01V22,
+    expressionSystem: run.expressionSystem,
+  });
+
+  return marketingStore.saveBrandMarketingExpressionRun({
+    ...run,
+    status: 'EXPERIMENT_01_V23_READY',
+    experiment01V23: experiment,
+    error: null,
+    updatedAt: nowIso(),
+  });
+}
+
+export async function generateExperiment01V23ArtifactAsset(params: {
+  projectId: string;
+  artifactId: string;
+}): Promise<BrandMarketingExpressionRun> {
+  const run = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
+  if (!run?.experiment01V23?.generatedArtifacts.length) {
+    throw new Error('Experiment 01 V2.3 contracts not formulated');
+  }
+  if (!v23ContractReviewBeforeGeneration(run.experiment01V23)) {
+    throw new Error('V2.3 contracts must be reviewed before generation');
+  }
+
+  const idx = run.experiment01V23.generatedArtifacts.findIndex((a) => a.id === params.artifactId);
+  if (idx < 0) throw new Error('V2.3 artifact not found');
+
+  const artifact = run.experiment01V23.generatedArtifacts[idx]!;
+  if (artifact.generationStatus === 'GENERATED' && artifact.generatedAssetUrl) return run;
+
+  const contract = artifact.generationContract;
+  if (!contract) throw new Error('V2.3 FAL contract missing');
+
+  let generatedAssetUrl = artifact.generatedAssetUrl;
+  let generatedAssetId = artifact.generatedAssetId;
+  let generationStatus: typeof artifact.generationStatus = 'GENERATED';
+  let falCost = 0;
+
+  if (process.env.VITEST === 'true' || !process.env.FAL_KEY) {
+    generatedAssetId = `asset-v23-${artifact.id}`;
+    generatedAssetUrl = `https://vitest.local/ndxbook/marketing-exp01-v23/${artifact.id}.png`;
+  } else {
+    const { fal } = await import('@fal-ai/client');
+    fal.config({ credentials: process.env.FAL_KEY });
+    const { model, input } = buildFalImageInput({ prompt: contract.prompt, aspectRatio: '1:1' });
+    const result = await fal.subscribe(model, { input });
+    const images = (result.data as { images?: { url?: string }[] })?.images;
+    generatedAssetUrl = images?.[0]?.url ?? null;
+    generatedAssetId = `fal-v23-${artifact.id}-${Date.now()}`;
+    falCost = FAL_MARKETING_COST_ESTIMATE_USD;
+    if (!generatedAssetUrl) generationStatus = 'FAILED';
+  }
+
+  const updated = [...run.experiment01V23.generatedArtifacts];
+  updated[idx] = { ...artifact, generatedAssetId, generatedAssetUrl, generationStatus, updatedAt: nowIso() };
+  const allGenerated = updated.every((a) => a.generationStatus === 'GENERATED');
+
+  return marketingStore.saveBrandMarketingExpressionRun({
+    ...run,
+    status: allGenerated ? 'EXPERIMENT_01_V23_COMPLETE' : 'EXPERIMENT_01_V23_GENERATING',
+    experiment01V23: {
+      ...run.experiment01V23,
+      status: allGenerated ? 'GENERATED' : 'GENERATING',
+      generatedArtifacts: updated,
+    },
+    accounting: {
+      ...run.accounting,
+      falRequests: run.accounting.falRequests + 1,
+      falEstimatedCostUsd: run.accounting.falEstimatedCostUsd + FAL_MARKETING_COST_ESTIMATE_USD,
+      falActualCostUsd: run.accounting.falActualCostUsd + falCost,
+    },
+    updatedAt: nowIso(),
+  });
+}
+
+export async function setExperiment01V23ArtifactJudgment(params: {
+  projectId: string;
+  artifactId: string;
+  judgment: string;
+}): Promise<BrandMarketingExpressionRun> {
+  const run = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
+  if (!run?.experiment01V23) throw new Error('Experiment 01 V2.3 not found');
+
+  const artifacts = run.experiment01V23.generatedArtifacts.map((a) =>
+    a.id === params.artifactId
+      ? {
+          ...a,
+          founderJudgment: params.judgment as import('../../../../../shared/site00-brand-lore/artBoardMateriality/types.js').V23FounderJudgment,
+          updatedAt: nowIso(),
+        }
+      : a,
+  );
+
+  return marketingStore.saveBrandMarketingExpressionRun({
+    ...run,
+    experiment01V23: { ...run.experiment01V23, status: 'FOUNDER_REVIEW', generatedArtifacts: artifacts },
+    updatedAt: nowIso(),
+  });
+}
+
+export function experiment01V23NotAutoGenerated(): true {
+  return true;
+}
+
+export async function generateAllExperiment01V23ArtifactAssets(params: {
+  projectId: string;
+}): Promise<BrandMarketingExpressionRun> {
+  const run = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
+  if (!run?.experiment01V23?.generatedArtifacts.length) {
+    throw new Error('Experiment 01 V2.3 contracts not formulated');
+  }
+  if (!v23ContractReviewBeforeGeneration(run.experiment01V23)) {
+    throw new Error('V2.3 contracts must be reviewed before generation');
+  }
+
+  const pending = run.experiment01V23.generatedArtifacts
+    .filter((a) => a.generationStatus !== 'GENERATED' || !a.generatedAssetUrl)
+    .map((a) => a.id);
+
+  return startExperiment01BatchGeneration({
+    projectId: params.projectId,
+    version: 'v23',
+    pendingArtifactIds: pending,
+    markGenerating: (current) => ({
+      ...current,
+      status: 'EXPERIMENT_01_V23_GENERATING',
+      experiment01V23: {
+        ...current.experiment01V23!,
+        status: 'GENERATING',
+        generatedArtifacts: current.experiment01V23!.generatedArtifacts.map((a) =>
           a.generationStatus === 'GENERATED' && a.generatedAssetUrl
             ? a
             : { ...a, generationStatus: 'GENERATING' as const, updatedAt: nowIso() },
