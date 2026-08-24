@@ -62,7 +62,11 @@ export default function ProjectBrandCharacterReadinessPage() {
   }
 
   const evaluation = record?.latestEvaluation;
-  const questionCount = record?.deepeningModule?.questions.length ?? evaluation?.recommendedQuestionCount ?? 0;
+  const questionCount = record?.deepeningModule?.questions.length ?? 0;
+  const gapsRemainWithoutQuestions =
+    questionCount === 0 &&
+    evaluation?.overallState !== 'CHARACTER_READY' &&
+    (evaluation?.gaps.length ?? 0) > 0;
 
   return (
     <EcosystemShell hidePageHeader>
@@ -90,6 +94,10 @@ export default function ProjectBrandCharacterReadinessPage() {
                   {questionCount > 0 ? (
                     <Link to={site00ProjectBrandCharacterDeepeningPath(projectSlug)} className="site00-btn site00-btn--primary">
                       ANSWER {questionCount} QUESTION{questionCount === 1 ? '' : 'S'}
+                    </Link>
+                  ) : gapsRemainWithoutQuestions ? (
+                    <Link to={site00ProjectBrandCharacterDeepeningPath(projectSlug)} className="site00-btn">
+                      REVIEW EVIDENCE GAPS
                     </Link>
                   ) : evaluation?.overallState === 'CHARACTER_READY' ? (
                     <Link to={site00ProjectBrandCharacterFormationPath(projectSlug)} className="site00-btn site00-btn--primary">

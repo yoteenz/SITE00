@@ -116,11 +116,18 @@ export type BrandCharacterReadinessEvaluation = {
   formationGateReason: string | null;
 };
 
+export type BrandCharacterDeepeningModuleStatus =
+  | 'NOT_REQUIRED'
+  | 'COMPILED'
+  | 'IN_PROGRESS'
+  | 'COMPLETE'
+  | 'GAPS_REMAIN';
+
 export type BrandCharacterDeepeningModule = {
   moduleId: string;
   projectId: string;
   readinessEvaluationId: string;
-  status: 'NOT_REQUIRED' | 'COMPILED' | 'IN_PROGRESS' | 'COMPLETE';
+  status: BrandCharacterDeepeningModuleStatus;
   questions: BrandCharacterDeepeningQuestion[];
   answers: BrandCharacterDeepeningAnswer[];
   founderLanguageEvidence: FounderLanguageEvidence[];

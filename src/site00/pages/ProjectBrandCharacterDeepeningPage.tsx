@@ -7,12 +7,14 @@ import { projectDisplayName } from '../utils/projectDisplayName';
 import type {
   BrandCharacterDeepeningModule,
   BrandCharacterDeepeningQuestion,
+  BrandCharacterReadinessEvaluation,
 } from '../../../shared/site00-brand-lore/brandCharacterReadiness/types';
 import '../styles/site00-replay-execution.css';
 
 export default function ProjectBrandCharacterDeepeningPage() {
   const { projectSlug = '' } = useParams<{ projectSlug: string }>();
   const [module, setModule] = useState<BrandCharacterDeepeningModule | null>(null);
+  const [evaluation, setEvaluation] = useState<BrandCharacterReadinessEvaluation | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
   const [answer, setAnswer] = useState('');
@@ -23,6 +25,7 @@ export default function ProjectBrandCharacterDeepeningPage() {
     try {
       const result = await site00ProjectsApi.experimentHDeepeningGet(projectSlug);
       setModule((result.module as BrandCharacterDeepeningModule | null) ?? null);
+      setEvaluation((result.evaluation as BrandCharacterReadinessEvaluation | null) ?? null);
     } catch {
       setModule(null);
     } finally {
@@ -41,6 +44,10 @@ export default function ProjectBrandCharacterDeepeningPage() {
   }, [module]);
 
   const current: BrandCharacterDeepeningQuestion | undefined = unanswered[activeIndex];
+  const readyForFormation = evaluation?.overallState === 'CHARACTER_READY';
+  const gapsRemainWithoutQuestions =
+    !readyForFormation &&
+    (module?.status === 'GAPS_REMAIN' || (!module && (evaluation?.gaps.length ?? 0) > 0) || module?.questions.length === 0);
 
   const submit = async () => {
     if (!current || !answer.trim()) return;
@@ -77,14 +84,6 @@ export default function ProjectBrandCharacterDeepeningPage() {
 
           {loading ? (
             <p>Loading deepening module…</p>
-          ) : module?.status === 'NOT_REQUIRED' || unanswered.length === 0 ? (
-            <section className="site00-experiment-g__panel">
-              <h2>No deepening questions required</h2>
-              <p>Existing evidence is sufficient for character formation.</p>
-              <Link to={site00ProjectBrandCharacterReadinessPath(projectSlug)} className="site00-btn">
-                BACK TO READINESS
-              </Link>
-            </section>
           ) : current ? (
             <section className="site00-experiment-g__panel">
               <p>
@@ -109,11 +108,40 @@ export default function ProjectBrandCharacterDeepeningPage() {
                 SAVE ANSWER
               </button>
             </section>
-          ) : (
+          ) : gapsRemainWithoutQuestions ? (
+            <section className="site00-experiment-g__panel">
+              <h2>Character evidence still has gaps</h2>
+              <p>
+                Readiness is {evaluation?.overallState.replace(/_/g, ' ') ?? 'not sufficient yet'}, but existing
+                Brand Lore and Personality already overlap the targeted question library — so no new deepening
+                prompts were compiled.
+              </p>
+              <p>Review the gap breakdown on Readiness Review, then re-evaluate after intelligence updates.</p>
+              <Link to={site00ProjectBrandCharacterReadinessPath(projectSlug)} className="site00-btn site00-btn--primary">
+                BACK TO READINESS
+              </Link>
+            </section>
+          ) : readyForFormation || module?.status === 'NOT_REQUIRED' ? (
+            <section className="site00-experiment-g__panel">
+              <h2>No deepening questions required</h2>
+              <p>Existing evidence is sufficient for character formation.</p>
+              <Link to={site00ProjectBrandCharacterReadinessPath(projectSlug)} className="site00-btn">
+                BACK TO READINESS
+              </Link>
+            </section>
+          ) : module && module.answers.length > 0 ? (
             <section className="site00-experiment-g__panel">
               <h2>Deepening complete</h2>
               <Link to={site00ProjectBrandCharacterReadinessPath(projectSlug)} className="site00-btn site00-btn--primary">
                 REVIEW READINESS
+              </Link>
+            </section>
+          ) : (
+            <section className="site00-experiment-g__panel">
+              <h2>Deepening module unavailable</h2>
+              <p>Re-evaluate readiness to compile targeted questions from current intelligence.</p>
+              <Link to={site00ProjectBrandCharacterReadinessPath(projectSlug)} className="site00-btn site00-btn--primary">
+                BACK TO READINESS
               </Link>
             </section>
           )}
