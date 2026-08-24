@@ -421,6 +421,7 @@ export async function seedVitestContentOperationsPrerequisites(): Promise<void> 
     northStarForensics: null,
     experiment01: null,
     experimentGCharacterReevaluationRequired: true,
+    experiment01GenerationTracking: null,
     error: null,
     accounting: {
       anthropicRequests: 0,
