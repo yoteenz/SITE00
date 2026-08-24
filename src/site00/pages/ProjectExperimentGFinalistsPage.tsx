@@ -48,7 +48,7 @@ export default function ProjectExperimentGFinalistsPage() {
           <header className="site00-project-lore-calibration__hero">
             <p className="site00-project-lore-calibration__kicker">BRAND BEFORE TOPIC</p>
             <h1 className="site00-project-lore-calibration__project">{projectTitle}</h1>
-            <p className="site00-project-lore-calibration__headline">BRAND PRESENTATION FINALIST VISUAL FORMULATION</p>
+            <p className="site00-project-lore-calibration__headline">BRAND PRESENTATION — PARENT FINALIST VISUAL REVIEW</p>
             <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
             {' · '}
             <Link to={site00ProjectExperimentGDirectionsPath(projectSlug)}>← DIRECTION REVIEW</Link>

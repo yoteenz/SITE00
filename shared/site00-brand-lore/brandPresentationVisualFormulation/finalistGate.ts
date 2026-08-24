@@ -1,9 +1,16 @@
 /**
- * Finalist gate — exactly two active finalists required before visual formulation.
+ * Direction finalist gate — DIRECTION_FINALIST_DEEP_DIVE mode only.
  */
 
+import { EXPLORATION_MODES, NDXBOOK_DIRECTION_DEEP_DIVE_POLICY } from './constants.js';
 import type { BrandPresentationVisualExplorationPolicy } from './constants.js';
 import type { BrandPresentationVisualFinalistSelection } from './types.js';
+
+export function isDirectionDeepDivePolicy(
+  policy: BrandPresentationVisualExplorationPolicy,
+): policy is typeof NDXBOOK_DIRECTION_DEEP_DIVE_POLICY {
+  return policy.mode === EXPLORATION_MODES.DIRECTION_FINALIST_DEEP_DIVE;
+}
 
 export type FinalistGateResult =
   | { ok: true; activeFinalists: BrandPresentationVisualFinalistSelection[] }
@@ -13,6 +20,15 @@ export function evaluateFinalistGate(params: {
   finalists: BrandPresentationVisualFinalistSelection[];
   policy: BrandPresentationVisualExplorationPolicy;
 }): FinalistGateResult {
+  if (!isDirectionDeepDivePolicy(params.policy)) {
+    return {
+      ok: false,
+      reason: 'FINALIST_GATE_NOT_APPLICABLE — use parent finalist gate for PARENT_FINALIST_DIRECTION_SCAN mode.',
+      activeCount: 0,
+      requiredCount: 0,
+    };
+  }
+
   const active = params.finalists
     .filter((f) => f.status === 'SELECTED')
     .sort((a, b) => a.selectionOrder - b.selectionOrder);
@@ -59,6 +75,10 @@ export function canBeginVisualGeneration(params: {
 }): { ok: true } | { ok: false; reason: string } {
   if (!params.gate.ok) {
     return { ok: false, reason: params.gate.reason };
+  }
+
+  if (!isDirectionDeepDivePolicy(params.policy)) {
+    return { ok: false, reason: 'VISUAL_GENERATION_GATE_NOT_APPLICABLE — use benchmark generation gate.' };
   }
 
   for (const finalist of params.gate.activeFinalists) {

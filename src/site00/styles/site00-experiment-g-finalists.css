@@ -151,10 +151,35 @@
   font-size: 0.82rem;
 }
 
-@media (min-width: 768px) {
-  .site00-experiment-g-vf__expression-grid {
+.site00-experiment-g-vf__summary {
+  margin: 0;
+  font-size: 0.88rem;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+.site00-experiment-g-vf__image--large {
+  max-height: none;
+}
+
+.site00-experiment-g-vf__benchmark-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (min-width: 900px) {
+  .site00-experiment-g-vf__benchmark-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 2.5rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .site00-experiment-g-vf__all-six {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
   }
 }

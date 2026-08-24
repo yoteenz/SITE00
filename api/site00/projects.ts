@@ -72,8 +72,10 @@ import {
   generateFinalistVisuals,
   getBrandPresentationVisualFormulationRun,
   prepareVisualFormulationRun,
+  reviseDirectionBenchmark,
   reviseVisualExpression,
   selectBrandPresentationWinner,
+  setDirectionBenchmarkJudgment,
   setVisualExpressionJudgment,
   setVisualFinalistSelection,
   estimateVisualGenerationCost,
@@ -1360,6 +1362,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const expressionId = String(body.expressionId ?? '');
+        const benchmarkId = String(body.benchmarkId ?? '');
         const judgment = body.judgment as
           | 'LOVE_THIS_EXPRESSION'
           | 'PROMISING_REVISE'
@@ -1368,14 +1371,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           | 'TOO_GENERIC'
           | 'TOO_LITERAL'
           | 'TOO_STYLE_DEPENDENT'
+          | 'LOVE_THIS_DIRECTION'
+          | 'NOT_THIS_DIRECTION'
+          | 'MISREPRESENTS_THE_DIRECTION'
+          | 'VISUAL_DOES_NOT_HELP_ME_JUDGE'
           | null;
-        if (slug !== 'ndxbook' || !expressionId) {
+        if (slug !== 'ndxbook' || (!expressionId && !benchmarkId)) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
         }
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await setVisualExpressionJudgment({ expressionId, judgment, note: body.note ? String(body.note) : null });
+        const run = benchmarkId
+          ? await setDirectionBenchmarkJudgment({
+              benchmarkId,
+              judgment,
+              note: body.note ? String(body.note) : null,
+            })
+          : await setVisualExpressionJudgment({
+              expressionId,
+              judgment,
+              note: body.note ? String(body.note) : null,
+            });
         return json(res, 200, { ok: true, run, source: 'site00_experiment_g_visual' });
       }
       case 'experiment_g_visual_revise': {
@@ -1385,18 +1402,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const expressionId = String(body.expressionId ?? '');
-        if (slug !== 'ndxbook' || !expressionId) {
+        const benchmarkId = String(body.benchmarkId ?? '');
+        if (slug !== 'ndxbook' || (!expressionId && !benchmarkId)) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
         }
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await reviseVisualExpression({
-          expressionId,
-          preserve: Array.isArray(body.preserve) ? body.preserve.map(String) : [],
-          change: Array.isArray(body.change) ? body.change.map(String) : [],
-          doNotBecome: Array.isArray(body.doNotBecome) ? body.doNotBecome.map(String) : [],
-        });
+        const run = benchmarkId
+          ? await reviseDirectionBenchmark({
+              benchmarkId,
+              preserve: Array.isArray(body.preserve) ? body.preserve.map(String) : [],
+              change: Array.isArray(body.change) ? body.change.map(String) : [],
+              doNotBecome: Array.isArray(body.doNotBecome) ? body.doNotBecome.map(String) : [],
+            })
+          : await reviseVisualExpression({
+              expressionId,
+              preserve: Array.isArray(body.preserve) ? body.preserve.map(String) : [],
+              change: Array.isArray(body.change) ? body.change.map(String) : [],
+              doNotBecome: Array.isArray(body.doNotBecome) ? body.doNotBecome.map(String) : [],
+            });
         return json(res, 200, { ok: true, run, source: 'site00_experiment_g_visual' });
       }
       case 'experiment_g_visual_winner': {
@@ -1406,14 +1431,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const expressionId = String(body.expressionId ?? '');
-        if (slug !== 'ndxbook' || !expressionId) {
+        const benchmarkId = String(body.benchmarkId ?? '');
+        if (slug !== 'ndxbook' || (!expressionId && !benchmarkId)) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
         }
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await selectBrandPresentationWinner({
-          expressionId,
+          expressionId: expressionId || undefined,
+          benchmarkId: benchmarkId || undefined,
           selectedBy: user.email ?? 'founder',
         });
         return json(res, 200, { ok: true, run, source: 'site00_experiment_g_visual' });

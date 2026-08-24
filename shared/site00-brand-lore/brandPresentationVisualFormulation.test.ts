@@ -6,6 +6,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
+  NDXBOOK_DIRECTION_DEEP_DIVE_POLICY,
   NDXBOOK_VISUAL_EXPLORATION_POLICY,
   BRAND_PRESENTATION_VISUAL_FORMULATION_LAYER_IMPLEMENTED,
   TWO_FINALIST_MODEL_IMPLEMENTED,
@@ -16,6 +17,7 @@ import {
   winnerDoesNotMutateBrandCanon,
   winnerDoesNotStartImplementation,
   resolveNdxbookVisualPolicy,
+  resolveDeepDiveVisualPolicy,
 } from './brandPresentationVisualFormulation/index.js';
 import {
   evaluateFinalistGate,
@@ -215,6 +217,7 @@ beforeEach(() => {
   process.env.SITE00_EXPERIMENT_G_DIRECTION_USE_MEMORY = '1';
   process.env.SITE00_EXPERIMENT_G_USE_MEMORY = '1';
   process.env.SITE00_EXPERIMENT_G_VISUAL_USE_MEMORY = '1';
+  process.env.SITE00_EXPERIMENT_G_VISUAL_DEEP_DIVE = '1';
   resetBrandPresentationDirectionMemory();
   resetBrandPresentationDirectionStoreModeCache();
   resetBrandPresentationDirectionFormationWorkers();
@@ -244,7 +247,7 @@ describe('Brand Presentation Finalist Visual Formulation', () => {
     await seedConceptRun();
     await formBrandPresentationDirections();
     const dirRun = (await getBrandPresentationDirectionFormationRun())!;
-    const gate0 = evaluateFinalistGate({ finalists: [], policy: NDXBOOK_VISUAL_EXPLORATION_POLICY });
+    const gate0 = evaluateFinalistGate({ finalists: [], policy: NDXBOOK_DIRECTION_DEEP_DIVE_POLICY });
     expect(gate0.ok).toBe(false);
     expect(gate0.reason).toMatch(/0 active finalists/);
 
@@ -254,7 +257,7 @@ describe('Brand Presentation Finalist Visual Formulation', () => {
       selectedBy: 'test',
     });
     const run1 = await getBrandPresentationVisualFormulationRun();
-    const gate1 = evaluateFinalistGate({ finalists: run1!.finalists, policy: NDXBOOK_VISUAL_EXPLORATION_POLICY });
+    const gate1 = evaluateFinalistGate({ finalists: run1!.finalists, policy: NDXBOOK_DIRECTION_DEEP_DIVE_POLICY });
     expect(gate1.ok).toBe(false);
     expect(gate1.reason).toMatch(/1 active finalist/);
 
@@ -516,27 +519,27 @@ describe('Brand Presentation Finalist Visual Formulation', () => {
     expect(dirRun!.directions).toHaveLength(9);
   });
 
-  it('43-44. policy configurable; NDXBOOK 2×3=6', () => {
-    const policy = resolveNdxbookVisualPolicy();
+  it('43-44. policy configurable; legacy deep dive 2×3=6', () => {
+    const policy = resolveDeepDiveVisualPolicy();
     expect(policy.finalistCount).toBe(2);
     expect(policy.expressionsPerFinalist).toBe(3);
     expect(policy.totalInitialVisuals).toBe(6);
     expect(policy.policyConfigurable).toBe(true);
   });
 
-  it('UI route and finalist selection control exist', () => {
+  it('UI route and parent finalist review exist', () => {
     expect(ROUTES).toContain('projectExperimentGFinalists');
     expect(FINALISTS_PAGE).toContain('ExperimentGBrandPresentationFinalistReview');
-    expect(DIR_REVIEW).toContain('SELECT AS VISUAL FINALIST');
+    expect(FINALISTS_PAGE).toContain('PARENT FINALIST VISUAL REVIEW');
     expect(DIR_REVIEW).toContain('LOVE_THE_DIRECTION');
-    expect(DIR_REVIEW).toContain('independent from LOVE THE DIRECTION');
+    expect(DIR_REVIEW).toContain('PARENT FINALIST');
   });
 
   it('generation gate blocks without expressions', async () => {
     await seedDirectionsAndSelectTwoFinalists();
     const run = await getBrandPresentationVisualFormulationRun();
-    const gate = evaluateFinalistGate({ finalists: run!.finalists, policy: NDXBOOK_VISUAL_EXPLORATION_POLICY });
-    const genGate = canBeginVisualGeneration({ gate, expressions: [], policy: NDXBOOK_VISUAL_EXPLORATION_POLICY });
+    const gate = evaluateFinalistGate({ finalists: run!.finalists, policy: NDXBOOK_DIRECTION_DEEP_DIVE_POLICY });
+    const genGate = canBeginVisualGeneration({ gate, expressions: [], policy: NDXBOOK_DIRECTION_DEEP_DIVE_POLICY });
     expect(genGate.ok).toBe(false);
   });
 });

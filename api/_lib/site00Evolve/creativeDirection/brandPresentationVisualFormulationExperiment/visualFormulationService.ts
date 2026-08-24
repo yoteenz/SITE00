@@ -1,5 +1,5 @@
 /**
- * Brand Presentation Visual Formulation service — 2 finalists × 3 expressions × 6 visuals.
+ * Brand Presentation Visual Formulation service — parent scan (2×3×1) + legacy deep dive (2×3).
  */
 
 import { createHash, randomUUID } from 'node:crypto';
@@ -7,31 +7,52 @@ import {
   BRAND_PRESENTATION_VISUAL_FORMULATION_CLASSIFICATION,
   BRAND_PRESENTATION_VISUAL_FORMULATION_RUN_ID,
   BRAND_PRESENTATION_VISUAL_FORMULATION_V1,
+  BRAND_PRESENTATION_VISUAL_FORMULATION_V2,
+  DIRECTION_BENCHMARK_SUMMARIES,
   FAL_COST_ESTIMATE_USD,
+  NDXBOOK_DIRECTION_DEEP_DIVE_POLICY,
   NDXBOOK_VISUAL_EXPLORATION_POLICY,
+  PARENT_CONCEPT_METAPHOR_GUARDS,
 } from '../../../../../shared/site00-brand-lore/brandPresentationVisualFormulation/constants.js';
 import type {
+  BrandPresentationDirectionVisualBenchmark,
+  BrandPresentationParentDeferredRecord,
+  BrandPresentationParentVisualFinalistSelection,
   BrandPresentationVisualExpressionCandidate,
   BrandPresentationVisualFinalistSelection,
   BrandPresentationVisualFormulationRun,
   BrandPresentationVisualReferencePackage,
   BrandPresentationWinnerSelection,
+  DirectionBenchmarkRevisionDelta,
   VisualExpressionRevisionDelta,
 } from '../../../../../shared/site00-brand-lore/brandPresentationVisualFormulation/types.js';
 import {
+  directionBenchmarkVisionQaUnavailable,
+  evaluateBenchmarkDirectionDrift,
   evaluateCrossFinalistCollapse,
   evaluateExpressionDirectionDrift,
   evaluateReferenceExclusions,
+  evaluateSiblingBenchmarkDistinctiveness,
   evaluateWithinFinalistDistinctiveness,
   visionQaUnavailable,
 } from '../../../../../shared/site00-brand-lore/brandPresentationVisualFormulation/evaluators.js';
 import {
   canBeginVisualGeneration,
   evaluateFinalistGate,
+  isDirectionDeepDivePolicy,
 } from '../../../../../shared/site00-brand-lore/brandPresentationVisualFormulation/finalistGate.js';
 import {
+  canBeginBenchmarkFormulation,
+  canBeginBenchmarkGeneration,
+  evaluateParentFinalistGate,
+  isParentFinalistScanPolicy,
+} from '../../../../../shared/site00-brand-lore/brandPresentationVisualFormulation/parentFinalistGate.js';
+import {
+  compileBenchmarkRevisionPrompt,
   compileBrandPresentationVisualPrompt,
+  compileDirectionBenchmarkPrompt,
   compileRevisionPrompt,
+  DIRECTION_BENCHMARK_PROMPT_VERSION,
   VISUAL_FORMULATION_PROMPT_VERSION,
 } from '../../../../../shared/site00-brand-lore/brandPresentationVisualFormulation/promptCompiler.js';
 import {
@@ -39,6 +60,11 @@ import {
   EXPRESSION_FORMATION_SYSTEM_PROMPT,
   type RawExpressionPayload,
 } from '../../../../../shared/site00-brand-lore/brandPresentationVisualFormulation/formationPrompt.js';
+import {
+  buildDirectionBenchmarkFormationPayload,
+  DIRECTION_BENCHMARK_FORMATION_SYSTEM_PROMPT,
+  type RawDirectionBenchmarkPayload,
+} from '../../../../../shared/site00-brand-lore/brandPresentationVisualFormulation/directionBenchmarkPrompt.js';
 import type { BrandPresentationDirectionCandidate } from '../../../../../shared/site00-brand-lore/brandPresentationDirectionTerritory/types.js';
 import { BRAND_PRESENTATION_DIRECTION_RUN_ID } from '../../../../../shared/site00-brand-lore/brandPresentationDirectionTerritory/constants.js';
 import { getBrandPresentationDirectionFormationRun } from '../brandPresentationDirectionExperiment/directionService.js';
@@ -50,9 +76,7 @@ import {
   EXPERIENCE_FAL_MODEL,
   EXPERIENCE_FAL_PROVIDER,
 } from '../../../../../shared/site00-brand-lore/experienceExpression/experienceAssetFalProvider.js';
-import {
-  buildFalImageInput,
-} from '../../../../../shared/site00-visual-generation/falImageModels.js';
+import { buildFalImageInput } from '../../../../../shared/site00-visual-generation/falImageModels.js';
 import {
   assertReferenceConditioningSupported,
   getCurrentExperienceProviderCapability,
@@ -75,10 +99,6 @@ function hash(value: string): string {
   return createHash('sha256').update(value).digest('hex').slice(0, 16);
 }
 
-function shouldRunSynchronously(): boolean {
-  return process.env.VITEST === 'true';
-}
-
 function emptyAccounting(): BrandPresentationVisualFormulationRun['accounting'] {
   return {
     anthropicRequests: 0,
@@ -92,27 +112,63 @@ function emptyAccounting(): BrandPresentationVisualFormulationRun['accounting'] 
   };
 }
 
+function migrateRun(run: BrandPresentationVisualFormulationRun): BrandPresentationVisualFormulationRun {
+  const policy =
+    process.env.SITE00_EXPERIMENT_G_VISUAL_DEEP_DIVE === '1'
+      ? { ...NDXBOOK_DIRECTION_DEEP_DIVE_POLICY }
+      : isParentFinalistScanPolicy(run.explorationPolicy)
+        ? run.explorationPolicy
+        : { ...NDXBOOK_VISUAL_EXPLORATION_POLICY };
+
+  return {
+    ...run,
+    explorationPolicy: policy,
+    methodologyVersion:
+      run.methodologyVersion === BRAND_PRESENTATION_VISUAL_FORMULATION_V1
+        ? BRAND_PRESENTATION_VISUAL_FORMULATION_V2
+        : run.methodologyVersion,
+    parentFinalists: run.parentFinalists ?? [],
+    deferredParents: run.deferredParents ?? [],
+    directionBenchmarks: run.directionBenchmarks ?? [],
+    benchmarkRevisions: run.benchmarkRevisions ?? [],
+    siblingCollapseEval: run.siblingCollapseEval ?? null,
+    finalists: run.finalists ?? [],
+    expressions: run.expressions ?? [],
+    referencePackages: run.referencePackages ?? [],
+    revisions: run.revisions ?? [],
+  };
+}
+
 function initRun(existing?: BrandPresentationVisualFormulationRun | null): BrandPresentationVisualFormulationRun {
-  if (existing) return existing;
+  if (existing) return migrateRun(existing);
+  const policy =
+    process.env.SITE00_EXPERIMENT_G_VISUAL_DEEP_DIVE === '1'
+      ? { ...NDXBOOK_DIRECTION_DEEP_DIVE_POLICY }
+      : { ...NDXBOOK_VISUAL_EXPLORATION_POLICY };
   return {
     experimentClassification: BRAND_PRESENTATION_VISUAL_FORMULATION_CLASSIFICATION,
     runId: BRAND_PRESENTATION_VISUAL_FORMULATION_RUN_ID,
     organizationId: NDXBOOK_ORG_ID,
     projectId: 'ndxbook',
     projectSlug: 'ndxbook',
-    methodologyVersion: BRAND_PRESENTATION_VISUAL_FORMULATION_V1,
+    methodologyVersion: BRAND_PRESENTATION_VISUAL_FORMULATION_V2,
     parentExperiment: 'EXPERIMENT_G',
     parentDirectionRunId: BRAND_PRESENTATION_DIRECTION_RUN_ID,
-    explorationPolicy: { ...NDXBOOK_VISUAL_EXPLORATION_POLICY },
+    explorationPolicy: policy,
     finalists: [],
+    parentFinalists: [],
+    deferredParents: [],
+    directionBenchmarks: [],
+    benchmarkRevisions: [],
     expressions: [],
     referencePackages: [],
     revisions: [],
     winner: null,
     crossFinalistCollapseEval: null,
+    siblingCollapseEval: null,
     status: 'NOT_STARTED',
     formationVersion: 1,
-    formationPromptVersion: VISUAL_FORMULATION_PROMPT_VERSION,
+    formationPromptVersion: DIRECTION_BENCHMARK_PROMPT_VERSION,
     visualFormulationAllowed: true,
     visualGenerationAllowed: false,
     falGenerationAllowed: false,
@@ -136,14 +192,18 @@ export function resetBrandPresentationVisualFormulationStoreModeCache(): void {
 }
 
 export async function getBrandPresentationVisualFormulationRun(): Promise<BrandPresentationVisualFormulationRun | null> {
-  return store.getBrandPresentationVisualFormulationRun();
+  const run = await store.getBrandPresentationVisualFormulationRun();
+  return run ? migrateRun(run) : null;
 }
 
 async function ensureRun(): Promise<BrandPresentationVisualFormulationRun> {
   const existing = await store.getBrandPresentationVisualFormulationRun();
-  const run = initRun(existing);
+  let run = initRun(existing);
   if (!existing) {
-    return store.saveBrandPresentationVisualFormulationRun(run);
+    run = await store.saveBrandPresentationVisualFormulationRun(run);
+  }
+  if (isParentFinalistScanPolicy(run.explorationPolicy)) {
+    run = await seedParentFinalistSelection(run);
   }
   return run;
 }
@@ -152,7 +212,7 @@ function getDirectionRunOrThrow(
   directionRun: Awaited<ReturnType<typeof getBrandPresentationDirectionFormationRun>>,
 ) {
   if (!directionRun || directionRun.directions.length === 0) {
-    throw new Error('Direction formation required before visual finalist selection');
+    throw new Error('Direction formation required before visual formulation');
   }
   return directionRun;
 }
@@ -175,14 +235,89 @@ function findParentSnapshot(
   return p;
 }
 
+export async function seedParentFinalistSelection(
+  run: BrandPresentationVisualFormulationRun,
+): Promise<BrandPresentationVisualFormulationRun> {
+  if (!isParentFinalistScanPolicy(run.explorationPolicy)) return run;
+  if (run.parentFinalists.some((p) => p.status === 'SELECTED')) return run;
+
+  const directionRun = await getBrandPresentationDirectionFormationRun();
+  if (!directionRun || directionRun.directions.length === 0) return run;
+
+  const policy = run.explorationPolicy;
+  const parentFinalists: BrandPresentationParentVisualFinalistSelection[] = [];
+  const deferredParents: BrandPresentationParentDeferredRecord[] = [];
+
+  for (let i = 0; i < policy.selectedParentNames.length; i++) {
+    const name = policy.selectedParentNames[i]!;
+    const snapshot = directionRun.parentConceptSnapshots.find((s) => s.name === name);
+    const group = directionRun.parentGroups.find((g) => g.parentConceptName === name);
+    if (!snapshot) continue;
+    parentFinalists.push({
+      selectionId: randomUUID(),
+      projectId: run.projectId,
+      projectSlug: run.projectSlug,
+      experimentId: run.runId,
+      parentConceptId: snapshot.id,
+      parentConceptName: name,
+      parentFormationFingerprint: group?.parentSnapshot.formationFingerprint ?? null,
+      selectedBy: 'founder@ndxbook',
+      selectedAt: nowIso(),
+      selectionOrder: (i + 1) as 1 | 2,
+      status: 'SELECTED',
+      version: 1,
+    });
+  }
+
+  for (const name of policy.deferredParentNames) {
+    const snapshot = directionRun.parentConceptSnapshots.find((s) => s.name === name);
+    if (!snapshot) continue;
+    deferredParents.push({
+      deferredId: randomUUID(),
+      projectId: run.projectId,
+      projectSlug: run.projectSlug,
+      parentConceptId: snapshot.id,
+      parentConceptName: name,
+      status: 'FOUNDER_DEFERRED_VISUALIZATION',
+      salvageEligible: true,
+      historicalRecordsPreserved: true,
+      deferredAt: nowIso(),
+      deferredBy: 'founder@ndxbook',
+      reason: 'Founder deferred visual development — salvage eligible, records preserved',
+    });
+  }
+
+  const gate = evaluateParentFinalistGate({
+    parentFinalists,
+    deferredParents,
+    directions: directionRun.directions,
+    policy,
+  });
+
+  const updated: BrandPresentationVisualFormulationRun = {
+    ...run,
+    parentFinalists,
+    deferredParents,
+    status: gate.ok ? 'FINALISTS_READY' : 'FINALISTS_INCOMPLETE',
+    error: gate.ok ? null : run.error,
+  };
+  return store.saveBrandPresentationVisualFormulationRun(updated);
+}
+
 export async function setVisualFinalistSelection(params: {
   directionId: string;
   selected: boolean;
   selectedBy: string;
 }): Promise<BrandPresentationVisualFormulationRun> {
+  let run = await ensureRun();
+  if (isParentFinalistScanPolicy(run.explorationPolicy)) {
+    throw new Error(
+      'DIRECTION_FINALIST_SELECTION_NOT_APPLICABLE — NDXBOOK uses parent finalist scan. Parent finalists are pre-selected.',
+    );
+  }
+
   const directionRun = getDirectionRunOrThrow(await getBrandPresentationDirectionFormationRun());
   const direction = findDirection(directionRun, params.directionId);
-  let run = await ensureRun();
 
   let finalists = [...run.finalists];
 
@@ -195,7 +330,7 @@ export async function setVisualFinalistSelection(params: {
   } else {
     const active = finalists.filter((f) => f.status === 'SELECTED');
     const already = active.find((f) => f.directionId === params.directionId);
-    if (!already && active.length >= run.explorationPolicy.finalistCount) {
+    if (!already && isDirectionDeepDivePolicy(run.explorationPolicy) && active.length >= run.explorationPolicy.finalistCount) {
       throw new Error(
         `FINALIST_GATE_BLOCKED — ${active.length} active finalists. Withdraw one before selecting another.`,
       );
@@ -239,6 +374,253 @@ export async function setVisualFinalistSelection(params: {
 
 function activeFinalistCount(finalists: BrandPresentationVisualFinalistSelection[]): number {
   return finalists.filter((f) => f.status === 'SELECTED').length;
+}
+
+export function buildVitestBenchmarkPayload(
+  direction: BrandPresentationDirectionCandidate,
+): RawDirectionBenchmarkPayload {
+  const summary = DIRECTION_BENCHMARK_SUMMARIES[direction.directionName] ?? direction.directionThesis;
+  return {
+    benchmarkThesis: `Visual benchmark for ${direction.directionName}: ${summary}`,
+    visualTranslation: `Behavioral visual translation of ${direction.brandBehavior}`,
+    compositionBehavior: 'Asymmetric focal hierarchy with authored evidence bands',
+    typographyBehavior: 'Display anchor with supporting micro-label system',
+    imageryBehavior: 'Documentary fragments integrated into editorial flow',
+    graphicBehavior: 'Rule-based dividers and index marks',
+    artifactBehavior: 'Behavioral artifacts emerge from layout rules',
+    informationBehavior: 'Progressive disclosure with confident compression',
+    densityBehavior: 'Medium-high density with deliberate breathing room',
+    rhythmBehavior: 'Alternating tension and release across the frame',
+    socialNativeBehavior: 'Recognizable without platform chrome — feed-native composition',
+    recognitionMechanism: direction.recognitionMechanism,
+    recurrenceEvidence: direction.recurrenceBehavior,
+    directionFidelityRequirements: direction.antiCollapseRules,
+    antiLiteralizationRules: [
+      'Do not literalize parent concept name',
+      'Behavioral translation only',
+    ],
+    negativeDirection: [...(direction.notThis ?? []), 'generic moodboard', 'SITE 00 Projects UX'],
+  };
+}
+
+function normalizeBenchmark(
+  raw: RawDirectionBenchmarkPayload,
+  params: {
+    run: BrandPresentationVisualFormulationRun;
+    direction: BrandPresentationDirectionCandidate;
+    parentBenchmarkId?: string | null;
+    revisionNumber?: number;
+  },
+): BrandPresentationDirectionVisualBenchmark {
+  const benchmark: BrandPresentationDirectionVisualBenchmark = {
+    benchmarkId: randomUUID(),
+    projectId: params.run.projectId,
+    projectSlug: params.run.projectSlug,
+    experimentId: params.run.runId,
+    parentConceptId: params.direction.parentConceptId,
+    parentConceptName: params.direction.parentConceptName,
+    directionId: params.direction.directionId,
+    directionName: params.direction.directionName,
+    directionFingerprint: params.direction.formationFingerprint,
+    benchmarkThesis: raw.benchmarkThesis,
+    visualTranslation: raw.visualTranslation,
+    compositionBehavior: raw.compositionBehavior,
+    typographyBehavior: raw.typographyBehavior,
+    imageryBehavior: raw.imageryBehavior,
+    graphicBehavior: raw.graphicBehavior,
+    artifactBehavior: raw.artifactBehavior,
+    informationBehavior: raw.informationBehavior,
+    densityBehavior: raw.densityBehavior,
+    rhythmBehavior: raw.rhythmBehavior,
+    socialNativeBehavior: raw.socialNativeBehavior,
+    recognitionMechanism: raw.recognitionMechanism,
+    recurrenceEvidence: raw.recurrenceEvidence,
+    directionFidelityRequirements: raw.directionFidelityRequirements,
+    antiLiteralizationRules: raw.antiLiteralizationRules,
+    negativeDirection: raw.negativeDirection,
+    referencePackageId: null,
+    promptFingerprint: null,
+    providerReceipt: null,
+    assetId: null,
+    assetStoragePath: null,
+    assetPublicUrl: null,
+    assetFingerprint: null,
+    visionEvaluation: directionBenchmarkVisionQaUnavailable(),
+    founderJudgment: null,
+    judgmentNote: null,
+    directionDriftEval: null,
+    siblingDistinctivenessEval: null,
+    parentBenchmarkId: params.parentBenchmarkId ?? null,
+    revisionNumber: params.revisionNumber ?? 0,
+    status: 'FORMULATED',
+    formationVersion: params.run.formationVersion,
+    createdAt: nowIso(),
+  };
+  const driftEval = evaluateBenchmarkDirectionDrift({ direction: params.direction, benchmark });
+  benchmark.directionDriftEval = driftEval;
+  if (driftEval.result === 'DIRECTION_DRIFT') {
+    benchmark.status = 'REVISION_REQUIRED';
+  }
+  return benchmark;
+}
+
+function compileBenchmarkReferencePackage(params: {
+  directionId: string;
+  benchmarkId: string;
+}): BrandPresentationVisualReferencePackage {
+  const excluded = [
+    'SITE00_HOST_VISUAL_MEMORY',
+    'PROJECTS_UX',
+    'EXPERIMENT_F_VISUAL',
+    'EXPERIMENT_D_VISUAL',
+    'BURN_BOOK_LITERAL',
+  ];
+  return {
+    packageId: randomUUID(),
+    directionId: params.directionId,
+    expressionId: null,
+    benchmarkId: params.benchmarkId,
+    references: [],
+    excludedSources: excluded,
+    referenceConditioned: false,
+    strictConditioningRequired: false,
+    compiledAt: nowIso(),
+    fingerprint: hash(`${params.directionId}:${params.benchmarkId}:empty`),
+  };
+}
+
+async function formulateBenchmarkForDirection(params: {
+  run: BrandPresentationVisualFormulationRun;
+  directionRun: NonNullable<Awaited<ReturnType<typeof getBrandPresentationDirectionFormationRun>>>;
+  direction: BrandPresentationDirectionCandidate;
+}): Promise<{
+  benchmark: BrandPresentationDirectionVisualBenchmark;
+  referencePackage: BrandPresentationVisualReferencePackage;
+  accountingDelta: Partial<BrandPresentationVisualFormulationRun['accounting']>;
+}> {
+  const parent = findParentSnapshot(params.directionRun, params.direction.parentConceptId);
+  let accountingDelta: Partial<BrandPresentationVisualFormulationRun['accounting']> = {};
+
+  let raw: RawDirectionBenchmarkPayload;
+  if (process.env.VITEST === 'true') {
+    raw = buildVitestBenchmarkPayload(params.direction);
+  } else {
+    const payload = buildDirectionBenchmarkFormationPayload({ parentConcept: parent, direction: params.direction });
+    const result = await callAnthropicForCompletion({
+      system: DIRECTION_BENCHMARK_FORMATION_SYSTEM_PROMPT,
+      user: payload,
+      model: ANTHROPIC_CREATIVE_MODEL,
+      maxTokens: 4096,
+    });
+    accountingDelta = {
+      anthropicRequests: 1,
+      anthropicInputTokens: result.inputTokens ?? 0,
+      anthropicOutputTokens: result.outputTokens ?? 0,
+      anthropicEstimatedCostUsd: result.estimatedCostUsd ?? 0.03,
+    };
+    const parsed = parseStructuredJson<{ benchmark: RawDirectionBenchmarkPayload }>(result.text);
+    if (!parsed.benchmark) {
+      throw new Error(`Benchmark formulation failed for direction ${params.direction.directionId}`);
+    }
+    raw = parsed.benchmark;
+  }
+
+  const benchmark = normalizeBenchmark(raw, { run: params.run, direction: params.direction });
+  const refPkg = compileBenchmarkReferencePackage({
+    directionId: params.direction.directionId,
+    benchmarkId: benchmark.benchmarkId,
+  });
+  benchmark.referencePackageId = refPkg.packageId;
+
+  return { benchmark, referencePackage: refPkg, accountingDelta };
+}
+
+export async function formulateDirectionBenchmarks(): Promise<BrandPresentationVisualFormulationRun> {
+  let run = await ensureRun();
+  if (!isParentFinalistScanPolicy(run.explorationPolicy)) {
+    throw new Error('Use formulateVisualExpressions for DIRECTION_FINALIST_DEEP_DIVE mode');
+  }
+
+  const directionRun = getDirectionRunOrThrow(await getBrandPresentationDirectionFormationRun());
+  const gate = evaluateParentFinalistGate({
+    parentFinalists: run.parentFinalists,
+    deferredParents: run.deferredParents,
+    directions: directionRun.directions,
+    policy: run.explorationPolicy,
+  });
+  if (!canBeginBenchmarkFormulation(gate)) {
+    throw new Error(gate.reason);
+  }
+
+  run = {
+    ...run,
+    status: 'FORMULATING_BENCHMARKS',
+    formationStartedAt: nowIso(),
+    directionBenchmarks: run.directionBenchmarks.filter(
+      (b) => !gate.eligibleDirections.some((d) => d.directionId === b.directionId && b.revisionNumber === 0),
+    ),
+    referencePackages: run.referencePackages.filter(
+      (p) => !gate.eligibleDirections.some((d) => d.directionId === p.directionId),
+    ),
+  };
+
+  let allBenchmarks = [...run.directionBenchmarks];
+  let allRefPackages = [...run.referencePackages];
+  let accounting = { ...run.accounting };
+
+  for (const direction of gate.eligibleDirections) {
+    const { benchmark, referencePackage, accountingDelta } = await formulateBenchmarkForDirection({
+      run,
+      directionRun,
+      direction,
+    });
+    allBenchmarks.push(benchmark);
+    allRefPackages.push(referencePackage);
+    accounting = {
+      ...accounting,
+      anthropicRequests: accounting.anthropicRequests + (accountingDelta.anthropicRequests ?? 0),
+      anthropicInputTokens: accounting.anthropicInputTokens + (accountingDelta.anthropicInputTokens ?? 0),
+      anthropicOutputTokens: accounting.anthropicOutputTokens + (accountingDelta.anthropicOutputTokens ?? 0),
+      anthropicEstimatedCostUsd:
+        accounting.anthropicEstimatedCostUsd + (accountingDelta.anthropicEstimatedCostUsd ?? 0),
+    };
+  }
+
+  const roomName = 'THE ROOM THAT KNOWS';
+  const noticingName = 'THE THING THAT KEEPS NOTICING';
+  const roomBenchmarks = allBenchmarks.filter(
+    (b) => b.revisionNumber === 0 && b.parentConceptName === roomName,
+  );
+  const noticingBenchmarks = allBenchmarks.filter(
+    (b) => b.revisionNumber === 0 && b.parentConceptName === noticingName,
+  );
+
+  const roomEval = evaluateSiblingBenchmarkDistinctiveness(roomBenchmarks);
+  const noticingEval = evaluateSiblingBenchmarkDistinctiveness(noticingBenchmarks);
+
+  allBenchmarks = allBenchmarks.map((b) => {
+    if (b.revisionNumber !== 0) return b;
+    const siblingEval =
+      b.parentConceptName === roomName ? roomEval : b.parentConceptName === noticingName ? noticingEval : null;
+    return siblingEval ? { ...b, siblingDistinctivenessEval: siblingEval } : b;
+  });
+
+  run = {
+    ...run,
+    directionBenchmarks: allBenchmarks,
+    referencePackages: allRefPackages,
+    siblingCollapseEval: {
+      room: roomEval,
+      noticing: noticingEval,
+    },
+    status: 'BENCHMARKS_READY',
+    visualGenerationAllowed: true,
+    falGenerationAllowed: false,
+    accounting,
+    formationStartedAt: null,
+    error: null,
+  };
+  return store.saveBrandPresentationVisualFormulationRun(run);
 }
 
 export function buildVitestExpressionPayload(
@@ -375,6 +757,7 @@ function compileReferencePackage(params: {
     packageId: randomUUID(),
     directionId: params.directionId,
     expressionId: params.expressionId,
+    benchmarkId: null,
     references: [],
     excludedSources: excluded,
     referenceConditioned: false,
@@ -453,7 +836,7 @@ async function formulateExpressionsForFinalist(params: {
   return { expressions, referencePackages, accountingDelta };
 }
 
-export async function formulateVisualExpressions(): Promise<BrandPresentationVisualFormulationRun> {
+async function formulateVisualExpressionsDeepDive(): Promise<BrandPresentationVisualFormulationRun> {
   let run = await ensureRun();
   const directionRun = getDirectionRunOrThrow(await getBrandPresentationDirectionFormationRun());
   const gate = evaluateFinalistGate({ finalists: run.finalists, policy: run.explorationPolicy });
@@ -517,12 +900,20 @@ export async function formulateVisualExpressions(): Promise<BrandPresentationVis
   return store.saveBrandPresentationVisualFormulationRun(run);
 }
 
-async function runFalForExpression(params: {
+export async function formulateVisualExpressions(): Promise<BrandPresentationVisualFormulationRun> {
+  const run = await ensureRun();
+  if (isParentFinalistScanPolicy(run.explorationPolicy)) {
+    return formulateDirectionBenchmarks();
+  }
+  return formulateVisualExpressionsDeepDive();
+}
+
+async function runFalGeneration(params: {
   prompt: string;
   negativePrompt: string;
   promptFingerprint: string;
   storagePath: string;
-  expressionId: string;
+  entityId: string;
   referenceConditioned: boolean;
   referenceUrls?: string[];
 }): Promise<{
@@ -539,7 +930,7 @@ async function runFalForExpression(params: {
       ok: true,
       storagePath: params.storagePath,
       publicUrl: `https://vitest.local/${params.storagePath}`,
-      requestId: `vitest-${params.expressionId}`,
+      requestId: `vitest-${params.entityId}`,
       costUsd: 0,
       provider: 'vitest-mock',
       model: 'vitest-mock',
@@ -612,33 +1003,208 @@ async function runFalForExpression(params: {
 }
 
 export function estimateVisualGenerationCost(run: BrandPresentationVisualFormulationRun): {
-  finalists: number;
-  expressionsPerFinalist: number;
+  mode: string;
+  parentFinalists?: number;
+  directionsPerParent?: number;
+  benchmarksPerDirection?: number;
+  finalists?: number;
+  expressionsPerFinalist?: number;
   totalVisuals: number;
   falRequestsExpected: number;
+  anthropicRequestsExpected?: number;
   estimatedCostUsd: number;
-  referenceConditionedPerExpression: boolean[];
+  referenceConditionedPerVisual: boolean[];
 } {
+  if (isParentFinalistScanPolicy(run.explorationPolicy)) {
+    const policy = run.explorationPolicy;
+    const benchmarks = run.directionBenchmarks.filter((b) => b.status !== 'SUPERSEDED' && b.revisionNumber === 0);
+    const referenceConditionedPerVisual = benchmarks.map((b) => {
+      const pkg = run.referencePackages.find((p) => p.packageId === b.referencePackageId);
+      return Boolean(pkg?.referenceConditioned);
+    });
+    return {
+      mode: policy.mode,
+      parentFinalists: policy.parentFinalistCount,
+      directionsPerParent: policy.directionsPerParent,
+      benchmarksPerDirection: policy.benchmarksPerDirection,
+      totalVisuals: policy.totalInitialVisuals,
+      falRequestsExpected: policy.totalInitialVisuals,
+      anthropicRequestsExpected: policy.totalInitialVisuals,
+      estimatedCostUsd: policy.totalInitialVisuals * FAL_COST_ESTIMATE_USD,
+      referenceConditionedPerVisual,
+    };
+  }
+
   const gate = evaluateFinalistGate({ finalists: run.finalists, policy: run.explorationPolicy });
+  const policy = isDirectionDeepDivePolicy(run.explorationPolicy)
+    ? run.explorationPolicy
+    : NDXBOOK_DIRECTION_DEEP_DIVE_POLICY;
   const totalVisuals = gate.ok
-    ? gate.activeFinalists.length * run.explorationPolicy.expressionsPerFinalist
-    : run.explorationPolicy.totalInitialVisuals;
+    ? gate.activeFinalists.length * policy.expressionsPerFinalist
+    : policy.totalInitialVisuals;
   const expressions = run.expressions.filter((e) => e.status !== 'SUPERSEDED');
-  const referenceConditionedPerExpression = expressions.map((e) => {
+  const referenceConditionedPerVisual = expressions.map((e) => {
     const pkg = run.referencePackages.find((p) => p.packageId === e.referencePackageId);
     return Boolean(pkg?.referenceConditioned);
   });
   return {
-    finalists: gate.ok ? gate.activeFinalists.length : run.explorationPolicy.finalistCount,
-    expressionsPerFinalist: run.explorationPolicy.expressionsPerFinalist,
+    mode: policy.mode,
+    finalists: gate.ok ? gate.activeFinalists.length : policy.finalistCount,
+    expressionsPerFinalist: policy.expressionsPerFinalist,
     totalVisuals,
     falRequestsExpected: totalVisuals,
     estimatedCostUsd: totalVisuals * FAL_COST_ESTIMATE_USD,
-    referenceConditionedPerExpression,
+    referenceConditionedPerVisual,
   };
 }
 
-export async function generateFinalistVisuals(): Promise<BrandPresentationVisualFormulationRun> {
+export async function generateDirectionBenchmarkVisuals(): Promise<BrandPresentationVisualFormulationRun> {
+  let run = await ensureRun();
+  if (!isParentFinalistScanPolicy(run.explorationPolicy)) {
+    throw new Error('Use generateFinalistVisuals for DIRECTION_FINALIST_DEEP_DIVE mode');
+  }
+
+  const directionRun = getDirectionRunOrThrow(await getBrandPresentationDirectionFormationRun());
+  const gate = evaluateParentFinalistGate({
+    parentFinalists: run.parentFinalists,
+    deferredParents: run.deferredParents,
+    directions: directionRun.directions,
+    policy: run.explorationPolicy,
+  });
+  const genGate = canBeginBenchmarkGeneration({
+    gate,
+    benchmarks: run.directionBenchmarks,
+    policy: run.explorationPolicy,
+  });
+  if (!genGate.ok) {
+    throw new Error(genGate.reason);
+  }
+
+  run = {
+    ...run,
+    status: 'GENERATING_VISUALS',
+    generationStartedAt: nowIso(),
+    falGenerationAllowed: true,
+  };
+  await store.saveBrandPresentationVisualFormulationRun(run);
+
+  const benchmarksToGenerate = run.directionBenchmarks.filter(
+    (b) =>
+      b.status === 'FORMULATED' &&
+      b.revisionNumber === 0 &&
+      gate.eligibleDirections.some((d) => d.directionId === b.directionId) &&
+      !b.assetStoragePath,
+  );
+
+  if (benchmarksToGenerate.length !== run.explorationPolicy.totalInitialVisuals) {
+    throw new Error(
+      `Expected ${run.explorationPolicy.totalInitialVisuals} direction benchmarks before generation, got ${benchmarksToGenerate.length}`,
+    );
+  }
+
+  let accounting = { ...run.accounting };
+  const updatedBenchmarks = [...run.directionBenchmarks];
+
+  const generationTasks = benchmarksToGenerate.map(async (benchmark) => {
+    const direction = findDirection(directionRun, benchmark.directionId);
+    const parent = findParentSnapshot(directionRun, direction.parentConceptId);
+    const refPkg = run.referencePackages.find((p) => p.packageId === benchmark.referencePackageId) ?? null;
+
+    for (const ref of refPkg?.references ?? []) {
+      const exclusion = evaluateReferenceExclusions(ref.sourceLabel);
+      if (!exclusion.allowed) {
+        throw new Error(exclusion.reason ?? 'Reference excluded');
+      }
+    }
+
+    const compiled = compileDirectionBenchmarkPrompt({
+      parentConcept: parent,
+      direction,
+      benchmark,
+      referencePackage: refPkg,
+      antiDirectionEvidence: direction.notThis,
+      parentMetaphorGuards: PARENT_CONCEPT_METAPHOR_GUARDS[parent.name],
+      socialPresentationRequirements: [
+        'Show recognizable NDXBOOK presentation behavior on a social-native surface',
+        'Demonstrate hierarchy, recurrence, and information behavior in action',
+        'This is direction visualization — not finished canon or production post',
+      ],
+    });
+
+    const slug = direction.directionName.replace(/[^a-z0-9]+/gi, '-').toLowerCase().slice(0, 40);
+    const storagePath = `site00/brand-presentation-visual/${run.runId}/${slug}-benchmark.webp`;
+    const falResult = await runFalGeneration({
+      prompt: compiled.prompt,
+      negativePrompt: compiled.negativePrompt,
+      promptFingerprint: compiled.promptFingerprint,
+      storagePath,
+      entityId: benchmark.benchmarkId,
+      referenceConditioned: Boolean(refPkg?.referenceConditioned),
+      referenceUrls: refPkg?.references.map((r) => r.publicUrl).filter((u): u is string => Boolean(u)),
+    });
+
+    if (!falResult.ok) {
+      throw new Error(falResult.error);
+    }
+
+    return {
+      benchmarkId: benchmark.benchmarkId,
+      promptFingerprint: compiled.promptFingerprint,
+      assetId: randomUUID(),
+      assetStoragePath: falResult.storagePath,
+      assetPublicUrl: falResult.publicUrl,
+      assetFingerprint: hash(compiled.promptFingerprint + falResult.storagePath),
+      providerReceipt: {
+        provider: falResult.provider,
+        model: falResult.model,
+        requestId: falResult.requestId,
+        costUsd: falResult.costUsd,
+        promptFingerprint: compiled.promptFingerprint,
+        createdAt: nowIso(),
+      },
+      costUsd: falResult.costUsd,
+    };
+  });
+
+  const results = await Promise.all(generationTasks);
+
+  for (const result of results) {
+    const idx = updatedBenchmarks.findIndex((b) => b.benchmarkId === result.benchmarkId);
+    if (idx >= 0) {
+      updatedBenchmarks[idx] = {
+        ...updatedBenchmarks[idx]!,
+        promptFingerprint: result.promptFingerprint,
+        assetId: result.assetId,
+        assetStoragePath: result.assetStoragePath,
+        assetPublicUrl: result.assetPublicUrl,
+        assetFingerprint: result.assetFingerprint,
+        providerReceipt: result.providerReceipt,
+        status: 'GENERATED',
+      };
+      accounting = {
+        ...accounting,
+        falRequests: accounting.falRequests + 1,
+        visualGenerationCostUsd: accounting.visualGenerationCostUsd + result.costUsd,
+        hiddenVariantRequests: 0,
+      };
+    }
+  }
+
+  run = {
+    ...run,
+    directionBenchmarks: updatedBenchmarks,
+    status: 'VISUALS_READY',
+    visualGenerationAllowed: true,
+    falGenerationAllowed: true,
+    accounting,
+    generationStartedAt: null,
+    completedAt: nowIso(),
+    error: null,
+  };
+  return store.saveBrandPresentationVisualFormulationRun(run);
+}
+
+async function generateFinalistVisualsDeepDive(): Promise<BrandPresentationVisualFormulationRun> {
   let run = await ensureRun();
   const directionRun = getDirectionRunOrThrow(await getBrandPresentationDirectionFormationRun());
   const gate = evaluateFinalistGate({ finalists: run.finalists, policy: run.explorationPolicy });
@@ -662,6 +1228,9 @@ export async function generateFinalistVisuals(): Promise<BrandPresentationVisual
       !e.assetStoragePath,
   );
 
+  if (!isDirectionDeepDivePolicy(run.explorationPolicy)) {
+    throw new Error('Deep dive policy required');
+  }
   if (expressionsToGenerate.length !== run.explorationPolicy.totalInitialVisuals) {
     throw new Error(
       `Expected ${run.explorationPolicy.totalInitialVisuals} sibling expressions before generation, got ${expressionsToGenerate.length}`,
@@ -696,12 +1265,12 @@ export async function generateFinalistVisuals(): Promise<BrandPresentationVisual
     });
 
     const storagePath = `site00/brand-presentation-visual/${run.runId}/${expr.parentDirectionId}-expr-${expr.expressionLabel}.webp`;
-    const falResult = await runFalForExpression({
+    const falResult = await runFalGeneration({
       prompt: compiled.prompt,
       negativePrompt: compiled.negativePrompt,
       promptFingerprint: compiled.promptFingerprint,
       storagePath,
-      expressionId: expr.expressionId,
+      entityId: expr.expressionId,
       referenceConditioned: Boolean(refPkg?.referenceConditioned),
       referenceUrls: refPkg?.references.map((r) => r.publicUrl).filter((u): u is string => Boolean(u)),
     });
@@ -767,6 +1336,33 @@ export async function generateFinalistVisuals(): Promise<BrandPresentationVisual
   return store.saveBrandPresentationVisualFormulationRun(run);
 }
 
+export async function generateFinalistVisuals(): Promise<BrandPresentationVisualFormulationRun> {
+  const run = await ensureRun();
+  if (isParentFinalistScanPolicy(run.explorationPolicy)) {
+    return generateDirectionBenchmarkVisuals();
+  }
+  return generateFinalistVisualsDeepDive();
+}
+
+export async function setDirectionBenchmarkJudgment(params: {
+  benchmarkId: string;
+  judgment: BrandPresentationDirectionVisualBenchmark['founderJudgment'];
+  note?: string | null;
+}): Promise<BrandPresentationVisualFormulationRun> {
+  const run = await ensureRun();
+  const directionBenchmarks = run.directionBenchmarks.map((b) =>
+    b.benchmarkId === params.benchmarkId
+      ? { ...b, founderJudgment: params.judgment, judgmentNote: params.note ?? null }
+      : b,
+  );
+  const updated: BrandPresentationVisualFormulationRun = {
+    ...run,
+    directionBenchmarks,
+    status: run.status === 'VISUALS_READY' || run.status === 'FOUNDER_REVIEW' ? 'FOUNDER_REVIEW' : run.status,
+  };
+  return store.saveBrandPresentationVisualFormulationRun(updated);
+}
+
 export async function setVisualExpressionJudgment(params: {
   expressionId: string;
   judgment: BrandPresentationVisualExpressionCandidate['founderJudgment'];
@@ -782,6 +1378,108 @@ export async function setVisualExpressionJudgment(params: {
     ...run,
     expressions,
     status: run.status === 'VISUALS_READY' || run.status === 'FOUNDER_REVIEW' ? 'FOUNDER_REVIEW' : run.status,
+  };
+  return store.saveBrandPresentationVisualFormulationRun(updated);
+}
+
+export async function reviseDirectionBenchmark(params: {
+  benchmarkId: string;
+  preserve: string[];
+  change: string[];
+  doNotBecome: string[];
+}): Promise<BrandPresentationVisualFormulationRun> {
+  const run = await ensureRun();
+  const directionRun = getDirectionRunOrThrow(await getBrandPresentationDirectionFormationRun());
+  const parentBenchmark = run.directionBenchmarks.find((b) => b.benchmarkId === params.benchmarkId);
+  if (!parentBenchmark) throw new Error('Benchmark not found');
+  if (parentBenchmark.founderJudgment !== 'PROMISING_REVISE') {
+    throw new Error('Revision requires PROMISING — REVISE judgment');
+  }
+
+  const direction = findDirection(directionRun, parentBenchmark.directionId);
+  const parentSnapshot = findParentSnapshot(directionRun, direction.parentConceptId);
+  const refPkg = run.referencePackages.find((p) => p.packageId === parentBenchmark.referencePackageId) ?? null;
+
+  const basePrompt = compileDirectionBenchmarkPrompt({
+    parentConcept: parentSnapshot,
+    direction,
+    benchmark: parentBenchmark,
+    referencePackage: refPkg,
+    antiDirectionEvidence: direction.notThis,
+    parentMetaphorGuards: PARENT_CONCEPT_METAPHOR_GUARDS[parentSnapshot.name],
+    socialPresentationRequirements: ['Revision — surgical change only'],
+  });
+
+  const revisionPrompt = compileBenchmarkRevisionPrompt({
+    base: basePrompt,
+    delta: { preserve: params.preserve, change: params.change, doNotBecome: params.doNotBecome },
+  });
+
+  const raw = buildVitestBenchmarkPayload(direction);
+  raw.benchmarkThesis = `${raw.benchmarkThesis} (revision ${parentBenchmark.revisionNumber + 1})`;
+  for (const c of params.change) {
+    raw.compositionBehavior += ` — ${c}`;
+  }
+
+  const childBenchmark = normalizeBenchmark(raw, {
+    run,
+    direction,
+    parentBenchmarkId: parentBenchmark.benchmarkId,
+    revisionNumber: parentBenchmark.revisionNumber + 1,
+  });
+  childBenchmark.referencePackageId = parentBenchmark.referencePackageId;
+
+  const slug = direction.directionName.replace(/[^a-z0-9]+/gi, '-').toLowerCase().slice(0, 40);
+  const storagePath = `site00/brand-presentation-visual/${run.runId}/${slug}-benchmark-rev-${childBenchmark.revisionNumber}.webp`;
+  const falResult = await runFalGeneration({
+    prompt: revisionPrompt.prompt,
+    negativePrompt: revisionPrompt.negativePrompt,
+    promptFingerprint: revisionPrompt.promptFingerprint,
+    storagePath,
+    entityId: childBenchmark.benchmarkId,
+    referenceConditioned: Boolean(refPkg?.referenceConditioned),
+  });
+
+  if (!falResult.ok) throw new Error(falResult.error);
+
+  childBenchmark.promptFingerprint = revisionPrompt.promptFingerprint;
+  childBenchmark.assetId = randomUUID();
+  childBenchmark.assetStoragePath = falResult.storagePath;
+  childBenchmark.assetPublicUrl = falResult.publicUrl;
+  childBenchmark.assetFingerprint = hash(revisionPrompt.promptFingerprint);
+  childBenchmark.providerReceipt = {
+    provider: falResult.provider,
+    model: falResult.model,
+    requestId: falResult.requestId,
+    costUsd: falResult.costUsd,
+    revision: true,
+    parentBenchmarkId: parentBenchmark.benchmarkId,
+    parentAssetId: parentBenchmark.assetId,
+  };
+  childBenchmark.status = 'GENERATED';
+
+  const revisionDelta: DirectionBenchmarkRevisionDelta = {
+    revisionId: randomUUID(),
+    parentBenchmarkId: parentBenchmark.benchmarkId,
+    parentAssetId: parentBenchmark.assetId,
+    childBenchmarkId: childBenchmark.benchmarkId,
+    revisionNumber: childBenchmark.revisionNumber,
+    preserve: params.preserve,
+    change: params.change,
+    doNotBecome: params.doNotBecome,
+    revisionPromptFingerprint: revisionPrompt.promptFingerprint,
+    createdAt: nowIso(),
+  };
+
+  const updated: BrandPresentationVisualFormulationRun = {
+    ...run,
+    directionBenchmarks: [...run.directionBenchmarks, childBenchmark],
+    benchmarkRevisions: [...run.benchmarkRevisions, revisionDelta],
+    accounting: {
+      ...run.accounting,
+      falRequests: run.accounting.falRequests + 1,
+      visualGenerationCostUsd: run.accounting.visualGenerationCostUsd + falResult.costUsd,
+    },
   };
   return store.saveBrandPresentationVisualFormulationRun(updated);
 }
@@ -834,12 +1532,12 @@ export async function reviseVisualExpression(params: {
   childExpr.referencePackageId = parentExpr.referencePackageId;
 
   const storagePath = `site00/brand-presentation-visual/${run.runId}/${parentExpr.parentDirectionId}-expr-${parentExpr.expressionLabel}-rev-${childExpr.revisionNumber}.webp`;
-  const falResult = await runFalForExpression({
+  const falResult = await runFalGeneration({
     prompt: revisionPrompt.prompt,
     negativePrompt: revisionPrompt.negativePrompt,
     promptFingerprint: revisionPrompt.promptFingerprint,
     storagePath,
-    expressionId: childExpr.expressionId,
+    entityId: childExpr.expressionId,
     referenceConditioned: Boolean(refPkg?.referenceConditioned),
   });
 
@@ -888,12 +1586,60 @@ export async function reviseVisualExpression(params: {
 }
 
 export async function selectBrandPresentationWinner(params: {
-  expressionId: string;
+  expressionId?: string;
+  benchmarkId?: string;
   selectedBy: string;
 }): Promise<BrandPresentationVisualFormulationRun> {
   const run = await ensureRun();
   if (run.status !== 'VISUALS_READY' && run.status !== 'FOUNDER_REVIEW') {
-    throw new Error('Winner selection requires completed visual review (6 assets generated)');
+    throw new Error('Winner selection requires completed visual review');
+  }
+
+  if (params.benchmarkId) {
+    const benchmark = run.directionBenchmarks.find(
+      (b) => b.benchmarkId === params.benchmarkId && b.status === 'GENERATED',
+    );
+    if (!benchmark || !benchmark.assetStoragePath) {
+      throw new Error('Winning benchmark must have a generated visual asset');
+    }
+
+    const winner: BrandPresentationWinnerSelection = {
+      winnerId: randomUUID(),
+      projectId: run.projectId,
+      projectSlug: run.projectSlug,
+      parentConceptId: benchmark.parentConceptId,
+      parentConceptName: benchmark.parentConceptName,
+      directionId: benchmark.directionId,
+      directionName: benchmark.directionName,
+      expressionId: null,
+      benchmarkId: benchmark.benchmarkId,
+      expressionLabel: null,
+      assetId: benchmark.assetId,
+      assetStoragePath: benchmark.assetStoragePath,
+      founderJudgment: 'FOUNDER_SELECTED_BRAND_PRESENTATION_DIRECTION',
+      selectionTimestamp: nowIso(),
+      methodologyVersion: run.methodologyVersion,
+      directionFormationFingerprint: benchmark.directionFingerprint,
+      expressionFormationFingerprint: benchmark.promptFingerprint,
+      referenceFingerprint: benchmark.referencePackageId,
+      generationReceiptLineage: benchmark.providerReceipt,
+      brandCanonMutated: false,
+      implementationStarted: false,
+      eligibleForExpressionSystemDevelopment: true,
+    };
+
+    const updated: BrandPresentationVisualFormulationRun = {
+      ...run,
+      winner,
+      status: 'WINNER_SELECTED',
+      expressionSystemDevelopmentAllowed: false,
+      brandCanonMutationAllowed: false,
+    };
+    return store.saveBrandPresentationVisualFormulationRun(updated);
+  }
+
+  if (!params.expressionId) {
+    throw new Error('expressionId or benchmarkId required');
   }
 
   const expression = run.expressions.find((e) => e.expressionId === params.expressionId && e.status === 'GENERATED');
@@ -910,6 +1656,7 @@ export async function selectBrandPresentationWinner(params: {
     directionId: expression.parentDirectionId,
     directionName: expression.parentDirectionName,
     expressionId: expression.expressionId,
+    benchmarkId: null,
     expressionLabel: expression.expressionLabel,
     assetId: expression.assetId,
     assetStoragePath: expression.assetStoragePath,

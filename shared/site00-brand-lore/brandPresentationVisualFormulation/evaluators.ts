@@ -2,7 +2,7 @@
  * Visual expression evaluators — direction fidelity, distinctiveness, range.
  */
 
-import type { BrandPresentationVisualExpressionCandidate } from './types.js';
+import type { BrandPresentationVisualExpressionCandidate, BrandPresentationDirectionVisualBenchmark } from './types.js';
 import type { BrandPresentationDirectionCandidate } from '../brandPresentationDirectionTerritory/types.js';
 
 const STYLE_ONLY_PATTERNS = [
@@ -189,4 +189,105 @@ export function visionQaUnavailable(): {
     visualRange: 'NOT_EVALUATED',
     notes: ['Vision QA unavailable — founder judgment remains authoritative'],
   };
+}
+
+export function directionBenchmarkVisionQaUnavailable(): import('./types.js').DirectionBenchmarkVisionEvaluation {
+  return {
+    parentConceptFidelity: 'NOT_EVALUATED',
+    directionFidelity: 'NOT_EVALUATED',
+    ndxbookFidelity: 'NOT_EVALUATED',
+    visualDistinctiveness: 'NOT_EVALUATED',
+    siblingDistinctiveness: 'NOT_EVALUATED',
+    metaphorLiteralization: 'NOT_EVALUATED',
+    genericSocialDesignRisk: 'NOT_EVALUATED',
+    genericEditorialRisk: 'NOT_EVALUATED',
+    recurrencePlausibility: 'NOT_EVALUATED',
+    socialNativePotential: 'NOT_EVALUATED',
+    typographicQuality: 'NOT_EVALUATED',
+    compositionQuality: 'NOT_EVALUATED',
+    notes: ['Vision QA unavailable — founder judgment remains authoritative'],
+  };
+}
+
+export function evaluateBenchmarkDirectionDrift(params: {
+  direction: BrandPresentationDirectionCandidate;
+  benchmark: BrandPresentationDirectionVisualBenchmark;
+}): { result: 'PASS' | 'DIRECTION_DRIFT' | 'NOT_EVALUATED'; notes: string[] } {
+  const notes: string[] = [];
+  const thesis = params.benchmark.benchmarkThesis.toLowerCase();
+  const driftSignals = [
+    'new audience relationship',
+    'different publishing logic',
+    'replaces knowledge behavior',
+    'changes authority posture',
+    'becomes a campaign',
+    'topic-specific direction',
+  ];
+  for (const signal of driftSignals) {
+    if (thesis.includes(signal)) {
+      notes.push(`Possible direction drift signal: ${signal}`);
+    }
+  }
+  if (notes.length >= 2) {
+    return { result: 'DIRECTION_DRIFT', notes };
+  }
+  return { result: 'PASS', notes };
+}
+
+export function evaluateSiblingBenchmarkDistinctiveness(
+  benchmarks: BrandPresentationDirectionVisualBenchmark[],
+): { result: 'PASS' | 'STYLE_ONLY_DIFFERENTIATION' | 'VISUAL_RANGE_TOO_NARROW' | 'SIBLING_VISUAL_COLLAPSE' | 'NOT_EVALUATED'; notes: string[] } {
+  if (benchmarks.length < 2) {
+    return { result: 'NOT_EVALUATED', notes: ['Insufficient benchmarks for sibling evaluation'] };
+  }
+
+  const dimensions = [
+    'compositionBehavior',
+    'typographyBehavior',
+    'imageryBehavior',
+    'informationBehavior',
+    'densityBehavior',
+    'rhythmBehavior',
+    'graphicBehavior',
+    'artifactBehavior',
+    'socialNativeBehavior',
+  ] as const;
+
+  let differingDimensions = 0;
+  const notes: string[] = [];
+
+  for (let i = 0; i < benchmarks.length; i++) {
+    for (let j = i + 1; j < benchmarks.length; j++) {
+      const a = benchmarks[i]!;
+      const b = benchmarks[j]!;
+      let pairDiff = 0;
+      for (const dim of dimensions) {
+        if (a[dim].trim().toLowerCase() !== b[dim].trim().toLowerCase()) {
+          pairDiff++;
+        }
+      }
+      if (pairDiff >= 4) differingDimensions++;
+      else {
+        notes.push(`${a.directionName} vs ${b.directionName}: only ${pairDiff} behavioral dimensions differ`);
+        if (pairDiff <= 1) {
+          notes.push('SIBLING_VISUAL_COLLAPSE risk');
+        }
+      }
+    }
+  }
+
+  if (differingDimensions === 0 && benchmarks.length >= 2) {
+    return { result: 'SIBLING_VISUAL_COLLAPSE', notes: [...notes, 'Sibling benchmarks converge on same visual logic'] };
+  }
+
+  const combinedText = benchmarks.map((b) => b.benchmarkThesis).join(' ');
+  if (STYLE_ONLY_PATTERNS.some((p) => p.test(combinedText)) && differingDimensions === 0) {
+    return { result: 'STYLE_ONLY_DIFFERENTIATION', notes: [...notes, 'Differentiation appears style-swap only'] };
+  }
+
+  if (differingDimensions === 0) {
+    return { result: 'VISUAL_RANGE_TOO_NARROW', notes: [...notes, 'All benchmarks converge on same visual logic'] };
+  }
+
+  return { result: 'PASS', notes };
 }
