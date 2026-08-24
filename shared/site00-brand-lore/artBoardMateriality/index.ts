@@ -13,3 +13,5 @@ export * from './limeIntervention.js';
 export * from './antiAiEvaluation.js';
 export * from './makerRhythm.js';
 export * from './v23HumanMadeRevision.js';
+export * from './signatureLime.js';
+export * from './feedSignatureContinuity.js';

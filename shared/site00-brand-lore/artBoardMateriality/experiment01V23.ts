@@ -12,7 +12,10 @@ import { buildFeedMaterialRhythm } from './feedRhythm.js';
 import { compileArtBoardMaterialityFalPrompt } from './falPromptCompilerV23.js';
 import { evaluateNorthStarArtBoardMateriality, evaluateNorthStarHumanMadeCalibrations } from './northStarMaterialForensics.js';
 import { applyV23HumanMadeRevision } from './v23HumanMadeRevision.js';
+import { applyV23SignatureLimeRevision } from './signatureLime.js';
 import { buildFeedMakerRhythm } from './makerRhythm.js';
+import { buildFeedSignatureColorContinuity } from './feedSignatureContinuity.js';
+import { auditV23SignatureLimeMigration } from './signatureLime.js';
 import type {
   ArtBoardRetainedFirstSlideContract,
   Experiment01V23Artifact,
@@ -75,8 +78,13 @@ export function formulateExperiment01V23(params: {
       projectId: params.expressionSystem.projectId,
     });
     const parentFingerprint = retainedBase.fingerprint;
-    const retained = applyV23HumanMadeRevision({
+    const retainedHuman = applyV23HumanMadeRevision({
       contract: retainedBase,
+      artifact: v1,
+      topicIndex,
+    });
+    const retained = applyV23SignatureLimeRevision({
+      contract: retainedHuman,
       artifact: v1,
       topicIndex,
     });
@@ -100,6 +108,14 @@ export function formulateExperiment01V23(params: {
       materialityEvaluation: retained.materialityEvaluation,
       humanMadeEvaluation: retained.humanMadeEvaluation ?? null,
       humanMadeRevision: retained.humanMadeRevision ?? null,
+      signatureLimeEvaluation: retained.signatureLimeEvaluation ?? null,
+      signatureLimeRevision: retained.signatureLimeRevision ?? null,
+      signatureLimeMigration: auditV23SignatureLimeMigration({
+        artifactId: `bma-exp01-v23-${topicIndex}`,
+        topicIndex,
+        signatureEval: retained.signatureLimeEvaluation!,
+        generatedAssetUrl: null,
+      }),
       parentFingerprint,
       founderJudgment: null,
       fingerprint: fp(retained),
@@ -110,6 +126,11 @@ export function formulateExperiment01V23(params: {
 
   const feedMaterial = buildFeedMaterialRhythm({ boardId: 'exp01-v23', contracts: artBoardContracts });
   const feedMakerRhythm = buildFeedMakerRhythm({ boardId: 'exp01-v23', contracts: artBoardContracts });
+  const feedSignatureColorContinuity = buildFeedSignatureColorContinuity({
+    boardId: 'exp01-v23',
+    contracts: artBoardContracts,
+  });
+  const signatureLimeMigrations = v23Artifacts.map((a) => a.signatureLimeMigration!).filter(Boolean);
   const northStar = evaluateNorthStarArtBoardMateriality();
   const calibrations = evaluateNorthStarHumanMadeCalibrations();
 
@@ -129,6 +150,8 @@ export function formulateExperiment01V23(params: {
     limeInterventionCalibration: calibrations.limeIntervention,
     makerAuthenticityCalibration: calibrations.makerAuthenticity,
     feedMakerRhythm,
+    feedSignatureColorContinuity,
+    signatureLimeMigrations,
     founderSetJudgment: null,
     error: null,
   };
