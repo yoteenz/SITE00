@@ -3994,3 +3994,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** 1745 pass; new `p1AuthenticatedCaptureCorrection.test.ts` (38 tests) + updated visual-dev/P1 tests with `VITEST_CAPTURE_PRINCIPAL=PROJECT_OWNER`.
 - **Production action:** Configure `SITE00_CAPTURE_STORAGE_STATE_PATH` on Railway with founder session storage state; refresh Projects refs; re-prepare interface — do NOT tap GENERATE until authenticated refs VALID.
 
+---
+
+## 2026-08-24 — Experiment G mobile text layout + regenerate guidance
+
+- **Context:** Founder on fsbw-dev (`site00.fsbw-dev.com`) reported Experiment G page bug — concept card fields (e.g. WHAT NDXBOOK BECOMES) crushed into a narrow right column on mobile; asked how to regenerate brand presentation concepts.
+- **Root cause:** `site00-experiment-g.css` used fixed two-column grid (`10rem 1fr`) on `.site00-experiment-g__dl div` at all breakpoints; Experiment F already stacks dt/dd on mobile.
+- **Fix (branch `cursor/experiment-g-mobile-layout-fix-1983`):** Mobile-first stacked dt/dd; grid only `@media (min-width: 640px)`; `overflow-wrap` + `min-width: 0` on cards; inline regen help under controls; `ProjectExperimentsHubNav` on Experiment G page (restored missing `EcosystemShell` import).
+- **Regenerate concepts:** **RE-FORM SET** = fresh six-concept pass (keeps history); **REFRESH FORMATION (IDEMPOTENT)** = re-run same snapshot; first-time **FORM SIX BRAND PRESENTATION CONCEPTS**; stuck **RETRY STALLED FORMATION**. Formation runs on Railway API (2–5 min); page polls every 5s when FORMING.
+- **Deploy:** cPanel ZIP after merge (frontend-only CSS/UI); no Railway redeploy required unless API stale.
+
