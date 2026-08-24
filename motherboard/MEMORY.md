@@ -4245,3 +4245,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Boundaries:** No autonomous publishing; Brand Character/Canon unchanged; generic models NDX-free; production ≠ publishing calendar.
 - **Tests:** +61 P0.5E.1 tests. Full suite 2288 passing. Build green.
 
+---
+
+## 2026-08-24 — P0.5C.3 Character Retention + Controlled Misbehavior + Humor Reinjection
+
+- **Context:** V2.1 editorial compression improved clarity but removed too much NDX character (punchlines, side comments, human trace, mischief). Core principle: **reduce information, preserve character** — distinguish **information density** vs **character density**. V2.1 history immutable; new lineage **Experiment 01 V2.2**.
+- **Domain:** `shared/site00-brand-lore/characterRetention/` — CharacterRetentionContract, CharacterBeat, density/sterility/compression evaluations, humor reinjection, controlled misbehavior, 28-section FAL prompt, feed character/humor rhythm, north-star character forensics.
+- **V2.2 pipeline:** amend V2.1 → character retention evaluation → founder contract review (18 V22 judgments) → founder-triggered FAL only (max 9). Topic-specific beats (e.g. "WE USED TO JUST BUY THINGS???", "47 MINUTES LATER...").
+- **Integration:** P0.5E Round 01 lock requires V2.2 generated + character gate pass. P0.5D `characterRetentionContractId`. Experiment 01 UI V2.2 tab.
+- **Boundaries:** P0.5C.1/C.2 preserved; Brand Character/Canon, Experiment F/G unchanged; no auto-generation.
+- **Tests:** +17 P0.5C.3. Full suite 2305 passing. Build green.
+

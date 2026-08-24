@@ -20,6 +20,7 @@ import type { MarketingCampaignProductionRun } from '../../../../shared/site00-s
 import { NDXBOOK_ORG_ID } from '../creativeDirection/creativeIntelligence/founderComparisonSet.js';
 import * as campaignStore from './marketingCampaignProductionStoreAdapter.js';
 import * as marketingStore from '../creativeDirection/brandMarketingExpressionExperiment/brandMarketingExpressionStoreAdapter.js';
+import { round01LockRequiresCharacterRetentionGate } from '../../../../shared/site00-brand-lore/characterRetention/approvalGate.js';
 
 function nowIso(): string {
   return new Date().toISOString();
@@ -97,6 +98,14 @@ export async function lockCampaignRound01(params: {
 }): Promise<MarketingCampaignProductionRun> {
   const run = await campaignStore.getCampaignProductionRun(params.projectId);
   if (!run?.board) throw new Error('Campaign board not initialized');
+
+  const marketingRun = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
+  const characterGate = round01LockRequiresCharacterRetentionGate({
+    v22Experiment: marketingRun?.experiment01V22 ?? null,
+  });
+  if (!characterGate.allowed) {
+    throw new Error(characterGate.reason ?? 'Character retention gate blocked Round 01 lock');
+  }
 
   const now = nowIso();
   const { board } = lockNdxbookRound01({ board: run.board, now });
