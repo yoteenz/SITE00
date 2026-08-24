@@ -4141,3 +4141,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (branch `cursor/synthesis-button-error-feedback-1983`):** Synthesis page shows `actionError` panel with message + hints (deploy lag → hard refresh; readiness → link to readiness page); `statusMessage` during 1–2 min Anthropic call; button label **RUNNING SYNTHESIS…**. API `experiment_h_synthesis_run` returns 400 `SYNTHESIS_FAILED` with message. Fuzzy territory resolution in `resolveNdxbookSynthesisSourceTerritories()`; clearer missing-territory error lists formation names found.
 - **Deploy note:** fsbw-dev frontend hits **`https://api.site00.com`** — Railway must redeploy for synthesis actions; UI now surfaces **Unknown action** if API stale.
 
+---
+
+## 2026-08-24 — Deepening answers now recalculate character readiness
+
+- **Context:** After synthesis button error UX shipped (PR #354), founder screenshot showed real blocker: **CHARACTER READINESS: CHARACTER_INSUFFICIENT** despite **5 deepening answers ingested** — synthesis correctly blocked but readiness never improved after deepening.
+- **Root cause:** `evaluateBrandCharacterReadiness()` only counted deepening answers in fingerprint metadata — answers were **not merged into evidence inventory**, so domain strengths and overall state stayed unchanged after founder submitted deepening.
+- **Fix (branch `cursor/deepening-readiness-recalc-1983`):** `applyDeepeningAnswersToInventory()` routes founder deepening answers into domain buckets + founderLanguage; readiness service passes answers into evaluation; completing all compiled deepening questions floors **INSUFFICIENT → PARTIAL** (synthesis allows PARTIAL); synthesis error panel adds **CONTINUE DEEPENING** link.
+- **Tests:** +3 P0.5B.2 tests (deepening merge, submission re-eval, all-questions unlock); 89 in readiness+synthesis suites pass. Build green.
+

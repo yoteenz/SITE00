@@ -5,7 +5,7 @@
 import type { BrandLoreProfile } from '../types.js';
 import { buildContentBrainPersonalityInput } from '../contentBrainPersonalityBridge.js';
 import { resolveCreativeIntelligenceReadiness } from '../creativeIntelligenceReadiness.js';
-import type { CharacterEvidenceConfidence } from './types.js';
+import type { BrandCharacterDeepeningAnswer, CharacterEvidenceConfidence, CharacterReadinessDomain } from './types.js';
 
 function fieldTexts(field: { value: unknown } | undefined): string[] {
   if (!field?.value) return [];
@@ -38,6 +38,76 @@ export type CharacterEvidenceInventory = {
   rawPersonalityAnswers: Record<string, string | string[]>;
   creativeIntelligenceSummary: ReturnType<typeof resolveCreativeIntelligenceReadiness>;
 };
+
+function inventoryKeysForDeepeningDomain(domain: CharacterReadinessDomain): (keyof CharacterEvidenceInventory)[] {
+  switch (domain) {
+    case 'WORLDVIEW_ORIENTATION':
+      return ['brandLore', 'businessOffering'];
+    case 'INTERNAL_TENSION':
+      return ['personalityTension'];
+    case 'INTELLECTUAL_BEHAVIOR':
+      return ['brandLore', 'brandPersonality'];
+    case 'SOCIAL_BEHAVIOR':
+      return ['socialInstinct', 'confidenceBehavior'];
+    case 'AUDIENCE_RELATIONSHIP':
+      return ['audienceTruth'];
+    case 'HUMOR_WIT':
+      return ['humorWit'];
+    case 'CULTURAL_INTELLIGENCE':
+      return ['culturalReferences', 'culturalSpecificity'];
+    case 'EMOTIONAL_RANGE':
+      return ['emotionalRange', 'humanity'];
+    case 'LANGUAGE_BEHAVIOR':
+      return ['founderLanguage'];
+    case 'TASTE_JUDGMENT':
+      return ['visualReferences', 'culturalReferences'];
+    case 'ARTIFACT_MAKER_BEHAVIOR':
+      return ['visualReferences'];
+    case 'HARD_BOUNDARIES':
+      return ['hardBoundaries', 'antiDirection'];
+    default:
+      return ['founderLanguage'];
+  }
+}
+
+/** Merge founder deepening answers into inventory so re-evaluation reflects new evidence. */
+export function applyDeepeningAnswersToInventory(
+  inventory: CharacterEvidenceInventory,
+  answers: BrandCharacterDeepeningAnswer[],
+): CharacterEvidenceInventory {
+  if (answers.length === 0) return inventory;
+  const merged: CharacterEvidenceInventory = {
+    ...inventory,
+    brandLore: [...inventory.brandLore],
+    brandPersonality: [...inventory.brandPersonality],
+    businessOffering: [...inventory.businessOffering],
+    audienceTruth: [...inventory.audienceTruth],
+    founderLanguage: [...inventory.founderLanguage],
+    antiDirection: [...inventory.antiDirection],
+    culturalReferences: [...inventory.culturalReferences],
+    visualReferences: [...inventory.visualReferences],
+    humorWit: [...inventory.humorWit],
+    socialInstinct: [...inventory.socialInstinct],
+    confidenceBehavior: [...inventory.confidenceBehavior],
+    humanity: [...inventory.humanity],
+    personalityTension: [...inventory.personalityTension],
+    emotionalRange: [...inventory.emotionalRange],
+    culturalSpecificity: [...inventory.culturalSpecificity],
+    hardBoundaries: [...inventory.hardBoundaries],
+  };
+
+  for (const answer of answers) {
+    const text = answer.rawAnswer.trim();
+    if (!text) continue;
+    merged.founderLanguage.push(text);
+    for (const key of inventoryKeysForDeepeningDomain(answer.domain)) {
+      const bucket = merged[key];
+      if (Array.isArray(bucket)) (bucket as string[]).push(text);
+    }
+  }
+
+  return merged;
+}
 
 export function inventoryCharacterEvidence(profile: BrandLoreProfile | null): CharacterEvidenceInventory {
   const empty: CharacterEvidenceInventory = {

@@ -57,6 +57,44 @@ export function buildVitestRichBrandLoreProfile(orgId = 'ndxbook-org'): BrandLor
   };
 }
 
+export function buildVitestInsufficientBrandLoreProfile(orgId = 'ndxbook-org'): BrandLoreProfile {
+  const profile = buildVitestRichBrandLoreProfile(orgId);
+  return {
+    ...profile,
+    readinessState: 'CORE_DIRECTION_READY',
+    brandBelief: confirmedField(null),
+    brandWorld: confirmedField(null),
+    coreObsessions: confirmedField(null),
+    audienceRelationship: confirmedField([]),
+    referenceLineage: confirmedField(null),
+    currentReferenceSignals: confirmedField(null),
+    materialVocabulary: confirmedField([]),
+    culturalOpposition: confirmedField([]),
+    emotionalPromise: confirmedField([]),
+    authenticLanguageSamples: confirmedField([]),
+    creativeTensions: confirmedField([]),
+    antiLanguage: confirmedField([]),
+    creativeAntiPatterns: confirmedField([]),
+    brandPersonality: profile.brandPersonality
+      ? {
+          ...profile.brandPersonality,
+          personalityReadinessState: 'PERSONALITY_READY',
+          witBehavior: confirmedField([]),
+          socialInstinct: confirmedField([]),
+          confidenceBehavior: confirmedField([]),
+          humanityBehavior: confirmedField([]),
+          disagreementBehavior: confirmedField([]),
+          selfCorrectionBehavior: confirmedField([]),
+          emotionalRange: confirmedField([]),
+          forbiddenBehaviors: confirmedField([]),
+          personalityTensions: confirmedField([]),
+          antiPersonality: confirmedField(null),
+          rawPersonalityAnswers: {},
+        }
+      : profile.brandPersonality,
+  };
+}
+
 export function buildVitestThinBrandLoreProfile(orgId = 'vitest-thin'): BrandLoreProfile {
   const now = new Date().toISOString();
   const personality = synthesizeBrandPersonalityProfile({ personalityAnswers: {} });

@@ -4,6 +4,7 @@ import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { site00ProjectsApi, Site00ProjectsApiError } from '../services/site00ProjectsApi';
 import {
   site00ProjectBrandCharacterArtifactProofsPath,
+  site00ProjectBrandCharacterDeepeningPath,
   site00ProjectBrandCharacterReadinessPath,
   site00ProjectPath,
 } from '../config/routes';
@@ -119,9 +120,14 @@ export default function ProjectBrandCharacterSynthesisPage() {
                     <p>The live API may still be deploying — retry in a minute or hard-refresh.</p>
                   )}
                   {actionError.includes('readiness') && (
-                    <Link to={site00ProjectBrandCharacterReadinessPath(projectSlug)} className="site00-btn">
-                      REVIEW READINESS
-                    </Link>
+                    <>
+                      <Link to={site00ProjectBrandCharacterReadinessPath(projectSlug)} className="site00-btn">
+                        REVIEW READINESS
+                      </Link>
+                      <Link to={site00ProjectBrandCharacterDeepeningPath(projectSlug)} className="site00-btn">
+                        CONTINUE DEEPENING
+                      </Link>
+                    </>
                   )}
                 </section>
               )}

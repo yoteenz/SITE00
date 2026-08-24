@@ -5,9 +5,10 @@
 import { createHash, randomUUID } from 'node:crypto';
 import type { BrandLoreProfile } from '../types.js';
 import { BRAND_CHARACTER_READINESS_METHODOLOGY_V1 } from './constants.js';
-import { inventoryCharacterEvidence } from './evidenceInventory.js';
+import { applyDeepeningAnswersToInventory, inventoryCharacterEvidence } from './evidenceInventory.js';
 import { evaluateAllCharacterReadinessDomains } from './domainEvaluation.js';
 import type {
+  BrandCharacterDeepeningAnswer,
   BrandCharacterEvidenceGap,
   BrandCharacterReadinessEvaluation,
   BrandCharacterReadinessState,
@@ -61,16 +62,38 @@ function resolveOverallState(params: {
   return 'CHARACTER_PARTIAL';
 }
 
+function applyDeepeningCompletionFloor(params: {
+  overallState: BrandCharacterReadinessState;
+  deepeningAnswers: BrandCharacterDeepeningAnswer[];
+  compiledQuestionIds: string[];
+}): BrandCharacterReadinessState {
+  if (params.overallState !== 'CHARACTER_INSUFFICIENT') return params.overallState;
+  if (params.compiledQuestionIds.length <= 0) return params.overallState;
+  const answeredIds = new Set(params.deepeningAnswers.map((a) => a.questionId));
+  const allAnswered = params.compiledQuestionIds.every((id) => answeredIds.has(id));
+  if (!allAnswered) return params.overallState;
+  return 'CHARACTER_PARTIAL';
+}
+
 export function evaluateBrandCharacterReadiness(params: {
   profile: BrandLoreProfile | null;
   projectId: string;
   organizationId: string;
+  deepeningAnswers?: BrandCharacterDeepeningAnswer[];
+  compiledQuestionIds?: string[];
   deepeningAnswerCount?: number;
 }): BrandCharacterReadinessEvaluation {
-  const inventory = inventoryCharacterEvidence(params.profile);
+  const deepeningAnswers = params.deepeningAnswers ?? [];
+  const baseInventory = inventoryCharacterEvidence(params.profile);
+  const inventory = applyDeepeningAnswersToInventory(baseInventory, deepeningAnswers);
   const domains = evaluateAllCharacterReadinessDomains(inventory);
   const gaps = gapsFromDomains(domains);
-  const overallState = resolveOverallState({ profile: params.profile, domains, gaps });
+  const rawOverallState = resolveOverallState({ profile: params.profile, domains, gaps });
+  const overallState = applyDeepeningCompletionFloor({
+    overallState: rawOverallState,
+    deepeningAnswers,
+    compiledQuestionIds: params.compiledQuestionIds ?? [],
+  });
   const fingerprint = compileReadinessFingerprint({
     profile: params.profile,
     deepeningAnswerCount: params.deepeningAnswerCount ?? 0,
