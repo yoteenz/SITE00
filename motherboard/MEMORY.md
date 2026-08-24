@@ -4589,6 +4589,16 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder:** GoDaddy deploy → Voice Lab → CURRENT tab → mark CLOSE on closest voice → button appears at top (no need to judge all four).
 
 
+---
+
+## 2026-08-24 — Founder calibration closed-loop progress panel
+
+- **Context:** Founder completed calibration work but room felt like an unclosed loop — no progress indicator, unclear what remained, no obvious path to synthesize/create character.
+- **Fix:** Persistent **YOUR PROGRESS** panel (checklist + bar + GO TO NEXT STEP); CASTING tab human checklist; **GENERATE CHARACTER READ** CTA when `readyForCharacterSynthesis`; neural Voice Lab judgments now satisfy `voice_differentiation` gate; CALIBRATION shows direct YES count (3 required, ALMOST does not count).
+- **Files:** `founderCharacterDiscoveryProgress.ts`, `ProjectFounderCharacterDiscoveryPage.tsx`, `ndxCastingReadinessBridge.ts`; tests.
+- **Founder:** GoDaddy deploy → progress panel at top shows ✓/○ for each gate; tap next step; when green, GENERATE CHARACTER READ then Embodied Character Discovery link.
+
+
 - **Context:** Founder reported YES I KNOW HER not unlocking casting; voice lab selections not appearing saved. Root cause: YES_I_KNOW_HER **was** persisting (`founderKnowsHer: true`) but P0.5E.4A calibration progress did not feed P0.5E.4 casting gates (still required 5 INSPECT trait confirmations). UI always showed "BLOCKED until YES_I_KNOW_HER" even after selection. Voice lab saved to API but UI showed no saved state.
 - **Fix:** `ndxCastingReadinessBridge.ts` — calibration moments + domain confirmations satisfy discovery/gates; refresh readiness on GET; voice calibration moment writes voice lab judgment; CASTING tab shows human-readable blockers; header shows dynamic status; voice lab shows **Saved:** label + success notice on tap.
 - **Tests:** `ndxCastingReadinessBridge.test.ts` (4 tests).
