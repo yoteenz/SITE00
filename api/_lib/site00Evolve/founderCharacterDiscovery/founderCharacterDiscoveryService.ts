@@ -3,9 +3,9 @@
  */
 
 import { buildCharacterSynthesisPreview } from '../../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/synthesisPreview.js';
-import { evaluateCharacterCastingReadiness } from '../../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/castingReadiness.js';
 import { evaluateExtendedHumanity } from '../../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/humanityEvaluation.js';
 import { applyVoiceLabJudgment } from '../../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/voiceLab.js';
+import { evaluateNdxFounderCharacterCastingReadiness } from '../../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/ndxCastingReadinessBridge.js';
 import type {
   FounderDiscoveryJudgment,
   FounderRecognitionResponse,
@@ -32,8 +32,6 @@ function nowIso(): string {
 }
 
 function refreshReadiness(run: NdxFounderCharacterDiscoveryRun): NdxFounderCharacterDiscoveryRun {
-  const visualReviewed = run.visualHypothesisReviews.some((v) => v.judgment !== null);
-  const voiceEstablished = run.voiceLabSamples.some((s) => Object.keys(s.judgments).length > 0);
   const humanityEvaluation = evaluateExtendedHumanity({
     contradictions: run.contradictions,
     flawProfile: run.flawProfile,
@@ -43,18 +41,9 @@ function refreshReadiness(run: NdxFounderCharacterDiscoveryRun): NdxFounderChara
     publicPrivate: run.publicPrivate,
     privateHumanityPresent: run.flawProfile.procrastinates.length > 0,
   });
-  const castingReadiness = evaluateCharacterCastingReadiness({
-    forensicReport: run.forensicReport,
-    contradictions: run.contradictions,
-    flawProfile: run.flawProfile,
-    intelligenceMap: run.intelligenceMap,
-    privateHumanityEstablished: run.flawProfile.procrastinates.length > 0,
-    voiceDifferentiationEstablished: voiceEstablished,
-    bookRelationshipEstablished: Boolean(run.bookDiscovery.whySheWritesThingsDown),
-    culturalBoundaryEstablished: run.culturalBoundaries.length > 0,
-    visualHypothesesReviewed: visualReviewed,
+  const castingReadiness = evaluateNdxFounderCharacterCastingReadiness({
+    run,
     humanityEvaluation,
-    founderRecognition: run.founderRecognition,
   });
   return { ...run, humanityEvaluation, castingReadiness, updatedAt: nowIso() };
 }
@@ -116,7 +105,17 @@ export async function getFounderCharacterCalibrationSynthesis(params: {
 export async function getFounderCharacterDiscoveryState(params: {
   projectId: string;
 }): Promise<NdxFounderCharacterDiscoveryRun | null> {
-  return store.getFounderCharacterDiscoveryRun(params.projectId);
+  const existing = await store.getFounderCharacterDiscoveryRun(params.projectId);
+  if (!existing) return null;
+  const refreshed = refreshReadiness(existing);
+  const readinessChanged =
+    refreshed.castingReadiness.state !== existing.castingReadiness.state ||
+    refreshed.castingReadiness.readyForCharacterSynthesis !== existing.castingReadiness.readyForCharacterSynthesis ||
+    refreshed.castingReadiness.blockingGates.join('|') !== existing.castingReadiness.blockingGates.join('|');
+  if (readinessChanged) {
+    return store.saveFounderCharacterDiscoveryRun(refreshed);
+  }
+  return refreshed;
 }
 
 export async function initializeFounderCharacterDiscoveryRoom(params: {

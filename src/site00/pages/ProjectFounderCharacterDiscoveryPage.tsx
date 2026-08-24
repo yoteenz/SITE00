@@ -15,6 +15,10 @@ import { VISUAL_HYPOTHESIS_JUDGMENTS } from '../../../shared/site00-studio-world
 import type { NdxFounderCharacterDiscoveryRun } from '../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/types';
 import type { CharacterCalibrationInteraction } from '../../../shared/site00-studio-world-production/founderCharacterCalibration/types';
 import { FOUNDER_CALIBRATION_REACTIONS } from '../../../shared/site00-studio-world-production/founderCharacterCalibration/constants';
+import {
+  castingStatusHeadline,
+  formatCastingBlockingGate,
+} from '../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/ndxCastingReadinessBridge';
 import '../styles/site00-replay-execution.css';
 
 type RoomSection =
@@ -152,7 +156,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
           <section className="site00-experiment-g__panel">
             <h2>CHARACTER CALIBRATION</h2>
             <p>The system proposes. You calibrate. Recognition — not invention.</p>
-            <p><strong>CASTING:</strong> BLOCKED until YES_I_KNOW_HER · <strong>FAL:</strong> 0</p>
+            <p><strong>{run ? castingStatusHeadline(run) : 'CASTING: Enter discovery room to begin'}</strong> · <strong>FAL:</strong> 0</p>
             {actionError && (
               <section className="site00-experiment-g__panel" role="alert">
                 <h3>Action failed</h3>
@@ -507,18 +511,25 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                         {VOICE_LAB_CHANNELS.map((channel) => (
                           <div key={channel}>
                             <p><strong>{channel.replace(/_/g, ' ')}:</strong> {sample.expressions[channel]}</p>
+                            {sample.judgments[channel] && (
+                              <p style={{ fontSize: '0.85rem' }}>
+                                <strong>Saved:</strong> {sample.judgments[channel]!.replace(/_/g, ' ')}
+                              </p>
+                            )}
                             <button
                               type="button"
                               className="site00-btn"
                               disabled={busy}
                               onClick={() =>
-                                void act(() =>
-                                  site00ProjectsApi.founderCharacterDiscoveryVoiceJudgment(
-                                    projectSlug,
-                                    sample.sampleId,
-                                    channel,
-                                    'YES_EXACTLY',
-                                  ),
+                                void act(
+                                  () =>
+                                    site00ProjectsApi.founderCharacterDiscoveryVoiceJudgment(
+                                      projectSlug,
+                                      sample.sampleId,
+                                      channel,
+                                      'YES_EXACTLY',
+                                    ),
+                                  { successMessage: `${channel.replace(/_/g, ' ')} saved — THAT'S HER` },
                                 )
                               }
                             >
@@ -529,13 +540,15 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                               className="site00-btn"
                               disabled={busy}
                               onClick={() =>
-                                void act(() =>
-                                  site00ProjectsApi.founderCharacterDiscoveryVoiceJudgment(
-                                    projectSlug,
-                                    sample.sampleId,
-                                    channel,
-                                    'TOO_BRAND_LIKE',
-                                  ),
+                                void act(
+                                  () =>
+                                    site00ProjectsApi.founderCharacterDiscoveryVoiceJudgment(
+                                      projectSlug,
+                                      sample.sampleId,
+                                      channel,
+                                      'TOO_BRAND_LIKE',
+                                    ),
+                                  { successMessage: `${channel.replace(/_/g, ' ')} saved — TOO BRAND-LIKE` },
                                 )
                               }
                             >
@@ -679,13 +692,18 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                     <p>Humanity evaluation pass: {String(casting.humanityEvaluationPass)}</p>
                     {casting.blockingGates.length > 0 && (
                       <>
-                        <p><strong>Blocking gates:</strong></p>
+                        <p><strong>What&apos;s still blocking:</strong></p>
                         <ul>
                           {casting.blockingGates.map((g) => (
-                            <li key={g}>{g}</li>
+                            <li key={g}>{formatCastingBlockingGate(g)}</li>
                           ))}
                         </ul>
                       </>
+                    )}
+                    {casting.founderKnowsHer && !casting.readyForCharacterSynthesis && (
+                      <p style={{ fontSize: '0.9rem' }}>
+                        YES I KNOW HER is saved. Complete the remaining gates above — usually via CALIBRATION moments or INSPECT tabs.
+                      </p>
                     )}
                     <p>Humanity: {run.humanityEvaluation.passes ? 'PASS' : run.humanityEvaluation.failures.join(', ')}</p>
                   </>

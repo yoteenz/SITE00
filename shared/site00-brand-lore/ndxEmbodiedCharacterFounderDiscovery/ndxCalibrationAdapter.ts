@@ -5,6 +5,7 @@
 
 
 import type { NdxFounderCharacterDiscoveryRun } from './types.js';
+import { applyVoiceLabJudgment } from '../../site00-studio-world-production/embodiedCharacterFounderDiscovery/voiceLab.js';
 import type {
   CharacterCalibrationInteraction,
   CharacterCalibrationState,
@@ -347,6 +348,29 @@ export function ndxApplyCalibrationReaction(
         ),
       };
     }
+  }
+
+  if (
+    (params.reaction === 'YES_THATS_HER' || params.reaction === 'ALMOST') &&
+    params.interactionId === 'cal-voice-misleading-viral'
+  ) {
+    run = {
+      ...run,
+      voiceLabSamples: run.voiceLabSamples.map((sample) =>
+        applyVoiceLabJudgment(sample, 'TEXT_TO_FRIEND', 'YES_EXACTLY'),
+      ),
+    };
+  }
+
+  if (params.reaction === 'YES_THATS_HER' && params.interactionId === 'cal-visual-cluster') {
+    run = {
+      ...run,
+      visualHypothesisReviews: run.visualHypothesisReviews.map((review, index) =>
+        index === 0 && review.judgment === null
+          ? { ...review, judgment: 'YES' as const, note: 'Confirmed via calibration cluster' }
+          : review,
+      ),
+    };
   }
 
   const nextInteraction =
