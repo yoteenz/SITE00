@@ -89,22 +89,38 @@ function requirement(
   };
 }
 
+function requirementIdForRole(proofId: DesignProofManifest['proofId'], role: string): string {
+  return `${proofId}-${role}`.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+}
+
 export function compileSite00ProjectsIndexProofManifest(params: {
   artDirection: SurfaceExperienceArtDirection;
   workspaceCanon: ProjectWorkspaceCanon;
   existingReusableAssetIds?: string[];
 }): Site00ProjectsIndexProofManifest {
   const proofId = 'SITE00_PROJECTS_INDEX' as const;
-  const reusableIds = params.existingReusableAssetIds ?? [];
+  const reusableSet = new Set(params.existingReusableAssetIds ?? []);
+  const reusableFor = (role: string) => {
+    const id = requirementIdForRole(proofId, role);
+    return reusableSet.has(id) ? id : null;
+  };
 
   const requirements: DesignProofAssetRequirement[] = [
     requirement(proofId, 'HOST_ENVIRONMENT', 'BACKGROUND_OR_ENVIRONMENT', 'SITE 00 universal working environment depth — not white document page', {
-      reusableAssetId: reusableIds[0] ?? null,
+      reusableAssetId: reusableFor('HOST_ENVIRONMENT'),
     }),
-    requirement(proofId, 'WORKBENCH_FOCAL_ARTIFACT', 'PRIMARY_ARTWORK', 'Active work focal zone — asymmetric priority, not equal cards'),
-    requirement(proofId, 'DOSSIER_DEPTH_LAYER', 'SUPPORTING_ARTWORK', 'Dossier structural sophistication — layered evidence without literal case file'),
-    requirement(proofId, 'PROJECT_SPECIMEN_GRAPHIC', 'GRAPHIC_INTERVENTION', 'Projects as working artifacts — NDXBOOK/Frontal Slayer/AIO accommodate without identical branding'),
-    requirement(proofId, 'HOST_INTEGRATION_REFERENCE', 'UI_INTEGRATION_REFERENCE', 'SITE 00 host recognition — navigation and control grammar'),
+    requirement(proofId, 'WORKBENCH_FOCAL_ARTIFACT', 'PRIMARY_ARTWORK', 'Active work focal zone — asymmetric priority, not equal cards', {
+      reusableAssetId: reusableFor('WORKBENCH_FOCAL_ARTIFACT'),
+    }),
+    requirement(proofId, 'DOSSIER_DEPTH_LAYER', 'SUPPORTING_ARTWORK', 'Dossier structural sophistication — layered evidence without literal case file', {
+      reusableAssetId: reusableFor('DOSSIER_DEPTH_LAYER'),
+    }),
+    requirement(proofId, 'PROJECT_SPECIMEN_GRAPHIC', 'GRAPHIC_INTERVENTION', 'Projects as working artifacts — NDXBOOK/Frontal Slayer/AIO accommodate without identical branding', {
+      reusableAssetId: reusableFor('PROJECT_SPECIMEN_GRAPHIC'),
+    }),
+    requirement(proofId, 'HOST_INTEGRATION_REFERENCE', 'UI_INTEGRATION_REFERENCE', 'SITE 00 host recognition — navigation and control grammar', {
+      reusableAssetId: reusableFor('HOST_INTEGRATION_REFERENCE'),
+    }),
   ];
 
   return finalizeManifest(proofId, 'SITE00', requirements) as Site00ProjectsIndexProofManifest;
@@ -117,17 +133,31 @@ export function compileNdxbookProjectHomeProofManifest(params: {
   existingReusableAssetIds?: string[];
 }): NdxbookProjectHomeProofManifest {
   const proofId = 'NDXBOOK_PROJECT_HOME' as const;
-  const reusableIds = params.existingReusableAssetIds ?? [];
+  const reusableSet = new Set(params.existingReusableAssetIds ?? []);
+  const reusableFor = (role: string) => {
+    const id = requirementIdForRole(proofId, role);
+    return reusableSet.has(id) ? id : null;
+  };
 
   const requirements: DesignProofAssetRequirement[] = [
     requirement(proofId, 'NDXBOOK_ENVIRONMENT', 'BACKGROUND_OR_ENVIRONMENT', 'NDXBOOK client environment within SITE 00 workspace shell', {
-      reusableAssetId: reusableIds[0] ?? null,
+      reusableAssetId: reusableFor('NDXBOOK_ENVIRONMENT'),
     }),
-    requirement(proofId, 'NDXBOOK_PRIMARY_ARTWORK', 'PRIMARY_ARTWORK', 'Client-native visual specimen — not name-only recognition'),
-    requirement(proofId, 'WORKSPACE_STRUCTURE_LAYER', 'SUPPORTING_ARTWORK', 'SITE 00 workspace grammar — shell and workflow recognition'),
-    requirement(proofId, 'EXPRESSIVE_TYPE_ARTIFACT', 'EXPRESSIVE_TYPE_ARTIFACT', 'Experimental visual typography — not Martian Mono, not Brand Canon'),
-    requirement(proofId, 'CLIENT_GRAPHIC_INTERVENTION', 'GRAPHIC_INTERVENTION', 'NDXBOOK accent and material behavior'),
-    requirement(proofId, 'HOST_CLIENT_SEPARATION_REFERENCE', 'UI_INTEGRATION_REFERENCE', 'Both SITE 00 host and NDXBOOK client visible'),
+    requirement(proofId, 'NDXBOOK_PRIMARY_ARTWORK', 'PRIMARY_ARTWORK', 'Client-native visual specimen — not name-only recognition', {
+      reusableAssetId: reusableFor('NDXBOOK_PRIMARY_ARTWORK'),
+    }),
+    requirement(proofId, 'WORKSPACE_STRUCTURE_LAYER', 'SUPPORTING_ARTWORK', 'SITE 00 workspace grammar — shell and workflow recognition', {
+      reusableAssetId: reusableFor('WORKSPACE_STRUCTURE_LAYER'),
+    }),
+    requirement(proofId, 'EXPRESSIVE_TYPE_ARTIFACT', 'EXPRESSIVE_TYPE_ARTIFACT', 'Experimental visual typography — not Martian Mono, not Brand Canon', {
+      reusableAssetId: reusableFor('EXPRESSIVE_TYPE_ARTIFACT'),
+    }),
+    requirement(proofId, 'CLIENT_GRAPHIC_INTERVENTION', 'GRAPHIC_INTERVENTION', 'NDXBOOK accent and material behavior', {
+      reusableAssetId: reusableFor('CLIENT_GRAPHIC_INTERVENTION'),
+    }),
+    requirement(proofId, 'HOST_CLIENT_SEPARATION_REFERENCE', 'UI_INTEGRATION_REFERENCE', 'Both SITE 00 host and NDXBOOK client visible', {
+      reusableAssetId: reusableFor('HOST_CLIENT_SEPARATION_REFERENCE'),
+    }),
   ];
 
   return finalizeManifest(proofId, 'SITE00_PLUS_NDXBOOK', requirements) as NdxbookProjectHomeProofManifest;

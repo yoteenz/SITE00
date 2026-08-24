@@ -3970,3 +3970,16 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Code fix (branch `cursor/origin-capture-loader-fix-4f59`):** Playwright `addInitScript` sets `site00-immersive-complete` session before navigation; clear stale FAILED receipts on new generation attempt.
 - **Founder action:** Hard-refresh visual development — all 3 reference thumbnails + **FOUNDER_REVIEW** status should show. Judgment buttons ready.
 
+---
+
+## 2026-08-24 — FOUNDER_REVIEW reached; manifest counts + mobile reference thumbs
+
+- **Context:** Founder screenshots show **FOUNDER_REVIEW** with 5 GENERATED INTERFACE ASSETS (PREVIEW links) and judgment buttons — major progress. Remaining: blank SITE 00 ENVIRONMENT thumbnail on mobile; UI still showed REUSABLE: 1 · MISSING: 4 despite 5 assets.
+- **Root causes:**
+  - `compileSite00ProjectsIndexProofManifest` only passed `existingReusableAssetIds[0]` to HOST_ENVIRONMENT — other 4 assets never marked reusable after generation.
+  - Origin reference stored as **1.1MB PNG** — mobile Safari likely failed to render; origin page also very light (mean luminance ~226) at thumbnail size.
+  - control + ndxbook captures identical (both unauthenticated SIGN IN).
+- **Fix (branch `cursor/visual-dev-manifest-thumb-fix-4f59`):** Map all generated requirement IDs to reusable flags; refresh manifest + interfaceAssetManifest after successful asset generation; capture references as **webp** (canonical path); ReferenceThumbnail `onError` fallback.
+- **Production reconciled:** Manifest now 5 reusable / 0 missing; refs recaptured as webp.
+- **Founder action:** Hard-refresh; environment thumb should load. Tap judgment when ready.
+
