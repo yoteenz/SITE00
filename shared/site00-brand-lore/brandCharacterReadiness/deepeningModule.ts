@@ -58,12 +58,7 @@ export function compileBrandCharacterDeepeningModule(params: {
     }
   }
 
-  const status =
-    questions.length > 0
-      ? 'COMPILED'
-      : params.evaluation.overallState === 'CHARACTER_READY'
-        ? 'NOT_REQUIRED'
-        : 'GAPS_REMAIN';
+  const status = questions.length > 0 ? 'COMPILED' : 'GAPS_REMAIN';
 
   return {
     moduleId: `bcdm-${params.evaluation.projectId}-${randomUUID().slice(0, 8)}`,
