@@ -4329,3 +4329,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Boundaries:** FAL_REQUESTS=0 for refresh/forecast; no autonomous publishing; Brand Character/Canon unchanged; P0.5D.1 pipeline preserved.
 - **Tests:** +8 grouped P0.5D.2 tests (50 requirements). P0.5D.1 regressions green. Build green.
 
+---
+
+## 2026-08-24 — V2.3 Founder Revision Notes + Auto FAL Re-render Pipeline
+
+- **Context:** Revision labels (NEEDS_LIME, etc.) previously saved judgment only — no note, no FAL re-render.
+- **Pipeline:** Note modal → contract update → FAL with founder revision directive; parent asset as reference when available.
+- **UI/API:** `marketing_expression_experiment_01_v23_founder_revision`; approval labels save immediately.
+
+---
+
+## 2026-08-24 — V2.3 slide selection fix + signature-lime board readiness banner
+
+- **Context:** Founder could not select V2.3 grid cells on mobile; asked whether board has signature-lime FAL instructions or needs new board version.
+- **Selection fix:** `selectedId` grid highlight; images `pointer-events: none`; revision modal blocks grid until cancel; SELECTED headline.
+- **Board readiness:** Banner detects `SIGNATURE LIME REQUIREMENT` in prompts. Legacy boards: re-formulate V2.3 (clears images) or per-slide NEEDS LIME revision. No V2.4 needed.
+
