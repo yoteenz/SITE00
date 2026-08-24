@@ -4234,3 +4234,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** UI hid **GENERATE ALL** when any artifact had `generationStatus === 'GENERATING'` or run status was `EXPERIMENT_01_*_GENERATING`. `activeGenerationAttempts` is in-memory only — after redeploy, persisted GENERATING flags remained with no worker.
 - **Fix:** `reconcileStaleExperiment01Generation()` on every `getBrandMarketingExpressionState` GET when no active worker — resets stale GENERATING artifacts to `NOT_GENERATED`, run back to `*_READY`. Batch worker `finalizeExperiment01BatchGeneration` + per-artifact try/catch on failure. UI: show **GENERATE REMAINING N FIRST SLIDES (FAL)** when partial complete; progress text only while worker actually running. Tests: `experiment01StaleGeneration.test.ts`.
 
+---
+
+## 2026-08-24 — P0.5E.1 NDX Daily Publishing Cadence + Cross-Platform Content Derivation
+
+- **Context:** Extend P0.5D/P0.5E so NDXBOOK can operate high-volume daily publishing (3 feed, 4 story, 1–2 reels/day) without requiring 9–10 unrelated ideas daily. Core principle: **reuse thinking, re-derive expression** — one Content Intelligence → many platform-native expressions.
+- **Generic domain:** `shared/site00-studio-world-production/dailyPublishingCadence/` — PublishingCadencePolicy, DailyPrimaryContentEvent, CrossPlatformContentIntelligence, PlatformContentExpression, CrossPlatformDerivationPolicy, DailyCrossPlatformContentMatrix, DailyStoryCluster, SecondReelEligibility, editorial health, content fatigue, evergreen reserve, watch queue, rapid response, platform-native QA, shared research, weekly production board, video hook round, channel expression learning, cost model.
+- **NDX adapter:** `shared/site00-brand-lore/dailyPublishingCadence/` — 3 feed / 4 story / 1 reel target / 2 max normal; ~21 primary events/week; self-checkout 6-platform derivation example.
+- **Service:** `dailyPublishingCadenceService.ts` — configure, plan week, build daily plan, approve weekly intelligence slate. API: `daily_publishing_*`. UI: `/projects/ndxbook/content-operations/daily-plan` (daily/week/event/platform views).
+- **Boundaries:** No autonomous publishing; Brand Character/Canon unchanged; generic models NDX-free; production ≠ publishing calendar.
+- **Tests:** +61 P0.5E.1 tests. Full suite 2288 passing. Build green.
+
