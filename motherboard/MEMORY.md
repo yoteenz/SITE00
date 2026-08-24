@@ -4515,3 +4515,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `artBoardMaterialityP05C4B1.test.ts` — new case generates `bma-exp01-v23-3` after supersession with current C4B.1 prompt.
 - **Founder:** Select apology slide → tap **GENERATE CURRENT** (or REGENERATE if image exists). Batch generate remains blocked after supersession by design.
 
+---
+
+## 2026-08-24 — Founder calibration YES_I_KNOW_HER + voice lab fixes
+
+- **Context:** Founder reported YES I KNOW HER not unlocking casting; voice lab selections not appearing saved. Root cause: YES_I_KNOW_HER **was** persisting (`founderKnowsHer: true`) but P0.5E.4A calibration progress did not feed P0.5E.4 casting gates (still required 5 INSPECT trait confirmations). UI always showed "BLOCKED until YES_I_KNOW_HER" even after selection. Voice lab saved to API but UI showed no saved state.
+- **Fix:** `ndxCastingReadinessBridge.ts` — calibration moments + domain confirmations satisfy discovery/gates; refresh readiness on GET; voice calibration moment writes voice lab judgment; CASTING tab shows human-readable blockers; header shows dynamic status; voice lab shows **Saved:** label + success notice on tap.
+- **Tests:** `ndxCastingReadinessBridge.test.ts` (4 tests).
+- **Founder:** Continue CALIBRATION (6+ moments) → I KNOW HER → CASTING tab lists any remaining gates. Voice lab: tap THAT'S HER — should show Saved line. Railway API redeploy required for backend bridge.
+
