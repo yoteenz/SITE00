@@ -4712,3 +4712,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Phase 3 recomposition:** `FounderWorkspaceShell.hideWorkspaceHeader`; Campaign Board page opts in. Asymmetric lanes (Pages primary, Margins secondary, Motion MediaBand). Production actions → `QuietAction`/`InlineMeta` periphery; panel removed.
 - **Shipped:** PR **#416** merged to `main`. Deploy **v84**. Tests: `campaignBoardP0VR1C.test.ts` (21); full suite **2835** pass; build green. FAL=0. Content Operations full recomposition deferred.
 
+---
+
+## 2026-08-24 — P0.CR.1 Cinematic Realism Lab (multi-provider evaluation pipeline)
+
+- **Context:** Build reusable Studio World Realism Lab for luxury lifestyle / founder / influencer-grade AI video evaluation — multi-provider lanes, prompt compiler, hybrid still→video, founder review.
+- **Architecture:** `shared/site00-studio-world-production/cinematicRealismLab/` — shot bible (10 types), realism canon, provider registry (Higgsfield, MiniMax/Hailuo, Kling, Veo, Runway, Hybrid), prompt compiler, reference packs, evaluation taxonomy, hybrid pipeline stages, experiment orchestrator, asset lineage, decision summary. Project adapters for ndxbook + frontal-slayer.
+- **API:** `cinematic_realism_lab_*` on `/api/site00/projects` — founder-triggered queue/simulate/judgment/finalize only; honest readiness states (AUTH_REQUIRED / SCHEMA_REVIEW); placeholder assets until live provider wiring.
+- **UI:** `/projects/:slug/realism-lab` (+ brief, providers, runs, review, continuity, decision). Visual lane comparison grid + founder judgments. Pilot: LUXURY CREATOR REALISM TEST 01.
+- **Shipped:** PR **#417** merged to `main`. Deploy **v85**. Tests: `cinematicRealismLabP0CR1.test.ts` (15); full suite **2850** pass. FAL=0. Brand Character/Canon unchanged.
+
