@@ -3,6 +3,8 @@
  * Visual Memory ≠ Canon. Every reference declares what it is authoritative for.
  */
 
+import type { VisualReferenceCaptureMetadata } from './captureAuthTypes.js';
+
 export type VisualReferenceSourceType =
   | 'AUTOMATED_ROUTE_CAPTURE'
   | 'FOUNDER_SUPPLIED'
@@ -136,6 +138,7 @@ export type VisualReferenceRecord = {
   stalenessState: StalenessState;
   supersedesReferenceId: string | null;
   notes: string | null;
+  captureMetadata?: VisualReferenceCaptureMetadata | null;
   createdAt: string;
   updatedAt: string;
 };

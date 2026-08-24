@@ -25,7 +25,7 @@ export function proofHasComposedInterfaceEvidence(proof: SurfaceDesignProof): bo
   return (
     proof.surfaceGenerationMode === 'COMPOSED_INTERFACE' &&
     Boolean(proof.surfaceVisualAuthorityPackage) &&
-    proof.generatedAssets.length > 0
+    (proof.generatedAssets.length > 0 || Boolean(proof.interfaceSlotResolution))
   );
 }
 

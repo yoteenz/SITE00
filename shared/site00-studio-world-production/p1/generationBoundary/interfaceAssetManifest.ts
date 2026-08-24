@@ -40,10 +40,15 @@ export type InterfaceAssetManifest = {
   reusableCount: number;
   missingCount: number;
   generationRequiredCount: number;
+  foundCount: number;
+  eligibleCount: number;
+  reviewRequiredCount: number;
+  rejectedCount: number;
   fullPageProofRequired: false;
   estimatedFalCalls: number;
   estimatedCostUsd: number;
   compiledAt: string;
+  purposeGated: boolean;
 };
 
 const MANIFEST_ROLE_MAP: Record<string, InterfaceAssetRole> = {
@@ -89,10 +94,61 @@ export function compileInterfaceAssetManifest(params: {
     reusableCount,
     missingCount,
     generationRequiredCount,
+    foundCount: reusableCount,
+    eligibleCount: reusableCount,
+    reviewRequiredCount: 0,
+    rejectedCount: 0,
     fullPageProofRequired: false,
     estimatedFalCalls: generationRequiredCount,
     estimatedCostUsd: params.designProofManifest.estimatedCostUsd,
     compiledAt: new Date().toISOString(),
+    purposeGated: false,
+  };
+}
+
+export function compilePurposeGatedInterfaceManifest(params: {
+  surfaceId: string;
+  slotResolution: import('./interfaceVisualSlot.js').InterfaceSlotResolutionResult;
+  designProofManifest: DesignProofManifest;
+}): InterfaceAssetManifest {
+  const { summary, resolved, slots } = params.slotResolution;
+
+  const requirements: InterfaceAssetRequirement[] = resolved.map((material) => {
+    const slot = slots.find((s) => s.slotId === material.slotId);
+    return {
+      requirementId: material.slotId,
+      assetRole: (slot?.semanticRole ?? 'EDITORIAL_ARTWORK') as InterfaceAssetRole,
+      sourceManifestRole: slot?.replacesLegacyRoles?.[0] ?? slot?.semanticRole ?? material.slotId,
+      purpose: slot?.purpose ?? material.slotId,
+      reusable: material.status === 'ELIGIBLE',
+      reusableAssetId: material.status === 'ELIGIBLE' ? material.assetId : null,
+      missing: material.status === 'MISSING',
+      generationRequired: material.generationRequired,
+      preferExistingArtifact: true,
+    };
+  });
+
+  const manifestId = createHash('sha256')
+    .update(`${params.surfaceId}:purpose-gated:${requirements.map((r) => r.requirementId).join(',')}`)
+    .digest('hex')
+    .slice(0, 16);
+
+  return {
+    manifestId,
+    surfaceId: params.surfaceId,
+    requirements,
+    reusableCount: summary.eligible,
+    missingCount: summary.missing,
+    generationRequiredCount: summary.generationRequired,
+    foundCount: summary.found,
+    eligibleCount: summary.eligible,
+    reviewRequiredCount: summary.reviewRequired,
+    rejectedCount: summary.rejected,
+    fullPageProofRequired: false,
+    estimatedFalCalls: summary.estimatedFalCalls,
+    estimatedCostUsd: summary.estimatedCostUsd,
+    compiledAt: new Date().toISOString(),
+    purposeGated: true,
   };
 }
 

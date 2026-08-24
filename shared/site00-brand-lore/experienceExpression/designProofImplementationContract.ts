@@ -46,6 +46,45 @@ export function compileDesignProofImplementationContract(params: {
     approved: false,
   }));
 
+  if (composedInterface && assetBindings.length === 0 && proof.interfaceSlotResolution) {
+    for (const material of proof.interfaceSlotResolution.resolved) {
+      if (material.status !== 'ELIGIBLE' || !material.storagePath) continue;
+      assetBindings.push({
+        requirementId: material.slotId,
+        assetId: material.assetId ?? material.slotId,
+        assetRole: material.sourceType,
+        assetFamily: 'RESOLVED_PROJECT_ARTIFACT',
+        surfaceId: proof.proofId,
+        pageRoute: proof.surface,
+        responsiveVariants: [{ deviceClass: 'DESKTOP' as const, storagePath: material.storagePath }],
+        interactionRelationship: 'Purpose-gated resolved visual material',
+        fallbackBehavior: 'Use empty state — do not fabricate filler',
+        productionState: 'VISUAL_DEVELOPMENT',
+        approved: true,
+      });
+    }
+    if (assetBindings.length === 0) {
+      assetBindings.push({
+        requirementId: 'purpose-gated-slot-resolution',
+        assetId: proof.interfaceSlotResolution.summary.slotCount.toString(),
+        assetRole: 'PURPOSE_GATED_RESOLUTION',
+        assetFamily: 'OPERATIONAL_TRUTH',
+        surfaceId: proof.proofId,
+        pageRoute: proof.surface,
+        responsiveVariants: [
+          {
+            deviceClass: 'DESKTOP' as const,
+            storagePath: approvedStoragePath,
+          },
+        ],
+        interactionRelationship: 'Composer assembles from real project data + host authority',
+        fallbackBehavior: 'Empty operational states remain truthful',
+        productionState: 'VISUAL_DEVELOPMENT',
+        approved: true,
+      });
+    }
+  }
+
   const functionalFingerprint = createHash('sha256')
     .update(JSON.stringify(proof.functionalCanon.items.map((i) => i.id)))
     .digest('hex')
@@ -89,7 +128,10 @@ export function compileDesignProofImplementationContract(params: {
     responsiveBehavior: [proof.artDirection.responsiveTransformation],
     motionBehavior: [proof.artDirection.motionBehavior],
     approvedVisualReferences: composedInterface
-      ? proof.generatedAssets.map((a) => a.storagePath)
+      ? [
+          ...proof.generatedAssets.map((a) => a.storagePath),
+          ...(proof.referencePackage?.references.map((r) => r.storagePath).filter(Boolean) ?? []),
+        ]
       : composed
         ? [composed.storagePath]
         : [],
@@ -144,7 +186,10 @@ export function orchestrationRequiresValidContract(contract: ExperienceImplement
 }
 
 export function composerReceivesApprovedVisualReference(contract: ExperienceImplementationContract): boolean {
-  return (contract.approvedVisualReferences?.length ?? 0) > 0 && Boolean(contract.approvedDesignProofStoragePath);
+  return (
+    (contract.approvedVisualReferences?.length ?? 0) > 0 &&
+    Boolean(contract.approvedDesignProofStoragePath)
+  );
 }
 
 export function composerSubstitutionProhibited(contract: ExperienceImplementationContract): boolean {

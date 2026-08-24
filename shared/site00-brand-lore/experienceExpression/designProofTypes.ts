@@ -19,11 +19,13 @@ import type {
 } from '../../site00-visual-reference/types.js';
 import type {
   InterfaceAssetManifest,
+  InterfaceSlotResolutionResult,
   ReferencePipelineStatus,
   SurfaceGenerationMode,
   SurfaceVisualAuthorityPackage,
   VisualGenerationExecutionTrace,
 } from '../../site00-studio-world-production/p1/generationBoundary/index.js';
+import type { AuthenticatedReferenceStatus } from '../../site00-visual-reference/authenticatedReferencePrecondition.js';
 
 export type DesignProofGenerationReceipt = {
   receiptId: string;
@@ -98,6 +100,8 @@ export type SurfaceDesignProof = {
   referencePipelineStatus: ReferencePipelineStatus;
   surfaceVisualAuthorityPackage: SurfaceVisualAuthorityPackage | null;
   interfaceAssetManifest: InterfaceAssetManifest | null;
+  interfaceSlotResolution: InterfaceSlotResolutionResult | null;
+  authenticatedReferenceStatus: AuthenticatedReferenceStatus[];
   executionTraces: VisualGenerationExecutionTrace[];
 };
 
