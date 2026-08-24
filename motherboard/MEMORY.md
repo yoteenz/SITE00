@@ -4293,3 +4293,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Boundaries:** Brand Character/Canon unchanged; Experiment D/F/G, P0.5C, P0.5E, P0.5E.1 cadence unchanged; no FAL during forecasting; no generation on page load; no autonomous publishing; rapid response cannot bypass verification or founder approval.
 - **Tests:** +12 grouped P0.5D.1 tests (~50 requirements in `culturalIntelligenceP05D1.test.ts`). P0.5D test 58 updated. Cadence + content ops regressions green. Build green.
 
+---
+
+## 2026-08-24 — P0.5C.4A Human-Made Mark System + Lime Intervention Governance + Anti-AI Artifact Correction
+
+- **Context:** Surgical refinement of P0.5C.4 V2.3 after first generated artifact review. Materiality directionally successful; gaps were under-utilized lime as NDX intervention color and AI-looking pictograms/micro-details. Core correction: maker presence must become visually undeniable without undoing art-board materiality.
+- **Domain:** `shared/site00-brand-lore/artBoardMateriality/` — `NDXHumanMadeMarkSystem`, `HumanMarkConsistencyEvaluation`, `NDXLimeInterventionSystem`, `LimeInterventionDensity`, `LimeApplicationMode`, `AntiAIGeneratedArtifactEvaluation`, `MakerEvidenceStrength`, `LimeFeedDistanceEvaluation`, `HandMarkLegibilityEvaluation`, `FeedMakerRhythm`, north-star calibrations (HUMAN_MARK / LIME_INTERVENTION / MAKER_AUTHENTICITY).
+- **V2.3 revision:** Surgical `applyV23HumanMadeRevision()` preserves parent fingerprint; topic 1 (subscription) gets 15 lime hand-drawn ownership icons + marker circles/arrows; varied maker behavior across board; topic 7 intentional minimal.
+- **FAL V2.3 prompt:** Extended with human-made mark language, lime intervention behavior, anti-AI/vector-icon negative constraints (41 sections).
+- **UI:** V2.3 review shows lime density, maker evidence, anti-AI result, human-made gate; +15 founder judgments (MORE_LIME, MAKE_ICONS_HAND_DRAWN, THATS_NDX, etc.).
+- **Boundaries:** P0.5C.4 materiality preserved; P0.5C.3 character retained; FAL founder-triggered only; parent V2.3 fingerprint immutable.
+- **Tests:** +13 P0.5C.4A tests; P0.5C.4 regressions updated. Build green.
+
