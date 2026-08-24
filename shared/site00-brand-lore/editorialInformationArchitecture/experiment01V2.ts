@@ -296,7 +296,10 @@ export function v2UsesSameNineTopics(v2: MarketingExpressionExperiment01V2): boo
 }
 
 export function v2ContractReviewBeforeGeneration(experiment: MarketingExpressionExperiment01V2): boolean {
-  return experiment.status === 'CONTRACTS_READY' && experiment.contracts.length === 9;
+  return (
+    (experiment.status === 'CONTRACTS_READY' || experiment.status === 'GENERATING') &&
+    experiment.contracts.length === 9
+  );
 }
 
 export function experiment01V2GeneratedByDefault(): false {

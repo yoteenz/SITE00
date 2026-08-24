@@ -442,7 +442,7 @@ describe('P0.5C Brand Marketing Expression', () => {
     expect(MARKETING_PAGE).toContain('FOUNDER NORTH STAR');
     expect(MARKETING_PAGE).toContain('NOT FINAL IDENTITY');
     expect(EXP01_PAGE).toContain('FORMULATE EXPERIMENT 01');
-    expect(EXP01_PAGE).toContain('GENERATE FIRST SLIDE');
+    expect(EXP01_PAGE).toContain('GENERATE ALL NINE FIRST SLIDES');
   });
 
   it('51. pipeline readiness flags', () => {

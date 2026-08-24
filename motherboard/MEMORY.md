@@ -4209,3 +4209,10 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Boundaries:** V1/V2 immutable. No auto FAL generation. Generated illustration ≠ factual evidence. Random celebrity/nostalgia/reference stuffing blocked. P0.5C.1 hierarchy, uppercase, typography roles, information budget preserved. Brand Character/Canon, Experiment F/G, Product Expression, World Formation unchanged.
 - **Tests:** +59 P0.5C.2 tests (`culturalVisualParticipationP05C2.test.ts`). P0.5C + P0.5C.1 + P0.5D still passing. Build green. `EXPERIMENT_01_CULTURAL_VISUALS_GENERATED = false` unless founder triggers.
 
+---
+
+## 2026-08-24 — Experiment 01 batch FAL generation (all nine slides)
+
+- **Context:** Founder reported Experiment 01 only allowed generating one slide at a time (per selected artifact). UX should be one founder-triggered button that generates all nine first slides in the background with polling progress.
+- **Fix:** `generateAllExperiment01ArtifactAssets`, `generateAllExperiment01V2ArtifactAssets`, `generateAllExperiment01V21ArtifactAssets` — background worker loops pending artifacts, saves after each. API `*_generate_all` actions. UI: **GENERATE ALL NINE FIRST SLIDES (FAL)** above 3×3 grid; polls during GENERATING; shows X/9 progress. Contract review gates allow GENERATING status during active batch.
+
