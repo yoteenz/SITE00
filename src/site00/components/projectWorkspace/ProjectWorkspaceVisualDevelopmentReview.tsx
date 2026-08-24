@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
+import { SITE00_ADMIN_ROUTES } from '../../admin/config/routes';
 import type {
   ProjectWorkspaceVisualDevelopmentRun,
   SurfaceDesignProof,
@@ -222,6 +224,13 @@ function ProofPanel({
                   </li>
                 ))}
               </ul>
+              {proof.authenticatedReferenceStatus.some((s) => s.status !== 'VALID') ? (
+                <p className="site00-vd-proof__auth-refs-help">
+                  <Link to={SITE00_ADMIN_ROUTES.captureAuthBootstrapControl}>
+                    Export capture auth for Railway (phone) →
+                  </Link>
+                </p>
+              ) : null}
             </div>
           ) : null}
           {interfaceManifest ? (

@@ -21,6 +21,7 @@ import site00IntakeAccessHandler from '../api/site00/intake-access.js';
 import site00IntakesAdminHandler from '../api/admin/site00-intakes.js';
 import site00ClientIntakesAdminHandler from '../api/admin/site00-client-intakes.js';
 import site00WorldIntakeHandler from '../api/site00/world-intake.js';
+import captureAuthBootstrapHandler from '../api/capture-auth-bootstrap.js';
 
 /** Express path → Vercel-style default export handler */
 export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = [
@@ -45,4 +46,5 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/site00/world-intake', handler: site00WorldIntakeHandler },
   { path: '/api/admin/site00-intakes', handler: site00IntakesAdminHandler },
   { path: '/api/admin/site00-client-intakes', handler: site00ClientIntakesAdminHandler },
+  { path: '/api/capture-auth-bootstrap', handler: captureAuthBootstrapHandler },
 ];
