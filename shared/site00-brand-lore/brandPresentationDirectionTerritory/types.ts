@@ -41,9 +41,9 @@ export type FrozenParentConceptSnapshot = Pick<
   | 'antiCollapseRules'
   | 'notThis'
   | 'snapshotFingerprint'
-  | 'formationFingerprint'
   | 'founderJudgment'
 > & {
+  formationFingerprint: string | null;
   frozenAt: string;
   intelligenceSnapshotFingerprint: string | null;
 };

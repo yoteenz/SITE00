@@ -36,8 +36,10 @@ function formatFounderJudgmentLabel(judgment: FounderConceptJudgment): string {
       return 'TOO CONTENT-SPECIFIC';
     case 'NOT_NDXBOOK':
       return 'NOT NDXBOOK';
-    default:
-      return judgment.replace(/_/g, ' ');
+    default: {
+      const exhaustive: never = judgment;
+      return String(exhaustive).replace(/_/g, ' ');
+    }
   }
 }
 
