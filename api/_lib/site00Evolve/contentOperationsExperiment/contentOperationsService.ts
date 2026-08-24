@@ -202,15 +202,20 @@ export async function approveWeeklySlate(params: {
   const run = await opsStore.getContentOperationsRun(params.projectId);
   if (!run?.activeSlate) throw new Error('No slate proposed');
 
-  const packages = run.activeSlate.contentCandidates.map((c) => {
-    const opp = run.opportunities.find((o) => o.id === c.opportunityId)!;
-    return buildSocialContentPackage({
-      projectId: params.projectId,
-      opportunity: opp,
-      channel: selectChannelForOpportunity(opp),
-      format: selectFormatForOpportunity(opp, selectChannelForOpportunity(opp)),
-    });
-  });
+  const marketingRun = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
+  const packages = await Promise.all(
+    run.activeSlate.contentCandidates.map(async (c) => {
+      const opp = run.opportunities.find((o) => o.id === c.opportunityId)!;
+      return buildSocialContentPackage({
+        projectId: params.projectId,
+        opportunity: opp,
+        channel: selectChannelForOpportunity(opp),
+        format: selectFormatForOpportunity(opp, selectChannelForOpportunity(opp)),
+        expressionSystem: marketingRun?.expressionSystem ?? undefined,
+        characterSystemId: run.brandCharacterSystemId ?? undefined,
+      });
+    }),
+  );
 
   const calendar = packages.map((p) => buildCalendarEntry({ projectId: params.projectId, pkg: p }));
   const editorialHealth = evaluateEditorialHealth({

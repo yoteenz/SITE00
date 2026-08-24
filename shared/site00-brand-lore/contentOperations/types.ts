@@ -288,6 +288,9 @@ export type SocialContentPackage = {
   status: 'DRAFT' | 'FORMULATED' | 'GENERATING' | 'FOUNDER_REVIEW' | 'APPROVED' | 'SCHEDULED' | 'PUBLISHED';
   founderJudgment: string | null;
   fingerprint: string;
+  editorialDecisionId?: string | null;
+  firstSlideContractId?: string | null;
+  carouselArchitectureId?: string | null;
   createdAt: string;
   updatedAt: string;
 };
@@ -300,6 +303,13 @@ export type CarouselSequencePlan = {
   endRole: string;
   frameCount: number;
   sequenceCreativeSystemId: string | null;
+  sequenceThesis?: string;
+  sequenceArc?: string;
+  slideRoles?: string[];
+  informationDisclosureMap?: import('../editorialInformationArchitecture/types.js').InformationDisclosureEntry[];
+  slideContracts?: import('../editorialInformationArchitecture/types.js').CarouselSlideContract[];
+  editorialDecisionId?: string;
+  firstSlideContractId?: string;
 };
 
 export type PublishingHandoffPackage = {

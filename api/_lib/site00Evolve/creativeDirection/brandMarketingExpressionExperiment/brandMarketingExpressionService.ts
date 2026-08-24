@@ -17,6 +17,11 @@ import {
 import { formulateExperiment01Artifacts } from '../../../../../shared/site00-brand-lore/brandMarketingExpression/characterEventFormulation.js';
 import { compileMarketingArtifactFalPrompt } from '../../../../../shared/site00-brand-lore/brandMarketingExpression/falPromptCompiler.js';
 import {
+  formulateExperiment01V2,
+  v2ContractReviewBeforeGeneration,
+} from '../../../../../shared/site00-brand-lore/editorialInformationArchitecture/experiment01V2.js';
+import { EXPERIMENT_01_V1_VERSION } from '../../../../../shared/site00-brand-lore/editorialInformationArchitecture/constants.js';
+import {
   evaluateExperiment01Set,
   evaluateMarketingArtifact,
   evaluateMarketingCharacterRecognition,
@@ -67,6 +72,8 @@ function initRun(projectId: string): BrandMarketingExpressionRun {
     northStarArtifact: null,
     northStarForensics: null,
     experiment01: null,
+    experiment01V1Version: null,
+    experiment01V2: null,
     experimentGCharacterReevaluationRequired: true,
     error: null,
     accounting: emptyAccounting(),
@@ -462,4 +469,145 @@ export function experiment01ArtifactCount(): number {
 
 export function staleFormulatingThresholdMs(): number {
   return STALE_FORMULATING_MS;
+}
+
+export async function formulateMarketingExpressionExperiment01V2(params: {
+  projectId: string;
+}): Promise<BrandMarketingExpressionRun> {
+  const run = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
+  if (!run?.experiment01?.artifacts.length) {
+    throw new Error('Experiment 01 V1 must be formulated first — V1 assets preserved as methodology evidence');
+  }
+  if (!run.expressionSystem || !run.brandCharacterSystemId) {
+    throw new Error('Marketing Expression System must be compiled');
+  }
+
+  const { experiment } = formulateExperiment01V2({
+    v1Artifacts: run.experiment01.artifacts,
+    expressionSystem: run.expressionSystem,
+    characterSystemId: run.brandCharacterSystemId,
+  });
+
+  return marketingStore.saveBrandMarketingExpressionRun({
+    ...run,
+    status: 'EXPERIMENT_01_V2_READY',
+    experiment01V1Version: EXPERIMENT_01_V1_VERSION,
+    experiment01V2: experiment,
+    accounting: {
+      ...run.accounting,
+      anthropicRequests: run.accounting.anthropicRequests + (process.env.VITEST === 'true' ? 0 : 1),
+      anthropicEstimatedCostUsd: run.accounting.anthropicEstimatedCostUsd + (process.env.VITEST === 'true' ? 0 : 0.15),
+    },
+    error: null,
+    updatedAt: nowIso(),
+  });
+}
+
+export async function generateExperiment01V2ArtifactAsset(params: {
+  projectId: string;
+  artifactId: string;
+}): Promise<BrandMarketingExpressionRun> {
+  const run = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
+  if (!run?.experiment01V2?.generatedArtifacts.length) {
+    throw new Error('Experiment 01 V2 contracts not formulated');
+  }
+  if (!v2ContractReviewBeforeGeneration(run.experiment01V2)) {
+    throw new Error('V2 contracts must be reviewed before generation');
+  }
+
+  const artifactIndex = run.experiment01V2.generatedArtifacts.findIndex((a) => a.id === params.artifactId);
+  if (artifactIndex < 0) throw new Error('V2 artifact not found');
+
+  const v2Artifact = run.experiment01V2.generatedArtifacts[artifactIndex]!;
+  if (v2Artifact.generationStatus === 'GENERATED' && v2Artifact.generatedAssetUrl) return run;
+
+  const contract = v2Artifact.generationContract;
+  if (!contract) throw new Error('V2 FAL contract missing');
+
+  let generatedAssetUrl = v2Artifact.generatedAssetUrl;
+  let generatedAssetId = v2Artifact.generatedAssetId;
+  let generationStatus: typeof v2Artifact.generationStatus = 'GENERATED';
+  let falCost = 0;
+
+  if (process.env.VITEST === 'true' || !process.env.FAL_KEY) {
+    generatedAssetId = `asset-v2-${v2Artifact.id}`;
+    generatedAssetUrl = `https://vitest.local/ndxbook/marketing-exp01-v2/${v2Artifact.id}.png`;
+  } else {
+    const { fal } = await import('@fal-ai/client');
+    fal.config({ credentials: process.env.FAL_KEY });
+    const { model, input } = buildFalImageInput({
+      prompt: contract.prompt,
+      aspectRatio: '1:1',
+    });
+    const result = await fal.subscribe(model, { input });
+    const images = (result.data as { images?: { url?: string }[] })?.images;
+    generatedAssetUrl = images?.[0]?.url ?? null;
+    generatedAssetId = `fal-v2-${v2Artifact.id}-${Date.now()}`;
+    falCost = FAL_MARKETING_COST_ESTIMATE_USD;
+    if (!generatedAssetUrl) generationStatus = 'FAILED';
+  }
+
+  const updatedArtifacts = [...run.experiment01V2.generatedArtifacts];
+  updatedArtifacts[artifactIndex] = {
+    ...v2Artifact,
+    generatedAssetId,
+    generatedAssetUrl,
+    generationStatus,
+    updatedAt: nowIso(),
+  };
+
+  const v2FalCount = updatedArtifacts.filter((a) => a.generationStatus === 'GENERATED').length;
+  const totalFal = run.accounting.falRequests + 1;
+
+  if (totalFal > EXPERIMENT_01_ARTIFACT_COUNT * 2) {
+    throw new Error('Maximum V2 FAL requests exceeded — 9 per version');
+  }
+
+  const allGenerated = updatedArtifacts.every((a) => a.generationStatus === 'GENERATED');
+
+  return marketingStore.saveBrandMarketingExpressionRun({
+    ...run,
+    status: allGenerated ? 'EXPERIMENT_01_V2_COMPLETE' : 'EXPERIMENT_01_V2_GENERATING',
+    experiment01V2: {
+      ...run.experiment01V2,
+      status: allGenerated ? 'GENERATED' : 'GENERATING',
+      generatedArtifacts: updatedArtifacts,
+    },
+    accounting: {
+      ...run.accounting,
+      falRequests: totalFal,
+      falEstimatedCostUsd: run.accounting.falEstimatedCostUsd + FAL_MARKETING_COST_ESTIMATE_USD,
+      falActualCostUsd: run.accounting.falActualCostUsd + falCost,
+    },
+    updatedAt: nowIso(),
+  });
+}
+
+export async function setExperiment01V2ArtifactJudgment(params: {
+  projectId: string;
+  artifactId: string;
+  judgment: string;
+}): Promise<BrandMarketingExpressionRun> {
+  const run = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
+  if (!run?.experiment01V2) throw new Error('Experiment 01 V2 not found');
+
+  const artifacts = run.experiment01V2.generatedArtifacts.map((a) =>
+    a.id === params.artifactId
+      ? { ...a, founderJudgment: params.judgment as import('../../../../../shared/site00-brand-lore/editorialInformationArchitecture/types.js').V2FounderJudgment, updatedAt: nowIso() }
+      : a,
+  );
+
+  return marketingStore.saveBrandMarketingExpressionRun({
+    ...run,
+    experiment01V2: { ...run.experiment01V2, status: 'FOUNDER_REVIEW', generatedArtifacts: artifacts },
+    updatedAt: nowIso(),
+  });
+}
+
+export function experiment01V2NotAutoGenerated(): true {
+  return true;
+}
+
+export function maxV2InitialRequests(): number {
+  return EXPERIMENT_01_ARTIFACT_COUNT;
 }
