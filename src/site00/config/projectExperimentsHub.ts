@@ -12,6 +12,7 @@ import {
   site00ProjectExperimentEVisualDevelopmentPath,
   site00ProjectExperimentFPath,
   site00ProjectExperimentGPath,
+  site00ProjectExperimentGDirectionsPath,
   site00ProjectLoreCalibrationPath,
   site00ProjectPersonalityReplayConsistencyPath,
   site00ProjectPersonalityReplayPath,
@@ -153,6 +154,14 @@ export function getProjectExperimentsHubEntries(projectSlug: string): ProjectExp
       description:
         'Six topic-blind brand-presentation territories — how NDXBOOK exists as a persistent social brand before direction work.',
       path: site00ProjectExperimentGPath(projectSlug),
+      children: [
+        {
+          id: 'experiment-g-directions',
+          title: 'BRAND PRESENTATION DIRECTIONS',
+          path: site00ProjectExperimentGDirectionsPath(projectSlug),
+          description: 'Top-3 loved concepts × 3 directions each — semantic direction systems before visual formulation.',
+        },
+      ],
     },
     {
       id: 'experiment-e',

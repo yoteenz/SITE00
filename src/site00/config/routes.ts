@@ -66,6 +66,8 @@ export const SITE00_ROUTES = {
   projectExperimentD: '/projects/:projectSlug/experiment-d-concept-territory',
   projectExperimentF: '/projects/:projectSlug/experiment-f-six-concept-reformation',
   projectExperimentG: '/projects/:projectSlug/experiment-g-brand-presentation-concepts',
+  projectExperimentGDirections:
+    '/projects/:projectSlug/experiment-g-brand-presentation-concepts/directions',
   projectExperimentE: '/projects/:projectSlug/experience-expression',
   projectExperimentEVisualDevelopment: '/projects/:projectSlug/experience-expression/visual-development',
   projectExperiments: '/projects/:projectSlug/experiments',
@@ -160,6 +162,10 @@ export function site00ProjectExperimentFPath(projectSlug: string): string {
 
 export function site00ProjectExperimentGPath(projectSlug: string): string {
   return `/projects/${projectSlug}/experiment-g-brand-presentation-concepts`;
+}
+
+export function site00ProjectExperimentGDirectionsPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/experiment-g-brand-presentation-concepts/directions`;
 }
 
 export function site00ProjectExperimentEVisualDevelopmentPath(projectSlug: string): string {
