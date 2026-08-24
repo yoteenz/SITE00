@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { FounderWorkspaceShell, ExperimentJourney } from '../components/founderWorkspace';
 import { ndxExperimentJourney } from '../../../shared/site00-brand-lore/founderWorkspace/ndxFounderWorkspaceConfig';
+import { useExperimentsHubScrollRestore } from '../hooks/useExperimentsHubScrollRestore';
 import {
   getProjectExperimentsHubEntries,
   projectExperimentsHubPhaseLabel,
@@ -57,6 +58,7 @@ function ExperimentHubCard({ entry }: { entry: ProjectExperimentHubEntry }) {
 
 export default function ProjectExperimentsHubPage() {
   const { projectSlug = '' } = useParams<{ projectSlug: string }>();
+  useExperimentsHubScrollRestore(projectSlug);
   const entries = getProjectExperimentsHubEntries(projectSlug);
   const grouped = groupByPhase(entries);
   const phaseOrder: ProjectExperimentHubPhase[] = ['INTAKE', 'EXPERIMENT', 'EXPERIENCE', 'LINEAGE'];

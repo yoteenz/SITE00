@@ -1431,6 +1431,15 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug }),
       },
     ),
+  marketingExpressionExperiment01V23RegenerateAll: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v23_regenerate_all',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
   marketingExpressionExperiment01V23ArtifactJudgment: (slug: string, artifactId: string, judgment: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=marketing_expression_experiment_01_v23_artifact_judgment',
@@ -1657,6 +1666,246 @@ export const site00ProjectsApi = {
   embodiedCharacterDiscoverySynthesize: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=embodied_character_discovery_synthesize',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  founderCharacterDiscoveryGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null; neuralProviderConfigured?: boolean }>(
+      `/api/site00/projects?action=founder_character_discovery_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  founderCharacterDiscoveryInitialize: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_initialize',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  founderCharacterDiscoveryTraitJudgment: (
+    slug: string,
+    traitId: string,
+    judgment: string,
+    revision?: string,
+    note?: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_trait_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, traitId, judgment, revision, note }),
+      },
+    ),
+  founderCharacterDiscoveryScenarioResponse: (
+    slug: string,
+    scenarioId: string,
+    response: string,
+    judgment: string,
+    notes?: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_scenario_response',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, scenarioId, response, judgment, notes }),
+      },
+    ),
+  founderCharacterDiscoveryVisualJudgment: (
+    slug: string,
+    hypothesisId: string,
+    judgment: string,
+    note?: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_visual_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, hypothesisId, judgment, note }),
+      },
+    ),
+  founderCharacterDiscoveryVoiceJudgment: (
+    slug: string,
+    sampleId: string,
+    channel: string,
+    judgment: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_voice_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, sampleId, channel, judgment }),
+      },
+    ),
+  founderCharacterDiscoveryRecognition: (slug: string, response: string, note?: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_recognition',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, response, note }),
+      },
+    ),
+  founderCharacterDiscoverySynthesisPreview: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_synthesis_preview',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  founderCharacterDiscoveryCalibrationContinue: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; interaction: Record<string, unknown> | null }>(
+      '/api/site00/projects?action=founder_character_discovery_calibration_continue',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  founderCharacterDiscoveryCalibrationReaction: (
+    slug: string,
+    interactionId: string,
+    reaction: string,
+    revision?: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; nextInteraction: Record<string, unknown> | null }>(
+      '/api/site00/projects?action=founder_character_discovery_calibration_reaction',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, interactionId, reaction, revision }),
+      },
+    ),
+  founderCharacterDiscoveryCalibrationSynthesis: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_calibration_synthesis',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  founderCharacterDiscoveryVoiceRoundStart: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; round: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_voice_round_start',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  founderCharacterDiscoveryVoiceHypothesisJudgment: (
+    slug: string,
+    hypothesisId: string,
+    judgment: string,
+    note?: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_voice_hypothesis_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, hypothesisId, judgment, note }),
+      },
+    ),
+  founderCharacterDiscoveryVoicePairwise: (
+    slug: string,
+    hypothesisAId: string,
+    hypothesisBId: string,
+    preference: string,
+    customNote?: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_voice_pairwise',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, hypothesisAId, hypothesisBId, preference, customNote }),
+      },
+    ),
+  founderCharacterDiscoveryVoiceRecognition: (slug: string, response: string, note?: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_voice_recognition',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, response, note }) },
+    ),
+  founderCharacterDiscoveryVoiceUnseenLine: (
+    slug: string,
+    hypothesisId: string,
+    spokenCopy: string,
+    response: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_voice_unseen_line',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, hypothesisId, spokenCopy, response }),
+      },
+    ),
+  founderCharacterDiscoveryNeuralVoiceEstimate: (slug: string) =>
+    projectsFetch<{ ok: true; estimate: Record<string, unknown>; neuralProviderConfigured: boolean }>(
+      `/api/site00/projects?action=founder_character_discovery_neural_voice_estimate&slug=${encodeURIComponent(slug)}`,
+    ),
+  founderCharacterDiscoveryNeuralVoiceAudition: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; round: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_neural_voice_audition',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  founderCharacterDiscoveryHumanWomanTest: (slug: string, hypothesisId: string, response: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_human_woman_test',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, hypothesisId, response }),
+      },
+    ),
+  founderCharacterDiscoveryNeuralVoiceRevision: (
+    slug: string,
+    hypothesisId: string,
+    judgment: string,
+    founderNote: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_neural_voice_revision',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, hypothesisId, judgment, founderNote }),
+      },
+    ),
+  founderCharacterDiscoveryNeuralVoiceRegenerate: (
+    slug: string,
+    hypothesisId: string,
+    mode?: 'REGENERATE_CURRENT' | 'REPLAY_GENERATION',
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_neural_voice_regenerate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, hypothesisId, mode: mode ?? 'REGENERATE_CURRENT' }),
+      },
+    ),
+  characterContinuityGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=character_continuity_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  characterContinuityInitialize: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_continuity_initialize',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  characterContinuityIngestBible: (slug: string, rawSource: string, sourceType: string, normalized?: Record<string, unknown>) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_continuity_ingest_bible',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, rawSource, sourceType, normalized }),
+      },
+    ),
+  characterContinuityIngestSynthesis: (slug: string, whoSheIs: string, bookMeaning: string, whatMakesHerAnnoying: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_continuity_ingest_synthesis',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, whoSheIs, bookMeaning, whatMakesHerAnnoying }),
+      },
+    ),
+  characterContinuityPreviewContract: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_continuity_preview_contract',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  characterContinuityMockFixtureTest: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_continuity_mock_fixture_test',
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
     ),
   projectIntelligenceManifestCompile: (slug: string, experienceClass?: string) =>

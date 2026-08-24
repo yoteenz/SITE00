@@ -34,6 +34,7 @@ const LOCAL_API_ROUTES = [
   { path: '/api/admin/site00-evolve/oauth/callback', file: 'api/admin/site00-evolve-oauth-callback.ts' },
   { path: '/api/admin/site00-intakes', file: 'api/admin/site00-intakes.ts' },
   { path: '/api/admin/site00-client-intakes', file: 'api/admin/site00-client-intakes.ts' },
+  { path: '/api/capture-auth-bootstrap', file: 'api/capture-auth-bootstrap.ts' },
 ];
 
 function applyServerEnv() {

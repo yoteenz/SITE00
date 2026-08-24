@@ -6,7 +6,10 @@ import {
   InspectorKeyValue,
 } from '../components/founderWorkspace';
 import { site00ProjectsApi, Site00ProjectsApiError } from '../services/site00ProjectsApi';
-import { site00ProjectMotionCharacterPath } from '../config/routes';
+import {
+  site00ProjectMotionCharacterPath,
+  site00ProjectFounderCharacterDiscoveryPath,
+} from '../config/routes';
 import {
   FOUNDER_CHARACTER_JUDGMENTS,
 } from '../../../shared/site00-studio-world-production/embodiedCharacterDiscovery/constants';
@@ -194,6 +197,9 @@ export default function ProjectEmbodiedCharacterDiscoveryPage() {
       )}
       <Link to={site00ProjectMotionCharacterPath(projectSlug)} className="site00-fws-journey__all">
         ← MOTION + BOOK LANGUAGE
+      </Link>
+      <Link to={site00ProjectFounderCharacterDiscoveryPath(projectSlug)} className="site00-fws-journey__all">
+        → FOUNDER CHARACTER DISCOVERY ROOM
       </Link>
     </>
   );

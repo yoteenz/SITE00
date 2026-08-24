@@ -87,6 +87,9 @@ export const SITE00_ROUTES = {
   projectCulturalIntelligenceWeeklyForecast: '/projects/:projectSlug/cultural-intelligence/weekly-forecast',
   projectMotionCharacter: '/projects/:projectSlug/motion-character',
   projectEmbodiedCharacterDiscovery: '/projects/:projectSlug/embodied-character',
+  projectFounderCharacterDiscovery: '/projects/:projectSlug/character/discovery',
+  projectCharacterContinuity: '/projects/:projectSlug/character/continuity',
+  projectCharacterContinuityReview: '/projects/:projectSlug/character/continuity/review',
   projectExperimentE: '/projects/:projectSlug/experience-expression',
   projectExperimentEVisualDevelopment: '/projects/:projectSlug/experience-expression/visual-development',
   projectExperiments: '/projects/:projectSlug/experiments',
@@ -261,6 +264,18 @@ export function site00ProjectMotionCharacterPath(projectSlug: string): string {
 
 export function site00ProjectEmbodiedCharacterDiscoveryPath(projectSlug: string): string {
   return `/projects/${projectSlug}/embodied-character`;
+}
+
+export function site00ProjectFounderCharacterDiscoveryPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/character/discovery`;
+}
+
+export function site00ProjectCharacterContinuityPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/character/continuity`;
+}
+
+export function site00ProjectCharacterContinuityReviewPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/character/continuity/review`;
 }
 
 export function site00ProjectExperimentEVisualDevelopmentPath(projectSlug: string): string {

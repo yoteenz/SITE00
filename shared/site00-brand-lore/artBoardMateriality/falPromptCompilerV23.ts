@@ -1,5 +1,6 @@
 /**
  * FAL prompt compiler V2.3 — art-board materiality + human-made + signature lime restraint (P0.5C.4B.1).
+ * P0.5C.6A — authored artifact grammar + template frame removal + human history authority.
  */
 
 import { createHash } from 'node:crypto';
@@ -47,6 +48,121 @@ export function compileArtBoardMaterialityFalPrompt(params: {
     : 'HUMAN-MADE MARKS: restrained — only causally justified marks';
 
   const publicCopySections = buildFalPublicCopySections({ artifact: params.artifact, contract: c });
+  const va = c.visualAuthorityEvaluation?.bespokeArtDirection;
+  const aa = c.authoredArtifactEvaluation;
+  const visualAuthorityBlock = va
+    ? [
+        `BESPOKE ARTISTIC PREMISE`,
+        `ARTISTIC PREMISE: ${va.artisticPremise}`,
+        `VISUAL ENTRY POINT: ${va.visualEntryPoint}`,
+        `DOMINANT VISUAL SUBJECT: ${va.dominantVisualSubject}`,
+        `WHY SOMEONE LOOKS BEFORE READING: ${va.whySomeoneLooksBeforeReading}`,
+        `VISUAL TENSION: ${va.visualTension}`,
+        `UNEXPECTED ELEMENT: ${va.unexpectedElement}`,
+        `COMPOSITION BEHAVIOR: ${va.compositionBehavior}`,
+        `IMAGE BEHAVIOR: ${va.imageBehavior}`,
+        `SCALE / CROP / NEGATIVE SPACE: ${va.scaleBehavior} · ${va.cropBehavior} · ${va.negativeSpaceBehavior}`,
+        `WHY TOPIC-SPECIFIC: ${va.whyThisCouldOnlyBelongToThisTopic}`,
+        `COMPELLING WITHOUT COPY: ${va.whatWouldRemainCompellingWithoutCopy}`,
+      ].join('\n')
+    : `BESPOKE ARTISTIC PREMISE: Establish a topic-specific visual idea BEFORE editorial layout — not a generic document template.`;
+
+  const rawArtifactBlock = aa
+    ? [
+        `RAW VISUAL ARTIFACT`,
+        `WHAT EXISTED FIRST: ${aa.humanHistory.whatExistedFirst}`,
+        `PRIMARY VISUAL OBJECT: ${aa.intervention.rawVisualArtifact}`,
+        `THE CENTRAL VISUAL PREMISE MUST OCCUPY THE ARTIFACT — nearly full-frame when appropriate.`,
+        `DO NOT SURROUND THE ARTWORK WITH EXPLANATORY UI OR INFOGRAPHIC SHELL.`,
+      ].join('\n')
+    : `RAW VISUAL ARTIFACT: The central visual subject exists as a handled object BEFORE editorial framing.`;
+
+  const ndxInterventionBlock = aa
+    ? [
+        `NDX INTERVENTION`,
+        `WHAT NDX DID: ${aa.intervention.authorIntervention}`,
+        `WHY SHE DID IT: ${aa.intervention.interventionCausality}`,
+        `IF ALL NDX MARKS WERE REMOVED, THE ORIGINAL VISUAL OBJECT MUST STILL BE IDENTIFIABLE.`,
+        `HER INTERVENTIONS MUST REVEAL HER THOUGHT PROCESS — NOT DECORATE.`,
+        `DO NOT SIMULATE HUMAN AUTHORSHIP WITH RANDOM SCRIBBLES OR DECORATIVE TAPE.`,
+      ].join('\n')
+    : `NDX INTERVENTION: Show evidence NDX handled, edited, and marked the artifact — every mark has causal meaning.`;
+
+  const humanHistoryBlock = aa
+    ? [
+        `HUMAN HISTORY`,
+        `WHAT EXISTED FIRST: ${aa.humanHistory.whatExistedFirst}`,
+        `WHAT NDX DID TO IT: ${aa.humanHistory.whatAuthorDid}`,
+        `WHAT CHANGED AFTER SHE LOOKED AT IT: ${aa.humanHistory.whatChangedAfterReview}`,
+        `SURVIVING PROCESS TRACE: ${aa.humanHistory.survivingProcessTrace}`,
+        `TRACE TYPE: ${aa.humanHistory.traceType.replace(/_/g, ' ')} — ${aa.humanHistory.causalReason}`,
+        `THE FINAL IMAGE MUST CONTAIN AT LEAST ONE MEANINGFUL PIECE OF PROCESS HISTORY.`,
+        `HUMAN-MADE MARKS MUST HAVE CAUSAL MEANING — NOT RANDOM ANALOG TEXTURE.`,
+      ].join('\n')
+    : `HUMAN HISTORY: Artifact shows it existed, was handled, interpreted, modified, and editorialized.`;
+
+  const informationInhabitationBlock = aa
+    ? [
+        `INFORMATION INHABITATION`,
+        `HEADLINE PLACEMENT: ${aa.informationInhabitation.headlinePlacement}`,
+        `EVIDENCE PLACEMENT: ${aa.informationInhabitation.evidencePlacement}`,
+        `INHABITATION MODE: ${aa.informationInhabitation.inhabitationMode.replace(/_/g, ' ')}`,
+        `WHY HERE: ${aa.informationInhabitation.whyThisPlacement}`,
+        `DO NOT AUTOMATICALLY RESERVE CLEAN RECTANGULAR AREAS FOR TEXT.`,
+        `ASK: WHERE WOULD NDX HAVE ACTUALLY PUT THIS THOUGHT?`,
+        `INFORMATION BELONGS INSIDE THE ARTIFACT WORLD — NOT IN A SEPARATE GRAPHIC-DESIGN SHELL.`,
+        `EDITORIAL INFORMATION MUST NOT AUTOMATICALLY CREATE FRAMING ARCHITECTURE AROUND THE ARTWORK.`,
+      ].join('\n')
+    : `INFORMATION INHABITATION: Text lives inside the artifact world — written on, taped over, margin note, attached scrap — not in headline/evidence panels.`;
+
+  const antiTemplateFrameBlock = [
+    `ANTI-TEMPLATE FRAME`,
+    `DO NOT DESIGN A FINISHED INFOGRAPHIC AROUND THE CENTRAL ARTWORK.`,
+    `DO NOT AUTOMATICALLY CREATE A TOP HEADLINE PANEL OR BOTTOM INFORMATION PANEL.`,
+    `DO NOT USE HEADER / BODY / FOOTER COMPOSITION UNLESS THE ARTISTIC PREMISE REQUIRES IT.`,
+    `BANNED DEFAULT GRAMMAR: TITLE AREA + CENTER ART + BOTTOM EXPLANATION AREA.`,
+    `BANNED: formal oversized headline panel at top; boxed evidence/footer module at bottom; symmetrical information zones; clean presentation boundaries; complete top-middle-bottom communication hierarchy.`,
+    `THE ARTWORK SHOULD NOT BE SURROUNDED BY EXPLANATORY UI.`,
+    `LET THE CENTRAL VISUAL PREMISE OCCUPY THE ARTIFACT.`,
+  ].join('\n');
+
+  const overResolutionGuardBlock = [
+    `OVER-RESOLUTION GUARD`,
+    `NDX WORK IS VISUALLY INTENTIONAL BUT NOT ALWAYS PERFECTLY RESOLVED.`,
+    `FAIL ARTIFACTS THAT FEEL: too finalized, too packaged, too presentation-ready, too evenly distributed, too cleanly modular, too perfectly aligned, too comprehensively explained.`,
+    `SOPHISTICATED AUTHORSHIP ≠ PERFECT TEMPLATE COMPLETION.`,
+    `THE RESULT SHOULD FEEL AUTHORED, NOT GENERATED.`,
+  ].join('\n');
+
+  const authoredArtifactGrammarBlock = [
+    `AUTHORED ARTIFACT GRAMMAR`,
+    `NDX GRAPHICS ARE AUTHORED ARTIFACTS, NOT DESIGNED TEMPLATES.`,
+    `THE VIEWER SHOULD SENSE: THE ORIGINAL THING + WHAT NDX DID TO IT.`,
+    `THE VISUAL APPEARS TO HAVE EXISTED, BEEN HANDLED, INTERPRETED, MODIFIED, AND EDITORIALIZED.`,
+    `INTEGRATE INFORMATION INTO THE PHYSICAL/VISUAL WORLD OF THE ARTIFACT.`,
+    `SHOW EVIDENCE THAT THIS OBJECT HAS BEEN HANDLED, EDITED, RECONSIDERED, AND MARKED BY ITS AUTHOR.`,
+    `EVERY HUMAN INTERVENTION MUST HAVE A REASON.`,
+  ].join('\n');
+
+  const preReadingBlock = [
+    `PRE-READING VISUAL APPETITE`,
+    `IS THERE SOMETHING HERE I WANT TO LOOK AT BEFORE I READ IT? — YES. Create credible human, object, cultural, photographic, or intentional typographic reason to stop.`,
+    `WOULD I STOP ON THIS PAGE BEFORE I KNEW WHAT IT SAID? — Design for thumbnail/feed stopping power first.`,
+    `DO NOT INTERPRET INFORMATION RESTRAINT AS VISUAL BLANDNESS.`,
+    `DO NOT INTERPRET ONE DOMINANT THOUGHT AS ONE DOMINANT TEXT BLOCK.`,
+    `DO NOT DESIGN A CLEAN TEMPLATE MERELY BECAUSE THE COPY IS SIMPLE.`,
+    `DO NOT USE DOCUMENTS, RECEIPTS, SCREENSHOTS, OR TYPOGRAPHY AS A SUBSTITUTE FOR AN ARTISTIC PREMISE.`,
+    `CREATE SOMETHING THE VIEWER WANTS TO LOOK AT BEFORE THEY FULLY UNDERSTAND IT.`,
+    `THE ART DIRECTION SHOULD FEEL BESPOKE TO THIS SPECIFIC THOUGHT.`,
+    `VISUAL COMPLEXITY AND INFORMATION COMPLEXITY ARE SEPARATE — ARTISTICALLY RICH, COGNITIVELY SIMPLE.`,
+  ].join('\n');
+
+  const compositionalBlock = [
+    `COMPOSITIONAL DIRECTION`,
+    `VISUAL PRIORITY: 1 ART/CULTURAL SUBJECT → 2 THE THOUGHT → 3 THE PROOF → 4 THE TRACE → 5 METADATA`,
+    `CULTURAL IMAGE PARTICIPATION: ${cp.visualParticipationMode} — human imagery, photography, objects, juxtaposition, expressive crop encouraged when thesis-relevant.`,
+    `EVIDENCE ROLE: Evidence SUPPORTS the artistic premise — it is NOT automatically the composition unless the evidence object IS the visual thesis.`,
+  ].join('\n');
 
   const restraintSection = restraint
     ? [
@@ -74,6 +190,17 @@ export function compileArtBoardMaterialityFalPrompt(params: {
   const sections = [
     ...publicCopySections,
     `[INTERNAL GENERATION GUIDANCE — DO NOT RENDER AS VISIBLE LABELS ON ARTIFACT]`,
+    `CONTENT THESIS: ${params.artifact.topic} — ${c.primaryHook}`,
+    visualAuthorityBlock,
+    authoredArtifactGrammarBlock,
+    rawArtifactBlock,
+    preReadingBlock,
+    compositionalBlock,
+    ndxInterventionBlock,
+    humanHistoryBlock,
+    informationInhabitationBlock,
+    antiTemplateFrameBlock,
+    overResolutionGuardBlock,
     `TOPIC CONTEXT: ${params.artifact.topic} — ${params.artifact.subject}`,
     `INTERNAL THESIS: ${c.primaryHook}`,
     `INTERNAL CHARACTER EXPRESSION: ${cr.primaryCharacterBeat.text ?? 'visual punchline'} (${cr.primaryCharacterBeat.beatType})`,
@@ -121,7 +248,7 @@ export function compileArtBoardMaterialityFalPrompt(params: {
     `SOURCE VS NDX COLOR: Source material retains authentic colors. NDX-authored typography defaults black/neutral. Signature lime applies ONLY to the art-direction attention target — NOT every circle, arrow, icon, or underline.`,
     `STERILITY GUARD: alive not corporate — maker trace on surface must be visually undeniable without lime saturation`,
     `TEMPLATE GUARD: DO NOT DESIGN A RECTANGULAR SOCIAL POST ON TOP OF A BACKGROUND. CREATE THE ACTUAL ARTIFACT. CONTENT PRINTED ON, INSERTED INTO, ATTACHED TO, WRITTEN OVER, CUT INTO, FOLDED WITH, OR SCANNED FROM THE SURFACE. ${ab.whyNotCleanTemplate}`,
-    `NEGATIVE CONSTRAINTS: no generic poster-on-background; no clean social template; no graphic card floating over texture; no fake paper texture filter; no polished infographic icons; no vector icon library look; no UI pictograms; no AI-generated decorative symbols; no mismatched doodle styles; no perfect geometry for hand-drawn marks; no fake childlike doodles; no decorative lime with no purpose; no fully monochrome NDX artifact without at least one signature-lime trace; no arbitrary red/blue/yellow NDX-authored marks; no lime background fill; no repeated lime corner template on every post; no tiny invisible lime; no random neon decoration; no generic AI editorial detailing; no scrapbook-for-scrapbook's-sake; no lowercase NDX copy; no visible CHARACTER BEAT label; no visible WHAT NDX NOTICED label; no visible PRIMARY EDITORIAL IDEA label; no visible CONTROLLED MISBEHAVIOR label; no third-person NDX narration; no system documentation on artifact; no all-lime body copy; no all-lime secondary copy; no all-lime handwriting system; no all-lime icon system; no all-lime diagram system; no all-lime metadata; no lime as primary typographic color; no lime dominating black structural hierarchy; no multiple large lime regions; no sprinkling lime randomly to satisfy signature requirement`,
+    `NEGATIVE CONSTRAINTS: no generic poster-on-background; no clean social template; no graphic card floating over texture; no fake paper texture filter; no polished infographic icons; no vector icon library look; no UI pictograms; no AI-generated decorative symbols; no mismatched doodle styles; no perfect geometry for hand-drawn marks; no fake childlike doodles; no decorative lime with no purpose; no fully monochrome NDX artifact without at least one signature-lime trace; no arbitrary red/blue/yellow NDX-authored marks; no lime background fill; no repeated lime corner template on every post; no tiny invisible lime; no random neon decoration; no generic AI editorial detailing; no scrapbook-for-scrapbook's-sake; no lowercase NDX copy; no visible CHARACTER BEAT label; no visible WHAT NDX NOTICED label; no visible PRIMARY EDITORIAL IDEA label; no visible CONTROLLED MISBEHAVIOR label; no third-person NDX narration; no system documentation on artifact; no all-lime body copy; no all-lime secondary copy; no all-lime handwriting system; no all-lime icon system; no all-lime diagram system; no all-lime metadata; no lime as primary typographic color; no lime dominating black structural hierarchy; no multiple large lime regions; no sprinkling lime randomly to satisfy signature requirement; no top headline panel unless premise requires; no bottom evidence panel unless premise requires; no header-body-footer infographic shell; no symmetrical information zones; no presentation board composition; no content container around artwork; no random tape or scribbles without causality; no random analog texture; no over-resolved generated graphic; no decorative human marks`,
   ];
 
   if (params.founderRevisionDirective) {
@@ -130,7 +257,7 @@ export function compileArtBoardMaterialityFalPrompt(params: {
 
   const prompt = sections.join('\n\n');
   const negativePrompt =
-    'polished infographic icons, vector icon library, UI pictograms, AI decorative symbols, stock icons, perfect pictograms, generic infographic, fake handwriting, neon decoration, arbitrary red NDX mark, monochrome without lime, lime background fill, all lime handwriting, all lime icons, all lime body copy, lime typography layer, lime dominant composition';
+    'polished infographic icons, vector icon library, UI pictograms, AI decorative symbols, stock icons, perfect pictograms, generic infographic, fake handwriting, neon decoration, arbitrary red NDX mark, monochrome without lime, lime background fill, all lime handwriting, all lime icons, all lime body copy, lime typography layer, lime dominant composition, top headline panel, bottom evidence panel, header body footer template, infographic shell, presentation board, symmetrical information zones, content container around artwork, random tape, random scribbles, decorative human marks, over-resolved generated graphic';
 
   return {
     prompt,
@@ -180,4 +307,56 @@ export function materialFalPromptBlocksAllLimeBodyCopy(contract: MarketingFalPro
 
 export function materialFalPromptHumanMadeNotLimeMade(contract: MarketingFalPromptContract): boolean {
   return contract.prompt.includes('HUMAN-MADE DOES NOT MEAN LIME-MADE');
+}
+
+export function materialFalPromptHasVisualAuthoritySection(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('BESPOKE ARTISTIC PREMISE');
+}
+
+export function materialFalPromptArtDirectionBeforeInformationHierarchy(contract: MarketingFalPromptContract): boolean {
+  const artIdx = contract.prompt.indexOf('BESPOKE ARTISTIC PREMISE');
+  const infoIdx = contract.prompt.indexOf('INFORMATION HIERARCHY');
+  return artIdx >= 0 && infoIdx > artIdx;
+}
+
+export function materialFalPromptBlocksVisualBlandnessInterpretation(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('DO NOT INTERPRET INFORMATION RESTRAINT AS VISUAL BLANDNESS');
+}
+
+export function materialFalPromptHasAuthoredArtifactGrammar(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('AUTHORED ARTIFACT GRAMMAR');
+}
+
+export function materialFalPromptHasHumanHistorySection(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('HUMAN HISTORY');
+}
+
+export function materialFalPromptHasAntiTemplateFrameSection(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('ANTI-TEMPLATE FRAME');
+}
+
+export function materialFalPromptHasNdxInterventionSection(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('NDX INTERVENTION');
+}
+
+export function materialFalPromptHasInformationInhabitationSection(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('INFORMATION INHABITATION');
+}
+
+export function materialFalPromptHasOverResolutionGuard(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('OVER-RESOLUTION GUARD');
+}
+
+export function materialFalPromptHumanHistoryBeforeInformationHierarchy(contract: MarketingFalPromptContract): boolean {
+  const historyIdx = contract.prompt.indexOf('HUMAN HISTORY');
+  const infoIdx = contract.prompt.indexOf('INFORMATION HIERARCHY');
+  return historyIdx >= 0 && infoIdx > historyIdx;
+}
+
+export function materialFalPromptBlocksTopHeadlinePanel(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('DO NOT AUTOMATICALLY CREATE A TOP HEADLINE PANEL');
+}
+
+export function materialFalPromptBlocksBottomEvidencePanel(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('BOTTOM INFORMATION PANEL');
 }

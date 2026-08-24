@@ -47,6 +47,7 @@ import {
   v23GenerationJobStatusLabel,
 } from '../../../shared/site00-brand-lore/artBoardMateriality/v23BoardReadinessClient';
 import '../styles/site00-founder-workspace.css';
+import { Site00ImageInspectLightbox } from '../components/common/Site00ImageInspectLightbox';
 import '../styles/site00-replay-execution.css';
 
 const POLL_MS = 5000;
@@ -97,6 +98,7 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
   const [versionTab, setVersionTab] = useState<VersionTab>('V23');
   const [v23RevisionDraft, setV23RevisionDraft] = useState<{ artifactId: string; judgment: string } | null>(null);
   const [v23RevisionNote, setV23RevisionNote] = useState('');
+  const [inspectImage, setInspectImage] = useState<{ url: string; alt: string } | null>(null);
 
   const reload = useCallback(async () => {
     if (projectSlug !== 'ndxbook') return;
@@ -248,6 +250,27 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
     }
   };
 
+  const regenerateAllV23 = async () => {
+    if (
+      !window.confirm(
+        'Regenerate all nine V2.3 slides from current contracts? Prior images stay in lineage — this runs nine new FAL generations.',
+      )
+    ) {
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    try {
+      const result = await site00ProjectsApi.marketingExpressionExperiment01V23RegenerateAll(projectSlug);
+      setRun((result.run as BrandMarketingExpressionRun) ?? null);
+      await reload();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Regenerate all failed');
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const generateAll = async () => {
     setBusy(true);
     try {
@@ -389,7 +412,13 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
     run?.status === 'EXPERIMENT_01_V23_GENERATING';
   const isGeneratingBoard = isRunStatusGenerating || generatingCount > 0;
   const allGenerated = activeArtifacts.length > 0 && generatedCount === activeArtifacts.length;
-  const canGenerateRemaining = pendingCount > 0 && !isGeneratingBoard;
+  const v23Superseded = expV23?.generationRunStatus === 'SUPERSEDED_BY_METHODOLOGY';
+  const canRegenerateAllV23 =
+    versionTab === 'V23' &&
+    allGenerated &&
+    !isGeneratingBoard &&
+    generatedCount > 0;
+  const canGenerateRemaining = pendingCount > 0 && !isGeneratingBoard && !(versionTab === 'V23' && v23Superseded);
 
   return (
     <FounderWorkspaceShell
@@ -536,6 +565,11 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                     {!isGeneratingBoard && pendingCount > 0 && generatedCount > 0 && (
                       <p>{generatedCount}/{activeArtifacts.length} COMPLETE — REMAINING SLIDES READY TO GENERATE</p>
                     )}
+                    {!isGeneratingBoard && pendingCount > 0 && versionTab === 'V23' && v23Superseded && (
+                      <p style={{ marginBottom: '12px' }}>
+                        Batch generation paused after methodology supersession. Select a pending slide below and tap GENERATE CURRENT.
+                      </p>
+                    )}
                     {canGenerateRemaining && (
                       <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void generateAll()} style={{ marginBottom: '12px' }}>
                         {versionTab === 'V23'
@@ -545,6 +579,17 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                           : generatedCount > 0
                             ? `GENERATE REMAINING ${pendingCount} FIRST SLIDES (FAL)`
                             : 'GENERATE ALL NINE FIRST SLIDES (FAL)'}
+                      </button>
+                    )}
+                    {canRegenerateAllV23 && (
+                      <button
+                        type="button"
+                        className="site00-btn site00-btn--primary"
+                        disabled={busy}
+                        onClick={() => void regenerateAllV23()}
+                        style={{ marginBottom: '12px', width: '100%' }}
+                      >
+                        REGENERATE ALL V2.3 — NINE NEW TAKES (FAL)
                       </button>
                     )}
                     {allGenerated && !v23RevisionDraft && (
@@ -581,13 +626,13 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                             key={a.id}
                             type="button"
                             aria-pressed={isSelected}
-                            className={isSelected ? 'site00-btn site00-btn--primary' : 'site00-btn'}
+                            className={`site00-marketing-exp01-grid__slide ${isSelected ? 'site00-btn site00-btn--primary' : 'site00-btn'}`}
                             disabled={Boolean(v23RevisionDraft && versionTab === 'V23')}
                             onClick={() => {
                               setSelectedId(a.id);
                               if (versionTab === 'V23') cancelV23RevisionDraft();
+                              if (url) setInspectImage({ url, alt: headline });
                             }}
-                            style={{ minHeight: '80px', textAlign: 'left', padding: '8px', touchAction: 'manipulation' }}
                           >
                             {url ? (
                               <img
@@ -607,6 +652,37 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                     </div>
                   </section>
 
+                  {versionTab === 'V23' && activeArtifacts.length > 0 && (
+                    <section className="site00-experiment-g__panel">
+                      <h2>VISUAL AUTHORITY + AUTHORED ARTIFACT — P0.5C.6 / P0.5C.6A</h2>
+                      <p style={{ fontSize: '0.85rem', marginBottom: '12px' }}>
+                        Bespoke art direction leads · authored artifact grammar · information inhabits artifact world · no default infographic shell.
+                      </p>
+                      <ul style={{ fontSize: '0.85rem', marginBottom: '12px' }}>
+                        {(activeArtifacts as Experiment01V23Artifact[]).map((a) => {
+                          const va = a.contract.visualAuthorityEvaluation;
+                          return (
+                            <li key={a.id} style={{ marginBottom: '6px' }}>
+                              <strong>{a.contract.primaryHook.slice(0, 48)}…</strong>
+                              {' · '}
+                              STOP: {va?.wouldIStopBeforeReading.passes ? 'YES' : 'NO'}
+                              {' · '}
+                              RICH+SIMPLE: {va?.visualAppetiteGatePasses ? 'YES' : 'NO'}
+                              {' · '}
+                              NO-TEXT: {va?.textRemovalIntegrity.result}
+                              {' · '}
+                              EVIDENCE: {va?.evidenceCompositionRole.role.replace(/_/g, ' ')}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                      <p style={{ fontSize: '0.8rem' }}>
+                        ARTISTIC PREMISE (selected):{' '}
+                        {(activeArtifacts as Experiment01V23Artifact[]).find((a) => a.id === selectedId)?.contract.visualAuthorityEvaluation?.bespokeArtDirection.artisticPremise ?? '—'}
+                      </p>
+                    </section>
+                  )}
+
                   {versionTab === 'V23' && selectedV23 && (
                     <section key={selectedId ?? selectedV23.id} className="site00-experiment-g__panel">
                       <h2>V2.3 ART-BOARD REVIEW — {selectedV23.contract.primaryHook}</h2>
@@ -619,7 +695,9 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                         METHODOLOGY: C.4A {v23ArtifactMethodologyStatus(selectedV23).c4a ? '✓' : '✗'} · C.4B{' '}
                         {v23ArtifactMethodologyStatus(selectedV23).c4b ? '✓' : '✗'} · C.4B.1{' '}
                         {v23ArtifactMethodologyStatus(selectedV23).c4b1 ? '✓' : '✗'} · C.5{' '}
-                        {v23ArtifactMethodologyStatus(selectedV23).c5 ? '✓' : '✗'}
+                        {v23ArtifactMethodologyStatus(selectedV23).c5 ? '✓' : '✗'} · C.6{' '}
+                        {selectedV23.contract.visualAuthorityEvaluation?.visualAppetiteGatePasses ? '✓' : '✗'} · C.6A{' '}
+                        {selectedV23.contract.authoredArtifactEvaluation?.authoredArtifactGatePasses ? '✓' : '✗'}
                       </p>
                       {(() => {
                         const limeReview = v23FounderLimeReview(selectedV23);
@@ -639,7 +717,7 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                           </div>
                         );
                       })()}
-                      {selectedV23.generatedAssetUrl && (
+                      {selectedV23.generatedAssetUrl ? (
                         <div style={{ marginBottom: '12px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                           <button
                             type="button"
@@ -661,6 +739,22 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                           >
                             REPLAY HISTORICAL PROMPT
                           </button>
+                        </div>
+                      ) : (
+                        <div style={{ marginBottom: '12px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                          <button
+                            type="button"
+                            className="site00-btn site00-btn--primary"
+                            disabled={busy}
+                            onClick={() => void regenerateCurrentV23(selectedV23.id)}
+                          >
+                            GENERATE CURRENT
+                          </button>
+                          {selectedV23.generationJobStatus === 'CANCELLED_SUPERSEDED' && (
+                            <p style={{ fontSize: '0.85rem', margin: 0 }}>
+                              Prior queue job cancelled at methodology supersession — current contract is ready.
+                            </p>
+                          )}
                         </div>
                       )}
                       <dl>
@@ -1028,6 +1122,12 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
           </div>
         </div>
       )}
+      <Site00ImageInspectLightbox
+        imageUrl={inspectImage?.url ?? null}
+        alt={inspectImage?.alt}
+        caption={inspectImage?.alt}
+        onClose={() => setInspectImage(null)}
+      />
     </FounderWorkspaceShell>
   );
 }

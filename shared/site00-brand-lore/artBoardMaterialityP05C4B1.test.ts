@@ -68,6 +68,7 @@ import { formulateExperiment01V21 } from './culturalVisualParticipation/experime
 import { formulateExperiment01V22 } from './characterRetention/experiment01V22.js';
 import {
   generateAllExperiment01V23ArtifactAssets,
+  regenerateAllExperiment01V23ArtifactAssets,
   generateExperiment01V23ArtifactAsset,
   getBrandMarketingExpressionState,
   prepareBrandMarketingExpression,
@@ -179,7 +180,7 @@ describe('P0.5C.4B.1 Signature Lime Restraint', () => {
   });
 
   it('REGENERATE_CURRENT uses C4B.1 compiler; REPLAY preserves history', () => {
-    expect(V23_FAL_COMPILER_VERSION).toContain('P0.5C.4B.1');
+    expect(V23_FAL_COMPILER_VERSION).toContain('P0.5C.6');
     const artifact = v23Result.artifacts[2]!;
     const { falContract } = compileCurrentV23FalPrompt({
       artifact,
@@ -318,6 +319,40 @@ describe('P0.5C.4B.1 V2.3 queue supersession', () => {
     );
   });
 
+  it('allows per-slide REGENERATE_CURRENT after supersession (culture / apology slide)', async () => {
+    let run = (await getBrandMarketingExpressionState({ projectId: 'ndxbook' }))!;
+    const staleExp = makeExperimentStalePreC4B1(run.experiment01V23!);
+    staleExp.status = 'GENERATING';
+    staleExp.generatedArtifacts = staleExp.generatedArtifacts.map((a, i) =>
+      i < 2
+        ? { ...a, generationStatus: 'GENERATED', generatedAssetUrl: `https://vitest.local/${a.id}.png` }
+        : { ...a, generationStatus: 'GENERATING', generationJobStatus: 'QUEUED' },
+    );
+    await saveBrandMarketingExpressionRun({
+      ...run,
+      experiment01V23: staleExp,
+      status: 'EXPERIMENT_01_V23_GENERATING',
+    });
+    run = (await getBrandMarketingExpressionState({ projectId: 'ndxbook' }))!;
+    expect(run.experiment01V23?.generationRunStatus).toBe('SUPERSEDED_BY_METHODOLOGY');
+
+    const apology = run.experiment01V23!.generatedArtifacts.find((a) => a.id === 'bma-exp01-v23-3')!;
+    expect(apology.contract.primaryHook).toBe('WE OWE HER AN APOLOGY.');
+    expect(apology.generationJobStatus).toBe('CANCELLED_SUPERSEDED');
+    expect(apology.generatedAssetUrl).toBeFalsy();
+
+    const generated = await generateExperiment01V23ArtifactAsset({
+      projectId: 'ndxbook',
+      artifactId: 'bma-exp01-v23-3',
+      mode: 'REGENERATE_CURRENT',
+    });
+    const topic3 = generated.experiment01V23!.generatedArtifacts.find((a) => a.id === 'bma-exp01-v23-3')!;
+    expect(topic3.generationStatus).toBe('GENERATED');
+    expect(topic3.generatedAssetUrl).toBeTruthy();
+    expect(topic3.generationJobStatus).toBe('COMPLETED');
+    expect(topic3.generationContract?.prompt).toContain('SIGNATURE LIME RESTRAINT + CHROMATIC ATTENTION');
+  });
+
   it('preserves completed assets through supersession boundary', () => {
     const characterSystem = buildVitestBrandCharacterSystemForMarketing();
     const expressionSystem = compileBrandMarketingExpressionSystem({
@@ -350,5 +385,23 @@ describe('P0.5C.4B.1 V2.3 queue supersession', () => {
     const { experiment: superseded } = applyExperiment01V23Supersession(experiment);
     expect(superseded.generatedArtifacts[0]!.generationLineageClass).toBe('PRESERVED_PRE_C4B1');
     expect(superseded.generatedArtifacts[0]!.generatedAssetUrl).toBe('https://vitest.local/one.png');
+  });
+
+  it('regenerateAllExperiment01V23ArtifactAssets refreshes all nine slides when board is complete', async () => {
+    await prepareBrandMarketingExpression({ projectId: 'ndxbook' });
+    await compileBrandMarketingExpression({ projectId: 'ndxbook' });
+    await formulateMarketingExpressionExperiment01({ projectId: 'ndxbook' });
+    await formulateMarketingExpressionExperiment01V2({ projectId: 'ndxbook' });
+    await formulateMarketingExpressionExperiment01V21({ projectId: 'ndxbook' });
+    await formulateMarketingExpressionExperiment01V22({ projectId: 'ndxbook' });
+    await formulateMarketingExpressionExperiment01V23({ projectId: 'ndxbook' });
+    await generateAllExperiment01V23ArtifactAssets({ projectId: 'ndxbook' });
+    const before = (await getBrandMarketingExpressionState({ projectId: 'ndxbook' }))!;
+    const falBefore = before.accounting.falRequests;
+    await regenerateAllExperiment01V23ArtifactAssets({ projectId: 'ndxbook' });
+    const after = (await getBrandMarketingExpressionState({ projectId: 'ndxbook' }))!;
+    expect(after.experiment01V23?.generatedArtifacts).toHaveLength(9);
+    expect(after.experiment01V23?.generatedArtifacts.every((a) => a.generationStatus === 'GENERATED')).toBe(true);
+    expect(after.accounting.falRequests).toBeGreaterThan(falBefore);
   });
 });

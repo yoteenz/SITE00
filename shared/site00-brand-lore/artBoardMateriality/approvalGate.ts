@@ -11,6 +11,8 @@ import {
   migrateV23ArtifactGenerationLineage,
   selectedAssetPassesCurrentLineage,
 } from './v23GenerationAuthority.js';
+import { v23VisualAuthorityGatePasses } from './visualAuthorityC6.js';
+import { v23AuthoredArtifactGatePasses } from './authoredArtifactC6A.js';
 
 export function artBoardMaterialityApprovalGatePasses(artifact: Experiment01V23Artifact): boolean {
   const migrated = migrateV23ArtifactGenerationLineage(artifact);
@@ -49,6 +51,41 @@ export function allV23SelectedAssetsPassCurrentLineage(
   return experiment.generatedArtifacts.every((a) => v23SelectedAssetPassesCurrentLineage(a));
 }
 
+export function authoredArtifactGatePasses(artifact: Experiment01V23Artifact): boolean {
+  return v23AuthoredArtifactGatePasses(artifact);
+}
+
+export function visualAuthorityGatePasses(artifact: Experiment01V23Artifact): boolean {
+  return v23VisualAuthorityGatePasses(artifact);
+}
+
+export function round01VisualAuthorityGate(params: {
+  v23Experiment: MarketingExpressionExperiment01V23 | null | undefined;
+}): { allowed: boolean; reason: string | null } {
+  if (!params.v23Experiment) {
+    return { allowed: false, reason: 'V2.3 experiment required for Round 01 visual authority gate' };
+  }
+  const generated = params.v23Experiment.generatedArtifacts.filter(
+    (a) => a.generationStatus === 'GENERATED' && a.generatedAssetUrl,
+  );
+  if (generated.length < 9) {
+    return { allowed: false, reason: 'All nine first slides must be generated before visual authority gate' };
+  }
+  if (!generated.every((a) => visualAuthorityGatePasses(a))) {
+    return {
+      allowed: false,
+      reason: 'ROUND_01_VISUAL_AUTHORITY_GATE — all selected assets must pass P0.5C.6 visual appetite + bespoke art direction evaluations',
+    };
+  }
+  if (!generated.every((a) => authoredArtifactGatePasses(a))) {
+    return {
+      allowed: false,
+      reason: 'ROUND_01_AUTHORED_ARTIFACT_GATE — all selected assets must pass P0.5C.6A authored artifact grammar + human history evaluations',
+    };
+  }
+  return { allowed: true, reason: null };
+}
+
 export function round01LockRequiresMaterialGate(params: {
   v23Experiment: MarketingExpressionExperiment01V23 | null | undefined;
 }): { allowed: boolean; reason: string | null } {
@@ -70,8 +107,12 @@ export function round01LockRequiresMaterialGate(params: {
   if (!allV23SelectedAssetsPassCurrentLineage(params.v23Experiment)) {
     return {
       allowed: false,
-      reason: 'Round 01 lock requires selected assets generated from current V2.3 contract lineage (C.4A + C.4B + C.4B.1 + C.5). Legacy generations remain visible but cannot lock.',
+      reason: 'Round 01 lock requires selected assets generated from current V2.3 contract lineage (C.4A + C.4B + C.4B.1 + C.5 + C.6 + C.6A). Legacy generations remain visible but cannot lock.',
     };
+  }
+  const visualGate = round01VisualAuthorityGate(params);
+  if (!visualGate.allowed) {
+    return visualGate;
   }
   return { allowed: true, reason: null };
 }

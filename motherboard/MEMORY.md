@@ -4445,11 +4445,209 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-08-24 — P0.5E.4 Founder Character Discovery Room + Pre-Casting Synthesis Gate
+
+- **Context:** Sprint P0.5E.4 — continue from P0.5E.3 embodied character foundation. P0.5E.3 seeded psychology/intelligence/contradictions/etc. as **SYSTEM_SEEDED proposals**; founder must confirm/revise/reject before casting. Build interactive Founder Character Discovery Room — character truth before visual identity. NO FAL, NO face selection, NO Character Bible synthesis auto-advance.
+- **Generic Studio World:** `shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/` — 28 CharacterDiscoveryDomains, scenario-based discovery with NONE_OF_THESE/SOMETHING_ELSE/IT_DEPENDS/I_DONT_KNOW_YET escape options, FounderCharacterJudgment, CharacterContradiction engine (rejects generic adjective pairs), CharacterFlawProfile (blocks secretly flattering flaws), uneven CharacterIntelligenceMap, CharacterHumorBehavior, CharacterRelationshipModel, CulturalKnowledgeBoundary, PublicPrivateCharacterDifference, CharacterDiscoveryLedger (lineage-preserving), CharacterTruthConfidence, extended EmbodiedCharacterHumanityEvaluation, CharacterSynthesisPreview, FounderCharacterRecognitionEvaluation (YES_I_KNOW_HER gate, not inferrable), CharacterCastingReadinessEvaluation.
+- **NDX adapter:** `shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/` — forensic audit of P0.5E.3 seeded content (starting readiness BLOCKED_FOUNDER_DISCOVERY_REQUIRED); 4 NDX scenarios (wrong receipt, enemy excellent point, 1:43am rabbit hole, wrong at dinner); seeds contradictions/flaws/intelligence/cultural boundaries/book discovery from P0.5E.3 base; 18 visual tendency hypotheses as evidence not canon.
+- **API/UI:** Supabase persistence via `site00_methodology_validation_runs` (`NDX_FOUNDER_CHARACTER_DISCOVERY_DB_ID`, mode `NDX_FOUNDER_CHARACTER_DISCOVERY`). Routes: `founder_character_discovery_*` actions. UI: `/projects/ndxbook/character/discovery` — ProjectFounderCharacterDiscoveryPage with 12 discovery sections (forensic, scenarios, traits, contradictions, flaws, intelligence, voice lab, book, visual hypotheses, synthesis preview, I KNOW HER gate, casting readiness). Link from P0.5E.3 embodied-character page.
+- **Casting gates:** READY_FOR_CHARACTER_SYNTHESIS and READY_FOR_CHARACTER_CASTING_EXPLORATION remain false until founder completes discovery + explicit YES_I_KNOW_HER. FAL_REQUESTS=0.
+- **Tests:** 46 requirements in `embodiedCharacterFounderDiscoveryP05E4.test.ts`. Build green. Deploy v59 after merge.
+
+---
+
+## 2026-08-24 — P0.5E.5 Character Bible Ingestion + Continuity Authority + Provider-Aware FAL Pipeline
+
+- **Context:** Sprint P0.5E.5 — build generic Studio World embodied-character continuity pipeline architecture WITHOUT final NDX casting, face selection, Character Bible approval, FAL generation, or LoRA training. Pipeline must accept future approved Character Bible and compile through continuity → reference pack → scene contract → provider capability → FAL contract → QA → founder review. Pre-casting mode blocks production generation.
+- **Generic Studio World:** `shared/site00-studio-world-production/characterContinuityPipeline/` — EmbodiedCharacterBible, CharacterBibleIngestionPipeline (raw source preservation + receipts), CharacterBibleAudit (character truth vs visual readiness separated), CharacterContinuityBible, identity anchors + variation governance + negative identity constraints, CharacterReferencePack + scoped ReferenceAuthorityEvaluation, CharacterSceneContract + compiler, FAL CharacterGenerationCapability registry + schema discovery states, model selection (identity-first), ProviderCharacterGenerationContract + model-aware compiler, PRE_CASTING_PIPELINE_MODE, CharacterGenerationSnapshot + versioning/invalidation, identity vs behavior fidelity QA, video/multi-scene continuity, BookContinuityContract, voice pipeline architecture, trained-identity architecture (no training), provider fallback policy, model bake-off architecture only.
+- **NDX adapter:** `shared/site00-brand-lore/ndxCharacterContinuityPipeline/` — DB id `c4e1a2b3-0016-4000-8000-000000000001` (must not collide with P0.5E.3 `0015`); mock structured character fixtures only (NOT NDX identity); Book/motion terminology integration; forensic audit helper.
+- **API/UI:** Supabase persistence via `site00_methodology_validation_runs` (mode `NDX_CHARACTER_CONTINUITY`). Actions: `character_continuity_get|initialize|ingest_bible|ingest_synthesis|preview_contract|mock_fixture_test`. UI: `/projects/ndxbook/character/continuity` + `/review` — ProjectCharacterContinuityPage (Audit, Bible, Continuity, References, FAL, Generation, Review sections). Nav link from experiments hub.
+- **Gates:** `PRODUCTION_GENERATION_BLOCKED_CHARACTER_NOT_CAST`; `FAL_REQUESTS_FOR_CHARACTER_GENERATION=0`; mock fixture test proves pipeline without inventing NDX woman. Final face/ visual identity / training / production generation all remain false.
+- **Tests:** 61 requirements in `characterContinuityP05E5.test.ts`. Build green. Deploy v61 after merge.
+
+---
+
+## 2026-08-24 — Founder mobile capture-auth bootstrap page
+
+- **Context:** Founder codes from mobile; asked how to configure Railway `SITE00_CAPTURE_STORAGE_STATE_*` without a laptop. Prior answer required Playwright codegen on desktop.
+- **Built:** Phone-friendly founder bootstrap — export Playwright storage state from current signed-in admin session.
+  - **API:** `POST /api/capture-auth-bootstrap` (admin-only) validates refresh token, builds signed `baw_session_rt` + Supabase `localStorage` entries → Playwright `storageState` JSON for Railway `SITE00_CAPTURE_STORAGE_STATE_JSON`.
+  - **Shared:** `buildCaptureStorageState.ts` + tests; `sessionRefreshCookie.ts` extracted from session-cookie handler.
+  - **UI:** `/control/debug/capture-auth` → `/admin/site00/debug/capture-auth` — EXPORT FOR RAILWAY button, copy JSON, Railway step list.
+  - **Visual dev link:** When authenticated refs not VALID, panel links to bootstrap page.
+- **Founder flow (phone):** Sign in on site00.com → open `/control/debug/capture-auth` → EXPORT → copy JSON → Railway Variables → redeploy API → CAPTURE / REFRESH REFERENCES → PROJECTS DESKTOP: VALID.
+
+---
+
+## 2026-08-24 — Art board slide inspect lightbox
+
+- **Context:** Founder requested tapping a slide on the Experiment 01 art board should enlarge the image in a popup with an X close icon for closer inspection.
+- **Built:** `Site00ImageInspectLightbox` — full-screen overlay with enlarged image, caption, 44px × close button, backdrop tap + Escape dismiss. Wired into `ProjectBrandMarketingExpressionExperiment01Page` grid: tap generated slide opens lightbox while preserving slide selection/review flow.
+- **Ship:** PR #390 merged; deploy v62 (`index.BAVo19wc.js`).
+
+---
+
+## 2026-08-24 — P0.5C.6 Visual Appetite Authority + Bespoke Art Direction Dominance
+
+- **Context:** Sprint P0.5C.6 — correct NDX Marketing Expression generation hierarchy. Synthesize V2.1 visual appetite (graphic design, cultural participation, feed-stopping power) with V2.3 editorial/materiality discipline. Principle: **ARTISTICALLY_RICH_COGNITIVELY_SIMPLE**. Amend V2.3 methodology only — no V2.4. No FAL generation during sprint.
+- **Generic Studio World:** `shared/site00-studio-world-production/visualAuthority/` — `VisualAuthoritySystem`, design authority chain, bespoke art direction contract, pre-reading appetite gate, text-removal test, evidence role evaluation, topic-specific art direction, feed artistic range, forensic comparison, visual discovery inheritance.
+- **NDX V2.3 integration:** `visualAuthorityC6.ts`; `falPromptCompilerV23@P0.5C.6`; pre-C6 queue supersession; `ROUND_01_VISUAL_AUTHORITY_GATE`; 17-section FAL compiler order (art direction before editorial hierarchy).
+- **UI:** Experiment 01 — **VISUAL AUTHORITY REVIEW — P0.5C.6** 3×3 checklist section.
+- **Tests:** `artBoardMaterialityP05C6.test.ts` (11 tests); 70 artBoard tests green. FAL_REQUESTS=0; REGENERATE CURRENT compiles P0.5C.6.
+- **Ship:** deploy v63 (`index.QrvF_fKd.js`). Founder: review VISUAL AUTHORITY board, then REGENERATE CURRENT when ready.
+
+---
+
+## 2026-08-24 — P0.5E.4A Adaptive Founder Character Calibration
+
+- **Context:** Upgrade P0.5E.4 Founder Character Discovery from static questionnaire to adaptive PROPOSE → REACT → UPDATE calibration loop. Founder role = recognition not creation. P0.5E.4 methodology preserved.
+- **Generic Studio World:** `shared/site00-studio-world-production/founderCharacterCalibration/` — calibration reactions, inference, priority engine, session state, human-readable synthesis, cognitive-load guard, forensic audit.
+- **NDX adapter:** `ndxCalibrationAdapter.ts` — migrates P0.5E.4 evidence into calibration moments (scenarios with system predictions, contradiction/flaw/intelligence behavioral tests, voice/book/visual clusters, synthesis reads, disconfirming tests, adaptive follow-ups).
+- **API/UI:** `founder_character_discovery_calibration_continue|reaction|synthesis`; `/projects/ndxbook/character/discovery` — primary CALIBRATION card (CONTINUE CALIBRATION, one moment at a time, 5 reactions); INPECT tab for legacy sections; human-readable synthesis tab.
+- **Tests:** `embodiedCharacterFounderDiscoveryP05E4A.test.ts` (13 tests) + P05E4 (46) preserved. FAL=0; casting blocked until YES_I_KNOW_HER.
+
+---
+
+## 2026-08-24 — V2.3 apology slide (topic 3) generation after supersession
+
+- **Context:** Founder reported "WE OWE HER AN APOLOGY." V2.3 slide (`bma-exp01-v23-3`) would not generate. Root cause: after P0.5C.4B.1/C.6 methodology supersession, pending queue jobs were `CANCELLED_SUPERSEDED` but `assertV23GenerationAllowed` blocked **all** generation including per-slide `REGENERATE_CURRENT`; UI only showed regenerate for slides that already had images — leaving never-generated slides (like culture/apology) with no action.
+- **Fix:** Split supersession guards — `assertV23BatchGenerationAllowed` (batch still blocked) vs `assertV23SingleArtifactGenerationAllowed` (allows `REGENERATE_CURRENT` / `REPLAY_GENERATION` per slide after supersession). Clear `CANCELLED_SUPERSEDED` → `COMPLETED` on successful single generate. UI: **GENERATE CURRENT** button for slides without images; hide batch "GENERATE REMAINING" when superseded; guidance copy.
+- **Tests:** `artBoardMaterialityP05C4B1.test.ts` — new case generates `bma-exp01-v23-3` after supersession with current C4B.1 prompt.
+- **Founder:** Select apology slide → tap **GENERATE CURRENT** (or REGENERATE if image exists). Batch generate remains blocked after supersession by design.
+
+---
+
+## 2026-08-24 — P0.5E.4B.1 Neural Voice Casting Provider + Synthetic Placeholder Retirement
+
+- **Context:** Founder reported P0.5E.4B browser SpeechSynthesis auditions sound robotic ("robots trying to sound like women"). Sprint preserves full P0.5E.4B calibration methodology while replacing founder-facing audition provider with FAL neural TTS (MiniMax Speech-02 HD).
+- **Topics:** `CharacterVoiceProviderAuthority` (browser → `DEV_PLACEHOLDER`); `NeuralVoiceCastingModelSelection`, `NeuralVoiceCandidateIdentity`, `NaturalConversationalPerformanceContract`, `NeuralVoiceNaturalnessEvaluation`; FAL generation service; human-woman test gate separate from character fit; Voice Lab UI neural casting mode with cost estimate + START NEURAL VOICE AUDITION; placeholder judgments preserved as `PLACEHOLDER_CALIBRATION_EVIDENCE`.
+- **Provider:** FAL `fal-ai/minimax/speech-02-hd` with preset female voices (CalmWoman, FriendlyWoman, WiseWoman, SoftWoman); same-line control `"WAIT. NO, BECAUSE THAT ACTUALLY DOES NOT MAKE SENSE."`; founder-trigger only; no audio on page load.
+- **Tests:** `embodiedCharacterVoiceP05E4B1.test.ts` (11 tests) + updated P0.5E.4B regressions (30 total voice tests pass); build OK (`ProjectFounderCharacterDiscoveryPage.Df7sh5IG.js`).
+- **Founder:** Railway redeploy (requires `FAL_KEY`). GoDaddy deploy v69. Character Discovery → INSPECT → VOICE LAB → START NEURAL VOICE AUDITION. Ignore prior browser-TTS auditions as placeholder evidence.
+
+---
+
+## 2026-08-24 — Neural provider status UX fix (false NOT CONFIGURED banner)
+
+- **Symptom:** Voice Lab showed `NEURAL VOICE PROVIDER NOT CONFIGURED` on fsbw-dev even when founder believed `FAL_KEY` was set on Railway.
+- **Root causes:** (1) Check runs on **Railway API** (`api.site00.com`), not cPanel/frontend — exact var name `FAL_KEY` on the API service + redeploy required. (2) UI bug: estimate API `.catch()` set `neuralConfigured=false` on *any* failure (404/old API, auth), not only missing key. (3) `FAL: 0` header was hardcoded, not live.
+- **Fix:** GET discovery syncs `neuralProviderConfigured` from live `FAL_KEY`; returns `neuralProviderConfigured` on GET; separate error message when estimate fails vs key missing; live `falRequests` in header; `FAL_KEY?.trim()` check.
+
+---
+
+## 2026-08-24 — Neural voice audition FAL voice_id fix (UNPROCESSABLE ENTITY)
+
+- **Symptom:** START NEURAL VOICE AUDITION failed with `UNPROCESSABLE ENTITY` after provider configured.
+- **Root cause:** FAL MiniMax accepted `English_CalmWoman` for clip 1, then rejected `English_FriendlyWoman`, `English_WiseWoman`, `English_SoftWoman` as invalid voice IDs on clips 2–4. FAL `@fal-ai/client` surfaces HTTP 422 as message `Unprocessable Entity`.
+- **Fix:** Casting territories now use verified FAL preset IDs (`Calm_Woman`, `Lively_Girl`, `Wise_Woman`, `Soft_Girl`); FAL errors formatted with field-level detail; pitch coerced to integer in request compiler.
+- **Founder:** **Railway API redeploy required** (not just cPanel). Then retry START NEURAL VOICE AUDITION.
+
+---
+
+## 2026-08-24 — NDX neural casting v2 (charisma / adult presence territories)
+
+- **Founder feedback:** Round 1 MiniMax presets (Calm/Wise/Lively/Soft) too generic — last voice (Soft_Girl) closest on naturalness but none matched late-20s AA woman with attitude, personality, charisma.
+- **Fix:** NDX adapter-owned territories (`ndxNeuralCastingTerritories.ts`) — Round 1: Exuberant_Girl, Energetic_Girl, Attractive_Girl, Soft_Girl with behavior-first performance direction (no dialect/caricature keywords). CLOSE on Soft_Girl → sibling round refines same woman (more attitude/grounded/Lovely_Girl/Exuberant_Girl variants). UI hints: mark CLOSE before next round.
+- **Limitation:** MiniMax preset catalogue still TTS — full demographic fidelity may require future ElevenLabs bake-off or voice design sprint.
+- **Founder:** Railway redeploy + optional cPanel v71. Mark closest voice CLOSE → GENERATE NEXT NEURAL ROUND; or START NEURAL VOICE AUDITION again for refreshed Round 1 voices.
+
+---
+
+## 2026-08-24 — Neural voice edit / re-prompt / regenerate loop (mirrors V2.3 slides)
+
+- **Context:** Full chat arc: P0.5E.4B.1 neural voice casting on FAL MiniMax; provider status UX fix; FAL 422 invalid voice_id fix; NDX v2 territories for African-American woman late 20s attitude; founder asked voice system get same edit/re-prompt/regenerate loop as lime green campaign slides (Experiment 01 V2.3).
+- **Topics:** Neural casting provider sprint; tunnel restart; NEURAL VOICE PROVIDER NOT CONFIGURED / UNPROCESSABLE ENTITY debugging; casting feedback (Soft_Girl closest but wrong demographic/energy); voice revision loop parity with V2.3 founder revision pipeline.
+- **Decisions / outcomes:** Voice Lab now mirrors V2.3 pattern — approval judgments save immediately; revision judgments (TOO_FAST, TOO_POLISHED, VOICE_RIGHT_PERFORMANCE_WRONG, etc.) open founder note modal → contract update → neural re-synthesis; per-candidate **REGENERATE CURRENT** and **REPLAY HISTORICAL PROMPT**; `revisionHistory[]`, `promptSnapshots[]`, `generationAssets[]` on each hypothesis.
+- **Changes:** `neuralVoiceFounderRevisionPipeline.ts`, `neuralVoiceRevisionEngine.ts`, `voiceFounderRevisionLabels.ts`; extended `CharacterVoiceHypothesis` types; service routes `founder_character_discovery_neural_voice_revision` + `_neural_voice_regenerate`; Voice Lab UI modal + buttons; tests `embodiedCharacterVoiceRevisionLoop.test.ts` (4 pass).
+- **Founder:** Railway redeploy API from `main`. GoDaddy deploy for Voice Lab UI. Voice Lab → tap revision label → note → CONFIRM & RE-SYNTHESIZE; or REGENERATE CURRENT / REPLAY on any neural clip.
+
+---
+
+## 2026-08-24 — Experiments Hub scroll restore on refresh
+
+- **Context:** Founder on `/projects/ndxbook/experiments` — browser refresh or return from an experiment reset scroll to top of hub ("homepage" of the index).
+- **Fix:** `useExperimentsHubScrollRestore` + `experimentsHubScrollRestore.ts` — persist `sessionStorage` scroll Y per project slug; restore on hub mount with retry until content height allows; save on scroll (debounced) and `pagehide`.
+- **Tests:** `experimentsHubScrollRestore.test.ts` (3 tests).
+- **Founder:** GoDaddy deploy for UI bundle. Scroll down hub → refresh or open experiment → EXPERIMENTS HUB — should land at same scroll position.
+
+---
+
+## 2026-08-24 — Voice Lab CURRENT vs PRIOR tabs
+
+- **Context:** Founder could not tell new neural voices from old when revisions/rounds stacked on one page — needed separate tab to know what's current vs prior.
+- **Fix:** Voice Lab sub-tabs **CURRENT (N)** and **PRIOR (N)** — CURRENT = latest neural round only (judge/revise/regenerate); PRIOR = earlier neural rounds, placeholder evidence, superseded revision clips with play-only.
+- **Files:** `voiceLabTabs.ts`, `ProjectFounderCharacterDiscoveryPage.tsx`; tests `voiceLabTabs.test.ts`.
+- **Founder:** GoDaddy deploy → Voice Lab → CURRENT tab for active auditions; PRIOR tab for old rounds and pre-revision clips.
+
+---
+
+## 2026-08-24 — Voice Lab GENERATE NEXT NEURAL ROUND visibility
+
+- **Context:** Founder could not find button to generate new voice packs after marking CLOSE — button required all four JUDGMENTS_COMPLETE and sat at bottom of long CURRENT tab.
+- **Fix:** Unlock **GENERATE NEXT NEURAL ROUND** when any neural candidate has CLOSE/YES (or full round judged); pin highlighted panel at top of CURRENT tab; orange hint when still locked.
+- **Files:** `voiceLabTabs.ts` (`canGenerateNextNeuralRound`, `nextNeuralRoundUnlockHint`), `ProjectFounderCharacterDiscoveryPage.tsx`; tests `voiceLabTabs.test.ts`.
+- **Founder:** GoDaddy deploy → Voice Lab → CURRENT tab → mark CLOSE on closest voice → button appears at top (no need to judge all four).
+
+
+---
+
+## 2026-08-24 — Founder calibration closed-loop progress panel
+
+---
+
+---
+
+## 2026-08-24 — P0.5C.6A Authored Artifact Grammar + Template Frame Removal + Human History Authority
+
+- **Context:** P0.5C.6 improved bespoke artistic premise (e.g. subscription THEN/NOW shelf) but FAL outputs still read as infographic templates (top headline panel, bottom evidence box, header/body/footer hierarchy). Sprint required amending V2.3 FAL compiler — NOT V2.4 — with authored artifact grammar, human history authority, template frame removal; supersede stale queue; no auto-regeneration.
+- **Fix:** Generic `site00-studio-world-production/authoredArtifact/` (AuthoredArtifactSystem, ArtifactHumanHistoryContract, TemplateFrameDetectionEvaluation, OverResolvedArtifactEvaluation, ArtifactGrammarDiversityEvaluation, AuthoredInterventionEvaluation). NDX adapter `authoredArtifactC6A.ts`. `falPromptCompilerV23@P0.5C.6A` — new prompt sections: AUTHORED ARTIFACT GRAMMAR, RAW VISUAL ARTIFACT, NDX INTERVENTION, HUMAN HISTORY, INFORMATION INHABITATION, ANTI-TEMPLATE FRAME, OVER-RESOLUTION GUARD. Authority order: content thesis → visual premise → raw artifact → bespoke composition → NDX intervention → human history → editorial information. Pre-C6A queue supersession (`artifactHasPreC6APrompt`, `V23_SUPERSESSION_REASON_C6A`). Round 01 gate includes authored artifact evaluation. UI: V2.3 review panel shows C.6A status.
+- **Tests:** `artBoardMaterialityP05C6A.test.ts` (10 tests); 82 artBoard tests pass; build OK.
+- **Founder:** GoDaddy deploy → Experiment 01 V2.3 → REGENERATE subscription slide (topic 1) under P0.5C.6A and compare: bespoke shelf strength, no infographic shell, NDX hands/thinking, information inside artwork. Railway redeploy for API/compiler path. No automatic FAL regeneration — founder triggers explicitly.
+
+
+- **Context:** Founder disliked all nine current V2.3 slide selections — only per-slide REGENERATE CURRENT existed; batch generate only filled pending slots.
+- **Fix:** **REGENERATE ALL V2.3 — NINE NEW TAKES (FAL)** on Experiment 01 V2.3 board when all nine generated; API `marketing_expression_experiment_01_v23_regenerate_all`; parallel batch regen from current contracts (sequential fallback when superseded).
+- **Files:** `brandMarketingExpressionService.ts`, `ProjectBrandMarketingExpressionExperiment01Page.tsx`, `site00ProjectsApi.ts`, `api/site00/projects.ts`; test `artBoardMaterialityP05C4B1.test.ts`.
+- **Founder:** GoDaddy deploy → Experiment 01 → V2.3 tab → after all nine exist, tap REGENERATE ALL (confirms cost).
+
+
+- **Context:** Founder completed calibration work but room felt like an unclosed loop — no progress indicator, unclear what remained, no obvious path to synthesize/create character.
+- **Fix:** Persistent **YOUR PROGRESS** panel (checklist + bar + GO TO NEXT STEP); CASTING tab human checklist; **GENERATE CHARACTER READ** CTA when `readyForCharacterSynthesis`; neural Voice Lab judgments now satisfy `voice_differentiation` gate; CALIBRATION shows direct YES count (3 required, ALMOST does not count).
+- **Files:** `founderCharacterDiscoveryProgress.ts`, `ProjectFounderCharacterDiscoveryPage.tsx`, `ndxCastingReadinessBridge.ts`; tests.
+- **Founder:** GoDaddy deploy → progress panel at top shows ✓/○ for each gate; tap next step; when green, GENERATE CHARACTER READ then Embodied Character Discovery link.
+
+
+- **Context:** Founder reported YES I KNOW HER not unlocking casting; voice lab selections not appearing saved. Root cause: YES_I_KNOW_HER **was** persisting (`founderKnowsHer: true`) but P0.5E.4A calibration progress did not feed P0.5E.4 casting gates (still required 5 INSPECT trait confirmations). UI always showed "BLOCKED until YES_I_KNOW_HER" even after selection. Voice lab saved to API but UI showed no saved state.
+- **Fix:** `ndxCastingReadinessBridge.ts` — calibration moments + domain confirmations satisfy discovery/gates; refresh readiness on GET; voice calibration moment writes voice lab judgment; CASTING tab shows human-readable blockers; header shows dynamic status; voice lab shows **Saved:** label + success notice on tap.
+- **Tests:** `ndxCastingReadinessBridge.test.ts` (4 tests).
+- **Founder:** Continue CALIBRATION (6+ moments) → I KNOW HER → CASTING tab lists any remaining gates. Voice lab: tap THAT'S HER — should show Saved line. Railway API redeploy required for backend bridge.
+
+---
+
+## 2026-08-24 — Founder trait propositions v2 (fluent INSPECT TRAITS)
+
+- **Context:** Founder reported INSPECT → TRAITS incoherent / AI jargon (`PSYCHOLOGY • SYSTEM_SEEDED • HYPOTHESIS` + fragment statements).
+- **Fix:** `ndxFounderTraitPropositions.ts` — 14 plain-language propositions in 6 sections; auto-migrate legacy runs on GET; TRAITS UI grouped with YES/ALMOST/NO/NOT SURE primary buttons + saved labels.
+- **Tests:** `ndxFounderTraitPropositions.test.ts` (4 tests).
+
+---
+
+## 2026-08-24 — P0.5E.4B Adaptive Character Voice Casting + Auditory Calibration
+
+- **Context:** Full sprint P0.5E.4B — split Language Lab from Voice Lab; auditory adaptive voice casting with persistent voice identity; P0.5E.5 integration; founder recognition-only UX (no acoustic parameters).
+- **Topics:** Reclassify P0.5E.4 text Voice Lab as `CharacterLanguageEvidence`; generic `embodiedCharacterVoice/` module (identity, hypothesis, calibration rounds, inference, envelope, capability registry, contract, snapshot, continuity QA); NDX adapter + browser SpeechSynthesis playback for audition; API routes for round start, hypothesis judgment, pairwise, recognition, unseen-line test.
+- **UI:** INSPECT → **LANGUAGE LAB** (existing text registers preserved) + **VOICE LAB** (auditory: START AUDITION, PLAY, YES/CLOSE/NO, compare, next round, voice recognition gate). Progress domains replace percentage completion.
+- **Constraints preserved:** `FOUNDER_CHARACTER_VOICE_CONFIRMED: false` until explicit YES after emotion + unseen-line gates; no auto YES_I_KNOW_HER; no FAL on page load; synthetic calibration provider (FAL TTS registered as schema-review-required); Brand Character/Canon unchanged.
+- **Tests:** `embodiedCharacterVoiceP05E4B.test.ts` (19 tests); full suite 2634 pass; build OK (`ProjectFounderCharacterDiscoveryPage.Dv5N4LYo.js`).
+- **Founder:** Railway redeploy for API. GoDaddy deploy for UI. Character Discovery → INSPECT → VOICE LAB → START VOICE AUDITION.
+
+---
+
 ## 2026-08-24 — Founder Workspace Experience Architecture (NDXBOOK Studio World remodel)
 
 - **Context:** Large implementation sprint to remodel NDXBOOK founder-facing Studio World from endless-scroll methodology pages into a cohesive editorial command-center with progressive disclosure (Operate / Understand / Inspect). Attached generated concept = primary visual authority; current production screenshots = functional evidence only.
 - **Architecture:** Generic Studio World primitives in `shared/site00-studio-world-production/founderWorkspace/` (attention hierarchy, presentation types). NDX adapters in `shared/site00-brand-lore/founderWorkspace/` (nav, journey, content ops desk, campaign wall, CI radar, performance learning, character lab). React shell in `src/site00/components/founderWorkspace/` + `site00-founder-workspace.css`.
 - **Surfaces remodeled:** Content Operations (editorial desk + pulse + artwork-first grid), Campaign Board (production wall + day nav + content lanes), Experiment 01 (FounderWorkspaceShell, version timeline, methodology in inspect `<details>`), Experiments Hub (methodology journey + collapsible full index as ARCHIVE), Cultural Intelligence (radar room), Performance + Learning (observation room), Character Lab (synthesis-first + CALIBRATION/LANGUAGE/VOICE/BIBLE/CASTING modes). Asset review workspace + inspector drawer reusable across surfaces.
 - **Preservation:** No Brand Character/Canon mutation, no FAL decorative generation, no methodology deletion — Layer 3 moved to INSPECT drawer/details. Regression tests in `founderWorkspaceP0.test.ts` (10 passing). Build green.
-- **Ship:** Branch `cursor/founder-workspace-remodel-1983` → PR → merge to `main`. Founder deploy: GitHub Actions artifact/ZIP or FTP to site00.com for UI changes.
+- **Ship:** PR #408 merged to `main`. Founder deploy: GitHub Actions artifact/ZIP or FTP to site00.com for UI changes.
 
