@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
-import { site00ProjectsApi } from '../services/site00ProjectsApi';
+import { site00ProjectsApi, Site00ProjectsApiError } from '../services/site00ProjectsApi';
 import {
   site00ProjectMotionCharacterPath,
   site00ProjectPath,
@@ -58,6 +58,8 @@ export default function ProjectEmbodiedCharacterDiscoveryPage() {
   const [run, setRun] = useState<NdxEmbodiedCharacterDiscoveryRun | null>(null);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
+  const [actionNotice, setActionNotice] = useState<string | null>(null);
   const [section, setSection] = useState<DiscoverySection>('STATUS');
   const [roundAnswer, setRoundAnswer] = useState('');
   const [selectedRound, setSelectedRound] = useState('WHO_IS_SHE');
@@ -79,12 +81,24 @@ export default function ProjectEmbodiedCharacterDiscoveryPage() {
     void reload();
   }, [reload]);
 
-  const act = async (fn: () => Promise<{ run?: Record<string, unknown> }>) => {
+  const act = async (fn: () => Promise<{ run?: Record<string, unknown> }>, opts?: { successMessage?: string; goToSection?: DiscoverySection }) => {
     setBusy(true);
+    setActionError(null);
+    setActionNotice(null);
     try {
       const result = await fn();
       if (result.run) setRun(result.run as NdxEmbodiedCharacterDiscoveryRun);
       else await reload();
+      if (opts?.successMessage) setActionNotice(opts.successMessage);
+      if (opts?.goToSection) setSection(opts.goToSection);
+    } catch (err) {
+      const message =
+        err instanceof Site00ProjectsApiError
+          ? err.message
+          : err instanceof Error
+            ? err.message
+            : 'Character discovery action failed';
+      setActionError(message);
     } finally {
       setBusy(false);
     }
@@ -117,6 +131,18 @@ export default function ProjectEmbodiedCharacterDiscoveryPage() {
             <p><strong>FINAL FACE:</strong> NOT SELECTED</p>
             <p><strong>CHARACTER GENERATION:</strong> NOT PERFORMED</p>
             <p>Founder visual selections = discovery evidence, not canon.</p>
+            {actionError && (
+              <section className="site00-experiment-g__panel" role="alert">
+                <h2>Action failed</h2>
+                <p>{actionError}</p>
+                {actionError.includes('not initialized') && (
+                  <p>Tap INITIALIZE CHARACTER DISCOVERY first, or retry after the API redeploys.</p>
+                )}
+              </section>
+            )}
+            {actionNotice && (
+              <p role="status"><strong>{actionNotice}</strong></p>
+            )}
             {!run && (
               <button
                 type="button"
@@ -132,7 +158,12 @@ export default function ProjectEmbodiedCharacterDiscoveryPage() {
                 type="button"
                 className="site00-btn"
                 disabled={busy}
-                onClick={() => void act(() => site00ProjectsApi.embodiedCharacterDiscoverySynthesize(projectSlug))}
+                onClick={() =>
+                  void act(() => site00ProjectsApi.embodiedCharacterDiscoverySynthesize(projectSlug), {
+                    successMessage: 'Character synthesis complete — review SYNTHESIS tab.',
+                    goToSection: 'SYNTHESIS',
+                  })
+                }
               >
                 SYNTHESIZE CHARACTER (FOUNDER-TRIGGERED)
               </button>

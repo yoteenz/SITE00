@@ -4425,3 +4425,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **No V2.4.** No automatic regeneration after sprint — founder REGENERATE CURRENT only.
 - **Tests:** `artBoardMaterialityP05C4B1.test.ts` (14) + updated P05C4B/P05C5A. Build green.
 
+---
+
+## 2026-08-24 — Embodied Character Discovery synthesize button fix
+
+- **Context:** Founder reported **SYNTHESIZE CHARACTER (FOUNDER-TRIGGERED)** on `/projects/ndxbook/embodied-character` did nothing.
+- **Root cause:** Store adapter was **memory-only** — on Railway multi-instance, initialize/synthesize could land on different pods; synthesize threw "not initialized" with no UI error. `act()` swallowed failures silently.
+- **Fix:** Supabase persistence via `site00_methodology_validation_runs` (`NDX_EMBODIED_CHARACTER_DISCOVERY_DB_ID`, mode `NDX_EMBODIED_CHARACTER_DISCOVERY`); durable store adapter with vitest memory fallback. UI: catch API errors, show alert panel, success notice, auto-navigate to SYNTHESIS tab on success.
+- **Ship:** Railway API redeploy + cPanel ZIP for UI error/feedback changes.
+
