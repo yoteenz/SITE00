@@ -4722,3 +4722,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **UI:** `/projects/:slug/realism-lab` (+ brief, providers, runs, review, continuity, decision). Visual lane comparison grid + founder judgments. Pilot: LUXURY CREATOR REALISM TEST 01.
 - **Shipped:** PR **#417** merged to `main`. Deploy **v85**. Tests: `cinematicRealismLabP0CR1.test.ts` (15); full suite **2850** pass. FAL=0. Brand Character/Canon unchanged.
 
+---
+
+## 2026-08-24 — Character Lab calibration buttons fix (P0.5E.4A UX)
+
+- **Issue:** Founder reported progress checklist / GO TO NEXT STEP buttons non-functional on Character Calibration — could not advance moments or reach synthesis.
+- **Root cause:** Navigation only toggled React tab state without scrolling or loading next moment; `ndxContinueCalibration` could return stale resolved interaction when `currentInteractionId` lagged.
+- **Fix:** `FounderCharacterCalibrationProgressPanel` in operate layer; next-step + incomplete checklist items call `founderCharacterDiscoveryCalibrationContinue`; scroll anchor to calibration workspace; filter resolved interactions on reload; touch-friendly CTAs.
+- **Tests:** `founderCharacterCalibrationProgressPanel.test.ts` (2) + existing P0.5E.4A suite green.
+
