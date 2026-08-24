@@ -38,7 +38,7 @@ import type {
   ArtifactProofFounderJudgment,
   SourceContributionEntry,
 } from '../../../../../shared/site00-brand-lore/brandCharacterSynthesis/types.js';
-import { inventoryCharacterEvidence } from '../../../../../shared/site00-brand-lore/brandCharacterReadiness/evidenceInventory.js';
+import { inventoryCharacterEvidence, applyDeepeningAnswersToInventory } from '../../../../../shared/site00-brand-lore/brandCharacterReadiness/evidenceInventory.js';
 import { callAnthropicForCompletion } from '../creativeIntelligence/anthropicCompletion.js';
 import { parseStructuredJson } from '../creativeIntelligence/structuredJson.js';
 import { ANTHROPIC_CREATIVE_MODEL } from '../creativeIntelligence/config.js';
@@ -54,6 +54,37 @@ import { buildFalImageInput } from '../../../../../shared/site00-visual-generati
 
 function nowIso(): string {
   return new Date().toISOString();
+}
+
+const STALE_SYNTHESIZING_MS = 15 * 60 * 1000;
+const activeSynthesisAttempts = new Map<string, string>();
+
+function shouldRunSynthesisSynchronously(): boolean {
+  return process.env.VITEST === 'true';
+}
+
+function isSynthesisStale(run: BrandCharacterSynthesisRun): boolean {
+  if (run.status !== 'SYNTHESIZING') return false;
+  if (!run.synthesisStartedAt) return false;
+  return Date.now() - new Date(run.synthesisStartedAt).getTime() > STALE_SYNTHESIZING_MS;
+}
+
+async function reconcileStaleSynthesizingRun(
+  run: BrandCharacterSynthesisRun | null,
+): Promise<BrandCharacterSynthesisRun | null> {
+  if (!run || !isSynthesisStale(run)) return run;
+  return synthesisStore.saveBrandCharacterSynthesisRun({
+    ...run,
+    status: 'FAILED',
+    error: 'Composite synthesis timed out — tap RETRY STALLED SYNTHESIS',
+    synthesisStartedAt: null,
+    synthesisAttemptId: null,
+    updatedAt: nowIso(),
+  });
+}
+
+export function resetBrandCharacterSynthesisWorkers(): void {
+  activeSynthesisAttempts.clear();
 }
 
 function hash(value: string): string {
@@ -91,6 +122,8 @@ function initRun(projectId: string, formationRunId: string): BrandCharacterSynth
     artifactProofs: [],
     artifactRevisions: [],
     experimentGCharacterReevaluationRequired: false,
+    synthesisStartedAt: null,
+    synthesisAttemptId: null,
     error: null,
     accounting: emptyAccounting(),
     updatedAt: nowIso(),
@@ -100,6 +133,18 @@ function initRun(projectId: string, formationRunId: string): BrandCharacterSynth
 function canProceedToSynthesis(state: string, override: boolean): boolean {
   if (override) return true;
   return state === 'CHARACTER_READY' || state === 'CHARACTER_PARTIAL';
+}
+
+function assertSynthesisGate(run: BrandCharacterSynthesisRun): void {
+  const override = run.readinessRefresh?.founderOverride ?? false;
+  const state = run.readinessRefresh?.newState ?? 'CHARACTER_NOT_EVALUATED';
+  if (!canProceedToSynthesis(state, override)) {
+    throw new Error(run.error ?? `Character readiness insufficient for synthesis (${state.replace(/_/g, ' ')})`);
+  }
+  const blockers = run.readinessRefresh?.remainingBlockers ?? [];
+  if (blockers.length > 0 && !override) {
+    throw new Error(blockers.join('; '));
+  }
 }
 
 function buildSourceContributionMap(territories: BrandCharacterTerritory[]): SourceContributionEntry[] {
@@ -191,7 +236,8 @@ function mapAnthropicSynthesis(
 export async function getBrandCharacterSynthesisState(
   projectId: string,
 ): Promise<BrandCharacterSynthesisRun | null> {
-  return synthesisStore.getBrandCharacterSynthesisRun(projectId);
+  const run = await synthesisStore.getBrandCharacterSynthesisRun(projectId);
+  return reconcileStaleSynthesizingRun(run);
 }
 
 export async function prepareBrandCharacterSynthesis(params: {
@@ -215,9 +261,10 @@ export async function prepareBrandCharacterSynthesis(params: {
 
   const profile = await getBrandLoreProfileForOrg(NDXBOOK_ORG_ID);
   const brandLoreReadiness = profile?.readinessState ?? null;
+  const deepeningAnswers = refreshed.deepeningModule?.answers ?? [];
+  const inventory = applyDeepeningAnswersToInventory(inventoryCharacterEvidence(profile), deepeningAnswers);
   const remainingBlockers: string[] = [];
   if (brandLoreReadiness && brandLoreReadiness !== 'CORE_DIRECTION_READY') {
-    const inventory = inventoryCharacterEvidence(profile);
     const hasEquivalent =
       inventory.founderLanguage.length >= 3 &&
       inventory.brandLore.length >= 2 &&
@@ -227,7 +274,7 @@ export async function prepareBrandCharacterSynthesis(params: {
     }
   }
   if (!canProceedToSynthesis(newState, override)) {
-    remainingBlockers.push(`Character readiness: ${newState}`);
+    remainingBlockers.push(`Character readiness: ${newState.replace(/_/g, ' ')}`);
   }
 
   const territoryRoles = buildTerritoryRoleMap(formationRun.characters);
@@ -267,99 +314,157 @@ export async function prepareBrandCharacterSynthesis(params: {
   return synthesisStore.saveBrandCharacterSynthesisRun(run);
 }
 
-export async function runCompositeBrandCharacterSynthesis(params: {
+export async function startCompositeBrandCharacterSynthesis(params: {
   projectId: string;
+  forceRetry?: boolean;
 }): Promise<BrandCharacterSynthesisRun> {
   let run = await prepareBrandCharacterSynthesis({ projectId: params.projectId });
-  const override = run.readinessRefresh?.founderOverride ?? false;
-  const state = run.readinessRefresh?.newState ?? 'CHARACTER_NOT_EVALUATED';
-  if (!canProceedToSynthesis(state, override)) {
-    throw new Error(run.error ?? 'Character readiness insufficient for synthesis');
+  assertSynthesisGate(run);
+
+  if (run.status === 'SYNTHESIZING' && !params.forceRetry && !isSynthesisStale(run)) {
+    return run;
+  }
+  if (run.status === 'SYNTHESIZED' && run.synthesis && !params.forceRetry) {
+    return run;
   }
 
-  const formationRun = (await formationStore.getBrandCharacterFormationRun())!;
-  const sources = resolveNdxbookSynthesisSourceTerritories(formationRun.characters);
-  const contributionMap = buildSourceContributionMap(sources);
-  const readiness = await getBrandCharacterReadinessState(params.projectId);
-  const deepeningAnswers =
-    readiness?.deepeningModule?.answers.map((a) => ({ domain: a.domain, rawAnswer: a.rawAnswer })) ?? [];
-  const profile = await getBrandLoreProfileForOrg(NDXBOOK_ORG_ID);
-  const inventory = inventoryCharacterEvidence(profile);
-
-  run = { ...run, status: 'SYNTHESIZING', updatedAt: nowIso() };
-  await synthesisStore.saveBrandCharacterSynthesisRun(run);
-
-  let synthesis: BrandCharacterSynthesis;
-  const hypothesis = run.founderHypothesis ?? captureFounderCharacterHypothesis({ projectId: params.projectId });
-
-  if (process.env.VITEST === 'true' || !process.env.ANTHROPIC_API_KEY) {
-    synthesis = buildVitestBrandCharacterSynthesis({
-      projectId: params.projectId,
-      formationRunId: formationRun.runId,
-    });
-  } else {
-    const payload = buildBrandCharacterSynthesisPayload({
-      sourceTerritories: sources.map((s) => ({
-        name: s.name,
-        role: 'CHARACTER_COMPONENT',
-        faculty: facultyHypothesisForTerritory(s.name),
-        coreThesis: s.core?.characterThesis,
-      })),
-      deepeningAnswers,
-      founderHypothesisRaw: hypothesis.rawWording,
-      brandLoreSummary: inventory.brandLore.slice(0, 6).join('; '),
-      personalitySummary: inventory.brandPersonality.slice(0, 6).join('; '),
-    });
-    const { text, usage } = await callAnthropicForCompletion(
-      BRAND_CHARACTER_SYNTHESIS_SYSTEM_PROMPT,
-      payload,
-      { maxTokens: 12000, timeoutMs: 8 * 60 * 1000 },
-    );
-    const parsed = parseStructuredJson<Record<string, unknown>>(text);
-    synthesis = mapAnthropicSynthesis(parsed, {
-      projectId: params.projectId,
-      formationRunId: formationRun.runId,
-      sourceTerritoryIds: sources.map((s) => s.id),
-      sourceContributionMap: contributionMap,
-      founderHypothesisRelationship: hypothesis.normalizedInterpretation,
-    });
-    run = {
-      ...run,
-      accounting: {
-        ...run.accounting,
-        anthropicRequests: run.accounting.anthropicRequests + 1,
-        anthropicInputTokens: run.accounting.anthropicInputTokens + (usage?.inputTokens ?? 0),
-        anthropicOutputTokens: run.accounting.anthropicOutputTokens + (usage?.outputTokens ?? 0),
-        anthropicEstimatedCostUsd: run.accounting.anthropicEstimatedCostUsd + 0.15,
-      },
-    };
-  }
-
-  const synthesisEvaluation = {
-    evaluationId: `eval-${synthesis.id}`,
-    synthesisId: synthesis.id,
-    ...evaluateBrandCharacterSynthesis({ synthesis }),
-    evaluatedAt: nowIso(),
-  };
-  const maturationEvaluation = evaluateCharacterMaturationContinuity({
-    synthesis,
-    founderHypothesisRaw: hypothesis.rawWording,
-  });
-  synthesis = {
-    ...synthesis,
-    maturationContinuitySummary: maturationEvaluation.notes.join(' '),
-  };
-
+  const attemptId = randomUUID();
   run = {
     ...run,
-    status: 'SYNTHESIZED',
-    synthesis,
-    synthesisEvaluation,
-    maturationEvaluation,
+    status: 'SYNTHESIZING',
+    synthesisStartedAt: nowIso(),
+    synthesisAttemptId: attemptId,
     error: null,
     updatedAt: nowIso(),
   };
-  return synthesisStore.saveBrandCharacterSynthesisRun(run);
+  await synthesisStore.saveBrandCharacterSynthesisRun(run);
+
+  if (shouldRunSynthesisSynchronously()) {
+    await executeCompositeSynthesisWork(attemptId);
+    return (await synthesisStore.getBrandCharacterSynthesisRun(params.projectId)) ?? run;
+  }
+
+  enqueueCompositeSynthesisWork(attemptId);
+  return run;
+}
+
+export async function runCompositeBrandCharacterSynthesis(params: {
+  projectId: string;
+  forceRetry?: boolean;
+}): Promise<BrandCharacterSynthesisRun> {
+  return startCompositeBrandCharacterSynthesis(params);
+}
+
+async function executeCompositeSynthesisWork(attemptId: string): Promise<void> {
+  const projectId = 'ndxbook';
+  activeSynthesisAttempts.set(projectId, attemptId);
+  try {
+    let run = await synthesisStore.getBrandCharacterSynthesisRun(projectId);
+    if (!run || run.status !== 'SYNTHESIZING' || run.synthesisAttemptId !== attemptId) return;
+
+    const formationRun = (await formationStore.getBrandCharacterFormationRun())!;
+    const sources = resolveNdxbookSynthesisSourceTerritories(formationRun.characters);
+    const contributionMap = buildSourceContributionMap(sources);
+    const readiness = await getBrandCharacterReadinessState(projectId);
+    const deepeningAnswers =
+      readiness?.deepeningModule?.answers.map((a) => ({ domain: a.domain, rawAnswer: a.rawAnswer })) ?? [];
+    const profile = await getBrandLoreProfileForOrg(NDXBOOK_ORG_ID);
+    const inventory = inventoryCharacterEvidence(profile);
+
+    let synthesis: BrandCharacterSynthesis;
+    const hypothesis = run.founderHypothesis ?? captureFounderCharacterHypothesis({ projectId });
+
+    if (process.env.VITEST === 'true' || !process.env.ANTHROPIC_API_KEY) {
+      synthesis = buildVitestBrandCharacterSynthesis({
+        projectId,
+        formationRunId: formationRun.runId,
+      });
+    } else {
+      const payload = buildBrandCharacterSynthesisPayload({
+        sourceTerritories: sources.map((s) => ({
+          name: s.name,
+          role: 'CHARACTER_COMPONENT',
+          faculty: facultyHypothesisForTerritory(s.name),
+          coreThesis: s.core?.characterThesis,
+        })),
+        deepeningAnswers,
+        founderHypothesisRaw: hypothesis.rawWording,
+        brandLoreSummary: inventory.brandLore.slice(0, 6).join('; '),
+        personalitySummary: inventory.brandPersonality.slice(0, 6).join('; '),
+      });
+      const { text, usage } = await callAnthropicForCompletion(
+        BRAND_CHARACTER_SYNTHESIS_SYSTEM_PROMPT,
+        payload,
+        { maxTokens: 12000, timeoutMs: 8 * 60 * 1000 },
+      );
+      const parsed = parseStructuredJson<Record<string, unknown>>(text);
+      synthesis = mapAnthropicSynthesis(parsed, {
+        projectId,
+        formationRunId: formationRun.runId,
+        sourceTerritoryIds: sources.map((s) => s.id),
+        sourceContributionMap: contributionMap,
+        founderHypothesisRelationship: hypothesis.normalizedInterpretation,
+      });
+      run = {
+        ...run,
+        accounting: {
+          ...run.accounting,
+          anthropicRequests: run.accounting.anthropicRequests + 1,
+          anthropicInputTokens: run.accounting.anthropicInputTokens + (usage?.inputTokens ?? 0),
+          anthropicOutputTokens: run.accounting.anthropicOutputTokens + (usage?.outputTokens ?? 0),
+          anthropicEstimatedCostUsd: run.accounting.anthropicEstimatedCostUsd + 0.15,
+        },
+      };
+    }
+
+    const synthesisEvaluation = {
+      evaluationId: `eval-${synthesis.id}`,
+      synthesisId: synthesis.id,
+      ...evaluateBrandCharacterSynthesis({ synthesis }),
+      evaluatedAt: nowIso(),
+    };
+    const maturationEvaluation = evaluateCharacterMaturationContinuity({
+      synthesis,
+      founderHypothesisRaw: hypothesis.rawWording,
+    });
+    synthesis = {
+      ...synthesis,
+      maturationContinuitySummary: maturationEvaluation.notes.join(' '),
+    };
+
+    run = {
+      ...run,
+      status: 'SYNTHESIZED',
+      synthesis,
+      synthesisEvaluation,
+      maturationEvaluation,
+      error: null,
+      synthesisStartedAt: null,
+      synthesisAttemptId: null,
+      updatedAt: nowIso(),
+    };
+    await synthesisStore.saveBrandCharacterSynthesisRun(run);
+  } catch (err) {
+    const failed = await synthesisStore.getBrandCharacterSynthesisRun(projectId);
+    if (failed && failed.synthesisAttemptId === attemptId) {
+      await synthesisStore.saveBrandCharacterSynthesisRun({
+        ...failed,
+        status: 'FAILED',
+        error: err instanceof Error ? err.message : 'Composite synthesis failed',
+        synthesisStartedAt: null,
+        synthesisAttemptId: null,
+        updatedAt: nowIso(),
+      });
+    }
+  } finally {
+    activeSynthesisAttempts.delete(projectId);
+  }
+}
+
+function enqueueCompositeSynthesisWork(attemptId: string): void {
+  setImmediate(() => {
+    void executeCompositeSynthesisWork(attemptId);
+  });
 }
 
 export async function setBrandCharacterSynthesisJudgment(params: {

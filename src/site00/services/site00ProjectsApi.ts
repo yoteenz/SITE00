@@ -1178,13 +1178,13 @@ export const site00ProjectsApi = {
     projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
       `/api/site00/projects?action=experiment_h_synthesis_get&slug=${encodeURIComponent(slug)}`,
     ),
-  experimentHSynthesisRun: (slug: string) =>
+  experimentHSynthesisRun: (slug: string, options?: { forceRetry?: boolean }) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=experiment_h_synthesis_run',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug }),
+        body: JSON.stringify({ slug, forceRetry: options?.forceRetry === true }),
       },
     ),
   experimentHSynthesisJudgment: (slug: string, judgment: string, note?: string) =>

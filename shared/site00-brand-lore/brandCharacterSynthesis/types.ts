@@ -258,6 +258,8 @@ export type BrandCharacterSynthesisRun = {
   artifactProofs: BrandCharacterArtifactProof[];
   artifactRevisions: BrandCharacterArtifactRevision[];
   experimentGCharacterReevaluationRequired: boolean;
+  synthesisStartedAt: string | null;
+  synthesisAttemptId: string | null;
   error: string | null;
   accounting: {
     anthropicRequests: number;

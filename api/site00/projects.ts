@@ -78,7 +78,7 @@ import {
 import {
   getBrandCharacterSynthesisState,
   prepareBrandCharacterSynthesis,
-  runCompositeBrandCharacterSynthesis,
+  startCompositeBrandCharacterSynthesis,
   setBrandCharacterSynthesisJudgment,
   compileSynthesisBrandCharacterSystem,
   formulateBrandCharacterArtifactProofs,
@@ -1375,7 +1375,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         try {
-          const run = await runCompositeBrandCharacterSynthesis({ projectId: 'ndxbook' });
+          const forceRetry = body.forceRetry === true;
+          const run = await startCompositeBrandCharacterSynthesis({ projectId: 'ndxbook', forceRetry });
           return json(res, 200, { ok: true, run, source: 'site00_experiment_h_synthesis' });
         } catch (err) {
           return json(res, 400, {

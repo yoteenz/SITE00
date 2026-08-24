@@ -39,7 +39,9 @@ import {
 } from './brandCharacterSynthesis/index.js';
 import {
   runCompositeBrandCharacterSynthesis,
+  startCompositeBrandCharacterSynthesis,
   prepareBrandCharacterSynthesis,
+  resetBrandCharacterSynthesisWorkers,
   setBrandCharacterSynthesisJudgment,
   compileSynthesisBrandCharacterSystem,
   formulateBrandCharacterArtifactProofs,
@@ -79,6 +81,7 @@ const PROOFS_PAGE = readFileSync(join(process.cwd(), 'src/site00/pages/ProjectBr
 beforeEach(() => {
   resetBrandCharacterSynthesisMemory();
   resetBrandCharacterSynthesisStoreModeCache();
+  resetBrandCharacterSynthesisWorkers();
   resetBrandCharacterReadinessMemory();
   resetBrandCharacterReadinessStoreModeCache();
   resetBrandCharacterMemory();
@@ -366,5 +369,17 @@ describe('P0.5B.3 synthesis pipeline integration', () => {
     const formation = await getBrandCharacterFormationRun();
     const map = buildTerritoryRoleMap(formation!.characters);
     expect(Object.values(map).filter((r) => r === 'CHARACTER_COMPONENT').length).toBeGreaterThanOrEqual(3);
+  });
+
+  it('synthesis page includes background status panel with progress bar', () => {
+    expect(SYNTHESIS_PAGE).toContain('BrandCharacterSynthesisStatusPanel');
+    expect(SYNTHESIS_PAGE).toContain('STARTING BACKGROUND SYNTHESIS');
+  });
+
+  it('startComposite completes synthesis in vitest (synchronous worker)', async () => {
+    await seedVitestNdxbookSynthesisPrerequisites();
+    const run = await startCompositeBrandCharacterSynthesis({ projectId: 'ndxbook' });
+    expect(run.status).toBe('SYNTHESIZED');
+    expect(run.synthesis?.characterName).toBeTruthy();
   });
 });
