@@ -4542,6 +4542,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Casting territories now use verified FAL preset IDs (`Calm_Woman`, `Lively_Girl`, `Wise_Woman`, `Soft_Girl`); FAL errors formatted with field-level detail; pitch coerced to integer in request compiler.
 - **Founder:** **Railway API redeploy required** (not just cPanel). Then retry START NEURAL VOICE AUDITION.
 
+---
+
+## 2026-08-24 — NDX neural casting v2 (charisma / adult presence territories)
+
+- **Founder feedback:** Round 1 MiniMax presets (Calm/Wise/Lively/Soft) too generic — last voice (Soft_Girl) closest on naturalness but none matched late-20s AA woman with attitude, personality, charisma.
+- **Fix:** NDX adapter-owned territories (`ndxNeuralCastingTerritories.ts`) — Round 1: Exuberant_Girl, Energetic_Girl, Attractive_Girl, Soft_Girl with behavior-first performance direction (no dialect/caricature keywords). CLOSE on Soft_Girl → sibling round refines same woman (more attitude/grounded/Lovely_Girl/Exuberant_Girl variants). UI hints: mark CLOSE before next round.
+- **Limitation:** MiniMax preset catalogue still TTS — full demographic fidelity may require future ElevenLabs bake-off or voice design sprint.
+- **Founder:** Railway redeploy + optional cPanel v71. Mark closest voice CLOSE → GENERATE NEXT NEURAL ROUND; or START NEURAL VOICE AUDITION again for refreshed Round 1 voices.
+
 
 - **Context:** Founder reported YES I KNOW HER not unlocking casting; voice lab selections not appearing saved. Root cause: YES_I_KNOW_HER **was** persisting (`founderKnowsHer: true`) but P0.5E.4A calibration progress did not feed P0.5E.4 casting gates (still required 5 INSPECT trait confirmations). UI always showed "BLOCKED until YES_I_KNOW_HER" even after selection. Voice lab saved to API but UI showed no saved state.
 - **Fix:** `ndxCastingReadinessBridge.ts` — calibration moments + domain confirmations satisfy discovery/gates; refresh readiness on GET; voice calibration moment writes voice lab judgment; CASTING tab shows human-readable blockers; header shows dynamic status; voice lab shows **Saved:** label + success notice on tap.
