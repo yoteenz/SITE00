@@ -4579,6 +4579,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Files:** `voiceLabTabs.ts`, `ProjectFounderCharacterDiscoveryPage.tsx`; tests `voiceLabTabs.test.ts`.
 - **Founder:** GoDaddy deploy → Voice Lab → CURRENT tab for active auditions; PRIOR tab for old rounds and pre-revision clips.
 
+---
+
+## 2026-08-24 — Voice Lab GENERATE NEXT NEURAL ROUND visibility
+
+- **Context:** Founder could not find button to generate new voice packs after marking CLOSE — button required all four JUDGMENTS_COMPLETE and sat at bottom of long CURRENT tab.
+- **Fix:** Unlock **GENERATE NEXT NEURAL ROUND** when any neural candidate has CLOSE/YES (or full round judged); pin highlighted panel at top of CURRENT tab; orange hint when still locked.
+- **Files:** `voiceLabTabs.ts` (`canGenerateNextNeuralRound`, `nextNeuralRoundUnlockHint`), `ProjectFounderCharacterDiscoveryPage.tsx`; tests `voiceLabTabs.test.ts`.
+- **Founder:** GoDaddy deploy → Voice Lab → CURRENT tab → mark CLOSE on closest voice → button appears at top (no need to judge all four).
+
 
 - **Context:** Founder reported YES I KNOW HER not unlocking casting; voice lab selections not appearing saved. Root cause: YES_I_KNOW_HER **was** persisting (`founderKnowsHer: true`) but P0.5E.4A calibration progress did not feed P0.5E.4 casting gates (still required 5 INSPECT trait confirmations). UI always showed "BLOCKED until YES_I_KNOW_HER" even after selection. Voice lab saved to API but UI showed no saved state.
 - **Fix:** `ndxCastingReadinessBridge.ts` — calibration moments + domain confirmations satisfy discovery/gates; refresh readiness on GET; voice calibration moment writes voice lab judgment; CASTING tab shows human-readable blockers; header shows dynamic status; voice lab shows **Saved:** label + success notice on tap.
