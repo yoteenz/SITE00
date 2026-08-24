@@ -200,6 +200,13 @@ export function ExperimentGBrandPresentationConceptReview({
           </>
         ) : null}
       </div>
+      {concepts.length > 0 ? (
+        <p className="site00-experiment-g__regen-help">
+          To regenerate: tap <strong>RE-FORM SET</strong> for a fresh six-concept pass (keeps history). Use{' '}
+          <strong>REFRESH FORMATION</strong> only to re-run the same snapshot idempotently. Formation runs on the API
+          (2–5 min) — leave the page if needed; status polls automatically.
+        </p>
+      ) : null}
       {run?.status === 'FORMING' ? (
         <p className="site00-experiment-g__pending">
           Formation running as a background job on the server (usually 2–5 minutes). You can leave this page —
