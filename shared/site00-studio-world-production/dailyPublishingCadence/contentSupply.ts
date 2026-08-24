@@ -12,7 +12,6 @@ import type {
   PlatformContentExpression,
   PublishingCadencePolicy,
   RapidResponseContentPolicy,
-  SecondReelEligibility,
   SecondReelEligibilityEvaluation,
   StoryUnit,
 } from './types.js';

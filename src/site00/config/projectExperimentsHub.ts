@@ -20,6 +20,7 @@ import {
   site00ProjectContentOperationsPath,
   site00ProjectContentOperationsPerformancePath,
   site00ProjectContentOperationsCampaignBoardPath,
+  site00ProjectContentOperationsDailyPlanPath,
   site00ProjectLoreCalibrationPath,
   site00ProjectPersonalityReplayConsistencyPath,
   site00ProjectPersonalityReplayPath,
@@ -197,6 +198,12 @@ export function getProjectExperimentsHubEntries(projectSlug: string): ProjectExp
           title: 'CAMPAIGN BOARD',
           path: site00ProjectContentOperationsCampaignBoardPath(projectSlug),
           description: 'Horizontal sequence production — campaign wall, round review, lock workflow.',
+        },
+        {
+          id: 'content-operations-daily-plan',
+          title: 'DAILY PLAN + CROSS-PLATFORM',
+          path: site00ProjectContentOperationsDailyPlanPath(projectSlug),
+          description: 'P0.5E.1 — 3 primary events/day → platform-native expressions. Weekly intelligence slate.',
         },
         {
           id: 'content-operations-performance',
