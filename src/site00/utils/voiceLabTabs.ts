@@ -5,6 +5,7 @@
 import type {
   CharacterVoiceCalibrationRound,
   CharacterVoiceHypothesis,
+  NeuralVoiceCandidateIdentity,
 } from '../../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js';
 
 export type VoiceLabTabId = 'CURRENT' | 'PRIOR';
@@ -64,6 +65,36 @@ export function countCurrentVoiceLabItems(params: {
 }): number {
   if (!params.latestNeuralRoundId) return 0;
   return params.hypotheses.filter((h) => h.roundId === params.latestNeuralRoundId).length;
+}
+
+/** True when founder can request a new neural audition round (CLOSE/YES or full round judged). */
+export function canGenerateNextNeuralRound(params: {
+  rounds: CharacterVoiceCalibrationRound[];
+  neuralCandidates: NeuralVoiceCandidateIdentity[];
+  latestNeuralRoundId: string | null;
+}): boolean {
+  if (!params.latestNeuralRoundId) return false;
+  if (!params.rounds.some((r) => r.isNeuralRound)) return false;
+
+  const hasCloseOrYes = params.neuralCandidates.some(
+    (c) => c.founderStatus === 'CLOSE' || c.founderStatus === 'YES',
+  );
+  if (hasCloseOrYes) return true;
+
+  const latestRound = params.rounds.find((r) => r.roundId === params.latestNeuralRoundId);
+  return latestRound?.status === 'JUDGMENTS_COMPLETE';
+}
+
+/** Hint when next-round button is hidden but a neural round exists. */
+export function nextNeuralRoundUnlockHint(params: {
+  rounds: CharacterVoiceCalibrationRound[];
+  neuralCandidates: NeuralVoiceCandidateIdentity[];
+  latestNeuralRoundId: string | null;
+}): string | null {
+  if (canGenerateNextNeuralRound(params)) return null;
+  if (!params.latestNeuralRoundId) return null;
+  if (!params.rounds.some((r) => r.isNeuralRound)) return null;
+  return 'Mark CLOSE on your closest voice, or judge all four in CURRENT, to unlock GENERATE NEXT NEURAL ROUND.';
 }
 
 export function listSupersededClipsFromLatestRound(params: {
