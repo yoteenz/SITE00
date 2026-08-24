@@ -1,16 +1,22 @@
 /**
  * First-slide material approval gate + P0.5E Round 01 lock integration.
+ * P0.5C.5A — evaluates SELECTED asset current lineage.
  */
 
 import type { Experiment01V23Artifact, MarketingExpressionExperiment01V23 } from './types.js';
 import { v23HumanMadeRevisionReady } from './v23HumanMadeRevision.js';
 import { signatureLimeRevisionReady } from './signatureLime.js';
+import {
+  migrateV23ArtifactGenerationLineage,
+  selectedAssetPassesCurrentLineage,
+} from './v23GenerationAuthority.js';
 
 export function artBoardMaterialityApprovalGatePasses(artifact: Experiment01V23Artifact): boolean {
+  const migrated = migrateV23ArtifactGenerationLineage(artifact);
   return (
-    artifact.materialityEvaluation.passesApprovalGate &&
-    v23HumanMadeRevisionReady(artifact.humanMadeEvaluation) &&
-    signatureLimeRevisionReady(artifact.signatureLimeEvaluation)
+    migrated.materialityEvaluation.passesApprovalGate &&
+    v23HumanMadeRevisionReady(migrated.humanMadeEvaluation) &&
+    signatureLimeRevisionReady(migrated.signatureLimeEvaluation)
   );
 }
 
@@ -18,9 +24,20 @@ export function signatureLimeGatePasses(artifact: Experiment01V23Artifact): bool
   return signatureLimeRevisionReady(artifact.signatureLimeEvaluation);
 }
 
+export function v23SelectedAssetPassesCurrentLineage(artifact: Experiment01V23Artifact): boolean {
+  return selectedAssetPassesCurrentLineage(migrateV23ArtifactGenerationLineage(artifact));
+}
+
 export function allV23ArtifactsPassMaterialGate(experiment: MarketingExpressionExperiment01V23 | null | undefined): boolean {
   if (!experiment?.generatedArtifacts.length) return false;
   return experiment.generatedArtifacts.every(artBoardMaterialityApprovalGatePasses);
+}
+
+export function allV23SelectedAssetsPassCurrentLineage(
+  experiment: MarketingExpressionExperiment01V23 | null | undefined,
+): boolean {
+  if (!experiment?.generatedArtifacts.length) return false;
+  return experiment.generatedArtifacts.every((a) => v23SelectedAssetPassesCurrentLineage(a));
 }
 
 export function round01LockRequiresMaterialGate(params: {
@@ -37,6 +54,12 @@ export function round01LockRequiresMaterialGate(params: {
   );
   if (generated.length < 9) {
     return { allowed: false, reason: 'All nine V2.3 first slides must be generated before Round 01 lock' };
+  }
+  if (!allV23SelectedAssetsPassCurrentLineage(params.v23Experiment)) {
+    return {
+      allowed: false,
+      reason: 'Round 01 lock requires selected assets generated from current V2.3 contract lineage (C.4A + C.4B + C.5). Legacy generations remain visible but cannot lock.',
+    };
   }
   return { allowed: true, reason: null };
 }

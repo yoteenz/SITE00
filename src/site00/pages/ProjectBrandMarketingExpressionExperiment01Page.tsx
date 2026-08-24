@@ -38,8 +38,13 @@ import {
 import {
   v23BoardNeedsReformulation,
   v23BoardSignatureLimeReadyCount,
+  v23BoardCurrentLineageReadyCount,
   v23ArtifactHasSignatureLimeInPrompt,
-} from '../../../shared/site00-brand-lore/artBoardMateriality/v23BoardReadiness';
+  v23ArtifactGenerationReadiness,
+  v23ArtifactIsLegacyGeneration,
+  v23ArtifactMethodologyStatus,
+  v23ArtifactPromptFreshnessState,
+} from '../../../shared/site00-brand-lore/artBoardMateriality/v23BoardReadinessClient';
 import '../styles/site00-replay-execution.css';
 
 const POLL_MS = 5000;
@@ -224,6 +229,23 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
     setSelectedId(board[0]?.id ?? null);
   };
 
+  const regenerateCurrentV23 = async (artifactId: string) => {
+    setBusy(true);
+    setError(null);
+    try {
+      const result = await site00ProjectsApi.marketingExpressionExperiment01V23Generate(
+        projectSlug,
+        artifactId,
+        'REGENERATE_CURRENT',
+      );
+      setRun(result.run as BrandMarketingExpressionRun);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Regeneration failed');
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const generateAll = async () => {
     setBusy(true);
     try {
@@ -348,6 +370,7 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
   const v23Artifacts = expV23?.generatedArtifacts ?? [];
   const v23NeedsLimeReformulation = v23BoardNeedsReformulation(v23Artifacts);
   const v23LimeReadyCount = v23BoardSignatureLimeReadyCount(v23Artifacts);
+  const v23CurrentLineageCount = v23BoardCurrentLineageReadyCount(v23Artifacts);
   const selectedV23Artifact = v23Artifacts.find((a) => a.id === selectedId);
   const selectedV23: Experiment01V23Artifact | undefined = selectedV23Artifact ?? v23Artifacts[0];
   const artifactLists: VersionArtifactLists = { v1: v1Artifacts, v2: v2Artifacts, v21: v21Artifacts, v22: v22Artifacts, v23: v23Artifacts };
@@ -443,6 +466,14 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                 </section>
               )}
 
+                  {versionTab === 'V23' && v23Artifacts.length > 0 && (
+                <section className="site00-experiment-g__panel">
+                  <h2>V2.3 GENERATION AUTHORITY (P0.5C.5A)</h2>
+                  <p>Structured contract = current authority · Prompt snapshot = immutable receipt</p>
+                  <p>Current lineage ready: {v23CurrentLineageCount}/9 · Prompt stale does not auto-trigger FAL</p>
+                </section>
+              )}
+
               {versionTab === 'V23' && v23Artifacts.length > 0 && (
                 <section className="site00-experiment-g__panel">
                   <h2>V2.3 BOARD — SIGNATURE LIME CONTRACTS</h2>
@@ -476,9 +507,13 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                     )}
                     {canGenerateRemaining && (
                       <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void generateAll()} style={{ marginBottom: '12px' }}>
-                        {generatedCount > 0
-                          ? `GENERATE REMAINING ${pendingCount} FIRST SLIDES (FAL)`
-                          : 'GENERATE ALL NINE FIRST SLIDES (FAL)'}
+                        {versionTab === 'V23'
+                          ? generatedCount > 0
+                            ? `GENERATE CURRENT V2.3 — REMAINING ${pendingCount}`
+                            : 'GENERATE CURRENT V2.3 — ALL NINE'
+                          : generatedCount > 0
+                            ? `GENERATE REMAINING ${pendingCount} FIRST SLIDES (FAL)`
+                            : 'GENERATE ALL NINE FIRST SLIDES (FAL)'}
                       </button>
                     )}
                     {allGenerated && !v23RevisionDraft && (
@@ -544,6 +579,39 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                   {versionTab === 'V23' && selectedV23 && (
                     <section key={selectedId ?? selectedV23.id} className="site00-experiment-g__panel">
                       <h2>V2.3 ART-BOARD REVIEW — {selectedV23.contract.primaryHook}</h2>
+                      <p style={{ fontSize: '0.9rem', marginBottom: '12px' }}>
+                        CONTRACT: CURRENT · PROMPT: {v23ArtifactPromptFreshnessState(selectedV23) === 'CURRENT' ? 'CURRENT' : 'STALE'} ·
+                        READINESS: {v23ArtifactGenerationReadiness(selectedV23)}
+                        {v23ArtifactIsLegacyGeneration(selectedV23) ? ' · LEGACY GENERATION — CURRENT METHODOLOGY NOT FULLY APPLIED' : ''}
+                      </p>
+                      <p style={{ fontSize: '0.85rem', marginBottom: '12px' }}>
+                        METHODOLOGY: C.4A {v23ArtifactMethodologyStatus(selectedV23).c4a ? '✓' : '✗'} · C.4B{' '}
+                        {v23ArtifactMethodologyStatus(selectedV23).c4b ? '✓' : '✗'} · C.5 {v23ArtifactMethodologyStatus(selectedV23).c5 ? '✓' : '✗'}
+                      </p>
+                      {selectedV23.generatedAssetUrl && (
+                        <div style={{ marginBottom: '12px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                          <button
+                            type="button"
+                            className="site00-btn site00-btn--primary"
+                            disabled={busy}
+                            onClick={() => void regenerateCurrentV23(selectedV23.id)}
+                          >
+                            REGENERATE CURRENT
+                          </button>
+                          <button
+                            type="button"
+                            className="site00-btn"
+                            disabled={busy}
+                            onClick={() =>
+                              void site00ProjectsApi
+                                .marketingExpressionExperiment01V23Replay(projectSlug, selectedV23.id)
+                                .then((r) => setRun(r.run as BrandMarketingExpressionRun))
+                            }
+                          >
+                            REPLAY HISTORICAL PROMPT
+                          </button>
+                        </div>
+                      )}
                       <dl>
                         <dt>PRIMARY IDEA</dt><dd>{selectedV23.contract.primaryHook}</dd>
                         <dt>CHARACTER BEAT</dt><dd>{selectedV23.contract.characterRetention.primaryCharacterBeat.text ?? '—'}</dd>

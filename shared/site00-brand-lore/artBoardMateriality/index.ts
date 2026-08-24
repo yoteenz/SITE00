@@ -18,3 +18,5 @@ export * from './feedSignatureContinuity.js';
 export * from './v23FounderRevisionLabels.js';
 export * from './v23FounderRevisionPipeline.js';
 export * from './v23BoardReadiness.js';
+export * from './v23GenerationAuthority.js';
+export * from './v23GenerationAuthorityConstants.js';

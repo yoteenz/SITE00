@@ -4380,3 +4380,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **UI/API:** `/projects/ndxbook/motion-character` — ProjectMotionCharacterPage with 9 review sections; API `motion_character_book_language_*` actions.
 - **Tests:** 28 requirements in `bookLanguageMotionCharacterP05E2.test.ts`. Build green.
 
+---
+
+## 2026-08-24 — P0.5C.5A V2.3 Regeneration Recompilation + Current-Contract Authority
+
+- **Context:** Sprint P0.5C.5A — fix critical generation-path defect where `generateExperiment01V23ArtifactAsset` dispatched stored `generationContract.prompt` instead of recompiling from current structured V2.3 contract. V2.3 remains current experiment (no V2.4).
+- **Architecture:** Generic `shared/site00-studio-world-production/generationAuthority/` (GenerationAuthorityModel, GenerationPromptSnapshot, PromptFreshnessEvaluation, ContractCoverageEvaluation, PublicAuthorshipEvaluation). V2.3 adapter: `v23GenerationAuthority.ts`, `v23GenerationAuthorityConstants.ts`.
+- **Generation pipeline:** CURRENT CONTRACT → validate → compile FAL prompt → immutable prompt snapshot → fingerprint → FAL → asset linked to snapshot. `REGENERATE_CURRENT` (default) recompiles; `REPLAY_GENERATION` uses historical snapshot intentionally.
+- **Contract mutation:** `applyV23PublicCopyRevisionAll()` + `markV23ArtifactPromptStale()` mark prompt stale — no automatic FAL/Anthropic.
+- **Board:** `v23BoardReadiness` evaluates selected asset lineage (C.4A/C.4B/C.5); Round 01 lock requires current lineage. `selectedGenerationAssetId` authority implemented.
+- **UI:** Experiment 01 page — CONTRACT/PROMPT/READINESS panels, C.4A/C.4B/C.5 status, GENERATE CURRENT V2.3 / REGENERATE CURRENT / REPLAY HISTORICAL PROMPT. Client-safe `v23BoardReadinessClient.ts` for browser bundle.
+- **Tests:** 14 requirements in `v23GenerationAuthorityP05C5A.test.ts`; 65 related regression tests green. Build green. Deploy v56.
+
