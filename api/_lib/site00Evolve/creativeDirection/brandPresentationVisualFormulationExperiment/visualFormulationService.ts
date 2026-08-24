@@ -70,7 +70,6 @@ import { BRAND_PRESENTATION_DIRECTION_RUN_ID } from '../../../../../shared/site0
 import { getBrandPresentationDirectionFormationRun } from '../brandPresentationDirectionExperiment/directionService.js';
 import { parseStructuredJson } from '../creativeIntelligence/structuredJson.js';
 import { callAnthropicForCompletion } from '../creativeIntelligence/anthropicCompletion.js';
-import { ANTHROPIC_CREATIVE_MODEL } from '../creativeIntelligence/config.js';
 import { NDXBOOK_ORG_ID } from '../creativeIntelligence/founderComparisonSet.js';
 import {
   EXPERIENCE_FAL_MODEL,
@@ -506,19 +505,18 @@ async function formulateBenchmarkForDirection(params: {
     raw = buildVitestBenchmarkPayload(params.direction);
   } else {
     const payload = buildDirectionBenchmarkFormationPayload({ parentConcept: parent, direction: params.direction });
-    const result = await callAnthropicForCompletion({
-      system: DIRECTION_BENCHMARK_FORMATION_SYSTEM_PROMPT,
-      user: payload,
-      model: ANTHROPIC_CREATIVE_MODEL,
-      maxTokens: 4096,
-    });
+    const { text, usage } = await callAnthropicForCompletion(
+      DIRECTION_BENCHMARK_FORMATION_SYSTEM_PROMPT,
+      payload,
+      { maxTokens: 4096 },
+    );
     accountingDelta = {
       anthropicRequests: 1,
-      anthropicInputTokens: result.inputTokens ?? 0,
-      anthropicOutputTokens: result.outputTokens ?? 0,
-      anthropicEstimatedCostUsd: result.estimatedCostUsd ?? 0.03,
+      anthropicInputTokens: usage.inputTokens ?? 0,
+      anthropicOutputTokens: usage.outputTokens ?? 0,
+      anthropicEstimatedCostUsd: 0.03,
     };
-    const parsed = parseStructuredJson<{ benchmark: RawDirectionBenchmarkPayload }>(result.text);
+    const parsed = parseStructuredJson<{ benchmark: RawDirectionBenchmarkPayload }>(text);
     if (!parsed.benchmark) {
       throw new Error(`Benchmark formulation failed for direction ${params.direction.directionId}`);
     }
@@ -798,19 +796,18 @@ async function formulateExpressionsForFinalist(params: {
     }
   } else {
     const payload = buildExpressionFormationPayload({ parentConcept: parent, direction });
-    const result = await callAnthropicForCompletion({
-      system: EXPRESSION_FORMATION_SYSTEM_PROMPT,
-      user: payload,
-      model: ANTHROPIC_CREATIVE_MODEL,
-      maxTokens: 8192,
-    });
+    const { text, usage } = await callAnthropicForCompletion(
+      EXPRESSION_FORMATION_SYSTEM_PROMPT,
+      payload,
+      { maxTokens: 8192 },
+    );
     accountingDelta = {
       anthropicRequests: 1,
-      anthropicInputTokens: result.inputTokens ?? 0,
-      anthropicOutputTokens: result.outputTokens ?? 0,
-      anthropicEstimatedCostUsd: result.estimatedCostUsd ?? 0.05,
+      anthropicInputTokens: usage.inputTokens ?? 0,
+      anthropicOutputTokens: usage.outputTokens ?? 0,
+      anthropicEstimatedCostUsd: 0.05,
     };
-    const parsed = parseStructuredJson<{ expressions: RawExpressionPayload[] }>(result.text);
+    const parsed = parseStructuredJson<{ expressions: RawExpressionPayload[] }>(text);
     if (!parsed.expressions || parsed.expressions.length !== 3) {
       throw new Error('Expression formulation must return exactly 3 expressions');
     }
