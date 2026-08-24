@@ -36,7 +36,8 @@ import {
 } from '../../../../../shared/site00-brand-lore/artBoardMateriality/experiment01V23.js';
 import {
   applyExperiment01V23Supersession,
-  assertV23GenerationAllowed,
+  assertV23BatchGenerationAllowed,
+  assertV23SingleArtifactGenerationAllowed,
   isV23GenerationBlocked,
   isV23SupersessionError,
   markInFlightV23ArtifactPreserved,
@@ -1302,10 +1303,7 @@ async function generateExperiment01ArtifactFalResult(params: {
   const idx = run.experiment01V23!.generatedArtifacts.findIndex((a) => a.id === artifactId);
   if (idx < 0) throw new Error('V2.3 artifact not found');
   let artifact = migrateV23ArtifactGenerationLineage(run.experiment01V23!.generatedArtifacts[idx]!);
-  assertV23GenerationAllowed(run.experiment01V23);
-  if (isV23GenerationBlocked(run.experiment01V23) && !artifact.allowSingleInFlightCompletion) {
-    assertV23GenerationAllowed(run.experiment01V23);
-  }
+  assertV23BatchGenerationAllowed(run.experiment01V23);
   const v1 = run.experiment01?.artifacts.find((a) => a.id === artifact.v1ArtifactId);
   if (!v1) throw new Error('V1 source artifact missing for V2.3 generation');
 
@@ -1918,19 +1916,16 @@ export async function generateExperiment01V23ArtifactAsset(params: {
   if (!v23ContractReviewBeforeGeneration(run.experiment01V23)) {
     throw new Error('V2.3 contracts must be reviewed before generation');
   }
-  assertV23GenerationAllowed(run.experiment01V23);
-
   const idx = run.experiment01V23.generatedArtifacts.findIndex((a) => a.id === params.artifactId);
   if (idx < 0) throw new Error('V2.3 artifact not found');
 
   let artifact = migrateV23ArtifactGenerationLineage(run.experiment01V23.generatedArtifacts[idx]!);
 
-  if (
-    isV23GenerationBlocked(run.experiment01V23) &&
-    !artifact.allowSingleInFlightCompletion
-  ) {
-    assertV23GenerationAllowed(run.experiment01V23);
-  }
+  assertV23SingleArtifactGenerationAllowed({
+    experiment: run.experiment01V23,
+    artifact,
+    mode,
+  });
 
   if (
     mode === 'REGENERATE_CURRENT' &&
@@ -2006,7 +2001,10 @@ export async function generateExperiment01V23ArtifactAsset(params: {
       : mode === 'REGENERATE_CURRENT' && !replay
         ? 'CURRENT_C4B1'
         : artifact.generationLineageClass ?? null,
-    generationJobStatus: wasInFlightAtBoundary ? 'COMPLETED' : artifact.generationJobStatus ?? null,
+    generationJobStatus:
+      wasInFlightAtBoundary || artifact.generationJobStatus === 'CANCELLED_SUPERSEDED'
+        ? 'COMPLETED'
+        : artifact.generationJobStatus ?? null,
     allowSingleInFlightCompletion: false,
     dispatchedPromptSnapshotId: snapshot.id,
     updatedAt: nowIso(),
@@ -2273,7 +2271,7 @@ export async function generateAllExperiment01V23ArtifactAssets(params: {
   if (!run?.experiment01V23?.generatedArtifacts.length) {
     throw new Error('Experiment 01 V2.3 contracts not formulated');
   }
-  assertV23GenerationAllowed(run.experiment01V23);
+  assertV23BatchGenerationAllowed(run.experiment01V23);
   if (!v23ContractReviewBeforeGeneration(run.experiment01V23)) {
     throw new Error('V2.3 contracts must be reviewed before generation');
   }

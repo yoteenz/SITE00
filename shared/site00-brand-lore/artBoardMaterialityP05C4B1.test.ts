@@ -318,6 +318,40 @@ describe('P0.5C.4B.1 V2.3 queue supersession', () => {
     );
   });
 
+  it('allows per-slide REGENERATE_CURRENT after supersession (culture / apology slide)', async () => {
+    let run = (await getBrandMarketingExpressionState({ projectId: 'ndxbook' }))!;
+    const staleExp = makeExperimentStalePreC4B1(run.experiment01V23!);
+    staleExp.status = 'GENERATING';
+    staleExp.generatedArtifacts = staleExp.generatedArtifacts.map((a, i) =>
+      i < 2
+        ? { ...a, generationStatus: 'GENERATED', generatedAssetUrl: `https://vitest.local/${a.id}.png` }
+        : { ...a, generationStatus: 'GENERATING', generationJobStatus: 'QUEUED' },
+    );
+    await saveBrandMarketingExpressionRun({
+      ...run,
+      experiment01V23: staleExp,
+      status: 'EXPERIMENT_01_V23_GENERATING',
+    });
+    run = (await getBrandMarketingExpressionState({ projectId: 'ndxbook' }))!;
+    expect(run.experiment01V23?.generationRunStatus).toBe('SUPERSEDED_BY_METHODOLOGY');
+
+    const apology = run.experiment01V23!.generatedArtifacts.find((a) => a.id === 'bma-exp01-v23-3')!;
+    expect(apology.contract.primaryHook).toBe('WE OWE HER AN APOLOGY.');
+    expect(apology.generationJobStatus).toBe('CANCELLED_SUPERSEDED');
+    expect(apology.generatedAssetUrl).toBeFalsy();
+
+    const generated = await generateExperiment01V23ArtifactAsset({
+      projectId: 'ndxbook',
+      artifactId: 'bma-exp01-v23-3',
+      mode: 'REGENERATE_CURRENT',
+    });
+    const topic3 = generated.experiment01V23!.generatedArtifacts.find((a) => a.id === 'bma-exp01-v23-3')!;
+    expect(topic3.generationStatus).toBe('GENERATED');
+    expect(topic3.generatedAssetUrl).toBeTruthy();
+    expect(topic3.generationJobStatus).toBe('COMPLETED');
+    expect(topic3.generationContract?.prompt).toContain('SIGNATURE LIME RESTRAINT + CHROMATIC ATTENTION');
+  });
+
   it('preserves completed assets through supersession boundary', () => {
     const characterSystem = buildVitestBrandCharacterSystemForMarketing();
     const expressionSystem = compileBrandMarketingExpressionSystem({
