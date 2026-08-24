@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
+import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
 import { ExperimentGBrandPresentationConceptReview } from '../components/validation/ExperimentGBrandPresentationConceptReview';
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
 import { site00ProjectPath } from '../config/routes';
@@ -58,6 +59,7 @@ export default function ProjectExperimentGPage() {
             <p className="site00-project-lore-calibration__headline">BRAND PRESENTATION CONCEPT FORMATION</p>
             <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
           </header>
+          <ProjectExperimentsHubNav projectSlug={projectSlug} />
 
           {loading ? (
             <p className="site00-experiment-g__pending">LOADING…</p>

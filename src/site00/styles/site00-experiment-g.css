@@ -40,25 +40,28 @@
 }
 
 .site00-experiment-g__card {
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.12);
   padding: 1rem;
   border-radius: 4px;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .site00-experiment-g__card-title {
   margin: 0 0 0.5rem;
+  line-height: 1.25;
+  word-wrap: break-word;
 }
 
 .site00-experiment-g__thesis {
   margin: 0 0 0.75rem;
   font-weight: 600;
+  line-height: 1.45;
 }
 
+/* Mobile-first: stack label above value (Experiment F pattern). Fixed 10rem grid crushed dd on phones. */
 .site00-experiment-g__dl div {
-  display: grid;
-  grid-template-columns: 10rem 1fr;
-  gap: 0.35rem 0.75rem;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.65rem;
   font-size: 0.85rem;
 }
 
@@ -66,6 +69,35 @@
   opacity: 0.65;
   letter-spacing: 0.06em;
   font-size: 0.7rem;
+  line-height: 1.35;
+}
+
+.site00-experiment-g__dl dd {
+  margin: 0.2rem 0 0;
+  line-height: 1.45;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 640px) {
+  .site00-experiment-g__dl div {
+    display: grid;
+    grid-template-columns: minmax(9rem, 11rem) minmax(0, 1fr);
+    gap: 0.35rem 0.75rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .site00-experiment-g__dl dd {
+    margin: 0;
+  }
+}
+
+.site00-experiment-g__regen-help {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  opacity: 0.85;
+  max-width: 52ch;
 }
 
 .site00-experiment-g__judgment {
