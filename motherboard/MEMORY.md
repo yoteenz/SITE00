@@ -4477,3 +4477,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Visual dev link:** When authenticated refs not VALID, panel links to bootstrap page.
 - **Founder flow (phone):** Sign in on site00.com → open `/control/debug/capture-auth` → EXPORT → copy JSON → Railway Variables → redeploy API → CAPTURE / REFRESH REFERENCES → PROJECTS DESKTOP: VALID.
 
+---
+
+## 2026-08-24 — Art board slide inspect lightbox
+
+- **Context:** Founder requested tapping a slide on the Experiment 01 art board should enlarge the image in a popup with an X close icon for closer inspection.
+- **Built:** `Site00ImageInspectLightbox` — full-screen overlay with enlarged image, caption, 44px × close button, backdrop tap + Escape dismiss. Wired into `ProjectBrandMarketingExpressionExperiment01Page` grid: tap generated slide opens lightbox while preserving slide selection/review flow.
+- **Ship:** PR #390 merged; deploy v62 (`index.BAVo19wc.js`).
+
