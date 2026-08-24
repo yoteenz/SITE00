@@ -4434,3 +4434,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Supabase persistence via `site00_methodology_validation_runs` (`NDX_EMBODIED_CHARACTER_DISCOVERY_DB_ID`, mode `NDX_EMBODIED_CHARACTER_DISCOVERY`); durable store adapter with vitest memory fallback. UI: catch API errors, show alert panel, success notice, auto-navigate to SYNTHESIS tab on success.
 - **Ship:** Railway API redeploy + cPanel ZIP for UI error/feedback changes.
 
+---
+
+## 2026-08-24 — Embodied Character page white screen (Supabase row id collision)
+
+- **Context:** `/projects/ndxbook/embodied-character` showed a blank white screen after Supabase persistence shipped.
+- **Root cause:** `NDX_EMBODIED_CHARACTER_DISCOVERY_DB_ID` was accidentally set to the **same UUID** as `NDXBOOK_CONTENT_OPERATIONS_DB_ID` (`c4e1a2b3-0013-4000-8000-000000000001`). GET returned the content-operations run (same `projectId: ndxbook`) as the embodied-character run; React crashed rendering missing fields (`castingReadiness`, `culturalLife`, etc.).
+- **Fix:** New unique row id `c4e1a2b3-0015-4000-8000-000000000001`; Supabase GET filters by `mode` + `isNdxEmbodiedCharacterDiscoveryRun()` shape guard. Tests assert id uniqueness and reject foreign payloads.
+- **Founder action:** Re-open page — should show INITIALIZE (or prior discovery state once initialized on the new row). Railway API redeploy required.
+
