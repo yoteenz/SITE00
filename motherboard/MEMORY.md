@@ -4551,6 +4551,16 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Limitation:** MiniMax preset catalogue still TTS — full demographic fidelity may require future ElevenLabs bake-off or voice design sprint.
 - **Founder:** Railway redeploy + optional cPanel v71. Mark closest voice CLOSE → GENERATE NEXT NEURAL ROUND; or START NEURAL VOICE AUDITION again for refreshed Round 1 voices.
 
+---
+
+## 2026-08-24 — Neural voice edit / re-prompt / regenerate loop (mirrors V2.3 slides)
+
+- **Context:** Full chat arc: P0.5E.4B.1 neural voice casting on FAL MiniMax; provider status UX fix; FAL 422 invalid voice_id fix; NDX v2 territories for African-American woman late 20s attitude; founder asked voice system get same edit/re-prompt/regenerate loop as lime green campaign slides (Experiment 01 V2.3).
+- **Topics:** Neural casting provider sprint; tunnel restart; NEURAL VOICE PROVIDER NOT CONFIGURED / UNPROCESSABLE ENTITY debugging; casting feedback (Soft_Girl closest but wrong demographic/energy); voice revision loop parity with V2.3 founder revision pipeline.
+- **Decisions / outcomes:** Voice Lab now mirrors V2.3 pattern — approval judgments save immediately; revision judgments (TOO_FAST, TOO_POLISHED, VOICE_RIGHT_PERFORMANCE_WRONG, etc.) open founder note modal → contract update → neural re-synthesis; per-candidate **REGENERATE CURRENT** and **REPLAY HISTORICAL PROMPT**; `revisionHistory[]`, `promptSnapshots[]`, `generationAssets[]` on each hypothesis.
+- **Changes:** `neuralVoiceFounderRevisionPipeline.ts`, `neuralVoiceRevisionEngine.ts`, `voiceFounderRevisionLabels.ts`; extended `CharacterVoiceHypothesis` types; service routes `founder_character_discovery_neural_voice_revision` + `_neural_voice_regenerate`; Voice Lab UI modal + buttons; tests `embodiedCharacterVoiceRevisionLoop.test.ts` (4 pass).
+- **Founder:** Railway redeploy API from `main`. GoDaddy deploy for Voice Lab UI. Voice Lab → tap revision label → note → CONFIRM & RE-SYNTHESIZE; or REGENERATE CURRENT / REPLAY on any neural clip.
+
 
 - **Context:** Founder reported YES I KNOW HER not unlocking casting; voice lab selections not appearing saved. Root cause: YES_I_KNOW_HER **was** persisting (`founderKnowsHer: true`) but P0.5E.4A calibration progress did not feed P0.5E.4 casting gates (still required 5 INSPECT trait confirmations). UI always showed "BLOCKED until YES_I_KNOW_HER" even after selection. Voice lab saved to API but UI showed no saved state.
 - **Fix:** `ndxCastingReadinessBridge.ts` — calibration moments + domain confirmations satisfy discovery/gates; refresh readiness on GET; voice calibration moment writes voice lab judgment; CASTING tab shows human-readable blockers; header shows dynamic status; voice lab shows **Saved:** label + success notice on tap.
