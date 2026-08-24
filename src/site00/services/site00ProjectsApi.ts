@@ -1407,6 +1407,34 @@ export const site00ProjectsApi = {
       '/api/site00/projects?action=content_operations_accept_learning',
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, learningId }) },
     ),
+  campaignProductionGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=campaign_production_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  campaignProductionInitialize: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=campaign_production_initialize',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  campaignProductionLockRound01: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=campaign_production_lock_round_01',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  campaignProductionFormulateRound02: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=campaign_production_formulate_round_02',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  campaignProductionAssetJudgment: (slug: string, assetId: string, judgment: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=campaign_production_asset_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, assetId, judgment }),
+      },
+    ),
   projectIntelligenceManifestCompile: (slug: string, experienceClass?: string) =>
     projectsFetch<{
       ok: true;
