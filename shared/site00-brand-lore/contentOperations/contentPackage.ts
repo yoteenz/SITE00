@@ -18,6 +18,7 @@ import { buildEvidenceRequirement } from './researchEvidence.js';
 import { classifyClaim } from './researchEvidence.js';
 import { determineResearchDepth } from './researchEvidence.js';
 import { formulateCharacterEventFromOpportunity, formulateContentThesisFromOpportunity } from './characterEventProduction.js';
+import { extendCarouselSequencePlan, buildEditorialLayerForContentPackage } from '../editorialInformationArchitecture/integration.js';
 
 function fp(value: unknown): string {
   return createHash('sha256').update(JSON.stringify(value)).digest('hex').slice(0, 16);
@@ -88,6 +89,8 @@ export function buildSocialContentPackage(params: {
   opportunity: ContentOpportunity;
   channel: ContentChannelDecision;
   format: ContentFormatDecision;
+  expressionSystem?: import('../brandMarketingExpression/types.js').BrandMarketingExpressionSystem;
+  characterSystemId?: string;
 }): SocialContentPackage {
   const event = formulateCharacterEventFromOpportunity(params.opportunity);
   const depth = determineResearchDepth(params.opportunity);
@@ -102,6 +105,29 @@ export function buildSocialContentPackage(params: {
       confidence: thesis.confidence === 'HIGH' ? 'HIGH' : 'MEDIUM',
     }),
   ];
+
+  let sequencePlan = params.format.format === 'CAROUSEL' ? buildCarouselSequencePlan(packageId) : null;
+  let editorialDecisionId: string | null = null;
+  let firstSlideContractId: string | null = null;
+  let carouselArchitectureId: string | null = null;
+
+  if (params.expressionSystem && params.characterSystemId) {
+    const editorial = buildEditorialLayerForContentPackage({
+      pkg: { id: packageId, projectId: params.projectId, createdAt: now, updatedAt: now } as SocialContentPackage,
+      opportunity: params.opportunity,
+      expressionSystem: params.expressionSystem,
+      characterSystemId: params.characterSystemId,
+    });
+    editorialDecisionId = editorial.editorialDecisionId;
+    firstSlideContractId = editorial.firstSlideContractId;
+    carouselArchitectureId = editorial.carouselArchitectureId;
+    if (sequencePlan && editorial.editorialLayer.carouselNarrative) {
+      sequencePlan = extendCarouselSequencePlan({
+        plan: sequencePlan,
+        narrative: editorial.editorialLayer.carouselNarrative,
+      });
+    }
+  }
 
   const pkg: SocialContentPackage = {
     id: packageId,
@@ -136,6 +162,9 @@ export function buildSocialContentPackage(params: {
     calendarStatus: 'FORMULATING',
     status: 'FORMULATED',
     founderJudgment: null,
+    editorialDecisionId,
+    firstSlideContractId,
+    carouselArchitectureId,
     fingerprint: '',
     createdAt: now,
     updatedAt: now,

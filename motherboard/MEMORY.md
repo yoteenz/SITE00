@@ -4188,3 +4188,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Boundaries:** Performance ≠ character/canon authority. Founder approval required for slate, content, publish. Instagram NOT_CONNECTED. Experiment F/G immutable. No product expression/world formation.
 - **Tests:** +62 P0.5D tests. Build green.
 
+---
+
+## 2026-08-24 — P0.5C.1 Editorial Information Architecture + Typographic Governance + Carousel Sequence Direction
+
+- **Context:** Correct visual communication weaknesses from Experiment 01 V1 live generations — information architecture, not expression world redesign. Founder approves black/cream/lime investigative energy; problem is too much simultaneous information, weak hierarchy, random typography. Distinction: MESSY THINKING ≠ MESSY COMMUNICATION. Pipeline: Character → Thesis → Evidence Workspace → Editorial Decision → Hierarchy → First-Slide Art Direction → Sequence → Typographic Governance → Visual Artifact → Distance QA.
+- **Architecture:** `shared/site00-brand-lore/editorialInformationArchitecture/` — EditorialDecision, FirstSlideInformationBudget, deferred-information classification (DEFER_TO_SEQUENCE), CarouselNarrativeArchitecture, NDXTypographyBehaviorSystem (DISPLAY/DOCUMENT/HUMAN_TRACE + SOURCE_TEXT exception), uppercase-only NDX-authored copy, TextDensityEvaluation, FeedDensityRhythm, ArtifactReadingPath, three-distance QA, lime governance, FirstSlideArtDirectionContract, FAL prompt compiler V2 (18-section editorial hierarchy). Experiment 01 V1 preserved; V2 pipeline ready (`EXPERIMENT_01_V2_INFORMATION_ARCHITECTURE`) — same 9 topics, contracts before founder-triggered FAL.
+- **Integration:** P0.5D Content Operations SocialContentPackage now requires editorial layer (editorialDecisionId, firstSlideContractId, carouselArchitectureId); CarouselSequencePlan extended with sequence arc + slide contracts. Service: `formulateMarketingExpressionExperiment01V2`, `generateExperiment01V2ArtifactAsset`. UI: Experiment 01 page V1/V2 tab switcher + contract review before generate.
+- **Boundaries:** Marketing Expression typography governance ≠ final Brand Identity. No character/canon/Experiment F/G mutation. V2 FAL not auto-generated (0 during implementation; max 9 founder-triggered).
+- **Tests:** +60 P0.5C.1 tests. P0.5C + P0.5D still passing. Build green.
+

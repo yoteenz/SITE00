@@ -358,6 +358,10 @@ export type BrandMarketingExpressionRun = {
     | 'EXPERIMENT_01_READY'
     | 'EXPERIMENT_01_GENERATING'
     | 'EXPERIMENT_01_COMPLETE'
+    | 'EXPERIMENT_01_V2_FORMULATING'
+    | 'EXPERIMENT_01_V2_READY'
+    | 'EXPERIMENT_01_V2_GENERATING'
+    | 'EXPERIMENT_01_V2_COMPLETE'
     | 'FAILED';
   brandCharacterSystemId: string | null;
   forensicAudit: MarketingExpressionForensicAudit | null;
@@ -365,6 +369,8 @@ export type BrandMarketingExpressionRun = {
   northStarArtifact: FounderMarketingNorthStarArtifact | null;
   northStarForensics: MarketingNorthStarForensicEvaluation | null;
   experiment01: MarketingExpressionExperiment01 | null;
+  experiment01V1Version: 'EXPERIMENT_01_V1' | null;
+  experiment01V2: import('../editorialInformationArchitecture/types.js').MarketingExpressionExperiment01V2 | null;
   experimentGCharacterReevaluationRequired: boolean;
   error: string | null;
   accounting: {

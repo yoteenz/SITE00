@@ -176,7 +176,7 @@ export function getProjectExperimentsHubEntries(projectSlug: string): ProjectExp
           id: 'marketing-expression-experiment-01',
           title: 'EXPERIMENT 01 — NDX FEED',
           path: site00ProjectBrandMarketingExpressionExperiment01Path(projectSlug),
-          description: 'Nine first-slide Instagram artifacts across unrelated topics.',
+          description: 'V1 original expression test + V2 editorial information architecture (contract review before generate).',
         },
       ],
     },
