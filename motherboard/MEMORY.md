@@ -4278,3 +4278,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Service:** Second Reel no longer auto-approved from `dayEvents.length > 1`; stores `cadenceFulfillmentEvaluationsByDate`.
 - **Tests:** +14 P0.5E.1A regression tests; P0.5E.1 test 19 updated to HEALTHY_BASELINE. Cadence suite 75 passing; full suite 2333+ passing; build green.
 
+---
+
+## 2026-08-24 — P0.5D.1 Live Cultural Intelligence + Trend Forecasting + Temporal Relevance Engine
+
+- **Context:** Upstream intelligence layer between live external world and Content Operations. Core question: *what is happening or about to happen that this brand could notice, understand, connect, question, remember, explain, react to, or have a distinctive POV about?* NOT a trending-hashtag scraper or trend-copying engine. Generic Studio World architecture + NDX adapter; feeds better intelligence into existing ContentOpportunity without replacing it.
+- **Corrected pipeline:** LIVE WORLD SIGNALS → normalization → clustering → lifecycle → forecast → source/freshness validation → brand relevance → WHY NOW → ContentOpportunity → weekly slate → packages → production → publishing → learning.
+- **Generic domain:** `shared/site00-studio-world-production/liveCulturalIntelligence/` — LiveWorldSignal, SignalCluster, TrendLifecycleEvaluation, UpcomingCulturalMoment, ForecastConfidence, TemporalRelevanceEvaluation, WhyNowEvaluation, CurrentIntelligencePackage, BrandSignalInterpretation, CulturalMemoryMatch, EditorialWhitespaceEvaluation, CulturalWeatherPattern, WeeklyCulturalForecast, LiveWatchQueue, EditorialFlexCapacity, ForecastOutcome, ClientIntelligenceConfiguration, failure states, `FAL_REQUESTS_FOR_FORECASTING = 0`.
+- **NDX adapter:** `shared/site00-brand-lore/liveCulturalIntelligence/` — `ndxLiveCulturalIntelligenceAdapter.ts` (5 pilot manual signals), `ndxRelevance.ts` (trend dependency guard, cultural memory, callback evidence), NDX character behavior modes, founder judgment vocabulary.
+- **Service:** `api/_lib/site00Evolve/liveCulturalIntelligence/` — configure, manual refresh, weekly forecast, promote STRONG_OPPORTUNITY/CALLBACK to ContentOpportunity with live lineage. Memory store (no Supabase yet). API: `cultural_intelligence_*` on projects.
+- **UI:** `/projects/ndxbook/cultural-intelligence` (LIVE NOW, COMING, ACCELERATING, WATCHING, OPPORTUNITIES, SKIP, SOURCES); `/projects/ndxbook/cultural-intelligence/weekly-forecast` (10 forecast sections + open capacity). Content Operations banner notes intelligence layer.
+- **ContentOpportunity integration:** Optional `liveLineage` (signalIds, intelligence package, brand interpretation, whyNow, temporal, memory, forecast, origin). Seeded pilot opportunities remain valid without lineage.
+- **Connectors:** Truthful states only — MANUAL (founder pilot signals), AVAILABLE_NOT_CONFIGURED, NOT_AVAILABLE. No fabricated live APIs.
+- **Boundaries:** Brand Character/Canon unchanged; Experiment D/F/G, P0.5C, P0.5E, P0.5E.1 cadence unchanged; no FAL during forecasting; no generation on page load; no autonomous publishing; rapid response cannot bypass verification or founder approval.
+- **Tests:** +12 grouped P0.5D.1 tests (~50 requirements in `culturalIntelligenceP05D1.test.ts`). P0.5D test 58 updated. Cadence + content ops regressions green. Build green.
+
