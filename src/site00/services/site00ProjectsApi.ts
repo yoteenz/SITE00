@@ -1660,7 +1660,7 @@ export const site00ProjectsApi = {
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
     ),
   founderCharacterDiscoveryGet: (slug: string) =>
-    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null; neuralProviderConfigured?: boolean }>(
       `/api/site00/projects?action=founder_character_discovery_get&slug=${encodeURIComponent(slug)}`,
     ),
   founderCharacterDiscoveryInitialize: (slug: string) =>

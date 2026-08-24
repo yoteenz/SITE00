@@ -144,15 +144,21 @@ export async function getFounderCharacterDiscoveryState(params: {
   const existing = await store.getFounderCharacterDiscoveryRun(params.projectId);
   if (!existing) return null;
   const refreshed = refreshReadiness(existing);
+  const voiceSynced = ensureVoiceCalibration(refreshed);
   const readinessChanged =
-    refreshed.castingReadiness.state !== existing.castingReadiness.state ||
-    refreshed.castingReadiness.readyForCharacterSynthesis !== existing.castingReadiness.readyForCharacterSynthesis ||
-    refreshed.castingReadiness.blockingGates.join('|') !== existing.castingReadiness.blockingGates.join('|') ||
-    refreshed.traitPropositionVersion !== existing.traitPropositionVersion;
-  if (readinessChanged) {
-    return store.saveFounderCharacterDiscoveryRun(refreshed);
+    voiceSynced.castingReadiness.state !== existing.castingReadiness.state ||
+    voiceSynced.castingReadiness.readyForCharacterSynthesis !== existing.castingReadiness.readyForCharacterSynthesis ||
+    voiceSynced.castingReadiness.blockingGates.join('|') !== existing.castingReadiness.blockingGates.join('|') ||
+    voiceSynced.traitPropositionVersion !== existing.traitPropositionVersion;
+  const voiceChanged =
+    voiceSynced.voiceCalibrationState?.neuralProviderConfigured !==
+      existing.voiceCalibrationState?.neuralProviderConfigured ||
+    voiceSynced.voiceCalibrationState?.castingMode !== existing.voiceCalibrationState?.castingMode ||
+    voiceSynced.languageLabEvidenceCount !== existing.languageLabEvidenceCount;
+  if (readinessChanged || voiceChanged) {
+    return store.saveFounderCharacterDiscoveryRun(voiceSynced);
   }
-  return refreshed;
+  return voiceSynced;
 }
 
 export async function initializeFounderCharacterDiscoveryRoom(params: {

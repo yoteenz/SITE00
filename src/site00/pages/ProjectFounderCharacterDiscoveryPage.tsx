@@ -82,6 +82,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
   const [playingHypothesisId, setPlayingHypothesisId] = useState<string | null>(null);
   const [neuralEstimate, setNeuralEstimate] = useState<Record<string, unknown> | null>(null);
   const [neuralConfigured, setNeuralConfigured] = useState<boolean | null>(null);
+  const [neuralStatusError, setNeuralStatusError] = useState<string | null>(null);
   const [currentInteraction, setCurrentInteraction] = useState<CharacterCalibrationInteraction | null>(null);
   const [showWhyThisCameUp, setShowWhyThisCameUp] = useState(false);
 
@@ -91,6 +92,11 @@ export default function ProjectFounderCharacterDiscoveryPage() {
       const result = await site00ProjectsApi.founderCharacterDiscoveryGet(projectSlug);
       const loaded = (result.run as NdxFounderCharacterDiscoveryRun | null) ?? null;
       setRun(loaded);
+      if (typeof result.neuralProviderConfigured === 'boolean') {
+        setNeuralConfigured(result.neuralProviderConfigured);
+      } else if (typeof loaded?.voiceCalibrationState?.neuralProviderConfigured === 'boolean') {
+        setNeuralConfigured(loaded.voiceCalibrationState.neuralProviderConfigured);
+      }
       if (loaded?.calibrationState?.currentInteractionId) {
         const interaction =
           loaded.calibrationState.interactions.find(
@@ -116,8 +122,17 @@ export default function ProjectFounderCharacterDiscoveryPage() {
       .then((r) => {
         setNeuralEstimate(r.estimate);
         setNeuralConfigured(r.neuralProviderConfigured);
+        setNeuralStatusError(null);
       })
-      .catch(() => setNeuralConfigured(false));
+      .catch((err) => {
+        setNeuralStatusError(
+          err instanceof Site00ProjectsApiError
+            ? err.message
+            : err instanceof Error
+              ? err.message
+              : 'Could not load neural voice estimate',
+        );
+      });
   }, [section, inspectSection, projectSlug, run?.voiceCalibrationState?.updatedAt]);
 
   const playHypothesisAudio = (hypo: {
@@ -197,7 +212,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
           <section className="site00-experiment-g__panel">
             <h2>CHARACTER CALIBRATION</h2>
             <p>The system proposes. You calibrate. Recognition — not invention.</p>
-            <p><strong>{run ? castingStatusHeadline(run) : 'CASTING: Enter discovery room to begin'}</strong> · <strong>FAL:</strong> 0</p>
+            <p><strong>{run ? castingStatusHeadline(run) : 'CASTING: Enter discovery room to begin'}</strong> · <strong>FAL:</strong> {run?.voiceCalibrationState?.falRequests ?? 0}</p>
             {actionError && (
               <section className="site00-experiment-g__panel" role="alert">
                 <h3>Action failed</h3>
@@ -664,7 +679,12 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                     {neuralConfigured === false && (
                       <p style={{ color: '#f5a623', marginBottom: '12px' }}>
                         NEURAL VOICE PROVIDER NOT CONFIGURED — placeholder browser voices are disabled for casting.
-                        Configure FAL_KEY on Railway for production auditions.
+                        Configure <strong>FAL_KEY</strong> on the Railway service that runs <strong>api.site00.com</strong>, then redeploy the API.
+                      </p>
+                    )}
+                    {neuralStatusError && neuralConfigured !== false && (
+                      <p style={{ color: '#f5a623', marginBottom: '12px' }}>
+                        Could not refresh neural voice cost estimate ({neuralStatusError}). Provider status may still be OK — try START NEURAL VOICE AUDITION or reload.
                       </p>
                     )}
                     {run.voiceCalibrationState?.castingMode === 'DEV_PLACEHOLDER' && neuralConfigured && (
