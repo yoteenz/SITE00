@@ -3938,3 +3938,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (branch `cursor/fal-asset-storage-upsert-fix-4f59`):** Reuse existing storage objects before calling FAL; upload with `upsert: true` on regeneration; clearer error detail in API + per-receipt failure list in UI; test `experienceAssetFalStorage.test.ts`.
 - **Founder action:** Railway redeploy, then tap **GENERATE MISSING ASSETS** again — should reuse existing files or overwrite without failing.
 
+---
+
+## 2026-08-23 — CAPTURE REQUIRED but no real captures (Playwright missing on Railway)
+
+- **Context:** fsbw-dev shows **CAPTURE REQUIRED** labels (PR #331 UI) but reference thumbnails still empty after refresh — only cosmetic change landed.
+- **Root cause:** `playwright` was in **devDependencies**; Railway production never installed it. Capture failed silently; API kept compiling packages from seed refs with placeholder URLs.
+- **Fix (PR #332):** Move playwright to dependencies; nixpacks/postinstall install chromium; throw `REFERENCE_CAPTURE_FAILED` with details; UI action error banner; PNG capture upload with upsert.
+- **Founder action:** Redeploy Railway from main, then **CAPTURE / REFRESH REFERENCES + PREPARE INTERFACE** — thumbnails should populate, then **GENERATE MISSING ASSETS**.
+
