@@ -4,16 +4,82 @@
 
 import { createHash } from 'node:crypto';
 import { BRAND_CHARACTER_TERRITORY_V1 } from './constants.js';
+import { BRAND_CHARACTER_DEVELOPMENT_V1 } from './developmentTypes.js';
 import type { BrandCharacterSystem, BrandCharacterTerritory } from './types.js';
+import type { BrandCharacterDevelopment } from './developmentTypes.js';
 
 function fingerprint(payload: unknown): string {
   return createHash('sha256').update(JSON.stringify(payload)).digest('hex').slice(0, 16);
 }
 
-export function compileBrandCharacterSystem(params: {
+export function compileBrandCharacterSystemFromDevelopment(params: {
+  development: BrandCharacterDevelopment;
   territory: BrandCharacterTerritory;
   founderApproval?: BrandCharacterSystem['founderApproval'];
+  compilationPolicy?: BrandCharacterSystem['compilationPolicy'];
 }): BrandCharacterSystem {
+  const { development, territory } = params;
+  const corePayload = {
+    core: development.coreCharacter,
+    intellectual: development.intellectualCharacter,
+    social: development.socialCharacter,
+    emotional: development.emotionalCharacter,
+    humorWit: development.humorSystem,
+    cultural: development.culturalIntelligence,
+    language: development.languageCharacter,
+    taste: development.tasteCharacter,
+    expressive: development.expressiveBehavior,
+    artifact: development.artifactBehavior,
+  };
+
+  return {
+    id: `bcs-${development.id}`,
+    sourceTerritoryId: territory.id,
+    sourceDevelopmentId: development.id,
+    sourceFingerprint: fingerprint(corePayload),
+    compilationPolicy: params.compilationPolicy ?? 'DEVELOPMENT_REQUIRED',
+    methodologyVersion: BRAND_CHARACTER_DEVELOPMENT_V1,
+    founderApproval: params.founderApproval ?? 'PENDING',
+    characterCore: development.coreCharacter,
+    intellectualBehavior: development.intellectualCharacter,
+    socialBehavior: development.socialCharacter,
+    emotionalBehavior: development.emotionalCharacter,
+    humorSystem: development.humorSystem,
+    culturalIntelligenceSystem: development.culturalIntelligence,
+    languageBehavior: development.languageCharacter,
+    tasteSystem: development.tasteCharacter,
+    expressiveBehavior: development.expressiveBehavior,
+    artifactRelationship: development.artifactBehavior,
+    antiCharacterRules: [...development.antiDirections, ...territory.whatItMustNeverBecome],
+    allowedRange: development.allowedRange,
+    contextualModulationRules: [
+      'Character consistency ≠ tonal sameness',
+      'Serious contexts may reduce humor without eliminating wit mechanism',
+      'High-energy contexts may increase expressive gestures without changing worldview',
+    ],
+    mediumTranslationRules: [
+      'Identity, presentation, content, and motion each translate character — none replace it',
+      'Medium-specific expression must remain explainable as character evidence',
+    ],
+    brandCharacterFingerprint: fingerprint({ id: development.id, ...corePayload }),
+    compiledAt: new Date().toISOString(),
+  };
+}
+
+export function compileBrandCharacterSystem(params: {
+  territory: BrandCharacterTerritory;
+  development?: BrandCharacterDevelopment | null;
+  founderApproval?: BrandCharacterSystem['founderApproval'];
+  compilationPolicy?: BrandCharacterSystem['compilationPolicy'];
+}): BrandCharacterSystem {
+  if (params.development) {
+    return compileBrandCharacterSystemFromDevelopment({
+      development: params.development,
+      territory: params.territory,
+      founderApproval: params.founderApproval,
+      compilationPolicy: params.compilationPolicy ?? 'DEVELOPMENT_REQUIRED',
+    });
+  }
   const { territory } = params;
   const corePayload = {
     core: territory.core,
@@ -31,7 +97,9 @@ export function compileBrandCharacterSystem(params: {
   return {
     id: `bcs-${territory.id}`,
     sourceTerritoryId: territory.id,
+    sourceDevelopmentId: null,
     sourceFingerprint: fingerprint(corePayload),
+    compilationPolicy: params.compilationPolicy ?? 'DEVELOPMENT_SUFFICIENT',
     methodologyVersion: BRAND_CHARACTER_TERRITORY_V1,
     founderApproval: params.founderApproval ?? 'PENDING',
     characterCore: territory.core,
@@ -74,6 +142,14 @@ export function loveDoesNotMutateBrandCanon(): true {
 }
 
 export function multiplePromisingCharactersMaySurvive(): true {
+  return true;
+}
+
+export function territoryAloneInsufficientForSystemAuthority(): true {
+  return true;
+}
+
+export function compileBrandCharacterSystemFromDevelopmentOnly(): true {
   return true;
 }
 

@@ -42,9 +42,23 @@ export const CANONICAL_DEPENDENCY_TEMPLATES: CanonicalEdgeTemplate[] = [
   },
   {
     upstreamType: 'BRAND_CHARACTER',
+    downstreamType: 'BRAND_CHARACTER_DEVELOPMENT',
+    invalidationPolicy: 'NO_INVALIDATION',
+    reason: 'Territory remains immutable historical evidence; development is child lineage',
+    changeTypes: ['BRAND_CHARACTER_CHANGE'],
+  },
+  {
+    upstreamType: 'BRAND_CHARACTER_DEVELOPMENT',
     downstreamType: 'BRAND_CHARACTER_SYSTEM',
     invalidationPolicy: 'FOUNDER_REVIEW_REQUIRED',
-    reason: 'Character system compiled from founder-selected territory',
+    reason: 'Character system compiles from founder-approved development, not shallow territory alone',
+    changeTypes: ['BRAND_CHARACTER_CHANGE'],
+  },
+  {
+    upstreamType: 'BRAND_CHARACTER',
+    downstreamType: 'BRAND_CHARACTER_SYSTEM',
+    invalidationPolicy: 'FOUNDER_REVIEW_REQUIRED',
+    reason: 'Legacy path — territory-only compilation requires explicit ESTABLISHED_CHARACTER_CAPTURE policy',
     changeTypes: ['BRAND_CHARACTER_CHANGE'],
   },
   {

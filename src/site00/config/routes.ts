@@ -71,6 +71,7 @@ export const SITE00_ROUTES = {
   projectExperimentGFinalists:
     '/projects/:projectSlug/experiment-g-brand-presentation-concepts/finalists',
   projectExperimentH: '/projects/:projectSlug/brand-character-formation',
+  projectBrandCharacterDevelopment: '/projects/:projectSlug/brand-character-development',
   projectExperimentE: '/projects/:projectSlug/experience-expression',
   projectExperimentEVisualDevelopment: '/projects/:projectSlug/experience-expression/visual-development',
   projectExperiments: '/projects/:projectSlug/experiments',
@@ -177,6 +178,14 @@ export function site00ProjectExperimentGFinalistsPath(projectSlug: string): stri
 
 export function site00ProjectExperimentHPath(projectSlug: string): string {
   return `/projects/${projectSlug}/brand-character-formation`;
+}
+
+export function site00ProjectBrandCharacterFormationPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/brand-character-formation`;
+}
+
+export function site00ProjectBrandCharacterDevelopmentPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/brand-character-development`;
 }
 
 export function site00ProjectExperimentEVisualDevelopmentPath(projectSlug: string): string {

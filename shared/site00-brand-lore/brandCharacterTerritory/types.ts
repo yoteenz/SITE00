@@ -271,7 +271,7 @@ export type BrandCharacterFormationRun = {
   organizationId: string;
   projectId: string;
   methodologyVersion: typeof BRAND_CHARACTER_TERRITORY_V1 | string;
-  currentStage: 'BRAND_CHARACTER_FORMATION';
+  currentStage: 'BRAND_CHARACTER_FORMATION' | 'BRAND_CHARACTER_DEVELOPMENT';
   status:
     | 'NOT_STARTED'
     | 'SNAPSHOT_READY'
@@ -288,8 +288,22 @@ export type BrandCharacterFormationRun = {
   characters: BrandCharacterTerritory[];
   setDistinctiveness: BrandCharacterSetDistinctivenessEvaluation | null;
   formationReceipt: BrandCharacterFormationReceipt | null;
+  /** Raw provider JSON — persisted for future runs; V1 live run lacks this (forensic evidence). */
+  rawProviderResponse?: string | null;
+  /** Immutable forensic audit overlay — computed, not mutating historical territories. */
+  forensicAudit?: import('./forensicAudit.js').FormationRunForensicAudit | null;
+  /** Set-level assurance for first formation evidence. */
+  territoryAssurance?: import('./territoryAssurance.js').BrandCharacterTerritoryAssurance[] | null;
+  /** Semantic set audit — evidence only, no winner selection. */
+  semanticSetAudit?: import('./developmentTypes.js').BrandCharacterSetAudit | null;
+  /** Archetype collapse evaluation per territory. */
+  archetypeCollapse?: import('./archetypeCollapseEvaluation.js').BrandCharacterArchetypeCollapseEvaluation[] | null;
+  /** Character development records — founder-triggered from PROMISING_DEVELOP / LOVE. */
+  developments?: import('./developmentTypes.js').BrandCharacterDevelopment[];
   selectedCharacterId: string | null;
+  selectedDevelopmentId: string | null;
   brandCharacterSystemId: string | null;
+  systemCompilationPolicy?: 'DEVELOPMENT_REQUIRED' | 'DEVELOPMENT_SUFFICIENT' | 'ESTABLISHED_CHARACTER_CAPTURE';
   characterDiscoveryMode: CharacterDiscoveryMode;
   presentationDevelopmentAllowed: boolean;
   identityDevelopmentAllowed: boolean;
@@ -313,7 +327,9 @@ export type BrandCharacterFormationRun = {
 export type BrandCharacterSystem = {
   id: string;
   sourceTerritoryId: string;
+  sourceDevelopmentId: string | null;
   sourceFingerprint: string;
+  compilationPolicy: 'DEVELOPMENT_REQUIRED' | 'DEVELOPMENT_SUFFICIENT' | 'ESTABLISHED_CHARACTER_CAPTURE';
   methodologyVersion: typeof BRAND_CHARACTER_TERRITORY_V1 | string;
   founderApproval: 'PENDING' | 'APPROVED' | 'NOT_EVALUATED';
   characterCore: BrandCharacterCore;

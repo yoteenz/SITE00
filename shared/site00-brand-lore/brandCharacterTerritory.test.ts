@@ -68,6 +68,7 @@ import {
   prepareBrandCharacterSnapshot,
   setBrandCharacterJudgment,
   compileSelectedBrandCharacterSystem,
+  developBrandCharacter,
   resetBrandCharacterFormationWorkers,
 } from '../../api/_lib/site00Evolve/creativeDirection/brandCharacterExperiment/brandCharacterService.js';
 import {
@@ -233,7 +234,12 @@ describe('P0.5B Brand Character System', () => {
   it('16. Character fingerprint propagates downstream', async () => {
     await prepareBrandCharacterSnapshot();
     const run = await formSixBrandCharacterTerritories();
-    const { system } = await compileSelectedBrandCharacterSystem({ characterId: run.characters[0]!.id });
+    await setBrandCharacterJudgment({ characterId: run.characters[0]!.id, judgment: 'PROMISING_DEVELOP' });
+    const { development } = await developBrandCharacter({ territoryId: run.characters[0]!.id });
+    const { system } = await compileSelectedBrandCharacterSystem({
+      characterId: run.characters[0]!.id,
+      developmentId: development.id,
+    });
     const fp = characterFingerprintPropagatesDownstream(system);
     expect(fp.brandCharacterSystemId).toBe(system.id);
     expect(fp.brandCharacterFingerprint).toBeTruthy();

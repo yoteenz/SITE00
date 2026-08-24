@@ -4,10 +4,13 @@ import type {
   BrandCharacterFormationRun,
   BrandCharacterTerritory,
 } from '../../../../shared/site00-brand-lore/brandCharacterTerritory/types';
-import { BRAND_CHARACTER_JUDGMENTS } from '../../../../shared/site00-brand-lore/brandCharacterTerritory/constants';
+import { BRAND_CHARACTER_JUDGMENTS, PROMISING_DEVELOP_JUDGMENTS } from '../../../../shared/site00-brand-lore/brandCharacterTerritory/constants';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
-import { site00ProjectExperimentGPath } from '../../config/routes';
+import { site00ProjectBrandCharacterDevelopmentPath, site00ProjectExperimentGPath } from '../../config/routes';
 import { CharacterFormationStatusPanel } from './CharacterFormationStatusPanel';
+import { CharacterComparisonView } from './CharacterComparisonView';
+import { resolveTerritoryFieldDisplay, renderFieldValue } from './characterFieldDisplay';
+import '../../styles/site00-character-compare.css';
 
 type FounderCharacterJudgment = Exclude<BrandCharacterTerritory['founderJudgment'], 'REFORM_SET' | null>;
 
@@ -27,67 +30,96 @@ type ExperimentHBrandCharacterReviewProps = {
   onUpdate?: (run?: BrandCharacterFormationRun) => void;
 };
 
-function text(value: string | null | undefined, fallback = '—'): string {
-  const trimmed = typeof value === 'string' ? value.trim() : '';
-  return trimmed || fallback;
+function list(value: string[] | null | undefined): string {
+  if (!Array.isArray(value) || value.length === 0) return 'Not specified';
+  return value.join(' · ');
 }
 
-function list(value: string[] | null | undefined): string {
-  if (!Array.isArray(value) || value.length === 0) return '—';
-  return value.join(' · ');
+function FieldRow({
+  character,
+  label,
+  fieldPath,
+}: {
+  character: BrandCharacterTerritory;
+  label: string;
+  fieldPath: string;
+}) {
+  const display = resolveTerritoryFieldDisplay(character, label, fieldPath);
+  const text = renderFieldValue(display);
+  const className =
+    display.state === 'NOT_FORMED_AT_TERRITORY_STAGE'
+      ? 'site00-character-field--development'
+      : display.state === 'MISSING_PROVIDER_OUTPUT'
+        ? 'site00-character-field--missing'
+        : display.state === 'RECOVERABLE_PROVIDER_OUTPUT'
+          ? 'site00-character-field--recovered'
+          : undefined;
+
+  return (
+    <div>
+      <dt>{label}</dt>
+      <dd className={className}>{text}</dd>
+    </div>
+  );
 }
 
 function CharacterCard({
   character,
   onJudgment,
+  onDevelop,
   judging,
+  developing,
+  hasDevelopment,
 }: {
   character: BrandCharacterTerritory;
   onJudgment: (judgment: FounderCharacterJudgment) => void;
+  onDevelop: () => void;
   judging: boolean;
+  developing: boolean;
+  hasDevelopment: boolean;
 }) {
   const saved = character.founderJudgment && character.founderJudgment !== 'REFORM_SET'
     ? character.founderJudgment
     : null;
+  const canDevelop =
+    saved !== null && (PROMISING_DEVELOP_JUDGMENTS as readonly string[]).includes(saved);
 
   return (
     <article className="site00-experiment-g__card">
-      <h4 className="site00-experiment-g__card-title">{text(character.name, 'UNNAMED CHARACTER')}</h4>
-      <p className="site00-experiment-g__thesis">{text(character.core?.characterThesis)}</p>
+      <h4 className="site00-experiment-g__card-title">{character.name || 'UNNAMED CHARACTER'}</h4>
       <dl className="site00-experiment-g__dl">
-        <div><dt>CHARACTER</dt><dd>{text(character.core?.characterEssence)}</dd></div>
-        <div><dt>HOW DOES IT THINK?</dt><dd>{text(character.intellectual?.intelligenceStyle)}</dd></div>
-        <div><dt>HOW DOES IT BEHAVE?</dt><dd>{text(character.social?.conversationalBehavior)}</dd></div>
-        <div><dt>WHAT IS FUNNY TO IT?</dt><dd>{text(character.humorWit?.humorLogic)}</dd></div>
-        <div><dt>HOW DOES IT RELATE TO CULTURE?</dt><dd>{text(character.culturalIntelligence?.culturalPosition)}</dd></div>
-        <div><dt>AUDIENCE RELATIONSHIP</dt><dd>{text(character.social?.audienceRelationship)}</dd></div>
-        <div><dt>TASTE</dt><dd>{text(character.taste?.tasteLogic)}</dd></div>
-        <div><dt>LEAVES ITS MARK</dt><dd>{text(character.artifactRelationship?.makerPresence)}</dd></div>
-        <div><dt>WHY NDXBOOK?</dt><dd>{text(character.whyItIsNdxbook)}</dd></div>
+        <FieldRow character={character} label="CHARACTER" fieldPath="core.characterEssence" />
+        <FieldRow character={character} label="WHO / WHAT IS THIS?" fieldPath="core.characterThesis" />
+        <FieldRow character={character} label="CORE CONTRADICTION" fieldPath="core.characterThesis" />
+        <FieldRow character={character} label="HOW DOES IT MOVE THROUGH THE WORLD?" fieldPath="social.conversationalBehavior" />
+        <FieldRow character={character} label="WHAT KIND OF INTELLIGENCE?" fieldPath="intellectual.intelligenceStyle" />
+        <FieldRow character={character} label="WHAT KIND OF SOCIAL PRESENCE?" fieldPath="social.audienceRelationship" />
+        <FieldRow character={character} label="WHAT COULD BE INTERESTING ABOUT ITS HUMOR?" fieldPath="humorWit.humorLogic" />
+        <FieldRow character={character} label="WHAT IS ITS CULTURAL POSITION?" fieldPath="culturalIntelligence.culturalPosition" />
+        <FieldRow character={character} label="WHAT COULD ITS TASTE BECOME?" fieldPath="taste.tasteLogic" />
+        <FieldRow character={character} label="WHAT KIND OF TRACE COULD IT LEAVE?" fieldPath="artifactRelationship.makerPresence" />
+        <FieldRow character={character} label="WHY NDXBOOK?" fieldPath="whyItIsNdxbook" />
         <div><dt>MUST NEVER BECOME</dt><dd>{list(character.whatItMustNeverBecome)}</dd></div>
         {character.abstractionEval?.result ? (
           <div><dt>ABSTRACTION GATE</dt><dd>{character.abstractionEval.result.replace(/_/g, ' ')}</dd></div>
         ) : null}
       </dl>
-      <details className="site00-experiment-g__details">
-        <summary>METHODOLOGY DETAIL</summary>
-        <pre style={{ fontSize: '0.7rem', overflow: 'auto' }}>
-          {JSON.stringify(
-            {
-              emotionalRange: character.emotional?.emotionalRange ?? null,
-              language: character.language?.verbalCadence ?? null,
-              expressiveBehavior: character.expressiveBehavior?.expressiveGestures ?? null,
-              notThis: character.notThis ?? [],
-            },
-            null,
-            2,
-          )}
-        </pre>
-      </details>
       {saved ? (
         <p className="site00-experiment-g__judgment-saved" role="status">
           YOUR JUDGMENT: {formatLabel(saved)} — saved (LOVE does not equal Brand Canon)
         </p>
+      ) : null}
+      {canDevelop ? (
+        <div className="site00-experiment-g__judgment">
+          <button
+            type="button"
+            className="site00-btn site00-btn--primary"
+            disabled={developing || hasDevelopment}
+            onClick={onDevelop}
+          >
+            {hasDevelopment ? 'DEVELOPMENT CREATED' : developing ? 'STARTING DEVELOPMENT…' : 'DEVELOP CHARACTER'}
+          </button>
+        </div>
       ) : null}
       <div className="site00-experiment-g__judgment">
         {FOUNDER_JUDGMENT_OPTIONS.map((j) => (
@@ -116,6 +148,8 @@ export function ExperimentHBrandCharacterReview({
 }: ExperimentHBrandCharacterReviewProps) {
   const [forming, setForming] = useState(false);
   const [judgingId, setJudgingId] = useState<string | null>(null);
+  const [developingId, setDevelopingId] = useState<string | null>(null);
+  const [compareIndex, setCompareIndex] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
   const isForming = run?.status === 'FORMING';
@@ -157,22 +191,48 @@ export function ExperimentHBrandCharacterReview({
     [onUpdate, projectSlug],
   );
 
+  const developCharacter = useCallback(
+    async (territoryId: string) => {
+      setDevelopingId(territoryId);
+      setError(null);
+      try {
+        await site00ProjectsApi.experimentHDevelopCharacter(projectSlug, territoryId);
+        onUpdate?.();
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Development failed');
+      } finally {
+        setDevelopingId(null);
+      }
+    },
+    [onUpdate, projectSlug],
+  );
+
+  const developmentIds = new Set((run?.developments ?? []).map((d) => d.parentTerritoryId));
+
   return (
     <div className="site00-experiment-g">
-      <p className="site00-experiment-g__experiment">P0.5B — BRAND CHARACTER FORMATION</p>
+      <p className="site00-experiment-g__experiment">P0.5B.1 — BRAND CHARACTER TERRITORY FORMATION</p>
       <h2 className="site00-experiment-g__title">NDXBOOK — Brand Character Territories</h2>
       <p className="site00-experiment-g__meta">
-        Status: {run?.status?.replace(/_/g, ' ') ?? 'NOT STARTED'} · WHO layer · topic-blind · no visuals
+        Status: {run?.status?.replace(/_/g, ' ') ?? 'NOT STARTED'} · Territory level · development separate · no visuals
       </p>
+      {run?.forensicAudit ? (
+        <p className="site00-experiment-g__audit">
+          Forensic audit: {run.forensicAudit.blankFieldRootCause.replace(/_/g, ' ')} ·{' '}
+          {run.forensicAudit.historicalRecoveryPerformed ? 'recoverable provider fields detected' : 'see audit detail'} ·{' '}
+          historical records preserved
+        </p>
+      ) : null}
       <p className="site00-experiment-g__audit">
         Prior Experiment G visual benchmarks classified as UPSTREAM_CHARACTER_LAYER_MISSING — historical evidence preserved.
         {' '}
         <Link to={site00ProjectExperimentGPath(projectSlug)}>Experiment G presentation work →</Link>
+        {' · '}
+        <Link to={site00ProjectBrandCharacterDevelopmentPath(projectSlug)}>Character Development review →</Link>
       </p>
-      {run?.setDistinctiveness ? (
+      {run?.semanticSetAudit ? (
         <p className="site00-experiment-g__audit">
-          Set distinctiveness: {run.setDistinctiveness.result.replace(/_/g, ' ')}
-          {run.setDistinctiveness.semanticAuditRequired ? ' · semantic audit recommended' : ''}
+          Semantic set audit: {run.semanticSetAudit.genericBrandProbability} generic-brand probability · founder decides
         </p>
       ) : null}
       {error ? <p className="site00-experiment-g__error" role="alert">{error}</p> : null}
@@ -198,11 +258,23 @@ export function ExperimentHBrandCharacterReview({
         ) : null}
       </div>
 
+      {hasCharacters ? (
+        <CharacterComparisonView
+          characters={run!.characters}
+          assurance={run?.territoryAssurance}
+          activeIndex={compareIndex}
+          onSelectIndex={setCompareIndex}
+        />
+      ) : null}
+
       {run?.characters?.filter(Boolean).map((character) => (
         <CharacterCard
           key={character.id ?? character.name}
           character={character}
           judging={judgingId === character.id}
+          developing={developingId === character.id}
+          hasDevelopment={developmentIds.has(character.id)}
+          onDevelop={() => void developCharacter(character.id)}
           onJudgment={(j) => void setJudgment(character.id ?? character.name, j)}
         />
       ))}

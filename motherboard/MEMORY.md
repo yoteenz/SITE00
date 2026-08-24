@@ -4091,3 +4091,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `characterPayloadNormalization.ts` coerces partial payloads; `getBrandCharacterFormationRun()` migrates saved characters; UI uses optional chaining + safe text/list helpers.
 - **Deploy:** Railway API + frontend redeploy.
 
+---
+
+## 2026-08-24 — P0.5B.1 Brand Character Formation Assurance + Territory Development Correction
+
+- **Context:** First live NDXBOOK character formation (run `c4e1a2b3-0009-4000-8000-000000000001`, 6 territories, `outputTokens: 12000` at max) showed blank UI fields and archetypal territory names. Sprint: forensic audit first, preserve historical six, correct methodology to Territory → Development → System without regenerating territories or using FAL.
+- **Forensic root cause:** Anthropic generated **rich content in alternate field schema** (`centralDrive`, `thinkingStyle`, `humorMechanism`, etc.) while P0.5B expected canonical keys (`characterThesis`, `intelligenceStyle`, `humorLogic`). `migrateCharacterTerritory` overwrote provider nested objects with empty canonical strings → UI showed misleading `—`. Character #6 (Precise Enthusiast) additionally **PROVIDER_TRUNCATED** at 12k tokens. Raw provider JSON was not persisted for V1 run (cannot recover without re-request).
+- **Methodology correction:** Three levels formalized — compact **BrandCharacterTerritory** (V2 prompt for future runs), **BrandCharacterDevelopment** (founder-triggered from LOVE/PROMISING_DEVELOP with delta preserve/develop/avoid), **BrandCharacterSystem** compiles from approved development only (`DEVELOPMENT_REQUIRED` default). Forensic audit, archetype collapse evaluation, territory assurance, deterministic semantic set audit (no winner selection).
+- **UI:** Character comparison view (horizontal table desktop / tab switcher mobile), completeness truth states (NOT_FORMED_AT_TERRITORY_STAGE, RECOVERABLE_PROVIDER_OUTPUT, etc.), territory card redesign, `/projects/ndxbook/brand-character-development` route, DEVELOP CHARACTER action.
+- **Orchestration/deps:** Added BRAND_CHARACTER_DEVELOPMENT stage; Territory → Development → System dependency edges.
+- **Tests:** 78 character tests pass (+47 P0.5B.1 suite). Build green. No FAL. Experiment G blocked. Historical six preserved immutable.
+
