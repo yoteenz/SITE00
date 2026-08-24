@@ -116,6 +116,11 @@ async function captureWithPlaywright(params: CaptureRouteParams): Promise<{ buff
         viewport: { width: spec.width, height: spec.height },
         deviceScaleFactor: spec.deviceScaleFactor,
       });
+      // Skip cinematic cold-start loader — otherwise origin (/) captures a blank frame.
+      await page.addInitScript(() => {
+        sessionStorage.setItem('site00-immersive-complete', '1');
+        sessionStorage.setItem('site00-assts-immersive-complete', '1');
+      });
       const url = `${params.baseUrl.replace(/\/$/, '')}${params.route}`;
       await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 90000 });
       await page.waitForTimeout(1500);
