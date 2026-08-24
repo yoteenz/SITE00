@@ -64,7 +64,17 @@ export default function ProjectExperimentGPage() {
           {loading ? (
             <p className="site00-experiment-g__pending">LOADING…</p>
           ) : (
-            <ExperimentGBrandPresentationConceptReview projectSlug={projectSlug} run={run} onUpdate={() => void reload()} />
+            <ExperimentGBrandPresentationConceptReview
+              projectSlug={projectSlug}
+              run={run}
+              onUpdate={(updated) => {
+                if (updated) {
+                  setRun(updated);
+                  return;
+                }
+                void reload();
+              }}
+            />
           )}
         </div>
       </div>

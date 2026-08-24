@@ -4004,3 +4004,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Regenerate concepts:** **RE-FORM SET** = fresh six-concept pass (keeps history); **REFRESH FORMATION (IDEMPOTENT)** = re-run same snapshot; first-time **FORM SIX BRAND PRESENTATION CONCEPTS**; stuck **RETRY STALLED FORMATION**. Formation runs on Railway API (2–5 min); page polls every 5s when FORMING.
 - **Deploy:** cPanel ZIP after merge (frontend-only CSS/UI); no Railway redeploy required unless API stale.
 
+---
+
+## 2026-08-24 — Experiment G LOVE THE CONCEPT judgment feedback
+
+- **Context:** Founder reported LOVE THE CONCEPT button on Experiment G brand concepts page did nothing visible — reverted to default label after tap.
+- **Root cause:** API `setExperimentGConceptJudgment` already persisted `founderJudgment` to Supabase; UI never read or displayed saved judgment on concept cards.
+- **Fix (branch `cursor/experiment-g-judgment-persist-ui-1983`):** Active button state + green “✓ YOU LOVED THIS CONCEPT — selection saved” banner; apply API response run immediately (no second reload); status `FOUNDER_REVIEWED` on save. Tests: judgment persistence + UI option contract.
+
