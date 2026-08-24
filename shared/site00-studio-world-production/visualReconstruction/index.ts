@@ -74,3 +74,16 @@ export {
   diagnoseP0VR1ExperimentsHubRegression,
 } from './calibration/forensicDiagnosis.js';
 export { regionLockRequiresDesignFidelity } from './locks/VisualRegionLock.js';
+export {
+  evaluateProjectPresenceDiamond,
+  adaptiveDiamondIsNotHostMutation,
+} from '../projectPresenceAccent/ProjectPresenceVisualReconstruction.js';
+export type {
+  ProjectPresenceAccent,
+  ProjectPresenceAccentSource,
+  VisualAuthorityClass,
+} from '../projectPresenceAccent/types.js';
+export {
+  resolveProjectPresenceAccent,
+  extractProjectSlugFromPathname,
+} from '../projectPresenceAccent/ProjectPresenceAccentResolver.js';
