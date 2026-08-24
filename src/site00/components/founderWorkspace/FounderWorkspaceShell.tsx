@@ -98,12 +98,11 @@ export function FounderWorkspaceShell({
               {nav.map((item) => (
                 <Link
                   key={item.id}
-                  to={item.path}
-                  className={`site00-fws-rail__link${isNavActive(item.path) ? ' site00-fws-rail__link--active' : ''}`}
-                  data-attention={item.attentionLevel ?? undefined}
+                  to={item.href}
+                  className={`site00-fws-rail__link${isNavActive(item.href) ? ' site00-fws-rail__link--active' : ''}`}
                 >
                   {item.label}
-                  {item.attentionLevel === 'READY_TO_REVIEW' ? (
+                  {item.badge != null && item.badge > 0 ? (
                     <span className="site00-fws-rail__badge" aria-hidden="true" />
                   ) : null}
                 </Link>

@@ -21,8 +21,7 @@ describe('founder workspace P0.5E.6', () => {
   });
 
   it('maps founder review to attention hierarchy', () => {
-    expect(mapPackageStatusToAttention('READY_FOR_REVIEW')).toBe('READY_TO_REVIEW');
-    expect(mapPackageStatusToAttention('AWAITING_FOUNDER_APPROVAL')).toBe('READY_TO_REVIEW');
+    expect(mapPackageStatusToAttention('FOUNDER_REVIEW')).toBe('NEEDS_YOUR_DECISION');
     expect(attentionRequiresFounder('READY_TO_REVIEW')).toBe(true);
     expect(attentionRequiresFounder('ARCHIVED')).toBe(false);
   });
@@ -31,15 +30,15 @@ describe('founder workspace P0.5E.6', () => {
     const nav = ndxFounderWorkspaceNav('ndxbook');
     expect(nav).toHaveLength(7);
     expect(nav.map((n) => n.id)).toEqual([
-      'overview',
-      'create',
-      'review',
-      'learn',
-      'intelligence',
-      'character',
-      'archive',
+      'OVERVIEW',
+      'CREATE',
+      'REVIEW',
+      'LEARN',
+      'INTELLIGENCE',
+      'CHARACTER',
+      'ARCHIVE',
     ]);
-    expect(nav.find((n) => n.id === 'archive')?.path).toBe('/projects/ndxbook/archive');
+    expect(nav.find((n) => n.id === 'ARCHIVE')?.href).toBe('/projects/ndxbook/archive');
   });
 
   it('maps experiment 01 into EXPRESS journey stage', () => {

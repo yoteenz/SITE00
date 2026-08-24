@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import {
   FounderWorkspaceShell,
   CharacterLabRoom,
@@ -145,6 +146,9 @@ export default function ProjectEmbodiedCharacterDiscoveryPage() {
   const modeSections = MODE_SECTIONS[labMode];
   const inspectContent = (
     <>
+      <p><strong>VISUAL DESIGN:</strong> NOT FINALIZED</p>
+      <p><strong>FINAL FACE:</strong> NOT SELECTED</p>
+      <p><strong>CHARACTER GENERATION:</strong> NOT PERFORMED</p>
       <InspectorKeyValue data={characterLabInspectPayload(run)} />
       <details className="site00-fws-review__inspect">
         <summary>ALL DISCOVERY SECTIONS</summary>
@@ -204,24 +208,18 @@ export default function ProjectEmbodiedCharacterDiscoveryPage() {
     </>
   );
 
-  return (
-    <FounderWorkspaceShell
-      projectSlug={projectSlug}
-      workspaceTitle="CHARACTER LAB"
-      inspectTitle="CHARACTER DISCOVERY — SYSTEM"
-      inspectContent={inspectContent}
-    >
-      <div className="site00-fws-desk">
-        {loading && <p className="site00-fws-empty">Loading character discovery…</p>}
+  const operateContent = (
+    <div className="site00-fws-desk">
+      {loading && <p className="site00-fws-empty">Loading character discovery…</p>}
 
-        {run && (
-          <CharacterLabRoom
-            synthesis={synthesis}
-            modes={LAB_MODES}
-            activeMode={labMode}
-            onModeChange={(id) => selectLabMode(id as LabMode)}
-            actions={labActions}
-            modeContent={
+      {run && (
+        <CharacterLabRoom
+          synthesis={synthesis}
+          modes={LAB_MODES}
+          activeMode={labMode}
+          onModeChange={(id) => selectLabMode(id as LabMode)}
+          actions={labActions}
+          modeContent={
               <>
                 <nav className="site00-fws-character__modes" aria-label="Section within mode">
                   {modeSections.map((id) => {
@@ -456,8 +454,19 @@ export default function ProjectEmbodiedCharacterDiscoveryPage() {
           />
         )}
 
-        {!run && !loading && labActions}
-      </div>
-    </FounderWorkspaceShell>
+      {!run && !loading && labActions}
+    </div>
+  );
+
+  return (
+    <EcosystemShell hidePageHeader>
+      <FounderWorkspaceShell
+        projectSlug={projectSlug}
+        title="CHARACTER LAB"
+        subtitle="P0.5E.3 — EMBODIED CHARACTER DISCOVERY"
+        operate={operateContent}
+        inspect={inspectContent}
+      />
+    </EcosystemShell>
   );
 }

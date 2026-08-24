@@ -26,13 +26,13 @@ export const NDX_SIGNATURE_ACCENT = '#c8ff00' as const;
 export function ndxFounderWorkspaceNav(projectSlug: string): WorkspaceNavItem[] {
   if (projectSlug !== 'ndxbook') return [];
   return [
-    { id: 'overview', label: 'OVERVIEW', path: site00ProjectPath(projectSlug) },
-    { id: 'create', label: 'CREATE', path: site00ProjectContentOperationsPath(projectSlug) },
-    { id: 'review', label: 'REVIEW', path: site00ProjectContentOperationsCampaignBoardPath(projectSlug), attentionLevel: 'READY_TO_REVIEW' },
-    { id: 'learn', label: 'LEARN', path: site00ProjectContentOperationsPerformancePath(projectSlug) },
-    { id: 'intelligence', label: 'INTELLIGENCE', path: site00ProjectCulturalIntelligencePath(projectSlug) },
-    { id: 'character', label: 'CHARACTER', path: site00ProjectFounderCharacterDiscoveryPath(projectSlug) },
-    { id: 'archive', label: 'ARCHIVE', path: site00ProjectFounderWorkspaceArchivePath(projectSlug) },
+    { id: 'OVERVIEW', label: 'OVERVIEW', href: site00ProjectPath(projectSlug) },
+    { id: 'CREATE', label: 'CREATE', href: site00ProjectContentOperationsPath(projectSlug) },
+    { id: 'REVIEW', label: 'REVIEW', href: site00ProjectContentOperationsCampaignBoardPath(projectSlug), badge: 1 },
+    { id: 'LEARN', label: 'LEARN', href: site00ProjectContentOperationsPerformancePath(projectSlug) },
+    { id: 'INTELLIGENCE', label: 'INTELLIGENCE', href: site00ProjectCulturalIntelligencePath(projectSlug) },
+    { id: 'CHARACTER', label: 'CHARACTER', href: site00ProjectFounderCharacterDiscoveryPath(projectSlug) },
+    { id: 'ARCHIVE', label: 'ARCHIVE', href: site00ProjectFounderWorkspaceArchivePath(projectSlug) },
   ];
 }
 
