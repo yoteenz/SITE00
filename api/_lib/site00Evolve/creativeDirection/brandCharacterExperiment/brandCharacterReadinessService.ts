@@ -8,6 +8,7 @@ import {
   evaluateBrandCharacterReadiness,
   classifyRetrospectiveFormationInputReadiness,
   inventoryCharacterEvidence,
+  applyDeepeningAnswersToInventory,
   compileBrandCharacterDeepeningModule,
   captureFounderLanguageEvidence,
   readinessFingerprintChanged,
@@ -56,14 +57,18 @@ export async function evaluateAndPersistBrandCharacterReadiness(params: {
   let record = (await readinessStore.getBrandCharacterReadinessRecord(params.projectId)) ?? initRecord(params.projectId);
 
   const deepeningAnswers = record.deepeningModule?.answers ?? [];
+  const compiledQuestionIds = record.deepeningModule?.questions.map((q) => q.questionId) ?? [];
+  const baseInventory = inventoryCharacterEvidence(profile);
+  const inventory = applyDeepeningAnswersToInventory(baseInventory, deepeningAnswers);
   const evaluation = evaluateBrandCharacterReadiness({
     profile,
     projectId: params.projectId,
     organizationId: NDXBOOK_ORG_ID,
+    deepeningAnswers,
+    compiledQuestionIds,
     deepeningAnswerCount: deepeningAnswers.length,
   });
 
-  const inventory = inventoryCharacterEvidence(profile);
   const deepeningModule = compileBrandCharacterDeepeningModule({
     evaluation,
     inventory,

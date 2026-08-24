@@ -8,6 +8,7 @@ import { join } from 'node:path';
 import {
   evaluateBrandCharacterReadiness,
   inventoryCharacterEvidence,
+  applyDeepeningAnswersToInventory,
   compileBrandCharacterDeepeningModule,
   findExistingEvidenceForCharacterQuestion,
   captureFounderLanguageEvidence,
@@ -18,6 +19,7 @@ import {
   publicDiscoveryRemainsShallow,
   buildVitestRichBrandLoreProfile,
   buildVitestThinBrandLoreProfile,
+  buildVitestInsufficientBrandLoreProfile,
   modelInferenceOnlyCannotSatisfyCritical,
   classifyEvidenceConfidence,
   registerBrandCharacterReadinessDependencies,
@@ -472,18 +474,75 @@ describe('P0.5B.2 formation gate integration', () => {
     expect(gate.allowed).toBe(true);
   });
 
-  it('deepening answer re-evaluates readiness', async () => {
-    await evaluateAndPersistBrandCharacterReadiness({ projectId: 'ndxbook' });
+  it('deepening answers merge into readiness evaluation', () => {
+    const profile = buildVitestInsufficientBrandLoreProfile();
+    const before = evaluateBrandCharacterReadiness({
+      profile,
+      projectId: 'ndxbook',
+      organizationId: 'ndxbook-org',
+    });
+    const module = compileBrandCharacterDeepeningModule({
+      evaluation: before,
+      inventory: inventoryCharacterEvidence(profile),
+    });
+    const question = module.questions[0];
+    expect(question).toBeTruthy();
+
+    const after = evaluateBrandCharacterReadiness({
+      profile,
+      projectId: 'ndxbook',
+      organizationId: 'ndxbook-org',
+      deepeningAnswers: [
+        {
+          questionId: question!.questionId,
+          rawAnswer:
+            'Deadpan receipts humor — we roast obvious finance copy because everybody already knows the headline is lying.',
+          normalizedMeaning: 'Deadpan receipts humor',
+          domain: question!.domain,
+          answeredAt: new Date().toISOString(),
+          founderLanguageEvidenceId: 'vitest-evidence',
+        },
+      ],
+    });
+
+    const domainAfter = after.domains.find((d) => d.domain === question!.domain);
+    expect(domainAfter?.strength).not.toBe('MISSING_EVIDENCE');
+    expect(['CHARACTER_PARTIAL', 'CHARACTER_READY']).toContain(after.overallState);
+  });
+
+  it('deepening answer submission persists and re-evaluates readiness', async () => {
+    vi.mocked(getBrandLoreProfileForOrg).mockResolvedValue(buildVitestInsufficientBrandLoreProfile());
+    resetBrandCharacterReadinessMemory();
     const before = await evaluateAndPersistBrandCharacterReadiness({ projectId: 'ndxbook' });
-    const q = before.deepeningModule?.questions[0];
-    if (q) {
-      const after = await submitBrandCharacterDeepeningAnswer({
+    const question = before.deepeningModule?.questions[0];
+    expect(question).toBeTruthy();
+
+    const after = await submitBrandCharacterDeepeningAnswer({
+      projectId: 'ndxbook',
+      questionId: question!.questionId,
+      rawAnswer: 'Founder deepening answer — specific receipts-first voice, never try-hard meme slang.',
+    });
+
+    expect(after.deepeningModule?.answers.length).toBe(1);
+    expect(after.latestEvaluation?.overallState).not.toBe('CHARACTER_BLOCKED');
+  });
+
+  it('completing all compiled deepening questions unlocks synthesis-grade readiness', async () => {
+    vi.mocked(getBrandLoreProfileForOrg).mockResolvedValue(buildVitestInsufficientBrandLoreProfile());
+    resetBrandCharacterReadinessMemory();
+    let record = await evaluateAndPersistBrandCharacterReadiness({ projectId: 'ndxbook' });
+    const questions = record.deepeningModule?.questions ?? [];
+    expect(questions.length).toBeGreaterThan(0);
+
+    for (const q of questions) {
+      record = await submitBrandCharacterDeepeningAnswer({
         projectId: 'ndxbook',
         questionId: q.questionId,
-        rawAnswer: 'Deadpan receipts humor — never try-hard meme voice.',
+        rawAnswer: `Completed deepening for ${q.domain} with founder-grounded specificity and receipts culture.`,
       });
-      expect(after.deepeningModule?.answers.length).toBeGreaterThan(0);
     }
+
+    expect(['CHARACTER_PARTIAL', 'CHARACTER_READY']).toContain(record.latestEvaluation?.overallState);
   });
 });
 
