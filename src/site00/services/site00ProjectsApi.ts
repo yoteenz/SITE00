@@ -1627,6 +1627,38 @@ export const site00ProjectsApi = {
       '/api/site00/projects?action=motion_character_book_language_refresh',
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
     ),
+  embodiedCharacterDiscoveryGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=embodied_character_discovery_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  embodiedCharacterDiscoveryInitialize: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=embodied_character_discovery_initialize',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  embodiedCharacterDiscoverySaveRound: (slug: string, round: string, answer: string, rawWording?: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=embodied_character_discovery_save_round',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, round, answer, rawWording }),
+      },
+    ),
+  embodiedCharacterDiscoveryJudgment: (slug: string, judgment: string, dimension: string, note: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=embodied_character_discovery_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, judgment, dimension, note }),
+      },
+    ),
+  embodiedCharacterDiscoverySynthesize: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=embodied_character_discovery_synthesize',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
   projectIntelligenceManifestCompile: (slug: string, experienceClass?: string) =>
     projectsFetch<{
       ok: true;
