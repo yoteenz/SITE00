@@ -1829,3 +1829,38 @@ export async function generateAllExperiment01V23ArtifactAssets(params: {
 export function experiment01BatchGenerationRequiresFounderTrigger(): true {
   return true;
 }
+
+export async function applyV23PublicCopyRevisionAll(params: {
+  projectId: string;
+}): Promise<BrandMarketingExpressionRun> {
+  const run = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
+  if (!run?.experiment01V23?.generatedArtifacts.length) {
+    throw new Error('Experiment 01 V2.3 not found');
+  }
+
+  const { applyV23PublicCopyRevision } = await import(
+    '../../../../../shared/site00-brand-lore/firstPersonAuthorship/v23PublicCopyRevision.js'
+  );
+
+  const updatedArtifacts = run.experiment01V23.generatedArtifacts.map((artifact) => {
+    const { artifact: revised } = applyV23PublicCopyRevision({ artifact });
+    return {
+      ...revised,
+      generationContract: revised.generationContract,
+    };
+  });
+
+  return marketingStore.saveBrandMarketingExpressionRun({
+    ...run,
+    experiment01V23: {
+      ...run.experiment01V23,
+      generatedArtifacts: updatedArtifacts,
+      status: 'FOUNDER_REVIEW',
+    },
+    updatedAt: nowIso(),
+  });
+}
+
+export function v23PublicCopyRevisionPreservesArtDirection(): true {
+  return true;
+}

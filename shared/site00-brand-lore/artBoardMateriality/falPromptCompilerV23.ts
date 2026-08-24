@@ -8,6 +8,7 @@ import type { BrandMarketingArtifact } from '../brandMarketingExpression/types.j
 import type { ArtBoardRetainedFirstSlideContract } from './types.js';
 import { FAL_MATERIAL_PROMPT_SECTION_ORDER } from './constants.js';
 import { NDX_SIGNATURE_LIME } from './signatureLime.js';
+import { buildFalPublicCopySections } from '../firstPersonAuthorship/falPromptPublicCopy.js';
 
 export function compileArtBoardMaterialityFalPrompt(params: {
   artifact: BrandMarketingArtifact;
@@ -31,14 +32,18 @@ export function compileArtBoardMaterialityFalPrompt(params: {
     ? `HUMAN-MADE MARKS: ${hm.marks.map((m) => `${m.markClass} (${m.applicationMode}): ${m.causality}`).join(' | ')}`
     : 'HUMAN-MADE MARKS: restrained — only causally justified marks';
 
+  const publicCopySections = buildFalPublicCopySections({ artifact: params.artifact, contract: c });
+
   const sections = [
-    `WHAT HAPPENED: ${params.artifact.topic} — ${params.artifact.subject}`,
-    `WHAT NDX NOTICED: ${params.artifact.supportingLanguage[0] ?? c.primaryHook}`,
-    `PRIMARY EDITORIAL IDEA: ${c.primaryHook}`,
-    `VIEWER-FIRST READ: ${c.readingPath.firstLook}`,
+    ...publicCopySections,
+    `[INTERNAL GENERATION GUIDANCE — DO NOT RENDER AS VISIBLE LABELS ON ARTIFACT]`,
+    `TOPIC CONTEXT: ${params.artifact.topic} — ${params.artifact.subject}`,
+    `INTERNAL THESIS: ${c.primaryHook}`,
+    `INTERNAL CHARACTER EXPRESSION: ${cr.primaryCharacterBeat.text ?? 'visual punchline'} (${cr.primaryCharacterBeat.beatType})`,
+    `INTERNAL OBSERVATION: ${params.artifact.supportingLanguage[0] ?? c.primaryHook}`,
+    `VIEWER-FIRST READ (GUIDANCE ONLY): ${c.readingPath.firstLook}`,
     `VISUAL SUBJECT: ${cp.visualSubjectMatterDecision.culturalVisualSubject}`,
-    `CHARACTER BEAT: ${cr.primaryCharacterBeat.text ?? 'visual punchline'} (${cr.primaryCharacterBeat.beatType})`,
-    `HUMOR / HUMAN TRACE: ${cr.humorEligibility} — trace strength ${cr.humanTraceStrength}`,
+    `HUMOR / HUMAN TRACE (GUIDANCE): ${cr.humorEligibility} — trace strength ${cr.humanTraceStrength}`,
     `ARTIFACT FORM: ${ab.artifactForm}`,
     `BASE SURFACE: ${ab.materialitySystem.baseSurface} — ${ab.materialAnchor}. THE CANVAS IS AN OBJECT, NOT A BACKGROUND.`,
     `PAGE CONSTRUCTION MODE: ${ab.pageConstructionMode}`,
@@ -51,7 +56,7 @@ export function compileArtBoardMaterialityFalPrompt(params: {
     `HOW TYPOGRAPHY INTERACTS WITH SURFACE: ${ab.typographySurfaceInteraction.join('; ')}`,
     `HOW IMAGE INTERACTS WITH SURFACE: ${ab.imageSurfaceInteraction.join('; ')}`,
     `HOW EVIDENCE INTERACTS WITH SURFACE: ${ab.evidenceSurfaceInteraction.join('; ')}`,
-    `CONTROLLED MISBEHAVIOR: ${cr.controlledMisbehavior.map((m) => m.causality).join(' | ') || 'minimal'}`,
+    `CONTROLLED MISBEHAVIOR (GUIDANCE — NOT A VISIBLE LABEL): ${cr.controlledMisbehavior.map((m) => m.causality).join(' | ') || 'minimal'}`,
     `INFORMATION HIERARCHY: Level 1: ${c.primaryHook} — compressed, no re-expansion. MAKER INTERVENTION IS SUPPORTIVE, NOT A NEW CLUTTER LAYER.`,
     `TYPOGRAPHY ROLES: ${c.typographyAssignments.map((t) => `${t.role}: ${t.text.slice(0, 40)}`).join('; ')}`,
     `UPPERCASE GOVERNANCE: ALL NDX-AUTHORED TEXT UPPERCASE`,
@@ -78,7 +83,7 @@ export function compileArtBoardMaterialityFalPrompt(params: {
     `SOURCE VS NDX COLOR: NDX-authored circles, arrows, corrections, icons, underlines, annotations, stamps, handwritten reactions MUST default to signature lime — NOT random red. Source material may retain authentic red if it belongs to the original artifact.`,
     `STERILITY GUARD: alive not corporate — maker trace on surface must be visually undeniable`,
     `TEMPLATE GUARD: DO NOT DESIGN A RECTANGULAR SOCIAL POST ON TOP OF A BACKGROUND. CREATE THE ACTUAL ARTIFACT. CONTENT PRINTED ON, INSERTED INTO, ATTACHED TO, WRITTEN OVER, CUT INTO, FOLDED WITH, OR SCANNED FROM THE SURFACE. ${ab.whyNotCleanTemplate}`,
-    `NEGATIVE CONSTRAINTS: no generic poster-on-background; no clean social template; no graphic card floating over texture; no fake paper texture filter; no polished infographic icons; no vector icon library look; no UI pictograms; no AI-generated decorative symbols; no mismatched doodle styles; no perfect geometry for hand-drawn marks; no fake childlike doodles; no decorative lime with no purpose; no fully monochrome NDX artifact without at least one signature-lime trace; no arbitrary red/blue/yellow NDX-authored marks; no lime background fill; no repeated lime corner template on every post; no tiny invisible lime; no random neon decoration; no generic AI editorial detailing; no scrapbook-for-scrapbook's-sake; no lowercase NDX copy`,
+    `NEGATIVE CONSTRAINTS: no generic poster-on-background; no clean social template; no graphic card floating over texture; no fake paper texture filter; no polished infographic icons; no vector icon library look; no UI pictograms; no AI-generated decorative symbols; no mismatched doodle styles; no perfect geometry for hand-drawn marks; no fake childlike doodles; no decorative lime with no purpose; no fully monochrome NDX artifact without at least one signature-lime trace; no arbitrary red/blue/yellow NDX-authored marks; no lime background fill; no repeated lime corner template on every post; no tiny invisible lime; no random neon decoration; no generic AI editorial detailing; no scrapbook-for-scrapbook's-sake; no lowercase NDX copy; no visible CHARACTER BEAT label; no visible WHAT NDX NOTICED label; no visible PRIMARY EDITORIAL IDEA label; no visible CONTROLLED MISBEHAVIOR label; no third-person NDX narration; no system documentation on artifact`,
   ];
 
   if (params.founderRevisionDirective) {
