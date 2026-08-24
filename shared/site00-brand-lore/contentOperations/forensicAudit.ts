@@ -3,7 +3,7 @@
  */
 
 import type { ContentOperationsForensicAudit } from './types.js';
-import { LIVE_SIGNAL_INGESTION_NOT_CONNECTED } from './constants.js';
+import { LIVE_CULTURAL_INTELLIGENCE_LAYER_IMPLEMENTED } from './constants.js';
 
 export function auditContentSystems(params: { projectId: string }): ContentOperationsForensicAudit {
   return {
@@ -28,7 +28,7 @@ export function auditContentSystems(params: { projectId: string }): ContentOpera
       'Experiment F = CONTENT CONCEPT TERRITORY RESEARCH (Credit Utilization). Historical records immutable. May contribute to ContentOpportunity — not mandatory per post.',
     sequenceCreativeRelationship:
       'Sequence Creative System = INTEGRATED for carousel cohesion. P0.5D integrates — does not duplicate.',
-    liveSignalIngestion: LIVE_SIGNAL_INGESTION_NOT_CONNECTED ? 'NOT_CONNECTED' : 'NOT_CONNECTED',
+    liveSignalIngestion: LIVE_CULTURAL_INTELLIGENCE_LAYER_IMPLEMENTED ? 'MANUAL_CONNECTED' : 'NOT_CONNECTED',
     duplicatesDetected: [
       'EVOLVE calendar vs methodology calendar — separate scopes; P0.5D uses methodology run',
       'Content Brain memory store — LEGACY; not authoritative for NDXBOOK ops',

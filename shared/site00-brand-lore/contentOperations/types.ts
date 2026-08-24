@@ -108,6 +108,29 @@ export type ContentOpportunity = {
   visualPotential?: import('../culturalVisualParticipation/types.js').OpportunityVisualPotential | null;
   status: 'DISCOVERED' | 'EVALUATED' | 'SELECTED' | 'REJECTED' | 'ARCHIVED';
   fingerprint: string;
+  /** P0.5D.1 — optional live intelligence lineage (upstream of opportunity). */
+  liveLineage?: ContentOpportunityLiveLineage | null;
+};
+
+export type ContentOpportunityLiveLineage = {
+  liveSignalIds: string[];
+  currentIntelligencePackageId: string | null;
+  brandSignalInterpretationId: string | null;
+  whyNowEvaluationId: string | null;
+  temporalRelevanceId: string | null;
+  culturalMemoryMatchIds: string[];
+  forecastId: string | null;
+  opportunityOrigin:
+    | 'LIVE_SIGNAL'
+    | 'KNOWN_UPCOMING'
+    | 'CULTURAL_WEATHER'
+    | 'CALLBACK'
+    | 'DATA_RELEASE'
+    | 'EVERGREEN'
+    | 'PERFORMANCE_LEARNING'
+    | 'FOUNDER_IDEA'
+    | 'WATCH_QUEUE'
+    | 'RAPID_RESPONSE';
 };
 
 export type ContentOpportunityRank = {
@@ -467,7 +490,7 @@ export type ContentOperationsForensicAudit = {
   classifications: Record<string, 'AUTHORITATIVE' | 'INTEGRATED' | 'PARTIAL' | 'SCAFFOLDED' | 'LEGACY' | 'DEPRECATED' | 'OVERLAPPING' | 'MISSING'>;
   experimentFRelationship: string;
   sequenceCreativeRelationship: string;
-  liveSignalIngestion: 'NOT_CONNECTED';
+  liveSignalIngestion: 'NOT_CONNECTED' | 'MANUAL_CONNECTED' | 'PARTIALLY_CONNECTED';
   duplicatesDetected: string[];
   historicalRecordsMutated: false;
   auditedAt: string;

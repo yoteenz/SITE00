@@ -314,4 +314,5 @@ export const NDXBOOK_MARKET_TEST_01_READY = true as const;
 export const AUTONOMOUS_PUBLISHING_ENABLED = false as const;
 export const PRODUCT_EXPRESSION_BLOCKED = true as const;
 export const WORLD_FORMATION_BLOCKED = true as const;
-export const LIVE_SIGNAL_INGESTION_NOT_CONNECTED = true as const;
+export const LIVE_SIGNAL_INGESTION_NOT_CONNECTED = false as const;
+export const LIVE_CULTURAL_INTELLIGENCE_LAYER_IMPLEMENTED = true as const;

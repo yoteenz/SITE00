@@ -76,7 +76,7 @@ import {
   CONTENT_OPPORTUNITY_ENGINE_IMPLEMENTED,
   PERFORMANCE_DOES_NOT_MUTATE_CHARACTER,
   AUTONOMOUS_PUBLISHING_ENABLED as AUTONOMOUS_PUBLISHING_FLAG,
-  LIVE_SIGNAL_INGESTION_NOT_CONNECTED,
+  LIVE_CULTURAL_INTELLIGENCE_LAYER_IMPLEMENTED,
 } from './contentOperations/index.js';
 import {
   prepareContentOperations,
@@ -89,6 +89,7 @@ import {
   acceptPerformanceLearning,
   seedVitestContentOperationsPrerequisites,
   liveSignalIngestionNotConnected,
+  liveCulturalIntelligenceLayerImplemented,
   noPageLoadGeneration,
   noAutomaticPublishing,
 } from '../../api/_lib/site00Evolve/contentOperationsExperiment/contentOperationsService.js';
@@ -442,9 +443,10 @@ describe('P0.5D Content Operations', () => {
     expect(PERF_PAGE).toContain('WHAT NOT TO CONCLUDE');
   });
 
-  it('58. Live signal ingestion not connected', () => {
-    expect(LIVE_SIGNAL_INGESTION_NOT_CONNECTED).toBe(true);
-    expect(liveSignalIngestionNotConnected()).toBe(true);
+  it('58. Live cultural intelligence layer implemented with manual ingestion', () => {
+    expect(LIVE_CULTURAL_INTELLIGENCE_LAYER_IMPLEMENTED).toBe(true);
+    expect(liveSignalIngestionNotConnected()).toBe(false);
+    expect(liveCulturalIntelligenceLayerImplemented()).toBe(true);
   });
 
   it('59. Character event precedes package', () => {
