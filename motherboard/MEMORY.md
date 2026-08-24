@@ -4561,6 +4561,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Changes:** `neuralVoiceFounderRevisionPipeline.ts`, `neuralVoiceRevisionEngine.ts`, `voiceFounderRevisionLabels.ts`; extended `CharacterVoiceHypothesis` types; service routes `founder_character_discovery_neural_voice_revision` + `_neural_voice_regenerate`; Voice Lab UI modal + buttons; tests `embodiedCharacterVoiceRevisionLoop.test.ts` (4 pass).
 - **Founder:** Railway redeploy API from `main`. GoDaddy deploy for Voice Lab UI. Voice Lab → tap revision label → note → CONFIRM & RE-SYNTHESIZE; or REGENERATE CURRENT / REPLAY on any neural clip.
 
+---
+
+## 2026-08-24 — Experiments Hub scroll restore on refresh
+
+- **Context:** Founder on `/projects/ndxbook/experiments` — browser refresh or return from an experiment reset scroll to top of hub ("homepage" of the index).
+- **Fix:** `useExperimentsHubScrollRestore` + `experimentsHubScrollRestore.ts` — persist `sessionStorage` scroll Y per project slug; restore on hub mount with retry until content height allows; save on scroll (debounced) and `pagehide`.
+- **Tests:** `experimentsHubScrollRestore.test.ts` (3 tests).
+- **Founder:** GoDaddy deploy for UI bundle. Scroll down hub → refresh or open experiment → EXPERIMENTS HUB — should land at same scroll position.
+
 
 - **Context:** Founder reported YES I KNOW HER not unlocking casting; voice lab selections not appearing saved. Root cause: YES_I_KNOW_HER **was** persisting (`founderKnowsHer: true`) but P0.5E.4A calibration progress did not feed P0.5E.4 casting gates (still required 5 INSPECT trait confirmations). UI always showed "BLOCKED until YES_I_KNOW_HER" even after selection. Voice lab saved to API but UI showed no saved state.
 - **Fix:** `ndxCastingReadinessBridge.ts` — calibration moments + domain confirmations satisfy discovery/gates; refresh readiness on GET; voice calibration moment writes voice lab judgment; CASTING tab shows human-readable blockers; header shows dynamic status; voice lab shows **Saved:** label + success notice on tap.
