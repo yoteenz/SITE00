@@ -4436,7 +4436,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-<<<<<<< HEAD
+## 2026-08-24 — Embodied Character page white screen (Supabase row id collision)
+
+- **Context:** `/projects/ndxbook/embodied-character` showed a blank white screen after Supabase persistence shipped.
+- **Root cause:** `NDX_EMBODIED_CHARACTER_DISCOVERY_DB_ID` was accidentally set to the **same UUID** as `NDXBOOK_CONTENT_OPERATIONS_DB_ID` (`c4e1a2b3-0013-4000-8000-000000000001`). GET returned the content-operations run (same `projectId: ndxbook`) as the embodied-character run; React crashed rendering missing fields (`castingReadiness`, `culturalLife`, etc.).
+- **Fix:** New unique row id `c4e1a2b3-0015-4000-8000-000000000001`; Supabase GET filters by `mode` + `isNdxEmbodiedCharacterDiscoveryRun()` shape guard. Tests assert id uniqueness and reject foreign payloads.
+- **Founder action:** Re-open page — should show INITIALIZE (or prior discovery state once initialized on the new row). Railway API redeploy required.
+
+---
+
 ## 2026-08-24 — P0.5E.4 Founder Character Discovery Room + Pre-Casting Synthesis Gate
 
 - **Context:** Sprint P0.5E.4 — continue from P0.5E.3 embodied character foundation. P0.5E.3 seeded psychology/intelligence/contradictions/etc. as **SYSTEM_SEEDED proposals**; founder must confirm/revise/reject before casting. Build interactive Founder Character Discovery Room — character truth before visual identity. NO FAL, NO face selection, NO Character Bible synthesis auto-advance.
@@ -4445,12 +4453,4 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **API/UI:** Supabase persistence via `site00_methodology_validation_runs` (`NDX_FOUNDER_CHARACTER_DISCOVERY_DB_ID`, mode `NDX_FOUNDER_CHARACTER_DISCOVERY`). Routes: `founder_character_discovery_*` actions. UI: `/projects/ndxbook/character/discovery` — ProjectFounderCharacterDiscoveryPage with 12 discovery sections (forensic, scenarios, traits, contradictions, flaws, intelligence, voice lab, book, visual hypotheses, synthesis preview, I KNOW HER gate, casting readiness). Link from P0.5E.3 embodied-character page.
 - **Casting gates:** READY_FOR_CHARACTER_SYNTHESIS and READY_FOR_CHARACTER_CASTING_EXPLORATION remain false until founder completes discovery + explicit YES_I_KNOW_HER. FAL_REQUESTS=0.
 - **Tests:** 46 requirements in `embodiedCharacterFounderDiscoveryP05E4.test.ts`. Build green. Deploy v59 after merge.
-=======
-## 2026-08-24 — Embodied Character page white screen (Supabase row id collision)
-
-- **Context:** `/projects/ndxbook/embodied-character` showed a blank white screen after Supabase persistence shipped.
-- **Root cause:** `NDX_EMBODIED_CHARACTER_DISCOVERY_DB_ID` was accidentally set to the **same UUID** as `NDXBOOK_CONTENT_OPERATIONS_DB_ID` (`c4e1a2b3-0013-4000-8000-000000000001`). GET returned the content-operations run (same `projectId: ndxbook`) as the embodied-character run; React crashed rendering missing fields (`castingReadiness`, `culturalLife`, etc.).
-- **Fix:** New unique row id `c4e1a2b3-0015-4000-8000-000000000001`; Supabase GET filters by `mode` + `isNdxEmbodiedCharacterDiscoveryRun()` shape guard. Tests assert id uniqueness and reject foreign payloads.
-- **Founder action:** Re-open page — should show INITIALIZE (or prior discovery state once initialized on the new row). Railway API redeploy required.
->>>>>>> origin/main
 
