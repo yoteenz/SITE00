@@ -23,6 +23,8 @@ import { buildNdxCharacterDiscoveryScenarios } from './ndxDiscoveryScenarios.js'
 import { NDX_FOUNDER_CHARACTER_DISCOVERY_RUN_ID } from './constants.js';
 import type { NdxFounderCharacterDiscoveryRun } from './types.js';
 import { applyScenarioFounderResponse } from '../../site00-studio-world-production/embodiedCharacterFounderDiscovery/discoveryScenarios.js';
+import { migrateRunToCalibrationState } from './ndxCalibrationAdapter.js';
+import { FOUNDER_CHARACTER_CALIBRATION_VERSION } from '../../site00-studio-world-production/founderCharacterCalibration/constants.js';
 import type {
   CharacterTruthConfidenceState,
   FounderDiscoveryJudgment,
@@ -191,7 +193,7 @@ export function buildNdxFounderCharacterDiscoveryRun(
 
   const founderRecognition = shell.founderRecognition;
 
-  return {
+  const baseRun: NdxFounderCharacterDiscoveryRun = {
     ...shell,
     runId: NDX_FOUNDER_CHARACTER_DISCOVERY_RUN_ID,
     ndxBookTerminologyIntegrated: true,
@@ -224,6 +226,14 @@ export function buildNdxFounderCharacterDiscoveryRun(
       founderRecognition,
     }),
     updatedAt: new Date().toISOString(),
+  };
+
+  const calibrationState = migrateRunToCalibrationState(baseRun);
+  return {
+    ...baseRun,
+    calibrationVersion: FOUNDER_CHARACTER_CALIBRATION_VERSION,
+    calibrationState,
+    humanReadableSynthesis: null,
   };
 }
 

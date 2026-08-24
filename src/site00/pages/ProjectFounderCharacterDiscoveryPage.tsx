@@ -13,36 +13,46 @@ import { VOICE_LAB_CHANNELS } from '../../../shared/site00-studio-world-producti
 import { FOUNDER_RECOGNITION_RESPONSES } from '../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/constants';
 import { VISUAL_HYPOTHESIS_JUDGMENTS } from '../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/constants';
 import type { NdxFounderCharacterDiscoveryRun } from '../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/types';
+import type { CharacterCalibrationInteraction } from '../../../shared/site00-studio-world-production/founderCharacterCalibration/types';
+import { FOUNDER_CALIBRATION_REACTIONS } from '../../../shared/site00-studio-world-production/founderCharacterCalibration/constants';
 import '../styles/site00-replay-execution.css';
 
 type RoomSection =
-  | 'FORENSIC'
-  | 'SCENARIOS'
-  | 'TRAITS'
-  | 'CONTRADICTIONS'
-  | 'FLAWS'
-  | 'INTELLIGENCE'
-  | 'VOICE_LAB'
-  | 'BOOK'
-  | 'VISUAL'
+  | 'CALIBRATION'
+  | 'INSPECT'
   | 'SYNTHESIS'
   | 'RECOGNITION'
   | 'CASTING';
 
+const INSPECTION_SECTIONS = [
+  'FORENSIC',
+  'SCENARIOS',
+  'TRAITS',
+  'CONTRADICTIONS',
+  'FLAWS',
+  'INTELLIGENCE',
+  'VOICE_LAB',
+  'BOOK',
+  'VISUAL',
+] as const;
+
+type InspectionSection = (typeof INSPECTION_SECTIONS)[number];
+
 const SECTIONS: { id: RoomSection; label: string }[] = [
-  { id: 'FORENSIC', label: 'FORENSIC AUDIT' },
-  { id: 'SCENARIOS', label: 'SCENARIO DISCOVERY' },
-  { id: 'TRAITS', label: 'PROPOSED TRAITS' },
-  { id: 'CONTRADICTIONS', label: 'CONTRADICTIONS' },
-  { id: 'FLAWS', label: 'FLAWS' },
-  { id: 'INTELLIGENCE', label: 'INTELLIGENCE MAP' },
-  { id: 'VOICE_LAB', label: 'VOICE LAB' },
-  { id: 'BOOK', label: 'BOOK RELATIONSHIP' },
-  { id: 'VISUAL', label: 'VISUAL HYPOTHESES' },
-  { id: 'SYNTHESIS', label: 'SYNTHESIS PREVIEW' },
+  { id: 'CALIBRATION', label: 'CALIBRATION' },
+  { id: 'INSPECT', label: 'INSPECT' },
+  { id: 'SYNTHESIS', label: 'SYNTHESIS' },
   { id: 'RECOGNITION', label: 'I KNOW HER' },
-  { id: 'CASTING', label: 'CASTING READINESS' },
+  { id: 'CASTING', label: 'CASTING' },
 ];
+
+const REACTION_LABELS: Record<(typeof FOUNDER_CALIBRATION_REACTIONS)[number], string> = {
+  YES_THATS_HER: "YES — THAT'S HER",
+  ALMOST: 'ALMOST',
+  NO_NOT_HER: 'NO — NOT HER',
+  IT_DEPENDS: 'IT DEPENDS',
+  I_DONT_KNOW_YET: "I'M NOT SURE YET",
+};
 
 const SCENARIO_ESCAPE = ['NONE_OF_THESE', 'SOMETHING_ELSE', 'IT_DEPENDS', 'I_DONT_KNOW_YET'];
 
@@ -53,17 +63,29 @@ export default function ProjectFounderCharacterDiscoveryPage() {
   const [busy, setBusy] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
   const [actionNotice, setActionNotice] = useState<string | null>(null);
-  const [section, setSection] = useState<RoomSection>('FORENSIC');
+  const [section, setSection] = useState<RoomSection>('CALIBRATION');
+  const [inspectSection, setInspectSection] = useState<InspectionSection>('FORENSIC');
   const [traitRevision, setTraitRevision] = useState('');
   const [traitNote, setTraitNote] = useState('');
   const [scenarioNotes, setScenarioNotes] = useState('');
   const [recognitionNote, setRecognitionNote] = useState('');
+  const [calibrationRevision, setCalibrationRevision] = useState('');
+  const [currentInteraction, setCurrentInteraction] = useState<CharacterCalibrationInteraction | null>(null);
+  const [showWhyThisCameUp, setShowWhyThisCameUp] = useState(false);
 
   const reload = useCallback(async () => {
     if (projectSlug !== 'ndxbook') return;
     try {
       const result = await site00ProjectsApi.founderCharacterDiscoveryGet(projectSlug);
-      setRun((result.run as NdxFounderCharacterDiscoveryRun | null) ?? null);
+      const loaded = (result.run as NdxFounderCharacterDiscoveryRun | null) ?? null;
+      setRun(loaded);
+      if (loaded?.calibrationState?.currentInteractionId) {
+        const interaction =
+          loaded.calibrationState.interactions.find(
+            (i) => i.interactionId === loaded.calibrationState?.currentInteractionId,
+          ) ?? null;
+        setCurrentInteraction(interaction);
+      }
     } catch {
       setRun(null);
     } finally {
@@ -118,20 +140,19 @@ export default function ProjectFounderCharacterDiscoveryPage() {
         <div className="site00-project-lore-calibration">
           <header className="site00-project-lore-calibration__hero">
             <ProjectExperimentsHubNav projectSlug={projectSlug} />
-            <p className="site00-project-lore-calibration__kicker">P0.5E.4 — FOUNDER CHARACTER DISCOVERY ROOM</p>
+            <p className="site00-project-lore-calibration__kicker">P0.5E.4A — ADAPTIVE FOUNDER CHARACTER CALIBRATION</p>
             <h1 className="site00-project-lore-calibration__project">{projectDisplayName(projectSlug)}</h1>
             <p className="site00-project-lore-calibration__headline">
-              MEET HER BEFORE YOU CAST HER — CHARACTER TRUTH BEFORE VISUAL IDENTITY
+              I THINK I KNOW WHO SHE IS — TELL ME WHERE I&apos;M RIGHT. TELL ME WHERE I&apos;M WRONG.
             </p>
             <Link to={site00ProjectEmbodiedCharacterDiscoveryPath(projectSlug)}>← EMBODIED CHARACTER DISCOVERY</Link>
             <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
           </header>
 
           <section className="site00-experiment-g__panel">
-            <h2>PRIVATE CHARACTER DEVELOPMENT ROOM</h2>
-            <p>Seeded proposals remain discovery material until you confirm them. Uncertainty is valid data.</p>
-            <p><strong>CASTING:</strong> BLOCKED until YES_I_KNOW_HER</p>
-            <p><strong>FAL REQUESTS:</strong> 0 · <strong>FACE SELECTION:</strong> NOT PERFORMED</p>
+            <h2>CHARACTER CALIBRATION</h2>
+            <p>The system proposes. You calibrate. Recognition — not invention.</p>
+            <p><strong>CASTING:</strong> BLOCKED until YES_I_KNOW_HER · <strong>FAL:</strong> 0</p>
             {actionError && (
               <section className="site00-experiment-g__panel" role="alert">
                 <h3>Action failed</h3>
@@ -173,7 +194,146 @@ export default function ProjectFounderCharacterDiscoveryPage() {
               </nav>
 
               <section className="site00-experiment-g__panel">
-                {section === 'FORENSIC' && forensic && (
+                {section === 'CALIBRATION' && (
+                  <>
+                    <h2>I&apos;M GETTING HER.</h2>
+                    {run.calibrationState?.progress && (
+                      <ul style={{ fontSize: '0.85rem', marginBottom: '16px' }}>
+                        {run.calibrationState.progress.map((p) => (
+                          <li key={p.domain}>
+                            {p.label}{' '}
+                            <strong>{p.level}</strong>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {run.calibrationState?.stillUnsureAbout?.length ? (
+                      <p style={{ fontSize: '0.85rem' }}>
+                        <strong>WHAT I&apos;M STILL UNSURE ABOUT:</strong>{' '}
+                        {run.calibrationState.stillUnsureAbout.join(' · ')}
+                      </p>
+                    ) : null}
+                    {!currentInteraction && (
+                      <button
+                        type="button"
+                        className="site00-btn site00-btn--primary"
+                        disabled={busy}
+                        onClick={() =>
+                          void act(async () => {
+                            const result = await site00ProjectsApi.founderCharacterDiscoveryCalibrationContinue(projectSlug);
+                            if (result.run) setRun(result.run as NdxFounderCharacterDiscoveryRun);
+                            setCurrentInteraction((result.interaction as CharacterCalibrationInteraction | null) ?? null);
+                            return { run: result.run };
+                          }, { successMessage: 'Next calibration moment ready.' })
+                        }
+                      >
+                        CONTINUE CALIBRATION
+                      </button>
+                    )}
+                    {currentInteraction && (
+                      <article className="site00-experiment-g__panel" style={{ marginTop: '12px' }}>
+                        <p style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                          I THINK I KNOW THIS ABOUT HER…
+                        </p>
+                        {currentInteraction.proposition && currentInteraction.proposition !== currentInteraction.systemRead && (
+                          <p style={{ whiteSpace: 'pre-wrap', marginBottom: '8px' }}>{currentInteraction.proposition}</p>
+                        )}
+                        <p style={{ whiteSpace: 'pre-wrap', fontSize: '1rem', lineHeight: 1.5, marginBottom: '16px' }}>
+                          {currentInteraction.systemRead}
+                        </p>
+                        <p style={{ fontWeight: 600, marginBottom: '12px' }}>{currentInteraction.promptQuestion}</p>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                          {FOUNDER_CALIBRATION_REACTIONS.map((reaction) => (
+                            <button
+                              key={reaction}
+                              type="button"
+                              className="site00-btn site00-btn--primary"
+                              disabled={busy}
+                              style={{ width: '100%', textAlign: 'left' }}
+                              onClick={() =>
+                                void act(async () => {
+                                  const needsRevision = reaction === 'ALMOST' || reaction === 'IT_DEPENDS';
+                                  const result = await site00ProjectsApi.founderCharacterDiscoveryCalibrationReaction(
+                                    projectSlug,
+                                    currentInteraction.interactionId,
+                                    reaction,
+                                    needsRevision ? calibrationRevision || undefined : undefined,
+                                  );
+                                  if (result.run) setRun(result.run as NdxFounderCharacterDiscoveryRun);
+                                  setCurrentInteraction((result.nextInteraction as CharacterCalibrationInteraction | null) ?? null);
+                                  setCalibrationRevision('');
+                                  return { run: result.run };
+                                })
+                              }
+                            >
+                              {REACTION_LABELS[reaction]}
+                            </button>
+                          ))}
+                        </div>
+                        <label style={{ display: 'block', marginTop: '12px', fontSize: '0.85rem' }}>
+                          What&apos;s different? (for ALMOST / IT DEPENDS)
+                          <textarea
+                            value={calibrationRevision}
+                            onChange={(e) => setCalibrationRevision(e.target.value)}
+                            rows={2}
+                            style={{ width: '100%', marginTop: '4px' }}
+                          />
+                        </label>
+                        <button
+                          type="button"
+                          className="site00-btn"
+                          style={{ marginTop: '8px' }}
+                          onClick={() => setShowWhyThisCameUp((v) => !v)}
+                        >
+                          {showWhyThisCameUp ? 'HIDE' : 'WHY AM I SEEING THIS?'}
+                        </button>
+                        {showWhyThisCameUp && (
+                          <p style={{ fontSize: '0.8rem', marginTop: '8px' }}>
+                            {currentInteraction.whyThisCameUp}
+                            {' · '}
+                            {currentInteraction.momentType.replace(/_/g, ' ')}
+                            {' · '}
+                            {currentInteraction.domain.replace(/_/g, ' ')}
+                          </p>
+                        )}
+                      </article>
+                    )}
+                    {run.calibrationState?.sessions?.at(-1)?.sessionCompleteMessage && (
+                      <p style={{ marginTop: '12px', fontStyle: 'italic' }}>
+                        {run.calibrationState.sessions.at(-1)?.sessionCompleteMessage}
+                      </p>
+                    )}
+                    <p style={{ fontSize: '0.8rem', marginTop: '12px' }}>
+                      Moments completed: {run.calibrationState?.totalMomentsCompleted ?? 0}
+                    </p>
+                  </>
+                )}
+
+                {section === 'INSPECT' && (
+                  <>
+                    <nav className="site00-experiment-g__tabs" aria-label="Inspection sections">
+                      {INSPECTION_SECTIONS.map((s) => (
+                        <button
+                          key={s}
+                          type="button"
+                          className={
+                            inspectSection === s
+                              ? 'site00-experiment-g__tab site00-experiment-g__tab--active'
+                              : 'site00-experiment-g__tab'
+                          }
+                          onClick={() => setInspectSection(s)}
+                        >
+                          {s.replace(/_/g, ' ')}
+                        </button>
+                      ))}
+                    </nav>
+                    <p style={{ fontSize: '0.8rem', margin: '8px 0' }}>
+                      Optional inspection — methodology metadata lives here, not in primary calibration.
+                    </p>
+                  </>
+                )}
+
+                {section === 'INSPECT' && inspectSection === 'FORENSIC' && forensic && (
                   <>
                     <h2>FORENSIC AUDIT</h2>
                     <p>Seeded traits: {forensic.totalSeededTraits}</p>
@@ -185,7 +345,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                   </>
                 )}
 
-                {section === 'SCENARIOS' && (
+                {section === 'INSPECT' && inspectSection === 'SCENARIOS' && (
                   <>
                     <h2>SCENARIO DISCOVERY</h2>
                     <p>Situations reveal behavior — not adjectives.</p>
@@ -251,7 +411,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                   </>
                 )}
 
-                {section === 'TRAITS' && forensic && (
+                {section === 'INSPECT' && inspectSection === 'TRAITS' && forensic && (
                   <>
                     <h2>PROPOSED TRAITS — DISCOVER · REACT · REVISE · REJECT</h2>
                     <label>
@@ -296,7 +456,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                   </>
                 )}
 
-                {section === 'CONTRADICTIONS' && (
+                {section === 'INSPECT' && inspectSection === 'CONTRADICTIONS' && (
                   <>
                     <h2>CONTRADICTIONS</h2>
                     {run.contradictions.map((c) => (
@@ -310,7 +470,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                   </>
                 )}
 
-                {section === 'FLAWS' && (
+                {section === 'INSPECT' && inspectSection === 'FLAWS' && (
                   <>
                     <h2>FLAWS + ANNOYING TRAITS</h2>
                     {run.flawProfile.flaws.map((f) => (
@@ -321,7 +481,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                   </>
                 )}
 
-                {section === 'INTELLIGENCE' && (
+                {section === 'INSPECT' && inspectSection === 'INTELLIGENCE' && (
                   <>
                     <h2>UNEVEN INTELLIGENCE</h2>
                     <p><strong>Embarrassingly bad at:</strong> {run.intelligenceMap.embarrassinglyBadAt.join('; ')}</p>
@@ -337,7 +497,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                   </>
                 )}
 
-                {section === 'VOICE_LAB' && (
+                {section === 'INSPECT' && inspectSection === 'VOICE_LAB' && (
                   <>
                     <h2>CHARACTER VOICE LAB</h2>
                     <p>Same thought — different channels. Judge each register.</p>
@@ -388,7 +548,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                   </>
                 )}
 
-                {section === 'BOOK' && (
+                {section === 'INSPECT' && inspectSection === 'BOOK' && (
                   <>
                     <h2>BOOK RELATIONSHIP</h2>
                     <p><strong>Why she writes things down:</strong> {run.bookDiscovery.whySheWritesThingsDown}</p>
@@ -400,7 +560,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                   </>
                 )}
 
-                {section === 'VISUAL' && (
+                {section === 'INSPECT' && inspectSection === 'VISUAL' && (
                   <>
                     <h2>VISUAL HYPOTHESIS REVIEW</h2>
                     <p>North-star references remain evidence — not casting canon.</p>
@@ -437,30 +597,37 @@ export default function ProjectFounderCharacterDiscoveryPage() {
 
                 {section === 'SYNTHESIS' && (
                   <>
-                    <h2>CHARACTER SYNTHESIS PREVIEW</h2>
-                    <p>Not the final Character Bible — a readable founder-facing preview.</p>
+                    <h2>CHARACTER READ — WHO I THINK SHE IS</h2>
+                    <p>Human-readable synthesis from calibration — not the final Character Bible.</p>
                     <button
                       type="button"
                       className="site00-btn site00-btn--primary"
                       disabled={busy}
                       onClick={() =>
-                        void act(() => site00ProjectsApi.founderCharacterDiscoverySynthesisPreview(projectSlug), {
-                          successMessage: 'Synthesis preview generated.',
+                        void act(() => site00ProjectsApi.founderCharacterDiscoveryCalibrationSynthesis(projectSlug), {
+                          successMessage: 'Character read updated.',
                         })
                       }
                     >
-                      PREVIEW CHARACTER SYNTHESIS
+                      REFRESH CHARACTER READ
                     </button>
-                    {run.synthesisPreview && (
+                    {run.humanReadableSynthesis && (
+                      <article className="site00-experiment-g__panel">
+                        <p><strong>Who I think she is:</strong> {run.humanReadableSynthesis.whoIThinkSheIs}</p>
+                        <p><strong>How she thinks:</strong> {run.humanReadableSynthesis.howSheThinks}</p>
+                        <p><strong>What annoys her:</strong> {run.humanReadableSynthesis.whatAnnoysHer}</p>
+                        <p><strong>What she gets wrong:</strong> {run.humanReadableSynthesis.whatSheGetsWrong}</p>
+                        <p><strong>When she&apos;s wrong:</strong> {run.humanReadableSynthesis.howSheActsWhenWrong}</p>
+                        <p><strong>How she talks:</strong> {run.humanReadableSynthesis.howSheTalks}</p>
+                        <p><strong>Book:</strong> {run.humanReadableSynthesis.whySheKeepsTheBook} · {run.humanReadableSynthesis.howSheUsesTheBook}</p>
+                        <p><strong>Looks like so far:</strong> {run.humanReadableSynthesis.whatSheLooksLikeSoFar}</p>
+                        <p><strong>Still don&apos;t know:</strong> {run.humanReadableSynthesis.whatIStillDontKnow.join('; ')}</p>
+                      </article>
+                    )}
+                    {!run.humanReadableSynthesis && run.synthesisPreview && (
                       <article className="site00-experiment-g__panel">
                         <p><strong>Who she is:</strong> {run.synthesisPreview.whoSheIs}</p>
                         <p><strong>What she wants:</strong> {run.synthesisPreview.whatSheWants}</p>
-                        <p><strong>What she fears:</strong> {run.synthesisPreview.whatSheFears}</p>
-                        <p><strong>What makes her funny:</strong> {run.synthesisPreview.whatMakesHerFunny}</p>
-                        <p><strong>What makes her annoying:</strong> {run.synthesisPreview.whatMakesHerAnnoying}</p>
-                        <p><strong>Book meaning:</strong> {run.synthesisPreview.bookMeaning}</p>
-                        <p><strong>Still don&apos;t know:</strong> {run.synthesisPreview.stillDontKnow.join('; ')}</p>
-                        <p>Reads like brand deck: {run.synthesisPreview.readsLikeBrandDeck ? 'YES (FAIL)' : 'NO'}</p>
                       </article>
                     )}
                   </>
