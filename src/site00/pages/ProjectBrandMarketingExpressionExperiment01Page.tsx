@@ -641,9 +641,9 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
 
                   {versionTab === 'V23' && activeArtifacts.length > 0 && (
                     <section className="site00-experiment-g__panel">
-                      <h2>VISUAL AUTHORITY REVIEW — P0.5C.6</h2>
+                      <h2>VISUAL AUTHORITY + AUTHORED ARTIFACT — P0.5C.6 / P0.5C.6A</h2>
                       <p style={{ fontSize: '0.85rem', marginBottom: '12px' }}>
-                        Bespoke art direction leads · editorial logic supports · V2.1 visual appetite restored inside V2.3.
+                        Bespoke art direction leads · authored artifact grammar · information inhabits artifact world · no default infographic shell.
                       </p>
                       <ul style={{ fontSize: '0.85rem', marginBottom: '12px' }}>
                         {(activeArtifacts as Experiment01V23Artifact[]).map((a) => {
@@ -683,7 +683,8 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                         {v23ArtifactMethodologyStatus(selectedV23).c4b ? '✓' : '✗'} · C.4B.1{' '}
                         {v23ArtifactMethodologyStatus(selectedV23).c4b1 ? '✓' : '✗'} · C.5{' '}
                         {v23ArtifactMethodologyStatus(selectedV23).c5 ? '✓' : '✗'} · C.6{' '}
-                        {selectedV23.contract.visualAuthorityEvaluation?.visualAppetiteGatePasses ? '✓' : '✗'}
+                        {selectedV23.contract.visualAuthorityEvaluation?.visualAppetiteGatePasses ? '✓' : '✗'} · C.6A{' '}
+                        {selectedV23.contract.authoredArtifactEvaluation?.authoredArtifactGatePasses ? '✓' : '✗'}
                       </p>
                       {(() => {
                         const limeReview = v23FounderLimeReview(selectedV23);

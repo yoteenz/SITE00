@@ -4595,7 +4595,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-## 2026-08-24 — V2.3 board REGENERATE ALL button
+---
+
+## 2026-08-24 — P0.5C.6A Authored Artifact Grammar + Template Frame Removal + Human History Authority
+
+- **Context:** P0.5C.6 improved bespoke artistic premise (e.g. subscription THEN/NOW shelf) but FAL outputs still read as infographic templates (top headline panel, bottom evidence box, header/body/footer hierarchy). Sprint required amending V2.3 FAL compiler — NOT V2.4 — with authored artifact grammar, human history authority, template frame removal; supersede stale queue; no auto-regeneration.
+- **Fix:** Generic `site00-studio-world-production/authoredArtifact/` (AuthoredArtifactSystem, ArtifactHumanHistoryContract, TemplateFrameDetectionEvaluation, OverResolvedArtifactEvaluation, ArtifactGrammarDiversityEvaluation, AuthoredInterventionEvaluation). NDX adapter `authoredArtifactC6A.ts`. `falPromptCompilerV23@P0.5C.6A` — new prompt sections: AUTHORED ARTIFACT GRAMMAR, RAW VISUAL ARTIFACT, NDX INTERVENTION, HUMAN HISTORY, INFORMATION INHABITATION, ANTI-TEMPLATE FRAME, OVER-RESOLUTION GUARD. Authority order: content thesis → visual premise → raw artifact → bespoke composition → NDX intervention → human history → editorial information. Pre-C6A queue supersession (`artifactHasPreC6APrompt`, `V23_SUPERSESSION_REASON_C6A`). Round 01 gate includes authored artifact evaluation. UI: V2.3 review panel shows C.6A status.
+- **Tests:** `artBoardMaterialityP05C6A.test.ts` (10 tests); 82 artBoard tests pass; build OK.
+- **Founder:** GoDaddy deploy → Experiment 01 V2.3 → REGENERATE subscription slide (topic 1) under P0.5C.6A and compare: bespoke shelf strength, no infographic shell, NDX hands/thinking, information inside artwork. Railway redeploy for API/compiler path. No automatic FAL regeneration — founder triggers explicitly.
+
 
 - **Context:** Founder disliked all nine current V2.3 slide selections — only per-slide REGENERATE CURRENT existed; batch generate only filled pending slots.
 - **Fix:** **REGENERATE ALL V2.3 — NINE NEW TAKES (FAL)** on Experiment 01 V2.3 board when all nine generated; API `marketing_expression_experiment_01_v23_regenerate_all`; parallel batch regen from current contracts (sequential fallback when superseded).
