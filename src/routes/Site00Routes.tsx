@@ -90,6 +90,7 @@ const ProjectCanonicalCarouselExpansionPage = lazy(() => import('../site00/pages
 const ProjectExperimentDPage = lazy(() => import('../site00/pages/ProjectExperimentDPage'));
 const ProjectExperimentFPage = lazy(() => import('../site00/pages/ProjectExperimentFPage'));
 const ProjectExperimentGPage = lazy(() => import('../site00/pages/ProjectExperimentGPage'));
+const ProjectExperimentHPage = lazy(() => import('../site00/pages/ProjectExperimentHPage'));
 const ProjectExperimentGDirectionsPage = lazy(() => import('../site00/pages/ProjectExperimentGDirectionsPage'));
 const ProjectExperimentGFinalistsPage = lazy(() => import('../site00/pages/ProjectExperimentGFinalistsPage'));
 const ProjectExperimentEPage = lazy(() => import('../site00/pages/ProjectExperimentEPage'));
@@ -723,6 +724,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectExperimentGFinalistsPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExperimentH}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExperimentHPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

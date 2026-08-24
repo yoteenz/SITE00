@@ -14,6 +14,7 @@ import {
   site00ProjectExperimentGPath,
   site00ProjectExperimentGDirectionsPath,
   site00ProjectExperimentGFinalistsPath,
+  site00ProjectExperimentHPath,
   site00ProjectLoreCalibrationPath,
   site00ProjectPersonalityReplayConsistencyPath,
   site00ProjectPersonalityReplayPath,
@@ -144,6 +145,17 @@ export function getProjectExperimentsHubEntries(projectSlug: string): ProjectExp
         'Content concept territory (Credit Utilization topic) — preserved historical research; not brand-presentation authority.',
       path: site00ProjectExperimentFPath(projectSlug),
       statusNote: 'CONTENT CONCEPTS — see Experiment G for brand presentation',
+    },
+    {
+      id: 'brand-character-formation',
+      phase: 'EXPERIMENT',
+      order: 85,
+      title: 'BRAND CHARACTER FORMATION',
+      headline: 'P0.5B',
+      description:
+        'Six topic-blind Brand Character Territories — WHO NDXBOOK is before presentation, identity, or content expression.',
+      path: site00ProjectExperimentHPath(projectSlug),
+      statusNote: 'UPSTREAM WHO LAYER — no visual generation in this sprint',
     },
     {
       id: 'experiment-g',
