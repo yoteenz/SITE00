@@ -26,18 +26,29 @@ type ProofPanelProps = {
 };
 
 function ReferenceThumbnail({ entry }: { entry: VisualReferencePackage['references'][0] }) {
+  const [loadFailed, setLoadFailed] = useState(false);
   const displayable =
+    !loadFailed &&
     entry.publicUrl &&
     !/vitest\.local|localhost|127\.0\.0\.1/i.test(entry.publicUrl);
 
   return (
     <div className="site00-vd-ref">
       {displayable ? (
-        <img src={entry.publicUrl!} alt={entry.label} className="site00-vd-ref__thumb" />
+        <img
+          src={entry.publicUrl!}
+          alt={entry.label}
+          className="site00-vd-ref__thumb"
+          loading="lazy"
+          decoding="async"
+          onError={() => setLoadFailed(true)}
+        />
       ) : (
         <div className="site00-vd-ref__placeholder">
           {entry.storagePath.split('/').pop()}
-          <span className="site00-vd-ref__placeholder-note">CAPTURE REQUIRED</span>
+          <span className="site00-vd-ref__placeholder-note">
+            {loadFailed ? 'THUMBNAIL LOAD FAILED' : 'CAPTURE REQUIRED'}
+          </span>
         </div>
       )}
       <p className="site00-vd-ref__label">{entry.label}</p>

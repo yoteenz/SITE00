@@ -155,6 +155,38 @@ function setProof(run: ProjectWorkspaceVisualDevelopmentRun, proof: SurfaceDesig
   else run.proofs.ndxbookProjectHome = proof;
 }
 
+function refreshProofManifestFromGeneratedAssets(
+  run: ProjectWorkspaceVisualDevelopmentRun,
+  proof: SurfaceDesignProof,
+): void {
+  const reusableIds = proof.generatedAssets.map((a) => a.requirementId);
+  const ctx = buildDesignProofArtDirectionContext(proof.proofId, proof.clientExpression);
+
+  if (proof.proofId === 'SITE00_PROJECTS_INDEX') {
+    proof.manifest = compileSite00ProjectsIndexProofManifest({
+      artDirection: proof.artDirection,
+      workspaceCanon: run.workspaceCanon,
+      existingReusableAssetIds: reusableIds,
+    });
+  } else {
+    if (!proof.clientExpression) throw new Error('clientExpression required for NDXBOOK manifest refresh');
+    proof.manifest = compileNdxbookProjectHomeProofManifest({
+      artDirection: proof.artDirection,
+      workspaceCanon: run.workspaceCanon,
+      clientExpression: proof.clientExpression,
+      existingReusableAssetIds: reusableIds,
+    });
+  }
+
+  proof.functionalCanon = ctx.functionalCanon;
+  if (proof.manifest) {
+    proof.interfaceAssetManifest = compileInterfaceAssetManifest({
+      surfaceId: proof.proofId,
+      designProofManifest: proof.manifest,
+    });
+  }
+}
+
 /** Backfill P1 fields on persisted proofs saved before generation-boundary correction. */
 export function hydrateSurfaceDesignProof(proof: SurfaceDesignProof): SurfaceDesignProof {
   const defaults = initProof(
@@ -466,6 +498,7 @@ export async function generateMissingInterfaceAssets(
     return await store.saveVisualDevelopmentRun(run);
   }
 
+  refreshProofManifestFromGeneratedAssets(run, proof);
   proof.qaResult = evaluateDesignProofQA({
     visionEvaluationAvailable: false,
     generatedAssetCount: generatedAssets.length,

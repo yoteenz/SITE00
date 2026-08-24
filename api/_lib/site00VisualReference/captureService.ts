@@ -41,7 +41,7 @@ export type CaptureResult =
   | { ok: false; error: string; incomplete: boolean };
 
 function buildStoragePath(route: string, viewportClass: ViewportClass): string {
-  return buildHostReferenceStoragePath(route, viewportClass).replace(/\.webp$/, '.png');
+  return buildHostReferenceStoragePath(route, viewportClass);
 }
 
 function buildReferenceRecord(params: {
@@ -188,7 +188,9 @@ export async function captureSite00RouteReference(params: CaptureRouteParams): P
   if (isVitest) {
     publicUrl = `https://vitest.local/${storagePath}`;
   } else {
-    const upload = await uploadSite00AssetBuffer(storagePath, buffer, 'image/png', { upsert: true });
+    const sharp = (await import('sharp')).default;
+    const webpBuffer = await sharp(buffer).webp({ quality: 85 }).toBuffer();
+    const upload = await uploadSite00AssetBuffer(storagePath, webpBuffer, 'image/webp', { upsert: true });
     publicUrl = upload.publicUrl;
   }
 
