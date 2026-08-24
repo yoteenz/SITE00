@@ -105,6 +105,7 @@ export type ContentOpportunity = {
   priorCoverageIds: string[];
   rank: ContentOpportunityRank | null;
   selectionStatus: ContentSelectionStatus | null;
+  visualPotential?: import('../culturalVisualParticipation/types.js').OpportunityVisualPotential | null;
   status: 'DISCOVERED' | 'EVALUATED' | 'SELECTED' | 'REJECTED' | 'ARCHIVED';
   fingerprint: string;
 };
@@ -291,6 +292,8 @@ export type SocialContentPackage = {
   editorialDecisionId?: string | null;
   firstSlideContractId?: string | null;
   carouselArchitectureId?: string | null;
+  visualSubjectMatterDecisionId?: string | null;
+  visualParticipationBalance?: string | null;
   createdAt: string;
   updatedAt: string;
 };

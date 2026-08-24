@@ -19,6 +19,7 @@ import { classifyClaim } from './researchEvidence.js';
 import { determineResearchDepth } from './researchEvidence.js';
 import { formulateCharacterEventFromOpportunity, formulateContentThesisFromOpportunity } from './characterEventProduction.js';
 import { extendCarouselSequencePlan, buildEditorialLayerForContentPackage } from '../editorialInformationArchitecture/integration.js';
+import { buildContentPackageVisualSubjectLayer } from '../culturalVisualParticipation/integration.js';
 
 function fp(value: unknown): string {
   return createHash('sha256').update(JSON.stringify(value)).digest('hex').slice(0, 16);
@@ -111,6 +112,9 @@ export function buildSocialContentPackage(params: {
   let firstSlideContractId: string | null = null;
   let carouselArchitectureId: string | null = null;
 
+  let visualSubjectMatterDecisionId: string | null = null;
+  let visualParticipationBalance: string | null = null;
+
   if (params.expressionSystem && params.characterSystemId) {
     const editorial = buildEditorialLayerForContentPackage({
       pkg: { id: packageId, projectId: params.projectId, createdAt: now, updatedAt: now } as SocialContentPackage,
@@ -127,6 +131,14 @@ export function buildSocialContentPackage(params: {
         narrative: editorial.editorialLayer.carouselNarrative,
       });
     }
+    const visualLayer = buildContentPackageVisualSubjectLayer({
+      pkg: { id: packageId, projectId: params.projectId, createdAt: now, updatedAt: now, editorialDecisionId, firstSlideContractId, carouselArchitectureId } as SocialContentPackage,
+      opportunity: params.opportunity,
+      expressionSystem: params.expressionSystem,
+      characterSystemId: params.characterSystemId,
+    });
+    visualSubjectMatterDecisionId = visualLayer.visualSubjectMatterDecisionId;
+    visualParticipationBalance = visualLayer.visualParticipationBalance;
   }
 
   const pkg: SocialContentPackage = {
@@ -138,7 +150,7 @@ export function buildSocialContentPackage(params: {
     channel: params.channel.channel,
     format: params.format.format,
     coverArtifactId: null,
-    sequencePlan: params.format.format === 'CAROUSEL' ? buildCarouselSequencePlan(packageId) : null,
+    sequencePlan,
     caption: buildCaptionContract({
       packageId,
       resolutionState: thesis.resolutionState,
@@ -165,6 +177,8 @@ export function buildSocialContentPackage(params: {
     editorialDecisionId,
     firstSlideContractId,
     carouselArchitectureId,
+    visualSubjectMatterDecisionId,
+    visualParticipationBalance,
     fingerprint: '',
     createdAt: now,
     updatedAt: now,

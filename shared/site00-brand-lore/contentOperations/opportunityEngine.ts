@@ -5,6 +5,7 @@
 import { createHash, randomUUID } from 'node:crypto';
 import type { ContentOpportunity, ContentOpportunityRank, OpportunityFitResult } from './types.js';
 import type { ContentMemoryIndex } from './types.js';
+import { evaluateOpportunityVisualPotential } from '../culturalVisualParticipation/integration.js';
 import { evaluateContentSimilarity } from './contentSimilarity.js';
 
 function fp(value: unknown): string {
@@ -122,6 +123,7 @@ export function createContentOpportunity(params: {
   };
   opp.characterFit = evaluateNDXOpportunityFit(opp);
   opp.rank = rankContentOpportunity(opp);
+  opp.visualPotential = evaluateOpportunityVisualPotential(opp);
   opp.fingerprint = fp(opp);
   return opp;
 }

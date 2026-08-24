@@ -96,6 +96,9 @@ import {
   formulateMarketingExpressionExperiment01V2,
   generateExperiment01V2ArtifactAsset,
   setExperiment01V2ArtifactJudgment,
+  formulateMarketingExpressionExperiment01V21,
+  generateExperiment01V21ArtifactAsset,
+  setExperiment01V21ArtifactJudgment,
 } from '../_lib/site00Evolve/creativeDirection/brandMarketingExpressionExperiment/brandMarketingExpressionService.js';
 import {
   getContentOperationsState,
@@ -1672,6 +1675,54 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           judgment,
         });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v2' });
+      }
+      case 'marketing_expression_experiment_01_v21_formulate': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await formulateMarketingExpressionExperiment01V21({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v21' });
+      }
+      case 'marketing_expression_experiment_01_v21_generate': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const artifactId = String(body.artifactId ?? '');
+        if (slug !== 'ndxbook' || !artifactId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await generateExperiment01V21ArtifactAsset({ projectId: 'ndxbook', artifactId });
+        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v21' });
+      }
+      case 'marketing_expression_experiment_01_v21_artifact_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const artifactId = String(body.artifactId ?? '');
+        const judgment = body.judgment as string;
+        if (slug !== 'ndxbook' || !artifactId || !judgment) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await setExperiment01V21ArtifactJudgment({ projectId: 'ndxbook', artifactId, judgment });
+        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v21' });
       }
       case 'content_operations_get': {
         const slug = String(req.query.slug ?? '');

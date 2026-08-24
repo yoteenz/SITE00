@@ -4198,3 +4198,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Boundaries:** Marketing Expression typography governance ≠ final Brand Identity. No character/canon/Experiment F/G mutation. V2 FAL not auto-generated (0 during implementation; max 9 founder-triggered).
 - **Tests:** +60 P0.5C.1 tests. P0.5C + P0.5D still passing. Build green.
 
+---
+
+## 2026-08-24 — P0.5C.2 Cultural Image Participation + Visual Subject Matter Governance + Artistic Range
+
+- **Context:** Layer on P0.5C.1 (do not replace). Experiment 01 V1/V2 artifacts remain too text/document/evidence-heavy; underexpress culture, people, photography, art, play, emotional entry. NDX is also **Cultural Accomplice** — cultural/human/artistic visual material must be first-class evidence and expression. Same nine Experiment 01 topics; controlled question: can same content ideas become more culturally alive without losing hierarchy clarity?
+- **Architecture:** `shared/site00-brand-lore/culturalVisualParticipation/` — CulturalVisualEvidence + CulturalVisualRole, VisualSubjectMatterDecision (IMAGE_DOMINANT through MIXED_MEDIA), VisualParticipationBalance, VisualAppetiteEvaluation, CulturalAccompliceExpressionEvaluation, MarketingPlayfulnessEvaluation, ArtisticEvidence (distinct from factual), ReferenceDensityEvaluation, FeedCulturalRhythm + FeedEmotionalRhythm, MarketingVisualDiversityEvaluation (text/document dominance guards), NDXPhotographyBehavior, north-star CULTURAL_IMAGE_PARTICIPATION_CALIBRATION, FAL prompt compiler V2.1 (24 sections), Experiment 01 V2.1 (`EXPERIMENT_01_V2_1_CULTURAL_IMAGE_PARTICIPATION`) — amends P0.5C.1 contracts without mutating V2 history.
+- **Topic visual profiles:** Topic 3 cultural reassessment IMAGE_DOMINANT/REQUIRED; Topic 5 corporate euphemism TYPOGRAPHY_DOMINANT/NOT_HELPFUL; Topic 7 self-correction ARTIFACT_DOMINANT; mixed modes across board for visual appetite variation.
+- **Integration:** P0.5D SocialContentPackage + ContentOpportunity visual potential (HUMAN/CULTURAL/OBJECT/ARCHIVAL/ARTISTIC/PHOTOGRAPHIC). Service: `formulateMarketingExpressionExperiment01V21`, `generateExperiment01V21ArtifactAsset`, `setExperiment01V21ArtifactJudgment`. UI: Experiment 01 page V2.1 tab + contract review (visual participation mode, cultural subject, why it belongs, image-led reading path, V21 founder judgments) before founder-triggered FAL.
+- **Boundaries:** V1/V2 immutable. No auto FAL generation. Generated illustration ≠ factual evidence. Random celebrity/nostalgia/reference stuffing blocked. P0.5C.1 hierarchy, uppercase, typography roles, information budget preserved. Brand Character/Canon, Experiment F/G, Product Expression, World Formation unchanged.
+- **Tests:** +59 P0.5C.2 tests (`culturalVisualParticipationP05C2.test.ts`). P0.5C + P0.5C.1 + P0.5D still passing. Build green. `EXPERIMENT_01_CULTURAL_VISUALS_GENERATED = false` unless founder triggers.
+
