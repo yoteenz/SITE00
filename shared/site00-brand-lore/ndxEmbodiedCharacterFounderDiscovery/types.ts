@@ -8,6 +8,7 @@ import type {
   HumanReadableCharacterSynthesis,
 } from '../../site00-studio-world-production/founderCharacterCalibration/types.js';
 import type { NDX_FOUNDER_CHARACTER_DISCOVERY_RUN_ID } from './constants.js';
+import type { NdxFounderTraitPropositionVersion } from './ndxFounderTraitPropositions.js';
 
 export type NdxFounderCharacterDiscoveryRun = EmbodiedCharacterFounderDiscoveryRun & {
   runId: typeof NDX_FOUNDER_CHARACTER_DISCOVERY_RUN_ID;
@@ -15,4 +16,5 @@ export type NdxFounderCharacterDiscoveryRun = EmbodiedCharacterFounderDiscoveryR
   calibrationVersion?: string | null;
   calibrationState?: CharacterCalibrationState | null;
   humanReadableSynthesis?: HumanReadableCharacterSynthesis | null;
+  traitPropositionVersion?: NdxFounderTraitPropositionVersion | string | null;
 };

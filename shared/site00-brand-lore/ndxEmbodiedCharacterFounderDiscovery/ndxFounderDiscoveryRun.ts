@@ -19,6 +19,7 @@ import { buildNdxEmbodiedCharacterDiscoveryRun } from '../ndxEmbodiedCharacterDi
 import { VISUAL_TENDENCY_HYPOTHESES } from '../ndxEmbodiedCharacterDiscovery/constants.js';
 import type { NdxEmbodiedCharacterDiscoveryRun } from '../ndxEmbodiedCharacterDiscovery/types.js';
 import { auditNdxEmbodiedCharacterFoundation } from './ndxForensicAudit.js';
+import { NDX_FOUNDER_TRAIT_PROPOSITION_VERSION } from './ndxFounderTraitPropositions.js';
 import { buildNdxCharacterDiscoveryScenarios } from './ndxDiscoveryScenarios.js';
 import { NDX_FOUNDER_CHARACTER_DISCOVERY_RUN_ID } from './constants.js';
 import type { NdxFounderCharacterDiscoveryRun } from './types.js';
@@ -234,6 +235,7 @@ export function buildNdxFounderCharacterDiscoveryRun(
     calibrationVersion: FOUNDER_CHARACTER_CALIBRATION_VERSION,
     calibrationState,
     humanReadableSynthesis: null,
+    traitPropositionVersion: NDX_FOUNDER_TRAIT_PROPOSITION_VERSION,
   };
 }
 

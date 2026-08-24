@@ -231,6 +231,12 @@ export type AuditedTrait = {
   statement: string;
   authority: TraitAuthorityState;
   confidence: CharacterTruthConfidenceState;
+  /** Fluent founder-facing prompt (P0.5E.4A) */
+  founderPrompt?: string;
+  /** Human section label for grouped UI */
+  sectionLabel?: string;
+  /** Optional context shown collapsed in inspect UI */
+  contextNote?: string | null;
 };
 
 export type CharacterForensicAudit = {

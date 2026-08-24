@@ -8,7 +8,6 @@ import {
   site00ProjectPath,
 } from '../config/routes';
 import { projectDisplayName } from '../utils/projectDisplayName';
-import { FOUNDER_DISCOVERY_JUDGMENTS } from '../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/constants';
 import { VOICE_LAB_CHANNELS } from '../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/constants';
 import { FOUNDER_RECOGNITION_RESPONSES } from '../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/constants';
 import { VISUAL_HYPOTHESIS_JUDGMENTS } from '../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/constants';
@@ -19,6 +18,10 @@ import {
   castingStatusHeadline,
   formatCastingBlockingGate,
 } from '../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/ndxCastingReadinessBridge';
+import {
+  founderTraitJudgmentLabel,
+  groupFounderTraitsBySection,
+} from '../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/ndxFounderTraitPropositionsClient';
 import '../styles/site00-replay-execution.css';
 
 type RoomSection =
@@ -70,7 +73,6 @@ export default function ProjectFounderCharacterDiscoveryPage() {
   const [section, setSection] = useState<RoomSection>('CALIBRATION');
   const [inspectSection, setInspectSection] = useState<InspectionSection>('FORENSIC');
   const [traitRevision, setTraitRevision] = useState('');
-  const [traitNote, setTraitNote] = useState('');
   const [scenarioNotes, setScenarioNotes] = useState('');
   const [recognitionNote, setRecognitionNote] = useState('');
   const [calibrationRevision, setCalibrationRevision] = useState('');
@@ -417,45 +419,100 @@ export default function ProjectFounderCharacterDiscoveryPage() {
 
                 {section === 'INSPECT' && inspectSection === 'TRAITS' && forensic && (
                   <>
-                    <h2>PROPOSED TRAITS — DISCOVER · REACT · REVISE · REJECT</h2>
-                    <label>
-                      Revision text (for CLOSE_BUT / SOMETHING_ELSE)
-                      <input value={traitRevision} onChange={(e) => setTraitRevision(e.target.value)} />
+                    <h2>TRAIT CHECK-IN</h2>
+                    <p style={{ fontSize: '0.9rem', marginBottom: '12px' }}>
+                      Plain-language propositions about who she might be. React naturally — primary calibration lives on the CALIBRATION tab.
+                    </p>
+                    <p style={{ fontSize: '0.85rem', marginBottom: '12px' }}>
+                      Confirmed: {forensic.founderConfirmedTraits} · Still open: {forensic.unresolvedTraits}
+                    </p>
+                    <label style={{ display: 'block', marginBottom: '12px' }}>
+                      If ALMOST or SOMETHING ELSE — what&apos;s different?
+                      <input value={traitRevision} onChange={(e) => setTraitRevision(e.target.value)} style={{ width: '100%' }} />
                     </label>
-                    <label>
-                      Note
-                      <input value={traitNote} onChange={(e) => setTraitNote(e.target.value)} />
-                    </label>
-                    {forensic.traits.slice(0, 40).map((trait) => (
-                      <article key={trait.traitId} className="site00-experiment-g__panel">
-                        <p><strong>{trait.category}</strong> · {trait.authority} · {trait.confidence}</p>
-                        <p>{trait.statement}</p>
-                        <div className="site00-experiment-g__tabs">
-                          {FOUNDER_DISCOVERY_JUDGMENTS.filter((j) =>
-                            ['YES_EXACTLY', 'CLOSE_BUT', 'NO', 'ABSOLUTELY_NOT', 'IT_DEPENDS', 'I_DONT_KNOW_YET', 'SOMETHING_ELSE', 'TOO_PERFECT', 'TOO_BRAND_LIKE'].includes(j),
-                          ).map((j) => (
-                            <button
-                              key={j}
-                              type="button"
-                              className="site00-experiment-g__tab"
-                              disabled={busy}
-                              onClick={() =>
-                                void act(() =>
-                                  site00ProjectsApi.founderCharacterDiscoveryTraitJudgment(
-                                    projectSlug,
-                                    trait.traitId,
-                                    j,
-                                    traitRevision || undefined,
-                                    traitNote || undefined,
-                                  ),
-                                )
-                              }
-                            >
-                              {j.replace(/_/g, ' ')}
-                            </button>
-                          ))}
-                        </div>
-                      </article>
+                    {groupFounderTraitsBySection(forensic.traits).map(({ section: traitSection, traits }) => (
+                      <section key={traitSection} style={{ marginBottom: '20px' }}>
+                        <h3 style={{ fontSize: '0.95rem', marginBottom: '8px' }}>{traitSection}</h3>
+                        {traits.map((trait) => {
+                          const prompt = trait.founderPrompt ?? trait.statement;
+                          const savedLabel = founderTraitJudgmentLabel(trait.authority);
+                          return (
+                            <article key={trait.traitId} className="site00-experiment-g__panel" style={{ marginBottom: '12px' }}>
+                              <p style={{ fontSize: '1rem', lineHeight: 1.5, marginBottom: '8px' }}>{prompt}</p>
+                              {trait.contextNote && (
+                                <p style={{ fontSize: '0.8rem', opacity: 0.75, marginBottom: '8px' }}>{trait.contextNote}</p>
+                              )}
+                              {savedLabel && (
+                                <p style={{ fontSize: '0.85rem', marginBottom: '8px' }}>
+                                  <strong>{savedLabel}</strong>
+                                  {trait.authority === 'FOUNDER_REVISED' || trait.authority === 'FOUNDER_ADDED'
+                                    ? `: ${trait.statement}`
+                                    : ''}
+                                </p>
+                              )}
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                {[
+                                  { judgment: 'YES_EXACTLY', label: "YES — THAT'S HER" },
+                                  { judgment: 'CLOSE_BUT', label: 'ALMOST — CLOSE BUT…' },
+                                  { judgment: 'NO', label: 'NO — NOT HER' },
+                                  { judgment: 'I_DONT_KNOW_YET', label: "NOT SURE YET" },
+                                ].map(({ judgment, label }) => (
+                                  <button
+                                    key={judgment}
+                                    type="button"
+                                    className="site00-btn site00-btn--primary"
+                                    disabled={busy}
+                                    style={{ width: '100%', textAlign: 'left' }}
+                                    onClick={() =>
+                                      void act(
+                                        () =>
+                                          site00ProjectsApi.founderCharacterDiscoveryTraitJudgment(
+                                            projectSlug,
+                                            trait.traitId,
+                                            judgment,
+                                            judgment === 'CLOSE_BUT' || judgment === 'SOMETHING_ELSE'
+                                              ? traitRevision || undefined
+                                              : undefined,
+                                            undefined,
+                                          ),
+                                        { successMessage: 'Saved.' },
+                                      )
+                                    }
+                                  >
+                                    {label}
+                                  </button>
+                                ))}
+                              </div>
+                              <details style={{ marginTop: '8px', fontSize: '0.8rem' }}>
+                                <summary>More reactions</summary>
+                                <div className="site00-experiment-g__tabs" style={{ marginTop: '8px' }}>
+                                  {['ABSOLUTELY_NOT', 'TOO_BRAND_LIKE', 'TOO_PERFECT', 'SOMETHING_ELSE', 'IT_DEPENDS'].map((j) => (
+                                    <button
+                                      key={j}
+                                      type="button"
+                                      className="site00-experiment-g__tab"
+                                      disabled={busy}
+                                      onClick={() =>
+                                        void act(() =>
+                                          site00ProjectsApi.founderCharacterDiscoveryTraitJudgment(
+                                            projectSlug,
+                                            trait.traitId,
+                                            j,
+                                            j === 'SOMETHING_ELSE' || j === 'CLOSE_BUT' ? traitRevision || undefined : undefined,
+                                            undefined,
+                                          ),
+                                        )
+                                      }
+                                    >
+                                      {j.replace(/_/g, ' ')}
+                                    </button>
+                                  ))}
+                                </div>
+                              </details>
+                            </article>
+                          );
+                        })}
+                      </section>
                     ))}
                   </>
                 )}
