@@ -7,4 +7,5 @@ export * from './editorialHealth.js';
 export * from './platformQA.js';
 export * from './sharedResearch.js';
 export * from './costModel.js';
+export * from './reelSlotPresentation.js';
 export * from './weeklyProductionBoard.js';

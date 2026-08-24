@@ -49,22 +49,51 @@ export function weeklyPublishingUnitVolume(policy: PublishingCadencePolicy): {
   reelMaxPerWeek: number;
   baselineInstagramUnits: number;
   maxNormalInstagramUnits: number;
+  dailyBaselineUnits: number;
+  dailyMaxNormalUnits: number;
 } {
-  const feed = (channelTargetFor(policy, 'INSTAGRAM', 'FEED')?.targetPerDay ?? 0) * 7;
-  const story = (channelTargetFor(policy, 'INSTAGRAM', 'STORY')?.targetPerDay ?? 0) * 7;
-  const reelTarget = (channelTargetFor(policy, 'INSTAGRAM', 'REEL')?.targetPerDay ?? 0) * 7;
-  const reelMax =
-    (channelTargetFor(policy, 'INSTAGRAM', 'REEL')?.maxNormalPerDay ??
-      channelTargetFor(policy, 'INSTAGRAM', 'REEL')?.targetPerDay ??
-      0) * 7;
+  const daily = dailyPublishingUnitVolume(policy);
   return {
-    feedPerWeek: feed,
-    storyPerWeek: story,
-    reelTargetPerWeek: reelTarget,
-    reelMaxPerWeek: reelMax,
+    feedPerWeek: daily.feedPerDay * 7,
+    storyPerWeek: daily.storyPerDay * 7,
+    reelTargetPerWeek: daily.reelTargetPerDay * 7,
+    reelMaxPerWeek: daily.reelMaxPerDay * 7,
+    baselineInstagramUnits: daily.baselineInstagramUnits * 7,
+    maxNormalInstagramUnits: daily.maxNormalInstagramUnits * 7,
+    dailyBaselineUnits: daily.baselineInstagramUnits,
+    dailyMaxNormalUnits: daily.maxNormalInstagramUnits,
+  };
+}
+
+export function dailyPublishingUnitVolume(policy: PublishingCadencePolicy): {
+  feedPerDay: number;
+  storyPerDay: number;
+  reelTargetPerDay: number;
+  reelMaxPerDay: number;
+  baselineInstagramUnits: number;
+  maxNormalInstagramUnits: number;
+} {
+  const feed = channelTargetFor(policy, 'INSTAGRAM', 'FEED')?.targetPerDay ?? 0;
+  const story = channelTargetFor(policy, 'INSTAGRAM', 'STORY')?.targetPerDay ?? 0;
+  const reelTarget = channelTargetFor(policy, 'INSTAGRAM', 'REEL')?.targetPerDay ?? 0;
+  const reelMax =
+    channelTargetFor(policy, 'INSTAGRAM', 'REEL')?.maxNormalPerDay ??
+    channelTargetFor(policy, 'INSTAGRAM', 'REEL')?.targetPerDay ??
+    0;
+  return {
+    feedPerDay: feed,
+    storyPerDay: story,
+    reelTargetPerDay: reelTarget,
+    reelMaxPerDay: reelMax,
     baselineInstagramUnits: feed + story + reelTarget,
     maxNormalInstagramUnits: feed + story + reelMax,
   };
+}
+
+/** 63 is max-normal capacity — never label as baseline. */
+export function isBaselineVolumeLabel(volume: number, policy: PublishingCadencePolicy): boolean {
+  const { baselineInstagramUnits } = weeklyPublishingUnitVolume(policy);
+  return volume === baselineInstagramUnits;
 }
 
 export function genericModelsContainNoBrandCadence(): true {

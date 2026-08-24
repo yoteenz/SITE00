@@ -5,6 +5,7 @@
 import type {
   CADENCE_FAILURE_STATES,
   CADENCE_FULFILLMENT_STATES,
+  CADENCE_SEMANTIC_LEVELS,
   CONTENT_FATIGUE_LEVELS,
   CONTENT_INTELLIGENCE_STATUSES,
   CONTENT_PRIORITY_TIERS,
@@ -12,13 +13,16 @@ import type {
   PLATFORM_ANGLE_DERIVATIONS,
   PLATFORM_EXPRESSION_STATUSES,
   PLATFORM_NATIVE_FIT_DIMENSIONS,
+  PRIMARY_EVENT_LIFECYCLE_STATES,
   PRIMARY_EVENT_PLANNING_ROLES,
   PRIMARY_EVENT_STATUSES,
   PUBLISHING_PLATFORMS,
   PUBLISHING_SURFACES,
   REEL_PRODUCTION_COMPLEXITY,
   REEL_TYPE_BEHAVIORS,
+  SECOND_REEL_DECISIONS,
   SECOND_REEL_ELIGIBILITY,
+  SECOND_REEL_OPPORTUNITY_REASONS,
   STORY_ORIGIN_TYPES,
   STORY_UNIT_PURPOSES,
   WATCH_QUEUE_STATES,
@@ -29,6 +33,10 @@ import type {
 export type PublishingPlatform = (typeof PUBLISHING_PLATFORMS)[number];
 export type PublishingSurface = (typeof PUBLISHING_SURFACES)[number];
 export type CadenceFulfillmentState = (typeof CADENCE_FULFILLMENT_STATES)[number];
+export type CadenceSemanticLevel = (typeof CADENCE_SEMANTIC_LEVELS)[number];
+export type PrimaryEventLifecycleState = (typeof PRIMARY_EVENT_LIFECYCLE_STATES)[number];
+export type SecondReelDecision = (typeof SECOND_REEL_DECISIONS)[number];
+export type SecondReelOpportunityReason = (typeof SECOND_REEL_OPPORTUNITY_REASONS)[number];
 export type PrimaryEventPlanningRole = (typeof PRIMARY_EVENT_PLANNING_ROLES)[number];
 export type PrimaryEventStatus = (typeof PRIMARY_EVENT_STATUSES)[number];
 export type ContentIntelligenceStatus = (typeof CONTENT_INTELLIGENCE_STATUSES)[number];
@@ -54,6 +62,8 @@ export type ChannelCadenceTarget = {
   targetPerDay: number;
   maxNormalPerDay: number | null;
   optionalSlotPolicy: string | null;
+  /** Semantic level for this channel target — TARGET vs OPTIONAL_CAPACITY. */
+  semanticLevel?: CadenceSemanticLevel;
 };
 
 export type PublishingCadencePolicy = {
@@ -94,6 +104,9 @@ export type DailyPrimaryContentEvent = {
   requiredEvidence: string[];
   recommendedChannelExpressions: string[];
   status: PrimaryEventStatus;
+  /** Editorial lifecycle — callbacks and reactivation without reposting identical material. */
+  lifecycleState: PrimaryEventLifecycleState;
+  priorEventId: string | null;
   fingerprint: string;
 };
 
@@ -219,6 +232,19 @@ export type SecondReelEligibilityEvaluation = {
   eligibility: SecondReelEligibility;
   reason: string;
   primaryContentEventId: string | null;
+  decision: SecondReelDecision;
+  opportunityReason: SecondReelOpportunityReason | null;
+  holdSlotEmpty: boolean;
+};
+
+export type CadenceFulfillmentEvaluation = {
+  date: string;
+  state: CadenceFulfillmentState;
+  healthy: boolean;
+  baselineMet: boolean;
+  optionalCapacityUsed: boolean;
+  fillerPressureDetected: boolean;
+  cadenceIsNotQuota: true;
 };
 
 export type SharedResearchPackage = {
@@ -399,6 +425,16 @@ export type ContentCostBreakdown = {
   shortsUsd: number;
   textUsd: number;
   weeklyEstimateUsd: number;
+  /** Baseline rhythm cost — assumes target Reels/week, not max-normal capacity. */
+  baselineWeeklyEstimateUsd: number;
+  /** Maximum-normal capacity projection — labeled separately, not expected spend. */
+  maxNormalWeeklyEstimateUsd: number;
+  /** Actual planned cost — optional Reel cost only when approved. */
+  actualPlannedWeeklyEstimateUsd: number;
+  baselineReelsPerWeek: number;
+  maxNormalReelsPerWeek: number;
+  approvedSecondReelsPerWeek: number;
+  costSemanticLevel: CadenceSemanticLevel;
   multiplicationGuardPass: boolean;
 };
 
@@ -423,6 +459,7 @@ export type DailyPublishingCadenceRun = {
   channelExpressionLearning: ChannelExpressionLearning[];
   costBreakdown: ContentCostBreakdown | null;
   cadenceFulfillmentByDate: Record<string, CadenceFulfillmentState>;
+  cadenceFulfillmentEvaluationsByDate: Record<string, CadenceFulfillmentEvaluation>;
   secondReelEligibilityByDate: Record<string, SecondReelEligibilityEvaluation>;
   error: string | null;
   updatedAt: string;
