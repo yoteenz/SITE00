@@ -65,8 +65,8 @@ export async function initializeCampaignBoardFromExperiment01(params: {
   projectId: string;
 }): Promise<MarketingCampaignProductionRun> {
   const marketingRun = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
-  if (!marketingRun?.experiment01V21?.generatedArtifacts.length) {
-    throw new Error('Experiment 01 V2.1 required before campaign board initialization');
+  if (!marketingRun?.experiment01V23?.generatedArtifacts.length) {
+    throw new Error('Experiment 01 V2.3 required before campaign board initialization');
   }
 
   const { campaign, slate, board } = initializeNdxbookExperiment01Board({
@@ -138,12 +138,12 @@ export async function formulateCampaignRound02(params: {
   }
 
   const marketingRun = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
-  const v21 = marketingRun?.experiment01V21?.generatedArtifacts ?? [];
+  const v23 = marketingRun?.experiment01V23?.generatedArtifacts ?? [];
 
   const { contracts, round02Assets } = formulateNdxbookRound02Contracts({
     campaignId: run.campaign.campaignId,
     board: run.board,
-    v21Artifacts: v21,
+    v23Artifacts: v23,
   });
 
   const round02Coherence = evaluateHorizontalCoherence({

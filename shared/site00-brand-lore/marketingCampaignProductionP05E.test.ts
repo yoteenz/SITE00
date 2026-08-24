@@ -91,6 +91,8 @@ import { buildVitestBrandCharacterSystemForMarketing } from '../site00-brand-lor
 import { buildFounderMarketingNorthStarArtifact } from '../site00-brand-lore/brandMarketingExpression/northStarArtifact.js';
 import { formulateExperiment01V2 } from '../site00-brand-lore/editorialInformationArchitecture/experiment01V2.js';
 import { formulateExperiment01V21 } from '../site00-brand-lore/culturalVisualParticipation/experiment01V21.js';
+import { formulateExperiment01V22 } from '../site00-brand-lore/characterRetention/experiment01V22.js';
+import { formulateExperiment01V23 } from '../site00-brand-lore/artBoardMateriality/experiment01V23.js';
 import {
   initializeCampaignBoardFromExperiment01,
   lockCampaignRound01,
@@ -140,10 +142,21 @@ function buildTestBoard() {
     expressionSystem,
     characterSystemId: characterSystem.id,
   });
+  const v22 = formulateExperiment01V22({
+    v1Artifacts: artifacts,
+    v21Experiment: v21.experiment,
+    expressionSystem,
+    characterSystemId: characterSystem.id,
+  });
+  const v23 = formulateExperiment01V23({
+    v1Artifacts: artifacts,
+    v22Experiment: v22.experiment,
+    expressionSystem,
+  });
   const marketingRun = {
     expressionSystem,
     brandCharacterSystemId: characterSystem.id,
-    experiment01V21: v21.experiment,
+    experiment01V23: v23.experiment,
   } as never;
   return initializeNdxbookExperiment01Board({ marketingRun, projectId: 'ndxbook', brandId: 'org' });
 }
@@ -396,8 +409,6 @@ describe('P0.5E Campaign Board + Horizontal Sequence Production', () => {
     await formulateMarketingExpressionExperiment01V21({ projectId: 'ndxbook' });
     await formulateMarketingExpressionExperiment01V22({ projectId: 'ndxbook' });
     await formulateMarketingExpressionExperiment01V23({ projectId: 'ndxbook' });
-    await generateAllExperiment01V21ArtifactAssets({ projectId: 'ndxbook' });
-    await generateAllExperiment01V22ArtifactAssets({ projectId: 'ndxbook' });
     await generateAllExperiment01V23ArtifactAssets({ projectId: 'ndxbook' });
 
     const init = await initializeCampaignBoardFromExperiment01({ projectId: 'ndxbook' });
@@ -424,6 +435,7 @@ describe('P0.5E Campaign Board + Horizontal Sequence Production', () => {
     const page = readFileSync(join(ROOT, 'src/site00/pages/ProjectContentOperationsCampaignBoardPage.tsx'), 'utf8');
     expect(routes).toContain('campaign-board');
     expect(page).toContain('CLIENT REVIEW MODE');
+    expect(page).toContain('V2.3');
     expect(CLIENT_REVIEW_MODE_IMPLEMENTED).toBe(true);
     expect(GENERIC_STUDIO_WORLD_MARKETING_WORKFLOW_IMPLEMENTED).toBe(true);
     expect(HORIZONTAL_SEQUENCE_PRODUCTION_IMPLEMENTED).toBe(true);

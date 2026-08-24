@@ -110,6 +110,7 @@ import {
   formulateMarketingExpressionExperiment01V2,
   formulateMarketingExpressionExperiment01V21,
   formulateMarketingExpressionExperiment01V22,
+  formulateMarketingExpressionExperiment01V23,
   generateAllExperiment01V22ArtifactAssets,
   getBrandMarketingExpressionState,
 } from '../../api/_lib/site00Evolve/creativeDirection/brandMarketingExpressionExperiment/brandMarketingExpressionService.js';
@@ -328,6 +329,8 @@ describe('P0.5C.3 Character Retention', () => {
     const v22Run = await getBrandMarketingExpressionState({ projectId: 'ndxbook' });
     expect(v22Run!.experiment01V22?.generatedArtifacts.length).toBe(9);
     expect(v22ContractReviewBeforeGeneration(v22Run!.experiment01V22!)).toBe(true);
+
+    await formulateMarketingExpressionExperiment01V23({ projectId: 'ndxbook' });
 
     await initializeCampaignBoardFromExperiment01({ projectId: 'ndxbook' });
     await expect(lockRound01Service({ projectId: 'ndxbook' })).rejects.toThrow(/V2\.3|materiality|art-board/i);
