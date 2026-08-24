@@ -1263,6 +1263,15 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, artifactId }),
       },
     ),
+  marketingExpressionExperiment01GenerateAll: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_generate_all',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
   marketingExpressionExperiment01ArtifactJudgment: (slug: string, artifactId: string, judgment: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=marketing_expression_experiment_01_artifact_judgment',
@@ -1299,6 +1308,15 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, artifactId }),
       },
     ),
+  marketingExpressionExperiment01V2GenerateAll: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v2_generate_all',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
   marketingExpressionExperiment01V2ArtifactJudgment: (slug: string, artifactId: string, judgment: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=marketing_expression_experiment_01_v2_artifact_judgment',
@@ -1320,6 +1338,15 @@ export const site00ProjectsApi = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ slug, artifactId }),
+      },
+    ),
+  marketingExpressionExperiment01V21GenerateAll: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v21_generate_all',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
       },
     ),
   marketingExpressionExperiment01V21ArtifactJudgment: (slug: string, artifactId: string, judgment: string) =>

@@ -232,7 +232,10 @@ export function formulateExperiment01V21(params: {
 }
 
 export function v21ContractReviewBeforeGeneration(experiment: MarketingExpressionExperiment01V21): boolean {
-  return experiment.status === 'CONTRACTS_READY' && experiment.amendedContracts.length === 9;
+  return (
+    (experiment.status === 'CONTRACTS_READY' || experiment.status === 'GENERATING') &&
+    experiment.amendedContracts.length === 9
+  );
 }
 
 export function experiment01CulturalVisualsGeneratedByDefault(): false {

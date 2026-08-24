@@ -57,7 +57,12 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
   }, [reload]);
 
   useEffect(() => {
-    if (run?.status !== 'EXPERIMENT_01_FORMULATING') return;
+    const generating =
+      run?.status === 'EXPERIMENT_01_FORMULATING' ||
+      run?.status === 'EXPERIMENT_01_GENERATING' ||
+      run?.status === 'EXPERIMENT_01_V2_GENERATING' ||
+      run?.status === 'EXPERIMENT_01_V21_GENERATING';
+    if (!generating) return;
     const id = window.setInterval(() => void reload(), POLL_MS);
     return () => window.clearInterval(id);
   }, [run?.status, reload]);
@@ -97,17 +102,18 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
     }
   };
 
-  const generate = async (artifactId: string) => {
+  const generateAll = async () => {
     setBusy(true);
     try {
       const fn =
         versionTab === 'V21'
-          ? site00ProjectsApi.marketingExpressionExperiment01V21Generate
+          ? site00ProjectsApi.marketingExpressionExperiment01V21GenerateAll
           : versionTab === 'V2'
-            ? site00ProjectsApi.marketingExpressionExperiment01V2Generate
-            : site00ProjectsApi.marketingExpressionExperiment01Generate;
-      const result = await fn(projectSlug, artifactId);
+            ? site00ProjectsApi.marketingExpressionExperiment01V2GenerateAll
+            : site00ProjectsApi.marketingExpressionExperiment01GenerateAll;
+      const result = await fn(projectSlug);
       setRun((result.run as BrandMarketingExpressionRun) ?? null);
+      await reload();
     } finally {
       setBusy(false);
     }
@@ -159,6 +165,15 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
   const selectedV1: BrandMarketingArtifact | undefined = v1Artifacts.find((a) => a.id === selectedId) ?? v1Artifacts[0];
   const selectedV2: Experiment01V2Artifact | undefined = v2Artifacts.find((a) => a.id === selectedId) ?? v2Artifacts[0];
   const selected = showingV21 ? selectedV21 : showingV2 ? selectedV2 : selectedV1;
+  const activeArtifacts = showingV21 ? v21Artifacts : showingV2 ? v2Artifacts : v1Artifacts;
+  const generatedCount = activeArtifacts.filter((a) => a.generationStatus === 'GENERATED' && a.generatedAssetUrl).length;
+  const isGeneratingBoard =
+    run?.status === 'EXPERIMENT_01_GENERATING' ||
+    run?.status === 'EXPERIMENT_01_V2_GENERATING' ||
+    run?.status === 'EXPERIMENT_01_V21_GENERATING' ||
+    activeArtifacts.some((a) => a.generationStatus === 'GENERATING');
+  const allGenerated = activeArtifacts.length > 0 && generatedCount === activeArtifacts.length;
+  const canGenerateAll = activeArtifacts.length > 0 && !allGenerated && !isGeneratingBoard;
 
   return (
     <EcosystemShell hidePageHeader>
@@ -212,6 +227,17 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                 <>
                   <section className="site00-experiment-g__panel">
                     <h2>3×3 FEED PREVIEW — {versionTab}</h2>
+                    {isGeneratingBoard && (
+                      <p>GENERATING FIRST SLIDES IN BACKGROUND… {generatedCount}/{activeArtifacts.length} COMPLETE</p>
+                    )}
+                    {canGenerateAll && (
+                      <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void generateAll()} style={{ marginBottom: '12px' }}>
+                        GENERATE ALL NINE FIRST SLIDES (FAL)
+                      </button>
+                    )}
+                    {allGenerated && (
+                      <p style={{ marginBottom: '12px' }}>ALL NINE FIRST SLIDES GENERATED — SELECT ANY CELL TO REVIEW AND JUDGE</p>
+                    )}
                     <div className="site00-marketing-exp01-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
                       {(showingV21 ? v21Artifacts : showingV2 ? v2Artifacts : v1Artifacts).map((a) => {
                         const headline = showingV21
@@ -220,6 +246,7 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                             ? (a as Experiment01V2Artifact).contract.primaryHook
                             : (a as BrandMarketingArtifact).headline;
                         const url = a.generatedAssetUrl;
+                        const pending = a.generationStatus === 'GENERATING';
                         return (
                           <button
                             key={a.id}
@@ -230,6 +257,8 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                           >
                             {url ? (
                               <img src={url} alt={headline} style={{ width: '100%', aspectRatio: '1', objectFit: 'cover' }} />
+                            ) : pending ? (
+                              <span>GENERATING…</span>
                             ) : (
                               <span>{headline}</span>
                             )}
@@ -273,12 +302,6 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                           <h3>V2 COMPARISON</h3>
                           <p>Mode: {selectedV2.contract.semanticRole} · Density: {selectedV2.contract.textDensity.level}</p>
                         </div>
-                      )}
-
-                      {selectedV21.generationStatus !== 'GENERATED' && (
-                        <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void generate(selectedV21.id)}>
-                          GENERATE V2.1 FIRST SLIDE (FAL)
-                        </button>
                       )}
 
                       <div style={{ marginTop: '12px' }}>
@@ -326,12 +349,6 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                         </div>
                       )}
 
-                      {selectedV2.generationStatus !== 'GENERATED' && (
-                        <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void generate(selectedV2.id)}>
-                          GENERATE V2 FIRST SLIDE (FAL)
-                        </button>
-                      )}
-
                       <div style={{ marginTop: '12px' }}>
                         <p>V2 artifact judgment:</p>
                         {V2_FOUNDER_JUDGMENTS.slice(0, 10).map((j) => (
@@ -351,11 +368,6 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                         <dt>BEHAVIORAL MODE</dt><dd>{selectedV1.behavioralModeId}</dd>
                         <dt>EXPRESSION CLASS</dt><dd>{selectedV1.artifactExpressionClass}</dd>
                       </dl>
-                      {selectedV1.generationStatus !== 'GENERATED' && (
-                        <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void generate(selectedV1.id)}>
-                          GENERATE FIRST SLIDE (FAL)
-                        </button>
-                      )}
                       <div style={{ marginTop: '12px' }}>
                         {MARKETING_ARTIFACT_FOUNDER_JUDGMENTS.slice(0, 6).map((j) => (
                           <button key={j} type="button" className="site00-btn" disabled={busy} style={{ margin: '2px' }} onClick={() => void setArtifactJudgment(selectedV1.id, j)}>
