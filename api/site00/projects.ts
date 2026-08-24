@@ -1374,8 +1374,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await runCompositeBrandCharacterSynthesis({ projectId: 'ndxbook' });
-        return json(res, 200, { ok: true, run, source: 'site00_experiment_h_synthesis' });
+        try {
+          const run = await runCompositeBrandCharacterSynthesis({ projectId: 'ndxbook' });
+          return json(res, 200, { ok: true, run, source: 'site00_experiment_h_synthesis' });
+        } catch (err) {
+          return json(res, 400, {
+            ok: false,
+            error: {
+              code: 'SYNTHESIS_FAILED',
+              message: err instanceof Error ? err.message : 'Composite synthesis failed',
+            },
+            source: 'site00_experiment_h_synthesis',
+          });
+        }
       }
       case 'experiment_h_synthesis_judgment': {
         if (req.method !== 'POST') {

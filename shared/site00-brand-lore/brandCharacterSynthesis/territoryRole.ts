@@ -42,10 +42,21 @@ export function resolveNdxbookSynthesisSourceTerritories(
   characters: BrandCharacterTerritory[],
 ): BrandCharacterTerritory[] {
   const sources: BrandCharacterTerritory[] = [];
+  const usedIds = new Set<string>();
   for (const targetName of NDXBOOK_SYNTHESIS_SOURCE_TERRITORY_NAMES) {
     const target = normalizeTerritoryName(targetName);
-    const match = characters.find((c) => normalizeTerritoryName(c.name ?? '') === target);
-    if (match) sources.push(match);
+    let match = characters.find((c) => normalizeTerritoryName(c.name ?? '') === target);
+    if (!match) {
+      match = characters.find((c) => {
+        if (!c.id || usedIds.has(c.id)) return false;
+        const n = normalizeTerritoryName(c.name ?? '');
+        return n.includes(target) || target.split(' ').every((word) => n.includes(word));
+      });
+    }
+    if (match?.id) {
+      sources.push(match);
+      usedIds.add(match.id);
+    }
   }
   return sources;
 }
