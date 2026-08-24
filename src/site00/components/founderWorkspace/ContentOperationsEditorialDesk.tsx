@@ -87,7 +87,7 @@ export function ContentOperationsEditorialDesk({
   }
 
   return (
-    <>
+    <div className="site00-fws-editorial-desk" data-visual-reconstruction="content-operations">
       <OperationalPulse
         metrics={pulseMetrics}
         primaryAction={
@@ -185,7 +185,7 @@ export function ContentOperationsEditorialDesk({
           </ul>
         )}
       </FounderWorkspacePanel>
-    </>
+    </div>
   );
 }
 

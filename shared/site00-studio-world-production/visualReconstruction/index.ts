@@ -31,3 +31,46 @@ export { buildVisualReconstructionReport } from './report/VisualReconstructionRe
 export { createReferenceVisualRegressionBaseline, baselineReadyForAudit } from './baseline/ReferenceVisualRegressionBaseline.js';
 export { runVisualReconstructionLoop } from './loop/VisualReconstructionLoop.js';
 export type { RunVisualReconstructionLoopInput } from './loop/VisualReconstructionLoop.js';
+
+export {
+  evaluateReferencePalette,
+  evaluateWorkspaceLuminosity,
+  evaluateBrandAccentAuthority,
+  evaluateHostClientVisualAuthority,
+  evaluateArtworkAuthority,
+  evaluateContainerRepetition,
+  evaluateSpatialRhythm,
+  evaluateDesignGrammarMatch,
+  evaluateBrandEssenceMatch,
+  evaluateCompositionalSimilarity,
+  evaluateFocalHierarchy,
+  evaluateTypographicCharacterMatch,
+  evaluateSurfaceGrammar,
+  buildRelationalAlignmentGraph,
+  generateDesignDisconnectHeatmap,
+} from './evaluation/designEvaluationSuite.js';
+export { DESIGN_GRAMMAR_FAILURES } from './evaluation/designGrammarFailures.js';
+export type { DesignGrammarFailureCode } from './evaluation/designGrammarFailures.js';
+export { DEFAULT_EVALUATION_WEIGHTS, weightedScore } from './evaluation/referenceEvaluationWeights.js';
+export type { ReferenceEvaluationWeights } from './evaluation/referenceEvaluationWeights.js';
+export {
+  createFounderPerceptualEvaluation,
+  recordFounderPerceptualEvaluation,
+} from './evaluation/founderPerceptualEvaluation.js';
+export {
+  evaluateReferenceMatchReadinessV2,
+  pixelScoreCannotOverrideDesignFailure,
+} from './readiness/ReferenceMatchReadinessEvaluationV2.js';
+export {
+  NDX_MODULE_RESPONSIVE_BEHAVIORS,
+  evaluateResponsiveRelationship,
+  buildVisualReferenceSetFromFounderBoards,
+} from './responsive/ResponsiveRelationshipModel.js';
+export type { ResponsiveRelationship, ModuleResponsiveBehavior } from './responsive/ResponsiveRelationshipModel.js';
+export { runFounderReferenceCalibration } from './calibration/runCalibration.js';
+export type { RunCalibrationInput, CalibrationRunResult } from './calibration/runCalibration.js';
+export {
+  diagnoseCurrentImplementation,
+  diagnoseP0VR1ExperimentsHubRegression,
+} from './calibration/forensicDiagnosis.js';
+export { regionLockRequiresDesignFidelity } from './locks/VisualRegionLock.js';

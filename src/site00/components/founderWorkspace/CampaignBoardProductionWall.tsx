@@ -75,7 +75,7 @@ export function CampaignBoardProductionWall({
   const motionAssets = slide01Assets.filter((_, i) => i >= 7);
 
   return (
-    <>
+    <div className="site00-fws-campaign-wall" data-visual-reconstruction="campaign-board">
       <FounderWorkspacePanel title={`${run?.campaign?.name ?? 'MARKET TEST 01'} · WEEK 01`}>
         <CampaignDaySelector days={WEEK_DAYS} selectedDay={selectedDay} onSelect={onSelectDay} />
         <p style={{ fontSize: 11, color: '#888', margin: '0 0 16px' }}>
@@ -159,7 +159,7 @@ export function CampaignBoardProductionWall({
           first.
         </p>
       </FounderWorkspacePanel>
-    </>
+    </div>
   );
 }
 

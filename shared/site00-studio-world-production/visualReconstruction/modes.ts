@@ -4,7 +4,7 @@
 
 import type { VisualReconstructionMode } from './types.js';
 
-export const IMPLEMENTED_MODES: VisualReconstructionMode[] = ['REPRODUCE'];
+export const IMPLEMENTED_MODES: VisualReconstructionMode[] = ['REPRODUCE', 'CALIBRATE'];
 
 export const PREPARED_MODES: VisualReconstructionMode[] = ['TRANSLATE', 'EXTRACT', 'MERGE', 'AUDIT'];
 
@@ -24,6 +24,8 @@ export function modeDescription(mode: VisualReconstructionMode): string {
       return 'Combine structural elements from multiple references (prepared).';
     case 'AUDIT':
       return 'Compare implementation against locked baseline (prepared).';
+    case 'CALIBRATE':
+      return 'Compare founder-approved references against current implementation and tune evaluation.';
     default:
       return mode;
   }
