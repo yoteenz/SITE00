@@ -80,6 +80,7 @@ export const SITE00_ROUTES = {
   projectBrandMarketingExpressionExperiment01: '/projects/:projectSlug/marketing-expression/experiment-01',
   projectContentOperations: '/projects/:projectSlug/content-operations',
   projectContentOperationsPerformance: '/projects/:projectSlug/content-operations/performance',
+  projectContentOperationsCampaignBoard: '/projects/:projectSlug/content-operations/campaign-board',
   projectExperimentE: '/projects/:projectSlug/experience-expression',
   projectExperimentEVisualDevelopment: '/projects/:projectSlug/experience-expression/visual-development',
   projectExperiments: '/projects/:projectSlug/experiments',
@@ -226,6 +227,10 @@ export function site00ProjectContentOperationsPath(projectSlug: string): string 
 
 export function site00ProjectContentOperationsPerformancePath(projectSlug: string): string {
   return `/projects/${projectSlug}/content-operations/performance`;
+}
+
+export function site00ProjectContentOperationsCampaignBoardPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-operations/campaign-board`;
 }
 
 export function site00ProjectExperimentEVisualDevelopmentPath(projectSlug: string): string {

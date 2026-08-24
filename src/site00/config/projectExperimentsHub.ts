@@ -19,6 +19,7 @@ import {
   site00ProjectBrandMarketingExpressionExperiment01Path,
   site00ProjectContentOperationsPath,
   site00ProjectContentOperationsPerformancePath,
+  site00ProjectContentOperationsCampaignBoardPath,
   site00ProjectLoreCalibrationPath,
   site00ProjectPersonalityReplayConsistencyPath,
   site00ProjectPersonalityReplayPath,
@@ -185,12 +186,18 @@ export function getProjectExperimentsHubEntries(projectSlug: string): ProjectExp
       phase: 'EXPERIMENT',
       order: 87,
       title: 'CONTENT OPERATIONS',
-      headline: 'P0.5D',
+      headline: 'P0.5D / P0.5E',
       description:
-        'Content opportunity engine, editorial slate, packages, calendar, publishing handoff, performance learning — ASSISTED_AUTONOMY.',
+        'Content opportunity engine, editorial slate, campaign production board, horizontal sequence rounds, client approval — ASSISTED_AUTONOMY.',
       path: site00ProjectContentOperationsPath(projectSlug),
       statusNote: 'Founder approval required before publish — no autonomous posting',
       children: [
+        {
+          id: 'content-operations-campaign-board',
+          title: 'CAMPAIGN BOARD',
+          path: site00ProjectContentOperationsCampaignBoardPath(projectSlug),
+          description: 'Horizontal sequence production — campaign wall, round review, lock workflow.',
+        },
         {
           id: 'content-operations-performance',
           title: 'PERFORMANCE + LEARNING',
