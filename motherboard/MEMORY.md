@@ -4392,3 +4392,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **UI:** Experiment 01 page — CONTRACT/PROMPT/READINESS panels, C.4A/C.4B/C.5 status, GENERATE CURRENT V2.3 / REGENERATE CURRENT / REPLAY HISTORICAL PROMPT. Client-safe `v23BoardReadinessClient.ts` for browser bundle.
 - **Tests:** 14 requirements in `v23GenerationAuthorityP05C5A.test.ts`; 65 related regression tests green. Build green. Deploy v56.
 
+---
+
+## 2026-08-24 — P0.5E.3 Embodied NDX Character Discovery + Human Complexity Model
+
+- **Context:** Sprint P0.5E.3 — full discovery methodology for recurring embodied NDX character (P0.5E.2 foundation). Architecture/discovery only — NO face finalization, NO FAL, NO character generation.
+- **Generic Studio World:** `shared/site00-studio-world-production/embodiedCharacterDiscovery/` — psychology, intelligence, contradictions, humor, emotional range, voice, everyday life, book relationship, physical behavior, camera relationship, style hypothesis, cultural life, scenario tests, humanity evaluation, casting readiness, archetype/beauty collapse guards, 12-round discovery interview.
+- **NDX adapter:** `shared/site00-brand-lore/ndxEmbodiedCharacterDiscovery/` — founder visual north-star evidence (Reference Board 01: #2,#5,#9,#17,#18; Board 02: #2,#8) as VISUAL_TENDENCY_HYPOTHESES not canon; African-American cultural life foundation; 12 scenario stress tests; seed psychology from Brand Character DNA (selected inheritance).
+- **Platform model preserved:** Stories=Margins, TikTok=thought being worked out, Reels=Book in motion, Feed=Pages, REUSE_THINKING_NOT_POSTS.
+- **Next casting spec (architecture only):** 12 candidates representing SAME written character — not generated this sprint.
+- **UI/API:** `/projects/ndxbook/embodied-character` — Character Discovery workspace with 17 sections, interview save/resume, founder judgments, founder-triggered synthesis.
+- **Tests:** 16 requirements in `embodiedCharacterDiscoveryP05E3.test.ts`. Build green. Deploy v57.
+
