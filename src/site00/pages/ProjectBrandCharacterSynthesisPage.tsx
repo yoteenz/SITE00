@@ -11,6 +11,10 @@ import {
 } from '../config/routes';
 import { projectDisplayName } from '../utils/projectDisplayName';
 import type { BrandCharacterSynthesisRun } from '../../../shared/site00-brand-lore/brandCharacterSynthesis/types';
+import {
+  canProceedToCompositeSynthesis,
+  resolveSynthesisEligibleReadinessState,
+} from '../../../shared/site00-brand-lore/brandCharacterSynthesis/synthesisReadinessGate';
 import '../styles/site00-replay-execution.css';
 
 const POLL_MS = 5000;
@@ -21,11 +25,21 @@ function formatActionError(err: unknown): string {
   return 'Composite synthesis request failed';
 }
 
+function synthesisEligibleStateForRun(run: BrandCharacterSynthesisRun | null): string {
+  const refresh = run?.readinessRefresh;
+  if (!refresh) return 'CHARACTER_NOT_EVALUATED';
+  if (refresh.synthesisEligibleState) return refresh.synthesisEligibleState;
+  return resolveSynthesisEligibleReadinessState({
+    evaluatedState: refresh.newState,
+    deepeningAnswerCount: refresh.deepeningAnswerCount,
+    historicalFormationComplete: true,
+    override: refresh.founderOverride,
+  });
+}
+
 function readinessAllowsSynthesis(run: BrandCharacterSynthesisRun | null): boolean {
-  const state = run?.readinessRefresh?.newState ?? '';
   const override = run?.readinessRefresh?.founderOverride ?? false;
-  if (override) return true;
-  return state === 'CHARACTER_READY' || state === 'CHARACTER_PARTIAL';
+  return canProceedToCompositeSynthesis(synthesisEligibleStateForRun(run), override);
 }
 
 export default function ProjectBrandCharacterSynthesisPage() {
@@ -187,6 +201,14 @@ export default function ProjectBrandCharacterSynthesisPage() {
                 <p>
                   {run?.readinessRefresh?.previousState?.replace(/_/g, ' ') ?? '—'} →{' '}
                   {run?.readinessRefresh?.newState?.replace(/_/g, ' ') ?? 'NOT EVALUATED (tap Run to refresh)'}
+                </p>
+                <p>
+                  Synthesis gate:{' '}
+                  <strong>{synthesisEligibleStateForRun(run).replace(/_/g, ' ')}</strong>
+                  {run?.readinessRefresh?.newState === 'CHARACTER_INSUFFICIENT' &&
+                  synthesisEligibleStateForRun(run) === 'CHARACTER_PARTIAL'
+                    ? ' (retrospective — historical formation + deepening answers)'
+                    : ''}
                 </p>
                 <p>Deepening answers ingested: {run?.readinessRefresh?.deepeningAnswerCount ?? '—'}</p>
                 {run?.readinessRefresh?.remainingBlockers?.length ? (
