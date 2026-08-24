@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
-import { FounderWorkspaceShell, ExperimentJourney } from '../components/founderWorkspace';
-import { ndxExperimentJourney } from '../../../shared/site00-brand-lore/founderWorkspace/ndxFounderWorkspaceConfig';
+import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
+import { ExperimentJourneyBar, FounderWorkspaceShell } from '../components/founderWorkspace/FounderWorkspaceShell';
+import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
 import { useExperimentsHubScrollRestore } from '../hooks/useExperimentsHubScrollRestore';
 import {
   getProjectExperimentsHubEntries,
@@ -8,6 +9,7 @@ import {
   type ProjectExperimentHubEntry,
   type ProjectExperimentHubPhase,
 } from '../config/projectExperimentsHub';
+import { ndxExperimentJourneyStages, ndxFounderWorkspaceEnabled } from '../config/ndxFounderWorkspace';
 import { site00ProjectPath } from '../config/routes';
 import { projectDisplayName } from '../utils/projectDisplayName';
 import '../styles/site00-projects.css';
@@ -62,46 +64,69 @@ export default function ProjectExperimentsHubPage() {
   const entries = getProjectExperimentsHubEntries(projectSlug);
   const grouped = groupByPhase(entries);
   const phaseOrder: ProjectExperimentHubPhase[] = ['INTAKE', 'EXPERIMENT', 'EXPERIENCE', 'LINEAGE'];
+  const journeyStages = ndxExperimentJourneyStages();
+  const resolveExperimentPath = (experimentId: string) => entries.find((e) => e.id === experimentId)?.path ?? null;
+  const useWorkspace = ndxFounderWorkspaceEnabled(projectSlug);
 
   if (!entries.length) {
     return (
-      <FounderWorkspaceShell projectSlug={projectSlug} workspaceTitle="ARCHIVE">
-        <p className="site00-fws-empty">Methodology experiments hub is not configured for this project.</p>
-      </FounderWorkspaceShell>
+      <EcosystemShell hidePageHeader>
+        <p className="site00-body">Methodology experiments hub is not configured for this project.</p>
+      </EcosystemShell>
     );
   }
 
+  const hubContent = (
+    <div className="site00-page site00-page--experiments-hub">
+      <nav className="site00-project-command__back">
+        <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
+      </nav>
+
+      <header className="site00-experiments-hub-header">
+        <p className="site00-label-red">NDXBOOK METHODOLOGY</p>
+        <h1 className="site00-experiments-hub-header__title">EXPERIMENTS &amp; VALIDATION</h1>
+        <p className="site00-experiments-hub-header__project">{projectDisplayName(projectSlug)}</p>
+        <p className="site00-body site00-experiments-hub-header__sub">
+          Methodology journey above · full experiment index below. Technical lineage remains inspectable on every page.
+        </p>
+      </header>
+
+      <ProjectExperimentsHubNav projectSlug={projectSlug} />
+
+      {useWorkspace ? (
+        <ExperimentJourneyBar stages={journeyStages} resolvePath={resolveExperimentPath} />
+      ) : null}
+
+      {phaseOrder.map((phase) => {
+        const phaseEntries = grouped.get(phase);
+        if (!phaseEntries?.length) return null;
+        return (
+          <section key={phase} className="site00-experiments-hub-section" aria-label={projectExperimentsHubPhaseLabel(phase)}>
+            <h2 className="site00-experiments-hub-section__title">{projectExperimentsHubPhaseLabel(phase)}</h2>
+            <ol className="site00-experiments-hub-list">
+              {phaseEntries.map((entry) => (
+                <ExperimentHubCard key={entry.id} entry={entry} />
+              ))}
+            </ol>
+          </section>
+        );
+      })}
+    </div>
+  );
+
   return (
-    <FounderWorkspaceShell projectSlug={projectSlug} workspaceTitle="ARCHIVE">
-      <div className="site00-fws-desk">
-        <header className="site00-fws-desk__hero">
-          <p className="site00-fws-campaign__kicker">NDXBOOK METHODOLOGY</p>
-          <h1 className="site00-fws-campaign__title">EXPERIMENTS &amp; VALIDATION</h1>
-          <p className="site00-fws-desk__subtitle">{projectDisplayName(projectSlug)}</p>
-          <Link to={site00ProjectPath(projectSlug)} className="site00-fws-journey__all">← PROJECT</Link>
-        </header>
-
-        <ExperimentJourney stages={ndxExperimentJourney(projectSlug)} projectSlug={projectSlug} />
-
-        <details className="site00-fws-hub-archive">
-          <summary className="site00-fws-hub-archive__summary">VIEW ALL EXPERIMENTS — full canonical index</summary>
-
-        {phaseOrder.map((phase) => {
-          const phaseEntries = grouped.get(phase);
-          if (!phaseEntries?.length) return null;
-          return (
-            <section key={phase} className="site00-experiments-hub-section" aria-label={projectExperimentsHubPhaseLabel(phase)}>
-              <h2 className="site00-experiments-hub-section__title">{projectExperimentsHubPhaseLabel(phase)}</h2>
-              <ol className="site00-experiments-hub-list">
-                {phaseEntries.map((entry) => (
-                  <ExperimentHubCard key={entry.id} entry={entry} />
-                ))}
-              </ol>
-            </section>
-          );
-        })}
-        </details>
-      </div>
-    </FounderWorkspaceShell>
+    <EcosystemShell hidePageHeader>
+      {useWorkspace ? (
+        <FounderWorkspaceShell
+          projectSlug={projectSlug}
+          title="EXPERIMENTS HUB"
+          subtitle="METHODOLOGY JOURNEY + FULL INDEX"
+          hideWorkspaceNav
+          operate={hubContent}
+        />
+      ) : (
+        hubContent
+      )}
+    </EcosystemShell>
   );
 }

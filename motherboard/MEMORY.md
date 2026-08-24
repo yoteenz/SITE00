@@ -4643,11 +4643,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-## 2026-08-24 — Founder Workspace Experience Architecture (NDXBOOK Studio World remodel)
+---
 
-- **Context:** Large implementation sprint to remodel NDXBOOK founder-facing Studio World from endless-scroll methodology pages into a cohesive editorial command-center with progressive disclosure (Operate / Understand / Inspect). Attached generated concept = primary visual authority; current production screenshots = functional evidence only.
-- **Architecture:** Generic Studio World primitives in `shared/site00-studio-world-production/founderWorkspace/` (attention hierarchy, presentation types). NDX adapters in `shared/site00-brand-lore/founderWorkspace/` (nav, journey, content ops desk, campaign wall, CI radar, performance learning, character lab). React shell in `src/site00/components/founderWorkspace/` + `site00-founder-workspace.css`.
-- **Surfaces remodeled:** Content Operations (editorial desk + pulse + artwork-first grid), Campaign Board (production wall + day nav + content lanes), Experiment 01 (FounderWorkspaceShell, version timeline, methodology in inspect `<details>`), Experiments Hub (methodology journey + collapsible full index as ARCHIVE), Cultural Intelligence (radar room), Performance + Learning (observation room), Character Lab (synthesis-first + CALIBRATION/LANGUAGE/VOICE/BIBLE/CASTING modes). Asset review workspace + inspector drawer reusable across surfaces.
-- **Preservation:** No Brand Character/Canon mutation, no FAL decorative generation, no methodology deletion — Layer 3 moved to INSPECT drawer/details. Regression tests in `founderWorkspaceP0.test.ts` (10 passing). Build green.
-- **Ship:** PR #408 merged to `main`. Founder deploy: GitHub Actions artifact/ZIP or FTP to site00.com for UI changes.
+## 2026-08-24 — Founder Workspace Experience Architecture (P0.5E.6)
+
+- **Context:** Founder sprint to remodel NDXBOOK Studio World as one cohesive operating environment — editorial command-center IA, progressive disclosure (OPERATE / UNDERSTAND / INSPECT), artwork-first surfaces. Attached concept = visual authority; production screenshots = functional evidence only.
+- **Architecture:** Generic `shared/site00-studio-world-production/founderWorkspace/` (attention hierarchy, experiment journey, types); NDX adapter `src/site00/config/ndxFounderWorkspace.ts`; `FounderWorkspaceShell` with persistent rail (OVERVIEW/CREATE/REVIEW/LEARN/INTELLIGENCE/CHARACTER/ARCHIVE), inspector drawer, shared components + `site00-founder-workspace.css`.
+- **Surfaces:** Content Operations → editorial desk; Campaign Board → production wall + day lanes; Experiment 01 → board-first V2.3 shell with full legacy methodology in INSPECT; Experiments Hub → 6-stage methodology journey bar; Cultural Intelligence → radar room; Performance → observation room; Character Lab → synthesis operate layer + full calibration below; Archive page at `/projects/ndxbook/archive`.
+- **Preservation:** All Layer 3 methodology (contracts, captions ROUND_VIEW, generation authority, trait/voice lab) moved to INSPECT — not deleted. No Brand Character/Canon mutation. No decorative FAL. 2680 tests pass; build green.
+- **Ship:** PR #409 merged to `main`. Founder deploy: GoDaddy v79 ZIP → hard refresh.
 

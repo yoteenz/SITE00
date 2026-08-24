@@ -1,4 +1,4 @@
-export { FounderWorkspaceShell, FounderWorkspaceMobileHeader } from './FounderWorkspaceShell';
+export { FounderWorkspaceShell } from './FounderWorkspaceShell';
 export { WorkspaceNavigation } from './WorkspaceNavigation';
 export { OperationalPulsePanel } from './OperationalPulse';
 export { InspectorDrawer, InspectorKeyValue } from './InspectorDrawer';
@@ -10,3 +10,8 @@ export { ExperimentJourney, VersionTimeline } from './ExperimentJourney';
 export { CulturalRadarRoom } from './CulturalRadarRoom';
 export { PerformanceLearningRoom } from './PerformanceLearningRoom';
 export { CharacterLabRoom } from './CharacterLabRoom';
+export { CampaignBoardProductionWall, CampaignBoardInspectContent } from './CampaignBoardProductionWall';
+export { ContentOperationsEditorialDesk } from './ContentOperationsEditorialDesk';
+export { CulturalIntelligenceRadarRoom } from './CulturalIntelligenceRadarRoom';
+export { Experiment01OperateLayer, Experiment01UnderstandLayer } from './Experiment01OperateLayer';
+export { CharacterLabOperateLayer } from './CharacterLabOperateLayer';

@@ -18,7 +18,7 @@ const ROOT = join(process.cwd());
 
 describe('Founder Workspace P0 — architecture', () => {
   it('generic attention hierarchy maps package statuses without mutating enums', () => {
-    expect(packageAttentionLevel('FOUNDER_REVIEW')).toBe('NEEDS_DECISION');
+    expect(packageAttentionLevel('FOUNDER_REVIEW')).toBe('NEEDS_YOUR_DECISION');
     expect(packageStatusLabel('FORMULATED')).toBe('IN PRODUCTION');
   });
 
@@ -73,12 +73,13 @@ describe('Founder Workspace P0 — architecture', () => {
     const ci = readFileSync(join(ROOT, 'src/site00/pages/ProjectCulturalIntelligencePage.tsx'), 'utf8');
     const perf = readFileSync(join(ROOT, 'src/site00/pages/ProjectContentOperationsPerformancePage.tsx'), 'utf8');
     const character = readFileSync(join(ROOT, 'src/site00/pages/ProjectEmbodiedCharacterDiscoveryPage.tsx'), 'utf8');
+    const exp01Layer = readFileSync(join(ROOT, 'src/site00/components/founderWorkspace/Experiment01OperateLayer.tsx'), 'utf8');
     expect(contentOps).toContain('FounderWorkspaceShell');
-    expect(contentOps).toContain('OperationalPulsePanel');
-    expect(campaign).toContain('CampaignProductionWall');
+    expect(contentOps).toContain('ContentOperationsEditorialDesk');
+    expect(campaign).toContain('CampaignBoardProductionWall');
     expect(exp01).toContain('FounderWorkspaceShell');
-    expect(exp01).toContain('VersionTimeline');
-    expect(ci).toContain('CulturalRadarRoom');
+    expect(exp01Layer).toContain('VersionTimeline');
+    expect(ci).toContain('CulturalIntelligenceRadarRoom');
     expect(perf).toContain('PerformanceLearningRoom');
     expect(character).toContain('CharacterLabRoom');
   });
@@ -86,7 +87,7 @@ describe('Founder Workspace P0 — architecture', () => {
   it('methodology information moved to inspect — supersession in details', () => {
     const exp01 = readFileSync(join(ROOT, 'src/site00/pages/ProjectBrandMarketingExpressionExperiment01Page.tsx'), 'utf8');
     expect(exp01).toContain('GENERATION SUPERSEDED');
-    expect(exp01).toContain('site00-fws-review__inspect');
+    expect(exp01).toContain('site00-fws-legacy-inspect');
   });
 
   it('generic components exist under founderWorkspace', () => {

@@ -16,7 +16,7 @@ export function CreativeAssetCard({
   onReview,
 }: CreativeAssetCardProps) {
   const attentionClass =
-    asset.attention === 'NEEDS_DECISION'
+    asset.attention === 'NEEDS_YOUR_DECISION'
       ? 'site00-fws-asset--needs-decision'
       : asset.attention === 'READY_TO_REVIEW'
         ? 'site00-fws-asset--ready'

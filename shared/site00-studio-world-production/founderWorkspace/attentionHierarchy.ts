@@ -5,13 +5,15 @@
 import type { FounderAttentionLevel } from './types.js';
 
 const PACKAGE_ATTENTION: Record<string, FounderAttentionLevel> = {
-  FOUNDER_REVIEW: 'NEEDS_DECISION',
+  FOUNDER_REVIEW: 'NEEDS_YOUR_DECISION',
   FORMULATED: 'READY_TO_REVIEW',
   GENERATING: 'DEVELOPING',
   DRAFT: 'DEVELOPING',
   APPROVED: 'MOVING_WITHOUT_YOU',
   SCHEDULED: 'MOVING_WITHOUT_YOU',
   PUBLISHED: 'ARCHIVED',
+  AWAITING_FOUNDER_APPROVAL: 'NEEDS_YOUR_DECISION',
+  READY_FOR_REVIEW: 'READY_TO_REVIEW',
 };
 
 const PACKAGE_STATUS_LABEL: Record<string, string> = {
@@ -30,7 +32,7 @@ const ASSET_ATTENTION: Record<string, FounderAttentionLevel> = {
   GENERATING: 'DEVELOPING',
   PLANNED: 'DEVELOPING',
   CONTRACTS_READY: 'READY_TO_REVIEW',
-  FAILED: 'NEEDS_DECISION',
+  FAILED: 'NEEDS_YOUR_DECISION',
 };
 
 const ASSET_STATUS_LABEL: Record<string, string> = {
@@ -75,4 +77,21 @@ export function opportunityLeadLine(params: {
   if (params.liveLineage) return 'Live signal →';
   if (why) return `${why.slice(0, 48)} →`;
   return 'On radar →';
+}
+
+/** @deprecated use packageAttentionLevel */
+export function mapPackageStatusToAttention(status: string): FounderAttentionLevel {
+  return packageAttentionLevel(status);
+}
+
+export function mapGenerationStatusToAttention(status: string): FounderAttentionLevel {
+  return assetAttentionLevel(status);
+}
+
+export function attentionLevelLabel(level: FounderAttentionLevel): string {
+  return level.replace(/_/g, ' ');
+}
+
+export function attentionRequiresFounder(level: FounderAttentionLevel): boolean {
+  return level === 'NEEDS_YOUR_DECISION' || level === 'READY_TO_REVIEW';
 }

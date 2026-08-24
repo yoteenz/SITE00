@@ -374,7 +374,7 @@ describe('P0.5E Campaign Board + Horizontal Sequence Production', () => {
   });
 
   it('40. Mobile round-first — page uses round view mode', () => {
-    const page = readFileSync(join(ROOT, 'src/site00/pages/ProjectContentOperationsCampaignBoardPage.tsx'), 'utf8');
+    const page = readFileSync(join(ROOT, 'src/site00/components/founderWorkspace/CampaignBoardProductionWall.tsx'), 'utf8');
     expect(page).toContain('ROUND_VIEW');
     expect(page).toContain('SLIDE');
   });
@@ -432,10 +432,11 @@ describe('P0.5E Campaign Board + Horizontal Sequence Production', () => {
 
   it('Routes and UI wired', () => {
     const routes = readFileSync(join(ROOT, 'src/site00/config/routes.ts'), 'utf8');
-    const page = readFileSync(join(ROOT, 'src/site00/pages/ProjectContentOperationsCampaignBoardPage.tsx'), 'utf8');
+    const page = readFileSync(join(ROOT, 'src/site00/components/founderWorkspace/CampaignBoardProductionWall.tsx'), 'utf8');
+    const boardPage = readFileSync(join(ROOT, 'src/site00/pages/ProjectContentOperationsCampaignBoardPage.tsx'), 'utf8');
     expect(routes).toContain('campaign-board');
     expect(page).toContain('CLIENT REVIEW MODE');
-    expect(page).toContain('V2.3');
+    expect(boardPage).toContain('V2.3');
     expect(CLIENT_REVIEW_MODE_IMPLEMENTED).toBe(true);
     expect(GENERIC_STUDIO_WORLD_MARKETING_WORKFLOW_IMPLEMENTED).toBe(true);
     expect(HORIZONTAL_SEQUENCE_PRODUCTION_IMPLEMENTED).toBe(true);

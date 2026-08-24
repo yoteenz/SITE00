@@ -4,7 +4,7 @@
  */
 
 export type FounderAttentionLevel =
-  | 'NEEDS_DECISION'
+  | 'NEEDS_YOUR_DECISION'
   | 'READY_TO_REVIEW'
   | 'MOVING_WITHOUT_YOU'
   | 'DEVELOPING'
@@ -91,6 +91,15 @@ export type ExperimentStagePresentation = {
   purpose: string;
   experimentIds: string[];
   stateLabel: string;
+};
+
+/** Used by buildDefaultExperimentJourneyStages */
+export type ExperimentJourneyStageConfig = {
+  stage: ExperimentStageId;
+  order: number;
+  title: string;
+  purpose: string;
+  experimentIds: string[];
 };
 
 export type VersionLineageEntry = {

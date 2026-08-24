@@ -54,7 +54,7 @@ export function buildContentOpsOperationalPulse(
       fromAudience,
     },
     primaryAction,
-    attentionLevel: needEye > 0 || slatePending ? 'NEEDS_DECISION' : 'MOVING_WITHOUT_YOU',
+    attentionLevel: needEye > 0 || slatePending ? 'NEEDS_YOUR_DECISION' : 'MOVING_WITHOUT_YOU',
   };
 }
 
