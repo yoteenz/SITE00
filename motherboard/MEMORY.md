@@ -4702,3 +4702,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **VR integration:** HostClientVisualAuthorityEvaluation accepts project-presence diamond context; lime NDX diamond not flagged as host mutation.
 - **Tests:** `projectPresenceAccentP0UI1.test.ts` (13 tests). Full suite 2733 pass; build green.
 
+---
+
+## 2026-08-24 — P0.VR.1C Campaign Board structural empty state + token sweep + artwork recomposition
+
+- **Context:** Final implementation sprint from P0.VR.1B-S forensic diagnosis. Campaign Board pilot only — prove Studio World preserves spatial grammar of a creative operating surface before campaign content initializes.
+- **Phase 1 token sweep:** Removed raw NDX hex literals from `site00-founder-workspace.css` (`#c8ff00`, `#161616`, `#0a0a0a`, `#333`, `#3a3a20`); replaced with `--ndx-lime`, `--ndx-surface-raised`, `--ndx-border`, etc. Retoned `.site00-fws-empty`, day nav, asset frames, pulse CTA, journey active, inspect trigger.
+- **Phase 2 structural empty state:** Added `GhostSlot` + composition primitives under `founderWorkspace/`. `CampaignBoardProductionWall` always renders EditorialRail → day nav → Pages/Margins/Motion lanes with ghost geometry when `board === null`; removed `FounderEmptyState` + initialize panel substitution. Identity from `resolveCampaignIdentity(run)`; lane slots from `resolveCampaignBoardLanes(run)` (3+4+2 schema). Content Operations loading uses `WorkspaceLoadingState` only.
+- **Phase 3 recomposition:** `FounderWorkspaceShell.hideWorkspaceHeader`; Campaign Board page opts in. Asymmetric lanes (Pages primary, Margins secondary, Motion MediaBand). Production actions → `QuietAction`/`InlineMeta` periphery; panel removed.
+- **Shipped:** PR **#416** merged to `main`. Deploy **v84**. Tests: `campaignBoardP0VR1C.test.ts` (21); full suite **2835** pass; build green. FAL=0. Content Operations full recomposition deferred.
+
