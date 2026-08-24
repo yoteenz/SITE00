@@ -4533,6 +4533,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root causes:** (1) Check runs on **Railway API** (`api.site00.com`), not cPanel/frontend — exact var name `FAL_KEY` on the API service + redeploy required. (2) UI bug: estimate API `.catch()` set `neuralConfigured=false` on *any* failure (404/old API, auth), not only missing key. (3) `FAL: 0` header was hardcoded, not live.
 - **Fix:** GET discovery syncs `neuralProviderConfigured` from live `FAL_KEY`; returns `neuralProviderConfigured` on GET; separate error message when estimate fails vs key missing; live `falRequests` in header; `FAL_KEY?.trim()` check.
 
+---
+
+## 2026-08-24 — Neural voice audition FAL voice_id fix (UNPROCESSABLE ENTITY)
+
+- **Symptom:** START NEURAL VOICE AUDITION failed with `UNPROCESSABLE ENTITY` after provider configured.
+- **Root cause:** FAL MiniMax accepted `English_CalmWoman` for clip 1, then rejected `English_FriendlyWoman`, `English_WiseWoman`, `English_SoftWoman` as invalid voice IDs on clips 2–4. FAL `@fal-ai/client` surfaces HTTP 422 as message `Unprocessable Entity`.
+- **Fix:** Casting territories now use verified FAL preset IDs (`Calm_Woman`, `Lively_Girl`, `Wise_Woman`, `Soft_Girl`); FAL errors formatted with field-level detail; pitch coerced to integer in request compiler.
+- **Founder:** **Railway API redeploy required** (not just cPanel). Then retry START NEURAL VOICE AUDITION.
+
 
 - **Context:** Founder reported YES I KNOW HER not unlocking casting; voice lab selections not appearing saved. Root cause: YES_I_KNOW_HER **was** persisting (`founderKnowsHer: true`) but P0.5E.4A calibration progress did not feed P0.5E.4 casting gates (still required 5 INSPECT trait confirmations). UI always showed "BLOCKED until YES_I_KNOW_HER" even after selection. Voice lab saved to API but UI showed no saved state.
 - **Fix:** `ndxCastingReadinessBridge.ts` — calibration moments + domain confirmations satisfy discovery/gates; refresh readiness on GET; voice calibration moment writes voice lab judgment; CASTING tab shows human-readable blockers; header shows dynamic status; voice lab shows **Saved:** label + success notice on tap.
