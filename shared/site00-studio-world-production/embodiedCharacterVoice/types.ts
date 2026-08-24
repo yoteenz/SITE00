@@ -181,6 +181,13 @@ export type CharacterVoiceHypothesis = {
   performanceDirection: string | null;
   estimatedCostUsd: number | null;
   durationMs: number | null;
+  /** P0.5E.4B.1+ — revision / regenerate loop (mirrors V2.3 campaign slides) */
+  generationStatus?: NeuralVoiceGenerationStatus;
+  castingContract?: NeuralVoiceCastingContract | null;
+  revisionHistory?: NeuralVoiceFounderRevisionRecord[];
+  promptSnapshots?: NeuralVoicePromptSnapshot[];
+  generationAssets?: NeuralVoiceGenerationAsset[];
+  parentAudioUrl?: string | null;
 };
 
 export type VoicePlaybackProfile = {
@@ -270,6 +277,42 @@ export type NeuralVoiceCastingContract = {
   outputFormat: 'url';
   estimatedCostUsd: number;
   fingerprint: string;
+};
+
+export type NeuralVoiceGenerationStatus = 'GENERATED' | 'GENERATING' | 'FAILED';
+
+export type NeuralVoiceFounderRevisionRecord = {
+  revisionId: string;
+  judgment: FounderVoiceJudgment;
+  founderNote: string;
+  appliedAt: string;
+  parentAudioUrl: string | null;
+  previousFingerprint: string | null;
+  revisionDirective: string;
+  contractFingerprint: string;
+  generatedAudioUrl: string | null;
+  status: 'GENERATING' | 'GENERATED' | 'FAILED';
+};
+
+export type NeuralVoicePromptSnapshot = {
+  snapshotId: string;
+  hypothesisId: string;
+  contractFingerprint: string;
+  voiceSetting: Record<string, unknown>;
+  performanceDirection: string | null;
+  spokenCopy: string;
+  revisionDirective: string | null;
+  triggerSource: 'INITIAL' | 'REGENERATE_CURRENT' | 'REPLAY_GENERATION' | 'FOUNDER_REVISION';
+  compiledAt: string;
+  fingerprint: string;
+};
+
+export type NeuralVoiceGenerationAsset = {
+  assetId: string;
+  audioUrl: string;
+  promptSnapshotId: string;
+  lineageClassification: 'CURRENT' | 'HISTORICAL';
+  createdAt: string;
 };
 
 export type CharacterVoiceCalibrationRound = {

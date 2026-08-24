@@ -185,6 +185,8 @@ import {
   getNeuralVoiceCastingEstimate,
   startFounderNeuralVoiceAudition,
   saveFounderHumanWomanTest,
+  submitFounderNeuralVoiceRevision,
+  regenerateFounderNeuralVoiceHypothesis,
 } from '../_lib/site00Evolve/founderCharacterDiscovery/founderCharacterDiscoveryService.js';
 import { isNeuralProviderConfigured } from '../_lib/site00Evolve/founderCharacterDiscovery/neuralVoiceGenerationService.js';
 import {
@@ -2998,6 +3000,60 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const run = await saveFounderHumanWomanTest({ projectId: 'ndxbook', hypothesisId, response: response as import('../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js').HumanWomanTestResponse });
         return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
+      case 'founder_character_discovery_neural_voice_revision': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const hypothesisId = String(body.hypothesisId ?? '');
+        const judgment = String(body.judgment ?? '');
+        const founderNote = String(body.founderNote ?? '');
+        if (slug !== 'ndxbook' || !hypothesisId || !judgment) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'missing fields' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        try {
+          const run = await submitFounderNeuralVoiceRevision({
+            projectId: 'ndxbook',
+            hypothesisId,
+            judgment: judgment as import('../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js').FounderVoiceJudgment,
+            founderNote,
+          });
+          return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+        } catch (err) {
+          const message = err instanceof Error ? err.message : 'Neural voice revision failed';
+          return json(res, 400, { ok: false, error: { code: 'NEURAL_VOICE_REVISION_FAILED', message } });
+        }
+      }
+      case 'founder_character_discovery_neural_voice_regenerate': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const hypothesisId = String(body.hypothesisId ?? '');
+        const mode = body.mode === 'REPLAY_GENERATION' ? 'REPLAY_GENERATION' : 'REGENERATE_CURRENT';
+        if (slug !== 'ndxbook' || !hypothesisId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'missing fields' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        try {
+          const run = await regenerateFounderNeuralVoiceHypothesis({
+            projectId: 'ndxbook',
+            hypothesisId,
+            mode,
+          });
+          return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+        } catch (err) {
+          const message = err instanceof Error ? err.message : 'Neural voice regenerate failed';
+          return json(res, 400, { ok: false, error: { code: 'NEURAL_VOICE_REGENERATE_FAILED', message } });
+        }
       }
       case 'character_continuity_get': {
         const slug = String(req.query.slug ?? '');

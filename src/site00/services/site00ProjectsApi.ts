@@ -1835,6 +1835,33 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, hypothesisId, response }),
       },
     ),
+  founderCharacterDiscoveryNeuralVoiceRevision: (
+    slug: string,
+    hypothesisId: string,
+    judgment: string,
+    founderNote: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_neural_voice_revision',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, hypothesisId, judgment, founderNote }),
+      },
+    ),
+  founderCharacterDiscoveryNeuralVoiceRegenerate: (
+    slug: string,
+    hypothesisId: string,
+    mode?: 'REGENERATE_CURRENT' | 'REPLAY_GENERATION',
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_neural_voice_regenerate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, hypothesisId, mode: mode ?? 'REGENERATE_CURRENT' }),
+      },
+    ),
   characterContinuityGet: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
       `/api/site00/projects?action=character_continuity_get&slug=${encodeURIComponent(slug)}`,

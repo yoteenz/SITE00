@@ -12,3 +12,6 @@ export * from './voiceGenerationContract.js';
 export * from './voiceContinuityQA.js';
 export * from './neuralVoiceCasting.js';
 export * from './neuralVoiceCalibrationEngine.js';
+export * from './voiceFounderRevisionLabels.js';
+export * from './neuralVoiceFounderRevisionPipeline.js';
+export * from './neuralVoiceRevisionEngine.js';
