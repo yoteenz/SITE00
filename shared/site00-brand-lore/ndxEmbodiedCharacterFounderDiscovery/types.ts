@@ -3,6 +3,7 @@
  */
 
 import type { EmbodiedCharacterFounderDiscoveryRun } from '../../site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js';
+import type { CharacterVoiceCalibrationState } from '../../site00-studio-world-production/embodiedCharacterVoice/types.js';
 import type {
   CharacterCalibrationState,
   HumanReadableCharacterSynthesis,
@@ -17,4 +18,7 @@ export type NdxFounderCharacterDiscoveryRun = EmbodiedCharacterFounderDiscoveryR
   calibrationState?: CharacterCalibrationState | null;
   humanReadableSynthesis?: HumanReadableCharacterSynthesis | null;
   traitPropositionVersion?: NdxFounderTraitPropositionVersion | string | null;
+  /** P0.5E.4B — auditory voice calibration state */
+  voiceCalibrationState?: CharacterVoiceCalibrationState | null;
+  languageLabEvidenceCount?: number;
 };
