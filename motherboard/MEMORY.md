@@ -4525,6 +4525,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `embodiedCharacterVoiceP05E4B1.test.ts` (11 tests) + updated P0.5E.4B regressions (30 total voice tests pass); build OK (`ProjectFounderCharacterDiscoveryPage.Df7sh5IG.js`).
 - **Founder:** Railway redeploy (requires `FAL_KEY`). GoDaddy deploy v69. Character Discovery → INSPECT → VOICE LAB → START NEURAL VOICE AUDITION. Ignore prior browser-TTS auditions as placeholder evidence.
 
+---
+
+## 2026-08-24 — Neural provider status UX fix (false NOT CONFIGURED banner)
+
+- **Symptom:** Voice Lab showed `NEURAL VOICE PROVIDER NOT CONFIGURED` on fsbw-dev even when founder believed `FAL_KEY` was set on Railway.
+- **Root causes:** (1) Check runs on **Railway API** (`api.site00.com`), not cPanel/frontend — exact var name `FAL_KEY` on the API service + redeploy required. (2) UI bug: estimate API `.catch()` set `neuralConfigured=false` on *any* failure (404/old API, auth), not only missing key. (3) `FAL: 0` header was hardcoded, not live.
+- **Fix:** GET discovery syncs `neuralProviderConfigured` from live `FAL_KEY`; returns `neuralProviderConfigured` on GET; separate error message when estimate fails vs key missing; live `falRequests` in header; `FAL_KEY?.trim()` check.
+
 
 - **Context:** Founder reported YES I KNOW HER not unlocking casting; voice lab selections not appearing saved. Root cause: YES_I_KNOW_HER **was** persisting (`founderKnowsHer: true`) but P0.5E.4A calibration progress did not feed P0.5E.4 casting gates (still required 5 INSPECT trait confirmations). UI always showed "BLOCKED until YES_I_KNOW_HER" even after selection. Voice lab saved to API but UI showed no saved state.
 - **Fix:** `ndxCastingReadinessBridge.ts` — calibration moments + domain confirmations satisfy discovery/gates; refresh readiness on GET; voice calibration moment writes voice lab judgment; CASTING tab shows human-readable blockers; header shows dynamic status; voice lab shows **Saved:** label + success notice on tap.
