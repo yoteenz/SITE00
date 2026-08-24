@@ -5,7 +5,7 @@
 
 import { createHash } from 'node:crypto';
 import type { BrandMarketingExpressionRun } from '../brandMarketingExpression/types.js';
-import type { Experiment01V21Artifact } from '../culturalVisualParticipation/types.js';
+import type { Experiment01V23Artifact } from '../artBoardMateriality/types.js';
 import { EXPERIMENT_01_TOPIC_SPECS } from '../brandMarketingExpression/characterEventFormulation.js';
 import type {
   CampaignContentSlate,
@@ -98,13 +98,13 @@ export function buildNdxbookExperiment01Slate(campaignId: string): CampaignConte
   };
 }
 
-export function mapV21ArtifactsToSlide01Assets(params: {
+export function mapV23ArtifactsToSlide01Assets(params: {
   campaignId: string;
-  v21Artifacts: Experiment01V21Artifact[];
+  v23Artifacts: Experiment01V23Artifact[];
 }): CampaignProductionAsset[] {
   const now = new Date().toISOString();
-  return params.v21Artifacts.map((artifact) => {
-    const topicIndex = parseInt(artifact.id.replace('bma-exp01-v21-', ''), 10);
+  return params.v23Artifacts.map((artifact) => {
+    const topicIndex = parseInt(artifact.id.replace('bma-exp01-v23-', ''), 10);
     const pieceId = `piece-${topicIndex}`;
     const generated = artifact.generationStatus === 'GENERATED' && Boolean(artifact.generatedAssetUrl);
 
@@ -137,9 +137,9 @@ export function initializeNdxbookExperiment01Board(params: {
   projectId: string;
   brandId: string;
 }) {
-  const v21 = params.marketingRun.experiment01V21;
-  if (!v21?.generatedArtifacts.length) {
-    throw new Error('Experiment 01 V2.1 required for campaign board initialization');
+  const v23 = params.marketingRun.experiment01V23;
+  if (!v23?.generatedArtifacts.length) {
+    throw new Error('Experiment 01 V2.3 required for campaign board initialization');
   }
 
   const campaign = buildNdxbookExperiment01CampaignPeriod({
@@ -148,9 +148,9 @@ export function initializeNdxbookExperiment01Board(params: {
     marketingRun: params.marketingRun,
   });
   const slate = buildNdxbookExperiment01Slate(campaign.campaignId);
-  const slide01Assets = mapV21ArtifactsToSlide01Assets({
+  const slide01Assets = mapV23ArtifactsToSlide01Assets({
     campaignId: campaign.campaignId,
-    v21Artifacts: v21.generatedArtifacts,
+    v23Artifacts: v23.generatedArtifacts,
   });
   const board = buildCampaignProductionBoard({ campaign, slate, slide01Assets });
 
@@ -194,7 +194,7 @@ export function lockNdxbookRound01(params: {
 export function formulateNdxbookRound02Contracts(params: {
   campaignId: string;
   board: import('../../site00-studio-world-production/marketingCampaignProduction/types.js').CampaignProductionBoard;
-  v21Artifacts: Experiment01V21Artifact[];
+  v23Artifacts: Experiment01V23Artifact[];
 }): {
   contracts: SequenceSlideArtDirectionContract[];
   round02Assets: CampaignProductionAsset[];
@@ -215,7 +215,7 @@ export function formulateNdxbookRound02Contracts(params: {
     if ((params.board.sequenceDepthByPiece[pieceId] ?? 0) < 2) continue;
 
     const topicIndex = parseInt(pieceId.replace('piece-', ''), 10);
-    const v21 = params.v21Artifacts.find((a) => a.id === `bma-exp01-v21-${topicIndex}`);
+    const v23 = params.v23Artifacts.find((a) => a.id === `bma-exp01-v23-${topicIndex}`);
     const slide01Asset = params.board.assets.find((a) => a.contentPieceId === pieceId && a.sequencePosition === 1);
     const spec = EXPERIMENT_01_TOPIC_SPECS.find((s) => s.topicIndex === topicIndex)!;
 
@@ -225,13 +225,13 @@ export function formulateNdxbookRound02Contracts(params: {
       sequencePosition: 2,
       thesisSummary: spec.trigger,
       topic: spec.headline,
-      slide01ContractSummary: v21
+      slide01ContractSummary: v23
         ? {
-            semanticRole: v21.contract.semanticRole,
-            viewerShouldNoticeFirst: v21.contract.viewerShouldNoticeFirst,
-            informationDeferred: v21.contract.deferredEvidence,
+            semanticRole: v23.contract.semanticRole,
+            viewerShouldNoticeFirst: v23.contract.viewerShouldNoticeFirst,
+            informationDeferred: v23.contract.deferredEvidence,
             primaryVisualSubject:
-              v21.contract.culturalParticipation.visualSubjectMatterDecision.culturalVisualSubject,
+              v23.contract.culturalParticipation.visualSubjectMatterDecision.culturalVisualSubject,
             assetId: slide01Asset?.assetId ?? null,
           }
         : undefined,

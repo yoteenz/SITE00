@@ -98,7 +98,7 @@ export default function ProjectContentOperationsCampaignBoardPage() {
 
               {!board && (
                 <section className="site00-experiment-g__panel">
-                  <p>Initialize campaign board from Experiment 01 V2.1 (same nine topics, horizontal production).</p>
+                  <p>Initialize campaign board from Experiment 01 V2.3 (same nine topics, horizontal production).</p>
                   <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void act(() => site00ProjectsApi.campaignProductionInitialize(projectSlug))}>
                     INITIALIZE CAMPAIGN BOARD
                   </button>
