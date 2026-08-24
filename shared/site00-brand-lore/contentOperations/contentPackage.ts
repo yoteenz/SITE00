@@ -22,6 +22,7 @@ import { extendCarouselSequencePlan, buildEditorialLayerForContentPackage } from
 import { buildContentPackageVisualSubjectLayer } from '../culturalVisualParticipation/integration.js';
 import { amendFirstSlideContractWithCulturalParticipation } from '../culturalVisualParticipation/experiment01V21.js';
 import { buildContentPackageCharacterRetentionLayer } from '../characterRetention/integration.js';
+import { buildContentPackageArtBoardLayer } from '../artBoardMateriality/integration.js';
 
 function fp(value: unknown): string {
   return createHash('sha256').update(JSON.stringify(value)).digest('hex').slice(0, 16);
@@ -117,6 +118,7 @@ export function buildSocialContentPackage(params: {
   let visualSubjectMatterDecisionId: string | null = null;
   let visualParticipationBalance: string | null = null;
   let characterRetentionContractId: string | null = null;
+  let artBoardDirectionContractId: string | null = null;
 
   if (params.expressionSystem && params.characterSystemId) {
     const editorial = buildEditorialLayerForContentPackage({
@@ -166,6 +168,15 @@ export function buildSocialContentPackage(params: {
       v21Contract: amendedContract,
     });
     characterRetentionContractId = characterLayer.characterRetentionContractId;
+
+    const artBoardLayer = buildContentPackageArtBoardLayer({
+      pkg: { id: packageId, projectId: params.projectId, createdAt: now, updatedAt: now } as SocialContentPackage,
+      opportunity: params.opportunity,
+      expressionSystem: params.expressionSystem,
+      amendedContract,
+      characterContract: characterLayer.contract,
+    });
+    artBoardDirectionContractId = artBoardLayer.artBoardDirectionContractId;
   }
 
   const pkg: SocialContentPackage = {
@@ -207,6 +218,7 @@ export function buildSocialContentPackage(params: {
     visualSubjectMatterDecisionId,
     visualParticipationBalance,
     characterRetentionContractId,
+    artBoardDirectionContractId,
     fingerprint: '',
     createdAt: now,
     updatedAt: now,

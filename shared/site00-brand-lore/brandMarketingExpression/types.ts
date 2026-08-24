@@ -368,6 +368,9 @@ export type BrandMarketingExpressionRun = {
     | 'EXPERIMENT_01_V22_READY'
     | 'EXPERIMENT_01_V22_GENERATING'
     | 'EXPERIMENT_01_V22_COMPLETE'
+    | 'EXPERIMENT_01_V23_READY'
+    | 'EXPERIMENT_01_V23_GENERATING'
+    | 'EXPERIMENT_01_V23_COMPLETE'
     | 'FAILED';
   brandCharacterSystemId: string | null;
   forensicAudit: MarketingExpressionForensicAudit | null;
@@ -379,6 +382,7 @@ export type BrandMarketingExpressionRun = {
   experiment01V2: import('../editorialInformationArchitecture/types.js').MarketingExpressionExperiment01V2 | null;
   experiment01V21: import('../culturalVisualParticipation/types.js').MarketingExpressionExperiment01V21 | null;
   experiment01V22: import('../characterRetention/types.js').MarketingExpressionExperiment01V22 | null;
+  experiment01V23: import('../artBoardMateriality/types.js').MarketingExpressionExperiment01V23 | null;
   experimentGCharacterReevaluationRequired: boolean;
   error: string | null;
   accounting: {

@@ -113,8 +113,10 @@ import {
   formulateMarketingExpressionExperiment01V2,
   formulateMarketingExpressionExperiment01V21,
   formulateMarketingExpressionExperiment01V22,
+  formulateMarketingExpressionExperiment01V23,
   generateAllExperiment01V21ArtifactAssets,
   generateAllExperiment01V22ArtifactAssets,
+  generateAllExperiment01V23ArtifactAssets,
   resetBrandMarketingExpressionWorkers,
 } from '../../api/_lib/site00Evolve/creativeDirection/brandMarketingExpressionExperiment/brandMarketingExpressionService.js';
 
@@ -393,8 +395,10 @@ describe('P0.5E Campaign Board + Horizontal Sequence Production', () => {
     await formulateMarketingExpressionExperiment01V2({ projectId: 'ndxbook' });
     await formulateMarketingExpressionExperiment01V21({ projectId: 'ndxbook' });
     await formulateMarketingExpressionExperiment01V22({ projectId: 'ndxbook' });
+    await formulateMarketingExpressionExperiment01V23({ projectId: 'ndxbook' });
     await generateAllExperiment01V21ArtifactAssets({ projectId: 'ndxbook' });
     await generateAllExperiment01V22ArtifactAssets({ projectId: 'ndxbook' });
+    await generateAllExperiment01V23ArtifactAssets({ projectId: 'ndxbook' });
 
     const init = await initializeCampaignBoardFromExperiment01({ projectId: 'ndxbook' });
     expect(init.board?.assets.length).toBe(9);

@@ -324,12 +324,13 @@ describe('P0.5C.3 Character Retention', () => {
     await formulateMarketingExpressionExperiment01({ projectId: 'ndxbook' });
     await formulateMarketingExpressionExperiment01V2({ projectId: 'ndxbook' });
     await formulateMarketingExpressionExperiment01V21({ projectId: 'ndxbook' });
-    const v22Run = await formulateMarketingExpressionExperiment01V22({ projectId: 'ndxbook' });
-    expect(v22Run.experiment01V22?.generatedArtifacts.length).toBe(9);
-    expect(v22ContractReviewBeforeGeneration(v22Run.experiment01V22!)).toBe(true);
+    await formulateMarketingExpressionExperiment01V22({ projectId: 'ndxbook' });
+    const v22Run = await getBrandMarketingExpressionState({ projectId: 'ndxbook' });
+    expect(v22Run!.experiment01V22?.generatedArtifacts.length).toBe(9);
+    expect(v22ContractReviewBeforeGeneration(v22Run!.experiment01V22!)).toBe(true);
 
     await initializeCampaignBoardFromExperiment01({ projectId: 'ndxbook' });
-    await expect(lockRound01Service({ projectId: 'ndxbook' })).rejects.toThrow(/V2\.2|character retention/i);
+    await expect(lockRound01Service({ projectId: 'ndxbook' })).rejects.toThrow(/V2\.3|materiality|art-board/i);
 
     await generateAllExperiment01V22ArtifactAssets({ projectId: 'ndxbook' });
     const freshRun = await getBrandMarketingExpressionState({ projectId: 'ndxbook' });

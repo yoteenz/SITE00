@@ -295,6 +295,7 @@ export type SocialContentPackage = {
   visualSubjectMatterDecisionId?: string | null;
   visualParticipationBalance?: string | null;
   characterRetentionContractId?: string | null;
+  artBoardDirectionContractId?: string | null;
   createdAt: string;
   updatedAt: string;
 };
