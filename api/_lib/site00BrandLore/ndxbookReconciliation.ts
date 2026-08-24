@@ -86,7 +86,7 @@ export function buildNdxbookReconciledProfile(orgId: string): BrandLoreProfile {
     sourceIntakeType: 'CONTENT_BRAIN',
 
     brandWorld: unknownField<string | null>(null),
-    audienceRelationship: unknownField<string | null>(null),
+    audienceRelationship: unknownField<string[]>([]),
     brandBelief: unknownField<string | null>(null),
     culturalOpposition: unknownField<string[]>([]),
     coreObsessions: unknownField<string | null>(null),

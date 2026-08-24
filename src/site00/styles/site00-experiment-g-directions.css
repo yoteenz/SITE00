@@ -1,0 +1,331 @@
+.site00-experiment-g__direction-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 0.5rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(255, 200, 100, 0.35);
+  border-radius: 4px;
+}
+
+.site00-experiment-g__direction-cta-copy {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.site00-experiment-g-dir {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.site00-experiment-g-dir__experiment {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+}
+
+.site00-experiment-g-dir__title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.site00-experiment-g-dir__you-are-here {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  opacity: 0.9;
+}
+
+.site00-experiment-g-dir__visual-review-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(120, 200, 255, 0.45);
+  border-radius: 4px;
+  background: rgba(120, 200, 255, 0.06);
+}
+
+.site00-experiment-g-dir__visual-review-btn {
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.site00-experiment-g-dir__visual-review-note {
+  margin: 0;
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+.site00-experiment-g-dir__finalist-count {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+.site00-experiment-g-dir__audit,
+.site00-experiment-g-dir__parent-meta {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.site00-experiment-g-dir__banner {
+  border: 1px solid rgba(255, 200, 100, 0.35);
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.site00-experiment-g-dir__parents-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.site00-experiment-g-dir__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.site00-experiment-g-dir__cost-preview {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.site00-experiment-g-dir__cost-preview p {
+  margin: 0.15rem 0;
+}
+
+.site00-experiment-g-dir__parent {
+  margin-top: 0.5rem;
+}
+
+.site00-experiment-g-dir__parent-header h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+}
+
+.site00-experiment-g-dir__parent-thesis {
+  margin: 0 0 0.35rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.site00-experiment-g-dir__grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.site00-experiment-g-dir__card {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 1rem;
+  border-radius: 4px;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.site00-experiment-g-dir__direction-name {
+  margin: 0 0 0.35rem;
+}
+
+.site00-experiment-g-dir__thesis {
+  margin: 0 0 0.75rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.site00-experiment-g-dir__dl div {
+  margin-bottom: 0.65rem;
+  font-size: 0.85rem;
+}
+
+.site00-experiment-g-dir__dl dt {
+  opacity: 0.65;
+  letter-spacing: 0.06em;
+  font-size: 0.7rem;
+}
+
+.site00-experiment-g-dir__dl dd {
+  margin: 0.2rem 0 0;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 640px) {
+  .site00-experiment-g-dir__dl div {
+    display: grid;
+    grid-template-columns: minmax(9rem, 11rem) minmax(0, 1fr);
+    gap: 0.35rem 0.75rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .site00-experiment-g-dir__dl dd {
+    margin: 0;
+  }
+}
+
+.site00-experiment-g-dir__judgment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+}
+
+.site00-experiment-g-dir__finalist-row {
+  margin-top: 0.35rem;
+}
+
+.site00-experiment-g-dir__status {
+  border: 1px solid rgba(255, 200, 100, 0.45);
+  border-radius: 4px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.site00-experiment-g-dir__status--forming {
+  border-color: rgba(120, 180, 255, 0.55);
+  background: rgba(120, 180, 255, 0.06);
+}
+
+.site00-experiment-g-dir__status--failed {
+  border-color: rgba(255, 120, 120, 0.55);
+  background: rgba(255, 120, 120, 0.06);
+}
+
+.site00-experiment-g-dir__status--complete {
+  border-color: rgba(120, 220, 140, 0.45);
+  background: rgba(120, 220, 140, 0.05);
+}
+
+.site00-experiment-g-dir__status-kicker {
+  margin: 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  opacity: 0.75;
+}
+
+.site00-experiment-g-dir__status-title {
+  margin: 0.15rem 0 0;
+  font-size: 1rem;
+}
+
+.site00-experiment-g-dir__status-meta {
+  margin: 0.25rem 0 0;
+  font-size: 0.78rem;
+  opacity: 0.85;
+}
+
+.site00-experiment-g-dir__status-error {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #ffb4b4;
+}
+
+.site00-experiment-g-dir__status-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.site00-experiment-g-dir__progress-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.site00-experiment-g-dir__progress {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.site00-experiment-g-dir__progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, rgba(120, 180, 255, 0.85), rgba(180, 140, 255, 0.9));
+  border-radius: 999px;
+  transition: width 0.8s ease;
+}
+
+.site00-experiment-g-dir__progress-fill--stalled {
+  background: linear-gradient(90deg, rgba(255, 160, 80, 0.9), rgba(255, 100, 100, 0.95));
+}
+
+.site00-experiment-g-dir__progress-stats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.35rem;
+  font-size: 0.72rem;
+}
+
+.site00-experiment-g-dir__progress-stats li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.site00-experiment-g-dir__progress-stats span {
+  opacity: 0.7;
+  letter-spacing: 0.06em;
+  font-size: 0.62rem;
+}
+
+.site00-experiment-g-dir__progress-stats strong {
+  font-size: 0.85rem;
+}
+
+.site00-experiment-g-dir__progress-copy {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  opacity: 0.9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site00-experiment-g-dir__progress-fill {
+    transition: none;
+  }
+}
+
+.site00-experiment-g-dir__judgment-saved {
+  margin: 0.75rem 0 0;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  border-radius: 4px;
+  font-size: 0.78rem;
+}
+
+.site00-experiment-g-dir__judgment-saved--love {
+  border-color: rgba(34, 197, 94, 0.45);
+  background: rgba(34, 197, 94, 0.08);
+  font-weight: 600;
+}
+
+.site00-experiment-g-dir__error {
+  margin: 0;
+  color: #f87171;
+  font-size: 0.9rem;
+}
+
+.site00-experiment-g-dir__pending {
+  opacity: 0.7;
+}
+
+.site00-experiment-g-dir__details summary {
+  cursor: pointer;
+  font-size: 0.8rem;
+  opacity: 0.75;
+}

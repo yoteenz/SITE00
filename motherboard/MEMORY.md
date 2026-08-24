@@ -3996,6 +3996,466 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-08-24 — Experiment G mobile text layout + regenerate guidance
+
+- **Context:** Founder on fsbw-dev (`site00.fsbw-dev.com`) reported Experiment G page bug — concept card fields (e.g. WHAT NDXBOOK BECOMES) crushed into a narrow right column on mobile; asked how to regenerate brand presentation concepts.
+- **Root cause:** `site00-experiment-g.css` used fixed two-column grid (`10rem 1fr`) on `.site00-experiment-g__dl div` at all breakpoints; Experiment F already stacks dt/dd on mobile.
+- **Fix (branch `cursor/experiment-g-mobile-layout-fix-1983`):** Mobile-first stacked dt/dd; grid only `@media (min-width: 640px)`; `overflow-wrap` + `min-width: 0` on cards; inline regen help under controls; `ProjectExperimentsHubNav` on Experiment G page (restored missing `EcosystemShell` import).
+- **Regenerate concepts:** **RE-FORM SET** = fresh six-concept pass (keeps history); **REFRESH FORMATION (IDEMPOTENT)** = re-run same snapshot; first-time **FORM SIX BRAND PRESENTATION CONCEPTS**; stuck **RETRY STALLED FORMATION**. Formation runs on Railway API (2–5 min); page polls every 5s when FORMING.
+- **Deploy:** cPanel ZIP after merge (frontend-only CSS/UI); no Railway redeploy required unless API stale.
+
+---
+
+## 2026-08-24 — Experiment G LOVE THE CONCEPT judgment feedback
+
+- **Context:** Founder reported LOVE THE CONCEPT button on Experiment G brand concepts page did nothing visible — reverted to default label after tap.
+- **Root cause:** API `setExperimentGConceptJudgment` already persisted `founderJudgment` to Supabase; UI never read or displayed saved judgment on concept cards.
+- **Fix (branch `cursor/experiment-g-judgment-persist-ui-1983`):** Active button state + green “✓ YOU LOVED THIS CONCEPT — selection saved” banner; apply API response run immediately (no second reload); status `FOUNDER_REVIEWED` on save. Tests: judgment persistence + UI option contract.
+
+---
+
+## 2026-08-24 — Brand Presentation Direction Development (Experiment G top-3)
+
+- **Context:** Sprint after founder loved three Experiment G concepts (COLLECTOR WHO CONNECTS, ROOM THAT KNOWS, THING THAT KEEPS NOTICING). Build concept → direction layer: 3 parents × 3 directions = 9 candidates, zero visual/FAL.
+- **Implementation (branch `cursor/brand-presentation-direction-development-1983`):** `shared/site00-brand-lore/brandPresentationDirectionTerritory/` types/evaluators/prompt/cross-parent audit; `directionService.ts` + Supabase row `c4e1a2b3-0007-4000-8000-000000000001`; API `experiment_g_direction_*`; route `/projects/ndxbook/experiment-g-brand-presentation-concepts/directions`; DEVELOP TOP 3 DIRECTIONS CTA on Experiment G when 3 loves match eligible names; founder direction judgments persist; P0.5A edge registration helper. Tests: 1757 pass (+10 direction suite).
+- **Founder flow:** Love 3 concepts on Experiment G → DEVELOP TOP 3 DIRECTIONS → review 9 direction cards → LOVE THE DIRECTION / etc. Visual formulation + FAL blocked until later sprint.
+- **Deploy:** cPanel + Railway redeploy for API actions.
+
+---
+
+## 2026-08-24 — Brand Presentation Finalist Visual Formulation (2×3 pipeline)
+
+- **Context:** Correct downstream methodology after direction review: founder selects **2 visual finalists** (not 1 direction winner), each gets **3 visual expression contracts**, then **6 FAL benchmark assets** for comparison before ultimate winner (concept + direction + expression). Do not mutate Experiment D/F/G formation history, Brand Canon, or Projects UX.
+- **Implementation (branch `cursor/brand-presentation-finalist-visual-formulation-1983`):**
+  - `shared/site00-brand-lore/brandPresentationVisualFormulation/` — policy (2×3=6 configurable), types (`BrandPresentationVisualFinalistSelection`, `BrandPresentationVisualExpressionCandidate`, `BrandPresentationWinnerSelection`, revision delta), finalist gate, evaluators (direction drift, distinctiveness, cross-finalist collapse), `compileBrandPresentationVisualPrompt()` with metaphor sanitation.
+  - `visualFormulationService.ts` + Supabase row `c4e1a2b3-0008-4000-8000-000000000001`; API `experiment_g_visual_*` (get, finalist, formulate, generate, judgment, revise, winner).
+  - UI: **SELECT AS VISUAL FINALIST** on direction review (independent from LOVE THE DIRECTION); route `/projects/ndxbook/experiment-g-brand-presentation-concepts/finalists` with large-image comparison, cost preview, explicit **GENERATE FINALIST VISUALS** trigger.
+  - Anthropic formulates expression systems before FAL; 6 parallel sibling generations; winner does NOT auto-promote to Brand Canon or start implementation.
+- **Tests:** 1772 pass (+15 visual formulation suite).
+- **Founder flow:** Review 9 directions → select 2 finalists → FORMULATE VISUAL EXPRESSIONS → GENERATE FINALIST VISUALS (6) → compare/judge → SELECT BRAND PRESENTATION WINNER.
+- **Deploy:** cPanel frontend + **Railway redeploy** for new API actions.
+
+---
+
+## 2026-08-24 — Direction formation live status panel + retry UX
+
+- **Context:** Founder on direction development page saw FORMING with no buttons, no retry, no live progress — couldn't tell if stalled (especially after Railway redeploy killed background job).
+- **Fix (branch `cursor/experiment-g-direction-formation-status-ui-1983`):** `DirectionFormationStatusPanel` — progress bar, elapsed timer, estimated parent step, last-check age, **RETRY STALLED FORMATION** visible while FORMING (matches Experiment G concept page), **REFRESH STATUS NOW**, failed/complete tone states.
+- **Deploy:** cPanel v49 frontend.
+
+---
+
+## 2026-08-24 — Parent-concept finalist direction visualization (2×3×1 correction)
+
+- **Context:** Founder clarified NDXBOOK visual decision flow is NOT 2 direction finalists × 3 expressions. Correct flow: select **2 parent concept finalists** (ROOM THAT KNOWS + THING THAT KEEPS NOTICING) → **all 3 directions under each** advance → **6 direction-level benchmarks** (1 visual each) → founder compares six → later direction finalist + deep expression work. COLLECTOR WHO CONNECTS deferred (`FOUNDER_DEFERRED_VISUALIZATION`, salvage eligible) — records preserved, not visualized.
+- **Implementation (branch `cursor/parent-finalist-direction-scan-1983`):**
+  - `BrandPresentationVisualExplorationPolicy` modes: `PARENT_FINALIST_DIRECTION_SCAN` (NDXBOOK default) vs legacy `DIRECTION_FINALIST_DEEP_DIVE`.
+  - Types: `BrandPresentationParentVisualFinalistSelection`, `BrandPresentationDirectionVisualBenchmark`, `DirectionBenchmarkRevisionDelta`.
+  - `parentFinalistGate.ts`, `directionBenchmarkPrompt.ts`, `compileDirectionBenchmarkPrompt()` with Room/Noticing anti-literalization guards.
+  - `visualFormulationService.ts`: auto-seed Room + Noticing parent finalists, defer Collector; `formulateDirectionBenchmarks()` + `generateDirectionBenchmarkVisuals()` (6 FAL); per-direction visual judgments independent from conceptual direction judgment; surgical single-benchmark revision.
+  - UI: direction review removes direction-level finalist toggles; finalists page → **PARENT FINALIST VISUAL REVIEW** with 2 parent sections × 3 large benchmark images + summaries; **FORMULATE/GENERATE SIX DIRECTION VISUALS** explicit triggers + cost preview.
+  - API: `experiment_g_visual_judgment/revise/winner` accept `benchmarkId`.
+- **Tests:** 1792 pass (+17 parent scan suite); legacy deep-dive tests use `SITE00_EXPERIMENT_G_VISUAL_DEEP_DIVE=1`.
+- **Founder flow:** Direction review (9 conceptual) → Parent Finalist Visual Review → formulate 6 benchmarks → generate 6 visuals → judge per direction → optional direction winner (no auto-promote).
+- **Deploy:** cPanel v50 frontend + Railway redeploy for API.
+
+---
+
+## 2026-08-24 — Visual benchmark formulation background task + status panel
+
+- **Context:** Founder on Parent Finalist Visual Review tapped FORMULATE and saw **FORMULATING SIX DIRECTION VISUALS…** stuck on the button — asked **"is this a background task? bc it should be"**. Before this fix, benchmark formulation ran **synchronously** in the HTTP request (6 sequential Anthropic calls), blocking until complete — unlike direction formation which already runs on the server with polling.
+- **Topics covered:** Prior sprint merged parent-finalist scan (PR #342–#345); Anthropic call signature fix; user screenshot showed blocking formulate UX; expectation = background + poll like direction formation.
+- **Fix (branch `cursor/visual-benchmark-background-formation-1983`):**
+  - `visualFormulationService.ts`: `formulateDirectionBenchmarks()` returns immediately with `FORMULATING_BENCHMARKS`; work enqueued via `setImmediate` → `executeBenchmarkFormulationWork()` with incremental saves per benchmark; stale reconciliation after 15 min; `formationAttemptId` on run; `forceRetry` support; VITEST still runs synchronously.
+  - UI: `VisualBenchmarkFormationStatusPanel` + progress helpers (mirrors `DirectionFormationStatusPanel`); finalists page polls every 5s while formulating; formulate button → **STARTING BACKGROUND FORMULATION…** then status panel with retry/refresh; **safe to leave this page** copy.
+  - API: `experiment_g_visual_formulate` passes `forceRetry`; `experimentGVisualFormulate(slug, { forceRetry? })`.
+- **Tests:** 1795 pass (+3 visual benchmark status UI tests); worker reset in formulation test `beforeEach`.
+- **Founder flow after deploy:** Tap FORMULATE → immediate return → status panel polls → **BENCHMARKS_READY** → GENERATE SIX DIRECTION VISUALS.
+- **Deploy:** cPanel frontend + **Railway redeploy** (API must run new background worker).
+
+---
+
+## 2026-08-24 — P0.5B Brand Character System + NDXBOOK Character Formation
+
+- **Context:** Founder sprint correcting methodological sequencing — fixed TOPIC→CONTENT to BRAND→BRAND PRESENTATION but still entered formation too downstream ("who is this brand?" before "how does it present?"). Personality existed in lore but lacked authority in Experiment G visual pipeline (presence stub only).
+- **Forensic findings:** BrandPersonalityProfile gates Core Direction; Experiment G snapshot uses `BRAND_PERSONALITY_PRESENT` flag; direction/benchmark/FAL omit personality; Burn Book calibration-only; no P0.5A personality→presentation edge.
+- **Implementation (branch `cursor/brand-character-system-1983`):** `brandCharacterTerritory/` full model + system compiler + artifact relationship; NDXBOOK background 6-territory formation; P0.5A edges; cultural calibration; UI `/projects/ndxbook/brand-character-formation`; API `experiment_h_*`.
+- **Tests:** 1825 pass (+30). Experiment G immutable. No FAL. LOVE ≠ canon.
+- **Deploy:** Railway API + cPanel/fsbw-dev frontend.
+
+---
+
+## 2026-08-24 — Brand character page white-screen fix (partial payload crash)
+
+- **Context:** Founder on `/projects/ndxbook/brand-character-formation` saw white screen when formation nearly complete — React crash rendering characters when Anthropic returned partial/malformed nested payload (missing `core`, string instead of array for `whatItMustNeverBecome`).
+- **Fix:** `characterPayloadNormalization.ts` coerces partial payloads; `getBrandCharacterFormationRun()` migrates saved characters; UI uses optional chaining + safe text/list helpers.
+- **Deploy:** Railway API + frontend redeploy.
+
+---
+
+## 2026-08-24 — P0.5B.1 Brand Character Formation Assurance + Territory Development Correction
+
+- **Context:** First live NDXBOOK character formation (run `c4e1a2b3-0009-4000-8000-000000000001`, 6 territories, `outputTokens: 12000` at max) showed blank UI fields and archetypal territory names. Sprint: forensic audit first, preserve historical six, correct methodology to Territory → Development → System without regenerating territories or using FAL.
+- **Forensic root cause:** Anthropic generated **rich content in alternate field schema** (`centralDrive`, `thinkingStyle`, `humorMechanism`, etc.) while P0.5B expected canonical keys (`characterThesis`, `intelligenceStyle`, `humorLogic`). `migrateCharacterTerritory` overwrote provider nested objects with empty canonical strings → UI showed misleading `—`. Character #6 (Precise Enthusiast) additionally **PROVIDER_TRUNCATED** at 12k tokens. Raw provider JSON was not persisted for V1 run (cannot recover without re-request).
+- **Methodology correction:** Three levels formalized — compact **BrandCharacterTerritory** (V2 prompt for future runs), **BrandCharacterDevelopment** (founder-triggered from LOVE/PROMISING_DEVELOP with delta preserve/develop/avoid), **BrandCharacterSystem** compiles from approved development only (`DEVELOPMENT_REQUIRED` default). Forensic audit, archetype collapse evaluation, territory assurance, deterministic semantic set audit (no winner selection).
+- **UI:** Character comparison view (horizontal table desktop / tab switcher mobile), completeness truth states (NOT_FORMED_AT_TERRITORY_STAGE, RECOVERABLE_PROVIDER_OUTPUT, etc.), territory card redesign, `/projects/ndxbook/brand-character-development` route, DEVELOP CHARACTER action.
+- **Orchestration/deps:** Added BRAND_CHARACTER_DEVELOPMENT stage; Territory → Development → System dependency edges.
+- **Tests:** 78 character tests pass (+47 P0.5B.1 suite). Build green. No FAL. Experiment G blocked. Historical six preserved immutable.
+
+---
+
+## 2026-08-24 — P0.5B.2 Brand Character Readiness + Conditional Deepening
+
+- **Context:** Extend P0.5B/P0.5B.1 so Studio World evaluates post-purchase Project Intelligence before Character Territory formation — ask targeted follow-up questions only when material character gaps exist; do not force another full intake or duplicate Brand Lore/Personality/Appetite questions.
+- **Architecture:** POST-PURCHASE INTELLIGENCE → `BrandCharacterReadinessEvaluation` (READY / PARTIAL / INSUFFICIENT / BLOCKED / NOT_EVALUATED) → conditional `BrandCharacterDeepeningModule` → formation gate → territories. Deterministic domain evaluation across 12 character-critical domains; duplicate question prevention via `findExistingEvidenceForCharacterQuestion()`; founder language preserved verbatim in `FounderLanguageEvidence`.
+- **Integration:** Formation gate in `formSixBrandCharacterTerritories`; `BRAND_CHARACTER_DEEPENING` conditional module in Project Intelligence manifest; API `experiment_h_readiness_*` + `experiment_h_deepening_*`; UI `/projects/ndxbook/brand-character-readiness` + `/brand-character-deepening`; Project Setup shows `BRAND CHARACTER: READY / N QUESTIONS REMAIN / DEEPENING REQUIRED`.
+- **NDXBOOK first-pass (reconciled profile, no new questions asked):** Overall `CHARACTER_BLOCKED` (Brand Lore still `CONTEXT_INCOMPLETE` upstream). Domain strengths: strong worldview/personality/humor/social/emotional/language/boundaries; thin/missing audience relationship, cultural intelligence, taste, artifact behavior. Retrospective first-six input readiness: **INSUFFICIENT** (`INPUT_EVIDENCE_LIMITED`, primary cause **BOTH** methodology + input). Targeted deepening compiled: **7 questions** (audience, cultural×2, taste×2, artifact×2) — confirms first weak territories were not methodology-only.
+- **Tests:** +44 P0.5B.2 tests; 1917 total pass. Build green. No FAL/GPT Image. Experiment G unchanged. First six territories immutable.
+
+---
+
+## 2026-08-24 — Brand Character Readiness / Deepening contradiction fix
+
+- **Context:** Founder on NDXBOOK mobile saw contradictory UX: Readiness page showed **CHARACTER INSUFFICIENT** + **ANSWER 5 QUESTIONS**, while Deepening page said **NO DEEPENING QUESTIONS REQUIRED** / existing evidence sufficient. Duplicate identical bullet under WORLDVIEW ORIENTATION. User asked if this was a bug.
+- **Root cause (confirmed bug):** Split between pre-filter `recommendedQuestionCount` (gap sum before duplicate prevention) and compiled deepening module. Readiness UI fell back to `recommendedQuestionCount` when `deepeningModule` was null/stale; Deepening UI treated null module or `NOT_REQUIRED` with zero questions as “sufficient for formation” even when overall readiness was INSUFFICIENT. WORLDVIEW duplicated because `brandLore` and `businessOffering` share overlapping lore fields.
+- **Fix:** Sync `recommendedQuestionCount` to compiled question count in service; recompile missing/out-of-sync deepening on `getBrandCharacterReadinessState`; new deepening status `GAPS_REMAIN` when gaps exist but zero questions compiled; Readiness shows **REVIEW EVIDENCE GAPS** (not fake question count); Deepening explains gaps-without-questions honestly; dedupe domain `whatWeKnow` signals.
+- **Changes:** `deepeningModule.ts`, `types.ts`, `domainEvaluation.ts`, `brandCharacterReadinessService.ts`, `ProjectBrandCharacterReadinessPage.tsx`, `ProjectBrandCharacterDeepeningPage.tsx`, +4 alignment tests (48 total in P0.5B.2 suite).
+- **Conventions:** Never show “sufficient for formation” unless `CHARACTER_READY`; never use pre-compile gap count as answer-button label — use compiled `deepeningModule.questions.length` only.
+
+---
+
+## 2026-08-24 — P0.5B.3 Composite Brand Character Synthesis + Artifact Visualization
+
+- **Context:** After P0.5B.2 readiness/deepening + founder completing live deepening questions, implement composite synthesis sprint: reclassify six historical territories as discoveries/components, synthesize Cultural Accomplice + Committed Contrarian + Relentless Synthesizer into one NDXBOOK character, maturation continuity (Burn Book ancestry as calibration not canon), founder review, Brand Character System compile, three behavior-first artifact proof scenarios + founder-triggered FAL visualization. Do NOT restart formation, mutate Experiment G, or proceed to Identity/Presentation.
+- **Architecture:** `shared/site00-brand-lore/brandCharacterSynthesis/` — types, territory roles, productive contradictions, maturation continuity, founder hypothesis, synthesis evaluation, artifact causality, character traces, FAL prompt compiler, vitest fixtures. Service `brandCharacterSynthesisService.ts` + store adapter (methodology_validation_runs mode `NDX_BRAND_CHARACTER_SYNTHESIS`). Pipeline: readiness refresh → prepare → Anthropic/vitest synthesis → founder judgment → compile system → formulate 3 proofs → per-proof FAL generate.
+- **UI:** `/projects/ndxbook/brand-character-synthesis`, `/brand-character-artifact-proofs`. API `experiment_h_synthesis_*`, `experiment_h_artifact_proof_*`.
+- **Fix bundled:** `seedVitestCharacterFormationReadiness` now includes synced deepening module so formation gate tests don't re-evaluate to BLOCKED after P0.5B.2 deepening sync fix.
+- **Tests:** +39 P0.5B.3 tests; **1960 total pass**. Build green. Experiment G reevaluation flag set on system compile. No Brand Canon mutation. FAL blocked until founder approves synthesis.
+
+---
+
+## 2026-08-24 — Composite synthesis button silent failure fix
+
+- **Context:** Founder on `/projects/ndxbook/brand-character-synthesis` (fsbw-dev mobile) tapped **RUN COMPOSITE SYNTHESIS** — button briefly busy then nothing visible; felt broken.
+- **Root cause:** UI had no error/status state — API failures (readiness block, missing territories, stale Railway deploy without `experiment_h_synthesis_*` actions) were swallowed silently. Backend threw opaque 500s on synthesis errors. Historical territory name matching was exact-only.
+- **Fix (branch `cursor/synthesis-button-error-feedback-1983`):** Synthesis page shows `actionError` panel with message + hints (deploy lag → hard refresh; readiness → link to readiness page); `statusMessage` during 1–2 min Anthropic call; button label **RUNNING SYNTHESIS…**. API `experiment_h_synthesis_run` returns 400 `SYNTHESIS_FAILED` with message. Fuzzy territory resolution in `resolveNdxbookSynthesisSourceTerritories()`; clearer missing-territory error lists formation names found.
+- **Deploy note:** fsbw-dev frontend hits **`https://api.site00.com`** — Railway must redeploy for synthesis actions; UI now surfaces **Unknown action** if API stale.
+
+---
+
+## 2026-08-24 — Deepening answers now recalculate character readiness
+
+- **Context:** After synthesis button error UX shipped (PR #354), founder screenshot showed real blocker: **CHARACTER READINESS: CHARACTER_INSUFFICIENT** despite **5 deepening answers ingested** — synthesis correctly blocked but readiness never improved after deepening.
+- **Root cause:** `evaluateBrandCharacterReadiness()` only counted deepening answers in fingerprint metadata — answers were **not merged into evidence inventory**, so domain strengths and overall state stayed unchanged after founder submitted deepening.
+- **Fix (branch `cursor/deepening-readiness-recalc-1983`):** `applyDeepeningAnswersToInventory()` routes founder deepening answers into domain buckets + founderLanguage; readiness service passes answers into evaluation; completing all compiled deepening questions floors **INSUFFICIENT → PARTIAL** (synthesis allows PARTIAL); synthesis error panel adds **CONTINUE DEEPENING** link.
+- **Tests:** +3 P0.5B.2 tests (deepening merge, submission re-eval, all-questions unlock); 89 in readiness+synthesis suites pass. Build green.
+
+---
+
+## 2026-08-24 — Composite synthesis background worker + readiness gate fix
+
+- **Context:** Founder still saw **SYNTHESIS COULD NOT RUN / CHARACTER INSUFFICIENT** while readiness refresh showed **INSUFFICIENT → PARTIAL** (5 deepening answers ingested). Also requested synthesis run in **background** with **loading bar** so page need not stay open (like visual benchmark formulation).
+- **Root causes:** (1) Stale client error from prior failed attempt while server readiness had improved to PARTIAL; (2) brand-lore equivalent check ignored deepening answers in inventory; (3) synchronous 1–2 min Anthropic call blocked HTTP request (timeout felt like silent failure).
+- **Fix (branch `cursor/synthesis-background-status-1983`):** `startCompositeBrandCharacterSynthesis()` returns immediately with `SYNTHESIZING`, enqueues `executeCompositeSynthesisWork` via `setImmediate` (vitest stays synchronous); stale reconciliation after 15 min; `synthesisStartedAt` + `synthesisAttemptId` on run. UI: `BrandCharacterSynthesisStatusPanel` with progress bar, elapsed timer, poll every 5s, **safe to leave page** copy, retry stalled. Readiness gate uses deepening-merged inventory for brand-lore bypass; `assertSynthesisGate` checks blockers; page clears stale INSUFFICIENT errors when refresh shows PARTIAL/READY.
+- **Deploy:** Railway API redeploy required for background worker; fsbw-dev frontend after cPanel/tunnel refresh.
+
+---
+
+## 2026-08-24 — Retrospective synthesis readiness floor (INSUFFICIENT + 5 deepening)
+
+- **Context:** Founder screenshots showed **COMPOSITE SYNTHESIS FAILED**, readiness stuck **INSUFFICIENT → INSUFFICIENT** despite **5 deepening answers ingested** and historical six territories already formed; **RUN COMPOSITE SYNTHESIS** disabled.
+- **Root cause:** Formation-time readiness evaluation still **INSUFFICIENT** (6+ thin domains / not all compiled questions answered). Synthesis gate reused raw evaluation state — no retrospective floor for NDXBOOK where territories formed before P0.5B.2 gate and founder completed deepening.
+- **Fix (branch `cursor/synthesis-retrospective-readiness-1983`):** `resolveSynthesisEligibleReadinessState()` — when historical formation complete (6 territories) + ≥3 deepening answers + evaluated INSUFFICIENT → **synthesis gate PARTIAL**. Stored as `readinessRefresh.synthesisEligibleState`; UI shows **Synthesis gate: CHARACTER PARTIAL (retrospective…)** and re-enables run/retry. Formation gate unchanged.
+- **Tests:** +3 synthesisReadinessGate tests; 44 in synthesis suites pass. Build green.
+
+---
+
+## 2026-08-24 — P0.5C Character-Led Marketing Expression System + North-Star Calibration
+
+- **Context:** Full sprint to implement the methodological layer between Brand Character System and marketing artifacts for NDXBOOK. Founder-approved 3×3 exploratory board is **CHARACTER_EXPRESSION_CALIBRATION** (high character authority, no identity authority — not final palette/typography/collage mandate). Pipeline: Character Event → Content Thesis → Marketing Artifact → behavior-first FAL. Experiment 01: nine unrelated-topic Instagram first slides testing same character without template collapse. Explicitly do NOT finalize identity, product expression, world formation, or mutate Experiment F/G.
+- **Architecture:** `shared/site00-brand-lore/brandMarketingExpression/` — types, forensic audit, behavioral modes (9 seed + discovered), surface/cause separation, north star 3×3 persistence, marketing expression compiler, character event + thesis formulation, visual causality, channel modulation, typography/color behavior (no font/palette prescription), FAL prompt compiler (16 behavior-first sections), evaluation (character recognition, north-star distance, template-collapse guards). Service `brandMarketingExpressionService.ts` + store adapter (methodology_validation_runs mode `NDX_BRAND_MARKETING_EXPRESSION`, DB id `c4e1a2b3-0012-...`). Upstream requires compiled `BrandCharacterSystem`.
+- **UI:** `/projects/ndxbook/marketing-expression` (public behavior thesis, north star forensics, what not to copy), `/marketing-expression/experiment-01` (3×3 feed preview, per-artifact review, founder-triggered FAL per slide, artifact + set judgments). Hub entry P0.5C added. API `marketing_expression_*` + `marketing_expression_experiment_01_*`.
+- **Generation controls:** No page-load generation; no automatic FAL retry; max 9 initial FAL requests (1 per artifact); founder-triggered only; accounting persisted.
+- **Tests:** +52 P0.5C tests (`brandMarketingExpressionP05C.test.ts`). Build green. Experiment G `characterReevaluationRequired` preserved. Brand Canon unchanged.
+
+---
+
+## 2026-08-24 — P0.5D Content Operations + Performance Learning Engine
+
+- **Context:** Build operational layer turning approved Brand Character System + Marketing Expression System into repeatable, testable, partially automated NDXBOOK social content operation. Answers: what should NDX talk about next, what deserves attention, what's repetitive, channel/format selection, founder approval gates, performance ingestion, production learning without mutating character/canon. Default: ASSISTED_AUTONOMY — no autonomous publishing.
+- **Architecture:** `shared/site00-brand-lore/contentOperations/` — ContentOperationsSystem, ContentOpportunity engine (multi-dimensional ranking, not viral score), editorial strategy/memory, duplicate/callback logic, weekly EditorialSlate, channel/format selection, research depth + claim confidence, SocialContentPackage (carousel integrates Sequence Creative System, Reel/Story/Caption/CTA contracts), publishing handoff (READY_FOR_MANUAL_PUBLISH), content calendar, performance records, qualitative audience evidence, performance learning with false-learning guards, editorial health, production budget, NDXBOOK_MARKET_TEST_01. Service `contentOperationsService.ts` + store (`NDX_CONTENT_OPERATIONS`, DB id `c4e1a2b3-0013-...`).
+- **UI:** `/projects/ndxbook/content-operations` (opportunities, slate, production queue, market test), `/content-operations/performance` (metrics, audience response, learning with founder acceptance). LIVE_SIGNAL_INGESTION_NOT_CONNECTED — pilot uses seeded opportunities.
+- **Boundaries:** Performance ≠ character/canon authority. Founder approval required for slate, content, publish. Instagram NOT_CONNECTED. Experiment F/G immutable. No product expression/world formation.
+- **Tests:** +62 P0.5D tests. Build green.
+
+---
+
+## 2026-08-24 — P0.5C.1 Editorial Information Architecture + Typographic Governance + Carousel Sequence Direction
+
+- **Context:** Correct visual communication weaknesses from Experiment 01 V1 live generations — information architecture, not expression world redesign. Founder approves black/cream/lime investigative energy; problem is too much simultaneous information, weak hierarchy, random typography. Distinction: MESSY THINKING ≠ MESSY COMMUNICATION. Pipeline: Character → Thesis → Evidence Workspace → Editorial Decision → Hierarchy → First-Slide Art Direction → Sequence → Typographic Governance → Visual Artifact → Distance QA.
+- **Architecture:** `shared/site00-brand-lore/editorialInformationArchitecture/` — EditorialDecision, FirstSlideInformationBudget, deferred-information classification (DEFER_TO_SEQUENCE), CarouselNarrativeArchitecture, NDXTypographyBehaviorSystem (DISPLAY/DOCUMENT/HUMAN_TRACE + SOURCE_TEXT exception), uppercase-only NDX-authored copy, TextDensityEvaluation, FeedDensityRhythm, ArtifactReadingPath, three-distance QA, lime governance, FirstSlideArtDirectionContract, FAL prompt compiler V2 (18-section editorial hierarchy). Experiment 01 V1 preserved; V2 pipeline ready (`EXPERIMENT_01_V2_INFORMATION_ARCHITECTURE`) — same 9 topics, contracts before founder-triggered FAL.
+- **Integration:** P0.5D Content Operations SocialContentPackage now requires editorial layer (editorialDecisionId, firstSlideContractId, carouselArchitectureId); CarouselSequencePlan extended with sequence arc + slide contracts. Service: `formulateMarketingExpressionExperiment01V2`, `generateExperiment01V2ArtifactAsset`. UI: Experiment 01 page V1/V2 tab switcher + contract review before generate.
+- **Boundaries:** Marketing Expression typography governance ≠ final Brand Identity. No character/canon/Experiment F/G mutation. V2 FAL not auto-generated (0 during implementation; max 9 founder-triggered).
+- **Tests:** +60 P0.5C.1 tests. P0.5C + P0.5D still passing. Build green.
+
+---
+
+## 2026-08-24 — P0.5C.2 Cultural Image Participation + Visual Subject Matter Governance + Artistic Range
+
+- **Context:** Layer on P0.5C.1 (do not replace). Experiment 01 V1/V2 artifacts remain too text/document/evidence-heavy; underexpress culture, people, photography, art, play, emotional entry. NDX is also **Cultural Accomplice** — cultural/human/artistic visual material must be first-class evidence and expression. Same nine Experiment 01 topics; controlled question: can same content ideas become more culturally alive without losing hierarchy clarity?
+- **Architecture:** `shared/site00-brand-lore/culturalVisualParticipation/` — CulturalVisualEvidence + CulturalVisualRole, VisualSubjectMatterDecision (IMAGE_DOMINANT through MIXED_MEDIA), VisualParticipationBalance, VisualAppetiteEvaluation, CulturalAccompliceExpressionEvaluation, MarketingPlayfulnessEvaluation, ArtisticEvidence (distinct from factual), ReferenceDensityEvaluation, FeedCulturalRhythm + FeedEmotionalRhythm, MarketingVisualDiversityEvaluation (text/document dominance guards), NDXPhotographyBehavior, north-star CULTURAL_IMAGE_PARTICIPATION_CALIBRATION, FAL prompt compiler V2.1 (24 sections), Experiment 01 V2.1 (`EXPERIMENT_01_V2_1_CULTURAL_IMAGE_PARTICIPATION`) — amends P0.5C.1 contracts without mutating V2 history.
+- **Topic visual profiles:** Topic 3 cultural reassessment IMAGE_DOMINANT/REQUIRED; Topic 5 corporate euphemism TYPOGRAPHY_DOMINANT/NOT_HELPFUL; Topic 7 self-correction ARTIFACT_DOMINANT; mixed modes across board for visual appetite variation.
+- **Integration:** P0.5D SocialContentPackage + ContentOpportunity visual potential (HUMAN/CULTURAL/OBJECT/ARCHIVAL/ARTISTIC/PHOTOGRAPHIC). Service: `formulateMarketingExpressionExperiment01V21`, `generateExperiment01V21ArtifactAsset`, `setExperiment01V21ArtifactJudgment`. UI: Experiment 01 page V2.1 tab + contract review (visual participation mode, cultural subject, why it belongs, image-led reading path, V21 founder judgments) before founder-triggered FAL.
+- **Boundaries:** V1/V2 immutable. No auto FAL generation. Generated illustration ≠ factual evidence. Random celebrity/nostalgia/reference stuffing blocked. P0.5C.1 hierarchy, uppercase, typography roles, information budget preserved. Brand Character/Canon, Experiment F/G, Product Expression, World Formation unchanged.
+- **Tests:** +59 P0.5C.2 tests (`culturalVisualParticipationP05C2.test.ts`). P0.5C + P0.5C.1 + P0.5D still passing. Build green. `EXPERIMENT_01_CULTURAL_VISUALS_GENERATED = false` unless founder triggers.
+
+---
+
+## 2026-08-24 — Experiment 01 batch FAL generation (all nine slides)
+
+- **Context:** Founder reported Experiment 01 only allowed generating one slide at a time (per selected artifact). UX should be one founder-triggered button that generates all nine first slides in the background with polling progress.
+- **Fix:** `generateAllExperiment01ArtifactAssets`, `generateAllExperiment01V2ArtifactAssets`, `generateAllExperiment01V21ArtifactAssets` — background worker loops pending artifacts, saves after each. API `*_generate_all` actions. UI: **GENERATE ALL NINE FIRST SLIDES (FAL)** above 3×3 grid; polls during GENERATING; shows X/9 progress. Contract review gates allow GENERATING status during active batch.
+
+---
+
+## 2026-08-24 — P0.5E Campaign Board + Horizontal Sequence Production + Client Approval Architecture
+
+- **Context:** Extend Marketing Expression + Content Operations into generic Studio World campaign-preparation workflow. Horizontal production: Round 01 = all Slide 01s across slate, lock, then Round 02 = all Slide 02s. Preserve vertical coherence within sequences AND horizontal coherence across campaign. NDXBOOK Experiment 01 V2.1 as proving ground — generic models contain NO NDX aesthetic assumptions.
+- **Architecture:** `shared/site00-studio-world-production/marketingCampaignProduction/` — MarketingCampaignPeriod, CampaignContentSlate, CampaignProductionBoard, CampaignProductionRound, CampaignCoherenceModel (vertical + horizontal), SequenceSlideArtDirectionContract, Slide 02 swipe-reward methodology, locking/reopen lineage, ClientMarketingApproval, CampaignApprovalSnapshot, CompleteSocialContentPackage, campaign rhythm evaluation, anti-template guards. NDX adapter: `shared/site00-brand-lore/marketingCampaignProduction/ndxbookExperiment01Adapter.ts` — uneven sequence depths (5,3,7,1,6,4,8,3,5), V2.1 → Round 01, lock, Round 02 formulation.
+- **Service:** `marketingCampaignProductionService.ts` + memory store. API: `campaign_production_*`. UI: `/projects/ndxbook/content-operations/campaign-board` — Campaign Wall, Round View, Feed Preview, Content Plan, Client Review mode, lock Round 01, formulate Round 02.
+- **Boundaries:** No auto-generation on page load; Round 02 blocked until Round 01 locked; locked assets immutable; P0.5C/P0.5C.1/P0.5C.2 preserved; Experiment F/G, Brand Character/Canon unchanged; Product Expression / World Formation blocked.
+- **Tests:** +23 P0.5E tests. Full suite 2225 passing. Build green.
+
+---
+
+## 2026-08-24 — Experiment 01 stale batch generation recovery
+
+- **Context:** Founder on mobile V2.1 Experiment 01 saw **"GENERATING FIRST SLIDES IN BACKGROUND… 1/9 COMPLETE"** with no generate button and nothing running on FAL — persisted state stuck after batch worker died (Railway redeploy or mid-batch crash).
+- **Root cause:** UI hid **GENERATE ALL** when any artifact had `generationStatus === 'GENERATING'` or run status was `EXPERIMENT_01_*_GENERATING`. `activeGenerationAttempts` is in-memory only — after redeploy, persisted GENERATING flags remained with no worker.
+- **Fix:** `reconcileStaleExperiment01Generation()` on every `getBrandMarketingExpressionState` GET when no active worker — resets stale GENERATING artifacts to `NOT_GENERATED`, run back to `*_READY`. Batch worker `finalizeExperiment01BatchGeneration` + per-artifact try/catch on failure. UI: show **GENERATE REMAINING N FIRST SLIDES (FAL)** when partial complete; progress text only while worker actually running. Tests: `experiment01StaleGeneration.test.ts`.
+
+---
+
+## 2026-08-24 — P0.5E.1 NDX Daily Publishing Cadence + Cross-Platform Content Derivation
+
+- **Context:** Extend P0.5D/P0.5E so NDXBOOK can operate high-volume daily publishing (3 feed, 4 story, 1–2 reels/day) without requiring 9–10 unrelated ideas daily. Core principle: **reuse thinking, re-derive expression** — one Content Intelligence → many platform-native expressions.
+- **Generic domain:** `shared/site00-studio-world-production/dailyPublishingCadence/` — PublishingCadencePolicy, DailyPrimaryContentEvent, CrossPlatformContentIntelligence, PlatformContentExpression, CrossPlatformDerivationPolicy, DailyCrossPlatformContentMatrix, DailyStoryCluster, SecondReelEligibility, editorial health, content fatigue, evergreen reserve, watch queue, rapid response, platform-native QA, shared research, weekly production board, video hook round, channel expression learning, cost model.
+- **NDX adapter:** `shared/site00-brand-lore/dailyPublishingCadence/` — 3 feed / 4 story / 1 reel target / 2 max normal; ~21 primary events/week; self-checkout 6-platform derivation example.
+- **Service:** `dailyPublishingCadenceService.ts` — configure, plan week, build daily plan, approve weekly intelligence slate. API: `daily_publishing_*`. UI: `/projects/ndxbook/content-operations/daily-plan` (daily/week/event/platform views).
+- **Boundaries:** No autonomous publishing; Brand Character/Canon unchanged; generic models NDX-free; production ≠ publishing calendar.
+- **Tests:** +61 P0.5E.1 tests. Full suite 2288 passing. Build green.
+
+---
+
+## 2026-08-24 — P0.5C.3 Character Retention + Controlled Misbehavior + Humor Reinjection
+
+- **Context:** V2.1 editorial compression improved clarity but removed too much NDX character (punchlines, side comments, human trace, mischief). Core principle: **reduce information, preserve character** — distinguish **information density** vs **character density**. V2.1 history immutable; new lineage **Experiment 01 V2.2**.
+- **Domain:** `shared/site00-brand-lore/characterRetention/` — CharacterRetentionContract, CharacterBeat, density/sterility/compression evaluations, humor reinjection, controlled misbehavior, 28-section FAL prompt, feed character/humor rhythm, north-star character forensics.
+- **V2.2 pipeline:** amend V2.1 → character retention evaluation → founder contract review (18 V22 judgments) → founder-triggered FAL only (max 9). Topic-specific beats (e.g. "WE USED TO JUST BUY THINGS???", "47 MINUTES LATER...").
+- **Integration:** P0.5E Round 01 lock requires V2.2 generated + character gate pass. P0.5D `characterRetentionContractId`. Experiment 01 UI V2.2 tab.
+- **Boundaries:** P0.5C.1/C.2 preserved; Brand Character/Canon, Experiment F/G unchanged; no auto-generation.
+- **Tests:** +17 P0.5C.3. Full suite 2305 passing. Build green.
+
+---
+
+## 2026-08-24 — P0.5C.4 Art-Board Materiality + Imperfect Canvas Composition
+
+- **Context:** V2.2 character retention succeeded but artifacts still read as graphics on clean templates. Core principle: **THE CANVAS IS AN OBJECT** — material surface participates, not neutral background texture.
+- **Domain:** `shared/site00-brand-lore/artBoardMateriality/` — ArtifactMaterialitySystem, CanvasObjectContract, ArtBoardDirectionContract, construction history, layers, attachment causality, imperfect canvas + material density evaluations, feed material rhythm, 33-section FAL prompt with template guard.
+- **V2.3 pipeline:** amend V2.2 → art-board contracts → founder review (20 V23 judgments) → founder-triggered FAL only. Topic-specific artifact forms (receipt stack, graph notebook, archival file, magazine tear, thermal receipt, screenshot print, art board, etc.).
+- **Integration:** P0.5E Round 01 lock requires V2.3 generated + material gate. P0.5D `artBoardDirectionContractId`. Experiment 01 UI V2.3 tab.
+- **Boundaries:** V1–V2.2 immutable; P0.5C.3 character preserved; no torn-paper-everywhere; no fake texture filter.
+- **Tests:** +15 P0.5C.4. Full suite 2320 passing. Build green.
+
+---
+
+## 2026-08-24 — P0.5E.1A Daily Cadence Reconciliation + Second-Reel Policy Cleanup + Volume Semantics
+
+- **Context:** Focused cleanup of P0.5E.1 daily publishing cadence — not a new methodology sprint. Founder-approved NDX Instagram cadence: **3 Feed + 4 Stories + 1 Reel/day baseline (8/day, 56/week)**; optional second Reel max-normal **9/day, 63/week** (63 is NOT baseline). Cadence is operating rhythm, not content quota.
+- **Forensic fixes:** Replaced stale third-Reel current-state terminology with **SECOND_REEL_*** canonical names; preserved `THIRD_REEL_OPTIONAL_POLICY_IMPLEMENTED` and `FAIL_THIRD_REEL_FORCED` as deprecated compatibility aliases. Single derived volume path via `dailyPublishingUnitVolume` / `weeklyPublishingUnitVolume`.
+- **Domain:** `CadenceFulfillmentEvaluation` (HEALTHY_BASELINE, HOLD_SLOT_EMPTY, etc.), `PrimaryEventLifecycleState` + `reactivatePrimaryContentEvent` for callbacks, `detectForcedPremiseCreation`, cost breakdown with baseline (7 Reels/week) vs max-normal (14) vs actual planned, browser-safe `reelSlotPresentation.ts` for UI.
+- **UI:** Daily Plan page shows baseline 56 / max-normal 63 labels, Reel 01 target + Reel 02 optional/held semantics, baseline vs max-normal cost lines.
+- **Service:** Second Reel no longer auto-approved from `dayEvents.length > 1`; stores `cadenceFulfillmentEvaluationsByDate`.
+- **Tests:** +14 P0.5E.1A regression tests; P0.5E.1 test 19 updated to HEALTHY_BASELINE. Cadence suite 75 passing; full suite 2333+ passing; build green.
+
+---
+
+## 2026-08-24 — P0.5D.1 Live Cultural Intelligence + Trend Forecasting + Temporal Relevance Engine
+
+- **Context:** Upstream intelligence layer between live external world and Content Operations. Core question: *what is happening or about to happen that this brand could notice, understand, connect, question, remember, explain, react to, or have a distinctive POV about?* NOT a trending-hashtag scraper or trend-copying engine. Generic Studio World architecture + NDX adapter; feeds better intelligence into existing ContentOpportunity without replacing it.
+- **Corrected pipeline:** LIVE WORLD SIGNALS → normalization → clustering → lifecycle → forecast → source/freshness validation → brand relevance → WHY NOW → ContentOpportunity → weekly slate → packages → production → publishing → learning.
+- **Generic domain:** `shared/site00-studio-world-production/liveCulturalIntelligence/` — LiveWorldSignal, SignalCluster, TrendLifecycleEvaluation, UpcomingCulturalMoment, ForecastConfidence, TemporalRelevanceEvaluation, WhyNowEvaluation, CurrentIntelligencePackage, BrandSignalInterpretation, CulturalMemoryMatch, EditorialWhitespaceEvaluation, CulturalWeatherPattern, WeeklyCulturalForecast, LiveWatchQueue, EditorialFlexCapacity, ForecastOutcome, ClientIntelligenceConfiguration, failure states, `FAL_REQUESTS_FOR_FORECASTING = 0`.
+- **NDX adapter:** `shared/site00-brand-lore/liveCulturalIntelligence/` — `ndxLiveCulturalIntelligenceAdapter.ts` (5 pilot manual signals), `ndxRelevance.ts` (trend dependency guard, cultural memory, callback evidence), NDX character behavior modes, founder judgment vocabulary.
+- **Service:** `api/_lib/site00Evolve/liveCulturalIntelligence/` — configure, manual refresh, weekly forecast, promote STRONG_OPPORTUNITY/CALLBACK to ContentOpportunity with live lineage. Memory store (no Supabase yet). API: `cultural_intelligence_*` on projects.
+- **UI:** `/projects/ndxbook/cultural-intelligence` (LIVE NOW, COMING, ACCELERATING, WATCHING, OPPORTUNITIES, SKIP, SOURCES); `/projects/ndxbook/cultural-intelligence/weekly-forecast` (10 forecast sections + open capacity). Content Operations banner notes intelligence layer.
+- **ContentOpportunity integration:** Optional `liveLineage` (signalIds, intelligence package, brand interpretation, whyNow, temporal, memory, forecast, origin). Seeded pilot opportunities remain valid without lineage.
+- **Connectors:** Truthful states only — MANUAL (founder pilot signals), AVAILABLE_NOT_CONFIGURED, NOT_AVAILABLE. No fabricated live APIs.
+- **Boundaries:** Brand Character/Canon unchanged; Experiment D/F/G, P0.5C, P0.5E, P0.5E.1 cadence unchanged; no FAL during forecasting; no generation on page load; no autonomous publishing; rapid response cannot bypass verification or founder approval.
+- **Tests:** +12 grouped P0.5D.1 tests (~50 requirements in `culturalIntelligenceP05D1.test.ts`). P0.5D test 58 updated. Cadence + content ops regressions green. Build green.
+
+---
+
+## 2026-08-24 — P0.5C.4A Human-Made Mark System + Lime Intervention Governance + Anti-AI Artifact Correction
+
+- **Context:** Surgical refinement of P0.5C.4 V2.3 after first generated artifact review. Materiality directionally successful; gaps were under-utilized lime as NDX intervention color and AI-looking pictograms/micro-details. Core correction: maker presence must become visually undeniable without undoing art-board materiality.
+- **Domain:** `shared/site00-brand-lore/artBoardMateriality/` — `NDXHumanMadeMarkSystem`, `HumanMarkConsistencyEvaluation`, `NDXLimeInterventionSystem`, `LimeInterventionDensity`, `LimeApplicationMode`, `AntiAIGeneratedArtifactEvaluation`, `MakerEvidenceStrength`, `LimeFeedDistanceEvaluation`, `HandMarkLegibilityEvaluation`, `FeedMakerRhythm`, north-star calibrations (HUMAN_MARK / LIME_INTERVENTION / MAKER_AUTHENTICITY).
+- **V2.3 revision:** Surgical `applyV23HumanMadeRevision()` preserves parent fingerprint; topic 1 (subscription) gets 15 lime hand-drawn ownership icons + marker circles/arrows; varied maker behavior across board; topic 7 intentional minimal.
+- **FAL V2.3 prompt:** Extended with human-made mark language, lime intervention behavior, anti-AI/vector-icon negative constraints (41 sections).
+- **UI:** V2.3 review shows lime density, maker evidence, anti-AI result, human-made gate; +15 founder judgments (MORE_LIME, MAKE_ICONS_HAND_DRAWN, THATS_NDX, etc.).
+- **Boundaries:** P0.5C.4 materiality preserved; P0.5C.3 character retained; FAL founder-triggered only; parent V2.3 fingerprint immutable.
+- **Tests:** +13 P0.5C.4A tests; P0.5C.4 regressions updated. Build green.
+
+---
+
+## 2026-08-24 — P0.5C.4B Signature Lime Presence + Artifact Color Continuity + Semantic Accent Selection
+
+- **Context:** After live V2.3 generation review — artifacts visually successful; signature NDX lime not guaranteed on every artifact. Rule: every NDX marketing artifact must contain ≥1 intentional visible signature-lime element (may be tiny — word, punctuation, circle, mark). NOT make every post lime-dominant.
+- **Canonical token:** `NDX_SIGNATURE_LIME` = `#D6FF3B` (existing Editorial Utility signal lime). NDX-authored marks default to signature lime; source material keeps authentic colors; arbitrary red NDX marks rejected.
+- **Domain:** `SignatureLimeAccentSelection`, word/punctuation accents, presence vs dominance evaluations, `PerceptibleSignatureEvaluation`, `NDXAuthoredColorOwnershipEvaluation`, `FeedSignatureColorContinuityEvaluation`, `SIGNATURE_LIME_REVISION` micro-revision path. Topic 3 calibration: APOLOGY word + NDX circle → signature lime (not red).
+- **Generic:** `shared/site00-studio-world-production/signatureBrandTrace/` — configurable `SignatureBrandTraceRequirement` for future clients (NDX adapter required=true, others not forced).
+- **Round 01 gate:** materiality + human-made + **signature lime presence** required before lock.
+- **FAL:** explicit SIGNATURE LIME REQUIREMENT, semantic accent, color ownership sections (46 prompt sections).
+- **Tests:** +8 grouped P0.5C.4B tests (~30 requirements). P0.5C.4/4A regressions green. Build green.
+
+---
+
+## 2026-08-24 — P0.5D.2 Live Signal Source Acquisition + Connector Wiring + Weekly Forecast Proving Run
+
+- **Context:** Move P0.5D.1 from MANUAL_CONNECTED to PARTIALLY LIVE-CONNECTED cultural intelligence. P0.5D.1 methodology unchanged — bottleneck was source acquisition (live external sources connected: 0).
+- **Live source stack:** PUBLIC_RSS web/news discovery (production-connected via live BBC feed health check, no API key); EVENT_CALENDAR manual_connected (curated seed + manual); SEARCH_TRENDS + SOCIAL_TRENDS honestly NOT_CONNECTED; manual founder/editorial first-class.
+- **Generic domain:** `LiveSourceCapabilityAudit`, `executeLiveIntelligenceRefreshRun`, `WeeklySignalQueryPlan`, `SourceCoverageEvaluation`, `SignalDiscoveryDiversityEvaluation`, `EventPreparationPackage`, extended `ClientIntelligenceConfiguration`, `WeeklyOpportunityOriginBalanceEvaluation`.
+- **Service:** `refreshLiveIntelligence`, `addManualFounderSignal`, `runLiveProvingRun` (NDX_LIVE_CULTURAL_INTELLIGENCE_PROVING_RUN_01 → NDX_WEEKLY_CULTURAL_FORECAST_LIVE_01), founder-selective `promoteLiveOpportunityItem` (no auto bulk promotion).
+- **UI:** `/projects/ndxbook/cultural-intelligence/sources` source health + refresh + manual submission; main CI page proving run + selective promote; weekly forecast provenance preserved.
+- **Boundaries:** FAL_REQUESTS=0 for refresh/forecast; no autonomous publishing; Brand Character/Canon unchanged; P0.5D.1 pipeline preserved.
+- **Tests:** +8 grouped P0.5D.2 tests (50 requirements). P0.5D.1 regressions green. Build green.
+
+---
+
+## 2026-08-24 — V2.3 Founder Revision Notes + Auto FAL Re-render Pipeline
+
+- **Context:** Revision labels (NEEDS_LIME, etc.) previously saved judgment only — no note, no FAL re-render.
+- **Pipeline:** Note modal → contract update → FAL with founder revision directive; parent asset as reference when available.
+- **UI/API:** `marketing_expression_experiment_01_v23_founder_revision`; approval labels save immediately.
+
+---
+
+## 2026-08-24 — V2.3 slide selection fix + signature-lime board readiness banner
+
+- **Context:** Founder could not select V2.3 grid cells on mobile; asked whether board has signature-lime FAL instructions or needs new board version.
+- **Selection fix:** `selectedId` grid highlight; images `pointer-events: none`; revision modal blocks grid until cancel; SELECTED headline.
+- **Board readiness:** Banner detects `SIGNATURE LIME REQUIREMENT` in prompts. Legacy boards: re-formulate V2.3 (clears images) or per-slide NEEDS LIME revision. No V2.4 needed.
+
+---
+
+## 2026-08-24 — Campaign production wall wired to V2.3 marketing expression slides
+
+- **Context:** Founder reported campaign production wall (CAMPAIGN WALL / Feed Preview) was not using latest marketing expression slides (V2.3 art-board materiality). Board showed V2.1-era Slide 01 assets despite V2.3 being current.
+- **Root cause:** `ndxbookExperiment01Adapter` and `marketingCampaignProductionService` sourced `experiment01V21` for board init + Round 02 contracts; Round 01 lock gate already required V2.3 — mismatch.
+- **Fix:** Adapter maps `experiment01V23.generatedArtifacts` → Slide 01 assets; service requires V2.3 before init; Round 02 uses V2.3 contract context. UI init copy → V2.3.
+- **Founder action:** If board already initialized with V2.1 assets, re-initialize campaign board after V2.3 artifacts are generated to refresh wall images.
+- **Tests:** P05E + P0.5C.3 updated; 40 tests green. PR #378 merged.
+
+---
+
+## 2026-08-24 — P0.5C.5 First-Person Authorship + Public Copy Translation + Campaign Caption Synthesis
+
+- **Context:** Sprint P0.5C.5 — visual art direction strong but public artifacts exposed internal production language (CHARACTER BEAT, WHAT NDX NOTICED, PRIMARY EDITORIAL IDEA, CONTROLLED MISBEHAVIOR, etc.). Need strict internal/public boundary + downstream automated Instagram caption synthesis after slides are caption-ready.
+- **Architecture:** Generic `shared/site00-studio-world-production/publicAuthorship/` (PublicAuthorshipMode, PublicCopyTranslation, InternalLabelQuarantine, ThirdPersonSelfReferenceEvaluation, PersonalAuthorshipEvaluation, PublicArtifactExportEvaluation) + `campaignCaption/` (CampaignCaptionSystem, CaptionReadinessEvaluation, CaptionSequenceRelationshipEvaluation). NDX adapter: `shared/site00-brand-lore/firstPersonAuthorship/`.
+- **FAL V2.3:** `buildFalPublicCopySections()` — internal guidance separated; explicit DO NOT PRINT internal labels. Negative constraints extended.
+- **V2.3 revision:** `applyV23PublicCopyRevision()` surgical path; `applyV23PublicCopyRevisionAll()` service. Preserves C.4/C.4A/C.4B/C.3 art direction.
+- **Captions:** `synthesizeCampaignCaptions()` + Campaign Board UI (SYNTHESIZE CAPTIONS, founder judgments THAT_SOUNDS_LIKE_ME etc.). Draft after generated slides; final after full lock. SocialContentPackage + CompleteSocialContentPackage caption fields extended.
+- **Boundaries:** Brand Character/Canon unchanged; no autonomous publishing; cross-platform caption independence preserved.
+- **Tests:** 50 P0.5C.5 requirements in `firstPersonAuthorshipP05C5.test.ts`. Build green.
+
+---
+
+## 2026-08-24 — P0.5E.2 NDX Book Cultural Language + Content Ontology + Motion Character Foundation
+
+- **Context:** Sprint P0.5E.2 — formalize NDXBOOK book-based cultural language/content ontology and motion character system foundation. Architecture only — no embodied character visual design, no FAL/LoRA, no generation.
+- **Generic Studio World:** `shared/site00-studio-world-production/bookLanguage/` (BookLanguageContextEvaluation, memory mapping) + `motionCharacter/` (MotionCharacterSystem, HumanMotionTraceSystem, PhysicalBookBehavior).
+- **NDX adapters:** `shared/site00-brand-lore/ndxBookCulturalLanguage/` (terminology forensic, NdxBookCulturalLanguageSystem, NdxContentOntology, NdxAudienceBookBehavior, CrossSurfaceBookProgression) + `ndxMotionCharacter/` (motion thesis, 12 behavior modes, platform differentiation, EmbodiedBrandCharacterFoundation, EmbodiedCharacterDiscoveryReadiness).
+- **Terminology:** Forensic audit classifies SLIDE/FILE/ARCHIVE/etc.; historical CASE FILE identifiers immutable; public language PAGE/BOOKMARK/FLIP BACK/DOG-EAR/ERRATA/MARGIN NOTE/FOOTNOTE/ADD IT TO THE BOOK; FILED not canonical public completion language.
+- **Ontology:** FEED=THE PAGES, STORIES=THE MARGINS, REELS=THE BOOK IN MOTION, TIKTOK=THE THOUGHT BEING SPOKEN, INDEX=ACCUMULATED MEMORY. REUSE_THINKING_NOT_POSTS preserved via CrossSurfaceBookProgression.
+- **Motion:** Core principle THE VIDEO SHOWS THE BOOK BEING MADE. 12 behavior modes (RABBIT_HOLE, RECEIPT_CAME_BACK, etc.) — flexible not templates. Embodied character distinct from founder + Brand Character; copyright cloning blocked; visual design NOT finalized.
+- **UI/API:** `/projects/ndxbook/motion-character` — ProjectMotionCharacterPage with 9 review sections; API `motion_character_book_language_*` actions.
+- **Tests:** 28 requirements in `bookLanguageMotionCharacterP05E2.test.ts`. Build green.
+
+---
+
+## 2026-08-24 — P0.5C.5A V2.3 Regeneration Recompilation + Current-Contract Authority
+
+- **Context:** Sprint P0.5C.5A — fix critical generation-path defect where `generateExperiment01V23ArtifactAsset` dispatched stored `generationContract.prompt` instead of recompiling from current structured V2.3 contract. V2.3 remains current experiment (no V2.4).
+- **Architecture:** Generic `shared/site00-studio-world-production/generationAuthority/` (GenerationAuthorityModel, GenerationPromptSnapshot, PromptFreshnessEvaluation, ContractCoverageEvaluation, PublicAuthorshipEvaluation). V2.3 adapter: `v23GenerationAuthority.ts`, `v23GenerationAuthorityConstants.ts`.
+- **Generation pipeline:** CURRENT CONTRACT → validate → compile FAL prompt → immutable prompt snapshot → fingerprint → FAL → asset linked to snapshot. `REGENERATE_CURRENT` (default) recompiles; `REPLAY_GENERATION` uses historical snapshot intentionally.
+- **Contract mutation:** `applyV23PublicCopyRevisionAll()` + `markV23ArtifactPromptStale()` mark prompt stale — no automatic FAL/Anthropic.
+- **Board:** `v23BoardReadiness` evaluates selected asset lineage (C.4A/C.4B/C.5); Round 01 lock requires current lineage. `selectedGenerationAssetId` authority implemented.
+- **UI:** Experiment 01 page — CONTRACT/PROMPT/READINESS panels, C.4A/C.4B/C.5 status, GENERATE CURRENT V2.3 / REGENERATE CURRENT / REPLAY HISTORICAL PROMPT. Client-safe `v23BoardReadinessClient.ts` for browser bundle.
+- **Tests:** 14 requirements in `v23GenerationAuthorityP05C5A.test.ts`; 65 related regression tests green. Build green. Deploy v56.
+
+---
+
+## 2026-08-24 — P0.5E.3 Embodied NDX Character Discovery + Human Complexity Model
+
+- **Context:** Sprint P0.5E.3 — full discovery methodology for recurring embodied NDX character (P0.5E.2 foundation). Architecture/discovery only — NO face finalization, NO FAL, NO character generation.
+- **Generic Studio World:** `shared/site00-studio-world-production/embodiedCharacterDiscovery/` — psychology, intelligence, contradictions, humor, emotional range, voice, everyday life, book relationship, physical behavior, camera relationship, style hypothesis, cultural life, scenario tests, humanity evaluation, casting readiness, archetype/beauty collapse guards, 12-round discovery interview.
+- **NDX adapter:** `shared/site00-brand-lore/ndxEmbodiedCharacterDiscovery/` — founder visual north-star evidence (Reference Board 01: #2,#5,#9,#17,#18; Board 02: #2,#8) as VISUAL_TENDENCY_HYPOTHESES not canon; African-American cultural life foundation; 12 scenario stress tests; seed psychology from Brand Character DNA (selected inheritance).
+- **Platform model preserved:** Stories=Margins, TikTok=thought being worked out, Reels=Book in motion, Feed=Pages, REUSE_THINKING_NOT_POSTS.
+- **Next casting spec (architecture only):** 12 candidates representing SAME written character — not generated this sprint.
+- **UI/API:** `/projects/ndxbook/embodied-character` — Character Discovery workspace with 17 sections, interview save/resume, founder judgments, founder-triggered synthesis.
+- **Tests:** 16 requirements in `embodiedCharacterDiscoveryP05E3.test.ts`. Build green. Deploy v57.
+
+---
+
+## 2026-08-24 — V2.3 batch GENERATE ALL parallel FAL + durable attempt tracking
+
+- **Context:** Founder reported V2.3 board **GENERATE ALL NINE** stopped/timed out after slide 2 — not firing all FAL requests at once.
+- **Root causes:** (1) `executeExperiment01GenerationWork` looped sequentially (9× FAL wall time); (2) `activeGenerationAttempts` in-memory only — Railway poll on another instance triggered `reconcileStaleExperiment01Generation` and reset remaining GENERATING slides to NOT_GENERATED mid-batch.
+- **Fix:** Parallel FAL via `Promise.all` over pending artifact IDs; single merge save (visual formulation pattern). Persist `experiment01GenerationTracking` `{ version, attemptId, startedAt }` on run; stale reconcile skips when fresh attempt &lt; 15 min (matches synthesis pattern). Cleared on batch finalize. Integrated with P0.5C.4B.1 V2.3 supersession guards.
+- **Tests:** `experiment01StaleGeneration.test.ts` — fresh V2.3 attempt not reconciled; V2.3 generateAll fires 9 FAL in one batch. All targeted marketing-expression tests green.
+- **Ship:** API-only — Railway redeploy from `main` after merge; no cPanel ZIP unless UI touched.
+
+## 2026-08-24 — P0.5C.4B.1 Signature Lime Restraint + Queue Supersession
+
+- **Context:** Founder reported P0.5C.4B overcorrected — FAL rendered lime as default ink across handwriting, icons, annotations. Sprint also required immediately superseding stale V2.3 generation queue compiled pre-C4B.1 without auto-regenerating after implementation.
+- **Root cause:** `falPromptCompilerV23` defaulted all NDX marks/icons to signature lime; `humanMadeMarks` set `limeApplied: true` on every mark; `limeIntervention` derived MODERATE+ density from icon counts — HUMAN_MADE ↔ LIME coupling.
+- **Canonical principle:** LIME PRESENCE REQUIRED · LIME PROMINENCE PROHIBITED. New `signatureLimeRestraint.ts` — ChromaticAttentionHierarchy, SignatureLimeRestraintMode, LimeProminenceEvaluation, FeedChromaticRhythm; decoupled human-made color from lime.
+- **Phase 0:** `experiment01V23Supersession.ts` + service reconcile on GET — marks run `SUPERSEDED_BY_METHODOLOGY` / reason `P0.5C.4B.1_SIGNATURE_LIME_RESTRAINT`; pending → `CANCELLED_SUPERSEDED` (not FAILED); completed → `PRESERVED_PRE_C4B1`; in-flight may complete once; blocks further FAL from stale queue; forensic report on experiment.
+- **FAL:** Compiler bumped to `falPromptCompilerV23@P0.5C.4B.1`; dedicated SIGNATURE LIME RESTRAINT + CHROMATIC ATTENTION section; black/neutral default typography and icons; pre-C4B.1 snapshots → `STALE_PRE_C4B1`; REGENERATE_CURRENT recompiles C4B.1; REPLAY preserves history.
+- **Round 01:** Lime restraint gate + current lineage requires C4B.1. UI founder review fields: lime role, attention target, restraint mode, prominence, human trace color, job status (CANCELLED/SUPERSEDED vs FAILED).
+- **No V2.4.** No automatic regeneration after sprint — founder REGENERATE CURRENT only.
+- **Tests:** `artBoardMaterialityP05C4B1.test.ts` (14) + updated P05C4B/P05C5A. Build green.
+
+---
+
+## 2026-08-24 — Embodied Character Discovery synthesize button fix
+
+- **Context:** Founder reported **SYNTHESIZE CHARACTER (FOUNDER-TRIGGERED)** on `/projects/ndxbook/embodied-character` did nothing.
+- **Root cause:** Store adapter was **memory-only** — on Railway multi-instance, initialize/synthesize could land on different pods; synthesize threw "not initialized" with no UI error. `act()` swallowed failures silently.
+- **Fix:** Supabase persistence via `site00_methodology_validation_runs` (`NDX_EMBODIED_CHARACTER_DISCOVERY_DB_ID`, mode `NDX_EMBODIED_CHARACTER_DISCOVERY`); durable store adapter with vitest memory fallback. UI: catch API errors, show alert panel, success notice, auto-navigate to SYNTHESIS tab on success.
+- **Ship:** Railway API redeploy + cPanel ZIP for UI error/feedback changes.
+
+---
+
+## 2026-08-24 — Embodied Character page white screen (Supabase row id collision)
+
+- **Context:** `/projects/ndxbook/embodied-character` showed a blank white screen after Supabase persistence shipped.
+- **Root cause:** `NDX_EMBODIED_CHARACTER_DISCOVERY_DB_ID` was accidentally set to the **same UUID** as `NDXBOOK_CONTENT_OPERATIONS_DB_ID` (`c4e1a2b3-0013-4000-8000-000000000001`). GET returned the content-operations run (same `projectId: ndxbook`) as the embodied-character run; React crashed rendering missing fields (`castingReadiness`, `culturalLife`, etc.).
+- **Fix:** New unique row id `c4e1a2b3-0015-4000-8000-000000000001`; Supabase GET filters by `mode` + `isNdxEmbodiedCharacterDiscoveryRun()` shape guard. Tests assert id uniqueness and reject foreign payloads.
+- **Founder action:** Re-open page — should show INITIALIZE (or prior discovery state once initialized on the new row). Railway API redeploy required.
+
+---
+
+## 2026-08-24 — P0.5E.4 Founder Character Discovery Room + Pre-Casting Synthesis Gate
+
+- **Context:** Sprint P0.5E.4 — continue from P0.5E.3 embodied character foundation. P0.5E.3 seeded psychology/intelligence/contradictions/etc. as **SYSTEM_SEEDED proposals**; founder must confirm/revise/reject before casting. Build interactive Founder Character Discovery Room — character truth before visual identity. NO FAL, NO face selection, NO Character Bible synthesis auto-advance.
+- **Generic Studio World:** `shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/` — 28 CharacterDiscoveryDomains, scenario-based discovery with NONE_OF_THESE/SOMETHING_ELSE/IT_DEPENDS/I_DONT_KNOW_YET escape options, FounderCharacterJudgment, CharacterContradiction engine (rejects generic adjective pairs), CharacterFlawProfile (blocks secretly flattering flaws), uneven CharacterIntelligenceMap, CharacterHumorBehavior, CharacterRelationshipModel, CulturalKnowledgeBoundary, PublicPrivateCharacterDifference, CharacterDiscoveryLedger (lineage-preserving), CharacterTruthConfidence, extended EmbodiedCharacterHumanityEvaluation, CharacterSynthesisPreview, FounderCharacterRecognitionEvaluation (YES_I_KNOW_HER gate, not inferrable), CharacterCastingReadinessEvaluation.
+- **NDX adapter:** `shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/` — forensic audit of P0.5E.3 seeded content (starting readiness BLOCKED_FOUNDER_DISCOVERY_REQUIRED); 4 NDX scenarios (wrong receipt, enemy excellent point, 1:43am rabbit hole, wrong at dinner); seeds contradictions/flaws/intelligence/cultural boundaries/book discovery from P0.5E.3 base; 18 visual tendency hypotheses as evidence not canon.
+- **API/UI:** Supabase persistence via `site00_methodology_validation_runs` (`NDX_FOUNDER_CHARACTER_DISCOVERY_DB_ID`, mode `NDX_FOUNDER_CHARACTER_DISCOVERY`). Routes: `founder_character_discovery_*` actions. UI: `/projects/ndxbook/character/discovery` — ProjectFounderCharacterDiscoveryPage with 12 discovery sections (forensic, scenarios, traits, contradictions, flaws, intelligence, voice lab, book, visual hypotheses, synthesis preview, I KNOW HER gate, casting readiness). Link from P0.5E.3 embodied-character page.
+- **Casting gates:** READY_FOR_CHARACTER_SYNTHESIS and READY_FOR_CHARACTER_CASTING_EXPLORATION remain false until founder completes discovery + explicit YES_I_KNOW_HER. FAL_REQUESTS=0.
+- **Tests:** 46 requirements in `embodiedCharacterFounderDiscoveryP05E4.test.ts`. Build green. Deploy v59 after merge.
+
+---
+
 ## 2026-08-24 — Founder mobile capture-auth bootstrap page
 
 - **Context:** Founder codes from mobile; asked how to configure Railway `SITE00_CAPTURE_STORAGE_STATE_*` without a laptop. Prior answer required Playwright codegen on desktop.

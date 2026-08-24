@@ -90,6 +90,30 @@ const ProjectCanonicalCarouselExpansionPage = lazy(() => import('../site00/pages
 const ProjectExperimentDPage = lazy(() => import('../site00/pages/ProjectExperimentDPage'));
 const ProjectExperimentFPage = lazy(() => import('../site00/pages/ProjectExperimentFPage'));
 const ProjectExperimentGPage = lazy(() => import('../site00/pages/ProjectExperimentGPage'));
+const ProjectExperimentHPage = lazy(() => import('../site00/pages/ProjectExperimentHPage'));
+const ProjectExperimentHDevelopmentPage = lazy(() => import('../site00/pages/ProjectExperimentHDevelopmentPage'));
+const ProjectBrandCharacterReadinessPage = lazy(() => import('../site00/pages/ProjectBrandCharacterReadinessPage'));
+const ProjectBrandCharacterDeepeningPage = lazy(() => import('../site00/pages/ProjectBrandCharacterDeepeningPage'));
+const ProjectBrandCharacterSynthesisPage = lazy(() => import('../site00/pages/ProjectBrandCharacterSynthesisPage'));
+const ProjectBrandCharacterArtifactProofsPage = lazy(() => import('../site00/pages/ProjectBrandCharacterArtifactProofsPage'));
+const ProjectBrandMarketingExpressionPage = lazy(() => import('../site00/pages/ProjectBrandMarketingExpressionPage'));
+const ProjectBrandMarketingExpressionExperiment01Page = lazy(() => import('../site00/pages/ProjectBrandMarketingExpressionExperiment01Page'));
+const ProjectContentOperationsPage = lazy(() => import('../site00/pages/ProjectContentOperationsPage'));
+const ProjectContentOperationsPerformancePage = lazy(() => import('../site00/pages/ProjectContentOperationsPerformancePage'));
+const ProjectContentOperationsCampaignBoardPage = lazy(() => import('../site00/pages/ProjectContentOperationsCampaignBoardPage'));
+const ProjectContentOperationsDailyPlanPage = lazy(() => import('../site00/pages/ProjectContentOperationsDailyPlanPage'));
+const ProjectCulturalIntelligencePage = lazy(() => import('../site00/pages/ProjectCulturalIntelligencePage'));
+const ProjectCulturalIntelligenceSourcesPage = lazy(() => import('../site00/pages/ProjectCulturalIntelligenceSourcesPage'));
+const ProjectCulturalIntelligenceWeeklyForecastPage = lazy(() => import('../site00/pages/ProjectCulturalIntelligenceWeeklyForecastPage'));
+const ProjectMotionCharacterPage = lazy(() => import('../site00/pages/ProjectMotionCharacterPage'));
+const ProjectEmbodiedCharacterDiscoveryPage = lazy(
+  () => import('../site00/pages/ProjectEmbodiedCharacterDiscoveryPage'),
+);
+const ProjectFounderCharacterDiscoveryPage = lazy(
+  () => import('../site00/pages/ProjectFounderCharacterDiscoveryPage'),
+);
+const ProjectExperimentGDirectionsPage = lazy(() => import('../site00/pages/ProjectExperimentGDirectionsPage'));
+const ProjectExperimentGFinalistsPage = lazy(() => import('../site00/pages/ProjectExperimentGFinalistsPage'));
 const ProjectExperimentEPage = lazy(() => import('../site00/pages/ProjectExperimentEPage'));
 const ProjectWorkspaceVisualDevelopmentPage = lazy(
   () => import('../site00/pages/ProjectWorkspaceVisualDevelopmentPage'),
@@ -697,6 +721,246 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectExperimentFPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExperimentGDirections}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExperimentGDirectionsPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExperimentGFinalists}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExperimentGFinalistsPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExperimentH}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExperimentHPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBrandCharacterDevelopment}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExperimentHDevelopmentPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBrandCharacterReadiness}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectBrandCharacterReadinessPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBrandCharacterDeepening}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectBrandCharacterDeepeningPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBrandCharacterSynthesis}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectBrandCharacterSynthesisPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBrandCharacterArtifactProofs}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectBrandCharacterArtifactProofsPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBrandMarketingExpression}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectBrandMarketingExpressionPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBrandMarketingExpressionExperiment01}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectBrandMarketingExpressionExperiment01Page />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectContentOperations}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectContentOperationsPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectContentOperationsPerformance}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectContentOperationsPerformancePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectContentOperationsCampaignBoard}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectContentOperationsCampaignBoardPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectContentOperationsDailyPlan}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectContentOperationsDailyPlanPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCulturalIntelligence}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCulturalIntelligencePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCulturalIntelligenceSources}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCulturalIntelligenceSourcesPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCulturalIntelligenceWeeklyForecast}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCulturalIntelligenceWeeklyForecastPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectMotionCharacter}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectMotionCharacterPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectEmbodiedCharacterDiscovery}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectEmbodiedCharacterDiscoveryPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectFounderCharacterDiscovery}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectFounderCharacterDiscoveryPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

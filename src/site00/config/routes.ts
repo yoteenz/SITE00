@@ -66,6 +66,28 @@ export const SITE00_ROUTES = {
   projectExperimentD: '/projects/:projectSlug/experiment-d-concept-territory',
   projectExperimentF: '/projects/:projectSlug/experiment-f-six-concept-reformation',
   projectExperimentG: '/projects/:projectSlug/experiment-g-brand-presentation-concepts',
+  projectExperimentGDirections:
+    '/projects/:projectSlug/experiment-g-brand-presentation-concepts/directions',
+  projectExperimentGFinalists:
+    '/projects/:projectSlug/experiment-g-brand-presentation-concepts/finalists',
+  projectExperimentH: '/projects/:projectSlug/brand-character-formation',
+  projectBrandCharacterDevelopment: '/projects/:projectSlug/brand-character-development',
+  projectBrandCharacterReadiness: '/projects/:projectSlug/brand-character-readiness',
+  projectBrandCharacterDeepening: '/projects/:projectSlug/brand-character-deepening',
+  projectBrandCharacterSynthesis: '/projects/:projectSlug/brand-character-synthesis',
+  projectBrandCharacterArtifactProofs: '/projects/:projectSlug/brand-character-artifact-proofs',
+  projectBrandMarketingExpression: '/projects/:projectSlug/marketing-expression',
+  projectBrandMarketingExpressionExperiment01: '/projects/:projectSlug/marketing-expression/experiment-01',
+  projectContentOperations: '/projects/:projectSlug/content-operations',
+  projectContentOperationsPerformance: '/projects/:projectSlug/content-operations/performance',
+  projectContentOperationsCampaignBoard: '/projects/:projectSlug/content-operations/campaign-board',
+  projectContentOperationsDailyPlan: '/projects/:projectSlug/content-operations/daily-plan',
+  projectCulturalIntelligence: '/projects/:projectSlug/cultural-intelligence',
+  projectCulturalIntelligenceSources: '/projects/:projectSlug/cultural-intelligence/sources',
+  projectCulturalIntelligenceWeeklyForecast: '/projects/:projectSlug/cultural-intelligence/weekly-forecast',
+  projectMotionCharacter: '/projects/:projectSlug/motion-character',
+  projectEmbodiedCharacterDiscovery: '/projects/:projectSlug/embodied-character',
+  projectFounderCharacterDiscovery: '/projects/:projectSlug/character/discovery',
   projectExperimentE: '/projects/:projectSlug/experience-expression',
   projectExperimentEVisualDevelopment: '/projects/:projectSlug/experience-expression/visual-development',
   projectExperiments: '/projects/:projectSlug/experiments',
@@ -160,6 +182,90 @@ export function site00ProjectExperimentFPath(projectSlug: string): string {
 
 export function site00ProjectExperimentGPath(projectSlug: string): string {
   return `/projects/${projectSlug}/experiment-g-brand-presentation-concepts`;
+}
+
+export function site00ProjectExperimentGDirectionsPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/experiment-g-brand-presentation-concepts/directions`;
+}
+
+export function site00ProjectExperimentGFinalistsPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/experiment-g-brand-presentation-concepts/finalists`;
+}
+
+export function site00ProjectExperimentHPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/brand-character-formation`;
+}
+
+export function site00ProjectBrandCharacterFormationPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/brand-character-formation`;
+}
+
+export function site00ProjectBrandCharacterDevelopmentPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/brand-character-development`;
+}
+
+export function site00ProjectBrandCharacterReadinessPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/brand-character-readiness`;
+}
+
+export function site00ProjectBrandCharacterDeepeningPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/brand-character-deepening`;
+}
+
+export function site00ProjectBrandCharacterSynthesisPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/brand-character-synthesis`;
+}
+
+export function site00ProjectBrandCharacterArtifactProofsPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/brand-character-artifact-proofs`;
+}
+
+export function site00ProjectBrandMarketingExpressionPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/marketing-expression`;
+}
+
+export function site00ProjectBrandMarketingExpressionExperiment01Path(projectSlug: string): string {
+  return `/projects/${projectSlug}/marketing-expression/experiment-01`;
+}
+
+export function site00ProjectContentOperationsPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-operations`;
+}
+
+export function site00ProjectContentOperationsPerformancePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-operations/performance`;
+}
+
+export function site00ProjectContentOperationsCampaignBoardPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-operations/campaign-board`;
+}
+
+export function site00ProjectContentOperationsDailyPlanPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-operations/daily-plan`;
+}
+
+export function site00ProjectCulturalIntelligencePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/cultural-intelligence`;
+}
+
+export function site00ProjectCulturalIntelligenceSourcesPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/cultural-intelligence/sources`;
+}
+
+export function site00ProjectCulturalIntelligenceWeeklyForecastPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/cultural-intelligence/weekly-forecast`;
+}
+
+export function site00ProjectMotionCharacterPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/motion-character`;
+}
+
+export function site00ProjectEmbodiedCharacterDiscoveryPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/embodied-character`;
+}
+
+export function site00ProjectFounderCharacterDiscoveryPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/character/discovery`;
 }
 
 export function site00ProjectExperimentEVisualDevelopmentPath(projectSlug: string): string {

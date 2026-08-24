@@ -16,6 +16,8 @@ import { PROJECT_INTELLIGENCE_MODULE_REGISTRY } from './moduleRegistry.js';
 
 const MANIFEST_VERSION = 1;
 
+const CONDITIONAL_MODULE_IDS: ProjectIntelligenceModuleId[] = ['BRAND_CHARACTER_DEEPENING'];
+
 const SITE_MODULES: ProjectIntelligenceModuleId[] = [
   'BUSINESS_TRUTH', 'BRAND_LORE', 'BRAND_PERSONALITY', 'PRIMARY_EXPRESSION_CONTEXT',
   'FOUNDER_CREATIVE_APPETITE', 'FUNCTIONAL_REQUIREMENTS', 'ASSET_INVENTORY', 'VISUAL_REFERENCES',
@@ -23,11 +25,12 @@ const SITE_MODULES: ProjectIntelligenceModuleId[] = [
 
 const IDENTITY_SITE_MODULES: ProjectIntelligenceModuleId[] = [
   ...SITE_MODULES, 'IDENTITY_DIRECTION', 'ANTI_DIRECTION', 'CONTENT_INTELLIGENCE',
+  'BRAND_CHARACTER_DEEPENING',
 ];
 
 const APPLICATION_MODULES: ProjectIntelligenceModuleId[] = [
   ...SITE_MODULES, 'USER_ROLES', 'WORKFLOW_INTELLIGENCE', 'PERSISTENT_STATE',
-  'NOTIFICATION_BEHAVIOR', 'APPLICATION_BEHAVIOR',
+  'NOTIFICATION_BEHAVIOR', 'APPLICATION_BEHAVIOR', 'BRAND_CHARACTER_DEEPENING',
 ];
 
 const IMMERSIVE_MODULES: ProjectIntelligenceModuleId[] = [
@@ -57,6 +60,7 @@ function assignModule(
   moduleId: ProjectIntelligenceModuleId,
   requirement: IntelligenceModuleRequirement,
   lifecycle: IntelligenceModuleLifecycle = 'LOCKED',
+  unlockCondition?: string | null,
 ): ProjectIntelligenceModuleAssignment {
   return {
     moduleId,
@@ -66,8 +70,21 @@ function assignModule(
     questionVersion: '1',
     rawAnswerCount: 0,
     synthesized: false,
-    unlockCondition: requirement === 'CONDITIONAL' ? 'Activated when scope requires' : null,
+    unlockCondition: unlockCondition ?? (requirement === 'CONDITIONAL' ? 'Activated when character evidence gaps exist' : null),
   };
+}
+
+export function resolveBrandCharacterDeepeningModuleLifecycle(params: {
+  characterReadinessState?: string | null;
+  questionCount?: number;
+}): IntelligenceModuleLifecycle {
+  const state = params.characterReadinessState ?? 'CHARACTER_NOT_EVALUATED';
+  if (state === 'CHARACTER_READY') return 'COMPLETE';
+  if (state === 'CHARACTER_PARTIAL' || state === 'CHARACTER_INSUFFICIENT') {
+    return (params.questionCount ?? 0) > 0 ? 'IN_PROGRESS' : 'AVAILABLE';
+  }
+  if (state === 'CHARACTER_BLOCKED') return 'NEEDS_CLARIFICATION';
+  return 'AVAILABLE';
 }
 
 export function compileProjectIntelligenceIntakeManifest(params: {
@@ -80,6 +97,8 @@ export function compileProjectIntelligenceIntakeManifest(params: {
   completedModuleIds?: ProjectIntelligenceModuleId[];
   previousManifest?: ProjectIntelligenceIntakeManifest | null;
   scopeChangeReason?: string | null;
+  characterReadinessState?: string | null;
+  characterDeepeningQuestionCount?: number;
 }): ProjectIntelligenceIntakeManifest {
   const moduleIds = deriveModulesForScope({
     experienceClass: params.experienceClass,
@@ -88,12 +107,20 @@ export function compileProjectIntelligenceIntakeManifest(params: {
 
   const completed = new Set(params.completedModuleIds ?? []);
   const modules: ProjectIntelligenceModuleAssignment[] = moduleIds.map((moduleId) => {
-    const requirement: IntelligenceModuleRequirement = 'REQUIRED';
-    const lifecycle: IntelligenceModuleLifecycle = completed.has(moduleId)
+    const requirement: IntelligenceModuleRequirement = CONDITIONAL_MODULE_IDS.includes(moduleId)
+      ? 'CONDITIONAL'
+      : 'REQUIRED';
+    let lifecycle: IntelligenceModuleLifecycle = completed.has(moduleId)
       ? 'COMPLETE'
       : params.commercialState === 'ACTIVATED' || params.commercialState === 'PAID'
         ? 'AVAILABLE'
         : 'LOCKED';
+    if (moduleId === 'BRAND_CHARACTER_DEEPENING') {
+      lifecycle = resolveBrandCharacterDeepeningModuleLifecycle({
+        characterReadinessState: params.characterReadinessState,
+        questionCount: params.characterDeepeningQuestionCount,
+      });
+    }
     return assignModule(moduleId, requirement, lifecycle);
   });
 

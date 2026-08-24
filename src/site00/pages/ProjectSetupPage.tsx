@@ -19,6 +19,7 @@ type ManifestResponse = {
   };
   readiness: string;
   formationGate: { allowed: boolean; reason: string | null };
+  brandCharacterSummary?: { state: string; questionCount: number; label: string } | null;
 };
 
 export default function ProjectSetupPage() {
@@ -70,6 +71,12 @@ export default function ProjectSetupPage() {
       <p>
         {complete.length} OF {required.length} REQUIRED MODULES COMPLETE · READINESS: {state.readiness.replace(/_/g, ' ')}
       </p>
+
+      {state.brandCharacterSummary && (
+        <p className="site00-project-setup__brand-character">
+          BRAND CHARACTER: {state.brandCharacterSummary.label}
+        </p>
+      )}
 
       <ul className="site00-project-setup__modules">
         {state.manifest.modules.map((mod) => (

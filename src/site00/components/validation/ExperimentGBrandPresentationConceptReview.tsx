@@ -4,14 +4,51 @@ import type {
   BrandPresentationConceptFormationRun,
   BrandPresentationConceptTerritory,
 } from '../../../../shared/site00-brand-lore/brandPresentationConceptTerritory/types';
+import { EXPERIMENT_G_CONCEPT_JUDGMENTS } from '../../../../shared/site00-brand-lore/brandPresentationConceptTerritory/constants';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
-import { site00ProjectExperimentFPath } from '../../config/routes';
+import { site00ProjectExperimentFPath, site00ProjectExperimentGDirectionsPath } from '../../config/routes';
+import { canDevelopTop3Directions } from '../../../../shared/site00-brand-lore/brandPresentationDirectionTerritory/parentConceptSelection';
 
 type ExperimentGBrandPresentationConceptReviewProps = {
   projectSlug: string;
   run: BrandPresentationConceptFormationRun | null | undefined;
-  onUpdate?: () => void;
+  onUpdate?: (run?: BrandPresentationConceptFormationRun) => void;
 };
+
+type FounderConceptJudgment = Exclude<
+  BrandPresentationConceptTerritory['founderJudgment'],
+  'REFORM_SET' | null
+>;
+
+const FOUNDER_JUDGMENT_OPTIONS = EXPERIMENT_G_CONCEPT_JUDGMENTS.filter(
+  (j): j is FounderConceptJudgment => j !== 'REFORM_SET',
+);
+
+function formatFounderJudgmentLabel(judgment: FounderConceptJudgment): string {
+  switch (judgment) {
+    case 'LOVE_THE_CONCEPT':
+      return 'LOVE THE CONCEPT';
+    case 'PROMISING_DEVELOP':
+      return 'PROMISING — DEVELOP';
+    case 'TOO_CLOSE_TO_ANOTHER':
+      return 'TOO CLOSE TO ANOTHER';
+    case 'TOO_CONTENT_SPECIFIC':
+      return 'TOO CONTENT-SPECIFIC';
+    case 'NOT_NDXBOOK':
+      return 'NOT NDXBOOK';
+    default: {
+      const exhaustive: never = judgment;
+      return String(exhaustive).replace(/_/g, ' ');
+    }
+  }
+}
+
+function founderJudgmentSavedMessage(judgment: FounderConceptJudgment): string {
+  if (judgment === 'LOVE_THE_CONCEPT') {
+    return 'YOU LOVED THIS CONCEPT — selection saved';
+  }
+  return `YOUR SELECTION: ${formatFounderJudgmentLabel(judgment)} — saved`;
+}
 
 function founderApiErrorMessage(err: unknown): string {
   const raw = err instanceof Error ? err.message : 'Unable to run Experiment G';
@@ -27,11 +64,14 @@ function ConceptCard({
   judging,
 }: {
   concept: BrandPresentationConceptTerritory;
-  onJudgment: (
-    judgment: 'LOVE_THE_CONCEPT' | 'PROMISING_DEVELOP' | 'TOO_CLOSE_TO_ANOTHER' | 'TOO_CONTENT_SPECIFIC' | 'NOT_NDXBOOK',
-  ) => void;
+  onJudgment: (judgment: FounderConceptJudgment) => void;
   judging: boolean;
 }) {
+  const savedJudgment =
+    concept.founderJudgment && concept.founderJudgment !== 'REFORM_SET'
+      ? concept.founderJudgment
+      : null;
+
   return (
     <article className="site00-experiment-g__card">
       <h4 className="site00-experiment-g__card-title">{concept.name}</h4>
@@ -65,12 +105,33 @@ function ConceptCard({
           )}
         </pre>
       </details>
+      {savedJudgment ? (
+        <p
+          className={`site00-experiment-g__judgment-saved${savedJudgment === 'LOVE_THE_CONCEPT' ? ' site00-experiment-g__judgment-saved--love' : ''}`}
+          role="status"
+          aria-live="polite"
+        >
+          {savedJudgment === 'LOVE_THE_CONCEPT' ? '✓ ' : ''}
+          {founderJudgmentSavedMessage(savedJudgment)}
+        </p>
+      ) : null}
       <div className="site00-experiment-g__judgment">
-        <button type="button" className="site00-btn site00-btn--primary" disabled={judging} onClick={() => onJudgment('LOVE_THE_CONCEPT')}>LOVE THE CONCEPT</button>
-        <button type="button" className="site00-btn" disabled={judging} onClick={() => onJudgment('PROMISING_DEVELOP')}>PROMISING — DEVELOP</button>
-        <button type="button" className="site00-btn" disabled={judging} onClick={() => onJudgment('TOO_CLOSE_TO_ANOTHER')}>TOO CLOSE TO ANOTHER</button>
-        <button type="button" className="site00-btn" disabled={judging} onClick={() => onJudgment('TOO_CONTENT_SPECIFIC')}>TOO CONTENT-SPECIFIC</button>
-        <button type="button" className="site00-btn" disabled={judging} onClick={() => onJudgment('NOT_NDXBOOK')}>NOT NDXBOOK</button>
+        {FOUNDER_JUDGMENT_OPTIONS.map((judgment) => (
+          <button
+            key={judgment}
+            type="button"
+            className={
+              savedJudgment === judgment
+                ? 'site00-btn site00-btn--primary site00-experiment-g__judgment-btn--active'
+                : 'site00-btn'
+            }
+            disabled={judging}
+            aria-pressed={savedJudgment === judgment}
+            onClick={() => onJudgment(judgment)}
+          >
+            {formatFounderJudgmentLabel(judgment)}
+          </button>
+        ))}
       </div>
     </article>
   );
@@ -117,15 +178,12 @@ export function ExperimentGBrandPresentationConceptReview({
   }, [onUpdate, projectSlug]);
 
   const setJudgment = useCallback(
-    async (
-      conceptId: string,
-      judgment: 'LOVE_THE_CONCEPT' | 'PROMISING_DEVELOP' | 'TOO_CLOSE_TO_ANOTHER' | 'TOO_CONTENT_SPECIFIC' | 'NOT_NDXBOOK',
-    ) => {
+    async (conceptId: string, judgment: FounderConceptJudgment) => {
       setJudgingId(conceptId);
       setError(null);
       try {
-        await site00ProjectsApi.experimentGConceptJudgment(projectSlug, conceptId, judgment);
-        onUpdate?.();
+        const result = await site00ProjectsApi.experimentGConceptJudgment(projectSlug, conceptId, judgment);
+        onUpdate?.(result.run as BrandPresentationConceptFormationRun);
       } catch (err) {
         setError(founderApiErrorMessage(err));
       } finally {
@@ -200,6 +258,23 @@ export function ExperimentGBrandPresentationConceptReview({
           </>
         ) : null}
       </div>
+      {concepts.length > 0 ? (
+        <p className="site00-experiment-g__regen-help">
+          To regenerate: tap <strong>RE-FORM SET</strong> for a fresh six-concept pass (keeps history). Use{' '}
+          <strong>REFRESH FORMATION</strong> only to re-run the same snapshot idempotently. Formation runs on the API
+          (2–5 min) — leave the page if needed; status polls automatically.
+        </p>
+      ) : null}
+      {canDevelopTop3Directions(run) ? (
+        <div className="site00-experiment-g__direction-cta">
+          <p className="site00-experiment-g__direction-cta-copy">
+            Three concepts loved — ready for direction development (3 × 3 = 9 directions, no visual generation).
+          </p>
+          <Link to={site00ProjectExperimentGDirectionsPath(projectSlug)} className="site00-btn site00-btn--primary">
+            DEVELOP TOP 3 DIRECTIONS →
+          </Link>
+        </div>
+      ) : null}
       {run?.status === 'FORMING' ? (
         <p className="site00-experiment-g__pending">
           Formation running as a background job on the server (usually 2–5 minutes). You can leave this page —

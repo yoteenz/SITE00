@@ -430,6 +430,230 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug }),
       },
     ),
+  experimentHGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=experiment_h_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  experimentHPrepareSnapshot: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_prepare_snapshot',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentHFormCharacters: (slug: string, options?: { forceRetry?: boolean }) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_form_characters',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, forceRetry: options?.forceRetry === true }),
+      },
+    ),
+  experimentHCharacterJudgment: (
+    slug: string,
+    characterId: string,
+    judgment:
+      | 'LOVE_THE_CHARACTER'
+      | 'PROMISING_DEVELOP'
+      | 'TOO_GENERIC'
+      | 'TOO_PERFORMATIVE'
+      | 'TOO_INTERNET'
+      | 'TOO_ACADEMIC'
+      | 'TOO_STYLE_DEPENDENT'
+      | 'TOO_CLOSE_TO_ANOTHER'
+      | 'CULTURALLY_HOLLOW'
+      | 'NOT_NDXBOOK'
+      | 'REFORM_SET'
+      | null,
+    note?: string | null,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_character_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, characterId, judgment, note }),
+      },
+    ),
+  experimentHReformSet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_reform_set',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentHDevelopCharacter: (
+    slug: string,
+    territoryId: string,
+    founderDelta?: { preserve?: string[]; develop?: string[]; avoid?: string[] },
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; development: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_develop_character',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, territoryId, founderDelta }),
+      },
+    ),
+  experimentHCompileSystem: (slug: string, characterId: string, developmentId?: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; system: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_compile_system',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, characterId, developmentId }),
+      },
+    ),
+  experimentGDirectionGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=experiment_g_direction_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  experimentGDirectionPrepare: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; costPreview: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_direction_prepare',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentGDirectionForm: (slug: string, options?: { forceRetry?: boolean }) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; costPreview: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_direction_form',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, forceRetry: options?.forceRetry === true }),
+      },
+    ),
+  experimentGDirectionJudgment: (
+    slug: string,
+    directionId: string,
+    judgment:
+      | 'LOVE_THE_DIRECTION'
+      | 'PROMISING_DEVELOP'
+      | 'TOO_CLOSE_TO_SIBLING'
+      | 'DRIFTS_FROM_CONCEPT'
+      | 'TOO_CONTENT_SPECIFIC'
+      | 'TOO_FORMAT_SPECIFIC'
+      | 'TOO_STYLE_DEPENDENT'
+      | 'NOT_NDXBOOK'
+      | null,
+    note?: string | null,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_direction_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, directionId, judgment, note }),
+      },
+    ),
+  experimentGDirectionRevise: (
+    slug: string,
+    directionId: string,
+    revision: { preserve: string[]; change: string[]; doNotBecome: string[] },
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_direction_revise',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, directionId, ...revision }),
+      },
+    ),
+  experimentGVisualGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=experiment_g_visual_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  experimentGVisualFinalist: (slug: string, directionId: string, selected: boolean) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_visual_finalist',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, directionId, selected }),
+      },
+    ),
+  experimentGVisualFormulate: (slug: string, options?: { forceRetry?: boolean }) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_visual_formulate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, forceRetry: options?.forceRetry === true }),
+      },
+    ),
+  experimentGVisualGenerate: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; costPreview: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_visual_generate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentGVisualJudgment: (
+    slug: string,
+    params: {
+      expressionId?: string;
+      benchmarkId?: string;
+      judgment:
+        | 'LOVE_THIS_EXPRESSION'
+        | 'PROMISING_REVISE'
+        | 'NOT_THIS_EXPRESSION'
+        | 'MISREPRESENTS_DIRECTION'
+        | 'TOO_GENERIC'
+        | 'TOO_LITERAL'
+        | 'TOO_STYLE_DEPENDENT'
+        | 'LOVE_THIS_DIRECTION'
+        | 'NOT_THIS_DIRECTION'
+        | 'MISREPRESENTS_THE_DIRECTION'
+        | 'VISUAL_DOES_NOT_HELP_ME_JUDGE'
+        | null;
+      note?: string | null;
+    },
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_visual_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, ...params }),
+      },
+    ),
+  experimentGVisualRevise: (
+    slug: string,
+    params: {
+      expressionId?: string;
+      benchmarkId?: string;
+      preserve: string[];
+      change: string[];
+      doNotBecome: string[];
+    },
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_visual_revise',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, ...params }),
+      },
+    ),
+  experimentGVisualWinner: (slug: string, params: { expressionId?: string; benchmarkId?: string }) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_visual_winner',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, ...params }),
+      },
+    ),
   experimentEGet: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
       `/api/site00/projects?action=experiment_e_get&slug=${encodeURIComponent(slug)}`,
@@ -907,7 +1131,615 @@ export const site00ProjectsApi = {
       manifest: Record<string, unknown> | null;
       readiness: string;
       formationGate: { allowed: boolean; reason: string | null };
+      brandCharacterSummary?: { state: string; questionCount: number; label: string } | null;
     }>(`/api/site00/projects?action=project_intelligence_manifest_get&slug=${encodeURIComponent(slug)}`),
+  experimentHReadinessGet: (slug: string) =>
+    projectsFetch<{ ok: true; record: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=experiment_h_readiness_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  experimentHReadinessEvaluate: (slug: string) =>
+    projectsFetch<{ ok: true; record: Record<string, unknown>; retrospective: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_readiness_evaluate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentHDeepeningGet: (slug: string) =>
+    projectsFetch<{
+      ok: true;
+      module: Record<string, unknown> | null;
+      evaluation: Record<string, unknown> | null;
+    }>(`/api/site00/projects?action=experiment_h_deepening_get&slug=${encodeURIComponent(slug)}`),
+  experimentHDeepeningAnswer: (slug: string, questionId: string, rawAnswer: string) =>
+    projectsFetch<{ ok: true; record: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_deepening_answer',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, questionId, rawAnswer }),
+      },
+    ),
+  experimentHReadinessOverride: (
+    slug: string,
+    overrideReason: string,
+    missingDomains: string[],
+  ) =>
+    projectsFetch<{ ok: true; record: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_readiness_override',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, overrideReason, missingDomains }),
+      },
+    ),
+  experimentHSynthesisGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=experiment_h_synthesis_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  experimentHSynthesisRun: (slug: string, options?: { forceRetry?: boolean }) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_synthesis_run',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, forceRetry: options?.forceRetry === true }),
+      },
+    ),
+  experimentHSynthesisJudgment: (slug: string, judgment: string, note?: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_synthesis_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, judgment, note }),
+      },
+    ),
+  experimentHSynthesisCompileSystem: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_synthesis_compile_system',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentHArtifactProofsFormulate: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_artifact_proofs_formulate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentHArtifactProofGenerate: (slug: string, proofId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_artifact_proof_generate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, proofId }),
+      },
+    ),
+  marketingExpressionGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=marketing_expression_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  marketingExpressionPrepare: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_prepare',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  marketingExpressionCompile: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_compile',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  marketingExpressionExperiment01Formulate: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_formulate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  marketingExpressionExperiment01Generate: (slug: string, artifactId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_generate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, artifactId }),
+      },
+    ),
+  marketingExpressionExperiment01GenerateAll: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_generate_all',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  marketingExpressionExperiment01ArtifactJudgment: (slug: string, artifactId: string, judgment: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_artifact_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, artifactId, judgment }),
+      },
+    ),
+  marketingExpressionExperiment01SetJudgment: (slug: string, judgment: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_set_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, judgment }),
+      },
+    ),
+  marketingExpressionExperiment01V2Formulate: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v2_formulate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  marketingExpressionExperiment01V2Generate: (slug: string, artifactId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v2_generate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, artifactId }),
+      },
+    ),
+  marketingExpressionExperiment01V2GenerateAll: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v2_generate_all',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  marketingExpressionExperiment01V2ArtifactJudgment: (slug: string, artifactId: string, judgment: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v2_artifact_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, artifactId, judgment }),
+      },
+    ),
+  marketingExpressionExperiment01V21Formulate: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v21_formulate',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  marketingExpressionExperiment01V21Generate: (slug: string, artifactId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v21_generate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, artifactId }),
+      },
+    ),
+  marketingExpressionExperiment01V21GenerateAll: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v21_generate_all',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  marketingExpressionExperiment01V21ArtifactJudgment: (slug: string, artifactId: string, judgment: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v21_artifact_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, artifactId, judgment }),
+      },
+    ),
+  marketingExpressionExperiment01V22Formulate: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v22_formulate',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  marketingExpressionExperiment01V22Generate: (slug: string, artifactId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v22_generate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, artifactId }),
+      },
+    ),
+  marketingExpressionExperiment01V22GenerateAll: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v22_generate_all',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  marketingExpressionExperiment01V22ArtifactJudgment: (slug: string, artifactId: string, judgment: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v22_artifact_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, artifactId, judgment }),
+      },
+    ),
+  marketingExpressionExperiment01V23Formulate: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v23_formulate',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  marketingExpressionExperiment01V23Generate: (slug: string, artifactId: string, mode?: 'REGENERATE_CURRENT' | 'REPLAY_GENERATION') =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v23_generate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, artifactId, mode: mode ?? 'REGENERATE_CURRENT' }),
+      },
+    ),
+  marketingExpressionExperiment01V23Replay: (slug: string, artifactId: string, replaySnapshotId?: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v23_replay',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, artifactId, replaySnapshotId }),
+      },
+    ),
+  marketingExpressionExperiment01V23SelectAsset: (slug: string, artifactId: string, selectedGenerationAssetId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v23_select_asset',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, artifactId, selectedGenerationAssetId }),
+      },
+    ),
+  marketingExpressionExperiment01V23GenerateAll: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v23_generate_all',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  marketingExpressionExperiment01V23ArtifactJudgment: (slug: string, artifactId: string, judgment: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v23_artifact_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, artifactId, judgment }),
+      },
+    ),
+  marketingExpressionExperiment01V23FounderRevision: (
+    slug: string,
+    artifactId: string,
+    judgment: string,
+    founderNote: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v23_founder_revision',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, artifactId, judgment, founderNote }),
+      },
+    ),
+  contentOperationsGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=content_operations_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  contentOperationsPrepare: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=content_operations_prepare',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  contentOperationsCompile: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=content_operations_compile',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  contentOperationsDiscoverOpportunities: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=content_operations_discover_opportunities',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  contentOperationsProposeSlate: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=content_operations_propose_slate',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  contentOperationsApproveSlate: (slug: string, judgment?: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=content_operations_approve_slate',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, judgment }) },
+    ),
+  contentOperationsPackageJudgment: (slug: string, packageId: string, judgment: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=content_operations_package_judgment',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, packageId, judgment }) },
+    ),
+  contentOperationsApprovePackage: (slug: string, packageId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=content_operations_approve_package',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, packageId }) },
+    ),
+  contentOperationsRecordPerformance: (slug: string, packageId: string, metrics?: Record<string, number | null>) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=content_operations_record_performance',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, packageId, metrics }) },
+    ),
+  contentOperationsAcceptLearning: (slug: string, learningId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=content_operations_accept_learning',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, learningId }) },
+    ),
+  campaignProductionGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=campaign_production_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  campaignProductionInitialize: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=campaign_production_initialize',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  campaignProductionLockRound01: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=campaign_production_lock_round_01',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  campaignProductionFormulateRound02: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=campaign_production_formulate_round_02',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  campaignProductionAssetJudgment: (slug: string, assetId: string, judgment: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=campaign_production_asset_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, assetId, judgment }),
+      },
+    ),
+  campaignProductionSynthesizeCaptions: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=campaign_production_synthesize_captions',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  campaignProductionCaptionJudgment: (slug: string, contentPieceId: string, judgment: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=campaign_production_caption_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, contentPieceId, judgment }),
+      },
+    ),
+  dailyPublishingGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=daily_publishing_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  dailyPublishingConfigure: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=daily_publishing_configure',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  dailyPublishingPlanWeek: (slug: string, weekStart: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=daily_publishing_plan_week',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, weekStart }) },
+    ),
+  dailyPublishingBuildDay: (slug: string, date: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=daily_publishing_build_day',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, date }) },
+    ),
+  dailyPublishingApproveWeeklySlate: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=daily_publishing_approve_weekly_slate',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  culturalIntelligenceGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(`/api/site00/projects?action=cultural_intelligence_get&slug=${encodeURIComponent(slug)}`),
+  culturalIntelligenceConfigure: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=cultural_intelligence_configure',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  culturalIntelligenceRefresh: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=cultural_intelligence_refresh',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  culturalIntelligenceWeeklyForecast: (slug: string, weekStart: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=cultural_intelligence_weekly_forecast',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, weekStart }) },
+    ),
+  culturalIntelligencePromoteOpportunities: (slug: string) =>
+    projectsFetch<{ ok: true; intelRun: Record<string, unknown>; contentOpsRun: Record<string, unknown> }>(
+      '/api/site00/projects?action=cultural_intelligence_promote_opportunities',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  culturalIntelligenceAddManualSignal: (
+    slug: string,
+    payload: { founderNote: string; whatCaughtAttention: string; referenceUrl?: string; urgency?: string },
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=cultural_intelligence_add_manual_signal',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, ...payload }),
+      },
+    ),
+  culturalIntelligenceProvingRun: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=cultural_intelligence_proving_run',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  culturalIntelligencePromoteItem: (slug: string, interpretationId: string) =>
+    projectsFetch<{ ok: true; intelRun: Record<string, unknown>; contentOpsRun: Record<string, unknown> }>(
+      '/api/site00/projects?action=cultural_intelligence_promote_item',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, interpretationId }) },
+    ),
+  motionCharacterBookLanguageGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=motion_character_book_language_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  motionCharacterBookLanguageInitialize: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=motion_character_book_language_initialize',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  motionCharacterBookLanguageRefresh: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=motion_character_book_language_refresh',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  embodiedCharacterDiscoveryGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=embodied_character_discovery_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  embodiedCharacterDiscoveryInitialize: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=embodied_character_discovery_initialize',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  embodiedCharacterDiscoverySaveRound: (slug: string, round: string, answer: string, rawWording?: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=embodied_character_discovery_save_round',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, round, answer, rawWording }),
+      },
+    ),
+  embodiedCharacterDiscoveryJudgment: (slug: string, judgment: string, dimension: string, note: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=embodied_character_discovery_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, judgment, dimension, note }),
+      },
+    ),
+  embodiedCharacterDiscoverySynthesize: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=embodied_character_discovery_synthesize',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  founderCharacterDiscoveryGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=founder_character_discovery_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  founderCharacterDiscoveryInitialize: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_initialize',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  founderCharacterDiscoveryTraitJudgment: (
+    slug: string,
+    traitId: string,
+    judgment: string,
+    revision?: string,
+    note?: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_trait_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, traitId, judgment, revision, note }),
+      },
+    ),
+  founderCharacterDiscoveryScenarioResponse: (
+    slug: string,
+    scenarioId: string,
+    response: string,
+    judgment: string,
+    notes?: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_scenario_response',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, scenarioId, response, judgment, notes }),
+      },
+    ),
+  founderCharacterDiscoveryVisualJudgment: (
+    slug: string,
+    hypothesisId: string,
+    judgment: string,
+    note?: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_visual_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, hypothesisId, judgment, note }),
+      },
+    ),
+  founderCharacterDiscoveryVoiceJudgment: (
+    slug: string,
+    sampleId: string,
+    channel: string,
+    judgment: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_voice_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, sampleId, channel, judgment }),
+      },
+    ),
+  founderCharacterDiscoveryRecognition: (slug: string, response: string, note?: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_recognition',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, response, note }),
+      },
+    ),
+  founderCharacterDiscoverySynthesisPreview: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_synthesis_preview',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
   projectIntelligenceManifestCompile: (slug: string, experienceClass?: string) =>
     projectsFetch<{
       ok: true;
