@@ -43,6 +43,7 @@ import {
 import {
   resetBrandPresentationVisualFormulationMemory,
   resetBrandPresentationVisualFormulationStoreModeCache,
+  resetBrandPresentationVisualFormulationWorkers,
   prepareVisualFormulationRun,
   formulateVisualExpressions,
   generateFinalistVisuals,
@@ -188,6 +189,7 @@ beforeEach(() => {
   resetBrandPresentationDirectionFormationWorkers();
   resetBrandPresentationVisualFormulationMemory();
   resetBrandPresentationVisualFormulationStoreModeCache();
+  resetBrandPresentationVisualFormulationWorkers();
 });
 
 describe('Brand Presentation Parent Finalist Direction Scan', () => {
@@ -462,6 +464,8 @@ describe('Brand Presentation Parent Finalist Direction Scan', () => {
     expect(ROUTES).toContain('projectExperimentGFinalists');
     expect(FINALISTS_PAGE).toContain('PARENT FINALIST VISUAL REVIEW');
     expect(FINALISTS_PAGE).toContain('ExperimentGBrandPresentationFinalistReview');
+    expect(FINALISTS_PAGE).toContain('FORMULATING_BENCHMARKS');
+    expect(FINALISTS_PAGE).toContain('5000');
     expect(DIR_REVIEW).toContain('THE COLLECTOR WHO CONNECTS deferred');
     expect(DIR_REVIEW).not.toContain('SELECT AS VISUAL FINALIST');
   });

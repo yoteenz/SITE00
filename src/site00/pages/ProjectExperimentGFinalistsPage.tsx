@@ -9,17 +9,20 @@ import { projectDisplayName } from '../utils/projectDisplayName';
 import type { BrandPresentationVisualFormulationRun } from '../../../shared/site00-brand-lore/brandPresentationVisualFormulation/types';
 import '../styles/site00-replay-execution.css';
 import '../styles/site00-experiment-g-finalists.css';
+import '../styles/site00-experiment-g-directions.css';
 
 export default function ProjectExperimentGFinalistsPage() {
   const { projectSlug = '' } = useParams<{ projectSlug: string }>();
   const [run, setRun] = useState<BrandPresentationVisualFormulationRun | null>(null);
   const [loading, setLoading] = useState(true);
+  const [lastRefreshedAt, setLastRefreshedAt] = useState<Date | null>(null);
 
   const reload = useCallback(async () => {
     if (projectSlug !== 'ndxbook') return;
     try {
       const result = await site00ProjectsApi.experimentGVisualGet(projectSlug);
       setRun((result.run as BrandPresentationVisualFormulationRun | null) ?? null);
+      setLastRefreshedAt(new Date());
     } catch {
       setRun(null);
     } finally {
@@ -30,6 +33,14 @@ export default function ProjectExperimentGFinalistsPage() {
   useEffect(() => {
     void reload();
   }, [reload]);
+
+  useEffect(() => {
+    if (run?.status !== 'FORMULATING_BENCHMARKS' && run?.status !== 'FORMULATING_EXPRESSIONS') return;
+    const pollId = window.setInterval(() => {
+      void reload();
+    }, 5000);
+    return () => window.clearInterval(pollId);
+  }, [run?.status, reload]);
 
   if (projectSlug !== 'ndxbook') {
     return (
@@ -61,9 +72,12 @@ export default function ProjectExperimentGFinalistsPage() {
             <ExperimentGBrandPresentationFinalistReview
               projectSlug={projectSlug}
               run={run}
+              lastRefreshedAt={lastRefreshedAt}
+              onRefresh={() => void reload()}
               onUpdate={(updated) => {
                 if (updated) {
                   setRun(updated);
+                  setLastRefreshedAt(new Date());
                   return;
                 }
                 void reload();

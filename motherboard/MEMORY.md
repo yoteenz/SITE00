@@ -4059,3 +4059,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder flow:** Direction review (9 conceptual) → Parent Finalist Visual Review → formulate 6 benchmarks → generate 6 visuals → judge per direction → optional direction winner (no auto-promote).
 - **Deploy:** cPanel v50 frontend + Railway redeploy for API.
 
+---
+
+## 2026-08-24 — Visual benchmark formulation background task + status panel
+
+- **Context:** Founder on Parent Finalist Visual Review tapped FORMULATE and saw **FORMULATING SIX DIRECTION VISUALS…** stuck on the button — asked **"is this a background task? bc it should be"**. Before this fix, benchmark formulation ran **synchronously** in the HTTP request (6 sequential Anthropic calls), blocking until complete — unlike direction formation which already runs on the server with polling.
+- **Topics covered:** Prior sprint merged parent-finalist scan (PR #342–#345); Anthropic call signature fix; user screenshot showed blocking formulate UX; expectation = background + poll like direction formation.
+- **Fix (branch `cursor/visual-benchmark-background-formation-1983`):**
+  - `visualFormulationService.ts`: `formulateDirectionBenchmarks()` returns immediately with `FORMULATING_BENCHMARKS`; work enqueued via `setImmediate` → `executeBenchmarkFormulationWork()` with incremental saves per benchmark; stale reconciliation after 15 min; `formationAttemptId` on run; `forceRetry` support; VITEST still runs synchronously.
+  - UI: `VisualBenchmarkFormationStatusPanel` + progress helpers (mirrors `DirectionFormationStatusPanel`); finalists page polls every 5s while formulating; formulate button → **STARTING BACKGROUND FORMULATION…** then status panel with retry/refresh; **safe to leave this page** copy.
+  - API: `experiment_g_visual_formulate` passes `forceRetry`; `experimentGVisualFormulate(slug, { forceRetry? })`.
+- **Tests:** 1795 pass (+3 visual benchmark status UI tests); worker reset in formulation test `beforeEach`.
+- **Founder flow after deploy:** Tap FORMULATE → immediate return → status panel polls → **BENCHMARKS_READY** → GENERATE SIX DIRECTION VISUALS.
+- **Deploy:** cPanel frontend + **Railway redeploy** (API must run new background worker).
+

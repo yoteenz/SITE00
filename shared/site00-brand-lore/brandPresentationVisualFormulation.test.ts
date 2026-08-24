@@ -45,6 +45,7 @@ import {
 import {
   resetBrandPresentationVisualFormulationMemory,
   resetBrandPresentationVisualFormulationStoreModeCache,
+  resetBrandPresentationVisualFormulationWorkers,
   setVisualFinalistSelection,
   formulateVisualExpressions,
   generateFinalistVisuals,
@@ -223,6 +224,7 @@ beforeEach(() => {
   resetBrandPresentationDirectionFormationWorkers();
   resetBrandPresentationVisualFormulationMemory();
   resetBrandPresentationVisualFormulationStoreModeCache();
+  resetBrandPresentationVisualFormulationWorkers();
 });
 
 describe('Brand Presentation Finalist Visual Formulation', () => {

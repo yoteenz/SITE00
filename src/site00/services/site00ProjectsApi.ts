@@ -501,13 +501,13 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, directionId, selected }),
       },
     ),
-  experimentGVisualFormulate: (slug: string) =>
+  experimentGVisualFormulate: (slug: string, options?: { forceRetry?: boolean }) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=experiment_g_visual_formulate',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug }),
+        body: JSON.stringify({ slug, forceRetry: options?.forceRetry === true }),
       },
     ),
   experimentGVisualGenerate: (slug: string) =>

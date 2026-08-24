@@ -326,6 +326,7 @@ export type BrandPresentationVisualFormulationRun = {
   };
   error: string | null;
   formationStartedAt: string | null;
+  formationAttemptId: string | null;
   generationStartedAt: string | null;
   startedAt: string | null;
   completedAt: string | null;
