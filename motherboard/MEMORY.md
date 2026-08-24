@@ -4683,3 +4683,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **UI:** Light cream founder workspace CSS tokens; Experiments Hub operate layer restyled light; calibration wrapper classes on campaign board + content ops desk.
 - **Scripts:** `runFounderCalibration.ts`. Tests: `visualReconstructionP0VR1A.test.ts` (14 tests). Full suite 2720 pass; build green. FAL=0; Brand Character/Canon unchanged.
 
+---
+
+## 2026-08-24 — Project Presence Accent System P0.UI.1
+
+- **Context:** Formalize Studio World rule — SITE 00 diamond inherits active project's canonical primary color; wordmark stays host-canonical. Generic data-driven system, not NDX-specific shell hack.
+- **Engine:** `shared/site00-studio-world-production/projectPresenceAccent/` — resolver, color validation, contrast evaluation (keyline strategy), accent bleed guard, VR diamond evaluation (`evaluateProjectPresenceDiamond`, `adaptiveDiamondIsNotHostMutation`).
+- **Registry:** `shared/site00-brand-lore/projectPresence/projectBrandPresenceRegistry.ts` — ndxbook lime `#B7D236`, frontal-slayer host red, unresolved studio-world/AIO → host fallback; arbitrary colors via registry entries.
+- **UI:** `Site00Diamond`, `ProjectPresenceScope`, `useProjectPresenceAccent`; tokens `--site00-host-accent` + `--site00-project-presence-accent`; EcosystemShell scopes project context; origin/access/fast-travel use HOST_DEFAULT diamond.
+- **VR integration:** HostClientVisualAuthorityEvaluation accepts project-presence diamond context; lime NDX diamond not flagged as host mutation.
+- **Tests:** `projectPresenceAccentP0UI1.test.ts` (13 tests). Full suite 2733 pass; build green.
+
