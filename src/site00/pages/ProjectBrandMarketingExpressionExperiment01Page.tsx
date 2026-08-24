@@ -596,6 +596,37 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                     </div>
                   </section>
 
+                  {versionTab === 'V23' && activeArtifacts.length > 0 && (
+                    <section className="site00-experiment-g__panel">
+                      <h2>VISUAL AUTHORITY REVIEW — P0.5C.6</h2>
+                      <p style={{ fontSize: '0.85rem', marginBottom: '12px' }}>
+                        Bespoke art direction leads · editorial logic supports · V2.1 visual appetite restored inside V2.3.
+                      </p>
+                      <ul style={{ fontSize: '0.85rem', marginBottom: '12px' }}>
+                        {(activeArtifacts as Experiment01V23Artifact[]).map((a) => {
+                          const va = a.contract.visualAuthorityEvaluation;
+                          return (
+                            <li key={a.id} style={{ marginBottom: '6px' }}>
+                              <strong>{a.contract.primaryHook.slice(0, 48)}…</strong>
+                              {' · '}
+                              STOP: {va?.wouldIStopBeforeReading.passes ? 'YES' : 'NO'}
+                              {' · '}
+                              RICH+SIMPLE: {va?.visualAppetiteGatePasses ? 'YES' : 'NO'}
+                              {' · '}
+                              NO-TEXT: {va?.textRemovalIntegrity.result}
+                              {' · '}
+                              EVIDENCE: {va?.evidenceCompositionRole.role.replace(/_/g, ' ')}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                      <p style={{ fontSize: '0.8rem' }}>
+                        ARTISTIC PREMISE (selected):{' '}
+                        {(activeArtifacts as Experiment01V23Artifact[]).find((a) => a.id === selectedId)?.contract.visualAuthorityEvaluation?.bespokeArtDirection.artisticPremise ?? '—'}
+                      </p>
+                    </section>
+                  )}
+
                   {versionTab === 'V23' && selectedV23 && (
                     <section key={selectedId ?? selectedV23.id} className="site00-experiment-g__panel">
                       <h2>V2.3 ART-BOARD REVIEW — {selectedV23.contract.primaryHook}</h2>
@@ -608,7 +639,8 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                         METHODOLOGY: C.4A {v23ArtifactMethodologyStatus(selectedV23).c4a ? '✓' : '✗'} · C.4B{' '}
                         {v23ArtifactMethodologyStatus(selectedV23).c4b ? '✓' : '✗'} · C.4B.1{' '}
                         {v23ArtifactMethodologyStatus(selectedV23).c4b1 ? '✓' : '✗'} · C.5{' '}
-                        {v23ArtifactMethodologyStatus(selectedV23).c5 ? '✓' : '✗'}
+                        {v23ArtifactMethodologyStatus(selectedV23).c5 ? '✓' : '✗'} · C.6{' '}
+                        {selectedV23.contract.visualAuthorityEvaluation?.visualAppetiteGatePasses ? '✓' : '✗'}
                       </p>
                       {(() => {
                         const limeReview = v23FounderLimeReview(selectedV23);

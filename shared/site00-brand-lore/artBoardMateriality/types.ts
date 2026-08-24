@@ -455,6 +455,9 @@ export type ArtBoardRetainedFirstSlideContract = CharacterRetainedFirstSlideCont
   signatureLimeRevision?: SignatureLimeRevision | null;
   /** P0.5C.4B.1 — chromatic attention + lime restraint governance */
   signatureLimeRestraint?: import('./signatureLimeRestraint.js').SignatureLimeRestraintEvaluation | null;
+  /** P0.5C.6 — bespoke art direction + visual appetite authority */
+  visualAuthorityEvaluation?: import('../../site00-studio-world-production/visualAuthority/types.js').VisualAuthorityEvaluationBundle | null;
+  visualDiscoveryInheritance?: import('../../site00-studio-world-production/visualAuthority/types.js').VisualDiscoveryInheritance | null;
 };
 
 export type Experiment01V23GenerationJobStatus =
@@ -466,14 +469,16 @@ export type Experiment01V23GenerationJobStatus =
 
 export type Experiment01V23GenerationLineageClass =
   | 'PRESERVED_PRE_C4B1'
+  | 'PRESERVED_PRE_C6'
   | 'PRE_P0_5C_4B_1_IN_FLIGHT'
+  | 'CURRENT_C6'
   | 'CURRENT_C4B1'
   | null;
 
 export type Experiment01V23SupersessionRecord = {
   runId: string;
   status: 'SUPERSEDED_BY_METHODOLOGY';
-  reason: 'P0.5C.4B.1_SIGNATURE_LIME_RESTRAINT';
+  reason: 'P0.5C.4B.1_SIGNATURE_LIME_RESTRAINT' | 'P0.5C.6_VISUAL_AUTHORITY';
   supersededAt: string;
   pendingJobsCancelled: number;
   inFlightRequestsAtBoundary: number;
