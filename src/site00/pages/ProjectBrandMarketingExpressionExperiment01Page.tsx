@@ -30,6 +30,11 @@ import type {
 } from '../../../shared/site00-brand-lore/artBoardMateriality/types';
 import { V22_FOUNDER_JUDGMENTS } from '../../../shared/site00-brand-lore/characterRetention/constants';
 import { V23_FOUNDER_JUDGMENTS, V23A_FOUNDER_JUDGMENTS, V23B_FOUNDER_JUDGMENTS } from '../../../shared/site00-brand-lore/artBoardMateriality/constants';
+import {
+  isV23ApprovalJudgment,
+  judgmentRequiresRevisionNote,
+  revisionNotePlaceholder,
+} from '../../../shared/site00-brand-lore/artBoardMateriality/v23FounderRevisionLabels';
 import '../styles/site00-replay-execution.css';
 
 const POLL_MS = 5000;
@@ -78,6 +83,8 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
   const [error, setError] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [versionTab, setVersionTab] = useState<VersionTab>('V23');
+  const [v23RevisionDraft, setV23RevisionDraft] = useState<{ artifactId: string; judgment: string } | null>(null);
+  const [v23RevisionNote, setV23RevisionNote] = useState('');
 
   const reload = useCallback(async () => {
     if (projectSlug !== 'ndxbook') return;
@@ -226,6 +233,50 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
               : site00ProjectsApi.marketingExpressionExperiment01ArtifactJudgment;
       const result = await fn(projectSlug, artifactId, judgment);
       setRun((result.run as BrandMarketingExpressionRun) ?? null);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const onV23JudgmentTap = (artifactId: string, judgment: string) => {
+    if (isV23ApprovalJudgment(judgment)) {
+      void setArtifactJudgment(artifactId, judgment);
+      return;
+    }
+    if (judgmentRequiresRevisionNote(judgment)) {
+      setV23RevisionNote('');
+      setV23RevisionDraft({ artifactId, judgment });
+      return;
+    }
+    void setArtifactJudgment(artifactId, judgment);
+  };
+
+  const cancelV23RevisionDraft = () => {
+    setV23RevisionDraft(null);
+    setV23RevisionNote('');
+  };
+
+  const submitV23FounderRevision = async () => {
+    if (!v23RevisionDraft) return;
+    const note = v23RevisionNote.trim();
+    if (!note) {
+      setError('Add a revision note describing what should change before confirming.');
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    try {
+      const result = await site00ProjectsApi.marketingExpressionExperiment01V23FounderRevision(
+        projectSlug,
+        v23RevisionDraft.artifactId,
+        v23RevisionDraft.judgment,
+        note,
+      );
+      setRun((result.run as BrandMarketingExpressionRun) ?? null);
+      cancelV23RevisionDraft();
+      await reload();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Founder revision failed');
     } finally {
       setBusy(false);
     }
@@ -449,14 +500,52 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                             <dt>PARENT FP</dt><dd style={{ fontSize: '0.75rem' }}>{selectedV23.parentFingerprint}</dd>
                           </>
                         )}
+                        {selectedV23.founderJudgment && (
+                          <>
+                            <dt>FOUNDER JUDGMENT</dt><dd>{selectedV23.founderJudgment.replace(/_/g, ' ')}</dd>
+                          </>
+                        )}
+                        {selectedV23.founderJudgmentNote && (
+                          <>
+                            <dt>FOUNDER NOTE</dt><dd>{selectedV23.founderJudgmentNote}</dd>
+                          </>
+                        )}
+                        {(selectedV23.revisionHistory?.length ?? 0) > 0 && (
+                          <>
+                            <dt>REVISIONS</dt>
+                            <dd>
+                              {(selectedV23.revisionHistory ?? []).map((rev) => (
+                                <div key={rev.revisionId} style={{ marginBottom: '6px', fontSize: '0.85rem' }}>
+                                  {rev.judgment?.replace(/_/g, ' ') ?? 'REVISION'} — {rev.status}
+                                  {rev.founderNote ? `: ${rev.founderNote}` : ''}
+                                </div>
+                              ))}
+                            </dd>
+                          </>
+                        )}
+                        {selectedV23.generationStatus === 'GENERATING' && (
+                          <>
+                            <dt>RE-RENDER</dt><dd>Generating revised artifact via FAL…</dd>
+                          </>
+                        )}
                       </dl>
                       <div style={{ marginTop: '12px' }}>
                         <p>V2.3 artifact judgment:</p>
                         {[...V23_FOUNDER_JUDGMENTS, ...V23A_FOUNDER_JUDGMENTS, ...V23B_FOUNDER_JUDGMENTS].map((j) => (
-                          <button key={j} type="button" className="site00-btn" disabled={busy} style={{ margin: '2px' }} onClick={() => void setArtifactJudgment(selectedV23.id, j)}>
+                          <button
+                            key={j}
+                            type="button"
+                            className={selectedV23.founderJudgment === j ? 'site00-btn site00-btn--primary' : 'site00-btn'}
+                            disabled={busy || selectedV23.generationStatus === 'GENERATING'}
+                            style={{ margin: '2px' }}
+                            onClick={() => onV23JudgmentTap(selectedV23.id, j)}
+                          >
                             {j.replace(/_/g, ' ')}
                           </button>
                         ))}
+                        <p style={{ marginTop: '8px', fontSize: '0.85rem', opacity: 0.85 }}>
+                          Approval labels save immediately. Revision labels open a note — confirm to re-render via FAL.
+                        </p>
                       </div>
                     </section>
                   )}
@@ -689,6 +778,62 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
           )}
         </div>
       </div>
+
+      {v23RevisionDraft && (
+        <div
+          role="presentation"
+          onClick={() => !busy && cancelV23RevisionDraft()}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0,0,0,0.65)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            padding: '16px',
+          }}
+        >
+          <div
+            role="dialog"
+            aria-labelledby="v23-revision-title"
+            onClick={(e) => e.stopPropagation()}
+            className="site00-experiment-g__panel"
+            style={{ width: '100%', maxWidth: '520px', margin: 0 }}
+          >
+            <h2 id="v23-revision-title" style={{ marginTop: 0 }}>
+              {v23RevisionDraft.judgment.replace(/_/g, ' ')} — REVISION NOTE
+            </h2>
+            <p style={{ fontSize: '0.9rem', opacity: 0.9 }}>
+              Describe exactly what should change. On confirm, the contract updates and FAL re-renders this artifact using your note.
+            </p>
+            <label style={{ display: 'block', marginTop: '12px' }}>
+              Founder revision note
+              <textarea
+                value={v23RevisionNote}
+                onChange={(e) => setV23RevisionNote(e.target.value)}
+                rows={4}
+                placeholder={revisionNotePlaceholder(v23RevisionDraft.judgment)}
+                autoFocus
+                style={{ width: '100%', marginTop: '6px', boxSizing: 'border-box' }}
+              />
+            </label>
+            <div style={{ display: 'flex', gap: '8px', marginTop: '16px', justifyContent: 'flex-end' }}>
+              <button type="button" className="site00-btn" onClick={cancelV23RevisionDraft} disabled={busy}>
+                CANCEL
+              </button>
+              <button
+                type="button"
+                className="site00-btn site00-btn--primary"
+                disabled={busy || !v23RevisionNote.trim()}
+                onClick={() => void submitV23FounderRevision()}
+              >
+                CONFIRM &amp; RE-RENDER
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </EcosystemShell>
   );
 }

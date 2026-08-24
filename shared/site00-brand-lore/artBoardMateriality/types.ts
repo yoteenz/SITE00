@@ -455,6 +455,19 @@ export type ArtBoardRetainedFirstSlideContract = CharacterRetainedFirstSlideCont
   signatureLimeRevision?: SignatureLimeRevision | null;
 };
 
+export type V23FounderRevisionRecord = {
+  revisionId: string;
+  judgment: V23FounderJudgment;
+  founderNote: string;
+  appliedAt: string;
+  parentAssetUrl: string | null;
+  previousFingerprint: string;
+  revisionDirective: string;
+  falPromptHash: string;
+  generatedAssetUrl: string | null;
+  status: 'GENERATING' | 'GENERATED' | 'FAILED';
+};
+
 export type Experiment01V23Artifact = {
   id: string;
   v1ArtifactId: string;
@@ -475,7 +488,10 @@ export type Experiment01V23Artifact = {
   signatureLimeRevision: SignatureLimeRevision | null;
   signatureLimeMigration: V23SignatureLimeMigrationResult | null;
   parentFingerprint: string | null;
+  parentGeneratedAssetUrl: string | null;
   founderJudgment: V23FounderJudgment;
+  founderJudgmentNote: string | null;
+  revisionHistory: V23FounderRevisionRecord[];
   fingerprint: string;
   createdAt: string;
   updatedAt: string;

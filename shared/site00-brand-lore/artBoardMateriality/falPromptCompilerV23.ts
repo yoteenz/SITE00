@@ -12,6 +12,7 @@ import { NDX_SIGNATURE_LIME } from './signatureLime.js';
 export function compileArtBoardMaterialityFalPrompt(params: {
   artifact: BrandMarketingArtifact;
   contract: ArtBoardRetainedFirstSlideContract;
+  founderRevisionDirective?: string | null;
 }): MarketingFalPromptContract {
   const c = params.contract;
   const ab = c.artBoardDirection;
@@ -79,6 +80,10 @@ export function compileArtBoardMaterialityFalPrompt(params: {
     `TEMPLATE GUARD: DO NOT DESIGN A RECTANGULAR SOCIAL POST ON TOP OF A BACKGROUND. CREATE THE ACTUAL ARTIFACT. CONTENT PRINTED ON, INSERTED INTO, ATTACHED TO, WRITTEN OVER, CUT INTO, FOLDED WITH, OR SCANNED FROM THE SURFACE. ${ab.whyNotCleanTemplate}`,
     `NEGATIVE CONSTRAINTS: no generic poster-on-background; no clean social template; no graphic card floating over texture; no fake paper texture filter; no polished infographic icons; no vector icon library look; no UI pictograms; no AI-generated decorative symbols; no mismatched doodle styles; no perfect geometry for hand-drawn marks; no fake childlike doodles; no decorative lime with no purpose; no fully monochrome NDX artifact without at least one signature-lime trace; no arbitrary red/blue/yellow NDX-authored marks; no lime background fill; no repeated lime corner template on every post; no tiny invisible lime; no random neon decoration; no generic AI editorial detailing; no scrapbook-for-scrapbook's-sake; no lowercase NDX copy`,
   ];
+
+  if (params.founderRevisionDirective) {
+    sections.push(`FOUNDER REVISION DIRECTIVE:\n${params.founderRevisionDirective}`);
+  }
 
   const prompt = sections.join('\n\n');
   const negativePrompt =

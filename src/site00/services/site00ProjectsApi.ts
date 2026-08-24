@@ -1422,6 +1422,20 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, artifactId, judgment }),
       },
     ),
+  marketingExpressionExperiment01V23FounderRevision: (
+    slug: string,
+    artifactId: string,
+    judgment: string,
+    founderNote: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v23_founder_revision',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, artifactId, judgment, founderNote }),
+      },
+    ),
   contentOperationsGet: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
       `/api/site00/projects?action=content_operations_get&slug=${encodeURIComponent(slug)}`,

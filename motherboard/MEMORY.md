@@ -4317,3 +4317,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **FAL:** explicit SIGNATURE LIME REQUIREMENT, semantic accent, color ownership sections (46 prompt sections).
 - **Tests:** +8 grouped P0.5C.4B tests (~30 requirements). P0.5C.4/4A regressions green. Build green.
 
+---
+
+## 2026-08-24 — P0.5D.2 Live Signal Source Acquisition + Connector Wiring + Weekly Forecast Proving Run
+
+- **Context:** Move P0.5D.1 from MANUAL_CONNECTED to PARTIALLY LIVE-CONNECTED cultural intelligence. P0.5D.1 methodology unchanged — bottleneck was source acquisition (live external sources connected: 0).
+- **Live source stack:** PUBLIC_RSS web/news discovery (production-connected via live BBC feed health check, no API key); EVENT_CALENDAR manual_connected (curated seed + manual); SEARCH_TRENDS + SOCIAL_TRENDS honestly NOT_CONNECTED; manual founder/editorial first-class.
+- **Generic domain:** `LiveSourceCapabilityAudit`, `executeLiveIntelligenceRefreshRun`, `WeeklySignalQueryPlan`, `SourceCoverageEvaluation`, `SignalDiscoveryDiversityEvaluation`, `EventPreparationPackage`, extended `ClientIntelligenceConfiguration`, `WeeklyOpportunityOriginBalanceEvaluation`.
+- **Service:** `refreshLiveIntelligence`, `addManualFounderSignal`, `runLiveProvingRun` (NDX_LIVE_CULTURAL_INTELLIGENCE_PROVING_RUN_01 → NDX_WEEKLY_CULTURAL_FORECAST_LIVE_01), founder-selective `promoteLiveOpportunityItem` (no auto bulk promotion).
+- **UI:** `/projects/ndxbook/cultural-intelligence/sources` source health + refresh + manual submission; main CI page proving run + selective promote; weekly forecast provenance preserved.
+- **Boundaries:** FAL_REQUESTS=0 for refresh/forecast; no autonomous publishing; Brand Character/Canon unchanged; P0.5D.1 pipeline preserved.
+- **Tests:** +8 grouped P0.5D.2 tests (50 requirements). P0.5D.1 regressions green. Build green.
+
