@@ -7,6 +7,7 @@ import type { CharacterVoiceGenerationCapability } from './types.js';
 
 /** Representative endpoints — schema discovery at runtime, not permanent authority */
 export const REPRESENTATIVE_VOICE_ENDPOINTS = {
+  FAL_MINIMAX_SPEECH_02_HD: 'fal-ai/minimax/speech-02-hd',
   FAL_ELEVEN_TTS: 'fal-ai/elevenlabs/tts/eleven-v3',
   FAL_ELEVEN_SOUND_EFFECTS: 'fal-ai/elevenlabs/sound-effects',
   FAL_PLAYHT_TTS: 'fal-ai/playht/tts/v3',
@@ -106,13 +107,44 @@ export function buildMinimaxTtsCapability(): CharacterVoiceGenerationCapability 
   };
 }
 
+export function buildMinimaxHdTtsCapability(): CharacterVoiceGenerationCapability {
+  return {
+    capabilityId: randomUUID(),
+    provider: 'fal',
+    endpoint: REPRESENTATIVE_VOICE_ENDPOINTS.FAL_MINIMAX_SPEECH_02_HD,
+    endpointClass: 'TEXT_TO_SPEECH',
+    schemaVersion: 'minimax-speech-02-hd@verified',
+    retrievedAt: new Date().toISOString(),
+    supportsTextToSpeech: true,
+    supportsVoiceSelection: true,
+    supportsVoiceDesign: false,
+    supportsPromptedVoiceCreation: true,
+    supportsReferenceAudio: false,
+    supportsVoiceCloning: false,
+    supportsEmotion: true,
+    supportsStyleInstruction: true,
+    supportsSpeedControl: true,
+    supportsPitchControl: true,
+    supportsProsodyControl: true,
+    supportsPauseControl: false,
+    supportsSeed: false,
+    supportsDeterminism: false,
+    supportsPersistentVoiceId: true,
+    supportsMultilingual: true,
+    supportsStreaming: true,
+    supportsPhonemeControl: false,
+    supportsAudioExport: true,
+    knownLimitations: ['Preset voices only — no unauthorized cloning', '$0.1 per 1000 characters'],
+  };
+}
+
 export function buildSyntheticCalibrationCapability(): CharacterVoiceGenerationCapability {
   return {
     capabilityId: randomUUID(),
     provider: 'site00_synthetic',
     endpoint: 'site00/synthetic-voice-calibration',
     endpointClass: 'VOICE_DESIGN',
-    schemaVersion: 'synthetic@P0.5E.4B',
+    schemaVersion: 'synthetic@P0.5E.4B-DEV_PLACEHOLDER',
     retrievedAt: new Date().toISOString(),
     supportsTextToSpeech: true,
     supportsVoiceSelection: true,
@@ -134,19 +166,24 @@ export function buildSyntheticCalibrationCapability(): CharacterVoiceGenerationC
     supportsPhonemeControl: false,
     supportsAudioExport: true,
     knownLimitations: [
-      'Synthetic calibration provider — browser playback profile for audition',
+      'DEV_PLACEHOLDER — browser SpeechSynthesis for tests/dev only',
+      'Not eligible for founder canonical voice casting',
       'No real-person impersonation',
-      'No celebrity or founder voice',
     ],
   };
 }
 
+export function syntheticProviderAuthority(): 'DEV_PLACEHOLDER' {
+  return 'DEV_PLACEHOLDER';
+}
+
 export function buildDefaultVoiceCapabilityRegistry(): CharacterVoiceGenerationCapability[] {
   return [
-    buildSyntheticCalibrationCapability(),
+    buildMinimaxHdTtsCapability(),
     buildElevenLabsTtsCapability(),
     buildPlayhtTtsCapability(),
     buildMinimaxTtsCapability(),
+    buildSyntheticCalibrationCapability(),
   ];
 }
 

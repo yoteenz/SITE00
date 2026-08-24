@@ -23,6 +23,10 @@ import type {
   VOICE_PROVIDER_ENDPOINT_CLASSES,
   VOICE_RECOGNITION_ANCHOR_TYPES,
   VOICE_TRUTH_EVIDENCE_TYPES,
+  CHARACTER_VOICE_PROVIDER_AUTHORITY,
+  VOICE_CASTING_MODES,
+  HUMAN_WOMAN_TEST_RESPONSES,
+  NEURAL_NATURALNESS_FAILURES,
 } from './constants.js';
 import type { VoiceLabChannel } from '../embodiedCharacterFounderDiscovery/types.js';
 
@@ -46,6 +50,10 @@ export type UnseenLineRecognitionResponse = (typeof UNSEEN_LINE_RECOGNITION_RESP
 export type AudiovisualCoherenceResponse = (typeof AUDIOVISUAL_COHERENCE_RESPONSES)[number];
 export type VoiceCalibrationProgressDomain = (typeof VOICE_CALIBRATION_PROGRESS_DOMAINS)[number];
 export type VoiceCalibrationProgressLevel = (typeof VOICE_CALIBRATION_PROGRESS_LEVELS)[number];
+export type CharacterVoiceProviderAuthority = (typeof CHARACTER_VOICE_PROVIDER_AUTHORITY)[number];
+export type VoiceCastingMode = (typeof VOICE_CASTING_MODES)[number];
+export type HumanWomanTestResponse = (typeof HUMAN_WOMAN_TEST_RESPONSES)[number];
+export type NeuralNaturalnessFailure = (typeof NEURAL_NATURALNESS_FAILURES)[number];
 
 /** Reclassified from P0.5E.4 Voice Lab — language register evidence (immutable historical records) */
 export type CharacterLanguageEvidence = {
@@ -163,6 +171,16 @@ export type CharacterVoiceHypothesis = {
   founderNote: string | null;
   status: VoiceHypothesisStatus;
   generatedAt: string;
+  /** P0.5E.4B.1 — provider authority + neural casting metadata */
+  providerAuthority: CharacterVoiceProviderAuthority;
+  humanWomanTest: HumanWomanTestResponse | null;
+  naturalnessPass: boolean | null;
+  neuralCandidateId: string | null;
+  parentCandidateId: string | null;
+  isDevPlaceholder: boolean;
+  performanceDirection: string | null;
+  estimatedCostUsd: number | null;
+  durationMs: number | null;
 };
 
 export type VoicePlaybackProfile = {
@@ -170,6 +188,74 @@ export type VoicePlaybackProfile = {
   rate: number;
   voiceIndex: number;
   providerVoiceId: string;
+};
+
+export type NeuralVoiceCandidateIdentity = {
+  candidateId: string;
+  provider: string;
+  endpoint: string;
+  providerVoiceId: string;
+  providerVoiceName: string | null;
+  voiceDesignId: string | null;
+  voiceFingerprint: string;
+  roundIntroduced: string;
+  identityParameters: Record<string, unknown>;
+  referenceAudioId: string | null;
+  founderStatus: 'UNTESTED' | 'CLOSE' | 'YES' | 'NO' | 'ARCHIVED';
+  providerAuthority: CharacterVoiceProviderAuthority;
+};
+
+export type NaturalConversationalPerformanceContract = {
+  contractId: string;
+  discouragedDelivery: string[];
+  requiredQualities: string[];
+  performanceDirection: string;
+  negativeConstraints: string[];
+};
+
+export type NeuralVoiceNaturalnessEvaluation = {
+  evaluationId: string;
+  hypothesisId: string;
+  passes: boolean;
+  failures: NeuralNaturalnessFailure[];
+  humanWomanTest: HumanWomanTestResponse | null;
+  evaluatedAt: string;
+};
+
+export type NeuralVoiceCastingModelSelection = {
+  selectionId: string;
+  provider: string;
+  endpoint: string;
+  selectionReason: string;
+  voiceIdentityMechanism: 'PRESET_VOICE' | 'VOICE_DESIGN' | 'PERSISTENT_VOICE_ID';
+  providerAuthority: CharacterVoiceProviderAuthority;
+  knownLimitations: string[];
+  fallback: string | null;
+  schemaVerified: boolean;
+};
+
+export type NeuralVoiceCastingEstimate = {
+  candidateCount: number;
+  clipDurationTargetSec: number;
+  provider: string;
+  endpoint: string;
+  estimatedCostUsd: number;
+  falRequests: number;
+};
+
+export type NeuralVoiceCastingContract = {
+  contractId: string;
+  hypothesisId: string;
+  provider: string;
+  endpoint: string;
+  spokenCopy: string;
+  providerVoiceId: string;
+  voiceSetting: Record<string, unknown>;
+  performanceContract: NaturalConversationalPerformanceContract;
+  languageBoost: string;
+  outputFormat: 'url';
+  estimatedCostUsd: number;
+  fingerprint: string;
 };
 
 export type CharacterVoiceCalibrationRound = {
@@ -184,6 +270,8 @@ export type CharacterVoiceCalibrationRound = {
   status: VoiceCalibrationRoundStatus;
   blindAudition: boolean;
   pairwiseComparisonId: string | null;
+  castingMode: VoiceCastingMode;
+  isNeuralRound: boolean;
   createdAt: string;
   completedAt: string | null;
 };
@@ -411,6 +499,18 @@ export type CharacterVoiceCalibrationState = {
   falRequests: number;
   estimatedCost: number;
   actualCost: number;
+  /** P0.5E.4B.1 — neural casting state */
+  castingMode: VoiceCastingMode;
+  neuralProviderConfigured: boolean;
+  selectedCastingProvider: NeuralVoiceCastingModelSelection | null;
+  neuralCandidates: NeuralVoiceCandidateIdentity[];
+  rejectedProviderVoiceIds: string[];
+  rejectedVocalRegions: string[];
+  placeholderHypothesisIds: string[];
+  naturalnessEvaluations: NeuralVoiceNaturalnessEvaluation[];
+  characterVoiceLocked: boolean;
+  providerLocked: boolean;
+  pendingCostEstimate: NeuralVoiceCastingEstimate | null;
   updatedAt: string;
 };
 

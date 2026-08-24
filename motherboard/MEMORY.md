@@ -4517,7 +4517,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-## 2026-08-24 — Founder calibration YES_I_KNOW_HER + voice lab fixes
+## 2026-08-24 — P0.5E.4B.1 Neural Voice Casting Provider + Synthetic Placeholder Retirement
+
+- **Context:** Founder reported P0.5E.4B browser SpeechSynthesis auditions sound robotic ("robots trying to sound like women"). Sprint preserves full P0.5E.4B calibration methodology while replacing founder-facing audition provider with FAL neural TTS (MiniMax Speech-02 HD).
+- **Topics:** `CharacterVoiceProviderAuthority` (browser → `DEV_PLACEHOLDER`); `NeuralVoiceCastingModelSelection`, `NeuralVoiceCandidateIdentity`, `NaturalConversationalPerformanceContract`, `NeuralVoiceNaturalnessEvaluation`; FAL generation service; human-woman test gate separate from character fit; Voice Lab UI neural casting mode with cost estimate + START NEURAL VOICE AUDITION; placeholder judgments preserved as `PLACEHOLDER_CALIBRATION_EVIDENCE`.
+- **Provider:** FAL `fal-ai/minimax/speech-02-hd` with preset female voices (CalmWoman, FriendlyWoman, WiseWoman, SoftWoman); same-line control `"WAIT. NO, BECAUSE THAT ACTUALLY DOES NOT MAKE SENSE."`; founder-trigger only; no audio on page load.
+- **Tests:** `embodiedCharacterVoiceP05E4B1.test.ts` (11 tests) + updated P0.5E.4B regressions (30 total voice tests pass); build OK (`ProjectFounderCharacterDiscoveryPage.Df7sh5IG.js`).
+- **Founder:** Railway redeploy (requires `FAL_KEY`). GoDaddy deploy v69. Character Discovery → INSPECT → VOICE LAB → START NEURAL VOICE AUDITION. Ignore prior browser-TTS auditions as placeholder evidence.
+
 
 - **Context:** Founder reported YES I KNOW HER not unlocking casting; voice lab selections not appearing saved. Root cause: YES_I_KNOW_HER **was** persisting (`founderKnowsHer: true`) but P0.5E.4A calibration progress did not feed P0.5E.4 casting gates (still required 5 INSPECT trait confirmations). UI always showed "BLOCKED until YES_I_KNOW_HER" even after selection. Voice lab saved to API but UI showed no saved state.
 - **Fix:** `ndxCastingReadinessBridge.ts` — calibration moments + domain confirmations satisfy discovery/gates; refresh readiness on GET; voice calibration moment writes voice lab judgment; CASTING tab shows human-readable blockers; header shows dynamic status; voice lab shows **Saved:** label + success notice on tap.

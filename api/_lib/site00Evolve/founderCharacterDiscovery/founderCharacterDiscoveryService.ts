@@ -36,8 +36,19 @@ import {
 } from '../../../../shared/site00-studio-world-production/embodiedCharacterVoice/voiceContinuityQA.js';
 import {
   ensureNdxVoiceCalibrationState,
+  startNdxNeuralVoiceAudition,
   startNdxVoiceCalibrationRound,
 } from '../../../../shared/site00-brand-lore/ndxEmbodiedCharacterVoice/ndxVoiceCalibrationAdapter.js';
+import {
+  applyHumanWomanTest,
+  applyNeuralGenerationResults,
+  estimateNeuralAudition,
+} from '../../../../shared/site00-studio-world-production/embodiedCharacterVoice/neuralVoiceCalibrationEngine.js';
+import type { HumanWomanTestResponse } from '../../../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js';
+import {
+  generateNeuralVoiceClip,
+  isNeuralProviderConfigured,
+} from './neuralVoiceGenerationService.js';
 import type { NdxFounderCharacterDiscoveryRun } from '../../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/types.js';
 import * as store from './founderCharacterDiscoveryStoreAdapter.js';
 
@@ -242,12 +253,71 @@ export async function saveFounderVoiceLabJudgment(params: {
 }
 
 function ensureVoiceCalibration(run: NdxFounderCharacterDiscoveryRun): NdxFounderCharacterDiscoveryRun {
-  const voiceCalibrationState = ensureNdxVoiceCalibrationState(run);
+  const neuralConfigured = isNeuralProviderConfigured();
+  const voiceCalibrationState = ensureNdxVoiceCalibrationState(run, neuralConfigured);
   const languageLabEvidenceCount = voiceCalibrationState.languageEvidence.length;
-  if (run.voiceCalibrationState === voiceCalibrationState && run.languageLabEvidenceCount === languageLabEvidenceCount) {
+  if (
+    run.voiceCalibrationState === voiceCalibrationState &&
+    run.languageLabEvidenceCount === languageLabEvidenceCount
+  ) {
     return run;
   }
   return { ...run, voiceCalibrationState, languageLabEvidenceCount };
+}
+
+export async function getNeuralVoiceCastingEstimate(params: {
+  projectId: string;
+}): Promise<{ estimate: Record<string, unknown>; neuralProviderConfigured: boolean }> {
+  const existing = await store.getFounderCharacterDiscoveryRun(params.projectId);
+  if (!existing) throw new Error('Founder character discovery room not initialized');
+  const neuralProviderConfigured = isNeuralProviderConfigured();
+  const seeded = ensureVoiceCalibration(existing);
+  const estimate = estimateNeuralAudition(seeded.voiceCalibrationState!);
+  return { estimate: estimate as unknown as Record<string, unknown>, neuralProviderConfigured };
+}
+
+export async function startFounderNeuralVoiceAudition(params: {
+  projectId: string;
+}): Promise<{ run: NdxFounderCharacterDiscoveryRun; round: Record<string, unknown> }> {
+  const existing = await store.getFounderCharacterDiscoveryRun(params.projectId);
+  if (!existing) throw new Error('Founder character discovery room not initialized');
+  const neuralProviderConfigured = isNeuralProviderConfigured();
+  if (!neuralProviderConfigured) {
+    throw new Error('NEURAL_VOICE_PROVIDER_NOT_CONFIGURED');
+  }
+  const seeded = ensureVoiceCalibration(existing);
+  const { run, round, contracts } = startNdxNeuralVoiceAudition(seeded, true);
+  const results: Array<{ hypothesisId: string; audioUrl: string; durationMs: number; costUsd: number }> = [];
+  for (const contract of contracts) {
+    const generated = await generateNeuralVoiceClip(contract);
+    results.push({
+      hypothesisId: contract.hypothesisId,
+      audioUrl: generated.audioUrl,
+      durationMs: generated.durationMs,
+      costUsd: generated.actualCostUsd,
+    });
+  }
+  const voiceCalibrationState = applyNeuralGenerationResults(run.voiceCalibrationState!, round.roundId, results);
+  const refreshed = refreshReadiness({ ...run, voiceCalibrationState, updatedAt: nowIso() });
+  await store.saveFounderCharacterDiscoveryRun(refreshed);
+  return { run: refreshed, round: round as unknown as Record<string, unknown> };
+}
+
+export async function saveFounderHumanWomanTest(params: {
+  projectId: string;
+  hypothesisId: string;
+  response: HumanWomanTestResponse;
+}): Promise<NdxFounderCharacterDiscoveryRun> {
+  const existing = await store.getFounderCharacterDiscoveryRun(params.projectId);
+  if (!existing) throw new Error('Founder character discovery room not initialized');
+  const seeded = ensureVoiceCalibration(existing);
+  const voiceCalibrationState = applyHumanWomanTest(
+    seeded.voiceCalibrationState!,
+    params.hypothesisId,
+    params.response,
+  );
+  const updated = refreshReadiness({ ...seeded, voiceCalibrationState, updatedAt: nowIso() });
+  return store.saveFounderCharacterDiscoveryRun(updated);
 }
 
 export async function startFounderVoiceCalibrationRound(params: {

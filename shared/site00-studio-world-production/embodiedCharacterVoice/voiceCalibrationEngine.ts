@@ -11,7 +11,8 @@ import {
   VOICE_CALIBRATION_PROGRESS_DOMAINS,
 } from './constants.js';
 import { selectComparisonSpokenCopy } from './characterLanguageEvidence.js';
-import { buildSyntheticCalibrationCapability } from './voiceGenerationCapability.js';
+import { buildSyntheticCalibrationCapability, syntheticProviderAuthority } from './voiceGenerationCapability.js';
+import { canProgressJudgmentToCloseOrYes } from './neuralVoiceCasting.js';
 import type {
   CharacterVoiceCalibrationInference,
   CharacterVoiceCalibrationProgress,
@@ -140,6 +141,17 @@ export function buildEmptyVoiceCalibrationState(params: {
     falRequests: 0,
     estimatedCost: 0,
     actualCost: 0,
+    castingMode: 'DEV_PLACEHOLDER',
+    neuralProviderConfigured: false,
+    selectedCastingProvider: null,
+    neuralCandidates: [],
+    rejectedProviderVoiceIds: [],
+    rejectedVocalRegions: [],
+    placeholderHypothesisIds: [],
+    naturalnessEvaluations: [],
+    characterVoiceLocked: false,
+    providerLocked: false,
+    pendingCostEstimate: null,
     updatedAt: now,
   };
 }
@@ -199,6 +211,15 @@ export function compileNextVoiceCalibrationRound(
     founderNote: null,
     status: 'GENERATED',
     generatedAt: new Date().toISOString(),
+    providerAuthority: syntheticProviderAuthority(),
+    humanWomanTest: null,
+    naturalnessPass: false,
+    neuralCandidateId: null,
+    parentCandidateId: null,
+    isDevPlaceholder: true,
+    performanceDirection: null,
+    estimatedCostUsd: 0,
+    durationMs: null,
   }));
 
   const round: CharacterVoiceCalibrationRound = {
@@ -213,6 +234,8 @@ export function compileNextVoiceCalibrationRound(
     status: 'READY_FOR_JUDGMENT',
     blindAudition: state.blindAuditionMode,
     pairwiseComparisonId: null,
+    castingMode: 'DEV_PLACEHOLDER',
+    isNeuralRound: false,
     createdAt: new Date().toISOString(),
     completedAt: null,
   };
@@ -234,7 +257,7 @@ export function compileNextVoiceCalibrationRound(
   };
 }
 
-function resolveRoundType(state: CharacterVoiceCalibrationState, roundNumber: number) {
+export function resolveRoundType(state: CharacterVoiceCalibrationState, roundNumber: number) {
   if (roundNumber === 1) return 'BROAD_CASTING' as const;
   const positives = state.hypotheses.filter((h) => h.founderJudgment === 'YES_THATS_HER' || h.founderJudgment === 'CLOSE');
   if (positives.length >= 2 && !state.pairwiseComparisons.some((p) => p.preference)) return 'IDENTITY_NARROWING' as const;
@@ -331,6 +354,7 @@ export function applyVoiceHypothesisJudgment(
   const hypothesis = state.hypotheses.find((h) => h.id === hypothesisId);
   if (!hypothesis) return state;
 
+  const gate = canProgressJudgmentToCloseOrYes(hypothesis, judgment);
   const inference = inferFromJudgment(hypothesisId, judgment, note);
   const hypotheses = state.hypotheses.map((h) =>
     h.id === hypothesisId
@@ -339,7 +363,7 @@ export function applyVoiceHypothesisJudgment(
   );
 
   let emergingIdentity = state.emergingIdentity;
-  if (judgment === 'YES_THATS_HER' || judgment === 'CLOSE') {
+  if (gate.allowed && (judgment === 'YES_THATS_HER' || judgment === 'CLOSE')) {
     emergingIdentity = buildEmergingIdentity(state, hypothesis, judgment);
   }
 
@@ -352,12 +376,31 @@ export function applyVoiceHypothesisJudgment(
       : r,
   );
 
+  let rejectedProviderVoiceIds = state.rejectedProviderVoiceIds;
+  let rejectedVocalRegions = state.rejectedVocalRegions;
+  let neuralCandidates = state.neuralCandidates;
+  if (judgment === 'NO_NOT_HER') {
+    rejectedProviderVoiceIds = [...rejectedProviderVoiceIds, hypothesis.voiceId];
+    rejectedVocalRegions = [...rejectedVocalRegions, hypothesis.vocalCharacter];
+  }
+  if (judgment === 'YES_THATS_HER' || judgment === 'CLOSE') {
+    neuralCandidates = neuralCandidates.map((c) =>
+      c.candidateId === hypothesis.neuralCandidateId
+        ? { ...c, founderStatus: judgment === 'YES_THATS_HER' ? 'YES' : 'CLOSE' }
+        : c,
+    );
+  }
+
   return {
     ...state,
     hypotheses,
     inferences: [...state.inferences, inference],
     emergingIdentity,
     rounds,
+    rejectedProviderVoiceIds,
+    rejectedVocalRegions,
+    neuralCandidates,
+    sessionMessage: gate.allowed ? state.sessionMessage : (gate.reason ?? state.sessionMessage),
     updatedAt: new Date().toISOString(),
   };
 }

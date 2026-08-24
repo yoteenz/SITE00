@@ -1817,6 +1817,24 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, hypothesisId, spokenCopy, response }),
       },
     ),
+  founderCharacterDiscoveryNeuralVoiceEstimate: (slug: string) =>
+    projectsFetch<{ ok: true; estimate: Record<string, unknown>; neuralProviderConfigured: boolean }>(
+      `/api/site00/projects?action=founder_character_discovery_neural_voice_estimate&slug=${encodeURIComponent(slug)}`,
+    ),
+  founderCharacterDiscoveryNeuralVoiceAudition: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; round: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_neural_voice_audition',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  founderCharacterDiscoveryHumanWomanTest: (slug: string, hypothesisId: string, response: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_human_woman_test',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, hypothesisId, response }),
+      },
+    ),
   characterContinuityGet: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
       `/api/site00/projects?action=character_continuity_get&slug=${encodeURIComponent(slug)}`,
