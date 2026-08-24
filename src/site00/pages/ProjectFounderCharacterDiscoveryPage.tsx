@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { FounderWorkspaceShell } from '../components/founderWorkspace/FounderWorkspaceShell';
 import { CharacterLabOperateLayer } from '../components/founderWorkspace/CharacterLabOperateLayer';
@@ -12,7 +12,9 @@ import {
 import {
   buildFounderCharacterDiscoveryProgress,
   type DiscoveryProgressNavigateTarget,
+  type FounderDiscoveryProgressStep,
 } from '../utils/founderCharacterDiscoveryProgress';
+import { FounderCharacterCalibrationProgressPanel } from '../components/founderWorkspace/FounderCharacterCalibrationProgressPanel';
 import { projectDisplayName } from '../utils/projectDisplayName';
 import { VOICE_LAB_CHANNELS } from '../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/constants';
 import { FOUNDER_RECOGNITION_RESPONSES } from '../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/constants';
@@ -110,6 +112,19 @@ export default function ProjectFounderCharacterDiscoveryPage() {
   const [voiceLabTab, setVoiceLabTab] = useState<VoiceLabTabId>('CURRENT');
   const [currentInteraction, setCurrentInteraction] = useState<CharacterCalibrationInteraction | null>(null);
   const [showWhyThisCameUp, setShowWhyThisCameUp] = useState(false);
+  const calibrationWorkspaceRef = useRef<HTMLDivElement>(null);
+
+  const syncCurrentInteraction = useCallback((loaded: NdxFounderCharacterDiscoveryRun | null) => {
+    if (!loaded?.calibrationState?.currentInteractionId) {
+      setCurrentInteraction(null);
+      return;
+    }
+    const interaction =
+      loaded.calibrationState.interactions.find(
+        (i) => i.interactionId === loaded.calibrationState?.currentInteractionId,
+      ) ?? null;
+    setCurrentInteraction(interaction && !interaction.resolved ? interaction : null);
+  }, []);
 
   const reload = useCallback(async () => {
     if (projectSlug !== 'ndxbook') return;
@@ -119,22 +134,16 @@ export default function ProjectFounderCharacterDiscoveryPage() {
       setRun(loaded);
       if (typeof result.neuralProviderConfigured === 'boolean') {
         setNeuralConfigured(result.neuralProviderConfigured);
-      } else if (typeof loaded?.voiceCalibrationState?.neuralProviderConfigured === 'boolean') {
+      } else       if (typeof loaded?.voiceCalibrationState?.neuralProviderConfigured === 'boolean') {
         setNeuralConfigured(loaded.voiceCalibrationState.neuralProviderConfigured);
       }
-      if (loaded?.calibrationState?.currentInteractionId) {
-        const interaction =
-          loaded.calibrationState.interactions.find(
-            (i) => i.interactionId === loaded.calibrationState?.currentInteractionId,
-          ) ?? null;
-        setCurrentInteraction(interaction);
-      }
+      syncCurrentInteraction(loaded);
     } catch {
       setRun(null);
     } finally {
       setLoading(false);
     }
-  }, [projectSlug]);
+  }, [projectSlug, syncCurrentInteraction]);
 
   useEffect(() => {
     preloadSpeechVoices();
@@ -314,14 +323,50 @@ export default function ProjectFounderCharacterDiscoveryPage() {
     voiceLabTab === 'CURRENT' && neuralConfigured ? nextNeuralRoundUnlockHint(nextRoundParams) : null;
   const discoveryProgress = run ? buildFounderCharacterDiscoveryProgress(run) : null;
 
-  const goToProgressStep = (target: DiscoveryProgressNavigateTarget) => {
-    if (target.kind === 'section') {
-      setSection(target.section);
-      return;
-    }
-    setSection('INSPECT');
-    setInspectSection(target.inspectSection as InspectionSection);
-  };
+  const scrollToCalibrationWorkspace = useCallback(() => {
+    requestAnimationFrame(() => {
+      calibrationWorkspaceRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }, []);
+
+  const goToProgressStep = useCallback(
+    (target: DiscoveryProgressNavigateTarget) => {
+      if (target.kind === 'section') {
+        setSection(target.section);
+      } else {
+        setSection('INSPECT');
+        setInspectSection(target.inspectSection as InspectionSection);
+      }
+      scrollToCalibrationWorkspace();
+    },
+    [scrollToCalibrationWorkspace],
+  );
+
+  const handleProgressStep = useCallback(
+    (step: FounderDiscoveryProgressStep) => {
+      goToProgressStep(step.navigate);
+    },
+    [goToProgressStep],
+  );
+
+  const continueCalibrationMoment = useCallback(() => {
+    setSection('CALIBRATION');
+    scrollToCalibrationWorkspace();
+    void act(async () => {
+      const result = await site00ProjectsApi.founderCharacterDiscoveryCalibrationContinue(projectSlug);
+      if (result.run) setRun(result.run as NdxFounderCharacterDiscoveryRun);
+      const interaction = (result.interaction as CharacterCalibrationInteraction | null) ?? null;
+      setCurrentInteraction(interaction && !interaction.resolved ? interaction : null);
+      return { run: result.run };
+    }, { successMessage: 'Next calibration moment ready.', goToSection: 'CALIBRATION' });
+  }, [projectSlug, scrollToCalibrationWorkspace]);
+
+  const generateCharacterRead = useCallback(() => {
+    void act(
+      () => site00ProjectsApi.founderCharacterDiscoveryCalibrationSynthesis(projectSlug),
+      { successMessage: 'Character read generated.', goToSection: 'SYNTHESIS' },
+    );
+  }, [projectSlug]);
 
   const characterLegacyBody = (
     <div className="site00-cd site00-cd--project-calibration site00-fws-legacy-inspect">
@@ -362,121 +407,21 @@ export default function ProjectFounderCharacterDiscoveryPage() {
 
           {loading && <p>Loading…</p>}
 
-          {run && discoveryProgress && (
-            <section
-              className="site00-experiment-g__panel"
-              style={{
-                marginBottom: '12px',
-                border: discoveryProgress.readyForCharacterSynthesis
-                  ? '1px solid rgba(214, 255, 59, 0.55)'
-                  : '1px solid rgba(245, 166, 35, 0.35)',
-              }}
-              aria-label="Calibration progress"
-            >
-              <h2 style={{ fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '8px' }}>
-                YOUR PROGRESS — {discoveryProgress.completedCount}/{discoveryProgress.totalCount} complete (
-                {discoveryProgress.percentComplete}%)
-              </h2>
-              <div
-                role="progressbar"
-                aria-valuenow={discoveryProgress.percentComplete}
-                aria-valuemin={0}
-                aria-valuemax={100}
-                style={{
-                  height: '8px',
-                  background: 'rgba(255,255,255,0.12)',
-                  borderRadius: '4px',
-                  marginBottom: '12px',
-                  overflow: 'hidden',
-                }}
-              >
-                <div
-                  style={{
-                    width: `${discoveryProgress.percentComplete}%`,
-                    height: '100%',
-                    background: discoveryProgress.readyForCharacterSynthesis ? '#D6FF3B' : '#f5a623',
-                  }}
-                />
-              </div>
-              <p style={{ marginBottom: '12px' }}>
-                <strong>{discoveryProgress.headline}</strong>
-              </p>
-              {discoveryProgress.nextStep && !discoveryProgress.readyForCharacterSynthesis && (
-                <button
-                  type="button"
-                  className="site00-btn site00-btn--primary"
-                  style={{ width: '100%', marginBottom: '12px' }}
-                  onClick={() => goToProgressStep(discoveryProgress.nextStep!.navigate)}
-                >
-                  GO TO NEXT STEP — {discoveryProgress.nextStep.title.toUpperCase()}
-                </button>
-              )}
-              {discoveryProgress.readyForCharacterSynthesis && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
-                  <button
-                    type="button"
-                    className="site00-btn site00-btn--primary"
-                    disabled={busy}
-                    style={{ width: '100%' }}
-                    onClick={() =>
-                      void act(
-                        () => site00ProjectsApi.founderCharacterDiscoveryCalibrationSynthesis(projectSlug),
-                        { successMessage: 'Character read generated.', goToSection: 'SYNTHESIS' },
-                      )
-                    }
-                  >
-                    GENERATE CHARACTER READ
-                  </button>
-                  <Link
-                    to={site00ProjectEmbodiedCharacterDiscoveryPath(projectSlug)}
-                    className="site00-btn"
-                    style={{ textAlign: 'center', textDecoration: 'none' }}
-                  >
-                    CONTINUE TO EMBODIED CHARACTER DISCOVERY →
-                  </Link>
-                </div>
-              )}
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.85rem' }}>
-                {discoveryProgress.steps.map((step) => (
-                  <li
-                    key={step.id}
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '2px',
-                      padding: '8px 0',
-                      borderBottom: '1px solid rgba(255,255,255,0.08)',
-                    }}
-                  >
-                    <button
-                      type="button"
-                      className="site00-btn"
-                      style={{
-                        width: '100%',
-                        textAlign: 'left',
-                        opacity: step.complete ? 0.75 : 1,
-                        borderColor: step.complete ? 'rgba(214,255,59,0.35)' : undefined,
-                      }}
-                      onClick={() => goToProgressStep(step.navigate)}
-                    >
-                      {step.complete ? '✓ ' : '○ '}
-                      {step.title}
-                    </button>
-                    <span style={{ fontSize: '0.75rem', opacity: 0.85, paddingLeft: '4px' }}>{step.detail}</span>
-                  </li>
-                ))}
-              </ul>
-              {discoveryProgress.unresolvedCalibrationCount > 0 && (
-                <p style={{ fontSize: '0.8rem', marginTop: '10px' }}>
-                  {discoveryProgress.unresolvedCalibrationCount} calibration moment
-                  {discoveryProgress.unresolvedCalibrationCount === 1 ? '' : 's'} still available on CALIBRATION tab.
-                </p>
-              )}
-            </section>
+          {run && discoveryProgress && projectSlug !== 'ndxbook' && (
+            <FounderCharacterCalibrationProgressPanel
+              discoveryProgress={discoveryProgress}
+              busy={busy}
+              actionError={actionError}
+              actionNotice={actionNotice}
+              onStepPress={handleProgressStep}
+              onContinueCalibration={continueCalibrationMoment}
+              onGenerateSynthesis={generateCharacterRead}
+            />
           )}
 
           {run && (
             <>
+              <div ref={calibrationWorkspaceRef} className="site00-fws-calibration-workspace-anchor" />
               <nav className="site00-experiment-g__tabs" aria-label="Discovery room sections">
                 {SECTIONS.map((s) => (
                   <button
@@ -517,16 +462,9 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                     {!currentInteraction && (
                       <button
                         type="button"
-                        className="site00-btn site00-btn--primary"
+                        className="site00-fws-calibration-progress__cta site00-fws-calibration-progress__cta--inline"
                         disabled={busy}
-                        onClick={() =>
-                          void act(async () => {
-                            const result = await site00ProjectsApi.founderCharacterDiscoveryCalibrationContinue(projectSlug);
-                            if (result.run) setRun(result.run as NdxFounderCharacterDiscoveryRun);
-                            setCurrentInteraction((result.interaction as CharacterCalibrationInteraction | null) ?? null);
-                            return { run: result.run };
-                          }, { successMessage: 'Next calibration moment ready.' })
-                        }
+                        onClick={continueCalibrationMoment}
                       >
                         CONTINUE CALIBRATION
                       </button>
@@ -561,7 +499,8 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                                     needsRevision ? calibrationRevision || undefined : undefined,
                                   );
                                   if (result.run) setRun(result.run as NdxFounderCharacterDiscoveryRun);
-                                  setCurrentInteraction((result.nextInteraction as CharacterCalibrationInteraction | null) ?? null);
+                                  const next = (result.nextInteraction as CharacterCalibrationInteraction | null) ?? null;
+                                  setCurrentInteraction(next && !next.resolved ? next : null);
                                   setCalibrationRevision('');
                                   return { run: result.run };
                                 })
@@ -1493,9 +1432,16 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                     {!casting.readyForCharacterSynthesis && discoveryProgress.nextStep && (
                       <button
                         type="button"
-                        className="site00-btn site00-btn--primary"
-                        style={{ width: '100%', marginBottom: '12px' }}
-                        onClick={() => goToProgressStep(discoveryProgress.nextStep!.navigate)}
+                        className="site00-fws-calibration-progress__cta site00-fws-calibration-progress__cta--inline"
+                        disabled={busy}
+                        onClick={() => {
+                          const step = discoveryProgress.nextStep!;
+                          if (step.id === 'moments' || step.id === 'truths' || step.id === 'contradictions' || step.id === 'flaws' || step.id === 'intelligence' || step.id === 'book' || step.id === 'humanity') {
+                            continueCalibrationMoment();
+                          } else {
+                            handleProgressStep(step);
+                          }
+                        }}
                       >
                         GO TO NEXT STEP — {discoveryProgress.nextStep.title.toUpperCase()}
                       </button>
@@ -1503,15 +1449,9 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                     {casting.readyForCharacterSynthesis && (
                       <button
                         type="button"
-                        className="site00-btn site00-btn--primary"
+                        className="site00-fws-calibration-progress__cta site00-fws-calibration-progress__cta--inline"
                         disabled={busy}
-                        style={{ width: '100%', marginBottom: '12px' }}
-                        onClick={() =>
-                          void act(
-                            () => site00ProjectsApi.founderCharacterDiscoveryCalibrationSynthesis(projectSlug),
-                            { successMessage: 'Character read generated.', goToSection: 'SYNTHESIS' },
-                          )
-                        }
+                        onClick={generateCharacterRead}
                       >
                         GENERATE CHARACTER READ
                       </button>
@@ -1553,6 +1493,12 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                 run={run}
                 loading={loading}
                 discoveryProgress={discoveryProgress}
+                busy={busy}
+                actionError={actionError}
+                actionNotice={actionNotice}
+                onProgressStep={handleProgressStep}
+                onContinueCalibration={continueCalibrationMoment}
+                onGenerateSynthesis={generateCharacterRead}
               />
               {characterLegacyBody}
             </>

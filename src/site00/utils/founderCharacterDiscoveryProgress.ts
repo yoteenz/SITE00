@@ -39,12 +39,19 @@ function unresolvedCalibrationCount(run: NdxFounderCharacterDiscoveryRun): numbe
 
 function gateNavigateTarget(gate: string): DiscoveryProgressNavigateTarget {
   switch (gate) {
+    case 'moments':
+    case 'truths':
+    case 'contradictions':
+    case 'flaws':
+    case 'intelligence':
+    case 'humanity':
+      return { kind: 'section', section: 'CALIBRATION' };
     case 'voice':
       return { kind: 'inspect', inspectSection: 'VOICE_LAB' };
     case 'visual':
       return { kind: 'inspect', inspectSection: 'VISUAL' };
     case 'book':
-      return { kind: 'inspect', inspectSection: 'BOOK' };
+      return { kind: 'section', section: 'CALIBRATION' };
     case 'i_know_her':
       return { kind: 'section', section: 'RECOGNITION' };
     case 'character_read':

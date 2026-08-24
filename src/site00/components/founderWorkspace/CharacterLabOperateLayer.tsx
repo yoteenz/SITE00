@@ -5,8 +5,10 @@
 import { Link } from 'react-router-dom';
 import type { NdxFounderCharacterDiscoveryRun } from '../../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/types';
 import type { buildFounderCharacterDiscoveryProgress } from '../../utils/founderCharacterDiscoveryProgress';
+import type { FounderDiscoveryProgressStep } from '../../utils/founderCharacterDiscoveryProgress';
 import { castingStatusHeadline } from '../../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/ndxCastingReadinessBridge';
 import { site00ProjectEmbodiedCharacterDiscoveryPath } from '../../config/routes';
+import { FounderCharacterCalibrationProgressPanel } from './FounderCharacterCalibrationProgressPanel';
 import { FounderEmptyState, FounderWorkspacePanel } from './FounderWorkspaceShell';
 
 type Progress = ReturnType<typeof buildFounderCharacterDiscoveryProgress>;
@@ -16,9 +18,26 @@ type Props = {
   run: NdxFounderCharacterDiscoveryRun | null;
   loading: boolean;
   discoveryProgress: Progress | null;
+  busy?: boolean;
+  actionError?: string | null;
+  actionNotice?: string | null;
+  onProgressStep?: (step: FounderDiscoveryProgressStep) => void;
+  onContinueCalibration?: () => void;
+  onGenerateSynthesis?: () => void;
 };
 
-export function CharacterLabOperateLayer({ projectSlug, run, loading, discoveryProgress }: Props) {
+export function CharacterLabOperateLayer({
+  projectSlug,
+  run,
+  loading,
+  discoveryProgress,
+  busy = false,
+  actionError,
+  actionNotice,
+  onProgressStep,
+  onContinueCalibration,
+  onGenerateSynthesis,
+}: Props) {
   if (loading) {
     return <p className="site00-fws-empty">Loading character lab…</p>;
   }
@@ -43,6 +62,19 @@ export function CharacterLabOperateLayer({ projectSlug, run, loading, discoveryP
         </div>
       </div>
 
+      {discoveryProgress && onProgressStep ? (
+        <FounderCharacterCalibrationProgressPanel
+          discoveryProgress={discoveryProgress}
+          busy={busy}
+          actionError={actionError}
+          actionNotice={actionNotice}
+          onStepPress={onProgressStep}
+          onContinueCalibration={onContinueCalibration}
+          onGenerateSynthesis={onGenerateSynthesis}
+          className="site00-fws-calibration-progress--operate"
+        />
+      ) : null}
+
       <FounderWorkspacePanel title="HER IN A SENTENCE">
         {run.humanReadableSynthesis?.whoIThinkSheIs ? (
           <p style={{ fontSize: 14, lineHeight: 1.5 }}>{run.humanReadableSynthesis.whoIThinkSheIs}</p>
@@ -57,12 +89,6 @@ export function CharacterLabOperateLayer({ projectSlug, run, loading, discoveryP
           EMBODIED VOICE LAB →
         </Link>
       </FounderWorkspacePanel>
-
-      {discoveryProgress?.headline ? (
-        <FounderWorkspacePanel title="CURRENT CALIBRATION">
-          <p style={{ fontSize: 12 }}>{discoveryProgress.headline}</p>
-        </FounderWorkspacePanel>
-      ) : null}
     </>
   );
 }

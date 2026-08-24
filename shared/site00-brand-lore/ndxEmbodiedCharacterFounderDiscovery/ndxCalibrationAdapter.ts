@@ -297,10 +297,25 @@ export function ndxContinueCalibration(run: NdxFounderCharacterDiscoveryRun): {
   interaction: CharacterCalibrationInteraction | null;
 } {
   let state = migrateRunToCalibrationState(run);
-  if (!state.sessions.length || !state.currentInteractionId) {
+  if (!state.sessions.length) {
     state = startCalibrationSession(state);
+  } else {
+    const current = state.currentInteractionId
+      ? state.interactions.find((i) => i.interactionId === state.currentInteractionId)
+      : null;
+    if (!current || current.resolved) {
+      const next = selectNextCalibrationInteraction(state);
+      state = {
+        ...state,
+        currentInteractionId: next?.interactionId ?? null,
+        timestamp: new Date().toISOString(),
+      };
+    }
   }
-  const interaction = state.interactions.find((i) => i.interactionId === state.currentInteractionId) ?? null;
+  const interaction =
+    state.currentInteractionId != null
+      ? state.interactions.find((i) => i.interactionId === state.currentInteractionId && !i.resolved) ?? null
+      : null;
   return {
     run: { ...run, calibrationState: state, calibrationVersion: FOUNDER_CHARACTER_CALIBRATION_VERSION },
     interaction,
