@@ -243,12 +243,19 @@ export async function refreshProjectWorkspaceVisualDevelopmentRun(
   return await store.saveVisualDevelopmentRun(initRun(projectId, clientExpression));
 }
 
-export async function refreshVisualDevelopmentReferences(
+async function refreshHostReferencesForProof(
   proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
-): Promise<ProjectWorkspaceVisualDevelopmentRun> {
+): Promise<void> {
   const intent =
     proofId === 'SITE00_PROJECTS_INDEX' ? 'SITE00_PROJECTS_INDEX_DESIGN_PROOF' : 'NDXBOOK_PROJECT_HOME_DESIGN_PROOF';
   await refreshVisualReferences({ generationIntent: intent, targetDevice: 'DESKTOP' });
+  await refreshVisualReferences({ generationIntent: intent, targetDevice: 'MOBILE' });
+}
+
+export async function refreshVisualDevelopmentReferences(
+  proofId: 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME',
+): Promise<ProjectWorkspaceVisualDevelopmentRun> {
+  await refreshHostReferencesForProof(proofId);
   return compileVisualDevelopmentReferencePackage(proofId);
 }
 
@@ -275,10 +282,7 @@ export async function prepareComposedInterfaceSurface(
     throw new Error('prepareComposedInterfaceSurface is scoped to SITE00_PROJECTS_INDEX in P1 correction');
   }
 
-  await refreshVisualReferences({
-    generationIntent: 'SITE00_PROJECTS_INDEX_DESIGN_PROOF',
-    targetDevice: 'DESKTOP',
-  });
+  await refreshHostReferencesForProof('SITE00_PROJECTS_INDEX');
 
   let run = await compileVisualDevelopmentReferencePackage(proofId);
   run = await compileVisualDevelopmentProofManifest(proofId);
