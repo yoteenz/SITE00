@@ -4674,6 +4674,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-08-24 — fsbw-dev project presence import error fix
+
+- **Symptom:** Vite overlay on site00.fsbw-dev.com — `Failed to resolve import shared/site00-brand-lore/projectPresence/index.js` from `useProjectPresenceAccent.ts`.
+- **Root cause:** fsbw-dev ran hook + shell integration from `cursor/project-presence-accent-02ac` without the shared `projectPresence` module on main.
+- **Fix:** Merged P0.UI.1 project presence accent system to main (registry, resolver, ProjectPresenceScope, Site00Diamond). Build green; 13 tests pass.
+
+---
+
 ## 2026-08-24 — Visual Reconstruction Engine P0.VR.1A (Founder reference calibration)
 
 - **Context:** Sprint to calibrate VR engine against founder-approved desktop + mobile NDXBOOK workspace boards (cream/paper-led); upgrade from structural matching to multi-viewport design grammar + brand fidelity diagnosis. Supersedes dark-primary NDX workspace from P0.VR.1.
