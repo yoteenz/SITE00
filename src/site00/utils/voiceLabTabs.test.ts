@@ -5,6 +5,8 @@ import {
   filterVoiceLabRounds,
   listSupersededClipsFromLatestRound,
   resolveLatestNeuralRoundId,
+  canGenerateNextNeuralRound,
+  nextNeuralRoundUnlockHint,
 } from './voiceLabTabs';
 
 const rounds = [
@@ -53,5 +55,37 @@ describe('voiceLabTabs', () => {
     expect(
       listSupersededClipsFromLatestRound({ hypotheses: hypotheses as never, latestNeuralRoundId: 'r2' }),
     ).toHaveLength(1);
+  });
+
+  it('unlocks next round on CLOSE/YES without judging all voices', () => {
+    const neuralRounds = [
+      { roundId: 'r1', roundNumber: 1, isNeuralRound: true, status: 'READY_FOR_JUDGMENT' as const },
+    ];
+    const params = {
+      rounds: neuralRounds as never,
+      latestNeuralRoundId: 'r1',
+      neuralCandidates: [{ founderStatus: 'CLOSE' as const }],
+    };
+    expect(canGenerateNextNeuralRound(params as never)).toBe(true);
+    expect(nextNeuralRoundUnlockHint(params as never)).toBeNull();
+  });
+
+  it('unlocks next round when latest neural round is JUDGMENTS_COMPLETE', () => {
+    const params = {
+      rounds: [{ roundId: 'r1', roundNumber: 1, isNeuralRound: true, status: 'JUDGMENTS_COMPLETE' as const }],
+      latestNeuralRoundId: 'r1',
+      neuralCandidates: [{ founderStatus: 'UNTESTED' as const }],
+    };
+    expect(canGenerateNextNeuralRound(params as never)).toBe(true);
+  });
+
+  it('shows hint when round incomplete and no CLOSE/YES', () => {
+    const params = {
+      rounds: [{ roundId: 'r1', roundNumber: 1, isNeuralRound: true, status: 'READY_FOR_JUDGMENT' as const }],
+      latestNeuralRoundId: 'r1',
+      neuralCandidates: [{ founderStatus: 'UNTESTED' as const }],
+    };
+    expect(canGenerateNextNeuralRound(params as never)).toBe(false);
+    expect(nextNeuralRoundUnlockHint(params as never)).toContain('CLOSE');
   });
 });

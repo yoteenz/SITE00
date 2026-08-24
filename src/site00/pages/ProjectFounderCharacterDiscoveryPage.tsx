@@ -36,6 +36,8 @@ import {
   listSupersededClipsFromLatestRound,
   resolveLatestNeuralRoundId,
   type VoiceLabTabId,
+  canGenerateNextNeuralRound,
+  nextNeuralRoundUnlockHint,
 } from '../utils/voiceLabTabs';
 import '../styles/site00-replay-execution.css';
 
@@ -295,6 +297,15 @@ export default function ProjectFounderCharacterDiscoveryPage() {
     hypotheses: voiceHypotheses,
     latestNeuralRoundId,
   });
+  const nextRoundParams = {
+    rounds: voiceRounds,
+    neuralCandidates: run?.voiceCalibrationState?.neuralCandidates ?? [],
+    latestNeuralRoundId,
+  };
+  const showGenerateNextNeuralRound =
+    voiceLabTab === 'CURRENT' && neuralConfigured && canGenerateNextNeuralRound(nextRoundParams);
+  const nextRoundUnlockHint =
+    voiceLabTab === 'CURRENT' && neuralConfigured ? nextNeuralRoundUnlockHint(nextRoundParams) : null;
 
   return (
     <EcosystemShell hidePageHeader>
@@ -848,6 +859,36 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                         ? 'Latest neural audition only — judge, revise, and regenerate here.'
                         : 'Earlier rounds, placeholder evidence, and superseded clips from revisions.'}
                     </p>
+                    {showGenerateNextNeuralRound && (
+                      <article
+                        className="site00-experiment-g__panel"
+                        style={{ marginBottom: '12px', border: '1px solid rgba(245, 166, 35, 0.45)' }}
+                      >
+                        <p style={{ fontSize: '0.85rem', marginBottom: '8px' }}>
+                          Ready for a new set of voice packs — siblings refine whoever you marked{' '}
+                          <strong>CLOSE</strong> or <strong>YES</strong>.
+                        </p>
+                        <button
+                          type="button"
+                          className="site00-btn site00-btn--primary"
+                          disabled={busy}
+                          style={{ width: '100%' }}
+                          onClick={() =>
+                            void act(
+                              () => site00ProjectsApi.founderCharacterDiscoveryNeuralVoiceAudition(projectSlug),
+                              { successMessage: 'Next neural voice round ready.' },
+                            )
+                          }
+                        >
+                          GENERATE NEXT NEURAL ROUND
+                        </button>
+                      </article>
+                    )}
+                    {nextRoundUnlockHint && (
+                      <p style={{ fontSize: '0.85rem', marginBottom: '12px', color: '#f5a623' }}>
+                        {nextRoundUnlockHint}
+                      </p>
+                    )}
                     {voiceLabTab === 'CURRENT' &&
                       neuralConfigured &&
                       !run.voiceCalibrationState?.rounds.some((r) => r.isNeuralRound) && (
@@ -1144,24 +1185,6 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                           </button>
                         ))}
                       </article>
-                    )}
-                    {voiceLabTab === 'CURRENT' &&
-                      run.voiceCalibrationState?.rounds.some((r) => r.status === 'JUDGMENTS_COMPLETE' && r.isNeuralRound) &&
-                      neuralConfigured && (
-                      <button
-                        type="button"
-                        className="site00-btn site00-btn--primary"
-                        disabled={busy}
-                        style={{ marginTop: '12px' }}
-                        onClick={() =>
-                          void act(
-                            () => site00ProjectsApi.founderCharacterDiscoveryNeuralVoiceAudition(projectSlug),
-                            { successMessage: 'Next neural voice round ready.' },
-                          )
-                        }
-                      >
-                        GENERATE NEXT NEURAL ROUND
-                      </button>
                     )}
                     {run.voiceCalibrationState?.emergingIdentity && (
                       <article className="site00-experiment-g__panel" style={{ marginTop: '12px' }}>
