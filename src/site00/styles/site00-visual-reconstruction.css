@@ -1,0 +1,300 @@
+/**
+ * Visual Reconstruction pilot — Experiments Hub operate layer styles.
+ * Matches dark editorial command-center reference (P0.VR.1).
+ */
+
+.site00-vr-experiments-hub {
+  --vr-stage-bg-1: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+  --vr-stage-bg-2: linear-gradient(145deg, #1f1a14 0%, #3d2c1e 100%);
+  --vr-stage-bg-3: linear-gradient(145deg, #141414 0%, #2a2a2a 100%);
+  --vr-stage-bg-4: linear-gradient(145deg, #1a1418 0%, #2e1f28 100%);
+  --vr-stage-bg-5: linear-gradient(145deg, #121812 0%, #1e2e1e 100%);
+  --vr-stage-bg-6: linear-gradient(145deg, #181818 0%, #303030 100%);
+  max-width: 100%;
+}
+
+.site00-vr-ehub__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.site00-vr-ehub__eyebrow {
+  margin: 0 0 6px;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: #666;
+}
+
+.site00-vr-ehub__title {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #f5f2ea;
+}
+
+.site00-vr-ehub__subtitle {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: #888;
+  letter-spacing: 0.04em;
+}
+
+.site00-vr-ehub__view-all {
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid #444;
+  color: #c8ff00;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 10px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.site00-vr-ehub__view-all:hover {
+  border-color: #c8ff00;
+}
+
+.site00-vr-ehub__journey {
+  margin-bottom: 32px;
+}
+
+.site00-vr-ehub__journey-track {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(120px, 1fr));
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.site00-vr-ehub__stage-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.site00-vr-ehub__stage-art {
+  height: 72px;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.85;
+}
+
+.site00-vr-ehub__stage-card:nth-child(1) .site00-vr-ehub__stage-art {
+  background-image: var(--vr-stage-bg-1);
+}
+.site00-vr-ehub__stage-card:nth-child(2) .site00-vr-ehub__stage-art {
+  background-image: var(--vr-stage-bg-2);
+}
+.site00-vr-ehub__stage-card:nth-child(3) .site00-vr-ehub__stage-art {
+  background-image: var(--vr-stage-bg-3);
+}
+.site00-vr-ehub__stage-card:nth-child(4) .site00-vr-ehub__stage-art {
+  background-image: var(--vr-stage-bg-4);
+}
+.site00-vr-ehub__stage-card:nth-child(5) .site00-vr-ehub__stage-art {
+  background-image: var(--vr-stage-bg-5);
+}
+.site00-vr-ehub__stage-card:nth-child(6) .site00-vr-ehub__stage-art {
+  background-image: var(--vr-stage-bg-6);
+}
+
+.site00-vr-ehub__stage-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.site00-vr-ehub__stage-num {
+  font-size: 10px;
+  color: #555;
+  letter-spacing: 0.1em;
+}
+
+.site00-vr-ehub__stage-title {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #eee;
+}
+
+.site00-vr-ehub__stage-keywords {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 9px;
+  color: #777;
+  line-height: 1.5;
+}
+
+.site00-vr-ehub__stage-enter {
+  margin-top: auto;
+  font-size: 9px;
+  color: #c8ff00;
+  text-decoration: none;
+  letter-spacing: 0.08em;
+}
+
+.site00-vr-ehub__columns {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 24px;
+}
+
+.site00-vr-ehub__col-title {
+  margin: 0 0 16px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: #666;
+}
+
+.site00-vr-ehub__recent-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.site00-vr-ehub__recent-item {
+  padding: 14px 16px;
+  background: #141414;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto;
+  gap: 4px 12px;
+}
+
+.site00-vr-ehub__recent-meta {
+  grid-column: 1;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.site00-vr-ehub__recent-label {
+  font-size: 9px;
+  color: #c41e3a;
+  letter-spacing: 0.08em;
+}
+
+.site00-vr-ehub__recent-version {
+  font-size: 9px;
+  color: #555;
+}
+
+.site00-vr-ehub__recent-title {
+  grid-column: 1;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #eee;
+}
+
+.site00-vr-ehub__recent-status {
+  grid-column: 1;
+  margin: 0;
+  font-size: 10px;
+  color: #666;
+}
+
+.site00-vr-ehub__recent-open {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: center;
+  font-size: 10px;
+  color: #c8ff00;
+  text-decoration: none;
+  letter-spacing: 0.08em;
+}
+
+.site00-vr-ehub__action-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.site00-vr-ehub__action-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 14px;
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  color: #ccc;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+}
+
+.site00-vr-ehub__action-btn:hover {
+  border-color: #444;
+  color: #fff;
+}
+
+.site00-vr-ehub__action-icon {
+  color: #c8ff00;
+  font-size: 14px;
+}
+
+.site00-page--experiments-hub-inspect {
+  background: #0f0f0f;
+  color: #e8e4dc;
+  padding: 16px;
+}
+
+.site00-page--experiments-hub-inspect .site00-experiments-hub-card {
+  background: #161616;
+  border-color: #333;
+}
+
+@media (max-width: 900px) {
+  .site00-vr-ehub__journey-track {
+    grid-template-columns: repeat(6, minmax(140px, 1fr));
+  }
+
+  .site00-vr-ehub__columns {
+    grid-template-columns: 1fr;
+  }
+
+  .site00-vr-ehub__header {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .site00-vr-ehub__journey-track {
+    display: flex;
+    flex-direction: row;
+    scroll-snap-type: x mandatory;
+  }
+
+  .site00-vr-ehub__stage-card {
+    flex: 0 0 72%;
+    scroll-snap-align: start;
+  }
+}

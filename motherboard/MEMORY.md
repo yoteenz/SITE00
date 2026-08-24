@@ -4653,3 +4653,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preservation:** All Layer 3 methodology (contracts, captions ROUND_VIEW, generation authority, trait/voice lab) moved to INSPECT — not deleted. No Brand Character/Canon mutation. No decorative FAL. 2680 tests pass; build green.
 - **Ship:** PR #409 merged to `main`. Founder deploy: GoDaddy v79 ZIP → hard refresh.
 
+---
+
+## 2026-08-24 — Visual Reconstruction Engine P0.VR.1 (Experiments Hub pilot)
+
+- **Context:** Founder sprint to build Studio World Visual Reconstruction Engine — screenshot-to-code reverse engineering with closed-loop render/compare/correct/region-lock. Pilot target: Experiments Hub remodel per concept (visual authority); production screenshots = functional evidence only.
+- **Engine:** `shared/site00-studio-world-production/visualReconstruction/` — ingestion, browser chrome exclusion, region decomposition, blueprint, repository matchers, typography eval, Playwright renderer, pixelmatch+sharp comparison, heatmap, region locks, correction planner, convergence guard, match readiness, baseline architecture, report. `pixelmatch` dependency added.
+- **Pilot UI:** `ExperimentsHubOperateLayer` — dark editorial hub with 6-stage methodology journey cards, recent experiments, quick actions; full index preserved in INSPECT. Route unchanged `/projects/ndxbook/experiments`.
+- **Script:** `scripts/visualReconstruction/runExperimentsHubPilot.ts` — automated loop (4 iterations verified against preview). Synthetic band reference fixture for CI; founder concept PNG can replace fixture for calibration.
+- **Tests:** `tests/visualReconstructionP0VR1.test.ts` (16 tests). Full suite 2706 pass; build green.
+- **Constraints:** FAL=0; Brand Character/Canon unchanged; canonical experiment data preserved.
+

@@ -15,3 +15,4 @@ export { ContentOperationsEditorialDesk } from './ContentOperationsEditorialDesk
 export { CulturalIntelligenceRadarRoom } from './CulturalIntelligenceRadarRoom';
 export { Experiment01OperateLayer, Experiment01UnderstandLayer } from './Experiment01OperateLayer';
 export { CharacterLabOperateLayer } from './CharacterLabOperateLayer';
+export { ExperimentsHubOperateLayer } from './ExperimentsHubOperateLayer';
