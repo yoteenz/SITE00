@@ -4083,3 +4083,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** 1825 pass (+30). Experiment G immutable. No FAL. LOVE ≠ canon.
 - **Deploy:** Railway API + cPanel/fsbw-dev frontend.
 
+---
+
+## 2026-08-24 — Brand character page white-screen fix (partial payload crash)
+
+- **Context:** Founder on `/projects/ndxbook/brand-character-formation` saw white screen when formation nearly complete — React crash rendering characters when Anthropic returned partial/malformed nested payload (missing `core`, string instead of array for `whatItMustNeverBecome`).
+- **Fix:** `characterPayloadNormalization.ts` coerces partial payloads; `getBrandCharacterFormationRun()` migrates saved characters; UI uses optional chaining + safe text/list helpers.
+- **Deploy:** Railway API + frontend redeploy.
+

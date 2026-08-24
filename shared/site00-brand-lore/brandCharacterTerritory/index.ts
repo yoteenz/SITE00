@@ -2,6 +2,7 @@
  * Brand Character Territory — public exports.
  */
 
+export * from './characterPayloadNormalization.js';
 export * from './constants.js';
 export * from './types.js';
 export * from './intelligenceSnapshot.js';

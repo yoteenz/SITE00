@@ -51,11 +51,12 @@ const TOPIC_MARKERS = ['credit card', 'debt topic', 'investment topic', 'tax sea
 const CAMPAIGN_MARKERS = ['one campaign', 'launch campaign', 'seasonal campaign'];
 
 function corpus(territory: BrandCharacterTerritory): string {
+  const core = territory.core ?? ({} as BrandCharacterTerritory['core']);
   return [
-    territory.name,
-    territory.core.characterThesis,
-    territory.core.characterEssence,
-    territory.core.worldview,
+    territory.name ?? '',
+    core.characterThesis ?? '',
+    core.characterEssence ?? '',
+    core.worldview ?? '',
   ]
     .join(' ')
     .toLowerCase();
@@ -86,11 +87,11 @@ export function evaluateCharacterAbstractionLevel(
   if (anchorHit) notes.push('Experiment G presentation concept anchor detected');
 
   const answersWho =
-    Boolean(territory.core.characterThesis?.trim()) &&
-    Boolean(territory.core.characterEssence?.trim()) &&
-    Boolean(territory.intellectual.intelligenceStyle?.trim()) &&
-    Boolean(territory.humorWit.humorLogic?.trim()) &&
-    Boolean(territory.culturalIntelligence.culturalPosition?.trim());
+    Boolean(territory.core?.characterThesis?.trim()) &&
+    Boolean(territory.core?.characterEssence?.trim()) &&
+    Boolean(territory.intellectual?.intelligenceStyle?.trim()) &&
+    Boolean(territory.humorWit?.humorLogic?.trim()) &&
+    Boolean(territory.culturalIntelligence?.culturalPosition?.trim());
 
   let result: NonNullable<BrandCharacterTerritory['abstractionEval']>['result'] = 'PASS_CHARACTER';
   if (styleHit) result = 'STYLE_AS_CHARACTER';
