@@ -4216,3 +4216,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Context:** Founder reported Experiment 01 only allowed generating one slide at a time (per selected artifact). UX should be one founder-triggered button that generates all nine first slides in the background with polling progress.
 - **Fix:** `generateAllExperiment01ArtifactAssets`, `generateAllExperiment01V2ArtifactAssets`, `generateAllExperiment01V21ArtifactAssets` — background worker loops pending artifacts, saves after each. API `*_generate_all` actions. UI: **GENERATE ALL NINE FIRST SLIDES (FAL)** above 3×3 grid; polls during GENERATING; shows X/9 progress. Contract review gates allow GENERATING status during active batch.
 
+---
+
+## 2026-08-24 — P0.5E Campaign Board + Horizontal Sequence Production + Client Approval Architecture
+
+- **Context:** Extend Marketing Expression + Content Operations into generic Studio World campaign-preparation workflow. Horizontal production: Round 01 = all Slide 01s across slate, lock, then Round 02 = all Slide 02s. Preserve vertical coherence within sequences AND horizontal coherence across campaign. NDXBOOK Experiment 01 V2.1 as proving ground — generic models contain NO NDX aesthetic assumptions.
+- **Architecture:** `shared/site00-studio-world-production/marketingCampaignProduction/` — MarketingCampaignPeriod, CampaignContentSlate, CampaignProductionBoard, CampaignProductionRound, CampaignCoherenceModel (vertical + horizontal), SequenceSlideArtDirectionContract, Slide 02 swipe-reward methodology, locking/reopen lineage, ClientMarketingApproval, CampaignApprovalSnapshot, CompleteSocialContentPackage, campaign rhythm evaluation, anti-template guards. NDX adapter: `shared/site00-brand-lore/marketingCampaignProduction/ndxbookExperiment01Adapter.ts` — uneven sequence depths (5,3,7,1,6,4,8,3,5), V2.1 → Round 01, lock, Round 02 formulation.
+- **Service:** `marketingCampaignProductionService.ts` + memory store. API: `campaign_production_*`. UI: `/projects/ndxbook/content-operations/campaign-board` — Campaign Wall, Round View, Feed Preview, Content Plan, Client Review mode, lock Round 01, formulate Round 02.
+- **Boundaries:** No auto-generation on page load; Round 02 blocked until Round 01 locked; locked assets immutable; P0.5C/P0.5C.1/P0.5C.2 preserved; Experiment F/G, Brand Character/Canon unchanged; Product Expression / World Formation blocked.
+- **Tests:** +23 P0.5E tests. Full suite 2225 passing. Build green.
+
