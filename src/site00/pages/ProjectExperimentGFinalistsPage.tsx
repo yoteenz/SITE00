@@ -56,7 +56,7 @@ export default function ProjectExperimentGFinalistsPage() {
           <ProjectExperimentsHubNav projectSlug={projectSlug} />
 
           {loading ? (
-            <p className="site00-experiment-g-vf__pending">LOADING…</p>
+            <p className="site00-experiment-g-vf__pending">LOADING VISUAL PIPELINE…</p>
           ) : (
             <ExperimentGBrandPresentationFinalistReview
               projectSlug={projectSlug}
