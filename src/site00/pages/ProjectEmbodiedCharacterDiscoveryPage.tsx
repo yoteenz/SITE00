@@ -5,6 +5,7 @@ import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperime
 import { site00ProjectsApi, Site00ProjectsApiError } from '../services/site00ProjectsApi';
 import {
   site00ProjectMotionCharacterPath,
+  site00ProjectFounderCharacterDiscoveryPath,
   site00ProjectPath,
 } from '../config/routes';
 import { projectDisplayName } from '../utils/projectDisplayName';
@@ -122,6 +123,7 @@ export default function ProjectEmbodiedCharacterDiscoveryPage() {
             <h1 className="site00-project-lore-calibration__project">{projectDisplayName(projectSlug)}</h1>
             <p className="site00-project-lore-calibration__headline">WHO IS THE WOMAN WE WOULD ACTUALLY BE WATCHING?</p>
             <Link to={site00ProjectMotionCharacterPath(projectSlug)}>← MOTION + BOOK LANGUAGE</Link>
+            <Link to={site00ProjectFounderCharacterDiscoveryPath(projectSlug)}>→ FOUNDER CHARACTER DISCOVERY ROOM</Link>
             <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
           </header>
 

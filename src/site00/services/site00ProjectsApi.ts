@@ -1659,6 +1659,87 @@ export const site00ProjectsApi = {
       '/api/site00/projects?action=embodied_character_discovery_synthesize',
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
     ),
+  founderCharacterDiscoveryGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=founder_character_discovery_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  founderCharacterDiscoveryInitialize: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_initialize',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  founderCharacterDiscoveryTraitJudgment: (
+    slug: string,
+    traitId: string,
+    judgment: string,
+    revision?: string,
+    note?: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_trait_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, traitId, judgment, revision, note }),
+      },
+    ),
+  founderCharacterDiscoveryScenarioResponse: (
+    slug: string,
+    scenarioId: string,
+    response: string,
+    judgment: string,
+    notes?: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_scenario_response',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, scenarioId, response, judgment, notes }),
+      },
+    ),
+  founderCharacterDiscoveryVisualJudgment: (
+    slug: string,
+    hypothesisId: string,
+    judgment: string,
+    note?: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_visual_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, hypothesisId, judgment, note }),
+      },
+    ),
+  founderCharacterDiscoveryVoiceJudgment: (
+    slug: string,
+    sampleId: string,
+    channel: string,
+    judgment: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_voice_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, sampleId, channel, judgment }),
+      },
+    ),
+  founderCharacterDiscoveryRecognition: (slug: string, response: string, note?: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_recognition',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, response, note }),
+      },
+    ),
+  founderCharacterDiscoverySynthesisPreview: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_synthesis_preview',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
   projectIntelligenceManifestCompile: (slug: string, experienceClass?: string) =>
     projectsFetch<{
       ok: true;
