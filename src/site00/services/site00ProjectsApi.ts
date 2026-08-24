@@ -1740,6 +1740,43 @@ export const site00ProjectsApi = {
       '/api/site00/projects?action=founder_character_discovery_synthesis_preview',
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
     ),
+  characterContinuityGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=character_continuity_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  characterContinuityInitialize: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_continuity_initialize',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  characterContinuityIngestBible: (slug: string, rawSource: string, sourceType: string, normalized?: Record<string, unknown>) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_continuity_ingest_bible',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, rawSource, sourceType, normalized }),
+      },
+    ),
+  characterContinuityIngestSynthesis: (slug: string, whoSheIs: string, bookMeaning: string, whatMakesHerAnnoying: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_continuity_ingest_synthesis',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, whoSheIs, bookMeaning, whatMakesHerAnnoying }),
+      },
+    ),
+  characterContinuityPreviewContract: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_continuity_preview_contract',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  characterContinuityMockFixtureTest: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_continuity_mock_fixture_test',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
   projectIntelligenceManifestCompile: (slug: string, experienceClass?: string) =>
     projectsFetch<{
       ok: true;
