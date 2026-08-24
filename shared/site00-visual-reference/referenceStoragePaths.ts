@@ -16,7 +16,8 @@ export function legacyHostReferenceStoragePath(route: string, viewportClass: Vie
 }
 
 export function hostReferenceStoragePathCandidates(route: string, viewportClass: ViewportClass): string[] {
-  const canonical = buildHostReferenceStoragePath(route, viewportClass);
+  const canonicalWebp = buildHostReferenceStoragePath(route, viewportClass);
+  const canonicalPng = canonicalWebp.replace(/\.webp$/, '.png');
   const legacy = legacyHostReferenceStoragePath(route, viewportClass);
-  return canonical === legacy ? [canonical] : [canonical, legacy];
+  return [...new Set([canonicalPng, canonicalWebp, legacy])];
 }

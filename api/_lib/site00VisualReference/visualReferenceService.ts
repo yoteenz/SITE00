@@ -22,6 +22,7 @@ import {
 import type { ReferenceSelectionInput } from '../../../shared/site00-visual-reference/referenceSelection.js';
 import { captureSite00RouteReference } from './captureService.js';
 import {
+  collectInvalidReferenceUrls,
   formatReferenceCaptureRequiredError,
   hydrateHostVisualMemory,
   resolveReferenceRecordPublicUrl,
@@ -71,7 +72,7 @@ export async function initializeVisualReferenceMemory(): Promise<{
 export async function refreshVisualReferences(params: {
   generationIntent: VisualGenerationIntent;
   targetDevice?: ViewportClass;
-}): Promise<{ host: HostVisualMemory; captured: VisualReferenceRecord[]; reused: number }> {
+}): Promise<{ host: HostVisualMemory; captured: VisualReferenceRecord[]; reused: number; failures: string[] }> {
   const manifest = compileVisualCaptureManifest({
     generationIntent: params.generationIntent,
     targetDevice: params.targetDevice,
@@ -81,6 +82,7 @@ export async function refreshVisualReferences(params: {
   const sourceCommit = getSourceCommit();
   const baseUrl = getCaptureBaseUrl();
   const captured: VisualReferenceRecord[] = [];
+  const failures: Array<{ label: string; route: string; error: string; required: boolean }> = [];
   let reused = 0;
 
   for (const entry of manifest.entries) {
@@ -111,6 +113,13 @@ export async function refreshVisualReferences(params: {
           result.reference,
         ],
       };
+    } else {
+      failures.push({
+        label: entry.label,
+        route: entry.route,
+        error: result.error,
+        required: entry.required ?? false,
+      });
     }
   }
 
@@ -120,7 +129,21 @@ export async function refreshVisualReferences(params: {
     sourceCommit,
   };
   await store.saveHostVisualMemory(host);
-  return { host, captured, reused };
+
+  const requiredFailed = failures.filter((f) => f.required);
+  if (requiredFailed.length > 0) {
+    throw new Error(
+      `REFERENCE_CAPTURE_FAILED — ${requiredFailed.map((f) => `${f.label} (${f.route}): ${f.error}`).join(' · ')} (base URL: ${baseUrl})`,
+    );
+  }
+
+  if (failures.length > 0 && captured.length === 0 && reused === 0) {
+    throw new Error(
+      `REFERENCE_CAPTURE_FAILED — ${failures.map((f) => `${f.label}: ${f.error}`).join(' · ')} (base URL: ${baseUrl})`,
+    );
+  }
+
+  return { host, captured, reused, failures: failures.map((f) => `${f.label}: ${f.error}`) };
 }
 
 export async function classifyExistingProofAsStructuralReference(params: {
@@ -174,6 +197,15 @@ export async function compileReferencePackageForIntent(params: {
     selectionInput,
     strictHostVisualConditioning: params.generationIntent === 'SITE00_PROJECTS_INDEX_DESIGN_PROOF',
   });
+}
+
+export async function assertReferencePackageReadyForFal(pkg: VisualReferencePackage): Promise<void> {
+  const invalid = collectInvalidReferenceUrls(
+    pkg.references.map((r) => ({ referenceId: r.referenceId, publicUrl: r.publicUrl })),
+  );
+  if (invalid.length > 0 && pkg.strictHostVisualConditioning) {
+    throw new Error(formatReferenceCaptureRequiredError(invalid));
+  }
 }
 
 export async function excludeVisualReference(referenceId: string): Promise<boolean> {
