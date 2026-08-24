@@ -9,11 +9,14 @@ import type { BrandPresentationVisualFormulationRun } from '../../../../shared/s
 import { ELIGIBLE_PARENT_CONCEPT_NAMES } from '../../../../shared/site00-brand-lore/brandPresentationDirectionTerritory/constants';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
 import { site00ProjectExperimentGPath, site00ProjectExperimentGFinalistsPath } from '../../config/routes';
+import { DirectionFormationStatusPanel } from './DirectionFormationStatusPanel';
 
 type ExperimentGBrandPresentationDirectionReviewProps = {
   projectSlug: string;
   run: BrandPresentationDirectionFormationRun | null | undefined;
   visualRun?: BrandPresentationVisualFormulationRun | null;
+  lastRefreshedAt?: Date | null;
+  onRefresh?: () => void;
   onUpdate?: (run?: BrandPresentationDirectionFormationRun) => void;
   onVisualUpdate?: (run?: BrandPresentationVisualFormulationRun) => void;
 };
@@ -196,6 +199,8 @@ export function ExperimentGBrandPresentationDirectionReview({
   projectSlug,
   run,
   visualRun,
+  lastRefreshedAt = null,
+  onRefresh,
   onUpdate,
   onVisualUpdate,
 }: ExperimentGBrandPresentationDirectionReviewProps) {
@@ -252,19 +257,33 @@ export function ExperimentGBrandPresentationDirectionReview({
   const directions = run?.directions ?? [];
   const activeFinalists = (visualRun?.finalists ?? []).filter((f) => f.status === 'SELECTED');
   const finalistIds = new Set(activeFinalists.map((f) => f.directionId));
-  const formationBlocked = forming || run?.status === 'FORMING';
+  const isForming = run?.status === 'FORMING';
+  const formationBlocked = forming || isForming;
   const canForm =
     !formationBlocked &&
     (!run || run.status === 'NOT_STARTED' || run.status === 'PARENTS_READY' || run.status === 'FAILED');
   const hasDirections = directions.length > 0;
+  const showDevelopButton = canForm && !hasDirections;
+
+  const retryFormation = useCallback(() => {
+    void formDirections({ forceRetry: run?.status === 'FORMING' || run?.status === 'FAILED' });
+  }, [formDirections, run?.status]);
 
   return (
     <div className="site00-experiment-g-dir">
       <p className="site00-experiment-g-dir__experiment">EXPERIMENT G — TOP-3 CONCEPT DEVELOPMENT</p>
       <h2 className="site00-experiment-g-dir__title">Brand Presentation Direction Development</h2>
+
+      <DirectionFormationStatusPanel
+        run={run}
+        forming={forming}
+        lastRefreshedAt={lastRefreshedAt}
+        onRetry={retryFormation}
+        onRefresh={() => onRefresh?.()}
+      />
+
       <p className="site00-experiment-g-dir__meta">
-        Status: {run?.status?.replace(/_/g, ' ') ?? 'NOT STARTED'} · 3 parent concepts · 9 directions · Visual
-        finalists: {activeFinalists.length}/2
+        3 parent concepts · 9 directions · Visual finalists: {activeFinalists.length}/2
       </p>
       {activeFinalists.length === 2 ? (
         <p className="site00-experiment-g-dir__finalist-count">
@@ -281,36 +300,21 @@ export function ExperimentGBrandPresentationDirectionReview({
           <li key={name}>{name}</li>
         ))}
       </ul>
-      {run?.error ? (
-        <p className="site00-experiment-g-dir__error" role="alert">
-          Last formation error: {run.error}
-        </p>
-      ) : null}
       {error ? <p className="site00-experiment-g-dir__error" role="alert">{error}</p> : null}
       <div className="site00-experiment-g-dir__controls">
-        {canForm ? (
+        {showDevelopButton ? (
           <button type="button" className="site00-btn site00-btn--primary" disabled={formationBlocked} onClick={() => void formDirections()}>
-            {forming ? 'FORMING DIRECTIONS…' : 'DEVELOP TOP 3 DIRECTIONS (9 TOTAL)'}
-          </button>
-        ) : null}
-        {run?.status === 'FAILED' ? (
-          <button type="button" className="site00-btn" disabled={forming} onClick={() => void formDirections({ forceRetry: true })}>
-            RETRY DIRECTION FORMATION
+            {forming ? 'STARTING FORMATION…' : 'DEVELOP TOP 3 DIRECTIONS (9 TOTAL)'}
           </button>
         ) : null}
       </div>
-      {canForm && !hasDirections ? (
+      {showDevelopButton ? (
         <div className="site00-experiment-g-dir__cost-preview">
           <p>PARENT CONCEPTS: 3</p>
           <p>DIRECTIONS EXPECTED: 9</p>
           <p>ANTHROPIC REQUESTS: ~3 (one per parent concept)</p>
           <p>FAL REQUESTS: 0 · IMAGE COST: $0</p>
         </div>
-      ) : null}
-      {run?.status === 'FORMING' ? (
-        <p className="site00-experiment-g-dir__pending">
-          Direction formation running on the server (usually 2–5 minutes). Status refreshes automatically.
-        </p>
       ) : null}
       {run?.crossParentAudit ? (
         <p className="site00-experiment-g-dir__audit">
@@ -333,8 +337,12 @@ export function ExperimentGBrandPresentationDirectionReview({
               onFinalist={(id, sel) => void toggleFinalist(id, sel)}
             />
           ))
-        : !formationBlocked && run?.status !== 'FORMING' ? (
-            <p className="site00-experiment-g-dir__pending">Founder-triggered direction formation required.</p>
+        : !isForming && !hasDirections ? (
+            <p className="site00-experiment-g-dir__pending">
+              {run?.status === 'FAILED'
+                ? 'Formation failed — use RETRY in the status panel above.'
+                : 'Founder-triggered direction formation required — tap DEVELOP TOP 3 DIRECTIONS above.'}
+            </p>
           ) : null}
     </div>
   );

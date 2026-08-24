@@ -16,6 +16,7 @@ export default function ProjectExperimentGDirectionsPage() {
   const [run, setRun] = useState<BrandPresentationDirectionFormationRun | null>(null);
   const [visualRun, setVisualRun] = useState<BrandPresentationVisualFormulationRun | null>(null);
   const [loading, setLoading] = useState(true);
+  const [lastRefreshedAt, setLastRefreshedAt] = useState<Date | null>(null);
 
   const reload = useCallback(async () => {
     if (projectSlug !== 'ndxbook') return;
@@ -26,6 +27,7 @@ export default function ProjectExperimentGDirectionsPage() {
       ]);
       setRun((dirResult.run as BrandPresentationDirectionFormationRun | null) ?? null);
       setVisualRun((visResult.run as BrandPresentationVisualFormulationRun | null) ?? null);
+      setLastRefreshedAt(new Date());
     } catch {
       setRun(null);
       setVisualRun(null);
@@ -77,6 +79,8 @@ export default function ProjectExperimentGDirectionsPage() {
               projectSlug={projectSlug}
               run={run}
               visualRun={visualRun}
+              lastRefreshedAt={lastRefreshedAt}
+              onRefresh={() => void reload()}
               onUpdate={(updated) => {
                 if (updated) {
                   setRun(updated);

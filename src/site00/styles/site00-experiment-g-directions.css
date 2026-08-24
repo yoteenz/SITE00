@@ -148,6 +148,123 @@
   margin-top: 0.35rem;
 }
 
+.site00-experiment-g-dir__status {
+  border: 1px solid rgba(255, 200, 100, 0.45);
+  border-radius: 4px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.site00-experiment-g-dir__status--forming {
+  border-color: rgba(120, 180, 255, 0.55);
+  background: rgba(120, 180, 255, 0.06);
+}
+
+.site00-experiment-g-dir__status--failed {
+  border-color: rgba(255, 120, 120, 0.55);
+  background: rgba(255, 120, 120, 0.06);
+}
+
+.site00-experiment-g-dir__status--complete {
+  border-color: rgba(120, 220, 140, 0.45);
+  background: rgba(120, 220, 140, 0.05);
+}
+
+.site00-experiment-g-dir__status-kicker {
+  margin: 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  opacity: 0.75;
+}
+
+.site00-experiment-g-dir__status-title {
+  margin: 0.15rem 0 0;
+  font-size: 1rem;
+}
+
+.site00-experiment-g-dir__status-meta {
+  margin: 0.25rem 0 0;
+  font-size: 0.78rem;
+  opacity: 0.85;
+}
+
+.site00-experiment-g-dir__status-error {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #ffb4b4;
+}
+
+.site00-experiment-g-dir__status-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.site00-experiment-g-dir__progress-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.site00-experiment-g-dir__progress {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.site00-experiment-g-dir__progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, rgba(120, 180, 255, 0.85), rgba(180, 140, 255, 0.9));
+  border-radius: 999px;
+  transition: width 0.8s ease;
+}
+
+.site00-experiment-g-dir__progress-fill--stalled {
+  background: linear-gradient(90deg, rgba(255, 160, 80, 0.9), rgba(255, 100, 100, 0.95));
+}
+
+.site00-experiment-g-dir__progress-stats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.35rem;
+  font-size: 0.72rem;
+}
+
+.site00-experiment-g-dir__progress-stats li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.site00-experiment-g-dir__progress-stats span {
+  opacity: 0.7;
+  letter-spacing: 0.06em;
+  font-size: 0.62rem;
+}
+
+.site00-experiment-g-dir__progress-stats strong {
+  font-size: 0.85rem;
+}
+
+.site00-experiment-g-dir__progress-copy {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  opacity: 0.9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site00-experiment-g-dir__progress-fill {
+    transition: none;
+  }
+}
+
 .site00-experiment-g-dir__judgment-saved {
   margin: 0.75rem 0 0;
   padding: 0.55rem 0.75rem;
