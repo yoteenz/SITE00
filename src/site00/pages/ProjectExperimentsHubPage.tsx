@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
+import { useExperimentsHubScrollRestore } from '../hooks/useExperimentsHubScrollRestore';
 import {
   getProjectExperimentsHubEntries,
   projectExperimentsHubPhaseLabel,
@@ -56,6 +57,7 @@ function ExperimentHubCard({ entry }: { entry: ProjectExperimentHubEntry }) {
 
 export default function ProjectExperimentsHubPage() {
   const { projectSlug = '' } = useParams<{ projectSlug: string }>();
+  useExperimentsHubScrollRestore(projectSlug);
   const entries = getProjectExperimentsHubEntries(projectSlug);
   const grouped = groupByPhase(entries);
   const phaseOrder: ProjectExperimentHubPhase[] = ['INTAKE', 'EXPERIMENT', 'EXPERIENCE', 'LINEAGE'];
