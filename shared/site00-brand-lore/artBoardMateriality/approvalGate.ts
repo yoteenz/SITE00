@@ -4,12 +4,18 @@
 
 import type { Experiment01V23Artifact, MarketingExpressionExperiment01V23 } from './types.js';
 import { v23HumanMadeRevisionReady } from './v23HumanMadeRevision.js';
+import { signatureLimeRevisionReady } from './signatureLime.js';
 
 export function artBoardMaterialityApprovalGatePasses(artifact: Experiment01V23Artifact): boolean {
   return (
     artifact.materialityEvaluation.passesApprovalGate &&
-    v23HumanMadeRevisionReady(artifact.humanMadeEvaluation)
+    v23HumanMadeRevisionReady(artifact.humanMadeEvaluation) &&
+    signatureLimeRevisionReady(artifact.signatureLimeEvaluation)
   );
+}
+
+export function signatureLimeGatePasses(artifact: Experiment01V23Artifact): boolean {
+  return signatureLimeRevisionReady(artifact.signatureLimeEvaluation);
 }
 
 export function allV23ArtifactsPassMaterialGate(experiment: MarketingExpressionExperiment01V23 | null | undefined): boolean {
@@ -24,7 +30,7 @@ export function round01LockRequiresMaterialGate(params: {
     return { allowed: false, reason: 'Experiment 01 V2.3 art-board materiality contracts required before Round 01 lock' };
   }
   if (!allV23ArtifactsPassMaterialGate(params.v23Experiment)) {
-    return { allowed: false, reason: 'All V2.3 artifacts must pass art-board materiality approval gate before lock' };
+    return { allowed: false, reason: 'All V2.3 artifacts must pass materiality + human-made + signature lime gates before lock' };
   }
   const generated = params.v23Experiment.generatedArtifacts.filter(
     (a) => a.generationStatus === 'GENERATED' && a.generatedAssetUrl,

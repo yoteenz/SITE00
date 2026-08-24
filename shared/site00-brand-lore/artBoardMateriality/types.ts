@@ -28,7 +28,10 @@ import type {
   PAGE_EDGE_BEHAVIORS,
   PRINT_SCAN_BEHAVIORS,
   TORN_EDGE_BEHAVIORS,
+  SIGNATURE_LIME_ACCENT_TARGETS,
+  SIGNATURE_LIME_FAILURE_STATES,
   V23A_FOUNDER_JUDGMENTS,
+  V23B_FOUNDER_JUDGMENTS,
   V23_FOUNDER_JUDGMENTS,
 } from './constants.js';
 import type { CharacterRetainedFirstSlideContract, Experiment01V22Artifact } from '../characterRetention/types.js';
@@ -47,7 +50,11 @@ export type MaterialDensityLevel = (typeof MATERIAL_DENSITY_LEVELS)[number];
 export type ArtBoardQualityResult = (typeof ART_BOARD_QUALITY_RESULTS)[number];
 export type MaterialModernityResult = (typeof MATERIAL_MODERNITY_RESULTS)[number];
 export type ImageSurfaceRole = (typeof IMAGE_SURFACE_ROLES)[number];
-export type V23FounderJudgment = (typeof V23_FOUNDER_JUDGMENTS)[number] | (typeof V23A_FOUNDER_JUDGMENTS)[number] | null;
+export type V23FounderJudgment =
+  | (typeof V23_FOUNDER_JUDGMENTS)[number]
+  | (typeof V23A_FOUNDER_JUDGMENTS)[number]
+  | (typeof V23B_FOUNDER_JUDGMENTS)[number]
+  | null;
 export type MaterialFailureState = (typeof MATERIAL_FAILURE_STATES)[number];
 export type HumanMadeFailureState = (typeof HUMAN_MADE_FAILURE_STATES)[number];
 export type HumanMadeMarkClass = (typeof HUMAN_MADE_MARK_CLASSES)[number];
@@ -179,6 +186,96 @@ export type MakerAuthenticityCalibration = {
   classification: 'MAKER_AUTHENTICITY_CALIBRATION';
   humanAuthorship: 'HIGH';
   antiAiVectorGuard: 'HIGH';
+  evaluatedAt: string;
+};
+
+export type SignatureLimeAccentTarget = (typeof SIGNATURE_LIME_ACCENT_TARGETS)[number];
+export type SignatureLimeFailureState = (typeof SIGNATURE_LIME_FAILURE_STATES)[number];
+
+export type NDXSignatureLimePresenceRequirement = {
+  signatureLimePresent: 'REQUIRED';
+  minimumVisibleSignatureElements: number;
+  maximumVisibleSignatureElements: 'CONTEXT_DEPENDENT';
+  dominantLimeRequired: false;
+  limeBackgroundRequired: false;
+  limeTypographyRequired: false;
+  limeHandwritingRequired: false;
+};
+
+export type WordLevelSignatureAccent = {
+  word: string;
+  role: 'PUNCHLINE' | 'JUDGMENT' | 'QUESTION' | 'CORRECTION' | 'KEY';
+  colorToken: string;
+  inHeadline: boolean;
+};
+
+export type NDXSignatureLimeAccentSelection = {
+  targetType: SignatureLimeAccentTarget;
+  targetText: string;
+  reason: string;
+  colorToken: string;
+  wordLevelAccent: WordLevelSignatureAccent | null;
+  punctuationAccent: string | null;
+  secondaryAccent: NDXSignatureLimeAccentSelection | null;
+};
+
+export type NDXAuthoredColorOwnershipEvaluation = {
+  evaluationId: string;
+  artifactId: string;
+  ownership: 'SOURCE_COLOR' | 'NDX_SIGNATURE_COLOR' | 'SEMANTIC_EXCEPTION' | 'ACCIDENTAL_GENERATED_COLOR';
+  ndxAuthoredMarkColor: string;
+  passes: boolean;
+  evaluatedAt: string;
+};
+
+export type SignatureLimeArtifactEvaluation = {
+  evaluationId: string;
+  artifactId: string;
+  requirement: NDXSignatureLimePresenceRequirement;
+  accentSelection: NDXSignatureLimeAccentSelection;
+  presence: import('../../site00-studio-world-production/signatureBrandTrace/types.js').SignatureTracePresenceEvaluation;
+  dominance: import('../../site00-studio-world-production/signatureBrandTrace/types.js').SignatureTraceDominanceEvaluation;
+  perceptible: import('../../site00-studio-world-production/signatureBrandTrace/types.js').PerceptibleSignatureEvaluation;
+  colorOwnership: NDXAuthoredColorOwnershipEvaluation;
+  passesSignatureLimeGate: boolean;
+  failureStates: SignatureLimeFailureState[];
+  evaluatedAt: string;
+};
+
+export type SignatureLimeRevision = {
+  revisionId: string;
+  revisionType: 'SIGNATURE_LIME_REVISION';
+  parentFingerprint: string;
+  migrationClass: V23SignatureLimeMigrationResult['revisionClass'];
+  preserve: string[];
+  changeOnly: string[];
+  colorToken: string;
+  appliedAt: string;
+};
+
+export type V23SignatureLimeMigrationResult = {
+  artifactId: string;
+  topicIndex: number;
+  signatureLimePresent: boolean;
+  semanticTarget: string;
+  ndxMakerMarkPresent: boolean;
+  currentCompetingAccent: string | null;
+  revisionRequired: boolean;
+  revisionClass:
+    | 'PASS_AS_IS'
+    | 'MICRO_LIME_REVISION'
+    | 'SEMANTIC_LIME_REVISION'
+    | 'MAKER_MARK_REVISION'
+    | 'FULL_REVISION_REQUIRED';
+};
+
+export type FeedSignatureColorContinuityEvaluation = {
+  boardId: string;
+  allArtifactsContainSignatureLime: boolean;
+  manifestationTypes: string[];
+  uniqueManifestationCount: number;
+  templateRepetitionDetected: boolean;
+  cohesionWithoutTemplate: boolean;
   evaluatedAt: string;
 };
 
@@ -354,6 +451,8 @@ export type ArtBoardRetainedFirstSlideContract = CharacterRetainedFirstSlideCont
   materialityEvaluation: ArtifactMaterialityEvaluation;
   humanMadeEvaluation?: HumanMadeArtifactEvaluation | null;
   humanMadeRevision?: V23HumanMadeRevision | null;
+  signatureLimeEvaluation?: SignatureLimeArtifactEvaluation | null;
+  signatureLimeRevision?: SignatureLimeRevision | null;
 };
 
 export type Experiment01V23Artifact = {
@@ -372,6 +471,9 @@ export type Experiment01V23Artifact = {
   materialityEvaluation: ArtifactMaterialityEvaluation;
   humanMadeEvaluation: HumanMadeArtifactEvaluation | null;
   humanMadeRevision: V23HumanMadeRevision | null;
+  signatureLimeEvaluation: SignatureLimeArtifactEvaluation | null;
+  signatureLimeRevision: SignatureLimeRevision | null;
+  signatureLimeMigration: V23SignatureLimeMigrationResult | null;
   parentFingerprint: string | null;
   founderJudgment: V23FounderJudgment;
   fingerprint: string;
@@ -431,6 +533,8 @@ export type MarketingExpressionExperiment01V23 = {
   limeInterventionCalibration: LimeInterventionCalibration | null;
   makerAuthenticityCalibration: MakerAuthenticityCalibration | null;
   feedMakerRhythm: FeedMakerRhythm | null;
+  feedSignatureColorContinuity: FeedSignatureColorContinuityEvaluation | null;
+  signatureLimeMigrations: V23SignatureLimeMigrationResult[];
   founderSetJudgment: V23FounderJudgment;
   error: string | null;
 };

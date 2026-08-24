@@ -29,7 +29,7 @@ import type {
   MarketingExpressionExperiment01V23,
 } from '../../../shared/site00-brand-lore/artBoardMateriality/types';
 import { V22_FOUNDER_JUDGMENTS } from '../../../shared/site00-brand-lore/characterRetention/constants';
-import { V23_FOUNDER_JUDGMENTS, V23A_FOUNDER_JUDGMENTS } from '../../../shared/site00-brand-lore/artBoardMateriality/constants';
+import { V23_FOUNDER_JUDGMENTS, V23A_FOUNDER_JUDGMENTS, V23B_FOUNDER_JUDGMENTS } from '../../../shared/site00-brand-lore/artBoardMateriality/constants';
 import '../styles/site00-replay-execution.css';
 
 const POLL_MS = 5000;
@@ -439,7 +439,11 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                         <dt>HAND-DRAWN ICONS</dt><dd>{selectedV23.humanMadeEvaluation?.markSystem.handDrawnIcons.length ?? 0}</dd>
                         <dt>LIME @ FEED</dt><dd>{selectedV23.humanMadeEvaluation?.limeFeedDistance.result ?? '—'}</dd>
                         <dt>HUMAN-MADE GATE</dt><dd>{selectedV23.humanMadeEvaluation?.passesHumanMadeGate ? 'PASS' : 'REVIEW'}</dd>
-                        <dt>APPROVAL GATE</dt><dd>{selectedV23.materialityEvaluation.passesApprovalGate && selectedV23.humanMadeEvaluation?.passesHumanMadeGate ? 'PASS' : 'BLOCKED'}</dd>
+                        <dt>SIGNATURE LIME</dt><dd>{selectedV23.signatureLimeEvaluation?.accentSelection.targetText ?? '—'} ({selectedV23.signatureLimeEvaluation?.accentSelection.targetType ?? '—'})</dd>
+                        <dt>LIME PRESENCE</dt><dd>{selectedV23.signatureLimeEvaluation?.presence.result ?? '—'}</dd>
+                        <dt>SIGNATURE LIME GATE</dt><dd>{selectedV23.signatureLimeEvaluation?.passesSignatureLimeGate ? 'PASS' : 'BLOCKED'}</dd>
+                        <dt>MIGRATION</dt><dd>{selectedV23.signatureLimeMigration?.revisionClass.replace(/_/g, ' ') ?? '—'}</dd>
+                        <dt>APPROVAL GATE</dt><dd>{selectedV23.materialityEvaluation.passesApprovalGate && selectedV23.humanMadeEvaluation?.passesHumanMadeGate && selectedV23.signatureLimeEvaluation?.passesSignatureLimeGate ? 'PASS' : 'BLOCKED'}</dd>
                         {selectedV23.parentFingerprint && (
                           <>
                             <dt>PARENT FP</dt><dd style={{ fontSize: '0.75rem' }}>{selectedV23.parentFingerprint}</dd>
@@ -448,7 +452,7 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                       </dl>
                       <div style={{ marginTop: '12px' }}>
                         <p>V2.3 artifact judgment:</p>
-                        {[...V23_FOUNDER_JUDGMENTS, ...V23A_FOUNDER_JUDGMENTS].map((j) => (
+                        {[...V23_FOUNDER_JUDGMENTS, ...V23A_FOUNDER_JUDGMENTS, ...V23B_FOUNDER_JUDGMENTS].map((j) => (
                           <button key={j} type="button" className="site00-btn" disabled={busy} style={{ margin: '2px' }} onClick={() => void setArtifactJudgment(selectedV23.id, j)}>
                             {j.replace(/_/g, ' ')}
                           </button>

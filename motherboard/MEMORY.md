@@ -4305,3 +4305,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Boundaries:** P0.5C.4 materiality preserved; P0.5C.3 character retained; FAL founder-triggered only; parent V2.3 fingerprint immutable.
 - **Tests:** +13 P0.5C.4A tests; P0.5C.4 regressions updated. Build green.
 
+---
+
+## 2026-08-24 — P0.5C.4B Signature Lime Presence + Artifact Color Continuity + Semantic Accent Selection
+
+- **Context:** After live V2.3 generation review — artifacts visually successful; signature NDX lime not guaranteed on every artifact. Rule: every NDX marketing artifact must contain ≥1 intentional visible signature-lime element (may be tiny — word, punctuation, circle, mark). NOT make every post lime-dominant.
+- **Canonical token:** `NDX_SIGNATURE_LIME` = `#D6FF3B` (existing Editorial Utility signal lime). NDX-authored marks default to signature lime; source material keeps authentic colors; arbitrary red NDX marks rejected.
+- **Domain:** `SignatureLimeAccentSelection`, word/punctuation accents, presence vs dominance evaluations, `PerceptibleSignatureEvaluation`, `NDXAuthoredColorOwnershipEvaluation`, `FeedSignatureColorContinuityEvaluation`, `SIGNATURE_LIME_REVISION` micro-revision path. Topic 3 calibration: APOLOGY word + NDX circle → signature lime (not red).
+- **Generic:** `shared/site00-studio-world-production/signatureBrandTrace/` — configurable `SignatureBrandTraceRequirement` for future clients (NDX adapter required=true, others not forced).
+- **Round 01 gate:** materiality + human-made + **signature lime presence** required before lock.
+- **FAL:** explicit SIGNATURE LIME REQUIREMENT, semantic accent, color ownership sections (46 prompt sections).
+- **Tests:** +8 grouped P0.5C.4B tests (~30 requirements). P0.5C.4/4A regressions green. Build green.
+

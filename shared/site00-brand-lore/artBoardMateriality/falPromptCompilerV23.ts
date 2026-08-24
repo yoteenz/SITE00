@@ -7,6 +7,7 @@ import type { MarketingFalPromptContract } from '../brandMarketingExpression/typ
 import type { BrandMarketingArtifact } from '../brandMarketingExpression/types.js';
 import type { ArtBoardRetainedFirstSlideContract } from './types.js';
 import { FAL_MATERIAL_PROMPT_SECTION_ORDER } from './constants.js';
+import { NDX_SIGNATURE_LIME } from './signatureLime.js';
 
 export function compileArtBoardMaterialityFalPrompt(params: {
   artifact: BrandMarketingArtifact;
@@ -18,6 +19,8 @@ export function compileArtBoardMaterialityFalPrompt(params: {
   const cp = c.culturalParticipation;
   const hm = c.humanMadeEvaluation?.markSystem;
   const lime = c.humanMadeEvaluation?.limeIntervention;
+
+  const sig = c.signatureLimeEvaluation?.accentSelection;
 
   const handDrawnSection = hm?.handDrawnIcons.length
     ? `HAND-DRAWN ICONS: ${hm.handDrawnIcons.map((i) => `${i.subject} — ${i.whyDrawn}`).join('; ')}. THE SMALL PRODUCT SYMBOLS MUST NOT LOOK LIKE STOCK ICONS, UI ICONS OR PERFECT VECTOR PICTOGRAMS. THEY SHOULD LOOK LIKE QUICK, CONFIDENT, LIME-GREEN HAND-DRAWN SYMBOLS CREATED BY THE SAME PERSON USING THE SAME MARKER SYSTEM. KEEP THEM LEGIBLE BUT IMPERFECT.`
@@ -67,14 +70,19 @@ export function compileArtBoardMaterialityFalPrompt(params: {
     `LIME APPLICATION MODE: ${lime?.applicationModes.join(', ') ?? 'MARKER, HIGHLIGHTER'}. Prefer MARKER/HIGHLIGHTER/INK/DIGITAL_HAND_TRACE for character-bearing elements.`,
     `MAKER ACTION: visible maker evidence target MODERATE+ — ${hm?.makerActions.join(', ') || 'annotate/circle/connect as causally required'}`,
     `ANTI-AI DETAIL CONSTRAINTS: no polished infographic icons; no vector icon library; no UI pictograms; no AI decorative symbols; no mismatched doodle styles; no perfect geometry for hand-drawn marks; no fake childlike doodles; no tiny lime accents that disappear at feed distance`,
+    `SIGNATURE LIME REQUIREMENT: THIS ARTIFACT MUST CONTAIN AT LEAST ONE CLEAR, INTENTIONAL NDX SIGNATURE-LIME INTERVENTION (${NDX_SIGNATURE_LIME}). THE LIME SHOULD NOT DOMINATE THE COMPOSITION. LIME IS NDX'S SIGNATURE TRACE — EVIDENCE NDX TOUCHED THE ARTIFACT.`,
+    `SEMANTIC LIME ACCENT: ${sig?.targetType ?? 'NDX_MARK'} — "${sig?.targetText ?? 'maker mark'}" because ${sig?.reason ?? 'semantic payoff or NDX intervention'}.${sig?.wordLevelAccent ? ` RENDER "${sig.wordLevelAccent.word}" IN SIGNATURE LIME.` : ''}${sig?.punctuationAccent ? ` RENDER "${sig.punctuationAccent}" PUNCTUATION IN SIGNATURE LIME.` : ''}${sig?.secondaryAccent ? ` ALSO: ${sig.secondaryAccent.targetText} in signature lime (not arbitrary red).` : ''}`,
+    `NDX SIGNATURE LIME TOKEN: use canonical signal lime ${NDX_SIGNATURE_LIME} for all NDX-authored interventions. Material variation (marker/highlighter/print) allowed — do not invent new greens.`,
+    `COLOR OWNERSHIP: SOURCE COLOR — preserve authentic original colors in source material (magazine typography, archival markings, photographs). BASE ARTIFACT COLOR — content-driven black/cream/photographic. NDX INTERVENTION COLOR — signature lime ${NDX_SIGNATURE_LIME} for NDX circles, arrows, corrections, icons, underlines, highlights, maker marks. REJECT accidental red/blue/yellow/orange for NDX-authored marks without source justification.`,
+    `SOURCE VS NDX COLOR: NDX-authored circles, arrows, corrections, icons, underlines, annotations, stamps, handwritten reactions MUST default to signature lime — NOT random red. Source material may retain authentic red if it belongs to the original artifact.`,
     `STERILITY GUARD: alive not corporate — maker trace on surface must be visually undeniable`,
     `TEMPLATE GUARD: DO NOT DESIGN A RECTANGULAR SOCIAL POST ON TOP OF A BACKGROUND. CREATE THE ACTUAL ARTIFACT. CONTENT PRINTED ON, INSERTED INTO, ATTACHED TO, WRITTEN OVER, CUT INTO, FOLDED WITH, OR SCANNED FROM THE SURFACE. ${ab.whyNotCleanTemplate}`,
-    `NEGATIVE CONSTRAINTS: no generic poster-on-background; no clean social template; no graphic card floating over texture; no fake paper texture filter; no polished infographic icons; no vector icon library look; no UI pictograms; no AI-generated decorative symbols; no mismatched doodle styles; no perfect geometry for hand-drawn marks; no fake childlike doodles; no decorative lime with no purpose; no fully monochrome page when stronger NDX intervention required; no sterile black-and-cream-only when character contract requires lime; no tiny lime accents invisible at feed distance; no random neon decoration; no generic AI editorial detailing; no scrapbook-for-scrapbook's-sake; no lowercase NDX copy`,
+    `NEGATIVE CONSTRAINTS: no generic poster-on-background; no clean social template; no graphic card floating over texture; no fake paper texture filter; no polished infographic icons; no vector icon library look; no UI pictograms; no AI-generated decorative symbols; no mismatched doodle styles; no perfect geometry for hand-drawn marks; no fake childlike doodles; no decorative lime with no purpose; no fully monochrome NDX artifact without at least one signature-lime trace; no arbitrary red/blue/yellow NDX-authored marks; no lime background fill; no repeated lime corner template on every post; no tiny invisible lime; no random neon decoration; no generic AI editorial detailing; no scrapbook-for-scrapbook's-sake; no lowercase NDX copy`,
   ];
 
   const prompt = sections.join('\n\n');
   const negativePrompt =
-    'poster on background, clean social template, graphic card floating, fake paper texture, uniform margins, arbitrary torn paper, arbitrary tape, scrapbook collage, cute stationery, school notebook, vintage craft, coffee stains, Canva collage, Pinterest moodboard, perfect grid, flat UI card, sterile editorial template, polished infographic icons, vector icon library, UI pictograms, AI decorative symbols, stock icons, perfect pictograms, generic infographic, fake handwriting, neon decoration';
+    'polished infographic icons, vector icon library, UI pictograms, AI decorative symbols, stock icons, perfect pictograms, generic infographic, fake handwriting, neon decoration, arbitrary red NDX mark, monochrome without lime, lime background fill';
 
   return {
     prompt,
@@ -82,6 +90,14 @@ export function compileArtBoardMaterialityFalPrompt(params: {
     promptHash: createHash('sha256').update(prompt).digest('hex').slice(0, 16),
     sectionOrder: [...FAL_MATERIAL_PROMPT_SECTION_ORDER],
   };
+}
+
+export function materialFalPromptHasSignatureLimeRequirement(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('SIGNATURE LIME REQUIREMENT');
+}
+
+export function materialFalPromptDistinguishesSourceVsNdxColor(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('SOURCE VS NDX COLOR');
 }
 
 export function materialFalPromptHasHumanMadeSection(contract: MarketingFalPromptContract): boolean {
