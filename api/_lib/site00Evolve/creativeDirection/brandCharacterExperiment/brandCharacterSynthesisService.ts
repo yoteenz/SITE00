@@ -233,7 +233,10 @@ export async function prepareBrandCharacterSynthesis(params: {
   const territoryRoles = buildTerritoryRoleMap(formationRun.characters);
   const sources = resolveNdxbookSynthesisSourceTerritories(formationRun.characters);
   if (sources.length < 3) {
-    throw new Error('Primary synthesis source territories not found in historical formation run');
+    const found = formationRun.characters.map((c) => c.name).filter(Boolean).join('; ');
+    throw new Error(
+      `Primary synthesis territories missing (need Cultural Accomplice, Committed Contrarian, Relentless Synthesizer). Historical formation has: ${found || 'none'}`,
+    );
   }
 
   const hypothesis = captureFounderCharacterHypothesis({ projectId: params.projectId });

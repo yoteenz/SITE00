@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
-import { site00ProjectsApi } from '../services/site00ProjectsApi';
+import { site00ProjectsApi, Site00ProjectsApiError } from '../services/site00ProjectsApi';
 import {
   site00ProjectBrandCharacterArtifactProofsPath,
   site00ProjectBrandCharacterReadinessPath,
@@ -11,19 +11,28 @@ import { projectDisplayName } from '../utils/projectDisplayName';
 import type { BrandCharacterSynthesisRun } from '../../../shared/site00-brand-lore/brandCharacterSynthesis/types';
 import '../styles/site00-replay-execution.css';
 
+function formatActionError(err: unknown): string {
+  if (err instanceof Site00ProjectsApiError) return err.message;
+  if (err instanceof Error) return err.message;
+  return 'Composite synthesis request failed';
+}
+
 export default function ProjectBrandCharacterSynthesisPage() {
   const { projectSlug = '' } = useParams<{ projectSlug: string }>();
   const [run, setRun] = useState<BrandCharacterSynthesisRun | null>(null);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
   const reload = useCallback(async () => {
     if (projectSlug !== 'ndxbook') return;
     try {
       const result = await site00ProjectsApi.experimentHSynthesisGet(projectSlug);
       setRun((result.run as BrandCharacterSynthesisRun | null) ?? null);
-    } catch {
+    } catch (err) {
       setRun(null);
+      setActionError(formatActionError(err));
     } finally {
       setLoading(false);
     }
@@ -35,9 +44,15 @@ export default function ProjectBrandCharacterSynthesisPage() {
 
   const runSynthesis = async () => {
     setBusy(true);
+    setActionError(null);
+    setStatusMessage('Running composite synthesis — this can take 1–2 minutes. Keep this page open.');
     try {
       const result = await site00ProjectsApi.experimentHSynthesisRun(projectSlug);
       setRun((result.run as BrandCharacterSynthesisRun | null) ?? null);
+      setStatusMessage(null);
+    } catch (err) {
+      setActionError(formatActionError(err));
+      setStatusMessage(null);
     } finally {
       setBusy(false);
     }
@@ -45,9 +60,12 @@ export default function ProjectBrandCharacterSynthesisPage() {
 
   const judge = async (judgment: string) => {
     setBusy(true);
+    setActionError(null);
     try {
       const result = await site00ProjectsApi.experimentHSynthesisJudgment(projectSlug, judgment);
       setRun((result.run as BrandCharacterSynthesisRun | null) ?? null);
+    } catch (err) {
+      setActionError(formatActionError(err));
     } finally {
       setBusy(false);
     }
@@ -55,9 +73,12 @@ export default function ProjectBrandCharacterSynthesisPage() {
 
   const compileSystem = async () => {
     setBusy(true);
+    setActionError(null);
     try {
       const result = await site00ProjectsApi.experimentHSynthesisCompileSystem(projectSlug);
       setRun((result.run as BrandCharacterSynthesisRun | null) ?? null);
+    } catch (err) {
+      setActionError(formatActionError(err));
     } finally {
       setBusy(false);
     }
@@ -90,14 +111,35 @@ export default function ProjectBrandCharacterSynthesisPage() {
             <p>Loading synthesis run…</p>
           ) : (
             <>
+              {actionError && (
+                <section className="site00-experiment-g__panel" role="alert">
+                  <h2>Synthesis could not run</h2>
+                  <p>{actionError}</p>
+                  {actionError.includes('Unknown action') && (
+                    <p>The live API may still be deploying — retry in a minute or hard-refresh.</p>
+                  )}
+                  {actionError.includes('readiness') && (
+                    <Link to={site00ProjectBrandCharacterReadinessPath(projectSlug)} className="site00-btn">
+                      REVIEW READINESS
+                    </Link>
+                  )}
+                </section>
+              )}
+
+              {statusMessage && (
+                <section className="site00-experiment-g__panel">
+                  <p>{statusMessage}</p>
+                </section>
+              )}
+
               <section className="site00-experiment-g__panel">
                 <h2>Readiness refresh</h2>
                 <p>
                   {run?.readinessRefresh?.previousState?.replace(/_/g, ' ') ?? '—'} →{' '}
-                  {run?.readinessRefresh?.newState.replace(/_/g, ' ') ?? 'NOT EVALUATED'}
+                  {run?.readinessRefresh?.newState?.replace(/_/g, ' ') ?? 'NOT EVALUATED (tap Run to refresh)'}
                 </p>
-                <p>Deepening answers ingested: {run?.readinessRefresh?.deepeningAnswerCount ?? 0}</p>
-                {run?.readinessRefresh?.remainingBlockers.length ? (
+                <p>Deepening answers ingested: {run?.readinessRefresh?.deepeningAnswerCount ?? '—'}</p>
+                {run?.readinessRefresh?.remainingBlockers?.length ? (
                   <ul>
                     {run.readinessRefresh.remainingBlockers.map((b) => (
                       <li key={b}>{b}</li>
@@ -105,7 +147,7 @@ export default function ProjectBrandCharacterSynthesisPage() {
                   </ul>
                 ) : null}
                 <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void runSynthesis()}>
-                  RUN COMPOSITE SYNTHESIS
+                  {busy ? 'RUNNING SYNTHESIS…' : 'RUN COMPOSITE SYNTHESIS'}
                 </button>
               </section>
 
