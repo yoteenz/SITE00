@@ -27,6 +27,16 @@ type ExperimentHBrandCharacterReviewProps = {
   onUpdate?: (run?: BrandCharacterFormationRun) => void;
 };
 
+function text(value: string | null | undefined, fallback = '—'): string {
+  const trimmed = typeof value === 'string' ? value.trim() : '';
+  return trimmed || fallback;
+}
+
+function list(value: string[] | null | undefined): string {
+  if (!Array.isArray(value) || value.length === 0) return '—';
+  return value.join(' · ');
+}
+
 function CharacterCard({
   character,
   onJudgment,
@@ -42,20 +52,20 @@ function CharacterCard({
 
   return (
     <article className="site00-experiment-g__card">
-      <h4 className="site00-experiment-g__card-title">{character.name}</h4>
-      <p className="site00-experiment-g__thesis">{character.core.characterThesis}</p>
+      <h4 className="site00-experiment-g__card-title">{text(character.name, 'UNNAMED CHARACTER')}</h4>
+      <p className="site00-experiment-g__thesis">{text(character.core?.characterThesis)}</p>
       <dl className="site00-experiment-g__dl">
-        <div><dt>CHARACTER</dt><dd>{character.core.characterEssence}</dd></div>
-        <div><dt>HOW DOES IT THINK?</dt><dd>{character.intellectual.intelligenceStyle}</dd></div>
-        <div><dt>HOW DOES IT BEHAVE?</dt><dd>{character.social.conversationalBehavior}</dd></div>
-        <div><dt>WHAT IS FUNNY TO IT?</dt><dd>{character.humorWit.humorLogic}</dd></div>
-        <div><dt>HOW DOES IT RELATE TO CULTURE?</dt><dd>{character.culturalIntelligence.culturalPosition}</dd></div>
-        <div><dt>AUDIENCE RELATIONSHIP</dt><dd>{character.social.audienceRelationship}</dd></div>
-        <div><dt>TASTE</dt><dd>{character.taste.tasteLogic}</dd></div>
-        <div><dt>LEAVES ITS MARK</dt><dd>{character.artifactRelationship.makerPresence}</dd></div>
-        <div><dt>WHY NDXBOOK?</dt><dd>{character.whyItIsNdxbook}</dd></div>
-        <div><dt>MUST NEVER BECOME</dt><dd>{character.whatItMustNeverBecome.join(' · ')}</dd></div>
-        {character.abstractionEval ? (
+        <div><dt>CHARACTER</dt><dd>{text(character.core?.characterEssence)}</dd></div>
+        <div><dt>HOW DOES IT THINK?</dt><dd>{text(character.intellectual?.intelligenceStyle)}</dd></div>
+        <div><dt>HOW DOES IT BEHAVE?</dt><dd>{text(character.social?.conversationalBehavior)}</dd></div>
+        <div><dt>WHAT IS FUNNY TO IT?</dt><dd>{text(character.humorWit?.humorLogic)}</dd></div>
+        <div><dt>HOW DOES IT RELATE TO CULTURE?</dt><dd>{text(character.culturalIntelligence?.culturalPosition)}</dd></div>
+        <div><dt>AUDIENCE RELATIONSHIP</dt><dd>{text(character.social?.audienceRelationship)}</dd></div>
+        <div><dt>TASTE</dt><dd>{text(character.taste?.tasteLogic)}</dd></div>
+        <div><dt>LEAVES ITS MARK</dt><dd>{text(character.artifactRelationship?.makerPresence)}</dd></div>
+        <div><dt>WHY NDXBOOK?</dt><dd>{text(character.whyItIsNdxbook)}</dd></div>
+        <div><dt>MUST NEVER BECOME</dt><dd>{list(character.whatItMustNeverBecome)}</dd></div>
+        {character.abstractionEval?.result ? (
           <div><dt>ABSTRACTION GATE</dt><dd>{character.abstractionEval.result.replace(/_/g, ' ')}</dd></div>
         ) : null}
       </dl>
@@ -64,10 +74,10 @@ function CharacterCard({
         <pre style={{ fontSize: '0.7rem', overflow: 'auto' }}>
           {JSON.stringify(
             {
-              emotionalRange: character.emotional.emotionalRange,
-              language: character.language.verbalCadence,
-              expressiveBehavior: character.expressiveBehavior.expressiveGestures,
-              notThis: character.notThis,
+              emotionalRange: character.emotional?.emotionalRange ?? null,
+              language: character.language?.verbalCadence ?? null,
+              expressiveBehavior: character.expressiveBehavior?.expressiveGestures ?? null,
+              notThis: character.notThis ?? [],
             },
             null,
             2,
@@ -188,12 +198,12 @@ export function ExperimentHBrandCharacterReview({
         ) : null}
       </div>
 
-      {run?.characters?.map((character) => (
+      {run?.characters?.filter(Boolean).map((character) => (
         <CharacterCard
-          key={character.id}
+          key={character.id ?? character.name}
           character={character}
           judging={judgingId === character.id}
-          onJudgment={(j) => void setJudgment(character.id, j)}
+          onJudgment={(j) => void setJudgment(character.id ?? character.name, j)}
         />
       ))}
     </div>

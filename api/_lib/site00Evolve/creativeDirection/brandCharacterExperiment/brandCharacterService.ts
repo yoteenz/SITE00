@@ -25,6 +25,11 @@ import { assertCharacterFormationQuarantined } from '../../../../../shared/site0
 import { evaluateCharacterAbstractionLevel } from '../../../../../shared/site00-brand-lore/brandCharacterTerritory/abstractionGuard.js';
 import { evaluateBrandCharacterSetDistinctiveness } from '../../../../../shared/site00-brand-lore/brandCharacterTerritory/distinctiveness.js';
 import { compileBrandCharacterSystem } from '../../../../../shared/site00-brand-lore/brandCharacterTerritory/characterSystemCompiler.js';
+import {
+  coerceCharacterPayload,
+  migrateCharacterTerritory,
+  type CoercibleCharacterPayload,
+} from '../../../../../shared/site00-brand-lore/brandCharacterTerritory/characterPayloadNormalization.js';
 import { parseStructuredJson } from '../creativeIntelligence/structuredJson.js';
 import { callAnthropicForCompletion } from '../creativeIntelligence/anthropicCompletion.js';
 import { ANTHROPIC_CREATIVE_MODEL } from '../creativeIntelligence/config.js';
@@ -96,25 +101,7 @@ function initRun(existing?: BrandCharacterFormationRun | null): BrandCharacterFo
   };
 }
 
-type RawCharacterPayload = Omit<
-  BrandCharacterTerritory,
-  | 'id'
-  | 'characterClassification'
-  | 'abstractionEval'
-  | 'distinctivenessEval'
-  | 'founderJudgment'
-  | 'judgmentNote'
-  | 'methodologyVersion'
-  | 'experimentId'
-  | 'formationVersion'
-  | 'snapshotVersion'
-  | 'snapshotFingerprint'
-  | 'formationPromptVersion'
-  | 'formationPromptFingerprint'
-  | 'formationReceipt'
-  | 'provenance'
-  | 'createdAt'
-> & { name: string };
+type RawCharacterPayload = CoercibleCharacterPayload & { name?: string };
 
 function normalizeCharacter(
   raw: RawCharacterPayload,
@@ -124,24 +111,25 @@ function normalizeCharacter(
     promptFingerprint: string;
   },
 ): BrandCharacterTerritory {
+  const coerced = coerceCharacterPayload(raw);
   const character: BrandCharacterTerritory = {
-    id: `bct-${params.formationVersion}-${hash(raw.name)}`,
-    name: raw.name,
+    id: `bct-${params.formationVersion}-${hash(coerced.name)}`,
+    name: coerced.name,
     characterClassification: 'BRAND_CHARACTER_TERRITORY',
-    core: raw.core,
-    intellectual: raw.intellectual,
-    social: raw.social,
-    emotional: raw.emotional,
-    humorWit: raw.humorWit,
-    culturalIntelligence: raw.culturalIntelligence,
-    language: raw.language,
-    taste: raw.taste,
-    expressiveBehavior: raw.expressiveBehavior,
-    artifactRelationship: raw.artifactRelationship,
-    whyItIsNdxbook: raw.whyItIsNdxbook,
-    whatItMustNeverBecome: raw.whatItMustNeverBecome ?? [],
-    antiCharacterRules: raw.antiCharacterRules ?? [],
-    notThis: raw.notThis ?? [],
+    core: coerced.core,
+    intellectual: coerced.intellectual,
+    social: coerced.social,
+    emotional: coerced.emotional,
+    humorWit: coerced.humorWit,
+    culturalIntelligence: coerced.culturalIntelligence,
+    language: coerced.language,
+    taste: coerced.taste,
+    expressiveBehavior: coerced.expressiveBehavior,
+    artifactRelationship: coerced.artifactRelationship,
+    whyItIsNdxbook: coerced.whyItIsNdxbook,
+    whatItMustNeverBecome: coerced.whatItMustNeverBecome,
+    antiCharacterRules: coerced.antiCharacterRules,
+    notThis: coerced.notThis,
     abstractionEval: null,
     distinctivenessEval: null,
     founderJudgment: null,
@@ -482,7 +470,12 @@ function enqueueCharacterFormationWork(runId: string, attemptId: string): void {
 }
 
 export async function getBrandCharacterFormationRun(): Promise<BrandCharacterFormationRun | null> {
-  return store.getBrandCharacterFormationRun();
+  const run = await store.getBrandCharacterFormationRun();
+  if (!run) return null;
+  return {
+    ...run,
+    characters: (run.characters ?? []).map((character) => migrateCharacterTerritory(character)),
+  };
 }
 
 export async function prepareBrandCharacterSnapshot(): Promise<BrandCharacterFormationRun> {

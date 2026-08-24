@@ -364,4 +364,27 @@ describe('P0.5B Brand Character System', () => {
     const run = await getBrandCharacterFormationRun();
     expect(run?.status).toBe('EVALUATIONS_COMPLETE');
   });
+
+  it('coerces partial character payloads without crashing UI', async () => {
+    const { coerceCharacterPayload, migrateCharacterTerritory } = await import(
+      './brandCharacterTerritory/characterPayloadNormalization.js'
+    );
+    const partial = {
+      name: 'PARTIAL CHARACTER',
+      core: { characterThesis: 'A thesis only' },
+      whatItMustNeverBecome: 'Generic influencer',
+    };
+    const coerced = coerceCharacterPayload(partial);
+    expect(coerced.core.characterThesis).toBe('A thesis only');
+    expect(coerced.intellectual.intelligenceStyle).toBe('');
+    expect(coerced.whatItMustNeverBecome).toEqual(['Generic influencer']);
+
+    const migrated = migrateCharacterTerritory({
+      ...(sampleTerritory()),
+      core: undefined as unknown as BrandCharacterTerritory['core'],
+      whatItMustNeverBecome: 'One string item' as unknown as string[],
+    });
+    expect(Array.isArray(migrated.whatItMustNeverBecome)).toBe(true);
+    expect(migrated.core.characterThesis).toBeTruthy();
+  });
 });
