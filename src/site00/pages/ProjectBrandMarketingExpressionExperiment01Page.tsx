@@ -61,11 +61,14 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
       run?.status === 'EXPERIMENT_01_FORMULATING' ||
       run?.status === 'EXPERIMENT_01_GENERATING' ||
       run?.status === 'EXPERIMENT_01_V2_GENERATING' ||
-      run?.status === 'EXPERIMENT_01_V21_GENERATING';
+      run?.status === 'EXPERIMENT_01_V21_GENERATING' ||
+      run?.experiment01?.artifacts.some((artifact) => artifact.generationStatus === 'GENERATING') ||
+      run?.experiment01V2?.generatedArtifacts.some((artifact) => artifact.generationStatus === 'GENERATING') ||
+      run?.experiment01V21?.generatedArtifacts.some((artifact) => artifact.generationStatus === 'GENERATING');
     if (!generating) return;
     const id = window.setInterval(() => void reload(), POLL_MS);
     return () => window.clearInterval(id);
-  }, [run?.status, reload]);
+  }, [run, reload]);
 
   const formulate = async () => {
     setBusy(true);
@@ -167,13 +170,15 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
   const selected = showingV21 ? selectedV21 : showingV2 ? selectedV2 : selectedV1;
   const activeArtifacts = showingV21 ? v21Artifacts : showingV2 ? v2Artifacts : v1Artifacts;
   const generatedCount = activeArtifacts.filter((a) => a.generationStatus === 'GENERATED' && a.generatedAssetUrl).length;
-  const isGeneratingBoard =
+  const pendingCount = activeArtifacts.filter((a) => a.generationStatus !== 'GENERATED' || !a.generatedAssetUrl).length;
+  const generatingCount = activeArtifacts.filter((a) => a.generationStatus === 'GENERATING').length;
+  const isRunStatusGenerating =
     run?.status === 'EXPERIMENT_01_GENERATING' ||
     run?.status === 'EXPERIMENT_01_V2_GENERATING' ||
-    run?.status === 'EXPERIMENT_01_V21_GENERATING' ||
-    activeArtifacts.some((a) => a.generationStatus === 'GENERATING');
+    run?.status === 'EXPERIMENT_01_V21_GENERATING';
+  const isGeneratingBoard = isRunStatusGenerating || generatingCount > 0;
   const allGenerated = activeArtifacts.length > 0 && generatedCount === activeArtifacts.length;
-  const canGenerateAll = activeArtifacts.length > 0 && !allGenerated && !isGeneratingBoard;
+  const canGenerateRemaining = pendingCount > 0 && !isGeneratingBoard;
 
   return (
     <EcosystemShell hidePageHeader>
@@ -230,9 +235,14 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                     {isGeneratingBoard && (
                       <p>GENERATING FIRST SLIDES IN BACKGROUND… {generatedCount}/{activeArtifacts.length} COMPLETE</p>
                     )}
-                    {canGenerateAll && (
+                    {!isGeneratingBoard && pendingCount > 0 && generatedCount > 0 && (
+                      <p>{generatedCount}/{activeArtifacts.length} COMPLETE — REMAINING SLIDES READY TO GENERATE</p>
+                    )}
+                    {canGenerateRemaining && (
                       <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void generateAll()} style={{ marginBottom: '12px' }}>
-                        GENERATE ALL NINE FIRST SLIDES (FAL)
+                        {generatedCount > 0
+                          ? `GENERATE REMAINING ${pendingCount} FIRST SLIDES (FAL)`
+                          : 'GENERATE ALL NINE FIRST SLIDES (FAL)'}
                       </button>
                     )}
                     {allGenerated && (

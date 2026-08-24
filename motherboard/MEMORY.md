@@ -4226,3 +4226,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Boundaries:** No auto-generation on page load; Round 02 blocked until Round 01 locked; locked assets immutable; P0.5C/P0.5C.1/P0.5C.2 preserved; Experiment F/G, Brand Character/Canon unchanged; Product Expression / World Formation blocked.
 - **Tests:** +23 P0.5E tests. Full suite 2225 passing. Build green.
 
+---
+
+## 2026-08-24 — Experiment 01 stale batch generation recovery
+
+- **Context:** Founder on mobile V2.1 Experiment 01 saw **"GENERATING FIRST SLIDES IN BACKGROUND… 1/9 COMPLETE"** with no generate button and nothing running on FAL — persisted state stuck after batch worker died (Railway redeploy or mid-batch crash).
+- **Root cause:** UI hid **GENERATE ALL** when any artifact had `generationStatus === 'GENERATING'` or run status was `EXPERIMENT_01_*_GENERATING`. `activeGenerationAttempts` is in-memory only — after redeploy, persisted GENERATING flags remained with no worker.
+- **Fix:** `reconcileStaleExperiment01Generation()` on every `getBrandMarketingExpressionState` GET when no active worker — resets stale GENERATING artifacts to `NOT_GENERATED`, run back to `*_READY`. Batch worker `finalizeExperiment01BatchGeneration` + per-artifact try/catch on failure. UI: show **GENERATE REMAINING N FIRST SLIDES (FAL)** when partial complete; progress text only while worker actually running. Tests: `experiment01StaleGeneration.test.ts`.
+
