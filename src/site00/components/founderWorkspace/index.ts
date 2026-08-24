@@ -14,6 +14,22 @@ export { ExperimentJourney, VersionTimeline } from './ExperimentJourney';
 export { CulturalRadarRoom } from './CulturalRadarRoom';
 export { PerformanceLearningRoom } from './PerformanceLearningRoom';
 export { CharacterLabRoom } from './CharacterLabRoom';
+export {
+  WorkspaceField,
+  ArtworkLane,
+  MediaBand,
+  EditorialRail,
+  SpatialSection,
+  AsymmetricGrid,
+  QuietAction,
+  InlineMeta,
+  GhostSlot,
+} from './WorkspaceCompositionPrimitives';
+export {
+  resolveCampaignBoardLanes,
+  resolveCampaignIdentity,
+  CAMPAIGN_BOARD_LANE_SPLITS,
+} from './campaignBoardLaneSchema';
 export { CampaignBoardProductionWall, CampaignBoardInspectContent } from './CampaignBoardProductionWall';
 export { ContentOperationsEditorialDesk } from './ContentOperationsEditorialDesk';
 export { CulturalIntelligenceRadarRoom } from './CulturalIntelligenceRadarRoom';

@@ -15,6 +15,7 @@ import {
   FounderWorkspacePanel,
   OperationalPulse,
 } from './FounderWorkspaceShell';
+import { WorkspaceLoadingState } from './WorkspaceLoadingState';
 
 type Props = {
   projectSlug: string;
@@ -83,7 +84,13 @@ export function ContentOperationsEditorialDesk({
   ];
 
   if (loading) {
-    return <p className="site00-fws-empty">Loading editorial desk…</p>;
+    return (
+      <WorkspaceLoadingState
+        label="Loading editorial desk…"
+        preserveGeometry
+        rows={4}
+      />
+    );
   }
 
   return (
