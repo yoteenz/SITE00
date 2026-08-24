@@ -69,6 +69,13 @@ import {
   developBrandCharacter,
 } from '../_lib/site00Evolve/creativeDirection/brandCharacterExperiment/brandCharacterService.js';
 import {
+  getBrandCharacterReadinessState,
+  evaluateAndPersistBrandCharacterReadiness,
+  submitBrandCharacterDeepeningAnswer,
+  setBrandCharacterReadinessOverride,
+  evaluateNdxbookCharacterReadinessReport,
+} from '../_lib/site00Evolve/creativeDirection/brandCharacterExperiment/brandCharacterReadinessService.js';
+import {
   formBrandPresentationDirections,
   getBrandPresentationDirectionFormationRun,
   prepareBrandPresentationDirectionParents,
@@ -1234,6 +1241,90 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           system: result.system,
           source: 'site00_experiment_h',
         });
+      }
+      case 'experiment_h_readiness_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const record = await getBrandCharacterReadinessState('ndxbook');
+        return json(res, 200, { ok: true, record, source: 'site00_experiment_h_readiness' });
+      }
+      case 'experiment_h_readiness_evaluate': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const report = await evaluateNdxbookCharacterReadinessReport();
+        return json(res, 200, { ok: true, ...report, source: 'site00_experiment_h_readiness' });
+      }
+      case 'experiment_h_deepening_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const record = await getBrandCharacterReadinessState('ndxbook');
+        return json(res, 200, {
+          ok: true,
+          module: record?.deepeningModule ?? null,
+          evaluation: record?.latestEvaluation ?? null,
+          source: 'site00_experiment_h_deepening',
+        });
+      }
+      case 'experiment_h_deepening_answer': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const questionId = String(body.questionId ?? '');
+        const rawAnswer = String(body.rawAnswer ?? '');
+        if (slug !== 'ndxbook' || !questionId || !rawAnswer.trim()) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const record = await submitBrandCharacterDeepeningAnswer({
+          projectId: 'ndxbook',
+          questionId,
+          rawAnswer,
+        });
+        return json(res, 200, { ok: true, record, source: 'site00_experiment_h_deepening' });
+      }
+      case 'experiment_h_readiness_override': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const overrideReason = String(body.overrideReason ?? '');
+        if (slug !== 'ndxbook' || !overrideReason.trim()) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const record = await setBrandCharacterReadinessOverride({
+          projectId: 'ndxbook',
+          overrideReason,
+          missingDomains: Array.isArray(body.missingDomains) ? body.missingDomains : [],
+          founderId: body.founderId ? String(body.founderId) : null,
+        });
+        return json(res, 200, { ok: true, record, source: 'site00_experiment_h_readiness' });
       }
       case 'experiment_g_get': {
         const slug = String(req.query.slug ?? '');

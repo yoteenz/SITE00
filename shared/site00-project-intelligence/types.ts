@@ -68,7 +68,8 @@ export type ProjectIntelligenceModuleId =
   | 'WORLD_SOCIAL_PRESENCE'
   | 'WORLD_CONTENT_CREATION'
   | 'WORLD_GAME_DEPTH'
-  | 'WORLD_HARD_BOUNDARIES';
+  | 'WORLD_HARD_BOUNDARIES'
+  | 'BRAND_CHARACTER_DEEPENING';
 
 export type ProjectIntelligenceModuleDefinition = {
   moduleId: ProjectIntelligenceModuleId;

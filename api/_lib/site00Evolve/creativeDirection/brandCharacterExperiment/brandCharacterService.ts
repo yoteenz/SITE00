@@ -46,6 +46,11 @@ import { ANTHROPIC_CREATIVE_MODEL } from '../creativeIntelligence/config.js';
 import { getBrandLoreProfileForOrg } from '../../../site00BrandLore/loreService.js';
 import { NDXBOOK_ORG_ID } from '../creativeIntelligence/founderComparisonSet.js';
 import * as store from './storeAdapter.js';
+import {
+  assertBrandCharacterFormationReadiness,
+  attachFormationInputEvidenceToRun,
+  seedVitestCharacterFormationReadiness,
+} from './brandCharacterReadinessService.js';
 
 const STALE_FORMING_MS = 15 * 60 * 1000;
 const ANTHROPIC_FORMATION_TIMEOUT_MS = 8 * 60 * 1000;
@@ -533,6 +538,17 @@ export async function prepareBrandCharacterSnapshot(): Promise<BrandCharacterFor
 export async function formSixBrandCharacterTerritories(params?: {
   forceRetry?: boolean;
 }): Promise<BrandCharacterFormationRun> {
+  await seedVitestCharacterFormationReadiness('ndxbook');
+  const gate = await assertBrandCharacterFormationReadiness({ projectId: 'ndxbook' });
+  if (!gate.allowed) {
+    const blocked = initRun(await store.getBrandCharacterFormationRun());
+    return {
+      ...blocked,
+      status: 'FAILED',
+      error: gate.reason ?? 'Character readiness gate blocked formation',
+    };
+  }
+
   let run = initRun(await store.getBrandCharacterFormationRun());
   if (!run.intelligenceSnapshot) {
     run = await prepareBrandCharacterSnapshot();

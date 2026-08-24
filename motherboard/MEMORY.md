@@ -4102,3 +4102,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Orchestration/deps:** Added BRAND_CHARACTER_DEVELOPMENT stage; Territory → Development → System dependency edges.
 - **Tests:** 78 character tests pass (+47 P0.5B.1 suite). Build green. No FAL. Experiment G blocked. Historical six preserved immutable.
 
+---
+
+## 2026-08-24 — P0.5B.2 Brand Character Readiness + Conditional Deepening
+
+- **Context:** Extend P0.5B/P0.5B.1 so Studio World evaluates post-purchase Project Intelligence before Character Territory formation — ask targeted follow-up questions only when material character gaps exist; do not force another full intake or duplicate Brand Lore/Personality/Appetite questions.
+- **Architecture:** POST-PURCHASE INTELLIGENCE → `BrandCharacterReadinessEvaluation` (READY / PARTIAL / INSUFFICIENT / BLOCKED / NOT_EVALUATED) → conditional `BrandCharacterDeepeningModule` → formation gate → territories. Deterministic domain evaluation across 12 character-critical domains; duplicate question prevention via `findExistingEvidenceForCharacterQuestion()`; founder language preserved verbatim in `FounderLanguageEvidence`.
+- **Integration:** Formation gate in `formSixBrandCharacterTerritories`; `BRAND_CHARACTER_DEEPENING` conditional module in Project Intelligence manifest; API `experiment_h_readiness_*` + `experiment_h_deepening_*`; UI `/projects/ndxbook/brand-character-readiness` + `/brand-character-deepening`; Project Setup shows `BRAND CHARACTER: READY / N QUESTIONS REMAIN / DEEPENING REQUIRED`.
+- **NDXBOOK first-pass (reconciled profile, no new questions asked):** Overall `CHARACTER_BLOCKED` (Brand Lore still `CONTEXT_INCOMPLETE` upstream). Domain strengths: strong worldview/personality/humor/social/emotional/language/boundaries; thin/missing audience relationship, cultural intelligence, taste, artifact behavior. Retrospective first-six input readiness: **INSUFFICIENT** (`INPUT_EVIDENCE_LIMITED`, primary cause **BOTH** methodology + input). Targeted deepening compiled: **7 questions** (audience, cultural×2, taste×2, artifact×2) — confirms first weak territories were not methodology-only.
+- **Tests:** +44 P0.5B.2 tests; 1917 total pass. Build green. No FAL/GPT Image. Experiment G unchanged. First six territories immutable.
+

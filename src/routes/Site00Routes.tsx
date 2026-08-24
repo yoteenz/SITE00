@@ -92,6 +92,8 @@ const ProjectExperimentFPage = lazy(() => import('../site00/pages/ProjectExperim
 const ProjectExperimentGPage = lazy(() => import('../site00/pages/ProjectExperimentGPage'));
 const ProjectExperimentHPage = lazy(() => import('../site00/pages/ProjectExperimentHPage'));
 const ProjectExperimentHDevelopmentPage = lazy(() => import('../site00/pages/ProjectExperimentHDevelopmentPage'));
+const ProjectBrandCharacterReadinessPage = lazy(() => import('../site00/pages/ProjectBrandCharacterReadinessPage'));
+const ProjectBrandCharacterDeepeningPage = lazy(() => import('../site00/pages/ProjectBrandCharacterDeepeningPage'));
 const ProjectExperimentGDirectionsPage = lazy(() => import('../site00/pages/ProjectExperimentGDirectionsPage'));
 const ProjectExperimentGFinalistsPage = lazy(() => import('../site00/pages/ProjectExperimentGFinalistsPage'));
 const ProjectExperimentEPage = lazy(() => import('../site00/pages/ProjectExperimentEPage'));
@@ -749,6 +751,30 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectExperimentHDevelopmentPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBrandCharacterReadiness}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectBrandCharacterReadinessPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBrandCharacterDeepening}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectBrandCharacterDeepeningPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

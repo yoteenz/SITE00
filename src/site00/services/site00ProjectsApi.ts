@@ -1131,7 +1131,49 @@ export const site00ProjectsApi = {
       manifest: Record<string, unknown> | null;
       readiness: string;
       formationGate: { allowed: boolean; reason: string | null };
+      brandCharacterSummary?: { state: string; questionCount: number; label: string } | null;
     }>(`/api/site00/projects?action=project_intelligence_manifest_get&slug=${encodeURIComponent(slug)}`),
+  experimentHReadinessGet: (slug: string) =>
+    projectsFetch<{ ok: true; record: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=experiment_h_readiness_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  experimentHReadinessEvaluate: (slug: string) =>
+    projectsFetch<{ ok: true; record: Record<string, unknown>; retrospective: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_readiness_evaluate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentHDeepeningGet: (slug: string) =>
+    projectsFetch<{
+      ok: true;
+      module: Record<string, unknown> | null;
+      evaluation: Record<string, unknown> | null;
+    }>(`/api/site00/projects?action=experiment_h_deepening_get&slug=${encodeURIComponent(slug)}`),
+  experimentHDeepeningAnswer: (slug: string, questionId: string, rawAnswer: string) =>
+    projectsFetch<{ ok: true; record: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_deepening_answer',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, questionId, rawAnswer }),
+      },
+    ),
+  experimentHReadinessOverride: (
+    slug: string,
+    overrideReason: string,
+    missingDomains: string[],
+  ) =>
+    projectsFetch<{ ok: true; record: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_readiness_override',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, overrideReason, missingDomains }),
+      },
+    ),
   projectIntelligenceManifestCompile: (slug: string, experienceClass?: string) =>
     projectsFetch<{
       ok: true;

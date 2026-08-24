@@ -6,7 +6,7 @@ import type {
 } from '../../../../shared/site00-brand-lore/brandCharacterTerritory/types';
 import { BRAND_CHARACTER_JUDGMENTS, PROMISING_DEVELOP_JUDGMENTS } from '../../../../shared/site00-brand-lore/brandCharacterTerritory/constants';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
-import { site00ProjectBrandCharacterDevelopmentPath, site00ProjectExperimentGPath } from '../../config/routes';
+import { site00ProjectBrandCharacterDevelopmentPath, site00ProjectExperimentGPath, site00ProjectBrandCharacterReadinessPath } from '../../config/routes';
 import { CharacterFormationStatusPanel } from './CharacterFormationStatusPanel';
 import { CharacterComparisonView } from './CharacterComparisonView';
 import { resolveTerritoryFieldDisplay, renderFieldValue } from './characterFieldDisplay';
@@ -229,7 +229,16 @@ export function ExperimentHBrandCharacterReview({
         <Link to={site00ProjectExperimentGPath(projectSlug)}>Experiment G presentation work →</Link>
         {' · '}
         <Link to={site00ProjectBrandCharacterDevelopmentPath(projectSlug)}>Character Development review →</Link>
+        {' · '}
+        <Link to={site00ProjectBrandCharacterReadinessPath(projectSlug)}>Character Readiness →</Link>
       </p>
+      {run?.formationInputReadiness ? (
+        <p className="site00-experiment-g__audit">
+          First formation input readiness: {run.formationInputReadiness}
+          {run.inputEvidenceLimited ? ' · INPUT_EVIDENCE_LIMITED' : ''}
+          {run.inputEvidencePartial ? ' · partial override acknowledged' : ''}
+        </p>
+      ) : null}
       {run?.semanticSetAudit ? (
         <p className="site00-experiment-g__audit">
           Semantic set audit: {run.semanticSetAudit.genericBrandProbability} generic-brand probability · founder decides

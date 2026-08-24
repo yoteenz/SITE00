@@ -17,6 +17,9 @@ import type {
   ProjectIntelligenceIntakeManifest,
 } from '../../../shared/site00-project-intelligence/types.js';
 import * as store from './storeAdapter.js';
+import {
+  getBrandCharacterReadinessState,
+} from '../site00Evolve/creativeDirection/brandCharacterExperiment/brandCharacterReadinessService.js';
 
 const LEGACY_COMPLETED_MODULES: Record<string, ProjectIntelligenceModuleId[]> = {
   ndxbook: ['BRAND_LORE', 'BRAND_PERSONALITY', 'FOUNDER_CREATIVE_APPETITE', 'PRIMARY_EXPRESSION_CONTEXT'],
@@ -63,10 +66,20 @@ export async function compileProjectIntelligenceManifest(params: {
 }): Promise<{
   manifest: ProjectIntelligenceIntakeManifest;
   readiness: ReturnType<typeof evaluateProjectIntelligenceReadiness>;
+  brandCharacterReadiness: Awaited<ReturnType<typeof getBrandCharacterReadinessState>> | null;
 }> {
   const commercialState = params.commercialState ?? getCommercialStateForProject({ projectSlug: params.projectSlug });
   const previous = await store.getLatestManifest(params.projectSlug);
   const completedModuleIds = LEGACY_COMPLETED_MODULES[params.projectSlug] ?? [];
+
+  let brandCharacterReadiness = null;
+  if (params.projectSlug === 'ndxbook') {
+    try {
+      brandCharacterReadiness = await getBrandCharacterReadinessState('ndxbook');
+    } catch {
+      brandCharacterReadiness = null;
+    }
+  }
 
   const manifest = compileProjectIntelligenceIntakeManifest({
     projectId: params.projectId,
@@ -78,11 +91,13 @@ export async function compileProjectIntelligenceManifest(params: {
     completedModuleIds,
     previousManifest: previous,
     scopeChangeReason: params.scopeChangeReason ?? null,
+    characterReadinessState: brandCharacterReadiness?.latestEvaluation?.overallState ?? null,
+    characterDeepeningQuestionCount: brandCharacterReadiness?.deepeningModule?.questions.length ?? 0,
   });
 
   await store.saveManifest(manifest);
   const readiness = evaluateProjectIntelligenceReadiness({ manifest, commercialState });
-  return { manifest, readiness };
+  return { manifest, readiness, brandCharacterReadiness };
 }
 
 export async function expandProjectScopeManifest(params: {
@@ -111,9 +126,23 @@ export async function getProjectIntelligenceState(projectSlug: string): Promise<
   manifest: ProjectIntelligenceIntakeManifest | null;
   readiness: ReturnType<typeof evaluateProjectIntelligenceReadiness> | null;
   formationGate: ReturnType<typeof assertProjectReadyForFormation> | null;
+  brandCharacterReadiness: Awaited<ReturnType<typeof getBrandCharacterReadinessState>> | null;
+  brandCharacterSummary: {
+    state: string;
+    questionCount: number;
+    label: string;
+  } | null;
 }> {
   const manifest = await store.getLatestManifest(projectSlug);
-  if (!manifest) return { manifest: null, readiness: null, formationGate: null };
+  if (!manifest) {
+    return {
+      manifest: null,
+      readiness: null,
+      formationGate: null,
+      brandCharacterReadiness: null,
+      brandCharacterSummary: null,
+    };
+  }
   const readiness = evaluateProjectIntelligenceReadiness({
     manifest,
     commercialState: manifest.commercialState,
@@ -122,7 +151,35 @@ export async function getProjectIntelligenceState(projectSlug: string): Promise<
     readiness,
     commercialState: manifest.commercialState,
   });
-  return { manifest, readiness, formationGate };
+
+  let brandCharacterReadiness = null;
+  if (projectSlug === 'ndxbook') {
+    try {
+      brandCharacterReadiness = await getBrandCharacterReadinessState('ndxbook');
+    } catch {
+      brandCharacterReadiness = null;
+    }
+  }
+
+  const evalState = brandCharacterReadiness?.latestEvaluation?.overallState ?? 'CHARACTER_NOT_EVALUATED';
+  const questionCount = brandCharacterReadiness?.deepeningModule?.questions.length ?? 0;
+  const brandCharacterSummary =
+    projectSlug === 'ndxbook'
+      ? {
+          state: evalState,
+          questionCount,
+          label:
+            evalState === 'CHARACTER_READY'
+              ? 'READY'
+              : evalState === 'CHARACTER_PARTIAL'
+                ? `${questionCount} QUESTIONS REMAIN`
+                : evalState === 'CHARACTER_INSUFFICIENT'
+                  ? 'DEEPENING REQUIRED'
+                  : evalState.replace(/_/g, ' '),
+        }
+      : null;
+
+  return { manifest, readiness, formationGate, brandCharacterReadiness, brandCharacterSummary };
 }
 
 export function resetProjectIntelligenceServiceMemory(): void {

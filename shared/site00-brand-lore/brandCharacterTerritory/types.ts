@@ -320,6 +320,10 @@ export type BrandCharacterFormationRun = {
   error: string | null;
   formationStartedAt: string | null;
   formationAttemptId: string | null;
+  /** Retrospective / gate evidence — does not mutate territory content. */
+  formationInputReadiness?: 'READY' | 'PARTIAL' | 'INSUFFICIENT' | 'NOT_EVALUATED' | null;
+  inputEvidenceLimited?: boolean;
+  inputEvidencePartial?: boolean;
   startedAt: string;
   completedAt: string | null;
 };
