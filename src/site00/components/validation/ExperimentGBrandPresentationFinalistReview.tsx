@@ -161,6 +161,14 @@ export function ExperimentGBrandPresentationFinalistReview({
   const hasBenchmarks = benchmarks.filter((b) => b.revisionNumber === 0).length >= 6;
   const hasVisuals = benchmarks.some((b) => b.assetPublicUrl);
   const deferred = run?.deferredParents ?? [];
+  const pipelineReady =
+    activeParentFinalists.length >= 2 ||
+    run?.status === 'FINALISTS_READY' ||
+    run?.status === 'BENCHMARKS_READY' ||
+    run?.status === 'VISUALS_READY' ||
+    run?.status === 'FOUNDER_REVIEW';
+  const showFormulateButton = !hasBenchmarks && !hasVisuals;
+  const showGenerateButton = hasBenchmarks && !hasVisuals;
 
   const formulate = useCallback(async () => {
     setFormulating(true);
@@ -254,13 +262,19 @@ export function ExperimentGBrandPresentationFinalistReview({
         </p>
       ) : null}
       {error ? <p className="site00-experiment-g-vf__error" role="alert">{error}</p> : null}
+      {!pipelineReady && showFormulateButton ? (
+        <p className="site00-experiment-g-vf__pending">
+          Parent finalists not loaded yet — tap FORMULATE below to initialize Room + Noticing (Collector stays
+          deferred). If this fails, redeploy api.site00.com on Railway from latest main.
+        </p>
+      ) : null}
       <div className="site00-experiment-g-vf__controls">
-        {activeParentFinalists.length === 2 && !hasBenchmarks ? (
+        {showFormulateButton ? (
           <button type="button" className="site00-btn site00-btn--primary" disabled={formulating} onClick={() => void formulate()}>
             {formulating ? 'FORMULATING SIX DIRECTION VISUALS…' : 'FORMULATE SIX DIRECTION VISUALS'}
           </button>
         ) : null}
-        {hasBenchmarks && !hasVisuals ? (
+        {showGenerateButton ? (
           <>
             <div className="site00-experiment-g-vf__cost-preview">
               <p>PARENT FINALISTS: {costPreview.parentFinalists}</p>
@@ -276,10 +290,12 @@ export function ExperimentGBrandPresentationFinalistReview({
           </>
         ) : null}
       </div>
-      {activeParentFinalists.length < 2 ? (
-        <p className="site00-experiment-g-vf__pending">Parent finalists loading — Room That Knows + Thing That Keeps Noticing.</p>
+      {pipelineReady && activeParentFinalists.length >= 2 ? (
+        <p className="site00-experiment-g-vf__meta">
+          Parent finalists: {activeParentFinalists.map((p) => p.parentConceptName).join(' · ')}
+        </p>
       ) : null}
-      {activeParentFinalists.map((parentFinalist) => (
+      {(pipelineReady ? activeParentFinalists : []).map((parentFinalist) => (
         <ParentFinalistSection
           key={parentFinalist.selectionId}
           parentFinalist={parentFinalist}
