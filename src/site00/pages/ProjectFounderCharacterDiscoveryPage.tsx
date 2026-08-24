@@ -695,6 +695,12 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                     {run.voiceCalibrationState?.sessionMessage && (
                       <p style={{ fontStyle: 'italic', marginBottom: '12px' }}>{run.voiceCalibrationState.sessionMessage}</p>
                     )}
+                    {run.voiceCalibrationState?.rounds.some((r) => r.isNeuralRound && r.status === 'JUDGMENTS_COMPLETE') &&
+                      !run.voiceCalibrationState?.neuralCandidates.some((c) => c.founderStatus === 'CLOSE' || c.founderStatus === 'YES') && (
+                      <p style={{ fontSize: '0.85rem', marginBottom: '12px' }}>
+                        If one voice felt closest, tap <strong>CLOSE</strong> on her before the next round — siblings refine that same woman, not a full recast.
+                      </p>
+                    )}
                     {neuralEstimate && neuralConfigured && (
                       <p style={{ fontSize: '0.85rem', marginBottom: '12px' }}>
                         Est. {String(neuralEstimate.candidateCount ?? 4)} clips · ~

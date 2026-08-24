@@ -14,6 +14,7 @@ import {
 import type { CharacterVoiceCalibrationState } from '../../site00-studio-world-production/embodiedCharacterVoice/types.js';
 import type { NdxFounderCharacterDiscoveryRun } from '../ndxEmbodiedCharacterFounderDiscovery/types.js';
 import { NDX_BOOK_COMPARISON_LINE } from './constants.js';
+import { applyNdxCastingTerritoryPlan } from './ndxNeuralCastingTerritories.js';
 
 export function initializeNdxVoiceCalibration(
   run: NdxFounderCharacterDiscoveryRun,
@@ -94,10 +95,10 @@ export function startNdxNeuralVoiceAudition(
   round: ReturnType<typeof planNeuralVoiceCalibrationRound>['round'];
   contracts: ReturnType<typeof planNeuralVoiceCalibrationRound>['contracts'];
 } {
-  const voiceState = ensureNdxVoiceCalibrationState(run, neuralProviderConfigured);
+  const voiceState = applyNdxCastingTerritoryPlan(ensureNdxVoiceCalibrationState(run, neuralProviderConfigured));
   const { state, round, contracts } = planNeuralVoiceCalibrationRound(voiceState);
   return {
-    run: { ...run, voiceCalibrationState: state, updatedAt: new Date().toISOString() },
+    run: { ...run, voiceCalibrationState: { ...state, castingTerritoryPlan: null, pendingRoundQuestion: null }, updatedAt: new Date().toISOString() },
     round,
     contracts,
   };
