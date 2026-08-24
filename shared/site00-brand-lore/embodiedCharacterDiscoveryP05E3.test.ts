@@ -74,7 +74,7 @@ import {
   burnBookCloneBehaviorFails,
   founderCloneBehaviorFails,
 } from '../site00-studio-world-production/embodiedCharacterDiscovery/archetypeCollapseGuards.js';
-import { resetEmbodiedCharacterDiscoveryMemory } from '../../api/_lib/site00Evolve/embodiedCharacterDiscovery/embodiedCharacterDiscoveryMemoryStore.js';
+import { resetEmbodiedCharacterDiscoveryMemory, resetEmbodiedCharacterDiscoveryStoreModeCache } from '../../api/_lib/site00Evolve/embodiedCharacterDiscovery/embodiedCharacterDiscoveryStoreAdapter.js';
 import {
   initializeEmbodiedCharacterDiscovery,
   saveEmbodiedCharacterDiscoveryInterviewRound,
@@ -86,6 +86,7 @@ const ROOT = join(process.cwd());
 describe('P0.5E.3 — Embodied Character Discovery', () => {
   beforeEach(() => {
     resetEmbodiedCharacterDiscoveryMemory();
+    resetEmbodiedCharacterDiscoveryStoreModeCache();
   });
 
   it('1. Founder visual selections stored as evidence, not canon', () => {
