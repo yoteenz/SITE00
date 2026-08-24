@@ -10,7 +10,7 @@ import {
 } from '../config/routes';
 import { projectDisplayName } from '../utils/projectDisplayName';
 import type { ContentOperationsRun } from '../../../shared/site00-brand-lore/contentOperations/types';
-import { LIVE_SIGNAL_INGESTION_NOT_CONNECTED } from '../../../shared/site00-brand-lore/contentOperations/constants';
+import { LIVE_CULTURAL_INTELLIGENCE_LAYER_IMPLEMENTED } from '../../../shared/site00-brand-lore/contentOperations/constants';
 import '../styles/site00-replay-execution.css';
 
 export default function ProjectContentOperationsPage() {
@@ -78,8 +78,8 @@ export default function ProjectContentOperationsPage() {
                 <h2>OPERATING MODE</h2>
                 <p><strong>{ops?.operatingMode ?? 'ASSISTED_AUTONOMY'}</strong> — founder approval required before external publishing</p>
                 <p>Status: {run?.status ?? 'NOT_STARTED'}</p>
-                {LIVE_SIGNAL_INGESTION_NOT_CONNECTED && (
-                  <p><em>LIVE_SIGNAL_INGESTION_NOT_CONNECTED — pilot uses seeded opportunities</em></p>
+                {LIVE_CULTURAL_INTELLIGENCE_LAYER_IMPLEMENTED && (
+                  <p><em>Live cultural intelligence layer available — manual signals + weekly forecast at Cultural Intelligence</em></p>
                 )}
               </section>
 

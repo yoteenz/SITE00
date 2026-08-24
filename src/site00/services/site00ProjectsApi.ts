@@ -1523,6 +1523,28 @@ export const site00ProjectsApi = {
       '/api/site00/projects?action=daily_publishing_approve_weekly_slate',
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
     ),
+  culturalIntelligenceGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(`/api/site00/projects?action=cultural_intelligence_get&slug=${encodeURIComponent(slug)}`),
+  culturalIntelligenceConfigure: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=cultural_intelligence_configure',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  culturalIntelligenceRefresh: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=cultural_intelligence_refresh',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  culturalIntelligenceWeeklyForecast: (slug: string, weekStart: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=cultural_intelligence_weekly_forecast',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, weekStart }) },
+    ),
+  culturalIntelligencePromoteOpportunities: (slug: string) =>
+    projectsFetch<{ ok: true; intelRun: Record<string, unknown>; contentOpsRun: Record<string, unknown> }>(
+      '/api/site00/projects?action=cultural_intelligence_promote_opportunities',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
   projectIntelligenceManifestCompile: (slug: string, experienceClass?: string) =>
     projectsFetch<{
       ok: true;

@@ -83,6 +83,7 @@ export function createContentOpportunity(params: {
   projectId: string;
   spec: SeedOpportunitySpec;
   memory?: ContentMemoryIndex | null;
+  liveLineage?: ContentOpportunity['liveLineage'];
 }): ContentOpportunity {
   const similarity = params.memory
     ? evaluateContentSimilarity({ subject: params.spec.subject, memory: params.memory })
@@ -120,6 +121,7 @@ export function createContentOpportunity(params: {
     selectionStatus: null,
     status: 'DISCOVERED',
     fingerprint: '',
+    liveLineage: params.liveLineage ?? null,
   };
   opp.characterFit = evaluateNDXOpportunityFit(opp);
   opp.rank = rankContentOpportunity(opp);

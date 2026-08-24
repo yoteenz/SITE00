@@ -82,6 +82,8 @@ export const SITE00_ROUTES = {
   projectContentOperationsPerformance: '/projects/:projectSlug/content-operations/performance',
   projectContentOperationsCampaignBoard: '/projects/:projectSlug/content-operations/campaign-board',
   projectContentOperationsDailyPlan: '/projects/:projectSlug/content-operations/daily-plan',
+  projectCulturalIntelligence: '/projects/:projectSlug/cultural-intelligence',
+  projectCulturalIntelligenceWeeklyForecast: '/projects/:projectSlug/cultural-intelligence/weekly-forecast',
   projectExperimentE: '/projects/:projectSlug/experience-expression',
   projectExperimentEVisualDevelopment: '/projects/:projectSlug/experience-expression/visual-development',
   projectExperiments: '/projects/:projectSlug/experiments',
@@ -236,6 +238,14 @@ export function site00ProjectContentOperationsCampaignBoardPath(projectSlug: str
 
 export function site00ProjectContentOperationsDailyPlanPath(projectSlug: string): string {
   return `/projects/${projectSlug}/content-operations/daily-plan`;
+}
+
+export function site00ProjectCulturalIntelligencePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/cultural-intelligence`;
+}
+
+export function site00ProjectCulturalIntelligenceWeeklyForecastPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/cultural-intelligence/weekly-forecast`;
 }
 
 export function site00ProjectExperimentEVisualDevelopmentPath(projectSlug: string): string {

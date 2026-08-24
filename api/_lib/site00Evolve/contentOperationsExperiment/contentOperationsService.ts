@@ -4,6 +4,7 @@
 
 import {
   NDXBOOK_CONTENT_OPERATIONS_RUN_ID,
+  LIVE_CULTURAL_INTELLIGENCE_LAYER_IMPLEMENTED,
   LIVE_SIGNAL_INGESTION_NOT_CONNECTED,
 } from '../../../../shared/site00-brand-lore/contentOperations/constants.js';
 import { auditContentSystems } from '../../../../shared/site00-brand-lore/contentOperations/forensicAudit.js';
@@ -356,6 +357,10 @@ export async function acceptPerformanceLearning(params: {
 
 export function liveSignalIngestionNotConnected(): boolean {
   return LIVE_SIGNAL_INGESTION_NOT_CONNECTED;
+}
+
+export function liveCulturalIntelligenceLayerImplemented(): boolean {
+  return LIVE_CULTURAL_INTELLIGENCE_LAYER_IMPLEMENTED;
 }
 
 export function noPageLoadGeneration(): true {

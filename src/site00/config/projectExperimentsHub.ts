@@ -21,6 +21,8 @@ import {
   site00ProjectContentOperationsPerformancePath,
   site00ProjectContentOperationsCampaignBoardPath,
   site00ProjectContentOperationsDailyPlanPath,
+  site00ProjectCulturalIntelligencePath,
+  site00ProjectCulturalIntelligenceWeeklyForecastPath,
   site00ProjectLoreCalibrationPath,
   site00ProjectPersonalityReplayConsistencyPath,
   site00ProjectPersonalityReplayPath,
@@ -198,6 +200,18 @@ export function getProjectExperimentsHubEntries(projectSlug: string): ProjectExp
           title: 'CAMPAIGN BOARD',
           path: site00ProjectContentOperationsCampaignBoardPath(projectSlug),
           description: 'Horizontal sequence production — campaign wall, round review, lock workflow.',
+        },
+        {
+          id: 'cultural-intelligence',
+          title: 'CULTURAL INTELLIGENCE',
+          path: site00ProjectCulturalIntelligencePath(projectSlug),
+          description: 'P0.5D.1 — live signals, trend lifecycle, weekly forecast, brand relevance upstream of opportunities.',
+        },
+        {
+          id: 'cultural-intelligence-weekly-forecast',
+          title: 'WEEKLY CULTURAL FORECAST',
+          path: site00ProjectCulturalIntelligenceWeeklyForecastPath(projectSlug),
+          description: 'Known moments, accelerating conversations, callbacks, watchlist, NDX opportunities.',
         },
         {
           id: 'content-operations-daily-plan',
