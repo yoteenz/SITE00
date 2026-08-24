@@ -1558,6 +1558,45 @@ export const site00ProjectsApi = {
     projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
       `/api/site00/projects?action=daily_publishing_get&slug=${encodeURIComponent(slug)}`,
     ),
+  cinematicRealismLabGet: (slug: string) =>
+    projectsFetch<{ ok: true; state: Record<string, unknown> }>(
+      `/api/site00/projects?action=cinematic_realism_lab_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  cinematicRealismLabInitializePilot: (slug: string) =>
+    projectsFetch<{ ok: true; state: Record<string, unknown> }>(
+      '/api/site00/projects?action=cinematic_realism_lab_initialize_pilot',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  cinematicRealismLabQueueLanes: (slug: string, experimentId: string) =>
+    projectsFetch<{ ok: true; state: Record<string, unknown> }>(
+      '/api/site00/projects?action=cinematic_realism_lab_queue_lanes',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, experimentId }) },
+    ),
+  cinematicRealismLabSimulateOutputs: (slug: string, experimentId: string) =>
+    projectsFetch<{ ok: true; state: Record<string, unknown> }>(
+      '/api/site00/projects?action=cinematic_realism_lab_simulate_outputs',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, experimentId }) },
+    ),
+  cinematicRealismLabJudgment: (
+    slug: string,
+    experimentId: string,
+    runId: string,
+    assetId: string,
+    judgment: string,
+  ) =>
+    projectsFetch<{ ok: true; state: Record<string, unknown> }>(
+      '/api/site00/projects?action=cinematic_realism_lab_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, experimentId, runId, assetId, judgment }),
+      },
+    ),
+  cinematicRealismLabFinalizeDecision: (slug: string, experimentId: string) =>
+    projectsFetch<{ ok: true; state: Record<string, unknown> }>(
+      '/api/site00/projects?action=cinematic_realism_lab_finalize_decision',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, experimentId }) },
+    ),
   dailyPublishingConfigure: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=daily_publishing_configure',

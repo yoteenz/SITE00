@@ -82,6 +82,13 @@ export const SITE00_ROUTES = {
   projectContentOperationsPerformance: '/projects/:projectSlug/content-operations/performance',
   projectContentOperationsCampaignBoard: '/projects/:projectSlug/content-operations/campaign-board',
   projectContentOperationsDailyPlan: '/projects/:projectSlug/content-operations/daily-plan',
+  projectRealismLab: '/projects/:projectSlug/realism-lab',
+  projectRealismLabBrief: '/projects/:projectSlug/realism-lab/brief',
+  projectRealismLabProviders: '/projects/:projectSlug/realism-lab/providers',
+  projectRealismLabRuns: '/projects/:projectSlug/realism-lab/runs',
+  projectRealismLabReview: '/projects/:projectSlug/realism-lab/review',
+  projectRealismLabContinuity: '/projects/:projectSlug/realism-lab/continuity',
+  projectRealismLabDecision: '/projects/:projectSlug/realism-lab/decision',
   projectCulturalIntelligence: '/projects/:projectSlug/cultural-intelligence',
   projectCulturalIntelligenceSources: '/projects/:projectSlug/cultural-intelligence/sources',
   projectCulturalIntelligenceWeeklyForecast: '/projects/:projectSlug/cultural-intelligence/weekly-forecast',
@@ -245,6 +252,34 @@ export function site00ProjectContentOperationsCampaignBoardPath(projectSlug: str
 
 export function site00ProjectContentOperationsDailyPlanPath(projectSlug: string): string {
   return `/projects/${projectSlug}/content-operations/daily-plan`;
+}
+
+export function site00ProjectRealismLabPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/realism-lab`;
+}
+
+export function site00ProjectRealismLabBriefPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/realism-lab/brief`;
+}
+
+export function site00ProjectRealismLabProvidersPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/realism-lab/providers`;
+}
+
+export function site00ProjectRealismLabRunsPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/realism-lab/runs`;
+}
+
+export function site00ProjectRealismLabReviewPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/realism-lab/review`;
+}
+
+export function site00ProjectRealismLabContinuityPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/realism-lab/continuity`;
+}
+
+export function site00ProjectRealismLabDecisionPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/realism-lab/decision`;
 }
 
 export function site00ProjectCulturalIntelligencePath(projectSlug: string): string {
