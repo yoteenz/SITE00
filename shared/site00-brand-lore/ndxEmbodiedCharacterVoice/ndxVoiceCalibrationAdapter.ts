@@ -1,8 +1,12 @@
 /**
- * P0.5E.4B — NDX Character Voice Calibration adapter.
+ * P0.5E.4B / P0.5E.4B.1 — NDX Character Voice Calibration adapter.
  */
 
-import { migrateVoiceLabSampleToLanguageEvidence, selectComparisonSpokenCopy } from '../../site00-studio-world-production/embodiedCharacterVoice/characterLanguageEvidence.js';
+import { migrateVoiceLabSampleToLanguageEvidence } from '../../site00-studio-world-production/embodiedCharacterVoice/characterLanguageEvidence.js';
+import {
+  initializeNeuralCastingState,
+  planNeuralVoiceCalibrationRound,
+} from '../../site00-studio-world-production/embodiedCharacterVoice/neuralVoiceCalibrationEngine.js';
 import {
   buildEmptyVoiceCalibrationState,
   compileNextVoiceCalibrationRound,
@@ -11,7 +15,10 @@ import type { CharacterVoiceCalibrationState } from '../../site00-studio-world-p
 import type { NdxFounderCharacterDiscoveryRun } from '../ndxEmbodiedCharacterFounderDiscovery/types.js';
 import { NDX_BOOK_COMPARISON_LINE } from './constants.js';
 
-export function initializeNdxVoiceCalibration(run: NdxFounderCharacterDiscoveryRun): CharacterVoiceCalibrationState {
+export function initializeNdxVoiceCalibration(
+  run: NdxFounderCharacterDiscoveryRun,
+  neuralProviderConfigured = false,
+): CharacterVoiceCalibrationState {
   const state = buildEmptyVoiceCalibrationState({
     projectId: run.projectId,
     brandId: run.system.brandId,
@@ -38,11 +45,14 @@ export function initializeNdxVoiceCalibration(run: NdxFounderCharacterDiscoveryR
     });
   }
 
-  return {
-    ...state,
-    languageEvidence: fromSamples,
-    sessionMessage: selectComparisonSpokenCopy(fromSamples),
-  };
+  return initializeNeuralCastingState(
+    {
+      ...state,
+      languageEvidence: fromSamples,
+      sessionMessage: "LET'S FIND HER ACTUAL VOICE.",
+    },
+    neuralProviderConfigured,
+  );
 }
 
 export function ndxVoiceCalibrationHasCulturalContext(): true {
@@ -55,19 +65,40 @@ export function ndxAdapterProvidesBookTerminology(): true {
 
 export function ensureNdxVoiceCalibrationState(
   run: NdxFounderCharacterDiscoveryRun,
+  neuralProviderConfigured = false,
 ): CharacterVoiceCalibrationState {
-  if (run.voiceCalibrationState) return run.voiceCalibrationState;
-  return initializeNdxVoiceCalibration(run);
+  if (run.voiceCalibrationState) {
+    return initializeNeuralCastingState(run.voiceCalibrationState, neuralProviderConfigured);
+  }
+  return initializeNdxVoiceCalibration(run, neuralProviderConfigured);
 }
 
+/** Legacy placeholder round — dev/test only */
 export function startNdxVoiceCalibrationRound(run: NdxFounderCharacterDiscoveryRun): {
   run: NdxFounderCharacterDiscoveryRun;
   round: ReturnType<typeof compileNextVoiceCalibrationRound>['round'];
 } {
-  const voiceState = ensureNdxVoiceCalibrationState(run);
+  const voiceState = ensureNdxVoiceCalibrationState(run, false);
   const { state, round } = compileNextVoiceCalibrationRound(voiceState);
   return {
     run: { ...run, voiceCalibrationState: state, updatedAt: new Date().toISOString() },
     round,
+  };
+}
+
+export function startNdxNeuralVoiceAudition(
+  run: NdxFounderCharacterDiscoveryRun,
+  neuralProviderConfigured: boolean,
+): {
+  run: NdxFounderCharacterDiscoveryRun;
+  round: ReturnType<typeof planNeuralVoiceCalibrationRound>['round'];
+  contracts: ReturnType<typeof planNeuralVoiceCalibrationRound>['contracts'];
+} {
+  const voiceState = ensureNdxVoiceCalibrationState(run, neuralProviderConfigured);
+  const { state, round, contracts } = planNeuralVoiceCalibrationRound(voiceState);
+  return {
+    run: { ...run, voiceCalibrationState: state, updatedAt: new Date().toISOString() },
+    round,
+    contracts,
   };
 }

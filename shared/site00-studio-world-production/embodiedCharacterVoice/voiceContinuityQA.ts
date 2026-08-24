@@ -144,6 +144,19 @@ export function applyFounderVoiceRecognition(
   let referenceLibrary = state.referenceLibrary;
 
   if (response === 'YES_THATS_HER_VOICE' && state.emergingIdentity) {
+    if (state.emergingIdentity.voiceProvider === 'site00_synthetic') {
+      return {
+        ...state,
+        recognitionEvaluation: {
+          ...state.recognitionEvaluation,
+          response: 'ALMOST_KEEP_CALIBRATING',
+          note: 'DEV_PLACEHOLDER provider cannot establish canonical voice.',
+          evaluatedAt: new Date().toISOString(),
+          founderCharacterVoiceConfirmed: false,
+        },
+        updatedAt: new Date().toISOString(),
+      };
+    }
     canonicalIdentity = {
       ...state.emergingIdentity,
       status: 'APPROVED',

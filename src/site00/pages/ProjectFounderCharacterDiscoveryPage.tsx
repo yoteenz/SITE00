@@ -80,6 +80,8 @@ export default function ProjectFounderCharacterDiscoveryPage() {
   const [calibrationRevision, setCalibrationRevision] = useState('');
   const [compareIds, setCompareIds] = useState<[string, string] | null>(null);
   const [playingHypothesisId, setPlayingHypothesisId] = useState<string | null>(null);
+  const [neuralEstimate, setNeuralEstimate] = useState<Record<string, unknown> | null>(null);
+  const [neuralConfigured, setNeuralConfigured] = useState<boolean | null>(null);
   const [currentInteraction, setCurrentInteraction] = useState<CharacterCalibrationInteraction | null>(null);
   const [showWhyThisCameUp, setShowWhyThisCameUp] = useState(false);
 
@@ -106,6 +108,35 @@ export default function ProjectFounderCharacterDiscoveryPage() {
   useEffect(() => {
     preloadSpeechVoices();
   }, []);
+
+  useEffect(() => {
+    if (section !== 'INSPECT' || inspectSection !== 'VOICE_LAB' || !projectSlug) return;
+    void site00ProjectsApi
+      .founderCharacterDiscoveryNeuralVoiceEstimate(projectSlug)
+      .then((r) => {
+        setNeuralEstimate(r.estimate);
+        setNeuralConfigured(r.neuralProviderConfigured);
+      })
+      .catch(() => setNeuralConfigured(false));
+  }, [section, inspectSection, projectSlug, run?.voiceCalibrationState?.updatedAt]);
+
+  const playHypothesisAudio = (hypo: {
+    id: string;
+    spokenCopy: string;
+    audioUrl: string | null;
+    playbackProfile: { pitch: number; rate: number; voiceIndex: number; providerVoiceId: string } | null;
+    isDevPlaceholder?: boolean;
+  }) => {
+    setPlayingHypothesisId(hypo.id);
+    if (hypo.audioUrl && !hypo.isDevPlaceholder) {
+      const audio = new Audio(hypo.audioUrl);
+      void audio.play();
+      return;
+    }
+    if (hypo.isDevPlaceholder) {
+      speakWithProfile(hypo.spokenCopy, hypo.playbackProfile);
+    }
+  };
 
   useEffect(() => {
     void reload();
@@ -629,9 +660,26 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                 {section === 'INSPECT' && inspectSection === 'VOICE_LAB' && (
                   <>
                     <h2>CHARACTER VOICE LAB</h2>
-                    <p>Let&apos;s find out what she sounds like. Same line. Different women.</p>
+                    <p><strong>NEURAL CASTING MODE</strong> — Let&apos;s find her actual voice. Same line. Different women.</p>
+                    {neuralConfigured === false && (
+                      <p style={{ color: '#f5a623', marginBottom: '12px' }}>
+                        NEURAL VOICE PROVIDER NOT CONFIGURED — placeholder browser voices are disabled for casting.
+                        Configure FAL_KEY on Railway for production auditions.
+                      </p>
+                    )}
+                    {run.voiceCalibrationState?.castingMode === 'DEV_PLACEHOLDER' && neuralConfigured && (
+                      <p style={{ fontSize: '0.85rem', marginBottom: '8px' }}>
+                        PLACEHOLDER VOICES DISABLED FOR CASTING. Prior browser-TTS auditions preserved as placeholder evidence only.
+                      </p>
+                    )}
                     {run.voiceCalibrationState?.sessionMessage && (
                       <p style={{ fontStyle: 'italic', marginBottom: '12px' }}>{run.voiceCalibrationState.sessionMessage}</p>
+                    )}
+                    {neuralEstimate && neuralConfigured && (
+                      <p style={{ fontSize: '0.85rem', marginBottom: '12px' }}>
+                        Est. {String(neuralEstimate.candidateCount ?? 4)} clips · ~
+                        ${String(neuralEstimate.estimatedCostUsd ?? '?')} · {String(neuralEstimate.endpoint ?? 'neural TTS')}
+                      </p>
                     )}
                     {run.voiceCalibrationState?.progress && (
                       <ul style={{ fontSize: '0.85rem', marginBottom: '16px' }}>
@@ -643,98 +691,152 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                         ))}
                       </ul>
                     )}
-                    {!run.voiceCalibrationState?.rounds.length && (
+                    {neuralConfigured && !run.voiceCalibrationState?.rounds.some((r) => r.isNeuralRound) && (
                       <button
                         type="button"
                         className="site00-btn site00-btn--primary"
                         disabled={busy}
                         onClick={() =>
                           void act(
-                            () => site00ProjectsApi.founderCharacterDiscoveryVoiceRoundStart(projectSlug),
-                            { successMessage: 'Voice audition round ready — listen and judge.' },
+                            () => site00ProjectsApi.founderCharacterDiscoveryNeuralVoiceAudition(projectSlug),
+                            { successMessage: 'Neural voice audition generated — listen and judge.' },
                           )
                         }
                       >
-                        START VOICE AUDITION
+                        START NEURAL VOICE AUDITION
                       </button>
                     )}
                     {run.voiceCalibrationState?.rounds.map((round) => {
                       const roundHypos = (run.voiceCalibrationState?.hypotheses ?? []).filter(
                         (h) => h.roundId === round.roundId,
                       );
+                      const isPlaceholderRound = round.isNeuralRound === false || round.castingMode === 'DEV_PLACEHOLDER';
                       return (
                         <article key={round.roundId} className="site00-experiment-g__panel" style={{ marginTop: '12px' }}>
                           <p style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>
                             ROUND {round.roundNumber} · {round.roundType.replace(/_/g, ' ')}
+                            {isPlaceholderRound ? ' · PLACEHOLDER EVIDENCE' : ' · NEURAL'}
                           </p>
                           <p><strong>{round.question}</strong></p>
                           <p style={{ fontSize: '0.85rem', marginBottom: '12px' }}>
                             &ldquo;{round.spokenCopy}&rdquo;
                           </p>
+                          {isPlaceholderRound && (
+                            <p style={{ fontSize: '0.8rem', fontStyle: 'italic' }}>
+                              Placeholder calibration — not valid casting evidence.
+                            </p>
+                          )}
                           {roundHypos.map((hypo) => (
-                            <div key={hypo.id} style={{ marginBottom: '16px', paddingBottom: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                            <div key={hypo.id} style={{ marginBottom: '20px', paddingBottom: '16px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
                               <p><strong>{hypo.hypothesisLabel}</strong></p>
-                              {!round.blindAudition && (
+                              {!round.blindAudition && !isPlaceholderRound && (
                                 <p style={{ fontSize: '0.8rem' }}>{hypo.vocalCharacter}</p>
                               )}
                               <button
                                 type="button"
-                                className="site00-btn"
-                                disabled={busy}
-                                onClick={() => {
-                                  setPlayingHypothesisId(hypo.id);
-                                  speakWithProfile(hypo.spokenCopy, hypo.playbackProfile);
-                                }}
+                                className="site00-btn site00-btn--primary"
+                                disabled={busy || (!hypo.audioUrl && !hypo.isDevPlaceholder)}
+                                style={{ width: '100%', marginTop: '8px', padding: '12px' }}
+                                onClick={() => playHypothesisAudio(hypo)}
                               >
                                 {playingHypothesisId === hypo.id ? '▶ PLAYING' : '▶ PLAY'}
                               </button>
+                              {!isPlaceholderRound && (
+                                <>
+                                  <p style={{ fontSize: '0.75rem', marginTop: '12px', textTransform: 'uppercase' }}>
+                                    Does this sound like an actual woman speaking?
+                                  </p>
+                                  {hypo.humanWomanTest && (
+                                    <p style={{ fontSize: '0.85rem' }}>
+                                      <strong>Saved:</strong> {hypo.humanWomanTest.replace(/_/g, ' ')}
+                                    </p>
+                                  )}
+                                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '6px' }}>
+                                    {[
+                                      { r: 'YES_SOUNDS_HUMAN', label: 'YES' },
+                                      { r: 'MOSTLY_HUMAN', label: 'MOSTLY' },
+                                      { r: 'NO_SOUNDS_SYNTHETIC', label: 'NO — SOUNDS SYNTHETIC' },
+                                    ].map(({ r, label }) => (
+                                      <button
+                                        key={r}
+                                        type="button"
+                                        className="site00-btn"
+                                        disabled={busy}
+                                        style={{ width: '100%', textAlign: 'left' }}
+                                        onClick={() =>
+                                          void act(
+                                            () =>
+                                              site00ProjectsApi.founderCharacterDiscoveryHumanWomanTest(
+                                                projectSlug,
+                                                hypo.id,
+                                                r,
+                                              ),
+                                            { successMessage: `Naturalness saved — ${label}` },
+                                          )
+                                        }
+                                      >
+                                        {label}
+                                      </button>
+                                    ))}
+                                  </div>
+                                </>
+                              )}
+                              <p style={{ fontSize: '0.75rem', marginTop: '12px', textTransform: 'uppercase' }}>
+                                Is this her?
+                              </p>
                               {hypo.founderJudgment && (
                                 <p style={{ fontSize: '0.85rem' }}>
                                   <strong>Saved:</strong> {hypo.founderJudgment.replace(/_/g, ' ')}
                                 </p>
                               )}
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '8px' }}>
-                                {[
-                                  { j: 'YES_THATS_HER', label: "YES — THAT'S HER" },
-                                  { j: 'CLOSE', label: 'CLOSE' },
-                                  { j: 'NO_NOT_HER', label: 'NO — NOT HER' },
-                                ].map(({ j, label }) => (
-                                  <button
-                                    key={j}
-                                    type="button"
-                                    className="site00-btn site00-btn--primary"
-                                    disabled={busy}
-                                    style={{ width: '100%', textAlign: 'left' }}
-                                    onClick={() =>
-                                      void act(
-                                        () =>
-                                          site00ProjectsApi.founderCharacterDiscoveryVoiceHypothesisJudgment(
-                                            projectSlug,
-                                            hypo.id,
-                                            j,
-                                          ),
-                                        { successMessage: `${hypo.hypothesisLabel} saved — ${label}` },
-                                      )
-                                    }
-                                  >
-                                    {label}
-                                  </button>
-                                ))}
-                              </div>
-                              <button
-                                type="button"
-                                className="site00-btn"
-                                style={{ marginTop: '6px', fontSize: '0.8rem' }}
-                                onClick={() =>
-                                  setCompareIds((prev) => {
-                                    if (!prev) return [hypo.id, hypo.id];
-                                    if (prev[0] === hypo.id) return null;
-                                    return [prev[0], hypo.id];
-                                  })
-                                }
-                              >
-                                {compareIds?.includes(hypo.id) ? 'SELECTED FOR COMPARE' : 'COMPARE'}
-                              </button>
+                              {!isPlaceholderRound && (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '6px' }}>
+                                  {[
+                                    { j: 'YES_THATS_HER', label: "YES — THAT'S HER" },
+                                    { j: 'CLOSE', label: 'CLOSE' },
+                                    { j: 'NO_NOT_HER', label: 'NO — NOT HER' },
+                                    { j: 'VOICE_RIGHT_PERFORMANCE_WRONG', label: 'VOICE RIGHT / PERFORMANCE WRONG' },
+                                    { j: 'RIGHT_CHARACTER_TOO_SYNTHETIC', label: 'RIGHT CHARACTER / TOO SYNTHETIC' },
+                                  ].map(({ j, label }) => (
+                                    <button
+                                      key={j}
+                                      type="button"
+                                      className="site00-btn site00-btn--primary"
+                                      disabled={busy}
+                                      style={{ width: '100%', textAlign: 'left' }}
+                                      onClick={() =>
+                                        void act(
+                                          () =>
+                                            site00ProjectsApi.founderCharacterDiscoveryVoiceHypothesisJudgment(
+                                              projectSlug,
+                                              hypo.id,
+                                              j,
+                                            ),
+                                          { successMessage: `${hypo.hypothesisLabel} saved — ${label}` },
+                                        )
+                                      }
+                                    >
+                                      {label}
+                                    </button>
+                                  ))}
+                                </div>
+                              )}
+                              {!isPlaceholderRound && (
+                                <button
+                                  type="button"
+                                  className="site00-btn"
+                                  style={{ marginTop: '6px', fontSize: '0.8rem' }}
+                                  onClick={() =>
+                                    setCompareIds((prev) => {
+                                      if (!prev) return [hypo.id, hypo.id];
+                                      if (prev[0] === hypo.id) return null;
+                                      return [prev[0], hypo.id];
+                                    })
+                                  }
+                                >
+                                  {compareIds?.includes(hypo.id) ? 'SELECTED FOR COMPARE' : 'COMPARE'}
+                                </button>
+                              )}
                             </div>
                           ))}
                         </article>
@@ -768,7 +870,8 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                         ))}
                       </article>
                     )}
-                    {run.voiceCalibrationState?.rounds.some((r) => r.status === 'JUDGMENTS_COMPLETE') && (
+                    {run.voiceCalibrationState?.rounds.some((r) => r.status === 'JUDGMENTS_COMPLETE' && r.isNeuralRound) &&
+                      neuralConfigured && (
                       <button
                         type="button"
                         className="site00-btn site00-btn--primary"
@@ -776,12 +879,12 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                         style={{ marginTop: '12px' }}
                         onClick={() =>
                           void act(
-                            () => site00ProjectsApi.founderCharacterDiscoveryVoiceRoundStart(projectSlug),
-                            { successMessage: 'Next voice round ready.' },
+                            () => site00ProjectsApi.founderCharacterDiscoveryNeuralVoiceAudition(projectSlug),
+                            { successMessage: 'Next neural voice round ready.' },
                           )
                         }
                       >
-                        NEXT VOICE ROUND
+                        GENERATE NEXT NEURAL ROUND
                       </button>
                     )}
                     {run.voiceCalibrationState?.emergingIdentity && (

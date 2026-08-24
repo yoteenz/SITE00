@@ -182,6 +182,9 @@ import {
   saveFounderVoiceRecognition,
   saveFounderUnseenLineVoiceTest,
   startFounderVoiceCalibrationRound,
+  getNeuralVoiceCastingEstimate,
+  startFounderNeuralVoiceAudition,
+  saveFounderHumanWomanTest,
 } from '../_lib/site00Evolve/founderCharacterDiscovery/founderCharacterDiscoveryService.js';
 import {
   getCharacterContinuityState,
@@ -2940,6 +2943,54 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await saveFounderUnseenLineVoiceTest({ projectId: 'ndxbook', hypothesisId, spokenCopy, response: response as import('../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js').UnseenLineRecognitionResponse });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
+      case 'founder_character_discovery_neural_voice_estimate': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await getNeuralVoiceCastingEstimate({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_character_discovery' });
+      }
+      case 'founder_character_discovery_neural_voice_audition': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        try {
+          const result = await startFounderNeuralVoiceAudition({ projectId: 'ndxbook' });
+          return json(res, 200, { ok: true, run: result.run, round: result.round, source: 'site00_founder_character_discovery' });
+        } catch (err) {
+          const message = err instanceof Error ? err.message : 'Neural voice audition failed';
+          return json(res, 400, { ok: false, error: { code: 'NEURAL_VOICE_FAILED', message } });
+        }
+      }
+      case 'founder_character_discovery_human_woman_test': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const hypothesisId = String(body.hypothesisId ?? '');
+        const response = String(body.response ?? '');
+        if (slug !== 'ndxbook' || !hypothesisId || !response) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'missing fields' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await saveFounderHumanWomanTest({ projectId: 'ndxbook', hypothesisId, response: response as import('../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js').HumanWomanTestResponse });
         return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
       }
       case 'character_continuity_get': {

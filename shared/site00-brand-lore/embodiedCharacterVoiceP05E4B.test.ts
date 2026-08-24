@@ -22,6 +22,11 @@ import {
   voiceIdentitySeparateFromPerformance,
 } from '../site00-studio-world-production/embodiedCharacterVoice/voiceCalibrationEngine.js';
 import {
+  applyHumanWomanTest,
+  initializeNeuralCastingState,
+  planNeuralVoiceCalibrationRound,
+} from '../site00-studio-world-production/embodiedCharacterVoice/neuralVoiceCalibrationEngine.js';
+import {
   blocksCulturalCaricature,
   blocksForcedDialect,
   blocksRealPersonImpersonation,
@@ -153,9 +158,13 @@ describe('P0.5E.4B — Adaptive Character Voice Casting', () => {
   it('15–17. Identity vs performance; performance envelope; emotion testing architecture', () => {
     expect(voiceIdentitySeparateFromPerformance()).toBe(true);
     expect(identityDistinctFromPerformance()).toBe(true);
-    let state = buildEmptyVoiceCalibrationState({ projectId: 'p', brandId: 'b', characterId: 'c' });
-    const { state: s1, hypotheses } = compileNextVoiceCalibrationRound(state);
-    state = applyVoiceHypothesisJudgment(s1, hypotheses[0]!.id, 'YES_THATS_HER');
+    let state = initializeNeuralCastingState(
+      buildEmptyVoiceCalibrationState({ projectId: 'p', brandId: 'b', characterId: 'c' }),
+      true,
+    );
+    const { state: s1, hypotheses } = planNeuralVoiceCalibrationRound(state);
+    state = applyHumanWomanTest(s1, hypotheses[0]!.id, 'YES_SOUNDS_HUMAN');
+    state = applyVoiceHypothesisJudgment(state, hypotheses[0]!.id, 'YES_THATS_HER');
     expect(state.emergingIdentity).not.toBeNull();
     const envelope = buildPerformanceEnvelope(state.emergingIdentity!);
     expect(envelope.prohibitedDrift.length).toBeGreaterThan(0);
@@ -173,9 +182,13 @@ describe('P0.5E.4B — Adaptive Character Voice Casting', () => {
   });
 
   it('21–26. Nonverbal/pause/laugh/code-switching/platform modulation', () => {
-    let state = buildEmptyVoiceCalibrationState({ projectId: 'p', brandId: 'b', characterId: 'c' });
-    const { state: s1, hypotheses } = compileNextVoiceCalibrationRound(state);
-    state = applyVoiceHypothesisJudgment(s1, hypotheses[0]!.id, 'YES_THATS_HER');
+    let state = initializeNeuralCastingState(
+      buildEmptyVoiceCalibrationState({ projectId: 'p', brandId: 'b', characterId: 'c' }),
+      true,
+    );
+    const { state: s1, hypotheses } = planNeuralVoiceCalibrationRound(state);
+    state = applyHumanWomanTest(s1, hypotheses[0]!.id, 'YES_SOUNDS_HUMAN');
+    state = applyVoiceHypothesisJudgment(state, hypotheses[0]!.id, 'YES_THATS_HER');
     expect(state.emergingIdentity!.pauseBehavior).toBeTruthy();
     expect(state.emergingIdentity!.laughBehavior).toBeTruthy();
     expect(state.emergingIdentity!.codeSwitchingBehavior?.forcedDialect).toBe(false);
@@ -225,9 +238,13 @@ describe('P0.5E.4B — Adaptive Character Voice Casting', () => {
   });
 
   it('43–44. Stable voice ID + continuity QA', () => {
-    let state = buildEmptyVoiceCalibrationState({ projectId: 'p', brandId: 'b', characterId: 'c' });
-    const { state: s1, hypotheses } = compileNextVoiceCalibrationRound(state);
-    state = applyVoiceHypothesisJudgment(s1, hypotheses[0]!.id, 'YES_THATS_HER');
+    let state = initializeNeuralCastingState(
+      buildEmptyVoiceCalibrationState({ projectId: 'p', brandId: 'b', characterId: 'c' }),
+      true,
+    );
+    const { state: s1, hypotheses } = planNeuralVoiceCalibrationRound(state);
+    state = applyHumanWomanTest(s1, hypotheses[0]!.id, 'YES_SOUNDS_HUMAN');
+    state = applyVoiceHypothesisJudgment(state, hypotheses[0]!.id, 'YES_THATS_HER');
     const qa = evaluateVoiceContinuity(state.emergingIdentity!);
     expect(qa.result).toBe('PASS');
   });
