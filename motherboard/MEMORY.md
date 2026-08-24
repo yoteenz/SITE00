@@ -3957,3 +3957,16 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Code follow-up (branch `cursor/visual-dev-capture-unblock-4f59`):** `prepareComposedInterfaceSurface` / `refreshVisualDevelopmentReferences` now capture **desktop + mobile** in one action; `/api/health` exposes `gitCommit` + `visualReferenceCapture.playwrightInstalled`.
 - **Founder action:** Hard-refresh visual development page — thumbnails should appear. Then **GENERATE MISSING ASSETS**. Railway redeploy from `main` still needed so future captures run on API (health should show `playwrightInstalled: true`).
 
+---
+
+## 2026-08-24 — Visual dev progress: refs working, assets reconciled, origin capture fix
+
+- **Context:** Founder reported progress — 2/3 reference thumbnails showing (SIGN IN shells), one blank grey (SITE 00 ENVIRONMENT / origin), GENERATION_FAILED with stale "resource already exists" errors from earlier API run.
+- **Findings:**
+  - Railway deployed (`gitCommit` 7c2d72a, `playwrightInstalled: true`).
+  - All 5 FAL interface assets **already existed** in Supabase storage since 17:49 UTC; reuse path works but run stuck in `GENERATION_FAILED` with old receipts.
+  - Origin `/` capture was **5951 bytes** (blank loader frame) because cinematic cold-start loader runs on `/` but not `/control`; 1.5s wait insufficient.
+- **Immediate unblock:** Re-ran `generateMissingInterfaceAssets` → `FOUNDER_REVIEW` with 5 assets. Recaptured origin with loader session bypass → **1.1MB** PNG; recompiled reference package.
+- **Code fix (branch `cursor/origin-capture-loader-fix-4f59`):** Playwright `addInitScript` sets `site00-immersive-complete` session before navigation; clear stale FAILED receipts on new generation attempt.
+- **Founder action:** Hard-refresh visual development — all 3 reference thumbnails + **FOUNDER_REVIEW** status should show. Judgment buttons ready.
+

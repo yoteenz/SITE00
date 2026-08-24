@@ -331,6 +331,7 @@ export async function generateMissingInterfaceAssets(
   proof.lifecycle = 'GENERATING';
   proof.generationStarted = true;
   proof.generationError = null;
+  proof.generationReceipts = proof.generationReceipts.filter((r) => r.status !== 'FAILED');
   setProof(run, proof);
   await store.saveVisualDevelopmentRun(run);
 
