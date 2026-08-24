@@ -10,8 +10,10 @@ import { ExperienceContextBar } from '../access/ExperienceContextBar';
 import { CtrlRoomSignOutButton } from '../control/CtrlRoomSignOutButton';
 import { Site00EcosystemLayoutSwitch } from './Site00EcosystemLayoutSwitch';
 import { Site00DesktopArtboardShell } from '../shell/Site00DesktopArtboardShell';
+import { ProjectPresenceScope } from '../shell/ProjectPresenceScope';
 import { useSite00 } from '../../state/Site00Context';
 import { useSite00OriginWideViewport } from '../shell/useSite00OriginWideViewport';
+import { useActiveProjectSlug } from '../../hooks/useProjectPresenceAccent';
 import { ecosystemPageMeta } from '../../config/ecosystem-nav';
 import { SITE00_ROUTES } from '../../config/routes';
 
@@ -32,6 +34,7 @@ const ecosystemBgUrl = resolveSite00PublicAsset(SITE00_CTRL_ROOM_DESKTOP_BG_FILE
  */
 export function EcosystemShell({ children, title, subtitle, headerActions, hidePageHeader = false }: EcosystemShellProps) {
   const { pathname } = useLocation();
+  const activeProjectSlug = useActiveProjectSlug();
   const { isPreviewDesktop } = useSite00();
   const isWideViewport = useSite00OriginWideViewport();
   const meta = ecosystemPageMeta(pathname);
@@ -94,9 +97,7 @@ export function EcosystemShell({ children, title, subtitle, headerActions, hideP
   );
 
   return (
-    <div
-      className={`site00-ecosystem-shell ${showDesktopLayout ? 'site00-ecosystem-shell--desktop-active' : 'site00-ecosystem-shell--mobile-active'}`.trim()}
-    >
+    <ProjectPresenceScope projectSlug={activeProjectSlug} className={`site00-ecosystem-shell ${showDesktopLayout ? 'site00-ecosystem-shell--desktop-active' : 'site00-ecosystem-shell--mobile-active'}`.trim()}>
       <Site00EcosystemLayoutSwitch />
       {showDesktopLayout ? (
         scaleDesktopInArtboard ? (
@@ -107,7 +108,7 @@ export function EcosystemShell({ children, title, subtitle, headerActions, hideP
       ) : (
         mobileLayout
       )}
-    </div>
+    </ProjectPresenceScope>
   );
 }
 

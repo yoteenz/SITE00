@@ -204,7 +204,7 @@ button.site00-glass-panel:active .site00-action-link {
   display: inline-block;
   width: 6px;
   height: 6px;
-  background: var(--site-red);
+  background: var(--site00-project-presence-accent, var(--site00-host-accent, var(--site-red)));
   transform: rotate(45deg);
   flex-shrink: 0;
 }

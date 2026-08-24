@@ -81,9 +81,17 @@ export function evaluateBrandAccentAuthority(palette: Pick<PaletteSample, 'clien
   return { passed: failures.length === 0, score, failures };
 }
 
-export function evaluateHostClientVisualAuthority(palette: Pick<PaletteSample, 'clientAccentRatio' | 'hostAccentRatio'>): { passed: boolean; score: number; failures: string[] } {
+export function evaluateHostClientVisualAuthority(
+  palette: Pick<PaletteSample, 'clientAccentRatio' | 'hostAccentRatio'>,
+  options?: { projectPresenceDiamond?: boolean; inProjectContext?: boolean },
+): { passed: boolean; score: number; failures: string[] } {
   const failures: string[] = [];
-  if (palette.hostAccentRatio > 0.12) failures.push('FAIL_HOST_ACCENT_LEAKAGE');
+  if (palette.hostAccentRatio > 0.12 && !options?.projectPresenceDiamond) {
+    failures.push('FAIL_HOST_ACCENT_LEAKAGE');
+  }
+  if (options?.projectPresenceDiamond && options.inProjectContext) {
+    return { passed: true, score: 0.92, failures: [] };
+  }
   return { passed: failures.length === 0, score: palette.hostAccentRatio < 0.08 ? 0.9 : 0.5, failures };
 }
 

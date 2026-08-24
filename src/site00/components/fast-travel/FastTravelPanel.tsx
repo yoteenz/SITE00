@@ -4,6 +4,7 @@ import { resolveFastTravel, type FastTravelContext } from '../../config/fast-tra
 import { useSignedInFromStorage } from '../../../hooks/useSignedInFromStorage';
 import { CurrentLocationCard } from './CurrentLocationCard';
 import { FastTravelSection } from './FastTravelSection';
+import { Site00Diamond } from '../shell/Site00Diamond';
 
 type FastTravelPanelProps = {
   open: boolean;
@@ -118,7 +119,7 @@ export function FastTravelPanel({ open, onClose, returnFocusRef }: FastTravelPan
         <header className="site00-fast-travel__header">
           <div className="site00-fast-travel__brand">
             <span className="site00-fast-travel__brand-mark">SITE 00</span>
-            <span className="site00-diamond" aria-hidden="true" />
+            <Site00Diamond mode="HOST_DEFAULT" />
           </div>
           <button type="button" className="site00-fast-travel__close" onClick={closePanel} aria-label="CLOSE FAST TRAVEL">
             ×
