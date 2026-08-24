@@ -137,6 +137,15 @@ import {
   setCampaignCaptionJudgment,
 } from '../_lib/site00Evolve/marketingCampaignProduction/marketingCampaignProductionService.js';
 import {
+  finalizeRealismDecision,
+  getCinematicRealismLabState,
+  initializePilotExperiment,
+  queueExperimentLanes,
+  recordRealismFounderJudgment,
+  simulateExperimentOutputs,
+} from '../_lib/site00Evolve/cinematicRealismLab/cinematicRealismLabService.js';
+import { realismLabEnabledForProject } from '../../shared/site00-studio-world-production/cinematicRealismLab/index.js';
+import {
   getDailyPublishingCadenceState,
   configureDailyPublishingCadence,
   planWeeklyPrimaryEvents,
@@ -2340,6 +2349,105 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const run = await setCampaignCaptionJudgment({ projectId: 'ndxbook', contentPieceId, judgment });
         return json(res, 200, { ok: true, run, source: 'site00_campaign_production' });
+      }
+      case 'cinematic_realism_lab_get': {
+        const slug = String(req.query.slug ?? '');
+        if (!realismLabEnabledForProject(slug)) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Realism lab not enabled for project' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const state = await getCinematicRealismLabState({ projectId: slug });
+        return json(res, 200, { ok: true, state, source: 'site00_cinematic_realism_lab' });
+      }
+      case 'cinematic_realism_lab_initialize_pilot': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!realismLabEnabledForProject(slug)) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Realism lab not enabled' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const state = await initializePilotExperiment({ projectId: slug });
+        return json(res, 200, { ok: true, state, source: 'site00_cinematic_realism_lab' });
+      }
+      case 'cinematic_realism_lab_queue_lanes': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const experimentId = String(body.experimentId ?? '');
+        if (!realismLabEnabledForProject(slug) || !experimentId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const state = await queueExperimentLanes({ projectId: slug, experimentId });
+        return json(res, 200, { ok: true, state, source: 'site00_cinematic_realism_lab' });
+      }
+      case 'cinematic_realism_lab_simulate_outputs': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const experimentId = String(body.experimentId ?? '');
+        if (!realismLabEnabledForProject(slug) || !experimentId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const state = await simulateExperimentOutputs({ projectId: slug, experimentId });
+        return json(res, 200, { ok: true, state, source: 'site00_cinematic_realism_lab' });
+      }
+      case 'cinematic_realism_lab_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const experimentId = String(body.experimentId ?? '');
+        const runId = String(body.runId ?? '');
+        const assetId = String(body.assetId ?? '');
+        const judgment = String(body.judgment ?? '');
+        if (!realismLabEnabledForProject(slug) || !experimentId || !runId || !assetId || !judgment) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const state = await recordRealismFounderJudgment({
+          projectId: slug,
+          experimentId,
+          runId,
+          assetId,
+          judgment: judgment as import('../../../shared/site00-studio-world-production/cinematicRealismLab/types.js').RealismFounderJudgment,
+        });
+        return json(res, 200, { ok: true, state, source: 'site00_cinematic_realism_lab' });
+      }
+      case 'cinematic_realism_lab_finalize_decision': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const experimentId = String(body.experimentId ?? '');
+        if (!realismLabEnabledForProject(slug) || !experimentId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const state = await finalizeRealismDecision({ projectId: slug, experimentId });
+        return json(res, 200, { ok: true, state, source: 'site00_cinematic_realism_lab' });
       }
       case 'daily_publishing_get': {
         const slug = String(req.query.slug ?? '');
