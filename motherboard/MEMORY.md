@@ -4168,3 +4168,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (branch `cursor/synthesis-retrospective-readiness-1983`):** `resolveSynthesisEligibleReadinessState()` — when historical formation complete (6 territories) + ≥3 deepening answers + evaluated INSUFFICIENT → **synthesis gate PARTIAL**. Stored as `readinessRefresh.synthesisEligibleState`; UI shows **Synthesis gate: CHARACTER PARTIAL (retrospective…)** and re-enables run/retry. Formation gate unchanged.
 - **Tests:** +3 synthesisReadinessGate tests; 44 in synthesis suites pass. Build green.
 
+---
+
+## 2026-08-24 — P0.5C Character-Led Marketing Expression System + North-Star Calibration
+
+- **Context:** Full sprint to implement the methodological layer between Brand Character System and marketing artifacts for NDXBOOK. Founder-approved 3×3 exploratory board is **CHARACTER_EXPRESSION_CALIBRATION** (high character authority, no identity authority — not final palette/typography/collage mandate). Pipeline: Character Event → Content Thesis → Marketing Artifact → behavior-first FAL. Experiment 01: nine unrelated-topic Instagram first slides testing same character without template collapse. Explicitly do NOT finalize identity, product expression, world formation, or mutate Experiment F/G.
+- **Architecture:** `shared/site00-brand-lore/brandMarketingExpression/` — types, forensic audit, behavioral modes (9 seed + discovered), surface/cause separation, north star 3×3 persistence, marketing expression compiler, character event + thesis formulation, visual causality, channel modulation, typography/color behavior (no font/palette prescription), FAL prompt compiler (16 behavior-first sections), evaluation (character recognition, north-star distance, template-collapse guards). Service `brandMarketingExpressionService.ts` + store adapter (methodology_validation_runs mode `NDX_BRAND_MARKETING_EXPRESSION`, DB id `c4e1a2b3-0012-...`). Upstream requires compiled `BrandCharacterSystem`.
+- **UI:** `/projects/ndxbook/marketing-expression` (public behavior thesis, north star forensics, what not to copy), `/marketing-expression/experiment-01` (3×3 feed preview, per-artifact review, founder-triggered FAL per slide, artifact + set judgments). Hub entry P0.5C added. API `marketing_expression_*` + `marketing_expression_experiment_01_*`.
+- **Generation controls:** No page-load generation; no automatic FAL retry; max 9 initial FAL requests (1 per artifact); founder-triggered only; accounting persisted.
+- **Tests:** +52 P0.5C tests (`brandMarketingExpressionP05C.test.ts`). Build green. Experiment G `characterReevaluationRequired` preserved. Brand Canon unchanged.
+

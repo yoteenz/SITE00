@@ -76,6 +76,8 @@ export const SITE00_ROUTES = {
   projectBrandCharacterDeepening: '/projects/:projectSlug/brand-character-deepening',
   projectBrandCharacterSynthesis: '/projects/:projectSlug/brand-character-synthesis',
   projectBrandCharacterArtifactProofs: '/projects/:projectSlug/brand-character-artifact-proofs',
+  projectBrandMarketingExpression: '/projects/:projectSlug/marketing-expression',
+  projectBrandMarketingExpressionExperiment01: '/projects/:projectSlug/marketing-expression/experiment-01',
   projectExperimentE: '/projects/:projectSlug/experience-expression',
   projectExperimentEVisualDevelopment: '/projects/:projectSlug/experience-expression/visual-development',
   projectExperiments: '/projects/:projectSlug/experiments',
@@ -206,6 +208,14 @@ export function site00ProjectBrandCharacterSynthesisPath(projectSlug: string): s
 
 export function site00ProjectBrandCharacterArtifactProofsPath(projectSlug: string): string {
   return `/projects/${projectSlug}/brand-character-artifact-proofs`;
+}
+
+export function site00ProjectBrandMarketingExpressionPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/marketing-expression`;
+}
+
+export function site00ProjectBrandMarketingExpressionExperiment01Path(projectSlug: string): string {
+  return `/projects/${projectSlug}/marketing-expression/experiment-01`;
 }
 
 export function site00ProjectExperimentEVisualDevelopmentPath(projectSlug: string): string {

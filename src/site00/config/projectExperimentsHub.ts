@@ -15,6 +15,8 @@ import {
   site00ProjectExperimentGDirectionsPath,
   site00ProjectExperimentGFinalistsPath,
   site00ProjectExperimentHPath,
+  site00ProjectBrandMarketingExpressionPath,
+  site00ProjectBrandMarketingExpressionExperiment01Path,
   site00ProjectLoreCalibrationPath,
   site00ProjectPersonalityReplayConsistencyPath,
   site00ProjectPersonalityReplayPath,
@@ -156,6 +158,25 @@ export function getProjectExperimentsHubEntries(projectSlug: string): ProjectExp
         'Six topic-blind Brand Character Territories — WHO NDXBOOK is before presentation, identity, or content expression.',
       path: site00ProjectExperimentHPath(projectSlug),
       statusNote: 'UPSTREAM WHO LAYER — no visual generation in this sprint',
+    },
+    {
+      id: 'brand-marketing-expression',
+      phase: 'EXPERIMENT',
+      order: 86,
+      title: 'MARKETING EXPRESSION',
+      headline: 'P0.5C',
+      description:
+        'Character-led marketing expression — public behavior thesis, North-Star calibration, Experiment 01 feed (not final identity).',
+      path: site00ProjectBrandMarketingExpressionPath(projectSlug),
+      statusNote: 'CHARACTER → MARKETING — not template library',
+      children: [
+        {
+          id: 'marketing-expression-experiment-01',
+          title: 'EXPERIMENT 01 — NDX FEED',
+          path: site00ProjectBrandMarketingExpressionExperiment01Path(projectSlug),
+          description: 'Nine first-slide Instagram artifacts across unrelated topics.',
+        },
+      ],
     },
     {
       id: 'experiment-g',

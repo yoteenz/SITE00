@@ -96,6 +96,8 @@ const ProjectBrandCharacterReadinessPage = lazy(() => import('../site00/pages/Pr
 const ProjectBrandCharacterDeepeningPage = lazy(() => import('../site00/pages/ProjectBrandCharacterDeepeningPage'));
 const ProjectBrandCharacterSynthesisPage = lazy(() => import('../site00/pages/ProjectBrandCharacterSynthesisPage'));
 const ProjectBrandCharacterArtifactProofsPage = lazy(() => import('../site00/pages/ProjectBrandCharacterArtifactProofsPage'));
+const ProjectBrandMarketingExpressionPage = lazy(() => import('../site00/pages/ProjectBrandMarketingExpressionPage'));
+const ProjectBrandMarketingExpressionExperiment01Page = lazy(() => import('../site00/pages/ProjectBrandMarketingExpressionExperiment01Page'));
 const ProjectExperimentGDirectionsPage = lazy(() => import('../site00/pages/ProjectExperimentGDirectionsPage'));
 const ProjectExperimentGFinalistsPage = lazy(() => import('../site00/pages/ProjectExperimentGFinalistsPage'));
 const ProjectExperimentEPage = lazy(() => import('../site00/pages/ProjectExperimentEPage'));
@@ -801,6 +803,30 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectBrandCharacterArtifactProofsPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBrandMarketingExpression}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectBrandMarketingExpressionPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBrandMarketingExpressionExperiment01}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectBrandMarketingExpressionExperiment01Page />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>
