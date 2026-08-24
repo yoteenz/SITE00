@@ -3,9 +3,13 @@
  */
 
 import type { Experiment01V23Artifact, MarketingExpressionExperiment01V23 } from './types.js';
+import { v23HumanMadeRevisionReady } from './v23HumanMadeRevision.js';
 
 export function artBoardMaterialityApprovalGatePasses(artifact: Experiment01V23Artifact): boolean {
-  return artifact.materialityEvaluation.passesApprovalGate;
+  return (
+    artifact.materialityEvaluation.passesApprovalGate &&
+    v23HumanMadeRevisionReady(artifact.humanMadeEvaluation)
+  );
 }
 
 export function allV23ArtifactsPassMaterialGate(experiment: MarketingExpressionExperiment01V23 | null | undefined): boolean {

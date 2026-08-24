@@ -10,7 +10,9 @@ import { buildArtBoardDirectionContract } from './artBoardDirectionContract.js';
 import { buildArtifactMaterialityEvaluation } from './evaluations.js';
 import { buildFeedMaterialRhythm } from './feedRhythm.js';
 import { compileArtBoardMaterialityFalPrompt } from './falPromptCompilerV23.js';
-import { evaluateNorthStarArtBoardMateriality } from './northStarMaterialForensics.js';
+import { evaluateNorthStarArtBoardMateriality, evaluateNorthStarHumanMadeCalibrations } from './northStarMaterialForensics.js';
+import { applyV23HumanMadeRevision } from './v23HumanMadeRevision.js';
+import { buildFeedMakerRhythm } from './makerRhythm.js';
 import type {
   ArtBoardRetainedFirstSlideContract,
   Experiment01V23Artifact,
@@ -67,10 +69,16 @@ export function formulateExperiment01V23(params: {
     const v22Artifact = params.v22Experiment.generatedArtifacts.find((a) => a.v1ArtifactId === v1.id);
     if (!v22Artifact) continue;
 
-    const retained = amendV22WithArtBoardMateriality({
+    const retainedBase = amendV22WithArtBoardMateriality({
       v22Contract: v22Artifact.contract,
       artifact: v1,
       projectId: params.expressionSystem.projectId,
+    });
+    const parentFingerprint = retainedBase.fingerprint;
+    const retained = applyV23HumanMadeRevision({
+      contract: retainedBase,
+      artifact: v1,
+      topicIndex,
     });
     artBoardContracts.push(retained);
 
@@ -90,6 +98,9 @@ export function formulateExperiment01V23(params: {
       generatedAssetUrl: null,
       generationStatus: 'NOT_GENERATED',
       materialityEvaluation: retained.materialityEvaluation,
+      humanMadeEvaluation: retained.humanMadeEvaluation ?? null,
+      humanMadeRevision: retained.humanMadeRevision ?? null,
+      parentFingerprint,
       founderJudgment: null,
       fingerprint: fp(retained),
       createdAt: now,
@@ -98,7 +109,9 @@ export function formulateExperiment01V23(params: {
   }
 
   const feedMaterial = buildFeedMaterialRhythm({ boardId: 'exp01-v23', contracts: artBoardContracts });
+  const feedMakerRhythm = buildFeedMakerRhythm({ boardId: 'exp01-v23', contracts: artBoardContracts });
   const northStar = evaluateNorthStarArtBoardMateriality();
+  const calibrations = evaluateNorthStarHumanMadeCalibrations();
 
   const experiment: MarketingExpressionExperiment01V23 = {
     experimentId: 'marketing-expression-experiment-01-v23',
@@ -112,6 +125,10 @@ export function formulateExperiment01V23(params: {
     generatedArtifacts: v23Artifacts,
     feedMaterialRhythm: feedMaterial,
     northStarMaterialCalibration: northStar,
+    humanMarkCalibration: calibrations.humanMark,
+    limeInterventionCalibration: calibrations.limeIntervention,
+    makerAuthenticityCalibration: calibrations.makerAuthenticity,
+    feedMakerRhythm,
     founderSetJudgment: null,
     error: null,
   };

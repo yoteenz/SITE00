@@ -3,14 +3,24 @@
  */
 
 import type {
+  ANTI_AI_ARTIFACT_RESULTS,
   ART_BOARD_QUALITY_RESULTS,
   ARTIFACT_ATTACHMENTS,
   ARTIFACT_DEPTH_BEHAVIORS,
   ARTIFACT_LAYER_TYPES,
   ARTIFACT_SURFACE_ROLES,
   BASE_SURFACE_CLASSES,
+  HAND_DRAWN_ICON_SUBJECTS,
+  HAND_MARK_LEGIBILITY_RESULTS,
+  HUMAN_MADE_FAILURE_STATES,
+  HUMAN_MADE_MARK_CLASSES,
+  HUMAN_MARK_CONSISTENCY_RESULTS,
   IMAGE_SURFACE_ROLES,
   IMPERFECT_CANVAS_RESULTS,
+  LIME_APPLICATION_MODES,
+  LIME_FEED_DISTANCE_RESULTS,
+  LIME_INTERVENTION_DENSITY_LEVELS,
+  MAKER_EVIDENCE_STRENGTH_LEVELS,
   MATERIAL_DENSITY_LEVELS,
   MATERIAL_FAILURE_STATES,
   MATERIAL_MODERNITY_RESULTS,
@@ -18,6 +28,7 @@ import type {
   PAGE_EDGE_BEHAVIORS,
   PRINT_SCAN_BEHAVIORS,
   TORN_EDGE_BEHAVIORS,
+  V23A_FOUNDER_JUDGMENTS,
   V23_FOUNDER_JUDGMENTS,
 } from './constants.js';
 import type { CharacterRetainedFirstSlideContract, Experiment01V22Artifact } from '../characterRetention/types.js';
@@ -36,8 +47,149 @@ export type MaterialDensityLevel = (typeof MATERIAL_DENSITY_LEVELS)[number];
 export type ArtBoardQualityResult = (typeof ART_BOARD_QUALITY_RESULTS)[number];
 export type MaterialModernityResult = (typeof MATERIAL_MODERNITY_RESULTS)[number];
 export type ImageSurfaceRole = (typeof IMAGE_SURFACE_ROLES)[number];
-export type V23FounderJudgment = (typeof V23_FOUNDER_JUDGMENTS)[number] | null;
+export type V23FounderJudgment = (typeof V23_FOUNDER_JUDGMENTS)[number] | (typeof V23A_FOUNDER_JUDGMENTS)[number] | null;
 export type MaterialFailureState = (typeof MATERIAL_FAILURE_STATES)[number];
+export type HumanMadeFailureState = (typeof HUMAN_MADE_FAILURE_STATES)[number];
+export type HumanMadeMarkClass = (typeof HUMAN_MADE_MARK_CLASSES)[number];
+export type HandDrawnIconSubject = (typeof HAND_DRAWN_ICON_SUBJECTS)[number];
+export type LimeInterventionDensity = (typeof LIME_INTERVENTION_DENSITY_LEVELS)[number];
+export type LimeApplicationMode = (typeof LIME_APPLICATION_MODES)[number];
+export type AntiAIArtifactResult = (typeof ANTI_AI_ARTIFACT_RESULTS)[number];
+export type MakerEvidenceStrength = (typeof MAKER_EVIDENCE_STRENGTH_LEVELS)[number];
+export type HumanMarkConsistencyResult = (typeof HUMAN_MARK_CONSISTENCY_RESULTS)[number];
+export type LimeFeedDistanceResult = (typeof LIME_FEED_DISTANCE_RESULTS)[number];
+export type HandMarkLegibilityResult = (typeof HAND_MARK_LEGIBILITY_RESULTS)[number];
+
+export type HandDrawnIconSpec = {
+  subject: HandDrawnIconSubject | string;
+  markClass: 'HAND_DRAWN_ICON';
+  whyDrawn: string;
+  limeApplied: true;
+  applicationMode: LimeApplicationMode;
+};
+
+export type NdxHumanMadeMark = {
+  markClass: HumanMadeMarkClass;
+  appliedBy: 'NDX';
+  applicationMode: LimeApplicationMode;
+  causality: string;
+  semanticPurpose: string;
+  limeApplied: boolean;
+  printedVsApplied: 'PRINTED' | 'APPLIED';
+};
+
+export type NDXHumanMadeMarkSystem = {
+  systemId: string;
+  marks: NdxHumanMadeMark[];
+  handDrawnIcons: HandDrawnIconSpec[];
+  sameHandFamily: string;
+  makerActions: string[];
+  headlineHierarchyPreserved: true;
+};
+
+export type NDXLimeInterventionSystem = {
+  density: LimeInterventionDensity;
+  applicationModes: LimeApplicationMode[];
+  interventionSites: string[];
+  semanticPurposes: string[];
+  decorativeOnly: false;
+  appliedAfterBaseMaterial: boolean;
+  elementCount: number;
+  semanticallyJustifiedCount: number;
+};
+
+export type HumanMarkConsistencyEvaluation = {
+  evaluationId: string;
+  artifactId: string;
+  result: HumanMarkConsistencyResult;
+  sameStrokeFamily: boolean;
+  mixedIconSystems: boolean;
+  evaluatedAt: string;
+};
+
+export type AntiAIGeneratedArtifactEvaluation = {
+  evaluationId: string;
+  artifactId: string;
+  result: AntiAIArtifactResult;
+  machineSignals: string[];
+  passesGate: boolean;
+  evaluatedAt: string;
+};
+
+export type LimeFeedDistanceEvaluation = {
+  evaluationId: string;
+  artifactId: string;
+  result: LimeFeedDistanceResult;
+  evaluatedAt: string;
+};
+
+export type HandMarkLegibilityEvaluation = {
+  evaluationId: string;
+  artifactId: string;
+  result: HandMarkLegibilityResult;
+  feedRhythmContribution: boolean;
+  evaluatedAt: string;
+};
+
+export type HumanMadeArtifactEvaluation = {
+  evaluationId: string;
+  artifactId: string;
+  markSystem: NDXHumanMadeMarkSystem;
+  limeIntervention: NDXLimeInterventionSystem;
+  humanMarkConsistency: HumanMarkConsistencyEvaluation;
+  antiAi: AntiAIGeneratedArtifactEvaluation;
+  makerEvidenceStrength: MakerEvidenceStrength;
+  limeFeedDistance: LimeFeedDistanceEvaluation;
+  handMarkLegibility: HandMarkLegibilityEvaluation;
+  passesHumanMadeGate: boolean;
+  failureStates: HumanMadeFailureState[];
+  evaluatedAt: string;
+};
+
+export type FeedMakerRhythm = {
+  boardId: string;
+  handDrawnIconPosts: number;
+  handwritingPosts: number;
+  markerHighlightPosts: number;
+  correctionPosts: number;
+  minimalInterventionPosts: number;
+  allSameDoodleBehavior: boolean;
+  sameMakerDifferentBehaviors: boolean;
+};
+
+export type HumanMarkCalibration = {
+  calibrationId: string;
+  classification: 'HUMAN_MARK_CALIBRATION';
+  handDrawnQuality: 'HIGH';
+  makerTraces: 'HIGH';
+  visualSpontaneity: 'MODERATE';
+  evaluatedAt: string;
+};
+
+export type LimeInterventionCalibration = {
+  calibrationId: string;
+  classification: 'LIME_INTERVENTION_CALIBRATION';
+  visibility: 'MODERATE';
+  appliedNotDecorative: true;
+  evaluatedAt: string;
+};
+
+export type MakerAuthenticityCalibration = {
+  calibrationId: string;
+  classification: 'MAKER_AUTHENTICITY_CALIBRATION';
+  humanAuthorship: 'HIGH';
+  antiAiVectorGuard: 'HIGH';
+  evaluatedAt: string;
+};
+
+export type V23HumanMadeRevision = {
+  revisionId: string;
+  parentFingerprint: string;
+  revisionAppliedAt: string;
+  preserve: string[];
+  change: string[];
+  mustNotBecome: string[];
+};
 
 export type ArtifactMaterialitySystem = {
   baseSurface: BaseSurfaceClass;
@@ -200,6 +352,8 @@ export type ArtifactMaterialityEvaluation = {
 export type ArtBoardRetainedFirstSlideContract = CharacterRetainedFirstSlideContract & {
   artBoardDirection: ArtBoardDirectionContract;
   materialityEvaluation: ArtifactMaterialityEvaluation;
+  humanMadeEvaluation?: HumanMadeArtifactEvaluation | null;
+  humanMadeRevision?: V23HumanMadeRevision | null;
 };
 
 export type Experiment01V23Artifact = {
@@ -216,6 +370,9 @@ export type Experiment01V23Artifact = {
   generatedAssetUrl: string | null;
   generationStatus: 'NOT_GENERATED' | 'GENERATING' | 'GENERATED' | 'FAILED';
   materialityEvaluation: ArtifactMaterialityEvaluation;
+  humanMadeEvaluation: HumanMadeArtifactEvaluation | null;
+  humanMadeRevision: V23HumanMadeRevision | null;
+  parentFingerprint: string | null;
   founderJudgment: V23FounderJudgment;
   fingerprint: string;
   createdAt: string;
@@ -270,6 +427,10 @@ export type MarketingExpressionExperiment01V23 = {
   generatedArtifacts: Experiment01V23Artifact[];
   feedMaterialRhythm: FeedMaterialRhythm | null;
   northStarMaterialCalibration: ArtBoardMaterialityCalibration | null;
+  humanMarkCalibration: HumanMarkCalibration | null;
+  limeInterventionCalibration: LimeInterventionCalibration | null;
+  makerAuthenticityCalibration: MakerAuthenticityCalibration | null;
+  feedMakerRhythm: FeedMakerRhythm | null;
   founderSetJudgment: V23FounderJudgment;
   error: string | null;
 };

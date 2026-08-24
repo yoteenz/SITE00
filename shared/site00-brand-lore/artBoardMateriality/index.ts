@@ -8,3 +8,8 @@ export * from './experiment01V23.js';
 export * from './northStarMaterialForensics.js';
 export * from './approvalGate.js';
 export * from './integration.js';
+export * from './humanMadeMarks.js';
+export * from './limeIntervention.js';
+export * from './antiAiEvaluation.js';
+export * from './makerRhythm.js';
+export * from './v23HumanMadeRevision.js';

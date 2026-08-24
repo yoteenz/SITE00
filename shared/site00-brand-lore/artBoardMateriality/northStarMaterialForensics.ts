@@ -25,3 +25,35 @@ export function evaluateNorthStarArtBoardMateriality(): ArtBoardMaterialityCalib
 export function northStarMaterialNotIdentityPromotion(): true {
   return true;
 }
+
+export function evaluateNorthStarHumanMadeCalibrations(): {
+  humanMark: import('./types.js').HumanMarkCalibration;
+  limeIntervention: import('./types.js').LimeInterventionCalibration;
+  makerAuthenticity: import('./types.js').MakerAuthenticityCalibration;
+} {
+  const now = new Date().toISOString();
+  return {
+    humanMark: {
+      calibrationId: 'human-mark-calibration-v1',
+      classification: 'HUMAN_MARK_CALIBRATION',
+      handDrawnQuality: 'HIGH',
+      makerTraces: 'HIGH',
+      visualSpontaneity: 'MODERATE',
+      evaluatedAt: now,
+    },
+    limeIntervention: {
+      calibrationId: 'lime-intervention-calibration-v1',
+      classification: 'LIME_INTERVENTION_CALIBRATION',
+      visibility: 'MODERATE',
+      appliedNotDecorative: true,
+      evaluatedAt: now,
+    },
+    makerAuthenticity: {
+      calibrationId: 'maker-authenticity-calibration-v1',
+      classification: 'MAKER_AUTHENTICITY_CALIBRATION',
+      humanAuthorship: 'HIGH',
+      antiAiVectorGuard: 'HIGH',
+      evaluatedAt: now,
+    },
+  };
+}
