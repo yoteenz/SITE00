@@ -4073,3 +4073,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder flow after deploy:** Tap FORMULATE → immediate return → status panel polls → **BENCHMARKS_READY** → GENERATE SIX DIRECTION VISUALS.
 - **Deploy:** cPanel frontend + **Railway redeploy** (API must run new background worker).
 
+---
+
+## 2026-08-24 — P0.5B Brand Character System + NDXBOOK Character Formation
+
+- **Context:** Founder sprint correcting methodological sequencing — fixed TOPIC→CONTENT to BRAND→BRAND PRESENTATION but still entered formation too downstream ("who is this brand?" before "how does it present?"). Personality existed in lore but lacked authority in Experiment G visual pipeline (presence stub only).
+- **Forensic findings:** BrandPersonalityProfile gates Core Direction; Experiment G snapshot uses `BRAND_PERSONALITY_PRESENT` flag; direction/benchmark/FAL omit personality; Burn Book calibration-only; no P0.5A personality→presentation edge.
+- **Implementation (branch `cursor/brand-character-system-1983`):** `brandCharacterTerritory/` full model + system compiler + artifact relationship; NDXBOOK background 6-territory formation; P0.5A edges; cultural calibration; UI `/projects/ndxbook/brand-character-formation`; API `experiment_h_*`.
+- **Tests:** 1825 pass (+30). Experiment G immutable. No FAL. LOVE ≠ canon.
+- **Deploy:** Railway API + cPanel/fsbw-dev frontend.
+
