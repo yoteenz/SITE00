@@ -4132,3 +4132,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix bundled:** `seedVitestCharacterFormationReadiness` now includes synced deepening module so formation gate tests don't re-evaluate to BLOCKED after P0.5B.2 deepening sync fix.
 - **Tests:** +39 P0.5B.3 tests; **1960 total pass**. Build green. Experiment G reevaluation flag set on system compile. No Brand Canon mutation. FAL blocked until founder approves synthesis.
 
+---
+
+## 2026-08-24 — Composite synthesis button silent failure fix
+
+- **Context:** Founder on `/projects/ndxbook/brand-character-synthesis` (fsbw-dev mobile) tapped **RUN COMPOSITE SYNTHESIS** — button briefly busy then nothing visible; felt broken.
+- **Root cause:** UI had no error/status state — API failures (readiness block, missing territories, stale Railway deploy without `experiment_h_synthesis_*` actions) were swallowed silently. Backend threw opaque 500s on synthesis errors. Historical territory name matching was exact-only.
+- **Fix (branch `cursor/synthesis-button-error-feedback-1983`):** Synthesis page shows `actionError` panel with message + hints (deploy lag → hard refresh; readiness → link to readiness page); `statusMessage` during 1–2 min Anthropic call; button label **RUNNING SYNTHESIS…**. API `experiment_h_synthesis_run` returns 400 `SYNTHESIS_FAILED` with message. Fuzzy territory resolution in `resolveNdxbookSynthesisSourceTerritories()`; clearer missing-territory error lists formation names found.
+- **Deploy note:** fsbw-dev frontend hits **`https://api.site00.com`** — Railway must redeploy for synthesis actions; UI now surfaces **Unknown action** if API stale.
+
