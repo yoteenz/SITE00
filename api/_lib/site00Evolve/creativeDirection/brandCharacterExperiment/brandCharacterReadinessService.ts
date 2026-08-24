@@ -87,9 +87,14 @@ export async function evaluateAndPersistBrandCharacterReadiness(params: {
     record = { ...record, override: null };
   }
 
+  const syncedEvaluation = {
+    ...evaluation,
+    recommendedQuestionCount: deepeningModule.questions.length,
+  };
+
   record = {
     ...record,
-    latestEvaluation: evaluation,
+    latestEvaluation: syncedEvaluation,
     deepeningModule,
     updatedAt: nowIso(),
   };
@@ -101,10 +106,16 @@ export async function getBrandCharacterReadinessState(
   projectId: string,
 ): Promise<BrandCharacterReadinessRecord | null> {
   let record = await readinessStore.getBrandCharacterReadinessRecord(projectId);
-  if (!record?.latestEvaluation) {
+  const needsEvaluation = !record?.latestEvaluation;
+  const needsDeepeningSync =
+    Boolean(record?.latestEvaluation) &&
+    (!record?.deepeningModule ||
+      record.deepeningModule.readinessEvaluationId !== record.latestEvaluation!.evaluationId ||
+      record.latestEvaluation!.recommendedQuestionCount !== record.deepeningModule.questions.length);
+  if (needsEvaluation || needsDeepeningSync) {
     record = await evaluateAndPersistBrandCharacterReadiness({
       projectId,
-      attachFirstFormationEvidence: true,
+      attachFirstFormationEvidence: needsEvaluation || !record?.firstFormationInputReadiness,
     });
   }
   return record;

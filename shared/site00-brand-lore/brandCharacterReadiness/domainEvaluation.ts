@@ -12,6 +12,18 @@ import type {
   CharacterReadinessDomainEvaluation,
 } from './types.js';
 
+function uniqueEvidenceSignals(signals: string[]): string[] {
+  const seen = new Set<string>();
+  const unique: string[] = [];
+  for (const signal of signals) {
+    const key = signal.toLowerCase().replace(/\s+/g, ' ').trim();
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    unique.push(signal);
+  }
+  return unique;
+}
+
 function strengthFromSignals(signals: string[], minStrong = 3, minSufficient = 1): CharacterEvidenceStrength {
   const count = signals.filter((s) => s.trim().length > 8).length;
   if (count >= minStrong) return 'STRONG_EVIDENCE';
@@ -92,6 +104,7 @@ function evaluateDomain(
       break;
   }
 
+  signals = uniqueEvidenceSignals(signals);
   const strength = strengthFromSignals(signals, domain === 'HUMOR_WIT' ? 2 : 3, 1);
   const directFounder =
     inventory.founderLanguage.length > 0 ||

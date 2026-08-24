@@ -4112,3 +4112,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **NDXBOOK first-pass (reconciled profile, no new questions asked):** Overall `CHARACTER_BLOCKED` (Brand Lore still `CONTEXT_INCOMPLETE` upstream). Domain strengths: strong worldview/personality/humor/social/emotional/language/boundaries; thin/missing audience relationship, cultural intelligence, taste, artifact behavior. Retrospective first-six input readiness: **INSUFFICIENT** (`INPUT_EVIDENCE_LIMITED`, primary cause **BOTH** methodology + input). Targeted deepening compiled: **7 questions** (audience, cultural×2, taste×2, artifact×2) — confirms first weak territories were not methodology-only.
 - **Tests:** +44 P0.5B.2 tests; 1917 total pass. Build green. No FAL/GPT Image. Experiment G unchanged. First six territories immutable.
 
+---
+
+## 2026-08-24 — Brand Character Readiness / Deepening contradiction fix
+
+- **Context:** Founder on NDXBOOK mobile saw contradictory UX: Readiness page showed **CHARACTER INSUFFICIENT** + **ANSWER 5 QUESTIONS**, while Deepening page said **NO DEEPENING QUESTIONS REQUIRED** / existing evidence sufficient. Duplicate identical bullet under WORLDVIEW ORIENTATION. User asked if this was a bug.
+- **Root cause (confirmed bug):** Split between pre-filter `recommendedQuestionCount` (gap sum before duplicate prevention) and compiled deepening module. Readiness UI fell back to `recommendedQuestionCount` when `deepeningModule` was null/stale; Deepening UI treated null module or `NOT_REQUIRED` with zero questions as “sufficient for formation” even when overall readiness was INSUFFICIENT. WORLDVIEW duplicated because `brandLore` and `businessOffering` share overlapping lore fields.
+- **Fix:** Sync `recommendedQuestionCount` to compiled question count in service; recompile missing/out-of-sync deepening on `getBrandCharacterReadinessState`; new deepening status `GAPS_REMAIN` when gaps exist but zero questions compiled; Readiness shows **REVIEW EVIDENCE GAPS** (not fake question count); Deepening explains gaps-without-questions honestly; dedupe domain `whatWeKnow` signals.
+- **Changes:** `deepeningModule.ts`, `types.ts`, `domainEvaluation.ts`, `brandCharacterReadinessService.ts`, `ProjectBrandCharacterReadinessPage.tsx`, `ProjectBrandCharacterDeepeningPage.tsx`, +4 alignment tests (48 total in P0.5B.2 suite).
+- **Conventions:** Never show “sufficient for formation” unless `CHARACTER_READY`; never use pre-compile gap count as answer-button label — use compiled `deepeningModule.questions.length` only.
+

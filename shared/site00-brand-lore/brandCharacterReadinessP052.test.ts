@@ -32,6 +32,7 @@ import {
   assertBrandCharacterFormationReadiness,
   characterInsufficientBlocksFormation,
   evaluateAndPersistBrandCharacterReadiness,
+  getBrandCharacterReadinessState,
   seedVitestCharacterFormationReadiness,
   setBrandCharacterReadinessOverride,
   submitBrandCharacterDeepeningAnswer,
@@ -39,6 +40,7 @@ import {
 import {
   resetBrandCharacterReadinessMemory,
   resetBrandCharacterReadinessStoreModeCache,
+  saveBrandCharacterReadinessRecord,
 } from '../../api/_lib/site00Evolve/creativeDirection/brandCharacterExperiment/brandCharacterReadinessStoreAdapter.js';
 import {
   formSixBrandCharacterTerritories,
@@ -481,6 +483,58 @@ describe('P0.5B.2 formation gate integration', () => {
         rawAnswer: 'Deadpan receipts humor — never try-hard meme voice.',
       });
       expect(after.deepeningModule?.answers.length).toBeGreaterThan(0);
+    }
+  });
+});
+
+describe('P0.5B.2 readiness/deepening alignment', () => {
+  it('syncs recommendedQuestionCount with compiled deepening questions', async () => {
+    const record = await evaluateAndPersistBrandCharacterReadiness({ projectId: 'ndxbook' });
+    expect(record.latestEvaluation?.recommendedQuestionCount).toBe(record.deepeningModule?.questions.length ?? 0);
+  });
+
+  it('uses GAPS_REMAIN when gaps exist but duplicate prevention yields zero questions', () => {
+    const profile = buildVitestRichBrandLoreProfile();
+    const evaluation = evaluateBrandCharacterReadiness({
+      profile,
+      projectId: 'ndxbook',
+      organizationId: 'ndxbook-org',
+    });
+    const module = compileBrandCharacterDeepeningModule({
+      evaluation,
+      inventory: inventoryCharacterEvidence(profile),
+    });
+    if (evaluation.overallState === 'CHARACTER_READY') {
+      expect(module.status).toBe('NOT_REQUIRED');
+      expect(module.questions).toHaveLength(0);
+      return;
+    }
+    if (module.questions.length === 0) {
+      expect(module.status).toBe('GAPS_REMAIN');
+    } else {
+      expect(module.status).toBe('COMPILED');
+    }
+  });
+
+  it('recompiles missing deepening module on getBrandCharacterReadinessState', async () => {
+    const record = await evaluateAndPersistBrandCharacterReadiness({ projectId: 'ndxbook' });
+    await saveBrandCharacterReadinessRecord({ ...record, deepeningModule: null });
+    const restored = await getBrandCharacterReadinessState('ndxbook');
+    expect(restored?.deepeningModule).not.toBeNull();
+    expect(restored?.latestEvaluation?.recommendedQuestionCount).toBe(restored?.deepeningModule?.questions.length);
+  });
+
+  it('dedupes worldview evidence bullets from overlapping lore sources', () => {
+    const profile = buildVitestRichBrandLoreProfile();
+    const evaluation = evaluateBrandCharacterReadiness({
+      profile,
+      projectId: 'ndxbook',
+      organizationId: 'ndxbook-org',
+    });
+    const worldview = evaluation.domains.find((d) => d.domain === 'WORLDVIEW_ORIENTATION');
+    if (worldview) {
+      const normalized = worldview.whatWeKnow.map((s) => s.toLowerCase().replace(/\s+/g, ' ').trim());
+      expect(new Set(normalized).size).toBe(normalized.length);
     }
   });
 });
