@@ -488,6 +488,81 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, directionId, ...revision }),
       },
     ),
+  experimentGVisualGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=experiment_g_visual_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  experimentGVisualFinalist: (slug: string, directionId: string, selected: boolean) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_visual_finalist',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, directionId, selected }),
+      },
+    ),
+  experimentGVisualFormulate: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_visual_formulate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentGVisualGenerate: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; costPreview: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_visual_generate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentGVisualJudgment: (
+    slug: string,
+    expressionId: string,
+    judgment:
+      | 'LOVE_THIS_EXPRESSION'
+      | 'PROMISING_REVISE'
+      | 'NOT_THIS_EXPRESSION'
+      | 'MISREPRESENTS_DIRECTION'
+      | 'TOO_GENERIC'
+      | 'TOO_LITERAL'
+      | 'TOO_STYLE_DEPENDENT'
+      | null,
+    note?: string | null,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_visual_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, expressionId, judgment, note }),
+      },
+    ),
+  experimentGVisualRevise: (
+    slug: string,
+    expressionId: string,
+    revision: { preserve: string[]; change: string[]; doNotBecome: string[] },
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_visual_revise',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, expressionId, ...revision }),
+      },
+    ),
+  experimentGVisualWinner: (slug: string, expressionId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_g_visual_winner',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, expressionId }),
+      },
+    ),
   experimentEGet: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
       `/api/site00/projects?action=experiment_e_get&slug=${encodeURIComponent(slug)}`,

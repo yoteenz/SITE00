@@ -91,6 +91,7 @@ const ProjectExperimentDPage = lazy(() => import('../site00/pages/ProjectExperim
 const ProjectExperimentFPage = lazy(() => import('../site00/pages/ProjectExperimentFPage'));
 const ProjectExperimentGPage = lazy(() => import('../site00/pages/ProjectExperimentGPage'));
 const ProjectExperimentGDirectionsPage = lazy(() => import('../site00/pages/ProjectExperimentGDirectionsPage'));
+const ProjectExperimentGFinalistsPage = lazy(() => import('../site00/pages/ProjectExperimentGFinalistsPage'));
 const ProjectExperimentEPage = lazy(() => import('../site00/pages/ProjectExperimentEPage'));
 const ProjectWorkspaceVisualDevelopmentPage = lazy(
   () => import('../site00/pages/ProjectWorkspaceVisualDevelopmentPage'),
@@ -710,6 +711,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectExperimentGDirectionsPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExperimentGFinalists}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExperimentGFinalistsPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

@@ -4021,3 +4021,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder flow:** Love 3 concepts on Experiment G → DEVELOP TOP 3 DIRECTIONS → review 9 direction cards → LOVE THE DIRECTION / etc. Visual formulation + FAL blocked until later sprint.
 - **Deploy:** cPanel + Railway redeploy for API actions.
 
+---
+
+## 2026-08-24 — Brand Presentation Finalist Visual Formulation (2×3 pipeline)
+
+- **Context:** Correct downstream methodology after direction review: founder selects **2 visual finalists** (not 1 direction winner), each gets **3 visual expression contracts**, then **6 FAL benchmark assets** for comparison before ultimate winner (concept + direction + expression). Do not mutate Experiment D/F/G formation history, Brand Canon, or Projects UX.
+- **Implementation (branch `cursor/brand-presentation-finalist-visual-formulation-1983`):**
+  - `shared/site00-brand-lore/brandPresentationVisualFormulation/` — policy (2×3=6 configurable), types (`BrandPresentationVisualFinalistSelection`, `BrandPresentationVisualExpressionCandidate`, `BrandPresentationWinnerSelection`, revision delta), finalist gate, evaluators (direction drift, distinctiveness, cross-finalist collapse), `compileBrandPresentationVisualPrompt()` with metaphor sanitation.
+  - `visualFormulationService.ts` + Supabase row `c4e1a2b3-0008-4000-8000-000000000001`; API `experiment_g_visual_*` (get, finalist, formulate, generate, judgment, revise, winner).
+  - UI: **SELECT AS VISUAL FINALIST** on direction review (independent from LOVE THE DIRECTION); route `/projects/ndxbook/experiment-g-brand-presentation-concepts/finalists` with large-image comparison, cost preview, explicit **GENERATE FINALIST VISUALS** trigger.
+  - Anthropic formulates expression systems before FAL; 6 parallel sibling generations; winner does NOT auto-promote to Brand Canon or start implementation.
+- **Tests:** 1772 pass (+15 visual formulation suite).
+- **Founder flow:** Review 9 directions → select 2 finalists → FORMULATE VISUAL EXPRESSIONS → GENERATE FINALIST VISUALS (6) → compare/judge → SELECT BRAND PRESENTATION WINNER.
+- **Deploy:** cPanel frontend + **Railway redeploy** for new API actions.
+

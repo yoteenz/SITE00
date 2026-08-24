@@ -1,0 +1,160 @@
+.site00-experiment-g-vf {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.site00-experiment-g-vf__experiment {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+}
+
+.site00-experiment-g-vf__title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.site00-experiment-g-vf__meta,
+.site00-experiment-g-vf__audit,
+.site00-experiment-g-vf__direction {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.site00-experiment-g-vf__controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.site00-experiment-g-vf__cost-preview {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  opacity: 0.85;
+  border: 1px solid rgba(255, 200, 100, 0.35);
+  padding: 0.65rem 0.85rem;
+  border-radius: 4px;
+}
+
+.site00-experiment-g-vf__cost-preview p {
+  margin: 0.15rem 0;
+}
+
+.site00-experiment-g-vf__error {
+  color: #ffb4b4;
+  margin: 0;
+}
+
+.site00-experiment-g-vf__pending {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.site00-experiment-g-vf__winner-banner {
+  border: 1px solid rgba(120, 220, 140, 0.45);
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.site00-experiment-g-vf__finalist {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.site00-experiment-g-vf__finalist-header h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+}
+
+.site00-experiment-g-vf__expression-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.site00-experiment-g-vf__expression {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.site00-experiment-g-vf__expression-name {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.site00-experiment-g-vf__thesis {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  opacity: 0.9;
+}
+
+.site00-experiment-g-vf__image-link {
+  display: block;
+}
+
+.site00-experiment-g-vf__image {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.site00-experiment-g-vf__details summary {
+  cursor: pointer;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  opacity: 0.75;
+}
+
+.site00-experiment-g-vf__dl {
+  margin: 0.5rem 0 0;
+  font-size: 0.78rem;
+}
+
+.site00-experiment-g-vf__dl dt {
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  font-size: 0.7rem;
+  margin-top: 0.35rem;
+}
+
+.site00-experiment-g-vf__dl dd {
+  margin: 0.15rem 0 0;
+  line-height: 1.4;
+}
+
+.site00-experiment-g-vf__judgment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.site00-experiment-g-vf__judgment-saved {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(180, 230, 200, 0.95);
+}
+
+.site00-experiment-g-dir__finalist-btn--active {
+  border-color: rgba(120, 200, 255, 0.65);
+}
+
+.site00-experiment-g-dir__finalist-count {
+  margin: 0;
+  font-size: 0.82rem;
+}
+
+@media (min-width: 768px) {
+  .site00-experiment-g-vf__expression-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}

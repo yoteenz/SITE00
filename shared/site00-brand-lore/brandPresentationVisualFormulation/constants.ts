@@ -1,0 +1,91 @@
+/**
+ * Brand Presentation Visual Formulation — constants (2 finalists × 3 expressions).
+ */
+
+export const BRAND_PRESENTATION_VISUAL_FORMULATION_V1 = 'BRAND_PRESENTATION_VISUAL_FORMULATION_V1' as const;
+
+export const BRAND_PRESENTATION_VISUAL_FORMULATION_CLASSIFICATION =
+  'BRAND_PRESENTATION_VISUAL_FORMULATION' as const;
+
+export const BRAND_PRESENTATION_VISUAL_FORMULATION_RUN_ID =
+  'ndxbook-brand-presentation-visual-formulation';
+
+export const BRAND_PRESENTATION_VISUAL_FORMULATION_DB_ID =
+  'c4e1a2b3-0008-4000-8000-000000000001';
+
+export const NDXBOOK_VISUAL_EXPLORATION_POLICY = {
+  finalistCount: 2,
+  expressionsPerFinalist: 3,
+  totalInitialVisuals: 6,
+} as const;
+
+export type BrandPresentationVisualExplorationPolicy = typeof NDXBOOK_VISUAL_EXPLORATION_POLICY;
+
+export const FINALIST_SELECTION_STATUSES = ['SELECTED', 'SUPERSEDED', 'WITHDRAWN'] as const;
+
+export type FinalistSelectionStatus = (typeof FINALIST_SELECTION_STATUSES)[number];
+
+export const VISUAL_EXPRESSION_JUDGMENTS = [
+  'LOVE_THIS_EXPRESSION',
+  'PROMISING_REVISE',
+  'NOT_THIS_EXPRESSION',
+  'MISREPRESENTS_DIRECTION',
+  'TOO_GENERIC',
+  'TOO_LITERAL',
+  'TOO_STYLE_DEPENDENT',
+] as const;
+
+export type VisualExpressionJudgment = (typeof VISUAL_EXPRESSION_JUDGMENTS)[number] | null;
+
+export const VISUAL_FORMULATION_STATUSES = [
+  'NOT_STARTED',
+  'FINALISTS_INCOMPLETE',
+  'FINALISTS_READY',
+  'FORMULATING_EXPRESSIONS',
+  'EXPRESSIONS_READY',
+  'GENERATING_VISUALS',
+  'VISUALS_READY',
+  'FOUNDER_REVIEW',
+  'WINNER_SELECTED',
+  'FAILED',
+] as const;
+
+export type VisualFormulationStatus = (typeof VISUAL_FORMULATION_STATUSES)[number];
+
+export const REFERENCE_CLASSES = [
+  'BRAND_CANON_VISUAL',
+  'FOUNDER_REFERENCE_EVIDENCE',
+  'APPROVED_IDENTITY_REFERENCE',
+  'APPROVED_NDXBOOK_ASSET',
+  'NEGATIVE_REFERENCE',
+  'MEDIUM_REFERENCE',
+  'EXPRESSION_CALIBRATION_REFERENCE',
+] as const;
+
+export const EXCLUDED_REFERENCE_SOURCES = [
+  'SITE00_HOST_VISUAL_MEMORY',
+  'PROJECTS_UX',
+  'PROJECT_WORKSPACE_UI',
+  'EXPERIMENT_D_VISUAL',
+  'EXPERIMENT_F_VISUAL',
+  'FRONTAL_SLAYER_WORKBENCH',
+  'REJECTED_WORKBENCH',
+  'DOSSIER_IMAGERY',
+] as const;
+
+export const DIRECTION_DRIFT_RESULTS = ['PASS', 'DIRECTION_DRIFT', 'NOT_EVALUATED'] as const;
+
+export const VISUAL_DISTINCTIVENESS_RESULTS = [
+  'PASS',
+  'STYLE_ONLY_DIFFERENTIATION',
+  'VISUAL_RANGE_TOO_NARROW',
+  'NOT_EVALUATED',
+] as const;
+
+export const VISION_QA_RESULTS = [
+  'PASS',
+  'FAIL',
+  'NOT_EVALUATED',
+] as const;
+
+export const FAL_COST_ESTIMATE_USD = 0.08;

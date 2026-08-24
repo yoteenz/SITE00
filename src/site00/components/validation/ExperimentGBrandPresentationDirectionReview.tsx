@@ -5,14 +5,17 @@ import type {
   BrandPresentationDirectionFormationRun,
   BrandPresentationDirectionParentGroup,
 } from '../../../../shared/site00-brand-lore/brandPresentationDirectionTerritory/types';
+import type { BrandPresentationVisualFormulationRun } from '../../../../shared/site00-brand-lore/brandPresentationVisualFormulation/types';
 import { ELIGIBLE_PARENT_CONCEPT_NAMES } from '../../../../shared/site00-brand-lore/brandPresentationDirectionTerritory/constants';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
-import { site00ProjectExperimentGPath } from '../../config/routes';
+import { site00ProjectExperimentGPath, site00ProjectExperimentGFinalistsPath } from '../../config/routes';
 
 type ExperimentGBrandPresentationDirectionReviewProps = {
   projectSlug: string;
   run: BrandPresentationDirectionFormationRun | null | undefined;
+  visualRun?: BrandPresentationVisualFormulationRun | null;
   onUpdate?: (run?: BrandPresentationDirectionFormationRun) => void;
+  onVisualUpdate?: (run?: BrandPresentationVisualFormulationRun) => void;
 };
 
 type FounderDirectionJudgment = Exclude<
@@ -46,11 +49,17 @@ function founderApiErrorMessage(err: unknown): string {
 function DirectionCard({
   direction,
   onJudgment,
+  onFinalist,
   judging,
+  finalistActive,
+  finalistLoading,
 }: {
   direction: BrandPresentationDirectionCandidate;
   onJudgment: (judgment: FounderDirectionJudgment) => void;
+  onFinalist: (selected: boolean) => void;
   judging: boolean;
+  finalistActive: boolean;
+  finalistLoading: boolean;
 }) {
   const saved = direction.founderJudgment;
 
@@ -100,6 +109,21 @@ function DirectionCard({
           YOUR SELECTION: {formatJudgmentLabel(saved)} — saved
         </p>
       ) : null}
+      <div className="site00-experiment-g-dir__finalist-row">
+        <button
+          type="button"
+          className={
+            finalistActive
+              ? 'site00-btn site00-btn--primary site00-experiment-g-dir__finalist-btn--active'
+              : 'site00-btn'
+          }
+          disabled={finalistLoading || judging}
+          aria-pressed={finalistActive}
+          onClick={() => onFinalist(!finalistActive)}
+        >
+          {finalistActive ? '✓ VISUAL FINALIST' : 'SELECT AS VISUAL FINALIST'}
+        </button>
+      </div>
       <div className="site00-experiment-g-dir__judgment">
         {JUDGMENT_OPTIONS.map((j) => (
           <button
@@ -126,12 +150,18 @@ function ParentSection({
   group,
   directions,
   judgingId,
+  finalistIds,
+  finalistLoadingId,
   onJudgment,
+  onFinalist,
 }: {
   group: BrandPresentationDirectionParentGroup;
   directions: BrandPresentationDirectionCandidate[];
   judgingId: string | null;
+  finalistIds: Set<string>;
+  finalistLoadingId: string | null;
   onJudgment: (directionId: string, judgment: FounderDirectionJudgment) => void;
+  onFinalist: (directionId: string, selected: boolean) => void;
 }) {
   const siblings = directions.filter((d) => group.directionIds.includes(d.directionId));
 
@@ -151,7 +181,10 @@ function ParentSection({
             key={direction.directionId}
             direction={direction}
             judging={judgingId === direction.directionId}
+            finalistActive={finalistIds.has(direction.directionId)}
+            finalistLoading={finalistLoadingId === direction.directionId}
             onJudgment={(judgment) => onJudgment(direction.directionId, judgment)}
+            onFinalist={(selected) => onFinalist(direction.directionId, selected)}
           />
         ))}
       </div>
@@ -162,10 +195,13 @@ function ParentSection({
 export function ExperimentGBrandPresentationDirectionReview({
   projectSlug,
   run,
+  visualRun,
   onUpdate,
+  onVisualUpdate,
 }: ExperimentGBrandPresentationDirectionReviewProps) {
   const [forming, setForming] = useState(false);
   const [judgingId, setJudgingId] = useState<string | null>(null);
+  const [finalistLoadingId, setFinalistLoadingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const formDirections = useCallback(async (options?: { forceRetry?: boolean }) => {
@@ -197,7 +233,25 @@ export function ExperimentGBrandPresentationDirectionReview({
     [onUpdate, projectSlug],
   );
 
+  const toggleFinalist = useCallback(
+    async (directionId: string, selected: boolean) => {
+      setFinalistLoadingId(directionId);
+      setError(null);
+      try {
+        const result = await site00ProjectsApi.experimentGVisualFinalist(projectSlug, directionId, selected);
+        onVisualUpdate?.(result.run as BrandPresentationVisualFormulationRun);
+      } catch (err) {
+        setError(founderApiErrorMessage(err));
+      } finally {
+        setFinalistLoadingId(null);
+      }
+    },
+    [onVisualUpdate, projectSlug],
+  );
+
   const directions = run?.directions ?? [];
+  const activeFinalists = (visualRun?.finalists ?? []).filter((f) => f.status === 'SELECTED');
+  const finalistIds = new Set(activeFinalists.map((f) => f.directionId));
   const formationBlocked = forming || run?.status === 'FORMING';
   const canForm =
     !formationBlocked &&
@@ -209,11 +263,17 @@ export function ExperimentGBrandPresentationDirectionReview({
       <p className="site00-experiment-g-dir__experiment">EXPERIMENT G — TOP-3 CONCEPT DEVELOPMENT</p>
       <h2 className="site00-experiment-g-dir__title">Brand Presentation Direction Development</h2>
       <p className="site00-experiment-g-dir__meta">
-        Status: {run?.status?.replace(/_/g, ' ') ?? 'NOT STARTED'} · 3 parent concepts · 9 directions · No images · No
-        FAL
+        Status: {run?.status?.replace(/_/g, ' ') ?? 'NOT STARTED'} · 3 parent concepts · 9 directions · Visual
+        finalists: {activeFinalists.length}/2
       </p>
+      {activeFinalists.length === 2 ? (
+        <p className="site00-experiment-g-dir__finalist-count">
+          <Link to={site00ProjectExperimentGFinalistsPath(projectSlug)}>→ FINALIST VISUAL FORMULATION (6 visuals)</Link>
+        </p>
+      ) : null}
       <div className="site00-experiment-g-dir__banner">
-        Concept → Direction layer only. Visual formulation and FAL come after founder direction review.{' '}
+        Select exactly 2 directions as visual finalists — independent from LOVE THE DIRECTION. Visual evidence comes
+        before final winner selection.{' '}
         <Link to={site00ProjectExperimentGPath(projectSlug)}>← Brand presentation concepts</Link>
       </div>
       <ul className="site00-experiment-g-dir__parents-list">
@@ -267,7 +327,10 @@ export function ExperimentGBrandPresentationDirectionReview({
               group={group}
               directions={directions}
               judgingId={judgingId}
+              finalistIds={finalistIds}
+              finalistLoadingId={finalistLoadingId}
               onJudgment={(id, j) => void setJudgment(id, j)}
+              onFinalist={(id, sel) => void toggleFinalist(id, sel)}
             />
           ))
         : !formationBlocked && run?.status !== 'FORMING' ? (

@@ -67,6 +67,17 @@ import {
   setBrandPresentationDirectionJudgment,
   estimateDirectionFormationCost,
 } from '../_lib/site00Evolve/creativeDirection/brandPresentationDirectionExperiment/directionService.js';
+import {
+  formulateVisualExpressions,
+  generateFinalistVisuals,
+  getBrandPresentationVisualFormulationRun,
+  prepareVisualFormulationRun,
+  reviseVisualExpression,
+  selectBrandPresentationWinner,
+  setVisualExpressionJudgment,
+  setVisualFinalistSelection,
+  estimateVisualGenerationCost,
+} from '../_lib/site00Evolve/creativeDirection/brandPresentationVisualFormulationExperiment/visualFormulationService.js';
 import { getExperimentFMethodologyOverlay } from '../../shared/site00-brand-lore/brandPresentationConceptTerritory/experimentFInterpretation.js';
 import { getExperimentDMethodologyOverlay } from '../../shared/site00-brand-lore/conceptTerritoryV2/experimentDInterpretation.js';
 import {
@@ -1263,6 +1274,149 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           doNotBecome: Array.isArray(body.doNotBecome) ? body.doNotBecome.map(String) : [],
         });
         return json(res, 200, { ok: true, run, source: 'site00_experiment_g_direction' });
+      }
+      case 'experiment_g_visual_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await getBrandPresentationVisualFormulationRun();
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_g_visual' });
+      }
+      case 'experiment_g_visual_finalist': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const directionId = String(body.directionId ?? '');
+        const selected = body.selected !== false;
+        if (slug !== 'ndxbook' || !directionId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        try {
+          const run = await setVisualFinalistSelection({
+            directionId,
+            selected,
+            selectedBy: user.email ?? 'founder',
+          });
+          return json(res, 200, { ok: true, run, source: 'site00_experiment_g_visual' });
+        } catch (err) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'FINALIST_GATE', message: err instanceof Error ? err.message : 'Finalist selection failed' },
+          });
+        }
+      }
+      case 'experiment_g_visual_formulate': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        await prepareVisualFormulationRun();
+        const run = await formulateVisualExpressions();
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_g_visual' });
+      }
+      case 'experiment_g_visual_generate': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        let run = await getBrandPresentationVisualFormulationRun();
+        if (!run) run = await prepareVisualFormulationRun();
+        const costPreview = estimateVisualGenerationCost(run);
+        const updated = await generateFinalistVisuals();
+        return json(res, 200, {
+          ok: true,
+          run: updated,
+          costPreview,
+          source: 'site00_experiment_g_visual',
+        });
+      }
+      case 'experiment_g_visual_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const expressionId = String(body.expressionId ?? '');
+        const judgment = body.judgment as
+          | 'LOVE_THIS_EXPRESSION'
+          | 'PROMISING_REVISE'
+          | 'NOT_THIS_EXPRESSION'
+          | 'MISREPRESENTS_DIRECTION'
+          | 'TOO_GENERIC'
+          | 'TOO_LITERAL'
+          | 'TOO_STYLE_DEPENDENT'
+          | null;
+        if (slug !== 'ndxbook' || !expressionId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await setVisualExpressionJudgment({ expressionId, judgment, note: body.note ? String(body.note) : null });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_g_visual' });
+      }
+      case 'experiment_g_visual_revise': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const expressionId = String(body.expressionId ?? '');
+        if (slug !== 'ndxbook' || !expressionId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await reviseVisualExpression({
+          expressionId,
+          preserve: Array.isArray(body.preserve) ? body.preserve.map(String) : [],
+          change: Array.isArray(body.change) ? body.change.map(String) : [],
+          doNotBecome: Array.isArray(body.doNotBecome) ? body.doNotBecome.map(String) : [],
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_g_visual' });
+      }
+      case 'experiment_g_visual_winner': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const expressionId = String(body.expressionId ?? '');
+        if (slug !== 'ndxbook' || !expressionId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await selectBrandPresentationWinner({
+          expressionId,
+          selectedBy: user.email ?? 'founder',
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_g_visual' });
       }
       case 'experiment_e_get': {
         const slug = String(req.query.slug ?? '');

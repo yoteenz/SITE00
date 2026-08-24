@@ -2,33 +2,26 @@ import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
-import { ExperimentGBrandPresentationDirectionReview } from '../components/validation/ExperimentGBrandPresentationDirectionReview';
+import { ExperimentGBrandPresentationFinalistReview } from '../components/validation/ExperimentGBrandPresentationFinalistReview';
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
-import { site00ProjectExperimentGPath, site00ProjectPath } from '../config/routes';
+import { site00ProjectExperimentGDirectionsPath, site00ProjectPath } from '../config/routes';
 import { projectDisplayName } from '../utils/projectDisplayName';
-import type { BrandPresentationDirectionFormationRun } from '../../../shared/site00-brand-lore/brandPresentationDirectionTerritory/types';
 import type { BrandPresentationVisualFormulationRun } from '../../../shared/site00-brand-lore/brandPresentationVisualFormulation/types';
 import '../styles/site00-replay-execution.css';
-import '../styles/site00-experiment-g-directions.css';
+import '../styles/site00-experiment-g-finalists.css';
 
-export default function ProjectExperimentGDirectionsPage() {
+export default function ProjectExperimentGFinalistsPage() {
   const { projectSlug = '' } = useParams<{ projectSlug: string }>();
-  const [run, setRun] = useState<BrandPresentationDirectionFormationRun | null>(null);
-  const [visualRun, setVisualRun] = useState<BrandPresentationVisualFormulationRun | null>(null);
+  const [run, setRun] = useState<BrandPresentationVisualFormulationRun | null>(null);
   const [loading, setLoading] = useState(true);
 
   const reload = useCallback(async () => {
     if (projectSlug !== 'ndxbook') return;
     try {
-      const [dirResult, visResult] = await Promise.all([
-        site00ProjectsApi.experimentGDirectionGet(projectSlug),
-        site00ProjectsApi.experimentGVisualGet(projectSlug),
-      ]);
-      setRun((dirResult.run as BrandPresentationDirectionFormationRun | null) ?? null);
-      setVisualRun((visResult.run as BrandPresentationVisualFormulationRun | null) ?? null);
+      const result = await site00ProjectsApi.experimentGVisualGet(projectSlug);
+      setRun((result.run as BrandPresentationVisualFormulationRun | null) ?? null);
     } catch {
       setRun(null);
-      setVisualRun(null);
     } finally {
       setLoading(false);
     }
@@ -38,18 +31,10 @@ export default function ProjectExperimentGDirectionsPage() {
     void reload();
   }, [reload]);
 
-  useEffect(() => {
-    if (run?.status !== 'FORMING') return;
-    const pollId = window.setInterval(() => {
-      void reload();
-    }, 5000);
-    return () => window.clearInterval(pollId);
-  }, [run?.status, reload]);
-
   if (projectSlug !== 'ndxbook') {
     return (
       <EcosystemShell hidePageHeader>
-        <p>Experiment G direction development is NDXBOOK-only.</p>
+        <p>Finalist visual formulation is NDXBOOK-only.</p>
       </EcosystemShell>
     );
   }
@@ -63,30 +48,22 @@ export default function ProjectExperimentGDirectionsPage() {
           <header className="site00-project-lore-calibration__hero">
             <p className="site00-project-lore-calibration__kicker">BRAND BEFORE TOPIC</p>
             <h1 className="site00-project-lore-calibration__project">{projectTitle}</h1>
-            <p className="site00-project-lore-calibration__headline">BRAND PRESENTATION DIRECTION DEVELOPMENT</p>
+            <p className="site00-project-lore-calibration__headline">BRAND PRESENTATION FINALIST VISUAL FORMULATION</p>
             <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
             {' · '}
-            <Link to={site00ProjectExperimentGPath(projectSlug)}>← CONCEPTS</Link>
+            <Link to={site00ProjectExperimentGDirectionsPath(projectSlug)}>← DIRECTION REVIEW</Link>
           </header>
           <ProjectExperimentsHubNav projectSlug={projectSlug} />
 
           {loading ? (
-            <p className="site00-experiment-g-dir__pending">LOADING…</p>
+            <p className="site00-experiment-g-vf__pending">LOADING…</p>
           ) : (
-            <ExperimentGBrandPresentationDirectionReview
+            <ExperimentGBrandPresentationFinalistReview
               projectSlug={projectSlug}
               run={run}
-              visualRun={visualRun}
               onUpdate={(updated) => {
                 if (updated) {
                   setRun(updated);
-                  return;
-                }
-                void reload();
-              }}
-              onVisualUpdate={(updated) => {
-                if (updated) {
-                  setVisualRun(updated);
                   return;
                 }
                 void reload();
