@@ -7,6 +7,7 @@ import {
   resetExperimentGFormationWorkers,
   resetExperimentGMemory,
   resetExperimentGStoreModeCache,
+  setExperimentGConceptJudgment,
 } from './experimentGService.js';
 
 describe('Experiment G stale FORMING recovery', () => {
@@ -178,5 +179,23 @@ describe('Experiment G stale FORMING recovery', () => {
       vi.useFakeTimers();
       vi.setSystemTime(new Date('2026-08-23T22:00:00.000Z'));
     }
+  });
+
+  it('persists founder judgment on a concept and marks run FOUNDER_REVIEWED', async () => {
+    const formed = await formSixBrandPresentationConcepts();
+    expect(formed.concepts).toHaveLength(6);
+    const conceptId = formed.concepts[0]!.id;
+
+    const updated = await setExperimentGConceptJudgment({
+      conceptId,
+      judgment: 'LOVE_THE_CONCEPT',
+    });
+
+    expect(updated.status).toBe('FOUNDER_REVIEWED');
+    const saved = updated.concepts.find((c) => c.id === conceptId);
+    expect(saved?.founderJudgment).toBe('LOVE_THE_CONCEPT');
+
+    const reloaded = await getBrandPresentationConceptFormationRun();
+    expect(reloaded?.concepts.find((c) => c.id === conceptId)?.founderJudgment).toBe('LOVE_THE_CONCEPT');
   });
 });
