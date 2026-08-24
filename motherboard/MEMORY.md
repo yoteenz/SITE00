@@ -4655,9 +4655,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+<<<<<<< HEAD
+## 2026-08-24 — Visual Reconstruction Engine P0.VR.1 (Experiments Hub pilot)
+
+- **Context:** Founder sprint to build Studio World Visual Reconstruction Engine — screenshot-to-code reverse engineering with closed-loop render/compare/correct/region-lock. Pilot target: Experiments Hub remodel per concept (visual authority); production screenshots = functional evidence only.
+- **Engine:** `shared/site00-studio-world-production/visualReconstruction/` — ingestion, browser chrome exclusion, region decomposition, blueprint, repository matchers, typography eval, Playwright renderer, pixelmatch+sharp comparison, heatmap, region locks, correction planner, convergence guard, match readiness, baseline architecture, report. `pixelmatch` dependency added.
+- **Pilot UI:** `ExperimentsHubOperateLayer` — dark editorial hub with 6-stage methodology journey cards, recent experiments, quick actions; full index preserved in INSPECT. Route unchanged `/projects/ndxbook/experiments`.
+- **Script:** `scripts/visualReconstruction/runExperimentsHubPilot.ts` — automated loop (4 iterations verified against preview). Synthetic band reference fixture for CI; founder concept PNG can replace fixture for calibration.
+- **Tests:** `tests/visualReconstructionP0VR1.test.ts` (16 tests). Full suite 2706 pass; build green.
+- **Constraints:** FAL=0; Brand Character/Canon unchanged; canonical experiment data preserved.
+=======
 ## 2026-08-24 — Account pages Desktop preview fix (PROJECTS / CTRL ROOM)
 
 - **Symptom:** Founder toggled Desktop on mobile but PROJECTS kept showing mobile shell (bottom nav, ORIGIN bay) — felt blocked from desktop account pages.
 - **Root cause:** `EcosystemShell` switched layouts only via CSS `@media (min-width: 1024px)`, ignoring shared `isPreviewDesktop` composer state used by IDNTY/Origin public routes.
 - **Fix:** `EcosystemShell` now respects preview mode; phone + Desktop uses scaled artboard; `Site00EcosystemLayoutSwitch` on `/projects` and `/control` routes.
+>>>>>>> origin/main
 

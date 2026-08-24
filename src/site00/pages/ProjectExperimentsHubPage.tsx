@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
-import { ExperimentJourneyBar, FounderWorkspaceShell } from '../components/founderWorkspace/FounderWorkspaceShell';
+import { ExperimentsHubOperateLayer } from '../components/founderWorkspace/ExperimentsHubOperateLayer';
+import { FounderWorkspaceShell, useFounderWorkspaceInspector } from '../components/founderWorkspace/FounderWorkspaceShell';
 import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
 import { useExperimentsHubScrollRestore } from '../hooks/useExperimentsHubScrollRestore';
 import {
@@ -14,6 +15,7 @@ import { site00ProjectPath } from '../config/routes';
 import { projectDisplayName } from '../utils/projectDisplayName';
 import '../styles/site00-projects.css';
 import '../styles/site00-founder-workspace.css';
+import '../styles/site00-visual-reconstruction.css';
 
 function groupByPhase(entries: ProjectExperimentHubEntry[]): Map<ProjectExperimentHubPhase, ProjectExperimentHubEntry[]> {
   const map = new Map<ProjectExperimentHubPhase, ProjectExperimentHubEntry[]>();
@@ -58,45 +60,23 @@ function ExperimentHubCard({ entry }: { entry: ProjectExperimentHubEntry }) {
   );
 }
 
-export default function ProjectExperimentsHubPage() {
-  const { projectSlug = '' } = useParams<{ projectSlug: string }>();
-  useExperimentsHubScrollRestore(projectSlug);
-  const entries = getProjectExperimentsHubEntries(projectSlug);
+function ExperimentsHubFullIndex({ projectSlug, entries }: { projectSlug: string; entries: ProjectExperimentHubEntry[] }) {
   const grouped = groupByPhase(entries);
   const phaseOrder: ProjectExperimentHubPhase[] = ['INTAKE', 'EXPERIMENT', 'EXPERIENCE', 'LINEAGE'];
-  const journeyStages = ndxExperimentJourneyStages();
-  const resolveExperimentPath = (experimentId: string) => entries.find((e) => e.id === experimentId)?.path ?? null;
-  const useWorkspace = ndxFounderWorkspaceEnabled(projectSlug);
 
-  if (!entries.length) {
-    return (
-      <EcosystemShell hidePageHeader>
-        <p className="site00-body">Methodology experiments hub is not configured for this project.</p>
-      </EcosystemShell>
-    );
-  }
-
-  const hubContent = (
-    <div className="site00-page site00-page--experiments-hub">
+  return (
+    <div className="site00-page site00-page--experiments-hub site00-page--experiments-hub-inspect">
       <nav className="site00-project-command__back">
         <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
       </nav>
-
       <header className="site00-experiments-hub-header">
-        <p className="site00-label-red">NDXBOOK METHODOLOGY</p>
-        <h1 className="site00-experiments-hub-header__title">EXPERIMENTS &amp; VALIDATION</h1>
-        <p className="site00-experiments-hub-header__project">{projectDisplayName(projectSlug)}</p>
+        <p className="site00-label-red">NDXBOOK METHODOLOGY · INSPECT</p>
+        <h2 className="site00-experiments-hub-header__title">FULL EXPERIMENT INDEX</h2>
         <p className="site00-body site00-experiments-hub-header__sub">
-          Methodology journey above · full experiment index below. Technical lineage remains inspectable on every page.
+          Complete ordered inventory — lineage, statuses, and technical notes preserved.
         </p>
       </header>
-
       <ProjectExperimentsHubNav projectSlug={projectSlug} />
-
-      {useWorkspace ? (
-        <ExperimentJourneyBar stages={journeyStages} resolvePath={resolveExperimentPath} />
-      ) : null}
-
       {phaseOrder.map((phase) => {
         const phaseEntries = grouped.get(phase);
         if (!phaseEntries?.length) return null;
@@ -113,6 +93,62 @@ export default function ProjectExperimentsHubPage() {
       })}
     </div>
   );
+}
+
+function ExperimentsHubWorkspaceContent({
+  projectSlug,
+  entries,
+}: {
+  projectSlug: string;
+  entries: ProjectExperimentHubEntry[];
+}) {
+  const { openInspector } = useFounderWorkspaceInspector();
+  const journeyStages = ndxExperimentJourneyStages();
+  const resolveExperimentPath = (experimentId: string) => entries.find((e) => e.id === experimentId)?.path ?? null;
+
+  const openFullIndex = () => {
+    openInspector('FULL EXPERIMENT INDEX', <ExperimentsHubFullIndex projectSlug={projectSlug} entries={entries} />);
+  };
+
+  return (
+    <ExperimentsHubOperateLayer
+      projectSlug={projectSlug}
+      entries={entries}
+      journeyStages={journeyStages}
+      resolveExperimentPath={resolveExperimentPath}
+      onViewFullIndex={openFullIndex}
+    />
+  );
+}
+
+export default function ProjectExperimentsHubPage() {
+  const { projectSlug = '' } = useParams<{ projectSlug: string }>();
+  useExperimentsHubScrollRestore(projectSlug);
+  const entries = getProjectExperimentsHubEntries(projectSlug);
+  const useWorkspace = ndxFounderWorkspaceEnabled(projectSlug);
+
+  if (!entries.length) {
+    return (
+      <EcosystemShell hidePageHeader>
+        <p className="site00-body">Methodology experiments hub is not configured for this project.</p>
+      </EcosystemShell>
+    );
+  }
+
+  const legacyHub = (
+    <div className="site00-page site00-page--experiments-hub">
+      <nav className="site00-project-command__back">
+        <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
+      </nav>
+      <header className="site00-experiments-hub-header">
+        <p className="site00-label-red">NDXBOOK METHODOLOGY</p>
+        <h1 className="site00-experiments-hub-header__title">EXPERIMENTS &amp; VALIDATION</h1>
+        <p className="site00-experiments-hub-header__project">{projectDisplayName(projectSlug)}</p>
+      </header>
+      <ProjectExperimentsHubNav projectSlug={projectSlug} />
+      <ExperimentsHubFullIndex projectSlug={projectSlug} entries={entries} />
+    </div>
+  );
 
   return (
     <EcosystemShell hidePageHeader>
@@ -120,12 +156,13 @@ export default function ProjectExperimentsHubPage() {
         <FounderWorkspaceShell
           projectSlug={projectSlug}
           title="EXPERIMENTS HUB"
-          subtitle="METHODOLOGY JOURNEY + FULL INDEX"
-          hideWorkspaceNav
-          operate={hubContent}
+          subtitle="METHODOLOGY JOURNEY"
+          operate={<ExperimentsHubWorkspaceContent projectSlug={projectSlug} entries={entries} />}
+          inspect={<ExperimentsHubFullIndex projectSlug={projectSlug} entries={entries} />}
+          inspectLabel="INSPECT FULL INDEX + METHODOLOGY"
         />
       ) : (
-        hubContent
+        legacyHub
       )}
     </EcosystemShell>
   );
