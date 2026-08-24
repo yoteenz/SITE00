@@ -1,14 +1,11 @@
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
-import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
-import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
+import { NdxFounderWorkspacePage, FounderWorkspacePanel } from '../components/founderWorkspace';
 import { site00ProjectsApi, Site00ProjectsApiError } from '../services/site00ProjectsApi';
 import {
   site00ProjectFounderCharacterDiscoveryPath,
   site00ProjectCharacterContinuityReviewPath,
-  site00ProjectPath,
 } from '../config/routes';
-import { projectDisplayName } from '../utils/projectDisplayName';
 import type { NdxCharacterContinuityPipelineRun } from '../../../shared/site00-brand-lore/ndxCharacterContinuityPipeline/types';
 import '../styles/site00-replay-execution.css';
 
@@ -66,9 +63,12 @@ export default function ProjectCharacterContinuityPage() {
 
   if (projectSlug !== 'ndxbook') {
     return (
-      <EcosystemShell hidePageHeader>
-        <p>Character Continuity Pipeline is NDXBOOK-only for this proof.</p>
-      </EcosystemShell>
+      <NdxFounderWorkspacePage
+        projectSlug={projectSlug}
+        title="CHARACTER CONTINUITY"
+        nonNdxFallback={<p>Character Continuity Pipeline is NDXBOOK-only for this proof.</p>}
+        operate={null}
+      />
     );
   }
 
@@ -76,23 +76,21 @@ export default function ProjectCharacterContinuityPage() {
   const contract = run?.providerContracts.at(-1);
 
   return (
-    <EcosystemShell hidePageHeader>
-      <div className="site00-cd site00-cd--project-calibration">
-        <div className="site00-project-lore-calibration">
-          <header className="site00-project-lore-calibration__hero">
-            <ProjectExperimentsHubNav projectSlug={projectSlug} />
-            <p className="site00-project-lore-calibration__kicker">P0.5E.5 — CHARACTER CONTINUITY PIPELINE</p>
-            <h1 className="site00-project-lore-calibration__project">{projectDisplayName(projectSlug)}</h1>
-            <p className="site00-project-lore-calibration__headline">
-              BIBLE INGESTION · CONTINUITY AUTHORITY · PROVIDER-AWARE FAL READINESS
-            </p>
-            <Link to={site00ProjectFounderCharacterDiscoveryPath(projectSlug)}>← FOUNDER DISCOVERY ROOM</Link>
-            <Link to={site00ProjectCharacterContinuityReviewPath(projectSlug)}>CONTINUITY REVIEW →</Link>
-            <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
-          </header>
-
-          <section className="site00-experiment-g__panel">
-            <h2>PRE-CASTING PIPELINE MODE</h2>
+    <NdxFounderWorkspacePage
+      projectSlug={projectSlug}
+      title="CHARACTER CONTINUITY"
+      subtitle="BIBLE INGESTION · CONTINUITY AUTHORITY · PROVIDER-AWARE FAL READINESS"
+      loading={loading}
+      loadingLabel="LOADING CONTINUITY PIPELINE…"
+      actions={
+        <>
+          <Link to={site00ProjectFounderCharacterDiscoveryPath(projectSlug)}>← DISCOVERY</Link>
+          <Link to={site00ProjectCharacterContinuityReviewPath(projectSlug)}>REVIEW →</Link>
+        </>
+      }
+      operate={
+        <>
+          <FounderWorkspacePanel title="PRE-CASTING PIPELINE MODE">
             <p>The Character Bible is authority — FAL prompts and references are downstream.</p>
             <p><strong>Status:</strong> {run?.preCastingStatus ?? 'NOT INITIALIZED'}</p>
             <p><strong>Production generation:</strong> BLOCKED until cast</p>
@@ -108,9 +106,7 @@ export default function ProjectCharacterContinuityPage() {
                 INITIALIZE CONTINUITY PIPELINE
               </button>
             )}
-          </section>
-
-          {loading && <p>Loading…</p>}
+          </FounderWorkspacePanel>
 
           {run && (
             <>
@@ -266,8 +262,8 @@ export default function ProjectCharacterContinuityPage() {
               </section>
             </>
           )}
-        </div>
-      </div>
-    </EcosystemShell>
+        </>
+      }
+    />
   );
 }
