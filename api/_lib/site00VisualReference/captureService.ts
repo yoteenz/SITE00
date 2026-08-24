@@ -18,6 +18,7 @@ import {
   findDuplicateReference,
 } from '../../../shared/site00-visual-reference/deduplication.js';
 import { uploadSite00AssetBuffer } from '../site00Assts/storage.js';
+import { isPlaceholderReferenceUrl } from '../../../shared/site00-visual-reference/referencePublicUrl.js';
 
 export type CaptureRouteParams = {
   route: string;
@@ -40,7 +41,7 @@ export type CaptureResult =
   | { ok: false; error: string; incomplete: boolean };
 
 function buildStoragePath(route: string, viewportClass: ViewportClass): string {
-  return buildHostReferenceStoragePath(route, viewportClass);
+  return buildHostReferenceStoragePath(route, viewportClass).replace(/\.webp$/, '.png');
 }
 
 function buildReferenceRecord(params: {
@@ -105,7 +106,7 @@ function buildReferenceRecord(params: {
   };
 }
 
-async function captureWithPlaywright(params: CaptureRouteParams): Promise<Buffer | null> {
+async function captureWithPlaywright(params: CaptureRouteParams): Promise<{ buffer: Buffer } | { error: string }> {
   try {
     const { chromium } = await import('playwright');
     const spec = getViewportSpec(params.viewportClass);
@@ -116,16 +117,27 @@ async function captureWithPlaywright(params: CaptureRouteParams): Promise<Buffer
         deviceScaleFactor: spec.deviceScaleFactor,
       });
       const url = `${params.baseUrl.replace(/\/$/, '')}${params.route}`;
-      await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 });
-      await page.waitForTimeout(500);
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 90000 });
+      await page.waitForTimeout(1500);
       await page.evaluate(() => document.fonts?.ready);
       const screenshot = await page.screenshot({ type: 'png', fullPage: params.captureType === 'FULL_PAGE' });
-      return Buffer.from(screenshot);
+      const buffer = Buffer.from(screenshot);
+      if (buffer.length < 1000) {
+        return { error: `Screenshot too small for ${url} (${buffer.length} bytes)` };
+      }
+      return { buffer };
     } finally {
       await browser.close();
     }
-  } catch {
-    return null;
+  } catch (err) {
+    const detail = err instanceof Error ? err.message : 'Playwright capture failed';
+    if (/Executable doesn't exist|browserType.launch/i.test(detail)) {
+      return {
+        error:
+          'Playwright Chromium not installed on API server — redeploy Railway from main (nixpacks installs chromium)',
+      };
+    }
+    return { error: detail };
   }
 }
 
@@ -147,10 +159,11 @@ export async function captureSite00RouteReference(params: CaptureRouteParams): P
   if (isVitest) {
     buffer = createVitestMockBuffer(params.route, params.viewportClass);
   } else {
-    buffer = await captureWithPlaywright(params);
-    if (!buffer || buffer.length < 1000) {
-      return { ok: false, error: 'Incomplete capture — screenshot too small or capture failed', incomplete: true };
+    const captured = await captureWithPlaywright(params);
+    if ('error' in captured) {
+      return { ok: false, error: captured.error, incomplete: true };
     }
+    buffer = captured.buffer;
   }
 
   const imageFingerprint = computeImageFingerprint(buffer);
@@ -162,7 +175,7 @@ export async function captureSite00RouteReference(params: CaptureRouteParams): P
     captureState,
   });
 
-  if (duplicate) {
+  if (duplicate && (process.env.VITEST === 'true' || !isPlaceholderReferenceUrl(duplicate.publicUrl))) {
     return { ok: true, reference: duplicate, reused: true };
   }
 
@@ -170,7 +183,7 @@ export async function captureSite00RouteReference(params: CaptureRouteParams): P
   if (isVitest) {
     publicUrl = `https://vitest.local/${storagePath}`;
   } else {
-    const upload = await uploadSite00AssetBuffer(storagePath, buffer, 'image/webp', { upsert: true });
+    const upload = await uploadSite00AssetBuffer(storagePath, buffer, 'image/png', { upsert: true });
     publicUrl = upload.publicUrl;
   }
 

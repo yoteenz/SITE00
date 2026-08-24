@@ -362,6 +362,7 @@ export function ProjectWorkspaceVisualDevelopmentReview({ projectSlug }: Project
   const [run, setRun] = useState<ProjectWorkspaceVisualDevelopmentRun | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
   const reload = useCallback(async () => {
@@ -388,9 +389,12 @@ export function ProjectWorkspaceVisualDevelopmentReview({ projectSlug }: Project
 
   const wrap = async (fn: () => Promise<void>) => {
     setBusy(true);
+    setActionError(null);
     try {
       await fn();
       await reload();
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : 'Action failed');
     } finally {
       setBusy(false);
     }
@@ -421,6 +425,12 @@ export function ProjectWorkspaceVisualDevelopmentReview({ projectSlug }: Project
           automatically; founder manual screenshot collection is not required.
         </p>
       </header>
+
+      {actionError ? (
+        <p className="site00-vd__action-error" role="alert">
+          {actionError}
+        </p>
+      ) : null}
 
       <ProofPanel
         title="PROOF 01 — SITE 00 PROJECTS INDEX"

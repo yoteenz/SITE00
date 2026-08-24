@@ -1,2 +1,5 @@
 [phases.setup]
-nixPkgs = ["nodejs_22"]
+nixPkgs = ["nodejs_22", "chromium"]
+
+[phases.install]
+cmds = ["npm ci", "npx playwright install chromium"]

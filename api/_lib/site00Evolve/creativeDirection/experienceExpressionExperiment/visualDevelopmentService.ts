@@ -46,6 +46,7 @@ import {
   initializeVisualReferenceMemory,
   refreshVisualReferences,
   resetVisualReferenceServiceMemory,
+  assertReferencePackageReadyForFal,
 } from '../../../site00VisualReference/visualReferenceService.js';
 import { hydrateVisualReferencePackage } from '../../../site00VisualReference/referenceUrlResolver.js';
 import { evaluateReferenceAdherence } from '../../../../../shared/site00-visual-reference/referenceAdherenceQA.js';
@@ -512,6 +513,7 @@ export async function compileVisualDevelopmentReferencePackage(
     negativeProofReference: negativeRef,
     excludedReferenceIds: options?.excludedReferenceIds ?? proof.excludedReferenceIds,
   });
+  await assertReferencePackageReadyForFal(referencePackage);
 
   proof.referencePackage = referencePackage;
   refreshSurfaceClassification(proof);
