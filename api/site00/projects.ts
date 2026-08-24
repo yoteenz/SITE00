@@ -176,6 +176,14 @@ import {
   saveFounderVoiceLabJudgment,
 } from '../_lib/site00Evolve/founderCharacterDiscovery/founderCharacterDiscoveryService.js';
 import {
+  getCharacterContinuityState,
+  initializeCharacterContinuityPipeline,
+  ingestCharacterBibleSource,
+  ingestCharacterDiscoverySynthesis,
+  previewCharacterGenerationContract,
+  runMockFixturePipelineTest,
+} from '../_lib/site00Evolve/characterContinuity/characterContinuityService.js';
+import {
   formBrandPresentationDirections,
   getBrandPresentationDirectionFormationRun,
   prepareBrandPresentationDirectionParents,
@@ -2781,6 +2789,104 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const run = await previewFounderCharacterSynthesis({ projectId: 'ndxbook' });
         return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
+      case 'character_continuity_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await getCharacterContinuityState({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_character_continuity' });
+      }
+      case 'character_continuity_initialize': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await initializeCharacterContinuityPipeline({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_character_continuity' });
+      }
+      case 'character_continuity_ingest_bible': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const rawSource = String(body.rawSource ?? '');
+        const sourceType = String(body.sourceType ?? 'STRUCTURED_RECORD');
+        if (slug !== 'ndxbook' || !rawSource) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug and rawSource required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await ingestCharacterBibleSource({
+          projectId: 'ndxbook',
+          rawSource,
+          sourceType: sourceType as import('../../../shared/site00-studio-world-production/characterContinuityPipeline/types.js').BibleSourceType,
+          normalized: body.normalized as Record<string, unknown> | undefined,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_character_continuity' });
+      }
+      case 'character_continuity_ingest_synthesis': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await ingestCharacterDiscoverySynthesis({
+          projectId: 'ndxbook',
+          whoSheIs: String(body.whoSheIs ?? ''),
+          bookMeaning: String(body.bookMeaning ?? ''),
+          whatMakesHerAnnoying: String(body.whatMakesHerAnnoying ?? ''),
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_character_continuity' });
+      }
+      case 'character_continuity_preview_contract': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await previewCharacterGenerationContract({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_character_continuity' });
+      }
+      case 'character_continuity_mock_fixture_test': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await runMockFixturePipelineTest({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_character_continuity' });
       }
       case 'experiment_g_get': {
         const slug = String(req.query.slug ?? '');

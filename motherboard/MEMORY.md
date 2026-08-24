@@ -4456,6 +4456,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-08-24 — P0.5E.5 Character Bible Ingestion + Continuity Authority + Provider-Aware FAL Pipeline
+
+- **Context:** Sprint P0.5E.5 — build generic Studio World embodied-character continuity pipeline architecture WITHOUT final NDX casting, face selection, Character Bible approval, FAL generation, or LoRA training. Pipeline must accept future approved Character Bible and compile through continuity → reference pack → scene contract → provider capability → FAL contract → QA → founder review. Pre-casting mode blocks production generation.
+- **Generic Studio World:** `shared/site00-studio-world-production/characterContinuityPipeline/` — EmbodiedCharacterBible, CharacterBibleIngestionPipeline (raw source preservation + receipts), CharacterBibleAudit (character truth vs visual readiness separated), CharacterContinuityBible, identity anchors + variation governance + negative identity constraints, CharacterReferencePack + scoped ReferenceAuthorityEvaluation, CharacterSceneContract + compiler, FAL CharacterGenerationCapability registry + schema discovery states, model selection (identity-first), ProviderCharacterGenerationContract + model-aware compiler, PRE_CASTING_PIPELINE_MODE, CharacterGenerationSnapshot + versioning/invalidation, identity vs behavior fidelity QA, video/multi-scene continuity, BookContinuityContract, voice pipeline architecture, trained-identity architecture (no training), provider fallback policy, model bake-off architecture only.
+- **NDX adapter:** `shared/site00-brand-lore/ndxCharacterContinuityPipeline/` — DB id `c4e1a2b3-0016-4000-8000-000000000001` (must not collide with P0.5E.3 `0015`); mock structured character fixtures only (NOT NDX identity); Book/motion terminology integration; forensic audit helper.
+- **API/UI:** Supabase persistence via `site00_methodology_validation_runs` (mode `NDX_CHARACTER_CONTINUITY`). Actions: `character_continuity_get|initialize|ingest_bible|ingest_synthesis|preview_contract|mock_fixture_test`. UI: `/projects/ndxbook/character/continuity` + `/review` — ProjectCharacterContinuityPage (Audit, Bible, Continuity, References, FAL, Generation, Review sections). Nav link from experiments hub.
+- **Gates:** `PRODUCTION_GENERATION_BLOCKED_CHARACTER_NOT_CAST`; `FAL_REQUESTS_FOR_CHARACTER_GENERATION=0`; mock fixture test proves pipeline without inventing NDX woman. Final face/ visual identity / training / production generation all remain false.
+- **Tests:** 61 requirements in `characterContinuityP05E5.test.ts`. Build green. Deploy v61 after merge.
+
+---
+
 ## 2026-08-24 — Founder mobile capture-auth bootstrap page
 
 - **Context:** Founder codes from mobile; asked how to configure Railway `SITE00_CAPTURE_STORAGE_STATE_*` without a laptop. Prior answer required Playwright codegen on desktop.
