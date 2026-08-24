@@ -15,7 +15,7 @@ export type NeuralVoiceGenerationResult = {
 };
 
 export function isNeuralProviderConfigured(): boolean {
-  return process.env.VITEST === 'true' || Boolean(process.env.FAL_KEY);
+  return process.env.VITEST === 'true' || Boolean(process.env.FAL_KEY?.trim());
 }
 
 export function buildFalMinimaxInput(contract: NeuralVoiceCastingContract): Record<string, unknown> {
@@ -30,7 +30,7 @@ export function buildFalMinimaxInput(contract: NeuralVoiceCastingContract): Reco
 export async function generateNeuralVoiceClip(
   contract: NeuralVoiceCastingContract,
 ): Promise<NeuralVoiceGenerationResult> {
-  if (process.env.VITEST === 'true' || !process.env.FAL_KEY) {
+  if (process.env.VITEST === 'true' || !process.env.FAL_KEY?.trim()) {
     return {
       audioUrl: `https://vitest.local/neural-voice/${contract.hypothesisId}.mp3`,
       durationMs: 6000,

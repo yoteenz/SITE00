@@ -186,6 +186,7 @@ import {
   startFounderNeuralVoiceAudition,
   saveFounderHumanWomanTest,
 } from '../_lib/site00Evolve/founderCharacterDiscovery/founderCharacterDiscoveryService.js';
+import { isNeuralProviderConfigured } from '../_lib/site00Evolve/founderCharacterDiscovery/neuralVoiceGenerationService.js';
 import {
   getCharacterContinuityState,
   initializeCharacterContinuityPipeline,
@@ -2657,7 +2658,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await getFounderCharacterDiscoveryState({ projectId: 'ndxbook' });
-        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+        return json(res, 200, {
+          ok: true,
+          run,
+          neuralProviderConfigured: run?.voiceCalibrationState?.neuralProviderConfigured ?? isNeuralProviderConfigured(),
+          source: 'site00_founder_character_discovery',
+        });
       }
       case 'founder_character_discovery_initialize': {
         if (req.method !== 'POST') {
