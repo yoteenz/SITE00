@@ -95,6 +95,18 @@ import {
   setExperiment01SetJudgment,
 } from '../_lib/site00Evolve/creativeDirection/brandMarketingExpressionExperiment/brandMarketingExpressionService.js';
 import {
+  getContentOperationsState,
+  prepareContentOperations,
+  compileContentOperations,
+  discoverContentOpportunities,
+  proposeWeeklySlate,
+  approveWeeklySlate,
+  setContentPackageJudgment,
+  approveContentPackage,
+  recordManualPerformance,
+  acceptPerformanceLearning,
+} from '../_lib/site00Evolve/contentOperationsExperiment/contentOperationsService.js';
+import {
   formBrandPresentationDirections,
   getBrandPresentationDirectionFormationRun,
   prepareBrandPresentationDirectionParents,
@@ -1605,6 +1617,169 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           judgment: judgment as never,
         });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01' });
+      }
+      case 'content_operations_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await getContentOperationsState({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
+      }
+      case 'content_operations_prepare': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        try {
+          const run = await prepareContentOperations({ projectId: 'ndxbook' });
+          return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
+        } catch (err) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'CONTENT_OPS_FAILED', message: err instanceof Error ? err.message : 'Prepare failed' },
+            source: 'site00_content_operations',
+          });
+        }
+      }
+      case 'content_operations_compile': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await compileContentOperations({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
+      }
+      case 'content_operations_discover_opportunities': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await discoverContentOpportunities({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
+      }
+      case 'content_operations_propose_slate': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await proposeWeeklySlate({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
+      }
+      case 'content_operations_approve_slate': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await approveWeeklySlate({ projectId: 'ndxbook', judgment: body.judgment ? String(body.judgment) : undefined });
+        return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
+      }
+      case 'content_operations_package_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const packageId = String(body.packageId ?? '');
+        const judgment = String(body.judgment ?? '');
+        if (slug !== 'ndxbook' || !packageId || !judgment) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await setContentPackageJudgment({ projectId: 'ndxbook', packageId, judgment });
+        return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
+      }
+      case 'content_operations_approve_package': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const packageId = String(body.packageId ?? '');
+        if (slug !== 'ndxbook' || !packageId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await approveContentPackage({ projectId: 'ndxbook', packageId });
+        return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
+      }
+      case 'content_operations_record_performance': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const packageId = String(body.packageId ?? '');
+        if (slug !== 'ndxbook' || !packageId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await recordManualPerformance({
+          projectId: 'ndxbook',
+          packageId,
+          metrics: body.metrics as Record<string, number | null> | undefined,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
+      }
+      case 'content_operations_accept_learning': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const learningId = String(body.learningId ?? '');
+        if (slug !== 'ndxbook' || !learningId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await acceptPerformanceLearning({ projectId: 'ndxbook', learningId });
+        return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
       }
       case 'experiment_g_get': {
         const slug = String(req.query.slug ?? '');

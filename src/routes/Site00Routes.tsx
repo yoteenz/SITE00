@@ -98,6 +98,8 @@ const ProjectBrandCharacterSynthesisPage = lazy(() => import('../site00/pages/Pr
 const ProjectBrandCharacterArtifactProofsPage = lazy(() => import('../site00/pages/ProjectBrandCharacterArtifactProofsPage'));
 const ProjectBrandMarketingExpressionPage = lazy(() => import('../site00/pages/ProjectBrandMarketingExpressionPage'));
 const ProjectBrandMarketingExpressionExperiment01Page = lazy(() => import('../site00/pages/ProjectBrandMarketingExpressionExperiment01Page'));
+const ProjectContentOperationsPage = lazy(() => import('../site00/pages/ProjectContentOperationsPage'));
+const ProjectContentOperationsPerformancePage = lazy(() => import('../site00/pages/ProjectContentOperationsPerformancePage'));
 const ProjectExperimentGDirectionsPage = lazy(() => import('../site00/pages/ProjectExperimentGDirectionsPage'));
 const ProjectExperimentGFinalistsPage = lazy(() => import('../site00/pages/ProjectExperimentGFinalistsPage'));
 const ProjectExperimentEPage = lazy(() => import('../site00/pages/ProjectExperimentEPage'));
@@ -827,6 +829,30 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectBrandMarketingExpressionExperiment01Page />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectContentOperations}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectContentOperationsPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectContentOperationsPerformance}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectContentOperationsPerformancePage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

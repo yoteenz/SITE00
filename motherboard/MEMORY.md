@@ -4178,3 +4178,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Generation controls:** No page-load generation; no automatic FAL retry; max 9 initial FAL requests (1 per artifact); founder-triggered only; accounting persisted.
 - **Tests:** +52 P0.5C tests (`brandMarketingExpressionP05C.test.ts`). Build green. Experiment G `characterReevaluationRequired` preserved. Brand Canon unchanged.
 
+---
+
+## 2026-08-24 — P0.5D Content Operations + Performance Learning Engine
+
+- **Context:** Build operational layer turning approved Brand Character System + Marketing Expression System into repeatable, testable, partially automated NDXBOOK social content operation. Answers: what should NDX talk about next, what deserves attention, what's repetitive, channel/format selection, founder approval gates, performance ingestion, production learning without mutating character/canon. Default: ASSISTED_AUTONOMY — no autonomous publishing.
+- **Architecture:** `shared/site00-brand-lore/contentOperations/` — ContentOperationsSystem, ContentOpportunity engine (multi-dimensional ranking, not viral score), editorial strategy/memory, duplicate/callback logic, weekly EditorialSlate, channel/format selection, research depth + claim confidence, SocialContentPackage (carousel integrates Sequence Creative System, Reel/Story/Caption/CTA contracts), publishing handoff (READY_FOR_MANUAL_PUBLISH), content calendar, performance records, qualitative audience evidence, performance learning with false-learning guards, editorial health, production budget, NDXBOOK_MARKET_TEST_01. Service `contentOperationsService.ts` + store (`NDX_CONTENT_OPERATIONS`, DB id `c4e1a2b3-0013-...`).
+- **UI:** `/projects/ndxbook/content-operations` (opportunities, slate, production queue, market test), `/content-operations/performance` (metrics, audience response, learning with founder acceptance). LIVE_SIGNAL_INGESTION_NOT_CONNECTED — pilot uses seeded opportunities.
+- **Boundaries:** Performance ≠ character/canon authority. Founder approval required for slate, content, publish. Instagram NOT_CONNECTED. Experiment F/G immutable. No product expression/world formation.
+- **Tests:** +62 P0.5D tests. Build green.
+
