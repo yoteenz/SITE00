@@ -4506,3 +4506,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **API/UI:** `founder_character_discovery_calibration_continue|reaction|synthesis`; `/projects/ndxbook/character/discovery` — primary CALIBRATION card (CONTINUE CALIBRATION, one moment at a time, 5 reactions); INPECT tab for legacy sections; human-readable synthesis tab.
 - **Tests:** `embodiedCharacterFounderDiscoveryP05E4A.test.ts` (13 tests) + P05E4 (46) preserved. FAL=0; casting blocked until YES_I_KNOW_HER.
 
+---
+
+## 2026-08-24 — V2.3 apology slide (topic 3) generation after supersession
+
+- **Context:** Founder reported "WE OWE HER AN APOLOGY." V2.3 slide (`bma-exp01-v23-3`) would not generate. Root cause: after P0.5C.4B.1/C.6 methodology supersession, pending queue jobs were `CANCELLED_SUPERSEDED` but `assertV23GenerationAllowed` blocked **all** generation including per-slide `REGENERATE_CURRENT`; UI only showed regenerate for slides that already had images — leaving never-generated slides (like culture/apology) with no action.
+- **Fix:** Split supersession guards — `assertV23BatchGenerationAllowed` (batch still blocked) vs `assertV23SingleArtifactGenerationAllowed` (allows `REGENERATE_CURRENT` / `REPLAY_GENERATION` per slide after supersession). Clear `CANCELLED_SUPERSEDED` → `COMPLETED` on successful single generate. UI: **GENERATE CURRENT** button for slides without images; hide batch "GENERATE REMAINING" when superseded; guidance copy.
+- **Tests:** `artBoardMaterialityP05C4B1.test.ts` — new case generates `bma-exp01-v23-3` after supersession with current C4B.1 prompt.
+- **Founder:** Select apology slide → tap **GENERATE CURRENT** (or REGENERATE if image exists). Batch generate remains blocked after supersession by design.
+
