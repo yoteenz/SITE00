@@ -4593,6 +4593,16 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ## 2026-08-24 — Founder calibration closed-loop progress panel
 
+---
+
+## 2026-08-24 — V2.3 board REGENERATE ALL button
+
+- **Context:** Founder disliked all nine current V2.3 slide selections — only per-slide REGENERATE CURRENT existed; batch generate only filled pending slots.
+- **Fix:** **REGENERATE ALL V2.3 — NINE NEW TAKES (FAL)** on Experiment 01 V2.3 board when all nine generated; API `marketing_expression_experiment_01_v23_regenerate_all`; parallel batch regen from current contracts (sequential fallback when superseded).
+- **Files:** `brandMarketingExpressionService.ts`, `ProjectBrandMarketingExpressionExperiment01Page.tsx`, `site00ProjectsApi.ts`, `api/site00/projects.ts`; test `artBoardMaterialityP05C4B1.test.ts`.
+- **Founder:** GoDaddy deploy → Experiment 01 → V2.3 tab → after all nine exist, tap REGENERATE ALL (confirms cost).
+
+
 - **Context:** Founder completed calibration work but room felt like an unclosed loop — no progress indicator, unclear what remained, no obvious path to synthesize/create character.
 - **Fix:** Persistent **YOUR PROGRESS** panel (checklist + bar + GO TO NEXT STEP); CASTING tab human checklist; **GENERATE CHARACTER READ** CTA when `readyForCharacterSynthesis`; neural Voice Lab judgments now satisfy `voice_differentiation` gate; CALIBRATION shows direct YES count (3 required, ALMOST does not count).
 - **Files:** `founderCharacterDiscoveryProgress.ts`, `ProjectFounderCharacterDiscoveryPage.tsx`, `ndxCastingReadinessBridge.ts`; tests.

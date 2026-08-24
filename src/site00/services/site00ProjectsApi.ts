@@ -1431,6 +1431,15 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug }),
       },
     ),
+  marketingExpressionExperiment01V23RegenerateAll: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v23_regenerate_all',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
   marketingExpressionExperiment01V23ArtifactJudgment: (slug: string, artifactId: string, judgment: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=marketing_expression_experiment_01_v23_artifact_judgment',

@@ -250,6 +250,27 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
     }
   };
 
+  const regenerateAllV23 = async () => {
+    if (
+      !window.confirm(
+        'Regenerate all nine V2.3 slides from current contracts? Prior images stay in lineage — this runs nine new FAL generations.',
+      )
+    ) {
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    try {
+      const result = await site00ProjectsApi.marketingExpressionExperiment01V23RegenerateAll(projectSlug);
+      setRun((result.run as BrandMarketingExpressionRun) ?? null);
+      await reload();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Regenerate all failed');
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const generateAll = async () => {
     setBusy(true);
     try {
@@ -396,6 +417,11 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
   const isGeneratingBoard = isRunStatusGenerating || generatingCount > 0;
   const allGenerated = activeArtifacts.length > 0 && generatedCount === activeArtifacts.length;
   const v23Superseded = expV23?.generationRunStatus === 'SUPERSEDED_BY_METHODOLOGY';
+  const canRegenerateAllV23 =
+    versionTab === 'V23' &&
+    allGenerated &&
+    !isGeneratingBoard &&
+    generatedCount > 0;
   const canGenerateRemaining = pendingCount > 0 && !isGeneratingBoard && !(versionTab === 'V23' && v23Superseded);
 
   return (
@@ -540,6 +566,17 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                           : generatedCount > 0
                             ? `GENERATE REMAINING ${pendingCount} FIRST SLIDES (FAL)`
                             : 'GENERATE ALL NINE FIRST SLIDES (FAL)'}
+                      </button>
+                    )}
+                    {canRegenerateAllV23 && (
+                      <button
+                        type="button"
+                        className="site00-btn site00-btn--primary"
+                        disabled={busy}
+                        onClick={() => void regenerateAllV23()}
+                        style={{ marginBottom: '12px', width: '100%' }}
+                      >
+                        REGENERATE ALL V2.3 — NINE NEW TAKES (FAL)
                       </button>
                     )}
                     {allGenerated && !v23RevisionDraft && (
