@@ -246,6 +246,8 @@ export type BrandCharacterSynthesisRun = {
   readinessRefresh: {
     previousState: string | null;
     newState: string;
+    /** Gate used for composite synthesis — may floor INSUFFICIENT→PARTIAL when formation + deepening exist. */
+    synthesisEligibleState: string;
     deepeningAnswerCount: number;
     brandLoreReadiness: string | null;
     remainingBlockers: string[];

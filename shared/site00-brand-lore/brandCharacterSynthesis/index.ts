@@ -14,6 +14,7 @@ export * from './maturationContinuity.js';
 export * from './falPromptCompiler.js';
 export * from './characterSystemFromSynthesis.js';
 export * from './synthesisPrompt.js';
+export * from './synthesisReadinessGate.js';
 export * from './vitestFixtures.js';
 
 export function brandCharacterSynthesisImplemented(): true {

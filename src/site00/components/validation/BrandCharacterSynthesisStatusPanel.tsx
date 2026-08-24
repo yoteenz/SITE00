@@ -85,8 +85,8 @@ export function BrandCharacterSynthesisStatusPanel({
         <h3 className="site00-experiment-g-dir__status-title">{statusHeadline(status, progress)}</h3>
         <p className="site00-experiment-g-dir__status-meta">
           Server status: {status?.replace(/_/g, ' ') ?? 'NOT STARTED'}
-          {run?.readinessRefresh?.newState
-            ? ` · Readiness: ${run.readinessRefresh.newState.replace(/_/g, ' ')}`
+          {run?.readinessRefresh
+            ? ` · Synthesis gate: ${(run.readinessRefresh.synthesisEligibleState ?? run.readinessRefresh.newState).replace(/_/g, ' ')}`
             : ''}
         </p>
       </div>

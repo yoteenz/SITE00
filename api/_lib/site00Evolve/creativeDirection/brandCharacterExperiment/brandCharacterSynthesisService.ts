@@ -130,15 +130,23 @@ function initRun(projectId: string, formationRunId: string): BrandCharacterSynth
   };
 }
 
-function canProceedToSynthesis(state: string, override: boolean): boolean {
-  if (override) return true;
-  return state === 'CHARACTER_READY' || state === 'CHARACTER_PARTIAL';
+import {
+  resolveSynthesisEligibleReadinessState,
+  canProceedToCompositeSynthesis,
+} from '../../../../../shared/site00-brand-lore/brandCharacterSynthesis/synthesisReadinessGate.js';
+
+function synthesisGateState(run: BrandCharacterSynthesisRun): string {
+  return (
+    run.readinessRefresh?.synthesisEligibleState ??
+    run.readinessRefresh?.newState ??
+    'CHARACTER_NOT_EVALUATED'
+  );
 }
 
 function assertSynthesisGate(run: BrandCharacterSynthesisRun): void {
   const override = run.readinessRefresh?.founderOverride ?? false;
-  const state = run.readinessRefresh?.newState ?? 'CHARACTER_NOT_EVALUATED';
-  if (!canProceedToSynthesis(state, override)) {
+  const state = synthesisGateState(run);
+  if (!canProceedToCompositeSynthesis(state, override)) {
     throw new Error(run.error ?? `Character readiness insufficient for synthesis (${state.replace(/_/g, ' ')})`);
   }
   const blockers = run.readinessRefresh?.remainingBlockers ?? [];
@@ -233,6 +241,8 @@ function mapAnthropicSynthesis(
   };
 }
 
+export { resolveSynthesisEligibleReadinessState } from '../../../../../shared/site00-brand-lore/brandCharacterSynthesis/synthesisReadinessGate.js';
+
 export async function getBrandCharacterSynthesisState(
   projectId: string,
 ): Promise<BrandCharacterSynthesisRun | null> {
@@ -258,6 +268,13 @@ export async function prepareBrandCharacterSynthesis(params: {
   const newState = refreshed.latestEvaluation?.overallState ?? 'CHARACTER_NOT_EVALUATED';
   const deepeningCount = refreshed.deepeningModule?.answers.length ?? 0;
   const override = Boolean(refreshed.override);
+  const historicalFormationComplete = formationRun.characters.length >= 6;
+  const synthesisEligibleState = resolveSynthesisEligibleReadinessState({
+    evaluatedState: newState,
+    deepeningAnswerCount: deepeningCount,
+    historicalFormationComplete,
+    override,
+  });
 
   const profile = await getBrandLoreProfileForOrg(NDXBOOK_ORG_ID);
   const brandLoreReadiness = profile?.readinessState ?? null;
@@ -273,8 +290,8 @@ export async function prepareBrandCharacterSynthesis(params: {
       remainingBlockers.push(`Brand Lore readiness: ${brandLoreReadiness}`);
     }
   }
-  if (!canProceedToSynthesis(newState, override)) {
-    remainingBlockers.push(`Character readiness: ${newState.replace(/_/g, ' ')}`);
+  if (!canProceedToCompositeSynthesis(synthesisEligibleState, override)) {
+    remainingBlockers.push(`Character readiness: ${synthesisEligibleState.replace(/_/g, ' ')}`);
   }
 
   const territoryRoles = buildTerritoryRoleMap(formationRun.characters);
@@ -302,6 +319,7 @@ export async function prepareBrandCharacterSynthesis(params: {
     readinessRefresh: {
       previousState,
       newState,
+      synthesisEligibleState,
       deepeningAnswerCount: deepeningCount,
       brandLoreReadiness,
       remainingBlockers,

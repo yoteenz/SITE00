@@ -4159,3 +4159,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (branch `cursor/synthesis-background-status-1983`):** `startCompositeBrandCharacterSynthesis()` returns immediately with `SYNTHESIZING`, enqueues `executeCompositeSynthesisWork` via `setImmediate` (vitest stays synchronous); stale reconciliation after 15 min; `synthesisStartedAt` + `synthesisAttemptId` on run. UI: `BrandCharacterSynthesisStatusPanel` with progress bar, elapsed timer, poll every 5s, **safe to leave page** copy, retry stalled. Readiness gate uses deepening-merged inventory for brand-lore bypass; `assertSynthesisGate` checks blockers; page clears stale INSUFFICIENT errors when refresh shows PARTIAL/READY.
 - **Deploy:** Railway API redeploy required for background worker; fsbw-dev frontend after cPanel/tunnel refresh.
 
+---
+
+## 2026-08-24 — Retrospective synthesis readiness floor (INSUFFICIENT + 5 deepening)
+
+- **Context:** Founder screenshots showed **COMPOSITE SYNTHESIS FAILED**, readiness stuck **INSUFFICIENT → INSUFFICIENT** despite **5 deepening answers ingested** and historical six territories already formed; **RUN COMPOSITE SYNTHESIS** disabled.
+- **Root cause:** Formation-time readiness evaluation still **INSUFFICIENT** (6+ thin domains / not all compiled questions answered). Synthesis gate reused raw evaluation state — no retrospective floor for NDXBOOK where territories formed before P0.5B.2 gate and founder completed deepening.
+- **Fix (branch `cursor/synthesis-retrospective-readiness-1983`):** `resolveSynthesisEligibleReadinessState()` — when historical formation complete (6 territories) + ≥3 deepening answers + evaluated INSUFFICIENT → **synthesis gate PARTIAL**. Stored as `readinessRefresh.synthesisEligibleState`; UI shows **Synthesis gate: CHARACTER PARTIAL (retrospective…)** and re-enables run/retry. Formation gate unchanged.
+- **Tests:** +3 synthesisReadinessGate tests; 44 in synthesis suites pass. Build green.
+
