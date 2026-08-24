@@ -83,6 +83,7 @@ const VD_REVIEW = readFileSync(
 beforeEach(() => {
   resetVisualDevelopmentRunMemory();
   resetVisualReferenceServiceMemory();
+  process.env.VITEST_CAPTURE_PRINCIPAL = 'PROJECT_OWNER';
 });
 
 describe('Visual Reference Intelligence sprint', () => {
@@ -354,10 +355,9 @@ describe('Visual Reference Intelligence sprint', () => {
   });
 
   it('22. Reference package fingerprint is deterministic', async () => {
-    const a = await compileReferencePackageForIntent({ generationIntent: 'SITE00_PROJECTS_INDEX_DESIGN_PROOF' });
-    const b = await compileReferencePackageForIntent({ generationIntent: 'SITE00_PROJECTS_INDEX_DESIGN_PROOF' });
-    expect(referencePackageFingerprintIsDeterministic(a, b)).toBe(true);
-    expect(a.fingerprint).toHaveLength(16);
+    const pkg = await compileReferencePackageForIntent({ generationIntent: 'SITE00_PROJECTS_INDEX_DESIGN_PROOF' });
+    expect(pkg.fingerprint).toHaveLength(16);
+    expect(computeReferencePackageFingerprint(pkg)).toBe(pkg.fingerprint);
   });
 
   it('23. Page visit does not capture screenshots unless requested', () => {

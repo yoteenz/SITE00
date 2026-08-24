@@ -12,6 +12,7 @@ export const REFERENCE_PIPELINE_STATUSES = [
   'REFERENCE_STALE',
   'REFERENCE_CONDITIONING_UNSUPPORTED',
   'PROVIDER_MODE_MISMATCH',
+  'AUTHENTICATED_REFERENCE_REQUIRED',
   'READY_FOR_REFERENCE_CONDITIONED_GENERATION',
   'NOT_STARTED',
 ] as const;
@@ -23,8 +24,13 @@ export function evaluateReferencePipelineStatus(params: {
   requireStrictHost: boolean;
   requireMobileEvidence?: boolean;
   mobileReferenceCount?: number;
+  authenticatedProjectsReferenceValid?: boolean;
 }): ReferencePipelineStatus {
   if (!params.referencePackage) return 'NOT_STARTED';
+
+  if (params.requireStrictHost && params.authenticatedProjectsReferenceValid === false) {
+    return 'AUTHENTICATED_REFERENCE_REQUIRED';
+  }
 
   const resolvable = params.referencePackage.references.filter((r) => r.publicUrl || r.storagePath);
   if (resolvable.length === 0) return 'REFERENCE_PACKAGE_INCOMPLETE';

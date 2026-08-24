@@ -110,6 +110,7 @@ beforeEach(() => {
   resetVisualDevelopmentRunMemory();
   resetP1OrchestrationState();
   resetComposerDispatchRegistry();
+  process.env.VITEST_CAPTURE_PRINCIPAL = 'PROJECT_OWNER';
 });
 
 describe('P1 LIVE VERIFICATION', () => {

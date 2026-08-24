@@ -47,6 +47,7 @@ import {
   refreshVisualReferences,
   resetVisualReferenceServiceMemory,
   assertReferencePackageReadyForFal,
+  quarantineAndPersistHostVisualMemory,
 } from '../../../site00VisualReference/visualReferenceService.js';
 import { hydrateVisualReferencePackage } from '../../../site00VisualReference/referenceUrlResolver.js';
 import { evaluateReferenceAdherence } from '../../../../../shared/site00-visual-reference/referenceAdherenceQA.js';
@@ -57,10 +58,20 @@ import {
   buildVisualGenerationExecutionTrace,
   classifySurfaceGenerationMode,
   compileInterfaceAssetManifest,
+  compilePurposeGatedInterfaceManifest,
+  compilePurposeGatedSlotResolution,
   compileSurfaceVisualAuthorityPackage,
   evaluateReferencePipelineStatus,
   FULL_PAGE_GENERATION_NOT_ALLOWED_FOR_COMPOSED_INTERFACE,
+  slotResolutionBlocksMethodologyGeneration,
+  compileAssetPromptFromPurpose,
 } from '../../../../../shared/site00-studio-world-production/p1/generationBoundary/index.js';
+import {
+  assertAuthenticatedProjectsReferencesReady,
+  evaluateAuthenticatedReferenceForRoute,
+} from '../../../../../shared/site00-visual-reference/authenticatedReferencePrecondition.js';
+import { quarantineExistingInvalidReferences } from '../../../../../shared/site00-visual-reference/referenceQuarantine.js';
+import { listCreativeAssets } from '../../creativeLineage/storeAdapter.js';
 import * as store from './visualDevelopmentStoreAdapter.js';
 
 function nowIso(): string {
@@ -120,6 +131,8 @@ function initProof(
     referencePipelineStatus: 'NOT_STARTED',
     surfaceVisualAuthorityPackage: null,
     interfaceAssetManifest: null,
+    interfaceSlotResolution: null,
+    authenticatedReferenceStatus: [],
     executionTraces: [],
   };
 }
@@ -180,10 +193,28 @@ function refreshProofManifestFromGeneratedAssets(
 
   proof.functionalCanon = ctx.functionalCanon;
   if (proof.manifest) {
-    proof.interfaceAssetManifest = compileInterfaceAssetManifest({
-      surfaceId: proof.proofId,
-      designProofManifest: proof.manifest,
-    });
+    if (proof.surfaceGenerationMode === 'COMPOSED_INTERFACE') {
+      const slotResolution = compilePurposeGatedSlotResolution({
+        projectSlug: run.projectId,
+        existingGeneratedAssets: proof.generatedAssets.map((a) => ({
+          requirementId: a.requirementId,
+          storagePath: a.storagePath,
+          publicUrl: a.publicUrl,
+          assetRole: a.assetRole,
+        })),
+      });
+      proof.interfaceSlotResolution = slotResolution;
+      proof.interfaceAssetManifest = compilePurposeGatedInterfaceManifest({
+        surfaceId: proof.proofId,
+        slotResolution,
+        designProofManifest: proof.manifest,
+      });
+    } else {
+      proof.interfaceAssetManifest = compileInterfaceAssetManifest({
+        surfaceId: proof.proofId,
+        designProofManifest: proof.manifest,
+      });
+    }
   }
 }
 
@@ -203,6 +234,8 @@ export function hydrateSurfaceDesignProof(proof: SurfaceDesignProof): SurfaceDes
     generationReceipts: proof.generationReceipts ?? [],
     surfaceVisualAuthorityPackage: proof.surfaceVisualAuthorityPackage ?? null,
     interfaceAssetManifest: proof.interfaceAssetManifest ?? null,
+    interfaceSlotResolution: proof.interfaceSlotResolution ?? null,
+    authenticatedReferenceStatus: proof.authenticatedReferenceStatus ?? [],
     referencePipelineStatus: proof.referencePipelineStatus ?? 'NOT_STARTED',
     surfaceGenerationMode:
       proof.surfaceGenerationMode ??
@@ -291,7 +324,7 @@ export async function refreshVisualDevelopmentReferences(
   return compileVisualDevelopmentReferencePackage(proofId);
 }
 
-function refreshSurfaceClassification(proof: SurfaceDesignProof): void {
+function refreshSurfaceClassification(proof: SurfaceDesignProof, hostReferencesValid?: boolean): void {
   proof.surfaceGenerationMode = classifySurfaceGenerationMode({
     proofId: proof.proofId,
     hasHostVisualAuthority: Boolean(proof.referencePackage?.references.length),
@@ -304,7 +337,16 @@ function refreshSurfaceClassification(proof: SurfaceDesignProof): void {
     mobileReferenceCount: proof.referencePackage?.references.filter((r) =>
       r.roles.includes('HOST_RESPONSIVE_BEHAVIOR'),
     ).length ?? 0,
+    authenticatedProjectsReferenceValid: hostReferencesValid,
   });
+}
+
+async function refreshAuthenticatedReferenceStatus(proof: SurfaceDesignProof): Promise<void> {
+  const { host } = await quarantineAndPersistHostVisualMemory();
+  proof.authenticatedReferenceStatus = [
+    evaluateAuthenticatedReferenceForRoute(host.references, '/projects', 'DESKTOP'),
+    evaluateAuthenticatedReferenceForRoute(host.references, '/projects', 'MOBILE'),
+  ];
 }
 
 export async function prepareComposedInterfaceSurface(
@@ -315,6 +357,9 @@ export async function prepareComposedInterfaceSurface(
   }
 
   await refreshHostReferencesForProof('SITE00_PROJECTS_INDEX');
+
+  const { host } = await quarantineAndPersistHostVisualMemory();
+  assertAuthenticatedProjectsReferencesReady(host);
 
   let run = await compileVisualDevelopmentReferencePackage(proofId);
   run = await compileVisualDevelopmentProofManifest(proofId);
@@ -329,13 +374,33 @@ export async function prepareComposedInterfaceSurface(
     referencePackage: proof.referencePackage,
   });
 
+  const creativeAssets = await listCreativeAssets('ndxbook').catch(() => []);
+  const slotResolution = compilePurposeGatedSlotResolution({
+    projectSlug: 'ndxbook',
+    creativeAssets,
+    existingGeneratedAssets: proof.generatedAssets.map((a) => ({
+      requirementId: a.requirementId,
+      storagePath: a.storagePath,
+      publicUrl: a.publicUrl,
+      assetRole: a.assetRole,
+    })),
+  });
+
+  proof.interfaceSlotResolution = slotResolution;
+
   if (!proof.manifest) throw new Error('Manifest required');
-  proof.interfaceAssetManifest = compileInterfaceAssetManifest({
+  proof.interfaceAssetManifest = compilePurposeGatedInterfaceManifest({
     surfaceId: proofId,
+    slotResolution,
     designProofManifest: proof.manifest,
   });
 
-  refreshSurfaceClassification(proof);
+  await refreshAuthenticatedReferenceStatus(proof);
+  const projectsDesktopValid = proof.authenticatedReferenceStatus.find(
+    (s) => s.viewportClass === 'DESKTOP',
+  )?.status === 'VALID';
+
+  refreshSurfaceClassification(proof, projectsDesktopValid);
   assertReferencePipelineReady(proof.referencePipelineStatus);
   proof.lifecycle = 'GENERATION_READY';
   setProof(run, proof);
@@ -378,7 +443,25 @@ export async function generateMissingInterfaceAssets(
     .slice(0, 6)
     .join(', ');
 
-  const missingReqs = proof.manifest.requirements.filter((r) => r.missing && r.generationAllowed);
+  const creativeAssets = await listCreativeAssets('ndxbook').catch(() => []);
+  const slotResolution =
+    proof.interfaceSlotResolution ??
+    compilePurposeGatedSlotResolution({
+      projectSlug: 'ndxbook',
+      creativeAssets,
+      existingGeneratedAssets: proof.generatedAssets.map((a) => ({
+        requirementId: a.requirementId,
+        storagePath: a.storagePath,
+        publicUrl: a.publicUrl,
+        assetRole: a.assetRole,
+      })),
+    });
+  proof.interfaceSlotResolution = slotResolution;
+
+  const generationSlots = slotResolution.resolved.filter(
+    (r) => r.generationRequired && r.generationJustification && r.status === 'MISSING',
+  );
+
   let generatedAssets = [...proof.generatedAssets];
   let generationReceipts = [...proof.generationReceipts];
   let executionTraces = [...proof.executionTraces];
@@ -386,10 +469,51 @@ export async function generateMissingInterfaceAssets(
   let estimatedCostUsd = run.accounting.estimatedCostUsd;
   let anyFailed = false;
 
-  for (const req of missingReqs) {
-    const storagePath = `site00/visual-development/${proofId.toLowerCase()}/${req.assetRole.toLowerCase()}-desktop.webp`;
+  if (generationSlots.length === 0) {
+    proof.interfaceAssetManifest = compilePurposeGatedInterfaceManifest({
+      surfaceId: proofId,
+      slotResolution,
+      designProofManifest: proof.manifest,
+    });
+    proof.lifecycle = 'FOUNDER_REVIEW';
+    proof.generationError = null;
+    setProof(run, proof);
+    return await store.saveVisualDevelopmentRun(run);
+  }
+
+  for (const slotMaterial of generationSlots) {
+    const slot = slotResolution.slots.find((s) => s.slotId === slotMaterial.slotId);
+    if (!slot || slotResolutionBlocksMethodologyGeneration(slot.replacesLegacyRoles?.[0] ?? slot.semanticRole)) {
+      continue;
+    }
+
+    const justification = slotMaterial.generationJustification;
+    if (!justification) continue;
+
+    const promptText = compileAssetPromptFromPurpose({
+      slot,
+      projectName: 'NDXBOOK',
+      justification,
+    });
+
+    const pseudoReq = {
+      id: slot.slotId,
+      proofId,
+      category: 'PRIMARY_ARTWORK' as const,
+      assetRole: slot.semanticRole,
+      purpose: promptText,
+      deviceClass: 'DESKTOP' as const,
+      reusable: false,
+      reusableAssetId: null,
+      missing: true,
+      generationAllowed: true,
+      idempotencyKey: `${proofId}-${slot.slotId}`,
+      estimatedCostUsd: 0.05,
+    };
+
+    const storagePath = `site00/visual-development/${proofId.toLowerCase()}/${slot.slotId}-desktop.webp`;
     const result = await generateDesignProofAssetViaFal({
-      requirement: req,
+      requirement: pseudoReq,
       storagePath,
       artDirectionSummary: artSummary,
       proofConcept: proof.concept,
@@ -416,8 +540,8 @@ export async function generateMissingInterfaceAssets(
         model: result.ok ? result.model : EXPERIENCE_FAL_MODEL,
         providerRequestId: result.ok ? result.requestId : null,
         promptHash: result.ok ? result.promptHash : '',
-        inputFingerprintSeed: `${req.id}:${proof.referencePackage?.fingerprint ?? 'none'}`,
-        outputAssetIds: result.ok ? [req.id] : [],
+        inputFingerprintSeed: `${pseudoReq.id}:${proof.referencePackage?.fingerprint ?? 'none'}`,
+        outputAssetIds: result.ok ? [pseudoReq.id] : [],
         fallbackAttempted: false,
         fallbackBlocked: proof.referencePackage?.strictHostVisualConditioning ?? false,
         failureReason: result.ok ? null : result.error,
@@ -428,8 +552,8 @@ export async function generateMissingInterfaceAssets(
     if (!result.ok) {
       anyFailed = true;
       generationReceipts.push({
-        receiptId: `rcpt-fail-${req.id}`,
-        requirementId: req.id,
+        receiptId: `rcpt-fail-${pseudoReq.id}`,
+        requirementId: pseudoReq.id,
         proofId,
         provider: EXPERIENCE_FAL_PROVIDER,
         model: EXPERIENCE_FAL_MODEL,
@@ -438,7 +562,7 @@ export async function generateMissingInterfaceAssets(
         storagePath,
         publicUrl: null,
         costUsd: 0,
-        lineageKey: req.idempotencyKey,
+        lineageKey: pseudoReq.idempotencyKey,
         parentLineageKey: proof.parentProofRecordId,
         status: 'FAILED',
         generatedAt: nowIso(),
@@ -450,8 +574,8 @@ export async function generateMissingInterfaceAssets(
     falRequests += 1;
     estimatedCostUsd += result.costUsd;
     generationReceipts.push({
-      receiptId: `rcpt-${req.idempotencyKey}`,
-      requirementId: req.id,
+      receiptId: `rcpt-${pseudoReq.idempotencyKey}`,
+      requirementId: pseudoReq.id,
       proofId,
       provider: result.provider,
       model: result.model,
@@ -460,22 +584,37 @@ export async function generateMissingInterfaceAssets(
       storagePath: result.storagePath,
       publicUrl: result.publicUrl,
       costUsd: result.costUsd,
-      lineageKey: req.idempotencyKey,
+      lineageKey: pseudoReq.idempotencyKey,
       parentLineageKey: proof.parentProofRecordId,
       status: 'GENERATED',
       generatedAt: nowIso(),
       error: null,
     });
-    generatedAssets = generatedAssets.filter((a) => a.requirementId !== req.id);
+    generatedAssets = generatedAssets.filter((a) => a.requirementId !== pseudoReq.id);
     generatedAssets.push({
-      requirementId: req.id,
+      requirementId: pseudoReq.id,
       storagePath: result.storagePath,
       publicUrl: result.publicUrl,
-      assetRole: req.assetRole,
-      category: req.category,
+      assetRole: slot.semanticRole,
+      category: pseudoReq.category,
       productionState: 'VISUAL_DEVELOPMENT',
     });
   }
+
+  proof.interfaceAssetManifest = compilePurposeGatedInterfaceManifest({
+    surfaceId: proofId,
+    slotResolution: compilePurposeGatedSlotResolution({
+      projectSlug: 'ndxbook',
+      creativeAssets,
+      existingGeneratedAssets: generatedAssets.map((a) => ({
+        requirementId: a.requirementId,
+        storagePath: a.storagePath,
+        publicUrl: a.publicUrl,
+        assetRole: a.assetRole,
+      })),
+    }),
+    designProofManifest: proof.manifest,
+  });
 
   proof.generatedAssets = generatedAssets;
   proof.generationReceipts = generationReceipts;
@@ -722,7 +861,7 @@ async function generateProofInternal(
         storagePath,
         publicUrl: null,
         costUsd: 0,
-        lineageKey: req.idempotencyKey,
+        lineageKey: pseudoReq.idempotencyKey,
         parentLineageKey: proof.parentProofRecordId,
         status: 'FAILED',
         generatedAt: nowIso(),
@@ -942,11 +1081,15 @@ export async function prepareVisualDevelopmentImplementation(
   }
 
   if (composedInterface) {
-    if (proof.generatedAssets.length === 0) {
-      throw new Error('PREPARE_IMPLEMENTATION requires generated interface assets for COMPOSED_INTERFACE');
-    }
     if (!proof.surfaceVisualAuthorityPackage) {
       throw new Error('PREPARE_IMPLEMENTATION requires SurfaceVisualAuthorityPackage');
+    }
+    const hasResolvedMaterial =
+      Boolean(proof.interfaceSlotResolution) ||
+      proof.generatedAssets.length > 0 ||
+      Boolean(proof.interfaceAssetManifest?.purposeGated);
+    if (!hasResolvedMaterial) {
+      throw new Error('PREPARE_IMPLEMENTATION requires resolved visual material for COMPOSED_INTERFACE');
     }
   } else if (!proof.composedProof) {
     throw new Error('PREPARE_IMPLEMENTATION requires approved proof with composed image');

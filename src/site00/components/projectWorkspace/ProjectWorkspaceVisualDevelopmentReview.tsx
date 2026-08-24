@@ -209,13 +209,59 @@ function ProofPanel({
         <div className="site00-vd-proof__composed-interface">
           <p>
             FULL-PAGE IMAGE GENERATION: <strong>NOT REQUIRED</strong> — Composer assembles the live interface from host
-            references + missing assets.
+            references + purpose-resolved visual material.
           </p>
+          {proof.authenticatedReferenceStatus.length > 0 ? (
+            <div className="site00-vd-proof__auth-refs">
+              <p className="site00-vd-proof__auth-refs-title">AUTHENTICATED REFERENCE STATUS</p>
+              <ul>
+                {proof.authenticatedReferenceStatus.map((status) => (
+                  <li key={`${status.route}-${status.viewportClass}`}>
+                    PROJECTS {status.viewportClass}: <strong>{status.status}</strong>
+                    {status.surfaceIdentity ? ` · ${status.surfaceIdentity}` : ''}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
           {interfaceManifest ? (
             <p>
-              Assets required: {interfaceManifest.requirements.length} · Reusable: {interfaceManifest.reusableCount} ·
-              Missing: {interfaceManifest.missingCount} · Generation required: {interfaceManifest.generationRequiredCount}
+              VISUAL SLOTS: {interfaceManifest.requirements.length} · FOUND: {interfaceManifest.foundCount ?? interfaceManifest.reusableCount} ·
+              ELIGIBLE: {interfaceManifest.eligibleCount ?? interfaceManifest.reusableCount} · REVIEW REQUIRED:{' '}
+              {interfaceManifest.reviewRequiredCount ?? 0} · REJECTED: {interfaceManifest.rejectedCount ?? 0} · MISSING
+              TRUE ASSETS: {interfaceManifest.missingCount} · GENERATION REQUIRED: {interfaceManifest.generationRequiredCount}
             </p>
+          ) : null}
+          {proof.interfaceSlotResolution ? (
+            <div className="site00-vd-proof__slot-resolution">
+              <p className="site00-vd-proof__assets-title">RESOLVED VISUAL MATERIAL</p>
+              <ul>
+                {proof.interfaceSlotResolution.resolved.map((material) => {
+                  const slot = proof.interfaceSlotResolution!.slots.find((s) => s.slotId === material.slotId);
+                  return (
+                    <li key={material.slotId}>
+                      {slot?.semanticRole ?? material.slotId} — {material.status}
+                      {material.projectSlug ? ` · ${material.projectSlug}` : ''}
+                      {material.generationRequired && material.generationJustification
+                        ? ` · WHY GENERATE: ${material.generationJustification.whyAssetNeeded}`
+                        : ''}
+                      {material.publicUrl ? (
+                        <>
+                          {' '}
+                          — <a href={material.publicUrl}>preview</a>
+                        </>
+                      ) : null}
+                    </li>
+                  );
+                })}
+              </ul>
+              {proof.interfaceSlotResolution.obsoleteGeneratedAssets.length > 0 ? (
+                <p>
+                  REJECTED / INELIGIBLE (preserved):{' '}
+                  {proof.interfaceSlotResolution.obsoleteGeneratedAssets.map((a) => a.requirementId).join(', ')}
+                </p>
+              ) : null}
+            </div>
           ) : null}
           <div className="site00-vd-proof__generate">
             {onPrepareInterface ? (
@@ -250,9 +296,9 @@ function ProofPanel({
         </div>
       ) : null}
 
-      {composedInterface && assetsReady ? (
+      {composedInterface && (assetsReady || (proof.interfaceSlotResolution?.summary.generationRequired ?? 0) === 0) ? (
         <div className="site00-vd-proof__assets">
-          <p className="site00-vd-proof__assets-title">GENERATED INTERFACE ASSETS</p>
+          <p className="site00-vd-proof__assets-title">GENERATED ASSETS (PURPOSE-BUILT ONLY)</p>
           <ul>
             {proof.generatedAssets.map((asset) => (
               <li key={asset.requirementId}>

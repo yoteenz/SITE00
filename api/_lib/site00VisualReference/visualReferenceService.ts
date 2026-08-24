@@ -27,6 +27,8 @@ import {
   hydrateHostVisualMemory,
   resolveReferenceRecordPublicUrl,
 } from './referenceUrlResolver.js';
+import { quarantineExistingInvalidReferences } from '../../../shared/site00-visual-reference/referenceQuarantine.js';
+import { loadVisualCaptureAuthContext } from '../../../shared/site00-visual-reference/captureAuthContext.js';
 import * as store from './storeAdapter.js';
 
 function getSourceCommit(): string | null {
@@ -52,7 +54,8 @@ export async function initializeVisualReferenceMemory(): Promise<{
 }> {
   const existing = await store.getHostVisualMemory();
   if (existing) {
-    const host = await hydrateHostVisualMemory(existing);
+    let host = await hydrateHostVisualMemory(existing);
+    host = { ...host, references: quarantineExistingInvalidReferences(host.references) };
     if (host !== existing) {
       await store.saveHostVisualMemory(host);
     }
@@ -86,6 +89,7 @@ export async function refreshVisualReferences(params: {
   let reused = 0;
 
   for (const entry of manifest.entries) {
+    const authContext = loadVisualCaptureAuthContext({ route: entry.route });
     const result = await captureSite00RouteReference({
       route: entry.route,
       viewportClass: entry.viewportClass,
@@ -99,6 +103,7 @@ export async function refreshVisualReferences(params: {
       sourceType: entry.sourceType,
       label: entry.label,
       existingReferences: host.references,
+      authContext,
     });
 
     if (result.ok) {
@@ -197,6 +202,20 @@ export async function compileReferencePackageForIntent(params: {
     selectionInput,
     strictHostVisualConditioning: params.generationIntent === 'SITE00_PROJECTS_INDEX_DESIGN_PROOF',
   });
+}
+
+export async function quarantineAndPersistHostVisualMemory(): Promise<{
+  host: HostVisualMemory;
+  client: ReturnType<typeof seedNdxbookClientVisualMemory>;
+}> {
+  const { host, client } = await initializeVisualReferenceMemory();
+  const quarantined = quarantineExistingInvalidReferences(host.references);
+  if (quarantined !== host.references) {
+    const nextHost = { ...host, references: quarantined };
+    await store.saveHostVisualMemory(nextHost);
+    return { host: nextHost, client };
+  }
+  return { host, client };
 }
 
 export async function assertReferencePackageReadyForFal(pkg: VisualReferencePackage): Promise<void> {

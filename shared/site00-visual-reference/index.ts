@@ -15,3 +15,8 @@ export * from './referenceStoragePaths.js';
 export * from './referencePublicUrl.js';
 export * from './hostVisualMemory.js';
 export * from './clientVisualMemory.js';
+export * from './captureAuthTypes.js';
+export * from './captureAuthContext.js';
+export * from './surfaceIdentityVerification.js';
+export * from './referenceQuarantine.js';
+export * from './authenticatedReferencePrecondition.js';

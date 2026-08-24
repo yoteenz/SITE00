@@ -43,7 +43,7 @@ export default function ProjectsPage() {
 
   return (
     <EcosystemShell>
-      <div className="site00-page site00-page--projects">
+      <div className="site00-page site00-page--projects" data-site00-surface="projects-index">
         <header className="site00-projects-header">
           <p className="site00-label-red">PROJECT INDEX</p>
           <h1 className="site00-projects-header__title">PROJECTS</h1>

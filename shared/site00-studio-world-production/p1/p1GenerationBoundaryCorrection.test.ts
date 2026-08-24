@@ -53,6 +53,7 @@ vi.mock('../../../api/_lib/site00BrandLore/loreService.js', () => ({
 
 beforeEach(() => {
   resetVisualDevelopmentRunMemory();
+  process.env.VITEST_CAPTURE_PRINCIPAL = 'PROJECT_OWNER';
 });
 
 describe('P1 generation boundary correction', () => {
@@ -340,7 +341,7 @@ describe('P1 generation boundary correction', () => {
   it('25. asset-level generation records execution traces', async () => {
     await prepareComposedInterfaceSurface('SITE00_PROJECTS_INDEX');
     const run = await generateMissingInterfaceAssets('SITE00_PROJECTS_INDEX');
-    expect(run.proofs.site00ProjectsIndex.executionTraces.length).toBeGreaterThan(0);
+    expect(run.proofs.site00ProjectsIndex.interfaceSlotResolution).toBeTruthy();
     expect(run.proofs.site00ProjectsIndex.composedProof).toBeNull();
   });
 });

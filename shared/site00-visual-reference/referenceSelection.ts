@@ -13,6 +13,7 @@ import type {
 import { deprioritizeStaleReferences } from './staleness.js';
 import { rankReferenceForSelection } from './referenceConflictResolution.js';
 import { validateReferenceForPackage } from './contaminationGuards.js';
+import { isReferenceQuarantinedForRoute, referenceEligibleForPackageSelection } from './referenceQuarantine.js';
 
 export type ReferenceSelectionInput = {
   generationIntent: VisualGenerationIntent;
@@ -45,6 +46,13 @@ function scoreReference(ref: VisualReferenceRecord, input: ReferenceSelectionInp
   });
   if (!guard.allowed) return Infinity;
   if (input.excludedReferenceIds?.includes(ref.id)) return Infinity;
+  if (
+    desiredRoles.includes('CURRENT_FUNCTIONAL_SURFACE') &&
+    ref.captureMetadata &&
+    ref.captureMetadata.surfaceIdentity !== 'VALID_TARGET_SURFACE'
+  ) {
+    return Infinity;
+  }
   return rankReferenceForSelection(ref) + viewportScore(ref, input.targetDevice) - roleScore(ref, desiredRoles) * 10;
 }
 
@@ -54,7 +62,10 @@ function pickBest(
   desiredRoles: VisualReferenceRole[],
   usedIds: Set<string>,
 ): VisualReferenceRecord | null {
-  const candidates = deprioritizeStaleReferences(pool).filter((r) => !usedIds.has(r.id));
+  const candidates = deprioritizeStaleReferences(pool)
+    .filter((r) => !usedIds.has(r.id))
+    .filter((r) => referenceEligibleForPackageSelection(r, input.targetSurface, desiredRoles))
+    .filter((r) => !isReferenceQuarantinedForRoute(r, input.targetSurface));
   if (candidates.length === 0) return null;
   const sorted = [...candidates].sort((a, b) => scoreReference(a, input, desiredRoles) - scoreReference(b, input, desiredRoles));
   const best = sorted[0];
