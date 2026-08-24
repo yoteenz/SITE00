@@ -15,6 +15,8 @@ import type { NdxFounderCharacterDiscoveryRun } from './types.js';
 const CALIBRATION_DISCOVERY_MOMENTS_MIN = 6;
 const CALIBRATION_DIRECT_TRUTHS_MIN = 3;
 
+export { CALIBRATION_DISCOVERY_MOMENTS_MIN, CALIBRATION_DIRECT_TRUTHS_MIN };
+
 function calibrationInteractionResolved(run: NdxFounderCharacterDiscoveryRun, interactionId: string): boolean {
   return (
     run.calibrationState?.interactions.find((i) => i.interactionId === interactionId)?.resolved === true
@@ -64,7 +66,8 @@ export function evaluateNdxFounderCharacterCastingReadiness(params: {
 
   const voiceDifferentiationEstablished =
     run.voiceLabSamples.some((s) => Object.keys(s.judgments).length > 0) ||
-    calibrationInteractionResolved(run, 'cal-voice-misleading-viral');
+    calibrationInteractionResolved(run, 'cal-voice-misleading-viral') ||
+    (run.voiceCalibrationState?.hypotheses.some((h) => Boolean(h.founderJudgment || h.humanWomanTest)) ?? false);
 
   const bookRelationshipEstablished =
     Boolean(run.bookDiscovery.whySheWritesThingsDown) ||
