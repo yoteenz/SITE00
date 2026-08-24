@@ -4012,3 +4012,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** API `setExperimentGConceptJudgment` already persisted `founderJudgment` to Supabase; UI never read or displayed saved judgment on concept cards.
 - **Fix (branch `cursor/experiment-g-judgment-persist-ui-1983`):** Active button state + green “✓ YOU LOVED THIS CONCEPT — selection saved” banner; apply API response run immediately (no second reload); status `FOUNDER_REVIEWED` on save. Tests: judgment persistence + UI option contract.
 
+---
+
+## 2026-08-24 — Brand Presentation Direction Development (Experiment G top-3)
+
+- **Context:** Sprint after founder loved three Experiment G concepts (COLLECTOR WHO CONNECTS, ROOM THAT KNOWS, THING THAT KEEPS NOTICING). Build concept → direction layer: 3 parents × 3 directions = 9 candidates, zero visual/FAL.
+- **Implementation (branch `cursor/brand-presentation-direction-development-1983`):** `shared/site00-brand-lore/brandPresentationDirectionTerritory/` types/evaluators/prompt/cross-parent audit; `directionService.ts` + Supabase row `c4e1a2b3-0007-4000-8000-000000000001`; API `experiment_g_direction_*`; route `/projects/ndxbook/experiment-g-brand-presentation-concepts/directions`; DEVELOP TOP 3 DIRECTIONS CTA on Experiment G when 3 loves match eligible names; founder direction judgments persist; P0.5A edge registration helper. Tests: 1757 pass (+10 direction suite).
+- **Founder flow:** Love 3 concepts on Experiment G → DEVELOP TOP 3 DIRECTIONS → review 9 direction cards → LOVE THE DIRECTION / etc. Visual formulation + FAL blocked until later sprint.
+- **Deploy:** cPanel + Railway redeploy for API actions.
+
