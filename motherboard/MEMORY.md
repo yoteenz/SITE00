@@ -4367,3 +4367,16 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Boundaries:** Brand Character/Canon unchanged; no autonomous publishing; cross-platform caption independence preserved.
 - **Tests:** 50 P0.5C.5 requirements in `firstPersonAuthorshipP05C5.test.ts`. Build green.
 
+---
+
+## 2026-08-24 — P0.5E.2 NDX Book Cultural Language + Content Ontology + Motion Character Foundation
+
+- **Context:** Sprint P0.5E.2 — formalize NDXBOOK book-based cultural language/content ontology and motion character system foundation. Architecture only — no embodied character visual design, no FAL/LoRA, no generation.
+- **Generic Studio World:** `shared/site00-studio-world-production/bookLanguage/` (BookLanguageContextEvaluation, memory mapping) + `motionCharacter/` (MotionCharacterSystem, HumanMotionTraceSystem, PhysicalBookBehavior).
+- **NDX adapters:** `shared/site00-brand-lore/ndxBookCulturalLanguage/` (terminology forensic, NdxBookCulturalLanguageSystem, NdxContentOntology, NdxAudienceBookBehavior, CrossSurfaceBookProgression) + `ndxMotionCharacter/` (motion thesis, 12 behavior modes, platform differentiation, EmbodiedBrandCharacterFoundation, EmbodiedCharacterDiscoveryReadiness).
+- **Terminology:** Forensic audit classifies SLIDE/FILE/ARCHIVE/etc.; historical CASE FILE identifiers immutable; public language PAGE/BOOKMARK/FLIP BACK/DOG-EAR/ERRATA/MARGIN NOTE/FOOTNOTE/ADD IT TO THE BOOK; FILED not canonical public completion language.
+- **Ontology:** FEED=THE PAGES, STORIES=THE MARGINS, REELS=THE BOOK IN MOTION, TIKTOK=THE THOUGHT BEING SPOKEN, INDEX=ACCUMULATED MEMORY. REUSE_THINKING_NOT_POSTS preserved via CrossSurfaceBookProgression.
+- **Motion:** Core principle THE VIDEO SHOWS THE BOOK BEING MADE. 12 behavior modes (RABBIT_HOLE, RECEIPT_CAME_BACK, etc.) — flexible not templates. Embodied character distinct from founder + Brand Character; copyright cloning blocked; visual design NOT finalized.
+- **UI/API:** `/projects/ndxbook/motion-character` — ProjectMotionCharacterPage with 9 review sections; API `motion_character_book_language_*` actions.
+- **Tests:** 28 requirements in `bookLanguageMotionCharacterP05E2.test.ts`. Build green.
+
