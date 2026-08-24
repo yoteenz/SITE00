@@ -1,22 +1,34 @@
 /**
  * NDXBOOK Founder Workspace — editorial command-center shell.
  * Host (SITE 00) chrome remains in EcosystemShell; this is client workspace interior.
+ * P0.VR.1A: light cream/paper-led field (dark-primary direction superseded).
  */
+
+:root {
+  --ndx-paper: #faf8f5;
+  --ndx-ink: #111111;
+  --ndx-lime: #b7d236;
+  --ndx-border: #e8e4dc;
+  --ndx-muted: #8a857c;
+  --ndx-surface: #ffffff;
+  --ndx-surface-raised: #f5f2eb;
+  --ndx-host-red: #e85656;
+}
 
 .site00-fws {
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr);
   min-height: calc(100vh - 120px);
-  background: #0f0f0f;
-  color: #e8e4dc;
+  background: var(--ndx-paper);
+  color: var(--ndx-ink);
   font-family: var(--site00-font-mono, ui-monospace, monospace);
 }
 
 .site00-fws-rail {
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #2a2a2a;
-  background: #121212;
+  border-right: 1px solid var(--ndx-border);
+  background: var(--ndx-surface);
   padding: 16px 12px;
   position: sticky;
   top: 0;
@@ -30,13 +42,13 @@
   gap: 2px;
   margin-bottom: 20px;
   padding-bottom: 16px;
-  border-bottom: 1px solid #2a2a2a;
+  border-bottom: 1px solid var(--ndx-border);
 }
 
 .site00-fws-rail__host {
   font-size: 10px;
   letter-spacing: 0.12em;
-  color: #c41e3a;
+  color: var(--ndx-host-red);
 }
 
 .site00-fws-rail__client {
@@ -47,7 +59,7 @@
 
 .site00-fws-rail__mode {
   font-size: 9px;
-  color: #888;
+  color: var(--ndx-muted);
   letter-spacing: 0.1em;
 }
 
@@ -65,45 +77,45 @@
   padding: 10px 12px;
   font-size: 11px;
   letter-spacing: 0.1em;
-  color: #aaa;
+  color: var(--ndx-muted);
   text-decoration: none;
   border-radius: 4px;
   transition: background 0.15s, color 0.15s;
 }
 
 .site00-fws-rail__link:hover {
-  background: #1a1a1a;
-  color: #fff;
+  background: var(--ndx-surface-raised);
+  color: var(--ndx-ink);
 }
 
 .site00-fws-rail__link--active {
-  background: #1f1f1f;
-  color: #c8ff00;
-  border-left: 2px solid #c8ff00;
+  background: var(--ndx-surface-raised);
+  color: var(--ndx-lime);
+  border-left: 2px solid var(--ndx-lime);
 }
 
 .site00-fws-rail__badge {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #c41e3a;
+  background: var(--ndx-host-red);
 }
 
 .site00-fws-rail__inspect {
   margin-top: auto;
   padding-top: 16px;
-  border-top: 1px solid #2a2a2a;
+  border-top: 1px solid var(--ndx-border);
 }
 
 .site00-fws-rail__inspect-link {
   font-size: 9px;
   letter-spacing: 0.08em;
-  color: #666;
+  color: var(--ndx-muted);
   text-decoration: none;
 }
 
 .site00-fws-rail__inspect-link:hover {
-  color: #c8ff00;
+  color: var(--ndx-lime);
 }
 
 .site00-fws-rail__footer {
@@ -138,7 +150,7 @@
   display: inline-block;
   font-size: 9px;
   letter-spacing: 0.12em;
-  color: #c8ff00;
+  color: var(--ndx-lime);
   border: 1px solid #3a3a20;
   padding: 4px 8px;
   margin-bottom: 8px;
@@ -155,7 +167,7 @@
 .site00-fws-header__subtitle {
   margin: 8px 0 0;
   font-size: 12px;
-  color: #888;
+  color: var(--ndx-muted);
   letter-spacing: 0.06em;
 }
 
@@ -172,8 +184,8 @@
 .site00-fws-layer--understand {
   margin-bottom: 16px;
   padding: 16px;
-  background: #161616;
-  border: 1px solid #2a2a2a;
+  background: var(--ndx-surface);
+  border: 1px solid var(--ndx-border);
   border-radius: 6px;
 }
 
@@ -182,7 +194,7 @@
   padding: 12px;
   background: transparent;
   border: 1px dashed #333;
-  color: #666;
+  color: var(--ndx-muted);
   font-size: 10px;
   letter-spacing: 0.1em;
   cursor: pointer;
@@ -191,7 +203,7 @@
 
 .site00-fws-inspect-trigger:hover {
   border-color: #c8ff00;
-  color: #c8ff00;
+  color: var(--ndx-lime);
 }
 
 .site00-fws-inspector-backdrop {
@@ -226,7 +238,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  border-bottom: 1px solid #2a2a2a;
+  border-bottom: 1px solid var(--ndx-border);
 }
 
 .site00-fws-inspector__head h2 {
@@ -238,7 +250,7 @@
 .site00-fws-inspector__close {
   background: none;
   border: none;
-  color: #888;
+  color: var(--ndx-muted);
   font-size: 24px;
   cursor: pointer;
   line-height: 1;
@@ -260,7 +272,7 @@
 }
 
 .site00-fws-inspector__body dt {
-  color: #666;
+  color: var(--ndx-muted);
   font-size: 9px;
   letter-spacing: 0.08em;
 }
@@ -277,7 +289,7 @@
 .site00-fws-panel__title {
   font-size: 11px;
   letter-spacing: 0.12em;
-  color: #888;
+  color: var(--ndx-muted);
   margin: 0 0 12px;
   text-transform: uppercase;
 }
@@ -289,8 +301,8 @@
   justify-content: space-between;
   gap: 16px;
   padding: 16px 20px;
-  background: #161616;
-  border: 1px solid #2a2a2a;
+  background: var(--ndx-surface);
+  border: 1px solid var(--ndx-border);
   border-radius: 6px;
   margin-bottom: 20px;
 }
@@ -316,7 +328,7 @@
 .site00-fws-pulse__label {
   font-size: 9px;
   letter-spacing: 0.1em;
-  color: #666;
+  color: var(--ndx-muted);
 }
 
 .site00-fws-pulse__cta {
@@ -341,8 +353,8 @@
 .site00-fws-asset {
   display: flex;
   flex-direction: column;
-  background: #161616;
-  border: 1px solid #2a2a2a;
+  background: var(--ndx-surface);
+  border: 1px solid var(--ndx-border);
   border-radius: 6px;
   overflow: hidden;
   cursor: pointer;
@@ -397,7 +409,7 @@
 .site00-fws-asset__format {
   margin: 0;
   font-size: 9px;
-  color: #666;
+  color: var(--ndx-muted);
 }
 
 .site00-fws-asset__status {
@@ -405,7 +417,7 @@
   margin-top: 6px;
   font-size: 8px;
   letter-spacing: 0.08em;
-  color: #c8ff00;
+  color: var(--ndx-lime);
 }
 
 .site00-fws-asset__review {
@@ -413,7 +425,7 @@
   padding: 0;
   background: none;
   border: none;
-  color: #c8ff00;
+  color: var(--ndx-lime);
   font-size: 9px;
   letter-spacing: 0.08em;
   cursor: pointer;
@@ -462,8 +474,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  background: #161616;
-  border: 1px solid #2a2a2a;
+  background: var(--ndx-surface);
+  border: 1px solid var(--ndx-border);
   border-radius: 4px;
   text-decoration: none;
   color: inherit;
@@ -480,7 +492,7 @@
 
 .site00-fws-radar-item__hint {
   font-size: 10px;
-  color: #c8ff00;
+  color: var(--ndx-lime);
 }
 
 .site00-fws-version-timeline {
@@ -501,7 +513,7 @@
 }
 
 .site00-fws-version-timeline__item--current .site00-fws-version-timeline__label {
-  color: #c8ff00;
+  color: var(--ndx-lime);
 }
 
 .site00-fws-version-timeline__label {
@@ -523,8 +535,8 @@
 
 .site00-fws-journey__stage {
   padding: 12px;
-  background: #161616;
-  border: 1px solid #2a2a2a;
+  background: var(--ndx-surface);
+  border: 1px solid var(--ndx-border);
   border-radius: 6px;
   display: flex;
   flex-direction: column;
@@ -537,7 +549,7 @@
 
 .site00-fws-journey__num {
   font-size: 10px;
-  color: #666;
+  color: var(--ndx-muted);
 }
 
 .site00-fws-journey__copy strong {
@@ -554,7 +566,7 @@
 
 .site00-fws-journey__enter {
   font-size: 9px;
-  color: #c8ff00;
+  color: var(--ndx-lime);
   text-decoration: none;
   margin-top: auto;
 }
@@ -572,7 +584,7 @@
   padding: 8px 14px;
   background: #161616;
   border: 1px solid #333;
-  color: #888;
+  color: var(--ndx-muted);
   font-size: 10px;
   letter-spacing: 0.08em;
   border-radius: 4px;
@@ -600,7 +612,7 @@
   margin: 0;
   font-size: 11px;
   letter-spacing: 0.12em;
-  color: #888;
+  color: var(--ndx-muted);
 }
 
 .site00-fws-lane__body {
@@ -624,7 +636,7 @@
 .site00-fws-empty p {
   margin: 0;
   font-size: 11px;
-  color: #666;
+  color: var(--ndx-muted);
 }
 
 .site00-fws-direction-grid {
@@ -644,7 +656,7 @@
 
 .site00-fws-direction-grid span strong {
   display: block;
-  color: #c8ff00;
+  color: var(--ndx-lime);
   margin-bottom: 4px;
 }
 
@@ -730,7 +742,7 @@
 
 .site00-fws-signal-list__item span {
   font-size: 10px;
-  color: #c8ff00;
+  color: var(--ndx-lime);
   letter-spacing: 0.06em;
 }
 
@@ -749,7 +761,7 @@
   padding: 4px 8px;
   border: 1px solid #333;
   border-radius: 999px;
-  color: #aaa;
+  color: var(--ndx-muted);
 }
 
 .site00-fws-legacy-inspect .site00-experiment-g__panel {
@@ -765,7 +777,7 @@
 
 .site00-fws-direction-grid strong {
   display: block;
-  color: #c8ff00;
+  color: var(--ndx-lime);
   margin-bottom: 4px;
   font-size: 10px;
   letter-spacing: 0.08em;
@@ -791,7 +803,7 @@
 
 .site00-fws-journey__num {
   font-size: 10px;
-  color: #888;
+  color: var(--ndx-muted);
 }
 
 .site00-fws-journey__enter {

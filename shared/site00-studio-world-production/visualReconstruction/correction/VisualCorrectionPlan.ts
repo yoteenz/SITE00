@@ -52,13 +52,14 @@ export function buildVisualCorrectionPlan(
         delta: mismatch.severity > 0.2 ? 1 : -1,
         reason: mismatch.detail,
       });
-    } else if (mismatch.kind === 'COLOR' || mismatch.kind === 'SURFACE') {
+    } else     if (mismatch.kind === 'COLOR' || mismatch.kind === 'SURFACE') {
       corrections.push({
         regionId: mismatch.regionId,
         scope: 'TOKEN',
         property: 'opacity',
         delta: 0.02,
         reason: mismatch.detail,
+        kind: mismatch.kind === 'COLOR' ? 'BRAND_FIDELITY_CORRECTION' : 'DESIGN_GRAMMAR_CORRECTION',
       });
     }
   }

@@ -3,7 +3,7 @@
  * Generic; no NDXBOOK assumptions.
  */
 
-export type VisualReconstructionMode = 'REPRODUCE' | 'TRANSLATE' | 'EXTRACT' | 'MERGE' | 'AUDIT';
+export type VisualReconstructionMode = 'REPRODUCE' | 'TRANSLATE' | 'EXTRACT' | 'MERGE' | 'AUDIT' | 'CALIBRATE';
 
 export type PageState =
   | 'DEFAULT'
@@ -252,6 +252,26 @@ export type VisualDifferenceHeatmap = {
   hotspots: Array<{ x: number; y: number; intensity: number; kind: MismatchKind }>;
 };
 
+export type ReferenceRole = 'DESKTOP_PRIMARY' | 'MOBILE_PRIMARY' | 'PRIMARY' | 'SECONDARY';
+
+export type NormalizedVisualReferenceWithRole = NormalizedVisualReference & {
+  referenceRole?: ReferenceRole;
+};
+
+export type VisualReferenceSetExtended = {
+  setId: string;
+  primaryReferenceId: string;
+  references: NormalizedVisualReferenceWithRole[];
+  pageStates: PageState[];
+};
+
+export type RegionMatchDimension =
+  | 'GEOMETRY_MATCH'
+  | 'TYPOGRAPHY_MATCH'
+  | 'SURFACE_MATCH'
+  | 'BRAND_MATCH'
+  | 'GRAMMAR_MATCH';
+
 export type VisualRegionLock = {
   regionId: string;
   state: RegionLockState;
@@ -259,7 +279,10 @@ export type VisualRegionLock = {
   matchScoreAtLock: number | null;
   invalidatedReason: string | null;
   passLockedAt: ReconstructionPass | null;
+  dimensionsPassed: RegionMatchDimension[];
 };
+
+export type CorrectionKind = 'PIXEL_CORRECTION' | 'DESIGN_GRAMMAR_CORRECTION' | 'BRAND_FIDELITY_CORRECTION' | 'RESPONSIVE_RELATIONSHIP_CORRECTION';
 
 export type VisualCorrection = {
   regionId: string;
@@ -267,6 +290,7 @@ export type VisualCorrection = {
   property: string;
   delta: number | string;
   reason: string;
+  kind?: CorrectionKind;
 };
 
 export type VisualCorrectionPlan = {
@@ -355,6 +379,59 @@ export type ReconstructionLoopConfig = {
   regionPassThreshold: number;
   overallPassThreshold: number;
   copyMatchMode: CopyMatchMode;
+};
+
+export type ReferenceMatchReadinessEvaluationV2 = ReferenceMatchReadinessEvaluation & {
+  pixelSimilarity: number;
+  palette: boolean;
+  brandEssence: boolean;
+  hostClientAuthority: boolean;
+  artworkAuthority: boolean;
+  composition: boolean;
+  spatialRhythm: boolean;
+  scaleContrast: boolean;
+  containerDependence: boolean;
+  asymmetry: boolean;
+  relationalAlignment: boolean;
+  focalHierarchy: boolean;
+  responsiveRelationship: boolean;
+  designGrammarScore: number;
+  brandScore: number;
+  criticalFailures: string[];
+};
+
+export type CalibrationReport = {
+  calibrationId: string;
+  routeId: string;
+  desktopReferenceId: string;
+  mobileReferenceId: string;
+  pixelScore: number;
+  designGrammarScore: number;
+  brandScore: number;
+  responsiveScore: number;
+  readiness: ReferenceMatchReadinessEvaluationV2;
+  designDisconnectHotspots: Array<{ regionId: string; severity: string; code: string }>;
+  forensicRootCause: string;
+  renderPath: string | null;
+  completedAt: string;
+};
+
+export type ForensicRouteDiagnosis = {
+  routeId: string;
+  referenceIntent: string;
+  currentBehavior: string;
+  disconnect: string;
+  rootCause: string;
+  correctionType: string;
+};
+
+export type FounderPerceptualJudgment = 'MATCHES' | 'CLOSE_BUT_OFF' | 'DOES_NOT_MATCH';
+
+export type FounderPerceptualEvaluation = {
+  judgment: FounderPerceptualJudgment | null;
+  reasons: Array<'LAYOUT' | 'COLOR' | 'BRAND' | 'ARTWORK_SCALE' | 'SPACING' | 'TYPOGRAPHY' | 'RESPONSIVE' | 'TOO_GENERIC' | 'OTHER'>;
+  notes: string | null;
+  recordedAt: string | null;
 };
 
 export type ReconstructionLoopResult =

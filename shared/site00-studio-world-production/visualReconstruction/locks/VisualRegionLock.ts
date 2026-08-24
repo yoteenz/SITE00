@@ -17,6 +17,7 @@ export function createInitialRegionLocks(regionIds: string[]): VisualRegionLock[
     matchScoreAtLock: null,
     invalidatedReason: null,
     passLockedAt: null,
+    dimensionsPassed: [] as import('../types.js').RegionMatchDimension[],
   }));
 }
 
@@ -38,6 +39,7 @@ export function updateRegionLocksFromScores(
         lockedAtIteration: iteration,
         matchScoreAtLock: score.structuralSimilarity,
         passLockedAt: pass,
+        dimensionsPassed: ['GEOMETRY_MATCH', 'SURFACE_MATCH'],
       };
     }
     return { ...lock, state: 'MATCHING' };
@@ -82,4 +84,16 @@ export function detectLockedRegionRegression(
 
 export function lockedRegionIds(locks: VisualRegionLock[]): string[] {
   return locks.filter((l) => l.state === 'LOCKED').map((l) => l.regionId);
+}
+
+const REQUIRED_DIMENSIONS: import('../types.js').RegionMatchDimension[] = [
+  'GEOMETRY_MATCH',
+  'SURFACE_MATCH',
+  'BRAND_MATCH',
+  'GRAMMAR_MATCH',
+];
+
+export function regionLockRequiresDesignFidelity(lock: VisualRegionLock): boolean {
+  if (lock.state !== 'LOCKED') return false;
+  return REQUIRED_DIMENSIONS.every((d) => lock.dimensionsPassed.includes(d));
 }
