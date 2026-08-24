@@ -29,7 +29,7 @@ import type {
   MarketingExpressionExperiment01V23,
 } from '../../../shared/site00-brand-lore/artBoardMateriality/types';
 import { V22_FOUNDER_JUDGMENTS } from '../../../shared/site00-brand-lore/characterRetention/constants';
-import { V23_FOUNDER_JUDGMENTS } from '../../../shared/site00-brand-lore/artBoardMateriality/constants';
+import { V23_FOUNDER_JUDGMENTS, V23A_FOUNDER_JUDGMENTS } from '../../../shared/site00-brand-lore/artBoardMateriality/constants';
 import '../styles/site00-replay-execution.css';
 
 const POLL_MS = 5000;
@@ -432,11 +432,23 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                         <dt>MATERIAL DENSITY</dt><dd>{selectedV23.materialityEvaluation.materialDensity.level}</dd>
                         <dt>ART-BOARD QUALITY</dt><dd>{selectedV23.materialityEvaluation.artBoardQuality.result}</dd>
                         <dt>WHY NOT TEMPLATE</dt><dd>{selectedV23.contract.artBoardDirection.whyNotCleanTemplate}</dd>
-                        <dt>APPROVAL GATE</dt><dd>{selectedV23.materialityEvaluation.passesApprovalGate ? 'PASS' : 'BLOCKED'}</dd>
+                        <dt>LIME DENSITY</dt><dd>{selectedV23.humanMadeEvaluation?.limeIntervention.density ?? '—'}</dd>
+                        <dt>LIME MODES</dt><dd>{selectedV23.humanMadeEvaluation?.limeIntervention.applicationModes.join(', ') ?? '—'}</dd>
+                        <dt>MAKER EVIDENCE</dt><dd>{selectedV23.humanMadeEvaluation?.makerEvidenceStrength ?? '—'}</dd>
+                        <dt>ANTI-AI</dt><dd>{selectedV23.humanMadeEvaluation?.antiAi.result ?? '—'}</dd>
+                        <dt>HAND-DRAWN ICONS</dt><dd>{selectedV23.humanMadeEvaluation?.markSystem.handDrawnIcons.length ?? 0}</dd>
+                        <dt>LIME @ FEED</dt><dd>{selectedV23.humanMadeEvaluation?.limeFeedDistance.result ?? '—'}</dd>
+                        <dt>HUMAN-MADE GATE</dt><dd>{selectedV23.humanMadeEvaluation?.passesHumanMadeGate ? 'PASS' : 'REVIEW'}</dd>
+                        <dt>APPROVAL GATE</dt><dd>{selectedV23.materialityEvaluation.passesApprovalGate && selectedV23.humanMadeEvaluation?.passesHumanMadeGate ? 'PASS' : 'BLOCKED'}</dd>
+                        {selectedV23.parentFingerprint && (
+                          <>
+                            <dt>PARENT FP</dt><dd style={{ fontSize: '0.75rem' }}>{selectedV23.parentFingerprint}</dd>
+                          </>
+                        )}
                       </dl>
                       <div style={{ marginTop: '12px' }}>
                         <p>V2.3 artifact judgment:</p>
-                        {V23_FOUNDER_JUDGMENTS.map((j) => (
+                        {[...V23_FOUNDER_JUDGMENTS, ...V23A_FOUNDER_JUDGMENTS].map((j) => (
                           <button key={j} type="button" className="site00-btn" disabled={busy} style={{ margin: '2px' }} onClick={() => void setArtifactJudgment(selectedV23.id, j)}>
                             {j.replace(/_/g, ' ')}
                           </button>
@@ -616,12 +628,19 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                   )}
                   {expV23?.feedMaterialRhythm && versionTab === 'V23' && (
                     <section className="site00-experiment-g__panel">
-                      <h2>V2.3 BOARD EVALUATION — MATERIAL RHYTHM</h2>
+                      <h2>V2.3 BOARD EVALUATION — MATERIAL + MAKER RHYTHM</h2>
                       <ul>
                         <li>Surface variation adequate: {expV23.feedMaterialRhythm.variationAdequate ? 'yes' : 'review'}</li>
                         <li>All same canvas: {expV23.feedMaterialRhythm.allSameCanvas ? 'FAIL' : 'no'}</li>
                         <li>All torn paper: {expV23.feedMaterialRhythm.allTornPaper ? 'FAIL' : 'no'}</li>
                         <li>All notebook: {expV23.feedMaterialRhythm.allNotebook ? 'FAIL' : 'no'}</li>
+                        {expV23.feedMakerRhythm && (
+                          <>
+                            <li>Hand-drawn icon posts: {expV23.feedMakerRhythm.handDrawnIconPosts}</li>
+                            <li>Same doodle on all posts: {expV23.feedMakerRhythm.allSameDoodleBehavior ? 'FAIL' : 'no'}</li>
+                            <li>Same maker, different behaviors: {expV23.feedMakerRhythm.sameMakerDifferentBehaviors ? 'yes' : 'review'}</li>
+                          </>
+                        )}
                       </ul>
                     </section>
                   )}
