@@ -21,7 +21,8 @@ import { buildDefaultExperimentJourneyStages } from '../../../shared/site00-stud
 
 export const NDX_FOUNDER_WORKSPACE_ADAPTER_ID = 'ndxbook-founder-workspace-v1' as const;
 
-export const NDX_SIGNATURE_ACCENT = '#c8ff00' as const;
+/** Canonical NDX lime — aligned with project presence registry (#B7D236). */
+export const NDX_SIGNATURE_ACCENT = '#B7D236' as const;
 
 export function ndxFounderWorkspaceNav(projectSlug: string): WorkspaceNavItem[] {
   if (projectSlug !== 'ndxbook') return [];

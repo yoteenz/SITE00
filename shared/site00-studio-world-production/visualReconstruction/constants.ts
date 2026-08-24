@@ -37,4 +37,18 @@ export const SITE00_CANONICAL_COMPONENTS = [
   'ProjectExperimentsHubNav',
   'FounderWorkspaceShell',
   'WorkspaceNavigation',
+  'NdxFounderWorkspacePage',
+  'WorkspaceLoadingState',
+  'WorkspaceEmptyState',
+  'WorkspaceErrorState',
+] as const;
+
+/** P0.UI.2 — cohesion failures consumed by Visual Reconstruction Engine (P0.VR.1B) */
+export const WORKSPACE_COHESION_FAILURE_TAXONOMY = [
+  'FAIL_LEGACY_ROUTE_SURFACE',
+  'FAIL_ROUTE_WORKSPACE_INHERITANCE',
+  'FAIL_ROUTE_THEME_MISMATCH',
+  'FAIL_ROUTE_NAV_MISMATCH',
+  'FAIL_ROUTE_LOADING_BREAK',
+  'FAIL_ROUTE_RESPONSIVE_MISMATCH',
 ] as const;

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
+import { NdxFounderWorkspacePage } from '../components/founderWorkspace';
 import { EmptyState } from '../components/pages/Site00PagePrimitives';
 import { ProjectPrivilegedUtilities } from '../components/access/ProjectPrivilegedUtilities';
 import { ProjectPersonalityReplayStatus } from '../components/validation/ProjectPersonalityReplayStatus';
@@ -8,6 +9,7 @@ import { useSite00ProjectDetail } from '../hooks/useSite00Projects';
 import { SITE00_ROUTES, site00ProjectCreativeAppetitePath, site00ProjectExperimentsPath, site00ProjectExperimentGPath, site00ProjectPersonalityReplayPath } from '../config/routes';
 import type { Site00FounderProjectSlug } from '../../../shared/site00-projects/types';
 import '../styles/site00-projects.css';
+import '../styles/site00-founder-workspace.css';
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -32,28 +34,27 @@ export default function ProjectDetailPage() {
   const { projectSlug = '' } = useParams();
   const { project, state, error } = useSite00ProjectDetail(projectSlug);
 
-  return (
-    <EcosystemShell hidePageHeader>
-      <div className="site00-page site00-page--project-detail">
-        <nav className="site00-project-command__back">
-          <Link to={SITE00_ROUTES.projects}>← PROJECTS</Link>
-        </nav>
-
-        {state === 'loading' ? (
-          <p className="site00-body">LOADING PROJECT…</p>
-        ) : state === 'error' || !project ? (
-          <EmptyState title="PROJECT NOT FOUND" body={error ?? 'NO TRUTHFUL PROJECT RECORD FOR THIS SLUG.'} />
+  const projectBody =
+    state === 'error' || !project ? null : (
+      <>
+        {projectSlug !== 'ndxbook' ? (
+          <header className="site00-project-command__header">
+            <p className="site00-label-red">{project.currentSystem}</p>
+            <h1 className="site00-project-command__title">{project.displayName}</h1>
+            {project.internalLabel ? <p className="site00-project-command__internal">{project.internalLabel}</p> : null}
+            <p className="site00-body">{project.overview.description}</p>
+            {project.overview.boundaryNote ? (
+              <p className="site00-project-command__boundary">{project.overview.boundaryNote}</p>
+            ) : null}
+          </header>
         ) : (
           <>
-            <header className="site00-project-command__header">
-              <p className="site00-label-red">{project.currentSystem}</p>
-              <h1 className="site00-project-command__title">{project.displayName}</h1>
-              {project.internalLabel ? <p className="site00-project-command__internal">{project.internalLabel}</p> : null}
-              <p className="site00-body">{project.overview.description}</p>
-              {project.overview.boundaryNote ? (
-                <p className="site00-project-command__boundary">{project.overview.boundaryNote}</p>
-              ) : null}
-            </header>
+            <p className="site00-body">{project.overview.description}</p>
+            {project.overview.boundaryNote ? (
+              <p className="site00-project-command__boundary">{project.overview.boundaryNote}</p>
+            ) : null}
+          </>
+        )}
 
             {projectSlug === 'ndxbook' ? (
               <div className="site00-project-command__experiments-banner">
@@ -254,7 +255,44 @@ export default function ProjectDetailPage() {
               slug={project.slug as Site00FounderProjectSlug}
               organizationUuid={project.organizationUuid}
             />
-          </>
+      </>
+    );
+
+  if (projectSlug === 'ndxbook') {
+    return (
+      <NdxFounderWorkspacePage
+        projectSlug={projectSlug}
+        title={project?.displayName ?? 'NDXBOOK'}
+        subtitle="PROJECT OVERVIEW"
+        loading={state === 'loading'}
+        loadingLabel="LOADING PROJECT…"
+        error={
+          state === 'error' || (!project && state !== 'loading')
+            ? { title: 'PROJECT NOT FOUND', message: error ?? 'NO TRUTHFUL PROJECT RECORD FOR THIS SLUG.' }
+            : null
+        }
+        operate={
+          projectBody ? (
+            <div className="site00-fws-overview-grid site00-page site00-page--project-detail">{projectBody}</div>
+          ) : null
+        }
+      />
+    );
+  }
+
+  return (
+    <EcosystemShell hidePageHeader>
+      <div className="site00-page site00-page--project-detail">
+        <nav className="site00-project-command__back">
+          <Link to={SITE00_ROUTES.projects}>← PROJECTS</Link>
+        </nav>
+
+        {state === 'loading' ? (
+          <p className="site00-body">LOADING PROJECT…</p>
+        ) : state === 'error' || !project ? (
+          <EmptyState title="PROJECT NOT FOUND" body={error ?? 'NO TRUTHFUL PROJECT RECORD FOR THIS SLUG.'} />
+        ) : (
+          projectBody
         )}
       </div>
     </EcosystemShell>

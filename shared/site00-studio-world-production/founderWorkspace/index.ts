@@ -6,3 +6,4 @@ export * from './constants.js';
 export * from './types.js';
 export * from './attentionHierarchy.js';
 export * from './experimentJourney.js';
+export * from './cohesion/index.js';

@@ -1,13 +1,7 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
-import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
-import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
+import { NdxFounderWorkspacePage, FounderWorkspacePanel } from '../components/founderWorkspace';
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
-import {
-  site00ProjectContentOperationsPath,
-  site00ProjectPath,
-} from '../config/routes';
-import { projectDisplayName } from '../utils/projectDisplayName';
 import type { NdxMotionCharacterBookLanguageRun } from '../../../shared/site00-brand-lore/ndxBookCulturalLanguage/types';
 import '../styles/site00-replay-execution.css';
 
@@ -70,9 +64,12 @@ export default function ProjectMotionCharacterPage() {
 
   if (projectSlug !== 'ndxbook') {
     return (
-      <EcosystemShell hidePageHeader>
-        <p>Motion / Book Language review is NDXBOOK-only for this proof.</p>
-      </EcosystemShell>
+      <NdxFounderWorkspacePage
+        projectSlug={projectSlug}
+        title="MOTION CHARACTER"
+        nonNdxFallback={<p>Motion / Book Language review is NDXBOOK-only for this proof.</p>}
+        operate={null}
+      />
     );
   }
 
@@ -80,20 +77,35 @@ export default function ProjectMotionCharacterPage() {
   const discovery = run?.embodiedCharacterDiscoveryReadiness as Record<string, unknown> | undefined;
 
   return (
-    <EcosystemShell hidePageHeader>
-      <div className="site00-cd site00-cd--project-calibration">
-        <div className="site00-project-lore-calibration">
-          <header className="site00-project-lore-calibration__hero">
-            <ProjectExperimentsHubNav projectSlug={projectSlug} />
-            <p className="site00-project-lore-calibration__kicker">P0.5E.2 — BOOK LANGUAGE + MOTION CHARACTER</p>
-            <h1 className="site00-project-lore-calibration__project">{projectDisplayName(projectSlug)}</h1>
-            <p className="site00-project-lore-calibration__headline">THE VIDEO SHOWS THE BOOK BEING MADE</p>
-            <Link to={site00ProjectContentOperationsPath(projectSlug)}>← CONTENT OPERATIONS</Link>
-            <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
-          </header>
-
-          <section className="site00-experiment-g__panel">
-            <h2>DISTINCTIONS</h2>
+    <NdxFounderWorkspacePage
+      projectSlug={projectSlug}
+      title="BOOK LANGUAGE + MOTION CHARACTER"
+      subtitle="THE VIDEO SHOWS THE BOOK BEING MADE"
+      loading={loading}
+      loadingLabel="LOADING MOTION / BOOK LANGUAGE…"
+      operate={
+        !run && !loading ? (
+          <>
+            <FounderWorkspacePanel title="NOT INITIALIZED">
+              <p>Not initialized — configure to review book language, ontology, and motion character foundation.</p>
+            </FounderWorkspacePanel>
+            <FounderWorkspacePanel title="DISTINCTIONS">
+              <p>BRAND CHARACTER ≠ EMBODIED CHARACTER</p>
+              <p>VISUAL EXPRESSION ≠ MOTION BEHAVIOR</p>
+              <p>THE CAROUSEL IS THE PAGE · THE VIDEO SHOWS WHY THE PAGE EXISTS</p>
+              <button
+                type="button"
+                className="site00-btn site00-btn--primary"
+                disabled={busy}
+                onClick={() => void act(() => site00ProjectsApi.motionCharacterBookLanguageInitialize(projectSlug))}
+              >
+                INITIALIZE BOOK LANGUAGE + MOTION SYSTEM
+              </button>
+            </FounderWorkspacePanel>
+          </>
+        ) : (
+          <>
+          <FounderWorkspacePanel title="DISTINCTIONS">
             <p>BRAND CHARACTER ≠ EMBODIED CHARACTER</p>
             <p>VISUAL EXPRESSION ≠ MOTION BEHAVIOR</p>
             <p>THE CAROUSEL IS THE PAGE · THE VIDEO SHOWS WHY THE PAGE EXISTS</p>
@@ -117,10 +129,9 @@ export default function ProjectMotionCharacterPage() {
                 REFRESH SYSTEM
               </button>
             )}
-          </section>
+          </FounderWorkspacePanel>
 
-          <section className="site00-experiment-g__panel">
-            <h2>REVIEW</h2>
+          <FounderWorkspacePanel title="REVIEW">
             {SECTIONS.map((s) => (
               <button
                 key={s.id}
@@ -131,13 +142,9 @@ export default function ProjectMotionCharacterPage() {
                 {s.label}
               </button>
             ))}
-          </section>
+          </FounderWorkspacePanel>
 
-          {loading ? (
-            <p>Loading motion / book language system…</p>
-          ) : !run ? (
-            <p>Not initialized — configure to review book language, ontology, and motion character foundation.</p>
-          ) : (
+          {run ? (
             <>
               {section === 'BOOK_LANGUAGE' && (
                 <section className="site00-experiment-g__panel">
@@ -264,9 +271,10 @@ export default function ProjectMotionCharacterPage() {
                 </section>
               )}
             </>
-          )}
-        </div>
-      </div>
-    </EcosystemShell>
+          ) : null}
+          </>
+        )
+      }
+    />
   );
 }

@@ -798,7 +798,7 @@
 }
 
 .site00-fws-journey__stage--active {
-  border-color: #c41e3a;
+  border-color: var(--ndx-lime);
 }
 
 .site00-fws-journey__num {
@@ -808,5 +808,105 @@
 
 .site00-fws-journey__enter {
   font-size: 10px;
-  color: #c41e3a;
+  color: var(--ndx-lime);
+}
+
+/* P0.UI.2 — workspace-native loading / error states */
+.site00-fws-loading {
+  padding: 24px 0;
+  min-height: 200px;
+}
+
+.site00-fws-loading__label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--ndx-muted);
+  margin: 0 0 20px;
+}
+
+.site00-fws-loading__skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.site00-fws-loading__row {
+  height: 14px;
+  background: linear-gradient(90deg, var(--ndx-surface-raised) 25%, var(--ndx-border) 50%, var(--ndx-surface-raised) 75%);
+  background-size: 200% 100%;
+  animation: site00-fws-shimmer 1.2s ease-in-out infinite;
+  border-radius: 2px;
+}
+
+@keyframes site00-fws-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.site00-fws-error {
+  padding: 20px;
+  border: 1px solid var(--ndx-border);
+  background: var(--ndx-surface);
+  border-left: 3px solid var(--ndx-host-red);
+}
+
+.site00-fws-error__title {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  margin: 0 0 8px;
+}
+
+.site00-fws-error__message {
+  font-size: 12px;
+  color: var(--ndx-muted);
+  margin: 0 0 12px;
+}
+
+.site00-fws-error__preserved {
+  font-size: 11px;
+  color: var(--ndx-lime);
+  margin: 0 0 12px;
+}
+
+.site00-fws-error__retry {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 8px 14px;
+  border: 1px solid var(--ndx-ink);
+  background: transparent;
+  cursor: pointer;
+}
+
+.site00-fws-error__inspect {
+  margin-top: 12px;
+  font-size: 10px;
+}
+
+.site00-fws-error__inspect pre {
+  white-space: pre-wrap;
+  font-size: 10px;
+  color: var(--ndx-muted);
+}
+
+.site00-fws-panel--loading {
+  min-height: 160px;
+}
+
+.site00-fws-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--ndx-editorial-gap, 20px);
+}
+
+.site00-fws-overview-section {
+  border: 1px solid var(--ndx-border);
+  padding: 16px;
+  background: var(--ndx-surface);
+}
+
+.site00-fws-overview-section h2 {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--ndx-lime);
+  margin: 0 0 12px;
 }
