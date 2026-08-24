@@ -34,6 +34,7 @@ export type GenerationPromptSnapshot = {
   model: string;
   signatureLimeVersion: string;
   visualAuthorityVersion?: string;
+  authoredArtifactVersion?: string;
   humanMadeMarksVersion: string;
   publicCopyVersion: string;
   authorshipVersion: string;
@@ -100,6 +101,7 @@ export type GeneratedAssetLineage = {
   assetIncludesC4B: boolean;
   assetIncludesC4B1?: boolean;
   assetIncludesC6?: boolean;
+  assetIncludesC6A?: boolean;
   assetIncludesC5: boolean;
   assetUsesCurrentPublicCopy: boolean;
   assetUsesCurrentAuthorship: boolean;

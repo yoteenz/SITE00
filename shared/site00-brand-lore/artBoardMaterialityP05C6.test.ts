@@ -131,7 +131,7 @@ describe('P0.5C.6 Visual Authority System', () => {
   });
 
   it('FAL compiler P0.5C.6 — art direction before information hierarchy', () => {
-    expect(V23_FAL_COMPILER_VERSION).toBe('falPromptCompilerV23@P0.5C.6');
+    expect(V23_FAL_COMPILER_VERSION).toBe('falPromptCompilerV23@P0.5C.6A');
     const artifact = v23Experiment.generatedArtifacts[0]!;
     const v1 = { id: artifact.v1ArtifactId, topic: artifact.topic, subject: artifact.subject, supportingLanguage: [], headline: '', subhead: '' } as never;
     const fal = compileArtBoardMaterialityFalPrompt({ artifact: v1, contract: artifact.contract });

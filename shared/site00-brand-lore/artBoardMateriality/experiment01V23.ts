@@ -24,6 +24,7 @@ import type {
   MarketingExpressionExperiment01V23,
 } from './types.js';
 import { applyV23VisualAuthorityRevision } from './visualAuthorityC6.js';
+import { applyV23AuthoredArtifactRevision } from './authoredArtifactC6A.js';
 import { EXPERIMENT_01_V23_VERSION } from './constants.js';
 
 function fp(value: unknown): string {
@@ -96,8 +97,13 @@ export function formulateExperiment01V23(params: {
       artifact: v1,
       topicIndex,
     });
-    const retained = applyV23VisualAuthorityRevision({
+    const retainedVisual = applyV23VisualAuthorityRevision({
       contract: retainedRestraint,
+      artifact: v1,
+      topicIndex,
+    });
+    const retained = applyV23AuthoredArtifactRevision({
+      contract: retainedVisual,
       artifact: v1,
       topicIndex,
     });
@@ -285,8 +291,13 @@ export function migrateExperiment01V23ToC4B1(params: {
       artifact: v1,
       topicIndex,
     });
-    const retained = applyV23VisualAuthorityRevision({
+    const retainedVisual = applyV23VisualAuthorityRevision({
       contract: retainedRestraint,
+      artifact: v1,
+      topicIndex,
+    });
+    const retained = applyV23AuthoredArtifactRevision({
+      contract: retainedVisual,
       artifact: v1,
       topicIndex,
     });

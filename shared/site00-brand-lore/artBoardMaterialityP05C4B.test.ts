@@ -233,7 +233,7 @@ describe('P0.5C.4B Signature Lime Presence', () => {
   });
 
   it('27–30. FAL prompt; no auto generation; board audit; founder judgments', () => {
-    expect(FAL_MATERIAL_PROMPT_SECTION_ORDER.length).toBe(17);
+    expect(FAL_MATERIAL_PROMPT_SECTION_ORDER.length).toBe(24);
     const fal = compileArtBoardMaterialityFalPrompt({ artifact: artifacts[2]!, contract: v23Result.artifacts[2]!.contract });
     expect(materialFalPromptHasSignatureLimeRequirement(fal)).toBe(true);
     expect(materialFalPromptDistinguishesSourceVsNdxColor(fal)).toBe(true);
