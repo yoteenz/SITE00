@@ -92,7 +92,10 @@ describe('P0.5E.4B.1 — Neural voice casting', () => {
     const perf = buildNaturalConversationalPerformanceContract();
     expect(perf.discouragedDelivery).toContain('AI ASSISTANT');
     expect(perf.discouragedDelivery).toContain('ANNOUNCER');
-    const validFalVoiceIds = new Set(['Calm_Woman', 'Lively_Girl', 'Wise_Woman', 'Soft_Girl', 'Friendly_Person']);
+    const validFalVoiceIds = new Set([
+      'Calm_Woman', 'Lively_Girl', 'Wise_Woman', 'Soft_Girl', 'Friendly_Person',
+      'Exuberant_Girl', 'Energetic_Girl', 'Attractive_Girl', 'Lovely_Girl',
+    ]);
     expect(NEURAL_CASTING_TERRITORIES.every((t) => validFalVoiceIds.has(t.providerVoiceId))).toBe(true);
     expect(NEURAL_CASTING_TERRITORIES.some((t) => t.providerVoiceId.startsWith('English_'))).toBe(false);
   });

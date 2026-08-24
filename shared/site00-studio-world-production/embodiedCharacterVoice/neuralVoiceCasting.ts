@@ -13,6 +13,7 @@ import type {
   CharacterVoiceHypothesis,
   HumanWomanTestResponse,
   NaturalConversationalPerformanceContract,
+  NeuralCastingTerritory,
   NeuralNaturalnessFailure,
   NeuralVoiceCandidateIdentity,
   NeuralVoiceCastingContract,
@@ -30,8 +31,8 @@ export const NEURAL_TTS_DISCOVERY_ENDPOINTS = {
   GEMINI_TTS: 'fal-ai/gemini-tts',
 } as const;
 
-/** MiniMax preset voices — licensed provider catalogue, not real-person clones */
-export const NEURAL_CASTING_TERRITORIES = [
+/** Generic Studio World default territories — adapters may override via castingTerritoryPlan */
+export const NEURAL_CASTING_TERRITORIES: NeuralCastingTerritory[] = [
   {
     label: 'VOICE A',
     territory: 'DRY / LOW-KEY',
@@ -76,7 +77,7 @@ export const NEURAL_CASTING_TERRITORIES = [
     traits: ['LOW_REGISTER_WARMTH', 'NATURAL_CONVERSATIONAL_TEXTURE', 'SOFT_PRESENCE'],
     varied: ['warmth', 'presence'],
   },
-] as const;
+] ;
 
 const COST_PER_1000_CHARS_USD = 0.1;
 
@@ -130,7 +131,8 @@ export function buildNaturalConversationalPerformanceContract(): NaturalConversa
   };
 }
 
-export function compileVoiceDesignPrompt(territory: (typeof NEURAL_CASTING_TERRITORIES)[number]): string {
+export function compileVoiceDesignPrompt(territory: NeuralCastingTerritory): string {
+  if (territory.performanceDirection) return territory.performanceDirection;
   return [
     'Adult woman, conversational, emotionally grounded, natural cadence.',
     territory.vocalCharacter,
@@ -166,12 +168,19 @@ export function selectNeuralVoiceCastingModel(params: {
 
 export function compileNeuralVoiceCastingContract(params: {
   hypothesis: CharacterVoiceHypothesis;
-  territory: (typeof NEURAL_CASTING_TERRITORIES)[number];
+  territory: NeuralCastingTerritory;
   selection: NeuralVoiceCastingModelSelection;
   performanceContract?: NaturalConversationalPerformanceContract;
 }): NeuralVoiceCastingContract {
   const performanceContract = params.performanceContract ?? buildNaturalConversationalPerformanceContract();
   const spokenCopy = params.hypothesis.spokenCopy;
+  const voiceSetting: Record<string, unknown> = {
+    voice_id: params.territory.providerVoiceId,
+    speed: params.territory.speed,
+    vol: 1.0,
+    pitch: params.territory.pitch,
+  };
+  if (params.territory.emotion) voiceSetting.emotion = params.territory.emotion;
   return {
     contractId: randomUUID(),
     hypothesisId: params.hypothesis.id,
@@ -179,12 +188,7 @@ export function compileNeuralVoiceCastingContract(params: {
     endpoint: params.selection.endpoint,
     spokenCopy,
     providerVoiceId: params.territory.providerVoiceId,
-    voiceSetting: {
-      voice_id: params.territory.providerVoiceId,
-      speed: params.territory.speed,
-      vol: 1.0,
-      pitch: params.territory.pitch,
-    },
+    voiceSetting,
     performanceContract,
     languageBoost: 'English',
     outputFormat: 'url',
@@ -244,7 +248,7 @@ export function classifyPlaceholderCalibrationEvidence(state: CharacterVoiceCali
 }
 
 export function buildNeuralVoiceCandidate(
-  territory: (typeof NEURAL_CASTING_TERRITORIES)[number],
+  territory: NeuralCastingTerritory,
   roundId: string,
   selection: NeuralVoiceCastingModelSelection,
   parentCandidateId?: string | null,
@@ -330,7 +334,11 @@ export function selectNeuralTerritoriesForRound(
   state: CharacterVoiceCalibrationState,
   count: number,
   parentCandidate?: NeuralVoiceCandidateIdentity | null,
-): (typeof NEURAL_CASTING_TERRITORIES)[number][] {
+): NeuralCastingTerritory[] {
+  if (state.castingTerritoryPlan?.length) {
+    return state.castingTerritoryPlan.slice(0, Math.min(count, state.castingTerritoryPlan.length));
+  }
+
   const rejected = new Set(state.rejectedProviderVoiceIds);
   let territories = NEURAL_CASTING_TERRITORIES.filter((t) => !rejected.has(t.providerVoiceId));
 
@@ -338,10 +346,10 @@ export function selectNeuralTerritoriesForRound(
     const base = NEURAL_CASTING_TERRITORIES.find((t) => t.providerVoiceId === parentCandidate.providerVoiceId);
     if (base) {
       return [
-        { ...base, speed: Math.max(0.85, base.speed - 0.05), pitch: base.pitch - 1 },
-        { ...base, speed: base.speed + 0.03 },
-        { ...base, speed: base.speed, pitch: base.pitch + 1 },
-      ].slice(0, count) as unknown as (typeof NEURAL_CASTING_TERRITORIES)[number][];
+        { ...base, label: 'VOICE A', territory: 'SAME WOMAN / DRIER', speed: Math.max(0.85, base.speed - 0.05), pitch: base.pitch - 1, vocalCharacter: 'Same woman — drier, less polished delivery' },
+        { ...base, label: 'VOICE B', territory: 'SAME WOMAN / MORE WARMTH', speed: base.speed + 0.03, pitch: base.pitch + 1, vocalCharacter: 'Same woman — slightly more warmth' },
+        { ...base, label: 'VOICE C', territory: 'SAME WOMAN / MORE LOOSE', speed: base.speed + 0.05, pitch: base.pitch, vocalCharacter: 'Same woman — more conversational looseness' },
+      ].slice(0, count);
     }
   }
 
@@ -361,7 +369,7 @@ export function resolveNeuralSpokenCopy(_state: CharacterVoiceCalibrationState, 
 export function defaultHypothesisNeuralFields(
   selection: NeuralVoiceCastingModelSelection,
   candidate: NeuralVoiceCandidateIdentity,
-  territory: (typeof NEURAL_CASTING_TERRITORIES)[number],
+  territory: NeuralCastingTerritory,
 ): Pick<
   CharacterVoiceHypothesis,
   | 'providerAuthority'

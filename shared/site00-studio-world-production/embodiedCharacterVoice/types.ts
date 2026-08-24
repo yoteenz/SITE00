@@ -243,6 +243,20 @@ export type NeuralVoiceCastingEstimate = {
   falRequests: number;
 };
 
+export type NeuralCastingTerritory = {
+  label: string;
+  territory: string;
+  vocalCharacter: string;
+  providerVoiceId: string;
+  providerVoiceName: string;
+  speed: number;
+  pitch: number;
+  emotion?: 'happy' | 'sad' | 'angry' | 'fearful' | 'disgusted' | 'surprised' | 'neutral';
+  traits: string[];
+  varied: string[];
+  performanceDirection?: string;
+};
+
 export type NeuralVoiceCastingContract = {
   contractId: string;
   hypothesisId: string;
@@ -511,6 +525,9 @@ export type CharacterVoiceCalibrationState = {
   characterVoiceLocked: boolean;
   providerLocked: boolean;
   pendingCostEstimate: NeuralVoiceCastingEstimate | null;
+  /** Adapter-supplied territories for the next neural round (cleared after plan) */
+  castingTerritoryPlan?: NeuralCastingTerritory[] | null;
+  pendingRoundQuestion?: string | null;
   updatedAt: string;
 };
 

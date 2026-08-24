@@ -20,16 +20,18 @@ export function isNeuralProviderConfigured(): boolean {
 
 export function buildFalMinimaxInput(contract: NeuralVoiceCastingContract): Record<string, unknown> {
   const voiceSetting = contract.voiceSetting;
+  const normalized: Record<string, unknown> = {
+    ...voiceSetting,
+    pitch: Math.round(Number(voiceSetting.pitch ?? 0)),
+    speed: Number(voiceSetting.speed ?? 1),
+    vol: Number(voiceSetting.vol ?? 1),
+  };
+  if (voiceSetting.emotion) normalized.emotion = voiceSetting.emotion;
   return {
     text: contract.spokenCopy.trim(),
     output_format: 'url',
     language_boost: contract.languageBoost,
-    voice_setting: {
-      ...voiceSetting,
-      pitch: Math.round(Number(voiceSetting.pitch ?? 0)),
-      speed: Number(voiceSetting.speed ?? 1),
-      vol: Number(voiceSetting.vol ?? 1),
-    },
+    voice_setting: normalized,
   };
 }
 

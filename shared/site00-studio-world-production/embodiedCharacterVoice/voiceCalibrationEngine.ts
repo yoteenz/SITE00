@@ -152,6 +152,8 @@ export function buildEmptyVoiceCalibrationState(params: {
     characterVoiceLocked: false,
     providerLocked: false,
     pendingCostEstimate: null,
+    castingTerritoryPlan: null,
+    pendingRoundQuestion: null,
     updatedAt: now,
   };
 }
