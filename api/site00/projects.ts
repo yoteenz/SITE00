@@ -109,6 +109,8 @@ import {
   formulateMarketingExpressionExperiment01V23,
   generateExperiment01V23ArtifactAsset,
   generateAllExperiment01V23ArtifactAssets,
+  replayExperiment01V23HistoricalPrompt,
+  setExperiment01V23SelectedGenerationAsset,
   setExperiment01V23ArtifactJudgment,
   submitExperiment01V23FounderRevision,
 } from '../_lib/site00Evolve/creativeDirection/brandMarketingExpressionExperiment/brandMarketingExpressionService.js';
@@ -1898,13 +1900,62 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
+        const mode = body.mode === 'REPLAY_GENERATION' ? 'REPLAY_GENERATION' : 'REGENERATE_CURRENT';
+        const replaySnapshotId = body.replaySnapshotId ? String(body.replaySnapshotId) : null;
         if (slug !== 'ndxbook' || !artifactId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
         }
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await generateExperiment01V23ArtifactAsset({ projectId: 'ndxbook', artifactId });
+        const run = await generateExperiment01V23ArtifactAsset({
+          projectId: 'ndxbook',
+          artifactId,
+          mode,
+          replaySnapshotId,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v23' });
+      }
+      case 'marketing_expression_experiment_01_v23_replay': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const artifactId = String(body.artifactId ?? '');
+        const replaySnapshotId = body.replaySnapshotId ? String(body.replaySnapshotId) : null;
+        if (slug !== 'ndxbook' || !artifactId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await replayExperiment01V23HistoricalPrompt({
+          projectId: 'ndxbook',
+          artifactId,
+          replaySnapshotId,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v23' });
+      }
+      case 'marketing_expression_experiment_01_v23_select_asset': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const artifactId = String(body.artifactId ?? '');
+        const selectedGenerationAssetId = String(body.selectedGenerationAssetId ?? '');
+        if (slug !== 'ndxbook' || !artifactId || !selectedGenerationAssetId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await setExperiment01V23SelectedGenerationAsset({
+          projectId: 'ndxbook',
+          artifactId,
+          selectedGenerationAssetId,
+        });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v23' });
       }
       case 'marketing_expression_experiment_01_v23_generate_all': {

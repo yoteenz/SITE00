@@ -4,6 +4,7 @@
 
 import { createHash } from 'node:crypto';
 import type { Experiment01V23Artifact } from '../artBoardMateriality/types.js';
+import { markV23ArtifactPromptStale } from '../artBoardMateriality/v23GenerationAuthority.js';
 import type { V23PublicCopyRevision } from './types.js';
 import { stripInternalLabelsFromPublicText } from './ndxPublicCopyTranslation.js';
 import { scanTextForQuarantinedLabels } from '../../site00-studio-world-production/publicAuthorship/internalLabelQuarantine.js';
@@ -91,12 +92,12 @@ export function applyV23PublicCopyRevision(params: {
   };
 
   return {
-    artifact: {
+    artifact: markV23ArtifactPromptStale({
       ...params.artifact,
       contract: updatedContract as typeof c,
       fingerprint: fp({ ...params.artifact, contract: updatedContract }),
       updatedAt: new Date().toISOString(),
-    },
+    }),
     revision,
   };
 }

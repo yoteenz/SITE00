@@ -1395,13 +1395,31 @@ export const site00ProjectsApi = {
       '/api/site00/projects?action=marketing_expression_experiment_01_v23_formulate',
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
     ),
-  marketingExpressionExperiment01V23Generate: (slug: string, artifactId: string) =>
+  marketingExpressionExperiment01V23Generate: (slug: string, artifactId: string, mode?: 'REGENERATE_CURRENT' | 'REPLAY_GENERATION') =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=marketing_expression_experiment_01_v23_generate',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, artifactId }),
+        body: JSON.stringify({ slug, artifactId, mode: mode ?? 'REGENERATE_CURRENT' }),
+      },
+    ),
+  marketingExpressionExperiment01V23Replay: (slug: string, artifactId: string, replaySnapshotId?: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v23_replay',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, artifactId, replaySnapshotId }),
+      },
+    ),
+  marketingExpressionExperiment01V23SelectAsset: (slug: string, artifactId: string, selectedGenerationAssetId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v23_select_asset',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, artifactId, selectedGenerationAssetId }),
       },
     ),
   marketingExpressionExperiment01V23GenerateAll: (slug: string) =>

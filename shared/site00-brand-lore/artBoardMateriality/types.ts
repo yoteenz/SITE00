@@ -495,6 +495,13 @@ export type Experiment01V23Artifact = {
   fingerprint: string;
   createdAt: string;
   updatedAt: string;
+  /** P0.5C.5A — immutable prompt snapshot lineage */
+  promptSnapshots?: import('../../site00-studio-world-production/generationAuthority/types.js').GenerationPromptSnapshot[];
+  promptFreshness?: import('../../site00-studio-world-production/generationAuthority/types.js').GenerationPromptFreshnessEvaluation | null;
+  generationAssets?: import('../../site00-studio-world-production/generationAuthority/types.js').GeneratedAssetLineage[];
+  selectedGenerationAssetId?: string | null;
+  promptRecompileRequired?: boolean;
+  dispatchedPromptSnapshotId?: string | null;
 };
 
 export type FeedMaterialRhythm = {

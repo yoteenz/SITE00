@@ -38,6 +38,14 @@ import {
   founderRevisionUsesParentReference,
   isV23ApprovalJudgment,
 } from '../../../../../shared/site00-brand-lore/artBoardMateriality/v23FounderRevisionPipeline.js';
+import {
+  appendPromptSnapshot,
+  buildV23GenerationAssetRecord,
+  migrateV23ArtifactGenerationLineage,
+  markV23ArtifactPromptStale,
+  resolveV23DispatchPrompt,
+} from '../../../../../shared/site00-brand-lore/artBoardMateriality/v23GenerationAuthority.js';
+import type { GenerationMode } from '../../../../../shared/site00-studio-world-production/generationAuthority/types.js';
 import type { V23FounderJudgment } from '../../../../../shared/site00-brand-lore/artBoardMateriality/types.js';
 import {
   evaluateExperiment01Set,
@@ -1540,7 +1548,10 @@ export async function formulateMarketingExpressionExperiment01V23(params: {
 export async function generateExperiment01V23ArtifactAsset(params: {
   projectId: string;
   artifactId: string;
+  mode?: GenerationMode;
+  replaySnapshotId?: string | null;
 }): Promise<BrandMarketingExpressionRun> {
+  const mode = params.mode ?? 'REGENERATE_CURRENT';
   const run = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
   if (!run?.experiment01V23?.generatedArtifacts.length) {
     throw new Error('Experiment 01 V2.3 contracts not formulated');
@@ -1552,11 +1563,29 @@ export async function generateExperiment01V23ArtifactAsset(params: {
   const idx = run.experiment01V23.generatedArtifacts.findIndex((a) => a.id === params.artifactId);
   if (idx < 0) throw new Error('V2.3 artifact not found');
 
-  const artifact = run.experiment01V23.generatedArtifacts[idx]!;
-  if (artifact.generationStatus === 'GENERATED' && artifact.generatedAssetUrl) return run;
+  let artifact = migrateV23ArtifactGenerationLineage(run.experiment01V23.generatedArtifacts[idx]!);
 
-  const contract = artifact.generationContract;
-  if (!contract) throw new Error('V2.3 FAL contract missing');
+  if (
+    mode === 'REGENERATE_CURRENT' &&
+    artifact.generationStatus === 'GENERATED' &&
+    artifact.generatedAssetUrl &&
+    !params.replaySnapshotId
+  ) {
+    // REGENERATE_CURRENT — allow fresh generation from current contract
+  } else if (mode !== 'REPLAY_GENERATION' && artifact.generationStatus === 'GENERATED' && artifact.generatedAssetUrl) {
+    return run;
+  }
+
+  const v1 = run.experiment01?.artifacts.find((a) => a.id === artifact.v1ArtifactId);
+  if (!v1) throw new Error('V1 source artifact missing for V2.3 generation');
+
+  const { falContract, snapshot, replay } = resolveV23DispatchPrompt({
+    artifact,
+    v1Artifact: v1,
+    projectId: params.projectId,
+    mode,
+    replaySnapshotId: params.replaySnapshotId,
+  });
 
   let generatedAssetUrl = artifact.generatedAssetUrl;
   let generatedAssetId = artifact.generatedAssetId;
@@ -1564,12 +1593,16 @@ export async function generateExperiment01V23ArtifactAsset(params: {
   let falCost = 0;
 
   if (process.env.VITEST === 'true' || !process.env.FAL_KEY) {
-    generatedAssetId = `asset-v23-${artifact.id}`;
-    generatedAssetUrl = `https://vitest.local/ndxbook/marketing-exp01-v23/${artifact.id}.png`;
+    generatedAssetId = replay
+      ? `asset-v23-replay-${artifact.id}-${Date.now()}`
+      : mode === 'REGENERATE_CURRENT' && artifact.generatedAssetId
+        ? `asset-v23-regen-${artifact.id}-${Date.now()}`
+        : `asset-v23-${artifact.id}`;
+    generatedAssetUrl = `https://vitest.local/ndxbook/marketing-exp01-v23/${generatedAssetId}.png`;
   } else {
     const { fal } = await import('@fal-ai/client');
     fal.config({ credentials: process.env.FAL_KEY });
-    const { model, input } = buildFalImageInput({ prompt: contract.prompt, aspectRatio: '1:1' });
+    const { model, input } = buildFalImageInput({ prompt: falContract.prompt, aspectRatio: '1:1' });
     const result = await fal.subscribe(model, { input });
     const images = (result.data as { images?: { url?: string }[] })?.images;
     generatedAssetUrl = images?.[0]?.url ?? null;
@@ -1578,8 +1611,31 @@ export async function generateExperiment01V23ArtifactAsset(params: {
     if (!generatedAssetUrl) generationStatus = 'FAILED';
   }
 
+  if (!replay && mode === 'REGENERATE_CURRENT') {
+    artifact = appendPromptSnapshot(artifact, { ...snapshot, generationAssetIds: [generatedAssetId!] });
+  }
+
+  const assetRecord = buildV23GenerationAssetRecord({
+    artifact,
+    assetId: generatedAssetId!,
+    url: generatedAssetUrl!,
+    snapshot: replay ? snapshot : artifact.promptSnapshots!.find((s) => s.id === snapshot.id) ?? snapshot,
+  });
+
+  const generationAssets = [...(artifact.generationAssets ?? []), assetRecord];
+
   const updated = [...run.experiment01V23.generatedArtifacts];
-  updated[idx] = { ...artifact, generatedAssetId, generatedAssetUrl, generationStatus, updatedAt: nowIso() };
+  updated[idx] = {
+    ...artifact,
+    generationContract: falContract,
+    generatedAssetId,
+    generatedAssetUrl,
+    generationStatus,
+    generationAssets,
+    selectedGenerationAssetId: artifact.selectedGenerationAssetId ?? generatedAssetId,
+    dispatchedPromptSnapshotId: snapshot.id,
+    updatedAt: nowIso(),
+  };
   const allGenerated = updated.every((a) => a.generationStatus === 'GENERATED');
 
   return marketingStore.saveBrandMarketingExpressionRun({
@@ -1596,6 +1652,48 @@ export async function generateExperiment01V23ArtifactAsset(params: {
       falEstimatedCostUsd: run.accounting.falEstimatedCostUsd + FAL_MARKETING_COST_ESTIMATE_USD,
       falActualCostUsd: run.accounting.falActualCostUsd + falCost,
     },
+    updatedAt: nowIso(),
+  });
+}
+
+export async function replayExperiment01V23HistoricalPrompt(params: {
+  projectId: string;
+  artifactId: string;
+  replaySnapshotId?: string | null;
+}): Promise<BrandMarketingExpressionRun> {
+  return generateExperiment01V23ArtifactAsset({
+    projectId: params.projectId,
+    artifactId: params.artifactId,
+    mode: 'REPLAY_GENERATION',
+    replaySnapshotId: params.replaySnapshotId,
+  });
+}
+
+export async function setExperiment01V23SelectedGenerationAsset(params: {
+  projectId: string;
+  artifactId: string;
+  selectedGenerationAssetId: string;
+}): Promise<BrandMarketingExpressionRun> {
+  const run = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
+  if (!run?.experiment01V23) throw new Error('Experiment 01 V2.3 not found');
+
+  const artifacts = run.experiment01V23.generatedArtifacts.map((a) => {
+    if (a.id !== params.artifactId) return a;
+    const migrated = migrateV23ArtifactGenerationLineage(a);
+    const asset = migrated.generationAssets?.find((g) => g.assetId === params.selectedGenerationAssetId);
+    if (!asset) throw new Error('Selected generation asset not found for artifact');
+    return {
+      ...migrated,
+      selectedGenerationAssetId: params.selectedGenerationAssetId,
+      generatedAssetId: asset.assetId,
+      generatedAssetUrl: asset.url,
+      updatedAt: nowIso(),
+    };
+  });
+
+  return marketingStore.saveBrandMarketingExpressionRun({
+    ...run,
+    experiment01V23: { ...run.experiment01V23, generatedArtifacts: artifacts },
     updatedAt: nowIso(),
   });
 }
@@ -1844,10 +1942,10 @@ export async function applyV23PublicCopyRevisionAll(params: {
 
   const updatedArtifacts = run.experiment01V23.generatedArtifacts.map((artifact) => {
     const { artifact: revised } = applyV23PublicCopyRevision({ artifact });
-    return {
+    return markV23ArtifactPromptStale({
       ...revised,
       generationContract: revised.generationContract,
-    };
+    });
   });
 
   return marketingStore.saveBrandMarketingExpressionRun({

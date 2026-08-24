@@ -10,6 +10,7 @@ import { buildArtBoardDirectionContract } from './artBoardDirectionContract.js';
 import { buildArtifactMaterialityEvaluation } from './evaluations.js';
 import { buildFeedMaterialRhythm } from './feedRhythm.js';
 import { compileArtBoardMaterialityFalPrompt } from './falPromptCompilerV23.js';
+import { compileCurrentV23FalPrompt } from './v23GenerationAuthority.js';
 import { evaluateNorthStarArtBoardMateriality, evaluateNorthStarHumanMadeCalibrations } from './northStarMaterialForensics.js';
 import { applyV23HumanMadeRevision } from './v23HumanMadeRevision.js';
 import { applyV23SignatureLimeRevision } from './signatureLime.js';
@@ -91,6 +92,39 @@ export function formulateExperiment01V23(params: {
     artBoardContracts.push(retained);
 
     const falContract = compileArtBoardMaterialityFalPrompt({ artifact: v1, contract: retained });
+    const { snapshot } = compileCurrentV23FalPrompt({
+      artifact: {
+        id: `bma-exp01-v23-${topicIndex}`,
+        v1ArtifactId: v1.id,
+        v22ArtifactId: v22Artifact.id,
+        topic: v1.topic,
+        subject: v1.subject,
+        contract: retained,
+        carouselArchitecture: v22Artifact.carouselArchitecture,
+        editorialDecision: v22Artifact.editorialDecision,
+        generationContract: falContract,
+        generatedAssetId: null,
+        generatedAssetUrl: null,
+        generationStatus: 'NOT_GENERATED',
+        materialityEvaluation: retained.materialityEvaluation,
+        humanMadeEvaluation: retained.humanMadeEvaluation ?? null,
+        humanMadeRevision: retained.humanMadeRevision ?? null,
+        signatureLimeEvaluation: retained.signatureLimeEvaluation ?? null,
+        signatureLimeRevision: retained.signatureLimeRevision ?? null,
+        signatureLimeMigration: null,
+        parentFingerprint,
+        parentGeneratedAssetUrl: null,
+        founderJudgment: null,
+        founderJudgmentNote: null,
+        revisionHistory: [],
+        fingerprint: fp(retained),
+        createdAt: now,
+        updatedAt: now,
+      },
+      v1Artifact: v1,
+      projectId: params.expressionSystem.projectId,
+      triggerSource: 'INITIAL_FORMULATION',
+    });
 
     v23Artifacts.push({
       id: `bma-exp01-v23-${topicIndex}`,
@@ -124,6 +158,12 @@ export function formulateExperiment01V23(params: {
       fingerprint: fp(retained),
       createdAt: now,
       updatedAt: now,
+      promptSnapshots: [snapshot],
+      promptFreshness: null,
+      generationAssets: [],
+      selectedGenerationAssetId: null,
+      promptRecompileRequired: false,
+      dispatchedPromptSnapshotId: snapshot.id,
     });
   }
 
@@ -164,7 +204,9 @@ export function formulateExperiment01V23(params: {
 
 export function v23ContractReviewBeforeGeneration(experiment: MarketingExpressionExperiment01V23): boolean {
   return (
-    (experiment.status === 'CONTRACTS_READY' || experiment.status === 'GENERATING') &&
+    (experiment.status === 'CONTRACTS_READY' ||
+      experiment.status === 'GENERATING' ||
+      experiment.status === 'GENERATED') &&
     experiment.artBoardContracts.length === 9
   );
 }
