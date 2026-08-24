@@ -1358,6 +1358,38 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, artifactId, judgment }),
       },
     ),
+  marketingExpressionExperiment01V22Formulate: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v22_formulate',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  marketingExpressionExperiment01V22Generate: (slug: string, artifactId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v22_generate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, artifactId }),
+      },
+    ),
+  marketingExpressionExperiment01V22GenerateAll: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v22_generate_all',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  marketingExpressionExperiment01V22ArtifactJudgment: (slug: string, artifactId: string, judgment: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=marketing_expression_experiment_01_v22_artifact_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, artifactId, judgment }),
+      },
+    ),
   contentOperationsGet: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
       `/api/site00/projects?action=content_operations_get&slug=${encodeURIComponent(slug)}`,

@@ -294,6 +294,7 @@ export type SocialContentPackage = {
   carouselArchitectureId?: string | null;
   visualSubjectMatterDecisionId?: string | null;
   visualParticipationBalance?: string | null;
+  characterRetentionContractId?: string | null;
   createdAt: string;
   updatedAt: string;
 };

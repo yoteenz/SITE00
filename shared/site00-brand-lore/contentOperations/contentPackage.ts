@@ -20,6 +20,8 @@ import { determineResearchDepth } from './researchEvidence.js';
 import { formulateCharacterEventFromOpportunity, formulateContentThesisFromOpportunity } from './characterEventProduction.js';
 import { extendCarouselSequencePlan, buildEditorialLayerForContentPackage } from '../editorialInformationArchitecture/integration.js';
 import { buildContentPackageVisualSubjectLayer } from '../culturalVisualParticipation/integration.js';
+import { amendFirstSlideContractWithCulturalParticipation } from '../culturalVisualParticipation/experiment01V21.js';
+import { buildContentPackageCharacterRetentionLayer } from '../characterRetention/integration.js';
 
 function fp(value: unknown): string {
   return createHash('sha256').update(JSON.stringify(value)).digest('hex').slice(0, 16);
@@ -114,6 +116,7 @@ export function buildSocialContentPackage(params: {
 
   let visualSubjectMatterDecisionId: string | null = null;
   let visualParticipationBalance: string | null = null;
+  let characterRetentionContractId: string | null = null;
 
   if (params.expressionSystem && params.characterSystemId) {
     const editorial = buildEditorialLayerForContentPackage({
@@ -131,14 +134,38 @@ export function buildSocialContentPackage(params: {
         narrative: editorial.editorialLayer.carouselNarrative,
       });
     }
+    const amendedContract = amendFirstSlideContractWithCulturalParticipation({
+      baseContract: editorial.editorialLayer.firstSlideContract,
+      artifact: {
+        id: `bma-co-${packageId}`,
+        topic: params.opportunity.domains[0] ?? params.opportunity.subject,
+        subject: params.opportunity.subject,
+        supportingLanguage: [params.opportunity.summary],
+        characterTemperature: 'CURIOUS',
+      } as never,
+      topicIndex: 1,
+      characterTemperature: 'CURIOUS',
+      topic: params.opportunity.domains[0] ?? params.opportunity.subject,
+    });
+
     const visualLayer = buildContentPackageVisualSubjectLayer({
       pkg: { id: packageId, projectId: params.projectId, createdAt: now, updatedAt: now, editorialDecisionId, firstSlideContractId, carouselArchitectureId } as SocialContentPackage,
       opportunity: params.opportunity,
       expressionSystem: params.expressionSystem,
       characterSystemId: params.characterSystemId,
+      amendedContract,
     });
     visualSubjectMatterDecisionId = visualLayer.visualSubjectMatterDecisionId;
     visualParticipationBalance = visualLayer.visualParticipationBalance;
+
+    const characterLayer = buildContentPackageCharacterRetentionLayer({
+      pkg: { id: packageId, projectId: params.projectId, createdAt: now, updatedAt: now } as SocialContentPackage,
+      opportunity: params.opportunity,
+      expressionSystem: params.expressionSystem,
+      characterSystemId: params.characterSystemId,
+      v21Contract: amendedContract,
+    });
+    characterRetentionContractId = characterLayer.characterRetentionContractId;
   }
 
   const pkg: SocialContentPackage = {
@@ -179,6 +206,7 @@ export function buildSocialContentPackage(params: {
     carouselArchitectureId,
     visualSubjectMatterDecisionId,
     visualParticipationBalance,
+    characterRetentionContractId,
     fingerprint: '',
     createdAt: now,
     updatedAt: now,
