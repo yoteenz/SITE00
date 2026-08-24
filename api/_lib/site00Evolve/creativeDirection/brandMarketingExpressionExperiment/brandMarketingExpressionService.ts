@@ -50,6 +50,7 @@ function nowIso(): string {
 }
 
 const STALE_FORMULATING_MS = 15 * 60 * 1000;
+const STALE_GENERATING_MS = 15 * 60 * 1000;
 const activeFormulationAttempts = new Map<string, string>();
 const activeGenerationAttempts = new Map<string, string>();
 
@@ -57,6 +58,131 @@ type Experiment01GenerationVersion = 'v1' | 'v2' | 'v21';
 
 function generationKey(projectId: string, version: Experiment01GenerationVersion): string {
   return `${projectId}:${version}`;
+}
+
+type GeneratingArtifact = {
+  generationStatus: string;
+  generatedAssetUrl?: string | null;
+  updatedAt: string;
+};
+
+export function staleGeneratingThresholdMs(): number {
+  return STALE_GENERATING_MS;
+}
+
+export function isExperiment01GenerationWorkerActive(
+  projectId: string,
+  version: Experiment01GenerationVersion,
+): boolean {
+  return activeGenerationAttempts.has(generationKey(projectId, version));
+}
+
+function resetStaleGeneratingArtifact<T extends GeneratingArtifact>(artifact: T): T {
+  if (artifact.generationStatus !== 'GENERATING') return artifact;
+  if (artifact.generatedAssetUrl) {
+    return { ...artifact, generationStatus: 'GENERATED', updatedAt: nowIso() };
+  }
+  return { ...artifact, generationStatus: 'NOT_GENERATED', updatedAt: nowIso() };
+}
+
+function experiment01VersionNeedsGenerationReconcile(params: {
+  projectId: string;
+  version: Experiment01GenerationVersion;
+  runGenerating: boolean;
+  experimentGenerating: boolean;
+  artifacts: GeneratingArtifact[];
+}): boolean {
+  if (isExperiment01GenerationWorkerActive(params.projectId, params.version)) return false;
+  if (params.runGenerating || params.experimentGenerating) return true;
+  return params.artifacts.some((artifact) => artifact.generationStatus === 'GENERATING');
+}
+
+async function reconcileStaleExperiment01Generation(
+  run: BrandMarketingExpressionRun,
+): Promise<BrandMarketingExpressionRun> {
+  let next = run;
+  let changed = false;
+
+  if (run.experiment01?.artifacts.length) {
+    const needs = experiment01VersionNeedsGenerationReconcile({
+      projectId: run.projectId,
+      version: 'v1',
+      runGenerating: run.status === 'EXPERIMENT_01_GENERATING',
+      experimentGenerating: run.experiment01.status === 'GENERATING',
+      artifacts: run.experiment01.artifacts,
+    });
+    if (needs) {
+      const artifacts = run.experiment01.artifacts.map(resetStaleGeneratingArtifact);
+      const allGenerated = artifacts.every((a) => a.generationStatus === 'GENERATED' && a.generatedAssetUrl);
+      next = {
+        ...next,
+        status: allGenerated ? 'EXPERIMENT_01_COMPLETE' : 'EXPERIMENT_01_READY',
+        experiment01: {
+          ...run.experiment01,
+          status: allGenerated ? 'GENERATED' : 'FORMULATED',
+          artifacts,
+        },
+        error: allGenerated ? next.error : next.error ?? 'Slide generation stalled — tap GENERATE REMAINING to retry',
+        updatedAt: nowIso(),
+      };
+      changed = true;
+    }
+  }
+
+  if (run.experiment01V2?.generatedArtifacts.length) {
+    const needs = experiment01VersionNeedsGenerationReconcile({
+      projectId: run.projectId,
+      version: 'v2',
+      runGenerating: run.status === 'EXPERIMENT_01_V2_GENERATING',
+      experimentGenerating: run.experiment01V2.status === 'GENERATING',
+      artifacts: run.experiment01V2.generatedArtifacts,
+    });
+    if (needs) {
+      const artifacts = run.experiment01V2.generatedArtifacts.map(resetStaleGeneratingArtifact);
+      const allGenerated = artifacts.every((a) => a.generationStatus === 'GENERATED' && a.generatedAssetUrl);
+      next = {
+        ...next,
+        status: allGenerated ? 'EXPERIMENT_01_V2_COMPLETE' : 'EXPERIMENT_01_V2_READY',
+        experiment01V2: {
+          ...run.experiment01V2,
+          status: allGenerated ? 'GENERATED' : 'CONTRACTS_READY',
+          generatedArtifacts: artifacts,
+        },
+        error: allGenerated ? next.error : next.error ?? 'Slide generation stalled — tap GENERATE REMAINING to retry',
+        updatedAt: nowIso(),
+      };
+      changed = true;
+    }
+  }
+
+  if (run.experiment01V21?.generatedArtifacts.length) {
+    const needs = experiment01VersionNeedsGenerationReconcile({
+      projectId: run.projectId,
+      version: 'v21',
+      runGenerating: run.status === 'EXPERIMENT_01_V21_GENERATING',
+      experimentGenerating: run.experiment01V21.status === 'GENERATING',
+      artifacts: run.experiment01V21.generatedArtifacts,
+    });
+    if (needs) {
+      const artifacts = run.experiment01V21.generatedArtifacts.map(resetStaleGeneratingArtifact);
+      const allGenerated = artifacts.every((a) => a.generationStatus === 'GENERATED' && a.generatedAssetUrl);
+      next = {
+        ...next,
+        status: allGenerated ? 'EXPERIMENT_01_V21_COMPLETE' : 'EXPERIMENT_01_V21_READY',
+        experiment01V21: {
+          ...run.experiment01V21,
+          status: allGenerated ? 'GENERATED' : 'CONTRACTS_READY',
+          generatedArtifacts: artifacts,
+        },
+        error: allGenerated ? next.error : next.error ?? 'Slide generation stalled — tap GENERATE REMAINING to retry',
+        updatedAt: nowIso(),
+      };
+      changed = true;
+    }
+  }
+
+  if (!changed) return run;
+  return marketingStore.saveBrandMarketingExpressionRun(next);
 }
 
 function shouldGenerateSynchronously(): boolean {
@@ -124,8 +250,8 @@ export async function getBrandMarketingExpressionState(params: {
   projectId: string;
 }): Promise<BrandMarketingExpressionRun | null> {
   const existing = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
-  if (existing) return existing;
-  return null;
+  if (!existing) return null;
+  return reconcileStaleExperiment01Generation(existing);
 }
 
 export async function prepareBrandMarketingExpression(params: {
@@ -749,6 +875,76 @@ export function experiment01V21NotAutoGenerated(): true {
   return true;
 }
 
+async function finalizeExperiment01BatchGeneration(params: {
+  projectId: string;
+  version: Experiment01GenerationVersion;
+}): Promise<void> {
+  const run = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
+  if (!run) return;
+
+  if (params.version === 'v1' && run.experiment01) {
+    const artifacts = run.experiment01.artifacts.map(resetStaleGeneratingArtifact);
+    const allGenerated = artifacts.every((a) => a.generationStatus === 'GENERATED' && a.generatedAssetUrl);
+    const anyFailed = artifacts.some((a) => a.generationStatus === 'FAILED');
+    await marketingStore.saveBrandMarketingExpressionRun({
+      ...run,
+      status: allGenerated ? 'EXPERIMENT_01_COMPLETE' : 'EXPERIMENT_01_READY',
+      experiment01: {
+        ...run.experiment01,
+        status: allGenerated ? 'GENERATED' : 'FORMULATED',
+        artifacts,
+      },
+      error:
+        anyFailed && !allGenerated
+          ? 'Some slides failed to generate — tap GENERATE REMAINING to retry'
+          : run.error,
+      updatedAt: nowIso(),
+    });
+    return;
+  }
+
+  if (params.version === 'v2' && run.experiment01V2) {
+    const artifacts = run.experiment01V2.generatedArtifacts.map(resetStaleGeneratingArtifact);
+    const allGenerated = artifacts.every((a) => a.generationStatus === 'GENERATED' && a.generatedAssetUrl);
+    const anyFailed = artifacts.some((a) => a.generationStatus === 'FAILED');
+    await marketingStore.saveBrandMarketingExpressionRun({
+      ...run,
+      status: allGenerated ? 'EXPERIMENT_01_V2_COMPLETE' : 'EXPERIMENT_01_V2_READY',
+      experiment01V2: {
+        ...run.experiment01V2,
+        status: allGenerated ? 'GENERATED' : 'CONTRACTS_READY',
+        generatedArtifacts: artifacts,
+      },
+      error:
+        anyFailed && !allGenerated
+          ? 'Some slides failed to generate — tap GENERATE REMAINING to retry'
+          : run.error,
+      updatedAt: nowIso(),
+    });
+    return;
+  }
+
+  if (params.version === 'v21' && run.experiment01V21) {
+    const artifacts = run.experiment01V21.generatedArtifacts.map(resetStaleGeneratingArtifact);
+    const allGenerated = artifacts.every((a) => a.generationStatus === 'GENERATED' && a.generatedAssetUrl);
+    const anyFailed = artifacts.some((a) => a.generationStatus === 'FAILED');
+    await marketingStore.saveBrandMarketingExpressionRun({
+      ...run,
+      status: allGenerated ? 'EXPERIMENT_01_V21_COMPLETE' : 'EXPERIMENT_01_V21_READY',
+      experiment01V21: {
+        ...run.experiment01V21,
+        status: allGenerated ? 'GENERATED' : 'CONTRACTS_READY',
+        generatedArtifacts: artifacts,
+      },
+      error:
+        anyFailed && !allGenerated
+          ? 'Some slides failed to generate — tap GENERATE REMAINING to retry'
+          : run.error,
+      updatedAt: nowIso(),
+    });
+  }
+}
+
 async function executeExperiment01GenerationWork(params: {
   projectId: string;
   version: Experiment01GenerationVersion;
@@ -759,19 +955,92 @@ async function executeExperiment01GenerationWork(params: {
   try {
     for (const artifactId of params.artifactIds) {
       if (activeGenerationAttempts.get(key) !== params.attemptId) return;
-      if (params.version === 'v1') {
-        await generateExperiment01ArtifactAsset({ projectId: params.projectId, artifactId });
-      } else if (params.version === 'v2') {
-        await generateExperiment01V2ArtifactAsset({ projectId: params.projectId, artifactId });
-      } else {
-        await generateExperiment01V21ArtifactAsset({ projectId: params.projectId, artifactId });
+      try {
+        if (params.version === 'v1') {
+          await generateExperiment01ArtifactAsset({ projectId: params.projectId, artifactId });
+        } else if (params.version === 'v2') {
+          await generateExperiment01V2ArtifactAsset({ projectId: params.projectId, artifactId });
+        } else {
+          await generateExperiment01V21ArtifactAsset({ projectId: params.projectId, artifactId });
+        }
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Generation failed';
+        const current = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
+        if (!current) continue;
+
+        if (params.version === 'v1' && current.experiment01) {
+          const artifacts = current.experiment01.artifacts.map((artifact) =>
+            artifact.id === artifactId
+              ? { ...artifact, generationStatus: 'FAILED' as const, updatedAt: nowIso() }
+              : artifact,
+          );
+          await marketingStore.saveBrandMarketingExpressionRun({
+            ...current,
+            experiment01: { ...current.experiment01, artifacts },
+            error: message,
+            updatedAt: nowIso(),
+          });
+        } else if (params.version === 'v2' && current.experiment01V2) {
+          const artifacts = current.experiment01V2.generatedArtifacts.map((artifact) =>
+            artifact.id === artifactId
+              ? { ...artifact, generationStatus: 'FAILED' as const, updatedAt: nowIso() }
+              : artifact,
+          );
+          await marketingStore.saveBrandMarketingExpressionRun({
+            ...current,
+            experiment01V2: { ...current.experiment01V2, generatedArtifacts: artifacts },
+            error: message,
+            updatedAt: nowIso(),
+          });
+        } else if (params.version === 'v21' && current.experiment01V21) {
+          const artifacts = current.experiment01V21.generatedArtifacts.map((artifact) =>
+            artifact.id === artifactId
+              ? { ...artifact, generationStatus: 'FAILED' as const, updatedAt: nowIso() }
+              : artifact,
+          );
+          await marketingStore.saveBrandMarketingExpressionRun({
+            ...current,
+            experiment01V21: { ...current.experiment01V21, generatedArtifacts: artifacts },
+            error: message,
+            updatedAt: nowIso(),
+          });
+        }
       }
     }
   } finally {
     if (activeGenerationAttempts.get(key) === params.attemptId) {
       activeGenerationAttempts.delete(key);
+      await finalizeExperiment01BatchGeneration({
+        projectId: params.projectId,
+        version: params.version,
+      });
     }
   }
+}
+
+async function pendingArtifactIdsForVersion(
+  run: BrandMarketingExpressionRun,
+  version: Experiment01GenerationVersion,
+): Promise<string[]> {
+  if (version === 'v1') {
+    return (
+      run.experiment01?.artifacts
+        .filter((artifact) => artifact.generationStatus !== 'GENERATED' || !artifact.generatedAssetUrl)
+        .map((artifact) => artifact.id) ?? []
+    );
+  }
+  if (version === 'v2') {
+    return (
+      run.experiment01V2?.generatedArtifacts
+        .filter((artifact) => artifact.generationStatus !== 'GENERATED' || !artifact.generatedAssetUrl)
+        .map((artifact) => artifact.id) ?? []
+    );
+  }
+  return (
+    run.experiment01V21?.generatedArtifacts
+      .filter((artifact) => artifact.generationStatus !== 'GENERATED' || !artifact.generatedAssetUrl)
+      .map((artifact) => artifact.id) ?? []
+  );
 }
 
 async function startExperiment01BatchGeneration(params: {
@@ -787,23 +1056,29 @@ async function startExperiment01BatchGeneration(params: {
   if (params.pendingArtifactIds.length === 0) return run;
   if (activeGenerationAttempts.has(key)) return run;
 
+  const reconciled = await reconcileStaleExperiment01Generation(run);
+  if (activeGenerationAttempts.has(key)) return reconciled;
+
+  const pendingArtifactIds = await pendingArtifactIdsForVersion(reconciled, params.version);
+  if (pendingArtifactIds.length === 0) return reconciled;
+
   const attemptId = randomUUID();
   activeGenerationAttempts.set(key, attemptId);
 
   const started = await marketingStore.saveBrandMarketingExpressionRun(
-    params.markGenerating(run),
+    params.markGenerating(reconciled),
   );
 
   const work = executeExperiment01GenerationWork({
     projectId: params.projectId,
     version: params.version,
     attemptId,
-    artifactIds: params.pendingArtifactIds,
+    artifactIds: pendingArtifactIds,
   });
 
   if (shouldGenerateSynchronously()) {
     await work;
-    return (await marketingStore.getBrandMarketingExpressionRun(params.projectId)) ?? started;
+    return (await getBrandMarketingExpressionState({ projectId: params.projectId })) ?? started;
   }
 
   setImmediate(() => {
