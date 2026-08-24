@@ -5,3 +5,4 @@ export * from './ndxCulturalLifeFoundation.js';
 export * from './ndxDiscoveryInterview.js';
 export * from './ndxScenarioTests.js';
 export * from './ndxEmbodiedCharacterAdapter.js';
+export * from './recordValidation.js';
