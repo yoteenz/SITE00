@@ -4465,3 +4465,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Gates:** `PRODUCTION_GENERATION_BLOCKED_CHARACTER_NOT_CAST`; `FAL_REQUESTS_FOR_CHARACTER_GENERATION=0`; mock fixture test proves pipeline without inventing NDX woman. Final face/ visual identity / training / production generation all remain false.
 - **Tests:** 61 requirements in `characterContinuityP05E5.test.ts`. Build green. Deploy v61 after merge.
 
+---
+
+## 2026-08-24 — Founder mobile capture-auth bootstrap page
+
+- **Context:** Founder codes from mobile; asked how to configure Railway `SITE00_CAPTURE_STORAGE_STATE_*` without a laptop. Prior answer required Playwright codegen on desktop.
+- **Built:** Phone-friendly founder bootstrap — export Playwright storage state from current signed-in admin session.
+  - **API:** `POST /api/capture-auth-bootstrap` (admin-only) validates refresh token, builds signed `baw_session_rt` + Supabase `localStorage` entries → Playwright `storageState` JSON for Railway `SITE00_CAPTURE_STORAGE_STATE_JSON`.
+  - **Shared:** `buildCaptureStorageState.ts` + tests; `sessionRefreshCookie.ts` extracted from session-cookie handler.
+  - **UI:** `/control/debug/capture-auth` → `/admin/site00/debug/capture-auth` — EXPORT FOR RAILWAY button, copy JSON, Railway step list.
+  - **Visual dev link:** When authenticated refs not VALID, panel links to bootstrap page.
+- **Founder flow (phone):** Sign in on site00.com → open `/control/debug/capture-auth` → EXPORT → copy JSON → Railway Variables → redeploy API → CAPTURE / REFRESH REFERENCES → PROJECTS DESKTOP: VALID.
+
