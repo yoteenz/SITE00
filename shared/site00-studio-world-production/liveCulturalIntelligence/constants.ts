@@ -64,11 +64,35 @@ export const SIGNAL_SOURCE_TYPES = [
 
 export const CONNECTOR_STATUSES = [
   'CONNECTED',
+  'PRODUCTION_CONNECTED',
+  'STAGING_CONNECTED',
+  'TEST_VERIFIED',
   'MANUAL',
+  'MANUAL_CONNECTED',
   'AVAILABLE_NOT_CONFIGURED',
+  'CREDENTIAL_MISSING',
   'NOT_AVAILABLE',
+  'NOT_CONNECTED',
   'BLOCKED',
   'FAILED',
+  'UNASSESSED',
+] as const;
+
+export const SOURCE_FAMILIES = [
+  'WEB_NEWS',
+  'KNOWN_UPCOMING',
+  'SEARCH_BEHAVIOR',
+  'SOCIAL_PLATFORM',
+  'MANUAL_EDITORIAL',
+  'MANUAL_RESEARCH',
+  'DATA_RELEASES',
+] as const;
+
+export const REFRESH_TRIGGERS = [
+  'MANUAL_FOUNDER_REFRESH',
+  'SCHEDULED_REFRESH',
+  'SYSTEM_RETRY',
+  'PROVING_RUN',
 ] as const;
 
 export const TREND_LIFECYCLE_STATES = [
@@ -312,3 +336,28 @@ export const BRAND_CHARACTER_MUTATED = false as const;
 export const BRAND_CANON_MUTATED = false as const;
 export const PRODUCT_EXPRESSION_IMPLEMENTED = false as const;
 export const WORLD_FORMATION_IMPLEMENTED = false as const;
+
+/** P0.5D.2 — Live signal source acquisition */
+export const SOURCE_CAPABILITY_AUDIT_IMPLEMENTED = true as const;
+export const LIVE_SIGNAL_SOURCE_ADAPTER_EXECUTION_IMPLEMENTED = true as const;
+export const LIVE_INTELLIGENCE_REFRESH_RUN_IMPLEMENTED = true as const;
+export const SOURCE_HEALTH_UI_IMPLEMENTED = true as const;
+export const SOURCE_COVERAGE_EVALUATION_IMPLEMENTED = true as const;
+export const SIGNAL_DISCOVERY_DIVERSITY_IMPLEMENTED = true as const;
+export const WEEKLY_SIGNAL_QUERY_PLAN_IMPLEMENTED = true as const;
+export const EVENT_PREPARATION_PACKAGE_IMPLEMENTED = true as const;
+export const FIRST_CONTROLLED_LIVE_PROVING_RUN_SUPPORTED = true as const;
+export const LIVE_SIGNAL_DEDUPLICATION_PROVEN = true as const;
+export const LIVE_SIGNAL_CLUSTERING_PROVEN = true as const;
+export const SOURCE_LINEAGE_TO_FORECAST_PROVEN = true as const;
+export const FIRST_LIVE_WEEKLY_CULTURAL_FORECAST_SUPPORTED = true as const;
+export const NDX_LIVE_OPPORTUNITY_FILTER_PROVEN = true as const;
+export const SKIP_DECISION_PROVEN = true as const;
+export const WATCH_DECISION_PROVEN = true as const;
+export const FOUNDER_CONTENT_OPPORTUNITY_PROMOTION_IMPLEMENTED = true as const;
+export const LIVE_LINEAGE_TO_CONTENT_OPPORTUNITY_IMPLEMENTED = true as const;
+export const FIRST_LIVE_WEEKLY_SLATE_PREPARATION_SUPPORTED = true as const;
+export const TREND_ONLY_WEEK_GUARD_IMPLEMENTED = true as const;
+export const MANUAL_SIGNAL_SOURCE_PRESERVED = true as const;
+export const COMMUNITY_SIGNAL_SOURCE_NOT_CONNECTED = 'COMMUNITY_SIGNAL_SOURCE_NOT_CONNECTED' as const;
+export const FAL_REQUESTS_FOR_LIVE_INTELLIGENCE = 0 as const;

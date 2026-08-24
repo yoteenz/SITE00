@@ -26,6 +26,7 @@ export function buildUpcomingCulturalMoment(params: {
   startAt: string;
   endAt: string;
   expectedAttention?: UpcomingCulturalMoment['expectedAttention'];
+  knownContext?: string[];
 }): UpcomingCulturalMoment {
   return {
     id: `ucm-${randomUUID().slice(0, 8)}`,
@@ -46,7 +47,7 @@ export function buildUpcomingCulturalMoment(params: {
     recommendedPreparationWindow: '7 days before',
     liveMonitoringRecommended: true,
     rapidResponseEligible: false,
-    knownContext: [],
+    knownContext: params.knownContext ?? [],
     historicalContext: [],
     possibleBrandRelevance: [],
     fingerprint: fp(params.name),

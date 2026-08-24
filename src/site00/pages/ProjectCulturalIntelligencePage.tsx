@@ -5,6 +5,7 @@ import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperime
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
 import {
   site00ProjectContentOperationsPath,
+  site00ProjectCulturalIntelligenceSourcesPath,
   site00ProjectCulturalIntelligenceWeeklyForecastPath,
   site00ProjectPath,
 } from '../config/routes';
@@ -67,10 +68,11 @@ export default function ProjectCulturalIntelligencePage() {
         <div className="site00-project-lore-calibration">
           <header className="site00-project-lore-calibration__hero">
             <ProjectExperimentsHubNav projectSlug={projectSlug} />
-            <p className="site00-project-lore-calibration__kicker">P0.5D.1 — LIVE CULTURAL INTELLIGENCE</p>
+            <p className="site00-project-lore-calibration__kicker">P0.5D.2 — LIVE CULTURAL INTELLIGENCE</p>
             <h1 className="site00-project-lore-calibration__project">{projectDisplayName(projectSlug)}</h1>
-            <p className="site00-project-lore-calibration__headline">TREND FORECASTING + TEMPORAL RELEVANCE</p>
+            <p className="site00-project-lore-calibration__headline">SOURCE ACQUISITION + WEEKLY FORECAST</p>
             <Link to={site00ProjectContentOperationsPath(projectSlug)}>← CONTENT OPERATIONS</Link>
+            <Link to={site00ProjectCulturalIntelligenceSourcesPath(projectSlug)}>SOURCE HEALTH →</Link>
             <Link to={site00ProjectCulturalIntelligenceWeeklyForecastPath(projectSlug)}>WEEKLY FORECAST →</Link>
             <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
           </header>
@@ -83,7 +85,8 @@ export default function ProjectCulturalIntelligencePage() {
                 <h2>INTELLIGENCE PIPELINE</h2>
                 <p>WORLD → SIGNALS → FORECAST → BRAND RELEVANCE → CONTENT OPPORTUNITY</p>
                 <p>Not: what is trending? — What would this brand notice, connect, question, or remember?</p>
-                <p>Status: {run?.status ?? 'NOT_STARTED'} · FAL for forecasting: 0</p>
+                <p>Status: {run?.status ?? 'NOT_STARTED'} · Live sources: {run?.sourceAdapters.filter((a) => a.status === 'PRODUCTION_CONNECTED').length ?? 0} · FAL: 0</p>
+                {run?.provingRunId ? <p>Proving run: {run.provingRunId}</p> : null}
                 {!run?.sourceAdapters.length && (
                   <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void act(() => site00ProjectsApi.culturalIntelligenceConfigure(projectSlug))}>
                     CONFIGURE INTELLIGENCE LAYER
@@ -92,7 +95,10 @@ export default function ProjectCulturalIntelligencePage() {
                 {run?.sourceAdapters.length ? (
                   <>
                     <button type="button" className="site00-btn" disabled={busy} onClick={() => void act(() => site00ProjectsApi.culturalIntelligenceRefresh(projectSlug))}>
-                      REFRESH LIVE SIGNALS (MANUAL)
+                      REFRESH LIVE INTELLIGENCE
+                    </button>
+                    <button type="button" className="site00-btn" disabled={busy} onClick={() => void act(() => site00ProjectsApi.culturalIntelligenceProvingRun(projectSlug))}>
+                      RUN LIVE PROVING RUN 01
                     </button>
                     <button type="button" className="site00-btn" disabled={busy} onClick={() => void act(() => site00ProjectsApi.culturalIntelligencePromoteOpportunities(projectSlug))}>
                       PROMOTE NDX OPPORTUNITIES → CONTENT OPS
@@ -150,7 +156,17 @@ export default function ProjectCulturalIntelligencePage() {
                 <section className="site00-experiment-g__panel">
                   <h2>NDX OPPORTUNITIES</h2>
                   {opportunities.map((i) => (
-                    <p key={i.id}>{i.reasoning} — {i.decision}</p>
+                    <div key={i.id}>
+                      <p>{i.reasoning} — {i.decision}</p>
+                      <button
+                        type="button"
+                        className="site00-btn"
+                        disabled={busy}
+                        onClick={() => void act(() => site00ProjectsApi.culturalIntelligencePromoteItem(projectSlug, i.id))}
+                      >
+                        PROMOTE TO CONTENT OPPORTUNITY
+                      </button>
+                    </div>
                   ))}
                 </section>
               )}

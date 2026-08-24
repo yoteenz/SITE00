@@ -152,16 +152,24 @@ export function processNdxLiveIntelligence(params: {
   weekStart: string;
   weekEnd: string;
   editorialMemory?: ContentMemoryIndex | null;
+  liveSignals?: LiveWorldSignal[];
+  knownMoments?: UpcomingCulturalMoment[];
+  forecastId?: string;
 }) {
-  const rawSignals = buildNdxPilotLiveSignals(params);
-  const { clusters, signals } = clusterSignals(rawSignals);
+  const pilotSignals = buildNdxPilotLiveSignals(params);
+  const mergedRaw = [...(params.liveSignals ?? []), ...pilotSignals];
+  const { clusters, signals } = clusterSignals(mergedRaw);
   const lifecycles = signals.map((s) => evaluateTrendLifecycle({ signal: s }));
-  const knownMoments = buildNdxKnownMoments(params.projectId, params.weekStart);
+  const knownMoments = params.knownMoments ?? buildNdxKnownMoments(params.projectId, params.weekStart);
 
   const interpretations: BrandSignalInterpretation[] = [];
   const memoryMatches: CulturalMemoryMatch[] = [];
   const packages = signals.map((signal) => {
-    const spec = NDX_PILOT_LIVE_SIGNALS.find((p) => p.title === signal.title)!;
+    const spec = NDX_PILOT_LIVE_SIGNALS.find((p) => p.title === signal.title);
+    const isLiveWeb = signal.sourceIds.some((id) => id.includes('rss') || id === 'public-rss');
+    const wouldCareWithoutTrend = spec?.wouldCareWithoutTrend ?? isLiveWeb;
+    const hasCallback = spec?.hasCallback ?? false;
+    const priorCoverageSubject = spec?.priorCoverageSubject;
     const whyNow = evaluateWhyNow({
       signal,
       whatChanged: signal.summary,
@@ -175,25 +183,25 @@ export function processNdxLiveIntelligence(params: {
       signal,
       cluster,
       whyNow,
-      verifiedFacts: spec.sourceType === 'DATA_RELEASES' ? [signal.summary] : [],
-      unverifiedClaims: spec.sourceType !== 'DATA_RELEASES' ? [signal.summary] : [],
+      verifiedFacts: signal.sourceType === 'DATA_RELEASES' ? [signal.summary] : [],
+      unverifiedClaims: signal.sourceType !== 'DATA_RELEASES' ? [signal.summary] : [],
     });
     const whitespace = evaluateEditorialWhitespace({
       signal,
-      distinctiveAngleExists: spec.wouldCareWithoutTrend,
-      newEvidenceExists: spec.sourceType === 'DATA_RELEASES',
+      distinctiveAngleExists: wouldCareWithoutTrend,
+      newEvidenceExists: signal.sourceType === 'DATA_RELEASES' || signal.sourceType === 'PUBLIC_REPORT',
     });
     const trendDep = interpretNdxTrendDependency({
-      wouldCareWithoutTrend: spec.wouldCareWithoutTrend ?? false,
+      wouldCareWithoutTrend,
       hasDistinctiveAngle: whitespace.outcome === 'OPEN' || whitespace.outcome === 'SATURATED_BUT_ANGLE_EXISTS',
-      trendCreatedConnection: spec.hasCallback ?? false,
+      trendCreatedConnection: hasCallback,
     });
-    if (spec.hasCallback && params.editorialMemory) {
+    if (hasCallback && params.editorialMemory && priorCoverageSubject) {
       memoryMatches.push(
         ...evaluateNdxCulturalMemory({
           signal,
           editorialMemory: params.editorialMemory,
-          priorSubject: spec.priorCoverageSubject,
+          priorSubject: priorCoverageSubject,
         }),
       );
     }
@@ -205,13 +213,13 @@ export function processNdxLiveIntelligence(params: {
       signal,
       intelligencePackage: pkg,
       scores: {
-        naturalInterest: spec.wouldCareWithoutTrend ? 0.8 : 0.3,
-        characterFit: spec.wouldCareWithoutTrend ? 0.75 : 0.25,
-        wouldBrandCareWithoutTrend: spec.wouldCareWithoutTrend,
-        trendDependencyRisk: 0.2,
+        naturalInterest: wouldCareWithoutTrend ? 0.8 : isLiveWeb ? 0.55 : 0.3,
+        characterFit: wouldCareWithoutTrend ? 0.75 : isLiveWeb ? 0.5 : 0.25,
+        wouldBrandCareWithoutTrend: wouldCareWithoutTrend,
+        trendDependencyRisk: isLiveWeb ? 0.35 : 0.2,
         forcedParticipationRisk: 0.1,
-        hasDistinctiveObservation: spec.wouldCareWithoutTrend,
-        hasHistoricalCallback: spec.hasCallback,
+        hasDistinctiveObservation: wouldCareWithoutTrend || isLiveWeb,
+        hasHistoricalCallback: hasCallback,
       },
     });
     interpretations.push(interpretation);
@@ -244,7 +252,7 @@ export function processNdxLiveIntelligence(params: {
     knownMoments,
     accelerating,
     culturalWeather: weather,
-    newData: signals.filter((s) => s.sourceType === 'DATA_RELEASES'),
+    newData: signals.filter((s) => s.sourceType === 'DATA_RELEASES' || s.sourceType === 'PUBLIC_REPORT'),
     callbacks: memoryMatches,
     watchlist,
     opportunities,
@@ -252,6 +260,10 @@ export function processNdxLiveIntelligence(params: {
     expiring: packages.map((p) => p.temporal),
     openCapacity: buildDefaultFlexCapacity({ plannedPrimaryEvents: 21 }),
   });
+
+  if (params.forecastId) {
+    weeklyForecast.forecastId = params.forecastId;
+  }
 
   return {
     signals,

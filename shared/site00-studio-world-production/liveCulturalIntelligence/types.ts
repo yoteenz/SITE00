@@ -19,10 +19,12 @@ import type {
   OPPORTUNITY_ORIGINS,
   RAPID_RESPONSE_STATES,
   REFRESH_MODES,
+  REFRESH_TRIGGERS,
   SIGNAL_DUPLICATE_CLASSES,
   SIGNAL_ORIGINS,
   SIGNAL_SOURCE_TYPES,
   SLATE_COMPOSITION_TYPES,
+  SOURCE_FAMILIES,
   TEMPORAL_CLASSES,
   TREND_LIFECYCLE_STATES,
   WHY_NOW_RESULTS,
@@ -50,6 +52,8 @@ export type ForecastOutcomeResult = (typeof FORECAST_OUTCOME_RESULTS)[number];
 export type NotificationCandidateType = (typeof NOTIFICATION_CANDIDATE_TYPES)[number];
 export type RefreshMode = (typeof REFRESH_MODES)[number];
 export type CurrentVisualEvidenceClass = (typeof CURRENT_VISUAL_EVIDENCE_CLASSES)[number];
+export type RefreshTrigger = (typeof REFRESH_TRIGGERS)[number];
+export type SourceFamily = (typeof SOURCE_FAMILIES)[number];
 export type IntelligenceFailureState = (typeof INTELLIGENCE_FAILURE_STATES)[number];
 
 export type SignalSourceReceipt = {
@@ -73,6 +77,16 @@ export type SignalSourceAdapter = {
   nextRecommendedCheck: string | null;
   refreshMode: RefreshMode;
   receipt: SignalSourceReceipt | null;
+  supportsSearch?: boolean;
+  supportsKnownEvents?: boolean;
+  supportsTrendMovement?: boolean;
+  supportsCommunitySignals?: boolean;
+  supportsHistoricalLookup?: boolean;
+  lastSuccessAt?: string | null;
+  lastFailureAt?: string | null;
+  lastRefreshAt?: string | null;
+  signalsFound?: number;
+  limitations?: string[];
 };
 
 export type LiveWorldSignal = {
@@ -431,9 +445,22 @@ export type LiveCulturalIntelligenceRun = {
     searchSourceRequests: number;
     falRequests: number;
     estimatedCostUsd: number;
+    sourceRequests?: number;
+    reasoningRequests?: number;
   };
   error: string | null;
   updatedAt: string;
+  capabilityAudit?: LiveSourceCapabilityAudit | null;
+  refreshRuns?: LiveIntelligenceRefreshRun[];
+  manualSignals?: ManualSignalSubmission[];
+  sourceCoverage?: SourceCoverageEvaluation | null;
+  discoveryDiversity?: SignalDiscoveryDiversityEvaluation | null;
+  eventPreparationPackages?: EventPreparationPackage[];
+  clientConfig?: ClientIntelligenceConfiguration | null;
+  queryPlan?: WeeklySignalQueryPlan | null;
+  provingRunId?: string | null;
+  originBalance?: WeeklyOpportunityOriginBalanceEvaluation | null;
+  promotedOpportunityIds?: string[];
 };
 
 export type ClientIntelligenceConfiguration = {
@@ -447,4 +474,178 @@ export type ClientIntelligenceConfiguration = {
   forecastHorizonDays: number;
   excludedDomains: SignalSourceType[];
   approvalRequired: true;
+  enabledSourceFamilies?: SourceFamily[];
+  disabledSourceFamilies?: SourceFamily[];
+  priorityDomains?: string[];
+  excludedDomainLabels?: string[];
+  geographies?: string[];
+  languages?: string[];
+  refreshPreferences?: Record<string, string>;
+  knownEventCategories?: SignalSourceType[];
+  riskSensitivity?: 'LOW' | 'MEDIUM' | 'HIGH';
+  rapidResponseEnabled?: boolean;
+};
+
+export type LiveSourceCapabilityAuditEntry = {
+  provider: string;
+  sourceFamily: SourceFamily;
+  availableInRepo: boolean;
+  sdkPresent: boolean;
+  credentialsPresent: boolean;
+  credentialVerified: boolean;
+  apiReachable: boolean;
+  termsCompatible: boolean;
+  rateLimitKnown: boolean;
+  costKnown: boolean;
+  dataClasses: string[];
+  freshnessCapability: string;
+  queryCapability: string;
+  historicalCapability: string;
+  productionSafe: boolean;
+  status: ConnectorStatus;
+  blockingReason: string | null;
+};
+
+export type LiveSourceCapabilityAudit = {
+  auditId: string;
+  projectId: string;
+  auditedAt: string;
+  entries: LiveSourceCapabilityAuditEntry[];
+};
+
+export type RawWebNewsCandidate = {
+  candidateId: string;
+  headline: string;
+  publisher: string;
+  publicationTime: string | null;
+  retrievedAt: string;
+  url: string;
+  summary: string;
+  entities: string[];
+  sourceClassification: 'PRIMARY' | 'SECONDARY';
+  confidence: number;
+  possibleEventDate: string | null;
+  provider: string;
+  query: string | null;
+};
+
+export type AttentionMovementSignal = {
+  query: string;
+  baseline: number | null;
+  currentLevel: number | null;
+  relativeMovement: number | null;
+  movementDirection: 'UP' | 'DOWN' | 'FLAT' | 'UNKNOWN';
+  captureWindow: string;
+  region: string;
+  source: string;
+  confidence: number;
+  status: 'CONNECTED' | 'NOT_CONNECTED';
+};
+
+export type ManualSignalSubmission = {
+  submissionId: string;
+  projectId: string;
+  brandId: string;
+  submittedAt: string;
+  submittedBy: 'FOUNDER' | 'EDITORIAL';
+  referenceUrl: string | null;
+  founderNote: string;
+  whatCaughtAttention: string;
+  possibleConnection: string | null;
+  whyRelevant: string | null;
+  urgency: 'LOW' | 'MEDIUM' | 'HIGH';
+  sourceContext: string;
+  classification: 'FOUNDER_SIGNAL' | 'EDITORIAL_SIGNAL' | 'MANUAL_EVENT_SIGNAL';
+};
+
+export type LiveIntelligenceRefreshRun = {
+  id: string;
+  projectId: string;
+  brandId: string;
+  startedAt: string;
+  completedAt: string | null;
+  trigger: RefreshTrigger;
+  sourceAdapters: string[];
+  queries: string[];
+  rawRecordsFound: number;
+  signalCandidatesFound: number;
+  signalsAccepted: number;
+  signalsDeduplicated: number;
+  clustersUpdated: number;
+  costUsd: number;
+  receipts: SignalSourceReceipt[];
+  errors: string[];
+  status: 'RUNNING' | 'PARTIAL_FAILURE' | 'COMPLETED' | 'FAILED';
+  falRequests: number;
+};
+
+export type WeeklySignalQueryPlan = {
+  planId: string;
+  projectId: string;
+  weekStart: string;
+  queryFamilies: Array<{ family: string; queries: string[]; rationale: string }>;
+  derivedFrom: string[];
+  generatedAt: string;
+};
+
+export type SourceCoverageEvaluation = {
+  evaluationId: string;
+  projectId: string;
+  coveredDomains: string[];
+  weakDomains: string[];
+  uncoveredDomains: string[];
+  sourceConcentration: Record<string, number>;
+  knownBlindSpots: string[];
+  evaluatedAt: string;
+};
+
+export type SignalDiscoveryDiversityEvaluation = {
+  evaluationId: string;
+  projectId: string;
+  domainConcentration: number;
+  publisherConcentration: number;
+  queryFamilyConcentration: number;
+  overConcentrated: boolean;
+  dominantDomain: string | null;
+  dominantPublisher: string | null;
+  evaluatedAt: string;
+};
+
+export type EventPreparationPackage = {
+  packageId: string;
+  eventId: string;
+  eventName: string;
+  eventDate: string;
+  knownFacts: string[];
+  historicalContext: string[];
+  relevantEntities: string[];
+  priorNarratives: string[];
+  dataToGather: string[];
+  questionsToWatch: string[];
+  visualSourceCandidates: string[];
+  postEventTriggers: string[];
+  lifecycle: 'UPCOMING' | 'LIVE' | 'COMPLETED' | 'AFTERMATH';
+  preparedAt: string;
+};
+
+export type WeeklyOpportunityOriginBalanceEvaluation = {
+  evaluationId: string;
+  projectId: string;
+  liveTrendPercent: number;
+  evergreenPercent: number;
+  callbackPercent: number;
+  knownMomentPercent: number;
+  trendOnlyWeek: boolean;
+  founderOverrideRequired: boolean;
+  evaluatedAt: string;
+};
+
+export type SourceReceiptCacheEntry = {
+  cacheKey: string;
+  fetchedAt: string;
+  expiresAt: string;
+  freshnessClass: FreshnessState;
+  cacheHit: boolean;
+  refreshRequired: boolean;
+  payloadHash: string;
 };
