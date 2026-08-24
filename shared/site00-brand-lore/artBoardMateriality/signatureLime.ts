@@ -184,8 +184,8 @@ export function evaluateSignatureLimePresence(params: {
   humanMade: HumanMadeArtifactEvaluation | null;
 }): SignatureTracePresenceEvaluation {
   const plannedAccent = params.accent.reason.length > 0 ? 1 : 0;
-  const humanMadeCount = params.humanMade?.limeIntervention.semanticallyJustifiedCount ?? 0;
-  const limeElements = plannedAccent + humanMadeCount;
+  const limeInterventionCount = params.humanMade?.limeIntervention.semanticallyJustifiedCount ?? 0;
+  const limeElements = Math.max(plannedAccent, limeInterventionCount);
 
   const signaturePresent = limeElements >= NDX_SIGNATURE_LIME_PRESENCE_REQUIREMENT.minimumVisibleSignatureElements;
   let result: SignatureTracePresenceEvaluation['result'] = 'ABSENT';

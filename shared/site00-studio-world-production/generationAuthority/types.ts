@@ -97,6 +97,7 @@ export type GeneratedAssetLineage = {
   assetGeneratedFromCurrentContract: boolean;
   assetIncludesC4A: boolean;
   assetIncludesC4B: boolean;
+  assetIncludesC4B1?: boolean;
   assetIncludesC5: boolean;
   assetUsesCurrentPublicCopy: boolean;
   assetUsesCurrentAuthorship: boolean;

@@ -184,7 +184,37 @@ describe('P0.5C.4B Signature Lime Presence', () => {
       expect(artBoardMaterialityApprovalGatePasses(a)).toBe(true);
       expect(signatureLimeRevisionReady(a.signatureLimeEvaluation)).toBe(true);
     }
-    expect(round01LockRequiresMaterialGate({ v23Experiment: { ...v23Result.experiment, generatedArtifacts: v23Result.artifacts.map((a) => ({ ...a, generationStatus: 'GENERATED' as const, generatedAssetUrl: 'url' })) } }).allowed).toBe(true);
+    expect(round01LockRequiresMaterialGate({
+      v23Experiment: {
+        ...v23Result.experiment,
+        generatedArtifacts: v23Result.artifacts.map((a) => {
+          const prompt = a.generationContract?.prompt ?? '';
+          return {
+            ...a,
+            generationStatus: 'GENERATED' as const,
+            generatedAssetUrl: 'url',
+            selectedGenerationAssetId: 'lineage-test',
+            generationAssets: [
+              {
+                assetId: 'lineage-test',
+                url: 'url',
+                promptSnapshotId: a.promptSnapshots?.[0]?.id ?? 'snap',
+                lineageClassification: 'CURRENT' as const,
+                assetGeneratedFromCurrentContract: true,
+                assetIncludesC4A: prompt.includes('HUMAN-MADE MARKS'),
+                assetIncludesC4B: prompt.includes('SIGNATURE LIME REQUIREMENT'),
+                assetIncludesC4B1: prompt.includes('SIGNATURE LIME RESTRAINT + CHROMATIC ATTENTION'),
+                assetIncludesC5: prompt.includes('PUBLIC AUTHORSHIP MODE'),
+                assetUsesCurrentPublicCopy: prompt.includes('VISIBLE NDX HEADLINE'),
+                assetUsesCurrentAuthorship: prompt.includes('FIRST-PERSON CHARACTER AUTHORSHIP'),
+                assetUsesCurrentLabelQuarantine: prompt.includes('INTERNAL CONTRACT LABELS ARE NOT PUBLIC COPY'),
+                createdAt: a.createdAt,
+              },
+            ],
+          };
+        }),
+      },
+    }).allowed).toBe(true);
   });
 
   it('22–26. Materiality + human-made + character preserved; generic trace; other clients optional', () => {
@@ -203,7 +233,7 @@ describe('P0.5C.4B Signature Lime Presence', () => {
   });
 
   it('27–30. FAL prompt; no auto generation; board audit; founder judgments', () => {
-    expect(FAL_MATERIAL_PROMPT_SECTION_ORDER.length).toBe(46);
+    expect(FAL_MATERIAL_PROMPT_SECTION_ORDER.length).toBe(47);
     const fal = compileArtBoardMaterialityFalPrompt({ artifact: artifacts[2]!, contract: v23Result.artifacts[2]!.contract });
     expect(materialFalPromptHasSignatureLimeRequirement(fal)).toBe(true);
     expect(materialFalPromptDistinguishesSourceVsNdxColor(fal)).toBe(true);

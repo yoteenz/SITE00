@@ -4410,7 +4410,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 - **Context:** Founder reported V2.3 board **GENERATE ALL NINE** stopped/timed out after slide 2 — not firing all FAL requests at once.
 - **Root causes:** (1) `executeExperiment01GenerationWork` looped sequentially (9× FAL wall time); (2) `activeGenerationAttempts` in-memory only — Railway poll on another instance triggered `reconcileStaleExperiment01Generation` and reset remaining GENERATING slides to NOT_GENERATED mid-batch.
-- **Fix:** Parallel FAL via `Promise.all` over pending artifact IDs; single merge save (visual formulation pattern). Persist `experiment01GenerationTracking` `{ version, attemptId, startedAt }` on run; stale reconcile skips when fresh attempt &lt; 15 min (matches synthesis pattern). Cleared on batch finalize.
+- **Fix:** Parallel FAL via `Promise.all` over pending artifact IDs; single merge save (visual formulation pattern). Persist `experiment01GenerationTracking` `{ version, attemptId, startedAt }` on run; stale reconcile skips when fresh attempt &lt; 15 min (matches synthesis pattern). Cleared on batch finalize. Integrated with P0.5C.4B.1 V2.3 supersession guards.
 - **Tests:** `experiment01StaleGeneration.test.ts` — fresh V2.3 attempt not reconciled; V2.3 generateAll fires 9 FAL in one batch. All targeted marketing-expression tests green.
 - **Ship:** API-only — Railway redeploy from `main` after merge; no cPanel ZIP unless UI touched.
+
+## 2026-08-24 — P0.5C.4B.1 Signature Lime Restraint + Queue Supersession
+
+- **Context:** Founder reported P0.5C.4B overcorrected — FAL rendered lime as default ink across handwriting, icons, annotations. Sprint also required immediately superseding stale V2.3 generation queue compiled pre-C4B.1 without auto-regenerating after implementation.
+- **Root cause:** `falPromptCompilerV23` defaulted all NDX marks/icons to signature lime; `humanMadeMarks` set `limeApplied: true` on every mark; `limeIntervention` derived MODERATE+ density from icon counts — HUMAN_MADE ↔ LIME coupling.
+- **Canonical principle:** LIME PRESENCE REQUIRED · LIME PROMINENCE PROHIBITED. New `signatureLimeRestraint.ts` — ChromaticAttentionHierarchy, SignatureLimeRestraintMode, LimeProminenceEvaluation, FeedChromaticRhythm; decoupled human-made color from lime.
+- **Phase 0:** `experiment01V23Supersession.ts` + service reconcile on GET — marks run `SUPERSEDED_BY_METHODOLOGY` / reason `P0.5C.4B.1_SIGNATURE_LIME_RESTRAINT`; pending → `CANCELLED_SUPERSEDED` (not FAILED); completed → `PRESERVED_PRE_C4B1`; in-flight may complete once; blocks further FAL from stale queue; forensic report on experiment.
+- **FAL:** Compiler bumped to `falPromptCompilerV23@P0.5C.4B.1`; dedicated SIGNATURE LIME RESTRAINT + CHROMATIC ATTENTION section; black/neutral default typography and icons; pre-C4B.1 snapshots → `STALE_PRE_C4B1`; REGENERATE_CURRENT recompiles C4B.1; REPLAY preserves history.
+- **Round 01:** Lime restraint gate + current lineage requires C4B.1. UI founder review fields: lime role, attention target, restraint mode, prominence, human trace color, job status (CANCELLED/SUPERSEDED vs FAILED).
+- **No V2.4.** No automatic regeneration after sprint — founder REGENERATE CURRENT only.
+- **Tests:** `artBoardMaterialityP05C4B1.test.ts` (14) + updated P05C4B/P05C5A. Build green.
 

@@ -71,7 +71,7 @@ export type HandDrawnIconSpec = {
   subject: HandDrawnIconSubject | string;
   markClass: 'HAND_DRAWN_ICON';
   whyDrawn: string;
-  limeApplied: true;
+  limeApplied: boolean;
   applicationMode: LimeApplicationMode;
 };
 
@@ -453,6 +453,43 @@ export type ArtBoardRetainedFirstSlideContract = CharacterRetainedFirstSlideCont
   humanMadeRevision?: V23HumanMadeRevision | null;
   signatureLimeEvaluation?: SignatureLimeArtifactEvaluation | null;
   signatureLimeRevision?: SignatureLimeRevision | null;
+  /** P0.5C.4B.1 — chromatic attention + lime restraint governance */
+  signatureLimeRestraint?: import('./signatureLimeRestraint.js').SignatureLimeRestraintEvaluation | null;
+};
+
+export type Experiment01V23GenerationJobStatus =
+  | 'QUEUED'
+  | 'IN_FLIGHT_AT_BOUNDARY'
+  | 'CANCELLED_SUPERSEDED'
+  | 'COMPLETED'
+  | null;
+
+export type Experiment01V23GenerationLineageClass =
+  | 'PRESERVED_PRE_C4B1'
+  | 'PRE_P0_5C_4B_1_IN_FLIGHT'
+  | 'CURRENT_C4B1'
+  | null;
+
+export type Experiment01V23SupersessionRecord = {
+  runId: string;
+  status: 'SUPERSEDED_BY_METHODOLOGY';
+  reason: 'P0.5C.4B.1_SIGNATURE_LIME_RESTRAINT';
+  supersededAt: string;
+  pendingJobsCancelled: number;
+  inFlightRequestsAtBoundary: number;
+  completedAssetsPreserved: number;
+  partialBoardPreserved: boolean;
+};
+
+export type Experiment01V23SupersessionForensic = {
+  activeRunFound: boolean;
+  supersessionBoundary: string;
+  pendingJobsCancelled: number;
+  inFlightRequestsAtBoundary: number;
+  completedAssetsPreserved: number;
+  partialBoardPreserved: boolean;
+  providerDispatchesAfterBoundary: number;
+  estimatedSpendPrevented: number;
 };
 
 export type V23FounderRevisionRecord = {
@@ -481,6 +518,9 @@ export type Experiment01V23Artifact = {
   generatedAssetId: string | null;
   generatedAssetUrl: string | null;
   generationStatus: 'NOT_GENERATED' | 'GENERATING' | 'GENERATED' | 'FAILED';
+  generationJobStatus?: Experiment01V23GenerationJobStatus;
+  generationLineageClass?: Experiment01V23GenerationLineageClass;
+  allowSingleInFlightCompletion?: boolean;
   materialityEvaluation: ArtifactMaterialityEvaluation;
   humanMadeEvaluation: HumanMadeArtifactEvaluation | null;
   humanMadeRevision: V23HumanMadeRevision | null;
@@ -558,6 +598,11 @@ export type MarketingExpressionExperiment01V23 = {
   feedMakerRhythm: FeedMakerRhythm | null;
   feedSignatureColorContinuity: FeedSignatureColorContinuityEvaluation | null;
   signatureLimeMigrations: V23SignatureLimeMigrationResult[];
+  /** P0.5C.4B.1 — methodology supersession + feed chromatic rhythm */
+  generationRunStatus?: 'ACTIVE' | 'SUPERSEDED_BY_METHODOLOGY' | null;
+  generationSupersession?: Experiment01V23SupersessionRecord | null;
+  generationSupersessionForensic?: Experiment01V23SupersessionForensic | null;
+  feedChromaticRhythm?: import('./signatureLimeRestraint.js').FeedChromaticRhythmEvaluation | null;
   founderSetJudgment: V23FounderJudgment;
   error: string | null;
 };

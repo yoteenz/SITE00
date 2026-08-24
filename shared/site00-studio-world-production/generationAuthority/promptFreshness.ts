@@ -90,12 +90,14 @@ export function classifyLegacySnapshot(params: {
     return 'STALE_PUBLIC_COPY';
   }
   if (!params.prompt.includes('PUBLIC AUTHORSHIP MODE')) return 'STALE_C5';
+  if (!params.prompt.includes('SIGNATURE LIME RESTRAINT + CHROMATIC ATTENTION')) return 'STALE_PRE_C4B1';
   if (!params.prompt.includes('SIGNATURE LIME REQUIREMENT')) return 'STALE_C4B';
   if (!params.prompt.includes('HUMAN-MADE MARKS')) return 'STALE_C4A';
   if (
     params.snapshotContractFingerprint === params.contractFingerprint &&
     params.prompt.includes('PUBLIC AUTHORSHIP MODE') &&
-    params.prompt.includes('SIGNATURE LIME REQUIREMENT')
+    params.prompt.includes('SIGNATURE LIME REQUIREMENT') &&
+    params.prompt.includes('SIGNATURE LIME RESTRAINT + CHROMATIC ATTENTION')
   ) {
     return 'CURRENT';
   }

@@ -31,8 +31,17 @@ import {
 } from '../../../../../shared/site00-brand-lore/characterRetention/experiment01V22.js';
 import {
   formulateExperiment01V23,
+  migrateExperiment01V23ToC4B1,
   v23ContractReviewBeforeGeneration,
 } from '../../../../../shared/site00-brand-lore/artBoardMateriality/experiment01V23.js';
+import {
+  applyExperiment01V23Supersession,
+  assertV23GenerationAllowed,
+  isV23GenerationBlocked,
+  isV23SupersessionError,
+  markInFlightV23ArtifactPreserved,
+  shouldAutoSupersedeV23Generation,
+} from '../../../../../shared/site00-brand-lore/artBoardMateriality/experiment01V23Supersession.js';
 import {
   applyFounderRevisionToV23Artifact,
   founderRevisionUsesParentReference,
@@ -76,6 +85,10 @@ const STALE_FORMULATING_MS = 15 * 60 * 1000;
 const STALE_GENERATING_MS = 15 * 60 * 1000;
 const activeFormulationAttempts = new Map<string, string>();
 const activeGenerationAttempts = new Map<string, string>();
+const v23SupersessionBoundaries = new Map<
+  string,
+  { invalidatedAttemptId: string | null; providerDispatchesAfterBoundary: number }
+>();
 
 function generationKey(projectId: string, version: Experiment01GenerationVersion): string {
   return `${projectId}:${version}`;
@@ -325,6 +338,58 @@ function initRun(projectId: string): BrandMarketingExpressionRun {
 export function resetBrandMarketingExpressionWorkers(): void {
   activeFormulationAttempts.clear();
   activeGenerationAttempts.clear();
+  v23SupersessionBoundaries.clear();
+}
+
+async function reconcileV23C4B1AndSupersession(
+  run: BrandMarketingExpressionRun,
+): Promise<BrandMarketingExpressionRun> {
+  if (!run.experiment01V23?.generatedArtifacts.length) return run;
+
+  let next = run;
+  let changed = false;
+
+  const needsC4B1Migration = run.experiment01V23.generatedArtifacts.some(
+    (a) => !a.contract.signatureLimeRestraint,
+  );
+  if (needsC4B1Migration) {
+    const migrated = migrateExperiment01V23ToC4B1({
+      experiment: run.experiment01V23,
+      v1Artifacts: run.experiment01?.artifacts ?? [],
+    });
+    next = {
+      ...next,
+      experiment01V23: migrated,
+      updatedAt: nowIso(),
+    };
+    changed = true;
+  }
+
+  const experiment = next.experiment01V23!;
+  if (shouldAutoSupersedeV23Generation(experiment)) {
+    const attemptKey = generationKey(run.projectId, 'v23');
+    const invalidatedAttemptId = activeGenerationAttempts.get(attemptKey) ?? null;
+    activeGenerationAttempts.delete(attemptKey);
+
+    const { experiment: superseded, forensic } = applyExperiment01V23Supersession(experiment);
+    v23SupersessionBoundaries.set(run.projectId, {
+      invalidatedAttemptId,
+      providerDispatchesAfterBoundary: forensic.providerDispatchesAfterBoundary,
+    });
+
+    next = {
+      ...next,
+      status:
+        next.status === 'EXPERIMENT_01_V23_GENERATING' ? 'EXPERIMENT_01_V23_READY' : next.status,
+      experiment01V23: superseded,
+      error: null,
+      updatedAt: nowIso(),
+    };
+    changed = true;
+  }
+
+  if (!changed) return run;
+  return marketingStore.saveBrandMarketingExpressionRun(next);
 }
 
 async function loadCharacterSystem(projectId: string) {
@@ -350,7 +415,8 @@ export async function getBrandMarketingExpressionState(params: {
 }): Promise<BrandMarketingExpressionRun | null> {
   const existing = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
   if (!existing) return null;
-  return reconcileStaleExperiment01Generation(existing);
+  const reconciled = await reconcileStaleExperiment01Generation(existing);
+  return reconcileV23C4B1AndSupersession(reconciled);
 }
 
 export async function prepareBrandMarketingExpression(params: {
@@ -1236,6 +1302,10 @@ async function generateExperiment01ArtifactFalResult(params: {
   const idx = run.experiment01V23!.generatedArtifacts.findIndex((a) => a.id === artifactId);
   if (idx < 0) throw new Error('V2.3 artifact not found');
   let artifact = migrateV23ArtifactGenerationLineage(run.experiment01V23!.generatedArtifacts[idx]!);
+  assertV23GenerationAllowed(run.experiment01V23);
+  if (isV23GenerationBlocked(run.experiment01V23) && !artifact.allowSingleInFlightCompletion) {
+    assertV23GenerationAllowed(run.experiment01V23);
+  }
   const v1 = run.experiment01?.artifacts.find((a) => a.id === artifact.v1ArtifactId);
   if (!v1) throw new Error('V1 source artifact missing for V2.3 generation');
 
@@ -1266,6 +1336,7 @@ async function generateExperiment01ArtifactFalResult(params: {
     snapshot: artifact.promptSnapshots!.find((s) => s.id === snapshot.id) ?? snapshot,
   });
   const generationAssets = [...(artifact.generationAssets ?? []), assetRecord];
+  const wasInFlightAtBoundary = artifact.allowSingleInFlightCompletion === true;
 
   return {
     artifactId,
@@ -1280,6 +1351,8 @@ async function generateExperiment01ArtifactFalResult(params: {
       generationAssets,
       selectedGenerationAssetId: artifact.selectedGenerationAssetId ?? generatedAssetId,
       dispatchedPromptSnapshotId: snapshot.id,
+      generationJobStatus: wasInFlightAtBoundary ? 'COMPLETED' : artifact.generationJobStatus ?? null,
+      allowSingleInFlightCompletion: false,
       updatedAt: nowIso(),
     },
   };
@@ -1359,12 +1432,21 @@ function applyExperiment01FalBatchResults(params: {
         );
         next = { ...next, experiment01V22: { ...next.experiment01V22, generatedArtifacts } };
       } else if (params.version === 'v23' && next.experiment01V23) {
-        const generatedArtifacts = next.experiment01V23.generatedArtifacts.map((artifact) =>
-          artifact.id === result.artifactId
-            ? { ...artifact, generationStatus: 'FAILED' as const, updatedAt: nowIso() }
-            : artifact,
-        );
-        next = { ...next, experiment01V23: { ...next.experiment01V23, generatedArtifacts } };
+        if (isV23SupersessionError(result.error)) {
+          const generatedArtifacts = next.experiment01V23.generatedArtifacts.map((artifact) =>
+            artifact.id === result.artifactId && artifact.generationJobStatus === 'IN_FLIGHT_AT_BOUNDARY'
+              ? { ...artifact, generationStatus: 'NOT_GENERATED' as const, updatedAt: nowIso() }
+              : artifact,
+          );
+          next = { ...next, experiment01V23: { ...next.experiment01V23, generatedArtifacts } };
+        } else {
+          const generatedArtifacts = next.experiment01V23.generatedArtifacts.map((artifact) =>
+            artifact.id === result.artifactId
+              ? { ...artifact, generationStatus: 'FAILED' as const, updatedAt: nowIso() }
+              : artifact,
+          );
+          next = { ...next, experiment01V23: { ...next.experiment01V23, generatedArtifacts } };
+        }
       }
     }
   }
@@ -1506,6 +1588,10 @@ async function executeExperiment01GenerationWork(params: {
     if (!initialRun) return;
     if (initialRun.experiment01GenerationTracking?.attemptId !== params.attemptId) return;
     if (activeGenerationAttempts.get(key) !== params.attemptId) return;
+
+    if (params.version === 'v23' && initialRun.experiment01V23 && isV23GenerationBlocked(initialRun.experiment01V23)) {
+      return;
+    }
 
     const generationTasks = params.artifactIds.map(async (artifactId): Promise<Experiment01FalBatchResult> => {
       if (activeGenerationAttempts.get(key) !== params.attemptId) {
@@ -1832,11 +1918,19 @@ export async function generateExperiment01V23ArtifactAsset(params: {
   if (!v23ContractReviewBeforeGeneration(run.experiment01V23)) {
     throw new Error('V2.3 contracts must be reviewed before generation');
   }
+  assertV23GenerationAllowed(run.experiment01V23);
 
   const idx = run.experiment01V23.generatedArtifacts.findIndex((a) => a.id === params.artifactId);
   if (idx < 0) throw new Error('V2.3 artifact not found');
 
   let artifact = migrateV23ArtifactGenerationLineage(run.experiment01V23.generatedArtifacts[idx]!);
+
+  if (
+    isV23GenerationBlocked(run.experiment01V23) &&
+    !artifact.allowSingleInFlightCompletion
+  ) {
+    assertV23GenerationAllowed(run.experiment01V23);
+  }
 
   if (
     mode === 'REGENERATE_CURRENT' &&
@@ -1895,6 +1989,7 @@ export async function generateExperiment01V23ArtifactAsset(params: {
     snapshot: replay ? snapshot : artifact.promptSnapshots!.find((s) => s.id === snapshot.id) ?? snapshot,
   });
 
+  const wasInFlightAtBoundary = artifact.allowSingleInFlightCompletion === true;
   const generationAssets = [...(artifact.generationAssets ?? []), assetRecord];
 
   const updated = [...run.experiment01V23.generatedArtifacts];
@@ -1905,10 +2000,20 @@ export async function generateExperiment01V23ArtifactAsset(params: {
     generatedAssetUrl,
     generationStatus,
     generationAssets,
-    selectedGenerationAssetId: artifact.selectedGenerationAssetId ?? generatedAssetId,
+    selectedGenerationAssetId: wasInFlightAtBoundary ? artifact.selectedGenerationAssetId : (artifact.selectedGenerationAssetId ?? generatedAssetId),
+    generationLineageClass: wasInFlightAtBoundary
+      ? 'PRESERVED_PRE_C4B1'
+      : mode === 'REGENERATE_CURRENT' && !replay
+        ? 'CURRENT_C4B1'
+        : artifact.generationLineageClass ?? null,
+    generationJobStatus: wasInFlightAtBoundary ? 'COMPLETED' : artifact.generationJobStatus ?? null,
+    allowSingleInFlightCompletion: false,
     dispatchedPromptSnapshotId: snapshot.id,
     updatedAt: nowIso(),
   };
+  if (wasInFlightAtBoundary) {
+    updated[idx] = markInFlightV23ArtifactPreserved(updated[idx]!);
+  }
   const allGenerated = updated.every((a) => a.generationStatus === 'GENERATED');
 
   return marketingStore.saveBrandMarketingExpressionRun({
@@ -2168,6 +2273,7 @@ export async function generateAllExperiment01V23ArtifactAssets(params: {
   if (!run?.experiment01V23?.generatedArtifacts.length) {
     throw new Error('Experiment 01 V2.3 contracts not formulated');
   }
+  assertV23GenerationAllowed(run.experiment01V23);
   if (!v23ContractReviewBeforeGeneration(run.experiment01V23)) {
     throw new Error('V2.3 contracts must be reviewed before generation');
   }
