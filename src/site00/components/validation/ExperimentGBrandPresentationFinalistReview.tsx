@@ -6,6 +6,7 @@ import type {
 } from '../../../../shared/site00-brand-lore/brandPresentationVisualFormulation/types';
 import { DIRECTION_BENCHMARK_SUMMARIES } from '../../../../shared/site00-brand-lore/brandPresentationVisualFormulation/constants';
 import { site00ProjectsApi } from '../../services/site00ProjectsApi';
+import { VisualBenchmarkFormationStatusPanel } from './VisualBenchmarkFormationStatusPanel';
 
 type DirectionBenchmarkJudgment = Exclude<BrandPresentationDirectionVisualBenchmark['founderJudgment'], null>;
 
@@ -30,6 +31,8 @@ function directionShortName(name: string): string {
 type ExperimentGBrandPresentationFinalistReviewProps = {
   projectSlug: string;
   run: BrandPresentationVisualFormulationRun | null | undefined;
+  lastRefreshedAt?: Date | null;
+  onRefresh?: () => void;
   onUpdate?: (run?: BrandPresentationVisualFormulationRun) => void;
 };
 
@@ -147,12 +150,17 @@ function ParentFinalistSection({
 export function ExperimentGBrandPresentationFinalistReview({
   projectSlug,
   run,
+  lastRefreshedAt = null,
+  onRefresh,
   onUpdate,
 }: ExperimentGBrandPresentationFinalistReviewProps) {
   const [formulating, setFormulating] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [judgingId, setJudgingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const isFormulatingOnServer =
+    run?.status === 'FORMULATING_BENCHMARKS' || run?.status === 'FORMULATING_EXPRESSIONS';
 
   const activeParentFinalists = (run?.parentFinalists ?? [])
     .filter((f) => f.status === 'SELECTED')
@@ -167,21 +175,27 @@ export function ExperimentGBrandPresentationFinalistReview({
     run?.status === 'BENCHMARKS_READY' ||
     run?.status === 'VISUALS_READY' ||
     run?.status === 'FOUNDER_REVIEW';
-  const showFormulateButton = !hasBenchmarks && !hasVisuals;
+  const showFormulateButton = !hasBenchmarks && !hasVisuals && !isFormulatingOnServer;
   const showGenerateButton = hasBenchmarks && !hasVisuals;
 
-  const formulate = useCallback(async () => {
-    setFormulating(true);
-    setError(null);
-    try {
-      const result = await site00ProjectsApi.experimentGVisualFormulate(projectSlug);
-      onUpdate?.(result.run as BrandPresentationVisualFormulationRun);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Formulation failed');
-    } finally {
-      setFormulating(false);
-    }
-  }, [onUpdate, projectSlug]);
+  const startFormulation = useCallback(
+    async (forceRetry = false) => {
+      setFormulating(true);
+      setError(null);
+      try {
+        const result = await site00ProjectsApi.experimentGVisualFormulate(projectSlug, { forceRetry });
+        onUpdate?.(result.run as BrandPresentationVisualFormulationRun);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Formulation failed');
+      } finally {
+        setFormulating(false);
+      }
+    },
+    [onUpdate, projectSlug],
+  );
+
+  const formulate = useCallback(() => startFormulation(false), [startFormulation]);
+  const retryFormulation = useCallback(() => startFormulation(true), [startFormulation]);
 
   const generate = useCallback(async () => {
     setGenerating(true);
@@ -262,6 +276,15 @@ export function ExperimentGBrandPresentationFinalistReview({
         </p>
       ) : null}
       {error ? <p className="site00-experiment-g-vf__error" role="alert">{error}</p> : null}
+
+      <VisualBenchmarkFormationStatusPanel
+        run={run}
+        forming={formulating}
+        lastRefreshedAt={lastRefreshedAt}
+        onRetry={() => void retryFormulation()}
+        onRefresh={() => onRefresh?.()}
+      />
+
       {!pipelineReady && showFormulateButton ? (
         <p className="site00-experiment-g-vf__pending">
           Parent finalists not loaded yet — tap FORMULATE below to initialize Room + Noticing (Collector stays
@@ -271,8 +294,13 @@ export function ExperimentGBrandPresentationFinalistReview({
       <div className="site00-experiment-g-vf__controls">
         {showFormulateButton ? (
           <button type="button" className="site00-btn site00-btn--primary" disabled={formulating} onClick={() => void formulate()}>
-            {formulating ? 'FORMULATING SIX DIRECTION VISUALS…' : 'FORMULATE SIX DIRECTION VISUALS'}
+            {formulating ? 'STARTING BACKGROUND FORMULATION…' : 'FORMULATE SIX DIRECTION VISUALS'}
           </button>
+        ) : null}
+        {isFormulatingOnServer ? (
+          <p className="site00-experiment-g-vf__pending">
+            Formulation runs on the server — safe to leave this page. Status refreshes every 5 seconds.
+          </p>
         ) : null}
         {showGenerateButton ? (
           <>

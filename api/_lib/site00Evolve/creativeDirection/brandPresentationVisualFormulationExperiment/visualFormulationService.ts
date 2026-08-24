@@ -89,6 +89,39 @@ import {
 import * as store from './storeAdapter.js';
 
 const EXPRESSION_LABELS: Array<'A' | 'B' | 'C'> = ['A', 'B', 'C'];
+const STALE_FORMULATING_MS = 15 * 60 * 1000;
+const activeBenchmarkFormationAttempts = new Map<string, string>();
+
+function shouldRunBenchmarkFormulationSynchronously(): boolean {
+  return process.env.VITEST === 'true';
+}
+
+function isBenchmarkFormulationStale(run: BrandPresentationVisualFormulationRun): boolean {
+  if (run.status !== 'FORMULATING_BENCHMARKS' && run.status !== 'FORMULATING_EXPRESSIONS') {
+    return false;
+  }
+  const anchor = run.formationStartedAt ?? run.startedAt;
+  if (!anchor) return false;
+  return Date.now() - new Date(anchor).getTime() > STALE_FORMULATING_MS;
+}
+
+async function reconcileStaleFormulatingRun(
+  run: BrandPresentationVisualFormulationRun | null,
+): Promise<BrandPresentationVisualFormulationRun | null> {
+  if (!run) return null;
+  if (!isBenchmarkFormulationStale(run)) return migrateRun(run);
+  return store.saveBrandPresentationVisualFormulationRun({
+    ...migrateRun(run),
+    status: 'FAILED',
+    error: 'Benchmark formulation timed out — tap RETRY STALLED FORMULATION',
+    formationStartedAt: null,
+    formationAttemptId: null,
+  });
+}
+
+export function resetBrandPresentationVisualFormulationWorkers(): void {
+  activeBenchmarkFormationAttempts.clear();
+}
 
 function nowIso(): string {
   return new Date().toISOString();
@@ -135,6 +168,7 @@ function migrateRun(run: BrandPresentationVisualFormulationRun): BrandPresentati
     expressions: run.expressions ?? [],
     referencePackages: run.referencePackages ?? [],
     revisions: run.revisions ?? [],
+    formationAttemptId: run.formationAttemptId ?? null,
   };
 }
 
@@ -176,6 +210,7 @@ function initRun(existing?: BrandPresentationVisualFormulationRun | null): Brand
     accounting: emptyAccounting(),
     error: null,
     formationStartedAt: null,
+    formationAttemptId: null,
     generationStartedAt: null,
     startedAt: nowIso(),
     completedAt: null,
@@ -192,7 +227,7 @@ export function resetBrandPresentationVisualFormulationStoreModeCache(): void {
 
 export async function getBrandPresentationVisualFormulationRun(): Promise<BrandPresentationVisualFormulationRun | null> {
   const run = await store.getBrandPresentationVisualFormulationRun();
-  return run ? migrateRun(run) : null;
+  return reconcileStaleFormulatingRun(run);
 }
 
 async function ensureRun(): Promise<BrandPresentationVisualFormulationRun> {
@@ -533,7 +568,9 @@ async function formulateBenchmarkForDirection(params: {
   return { benchmark, referencePackage: refPkg, accountingDelta };
 }
 
-export async function formulateDirectionBenchmarks(): Promise<BrandPresentationVisualFormulationRun> {
+export async function formulateDirectionBenchmarks(params?: {
+  forceRetry?: boolean;
+}): Promise<BrandPresentationVisualFormulationRun> {
   let run = await ensureRun();
   if (!isParentFinalistScanPolicy(run.explorationPolicy)) {
     throw new Error('Use formulateVisualExpressions for DIRECTION_FINALIST_DEEP_DIVE mode');
@@ -550,75 +587,154 @@ export async function formulateDirectionBenchmarks(): Promise<BrandPresentationV
     throw new Error(gate.reason);
   }
 
+  const existingBenchmarks = run.directionBenchmarks.filter((b) => b.revisionNumber === 0).length;
+  if (
+    run.status === 'FORMULATING_BENCHMARKS' &&
+    !params?.forceRetry &&
+    !isBenchmarkFormulationStale(run)
+  ) {
+    return run;
+  }
+
+  if (run.status === 'BENCHMARKS_READY' && existingBenchmarks >= run.explorationPolicy.totalInitialVisuals && !params?.forceRetry) {
+    return run;
+  }
+
+  const attemptId = randomUUID();
   run = {
     ...run,
     status: 'FORMULATING_BENCHMARKS',
     formationStartedAt: nowIso(),
+    formationAttemptId: attemptId,
+    error: null,
     directionBenchmarks: run.directionBenchmarks.filter(
       (b) => !gate.eligibleDirections.some((d) => d.directionId === b.directionId && b.revisionNumber === 0),
     ),
     referencePackages: run.referencePackages.filter(
       (p) => !gate.eligibleDirections.some((d) => d.directionId === p.directionId),
     ),
+    formationVersion: params?.forceRetry ? run.formationVersion + 1 : run.formationVersion,
   };
+  await store.saveBrandPresentationVisualFormulationRun(run);
 
-  let allBenchmarks = [...run.directionBenchmarks];
-  let allRefPackages = [...run.referencePackages];
-  let accounting = { ...run.accounting };
-
-  for (const direction of gate.eligibleDirections) {
-    const { benchmark, referencePackage, accountingDelta } = await formulateBenchmarkForDirection({
-      run,
-      directionRun,
-      direction,
-    });
-    allBenchmarks.push(benchmark);
-    allRefPackages.push(referencePackage);
-    accounting = {
-      ...accounting,
-      anthropicRequests: accounting.anthropicRequests + (accountingDelta.anthropicRequests ?? 0),
-      anthropicInputTokens: accounting.anthropicInputTokens + (accountingDelta.anthropicInputTokens ?? 0),
-      anthropicOutputTokens: accounting.anthropicOutputTokens + (accountingDelta.anthropicOutputTokens ?? 0),
-      anthropicEstimatedCostUsd:
-        accounting.anthropicEstimatedCostUsd + (accountingDelta.anthropicEstimatedCostUsd ?? 0),
-    };
+  if (shouldRunBenchmarkFormulationSynchronously()) {
+    await executeBenchmarkFormulationWork(attemptId);
+    return (await store.getBrandPresentationVisualFormulationRun()) ?? run;
   }
 
-  const roomName = 'THE ROOM THAT KNOWS';
-  const noticingName = 'THE THING THAT KEEPS NOTICING';
-  const roomBenchmarks = allBenchmarks.filter(
-    (b) => b.revisionNumber === 0 && b.parentConceptName === roomName,
-  );
-  const noticingBenchmarks = allBenchmarks.filter(
-    (b) => b.revisionNumber === 0 && b.parentConceptName === noticingName,
-  );
+  enqueueBenchmarkFormulationWork(attemptId);
+  return run;
+}
 
-  const roomEval = evaluateSiblingBenchmarkDistinctiveness(roomBenchmarks);
-  const noticingEval = evaluateSiblingBenchmarkDistinctiveness(noticingBenchmarks);
+async function executeBenchmarkFormulationWork(attemptId: string): Promise<void> {
+  const runId = BRAND_PRESENTATION_VISUAL_FORMULATION_RUN_ID;
+  activeBenchmarkFormationAttempts.set(runId, attemptId);
+  try {
+    let run = await store.getBrandPresentationVisualFormulationRun(runId);
+    if (!run || run.status !== 'FORMULATING_BENCHMARKS' || run.formationAttemptId !== attemptId) return;
 
-  allBenchmarks = allBenchmarks.map((b) => {
-    if (b.revisionNumber !== 0) return b;
-    const siblingEval =
-      b.parentConceptName === roomName ? roomEval : b.parentConceptName === noticingName ? noticingEval : null;
-    return siblingEval ? { ...b, siblingDistinctivenessEval: siblingEval } : b;
+    const directionRun = getDirectionRunOrThrow(await getBrandPresentationDirectionFormationRun());
+    const gate = evaluateParentFinalistGate({
+      parentFinalists: run.parentFinalists,
+      deferredParents: run.deferredParents,
+      directions: directionRun.directions,
+      policy: run.explorationPolicy,
+    });
+    if (!gate.ok) {
+      throw new Error(gate.reason);
+    }
+
+    let allBenchmarks = [...run.directionBenchmarks];
+    let allRefPackages = [...run.referencePackages];
+    let accounting = { ...run.accounting };
+
+    for (const direction of gate.eligibleDirections) {
+      run = await store.getBrandPresentationVisualFormulationRun(runId);
+      if (!run || run.status !== 'FORMULATING_BENCHMARKS' || run.formationAttemptId !== attemptId) return;
+
+      const { benchmark, referencePackage, accountingDelta } = await formulateBenchmarkForDirection({
+        run,
+        directionRun,
+        direction,
+      });
+      allBenchmarks.push(benchmark);
+      allRefPackages.push(referencePackage);
+      accounting = {
+        ...accounting,
+        anthropicRequests: accounting.anthropicRequests + (accountingDelta.anthropicRequests ?? 0),
+        anthropicInputTokens: accounting.anthropicInputTokens + (accountingDelta.anthropicInputTokens ?? 0),
+        anthropicOutputTokens: accounting.anthropicOutputTokens + (accountingDelta.anthropicOutputTokens ?? 0),
+        anthropicEstimatedCostUsd:
+          accounting.anthropicEstimatedCostUsd + (accountingDelta.anthropicEstimatedCostUsd ?? 0),
+      };
+
+      await store.saveBrandPresentationVisualFormulationRun({
+        ...run,
+        directionBenchmarks: allBenchmarks,
+        referencePackages: allRefPackages,
+        accounting,
+      });
+    }
+
+    const roomName = 'THE ROOM THAT KNOWS';
+    const noticingName = 'THE THING THAT KEEPS NOTICING';
+    const roomBenchmarks = allBenchmarks.filter(
+      (b) => b.revisionNumber === 0 && b.parentConceptName === roomName,
+    );
+    const noticingBenchmarks = allBenchmarks.filter(
+      (b) => b.revisionNumber === 0 && b.parentConceptName === noticingName,
+    );
+
+    const roomEval = evaluateSiblingBenchmarkDistinctiveness(roomBenchmarks);
+    const noticingEval = evaluateSiblingBenchmarkDistinctiveness(noticingBenchmarks);
+
+    allBenchmarks = allBenchmarks.map((b) => {
+      if (b.revisionNumber !== 0) return b;
+      const siblingEval =
+        b.parentConceptName === roomName ? roomEval : b.parentConceptName === noticingName ? noticingEval : null;
+      return siblingEval ? { ...b, siblingDistinctivenessEval: siblingEval } : b;
+    });
+
+    run = await store.getBrandPresentationVisualFormulationRun(runId);
+    if (!run || run.formationAttemptId !== attemptId) return;
+
+    run = {
+      ...run,
+      directionBenchmarks: allBenchmarks,
+      referencePackages: allRefPackages,
+      siblingCollapseEval: {
+        room: roomEval,
+        noticing: noticingEval,
+      },
+      status: 'BENCHMARKS_READY',
+      visualGenerationAllowed: true,
+      falGenerationAllowed: false,
+      accounting,
+      formationStartedAt: null,
+      formationAttemptId: null,
+      error: null,
+    };
+    await store.saveBrandPresentationVisualFormulationRun(run);
+  } catch (err) {
+    const failed = await store.getBrandPresentationVisualFormulationRun(runId);
+    if (failed && failed.formationAttemptId === attemptId) {
+      await store.saveBrandPresentationVisualFormulationRun({
+        ...failed,
+        status: 'FAILED',
+        error: err instanceof Error ? err.message : 'Benchmark formulation failed',
+        formationStartedAt: null,
+        formationAttemptId: null,
+      });
+    }
+  } finally {
+    activeBenchmarkFormationAttempts.delete(runId);
+  }
+}
+
+function enqueueBenchmarkFormulationWork(attemptId: string): void {
+  setImmediate(() => {
+    void executeBenchmarkFormulationWork(attemptId);
   });
-
-  run = {
-    ...run,
-    directionBenchmarks: allBenchmarks,
-    referencePackages: allRefPackages,
-    siblingCollapseEval: {
-      room: roomEval,
-      noticing: noticingEval,
-    },
-    status: 'BENCHMARKS_READY',
-    visualGenerationAllowed: true,
-    falGenerationAllowed: false,
-    accounting,
-    formationStartedAt: null,
-    error: null,
-  };
-  return store.saveBrandPresentationVisualFormulationRun(run);
 }
 
 export function buildVitestExpressionPayload(
@@ -897,10 +1013,12 @@ async function formulateVisualExpressionsDeepDive(): Promise<BrandPresentationVi
   return store.saveBrandPresentationVisualFormulationRun(run);
 }
 
-export async function formulateVisualExpressions(): Promise<BrandPresentationVisualFormulationRun> {
+export async function formulateVisualExpressions(params?: {
+  forceRetry?: boolean;
+}): Promise<BrandPresentationVisualFormulationRun> {
   const run = await ensureRun();
   if (isParentFinalistScanPolicy(run.explorationPolicy)) {
-    return formulateDirectionBenchmarks();
+    return formulateDirectionBenchmarks(params);
   }
   return formulateVisualExpressionsDeepDive();
 }
