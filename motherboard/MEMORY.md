@@ -4122,3 +4122,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Changes:** `deepeningModule.ts`, `types.ts`, `domainEvaluation.ts`, `brandCharacterReadinessService.ts`, `ProjectBrandCharacterReadinessPage.tsx`, `ProjectBrandCharacterDeepeningPage.tsx`, +4 alignment tests (48 total in P0.5B.2 suite).
 - **Conventions:** Never show “sufficient for formation” unless `CHARACTER_READY`; never use pre-compile gap count as answer-button label — use compiled `deepeningModule.questions.length` only.
 
+---
+
+## 2026-08-24 — P0.5B.3 Composite Brand Character Synthesis + Artifact Visualization
+
+- **Context:** After P0.5B.2 readiness/deepening + founder completing live deepening questions, implement composite synthesis sprint: reclassify six historical territories as discoveries/components, synthesize Cultural Accomplice + Committed Contrarian + Relentless Synthesizer into one NDXBOOK character, maturation continuity (Burn Book ancestry as calibration not canon), founder review, Brand Character System compile, three behavior-first artifact proof scenarios + founder-triggered FAL visualization. Do NOT restart formation, mutate Experiment G, or proceed to Identity/Presentation.
+- **Architecture:** `shared/site00-brand-lore/brandCharacterSynthesis/` — types, territory roles, productive contradictions, maturation continuity, founder hypothesis, synthesis evaluation, artifact causality, character traces, FAL prompt compiler, vitest fixtures. Service `brandCharacterSynthesisService.ts` + store adapter (methodology_validation_runs mode `NDX_BRAND_CHARACTER_SYNTHESIS`). Pipeline: readiness refresh → prepare → Anthropic/vitest synthesis → founder judgment → compile system → formulate 3 proofs → per-proof FAL generate.
+- **UI:** `/projects/ndxbook/brand-character-synthesis`, `/brand-character-artifact-proofs`. API `experiment_h_synthesis_*`, `experiment_h_artifact_proof_*`.
+- **Fix bundled:** `seedVitestCharacterFormationReadiness` now includes synced deepening module so formation gate tests don't re-evaluate to BLOCKED after P0.5B.2 deepening sync fix.
+- **Tests:** +39 P0.5B.3 tests; **1960 total pass**. Build green. Experiment G reevaluation flag set on system compile. No Brand Canon mutation. FAL blocked until founder approves synthesis.
+

@@ -76,6 +76,16 @@ import {
   evaluateNdxbookCharacterReadinessReport,
 } from '../_lib/site00Evolve/creativeDirection/brandCharacterExperiment/brandCharacterReadinessService.js';
 import {
+  getBrandCharacterSynthesisState,
+  prepareBrandCharacterSynthesis,
+  runCompositeBrandCharacterSynthesis,
+  setBrandCharacterSynthesisJudgment,
+  compileSynthesisBrandCharacterSystem,
+  formulateBrandCharacterArtifactProofs,
+  generateBrandCharacterArtifactProofAsset,
+  setBrandCharacterArtifactProofJudgment,
+} from '../_lib/site00Evolve/creativeDirection/brandCharacterExperiment/brandCharacterSynthesisService.js';
+import {
   formBrandPresentationDirections,
   getBrandPresentationDirectionFormationRun,
   prepareBrandPresentationDirectionParents,
@@ -1325,6 +1335,135 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           founderId: body.founderId ? String(body.founderId) : null,
         });
         return json(res, 200, { ok: true, record, source: 'site00_experiment_h_readiness' });
+      }
+      case 'experiment_h_synthesis_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await getBrandCharacterSynthesisState('ndxbook');
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_h_synthesis' });
+      }
+      case 'experiment_h_synthesis_prepare': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await prepareBrandCharacterSynthesis({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_h_synthesis' });
+      }
+      case 'experiment_h_synthesis_run': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await runCompositeBrandCharacterSynthesis({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_h_synthesis' });
+      }
+      case 'experiment_h_synthesis_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const judgment = body.judgment as string;
+        if (slug !== 'ndxbook' || !judgment) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await setBrandCharacterSynthesisJudgment({
+          projectId: 'ndxbook',
+          judgment: judgment as never,
+          note: body.note ? String(body.note) : null,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_h_synthesis' });
+      }
+      case 'experiment_h_synthesis_compile_system': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await compileSynthesisBrandCharacterSystem({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_h_synthesis' });
+      }
+      case 'experiment_h_artifact_proofs_formulate': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await formulateBrandCharacterArtifactProofs({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_h_artifact_proofs' });
+      }
+      case 'experiment_h_artifact_proof_generate': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const proofId = String(body.proofId ?? '');
+        if (slug !== 'ndxbook' || !proofId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await generateBrandCharacterArtifactProofAsset({ projectId: 'ndxbook', proofId });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_h_artifact_proofs' });
+      }
+      case 'experiment_h_artifact_proof_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const proofId = String(body.proofId ?? '');
+        const judgment = body.judgment as string;
+        if (slug !== 'ndxbook' || !proofId || !judgment) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await setBrandCharacterArtifactProofJudgment({
+          projectId: 'ndxbook',
+          proofId,
+          judgment: judgment as never,
+          note: body.note ? String(body.note) : null,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_h_artifact_proofs' });
       }
       case 'experiment_g_get': {
         const slug = String(req.query.slug ?? '');

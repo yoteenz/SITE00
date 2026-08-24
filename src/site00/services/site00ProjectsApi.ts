@@ -1174,6 +1174,55 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, overrideReason, missingDomains }),
       },
     ),
+  experimentHSynthesisGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=experiment_h_synthesis_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  experimentHSynthesisRun: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_synthesis_run',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentHSynthesisJudgment: (slug: string, judgment: string, note?: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_synthesis_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, judgment, note }),
+      },
+    ),
+  experimentHSynthesisCompileSystem: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_synthesis_compile_system',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentHArtifactProofsFormulate: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_artifact_proofs_formulate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentHArtifactProofGenerate: (slug: string, proofId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_artifact_proof_generate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, proofId }),
+      },
+    ),
   projectIntelligenceManifestCompile: (slug: string, experienceClass?: string) =>
     projectsFetch<{
       ok: true;
