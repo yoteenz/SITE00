@@ -11,6 +11,7 @@ import { projectDisplayName } from '../utils/projectDisplayName';
 import { VOICE_LAB_CHANNELS } from '../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/constants';
 import { FOUNDER_RECOGNITION_RESPONSES } from '../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/constants';
 import { VISUAL_HYPOTHESIS_JUDGMENTS } from '../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/constants';
+import { speakWithProfile, preloadSpeechVoices } from '../../../shared/site00-brand-lore/ndxEmbodiedCharacterVoice/voicePlaybackClient';
 import type { NdxFounderCharacterDiscoveryRun } from '../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/types';
 import type { CharacterCalibrationInteraction } from '../../../shared/site00-studio-world-production/founderCharacterCalibration/types';
 import { FOUNDER_CALIBRATION_REACTIONS } from '../../../shared/site00-studio-world-production/founderCharacterCalibration/constants';
@@ -38,6 +39,7 @@ const INSPECTION_SECTIONS = [
   'CONTRADICTIONS',
   'FLAWS',
   'INTELLIGENCE',
+  'LANGUAGE_LAB',
   'VOICE_LAB',
   'BOOK',
   'VISUAL',
@@ -76,6 +78,8 @@ export default function ProjectFounderCharacterDiscoveryPage() {
   const [scenarioNotes, setScenarioNotes] = useState('');
   const [recognitionNote, setRecognitionNote] = useState('');
   const [calibrationRevision, setCalibrationRevision] = useState('');
+  const [compareIds, setCompareIds] = useState<[string, string] | null>(null);
+  const [playingHypothesisId, setPlayingHypothesisId] = useState<string | null>(null);
   const [currentInteraction, setCurrentInteraction] = useState<CharacterCalibrationInteraction | null>(null);
   const [showWhyThisCameUp, setShowWhyThisCameUp] = useState(false);
 
@@ -98,6 +102,10 @@ export default function ProjectFounderCharacterDiscoveryPage() {
       setLoading(false);
     }
   }, [projectSlug]);
+
+  useEffect(() => {
+    preloadSpeechVoices();
+  }, []);
 
   useEffect(() => {
     void reload();
@@ -558,10 +566,10 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                   </>
                 )}
 
-                {section === 'INSPECT' && inspectSection === 'VOICE_LAB' && (
+                {section === 'INSPECT' && inspectSection === 'LANGUAGE_LAB' && (
                   <>
-                    <h2>CHARACTER VOICE LAB</h2>
-                    <p>Same thought — different channels. Judge each register.</p>
+                    <h2>CHARACTER LANGUAGE LAB</h2>
+                    <p>What words would she use? Same thought — different channels. Judge each register.</p>
                     {run.voiceLabSamples.map((sample) => (
                       <article key={sample.sampleId} className="site00-experiment-g__panel">
                         <p><strong>Underlying thought:</strong> {sample.underlyingThought}</p>
@@ -615,6 +623,207 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                         ))}
                       </article>
                     ))}
+                  </>
+                )}
+
+                {section === 'INSPECT' && inspectSection === 'VOICE_LAB' && (
+                  <>
+                    <h2>CHARACTER VOICE LAB</h2>
+                    <p>Let&apos;s find out what she sounds like. Same line. Different women.</p>
+                    {run.voiceCalibrationState?.sessionMessage && (
+                      <p style={{ fontStyle: 'italic', marginBottom: '12px' }}>{run.voiceCalibrationState.sessionMessage}</p>
+                    )}
+                    {run.voiceCalibrationState?.progress && (
+                      <ul style={{ fontSize: '0.85rem', marginBottom: '16px' }}>
+                        {run.voiceCalibrationState.progress.map((p) => (
+                          <li key={p.domain}>
+                            {p.label}{' '}
+                            <strong>{p.level}</strong>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {!run.voiceCalibrationState?.rounds.length && (
+                      <button
+                        type="button"
+                        className="site00-btn site00-btn--primary"
+                        disabled={busy}
+                        onClick={() =>
+                          void act(
+                            () => site00ProjectsApi.founderCharacterDiscoveryVoiceRoundStart(projectSlug),
+                            { successMessage: 'Voice audition round ready — listen and judge.' },
+                          )
+                        }
+                      >
+                        START VOICE AUDITION
+                      </button>
+                    )}
+                    {run.voiceCalibrationState?.rounds.map((round) => {
+                      const roundHypos = (run.voiceCalibrationState?.hypotheses ?? []).filter(
+                        (h) => h.roundId === round.roundId,
+                      );
+                      return (
+                        <article key={round.roundId} className="site00-experiment-g__panel" style={{ marginTop: '12px' }}>
+                          <p style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>
+                            ROUND {round.roundNumber} · {round.roundType.replace(/_/g, ' ')}
+                          </p>
+                          <p><strong>{round.question}</strong></p>
+                          <p style={{ fontSize: '0.85rem', marginBottom: '12px' }}>
+                            &ldquo;{round.spokenCopy}&rdquo;
+                          </p>
+                          {roundHypos.map((hypo) => (
+                            <div key={hypo.id} style={{ marginBottom: '16px', paddingBottom: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                              <p><strong>{hypo.hypothesisLabel}</strong></p>
+                              {!round.blindAudition && (
+                                <p style={{ fontSize: '0.8rem' }}>{hypo.vocalCharacter}</p>
+                              )}
+                              <button
+                                type="button"
+                                className="site00-btn"
+                                disabled={busy}
+                                onClick={() => {
+                                  setPlayingHypothesisId(hypo.id);
+                                  speakWithProfile(hypo.spokenCopy, hypo.playbackProfile);
+                                }}
+                              >
+                                {playingHypothesisId === hypo.id ? '▶ PLAYING' : '▶ PLAY'}
+                              </button>
+                              {hypo.founderJudgment && (
+                                <p style={{ fontSize: '0.85rem' }}>
+                                  <strong>Saved:</strong> {hypo.founderJudgment.replace(/_/g, ' ')}
+                                </p>
+                              )}
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '8px' }}>
+                                {[
+                                  { j: 'YES_THATS_HER', label: "YES — THAT'S HER" },
+                                  { j: 'CLOSE', label: 'CLOSE' },
+                                  { j: 'NO_NOT_HER', label: 'NO — NOT HER' },
+                                ].map(({ j, label }) => (
+                                  <button
+                                    key={j}
+                                    type="button"
+                                    className="site00-btn site00-btn--primary"
+                                    disabled={busy}
+                                    style={{ width: '100%', textAlign: 'left' }}
+                                    onClick={() =>
+                                      void act(
+                                        () =>
+                                          site00ProjectsApi.founderCharacterDiscoveryVoiceHypothesisJudgment(
+                                            projectSlug,
+                                            hypo.id,
+                                            j,
+                                          ),
+                                        { successMessage: `${hypo.hypothesisLabel} saved — ${label}` },
+                                      )
+                                    }
+                                  >
+                                    {label}
+                                  </button>
+                                ))}
+                              </div>
+                              <button
+                                type="button"
+                                className="site00-btn"
+                                style={{ marginTop: '6px', fontSize: '0.8rem' }}
+                                onClick={() =>
+                                  setCompareIds((prev) => {
+                                    if (!prev) return [hypo.id, hypo.id];
+                                    if (prev[0] === hypo.id) return null;
+                                    return [prev[0], hypo.id];
+                                  })
+                                }
+                              >
+                                {compareIds?.includes(hypo.id) ? 'SELECTED FOR COMPARE' : 'COMPARE'}
+                              </button>
+                            </div>
+                          ))}
+                        </article>
+                      );
+                    })}
+                    {compareIds && compareIds[0] !== compareIds[1] && (
+                      <article className="site00-experiment-g__panel">
+                        <h3>COMPARE A ↔ B</h3>
+                        <p>Which feels more like her?</p>
+                        {['PREFER_A', 'PREFER_B', 'SOMETHING_BETWEEN', 'EACH_HAS_SOMETHING'].map((pref) => (
+                          <button
+                            key={pref}
+                            type="button"
+                            className="site00-btn"
+                            disabled={busy}
+                            onClick={() =>
+                              void act(
+                                () =>
+                                  site00ProjectsApi.founderCharacterDiscoveryVoicePairwise(
+                                    projectSlug,
+                                    compareIds[0]!,
+                                    compareIds[1]!,
+                                    pref,
+                                  ),
+                                { successMessage: 'Pairwise preference saved.' },
+                              )
+                            }
+                          >
+                            {pref.replace(/_/g, ' ')}
+                          </button>
+                        ))}
+                      </article>
+                    )}
+                    {run.voiceCalibrationState?.rounds.some((r) => r.status === 'JUDGMENTS_COMPLETE') && (
+                      <button
+                        type="button"
+                        className="site00-btn site00-btn--primary"
+                        disabled={busy}
+                        style={{ marginTop: '12px' }}
+                        onClick={() =>
+                          void act(
+                            () => site00ProjectsApi.founderCharacterDiscoveryVoiceRoundStart(projectSlug),
+                            { successMessage: 'Next voice round ready.' },
+                          )
+                        }
+                      >
+                        NEXT VOICE ROUND
+                      </button>
+                    )}
+                    {run.voiceCalibrationState?.emergingIdentity && (
+                      <article className="site00-experiment-g__panel" style={{ marginTop: '12px' }}>
+                        <h3>I THINK I FOUND HER VOICE</h3>
+                        <p>{run.voiceCalibrationState.emergingIdentity.voiceIdentityThesis}</p>
+                        <button
+                          type="button"
+                          className="site00-btn site00-btn--primary"
+                          disabled={busy}
+                          onClick={() =>
+                            void act(
+                              () =>
+                                site00ProjectsApi.founderCharacterDiscoveryVoiceRecognition(
+                                  projectSlug,
+                                  'YES_THATS_HER_VOICE',
+                                ),
+                              { successMessage: 'Voice recognition saved.' },
+                            )
+                          }
+                        >
+                          YES — THAT&apos;S HER VOICE
+                        </button>
+                        <button
+                          type="button"
+                          className="site00-btn"
+                          disabled={busy}
+                          onClick={() =>
+                            void act(
+                              () =>
+                                site00ProjectsApi.founderCharacterDiscoveryVoiceRecognition(
+                                  projectSlug,
+                                  'ALMOST_KEEP_CALIBRATING',
+                                ),
+                              { successMessage: 'Keep calibrating.' },
+                            )
+                          }
+                        >
+                          ALMOST — KEEP CALIBRATING
+                        </button>
+                      </article>
+                    )}
                   </>
                 )}
 

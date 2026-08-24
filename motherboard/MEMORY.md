@@ -4532,3 +4532,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `ndxFounderTraitPropositions.ts` — 14 plain-language propositions in 6 sections; auto-migrate legacy runs on GET; TRAITS UI grouped with YES/ALMOST/NO/NOT SURE primary buttons + saved labels.
 - **Tests:** `ndxFounderTraitPropositions.test.ts` (4 tests).
 
+---
+
+## 2026-08-24 — P0.5E.4B Adaptive Character Voice Casting + Auditory Calibration
+
+- **Context:** Full sprint P0.5E.4B — split Language Lab from Voice Lab; auditory adaptive voice casting with persistent voice identity; P0.5E.5 integration; founder recognition-only UX (no acoustic parameters).
+- **Topics:** Reclassify P0.5E.4 text Voice Lab as `CharacterLanguageEvidence`; generic `embodiedCharacterVoice/` module (identity, hypothesis, calibration rounds, inference, envelope, capability registry, contract, snapshot, continuity QA); NDX adapter + browser SpeechSynthesis playback for audition; API routes for round start, hypothesis judgment, pairwise, recognition, unseen-line test.
+- **UI:** INSPECT → **LANGUAGE LAB** (existing text registers preserved) + **VOICE LAB** (auditory: START AUDITION, PLAY, YES/CLOSE/NO, compare, next round, voice recognition gate). Progress domains replace percentage completion.
+- **Constraints preserved:** `FOUNDER_CHARACTER_VOICE_CONFIRMED: false` until explicit YES after emotion + unseen-line gates; no auto YES_I_KNOW_HER; no FAL on page load; synthetic calibration provider (FAL TTS registered as schema-review-required); Brand Character/Canon unchanged.
+- **Tests:** `embodiedCharacterVoiceP05E4B.test.ts` (19 tests); full suite 2634 pass; build OK (`ProjectFounderCharacterDiscoveryPage.Dv5N4LYo.js`).
+- **Founder:** Railway redeploy for API. GoDaddy deploy for UI. Character Discovery → INSPECT → VOICE LAB → START VOICE AUDITION.
+

@@ -1764,6 +1764,59 @@ export const site00ProjectsApi = {
       '/api/site00/projects?action=founder_character_discovery_calibration_synthesis',
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
     ),
+  founderCharacterDiscoveryVoiceRoundStart: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; round: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_voice_round_start',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  founderCharacterDiscoveryVoiceHypothesisJudgment: (
+    slug: string,
+    hypothesisId: string,
+    judgment: string,
+    note?: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_voice_hypothesis_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, hypothesisId, judgment, note }),
+      },
+    ),
+  founderCharacterDiscoveryVoicePairwise: (
+    slug: string,
+    hypothesisAId: string,
+    hypothesisBId: string,
+    preference: string,
+    customNote?: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_voice_pairwise',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, hypothesisAId, hypothesisBId, preference, customNote }),
+      },
+    ),
+  founderCharacterDiscoveryVoiceRecognition: (slug: string, response: string, note?: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_voice_recognition',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, response, note }) },
+    ),
+  founderCharacterDiscoveryVoiceUnseenLine: (
+    slug: string,
+    hypothesisId: string,
+    spokenCopy: string,
+    response: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_voice_unseen_line',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, hypothesisId, spokenCopy, response }),
+      },
+    ),
   characterContinuityGet: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
       `/api/site00/projects?action=character_continuity_get&slug=${encodeURIComponent(slug)}`,
