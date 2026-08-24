@@ -4570,6 +4570,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `experimentsHubScrollRestore.test.ts` (3 tests).
 - **Founder:** GoDaddy deploy for UI bundle. Scroll down hub → refresh or open experiment → EXPERIMENTS HUB — should land at same scroll position.
 
+---
+
+## 2026-08-24 — Voice Lab CURRENT vs PRIOR tabs
+
+- **Context:** Founder could not tell new neural voices from old when revisions/rounds stacked on one page — needed separate tab to know what's current vs prior.
+- **Fix:** Voice Lab sub-tabs **CURRENT (N)** and **PRIOR (N)** — CURRENT = latest neural round only (judge/revise/regenerate); PRIOR = earlier neural rounds, placeholder evidence, superseded revision clips with play-only.
+- **Files:** `voiceLabTabs.ts`, `ProjectFounderCharacterDiscoveryPage.tsx`; tests `voiceLabTabs.test.ts`.
+- **Founder:** GoDaddy deploy → Voice Lab → CURRENT tab for active auditions; PRIOR tab for old rounds and pre-revision clips.
+
 
 - **Context:** Founder reported YES I KNOW HER not unlocking casting; voice lab selections not appearing saved. Root cause: YES_I_KNOW_HER **was** persisting (`founderKnowsHer: true`) but P0.5E.4A calibration progress did not feed P0.5E.4 casting gates (still required 5 INSPECT trait confirmations). UI always showed "BLOCKED until YES_I_KNOW_HER" even after selection. Voice lab saved to API but UI showed no saved state.
 - **Fix:** `ndxCastingReadinessBridge.ts` — calibration moments + domain confirmations satisfy discovery/gates; refresh readiness on GET; voice calibration moment writes voice lab judgment; CASTING tab shows human-readable blockers; header shows dynamic status; voice lab shows **Saved:** label + success notice on tap.
