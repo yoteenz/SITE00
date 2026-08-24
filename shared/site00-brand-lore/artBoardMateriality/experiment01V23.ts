@@ -14,6 +14,7 @@ import { compileCurrentV23FalPrompt } from './v23GenerationAuthority.js';
 import { evaluateNorthStarArtBoardMateriality, evaluateNorthStarHumanMadeCalibrations } from './northStarMaterialForensics.js';
 import { applyV23HumanMadeRevision } from './v23HumanMadeRevision.js';
 import { applyV23SignatureLimeRevision } from './signatureLime.js';
+import { applyV23SignatureLimeRestraintRevision, buildFeedChromaticRhythm } from './signatureLimeRestraint.js';
 import { buildFeedMakerRhythm } from './makerRhythm.js';
 import { buildFeedSignatureColorContinuity } from './feedSignatureContinuity.js';
 import { auditV23SignatureLimeMigration } from './signatureLime.js';
@@ -84,8 +85,13 @@ export function formulateExperiment01V23(params: {
       artifact: v1,
       topicIndex,
     });
-    const retained = applyV23SignatureLimeRevision({
+    const retainedSignature = applyV23SignatureLimeRevision({
       contract: retainedHuman,
+      artifact: v1,
+      topicIndex,
+    });
+    const retained = applyV23SignatureLimeRestraintRevision({
+      contract: retainedSignature,
       artifact: v1,
       topicIndex,
     });
@@ -173,6 +179,10 @@ export function formulateExperiment01V23(params: {
     boardId: 'exp01-v23',
     contracts: artBoardContracts,
   });
+  const feedChromaticRhythm = buildFeedChromaticRhythm({
+    boardId: 'exp01-v23',
+    evaluations: artBoardContracts.map((c) => c.signatureLimeRestraint!),
+  });
   const signatureLimeMigrations = v23Artifacts.map((a) => a.signatureLimeMigration!).filter(Boolean);
   const northStar = evaluateNorthStarArtBoardMateriality();
   const calibrations = evaluateNorthStarHumanMadeCalibrations();
@@ -194,6 +204,8 @@ export function formulateExperiment01V23(params: {
     makerAuthenticityCalibration: calibrations.makerAuthenticity,
     feedMakerRhythm,
     feedSignatureColorContinuity,
+    feedChromaticRhythm,
+    generationRunStatus: 'ACTIVE',
     signatureLimeMigrations,
     founderSetJudgment: null,
     error: null,
@@ -229,6 +241,67 @@ export function v23PreservesC1Hierarchy(contract: ArtBoardRetainedFirstSlideCont
 
 export function experiment01V23GeneratedByDefault(): false {
   return false;
+}
+
+export function migrateExperiment01V23ToC4B1(params: {
+  experiment: MarketingExpressionExperiment01V23;
+  v1Artifacts: BrandMarketingArtifact[];
+}): MarketingExpressionExperiment01V23 {
+  const artBoardContracts: ArtBoardRetainedFirstSlideContract[] = [];
+  const generatedArtifacts: Experiment01V23Artifact[] = [];
+
+  for (const artifact of params.experiment.generatedArtifacts) {
+    const topicIndex = parseInt(artifact.id.replace('bma-exp01-v23-', ''), 10);
+    const v1 = params.v1Artifacts.find((a) => a.id === artifact.v1ArtifactId);
+    if (!v1) {
+      generatedArtifacts.push(artifact);
+      continue;
+    }
+
+    if (artifact.contract.signatureLimeRestraint) {
+      artBoardContracts.push(artifact.contract);
+      generatedArtifacts.push(artifact);
+      continue;
+    }
+
+    const retainedHuman = applyV23HumanMadeRevision({
+      contract: artifact.contract,
+      artifact: v1,
+      topicIndex,
+    });
+    const retainedSignature = applyV23SignatureLimeRevision({
+      contract: retainedHuman,
+      artifact: v1,
+      topicIndex,
+    });
+    const retained = applyV23SignatureLimeRestraintRevision({
+      contract: retainedSignature,
+      artifact: v1,
+      topicIndex,
+    });
+    artBoardContracts.push(retained);
+
+    generatedArtifacts.push({
+      ...artifact,
+      contract: retained,
+      humanMadeEvaluation: retained.humanMadeEvaluation ?? null,
+      signatureLimeEvaluation: retained.signatureLimeEvaluation ?? null,
+      promptRecompileRequired: true,
+      updatedAt: new Date().toISOString(),
+    });
+  }
+
+  const feedChromaticRhythm = buildFeedChromaticRhythm({
+    boardId: 'exp01-v23',
+    evaluations: artBoardContracts.map((c) => c.signatureLimeRestraint!).filter(Boolean),
+  });
+
+  return {
+    ...params.experiment,
+    artBoardContracts: artBoardContracts.length ? artBoardContracts : params.experiment.artBoardContracts,
+    generatedArtifacts,
+    feedChromaticRhythm,
+  };
 }
 
 export function sequenceMaterialProgressionSupported(): true {

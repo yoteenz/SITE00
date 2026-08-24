@@ -1,11 +1,12 @@
 /**
  * First-slide material approval gate + P0.5E Round 01 lock integration.
- * P0.5C.5A — evaluates SELECTED asset current lineage.
+ * P0.5C.4B.1 — lime restraint gate.
  */
 
 import type { Experiment01V23Artifact, MarketingExpressionExperiment01V23 } from './types.js';
 import { v23HumanMadeRevisionReady } from './v23HumanMadeRevision.js';
 import { signatureLimeRevisionReady } from './signatureLime.js';
+import { signatureLimeRestraintGatePasses } from './signatureLimeRestraint.js';
 import {
   migrateV23ArtifactGenerationLineage,
   selectedAssetPassesCurrentLineage,
@@ -16,12 +17,20 @@ export function artBoardMaterialityApprovalGatePasses(artifact: Experiment01V23A
   return (
     migrated.materialityEvaluation.passesApprovalGate &&
     v23HumanMadeRevisionReady(migrated.humanMadeEvaluation) &&
-    signatureLimeRevisionReady(migrated.signatureLimeEvaluation)
+    signatureLimeRevisionReady(migrated.signatureLimeEvaluation) &&
+    signatureLimeRestraintGatePasses(migrated.contract.signatureLimeRestraint)
   );
 }
 
 export function signatureLimeGatePasses(artifact: Experiment01V23Artifact): boolean {
-  return signatureLimeRevisionReady(artifact.signatureLimeEvaluation);
+  return (
+    signatureLimeRevisionReady(artifact.signatureLimeEvaluation) &&
+    signatureLimeRestraintGatePasses(artifact.contract.signatureLimeRestraint)
+  );
+}
+
+export function limeRestraintGatePasses(artifact: Experiment01V23Artifact): boolean {
+  return signatureLimeRestraintGatePasses(artifact.contract.signatureLimeRestraint);
 }
 
 export function v23SelectedAssetPassesCurrentLineage(artifact: Experiment01V23Artifact): boolean {
@@ -47,7 +56,10 @@ export function round01LockRequiresMaterialGate(params: {
     return { allowed: false, reason: 'Experiment 01 V2.3 art-board materiality contracts required before Round 01 lock' };
   }
   if (!allV23ArtifactsPassMaterialGate(params.v23Experiment)) {
-    return { allowed: false, reason: 'All V2.3 artifacts must pass materiality + human-made + signature lime gates before lock' };
+    return {
+      allowed: false,
+      reason: 'All V2.3 artifacts must pass materiality + human-made + signature lime + lime restraint gates before lock',
+    };
   }
   const generated = params.v23Experiment.generatedArtifacts.filter(
     (a) => a.generationStatus === 'GENERATED' && a.generatedAssetUrl,
@@ -58,12 +70,16 @@ export function round01LockRequiresMaterialGate(params: {
   if (!allV23SelectedAssetsPassCurrentLineage(params.v23Experiment)) {
     return {
       allowed: false,
-      reason: 'Round 01 lock requires selected assets generated from current V2.3 contract lineage (C.4A + C.4B + C.5). Legacy generations remain visible but cannot lock.',
+      reason: 'Round 01 lock requires selected assets generated from current V2.3 contract lineage (C.4A + C.4B + C.4B.1 + C.5). Legacy generations remain visible but cannot lock.',
     };
   }
   return { allowed: true, reason: null };
 }
 
 export function slide02EvolvesMaterialNotCopy(): true {
+  return true;
+}
+
+export function round01LockRequiresLimeRestraint(): true {
   return true;
 }

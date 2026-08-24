@@ -47,6 +47,7 @@ export function v23ArtifactGenerationReadiness(artifact: Experiment01V23Artifact
 export function v23ArtifactMethodologyStatus(artifact: Experiment01V23Artifact): {
   c4a: boolean;
   c4b: boolean;
+  c4b1: boolean;
   c5: boolean;
 } {
   const migrated = migrateV23ArtifactGenerationLineage(artifact);
@@ -55,6 +56,7 @@ export function v23ArtifactMethodologyStatus(artifact: Experiment01V23Artifact):
   return {
     c4a: selected?.assetIncludesC4A ?? prompt.includes('HUMAN-MADE MARKS'),
     c4b: selected?.assetIncludesC4B ?? prompt.includes('SIGNATURE LIME REQUIREMENT'),
+    c4b1: selected?.assetIncludesC4B1 ?? prompt.includes('SIGNATURE LIME RESTRAINT + CHROMATIC ATTENTION'),
     c5: selected?.assetIncludesC5 ?? prompt.includes('PUBLIC AUTHORSHIP MODE'),
   };
 }
