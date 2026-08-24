@@ -236,8 +236,12 @@ export function ExperimentGBrandPresentationDirectionReview({
 
   return (
     <div className="site00-experiment-g-dir">
-      <p className="site00-experiment-g-dir__experiment">EXPERIMENT G — TOP-3 CONCEPT DEVELOPMENT</p>
+      <p className="site00-experiment-g-dir__experiment">EXPERIMENT G — DIRECTION REVIEW (YOU ARE HERE)</p>
       <h2 className="site00-experiment-g-dir__title">Brand Presentation Direction Development</h2>
+      <p className="site00-experiment-g-dir__you-are-here">
+        This page is <strong>Direction Review</strong> — read and judge all 9 written directions below. Visual
+        benchmarks are on the next page.
+      </p>
 
       <DirectionFormationStatusPanel
         run={run}
@@ -250,10 +254,23 @@ export function ExperimentGBrandPresentationDirectionReview({
       <p className="site00-experiment-g-dir__meta">
         3 parent concepts · 9 directions · Parent finalists: Room That Knows + Thing That Keeps Noticing
       </p>
-      {parentFinalists.length >= 2 ? (
-        <p className="site00-experiment-g-dir__finalist-count">
-          <Link to={site00ProjectExperimentGFinalistsPath(projectSlug)}>→ PARENT FINALIST VISUAL REVIEW (6 direction benchmarks)</Link>
-        </p>
+      {hasDirections ? (
+        <div className="site00-experiment-g-dir__visual-review-cta">
+          <p className="site00-experiment-g-dir__finalist-count">
+            Next step — compare 6 direction visual benchmarks (Room + Noticing, 3 directions each):
+          </p>
+          <Link
+            to={site00ProjectExperimentGFinalistsPath(projectSlug)}
+            className="site00-btn site00-btn--primary site00-experiment-g-dir__visual-review-btn"
+          >
+            → PARENT FINALIST VISUAL REVIEW
+          </Link>
+          {parentFinalists.length < 2 ? (
+            <p className="site00-experiment-g-dir__visual-review-note">
+              Visual pipeline initializing — tap the button above; parent finalists (Room + Noticing) seed on first load.
+            </p>
+          ) : null}
+        </div>
       ) : null}
       <div className="site00-experiment-g-dir__banner">
         Parent finalists selected: THE ROOM THAT KNOWS + THE THING THAT KEEPS NOTICING. All 3 directions under each

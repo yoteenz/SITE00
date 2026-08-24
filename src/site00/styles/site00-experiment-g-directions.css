@@ -31,7 +31,42 @@
   font-size: 1.25rem;
 }
 
-.site00-experiment-g-dir__meta,
+.site00-experiment-g-dir__you-are-here {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  opacity: 0.9;
+}
+
+.site00-experiment-g-dir__visual-review-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(120, 200, 255, 0.45);
+  border-radius: 4px;
+  background: rgba(120, 200, 255, 0.06);
+}
+
+.site00-experiment-g-dir__visual-review-btn {
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.site00-experiment-g-dir__visual-review-note {
+  margin: 0;
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+.site00-experiment-g-dir__finalist-count {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
 .site00-experiment-g-dir__audit,
 .site00-experiment-g-dir__parent-meta {
   margin: 0;
