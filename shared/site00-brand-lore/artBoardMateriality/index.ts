@@ -17,3 +17,4 @@ export * from './signatureLime.js';
 export * from './feedSignatureContinuity.js';
 export * from './v23FounderRevisionLabels.js';
 export * from './v23FounderRevisionPipeline.js';
+export * from './v23BoardReadiness.js';

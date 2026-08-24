@@ -35,6 +35,11 @@ import {
   judgmentRequiresRevisionNote,
   revisionNotePlaceholder,
 } from '../../../shared/site00-brand-lore/artBoardMateriality/v23FounderRevisionLabels';
+import {
+  v23BoardNeedsReformulation,
+  v23BoardSignatureLimeReadyCount,
+  v23ArtifactHasSignatureLimeInPrompt,
+} from '../../../shared/site00-brand-lore/artBoardMateriality/v23BoardReadiness';
 import '../styles/site00-replay-execution.css';
 
 const POLL_MS = 5000;
@@ -109,6 +114,16 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
   }, [reload]);
 
   useEffect(() => {
+    const lists = listsFromRun(run);
+    const board = artifactsForVersionTab(versionTab, lists);
+    if (!board.length) {
+      setSelectedId(null);
+      return;
+    }
+    setSelectedId((prev) => (prev && board.some((a) => a.id === prev) ? prev : board[0]!.id));
+  }, [versionTab, run]);
+
+  useEffect(() => {
     const generating =
       run?.status === 'EXPERIMENT_01_FORMULATING' ||
       run?.status === 'EXPERIMENT_01_GENERATING' ||
@@ -173,7 +188,17 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
     }
   };
 
-  const formulateV23 = async () => {
+  const formulateV23 = async (options?: { force?: boolean }) => {
+    const existingV23Count = run?.experiment01V23?.generatedArtifacts?.length ?? 0;
+    if (
+      options?.force &&
+      existingV23Count > 0 &&
+      !window.confirm(
+        'Re-formulate V2.3 contracts? This replaces all nine V2.3 contracts and clears generated images. You will need to generate again.',
+      )
+    ) {
+      return;
+    }
     setBusy(true);
     setError(null);
     try {
@@ -183,6 +208,8 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
       setVersionTab('V23');
       const firstV23 = nextRun?.experiment01V23?.generatedArtifacts[0]?.id ?? null;
       setSelectedId(firstV23);
+      setV23RevisionDraft(null);
+      setV23RevisionNote('');
     } catch (e) {
       setError(e instanceof Error ? e.message : 'V2.3 formulation failed');
     } finally {
@@ -256,6 +283,15 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
     setV23RevisionNote('');
   };
 
+  useEffect(() => {
+    if (!v23RevisionDraft) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && !busy) cancelV23RevisionDraft();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [v23RevisionDraft, busy]);
+
   const submitV23FounderRevision = async () => {
     if (!v23RevisionDraft) return;
     const note = v23RevisionNote.trim();
@@ -310,20 +346,17 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
   const v22Artifacts = expV22?.generatedArtifacts ?? [];
   const expV23 = run?.experiment01V23 as MarketingExpressionExperiment01V23 | null | undefined;
   const v23Artifacts = expV23?.generatedArtifacts ?? [];
+  const v23NeedsLimeReformulation = v23BoardNeedsReformulation(v23Artifacts);
+  const v23LimeReadyCount = v23BoardSignatureLimeReadyCount(v23Artifacts);
+  const selectedV23Artifact = v23Artifacts.find((a) => a.id === selectedId);
+  const selectedV23: Experiment01V23Artifact | undefined = selectedV23Artifact ?? v23Artifacts[0];
   const artifactLists: VersionArtifactLists = { v1: v1Artifacts, v2: v2Artifacts, v21: v21Artifacts, v22: v22Artifacts, v23: v23Artifacts };
   const activeArtifacts = artifactsForVersionTab(versionTab, artifactLists);
   const boardReady = activeArtifacts.length > 0;
-  const selectedV23: Experiment01V23Artifact | undefined = v23Artifacts.find((a) => a.id === selectedId) ?? v23Artifacts[0];
   const selectedV22: Experiment01V22Artifact | undefined = v22Artifacts.find((a) => a.id === selectedId) ?? v22Artifacts[0];
   const selectedV21: Experiment01V21Artifact | undefined = v21Artifacts.find((a) => a.id === selectedId) ?? v21Artifacts[0];
   const selectedV1: BrandMarketingArtifact | undefined = v1Artifacts.find((a) => a.id === selectedId) ?? v1Artifacts[0];
   const selectedV2: Experiment01V2Artifact | undefined = v2Artifacts.find((a) => a.id === selectedId) ?? v2Artifacts[0];
-  const selected =
-    versionTab === 'V23' ? selectedV23
-      : versionTab === 'V22' ? selectedV22
-        : versionTab === 'V21' ? selectedV21
-          : versionTab === 'V2' ? selectedV2
-            : selectedV1;
   const generatedCount = activeArtifacts.filter((a) => a.generationStatus === 'GENERATED' && a.generatedAssetUrl).length;
   const pendingCount = activeArtifacts.filter((a) => a.generationStatus !== 'GENERATED' || !a.generatedAssetUrl).length;
   const generatingCount = activeArtifacts.filter((a) => a.generationStatus === 'GENERATING').length;
@@ -403,10 +436,31 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
 
               {v22Artifacts.length > 0 && !v23Artifacts.length && (
                 <section className="site00-experiment-g__panel">
-                  <p>P0.5C.3 preserved. Formulate V2.3 art-board materiality contracts (canvas-as-object, not background texture).</p>
+                  <p>P0.5C.3 preserved. Formulate V2.3 art-board materiality contracts (canvas-as-object, signature lime required on every artifact).</p>
                   <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void formulateV23()}>
                     FORMULATE V2.3 CONTRACTS
                   </button>
+                </section>
+              )}
+
+              {versionTab === 'V23' && v23Artifacts.length > 0 && (
+                <section className="site00-experiment-g__panel">
+                  <h2>V2.3 BOARD — SIGNATURE LIME CONTRACTS</h2>
+                  {v23NeedsLimeReformulation ? (
+                    <>
+                      <p style={{ marginBottom: '8px' }}>
+                        This board was formulated before signature-lime requirements ({v23LimeReadyCount}/9 contracts ready).
+                        FAL prompts may not include “must contain signature lime (#D6FF3B)”. Re-formulate V2.3 to refresh all contracts, then re-generate — or use NEEDS LIME revision per slide on existing images.
+                      </p>
+                      <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void formulateV23({ force: true })}>
+                        RE-FORMULATE V2.3 CONTRACTS (SIGNATURE LIME)
+                      </button>
+                    </>
+                  ) : (
+                    <p>
+                      All nine V2.3 contracts include signature-lime requirements in FAL prompts ({v23LimeReadyCount}/9). No new board version needed — use revision labels to micro-adjust individual slides.
+                    </p>
+                  )}
                 </section>
               )}
 
@@ -427,8 +481,19 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                           : 'GENERATE ALL NINE FIRST SLIDES (FAL)'}
                       </button>
                     )}
-                    {allGenerated && (
-                      <p style={{ marginBottom: '12px' }}>ALL NINE FIRST SLIDES GENERATED — SELECT ANY CELL TO REVIEW AND JUDGE</p>
+                    {allGenerated && !v23RevisionDraft && (
+                      <p style={{ marginBottom: '12px' }}>ALL NINE FIRST SLIDES GENERATED — TAP ANY CELL TO REVIEW AND JUDGE</p>
+                    )}
+                    {v23RevisionDraft && versionTab === 'V23' && (
+                      <p style={{ marginBottom: '12px' }}>Revision note open — cancel or confirm to select another slide.</p>
+                    )}
+                    {versionTab === 'V23' && selectedV23 && selectedId && (
+                      <p style={{ marginBottom: '12px', fontSize: '0.9rem' }}>
+                        SELECTED: {selectedV23.contract.primaryHook}
+                        {selectedV23Artifact && v23ArtifactHasSignatureLimeInPrompt(selectedV23Artifact)
+                          ? ' · FAL prompt includes signature lime'
+                          : ' · FAL prompt missing signature lime (re-formulate or revise)'}
+                      </p>
                     )}
                     <div className="site00-marketing-exp01-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
                       {activeArtifacts.map((a) => {
@@ -444,16 +509,27 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                                   : (a as BrandMarketingArtifact).headline;
                         const url = a.generatedAssetUrl;
                         const pending = a.generationStatus === 'GENERATING';
+                        const isSelected = selectedId === a.id;
                         return (
                           <button
                             key={a.id}
                             type="button"
-                            className={selected?.id === a.id ? 'site00-btn site00-btn--primary' : 'site00-btn'}
-                            onClick={() => setSelectedId(a.id)}
-                            style={{ minHeight: '80px', textAlign: 'left', padding: '8px' }}
+                            aria-pressed={isSelected}
+                            className={isSelected ? 'site00-btn site00-btn--primary' : 'site00-btn'}
+                            disabled={Boolean(v23RevisionDraft && versionTab === 'V23')}
+                            onClick={() => {
+                              setSelectedId(a.id);
+                              if (versionTab === 'V23') cancelV23RevisionDraft();
+                            }}
+                            style={{ minHeight: '80px', textAlign: 'left', padding: '8px', touchAction: 'manipulation' }}
                           >
                             {url ? (
-                              <img src={url} alt={headline} style={{ width: '100%', aspectRatio: '1', objectFit: 'cover' }} />
+                              <img
+                                src={url}
+                                alt={headline}
+                                draggable={false}
+                                style={{ width: '100%', aspectRatio: '1', objectFit: 'cover', pointerEvents: 'none', userSelect: 'none' }}
+                              />
                             ) : pending ? (
                               <span>GENERATING…</span>
                             ) : (
@@ -466,7 +542,7 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                   </section>
 
                   {versionTab === 'V23' && selectedV23 && (
-                    <section className="site00-experiment-g__panel">
+                    <section key={selectedId ?? selectedV23.id} className="site00-experiment-g__panel">
                       <h2>V2.3 ART-BOARD REVIEW — {selectedV23.contract.primaryHook}</h2>
                       <dl>
                         <dt>PRIMARY IDEA</dt><dd>{selectedV23.contract.primaryHook}</dd>
