@@ -18,6 +18,7 @@ import {
   crossEmotionRequiresNaturalnessPass,
   evaluateNeuralVoiceNaturalness,
   isDevPlaceholderAuthority,
+  NEURAL_CASTING_TERRITORIES,
   providerAuthorityForEndpoint,
   selectNeuralVoiceCastingModel,
 } from '../site00-studio-world-production/embodiedCharacterVoice/neuralVoiceCasting.js';
@@ -91,6 +92,9 @@ describe('P0.5E.4B.1 — Neural voice casting', () => {
     const perf = buildNaturalConversationalPerformanceContract();
     expect(perf.discouragedDelivery).toContain('AI ASSISTANT');
     expect(perf.discouragedDelivery).toContain('ANNOUNCER');
+    const validFalVoiceIds = new Set(['Calm_Woman', 'Lively_Girl', 'Wise_Woman', 'Soft_Girl', 'Friendly_Person']);
+    expect(NEURAL_CASTING_TERRITORIES.every((t) => validFalVoiceIds.has(t.providerVoiceId))).toBe(true);
+    expect(NEURAL_CASTING_TERRITORIES.some((t) => t.providerVoiceId.startsWith('English_'))).toBe(false);
   });
 
   it('12–17. Naturalness QA + human woman test separate from character fit', () => {
