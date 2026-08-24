@@ -4496,3 +4496,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `artBoardMaterialityP05C6.test.ts` (11 tests); 70 artBoard tests green. FAL_REQUESTS=0; REGENERATE CURRENT compiles P0.5C.6.
 - **Ship:** deploy v63 (`index.QrvF_fKd.js`). Founder: review VISUAL AUTHORITY board, then REGENERATE CURRENT when ready.
 
+---
+
+## 2026-08-24 — P0.5E.4A Adaptive Founder Character Calibration
+
+- **Context:** Upgrade P0.5E.4 Founder Character Discovery from static questionnaire to adaptive PROPOSE → REACT → UPDATE calibration loop. Founder role = recognition not creation. P0.5E.4 methodology preserved.
+- **Generic Studio World:** `shared/site00-studio-world-production/founderCharacterCalibration/` — calibration reactions, inference, priority engine, session state, human-readable synthesis, cognitive-load guard, forensic audit.
+- **NDX adapter:** `ndxCalibrationAdapter.ts` — migrates P0.5E.4 evidence into calibration moments (scenarios with system predictions, contradiction/flaw/intelligence behavioral tests, voice/book/visual clusters, synthesis reads, disconfirming tests, adaptive follow-ups).
+- **API/UI:** `founder_character_discovery_calibration_continue|reaction|synthesis`; `/projects/ndxbook/character/discovery` — primary CALIBRATION card (CONTINUE CALIBRATION, one moment at a time, 5 reactions); INPECT tab for legacy sections; human-readable synthesis tab.
+- **Tests:** `embodiedCharacterFounderDiscoveryP05E4A.test.ts` (13 tests) + P05E4 (46) preserved. FAL=0; casting blocked until YES_I_KNOW_HER.
+
