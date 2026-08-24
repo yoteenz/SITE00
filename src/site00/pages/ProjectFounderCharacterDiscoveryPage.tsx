@@ -7,6 +7,10 @@ import {
   site00ProjectEmbodiedCharacterDiscoveryPath,
   site00ProjectPath,
 } from '../config/routes';
+import {
+  buildFounderCharacterDiscoveryProgress,
+  type DiscoveryProgressNavigateTarget,
+} from '../utils/founderCharacterDiscoveryProgress';
 import { projectDisplayName } from '../utils/projectDisplayName';
 import { VOICE_LAB_CHANNELS } from '../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/constants';
 import { FOUNDER_RECOGNITION_RESPONSES } from '../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/constants';
@@ -17,7 +21,6 @@ import type { CharacterCalibrationInteraction } from '../../../shared/site00-stu
 import { FOUNDER_CALIBRATION_REACTIONS } from '../../../shared/site00-studio-world-production/founderCharacterCalibration/constants';
 import {
   castingStatusHeadline,
-  formatCastingBlockingGate,
 } from '../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/ndxCastingReadinessBridge';
 import {
   isVoiceApprovalJudgment,
@@ -306,6 +309,16 @@ export default function ProjectFounderCharacterDiscoveryPage() {
     voiceLabTab === 'CURRENT' && neuralConfigured && canGenerateNextNeuralRound(nextRoundParams);
   const nextRoundUnlockHint =
     voiceLabTab === 'CURRENT' && neuralConfigured ? nextNeuralRoundUnlockHint(nextRoundParams) : null;
+  const discoveryProgress = run ? buildFounderCharacterDiscoveryProgress(run) : null;
+
+  const goToProgressStep = (target: DiscoveryProgressNavigateTarget) => {
+    if (target.kind === 'section') {
+      setSection(target.section);
+      return;
+    }
+    setSection('INSPECT');
+    setInspectSection(target.inspectSection as InspectionSection);
+  };
 
   return (
     <EcosystemShell hidePageHeader>
@@ -346,6 +359,119 @@ export default function ProjectFounderCharacterDiscoveryPage() {
           </section>
 
           {loading && <p>Loading…</p>}
+
+          {run && discoveryProgress && (
+            <section
+              className="site00-experiment-g__panel"
+              style={{
+                marginBottom: '12px',
+                border: discoveryProgress.readyForCharacterSynthesis
+                  ? '1px solid rgba(214, 255, 59, 0.55)'
+                  : '1px solid rgba(245, 166, 35, 0.35)',
+              }}
+              aria-label="Calibration progress"
+            >
+              <h2 style={{ fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '8px' }}>
+                YOUR PROGRESS — {discoveryProgress.completedCount}/{discoveryProgress.totalCount} complete (
+                {discoveryProgress.percentComplete}%)
+              </h2>
+              <div
+                role="progressbar"
+                aria-valuenow={discoveryProgress.percentComplete}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                style={{
+                  height: '8px',
+                  background: 'rgba(255,255,255,0.12)',
+                  borderRadius: '4px',
+                  marginBottom: '12px',
+                  overflow: 'hidden',
+                }}
+              >
+                <div
+                  style={{
+                    width: `${discoveryProgress.percentComplete}%`,
+                    height: '100%',
+                    background: discoveryProgress.readyForCharacterSynthesis ? '#D6FF3B' : '#f5a623',
+                  }}
+                />
+              </div>
+              <p style={{ marginBottom: '12px' }}>
+                <strong>{discoveryProgress.headline}</strong>
+              </p>
+              {discoveryProgress.nextStep && !discoveryProgress.readyForCharacterSynthesis && (
+                <button
+                  type="button"
+                  className="site00-btn site00-btn--primary"
+                  style={{ width: '100%', marginBottom: '12px' }}
+                  onClick={() => goToProgressStep(discoveryProgress.nextStep!.navigate)}
+                >
+                  GO TO NEXT STEP — {discoveryProgress.nextStep.title.toUpperCase()}
+                </button>
+              )}
+              {discoveryProgress.readyForCharacterSynthesis && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
+                  <button
+                    type="button"
+                    className="site00-btn site00-btn--primary"
+                    disabled={busy}
+                    style={{ width: '100%' }}
+                    onClick={() =>
+                      void act(
+                        () => site00ProjectsApi.founderCharacterDiscoveryCalibrationSynthesis(projectSlug),
+                        { successMessage: 'Character read generated.', goToSection: 'SYNTHESIS' },
+                      )
+                    }
+                  >
+                    GENERATE CHARACTER READ
+                  </button>
+                  <Link
+                    to={site00ProjectEmbodiedCharacterDiscoveryPath(projectSlug)}
+                    className="site00-btn"
+                    style={{ textAlign: 'center', textDecoration: 'none' }}
+                  >
+                    CONTINUE TO EMBODIED CHARACTER DISCOVERY →
+                  </Link>
+                </div>
+              )}
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.85rem' }}>
+                {discoveryProgress.steps.map((step) => (
+                  <li
+                    key={step.id}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '2px',
+                      padding: '8px 0',
+                      borderBottom: '1px solid rgba(255,255,255,0.08)',
+                    }}
+                  >
+                    <button
+                      type="button"
+                      className="site00-btn"
+                      style={{
+                        width: '100%',
+                        textAlign: 'left',
+                        opacity: step.complete ? 0.75 : 1,
+                        borderColor: step.complete ? 'rgba(214,255,59,0.35)' : undefined,
+                      }}
+                      onClick={() => goToProgressStep(step.navigate)}
+                    >
+                      {step.complete ? '✓ ' : '○ '}
+                      {step.title}
+                    </button>
+                    <span style={{ fontSize: '0.75rem', opacity: 0.85, paddingLeft: '4px' }}>{step.detail}</span>
+                  </li>
+                ))}
+              </ul>
+              {discoveryProgress.unresolvedCalibrationCount > 0 && (
+                <p style={{ fontSize: '0.8rem', marginTop: '10px' }}>
+                  {discoveryProgress.unresolvedCalibrationCount} calibration moment
+                  {discoveryProgress.unresolvedCalibrationCount === 1 ? '' : 's'} still available on CALIBRATION tab.
+                </p>
+              )}
+            </section>
+          )}
 
           {run && (
             <>
@@ -477,7 +603,9 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                       </p>
                     )}
                     <p style={{ fontSize: '0.8rem', marginTop: '12px' }}>
-                      Moments completed: {run.calibrationState?.totalMomentsCompleted ?? 0}
+                      Moments completed: {run.calibrationState?.totalMomentsCompleted ?? 0} · Direct YES confirmations:{' '}
+                      {run.calibrationState?.directFounderTruths.length ?? 0} (need 3 YES THAT&apos;S HER for discovery
+                      complete)
                     </p>
                   </>
                 )}
@@ -1350,30 +1478,55 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                   </>
                 )}
 
-                {section === 'CASTING' && casting && (
+                {section === 'CASTING' && casting && discoveryProgress && (
                   <>
                     <h2>CASTING READINESS</h2>
-                    <p>State: {casting.state}</p>
-                    <p>Ready for character synthesis: {String(casting.readyForCharacterSynthesis)}</p>
-                    <p>Ready for casting exploration: {String(casting.readyForCastingExploration)}</p>
-                    <p>Founder knows her: {String(casting.founderKnowsHer)}</p>
-                    <p>Humanity evaluation pass: {String(casting.humanityEvaluationPass)}</p>
-                    {casting.blockingGates.length > 0 && (
-                      <>
-                        <p><strong>What&apos;s still blocking:</strong></p>
-                        <ul>
-                          {casting.blockingGates.map((g) => (
-                            <li key={g}>{formatCastingBlockingGate(g)}</li>
-                          ))}
-                        </ul>
-                      </>
+                    <p>
+                      <strong>
+                        {casting.readyForCharacterSynthesis
+                          ? 'All gates passed — ready for character synthesis'
+                          : `${discoveryProgress.completedCount}/${discoveryProgress.totalCount} checklist items complete`}
+                      </strong>
+                    </p>
+                    {!casting.readyForCharacterSynthesis && discoveryProgress.nextStep && (
+                      <button
+                        type="button"
+                        className="site00-btn site00-btn--primary"
+                        style={{ width: '100%', marginBottom: '12px' }}
+                        onClick={() => goToProgressStep(discoveryProgress.nextStep!.navigate)}
+                      >
+                        GO TO NEXT STEP — {discoveryProgress.nextStep.title.toUpperCase()}
+                      </button>
                     )}
+                    {casting.readyForCharacterSynthesis && (
+                      <button
+                        type="button"
+                        className="site00-btn site00-btn--primary"
+                        disabled={busy}
+                        style={{ width: '100%', marginBottom: '12px' }}
+                        onClick={() =>
+                          void act(
+                            () => site00ProjectsApi.founderCharacterDiscoveryCalibrationSynthesis(projectSlug),
+                            { successMessage: 'Character read generated.', goToSection: 'SYNTHESIS' },
+                          )
+                        }
+                      >
+                        GENERATE CHARACTER READ
+                      </button>
+                    )}
+                    <ul style={{ fontSize: '0.85rem' }}>
+                      {discoveryProgress.steps.map((step) => (
+                        <li key={step.id} style={{ marginBottom: '6px' }}>
+                          {step.complete ? '✓' : '○'} {step.title} — {step.detail}
+                        </li>
+                      ))}
+                    </ul>
                     {casting.founderKnowsHer && !casting.readyForCharacterSynthesis && (
-                      <p style={{ fontSize: '0.9rem' }}>
-                        YES I KNOW HER is saved. Complete the remaining gates above — usually via CALIBRATION moments or INSPECT tabs.
+                      <p style={{ fontSize: '0.9rem', marginTop: '12px' }}>
+                        YES I KNOW HER is saved. Finish the remaining checklist items above — the progress panel at the
+                        top shows exactly what is left.
                       </p>
                     )}
-                    <p>Humanity: {run.humanityEvaluation.passes ? 'PASS' : run.humanityEvaluation.failures.join(', ')}</p>
                   </>
                 )}
               </section>
