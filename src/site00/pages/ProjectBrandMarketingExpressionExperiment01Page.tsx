@@ -47,6 +47,7 @@ import {
   v23FounderLimeReview,
   v23GenerationJobStatusLabel,
 } from '../../../shared/site00-brand-lore/artBoardMateriality/v23BoardReadinessClient';
+import { Site00ImageInspectLightbox } from '../components/common/Site00ImageInspectLightbox';
 import '../styles/site00-replay-execution.css';
 
 const POLL_MS = 5000;
@@ -97,6 +98,7 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
   const [versionTab, setVersionTab] = useState<VersionTab>('V23');
   const [v23RevisionDraft, setV23RevisionDraft] = useState<{ artifactId: string; judgment: string } | null>(null);
   const [v23RevisionNote, setV23RevisionNote] = useState('');
+  const [inspectImage, setInspectImage] = useState<{ url: string; alt: string } | null>(null);
 
   const reload = useCallback(async () => {
     if (projectSlug !== 'ndxbook') return;
@@ -568,13 +570,13 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                             key={a.id}
                             type="button"
                             aria-pressed={isSelected}
-                            className={isSelected ? 'site00-btn site00-btn--primary' : 'site00-btn'}
+                            className={`site00-marketing-exp01-grid__slide ${isSelected ? 'site00-btn site00-btn--primary' : 'site00-btn'}`}
                             disabled={Boolean(v23RevisionDraft && versionTab === 'V23')}
                             onClick={() => {
                               setSelectedId(a.id);
                               if (versionTab === 'V23') cancelV23RevisionDraft();
+                              if (url) setInspectImage({ url, alt: headline });
                             }}
-                            style={{ minHeight: '80px', textAlign: 'left', padding: '8px', touchAction: 'manipulation' }}
                           >
                             {url ? (
                               <img
@@ -1016,6 +1018,12 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
           </div>
         </div>
       )}
+      <Site00ImageInspectLightbox
+        imageUrl={inspectImage?.url ?? null}
+        alt={inspectImage?.alt}
+        caption={inspectImage?.alt}
+        onClose={() => setInspectImage(null)}
+      />
     </EcosystemShell>
   );
 }
