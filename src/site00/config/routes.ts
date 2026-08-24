@@ -70,6 +70,7 @@ export const SITE00_ROUTES = {
     '/projects/:projectSlug/experiment-g-brand-presentation-concepts/directions',
   projectExperimentGFinalists:
     '/projects/:projectSlug/experiment-g-brand-presentation-concepts/finalists',
+  projectExperimentH: '/projects/:projectSlug/brand-character-formation',
   projectExperimentE: '/projects/:projectSlug/experience-expression',
   projectExperimentEVisualDevelopment: '/projects/:projectSlug/experience-expression/visual-development',
   projectExperiments: '/projects/:projectSlug/experiments',
@@ -172,6 +173,10 @@ export function site00ProjectExperimentGDirectionsPath(projectSlug: string): str
 
 export function site00ProjectExperimentGFinalistsPath(projectSlug: string): string {
   return `/projects/${projectSlug}/experiment-g-brand-presentation-concepts/finalists`;
+}
+
+export function site00ProjectExperimentHPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/brand-character-formation`;
 }
 
 export function site00ProjectExperimentEVisualDevelopmentPath(projectSlug: string): string {

@@ -430,6 +430,72 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug }),
       },
     ),
+  experimentHGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=experiment_h_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  experimentHPrepareSnapshot: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_prepare_snapshot',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentHFormCharacters: (slug: string, options?: { forceRetry?: boolean }) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_form_characters',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, forceRetry: options?.forceRetry === true }),
+      },
+    ),
+  experimentHCharacterJudgment: (
+    slug: string,
+    characterId: string,
+    judgment:
+      | 'LOVE_THE_CHARACTER'
+      | 'PROMISING_DEVELOP'
+      | 'TOO_GENERIC'
+      | 'TOO_PERFORMATIVE'
+      | 'TOO_INTERNET'
+      | 'TOO_ACADEMIC'
+      | 'TOO_STYLE_DEPENDENT'
+      | 'TOO_CLOSE_TO_ANOTHER'
+      | 'CULTURALLY_HOLLOW'
+      | 'NOT_NDXBOOK'
+      | 'REFORM_SET'
+      | null,
+    note?: string | null,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_character_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, characterId, judgment, note }),
+      },
+    ),
+  experimentHReformSet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_reform_set',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  experimentHCompileSystem: (slug: string, characterId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; system: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_compile_system',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, characterId }),
+      },
+    ),
   experimentGDirectionGet: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
       `/api/site00/projects?action=experiment_g_direction_get&slug=${encodeURIComponent(slug)}`,
