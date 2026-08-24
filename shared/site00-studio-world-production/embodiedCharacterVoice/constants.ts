@@ -329,6 +329,8 @@ export const WORLD_FORMATION_IMPLEMENTED = false as const;
 
 /** Success criteria — P0.5E.4B.1 sprint */
 export const NEURAL_VOICE_CASTING_PROVIDER_IMPLEMENTED = true as const;
+export const NEURAL_VOICE_REVISION_LOOP_IMPLEMENTED = true as const;
+export const NEURAL_VOICE_REGENERATE_REPLAY_SUPPORTED = true as const;
 export const BROWSER_SPEECHSYNTHESIS_RETIRED_FROM_FOUNDER_CASTING = true as const;
 export const BROWSER_SPEECHSYNTHESIS_RETAINED_FOR_DEV_TESTING = true as const;
 export const PLACEHOLDER_VOICE_ASSETS_NON_CANONICAL = true as const;

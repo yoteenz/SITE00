@@ -17,6 +17,9 @@ import {
 } from './neuralVoiceCasting.js';
 import { buildDefaultVoiceCapabilityRegistry, buildMinimaxHdTtsCapability } from './voiceGenerationCapability.js';
 import {
+  attachInitialNeuralGenerationMetadata,
+} from './neuralVoiceRevisionEngine.js';
+import {
   compileNextVoiceCalibrationRound,
   resolveRoundType,
 } from './voiceCalibrationEngine.js';
@@ -170,19 +173,32 @@ export function applyNeuralGenerationResults(
   state: CharacterVoiceCalibrationState,
   roundId: string,
   results: Array<{ hypothesisId: string; audioUrl: string; durationMs: number; costUsd: number }>,
+  contracts?: ReturnType<typeof compileNeuralVoiceCastingContract>[],
 ): CharacterVoiceCalibrationState {
   const resultMap = new Map(results.map((r) => [r.hypothesisId, r]));
+  const contractMap = new Map((contracts ?? []).map((c) => [c.hypothesisId, c]));
   const hypotheses = state.hypotheses.map((h) => {
     const r = resultMap.get(h.id);
     if (!r) return h;
-    return {
+    const contract = contractMap.get(h.id);
+    const withAudio = {
       ...h,
       audioUrl: r.audioUrl,
       audioAssetId: `neural-audio-${h.id}`,
       durationMs: r.durationMs,
       estimatedCostUsd: r.costUsd,
       status: 'GENERATED' as const,
+      generationStatus: 'GENERATED' as const,
     };
+    return contract
+      ? attachInitialNeuralGenerationMetadata({
+          hypothesis: withAudio,
+          contract,
+          audioUrl: r.audioUrl,
+          durationMs: r.durationMs,
+          costUsd: r.costUsd,
+        })
+      : withAudio;
   });
   const rounds = state.rounds.map((r) =>
     r.roundId === roundId ? { ...r, status: 'READY_FOR_JUDGMENT' as const } : r,

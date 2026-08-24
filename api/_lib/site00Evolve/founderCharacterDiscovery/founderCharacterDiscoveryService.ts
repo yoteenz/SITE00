@@ -44,6 +44,11 @@ import {
   applyNeuralGenerationResults,
   estimateNeuralAudition,
 } from '../../../../shared/site00-studio-world-production/embodiedCharacterVoice/neuralVoiceCalibrationEngine.js';
+import {
+  applyFounderNeuralVoiceRevision,
+  applyNeuralVoiceRegenerationResult,
+  prepareNeuralVoiceRegeneration,
+} from '../../../../shared/site00-studio-world-production/embodiedCharacterVoice/neuralVoiceRevisionEngine.js';
 import type { HumanWomanTestResponse } from '../../../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js';
 import {
   generateNeuralVoiceClip,
@@ -303,7 +308,7 @@ export async function startFounderNeuralVoiceAudition(params: {
       costUsd: generated.actualCostUsd,
     });
   }
-  const voiceCalibrationState = applyNeuralGenerationResults(run.voiceCalibrationState!, round.roundId, results);
+  const voiceCalibrationState = applyNeuralGenerationResults(run.voiceCalibrationState!, round.roundId, results, contracts);
   const refreshed = refreshReadiness({ ...run, voiceCalibrationState, updatedAt: nowIso() });
   await store.saveFounderCharacterDiscoveryRun(refreshed);
   return { run: refreshed, round: round as unknown as Record<string, unknown> };
@@ -412,6 +417,105 @@ export async function saveFounderUnseenLineVoiceTest(params: {
   );
   const updated = refreshReadiness({ ...seeded, voiceCalibrationState, updatedAt: nowIso() });
   return store.saveFounderCharacterDiscoveryRun(updated);
+}
+
+export async function submitFounderNeuralVoiceRevision(params: {
+  projectId: string;
+  hypothesisId: string;
+  judgment: FounderVoiceJudgment;
+  founderNote: string;
+}): Promise<NdxFounderCharacterDiscoveryRun> {
+  const existing = await store.getFounderCharacterDiscoveryRun(params.projectId);
+  if (!existing) throw new Error('Founder character discovery room not initialized');
+  const neuralProviderConfigured = isNeuralProviderConfigured();
+  if (!neuralProviderConfigured) throw new Error('NEURAL_VOICE_PROVIDER_NOT_CONFIGURED');
+
+  const seeded = ensureVoiceCalibration(existing);
+  let voiceCalibrationState = applyFounderNeuralVoiceRevision({
+    state: seeded.voiceCalibrationState!,
+    hypothesisId: params.hypothesisId,
+    judgment: params.judgment,
+    founderNote: params.founderNote,
+  });
+
+  const hypothesis = voiceCalibrationState.hypotheses.find((h) => h.id === params.hypothesisId);
+  const contract = hypothesis?.castingContract;
+  if (!contract) throw new Error('Revision contract missing');
+
+  await store.saveFounderCharacterDiscoveryRun(
+    refreshReadiness({ ...seeded, voiceCalibrationState, updatedAt: nowIso() }),
+  );
+
+  try {
+    const generated = await generateNeuralVoiceClip(contract);
+    voiceCalibrationState = applyNeuralVoiceRegenerationResult({
+      state: voiceCalibrationState,
+      hypothesisId: params.hypothesisId,
+      audioUrl: generated.audioUrl,
+      durationMs: generated.durationMs,
+      costUsd: generated.actualCostUsd,
+    });
+  } catch {
+    voiceCalibrationState = applyNeuralVoiceRegenerationResult({
+      state: voiceCalibrationState,
+      hypothesisId: params.hypothesisId,
+      audioUrl: hypothesis?.audioUrl ?? '',
+      durationMs: hypothesis?.durationMs ?? 0,
+      costUsd: 0,
+      failed: true,
+    });
+  }
+
+  const refreshed = refreshReadiness({ ...seeded, voiceCalibrationState, updatedAt: nowIso() });
+  return store.saveFounderCharacterDiscoveryRun(refreshed);
+}
+
+export async function regenerateFounderNeuralVoiceHypothesis(params: {
+  projectId: string;
+  hypothesisId: string;
+  mode?: 'REGENERATE_CURRENT' | 'REPLAY_GENERATION';
+}): Promise<NdxFounderCharacterDiscoveryRun> {
+  const existing = await store.getFounderCharacterDiscoveryRun(params.projectId);
+  if (!existing) throw new Error('Founder character discovery room not initialized');
+  const neuralProviderConfigured = isNeuralProviderConfigured();
+  if (!neuralProviderConfigured) throw new Error('NEURAL_VOICE_PROVIDER_NOT_CONFIGURED');
+
+  const seeded = ensureVoiceCalibration(existing);
+  const mode = params.mode === 'REPLAY_GENERATION' ? 'REPLAY_GENERATION' : 'REGENERATE_CURRENT';
+  const { state, contract } = prepareNeuralVoiceRegeneration({
+    state: seeded.voiceCalibrationState!,
+    hypothesisId: params.hypothesisId,
+    mode,
+  });
+
+  const hypothesis = state.hypotheses.find((h) => h.id === params.hypothesisId);
+  await store.saveFounderCharacterDiscoveryRun(
+    refreshReadiness({ ...seeded, voiceCalibrationState: state, updatedAt: nowIso() }),
+  );
+
+  try {
+    const generated = await generateNeuralVoiceClip(contract);
+    const voiceCalibrationState = applyNeuralVoiceRegenerationResult({
+      state,
+      hypothesisId: params.hypothesisId,
+      audioUrl: generated.audioUrl,
+      durationMs: generated.durationMs,
+      costUsd: generated.actualCostUsd,
+    });
+    const refreshed = refreshReadiness({ ...seeded, voiceCalibrationState, updatedAt: nowIso() });
+    return store.saveFounderCharacterDiscoveryRun(refreshed);
+  } catch {
+    const voiceCalibrationState = applyNeuralVoiceRegenerationResult({
+      state,
+      hypothesisId: params.hypothesisId,
+      audioUrl: hypothesis?.audioUrl ?? '',
+      durationMs: hypothesis?.durationMs ?? 0,
+      costUsd: 0,
+      failed: true,
+    });
+    const refreshed = refreshReadiness({ ...seeded, voiceCalibrationState, updatedAt: nowIso() });
+    return store.saveFounderCharacterDiscoveryRun(refreshed);
+  }
 }
 
 export async function previewFounderCharacterSynthesis(params: {

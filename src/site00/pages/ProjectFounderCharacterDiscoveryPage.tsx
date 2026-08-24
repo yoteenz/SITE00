@@ -20,6 +20,12 @@ import {
   formatCastingBlockingGate,
 } from '../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/ndxCastingReadinessBridge';
 import {
+  isVoiceApprovalJudgment,
+  judgmentRequiresVoiceRevisionNote,
+  revisionNotePlaceholder,
+  VOICE_REVISION_JUDGMENTS,
+} from '../../../shared/site00-studio-world-production/embodiedCharacterVoice/voiceFounderRevisionLabels.js';
+import {
   founderTraitJudgmentLabel,
   groupFounderTraitsBySection,
 } from '../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/ndxFounderTraitPropositionsClient';
@@ -83,6 +89,8 @@ export default function ProjectFounderCharacterDiscoveryPage() {
   const [neuralEstimate, setNeuralEstimate] = useState<Record<string, unknown> | null>(null);
   const [neuralConfigured, setNeuralConfigured] = useState<boolean | null>(null);
   const [neuralStatusError, setNeuralStatusError] = useState<string | null>(null);
+  const [voiceRevisionDraft, setVoiceRevisionDraft] = useState<{ hypothesisId: string; judgment: string } | null>(null);
+  const [voiceRevisionNote, setVoiceRevisionNote] = useState('');
   const [currentInteraction, setCurrentInteraction] = useState<CharacterCalibrationInteraction | null>(null);
   const [showWhyThisCameUp, setShowWhyThisCameUp] = useState(false);
 
@@ -182,6 +190,69 @@ export default function ProjectFounderCharacterDiscoveryPage() {
       setBusy(false);
     }
   };
+
+  const cancelVoiceRevisionDraft = () => {
+    setVoiceRevisionDraft(null);
+    setVoiceRevisionNote('');
+  };
+
+  const onVoiceJudgmentTap = (hypothesisId: string, judgment: string) => {
+    if (isVoiceApprovalJudgment(judgment)) {
+      void act(
+        () =>
+          site00ProjectsApi.founderCharacterDiscoveryVoiceHypothesisJudgment(projectSlug, hypothesisId, judgment),
+        { successMessage: `Voice judgment saved — ${judgment.replace(/_/g, ' ')}` },
+      );
+      return;
+    }
+    if (judgmentRequiresVoiceRevisionNote(judgment)) {
+      setVoiceRevisionNote('');
+      setVoiceRevisionDraft({ hypothesisId, judgment });
+      return;
+    }
+    void act(
+      () =>
+        site00ProjectsApi.founderCharacterDiscoveryVoiceHypothesisJudgment(projectSlug, hypothesisId, judgment),
+      { successMessage: `Voice judgment saved — ${judgment.replace(/_/g, ' ')}` },
+    );
+  };
+
+  const submitVoiceFounderRevision = async () => {
+    if (!voiceRevisionDraft) return;
+    const note = voiceRevisionNote.trim();
+    if (!note) {
+      setActionError('Add a revision note describing what should change before confirming.');
+      return;
+    }
+    setBusy(true);
+    setActionError(null);
+    setActionNotice(null);
+    try {
+      const result = await site00ProjectsApi.founderCharacterDiscoveryNeuralVoiceRevision(
+        projectSlug,
+        voiceRevisionDraft.hypothesisId,
+        voiceRevisionDraft.judgment,
+        note,
+      );
+      if (result.run) setRun(result.run as NdxFounderCharacterDiscoveryRun);
+      cancelVoiceRevisionDraft();
+      setActionNotice('Voice revision re-synthesized — listen and judge.');
+      await reload();
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : 'Voice revision failed');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!voiceRevisionDraft) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && !busy) cancelVoiceRevisionDraft();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [voiceRevisionDraft, busy]);
 
   if (projectSlug !== 'ndxbook') {
     return (
@@ -761,12 +832,54 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                               <button
                                 type="button"
                                 className="site00-btn site00-btn--primary"
-                                disabled={busy || (!hypo.audioUrl && !hypo.isDevPlaceholder)}
+                                disabled={busy || (!hypo.audioUrl && !hypo.isDevPlaceholder) || hypo.generationStatus === 'GENERATING'}
                                 style={{ width: '100%', marginTop: '8px', padding: '12px' }}
                                 onClick={() => playHypothesisAudio(hypo)}
                               >
-                                {playingHypothesisId === hypo.id ? '▶ PLAYING' : '▶ PLAY'}
+                                {playingHypothesisId === hypo.id ? '▶ PLAYING' : hypo.generationStatus === 'GENERATING' ? '▶ RE-SYNTHESIZING…' : '▶ PLAY'}
                               </button>
+                              {!isPlaceholderRound && hypo.audioUrl && (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '8px' }}>
+                                  <button
+                                    type="button"
+                                    className="site00-btn site00-btn--primary"
+                                    disabled={busy || hypo.generationStatus === 'GENERATING'}
+                                    style={{ width: '100%' }}
+                                    onClick={() =>
+                                      void act(
+                                        () =>
+                                          site00ProjectsApi.founderCharacterDiscoveryNeuralVoiceRegenerate(
+                                            projectSlug,
+                                            hypo.id,
+                                            'REGENERATE_CURRENT',
+                                          ),
+                                        { successMessage: `${hypo.hypothesisLabel} regenerated from current contract.` },
+                                      )
+                                    }
+                                  >
+                                    REGENERATE CURRENT
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="site00-btn"
+                                    disabled={busy || hypo.generationStatus === 'GENERATING' || !(hypo.promptSnapshots?.length ?? 0)}
+                                    style={{ width: '100%' }}
+                                    onClick={() =>
+                                      void act(
+                                        () =>
+                                          site00ProjectsApi.founderCharacterDiscoveryNeuralVoiceRegenerate(
+                                            projectSlug,
+                                            hypo.id,
+                                            'REPLAY_GENERATION',
+                                          ),
+                                        { successMessage: `${hypo.hypothesisLabel} replayed from historical prompt.` },
+                                      )
+                                    }
+                                  >
+                                    REPLAY HISTORICAL PROMPT
+                                  </button>
+                                </div>
+                              )}
                               {!isPlaceholderRound && (
                                 <>
                                   <p style={{ fontSize: '0.75rem', marginTop: '12px', textTransform: 'uppercase' }}>
@@ -828,22 +941,52 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                                       key={j}
                                       type="button"
                                       className="site00-btn site00-btn--primary"
-                                      disabled={busy}
+                                      disabled={busy || hypo.generationStatus === 'GENERATING'}
                                       style={{ width: '100%', textAlign: 'left' }}
-                                      onClick={() =>
-                                        void act(
-                                          () =>
-                                            site00ProjectsApi.founderCharacterDiscoveryVoiceHypothesisJudgment(
-                                              projectSlug,
-                                              hypo.id,
-                                              j,
-                                            ),
-                                          { successMessage: `${hypo.hypothesisLabel} saved — ${label}` },
-                                        )
-                                      }
+                                      onClick={() => onVoiceJudgmentTap(hypo.id, j)}
                                     >
                                       {label}
                                     </button>
+                                  ))}
+                                </div>
+                              )}
+                              {!isPlaceholderRound && (
+                                <>
+                                  <p style={{ fontSize: '0.75rem', marginTop: '12px', textTransform: 'uppercase' }}>
+                                    Revision labels (note → re-synthesize)
+                                  </p>
+                                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '4px' }}>
+                                    {VOICE_REVISION_JUDGMENTS.filter(
+                                      (j) =>
+                                        j !== 'VOICE_RIGHT_PERFORMANCE_WRONG' &&
+                                        j !== 'RIGHT_CHARACTER_TOO_SYNTHETIC' &&
+                                        j !== 'CUSTOM',
+                                    ).map((j) => (
+                                      <button
+                                        key={j}
+                                        type="button"
+                                        className="site00-btn"
+                                        disabled={busy || hypo.generationStatus === 'GENERATING'}
+                                        style={{ fontSize: '0.75rem', margin: '2px' }}
+                                        onClick={() => onVoiceJudgmentTap(hypo.id, j)}
+                                      >
+                                        {j.replace(/_/g, ' ')}
+                                      </button>
+                                    ))}
+                                  </div>
+                                  <p style={{ fontSize: '0.8rem', opacity: 0.85, marginTop: '6px' }}>
+                                    Approval labels save immediately. Revision labels open a note — confirm to re-synthesize via neural TTS.
+                                  </p>
+                                </>
+                              )}
+                              {(hypo.revisionHistory?.length ?? 0) > 0 && (
+                                <div style={{ marginTop: '10px', fontSize: '0.85rem' }}>
+                                  <strong>REVISIONS</strong>
+                                  {(hypo.revisionHistory ?? []).map((rev) => (
+                                    <div key={rev.revisionId} style={{ marginTop: '4px' }}>
+                                      {rev.judgment.replace(/_/g, ' ')} — {rev.status}
+                                      {rev.founderNote ? `: ${rev.founderNote}` : ''}
+                                    </div>
                                   ))}
                                 </div>
                               )}
@@ -1108,6 +1251,61 @@ export default function ProjectFounderCharacterDiscoveryPage() {
           )}
         </div>
       </div>
+      {voiceRevisionDraft && (
+        <div
+          role="presentation"
+          onClick={() => !busy && cancelVoiceRevisionDraft()}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0,0,0,0.65)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            padding: '16px',
+          }}
+        >
+          <div
+            role="dialog"
+            aria-labelledby="voice-revision-title"
+            onClick={(e) => e.stopPropagation()}
+            className="site00-experiment-g__panel"
+            style={{ width: '100%', maxWidth: '520px', margin: 0 }}
+          >
+            <h2 id="voice-revision-title" style={{ marginTop: 0 }}>
+              {voiceRevisionDraft.judgment.replace(/_/g, ' ')} — REVISION NOTE
+            </h2>
+            <p style={{ fontSize: '0.9rem', opacity: 0.9 }}>
+              Describe exactly what should change in voice or performance. On confirm, the contract updates and neural TTS re-synthesizes this clip.
+            </p>
+            <label style={{ display: 'block', marginTop: '12px' }}>
+              Founder revision note
+              <textarea
+                value={voiceRevisionNote}
+                onChange={(e) => setVoiceRevisionNote(e.target.value)}
+                rows={4}
+                placeholder={revisionNotePlaceholder(voiceRevisionDraft.judgment)}
+                autoFocus
+                style={{ width: '100%', marginTop: '6px', boxSizing: 'border-box' }}
+              />
+            </label>
+            <div style={{ display: 'flex', gap: '8px', marginTop: '16px', justifyContent: 'flex-end' }}>
+              <button type="button" className="site00-btn" onClick={cancelVoiceRevisionDraft} disabled={busy}>
+                CANCEL
+              </button>
+              <button
+                type="button"
+                className="site00-btn site00-btn--primary"
+                disabled={busy || !voiceRevisionNote.trim()}
+                onClick={() => void submitVoiceFounderRevision()}
+              >
+                CONFIRM &amp; RE-SYNTHESIZE
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </EcosystemShell>
   );
 }
