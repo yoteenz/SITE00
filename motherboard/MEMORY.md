@@ -4485,3 +4485,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Built:** `Site00ImageInspectLightbox` — full-screen overlay with enlarged image, caption, 44px × close button, backdrop tap + Escape dismiss. Wired into `ProjectBrandMarketingExpressionExperiment01Page` grid: tap generated slide opens lightbox while preserving slide selection/review flow.
 - **Ship:** PR #390 merged; deploy v62 (`index.BAVo19wc.js`).
 
+---
+
+## 2026-08-24 — P0.5C.6 Visual Appetite Authority + Bespoke Art Direction Dominance
+
+- **Context:** Sprint P0.5C.6 — correct NDX Marketing Expression generation hierarchy. Synthesize V2.1 visual appetite (graphic design, cultural participation, feed-stopping power) with V2.3 editorial/materiality discipline. Principle: **ARTISTICALLY_RICH_COGNITIVELY_SIMPLE**. Amend V2.3 methodology only — no V2.4. No FAL generation during sprint.
+- **Generic Studio World:** `shared/site00-studio-world-production/visualAuthority/` — `VisualAuthoritySystem`, design authority chain, bespoke art direction contract, pre-reading appetite gate, text-removal test, evidence role evaluation, topic-specific art direction, feed artistic range, forensic comparison, visual discovery inheritance.
+- **NDX V2.3 integration:** `visualAuthorityC6.ts`; `falPromptCompilerV23@P0.5C.6`; pre-C6 queue supersession; `ROUND_01_VISUAL_AUTHORITY_GATE`; 17-section FAL compiler order (art direction before editorial hierarchy).
+- **UI:** Experiment 01 — **VISUAL AUTHORITY REVIEW — P0.5C.6** 3×3 checklist section.
+- **Tests:** `artBoardMaterialityP05C6.test.ts` (11 tests); 70 artBoard tests green. FAL_REQUESTS=0; REGENERATE CURRENT compiles P0.5C.6.
+- **Ship:** deploy v63 (`index.QrvF_fKd.js`). Founder: review VISUAL AUTHORITY board, then REGENERATE CURRENT when ready.
+

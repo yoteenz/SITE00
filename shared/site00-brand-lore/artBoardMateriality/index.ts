@@ -42,3 +42,4 @@ export {
 } from './v23GenerationAuthorityConstants.js';
 export * from './signatureLimeRestraint.js';
 export * from './experiment01V23Supersession.js';
+export * from './visualAuthorityC6.js';

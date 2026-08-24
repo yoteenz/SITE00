@@ -47,6 +47,43 @@ export function compileArtBoardMaterialityFalPrompt(params: {
     : 'HUMAN-MADE MARKS: restrained — only causally justified marks';
 
   const publicCopySections = buildFalPublicCopySections({ artifact: params.artifact, contract: c });
+  const va = c.visualAuthorityEvaluation?.bespokeArtDirection;
+  const visualAuthorityBlock = va
+    ? [
+        `BESPOKE ARTISTIC PREMISE`,
+        `ARTISTIC PREMISE: ${va.artisticPremise}`,
+        `VISUAL ENTRY POINT: ${va.visualEntryPoint}`,
+        `DOMINANT VISUAL SUBJECT: ${va.dominantVisualSubject}`,
+        `WHY SOMEONE LOOKS BEFORE READING: ${va.whySomeoneLooksBeforeReading}`,
+        `VISUAL TENSION: ${va.visualTension}`,
+        `UNEXPECTED ELEMENT: ${va.unexpectedElement}`,
+        `COMPOSITION BEHAVIOR: ${va.compositionBehavior}`,
+        `IMAGE BEHAVIOR: ${va.imageBehavior}`,
+        `SCALE / CROP / NEGATIVE SPACE: ${va.scaleBehavior} · ${va.cropBehavior} · ${va.negativeSpaceBehavior}`,
+        `WHY TOPIC-SPECIFIC: ${va.whyThisCouldOnlyBelongToThisTopic}`,
+        `COMPELLING WITHOUT COPY: ${va.whatWouldRemainCompellingWithoutCopy}`,
+      ].join('\n')
+    : `BESPOKE ARTISTIC PREMISE: Establish a topic-specific visual idea BEFORE editorial layout — not a generic document template.`;
+
+  const preReadingBlock = [
+    `PRE-READING VISUAL APPETITE`,
+    `IS THERE SOMETHING HERE I WANT TO LOOK AT BEFORE I READ IT? — YES. Create credible human, object, cultural, photographic, or intentional typographic reason to stop.`,
+    `WOULD I STOP ON THIS PAGE BEFORE I KNEW WHAT IT SAID? — Design for thumbnail/feed stopping power first.`,
+    `DO NOT INTERPRET INFORMATION RESTRAINT AS VISUAL BLANDNESS.`,
+    `DO NOT INTERPRET ONE DOMINANT THOUGHT AS ONE DOMINANT TEXT BLOCK.`,
+    `DO NOT DESIGN A CLEAN TEMPLATE MERELY BECAUSE THE COPY IS SIMPLE.`,
+    `DO NOT USE DOCUMENTS, RECEIPTS, SCREENSHOTS, OR TYPOGRAPHY AS A SUBSTITUTE FOR AN ARTISTIC PREMISE.`,
+    `CREATE SOMETHING THE VIEWER WANTS TO LOOK AT BEFORE THEY FULLY UNDERSTAND IT.`,
+    `THE ART DIRECTION SHOULD FEEL BESPOKE TO THIS SPECIFIC THOUGHT.`,
+    `VISUAL COMPLEXITY AND INFORMATION COMPLEXITY ARE SEPARATE — ARTISTICALLY RICH, COGNITIVELY SIMPLE.`,
+  ].join('\n');
+
+  const compositionalBlock = [
+    `COMPOSITIONAL DIRECTION`,
+    `VISUAL PRIORITY: 1 ART/CULTURAL SUBJECT → 2 THE THOUGHT → 3 THE PROOF → 4 THE TRACE → 5 METADATA`,
+    `CULTURAL IMAGE PARTICIPATION: ${cp.visualParticipationMode} — human imagery, photography, objects, juxtaposition, expressive crop encouraged when thesis-relevant.`,
+    `EVIDENCE ROLE: Evidence SUPPORTS the artistic premise — it is NOT automatically the composition unless the evidence object IS the visual thesis.`,
+  ].join('\n');
 
   const restraintSection = restraint
     ? [
@@ -74,6 +111,10 @@ export function compileArtBoardMaterialityFalPrompt(params: {
   const sections = [
     ...publicCopySections,
     `[INTERNAL GENERATION GUIDANCE — DO NOT RENDER AS VISIBLE LABELS ON ARTIFACT]`,
+    `CONTENT THESIS: ${params.artifact.topic} — ${c.primaryHook}`,
+    visualAuthorityBlock,
+    preReadingBlock,
+    compositionalBlock,
     `TOPIC CONTEXT: ${params.artifact.topic} — ${params.artifact.subject}`,
     `INTERNAL THESIS: ${c.primaryHook}`,
     `INTERNAL CHARACTER EXPRESSION: ${cr.primaryCharacterBeat.text ?? 'visual punchline'} (${cr.primaryCharacterBeat.beatType})`,
@@ -180,4 +221,18 @@ export function materialFalPromptBlocksAllLimeBodyCopy(contract: MarketingFalPro
 
 export function materialFalPromptHumanMadeNotLimeMade(contract: MarketingFalPromptContract): boolean {
   return contract.prompt.includes('HUMAN-MADE DOES NOT MEAN LIME-MADE');
+}
+
+export function materialFalPromptHasVisualAuthoritySection(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('BESPOKE ARTISTIC PREMISE');
+}
+
+export function materialFalPromptArtDirectionBeforeInformationHierarchy(contract: MarketingFalPromptContract): boolean {
+  const artIdx = contract.prompt.indexOf('BESPOKE ARTISTIC PREMISE');
+  const infoIdx = contract.prompt.indexOf('INFORMATION HIERARCHY');
+  return artIdx >= 0 && infoIdx > artIdx;
+}
+
+export function materialFalPromptBlocksVisualBlandnessInterpretation(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('DO NOT INTERPRET INFORMATION RESTRAINT AS VISUAL BLANDNESS');
 }

@@ -58,7 +58,7 @@ describe('v23BoardReadiness', () => {
       } as Experiment01V23Artifact['signatureLimeEvaluation'],
     });
     expect(v23ArtifactHasSignatureLimeInPrompt(withLime)).toBe(true);
-    expect(v23BoardNeedsReformulation([withLime])).toBe(false);
+    expect(v23BoardNeedsReformulation([withLime])).toBe(true);
   });
 
   it('flags board needing reformulation when lime missing', () => {
