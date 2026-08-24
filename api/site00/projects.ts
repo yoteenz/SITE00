@@ -123,6 +123,13 @@ import {
   setCampaignAssetJudgment,
 } from '../_lib/site00Evolve/marketingCampaignProduction/marketingCampaignProductionService.js';
 import {
+  getDailyPublishingCadenceState,
+  configureDailyPublishingCadence,
+  planWeeklyPrimaryEvents,
+  buildDailyPublishingPlan,
+  approveWeeklyIntelligenceSlate,
+} from '../_lib/site00Evolve/dailyPublishingCadence/dailyPublishingCadenceService.js';
+import {
   formBrandPresentationDirections,
   getBrandPresentationDirectionFormationRun,
   prepareBrandPresentationDirectionParents,
@@ -2014,6 +2021,79 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const run = await setCampaignAssetJudgment({ projectId: 'ndxbook', assetId, judgment });
         return json(res, 200, { ok: true, run, source: 'site00_campaign_production' });
+      }
+      case 'daily_publishing_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await getDailyPublishingCadenceState({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_daily_publishing_cadence' });
+      }
+      case 'daily_publishing_configure': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await configureDailyPublishingCadence({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_daily_publishing_cadence' });
+      }
+      case 'daily_publishing_plan_week': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const weekStart = String(body.weekStart ?? new Date().toISOString().slice(0, 10));
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await planWeeklyPrimaryEvents({ projectId: 'ndxbook', weekStart });
+        return json(res, 200, { ok: true, run, source: 'site00_daily_publishing_cadence' });
+      }
+      case 'daily_publishing_build_day': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const date = String(body.date ?? new Date().toISOString().slice(0, 10));
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await buildDailyPublishingPlan({ projectId: 'ndxbook', date });
+        return json(res, 200, { ok: true, run, source: 'site00_daily_publishing_cadence' });
+      }
+      case 'daily_publishing_approve_weekly_slate': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await approveWeeklyIntelligenceSlate({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_daily_publishing_cadence' });
       }
       case 'experiment_g_get': {
         const slug = String(req.query.slug ?? '');

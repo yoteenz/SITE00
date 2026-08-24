@@ -1435,6 +1435,30 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, assetId, judgment }),
       },
     ),
+  dailyPublishingGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=daily_publishing_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  dailyPublishingConfigure: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=daily_publishing_configure',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  dailyPublishingPlanWeek: (slug: string, weekStart: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=daily_publishing_plan_week',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, weekStart }) },
+    ),
+  dailyPublishingBuildDay: (slug: string, date: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=daily_publishing_build_day',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, date }) },
+    ),
+  dailyPublishingApproveWeeklySlate: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=daily_publishing_approve_weekly_slate',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
   projectIntelligenceManifestCompile: (slug: string, experienceClass?: string) =>
     projectsFetch<{
       ok: true;
