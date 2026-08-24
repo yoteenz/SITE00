@@ -166,6 +166,16 @@ import {
   synthesizeEmbodiedCharacterDiscovery,
 } from '../_lib/site00Evolve/embodiedCharacterDiscovery/embodiedCharacterDiscoveryService.js';
 import {
+  getFounderCharacterDiscoveryState,
+  initializeFounderCharacterDiscoveryRoom,
+  previewFounderCharacterSynthesis,
+  saveFounderCharacterDiscoveryScenarioResponse,
+  saveFounderCharacterDiscoveryTraitJudgment,
+  saveFounderCharacterRecognition,
+  saveFounderVisualHypothesisJudgment,
+  saveFounderVoiceLabJudgment,
+} from '../_lib/site00Evolve/founderCharacterDiscovery/founderCharacterDiscoveryService.js';
+import {
   formBrandPresentationDirections,
   getBrandPresentationDirectionFormationRun,
   prepareBrandPresentationDirectionParents,
@@ -2618,6 +2628,159 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const run = await synthesizeEmbodiedCharacterDiscovery({ projectId: 'ndxbook' });
         return json(res, 200, { ok: true, run, source: 'site00_embodied_character_discovery' });
+      }
+      case 'founder_character_discovery_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await getFounderCharacterDiscoveryState({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
+      case 'founder_character_discovery_initialize': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await initializeFounderCharacterDiscoveryRoom({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
+      case 'founder_character_discovery_trait_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const traitId = String(body.traitId ?? '');
+        const judgment = String(body.judgment ?? '');
+        if (slug !== 'ndxbook' || !traitId || !judgment) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug, traitId, judgment required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await saveFounderCharacterDiscoveryTraitJudgment({
+          projectId: 'ndxbook',
+          traitId,
+          judgment: judgment as import('../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js').FounderDiscoveryJudgment,
+          revision: body.revision ? String(body.revision) : undefined,
+          note: body.note ? String(body.note) : undefined,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
+      case 'founder_character_discovery_scenario_response': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const scenarioId = String(body.scenarioId ?? '');
+        const response = String(body.response ?? '');
+        const judgment = String(body.judgment ?? '');
+        if (slug !== 'ndxbook' || !scenarioId || !response || !judgment) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug, scenarioId, response, judgment required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await saveFounderCharacterDiscoveryScenarioResponse({
+          projectId: 'ndxbook',
+          scenarioId,
+          response,
+          judgment: judgment as import('../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js').FounderDiscoveryJudgment,
+          notes: body.notes ? String(body.notes) : undefined,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
+      case 'founder_character_discovery_visual_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const hypothesisId = String(body.hypothesisId ?? '');
+        const judgment = String(body.judgment ?? '');
+        if (slug !== 'ndxbook' || !hypothesisId || !judgment) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug, hypothesisId, judgment required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await saveFounderVisualHypothesisJudgment({
+          projectId: 'ndxbook',
+          hypothesisId,
+          judgment: judgment as import('../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js').VisualHypothesisJudgment,
+          note: body.note ? String(body.note) : undefined,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
+      case 'founder_character_discovery_voice_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const sampleId = String(body.sampleId ?? '');
+        const channel = String(body.channel ?? '');
+        const judgment = String(body.judgment ?? '');
+        if (slug !== 'ndxbook' || !sampleId || !channel || !judgment) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug, sampleId, channel, judgment required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await saveFounderVoiceLabJudgment({
+          projectId: 'ndxbook',
+          sampleId,
+          channel: channel as import('../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js').VoiceLabChannel,
+          judgment: judgment as import('../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js').FounderDiscoveryJudgment,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
+      case 'founder_character_discovery_recognition': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const response = String(body.response ?? '');
+        if (slug !== 'ndxbook' || !response) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug and response required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await saveFounderCharacterRecognition({
+          projectId: 'ndxbook',
+          response: response as import('../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js').FounderRecognitionResponse,
+          note: body.note ? String(body.note) : undefined,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
+      case 'founder_character_discovery_synthesis_preview': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await previewFounderCharacterSynthesis({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
       }
       case 'experiment_g_get': {
         const slug = String(req.query.slug ?? '');
