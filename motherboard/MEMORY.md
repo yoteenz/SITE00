@@ -4035,3 +4035,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder flow:** Review 9 directions → select 2 finalists → FORMULATE VISUAL EXPRESSIONS → GENERATE FINALIST VISUALS (6) → compare/judge → SELECT BRAND PRESENTATION WINNER.
 - **Deploy:** cPanel frontend + **Railway redeploy** for new API actions.
 
+---
+
+## 2026-08-24 — Direction formation live status panel + retry UX
+
+- **Context:** Founder on direction development page saw FORMING with no buttons, no retry, no live progress — couldn't tell if stalled (especially after Railway redeploy killed background job).
+- **Fix (branch `cursor/experiment-g-direction-formation-status-ui-1983`):** `DirectionFormationStatusPanel` — progress bar, elapsed timer, estimated parent step, last-check age, **RETRY STALLED FORMATION** visible while FORMING (matches Experiment G concept page), **REFRESH STATUS NOW**, failed/complete tone states.
+- **Deploy:** cPanel v49 frontend.
+
