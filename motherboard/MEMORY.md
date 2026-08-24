@@ -4355,3 +4355,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder action:** If board already initialized with V2.1 assets, re-initialize campaign board after V2.3 artifacts are generated to refresh wall images.
 - **Tests:** P05E + P0.5C.3 updated; 40 tests green. PR #378 merged.
 
+---
+
+## 2026-08-24 — P0.5C.5 First-Person Authorship + Public Copy Translation + Campaign Caption Synthesis
+
+- **Context:** Sprint P0.5C.5 — visual art direction strong but public artifacts exposed internal production language (CHARACTER BEAT, WHAT NDX NOTICED, PRIMARY EDITORIAL IDEA, CONTROLLED MISBEHAVIOR, etc.). Need strict internal/public boundary + downstream automated Instagram caption synthesis after slides are caption-ready.
+- **Architecture:** Generic `shared/site00-studio-world-production/publicAuthorship/` (PublicAuthorshipMode, PublicCopyTranslation, InternalLabelQuarantine, ThirdPersonSelfReferenceEvaluation, PersonalAuthorshipEvaluation, PublicArtifactExportEvaluation) + `campaignCaption/` (CampaignCaptionSystem, CaptionReadinessEvaluation, CaptionSequenceRelationshipEvaluation). NDX adapter: `shared/site00-brand-lore/firstPersonAuthorship/`.
+- **FAL V2.3:** `buildFalPublicCopySections()` — internal guidance separated; explicit DO NOT PRINT internal labels. Negative constraints extended.
+- **V2.3 revision:** `applyV23PublicCopyRevision()` surgical path; `applyV23PublicCopyRevisionAll()` service. Preserves C.4/C.4A/C.4B/C.3 art direction.
+- **Captions:** `synthesizeCampaignCaptions()` + Campaign Board UI (SYNTHESIZE CAPTIONS, founder judgments THAT_SOUNDS_LIKE_ME etc.). Draft after generated slides; final after full lock. SocialContentPackage + CompleteSocialContentPackage caption fields extended.
+- **Boundaries:** Brand Character/Canon unchanged; no autonomous publishing; cross-platform caption independence preserved.
+- **Tests:** 50 P0.5C.5 requirements in `firstPersonAuthorshipP05C5.test.ts`. Build green.
+
