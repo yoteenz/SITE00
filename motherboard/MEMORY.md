@@ -4653,3 +4653,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preservation:** All Layer 3 methodology (contracts, captions ROUND_VIEW, generation authority, trait/voice lab) moved to INSPECT — not deleted. No Brand Character/Canon mutation. No decorative FAL. 2680 tests pass; build green.
 - **Ship:** PR #409 merged to `main`. Founder deploy: GoDaddy v79 ZIP → hard refresh.
 
+---
+
+## 2026-08-24 — Account pages Desktop preview fix (PROJECTS / CTRL ROOM)
+
+- **Symptom:** Founder toggled Desktop on mobile but PROJECTS kept showing mobile shell (bottom nav, ORIGIN bay) — felt blocked from desktop account pages.
+- **Root cause:** `EcosystemShell` switched layouts only via CSS `@media (min-width: 1024px)`, ignoring shared `isPreviewDesktop` composer state used by IDNTY/Origin public routes.
+- **Fix:** `EcosystemShell` now respects preview mode; phone + Desktop uses scaled artboard; `Site00EcosystemLayoutSwitch` on `/projects` and `/control` routes.
+
