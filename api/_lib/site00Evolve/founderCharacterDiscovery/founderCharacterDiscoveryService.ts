@@ -17,6 +17,13 @@ import {
   applyScenarioResponse,
   buildNdxFounderCharacterDiscoveryRun,
 } from '../../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/ndxFounderDiscoveryRun.js';
+import {
+  migrateRunToCalibrationState,
+  ndxApplyCalibrationReaction,
+  ndxContinueCalibration,
+  ndxGetHumanReadableSynthesis,
+} from '../../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/ndxCalibrationAdapter.js';
+import type { FounderCalibrationReaction } from '../../../../shared/site00-studio-world-production/founderCharacterCalibration/types.js';
 import type { NdxFounderCharacterDiscoveryRun } from '../../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/types.js';
 import * as store from './founderCharacterDiscoveryStoreAdapter.js';
 
@@ -50,6 +57,60 @@ function refreshReadiness(run: NdxFounderCharacterDiscoveryRun): NdxFounderChara
     founderRecognition: run.founderRecognition,
   });
   return { ...run, humanityEvaluation, castingReadiness, updatedAt: nowIso() };
+}
+
+function ensureCalibration(run: NdxFounderCharacterDiscoveryRun): NdxFounderCharacterDiscoveryRun {
+  if (run.calibrationState?.interactions.length) return run;
+  return {
+    ...run,
+    calibrationState: migrateRunToCalibrationState(run),
+    calibrationVersion: run.calibrationVersion ?? 'FOUNDER_CHARACTER_CALIBRATION@P0.5E.4A',
+  };
+}
+
+export async function continueFounderCharacterCalibration(params: {
+  projectId: string;
+}): Promise<{ run: NdxFounderCharacterDiscoveryRun; interaction: ReturnType<typeof ndxContinueCalibration>['interaction'] }> {
+  const existing = await store.getFounderCharacterDiscoveryRun(params.projectId);
+  if (!existing) throw new Error('Founder character discovery room not initialized');
+  const seeded = ensureCalibration(existing);
+  const { run, interaction } = ndxContinueCalibration(seeded);
+  const refreshed = refreshReadiness(run);
+  await store.saveFounderCharacterDiscoveryRun(refreshed);
+  return { run: refreshed, interaction };
+}
+
+export async function saveFounderCharacterCalibrationReaction(params: {
+  projectId: string;
+  interactionId: string;
+  reaction: FounderCalibrationReaction;
+  revision?: string | null;
+}): Promise<{ run: NdxFounderCharacterDiscoveryRun; nextInteraction: ReturnType<typeof ndxApplyCalibrationReaction>['nextInteraction'] }> {
+  const existing = await store.getFounderCharacterDiscoveryRun(params.projectId);
+  if (!existing) throw new Error('Founder character discovery room not initialized');
+  const seeded = ensureCalibration(existing);
+  const { run, nextInteraction } = ndxApplyCalibrationReaction(seeded, {
+    interactionId: params.interactionId,
+    reaction: params.reaction,
+    revision: params.revision,
+  });
+  const refreshed = refreshReadiness(run);
+  await store.saveFounderCharacterDiscoveryRun(refreshed);
+  return { run: refreshed, nextInteraction };
+}
+
+export async function getFounderCharacterCalibrationSynthesis(params: {
+  projectId: string;
+}): Promise<NdxFounderCharacterDiscoveryRun> {
+  const existing = await store.getFounderCharacterDiscoveryRun(params.projectId);
+  if (!existing) throw new Error('Founder character discovery room not initialized');
+  const synthesis = ndxGetHumanReadableSynthesis(ensureCalibration(existing));
+  const updated = refreshReadiness({
+    ...existing,
+    humanReadableSynthesis: synthesis,
+    updatedAt: nowIso(),
+  });
+  return store.saveFounderCharacterDiscoveryRun(updated);
 }
 
 export async function getFounderCharacterDiscoveryState(params: {

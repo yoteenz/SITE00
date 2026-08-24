@@ -1740,6 +1740,30 @@ export const site00ProjectsApi = {
       '/api/site00/projects?action=founder_character_discovery_synthesis_preview',
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
     ),
+  founderCharacterDiscoveryCalibrationContinue: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; interaction: Record<string, unknown> | null }>(
+      '/api/site00/projects?action=founder_character_discovery_calibration_continue',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  founderCharacterDiscoveryCalibrationReaction: (
+    slug: string,
+    interactionId: string,
+    reaction: string,
+    revision?: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; nextInteraction: Record<string, unknown> | null }>(
+      '/api/site00/projects?action=founder_character_discovery_calibration_reaction',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, interactionId, reaction, revision }),
+      },
+    ),
+  founderCharacterDiscoveryCalibrationSynthesis: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_character_discovery_calibration_synthesis',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
   characterContinuityGet: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
       `/api/site00/projects?action=character_continuity_get&slug=${encodeURIComponent(slug)}`,

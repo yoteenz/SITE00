@@ -166,9 +166,12 @@ import {
   synthesizeEmbodiedCharacterDiscovery,
 } from '../_lib/site00Evolve/embodiedCharacterDiscovery/embodiedCharacterDiscoveryService.js';
 import {
+  continueFounderCharacterCalibration,
+  getFounderCharacterCalibrationSynthesis,
   getFounderCharacterDiscoveryState,
   initializeFounderCharacterDiscoveryRoom,
   previewFounderCharacterSynthesis,
+  saveFounderCharacterCalibrationReaction,
   saveFounderCharacterDiscoveryScenarioResponse,
   saveFounderCharacterDiscoveryTraitJudgment,
   saveFounderCharacterRecognition,
@@ -2788,6 +2791,63 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await previewFounderCharacterSynthesis({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
+      case 'founder_character_discovery_calibration_continue': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await continueFounderCharacterCalibration({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run: result.run, interaction: result.interaction, source: 'site00_founder_character_discovery' });
+      }
+      case 'founder_character_discovery_calibration_reaction': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const interactionId = String(body.interactionId ?? '');
+        const reaction = String(body.reaction ?? '');
+        if (slug !== 'ndxbook' || !interactionId || !reaction) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug, interactionId, reaction required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await saveFounderCharacterCalibrationReaction({
+          projectId: 'ndxbook',
+          interactionId,
+          reaction: reaction as import('../../../shared/site00-studio-world-production/founderCharacterCalibration/types.js').FounderCalibrationReaction,
+          revision: body.revision ? String(body.revision) : undefined,
+        });
+        return json(res, 200, {
+          ok: true,
+          run: result.run,
+          nextInteraction: result.nextInteraction,
+          source: 'site00_founder_character_discovery',
+        });
+      }
+      case 'founder_character_discovery_calibration_synthesis': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await getFounderCharacterCalibrationSynthesis({ projectId: 'ndxbook' });
         return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
       }
       case 'character_continuity_get': {
