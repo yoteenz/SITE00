@@ -130,6 +130,8 @@ import {
   lockCampaignRound01,
   formulateCampaignRound02,
   setCampaignAssetJudgment,
+  synthesizeCampaignCaptions,
+  setCampaignCaptionJudgment,
 } from '../_lib/site00Evolve/marketingCampaignProduction/marketingCampaignProductionService.js';
 import {
   getDailyPublishingCadenceState,
@@ -2194,6 +2196,38 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await setCampaignAssetJudgment({ projectId: 'ndxbook', assetId, judgment });
+        return json(res, 200, { ok: true, run, source: 'site00_campaign_production' });
+      }
+      case 'campaign_production_synthesize_captions': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await synthesizeCampaignCaptions({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_campaign_production' });
+      }
+      case 'campaign_production_caption_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const contentPieceId = String(body.contentPieceId ?? '');
+        const judgment = String(body.judgment ?? '');
+        if (slug !== 'ndxbook' || !contentPieceId || !judgment) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await setCampaignCaptionJudgment({ projectId: 'ndxbook', contentPieceId, judgment });
         return json(res, 200, { ok: true, run, source: 'site00_campaign_production' });
       }
       case 'daily_publishing_get': {

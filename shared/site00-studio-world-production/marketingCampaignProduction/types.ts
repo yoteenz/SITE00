@@ -248,6 +248,16 @@ export type CompleteSocialContentPackage = {
   editorialDecisionId: string | null;
   visualSequenceAssetIds: string[];
   caption: string | null;
+  captionVersion: number | null;
+  captionReadiness: string | null;
+  captionStrategy: string | null;
+  captionLength: string | null;
+  captionOpeningStrategy: string | null;
+  captionCTA: string | null;
+  captionSourceNotes: string[];
+  captionFreshnessEvaluation: string | null;
+  captionCharacterEvaluation: string | null;
+  captionApprovalState: string | null;
   cta: string | null;
   altText: string | null;
   channel: string;
@@ -270,6 +280,7 @@ export type MarketingCampaignProductionRun = {
   reopenEvents: AssetReopenEvent[];
   snapshots: CampaignApprovalSnapshot[];
   completePackages: CompleteSocialContentPackage[];
+  captions: import('../campaignCaption/types.js').CampaignCaption[];
   rhythmEvaluation: CampaignRhythmEvaluation | null;
   accounting: {
     anthropicRequests: number;

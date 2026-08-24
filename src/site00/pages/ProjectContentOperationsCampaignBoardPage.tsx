@@ -230,6 +230,57 @@ export default function ProjectContentOperationsCampaignBoardPage() {
                       </ul>
                     </section>
                   ) : null}
+
+                  <section className="site00-experiment-g__panel">
+                    <h2>CAPTIONS — P0.5C.5</h2>
+                    <p>Synthesize Instagram captions after slides are locked. Captions use first-person NDX authorship — not internal contract labels.</p>
+                    <button
+                      type="button"
+                      className="site00-btn site00-btn--primary"
+                      disabled={busy || !board}
+                      onClick={() => void act(() => site00ProjectsApi.campaignProductionSynthesizeCaptions(projectSlug))}
+                    >
+                      SYNTHESIZE CAPTIONS
+                    </button>
+                    {(run?.captions ?? []).length === 0 ? (
+                      <p style={{ marginTop: '8px' }}>No captions yet — lock slides first, then synthesize.</p>
+                    ) : (
+                      <ul style={{ marginTop: '12px' }}>
+                        {(run?.captions ?? []).map((cap) => {
+                          const entry = slate?.entries.find((e) => e.contentPieceId === cap.contentPieceId);
+                          return (
+                            <li key={cap.captionId} style={{ marginBottom: '12px' }}>
+                              <strong>{entry?.title ?? cap.contentPieceId}</strong>
+                              <p style={{ margin: '4px 0' }}>{cap.text}</p>
+                              <span style={{ fontSize: '11px' }}>
+                                {cap.readiness} · {cap.approvalState} · {cap.strategy}
+                              </span>
+                              {!clientMode && (
+                                <div style={{ marginTop: '6px' }}>
+                                  {(['THAT_SOUNDS_LIKE_ME', 'LOVE_THE_CAPTION', 'TOO_ANALYTICAL', 'TOO_BRAND_LIKE', 'NOT_NDX'] as const).map((j) => (
+                                    <button
+                                      key={j}
+                                      type="button"
+                                      className="site00-btn"
+                                      disabled={busy}
+                                      style={{ marginRight: '4px', marginBottom: '4px', fontSize: '10px' }}
+                                      onClick={() =>
+                                        void act(() =>
+                                          site00ProjectsApi.campaignProductionCaptionJudgment(projectSlug, cap.contentPieceId, j),
+                                        )
+                                      }
+                                    >
+                                      {j.replace(/_/g, ' ')}
+                                    </button>
+                                  ))}
+                                </div>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </section>
                 </>
               )}
             </>

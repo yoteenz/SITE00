@@ -248,6 +248,18 @@ export type NDXCaptionContract = {
   style: CaptionStyle;
   text: string;
   derivedFrom: string[];
+  captionVersion?: number;
+  captionReadiness?: string | null;
+  captionStrategy?: string | null;
+  captionLength?: string | null;
+  captionOpeningStrategy?: string | null;
+  captionCTA?: string | null;
+  captionApprovalState?: string | null;
+  captionCharacterEvaluation?: string | null;
+  captionFreshnessEvaluation?: string | null;
+  publicAuthorshipLayerId?: string | null;
+  captionSynthesisContractId?: string | null;
+  founderLanguageEvidenceIds?: string[];
 };
 
 export type ContentCTAPolicy = {
@@ -319,6 +331,8 @@ export type SocialContentPackage = {
   visualParticipationBalance?: string | null;
   characterRetentionContractId?: string | null;
   artBoardDirectionContractId?: string | null;
+  publicAuthorshipLayerId?: string | null;
+  captionSynthesisContractId?: string | null;
   createdAt: string;
   updatedAt: string;
 };

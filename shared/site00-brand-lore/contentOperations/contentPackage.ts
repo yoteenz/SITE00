@@ -23,6 +23,7 @@ import { buildContentPackageVisualSubjectLayer } from '../culturalVisualParticip
 import { amendFirstSlideContractWithCulturalParticipation } from '../culturalVisualParticipation/experiment01V21.js';
 import { buildContentPackageCharacterRetentionLayer } from '../characterRetention/integration.js';
 import { buildContentPackageArtBoardLayer } from '../artBoardMateriality/integration.js';
+import { buildContentPackageCaptionLayer } from '../firstPersonAuthorship/integration.js';
 
 function fp(value: unknown): string {
   return createHash('sha256').update(JSON.stringify(value)).digest('hex').slice(0, 16);
@@ -119,6 +120,9 @@ export function buildSocialContentPackage(params: {
   let visualParticipationBalance: string | null = null;
   let characterRetentionContractId: string | null = null;
   let artBoardDirectionContractId: string | null = null;
+  let publicAuthorshipLayerId: string | null = null;
+  let captionSynthesisContractId: string | null = null;
+  let captionLayer: ReturnType<typeof buildContentPackageCaptionLayer> | null = null;
 
   if (params.expressionSystem && params.characterSystemId) {
     const editorial = buildEditorialLayerForContentPackage({
@@ -177,7 +181,43 @@ export function buildSocialContentPackage(params: {
       characterContract: characterLayer.contract,
     });
     artBoardDirectionContractId = artBoardLayer.artBoardDirectionContractId;
+
+    captionLayer = buildContentPackageCaptionLayer({
+      pkg: { id: packageId, projectId: params.projectId, createdAt: now, updatedAt: now } as SocialContentPackage,
+      opportunity: params.opportunity,
+      expressionSystem: params.expressionSystem,
+      slideCopy: [characterLayer.contract.primaryCharacterBeat.text ?? thesis.whatNDXNoticed],
+      lockedSlideCount: 0,
+      requiredSlideCount: sequencePlan?.frameCount ?? 1,
+    });
+    publicAuthorshipLayerId = captionLayer.publicAuthorshipLayerId;
+    captionSynthesisContractId = captionLayer.captionSynthesisContractId || null;
   }
+
+  const legacyCaption = buildCaptionContract({
+    packageId,
+    resolutionState: thesis.resolutionState,
+    thesisSummary: thesis.whatNDXNoticed,
+  });
+
+  const captionFromLayer = captionLayer?.caption
+    ? {
+        ...legacyCaption,
+        text: captionLayer.caption.text,
+        captionVersion: captionLayer.caption.version,
+        captionReadiness: captionLayer.caption.readiness,
+        captionStrategy: captionLayer.caption.strategy,
+        captionLength: captionLayer.caption.length,
+        captionOpeningStrategy: captionLayer.caption.openingStrategy,
+        captionCTA: captionLayer.caption.cta,
+        captionApprovalState: captionLayer.caption.approvalState,
+        captionCharacterEvaluation: captionLayer.caption.characterEvaluation,
+        captionFreshnessEvaluation: captionLayer.caption.freshnessEvaluation,
+        publicAuthorshipLayerId,
+        captionSynthesisContractId,
+        founderLanguageEvidenceIds: captionLayer.founderLanguageEvidenceIds,
+      }
+    : legacyCaption;
 
   const pkg: SocialContentPackage = {
     id: packageId,
@@ -189,11 +229,7 @@ export function buildSocialContentPackage(params: {
     format: params.format.format,
     coverArtifactId: null,
     sequencePlan,
-    caption: buildCaptionContract({
-      packageId,
-      resolutionState: thesis.resolutionState,
-      thesisSummary: thesis.whatNDXNoticed,
-    }),
+    caption: captionFromLayer,
     storyCopy: params.channel.channel === 'INSTAGRAM_STORY' ? ['wait.', 'look at this.'] : [],
     reelContract: params.format.format === 'REEL' ? buildReelContract(packageId) : null,
     storyContract: params.channel.channel === 'INSTAGRAM_STORY' ? buildStoryContract(packageId) : null,
@@ -219,6 +255,8 @@ export function buildSocialContentPackage(params: {
     visualParticipationBalance,
     characterRetentionContractId,
     artBoardDirectionContractId,
+    publicAuthorshipLayerId,
+    captionSynthesisContractId,
     fingerprint: '',
     createdAt: now,
     updatedAt: now,

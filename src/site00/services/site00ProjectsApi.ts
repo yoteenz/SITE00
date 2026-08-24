@@ -1513,6 +1513,20 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, assetId, judgment }),
       },
     ),
+  campaignProductionSynthesizeCaptions: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=campaign_production_synthesize_captions',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  campaignProductionCaptionJudgment: (slug: string, contentPieceId: string, judgment: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=campaign_production_caption_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, contentPieceId, judgment }),
+      },
+    ),
   dailyPublishingGet: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
       `/api/site00/projects?action=daily_publishing_get&slug=${encodeURIComponent(slug)}`,

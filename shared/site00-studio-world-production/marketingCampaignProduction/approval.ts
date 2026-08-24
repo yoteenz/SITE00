@@ -118,6 +118,7 @@ export function compileCompleteSocialContentPackage(params: {
   channel: string;
   format: string;
   requiredPositions: number;
+  caption?: import('../campaignCaption/types.js').CampaignCaption | null;
 }): CompleteSocialContentPackage | { error: string } {
   const locked = params.assets.filter(
     (a) =>
@@ -130,6 +131,8 @@ export function compileCompleteSocialContentPackage(params: {
     return { error: 'Complete package cannot compile with unapproved assets' };
   }
 
+  const cap = params.caption ?? null;
+
   return {
     packageId: `csp-${params.contentPieceId}`,
     contentPieceId: params.contentPieceId,
@@ -137,8 +140,18 @@ export function compileCompleteSocialContentPackage(params: {
     thesisSummary: params.thesisSummary,
     editorialDecisionId: null,
     visualSequenceAssetIds: locked.map((a) => a.assetId),
-    caption: null,
-    cta: null,
+    caption: cap?.text ?? null,
+    captionVersion: cap?.version ?? null,
+    captionReadiness: cap?.readiness ?? null,
+    captionStrategy: cap?.strategy ?? null,
+    captionLength: cap?.length ?? null,
+    captionOpeningStrategy: cap?.openingStrategy ?? null,
+    captionCTA: cap?.cta ?? null,
+    captionSourceNotes: cap?.sourceNotes ?? [],
+    captionFreshnessEvaluation: cap?.freshnessEvaluation ?? null,
+    captionCharacterEvaluation: cap?.characterEvaluation ?? null,
+    captionApprovalState: cap?.approvalState ?? null,
+    cta: cap?.cta ?? null,
     altText: null,
     channel: params.channel,
     format: params.format,

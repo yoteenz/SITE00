@@ -21,6 +21,7 @@ import { NDXBOOK_ORG_ID } from '../creativeDirection/creativeIntelligence/founde
 import * as campaignStore from './marketingCampaignProductionStoreAdapter.js';
 import * as marketingStore from '../creativeDirection/brandMarketingExpressionExperiment/brandMarketingExpressionStoreAdapter.js';
 import { round01LockRequiresMaterialGate } from '../../../../shared/site00-brand-lore/artBoardMateriality/approvalGate.js';
+import { synthesizeNdxInstagramCaption } from '../../../../shared/site00-brand-lore/firstPersonAuthorship/ndxCaptionSynthesis.js';
 
 function nowIso(): string {
   return new Date().toISOString();
@@ -39,6 +40,7 @@ function emptyRun(projectId: string): MarketingCampaignProductionRun {
     reopenEvents: [],
     snapshots: [],
     completePackages: [],
+    captions: [],
     rhythmEvaluation: null,
     accounting: {
       anthropicRequests: 0,
@@ -210,6 +212,89 @@ export async function setCampaignAssetJudgment(params: {
     board: { ...run.board, assets },
     updatedAt: nowIso(),
   });
+}
+
+export async function synthesizeCampaignCaptions(params: {
+  projectId: string;
+}): Promise<MarketingCampaignProductionRun> {
+  const run = await campaignStore.getCampaignProductionRun(params.projectId);
+  if (!run?.board || !run.campaign || !run.slate) throw new Error('Campaign board not initialized');
+
+  const marketingRun = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
+  const v23 = marketingRun?.experiment01V23?.generatedArtifacts ?? [];
+  const captions = [];
+
+  for (const entry of run.slate.entries) {
+    const topicIndex = parseInt(entry.contentPieceId.replace('piece-', ''), 10);
+    const v23Artifact = v23.find((a) => a.id === `bma-exp01-v23-${topicIndex}`);
+    const pieceAssets = run.board.assets.filter((a) => a.contentPieceId === entry.contentPieceId);
+    const lockedCount = pieceAssets.filter((a) => a.status === 'LOCKED' || a.status === 'APPROVED').length;
+    const generatedCount = pieceAssets.filter(
+      (a) => a.status === 'GENERATED' || a.status === 'LOCKED' || a.status === 'APPROVED',
+    ).length;
+    const slideCopy = [
+      v23Artifact?.contract.primaryHook ?? entry.title,
+      v23Artifact?.contract.characterRetention.primaryCharacterBeat.text ?? entry.thesisSummary,
+    ].filter(Boolean) as string[];
+
+    const caption = synthesizeNdxInstagramCaption({
+      contentPieceId: entry.contentPieceId,
+      campaignId: run.campaign.campaignId,
+      slideCopy,
+      thesisSummary: entry.thesisSummary,
+      lockedSlideCount: lockedCount,
+      generatedSlideCount: generatedCount,
+      requiredSlideCount: entry.sequenceLength,
+      characterBeat: v23Artifact?.contract.characterRetention.primaryCharacterBeat.text ?? null,
+      humorEligible: v23Artifact?.contract.characterRetention.humorEligibility !== 'NONE',
+    });
+
+    if (caption) captions.push(caption);
+  }
+
+  return campaignStore.saveCampaignProductionRun({
+    ...run,
+    captions,
+    accounting: {
+      ...run.accounting,
+      anthropicRequests: run.accounting.anthropicRequests + (process.env.VITEST === 'true' ? 0 : captions.length),
+      anthropicEstimatedCostUsd: run.accounting.anthropicEstimatedCostUsd + captions.length * 0.01,
+    },
+    updatedAt: nowIso(),
+  });
+}
+
+export async function setCampaignCaptionJudgment(params: {
+  projectId: string;
+  contentPieceId: string;
+  judgment: string;
+}): Promise<MarketingCampaignProductionRun> {
+  const run = await campaignStore.getCampaignProductionRun(params.projectId);
+  if (!run) throw new Error('Campaign board not initialized');
+
+  const captions = run.captions.map((c) =>
+    c.contentPieceId === params.contentPieceId
+      ? {
+          ...c,
+          founderJudgment: params.judgment as never,
+          approvalState:
+            params.judgment === 'THAT_SOUNDS_LIKE_ME' || params.judgment === 'LOVE_THE_CAPTION'
+              ? ('APPROVED' as const)
+              : ('FOUNDER_REVIEW' as const),
+          updatedAt: nowIso(),
+        }
+      : c,
+  );
+
+  return campaignStore.saveCampaignProductionRun({
+    ...run,
+    captions,
+    updatedAt: nowIso(),
+  });
+}
+
+export function captionGenerationRequiresLockedSequence(): true {
+  return true;
 }
 
 export function noCampaignGenerationOnPageLoad(): true {
