@@ -110,6 +110,7 @@ import {
   generateExperiment01V23ArtifactAsset,
   generateAllExperiment01V23ArtifactAssets,
   setExperiment01V23ArtifactJudgment,
+  submitExperiment01V23FounderRevision,
 } from '../_lib/site00Evolve/creativeDirection/brandMarketingExpressionExperiment/brandMarketingExpressionService.js';
 import {
   getContentOperationsState,
@@ -1930,6 +1931,34 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const run = await setExperiment01V23ArtifactJudgment({ projectId: 'ndxbook', artifactId, judgment });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v23' });
+      }
+      case 'marketing_expression_experiment_01_v23_founder_revision': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const artifactId = String(body.artifactId ?? '');
+        const judgment = body.judgment as string;
+        const founderNote = String(body.founderNote ?? '');
+        if (slug !== 'ndxbook' || !artifactId || !judgment) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        try {
+          const run = await submitExperiment01V23FounderRevision({
+            projectId: 'ndxbook',
+            artifactId,
+            judgment,
+            founderNote,
+          });
+          return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v23' });
+        } catch (err) {
+          const message = err instanceof Error ? err.message : 'Founder revision failed';
+          return json(res, 400, { ok: false, error: { code: 'FOUNDER_REVISION_FAILED', message } });
+        }
       }
       case 'content_operations_get': {
         const slug = String(req.query.slug ?? '');

@@ -34,6 +34,12 @@ import {
   v23ContractReviewBeforeGeneration,
 } from '../../../../../shared/site00-brand-lore/artBoardMateriality/experiment01V23.js';
 import {
+  applyFounderRevisionToV23Artifact,
+  founderRevisionUsesParentReference,
+  isV23ApprovalJudgment,
+} from '../../../../../shared/site00-brand-lore/artBoardMateriality/v23FounderRevisionPipeline.js';
+import type { V23FounderJudgment } from '../../../../../shared/site00-brand-lore/artBoardMateriality/types.js';
+import {
   evaluateExperiment01Set,
   evaluateMarketingArtifact,
   evaluateMarketingCharacterRecognition,
@@ -1598,6 +1604,7 @@ export async function setExperiment01V23ArtifactJudgment(params: {
   projectId: string;
   artifactId: string;
   judgment: string;
+  note?: string | null;
 }): Promise<BrandMarketingExpressionRun> {
   const run = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
   if (!run?.experiment01V23) throw new Error('Experiment 01 V2.3 not found');
@@ -1606,7 +1613,8 @@ export async function setExperiment01V23ArtifactJudgment(params: {
     a.id === params.artifactId
       ? {
           ...a,
-          founderJudgment: params.judgment as import('../../../../../shared/site00-brand-lore/artBoardMateriality/types.js').V23FounderJudgment,
+          founderJudgment: params.judgment as V23FounderJudgment,
+          founderJudgmentNote: params.note ?? a.founderJudgmentNote,
           updatedAt: nowIso(),
         }
       : a,
@@ -1617,6 +1625,165 @@ export async function setExperiment01V23ArtifactJudgment(params: {
     experiment01V23: { ...run.experiment01V23, status: 'FOUNDER_REVIEW', generatedArtifacts: artifacts },
     updatedAt: nowIso(),
   });
+}
+
+async function executeExperiment01V23RevisionFal(params: {
+  projectId: string;
+  artifactId: string;
+}): Promise<void> {
+  const run = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
+  if (!run?.experiment01V23) return;
+
+  const idx = run.experiment01V23.generatedArtifacts.findIndex((a) => a.id === params.artifactId);
+  if (idx < 0) return;
+
+  const artifact = run.experiment01V23.generatedArtifacts[idx]!;
+  const contract = artifact.generationContract;
+  if (!contract) return;
+
+  const referenceUrl = founderRevisionUsesParentReference(artifact.parentGeneratedAssetUrl)
+    ? artifact.parentGeneratedAssetUrl
+    : null;
+
+  let generatedAssetUrl = artifact.generatedAssetUrl;
+  let generatedAssetId = artifact.generatedAssetId;
+  let generationStatus: typeof artifact.generationStatus = 'GENERATED';
+  let falCost = 0;
+
+  try {
+    if (process.env.VITEST === 'true' || !process.env.FAL_KEY) {
+      generatedAssetId = `asset-v23-rev-${artifact.id}-${Date.now()}`;
+      generatedAssetUrl = `https://vitest.local/ndxbook/marketing-exp01-v23/${artifact.id}-rev.png`;
+    } else {
+      const { fal } = await import('@fal-ai/client');
+      fal.config({ credentials: process.env.FAL_KEY });
+      const { model, input } = buildFalImageInput({
+        prompt: contract.prompt,
+        aspectRatio: '1:1',
+        referenceImageUrls: referenceUrl ? [referenceUrl] : undefined,
+      });
+      const result = await fal.subscribe(model, { input });
+      const images = (result.data as { images?: { url?: string }[] })?.images;
+      generatedAssetUrl = images?.[0]?.url ?? null;
+      generatedAssetId = `fal-v23-rev-${artifact.id}-${Date.now()}`;
+      falCost = FAL_MARKETING_COST_ESTIMATE_USD;
+      if (!generatedAssetUrl) generationStatus = 'FAILED';
+    }
+  } catch {
+    generationStatus = 'FAILED';
+  }
+
+  const current = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
+  if (!current?.experiment01V23) return;
+
+  const currentIdx = current.experiment01V23.generatedArtifacts.findIndex((a) => a.id === params.artifactId);
+  if (currentIdx < 0) return;
+
+  const currentArtifact = current.experiment01V23.generatedArtifacts[currentIdx]!;
+  const history = [...(currentArtifact.revisionHistory ?? [])];
+  const lastRev = history[history.length - 1];
+  if (lastRev) {
+    history[history.length - 1] = {
+      ...lastRev,
+      status: generationStatus === 'GENERATED' ? 'GENERATED' : 'FAILED',
+      generatedAssetUrl,
+    };
+  }
+
+  const updated = [...current.experiment01V23.generatedArtifacts];
+  updated[currentIdx] = {
+    ...currentArtifact,
+    generatedAssetId,
+    generatedAssetUrl,
+    generationStatus,
+    revisionHistory: history,
+    updatedAt: nowIso(),
+  };
+
+  await marketingStore.saveBrandMarketingExpressionRun({
+    ...current,
+    status: 'EXPERIMENT_01_V23_GENERATING',
+    experiment01V23: {
+      ...current.experiment01V23,
+      status: 'FOUNDER_REVIEW',
+      generatedArtifacts: updated,
+    },
+    accounting: {
+      ...current.accounting,
+      falRequests: current.accounting.falRequests + 1,
+      falEstimatedCostUsd: current.accounting.falEstimatedCostUsd + FAL_MARKETING_COST_ESTIMATE_USD,
+      falActualCostUsd: current.accounting.falActualCostUsd + falCost,
+    },
+    updatedAt: nowIso(),
+  });
+}
+
+export async function submitExperiment01V23FounderRevision(params: {
+  projectId: string;
+  artifactId: string;
+  judgment: string;
+  founderNote: string;
+}): Promise<BrandMarketingExpressionRun> {
+  const run = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
+  if (!run?.experiment01V23) throw new Error('Experiment 01 V2.3 not found');
+
+  const idx = run.experiment01V23.generatedArtifacts.findIndex((a) => a.id === params.artifactId);
+  if (idx < 0) throw new Error('V2.3 artifact not found');
+
+  const v1 = run.experiment01?.artifacts.find(
+    (a) => a.id === run.experiment01V23!.generatedArtifacts[idx]!.v1ArtifactId,
+  );
+  if (!v1) throw new Error('V1 source artifact missing for revision');
+
+  const note = params.founderNote.trim();
+  if (!note && !isV23ApprovalJudgment(params.judgment)) {
+    throw new Error('Founder revision note is required');
+  }
+
+  if (isV23ApprovalJudgment(params.judgment)) {
+    return setExperiment01V23ArtifactJudgment({
+      projectId: params.projectId,
+      artifactId: params.artifactId,
+      judgment: params.judgment,
+      note,
+    });
+  }
+
+  const revised = applyFounderRevisionToV23Artifact({
+    artifact: run.experiment01V23.generatedArtifacts[idx]!,
+    v1Artifact: v1,
+    judgment: params.judgment as V23FounderJudgment,
+    founderNote: note,
+  });
+
+  const updated = [...run.experiment01V23.generatedArtifacts];
+  updated[idx] = revised;
+
+  const started = await marketingStore.saveBrandMarketingExpressionRun({
+    ...run,
+    status: 'EXPERIMENT_01_V23_GENERATING',
+    experiment01V23: {
+      ...run.experiment01V23,
+      status: 'GENERATING',
+      generatedArtifacts: updated,
+    },
+    updatedAt: nowIso(),
+  });
+
+  const work = executeExperiment01V23RevisionFal({
+    projectId: params.projectId,
+    artifactId: params.artifactId,
+  });
+
+  if (shouldGenerateSynchronously()) {
+    await work;
+    return (await getBrandMarketingExpressionState({ projectId: params.projectId })) ?? started;
+  }
+
+  setImmediate(() => {
+    void work;
+  });
+  return started;
 }
 
 export function experiment01V23NotAutoGenerated(): true {
