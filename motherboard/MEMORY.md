@@ -3983,3 +3983,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Production reconciled:** Manifest now 5 reusable / 0 missing; refs recaptured as webp.
 - **Founder action:** Hard-refresh; environment thumb should load. Tap judgment when ready.
 
+---
+
+## 2026-08-24 — P1 follow-up: authenticated capture + purpose-gated asset resolution
+
+- **Context:** Founder sprint after P1 correction — live failure: `/projects` Playwright capture was sign-in page masquerading as Projects authority; asset manifest invented methodology slots (WORKBENCH_FOCAL_ARTIFACT, DOSSIER_DEPTH_LAYER, etc.) and generated irrelevant dark workbench imagery.
+- **Authenticated capture:** `VisualCaptureAuthContext` via `SITE00_CAPTURE_STORAGE_STATE_PATH` / `VITEST_CAPTURE_PRINCIPAL`; `verifyCapturedSurfaceIdentity()` rejects auth redirects; capture metadata persisted (principal, finalUrl, redirectChain) without secrets; quarantine for `AUTH_REDIRECT_CAPTURE`; `data-site00-surface` markers on Projects + sign-in.
+- **Purpose-gated resolution:** `InterfaceVisualSlot` model (5 Projects slots); `resolveProjectVisualEvidence` + `AssetEligibilityEvaluation` (FOUND ≠ ELIGIBLE); `evaluateGenerationNecessity` — generation last resort; legacy methodology assets classified obsolete/not-surface-appropriate (preserved); UI shows AUTHENTICATED REFERENCE STATUS + RESOLVED VISUAL MATERIAL counts.
+- **Prepare gate:** `AUTHENTICATED_REFERENCE_REQUIRED` blocks prepare without valid desktop `/projects` capture; `prepareComposedInterfaceSurface` requires authenticated refs; zero FAL valid when slots satisfied by operational truth.
+- **Tests:** 1745 pass; new `p1AuthenticatedCaptureCorrection.test.ts` (38 tests) + updated visual-dev/P1 tests with `VITEST_CAPTURE_PRINCIPAL=PROJECT_OWNER`.
+- **Production action:** Configure `SITE00_CAPTURE_STORAGE_STATE_PATH` on Railway with founder session storage state; refresh Projects refs; re-prepare interface — do NOT tap GENERATE until authenticated refs VALID.
+
