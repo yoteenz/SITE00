@@ -5,8 +5,10 @@ import express from 'express';
 import { API_ROUTES } from './routes.js';
 import { loadEnvFiles } from './loadEnvFiles.js';
 import { createVercelRequest, createVercelResponse } from './vercelAdapter.js';
+import { execSync } from 'node:child_process';
 import { ANTHROPIC_CREATIVE_MODEL } from '../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/config.js';
 import { resolveCreativeIntelligenceProviderConfig } from '../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/providerConfig.js';
+import { isPlaywrightInstalled } from '../api/_lib/site00VisualReference/captureService.js';
 
 function applyServerEnv(): void {
   const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
@@ -53,7 +55,7 @@ app.use((req, res, next) => {
 
 app.use(express.json({ limit: '2mb' }));
 
-app.get('/api/health', (_req, res) => {
+app.get('/api/health', async (_req, res) => {
   const provider = resolveCreativeIntelligenceProviderConfig();
   const supabaseUrl = process.env.SUPABASE_URL?.replace(/\/$/, '') ?? '';
   let supabaseHost: string | null = null;
@@ -62,9 +64,20 @@ app.get('/api/health', (_req, res) => {
   } catch {
     supabaseHost = null;
   }
+  let gitCommit: string | null = null;
+  try {
+    gitCommit = execSync('git rev-parse HEAD', { encoding: 'utf8' }).trim().slice(0, 12);
+  } catch {
+    gitCommit = process.env.RAILWAY_GIT_COMMIT_SHA?.slice(0, 12) ?? null;
+  }
+  const captureBaseUrl =
+    process.env.SITE00_CAPTURE_BASE_URL?.trim() ||
+    process.env.VITE_SITE00_CANONICAL_ORIGIN?.trim() ||
+    'https://site00.com';
   res.json({
     ok: true,
     service: 'site00-api',
+    gitCommit,
     auth: {
       supabaseConfigured: Boolean(supabaseUrl && process.env.SUPABASE_ANON_KEY?.trim()),
       supabaseHost,
@@ -73,6 +86,10 @@ app.get('/api/health', (_req, res) => {
       status: provider.status,
       providerId: provider.providerId,
       modelId: ANTHROPIC_CREATIVE_MODEL,
+    },
+    visualReferenceCapture: {
+      captureBaseUrl,
+      playwrightInstalled: await isPlaywrightInstalled(),
     },
   });
 });

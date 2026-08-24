@@ -3947,3 +3947,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (PR #332):** Move playwright to dependencies; nixpacks/postinstall install chromium; throw `REFERENCE_CAPTURE_FAILED` with details; UI action error banner; PNG capture upload with upsert.
 - **Founder action:** Redeploy Railway from main, then **CAPTURE / REFRESH REFERENCES + PREPARE INTERFACE** — thumbnails should populate, then **GENERATE MISSING ASSETS**.
 
+---
+
+## 2026-08-24 — CAPTURE REQUIRED cosmetic-only; production refs unblocked
+
+- **Context:** Founder reported visual development still showed **CAPTURE REQUIRED** on all reference thumbnails after refresh — only change from prior session was PR #331 UI labels (replacing grey broken images).
+- **Timeline:** Supabase `lastRefreshedAt` was 23:58 UTC but all 6 host refs still had `vitest.local` URLs and zero objects in `visual-references/` storage — refresh hit **pre-#332 API** (Playwright missing, failures swallowed). PR #332 merged ~2 minutes later (00:00 UTC).
+- **Immediate unblock:** Ran Playwright capture locally against production Supabase — 7 host refs now REAL HTTPS URLs in storage; visual development run recompiled to `GENERATION_READY` with 3 REAL reference package URLs.
+- **Code follow-up (branch `cursor/visual-dev-capture-unblock-4f59`):** `prepareComposedInterfaceSurface` / `refreshVisualDevelopmentReferences` now capture **desktop + mobile** in one action; `/api/health` exposes `gitCommit` + `visualReferenceCapture.playwrightInstalled`.
+- **Founder action:** Hard-refresh visual development page — thumbnails should appear. Then **GENERATE MISSING ASSETS**. Railway redeploy from `main` still needed so future captures run on API (health should show `playwrightInstalled: true`).
+
