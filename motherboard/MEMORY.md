@@ -4345,3 +4345,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Selection fix:** `selectedId` grid highlight; images `pointer-events: none`; revision modal blocks grid until cancel; SELECTED headline.
 - **Board readiness:** Banner detects `SIGNATURE LIME REQUIREMENT` in prompts. Legacy boards: re-formulate V2.3 (clears images) or per-slide NEEDS LIME revision. No V2.4 needed.
 
+---
+
+## 2026-08-24 — Campaign production wall wired to V2.3 marketing expression slides
+
+- **Context:** Founder reported campaign production wall (CAMPAIGN WALL / Feed Preview) was not using latest marketing expression slides (V2.3 art-board materiality). Board showed V2.1-era Slide 01 assets despite V2.3 being current.
+- **Root cause:** `ndxbookExperiment01Adapter` and `marketingCampaignProductionService` sourced `experiment01V21` for board init + Round 02 contracts; Round 01 lock gate already required V2.3 — mismatch.
+- **Fix:** Adapter maps `experiment01V23.generatedArtifacts` → Slide 01 assets; service requires V2.3 before init; Round 02 uses V2.3 contract context. UI init copy → V2.3.
+- **Founder action:** If board already initialized with V2.1 assets, re-initialize campaign board after V2.3 artifacts are generated to refresh wall images.
+- **Tests:** P05E + P0.5C.3 updated; 40 tests green. PR #378 merged.
+
