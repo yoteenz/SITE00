@@ -1678,22 +1678,20 @@ async function pendingArtifactIdsForVersion(
 async function startExperiment01BatchGeneration(params: {
   projectId: string;
   version: Experiment01GenerationVersion;
-  pendingArtifactIds: string[];
+  /** When set, generate these artifacts (e.g. regenerate-all). Otherwise pending-only. */
+  artifactIds?: string[];
   markGenerating: (run: BrandMarketingExpressionRun) => BrandMarketingExpressionRun;
 }): Promise<BrandMarketingExpressionRun> {
   const key = generationKey(params.projectId, params.version);
   const run = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
   if (!run) throw new Error('Marketing Expression run not found');
 
-  if (params.pendingArtifactIds.length === 0) return run;
-  if (activeGenerationAttempts.has(key)) return run;
-
   const reconciled = await reconcileStaleExperiment01Generation(run);
+  const artifactIds =
+    params.artifactIds ?? (await pendingArtifactIdsForVersion(reconciled, params.version));
+  if (artifactIds.length === 0) return reconciled;
   if (activeGenerationAttempts.has(key)) return reconciled;
   if (hasFreshExperiment01GenerationAttempt(reconciled, params.version)) return reconciled;
-
-  const pendingArtifactIds = await pendingArtifactIdsForVersion(reconciled, params.version);
-  if (pendingArtifactIds.length === 0) return reconciled;
 
   const attemptId = randomUUID();
   const startedAt = nowIso();
@@ -1712,7 +1710,7 @@ async function startExperiment01BatchGeneration(params: {
     projectId: params.projectId,
     version: params.version,
     attemptId,
-    artifactIds: pendingArtifactIds,
+    artifactIds,
   });
 
   if (shouldGenerateSynchronously()) {
@@ -1741,7 +1739,6 @@ export async function generateAllExperiment01ArtifactAssets(params: {
   return startExperiment01BatchGeneration({
     projectId: params.projectId,
     version: 'v1',
-    pendingArtifactIds: pending,
     markGenerating: (current) => ({
       ...current,
       status: 'EXPERIMENT_01_GENERATING',
@@ -1777,7 +1774,6 @@ export async function generateAllExperiment01V2ArtifactAssets(params: {
   return startExperiment01BatchGeneration({
     projectId: params.projectId,
     version: 'v2',
-    pendingArtifactIds: pending,
     markGenerating: (current) => ({
       ...current,
       status: 'EXPERIMENT_01_V2_GENERATING',
@@ -1813,7 +1809,6 @@ export async function generateAllExperiment01V21ArtifactAssets(params: {
   return startExperiment01BatchGeneration({
     projectId: params.projectId,
     version: 'v21',
-    pendingArtifactIds: pending,
     markGenerating: (current) => ({
       ...current,
       status: 'EXPERIMENT_01_V21_GENERATING',
@@ -1849,7 +1844,6 @@ export async function generateAllExperiment01V22ArtifactAssets(params: {
   return startExperiment01BatchGeneration({
     projectId: params.projectId,
     version: 'v22',
-    pendingArtifactIds: pending,
     markGenerating: (current) => ({
       ...current,
       status: 'EXPERIMENT_01_V22_GENERATING',
@@ -2276,14 +2270,9 @@ export async function generateAllExperiment01V23ArtifactAssets(params: {
     throw new Error('V2.3 contracts must be reviewed before generation');
   }
 
-  const pending = run.experiment01V23.generatedArtifacts
-    .filter((a) => a.generationStatus !== 'GENERATED' || !a.generatedAssetUrl)
-    .map((a) => a.id);
-
   return startExperiment01BatchGeneration({
     projectId: params.projectId,
     version: 'v23',
-    pendingArtifactIds: pending,
     markGenerating: (current) => ({
       ...current,
       status: 'EXPERIMENT_01_V23_GENERATING',
@@ -2295,6 +2284,58 @@ export async function generateAllExperiment01V23ArtifactAssets(params: {
             ? a
             : { ...a, generationStatus: 'GENERATING' as const, updatedAt: nowIso() },
         ),
+      },
+      updatedAt: nowIso(),
+    }),
+  });
+}
+
+export async function regenerateAllExperiment01V23ArtifactAssets(params: {
+  projectId: string;
+}): Promise<BrandMarketingExpressionRun> {
+  const run = await marketingStore.getBrandMarketingExpressionRun(params.projectId);
+  if (!run?.experiment01V23?.generatedArtifacts.length) {
+    throw new Error('Experiment 01 V2.3 contracts not formulated');
+  }
+  if (!v23ContractReviewBeforeGeneration(run.experiment01V23)) {
+    throw new Error('V2.3 contracts must be reviewed before generation');
+  }
+
+  const allIds = run.experiment01V23.generatedArtifacts.map((a) => a.id);
+  const hasAnyGenerated = run.experiment01V23.generatedArtifacts.some(
+    (a) => a.generationStatus === 'GENERATED' && a.generatedAssetUrl,
+  );
+  if (!hasAnyGenerated) {
+    throw new Error('Generate at least one V2.3 slide before REGENERATE ALL');
+  }
+
+  if (isV23GenerationBlocked(run.experiment01V23)) {
+    let current = run;
+    for (const artifactId of allIds) {
+      current = await generateExperiment01V23ArtifactAsset({
+        projectId: params.projectId,
+        artifactId,
+        mode: 'REGENERATE_CURRENT',
+      });
+    }
+    return current;
+  }
+
+  return startExperiment01BatchGeneration({
+    projectId: params.projectId,
+    version: 'v23',
+    artifactIds: allIds,
+    markGenerating: (current) => ({
+      ...current,
+      status: 'EXPERIMENT_01_V23_GENERATING',
+      experiment01V23: {
+        ...current.experiment01V23!,
+        status: 'GENERATING',
+        generatedArtifacts: current.experiment01V23!.generatedArtifacts.map((a) => ({
+          ...a,
+          generationStatus: 'GENERATING' as const,
+          updatedAt: nowIso(),
+        })),
       },
       updatedAt: nowIso(),
     }),

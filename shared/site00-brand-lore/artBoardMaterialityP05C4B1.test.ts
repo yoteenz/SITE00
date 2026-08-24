@@ -68,6 +68,7 @@ import { formulateExperiment01V21 } from './culturalVisualParticipation/experime
 import { formulateExperiment01V22 } from './characterRetention/experiment01V22.js';
 import {
   generateAllExperiment01V23ArtifactAssets,
+  regenerateAllExperiment01V23ArtifactAssets,
   generateExperiment01V23ArtifactAsset,
   getBrandMarketingExpressionState,
   prepareBrandMarketingExpression,
@@ -384,5 +385,23 @@ describe('P0.5C.4B.1 V2.3 queue supersession', () => {
     const { experiment: superseded } = applyExperiment01V23Supersession(experiment);
     expect(superseded.generatedArtifacts[0]!.generationLineageClass).toBe('PRESERVED_PRE_C4B1');
     expect(superseded.generatedArtifacts[0]!.generatedAssetUrl).toBe('https://vitest.local/one.png');
+  });
+
+  it('regenerateAllExperiment01V23ArtifactAssets refreshes all nine slides when board is complete', async () => {
+    await prepareBrandMarketingExpression({ projectId: 'ndxbook' });
+    await compileBrandMarketingExpression({ projectId: 'ndxbook' });
+    await formulateMarketingExpressionExperiment01({ projectId: 'ndxbook' });
+    await formulateMarketingExpressionExperiment01V2({ projectId: 'ndxbook' });
+    await formulateMarketingExpressionExperiment01V21({ projectId: 'ndxbook' });
+    await formulateMarketingExpressionExperiment01V22({ projectId: 'ndxbook' });
+    await formulateMarketingExpressionExperiment01V23({ projectId: 'ndxbook' });
+    await generateAllExperiment01V23ArtifactAssets({ projectId: 'ndxbook' });
+    const before = (await getBrandMarketingExpressionState({ projectId: 'ndxbook' }))!;
+    const falBefore = before.accounting.falRequests;
+    await regenerateAllExperiment01V23ArtifactAssets({ projectId: 'ndxbook' });
+    const after = (await getBrandMarketingExpressionState({ projectId: 'ndxbook' }))!;
+    expect(after.experiment01V23?.generatedArtifacts).toHaveLength(9);
+    expect(after.experiment01V23?.generatedArtifacts.every((a) => a.generationStatus === 'GENERATED')).toBe(true);
+    expect(after.accounting.falRequests).toBeGreaterThan(falBefore);
   });
 });
