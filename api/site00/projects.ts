@@ -66,6 +66,7 @@ import {
   reformBrandCharacterSet,
   setBrandCharacterJudgment,
   compileSelectedBrandCharacterSystem,
+  developBrandCharacter,
 } from '../_lib/site00Evolve/creativeDirection/brandCharacterExperiment/brandCharacterService.js';
 import {
   formBrandPresentationDirections,
@@ -1188,6 +1189,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           source: 'site00_experiment_h',
         });
       }
+      case 'experiment_h_develop_character': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const territoryId = String(body.territoryId ?? '');
+        if (slug !== 'ndxbook' || !territoryId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await developBrandCharacter({
+          territoryId,
+          founderDelta: body.founderDelta ?? null,
+        });
+        return json(res, 200, {
+          ok: true,
+          run: result.run,
+          development: result.development,
+          source: 'site00_experiment_h',
+        });
+      }
       case 'experiment_h_compile_system': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -1195,13 +1220,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const characterId = String(body.characterId ?? '');
+        const developmentId = body.developmentId ? String(body.developmentId) : undefined;
         if (slug !== 'ndxbook' || !characterId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
         }
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const result = await compileSelectedBrandCharacterSystem({ characterId });
+        const result = await compileSelectedBrandCharacterSystem({ characterId, developmentId });
         return json(res, 200, {
           ok: true,
           run: result.run,

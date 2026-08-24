@@ -256,10 +256,66 @@ export function coerceCharacterPayload(raw: CoercibleCharacterPayload): CoercedC
   };
 }
 
-export function migrateCharacterTerritory(character: BrandCharacterTerritory): BrandCharacterTerritory {
+function mergeSections(
+  existing: Record<string, unknown>,
+  coerced: Record<string, string>,
+): Record<string, unknown> {
+  const out = { ...existing };
+  for (const [key, val] of Object.entries(coerced)) {
+    const existingVal = typeof out[key] === 'string' ? String(out[key]).trim() : '';
+    if (val.trim() && !existingVal) out[key] = val;
+  }
+  return out;
+}
+
+export function mergeProviderSchemaIntoCanonical(
+  character: BrandCharacterTerritory,
+): BrandCharacterTerritory {
   const coerced = coerceCharacterPayload(character as CoercibleCharacterPayload);
   return {
     ...character,
-    ...coerced,
+    core: mergeSections(character.core as Record<string, unknown>, coerced.core) as BrandCharacterTerritory['core'],
+    intellectual: mergeSections(
+      character.intellectual as Record<string, unknown>,
+      coerced.intellectual,
+    ) as BrandCharacterTerritory['intellectual'],
+    social: mergeSections(character.social as Record<string, unknown>, coerced.social) as BrandCharacterTerritory['social'],
+    emotional: mergeSections(
+      character.emotional as Record<string, unknown>,
+      coerced.emotional,
+    ) as BrandCharacterTerritory['emotional'],
+    humorWit: mergeSections(character.humorWit as Record<string, unknown>, coerced.humorWit) as BrandCharacterTerritory['humorWit'],
+    culturalIntelligence: mergeSections(
+      character.culturalIntelligence as Record<string, unknown>,
+      coerced.culturalIntelligence,
+    ) as BrandCharacterTerritory['culturalIntelligence'],
+    language: mergeSections(character.language as Record<string, unknown>, coerced.language) as BrandCharacterTerritory['language'],
+    taste: mergeSections(character.taste as Record<string, unknown>, coerced.taste) as BrandCharacterTerritory['taste'],
+    expressiveBehavior: {
+      ...mergeSections(
+        character.expressiveBehavior as Record<string, unknown>,
+        { ...coerced.expressiveBehavior, soundBehavior: coerced.expressiveBehavior.soundBehavior ?? '' },
+      ),
+      soundBehavior: character.expressiveBehavior.soundBehavior ?? coerced.expressiveBehavior.soundBehavior,
+    } as BrandCharacterTerritory['expressiveBehavior'],
+    artifactRelationship: mergeSections(
+      character.artifactRelationship as Record<string, unknown>,
+      coerced.artifactRelationship,
+    ) as BrandCharacterTerritory['artifactRelationship'],
+    whyItIsNdxbook: character.whyItIsNdxbook?.trim() || coerced.whyItIsNdxbook,
+    whatItMustNeverBecome:
+      Array.isArray(character.whatItMustNeverBecome) && character.whatItMustNeverBecome.length > 0
+        ? character.whatItMustNeverBecome
+        : coerced.whatItMustNeverBecome,
+    antiCharacterRules:
+      Array.isArray(character.antiCharacterRules) && character.antiCharacterRules.length > 0
+        ? character.antiCharacterRules
+        : coerced.antiCharacterRules,
+    notThis: Array.isArray(character.notThis) && character.notThis.length > 0 ? character.notThis : coerced.notThis,
   };
+}
+
+/** @deprecated Use mergeProviderSchemaIntoCanonical — preserves provider alternate schema fields. */
+export function migrateCharacterTerritory(character: BrandCharacterTerritory): BrandCharacterTerritory {
+  return mergeProviderSchemaIntoCanonical(character);
 }

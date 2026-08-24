@@ -487,13 +487,26 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug }),
       },
     ),
-  experimentHCompileSystem: (slug: string, characterId: string) =>
+  experimentHDevelopCharacter: (
+    slug: string,
+    territoryId: string,
+    founderDelta?: { preserve?: string[]; develop?: string[]; avoid?: string[] },
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; development: Record<string, unknown> }>(
+      '/api/site00/projects?action=experiment_h_develop_character',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, territoryId, founderDelta }),
+      },
+    ),
+  experimentHCompileSystem: (slug: string, characterId: string, developmentId?: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown>; system: Record<string, unknown> }>(
       '/api/site00/projects?action=experiment_h_compile_system',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, characterId }),
+        body: JSON.stringify({ slug, characterId, developmentId }),
       },
     ),
   experimentGDirectionGet: (slug: string) =>

@@ -1,0 +1,131 @@
+.site00-character-compare {
+  margin: 1.5rem 0 2rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.site00-character-compare__title {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  margin: 0 0 0.25rem;
+}
+
+.site00-character-compare__hint {
+  font-size: 0.8rem;
+  opacity: 0.75;
+  margin: 0 0 1rem;
+}
+
+.site00-character-compare__switcher {
+  display: flex;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.site00-character-compare__tab {
+  min-width: 2rem;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.site00-character-compare__tab--active {
+  border-color: rgba(255, 255, 255, 0.65);
+  font-weight: 600;
+}
+
+.site00-character-compare__scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.site00-character-compare__table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.72rem;
+}
+
+.site00-character-compare__table th,
+.site00-character-compare__table td {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.45rem 0.5rem;
+  vertical-align: top;
+  text-align: left;
+  max-width: 11rem;
+}
+
+.site00-character-compare__table th {
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.site00-character-compare__col--active {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.site00-character-compare__missing {
+  opacity: 0.55;
+  font-style: italic;
+}
+
+.site00-character-compare__mobile-card {
+  display: none;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.site00-character-compare__mobile-card dl {
+  margin: 0;
+}
+
+.site00-character-compare__mobile-card dt {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+  margin-top: 0.5rem;
+}
+
+.site00-character-compare__mobile-card dd {
+  margin: 0.15rem 0 0;
+  font-size: 0.85rem;
+}
+
+.site00-character-field--development {
+  opacity: 0.85;
+  font-style: italic;
+}
+
+.site00-character-field--missing {
+  opacity: 0.6;
+  font-style: italic;
+}
+
+.site00-character-field--recovered {
+  border-left: 2px solid rgba(255, 255, 255, 0.35);
+  padding-left: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .site00-character-compare__scroll {
+    display: none;
+  }
+
+  .site00-character-compare__mobile-card {
+    display: block;
+  }
+}
+
+@media (min-width: 769px) {
+  .site00-character-compare__switcher {
+    display: none;
+  }
+}

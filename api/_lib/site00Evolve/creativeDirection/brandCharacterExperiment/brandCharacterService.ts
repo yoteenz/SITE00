@@ -27,9 +27,19 @@ import { evaluateBrandCharacterSetDistinctiveness } from '../../../../../shared/
 import { compileBrandCharacterSystem } from '../../../../../shared/site00-brand-lore/brandCharacterTerritory/characterSystemCompiler.js';
 import {
   coerceCharacterPayload,
-  migrateCharacterTerritory,
+  mergeProviderSchemaIntoCanonical,
   type CoercibleCharacterPayload,
 } from '../../../../../shared/site00-brand-lore/brandCharacterTerritory/characterPayloadNormalization.js';
+import { auditFormationRunForensics } from '../../../../../shared/site00-brand-lore/brandCharacterTerritory/forensicAudit.js';
+import { assureAllTerritories } from '../../../../../shared/site00-brand-lore/brandCharacterTerritory/territoryAssurance.js';
+import { evaluateSetArchetypeCollapse } from '../../../../../shared/site00-brand-lore/brandCharacterTerritory/archetypeCollapseEvaluation.js';
+import { runDeterministicTerritorySetAudit } from '../../../../../shared/site00-brand-lore/brandCharacterTerritory/semanticCharacterAudit.js';
+import {
+  developBrandCharacterFromTerritory,
+  type BrandCharacterDevelopmentDelta,
+} from './brandCharacterDevelopmentService.js';
+import type { BrandCharacterDevelopment } from '../../../../../shared/site00-brand-lore/brandCharacterTerritory/developmentTypes.js';
+import { BRAND_CHARACTER_METHODOLOGY_V2 } from '../../../../../shared/site00-brand-lore/brandCharacterTerritory/constants.js';
 import { parseStructuredJson } from '../creativeIntelligence/structuredJson.js';
 import { callAnthropicForCompletion } from '../creativeIntelligence/anthropicCompletion.js';
 import { ANTHROPIC_CREATIVE_MODEL } from '../creativeIntelligence/config.js';
@@ -87,6 +97,14 @@ function initRun(existing?: BrandCharacterFormationRun | null): BrandCharacterFo
     formationReceipt: null,
     selectedCharacterId: null,
     brandCharacterSystemId: null,
+    systemCompilationPolicy: 'DEVELOPMENT_REQUIRED',
+    developments: [],
+    selectedDevelopmentId: null,
+    rawProviderResponse: null,
+    forensicAudit: null,
+    territoryAssurance: null,
+    semanticSetAudit: null,
+    archetypeCollapse: null,
     characterDiscoveryMode: 'CHARACTER_DISCOVERY_REQUIRED',
     presentationDevelopmentAllowed: false,
     identityDevelopmentAllowed: false,
@@ -336,6 +354,7 @@ async function dispatchCharacterFormation(params: {
   formationVersion: number;
 }): Promise<{
   characters: RawCharacterPayload[];
+  rawProviderResponse: string | null;
   receipt: BrandCharacterFormationReceipt;
   accountingDelta: Partial<BrandCharacterFormationRun['accounting']>;
 }> {
@@ -349,6 +368,7 @@ async function dispatchCharacterFormation(params: {
     assertCharacterFormationQuarantined(JSON.stringify(mock.characters));
     return {
       characters: mock.characters,
+      rawProviderResponse: JSON.stringify(mock),
       receipt: {
         receiptId: randomUUID(),
         provider: 'anthropic',
@@ -379,6 +399,7 @@ async function dispatchCharacterFormation(params: {
 
   return {
     characters: parsed.characters,
+    rawProviderResponse: text,
     receipt: {
       receiptId: randomUUID(),
       provider: 'anthropic',
@@ -409,7 +430,7 @@ async function executeCharacterFormationWork(runId: string, attemptId: string): 
     let run = await store.getBrandCharacterFormationRun(runId);
     if (!run || run.status !== 'FORMING' || run.formationAttemptId !== attemptId) return;
 
-    const { characters: rawCharacters, receipt, accountingDelta } = await dispatchCharacterFormation({
+    const { characters: rawCharacters, receipt, accountingDelta, rawProviderResponse } = await dispatchCharacterFormation({
       snapshot: run.intelligenceSnapshot,
       formationVersion: run.formationVersion,
     });
@@ -424,12 +445,19 @@ async function executeCharacterFormationWork(runId: string, attemptId: string): 
     );
 
     const setDistinctiveness = evaluateBrandCharacterSetDistinctiveness(characters);
+    const semanticSetAudit = runDeterministicTerritorySetAudit({
+      runId: run!.runId,
+      territories: characters,
+    });
 
     run = {
       ...run,
       characters,
       setDistinctiveness,
+      semanticSetAudit,
       formationReceipt: receipt,
+      rawProviderResponse,
+      methodologyVersion: BRAND_CHARACTER_METHODOLOGY_V2,
       status: 'EVALUATIONS_COMPLETE',
       accounting: {
         ...run.accounting,
@@ -469,13 +497,25 @@ function enqueueCharacterFormationWork(runId: string, attemptId: string): void {
   });
 }
 
+function enrichFormationRun(run: BrandCharacterFormationRun): BrandCharacterFormationRun {
+  const characters = (run.characters ?? []).map((c) => mergeProviderSchemaIntoCanonical(c));
+  const enriched = { ...run, characters };
+  if (characters.length >= 6 && run.status === 'EVALUATIONS_COMPLETE') {
+    enriched.forensicAudit = auditFormationRunForensics(enriched);
+    enriched.territoryAssurance = assureAllTerritories(enriched);
+    enriched.archetypeCollapse = evaluateSetArchetypeCollapse(characters);
+    enriched.semanticSetAudit = run.semanticSetAudit ?? runDeterministicTerritorySetAudit({
+      runId: run.runId,
+      territories: characters,
+    });
+  }
+  return enriched;
+}
+
 export async function getBrandCharacterFormationRun(): Promise<BrandCharacterFormationRun | null> {
   const run = await store.getBrandCharacterFormationRun();
   if (!run) return null;
-  return {
-    ...run,
-    characters: (run.characters ?? []).map((character) => migrateCharacterTerritory(character)),
-  };
+  return enrichFormationRun(run);
 }
 
 export async function prepareBrandCharacterSnapshot(): Promise<BrandCharacterFormationRun> {
@@ -551,23 +591,74 @@ export async function reformBrandCharacterSet(): Promise<BrandCharacterFormation
   return formSixBrandCharacterTerritories({ forceRetry: true });
 }
 
+export async function developBrandCharacter(params: {
+  territoryId: string;
+  founderDelta?: BrandCharacterDevelopmentDelta | null;
+}): Promise<{ run: BrandCharacterFormationRun; development: BrandCharacterDevelopment }> {
+  const run = await store.getBrandCharacterFormationRun();
+  if (!run) throw new Error('Character formation run not found');
+
+  const territoryBefore = run.characters.find((c) => c.id === params.territoryId);
+  if (!territoryBefore) throw new Error('Character territory not found');
+
+  const development = developBrandCharacterFromTerritory({
+    run,
+    territoryId: params.territoryId,
+    founderDelta: params.founderDelta ?? null,
+  });
+
+  const developments = [...(run.developments ?? []).filter((d) => d.parentTerritoryId !== params.territoryId), development];
+  const updated = await store.saveBrandCharacterFormationRun({
+    ...run,
+    currentStage: 'BRAND_CHARACTER_DEVELOPMENT',
+    developments,
+  });
+
+  const territoryAfter = updated.characters.find((c) => c.id === params.territoryId)!;
+  if (JSON.stringify(territoryBefore) !== JSON.stringify(territoryAfter)) {
+    throw new Error('Development must not mutate parent territory');
+  }
+
+  return { run: enrichFormationRun(updated), development };
+}
+
 export async function compileSelectedBrandCharacterSystem(params: {
   characterId: string;
+  developmentId?: string | null;
+  bypassPolicy?: 'ESTABLISHED_CHARACTER_CAPTURE';
 }): Promise<{ run: BrandCharacterFormationRun; system: BrandCharacterSystem }> {
   const run = await store.getBrandCharacterFormationRun();
   if (!run) throw new Error('Character formation run not found');
   const territory = run.characters.find((c) => c.id === params.characterId);
   if (!territory) throw new Error('Character territory not found');
 
-  const system = compileBrandCharacterSystem({ territory, founderApproval: 'PENDING' });
+  const development =
+    (params.developmentId
+      ? (run.developments ?? []).find((d) => d.id === params.developmentId)
+      : (run.developments ?? []).find((d) => d.parentTerritoryId === params.characterId)) ?? null;
+
+  if (!development && params.bypassPolicy !== 'ESTABLISHED_CHARACTER_CAPTURE') {
+    throw new Error(
+      'Brand Character System requires approved BrandCharacterDevelopment — territory alone is insufficient downstream authority',
+    );
+  }
+
+  const system = compileBrandCharacterSystem({
+    territory,
+    development,
+    founderApproval: 'PENDING',
+    compilationPolicy: development ? 'DEVELOPMENT_REQUIRED' : 'ESTABLISHED_CHARACTER_CAPTURE',
+  });
   const updated = await store.saveBrandCharacterFormationRun({
     ...run,
     selectedCharacterId: params.characterId,
+    selectedDevelopmentId: development?.id ?? null,
     brandCharacterSystemId: system.id,
-    presentationDevelopmentAllowed: true,
-    identityDevelopmentAllowed: true,
+    presentationDevelopmentAllowed: false,
+    identityDevelopmentAllowed: false,
+    visualGenerationAllowed: false,
   });
-  return { run: updated, system };
+  return { run: enrichFormationRun(updated), system };
 }
 
 export function noFalDuringCharacterFormation(): true {
