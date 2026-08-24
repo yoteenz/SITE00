@@ -4641,3 +4641,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `embodiedCharacterVoiceP05E4B.test.ts` (19 tests); full suite 2634 pass; build OK (`ProjectFounderCharacterDiscoveryPage.Dv5N4LYo.js`).
 - **Founder:** Railway redeploy for API. GoDaddy deploy for UI. Character Discovery → INSPECT → VOICE LAB → START VOICE AUDITION.
 
+---
+
+## 2026-08-24 — Founder Workspace Experience Architecture (NDXBOOK Studio World remodel)
+
+- **Context:** Large implementation sprint to remodel NDXBOOK founder-facing Studio World from endless-scroll methodology pages into a cohesive editorial command-center with progressive disclosure (Operate / Understand / Inspect). Attached generated concept = primary visual authority; current production screenshots = functional evidence only.
+- **Architecture:** Generic Studio World primitives in `shared/site00-studio-world-production/founderWorkspace/` (attention hierarchy, presentation types). NDX adapters in `shared/site00-brand-lore/founderWorkspace/` (nav, journey, content ops desk, campaign wall, CI radar, performance learning, character lab). React shell in `src/site00/components/founderWorkspace/` + `site00-founder-workspace.css`.
+- **Surfaces remodeled:** Content Operations (editorial desk + pulse + artwork-first grid), Campaign Board (production wall + day nav + content lanes), Experiment 01 (FounderWorkspaceShell, version timeline, methodology in inspect `<details>`), Experiments Hub (methodology journey + collapsible full index as ARCHIVE), Cultural Intelligence (radar room), Performance + Learning (observation room), Character Lab (synthesis-first + CALIBRATION/LANGUAGE/VOICE/BIBLE/CASTING modes). Asset review workspace + inspector drawer reusable across surfaces.
+- **Preservation:** No Brand Character/Canon mutation, no FAL decorative generation, no methodology deletion — Layer 3 moved to INSPECT drawer/details. Regression tests in `founderWorkspaceP0.test.ts` (10 passing). Build green.
+- **Ship:** PR #408 merged to `main`. Founder deploy: GitHub Actions artifact/ZIP or FTP to site00.com for UI changes.
+

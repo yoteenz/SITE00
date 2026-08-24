@@ -1,10 +1,9 @@
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
-import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
-import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
+import { FounderWorkspaceShell, VersionTimeline } from '../components/founderWorkspace';
+import { NDX_EXPERIMENT_01_VERSION_LINEAGE } from '../../../shared/site00-brand-lore/founderWorkspace/ndxFounderWorkspaceConfig';
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
-import { site00ProjectBrandMarketingExpressionPath, site00ProjectPath } from '../config/routes';
-import { projectDisplayName } from '../utils/projectDisplayName';
+import { site00ProjectBrandMarketingExpressionPath } from '../config/routes';
 import type {
   BrandMarketingArtifact,
   BrandMarketingExpressionRun,
@@ -47,6 +46,7 @@ import {
   v23FounderLimeReview,
   v23GenerationJobStatusLabel,
 } from '../../../shared/site00-brand-lore/artBoardMateriality/v23BoardReadinessClient';
+import '../styles/site00-founder-workspace.css';
 import { Site00ImageInspectLightbox } from '../components/common/Site00ImageInspectLightbox';
 import '../styles/site00-replay-execution.css';
 
@@ -376,11 +376,7 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
   };
 
   if (projectSlug !== 'ndxbook') {
-    return (
-      <EcosystemShell hidePageHeader>
-        <p>Experiment 01 is NDXBOOK-only.</p>
-      </EcosystemShell>
-    );
+    return <p>Experiment 01 is NDXBOOK-only.</p>;
   }
 
   const exp = run?.experiment01;
@@ -425,41 +421,56 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
   const canGenerateRemaining = pendingCount > 0 && !isGeneratingBoard && !(versionTab === 'V23' && v23Superseded);
 
   return (
-    <EcosystemShell hidePageHeader>
-      <div className="site00-cd site00-cd--project-calibration">
-        <div className="site00-project-lore-calibration">
-          <header className="site00-project-lore-calibration__hero">
-            <ProjectExperimentsHubNav projectSlug={projectSlug} />
-            <p className="site00-project-lore-calibration__kicker">EXPERIMENT 01 — V1 / V2 / V2.1 / V2.2 / V2.3</p>
-            <h1 className="site00-project-lore-calibration__project">{projectDisplayName(projectSlug)}</h1>
-            <p className="site00-project-lore-calibration__headline">NDX FEED — NINE FIRST SLIDES</p>
-            <Link to={site00ProjectBrandMarketingExpressionPath(projectSlug)}>← MARKETING EXPRESSION</Link>
-            <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
-          </header>
-
+    <FounderWorkspaceShell
+      projectSlug={projectSlug}
+      workspaceTitle="EXPERIMENT 01"
+      inspectTitle="EXPERIMENT 01 — GENERATION AUTHORITY"
+      inspectContent={
+        <pre className="site00-fws-inspector__raw">
+          {JSON.stringify(
+            {
+              status: run?.status,
+              versionTab,
+              generatedCount,
+              pendingCount,
+              v23Supersession: expV23?.generationSupersessionForensic ?? null,
+            },
+            null,
+            2,
+          )}
+        </pre>
+      }
+    >
+      <div className="site00-fws-experiment">
           {loading ? (
-            <p>Loading Experiment 01…</p>
+            <p className="site00-fws-empty">Loading Experiment 01…</p>
           ) : (
             <>
+              <header className="site00-fws-experiment__hero">
+                <p className="site00-fws-campaign__kicker">FIND THE NDX PAGE</p>
+                <h1 className="site00-fws-campaign__title">NDX FEED — NINE FIRST SLIDES</h1>
+                <Link to={site00ProjectBrandMarketingExpressionPath(projectSlug)} className="site00-fws-journey__all">
+                  ← MARKETING EXPRESSION
+                </Link>
+              </header>
+
+              <VersionTimeline entries={NDX_EXPERIMENT_01_VERSION_LINEAGE} />
+
+              <div className="site00-fws-experiment__version-tabs">
+                {(['V1', 'V2', 'V21', 'V22', 'V23'] as VersionTab[]).map((tab) => (
+                  <button
+                    key={tab}
+                    type="button"
+                    className={versionTab === tab ? 'site00-fws-btn site00-fws-btn--primary' : 'site00-fws-btn'}
+                    disabled={busy}
+                    onClick={() => selectVersionTab(tab)}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
+
               {error ? <p className="site00-cd__error" role="alert">{error}</p> : null}
-              <section className="site00-experiment-g__panel">
-                <h2>VERSION</h2>
-                <button type="button" className={versionTab === 'V1' ? 'site00-btn site00-btn--primary' : 'site00-btn'} disabled={busy} onClick={() => selectVersionTab('V1')}>
-                  V1 — ORIGINAL EXPRESSION TEST
-                </button>
-                <button type="button" className={versionTab === 'V2' ? 'site00-btn site00-btn--primary' : 'site00-btn'} disabled={busy} onClick={() => selectVersionTab('V2')}>
-                  V2 — EDITORIAL DIRECTION TEST
-                </button>
-                <button type="button" className={versionTab === 'V21' ? 'site00-btn site00-btn--primary' : 'site00-btn'} disabled={busy} onClick={() => selectVersionTab('V21')}>
-                  V2.1 — CULTURAL IMAGE PARTICIPATION
-                </button>
-                <button type="button" className={versionTab === 'V22' ? 'site00-btn site00-btn--primary' : 'site00-btn'} disabled={busy} onClick={() => selectVersionTab('V22')}>
-                  V2.2 — CHARACTER RETENTION
-                </button>
-                <button type="button" className={versionTab === 'V23' ? 'site00-btn site00-btn--primary' : 'site00-btn'} disabled={busy} onClick={() => selectVersionTab('V23')}>
-                  V2.3 — ART-BOARD MATERIALITY
-                </button>
-              </section>
 
               {v1Artifacts.length > 0 && !v2Artifacts.length && (
                 <section className="site00-experiment-g__panel">
@@ -498,8 +509,9 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
               )}
 
               {versionTab === 'V23' && v23Artifacts.length > 0 && expV23?.generationSupersessionForensic && (
+                <details className="site00-fws-review__inspect">
+                  <summary>V2.3 GENERATION SUPERSEDED (P0.5C.4B.1) — inspect</summary>
                 <section className="site00-experiment-g__panel">
-                  <h2>V2.3 GENERATION SUPERSEDED (P0.5C.4B.1)</h2>
                   <p>
                     Methodology supersession — not a generation failure. Stale pre-C4B.1 queue cancelled; completed assets preserved.
                   </p>
@@ -511,35 +523,36 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                   </dl>
                   <p style={{ fontSize: '0.85rem' }}>Use REGENERATE CURRENT per slide after governance passes — no automatic batch restart.</p>
                 </section>
-              )}
-
-                  {versionTab === 'V23' && v23Artifacts.length > 0 && (
-                <section className="site00-experiment-g__panel">
-                  <h2>V2.3 GENERATION AUTHORITY (P0.5C.5A)</h2>
-                  <p>Structured contract = current authority · Prompt snapshot = immutable receipt</p>
-                  <p>Current lineage ready: {v23CurrentLineageCount}/9 · Prompt stale does not auto-trigger FAL</p>
-                </section>
+                </details>
               )}
 
               {versionTab === 'V23' && v23Artifacts.length > 0 && (
-                <section className="site00-experiment-g__panel">
-                  <h2>V2.3 BOARD — SIGNATURE LIME CONTRACTS</h2>
-                  {v23NeedsLimeReformulation ? (
-                    <>
-                      <p style={{ marginBottom: '8px' }}>
-                        This board was formulated before signature-lime requirements ({v23LimeReadyCount}/9 contracts ready).
-                        FAL prompts may not include “must contain signature lime (#D6FF3B)”. Re-formulate V2.3 to refresh all contracts, then re-generate — or use NEEDS LIME revision per slide on existing images.
+                <details className="site00-fws-review__inspect">
+                  <summary>V2.3 GENERATION AUTHORITY + BOARD CONTRACTS — inspect</summary>
+                  <section className="site00-experiment-g__panel">
+                    <h2>V2.3 GENERATION AUTHORITY (P0.5C.5A)</h2>
+                    <p>Structured contract = current authority · Prompt snapshot = immutable receipt</p>
+                    <p>Current lineage ready: {v23CurrentLineageCount}/9 · Prompt stale does not auto-trigger FAL</p>
+                  </section>
+                  <section className="site00-experiment-g__panel">
+                    <h2>V2.3 BOARD — SIGNATURE LIME CONTRACTS</h2>
+                    {v23NeedsLimeReformulation ? (
+                      <>
+                        <p style={{ marginBottom: '8px' }}>
+                          This board was formulated before signature-lime requirements ({v23LimeReadyCount}/9 contracts ready).
+                          FAL prompts may not include “must contain signature lime (#D6FF3B)”. Re-formulate V2.3 to refresh all contracts, then re-generate — or use NEEDS LIME revision per slide on existing images.
+                        </p>
+                        <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void formulateV23({ force: true })}>
+                          RE-FORMULATE V2.3 CONTRACTS (SIGNATURE LIME)
+                        </button>
+                      </>
+                    ) : (
+                      <p>
+                        All nine V2.3 contracts include signature-lime + restraint governance in FAL prompts ({v23LimeReadyCount}/9). P0.5C.4B.1 — lime presence required, prominence prohibited. Use REGENERATE CURRENT for fresh lineage.
                       </p>
-                      <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void formulateV23({ force: true })}>
-                        RE-FORMULATE V2.3 CONTRACTS (SIGNATURE LIME)
-                      </button>
-                    </>
-                  ) : (
-                    <p>
-                      All nine V2.3 contracts include signature-lime + restraint governance in FAL prompts ({v23LimeReadyCount}/9). P0.5C.4B.1 — lime presence required, prominence prohibited. Use REGENERATE CURRENT for fresh lineage.
-                    </p>
-                  )}
-                </section>
+                    )}
+                  </section>
+                </details>
               )}
 
               {boardReady && (
@@ -593,7 +606,7 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                           : ' · FAL prompt missing signature lime (re-formulate or revise)'}
                       </p>
                     )}
-                    <div className="site00-marketing-exp01-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+                    <div className="site00-fws-experiment-grid site00-marketing-exp01-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
                       {activeArtifacts.map((a) => {
                         const headline =
                           versionTab === 'V23'
@@ -1052,7 +1065,6 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
               )}
             </>
           )}
-        </div>
       </div>
 
       {v23RevisionDraft && (
@@ -1116,6 +1128,6 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
         caption={inspectImage?.alt}
         onClose={() => setInspectImage(null)}
       />
-    </EcosystemShell>
+    </FounderWorkspaceShell>
   );
 }

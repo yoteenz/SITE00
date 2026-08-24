@@ -1,26 +1,30 @@
 import { Link, useParams } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
-import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
-import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  FounderWorkspaceShell,
+  CulturalRadarRoom,
+  InspectorKeyValue,
+} from '../components/founderWorkspace';
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
 import {
-  site00ProjectContentOperationsPath,
   site00ProjectCulturalIntelligenceSourcesPath,
   site00ProjectCulturalIntelligenceWeeklyForecastPath,
-  site00ProjectPath,
 } from '../config/routes';
-import { projectDisplayName } from '../utils/projectDisplayName';
 import type { LiveCulturalIntelligenceRun } from '../../../shared/site00-studio-world-production/liveCulturalIntelligence/types';
-import '../styles/site00-replay-execution.css';
+import {
+  buildLiveSignalsPresentation,
+  culturalIntelligenceInspectPayload,
+} from '../../../shared/site00-brand-lore/founderWorkspace/culturalIntelligenceRadarAdapter';
+import '../styles/site00-founder-workspace.css';
 
-type ViewSection = 'LIVE_NOW' | 'COMING' | 'ACCELERATING' | 'WATCHING' | 'OPPORTUNITIES' | 'SKIP' | 'SOURCES';
+type RadarView = 'LIVE' | 'FORECAST' | 'ARCHIVE';
 
 export default function ProjectCulturalIntelligencePage() {
   const { projectSlug = '' } = useParams<{ projectSlug: string }>();
   const [run, setRun] = useState<LiveCulturalIntelligenceRun | null>(null);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
-  const [view, setView] = useState<ViewSection>('LIVE_NOW');
+  const [view, setView] = useState<RadarView>('LIVE');
 
   const reload = useCallback(async () => {
     if (projectSlug !== 'ndxbook') return;
@@ -50,148 +54,160 @@ export default function ProjectCulturalIntelligencePage() {
     }
   };
 
+  const signals = useMemo(() => buildLiveSignalsPresentation(run), [run]);
+  const opportunities = run?.brandInterpretations.filter(
+    (i) => i.decision === 'STRONG_OPPORTUNITY' || i.decision === 'CALLBACK_OPPORTUNITY',
+  ) ?? [];
+  const skip = run?.brandInterpretations.filter(
+    (i) => i.decision === 'TOO_SATURATED' || i.decision === 'FORCED_PARTICIPATION',
+  ) ?? [];
+
   if (projectSlug !== 'ndxbook') {
-    return (
-      <EcosystemShell hidePageHeader>
-        <p>Cultural intelligence is NDXBOOK-only for this proof.</p>
-      </EcosystemShell>
-    );
+    return <p>Cultural intelligence is NDXBOOK-only for this proof.</p>;
   }
 
-  const accelerating = run?.signals.filter((s) => s.velocity >= 0.6 && s.saturation < 0.7) ?? [];
-  const opportunities = run?.brandInterpretations.filter((i) => i.decision === 'STRONG_OPPORTUNITY' || i.decision === 'CALLBACK_OPPORTUNITY') ?? [];
-  const skip = run?.brandInterpretations.filter((i) => i.decision === 'TOO_SATURATED' || i.decision === 'FORCED_PARTICIPATION') ?? [];
+  const inspectContent = (
+    <>
+      <InspectorKeyValue data={culturalIntelligenceInspectPayload(run)} />
+      <details className="site00-fws-review__inspect">
+        <summary>SOURCE CONNECTORS</summary>
+        <ul>
+          {run?.sourceAdapters.map((a) => (
+            <li key={a.adapterId}>{a.provider} — {a.status} ({a.sourceFamily})</li>
+          )) ?? <li>Not configured.</li>}
+        </ul>
+      </details>
+      <details className="site00-fws-review__inspect">
+        <summary>INTELLIGENCE PIPELINE</summary>
+        <p>WORLD → SIGNALS → FORECAST → BRAND RELEVANCE → CONTENT OPPORTUNITY</p>
+        <p>Status: {run?.status ?? 'NOT_STARTED'} · FAL: 0</p>
+      </details>
+    </>
+  );
 
   return (
-    <EcosystemShell hidePageHeader>
-      <div className="site00-cd site00-cd--project-calibration">
-        <div className="site00-project-lore-calibration">
-          <header className="site00-project-lore-calibration__hero">
-            <ProjectExperimentsHubNav projectSlug={projectSlug} />
-            <p className="site00-project-lore-calibration__kicker">P0.5D.2 — LIVE CULTURAL INTELLIGENCE</p>
-            <h1 className="site00-project-lore-calibration__project">{projectDisplayName(projectSlug)}</h1>
-            <p className="site00-project-lore-calibration__headline">SOURCE ACQUISITION + WEEKLY FORECAST</p>
-            <Link to={site00ProjectContentOperationsPath(projectSlug)}>← CONTENT OPERATIONS</Link>
-            <Link to={site00ProjectCulturalIntelligenceSourcesPath(projectSlug)}>SOURCE HEALTH →</Link>
-            <Link to={site00ProjectCulturalIntelligenceWeeklyForecastPath(projectSlug)}>WEEKLY FORECAST →</Link>
-            <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
-          </header>
+    <FounderWorkspaceShell
+      projectSlug={projectSlug}
+      workspaceTitle="CULTURAL INTELLIGENCE"
+      inspectTitle="CULTURAL INTELLIGENCE — SYSTEM"
+      inspectContent={inspectContent}
+    >
+      <div className="site00-fws-desk">
+        <header className="site00-fws-desk__hero">
+          <p className="site00-fws-campaign__kicker">RADAR ROOM</p>
+          <h1 className="site00-fws-campaign__title">ON NDX&apos;S RADAR</h1>
+          <p className="site00-fws-desk__subtitle">
+            What would this brand notice, connect, question, or remember?
+          </p>
+        </header>
 
-          {loading ? (
-            <p>Loading cultural intelligence…</p>
-          ) : (
-            <>
-              <section className="site00-experiment-g__panel">
-                <h2>INTELLIGENCE PIPELINE</h2>
-                <p>WORLD → SIGNALS → FORECAST → BRAND RELEVANCE → CONTENT OPPORTUNITY</p>
-                <p>Not: what is trending? — What would this brand notice, connect, question, or remember?</p>
-                <p>Status: {run?.status ?? 'NOT_STARTED'} · Live sources: {run?.sourceAdapters.filter((a) => a.status === 'PRODUCTION_CONNECTED').length ?? 0} · FAL: 0</p>
-                {run?.provingRunId ? <p>Proving run: {run.provingRunId}</p> : null}
-                {!run?.sourceAdapters.length && (
-                  <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void act(() => site00ProjectsApi.culturalIntelligenceConfigure(projectSlug))}>
-                    CONFIGURE INTELLIGENCE LAYER
+        {loading ? (
+          <p className="site00-fws-empty">Loading cultural intelligence…</p>
+        ) : (
+          <>
+            <div className="site00-fws-desk__actions">
+              {!run?.sourceAdapters.length ? (
+                <button
+                  type="button"
+                  className="site00-fws-btn site00-fws-btn--primary"
+                  disabled={busy}
+                  onClick={() => void act(() => site00ProjectsApi.culturalIntelligenceConfigure(projectSlug))}
+                >
+                  CONFIGURE INTELLIGENCE LAYER
+                </button>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    className="site00-fws-btn"
+                    disabled={busy}
+                    onClick={() => void act(() => site00ProjectsApi.culturalIntelligenceRefresh(projectSlug))}
+                  >
+                    REFRESH LIVE INTELLIGENCE
                   </button>
-                )}
-                {run?.sourceAdapters.length ? (
-                  <>
-                    <button type="button" className="site00-btn" disabled={busy} onClick={() => void act(() => site00ProjectsApi.culturalIntelligenceRefresh(projectSlug))}>
-                      REFRESH LIVE INTELLIGENCE
-                    </button>
-                    <button type="button" className="site00-btn" disabled={busy} onClick={() => void act(() => site00ProjectsApi.culturalIntelligenceProvingRun(projectSlug))}>
-                      RUN LIVE PROVING RUN 01
-                    </button>
-                    <button type="button" className="site00-btn" disabled={busy} onClick={() => void act(() => site00ProjectsApi.culturalIntelligencePromoteOpportunities(projectSlug))}>
-                      PROMOTE NDX OPPORTUNITIES → CONTENT OPS
-                    </button>
-                  </>
-                ) : null}
-              </section>
-
-              <section className="site00-experiment-g__panel">
-                <h2>VIEW</h2>
-                {(['LIVE_NOW', 'COMING', 'ACCELERATING', 'WATCHING', 'OPPORTUNITIES', 'SKIP', 'SOURCES'] as ViewSection[]).map((mode) => (
-                  <button key={mode} type="button" className={view === mode ? 'site00-btn site00-btn--primary' : 'site00-btn'} onClick={() => setView(mode)}>
-                    {mode.replace('_', ' ')}
+                  <button
+                    type="button"
+                    className="site00-fws-btn site00-fws-btn--primary"
+                    disabled={busy}
+                    onClick={() => void act(() => site00ProjectsApi.culturalIntelligencePromoteOpportunities(projectSlug))}
+                  >
+                    PROMOTE OPPORTUNITIES → CONTENT OPS
                   </button>
-                ))}
-              </section>
-
-              {view === 'LIVE_NOW' && (
-                <section className="site00-experiment-g__panel">
-                  <h2>LIVE NOW</h2>
-                  {run?.signals.map((s) => (
-                    <p key={s.id}>{s.title} — {s.lifecycleState} · {s.freshnessState}</p>
-                  )) ?? <p>No signals loaded.</p>}
-                </section>
+                </>
               )}
+              <Link to={site00ProjectCulturalIntelligenceWeeklyForecastPath(projectSlug)} className="site00-fws-journey__all">
+                WEEKLY FORECAST →
+              </Link>
+              <Link to={site00ProjectCulturalIntelligenceSourcesPath(projectSlug)} className="site00-fws-journey__all">
+                SOURCE HEALTH →
+              </Link>
+            </div>
 
-              {view === 'COMING' && (
-                <section className="site00-experiment-g__panel">
-                  <h2>WHAT&apos;S COMING</h2>
+            <CulturalRadarRoom
+              signals={signals}
+              view={view}
+              onViewChange={setView}
+              forecastContent={
+                <div className="site00-fws-radar__signals">
                   {run?.upcomingMoments.map((m) => (
-                    <p key={m.id}>{m.name} — {m.startAt} · {m.expectedAttention} attention · {m.certainty}</p>
-                  )) ?? <p>No known moments.</p>}
-                </section>
-              )}
-
-              {view === 'ACCELERATING' && (
-                <section className="site00-experiment-g__panel">
-                  <h2>ACCELERATING</h2>
-                  {accelerating.map((s) => (
-                    <p key={s.id}>{s.title} — velocity {s.velocity.toFixed(2)}</p>
+                    <article key={m.id} className="site00-fws-signal">
+                      <p className="site00-fws-signal__category">UPCOMING</p>
+                      <h3 className="site00-fws-signal__headline">{m.name}</h3>
+                      <p className="site00-fws-signal__lead">{m.startAt} · {m.expectedAttention} attention</p>
+                    </article>
+                  )) ?? <p className="site00-fws-empty">No forecast loaded.</p>}
+                  {run?.weeklyForecast ? (
+                    <p className="site00-fws-desk__subtitle">
+                      {run.weeklyForecast.acceleratingConversations.length} accelerating ·{' '}
+                      {run.weeklyForecast.brandOpportunities.length} opportunities
+                    </p>
+                  ) : null}
+                </div>
+              }
+              archiveContent={
+                <div className="site00-fws-radar__signals">
+                  {skip.map((i) => (
+                    <article key={i.id} className="site00-fws-signal">
+                      <p className="site00-fws-signal__category">SATURATED / SKIP</p>
+                      <h3 className="site00-fws-signal__headline">{i.rejectionReason ?? i.reasoning}</h3>
+                    </article>
                   ))}
-                </section>
-              )}
-
-              {view === 'WATCHING' && (
-                <section className="site00-experiment-g__panel">
-                  <h2>WATCHING</h2>
-                  {run?.watchQueue?.entries.map((e) => (
-                    <p key={e.entryId}>{e.subject} — {e.watchState}</p>
-                  )) ?? <p>Watch queue empty.</p>}
-                </section>
-              )}
-
-              {view === 'OPPORTUNITIES' && (
-                <section className="site00-experiment-g__panel">
-                  <h2>NDX OPPORTUNITIES</h2>
                   {opportunities.map((i) => (
-                    <div key={i.id}>
-                      <p>{i.reasoning} — {i.decision}</p>
+                    <article key={i.id} className="site00-fws-signal">
+                      <p className="site00-fws-signal__category">{i.decision.replace(/_/g, ' ')}</p>
+                      <h3 className="site00-fws-signal__headline">{i.reasoning}</h3>
                       <button
                         type="button"
-                        className="site00-btn"
+                        className="site00-fws-btn site00-fws-btn--primary"
                         disabled={busy}
                         onClick={() => void act(() => site00ProjectsApi.culturalIntelligencePromoteItem(projectSlug, i.id))}
                       >
                         PROMOTE TO CONTENT OPPORTUNITY
                       </button>
-                    </div>
+                    </article>
                   ))}
-                </section>
-              )}
+                </div>
+              }
+            />
 
-              {view === 'SKIP' && (
-                <section className="site00-experiment-g__panel">
-                  <h2>SATURATED / SKIP</h2>
-                  {skip.map((i) => (
-                    <p key={i.id}>{i.rejectionReason ?? i.reasoning}</p>
-                  ))}
-                </section>
-              )}
-
-              {view === 'SOURCES' && (
-                <section className="site00-experiment-g__panel">
-                  <h2>SOURCE CONNECTORS</h2>
-                  {run?.sourceAdapters.map((a) => (
-                    <p key={a.adapterId}>{a.provider} — {a.status} ({a.sourceFamily})</p>
-                  )) ?? <p>Not configured.</p>}
-                </section>
-              )}
-            </>
-          )}
-        </div>
+            <details className="site00-fws-review__inspect">
+              <summary>INSPECT — watch queue + accelerating signals</summary>
+              <section>
+                <h3>ACCELERATING</h3>
+                {(run?.signals.filter((s) => s.velocity >= 0.6 && s.saturation < 0.7) ?? []).map((s) => (
+                  <p key={s.id}>{s.title} — velocity {s.velocity.toFixed(2)}</p>
+                ))}
+              </section>
+              <section>
+                <h3>WATCHING</h3>
+                {run?.watchQueue?.entries.map((e) => (
+                  <p key={e.entryId}>{e.subject} — {e.watchState}</p>
+                )) ?? <p>Watch queue empty.</p>}
+              </section>
+            </details>
+          </>
+        )}
       </div>
-    </EcosystemShell>
+    </FounderWorkspaceShell>
   );
 }

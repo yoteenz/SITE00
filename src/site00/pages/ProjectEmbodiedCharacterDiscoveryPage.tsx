@@ -1,18 +1,24 @@
 import { Link, useParams } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
-import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
-import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  FounderWorkspaceShell,
+  CharacterLabRoom,
+  InspectorKeyValue,
+} from '../components/founderWorkspace';
 import { site00ProjectsApi, Site00ProjectsApiError } from '../services/site00ProjectsApi';
 import {
   site00ProjectMotionCharacterPath,
   site00ProjectFounderCharacterDiscoveryPath,
-  site00ProjectPath,
 } from '../config/routes';
-import { projectDisplayName } from '../utils/projectDisplayName';
 import {
   FOUNDER_CHARACTER_JUDGMENTS,
 } from '../../../shared/site00-studio-world-production/embodiedCharacterDiscovery/constants';
 import type { NdxEmbodiedCharacterDiscoveryRun } from '../../../shared/site00-brand-lore/ndxEmbodiedCharacterDiscovery/types';
+import {
+  buildCharacterSynthesisPresentation,
+  characterLabInspectPayload,
+} from '../../../shared/site00-brand-lore/founderWorkspace/characterLabAdapter';
+import '../styles/site00-founder-workspace.css';
 import '../styles/site00-replay-execution.css';
 
 type DiscoverySection =
@@ -33,6 +39,24 @@ type DiscoverySection =
   | 'INTERVIEW'
   | 'SYNTHESIS'
   | 'CASTING_READINESS';
+
+const LAB_MODES = [
+  { id: 'CALIBRATION', label: 'CALIBRATION' },
+  { id: 'LANGUAGE', label: 'LANGUAGE' },
+  { id: 'VOICE', label: 'VOICE' },
+  { id: 'BIBLE', label: 'BIBLE' },
+  { id: 'CASTING', label: 'CASTING' },
+] as const;
+
+type LabMode = (typeof LAB_MODES)[number]['id'];
+
+const MODE_SECTIONS: Record<LabMode, DiscoverySection[]> = {
+  CALIBRATION: ['STATUS', 'VISUAL_NORTH_STARS', 'SYNTHESIS'],
+  LANGUAGE: ['PSYCHOLOGY', 'INTELLIGENCE', 'CONTRADICTIONS', 'THE_BOOK'],
+  VOICE: ['VOICE', 'HUMOR'],
+  BIBLE: ['CULTURAL_LIFE', 'PRIVATE_HUMANITY', 'PHYSICAL_BEHAVIOR', 'CAMERA', 'STYLE', 'SCENARIO_TESTS'],
+  CASTING: ['INTERVIEW', 'CASTING_READINESS'],
+};
 
 const SECTIONS: { id: DiscoverySection; label: string }[] = [
   { id: 'STATUS', label: 'CHARACTER STATUS' },
@@ -62,6 +86,7 @@ export default function ProjectEmbodiedCharacterDiscoveryPage() {
   const [actionError, setActionError] = useState<string | null>(null);
   const [actionNotice, setActionNotice] = useState<string | null>(null);
   const [section, setSection] = useState<DiscoverySection>('STATUS');
+  const [labMode, setLabMode] = useState<LabMode>('CALIBRATION');
   const [roundAnswer, setRoundAnswer] = useState('');
   const [selectedRound, setSelectedRound] = useState('WHO_IS_SHE');
   const [judgmentNote, setJudgmentNote] = useState('');
@@ -105,96 +130,124 @@ export default function ProjectEmbodiedCharacterDiscoveryPage() {
     }
   };
 
+  const synthesis = useMemo(() => buildCharacterSynthesisPresentation(run), [run]);
+
+  const selectLabMode = (mode: LabMode) => {
+    setLabMode(mode);
+    const first = MODE_SECTIONS[mode][0];
+    if (first) setSection(first);
+  };
+
   if (projectSlug !== 'ndxbook') {
-    return (
-      <EcosystemShell hidePageHeader>
-        <p>Embodied Character Discovery is NDXBOOK-only for this proof.</p>
-      </EcosystemShell>
-    );
+    return <p>Embodied Character Discovery is NDXBOOK-only for this proof.</p>;
   }
 
+  const modeSections = MODE_SECTIONS[labMode];
+  const inspectContent = (
+    <>
+      <InspectorKeyValue data={characterLabInspectPayload(run)} />
+      <details className="site00-fws-review__inspect">
+        <summary>ALL DISCOVERY SECTIONS</summary>
+        <nav className="site00-fws-character__modes">
+          {SECTIONS.map((s) => (
+            <button
+              key={s.id}
+              type="button"
+              className={section === s.id ? 'site00-fws-btn site00-fws-btn--primary' : 'site00-fws-btn'}
+              onClick={() => setSection(s.id)}
+            >
+              {s.label}
+            </button>
+          ))}
+        </nav>
+      </details>
+    </>
+  );
+
+  const labActions = (
+    <>
+      {actionError && (
+        <p className="site00-cd__error" role="alert">{actionError}</p>
+      )}
+      {actionNotice && <p role="status"><strong>{actionNotice}</strong></p>}
+      {!run && (
+        <button
+          type="button"
+          className="site00-fws-btn site00-fws-btn--primary"
+          disabled={busy}
+          onClick={() => void act(() => site00ProjectsApi.embodiedCharacterDiscoveryInitialize(projectSlug))}
+        >
+          INITIALIZE CHARACTER DISCOVERY
+        </button>
+      )}
+      {run && (
+        <button
+          type="button"
+          className="site00-fws-btn"
+          disabled={busy}
+          onClick={() =>
+            void act(() => site00ProjectsApi.embodiedCharacterDiscoverySynthesize(projectSlug), {
+              successMessage: 'Character synthesis complete — review synthesis.',
+              goToSection: 'SYNTHESIS',
+            })
+          }
+        >
+          SYNTHESIZE CHARACTER
+        </button>
+      )}
+      <Link to={site00ProjectMotionCharacterPath(projectSlug)} className="site00-fws-journey__all">
+        ← MOTION + BOOK LANGUAGE
+      </Link>
+      <Link to={site00ProjectFounderCharacterDiscoveryPath(projectSlug)} className="site00-fws-journey__all">
+        → FOUNDER CHARACTER DISCOVERY ROOM
+      </Link>
+    </>
+  );
+
   return (
-    <EcosystemShell hidePageHeader>
-      <div className="site00-cd site00-cd--project-calibration">
-        <div className="site00-project-lore-calibration">
-          <header className="site00-project-lore-calibration__hero">
-            <ProjectExperimentsHubNav projectSlug={projectSlug} />
-            <p className="site00-project-lore-calibration__kicker">P0.5E.3 — EMBODIED CHARACTER DISCOVERY</p>
-            <h1 className="site00-project-lore-calibration__project">{projectDisplayName(projectSlug)}</h1>
-            <p className="site00-project-lore-calibration__headline">WHO IS THE WOMAN WE WOULD ACTUALLY BE WATCHING?</p>
-            <Link to={site00ProjectMotionCharacterPath(projectSlug)}>← MOTION + BOOK LANGUAGE</Link>
-            <Link to={site00ProjectFounderCharacterDiscoveryPath(projectSlug)}>→ FOUNDER CHARACTER DISCOVERY ROOM</Link>
-            <Link to={site00ProjectPath(projectSlug)}>← PROJECT</Link>
-          </header>
+    <FounderWorkspaceShell
+      projectSlug={projectSlug}
+      workspaceTitle="CHARACTER LAB"
+      inspectTitle="CHARACTER DISCOVERY — SYSTEM"
+      inspectContent={inspectContent}
+    >
+      <div className="site00-fws-desk">
+        {loading && <p className="site00-fws-empty">Loading character discovery…</p>}
 
-          <section className="site00-experiment-g__panel">
-            <h2>CHARACTER STATUS</h2>
-            <p><strong>VISUAL DESIGN:</strong> NOT FINALIZED</p>
-            <p><strong>FINAL FACE:</strong> NOT SELECTED</p>
-            <p><strong>CHARACTER GENERATION:</strong> NOT PERFORMED</p>
-            <p>Founder visual selections = discovery evidence, not canon.</p>
-            {actionError && (
-              <section className="site00-experiment-g__panel" role="alert">
-                <h2>Action failed</h2>
-                <p>{actionError}</p>
-                {actionError.includes('not initialized') && (
-                  <p>Tap INITIALIZE CHARACTER DISCOVERY first, or retry after the API redeploys.</p>
-                )}
-              </section>
-            )}
-            {actionNotice && (
-              <p role="status"><strong>{actionNotice}</strong></p>
-            )}
-            {!run && (
-              <button
-                type="button"
-                className="site00-btn site00-btn--primary"
-                disabled={busy}
-                onClick={() => void act(() => site00ProjectsApi.embodiedCharacterDiscoveryInitialize(projectSlug))}
-              >
-                INITIALIZE CHARACTER DISCOVERY
-              </button>
-            )}
-            {run && (
-              <button
-                type="button"
-                className="site00-btn"
-                disabled={busy}
-                onClick={() =>
-                  void act(() => site00ProjectsApi.embodiedCharacterDiscoverySynthesize(projectSlug), {
-                    successMessage: 'Character synthesis complete — review SYNTHESIS tab.',
-                    goToSection: 'SYNTHESIS',
-                  })
-                }
-              >
-                SYNTHESIZE CHARACTER (FOUNDER-TRIGGERED)
-              </button>
-            )}
-          </section>
-
-          {loading && <p>Loading…</p>}
-
-          {run && (
-            <>
-              <nav className="site00-experiment-g__tabs" aria-label="Discovery sections">
-                {SECTIONS.map((s) => (
-                  <button
-                    key={s.id}
-                    type="button"
-                    className={section === s.id ? 'site00-experiment-g__tab site00-experiment-g__tab--active' : 'site00-experiment-g__tab'}
-                    onClick={() => setSection(s.id)}
-                  >
-                    {s.label}
-                  </button>
-                ))}
-              </nav>
-
-              <section className="site00-experiment-g__panel">
+        {run && (
+          <CharacterLabRoom
+            synthesis={synthesis}
+            modes={LAB_MODES}
+            activeMode={labMode}
+            onModeChange={(id) => selectLabMode(id as LabMode)}
+            actions={labActions}
+            modeContent={
+              <>
+                <nav className="site00-fws-character__modes" aria-label="Section within mode">
+                  {modeSections.map((id) => {
+                    const meta = SECTIONS.find((s) => s.id === id);
+                    return meta ? (
+                      <button
+                        key={id}
+                        type="button"
+                        className={section === id ? 'site00-fws-btn site00-fws-btn--primary' : 'site00-fws-btn'}
+                        onClick={() => setSection(id)}
+                      >
+                        {meta.label}
+                      </button>
+                    ) : null;
+                  })}
+                </nav>
+                <div className="site00-experiment-g__panel">
                 {section === 'STATUS' && (
                   <>
                     <p>Casting readiness: {run.castingReadiness.state}</p>
                     <p>Humanity evaluation: {run.humanityEvaluation.passes ? 'PASS' : run.humanityEvaluation.failureReason}</p>
-                    <p>FAL requests: {run.falRequests} · Anthropic: {run.anthropicRequests}</p>
+                    <details className="site00-fws-review__inspect">
+                      <summary>Technical status</summary>
+                      <p>FAL requests: {run.falRequests} · Anthropic: {run.anthropicRequests}</p>
+                      <p>Visual design: NOT FINALIZED · Final face: NOT SELECTED</p>
+                    </details>
                     <p>Stories = Margins · TikTok = thought being worked out · Reels = Book in motion · Feed = Pages</p>
                   </>
                 )}
@@ -397,11 +450,14 @@ export default function ProjectEmbodiedCharacterDiscoveryPage() {
                     />
                   </>
                 )}
-              </section>
-            </>
-          )}
-        </div>
+                </div>
+              </>
+            }
+          />
+        )}
+
+        {!run && !loading && labActions}
       </div>
-    </EcosystemShell>
+    </FounderWorkspaceShell>
   );
 }
