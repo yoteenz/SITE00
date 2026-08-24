@@ -4150,3 +4150,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (branch `cursor/deepening-readiness-recalc-1983`):** `applyDeepeningAnswersToInventory()` routes founder deepening answers into domain buckets + founderLanguage; readiness service passes answers into evaluation; completing all compiled deepening questions floors **INSUFFICIENT → PARTIAL** (synthesis allows PARTIAL); synthesis error panel adds **CONTINUE DEEPENING** link.
 - **Tests:** +3 P0.5B.2 tests (deepening merge, submission re-eval, all-questions unlock); 89 in readiness+synthesis suites pass. Build green.
 
+---
+
+## 2026-08-24 — Composite synthesis background worker + readiness gate fix
+
+- **Context:** Founder still saw **SYNTHESIS COULD NOT RUN / CHARACTER INSUFFICIENT** while readiness refresh showed **INSUFFICIENT → PARTIAL** (5 deepening answers ingested). Also requested synthesis run in **background** with **loading bar** so page need not stay open (like visual benchmark formulation).
+- **Root causes:** (1) Stale client error from prior failed attempt while server readiness had improved to PARTIAL; (2) brand-lore equivalent check ignored deepening answers in inventory; (3) synchronous 1–2 min Anthropic call blocked HTTP request (timeout felt like silent failure).
+- **Fix (branch `cursor/synthesis-background-status-1983`):** `startCompositeBrandCharacterSynthesis()` returns immediately with `SYNTHESIZING`, enqueues `executeCompositeSynthesisWork` via `setImmediate` (vitest stays synchronous); stale reconciliation after 15 min; `synthesisStartedAt` + `synthesisAttemptId` on run. UI: `BrandCharacterSynthesisStatusPanel` with progress bar, elapsed timer, poll every 5s, **safe to leave page** copy, retry stalled. Readiness gate uses deepening-merged inventory for brand-lore bypass; `assertSynthesisGate` checks blockers; page clears stale INSUFFICIENT errors when refresh shows PARTIAL/READY.
+- **Deploy:** Railway API redeploy required for background worker; fsbw-dev frontend after cPanel/tunnel refresh.
+

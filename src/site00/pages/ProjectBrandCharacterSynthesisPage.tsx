@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
+import { BrandCharacterSynthesisStatusPanel } from '../components/validation/BrandCharacterSynthesisStatusPanel';
 import { site00ProjectsApi, Site00ProjectsApiError } from '../services/site00ProjectsApi';
 import {
   site00ProjectBrandCharacterArtifactProofsPath,
@@ -12,25 +13,41 @@ import { projectDisplayName } from '../utils/projectDisplayName';
 import type { BrandCharacterSynthesisRun } from '../../../shared/site00-brand-lore/brandCharacterSynthesis/types';
 import '../styles/site00-replay-execution.css';
 
+const POLL_MS = 5000;
+
 function formatActionError(err: unknown): string {
   if (err instanceof Site00ProjectsApiError) return err.message;
   if (err instanceof Error) return err.message;
   return 'Composite synthesis request failed';
 }
 
+function readinessAllowsSynthesis(run: BrandCharacterSynthesisRun | null): boolean {
+  const state = run?.readinessRefresh?.newState ?? '';
+  const override = run?.readinessRefresh?.founderOverride ?? false;
+  if (override) return true;
+  return state === 'CHARACTER_READY' || state === 'CHARACTER_PARTIAL';
+}
+
 export default function ProjectBrandCharacterSynthesisPage() {
   const { projectSlug = '' } = useParams<{ projectSlug: string }>();
   const [run, setRun] = useState<BrandCharacterSynthesisRun | null>(null);
   const [loading, setLoading] = useState(true);
-  const [busy, setBusy] = useState(false);
+  const [starting, setStarting] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
-  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const [lastRefreshedAt, setLastRefreshedAt] = useState<Date | null>(null);
 
   const reload = useCallback(async () => {
     if (projectSlug !== 'ndxbook') return;
     try {
       const result = await site00ProjectsApi.experimentHSynthesisGet(projectSlug);
-      setRun((result.run as BrandCharacterSynthesisRun | null) ?? null);
+      const nextRun = (result.run as BrandCharacterSynthesisRun | null) ?? null;
+      setRun(nextRun);
+      setLastRefreshedAt(new Date());
+      if (nextRun?.status === 'SYNTHESIZING' || nextRun?.status === 'SYNTHESIZED') {
+        setActionError(null);
+      } else if (nextRun?.status === 'FAILED' && nextRun.error) {
+        setActionError(nextRun.error);
+      }
     } catch (err) {
       setRun(null);
       setActionError(formatActionError(err));
@@ -43,24 +60,34 @@ export default function ProjectBrandCharacterSynthesisPage() {
     void reload();
   }, [reload]);
 
-  const runSynthesis = async () => {
-    setBusy(true);
+  useEffect(() => {
+    if (run?.status !== 'SYNTHESIZING') return;
+    const id = window.setInterval(() => {
+      void reload();
+    }, POLL_MS);
+    return () => window.clearInterval(id);
+  }, [run?.status, reload]);
+
+  const runSynthesis = async (forceRetry = false) => {
+    setStarting(true);
     setActionError(null);
-    setStatusMessage('Running composite synthesis — this can take 1–2 minutes. Keep this page open.');
     try {
-      const result = await site00ProjectsApi.experimentHSynthesisRun(projectSlug);
-      setRun((result.run as BrandCharacterSynthesisRun | null) ?? null);
-      setStatusMessage(null);
+      const result = await site00ProjectsApi.experimentHSynthesisRun(projectSlug, { forceRetry });
+      const nextRun = (result.run as BrandCharacterSynthesisRun | null) ?? null;
+      setRun(nextRun);
+      setLastRefreshedAt(new Date());
+      if (nextRun?.status === 'FAILED' && nextRun.error) {
+        setActionError(nextRun.error);
+      }
     } catch (err) {
       setActionError(formatActionError(err));
-      setStatusMessage(null);
     } finally {
-      setBusy(false);
+      setStarting(false);
     }
   };
 
   const judge = async (judgment: string) => {
-    setBusy(true);
+    setStarting(true);
     setActionError(null);
     try {
       const result = await site00ProjectsApi.experimentHSynthesisJudgment(projectSlug, judgment);
@@ -68,12 +95,12 @@ export default function ProjectBrandCharacterSynthesisPage() {
     } catch (err) {
       setActionError(formatActionError(err));
     } finally {
-      setBusy(false);
+      setStarting(false);
     }
   };
 
   const compileSystem = async () => {
-    setBusy(true);
+    setStarting(true);
     setActionError(null);
     try {
       const result = await site00ProjectsApi.experimentHSynthesisCompileSystem(projectSlug);
@@ -81,7 +108,7 @@ export default function ProjectBrandCharacterSynthesisPage() {
     } catch (err) {
       setActionError(formatActionError(err));
     } finally {
-      setBusy(false);
+      setStarting(false);
     }
   };
 
@@ -95,6 +122,12 @@ export default function ProjectBrandCharacterSynthesisPage() {
 
   const synthesis = run?.synthesis;
   const maturation = run?.maturationEvaluation;
+  const isSynthesizing = run?.status === 'SYNTHESIZING';
+  const canRun = readinessAllowsSynthesis(run) && !isSynthesizing && !starting;
+  const staleReadinessError =
+    actionError &&
+    actionError.toLowerCase().includes('insufficient') &&
+    readinessAllowsSynthesis(run);
 
   return (
     <EcosystemShell hidePageHeader>
@@ -112,14 +145,22 @@ export default function ProjectBrandCharacterSynthesisPage() {
             <p>Loading synthesis run…</p>
           ) : (
             <>
-              {actionError && (
+              <BrandCharacterSynthesisStatusPanel
+                run={run}
+                starting={starting}
+                lastRefreshedAt={lastRefreshedAt}
+                onRetry={() => void runSynthesis(true)}
+                onRefresh={() => void reload()}
+              />
+
+              {actionError && !staleReadinessError && run?.status !== 'SYNTHESIZING' && (
                 <section className="site00-experiment-g__panel" role="alert">
                   <h2>Synthesis could not run</h2>
                   <p>{actionError}</p>
                   {actionError.includes('Unknown action') && (
                     <p>The live API may still be deploying — retry in a minute or hard-refresh.</p>
                   )}
-                  {actionError.includes('readiness') && (
+                  {actionError.toLowerCase().includes('readiness') && (
                     <>
                       <Link to={site00ProjectBrandCharacterReadinessPath(projectSlug)} className="site00-btn">
                         REVIEW READINESS
@@ -132,9 +173,12 @@ export default function ProjectBrandCharacterSynthesisPage() {
                 </section>
               )}
 
-              {statusMessage && (
+              {staleReadinessError && (
                 <section className="site00-experiment-g__panel">
-                  <p>{statusMessage}</p>
+                  <p>
+                    Readiness is now {run?.readinessRefresh?.newState?.replace(/_/g, ' ') ?? 'updated'} — tap{' '}
+                    <strong>RUN COMPOSITE SYNTHESIS</strong> again.
+                  </p>
                 </section>
               )}
 
@@ -152,9 +196,21 @@ export default function ProjectBrandCharacterSynthesisPage() {
                     ))}
                   </ul>
                 ) : null}
-                <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void runSynthesis()}>
-                  {busy ? 'RUNNING SYNTHESIS…' : 'RUN COMPOSITE SYNTHESIS'}
+                <button
+                  type="button"
+                  className="site00-btn site00-btn--primary"
+                  disabled={!canRun}
+                  onClick={() => void runSynthesis()}
+                >
+                  {starting
+                    ? 'STARTING BACKGROUND SYNTHESIS…'
+                    : isSynthesizing
+                      ? 'SYNTHESIS RUNNING ON SERVER…'
+                      : 'RUN COMPOSITE SYNTHESIS'}
                 </button>
+                {!readinessAllowsSynthesis(run) && !isSynthesizing && (
+                  <p>Character readiness must be PARTIAL or READY before synthesis can start.</p>
+                )}
               </section>
 
               {run?.founderHypothesis && (
@@ -226,22 +282,22 @@ export default function ProjectBrandCharacterSynthesisPage() {
                   <section className="site00-experiment-g__panel">
                     <h2>Founder character review</h2>
                     <div className="site00-project-setup__actions">
-                      <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void judge('THATS_NDX')}>
+                      <button type="button" className="site00-btn site00-btn--primary" disabled={starting} onClick={() => void judge('THATS_NDX')}>
                         THAT&apos;S NDX
                       </button>
-                      <button type="button" className="site00-btn" disabled={busy} onClick={() => void judge('PROMISING_DEVELOP')}>
+                      <button type="button" className="site00-btn" disabled={starting} onClick={() => void judge('PROMISING_DEVELOP')}>
                         PROMISING — DEVELOP
                       </button>
-                      <button type="button" className="site00-btn" disabled={busy} onClick={() => void judge('TOO_CLEAN')}>
+                      <button type="button" className="site00-btn" disabled={starting} onClick={() => void judge('TOO_CLEAN')}>
                         TOO CLEAN
                       </button>
-                      <button type="button" className="site00-btn" disabled={busy} onClick={() => void judge('NOT_NDXBOOK')}>
+                      <button type="button" className="site00-btn" disabled={starting} onClick={() => void judge('NOT_NDXBOOK')}>
                         NOT NDX
                       </button>
                     </div>
                     {synthesis.founderJudgment && <p>Judgment: {synthesis.founderJudgment.replace(/_/g, ' ')}</p>}
                     {(synthesis.founderJudgment === 'THATS_NDX' || synthesis.founderJudgment === 'LOVE_THIS_CHARACTER') && (
-                      <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void compileSystem()}>
+                      <button type="button" className="site00-btn site00-btn--primary" disabled={starting} onClick={() => void compileSystem()}>
                         COMPILE BRAND CHARACTER SYSTEM
                       </button>
                     )}
