@@ -1516,6 +1516,12 @@ export async function formulateMarketingExpressionExperiment01V23(params: {
     expressionSystem: run.expressionSystem,
   });
 
+  if (experiment.generatedArtifacts.length !== 9) {
+    throw new Error(
+      `V2.3 formulation incomplete: expected 9 art-board contracts, got ${experiment.generatedArtifacts.length}. Ensure all nine V2.2 artifacts align with V1 topics.`,
+    );
+  }
+
   return marketingStore.saveBrandMarketingExpressionRun({
     ...run,
     status: 'EXPERIMENT_01_V23_READY',
