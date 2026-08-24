@@ -52,17 +52,13 @@ function founderApiErrorMessage(err: unknown): string {
 function DirectionCard({
   direction,
   onJudgment,
-  onFinalist,
   judging,
-  finalistActive,
-  finalistLoading,
+  isDeferredParent,
 }: {
   direction: BrandPresentationDirectionCandidate;
   onJudgment: (judgment: FounderDirectionJudgment) => void;
-  onFinalist: (selected: boolean) => void;
   judging: boolean;
-  finalistActive: boolean;
-  finalistLoading: boolean;
+  isDeferredParent?: boolean;
 }) {
   const saved = direction.founderJudgment;
 
@@ -112,21 +108,9 @@ function DirectionCard({
           YOUR SELECTION: {formatJudgmentLabel(saved)} — saved
         </p>
       ) : null}
-      <div className="site00-experiment-g-dir__finalist-row">
-        <button
-          type="button"
-          className={
-            finalistActive
-              ? 'site00-btn site00-btn--primary site00-experiment-g-dir__finalist-btn--active'
-              : 'site00-btn'
-          }
-          disabled={finalistLoading || judging}
-          aria-pressed={finalistActive}
-          onClick={() => onFinalist(!finalistActive)}
-        >
-          {finalistActive ? '✓ VISUAL FINALIST' : 'SELECT AS VISUAL FINALIST'}
-        </button>
-      </div>
+      {isDeferredParent ? (
+        <p className="site00-experiment-g-dir__deferred-note">Visual development deferred — records preserved, salvage eligible</p>
+      ) : null}
       <div className="site00-experiment-g-dir__judgment">
         {JUDGMENT_OPTIONS.map((j) => (
           <button
@@ -153,18 +137,16 @@ function ParentSection({
   group,
   directions,
   judgingId,
-  finalistIds,
-  finalistLoadingId,
   onJudgment,
-  onFinalist,
+  isParentFinalist,
+  isDeferredParent,
 }: {
   group: BrandPresentationDirectionParentGroup;
   directions: BrandPresentationDirectionCandidate[];
   judgingId: string | null;
-  finalistIds: Set<string>;
-  finalistLoadingId: string | null;
   onJudgment: (directionId: string, judgment: FounderDirectionJudgment) => void;
-  onFinalist: (directionId: string, selected: boolean) => void;
+  isParentFinalist: boolean;
+  isDeferredParent: boolean;
 }) {
   const siblings = directions.filter((d) => group.directionIds.includes(d.directionId));
 
@@ -176,6 +158,8 @@ function ParentSection({
         <p className="site00-experiment-g-dir__parent-meta">
           Sibling distinctiveness: {group.siblingDistinctiveness.result.replace(/_/g, ' ')} · Parent fidelity:{' '}
           {group.parentFidelitySummary.passCount}/{siblings.length} pass
+          {isParentFinalist ? ' · PARENT FINALIST — all 3 directions advance to visual benchmarks' : ''}
+          {isDeferredParent ? ' · DEFERRED — visual development preserved for salvage' : ''}
         </p>
       </header>
       <div className="site00-experiment-g-dir__grid">
@@ -184,10 +168,8 @@ function ParentSection({
             key={direction.directionId}
             direction={direction}
             judging={judgingId === direction.directionId}
-            finalistActive={finalistIds.has(direction.directionId)}
-            finalistLoading={finalistLoadingId === direction.directionId}
+            isDeferredParent={isDeferredParent}
             onJudgment={(judgment) => onJudgment(direction.directionId, judgment)}
-            onFinalist={(selected) => onFinalist(direction.directionId, selected)}
           />
         ))}
       </div>
@@ -202,11 +184,9 @@ export function ExperimentGBrandPresentationDirectionReview({
   lastRefreshedAt = null,
   onRefresh,
   onUpdate,
-  onVisualUpdate,
 }: ExperimentGBrandPresentationDirectionReviewProps) {
   const [forming, setForming] = useState(false);
   const [judgingId, setJudgingId] = useState<string | null>(null);
-  const [finalistLoadingId, setFinalistLoadingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const formDirections = useCallback(async (options?: { forceRetry?: boolean }) => {
@@ -238,25 +218,10 @@ export function ExperimentGBrandPresentationDirectionReview({
     [onUpdate, projectSlug],
   );
 
-  const toggleFinalist = useCallback(
-    async (directionId: string, selected: boolean) => {
-      setFinalistLoadingId(directionId);
-      setError(null);
-      try {
-        const result = await site00ProjectsApi.experimentGVisualFinalist(projectSlug, directionId, selected);
-        onVisualUpdate?.(result.run as BrandPresentationVisualFormulationRun);
-      } catch (err) {
-        setError(founderApiErrorMessage(err));
-      } finally {
-        setFinalistLoadingId(null);
-      }
-    },
-    [onVisualUpdate, projectSlug],
-  );
-
   const directions = run?.directions ?? [];
-  const activeFinalists = (visualRun?.finalists ?? []).filter((f) => f.status === 'SELECTED');
-  const finalistIds = new Set(activeFinalists.map((f) => f.directionId));
+  const parentFinalists = (visualRun?.parentFinalists ?? []).filter((f) => f.status === 'SELECTED');
+  const deferredParents = new Set((visualRun?.deferredParents ?? []).map((d) => d.parentConceptName));
+  const selectedParentNames = new Set(parentFinalists.map((f) => f.parentConceptName));
   const isForming = run?.status === 'FORMING';
   const formationBlocked = forming || isForming;
   const canForm =
@@ -283,16 +248,16 @@ export function ExperimentGBrandPresentationDirectionReview({
       />
 
       <p className="site00-experiment-g-dir__meta">
-        3 parent concepts · 9 directions · Visual finalists: {activeFinalists.length}/2
+        3 parent concepts · 9 directions · Parent finalists: Room That Knows + Thing That Keeps Noticing
       </p>
-      {activeFinalists.length === 2 ? (
+      {parentFinalists.length >= 2 ? (
         <p className="site00-experiment-g-dir__finalist-count">
-          <Link to={site00ProjectExperimentGFinalistsPath(projectSlug)}>→ FINALIST VISUAL FORMULATION (6 visuals)</Link>
+          <Link to={site00ProjectExperimentGFinalistsPath(projectSlug)}>→ PARENT FINALIST VISUAL REVIEW (6 direction benchmarks)</Link>
         </p>
       ) : null}
       <div className="site00-experiment-g-dir__banner">
-        Select exactly 2 directions as visual finalists — independent from LOVE THE DIRECTION. Visual evidence comes
-        before final winner selection.{' '}
+        Parent finalists selected: THE ROOM THAT KNOWS + THE THING THAT KEEPS NOTICING. All 3 directions under each
+        advance to direction visual benchmarks. THE COLLECTOR WHO CONNECTS deferred — preserved for salvage.{' '}
         <Link to={site00ProjectExperimentGPath(projectSlug)}>← Brand presentation concepts</Link>
       </div>
       <ul className="site00-experiment-g-dir__parents-list">
@@ -331,10 +296,9 @@ export function ExperimentGBrandPresentationDirectionReview({
               group={group}
               directions={directions}
               judgingId={judgingId}
-              finalistIds={finalistIds}
-              finalistLoadingId={finalistLoadingId}
+              isParentFinalist={selectedParentNames.has(group.parentConceptName)}
+              isDeferredParent={deferredParents.has(group.parentConceptName)}
               onJudgment={(id, j) => void setJudgment(id, j)}
-              onFinalist={(id, sel) => void toggleFinalist(id, sel)}
             />
           ))
         : !isForming && !hasDirections ? (

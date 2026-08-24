@@ -1,12 +1,14 @@
 /**
- * Brand Presentation Visual Formulation — finalist → expression → visual types.
+ * Brand Presentation Visual Formulation — parent finalist scan + direction deep dive types.
  */
 
 import type {
   BRAND_PRESENTATION_VISUAL_FORMULATION_V1,
   BRAND_PRESENTATION_VISUAL_FORMULATION_CLASSIFICATION,
   BRAND_PRESENTATION_VISUAL_FORMULATION_RUN_ID,
+  DirectionBenchmarkJudgment,
   FinalistSelectionStatus,
+  ParentDeferredStatus,
   VisualExpressionJudgment,
   VisualFormulationStatus,
   REFERENCE_CLASSES,
@@ -16,6 +18,7 @@ import type {
 } from './constants.js';
 import type { BrandPresentationVisualExplorationPolicy } from './constants.js';
 
+/** Legacy direction-level finalist (DIRECTION_FINALIST_DEEP_DIVE mode). */
 export type BrandPresentationVisualFinalistSelection = {
   selectionId: string;
   projectId: string;
@@ -34,6 +37,36 @@ export type BrandPresentationVisualFinalistSelection = {
   version: number;
 };
 
+/** Parent-concept finalist (PARENT_FINALIST_DIRECTION_SCAN mode). */
+export type BrandPresentationParentVisualFinalistSelection = {
+  selectionId: string;
+  projectId: string;
+  projectSlug: string;
+  experimentId: string;
+  parentConceptId: string;
+  parentConceptName: string;
+  parentFormationFingerprint: string | null;
+  selectedBy: string;
+  selectedAt: string;
+  selectionOrder: 1 | 2;
+  status: FinalistSelectionStatus;
+  version: number;
+};
+
+export type BrandPresentationParentDeferredRecord = {
+  deferredId: string;
+  projectId: string;
+  projectSlug: string;
+  parentConceptId: string;
+  parentConceptName: string;
+  status: ParentDeferredStatus;
+  salvageEligible: true;
+  historicalRecordsPreserved: true;
+  deferredAt: string;
+  deferredBy: string;
+  reason: string;
+};
+
 export type BrandPresentationVisualReferenceEntry = {
   referenceId: string;
   referenceClass: (typeof REFERENCE_CLASSES)[number];
@@ -47,6 +80,7 @@ export type BrandPresentationVisualReferencePackage = {
   packageId: string;
   directionId: string;
   expressionId: string | null;
+  benchmarkId: string | null;
   references: BrandPresentationVisualReferenceEntry[];
   excludedSources: string[];
   referenceConditioned: boolean;
@@ -55,6 +89,88 @@ export type BrandPresentationVisualReferencePackage = {
   fingerprint: string;
 };
 
+export type DirectionBenchmarkVisionEvaluation = {
+  parentConceptFidelity: (typeof VISION_QA_RESULTS)[number];
+  directionFidelity: (typeof VISION_QA_RESULTS)[number];
+  ndxbookFidelity: (typeof VISION_QA_RESULTS)[number];
+  visualDistinctiveness: (typeof VISUAL_DISTINCTIVENESS_RESULTS)[number];
+  siblingDistinctiveness: (typeof VISUAL_DISTINCTIVENESS_RESULTS)[number];
+  metaphorLiteralization: (typeof VISION_QA_RESULTS)[number];
+  genericSocialDesignRisk: (typeof VISION_QA_RESULTS)[number];
+  genericEditorialRisk: (typeof VISION_QA_RESULTS)[number];
+  recurrencePlausibility: (typeof VISION_QA_RESULTS)[number];
+  socialNativePotential: (typeof VISION_QA_RESULTS)[number];
+  typographicQuality: (typeof VISION_QA_RESULTS)[number];
+  compositionQuality: (typeof VISION_QA_RESULTS)[number];
+  notes: string[];
+};
+
+/** One direction-level visual benchmark (PARENT_FINALIST_DIRECTION_SCAN). */
+export type BrandPresentationDirectionVisualBenchmark = {
+  benchmarkId: string;
+  projectId: string;
+  projectSlug: string;
+  experimentId: string;
+  parentConceptId: string;
+  parentConceptName: string;
+  directionId: string;
+  directionName: string;
+  directionFingerprint: string | null;
+  benchmarkThesis: string;
+  visualTranslation: string;
+  compositionBehavior: string;
+  typographyBehavior: string;
+  imageryBehavior: string;
+  graphicBehavior: string;
+  artifactBehavior: string;
+  informationBehavior: string;
+  densityBehavior: string;
+  rhythmBehavior: string;
+  socialNativeBehavior: string;
+  recognitionMechanism: string;
+  recurrenceEvidence: string;
+  directionFidelityRequirements: string[];
+  antiLiteralizationRules: string[];
+  negativeDirection: string[];
+  referencePackageId: string | null;
+  promptFingerprint: string | null;
+  providerReceipt: Record<string, unknown> | null;
+  assetId: string | null;
+  assetStoragePath: string | null;
+  assetPublicUrl: string | null;
+  assetFingerprint: string | null;
+  visionEvaluation: DirectionBenchmarkVisionEvaluation | null;
+  founderJudgment: DirectionBenchmarkJudgment;
+  judgmentNote: string | null;
+  directionDriftEval: {
+    result: (typeof DIRECTION_DRIFT_RESULTS)[number];
+    notes: string[];
+  } | null;
+  siblingDistinctivenessEval: {
+    result: (typeof VISUAL_DISTINCTIVENESS_RESULTS)[number];
+    notes: string[];
+  } | null;
+  parentBenchmarkId: string | null;
+  revisionNumber: number;
+  status: 'FORMULATED' | 'GENERATED' | 'SUPERSEDED' | 'REVISION_REQUIRED';
+  formationVersion: number;
+  createdAt: string;
+};
+
+export type DirectionBenchmarkRevisionDelta = {
+  revisionId: string;
+  parentBenchmarkId: string;
+  parentAssetId: string | null;
+  childBenchmarkId: string;
+  revisionNumber: number;
+  preserve: string[];
+  change: string[];
+  doNotBecome: string[];
+  revisionPromptFingerprint: string;
+  createdAt: string;
+};
+
+/** Legacy expression candidate (DIRECTION_FINALIST_DEEP_DIVE mode). */
 export type BrandPresentationVisualExpressionCandidate = {
   expressionId: string;
   projectId: string;
@@ -141,8 +257,9 @@ export type BrandPresentationWinnerSelection = {
   parentConceptName: string;
   directionId: string;
   directionName: string;
-  expressionId: string;
-  expressionLabel: 'A' | 'B' | 'C';
+  expressionId: string | null;
+  benchmarkId: string | null;
+  expressionLabel: 'A' | 'B' | 'C' | null;
   assetId: string | null;
   assetStoragePath: string | null;
   founderJudgment: string;
@@ -167,7 +284,16 @@ export type BrandPresentationVisualFormulationRun = {
   parentExperiment: 'EXPERIMENT_G';
   parentDirectionRunId: string;
   explorationPolicy: BrandPresentationVisualExplorationPolicy;
+  /** Legacy direction finalists (deep dive mode). */
   finalists: BrandPresentationVisualFinalistSelection[];
+  /** Parent concept finalists (parent scan mode). */
+  parentFinalists: BrandPresentationParentVisualFinalistSelection[];
+  /** Deferred parent concepts — preserved, not visualized. */
+  deferredParents: BrandPresentationParentDeferredRecord[];
+  /** Direction benchmarks (parent scan mode). */
+  directionBenchmarks: BrandPresentationDirectionVisualBenchmark[];
+  benchmarkRevisions: DirectionBenchmarkRevisionDelta[];
+  /** Legacy expressions (deep dive mode). */
   expressions: BrandPresentationVisualExpressionCandidate[];
   referencePackages: BrandPresentationVisualReferencePackage[];
   revisions: VisualExpressionRevisionDelta[];
@@ -175,6 +301,10 @@ export type BrandPresentationVisualFormulationRun = {
   crossFinalistCollapseEval: {
     result: 'PASS' | 'FINALIST_VISUAL_COLLAPSE' | 'NOT_EVALUATED';
     notes: string[];
+  } | null;
+  siblingCollapseEval: {
+    room: { result: (typeof VISUAL_DISTINCTIVENESS_RESULTS)[number]; notes: string[] };
+    noticing: { result: (typeof VISUAL_DISTINCTIVENESS_RESULTS)[number]; notes: string[] };
   } | null;
   status: VisualFormulationStatus;
   formationVersion: number;

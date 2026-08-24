@@ -521,46 +521,58 @@ export const site00ProjectsApi = {
     ),
   experimentGVisualJudgment: (
     slug: string,
-    expressionId: string,
-    judgment:
-      | 'LOVE_THIS_EXPRESSION'
-      | 'PROMISING_REVISE'
-      | 'NOT_THIS_EXPRESSION'
-      | 'MISREPRESENTS_DIRECTION'
-      | 'TOO_GENERIC'
-      | 'TOO_LITERAL'
-      | 'TOO_STYLE_DEPENDENT'
-      | null,
-    note?: string | null,
+    params: {
+      expressionId?: string;
+      benchmarkId?: string;
+      judgment:
+        | 'LOVE_THIS_EXPRESSION'
+        | 'PROMISING_REVISE'
+        | 'NOT_THIS_EXPRESSION'
+        | 'MISREPRESENTS_DIRECTION'
+        | 'TOO_GENERIC'
+        | 'TOO_LITERAL'
+        | 'TOO_STYLE_DEPENDENT'
+        | 'LOVE_THIS_DIRECTION'
+        | 'NOT_THIS_DIRECTION'
+        | 'MISREPRESENTS_THE_DIRECTION'
+        | 'VISUAL_DOES_NOT_HELP_ME_JUDGE'
+        | null;
+      note?: string | null;
+    },
   ) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=experiment_g_visual_judgment',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, expressionId, judgment, note }),
+        body: JSON.stringify({ slug, ...params }),
       },
     ),
   experimentGVisualRevise: (
     slug: string,
-    expressionId: string,
-    revision: { preserve: string[]; change: string[]; doNotBecome: string[] },
+    params: {
+      expressionId?: string;
+      benchmarkId?: string;
+      preserve: string[];
+      change: string[];
+      doNotBecome: string[];
+    },
   ) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=experiment_g_visual_revise',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, expressionId, ...revision }),
+        body: JSON.stringify({ slug, ...params }),
       },
     ),
-  experimentGVisualWinner: (slug: string, expressionId: string) =>
+  experimentGVisualWinner: (slug: string, params: { expressionId?: string; benchmarkId?: string }) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=experiment_g_visual_winner',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, expressionId }),
+        body: JSON.stringify({ slug, ...params }),
       },
     ),
   experimentEGet: (slug: string) =>

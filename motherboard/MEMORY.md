@@ -4043,3 +4043,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (branch `cursor/experiment-g-direction-formation-status-ui-1983`):** `DirectionFormationStatusPanel` — progress bar, elapsed timer, estimated parent step, last-check age, **RETRY STALLED FORMATION** visible while FORMING (matches Experiment G concept page), **REFRESH STATUS NOW**, failed/complete tone states.
 - **Deploy:** cPanel v49 frontend.
 
+---
+
+## 2026-08-24 — Parent-concept finalist direction visualization (2×3×1 correction)
+
+- **Context:** Founder clarified NDXBOOK visual decision flow is NOT 2 direction finalists × 3 expressions. Correct flow: select **2 parent concept finalists** (ROOM THAT KNOWS + THING THAT KEEPS NOTICING) → **all 3 directions under each** advance → **6 direction-level benchmarks** (1 visual each) → founder compares six → later direction finalist + deep expression work. COLLECTOR WHO CONNECTS deferred (`FOUNDER_DEFERRED_VISUALIZATION`, salvage eligible) — records preserved, not visualized.
+- **Implementation (branch `cursor/parent-finalist-direction-scan-1983`):**
+  - `BrandPresentationVisualExplorationPolicy` modes: `PARENT_FINALIST_DIRECTION_SCAN` (NDXBOOK default) vs legacy `DIRECTION_FINALIST_DEEP_DIVE`.
+  - Types: `BrandPresentationParentVisualFinalistSelection`, `BrandPresentationDirectionVisualBenchmark`, `DirectionBenchmarkRevisionDelta`.
+  - `parentFinalistGate.ts`, `directionBenchmarkPrompt.ts`, `compileDirectionBenchmarkPrompt()` with Room/Noticing anti-literalization guards.
+  - `visualFormulationService.ts`: auto-seed Room + Noticing parent finalists, defer Collector; `formulateDirectionBenchmarks()` + `generateDirectionBenchmarkVisuals()` (6 FAL); per-direction visual judgments independent from conceptual direction judgment; surgical single-benchmark revision.
+  - UI: direction review removes direction-level finalist toggles; finalists page → **PARENT FINALIST VISUAL REVIEW** with 2 parent sections × 3 large benchmark images + summaries; **FORMULATE/GENERATE SIX DIRECTION VISUALS** explicit triggers + cost preview.
+  - API: `experiment_g_visual_judgment/revise/winner` accept `benchmarkId`.
+- **Tests:** 1792 pass (+17 parent scan suite); legacy deep-dive tests use `SITE00_EXPERIMENT_G_VISUAL_DEEP_DIVE=1`.
+- **Founder flow:** Direction review (9 conceptual) → Parent Finalist Visual Review → formulate 6 benchmarks → generate 6 visuals → judge per direction → optional direction winner (no auto-promote).
+- **Deploy:** cPanel v50 frontend + Railway redeploy for API.
+
