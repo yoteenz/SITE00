@@ -19,7 +19,8 @@ import type {
   GenerationPromptFreshnessEvaluation,
 } from '../../site00-studio-world-production/generationAuthority/types.js';
 import type { GenerationMode } from '../../site00-studio-world-production/generationAuthority/types.js';
-import { compileArtBoardMaterialityFalPrompt } from './falPromptCompilerV23.js';
+import { compileArtBoardMaterialityFalPrompt, materialFalPromptHasLimeRestraintSection } from './falPromptCompilerV23.js';
+import { signatureLimeRestraintGatePasses } from './signatureLimeRestraint.js';
 import {
   V23_EXPERIMENT_ID,
   V23_FAL_COMPILER_VERSION,
@@ -64,7 +65,7 @@ export function compileCurrentV23FalPrompt(params: {
     negativePrompt: falContract.negativePrompt,
     provider: 'FAL',
     model: 'fal-ai/flux/dev',
-    signatureLimeVersion: 'P0.5C.4B',
+    signatureLimeVersion: 'P0.5C.4B.1',
     humanMadeMarksVersion: 'P0.5C.4A',
     publicCopyVersion: 'P0.5C.5',
     authorshipVersion: 'P0.5C.5',
@@ -248,6 +249,12 @@ export function buildV23GenerationAssetRecord(params: {
     assetGeneratedFromCurrentContract: params.snapshot.artifactContractFingerprint === params.artifact.contract.fingerprint,
     assetIncludesC4A: params.snapshot.prompt.includes('HUMAN-MADE MARKS'),
     assetIncludesC4B: params.snapshot.prompt.includes('SIGNATURE LIME REQUIREMENT'),
+    assetIncludesC4B1: materialFalPromptHasLimeRestraintSection({
+      prompt: params.snapshot.prompt,
+      negativePrompt: params.snapshot.negativePrompt,
+      promptHash: params.snapshot.fingerprint,
+      sectionOrder: [],
+    }),
     assetIncludesC5: params.snapshot.prompt.includes('PUBLIC AUTHORSHIP MODE'),
     assetUsesCurrentPublicCopy: params.snapshot.prompt.includes('VISIBLE NDX HEADLINE'),
     assetUsesCurrentAuthorship: params.snapshot.prompt.includes('FIRST-PERSON CHARACTER AUTHORSHIP'),
@@ -282,10 +289,17 @@ export function selectedAssetPassesCurrentLineage(artifact: Experiment01V23Artif
     selected.assetGeneratedFromCurrentContract &&
     selected.assetIncludesC4A &&
     selected.assetIncludesC4B &&
+    (selected.assetIncludesC4B1 ?? materialFalPromptHasLimeRestraintSection({
+      prompt: artifact.generationContract?.prompt ?? '',
+      negativePrompt: artifact.generationContract?.negativePrompt ?? '',
+      promptHash: '',
+      sectionOrder: [],
+    })) &&
     selected.assetIncludesC5 &&
     selected.assetUsesCurrentPublicCopy &&
     selected.assetUsesCurrentAuthorship &&
-    selected.assetUsesCurrentLabelQuarantine
+    selected.assetUsesCurrentLabelQuarantine &&
+    signatureLimeRestraintGatePasses(artifact.contract.signatureLimeRestraint)
   );
 }
 

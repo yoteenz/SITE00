@@ -1,5 +1,5 @@
 /**
- * P0.5C.4A — NDX Lime Intervention System + density governance.
+ * P0.5C.4A + P0.5C.4B.1 — NDX Lime Intervention System (restraint-aware density).
  */
 
 import type {
@@ -16,18 +16,19 @@ export function buildNdxLimeInterventionSystem(params: {
   topicIndex: number;
 }): NDXLimeInterventionSystem {
   const limeMarks = params.markSystem.marks.filter((m) => m.limeApplied);
-  const iconCount = params.markSystem.handDrawnIcons.length;
-  const semanticallyJustifiedCount = limeMarks.length + iconCount;
+  const limeIcons = params.markSystem.handDrawnIcons.filter((i) => i.limeApplied);
+  const semanticallyJustifiedCount = limeMarks.length + limeIcons.length;
+  const totalMarks = params.markSystem.marks.length + params.markSystem.handDrawnIcons.length;
 
   let density: LimeInterventionDensity = 'SUBTLE';
-  if (semanticallyJustifiedCount >= 4 && semanticallyJustifiedCount <= 8) density = 'MODERATE';
-  else if (semanticallyJustifiedCount > 8) density = 'STRONG';
-  else if (params.topicIndex === 1 && semanticallyJustifiedCount >= 3) density = 'MODERATE';
+  if (semanticallyJustifiedCount >= 4) density = 'STRONG';
+  else if (semanticallyJustifiedCount >= 2) density = 'MODERATE';
+  else if (semanticallyJustifiedCount === 1) density = 'SUBTLE';
 
   const applicationModes = [
     ...new Set([
-      ...params.markSystem.marks.map((m) => m.applicationMode),
-      ...params.markSystem.handDrawnIcons.map((i) => i.applicationMode),
+      ...limeMarks.map((m) => m.applicationMode),
+      ...limeIcons.map((i) => i.applicationMode),
     ]),
   ];
 
@@ -35,13 +36,13 @@ export function buildNdxLimeInterventionSystem(params: {
     density,
     applicationModes,
     interventionSites: [
-      ...params.markSystem.marks.map((m) => m.semanticPurpose),
-      ...params.markSystem.handDrawnIcons.map((i) => `hand-drawn ${i.subject}`),
+      ...limeMarks.map((m) => m.semanticPurpose),
+      ...limeIcons.map((i) => `hand-drawn ${i.subject} (attention target)`),
     ],
-    semanticPurposes: params.limeFunction ? [params.limeFunction] : ['INTERVENTION'],
+    semanticPurposes: params.limeFunction ? [params.limeFunction] : ['SELECTIVE_SIGNATURE_ACCENT'],
     decorativeOnly: false,
     appliedAfterBaseMaterial: true,
-    elementCount: semanticallyJustifiedCount,
+    elementCount: totalMarks,
     semanticallyJustifiedCount,
   };
 }
@@ -49,20 +50,20 @@ export function buildNdxLimeInterventionSystem(params: {
 export function evaluateLimeInterventionDensity(params: {
   limeIntervention: NDXLimeInterventionSystem;
 }): LimeInterventionDensity {
-  const { elementCount, semanticallyJustifiedCount, decorativeOnly } = params.limeIntervention;
+  const { semanticallyJustifiedCount, decorativeOnly } = params.limeIntervention;
   if (decorativeOnly) return 'OVERUSED';
-  const ratio = semanticallyJustifiedCount / Math.max(elementCount, 1);
-  if (elementCount >= 10 && ratio < 0.5) return 'OVERUSED';
-  if (elementCount >= 6 && ratio >= 0.8) return 'STRONG';
-  if (elementCount >= 3) return 'MODERATE';
-  return 'SUBTLE';
+  if (semanticallyJustifiedCount === 0) return 'SUBTLE';
+  if (semanticallyJustifiedCount === 1) return 'SUBTLE';
+  if (semanticallyJustifiedCount === 2) return 'MODERATE';
+  if (semanticallyJustifiedCount >= 4) return 'STRONG';
+  return 'MODERATE';
 }
 
 export function limeDensityIndependentFromRawCount(params: {
   elementCount: number;
   semanticallyJustifiedCount: number;
 }): boolean {
-  return params.elementCount > 2 && params.semanticallyJustifiedCount === params.elementCount;
+  return params.elementCount > params.semanticallyJustifiedCount;
 }
 
 export function limeCanExceedTwoElementsWhenJustified(lime: NDXLimeInterventionSystem): boolean {
@@ -74,7 +75,7 @@ export function limeNotDecorativeOnly(lime: NDXLimeInterventionSystem): boolean 
 }
 
 export function limeTooPassiveFails(lime: NDXLimeInterventionSystem, topicRequiresIntervention: boolean): boolean {
-  return topicRequiresIntervention && lime.density === 'SUBTLE' && lime.elementCount <= 1;
+  return topicRequiresIntervention && lime.semanticallyJustifiedCount === 0;
 }
 
 export function evaluateLimeFeedDistance(params: {
@@ -82,11 +83,11 @@ export function evaluateLimeFeedDistance(params: {
   limeIntervention: NDXLimeInterventionSystem;
 }): LimeFeedDistanceEvaluation {
   let result: LimeFeedDistanceEvaluation['result'] = 'SUBTLE_BUT_PRESENT';
-  if (params.limeIntervention.density === 'MODERATE' || params.limeIntervention.density === 'STRONG') {
+  if (params.limeIntervention.semanticallyJustifiedCount >= 1) {
     result = params.limeIntervention.density === 'STRONG' ? 'CLEAR' : 'CLEAR';
   }
-  if (params.limeIntervention.density === 'SUBTLE' && params.limeIntervention.elementCount === 0) {
-    result = 'TOO_WEAK';
+  if (params.limeIntervention.semanticallyJustifiedCount === 0) {
+    result = params.limeIntervention.elementCount > 0 ? 'SUBTLE_BUT_PRESENT' : 'TOO_WEAK';
   }
   if (params.limeIntervention.density === 'OVERUSED') {
     result = 'OVERPOWERING';

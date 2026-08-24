@@ -42,7 +42,7 @@ export function buildV23HumanMadeRevision(params: {
   ];
   const change = ['lime visibility', 'icon behavior', 'maker trace'];
   if (params.topicIndex === 1) {
-    change.push('replace generic product pictograms with lime hand-drawn NDX symbols');
+    change.push('replace generic product pictograms with black-pen hand-drawn NDX symbols — ONE lime icon at attention target only');
   }
   return {
     revisionId: `v23hm-${params.topicIndex}`,

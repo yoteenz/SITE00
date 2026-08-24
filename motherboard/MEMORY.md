@@ -4404,3 +4404,16 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **UI/API:** `/projects/ndxbook/embodied-character` — Character Discovery workspace with 17 sections, interview save/resume, founder judgments, founder-triggered synthesis.
 - **Tests:** 16 requirements in `embodiedCharacterDiscoveryP05E3.test.ts`. Build green. Deploy v57.
 
+---
+
+## 2026-08-24 — P0.5C.4B.1 Signature Lime Restraint + Queue Supersession
+
+- **Context:** Founder reported P0.5C.4B overcorrected — FAL rendered lime as default ink across handwriting, icons, annotations. Sprint also required immediately superseding stale V2.3 generation queue compiled pre-C4B.1 without auto-regenerating after implementation.
+- **Root cause:** `falPromptCompilerV23` defaulted all NDX marks/icons to signature lime; `humanMadeMarks` set `limeApplied: true` on every mark; `limeIntervention` derived MODERATE+ density from icon counts — HUMAN_MADE ↔ LIME coupling.
+- **Canonical principle:** LIME PRESENCE REQUIRED · LIME PROMINENCE PROHIBITED. New `signatureLimeRestraint.ts` — ChromaticAttentionHierarchy, SignatureLimeRestraintMode, LimeProminenceEvaluation, FeedChromaticRhythm; decoupled human-made color from lime.
+- **Phase 0:** `experiment01V23Supersession.ts` + service reconcile on GET — marks run `SUPERSEDED_BY_METHODOLOGY` / reason `P0.5C.4B.1_SIGNATURE_LIME_RESTRAINT`; pending → `CANCELLED_SUPERSEDED` (not FAILED); completed → `PRESERVED_PRE_C4B1`; in-flight may complete once; blocks further FAL from stale queue; forensic report on experiment.
+- **FAL:** Compiler bumped to `falPromptCompilerV23@P0.5C.4B.1`; dedicated SIGNATURE LIME RESTRAINT + CHROMATIC ATTENTION section; black/neutral default typography and icons; pre-C4B.1 snapshots → `STALE_PRE_C4B1`; REGENERATE_CURRENT recompiles C4B.1; REPLAY preserves history.
+- **Round 01:** Lime restraint gate + current lineage requires C4B.1. UI founder review fields: lime role, attention target, restraint mode, prominence, human trace color, job status (CANCELLED/SUPERSEDED vs FAILED).
+- **No V2.4.** No automatic regeneration after sprint — founder REGENERATE CURRENT only.
+- **Tests:** `artBoardMaterialityP05C4B1.test.ts` (14) + updated P05C4B/P05C5A. Build green.
+

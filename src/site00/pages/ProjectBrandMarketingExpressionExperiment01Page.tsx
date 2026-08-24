@@ -44,6 +44,8 @@ import {
   v23ArtifactIsLegacyGeneration,
   v23ArtifactMethodologyStatus,
   v23ArtifactPromptFreshnessState,
+  v23FounderLimeReview,
+  v23GenerationJobStatusLabel,
 } from '../../../shared/site00-brand-lore/artBoardMateriality/v23BoardReadinessClient';
 import '../styles/site00-replay-execution.css';
 
@@ -466,6 +468,22 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                 </section>
               )}
 
+              {versionTab === 'V23' && v23Artifacts.length > 0 && expV23?.generationSupersessionForensic && (
+                <section className="site00-experiment-g__panel">
+                  <h2>V2.3 GENERATION SUPERSEDED (P0.5C.4B.1)</h2>
+                  <p>
+                    Methodology supersession — not a generation failure. Stale pre-C4B.1 queue cancelled; completed assets preserved.
+                  </p>
+                  <dl>
+                    <dt>PENDING CANCELLED</dt><dd>{expV23.generationSupersessionForensic.pendingJobsCancelled}</dd>
+                    <dt>IN FLIGHT AT BOUNDARY</dt><dd>{expV23.generationSupersessionForensic.inFlightRequestsAtBoundary}</dd>
+                    <dt>COMPLETED PRESERVED</dt><dd>{expV23.generationSupersessionForensic.completedAssetsPreserved}</dd>
+                    <dt>EST. SPEND PREVENTED</dt><dd>${expV23.generationSupersessionForensic.estimatedSpendPrevented.toFixed(2)}</dd>
+                  </dl>
+                  <p style={{ fontSize: '0.85rem' }}>Use REGENERATE CURRENT per slide after governance passes — no automatic batch restart.</p>
+                </section>
+              )}
+
                   {versionTab === 'V23' && v23Artifacts.length > 0 && (
                 <section className="site00-experiment-g__panel">
                   <h2>V2.3 GENERATION AUTHORITY (P0.5C.5A)</h2>
@@ -489,7 +507,7 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                     </>
                   ) : (
                     <p>
-                      All nine V2.3 contracts include signature-lime requirements in FAL prompts ({v23LimeReadyCount}/9). No new board version needed — use revision labels to micro-adjust individual slides.
+                      All nine V2.3 contracts include signature-lime + restraint governance in FAL prompts ({v23LimeReadyCount}/9). P0.5C.4B.1 — lime presence required, prominence prohibited. Use REGENERATE CURRENT for fresh lineage.
                     </p>
                   )}
                 </section>
@@ -586,8 +604,28 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
                       </p>
                       <p style={{ fontSize: '0.85rem', marginBottom: '12px' }}>
                         METHODOLOGY: C.4A {v23ArtifactMethodologyStatus(selectedV23).c4a ? '✓' : '✗'} · C.4B{' '}
-                        {v23ArtifactMethodologyStatus(selectedV23).c4b ? '✓' : '✗'} · C.5 {v23ArtifactMethodologyStatus(selectedV23).c5 ? '✓' : '✗'}
+                        {v23ArtifactMethodologyStatus(selectedV23).c4b ? '✓' : '✗'} · C.4B.1{' '}
+                        {v23ArtifactMethodologyStatus(selectedV23).c4b1 ? '✓' : '✗'} · C.5{' '}
+                        {v23ArtifactMethodologyStatus(selectedV23).c5 ? '✓' : '✗'}
                       </p>
+                      {(() => {
+                        const limeReview = v23FounderLimeReview(selectedV23);
+                        const jobLabel = v23GenerationJobStatusLabel(selectedV23);
+                        return (
+                          <div style={{ marginBottom: '12px' }}>
+                            {jobLabel && <p style={{ fontSize: '0.85rem' }}>GENERATION JOB: {jobLabel}</p>}
+                            <dl>
+                              <dt>SIGNATURE LIME</dt><dd>{limeReview.signatureLime}</dd>
+                              <dt>LIME ROLE</dt><dd>{limeReview.limeRole}</dd>
+                              <dt>ATTENTION TARGET</dt><dd>{limeReview.attentionTarget}</dd>
+                              <dt>RESTRAINT MODE</dt><dd>{limeReview.restraintMode}</dd>
+                              <dt>PROMINENCE</dt><dd>{limeReview.prominence}</dd>
+                              <dt>HUMAN TRACE COLOR</dt><dd>{limeReview.humanTraceColor}</dd>
+                              <dt>CURRENT LINEAGE</dt><dd>{limeReview.currentLineage}</dd>
+                            </dl>
+                          </div>
+                        );
+                      })()}
                       {selectedV23.generatedAssetUrl && (
                         <div style={{ marginBottom: '12px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                           <button
