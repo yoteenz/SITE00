@@ -69,7 +69,11 @@ import {
   buildNdxCharacterScenarioTests,
   africanAmericanCharacterContextIsNdxSpecific,
   culturalAuthenticityNotStereotypeDensity,
+  NDX_EMBODIED_CHARACTER_DISCOVERY_DB_ID,
+  isNdxEmbodiedCharacterDiscoveryRun,
 } from '../site00-brand-lore/ndxEmbodiedCharacterDiscovery/index.js';
+import { NDXBOOK_CONTENT_OPERATIONS_DB_ID } from '../site00-brand-lore/contentOperations/constants.js';
+import { NDXBOOK_CAMPAIGN_PRODUCTION_DB_ID } from '../site00-brand-lore/marketingCampaignProduction/constants.js';
 import {
   burnBookCloneBehaviorFails,
   founderCloneBehaviorFails,
@@ -275,5 +279,25 @@ describe('P0.5E.3 — Embodied Character Discovery', () => {
     expect(page).toContain('CHARACTER GENERATION');
     expect(api).toContain('embodied_character_discovery_initialize');
     expect(buildEmbodiedBrandCharacterDiscoverySystem('test').falRequired).toBe(false);
+  });
+
+  it('17. Supabase row id is unique — must not collide with content operations or campaign stores', () => {
+    expect(NDX_EMBODIED_CHARACTER_DISCOVERY_DB_ID).not.toBe(NDXBOOK_CONTENT_OPERATIONS_DB_ID);
+    expect(NDX_EMBODIED_CHARACTER_DISCOVERY_DB_ID).not.toBe(NDXBOOK_CAMPAIGN_PRODUCTION_DB_ID);
+  });
+
+  it('18. Rejects foreign methodology_validation_runs payloads (content ops shape)', () => {
+    const run = buildNdxEmbodiedCharacterDiscoveryRun('ndxbook');
+    expect(isNdxEmbodiedCharacterDiscoveryRun(run, 'ndxbook')).toBe(true);
+    expect(
+      isNdxEmbodiedCharacterDiscoveryRun(
+        {
+          runId: 'ndxbook-content-operations',
+          projectId: 'ndxbook',
+          status: 'SLATE_PROPOSED',
+        },
+        'ndxbook',
+      ),
+    ).toBe(false);
   });
 });

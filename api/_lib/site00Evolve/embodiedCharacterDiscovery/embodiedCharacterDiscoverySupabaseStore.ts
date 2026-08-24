@@ -8,6 +8,7 @@ import {
   NDX_EMBODIED_CHARACTER_DISCOVERY_DB_ID,
   NDX_EMBODIED_CHARACTER_DISCOVERY_MODE,
 } from '../../../../shared/site00-brand-lore/ndxEmbodiedCharacterDiscovery/constants.js';
+import { isNdxEmbodiedCharacterDiscoveryRun } from '../../../../shared/site00-brand-lore/ndxEmbodiedCharacterDiscovery/recordValidation.js';
 import { NDXBOOK_ORG_ID } from '../creativeDirection/creativeIntelligence/founderComparisonSet.js';
 import { resolveProjectDbIdForSupabaseFk } from '../../site00Projects/founderProjectDbId.js';
 
@@ -28,12 +29,13 @@ export async function getEmbodiedCharacterDiscoveryRun(
 ): Promise<NdxEmbodiedCharacterDiscoveryRun | null> {
   const { data, error } = await getSupabaseAdmin()
     .from(TABLE)
-    .select('record')
+    .select('record, mode')
     .eq('id', NDX_EMBODIED_CHARACTER_DISCOVERY_DB_ID)
+    .eq('mode', NDX_EMBODIED_CHARACTER_DISCOVERY_MODE)
     .maybeSingle();
   if (error || !data) return null;
-  const rec = data.record as NdxEmbodiedCharacterDiscoveryRun;
-  return rec.projectId === projectId ? rec : null;
+  const rec = data.record;
+  return isNdxEmbodiedCharacterDiscoveryRun(rec, projectId) ? rec : null;
 }
 
 export async function saveEmbodiedCharacterDiscoveryRun(
