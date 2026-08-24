@@ -6,6 +6,7 @@ import { buildCharacterSynthesisPreview } from '../../../../shared/site00-studio
 import { evaluateExtendedHumanity } from '../../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/humanityEvaluation.js';
 import { applyVoiceLabJudgment } from '../../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/voiceLab.js';
 import { evaluateNdxFounderCharacterCastingReadiness } from '../../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/ndxCastingReadinessBridge.js';
+import { migrateFounderTraitPropositions } from '../../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/ndxFounderTraitPropositions.js';
 import type {
   FounderDiscoveryJudgment,
   FounderRecognitionResponse,
@@ -32,20 +33,31 @@ function nowIso(): string {
 }
 
 function refreshReadiness(run: NdxFounderCharacterDiscoveryRun): NdxFounderCharacterDiscoveryRun {
+  const traitMigration = migrateFounderTraitPropositions({
+    forensicReport: run.forensicReport,
+    traitPropositionVersion: run.traitPropositionVersion,
+  });
+  let next: NdxFounderCharacterDiscoveryRun = traitMigration.migrated
+    ? {
+        ...run,
+        forensicReport: traitMigration.forensicReport,
+        traitPropositionVersion: traitMigration.traitPropositionVersion,
+      }
+    : run;
   const humanityEvaluation = evaluateExtendedHumanity({
-    contradictions: run.contradictions,
-    flawProfile: run.flawProfile,
-    intelligenceMap: run.intelligenceMap,
-    relationships: run.relationships,
-    culturalBoundaries: run.culturalBoundaries,
-    publicPrivate: run.publicPrivate,
-    privateHumanityPresent: run.flawProfile.procrastinates.length > 0,
+    contradictions: next.contradictions,
+    flawProfile: next.flawProfile,
+    intelligenceMap: next.intelligenceMap,
+    relationships: next.relationships,
+    culturalBoundaries: next.culturalBoundaries,
+    publicPrivate: next.publicPrivate,
+    privateHumanityPresent: next.flawProfile.procrastinates.length > 0,
   });
   const castingReadiness = evaluateNdxFounderCharacterCastingReadiness({
-    run,
+    run: next,
     humanityEvaluation,
   });
-  return { ...run, humanityEvaluation, castingReadiness, updatedAt: nowIso() };
+  return { ...next, humanityEvaluation, castingReadiness, updatedAt: nowIso() };
 }
 
 function ensureCalibration(run: NdxFounderCharacterDiscoveryRun): NdxFounderCharacterDiscoveryRun {
@@ -111,7 +123,8 @@ export async function getFounderCharacterDiscoveryState(params: {
   const readinessChanged =
     refreshed.castingReadiness.state !== existing.castingReadiness.state ||
     refreshed.castingReadiness.readyForCharacterSynthesis !== existing.castingReadiness.readyForCharacterSynthesis ||
-    refreshed.castingReadiness.blockingGates.join('|') !== existing.castingReadiness.blockingGates.join('|');
+    refreshed.castingReadiness.blockingGates.join('|') !== existing.castingReadiness.blockingGates.join('|') ||
+    refreshed.traitPropositionVersion !== existing.traitPropositionVersion;
   if (readinessChanged) {
     return store.saveFounderCharacterDiscoveryRun(refreshed);
   }

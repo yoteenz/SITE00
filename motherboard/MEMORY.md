@@ -4524,3 +4524,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `ndxCastingReadinessBridge.test.ts` (4 tests).
 - **Founder:** Continue CALIBRATION (6+ moments) → I KNOW HER → CASTING tab lists any remaining gates. Voice lab: tap THAT'S HER — should show Saved line. Railway API redeploy required for backend bridge.
 
+---
+
+## 2026-08-24 — Founder trait propositions v2 (fluent INSPECT TRAITS)
+
+- **Context:** Founder reported INSPECT → TRAITS incoherent / AI jargon (`PSYCHOLOGY • SYSTEM_SEEDED • HYPOTHESIS` + fragment statements).
+- **Fix:** `ndxFounderTraitPropositions.ts` — 14 plain-language propositions in 6 sections; auto-migrate legacy runs on GET; TRAITS UI grouped with YES/ALMOST/NO/NOT SURE primary buttons + saved labels.
+- **Tests:** `ndxFounderTraitPropositions.test.ts` (4 tests).
+
