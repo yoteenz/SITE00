@@ -4990,6 +4990,7 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+<<<<<<< HEAD
 ## 2026-08-25 — P0.E Identity Judgment + First Canon Promotion (Astral World)
 
 - **Context:** Sprint P0.E — field-level + territory-level founder judgments, partial hierarchical canon, structural world canon promotion. NO fake founder judgment.
@@ -4997,4 +4998,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Production:** AWAITING_FOUNDER_JUDGMENT. 3 territories verified. 0 judgments, 0 canon.
 - **Tests:** identityJudgmentP0E.test.ts (20) pass; build green.
 - **Next:** Founder reviews at `/projects/astral-world/identity` OR P0.F after canon gate satisfied.
+=======
+## 2026-08-25 — P0.VR.1D screenshot-first visual reconstruction
+
+- **Context:** Founder sprint to fix website reconstruction drift by making reference screenshots primary visual authority (not text-derived approximations). Extends P0.VR.1 / 1A / 1C without replacing prior lineage.
+- **Delivered:** New `p0vr1d/` module under `shared/site00-studio-world-production/visualReconstruction/` — `WebVisualReferenceAuthority`, asset resolution, page decomposition, region map, geometry/typography/frame contracts, desktop/mobile separate authorities, pixel match evaluation, difference map, moodboard screen extraction, provider routing (image-reference preferred; text-only blocked as primary), screenshot-first pipeline with iterative compare/correct loop. Added `WEBSITE_RECONSTRUCTION` mode. Founder UI `VisualReconstructionWorkspace` (7-step flow, overlay/diff views). Tests `visualReconstructionP0VR1D.test.ts` (21 + success criteria). Doc `docs/architecture/SITE00_VISUAL_RECONSTRUCTION_P0VR1D.md`.
+- **Core rule:** Keep reference image in the loop until coded implementation matches; text cannot override visible geometry.
+- **Validation after ship:** Run one controlled desktop + mobile reconstruction pair; overlay reference vs implementation before responsive interpolation.
+>>>>>>> db47c62 (feat(visual-reconstruction): P0.VR.1D screenshot-first pixel matching)
 
