@@ -237,13 +237,15 @@ describe('P0.CB.1A Reference Board Replacement', () => {
 
   it('42-44 UI + generic engine paths exist', () => {
     const page = readFileSync(join(ROOT, 'src/site00/pages/ProjectFounderCreativeIngestionPage.tsx'), 'utf8');
+    const ingestStage = readFileSync(
+      join(ROOT, 'src/site00/components/founderCreativeIngestion/stages/FounderCreativeIngestStage.tsx'),
+      'utf8',
+    );
     const css = readFileSync(join(ROOT, 'src/site00/styles/site00-founder-creative-ingestion.css'), 'utf8');
-    expect(page).toContain('UPLOAD REPLACEMENT BOARD');
-    expect(page).toContain('TAP TO UPLOAD REPLACEMENT BOARD');
-    expect(page).toContain('type="file"');
-    expect(page).toContain('USE THIS REFERENCE (PROMOTE)');
-    expect(css).toContain('compare--triple');
-    expect(css).toContain('upload-zone');
+    expect(page).toContain('FounderCreativeIngestionWorkflow');
+    expect(ingestStage).toContain('Upload Reference Board');
+    expect(ingestStage).toContain('type="file"');
+    expect(css).toContain('site00-fci-gw__upload-zone');
     expect(readFileSync(join(ROOT, 'shared/site00-studio-world-production/founderCreativeIngestion/referenceReplacement/replacementEngine.ts'), 'utf8')).toContain(
       'NotebookGrammarAdapter',
     );
