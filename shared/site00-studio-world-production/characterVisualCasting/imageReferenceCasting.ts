@@ -840,3 +840,82 @@ export function syncCanonicalAnchorFromCharacterIsolate(state: CharacterVisualCa
     canonicalAnchor: anchorRecord,
   });
 }
+
+/** After FAL completes, copy candidate preview URLs onto derived isolate/anchor records. */
+export function hydrateImageReferenceAssetsFromGeneration(params: {
+  state: CharacterVisualCastingState;
+  roundId: string;
+}): CharacterVisualCastingState {
+  const round = params.state.rounds.find((entry) => entry.roundId === params.roundId);
+  if (!round) return params.state;
+
+  const roundCandidates = params.state.candidates.filter((entry) => entry.roundId === params.roundId);
+  const primaryCandidate =
+    roundCandidates.find((entry) => entry.candidateId === params.state.characterIsolate?.candidateId) ??
+    roundCandidates[0];
+  if (!primaryCandidate?.previewUrl) return params.state;
+
+  if (round.generationMode === 'CHARACTER_ISOLATE' && params.state.characterIsolate) {
+    const isolate = params.state.characterIsolate;
+    if (isolate.roundId !== params.roundId) return params.state;
+    return syncCanonicalAnchorFromCharacterIsolate(
+      syncPipelineState({
+        ...params.state,
+        characterIsolate: {
+          ...isolate,
+          previewUrl: primaryCandidate.previewUrl,
+          status: isolate.status === 'APPROVED' ? 'APPROVED' : 'REVIEW',
+        },
+      }),
+    );
+  }
+
+  if (round.generationMode === 'CANONICAL_ANCHOR' && params.state.canonicalAnchor) {
+    const anchor = params.state.canonicalAnchor;
+    if (anchor.roundId !== params.roundId) return params.state;
+    return syncPipelineState({
+      ...params.state,
+      canonicalAnchor: {
+        ...anchor,
+        previewUrl: primaryCandidate.previewUrl,
+        status: anchor.status === 'APPROVED' ? 'APPROVED' : 'REVIEW',
+      },
+    });
+  }
+
+  return params.state;
+}
+
+/** When FAL fails, unblock isolate review UI (stop infinite "generating"). */
+export function hydrateImageReferenceAssetsFromGenerationFailure(params: {
+  state: CharacterVisualCastingState;
+  roundId: string;
+}): CharacterVisualCastingState {
+  const round = params.state.rounds.find((entry) => entry.roundId === params.roundId);
+  if (!round) return params.state;
+
+  if (round.generationMode === 'CHARACTER_ISOLATE' && params.state.characterIsolate?.roundId === params.roundId) {
+    return syncCanonicalAnchorFromCharacterIsolate(
+      syncPipelineState({
+        ...params.state,
+        characterIsolate: {
+          ...params.state.characterIsolate,
+          status: params.state.characterIsolate.status === 'APPROVED' ? 'APPROVED' : 'REVIEW',
+        },
+      }),
+    );
+  }
+
+  if (round.generationMode === 'CANONICAL_ANCHOR' && params.state.canonicalAnchor?.roundId === params.roundId) {
+    const anchor = params.state.canonicalAnchor;
+    return syncPipelineState({
+      ...params.state,
+      canonicalAnchor: {
+        ...anchor,
+        status: anchor.status === 'APPROVED' ? 'APPROVED' : 'REVIEW',
+      },
+    });
+  }
+
+  return params.state;
+}

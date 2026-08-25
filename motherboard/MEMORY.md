@@ -5111,3 +5111,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Priority icons corrected:** Overview (house), Content Ops (circle/target), Campaigns (clapper), Notification (bell footprint enlarged), Lab, More, Ellipsis, project menu icons.
 - **Preserved:** Page layout, navigation behavior, SITE00 host canon, NDX brand canon — icon geometry only.
 
+---
+
+## 2026-08-25 — Character isolate "generating" stuck without FAL / preview
+
+- **Context:** Founder on CAST NDX character casting saw "Isolate generating…" while FAL dashboard showed no in-flight job.
+- **Root cause:** `applyCastingGenerationResults` updated casting **candidate** `previewUrl` after FAL completed but never copied it to `characterIsolate.previewUrl` / `canonicalAnchor.previewUrl`. UI only reads isolate record → perpetual "generating" even after successful FAL run.
+- **Fix:** `hydrateImageReferenceAssetsFromGeneration` + failure hydrate in `imageReferenceCasting.ts`; wired from `applyCastingGenerationResults` / `applyCastingGenerationFailure` in `castingEngine.ts`. UI isolate panel falls back to candidate preview, shows FAL error, and offers **RETRY ISOLATE GENERATION** when stuck/failed.
+- **Test:** `imageReferenceCastingP05E4E1.test.ts` case `27b`.
+

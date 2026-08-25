@@ -21,6 +21,7 @@ import {
   textOnlyBlockedForCanonicalCharacter,
   wardrobeExplorationSeparateFromDocumentation,
 } from '../shared/site00-studio-world-production/characterVisualCasting/imageReferenceCasting.js';
+import { applyCastingGenerationResults } from '../shared/site00-studio-world-production/characterVisualCasting/castingEngine.js';
 import {
   isCharacterIsolateApproved,
   turnaroundBlockedUntilIsolateApproved,
@@ -316,6 +317,30 @@ describe('P0.5E.4E.1 image-reference casting', () => {
     });
     expect(qa.sameWomanPass).toBe(true);
     expect(qa.sameOutfitPass).toBe(true);
+  });
+
+  it('27b. FAL completion syncs character isolate preview from candidate', () => {
+    const { state } = seedWithReference();
+    const withIsolate = generateCharacterIsolateRound({ state, falConfigured: true, dispatchFal: true });
+    const roundId = withIsolate.rounds.at(-1)!.roundId;
+    const candidateId = withIsolate.characterIsolate!.candidateId;
+    expect(withIsolate.characterIsolate?.previewUrl).toBeNull();
+
+    const after = applyCastingGenerationResults({
+      state: withIsolate,
+      roundId,
+      results: [
+        {
+          candidateId,
+          previewUrl: 'https://example.test/isolate-generated.webp',
+          outputAssetId: 'character-casting/isolate.webp',
+        },
+      ],
+    });
+
+    expect(after.characterIsolate?.previewUrl).toBe('https://example.test/isolate-generated.webp');
+    expect(after.characterIsolate?.status).toBe('REVIEW');
+    expect(after.canonicalAnchor?.previewUrl).toBe('https://example.test/isolate-generated.webp');
   });
 
   it('28. brand character unchanged', () => {
