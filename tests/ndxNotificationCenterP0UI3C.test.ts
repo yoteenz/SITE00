@@ -156,7 +156,7 @@ describe('P0.UI.3C Active Project Notification Center', () => {
     const notifyPanel = read('src/site00/components/founderWorkspace/ActiveProjectNotificationCenter.tsx');
     expect(notifyPanel).toContain('site00-fws-notify-backdrop');
     expect(notifyPanel).toContain("event.key === 'Escape'");
-    expect(notifyPanel).toContain('getBoundingClientRect');
+    expect(notifyPanel).toContain('computeNotificationPanelPosition');
     const css = read('src/site00/styles/site00-founder-workspace.css');
     expect(css).toContain('.site00-fws-notify');
     expect(css).toContain('position: fixed');

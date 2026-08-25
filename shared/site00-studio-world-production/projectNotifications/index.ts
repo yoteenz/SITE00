@@ -7,3 +7,4 @@ export * from './eventAdapter.js';
 export * from './format.js';
 export * from './devFixtures.js';
 export * from './memoryStore.js';
+export * from './panelPosition.js';

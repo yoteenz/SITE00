@@ -2727,6 +2727,7 @@
 .site00-fws-notify {
   position: fixed;
   z-index: 865;
+  max-width: calc(100vw - 24px);
   max-height: min(70vh, 520px);
   display: flex;
   flex-direction: column;
