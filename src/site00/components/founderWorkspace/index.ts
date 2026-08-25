@@ -37,6 +37,10 @@ export { Experiment01OperateLayer, Experiment01UnderstandLayer } from './Experim
 export { CharacterLabOperateLayer } from './CharacterLabOperateLayer';
 export { ExperimentsHubOperateLayer } from './ExperimentsHubOperateLayer';
 export { VisualReconstructionWorkspace } from './VisualReconstructionWorkspace';
+export { FounderWorkspaceMobileNav } from './FounderWorkspaceMobileNav';
+export { FounderWorkspaceProjectMenu } from './FounderWorkspaceProjectMenu';
+export { FounderWorkspaceHeaderChrome } from './FounderWorkspaceHeaderChrome';
+export { NdxIconSheetPanel } from './NdxIconSheetPanel';
 export { OverviewFounderWorkspaceBoard, OverviewMobileHomeScreen } from './OverviewFounderWorkspaceBoard';
 export { MobileFounderWorkspaceChrome } from './MobileFounderWorkspaceChrome';
 export { ProjectEscapeMenu } from './ProjectEscapeMenu';

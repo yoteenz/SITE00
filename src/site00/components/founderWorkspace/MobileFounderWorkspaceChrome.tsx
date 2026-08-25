@@ -1,20 +1,29 @@
 /**
- * P0.VR.1D.A / P0.VR.1D.3 — Mobile founder workspace chrome.
- * Sticky header + bottom nav + project escape menu on narrow viewports.
+ * P0.VR.1D.A / P0.VR.1D.3 + P0.UI.3 — Mobile founder workspace chrome.
+ * Sticky header + bottom nav + project escape menu; canonical NDXIcon.
  */
 
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { ndxFounderWorkspaceMobileNav, resolveMobileScreenIdFromPath } from '../../config/ndxFounderWorkspaceMobileNav';
+import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
+import { NDXIcon } from '../../icons/ndx';
 import { ProjectEscapeMenu } from './ProjectEscapeMenu';
 import '../../styles/site00-founder-workspace.css';
 
 type Props = {
   projectSlug: string;
   children: React.ReactNode;
+  onOpenMenu?: () => void;
+  onOpenNotifications?: () => void;
 };
 
-export function MobileFounderWorkspaceChrome({ projectSlug, children }: Props) {
+export function MobileFounderWorkspaceChrome({
+  projectSlug,
+  children,
+  onOpenMenu,
+  onOpenNotifications,
+}: Props) {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const screenId = resolveMobileScreenIdFromPath(location.pathname, projectSlug);
@@ -27,7 +36,10 @@ export function MobileFounderWorkspaceChrome({ projectSlug, children }: Props) {
     if (vrMenuOpen) setMenuOpen(true);
   }, [vrMenuOpen]);
 
-  const toggleMenu = () => setMenuOpen((open) => !open);
+  const toggleMenu = () => {
+    setMenuOpen((open) => !open);
+    onOpenMenu?.();
+  };
   const closeMenu = () => setMenuOpen(false);
 
   return (
@@ -43,8 +55,13 @@ export function MobileFounderWorkspaceChrome({ projectSlug, children }: Props) {
           </span>
         </div>
         <div className="site00-fws-mobile-chrome__actions">
-          <button type="button" className="site00-fws-mobile-chrome__icon site00-fws-mobile-chrome__icon--bell" aria-label="Notifications">
-            <span aria-hidden>🔔</span>
+          <button
+            type="button"
+            className="site00-fws-mobile-chrome__icon site00-fws-mobile-chrome__icon--bell"
+            aria-label="Notifications"
+            onClick={onOpenNotifications}
+          >
+            <NDXIcon name="notifications" size={NDX_ICON_CONTEXT_SIZE.header} state="inactive" decorative />
           </button>
           <button
             ref={menuTriggerRef}
@@ -55,7 +72,7 @@ export function MobileFounderWorkspaceChrome({ projectSlug, children }: Props) {
             aria-expanded={menuOpen}
             onClick={toggleMenu}
           >
-            <span aria-hidden>···</span>
+            <NDXIcon name="ellipsis" size={NDX_ICON_CONTEXT_SIZE.header} state={menuOpen ? 'active' : 'inactive'} decorative />
           </button>
         </div>
       </header>
@@ -79,8 +96,13 @@ export function MobileFounderWorkspaceChrome({ projectSlug, children }: Props) {
               className={`site00-fws-mobile-chrome__nav-item${active ? ' site00-fws-mobile-chrome__nav-item--active' : ''}`}
               aria-current={active ? 'page' : undefined}
             >
-              <span className="site00-fws-mobile-chrome__nav-icon" aria-hidden>
-                {item.icon}
+              <span className="site00-fws-mobile-chrome__nav-icon" aria-hidden="true">
+                <NDXIcon
+                  name={item.icon}
+                  size={NDX_ICON_CONTEXT_SIZE.bottomNav}
+                  state={active ? 'active' : 'inactive'}
+                  decorative
+                />
               </span>
               <span className="site00-fws-mobile-chrome__nav-label">{item.label}</span>
             </Link>

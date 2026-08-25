@@ -1,7 +1,9 @@
 /**
  * NDXBOOK mobile bottom nav — Image B screen family authority.
+ * P0.UI.3 — icon field uses canonical NDXIconName registry keys.
  */
 
+import type { NDXIconName } from '../../../shared/site00-studio-world-ui/icons/index.js';
 import {
   site00ProjectContentOperationsCampaignBoardPath,
   site00ProjectContentOperationsPath,
@@ -14,35 +16,41 @@ export type NdxMobileNavItem = {
   id: string;
   label: string;
   href: string;
-  icon: string;
+  icon: NDXIconName;
   screenId: string;
 };
 
 export function ndxFounderWorkspaceMobileNav(projectSlug: string): NdxMobileNavItem[] {
   return [
-    { id: 'overview', label: 'OVERVIEW', href: site00ProjectPath(projectSlug), icon: '⌂', screenId: 'overview' },
+    { id: 'overview', label: 'OVERVIEW', href: site00ProjectPath(projectSlug), icon: 'overview', screenId: 'overview' },
     {
       id: 'campaigns',
       label: 'CAMPAIGNS',
       href: site00ProjectContentOperationsCampaignBoardPath(projectSlug),
-      icon: '▤',
+      icon: 'campaigns',
       screenId: 'campaign-board',
     },
     {
       id: 'content-ops',
       label: 'CONTENT OPS',
       href: site00ProjectContentOperationsPath(projectSlug),
-      icon: '◎',
+      icon: 'content_ops',
       screenId: 'content-ops',
     },
     {
       id: 'lab',
       label: 'LAB',
       href: site00ProjectFounderCharacterDiscoveryPath(projectSlug),
-      icon: '⚗',
+      icon: 'lab',
       screenId: 'character-lab',
     },
-    { id: 'more', label: 'MORE', href: site00ProjectExperimentsPath(projectSlug), icon: '···', screenId: 'experiments-hub' },
+    {
+      id: 'more',
+      label: 'MORE',
+      href: site00ProjectExperimentsPath(projectSlug),
+      icon: 'more',
+      screenId: 'experiments-hub',
+    },
   ];
 }
 
