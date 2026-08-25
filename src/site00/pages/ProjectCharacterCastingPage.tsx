@@ -127,11 +127,18 @@ export default function ProjectCharacterCastingPage() {
     null;
 
   const isolateRoundId = characterIsolate?.roundId ?? canonicalAnchor?.roundId ?? latestRound?.roundId ?? null;
+  const isolateStaleGenerating = Boolean(
+    (characterIsolate || canonicalAnchor) &&
+      !anchorApproved &&
+      !isolatePreviewUrl &&
+      !isGeneratingRound &&
+      (characterIsolate?.status === 'GENERATING' || canonicalAnchor?.status === 'GENERATING'),
+  );
   const isolateAwaitingFal = Boolean(
     (characterIsolate || canonicalAnchor) &&
       !anchorApproved &&
       !isolatePreviewUrl &&
-      (characterIsolate?.status === 'GENERATING' || isGeneratingRound),
+      isGeneratingRound,
   );
 
   useEffect(() => {
@@ -187,12 +194,33 @@ export default function ProjectCharacterCastingPage() {
 
   const operate = (
     <div className="site00-char-cast">
-      {loading && <p>Loading casting state…</p>}
       {actionError && (
         <p className="site00-char-cast__error" role="alert">
           {actionError}
         </p>
       )}
+
+      {!loading && isolateStaleGenerating && (
+        <section className="site00-char-cast__panel">
+          <p className="site00-char-cast__error" role="alert">
+            Character isolate is not generating on FAL — the last run did not finish. Tap retry to dispatch again.
+          </p>
+          {isolateRoundId ? (
+            <button
+              type="button"
+              className="site00-char-cast__cta site00-char-cast__cta--primary"
+              disabled={busy}
+              onClick={() =>
+                void act(() => site00ProjectsApi.characterVisualCastingRetryFal(projectSlug, isolateRoundId ?? undefined))
+              }
+            >
+              RETRY ISOLATE GENERATION
+            </button>
+          ) : null}
+        </section>
+      )}
+
+      {loading && <p>Loading casting state…</p>}
 
       {!loading && casting && !casting.visualCastingReady && (
         <section className="site00-char-cast__panel">
@@ -273,6 +301,7 @@ export default function ProjectCharacterCastingPage() {
           authoritySnapshot={casting.visualAuthoritySnapshot ?? null}
           isolatePreviewUrl={isolatePreviewUrl}
           isolateAwaitingFal={isolateAwaitingFal}
+          isolateStaleGenerating={isolateStaleGenerating}
           isolateRoundId={isolateRoundId}
           generationFailed={generationFailed}
           generationStuck={generationStuck}
@@ -599,6 +628,7 @@ function FounderReferencesPanel({
   authoritySnapshot,
   isolatePreviewUrl,
   isolateAwaitingFal,
+  isolateStaleGenerating,
   isolateRoundId,
   generationFailed,
   generationStuck,
@@ -631,6 +661,7 @@ function FounderReferencesPanel({
   authoritySnapshot: { identityLock: { identitySignature: string }; wardrobeLock: { garmentCategories: string }; environmentLock: { roomType: string } } | null;
   isolatePreviewUrl: string | null;
   isolateAwaitingFal: boolean;
+  isolateStaleGenerating: boolean;
   isolateRoundId: string | null;
   generationFailed: boolean;
   generationStuck: boolean;
@@ -790,6 +821,8 @@ function FounderReferencesPanel({
                   </figure>
                 ) : isolateAwaitingFal ? (
                   <p className="site00-char-cast__hint">Isolate generating…</p>
+                ) : isolateStaleGenerating ? (
+                  <p className="site00-char-cast__hint">Generation stalled — retry FAL dispatch below.</p>
                 ) : (
                   <p className="site00-char-cast__hint">Isolate pending — tap regenerate or retry below.</p>
                 )}
@@ -799,7 +832,8 @@ function FounderReferencesPanel({
                   {falErrorMessage}
                 </p>
               ) : null}
-              {(generationStuck || generationFailed || (isolateAwaitingFal && isolateRoundId)) && isolateRoundId ? (
+              {(generationStuck || generationFailed || isolateStaleGenerating || (isolateAwaitingFal && isolateRoundId)) &&
+              isolateRoundId ? (
                 <button
                   type="button"
                   className="site00-char-cast__cta site00-char-cast__cta--primary"
@@ -816,7 +850,7 @@ function FounderReferencesPanel({
                   ))}
                 </ul>
               ) : null}
-              <button type="button" className="site00-char-cast__cta site00-char-cast__cta--primary" disabled={busy} onClick={onApproveAnchor}>
+              <button type="button" className="site00-char-cast__cta site00-char-cast__cta--primary" disabled={busy || isolateAwaitingFal} onClick={onApproveAnchor}>
                 THAT&apos;S HER · APPROVE ISOLATE
               </button>
               <button type="button" className="site00-char-cast__cta" disabled={busy} onClick={onRegenerateAnchor}>

@@ -20,6 +20,7 @@ import * as discoveryStore from '../founderCharacterDiscovery/founderCharacterDi
 import { getFounderCharacterDiscoveryState } from '../founderCharacterDiscovery/founderCharacterDiscoveryService.js';
 import {
   maybeResumeCastingGeneration,
+  reconcileOrphanedCastingGeneration,
   reconcileStaleCastingGeneration,
   startCastingRoundFalBackgroundJob,
 } from './castingFalBackgroundJob.js';
@@ -41,6 +42,7 @@ async function save(run: NdxFounderCharacterDiscoveryRun): Promise<NdxFounderCha
 
 async function hydrateCastingRun(projectId: string): Promise<NdxFounderCharacterDiscoveryRun> {
   let run = await loadRun(projectId);
+  run = await reconcileOrphanedCastingGeneration(run);
   run = await reconcileStaleCastingGeneration(run);
   run = await maybeResumeCastingGeneration(run);
   return run;
