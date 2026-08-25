@@ -26,6 +26,7 @@ import { prepareReferenceBoardUpload } from '../utils/prepareReferenceBoardUploa
 import '../styles/site00-character-casting.css';
 
 const POLL_MS = 5000;
+const GENERATION_STUCK_MS = 60_000;
 
 const JUDGMENT_LABELS: Record<(typeof CASTING_PRIMARY_JUDGMENTS)[number], string> = {
   THATS_HER: "THAT'S HER",
@@ -47,6 +48,7 @@ export default function ProjectCharacterCastingPage() {
   const [inspectOpen, setInspectOpen] = useState(false);
   const [mergeSelection, setMergeSelection] = useState<string[]>([]);
   const [referenceRole, setReferenceRole] = useState<FounderCastingReferenceRole>('FULL_LOOK');
+  const [generationStartedAt, setGenerationStartedAt] = useState<number | null>(null);
 
   const casting = run?.visualCastingState ?? null;
   const founderReferences = casting?.founderReferences ?? [];
@@ -80,6 +82,18 @@ export default function ProjectCharacterCastingPage() {
   const needsFalRetry = casting && latestRound ? castingRoundNeedsFalRetry(casting, latestRound.roundId) : false;
   const isGeneratingRound = Boolean(casting && castingFalGenerationInProgress(casting));
   const generationFailed = Boolean(casting && castingFalGenerationFailed(casting));
+
+  useEffect(() => {
+    if (casting && castingFalGenerationInProgress(casting)) {
+      setGenerationStartedAt((prev) => prev ?? Date.now());
+      return;
+    }
+    setGenerationStartedAt(null);
+  }, [casting]);
+
+  const generationStuck = Boolean(
+    generationStartedAt && isGeneratingRound && Date.now() - generationStartedAt > GENERATION_STUCK_MS,
+  );
 
   useEffect(() => {
     if (!casting || !castingFalGenerationInProgress(casting)) return undefined;
@@ -210,11 +224,31 @@ export default function ProjectCharacterCastingPage() {
           <h2>GENERATING CASTING STILLS</h2>
           <p>Calling FAL for six editorial stills in the background — safe to refresh or leave this page.</p>
           <p className="site00-char-cast__hint">Progress updates every few seconds. Tunnel refresh will not cancel server-side generation.</p>
+          {generationStuck ? (
+            <p className="site00-char-cast__hint">
+              Still waiting? The server may have lost the background job — tap retry to dispatch FAL again.
+            </p>
+          ) : null}
           <div className="site00-char-cast__hero">
             <div className="site00-char-cast__frame">
               <div className="site00-char-cast__placeholder">Generating candidate {String(activeIndex + 1).padStart(2, '0')}…</div>
             </div>
           </div>
+          {(generationStuck || latestRound) && (
+            <button
+              type="button"
+              className="site00-char-cast__cta site00-char-cast__cta--primary"
+              disabled={busy}
+              onClick={() => {
+                setGenerationStartedAt(Date.now());
+                void act(() =>
+                  site00ProjectsApi.characterVisualCastingRetryFal(projectSlug, latestRound?.roundId),
+                );
+              }}
+            >
+              RETRY GENERATE STILLS
+            </button>
+          )}
         </section>
       )}
 

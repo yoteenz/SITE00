@@ -4880,3 +4880,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `CharacterPremiseAuthority`, `NDXThoughtArcSnapshot`, `NDXPageRoleMap`, `HeroSlideAuthority`, `HERO_PREMISE_LOCK`, topic-to-experience translator, experience-first + collapse/removal/causality gates, `CharacterFirstContentSnapshot` versioning. Wired into `falPromptCompilerV23@P0.5C.7`, `v23GenerationAuthority` REGENERATE CURRENT, editorial integration (premise as headline), carousel premise preservation. Credit utilization golden pilot: 8-slide role map locked (PERSONAL_CONTRADICTION → BOOKMARK), north star + negative collapse evidence registered. Current nine migration blockers.
 - **Tests:** `contentOperationsP05E7A.test.ts` (22) + P0.5E.7 (22) pass; build green.
 
+---
+
+## 2026-08-25 — CAST NDX FAL generation stuck fix
+
+- **Problem:** CAST NDX showed "GENERATING CANDIDATE 01…" indefinitely with no FAL activity — DB had `falGenerationTracking.status=RUNNING` but background job never ran (orphaned after HTTP 202 / server restart; early-return blocked re-dispatch).
+- **Fix:** Remove stale RUNNING early-return; resume orphaned jobs immediately on GET/poll; run FAL synchronously on Railway; start background work without setImmediate deferral. UI: RETRY GENERATE STILLS after 60s stuck.
+- **Shipped:** PR merged to `main`. Railway redeploy required. Tests: `castingFalBackgroundJob.test.ts` (1) + P0.5E.4C (16) pass.
+
