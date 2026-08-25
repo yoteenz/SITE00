@@ -45,7 +45,7 @@ describe('P0.UI.3C Active Project Notification Center', () => {
     const projectMenu = read('src/site00/components/founderWorkspace/FounderWorkspaceProjectMenu.tsx');
     expect(shell).toContain('<FounderWorkspaceProjectMenu');
     expect(shell).toContain('onToggleMenu={toggleMenu}');
-    expect(projectMenu).toContain('aria-label="Project menu"');
+    expect(projectMenu).toContain('ariaLabel="Project menu"');
   });
 
   it('4. only one header popover open at a time', () => {
@@ -135,7 +135,7 @@ describe('P0.UI.3C Active Project Notification Center', () => {
     expect(center.notifications.length).toBeLessThanOrEqual(PROJECT_NOTIFICATION_DROPDOWN_LIMIT);
   });
 
-  it('15-17. empty state, view all route, messages blocked honestly', () => {
+  it('15-17. empty state, view all route, messages future state', () => {
     resetProjectNotificationsMemory();
     process.env.SITE00_DEV_NOTIFICATION_FIXTURES = '0';
     const empty = getProjectNotificationCenterState('empty-project');
@@ -149,16 +149,15 @@ describe('P0.UI.3C Active Project Notification Center', () => {
     expect(routes).toContain('site00ProjectNotificationsPath');
     const notifyPanel = read('src/site00/components/founderWorkspace/ActiveProjectNotificationCenter.tsx');
     expect(notifyPanel).toContain('VIEW ALL NOTIFICATIONS');
-    expect(notifyPanel).toContain('MESSAGES — BLOCKED');
+    expect(notifyPanel).toContain('NO PROJECT MESSAGES YET');
   });
 
-  it('18-19. outside click closes and mobile positioning', () => {
+  it('18-19. outside click closes and mobile positioning via shared popover shell', () => {
     const notifyPanel = read('src/site00/components/founderWorkspace/ActiveProjectNotificationCenter.tsx');
+    expect(notifyPanel).toContain('FounderWorkspacePopoverSurface');
     expect(notifyPanel).toContain('site00-fws-notify-backdrop');
-    expect(notifyPanel).toContain("event.key === 'Escape'");
-    expect(notifyPanel).toContain('computeNotificationPanelPosition');
     const css = read('src/site00/styles/site00-founder-workspace.css');
-    expect(css).toContain('.site00-fws-notify');
+    expect(css).toContain('.site00-fws-popover-surface');
     expect(css).toContain('position: fixed');
   });
 
@@ -176,10 +175,12 @@ describe('P0.UI.3C Active Project Notification Center', () => {
     const mobile = read('src/site00/components/founderWorkspace/MobileFounderWorkspaceChrome.tsx');
     const header = read('src/site00/components/founderWorkspace/FounderWorkspaceHeaderChrome.tsx');
     const panel = read('src/site00/components/founderWorkspace/ActiveProjectNotificationCenter.tsx');
+    const popover = read('src/site00/components/founderWorkspace/FounderWorkspacePopoverSurface.tsx');
     expect(mobile).toContain('aria-haspopup="dialog"');
     expect(mobile).toContain('aria-expanded={notificationOpen}');
     expect(header).toContain('aria-label');
-    expect(panel).toContain('role="dialog"');
+    expect(panel).toContain('ariaRole="dialog"');
+    expect(popover).toContain('role={ariaRole}');
     expect(panel).toContain('role="tablist"');
     expect(panel).toContain('site00-fws-notify__dot');
   });
