@@ -148,7 +148,7 @@ export default function ProjectCharacterCastingPage() {
             type="button"
             className="site00-char-cast__cta site00-char-cast__cta--primary"
             disabled={busy}
-            onClick={() => void act(() => site00ProjectsApi.characterVisualCastingGenerate(projectSlug, false))}
+            onClick={() => void act(() => site00ProjectsApi.characterVisualCastingGenerate(projectSlug))}
           >
             GENERATE FIRST CASTING ROUND
           </button>
@@ -167,12 +167,18 @@ export default function ProjectCharacterCastingPage() {
 
           <div className="site00-char-cast__hero">
             <div className="site00-char-cast__frame">
-              {activeCandidate?.previewUrl ? (
+              {activeCandidate?.previewUrl && !activeCandidate.previewUrl.includes('/api/placeholder/') ? (
+                <img
+                  src={activeCandidate.previewUrl}
+                  alt={`Casting candidate ${String(activeIndex + 1).padStart(2, '0')} — ${activeCandidate.variationAxis.replace(/_/g, ' ')}`}
+                  className="site00-char-cast__image"
+                />
+              ) : activeCandidate?.previewUrl ? (
                 <div className="site00-char-cast__placeholder" aria-label="Casting candidate preview">
                   CANDIDATE {String(activeIndex + 1).padStart(2, '0')} · {activeCandidate.variationAxis.replace(/_/g, ' ')}
                 </div>
               ) : (
-                <div className="site00-char-cast__placeholder">Awaiting asset</div>
+                <div className="site00-char-cast__placeholder">Generating candidate…</div>
               )}
             </div>
             <div className="site00-char-cast__nav">

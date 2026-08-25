@@ -57,3 +57,30 @@ export function promptContractsShareCharacterTruth(contracts: CharacterCastingPr
   const base = contracts[0]?.sections.characterTruth;
   return contracts.every((c) => c.sections.characterTruth === base);
 }
+
+/** Flatten a casting prompt contract into provider-ready prompt text. */
+export function compileCastingPromptFromContract(contract: CharacterCastingPromptContract): {
+  prompt: string;
+  negativePrompt: string;
+} {
+  const s = contract.sections;
+  const prompt = [
+    'Editorial casting still — photorealistic character interpretation for founder visual casting review.',
+    s.characterTruth,
+    s.culturalIdentity,
+    s.ageRange,
+    s.facePresence,
+    s.hair,
+    s.beauty,
+    s.wardrobe,
+    s.jewelry,
+    s.posture,
+    s.cameraRelationship,
+    s.environment,
+    s.light,
+    s.realism,
+    s.variationAxis,
+    s.continuityIntent,
+  ].join('\n');
+  return { prompt, negativePrompt: s.negativeIdentityConstraints };
+}

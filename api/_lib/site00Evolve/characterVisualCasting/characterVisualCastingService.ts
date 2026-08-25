@@ -17,6 +17,7 @@ import type { NdxFounderCharacterDiscoveryRun } from '../../../../shared/site00-
 import { isNeuralProviderConfigured } from '../founderCharacterDiscovery/neuralVoiceGenerationService.js';
 import * as discoveryStore from '../founderCharacterDiscovery/founderCharacterDiscoveryStoreAdapter.js';
 import { getFounderCharacterDiscoveryState } from '../founderCharacterDiscovery/founderCharacterDiscoveryService.js';
+import { dispatchCastingRoundFal } from './castingFalDispatch.js';
 
 function falConfigured(): boolean {
   return isNeuralProviderConfigured();
@@ -51,11 +52,20 @@ export async function estimateVisualCastingRound(params: { projectId: string }) 
 export async function generateVisualCastingRound(params: { projectId: string; dispatchFal?: boolean }) {
   const run = await loadRun(params.projectId);
   if (!run.visualCastingState?.visualCastingReady) throw new Error('Visual casting not ready');
-  const visualCastingState = generateCastingRoundPlaceholders({
+  const shouldDispatch = params.dispatchFal ?? falConfigured();
+  let visualCastingState = generateCastingRoundPlaceholders({
     state: run.visualCastingState,
     falConfigured: falConfigured(),
-    dispatchFal: params.dispatchFal ?? false,
+    dispatchFal: shouldDispatch,
   });
+  const roundId = visualCastingState.rounds.at(-1)?.roundId;
+  if (shouldDispatch && falConfigured() && roundId) {
+    visualCastingState = await dispatchCastingRoundFal({
+      projectId: params.projectId,
+      state: visualCastingState,
+      roundId,
+    });
+  }
   return save({ ...run, visualCastingState });
 }
 
@@ -94,13 +104,23 @@ export async function createVisualCastingMerge(params: {
   return save({ ...run, visualCastingState });
 }
 
-export async function generateNextVisualCastingRound(params: { projectId: string }) {
+export async function generateNextVisualCastingRound(params: { projectId: string; dispatchFal?: boolean }) {
   const run = await loadRun(params.projectId);
   if (!run.visualCastingState) throw new Error('Visual casting not initialized');
-  const visualCastingState = generateNextCastingRoundFromFeedback({
+  const shouldDispatch = params.dispatchFal ?? falConfigured();
+  let visualCastingState = generateNextCastingRoundFromFeedback({
     state: run.visualCastingState,
     falConfigured: falConfigured(),
+    dispatchFal: shouldDispatch,
   });
+  const roundId = visualCastingState.rounds.at(-1)?.roundId;
+  if (shouldDispatch && falConfigured() && roundId) {
+    visualCastingState = await dispatchCastingRoundFal({
+      projectId: params.projectId,
+      state: visualCastingState,
+      roundId,
+    });
+  }
   return save({ ...run, visualCastingState });
 }
 

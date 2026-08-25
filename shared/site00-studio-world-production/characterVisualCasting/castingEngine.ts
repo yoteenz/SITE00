@@ -205,9 +205,40 @@ export function deriveNextRoundTraitsFromFeedback(state: CharacterVisualCastingS
   };
 }
 
+export function applyCastingGenerationResults(params: {
+  state: CharacterVisualCastingState;
+  roundId: string;
+  results: Array<{ candidateId: string; previewUrl: string; outputAssetId: string; model?: string }>;
+  model?: string;
+}): CharacterVisualCastingState {
+  const resultById = new Map(params.results.map((r) => [r.candidateId, r]));
+  const candidates = params.state.candidates.map((c) => {
+    const result = resultById.get(c.candidateId);
+    if (!result) return c;
+    return {
+      ...c,
+      previewUrl: result.previewUrl,
+      outputAssetId: result.outputAssetId,
+      model: result.model ?? params.model ?? c.model,
+    };
+  });
+  const rounds = params.state.rounds.map((r) =>
+    r.roundId === params.roundId
+      ? { ...r, status: 'REVIEW_READY' as const, model: params.model ?? r.model }
+      : r,
+  );
+  return syncPipelineState({
+    ...params.state,
+    candidates,
+    rounds,
+    castingCandidatesReady: true,
+  });
+}
+
 export function generateNextCastingRoundFromFeedback(params: {
   state: CharacterVisualCastingState;
   falConfigured: boolean;
+  dispatchFal?: boolean;
 }): CharacterVisualCastingState {
   const snapshot = params.state.truthSnapshots.find((s) => s.snapshotId === params.state.activeTruthSnapshotId);
   if (!snapshot) throw new Error('Snapshot required');
@@ -227,7 +258,7 @@ export function generateNextCastingRoundFromFeedback(params: {
     promptSnapshotId: contract.contractId,
     variationAxis,
     outputAssetId: null,
-    previewUrl: `/api/placeholder/casting/r${roundNumber}-${index + 1}`,
+    previewUrl: params.dispatchFal ? null : `/api/placeholder/casting/r${roundNumber}-${index + 1}`,
     createdAt: new Date().toISOString(),
     founderJudgment: null,
     deeperJudgment: null,
@@ -246,9 +277,9 @@ export function generateNextCastingRoundFromFeedback(params: {
     generationContractId: contract.contractId,
     provider: rec.provider ?? 'fal',
     model: rec.model ?? 'pending',
-    costUsd: 0,
+    costUsd: params.dispatchFal ? estimateCastingRoundCost(candidates.length, params.falConfigured) : 0,
     createdAt: new Date().toISOString(),
-    status: 'REVIEW_READY',
+    status: params.dispatchFal ? 'GENERATING' : 'REVIEW_READY',
     retainedTraits: feedback.retainedTraits,
     variedTraits: feedback.variedTraits,
     rejectedTraits: feedback.rejectedTraits,
@@ -259,7 +290,8 @@ export function generateNextCastingRoundFromFeedback(params: {
     ...params.state,
     rounds: [...params.state.rounds.map((r) => ({ ...r, status: r.status === 'REVIEW_READY' ? 'COMPLETE' as const : r.status })), round],
     candidates: [...params.state.candidates, ...candidates],
-    castingCandidatesReady: true,
+    castingCandidatesReady: !params.dispatchFal,
+    falImageRequests: params.state.falImageRequests + (params.dispatchFal ? candidates.length : 0),
   });
 }
 
