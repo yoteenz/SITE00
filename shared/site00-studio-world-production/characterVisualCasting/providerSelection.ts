@@ -49,3 +49,22 @@ export function estimateCastingRoundCost(candidateCount: number, falConfigured: 
   if (rec.estimatedCostUsd == null) return null;
   return (rec.estimatedCostUsd / DEFAULT_CASTING_CANDIDATE_COUNT) * candidateCount;
 }
+
+export function recommendReferenceImageCastingProvider(
+  falConfigured: boolean,
+  hasReferenceImages: boolean,
+): CastingProviderRecommendation {
+  const base = recommendStillImageCastingProvider(falConfigured);
+  if (!hasReferenceImages) {
+    return {
+      ...base,
+      readiness: 'CASTING_BLOCKED_PROVIDER',
+      referenceEvidenceSummary: 'Image reference required — TEXT_ONLY blocked for canonical character',
+    };
+  }
+  return {
+    ...base,
+    model: 'openai/gpt-image-2/edit',
+    referenceEvidenceSummary: 'Founder reference image + optional approved isolate — IMAGE_TO_IMAGE',
+  };
+}

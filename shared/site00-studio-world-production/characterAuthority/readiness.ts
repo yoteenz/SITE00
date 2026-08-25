@@ -42,7 +42,7 @@ export function evaluateNDXVisualIdentityReadiness(
     founderReferenceAuthorityApproved: Boolean(
       casting?.activeReferenceAuthority && casting.founderReferences.some((r) => r.decomposition),
     ),
-    canonicalAnchorApproved: casting?.canonicalAnchor?.status === 'APPROVED',
+    canonicalAnchorApproved: casting?.canonicalAnchor?.status === 'APPROVED' || casting?.characterIsolate?.status === 'APPROVED',
     visualIdentityLockActive: Boolean(casting?.visualAuthoritySnapshot?.identityLock),
     wardrobeLockActive: Boolean(casting?.visualAuthoritySnapshot?.wardrobeLock),
     environmentLockActive: Boolean(casting?.visualAuthoritySnapshot?.environmentLock),

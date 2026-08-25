@@ -20,6 +20,8 @@ import {
   compileCharacterCastingPromptContract,
   resolveStoredPromptContract,
 } from '../../../../shared/site00-studio-world-production/characterVisualCasting/promptContract.js';
+import { resolveReferenceImageUrlsFromContract } from '../../../../shared/site00-studio-world-production/characterVisualCasting/imageReferenceCasting.js';
+import { migrateImageReferenceCastingState } from '../../../../shared/site00-studio-world-production/characterVisualCasting/imageReferenceMigration.js';
 import { migrateReferenceDrivenCastingState } from '../../../../shared/site00-studio-world-production/characterVisualCasting/referenceDrivenCasting.js';
 import { recommendStillImageCastingProvider } from '../../../../shared/site00-studio-world-production/characterVisualCasting/providerSelection.js';
 import { projectAssetStoragePath } from '../../../../shared/site00-projects/storagePaths.js';
@@ -69,6 +71,10 @@ async function generateOneCastingStill(params: {
   });
   const { prompt, negativePrompt } = compileCastingPromptFromContract(contract);
   const storagePath = storagePathFor(params.projectId, params.roundId, params.candidate.candidateId);
+  const migratedState = migrateImageReferenceCastingState(params.state);
+  const referenceImageUrls = resolveReferenceImageUrlsFromContract(migratedState, contract, (path) =>
+    getSite00AssetPublicUrl(path),
+  );
 
   if (process.env.VITEST === 'true') {
     return {
@@ -97,8 +103,9 @@ async function generateOneCastingStill(params: {
   const fullPrompt = `${prompt}\n\nAvoid: ${negativePrompt}`;
   const { model, input } = buildFalImageInput({
     prompt: fullPrompt,
-    aspectRatio: params.candidate.assetSlot?.startsWith('FULL_BODY_') ? '3:4' : '4:5',
+    aspectRatio: params.candidate.assetSlot?.startsWith('FULL_BODY_') || params.candidate.assetSlot === 'FRONT_FULL_BODY' ? '3:4' : '4:5',
     outputFormat: 'webp',
+    referenceImageUrls: referenceImageUrls.length > 0 ? referenceImageUrls : undefined,
   });
 
   const result = (await fal.subscribe(model, { input: input as never, logs: false })) as {

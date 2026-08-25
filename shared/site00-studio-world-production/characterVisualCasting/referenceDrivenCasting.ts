@@ -88,6 +88,11 @@ export function migrateReferenceDrivenCastingState(
     anchorWorkflowStage: next.anchorWorkflowStage ?? 'CANONICAL_ANCHOR_PENDING',
     continuityDriftEvaluations: next.continuityDriftEvaluations ?? [],
     visualCastingLineage: next.visualCastingLineage ?? [],
+    castingAuthorityMode: next.castingAuthorityMode ?? 'REFERENCE_IMAGE_DRIVEN',
+    characterImageReferenceAuthority: next.characterImageReferenceAuthority ?? null,
+    characterIsolate: next.characterIsolate ?? null,
+    environmentPlate: next.environmentPlate ?? null,
+    characterTurnaroundPack: next.characterTurnaroundPack ?? null,
     founderReferences: next.founderReferences.map((entry) => ({
       ...entry,
       decomposition: entry.decomposition ?? null,

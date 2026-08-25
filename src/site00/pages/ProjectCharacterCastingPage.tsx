@@ -91,10 +91,22 @@ export default function ProjectCharacterCastingPage() {
   const activeCandidate = latestRoundCandidates[activeIndex] ?? null;
   const latestRound = casting?.rounds.at(-1) ?? null;
   const isBibleAssetRound = latestRound?.generationMode === 'CHARACTER_BIBLE_ASSET_PACK';
-  const isAnchorRound = latestRound?.generationMode === 'CANONICAL_ANCHOR';
+  const isAnchorRound =
+    latestRound?.generationMode === 'CANONICAL_ANCHOR' ||
+    latestRound?.generationMode === 'CHARACTER_ISOLATE' ||
+    latestRound?.generationMode === 'CHARACTER_TURNAROUND' ||
+    latestRound?.generationMode === 'WARDROBE_DOCUMENTATION' ||
+    latestRound?.generationMode === 'ENVIRONMENT_PLATE';
   const anchorWorkflowStage = casting?.anchorWorkflowStage ?? 'CANONICAL_ANCHOR_PENDING';
   const canonicalAnchor = casting?.canonicalAnchor ?? null;
-  const anchorApproved = canonicalAnchor?.status === 'APPROVED';
+  const characterIsolate = casting?.characterIsolate ?? null;
+  const characterTurnaroundPack = casting?.characterTurnaroundPack ?? null;
+  const anchorApproved =
+    characterIsolate?.status === 'APPROVED' || canonicalAnchor?.status === 'APPROVED';
+  const hasTurnaroundPack = Boolean(
+    characterTurnaroundPack &&
+      Object.keys(characterTurnaroundPack.slotCandidateIds ?? {}).length > 0,
+  );
   const fullLookReference = founderReferences.find((entry) => entry.role === 'FULL_LOOK' && entry.decomposition);
   const hasRound = latestRoundCandidates.length > 0;
   const needsFalRetry = casting && latestRound ? castingRoundNeedsFalRetry(casting, latestRound.roundId) : false;
@@ -204,13 +216,22 @@ export default function ProjectCharacterCastingPage() {
             void act(() => site00ProjectsApi.characterVisualCastingGenerateBibleFromReference(projectSlug))
           }
           onGenerateAnchor={() =>
-            void act(() => site00ProjectsApi.characterVisualCastingGenerateCanonicalAnchor(projectSlug))
+            void act(() => site00ProjectsApi.characterVisualCastingGenerateCharacterIsolate(projectSlug))
           }
           onApproveAnchor={() =>
-            void act(() => site00ProjectsApi.characterVisualCastingApproveCanonicalAnchor(projectSlug))
+            void act(() => site00ProjectsApi.characterVisualCastingApproveCharacterIsolate(projectSlug))
           }
           onRegenerateAnchor={() =>
-            void act(() => site00ProjectsApi.characterVisualCastingRegenerateCanonicalAnchor(projectSlug))
+            void act(() => site00ProjectsApi.characterVisualCastingGenerateCharacterIsolate(projectSlug))
+          }
+          onGenerateTurnaround={() =>
+            void act(() => site00ProjectsApi.characterVisualCastingGenerateTurnaround(projectSlug))
+          }
+          onGenerateWardrobe={() =>
+            void act(() => site00ProjectsApi.characterVisualCastingGenerateWardrobeDocumentation(projectSlug))
+          }
+          onGenerateEnvironment={() =>
+            void act(() => site00ProjectsApi.characterVisualCastingGenerateEnvironmentPlate(projectSlug))
           }
           onBibleLock={(lock, value) =>
             void act(() => site00ProjectsApi.characterVisualCastingBibleLock(projectSlug, lock, value))
@@ -219,6 +240,8 @@ export default function ProjectCharacterCastingPage() {
           activeAuthority={casting.activeReferenceAuthority ?? null}
           anchorWorkflowStage={anchorWorkflowStage}
           canonicalAnchor={canonicalAnchor}
+          characterIsolate={characterIsolate}
+          hasTurnaroundPack={hasTurnaroundPack}
           anchorApproved={anchorApproved}
           authoritySnapshot={casting.visualAuthoritySnapshot ?? null}
         />
@@ -273,7 +296,11 @@ export default function ProjectCharacterCastingPage() {
             {isBibleAssetRound
               ? 'Anchor-dependent reconstruction — same woman across all Bible assets.'
               : isAnchorRound
-                ? 'Faithful canonical reconstruction from uploaded reference — anchor must pass before Bible pack.'
+                ? latestRound?.generationMode === 'CHARACTER_TURNAROUND'
+                  ? 'Image-reference turnaround — same woman, same outfit, white studio background.'
+                  : latestRound?.generationMode === 'ENVIRONMENT_PLATE'
+                    ? 'Environment plate generation — character-free set authority.'
+                    : 'Faithful image-reference reconstruction from uploaded reference — isolate must pass before turnaround.'
                 : 'Calling FAL for editorial stills in the background — safe to refresh or leave this page.'}
           </p>
           <p className="site00-char-cast__hint">Progress updates every few seconds. Tunnel refresh will not cancel server-side generation.</p>
@@ -518,11 +545,16 @@ function FounderReferencesPanel({
   onGenerateAnchor,
   onApproveAnchor,
   onRegenerateAnchor,
+  onGenerateTurnaround,
+  onGenerateWardrobe,
+  onGenerateEnvironment,
   onBibleLock,
   assetPack,
   activeAuthority,
   anchorWorkflowStage,
   canonicalAnchor,
+  characterIsolate,
+  hasTurnaroundPack,
   anchorApproved,
   authoritySnapshot,
 }: {
@@ -537,11 +569,16 @@ function FounderReferencesPanel({
   onGenerateAnchor: () => void;
   onApproveAnchor: () => void;
   onRegenerateAnchor: () => void;
+  onGenerateTurnaround: () => void;
+  onGenerateWardrobe: () => void;
+  onGenerateEnvironment: () => void;
   onBibleLock: (lock: 'faceLocked' | 'wardrobeLocked' | 'environmentLocked', value: boolean) => void;
   assetPack: CharacterBibleAssetPack | null;
   activeAuthority: { referenceId: string; role: string } | null;
   anchorWorkflowStage: string;
   canonicalAnchor: { previewUrl: string | null; status: string; qaEvaluation: { passed: boolean; humanReadableReasons: string[] } | null } | null;
+  characterIsolate: { previewUrl: string | null; status: string; sourcePreviewUrl: string | null } | null;
+  hasTurnaroundPack: boolean;
   anchorApproved: boolean;
   authoritySnapshot: { identityLock: { identitySignature: string }; wardrobeLock: { garmentCategories: string }; environmentLock: { roomType: string } } | null;
 }) {
@@ -566,7 +603,7 @@ function FounderReferencesPanel({
     <section className="site00-char-cast__panel site00-char-cast__refs">
       <h2>REFERENCE-FIRST CASTING</h2>
       <p className="site00-char-cast__hint">
-        Upload → decompose → generate canonical anchor → approve → generate Character Bible pack. Upload alone does not spend provider credits.
+        Upload → decompose → character isolate → approve → turnaround → wardrobe → environment plate. Upload alone does not spend provider credits.
       </p>
       <input
         ref={fileInputRef}
@@ -651,28 +688,41 @@ function FounderReferencesPanel({
 
       {canGenerateBible ? (
         <>
-          {!canonicalAnchor ? (
+          {!characterIsolate && !canonicalAnchor ? (
             <button
               type="button"
               className="site00-char-cast__cta site00-char-cast__cta--primary"
               disabled={busy}
               onClick={onGenerateAnchor}
             >
-              STEP 3 · GENERATE CANONICAL ANCHOR →
+              STEP 3 · GENERATE CHARACTER ISOLATE →
             </button>
           ) : null}
-          {canonicalAnchor && !anchorApproved ? (
+          {(characterIsolate || canonicalAnchor) && !anchorApproved ? (
             <section className="site00-char-cast__panel">
-              <h3>ANCHOR REVIEW</h3>
-              {fullLook?.previewUrl ? (
-                <img src={fullLook.previewUrl} alt="Source reference" className="site00-char-cast__ref-thumb" />
-              ) : null}
-              {canonicalAnchor.previewUrl ? (
-                <img src={canonicalAnchor.previewUrl} alt="Canonical anchor" className="site00-char-cast__ref-thumb" />
-              ) : (
-                <p className="site00-char-cast__hint">Anchor generating…</p>
-              )}
-              {canonicalAnchor.qaEvaluation && !canonicalAnchor.qaEvaluation.passed ? (
+              <h3>CHARACTER ISOLATE REVIEW</h3>
+              <p className="site00-char-cast__hint">Same woman · same outfit · clean white background · no environment</p>
+              <div className="site00-char-cast__ref-compare">
+                {fullLook?.previewUrl ? (
+                  <figure>
+                    <img src={fullLook.previewUrl} alt="Source reference" className="site00-char-cast__ref-thumb" />
+                    <figcaption>SOURCE</figcaption>
+                  </figure>
+                ) : null}
+                {(characterIsolate?.previewUrl ?? canonicalAnchor?.previewUrl) ? (
+                  <figure>
+                    <img
+                      src={characterIsolate?.previewUrl ?? canonicalAnchor?.previewUrl ?? ''}
+                      alt="Character isolate"
+                      className="site00-char-cast__ref-thumb"
+                    />
+                    <figcaption>WHITE BACKGROUND ISOLATE</figcaption>
+                  </figure>
+                ) : (
+                  <p className="site00-char-cast__hint">Isolate generating…</p>
+                )}
+              </div>
+              {canonicalAnchor?.qaEvaluation && !canonicalAnchor.qaEvaluation.passed ? (
                 <ul className="site00-char-cast__hint">
                   {canonicalAnchor.qaEvaluation.humanReadableReasons.map((reason) => (
                     <li key={reason}>Drift: {reason}</li>
@@ -680,21 +730,51 @@ function FounderReferencesPanel({
                 </ul>
               ) : null}
               <button type="button" className="site00-char-cast__cta site00-char-cast__cta--primary" disabled={busy} onClick={onApproveAnchor}>
-                APPROVE ANCHOR
+                THAT&apos;S HER · APPROVE ISOLATE
               </button>
               <button type="button" className="site00-char-cast__cta" disabled={busy} onClick={onRegenerateAnchor}>
-                REGENERATE ANCHOR
+                REGENERATE ISOLATE
               </button>
             </section>
           ) : null}
-          {anchorApproved ? (
+          {anchorApproved && !hasTurnaroundPack ? (
             <button
               type="button"
               className="site00-char-cast__cta site00-char-cast__cta--primary"
               disabled={busy}
+              onClick={onGenerateTurnaround}
+            >
+              STEP 4 · GENERATE TURNAROUND →
+            </button>
+          ) : null}
+          {anchorApproved && hasTurnaroundPack ? (
+            <button
+              type="button"
+              className="site00-char-cast__cta site00-char-cast__cta--primary"
+              disabled={busy}
+              onClick={onGenerateWardrobe}
+            >
+              STEP 6 · GENERATE WARDROBE DOCUMENTATION →
+            </button>
+          ) : null}
+          {anchorApproved && hasTurnaroundPack ? (
+            <button
+              type="button"
+              className="site00-char-cast__cta"
+              disabled={busy}
+              onClick={onGenerateEnvironment}
+            >
+              STEP 7 · GENERATE ENVIRONMENT PLATE →
+            </button>
+          ) : null}
+          {anchorApproved ? (
+            <button
+              type="button"
+              className="site00-char-cast__cta"
+              disabled={busy || !hasTurnaroundPack}
               onClick={onGenerateBible}
             >
-              STEP 5 · GENERATE CHARACTER BIBLE PACK →
+              STEP 8 · GENERATE CHARACTER BIBLE PACK →
             </button>
           ) : null}
           <button type="button" className="site00-char-cast__cta" disabled={busy || !anchorApproved} onClick={onRegenerate}>

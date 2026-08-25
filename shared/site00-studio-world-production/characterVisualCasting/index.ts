@@ -10,4 +10,6 @@ export * from './promoteRecognition.js';
 export * from './founderReferenceIngestion.js';
 export * from './referenceDrivenCasting.js';
 export * from './identityAnchorCasting.js';
+export * from './imageReferenceCasting.js';
+export * from './imageReferenceMigration.js';
 export * from './viewContracts.js';

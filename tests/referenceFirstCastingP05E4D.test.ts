@@ -192,7 +192,7 @@ describe('P0.5E.4D reference-first casting regeneration', () => {
   it('casting page exposes reference-first workflow UI', () => {
     const page = readFileSync(join(ROOT, 'src/site00/pages/ProjectCharacterCastingPage.tsx'), 'utf8');
     const css = readFileSync(join(ROOT, 'src/site00/styles/site00-character-casting.css'), 'utf8');
-    expect(page).toContain('GENERATE CANONICAL ANCHOR');
+    expect(page).toContain('GENERATE CHARACTER ISOLATE');
     expect(page).toContain('DECOMPOSITION REVIEW');
     expect(page).toContain('CHARACTER BIBLE REVIEW');
     expect(page).toContain('REGENERATE CASTING FROM REFERENCES');
