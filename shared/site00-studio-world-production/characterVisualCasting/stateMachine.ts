@@ -44,6 +44,7 @@ export function buildEmptyVisualCastingState(): CharacterVisualCastingState {
     falImageRequests: 0,
     falVideoRequests: 0,
     falGenerationTracking: null,
+    founderReferences: [],
     updatedAt: new Date().toISOString(),
   };
 }

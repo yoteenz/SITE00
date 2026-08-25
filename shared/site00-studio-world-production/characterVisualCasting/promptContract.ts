@@ -15,9 +15,14 @@ const CULTURAL_IDENTITY_BLOCK = `Contemporary African-American woman. Editorial 
 export function compileCharacterCastingPromptContract(params: {
   snapshot: CharacterTruthSnapshot;
   variationAxis: CastingVariationAxis;
+  founderReferenceNotes?: string[];
 }): CharacterCastingPromptContract {
   const summary = params.snapshot.characterSummary?.text ?? 'Founder-confirmed character truth';
   const axisLabel = params.variationAxis.replace(/_/g, ' ').toLowerCase();
+  const referenceBlock =
+    params.founderReferenceNotes && params.founderReferenceNotes.length > 0
+      ? params.founderReferenceNotes.join('\n')
+      : '';
 
   return {
     contractId: randomUUID(),
@@ -27,8 +32,12 @@ export function compileCharacterCastingPromptContract(params: {
       characterTruth: summary,
       culturalIdentity: CULTURAL_IDENTITY_BLOCK,
       ageRange: 'Mid-30s editorial presence — believable, not teen glam',
-      facePresence: 'Intelligent, approachable, camera-comfortable without performing',
-      hair: 'Protective styles or natural texture — authentic, not fantasy',
+      facePresence: referenceBlock.includes('FACE') || referenceBlock.includes('FULL_LOOK')
+        ? `Intelligent, approachable presence — honor founder face reference signals. ${referenceBlock}`
+        : 'Intelligent, approachable, camera-comfortable without performing',
+      hair: referenceBlock.includes('HAIR') || referenceBlock.includes('FULL_LOOK')
+        ? `Protective styles or natural texture — honor founder hair reference. ${referenceBlock}`
+        : 'Protective styles or natural texture — authentic, not fantasy',
       beauty: 'Premium but natural skin texture — no plastic gloss',
       wardrobe: 'Black and neutrals dominate; signature accent feels chosen',
       jewelry: 'Gold jewelry may feel lived-in, not costume',
@@ -46,9 +55,10 @@ export function compileCharacterCastingPromptContract(params: {
 
 export function buildInitialCastingPromptMatrix(
   snapshot: CharacterTruthSnapshot,
+  founderReferenceNotes?: string[],
 ): CharacterCastingPromptContract[] {
   return CASTING_VARIATION_AXES.slice(0, 6).map((axis) =>
-    compileCharacterCastingPromptContract({ snapshot, variationAxis: axis }),
+    compileCharacterCastingPromptContract({ snapshot, variationAxis: axis, founderReferenceNotes }),
   );
 }
 

@@ -8,6 +8,7 @@ export {
   DEFAULT_CASTING_CANDIDATE_COUNT,
   CHARACTER_VISUAL_CASTING_VERSION,
 } from './constants.js';
+export { FOUNDER_CASTING_REFERENCE_ROLES } from './constants.js';
 export type {
   CharacterPipelineState,
   CharacterVisualCastingState,
@@ -16,6 +17,8 @@ export type {
   CastingPrimaryJudgment,
   VisualCastingReadinessEvaluation,
   FounderCharacterRecognitionConfirmed,
+  FounderCastingReference,
+  FounderCastingReferenceRole,
 } from './types.js';
 
 export function discoveryShouldShowRecognizedNotCalibration(state: CharacterVisualCastingState): boolean {

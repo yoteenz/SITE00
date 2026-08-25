@@ -245,9 +245,12 @@ import {
   getVisualCastingState,
   lockVisualIdentity,
   reopenCharacterCalibration,
+  regenerateCastingFromFounderReferences,
   retryVisualCastingRoundFal,
   saveVisualCastingJudgment,
   createVisualCastingMerge,
+  storeFounderCastingReferenceInBible,
+  uploadFounderCastingReference,
 } from '../_lib/site00Evolve/characterVisualCasting/characterVisualCastingService.js';
 import {
   formBrandPresentationDirections,
@@ -3947,6 +3950,75 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const run = await generateNextVisualCastingRound({
           projectId: 'ndxbook',
+          dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
+        });
+        const background =
+          run.visualCastingState?.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
+        return json(res, background ? 202 : 200, {
+          ok: true,
+          run,
+          background,
+          source: 'site00_character_visual_casting',
+        });
+      }
+      case 'character_visual_casting_upload_reference': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const imageData = body.imageData ? String(body.imageData) : '';
+        const role = String(body.role ?? 'FULL_LOOK');
+        if (slug !== 'ndxbook' || !imageData) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug and imageData required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        try {
+          const run = await uploadFounderCastingReference({
+            projectId: slug,
+            imageData,
+            role: role as import('../../../shared/site00-studio-world-production/characterVisualCasting/founderReferenceIngestion.js').FounderCastingReferenceRole,
+            label: body.label ? String(body.label) : undefined,
+          });
+          return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+        } catch (err) {
+          const message = err instanceof Error ? err.message : 'Upload failed';
+          const status = message.includes('too large') ? 413 : 400;
+          return json(res, status, { ok: false, error: { code: 'UPLOAD_FAILED', message } });
+        }
+      }
+      case 'character_visual_casting_store_reference_bible': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const referenceId = String(body.referenceId ?? '');
+        if (slug !== 'ndxbook' || !referenceId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug and referenceId required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await storeFounderCastingReferenceInBible({ projectId: slug, referenceId });
+        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+      }
+      case 'character_visual_casting_regenerate_from_references': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await regenerateCastingFromFounderReferences({
+          projectId: slug,
           dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
         });
         const background =
