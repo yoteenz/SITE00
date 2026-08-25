@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { NDXIcon } from '../../icons/ndx';
 import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
@@ -24,9 +25,9 @@ export function FounderWorkspaceProjectMenu({ open, onClose, items, overflowItem
     return () => window.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open || typeof document === 'undefined') return null;
 
-  return (
+  return createPortal(
     <>
       <button type="button" className="site00-fws-menu-backdrop" aria-label="Close menu" onClick={onClose} />
       <div
@@ -58,6 +59,7 @@ export function FounderWorkspaceProjectMenu({ open, onClose, items, overflowItem
           </div>
         ) : null}
       </div>
-    </>
+    </>,
+    document.body,
   );
 }
