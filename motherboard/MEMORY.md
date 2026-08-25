@@ -4762,4 +4762,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **API/UI:** `founder_creative_ingestion_*` actions; `/projects/ndxbook/content-operations/founder-creative-ingest` workflow page (REFERENCE→DECOMPOSE→RECONSTRUCT→REVIEW→SEQUENCE→CAMPAIGN); Campaign Board INGEST FOUNDER CREATIVE link + Row 01 grid preview; PAGES lane shows 3 parent sequences (child slides nested, not flattened).
 - **Shipped:** PR merged to `main`. Deploy **v88**. Tests: `founderCreativeIngestionP0CB1.test.ts` (15); full suite **2877** pass; build green. Brand Character/Canon/experiment lineage unchanged; founder-triggered generation only.
 
+---
+
+## 2026-08-25 — CAST NDX placeholder round FAL retry (P0.5E.4C UX unblock)
+
+- **Context:** Founder generated first casting round before live FAL wiring shipped; page advanced to review with placeholder stills (`/api/placeholder/casting/...`) and the generate button disappeared (`castingCandidatesReady: true`).
+- **Fix:** `castingRoundNeedsFalRetry` detects placeholder-only rounds; review UI shows **GENERATE STILLS WITH FAL**; `character_visual_casting_retry_fal` + `retryVisualCastingRoundFal` re-dispatches FAL on existing candidates via `prepareCastingRoundForFalRetry`. Cost gate now only shows when no round exists (prevents duplicate round on retry). Generating panel shown while FAL runs.
+- **Tests:** `embodiedCharacterVisualCastingP05E4C.test.ts` (15) — placeholder detection + retry path.
+
 

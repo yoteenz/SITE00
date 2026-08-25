@@ -228,6 +228,7 @@ import {
   getVisualCastingState,
   lockVisualIdentity,
   reopenCharacterCalibration,
+  retryVisualCastingRoundFal,
   saveVisualCastingJudgment,
   createVisualCastingMerge,
 } from '../_lib/site00Evolve/characterVisualCasting/characterVisualCastingService.js';
@@ -3545,6 +3546,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const run = await generateVisualCastingRound({
           projectId: 'ndxbook',
           dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+      }
+      case 'character_visual_casting_retry_fal': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await retryVisualCastingRoundFal({
+          projectId: 'ndxbook',
+          roundId: body.roundId ? String(body.roundId) : undefined,
         });
         return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
       }
