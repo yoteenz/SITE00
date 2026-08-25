@@ -456,3 +456,6 @@ export function v24NotCreated(): true {
 export function generationAssetFingerprint(assetId: string, snapshotId: string): string {
   return fp(`${assetId}:${snapshotId}`);
 }
+
+/** P0.5E.4F — Carousel / V2.3 character injection when NDX photography required. */
+export { compileV23PromptWithCharacterAuthority } from '../../site00-studio-world-production/characterAuthority/downstreamIntegration.js';

@@ -4929,3 +4929,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **UI:** Upload → decompose → authority locks → GENERATE ANCHOR → APPROVE ANCHOR → GENERATE BIBLE PACK. Source reference visible in anchor review.
 - **Tests:** `identityLockCastingP05E4E.test.ts` (16) + updated P0.5E.4D (9) + cast upload (3) pass; build green.
 
+---
+
+## 2026-08-25 — P0.5E.4F Canonical NDX visual identity gate + character injection authority
+
+- **Context:** Follow-up to P0.5E.4E — enforce that NDX cannot be visually generated downstream until canonical visual identity is READY; downstream systems must consume `CharacterInjectionBundle` instead of reinventing NDX from text/stale casting.
+- **Delivered:** New module `shared/site00-studio-world-production/characterAuthority/` — three readiness layers (`NDXCharacterTruthReadiness`, `NDXVisualIdentityReadiness`, `NDXProductionReadiness`), `CanonicalCharacterVisualAuthority` + `NDX_VISUAL_V*` versioning, `CharacterInjectionAuthority` + bundle, `PreCanonCharacterGenerationGuard`, contamination evaluation, variation rules, NDX adapter, system audit registry (11 systems), downstream integration helpers.
+- **Integrations:** Film readiness + shot prompt compiler (injection bundle); FCI `realismLabBridge` blocks GENERATE_FROM_REFERENCE before visual lock; V2.3 re-exports `compileV23PromptWithCharacterAuthority`; continuity pipeline delegates visual check; Character Casting UI `CharacterReadinessPanel`.
+- **Tests:** `characterAuthorityP05E4F.test.ts` (30) pass; build green.
+- **Next:** After P0.5E.4E produces approved anchor + angle pack — run still/motion continuity tests, promote `NDX_VISUAL_V1`, controlled MEET NDX single-slide injection test before wider production queue.
+
