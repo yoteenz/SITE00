@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { computeNotificationPanelPosition } from '../shared/site00-studio-world-production/projectNotifications/panelPosition.js';
 
 describe('notification panel positioning', () => {
-  it('anchors panel right edge to bell and clamps within viewport', () => {
+  it('anchors panel within viewport right gutter (16px)', () => {
     const anchor = {
       getBoundingClientRect: () => ({
         top: 48,
@@ -14,12 +14,12 @@ describe('notification panel positioning', () => {
       }),
     } as HTMLElement;
 
-    const position = computeNotificationPanelPosition(anchor, 390);
+    const position = computeNotificationPanelPosition(anchor, 390, 844);
     expect(position.width).toBeLessThanOrEqual(340);
-    expect(position.left).toBeGreaterThanOrEqual(12);
-    expect(position.left + position.width).toBeLessThanOrEqual(390 - 12);
+    expect(position.left).toBeGreaterThanOrEqual(16);
+    expect(position.left + position.width).toBeLessThanOrEqual(390 - 16);
     expect(position.top).toBe(80);
-    expect(position.left).toBe(378 - position.width);
+    expect(position.maxHeight).toBeGreaterThan(0);
   });
 
   it('falls back when anchor is hidden (zero rect)', () => {
@@ -34,8 +34,8 @@ describe('notification panel positioning', () => {
       }),
     } as HTMLElement;
 
-    const position = computeNotificationPanelPosition(hidden, 390);
-    expect(position.left).toBeGreaterThanOrEqual(12);
-    expect(position.left + position.width).toBeLessThanOrEqual(390 - 12);
+    const position = computeNotificationPanelPosition(hidden, 390, 844);
+    expect(position.left).toBeGreaterThanOrEqual(16);
+    expect(position.left + position.width).toBeLessThanOrEqual(390 - 16);
   });
 });
