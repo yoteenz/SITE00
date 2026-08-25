@@ -27,6 +27,7 @@ import type {
   CreativeReferenceDiff,
 } from '../../../shared/site00-studio-world-production/founderCreativeIngestion/client.js';
 import { prepareReferenceBoardUpload } from '../utils/prepareReferenceBoardUpload';
+import '../styles/site00-founder-creative-ingestion.css';
 
 const POLL_MS = 5000;
 
