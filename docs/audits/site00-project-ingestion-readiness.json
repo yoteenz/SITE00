@@ -1,0 +1,347 @@
+{
+  "auditId": "P0.A",
+  "title": "SITE 00 Project Ingestion Readiness",
+  "date": "2026-08-25",
+  "mode": "audit_only",
+  "targetClient": {
+    "name": "Astral World",
+    "projectType": "WORLD",
+    "status": "concept_not_ingested"
+  },
+  "repo": {
+    "name": "SITE00",
+    "url": "https://github.com/yoteenz/SITE00",
+    "branchAtAudit": "main",
+    "workingTreeClean": true,
+    "buildStatus": "green",
+    "tests": {
+      "passed": 3017,
+      "failed": 3,
+      "failedTests": [
+        "tests/founderCreativeIngestionP0CB1B.test.ts",
+        "shared/site00-brand-lore/founderWorkspace/founderWorkspaceP0.test.ts"
+      ],
+      "note": "Pre-existing failures unrelated to audit"
+    }
+  },
+  "verdict": {
+    "astralWorldIngestionReady": false,
+    "worldProjectTypeReady": "PARTIAL",
+    "projectIsolationReady": false,
+    "originReady": "PARTIAL",
+    "identityReady": "PARTIAL",
+    "blueprintReady": "PARTIAL",
+    "assetVaultReady": "PARTIAL",
+    "projectBibleReady": "PARTIAL",
+    "productionHandoffReady": false,
+    "currentStage": "Production intelligence constellation with strong intake/brand-lore/client-studio foundations; founder methodology and asset vault ndxbook-scoped; world formation and production handoff not implemented"
+  },
+  "topBlockers": [
+    "244 ndxbook API guards in api/site00/projects.ts block generic project methodology access",
+    "ASSTS asset vault (site00_logical_assets) has no project_id — global SITE 00 scope",
+    "WORLD_FORMATION_IMPLEMENTED=false — no runtime world formation despite intake contracts",
+    "site00_project_ingestions lacks project_id FK and reconciliation workflow",
+    "No generic production handoff package compiler or independent repo scaffold output"
+  ],
+  "minimumRequiredBeforeIngestion": [
+    "site00_projects + site00_organizations row for astral-world with project_type=WORLD",
+    "Client truth storage via world intake linked to project without auto-canonization",
+    "Project isolation baseline — capability registry replacing ndxbook slug guards",
+    "Unified ProjectExperienceClass mapping to WORLD_MODULES manifest"
+  ],
+  "minimumRequiredBeforeProduction": [
+    "World formation runtime or approved manual world canon workflow",
+    "Project-scoped asset vault with approval and export",
+    "Production handoff package compiler and handoff record",
+    "Independent Supabase + Vercel provisioning for client app"
+  ],
+  "recommendedNextSprint": "P0.B — Project Core / project_id isolation",
+  "implementationSequence": [
+    { "id": "P0.B", "name": "Project Core / project_id isolation", "dependsOn": [] },
+    { "id": "P0.C", "name": "Origin + Client Truth ingestion", "dependsOn": ["P0.B"] },
+    { "id": "P0.D", "name": "Project Canon / Project Bible compilation", "dependsOn": ["P0.C"] },
+    { "id": "P0.E", "name": "WORLD project type support", "dependsOn": ["P0.B"] },
+    { "id": "P0.F", "name": "Project-scoped Blueprint + Asset Vault", "dependsOn": ["P0.B"] },
+    { "id": "P0.G", "name": "Production Handoff Package", "dependsOn": ["P0.D", "P0.F"] }
+  ],
+  "proposedMigrations": [
+    { "name": "20260826_site00_project_type_enum.sql", "purpose": "Add project_type CHECK on site00_projects" },
+    { "name": "20260826_site00_ingestion_project_link.sql", "purpose": "Add project_id FK to site00_project_ingestions" },
+    { "name": "20260826_site00_project_asset_scope.sql", "purpose": "Project-scope asset vault records" },
+    { "name": "20260826_site00_client_truth_snapshots.sql", "purpose": "Optional explicit client-truth table" },
+    { "name": "20260826_site00_production_handoffs.sql", "purpose": "Handoff package records and artifact URIs" }
+  ],
+  "projectTypeSystems": [
+    {
+      "name": "ProjectExperienceClass",
+      "location": "shared/site00-world-intake/constants.ts",
+      "values": ["SITE", "APPLICATION", "IMMERSIVE_SITE", "WORLD", "UNRESOLVED"],
+      "dbConstraint": "site00_intake_invites.project_experience_class CHECK"
+    },
+    {
+      "name": "build_class",
+      "location": "site00_projects.build_class",
+      "values": "free text — SITE, IDENTITY, EVOLVE in clientStudio templates",
+      "dbConstraint": "none"
+    },
+    {
+      "name": "project_type",
+      "location": "site00_project_ingestions.project_type",
+      "values": "free text",
+      "dbConstraint": "none"
+    },
+    {
+      "name": "ProjectExperienceClass (duplicate)",
+      "location": "shared/site00-brand-lore/experienceExpression/productionScope.ts",
+      "values": ["SITE", "APPLICATION", "IMMERSIVE", "WORLD", "CUSTOM_BUILD"],
+      "note": "Naming collision with world-intake enum"
+    }
+  ],
+  "threeLayerTruth": {
+    "status": "PARTIAL",
+    "layers": {
+      "globalHostCanon": "SITE00_LAYER.GLOBAL_HOST_CANON",
+      "projectWorkspaceCanon": "SITE00_LAYER.PROJECT_WORKSPACE_CANON",
+      "clientProjectExpression": "SITE00_LAYER.CLIENT_PROJECT_EXPRESSION"
+    },
+    "gates": [
+      "shared/site00-project-discovery/intakeSynthesisGate.ts",
+      "publicDiscoveryCreatesZeroProductionProfiles"
+    ],
+    "gap": "No unified CLIENT_TRUTH | PROJECT_TRUTH | CREATIVE_EXPLORATION queryable records per project"
+  },
+  "isolationRisks": [
+    {
+      "area": "api/site00/projects.ts",
+      "pattern": "slug !== 'ndxbook'",
+      "count": 244,
+      "severity": "critical"
+    },
+    {
+      "area": "api/site00/projects.ts",
+      "pattern": "projectId: 'ndxbook'",
+      "count": 50,
+      "severity": "critical"
+    },
+    {
+      "area": "src/site00/pages/Project*.tsx",
+      "pattern": "projectSlug !== 'ndxbook'",
+      "count": 38,
+      "severity": "high"
+    },
+    {
+      "area": "site00_logical_assets",
+      "pattern": "no project_id column",
+      "severity": "high"
+    },
+    {
+      "area": "site00_creative_asset_records.project_id",
+      "pattern": "text not UUID FK",
+      "severity": "medium"
+    }
+  ],
+  "readinessMatrix": [
+    {
+      "capability": "PROJECT RECORD",
+      "currentState": "site00_projects + client activation; founder registry 4 slugs code-first",
+      "evidence": [
+        "supabase/migrations/20260818143000_site00_production_os.sql",
+        "api/_lib/site00Production/clientStudio.ts",
+        "api/_lib/site00Projects/projectRegistry.ts"
+      ],
+      "readiness": "PARTIAL",
+      "blocker": "No Astral row; registry not DB-driven",
+      "minimumNextStep": "Create astral-world org + project in P0.B"
+    },
+    {
+      "capability": "PROJECT TYPE",
+      "currentState": "Three parallel enum systems; duplicate ProjectExperienceClass",
+      "evidence": [
+        "shared/site00-world-intake/constants.ts",
+        "shared/site00-brand-lore/experienceExpression/productionScope.ts",
+        "supabase/migrations/20260820180000_site00_production_orchestration.sql"
+      ],
+      "readiness": "PARTIAL",
+      "blocker": "No canonical IDENTITY|SITE|PRODUCT|WORLD",
+      "minimumNextStep": "Unify enums; add project_type CHECK"
+    },
+    {
+      "capability": "ORIGIN",
+      "currentState": "IDNTY/BLDR/world intake persist; orchestration queue without project link",
+      "evidence": [
+        "supabase/migrations/20260823160000_site00_world_intake_foundation.sql",
+        "docs/site00/EXISTING_PROJECT_INGESTION.md",
+        "api/_lib/site00Orchestration/historyService.ts"
+      ],
+      "readiness": "PARTIAL",
+      "blocker": "Ingestion does not reconcile",
+      "minimumNextStep": "Link intake to project_id P0.C"
+    },
+    {
+      "capability": "CLIENT TRUTH",
+      "currentState": "World intake JSONB + synthesis gate",
+      "evidence": [
+        "shared/site00-project-discovery/intakeSynthesisGate.ts",
+        "shared/site00-world-intake/constants.ts"
+      ],
+      "readiness": "PARTIAL",
+      "blocker": "No explicit client-truth layer",
+      "minimumNextStep": "Tag pre-canon intake as CLIENT_TRUTH P0.C"
+    },
+    {
+      "capability": "BRAND INTELLIGENCE",
+      "currentState": "Brand lore profiles in Supabase with provenance",
+      "evidence": [
+        "supabase/migrations/20260821050000_site00_brand_lore_profiles.sql",
+        "api/_lib/site00Intakes/intakeService.ts"
+      ],
+      "readiness": "PARTIAL",
+      "blocker": "UI ndxbook-gated",
+      "minimumNextStep": "Parameterize by project capability P0.B"
+    },
+    {
+      "capability": "IDENTITY",
+      "currentState": "IDNTY flows, calibration, creative direction; ndxbook-gated methodology pages",
+      "evidence": [
+        "src/site00/config/routes.ts",
+        "supabase/migrations/20260822140000_site00_core_direction_formations.sql"
+      ],
+      "readiness": "PARTIAL",
+      "blocker": "Founder methodology locked to ndxbook",
+      "minimumNextStep": "Capability registry P0.B"
+    },
+    {
+      "capability": "WORLD",
+      "currentState": "Intake contracts + WORLD_MODULES; formation explicitly false",
+      "evidence": [
+        "shared/site00-brand-lore/worldFormation/futureContracts.ts",
+        "shared/site00-project-intelligence/manifestCompiler.ts"
+      ],
+      "readiness": "MISSING",
+      "blocker": "WORLD_FORMATION_IMPLEMENTED=false",
+      "minimumNextStep": "Manual world canon + build_class=WORLD template P0.E"
+    },
+    {
+      "capability": "BLUEPRINT",
+      "currentState": "Client studio blueprint stage; NDX experiment directions",
+      "evidence": [
+        "api/_lib/site00Production/clientStudio.ts",
+        "shared/site00-studio-world-production/p1/contractCompilation.ts"
+      ],
+      "readiness": "PARTIAL",
+      "blocker": "Not generic for WORLD",
+      "minimumNextStep": "Project-scoped blueprint P0.F"
+    },
+    {
+      "capability": "ASSET VAULT",
+      "currentState": "ASSTS global; lineage org+brand_slug; studio client reviews",
+      "evidence": [
+        "supabase/migrations/20260817103000_site00_assts_asset_factory.sql",
+        "supabase/migrations/20260823120000_site00_creative_lineage.sql"
+      ],
+      "readiness": "PARTIAL",
+      "blocker": "No project isolation in ASSTS",
+      "minimumNextStep": "Project-scoped vault P0.F"
+    },
+    {
+      "capability": "APPROVALS",
+      "currentState": "Judgment patterns in experiments, ASSTS, content-ops",
+      "evidence": [
+        "supabase/migrations/20260823140000_site00_founder_judgment_revision.sql",
+        "api/admin/site00-assts.ts"
+      ],
+      "readiness": "PARTIAL",
+      "blocker": "Not wired for generic WORLD",
+      "minimumNextStep": "Judgment schema with project_id P0.F"
+    },
+    {
+      "capability": "CANON",
+      "currentState": "Brand lore, workspace canon, lineage canon tables",
+      "evidence": [
+        "shared/site00-brand-lore/projectWorkspace/projectWorkspaceCanon.ts",
+        "supabase/migrations/20260823120000_site00_creative_lineage.sql"
+      ],
+      "readiness": "PARTIAL",
+      "blocker": "World canon missing",
+      "minimumNextStep": "Per-project canon designation P0.D"
+    },
+    {
+      "capability": "PROJECT BIBLE",
+      "currentState": "Composable sources; no compiled view",
+      "evidence": [
+        "audit/SITE00_STUDIO_WORLD_MASTER_ASSURANCE_AUDIT.md"
+      ],
+      "readiness": "PARTIAL",
+      "blocker": "No read model",
+      "minimumNextStep": "Bible compiler P0.D"
+    },
+    {
+      "capability": "PROJECT ISOLATION",
+      "currentState": "Client studio ownership OK; 244 API ndxbook guards; ASSTS global",
+      "evidence": [
+        "api/site00/projects.ts",
+        "src/site00/pages/ProjectCharacterCastingPage.tsx"
+      ],
+      "readiness": "FALSE",
+      "blocker": "Cross-project contamination",
+      "minimumNextStep": "Capability registry P0.B"
+    },
+    {
+      "capability": "STUDIO WORLD INTEGRATION",
+      "currentState": "Generic engines in repo; NDX adapters; FSBW legacy; Composer stub",
+      "evidence": [
+        "shared/site00-studio-world-production/",
+        "audit/SITE00_STUDIO_WORLD_MASTER_ASSURANCE_AUDIT.md"
+      ],
+      "readiness": "PARTIAL",
+      "blocker": "Persistence gaps; ndxbook surfaces",
+      "minimumNextStep": "Generic adapters post-isolation"
+    },
+    {
+      "capability": "PRODUCTION HANDOFF",
+      "currentState": "Deliverable slot; NDXBOOK doc only; no export compiler",
+      "evidence": [
+        "supabase/migrations/20260818143000_site00_production_os.sql",
+        "docs/studio-world/ndxbook/NDXBOOK_SITE00_HANDOFF.md"
+      ],
+      "readiness": "MISSING",
+      "blocker": "No handoff pipeline",
+      "minimumNextStep": "Handoff package P0.G"
+    },
+    {
+      "capability": "REPO OUTPUT",
+      "currentState": "Orchestration inventory only",
+      "evidence": [
+        "api/_lib/site00Orchestration/repositoryInventory.ts"
+      ],
+      "readiness": "MISSING",
+      "blocker": "No scaffold generator",
+      "minimumNextStep": "Scaffold spec in handoff P0.G"
+    },
+    {
+      "capability": "SUPABASE ISOLATION",
+      "currentState": "Shared Supabase during migration",
+      "evidence": [
+        "motherboard/CORE.md"
+      ],
+      "readiness": "MISSING",
+      "blocker": "Client needs own project at production",
+      "minimumNextStep": "Provision at handoff; store refs in metadata"
+    },
+    {
+      "capability": "VERCEL ISOLATION",
+      "currentState": "SITE 00 SPA cPanel; API Railway",
+      "evidence": [
+        "AGENTS.md"
+      ],
+      "readiness": "MISSING",
+      "blocker": "Client needs own host",
+      "minimumNextStep": "Deploy spec in handoff package"
+    }
+  ],
+  "filesCreated": [
+    "docs/audits/SITE00_PROJECT_INGESTION_READINESS_AUDIT.md",
+    "docs/audits/SITE00_PROJECT_INGESTION_READINESS_MATRIX.md",
+    "docs/audits/site00-project-ingestion-readiness.json"
+  ]
+}
