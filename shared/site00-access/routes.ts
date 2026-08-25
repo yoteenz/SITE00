@@ -8,6 +8,10 @@ export function site00ProjectOriginRoute(slug: string): string {
   return `/projects/${slug}/origin`;
 }
 
+export function site00ProjectIdentityRoute(slug: string): string {
+  return `/projects/${slug}/identity`;
+}
+
 export function site00ProjectEvolveRoute(slug: string): string {
   return `/projects/${slug}/evolve`;
 }

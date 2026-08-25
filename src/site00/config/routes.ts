@@ -55,6 +55,7 @@ export const SITE00_ROUTES = {
   projects: '/projects',
   projectDetail: '/projects/:projectSlug',
   projectOrigin: '/projects/:projectSlug/origin',
+  projectIdentity: '/projects/:projectSlug/identity',
   projectSetup: '/projects/:projectSlug/setup',
   projectEvolve: '/projects/:projectSlug/evolve',
   projectCreativeDirection: '/projects/:projectSlug/creative-direction',
@@ -146,6 +147,10 @@ export function site00ProjectPath(projectSlug: string): string {
 
 export function site00ProjectOriginPath(projectSlug: string): string {
   return `/projects/${projectSlug}/origin`;
+}
+
+export function site00ProjectIdentityPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/identity`;
 }
 
 export function site00ProjectSetupPath(projectSlug: string): string {

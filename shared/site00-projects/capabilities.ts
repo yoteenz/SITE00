@@ -99,11 +99,17 @@ export const NDXBOOK_METHODOLOGY_CAPABILITIES: readonly ProjectCapability[] = [
   'BLUEPRINT',
 ];
 
-/** Astral World — minimal pre-ingestion project; no methodology or formation. */
+const IDENTITY_CAPABILITIES: readonly ProjectCapability[] = [
+  'BRAND_INTELLIGENCE',
+  'JUDGMENTS',
+];
+
+/** Astral World — origin + identity exploration; no methodology or formation. */
 export const ASTRAL_WORLD_CAPABILITIES: readonly ProjectCapability[] = [
   ...BASE_CAPABILITIES,
   ...ORIGIN_CAPABILITIES,
-  'PROJECT_INTELLIGENCE',
+  ...INTELLIGENCE_CAPABILITIES,
+  ...IDENTITY_CAPABILITIES,
 ];
 
 /** Other founder projects — project core + intelligence where applicable. */
@@ -175,6 +181,10 @@ export function capabilityForAction(action: string): ProjectCapability | null {
   if (action.startsWith('creative_appetite')) return 'CREATIVE_APPETITE';
   if (action.startsWith('origin_')) return 'ORIGIN_INGESTION';
   if (action.startsWith('client_truth')) return 'CLIENT_TRUTH';
+  if (action.startsWith('identity_')) return 'BRAND_INTELLIGENCE';
+  if (action.startsWith('canon_promote')) return 'JUDGMENTS';
+  if (action.startsWith('project_bible')) return 'PROJECT_INTELLIGENCE';
+  if (action.startsWith('world_hierarchy')) return 'PROJECT_INTELLIGENCE';
   return null;
 }
 

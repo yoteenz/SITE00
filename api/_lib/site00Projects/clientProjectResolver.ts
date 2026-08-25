@@ -10,7 +10,7 @@ import type {
   Site00ProjectDetail,
   Site00ProjectIndexEntry,
 } from '../../../shared/site00-projects/types.js';
-import { site00ProjectDetailRoute, site00ProjectOriginRoute } from '../../../shared/site00-access/routes.js';
+import { site00ProjectDetailRoute, site00ProjectIdentityRoute, site00ProjectOriginRoute } from '../../../shared/site00-access/routes.js';
 import { resolveCanonicalProject } from './canonicalProject.js';
 
 const CLIENT_PROJECT_SLUGS = ['astral-world'] as const;
@@ -35,9 +35,13 @@ export async function resolveClientProjectIndexEntry(slug: string): Promise<Site
     currentSystem: 'SITE 00 PROJECT CORE',
     currentPhase: project.status.replace(/_/g, ' '),
     focusNow:
-      project.status === 'ORIGIN_INGESTED'
-        ? 'ORIGIN INGESTED — IDENTITY PHASE NEXT'
-        : 'PRE-INGESTION — CLIENT TRUTH ONLY',
+      project.status === 'IDENTITY_IN_PROGRESS'
+        ? 'IDENTITY EXPLORATION — AWAITING JUDGMENT'
+        : project.status === 'IDENTITY_COMPLETE'
+          ? 'IDENTITY CANON APPROVED — WORLD PHASE BLOCKED'
+          : project.status === 'ORIGIN_INGESTED'
+            ? 'ORIGIN COMPLETE — ENTER IDENTITY'
+            : 'PRE-INGESTION — CLIENT TRUTH ONLY',
     lastActivity: null,
     surfaces: [
       {
@@ -53,6 +57,13 @@ export async function resolveClientProjectIndexEntry(slug: string): Promise<Site
         route: site00ProjectOriginRoute(project.slug),
         available: hasProjectCapability(project.slug, 'ORIGIN_INGESTION'),
         description: 'Client truth ingestion — non-canonical source records',
+      },
+      {
+        id: 'identity',
+        label: 'IDENTITY',
+        route: site00ProjectIdentityRoute(project.slug),
+        available: hasProjectCapability(project.slug, 'BRAND_INTELLIGENCE'),
+        description: 'Identity exploration — territories, judgment, canon promotion',
       },
     ],
     detailRoute: site00ProjectDetailRoute(project.slug),

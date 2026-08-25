@@ -29,18 +29,22 @@ describe('SITE 00 real project index + command surface', () => {
     await runNdxbookLegacyImport({ approvedBy: 'founder@test.com' });
   });
 
-  it('1. founder index lists four real projects — no demo names', async () => {
+  it('1. founder index lists real projects — no demo names', async () => {
     const projects = await listSite00FounderProjects();
-    expect(projects.length).toBe(4);
+    const founderProjects = projects.filter((p) => isFounderProjectSlug(p.slug));
+    expect(founderProjects.length).toBe(4);
     assertNoDemoProjectsInIndex(projects);
     for (const name of DEMO_PROJECT_NAMES) {
       expect(projects.some((p) => p.name.includes(name))).toBe(false);
     }
   });
 
-  it('2. all founder slugs present', async () => {
+  it('2. all founder slugs present (client projects may also appear)', async () => {
     const projects = await listSite00FounderProjects();
-    expect(projects.map((p) => p.slug).sort()).toEqual([...FOUNDER_PROJECT_SLUGS].sort());
+    const slugs = projects.map((p) => p.slug);
+    for (const founderSlug of FOUNDER_PROJECT_SLUGS) {
+      expect(slugs).toContain(founderSlug);
+    }
   });
 
   it('3. NDXBOOK uses canonical UUID from org registry', async () => {
@@ -123,7 +127,11 @@ describe('SITE 00 real project index + command surface', () => {
   it('14. index payload preserves organization isolation per slug', async () => {
     const payload = await getSite00ProjectsIndexPayload();
     const uuids = new Set(payload.projects.map((p) => p.organizationUuid));
-    expect(uuids.size).toBe(4);
+    const founderUuids = new Set(
+      payload.projects.filter((p) => isFounderProjectSlug(p.slug)).map((p) => p.organizationUuid),
+    );
+    expect(founderUuids.size).toBe(4);
+    expect(uuids.size).toBeGreaterThanOrEqual(4);
   });
 
   it('18. ProjectsPage does not import ecosystem seed data', () => {
