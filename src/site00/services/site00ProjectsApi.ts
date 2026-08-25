@@ -1662,6 +1662,8 @@ export const site00ProjectsApi = {
       ingestion: Record<string, unknown>;
       previewUrl: string;
       storagePath: string;
+      diff: Record<string, unknown> | null;
+      qaReport: Record<string, unknown> | null;
     }>('/api/site00/projects?action=founder_creative_ingestion_upload_reference', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

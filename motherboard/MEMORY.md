@@ -4805,9 +4805,10 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 - **Context:** Formalize NDXBOOK carousel visual language for all V2.3 carousel generation. Carousels must look like physical pages inside The Book — not templates with handwriting added afterward. Remains V2.3 + P0.5C.7 amendment (no V2.4). No automatic FAL spend during implementation; founder review required for pilot regeneration.
 - **Visual authority chain (amended):** CONTENT THESIS → PAGE OBJECT → PAGE MATERIAL → BINDING/EDGE → CONSTRUCTION HISTORY → BESPOKE COMPOSITION → EDITORIAL PHOTOGRAPHY → TYPOGRAPHY → EVIDENCE → CHARACTER TRACE → LIME INTERRUPTION → QA. Blocked legacy: BACKGROUND → TEXT → PHOTO → ANNOTATION.
-- **New modules (`artBoardMateriality/`):** `ndxPageObjectContract.ts`, `ndxConstructionHistory.ts`, `notebookCarouselPromptSections.ts`, `notebookCarouselEvaluation.ts`, `ndxNotebookCarouselNorthStar.ts`, `notebookCarouselMigrationAudit.ts`, `notebookCarouselFounderReview.ts`, `notebookCarouselGrammarP05C7.ts`.
-- **Compiler:** `falPromptCompilerV23@P0.5C.7` — explicit physical page sections; Round 01 notebook carousel gate wired.
-- **Shipped:** PR **#428** merged to `main`. Tests **2928** pass; build green.
+- **New modules (`artBoardMateriality/`):** `ndxPageObjectContract.ts` (NDXPageObjectContract + physical lineage signals), `ndxConstructionHistory.ts`, `notebookCarouselPromptSections.ts`, `notebookCarouselEvaluation.ts` (physicality, template grammar, uppercase, photo integration, construction history, page variety QA gates), `ndxNotebookCarouselNorthStar.ts` (MEET NDX, PERSONAL BRAND, THINGS I SAVED — evidence not literal templates), `notebookCarouselMigrationAudit.ts`, `notebookCarouselFounderReview.ts` (THIS_FEELS_LIKE_THE_BOOK, TOO_TEMPLATE, LOWERCASE_ERROR, etc.), `notebookCarouselGrammarP05C7.ts`.
+- **Compiler:** `falPromptCompilerV23@P0.5C.7` — explicit sections: PHYSICAL PAGE OBJECT, PAGE MATERIAL, BINDING/EDGE, CONSTRUCTION HISTORY, PHOTO INTEGRATION, UPPERCASE AUTHORSHIP, HAND MARKS, LIME INTERRUPTION, NEGATIVE TEMPLATE CONSTRAINTS. `FAL_MATERIAL_PROMPT_SECTION_ORDER` expanded to 35 sections. Pre-C7 supersession (`artifactHasPreC7Prompt`, `V23_SUPERSESSION_REASON_C7`, `PRESERVED_PRE_C7` lineage). Round 01 notebook carousel gate wired.
+- **Pilot:** Subscription receipt topic 1 recommended for founder-triggered OLD V2.3 vs P0.5C.7 compare — no auto-lock.
+- **Shipped:** PR **#428** merged to `main`. Tests: `artBoardMaterialityP05C7.test.ts` (13); full suite **2928** pass; build green. Historical V2.3 assets immutable; Brand Character/Canon unchanged.
 
 ## 2026-08-25 — P0.CB.1A Reference board replacement + notebook grammar re-decomposition
 
@@ -4820,7 +4821,7 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 ## 2026-08-25 — FCI reference board upload UI + API (founder mobile fix)
 
 - **Problem:** Founder on mobile at Founder Creative Ingestion saw "Upload replacement to compare" and "REPLACE REFERENCE BOARD →" but no file picker — P0.CB.1A backend existed but upload was never wired; replace used placeholder URLs.
-- **Fix:** `uploadFounderCreativeReferenceBoard` API (`founder_creative_ingestion_upload_reference`) — base64 image → Supabase `site00/founder-creative/ndxbook/{sequenceId}/draft-{ts}.{ext}` → existing draft versioning engine. UI: hidden file input + tap target "TAP TO UPLOAD REPLACEMENT BOARD" + "UPLOAD REPLACEMENT BOARD →" button; removed broken bulk placeholder replace.
+- **Fix:** `uploadFounderCreativeReferenceBoard` API (`founder_creative_ingestion_upload_reference`) — base64 image → Supabase storage → existing draft versioning engine. UI: hidden file input + tap target "TAP TO UPLOAD REPLACEMENT BOARD" + "UPLOAD REPLACEMENT BOARD →" button; removed broken bulk placeholder replace.
 - **Shipped:** PR merged to `main`. Deploy **v90**. Tests: FCI P0CB1A (15) pass; build green.
 
 ---
@@ -4843,9 +4844,31 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cause:** API JSON body limit was 2MB on Railway Express server; board PNGs sent inline exceed limit.
 - **Fix:** New `founder_creative_ingestion_upload_reference` uploads image to Supabase storage (webp via sharp), then creates draft reference with `storagePath` + public URL only. UI: **UPLOAD REFERENCE BOARD** file picker with client-side compression. Express JSON limit raised to 25MB. Friendly 413 handler.
 
+---
+
+## 2026-08-25 — FCI upload → show → auto-decompose flow fix
+
+- **Context:** Founder selected and uploaded a replacement reference board on Founder Creative Ingestion but nothing changed on the page — expected uploaded image to appear and decompose stage to begin automatically.
+- **Root causes:** (1) Upload only created a draft version without calling `redecomposeFromDraftReference`. (2) Main sequence `referenceUrl` used legacy asset id `ref-board-${sequenceId}` instead of versioned `ref-board-${sequenceId}-v${n}`. (3) Silent rejection of some mobile image types; no upload feedback.
+- **Fix:** `uploadAndReplaceFounderCreativeReferenceBoard` now chains upload → draft → redecompose → QA in one save; returns `diff` + `qaReport`. Added `resolveSequenceReferencePreviewUrl` (draft → active → legacy). UI uses it for main reference art; upload handler applies diff, selects first slide, shows local blob preview while busy, surfaces invalid-file errors, "UPLOADING & DECOMPOSING…" status.
+- **Tests:** `founderCreativeIngestionP0CB1A.test.ts` — upload auto-redecompose + preview URL helper (16 pass).
+- **Ship:** PR to `main`; deploy Railway + fsbw-dev for live fix.
+
+---
+
+## 2026-08-25 — P0.CB.1B Guided creative ingestion workflow (stepper + slide-by-slide proofing)
+
+- **Context:** Founder Creative Ingestion felt like an admin state dump — reference versioning, slide state, methodology, photo modes, and registration actions all visible at once. Sprint restructured into a guided production workflow: one screen = one decision.
+- **Flow:** STEP 01 INGEST (upload → auto-decompose) → STEP 02 DECOMPOSE (progress) → STEP 03 SLIDE REVIEW (reference/production/compare tabs, HQ upload, approve/regenerate) → STEP 04 SEQUENCE REVIEW (blocked until all slides approved) → STEP 05 COMPLETE. Stepper + stage shell; methodology in Inspect drawer only.
+- **Code:** `guidedWorkflow.ts` + `FounderCreativeIngestionWorkflow` shell/stages; page slimmed to orchestrator; localStorage persistence for sequence/step/slide index; mobile sticky action bar.
+- **Preservation:** Non-destructive reference lineage, draft not auto-promoted, founder-triggered FAL spend unchanged.
+- **Tests:** `founderCreativeIngestionP0CB1B.test.ts` (14); P0CB1A updated; build green.
+
+---
+
 ## 2026-08-25 — CAST NDX founder character reference upload + bible storage
 
 - **Problem:** CAST NDX page had generate/review stills but no way to upload founder character references, decompose into casting authority, store in Character Bible, or regenerate casting from those references.
 - **Fix:** `character_visual_casting_upload_reference` / `_store_reference_bible` / `_regenerate_from_references` API; `founderReferenceIngestion` engine; continuity pipeline sync via `ingestFounderCastingReferenceToContinuity`. UI: role picker (FACE/HAIR/WARDROBE/etc.), **TAP TO UPLOAD** zone, decomposed signals list, **STORE IN BIBLE →**, **REGENERATE CASTING FROM REFERENCES →**.
-- **Shipped:** PR merged to `main`. Deploy **v91**. Tests: `castNdxFounderReferenceUpload.test.ts` (3) + P0.5E.4C (16) pass; build green.
+- **Shipped:** PR #435 merged to `main`. Deploy **v91**. Tests: `castNdxFounderReferenceUpload.test.ts` (3) pass; build green.
 
