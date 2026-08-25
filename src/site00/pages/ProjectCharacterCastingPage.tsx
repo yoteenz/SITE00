@@ -11,6 +11,8 @@ import type { NdxFounderCharacterDiscoveryRun } from '../../../shared/site00-bra
 import {
   CASTING_PRIMARY_JUDGMENTS,
   DEFAULT_CASTING_CANDIDATE_COUNT,
+  castingRoundNeedsFalRetry,
+  isCastingPlaceholderPreviewUrl,
 } from '../../../shared/site00-studio-world-production/characterVisualCasting/client.js';
 import type {
   CharacterCastingCandidate,
@@ -63,6 +65,10 @@ export default function ProjectCharacterCastingPage() {
   }, [casting]);
 
   const activeCandidate = latestRoundCandidates[activeIndex] ?? null;
+  const latestRound = casting?.rounds.at(-1) ?? null;
+  const hasRound = latestRoundCandidates.length > 0;
+  const needsFalRetry = casting && latestRound ? castingRoundNeedsFalRetry(casting, latestRound.roundId) : false;
+  const isGeneratingRound = Boolean(casting?.visualCastingReady && hasRound && !casting.castingCandidatesReady);
 
   const act = async (fn: () => Promise<{ run?: Record<string, unknown> }>) => {
     setBusy(true);
@@ -114,7 +120,7 @@ export default function ProjectCharacterCastingPage() {
         </section>
       )}
 
-      {!loading && casting?.visualCastingReady && !casting.castingCandidatesReady && (
+      {!loading && casting?.visualCastingReady && !hasRound && (
         <section className="site00-char-cast__panel">
           <h2>CAST NDX</h2>
           <p>Based on who she is — here are visual interpretations of her. This is not final identity yet.</p>
@@ -156,8 +162,35 @@ export default function ProjectCharacterCastingPage() {
         </section>
       )}
 
-      {!loading && casting?.castingCandidatesReady && latestRoundCandidates.length > 0 && (
+      {!loading && isGeneratingRound && (
         <section className="site00-char-cast__panel">
+          <h2>GENERATING CASTING STILLS</h2>
+          <p>Calling FAL for six editorial stills — this can take a minute on mobile.</p>
+          <div className="site00-char-cast__hero">
+            <div className="site00-char-cast__frame">
+              <div className="site00-char-cast__placeholder">Generating candidate {String(activeIndex + 1).padStart(2, '0')}…</div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {!loading && casting?.castingCandidatesReady && hasRound && (
+        <section className="site00-char-cast__panel">
+          {needsFalRetry && (
+            <>
+              <p className="site00-char-cast__hint">
+                This round was created before live generation was wired. Placeholder stills only — tap below to generate real images.
+              </p>
+              <button
+                type="button"
+                className="site00-char-cast__cta site00-char-cast__cta--primary"
+                disabled={busy}
+                onClick={() => void act(() => site00ProjectsApi.characterVisualCastingRetryFal(projectSlug, latestRound?.roundId))}
+              >
+                GENERATE STILLS WITH FAL
+              </button>
+            </>
+          )}
           <header className="site00-char-cast__review-head">
             <h2>WHO FEELS CLOSEST?</h2>
             <span className="site00-char-cast__counter">
@@ -167,7 +200,7 @@ export default function ProjectCharacterCastingPage() {
 
           <div className="site00-char-cast__hero">
             <div className="site00-char-cast__frame">
-              {activeCandidate?.previewUrl && !activeCandidate.previewUrl.includes('/api/placeholder/') ? (
+              {activeCandidate?.previewUrl && !isCastingPlaceholderPreviewUrl(activeCandidate.previewUrl) ? (
                 <img
                   src={activeCandidate.previewUrl}
                   alt={`Casting candidate ${String(activeIndex + 1).padStart(2, '0')} — ${activeCandidate.variationAxis.replace(/_/g, ' ')}`}

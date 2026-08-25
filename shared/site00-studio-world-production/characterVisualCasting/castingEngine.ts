@@ -235,6 +235,46 @@ export function applyCastingGenerationResults(params: {
   });
 }
 
+export function prepareCastingRoundForFalRetry(params: {
+  state: CharacterVisualCastingState;
+  roundId: string;
+  falConfigured: boolean;
+}): CharacterVisualCastingState {
+  const round = params.state.rounds.find((entry) => entry.roundId === params.roundId);
+  if (!round) throw new Error('Casting round not found');
+
+  const roundCandidates = params.state.candidates.filter((entry) => entry.roundId === params.roundId);
+  if (roundCandidates.length === 0) throw new Error('Casting round has no candidates');
+  if (!roundCandidates.every((entry) => !entry.previewUrl || entry.previewUrl.includes('/api/placeholder/'))) {
+    throw new Error('Round already has generated stills');
+  }
+
+  const rec = recommendStillImageCastingProvider(params.falConfigured);
+  const candidates = params.state.candidates.map((entry) =>
+    entry.roundId === params.roundId
+      ? { ...entry, previewUrl: null, outputAssetId: null, model: rec.model ?? entry.model }
+      : entry,
+  );
+  const rounds = params.state.rounds.map((entry) =>
+    entry.roundId === params.roundId
+      ? {
+          ...entry,
+          status: 'GENERATING' as const,
+          model: rec.model ?? entry.model,
+          costUsd: estimateCastingRoundCost(roundCandidates.length, params.falConfigured),
+        }
+      : entry,
+  );
+
+  return syncPipelineState({
+    ...params.state,
+    candidates,
+    rounds,
+    castingCandidatesReady: false,
+    falImageRequests: params.state.falImageRequests + roundCandidates.length,
+  });
+}
+
 export function generateNextCastingRoundFromFeedback(params: {
   state: CharacterVisualCastingState;
   falConfigured: boolean;

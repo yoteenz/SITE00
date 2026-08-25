@@ -10,6 +10,7 @@ import {
   generateNextCastingRoundFromFeedback,
   lockFinalVisualIdentity,
   planInitialCastingRound,
+  prepareCastingRoundForFalRetry,
 } from '../../../../shared/site00-studio-world-production/characterVisualCasting/castingEngine.js';
 import type { CastingPrimaryJudgment, MergeTraitOption } from '../../../../shared/site00-studio-world-production/characterVisualCasting/types.js';
 import { createNewTruthVersionOnReopenCalibration } from '../../../../shared/site00-studio-world-production/characterVisualCasting/promoteRecognition.js';
@@ -121,6 +122,33 @@ export async function generateNextVisualCastingRound(params: { projectId: string
       roundId,
     });
   }
+  return save({ ...run, visualCastingState });
+}
+
+export async function retryVisualCastingRoundFal(params: { projectId: string; roundId?: string }) {
+  const run = await loadRun(params.projectId);
+  if (!run.visualCastingState) throw new Error('Visual casting not initialized');
+  if (!falConfigured()) throw new Error('FAL_KEY not configured on server');
+
+  const roundId = params.roundId ?? run.visualCastingState.rounds.at(-1)?.roundId;
+  if (!roundId) throw new Error('No casting round to retry');
+
+  const roundCandidates = run.visualCastingState.candidates.filter((entry) => entry.roundId === roundId);
+  const needsRetry = roundCandidates.every(
+    (entry) => !entry.previewUrl || entry.previewUrl.includes('/api/placeholder/'),
+  );
+  if (!needsRetry) throw new Error('Latest round already has generated stills');
+
+  let visualCastingState = prepareCastingRoundForFalRetry({
+    state: run.visualCastingState,
+    roundId,
+    falConfigured: falConfigured(),
+  });
+  visualCastingState = await dispatchCastingRoundFal({
+    projectId: params.projectId,
+    state: visualCastingState,
+    roundId,
+  });
   return save({ ...run, visualCastingState });
 }
 

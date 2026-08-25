@@ -21,3 +21,17 @@ export type {
 export function discoveryShouldShowRecognizedNotCalibration(state: CharacterVisualCastingState): boolean {
   return state.founderIKnowHerConfirmed && !state.reopenCalibrationAcknowledged;
 }
+
+export function isCastingPlaceholderPreviewUrl(previewUrl: string | null | undefined): boolean {
+  if (!previewUrl) return false;
+  return previewUrl.includes('/api/placeholder/');
+}
+
+/** True when every candidate in the round still has a placeholder (or missing) preview URL. */
+export function castingRoundNeedsFalRetry(state: CharacterVisualCastingState, roundId?: string): boolean {
+  const round = roundId ? state.rounds.find((entry) => entry.roundId === roundId) : state.rounds.at(-1);
+  if (!round) return false;
+  const candidates = state.candidates.filter((entry) => entry.roundId === round.roundId);
+  if (candidates.length === 0) return false;
+  return candidates.every((entry) => !entry.previewUrl || isCastingPlaceholderPreviewUrl(entry.previewUrl));
+}

@@ -25,6 +25,7 @@ import {
   promptContractsShareCharacterTruth,
   compileCastingPromptFromContract,
   applyCastingGenerationResults,
+  prepareCastingRoundForFalRetry,
   buildEmptyVisualCastingState,
   discoveryShouldShowRecognizedNotCalibration,
   DEFAULT_CASTING_CANDIDATE_COUNT,
@@ -40,7 +41,11 @@ import {
   resetFounderCharacterDiscoveryStoreModeCache,
   saveFounderCharacterDiscoveryRun,
 } from '../../api/_lib/site00Evolve/founderCharacterDiscovery/founderCharacterDiscoveryStoreAdapter.js';
-import { generateVisualCastingRound } from '../../api/_lib/site00Evolve/characterVisualCasting/characterVisualCastingService.js';
+import { generateVisualCastingRound, retryVisualCastingRoundFal } from '../../api/_lib/site00Evolve/characterVisualCasting/characterVisualCastingService.js';
+import {
+  castingRoundNeedsFalRetry,
+  isCastingPlaceholderPreviewUrl,
+} from '../site00-studio-world-production/characterVisualCasting/client.js';
 
 const ROOT = join(process.cwd());
 
@@ -301,5 +306,49 @@ describe('P0.5E.4C visual casting + I KNOW HER transition', () => {
       (c) => c.roundId === run.visualCastingState?.rounds.at(-1)?.roundId,
     );
     expect(latest?.every((c) => c.previewUrl?.includes('vitest.local'))).toBe(true);
+  });
+
+  it('detects placeholder rounds and retries FAL dispatch for existing candidates', async () => {
+    process.env.FAL_KEY = 'vitest-key';
+    await initializeFounderCharacterDiscoveryRoom({ projectId: 'ndxbook' });
+    let run = (await getFounderCharacterDiscoveryState({ projectId: 'ndxbook' }))!;
+    run = await completeCalibration(run);
+    run = { ...run, humanReadableSynthesis: ndxGetHumanReadableSynthesis(run) };
+    run = promoteFounderRecognition({
+      run,
+      response: 'YES_I_KNOW_HER',
+      sourceRoute: '/test',
+      falConfigured: false,
+    }).run;
+    await saveFounderCharacterDiscoveryRun(run);
+    run = await generateVisualCastingRound({ projectId: 'ndxbook', dispatchFal: false });
+    const roundId = run.visualCastingState?.rounds.at(-1)?.roundId;
+    expect(roundId).toBeTruthy();
+    expect(castingRoundNeedsFalRetry(run.visualCastingState!, roundId)).toBe(true);
+    expect(isCastingPlaceholderPreviewUrl(run.visualCastingState?.candidates[0]?.previewUrl)).toBe(true);
+
+    run = await retryVisualCastingRoundFal({ projectId: 'ndxbook', roundId });
+    expect(run.visualCastingState?.castingCandidatesReady).toBe(true);
+    const latest = run.visualCastingState?.candidates.filter((c) => c.roundId === roundId);
+    expect(latest?.every((c) => c.previewUrl?.includes('vitest.local'))).toBe(true);
+    expect(castingRoundNeedsFalRetry(run.visualCastingState!, roundId)).toBe(false);
+  });
+
+  it('prepareCastingRoundForFalRetry clears placeholders and marks round generating', () => {
+    const run = buildNdxFounderCharacterDiscoveryRun();
+    const snapshot = buildCharacterTruthSnapshot({ run, version: 1, lockedForCasting: true });
+    let state = buildEmptyVisualCastingState();
+    state = {
+      ...state,
+      visualCastingReady: true,
+      truthSnapshots: [snapshot],
+      activeTruthSnapshotId: snapshot.snapshotId,
+    };
+    state = generateCastingRoundPlaceholders({ state, falConfigured: false, dispatchFal: false });
+    const roundId = state.rounds.at(-1)!.roundId;
+    state = prepareCastingRoundForFalRetry({ state, roundId, falConfigured: true });
+    expect(state.castingCandidatesReady).toBe(false);
+    expect(state.rounds.at(-1)?.status).toBe('GENERATING');
+    expect(state.candidates.filter((c) => c.roundId === roundId).every((c) => c.previewUrl === null)).toBe(true);
   });
 });
