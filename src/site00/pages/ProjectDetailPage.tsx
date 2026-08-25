@@ -3,6 +3,10 @@ import type { ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { NdxFounderWorkspacePage } from '../components/founderWorkspace';
+import {
+  OverviewFounderWorkspaceBoard,
+  OverviewMobileHomeScreen,
+} from '../components/founderWorkspace/OverviewFounderWorkspaceBoard';
 import { EmptyState } from '../components/pages/Site00PagePrimitives';
 import { ProjectPrivilegedUtilities } from '../components/access/ProjectPrivilegedUtilities';
 import { ProjectPersonalityReplayStatus } from '../components/validation/ProjectPersonalityReplayStatus';
@@ -282,17 +286,21 @@ export default function ProjectDetailPage() {
       <NdxFounderWorkspacePage
         projectSlug={projectSlug}
         title={project?.displayName ?? 'NDXBOOK'}
-        subtitle="PROJECT OVERVIEW"
+        subtitle="NDXBOOK FOUNDER WORKSPACE"
         loading={state === 'loading'}
         loadingLabel="LOADING PROJECT…"
+        hideWorkspaceHeader
         error={
           state === 'error' || (!project && state !== 'loading')
             ? { title: 'PROJECT NOT FOUND', message: error ?? 'NO TRUTHFUL PROJECT RECORD FOR THIS SLUG.' }
             : null
         }
         operate={
-          projectBody ? (
-            <div className="site00-fws-overview-grid site00-page site00-page--project-detail">{projectBody}</div>
+          project ? (
+            <>
+              <OverviewFounderWorkspaceBoard projectSlug={projectSlug} />
+              <OverviewMobileHomeScreen projectSlug={projectSlug} />
+            </>
           ) : null
         }
       />

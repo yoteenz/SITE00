@@ -26,18 +26,20 @@ describe('founder workspace P0.5E.6', () => {
     expect(attentionRequiresFounder('ARCHIVED')).toBe(false);
   });
 
-  it('provides seven workspace nav destinations for ndxbook', () => {
+  it('provides eight reference-aligned workspace nav destinations for ndxbook', () => {
     const nav = ndxFounderWorkspaceNav('ndxbook');
-    expect(nav).toHaveLength(7);
+    expect(nav).toHaveLength(8);
     expect(nav.map((n) => n.id)).toEqual([
       'OVERVIEW',
-      'CREATE',
-      'REVIEW',
-      'LEARN',
+      'EXPERIMENTS',
+      'CAMPAIGN',
+      'CONTENT_OPS',
       'INTELLIGENCE',
       'CHARACTER',
+      'LEARN',
       'ARCHIVE',
     ]);
+    expect(nav.find((n) => n.id === 'CAMPAIGN')?.label).toBe('CAMPAIGN BOARD');
     expect(nav.find((n) => n.id === 'ARCHIVE')?.href).toBe('/projects/ndxbook/archive');
   });
 
