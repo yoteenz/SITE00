@@ -7,10 +7,10 @@ import {
   registerReferenceUpload,
   decomposeSequenceReference,
   buildSequenceReconstructionSpecs,
+  resolveReconstructionPhotographyModes,
   setPhotographySourceMode,
   editSlidePrompt,
   estimateSlideGeneration,
-  generateSlidePhotography,
   replaceSlidePhotography,
   applySlideReviewJudgment,
   runSequenceLevelReview,
@@ -29,6 +29,12 @@ import type {
 } from '../../../../shared/site00-studio-world-production/founderCreativeIngestion/types.js';
 import * as campaignStore from '../marketingCampaignProduction/marketingCampaignProductionStoreAdapter.js';
 import { isNeuralProviderConfigured } from '../founderCharacterDiscovery/neuralVoiceGenerationService.js';
+import {
+  maybeResumeFounderCreativeGeneration,
+  reconcileStaleFounderCreativeGeneration,
+  startFounderCreativeFalBatch,
+  startFounderCreativeSlideFal,
+} from './founderCreativeFalBackgroundJob.js';
 
 function falConfigured(): boolean {
   return isNeuralProviderConfigured();
@@ -79,11 +85,24 @@ async function saveWithIngestion(
   });
 }
 
+async function hydrateRun(projectId: string): Promise<MarketingCampaignProductionRun> {
+  let run = await ensureRun(projectId);
+  run = await reconcileStaleFounderCreativeGeneration(run);
+  run = await maybeResumeFounderCreativeGeneration(run);
+  return run;
+}
+
 export async function getFounderCreativeIngestion(params: {
   projectId: string;
-}): Promise<{ run: MarketingCampaignProductionRun; ingestion: FounderCreativeIngestionState | null }> {
-  const run = await ensureRun(params.projectId);
-  return { run, ingestion: run.founderCreativeIngestion ?? null };
+}): Promise<{ run: MarketingCampaignProductionRun; ingestion: FounderCreativeIngestionState | null; background?: boolean }> {
+  const run = await hydrateRun(params.projectId);
+  return {
+    run,
+    ingestion: run.founderCreativeIngestion ?? null,
+    background:
+      run.founderCreativeIngestion?.falGenerationTracking?.status === 'RUNNING' &&
+      process.env.VITEST !== 'true',
+  };
 }
 
 export async function initializeFounderCreativeRow01(params: {
@@ -96,7 +115,6 @@ export async function initializeFounderCreativeRow01(params: {
     canonicalCharacterRef: params.characterIdentityLocked ? 'ndx-hq-desk-photo' : null,
   });
 
-  // Register placeholder references for pilot boards
   let state = ingestion;
   for (const seqId of [MEET_NDX_SEQUENCE_ID, PERSONAL_BRAND_SEQUENCE_ID, SAVED_THIS_WEEK_SEQUENCE_ID]) {
     state = registerReferenceUpload(state, {
@@ -113,12 +131,23 @@ export async function initializeFounderCreativeRow01(params: {
 export async function decomposeFounderCreativeSequence(params: {
   projectId: string;
   sequenceId: string;
+  dispatchFal?: boolean;
 }): Promise<{ run: MarketingCampaignProductionRun; ingestion: FounderCreativeIngestionState }> {
-  const run = await ensureRun(params.projectId);
+  const run = await hydrateRun(params.projectId);
   if (!run.founderCreativeIngestion) throw new Error('Initialize founder creative ingestion first');
 
   let ingestion = decomposeSequenceReference(run.founderCreativeIngestion, params.sequenceId);
   ingestion = buildSequenceReconstructionSpecs(ingestion, params.sequenceId);
+  ingestion = resolveReconstructionPhotographyModes(ingestion, params.sequenceId);
+
+  if ((params.dispatchFal ?? falConfigured()) && falConfigured()) {
+    const batch = await startFounderCreativeFalBatch({
+      projectId: params.projectId,
+      run,
+      ingestion,
+    });
+    return batch;
+  }
 
   const saved = await saveWithIngestion(params.projectId, run, ingestion);
   return { run: saved, ingestion };
@@ -126,8 +155,10 @@ export async function decomposeFounderCreativeSequence(params: {
 
 export async function decomposeAllFounderCreativeSequences(params: {
   projectId: string;
+  dispatchFal?: boolean;
 }): Promise<{ run: MarketingCampaignProductionRun; ingestion: FounderCreativeIngestionState }> {
-  let { run, ingestion } = await getFounderCreativeIngestion(params);
+  let run = await hydrateRun(params.projectId);
+  let ingestion = run.founderCreativeIngestion;
   if (!ingestion) {
     ({ run, ingestion } = await initializeFounderCreativeRow01(params));
   }
@@ -135,6 +166,15 @@ export async function decomposeAllFounderCreativeSequences(params: {
   for (const seqId of [MEET_NDX_SEQUENCE_ID, PERSONAL_BRAND_SEQUENCE_ID, SAVED_THIS_WEEK_SEQUENCE_ID]) {
     ingestion = decomposeSequenceReference(ingestion, seqId);
     ingestion = buildSequenceReconstructionSpecs(ingestion, seqId);
+    ingestion = resolveReconstructionPhotographyModes(ingestion, seqId);
+  }
+
+  if ((params.dispatchFal ?? falConfigured()) && falConfigured()) {
+    return startFounderCreativeFalBatch({
+      projectId: params.projectId,
+      run,
+      ingestion,
+    });
   }
 
   const saved = await saveWithIngestion(params.projectId, run, ingestion);
@@ -147,7 +187,7 @@ export async function setFounderCreativePhotoMode(params: {
   mode: PhotographySourceMode;
   assetId?: string;
 }): Promise<{ run: MarketingCampaignProductionRun; ingestion: FounderCreativeIngestionState }> {
-  const run = await ensureRun(params.projectId);
+  const run = await hydrateRun(params.projectId);
   if (!run.founderCreativeIngestion) throw new Error('Not initialized');
 
   const ingestion = setPhotographySourceMode(
@@ -165,7 +205,7 @@ export async function editFounderCreativePrompt(params: {
   slideId: string;
   prompt: string;
 }): Promise<{ run: MarketingCampaignProductionRun; ingestion: FounderCreativeIngestionState }> {
-  const run = await ensureRun(params.projectId);
+  const run = await hydrateRun(params.projectId);
   if (!run.founderCreativeIngestion) throw new Error('Not initialized');
 
   const ingestion = editSlidePrompt(run.founderCreativeIngestion, params.slideId, params.prompt);
@@ -177,7 +217,7 @@ export async function estimateFounderCreativeGeneration(params: {
   projectId: string;
   slideId: string;
 }) {
-  const run = await ensureRun(params.projectId);
+  const run = await hydrateRun(params.projectId);
   if (!run.founderCreativeIngestion) throw new Error('Not initialized');
   return estimateSlideGeneration(run.founderCreativeIngestion, params.slideId, falConfigured());
 }
@@ -187,17 +227,19 @@ export async function generateFounderCreativePhotography(params: {
   slideId: string;
   dispatchFal?: boolean;
 }): Promise<{ run: MarketingCampaignProductionRun; ingestion: FounderCreativeIngestionState }> {
-  const run = await ensureRun(params.projectId);
+  const run = await hydrateRun(params.projectId);
   if (!run.founderCreativeIngestion) throw new Error('Not initialized');
 
-  const ingestion = generateSlidePhotography(
-    run.founderCreativeIngestion,
-    params.slideId,
-    falConfigured(),
-    params.dispatchFal ?? false,
-  );
-  const saved = await saveWithIngestion(params.projectId, run, ingestion);
-  return { run: saved, ingestion };
+  if (!(params.dispatchFal ?? falConfigured()) || !falConfigured()) {
+    throw new Error('FAL_KEY not configured — cannot generate photography');
+  }
+
+  return startFounderCreativeSlideFal({
+    projectId: params.projectId,
+    run,
+    ingestion: run.founderCreativeIngestion,
+    slideId: params.slideId,
+  });
 }
 
 export async function replaceFounderCreativePhoto(params: {
@@ -206,7 +248,7 @@ export async function replaceFounderCreativePhoto(params: {
   assetId: string;
   previewUrl?: string;
 }): Promise<{ run: MarketingCampaignProductionRun; ingestion: FounderCreativeIngestionState }> {
-  const run = await ensureRun(params.projectId);
+  const run = await hydrateRun(params.projectId);
   if (!run.founderCreativeIngestion) throw new Error('Not initialized');
 
   const ingestion = replaceSlidePhotography(
@@ -224,7 +266,7 @@ export async function founderCreativeSlideJudgment(params: {
   slideId: string;
   judgment: ReconstructionReviewJudgment;
 }): Promise<{ run: MarketingCampaignProductionRun; ingestion: FounderCreativeIngestionState }> {
-  const run = await ensureRun(params.projectId);
+  const run = await hydrateRun(params.projectId);
   if (!run.founderCreativeIngestion) throw new Error('Not initialized');
 
   const ingestion = applySlideReviewJudgment(
@@ -240,7 +282,7 @@ export async function founderCreativeSequenceReview(params: {
   projectId: string;
   sequenceId: string;
 }) {
-  const run = await ensureRun(params.projectId);
+  const run = await hydrateRun(params.projectId);
   if (!run.founderCreativeIngestion) throw new Error('Not initialized');
 
   const { state, report } = runSequenceLevelReview(run.founderCreativeIngestion, params.sequenceId);
@@ -251,16 +293,15 @@ export async function founderCreativeSequenceReview(params: {
 export async function registerFounderCreativeOnCampaignBoard(params: {
   projectId: string;
 }): Promise<{ run: MarketingCampaignProductionRun; ingestion: FounderCreativeIngestionState }> {
-  const run = await ensureRun(params.projectId);
+  const run = await hydrateRun(params.projectId);
   if (!run.founderCreativeIngestion) throw new Error('Not initialized');
 
   const ingestion = registerOnCampaignBoard(run.founderCreativeIngestion);
 
-  // Update slate entries to show 3 parent sequences on PAGES lane
   const slate = {
     slateId: 'ndx-launch-row-01-slate',
     campaignId: ingestion.campaignId,
-    entries: ingestion.parentSequences.map((seq, i) => ({
+    entries: ingestion.parentSequences.map((seq) => ({
       contentPieceId: seq.sequenceId,
       title: seq.title,
       topic: seq.role,
@@ -313,7 +354,8 @@ export async function registerFounderCreativeOnCampaignBoard(params: {
     status: 'IN_PROGRESS' as const,
     parentAssetId: null,
     contractId: null,
-    generatedAssetUrl: ingestion.referenceAssets.find((a) => a.assetId.includes(seq.sequenceId))?.previewUrl ?? null,
+    generatedAssetUrl:
+      ingestion.referenceAssets.find((a) => a.assetId === `ref-board-${seq.sequenceId}`)?.previewUrl ?? null,
     generatedAssetId: null,
     lockedAt: null,
     approvedAt: null,
