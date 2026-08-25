@@ -5021,6 +5021,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `FounderWorkspaceShell` now uses `isPreviewDesktop` to swap desktop operate vs `renderMobileFounderWorkspaceScreen()` inside `MobileFounderWorkspaceChrome`. Added 6 reference mobile screens in `MobileFounderWorkspaceScreens.tsx`. `EcosystemShell` adds `site00-ecosystem-shell--ndx-founder-mobile` on `/projects/ndxbook/*` to hide global mobile header/nav. Mobile bottom nav "More" → Experiments Hub.
 - **Verified:** Mobile toggle shows KPI overview, campaign board, content ops with NDXBOOK bottom nav (Overview/Campaigns/Content Ops/Lab/More).
 
+## 2026-08-25 — P0.VR.1D.A mobile regression fix (hub restore)
+
+- **Issue:** Founder reported broken project hub on mobile (unstyled blue inline nav links, global SITE 00 bottom nav still visible, plain-text KPIs). Root cause: static mobile screens replaced all operate layers; global mobile shell not suppressed structurally; nav CSS relied on broken unicode icons + sticky positioning below global nav.
+- **Fix:** `suppressSiteChrome` on `Site00EcosystemMobileShell` for ndxbook routes (hides global header + bottom nav). Mobile reference overview only on `/projects/ndxbook`; other routes restore real `operate` layers. Fixed bottom nav (fixed position, label-only, screenId active matching). CSS imported directly in mobile chrome component.
+
 ## 2026-08-25 — Promote founder reference to WHO FEELS CLOSEST
 
 - **Context:** Founder uploaded full-look reference (lime green sneakers) on CAST NDX and wanted it in WHO FEELS CLOSEST? to confirm identity before isolate generation.

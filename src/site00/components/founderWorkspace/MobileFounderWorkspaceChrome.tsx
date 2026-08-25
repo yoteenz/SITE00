@@ -5,6 +5,7 @@
 
 import { Link, useLocation } from 'react-router-dom';
 import { ndxFounderWorkspaceMobileNav, resolveMobileScreenIdFromPath } from '../../config/ndxFounderWorkspaceMobileNav';
+import '../../styles/site00-founder-workspace.css';
 
 type Props = {
   projectSlug: string;
@@ -42,16 +43,14 @@ export function MobileFounderWorkspaceChrome({ projectSlug, children }: Props) {
 
       <nav className="site00-fws-mobile-chrome__nav" aria-label="NDXBOOK mobile navigation">
         {nav.map((item) => {
-          const active = location.pathname.replace(/\/+$/, '') === item.href.replace(/\/+$/, '');
+          const active = item.screenId === screenId;
           return (
             <Link
               key={item.id}
               to={item.href}
               className={`site00-fws-mobile-chrome__nav-item${active ? ' site00-fws-mobile-chrome__nav-item--active' : ''}`}
+              aria-current={active ? 'page' : undefined}
             >
-              <span className="site00-fws-mobile-chrome__nav-icon" aria-hidden>
-                {item.icon}
-              </span>
               <span className="site00-fws-mobile-chrome__nav-label">{item.label}</span>
             </Link>
           );

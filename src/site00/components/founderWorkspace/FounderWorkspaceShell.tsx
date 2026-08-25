@@ -92,11 +92,14 @@ export function FounderWorkspaceShell({
   const isNavActive = (path: string) => location.pathname.replace(/\/+$/, '') === path.replace(/\/+$/, '');
   const mobileScreenId = resolveMobileScreenIdFromPath(location.pathname, projectSlug);
   const mobilePresentation = !isPreviewDesktop;
-  const mobileScreen = renderMobileFounderWorkspaceScreen(mobileScreenId, projectSlug);
+  const mobileBody =
+    mobilePresentation && mobileScreenId === 'overview'
+      ? renderMobileFounderWorkspaceScreen('overview', projectSlug)
+      : operate;
 
   return (
     <FounderWorkspaceContext.Provider value={ctx}>
-      <div className="site00-fws">
+      <div className={`site00-fws${mobilePresentation ? ' site00-fws--mobile-presentation' : ''}`}>
         {!hideWorkspaceNav && isPreviewDesktop ? (
           <aside className="site00-fws-rail site00-fws-hub-desktop-only" aria-label="NDXBOOK workspace">
             <div className="site00-fws-rail__brand">
@@ -144,7 +147,7 @@ export function FounderWorkspaceShell({
 
           <section className="site00-fws-layer site00-fws-layer--operate" aria-label="Operate">
             {mobilePresentation ? (
-              <MobileFounderWorkspaceChrome projectSlug={projectSlug}>{mobileScreen}</MobileFounderWorkspaceChrome>
+              <MobileFounderWorkspaceChrome projectSlug={projectSlug}>{mobileBody}</MobileFounderWorkspaceChrome>
             ) : (
               operate
             )}
