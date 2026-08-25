@@ -156,6 +156,7 @@ export function buildSocialContentPackage(params: {
       sequencePlan = extendCarouselSequencePlan({
         plan: sequencePlan,
         narrative: editorial.editorialLayer.carouselNarrative,
+        preservePremiseThesis: params.opportunity.characterFirst?.spokenPremise ?? null,
       });
     }
     const amendedContract = amendFirstSlideContractWithCulturalParticipation({
