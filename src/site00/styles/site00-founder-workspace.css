@@ -2587,6 +2587,312 @@
   color: var(--ndx-muted);
 }
 
+/* P0.UI.3C — active project notification center */
+.site00-fws-notify-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 855;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: default;
+}
+
+.site00-fws-notify {
+  position: fixed;
+  z-index: 865;
+  max-height: min(70vh, 520px);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--ndx-border);
+  border-radius: 8px;
+  background: var(--ndx-surface);
+  box-shadow: 0 12px 40px rgba(17, 17, 17, 0.12);
+  overflow: hidden;
+}
+
+.site00-fws-notify__head {
+  padding: 12px 14px 8px;
+  border-bottom: 1px solid var(--ndx-border);
+}
+
+.site00-fws-notify__project {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+
+.site00-fws-notify__tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.site00-fws-notify__tab {
+  border: 0;
+  background: transparent;
+  padding: 4px 0;
+  font-family: inherit;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--ndx-muted);
+  cursor: pointer;
+}
+
+.site00-fws-notify__tab--active {
+  color: var(--ndx-ink);
+  box-shadow: inset 0 -2px 0 var(--ndx-lime);
+}
+
+.site00-fws-notify__body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+.site00-fws-notify__section-label {
+  margin: 0;
+  padding: 6px 14px;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: var(--ndx-muted);
+}
+
+.site00-fws-notify__row,
+.site00-fws-notify__row--static {
+  display: block;
+  width: 100%;
+  padding: 8px 14px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.site00-fws-notify__row:hover,
+.site00-fws-notify__row--static:hover {
+  background: var(--ndx-surface-raised);
+}
+
+.site00-fws-notify__row--unread {
+  background: color-mix(in srgb, var(--ndx-lime) 6%, var(--ndx-surface));
+}
+
+.site00-fws-notify__row-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.site00-fws-notify__dot {
+  width: 6px;
+  height: 6px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: var(--ndx-lime);
+  flex-shrink: 0;
+}
+
+.site00-fws-notify__title {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  color: var(--ndx-muted);
+}
+
+.site00-fws-notify__title--unread {
+  color: var(--ndx-ink);
+}
+
+.site00-fws-notify__meta {
+  margin: 4px 0 0 14px;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--ndx-muted);
+}
+
+.site00-fws-notify__action {
+  display: inline-block;
+  margin: 6px 0 0 14px;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--ndx-lime);
+}
+
+.site00-fws-notify__empty,
+.site00-fws-notify__status {
+  margin: 0;
+  padding: 16px 14px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--ndx-muted);
+}
+
+.site00-fws-notify__blocked {
+  padding: 14px;
+}
+
+.site00-fws-notify__blocked-label {
+  margin: 0 0 6px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+
+.site00-fws-notify__blocked-copy {
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.45;
+  color: var(--ndx-muted);
+}
+
+.site00-fws-notify__foot {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 14px 12px;
+  border-top: 1px solid var(--ndx-border);
+}
+
+.site00-fws-notify__foot-btn,
+.site00-fws-notify__foot-link {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-family: inherit;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--ndx-muted);
+  text-decoration: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.site00-fws-notify__foot-link:hover,
+.site00-fws-notify__foot-btn:hover {
+  color: var(--ndx-ink);
+}
+
+.site00-fws-header-chrome__btn {
+  position: relative;
+}
+
+.site00-fws-header-chrome__btn--bell-open,
+.site00-fws-mobile-chrome__icon--bell-open {
+  background: color-mix(in srgb, var(--ndx-lime) 14%, var(--ndx-surface-raised));
+}
+
+.site00-fws-header-chrome__badge,
+.site00-fws-mobile-chrome__badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
+  border-radius: 999px;
+  background: var(--ndx-lime);
+  color: var(--ndx-ink);
+  font-size: 8px;
+  line-height: 14px;
+  letter-spacing: 0;
+  text-align: center;
+  font-family: var(--site00-font-mono, 'IBM Plex Mono', monospace);
+}
+
+.site00-fws-notify-page__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.site00-fws-notify-page__filter {
+  border: 1px solid var(--ndx-border);
+  border-radius: 4px;
+  background: var(--ndx-surface);
+  padding: 6px 10px;
+  font-family: inherit;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--ndx-muted);
+  cursor: pointer;
+}
+
+.site00-fws-notify-page__filter--active {
+  border-color: var(--ndx-lime);
+  color: var(--ndx-ink);
+}
+
+.site00-fws-notify-page__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site00-fws-notify-page__item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--ndx-border);
+}
+
+.site00-fws-notify-page__item--unread {
+  background: color-mix(in srgb, var(--ndx-lime) 4%, transparent);
+}
+
+.site00-fws-notify-page__item-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.site00-fws-notify-page__item-head strong {
+  flex: 1;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.site00-fws-notify-page__time {
+  font-size: 9px;
+  color: var(--ndx-muted);
+}
+
+.site00-fws-notify-page__message {
+  margin: 6px 0 0 14px;
+  font-size: 10px;
+  color: var(--ndx-muted);
+}
+
+.site00-fws-notify-page__actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  padding-left: 14px;
+}
+
+.site00-fws-notify-page__link,
+.site00-fws-notify-page__mark,
+.site00-fws-notify-page__toolbar-btn {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-family: inherit;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--ndx-lime);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.site00-fws-notify-page__toolbar {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
+
 .site00-fws-icon-sheet__head h2 {
   margin: 0 0 8px;
   font-size: 14px;

@@ -2362,4 +2362,29 @@ export const site00ProjectsApi = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ slug, experienceClass }),
     }),
+  projectNotificationsList: (slug: string, limit?: number | null) => {
+    const limitParam = limit == null ? '' : `&limit=${encodeURIComponent(String(limit))}`;
+    return projectsFetch<{ ok: true; center: import('../../../shared/site00-studio-world-production/projectNotifications/types.js').ActiveProjectNotificationCenterState }>(
+      `/api/site00/projects?action=project_notifications_list&slug=${encodeURIComponent(slug)}${limitParam}`,
+    );
+  },
+  projectNotificationsAll: (slug: string) =>
+    projectsFetch<{ ok: true; notifications: import('../../../shared/site00-studio-world-production/projectNotifications/types.js').ProjectNotification[] }>(
+      `/api/site00/projects?action=project_notifications_all&slug=${encodeURIComponent(slug)}`,
+    ),
+  projectNotificationMarkRead: (slug: string, notificationId: string) =>
+    projectsFetch<{ ok: true; notification: import('../../../shared/site00-studio-world-production/projectNotifications/types.js').ProjectNotification }>(
+      '/api/site00/projects?action=project_notification_mark_read',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, notificationId }),
+      },
+    ),
+  projectNotificationsMarkAllRead: (slug: string) =>
+    projectsFetch<{ ok: true; marked: number }>('/api/site00/projects?action=project_notifications_mark_all_read', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug }),
+    }),
 };

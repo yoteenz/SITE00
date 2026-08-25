@@ -5085,21 +5085,23 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-<<<<<<< HEAD
+---
+
 ## 2026-08-25 — P0.VR.1D.4 founder board persistence + region ID alignment + actionable DOM patches
 
 - **Context:** Follow-up to P0.VR.1D.2 blockers: (A) actual founder desktop/mobile mood boards not persisted → fixture fallback; (B) decomposition region IDs ≠ DOM `data-vr-region` → zero actionable patches. Reuse P0.VR.1D / 1D.1 / 1D.2 / 1D.3 only — no new reconstruction architecture.
 - **Delivered:** `p0vr1d4/` — canonical region identity (`ndxVisualRegionIds.ts`, `normalizeReferenceRegionId`), `ReferenceDomRegionMap`, `buildMappedReferenceDomDelta`, `VisualReconstructionComponentRegistry`, `compileActionableCodePatches`, `applyCodePatchInstructions`, `persistFounderVisualBoards`, aligned region locks (`FAIL_REGION_LOCK_WITHOUT_MEASUREMENT`), `runNdxProjectHubAlignedLiveReconstruction`. Wired mapped delta + patch loop into `runNdxProjectHubLiveReconstruction`. Fixed P0.VR.1D.1 lock bug (no auto MATCHED/LOCKED without measurement). Standardized DOM markers to dot notation (`ndx.header`, `ndx.overview.metrics`, …) across mobile chrome, overview, campaign/experiment/content-ops/CI/character screens. Resolver emits `FAIL_FOUNDER_REFERENCE_MISSING` when canonical boards absent. Tests `visualReconstructionP0VR1D4.test.ts`. Doc `docs/architecture/SITE00_VISUAL_RECONSTRUCTION_P0VR1D4.md`.
 - **Honest status:** Actual founder 6-screen desktop/mobile mood boards still not in repo/Supabase — only `mobile-overview-menu-open.png` (P0.VR.1D.3) + wireframe fixtures for dev. `persistFounderVisualBoards` ready when founder drops boards into `visual-references/founder/ndxbook/`. Mapped deltas + actionable patches now work when canonical DOM IDs align.
 - **Founder next:** Upload desktop-mood-board.png + mobile-mood-board.png to canonical paths or Supabase; re-run aligned live reconstruction with `allowFixtureFallback: false`; upload GoDaddy ZIP after merge.
-=======
+
+---
+
 ## 2026-08-25 — NDXBOOK duplicate mobile menu fix v2 (viewport-unified chrome)
 
 - **Context:** Founder reported duplicate menu persisted after PR #460 on `site00.fsbw-dev.com`. Screenshot showed header-anchored partial panel (legacy escape menu) behind full MORE menu.
 - **Root cause (additional):** Phone + **Desktop preview toggle** rendered `FounderWorkspaceMobileNav` fallback (MORE opens shell menu) while mobile chrome/header path could still open a second panel; legacy `.site00-fws-project-menu` CSS also remained from P0.VR.1D.3.
 - **Fix v2:** Narrow viewports (`!isWideViewport`) always use `MobileFounderWorkspaceChrome` regardless of preview toggle; MORE bottom-nav is a **button** toggling the single shell menu (same state as header ellipsis); menu portaled to `document.body`; legacy escape-menu CSS removed; menu closes on route change.
 - **Verified:** Playwright on 390px — mobile + desktop-preview both show `mobileChrome:1`, `mobileNav:0`, one `[role="menu"]` after MORE tap.
->>>>>>> origin/main
 
 ---
 

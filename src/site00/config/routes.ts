@@ -109,6 +109,7 @@ export const SITE00_ROUTES = {
   projectExperiments: '/projects/:projectSlug/experiments',
   projectFounderWorkspaceArchive: '/projects/:projectSlug/archive',
   projectNdxIconSheet: '/projects/:projectSlug/inspect/icons',
+  projectNotifications: '/projects/:projectSlug/notifications',
   projectContentLibrary: '/projects/:projectSlug/content-library',
   projectPersonalityReplayStep: '/projects/:projectSlug/personality-replay/:stepId',
   projectConnections: '/projects/:projectSlug/connections',
@@ -364,6 +365,10 @@ export function site00ProjectFounderWorkspaceArchivePath(projectSlug: string): s
 
 export function site00ProjectNdxIconSheetPath(projectSlug: string): string {
   return `/projects/${projectSlug}/inspect/icons`;
+}
+
+export function site00ProjectNotificationsPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/notifications`;
 }
 
 export function site00ProjectContentLibraryPath(projectSlug: string): string {
