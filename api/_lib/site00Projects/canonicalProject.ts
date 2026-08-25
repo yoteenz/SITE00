@@ -54,7 +54,13 @@ const SLUG_OVERRIDES: Record<string, ProjectExperienceClass> = {
 
 function normalizeStatus(value: string | null | undefined): Site00ProjectStatus {
   const upper = (value ?? 'ACTIVE').trim().toUpperCase();
-  if (upper === 'PRE_INGESTION' || upper === 'INGESTION' || upper === 'PRODUCTION' || upper === 'ARCHIVED') {
+  if (
+    upper === 'PRE_INGESTION' ||
+    upper === 'ORIGIN_INGESTED' ||
+    upper === 'INGESTION' ||
+    upper === 'PRODUCTION' ||
+    upper === 'ARCHIVED'
+  ) {
     return upper;
   }
   return 'ACTIVE';

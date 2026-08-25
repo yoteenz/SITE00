@@ -7,7 +7,7 @@ import { EmptyState } from '../components/pages/Site00PagePrimitives';
 import { ProjectPrivilegedUtilities } from '../components/access/ProjectPrivilegedUtilities';
 import { ProjectPersonalityReplayStatus } from '../components/validation/ProjectPersonalityReplayStatus';
 import { useSite00ProjectDetail } from '../hooks/useSite00Projects';
-import { SITE00_ROUTES, site00ProjectCreativeAppetitePath, site00ProjectExperimentsPath, site00ProjectExperimentGPath, site00ProjectPersonalityReplayPath } from '../config/routes';
+import { SITE00_ROUTES, site00ProjectCreativeAppetitePath, site00ProjectExperimentsPath, site00ProjectExperimentGPath, site00ProjectOriginPath, site00ProjectPersonalityReplayPath } from '../config/routes';
 import type { Site00FounderProjectSlug } from '../../../shared/site00-projects/types';
 import '../styles/site00-projects.css';
 import '../styles/site00-founder-workspace.css';
@@ -80,6 +80,11 @@ export default function ProjectDetailPage() {
                   <>
                     <Row label="STATUS" value={project.overview.lifecycleStage ?? 'PRE_INGESTION'} />
                     <Row label="CAPABILITIES" value="PROJECT_CORE · ORIGIN · CLIENT_TRUTH · PROJECT_INTELLIGENCE" />
+                    {hasProjectCapability(projectSlug, 'ORIGIN_INGESTION') ? (
+                      <Link className="site00-btn site00-btn--primary site00-project-command__cta" to={site00ProjectOriginPath(projectSlug)}>
+                        OPEN ORIGIN · CLIENT TRUTH →
+                      </Link>
+                    ) : null}
                   </>
                 ) : (
                   <Row label="CLASSIFICATION" value={project.classification.replace(/_/g, ' ')} />

@@ -4,6 +4,10 @@ export function site00ProjectDetailRoute(slug: string): string {
   return `/projects/${slug}`;
 }
 
+export function site00ProjectOriginRoute(slug: string): string {
+  return `/projects/${slug}/origin`;
+}
+
 export function site00ProjectEvolveRoute(slug: string): string {
   return `/projects/${slug}/evolve`;
 }
