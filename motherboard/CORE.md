@@ -176,7 +176,8 @@ Multi-project orchestration foundation at `api/_lib/site00Orchestration/`. Debug
 - **Default:** Feature branch → open PR → **merge to `main` immediately** in the same agent run (see `.cursor/rules/shipping.mdc`).
 - **PR purpose:** History and post-merge review for the founder (mobile GitHub app); not a manual merge gate.
 - **Opt-out phrases:** "draft PR", "don't merge yet", "wait for my review".
-- **`main` ≠ live site:** Merging to `main` updates GitHub (and Railway if connected); **site00.com** still needs GoDaddy deploy.
+- **`main` ≠ live site:** Merging to `main` updates GitHub (and Railway if auto-deploy is on); **site00.com** / **fsbw-dev** still need cPanel deploy for frontend changes.
+- **Deploy checklist:** Agents must classify each sprint as `FRONTEND` · `API` · `BOTH` · `NONE` — see `docs/DEPLOYMENT.md` § Deploy checklist. Do not ask for Railway redeploy on frontend-only merges.
 
 ---
 
