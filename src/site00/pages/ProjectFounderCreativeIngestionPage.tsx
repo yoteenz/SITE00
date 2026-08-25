@@ -3,7 +3,7 @@
  */
 
 import { Link, useParams } from 'react-router-dom';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { FounderWorkspaceShell } from '../components/founderWorkspace/FounderWorkspaceShell';
 import { QuietAction, InlineMeta, WorkspaceField } from '../components/founderWorkspace/WorkspaceCompositionPrimitives';
@@ -26,7 +26,7 @@ import type {
   SlideReconstructionSpec,
   CreativeReferenceDiff,
 } from '../../../shared/site00-studio-world-production/founderCreativeIngestion/client.js';
-import '../styles/site00-founder-creative-ingestion.css';
+import { prepareReferenceBoardUpload } from '../utils/prepareReferenceBoardUpload';
 
 const POLL_MS = 5000;
 
@@ -258,6 +258,19 @@ export default function ProjectFounderCreativeIngestionPage() {
                       ingestion={ingestion}
                       busy={busy}
                       diff={comparisonDiff}
+                      onUploadFile={(file) =>
+                        void act(async () => {
+                          const imageData = await prepareReferenceBoardUpload(file);
+                          const result = await site00ProjectsApi.founderCreativeIngestionUploadReference(
+                            projectSlug,
+                            activeSequence.sequenceId,
+                            imageData,
+                            'Founder-approved notebook-native board',
+                          );
+                          setComparisonDiff(null);
+                          return result;
+                        })
+                      }
                       onReplace={() =>
                         void act(async () => {
                           const result = await site00ProjectsApi.founderCreativeIngestionReplaceReference(
@@ -384,6 +397,7 @@ function ReferenceReplacementPanel({
   ingestion,
   busy,
   diff,
+  onUploadFile,
   onReplace,
   onRedecompose,
   onPromote,
@@ -393,11 +407,13 @@ function ReferenceReplacementPanel({
   ingestion: FounderCreativeIngestionState;
   busy: boolean;
   diff: CreativeReferenceDiff | null;
+  onUploadFile: (file: File) => void;
   onReplace: () => void;
   onRedecompose: () => void;
   onPromote: () => void;
   onCompare: () => Promise<void>;
 }) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const hasDraft = hasDraftReferenceVersion(ingestion, sequence.sequenceId);
   const draftVersion = ingestion.referenceVersions.find(
     (entry) =>
@@ -445,8 +461,24 @@ function ReferenceReplacementPanel({
         </div>
       </div>
       <div className="site00-fci__sequence-actions">
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/png,image/jpeg,image/webp"
+          className="site00-fci__file-input"
+          aria-hidden
+          tabIndex={-1}
+          onChange={(event) => {
+            const file = event.target.files?.[0];
+            if (file) onUploadFile(file);
+            event.target.value = '';
+          }}
+        />
+        <QuietAction disabled={busy} onClick={() => fileInputRef.current?.click()}>
+          UPLOAD REFERENCE BOARD →
+        </QuietAction>
         <QuietAction disabled={busy} onClick={onReplace}>
-          REPLACE REFERENCE BOARD →
+          USE PLACEHOLDER REFERENCE (DEV) →
         </QuietAction>
         {hasDraft ? (
           <>

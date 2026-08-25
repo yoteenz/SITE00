@@ -1650,6 +1650,23 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, sequenceId, previewUrl, notes }),
       },
     ),
+  founderCreativeIngestionUploadReference: (
+    slug: string,
+    sequenceId: string,
+    imageData: string,
+    notes?: string,
+  ) =>
+    projectsFetch<{
+      ok: true;
+      run: Record<string, unknown>;
+      ingestion: Record<string, unknown>;
+      previewUrl: string;
+      storagePath: string;
+    }>('/api/site00/projects?action=founder_creative_ingestion_upload_reference', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug, sequenceId, imageData, notes }),
+    }),
   founderCreativeIngestionRedecomposeDraft: (slug: string, sequenceId: string) =>
     projectsFetch<{
       ok: true;

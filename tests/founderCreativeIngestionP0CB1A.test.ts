@@ -237,7 +237,7 @@ describe('P0.CB.1A Reference Board Replacement', () => {
   it('42-44 UI + generic engine paths exist', () => {
     const page = readFileSync(join(ROOT, 'src/site00/pages/ProjectFounderCreativeIngestionPage.tsx'), 'utf8');
     const css = readFileSync(join(ROOT, 'src/site00/styles/site00-founder-creative-ingestion.css'), 'utf8');
-    expect(page).toContain('REPLACE REFERENCE BOARD');
+    expect(page).toContain('UPLOAD REFERENCE BOARD');
     expect(page).toContain('REPLACE MULTIPLE REFERENCES');
     expect(page).toContain('USE THIS REFERENCE (PROMOTE)');
     expect(css).toContain('compare--triple');

@@ -155,6 +155,7 @@ import {
   replaceFounderCreativeSlideReference,
   bulkReplaceFounderCreativeReferences,
   getFounderCreativeReferenceComparison,
+  uploadAndReplaceFounderCreativeReferenceBoard,
 } from '../_lib/site00Evolve/founderCreativeIngestion/founderCreativeIngestionService.js';
 import {
   getFilmProduction,
@@ -2637,6 +2638,34 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           notes: body.notes ? String(body.notes) : undefined,
         });
         return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_upload_reference': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const sequenceId = String(body.sequenceId ?? '');
+        const imageData = body.imageData ? String(body.imageData) : '';
+        if (slug !== 'ndxbook' || !sequenceId || !imageData) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug, sequenceId, and imageData required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        try {
+          const result = await uploadAndReplaceFounderCreativeReferenceBoard({
+            projectId: slug,
+            sequenceId,
+            imageData,
+            notes: body.notes ? String(body.notes) : undefined,
+          });
+          return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+        } catch (err) {
+          const message = err instanceof Error ? err.message : 'Upload failed';
+          const status = message.includes('too large') ? 413 : 400;
+          return json(res, status, { ok: false, error: { code: 'UPLOAD_FAILED', message } });
+        }
       }
       case 'founder_creative_ingestion_redecompose_draft': {
         if (req.method !== 'POST') {
