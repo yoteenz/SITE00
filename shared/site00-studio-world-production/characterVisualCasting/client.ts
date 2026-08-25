@@ -53,3 +53,9 @@ export function castingFalGenerationInProgress(state: CharacterVisualCastingStat
 export function castingFalGenerationFailed(state: CharacterVisualCastingState): boolean {
   return state.falGenerationTracking?.status === 'FAILED';
 }
+
+export function isFounderReferenceReviewRound(
+  round: import('./types.js').CharacterCastingRound | null | undefined,
+): boolean {
+  return round?.generationMode === 'FOUNDER_REFERENCE_REVIEW';
+}

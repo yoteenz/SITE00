@@ -22,6 +22,7 @@ import {
   isCastingPlaceholderPreviewUrl,
   FOUNDER_CASTING_REFERENCE_ROLES,
   CHARACTER_BIBLE_REVIEW_TABS,
+  isFounderReferenceReviewRound,
 } from '../../../shared/site00-studio-world-production/characterVisualCasting/client.js';
 import type {
   CharacterCastingCandidate,
@@ -90,6 +91,7 @@ export default function ProjectCharacterCastingPage() {
 
   const activeCandidate = latestRoundCandidates[activeIndex] ?? null;
   const latestRound = casting?.rounds.at(-1) ?? null;
+  const isFounderReferenceReview = isFounderReferenceReviewRound(latestRound);
   const isBibleAssetRound = latestRound?.generationMode === 'CHARACTER_BIBLE_ASSET_PACK';
   const isAnchorRound =
     latestRound?.generationMode === 'CANONICAL_ANCHOR' ||
@@ -208,6 +210,12 @@ export default function ProjectCharacterCastingPage() {
           }
           onStoreInBible={(referenceId) =>
             void act(() => site00ProjectsApi.characterVisualCastingStoreReferenceBible(projectSlug, referenceId))
+          }
+          onPromoteToClosest={(referenceId) =>
+            void act(async () => {
+              setActiveIndex(0);
+              return site00ProjectsApi.characterVisualCastingPromoteReferenceToClosest(projectSlug, referenceId);
+            })
           }
           onRegenerate={() =>
             void act(() => site00ProjectsApi.characterVisualCastingGenerateBibleFromReference(projectSlug))
@@ -388,6 +396,9 @@ export default function ProjectCharacterCastingPage() {
           )}
           <header className="site00-char-cast__review-head">
             <h2>WHO FEELS CLOSEST?</h2>
+            {isFounderReferenceReview ? (
+              <p className="site00-char-cast__hint">Founder reference — confirm this is her before isolate generation.</p>
+            ) : null}
             <span className="site00-char-cast__counter">
               {String(activeIndex + 1).padStart(2, '0')} / {String(latestRoundCandidates.length).padStart(2, '0')}
             </span>
@@ -473,7 +484,7 @@ export default function ProjectCharacterCastingPage() {
           <button
             type="button"
             className="site00-char-cast__cta"
-            disabled={busy}
+            disabled={busy || isFounderReferenceReview}
             onClick={() => void act(() => site00ProjectsApi.characterVisualCastingNextRound(projectSlug))}
           >
             GENERATE NEXT ROUND FROM FEEDBACK
@@ -540,6 +551,7 @@ function FounderReferencesPanel({
   onRoleChange,
   onUpload,
   onStoreInBible,
+  onPromoteToClosest,
   onRegenerate,
   onGenerateBible,
   onGenerateAnchor,
@@ -564,6 +576,7 @@ function FounderReferencesPanel({
   onRoleChange: (role: FounderCastingReferenceRole) => void;
   onUpload: (file: File) => void;
   onStoreInBible: (referenceId: string) => void;
+  onPromoteToClosest: (referenceId: string) => void;
   onRegenerate: () => void;
   onGenerateBible: () => void;
   onGenerateAnchor: () => void;
@@ -596,7 +609,10 @@ function FounderReferencesPanel({
     onUpload(file);
   };
 
-  const fullLook = references.find((entry) => entry.role === 'FULL_LOOK' && entry.decomposition);
+  const fullLook =
+    (activeAuthority?.referenceId
+      ? references.find((entry) => entry.referenceId === activeAuthority.referenceId)
+      : null) ?? references.find((entry) => entry.role === 'FULL_LOOK' && entry.decomposition);
   const canGenerateBible = Boolean(fullLook?.decomposition);
 
   return (
@@ -678,6 +694,18 @@ function FounderReferencesPanel({
                     onClick={() => onStoreInBible(entry.referenceId)}
                   >
                     STORE IN BIBLE →
+                  </button>
+                ) : null}
+                {entry.decomposition ? (
+                  <button
+                    type="button"
+                    className="site00-char-cast__cta site00-char-cast__cta--primary"
+                    disabled={busy || activeAuthority?.referenceId === entry.referenceId}
+                    onClick={() => onPromoteToClosest(entry.referenceId)}
+                  >
+                    {activeAuthority?.referenceId === entry.referenceId
+                      ? 'ACTIVE · WHO FEELS CLOSEST?'
+                      : 'USE FOR WHO FEELS CLOSEST? →'}
                   </button>
                 ) : null}
               </div>

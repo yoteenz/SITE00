@@ -265,6 +265,7 @@ import {
   createVisualCastingMerge,
   storeFounderCastingReferenceInBible,
   uploadFounderCastingReference,
+  promoteFounderCastingReferenceToClosestReview,
 } from '../_lib/site00Evolve/characterVisualCasting/characterVisualCastingService.js';
 import {
   formBrandPresentationDirections,
@@ -3967,6 +3968,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await storeFounderCastingReferenceInBible({ projectId: slug, referenceId });
+        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+      }
+      case 'character_visual_casting_promote_reference_to_closest': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const referenceId = String(body.referenceId ?? '');
+        if (!referenceId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
+        }
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_promote_reference_to_closest', 'site00_character_visual_casting')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await promoteFounderCastingReferenceToClosestReview({ projectId: slug, referenceId });
         return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
       }
       case 'character_visual_casting_regenerate_from_references': {

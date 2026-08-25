@@ -495,3 +495,19 @@ export async function generateEnvironmentPlate(params: { projectId: string; disp
   }
   return save({ ...run, visualCastingState });
 }
+
+export async function promoteFounderCastingReferenceToClosestReview(params: {
+  projectId: string;
+  referenceId: string;
+}) {
+  const run = await hydrateCastingRun(params.projectId);
+  if (!run.visualCastingState) throw new Error('Visual casting not initialized');
+  const { promoteFounderReferenceToClosestReview } = await import(
+    '../../../../shared/site00-studio-world-production/characterVisualCasting/promoteFounderReferenceToClosestReview.js'
+  );
+  const visualCastingState = promoteFounderReferenceToClosestReview(
+    run.visualCastingState,
+    params.referenceId,
+  );
+  return save({ ...run, visualCastingState });
+}
