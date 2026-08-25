@@ -150,6 +150,7 @@ import {
   founderCreativeSequenceReview,
   registerFounderCreativeOnCampaignBoard,
   replaceFounderCreativeReferenceBoard,
+  uploadFounderCreativeReferenceBoard,
   redecomposeFounderCreativeDraftReference,
   promoteFounderCreativeDraftReference,
   replaceFounderCreativeSlideReference,
@@ -2634,6 +2635,31 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           previewUrl: body.previewUrl ? String(body.previewUrl) : null,
           storagePath: body.storagePath ? String(body.storagePath) : undefined,
           reason: body.reason ? String(body.reason) : undefined,
+          notes: body.notes ? String(body.notes) : undefined,
+        });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_upload_reference': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const sequenceId = String(body.sequenceId ?? '');
+        const dataBase64 = String(body.dataBase64 ?? '');
+        const contentType = String(body.contentType ?? '');
+        if (slug !== 'ndxbook' || !sequenceId || !dataBase64 || !contentType) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await uploadFounderCreativeReferenceBoard({
+          projectId: slug,
+          sequenceId,
+          dataBase64,
+          contentType,
+          fileName: body.fileName ? String(body.fileName) : undefined,
           notes: body.notes ? String(body.notes) : undefined,
         });
         return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });

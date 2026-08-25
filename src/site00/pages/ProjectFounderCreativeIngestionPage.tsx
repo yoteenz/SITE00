@@ -3,7 +3,7 @@
  */
 
 import { Link, useParams } from 'react-router-dom';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { FounderWorkspaceShell } from '../components/founderWorkspace/FounderWorkspaceShell';
 import { QuietAction, InlineMeta, WorkspaceField } from '../components/founderWorkspace/WorkspaceCompositionPrimitives';
@@ -29,6 +29,21 @@ import type {
 import '../styles/site00-founder-creative-ingestion.css';
 
 const POLL_MS = 5000;
+
+function readFileAsBase64(file: File): Promise<{ dataBase64: string; contentType: string }> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result !== 'string') {
+        reject(new Error('Could not read file'));
+        return;
+      }
+      resolve({ dataBase64: reader.result, contentType: file.type || 'image/jpeg' });
+    };
+    reader.onerror = () => reject(new Error('Could not read file'));
+    reader.readAsDataURL(file);
+  });
+}
 
 export default function ProjectFounderCreativeIngestionPage() {
   const { projectSlug = '' } = useParams<{ projectSlug: string }>();
@@ -222,21 +237,6 @@ export default function ProjectFounderCreativeIngestionPage() {
                   <QuietAction disabled={busy || isGenerating} onClick={decomposeAll}>
                     {ingestion.reconstructionSpecs.length > 0 ? 'RE-DECOMPOSE ALL REFERENCES →' : 'DECOMPOSE ALL REFERENCES →'}
                   </QuietAction>
-                  <QuietAction
-                    disabled={busy}
-                    onClick={() =>
-                      void act(async () => {
-                        const uploads = ingestion.parentSequences.map((seq) => ({
-                          sequenceId: seq.sequenceId,
-                          previewUrl: `/api/placeholder/founder-creative/reference-v2/${seq.sequenceId}`,
-                          notes: 'Founder-approved notebook-native board v2',
-                        }));
-                        return site00ProjectsApi.founderCreativeIngestionBulkReplaceReferences(projectSlug, uploads);
-                      })
-                    }
-                  >
-                    REPLACE MULTIPLE REFERENCES →
-                  </QuietAction>
                   {ingestion.registeredOnCampaignBoard ? (
                     <Link to={site00ProjectContentOperationsCampaignBoardPath(projectSlug)} className="site00-fci__link">
                       OPEN CAMPAIGN BOARD →
@@ -258,13 +258,15 @@ export default function ProjectFounderCreativeIngestionPage() {
                       ingestion={ingestion}
                       busy={busy}
                       diff={comparisonDiff}
-                      onReplace={() =>
+                      onUploadFile={(file) =>
                         void act(async () => {
-                          const result = await site00ProjectsApi.founderCreativeIngestionReplaceReference(
+                          const { dataBase64, contentType } = await readFileAsBase64(file);
+                          const result = await site00ProjectsApi.founderCreativeIngestionUploadReference(
                             projectSlug,
                             activeSequence.sequenceId,
-                            `/api/placeholder/founder-creative/reference-v2/${activeSequence.sequenceId}`,
-                            'Founder-approved notebook-native board',
+                            dataBase64,
+                            contentType,
+                            file.name,
                           );
                           setComparisonDiff(null);
                           return result;
@@ -384,7 +386,7 @@ function ReferenceReplacementPanel({
   ingestion,
   busy,
   diff,
-  onReplace,
+  onUploadFile,
   onRedecompose,
   onPromote,
   onCompare,
@@ -393,11 +395,12 @@ function ReferenceReplacementPanel({
   ingestion: FounderCreativeIngestionState;
   busy: boolean;
   diff: CreativeReferenceDiff | null;
-  onReplace: () => void;
+  onUploadFile: (file: File) => void;
   onRedecompose: () => void;
   onPromote: () => void;
   onCompare: () => Promise<void>;
 }) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const hasDraft = hasDraftReferenceVersion(ingestion, sequence.sequenceId);
   const draftVersion = ingestion.referenceVersions.find(
     (entry) =>
@@ -416,9 +419,31 @@ function ReferenceReplacementPanel({
     ? ingestion.referenceAssets.find((entry) => entry.assetId === activeVersion.referenceAssetId)
     : null;
 
+  const openFilePicker = () => {
+    if (busy) return;
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+    if (!file.type.startsWith('image/')) return;
+    onUploadFile(file);
+  };
+
   return (
     <section className="site00-fci__replacement">
       <h2 className="site00-fci__section-title">REFERENCE VERSION</h2>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/gif"
+        className="site00-fci__upload-input"
+        aria-hidden
+        tabIndex={-1}
+        onChange={handleFileChange}
+      />
       <div className="site00-fci__compare site00-fci__compare--triple">
         <div className="site00-fci__compare-col">
           <p className="site00-fci__compare-label">OLD (ACTIVE v{activeVersion?.versionNumber ?? 1})</p>
@@ -433,7 +458,14 @@ function ReferenceReplacementPanel({
           {draftAsset?.previewUrl ? (
             <img src={draftAsset.previewUrl} alt="Draft reference" className="site00-fci__reference-img" />
           ) : (
-            <div className="site00-fci__compare-placeholder">Upload replacement to compare</div>
+            <button
+              type="button"
+              className={`site00-fci__upload-zone site00-fci__compare-placeholder${busy ? ' site00-fci__upload-zone--busy' : ''}`}
+              disabled={busy}
+              onClick={openFilePicker}
+            >
+              TAP TO UPLOAD REPLACEMENT BOARD
+            </button>
           )}
         </div>
         <div className="site00-fci__compare-col">
@@ -445,8 +477,8 @@ function ReferenceReplacementPanel({
         </div>
       </div>
       <div className="site00-fci__sequence-actions">
-        <QuietAction disabled={busy} onClick={onReplace}>
-          REPLACE REFERENCE BOARD →
+        <QuietAction disabled={busy} onClick={openFilePicker}>
+          UPLOAD REPLACEMENT BOARD →
         </QuietAction>
         {hasDraft ? (
           <>
