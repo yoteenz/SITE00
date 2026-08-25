@@ -5132,6 +5132,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-08-25 — Character isolate orphan GENERATING (nothing on FAL)
+
+- **Context:** Founder still saw "Character isolate still generating" / ANCHOR PENDING on LAB casting while FAL dashboard showed no in-flight job (after PR #464 preview sync fix).
+- **Root cause:** `castingFalGenerationInProgress` treated any `round.status === 'GENERATING'` as active even when `falGenerationTracking` was null — orphan state after dispatch never started or process lost tracking. UI also keyed off `characterIsolate.status === 'GENERATING'` alone.
+- **Fix:** `reconcileOrphanedCastingGenerationState` on casting hydrate — fail or complete orphan GENERATING rounds when no RUNNING tracking. `castingFalGenerationInProgress` now requires `falGenerationTracking.status === 'RUNNING'`. UI shows stalled banner + RETRY instead of perpetual "generating"; approve disabled while FAL actually running.
+- **Test:** `characterIsolateOrphanGenerating.test.ts`.
+
+---
+
 ## 2026-08-25 — P0.UI.3C active project notification center + bell dropdown wiring
 
 - **Context:** Founder sprint P0.UI.3C — bell incorrectly opened project menu (duplicate of ellipsis). Required separation: bell → project-scoped notification center; ellipsis → project/system menu only.
