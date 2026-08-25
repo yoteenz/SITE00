@@ -1,8 +1,11 @@
 import type { NDXIconName, NdxIconDefinition } from './types.js';
-import { buildReferenceTracedIconRegistry } from './p0ui3a/buildRegistry.js';
+import { NDX_ICON_VIEWBOX } from './tokens.js';
+import { buildPixelTracedIconRegistry } from './p0ui3b/buildRegistry.js';
 
-/** P0.UI.3A — reference-traced canonical registry (viewBox 24, currentColor). */
-const ICONS: Record<NDXIconName, NdxIconDefinition> = buildReferenceTracedIconRegistry();
+export { NDX_ICON_VIEWBOX };
+
+/** P0.UI.3B — pixel-traced canonical registry (viewBox 24, currentColor). */
+const ICONS: Record<NDXIconName, NdxIconDefinition> = buildPixelTracedIconRegistry();
 
 export const NDX_ICON_REGISTRY: Readonly<Record<NDXIconName, NdxIconDefinition>> = ICONS;
 
@@ -58,5 +61,10 @@ export function ndxIconSvgUsesCurrentColor(name: NDXIconName): boolean {
 }
 
 export function ndxIconIsReferenceTraced(name: NDXIconName): boolean {
-  return getNdxIconDefinition(name).traceClassification === 'REFERENCE_TRACED';
+  const c = getNdxIconDefinition(name).traceClassification;
+  return c === 'REFERENCE_TRACED' || c === 'PIXEL_TRACED';
+}
+
+export function ndxIconIsPixelTraced(name: NDXIconName): boolean {
+  return getNdxIconDefinition(name).traceClassification === 'PIXEL_TRACED';
 }

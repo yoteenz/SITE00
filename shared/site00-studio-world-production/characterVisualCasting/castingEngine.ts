@@ -21,6 +21,10 @@ import {
   migrateReferenceDrivenCastingState,
 } from './referenceDrivenCasting.js';
 import { isCanonicalAnchorApproved } from './identityAnchorCasting.js';
+import {
+  hydrateImageReferenceAssetsFromGeneration,
+  hydrateImageReferenceAssetsFromGenerationFailure,
+} from './imageReferenceCasting.js';
 import { storePromptContractSnapshot } from './promptContract.js';
 import type {
   CastingPrimaryJudgment,
@@ -253,17 +257,20 @@ export function applyCastingGenerationResults(params: {
       ? { ...r, status: 'REVIEW_READY' as const, model: params.model ?? r.model }
       : r,
   );
-  return syncPipelineState({
-    ...params.state,
-    candidates,
-    rounds,
-    castingCandidatesReady: true,
-    characterBibleAssetPack: params.state.characterBibleAssetPack
-      ? {
-          ...params.state.characterBibleAssetPack,
-          status: 'REVIEW',
-        }
-      : null,
+  return hydrateImageReferenceAssetsFromGeneration({
+    state: syncPipelineState({
+      ...params.state,
+      candidates,
+      rounds,
+      castingCandidatesReady: true,
+      characterBibleAssetPack: params.state.characterBibleAssetPack
+        ? {
+            ...params.state.characterBibleAssetPack,
+            status: 'REVIEW',
+          }
+        : null,
+    }),
+    roundId: params.roundId,
   });
 }
 
@@ -315,23 +322,26 @@ export function applyCastingGenerationFailure(params: {
   const rounds = params.state.rounds.map((entry) =>
     entry.roundId === params.roundId ? { ...entry, status: 'REVIEW_READY' as const } : entry,
   );
-  return syncPipelineState({
-    ...params.state,
-    rounds,
-    castingCandidatesReady: false,
-    falGenerationTracking: params.state.falGenerationTracking
-      ? {
-          ...params.state.falGenerationTracking,
-          status: 'FAILED',
-          errorMessage: params.errorMessage,
-        }
-      : {
-          attemptId: 'unknown',
-          roundId: params.roundId,
-          startedAt: new Date().toISOString(),
-          status: 'FAILED',
-          errorMessage: params.errorMessage,
-        },
+  return hydrateImageReferenceAssetsFromGenerationFailure({
+    state: syncPipelineState({
+      ...params.state,
+      rounds,
+      castingCandidatesReady: false,
+      falGenerationTracking: params.state.falGenerationTracking
+        ? {
+            ...params.state.falGenerationTracking,
+            status: 'FAILED',
+            errorMessage: params.errorMessage,
+          }
+        : {
+            attemptId: 'unknown',
+            roundId: params.roundId,
+            startedAt: new Date().toISOString(),
+            status: 'FAILED',
+            errorMessage: params.errorMessage,
+          },
+    }),
+    roundId: params.roundId,
   });
 }
 

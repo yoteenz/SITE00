@@ -5085,12 +5085,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-<<<<<<< HEAD
+---
+
 ## 2026-08-25 — P0.VR.1D.4 founder board persistence + region ID alignment + actionable DOM patches
 
 - **Context:** Follow-up to P0.VR.1D.2 blockers: (A) actual founder desktop/mobile mood boards not persisted → fixture fallback; (B) decomposition region IDs ≠ DOM `data-vr-region` → zero actionable patches. Reuse P0.VR.1D / 1D.1 / 1D.2 / 1D.3 only — no new reconstruction architecture.
 - **Delivered:** `p0vr1d4/` — canonical region identity (`ndxVisualRegionIds.ts`, `normalizeReferenceRegionId`), `ReferenceDomRegionMap`, `buildMappedReferenceDomDelta`, `VisualReconstructionComponentRegistry`, `compileActionableCodePatches`, `applyCodePatchInstructions`, `persistFounderVisualBoards`, aligned region locks (`FAIL_REGION_LOCK_WITHOUT_MEASUREMENT`), `runNdxProjectHubAlignedLiveReconstruction`. Wired mapped delta + patch loop into `runNdxProjectHubLiveReconstruction`. Fixed P0.VR.1D.1 lock bug (no auto MATCHED/LOCKED without measurement). Standardized DOM markers to dot notation (`ndx.header`, `ndx.overview.metrics`, …) across mobile chrome, overview, campaign/experiment/content-ops/CI/character screens. Resolver emits `FAIL_FOUNDER_REFERENCE_MISSING` when canonical boards absent. Tests `visualReconstructionP0VR1D4.test.ts`. Doc `docs/architecture/SITE00_VISUAL_RECONSTRUCTION_P0VR1D4.md`.
 - **Honest status:** Actual founder 6-screen desktop/mobile mood boards still not in repo/Supabase — only `mobile-overview-menu-open.png` (P0.VR.1D.3) + wireframe fixtures for dev. `persistFounderVisualBoards` ready when founder drops boards into `visual-references/founder/ndxbook/`. Mapped deltas + actionable patches now work when canonical DOM IDs align.
+- **Founder next:** Upload desktop-mood-board.png + mobile-mood-board.png to canonical paths or Supabase; re-run aligned live reconstruction with `allowFixtureFallback: false`; upload GoDaddy ZIP after merge.
+
 ---
 
 ## 2026-08-25 — P0.VR.1D.5 mobile overview micro-fidelity tightening
@@ -5099,12 +5102,40 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** Targeted pass on `OverviewMobileHomeScreen` only — restored FROM AUDIENCE count (`1`, reference snapshot aligned with desktop composite), explicit 4-column KPI grid with ruled dividers, section spacing/borders, production card artwork via reference-approved crops (`public/visual-references/founder/ndxbook/card-artwork/*.webp`), micro `data-vr-region` IDs, header/nav micro-calibration CSS. `p0vr1d5/` — `ReferenceDetailAudit`, `resolveProductionCardArtwork` (existing → pipeline → reference crop → generation-required gate, no auto FAL), `runNdxOverviewMicroFidelityPass`. Tests `visualReconstructionP0VR1D5.test.ts`. Doc `SITE00_VISUAL_RECONSTRUCTION_P0VR1D5.md`.
 - **Artwork:** Subscription / layoff / late-fees resolved as `REFERENCE_APPROVED_CROP` from `mobile-overview-menu-open.png`; no new FAL generation. Pipeline URL hook ready when V2.3 slide assets exist.
 - **Founder next:** Upload GoDaddy ZIP v109; optional further crop tuning on layoff/late-fees cards if founder wants pixel-perfect art framing.
-=======
+
+---
 ## 2026-08-25 — NDXBOOK duplicate mobile menu fix v2 (viewport-unified chrome)
 
 - **Context:** Founder reported duplicate menu persisted after PR #460 on `site00.fsbw-dev.com`. Screenshot showed header-anchored partial panel (legacy escape menu) behind full MORE menu.
 - **Root cause (additional):** Phone + **Desktop preview toggle** rendered `FounderWorkspaceMobileNav` fallback (MORE opens shell menu) while mobile chrome/header path could still open a second panel; legacy `.site00-fws-project-menu` CSS also remained from P0.VR.1D.3.
 - **Fix v2:** Narrow viewports (`!isWideViewport`) always use `MobileFounderWorkspaceChrome` regardless of preview toggle; MORE bottom-nav is a **button** toggling the single shell menu (same state as header ellipsis); menu portaled to `document.body`; legacy escape-menu CSS removed; menu closes on route change.
 - **Verified:** Playwright on 390px — mobile + desktop-preview both show `mobileChrome:1`, `mobileNav:0`, one `[role="menu"]` after MORE tap.
->>>>>>> origin/main
+
+---
+
+## 2026-08-25 — P0.UI.3B pixel-to-vector icon trace + exact geometry convergence
+
+- **Context:** Founder sprint P0.UI.3B — eliminate semantic icon invention; trace approved reference pixels from `mobile-overview-menu-open.png` (941×1672) into SVG paths; replace V1 hand-approximated geometry in canonical `NDXIconRegistry`.
+- **Root issue:** P0.UI.3/3A architecture existed but P0.UI.3A crop authority pointed at wrong mood-board fixture (390×844, no traceable dark pixels). Live icons still drifted (grid vs house, document vs target, small bell).
+- **Fix:** New `shared/site00-studio-world-ui/icons/p0ui3b/` module: `ExactIconReferenceCrop`, `IconPixelMask`, `IconVectorContour`, `IconReferenceFootprint`, `ExactIconGeometryEvaluation`, semantic substitution audit, overlay/diff, raster comparison. V2 geometry `NDX_ICON_GEOMETRY_V2` wired through `buildPixelTracedIconRegistry()`; registry now uses `NDX_ICON_V2_PIXEL_TRACED`. Recalibrated crops from founder screenshot. Scripts: `extractNdxIconReferenceCropsP0UI3B.ts`, `runNdxIconPixelTracePipeline.ts`. Tests: `ndxIconSystemP0UI3B.test.ts` (12 pass). Build green.
+- **Priority icons corrected:** Overview (house), Content Ops (circle/target), Campaigns (clapper), Notification (bell footprint enlarged), Lab, More, Ellipsis, project menu icons.
+- **Preserved:** Page layout, navigation behavior, SITE00 host canon, NDX brand canon — icon geometry only.
+
+---
+
+## 2026-08-25 — Character isolate "generating" stuck without FAL / preview
+
+- **Context:** Founder on CAST NDX character casting saw "Isolate generating…" while FAL dashboard showed no in-flight job.
+- **Root cause:** `applyCastingGenerationResults` updated casting **candidate** `previewUrl` after FAL completed but never copied it to `characterIsolate.previewUrl` / `canonicalAnchor.previewUrl`. UI only reads isolate record → perpetual "generating" even after successful FAL run.
+- **Fix:** `hydrateImageReferenceAssetsFromGeneration` + failure hydrate in `imageReferenceCasting.ts`; wired from `applyCastingGenerationResults` / `applyCastingGenerationFailure` in `castingEngine.ts`. UI isolate panel falls back to candidate preview, shows FAL error, and offers **RETRY ISOLATE GENERATION** when stuck/failed.
+- **Test:** `imageReferenceCastingP05E4E1.test.ts` case `27b`.
+
+---
+
+## 2026-08-25 — P0.UI.3C active project notification center + bell dropdown wiring
+
+- **Context:** Founder sprint P0.UI.3C — bell incorrectly opened project menu (duplicate of ellipsis). Required separation: bell → project-scoped notification center; ellipsis → project/system menu only.
+- **Root cause:** `FounderWorkspaceShell` wired `onOpenNotifications={() => setMenuOpen(true)}` for both mobile chrome and desktop header — bell and ellipsis shared the same menu state.
+- **Delivered:** Generic `projectNotifications/` module (types, categories, priorities, dedupe, relevance filter, `ProjectEventNotificationAdapter`, deep links). In-memory store + API actions (`project_notifications_list`, `project_notification_mark_read`, `project_notifications_mark_all_read`). `ActiveProjectNotificationCenter` portaled dropdown (NOTIFICATIONS | MESSAGES tabs; messages transport honestly BLOCKED). Full route `/projects/:slug/notifications`. Shell wiring with mutual exclusion (`toggleNotifications` closes menu; `toggleMenu` closes notifications). Unread lime badge, mark read / mark all read, entity-aware deep links. Dev fixtures for ndxbook. P0.UI.3B bell SVG preserved. Tests `ndxNotificationCenterP0UI3C.test.ts` (14 pass). Build green.
+- **Founder next:** Redeploy Railway API for notification endpoints; optional future Supabase `studio_world_project_notifications` + live message transport.
 

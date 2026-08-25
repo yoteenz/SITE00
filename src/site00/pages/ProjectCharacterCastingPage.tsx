@@ -115,6 +115,25 @@ export default function ProjectCharacterCastingPage() {
   const isGeneratingRound = Boolean(casting && castingFalGenerationInProgress(casting));
   const generationFailed = Boolean(casting && castingFalGenerationFailed(casting));
 
+  const isolateCandidate = useMemo(() => {
+    if (!casting || !characterIsolate) return null;
+    return casting.candidates.find((entry) => entry.candidateId === characterIsolate.candidateId) ?? null;
+  }, [casting, characterIsolate]);
+
+  const isolatePreviewUrl =
+    characterIsolate?.previewUrl ??
+    canonicalAnchor?.previewUrl ??
+    isolateCandidate?.previewUrl ??
+    null;
+
+  const isolateRoundId = characterIsolate?.roundId ?? canonicalAnchor?.roundId ?? latestRound?.roundId ?? null;
+  const isolateAwaitingFal = Boolean(
+    (characterIsolate || canonicalAnchor) &&
+      !anchorApproved &&
+      !isolatePreviewUrl &&
+      (characterIsolate?.status === 'GENERATING' || isGeneratingRound),
+  );
+
   useEffect(() => {
     if (casting && castingFalGenerationInProgress(casting)) {
       setGenerationStartedAt((prev) => prev ?? Date.now());
@@ -252,6 +271,15 @@ export default function ProjectCharacterCastingPage() {
           hasTurnaroundPack={hasTurnaroundPack}
           anchorApproved={anchorApproved}
           authoritySnapshot={casting.visualAuthoritySnapshot ?? null}
+          isolatePreviewUrl={isolatePreviewUrl}
+          isolateAwaitingFal={isolateAwaitingFal}
+          isolateRoundId={isolateRoundId}
+          generationFailed={generationFailed}
+          generationStuck={generationStuck}
+          falErrorMessage={casting.falGenerationTracking?.errorMessage ?? null}
+          onRetryIsolateFal={() =>
+            void act(() => site00ProjectsApi.characterVisualCastingRetryFal(projectSlug, isolateRoundId ?? undefined))
+          }
         />
       )}
 
@@ -569,6 +597,13 @@ function FounderReferencesPanel({
   hasTurnaroundPack,
   anchorApproved,
   authoritySnapshot,
+  isolatePreviewUrl,
+  isolateAwaitingFal,
+  isolateRoundId,
+  generationFailed,
+  generationStuck,
+  falErrorMessage,
+  onRetryIsolateFal,
 }: {
   references: FounderCastingReference[];
   role: FounderCastingReferenceRole;
@@ -594,6 +629,13 @@ function FounderReferencesPanel({
   hasTurnaroundPack: boolean;
   anchorApproved: boolean;
   authoritySnapshot: { identityLock: { identitySignature: string }; wardrobeLock: { garmentCategories: string }; environmentLock: { roomType: string } } | null;
+  isolatePreviewUrl: string | null;
+  isolateAwaitingFal: boolean;
+  isolateRoundId: string | null;
+  generationFailed: boolean;
+  generationStuck: boolean;
+  falErrorMessage: string | null;
+  onRetryIsolateFal: () => void;
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -737,19 +779,36 @@ function FounderReferencesPanel({
                     <figcaption>SOURCE</figcaption>
                   </figure>
                 ) : null}
-                {(characterIsolate?.previewUrl ?? canonicalAnchor?.previewUrl) ? (
+                {(characterIsolate?.previewUrl ?? canonicalAnchor?.previewUrl ?? isolatePreviewUrl) ? (
                   <figure>
                     <img
-                      src={characterIsolate?.previewUrl ?? canonicalAnchor?.previewUrl ?? ''}
+                      src={characterIsolate?.previewUrl ?? canonicalAnchor?.previewUrl ?? isolatePreviewUrl ?? ''}
                       alt="Character isolate"
                       className="site00-char-cast__ref-thumb"
                     />
                     <figcaption>WHITE BACKGROUND ISOLATE</figcaption>
                   </figure>
-                ) : (
+                ) : isolateAwaitingFal ? (
                   <p className="site00-char-cast__hint">Isolate generating…</p>
+                ) : (
+                  <p className="site00-char-cast__hint">Isolate pending — tap regenerate or retry below.</p>
                 )}
               </div>
+              {generationFailed && falErrorMessage ? (
+                <p className="site00-char-cast__error" role="alert">
+                  {falErrorMessage}
+                </p>
+              ) : null}
+              {(generationStuck || generationFailed || (isolateAwaitingFal && isolateRoundId)) && isolateRoundId ? (
+                <button
+                  type="button"
+                  className="site00-char-cast__cta site00-char-cast__cta--primary"
+                  disabled={busy}
+                  onClick={onRetryIsolateFal}
+                >
+                  RETRY ISOLATE GENERATION
+                </button>
+              ) : null}
               {canonicalAnchor?.qaEvaluation && !canonicalAnchor.qaEvaluation.passed ? (
                 <ul className="site00-char-cast__hint">
                   {canonicalAnchor.qaEvaluation.humanReadableReasons.map((reason) => (
