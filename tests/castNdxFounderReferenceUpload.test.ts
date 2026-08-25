@@ -23,6 +23,7 @@ import {
   saveFounderCharacterDiscoveryRun,
 } from '../api/_lib/site00Evolve/founderCharacterDiscovery/founderCharacterDiscoveryStoreAdapter.js';
 import {
+  generateCanonicalAnchor as generateCanonicalAnchorApi,
   storeFounderCastingReferenceInBible as storeReferenceBibleApi,
   uploadFounderCastingReference as uploadFounderCastingReferenceApi,
 } from '../api/_lib/site00Evolve/characterVisualCasting/characterVisualCastingService.js';
@@ -108,6 +109,43 @@ describe('CAST NDX founder reference ingestion', () => {
     ).toBe(true);
   });
 
+  it('API generate canonical anchor path', async () => {
+    await initializeFounderCharacterDiscoveryRoom({ projectId: 'ndxbook' });
+    let run = buildNdxFounderCharacterDiscoveryRun();
+    const snapshot = buildCharacterTruthSnapshot({ run, version: 1, lockedForCasting: true });
+    run = {
+      ...run,
+      visualCastingState: {
+        ...buildEmptyVisualCastingState(),
+        visualCastingReady: true,
+        founderIKnowHerConfirmed: true,
+        characterTruthLockedForCasting: true,
+        truthSnapshots: [snapshot],
+        activeTruthSnapshotId: snapshot.snapshotId,
+      },
+    };
+    await saveFounderCharacterDiscoveryRun(run);
+
+    const uploaded = await uploadFounderCastingReferenceApi({
+      projectId: 'ndxbook',
+      imageData: TINY_PNG,
+      role: 'FULL_LOOK',
+      label: 'Anchor source',
+    });
+    expect(uploaded.visualCastingState?.founderReferences.at(-1)?.status).toBe('DECOMPOSED');
+
+    const anchored = await generateCanonicalAnchorApi({ projectId: 'ndxbook', dispatchFal: false });
+    expect(anchored.visualCastingState?.canonicalAnchor).toBeTruthy();
+    expect(anchored.visualCastingState?.rounds.at(-1)?.generationMode).toBe('CANONICAL_ANCHOR');
+  });
+
+  it('projects API registers canonical anchor actions', () => {
+    const projectsApi = readFileSync(join(ROOT, 'api/site00/projects.ts'), 'utf8');
+    expect(projectsApi).toContain("case 'character_visual_casting_generate_canonical_anchor'");
+    expect(projectsApi).toContain("case 'character_visual_casting_approve_canonical_anchor'");
+    expect(projectsApi).toContain("case 'character_visual_casting_regenerate_canonical_anchor'");
+  });
+
   it('casting page exposes upload UI', () => {
     const page = readFileSync(join(ROOT, 'src/site00/pages/ProjectCharacterCastingPage.tsx'), 'utf8');
     const css = readFileSync(join(ROOT, 'src/site00/styles/site00-character-casting.css'), 'utf8');
@@ -116,6 +154,7 @@ describe('CAST NDX founder reference ingestion', () => {
     expect(page).toContain('GENERATE CANONICAL ANCHOR');
     expect(page).toContain('GENERATE CHARACTER BIBLE PACK');
     expect(page).toContain('REGENERATE CASTING FROM REFERENCES');
+    expect(page).toContain('formatSite00ProjectsApiError');
     expect(css).toContain('upload-zone');
   });
 });

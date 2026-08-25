@@ -10,7 +10,7 @@ import type {
   Site00ProjectDetail,
   Site00ProjectIndexEntry,
 } from '../../../shared/site00-projects/types.js';
-import { site00ProjectDetailRoute } from '../../../shared/site00-access/routes.js';
+import { site00ProjectDetailRoute, site00ProjectOriginRoute } from '../../../shared/site00-access/routes.js';
 import { resolveCanonicalProject } from './canonicalProject.js';
 
 const CLIENT_PROJECT_SLUGS = ['astral-world'] as const;
@@ -34,7 +34,10 @@ export async function resolveClientProjectIndexEntry(slug: string): Promise<Site
     classification: 'MANAGED_BRAND',
     currentSystem: 'SITE 00 PROJECT CORE',
     currentPhase: project.status.replace(/_/g, ' '),
-    focusNow: 'PRE-INGESTION — CLIENT TRUTH ONLY',
+    focusNow:
+      project.status === 'ORIGIN_INGESTED'
+        ? 'ORIGIN INGESTED — IDENTITY PHASE NEXT'
+        : 'PRE-INGESTION — CLIENT TRUTH ONLY',
     lastActivity: null,
     surfaces: [
       {
@@ -43,6 +46,13 @@ export async function resolveClientProjectIndexEntry(slug: string): Promise<Site
         route: site00ProjectDetailRoute(project.slug),
         available: true,
         description: 'Project registration — no creative production',
+      },
+      {
+        id: 'origin',
+        label: 'ORIGIN',
+        route: site00ProjectOriginRoute(project.slug),
+        available: hasProjectCapability(project.slug, 'ORIGIN_INGESTION'),
+        description: 'Client truth ingestion — non-canonical source records',
       },
     ],
     detailRoute: site00ProjectDetailRoute(project.slug),

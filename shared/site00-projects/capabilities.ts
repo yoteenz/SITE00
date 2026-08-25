@@ -173,6 +173,8 @@ export function capabilityForAction(action: string): ProjectCapability | null {
     return 'BRAND_LORE';
   }
   if (action.startsWith('creative_appetite')) return 'CREATIVE_APPETITE';
+  if (action.startsWith('origin_')) return 'ORIGIN_INGESTION';
+  if (action.startsWith('client_truth')) return 'CLIENT_TRUTH';
   return null;
 }
 
