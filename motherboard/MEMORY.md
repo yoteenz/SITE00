@@ -4805,9 +4805,10 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 - **Context:** Formalize NDXBOOK carousel visual language for all V2.3 carousel generation. Carousels must look like physical pages inside The Book — not templates with handwriting added afterward. Remains V2.3 + P0.5C.7 amendment (no V2.4). No automatic FAL spend during implementation; founder review required for pilot regeneration.
 - **Visual authority chain (amended):** CONTENT THESIS → PAGE OBJECT → PAGE MATERIAL → BINDING/EDGE → CONSTRUCTION HISTORY → BESPOKE COMPOSITION → EDITORIAL PHOTOGRAPHY → TYPOGRAPHY → EVIDENCE → CHARACTER TRACE → LIME INTERRUPTION → QA. Blocked legacy: BACKGROUND → TEXT → PHOTO → ANNOTATION.
-- **New modules (`artBoardMateriality/`):** `ndxPageObjectContract.ts`, `ndxConstructionHistory.ts`, `notebookCarouselPromptSections.ts`, `notebookCarouselEvaluation.ts`, `ndxNotebookCarouselNorthStar.ts`, `notebookCarouselMigrationAudit.ts`, `notebookCarouselFounderReview.ts`, `notebookCarouselGrammarP05C7.ts`.
-- **Compiler:** `falPromptCompilerV23@P0.5C.7` — explicit physical page sections; Round 01 notebook carousel gate wired.
-- **Shipped:** PR **#428** merged to `main`. Tests **2928** pass; build green.
+- **New modules (`artBoardMateriality/`):** `ndxPageObjectContract.ts` (NDXPageObjectContract + physical lineage signals), `ndxConstructionHistory.ts`, `notebookCarouselPromptSections.ts`, `notebookCarouselEvaluation.ts` (physicality, template grammar, uppercase, photo integration, construction history, page variety QA gates), `ndxNotebookCarouselNorthStar.ts` (MEET NDX, PERSONAL BRAND, THINGS I SAVED — evidence not literal templates), `notebookCarouselMigrationAudit.ts`, `notebookCarouselFounderReview.ts` (THIS_FEELS_LIKE_THE_BOOK, TOO_TEMPLATE, LOWERCASE_ERROR, etc.), `notebookCarouselGrammarP05C7.ts`.
+- **Compiler:** `falPromptCompilerV23@P0.5C.7` — explicit sections: PHYSICAL PAGE OBJECT, PAGE MATERIAL, BINDING/EDGE, CONSTRUCTION HISTORY, PHOTO INTEGRATION, UPPERCASE AUTHORSHIP, HAND MARKS, LIME INTERRUPTION, NEGATIVE TEMPLATE CONSTRAINTS. `FAL_MATERIAL_PROMPT_SECTION_ORDER` expanded to 35 sections. Pre-C7 supersession (`artifactHasPreC7Prompt`, `V23_SUPERSESSION_REASON_C7`, `PRESERVED_PRE_C7` lineage). Round 01 notebook carousel gate wired.
+- **Pilot:** Subscription receipt topic 1 recommended for founder-triggered OLD V2.3 vs P0.5C.7 compare — no auto-lock.
+- **Shipped:** PR **#428** merged to `main`. Tests: `artBoardMaterialityP05C7.test.ts` (13); full suite **2928** pass; build green. Historical V2.3 assets immutable; Brand Character/Canon unchanged.
 
 ## 2026-08-25 — P0.CB.1A Reference board replacement + notebook grammar re-decomposition
 
@@ -4820,7 +4821,7 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 ## 2026-08-25 — FCI reference board upload UI + API (founder mobile fix)
 
 - **Problem:** Founder on mobile at Founder Creative Ingestion saw "Upload replacement to compare" and "REPLACE REFERENCE BOARD →" but no file picker — P0.CB.1A backend existed but upload was never wired; replace used placeholder URLs.
-- **Fix:** `uploadFounderCreativeReferenceBoard` API (`founder_creative_ingestion_upload_reference`) — base64 image → Supabase `site00/founder-creative/ndxbook/{sequenceId}/draft-{ts}.{ext}` → existing draft versioning engine. UI: hidden file input + tap target "TAP TO UPLOAD REPLACEMENT BOARD" + "UPLOAD REPLACEMENT BOARD →" button; removed broken bulk placeholder replace.
+- **Fix:** `uploadFounderCreativeReferenceBoard` API (`founder_creative_ingestion_upload_reference`) — base64 image → Supabase storage → existing draft versioning engine. UI: hidden file input + tap target "TAP TO UPLOAD REPLACEMENT BOARD" + "UPLOAD REPLACEMENT BOARD →" button; removed broken bulk placeholder replace.
 - **Shipped:** PR merged to `main`. Deploy **v90**. Tests: FCI P0CB1A (15) pass; build green.
 
 ---
