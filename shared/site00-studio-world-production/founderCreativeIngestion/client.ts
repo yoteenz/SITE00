@@ -33,3 +33,15 @@ export function getParentSequencePresentation(sequences: FounderCreativeParentSe
     status: s.provenance.canonStatus,
   }));
 }
+
+export function founderCreativeFalGenerationInProgress(
+  state: import('./types.js').FounderCreativeIngestionState,
+): boolean {
+  return state.falGenerationTracking?.status === 'RUNNING';
+}
+
+export function founderCreativeFalGenerationFailed(
+  state: import('./types.js').FounderCreativeIngestionState,
+): boolean {
+  return state.falGenerationTracking?.status === 'FAILED';
+}

@@ -4743,6 +4743,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+---
+
+## 2026-08-25 — CAST NDX FAL generation wired (P0.5E.4C follow-up)
+
+- **Context:** Founder reported CAST NDX page (`/projects/ndxbook/character/casting`) wasn't calling FAL — generation produced placeholder URLs only, never live stills.
+- **Root cause:** UI explicitly passed `dispatchFal: false`; service defaulted `dispatchFal ?? false`; `castingEngine.generateCastingRoundPlaceholders` only set GENERATING status when dispatchFal true but no FAL API call existed anywhere in the pipeline.
+- **Fix:** Added `api/_lib/site00Evolve/characterVisualCasting/castingFalDispatch.ts` — compiles prompt contracts via `compileCastingPromptFromContract`, calls GPT Image 2 through FAL (`buildFalImageInput`), uploads to Supabase storage (`site00/character-casting/{project}/{round}/{candidate}.webp`), applies results via `applyCastingGenerationResults`. Service defaults `dispatchFal` to `falConfigured()`; first round + next round both dispatch when FAL_KEY present. UI now calls generate without `false` flag; hero frame renders `<img>` for real preview URLs.
+- **Discarded:** Duplicate embodied-character `/character/cast` route work on branch (reverted before ship).
+- **Tests:** `embodiedCharacterVisualCastingP05E4C.test.ts` expanded (13) — prompt compile, apply results, vitest-mocked full generate path.
+
+---
+
 ## 2026-08-25 — P0.CB.1 Founder creative ingestion + reference decomposition + production reconstruction
 
 - **Context:** Build production-grade workflow for founder-created NDXBOOK launch carousel direction entering Studio World. Pilot: MEET NDX (9 slides), EVERYBODY HAS A PERSONAL BRAND (12), THINGS I SAVED THIS WEEK / ENTRY 001 (12). Critical rule: mood boards are REFERENCES not production assets — no bitmap crop/upscale as reconstruction.
@@ -4752,6 +4764,7 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+<<<<<<< HEAD
 ## 2026-08-25 — P0.FILM.1 Brand Film Bible + Shot Library + Script-to-Scene Planner + Model Routing + Founder Dailies + Scene Deck
 
 - **Context:** Build generic Studio World film production architecture so founder can supply script/storyboard/concept and Studio World autonomously derives production layer (wardrobe, environment, shot contracts, model routing, dailies, scene deck, rough cut EDL). Pilot: NDXBOOK Reel 01 APPARENTLY I HAVE TO INTRODUCE MYSELF (MINI_VLOG_INTRO, 12 shots) and Reel 02 THAT CANNOT BE RIGHT — 001 (RABBIT_HOLE_INVESTIGATION, 15 shots). Philosophy: FOUNDER DIRECTS. STUDIO WORLD PRODUCES.
@@ -4760,4 +4773,30 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **UI:** `/projects/ndxbook/content-operations/film-production` (+ dailies, scene-deck tabs). Mobile-friendly dailies approve/reject; desktop scene deck strip. No provider spend on page load or planning — only after APPROVE PRODUCTION PLAN + explicit generation trigger.
 - **Shipped:** PR to `main`. Deploy **v89**. Tests: `filmProductionP0FILM1.test.ts` (31); full suite **2908** pass; build green (`index.BYZzwKN7.js`). Brand Character/Canon/historical lineage unchanged; autonomous publishing disabled.
 - **Recommended next:** Run Reel 01 through production plan review only; if plan correct, approve and generate continuity cluster shots 02–04 (table level, lime pen, non-introduction) before full reel generation.
+=======
+## 2026-08-25 — CAST NDX placeholder round FAL retry (P0.5E.4C UX unblock)
+
+- **Context:** Founder generated first casting round before live FAL wiring shipped; page advanced to review with placeholder stills (`/api/placeholder/casting/...`) and the generate button disappeared (`castingCandidatesReady: true`).
+- **Fix:** `castingRoundNeedsFalRetry` detects placeholder-only rounds; review UI shows **GENERATE STILLS WITH FAL**; `character_visual_casting_retry_fal` + `retryVisualCastingRoundFal` re-dispatches FAL on existing candidates via `prepareCastingRoundForFalRetry`. Cost gate now only shows when no round exists (prevents duplicate round on retry). Generating panel shown while FAL runs.
+- **Tests:** `embodiedCharacterVisualCastingP05E4C.test.ts` (15) — placeholder detection + retry path.
+
+---
+
+## 2026-08-25 — CAST NDX FAL background jobs (tunnel-safe generation)
+
+- **Context:** Founder codes via tunnel (tocode) that constantly refreshes; synchronous FAL casting requests were dropped mid-generation when HTTP disconnected.
+- **Fix:** Casting FAL dispatch now runs as background jobs (`castingFalBackgroundJob.ts` + shared `falBackgroundJob.ts`): POST returns immediately (202 when background), `falGenerationTracking` persisted on `visualCastingState`, worker via `setImmediate`, stale reconcile + auto-resume on GET after 45s. UI polls every 5s while generating; copy says safe to refresh. Applies to generate, retry, and next-round FAL paths.
+- **Note:** Marketing Expression Experiment 01 batch FAL already used this pattern; other sync FAL endpoints (e.g. Experiment G visual generate, single-artifact) not migrated in this pass.
+- **Tests:** `embodiedCharacterVisualCastingP05E4C.test.ts` (16).
+
+---
+
+## 2026-08-25 — Founder creative ingestion FAL dispatch + background reconstruction (P0.CB.1)
+
+- **Context:** Founder reported **DECOMPOSE ALL REFERENCES** on `/projects/ndxbook/content-operations/founder-creative-ingest` did nothing — slide specs built but no FAL photography reconstruction; broken reference preview (wrong asset per sequence).
+- **Root cause:** Same class of bug as CAST NDX — `dispatchFal` defaulted false; UI passed false; decompose only split reference metadata; `decomposeSequenceReference` used `referenceAssets.at(-1)` so all sequences shared last board; placeholder reference URLs; MEET NDX default `USE_EXISTING_ASSET` / others `REFERENCE_ONLY` blocked batch without mode resolution.
+- **Fix:** `founderCreativeFalDispatch.ts` + `founderCreativeFalBackgroundJob.ts` (batch + single-slide, checkpoint saves, stale reconcile/resume). `decomposeAll` / `decomposeSequence` now call `resolveReconstructionPhotographyModes` then queue FAL when `FAL_KEY` set (MEET NDX slide 1 → `USE_EXISTING_ASSET` + HQ canonical; other photo slides → `GENERATE_FROM_REFERENCE`). Deterministic `ref-board-${sequenceId}` asset IDs. UI: 5s polling, progress panel, per-sequence reference URL, production `<img>` when URL ready, retry on failure. API returns 202 for background decompose/generate.
+- **Tests:** `founderCreativeIngestionP0CB1.test.ts` (16) — FAL batch completes on decompose, photography mode resolution.
+
+>>>>>>> origin/main
 

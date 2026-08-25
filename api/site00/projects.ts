@@ -238,6 +238,7 @@ import {
   getVisualCastingState,
   lockVisualIdentity,
   reopenCharacterCalibration,
+  retryVisualCastingRoundFal,
   saveVisualCastingJudgment,
   createVisualCastingMerge,
 } from '../_lib/site00Evolve/characterVisualCasting/characterVisualCastingService.js';
@@ -2422,8 +2423,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const result = await decomposeAllFounderCreativeSequences({ projectId: slug });
-        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+        const result = await decomposeAllFounderCreativeSequences({
+          projectId: slug,
+          dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
+        });
+        const background =
+          result.ingestion.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
+        return json(res, background ? 202 : 200, {
+          ok: true,
+          ...result,
+          background,
+          source: 'site00_founder_creative_ingestion',
+        });
       }
       case 'founder_creative_ingestion_decompose': {
         if (req.method !== 'POST') {
@@ -2438,8 +2449,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const result = await decomposeFounderCreativeSequence({ projectId: slug, sequenceId });
-        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+        const result = await decomposeFounderCreativeSequence({
+          projectId: slug,
+          sequenceId,
+          dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
+        });
+        const background =
+          result.ingestion.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
+        return json(res, background ? 202 : 200, {
+          ok: true,
+          ...result,
+          background,
+          source: 'site00_founder_creative_ingestion',
+        });
       }
       case 'founder_creative_ingestion_photo_mode': {
         if (req.method !== 'POST') {
@@ -2500,7 +2522,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const slideId = String(body.slideId ?? '');
-        const dispatchFal = Boolean(body.dispatchFal);
+        const dispatchFal = body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal);
         if (slug !== 'ndxbook' || !slideId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
         }
@@ -2508,7 +2530,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const result = await generateFounderCreativePhotography({ projectId: slug, slideId, dispatchFal });
-        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+        const background =
+          result.ingestion.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
+        return json(res, background ? 202 : 200, {
+          ok: true,
+          ...result,
+          background,
+          source: 'site00_founder_creative_ingestion',
+        });
       }
       case 'founder_creative_ingestion_replace_photo': {
         if (req.method !== 'POST') {
@@ -3674,8 +3703,43 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await generateVisualCastingRound({ projectId: 'ndxbook', dispatchFal: Boolean(body.dispatchFal) });
-        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+        const run = await generateVisualCastingRound({
+          projectId: 'ndxbook',
+          dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
+        });
+        const background =
+          run.visualCastingState?.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
+        return json(res, background ? 202 : 200, {
+          ok: true,
+          run,
+          background,
+          source: 'site00_character_visual_casting',
+        });
+      }
+      case 'character_visual_casting_retry_fal': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await retryVisualCastingRoundFal({
+          projectId: 'ndxbook',
+          roundId: body.roundId ? String(body.roundId) : undefined,
+        });
+        const background =
+          run.visualCastingState?.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
+        return json(res, background ? 202 : 200, {
+          ok: true,
+          run,
+          background,
+          source: 'site00_character_visual_casting',
+        });
       }
       case 'character_visual_casting_judgment': {
         if (req.method !== 'POST') {
@@ -3730,8 +3794,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await generateNextVisualCastingRound({ projectId: 'ndxbook' });
-        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+        const run = await generateNextVisualCastingRound({
+          projectId: 'ndxbook',
+          dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
+        });
+        const background =
+          run.visualCastingState?.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
+        return json(res, background ? 202 : 200, {
+          ok: true,
+          run,
+          background,
+          source: 'site00_character_visual_casting',
+        });
       }
       case 'character_visual_casting_lock': {
         if (req.method !== 'POST') {

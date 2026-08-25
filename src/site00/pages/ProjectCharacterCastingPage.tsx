@@ -11,11 +11,17 @@ import type { NdxFounderCharacterDiscoveryRun } from '../../../shared/site00-bra
 import {
   CASTING_PRIMARY_JUDGMENTS,
   DEFAULT_CASTING_CANDIDATE_COUNT,
+  castingFalGenerationFailed,
+  castingFalGenerationInProgress,
+  castingRoundNeedsFalRetry,
+  isCastingPlaceholderPreviewUrl,
 } from '../../../shared/site00-studio-world-production/characterVisualCasting/client.js';
 import type {
   CharacterCastingCandidate,
 } from '../../../shared/site00-studio-world-production/characterVisualCasting/client.js';
 import '../styles/site00-character-casting.css';
+
+const POLL_MS = 5000;
 
 const JUDGMENT_LABELS: Record<(typeof CASTING_PRIMARY_JUDGMENTS)[number], string> = {
   THATS_HER: "THAT'S HER",
@@ -63,6 +69,17 @@ export default function ProjectCharacterCastingPage() {
   }, [casting]);
 
   const activeCandidate = latestRoundCandidates[activeIndex] ?? null;
+  const latestRound = casting?.rounds.at(-1) ?? null;
+  const hasRound = latestRoundCandidates.length > 0;
+  const needsFalRetry = casting && latestRound ? castingRoundNeedsFalRetry(casting, latestRound.roundId) : false;
+  const isGeneratingRound = Boolean(casting && castingFalGenerationInProgress(casting));
+  const generationFailed = Boolean(casting && castingFalGenerationFailed(casting));
+
+  useEffect(() => {
+    if (!casting || !castingFalGenerationInProgress(casting)) return undefined;
+    const id = window.setInterval(() => void reload(), POLL_MS);
+    return () => window.clearInterval(id);
+  }, [casting, reload]);
 
   const act = async (fn: () => Promise<{ run?: Record<string, unknown> }>) => {
     setBusy(true);
@@ -114,7 +131,7 @@ export default function ProjectCharacterCastingPage() {
         </section>
       )}
 
-      {!loading && casting?.visualCastingReady && !casting.castingCandidatesReady && (
+      {!loading && casting?.visualCastingReady && !hasRound && (
         <section className="site00-char-cast__panel">
           <h2>CAST NDX</h2>
           <p>Based on who she is — here are visual interpretations of her. This is not final identity yet.</p>
@@ -148,7 +165,7 @@ export default function ProjectCharacterCastingPage() {
             type="button"
             className="site00-char-cast__cta site00-char-cast__cta--primary"
             disabled={busy}
-            onClick={() => void act(() => site00ProjectsApi.characterVisualCastingGenerate(projectSlug, false))}
+            onClick={() => void act(() => site00ProjectsApi.characterVisualCastingGenerate(projectSlug))}
           >
             GENERATE FIRST CASTING ROUND
           </button>
@@ -156,8 +173,54 @@ export default function ProjectCharacterCastingPage() {
         </section>
       )}
 
-      {!loading && casting?.castingCandidatesReady && latestRoundCandidates.length > 0 && (
+      {!loading && isGeneratingRound && (
         <section className="site00-char-cast__panel">
+          <h2>GENERATING CASTING STILLS</h2>
+          <p>Calling FAL for six editorial stills in the background — safe to refresh or leave this page.</p>
+          <p className="site00-char-cast__hint">Progress updates every few seconds. Tunnel refresh will not cancel server-side generation.</p>
+          <div className="site00-char-cast__hero">
+            <div className="site00-char-cast__frame">
+              <div className="site00-char-cast__placeholder">Generating candidate {String(activeIndex + 1).padStart(2, '0')}…</div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {!loading && generationFailed && casting?.falGenerationTracking?.errorMessage && (
+        <section className="site00-char-cast__panel">
+          <p className="site00-char-cast__error" role="alert">
+            {casting.falGenerationTracking.errorMessage}
+          </p>
+          {(needsFalRetry || isGeneratingRound === false) && latestRound && (
+            <button
+              type="button"
+              className="site00-char-cast__cta site00-char-cast__cta--primary"
+              disabled={busy}
+              onClick={() => void act(() => site00ProjectsApi.characterVisualCastingRetryFal(projectSlug, latestRound.roundId))}
+            >
+              RETRY GENERATE STILLS
+            </button>
+          )}
+        </section>
+      )}
+
+      {!loading && casting?.castingCandidatesReady && hasRound && (
+        <section className="site00-char-cast__panel">
+          {needsFalRetry && (
+            <>
+              <p className="site00-char-cast__hint">
+                This round was created before live generation was wired. Placeholder stills only — tap below to generate real images.
+              </p>
+              <button
+                type="button"
+                className="site00-char-cast__cta site00-char-cast__cta--primary"
+                disabled={busy}
+                onClick={() => void act(() => site00ProjectsApi.characterVisualCastingRetryFal(projectSlug, latestRound?.roundId))}
+              >
+                GENERATE STILLS WITH FAL
+              </button>
+            </>
+          )}
           <header className="site00-char-cast__review-head">
             <h2>WHO FEELS CLOSEST?</h2>
             <span className="site00-char-cast__counter">
@@ -167,12 +230,18 @@ export default function ProjectCharacterCastingPage() {
 
           <div className="site00-char-cast__hero">
             <div className="site00-char-cast__frame">
-              {activeCandidate?.previewUrl ? (
+              {activeCandidate?.previewUrl && !isCastingPlaceholderPreviewUrl(activeCandidate.previewUrl) ? (
+                <img
+                  src={activeCandidate.previewUrl}
+                  alt={`Casting candidate ${String(activeIndex + 1).padStart(2, '0')} — ${activeCandidate.variationAxis.replace(/_/g, ' ')}`}
+                  className="site00-char-cast__image"
+                />
+              ) : activeCandidate?.previewUrl ? (
                 <div className="site00-char-cast__placeholder" aria-label="Casting candidate preview">
                   CANDIDATE {String(activeIndex + 1).padStart(2, '0')} · {activeCandidate.variationAxis.replace(/_/g, ' ')}
                 </div>
               ) : (
-                <div className="site00-char-cast__placeholder">Awaiting asset</div>
+                <div className="site00-char-cast__placeholder">Generating candidate…</div>
               )}
             </div>
             <div className="site00-char-cast__nav">

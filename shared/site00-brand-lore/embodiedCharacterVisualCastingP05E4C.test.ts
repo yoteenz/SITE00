@@ -23,6 +23,10 @@ import {
   mergeDoesNotBlindlyAverageFaces,
   buildInitialCastingPromptMatrix,
   promptContractsShareCharacterTruth,
+  compileCastingPromptFromContract,
+  applyCastingGenerationResults,
+  applyCastingGenerationFailure,
+  prepareCastingRoundForFalRetry,
   buildEmptyVisualCastingState,
   discoveryShouldShowRecognizedNotCalibration,
   DEFAULT_CASTING_CANDIDATE_COUNT,
@@ -38,6 +42,13 @@ import {
   resetFounderCharacterDiscoveryStoreModeCache,
   saveFounderCharacterDiscoveryRun,
 } from '../../api/_lib/site00Evolve/founderCharacterDiscovery/founderCharacterDiscoveryStoreAdapter.js';
+import { generateVisualCastingRound, retryVisualCastingRoundFal } from '../../api/_lib/site00Evolve/characterVisualCasting/characterVisualCastingService.js';
+import {
+  castingRoundNeedsFalRetry,
+  isCastingPlaceholderPreviewUrl,
+  castingFalGenerationInProgress,
+  castingFalGenerationFailed,
+} from '../site00-studio-world-production/characterVisualCasting/client.js';
 
 const ROOT = join(process.cwd());
 
@@ -136,6 +147,7 @@ describe('P0.5E.4C visual casting + I KNOW HER transition', () => {
     const mountBlock = page.match(/useEffect\(\(\) => \{[\s\S]*?\}, \[reload\]\);/)?.[0] ?? '';
     expect(mountBlock).not.toMatch(/characterVisualCastingGenerate/);
     expect(page).toContain('GENERATE FIRST CASTING ROUND');
+    expect(page).not.toMatch(/characterVisualCastingGenerate\(projectSlug,\s*false\)/);
   });
 
   it('initial casting round supports six candidates with shared truth prompt matrix', () => {
@@ -234,5 +246,134 @@ describe('P0.5E.4C visual casting + I KNOW HER transition', () => {
       falConfigured: false,
     });
     expect(promoted.run.voiceCalibrationState).toEqual(voiceBefore);
+  });
+
+  it('compileCastingPromptFromContract produces provider-ready prompt text', () => {
+    const run = buildNdxFounderCharacterDiscoveryRun();
+    const snapshot = buildCharacterTruthSnapshot({ run, version: 1, lockedForCasting: true });
+    const contract = buildInitialCastingPromptMatrix(snapshot)[0]!;
+    const compiled = compileCastingPromptFromContract(contract);
+    expect(compiled.prompt.length).toBeGreaterThan(100);
+    expect(compiled.negativePrompt).toContain('generic AI influencer');
+  });
+
+  it('applyCastingGenerationResults marks round review-ready with preview URLs', () => {
+    const run = buildNdxFounderCharacterDiscoveryRun();
+    const snapshot = buildCharacterTruthSnapshot({ run, version: 1, lockedForCasting: true });
+    let state = buildEmptyVisualCastingState();
+    state = {
+      ...state,
+      visualCastingReady: true,
+      truthSnapshots: [snapshot],
+      activeTruthSnapshotId: snapshot.snapshotId,
+    };
+    state = generateCastingRoundPlaceholders({ state, falConfigured: true, dispatchFal: true });
+    const roundId = state.rounds.at(-1)!.roundId;
+    const candidates = state.candidates.filter((c) => c.roundId === roundId);
+    expect(state.castingCandidatesReady).toBe(false);
+
+    state = applyCastingGenerationResults({
+      state,
+      roundId,
+      results: candidates.map((candidate, index) => ({
+        candidateId: candidate.candidateId,
+        previewUrl: `https://example.test/candidate-${index + 1}.webp`,
+        outputAssetId: `site00/character-casting/test/${candidate.candidateId}.webp`,
+        model: 'openai/gpt-image-2',
+      })),
+      model: 'openai/gpt-image-2',
+    });
+
+    expect(state.castingCandidatesReady).toBe(true);
+    expect(state.rounds.at(-1)?.status).toBe('REVIEW_READY');
+    expect(state.candidates.filter((c) => c.roundId === roundId).every((c) => c.previewUrl?.startsWith('https://'))).toBe(true);
+  });
+
+  it('generateVisualCastingRound dispatches FAL when configured (vitest mock)', async () => {
+    process.env.FAL_KEY = 'vitest-key';
+    await initializeFounderCharacterDiscoveryRoom({ projectId: 'ndxbook' });
+    let run = (await getFounderCharacterDiscoveryState({ projectId: 'ndxbook' }))!;
+    run = await completeCalibration(run);
+    run = { ...run, humanReadableSynthesis: ndxGetHumanReadableSynthesis(run) };
+    run = promoteFounderRecognition({
+      run,
+      response: 'YES_I_KNOW_HER',
+      sourceRoute: '/test',
+      falConfigured: true,
+    }).run;
+    await saveFounderCharacterDiscoveryRun(run);
+
+    run = await generateVisualCastingRound({ projectId: 'ndxbook', dispatchFal: true });
+    expect(run.visualCastingState?.castingCandidatesReady).toBe(true);
+    const latest = run.visualCastingState?.candidates.filter(
+      (c) => c.roundId === run.visualCastingState?.rounds.at(-1)?.roundId,
+    );
+    expect(latest?.every((c) => c.previewUrl?.includes('vitest.local'))).toBe(true);
+  });
+
+  it('detects placeholder rounds and retries FAL dispatch for existing candidates', async () => {
+    process.env.FAL_KEY = 'vitest-key';
+    await initializeFounderCharacterDiscoveryRoom({ projectId: 'ndxbook' });
+    let run = (await getFounderCharacterDiscoveryState({ projectId: 'ndxbook' }))!;
+    run = await completeCalibration(run);
+    run = { ...run, humanReadableSynthesis: ndxGetHumanReadableSynthesis(run) };
+    run = promoteFounderRecognition({
+      run,
+      response: 'YES_I_KNOW_HER',
+      sourceRoute: '/test',
+      falConfigured: false,
+    }).run;
+    await saveFounderCharacterDiscoveryRun(run);
+    run = await generateVisualCastingRound({ projectId: 'ndxbook', dispatchFal: false });
+    const roundId = run.visualCastingState?.rounds.at(-1)?.roundId;
+    expect(roundId).toBeTruthy();
+    expect(castingRoundNeedsFalRetry(run.visualCastingState!, roundId)).toBe(true);
+    expect(isCastingPlaceholderPreviewUrl(run.visualCastingState?.candidates[0]?.previewUrl)).toBe(true);
+
+    run = await retryVisualCastingRoundFal({ projectId: 'ndxbook', roundId });
+    expect(run.visualCastingState?.castingCandidatesReady).toBe(true);
+    const latest = run.visualCastingState?.candidates.filter((c) => c.roundId === roundId);
+    expect(latest?.every((c) => c.previewUrl?.includes('vitest.local'))).toBe(true);
+    expect(castingRoundNeedsFalRetry(run.visualCastingState!, roundId)).toBe(false);
+  });
+
+  it('prepareCastingRoundForFalRetry clears placeholders and marks round generating', () => {
+    const run = buildNdxFounderCharacterDiscoveryRun();
+    const snapshot = buildCharacterTruthSnapshot({ run, version: 1, lockedForCasting: true });
+    let state = buildEmptyVisualCastingState();
+    state = {
+      ...state,
+      visualCastingReady: true,
+      truthSnapshots: [snapshot],
+      activeTruthSnapshotId: snapshot.snapshotId,
+    };
+    state = generateCastingRoundPlaceholders({ state, falConfigured: false, dispatchFal: false });
+    const roundId = state.rounds.at(-1)!.roundId;
+    state = prepareCastingRoundForFalRetry({ state, roundId, falConfigured: true });
+    expect(state.castingCandidatesReady).toBe(false);
+    expect(state.rounds.at(-1)?.status).toBe('GENERATING');
+    expect(state.candidates.filter((c) => c.roundId === roundId).every((c) => c.previewUrl === null)).toBe(true);
+  });
+
+  it('castingFalGenerationInProgress tracks generating rounds and failures', () => {
+    const run = buildNdxFounderCharacterDiscoveryRun();
+    const snapshot = buildCharacterTruthSnapshot({ run, version: 1, lockedForCasting: true });
+    let state = buildEmptyVisualCastingState();
+    state = {
+      ...state,
+      visualCastingReady: true,
+      truthSnapshots: [snapshot],
+      activeTruthSnapshotId: snapshot.snapshotId,
+    };
+    state = generateCastingRoundPlaceholders({ state, falConfigured: true, dispatchFal: true });
+    expect(castingFalGenerationInProgress(state)).toBe(true);
+
+    state = applyCastingGenerationFailure({
+      state,
+      roundId: state.rounds.at(-1)!.roundId,
+      errorMessage: 'tunnel dropped',
+    });
+    expect(castingFalGenerationFailed(state)).toBe(true);
+    expect(castingFalGenerationInProgress(state)).toBe(false);
   });
 });

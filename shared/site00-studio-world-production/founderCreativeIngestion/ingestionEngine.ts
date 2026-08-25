@@ -14,6 +14,7 @@ import {
   ndxGridForSequence,
   ndxPilotReferenceAssetId,
   slideSeedsForSequence,
+  MEET_NDX_SEQUENCE_ID,
 } from './adapters/ndxLaunchRow01Pilot.js';
 import { recordCreativeSignalLearning } from './creativeSignalLearning.js';
 import {
@@ -55,9 +56,10 @@ export function buildEmptyFounderCreativeIngestionState(): FounderCreativeIngest
       message: 'CHARACTER IDENTITY NOT LOCKED — use approved reference; do not auto-promote to canon',
     },
     registeredOnCampaignBoard: false,
-    falImageRequests: 0,
-    falVideoRequests: 0,
-    updatedAt: new Date().toISOString(),
+  falImageRequests: 0,
+  falVideoRequests: 0,
+  falGenerationTracking: null,
+  updatedAt: new Date().toISOString(),
   };
 }
 
@@ -124,8 +126,10 @@ export function decomposeSequenceReference(
   state: FounderCreativeIngestionState,
   sequenceId: string,
 ): FounderCreativeIngestionState {
-  const asset = state.referenceAssets.at(-1);
-  if (!asset) throw new Error('Reference asset required before decomposition');
+  const asset =
+    state.referenceAssets.find((entry) => entry.assetId === ndxPilotReferenceAssetId(sequenceId)) ??
+    state.referenceAssets.find((entry) => entry.assetId.includes(sequenceId));
+  if (!asset) throw new Error(`Reference asset required for sequence ${sequenceId}`);
 
   const grid = ndxGridForSequence(sequenceId);
   const board = buildReferenceBoard({
@@ -234,6 +238,131 @@ export function estimateSlideGeneration(
   return compilePhotographyGenerationInstructions({ spec, falConfigured });
 }
 
+export function resolveReconstructionPhotographyModes(
+  state: FounderCreativeIngestionState,
+  sequenceId: string,
+): FounderCreativeIngestionState {
+  const slideRefs = state.slideReferences.filter((entry) => entry.sequenceId === sequenceId);
+  const specs = state.reconstructionSpecs.filter((entry) => entry.sequenceId === sequenceId);
+
+  const updatedSpecs = specs.map((spec) => {
+    if (!spec.photography.required) return spec;
+    const slideRef = slideRefs.find((entry) => entry.slideReferenceId === spec.slideReferenceId);
+    if (!slideRef) return spec;
+
+    if (sequenceId === MEET_NDX_SEQUENCE_ID && slideRef.slideNumber === 1) {
+      return {
+        ...spec,
+        photography: applyPhotographySourceMode(
+          spec.photography,
+          'USE_EXISTING_ASSET',
+          'ndx-hq-desk-photo-canonical',
+        ),
+      };
+    }
+
+    if (
+      spec.photography.sourceMode === 'REFERENCE_ONLY' ||
+      spec.photography.sourceMode === 'USE_EXISTING_ASSET'
+    ) {
+      return {
+        ...spec,
+        photography: applyPhotographySourceMode(spec.photography, 'GENERATE_FROM_REFERENCE'),
+      };
+    }
+    return spec;
+  });
+
+  return {
+    ...state,
+    reconstructionSpecs: [
+      ...state.reconstructionSpecs.filter((entry) => entry.sequenceId !== sequenceId),
+      ...updatedSpecs,
+    ],
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+export function slideIdsEligibleForFalBatch(state: FounderCreativeIngestionState): string[] {
+  return state.reconstructionSpecs
+    .filter(
+      (spec) =>
+        spec.photography.required &&
+        (spec.photography.sourceMode === 'GENERATE_FROM_REFERENCE' ||
+          spec.photography.sourceMode === 'UPLOAD_HQ'),
+    )
+    .map((spec) => spec.slideId);
+}
+
+export function slideIdsEligibleForExistingAsset(state: FounderCreativeIngestionState): string[] {
+  return state.reconstructionSpecs
+    .filter(
+      (spec) =>
+        spec.photography.required &&
+        (spec.photography.sourceMode === 'USE_EXISTING_ASSET' ||
+          spec.photography.sourceMode === 'LOCK_CANONICAL'),
+    )
+    .map((spec) => spec.slideId);
+}
+
+export function applySlidePhotographyFalResult(
+  state: FounderCreativeIngestionState,
+  slideId: string,
+  params: { assetId: string; previewUrl: string },
+): FounderCreativeIngestionState {
+  const spec = state.reconstructionSpecs.find((entry) => entry.slideId === slideId);
+  if (!spec) throw new Error('Slide spec not found');
+
+  const updatedSpec: SlideReconstructionSpec = {
+    ...spec,
+    photography: {
+      ...spec.photography,
+      selectedAssetId: params.assetId,
+      candidateAssetIds: [...spec.photography.candidateAssetIds, params.assetId],
+      lineageAssetIds: [...spec.photography.lineageAssetIds, params.assetId],
+    },
+    layerModel: { ...spec.layerModel, photograph: params.assetId },
+    productionMasterUrl: params.previewUrl,
+    reviewStatus: 'RECONSTRUCTION_REVIEW',
+  };
+
+  const productionAsset: SlideProductionAsset = {
+    assetId: params.assetId,
+    slideId,
+    sequenceId: spec.sequenceId,
+    kind: 'PRODUCTION_ASSET',
+    masterUrl: params.previewUrl,
+    masterResolution: spec.targetResolution,
+    derivativeUrls: {},
+    approvedAt: null,
+    lineageParentIds: spec.referenceAssetIds,
+  };
+
+  return {
+    ...state,
+    workflowStep: 'REVIEW',
+    reconstructionSpecs: state.reconstructionSpecs.map((entry) =>
+      entry.slideId === slideId ? updatedSpec : entry,
+    ),
+    productionAssets: [...state.productionAssets.filter((entry) => entry.slideId !== slideId), productionAsset],
+    falImageRequests: state.falImageRequests + 1,
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+export function applyFounderCreativeBatchFailure(
+  state: FounderCreativeIngestionState,
+  errorMessage: string,
+): FounderCreativeIngestionState {
+  return {
+    ...state,
+    falGenerationTracking: state.falGenerationTracking
+      ? { ...state.falGenerationTracking, status: 'FAILED', errorMessage, currentSlideId: null }
+      : null,
+    updatedAt: new Date().toISOString(),
+  };
+}
+
 export function generateSlidePhotography(
   state: FounderCreativeIngestionState,
   slideId: string,
@@ -266,6 +395,10 @@ export function replaceSlidePhotography(
 
   const preserved = replacePhotographyPreservesComposition(spec.layerModel, newAssetId);
   const priorSelected = spec.photography.selectedAssetId;
+  const nextMode =
+    spec.photography.sourceMode === 'USE_EXISTING_ASSET' || spec.photography.sourceMode === 'LOCK_CANONICAL'
+      ? spec.photography.sourceMode
+      : ('REPLACE' as const);
 
   const updatedSpec: SlideReconstructionSpec = {
     ...spec,
@@ -276,19 +409,20 @@ export function replaceSlidePhotography(
           ? [...spec.photography.lineageAssetIds, priorSelected]
           : spec.photography.lineageAssetIds,
       },
-      'REPLACE',
+      nextMode,
       newAssetId,
     ),
     layerModel: { ...spec.layerModel, photograph: preserved.photograph },
     reviewStatus: 'RECONSTRUCTION_REVIEW',
   };
 
+  const masterUrl = previewUrl ?? `/api/placeholder/founder-creative/hq/${newAssetId}`;
   const productionAsset: SlideProductionAsset = {
     assetId: newAssetId,
     slideId,
     sequenceId: spec.sequenceId,
     kind: 'PRODUCTION_ASSET',
-    masterUrl: previewUrl ?? `/api/placeholder/founder-creative/hq/${newAssetId}`,
+    masterUrl,
     masterResolution: spec.targetResolution,
     derivativeUrls: {},
     approvedAt: null,
@@ -297,7 +431,9 @@ export function replaceSlidePhotography(
 
   return {
     ...state,
-    reconstructionSpecs: state.reconstructionSpecs.map((s) => (s.slideId === slideId ? updatedSpec : s)),
+    reconstructionSpecs: state.reconstructionSpecs.map((s) =>
+      s.slideId === slideId ? { ...updatedSpec, productionMasterUrl: masterUrl } : s,
+    ),
     productionAssets: [...state.productionAssets.filter((a) => a.slideId !== slideId), productionAsset],
     updatedAt: new Date().toISOString(),
   };
