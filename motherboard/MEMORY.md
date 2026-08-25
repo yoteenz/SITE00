@@ -5148,3 +5148,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** Generic `projectNotifications/` module (types, categories, priorities, dedupe, relevance filter, `ProjectEventNotificationAdapter`, deep links). In-memory store + API actions (`project_notifications_list`, `project_notification_mark_read`, `project_notifications_mark_all_read`). `ActiveProjectNotificationCenter` portaled dropdown (NOTIFICATIONS | MESSAGES tabs; messages transport honestly BLOCKED). Full route `/projects/:slug/notifications`. Shell wiring with mutual exclusion (`toggleNotifications` closes menu; `toggleMenu` closes notifications). Unread lime badge, mark read / mark all read, entity-aware deep links. Dev fixtures for ndxbook. P0.UI.3B bell SVG preserved. Tests `ndxNotificationCenterP0UI3C.test.ts` (14 pass). Build green.
 - **Founder next:** Redeploy Railway API for notification endpoints; optional future Supabase `studio_world_project_notifications` + live message transport.
 
+---
+
+## 2026-08-25 — Notification dropdown mobile alignment fix
+
+- **Context:** Founder screenshot — bell notification panel clipped on left ("NDXBOOK" → "XBOOK"); not aligned to bell on mobile.
+- **Root cause:** Shared `bellAnchorRef` attached to hidden desktop header bell (`display:none` → zero `getBoundingClientRect`), breaking `right`-based positioning math.
+- **Fix:** Mobile-only ref on visible bell; `computeNotificationPanelPosition` with left-based anchor + viewport clamp; resize/scroll reposition; `max-width: calc(100vw - 24px)`.
+- **Test:** `ndxNotificationPanelPosition.test.ts`.
+
