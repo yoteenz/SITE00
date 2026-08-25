@@ -50,8 +50,8 @@ export function MobileFounderWorkspaceChrome({
       <header className="site00-fws-mobile-chrome__header" data-vr-region="ndx-header">
         <div className="site00-fws-mobile-chrome__brand">
           <span className="site00-fws-mobile-chrome__title">NDXBOOK</span>
-          <span className="site00-fws-mobile-chrome__diamond" aria-hidden>
-            ♦
+          <span className="site00-fws-mobile-chrome__diamond" aria-hidden="true">
+            <NDXIcon name="origin" size="xs" state="inactive" decorative />
           </span>
         </div>
         <div className="site00-fws-mobile-chrome__actions">

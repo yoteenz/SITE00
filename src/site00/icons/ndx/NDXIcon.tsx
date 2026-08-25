@@ -17,7 +17,7 @@ function resolveSize(size: NDXIconProps['size']): number {
 export function NDXIcon({
   name,
   size = 'md',
-  strokeWidth = NDX_ICON_STROKE_DEFAULT,
+  strokeWidth,
   state = 'inactive',
   className = '',
   ariaLabel,
@@ -26,6 +26,11 @@ export function NDXIcon({
   const def = getNdxIconDefinition(name);
   const px = resolveSize(size);
   const stateClass = state === 'active' ? 'ndx-icon--active' : 'ndx-icon--inactive';
+  const resolvedStroke = strokeWidth ?? def.strokeWidth ?? NDX_ICON_STROKE_DEFAULT;
+  const optical = def.optical;
+  const transform = optical
+    ? `translate(${optical.opticalOffsetX} ${optical.opticalOffsetY}) scale(${optical.opticalScale})`
+    : undefined;
 
   return (
     <svg
@@ -40,29 +45,32 @@ export function NDXIcon({
       role={ariaLabel ? 'img' : undefined}
       data-ndx-icon={name}
       data-ndx-icon-state={state}
+      data-ndx-icon-version={def.visualVersion}
     >
-      <g
-        stroke="currentColor"
-        strokeWidth={strokeWidth}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        vectorEffect="non-scaling-stroke"
-      >
-        {def.paths.map((path, index) => (
-          <path key={`${name}-p-${index}`} d={path.d} opacity={path.opacity} />
+      <g transform={transform}>
+        <g
+          stroke="currentColor"
+          strokeWidth={resolvedStroke}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          vectorEffect="non-scaling-stroke"
+        >
+          {def.paths.map((path, index) => (
+            <path key={`${name}-p-${index}`} d={path.d} opacity={path.opacity} />
+          ))}
+        </g>
+        {def.circles?.map((circle, index) => (
+          <circle
+            key={`${name}-c-${index}`}
+            cx={circle.cx}
+            cy={circle.cy}
+            r={circle.r}
+            fill={circle.fill ?? 'currentColor'}
+            stroke="none"
+            opacity={circle.opacity}
+          />
         ))}
       </g>
-      {def.circles?.map((circle, index) => (
-        <circle
-          key={`${name}-c-${index}`}
-          cx={circle.cx}
-          cy={circle.cy}
-          r={circle.r}
-          fill={circle.fill ?? 'currentColor'}
-          stroke="none"
-          opacity={circle.opacity}
-        />
-      ))}
     </svg>
   );
 }
