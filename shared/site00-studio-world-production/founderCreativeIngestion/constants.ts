@@ -1,6 +1,6 @@
 /** P0.CB.1 — Founder creative ingestion constants */
 
-export const FOUNDER_CREATIVE_INGESTION_VERSION = 'FOUNDER_CREATIVE_INGESTION@P0.CB.1' as const;
+export const FOUNDER_CREATIVE_INGESTION_VERSION = 'FOUNDER_CREATIVE_INGESTION@P0.CB.1A' as const;
 
 export const CREATIVE_ORIGIN_TYPES = [
   'FOUNDER_CREATED',

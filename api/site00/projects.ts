@@ -149,6 +149,12 @@ import {
   founderCreativeSlideJudgment,
   founderCreativeSequenceReview,
   registerFounderCreativeOnCampaignBoard,
+  replaceFounderCreativeReferenceBoard,
+  redecomposeFounderCreativeDraftReference,
+  promoteFounderCreativeDraftReference,
+  replaceFounderCreativeSlideReference,
+  bulkReplaceFounderCreativeReferences,
+  getFounderCreativeReferenceComparison,
 } from '../_lib/site00Evolve/founderCreativeIngestion/founderCreativeIngestionService.js';
 import {
   getFilmProduction,
@@ -2608,6 +2614,122 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const result = await registerFounderCreativeOnCampaignBoard({ projectId: slug });
         return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_replace_reference': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const sequenceId = String(body.sequenceId ?? '');
+        if (slug !== 'ndxbook' || !sequenceId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await replaceFounderCreativeReferenceBoard({
+          projectId: slug,
+          sequenceId,
+          previewUrl: body.previewUrl ? String(body.previewUrl) : null,
+          storagePath: body.storagePath ? String(body.storagePath) : undefined,
+          reason: body.reason ? String(body.reason) : undefined,
+          notes: body.notes ? String(body.notes) : undefined,
+        });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_redecompose_draft': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const sequenceId = String(body.sequenceId ?? '');
+        if (slug !== 'ndxbook' || !sequenceId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await redecomposeFounderCreativeDraftReference({ projectId: slug, sequenceId });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_promote_reference': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const sequenceId = String(body.sequenceId ?? '');
+        if (slug !== 'ndxbook' || !sequenceId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await promoteFounderCreativeDraftReference({ projectId: slug, sequenceId });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_replace_slide_reference': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const sequenceId = String(body.sequenceId ?? '');
+        const slideNumber = Number(body.slideNumber ?? 0);
+        if (slug !== 'ndxbook' || !sequenceId || !slideNumber) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await replaceFounderCreativeSlideReference({
+          projectId: slug,
+          sequenceId,
+          slideNumber,
+          previewUrl: body.previewUrl ? String(body.previewUrl) : null,
+          observableCopy: Array.isArray(body.observableCopy) ? body.observableCopy.map(String) : undefined,
+          compositionNotes: Array.isArray(body.compositionNotes) ? body.compositionNotes.map(String) : undefined,
+        });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_bulk_replace_references': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const uploads = Array.isArray(body.uploads) ? body.uploads : [];
+        if (slug !== 'ndxbook' || uploads.length === 0) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await bulkReplaceFounderCreativeReferences({
+          projectId: slug,
+          uploads: uploads.map((entry: Record<string, unknown>) => ({
+            sequenceId: String(entry.sequenceId ?? ''),
+            previewUrl: entry.previewUrl ? String(entry.previewUrl) : null,
+            storagePath: entry.storagePath ? String(entry.storagePath) : undefined,
+            notes: entry.notes ? String(entry.notes) : undefined,
+          })),
+          redecompose: body.redecompose === undefined ? true : Boolean(body.redecompose),
+        });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_reference_comparison': {
+        const slug = String(req.query.slug ?? '');
+        const sequenceId = String(req.query.sequenceId ?? '');
+        if (slug !== 'ndxbook' || !sequenceId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const comparison = await getFounderCreativeReferenceComparison({ projectId: slug, sequenceId });
+        return json(res, 200, { ok: true, comparison, source: 'site00_founder_creative_ingestion' });
       }
       case 'film_production_get': {
         const slug = String(req.query.slug ?? '');

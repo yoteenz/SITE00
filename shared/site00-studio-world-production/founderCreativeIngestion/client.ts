@@ -17,7 +17,15 @@ export type {
   PhotographySourceMode,
   ReconstructionReviewJudgment,
   IngestionWorkflowStep,
+  CreativeReferenceVersion,
+  CreativeReferenceDiff,
+  PhotographyOverrideCompatibilityEvaluation,
+  ParentReferenceStatus,
 } from './types.js';
+
+export {
+  PARENT_REFERENCE_STATUSES,
+} from './referenceReplacement/types.js';
 
 export function workflowStepOrder(): readonly string[] {
   return INGESTION_WORKFLOW_STEPS;
@@ -44,4 +52,16 @@ export function founderCreativeFalGenerationFailed(
   state: import('./types.js').FounderCreativeIngestionState,
 ): boolean {
   return state.falGenerationTracking?.status === 'FAILED';
+}
+
+export function hasDraftReferenceVersion(
+  state: import('./types.js').FounderCreativeIngestionState,
+  sequenceId: string,
+): boolean {
+  const auth = state.activeReferenceAuthority.find((entry) => entry.parentSequenceId === sequenceId);
+  return Boolean(auth?.draftReferenceVersionId);
+}
+
+export function parentReferenceStatusLabel(status: import('./types.js').ParentReferenceStatus): string {
+  return status.replace(/_/g, ' ');
 }

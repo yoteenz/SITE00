@@ -17,11 +17,14 @@ import {
   RECONSTRUCTION_REVIEW_JUDGMENTS,
   founderCreativeFalGenerationFailed,
   founderCreativeFalGenerationInProgress,
+  hasDraftReferenceVersion,
+  parentReferenceStatusLabel,
 } from '../../../shared/site00-studio-world-production/founderCreativeIngestion/client.js';
 import type {
   FounderCreativeIngestionState,
   FounderCreativeParentSequence,
   SlideReconstructionSpec,
+  CreativeReferenceDiff,
 } from '../../../shared/site00-studio-world-production/founderCreativeIngestion/client.js';
 import '../styles/site00-founder-creative-ingestion.css';
 
@@ -35,6 +38,7 @@ export default function ProjectFounderCreativeIngestionPage() {
   const [actionError, setActionError] = useState<string | null>(null);
   const [activeSequenceId, setActiveSequenceId] = useState<string | null>(null);
   const [activeSlideId, setActiveSlideId] = useState<string | null>(null);
+  const [comparisonDiff, setComparisonDiff] = useState<CreativeReferenceDiff | null>(null);
   const [estimate, setEstimate] = useState<{ estimatedCostUsd: number; provider: string; readiness: string } | null>(null);
 
   const reload = useCallback(async () => {
@@ -181,7 +185,10 @@ export default function ProjectFounderCreativeIngestionPage() {
                       >
                         <span className="site00-fci__row-num">{String(seq.rowIndex + 1).padStart(2, '0')}</span>
                         <span className="site00-fci__row-title">{seq.title}</span>
-                        <span className="site00-fci__row-meta">{seq.slideIds.length || '—'} slides · {seq.role}</span>
+                        <span className="site00-fci__row-meta">
+                          {seq.slideIds.length || '—'} slides · {seq.role}
+                          {seq.referenceStatus ? ` · ${parentReferenceStatusLabel(seq.referenceStatus)}` : ''}
+                        </span>
                       </button>
                     ))}
                   </div>
@@ -215,6 +222,21 @@ export default function ProjectFounderCreativeIngestionPage() {
                   <QuietAction disabled={busy || isGenerating} onClick={decomposeAll}>
                     {ingestion.reconstructionSpecs.length > 0 ? 'RE-DECOMPOSE ALL REFERENCES →' : 'DECOMPOSE ALL REFERENCES →'}
                   </QuietAction>
+                  <QuietAction
+                    disabled={busy}
+                    onClick={() =>
+                      void act(async () => {
+                        const uploads = ingestion.parentSequences.map((seq) => ({
+                          sequenceId: seq.sequenceId,
+                          previewUrl: `/api/placeholder/founder-creative/reference-v2/${seq.sequenceId}`,
+                          notes: 'Founder-approved notebook-native board v2',
+                        }));
+                        return site00ProjectsApi.founderCreativeIngestionBulkReplaceReferences(projectSlug, uploads);
+                      })
+                    }
+                  >
+                    REPLACE MULTIPLE REFERENCES →
+                  </QuietAction>
                   {ingestion.registeredOnCampaignBoard ? (
                     <Link to={site00ProjectContentOperationsCampaignBoardPath(projectSlug)} className="site00-fci__link">
                       OPEN CAMPAIGN BOARD →
@@ -230,7 +252,48 @@ export default function ProjectFounderCreativeIngestionPage() {
                 </div>
 
                 {activeSequence ? (
-                  <SequencePanel
+                  <>
+                    <ReferenceReplacementPanel
+                      sequence={activeSequence}
+                      ingestion={ingestion}
+                      busy={busy}
+                      diff={comparisonDiff}
+                      onReplace={() =>
+                        void act(async () => {
+                          const result = await site00ProjectsApi.founderCreativeIngestionReplaceReference(
+                            projectSlug,
+                            activeSequence.sequenceId,
+                            `/api/placeholder/founder-creative/reference-v2/${activeSequence.sequenceId}`,
+                            'Founder-approved notebook-native board',
+                          );
+                          setComparisonDiff(null);
+                          return result;
+                        })
+                      }
+                      onRedecompose={() =>
+                        void act(async () => {
+                          const result = await site00ProjectsApi.founderCreativeIngestionRedecomposeDraft(
+                            projectSlug,
+                            activeSequence.sequenceId,
+                          );
+                          setComparisonDiff((result.diff as CreativeReferenceDiff | null) ?? null);
+                          return result;
+                        })
+                      }
+                      onPromote={() =>
+                        void act(() =>
+                          site00ProjectsApi.founderCreativeIngestionPromoteReference(projectSlug, activeSequence.sequenceId),
+                        )
+                      }
+                      onCompare={async () => {
+                        const result = await site00ProjectsApi.founderCreativeIngestionReferenceComparison(
+                          projectSlug,
+                          activeSequence.sequenceId,
+                        );
+                        setComparisonDiff((result.comparison.diff as CreativeReferenceDiff | null) ?? null);
+                      }}
+                    />
+                    <SequencePanel
                     sequence={activeSequence}
                     specs={sequenceSpecs}
                     referenceUrl={referenceUrl}
@@ -272,6 +335,7 @@ export default function ProjectFounderCreativeIngestionPage() {
                       }
                     }}
                   />
+                  </>
                 ) : null}
 
                 {activeSlide ? (
@@ -312,6 +376,105 @@ export default function ProjectFounderCreativeIngestionPage() {
         }
       />
     </EcosystemShell>
+  );
+}
+
+function ReferenceReplacementPanel({
+  sequence,
+  ingestion,
+  busy,
+  diff,
+  onReplace,
+  onRedecompose,
+  onPromote,
+  onCompare,
+}: {
+  sequence: FounderCreativeParentSequence;
+  ingestion: FounderCreativeIngestionState;
+  busy: boolean;
+  diff: CreativeReferenceDiff | null;
+  onReplace: () => void;
+  onRedecompose: () => void;
+  onPromote: () => void;
+  onCompare: () => Promise<void>;
+}) {
+  const hasDraft = hasDraftReferenceVersion(ingestion, sequence.sequenceId);
+  const draftVersion = ingestion.referenceVersions.find(
+    (entry) =>
+      entry.parentSequenceId === sequence.sequenceId &&
+      entry.status === 'DRAFT',
+  );
+  const activeVersion = ingestion.referenceVersions.find(
+    (entry) =>
+      entry.parentSequenceId === sequence.sequenceId &&
+      entry.status === 'ACTIVE',
+  );
+  const draftAsset = draftVersion
+    ? ingestion.referenceAssets.find((entry) => entry.assetId === draftVersion.referenceAssetId)
+    : null;
+  const activeAsset = activeVersion
+    ? ingestion.referenceAssets.find((entry) => entry.assetId === activeVersion.referenceAssetId)
+    : null;
+
+  return (
+    <section className="site00-fci__replacement">
+      <h2 className="site00-fci__section-title">REFERENCE VERSION</h2>
+      <div className="site00-fci__compare site00-fci__compare--triple">
+        <div className="site00-fci__compare-col">
+          <p className="site00-fci__compare-label">OLD (ACTIVE v{activeVersion?.versionNumber ?? 1})</p>
+          {activeAsset?.previewUrl ? (
+            <img src={activeAsset.previewUrl} alt="Active reference" className="site00-fci__reference-img" />
+          ) : (
+            <div className="site00-fci__compare-placeholder">No active reference</div>
+          )}
+        </div>
+        <div className="site00-fci__compare-col">
+          <p className="site00-fci__compare-label">NEW (DRAFT v{draftVersion?.versionNumber ?? '—'})</p>
+          {draftAsset?.previewUrl ? (
+            <img src={draftAsset.previewUrl} alt="Draft reference" className="site00-fci__reference-img" />
+          ) : (
+            <div className="site00-fci__compare-placeholder">Upload replacement to compare</div>
+          )}
+        </div>
+        <div className="site00-fci__compare-col">
+          <p className="site00-fci__compare-label">CURRENT PRODUCTION</p>
+          <div className="site00-fci__compare-placeholder">
+            {ingestion.reconstructionSpecs.filter((entry) => entry.sequenceId === sequence.sequenceId && entry.productionMasterUrl).length}{' '}
+            slides with production masters
+          </div>
+        </div>
+      </div>
+      <div className="site00-fci__sequence-actions">
+        <QuietAction disabled={busy} onClick={onReplace}>
+          REPLACE REFERENCE BOARD →
+        </QuietAction>
+        {hasDraft ? (
+          <>
+            <QuietAction disabled={busy} onClick={onRedecompose}>
+              RE-DECOMPOSE DRAFT →
+            </QuietAction>
+            <QuietAction disabled={busy} onClick={() => void onCompare()}>
+              REFRESH COMPARISON
+            </QuietAction>
+            <QuietAction disabled={busy} onClick={onPromote}>
+              USE THIS REFERENCE (PROMOTE) →
+            </QuietAction>
+          </>
+        ) : null}
+      </div>
+      {diff ? (
+        <div className="site00-fci__diff">
+          <InlineMeta label="Slide count" value={`${diff.oldSlideCount} → ${diff.newSlideCount}`} />
+          {diff.addedSlides.length > 0 ? <InlineMeta label="Added" value={diff.addedSlides.join(', ')} /> : null}
+          {diff.removedSlides.length > 0 ? <InlineMeta label="Removed" value={diff.removedSlides.join(', ')} /> : null}
+          {diff.reorderedSlides.length > 0 ? <InlineMeta label="Reordered" value={diff.reorderedSlides.join(', ')} /> : null}
+          <InlineMeta
+            label="Changes"
+            value={`copy ${diff.changes.filter((entry) => entry.copyChanged).length} · photo ${diff.changes.filter((entry) => entry.photoChanged).length} · material ${diff.changes.filter((entry) => entry.materialChanged).length}`}
+          />
+        </div>
+      ) : null}
+    </section>
   );
 }
 

@@ -4801,6 +4801,7 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+<<<<<<< HEAD
 ## 2026-08-25 — P0.5C.7 Canonical Hand-Built Notebook Carousel Grammar + Physical Page Lineage + Uppercase Authorship
 
 - **Context:** Formalize NDXBOOK carousel visual language for all V2.3 carousel generation. Carousels must look like physical pages inside The Book — not templates with handwriting added afterward. Remains V2.3 + P0.5C.7 amendment (no V2.4). No automatic FAL spend during implementation; founder review required for pilot regeneration.
@@ -4809,4 +4810,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Compiler:** `falPromptCompilerV23@P0.5C.7` — explicit sections: PHYSICAL PAGE OBJECT, PAGE MATERIAL, BINDING/EDGE, CONSTRUCTION HISTORY, PHOTO INTEGRATION, UPPERCASE AUTHORSHIP, HAND MARKS, LIME INTERRUPTION, NEGATIVE TEMPLATE CONSTRAINTS. `FAL_MATERIAL_PROMPT_SECTION_ORDER` expanded to 35 sections. Pre-C7 supersession (`artifactHasPreC7Prompt`, `V23_SUPERSESSION_REASON_C7`, `PRESERVED_PRE_C7` lineage). Round 01 notebook carousel gate wired.
 - **Pilot:** Subscription receipt topic 1 recommended for founder-triggered OLD V2.3 vs P0.5C.7 compare — no auto-lock.
 - **Shipped:** PR to `main`. Tests: `artBoardMaterialityP05C7.test.ts` (13); full suite **2928** pass; build green. Historical V2.3 assets immutable; Brand Character/Canon unchanged.
+=======
+## 2026-08-25 — P0.CB.1A Reference board replacement + notebook grammar re-decomposition
+
+- **Context:** NDXBOOK Launch Row 01 ingested before P0.5C.7 notebook carousel grammar. Founder approved new reference boards for MEET NDX, PERSONAL BRAND, THINGS I SAVED; old boards must not remain active authority; full lineage preserved.
+- **Engine:** `founderCreativeIngestion/referenceReplacement/` — version model (ACTIVE/DRAFT/SUPERSEDED), immutable archives, structural diff, HQ photo override compatibility, selective invalidation, promotion gate. NDX adapter `ndxNotebookGrammarAdapter.ts` recompiles V2.3+P0.5C.7 grammar + uppercase authorship on re-decompose.
+- **Flows:** REPLACE → DRAFT upload → RE-DECOMPOSE (no auto FAL) → diff/QA → PROMOTE. Bulk replace all 3 posts. Slide-level replace. MEET NDX HQ desk photo carried forward when compatible.
+- **API/UI:** replace/redecompose/promote/bulk/slide-reference/comparison actions; ingestion page three-way compare + promotion.
+- **Tests:** `founderCreativeIngestionP0CB1A.test.ts` (14); build green.
+>>>>>>> origin/main
 
