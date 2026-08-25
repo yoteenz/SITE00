@@ -200,6 +200,40 @@
   word-break: break-all;
 }
 
+.site00-fci__upload-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.site00-fci__upload-zone {
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: inherit;
+  font: inherit;
+  letter-spacing: 0.06em;
+  transition: border-color 0.15s ease;
+}
+
+.site00-fci__upload-zone:hover:not(:disabled),
+.site00-fci__upload-zone:focus-visible {
+  border-color: var(--ndx-lime, #b7d236);
+  outline: none;
+}
+
+.site00-fci__upload-zone--busy {
+  opacity: 0.6;
+  cursor: wait;
+}
+
 .site00-fci__prompt {
   margin-top: 1rem;
 }

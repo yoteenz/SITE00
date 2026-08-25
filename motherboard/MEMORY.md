@@ -4808,7 +4808,7 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **New modules (`artBoardMateriality/`):** `ndxPageObjectContract.ts` (NDXPageObjectContract + physical lineage signals), `ndxConstructionHistory.ts`, `notebookCarouselPromptSections.ts`, `notebookCarouselEvaluation.ts` (physicality, template grammar, uppercase, photo integration, construction history, page variety QA gates), `ndxNotebookCarouselNorthStar.ts` (MEET NDX, PERSONAL BRAND, THINGS I SAVED — evidence not literal templates), `notebookCarouselMigrationAudit.ts`, `notebookCarouselFounderReview.ts` (THIS_FEELS_LIKE_THE_BOOK, TOO_TEMPLATE, LOWERCASE_ERROR, etc.), `notebookCarouselGrammarP05C7.ts`.
 - **Compiler:** `falPromptCompilerV23@P0.5C.7` — explicit sections: PHYSICAL PAGE OBJECT, PAGE MATERIAL, BINDING/EDGE, CONSTRUCTION HISTORY, PHOTO INTEGRATION, UPPERCASE AUTHORSHIP, HAND MARKS, LIME INTERRUPTION, NEGATIVE TEMPLATE CONSTRAINTS. `FAL_MATERIAL_PROMPT_SECTION_ORDER` expanded to 35 sections. Pre-C7 supersession (`artifactHasPreC7Prompt`, `V23_SUPERSESSION_REASON_C7`, `PRESERVED_PRE_C7` lineage). Round 01 notebook carousel gate wired.
 - **Pilot:** Subscription receipt topic 1 recommended for founder-triggered OLD V2.3 vs P0.5C.7 compare — no auto-lock.
-- **Shipped:** PR to `main`. Tests: `artBoardMaterialityP05C7.test.ts` (13); full suite **2928** pass; build green. Historical V2.3 assets immutable; Brand Character/Canon unchanged.
+- **Shipped:** PR **#428** merged to `main`. Tests: `artBoardMaterialityP05C7.test.ts` (13); full suite **2928** pass; build green. Historical V2.3 assets immutable; Brand Character/Canon unchanged.
 
 ## 2026-08-25 — P0.CB.1A Reference board replacement + notebook grammar re-decomposition
 
@@ -4817,6 +4817,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Flows:** REPLACE → DRAFT upload → RE-DECOMPOSE (no auto FAL) → diff/QA → PROMOTE. Bulk replace all 3 posts. Slide-level replace. MEET NDX HQ desk photo carried forward when compatible.
 - **API/UI:** replace/redecompose/promote/bulk/slide-reference/comparison actions; ingestion page three-way compare + promotion.
 - **Tests:** `founderCreativeIngestionP0CB1A.test.ts` (14); build green.
+
+## 2026-08-25 — FCI reference board upload UI + API (founder mobile fix)
+
+- **Problem:** Founder on mobile at Founder Creative Ingestion saw "Upload replacement to compare" and "REPLACE REFERENCE BOARD →" but no file picker — P0.CB.1A backend existed but upload was never wired; replace used placeholder URLs.
+- **Fix:** `uploadFounderCreativeReferenceBoard` API (`founder_creative_ingestion_upload_reference`) — base64 image → Supabase storage → existing draft versioning engine. UI: hidden file input + tap target "TAP TO UPLOAD REPLACEMENT BOARD" + "UPLOAD REPLACEMENT BOARD →" button; removed broken bulk placeholder replace.
+- **Shipped:** PR merged to `main`. Deploy **v90**. Tests: FCI P0CB1A (15) pass; build green.
 
 ---
 
