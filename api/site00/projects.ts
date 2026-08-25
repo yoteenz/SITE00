@@ -251,6 +251,9 @@ import {
   generateCharacterBibleFromReference,
   approveCharacterBibleAssetPack,
   updateCharacterBibleAssetLock,
+  generateCanonicalAnchor,
+  approveCanonicalAnchorAction,
+  regenerateCanonicalAnchorAction,
   retryVisualCastingRoundFal,
   saveVisualCastingJudgment,
   createVisualCastingMerge,
@@ -3580,7 +3583,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const candidateId = String(body.candidateId ?? '');
         const judgment = String(body.judgment ?? '');
-        if (!(!candidateId || !judgment)) {
+        if (!candidateId || !judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -3588,6 +3591,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_judgment', 'site00_character_visual_casting')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await saveVisualCastingJudgment({
+          projectId: slug,
+          candidateId,
+          judgment: judgment as import('../../../shared/site00-studio-world-production/characterVisualCasting/types.js').CastingPrimaryJudgment,
+          note: body.note ? String(body.note) : undefined,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+      }
       case 'character_visual_casting_merge': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3636,14 +3650,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const imageData = body.imageData ? String(body.imageData) : '';
         const role = String(body.role ?? 'FULL_LOOK');
-        if (!(!imageData)) {
+        if (!imageData) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
             source: 'site00_character_visual_casting',
           });
         }
-        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_upload_reference', 'site00_character_visual_casting')) return; catch (err) {
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_upload_reference', 'site00_character_visual_casting')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        try {
+          const run = await uploadFounderCastingReference({
+            projectId: slug,
+            imageData,
+            role: role as import('../../../shared/site00-studio-world-production/characterVisualCasting/types.js').FounderCastingReferenceRole,
+            label: body.label ? String(body.label) : null,
+          });
+          return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+        } catch (err) {
           const message = err instanceof Error ? err.message : 'Upload failed';
           const status = message.includes('too large') ? 413 : 400;
           return json(res, status, { ok: false, error: { code: 'UPLOAD_FAILED', message } });
@@ -3656,7 +3682,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const referenceId = String(body.referenceId ?? '');
-        if (!!referenceId) {
+        if (!referenceId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_store_reference_bible', 'site00_projects')) return;
@@ -3733,7 +3759,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const lock = String(body.lock ?? '') as 'faceLocked' | 'wardrobeLocked' | 'environmentLocked';
         const value = Boolean(body.value);
-        if (!(!lock)) {
+        if (!lock) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -3741,6 +3767,71 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_bible_lock', 'site00_character_visual_casting')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await updateCharacterBibleAssetLock({ projectId: slug, lock, value });
+        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+      }
+      case 'character_visual_casting_generate_canonical_anchor': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_generate_canonical_anchor', 'site00_character_visual_casting')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await generateCanonicalAnchor({
+          projectId: slug,
+          dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
+        });
+        const background =
+          run.visualCastingState?.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
+        return json(res, background ? 202 : 200, {
+          ok: true,
+          run,
+          background,
+          source: 'site00_character_visual_casting',
+        });
+      }
+      case 'character_visual_casting_approve_canonical_anchor': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_approve_canonical_anchor', 'site00_character_visual_casting')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await approveCanonicalAnchorAction({ projectId: slug });
+        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+      }
+      case 'character_visual_casting_regenerate_canonical_anchor': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_regenerate_canonical_anchor', 'site00_character_visual_casting')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await regenerateCanonicalAnchorAction({
+          projectId: slug,
+          dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
+        });
+        const background =
+          run.visualCastingState?.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
+        return json(res, background ? 202 : 200, {
+          ok: true,
+          run,
+          background,
+          source: 'site00_character_visual_casting',
+        });
+      }
       case 'character_visual_casting_lock': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });

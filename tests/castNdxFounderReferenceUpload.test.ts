@@ -113,7 +113,8 @@ describe('CAST NDX founder reference ingestion', () => {
     const css = readFileSync(join(ROOT, 'src/site00/styles/site00-character-casting.css'), 'utf8');
     expect(page).toContain('TAP TO UPLOAD');
     expect(page).toContain('STORE IN BIBLE');
-    expect(page).toContain('GENERATE CHARACTER BIBLE FROM REFERENCE');
+    expect(page).toContain('GENERATE CANONICAL ANCHOR');
+    expect(page).toContain('GENERATE CHARACTER BIBLE PACK');
     expect(page).toContain('REGENERATE CASTING FROM REFERENCES');
     expect(css).toContain('upload-zone');
   });

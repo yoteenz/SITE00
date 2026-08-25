@@ -19,6 +19,7 @@ import {
   hasActiveReferenceAuthority,
   migrateReferenceDrivenCastingState,
 } from './referenceDrivenCasting.js';
+import { isCanonicalAnchorApproved } from './identityAnchorCasting.js';
 import { storePromptContractSnapshot } from './promptContract.js';
 import type {
   CastingPrimaryJudgment,
@@ -334,6 +335,9 @@ export function generateNextCastingRoundFromFeedback(params: {
 }): CharacterVisualCastingState {
   const migrated = migrateReferenceDrivenCastingState(params.state);
   if (hasActiveReferenceAuthority(migrated)) {
+    if (!isCanonicalAnchorApproved(migrated)) {
+      throw new Error('Approve canonical anchor before generating Character Bible pack');
+    }
     return generateCharacterBibleAssetPackRound({
       state: migrated,
       falConfigured: params.falConfigured,

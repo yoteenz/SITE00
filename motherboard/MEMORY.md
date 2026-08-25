@@ -4921,6 +4921,7 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+<<<<<<< HEAD
 ## 2026-08-25 — P0.C Origin + Client Truth Ingestion (Astral World)
 
 - **Context:** First real WORLD project ingestion after P0.B isolation. Astral World moves PRE_INGESTION → ORIGIN_INGESTED. No creative formation, no canon promotion.
@@ -4928,4 +4929,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Production:** P0.B + P0.C migrations applied to Supabase `hyycomvcaqxxvyrfupes`. Astral World ingested: 24 client truth records, 2 source references, 9 unresolved decisions, 0 canon from origin, 0 cross-project leaks.
 - **Canon firewall:** All client truth RAW/non-canonical; origin summary `is_canonical=false`; WORLD_FORMATION not triggered.
 - **Recommended next sprint:** P0.D — Identity Phase Entry (Astral World).
+=======
+## 2026-08-25 — P0.5E.4E Visual identity lock + anchor-first Character Bible generation
+
+- **Problem:** Reference-first casting (P0.5E.4D) generated correct asset categories but not the same woman/outfit/environment — no anchor gate, no structured identity/wardrobe/environment locks, no drift QA, bible pack generated all slots at once without approved anchor authority.
+- **Fix:** `identityAnchorCasting.ts` — `VisualIdentityLock`, `WardrobeLock`, `EnvironmentLock`, `ViewInferenceMap`; canonical anchor workflow (`CANONICAL_ANCHOR_PENDING` → review → approve → `BIBLE_PACK_READY_TO_GENERATE`); `CharacterContinuityDriftEvaluation` + failure taxonomy; anchor-dependent bible pack via `compileAnchorDependentBiblePromptContract` (authority order: uploaded reference → locks → approved anchor → view contract → inference rules). Bible pack gated on anchor approval. 10 view-contract slots (FRONT_VIEW … CONTACT_SHEET). Optional supporting reference roles. Non-destructive lineage chain preserved.
+- **API fixes:** Repaired broken `character_visual_casting_*` handlers in `projects.ts` (inverted validation, missing judgment/bible_lock bodies). New actions: `generate_canonical_anchor`, `approve_canonical_anchor`, `regenerate_canonical_anchor`.
+- **UI:** Upload → decompose → authority locks → GENERATE ANCHOR → APPROVE ANCHOR → GENERATE BIBLE PACK. Source reference visible in anchor review.
+- **Tests:** `identityLockCastingP05E4E.test.ts` (16) + updated P0.5E.4D (9) + cast upload (3) pass; build green.
+>>>>>>> origin/main
 

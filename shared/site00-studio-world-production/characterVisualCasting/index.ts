@@ -9,3 +9,5 @@ export * from './castingEngine.js';
 export * from './promoteRecognition.js';
 export * from './founderReferenceIngestion.js';
 export * from './referenceDrivenCasting.js';
+export * from './identityAnchorCasting.js';
+export * from './viewContracts.js';

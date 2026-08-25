@@ -85,6 +85,10 @@ export default function ProjectCharacterCastingPage() {
   const activeCandidate = latestRoundCandidates[activeIndex] ?? null;
   const latestRound = casting?.rounds.at(-1) ?? null;
   const isBibleAssetRound = latestRound?.generationMode === 'CHARACTER_BIBLE_ASSET_PACK';
+  const isAnchorRound = latestRound?.generationMode === 'CANONICAL_ANCHOR';
+  const anchorWorkflowStage = casting?.anchorWorkflowStage ?? 'CANONICAL_ANCHOR_PENDING';
+  const canonicalAnchor = casting?.canonicalAnchor ?? null;
+  const anchorApproved = canonicalAnchor?.status === 'APPROVED';
   const fullLookReference = founderReferences.find((entry) => entry.role === 'FULL_LOOK' && entry.decomposition);
   const hasRound = latestRoundCandidates.length > 0;
   const needsFalRetry = casting && latestRound ? castingRoundNeedsFalRetry(casting, latestRound.roundId) : false;
@@ -185,11 +189,24 @@ export default function ProjectCharacterCastingPage() {
           onGenerateBible={() =>
             void act(() => site00ProjectsApi.characterVisualCastingGenerateBibleFromReference(projectSlug))
           }
+          onGenerateAnchor={() =>
+            void act(() => site00ProjectsApi.characterVisualCastingGenerateCanonicalAnchor(projectSlug))
+          }
+          onApproveAnchor={() =>
+            void act(() => site00ProjectsApi.characterVisualCastingApproveCanonicalAnchor(projectSlug))
+          }
+          onRegenerateAnchor={() =>
+            void act(() => site00ProjectsApi.characterVisualCastingRegenerateCanonicalAnchor(projectSlug))
+          }
           onBibleLock={(lock, value) =>
             void act(() => site00ProjectsApi.characterVisualCastingBibleLock(projectSlug, lock, value))
           }
           assetPack={casting.characterBibleAssetPack ?? null}
           activeAuthority={casting.activeReferenceAuthority ?? null}
+          anchorWorkflowStage={anchorWorkflowStage}
+          canonicalAnchor={canonicalAnchor}
+          anchorApproved={anchorApproved}
+          authoritySnapshot={casting.visualAuthoritySnapshot ?? null}
         />
       )}
 
@@ -237,11 +254,13 @@ export default function ProjectCharacterCastingPage() {
 
       {!loading && isGeneratingRound && (
         <section className="site00-char-cast__panel">
-          <h2>{isBibleAssetRound ? 'GENERATING CHARACTER BIBLE ASSETS' : 'GENERATING CASTING STILLS'}</h2>
+          <h2>{isBibleAssetRound ? 'GENERATING CHARACTER BIBLE ASSETS' : isAnchorRound ? 'GENERATING CANONICAL ANCHOR' : 'GENERATING CASTING STILLS'}</h2>
           <p>
             {isBibleAssetRound
-              ? 'Reference-driven reconstruction — same woman across portrait angles, turnaround, wardrobe, and environment.'
-              : 'Calling FAL for editorial stills in the background — safe to refresh or leave this page.'}
+              ? 'Anchor-dependent reconstruction — same woman across all Bible assets.'
+              : isAnchorRound
+                ? 'Faithful canonical reconstruction from uploaded reference — anchor must pass before Bible pack.'
+                : 'Calling FAL for editorial stills in the background — safe to refresh or leave this page.'}
           </p>
           <p className="site00-char-cast__hint">Progress updates every few seconds. Tunnel refresh will not cancel server-side generation.</p>
           {generationStuck ? (
@@ -482,9 +501,16 @@ function FounderReferencesPanel({
   onStoreInBible,
   onRegenerate,
   onGenerateBible,
+  onGenerateAnchor,
+  onApproveAnchor,
+  onRegenerateAnchor,
   onBibleLock,
   assetPack,
   activeAuthority,
+  anchorWorkflowStage,
+  canonicalAnchor,
+  anchorApproved,
+  authoritySnapshot,
 }: {
   references: FounderCastingReference[];
   role: FounderCastingReferenceRole;
@@ -494,9 +520,16 @@ function FounderReferencesPanel({
   onStoreInBible: (referenceId: string) => void;
   onRegenerate: () => void;
   onGenerateBible: () => void;
+  onGenerateAnchor: () => void;
+  onApproveAnchor: () => void;
+  onRegenerateAnchor: () => void;
   onBibleLock: (lock: 'faceLocked' | 'wardrobeLocked' | 'environmentLocked', value: boolean) => void;
   assetPack: CharacterBibleAssetPack | null;
   activeAuthority: { referenceId: string; role: string } | null;
+  anchorWorkflowStage: string;
+  canonicalAnchor: { previewUrl: string | null; status: string; qaEvaluation: { passed: boolean; humanReadableReasons: string[] } | null } | null;
+  anchorApproved: boolean;
+  authoritySnapshot: { identityLock: { identitySignature: string }; wardrobeLock: { garmentCategories: string }; environmentLock: { roomType: string } } | null;
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -519,7 +552,7 @@ function FounderReferencesPanel({
     <section className="site00-char-cast__panel site00-char-cast__refs">
       <h2>REFERENCE-FIRST CASTING</h2>
       <p className="site00-char-cast__hint">
-        Upload → decompose → generate Character Bible asset pack → review → lock. Upload alone does not spend provider credits.
+        Upload → decompose → generate canonical anchor → approve → generate Character Bible pack. Upload alone does not spend provider credits.
       </p>
       <input
         ref={fileInputRef}
@@ -548,7 +581,29 @@ function FounderReferencesPanel({
       </button>
 
       {fullLook?.decomposition ? (
-        <DecompositionReviewPanel decomposition={fullLook.decomposition} authorityActive={Boolean(activeAuthority)} />
+        <>
+          <DecompositionReviewPanel decomposition={fullLook.decomposition} authorityActive={Boolean(activeAuthority)} />
+          {authoritySnapshot ? (
+            <section className="site00-char-cast__decomp">
+              <h3>AUTHORITY LOCKS</h3>
+              <p className="site00-char-cast__hint">Stage: {anchorWorkflowStage.replace(/_/g, ' ')}</p>
+              <dl className="site00-char-cast__decomp-grid">
+                <div className="site00-char-cast__decomp-field">
+                  <dt>Identity lock</dt>
+                  <dd>{authoritySnapshot.identityLock.identitySignature}</dd>
+                </div>
+                <div className="site00-char-cast__decomp-field">
+                  <dt>Wardrobe lock</dt>
+                  <dd>{authoritySnapshot.wardrobeLock.garmentCategories}</dd>
+                </div>
+                <div className="site00-char-cast__decomp-field">
+                  <dt>Environment lock</dt>
+                  <dd>{authoritySnapshot.environmentLock.roomType}</dd>
+                </div>
+              </dl>
+            </section>
+          ) : null}
+        </>
       ) : null}
 
       {references.length > 0 ? (
@@ -582,15 +637,53 @@ function FounderReferencesPanel({
 
       {canGenerateBible ? (
         <>
-          <button
-            type="button"
-            className="site00-char-cast__cta site00-char-cast__cta--primary"
-            disabled={busy}
-            onClick={onGenerateBible}
-          >
-            STEP 3 · GENERATE CHARACTER BIBLE FROM REFERENCE →
-          </button>
-          <button type="button" className="site00-char-cast__cta" disabled={busy} onClick={onRegenerate}>
+          {!canonicalAnchor ? (
+            <button
+              type="button"
+              className="site00-char-cast__cta site00-char-cast__cta--primary"
+              disabled={busy}
+              onClick={onGenerateAnchor}
+            >
+              STEP 3 · GENERATE CANONICAL ANCHOR →
+            </button>
+          ) : null}
+          {canonicalAnchor && !anchorApproved ? (
+            <section className="site00-char-cast__panel">
+              <h3>ANCHOR REVIEW</h3>
+              {fullLook?.previewUrl ? (
+                <img src={fullLook.previewUrl} alt="Source reference" className="site00-char-cast__ref-thumb" />
+              ) : null}
+              {canonicalAnchor.previewUrl ? (
+                <img src={canonicalAnchor.previewUrl} alt="Canonical anchor" className="site00-char-cast__ref-thumb" />
+              ) : (
+                <p className="site00-char-cast__hint">Anchor generating…</p>
+              )}
+              {canonicalAnchor.qaEvaluation && !canonicalAnchor.qaEvaluation.passed ? (
+                <ul className="site00-char-cast__hint">
+                  {canonicalAnchor.qaEvaluation.humanReadableReasons.map((reason) => (
+                    <li key={reason}>Drift: {reason}</li>
+                  ))}
+                </ul>
+              ) : null}
+              <button type="button" className="site00-char-cast__cta site00-char-cast__cta--primary" disabled={busy} onClick={onApproveAnchor}>
+                APPROVE ANCHOR
+              </button>
+              <button type="button" className="site00-char-cast__cta" disabled={busy} onClick={onRegenerateAnchor}>
+                REGENERATE ANCHOR
+              </button>
+            </section>
+          ) : null}
+          {anchorApproved ? (
+            <button
+              type="button"
+              className="site00-char-cast__cta site00-char-cast__cta--primary"
+              disabled={busy}
+              onClick={onGenerateBible}
+            >
+              STEP 5 · GENERATE CHARACTER BIBLE PACK →
+            </button>
+          ) : null}
+          <button type="button" className="site00-char-cast__cta" disabled={busy || !anchorApproved} onClick={onRegenerate}>
             REGENERATE CASTING FROM REFERENCES →
           </button>
         </>
@@ -669,11 +762,16 @@ function DecompositionReviewPanel({
 
 function assetSlotMatchesTab(slot: string | null | undefined, tab: CharacterBibleReviewTab): boolean {
   if (!slot) return tab === 'BIBLE_SUMMARY';
-  if (tab === 'PRESENCE') return slot.startsWith('EXPRESSION_');
-  if (tab === 'PORTRAIT_ANGLES') return slot.startsWith('PORTRAIT_');
-  if (tab === 'FULL_TURNAROUND') return slot.startsWith('FULL_BODY_');
-  if (tab === 'WARDROBE') return slot === 'WARDROBE_SHEET';
-  if (tab === 'ENVIRONMENT') return slot === 'ENVIRONMENT_SET';
+  if (tab === 'PRESENCE') return slot === 'SEATED_EDITORIAL_VIEW';
+  if (tab === 'PORTRAIT_ANGLES') {
+    return ['FRONT_VIEW', 'LEFT_SIDE_VIEW', 'RIGHT_SIDE_VIEW', 'BACK_VIEW'].includes(slot);
+  }
+  if (tab === 'FULL_TURNAROUND') return slot === 'FULL_BODY_VIEW' || slot === 'SEATED_EDITORIAL_VIEW';
+  if (tab === 'WARDROBE') {
+    return slot === 'WARDROBE_DOCUMENTATION_SHEET' || slot === 'WARDROBE_ITEM_DETAIL_SET';
+  }
+  if (tab === 'ENVIRONMENT') return slot === 'ENVIRONMENT_REFERENCE_SET';
+  if (tab === 'BIBLE_SUMMARY') return slot === 'CHARACTER_BIBLE_CONTACT_SHEET';
   return false;
 }
 
