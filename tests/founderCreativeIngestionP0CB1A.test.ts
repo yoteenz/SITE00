@@ -249,11 +249,12 @@ describe('P0.CB.1A Reference Board Replacement', () => {
     );
   });
 
-  it('upload reference board via service path', async () => {
+  it('upload reference board via service path auto-redecomposes', async () => {
     await initializeFounderCreativeRow01({ projectId: 'ndxbook' });
+    await decomposeAllFounderCreativeSequences({ projectId: 'ndxbook' });
     const tinyPng =
       'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
-    const { ingestion } = await uploadAndReplaceFounderCreativeReferenceBoard({
+    const { ingestion, diff } = await uploadAndReplaceFounderCreativeReferenceBoard({
       projectId: 'ndxbook',
       sequenceId: MEET_NDX_SEQUENCE_ID,
       imageData: tinyPng,
@@ -262,6 +263,10 @@ describe('P0.CB.1A Reference Board Replacement', () => {
     const draft = getDraftReferenceVersion(ingestion, MEET_NDX_SEQUENCE_ID);
     expect(draft?.status).toBe('DRAFT');
     expect(ingestion.referenceAssets.some((entry) => entry.previewUrl?.length)).toBe(true);
+    expect(diff).not.toBeNull();
+    expect(
+      ingestion.reconstructionSpecs.filter((entry) => entry.sequenceId === MEET_NDX_SEQUENCE_ID).length,
+    ).toBeGreaterThan(0);
   });
 
   it('45-48 preservation — archives immutable, historical not deleted', () => {
@@ -315,5 +320,18 @@ describe('P0.CB.1A success criteria booleans', () => {
   it('exports versioning initialized helper', () => {
     const state = ensureReferenceVersioningInitialized(seedLegacyIngestion());
     expect(state.referenceVersions.length).toBe(3);
+  });
+
+  it('resolveSequenceReferencePreviewUrl prefers draft over active', async () => {
+    const { resolveSequenceReferencePreviewUrl } = await import(
+      '../shared/site00-studio-world-production/founderCreativeIngestion/client.js'
+    );
+    let state = migrateLegacyIngestionToVersioning(seedLegacyIngestion());
+    state = uploadReplacementReferenceBoard(state, {
+      sequenceId: MEET_NDX_SEQUENCE_ID,
+      previewUrl: 'https://example.com/draft-board.webp',
+    });
+    const url = resolveSequenceReferencePreviewUrl(state, MEET_NDX_SEQUENCE_ID);
+    expect(url).toBe('https://example.com/draft-board.webp');
   });
 });

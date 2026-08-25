@@ -503,21 +503,37 @@ export async function uploadAndReplaceFounderCreativeReferenceBoard(params: {
   sequenceId: string;
   imageData: string;
   notes?: string | null;
-}): Promise<{ run: MarketingCampaignProductionRun; ingestion: FounderCreativeIngestionState; previewUrl: string; storagePath: string }> {
+}): Promise<{
+  run: MarketingCampaignProductionRun;
+  ingestion: FounderCreativeIngestionState;
+  previewUrl: string;
+  storagePath: string;
+  diff: import('../../../../shared/site00-studio-world-production/founderCreativeIngestion/referenceReplacement/types.js').CreativeReferenceDiff | null;
+  qaReport: ReturnType<typeof rerunSequenceQAAfterRedecomposition>['report'] | null;
+}> {
   const { storagePath, previewUrl } = await uploadFounderReferenceBoardImage({
     projectId: params.projectId,
     sequenceId: params.sequenceId,
     imageData: params.imageData,
   });
-  const replaced = await replaceFounderCreativeReferenceBoard({
-    projectId: params.projectId,
+  const run = await hydrateRun(params.projectId);
+  if (!run.founderCreativeIngestion) throw new Error('Initialize founder creative ingestion first');
+
+  let ingestion = uploadReplacementReferenceBoard(run.founderCreativeIngestion, {
     sequenceId: params.sequenceId,
     previewUrl,
     storagePath,
     notes: params.notes ?? 'Founder uploaded reference board',
     reason: 'FOUNDER_UPLOAD',
+    source: 'FOUNDER_UPLOAD',
   });
-  return { ...replaced, previewUrl, storagePath };
+
+  const { state, diff } = redecomposeFromDraftReference(ingestion, params.sequenceId);
+  ingestion = state;
+  const { report } = rerunSequenceQAAfterRedecomposition(ingestion, params.sequenceId);
+
+  const saved = await saveWithIngestion(params.projectId, run, ingestion);
+  return { run: saved, ingestion, previewUrl, storagePath, diff, qaReport: report };
 }
 
 export async function getFounderCreativeReferenceComparison(params: {

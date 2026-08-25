@@ -19,6 +19,7 @@ import {
   founderCreativeFalGenerationInProgress,
   hasDraftReferenceVersion,
   parentReferenceStatusLabel,
+  resolveSequenceReferencePreviewUrl,
 } from '../../../shared/site00-studio-world-production/founderCreativeIngestion/client.js';
 import type {
   FounderCreativeIngestionState,
@@ -110,9 +111,7 @@ export default function ProjectFounderCreativeIngestionPage() {
 
   const referenceUrl = useMemo(() => {
     if (!ingestion || !activeSequenceId) return null;
-    return (
-      ingestion.referenceAssets.find((a) => a.assetId === `ref-board-${activeSequenceId}`)?.previewUrl ?? null
-    );
+    return resolveSequenceReferencePreviewUrl(ingestion, activeSequenceId);
   }, [ingestion, activeSequenceId]);
 
   const generationProgress = useMemo(() => {
@@ -253,10 +252,16 @@ export default function ProjectFounderCreativeIngestionPage() {
                             imageData,
                             'Founder-approved notebook-native board',
                           );
-                          setComparisonDiff(null);
+                          const next = result.ingestion as FounderCreativeIngestionState;
+                          setComparisonDiff((result.diff as CreativeReferenceDiff | null) ?? null);
+                          const specs = next.reconstructionSpecs.filter(
+                            (entry) => entry.sequenceId === activeSequence.sequenceId,
+                          );
+                          if (specs[0]) setActiveSlideId(specs[0]!.slideId);
                           return result;
                         })
                       }
+                      onInvalidFile={() => setActionError('Reference board must be an image file (PNG, JPG, or WebP).')}
                       onRedecompose={() =>
                         void act(async () => {
                           const result = await site00ProjectsApi.founderCreativeIngestionRedecomposeDraft(
@@ -372,6 +377,7 @@ function ReferenceReplacementPanel({
   busy,
   diff,
   onUploadFile,
+  onInvalidFile,
   onRedecompose,
   onPromote,
   onCompare,
@@ -381,11 +387,13 @@ function ReferenceReplacementPanel({
   busy: boolean;
   diff: CreativeReferenceDiff | null;
   onUploadFile: (file: File) => void;
+  onInvalidFile: () => void;
   onRedecompose: () => void;
   onPromote: () => void;
   onCompare: () => Promise<void>;
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [localPreviewUrl, setLocalPreviewUrl] = useState<string | null>(null);
   const hasDraft = hasDraftReferenceVersion(ingestion, sequence.sequenceId);
   const draftVersion = ingestion.referenceVersions.find(
     (entry) =>
@@ -403,6 +411,14 @@ function ReferenceReplacementPanel({
   const activeAsset = activeVersion
     ? ingestion.referenceAssets.find((entry) => entry.assetId === activeVersion.referenceAssetId)
     : null;
+  const draftPreviewUrl = draftAsset?.previewUrl ?? localPreviewUrl;
+
+  useEffect(() => {
+    if (draftAsset?.previewUrl && localPreviewUrl) {
+      URL.revokeObjectURL(localPreviewUrl);
+      setLocalPreviewUrl(null);
+    }
+  }, [draftAsset?.previewUrl, localPreviewUrl]);
 
   const openFilePicker = () => {
     if (busy) return;
@@ -413,7 +429,14 @@ function ReferenceReplacementPanel({
     const file = event.target.files?.[0];
     event.target.value = '';
     if (!file) return;
-    if (!file.type.startsWith('image/')) return;
+    const looksLikeImage =
+      file.type.startsWith('image/') || /\.(png|jpe?g|webp|gif|heic|heif)$/i.test(file.name);
+    if (!looksLikeImage) {
+      onInvalidFile();
+      return;
+    }
+    if (localPreviewUrl) URL.revokeObjectURL(localPreviewUrl);
+    setLocalPreviewUrl(URL.createObjectURL(file));
     onUploadFile(file);
   };
 
@@ -440,8 +463,8 @@ function ReferenceReplacementPanel({
         </div>
         <div className="site00-fci__compare-col">
           <p className="site00-fci__compare-label">NEW (DRAFT v{draftVersion?.versionNumber ?? '—'})</p>
-          {draftAsset?.previewUrl ? (
-            <img src={draftAsset.previewUrl} alt="Draft reference" className="site00-fci__reference-img" />
+          {draftPreviewUrl ? (
+            <img src={draftPreviewUrl} alt="Draft reference" className="site00-fci__reference-img" />
           ) : (
             <button
               type="button"
@@ -449,7 +472,7 @@ function ReferenceReplacementPanel({
               disabled={busy}
               onClick={openFilePicker}
             >
-              TAP TO UPLOAD REPLACEMENT BOARD
+              {busy ? 'UPLOADING & DECOMPOSING…' : 'TAP TO UPLOAD REPLACEMENT BOARD'}
             </button>
           )}
         </div>
