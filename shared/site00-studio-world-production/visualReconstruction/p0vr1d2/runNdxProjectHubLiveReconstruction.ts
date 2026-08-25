@@ -14,10 +14,7 @@ import {
   buildReferenceTypographyContract,
   extractFrameAuthority,
   matchReferenceAssets,
-  compareRenderedReference,
-  evaluatePixelMatch,
   buildVisualDifferenceMap,
-  renderControlledReference,
 } from '../index.js';
 import { PIXEL_MATCH_THRESHOLDS } from '../p0vr1d/constants.js';
 import {
@@ -25,10 +22,26 @@ import {
   createInitialImplementationRegionLocks,
   lockedRegionIds,
 } from '../p0vr1d1/index.js';
-import {
-  buildMappedReferenceDomDelta,
+import { buildMappedReferenceDomDelta,
 } from '../p0vr1d4/buildMappedReferenceDomDelta.js';
-import { buildReferenceDomRegionMap } from '../p0vr1d4/referenceDomRegionMap.js';
+import { buildScopedReferenceDomRegionMap } from '../p0vr1d7/scopedReferenceDomRegionMap.js';
+import {
+  classifyVisualReferenceScope,
+} from '../p0vr1d7/classifyVisualReferenceScope.js';
+import {
+  buildScopedImplementationSpec,
+  scopeVisualScoreLabel,
+} from '../p0vr1d7/scopedImplementationSpec.js';
+import {
+  captureScopedRenderSnapshot,
+  resolveScopedRenderSearch,
+} from '../p0vr1d7/captureScopedRenderSnapshot.js';
+import {
+  compareScopedPixelMatch,
+} from '../p0vr1d7/scopedPixelComparison.js';
+import {
+  normalizeScopedDomMeasurements,
+} from '../p0vr1d7/scopedDomMeasurement.js';
 import { compileActionableCodePatches } from '../p0vr1d4/compileActionableCodePatches.js';
 import { applyCodePatchInstructions } from '../p0vr1d4/applyCodePatchInstructions.js';
 import { updateRegionLocksFromMappedDomDelta } from '../p0vr1d4/implementationRegionLockAligned.js';
@@ -38,10 +51,6 @@ import {
   NDX_MOBILE_SCREEN_SPECS,
   NDX_DESKTOP_BOARD_REGIONS,
 } from '../../../site00-brand-lore/visualReconstruction/ndxProjectHubReferenceDecomposition.js';
-import {
-  NDX_CALIBRATION_ROUTES,
-  type NdxCalibrationRoute,
-} from '../../../site00-brand-lore/visualReconstruction/ndxVisualReconstructionAdapter.js';
 import { resolveNdxFounderProjectHubBoards } from './resolveNdxFounderBoardAssets.js';
 import {
   cropBoardScreenReference,
@@ -71,14 +80,6 @@ function routeForScreen(projectSlug: string, screenId: string, viewportClass: 'd
   return `/projects/${projectSlug}${spec?.routeSuffix ?? ''}`;
 }
 
-function calibrationRouteFor(path: string, viewportClass: 'desktop' | 'mobile'): NdxCalibrationRoute | undefined {
-  const candidates = NDX_CALIBRATION_ROUTES.filter((r) => r.path === path);
-  if (viewportClass === 'mobile') {
-    return candidates.find((r) => r.routeId.startsWith('mobile-')) ?? candidates[0];
-  }
-  return candidates.find((r) => !r.routeId.startsWith('mobile-')) ?? candidates[0];
-}
-
 function scoreToStatus(scores: { structural: number; visual: number; pixel: number }): ReconstructionExecutionStatus {
   if (scores.pixel >= PIXEL_MATCH_THRESHOLDS.PIXEL_PASS) return 'PIXEL_PASS';
   if (scores.visual >= PIXEL_MATCH_THRESHOLDS.VISUAL_PASS) return 'VISUAL_PASS';
@@ -99,8 +100,20 @@ async function runLiveScreen(input: {
   maxIterations: number;
   executePatches: boolean;
 }): Promise<LiveScreenRunResult> {
-  const route = routeForScreen(input.projectSlug, input.screenId, input.viewportClass);
-  const cal = calibrationRouteFor(route, input.viewportClass);
+  const legacyRoute = routeForScreen(input.projectSlug, input.screenId, input.viewportClass);
+  const scopeAuthority = classifyVisualReferenceScope({
+    screenId: input.screenId,
+    viewportClass: input.viewportClass,
+    cropWidth: input.frame.width,
+    cropHeight: input.frame.height,
+    boardWidth: input.boardWidth,
+    boardHeight: input.boardHeight,
+    route: legacyRoute,
+    projectSlug: input.projectSlug,
+    hasDeviceFrame: input.viewportClass === 'mobile',
+    hasGlobalNavigation: input.screenId === 'DESKTOP_COMPOSITE_OVERVIEW',
+  });
+  const route = scopeAuthority.route;
   const cropPath = join(input.outputDir, 'references', `${input.screenId}.png`);
   const cropBuffer = await cropBoardScreenReference(input.boardBuffer, {
     screenId: input.screenId,
@@ -122,9 +135,11 @@ async function runLiveScreen(input: {
     boardHeight: input.boardHeight,
     viewportClass: input.viewportClass,
     routeViewportHint:
-      input.viewportClass === 'mobile'
-        ? { width: 390, height: 844 }
-        : { width: 1440, height: 900 },
+      scopeAuthority.comparisonMode === 'SCOPED_REGION'
+        ? { width: input.frame.width, height: input.frame.height }
+        : input.viewportClass === 'mobile'
+          ? { width: 390, height: 844 }
+          : { width: 1440, height: 900 },
   });
 
   const reference = await ingestScreenshotReference({
@@ -170,6 +185,7 @@ async function runLiveScreen(input: {
     assetMatches,
     layoutModel: input.viewportClass === 'desktop' ? 'CSS_GRID' : 'FLOW',
   });
+  const scopedImplementationSpec = buildScopedImplementationSpec(implementationSpec, scopeAuthority);
 
   const viewportUsed = {
     width: geometry.inferredViewportWidth,
@@ -194,38 +210,52 @@ async function runLiveScreen(input: {
   let iterations = 0;
   let overlay: LiveScreenRunResult['overlay'] = null;
 
+  let scopeComparisonMarker: string = 'VALID_SCOPE_COMPARISON';
+  let invalidScopeComparison = false;
+
   const renderDir = join(input.outputDir, 'renders', input.screenId);
   mkdirSync(renderDir, { recursive: true });
 
   for (let i = 1; i <= input.maxIterations; i++) {
     iterations = i;
-    const snapshot = await renderControlledReference({
+    const scopedCapture = await captureScopedRenderSnapshot({
       route,
       baseUrl: input.baseUrl,
-      viewport: viewportUsed,
+      scopeAuthority,
       outputDir: renderDir,
       reconstructionIteration: i,
-      blueprintVersion: 'P0.VR.1D.2',
-      selector: cal?.renderSelector.split(',')[0]?.trim(),
       previewDeviceMode: input.viewportClass === 'mobile' ? 'mobile' : 'desktop',
-      routeSearch: input.viewportClass === 'mobile' ? '?site00MobileLayout=1' : '',
-      captureDomMeasurements: true,
-      domRegionSelector: '[data-vr-region], [data-visual-reconstruction]',
+      routeSearch: resolveScopedRenderSearch(scopeAuthority, input.viewportClass === 'mobile' ? 'mobile' : 'desktop'),
     });
 
+    const snapshot = {
+      renderId: scopedCapture.renderId,
+      route,
+      viewport: viewportUsed,
+      timestamp: new Date().toISOString(),
+      commit: null,
+      screenshotPath: scopedCapture.snapshotPath,
+      reconstructionIteration: i,
+      blueprintVersion: 'P0.VR.1D.7',
+      domMeasurement: scopedCapture.domMeasurement,
+      finalUrl: scopedCapture.finalUrl,
+    };
+
     if (!firstRenderPath) {
-      firstRenderPath = snapshot.screenshotPath;
+      firstRenderPath = scopedCapture.snapshotPath;
       status = 'FIRST_RENDER_COMPLETE';
     }
 
-    domMeasurement = snapshot.domMeasurement;
+    domMeasurement = scopedCapture.domMeasurement
+      ? normalizeScopedDomMeasurements(scopedCapture.domMeasurement, scopedCapture.scopeRootRect, scopeAuthority)
+      : null;
     if (domMeasurement) {
-      domRegionMap = buildReferenceDomRegionMap({
-        screenId: input.screenId,
-        route,
+      domRegionMap = buildScopedReferenceDomRegionMap({
+        scopeAuthority,
         referenceRegionIds: geometryContract.entries.map((e) => e.regionId),
         domRegionIds: domMeasurement.measurements.map((m) => m.regionId),
       });
+      invalidScopeComparison = domRegionMap.invalidScopeComparison;
       domDelta = buildMappedReferenceDomDelta({
         screenId: input.screenId,
         route,
@@ -253,38 +283,37 @@ async function runLiveScreen(input: {
       status = 'CORRECTION_IN_PROGRESS';
     }
 
-    const renderBuffer = readFileSync(snapshot.screenshotPath);
-    const comparison = await compareRenderedReference({
+    const renderBuffer = readFileSync(scopedCapture.snapshotPath);
+    const scopedCompare = await compareScopedPixelMatch({
       referenceBuffer: cropBuffer,
       renderBuffer,
       reference,
-      snapshot,
-      regions: decomposition.regions,
+      scopeAuthority,
+      comparedRoute: legacyRoute,
       outputDir: join(input.outputDir, 'overlays', input.screenId),
+      regions: decomposition.regions,
     });
+    scopeComparisonMarker = scopedCompare.scopeComparisonMarker;
+    invalidScopeComparison = invalidScopeComparison || !scopedCompare.scopeComparisonValid;
 
-    pixelMatch = evaluatePixelMatch({
-      referenceAssetId: input.screenId,
-      renderAssetId: snapshot.renderId,
-      comparison,
-    });
+    pixelMatch = scopedCompare.pixelMatch;
     differenceMap = buildVisualDifferenceMap({
       referenceAssetId: input.screenId,
       renderAssetId: snapshot.renderId,
-      pixelMatch,
-      heatmapPath: comparison.heatmapPath,
-      regionScores: comparison.regionScores,
+      pixelMatch: scopedCompare.pixelMatch,
+      heatmapPath: scopedCompare.comparison.heatmapPath,
+      regionScores: scopedCompare.comparison.regionScores,
     });
 
-    structuralScore = comparison.structuralSimilarity;
-    visualScore = pixelMatch.globalAlignment;
-    pixelScore = pixelMatch.globalAlignment;
+    structuralScore = scopedCompare.comparison.structuralSimilarity;
+    visualScore = scopedCompare.pixelMatch.globalAlignment;
+    pixelScore = scopedCompare.pixelMatch.globalAlignment;
     overlay = {
       referencePath: cropPath,
-      implementationPath: snapshot.screenshotPath,
-      overlayPath: comparison.heatmapPath,
+      implementationPath: scopedCapture.snapshotPath,
+      overlayPath: scopedCompare.comparison.heatmapPath,
       differenceMapPath: join(input.outputDir, 'overlays', input.screenId),
-      heatmapPath: comparison.heatmapPath,
+      heatmapPath: scopedCompare.comparison.heatmapPath,
     };
 
     status = scoreToStatus({ structural: structuralScore, visual: visualScore, pixel: pixelScore });
@@ -313,6 +342,11 @@ async function runLiveScreen(input: {
     pixelScore,
     iterations,
     overlay,
+    scopeAuthority,
+    scopedImplementationSpec,
+    scopeVisualScoreLabel: scopeVisualScoreLabel(scopeAuthority),
+    invalidScopeComparison,
+    scopeComparisonMarker,
   };
 }
 

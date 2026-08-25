@@ -20,6 +20,8 @@ import {
   FOUNDER_REFERENCE_SOURCE,
   P0_VR_1D4A_LINEAGE,
 } from './constants.js';
+import { buildDesktopCompositeScopeRevalidationReport } from '../p0vr1d7/runDesktopCompositeScopeRevalidation.js';
+import { markInvalidHistoricalScopeComparisons } from '../p0vr1d7/markInvalidHistoricalScopeComparisons.js';
 import { verifyFounderBoardCanonicalResolution, founderReferenceReady } from './verifyFounderBoardCanonicalResolution.js';
 import type {
   ExtractedScreenSummary,
@@ -199,6 +201,7 @@ export async function runFounderMoodBoardIngestAndLiveReconstruction(
       desktopScreens: [],
       mobileScreens: [],
       alignedReport: null,
+      scopeRevalidation: null,
       liveFixtureFallbackUsed: false,
       actualFounderDesktopBoardPersisted,
       actualFounderMobileBoardPersisted,
@@ -265,6 +268,15 @@ export async function runFounderMoodBoardIngestAndLiveReconstruction(
     return summarizeScreen(screen, cropEval, executed);
   });
 
+  const invalidHistorical = markInvalidHistoricalScopeComparisons([...desktopScreens, ...mobileScreens]);
+  const scopeRevalidation = alignedReport
+    ? buildDesktopCompositeScopeRevalidationReport({
+        desktopScreens: alignedReport.desktopScreens,
+        mobileScreens: alignedReport.mobileScreens,
+        invalidHistoricalMarked: invalidHistorical.filter((r) => r.scopeComparisonMarker === 'INVALID_SCOPE_COMPARISON').length,
+      })
+    : null;
+
   const report: FounderMoodBoardIngestLiveReport = {
     reportId: randomUUID(),
     executedAt: new Date().toISOString(),
@@ -275,6 +287,7 @@ export async function runFounderMoodBoardIngestAndLiveReconstruction(
     desktopScreens,
     mobileScreens,
     alignedReport,
+    scopeRevalidation,
     liveFixtureFallbackUsed: false,
     actualFounderDesktopBoardPersisted,
     actualFounderMobileBoardPersisted,

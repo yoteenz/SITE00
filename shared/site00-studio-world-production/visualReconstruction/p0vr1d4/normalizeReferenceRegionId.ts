@@ -3,9 +3,9 @@
  */
 
 import {
-  NDX_DESKTOP_BOARD_REGIONS,
   NDX_DESKTOP_SCREEN_SPECS,
   NDX_MOBILE_SCREEN_SPECS,
+  NDX_DESKTOP_BOARD_REGIONS,
 } from '../../../site00-brand-lore/visualReconstruction/ndxProjectHubReferenceDecomposition.js';
 
 const DECOMPOSITION_ROLE_MAP: Record<string, string> = {
@@ -19,32 +19,43 @@ const DECOMPOSITION_ROLE_MAP: Record<string, string> = {
   'region-bottom_nav-7': 'ndx.bottom-nav',
 };
 
-const BOARD_REGION_MAP: Record<string, string> = Object.fromEntries(
-  NDX_DESKTOP_BOARD_REGIONS.map((r) => {
-    switch (r.regionId) {
-      case 'LEFT_RAIL':
-        return [r.regionId, 'ndx.rail.nav'];
-      case 'OVERVIEW_PANEL':
-        return [r.regionId, 'ndx.overview.hero'];
-      case 'CAMPAIGN_BOARD':
-        return [r.regionId, 'ndx.campaign.pages-lane'];
-      case 'EXPERIMENT_01':
-        return [r.regionId, 'ndx.experiment.grid'];
-      case 'CULTURAL_INTELLIGENCE':
-        return [r.regionId, 'ndx.cultural-intelligence.radar'];
-      case 'CHARACTER_LAB':
-        return [r.regionId, 'ndx.character.profile'];
-      case 'PERFORMANCE_LEARNING':
-        return [r.regionId, 'ndx.performance.learning'];
-      case 'CONTENT_OPS_DESK':
-        return [r.regionId, 'ndx.content-ops.desk'];
-      case 'FOOTER_NAV':
-        return [r.regionId, 'ndx.bottom-nav'];
-      default:
-        return [r.regionId, `ndx.${r.regionId.toLowerCase()}`];
-    }
-  }),
-);
+function buildBoardRegionMap(): Record<string, string> {
+  return Object.fromEntries(
+    NDX_DESKTOP_BOARD_REGIONS.map((r) => {
+      switch (r.regionId) {
+        case 'LEFT_RAIL':
+          return [r.regionId, 'ndx.rail.nav'];
+        case 'OVERVIEW_PANEL':
+          return [r.regionId, 'ndx.overview.hero'];
+        case 'CAMPAIGN_BOARD':
+          return [r.regionId, 'ndx.campaign.pages-lane'];
+        case 'EXPERIMENT_01':
+          return [r.regionId, 'ndx.experiment.grid'];
+        case 'CULTURAL_INTELLIGENCE':
+          return [r.regionId, 'ndx.cultural-intelligence.radar'];
+        case 'CHARACTER_LAB':
+          return [r.regionId, 'ndx.character.profile'];
+        case 'PERFORMANCE_LEARNING':
+          return [r.regionId, 'ndx.performance.learning'];
+        case 'CONTENT_OPS_DESK':
+          return [r.regionId, 'ndx.content-ops.desk'];
+        case 'FOOTER_NAV':
+          return [r.regionId, 'ndx.bottom-nav'];
+        default:
+          return [r.regionId, `ndx.${r.regionId.toLowerCase()}`];
+      }
+    }),
+  );
+}
+
+let boardRegionMapCache: Record<string, string> | null = null;
+
+function boardRegionMap(): Record<string, string> {
+  if (!boardRegionMapCache) {
+    boardRegionMapCache = buildBoardRegionMap();
+  }
+  return boardRegionMapCache;
+}
 
 const SCREEN_ID_MAP: Record<string, string> = {
   MOBILE_OVERVIEW: 'ndx.overview.hero',
@@ -108,8 +119,9 @@ export function normalizeReferenceRegionId(input: {
     return { canonicalRegionId: DECOMPOSITION_ROLE_MAP[id]!, mappingSource: 'MANUAL_CANONICAL_MAP' };
   }
 
-  if (BOARD_REGION_MAP[id]) {
-    return { canonicalRegionId: BOARD_REGION_MAP[id]!, mappingSource: 'MANUAL_CANONICAL_MAP' };
+  const regions = boardRegionMap();
+  if (regions[id]) {
+    return { canonicalRegionId: regions[id]!, mappingSource: 'MANUAL_CANONICAL_MAP' };
   }
 
   if (input.screenId && SCREEN_ID_MAP[input.screenId] && id === input.screenId) {

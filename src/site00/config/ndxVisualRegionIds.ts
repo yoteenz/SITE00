@@ -36,6 +36,22 @@ export const NDX_VR_REGION = {
   desktopComposite: 'ndx.overview.desktop-composite',
 } as const;
 
+/** P0.VR.1D.7 — Scoped DOM roots for embedded desktop workspace panels. */
+export const NDX_VR_SCOPE = {
+  desktopOverview: 'ndx.desktop.overview',
+  desktopCampaignBoardPanel: 'ndx.desktop.campaign-board-panel',
+  desktopExperimentPanel: 'ndx.desktop.experiment-panel',
+  desktopContentOpsPanel: 'ndx.desktop.content-ops-panel',
+  desktopCulturalIntelligencePanel: 'ndx.desktop.cultural-intelligence-panel',
+  desktopCharacterLabPanel: 'ndx.desktop.character-lab-panel',
+} as const;
+
+export type NdxVisualScopeId = (typeof NDX_VR_SCOPE)[keyof typeof NDX_VR_SCOPE];
+
+export function vrScopeAttr(id: NdxVisualScopeId | string): { 'data-vr-scope': string } {
+  return { 'data-vr-scope': id };
+}
+
 export type NdxVisualRegionId = (typeof NDX_VR_REGION)[keyof typeof NDX_VR_REGION];
 
 /** Legacy hyphen IDs from P0.VR.1D.3 — mapped during transition. */

@@ -51,6 +51,7 @@ export type FounderMoodBoardIngestLiveReport = {
   desktopScreens: ExtractedScreenSummary[];
   mobileScreens: ExtractedScreenSummary[];
   alignedReport: NdxProjectHubAlignedLiveReport | null;
+  scopeRevalidation: import('../p0vr1d7/types.js').DesktopCompositeRevalidationReport | null;
   liveFixtureFallbackUsed: false;
   actualFounderDesktopBoardPersisted: boolean;
   actualFounderMobileBoardPersisted: boolean;
