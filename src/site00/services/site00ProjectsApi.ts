@@ -23,6 +23,14 @@ export class Site00ProjectsApiError extends Error {
   }
 }
 
+/** Map stale Railway API responses into founder-readable guidance. */
+export function formatSite00ProjectsApiError(message: string): string {
+  if (/unknown action/i.test(message)) {
+    return 'API NOT UPDATED — redeploy api.site00.com from main on Railway, then hard-refresh and retry.';
+  }
+  return message;
+}
+
 function classifyResponse(raw: string, contentType: string | null): Site00ProjectsResponseCategory {
   const trimmed = raw.trim();
   if (!trimmed) return 'empty';

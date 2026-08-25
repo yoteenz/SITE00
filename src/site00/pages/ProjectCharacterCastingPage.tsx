@@ -3,7 +3,11 @@ import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { FounderWorkspaceShell } from '../components/founderWorkspace/FounderWorkspaceShell';
-import { site00ProjectsApi, Site00ProjectsApiError } from '../services/site00ProjectsApi';
+import {
+  formatSite00ProjectsApiError,
+  site00ProjectsApi,
+  Site00ProjectsApiError,
+} from '../services/site00ProjectsApi';
 import {
   site00ProjectCharacterContinuityPath,
   site00ProjectFounderCharacterDiscoveryPath,
@@ -121,7 +125,11 @@ export default function ProjectCharacterCastingPage() {
       if (result.run) setRun(result.run as NdxFounderCharacterDiscoveryRun);
       else await reload();
     } catch (err) {
-      setActionError(err instanceof Site00ProjectsApiError ? err.message : 'Casting action failed');
+      setActionError(
+        err instanceof Site00ProjectsApiError
+          ? formatSite00ProjectsApiError(err.message)
+          : 'Casting action failed',
+      );
     } finally {
       setBusy(false);
     }
