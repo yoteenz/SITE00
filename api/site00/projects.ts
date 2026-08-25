@@ -3332,7 +3332,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await generateVisualCastingRound({ projectId: 'ndxbook', dispatchFal: Boolean(body.dispatchFal) });
+        const run = await generateVisualCastingRound({
+          projectId: 'ndxbook',
+          dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
+        });
         return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
       }
       case 'character_visual_casting_judgment': {
@@ -3388,7 +3391,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await generateNextVisualCastingRound({ projectId: 'ndxbook' });
+        const run = await generateNextVisualCastingRound({
+          projectId: 'ndxbook',
+          dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
+        });
         return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
       }
       case 'character_visual_casting_lock': {

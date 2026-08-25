@@ -1792,7 +1792,7 @@ export const site00ProjectsApi = {
       '/api/site00/projects?action=character_visual_casting_estimate',
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
     ),
-  characterVisualCastingGenerate: (slug: string, dispatchFal = false) =>
+  characterVisualCastingGenerate: (slug: string, dispatchFal = true) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=character_visual_casting_generate',
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, dispatchFal }) },
