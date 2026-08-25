@@ -2907,6 +2907,267 @@
   padding: 2px 4px;
 }
 
+/* P0.VR.1D.8 — Mobile Lab / Experiment 01 reference correction */
+.site00-fws-mobile-lab {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.site00-fws-mobile-lab__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 10px;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+}
+
+.site00-fws-mobile-lab__breadcrumb a {
+  color: var(--ndx-muted);
+  text-decoration: none;
+}
+
+.site00-fws-mobile-lab__breadcrumb-sep {
+  color: var(--ndx-muted);
+  font-size: 10px;
+}
+
+.site00-fws-mobile-lab__breadcrumb-active {
+  color: var(--ndx-lime);
+}
+
+.site00-fws-mobile-lab__title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 0 12px;
+}
+
+.site00-fws-mobile-lab__title {
+  margin: 0;
+  font-family: var(--site00-font-display, 'Space Grotesk', sans-serif);
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  font-weight: 700;
+}
+
+.site00-fws-mobile-lab__status {
+  flex: 0 0 auto;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(183, 210, 54, 0.28);
+  border: 1px solid rgba(183, 210, 54, 0.55);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.site00-fws-mobile-lab__subject {
+  margin: 0 0 12px;
+}
+
+.site00-fws-mobile-lab__subject-heading {
+  margin: 0 0 6px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
+
+.site00-fws-mobile-lab__subject-copy {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  color: var(--ndx-ink);
+}
+
+.site00-fws-mobile-lab__metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: 0 0 12px;
+  padding: 8px 0;
+  border-top: 1px solid var(--ndx-border);
+  border-bottom: 1px solid var(--ndx-border);
+}
+
+.site00-fws-mobile-lab__metric {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 8px;
+  border-right: 1px solid var(--ndx-border);
+}
+
+.site00-fws-mobile-lab__metric:last-child {
+  border-right: 0;
+}
+
+.site00-fws-mobile-lab__metric-label {
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--ndx-ink);
+}
+
+.site00-fws-mobile-lab__metric-value {
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  color: var(--ndx-muted);
+}
+
+.site00-fws-mobile-lab__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.site00-fws-mobile-lab__grid-cell {
+  position: relative;
+  aspect-ratio: 1;
+  border: 1px solid var(--ndx-border);
+  border-radius: 4px;
+  background: var(--ndx-surface-raised);
+  overflow: hidden;
+  min-height: 0;
+}
+
+.site00-fws-mobile-lab__grid-cell--selected {
+  border-color: var(--ndx-lime);
+  box-shadow: 0 0 0 1px var(--ndx-lime);
+}
+
+.site00-fws-mobile-lab__grid-close {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 3;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--ndx-border);
+  border-radius: 50%;
+  background: rgba(250, 248, 245, 0.9);
+  font-size: 10px;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+}
+
+.site00-fws-mobile-lab__grid-art {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.42;
+}
+
+.site00-fws-mobile-lab__grid-copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 8px 6px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.site00-fws-mobile-lab__grid-line {
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+}
+
+.site00-fws-mobile-lab__grid-accent {
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+}
+
+.site00-fws-mobile-lab__grid-accent--underline {
+  text-decoration: underline;
+  text-decoration-color: var(--ndx-lime);
+  text-underline-offset: 2px;
+}
+
+.site00-fws-mobile-lab__grid-accent--lime {
+  color: var(--ndx-lime);
+}
+
+.site00-fws-mobile-lab__direction {
+  padding-top: 10px;
+  border-top: 1px solid var(--ndx-border);
+}
+
+.site00-fws-mobile-lab__direction-heading {
+  margin: 0 0 8px;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+
+.site00-fws-mobile-lab__ratings {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.site00-fws-mobile-lab__ratings li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.site00-fws-mobile-lab__stars {
+  display: inline-flex;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.site00-fws-mobile-lab__star {
+  width: 10px;
+  height: 10px;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  background: transparent;
+  border: 1px solid var(--ndx-border);
+  box-sizing: border-box;
+}
+
+.site00-fws-mobile-lab__star--filled {
+  background: var(--ndx-lime);
+  border-color: var(--ndx-lime);
+}
+
+.site00-fws-mobile-lab__inspect {
+  display: block;
+  margin-left: auto;
+  padding: 8px 12px;
+  border: 1px solid var(--ndx-ink);
+  border-radius: 4px;
+  background: var(--ndx-surface-raised);
+  font-family: inherit;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 /* P0.UI.3 — NDX canonical SVG icon system */
 .ndx-icon {
   display: block;

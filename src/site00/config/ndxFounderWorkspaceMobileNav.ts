@@ -5,10 +5,10 @@
 
 import type { NDXIconName } from '../../../shared/site00-studio-world-ui/icons/index.js';
 import {
+  site00ProjectBrandMarketingExpressionExperiment01Path,
   site00ProjectContentOperationsCampaignBoardPath,
   site00ProjectContentOperationsPath,
   site00ProjectExperimentsPath,
-  site00ProjectFounderCharacterDiscoveryPath,
   site00ProjectPath,
 } from './routes';
 
@@ -40,9 +40,9 @@ export function ndxFounderWorkspaceMobileNav(projectSlug: string): NdxMobileNavI
     {
       id: 'lab',
       label: 'LAB',
-      href: site00ProjectFounderCharacterDiscoveryPath(projectSlug),
+      href: site00ProjectBrandMarketingExpressionExperiment01Path(projectSlug),
       icon: 'lab',
-      screenId: 'character-lab',
+      screenId: 'experiment-01',
     },
     {
       id: 'more',
