@@ -137,6 +137,20 @@ import {
   setCampaignCaptionJudgment,
 } from '../_lib/site00Evolve/marketingCampaignProduction/marketingCampaignProductionService.js';
 import {
+  getFounderCreativeIngestion,
+  initializeFounderCreativeRow01,
+  decomposeAllFounderCreativeSequences,
+  decomposeFounderCreativeSequence,
+  setFounderCreativePhotoMode,
+  editFounderCreativePrompt,
+  estimateFounderCreativeGeneration,
+  generateFounderCreativePhotography,
+  replaceFounderCreativePhoto,
+  founderCreativeSlideJudgment,
+  founderCreativeSequenceReview,
+  registerFounderCreativeOnCampaignBoard,
+} from '../_lib/site00Evolve/founderCreativeIngestion/founderCreativeIngestionService.js';
+import {
   finalizeRealismDecision,
   getCinematicRealismLabState,
   initializePilotExperiment,
@@ -2359,6 +2373,202 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const run = await setCampaignCaptionJudgment({ projectId: 'ndxbook', contentPieceId, judgment });
         return json(res, 200, { ok: true, run, source: 'site00_campaign_production' });
+      }
+      case 'founder_creative_ingestion_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'NDXBOOK only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await getFounderCreativeIngestion({ projectId: slug });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_initialize_row01': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'NDXBOOK only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await initializeFounderCreativeRow01({ projectId: slug });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_decompose_all': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'NDXBOOK only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await decomposeAllFounderCreativeSequences({ projectId: slug });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_decompose': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const sequenceId = String(body.sequenceId ?? '');
+        if (slug !== 'ndxbook' || !sequenceId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await decomposeFounderCreativeSequence({ projectId: slug, sequenceId });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_photo_mode': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const slideId = String(body.slideId ?? '');
+        const mode = String(body.mode ?? '');
+        const assetId = body.assetId ? String(body.assetId) : undefined;
+        if (slug !== 'ndxbook' || !slideId || !mode) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await setFounderCreativePhotoMode({
+          projectId: slug,
+          slideId,
+          mode: mode as import('../../shared/site00-studio-world-production/founderCreativeIngestion/types.js').PhotographySourceMode,
+          assetId,
+        });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_edit_prompt': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const slideId = String(body.slideId ?? '');
+        const prompt = String(body.prompt ?? '');
+        if (slug !== 'ndxbook' || !slideId || !prompt) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await editFounderCreativePrompt({ projectId: slug, slideId, prompt });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_estimate': {
+        const slug = String(req.query.slug ?? '');
+        const slideId = String(req.query.slideId ?? '');
+        if (slug !== 'ndxbook' || !slideId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const estimate = await estimateFounderCreativeGeneration({ projectId: slug, slideId });
+        return json(res, 200, { ok: true, estimate, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_generate_photo': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const slideId = String(body.slideId ?? '');
+        const dispatchFal = Boolean(body.dispatchFal);
+        if (slug !== 'ndxbook' || !slideId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await generateFounderCreativePhotography({ projectId: slug, slideId, dispatchFal });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_replace_photo': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const slideId = String(body.slideId ?? '');
+        const assetId = String(body.assetId ?? '');
+        const previewUrl = body.previewUrl ? String(body.previewUrl) : undefined;
+        if (slug !== 'ndxbook' || !slideId || !assetId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await replaceFounderCreativePhoto({ projectId: slug, slideId, assetId, previewUrl });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_slide_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const slideId = String(body.slideId ?? '');
+        const judgment = String(body.judgment ?? '');
+        if (slug !== 'ndxbook' || !slideId || !judgment) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await founderCreativeSlideJudgment({
+          projectId: slug,
+          slideId,
+          judgment: judgment as import('../../shared/site00-studio-world-production/founderCreativeIngestion/types.js').ReconstructionReviewJudgment,
+        });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_sequence_review': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const sequenceId = String(body.sequenceId ?? '');
+        if (slug !== 'ndxbook' || !sequenceId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await founderCreativeSequenceReview({ projectId: slug, sequenceId });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'founder_creative_ingestion_register_campaign': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'NDXBOOK only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await registerFounderCreativeOnCampaignBoard({ projectId: slug });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
       }
       case 'cinematic_realism_lab_get': {
         const slug = String(req.query.slug ?? '');

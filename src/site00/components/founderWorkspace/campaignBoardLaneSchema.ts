@@ -50,6 +50,44 @@ function plannedSlateEntries(): Pick<CampaignContentSlateEntry, 'contentPieceId'
 }
 
 export function resolveCampaignBoardLanes(run: MarketingCampaignProductionRun | null): CampaignBoardLane[] {
+  const ingestion = run?.founderCreativeIngestion;
+  if (ingestion?.registeredOnCampaignBoard && ingestion.parentSequences.length === 3) {
+    const parentEntries = ingestion.parentSequences.map((seq) => ({
+      contentPieceId: seq.sequenceId,
+      title: seq.title,
+    }));
+    const slide01Assets = run?.board?.assets.filter((a) => a.sequencePosition === 1) ?? [];
+
+    const pagesSlots: CampaignBoardSlot[] = parentEntries.map((entry) => ({
+      slotId: `PAGES-${entry.contentPieceId}`,
+      contentPieceId: entry.contentPieceId,
+      title: entry.title,
+      format: 'PAGE' as const,
+      asset: slide01Assets.find((a) => a.contentPieceId === entry.contentPieceId) ?? null,
+    }));
+
+    return [
+      {
+        laneId: 'PAGES',
+        label: NDX_CONTENT_LANE_LABELS.FEED,
+        ghostVariant: 'page',
+        slots: pagesSlots,
+      },
+      {
+        laneId: 'MARGINS',
+        label: NDX_CONTENT_LANE_LABELS.STORY,
+        ghostVariant: 'margin',
+        slots: [],
+      },
+      {
+        laneId: 'MOTION',
+        label: NDX_CONTENT_LANE_LABELS.REEL,
+        ghostVariant: 'motion',
+        slots: [],
+      },
+    ];
+  }
+
   const entries = run?.slate?.entries ?? plannedSlateEntries();
   const slide01Assets = run?.board?.assets.filter((a) => a.sequencePosition === 1) ?? [];
 

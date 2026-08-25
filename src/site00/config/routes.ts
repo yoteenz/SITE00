@@ -81,6 +81,7 @@ export const SITE00_ROUTES = {
   projectContentOperations: '/projects/:projectSlug/content-operations',
   projectContentOperationsPerformance: '/projects/:projectSlug/content-operations/performance',
   projectContentOperationsCampaignBoard: '/projects/:projectSlug/content-operations/campaign-board',
+  projectFounderCreativeIngestion: '/projects/:projectSlug/content-operations/founder-creative-ingest',
   projectContentOperationsDailyPlan: '/projects/:projectSlug/content-operations/daily-plan',
   projectRealismLab: '/projects/:projectSlug/realism-lab',
   projectRealismLabBrief: '/projects/:projectSlug/realism-lab/brief',
@@ -249,6 +250,10 @@ export function site00ProjectContentOperationsPerformancePath(projectSlug: strin
 
 export function site00ProjectContentOperationsCampaignBoardPath(projectSlug: string): string {
   return `/projects/${projectSlug}/content-operations/campaign-board`;
+}
+
+export function site00ProjectFounderCreativeIngestionPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-operations/founder-creative-ingest`;
 }
 
 export function site00ProjectContentOperationsDailyPlanPath(projectSlug: string): string {
