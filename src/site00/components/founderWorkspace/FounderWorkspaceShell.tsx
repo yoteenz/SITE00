@@ -1,11 +1,13 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import type { ExperimentJourneyStageConfig } from '../../../../shared/site00-studio-world-production/founderWorkspace/types.js';
 import {
   ndxFounderWorkspaceEnabled,
   ndxFounderWorkspaceNav,
   ndxInspectRoutes,
 } from '../../config/ndxFounderWorkspace';
-import type { ExperimentJourneyStageConfig } from '../../../../shared/site00-studio-world-production/founderWorkspace/types.js';
+import { MobileFounderWorkspaceChrome } from './MobileFounderWorkspaceChrome';
+import { resolveMobileScreenIdFromPath } from '../../config/ndxFounderWorkspaceMobileNav';
 import '../../styles/site00-founder-workspace.css';
 
 type InspectorState = {
@@ -85,16 +87,17 @@ export function FounderWorkspaceShell({
   }
 
   const isNavActive = (path: string) => location.pathname.replace(/\/+$/, '') === path.replace(/\/+$/, '');
+  const mobileScreenId = resolveMobileScreenIdFromPath(location.pathname, projectSlug);
 
   return (
     <FounderWorkspaceContext.Provider value={ctx}>
       <div className="site00-fws">
         {!hideWorkspaceNav ? (
-          <aside className="site00-fws-rail" aria-label="NDXBOOK workspace">
+          <aside className="site00-fws-rail site00-fws-hub-desktop-only" aria-label="NDXBOOK workspace">
             <div className="site00-fws-rail__brand">
               <span className="site00-fws-rail__host">SITE 00</span>
               <span className="site00-fws-rail__client">NDXBOOK</span>
-              <span className="site00-fws-rail__mode">EXPERIMENT HUB</span>
+              <span className="site00-fws-rail__mode">FOUNDER WORKSPACE</span>
             </div>
             <nav className="site00-fws-rail__nav">
               {nav.map((item) => (
@@ -122,9 +125,9 @@ export function FounderWorkspaceShell({
           </aside>
         ) : null}
 
-        <main className="site00-fws-canvas">
+        <main className={`site00-fws-canvas site00-fws-canvas--${mobileScreenId}`}>
           {!hideWorkspaceHeader ? (
-            <header className="site00-fws-header">
+            <header className="site00-fws-header site00-fws-hub-desktop-only">
               <div className="site00-fws-header__titles">
                 {attentionBadge ? <span className="site00-fws-header__badge">{attentionBadge}</span> : null}
                 <h1 className="site00-fws-header__title">{title}</h1>
@@ -135,7 +138,10 @@ export function FounderWorkspaceShell({
           ) : null}
 
           <section className="site00-fws-layer site00-fws-layer--operate" aria-label="Operate">
-            {operate}
+            <div className="site00-fws-hub-desktop-only">{operate}</div>
+            <div className="site00-fws-hub-mobile-only">
+              <MobileFounderWorkspaceChrome projectSlug={projectSlug}>{operate}</MobileFounderWorkspaceChrome>
+            </div>
           </section>
 
           {understand ? (
