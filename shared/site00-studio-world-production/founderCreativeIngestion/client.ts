@@ -90,3 +90,32 @@ export function resolveSequenceReferencePreviewUrl(
 
   return state.referenceAssets.find((entry) => entry.assetId === `ref-board-${sequenceId}`)?.previewUrl ?? null;
 }
+
+export {
+  GUIDED_WORKFLOW_STEPS,
+  GUIDED_WORKFLOW_STEP_LABELS,
+  GUIDED_WORKFLOW_STEP_NUMBERS,
+  deriveSlideDisplayStatus,
+  slideDisplayStatusLabel,
+  countApprovedSlides,
+  countUnresolvedSlides,
+  sequenceReviewBlocked,
+  sequenceReadyForCompletion,
+  inferGuidedWorkflowStep,
+  resolveWorkflowSlideIndex,
+  firstUnresolvedSlideIndex,
+  getSequenceSpecs,
+  photoModeFounderLabel,
+  judgmentFounderLabel,
+  slideDerivedLabel,
+  loadPersistedGuidedWorkflow,
+  savePersistedGuidedWorkflow,
+  guidedWorkflowStorageKey,
+} from './guidedWorkflow.js';
+
+export type {
+  GuidedWorkflowStep,
+  SlideCompareTab,
+  SlideReviewDisplayStatus,
+  PersistedGuidedWorkflowState,
+} from './guidedWorkflow.js';

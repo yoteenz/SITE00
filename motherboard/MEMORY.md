@@ -4854,3 +4854,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `founderCreativeIngestionP0CB1A.test.ts` — upload auto-redecompose + preview URL helper (16 pass).
 - **Ship:** PR to `main`; deploy Railway + fsbw-dev for live fix.
 
+---
+
+## 2026-08-25 — P0.CB.1B Guided creative ingestion workflow (stepper + slide-by-slide proofing)
+
+- **Context:** Founder Creative Ingestion felt like an admin state dump — reference versioning, slide state, methodology, photo modes, and registration actions all visible at once. Sprint restructured into a guided production workflow: one screen = one decision.
+- **Flow:** STEP 01 INGEST (upload → auto-decompose) → STEP 02 DECOMPOSE (progress) → STEP 03 SLIDE REVIEW (reference/production/compare tabs, HQ upload, approve/regenerate) → STEP 04 SEQUENCE REVIEW (blocked until all slides approved) → STEP 05 COMPLETE. Stepper + stage shell; methodology in Inspect drawer only.
+- **Code:** `guidedWorkflow.ts` + `FounderCreativeIngestionWorkflow` shell/stages; page slimmed to orchestrator; localStorage persistence for sequence/step/slide index; mobile sticky action bar.
+- **Preservation:** Non-destructive reference lineage, draft not auto-promoted, founder-triggered FAL spend unchanged.
+- **Tests:** `founderCreativeIngestionP0CB1B.test.ts` (14); P0CB1A updated; build green.
+
