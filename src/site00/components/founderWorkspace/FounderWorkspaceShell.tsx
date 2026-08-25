@@ -158,9 +158,10 @@ export function FounderWorkspaceShell({
   const mobileScreenId = resolveMobileScreenIdFromPath(location.pathname, projectSlug);
   // Narrow viewports always use coded mobile chrome — avoids stacking fallback bottom nav + menu on phones.
   const mobilePresentation = !isPreviewDesktop || !isWideViewport;
+  const mobileDedicatedScreens = new Set(['overview', 'campaign-board']);
   const mobileBody =
-    mobilePresentation && mobileScreenId === 'overview'
-      ? renderMobileFounderWorkspaceScreen('overview', projectSlug)
+    mobilePresentation && mobileDedicatedScreens.has(mobileScreenId)
+      ? renderMobileFounderWorkspaceScreen(mobileScreenId, projectSlug)
       : operate;
 
   const headerActions =
