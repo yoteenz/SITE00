@@ -42,6 +42,7 @@ import {
   initializeFounderCreativeRow01,
   decomposeAllFounderCreativeSequences,
   replaceFounderCreativeReferenceBoard,
+  uploadAndReplaceFounderCreativeReferenceBoard,
   redecomposeFounderCreativeDraftReference,
   promoteFounderCreativeDraftReference,
   bulkReplaceFounderCreativeReferences,
@@ -237,13 +238,30 @@ describe('P0.CB.1A Reference Board Replacement', () => {
   it('42-44 UI + generic engine paths exist', () => {
     const page = readFileSync(join(ROOT, 'src/site00/pages/ProjectFounderCreativeIngestionPage.tsx'), 'utf8');
     const css = readFileSync(join(ROOT, 'src/site00/styles/site00-founder-creative-ingestion.css'), 'utf8');
-    expect(page).toContain('UPLOAD REFERENCE BOARD');
-    expect(page).toContain('REPLACE MULTIPLE REFERENCES');
+    expect(page).toContain('UPLOAD REPLACEMENT BOARD');
+    expect(page).toContain('TAP TO UPLOAD REPLACEMENT BOARD');
+    expect(page).toContain('type="file"');
     expect(page).toContain('USE THIS REFERENCE (PROMOTE)');
     expect(css).toContain('compare--triple');
+    expect(css).toContain('upload-zone');
     expect(readFileSync(join(ROOT, 'shared/site00-studio-world-production/founderCreativeIngestion/referenceReplacement/replacementEngine.ts'), 'utf8')).toContain(
       'NotebookGrammarAdapter',
     );
+  });
+
+  it('upload reference board via service path', async () => {
+    await initializeFounderCreativeRow01({ projectId: 'ndxbook' });
+    const tinyPng =
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
+    const { ingestion } = await uploadAndReplaceFounderCreativeReferenceBoard({
+      projectId: 'ndxbook',
+      sequenceId: MEET_NDX_SEQUENCE_ID,
+      imageData: tinyPng,
+      notes: 'meet-ndx-board.png',
+    });
+    const draft = getDraftReferenceVersion(ingestion, MEET_NDX_SEQUENCE_ID);
+    expect(draft?.status).toBe('DRAFT');
+    expect(ingestion.referenceAssets.some((entry) => entry.previewUrl?.length)).toBe(true);
   });
 
   it('45-48 preservation — archives immutable, historical not deleted', () => {
