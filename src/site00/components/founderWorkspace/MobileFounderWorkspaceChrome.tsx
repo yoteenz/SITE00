@@ -5,6 +5,7 @@
 
 import { Link, useLocation } from 'react-router-dom';
 import { ndxFounderWorkspaceMobileNav, resolveMobileScreenIdFromPath } from '../../config/ndxFounderWorkspaceMobileNav';
+import { NDX_VR_REGION, vrRegionAttr } from '../../config/ndxVisualRegionIds';
 import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
 import { NDXIcon } from '../../icons/ndx';
 import '../../styles/site00-founder-workspace.css';
@@ -33,7 +34,7 @@ export function MobileFounderWorkspaceChrome({
       className={`site00-fws-mobile-chrome site00-fws-mobile-chrome--${screenId}${menuOpen ? ' site00-fws-mobile-chrome--menu-open' : ''}`}
       data-visual-reconstruction={`mobile-${screenId}`}
     >
-      <header className="site00-fws-mobile-chrome__header" data-vr-region="ndx-header">
+      <header className="site00-fws-mobile-chrome__header" {...vrRegionAttr(NDX_VR_REGION.header)}>
         <div className="site00-fws-mobile-chrome__brand">
           <span className="site00-fws-mobile-chrome__title">NDXBOOK</span>
           <span className="site00-fws-mobile-chrome__diamond" aria-hidden="true">
@@ -64,7 +65,7 @@ export function MobileFounderWorkspaceChrome({
 
       <div className="site00-fws-mobile-chrome__body">{children}</div>
 
-      <nav className="site00-fws-mobile-chrome__nav" aria-label="NDXBOOK mobile navigation" data-vr-region="ndx-bottom-nav">
+      <nav className="site00-fws-mobile-chrome__nav" aria-label="NDXBOOK mobile navigation" {...vrRegionAttr(NDX_VR_REGION.bottomNav)}>
         {nav.map((item) => {
           const active = item.screenId === screenId;
           return (

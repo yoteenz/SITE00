@@ -29,6 +29,6 @@ describe('NDXBOOK duplicate menu regression', () => {
     expect((shell.match(/<FounderWorkspaceProjectMenu/g) ?? []).length).toBe(1);
     expect(shell).toContain('menuOpen={menuOpen}');
     expect(shell).toContain('onToggleMenu={toggleMenu}');
-    expect(projectMenu).toContain('data-vr-region="ndx-project-menu"');
+    expect(projectMenu).toContain('data-vr-region="ndx.project.menu"');
   });
 });

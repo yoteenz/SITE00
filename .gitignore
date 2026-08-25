@@ -9,3 +9,4 @@ dist/
 .vercel
 .cursor/bin/
 site00-production-dist-*.zip
+.cache/

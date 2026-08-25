@@ -107,7 +107,7 @@ export async function runNdxOverviewMenuOpenLiveReconstruction(
       routeSearch: NDX_OVERVIEW_MENU_OPEN_ROUTE_SEARCH,
       captureDomMeasurements: true,
       domRegionSelector: '[data-vr-region]',
-      waitForSelector: '[data-vr-region="ndx-project-menu"]',
+      waitForSelector: '[data-vr-region="ndx.project.menu"]',
     });
 
     if (!firstRenderPath) {

@@ -42,6 +42,8 @@ export type FounderBoardResolution = {
   mobileUrl: string | null;
   fixtureSubstitution: boolean;
   storageResolution: string;
+  failFounderReferenceMissing?: boolean;
+  warning?: string;
 };
 
 export type MeasuredScreenReferenceResolution = {

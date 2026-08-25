@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { NDXIcon } from '../../icons/ndx';
 import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
 import type { NdxProjectMenuItem } from '../../config/ndxFounderWorkspaceIcons';
+import { NDX_VR_REGION, vrRegionAttr } from '../../config/ndxVisualRegionIds';
 
 type FounderWorkspaceProjectMenuProps = {
   open: boolean;
@@ -31,7 +32,7 @@ export function FounderWorkspaceProjectMenu({ open, onClose, items, overflowItem
       <div
         ref={panelRef}
         className="site00-fws-menu"
-        data-vr-region="ndx-project-menu"
+        {...vrRegionAttr(NDX_VR_REGION.projectMenu)}
         role="menu"
         aria-label="Project menu"
       >

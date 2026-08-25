@@ -13,6 +13,7 @@ import {
   site00ProjectExperimentsPath,
   site00ProjectFounderCharacterDiscoveryPath,
 } from '../../config/routes';
+import { NDX_VR_REGION, vrRegionAttr } from '../../config/ndxVisualRegionIds';
 
 type Props = {
   projectSlug: string;
@@ -94,7 +95,7 @@ export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
     <div
       className="site00-fws-hub-board"
       data-visual-reconstruction="project-hub-desktop-board"
-      data-vr-region="DESKTOP_COMPOSITE_OVERVIEW"
+      {...vrRegionAttr(NDX_VR_REGION.desktopComposite)}
     >
       <div className="site00-fws-hub-board__top">
         <TapeCard
@@ -286,7 +287,7 @@ export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
 export function OverviewMobileHomeScreen({ projectSlug }: Props) {
   return (
     <div className="site00-fws-mobile-overview" data-visual-reconstruction="mobile-overview">
-      <div data-vr-region="ndx-overview-heading">
+      <div {...vrRegionAttr(NDX_VR_REGION.overviewHero)}>
         <p className="site00-fws-mobile-overview__eyebrow">OVERVIEW</p>
         <h2 className="site00-fws-mobile-overview__headline">
           <span>CONTENT OPERATIONS</span>
@@ -301,7 +302,7 @@ export function OverviewMobileHomeScreen({ projectSlug }: Props) {
         </div>
       </div>
 
-      <div className="site00-fws-hub-kpis site00-fws-hub-kpis--mobile" data-vr-region="ndx-metrics">
+      <div className="site00-fws-hub-kpis site00-fws-hub-kpis--mobile" {...vrRegionAttr(NDX_VR_REGION.overviewMetrics)}>
         <div>
           <strong>5</strong>
           <span>BEING MADE</span>
@@ -326,7 +327,7 @@ export function OverviewMobileHomeScreen({ projectSlug }: Props) {
           View all (5)
         </Link>
       </div>
-      <div className="site00-fws-hub-carousel site00-fws-hub-carousel--mobile-row" data-vr-region="ndx-production">
+      <div className="site00-fws-hub-carousel site00-fws-hub-carousel--mobile-row" {...vrRegionAttr(NDX_VR_REGION.productionRow)}>
         {IN_PRODUCTION.map((item) => (
           <article
             key={item.title}
@@ -345,7 +346,7 @@ export function OverviewMobileHomeScreen({ projectSlug }: Props) {
           View all (6)
         </Link>
       </div>
-      <ul className="site00-fws-hub-list site00-fws-hub-list--radar" data-vr-region="ndx-radar">
+      <ul className="site00-fws-hub-list site00-fws-hub-list--radar" {...vrRegionAttr(NDX_VR_REGION.radarList)}>
         {RADAR_ITEMS.map((item, index) => (
           <li key={item}>
             <span className="site00-fws-hub-list__num">{String(index + 1).padStart(2, '0')}</span>

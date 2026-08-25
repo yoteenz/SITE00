@@ -22,11 +22,15 @@ export const NDX_WIREFRAME_FIXTURE_PATHS = {
   mobile: 'tests/fixtures/visual-reconstruction/ndxbook-workspace-mobile-primary.png',
 } as const;
 
+export const FAIL_FOUNDER_REFERENCE_MISSING = 'FAIL_FOUNDER_REFERENCE_MISSING' as const;
+
 export type ResolveFounderBoardsInput = {
   projectRoot?: string;
   supabaseUrl?: string;
   supabaseServiceKey?: string;
   allowFixtureFallback?: boolean;
+  /** When true, emit hard warning if canonical founder boards are missing. */
+  requireFounderReference?: boolean;
 };
 
 function abs(projectRoot: string, rel: string): string {
@@ -130,6 +134,7 @@ export async function resolveNdxFounderProjectHubBoards(
         mobileUrl: null,
         fixtureSubstitution: true,
         storageResolution: 'wireframe fixtures — NOT founder editorial boards',
+        warning: input.requireFounderReference ? FAIL_FOUNDER_REFERENCE_MISSING : undefined,
       };
     }
   }
@@ -142,6 +147,8 @@ export async function resolveNdxFounderProjectHubBoards(
     mobileUrl: null,
     fixtureSubstitution: false,
     storageResolution: 'founder boards not persisted — upload to visual-references/founder/ndxbook/ or Supabase',
+    failFounderReferenceMissing: input.requireFounderReference ?? true,
+    warning: FAIL_FOUNDER_REFERENCE_MISSING,
   };
 }
 
