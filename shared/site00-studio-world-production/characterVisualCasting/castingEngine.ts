@@ -275,6 +275,34 @@ export function prepareCastingRoundForFalRetry(params: {
   });
 }
 
+export function applyCastingGenerationFailure(params: {
+  state: CharacterVisualCastingState;
+  roundId: string;
+  errorMessage: string;
+}): CharacterVisualCastingState {
+  const rounds = params.state.rounds.map((entry) =>
+    entry.roundId === params.roundId ? { ...entry, status: 'REVIEW_READY' as const } : entry,
+  );
+  return syncPipelineState({
+    ...params.state,
+    rounds,
+    castingCandidatesReady: false,
+    falGenerationTracking: params.state.falGenerationTracking
+      ? {
+          ...params.state.falGenerationTracking,
+          status: 'FAILED',
+          errorMessage: params.errorMessage,
+        }
+      : {
+          attemptId: 'unknown',
+          roundId: params.roundId,
+          startedAt: new Date().toISOString(),
+          status: 'FAILED',
+          errorMessage: params.errorMessage,
+        },
+  });
+}
+
 export function generateNextCastingRoundFromFeedback(params: {
   state: CharacterVisualCastingState;
   falConfigured: boolean;

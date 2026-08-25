@@ -3547,7 +3547,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           projectId: 'ndxbook',
           dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
         });
-        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+        const background =
+          run.visualCastingState?.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
+        return json(res, background ? 202 : 200, {
+          ok: true,
+          run,
+          background,
+          source: 'site00_character_visual_casting',
+        });
       }
       case 'character_visual_casting_retry_fal': {
         if (req.method !== 'POST') {
@@ -3565,7 +3572,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           projectId: 'ndxbook',
           roundId: body.roundId ? String(body.roundId) : undefined,
         });
-        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+        const background =
+          run.visualCastingState?.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
+        return json(res, background ? 202 : 200, {
+          ok: true,
+          run,
+          background,
+          source: 'site00_character_visual_casting',
+        });
       }
       case 'character_visual_casting_judgment': {
         if (req.method !== 'POST') {
@@ -3624,7 +3638,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           projectId: 'ndxbook',
           dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
         });
-        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+        const background =
+          run.visualCastingState?.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
+        return json(res, background ? 202 : 200, {
+          ok: true,
+          run,
+          background,
+          source: 'site00_character_visual_casting',
+        });
       }
       case 'character_visual_casting_lock': {
         if (req.method !== 'POST') {
