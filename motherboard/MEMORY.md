@@ -4799,3 +4799,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Shipped:** PR **#426** merged to `main`. Deploy **v89**. Tests: `filmProductionP0FILM1.test.ts` (31); full suite **2915** pass; build green (`index.BSBetlVk.js`). Brand Character/Canon/historical lineage unchanged; autonomous publishing disabled.
 - **Recommended next:** Run Reel 01 through production plan review only; if plan correct, approve and generate continuity cluster shots 02–04 (table level, lime pen, non-introduction) before full reel generation.
 
+---
+
+## 2026-08-25 — P0.CB.1A Reference board replacement + notebook grammar re-decomposition
+
+- **Context:** NDXBOOK Launch Row 01 ingested before P0.5C.7 notebook carousel grammar. Founder approved new reference boards for MEET NDX, PERSONAL BRAND, THINGS I SAVED; old boards must not remain active authority; full lineage preserved.
+- **Engine:** `founderCreativeIngestion/referenceReplacement/` — version model (ACTIVE/DRAFT/SUPERSEDED), immutable archives, structural diff, HQ photo override compatibility, selective invalidation, promotion gate. NDX adapter `ndxNotebookGrammarAdapter.ts` recompiles V2.3+P0.5C.7 grammar + uppercase authorship on re-decompose.
+- **Flows:** REPLACE → DRAFT upload → RE-DECOMPOSE (no auto FAL) → diff/QA → PROMOTE. Bulk replace all 3 posts. Slide-level replace. MEET NDX HQ desk photo carried forward when compatible.
+- **API/UI:** replace/redecompose/promote/bulk/slide-reference/comparison actions; ingestion page three-way compare + promotion.
+- **Tests:** `founderCreativeIngestionP0CB1A.test.ts` (14); build green.
+
