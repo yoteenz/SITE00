@@ -4955,7 +4955,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-## 2026-08-25 — CAST NDX canonical anchor UNKNOWN ACTION (stale Railway API)
+## 2026-08-25 — P0.5E.4E.1 Image-reference identity generation + turnaround + env separation
+
+- **Context:** Follow-up to P0.5E.4E/P0.5E.4F — fix remaining character drift by making founder-uploaded reference image the primary generation authority (image-to-image / reference conditioning) instead of text-to-image reconstruction. Separate character pipeline (isolate → turnaround → wardrobe doc) from environment pipeline (character-free plates).
+- **Delivered:** `imageReferenceCasting.ts` + `imageReferenceMigration.ts` — `CharacterImageReferenceAuthority`, Supabase URL resolution, `CharacterReferenceImagePromptCompiler` (short prompts), white-background `CanonicalCharacterIsolate`, 12-angle `CharacterTurnaroundPack`, wardrobe documentation round, `CanonicalEnvironmentPlate` + leak QA, selective slot regen, `REFERENCE_IMAGE_DRIVEN` casting mode. FAL dispatch passes `referenceImageUrls` via `buildFalImageInput`; `recommendReferenceImageCastingProvider` blocks TEXT_ONLY for canonical character. API actions: generate/approve character isolate, generate turnaround, regenerate turnaround slot, wardrobe documentation, environment plate. Casting UI staged workflow (STEPS 3–8). 30 tests in `imageReferenceCastingP05E4E1.test.ts`; related casting suites updated.
+- **Preservation:** Brand Character / Brand Canon unchanged; legacy text casting prompts historical only; P0.5E.4F downstream gate compatible via isolate→anchor sync.
+- **Founder next:** Upload NDX reference → GENERATE CHARACTER ISOLATE only → verify same woman/outfit/white bg → approve → turnaround subset (front/left profile/back) before full pack; Railway redeploy for new API actions; cPanel ZIP for UI.
+
 
 - **Symptom:** Founder on `site00.fsbw-dev.com` CAST NDX tapped **STEP 3 · GENERATE CANONICAL ANCHOR** — red **UNKNOWN ACTION**.
 - **Root cause:** Live `api.site00.com` health reported git commit `e09218d` (pre P0.5E.4E). Canonical anchor project actions landed in `8c86060` on `main` but Railway had not redeployed — authenticated requests hit `projects.ts` default `UNKNOWN_ACTION`.

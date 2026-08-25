@@ -2120,6 +2120,64 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, dispatchFal }),
       },
     ),
+  characterVisualCastingGenerateCharacterIsolate: (slug: string, dispatchFal?: boolean) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; background?: boolean }>(
+      '/api/site00/projects?action=character_visual_casting_generate_character_isolate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, dispatchFal }),
+      },
+    ),
+  characterVisualCastingApproveCharacterIsolate: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_visual_casting_approve_character_isolate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  characterVisualCastingGenerateTurnaround: (slug: string, dispatchFal?: boolean) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; background?: boolean }>(
+      '/api/site00/projects?action=character_visual_casting_generate_turnaround',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, dispatchFal }),
+      },
+    ),
+  characterVisualCastingRegenerateTurnaroundSlot: (
+    slug: string,
+    slot: string,
+    dispatchFal?: boolean,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; background?: boolean }>(
+      '/api/site00/projects?action=character_visual_casting_regenerate_turnaround_slot',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, slot, dispatchFal }),
+      },
+    ),
+  characterVisualCastingGenerateWardrobeDocumentation: (slug: string, dispatchFal?: boolean) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; background?: boolean }>(
+      '/api/site00/projects?action=character_visual_casting_generate_wardrobe_documentation',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, dispatchFal }),
+      },
+    ),
+  characterVisualCastingGenerateEnvironmentPlate: (slug: string, dispatchFal?: boolean) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; background?: boolean }>(
+      '/api/site00/projects?action=character_visual_casting_generate_environment_plate',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, dispatchFal }),
+      },
+    ),
   founderCharacterDiscoverySynthesisPreview: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=founder_character_discovery_synthesis_preview',

@@ -1,6 +1,69 @@
-/** P0.5E.4E — Visual identity lock + anchor-first Character Bible generation */
+/** P0.5E.4E.1 — Image-reference identity generation + turnaround separation */
 
-export const CHARACTER_VISUAL_CASTING_VERSION = 'CHARACTER_VISUAL_CASTING@P0.5E.4E' as const;
+export const CHARACTER_VISUAL_CASTING_VERSION = 'CHARACTER_VISUAL_CASTING@P0.5E.4E.1' as const;
+
+export const WHITE_STUDIO_BACKGROUND =
+  'CLEAN WHITE — pure neutral studio white background, no environment, no furniture, no room, no decor' as const;
+
+export const FAIL_TURNAROUND_OUTFIT_DRIFT = 'FAIL_TURNAROUND_OUTFIT_DRIFT' as const;
+
+export const CASTING_AUTHORITY_MODES = ['REFERENCE_IMAGE_DRIVEN', 'LEGACY_TEXT_CASTING_PROMPT'] as const;
+
+/** Required character turnaround angles — same woman, same outfit, white background. */
+export const CHARACTER_TURNAROUND_SLOTS = [
+  'FRONT_FULL_BODY',
+  'FRONT_PORTRAIT_MID',
+  'THREE_QUARTER_LEFT',
+  'THREE_QUARTER_RIGHT',
+  'LEFT_PROFILE',
+  'RIGHT_PROFILE',
+  'FULL_BODY_LEFT',
+  'FULL_BODY_RIGHT',
+  'FULL_BODY_BACK',
+  'BACK_HAIR_DETAIL',
+  'SEATED_NEUTRAL',
+  'CLOSE_FACE_REFERENCE',
+] as const;
+
+export const CHARACTER_WARDROBE_DOC_SLOTS = [
+  'WARDROBE_FRONT',
+  'WARDROBE_SIDE',
+  'WARDROBE_BACK',
+  'GARMENT_DETAILS',
+  'ACCESSORY_DETAILS',
+] as const;
+
+export const ENVIRONMENT_PLATE_MODES = [
+  'ENVIRONMENT_HERO',
+  'ENVIRONMENT_WIDE',
+  'ENVIRONMENT_REVERSE',
+  'ENVIRONMENT_LEFT_ANGLE',
+  'ENVIRONMENT_RIGHT_ANGLE',
+  'ENVIRONMENT_DETAIL',
+  'ENVIRONMENT_PROP_LAYOUT',
+] as const;
+
+export const ENVIRONMENT_LEAK_FAILURE_CODES = [
+  'FAIL_PERSON_IN_ENVIRONMENT_PLATE',
+  'FAIL_CHARACTER_REFLECTION_LEAK',
+  'FAIL_BODY_PART_IN_ENVIRONMENT',
+  'FAIL_ENVIRONMENT_STYLE_DRIFT',
+  'FAIL_ARCHITECTURE_DRIFT',
+] as const;
+
+export const TURNAROUND_NEGATIVE_CONSTRAINTS = [
+  'different woman',
+  'outfit change',
+  'new garments',
+  'environment',
+  'furniture',
+  'room',
+  'restyling',
+  'beautification drift',
+  'generic model',
+  'editorial set',
+  'shadow-heavy backdrop',
+] as const;
 
 export const DEFAULT_CASTING_CANDIDATE_COUNT = 6 as const;
 
@@ -154,6 +217,7 @@ export const CHARACTER_DRIFT_FAILURE_CODES = [
   'FAIL_MULTI_ASSET_CONTINUITY_BREAK',
   'FAIL_WARDROBE_DOCUMENTATION_BECAME_RESTYLE',
   'FAIL_ENVIRONMENT_DOCUMENTATION_BECAME_NEW_SCENE',
+  'FAIL_TURNAROUND_OUTFIT_DRIFT',
 ] as const;
 
 export const CASTING_NEGATIVE_CONSTRAINTS = [

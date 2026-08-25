@@ -23,6 +23,7 @@ import {
   reconcileStaleCastingGeneration,
   startCastingRoundFalBackgroundJob,
 } from './castingFalBackgroundJob.js';
+import { getSite00AssetPublicUrl } from '../../site00Assts/storage.js';
 
 function falConfigured(): boolean {
   return isNeuralProviderConfigured();
@@ -374,6 +375,123 @@ export async function regenerateCanonicalAnchorAction(params: { projectId: strin
       run: { ...run, visualCastingState },
       roundId,
     });
+  }
+  return save({ ...run, visualCastingState });
+}
+
+export async function generateCharacterIsolate(params: { projectId: string; dispatchFal?: boolean }) {
+  const run = await hydrateCastingRun(params.projectId);
+  if (!run.visualCastingState) throw new Error('Visual casting not initialized');
+  const mod = await import(
+    '../../../../shared/site00-studio-world-production/characterVisualCasting/imageReferenceCasting.js'
+  );
+  const shouldDispatch = params.dispatchFal ?? falConfigured();
+  const visualCastingState = mod.syncCanonicalAnchorFromCharacterIsolate(
+    mod.generateCharacterIsolateRound({
+      state: run.visualCastingState,
+      falConfigured: falConfigured(),
+      dispatchFal: shouldDispatch,
+      resolvePublicUrl: (path) => getSite00AssetPublicUrl(path),
+    }),
+  );
+  const roundId = visualCastingState.rounds.at(-1)?.roundId;
+  if (shouldDispatch && falConfigured() && roundId) {
+    return dispatchCastingRoundInBackground({ projectId: params.projectId, run: { ...run, visualCastingState }, roundId });
+  }
+  return save({ ...run, visualCastingState });
+}
+
+export async function approveCharacterIsolateAction(params: { projectId: string }) {
+  const run = await hydrateCastingRun(params.projectId);
+  if (!run.visualCastingState) throw new Error('Visual casting not initialized');
+  const mod = await import(
+    '../../../../shared/site00-studio-world-production/characterVisualCasting/imageReferenceCasting.js'
+  );
+  const visualCastingState = mod.syncCanonicalAnchorFromCharacterIsolate(mod.approveCharacterIsolate(run.visualCastingState));
+  return save({ ...run, visualCastingState });
+}
+
+export async function generateCharacterTurnaround(params: { projectId: string; dispatchFal?: boolean }) {
+  const run = await hydrateCastingRun(params.projectId);
+  if (!run.visualCastingState) throw new Error('Visual casting not initialized');
+  const { generateCharacterTurnaroundRound } = await import(
+    '../../../../shared/site00-studio-world-production/characterVisualCasting/imageReferenceCasting.js'
+  );
+  const shouldDispatch = params.dispatchFal ?? falConfigured();
+  const visualCastingState = generateCharacterTurnaroundRound({
+    state: run.visualCastingState,
+    falConfigured: falConfigured(),
+    dispatchFal: shouldDispatch,
+    resolvePublicUrl: (path) => getSite00AssetPublicUrl(path),
+  });
+  const roundId = visualCastingState.rounds.at(-1)?.roundId;
+  if (shouldDispatch && falConfigured() && roundId) {
+    return dispatchCastingRoundInBackground({ projectId: params.projectId, run: { ...run, visualCastingState }, roundId });
+  }
+  return save({ ...run, visualCastingState });
+}
+
+export async function generateWardrobeDocumentation(params: { projectId: string; dispatchFal?: boolean }) {
+  const run = await hydrateCastingRun(params.projectId);
+  if (!run.visualCastingState) throw new Error('Visual casting not initialized');
+  const { generateWardrobeDocumentationRound } = await import(
+    '../../../../shared/site00-studio-world-production/characterVisualCasting/imageReferenceCasting.js'
+  );
+  const shouldDispatch = params.dispatchFal ?? falConfigured();
+  const visualCastingState = generateWardrobeDocumentationRound({
+    state: run.visualCastingState,
+    falConfigured: falConfigured(),
+    dispatchFal: shouldDispatch,
+    resolvePublicUrl: (path) => getSite00AssetPublicUrl(path),
+  });
+  const roundId = visualCastingState.rounds.at(-1)?.roundId;
+  if (shouldDispatch && falConfigured() && roundId) {
+    return dispatchCastingRoundInBackground({ projectId: params.projectId, run: { ...run, visualCastingState }, roundId });
+  }
+  return save({ ...run, visualCastingState });
+}
+
+export async function regenerateCharacterTurnaroundSlotAction(params: {
+  projectId: string;
+  slot: import('../../../../shared/site00-studio-world-production/characterVisualCasting/types.js').CharacterTurnaroundSlot;
+  dispatchFal?: boolean;
+}) {
+  const run = await hydrateCastingRun(params.projectId);
+  if (!run.visualCastingState) throw new Error('Visual casting not initialized');
+  const { regenerateCharacterTurnaroundSlot } = await import(
+    '../../../../shared/site00-studio-world-production/characterVisualCasting/imageReferenceCasting.js'
+  );
+  const shouldDispatch = params.dispatchFal ?? falConfigured();
+  const visualCastingState = regenerateCharacterTurnaroundSlot({
+    state: run.visualCastingState,
+    slot: params.slot,
+    falConfigured: falConfigured(),
+    dispatchFal: shouldDispatch,
+    resolvePublicUrl: (path) => getSite00AssetPublicUrl(path),
+  });
+  const roundId = visualCastingState.rounds.at(-1)?.roundId;
+  if (shouldDispatch && falConfigured() && roundId) {
+    return dispatchCastingRoundInBackground({ projectId: params.projectId, run: { ...run, visualCastingState }, roundId });
+  }
+  return save({ ...run, visualCastingState });
+}
+
+export async function generateEnvironmentPlate(params: { projectId: string; dispatchFal?: boolean }) {
+  const run = await hydrateCastingRun(params.projectId);
+  if (!run.visualCastingState) throw new Error('Visual casting not initialized');
+  const { generateEnvironmentPlateRound } = await import(
+    '../../../../shared/site00-studio-world-production/characterVisualCasting/imageReferenceCasting.js'
+  );
+  const shouldDispatch = params.dispatchFal ?? falConfigured();
+  const visualCastingState = generateEnvironmentPlateRound({
+    state: run.visualCastingState,
+    falConfigured: falConfigured(),
+    dispatchFal: shouldDispatch,
+    resolvePublicUrl: (path) => getSite00AssetPublicUrl(path),
+  });
+  const roundId = visualCastingState.rounds.at(-1)?.roundId;
+  if (shouldDispatch && falConfigured() && roundId) {
+    return dispatchCastingRoundInBackground({ projectId: params.projectId, run: { ...run, visualCastingState }, roundId });
   }
   return save({ ...run, visualCastingState });
 }

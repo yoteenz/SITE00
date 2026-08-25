@@ -4,7 +4,6 @@
 
 import { randomUUID } from 'node:crypto';
 import {
-  ANCHOR_DEPENDENT_NEGATIVE_CONSTRAINTS,
   CANONICAL_ANCHOR_STAGES,
   CHARACTER_BIBLE_ASSET_SLOTS,
   CHARACTER_CONTINUITY_DRIFT_CATEGORIES,
@@ -13,7 +12,6 @@ import {
 } from './constants.js';
 import {
   compileAnchorDependentBiblePromptContract,
-  compileCanonicalAnchorPromptContract,
   storePromptContractSnapshot,
 } from './promptContract.js';
 import { estimateCastingRoundCost, recommendStillImageCastingProvider } from './providerSelection.js';
@@ -22,10 +20,17 @@ import {
   resolveActiveCastingReferenceAuthority,
 } from './referenceDrivenCasting.js';
 import { syncPipelineState } from './stateMachine.js';
+import {
+  generateCharacterIsolateRound,
+  syncCanonicalAnchorFromCharacterIsolate,
+  approveCharacterIsolate,
+} from './imageReferenceCasting.js';
+import { isCharacterIsolateApproved } from './imageReferenceMigration.js';
 import type {
   CanonicalAnchorRecord,
   CanonicalAnchorStage,
   CharacterBibleAssetSlot,
+  CharacterTurnaroundSlot,
   CharacterCastingCandidate,
   CharacterCastingRound,
   CharacterContinuityDriftEvaluation,
@@ -217,16 +222,16 @@ export function isCanonicalAnchorApproved(state: CharacterVisualCastingState): b
 }
 
 export function assertAnchorApprovedForBiblePack(state: CharacterVisualCastingState): void {
-  if (!isCanonicalAnchorApproved(state)) {
-    throw new Error('Canonical anchor must be approved before generating Character Bible pack');
-  }
+  if (isCharacterIsolateApproved(state)) return;
+  if (isCanonicalAnchorApproved(state)) return;
+  throw new Error('Canonical anchor or character isolate must be approved before generating Character Bible pack');
 }
 
 export function evaluateCharacterContinuityDrift(params: {
   state: CharacterVisualCastingState;
   sourceReferenceUrl: string;
   candidatePreviewUrl: string | null;
-  assetSlot?: CharacterBibleAssetSlot | null;
+  assetSlot?: CharacterBibleAssetSlot | CharacterTurnaroundSlot | null;
   anchorPreviewUrl?: string | null;
 }): CharacterContinuityDriftEvaluation {
   const next = migrateIdentityAnchorState(params.state);
@@ -310,120 +315,15 @@ export function generateCanonicalAnchorRound(params: {
   falConfigured: boolean;
   dispatchFal?: boolean;
 }): CharacterVisualCastingState {
-  const next = ensureVisualAuthoritySnapshot(migrateIdentityAnchorState(params.state));
-  const snapshot = next.truthSnapshots.find((entry) => entry.snapshotId === next.activeTruthSnapshotId);
-  if (!snapshot) throw new Error('Active character truth snapshot required');
-
-  const authority = resolveActiveCastingReferenceAuthority(next);
-  if (!authority) throw new Error('Upload and decompose a Full Look reference first');
-
-  const reference = next.founderReferences.find((entry) => entry.referenceId === authority.referenceId);
-  if (!reference?.decomposition) throw new Error('Reference decomposition required');
-
-  const authoritySnapshot = next.visualAuthoritySnapshot ?? buildAuthorityLocksFromDecomposition(reference.decomposition);
-
-  const contract = compileCanonicalAnchorPromptContract({
-    snapshot,
-    decomposition: reference.decomposition,
-    authority,
-    authoritySnapshot,
-  });
-
-  let working = storePromptContractSnapshot(next, contract);
-  const rec = recommendStillImageCastingProvider(params.falConfigured);
-  const roundId = randomUUID();
-  const roundNumber = working.rounds.length + 1;
-  const candidateId = randomUUID();
-
-  const candidate: CharacterCastingCandidate = {
-    candidateId,
-    roundId,
-    characterTruthSnapshotId: snapshot.snapshotId,
-    provider: rec.provider ?? 'fal',
-    model: rec.model ?? 'pending',
-    promptSnapshotId: contract.contractId,
-    variationAxis: 'FACE_STRUCTURE',
-    assetSlot: 'CANONICAL_ANCHOR',
-    generationMode: 'CANONICAL_ANCHOR',
-    outputAssetId: null,
-    previewUrl: params.dispatchFal ? null : `/api/placeholder/casting/anchor-${roundNumber}`,
-    createdAt: new Date().toISOString(),
-    founderJudgment: null,
-    deeperJudgment: null,
-    strengths: [],
-    weaknesses: [],
-    castingStatus: 'UNREVIEWED',
-    founderNote: 'CANONICAL_ANCHOR',
-  };
-
-  const round: CharacterCastingRound = {
-    roundId,
-    roundNumber,
-    characterId: snapshot.characterId,
-    characterTruthSnapshotId: snapshot.snapshotId,
-    candidateIds: [candidateId],
-    generationContractId: contract.contractId,
-    generationMode: 'CANONICAL_ANCHOR',
-    referenceAuthorityId: authority.authorityId,
-    assetPackId: null,
-    provider: rec.provider ?? 'fal',
-    model: rec.model ?? 'pending',
-    costUsd: params.dispatchFal ? estimateCastingRoundCost(1, params.falConfigured) : 0,
-    createdAt: new Date().toISOString(),
-    status: params.dispatchFal ? 'GENERATING' : 'REVIEW_READY',
-    retainedTraits: ['FACE', 'HAIR', 'WARDROBE', 'PRESENCE'],
-    variedTraits: [],
-    rejectedTraits: ANCHOR_DEPENDENT_NEGATIVE_CONSTRAINTS.slice(0, 8),
-    basedOnPriorTruthSnapshotId: snapshot.snapshotId,
-  };
-
-  const driftEvaluation = evaluateCharacterContinuityDrift({
-    state: working,
-    sourceReferenceUrl: reference.previewUrl,
-    candidatePreviewUrl: candidate.previewUrl,
-    assetSlot: null,
-    anchorPreviewUrl: candidate.previewUrl,
-  });
-
-  const anchorRecord: CanonicalAnchorRecord = {
-    anchorId: randomUUID(),
-    referenceId: authority.referenceId,
-    authoritySnapshotId: authoritySnapshot.snapshotId,
-    roundId,
-    candidateId,
-    sourcePreviewUrl: reference.previewUrl,
-    previewUrl: candidate.previewUrl,
-    status: params.dispatchFal ? 'GENERATING' : 'REVIEW',
-    qaEvaluation: driftEvaluation,
-    approvedAt: null,
-    supersededByAnchorId: next.canonicalAnchor?.anchorId ?? null,
-    createdAt: new Date().toISOString(),
-  };
-
-  return syncPipelineState({
-    ...working,
-    visualAuthoritySnapshot: authoritySnapshot,
-    anchorWorkflowStage: params.dispatchFal ? 'CANONICAL_ANCHOR_GENERATING' : 'CANONICAL_ANCHOR_REVIEW',
-    canonicalAnchor: anchorRecord,
-    continuityDriftEvaluations: [...working.continuityDriftEvaluations, driftEvaluation],
-    activeReferenceAuthority: authority,
-    rounds: [...working.rounds, round],
-    candidates: [...working.candidates, candidate],
-    falImageRequests: working.falImageRequests + (params.dispatchFal ? 1 : 0),
-    visualCastingLineage: appendLineage(working.visualCastingLineage, {
-      entryId: randomUUID(),
-      kind: 'CANONICAL_ANCHOR_GENERATION',
-      referenceId: authority.referenceId,
-      snapshotId: authoritySnapshot.snapshotId,
-      anchorId: anchorRecord.anchorId,
-      createdAt: new Date().toISOString(),
-      note: 'Canonical anchor reconstruction initiated from uploaded reference authority',
-    }),
-  });
+  const withIsolate = generateCharacterIsolateRound(params);
+  return syncCanonicalAnchorFromCharacterIsolate(withIsolate);
 }
 
 export function approveCanonicalAnchor(state: CharacterVisualCastingState): CharacterVisualCastingState {
   const next = migrateIdentityAnchorState(state);
+  if (next.characterIsolate && next.characterIsolate.status !== 'APPROVED') {
+    return syncCanonicalAnchorFromCharacterIsolate(approveCharacterIsolate(next));
+  }
   if (!next.canonicalAnchor) throw new Error('No canonical anchor to approve');
   if (next.canonicalAnchor.status === 'GENERATING') {
     throw new Error('Canonical anchor is still generating');

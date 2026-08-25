@@ -136,7 +136,8 @@ describe('CAST NDX founder reference ingestion', () => {
 
     const anchored = await generateCanonicalAnchorApi({ projectId: 'ndxbook', dispatchFal: false });
     expect(anchored.visualCastingState?.canonicalAnchor).toBeTruthy();
-    expect(anchored.visualCastingState?.rounds.at(-1)?.generationMode).toBe('CANONICAL_ANCHOR');
+    expect(anchored.visualCastingState?.characterIsolate).toBeTruthy();
+    expect(anchored.visualCastingState?.rounds.at(-1)?.generationMode).toBe('CHARACTER_ISOLATE');
   });
 
   it('projects API registers canonical anchor actions', () => {
@@ -144,6 +145,9 @@ describe('CAST NDX founder reference ingestion', () => {
     expect(projectsApi).toContain("case 'character_visual_casting_generate_canonical_anchor'");
     expect(projectsApi).toContain("case 'character_visual_casting_approve_canonical_anchor'");
     expect(projectsApi).toContain("case 'character_visual_casting_regenerate_canonical_anchor'");
+    expect(projectsApi).toContain("case 'character_visual_casting_generate_character_isolate'");
+    expect(projectsApi).toContain("case 'character_visual_casting_generate_turnaround'");
+    expect(projectsApi).toContain("case 'character_visual_casting_generate_environment_plate'");
   });
 
   it('casting page exposes upload UI', () => {
@@ -151,7 +155,7 @@ describe('CAST NDX founder reference ingestion', () => {
     const css = readFileSync(join(ROOT, 'src/site00/styles/site00-character-casting.css'), 'utf8');
     expect(page).toContain('TAP TO UPLOAD');
     expect(page).toContain('STORE IN BIBLE');
-    expect(page).toContain('GENERATE CANONICAL ANCHOR');
+    expect(page).toContain('GENERATE CHARACTER ISOLATE');
     expect(page).toContain('GENERATE CHARACTER BIBLE PACK');
     expect(page).toContain('REGENERATE CASTING FROM REFERENCES');
     expect(page).toContain('formatSite00ProjectsApiError');

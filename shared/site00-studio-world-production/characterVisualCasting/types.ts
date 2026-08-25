@@ -18,6 +18,11 @@ import type {
   CHARACTER_CONTINUITY_DRIFT_CATEGORIES,
   CHARACTER_DRIFT_FAILURE_CODES,
   INFERENCE_VISIBILITY_LEVELS,
+  CHARACTER_TURNAROUND_SLOTS,
+  CHARACTER_WARDROBE_DOC_SLOTS,
+  ENVIRONMENT_PLATE_MODES,
+  CASTING_AUTHORITY_MODES,
+  ENVIRONMENT_LEAK_FAILURE_CODES,
 } from './constants.js';
 
 export type FounderCastingReferenceRole = (typeof FOUNDER_CASTING_REFERENCE_ROLES)[number];
@@ -49,7 +54,21 @@ export type CharacterBibleAssetSlot = (typeof CHARACTER_BIBLE_ASSET_SLOTS)[numbe
 export type CharacterBibleReviewTab = (typeof CHARACTER_BIBLE_REVIEW_TABS)[number];
 export type ReferenceControlledVariationSlot = (typeof REFERENCE_CONTROLLED_VARIATION_SLOTS)[number];
 export type CastingPromptAuthorityLayer = (typeof CASTING_PROMPT_AUTHORITY_LAYERS)[number];
-export type CastingGenerationMode = 'LEGACY_VARIATION' | 'REFERENCE_DRIVEN' | 'CHARACTER_BIBLE_ASSET_PACK' | 'CANONICAL_ANCHOR';
+export type CastingGenerationMode =
+  | 'LEGACY_VARIATION'
+  | 'REFERENCE_DRIVEN'
+  | 'CHARACTER_BIBLE_ASSET_PACK'
+  | 'CANONICAL_ANCHOR'
+  | 'CHARACTER_ISOLATE'
+  | 'CHARACTER_TURNAROUND'
+  | 'WARDROBE_DOCUMENTATION'
+  | 'ENVIRONMENT_PLATE';
+
+export type CastingAuthorityMode = (typeof CASTING_AUTHORITY_MODES)[number];
+export type CharacterTurnaroundSlot = (typeof CHARACTER_TURNAROUND_SLOTS)[number];
+export type CharacterWardrobeDocSlot = (typeof CHARACTER_WARDROBE_DOC_SLOTS)[number];
+export type EnvironmentPlateMode = (typeof ENVIRONMENT_PLATE_MODES)[number];
+export type EnvironmentLeakFailureCode = (typeof ENVIRONMENT_LEAK_FAILURE_CODES)[number];
 
 export type InferenceVisibilityLevel = (typeof INFERENCE_VISIBILITY_LEVELS)[number];
 export type CanonicalAnchorStage = (typeof CANONICAL_ANCHOR_STAGES)[number];
@@ -203,12 +222,58 @@ export type VisualAuthoritySnapshot = {
   compiledAt: string;
 };
 
+export type CharacterImageReferenceAuthority = {
+  assetId: string;
+  storagePath: string;
+  resolvedUrl: string;
+  sourceType: 'FOUNDER_UPLOAD' | 'SUPPORTING_REFERENCE' | 'ENVIRONMENT_REFERENCE' | 'CANONICAL_ASSET';
+  founderApproved: boolean;
+  identityAuthority: boolean;
+  wardrobeAuthority: boolean;
+  createdAt: string;
+};
+
+export type CanonicalCharacterIsolate = {
+  isolateId: string;
+  referenceId: string;
+  roundId: string;
+  candidateId: string;
+  sourcePreviewUrl: string;
+  previewUrl: string | null;
+  background: string;
+  status: 'GENERATING' | 'REVIEW' | 'APPROVED' | 'REJECTED';
+  qaEvaluation: CharacterContinuityDriftEvaluation | null;
+  approvedAt: string | null;
+  createdAt: string;
+};
+
+export type CanonicalEnvironmentPlate = {
+  plateId: string;
+  referenceId: string;
+  roundId: string;
+  candidateIds: string[];
+  sourcePreviewUrl: string;
+  previewUrls: string[];
+  status: 'GENERATING' | 'REVIEW' | 'APPROVED' | 'REJECTED';
+  characterFree: true;
+  approvedAt: string | null;
+  createdAt: string;
+};
+
+export type CharacterTurnaroundPack = {
+  packId: string;
+  isolateId: string;
+  slotCandidateIds: Partial<Record<CharacterTurnaroundSlot, string>>;
+  status: 'PLANNED' | 'GENERATING' | 'REVIEW' | 'APPROVED';
+  approvedAt: string | null;
+};
+
 export type CharacterContinuityDriftEvaluation = {
   evaluationId: string;
   sourceReferenceUrl: string;
   anchorPreviewUrl: string | null;
   candidatePreviewUrl: string | null;
-  assetSlot: CharacterBibleAssetSlot | 'CANONICAL_ANCHOR' | null;
+  assetSlot: CharacterBibleAssetSlot | 'CANONICAL_ANCHOR' | CharacterTurnaroundSlot | null;
   categoryScores: Record<CharacterContinuityDriftCategory, number>;
   failureCodes: CharacterDriftFailureCode[];
   overallScore: number;
@@ -241,7 +306,11 @@ export type VisualCastingLineageEntry = {
     | 'ANCHOR_APPROVAL'
     | 'ANCHOR_SUPERSEDED'
     | 'BIBLE_PACK_GENERATION'
-    | 'BIBLE_PACK_APPROVAL';
+    | 'BIBLE_PACK_APPROVAL'
+    | 'CHARACTER_ISOLATE_GENERATION'
+    | 'CHARACTER_ISOLATE_APPROVAL'
+    | 'CHARACTER_TURNAROUND_GENERATION'
+    | 'ENVIRONMENT_PLATE_GENERATION';
   referenceId: string;
   snapshotId?: string;
   anchorId?: string;
@@ -404,9 +473,13 @@ export type CharacterCastingPromptContract = {
     inferenceRulesBlock?: string;
     legacyPromptSecondary?: string;
   };
+  referenceImageUrls?: string[];
+  characterTurnaroundMode?: boolean;
+  environmentFree?: boolean;
+  castingAuthorityMode?: CastingAuthorityMode;
   variationAxis: CastingVariationAxis;
   generationMode?: CastingGenerationMode;
-  assetSlot?: CharacterBibleAssetSlot | 'CANONICAL_ANCHOR' | null;
+  assetSlot?: CharacterBibleAssetSlot | ReferenceControlledVariationSlot | CharacterTurnaroundSlot | CharacterWardrobeDocSlot | EnvironmentPlateMode | 'CANONICAL_ANCHOR' | 'CHARACTER_ISOLATE' | null;
   controlledVariationSlot?: ReferenceControlledVariationSlot | null;
   referenceAuthorityId?: string | null;
 };
@@ -419,7 +492,7 @@ export type CharacterCastingCandidate = {
   model: string;
   promptSnapshotId: string;
   variationAxis: CastingVariationAxis;
-  assetSlot: CharacterBibleAssetSlot | ReferenceControlledVariationSlot | 'CANONICAL_ANCHOR' | null;
+  assetSlot: CharacterBibleAssetSlot | ReferenceControlledVariationSlot | CharacterTurnaroundSlot | CharacterWardrobeDocSlot | EnvironmentPlateMode | 'CANONICAL_ANCHOR' | 'CHARACTER_ISOLATE' | null;
   generationMode: CastingGenerationMode;
   outputAssetId: string | null;
   previewUrl: string | null;
@@ -530,5 +603,10 @@ export type CharacterVisualCastingState = {
   anchorWorkflowStage: CanonicalAnchorStage;
   continuityDriftEvaluations: CharacterContinuityDriftEvaluation[];
   visualCastingLineage: VisualCastingLineageEntry[];
+  castingAuthorityMode: CastingAuthorityMode;
+  characterImageReferenceAuthority: CharacterImageReferenceAuthority | null;
+  characterIsolate: CanonicalCharacterIsolate | null;
+  environmentPlate: CanonicalEnvironmentPlate | null;
+  characterTurnaroundPack: CharacterTurnaroundPack | null;
   updatedAt: string;
 };

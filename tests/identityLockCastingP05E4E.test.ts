@@ -115,7 +115,7 @@ describe('P0.5E.4E identity lock + anchor-first Bible generation', () => {
   it('canonical anchor required before Bible pack generation', () => {
     const { state } = seedCastingStateWithFullLook();
     expect(isCanonicalAnchorApproved(state)).toBe(false);
-    expect(() => assertAnchorApprovedForBiblePack(state)).toThrow(/Canonical anchor must be approved/);
+    expect(() => assertAnchorApprovedForBiblePack(state)).toThrow(/Canonical anchor or character isolate must be approved/);
     expect(() => generateCharacterBibleAssetPackRound({ state, falConfigured: false })).toThrow();
   });
 
@@ -199,8 +199,16 @@ describe('P0.5E.4E identity lock + anchor-first Bible generation', () => {
     const { state } = seedWithApprovedAnchor();
     const withPack = generateAnchorDependentCharacterBiblePackRound({ state, falConfigured: false, dispatchFal: false });
     expect(withPack.visualCastingLineage.some((entry) => entry.kind === 'DECOMPOSITION_LOCKS')).toBe(true);
-    expect(withPack.visualCastingLineage.some((entry) => entry.kind === 'CANONICAL_ANCHOR_GENERATION')).toBe(true);
-    expect(withPack.visualCastingLineage.some((entry) => entry.kind === 'ANCHOR_APPROVAL')).toBe(true);
+    expect(
+      withPack.visualCastingLineage.some(
+        (entry) => entry.kind === 'CANONICAL_ANCHOR_GENERATION' || entry.kind === 'CHARACTER_ISOLATE_GENERATION',
+      ),
+    ).toBe(true);
+    expect(
+      withPack.visualCastingLineage.some(
+        (entry) => entry.kind === 'ANCHOR_APPROVAL' || entry.kind === 'CHARACTER_ISOLATE_APPROVAL',
+      ),
+    ).toBe(true);
     expect(withPack.visualCastingLineage.some((entry) => entry.kind === 'BIBLE_PACK_GENERATION')).toBe(true);
   });
 
@@ -230,10 +238,10 @@ describe('P0.5E.4E identity lock + anchor-first Bible generation', () => {
 
   it('casting page exposes anchor-first workflow UI', () => {
     const page = readFileSync(join(ROOT, 'src/site00/pages/ProjectCharacterCastingPage.tsx'), 'utf8');
-    expect(page).toContain('GENERATE CANONICAL ANCHOR');
-    expect(page).toContain('APPROVE ANCHOR');
+    expect(page).toContain('GENERATE CHARACTER ISOLATE');
+    expect(page).toContain('APPROVE ISOLATE');
     expect(page).toContain('GENERATE CHARACTER BIBLE PACK');
     expect(page).toContain('AUTHORITY LOCKS');
-    expect(page).toContain('ANCHOR REVIEW');
+    expect(page).toContain('CHARACTER ISOLATE REVIEW');
   });
 });

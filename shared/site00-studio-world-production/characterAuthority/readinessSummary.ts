@@ -24,7 +24,7 @@ export function summarizeCharacterReadiness(
       casting.activeTruthSnapshotId,
   );
 
-  const anchorApproved = casting?.canonicalAnchor?.status === 'APPROVED';
+  const anchorApproved = casting?.canonicalAnchor?.status === 'APPROVED' || casting?.characterIsolate?.status === 'APPROVED';
   const locksActive = Boolean(
     casting?.visualAuthoritySnapshot?.identityLock &&
       casting.visualAuthoritySnapshot.wardrobeLock &&

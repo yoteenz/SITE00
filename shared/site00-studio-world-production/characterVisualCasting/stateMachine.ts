@@ -55,6 +55,11 @@ export function buildEmptyVisualCastingState(): CharacterVisualCastingState {
     anchorWorkflowStage: 'CANONICAL_ANCHOR_PENDING',
     continuityDriftEvaluations: [],
     visualCastingLineage: [],
+    castingAuthorityMode: 'REFERENCE_IMAGE_DRIVEN',
+    characterImageReferenceAuthority: null,
+    characterIsolate: null,
+    environmentPlate: null,
+    characterTurnaroundPack: null,
     updatedAt: new Date().toISOString(),
   };
 }

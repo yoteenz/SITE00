@@ -254,6 +254,12 @@ import {
   generateCanonicalAnchor,
   approveCanonicalAnchorAction,
   regenerateCanonicalAnchorAction,
+  generateCharacterIsolate,
+  approveCharacterIsolateAction,
+  generateCharacterTurnaround,
+  generateWardrobeDocumentation,
+  regenerateCharacterTurnaroundSlotAction,
+  generateEnvironmentPlate,
   retryVisualCastingRoundFal,
   saveVisualCastingJudgment,
   createVisualCastingMerge,
@@ -4091,6 +4097,136 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await regenerateCanonicalAnchorAction({
+          projectId: slug,
+          dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
+        });
+        const background =
+          run.visualCastingState?.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
+        return json(res, background ? 202 : 200, {
+          ok: true,
+          run,
+          background,
+          source: 'site00_character_visual_casting',
+        });
+      }
+      case 'character_visual_casting_generate_character_isolate': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_generate_character_isolate', 'site00_character_visual_casting')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await generateCharacterIsolate({
+          projectId: slug,
+          dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
+        });
+        const background =
+          run.visualCastingState?.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
+        return json(res, background ? 202 : 200, {
+          ok: true,
+          run,
+          background,
+          source: 'site00_character_visual_casting',
+        });
+      }
+      case 'character_visual_casting_approve_character_isolate': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_approve_character_isolate', 'site00_character_visual_casting')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await approveCharacterIsolateAction({ projectId: slug });
+        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+      }
+      case 'character_visual_casting_generate_turnaround': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_generate_turnaround', 'site00_character_visual_casting')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await generateCharacterTurnaround({
+          projectId: slug,
+          dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
+        });
+        const background =
+          run.visualCastingState?.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
+        return json(res, background ? 202 : 200, {
+          ok: true,
+          run,
+          background,
+          source: 'site00_character_visual_casting',
+        });
+      }
+      case 'character_visual_casting_regenerate_turnaround_slot': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const slot = String(body.slot ?? '') as import('../../../shared/site00-studio-world-production/characterVisualCasting/types.js').CharacterTurnaroundSlot;
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_regenerate_turnaround_slot', 'site00_character_visual_casting')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await regenerateCharacterTurnaroundSlotAction({
+          projectId: slug,
+          slot,
+          dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
+        });
+        const background =
+          run.visualCastingState?.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
+        return json(res, background ? 202 : 200, {
+          ok: true,
+          run,
+          background,
+          source: 'site00_character_visual_casting',
+        });
+      }
+      case 'character_visual_casting_generate_wardrobe_documentation': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_generate_wardrobe_documentation', 'site00_character_visual_casting')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await generateWardrobeDocumentation({
+          projectId: slug,
+          dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
+        });
+        const background =
+          run.visualCastingState?.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
+        return json(res, background ? 202 : 200, {
+          ok: true,
+          run,
+          background,
+          source: 'site00_character_visual_casting',
+        });
+      }
+      case 'character_visual_casting_generate_environment_plate': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_generate_environment_plate', 'site00_character_visual_casting')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await generateEnvironmentPlate({
           projectId: slug,
           dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
         });
