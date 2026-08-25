@@ -53,6 +53,7 @@ function emptyRun(projectId: string): MarketingCampaignProductionRun {
     },
     status: 'NOT_STARTED',
     error: null,
+    founderCreativeIngestion: null,
     updatedAt: nowIso(),
   };
 }

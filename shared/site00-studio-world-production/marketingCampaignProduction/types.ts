@@ -293,5 +293,7 @@ export type MarketingCampaignProductionRun = {
   };
   status: 'NOT_STARTED' | 'INITIALIZED' | 'IN_PRODUCTION' | 'ROUND_LOCKED' | 'APPROVED' | 'FAILED';
   error: string | null;
+  /** P0.CB.1 — Founder creative ingestion state for Launch Row 01 */
+  founderCreativeIngestion?: import('../founderCreativeIngestion/types.js').FounderCreativeIngestionState | null;
   updatedAt: string;
 };

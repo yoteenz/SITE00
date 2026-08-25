@@ -4743,6 +4743,7 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+<<<<<<< HEAD
 ## 2026-08-25 — CAST NDX FAL generation wired (P0.5E.4C follow-up)
 
 - **Context:** Founder reported CAST NDX page (`/projects/ndxbook/character/casting`) wasn't calling FAL — generation produced placeholder URLs only, never live stills.
@@ -4750,4 +4751,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Added `api/_lib/site00Evolve/characterVisualCasting/castingFalDispatch.ts` — compiles prompt contracts via `compileCastingPromptFromContract`, calls GPT Image 2 through FAL (`buildFalImageInput`), uploads to Supabase storage (`site00/character-casting/{project}/{round}/{candidate}.webp`), applies results via `applyCastingGenerationResults`. Service defaults `dispatchFal` to `falConfigured()`; first round + next round both dispatch when FAL_KEY present. UI now calls generate without `false` flag; hero frame renders `<img>` for real preview URLs.
 - **Discarded:** Duplicate embodied-character `/character/cast` route work on branch (reverted before ship).
 - **Tests:** `embodiedCharacterVisualCastingP05E4C.test.ts` expanded (13) — prompt compile, apply results, vitest-mocked full generate path.
+=======
+## 2026-08-25 — P0.CB.1 Founder creative ingestion + reference decomposition + production reconstruction
+
+- **Context:** Build production-grade workflow for founder-created NDXBOOK launch carousel direction entering Studio World. Pilot: MEET NDX (9 slides), EVERYBODY HAS A PERSONAL BRAND (12), THINGS I SAVED THIS WEEK / ENTRY 001 (12). Critical rule: mood boards are REFERENCES not production assets — no bitmap crop/upscale as reconstruction.
+- **Architecture:** `shared/site00-studio-world-production/founderCreativeIngestion/` — provenance (FOUNDER_CREATED, EXTERNAL_CHATGPT_CREATIVE_SESSION), reference decomposition engine, SlideReconstructionSpec, photography source modes (REFERENCE_ONLY through LOCK_CANONICAL), reverse-engineered photography prompts, Realism Lab provider bridge (no duplicate engine), sequence QA, creative signal learning (variation not template cloning). NDX adapter: `adapters/ndxLaunchRow01Pilot.ts`.
+- **API/UI:** `founder_creative_ingestion_*` actions; `/projects/ndxbook/content-operations/founder-creative-ingest` workflow page (REFERENCE→DECOMPOSE→RECONSTRUCT→REVIEW→SEQUENCE→CAMPAIGN); Campaign Board INGEST FOUNDER CREATIVE link + Row 01 grid preview; PAGES lane shows 3 parent sequences (child slides nested, not flattened).
+- **Shipped:** PR merged to `main`. Deploy **v88**. Tests: `founderCreativeIngestionP0CB1.test.ts` (15); full suite **2877** pass; build green. Brand Character/Canon/experiment lineage unchanged; founder-triggered generation only.
+>>>>>>> origin/main
 
