@@ -4731,3 +4731,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `FounderCharacterCalibrationProgressPanel` in operate layer; next-step + incomplete checklist items call `founderCharacterDiscoveryCalibrationContinue`; scroll anchor to calibration workspace; filter resolved interactions on reload; touch-friendly CTAs.
 - **Tests:** `founderCharacterCalibrationProgressPanel.test.ts` (2) + existing P0.5E.4A suite green.
 
+---
+
+## 2026-08-25 — P0.5E.4C I KNOW HER state transition fix + visual casting gate + candidate generation
+
+- **Context:** After YES I KNOW HER on Character Lab synthesis, founder was routed back into calibration instead of entering visual casting. Sprint required fixing the state transition and implementing the missing CAST NDX visual casting stage (founder-triggered still generation, six candidates, judgments, LOCK HER → reference pack → continuity).
+- **Root cause:** `founder_i_know_her` blocked synthesis readiness pre-read; recognition handler used `goToSection: 'CASTING'` (checklist tab) not a casting route; no `/character/casting` page or `visualCastingState` persistence after confirmation.
+- **Fix:** Removed I KNOW HER from synthesis blocking gates; reordered progress (character read → I KNOW HER → visual casting); `saveFounderCharacterRecognition` + `promoteFounderRecognition` create `FounderCharacterRecognitionConfirmed`, `CharacterTruthSnapshot`, set `visualCastingReady`, navigate to `/projects/ndxbook/character/casting`; discovery return shows CHARACTER RECOGNIZED banner with explicit REOPEN CALIBRATION.
+- **Architecture:** `shared/site00-studio-world-production/characterVisualCasting/` — snapshot, readiness, state machine, prompt contract, casting engine (rounds/candidates/judgments/merge/lock), provider selection; API actions on `/api/site00/projects`; `ProjectCharacterCastingPage` (cost gate, founder-triggered generate, mobile swipe review, LOCK HER → continuity). Placeholder stills until FAL dispatch; video requests = 0 during casting.
+- **Shipped:** PR merged to `main`. Deploy **v87**. Tests: `embodiedCharacterVisualCastingP05E4C.test.ts` (10); full suite **2862** pass; build green. Brand Character/Canon unchanged; voice state preserved on visual promotion.
+
