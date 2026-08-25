@@ -151,6 +151,16 @@ import {
   registerFounderCreativeOnCampaignBoard,
 } from '../_lib/site00Evolve/founderCreativeIngestion/founderCreativeIngestionService.js';
 import {
+  getFilmProduction,
+  initializeNdxReelPilots,
+  compileProductionPlan,
+  approveFilmProductionPlan,
+  triggerFilmGeneration,
+  applyDailiesJudgment,
+  applyRoughCutJudgment,
+  registerFilmsOnCampaignBoard,
+} from '../_lib/site00Evolve/filmProduction/filmProductionService.js';
+import {
   finalizeRealismDecision,
   getCinematicRealismLabState,
   initializePilotExperiment,
@@ -2598,6 +2608,128 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const result = await registerFounderCreativeOnCampaignBoard({ projectId: slug });
         return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
+      case 'film_production_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'NDXBOOK only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await getFilmProduction({ projectId: slug });
+        return json(res, 200, { ok: true, ...result, source: 'site00_film_production' });
+      }
+      case 'film_production_initialize_pilots': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'NDXBOOK only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await initializeNdxReelPilots({ projectId: slug });
+        return json(res, 200, { ok: true, ...result, source: 'site00_film_production' });
+      }
+      case 'film_production_compile_plan': {
+        const slug = String(req.query.slug ?? '');
+        const filmId = String(req.query.filmId ?? '');
+        if (slug !== 'ndxbook' || !filmId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug and filmId required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await compileProductionPlan({ projectId: slug, filmId });
+        return json(res, 200, { ok: true, ...result, source: 'site00_film_production' });
+      }
+      case 'film_production_approve_plan': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const filmId = String(body.filmId ?? '');
+        if (slug !== 'ndxbook' || !filmId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug and filmId required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await approveFilmProductionPlan({ projectId: slug, filmId, approvedBy: user.email });
+        return json(res, 200, { ok: true, ...result, source: 'site00_film_production' });
+      }
+      case 'film_production_trigger_generation': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const filmId = String(body.filmId ?? '');
+        if (slug !== 'ndxbook' || !filmId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug and filmId required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await triggerFilmGeneration({ projectId: slug, filmId });
+        return json(res, 200, { ok: true, ...result, source: 'site00_film_production' });
+      }
+      case 'film_production_dailies_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const filmId = String(body.filmId ?? '');
+        const entryId = String(body.entryId ?? '');
+        const action = String(body.action ?? '');
+        const note = body.note ? String(body.note) : undefined;
+        if (slug !== 'ndxbook' || !filmId || !entryId || !action) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Missing required fields' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await applyDailiesJudgment({ projectId: slug, filmId, entryId, action: action as import('../../shared/site00-studio-world-production/filmProduction/types.js').DailiesAction, note });
+        return json(res, 200, { ok: true, ...result, source: 'site00_film_production' });
+      }
+      case 'film_production_rough_cut_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const filmId = String(body.filmId ?? '');
+        const action = String(body.action ?? '');
+        const note = body.note ? String(body.note) : undefined;
+        if (slug !== 'ndxbook' || !filmId || !action) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Missing required fields' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await applyRoughCutJudgment({ projectId: slug, filmId, action: action as import('../../shared/site00-studio-world-production/filmProduction/types.js').RoughCutAction, note });
+        return json(res, 200, { ok: true, ...result, source: 'site00_film_production' });
+      }
+      case 'film_production_register_campaign': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'NDXBOOK only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await registerFilmsOnCampaignBoard({ projectId: slug });
+        return json(res, 200, { ok: true, ...result, source: 'site00_film_production' });
       }
       case 'cinematic_realism_lab_get': {
         const slug = String(req.query.slug ?? '');

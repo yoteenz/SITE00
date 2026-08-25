@@ -295,5 +295,7 @@ export type MarketingCampaignProductionRun = {
   error: string | null;
   /** P0.CB.1 — Founder creative ingestion state for Launch Row 01 */
   founderCreativeIngestion?: import('../founderCreativeIngestion/types.js').FounderCreativeIngestionState | null;
+  /** P0.FILM.1 — Film production state (reels, dailies, scene deck) */
+  filmProduction?: import('../filmProduction/types.js').FilmProductionState | null;
   updatedAt: string;
 };

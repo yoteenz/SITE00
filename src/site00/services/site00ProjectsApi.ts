@@ -1636,6 +1636,44 @@ export const site00ProjectsApi = {
       '/api/site00/projects?action=founder_creative_ingestion_register_campaign',
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
     ),
+  filmProductionGet: (slug: string) =>
+    projectsFetch<{ ok: true; state: Record<string, unknown> }>(
+      `/api/site00/projects?action=film_production_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  filmProductionInitializePilots: (slug: string) =>
+    projectsFetch<{ ok: true; state: Record<string, unknown> }>(
+      '/api/site00/projects?action=film_production_initialize_pilots',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  filmProductionCompilePlan: (slug: string, filmId: string) =>
+    projectsFetch<{ ok: true; state: Record<string, unknown>; film: Record<string, unknown>; plan: Record<string, unknown> }>(
+      `/api/site00/projects?action=film_production_compile_plan&slug=${encodeURIComponent(slug)}&filmId=${encodeURIComponent(filmId)}`,
+    ),
+  filmProductionApprovePlan: (slug: string, filmId: string) =>
+    projectsFetch<{ ok: true; state: Record<string, unknown>; film: Record<string, unknown> }>(
+      '/api/site00/projects?action=film_production_approve_plan',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, filmId }) },
+    ),
+  filmProductionTriggerGeneration: (slug: string, filmId: string) =>
+    projectsFetch<{ ok: true; state: Record<string, unknown>; film: Record<string, unknown> }>(
+      '/api/site00/projects?action=film_production_trigger_generation',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, filmId }) },
+    ),
+  filmProductionDailiesJudgment: (slug: string, filmId: string, entryId: string, action: string, note?: string) =>
+    projectsFetch<{ ok: true; state: Record<string, unknown>; film: Record<string, unknown> }>(
+      '/api/site00/projects?action=film_production_dailies_judgment',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, filmId, entryId, action, note }) },
+    ),
+  filmProductionRoughCutJudgment: (slug: string, filmId: string, action: string, note?: string) =>
+    projectsFetch<{ ok: true; state: Record<string, unknown>; film: Record<string, unknown> }>(
+      '/api/site00/projects?action=film_production_rough_cut_judgment',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, filmId, action, note }) },
+    ),
+  filmProductionRegisterCampaign: (slug: string) =>
+    projectsFetch<{ ok: true; state: Record<string, unknown>; run: Record<string, unknown> | null }>(
+      '/api/site00/projects?action=film_production_register_campaign',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
   dailyPublishingGet: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
       `/api/site00/projects?action=daily_publishing_get&slug=${encodeURIComponent(slug)}`,

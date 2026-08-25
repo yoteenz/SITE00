@@ -4764,6 +4764,16 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+<<<<<<< HEAD
+## 2026-08-25 — P0.FILM.1 Brand Film Bible + Shot Library + Script-to-Scene Planner + Model Routing + Founder Dailies + Scene Deck
+
+- **Context:** Build generic Studio World film production architecture so founder can supply script/storyboard/concept and Studio World autonomously derives production layer (wardrobe, environment, shot contracts, model routing, dailies, scene deck, rough cut EDL). Pilot: NDXBOOK Reel 01 APPARENTLY I HAVE TO INTRODUCE MYSELF (MINI_VLOG_INTRO, 12 shots) and Reel 02 THAT CANNOT BE RIGHT — 001 (RABBIT_HOLE_INVESTIGATION, 15 shots). Philosophy: FOUNDER DIRECTS. STUDIO WORLD PRODUCES.
+- **Architecture:** `shared/site00-studio-world-production/filmProduction/` — authority stack (BrandFilmBible, CharacterFilmAuthority, Wardrobe/HairBeauty/AccessoryProp/Environment/Cinematography bibles, ShotLibrary 37+ shot classes, VideoFormatTemplateLibrary, FounderFilmTasteModel separate from canon), Script/Storyboard interpreters, FilmPlanner, FilmSceneContract, FilmShotContract, ContinuityGraph, FilmModelRouter (Realism Lab evidence per shot), prompt compiler (inspect-only), FilmGenerationPlan with pre-production cost gate, FilmShotQA + auto-reject + correction plans, FounderDailies, SceneDeck, EditTemplateEngine + EDL + RoughCut (ROUGH_CUT_RENDERING_BLOCKED honest state). NDX adapter: `adapters/ndxbookFilmAdapter.ts` with full reel scripts/storyboards.
+- **Integration:** Reuses P0.5E.5 character continuity, P0.CR.1 Realism Lab provider registry/prompt compiler/hybrid pipeline, P0.CB.1 campaign parent/child semantics. API: `film_production_*` actions; Campaign Board FILM PRODUCTION link; film parent assets + shot child lineage on board.
+- **UI:** `/projects/ndxbook/content-operations/film-production` (+ dailies, scene-deck tabs). Mobile-friendly dailies approve/reject; desktop scene deck strip. No provider spend on page load or planning — only after APPROVE PRODUCTION PLAN + explicit generation trigger.
+- **Shipped:** PR to `main`. Deploy **v89**. Tests: `filmProductionP0FILM1.test.ts` (31); full suite **2908** pass; build green (`index.BYZzwKN7.js`). Brand Character/Canon/historical lineage unchanged; autonomous publishing disabled.
+- **Recommended next:** Run Reel 01 through production plan review only; if plan correct, approve and generate continuity cluster shots 02–04 (table level, lime pen, non-introduction) before full reel generation.
+=======
 ## 2026-08-25 — CAST NDX placeholder round FAL retry (P0.5E.4C UX unblock)
 
 - **Context:** Founder generated first casting round before live FAL wiring shipped; page advanced to review with placeholder stills (`/api/placeholder/casting/...`) and the generate button disappeared (`castingCandidatesReady: true`).
@@ -4788,4 +4798,5 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `founderCreativeFalDispatch.ts` + `founderCreativeFalBackgroundJob.ts` (batch + single-slide, checkpoint saves, stale reconcile/resume). `decomposeAll` / `decomposeSequence` now call `resolveReconstructionPhotographyModes` then queue FAL when `FAL_KEY` set (MEET NDX slide 1 → `USE_EXISTING_ASSET` + HQ canonical; other photo slides → `GENERATE_FROM_REFERENCE`). Deterministic `ref-board-${sequenceId}` asset IDs. UI: 5s polling, progress panel, per-sequence reference URL, production `<img>` when URL ready, retry on failure. API returns 202 for background decompose/generate.
 - **Tests:** `founderCreativeIngestionP0CB1.test.ts` (16) — FAL batch completes on decompose, photography mode resolution.
 
+>>>>>>> origin/main
 

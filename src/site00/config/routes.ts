@@ -82,6 +82,9 @@ export const SITE00_ROUTES = {
   projectContentOperationsPerformance: '/projects/:projectSlug/content-operations/performance',
   projectContentOperationsCampaignBoard: '/projects/:projectSlug/content-operations/campaign-board',
   projectFounderCreativeIngestion: '/projects/:projectSlug/content-operations/founder-creative-ingest',
+  projectFilmProduction: '/projects/:projectSlug/content-operations/film-production',
+  projectFilmProductionDailies: '/projects/:projectSlug/content-operations/film-production/dailies',
+  projectFilmProductionSceneDeck: '/projects/:projectSlug/content-operations/film-production/scene-deck',
   projectContentOperationsDailyPlan: '/projects/:projectSlug/content-operations/daily-plan',
   projectRealismLab: '/projects/:projectSlug/realism-lab',
   projectRealismLabBrief: '/projects/:projectSlug/realism-lab/brief',
@@ -254,6 +257,18 @@ export function site00ProjectContentOperationsCampaignBoardPath(projectSlug: str
 
 export function site00ProjectFounderCreativeIngestionPath(projectSlug: string): string {
   return `/projects/${projectSlug}/content-operations/founder-creative-ingest`;
+}
+
+export function site00ProjectFilmProductionPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-operations/film-production`;
+}
+
+export function site00ProjectFilmProductionDailiesPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-operations/film-production/dailies`;
+}
+
+export function site00ProjectFilmProductionSceneDeckPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-operations/film-production/scene-deck`;
 }
 
 export function site00ProjectContentOperationsDailyPlanPath(projectSlug: string): string {
