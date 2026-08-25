@@ -29,11 +29,12 @@ export function ndxFounderWorkspaceNav(projectSlug: string): WorkspaceNavItem[] 
   if (!hasProjectCapability(projectSlug, 'PROJECT_WORKSPACE')) return [];
   return [
     { id: 'OVERVIEW', label: 'OVERVIEW', href: site00ProjectPath(projectSlug) },
-    { id: 'CREATE', label: 'CREATE', href: site00ProjectContentOperationsPath(projectSlug) },
-    { id: 'REVIEW', label: 'REVIEW', href: site00ProjectContentOperationsCampaignBoardPath(projectSlug), badge: 1 },
-    { id: 'LEARN', label: 'LEARN', href: site00ProjectContentOperationsPerformancePath(projectSlug) },
-    { id: 'INTELLIGENCE', label: 'INTELLIGENCE', href: site00ProjectCulturalIntelligencePath(projectSlug) },
-    { id: 'CHARACTER', label: 'CHARACTER', href: site00ProjectFounderCharacterDiscoveryPath(projectSlug) },
+    { id: 'EXPERIMENTS', label: 'EXPERIMENTS HUB', href: site00ProjectExperimentsPath(projectSlug) },
+    { id: 'CAMPAIGN', label: 'CAMPAIGN BOARD', href: site00ProjectContentOperationsCampaignBoardPath(projectSlug), badge: 1 },
+    { id: 'CONTENT_OPS', label: 'CONTENT OPS', href: site00ProjectContentOperationsPath(projectSlug) },
+    { id: 'INTELLIGENCE', label: 'CULTURAL INTELLIGENCE', href: site00ProjectCulturalIntelligencePath(projectSlug) },
+    { id: 'CHARACTER', label: 'CHARACTER LAB', href: site00ProjectFounderCharacterDiscoveryPath(projectSlug) },
+    { id: 'LEARN', label: 'PERFORMANCE + LEARNING', href: site00ProjectContentOperationsPerformancePath(projectSlug) },
     { id: 'ARCHIVE', label: 'ARCHIVE', href: site00ProjectFounderWorkspaceArchivePath(projectSlug) },
   ];
 }

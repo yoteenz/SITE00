@@ -5011,6 +5011,25 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-08-25 — P0.VR.1D.A NDXBOOK project hub reconstruction retry
+
+- **Context:** Founder sprint to repair failed NDXBOOK founder workspace / project hub pages using attached desktop (Image A) and mobile (Image B) reference boards as primary visual authority — reconstruction mode, not redesign.
+- **Delivered:** `ndxProjectHubReferenceDecomposition.ts` (desktop 10-region + mobile 6-screen decomposition, route authorities). Desktop `OverviewFounderWorkspaceBoard` composite hub at `/projects/ndxbook`. Mobile `MobileFounderWorkspaceChrome` + `OverviewMobileHomeScreen` with independent bottom nav (`ndxFounderWorkspaceMobileNav.ts`). `FounderWorkspaceShell` desktop/mobile split at 900px. Reference-aligned rail labels (EXPERIMENTS HUB, CAMPAIGN BOARD, etc.). Extended `NDX_CALIBRATION_ROUTES` for hub + mobile screens. CSS hub board tape/paper/lime system in `site00-founder-workspace.css`. Tests `projectHubReconstructionP0VR1DA.test.ts` (8 + success criteria). Fixed MEMORY merge conflict (P0.E + P0.VR.1D).
+- **Fidelity note:** Fixture PNGs in repo are wireframes; founder-attached editorial boards are canonical authority. Full pixel match requires those assets ingested + authenticated project detail render for live overlay QA.
+- **Founder review:** Desktop rail/nav CLOSE; hub board panels NEEDS FIX until auth + high-res reference overlay pass. Mobile chrome CLOSE; screen family NEEDS FIX for campaign/experiment/CI routes polish + reference assets.
+- **Next:** Ingest founder desktop/mobile reference PNGs into visual-references vault; run overlay loop per screen at locked viewports.
+
+## 2026-08-25 — P0.VR.1D.A mobile fix (preview-mode wiring + screen family)
+
+- **Issue:** Founder reported mobile design unchanged — root cause: mobile layouts gated by `isPreviewDesktop` toggle, not CSS media queries; global SITE 00 mobile shell (header + bottom nav) still wrapped NDXBOOK; only overview had a mobile component.
+- **Fix:** `FounderWorkspaceShell` now uses `isPreviewDesktop` to swap desktop operate vs `renderMobileFounderWorkspaceScreen()` inside `MobileFounderWorkspaceChrome`. Added 6 reference mobile screens in `MobileFounderWorkspaceScreens.tsx`. `EcosystemShell` adds `site00-ecosystem-shell--ndx-founder-mobile` on `/projects/ndxbook/*` to hide global mobile header/nav. Mobile bottom nav "More" → Experiments Hub.
+- **Verified:** Mobile toggle shows KPI overview, campaign board, content ops with NDXBOOK bottom nav (Overview/Campaigns/Content Ops/Lab/More).
+
+## 2026-08-25 — P0.VR.1D.A mobile regression fix (hub restore)
+
+- **Issue:** Founder reported broken project hub on mobile (unstyled blue inline nav links, global SITE 00 bottom nav still visible, plain-text KPIs). Root cause: static mobile screens replaced all operate layers; global mobile shell not suppressed structurally; nav CSS relied on broken unicode icons + sticky positioning below global nav.
+- **Fix:** `suppressSiteChrome` on `Site00EcosystemMobileShell` for ndxbook routes (hides global header + bottom nav). Mobile reference overview only on `/projects/ndxbook`; other routes restore real `operate` layers. Fixed bottom nav (fixed position, label-only, screenId active matching). CSS imported directly in mobile chrome component.
+
 ## 2026-08-25 — Promote founder reference to WHO FEELS CLOSEST
 
 - **Context:** Founder uploaded full-look reference (lime green sneakers) on CAST NDX and wanted it in WHO FEELS CLOSEST? to confirm identity before isolate generation.
@@ -5018,11 +5037,31 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+---
+
 ## 2026-08-25 — P0.UI.3 NDX SVG icon system
 
 - **Context:** NDX project workspace had inconsistent/broken icons across bottom nav, project menu, header, and desktop rail — mixed inline SVG, unicode glyphs, and mismatched sizing.
-- **Delivered:** Canonical package `shared/site00-studio-world-ui/icons/` (`NDXIconRegistry`, size tokens, viewBox 24, currentColor). React wrapper `src/site00/icons/ndx/NDXIcon.tsx`. Migrated `FounderWorkspaceShell` desktop rail, `FounderWorkspaceMobileNav`, `FounderWorkspaceProjectMenu`, `FounderWorkspaceHeaderChrome` (bell + ellipsis). Icon sheet at `/projects/:slug/inspect/icons` via `NdxIconSheetPanel`. `ProjectRow` ellipsis migrated. CSS P0.UI.3 block in `site00-founder-workspace.css` — active state uses `--site00-project-presence-accent` (P0.UI.1 lime preserved). Host icons (`projects`, `origin`, `back_to_projects`, `return_to_origin`) flagged `hostCanonical`; SITE 00 mobile-nav icons unchanged.
-- **Tests:** `ndxIconSystemP0UI3.test.ts` (12 + success criteria). Build green.
-- **Rule:** One semantic action → one canonical SVG; same drawing on mobile/desktop/menu/rail; color/size vary by context only.
+- **Delivered:** Canonical package `shared/site00-studio-world-ui/icons/` (`NDXIconRegistry`, size tokens, viewBox 24, currentColor). React wrapper `src/site00/icons/ndx/NDXIcon.tsx`. Migrated desktop rail, `MobileFounderWorkspaceChrome` (header + bottom nav), `FounderWorkspaceMobileNav` (CSS breakpoint fallback), `FounderWorkspaceProjectMenu`, `FounderWorkspaceHeaderChrome`. Replaced unicode icons in `ndxFounderWorkspaceMobileNav.ts`. Icon sheet at `/projects/:slug/inspect/icons`. `ProjectRow` ellipsis migrated. Active state uses `--site00-project-presence-accent` (P0.UI.1 lime). Host escape icons flagged `hostCanonical`.
+- **Tests:** `ndxIconSystemP0UI3.test.ts` (12 + success criteria). Merged atop P0.VR.1D.A mobile chrome on main.
+- **Rule:** One semantic action → one canonical SVG; same drawing on mobile/desktop/menu/rail.
 
+---
+
+## 2026-08-25 — P0.VR.1D.1 Screenshot-as-design-spec + moodboard extraction + visual-spec-to-code bridge
+
+- **Context:** Follow-up to P0.VR.1D / P0.VR.1D.A — fix Composer treating screenshots as inspiration instead of executable design spec. Default input = desktop + mobile mood boards with automatic per-screen extraction; full-screen references optional precision overrides only.
+- **Delivered:** New `p0vr1d1/` module — `MoodBoardScreenExtractionPipeline`, resolution evaluation (SUFFICIENT/PARTIAL/INSUFFICIENT), authority versioning + full-screen matcher, `VisualSpecToCodeBridge` → `ScreenImplementationSpec` + `RegionCodeSpec`, `ComposerScreenBuildContract` (SCREENSHOT_EMULATION, designFreedom false), DOM measurement/delta, `CodePatchInstruction` compiler, region locks, `runDomPatchConvergencePipeline`. Wired NDX golden pilot in `ndxProjectHubReferenceDecomposition.ts` — desktop 6 + mobile 6 auto-extracted screens, `rebuildNdxProjectHubThroughP0VR1D1()`. Tests `visualReconstructionP0VR1D1.test.ts` (17 + §33 success criteria). Doc `SITE00_VISUAL_RECONSTRUCTION_P0VR1D1.md`. P0_VR_LINEAGE_PRESERVED extended with P0.VR.1D.
+- **Core rule:** Mood board ingestion sufficient by default; code what is visibly there — reference geometry → concrete CSS properties → targeted patches, not "make it closer."
+- **Preservation:** P0.VR.1D architecture reused, not duplicated; prior VR lineage intact; SITE00 host canon unchanged.
+- **Founder next:** Upload desktop + mobile mood boards only (no manual per-screen crops); use optional ADD HIGH-RES REFERENCE per screen when resolution flags PARTIALLY_SUFFICIENT; run overlay QA on NDX hub routes after ingesting founder editorial boards into vault.
+
+---
+
+## 2026-08-25 — P0.VR.1D.2 NDX project hub live reconstruction execution
+
+- **Context:** Execution sprint — prove P0.VR.1D + P0.VR.1D.1 pipeline with real browser renders, not architecture-only. Founder editorial mood boards not yet persisted in Supabase; wireframe fixtures exist for dev only.
+- **Delivered:** `p0vr1d2/` — `resolveNdxFounderProjectHubBoards` (canonical `visual-references/founder/ndxbook/`, env, Supabase; no silent fixture substitution), `inferScreenViewportFromBoardCrop`, measured `measureScreenReferenceResolutionFromCrop` (no default SUFFICIENT), `runNdxProjectHubLiveReconstruction` (skipRender=false, Playwright, DOM capture, overlay, patches). Extended `ControlledReferenceRenderer` with preview device mode + DOM measurements. Runner `scripts/visualReconstruction/runNdxProjectHubLiveReconstruction.ts`. Tests `visualReconstructionP0VR1D2.test.ts`. Hub board `data-vr-region` markers.
+- **Live run (fixture fallback dev):** Mobile overview VISUAL_PASS ~93%; desktop panels FOUNDER_REVIEW/NEEDS_CORRECTION; resolution correctly INSUFFICIENT on small crops; fixtureSubstitution reported honestly.
+- **Founder next:** Drop actual desktop + mobile mood boards into `visual-references/founder/ndxbook/` (or Supabase paths in README); re-run live script without `--allow-fixture-fallback`; upload GoDaddy ZIP after hub CSS convergence passes.
 

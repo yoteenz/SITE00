@@ -13,6 +13,9 @@ export type FounderAttentionLevel =
 
 export type WorkspaceNavId =
   | 'OVERVIEW'
+  | 'EXPERIMENTS'
+  | 'CAMPAIGN'
+  | 'CONTENT_OPS'
   | 'CREATE'
   | 'REVIEW'
   | 'LEARN'

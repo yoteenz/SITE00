@@ -20,6 +20,7 @@ export type NdxFounderWorkspacePageProps = {
   inspectLabel?: string;
   actions?: ReactNode;
   hideWorkspaceNav?: boolean;
+  hideWorkspaceHeader?: boolean;
   nonNdxFallback?: ReactNode;
 };
 
@@ -41,6 +42,7 @@ export function NdxFounderWorkspacePage({
   inspectLabel,
   actions,
   hideWorkspaceNav,
+  hideWorkspaceHeader,
   nonNdxFallback,
 }: NdxFounderWorkspacePageProps) {
   if (!ndxFounderWorkspaceEnabled(projectSlug)) {
@@ -77,6 +79,7 @@ export function NdxFounderWorkspacePage({
         inspectLabel={inspectLabel}
         actions={actions}
         hideWorkspaceNav={hideWorkspaceNav}
+        hideWorkspaceHeader={hideWorkspaceHeader}
       />
     </EcosystemShell>
   );

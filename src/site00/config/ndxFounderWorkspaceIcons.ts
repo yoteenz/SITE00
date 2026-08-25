@@ -13,6 +13,9 @@ import {
 
 export const NDX_WORKSPACE_NAV_ICONS: Record<WorkspaceNavId, NDXIconName> = {
   OVERVIEW: 'overview',
+  EXPERIMENTS: 'experiments_hub',
+  CAMPAIGN: 'campaign_board',
+  CONTENT_OPS: 'content_ops',
   CREATE: 'content_ops',
   REVIEW: 'campaign_board',
   LEARN: 'performance_learning',

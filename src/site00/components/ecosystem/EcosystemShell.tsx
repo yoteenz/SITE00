@@ -16,6 +16,7 @@ import { useSite00OriginWideViewport } from '../shell/useSite00OriginWideViewpor
 import { useActiveProjectSlug } from '../../hooks/useProjectPresenceAccent';
 import { ecosystemPageMeta } from '../../config/ecosystem-nav';
 import { SITE00_ROUTES } from '../../config/routes';
+import { isNdxFounderWorkspaceRoute } from '../../config/ndxFounderWorkspaceRoutes';
 
 type EcosystemShellProps = {
   children: ReactNode;
@@ -42,6 +43,7 @@ export function EcosystemShell({ children, title, subtitle, headerActions, hideP
   const pageSubtitle = subtitle ?? meta.subtitle;
   const isCtrlRoomRoute = pathname === SITE00_ROUTES.control || pathname.startsWith(`${SITE00_ROUTES.control}/`);
   const showDesktopLayout = isPreviewDesktop;
+  const ndxFounderMobileTakeover = !showDesktopLayout && isNdxFounderWorkspaceRoute(pathname);
   const scaleDesktopInArtboard = showDesktopLayout && !isWideViewport;
 
   useEffect(() => {
@@ -77,8 +79,11 @@ export function EcosystemShell({ children, title, subtitle, headerActions, hideP
 
   const mobileLayout = (
     <div className="site00-ecosystem-shell__mobile">
-      <Site00EcosystemMobileShell shellClassName="site00-ecosystem-mobile-shell">
-        <ExperienceContextBar variant="client" />
+      <Site00EcosystemMobileShell
+        shellClassName="site00-ecosystem-mobile-shell"
+        suppressSiteChrome={ndxFounderMobileTakeover}
+      >
+        {ndxFounderMobileTakeover ? null : <ExperienceContextBar variant="client" />}
         {isCtrlRoomRoute ? (
           <div className="site00-ctrl-sign-out-mobile-bar">
             <CtrlRoomSignOutButton variant="mobile-bar" />
@@ -97,7 +102,16 @@ export function EcosystemShell({ children, title, subtitle, headerActions, hideP
   );
 
   return (
-    <ProjectPresenceScope projectSlug={activeProjectSlug} className={`site00-ecosystem-shell ${showDesktopLayout ? 'site00-ecosystem-shell--desktop-active' : 'site00-ecosystem-shell--mobile-active'}`.trim()}>
+    <ProjectPresenceScope
+      projectSlug={activeProjectSlug}
+      className={[
+        'site00-ecosystem-shell',
+        showDesktopLayout ? 'site00-ecosystem-shell--desktop-active' : 'site00-ecosystem-shell--mobile-active',
+        ndxFounderMobileTakeover ? 'site00-ecosystem-shell--ndx-founder-mobile' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
       <Site00EcosystemLayoutSwitch />
       {showDesktopLayout ? (
         scaleDesktopInArtboard ? (

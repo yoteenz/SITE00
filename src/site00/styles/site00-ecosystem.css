@@ -67,6 +67,15 @@
   padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
 }
 
+.site00-ecosystem-mobile-shell--suppress-chrome .site00-mobile-header,
+.site00-ecosystem-mobile-shell--suppress-chrome .site00-mobile-nav {
+  display: none !important;
+}
+
+.site00-ecosystem-mobile-shell--suppress-chrome .site00-ecosystem-mobile-shell__main {
+  padding-bottom: 0;
+}
+
 @media (max-width: 767px) {
   .site00-ecosystem-mobile-shell,
   .site00-ecosystem-mobile-shell__main,

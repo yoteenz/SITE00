@@ -41,3 +41,6 @@ export { FounderWorkspaceMobileNav } from './FounderWorkspaceMobileNav';
 export { FounderWorkspaceProjectMenu } from './FounderWorkspaceProjectMenu';
 export { FounderWorkspaceHeaderChrome } from './FounderWorkspaceHeaderChrome';
 export { NdxIconSheetPanel } from './NdxIconSheetPanel';
+export { OverviewFounderWorkspaceBoard, OverviewMobileHomeScreen } from './OverviewFounderWorkspaceBoard';
+export { MobileFounderWorkspaceChrome } from './MobileFounderWorkspaceChrome';
+export { renderMobileFounderWorkspaceScreen } from './MobileFounderWorkspaceScreens';

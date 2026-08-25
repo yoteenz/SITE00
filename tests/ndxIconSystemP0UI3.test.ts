@@ -66,9 +66,14 @@ describe('P0.UI.3 NDX SVG Icon System', () => {
 
   it('10-12. bottom nav, project menu, header use NDXIcon', () => {
     const mobileNav = read('src/site00/components/founderWorkspace/FounderWorkspaceMobileNav.tsx');
+    const mobileChrome = read('src/site00/components/founderWorkspace/MobileFounderWorkspaceChrome.tsx');
     const projectMenu = read('src/site00/components/founderWorkspace/FounderWorkspaceProjectMenu.tsx');
     const header = read('src/site00/components/founderWorkspace/FounderWorkspaceHeaderChrome.tsx');
+    const mobileNavConfig = read('src/site00/config/ndxFounderWorkspaceMobileNav.ts');
     expect(mobileNav).toContain('NDXIcon');
+    expect(mobileChrome).toContain('NDXIcon');
+    expect(mobileNavConfig).toContain('NDXIconName');
+    expect(mobileNavConfig).not.toMatch(/icon: '⌂'|icon: '▤'|icon: '···'/);
     expect(mobileNav).not.toMatch(/lucide|heroicons|mobile-nav\//);
     expect(projectMenu).toContain('NDXIcon');
     expect(header).toContain('NDXIcon');

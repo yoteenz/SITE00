@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import type { ExperimentJourneyStageConfig } from '../../../../shared/site00-studio-world-production/founderWorkspace/types.js';
 import {
   ndxFounderWorkspaceEnabled,
   ndxFounderWorkspaceNav,
@@ -17,7 +18,10 @@ import { NDXIcon } from '../../icons/ndx';
 import { FounderWorkspaceMobileNav } from './FounderWorkspaceMobileNav';
 import { FounderWorkspaceProjectMenu } from './FounderWorkspaceProjectMenu';
 import { FounderWorkspaceHeaderChrome } from './FounderWorkspaceHeaderChrome';
-import type { ExperimentJourneyStageConfig } from '../../../../shared/site00-studio-world-production/founderWorkspace/types.js';
+import { useSite00 } from '../../state/Site00Context';
+import { MobileFounderWorkspaceChrome } from './MobileFounderWorkspaceChrome';
+import { renderMobileFounderWorkspaceScreen } from './MobileFounderWorkspaceScreens';
+import { resolveMobileScreenIdFromPath } from '../../config/ndxFounderWorkspaceMobileNav';
 import '../../styles/site00-founder-workspace.css';
 
 type InspectorState = {
@@ -74,6 +78,7 @@ export function FounderWorkspaceShell({
   hideWorkspaceHeader = false,
 }: FounderWorkspaceShellProps) {
   const location = useLocation();
+  const { isPreviewDesktop } = useSite00();
   const enabled = ndxFounderWorkspaceEnabled(projectSlug);
   const nav = useMemo(() => ndxFounderWorkspaceNav(projectSlug), [projectSlug]);
   const inspectRoutes = useMemo(() => ndxInspectRoutes(projectSlug), [projectSlug]);
@@ -101,6 +106,12 @@ export function FounderWorkspaceShell({
   }
 
   const isNavActive = (path: string) => location.pathname.replace(/\/+$/, '') === path.replace(/\/+$/, '');
+  const mobileScreenId = resolveMobileScreenIdFromPath(location.pathname, projectSlug);
+  const mobilePresentation = !isPreviewDesktop;
+  const mobileBody =
+    mobilePresentation && mobileScreenId === 'overview'
+      ? renderMobileFounderWorkspaceScreen('overview', projectSlug)
+      : operate;
 
   const headerActions =
     actions ?? (
@@ -112,13 +123,13 @@ export function FounderWorkspaceShell({
 
   return (
     <FounderWorkspaceContext.Provider value={ctx}>
-      <div className="site00-fws">
-        {!hideWorkspaceNav ? (
-          <aside className="site00-fws-rail" aria-label="NDXBOOK workspace">
+      <div className={`site00-fws${mobilePresentation ? ' site00-fws--mobile-presentation' : ''}`}>
+        {!hideWorkspaceNav && isPreviewDesktop ? (
+          <aside className="site00-fws-rail site00-fws-hub-desktop-only" aria-label="NDXBOOK workspace">
             <div className="site00-fws-rail__brand">
               <span className="site00-fws-rail__host">SITE 00</span>
               <span className="site00-fws-rail__client">NDXBOOK</span>
-              <span className="site00-fws-rail__mode">EXPERIMENT HUB</span>
+              <span className="site00-fws-rail__mode">FOUNDER WORKSPACE</span>
             </div>
             <nav className="site00-fws-rail__nav">
               {nav.map((item) => (
@@ -163,9 +174,9 @@ export function FounderWorkspaceShell({
           </aside>
         ) : null}
 
-        <main className="site00-fws-canvas">
+        <main className={`site00-fws-canvas site00-fws-canvas--${mobileScreenId}`}>
           {!hideWorkspaceHeader ? (
-            <header className="site00-fws-header">
+            <header className="site00-fws-header site00-fws-hub-desktop-only">
               <div className="site00-fws-header__titles">
                 {attentionBadge ? <span className="site00-fws-header__badge">{attentionBadge}</span> : null}
                 <h1 className="site00-fws-header__title">{title}</h1>
@@ -176,10 +187,20 @@ export function FounderWorkspaceShell({
           ) : null}
 
           <section className="site00-fws-layer site00-fws-layer--operate" aria-label="Operate">
-            {operate}
+            {mobilePresentation ? (
+              <MobileFounderWorkspaceChrome
+                projectSlug={projectSlug}
+                onOpenMenu={() => setMenuOpen(true)}
+                onOpenNotifications={() => setMenuOpen(true)}
+              >
+                {mobileBody}
+              </MobileFounderWorkspaceChrome>
+            ) : (
+              operate
+            )}
           </section>
 
-          {understand ? (
+          {understand && isPreviewDesktop ? (
             <section className="site00-fws-layer site00-fws-layer--understand" aria-label="Understand">
               {understand}
             </section>
@@ -198,7 +219,7 @@ export function FounderWorkspaceShell({
           ) : null}
         </main>
 
-        {!hideWorkspaceNav ? (
+        {!hideWorkspaceNav && !mobilePresentation ? (
           <FounderWorkspaceMobileNav items={bottomNav} onMore={() => setMenuOpen(true)} />
         ) : null}
 
