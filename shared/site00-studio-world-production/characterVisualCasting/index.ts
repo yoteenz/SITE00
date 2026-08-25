@@ -7,3 +7,4 @@ export * from './stateMachine.js';
 export * from './promptContract.js';
 export * from './castingEngine.js';
 export * from './promoteRecognition.js';
+export * from './founderReferenceIngestion.js';

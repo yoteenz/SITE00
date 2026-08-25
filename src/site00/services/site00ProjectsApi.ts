@@ -2022,6 +2022,38 @@ export const site00ProjectsApi = {
       '/api/site00/projects?action=character_visual_casting_lock',
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
     ),
+  characterVisualCastingUploadReference: (
+    slug: string,
+    imageData: string,
+    role: string,
+    label?: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_visual_casting_upload_reference',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, imageData, role, label }),
+      },
+    ),
+  characterVisualCastingStoreReferenceBible: (slug: string, referenceId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_visual_casting_store_reference_bible',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, referenceId }),
+      },
+    ),
+  characterVisualCastingRegenerateFromReferences: (slug: string, dispatchFal?: boolean) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; background?: boolean }>(
+      '/api/site00/projects?action=character_visual_casting_regenerate_from_references',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, dispatchFal }),
+      },
+    ),
   founderCharacterDiscoverySynthesisPreview: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=founder_character_discovery_synthesis_preview',

@@ -13,6 +13,7 @@ import {
 import { buildInitialCastingPromptMatrix, compileCharacterCastingPromptContract } from './promptContract.js';
 import { estimateCastingRoundCost, recommendStillImageCastingProvider } from './providerSelection.js';
 import { syncPipelineState } from './stateMachine.js';
+import { founderReferencePromptNotes, migrateCastingStateFounderReferences } from './founderReferenceIngestion.js';
 import type {
   CastingPrimaryJudgment,
   CastingVariationAxis,
@@ -50,7 +51,9 @@ export function generateCastingRoundPlaceholders(params: {
   if (!snapshot) throw new Error('Active character truth snapshot required');
   if (!params.state.visualCastingReady) throw new Error('Visual casting not ready');
 
-  const contracts = buildInitialCastingPromptMatrix(snapshot);
+  const migrated = migrateCastingStateFounderReferences(params.state);
+  const referenceNotes = founderReferencePromptNotes(migrated);
+  const contracts = buildInitialCastingPromptMatrix(snapshot, referenceNotes);
   const rec = recommendStillImageCastingProvider(params.falConfigured);
   const roundNumber = params.state.rounds.length + 1;
   const roundId = randomUUID();
@@ -312,7 +315,12 @@ export function generateNextCastingRoundFromFeedback(params: {
   if (!snapshot) throw new Error('Snapshot required');
   const feedback = deriveNextRoundTraitsFromFeedback(params.state);
   const axis = feedback.variedTraits[0] ?? 'HAIR_PROTECTIVE_STYLE';
-  const contract = compileCharacterCastingPromptContract({ snapshot, variationAxis: axis });
+  const referenceNotes = founderReferencePromptNotes(migrateCastingStateFounderReferences(params.state));
+  const contract = compileCharacterCastingPromptContract({
+    snapshot,
+    variationAxis: axis,
+    founderReferenceNotes: referenceNotes,
+  });
   const rec = recommendStillImageCastingProvider(params.falConfigured);
   const roundId = randomUUID();
   const roundNumber = params.state.rounds.length + 1;

@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { FounderWorkspaceShell } from '../components/founderWorkspace/FounderWorkspaceShell';
 import { site00ProjectsApi, Site00ProjectsApiError } from '../services/site00ProjectsApi';
@@ -15,10 +15,14 @@ import {
   castingFalGenerationInProgress,
   castingRoundNeedsFalRetry,
   isCastingPlaceholderPreviewUrl,
+  FOUNDER_CASTING_REFERENCE_ROLES,
 } from '../../../shared/site00-studio-world-production/characterVisualCasting/client.js';
 import type {
   CharacterCastingCandidate,
+  FounderCastingReference,
+  FounderCastingReferenceRole,
 } from '../../../shared/site00-studio-world-production/characterVisualCasting/client.js';
+import { prepareReferenceBoardUpload } from '../utils/prepareReferenceBoardUpload';
 import '../styles/site00-character-casting.css';
 
 const POLL_MS = 5000;
@@ -42,8 +46,10 @@ export default function ProjectCharacterCastingPage() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [inspectOpen, setInspectOpen] = useState(false);
   const [mergeSelection, setMergeSelection] = useState<string[]>([]);
+  const [referenceRole, setReferenceRole] = useState<FounderCastingReferenceRole>('FULL_LOOK');
 
   const casting = run?.visualCastingState ?? null;
+  const founderReferences = casting?.founderReferences ?? [];
 
   const reload = useCallback(async () => {
     if (projectSlug !== 'ndxbook') return;
@@ -129,6 +135,32 @@ export default function ProjectCharacterCastingPage() {
           </ul>
           <Link to={site00ProjectFounderCharacterDiscoveryPath(projectSlug)}>← Return to Character Lab</Link>
         </section>
+      )}
+
+      {!loading && casting?.visualCastingReady && (
+        <FounderReferencesPanel
+          references={founderReferences}
+          role={referenceRole}
+          busy={busy}
+          onRoleChange={setReferenceRole}
+          onUpload={(file) =>
+            void act(async () => {
+              const imageData = await prepareReferenceBoardUpload(file);
+              return site00ProjectsApi.characterVisualCastingUploadReference(
+                projectSlug,
+                imageData,
+                referenceRole,
+                file.name,
+              );
+            })
+          }
+          onStoreInBible={(referenceId) =>
+            void act(() => site00ProjectsApi.characterVisualCastingStoreReferenceBible(projectSlug, referenceId))
+          }
+          onRegenerate={() =>
+            void act(() => site00ProjectsApi.characterVisualCastingRegenerateFromReferences(projectSlug))
+          }
+        />
       )}
 
       {!loading && casting?.visualCastingReady && !hasRound && (
@@ -365,5 +397,120 @@ export default function ProjectCharacterCastingPage() {
         operate={operate}
       />
     </EcosystemShell>
+  );
+}
+
+function FounderReferencesPanel({
+  references,
+  role,
+  busy,
+  onRoleChange,
+  onUpload,
+  onStoreInBible,
+  onRegenerate,
+}: {
+  references: FounderCastingReference[];
+  role: FounderCastingReferenceRole;
+  busy: boolean;
+  onRoleChange: (role: FounderCastingReferenceRole) => void;
+  onUpload: (file: File) => void;
+  onStoreInBible: (referenceId: string) => void;
+  onRegenerate: () => void;
+}) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const openFilePicker = () => {
+    if (busy) return;
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file?.type.startsWith('image/')) return;
+    onUpload(file);
+  };
+
+  const canRegenerate = references.some(
+    (entry) => entry.storedInBible || entry.decomposedSignals.length > 0,
+  );
+
+  return (
+    <section className="site00-char-cast__panel site00-char-cast__refs">
+      <h2>FOUNDER CHARACTER REFERENCES</h2>
+      <p className="site00-char-cast__hint">
+        Upload north-star references — decomposed into casting authority and stored in the Character Bible when approved.
+      </p>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/gif"
+        className="site00-char-cast__upload-input"
+        aria-hidden
+        tabIndex={-1}
+        onChange={handleFileChange}
+      />
+      <div className="site00-char-cast__role-strip">
+        {FOUNDER_CASTING_REFERENCE_ROLES.map((entry) => (
+          <button
+            key={entry}
+            type="button"
+            className={`site00-char-cast__role-chip${role === entry ? ' site00-char-cast__role-chip--active' : ''}`}
+            disabled={busy}
+            onClick={() => onRoleChange(entry)}
+          >
+            {entry.replace(/_/g, ' ')}
+          </button>
+        ))}
+      </div>
+      <button type="button" className="site00-char-cast__upload-zone" disabled={busy} onClick={openFilePicker}>
+        TAP TO UPLOAD {role.replace(/_/g, ' ')} REFERENCE
+      </button>
+      {references.length > 0 ? (
+        <ul className="site00-char-cast__ref-list">
+          {references.map((entry) => (
+            <li key={entry.referenceId} className="site00-char-cast__ref-item">
+              {entry.previewUrl ? (
+                <img src={entry.previewUrl} alt="" className="site00-char-cast__ref-thumb" />
+              ) : null}
+              <div className="site00-char-cast__ref-body">
+                <p className="site00-char-cast__ref-title">
+                  {entry.role.replace(/_/g, ' ')}
+                  {entry.label ? ` · ${entry.label}` : ''}
+                </p>
+                <p className="site00-char-cast__ref-status">{entry.status.replace(/_/g, ' ')}</p>
+                {entry.decomposedSignals.length > 0 ? (
+                  <ul className="site00-char-cast__ref-signals">
+                    {entry.decomposedSignals.map((signal) => (
+                      <li key={signal}>{signal}</li>
+                    ))}
+                  </ul>
+                ) : null}
+                {!entry.storedInBible && entry.decomposedSignals.length > 0 ? (
+                  <button
+                    type="button"
+                    className="site00-char-cast__cta"
+                    disabled={busy}
+                    onClick={() => onStoreInBible(entry.referenceId)}
+                  >
+                    STORE IN BIBLE →
+                  </button>
+                ) : null}
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+      {canRegenerate ? (
+        <button
+          type="button"
+          className="site00-char-cast__cta site00-char-cast__cta--primary"
+          disabled={busy}
+          onClick={onRegenerate}
+        >
+          REGENERATE CASTING FROM REFERENCES →
+        </button>
+      ) : null}
+    </section>
   );
 }

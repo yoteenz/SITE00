@@ -4864,3 +4864,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preservation:** Non-destructive reference lineage, draft not auto-promoted, founder-triggered FAL spend unchanged.
 - **Tests:** `founderCreativeIngestionP0CB1B.test.ts` (14); P0CB1A updated; build green.
 
+---
+
+## 2026-08-25 — CAST NDX founder character reference upload + bible storage
+
+- **Problem:** CAST NDX page had generate/review stills but no way to upload founder character references, decompose into casting authority, store in Character Bible, or regenerate casting from those references.
+- **Fix:** `character_visual_casting_upload_reference` / `_store_reference_bible` / `_regenerate_from_references` API; `founderReferenceIngestion` engine; continuity pipeline sync via `ingestFounderCastingReferenceToContinuity`. UI: role picker (FACE/HAIR/WARDROBE/etc.), **TAP TO UPLOAD** zone, decomposed signals list, **STORE IN BIBLE →**, **REGENERATE CASTING FROM REFERENCES →**.
+- **Shipped:** PR #435 merged to `main`. Deploy **v91**. Tests: `castNdxFounderReferenceUpload.test.ts` (3) pass; build green.
+

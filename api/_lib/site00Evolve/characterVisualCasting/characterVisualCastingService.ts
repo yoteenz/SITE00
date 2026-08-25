@@ -190,3 +190,84 @@ export async function reopenCharacterCalibration(params: { projectId: string }) 
   const run = await loadRun(params.projectId);
   return save(createNewTruthVersionOnReopenCalibration({ run }));
 }
+
+export async function uploadFounderCastingReference(params: {
+  projectId: string;
+  imageData: string;
+  role: import('../../../../shared/site00-studio-world-production/characterVisualCasting/founderReferenceIngestion.js').FounderCastingReferenceRole;
+  label?: string | null;
+}) {
+  const run = await hydrateCastingRun(params.projectId);
+  if (!run.visualCastingState?.visualCastingReady) throw new Error('Visual casting not ready');
+
+  const { randomUUID } = await import('node:crypto');
+  const referenceId = randomUUID();
+  const { uploadCastingReferenceImage } = await import('./castingReferenceUpload.js');
+  const { previewUrl, storagePath } = await uploadCastingReferenceImage({
+    projectId: params.projectId,
+    referenceId,
+    imageData: params.imageData,
+  });
+
+  const {
+    uploadFounderCastingReference: registerReference,
+    decomposeFounderCastingReference,
+  } = await import('../../../../shared/site00-studio-world-production/characterVisualCasting/founderReferenceIngestion.js');
+
+  let visualCastingState = registerReference(run.visualCastingState, {
+    previewUrl,
+    storagePath,
+    role: params.role,
+    label: params.label,
+  });
+  visualCastingState = decomposeFounderCastingReference(
+    visualCastingState,
+    visualCastingState.founderReferences.at(-1)!.referenceId,
+  );
+
+  return save({ ...run, visualCastingState });
+}
+
+export async function storeFounderCastingReferenceInBible(params: {
+  projectId: string;
+  referenceId: string;
+}) {
+  const run = await hydrateCastingRun(params.projectId);
+  if (!run.visualCastingState) throw new Error('Visual casting not initialized');
+  const reference = run.visualCastingState.founderReferences?.find(
+    (entry) => entry.referenceId === params.referenceId,
+  );
+  if (!reference) throw new Error('Founder casting reference not found');
+
+  const { ingestFounderCastingReferenceToContinuity } = await import(
+    '../characterContinuity/characterContinuityService.js'
+  );
+  const { receiptId } = await ingestFounderCastingReferenceToContinuity({
+    projectId: params.projectId,
+    reference,
+  });
+
+  const { storeFounderCastingReferenceInBible: markStored } = await import(
+    '../../../../shared/site00-studio-world-production/characterVisualCasting/founderReferenceIngestion.js'
+  );
+  const visualCastingState = markStored(run.visualCastingState, params.referenceId, receiptId);
+  return save({ ...run, visualCastingState });
+}
+
+export async function regenerateCastingFromFounderReferences(params: {
+  projectId: string;
+  dispatchFal?: boolean;
+}) {
+  const run = await hydrateCastingRun(params.projectId);
+  if (!run.visualCastingState) throw new Error('Visual casting not initialized');
+  const { hasFounderReferencesReadyForRegeneration } = await import(
+    '../../../../shared/site00-studio-world-production/characterVisualCasting/founderReferenceIngestion.js'
+  );
+  if (!hasFounderReferencesReadyForRegeneration(run.visualCastingState)) {
+    throw new Error('Upload and decompose at least one founder reference first');
+  }
+  return generateNextVisualCastingRound({
+    projectId: params.projectId,
+    dispatchFal: params.dispatchFal,
+  });
+}

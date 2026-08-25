@@ -87,6 +87,15 @@ export const FINAL_IDENTITY_EXPRESSIONS = [
 
 export const FINAL_IDENTITY_POSES = ['SEATED', 'STANDING'] as const;
 
+export const FOUNDER_CASTING_REFERENCE_ROLES = [
+  'FACE',
+  'HAIR',
+  'WARDROBE',
+  'PRESENCE',
+  'FULL_LOOK',
+  'MOOD',
+] as const;
+
 export const CASTING_NEGATIVE_CONSTRAINTS = [
   'generic AI influencer',
   'beauty campaign model',

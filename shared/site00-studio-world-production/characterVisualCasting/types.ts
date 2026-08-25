@@ -9,7 +9,10 @@ import type {
   CASTING_ROUND_STATUSES,
   CASTING_VARIATION_AXES,
   MERGE_TRAIT_OPTIONS,
+  FOUNDER_CASTING_REFERENCE_ROLES,
 } from './constants.js';
+
+export type FounderCastingReferenceRole = (typeof FOUNDER_CASTING_REFERENCE_ROLES)[number];
 
 export type CharacterPipelineState =
   | 'CHARACTER_DISCOVERY_IN_PROGRESS'
@@ -177,6 +180,20 @@ export type CastingFalGenerationTracking = {
   errorMessage: string | null;
 };
 
+export type FounderCastingReference = {
+  referenceId: string;
+  previewUrl: string;
+  storagePath: string;
+  role: FounderCastingReferenceRole;
+  label: string | null;
+  decomposedSignals: string[];
+  decomposedAt: string | null;
+  storedInBible: boolean;
+  bibleReceiptId: string | null;
+  uploadedAt: string;
+  status: 'UPLOADED' | 'DECOMPOSED' | 'BIBLE_STORED';
+};
+
 export type CharacterVisualCastingState = {
   castingVersion: typeof import('./constants.js').CHARACTER_VISUAL_CASTING_VERSION;
   pipelineState: CharacterPipelineState;
@@ -209,5 +226,6 @@ export type CharacterVisualCastingState = {
   falImageRequests: number;
   falVideoRequests: number;
   falGenerationTracking: CastingFalGenerationTracking | null;
+  founderReferences: FounderCastingReference[];
   updatedAt: string;
 };
