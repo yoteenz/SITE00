@@ -7,6 +7,7 @@ import type { NdxFounderCharacterDiscoveryRun } from '../../../../shared/site00-
 import {
   applyCastingGenerationFailure,
 } from '../../../../shared/site00-studio-world-production/characterVisualCasting/castingEngine.js';
+import { reconcileOrphanedCastingGenerationState } from '../../../../shared/site00-studio-world-production/characterVisualCasting/orphanGenerationReconcile.js';
 import { syncPipelineState } from '../../../../shared/site00-studio-world-production/characterVisualCasting/stateMachine.js';
 import type { CharacterVisualCastingState } from '../../../../shared/site00-studio-world-production/characterVisualCasting/types.js';
 import {
@@ -136,6 +137,16 @@ export async function startCastingRoundFalBackgroundJob(params: {
 
   enqueueFalBackgroundWork(work);
   return started;
+}
+
+export async function reconcileOrphanedCastingGeneration(
+  run: NdxFounderCharacterDiscoveryRun,
+): Promise<NdxFounderCharacterDiscoveryRun> {
+  const state = run.visualCastingState;
+  if (!state) return run;
+  const next = reconcileOrphanedCastingGenerationState(state);
+  if (next === state) return run;
+  return save({ ...run, visualCastingState: next });
 }
 
 export async function reconcileStaleCastingGeneration(

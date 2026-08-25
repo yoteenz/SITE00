@@ -44,10 +44,7 @@ export function castingRoundNeedsFalRetry(state: CharacterVisualCastingState, ro
 }
 
 export function castingFalGenerationInProgress(state: CharacterVisualCastingState): boolean {
-  return Boolean(
-    state.falGenerationTracking?.status === 'RUNNING' ||
-      (!state.castingCandidatesReady && state.rounds.some((entry) => entry.status === 'GENERATING')),
-  );
+  return state.falGenerationTracking?.status === 'RUNNING';
 }
 
 export function castingFalGenerationFailed(state: CharacterVisualCastingState): boolean {
