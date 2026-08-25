@@ -2053,6 +2053,15 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, referenceId }),
       },
     ),
+  characterVisualCastingPromoteReferenceToClosest: (slug: string, referenceId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_visual_casting_promote_reference_to_closest',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, referenceId }),
+      },
+    ),
   characterVisualCastingRegenerateFromReferences: (slug: string, dispatchFal?: boolean) =>
     projectsFetch<{ ok: true; run: Record<string, unknown>; background?: boolean }>(
       '/api/site00/projects?action=character_visual_casting_regenerate_from_references',

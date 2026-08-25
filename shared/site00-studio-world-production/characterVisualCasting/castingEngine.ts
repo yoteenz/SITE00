@@ -15,6 +15,7 @@ import { estimateCastingRoundCost, recommendStillImageCastingProvider } from './
 import { syncPipelineState } from './stateMachine.js';
 import { founderReferencePromptNotes, migrateCastingStateFounderReferences } from './founderReferenceIngestion.js';
 import {
+  activateReferenceAuthority,
   generateCharacterBibleAssetPackRound,
   hasActiveReferenceAuthority,
   migrateReferenceDrivenCastingState,
@@ -155,11 +156,17 @@ export function applyCastingJudgment(params: {
     selectedCandidateId = params.candidateId;
   }
 
-  return syncPipelineState({
+  let nextState = syncPipelineState({
     ...params.state,
     candidates,
     selectedCandidateId,
   });
+
+  if (params.judgment === 'THATS_HER' && candidate.founderReferenceId) {
+    nextState = activateReferenceAuthority(nextState, candidate.founderReferenceId);
+  }
+
+  return nextState;
 }
 
 export function createCastingMergeRequest(params: {

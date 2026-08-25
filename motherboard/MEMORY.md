@@ -5005,5 +5005,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** New `p0vr1d/` module under `shared/site00-studio-world-production/visualReconstruction/` — `WebVisualReferenceAuthority`, asset resolution, page decomposition, region map, geometry/typography/frame contracts, desktop/mobile separate authorities, pixel match evaluation, difference map, moodboard screen extraction, provider routing (image-reference preferred; text-only blocked as primary), screenshot-first pipeline with iterative compare/correct loop. Added `WEBSITE_RECONSTRUCTION` mode. Founder UI `VisualReconstructionWorkspace` (7-step flow, overlay/diff views). Tests `visualReconstructionP0VR1D.test.ts` (21 + success criteria). Doc `docs/architecture/SITE00_VISUAL_RECONSTRUCTION_P0VR1D.md`.
 - **Core rule:** Keep reference image in the loop until coded implementation matches; text cannot override visible geometry.
 - **Validation after ship:** Run one controlled desktop + mobile reconstruction pair; overlay reference vs implementation before responsive interpolation.
+
+---
+
+## 2026-08-25 — Promote founder reference to WHO FEELS CLOSEST
+
+- **Context:** Founder uploaded full-look reference (lime green sneakers) on CAST NDX and wanted it in WHO FEELS CLOSEST? to confirm identity before isolate generation.
+- **Fix:** `promoteFounderReferenceToClosestReview()` + API `character_visual_casting_promote_reference_to_closest` + UI button **USE FOR WHO FEELS CLOSEST? →** on each decomposed reference. Active reference drives isolate source; THAT'S HER locks selection.
 >>>>>>> db47c62 (feat(visual-reconstruction): P0.VR.1D screenshot-first pixel matching)
 

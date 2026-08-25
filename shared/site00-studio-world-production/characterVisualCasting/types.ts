@@ -57,6 +57,7 @@ export type CastingPromptAuthorityLayer = (typeof CASTING_PROMPT_AUTHORITY_LAYER
 export type CastingGenerationMode =
   | 'LEGACY_VARIATION'
   | 'REFERENCE_DRIVEN'
+  | 'FOUNDER_REFERENCE_REVIEW'
   | 'CHARACTER_BIBLE_ASSET_PACK'
   | 'CANONICAL_ANCHOR'
   | 'CHARACTER_ISOLATE'
@@ -504,6 +505,8 @@ export type CharacterCastingCandidate = {
   castingStatus: CastingCandidateStatus;
   founderNote: string | null;
   driftEvaluationId?: string | null;
+  /** When candidate is a promoted founder upload for WHO FEELS CLOSEST review */
+  founderReferenceId?: string | null;
 };
 
 export type CharacterCastingRound = {
@@ -526,6 +529,7 @@ export type CharacterCastingRound = {
   variedTraits: CastingVariationAxis[];
   rejectedTraits: string[];
   basedOnPriorTruthSnapshotId: string | null;
+  founderReferenceId?: string | null;
 };
 
 export type CharacterCastingMergeRequest = {
