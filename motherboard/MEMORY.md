@@ -4741,3 +4741,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Architecture:** `shared/site00-studio-world-production/characterVisualCasting/` — snapshot, readiness, state machine, prompt contract, casting engine (rounds/candidates/judgments/merge/lock), provider selection; API actions on `/api/site00/projects`; `ProjectCharacterCastingPage` (cost gate, founder-triggered generate, mobile swipe review, LOCK HER → continuity). Placeholder stills until FAL dispatch; video requests = 0 during casting.
 - **Shipped:** PR merged to `main`. Deploy **v87**. Tests: `embodiedCharacterVisualCastingP05E4C.test.ts` (10); full suite **2862** pass; build green. Brand Character/Canon unchanged; voice state preserved on visual promotion.
 
+---
+
+## 2026-08-25 — CAST NDX FAL generation wired (P0.5E.4C follow-up)
+
+- **Context:** Founder reported CAST NDX page (`/projects/ndxbook/character/casting`) wasn't calling FAL — generation produced placeholder URLs only, never live stills.
+- **Root cause:** UI explicitly passed `dispatchFal: false`; service defaulted `dispatchFal ?? false`; `castingEngine.generateCastingRoundPlaceholders` only set GENERATING status when dispatchFal true but no FAL API call existed anywhere in the pipeline.
+- **Fix:** Added `api/_lib/site00Evolve/characterVisualCasting/castingFalDispatch.ts` — compiles prompt contracts via `compileCastingPromptFromContract`, calls GPT Image 2 through FAL (`buildFalImageInput`), uploads to Supabase storage (`site00/character-casting/{project}/{round}/{candidate}.webp`), applies results via `applyCastingGenerationResults`. Service defaults `dispatchFal` to `falConfigured()`; first round + next round both dispatch when FAL_KEY present. UI now calls generate without `false` flag; hero frame renders `<img>` for real preview URLs.
+- **Discarded:** Duplicate embodied-character `/character/cast` route work on branch (reverted before ship).
+- **Tests:** `embodiedCharacterVisualCastingP05E4C.test.ts` expanded (13) — prompt compile, apply results, vitest-mocked full generate path.
+
