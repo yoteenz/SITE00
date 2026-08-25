@@ -208,6 +208,16 @@ import {
   runMockFixturePipelineTest,
 } from '../_lib/site00Evolve/characterContinuity/characterContinuityService.js';
 import {
+  estimateVisualCastingRound,
+  generateNextVisualCastingRound,
+  generateVisualCastingRound,
+  getVisualCastingState,
+  lockVisualIdentity,
+  reopenCharacterCalibration,
+  saveVisualCastingJudgment,
+  createVisualCastingMerge,
+} from '../_lib/site00Evolve/characterVisualCasting/characterVisualCastingService.js';
+import {
   formBrandPresentationDirections,
   getBrandPresentationDirectionFormationRun,
   prepareBrandPresentationDirectionParents,
@@ -2911,12 +2921,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await saveFounderCharacterRecognition({
+        const result = await saveFounderCharacterRecognition({
           projectId: 'ndxbook',
           response: response as import('../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js').FounderRecognitionResponse,
           note: body.note ? String(body.note) : undefined,
+          sourceRoute: body.sourceRoute ? String(body.sourceRoute) : undefined,
         });
-        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+        return json(res, 200, {
+          ok: true,
+          run: result.run,
+          redirectToCasting: result.redirectToCasting,
+          blockers: result.blockers,
+          source: 'site00_founder_character_discovery',
+        });
       }
       case 'founder_character_discovery_synthesis_preview': {
         if (req.method !== 'POST') {
@@ -3276,6 +3293,133 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const run = await runMockFixturePipelineTest({ projectId: 'ndxbook' });
         return json(res, 200, { ok: true, run, source: 'site00_character_continuity' });
+      }
+      case 'character_visual_casting_get': {
+        const slug = String(req.query.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await getVisualCastingState({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, ...result, source: 'site00_character_visual_casting' });
+      }
+      case 'character_visual_casting_estimate': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const result = await estimateVisualCastingRound({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, ...result, source: 'site00_character_visual_casting' });
+      }
+      case 'character_visual_casting_generate': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await generateVisualCastingRound({ projectId: 'ndxbook', dispatchFal: Boolean(body.dispatchFal) });
+        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+      }
+      case 'character_visual_casting_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const candidateId = String(body.candidateId ?? '');
+        const judgment = String(body.judgment ?? '');
+        if (slug !== 'ndxbook' || !candidateId || !judgment) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug, candidateId, judgment required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await saveVisualCastingJudgment({
+          projectId: 'ndxbook',
+          candidateId,
+          judgment: judgment as import('../../../shared/site00-studio-world-production/characterVisualCasting/types.js').CastingPrimaryJudgment,
+          note: body.note ? String(body.note) : undefined,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+      }
+      case 'character_visual_casting_merge': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await createVisualCastingMerge({
+          projectId: 'ndxbook',
+          candidateIds: Array.isArray(body.candidateIds) ? body.candidateIds.map(String) : [],
+          retainFromEach: (body.retainFromEach as Record<string, import('../../../shared/site00-studio-world-production/characterVisualCasting/types.js').MergeTraitOption[]>) ?? {},
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+      }
+      case 'character_visual_casting_next_round': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await generateNextVisualCastingRound({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+      }
+      case 'character_visual_casting_lock': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await lockVisualIdentity({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
+      }
+      case 'character_visual_casting_reopen_calibration': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (slug !== 'ndxbook') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await reopenCharacterCalibration({ projectId: 'ndxbook' });
+        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
       }
       case 'experiment_g_get': {
         const slug = String(req.query.slug ?? '');

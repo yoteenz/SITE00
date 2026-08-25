@@ -460,12 +460,12 @@ describe('P0.5E.4 — Founder recognition unlock path', () => {
 
   it('recognition YES_I_KNOW_HER alone does not unlock casting without other gates', async () => {
     await initializeFounderCharacterDiscoveryRoom({ projectId: 'ndxbook' });
-    const updated = await saveFounderCharacterRecognition({
+    const result = await saveFounderCharacterRecognition({
       projectId: 'ndxbook',
       response: 'YES_I_KNOW_HER',
     });
-    expect(updated.founderRecognition.response).toBe('YES_I_KNOW_HER');
-    expect(updated.founderRecognition.inferred).toBe(false);
-    expect(updated.castingReadiness.readyForCharacterSynthesis).toBe(false);
+    expect(result.run.founderRecognition.response).toBe('YES_I_KNOW_HER');
+    expect(result.run.founderRecognition.inferred).toBe(false);
+    expect(result.run.castingReadiness.readyForCharacterSynthesis).toBe(false);
   });
 });

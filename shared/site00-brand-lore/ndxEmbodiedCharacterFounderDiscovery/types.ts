@@ -21,4 +21,6 @@ export type NdxFounderCharacterDiscoveryRun = EmbodiedCharacterFounderDiscoveryR
   /** P0.5E.4B — auditory voice calibration state */
   voiceCalibrationState?: CharacterVoiceCalibrationState | null;
   languageLabEvidenceCount?: number;
+  /** P0.5E.4C — visual casting pipeline state */
+  visualCastingState?: import('../../site00-studio-world-production/characterVisualCasting/types.js').CharacterVisualCastingState | null;
 };

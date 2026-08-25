@@ -55,6 +55,8 @@ import {
   isNeuralProviderConfigured,
 } from './neuralVoiceGenerationService.js';
 import type { NdxFounderCharacterDiscoveryRun } from '../../../../shared/site00-brand-lore/ndxEmbodiedCharacterFounderDiscovery/types.js';
+import { promoteFounderRecognition } from '../../../../shared/site00-studio-world-production/characterVisualCasting/promoteRecognition.js';
+import { isNeuralProviderConfigured } from './neuralVoiceGenerationService.js';
 import * as store from './founderCharacterDiscoveryStoreAdapter.js';
 
 function nowIso(): string {
@@ -234,7 +236,8 @@ export async function saveFounderCharacterRecognition(params: {
   projectId: string;
   response: FounderRecognitionResponse;
   note?: string;
-}): Promise<NdxFounderCharacterDiscoveryRun> {
+  sourceRoute?: string;
+}): Promise<{ run: NdxFounderCharacterDiscoveryRun; redirectToCasting: boolean; blockers: string[] }> {
   const existing = await store.getFounderCharacterDiscoveryRun(params.projectId);
   if (!existing) throw new Error('Founder character discovery room not initialized');
   const founderRecognition = {
@@ -244,8 +247,24 @@ export async function saveFounderCharacterRecognition(params: {
     evaluatedAt: nowIso(),
     inferred: false as const,
   };
-  const updated = refreshReadiness({ ...existing, founderRecognition, updatedAt: nowIso() });
-  return store.saveFounderCharacterDiscoveryRun(updated);
+  let updated = refreshReadiness({ ...existing, founderRecognition, updatedAt: nowIso() });
+  let redirectToCasting = false;
+  let blockers: string[] = [];
+
+  if (params.response === 'YES_I_KNOW_HER') {
+    const promoted = promoteFounderRecognition({
+      run: updated,
+      response: params.response,
+      sourceRoute: params.sourceRoute ?? '/projects/ndxbook/character/discovery',
+      falConfigured: isNeuralProviderConfigured(),
+    });
+    updated = refreshReadiness(promoted.run);
+    redirectToCasting = promoted.redirectToCasting;
+    blockers = promoted.blockers;
+  }
+
+  const saved = await store.saveFounderCharacterDiscoveryRun(updated);
+  return { run: saved, redirectToCasting, blockers };
 }
 
 export async function saveFounderVoiceLabJudgment(params: {

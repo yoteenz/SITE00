@@ -326,7 +326,7 @@ export type CharacterCastingReadinessEvaluation = {
   humanityEvaluationPass: boolean;
   founderKnowsHer: boolean;
   readyForCharacterSynthesis: boolean;
-  readyForCastingExploration: false;
+  readyForCastingExploration: boolean;
   blockingGates: string[];
 };
 

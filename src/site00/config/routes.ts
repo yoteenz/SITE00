@@ -97,6 +97,7 @@ export const SITE00_ROUTES = {
   projectFounderCharacterDiscovery: '/projects/:projectSlug/character/discovery',
   projectCharacterContinuity: '/projects/:projectSlug/character/continuity',
   projectCharacterContinuityReview: '/projects/:projectSlug/character/continuity/review',
+  projectCharacterCasting: '/projects/:projectSlug/character/casting',
   projectExperimentE: '/projects/:projectSlug/experience-expression',
   projectExperimentEVisualDevelopment: '/projects/:projectSlug/experience-expression/visual-development',
   projectExperiments: '/projects/:projectSlug/experiments',
@@ -312,6 +313,10 @@ export function site00ProjectCharacterContinuityPath(projectSlug: string): strin
 
 export function site00ProjectCharacterContinuityReviewPath(projectSlug: string): string {
   return `/projects/${projectSlug}/character/continuity/review`;
+}
+
+export function site00ProjectCharacterCastingPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/character/casting`;
 }
 
 export function site00ProjectExperimentEVisualDevelopmentPath(projectSlug: string): string {

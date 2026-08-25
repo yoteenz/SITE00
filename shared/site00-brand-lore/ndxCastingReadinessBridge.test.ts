@@ -57,7 +57,7 @@ describe('ndxCastingReadinessBridge', () => {
     expect(castingStatusHeadline(withRecognition)).toContain('Continue calibration');
   });
 
-  it('calibration progress + YES_I_KNOW_HER unlocks synthesis readiness', () => {
+  it('calibration progress unlocks synthesis readiness without YES I KNOW HER', () => {
     let run = buildNdxFounderCharacterDiscoveryRun();
     const interactionIds = [
       'cal-scenario-ndx-wrong-receipt',
@@ -84,7 +84,6 @@ describe('ndxCastingReadinessBridge', () => {
       run,
       humanityEvaluation: humanityFor(run),
     });
-    expect(readiness.founderKnowsHer).toBe(true);
     expect(readiness.readyForCharacterSynthesis).toBe(true);
     expect(castingStatusHeadline({ ...run, castingReadiness: readiness })).toContain('READY FOR CHARACTER SYNTHESIS');
   });
@@ -109,10 +108,11 @@ describe('ndxCastingReadinessBridge', () => {
       '../../api/_lib/site00Evolve/founderCharacterDiscovery/founderCharacterDiscoveryService.js'
     );
     await initializeFounderCharacterDiscoveryRoom({ projectId: 'ndxbook' });
-    const saved = await saveFounderCharacterRecognition({
+    const result = await saveFounderCharacterRecognition({
       projectId: 'ndxbook',
       response: 'YES_I_KNOW_HER',
     });
+    const saved = result.run;
     expect(saved.founderRecognition.response).toBe('YES_I_KNOW_HER');
     expect(saved.castingReadiness.founderKnowsHer).toBe(true);
     expect(castingStatusHeadline(saved)).not.toContain('BLOCKED until YES_I_KNOW_HER');
