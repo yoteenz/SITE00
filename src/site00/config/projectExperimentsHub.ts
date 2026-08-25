@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 /**
  * NDXBOOK methodology & experiments — single hub index and sequential navigation.
  */
@@ -74,7 +75,7 @@ export function projectExperimentsHubPhaseLabel(phase: ProjectExperimentHubPhase
 
 /** Canonical ordered hub for NDXBOOK founder methodology surfaces. */
 export function getProjectExperimentsHubEntries(projectSlug: string): ProjectExperimentHubEntry[] {
-  if (projectSlug !== 'ndxbook') return [];
+  if (!hasProjectCapability(projectSlug, 'CREATIVE_CONCEPT_TERRITORIES')) return [];
 
   return [
     {

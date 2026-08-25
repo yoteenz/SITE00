@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
@@ -18,7 +19,7 @@ export default function ProjectExperimentGFinalistsPage() {
   const [lastRefreshedAt, setLastRefreshedAt] = useState<Date | null>(null);
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'CREATIVE_CONCEPT_TERRITORIES')) return;
     try {
       const result = await site00ProjectsApi.experimentGVisualGet(projectSlug);
       setRun((result.run as BrandPresentationVisualFormulationRun | null) ?? null);
@@ -42,7 +43,7 @@ export default function ProjectExperimentGFinalistsPage() {
     return () => window.clearInterval(pollId);
   }, [run?.status, reload]);
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'CREATIVE_CONCEPT_TERRITORIES')) {
     return (
       <EcosystemShell hidePageHeader>
         <p>Finalist visual formulation is NDXBOOK-only.</p>

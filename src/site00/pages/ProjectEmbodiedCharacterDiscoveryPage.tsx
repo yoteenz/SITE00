@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
@@ -93,7 +94,7 @@ export default function ProjectEmbodiedCharacterDiscoveryPage() {
   const [judgmentNote, setJudgmentNote] = useState('');
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'EMBODIED_CHARACTER_DISCOVERY')) return;
     try {
       const result = await site00ProjectsApi.embodiedCharacterDiscoveryGet(projectSlug);
       setRun((result.run as NdxEmbodiedCharacterDiscoveryRun | null) ?? null);
@@ -139,7 +140,7 @@ export default function ProjectEmbodiedCharacterDiscoveryPage() {
     if (first) setSection(first);
   };
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'EMBODIED_CHARACTER_DISCOVERY')) {
     return <p>Embodied Character Discovery is NDXBOOK-only for this proof.</p>;
   }
 

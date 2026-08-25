@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { NdxFounderWorkspacePage, FounderWorkspacePanel } from '../components/founderWorkspace';
@@ -13,7 +14,7 @@ export default function ProjectCulturalIntelligenceSourcesPage() {
   const [manualAttention, setManualAttention] = useState('');
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'CULTURAL_INTELLIGENCE')) return;
     try {
       const result = await site00ProjectsApi.culturalIntelligenceGet(projectSlug);
       setRun((result.run as LiveCulturalIntelligenceRun | null) ?? null);
@@ -28,7 +29,7 @@ export default function ProjectCulturalIntelligenceSourcesPage() {
     void reload();
   }, [reload]);
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'CULTURAL_INTELLIGENCE')) {
     return (
       <NdxFounderWorkspacePage
         projectSlug={projectSlug}

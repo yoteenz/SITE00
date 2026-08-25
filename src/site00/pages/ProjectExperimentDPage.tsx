@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
@@ -16,7 +17,7 @@ export default function ProjectExperimentDPage() {
   const [loading, setLoading] = useState(true);
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'CREATIVE_CONCEPT_TERRITORIES')) return;
     try {
       const result = await site00ProjectsApi.experimentDGet(projectSlug);
       setRun((result.run as SixConceptHeroRangeRun | null) ?? null);
@@ -31,7 +32,7 @@ export default function ProjectExperimentDPage() {
     void reload();
   }, [reload]);
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'CREATIVE_CONCEPT_TERRITORIES')) {
     return (
       <EcosystemShell hidePageHeader>
         <p>Experiment D is NDXBOOK-only.</p>

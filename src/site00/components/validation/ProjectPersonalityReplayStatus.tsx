@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../../shared/site00-projects/capabilities.js';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { ReplayConvergenceReport } from '../../../../shared/site00-brand-lore/personalityReplayTypes';
@@ -27,7 +28,7 @@ export function ProjectPersonalityReplayStatus({ projectSlug }: { projectSlug: s
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'PERSONALITY_REPLAY')) return;
     let cancelled = false;
     (async () => {
       setLoading(true);
@@ -49,7 +50,7 @@ export function ProjectPersonalityReplayStatus({ projectSlug }: { projectSlug: s
     };
   }, [projectSlug]);
 
-  if (projectSlug !== 'ndxbook' || loading || !replay) return null;
+  if (!hasProjectCapability(projectSlug, 'PERSONALITY_REPLAY') || loading || !replay) return null;
   if (!isPersonalityReplayIntakeSubmitted(replay.status) && !replay.executionJobId) return null;
 
   return (

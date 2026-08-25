@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { NdxFounderWorkspacePage, FounderWorkspacePanel } from '../components/founderWorkspace';
@@ -36,7 +37,7 @@ export default function ProjectMotionCharacterPage() {
   const [section, setSection] = useState<ReviewSection>('BOOK_LANGUAGE');
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'MOTION_CHARACTER')) return;
     try {
       const result = await site00ProjectsApi.motionCharacterBookLanguageGet(projectSlug);
       setRun((result.run as NdxMotionCharacterBookLanguageRun | null) ?? null);
@@ -62,7 +63,7 @@ export default function ProjectMotionCharacterPage() {
     }
   };
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'MOTION_CHARACTER')) {
     return (
       <NdxFounderWorkspacePage
         projectSlug={projectSlug}

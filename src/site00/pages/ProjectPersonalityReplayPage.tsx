@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { buildPersonalitySummaryFromAnswers } from '../../../shared/site00-brand-lore/personalitySummary';
@@ -69,7 +70,7 @@ function ProjectPersonalityReplayPageInner({
   } = usePersonalityReplayIntake(projectSlug);
 
   useEffect(() => {
-    if (projectSlug !== 'ndxbook' || !replayId || !resumeStepId || stepId) return;
+    if (!hasProjectCapability(projectSlug, 'PERSONALITY_REPLAY') || !replayId || !resumeStepId || stepId) return;
     if (resumeStepId === 'review') {
       navigate(projectPersonalityReplayReviewPath(projectSlug), { replace: true });
       return;
@@ -77,7 +78,7 @@ function ProjectPersonalityReplayPageInner({
     navigate(projectPersonalityReplayStepPath(projectSlug, resumeStepId), { replace: true });
   }, [navigate, projectSlug, replayId, resumeStepId, stepId]);
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'PERSONALITY_REPLAY')) {
     return (
       <EcosystemShell hidePageHeader>
         <p className="site00-body">PERSONALITY REPLAY IS AVAILABLE FOR NDX BOOK ONLY.</p>

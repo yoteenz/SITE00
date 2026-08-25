@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
@@ -21,7 +22,7 @@ export default function ProjectContentOperationsPerformancePage() {
   const [busy, setBusy] = useState(false);
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'CONTENT_OPERATIONS')) return;
     try {
       const result = await site00ProjectsApi.contentOperationsGet(projectSlug);
       setRun((result.run as ContentOperationsRun | null) ?? null);
@@ -36,7 +37,7 @@ export default function ProjectContentOperationsPerformancePage() {
     void reload();
   }, [reload]);
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'CONTENT_OPERATIONS')) {
     return (
       <EcosystemShell hidePageHeader>
         <p>Performance review is NDXBOOK-only.</p>

@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
@@ -21,7 +22,7 @@ export default function ProjectBrandCharacterDeepeningPage() {
   const [busy, setBusy] = useState(false);
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'BRAND_CHARACTER')) return;
     try {
       const result = await site00ProjectsApi.experimentHDeepeningGet(projectSlug);
       setModule((result.module as BrandCharacterDeepeningModule | null) ?? null);
@@ -62,7 +63,7 @@ export default function ProjectBrandCharacterDeepeningPage() {
     }
   };
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'BRAND_CHARACTER')) {
     return (
       <EcosystemShell hidePageHeader>
         <p>Character Deepening is post-purchase NDXBOOK intelligence only.</p>

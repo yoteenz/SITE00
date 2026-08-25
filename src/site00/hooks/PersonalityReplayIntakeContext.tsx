@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 /**
  * Shared personality replay intake state — one provider per page tree.
  * Prevents parent review shell and step form from holding divergent hook instances.
@@ -196,7 +197,7 @@ export function PersonalityReplayIntakeProvider({
 
   /** Stale replayId (e.g. in-memory API restart) — bootstrap fresh run and push local answers. */
   const rebindReplayFromLocal = useCallback(async (): Promise<string | null> => {
-    if (projectSlug !== 'ndxbook') return null;
+    if (!hasProjectCapability(projectSlug, 'PERSONALITY_REPLAY')) return null;
 
     const localAnswers = answersRef.current;
     const localCompleted = completedStepsRef.current;
@@ -333,7 +334,7 @@ export function PersonalityReplayIntakeProvider({
   }, [applyReplayPayload, projectSlug, rebindReplayFromLocal]);
 
   const bootstrap = useCallback(async (): Promise<string | null> => {
-    if (projectSlug !== 'ndxbook') return null;
+    if (!hasProjectCapability(projectSlug, 'PERSONALITY_REPLAY')) return null;
 
     const inflight = bootstrapInflightBySlug.get(projectSlug);
     if (inflight) return inflight;
@@ -389,7 +390,7 @@ export function PersonalityReplayIntakeProvider({
   }, [replayId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'PERSONALITY_REPLAY')) return;
     if (replayId || bootstrapping || bootstrapError) return;
     void bootstrap();
   }, [bootstrap, bootstrapError, bootstrapping, projectSlug, replayId]);

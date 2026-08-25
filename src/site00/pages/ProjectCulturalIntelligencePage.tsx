@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
@@ -27,7 +28,7 @@ export default function ProjectCulturalIntelligencePage() {
   const [view] = useState<ViewSection>('LIVE_NOW');
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'CULTURAL_INTELLIGENCE')) return;
     try {
       const result = await site00ProjectsApi.culturalIntelligenceGet(projectSlug);
       setRun((result.run as LiveCulturalIntelligenceRun | null) ?? null);
@@ -54,7 +55,7 @@ export default function ProjectCulturalIntelligencePage() {
     }
   };
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'CULTURAL_INTELLIGENCE')) {
     return (
       <EcosystemShell hidePageHeader>
         <p>Cultural intelligence is NDXBOOK-only for this proof.</p>

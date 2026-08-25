@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../../shared/site00-projects/capabilities.js';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -79,7 +80,7 @@ export function PersonalityReplayExecutionProgress({
     Boolean(replay?.comparisonReport);
 
   const poll = useCallback(async () => {
-    if (!replayId || projectSlug !== 'ndxbook') return;
+    if (!replayId || !hasProjectCapability(projectSlug, 'PROJECT_CORE')) return;
     try {
       const result = await site00ProjectsApi.personalityReplayGet(projectSlug, replayId);
       const next = result.replay as ReplaySnapshot;

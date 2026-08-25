@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
@@ -19,7 +20,7 @@ export default function ProjectExperimentGDirectionsPage() {
   const [lastRefreshedAt, setLastRefreshedAt] = useState<Date | null>(null);
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'CREATIVE_CONCEPT_TERRITORIES')) return;
     try {
       const [dirResult, visResult] = await Promise.all([
         site00ProjectsApi.experimentGDirectionGet(projectSlug),
@@ -48,7 +49,7 @@ export default function ProjectExperimentGDirectionsPage() {
     return () => window.clearInterval(pollId);
   }, [run?.status, reload]);
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'CREATIVE_CONCEPT_TERRITORIES')) {
     return (
       <EcosystemShell hidePageHeader>
         <p>Experiment G direction development is NDXBOOK-only.</p>

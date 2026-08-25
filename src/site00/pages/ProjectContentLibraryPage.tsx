@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { NdxFounderWorkspacePage } from '../components/founderWorkspace';
@@ -11,7 +12,7 @@ export default function ProjectContentLibraryPage() {
   const [, setLibrary] = useState<CreativeLineageLibraryPayload | null>(null);
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'PROJECT_CORE')) return;
     try {
       const result = await site00ProjectsApi.creativeLineageLibrary(projectSlug);
       setLibrary(result.library as CreativeLineageLibraryPayload);

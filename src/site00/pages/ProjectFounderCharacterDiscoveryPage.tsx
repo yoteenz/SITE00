@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
@@ -130,7 +131,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
   }, []);
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'FOUNDER_CHARACTER_DISCOVERY')) return;
     try {
       const result = await site00ProjectsApi.founderCharacterDiscoveryGet(projectSlug);
       const loaded = (result.run as NdxFounderCharacterDiscoveryRun | null) ?? null;
@@ -283,7 +284,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [voiceRevisionDraft, busy]);
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'FOUNDER_CHARACTER_DISCOVERY')) {
     return (
       <EcosystemShell hidePageHeader>
         <p>Founder Character Discovery Room is NDXBOOK-only for this proof.</p>
@@ -424,7 +425,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
 
           {loading && <p>Loading…</p>}
 
-          {run && discoveryProgress && projectSlug !== 'ndxbook' && (
+          {run && discoveryProgress && !hasProjectCapability(projectSlug, 'FOUNDER_CHARACTER_DISCOVERY') && (
             <FounderCharacterCalibrationProgressPanel
               discoveryProgress={discoveryProgress}
               busy={busy}

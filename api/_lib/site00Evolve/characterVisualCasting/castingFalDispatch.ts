@@ -22,6 +22,7 @@ import {
 } from '../../../../shared/site00-studio-world-production/characterVisualCasting/promptContract.js';
 import { migrateReferenceDrivenCastingState } from '../../../../shared/site00-studio-world-production/characterVisualCasting/referenceDrivenCasting.js';
 import { recommendStillImageCastingProvider } from '../../../../shared/site00-studio-world-production/characterVisualCasting/providerSelection.js';
+import { projectAssetStoragePath } from '../../../../shared/site00-projects/storagePaths.js';
 import type {
   CharacterCastingCandidate,
   CharacterTruthSnapshot,
@@ -36,8 +37,7 @@ export type CastingCandidateGenerationResult = {
 };
 
 function storagePathFor(projectId: string, roundId: string, candidateId: string): string {
-  const safe = (value: string) => value.replace(/[^a-zA-Z0-9-_]/g, '_');
-  return `site00/character-casting/${safe(projectId)}/${safe(roundId)}/${safe(candidateId)}.webp`;
+  return projectAssetStoragePath(projectId, 'character-casting', roundId, `${candidateId}.webp`);
 }
 
 function resolveCandidatePromptContract(params: {

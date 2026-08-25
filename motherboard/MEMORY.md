@@ -4908,3 +4908,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deliverables:** `docs/audits/SITE00_PROJECT_INGESTION_READINESS_AUDIT.md`, `SITE00_PROJECT_INGESTION_READINESS_MATRIX.md`, `site00-project-ingestion-readiness.json`.
 - **Recommended next sprint:** P0.B — Project Core / `project_id` isolation (capability registry, enum unification, Astral project stub metadata only).
 
+---
+
+## 2026-08-25 — P0.B Project Core + project_id Isolation
+
+- **Context:** Implement multi-project runtime after P0.A audit. No Astral creative production, no world formation, no production handoff.
+- **Delivered:** Capability registry (`shared/site00-projects/capabilities.ts`); canonical resolver (`canonicalProject.ts`); 244→0 NDXBOOK API slug guards replaced with `denyUnlessActionCapability`; `project_id` on ingestions + logical assets; `site00_client_truth_records`; Astral World PRE_INGESTION registration; health diagnostic API; 10 isolation tests; architecture docs.
+- **NDXBOOK:** All methodology capabilities preserved via capability set — behavior generalized not removed.
+- **Astral World:** slug `astral-world`, project_type WORLD, status PRE_INGESTION, capabilities PROJECT_CORE/ORIGIN/CLIENT_TRUTH/PROJECT_INTELLIGENCE only.
+- **Migration:** `20260825180000_site00_project_core_isolation.sql`
+- **Recommended next sprint:** P0.C — Origin + Client Truth ingestion (world intake link, reconciliation workflow).
+

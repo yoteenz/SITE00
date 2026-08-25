@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
@@ -59,7 +60,7 @@ export default function ProjectCharacterCastingPage() {
   const founderReferences = casting?.founderReferences ?? [];
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'CHARACTER_VISUAL_CASTING')) return;
     try {
       const result = await site00ProjectsApi.characterVisualCastingGet(projectSlug);
       setRun((result.run as NdxFounderCharacterDiscoveryRun) ?? null);
@@ -129,7 +130,7 @@ export default function ProjectCharacterCastingPage() {
       return result;
     });
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'CHARACTER_VISUAL_CASTING')) {
     return (
       <EcosystemShell hidePageHeader>
         <p>Visual casting is NDXBOOK-only for this proof.</p>
