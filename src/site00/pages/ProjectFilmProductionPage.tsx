@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 /**
  * P0.FILM.1 — Film production room (founder-facing).
  */
@@ -29,7 +30,7 @@ export default function ProjectFilmProductionPage() {
   }, [location.pathname]);
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'FILM_PRODUCTION')) return;
     try {
       const result = await site00ProjectsApi.filmProductionGet(projectSlug);
       setState(result.state as unknown as FilmProductionState);

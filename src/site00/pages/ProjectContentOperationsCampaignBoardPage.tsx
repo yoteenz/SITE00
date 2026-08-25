@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
@@ -21,7 +22,7 @@ export default function ProjectContentOperationsCampaignBoardPage() {
   const [selectedDay, setSelectedDay] = useState('mon');
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'CONTENT_OPERATIONS')) return;
     try {
       const result = await site00ProjectsApi.campaignProductionGet(projectSlug);
       setRun((result.run as MarketingCampaignProductionRun | null) ?? null);
@@ -46,7 +47,7 @@ export default function ProjectContentOperationsCampaignBoardPage() {
     }
   };
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'CONTENT_OPERATIONS')) {
     return (
       <EcosystemShell hidePageHeader>
         <p>Campaign board is NDXBOOK-only.</p>

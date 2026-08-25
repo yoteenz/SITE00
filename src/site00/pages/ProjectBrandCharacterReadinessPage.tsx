@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
@@ -28,7 +29,7 @@ export default function ProjectBrandCharacterReadinessPage() {
   const [busy, setBusy] = useState(false);
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'BRAND_CHARACTER')) return;
     try {
       const result = await site00ProjectsApi.experimentHReadinessGet(projectSlug);
       setRecord((result.record as ReadinessRecord | null) ?? null);
@@ -53,7 +54,7 @@ export default function ProjectBrandCharacterReadinessPage() {
     }
   };
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'BRAND_CHARACTER')) {
     return (
       <EcosystemShell hidePageHeader>
         <p>Brand Character Readiness is NDXBOOK-only.</p>

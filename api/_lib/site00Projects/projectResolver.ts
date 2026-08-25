@@ -21,6 +21,7 @@ import type {
   Site00ProjectIndexEntry,
   Site00ProjectsIndexPayload,
 } from '../../../shared/site00-projects/types.js';
+import { listClientRegisteredProjectIndexEntries, resolveClientProjectDetail, isClientRegisteredProjectSlug } from './clientProjectResolver.js';
 import { FOUNDER_PROJECTS, isFounderProjectSlug } from './projectRegistry.js';
 import {
   site00ProjectCreativeDirectionRoute,
@@ -332,6 +333,9 @@ export async function resolveSite00ProjectIndexEntry(
 }
 
 export async function resolveSite00Project(slug: string): Promise<Site00ProjectDetail | null> {
+  if (isClientRegisteredProjectSlug(slug)) {
+    return resolveClientProjectDetail(slug);
+  }
   if (!isFounderProjectSlug(slug)) return null;
 
   await ensureEvolveSeeded();
@@ -606,6 +610,14 @@ export async function listSite00FounderProjects(): Promise<Site00ProjectIndexEnt
       if (fallback) projects.push(fallback);
     }
   }
+
+  try {
+    const clientEntries = await listClientRegisteredProjectIndexEntries();
+    projects.push(...clientEntries);
+  } catch {
+    /* client project rows may not exist until migration applied */
+  }
+
   return projects;
 }
 

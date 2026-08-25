@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { NdxFounderWorkspacePage, FounderWorkspacePanel } from '../components/founderWorkspace';
@@ -22,7 +23,7 @@ export default function ProjectContentOperationsDailyPlanPage() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10));
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'CONTENT_OPERATIONS')) return;
     try {
       const result = await site00ProjectsApi.dailyPublishingGet(projectSlug);
       setRun((result.run as DailyPublishingCadenceRun | null) ?? null);
@@ -47,7 +48,7 @@ export default function ProjectContentOperationsDailyPlanPage() {
     }
   };
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'CONTENT_OPERATIONS')) {
     return (
       <NdxFounderWorkspacePage
         projectSlug={projectSlug}

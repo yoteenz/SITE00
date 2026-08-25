@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
@@ -16,7 +17,7 @@ export default function ProjectCanonicalCarouselExpansionPage() {
   const [loading, setLoading] = useState(true);
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'CANONICAL_CREATIVE_RANGE')) return;
     try {
       const result = await site00ProjectsApi.canonicalCarouselExpansionGet(projectSlug);
       setRun((result.run as CanonicalCarouselExpansionRun | null) ?? null);
@@ -31,7 +32,7 @@ export default function ProjectCanonicalCarouselExpansionPage() {
     void reload();
   }, [reload]);
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'CANONICAL_CREATIVE_RANGE')) {
     return (
       <EcosystemShell hidePageHeader>
         <p>Canonical carousel expansion is NDXBOOK-only.</p>

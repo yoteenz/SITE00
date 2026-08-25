@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
@@ -108,7 +109,7 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
   const [inspectImage, setInspectImage] = useState<{ url: string; alt: string } | null>(null);
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'BRAND_MARKETING_EXPRESSION')) return;
     try {
       const result = await site00ProjectsApi.marketingExpressionGet(projectSlug);
       const next = (result.run as BrandMarketingExpressionRun | null) ?? null;
@@ -382,7 +383,7 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
     }
   };
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'BRAND_MARKETING_EXPRESSION')) {
     return (
       <EcosystemShell hidePageHeader>
         <p>Experiment 01 is NDXBOOK-only.</p>

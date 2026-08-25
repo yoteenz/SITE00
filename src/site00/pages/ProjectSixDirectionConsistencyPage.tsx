@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { Link, useParams } from 'react-router-dom';
 import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
@@ -22,7 +23,7 @@ export default function ProjectSixDirectionConsistencyPage() {
 function ProjectSixDirectionConsistencyPageInner({ projectSlug }: { projectSlug: string }) {
   const { replayId, reload, bootstrapping, sixDirectionConsistency } = usePersonalityReplayIntake(projectSlug);
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'PROJECT_CORE')) {
     return (
       <EcosystemShell hidePageHeader>
         <p>Six-direction consistency validation is NDXBOOK-only.</p>

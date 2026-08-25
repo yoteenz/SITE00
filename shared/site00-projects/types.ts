@@ -2,6 +2,11 @@
 
 export type Site00FounderProjectSlug = 'frontal-slayer' | 'studio-world' | 'ndxbook' | 'all-in-one-enterprises';
 
+/** Registered client projects beyond founder index (P0.B). */
+export type Site00ClientProjectSlug = 'astral-world';
+
+export type Site00KnownProjectSlug = Site00FounderProjectSlug | Site00ClientProjectSlug;
+
 export type Site00ProjectSurface = {
   id: string;
   label: string;
@@ -22,7 +27,7 @@ export type Site00ProjectCommandItem = {
 };
 
 export type Site00ProjectIndexEntry = {
-  slug: Site00FounderProjectSlug;
+  slug: Site00KnownProjectSlug | string;
   name: string;
   displayName: string;
   internalLabel?: string;

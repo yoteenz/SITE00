@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 /**
  * P0.CB.1B — Guided founder creative ingestion workflow page.
  */
@@ -20,7 +21,7 @@ export default function ProjectFounderCreativeIngestionPage() {
   const [actionError, setActionError] = useState<string | null>(null);
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'FOUNDER_CREATIVE_INGESTION')) return;
     try {
       const result = await site00ProjectsApi.founderCreativeIngestionGet(projectSlug);
       setIngestion((result.ingestion as FounderCreativeIngestionState | null) ?? null);
@@ -33,7 +34,7 @@ export default function ProjectFounderCreativeIngestionPage() {
     void reload();
   }, [reload]);
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'FOUNDER_CREATIVE_INGESTION')) {
     return (
       <EcosystemShell hidePageHeader>
         <p>Founder creative ingestion is NDXBOOK-only.</p>

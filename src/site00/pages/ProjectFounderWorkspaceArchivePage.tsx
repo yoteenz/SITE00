@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
@@ -18,7 +19,7 @@ export default function ProjectFounderWorkspaceArchivePage() {
   const [loading, setLoading] = useState(true);
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'PROJECT_CORE')) return;
     try {
       const result = await site00ProjectsApi.marketingExpressionGet(projectSlug);
       setMarketingRun((result.run as BrandMarketingExpressionRun | null) ?? null);
@@ -33,7 +34,7 @@ export default function ProjectFounderWorkspaceArchivePage() {
     void reload();
   }, [reload]);
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'PROJECT_CORE')) {
     return (
       <EcosystemShell hidePageHeader>
         <p>Archive is NDXBOOK-only.</p>

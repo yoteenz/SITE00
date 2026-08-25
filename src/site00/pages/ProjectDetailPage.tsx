@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import type { ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
@@ -37,7 +38,7 @@ export default function ProjectDetailPage() {
   const projectBody =
     state === 'error' || !project ? null : (
       <>
-        {projectSlug !== 'ndxbook' ? (
+        {!hasProjectCapability(projectSlug, 'PROJECT_CORE') ? (
           <header className="site00-project-command__header">
             <p className="site00-label-red">{project.currentSystem}</p>
             <h1 className="site00-project-command__title">{project.displayName}</h1>
@@ -74,7 +75,15 @@ export default function ProjectDetailPage() {
             <div className="site00-project-command__grid">
               <Section title="OVERVIEW">
                 <Row label="ORGANIZATION" value={project.organizationSlug} />
-                <Row label="CLASSIFICATION" value={project.classification.replace(/_/g, ' ')} />
+                <Row label="PROJECT TYPE" value={projectSlug === 'astral-world' ? 'WORLD' : project.classification.replace(/_/g, ' ')} />
+                {projectSlug === 'astral-world' ? (
+                  <>
+                    <Row label="STATUS" value={project.overview.lifecycleStage ?? 'PRE_INGESTION'} />
+                    <Row label="CAPABILITIES" value="PROJECT_CORE · ORIGIN · CLIENT_TRUTH · PROJECT_INTELLIGENCE" />
+                  </>
+                ) : (
+                  <Row label="CLASSIFICATION" value={project.classification.replace(/_/g, ' ')} />
+                )}
                 <Row label="CURRENT PHASE" value={project.currentPhase} />
                 <Row label="LIFECYCLE" value={project.overview.lifecycleStage?.replace(/_/g, ' ') ?? null} />
                 <Row label="FOCUS NOW" value={project.focusNow} />

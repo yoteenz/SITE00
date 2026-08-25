@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 /**
  * NDXBOOK founder workspace adapter — labels, nav, journey mapping.
  * Generic Studio World shell consumes this; no hard-coded NDX in shared infra.
@@ -25,7 +26,7 @@ export const NDX_FOUNDER_WORKSPACE_ADAPTER_ID = 'ndxbook-founder-workspace-v1' a
 export const NDX_SIGNATURE_ACCENT = '#B7D236' as const;
 
 export function ndxFounderWorkspaceNav(projectSlug: string): WorkspaceNavItem[] {
-  if (projectSlug !== 'ndxbook') return [];
+  if (!hasProjectCapability(projectSlug, 'PROJECT_WORKSPACE')) return [];
   return [
     { id: 'OVERVIEW', label: 'OVERVIEW', href: site00ProjectPath(projectSlug) },
     { id: 'CREATE', label: 'CREATE', href: site00ProjectContentOperationsPath(projectSlug) },

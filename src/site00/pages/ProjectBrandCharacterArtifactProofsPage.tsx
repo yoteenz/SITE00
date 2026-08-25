@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { Link, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
@@ -14,7 +15,7 @@ export default function ProjectBrandCharacterArtifactProofsPage() {
   const [busy, setBusy] = useState(false);
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'BRAND_CHARACTER')) return;
     try {
       const result = await site00ProjectsApi.experimentHSynthesisGet(projectSlug);
       setRun((result.run as BrandCharacterSynthesisRun | null) ?? null);
@@ -49,7 +50,7 @@ export default function ProjectBrandCharacterArtifactProofsPage() {
     }
   };
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'BRAND_CHARACTER')) {
     return (
       <EcosystemShell hidePageHeader>
         <p>Character Artifact Proofs are NDXBOOK-only.</p>

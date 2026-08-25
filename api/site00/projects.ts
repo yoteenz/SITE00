@@ -3,6 +3,8 @@ import { getAuthUser } from '../_lib/auth.js';
 import { getClientProjectsPayload } from '../_lib/site00Production/clientStudio.js';
 import { getSite00ProjectsIndexPayload, resolveSite00Project } from '../_lib/site00Projects/projectResolver.js';
 import { isFounderProjectSlug } from '../_lib/site00Projects/projectRegistry.js';
+import { isClientRegisteredProjectSlug } from '../_lib/site00Projects/clientProjectResolver.js';
+import { denyUnlessActionCapability, denyUnlessProjectCapability } from '../_lib/site00Projects/projectCapabilityGuard.js';
 import {
   canAccessFounderProjectAsOwner,
   canAccessFounderProjectIndex,
@@ -431,7 +433,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             source: 'site00_project_resolver',
           });
         }
-        if (isFounderProjectSlug(slug) && !canAccessFounderProjectAsOwner(user.email, slug)) {
+        if ((isFounderProjectSlug(slug) || slug === 'astral-world') && !canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, {
             ok: false,
             error: { code: 'PROJECT_ACCESS_DENIED', message: 'Project access denied' },
@@ -697,13 +699,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
       case 'personality_replay_bootstrap': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, {
-            ok: false,
-            error: { code: 'NDXBOOK_ONLY', message: 'Personality replay is NDX BOOK only' },
-            source: 'site00_personality_replay',
-          });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'personality_replay_bootstrap', 'site00_personality_replay')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, {
             ok: false,
@@ -736,13 +732,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? req.query.slug ?? '');
         const replayId = String(body.replayId ?? '');
-        if (slug !== 'ndxbook' || !replayId) {
+        if (!(!replayId)) {
           return json(res, 400, {
             ok: false,
-            error: { code: 'INVALID_REQUEST', message: 'ndxbook slug and replayId required' },
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
             source: 'site00_personality_replay',
           });
         }
+        if (!denyUnlessActionCapability(res, slug, 'personality_replay_save', 'site00_personality_replay')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, {
             ok: false,
@@ -768,13 +765,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? req.query.slug ?? '');
         const replayId = String(body.replayId ?? '');
-        if (slug !== 'ndxbook' || !replayId) {
+        if (!(!replayId)) {
           return json(res, 400, {
             ok: false,
-            error: { code: 'INVALID_REQUEST', message: 'ndxbook slug and replayId required' },
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
             source: 'site00_personality_replay',
           });
         }
+        if (!denyUnlessActionCapability(res, slug, 'personality_replay_complete', 'site00_personality_replay')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, {
             ok: false,
@@ -788,13 +786,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'personality_replay_get': {
         const slug = String(req.query.slug ?? '');
         const replayId = String(req.query.replayId ?? '');
-        if (slug !== 'ndxbook' || !replayId) {
-          return json(res, 400, {
-            ok: false,
-            error: { code: 'INVALID_REQUEST', message: 'ndxbook slug and replayId required' },
-            source: 'site00_personality_replay',
-          });
+        if (!!replayId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_personality_replay' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'personality_replay_get', 'site00_personality_replay')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, {
             ok: false,
@@ -814,13 +809,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'personality_replay_diagnostic': {
         const slug = String(req.query.slug ?? '');
         const replayId = String(req.query.replayId ?? '');
-        if (slug !== 'ndxbook' || !replayId) {
-          return json(res, 400, {
-            ok: false,
-            error: { code: 'INVALID_REQUEST', message: 'ndxbook slug and replayId required' },
-            source: 'site00_personality_replay',
-          });
+        if (!!replayId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_personality_replay' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'personality_replay_diagnostic', 'site00_personality_replay')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, {
             ok: false,
@@ -848,13 +840,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? req.query.slug ?? '');
         const replayId = String(body.replayId ?? '');
-        if (slug !== 'ndxbook' || !replayId) {
+        if (!(!replayId)) {
           return json(res, 400, {
             ok: false,
-            error: { code: 'INVALID_REQUEST', message: 'ndxbook slug and replayId required' },
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
             source: 'site00_personality_replay',
           });
         }
+        if (!denyUnlessActionCapability(res, slug, 'personality_replay_execute', 'site00_personality_replay')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, {
             ok: false,
@@ -894,13 +887,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? req.query.slug ?? '');
         const replayId = String(body.replayId ?? '');
-        if (slug !== 'ndxbook' || !replayId) {
+        if (!(!replayId)) {
           return json(res, 400, {
             ok: false,
-            error: { code: 'INVALID_REQUEST', message: 'ndxbook slug and replayId required' },
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
             source: 'site00_personality_replay',
           });
         }
+        if (!denyUnlessActionCapability(res, slug, 'personality_replay_six_direction_execute', 'site00_personality_replay')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, {
             ok: false,
@@ -942,13 +936,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const replayId = String(body.replayId ?? '');
         const comparisonIndex = Number(body.comparisonIndex ?? 0);
         const judgment = body.judgment as 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_NDXBOOK' | null;
-        if (slug !== 'ndxbook' || !replayId || !comparisonIndex) {
+        if (!(!replayId || !comparisonIndex)) {
           return json(res, 400, {
             ok: false,
-            error: { code: 'INVALID_REQUEST', message: 'slug, replayId, comparisonIndex required' },
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
             source: 'site00_personality_replay',
           });
         }
+        if (!denyUnlessActionCapability(res, slug, 'personality_replay_six_direction_judgment', 'site00_personality_replay')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, {
             ok: false,
@@ -964,9 +959,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return json(res, 405, { ok: false, error: { code: 'METHOD_NOT_ALLOWED', message: 'GET or POST required' } });
         }
         const slug = String(req.query.slug ?? parseBody(req)?.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'canonical_creative_range_preflight', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -975,9 +968,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
       case 'canonical_creative_range_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'canonical_creative_range_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -990,9 +981,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'canonical_creative_range_execute', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1018,23 +1007,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const comparisonIndex = Number(body.comparisonIndex ?? 0);
         const judgment = body.judgment as 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_NDXBOOK' | null;
-        if (slug !== 'ndxbook' || !comparisonIndex) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!comparisonIndex)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_canonical_creative_range',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const { run, lineage } = await setCanonicalRangeFounderJudgment({ comparisonIndex, judgment });
-        return json(res, 200, { ok: true, run, lineage, source: 'site00_canonical_creative_range' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'canonical_creative_range_judgment', 'site00_canonical_creative_range')) return;
       case 'canonical_carousel_expansion_preflight': {
         if (req.method !== 'GET' && req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'METHOD_NOT_ALLOWED', message: 'GET or POST required' } });
         }
         const slug = String(req.query.slug ?? parseBody(req)?.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'canonical_carousel_expansion_preflight', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1043,9 +1029,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
       case 'canonical_carousel_expansion_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'canonical_carousel_expansion_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1059,9 +1043,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? req.query.slug ?? '');
         const mode = String(body.mode ?? 'ALL_REMAINING') as CarouselExecuteMode;
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'canonical_carousel_expansion_execute', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1084,15 +1066,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const comparisonIndex = Number(body.comparisonIndex ?? 0);
         const slideNumber = Number(body.slideNumber ?? 0);
         const judgment = body.judgment as 'LOVE_IT' | 'REVISE' | 'PROMISING_REFINE' | 'NOT_FOR_ME' | null;
-        if (slug !== 'ndxbook' || !comparisonIndex || !slideNumber) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!comparisonIndex || !slideNumber)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_canonical_carousel_expansion',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const { run, lineage } = await setCarouselSlideFounderJudgment({ comparisonIndex, slideNumber, judgment });
-        return json(res, 200, { ok: true, run, lineage, source: 'site00_canonical_carousel_expansion' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'canonical_carousel_expansion_slide_judgment', 'site00_canonical_carousel_expansion')) return;
       case 'canonical_carousel_expansion_direction_verdict': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -1108,20 +1089,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           | 'NOT_NDXBOOK'
           | null;
         const note = body.note as string | null | undefined;
-        if (slug !== 'ndxbook' || !comparisonIndex) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!comparisonIndex)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_canonical_carousel_expansion',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await setCarouselDirectionFounderVerdict({ comparisonIndex, verdict, note });
-        return json(res, 200, { ok: true, run, source: 'site00_canonical_carousel_expansion' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'canonical_carousel_expansion_direction_verdict', 'site00_canonical_carousel_expansion')) return;
       case 'experiment_d_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_d_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1135,9 +1113,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_d_form_territories', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1150,9 +1126,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_d_execute_heroes', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1180,20 +1154,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           | 'NOT_NDXBOOK'
           | null;
         const tooCloseSibling = body.tooCloseSibling ? String(body.tooCloseSibling) : null;
-        if (slug !== 'ndxbook' || !comparisonIndex) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!comparisonIndex)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_experiment_d',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await setExperimentDHeroJudgment({ comparisonIndex, judgment, tooCloseSibling });
-        return json(res, 200, { ok: true, run, source: 'site00_experiment_d' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_d_hero_judgment', 'site00_experiment_d')) return;
       case 'experiment_f_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_f_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1211,9 +1182,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_f_prepare_snapshot', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1226,9 +1195,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_f_form_concepts', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1249,28 +1216,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           | 'NOT_NDXBOOK'
           | 'REFORM_SET'
           | null;
-        if (slug !== 'ndxbook' || !conceptId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!conceptId)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_experiment_f',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await setExperimentFConceptJudgment({
-          conceptId,
-          judgment,
-          note: body.note ? String(body.note) : null,
-        });
-        return json(res, 200, { ok: true, run, source: 'site00_experiment_f' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_f_concept_judgment', 'site00_experiment_f')) return;
       case 'experiment_f_reform_set': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_f_reform_set', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1279,9 +1239,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
       case 'experiment_h_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1294,9 +1252,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_prepare_snapshot', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1309,9 +1265,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_form_characters', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1343,28 +1297,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           | 'NOT_NDXBOOK'
           | 'REFORM_SET'
           | null;
-        if (slug !== 'ndxbook' || !characterId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!characterId)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_experiment_h',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await setBrandCharacterJudgment({
-          characterId,
-          judgment,
-          note: body.note ? String(body.note) : null,
-        });
-        return json(res, 200, { ok: true, run, source: 'site00_experiment_h' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_character_judgment', 'site00_experiment_h')) return;
       case 'experiment_h_reform_set': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_reform_set', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1383,9 +1330,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const territoryId = String(body.territoryId ?? '');
-        if (slug !== 'ndxbook' || !territoryId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!territoryId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_develop_character', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1408,25 +1356,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const characterId = String(body.characterId ?? '');
         const developmentId = body.developmentId ? String(body.developmentId) : undefined;
-        if (slug !== 'ndxbook' || !characterId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!characterId)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_experiment_h',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const result = await compileSelectedBrandCharacterSystem({ characterId, developmentId });
-        return json(res, 200, {
-          ok: true,
-          run: result.run,
-          system: result.system,
-          source: 'site00_experiment_h',
-        });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_compile_system', 'site00_experiment_h')) return;
       case 'experiment_h_readiness_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_readiness_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1439,9 +1379,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_readiness_evaluate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1450,9 +1388,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
       case 'experiment_h_deepening_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_deepening_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1472,14 +1408,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const questionId = String(body.questionId ?? '');
         const rawAnswer = String(body.rawAnswer ?? '');
-        if (slug !== 'ndxbook' || !questionId || !rawAnswer.trim()) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!questionId || !rawAnswer.trim()) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_experiment_h_deepening' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_deepening_answer', 'site00_experiment_h_deepening')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const record = await submitBrandCharacterDeepeningAnswer({
-          projectId: 'ndxbook',
+          projectId: slug,
           questionId,
           rawAnswer,
         });
@@ -1492,14 +1429,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const overrideReason = String(body.overrideReason ?? '');
-        if (slug !== 'ndxbook' || !overrideReason.trim()) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!overrideReason.trim()) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_experiment_h_readiness' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_readiness_override', 'site00_experiment_h_readiness')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const record = await setBrandCharacterReadinessOverride({
-          projectId: 'ndxbook',
+          projectId: slug,
           overrideReason,
           missingDomains: Array.isArray(body.missingDomains) ? body.missingDomains : [],
           founderId: body.founderId ? String(body.founderId) : null,
@@ -1508,9 +1446,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
       case 'experiment_h_synthesis_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_synthesis_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -1523,13 +1459,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_synthesis_prepare', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await prepareBrandCharacterSynthesis({ projectId: 'ndxbook' });
+        const run = await prepareBrandCharacterSynthesis({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_experiment_h_synthesis' });
       }
       case 'experiment_h_synthesis_run': {
@@ -1538,15 +1472,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_synthesis_run', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         try {
           const forceRetry = body.forceRetry === true;
-          const run = await startCompositeBrandCharacterSynthesis({ projectId: 'ndxbook', forceRetry });
+          const run = await startCompositeBrandCharacterSynthesis({ projectId: slug, forceRetry });
           return json(res, 200, { ok: true, run, source: 'site00_experiment_h_synthesis' });
         } catch (err) {
           return json(res, 400, {
@@ -1566,14 +1498,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const judgment = body.judgment as string;
-        if (slug !== 'ndxbook' || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!judgment) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_synthesis_judgment', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await setBrandCharacterSynthesisJudgment({
-          projectId: 'ndxbook',
+          projectId: slug,
           judgment: judgment as never,
           note: body.note ? String(body.note) : null,
         });
@@ -1585,13 +1518,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_synthesis_compile_system', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await compileSynthesisBrandCharacterSystem({ projectId: 'ndxbook' });
+        const run = await compileSynthesisBrandCharacterSystem({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_experiment_h_synthesis' });
       }
       case 'experiment_h_artifact_proofs_formulate': {
@@ -1600,13 +1531,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_artifact_proofs_formulate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await formulateBrandCharacterArtifactProofs({ projectId: 'ndxbook' });
+        const run = await formulateBrandCharacterArtifactProofs({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_experiment_h_artifact_proofs' });
       }
       case 'experiment_h_artifact_proof_generate': {
@@ -1616,13 +1545,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const proofId = String(body.proofId ?? '');
-        if (slug !== 'ndxbook' || !proofId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!proofId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_artifact_proof_generate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await generateBrandCharacterArtifactProofAsset({ projectId: 'ndxbook', proofId });
+        const run = await generateBrandCharacterArtifactProofAsset({ projectId: slug, proofId });
         return json(res, 200, { ok: true, run, source: 'site00_experiment_h_artifact_proofs' });
       }
       case 'experiment_h_artifact_proof_judgment': {
@@ -1633,29 +1563,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const proofId = String(body.proofId ?? '');
         const judgment = body.judgment as string;
-        if (slug !== 'ndxbook' || !proofId || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!proofId || !judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_experiment_h_artifact_proofs',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await setBrandCharacterArtifactProofJudgment({
-          projectId: 'ndxbook',
-          proofId,
-          judgment: judgment as never,
-          note: body.note ? String(body.note) : null,
-        });
-        return json(res, 200, { ok: true, run, source: 'site00_experiment_h_artifact_proofs' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_h_artifact_proof_judgment', 'site00_experiment_h_artifact_proofs')) return;
       case 'marketing_expression_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await getBrandMarketingExpressionState({ projectId: 'ndxbook' });
+        const run = await getBrandMarketingExpressionState({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression' });
       }
       case 'marketing_expression_prepare': {
@@ -1664,14 +1586,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_prepare', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         try {
-          const run = await prepareBrandMarketingExpression({ projectId: 'ndxbook' });
+          const run = await prepareBrandMarketingExpression({ projectId: slug });
           return json(res, 200, { ok: true, run, source: 'site00_marketing_expression' });
         } catch (err) {
           return json(res, 400, {
@@ -1687,13 +1607,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_compile', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await compileBrandMarketingExpression({ projectId: 'ndxbook' });
+        const run = await compileBrandMarketingExpression({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression' });
       }
       case 'marketing_expression_experiment_01_formulate': {
@@ -1702,13 +1620,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_formulate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await formulateMarketingExpressionExperiment01({ projectId: 'ndxbook' });
+        const run = await formulateMarketingExpressionExperiment01({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01' });
       }
       case 'marketing_expression_experiment_01_generate': {
@@ -1718,13 +1634,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
-        if (slug !== 'ndxbook' || !artifactId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!artifactId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_generate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await generateExperiment01ArtifactAsset({ projectId: 'ndxbook', artifactId });
+        const run = await generateExperiment01ArtifactAsset({ projectId: slug, artifactId });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01' });
       }
       case 'marketing_expression_experiment_01_generate_all': {
@@ -1733,13 +1650,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_generate_all', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await generateAllExperiment01ArtifactAssets({ projectId: 'ndxbook' });
+        const run = await generateAllExperiment01ArtifactAssets({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01' });
       }
       case 'marketing_expression_experiment_01_artifact_judgment': {
@@ -1750,19 +1665,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
         const judgment = body.judgment as string;
-        if (slug !== 'ndxbook' || !artifactId || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!artifactId || !judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_marketing_expression_experiment_01',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await setExperiment01ArtifactJudgment({
-          projectId: 'ndxbook',
-          artifactId,
-          judgment: judgment as never,
-        });
-        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_artifact_judgment', 'site00_marketing_expression_experiment_01')) return;
       case 'marketing_expression_experiment_01_set_judgment': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -1770,14 +1680,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const judgment = body.judgment as string;
-        if (slug !== 'ndxbook' || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!judgment) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_set_judgment', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await setExperiment01SetJudgment({
-          projectId: 'ndxbook',
+          projectId: slug,
           judgment: judgment as never,
         });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01' });
@@ -1788,13 +1699,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v2_formulate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await formulateMarketingExpressionExperiment01V2({ projectId: 'ndxbook' });
+        const run = await formulateMarketingExpressionExperiment01V2({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v2' });
       }
       case 'marketing_expression_experiment_01_v2_generate': {
@@ -1804,13 +1713,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
-        if (slug !== 'ndxbook' || !artifactId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!artifactId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v2_generate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await generateExperiment01V2ArtifactAsset({ projectId: 'ndxbook', artifactId });
+        const run = await generateExperiment01V2ArtifactAsset({ projectId: slug, artifactId });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v2' });
       }
       case 'marketing_expression_experiment_01_v2_generate_all': {
@@ -1819,13 +1729,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v2_generate_all', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await generateAllExperiment01V2ArtifactAssets({ projectId: 'ndxbook' });
+        const run = await generateAllExperiment01V2ArtifactAssets({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v2' });
       }
       case 'marketing_expression_experiment_01_v2_artifact_judgment': {
@@ -1836,32 +1744,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
         const judgment = body.judgment as string;
-        if (slug !== 'ndxbook' || !artifactId || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!artifactId || !judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_marketing_expression_experiment_01_v2',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await setExperiment01V2ArtifactJudgment({
-          projectId: 'ndxbook',
-          artifactId,
-          judgment,
-        });
-        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v2' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v2_artifact_judgment', 'site00_marketing_expression_experiment_01_v2')) return;
       case 'marketing_expression_experiment_01_v21_formulate': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v21_formulate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await formulateMarketingExpressionExperiment01V21({ projectId: 'ndxbook' });
+        const run = await formulateMarketingExpressionExperiment01V21({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v21' });
       }
       case 'marketing_expression_experiment_01_v21_generate': {
@@ -1871,13 +1772,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
-        if (slug !== 'ndxbook' || !artifactId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!artifactId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v21_generate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await generateExperiment01V21ArtifactAsset({ projectId: 'ndxbook', artifactId });
+        const run = await generateExperiment01V21ArtifactAsset({ projectId: slug, artifactId });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v21' });
       }
       case 'marketing_expression_experiment_01_v21_generate_all': {
@@ -1886,13 +1788,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v21_generate_all', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await generateAllExperiment01V21ArtifactAssets({ projectId: 'ndxbook' });
+        const run = await generateAllExperiment01V21ArtifactAssets({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v21' });
       }
       case 'marketing_expression_experiment_01_v21_artifact_judgment': {
@@ -1903,28 +1803,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
         const judgment = body.judgment as string;
-        if (slug !== 'ndxbook' || !artifactId || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!artifactId || !judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_marketing_expression_experiment_01_v21',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await setExperiment01V21ArtifactJudgment({ projectId: 'ndxbook', artifactId, judgment });
-        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v21' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v21_artifact_judgment', 'site00_marketing_expression_experiment_01_v21')) return;
       case 'marketing_expression_experiment_01_v22_formulate': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v22_formulate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await formulateMarketingExpressionExperiment01V22({ projectId: 'ndxbook' });
+        const run = await formulateMarketingExpressionExperiment01V22({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v22' });
       }
       case 'marketing_expression_experiment_01_v22_generate': {
@@ -1934,13 +1831,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
-        if (slug !== 'ndxbook' || !artifactId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!artifactId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v22_generate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await generateExperiment01V22ArtifactAsset({ projectId: 'ndxbook', artifactId });
+        const run = await generateExperiment01V22ArtifactAsset({ projectId: slug, artifactId });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v22' });
       }
       case 'marketing_expression_experiment_01_v22_generate_all': {
@@ -1949,13 +1847,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v22_generate_all', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await generateAllExperiment01V22ArtifactAssets({ projectId: 'ndxbook' });
+        const run = await generateAllExperiment01V22ArtifactAssets({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v22' });
       }
       case 'marketing_expression_experiment_01_v22_artifact_judgment': {
@@ -1966,28 +1862,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
         const judgment = body.judgment as string;
-        if (slug !== 'ndxbook' || !artifactId || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!artifactId || !judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_marketing_expression_experiment_01_v22',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await setExperiment01V22ArtifactJudgment({ projectId: 'ndxbook', artifactId, judgment });
-        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v22' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v22_artifact_judgment', 'site00_marketing_expression_experiment_01_v22')) return;
       case 'marketing_expression_experiment_01_v23_formulate': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v23_formulate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await formulateMarketingExpressionExperiment01V23({ projectId: 'ndxbook' });
+        const run = await formulateMarketingExpressionExperiment01V23({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v23' });
       }
       case 'marketing_expression_experiment_01_v23_generate': {
@@ -1999,20 +1892,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const artifactId = String(body.artifactId ?? '');
         const mode = body.mode === 'REPLAY_GENERATION' ? 'REPLAY_GENERATION' : 'REGENERATE_CURRENT';
         const replaySnapshotId = body.replaySnapshotId ? String(body.replaySnapshotId) : null;
-        if (slug !== 'ndxbook' || !artifactId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!artifactId)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_marketing_expression_experiment_01_v23',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await generateExperiment01V23ArtifactAsset({
-          projectId: 'ndxbook',
-          artifactId,
-          mode,
-          replaySnapshotId,
-        });
-        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v23' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v23_generate', 'site00_marketing_expression_experiment_01_v23')) return;
       case 'marketing_expression_experiment_01_v23_replay': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2021,19 +1908,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
         const replaySnapshotId = body.replaySnapshotId ? String(body.replaySnapshotId) : null;
-        if (slug !== 'ndxbook' || !artifactId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!artifactId)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_marketing_expression_experiment_01_v23',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await replayExperiment01V23HistoricalPrompt({
-          projectId: 'ndxbook',
-          artifactId,
-          replaySnapshotId,
-        });
-        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v23' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v23_replay', 'site00_marketing_expression_experiment_01_v23')) return;
       case 'marketing_expression_experiment_01_v23_select_asset': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2042,32 +1924,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
         const selectedGenerationAssetId = String(body.selectedGenerationAssetId ?? '');
-        if (slug !== 'ndxbook' || !artifactId || !selectedGenerationAssetId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!artifactId || !selectedGenerationAssetId)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_marketing_expression_experiment_01_v23',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await setExperiment01V23SelectedGenerationAsset({
-          projectId: 'ndxbook',
-          artifactId,
-          selectedGenerationAssetId,
-        });
-        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v23' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v23_select_asset', 'site00_marketing_expression_experiment_01_v23')) return;
       case 'marketing_expression_experiment_01_v23_generate_all': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v23_generate_all', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await generateAllExperiment01V23ArtifactAssets({ projectId: 'ndxbook' });
+        const run = await generateAllExperiment01V23ArtifactAssets({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v23' });
       }
       case 'marketing_expression_experiment_01_v23_regenerate_all': {
@@ -2076,13 +1951,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v23_regenerate_all', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await regenerateAllExperiment01V23ArtifactAssets({ projectId: 'ndxbook' });
+        const run = await regenerateAllExperiment01V23ArtifactAssets({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v23' });
       }
       case 'marketing_expression_experiment_01_v23_artifact_judgment': {
@@ -2093,15 +1966,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
         const judgment = body.judgment as string;
-        if (slug !== 'ndxbook' || !artifactId || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!artifactId || !judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_marketing_expression_experiment_01_v23',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await setExperiment01V23ArtifactJudgment({ projectId: 'ndxbook', artifactId, judgment });
-        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v23' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v23_artifact_judgment', 'site00_marketing_expression_experiment_01_v23')) return;
       case 'marketing_expression_experiment_01_v23_founder_revision': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2111,34 +1983,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const artifactId = String(body.artifactId ?? '');
         const judgment = body.judgment as string;
         const founderNote = String(body.founderNote ?? '');
-        if (slug !== 'ndxbook' || !artifactId || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
-        }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        try {
-          const run = await submitExperiment01V23FounderRevision({
-            projectId: 'ndxbook',
-            artifactId,
-            judgment,
-            founderNote,
+        if (!(!artifactId || !judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_marketing_expression_experiment_01_v23',
           });
-          return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v23' });
-        } catch (err) {
+        }
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v23_founder_revision', 'site00_marketing_expression_experiment_01_v23')) return; catch (err) {
           const message = err instanceof Error ? err.message : 'Founder revision failed';
           return json(res, 400, { ok: false, error: { code: 'FOUNDER_REVISION_FAILED', message } });
         }
       }
       case 'content_operations_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'content_operations_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await getContentOperationsState({ projectId: 'ndxbook' });
+        const run = await getContentOperationsState({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
       }
       case 'content_operations_prepare': {
@@ -2147,14 +2010,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'content_operations_prepare', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         try {
-          const run = await prepareContentOperations({ projectId: 'ndxbook' });
+          const run = await prepareContentOperations({ projectId: slug });
           return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
         } catch (err) {
           return json(res, 400, {
@@ -2170,13 +2031,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'content_operations_compile', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await compileContentOperations({ projectId: 'ndxbook' });
+        const run = await compileContentOperations({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
       }
       case 'content_operations_discover_opportunities': {
@@ -2185,13 +2044,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'content_operations_discover_opportunities', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await discoverContentOpportunities({ projectId: 'ndxbook' });
+        const run = await discoverContentOpportunities({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
       }
       case 'content_operations_propose_slate': {
@@ -2200,13 +2057,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'content_operations_propose_slate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await proposeWeeklySlate({ projectId: 'ndxbook' });
+        const run = await proposeWeeklySlate({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
       }
       case 'content_operations_approve_slate': {
@@ -2215,13 +2070,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'content_operations_approve_slate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await approveWeeklySlate({ projectId: 'ndxbook', judgment: body.judgment ? String(body.judgment) : undefined });
+        const run = await approveWeeklySlate({ projectId: slug, judgment: body.judgment ? String(body.judgment) : undefined });
         return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
       }
       case 'content_operations_package_judgment': {
@@ -2232,15 +2085,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const packageId = String(body.packageId ?? '');
         const judgment = String(body.judgment ?? '');
-        if (slug !== 'ndxbook' || !packageId || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!packageId || !judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_content_operations',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await setContentPackageJudgment({ projectId: 'ndxbook', packageId, judgment });
-        return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'content_operations_package_judgment', 'site00_content_operations')) return;
       case 'content_operations_approve_package': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2248,13 +2100,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const packageId = String(body.packageId ?? '');
-        if (slug !== 'ndxbook' || !packageId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!packageId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'content_operations_approve_package', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await approveContentPackage({ projectId: 'ndxbook', packageId });
+        const run = await approveContentPackage({ projectId: slug, packageId });
         return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
       }
       case 'content_operations_record_performance': {
@@ -2264,14 +2117,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const packageId = String(body.packageId ?? '');
-        if (slug !== 'ndxbook' || !packageId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!packageId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'content_operations_record_performance', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await recordManualPerformance({
-          projectId: 'ndxbook',
+          projectId: slug,
           packageId,
           metrics: body.metrics as Record<string, number | null> | undefined,
         });
@@ -2284,24 +2138,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const learningId = String(body.learningId ?? '');
-        if (slug !== 'ndxbook' || !learningId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!learningId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'content_operations_accept_learning', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await acceptPerformanceLearning({ projectId: 'ndxbook', learningId });
+        const run = await acceptPerformanceLearning({ projectId: slug, learningId });
         return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
       }
       case 'campaign_production_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'campaign_production_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await getCampaignProductionState({ projectId: 'ndxbook' });
+        const run = await getCampaignProductionState({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_campaign_production' });
       }
       case 'campaign_production_initialize': {
@@ -2310,13 +2163,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'campaign_production_initialize', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await initializeCampaignBoardFromExperiment01({ projectId: 'ndxbook' });
+        const run = await initializeCampaignBoardFromExperiment01({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_campaign_production' });
       }
       case 'campaign_production_lock_round_01': {
@@ -2325,13 +2176,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'campaign_production_lock_round_01', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await lockCampaignRound01({ projectId: 'ndxbook' });
+        const run = await lockCampaignRound01({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_campaign_production' });
       }
       case 'campaign_production_formulate_round_02': {
@@ -2340,13 +2189,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'campaign_production_formulate_round_02', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await formulateCampaignRound02({ projectId: 'ndxbook' });
+        const run = await formulateCampaignRound02({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_campaign_production' });
       }
       case 'campaign_production_asset_judgment': {
@@ -2357,28 +2204,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const assetId = String(body.assetId ?? '');
         const judgment = String(body.judgment ?? '');
-        if (slug !== 'ndxbook' || !assetId || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!assetId || !judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_campaign_production',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await setCampaignAssetJudgment({ projectId: 'ndxbook', assetId, judgment });
-        return json(res, 200, { ok: true, run, source: 'site00_campaign_production' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'campaign_production_asset_judgment', 'site00_campaign_production')) return;
       case 'campaign_production_synthesize_captions': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'campaign_production_synthesize_captions', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await synthesizeCampaignCaptions({ projectId: 'ndxbook' });
+        const run = await synthesizeCampaignCaptions({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_campaign_production' });
       }
       case 'campaign_production_caption_judgment': {
@@ -2389,20 +2233,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const contentPieceId = String(body.contentPieceId ?? '');
         const judgment = String(body.judgment ?? '');
-        if (slug !== 'ndxbook' || !contentPieceId || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!contentPieceId || !judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_campaign_production',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await setCampaignCaptionJudgment({ projectId: 'ndxbook', contentPieceId, judgment });
-        return json(res, 200, { ok: true, run, source: 'site00_campaign_production' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'campaign_production_caption_judgment', 'site00_campaign_production')) return;
       case 'founder_creative_ingestion_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'NDXBOOK only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -2415,9 +2256,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'NDXBOOK only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_initialize_row01', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -2430,9 +2269,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'NDXBOOK only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_decompose_all', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -2456,9 +2293,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const sequenceId = String(body.sequenceId ?? '');
-        if (slug !== 'ndxbook' || !sequenceId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!sequenceId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_decompose', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -2485,20 +2323,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slideId = String(body.slideId ?? '');
         const mode = String(body.mode ?? '');
         const assetId = body.assetId ? String(body.assetId) : undefined;
-        if (slug !== 'ndxbook' || !slideId || !mode) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!slideId || !mode)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_creative_ingestion',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const result = await setFounderCreativePhotoMode({
-          projectId: slug,
-          slideId,
-          mode: mode as import('../../shared/site00-studio-world-production/founderCreativeIngestion/types.js').PhotographySourceMode,
-          assetId,
-        });
-        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_photo_mode', 'site00_founder_creative_ingestion')) return;
       case 'founder_creative_ingestion_edit_prompt': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2507,21 +2339,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const slideId = String(body.slideId ?? '');
         const prompt = String(body.prompt ?? '');
-        if (slug !== 'ndxbook' || !slideId || !prompt) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!slideId || !prompt)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_creative_ingestion',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const result = await editFounderCreativePrompt({ projectId: slug, slideId, prompt });
-        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_edit_prompt', 'site00_founder_creative_ingestion')) return;
       case 'founder_creative_ingestion_estimate': {
         const slug = String(req.query.slug ?? '');
         const slideId = String(req.query.slideId ?? '');
-        if (slug !== 'ndxbook' || !slideId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!slideId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_estimate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -2536,22 +2368,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const slideId = String(body.slideId ?? '');
         const dispatchFal = body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal);
-        if (slug !== 'ndxbook' || !slideId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!slideId)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_creative_ingestion',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const result = await generateFounderCreativePhotography({ projectId: slug, slideId, dispatchFal });
-        const background =
-          result.ingestion.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
-        return json(res, background ? 202 : 200, {
-          ok: true,
-          ...result,
-          background,
-          source: 'site00_founder_creative_ingestion',
-        });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_generate_photo', 'site00_founder_creative_ingestion')) return;
       case 'founder_creative_ingestion_replace_photo': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2561,15 +2385,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slideId = String(body.slideId ?? '');
         const assetId = String(body.assetId ?? '');
         const previewUrl = body.previewUrl ? String(body.previewUrl) : undefined;
-        if (slug !== 'ndxbook' || !slideId || !assetId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!slideId || !assetId)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_creative_ingestion',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const result = await replaceFounderCreativePhoto({ projectId: slug, slideId, assetId, previewUrl });
-        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_replace_photo', 'site00_founder_creative_ingestion')) return;
       case 'founder_creative_ingestion_slide_judgment': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2578,19 +2401,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const slideId = String(body.slideId ?? '');
         const judgment = String(body.judgment ?? '');
-        if (slug !== 'ndxbook' || !slideId || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!slideId || !judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_creative_ingestion',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const result = await founderCreativeSlideJudgment({
-          projectId: slug,
-          slideId,
-          judgment: judgment as import('../../shared/site00-studio-world-production/founderCreativeIngestion/types.js').ReconstructionReviewJudgment,
-        });
-        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_slide_judgment', 'site00_founder_creative_ingestion')) return;
       case 'founder_creative_ingestion_sequence_review': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2598,9 +2416,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const sequenceId = String(body.sequenceId ?? '');
-        if (slug !== 'ndxbook' || !sequenceId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!sequenceId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_sequence_review', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -2613,9 +2432,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'NDXBOOK only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_register_campaign', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -2629,9 +2446,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const sequenceId = String(body.sequenceId ?? '');
-        if (slug !== 'ndxbook' || !sequenceId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!sequenceId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_replace_reference', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -2653,21 +2471,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const sequenceId = String(body.sequenceId ?? '');
         const imageData = body.imageData ? String(body.imageData) : '';
-        if (slug !== 'ndxbook' || !sequenceId || !imageData) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug, sequenceId, and imageData required' } });
-        }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        try {
-          const result = await uploadAndReplaceFounderCreativeReferenceBoard({
-            projectId: slug,
-            sequenceId,
-            imageData,
-            notes: body.notes ? String(body.notes) : undefined,
+        if (!(!sequenceId || !imageData)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_creative_ingestion',
           });
-          return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
-        } catch (err) {
+        }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_upload_reference', 'site00_founder_creative_ingestion')) return; catch (err) {
           const message = err instanceof Error ? err.message : 'Upload failed';
           const status = message.includes('too large') ? 413 : 400;
           return json(res, status, { ok: false, error: { code: 'UPLOAD_FAILED', message } });
@@ -2680,9 +2491,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const sequenceId = String(body.sequenceId ?? '');
-        if (slug !== 'ndxbook' || !sequenceId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!sequenceId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_redecompose_draft', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -2696,9 +2508,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const sequenceId = String(body.sequenceId ?? '');
-        if (slug !== 'ndxbook' || !sequenceId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!sequenceId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_promote_reference', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -2713,22 +2526,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const sequenceId = String(body.sequenceId ?? '');
         const slideNumber = Number(body.slideNumber ?? 0);
-        if (slug !== 'ndxbook' || !sequenceId || !slideNumber) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!sequenceId || !slideNumber)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_creative_ingestion',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const result = await replaceFounderCreativeSlideReference({
-          projectId: slug,
-          sequenceId,
-          slideNumber,
-          previewUrl: body.previewUrl ? String(body.previewUrl) : null,
-          observableCopy: Array.isArray(body.observableCopy) ? body.observableCopy.map(String) : undefined,
-          compositionNotes: Array.isArray(body.compositionNotes) ? body.compositionNotes.map(String) : undefined,
-        });
-        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_replace_slide_reference', 'site00_founder_creative_ingestion')) return;
       case 'founder_creative_ingestion_bulk_replace_references': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2736,9 +2541,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const uploads = Array.isArray(body.uploads) ? body.uploads : [];
-        if (slug !== 'ndxbook' || uploads.length === 0) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!uploads.length === 0) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_bulk_replace_references', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -2757,9 +2563,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'founder_creative_ingestion_reference_comparison': {
         const slug = String(req.query.slug ?? '');
         const sequenceId = String(req.query.sequenceId ?? '');
-        if (slug !== 'ndxbook' || !sequenceId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!sequenceId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_reference_comparison', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -2768,9 +2575,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
       case 'film_production_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'NDXBOOK only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'film_production_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -2783,9 +2588,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'NDXBOOK only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'film_production_initialize_pilots', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -2795,9 +2598,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'film_production_compile_plan': {
         const slug = String(req.query.slug ?? '');
         const filmId = String(req.query.filmId ?? '');
-        if (slug !== 'ndxbook' || !filmId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug and filmId required' } });
+        if (!!filmId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'film_production_compile_plan', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -2811,9 +2615,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const filmId = String(body.filmId ?? '');
-        if (slug !== 'ndxbook' || !filmId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug and filmId required' } });
+        if (!!filmId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'film_production_approve_plan', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -2827,9 +2632,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const filmId = String(body.filmId ?? '');
-        if (slug !== 'ndxbook' || !filmId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug and filmId required' } });
+        if (!!filmId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'film_production_trigger_generation', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -2846,15 +2652,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const entryId = String(body.entryId ?? '');
         const action = String(body.action ?? '');
         const note = body.note ? String(body.note) : undefined;
-        if (slug !== 'ndxbook' || !filmId || !entryId || !action) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Missing required fields' } });
+        if (!(!filmId || !entryId || !action)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_film_production',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const result = await applyDailiesJudgment({ projectId: slug, filmId, entryId, action: action as import('../../shared/site00-studio-world-production/filmProduction/types.js').DailiesAction, note });
-        return json(res, 200, { ok: true, ...result, source: 'site00_film_production' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'film_production_dailies_judgment', 'site00_film_production')) return;
       case 'film_production_rough_cut_judgment': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2864,24 +2669,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const filmId = String(body.filmId ?? '');
         const action = String(body.action ?? '');
         const note = body.note ? String(body.note) : undefined;
-        if (slug !== 'ndxbook' || !filmId || !action) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Missing required fields' } });
+        if (!(!filmId || !action)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_film_production',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const result = await applyRoughCutJudgment({ projectId: slug, filmId, action: action as import('../../shared/site00-studio-world-production/filmProduction/types.js').RoughCutAction, note });
-        return json(res, 200, { ok: true, ...result, source: 'site00_film_production' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'film_production_rough_cut_judgment', 'site00_film_production')) return;
       case 'film_production_register_campaign': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'NDXBOOK only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'film_production_register_campaign', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -2989,13 +2791,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
       case 'daily_publishing_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'daily_publishing_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await getDailyPublishingCadenceState({ projectId: 'ndxbook' });
+        const run = await getDailyPublishingCadenceState({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_daily_publishing_cadence' });
       }
       case 'daily_publishing_configure': {
@@ -3004,13 +2804,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'daily_publishing_configure', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await configureDailyPublishingCadence({ projectId: 'ndxbook' });
+        const run = await configureDailyPublishingCadence({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_daily_publishing_cadence' });
       }
       case 'daily_publishing_plan_week': {
@@ -3020,13 +2818,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const weekStart = String(body.weekStart ?? new Date().toISOString().slice(0, 10));
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'daily_publishing_plan_week', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await planWeeklyPrimaryEvents({ projectId: 'ndxbook', weekStart });
+        const run = await planWeeklyPrimaryEvents({ projectId: slug, weekStart });
         return json(res, 200, { ok: true, run, source: 'site00_daily_publishing_cadence' });
       }
       case 'daily_publishing_build_day': {
@@ -3036,13 +2832,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const date = String(body.date ?? new Date().toISOString().slice(0, 10));
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'daily_publishing_build_day', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await buildDailyPublishingPlan({ projectId: 'ndxbook', date });
+        const run = await buildDailyPublishingPlan({ projectId: slug, date });
         return json(res, 200, { ok: true, run, source: 'site00_daily_publishing_cadence' });
       }
       case 'daily_publishing_approve_weekly_slate': {
@@ -3051,24 +2845,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'daily_publishing_approve_weekly_slate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await approveWeeklyIntelligenceSlate({ projectId: 'ndxbook' });
+        const run = await approveWeeklyIntelligenceSlate({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_daily_publishing_cadence' });
       }
       case 'cultural_intelligence_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'cultural_intelligence_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await getLiveCulturalIntelligenceState({ projectId: 'ndxbook' });
+        const run = await getLiveCulturalIntelligenceState({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_cultural_intelligence' });
       }
       case 'cultural_intelligence_configure': {
@@ -3077,13 +2867,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'cultural_intelligence_configure', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await configureLiveCulturalIntelligence({ projectId: 'ndxbook' });
+        const run = await configureLiveCulturalIntelligence({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_cultural_intelligence' });
       }
       case 'cultural_intelligence_refresh': {
@@ -3092,13 +2880,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'cultural_intelligence_refresh', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await refreshLiveIntelligence({ projectId: 'ndxbook' });
+        const run = await refreshLiveIntelligence({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_cultural_intelligence' });
       }
       case 'cultural_intelligence_add_manual_signal': {
@@ -3107,14 +2893,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'cultural_intelligence_add_manual_signal', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await addManualFounderSignal({
-          projectId: 'ndxbook',
+          projectId: slug,
           founderNote: String(body.founderNote ?? ''),
           whatCaughtAttention: String(body.whatCaughtAttention ?? ''),
           referenceUrl: body.referenceUrl ? String(body.referenceUrl) : null,
@@ -3130,13 +2914,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'cultural_intelligence_proving_run', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await runLiveProvingRun({ projectId: 'ndxbook' });
+        const run = await runLiveProvingRun({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_cultural_intelligence' });
       }
       case 'cultural_intelligence_promote_item': {
@@ -3146,13 +2928,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const interpretationId = String(body.interpretationId ?? '');
-        if (slug !== 'ndxbook' || !interpretationId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook + interpretationId required' } });
+        if (!!interpretationId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'cultural_intelligence_promote_item', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const result = await promoteLiveOpportunityItem({ projectId: 'ndxbook', interpretationId });
+        const result = await promoteLiveOpportunityItem({ projectId: slug, interpretationId });
         return json(res, 200, { ok: true, ...result, source: 'site00_cultural_intelligence' });
       }
       case 'cultural_intelligence_weekly_forecast': {
@@ -3162,13 +2945,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const weekStart = String(body.weekStart ?? new Date().toISOString().slice(0, 10));
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'cultural_intelligence_weekly_forecast', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await generateWeeklyCulturalForecast({ projectId: 'ndxbook', weekStart });
+        const run = await generateWeeklyCulturalForecast({ projectId: slug, weekStart });
         return json(res, 200, { ok: true, run, source: 'site00_cultural_intelligence' });
       }
       case 'cultural_intelligence_promote_opportunities': {
@@ -3177,24 +2958,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'cultural_intelligence_promote_opportunities', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const result = await promoteLiveOpportunitiesToContentOps({ projectId: 'ndxbook' });
+        const result = await promoteLiveOpportunitiesToContentOps({ projectId: slug });
         return json(res, 200, { ok: true, ...result, source: 'site00_cultural_intelligence' });
       }
       case 'motion_character_book_language_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'motion_character_book_language_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await getMotionCharacterBookLanguageState({ projectId: 'ndxbook' });
+        const run = await getMotionCharacterBookLanguageState({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_motion_character_book_language' });
       }
       case 'motion_character_book_language_initialize': {
@@ -3203,13 +2980,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'motion_character_book_language_initialize', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await initializeMotionCharacterBookLanguage({ projectId: 'ndxbook' });
+        const run = await initializeMotionCharacterBookLanguage({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_motion_character_book_language' });
       }
       case 'motion_character_book_language_refresh': {
@@ -3218,24 +2993,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'motion_character_book_language_refresh', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await refreshMotionCharacterBookLanguage({ projectId: 'ndxbook' });
+        const run = await refreshMotionCharacterBookLanguage({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_motion_character_book_language' });
       }
       case 'embodied_character_discovery_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'embodied_character_discovery_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await getEmbodiedCharacterDiscoveryState({ projectId: 'ndxbook' });
+        const run = await getEmbodiedCharacterDiscoveryState({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_embodied_character_discovery' });
       }
       case 'embodied_character_discovery_initialize': {
@@ -3244,13 +3015,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'embodied_character_discovery_initialize', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await initializeEmbodiedCharacterDiscovery({ projectId: 'ndxbook' });
+        const run = await initializeEmbodiedCharacterDiscovery({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_embodied_character_discovery' });
       }
       case 'embodied_character_discovery_save_round': {
@@ -3261,14 +3030,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const round = String(body.round ?? '');
         const answer = String(body.answer ?? '');
-        if (slug !== 'ndxbook' || !round || !answer) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug, round, answer required' } });
+        if (!!round || !answer) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'embodied_character_discovery_save_round', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await saveEmbodiedCharacterDiscoveryInterviewRound({
-          projectId: 'ndxbook',
+          projectId: slug,
           round: round as import('../../../shared/site00-studio-world-production/embodiedCharacterDiscovery/types.js').DiscoveryRound,
           answer,
           rawWording: body.rawWording ? String(body.rawWording) : undefined,
@@ -3284,44 +3054,34 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const judgment = String(body.judgment ?? '');
         const dimension = String(body.dimension ?? '');
         const note = String(body.note ?? '');
-        if (slug !== 'ndxbook' || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug and judgment required' } });
+        if (!(!judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_embodied_character_discovery',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await saveEmbodiedCharacterDiscoveryJudgment({
-          projectId: 'ndxbook',
-          judgment: judgment as import('../../../shared/site00-studio-world-production/embodiedCharacterDiscovery/types.js').FounderCharacterJudgment,
-          dimension,
-          note,
-        });
-        return json(res, 200, { ok: true, run, source: 'site00_embodied_character_discovery' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'embodied_character_discovery_judgment', 'site00_embodied_character_discovery')) return;
       case 'embodied_character_discovery_synthesize': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'embodied_character_discovery_synthesize', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await synthesizeEmbodiedCharacterDiscovery({ projectId: 'ndxbook' });
+        const run = await synthesizeEmbodiedCharacterDiscovery({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_embodied_character_discovery' });
       }
       case 'founder_character_discovery_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await getFounderCharacterDiscoveryState({ projectId: 'ndxbook' });
+        const run = await getFounderCharacterDiscoveryState({ projectId: slug });
         return json(res, 200, {
           ok: true,
           run,
@@ -3335,13 +3095,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_initialize', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await initializeFounderCharacterDiscoveryRoom({ projectId: 'ndxbook' });
+        const run = await initializeFounderCharacterDiscoveryRoom({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
       }
       case 'founder_character_discovery_trait_judgment': {
@@ -3352,21 +3110,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const traitId = String(body.traitId ?? '');
         const judgment = String(body.judgment ?? '');
-        if (slug !== 'ndxbook' || !traitId || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug, traitId, judgment required' } });
+        if (!(!traitId || !judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_character_discovery',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await saveFounderCharacterDiscoveryTraitJudgment({
-          projectId: 'ndxbook',
-          traitId,
-          judgment: judgment as import('../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js').FounderDiscoveryJudgment,
-          revision: body.revision ? String(body.revision) : undefined,
-          note: body.note ? String(body.note) : undefined,
-        });
-        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_trait_judgment', 'site00_founder_character_discovery')) return;
       case 'founder_character_discovery_scenario_response': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3376,21 +3127,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const scenarioId = String(body.scenarioId ?? '');
         const response = String(body.response ?? '');
         const judgment = String(body.judgment ?? '');
-        if (slug !== 'ndxbook' || !scenarioId || !response || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug, scenarioId, response, judgment required' } });
+        if (!(!scenarioId || !response || !judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_character_discovery',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await saveFounderCharacterDiscoveryScenarioResponse({
-          projectId: 'ndxbook',
-          scenarioId,
-          response,
-          judgment: judgment as import('../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js').FounderDiscoveryJudgment,
-          notes: body.notes ? String(body.notes) : undefined,
-        });
-        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_scenario_response', 'site00_founder_character_discovery')) return;
       case 'founder_character_discovery_visual_judgment': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3399,20 +3143,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const hypothesisId = String(body.hypothesisId ?? '');
         const judgment = String(body.judgment ?? '');
-        if (slug !== 'ndxbook' || !hypothesisId || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug, hypothesisId, judgment required' } });
+        if (!(!hypothesisId || !judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_character_discovery',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await saveFounderVisualHypothesisJudgment({
-          projectId: 'ndxbook',
-          hypothesisId,
-          judgment: judgment as import('../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js').VisualHypothesisJudgment,
-          note: body.note ? String(body.note) : undefined,
-        });
-        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_visual_judgment', 'site00_founder_character_discovery')) return;
       case 'founder_character_discovery_voice_judgment': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3422,20 +3160,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const sampleId = String(body.sampleId ?? '');
         const channel = String(body.channel ?? '');
         const judgment = String(body.judgment ?? '');
-        if (slug !== 'ndxbook' || !sampleId || !channel || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug, sampleId, channel, judgment required' } });
+        if (!(!sampleId || !channel || !judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_character_discovery',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await saveFounderVoiceLabJudgment({
-          projectId: 'ndxbook',
-          sampleId,
-          channel: channel as import('../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js').VoiceLabChannel,
-          judgment: judgment as import('../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js').FounderDiscoveryJudgment,
-        });
-        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_voice_judgment', 'site00_founder_character_discovery')) return;
       case 'founder_character_discovery_recognition': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3443,14 +3175,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const response = String(body.response ?? '');
-        if (slug !== 'ndxbook' || !response) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug and response required' } });
+        if (!!response) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_recognition', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const result = await saveFounderCharacterRecognition({
-          projectId: 'ndxbook',
+          projectId: slug,
           response: response as import('../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js').FounderRecognitionResponse,
           note: body.note ? String(body.note) : undefined,
           sourceRoute: body.sourceRoute ? String(body.sourceRoute) : undefined,
@@ -3469,13 +3202,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_synthesis_preview', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await previewFounderCharacterSynthesis({ projectId: 'ndxbook' });
+        const run = await previewFounderCharacterSynthesis({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
       }
       case 'founder_character_discovery_calibration_continue': {
@@ -3484,13 +3215,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_calibration_continue', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const result = await continueFounderCharacterCalibration({ projectId: 'ndxbook' });
+        const result = await continueFounderCharacterCalibration({ projectId: slug });
         return json(res, 200, { ok: true, run: result.run, interaction: result.interaction, source: 'site00_founder_character_discovery' });
       }
       case 'founder_character_discovery_calibration_reaction': {
@@ -3501,38 +3230,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const interactionId = String(body.interactionId ?? '');
         const reaction = String(body.reaction ?? '');
-        if (slug !== 'ndxbook' || !interactionId || !reaction) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug, interactionId, reaction required' } });
+        if (!(!interactionId || !reaction)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_character_discovery',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const result = await saveFounderCharacterCalibrationReaction({
-          projectId: 'ndxbook',
-          interactionId,
-          reaction: reaction as import('../../../shared/site00-studio-world-production/founderCharacterCalibration/types.js').FounderCalibrationReaction,
-          revision: body.revision ? String(body.revision) : undefined,
-        });
-        return json(res, 200, {
-          ok: true,
-          run: result.run,
-          nextInteraction: result.nextInteraction,
-          source: 'site00_founder_character_discovery',
-        });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_calibration_reaction', 'site00_founder_character_discovery')) return;
       case 'founder_character_discovery_calibration_synthesis': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_calibration_synthesis', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await getFounderCharacterCalibrationSynthesis({ projectId: 'ndxbook' });
+        const run = await getFounderCharacterCalibrationSynthesis({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
       }
       case 'founder_character_discovery_voice_round_start': {
@@ -3541,13 +3257,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_voice_round_start', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const result = await startFounderVoiceCalibrationRound({ projectId: 'ndxbook' });
+        const result = await startFounderVoiceCalibrationRound({ projectId: slug });
         return json(res, 200, { ok: true, run: result.run, round: result.round, source: 'site00_founder_character_discovery' });
       }
       case 'founder_character_discovery_voice_hypothesis_judgment': {
@@ -3559,15 +3273,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const hypothesisId = String(body.hypothesisId ?? '');
         const judgment = String(body.judgment ?? '');
         const note = body.note != null ? String(body.note) : undefined;
-        if (slug !== 'ndxbook' || !hypothesisId || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug, hypothesisId, judgment required' } });
+        if (!(!hypothesisId || !judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_character_discovery',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await saveFounderVoiceHypothesisJudgment({ projectId: 'ndxbook', hypothesisId, judgment: judgment as import('../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js').FounderVoiceJudgment, note });
-        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_voice_hypothesis_judgment', 'site00_founder_character_discovery')) return;
       case 'founder_character_discovery_voice_pairwise': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3578,15 +3291,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const hypothesisBId = String(body.hypothesisBId ?? '');
         const preference = String(body.preference ?? '');
         const customNote = body.customNote != null ? String(body.customNote) : undefined;
-        if (slug !== 'ndxbook' || !hypothesisAId || !hypothesisBId || !preference) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'missing fields' } });
+        if (!(!hypothesisAId || !hypothesisBId || !preference)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_character_discovery',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await saveFounderPairwiseVoicePreference({ projectId: 'ndxbook', hypothesisAId, hypothesisBId, preference: preference as import('../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js').PairwiseVoicePreference, customNote });
-        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_voice_pairwise', 'site00_founder_character_discovery')) return;
       case 'founder_character_discovery_voice_recognition': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3595,15 +3307,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const response = String(body.response ?? '');
         const note = body.note != null ? String(body.note) : undefined;
-        if (slug !== 'ndxbook' || !response) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug and response required' } });
+        if (!(!response)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_character_discovery',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await saveFounderVoiceRecognition({ projectId: 'ndxbook', response: response as import('../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js').FounderVoiceRecognitionResponse, note });
-        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_voice_recognition', 'site00_founder_character_discovery')) return;
       case 'founder_character_discovery_voice_unseen_line': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3613,24 +3324,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const hypothesisId = String(body.hypothesisId ?? '');
         const spokenCopy = String(body.spokenCopy ?? '');
         const response = String(body.response ?? '');
-        if (slug !== 'ndxbook' || !hypothesisId || !spokenCopy || !response) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'missing fields' } });
+        if (!(!hypothesisId || !spokenCopy || !response)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_character_discovery',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await saveFounderUnseenLineVoiceTest({ projectId: 'ndxbook', hypothesisId, spokenCopy, response: response as import('../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js').UnseenLineRecognitionResponse });
-        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_voice_unseen_line', 'site00_founder_character_discovery')) return;
       case 'founder_character_discovery_neural_voice_estimate': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_neural_voice_estimate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const result = await getNeuralVoiceCastingEstimate({ projectId: 'ndxbook' });
+        const result = await getNeuralVoiceCastingEstimate({ projectId: slug });
         return json(res, 200, { ok: true, ...result, source: 'site00_founder_character_discovery' });
       }
       case 'founder_character_discovery_neural_voice_audition': {
@@ -3639,14 +3347,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_neural_voice_audition', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         try {
-          const result = await startFounderNeuralVoiceAudition({ projectId: 'ndxbook' });
+          const result = await startFounderNeuralVoiceAudition({ projectId: slug });
           return json(res, 200, { ok: true, run: result.run, round: result.round, source: 'site00_founder_character_discovery' });
         } catch (err) {
           const message = err instanceof Error ? err.message : 'Neural voice audition failed';
@@ -3661,15 +3367,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const hypothesisId = String(body.hypothesisId ?? '');
         const response = String(body.response ?? '');
-        if (slug !== 'ndxbook' || !hypothesisId || !response) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'missing fields' } });
+        if (!(!hypothesisId || !response)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_character_discovery',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await saveFounderHumanWomanTest({ projectId: 'ndxbook', hypothesisId, response: response as import('../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js').HumanWomanTestResponse });
-        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_human_woman_test', 'site00_founder_character_discovery')) return;
       case 'founder_character_discovery_neural_voice_revision': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3679,21 +3384,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const hypothesisId = String(body.hypothesisId ?? '');
         const judgment = String(body.judgment ?? '');
         const founderNote = String(body.founderNote ?? '');
-        if (slug !== 'ndxbook' || !hypothesisId || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'missing fields' } });
-        }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        try {
-          const run = await submitFounderNeuralVoiceRevision({
-            projectId: 'ndxbook',
-            hypothesisId,
-            judgment: judgment as import('../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js').FounderVoiceJudgment,
-            founderNote,
+        if (!(!hypothesisId || !judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_character_discovery',
           });
-          return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
-        } catch (err) {
+        }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_neural_voice_revision', 'site00_founder_character_discovery')) return; catch (err) {
           const message = err instanceof Error ? err.message : 'Neural voice revision failed';
           return json(res, 400, { ok: false, error: { code: 'NEURAL_VOICE_REVISION_FAILED', message } });
         }
@@ -3706,33 +3404,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const hypothesisId = String(body.hypothesisId ?? '');
         const mode = body.mode === 'REPLAY_GENERATION' ? 'REPLAY_GENERATION' : 'REGENERATE_CURRENT';
-        if (slug !== 'ndxbook' || !hypothesisId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'missing fields' } });
-        }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        try {
-          const run = await regenerateFounderNeuralVoiceHypothesis({
-            projectId: 'ndxbook',
-            hypothesisId,
-            mode,
+        if (!(!hypothesisId)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_founder_character_discovery',
           });
-          return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
-        } catch (err) {
+        }
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_neural_voice_regenerate', 'site00_founder_character_discovery')) return; catch (err) {
           const message = err instanceof Error ? err.message : 'Neural voice regenerate failed';
           return json(res, 400, { ok: false, error: { code: 'NEURAL_VOICE_REGENERATE_FAILED', message } });
         }
       }
       case 'character_continuity_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'character_continuity_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await getCharacterContinuityState({ projectId: 'ndxbook' });
+        const run = await getCharacterContinuityState({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_character_continuity' });
       }
       case 'character_continuity_initialize': {
@@ -3741,13 +3431,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'character_continuity_initialize', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await initializeCharacterContinuityPipeline({ projectId: 'ndxbook' });
+        const run = await initializeCharacterContinuityPipeline({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_character_continuity' });
       }
       case 'character_continuity_ingest_bible': {
@@ -3758,34 +3446,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const rawSource = String(body.rawSource ?? '');
         const sourceType = String(body.sourceType ?? 'STRUCTURED_RECORD');
-        if (slug !== 'ndxbook' || !rawSource) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug and rawSource required' } });
+        if (!(!rawSource)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_character_continuity',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await ingestCharacterBibleSource({
-          projectId: 'ndxbook',
-          rawSource,
-          sourceType: sourceType as import('../../../shared/site00-studio-world-production/characterContinuityPipeline/types.js').BibleSourceType,
-          normalized: body.normalized as Record<string, unknown> | undefined,
-        });
-        return json(res, 200, { ok: true, run, source: 'site00_character_continuity' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'character_continuity_ingest_bible', 'site00_character_continuity')) return;
       case 'character_continuity_ingest_synthesis': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'character_continuity_ingest_synthesis', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await ingestCharacterDiscoverySynthesis({
-          projectId: 'ndxbook',
+          projectId: slug,
           whoSheIs: String(body.whoSheIs ?? ''),
           bookMeaning: String(body.bookMeaning ?? ''),
           whatMakesHerAnnoying: String(body.whatMakesHerAnnoying ?? ''),
@@ -3798,13 +3478,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'character_continuity_preview_contract', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await previewCharacterGenerationContract({ projectId: 'ndxbook' });
+        const run = await previewCharacterGenerationContract({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_character_continuity' });
       }
       case 'character_continuity_mock_fixture_test': {
@@ -3813,24 +3491,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'character_continuity_mock_fixture_test', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await runMockFixturePipelineTest({ projectId: 'ndxbook' });
+        const run = await runMockFixturePipelineTest({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_character_continuity' });
       }
       case 'character_visual_casting_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const result = await getVisualCastingState({ projectId: 'ndxbook' });
+        const result = await getVisualCastingState({ projectId: slug });
         return json(res, 200, { ok: true, ...result, source: 'site00_character_visual_casting' });
       }
       case 'character_visual_casting_estimate': {
@@ -3839,13 +3513,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_estimate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const result = await estimateVisualCastingRound({ projectId: 'ndxbook' });
+        const result = await estimateVisualCastingRound({ projectId: slug });
         return json(res, 200, { ok: true, ...result, source: 'site00_character_visual_casting' });
       }
       case 'character_visual_casting_generate': {
@@ -3854,14 +3526,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_generate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await generateVisualCastingRound({
-          projectId: 'ndxbook',
+          projectId: slug,
           dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
         });
         const background =
@@ -3879,14 +3549,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_retry_fal', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await retryVisualCastingRoundFal({
-          projectId: 'ndxbook',
+          projectId: slug,
           roundId: body.roundId ? String(body.roundId) : undefined,
         });
         const background =
@@ -3906,34 +3574,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const candidateId = String(body.candidateId ?? '');
         const judgment = String(body.judgment ?? '');
-        if (slug !== 'ndxbook' || !candidateId || !judgment) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug, candidateId, judgment required' } });
+        if (!(!candidateId || !judgment)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_character_visual_casting',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await saveVisualCastingJudgment({
-          projectId: 'ndxbook',
-          candidateId,
-          judgment: judgment as import('../../../shared/site00-studio-world-production/characterVisualCasting/types.js').CastingPrimaryJudgment,
-          note: body.note ? String(body.note) : undefined,
-        });
-        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_judgment', 'site00_character_visual_casting')) return;
       case 'character_visual_casting_merge': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_merge', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await createVisualCastingMerge({
-          projectId: 'ndxbook',
+          projectId: slug,
           candidateIds: Array.isArray(body.candidateIds) ? body.candidateIds.map(String) : [],
           retainFromEach: (body.retainFromEach as Record<string, import('../../../shared/site00-studio-world-production/characterVisualCasting/types.js').MergeTraitOption[]>) ?? {},
         });
@@ -3945,14 +3605,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_next_round', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const run = await generateNextVisualCastingRound({
-          projectId: 'ndxbook',
+          projectId: slug,
           dispatchFal: body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal),
         });
         const background =
@@ -3972,21 +3630,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const imageData = body.imageData ? String(body.imageData) : '';
         const role = String(body.role ?? 'FULL_LOOK');
-        if (slug !== 'ndxbook' || !imageData) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug and imageData required' } });
-        }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        try {
-          const run = await uploadFounderCastingReference({
-            projectId: slug,
-            imageData,
-            role: role as import('../../../shared/site00-studio-world-production/characterVisualCasting/founderReferenceIngestion.js').FounderCastingReferenceRole,
-            label: body.label ? String(body.label) : undefined,
+        if (!(!imageData)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_character_visual_casting',
           });
-          return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
-        } catch (err) {
+        }
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_upload_reference', 'site00_character_visual_casting')) return; catch (err) {
           const message = err instanceof Error ? err.message : 'Upload failed';
           const status = message.includes('too large') ? 413 : 400;
           return json(res, status, { ok: false, error: { code: 'UPLOAD_FAILED', message } });
@@ -3999,9 +3650,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const referenceId = String(body.referenceId ?? '');
-        if (slug !== 'ndxbook' || !referenceId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug and referenceId required' } });
+        if (!!referenceId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_store_reference_bible', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4014,9 +3666,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_regenerate_from_references', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4039,9 +3689,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_generate_bible_from_reference', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4064,9 +3712,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_approve_bible_pack', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4081,28 +3727,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const lock = String(body.lock ?? '') as 'faceLocked' | 'wardrobeLocked' | 'environmentLocked';
         const value = Boolean(body.value);
-        if (slug !== 'ndxbook' || !lock) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug and lock required' } });
+        if (!(!lock)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_character_visual_casting',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await updateCharacterBibleAssetLock({ projectId: slug, lock, value });
-        return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_bible_lock', 'site00_character_visual_casting')) return;
       case 'character_visual_casting_lock': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_lock', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await lockVisualIdentity({ projectId: 'ndxbook' });
+        const run = await lockVisualIdentity({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
       }
       case 'character_visual_casting_reopen_calibration': {
@@ -4111,20 +3754,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'character_visual_casting_reopen_calibration', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const run = await reopenCharacterCalibration({ projectId: 'ndxbook' });
+        const run = await reopenCharacterCalibration({ projectId: slug });
         return json(res, 200, { ok: true, run, source: 'site00_character_visual_casting' });
       }
       case 'experiment_g_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_g_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4137,9 +3776,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_g_prepare_snapshot', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4152,9 +3789,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_g_form_concepts', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4183,28 +3818,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           | 'NOT_NDXBOOK'
           | 'REFORM_SET'
           | null;
-        if (slug !== 'ndxbook' || !conceptId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!conceptId)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_experiment_g',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await setExperimentGConceptJudgment({
-          conceptId,
-          judgment,
-          note: body.note ? String(body.note) : null,
-        });
-        return json(res, 200, { ok: true, run, source: 'site00_experiment_g' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_g_concept_judgment', 'site00_experiment_g')) return;
       case 'experiment_g_reform_set': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_g_reform_set', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4218,9 +3846,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
       case 'experiment_g_direction_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_g_direction_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4233,9 +3859,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_g_direction_prepare', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4249,9 +3873,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_g_direction_form', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4282,19 +3904,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           | 'TOO_STYLE_DEPENDENT'
           | 'NOT_NDXBOOK'
           | null;
-        if (slug !== 'ndxbook' || !directionId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!directionId)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_experiment_g_direction',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await setBrandPresentationDirectionJudgment({
-          directionId,
-          judgment,
-          note: body.note ? String(body.note) : null,
-        });
-        return json(res, 200, { ok: true, run, source: 'site00_experiment_g_direction' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_g_direction_judgment', 'site00_experiment_g_direction')) return;
       case 'experiment_g_direction_revise': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -4302,9 +3919,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const directionId = String(body.directionId ?? '');
-        if (slug !== 'ndxbook' || !directionId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!directionId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_g_direction_revise', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4318,9 +3936,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
       case 'experiment_g_visual_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_g_visual_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4335,20 +3951,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const directionId = String(body.directionId ?? '');
         const selected = body.selected !== false;
-        if (slug !== 'ndxbook' || !directionId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
-        }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        try {
-          const run = await setVisualFinalistSelection({
-            directionId,
-            selected,
-            selectedBy: user.email ?? 'founder',
+        if (!(!directionId)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_experiment_g_visual',
           });
-          return json(res, 200, { ok: true, run, source: 'site00_experiment_g_visual' });
-        } catch (err) {
+        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_g_visual_finalist', 'site00_experiment_g_visual')) return; catch (err) {
           return json(res, 400, {
             ok: false,
             error: { code: 'FINALIST_GATE', message: err instanceof Error ? err.message : 'Finalist selection failed' },
@@ -4361,9 +3971,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_g_visual_formulate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4377,9 +3985,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_g_visual_generate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4415,9 +4021,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           | 'MISREPRESENTS_THE_DIRECTION'
           | 'VISUAL_DOES_NOT_HELP_ME_JUDGE'
           | null;
-        if (slug !== 'ndxbook' || (!expressionId && !benchmarkId)) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!expressionId && !benchmarkId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_experiment_g_direction' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_g_direction_judgment', 'site00_experiment_g_direction')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4442,9 +4049,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const expressionId = String(body.expressionId ?? '');
         const benchmarkId = String(body.benchmarkId ?? '');
-        if (slug !== 'ndxbook' || (!expressionId && !benchmarkId)) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!expressionId && !benchmarkId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_experiment_g_visual' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_g_visual_revise', 'site00_experiment_g_visual')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4471,9 +4079,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const expressionId = String(body.expressionId ?? '');
         const benchmarkId = String(body.benchmarkId ?? '');
-        if (slug !== 'ndxbook' || (!expressionId && !benchmarkId)) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!expressionId && !benchmarkId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_experiment_g_visual' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_g_visual_select_winner', 'site00_experiment_g_visual')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4486,9 +4095,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
       case 'experiment_e_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_e_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4502,9 +4109,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_e_select_territory', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4520,9 +4125,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_e_form_concepts', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4537,9 +4140,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const conceptIndex = body.conceptIndex ? Number(body.conceptIndex) : undefined;
         const allConcepts = Boolean(body.allConcepts);
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_e_generate_visuals', 'site00_experiment_e')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4561,15 +4162,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           | 'TOO_TEMPLATE_LIKE'
           | 'TOO_CLOSE_TO_ANOTHER'
           | null;
-        if (slug !== 'ndxbook' || !conceptIndex) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!conceptIndex)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_experiment_e',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await setExperienceConceptJudgment({ conceptIndex, judgment });
-        return json(res, 200, { ok: true, run, source: 'site00_experiment_e' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_e_concept_judgment', 'site00_experiment_e')) return;
       case 'experiment_e_compile_contract': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -4577,9 +4177,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const conceptIndex = Number(body.conceptIndex ?? 0);
-        if (slug !== 'ndxbook' || !conceptIndex) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!conceptIndex) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_e_compile_contract', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4593,9 +4194,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const conceptIndex = Number(body.conceptIndex ?? 0);
-        if (slug !== 'ndxbook' || !conceptIndex) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!conceptIndex) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_e_compile_asset_direction', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4609,9 +4211,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const conceptIndex = Number(body.conceptIndex ?? 0);
-        if (slug !== 'ndxbook' || !conceptIndex) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!conceptIndex) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_e_compile_asset_manifest', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4625,9 +4228,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const conceptIndex = Number(body.conceptIndex ?? 0);
-        if (slug !== 'ndxbook' || !conceptIndex) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!conceptIndex) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_e_generate_asset_visuals', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4646,9 +4250,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const assetId = String(body.assetId ?? '');
-        if (slug !== 'ndxbook' || !assetId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!assetId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'experiment_e_promote_asset', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4660,9 +4265,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
       case 'project_workspace_hero_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'project_workspace_hero_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4676,9 +4279,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'project_workspace_compile_hero_subset', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4691,9 +4292,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'project_workspace_prepare_hero', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4706,9 +4305,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'project_workspace_generate_hero', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4721,9 +4318,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'project_workspace_compose_hero', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4737,9 +4332,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const judgment = body.judgment as 'LOVE_THE_DIRECTION' | 'PROMISING_REVISE' | 'NOT_THE_DIRECTION' | null;
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'project_workspace_hero_judgment', 'site00_project_workspace')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4748,9 +4341,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
       case 'visual_development_get': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'visual_development_get', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4765,9 +4356,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
-        if (slug !== 'ndxbook' || !proofId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!proofId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'visual_development_generate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4781,9 +4373,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
-        if (slug !== 'ndxbook' || !proofId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!proofId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'visual_development_refresh_references', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4797,9 +4390,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
-        if (slug !== 'ndxbook' || !proofId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!proofId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'visual_development_compile_references', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4815,15 +4409,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
-        if (slug !== 'ndxbook' || !proofId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!proofId)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_visual_reference',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await generateReferenceConditionedDesignProof(proofId);
-        return json(res, 200, { ok: true, run, source: 'site00_visual_reference' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'visual_development_generate_reference_conditioned', 'site00_visual_reference')) return;
       case 'visual_development_exclude_reference': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -4832,15 +4425,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
         const referenceId = String(body.referenceId ?? '');
-        if (slug !== 'ndxbook' || !proofId || !referenceId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!proofId || !referenceId)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_visual_reference',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await excludeVisualDevelopmentReference(proofId, referenceId);
-        return json(res, 200, { ok: true, run, source: 'site00_visual_reference' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'visual_development_exclude_reference', 'site00_visual_reference')) return;
       case 'visual_development_prepare_interface': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -4848,9 +4440,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
-        if (slug !== 'ndxbook' || proofId !== 'SITE00_PROJECTS_INDEX') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!proofId !== 'SITE00_PROJECTS_INDEX') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'visual_development_prepare_interface', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4864,9 +4457,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
-        if (slug !== 'ndxbook' || proofId !== 'SITE00_PROJECTS_INDEX') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!proofId !== 'SITE00_PROJECTS_INDEX') {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'visual_development_generate_assets', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4881,19 +4475,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
         const judgment = body.judgment as 'LOVE_THE_DIRECTION' | 'PROMISING_REVISE' | 'NOT_THE_DIRECTION' | null;
-        if (slug !== 'ndxbook' || !proofId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!(!proofId)) {
+          return json(res, 400, {
+            ok: false,
+            error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
+            source: 'site00_visual_development',
+          });
         }
-        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
-          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
-        }
-        const run = await setVisualDevelopmentProofJudgment({
-          proofId,
-          judgment,
-          revisionNote: body.revisionNote ?? null,
-        });
-        return json(res, 200, { ok: true, run, source: 'site00_visual_development' });
-      }
+        if (!denyUnlessActionCapability(res, slug, 'visual_development_judgment', 'site00_visual_development')) return;
       case 'visual_development_prepare_implementation': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -4901,9 +4490,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
-        if (slug !== 'ndxbook' || !proofId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!proofId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'visual_development_prepare_implementation', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4917,9 +4507,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
-        if (slug !== 'ndxbook' || !proofId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!proofId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'visual_development_orchestrate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4936,9 +4527,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
       case 'creative_lineage_forensic_audit': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'creative_lineage_forensic_audit', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4950,9 +4539,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
         }
         const slug = String(parseBody(req)?.slug ?? req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'creative_lineage_normalize', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4962,9 +4549,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'creative_lineage_library': {
         const slug = String(req.query.slug ?? '');
         const section = String(req.query.section ?? 'ALL') as CreativeLineageLibraryFilters['section'];
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'creative_lineage_library', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4977,9 +4562,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook' || !body.assetId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!body.assetId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'creative_lineage_asset_update', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -4998,9 +4584,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'creative_lineage_promotion_plan', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -5019,9 +4603,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook' || !body.planId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!body.planId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'creative_lineage_promote_world', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -5034,9 +4619,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'creative_lineage_salvage_action', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -5054,9 +4637,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook' || !body.assetId || !body.founderAction) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!body.assetId || !body.founderAction) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_judgment_record', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -5074,9 +4658,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook' || !body.parentAssetId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!body.parentAssetId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'founder_revision_spec_create', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -5097,9 +4682,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook' || !body.revisionId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!body.revisionId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'founder_revision_spec_update', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -5124,9 +4710,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook' || !body.revisionId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!body.revisionId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'founder_revision_spec_compile', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -5136,9 +4723,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'founder_revision_history': {
         const slug = String(req.query.slug ?? '');
         const assetId = String(req.query.assetId ?? '');
-        if (slug !== 'ndxbook' || !assetId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!assetId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'founder_revision_history', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -5151,9 +4739,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook' || !body.revisionId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!body.revisionId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'founder_revision_spec_approve', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -5163,9 +4752,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'founder_revision_comparison': {
         const slug = String(req.query.slug ?? '');
         const revisionId = String(req.query.revisionId ?? '');
-        if (slug !== 'ndxbook' || !revisionId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!revisionId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'founder_revision_comparison', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -5178,9 +4768,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook' || !body.rootAssetId || !body.preferredAssetId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!body.rootAssetId || !body.preferredAssetId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'founder_revision_preferred_version', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -5196,9 +4787,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook' || !body.revisionId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!body.revisionId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'founder_revision_generate', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -5209,9 +4801,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
       case 'founder_judgment_forensic_audit': {
         const slug = String(req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'founder_judgment_forensic_audit', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -5224,9 +4814,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (slug !== 'ndxbook' || !body.assetId) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        if (!!body.assetId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
+        if (!denyUnlessActionCapability(res, slug, 'creative_lineage_launch_seed_select', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -5238,9 +4829,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
         }
         const slug = String(parseBody(req)?.slug ?? req.query.slug ?? '');
-        if (slug !== 'ndxbook') {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'ndxbook only' } });
-        }
+        if (!denyUnlessActionCapability(res, slug, 'creative_lineage_launch_seed_reconcile', 'site00_projects')) return;
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
@@ -5318,6 +4907,47 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           capabilities,
           source: 'site00_studio_world_execution',
         });
+      }
+      case 'project_isolation_health': {
+        if (!canAccessFounderProjectIndex(user.email)) {
+          return json(res, 403, {
+            ok: false,
+            error: { code: 'PROJECT_ACCESS_DENIED', message: 'Founder access required' },
+            source: 'site00_project_health',
+          });
+        }
+        const { buildProjectIsolationHealthReport } = await import('../_lib/site00Projects/projectHealth.js');
+        const report = await buildProjectIsolationHealthReport();
+        return json(res, 200, { ok: true, report, source: 'site00_project_health' });
+      }
+      case 'client_truth_store': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!denyUnlessProjectCapability(res, slug, 'CLIENT_TRUTH', 'site00_client_truth')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { storeClientTruth } = await import('../_lib/site00Projects/clientTruthService.js');
+        const record = await storeClientTruth({
+          projectIdOrSlug: slug,
+          payload: (body.payload ?? {}) as Record<string, unknown>,
+          title: body.title ? String(body.title) : null,
+          source: body.source ? String(body.source) : 'api',
+        });
+        return json(res, 200, { ok: true, record, source: 'site00_client_truth' });
+      }
+      case 'client_truth_list': {
+        const slug = String(req.query.slug ?? '');
+        if (!denyUnlessProjectCapability(res, slug, 'CLIENT_TRUTH', 'site00_client_truth')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { listClientTruthForProject } = await import('../_lib/site00Projects/clientTruthService.js');
+        const records = await listClientTruthForProject(slug);
+        return json(res, 200, { ok: true, records, source: 'site00_client_truth' });
       }
       default:
         return json(res, 400, {

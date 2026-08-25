@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { Link, useParams } from 'react-router-dom';
 import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
@@ -8,7 +9,7 @@ import { projectDisplayName } from '../utils/projectDisplayName';
 export default function ProjectWorkspaceVisualDevelopmentPage() {
   const { projectSlug = '' } = useParams<{ projectSlug: string }>();
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'PROJECT_WORKSPACE')) {
     return (
       <EcosystemShell hidePageHeader>
         <p>Visual development is NDXBOOK-only for Experiment E.</p>

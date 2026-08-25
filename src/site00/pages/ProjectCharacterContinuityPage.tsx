@@ -1,3 +1,4 @@
+import { hasProjectCapability } from '../../../shared/site00-projects/capabilities.js';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { NdxFounderWorkspacePage, FounderWorkspacePanel } from '../components/founderWorkspace';
@@ -32,7 +33,7 @@ export default function ProjectCharacterContinuityPage() {
   const [section, setSection] = useState<Section>(isReviewRoute ? 'REVIEW' : 'AUDIT');
 
   const reload = useCallback(async () => {
-    if (projectSlug !== 'ndxbook') return;
+    if (!hasProjectCapability(projectSlug, 'CHARACTER_CONTINUITY')) return;
     try {
       const result = await site00ProjectsApi.characterContinuityGet(projectSlug);
       setRun((result.run as NdxCharacterContinuityPipelineRun | null) ?? null);
@@ -61,7 +62,7 @@ export default function ProjectCharacterContinuityPage() {
     }
   };
 
-  if (projectSlug !== 'ndxbook') {
+  if (!hasProjectCapability(projectSlug, 'CHARACTER_CONTINUITY')) {
     return (
       <NdxFounderWorkspacePage
         projectSlug={projectSlug}
