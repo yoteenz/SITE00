@@ -2,7 +2,6 @@
  * P0.CB.1 — NDXBOOK Launch Row 01 pilot metadata (adapter layer — not generic engine).
  */
 
-import { randomUUID } from 'node:crypto';
 import { NDX_LAUNCH_ROW_01_CAMPAIGN_ID } from '../constants.js';
 import type { FounderCreativeProvenance, FounderCreativeParentSequence, PhotographySourceMode } from '../types.js';
 import type { SlideReferenceSeed as DecompSeed } from '../referenceDecomposition.js';
@@ -149,7 +148,7 @@ export function savedThisWeekSlideSeeds(): DecompSeed[] {
 }
 
 export function ndxPilotReferenceAssetId(sequenceId: string): string {
-  return `ref-board-${sequenceId}-${randomUUID().slice(0, 8)}`;
+  return `ref-board-${sequenceId}`;
 }
 
 export function ndxGridForSequence(sequenceId: string): { rows: number; cols: number; count: number } {

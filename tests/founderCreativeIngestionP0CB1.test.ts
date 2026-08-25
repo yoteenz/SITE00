@@ -153,6 +153,25 @@ describe('P0.CB.1 Founder Creative Ingestion', () => {
     expect(decomposed.reconstructionSpecs).toHaveLength(9 + 12 + 12);
     expect(childSlidesUnderParent(decomposed)).toBe(true);
     expect(referenceIsNotProductionAsset(decomposed)).toBe(true);
+    expect(decomposed.falGenerationTracking?.status).toBe('COMPLETED');
+    expect(decomposed.falImageRequests).toBeGreaterThan(0);
+  });
+
+  it('decompose resolves photography modes and queues FAL batch when configured', async () => {
+    await initializeFounderCreativeRow01({ projectId: 'ndxbook' });
+    const { ingestion } = await decomposeAllFounderCreativeSequences({ projectId: 'ndxbook' });
+    const meetSlide1Ref = ingestion.slideReferences.find(
+      (ref) => ref.sequenceId === MEET_NDX_SEQUENCE_ID && ref.slideNumber === 1,
+    );
+    const meetSlide1 = ingestion.reconstructionSpecs.find(
+      (spec) => spec.slideReferenceId === meetSlide1Ref?.slideReferenceId,
+    );
+    expect(meetSlide1?.photography.sourceMode).toBe('USE_EXISTING_ASSET');
+    const personalBrandPhoto = ingestion.reconstructionSpecs.find(
+      (spec) => spec.sequenceId === PERSONAL_BRAND_SEQUENCE_ID && spec.photography.required,
+    );
+    expect(personalBrandPhoto?.photography.sourceMode).toBe('GENERATE_FROM_REFERENCE');
+    expect(ingestion.falGenerationTracking?.status).toBe('COMPLETED');
   });
 
   it('campaign board shows three parents not flattened child slides', async () => {

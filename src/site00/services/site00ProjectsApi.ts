@@ -1564,7 +1564,7 @@ export const site00ProjectsApi = {
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
     ),
   founderCreativeIngestionDecomposeAll: (slug: string) =>
-    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown> }>(
+    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown>; background?: boolean }>(
       '/api/site00/projects?action=founder_creative_ingestion_decompose_all',
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
     ),
@@ -1595,8 +1595,8 @@ export const site00ProjectsApi = {
     projectsFetch<{ ok: true; estimate: Record<string, unknown> }>(
       `/api/site00/projects?action=founder_creative_ingestion_estimate&slug=${encodeURIComponent(slug)}&slideId=${encodeURIComponent(slideId)}`,
     ),
-  founderCreativeIngestionGeneratePhoto: (slug: string, slideId: string, dispatchFal = false) =>
-    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown> }>(
+  founderCreativeIngestionGeneratePhoto: (slug: string, slideId: string, dispatchFal = true) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown>; background?: boolean }>(
       '/api/site00/projects?action=founder_creative_ingestion_generate_photo',
       {
         method: 'POST',

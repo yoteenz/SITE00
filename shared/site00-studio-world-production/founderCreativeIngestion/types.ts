@@ -218,5 +218,16 @@ export type FounderCreativeIngestionState = {
   registeredOnCampaignBoard: boolean;
   falImageRequests: number;
   falVideoRequests: number;
+  falGenerationTracking: FounderCreativeFalGenerationTracking | null;
   updatedAt: string;
+};
+
+export type FounderCreativeFalGenerationTracking = {
+  attemptId: string;
+  slideIds: string[];
+  startedAt: string;
+  status: 'RUNNING' | 'COMPLETED' | 'FAILED';
+  currentSlideId: string | null;
+  completedSlideIds: string[];
+  errorMessage: string | null;
 };

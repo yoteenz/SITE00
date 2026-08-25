@@ -7,7 +7,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { FounderWorkspaceShell } from '../components/founderWorkspace/FounderWorkspaceShell';
 import { QuietAction, InlineMeta, WorkspaceField } from '../components/founderWorkspace/WorkspaceCompositionPrimitives';
-import { site00ProjectsApi } from '../services/site00ProjectsApi';
+import { site00ProjectsApi, Site00ProjectsApiError } from '../services/site00ProjectsApi';
 import {
   site00ProjectContentOperationsCampaignBoardPath,
 } from '../config/routes';
@@ -15,6 +15,8 @@ import {
   INGESTION_WORKFLOW_STEPS,
   PHOTOGRAPHY_SOURCE_MODES,
   RECONSTRUCTION_REVIEW_JUDGMENTS,
+  founderCreativeFalGenerationFailed,
+  founderCreativeFalGenerationInProgress,
 } from '../../../shared/site00-studio-world-production/founderCreativeIngestion/client.js';
 import type {
   FounderCreativeIngestionState,
@@ -23,11 +25,14 @@ import type {
 } from '../../../shared/site00-studio-world-production/founderCreativeIngestion/client.js';
 import '../styles/site00-founder-creative-ingestion.css';
 
+const POLL_MS = 5000;
+
 export default function ProjectFounderCreativeIngestionPage() {
   const { projectSlug = '' } = useParams<{ projectSlug: string }>();
   const [ingestion, setIngestion] = useState<FounderCreativeIngestionState | null>(null);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
   const [activeSequenceId, setActiveSequenceId] = useState<string | null>(null);
   const [activeSlideId, setActiveSlideId] = useState<string | null>(null);
   const [estimate, setEstimate] = useState<{ estimatedCostUsd: number; provider: string; readiness: string } | null>(null);
@@ -46,15 +51,42 @@ export default function ProjectFounderCreativeIngestionPage() {
     void reload();
   }, [reload]);
 
-  const act = async (fn: () => Promise<Record<string, unknown>>) => {
+  const isGenerating = Boolean(ingestion && founderCreativeFalGenerationInProgress(ingestion));
+  const generationFailed = Boolean(ingestion && founderCreativeFalGenerationFailed(ingestion));
+
+  useEffect(() => {
+    if (!ingestion || !founderCreativeFalGenerationInProgress(ingestion)) return undefined;
+    const id = window.setInterval(() => void reload(), POLL_MS);
+    return () => window.clearInterval(id);
+  }, [ingestion, reload]);
+
+  useEffect(() => {
+    if (!ingestion?.parentSequences.length || activeSequenceId) return;
+    setActiveSequenceId(ingestion.parentSequences[0]!.sequenceId);
+  }, [ingestion, activeSequenceId]);
+
+  const act = async (fn: () => Promise<{ ingestion?: Record<string, unknown> }>) => {
     setBusy(true);
+    setActionError(null);
     try {
       const result = await fn();
-      setIngestion(result.ingestion as FounderCreativeIngestionState);
+      if (result.ingestion) setIngestion(result.ingestion as FounderCreativeIngestionState);
+      else await reload();
+    } catch (err) {
+      setActionError(err instanceof Site00ProjectsApiError ? err.message : 'Ingestion action failed');
     } finally {
       setBusy(false);
     }
   };
+
+  const decomposeAll = () =>
+    void act(async () => {
+      const result = await site00ProjectsApi.founderCreativeIngestionDecomposeAll(projectSlug);
+      const next = result.ingestion as FounderCreativeIngestionState;
+      if (next.parentSequences[0]) setActiveSequenceId(next.parentSequences[0].sequenceId);
+      setActiveSlideId(null);
+      return result;
+    });
 
   const activeSequence = useMemo(
     () => ingestion?.parentSequences.find((s) => s.sequenceId === activeSequenceId) ?? null,
@@ -70,6 +102,21 @@ export default function ProjectFounderCreativeIngestionPage() {
     () => ingestion?.reconstructionSpecs.find((s) => s.slideId === activeSlideId) ?? null,
     [ingestion, activeSlideId],
   );
+
+  const referenceUrl = useMemo(() => {
+    if (!ingestion || !activeSequenceId) return null;
+    return (
+      ingestion.referenceAssets.find((a) => a.assetId === `ref-board-${activeSequenceId}`)?.previewUrl ?? null
+    );
+  }, [ingestion, activeSequenceId]);
+
+  const generationProgress = useMemo(() => {
+    const tracking = ingestion?.falGenerationTracking;
+    if (!tracking) return null;
+    const total = tracking.slideIds.length;
+    const done = tracking.completedSlideIds.length;
+    return { total, done, currentSlideId: tracking.currentSlideId };
+  }, [ingestion]);
 
   if (projectSlug !== 'ndxbook') {
     return (
@@ -98,6 +145,12 @@ export default function ProjectFounderCreativeIngestionPage() {
                 </span>
               ))}
             </nav>
+
+            {actionError ? (
+              <p className="site00-fci__error" role="alert">
+                {actionError}
+              </p>
+            ) : null}
 
             {!ingestion ? (
               <div className="site00-fci__hero">
@@ -134,12 +187,33 @@ export default function ProjectFounderCreativeIngestionPage() {
                   </div>
                 </section>
 
+                {isGenerating ? (
+                  <section className="site00-fci__progress" aria-live="polite">
+                    <h2 className="site00-fci__section-title">RECONSTRUCTING SLIDES</h2>
+                    <p>
+                      Calling FAL for slide photography in the background — safe to refresh or leave this page.
+                    </p>
+                    {generationProgress ? (
+                      <p className="site00-fci__progress-meta">
+                        {generationProgress.done} / {generationProgress.total} slides complete
+                        {generationProgress.currentSlideId ? ` · working ${generationProgress.currentSlideId}` : ''}
+                      </p>
+                    ) : null}
+                  </section>
+                ) : null}
+
+                {generationFailed && ingestion.falGenerationTracking?.errorMessage ? (
+                  <section className="site00-fci__error-panel" role="alert">
+                    <p>{ingestion.falGenerationTracking.errorMessage}</p>
+                    <QuietAction disabled={busy} onClick={decomposeAll}>
+                      RETRY DECOMPOSE + RECONSTRUCT →
+                    </QuietAction>
+                  </section>
+                ) : null}
+
                 <div className="site00-fci__actions">
-                  <QuietAction
-                    disabled={busy}
-                    onClick={() => void act(() => site00ProjectsApi.founderCreativeIngestionDecomposeAll(projectSlug))}
-                  >
-                    DECOMPOSE ALL REFERENCES →
+                  <QuietAction disabled={busy || isGenerating} onClick={decomposeAll}>
+                    {ingestion.reconstructionSpecs.length > 0 ? 'RE-DECOMPOSE ALL REFERENCES →' : 'DECOMPOSE ALL REFERENCES →'}
                   </QuietAction>
                   {ingestion.registeredOnCampaignBoard ? (
                     <Link to={site00ProjectContentOperationsCampaignBoardPath(projectSlug)} className="site00-fci__link">
@@ -159,12 +233,11 @@ export default function ProjectFounderCreativeIngestionPage() {
                   <SequencePanel
                     sequence={activeSequence}
                     specs={sequenceSpecs}
-                    referenceUrl={
-                      ingestion.referenceAssets.find((a) => a.assetId.includes(activeSequence.sequenceId) || true)?.previewUrl
-                    }
+                    referenceUrl={referenceUrl}
                     activeSlideId={activeSlideId}
+                    generatingSlideId={ingestion.falGenerationTracking?.currentSlideId ?? null}
                     onSelectSlide={setActiveSlideId}
-                    busy={busy}
+                    busy={busy || isGenerating}
                     onSlideAction={async (action, slideId, extra) => {
                       if (action === 'estimate') {
                         const est = await site00ProjectsApi.founderCreativeIngestionEstimate(projectSlug, slideId);
@@ -172,7 +245,7 @@ export default function ProjectFounderCreativeIngestionPage() {
                         return;
                       }
                       if (action === 'generate') {
-                        await act(() => site00ProjectsApi.founderCreativeIngestionGeneratePhoto(projectSlug, slideId, false));
+                        await act(() => site00ProjectsApi.founderCreativeIngestionGeneratePhoto(projectSlug, slideId));
                         return;
                       }
                       if (action === 'approve') {
@@ -229,7 +302,7 @@ export default function ProjectFounderCreativeIngestionPage() {
         }
         understand={
           <p style={{ margin: 0, fontSize: 11, color: '#999' }}>
-            Reference boards decompose into slide specs — never uploaded as finished production. Generation is founder-triggered only.
+            Decompose splits reference boards into slide specs, then queues FAL reconstruction for photography slides.
           </p>
         }
         inspect={
@@ -247,6 +320,7 @@ function SequencePanel({
   specs,
   referenceUrl,
   activeSlideId,
+  generatingSlideId,
   onSelectSlide,
   busy,
   onSlideAction,
@@ -255,6 +329,7 @@ function SequencePanel({
   specs: SlideReconstructionSpec[];
   referenceUrl: string | null | undefined;
   activeSlideId: string | null;
+  generatingSlideId: string | null;
   onSelectSlide: (id: string) => void;
   busy: boolean;
   onSlideAction: (
@@ -263,6 +338,8 @@ function SequencePanel({
     extra?: { mode?: string; assetId?: string },
   ) => Promise<void>;
 }) {
+  const firstPhotoSlide = specs.find((spec) => spec.photography.required) ?? specs[0];
+
   return (
     <section className="site00-fci__sequence">
       <h2 className="site00-fci__section-title">{sequence.title}</h2>
@@ -277,26 +354,26 @@ function SequencePanel({
           <button
             key={spec.slideId}
             type="button"
-            className={`site00-fci__slide-chip${activeSlideId === spec.slideId ? ' site00-fci__slide-chip--active' : ''}`}
+            className={`site00-fci__slide-chip${activeSlideId === spec.slideId ? ' site00-fci__slide-chip--active' : ''}${generatingSlideId === spec.slideId ? ' site00-fci__slide-chip--generating' : ''}`}
             onClick={() => onSelectSlide(spec.slideId)}
           >
-            {String(i + 1).padStart(2, '0')} · {spec.reviewStatus}
+            {String(i + 1).padStart(2, '0')} · {generatingSlideId === spec.slideId ? 'GENERATING' : spec.reviewStatus}
           </button>
         ))}
       </div>
-      {specs[0] ? (
+      {firstPhotoSlide ? (
         <div className="site00-fci__sequence-actions">
-          <QuietAction disabled={busy} onClick={() => void onSlideAction('estimate', specs[0]!.slideId)}>
+          <QuietAction disabled={busy} onClick={() => void onSlideAction('estimate', firstPhotoSlide.slideId)}>
             ESTIMATE COST
           </QuietAction>
-          <QuietAction disabled={busy} onClick={() => void onSlideAction('generate', specs[0]!.slideId)}>
+          <QuietAction disabled={busy} onClick={() => void onSlideAction('generate', firstPhotoSlide.slideId)}>
             GENERATE PHOTO (founder trigger)
           </QuietAction>
           {sequence.sequenceId.includes('meet-ndx') ? (
             <QuietAction
               disabled={busy}
               onClick={() =>
-                void onSlideAction('replace_hq', specs[0]!.slideId, { assetId: 'ndx-hq-desk-photo-canonical' })
+                void onSlideAction('replace_hq', firstPhotoSlide.slideId, { assetId: 'ndx-hq-desk-photo-canonical' })
               }
             >
               USE EXISTING HQ
@@ -337,9 +414,13 @@ function SlideReviewPanel({
         </div>
         <div className="site00-fci__compare-col">
           <p className="site00-fci__compare-label">PRODUCTION</p>
-          <div className="site00-fci__compare-placeholder">
-            {slide.productionMasterUrl ?? 'Pending reconstruction'}
-          </div>
+          {slide.productionMasterUrl && slide.productionMasterUrl.startsWith('http') ? (
+            <img src={slide.productionMasterUrl} alt="Production reconstruction" className="site00-fci__production-img" />
+          ) : (
+            <div className="site00-fci__compare-placeholder">
+              {slide.productionMasterUrl ?? 'Pending reconstruction'}
+            </div>
+          )}
         </div>
       </div>
 
