@@ -4779,4 +4779,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Note:** Marketing Expression Experiment 01 batch FAL already used this pattern; other sync FAL endpoints (e.g. Experiment G visual generate, single-artifact) not migrated in this pass.
 - **Tests:** `embodiedCharacterVisualCastingP05E4C.test.ts` (16).
 
+---
+
+## 2026-08-25 — Founder creative ingestion FAL dispatch + background reconstruction (P0.CB.1)
+
+- **Context:** Founder reported **DECOMPOSE ALL REFERENCES** on `/projects/ndxbook/content-operations/founder-creative-ingest` did nothing — slide specs built but no FAL photography reconstruction; broken reference preview (wrong asset per sequence).
+- **Root cause:** Same class of bug as CAST NDX — `dispatchFal` defaulted false; UI passed false; decompose only split reference metadata; `decomposeSequenceReference` used `referenceAssets.at(-1)` so all sequences shared last board; placeholder reference URLs; MEET NDX default `USE_EXISTING_ASSET` / others `REFERENCE_ONLY` blocked batch without mode resolution.
+- **Fix:** `founderCreativeFalDispatch.ts` + `founderCreativeFalBackgroundJob.ts` (batch + single-slide, checkpoint saves, stale reconcile/resume). `decomposeAll` / `decomposeSequence` now call `resolveReconstructionPhotographyModes` then queue FAL when `FAL_KEY` set (MEET NDX slide 1 → `USE_EXISTING_ASSET` + HQ canonical; other photo slides → `GENERATE_FROM_REFERENCE`). Deterministic `ref-board-${sequenceId}` asset IDs. UI: 5s polling, progress panel, per-sequence reference URL, production `<img>` when URL ready, retry on failure. API returns 202 for background decompose/generate.
+- **Tests:** `founderCreativeIngestionP0CB1.test.ts` (16) — FAL batch completes on decompose, photography mode resolution.
+
 
