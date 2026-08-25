@@ -89,3 +89,4 @@ export {
 } from '../projectPresenceAccent/ProjectPresenceAccentResolver.js';
 
 export * from './p0vr1d/index.js';
+export * from './p0vr1d1/index.js';

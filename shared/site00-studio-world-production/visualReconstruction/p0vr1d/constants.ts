@@ -55,4 +55,4 @@ export const DIFFERENCE_KIND_TO_QA: Partial<Record<VisualDifferenceKind, VisualQ
   EXTRA_ELEMENT: 'FAIL_EXTRA_ELEMENT',
 };
 
-export const P0_VR_LINEAGE_PRESERVED = ['P0.VR.1', 'P0.VR.1A', 'P0.VR.1C'] as const;
+export const P0_VR_LINEAGE_PRESERVED = ['P0.VR.1', 'P0.VR.1A', 'P0.VR.1C', 'P0.VR.1D'] as const;

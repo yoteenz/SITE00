@@ -5031,4 +5031,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Context:** Founder uploaded full-look reference (lime green sneakers) on CAST NDX and wanted it in WHO FEELS CLOSEST? to confirm identity before isolate generation.
 - **Fix:** `promoteFounderReferenceToClosestReview()` + API `character_visual_casting_promote_reference_to_closest` + UI button **USE FOR WHO FEELS CLOSEST? →** on each decomposed reference. Active reference drives isolate source; THAT'S HER locks selection.
 
+---
+
+## 2026-08-25 — P0.VR.1D.1 Screenshot-as-design-spec + moodboard extraction + visual-spec-to-code bridge
+
+- **Context:** Follow-up to P0.VR.1D / P0.VR.1D.A — fix Composer treating screenshots as inspiration instead of executable design spec. Default input = desktop + mobile mood boards with automatic per-screen extraction; full-screen references optional precision overrides only.
+- **Delivered:** New `p0vr1d1/` module — `MoodBoardScreenExtractionPipeline`, resolution evaluation (SUFFICIENT/PARTIAL/INSUFFICIENT), authority versioning + full-screen matcher, `VisualSpecToCodeBridge` → `ScreenImplementationSpec` + `RegionCodeSpec`, `ComposerScreenBuildContract` (SCREENSHOT_EMULATION, designFreedom false), DOM measurement/delta, `CodePatchInstruction` compiler, region locks, `runDomPatchConvergencePipeline`. Wired NDX golden pilot in `ndxProjectHubReferenceDecomposition.ts` — desktop 6 + mobile 6 auto-extracted screens, `rebuildNdxProjectHubThroughP0VR1D1()`. Tests `visualReconstructionP0VR1D1.test.ts` (17 + §33 success criteria). Doc `SITE00_VISUAL_RECONSTRUCTION_P0VR1D1.md`. P0_VR_LINEAGE_PRESERVED extended with P0.VR.1D.
+- **Core rule:** Mood board ingestion sufficient by default; code what is visibly there — reference geometry → concrete CSS properties → targeted patches, not "make it closer."
+- **Preservation:** P0.VR.1D architecture reused, not duplicated; prior VR lineage intact; SITE00 host canon unchanged.
+- **Founder next:** Upload desktop + mobile mood boards only (no manual per-screen crops); use optional ADD HIGH-RES REFERENCE per screen when resolution flags PARTIALLY_SUFFICIENT; run overlay QA on NDX hub routes after ingesting founder editorial boards into vault.
 
