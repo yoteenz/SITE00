@@ -4,13 +4,16 @@
  */
 
 export function shouldRunFalSynchronously(): boolean {
-  return process.env.VITEST === 'true';
+  if (process.env.VITEST === 'true') return true;
+  // Long-running Railway/Node hosts: await FAL in-request so work is not dropped after HTTP 202.
+  if (process.env.RAILWAY_ENVIRONMENT || process.env.RAILWAY_SERVICE_ID) return true;
+  if (process.env.SITE00_FAL_SYNCHRONOUS === '1') return true;
+  return false;
 }
 
 export function enqueueFalBackgroundWork(work: () => Promise<void>): void {
-  setImmediate(() => {
-    void work();
-  });
+  // Start immediately — setImmediate can defer past process freeze on some hosts.
+  void work();
 }
 
 export const FAL_BACKGROUND_STALE_MS = 15 * 60 * 1000;

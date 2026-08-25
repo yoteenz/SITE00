@@ -32,10 +32,10 @@ async function save(run: NdxFounderCharacterDiscoveryRun): Promise<NdxFounderCha
   return discoveryStore.saveFounderCharacterDiscoveryRun(run);
 }
 
-function hasFreshCastingGenerationAttempt(state: CharacterVisualCastingState): boolean {
+function isOrphanedCastingGeneration(state: CharacterVisualCastingState, projectId: string): boolean {
   const tracking = state.falGenerationTracking;
   if (!tracking || tracking.status !== 'RUNNING') return false;
-  return isFreshBackgroundAttempt(tracking.startedAt, FAL_BACKGROUND_STALE_MS);
+  return !activeCastingGenerationAttempts.has(projectId);
 }
 
 function withCastingTracking(
@@ -113,7 +113,6 @@ export async function startCastingRoundFalBackgroundJob(params: {
 
   if (!params.force) {
     if (activeCastingGenerationAttempts.has(params.projectId)) return params.run;
-    if (hasFreshCastingGenerationAttempt(state)) return params.run;
   }
 
   const attemptId = randomUUID();
@@ -164,6 +163,17 @@ export async function maybeResumeCastingGeneration(
   if (!state?.falGenerationTracking || state.falGenerationTracking.status !== 'RUNNING') return run;
   if (activeCastingGenerationAttempts.has(run.projectId)) return run;
   if (!isFreshBackgroundAttempt(state.falGenerationTracking.startedAt, FAL_BACKGROUND_STALE_MS)) return run;
+
+  // DB says RUNNING but this process is not generating — resume immediately (no 45s wait).
+  if (isOrphanedCastingGeneration(state, run.projectId)) {
+    return startCastingRoundFalBackgroundJob({
+      projectId: run.projectId,
+      run,
+      roundId: state.falGenerationTracking.roundId,
+      force: true,
+    });
+  }
+
   if (Date.now() - new Date(state.falGenerationTracking.startedAt).getTime() < FAL_BACKGROUND_RESUME_MS) return run;
 
   return startCastingRoundFalBackgroundJob({
