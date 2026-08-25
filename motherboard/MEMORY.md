@@ -5041,3 +5041,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preservation:** P0.VR.1D architecture reused, not duplicated; prior VR lineage intact; SITE00 host canon unchanged.
 - **Founder next:** Upload desktop + mobile mood boards only (no manual per-screen crops); use optional ADD HIGH-RES REFERENCE per screen when resolution flags PARTIALLY_SUFFICIENT; run overlay QA on NDX hub routes after ingesting founder editorial boards into vault.
 
+---
+
+## 2026-08-25 — P0.VR.1D.2 NDX project hub live reconstruction execution
+
+- **Context:** Execution sprint — prove P0.VR.1D + P0.VR.1D.1 pipeline with real browser renders, not architecture-only. Founder editorial mood boards not yet persisted in Supabase; wireframe fixtures exist for dev only.
+- **Delivered:** `p0vr1d2/` — `resolveNdxFounderProjectHubBoards` (canonical `visual-references/founder/ndxbook/`, env, Supabase; no silent fixture substitution), `inferScreenViewportFromBoardCrop`, measured `measureScreenReferenceResolutionFromCrop` (no default SUFFICIENT), `runNdxProjectHubLiveReconstruction` (skipRender=false, Playwright, DOM capture, overlay, patches). Extended `ControlledReferenceRenderer` with preview device mode + DOM measurements. Runner `scripts/visualReconstruction/runNdxProjectHubLiveReconstruction.ts`. Tests `visualReconstructionP0VR1D2.test.ts`. Hub board `data-vr-region` markers.
+- **Live run (fixture fallback dev):** Mobile overview VISUAL_PASS ~93%; desktop panels FOUNDER_REVIEW/NEEDS_CORRECTION; resolution correctly INSUFFICIENT on small crops; fixtureSubstitution reported honestly.
+- **Founder next:** Drop actual desktop + mobile mood boards into `visual-references/founder/ndxbook/` (or Supabase paths in README); re-run live script without `--allow-fixture-fallback`; upload GoDaddy ZIP after hub CSS convergence passes.
+
