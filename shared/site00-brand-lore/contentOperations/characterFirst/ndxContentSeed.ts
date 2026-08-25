@@ -262,14 +262,14 @@ export const CHARACTER_FIRST_PILOT_SEEDS: CharacterFirstSeedSpec[] = [
 ];
 
 export const CREDIT_UTILIZATION_PAGE_ROLES = [
-  { slideNumber: 1, role: 'HOOK' as const, copy: 'I PAID IT DOWN.\nWHY DID MY SCORE DROP?' },
+  { slideNumber: 1, role: 'PERSONAL_CONTRADICTION' as const, copy: 'I PAID IT DOWN.\nWHY DID MY SCORE DROP?' },
   { slideNumber: 2, role: 'INITIAL_ASSUMPTION' as const, copy: 'I THOUGHT LOWER BALANCE = BETTER.' },
   { slideNumber: 3, role: 'WHAT_I_MISSED' as const, copy: 'HERE IS WHAT I MISSED.' },
-  { slideNumber: 4, role: 'EVIDENCE' as const, copy: 'THEY CARE ABOUT THE RATIO.' },
-  { slideNumber: 5, role: 'EVIDENCE' as const, copy: 'TIMING MATTERS TOO.' },
-  { slideNumber: 6, role: 'WHAT_I_THINK_NOW' as const, copy: 'SO THE PROBLEM WASN\'T ONLY THE BALANCE.' },
-  { slideNumber: 7, role: 'WHAT_I_AM_DOING_DIFFERENTLY' as const, copy: 'WHAT I AM DOING NOW.' },
-  { slideNumber: 8, role: 'BOOKMARK_CLOSING_TRACE' as const, copy: 'BOOKMARK THIS.' },
+  { slideNumber: 4, role: 'SYSTEM_LOGIC' as const, copy: 'THEY CARE ABOUT THE RATIO.' },
+  { slideNumber: 5, role: 'TIMING_COMPLICATION' as const, copy: 'TIMING MATTERS TOO.' },
+  { slideNumber: 6, role: 'BELIEF_REVISION' as const, copy: "THE BALANCE ALONE WAS NOT THE WHOLE STORY." },
+  { slideNumber: 7, role: 'BEHAVIOR_CHANGE' as const, copy: 'WATCH REPORTING / UTILIZATION / STATEMENT TIMING.' },
+  { slideNumber: 8, role: 'BOOKMARK' as const, copy: 'BOOKMARK THIS.' },
 ];
 
 export function seedCharacterFirstContentSeeds(projectId: string): NDXContentSeed[] {

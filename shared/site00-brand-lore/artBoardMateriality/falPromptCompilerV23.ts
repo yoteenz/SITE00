@@ -17,12 +17,15 @@ import {
 } from './ndxPageObjectContract.js';
 import { resolveNDXConstructionHistory } from './ndxConstructionHistory.js';
 import { buildNotebookCarouselPromptSections } from './notebookCarouselPromptSections.js';
+import { buildCharacterFirstAuthorityPromptSections } from '../contentOperations/characterFirst/characterFirstFalPromptSections.js';
+import type { CharacterFirstRegenerationBundle } from '../contentOperations/characterFirst/types.js';
 
 export function compileArtBoardMaterialityFalPrompt(params: {
   artifact: BrandMarketingArtifact;
   contract: ArtBoardRetainedFirstSlideContract;
   founderRevisionDirective?: string | null;
   topicIndex?: number;
+  characterFirstBundle?: CharacterFirstRegenerationBundle | null;
 }): MarketingFalPromptContract {
   const c = params.contract;
   const topicIndex = params.topicIndex ?? 1;
@@ -63,7 +66,11 @@ export function compileArtBoardMaterialityFalPrompt(params: {
         .join(' | ')}`
     : 'HUMAN-MADE MARKS: restrained — only causally justified marks';
 
-  const publicCopySections = buildFalPublicCopySections({ artifact: params.artifact, contract: c });
+  const publicCopySections = buildFalPublicCopySections({
+    artifact: params.artifact,
+    contract: c,
+    heroPremiseOverride: params.characterFirstBundle?.premiseAuthority.spokenPremise ?? null,
+  });
   const va = c.visualAuthorityEvaluation?.bespokeArtDirection;
   const aa = c.authoredArtifactEvaluation;
   const visualAuthorityBlock = va
@@ -203,10 +210,17 @@ export function compileArtBoardMaterialityFalPrompt(params: {
       ].join('\n')
     : `SIGNATURE LIME RESTRAINT + CHROMATIC ATTENTION: NDX signature lime must be present as a selective accent only — not default ink for handwriting, icons, or body copy.`;
 
+  const characterFirstSections = params.characterFirstBundle
+    ? buildCharacterFirstAuthorityPromptSections(params.characterFirstBundle, topicIndex)
+    : [];
+
   const sections = [
+    ...characterFirstSections,
     ...publicCopySections,
     `[INTERNAL GENERATION GUIDANCE — DO NOT RENDER AS VISIBLE LABELS ON ARTIFACT]`,
-    `CONTENT THESIS: ${params.artifact.topic} — ${c.primaryHook}`,
+    params.characterFirstBundle
+      ? `CHARACTER PREMISE (PRIMARY): ${params.characterFirstBundle.premiseAuthority.spokenPremise}`
+      : `CONTENT THESIS: ${params.artifact.topic} — ${c.primaryHook}`,
     ...notebookSections,
     visualAuthorityBlock,
     authoredArtifactGrammarBlock,
@@ -218,7 +232,9 @@ export function compileArtBoardMaterialityFalPrompt(params: {
     informationInhabitationBlock,
     antiTemplateFrameBlock,
     overResolutionGuardBlock,
-    `TOPIC CONTEXT: ${params.artifact.topic} — ${params.artifact.subject}`,
+    params.characterFirstBundle
+      ? `FACTUAL CONTEXT (NOT PRIMARY CREATIVE IDEA): ${params.characterFirstBundle.premiseAuthority.topicMetadata.join(', ')}`
+      : `TOPIC CONTEXT: ${params.artifact.topic} — ${params.artifact.subject}`,
     `INTERNAL THESIS: ${c.primaryHook}`,
     `INTERNAL CHARACTER EXPRESSION: ${cr.primaryCharacterBeat.text ?? 'visual punchline'} (${cr.primaryCharacterBeat.beatType})`,
     `INTERNAL OBSERVATION: ${params.artifact.supportingLanguage[0] ?? c.primaryHook}`,

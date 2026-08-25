@@ -10,7 +10,7 @@ import {
   NDX_KNOWLEDGE_STATES,
   CHARACTER_BEAT_CONTRACTS,
   FOUNDER_PREMISE_JUDGMENTS,
-  PAGE_NARRATIVE_ROLES,
+  NDX_PAGE_ROLE_MAP_ROLES,
   CHARACTER_FIRST_CONTENT_VERSION,
   CREDIT_UTILIZATION_GOLDEN_PILOT_ID,
   buildNDXContentSeed,
@@ -192,10 +192,10 @@ describe('P0.5E.7 — Character-first content operations', () => {
     expect(golden?.isGoldenPilot).toBe(true);
     expect(golden?.premise.spokenPremise).toBe('I PAID IT DOWN. WHY DID MY SCORE DROP?');
     expect(CREDIT_UTILIZATION_PAGE_ROLES).toHaveLength(8);
-    expect(CREDIT_UTILIZATION_PAGE_ROLES[0].role).toBe('HOOK');
-    expect(CREDIT_UTILIZATION_PAGE_ROLES[7].role).toBe('BOOKMARK_CLOSING_TRACE');
-    for (const role of PAGE_NARRATIVE_ROLES) {
-      expect(CREDIT_UTILIZATION_PAGE_ROLES.some((s) => s.role === role) || role === 'CONTRADICTION' || role === 'WHY_IT_MATTERS').toBeTruthy();
+    expect(CREDIT_UTILIZATION_PAGE_ROLES[0].role).toBe('PERSONAL_CONTRADICTION');
+    expect(CREDIT_UTILIZATION_PAGE_ROLES[7].role).toBe('BOOKMARK');
+    for (const role of CREDIT_UTILIZATION_PAGE_ROLES.map((s) => s.role)) {
+      expect(NDX_PAGE_ROLE_MAP_ROLES).toContain(role);
     }
   });
 

@@ -3,6 +3,11 @@
  */
 
 import type { ContentOpportunity } from '../contentOperations/types.js';
+import { seedCharacterFirstContentSeeds } from '../contentOperations/characterFirst/ndxContentSeed.js';
+import {
+  buildCharacterPremiseAuthority,
+  resolveHeadlineFromCharacterPremise,
+} from '../contentOperations/characterFirst/characterPremiseAuthority.js';
 import type { SocialContentPackage, CarouselSequencePlan } from '../contentOperations/types.js';
 import type { BrandMarketingExpressionSystem } from '../brandMarketingExpression/types.js';
 import type { EditorialLayerBundle } from './types.js';
@@ -36,6 +41,15 @@ export function buildEditorialLayerForContentPackage(params: {
   const event = formulateCharacterEventFromOpportunity(params.opportunity);
   const thesis = formulateContentThesisFromOpportunity(params.opportunity, event.id, depth);
 
+  const cf = params.opportunity.characterFirst;
+  const seedForPremise = cf
+    ? seedCharacterFirstContentSeeds(params.pkg.projectId).find((s) => s.seedId === cf.contentSeedId) ?? null
+    : null;
+  const premiseAuthority = seedForPremise ? buildCharacterPremiseAuthority(seedForPremise) : null;
+  const headline = premiseAuthority
+    ? resolveHeadlineFromCharacterPremise(premiseAuthority)
+    : cf?.spokenPremise?.toUpperCase() ?? params.opportunity.subject.toUpperCase();
+
   const artifact: BrandMarketingArtifact = {
     id: `bma-co-${params.pkg.id}`,
     expressionSystemId: params.expressionSystem.id,
@@ -52,7 +66,7 @@ export function buildEditorialLayerForContentPackage(params: {
     visualCausalityRecords: [],
     evidenceObjects: params.opportunity.evidenceAvailable,
     makerTraces: ['one annotation where causality requires'],
-    headline: params.opportunity.subject.toUpperCase(),
+    headline,
     supportingLanguage: [params.opportunity.summary, params.opportunity.whyPotentiallyInteresting],
     visibleEvidence: params.opportunity.evidenceAvailable.slice(0, 2),
     hiddenEvidence: params.opportunity.evidenceNeeded,
@@ -139,6 +153,7 @@ export function buildEditorialLayerForContentPackage(params: {
 export function extendCarouselSequencePlan(params: {
   plan: CarouselSequencePlan;
   narrative: import('./types.js').CarouselNarrativeArchitecture;
+  preservePremiseThesis?: string | null;
 }): CarouselSequencePlan & {
   sequenceThesis: string;
   sequenceArc: string;
@@ -148,7 +163,7 @@ export function extendCarouselSequencePlan(params: {
 } {
   return {
     ...params.plan,
-    sequenceThesis: params.narrative.sequenceThesis,
+    sequenceThesis: params.preservePremiseThesis ?? params.narrative.sequenceThesis,
     sequenceArc: params.narrative.sequenceArc,
     slideRoles: params.narrative.slideRoles,
     informationDisclosureMap: params.narrative.informationDisclosureMap,

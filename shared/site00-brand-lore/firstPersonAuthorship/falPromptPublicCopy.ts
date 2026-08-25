@@ -9,11 +9,12 @@ import { stripInternalLabelsFromPublicText } from './ndxPublicCopyTranslation.js
 export function buildFalPublicCopySections(params: {
   artifact: BrandMarketingArtifact;
   contract: ArtBoardRetainedFirstSlideContract;
+  heroPremiseOverride?: string | null;
 }): string[] {
   const c = params.contract;
   const cr = c.characterRetention;
   const beatPublic = stripInternalLabelsFromPublicText(cr.primaryCharacterBeat.text ?? c.primaryHook);
-  const hookPublic = stripInternalLabelsFromPublicText(c.primaryHook);
+  const hookPublic = stripInternalLabelsFromPublicText(params.heroPremiseOverride ?? c.primaryHook);
   const noticedPublic = stripInternalLabelsFromPublicText(
     params.artifact.supportingLanguage[0] ?? c.primaryHook,
   );

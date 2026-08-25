@@ -20,6 +20,11 @@ import type {
 } from '../../site00-studio-world-production/generationAuthority/types.js';
 import type { GenerationMode } from '../../site00-studio-world-production/generationAuthority/types.js';
 import { compileArtBoardMaterialityFalPrompt, materialFalPromptHasLimeRestraintSection, materialFalPromptHasVisualAuthoritySection, materialFalPromptHasAuthoredArtifactGrammar, materialFalPromptHasPhysicalPageObjectSection } from './falPromptCompilerV23.js';
+import {
+  assertCharacterFirstRegenerationReady,
+  resolveSeedForV23Artifact,
+  applyCharacterFirstToV1Artifact,
+} from '../contentOperations/characterFirst/characterFirstRegenerationAuthority.js';
 import { signatureLimeRestraintGatePasses } from './signatureLimeRestraint.js';
 import {
   V23_EXPERIMENT_ID,
@@ -46,10 +51,29 @@ export function compileCurrentV23FalPrompt(params: {
 }): { falContract: MarketingFalPromptContract; snapshot: GenerationPromptSnapshot } {
   const topicMatch = params.artifact.id.match(/-(\d+)$/);
   const topicIndex = topicMatch ? parseInt(topicMatch[1]!, 10) : 1;
+
+  let v1Artifact = params.v1Artifact;
+  let characterFirstBundle = null;
+
+  if (params.triggerSource === 'REGENERATE_CURRENT') {
+    const seed = resolveSeedForV23Artifact(params.v1Artifact);
+    if (seed) {
+      const readiness = assertCharacterFirstRegenerationReady({ seed, mode: 'REGENERATE_CURRENT' });
+      if (!readiness.ready) {
+        throw new Error(readiness.blockReason ?? 'Character-first regeneration blocked');
+      }
+      if (readiness.bundle) {
+        characterFirstBundle = readiness.bundle;
+        v1Artifact = applyCharacterFirstToV1Artifact(v1Artifact, readiness.bundle);
+      }
+    }
+  }
+
   const falContract = compileArtBoardMaterialityFalPrompt({
-    artifact: params.v1Artifact,
+    artifact: v1Artifact,
     contract: params.artifact.contract,
     topicIndex,
+    characterFirstBundle,
   });
 
   const snapshot: GenerationPromptSnapshot = {

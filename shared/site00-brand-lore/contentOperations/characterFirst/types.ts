@@ -5,15 +5,22 @@
 import type {
   BELIEF_REVISION_STATES,
   BOOK_TRACE_TYPES,
+  CHARACTER_AUTHORITY_MIGRATION_STATUSES,
   CHARACTER_BEAT_CONTRACTS,
+  CHARACTER_FIRST_REGENERATION_FAILURES,
+  CHARACTER_VISUAL_PARTICIPATION_LEVELS,
   CONTENT_SURFACE_TYPES,
   EXPERIENCE_MODES,
+  FOUNDER_CAUSALITY_JUDGMENTS,
   FOUNDER_PREMISE_JUDGMENTS,
+  HERO_SLIDE_ROLE_TYPES,
   HUMOR_OPPORTUNITY_LEVELS,
   NDX_CONTENT_SEED_SOURCE_TYPES,
   NDX_KNOWLEDGE_STATES,
+  NDX_PAGE_ROLE_MAP_ROLES,
   NDX_THOUGHT_ARC_BEATS,
   PAGE_NARRATIVE_ROLES,
+  PROHIBITED_HERO_SLIDE_ROLES,
   TOPIC_MIGRATION_STATUSES,
 } from './constants.js';
 
@@ -129,7 +136,7 @@ export type NDXOpportunityFormulation = {
 };
 
 export type BookNativeVisualHandoff = {
-  pageRoles: Array<{ slideNumber: number; role: PageNarrativeRole; thoughtBeat: string }>;
+  pageRoles: Array<{ slideNumber: number; role: PageNarrativeRole | NdxPageRoleMapRole; thoughtBeat: string }>;
   evidenceRole: string;
   photoNeed: boolean;
   bookArtifactNeed: string;
@@ -181,6 +188,156 @@ export type LiveIntelligenceNoticeOpportunity = {
   oldTopicLabel: string;
   ndxNoticePremise: string;
   temporalRelevance: 'HIGH' | 'MEDIUM' | 'LOW';
+};
+
+export type HeroSlideRoleType = (typeof HERO_SLIDE_ROLE_TYPES)[number];
+export type ProhibitedHeroSlideRole = (typeof PROHIBITED_HERO_SLIDE_ROLES)[number];
+export type NdxPageRoleMapRole = (typeof NDX_PAGE_ROLE_MAP_ROLES)[number];
+export type CharacterAuthorityMigrationStatus = (typeof CHARACTER_AUTHORITY_MIGRATION_STATUSES)[number];
+export type CharacterFirstRegenerationFailure = (typeof CHARACTER_FIRST_REGENERATION_FAILURES)[number];
+export type CharacterVisualParticipationLevel = (typeof CHARACTER_VISUAL_PARTICIPATION_LEVELS)[number];
+export type FounderCausalityJudgment = (typeof FOUNDER_CAUSALITY_JUDGMENTS)[number];
+
+export type FounderHeroLockState = {
+  lockHeroPremise: boolean;
+  lockHeroCopy: boolean;
+  lockHeroPhoto: boolean;
+  lockHeroCompositionIntent: boolean;
+};
+
+export type CharacterPremiseAuthority = {
+  premiseId: string;
+  contentSeedId: string;
+  spokenPremise: string;
+  firstPersonPremise: string;
+  incitingIncident: string;
+  firstReaction: string;
+  initialBelief: string;
+  investigationQuestion: string;
+  knowledgeStateAtStart: NDXKnowledgeState;
+  beliefRevisionState: BeliefRevisionState;
+  currentView: string;
+  behaviorChange: string;
+  bookTrace: BookTraceType;
+  characterBeat: CharacterBeatContract;
+  founderApprovalState: FounderPremiseJudgment | FounderCausalityJudgment | null;
+  authorityVersion: string;
+  topicMetadata: string[];
+  experienceMode: ExperienceMode;
+};
+
+export type NDXThoughtArcSnapshot = {
+  snapshotId: string;
+  contentSeedId: string;
+  beats: NDXThoughtArcBeat[];
+  notice: string;
+  firstReaction: string;
+  initialBelief: string;
+  question: string;
+  investigationTrigger: string;
+  evidenceNeeded: string[];
+  evidenceFound: string[];
+  contradictions: string[];
+  beliefRevision: BeliefRevisionState;
+  currentView: string;
+  knowledgeStateProgression: Array<{ slideNumber: number; state: NDXKnowledgeState }>;
+  version: string;
+};
+
+export type PageRoleSemanticContract = {
+  role: NdxPageRoleMapRole;
+  narrativePurpose: string;
+  knowledgeState: NDXKnowledgeState;
+  characterState: string;
+  copyIntent: string;
+  evidenceIntent: string;
+  photoIntent: string;
+  bookArtifactIntent: string;
+  annotationIntent: string;
+  allowedDensity: 'LOW' | 'MEDIUM' | 'HIGH';
+  prohibitedBehavior: string[];
+  requiredBehavior: string[];
+};
+
+export type NDXPageRoleMapEntry = {
+  slideNumber: number;
+  role: NdxPageRoleMapRole;
+  spokenCopyHint: string;
+  knowledgeState: NDXKnowledgeState;
+  characterBeat?: CharacterBeatContract;
+};
+
+export type NDXPageRoleMap = {
+  mapId: string;
+  contentSeedId: string;
+  entries: NDXPageRoleMapEntry[];
+  version: string;
+};
+
+export type HeroSlideAuthority = {
+  slideNumber: 1;
+  role: HeroSlideRoleType;
+  spokenPremise: string;
+  emotionalFunction: string;
+  incitingIncident: string;
+  characterBeat: CharacterBeatContract;
+  visualAuthority: 'P0.5C.7';
+  mustPreserve: string[];
+  approvedReferenceAssetId: string | null;
+  approvedReferencePrompt: string | null;
+  founderLocked: FounderHeroLockState;
+  prohibitedRoles: ProhibitedHeroSlideRole[];
+};
+
+export type CharacterFirstContentSnapshot = {
+  snapshotId: string;
+  premiseVersion: string;
+  thoughtArcVersion: string;
+  pageRoleMapVersion: string;
+  characterBeatVersion: string;
+  knowledgeStateVersion: string;
+  evidenceVersion: string;
+  visualGrammarVersion: string;
+  compiledAt: string;
+};
+
+export type CharacterFirstRegenerationBundle = {
+  premiseAuthority: CharacterPremiseAuthority;
+  thoughtArcSnapshot: NDXThoughtArcSnapshot;
+  pageRoleMap: NDXPageRoleMap;
+  heroSlideAuthority: HeroSlideAuthority;
+  contentSnapshot: CharacterFirstContentSnapshot;
+  founderHeroLock: FounderHeroLockState;
+};
+
+export type CharacterVisualParticipationRecommendation = {
+  slideNumber: number;
+  level: CharacterVisualParticipationLevel;
+  reason: string;
+};
+
+export type CharacterFirstEvaluationResult = {
+  passed: boolean;
+  failures: CharacterFirstRegenerationFailure[];
+  warnings: string[];
+};
+
+export type CharacterAuthorityMigrationRecord = {
+  legacySubject: string;
+  topicIndex: number | null;
+  seedId: string | null;
+  status: CharacterAuthorityMigrationStatus;
+  blockReason: string | null;
+};
+
+export type RegenerationAuthorityDiff = {
+  premise: string;
+  heroRole: HeroSlideRoleType;
+  characterBeat: CharacterBeatContract;
+  beliefRevision: BeliefRevisionState;
+  slideRoles: string[];
+  topicMetadata: string[];
+  topicMoreProminentThanPremise: boolean;
 };
 
 export type ContentOpportunityCharacterFirst = {
