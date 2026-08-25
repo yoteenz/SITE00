@@ -4898,3 +4898,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **API:** `character_visual_casting_generate_bible_from_reference`, `_approve_bible_pack`, `_bible_lock`; regenerate-from-references now routes to bible asset pack.
 - **Tests:** `referenceFirstCastingP05E4D.test.ts` (9) + cast upload (3) + P0.5E.4C (16) pass; build green. Decomposition is structured/heuristic (vision hook point for future).
 
+---
+
+## 2026-08-25 — P0.A Project Ingestion Readiness Audit (Astral World)
+
+- **Context:** Audit-only sprint to determine whether SITE 00 can ingest Astral World as first real client WORLD project. No Astral build, no client repo, no schema changes.
+- **Verdict:** Astral World ingestion **NOT READY** (FALSE). WORLD type **PARTIAL**. Project isolation **FALSE**. Origin/Identity/Blueprint/Asset Vault/Bible **PARTIAL**. Production handoff **FALSE**.
+- **Key findings:** (1) 244 `slug !== 'ndxbook'` guards in `api/site00/projects.ts`; (2) ASSTS vault global — no `project_id`; (3) `WORLD_FORMATION_IMPLEMENTED=false`; (4) three parallel project-type enums; (5) three-layer truth partial via `SITE00_LAYER` + synthesis gate; (6) client studio dynamic slugs work but founder methodology ndxbook-only; (7) no generic production handoff compiler.
+- **Deliverables:** `docs/audits/SITE00_PROJECT_INGESTION_READINESS_AUDIT.md`, `SITE00_PROJECT_INGESTION_READINESS_MATRIX.md`, `site00-project-ingestion-readiness.json`.
+- **Recommended next sprint:** P0.B — Project Core / `project_id` isolation (capability registry, enum unification, Astral project stub metadata only).
+
