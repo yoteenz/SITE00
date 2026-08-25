@@ -36,3 +36,4 @@ export { CulturalIntelligenceRadarRoom } from './CulturalIntelligenceRadarRoom';
 export { Experiment01OperateLayer, Experiment01UnderstandLayer } from './Experiment01OperateLayer';
 export { CharacterLabOperateLayer } from './CharacterLabOperateLayer';
 export { ExperimentsHubOperateLayer } from './ExperimentsHubOperateLayer';
+export { VisualReconstructionWorkspace } from './VisualReconstructionWorkspace';

@@ -3,7 +3,14 @@
  * Generic; no NDXBOOK assumptions.
  */
 
-export type VisualReconstructionMode = 'REPRODUCE' | 'TRANSLATE' | 'EXTRACT' | 'MERGE' | 'AUDIT' | 'CALIBRATE';
+export type VisualReconstructionMode =
+  | 'REPRODUCE'
+  | 'TRANSLATE'
+  | 'EXTRACT'
+  | 'MERGE'
+  | 'AUDIT'
+  | 'CALIBRATE'
+  | 'WEBSITE_RECONSTRUCTION';
 
 export type PageState =
   | 'DEFAULT'

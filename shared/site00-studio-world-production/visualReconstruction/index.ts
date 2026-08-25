@@ -87,3 +87,5 @@ export {
   resolveProjectPresenceAccent,
   extractProjectSlugFromPathname,
 } from '../projectPresenceAccent/ProjectPresenceAccentResolver.js';
+
+export * from './p0vr1d/index.js';

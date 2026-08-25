@@ -298,3 +298,119 @@
     scroll-snap-align: start;
   }
 }
+
+/* P0.VR.1D — screenshot-first reconstruction workspace */
+.site00-vr-workspace {
+  padding: 20px 0 32px;
+}
+
+.site00-vr-workspace__header {
+  margin-bottom: 20px;
+}
+
+.site00-vr-workspace__kicker {
+  margin: 0 0 6px;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--ndx-muted, #8a857c);
+}
+
+.site00-vr-workspace__title {
+  margin: 0;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  letter-spacing: 0.08em;
+}
+
+.site00-vr-workspace__route,
+.site00-vr-workspace__tier {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: var(--ndx-muted, #8a857c);
+}
+
+.site00-vr-workspace__steps {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.site00-vr-workspace__step {
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--ndx-border, #ddd7cc);
+  background: var(--ndx-paper, #faf8f5);
+  padding: 10px 12px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.site00-vr-workspace__step--active {
+  border-color: var(--ndx-lime, #b7d236);
+}
+
+.site00-vr-workspace__step--done {
+  opacity: 0.72;
+}
+
+.site00-vr-workspace__view-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.site00-vr-workspace__tab {
+  border: 1px solid var(--ndx-border, #ddd7cc);
+  background: transparent;
+  padding: 6px 10px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.site00-vr-workspace__tab--active {
+  background: var(--ndx-ink, #111);
+  color: var(--ndx-paper, #faf8f5);
+}
+
+.site00-vr-workspace__compare {
+  position: relative;
+  min-height: 240px;
+  border: 1px solid var(--ndx-border, #ddd7cc);
+  background: #fff;
+}
+
+.site00-vr-workspace__frame {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.site00-vr-workspace__overlay-stack {
+  position: relative;
+}
+
+.site00-vr-workspace__frame--over {
+  position: absolute;
+  inset: 0;
+}
+
+.site00-vr-workspace__opacity {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 4px 8px;
+}
+
+.site00-vr-workspace__empty,
+.site00-vr-workspace__rule {
+  padding: 16px;
+  font-size: 12px;
+  color: var(--ndx-muted, #8a857c);
+}
