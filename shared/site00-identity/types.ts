@@ -15,6 +15,7 @@ export const IDENTITY_PHASE_STATUSES = [
   'NOT_STARTED',
   'IN_PROGRESS',
   'AWAITING_REVIEW',
+  'AWAITING_FOUNDER_JUDGMENT',
   'PARTIALLY_APPROVED',
   'COMPLETE',
 ] as const;
@@ -95,6 +96,11 @@ export type CompiledProjectBible = {
   compiledAt: string;
   sections: ProjectBibleSection[];
   worldFormationState: 'NOT_FORMED';
+  identityCanonGate?: {
+    satisfied: boolean;
+    requiredMissing: string[];
+  };
+  founderJudgmentState?: string;
 };
 
 /** Governance invariant */

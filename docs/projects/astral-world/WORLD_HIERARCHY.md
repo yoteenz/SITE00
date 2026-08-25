@@ -1,59 +1,26 @@
 # Astral World — World Hierarchy
 
-**Project:** Astral World  
-**Slug:** `astral-world`  
-**WORLD formation:** NOT FORMED
+**WORLD formation:** NOT FORMED  
+**Structural canon:** AWAITING founder confirmation
 
 ---
 
-## Current hierarchy (CLIENT_FOUNDER_TRUTH)
+## Hierarchy (CLIENT_FOUNDER_TRUTH — not yet structural canon)
 
 ```
-Astral World (WORLD — MASTER_PRODUCT_UNIVERSE)
-└── Astréa (DISTRICT — FLAGSHIP_DISTRICT)
-    ├── Tarot Suite (DESTINATION)
-    ├── Astral Mall (DESTINATION)
-    └── Coffee Shop (DESTINATION)
+Astral World (MASTER_PRODUCT_UNIVERSE)
+└── Astréa (FLAGSHIP_DISTRICT)
+    ├── Tarot Suite
+    ├── Astral Mall
+    └── Coffee Shop
 ```
+
+Founder can confirm and promote via **CONFIRM & PROMOTE WORLD STRUCTURE** on identity page.
+
+Structural canon ≠ visual world formation.
 
 ---
 
-## Semantics
+## Future districts
 
-| Node | Type | Notes |
-|------|------|-------|
-| Astral World | WORLD | Master company/platform/universe name |
-| Astréa | DISTRICT | First hero district; NOT the company name |
-| Tarot Suite | DESTINATION | Client concept — tarot reading environment |
-| Astral Mall | DESTINATION | Client concept — on-the-spot reading / mall |
-| Coffee Shop | DESTINATION | Client concept — Sims-like social space |
-
-All nodes stored with `is_canonical: false` until explicitly promoted.
-
----
-
-## Future expansion
-
-Additional districts may be added as sibling DISTRICT nodes under Astral World:
-
-```
-Astral World
-├── Astréa (flagship)
-├── [District 02]
-└── [District 03]
-```
-
-Each district may contain its own destinations, aesthetic system, reader experiences, commerce, and interaction logic.
-
-No hardcoded limit on districts or destinations per district.
-
----
-
-## What this is NOT
-
-- Not formed world runtime
-- Not environment generation
-- Not visual canon for Astréa or destinations
-- Not reader marketplace implementation
-
-Hierarchy records founder-directed structure only.
+Expansion model: additional districts as siblings under Astral World project — no new projects required.

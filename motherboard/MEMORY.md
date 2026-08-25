@@ -4982,3 +4982,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Docs:** SITE00_IDENTITY_SYSTEM, SITE00_CANON_PROMOTION, SITE00_PROJECT_BIBLE, SITE00_WORLD_HIERARCHY + astral-world IDENTITY/WORLD_HIERARCHY/PROJECT_BIBLE + audit doc.
 - **Next:** P0.E — founder judgment on identity territories + first canon promotion; WORLD formation remains blocked until identity canon approved.
 
+---
+
+## 2026-08-25 — P0.E Identity Judgment + First Canon Promotion (Astral World)
+
+- **Context:** Sprint P0.E — field-level + territory-level founder judgments, partial hierarchical canon, structural world canon promotion. NO fake founder judgment.
+- **Delivered:** Migration `20260825230000_site00_identity_judgment_p0e.sql`. identityJudgmentService, enhanced canonPromotionService (promoteIdentityFields, promoteStructuralWorldCanon). Gates: identityCanonGate, worldFormationGate. API + UI extended. Whole-territory promotion blocked.
+- **Production:** AWAITING_FOUNDER_JUDGMENT. 3 territories verified. 0 judgments, 0 canon.
+- **Tests:** identityJudgmentP0E.test.ts (20) pass; build green.
+- **Next:** Founder reviews at `/projects/astral-world/identity` OR P0.F after canon gate satisfied.
+
