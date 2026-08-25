@@ -19,6 +19,7 @@ import { FounderWorkspaceMobileNav } from './FounderWorkspaceMobileNav';
 import { FounderWorkspaceProjectMenu } from './FounderWorkspaceProjectMenu';
 import { FounderWorkspaceHeaderChrome } from './FounderWorkspaceHeaderChrome';
 import { useSite00 } from '../../state/Site00Context';
+import { useSite00OriginWideViewport } from '../shell/useSite00OriginWideViewport';
 import { MobileFounderWorkspaceChrome } from './MobileFounderWorkspaceChrome';
 import { renderMobileFounderWorkspaceScreen } from './MobileFounderWorkspaceScreens';
 import { resolveMobileScreenIdFromPath } from '../../config/ndxFounderWorkspaceMobileNav';
@@ -80,6 +81,7 @@ export function FounderWorkspaceShell({
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const { isPreviewDesktop } = useSite00();
+  const isWideViewport = useSite00OriginWideViewport();
   const enabled = ndxFounderWorkspaceEnabled(projectSlug);
   const nav = useMemo(() => ndxFounderWorkspaceNav(projectSlug), [projectSlug]);
   const inspectRoutes = useMemo(() => ndxInspectRoutes(projectSlug), [projectSlug]);
@@ -94,8 +96,16 @@ export function FounderWorkspaceShell({
     if (vrMenuOpen) setMenuOpen(true);
   }, [vrMenuOpen]);
 
+  useEffect(() => {
+    if (!vrMenuOpen) setMenuOpen(false);
+  }, [location.pathname, vrMenuOpen]);
+
   const toggleMenu = useCallback(() => {
     setMenuOpen((open) => !open);
+  }, []);
+
+  const closeMenu = useCallback(() => {
+    setMenuOpen(false);
   }, []);
 
   const openInspector = useCallback((inspectorTitle: string, content: ReactNode) => {
@@ -117,7 +127,8 @@ export function FounderWorkspaceShell({
 
   const isNavActive = (path: string) => location.pathname.replace(/\/+$/, '') === path.replace(/\/+$/, '');
   const mobileScreenId = resolveMobileScreenIdFromPath(location.pathname, projectSlug);
-  const mobilePresentation = !isPreviewDesktop;
+  // Narrow viewports always use coded mobile chrome — avoids stacking fallback bottom nav + menu on phones.
+  const mobilePresentation = !isPreviewDesktop || !isWideViewport;
   const mobileBody =
     mobilePresentation && mobileScreenId === 'overview'
       ? renderMobileFounderWorkspaceScreen('overview', projectSlug)
@@ -126,7 +137,7 @@ export function FounderWorkspaceShell({
   const headerActions =
     actions ?? (
       <FounderWorkspaceHeaderChrome
-        onOpenMenu={() => setMenuOpen(true)}
+        onOpenMenu={toggleMenu}
         onOpenNotifications={() => setMenuOpen(true)}
       />
     );
@@ -236,7 +247,7 @@ export function FounderWorkspaceShell({
 
         <FounderWorkspaceProjectMenu
           open={menuOpen}
-          onClose={() => setMenuOpen(false)}
+          onClose={closeMenu}
           items={menuItems}
           overflowItems={overflowNav}
         />

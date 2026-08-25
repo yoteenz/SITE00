@@ -5083,3 +5083,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Removed `ProjectEscapeMenu`; mobile chrome is controlled by shell (`menuOpen`, `onToggleMenu`). Single canonical `FounderWorkspaceProjectMenu` with `data-vr-region="ndx-project-menu"`. `vrMenuOpen=1` query param handled at shell level for VR proofs. Regression test `ndxDuplicateMenuFix.test.ts`.
 - **Founder next:** Redeploy fsbw-dev / GoDaddy so production picks up fix.
 
+---
+
+## 2026-08-25 — NDXBOOK duplicate mobile menu fix v2 (viewport-unified chrome)
+
+- **Context:** Founder reported duplicate menu persisted after PR #460 on `site00.fsbw-dev.com`. Screenshot showed header-anchored partial panel (legacy escape menu) behind full MORE menu.
+- **Root cause (additional):** Phone + **Desktop preview toggle** rendered `FounderWorkspaceMobileNav` fallback (MORE opens shell menu) while mobile chrome/header path could still open a second panel; legacy `.site00-fws-project-menu` CSS also remained from P0.VR.1D.3.
+- **Fix v2:** Narrow viewports (`!isWideViewport`) always use `MobileFounderWorkspaceChrome` regardless of preview toggle; MORE bottom-nav is a **button** toggling the single shell menu (same state as header ellipsis); menu portaled to `document.body`; legacy escape-menu CSS removed; menu closes on route change.
+- **Verified:** Playwright on 390px — mobile + desktop-preview both show `mobileChrome:1`, `mobileNav:0`, one `[role="menu"]` after MORE tap.
+

@@ -19,9 +19,10 @@ describe('NDXBOOK duplicate menu regression', () => {
     expect(mobileChrome).not.toContain('site00-fws-project-menu');
     expect(mobileChrome).toContain('menuOpen');
     expect(mobileChrome).toContain('onToggleMenu');
+    expect(mobileChrome).toContain("item.id === 'more'");
   });
 
-  it('shell owns a single FounderWorkspaceProjectMenu instance with vr region marker', () => {
+  it('shell owns a single portaled FounderWorkspaceProjectMenu with vr region marker', () => {
     const shell = read('src/site00/components/founderWorkspace/FounderWorkspaceShell.tsx');
     const projectMenu = read('src/site00/components/founderWorkspace/FounderWorkspaceProjectMenu.tsx');
 
@@ -29,6 +30,13 @@ describe('NDXBOOK duplicate menu regression', () => {
     expect((shell.match(/<FounderWorkspaceProjectMenu/g) ?? []).length).toBe(1);
     expect(shell).toContain('menuOpen={menuOpen}');
     expect(shell).toContain('onToggleMenu={toggleMenu}');
+    expect(shell).toContain('!isPreviewDesktop || !isWideViewport');
+    expect(projectMenu).toContain('createPortal');
     expect(projectMenu).toContain('data-vr-region="ndx-project-menu"');
+  });
+
+  it('legacy escape-menu CSS is removed so stale styles cannot paint a second panel', () => {
+    const css = read('src/site00/styles/site00-founder-workspace.css');
+    expect(css).not.toContain('.site00-fws-project-menu');
   });
 });
