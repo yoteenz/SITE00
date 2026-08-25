@@ -1015,6 +1015,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'canonical_creative_range_judgment', 'site00_canonical_creative_range')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { run, lineage } = await setCanonicalRangeFounderJudgment({ comparisonIndex, judgment });
+        return json(res, 200, { ok: true, run, lineage, source: 'site00_canonical_creative_range' });
+      }
       case 'canonical_carousel_expansion_preflight': {
         if (req.method !== 'GET' && req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'METHOD_NOT_ALLOWED', message: 'GET or POST required' } });
