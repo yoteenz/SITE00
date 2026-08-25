@@ -1,85 +1,44 @@
-# Astral World — Identity
+# Astral World — Identity (P0.E)
 
-**Project:** Astral World  
-**Slug:** `astral-world`  
-**Status after P0.D entry:** IDENTITY_IN_PROGRESS
-
----
-
-## Master brand vs district
-
-| Layer | Name | Role |
-|-------|------|------|
-| Master product / universe | **Astral World** | Company, platform, umbrella world |
-| Flagship district | **Astréa** | First hero district (not the company name) |
-
-Astréa carries personal significance (client name Rea) — encoded ASTRAL+REA relationship. This is founder-directed truth, not visual canon.
+**Status:** IDENTITY_IN_PROGRESS · AWAITING_FOUNDER_JUDGMENT  
+**Canon promoted:** No (by design — awaiting founder review)
 
 ---
 
-## Product hierarchy (founder-directed)
+## 3 territories for review
 
-```
-ASTRAL WORLD
-  → ASTRÉA
-    → Tarot Suite
-    → Astral Mall
-    → Coffee Shop
-  → [Future districts]
-```
+| # | Territory | Strategic focus |
+|---|-----------|-----------------|
+| 1 | Celestial Gateway | Luminous threshold universe; mystical but navigable |
+| 2 | Social Sanctuary | Community, belonging, social heart |
+| 3 | Arcane Marketplace | Discovery, commerce, reader-first routing |
 
----
-
-## Identity phase entry
-
-Enter via API `identity_enter` or UI `/projects/astral-world/identity`.
-
-Prerequisites:
-- Project status: `ORIGIN_INGESTED`
-- Client truth records present
-
-On entry:
-1. Identity phase record created (IN_PROGRESS)
-2. Identity brief derived from client truth
-3. World hierarchy seeded
-4. 3 identity territories seeded
-5. Project status → `IDENTITY_IN_PROGRESS`
+Each territory exposes field-level judgments: APPROVE · REVISE · REJECT.
 
 ---
 
-## Initial identity territories (CREATIVE EXPLORATION — non-canonical)
+## Founder review workflow
 
-| Key | Label | Strategic focus |
-|-----|-------|-----------------|
-| celestial-gateway | Celestial Gateway | Luminous threshold universe; mystical but navigable |
-| social-sanctuary | Social Sanctuary | Community and belonging; Astréa as social heart |
-| arcane-marketplace | Arcane Marketplace | Discovery and commerce; reader-first routing |
+1. Open `/projects/astral-world/identity`
+2. Review each territory's strategic premise and fields
+3. Record territory judgment (SELECT / REVISE / REJECT / HYBRIDIZE)
+4. Record field judgments (APPROVE / REVISE / REJECT)
+5. Confirm world structure hierarchy (separate from visual formation)
+6. Preview pending canon promotion
+7. Execute explicit promotion
 
-These are strategic directions — not approved canon. Founder judgment required.
-
----
-
-## What is NOT resolved
-
-- Final Astréa visual style
-- Final district visual grammar
-- Final destination styling
-- Final brand personality
-- Final colors, typography, symbolic language
+**No auto-canonization.** No fake judgment.
 
 ---
 
-## Canon status
+## Partial approval supported
 
-**Approved identity canon records:** 0 (until founder promotes via `canon_promote_identity`)
+Example: approve master personality from Territory 1, Astréa expression from Territory 2, reject palette from Territory 3.
 
 ---
 
-## Reference interpretation
+## Identity canon gate (not yet satisfied)
 
-Client tarot references indicate:
-- Personalization is important
-- Recognizable people / family relationships matter
-- Custom tarot artifacts interest the client
+Required before WORLD formation: master role, world structure canon, positioning, personality, tone, master/district relationship, Astréa expression.
 
-Does **not** imply final platform must use exact illustration style, borders, colors, or medieval aesthetic.
+See `docs/architecture/SITE00_WORLD_FORMATION_GATE.md`.

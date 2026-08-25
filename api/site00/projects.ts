@@ -5447,6 +5447,101 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         });
         return json(res, 200, { ok: true, judgment, source: 'site00_identity' });
       }
+      case 'identity_review_state': {
+        const slug = String(req.query.slug ?? '');
+        if (!denyUnlessProjectCapability(res, slug, 'BRAND_INTELLIGENCE', 'site00_identity')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { getIdentityReviewState, ensureAwaitingFounderJudgment } = await import(
+          '../_lib/site00Projects/identity/identityJudgmentService.js'
+        );
+        await ensureAwaitingFounderJudgment(slug);
+        const reviewState = await getIdentityReviewState(slug);
+        const { evaluateProjectIdentityGate } = await import(
+          '../_lib/site00Projects/identity/canonPromotionService.js'
+        );
+        const identityCanonGate = await evaluateProjectIdentityGate(slug);
+        const { WORLD_FORMATION_ENTRY_GATE } = await import('../../../shared/site00-identity/worldFormationGate.js');
+        return json(res, 200, {
+          ok: true,
+          reviewState,
+          identityCanonGate,
+          worldFormationEntryGate: WORLD_FORMATION_ENTRY_GATE,
+          source: 'site00_identity_review',
+        });
+      }
+      case 'identity_field_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!denyUnlessProjectCapability(res, slug, 'JUDGMENTS', 'site00_identity')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { recordFieldJudgment } = await import('../_lib/site00Projects/identity/identityJudgmentService.js');
+        const judgment = await recordFieldJudgment({
+          projectIdOrSlug: slug,
+          territoryId: String(body.territoryId ?? ''),
+          fieldKey: body.fieldKey as import('../../../shared/site00-identity/identityFields.js').IdentityCanonFieldKey,
+          judgment: body.judgment as 'APPROVE' | 'REVISE' | 'REJECT' | 'UNREVIEWED',
+          hierarchyScope: (body.hierarchyScope ?? 'MASTER') as 'MASTER' | 'DISTRICT' | 'DESTINATION' | 'EXPERIENCE',
+          scopeNodeId: body.scopeNodeId ? String(body.scopeNodeId) : null,
+          approver: user.email,
+          notes: body.notes ? String(body.notes) : undefined,
+          founderCritique: body.founderCritique ? String(body.founderCritique) : undefined,
+          requestedChange: body.requestedChange ? String(body.requestedChange) : undefined,
+        });
+        return json(res, 200, { ok: true, judgment, source: 'site00_identity_field_judgment' });
+      }
+      case 'identity_promotion_preview': {
+        const slug = String(req.query.slug ?? '');
+        if (!denyUnlessProjectCapability(res, slug, 'JUDGMENTS', 'site00_identity')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { previewCanonPromotion } = await import('../_lib/site00Projects/identity/canonPromotionService.js');
+        const preview = await previewCanonPromotion({ projectIdOrSlug: slug, approver: user.email });
+        return json(res, 200, { ok: true, preview, source: 'site00_identity_promotion_preview' });
+      }
+      case 'canon_promote_fields': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!denyUnlessProjectCapability(res, slug, 'JUDGMENTS', 'site00_identity')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { promoteIdentityFields } = await import('../_lib/site00Projects/identity/canonPromotionService.js');
+        const result = await promoteIdentityFields({
+          projectIdOrSlug: slug,
+          approver: user.email,
+          approvals: (body.approvals ?? []) as import('../_lib/site00Projects/identity/canonPromotionService.js').FieldApprovalInput[],
+        });
+        return json(res, 200, { ok: true, result, source: 'site00_canon_fields' });
+      }
+      case 'canon_promote_world_structure': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!denyUnlessProjectCapability(res, slug, 'JUDGMENTS', 'site00_identity')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { promoteStructuralWorldCanon } = await import('../_lib/site00Projects/identity/canonPromotionService.js');
+        const result = await promoteStructuralWorldCanon({
+          projectIdOrSlug: slug,
+          approver: user.email,
+          confirmations: (body.confirmations ?? {}) as Record<string, boolean>,
+        });
+        return json(res, 200, { ok: true, result, source: 'site00_world_structure_canon' });
+      }
       case 'canon_promote_identity': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -5458,15 +5553,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
         const { promoteIdentityToCanon } = await import('../_lib/site00Projects/identity/canonPromotionService.js');
-        const result = await promoteIdentityToCanon({
-          projectIdOrSlug: slug,
-          territoryId: String(body.territoryId ?? ''),
-          hierarchyScope: (body.hierarchyScope ?? 'MASTER') as 'MASTER' | 'DISTRICT' | 'DESTINATION' | 'EXPERIENCE',
-          scopeNodeId: body.scopeNodeId ? String(body.scopeNodeId) : null,
-          approvedFields: (body.approvedFields ?? {}) as Record<string, unknown>,
-          approver: user.email,
-        });
-        return json(res, 200, { ok: true, result, source: 'site00_identity_canon' });
+        try {
+          const result = await promoteIdentityToCanon({
+            projectIdOrSlug: slug,
+            territoryId: String(body.territoryId ?? ''),
+            hierarchyScope: (body.hierarchyScope ?? 'MASTER') as 'MASTER' | 'DISTRICT' | 'DESTINATION' | 'EXPERIENCE',
+            scopeNodeId: body.scopeNodeId ? String(body.scopeNodeId) : null,
+            approvedFields: (body.approvedFields ?? {}) as Record<string, unknown>,
+            approver: user.email,
+          });
+          return json(res, 200, { ok: true, result, source: 'site00_identity_canon' });
+        } catch (e) {
+          const msg = e instanceof Error ? e.message : 'Promotion blocked';
+          return json(res, 400, { ok: false, error: { code: 'PROMOTION_BLOCKED', message: msg } });
+        }
       }
       case 'world_hierarchy': {
         const slug = String(req.query.slug ?? '');
