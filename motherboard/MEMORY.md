@@ -4919,3 +4919,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Migration:** `20260825180000_site00_project_core_isolation.sql`
 - **Recommended next sprint:** P0.C — Origin + Client Truth ingestion (world intake link, reconciliation workflow).
 
+---
+
+## 2026-08-25 — P0.C Origin + Client Truth Ingestion (Astral World)
+
+- **Context:** First real WORLD project ingestion after P0.B isolation. Astral World moves PRE_INGESTION → ORIGIN_INGESTED. No creative formation, no canon promotion.
+- **Delivered:** `originIngestionService.ts`; Origin sessions + summaries schema (`20260825210000_site00_origin_ingestion.sql`); Astral World seed data (`shared/site00-origin/astralWorldSeed.ts`); API actions `origin_ingest`, `origin_health`, `origin_summary`; UI `/projects/astral-world/origin`; 12 P0.C tests; architecture + project docs.
+- **Production:** P0.B + P0.C migrations applied to Supabase `hyycomvcaqxxvyrfupes`. Astral World ingested: 24 client truth records, 2 source references, 9 unresolved decisions, 0 canon from origin, 0 cross-project leaks.
+- **Canon firewall:** All client truth RAW/non-canonical; origin summary `is_canonical=false`; WORLD_FORMATION not triggered.
+- **Recommended next sprint:** P0.D — Identity Phase Entry (Astral World).
+
