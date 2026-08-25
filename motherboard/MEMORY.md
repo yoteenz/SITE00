@@ -5050,3 +5050,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Live run (fixture fallback dev):** Mobile overview VISUAL_PASS ~93%; desktop panels FOUNDER_REVIEW/NEEDS_CORRECTION; resolution correctly INSUFFICIENT on small crops; fixtureSubstitution reported honestly.
 - **Founder next:** Drop actual desktop + mobile mood boards into `visual-references/founder/ndxbook/` (or Supabase paths in README); re-run live script without `--allow-fixture-fallback`; upload GoDaddy ZIP after hub CSS convergence passes.
 
+---
+
+## 2026-08-25 — P0.VR.1D.3 single-screen NDX overview menu-open reconstruction proof
+
+- **Context:** Founder attached mobile screenshot as PRIMARY_VISUAL_AUTHORITY for NDXBOOK overview with three-dot project escape menu open. Narrow sprint: one screen, one interaction state, prove screenshot → spec → code → render → DOM delta → patch loop using existing P0.VR.1D lineage (no new architecture).
+- **Delivered:** Persisted reference `visual-references/founder/ndxbook/mobile-overview-menu-open.png`; `ProjectEscapeMenu` popover (PROJECT OVERVIEW → `/projects/ndxbook`, PROJECT SETTINGS → `/projects/ndxbook/setup`, BACK TO PROJECTS → `/projects`, RETURN TO ORIGIN → `/`, INSPECT → experiments hub; HELP visible but no dedicated route — reported honestly); `OverviewMobileHomeScreen` rebuilt to match reference copy/layout (two-line headline, Today at NDX May 24, metrics without FROM AUDIENCE number, production cards, radar list); `data-vr-region` on header/metrics/production/radar/nav/menu; `p0vr1d3/` execution module + live runner; VR renderer auth bootstrap for Playwright; hide MOBILE/DESKTOP layout switch on ndxbook mobile takeover.
+- **Live run:** skipRender=false; DOM regions tracked (7); overlay + heatmap generated; visual score ~79% (NEEDS_CORRECTION vs 90% VISUAL_PASS threshold) — pipeline proved end-to-end; remaining drift: card artwork textures, fine typography, status-bar crop in reference.
+- **Founder next:** Upload GoDaddy ZIP v107; optional HELP route when defined; re-run `npx tsx scripts/visualReconstruction/runNdxOverviewMenuOpenLiveReconstruction.ts` after further CSS convergence.
+

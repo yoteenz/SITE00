@@ -14,11 +14,11 @@ function isEcosystemLayoutSwitchPath(pathname: string): boolean {
 }
 
 /** Mobile ↔ desktop preview for authenticated account surfaces (PROJECTS, CTRL ROOM). */
-export function Site00EcosystemLayoutSwitch() {
+export function Site00EcosystemLayoutSwitch({ hidden = false }: { hidden?: boolean }) {
   const { pathname } = useLocation();
   const { isPreviewDesktop, setPreviewDeviceMode } = useSite00();
 
-  if (!isEcosystemLayoutSwitchPath(pathname)) {
+  if (hidden || !isEcosystemLayoutSwitchPath(pathname)) {
     return null;
   }
 

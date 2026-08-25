@@ -4,6 +4,7 @@ Place founder-provided mood boards here for P0.VR.1D.2 live reconstruction:
 
 - `desktop-mood-board.png` — desktop project hub mood board (Image A)
 - `mobile-mood-board.png` — mobile project hub mood board (Image B)
+- `mobile-overview-menu-open.png` — P0.VR.1D.3 single-screen reference (NDX overview · three-dot menu open)
 
 Alternatively set environment variables:
 

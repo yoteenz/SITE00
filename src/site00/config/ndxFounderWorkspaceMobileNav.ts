@@ -20,29 +20,29 @@ export type NdxMobileNavItem = {
 
 export function ndxFounderWorkspaceMobileNav(projectSlug: string): NdxMobileNavItem[] {
   return [
-    { id: 'overview', label: 'Overview', href: site00ProjectPath(projectSlug), icon: '⌂', screenId: 'overview' },
+    { id: 'overview', label: 'OVERVIEW', href: site00ProjectPath(projectSlug), icon: '⌂', screenId: 'overview' },
     {
       id: 'campaigns',
-      label: 'Campaigns',
+      label: 'CAMPAIGNS',
       href: site00ProjectContentOperationsCampaignBoardPath(projectSlug),
       icon: '▤',
       screenId: 'campaign-board',
     },
     {
       id: 'content-ops',
-      label: 'Content Ops',
+      label: 'CONTENT OPS',
       href: site00ProjectContentOperationsPath(projectSlug),
-      icon: '☰',
+      icon: '◎',
       screenId: 'content-ops',
     },
     {
       id: 'lab',
-      label: 'Lab',
+      label: 'LAB',
       href: site00ProjectFounderCharacterDiscoveryPath(projectSlug),
       icon: '⚗',
       screenId: 'character-lab',
     },
-    { id: 'more', label: 'More', href: site00ProjectExperimentsPath(projectSlug), icon: '···', screenId: 'experiments-hub' },
+    { id: 'more', label: 'MORE', href: site00ProjectExperimentsPath(projectSlug), icon: '···', screenId: 'experiments-hub' },
   ];
 }
 

@@ -19,15 +19,15 @@ type Props = {
 };
 
 const IN_PRODUCTION = [
-  { title: 'Subscription Normalization', tag: 'TOP PRIORITY', tone: 'priority' as const },
-  { title: 'Corporate Layoff Memo', tag: null, tone: 'default' as const },
-  { title: 'Loyalty Language Drift', tag: null, tone: 'default' as const },
+  { title: 'Subscription Normalization', tag: 'TOP PRIORITY', tone: 'priority' as const, subtitle: 'Precision tool → routine' },
+  { title: 'Corporate Layoff Memo', tag: null, tone: 'default' as const, subtitle: 'Layoff memo v2' },
+  { title: 'Late Fees Across Decades', tag: null, tone: 'default' as const, subtitle: 'Narrative in motion' },
 ];
 
 const RADAR_ITEMS = [
   'Corporate Layoff Memo Language',
-  'Subscription Fatigue Pattern',
-  'Quiet Luxury Signal',
+  'Late Fees Across Decades',
+  'Airline Loyalty Normalization',
 ];
 
 const CAMPAIGN_DAYS = ['Mon 25', 'Tue 26', 'Wed 27', 'Thu 28', 'Fri 29', 'Sat 30', 'Sun 31'];
@@ -286,10 +286,22 @@ export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
 export function OverviewMobileHomeScreen({ projectSlug }: Props) {
   return (
     <div className="site00-fws-mobile-overview" data-visual-reconstruction="mobile-overview">
-      <p className="site00-fws-mobile-overview__eyebrow">OVERVIEW</p>
-      <h2 className="site00-fws-mobile-overview__headline">CONTENT OPERATIONS + PERFORMANCE LEARNING</h2>
-      <p className="site00-fws-mobile-overview__summary">What NDX is making, what needs your eye, and what the audience is telling us.</p>
-      <div className="site00-fws-hub-kpis site00-fws-hub-kpis--mobile">
+      <div data-vr-region="ndx-overview-heading">
+        <p className="site00-fws-mobile-overview__eyebrow">OVERVIEW</p>
+        <h2 className="site00-fws-mobile-overview__headline">
+          <span>CONTENT OPERATIONS</span>
+          <span>PERFORMANCE LEARNING</span>
+        </h2>
+        <p className="site00-fws-mobile-overview__summary">
+          Studio World builds with intelligence. You guide with judgment. Your voice is the final approval.
+        </p>
+        <div className="site00-fws-mobile-overview__today">
+          <span className="site00-fws-mobile-overview__today-label">TODAY AT NDX</span>
+          <span className="site00-fws-mobile-overview__today-date">May 24</span>
+        </div>
+      </div>
+
+      <div className="site00-fws-hub-kpis site00-fws-hub-kpis--mobile" data-vr-region="ndx-metrics">
         <div>
           <strong>5</strong>
           <span>BEING MADE</span>
@@ -302,31 +314,45 @@ export function OverviewMobileHomeScreen({ projectSlug }: Props) {
           <strong>3</strong>
           <span>DEVELOPING</span>
         </div>
-        <div>
-          <strong>1</strong>
+        <div className="site00-fws-hub-kpis__empty">
+          <strong aria-hidden>&nbsp;</strong>
           <span>FROM AUDIENCE</span>
         </div>
       </div>
-      <Link to={site00ProjectContentOperationsCampaignBoardPath(projectSlug)} className="site00-fws-hub-cta">
-        REVIEW NEEDS ME →
-      </Link>
-      <p className="site00-fws-hub-section-label">IN PRODUCTION</p>
-      <div className="site00-fws-hub-carousel site00-fws-hub-carousel--mobile">
+
+      <div className="site00-fws-mobile-section-head">
+        <p className="site00-fws-hub-section-label">IN PRODUCTION</p>
+        <Link to={site00ProjectContentOperationsCampaignBoardPath(projectSlug)} className="site00-fws-mobile-screen__see-all">
+          View all (5)
+        </Link>
+      </div>
+      <div className="site00-fws-hub-carousel site00-fws-hub-carousel--mobile-row" data-vr-region="ndx-production">
         {IN_PRODUCTION.map((item) => (
-          <div
+          <article
             key={item.title}
-            className={`site00-fws-hub-carousel__card${item.tone === 'priority' ? ' site00-fws-hub-carousel__card--priority' : ''}`}
+            className={`site00-fws-hub-carousel__card site00-fws-hub-carousel__card--mobile${item.tone === 'priority' ? ' site00-fws-hub-carousel__card--priority' : ''}`}
           >
             {item.tag ? <span className="site00-fws-hub-tag">{item.tag}</span> : null}
-            <p>{item.title}</p>
-          </div>
+            <p className="site00-fws-hub-carousel__card-title">{item.title.toUpperCase()}</p>
+            {item.subtitle ? <p className="site00-fws-hub-carousel__card-sub">{item.subtitle}</p> : null}
+          </article>
         ))}
       </div>
-      <p className="site00-fws-hub-section-label">ON NDX&apos;S RADAR</p>
-      <ul className="site00-fws-hub-list">
+
+      <div className="site00-fws-mobile-section-head">
+        <p className="site00-fws-hub-section-label">ON NDX&apos;S RADAR</p>
+        <Link to={site00ProjectCulturalIntelligencePath(projectSlug)} className="site00-fws-mobile-screen__see-all">
+          View all (6)
+        </Link>
+      </div>
+      <ul className="site00-fws-hub-list site00-fws-hub-list--radar" data-vr-region="ndx-radar">
         {RADAR_ITEMS.map((item, index) => (
           <li key={item}>
-            {String(index + 1).padStart(2, '0')} {item} →
+            <span className="site00-fws-hub-list__num">{String(index + 1).padStart(2, '0')}</span>
+            <span className="site00-fws-hub-list__label">{item}</span>
+            <span className="site00-fws-hub-list__arrow" aria-hidden>
+              →
+            </span>
           </li>
         ))}
       </ul>
