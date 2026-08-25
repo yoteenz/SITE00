@@ -1,18 +1,27 @@
 /**
- * P0.VR.1D.A — Mobile founder workspace chrome (Image B authority).
- * Independent from desktop rail — sticky header + bottom nav on narrow viewports.
+ * P0.VR.1D.A + P0.UI.3 — Mobile founder workspace chrome (Image B authority).
+ * Canonical NDXIcon for header + bottom nav; independent from desktop rail.
  */
 
 import { Link, useLocation } from 'react-router-dom';
 import { ndxFounderWorkspaceMobileNav, resolveMobileScreenIdFromPath } from '../../config/ndxFounderWorkspaceMobileNav';
+import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
+import { NDXIcon } from '../../icons/ndx';
 import '../../styles/site00-founder-workspace.css';
 
 type Props = {
   projectSlug: string;
   children: React.ReactNode;
+  onOpenMenu?: () => void;
+  onOpenNotifications?: () => void;
 };
 
-export function MobileFounderWorkspaceChrome({ projectSlug, children }: Props) {
+export function MobileFounderWorkspaceChrome({
+  projectSlug,
+  children,
+  onOpenMenu,
+  onOpenNotifications,
+}: Props) {
   const location = useLocation();
   const screenId = resolveMobileScreenIdFromPath(location.pathname, projectSlug);
   const nav = ndxFounderWorkspaceMobileNav(projectSlug);
@@ -30,11 +39,16 @@ export function MobileFounderWorkspaceChrome({ projectSlug, children }: Props) {
           </span>
         </div>
         <div className="site00-fws-mobile-chrome__actions">
-          <button type="button" className="site00-fws-mobile-chrome__icon" aria-label="Notifications">
-            ○
+          <button
+            type="button"
+            className="site00-fws-mobile-chrome__icon"
+            aria-label="Notifications"
+            onClick={onOpenNotifications}
+          >
+            <NDXIcon name="notifications" size={NDX_ICON_CONTEXT_SIZE.header} state="inactive" decorative />
           </button>
-          <button type="button" className="site00-fws-mobile-chrome__icon" aria-label="More">
-            ···
+          <button type="button" className="site00-fws-mobile-chrome__icon" aria-label="Open project menu" onClick={onOpenMenu}>
+            <NDXIcon name="ellipsis" size={NDX_ICON_CONTEXT_SIZE.header} state="inactive" decorative />
           </button>
         </div>
       </header>
@@ -51,6 +65,14 @@ export function MobileFounderWorkspaceChrome({ projectSlug, children }: Props) {
               className={`site00-fws-mobile-chrome__nav-item${active ? ' site00-fws-mobile-chrome__nav-item--active' : ''}`}
               aria-current={active ? 'page' : undefined}
             >
+              <span className="site00-fws-mobile-chrome__nav-icon" aria-hidden="true">
+                <NDXIcon
+                  name={item.icon}
+                  size={NDX_ICON_CONTEXT_SIZE.bottomNav}
+                  state={active ? 'active' : 'inactive'}
+                  decorative
+                />
+              </span>
               <span className="site00-fws-mobile-chrome__nav-label">{item.label}</span>
             </Link>
           );

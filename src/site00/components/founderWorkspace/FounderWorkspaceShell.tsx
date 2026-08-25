@@ -6,6 +6,18 @@ import {
   ndxFounderWorkspaceNav,
   ndxInspectRoutes,
 } from '../../config/ndxFounderWorkspace';
+import {
+  NDX_WORKSPACE_NAV_ICONS,
+  ndxFounderWorkspaceBottomNav,
+  ndxFounderWorkspaceMenuItems,
+  ndxFounderWorkspaceOverflowNav,
+} from '../../config/ndxFounderWorkspaceIcons';
+import { site00ProjectNdxIconSheetPath } from '../../config/routes';
+import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
+import { NDXIcon } from '../../icons/ndx';
+import { FounderWorkspaceMobileNav } from './FounderWorkspaceMobileNav';
+import { FounderWorkspaceProjectMenu } from './FounderWorkspaceProjectMenu';
+import { FounderWorkspaceHeaderChrome } from './FounderWorkspaceHeaderChrome';
 import { useSite00 } from '../../state/Site00Context';
 import { MobileFounderWorkspaceChrome } from './MobileFounderWorkspaceChrome';
 import { renderMobileFounderWorkspaceScreen } from './MobileFounderWorkspaceScreens';
@@ -70,6 +82,10 @@ export function FounderWorkspaceShell({
   const enabled = ndxFounderWorkspaceEnabled(projectSlug);
   const nav = useMemo(() => ndxFounderWorkspaceNav(projectSlug), [projectSlug]);
   const inspectRoutes = useMemo(() => ndxInspectRoutes(projectSlug), [projectSlug]);
+  const bottomNav = useMemo(() => ndxFounderWorkspaceBottomNav(projectSlug), [projectSlug]);
+  const menuItems = useMemo(() => ndxFounderWorkspaceMenuItems(projectSlug), [projectSlug]);
+  const overflowNav = useMemo(() => ndxFounderWorkspaceOverflowNav(projectSlug), [projectSlug]);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [inspector, setInspector] = useState<InspectorState>({ open: false, title: '', content: null });
 
   const openInspector = useCallback((inspectorTitle: string, content: ReactNode) => {
@@ -97,6 +113,14 @@ export function FounderWorkspaceShell({
       ? renderMobileFounderWorkspaceScreen('overview', projectSlug)
       : operate;
 
+  const headerActions =
+    actions ?? (
+      <FounderWorkspaceHeaderChrome
+        onOpenMenu={() => setMenuOpen(true)}
+        onOpenNotifications={() => setMenuOpen(true)}
+      />
+    );
+
   return (
     <FounderWorkspaceContext.Provider value={ctx}>
       <div className={`site00-fws${mobilePresentation ? ' site00-fws--mobile-presentation' : ''}`}>
@@ -114,7 +138,15 @@ export function FounderWorkspaceShell({
                   to={item.href}
                   className={`site00-fws-rail__link${isNavActive(item.href) ? ' site00-fws-rail__link--active' : ''}`}
                 >
-                  {item.label}
+                  <span className="site00-fws-rail__link-inner">
+                    <NDXIcon
+                      name={NDX_WORKSPACE_NAV_ICONS[item.id]}
+                      size={NDX_ICON_CONTEXT_SIZE.desktopRail}
+                      state={isNavActive(item.href) ? 'active' : 'inactive'}
+                      decorative
+                    />
+                    <span>{item.label}</span>
+                  </span>
                   {item.badge != null && item.badge > 0 ? (
                     <span className="site00-fws-rail__badge" aria-hidden="true" />
                   ) : null}
@@ -123,7 +155,16 @@ export function FounderWorkspaceShell({
             </nav>
             <div className="site00-fws-rail__inspect">
               <Link to={inspectRoutes.experimentsHub} className="site00-fws-rail__inspect-link">
-                {inspectLabel}
+                <span className="site00-fws-rail__link-inner">
+                  <NDXIcon name="experiments_hub" size={NDX_ICON_CONTEXT_SIZE.desktopRail} state="inactive" decorative />
+                  <span>{inspectLabel}</span>
+                </span>
+              </Link>
+              <Link to={site00ProjectNdxIconSheetPath(projectSlug)} className="site00-fws-rail__inspect-link">
+                <span className="site00-fws-rail__link-inner">
+                  <NDXIcon name="inspect" size={NDX_ICON_CONTEXT_SIZE.desktopRail} state="inactive" decorative />
+                  <span>ICON SHEET</span>
+                </span>
               </Link>
             </div>
             <footer className="site00-fws-rail__footer">
@@ -141,13 +182,19 @@ export function FounderWorkspaceShell({
                 <h1 className="site00-fws-header__title">{title}</h1>
                 {subtitle ? <p className="site00-fws-header__subtitle">{subtitle}</p> : null}
               </div>
-              {actions ? <div className="site00-fws-header__actions">{actions}</div> : null}
+              <div className="site00-fws-header__actions">{headerActions}</div>
             </header>
           ) : null}
 
           <section className="site00-fws-layer site00-fws-layer--operate" aria-label="Operate">
             {mobilePresentation ? (
-              <MobileFounderWorkspaceChrome projectSlug={projectSlug}>{mobileBody}</MobileFounderWorkspaceChrome>
+              <MobileFounderWorkspaceChrome
+                projectSlug={projectSlug}
+                onOpenMenu={() => setMenuOpen(true)}
+                onOpenNotifications={() => setMenuOpen(true)}
+              >
+                {mobileBody}
+              </MobileFounderWorkspaceChrome>
             ) : (
               operate
             )}
@@ -171,6 +218,17 @@ export function FounderWorkspaceShell({
             </section>
           ) : null}
         </main>
+
+        {!hideWorkspaceNav && !mobilePresentation ? (
+          <FounderWorkspaceMobileNav items={bottomNav} onMore={() => setMenuOpen(true)} />
+        ) : null}
+
+        <FounderWorkspaceProjectMenu
+          open={menuOpen}
+          onClose={() => setMenuOpen(false)}
+          items={menuItems}
+          overflowItems={overflowNav}
+        />
 
         {inspector.open ? (
           <div className="site00-fws-inspector-backdrop" role="presentation" onClick={closeInspector} />
