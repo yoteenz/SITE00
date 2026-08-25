@@ -9,6 +9,7 @@ import {
   migrateReferenceDrivenCastingState,
   activateReferenceAuthority,
 } from './referenceDrivenCasting.js';
+import { ensureVisualAuthoritySnapshot } from './identityAnchorCasting.js';
 import { syncPipelineState } from './stateMachine.js';
 import type {
   CharacterCastingAuthority,
@@ -85,6 +86,7 @@ export function decomposeFounderCastingReference(
 
   if (target.role === 'FULL_LOOK') {
     updated = activateReferenceAuthority(updated, referenceId);
+    updated = ensureVisualAuthoritySnapshot(updated);
   }
 
   return updated;

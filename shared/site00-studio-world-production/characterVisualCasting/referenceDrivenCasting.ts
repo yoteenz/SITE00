@@ -4,12 +4,17 @@
 
 import { randomUUID } from 'node:crypto';
 import {
-  CASTING_PROMPT_AUTHORITY_LAYERS,
   CHARACTER_BIBLE_ASSET_SLOTS,
   CHARACTER_BIBLE_REVIEW_TABS,
+  IDENTITY_LOCK_PROMPT_AUTHORITY_LAYERS,
   REFERENCE_CONTROLLED_VARIATION_SLOTS,
   REFERENCE_DRIVEN_NEGATIVE_CONSTRAINTS,
 } from './constants.js';
+import {
+  assertAnchorApprovedForBiblePack,
+  generateAnchorDependentCharacterBiblePackRound,
+  migrateIdentityAnchorState,
+} from './identityAnchorCasting.js';
 import { compileReferenceDrivenCastingPromptContract, storePromptContractSnapshot } from './promptContract.js';
 import { estimateCastingRoundCost, recommendStillImageCastingProvider } from './providerSelection.js';
 import { syncPipelineState } from './stateMachine.js';
@@ -34,10 +39,16 @@ import type {
 const ROLE_AUTHORITY_RANK: Record<FounderCastingReferenceRole, number> = {
   FULL_LOOK: 1,
   FACE: 2,
+  FACE_CLOSEUP: 2,
   HAIR: 3,
   WARDROBE: 4,
-  PRESENCE: 5,
-  MOOD: 6,
+  WARDROBE_DETAIL_SUPPORT: 4,
+  FULL_BODY_REFERENCE: 5,
+  SIDE_VIEW_SUPPORT: 5,
+  BACK_VIEW_SUPPORT: 5,
+  ENVIRONMENT_SUPPORT: 6,
+  PRESENCE: 7,
+  MOOD: 8,
 };
 
 function field(value: string, confidence: VisibilityConfidence): DecomposedVisualField {
@@ -65,13 +76,18 @@ export function migrateReferenceDrivenCastingState(
   state: CharacterVisualCastingState,
 ): CharacterVisualCastingState {
   const next = ensureFounderReferences(state);
-  return {
+  const migrated: CharacterVisualCastingState = {
     ...next,
     activeReferenceAuthority: next.activeReferenceAuthority ?? null,
     promptContractSnapshots: next.promptContractSnapshots ?? {},
     referenceDrivenBundles: next.referenceDrivenBundles ?? [],
     characterBibleAssetPack: next.characterBibleAssetPack ?? null,
     referenceDerivedSummary: next.referenceDerivedSummary ?? null,
+    visualAuthoritySnapshot: next.visualAuthoritySnapshot ?? null,
+    canonicalAnchor: next.canonicalAnchor ?? null,
+    anchorWorkflowStage: next.anchorWorkflowStage ?? 'CANONICAL_ANCHOR_PENDING',
+    continuityDriftEvaluations: next.continuityDriftEvaluations ?? [],
+    visualCastingLineage: next.visualCastingLineage ?? [],
     founderReferences: next.founderReferences.map((entry) => ({
       ...entry,
       decomposition: entry.decomposition ?? null,
@@ -81,13 +97,16 @@ export function migrateReferenceDrivenCastingState(
       generationMode: round.generationMode ?? 'LEGACY_VARIATION',
       referenceAuthorityId: round.referenceAuthorityId ?? null,
       assetPackId: round.assetPackId ?? null,
+      canonicalAnchorId: round.canonicalAnchorId ?? null,
     })),
     candidates: next.candidates.map((candidate) => ({
       ...candidate,
       assetSlot: candidate.assetSlot ?? null,
       generationMode: candidate.generationMode ?? 'LEGACY_VARIATION',
+      driftEvaluationId: candidate.driftEvaluationId ?? null,
     })),
   };
+  return migrateIdentityAnchorState(migrated);
 }
 
 export function buildStructuredReferenceDecomposition(
@@ -261,13 +280,17 @@ export function buildReferenceDerivedCharacterSummary(
 }
 
 export function assetSlotReviewTab(slot: CharacterBibleAssetSlot): CharacterBibleReviewTab {
-  if (slot.startsWith('EXPRESSION_') || slot.startsWith('PORTRAIT_')) {
-    if (slot.startsWith('EXPRESSION_')) return 'PRESENCE';
+  if (
+    slot === 'FRONT_VIEW' ||
+    slot === 'LEFT_SIDE_VIEW' ||
+    slot === 'RIGHT_SIDE_VIEW' ||
+    slot === 'BACK_VIEW'
+  ) {
     return 'PORTRAIT_ANGLES';
   }
-  if (slot.startsWith('FULL_BODY_')) return 'FULL_TURNAROUND';
-  if (slot === 'WARDROBE_SHEET') return 'WARDROBE';
-  if (slot === 'ENVIRONMENT_SET') return 'ENVIRONMENT';
+  if (slot === 'FULL_BODY_VIEW' || slot === 'SEATED_EDITORIAL_VIEW') return 'FULL_TURNAROUND';
+  if (slot === 'WARDROBE_DOCUMENTATION_SHEET' || slot === 'WARDROBE_ITEM_DETAIL_SET') return 'WARDROBE';
+  if (slot === 'ENVIRONMENT_REFERENCE_SET') return 'ENVIRONMENT';
   return 'BIBLE_SUMMARY';
 }
 
@@ -335,7 +358,7 @@ export function compileReferenceDrivenCastingBundle(params: {
     bundleId: randomUUID(),
     referenceId: authority.referenceId,
     decompositionId: reference.decomposition.decompositionId,
-    authorityOrder: [...CASTING_PROMPT_AUTHORITY_LAYERS],
+    authorityOrder: [...IDENTITY_LOCK_PROMPT_AUTHORITY_LAYERS],
     legacyPromptSecondary: true,
     compiledAt: new Date().toISOString(),
     promptSnapshotIds: [contract.contractId],
@@ -348,110 +371,8 @@ export function generateCharacterBibleAssetPackRound(params: {
   dispatchFal?: boolean;
 }): CharacterVisualCastingState {
   const next = migrateReferenceDrivenCastingState(params.state);
-  const snapshot = next.truthSnapshots.find((entry) => entry.snapshotId === next.activeTruthSnapshotId);
-  if (!snapshot) throw new Error('Active character truth snapshot required');
-
-  const authority = resolveActiveCastingReferenceAuthority(next);
-  if (!authority) throw new Error('Upload and decompose a Full Look reference first');
-
-  const reference = next.founderReferences.find((entry) => entry.referenceId === authority.referenceId);
-  if (!reference?.decomposition) throw new Error('Reference decomposition required');
-
-  let working = next;
-  const assetPack = buildCharacterBibleAssetPackPlan({
-    referenceId: authority.referenceId,
-    decompositionId: reference.decomposition.decompositionId,
-  });
-
-  const contracts = CHARACTER_BIBLE_ASSET_SLOTS.map((assetSlot) =>
-    compileReferenceDrivenCastingPromptContract({
-      snapshot,
-      decomposition: reference.decomposition!,
-      authority,
-      assetSlot,
-    }),
-  );
-
-  for (const contract of contracts) {
-    working = storePromptContractSnapshot(working, contract);
-  }
-
-  const rec = recommendStillImageCastingProvider(params.falConfigured);
-  const roundId = randomUUID();
-  const roundNumber = working.rounds.length + 1;
-
-  const candidates: CharacterCastingCandidate[] = contracts.map((contract, index) => ({
-    candidateId: randomUUID(),
-    roundId,
-    characterTruthSnapshotId: snapshot.snapshotId,
-    provider: rec.provider ?? 'fal',
-    model: rec.model ?? 'pending',
-    promptSnapshotId: contract.contractId,
-    variationAxis: 'FACE_STRUCTURE',
-    assetSlot: contract.assetSlot ?? CHARACTER_BIBLE_ASSET_SLOTS[index]!,
-    generationMode: 'CHARACTER_BIBLE_ASSET_PACK',
-    outputAssetId: null,
-    previewUrl: params.dispatchFal ? null : `/api/placeholder/casting/bible-${roundNumber}-${index + 1}`,
-    createdAt: new Date().toISOString(),
-    founderJudgment: null,
-    deeperJudgment: null,
-    strengths: [],
-    weaknesses: [],
-    castingStatus: 'UNREVIEWED',
-    founderNote: contract.assetSlot ?? null,
-  }));
-
-  const bundle: ReferenceDrivenCastingBundle = {
-    bundleId: randomUUID(),
-    referenceId: authority.referenceId,
-    decompositionId: reference.decomposition.decompositionId,
-    authorityOrder: [...CASTING_PROMPT_AUTHORITY_LAYERS],
-    legacyPromptSecondary: true,
-    compiledAt: new Date().toISOString(),
-    promptSnapshotIds: contracts.map((entry) => entry.contractId),
-  };
-
-  const round: CharacterCastingRound = {
-    roundId,
-    roundNumber,
-    characterId: snapshot.characterId,
-    characterTruthSnapshotId: snapshot.snapshotId,
-    candidateIds: candidates.map((entry) => entry.candidateId),
-    generationContractId: contracts[0]?.contractId ?? null,
-    generationMode: 'CHARACTER_BIBLE_ASSET_PACK',
-    referenceAuthorityId: authority.authorityId,
-    assetPackId: assetPack.packId,
-    provider: rec.provider ?? 'fal',
-    model: rec.model ?? 'pending',
-    costUsd: params.dispatchFal ? estimateCastingRoundCost(candidates.length, params.falConfigured) : 0,
-    createdAt: new Date().toISOString(),
-    status: params.dispatchFal ? 'GENERATING' : 'REVIEW_READY',
-    retainedTraits: ['FACE', 'HAIR', 'WARDROBE', 'PRESENCE'],
-    variedTraits: [],
-    rejectedTraits: REFERENCE_DRIVEN_NEGATIVE_CONSTRAINTS.slice(0, 6),
-    basedOnPriorTruthSnapshotId: snapshot.snapshotId,
-  };
-
-  return syncPipelineState({
-    ...working,
-    activeReferenceAuthority: authority,
-    referenceDerivedSummary: buildReferenceDerivedCharacterSummary(reference.decomposition),
-    characterBibleAssetPack: {
-      ...assetPack,
-      roundId,
-      status: params.dispatchFal ? 'GENERATING' : 'REVIEW',
-    },
-    referenceDrivenBundles: [...working.referenceDrivenBundles, bundle],
-    rounds: [
-      ...working.rounds.map((entry) =>
-        entry.status === 'REVIEW_READY' ? { ...entry, status: 'COMPLETE' as const } : entry,
-      ),
-      round,
-    ],
-    candidates: [...working.candidates, ...candidates],
-    castingCandidatesReady: !params.dispatchFal,
-    falImageRequests: working.falImageRequests + (params.dispatchFal ? candidates.length : 0),
-  });
+  assertAnchorApprovedForBiblePack(next);
+  return generateAnchorDependentCharacterBiblePackRound(params);
 }
 
 export function generateReferenceControlledCandidateRound(params: {
@@ -571,8 +492,10 @@ export function approveCharacterBibleAssetPack(state: CharacterVisualCastingStat
     referencePackSummary: {
       ...next.referencePackSummary,
       packId: next.characterBibleAssetPack.packId,
-      faceAnchors: next.characterBibleAssetPack.slots.filter((slot) => slot.startsWith('PORTRAIT_')).length,
-      expressionAnchors: next.characterBibleAssetPack.slots.filter((slot) => slot.startsWith('EXPRESSION_')).length,
+      faceAnchors: next.characterBibleAssetPack.slots.filter((slot) =>
+        ['FRONT_VIEW', 'LEFT_SIDE_VIEW', 'RIGHT_SIDE_VIEW', 'BACK_VIEW'].includes(slot),
+      ).length,
+      expressionAnchors: next.characterBibleAssetPack.slots.filter((slot) => slot === 'SEATED_EDITORIAL_VIEW').length,
       hairAnchors: 1,
       wardrobeAnchors: 1,
       negativeConstraints: REFERENCE_DRIVEN_NEGATIVE_CONSTRAINTS.length,
