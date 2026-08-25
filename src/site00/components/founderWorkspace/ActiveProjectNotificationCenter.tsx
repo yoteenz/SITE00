@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState, type RefObject } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import type { ProjectNotification } from '../../../../shared/site00-studio-world-production/projectNotifications/types.js';
@@ -9,6 +9,7 @@ import {
 } from '../../../../shared/site00-studio-world-production/projectNotifications/format.js';
 import { entityTypeLabel, resolveNotificationActionHref } from '../../../../shared/site00-studio-world-production/projectNotifications/deepLinks.js';
 import { site00ProjectNotificationsPath } from '../../config/routes';
+import { computeNotificationPanelPosition } from '../../../../shared/site00-studio-world-production/projectNotifications/panelPosition.js';
 
 type TabId = 'notifications' | 'messages';
 
@@ -99,28 +100,30 @@ export function ActiveProjectNotificationCenter({
 }: ActiveProjectNotificationCenterProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const [tab, setTab] = useState<TabId>('notifications');
-  const [style, setStyle] = useState<{ top: number; right: number; width: number }>({
+  const [style, setStyle] = useState<{ top: number; left: number; width: number }>({
     top: 56,
-    right: 12,
+    left: 12,
     width: 320,
   });
 
-  useLayoutEffect(() => {
+  const updatePosition = useCallback(() => {
     if (!open || typeof window === 'undefined') return;
-    const anchor = anchorRef?.current;
-    const vw = window.innerWidth;
-    const width = Math.min(340, Math.max(300, vw - 24));
-    if (anchor) {
-      const rect = anchor.getBoundingClientRect();
-      setStyle({
-        top: rect.bottom + 8,
-        right: Math.max(12, vw - rect.right),
-        width,
-      });
-      return;
-    }
-    setStyle({ top: 56, right: 12, width });
+    setStyle(computeNotificationPanelPosition(anchorRef?.current ?? null, window.innerWidth));
   }, [open, anchorRef]);
+
+  useLayoutEffect(() => {
+    updatePosition();
+  }, [updatePosition]);
+
+  useEffect(() => {
+    if (!open || typeof window === 'undefined') return undefined;
+    window.addEventListener('resize', updatePosition);
+    window.addEventListener('scroll', updatePosition, true);
+    return () => {
+      window.removeEventListener('resize', updatePosition);
+      window.removeEventListener('scroll', updatePosition, true);
+    };
+  }, [open, updatePosition]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -142,7 +145,7 @@ export function ActiveProjectNotificationCenter({
       <div
         ref={panelRef}
         className="site00-fws-notify"
-        style={{ top: style.top, right: style.right, width: style.width }}
+        style={{ top: style.top, left: style.left, width: style.width }}
         role="dialog"
         aria-label={`${projectLabel} notifications`}
         data-vr-region="ndx.notification.center"

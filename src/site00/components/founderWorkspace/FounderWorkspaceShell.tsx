@@ -168,7 +168,7 @@ export function FounderWorkspaceShell({
       <FounderWorkspaceHeaderChrome
         onOpenMenu={toggleMenu}
         onOpenNotifications={toggleNotifications}
-        bellButtonRef={bellAnchorRef}
+        bellButtonRef={mobilePresentation ? undefined : bellAnchorRef}
         notificationOpen={notificationOpen}
         unreadCount={notificationState.unreadCount}
       />
