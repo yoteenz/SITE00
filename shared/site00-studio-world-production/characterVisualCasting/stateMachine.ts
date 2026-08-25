@@ -43,6 +43,7 @@ export function buildEmptyVisualCastingState(): CharacterVisualCastingState {
     reopenCalibrationAcknowledged: false,
     falImageRequests: 0,
     falVideoRequests: 0,
+    falGenerationTracking: null,
     updatedAt: new Date().toISOString(),
   };
 }

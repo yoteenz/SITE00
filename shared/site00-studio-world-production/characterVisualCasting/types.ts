@@ -169,6 +169,14 @@ export type CharacterCastingMergeRequest = {
   status: 'PENDING' | 'APPLIED' | 'CANCELLED';
 };
 
+export type CastingFalGenerationTracking = {
+  attemptId: string;
+  roundId: string;
+  startedAt: string;
+  status: 'RUNNING' | 'COMPLETED' | 'FAILED';
+  errorMessage: string | null;
+};
+
 export type CharacterVisualCastingState = {
   castingVersion: typeof import('./constants.js').CHARACTER_VISUAL_CASTING_VERSION;
   pipelineState: CharacterPipelineState;
@@ -200,5 +208,6 @@ export type CharacterVisualCastingState = {
   reopenCalibrationAcknowledged: boolean;
   falImageRequests: number;
   falVideoRequests: number;
+  falGenerationTracking: CastingFalGenerationTracking | null;
   updatedAt: string;
 };

@@ -25,6 +25,7 @@ import {
   promptContractsShareCharacterTruth,
   compileCastingPromptFromContract,
   applyCastingGenerationResults,
+  applyCastingGenerationFailure,
   prepareCastingRoundForFalRetry,
   buildEmptyVisualCastingState,
   discoveryShouldShowRecognizedNotCalibration,
@@ -45,6 +46,8 @@ import { generateVisualCastingRound, retryVisualCastingRoundFal } from '../../ap
 import {
   castingRoundNeedsFalRetry,
   isCastingPlaceholderPreviewUrl,
+  castingFalGenerationInProgress,
+  castingFalGenerationFailed,
 } from '../site00-studio-world-production/characterVisualCasting/client.js';
 
 const ROOT = join(process.cwd());
@@ -350,5 +353,27 @@ describe('P0.5E.4C visual casting + I KNOW HER transition', () => {
     expect(state.castingCandidatesReady).toBe(false);
     expect(state.rounds.at(-1)?.status).toBe('GENERATING');
     expect(state.candidates.filter((c) => c.roundId === roundId).every((c) => c.previewUrl === null)).toBe(true);
+  });
+
+  it('castingFalGenerationInProgress tracks generating rounds and failures', () => {
+    const run = buildNdxFounderCharacterDiscoveryRun();
+    const snapshot = buildCharacterTruthSnapshot({ run, version: 1, lockedForCasting: true });
+    let state = buildEmptyVisualCastingState();
+    state = {
+      ...state,
+      visualCastingReady: true,
+      truthSnapshots: [snapshot],
+      activeTruthSnapshotId: snapshot.snapshotId,
+    };
+    state = generateCastingRoundPlaceholders({ state, falConfigured: true, dispatchFal: true });
+    expect(castingFalGenerationInProgress(state)).toBe(true);
+
+    state = applyCastingGenerationFailure({
+      state,
+      roundId: state.rounds.at(-1)!.roundId,
+      errorMessage: 'tunnel dropped',
+    });
+    expect(castingFalGenerationFailed(state)).toBe(true);
+    expect(castingFalGenerationInProgress(state)).toBe(false);
   });
 });

@@ -35,3 +35,14 @@ export function castingRoundNeedsFalRetry(state: CharacterVisualCastingState, ro
   if (candidates.length === 0) return false;
   return candidates.every((entry) => !entry.previewUrl || isCastingPlaceholderPreviewUrl(entry.previewUrl));
 }
+
+export function castingFalGenerationInProgress(state: CharacterVisualCastingState): boolean {
+  return Boolean(
+    state.falGenerationTracking?.status === 'RUNNING' ||
+      (!state.castingCandidatesReady && state.rounds.some((entry) => entry.status === 'GENERATING')),
+  );
+}
+
+export function castingFalGenerationFailed(state: CharacterVisualCastingState): boolean {
+  return state.falGenerationTracking?.status === 'FAILED';
+}
