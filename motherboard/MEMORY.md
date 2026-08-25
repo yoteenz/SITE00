@@ -4770,4 +4770,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `castingRoundNeedsFalRetry` detects placeholder-only rounds; review UI shows **GENERATE STILLS WITH FAL**; `character_visual_casting_retry_fal` + `retryVisualCastingRoundFal` re-dispatches FAL on existing candidates via `prepareCastingRoundForFalRetry`. Cost gate now only shows when no round exists (prevents duplicate round on retry). Generating panel shown while FAL runs.
 - **Tests:** `embodiedCharacterVisualCastingP05E4C.test.ts` (15) — placeholder detection + retry path.
 
+---
+
+## 2026-08-25 — CAST NDX FAL background jobs (tunnel-safe generation)
+
+- **Context:** Founder codes via tunnel (tocode) that constantly refreshes; synchronous FAL casting requests were dropped mid-generation when HTTP disconnected.
+- **Fix:** Casting FAL dispatch now runs as background jobs (`castingFalBackgroundJob.ts` + shared `falBackgroundJob.ts`): POST returns immediately (202 when background), `falGenerationTracking` persisted on `visualCastingState`, worker via `setImmediate`, stale reconcile + auto-resume on GET after 45s. UI polls every 5s while generating; copy says safe to refresh. Applies to generate, retry, and next-round FAL paths.
+- **Note:** Marketing Expression Experiment 01 batch FAL already used this pattern; other sync FAL endpoints (e.g. Experiment G visual generate, single-artifact) not migrated in this pass.
+- **Tests:** `embodiedCharacterVisualCastingP05E4C.test.ts` (16).
+
 
