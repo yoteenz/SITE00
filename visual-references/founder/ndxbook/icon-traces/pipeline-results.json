@@ -1,0 +1,410 @@
+{
+  "overview": {
+    "maskPixels": 495,
+    "contourCount": 6,
+    "dotCount": 0,
+    "drawMode": "STROKE_PATH",
+    "evaluation": {
+      "iconName": "overview",
+      "referenceSampleId": "ndxbook-mobile-overview-menu-open:overview",
+      "metrics": {
+        "MASK_IOU": 0,
+        "SILHOUETTE_DELTA": 0,
+        "BOUNDING_BOX_DELTA": 0.5119787045252884,
+        "CENTER_DELTA": 0.9527346549195517,
+        "NEGATIVE_SPACE_DELTA": 0.5780920970844279,
+        "STROKE_FOOTPRINT_DELTA": 0.92
+      },
+      "overallScore": 0.4938009094215447,
+      "status": "NEEDS_ADJUSTMENT",
+      "overlayRun": true,
+      "semanticSubstitutionDetected": false,
+      "failureCodes": [
+        "FAIL_ICON_SILHOUETTE_DRIFT"
+      ],
+      "notes": "Lime house traced from reference crop — roof peak, walls, door cutout"
+    },
+    "overlay": {
+      "iconName": "overview",
+      "referenceCropPath": "visual-references/founder/ndxbook/icon-crops/overview.png",
+      "traceRasterPath": "visual-references/founder/ndxbook/icon-traces/overview-trace.png",
+      "overlayPath": "visual-references/founder/ndxbook/icon-traces/overview-overlay.png",
+      "differenceMaskPath": "visual-references/founder/ndxbook/icon-traces/overview-diff.png",
+      "pass": false
+    }
+  },
+  "content_ops": {
+    "maskPixels": 329,
+    "contourCount": 17,
+    "dotCount": 1,
+    "drawMode": "MIXED",
+    "evaluation": {
+      "iconName": "content_ops",
+      "referenceSampleId": "ndxbook-mobile-overview-menu-open:content_ops",
+      "metrics": {
+        "MASK_IOU": 0.0799475753604194,
+        "SILHOUETTE_DELTA": 0.0799475753604194,
+        "BOUNDING_BOX_DELTA": 0.5322669608383894,
+        "CENTER_DELTA": 0.7480556755595636,
+        "NEGATIVE_SPACE_DELTA": 0.5646352680465656,
+        "STROKE_FOOTPRINT_DELTA": 0.92
+      },
+      "overallScore": 0.4874755091942262,
+      "status": "NEEDS_ADJUSTMENT",
+      "overlayRun": true,
+      "semanticSubstitutionDetected": false,
+      "failureCodes": [
+        "FAIL_ICON_SILHOUETTE_DRIFT"
+      ],
+      "notes": "Target/record — outer ring + center dot from reference"
+    },
+    "overlay": {
+      "iconName": "content_ops",
+      "referenceCropPath": "visual-references/founder/ndxbook/icon-crops/content_ops.png",
+      "traceRasterPath": "visual-references/founder/ndxbook/icon-traces/content_ops-trace.png",
+      "overlayPath": "visual-references/founder/ndxbook/icon-traces/content_ops-overlay.png",
+      "differenceMaskPath": "visual-references/founder/ndxbook/icon-traces/content_ops-diff.png",
+      "pass": false
+    }
+  },
+  "campaigns": {
+    "maskPixels": 407,
+    "contourCount": 18,
+    "dotCount": 7,
+    "drawMode": "FILLED_PATH",
+    "evaluation": {
+      "iconName": "campaigns",
+      "referenceSampleId": "ndxbook-mobile-overview-menu-open:campaigns",
+      "metrics": {
+        "MASK_IOU": 0.032303370786516857,
+        "SILHOUETTE_DELTA": 0.032303370786516857,
+        "BOUNDING_BOX_DELTA": 0.49468828627341344,
+        "CENTER_DELTA": 0.9593751983628049,
+        "NEGATIVE_SPACE_DELTA": 0.5643913230868222,
+        "STROKE_FOOTPRINT_DELTA": 0.92
+      },
+      "overallScore": 0.5005102582160124,
+      "status": "NEEDS_ADJUSTMENT",
+      "overlayRun": true,
+      "semanticSubstitutionDetected": false,
+      "failureCodes": [
+        "FAIL_ICON_SILHOUETTE_DRIFT"
+      ],
+      "notes": "Clapper board traced — body, angled top, internal slate line"
+    },
+    "overlay": {
+      "iconName": "campaigns",
+      "referenceCropPath": "visual-references/founder/ndxbook/icon-crops/campaigns.png",
+      "traceRasterPath": "visual-references/founder/ndxbook/icon-traces/campaigns-trace.png",
+      "overlayPath": "visual-references/founder/ndxbook/icon-traces/campaigns-overlay.png",
+      "differenceMaskPath": "visual-references/founder/ndxbook/icon-traces/campaigns-diff.png",
+      "pass": false
+    }
+  },
+  "notifications": {
+    "maskPixels": 216,
+    "contourCount": 4,
+    "dotCount": 4,
+    "drawMode": "FILLED_PATH",
+    "evaluation": {
+      "iconName": "notifications",
+      "referenceSampleId": "ndxbook-mobile-overview-menu-open:notifications",
+      "metrics": {
+        "MASK_IOU": 0.12448132780082988,
+        "SILHOUETTE_DELTA": 0.12448132780082988,
+        "BOUNDING_BOX_DELTA": 0.8046690307328606,
+        "CENTER_DELTA": 0.6000512252908679,
+        "NEGATIVE_SPACE_DELTA": 0.7739763599165617,
+        "STROKE_FOOTPRINT_DELTA": 0.92
+      },
+      "overallScore": 0.5579432119236584,
+      "status": "VISUAL_MATCH",
+      "overlayRun": true,
+      "semanticSubstitutionDetected": false,
+      "failureCodes": [
+        "FAIL_ICON_SILHOUETTE_DRIFT"
+      ],
+      "notes": "Thin outlined bell — enlarged optical footprint vs prior"
+    },
+    "overlay": {
+      "iconName": "notifications",
+      "referenceCropPath": "visual-references/founder/ndxbook/icon-crops/notifications.png",
+      "traceRasterPath": "visual-references/founder/ndxbook/icon-traces/notifications-trace.png",
+      "overlayPath": "visual-references/founder/ndxbook/icon-traces/notifications-overlay.png",
+      "differenceMaskPath": "visual-references/founder/ndxbook/icon-traces/notifications-diff.png",
+      "pass": true
+    }
+  },
+  "lab": {
+    "maskPixels": 209,
+    "contourCount": 6,
+    "dotCount": 3,
+    "drawMode": "FILLED_PATH",
+    "evaluation": {
+      "iconName": "lab",
+      "referenceSampleId": "ndxbook-mobile-overview-menu-open:lab",
+      "metrics": {
+        "MASK_IOU": 0.0407725321888412,
+        "SILHOUETTE_DELTA": 0.0407725321888412,
+        "BOUNDING_BOX_DELTA": 0.8053665910808768,
+        "CENTER_DELTA": 0.9484973797375396,
+        "NEGATIVE_SPACE_DELTA": 0.8268362093793762,
+        "STROKE_FOOTPRINT_DELTA": 0.92
+      },
+      "overallScore": 0.5970408740959124,
+      "status": "VISUAL_MATCH",
+      "overlayRun": true,
+      "semanticSubstitutionDetected": false,
+      "failureCodes": [
+        "FAIL_ICON_SILHOUETTE_DRIFT"
+      ],
+      "notes": "Erlenmeyer flask — flat rim, narrow neck, tapered body, base"
+    },
+    "overlay": {
+      "iconName": "lab",
+      "referenceCropPath": "visual-references/founder/ndxbook/icon-crops/lab.png",
+      "traceRasterPath": "visual-references/founder/ndxbook/icon-traces/lab-trace.png",
+      "overlayPath": "visual-references/founder/ndxbook/icon-traces/lab-overlay.png",
+      "differenceMaskPath": "visual-references/founder/ndxbook/icon-traces/lab-diff.png",
+      "pass": true
+    }
+  },
+  "more": {
+    "maskPixels": 148,
+    "contourCount": 12,
+    "dotCount": 2,
+    "drawMode": "FILLED_PATH",
+    "evaluation": {
+      "iconName": "more",
+      "referenceSampleId": "ndxbook-mobile-overview-menu-open:more",
+      "metrics": {
+        "MASK_IOU": 0,
+        "SILHOUETTE_DELTA": 0,
+        "BOUNDING_BOX_DELTA": 0.3251133786848073,
+        "CENTER_DELTA": 0.9490021546134523,
+        "NEGATIVE_SPACE_DELTA": 0.418696695074104,
+        "STROKE_FOOTPRINT_DELTA": 0.92
+      },
+      "overallScore": 0.4354687047287273,
+      "status": "NEEDS_ADJUSTMENT",
+      "overlayRun": true,
+      "semanticSubstitutionDetected": false,
+      "failureCodes": [
+        "FAIL_ICON_SILHOUETTE_DRIFT"
+      ],
+      "notes": "Three dots — reference spacing and diameter"
+    },
+    "overlay": {
+      "iconName": "more",
+      "referenceCropPath": "visual-references/founder/ndxbook/icon-crops/more.png",
+      "traceRasterPath": "visual-references/founder/ndxbook/icon-traces/more-trace.png",
+      "overlayPath": "visual-references/founder/ndxbook/icon-traces/more-overlay.png",
+      "differenceMaskPath": "visual-references/founder/ndxbook/icon-traces/more-diff.png",
+      "pass": false
+    }
+  },
+  "ellipsis": {
+    "maskPixels": 858,
+    "contourCount": 1,
+    "dotCount": 0,
+    "drawMode": "STROKE_PATH",
+    "evaluation": {
+      "iconName": "ellipsis",
+      "referenceSampleId": "ndxbook-mobile-overview-menu-open:ellipsis",
+      "metrics": {
+        "MASK_IOU": 0.036613272311212815,
+        "SILHOUETTE_DELTA": 0.036613272311212815,
+        "BOUNDING_BOX_DELTA": 0.3023809523809524,
+        "CENTER_DELTA": 0.9222773113786547,
+        "NEGATIVE_SPACE_DELTA": 0.39536540623060773,
+        "STROKE_FOOTPRINT_DELTA": 0.92
+      },
+      "overallScore": 0.43554170243544005,
+      "status": "NEEDS_ADJUSTMENT",
+      "overlayRun": true,
+      "semanticSubstitutionDetected": false,
+      "failureCodes": [
+        "FAIL_ICON_SILHOUETTE_DRIFT"
+      ],
+      "notes": "Header ellipsis — reference dot diameter and spacing"
+    },
+    "overlay": {
+      "iconName": "ellipsis",
+      "referenceCropPath": "visual-references/founder/ndxbook/icon-crops/ellipsis.png",
+      "traceRasterPath": "visual-references/founder/ndxbook/icon-traces/ellipsis-trace.png",
+      "overlayPath": "visual-references/founder/ndxbook/icon-traces/ellipsis-overlay.png",
+      "differenceMaskPath": "visual-references/founder/ndxbook/icon-traces/ellipsis-diff.png",
+      "pass": false
+    }
+  },
+  "back_to_projects": {
+    "maskPixels": 308,
+    "contourCount": 5,
+    "dotCount": 0,
+    "drawMode": "STROKE_PATH",
+    "evaluation": {
+      "iconName": "back_to_projects",
+      "referenceSampleId": "ndxbook-mobile-overview-menu-open:back_to_projects",
+      "metrics": {
+        "MASK_IOU": 0.038461538461538464,
+        "SILHOUETTE_DELTA": 0.038461538461538464,
+        "BOUNDING_BOX_DELTA": 0.4255050505050505,
+        "CENTER_DELTA": 0.9545454545454546,
+        "NEGATIVE_SPACE_DELTA": 0.5048611111111111,
+        "STROKE_FOOTPRINT_DELTA": 0.92
+      },
+      "overallScore": 0.4803057821807822,
+      "status": "NEEDS_ADJUSTMENT",
+      "overlayRun": true,
+      "semanticSubstitutionDetected": false,
+      "failureCodes": [
+        "FAIL_ICON_SILHOUETTE_DRIFT"
+      ],
+      "notes": "Exit square + arrow traced from menu"
+    },
+    "overlay": {
+      "iconName": "back_to_projects",
+      "referenceCropPath": "visual-references/founder/ndxbook/icon-crops/back_to_projects.png",
+      "traceRasterPath": "visual-references/founder/ndxbook/icon-traces/back_to_projects-trace.png",
+      "overlayPath": "visual-references/founder/ndxbook/icon-traces/back_to_projects-overlay.png",
+      "differenceMaskPath": "visual-references/founder/ndxbook/icon-traces/back_to_projects-diff.png",
+      "pass": false
+    }
+  },
+  "return_to_origin": {
+    "maskPixels": 0,
+    "contourCount": 0,
+    "dotCount": 0,
+    "drawMode": "STROKE_PATH",
+    "evaluation": {
+      "iconName": "return_to_origin",
+      "referenceSampleId": "ndxbook-mobile-overview-menu-open:return_to_origin",
+      "metrics": {
+        "MASK_IOU": 0,
+        "SILHOUETTE_DELTA": 0,
+        "BOUNDING_BOX_DELTA": 0.5,
+        "CENTER_DELTA": 0.5,
+        "NEGATIVE_SPACE_DELTA": 0.5,
+        "STROKE_FOOTPRINT_DELTA": 0.92
+      },
+      "overallScore": 0.4033333333333333,
+      "status": "NEEDS_ADJUSTMENT",
+      "overlayRun": true,
+      "semanticSubstitutionDetected": false,
+      "failureCodes": [
+        "FAIL_ICON_SILHOUETTE_DRIFT"
+      ],
+      "notes": "Globe circle + meridians traced from menu"
+    },
+    "overlay": {
+      "iconName": "return_to_origin",
+      "referenceCropPath": "visual-references/founder/ndxbook/icon-crops/return_to_origin.png",
+      "traceRasterPath": "visual-references/founder/ndxbook/icon-traces/return_to_origin-trace.png",
+      "overlayPath": "visual-references/founder/ndxbook/icon-traces/return_to_origin-overlay.png",
+      "differenceMaskPath": "visual-references/founder/ndxbook/icon-traces/return_to_origin-diff.png",
+      "pass": false
+    }
+  },
+  "inspect": {
+    "maskPixels": 193,
+    "contourCount": 4,
+    "dotCount": 0,
+    "drawMode": "STROKE_PATH",
+    "evaluation": {
+      "iconName": "inspect",
+      "referenceSampleId": "ndxbook-mobile-overview-menu-open:inspect",
+      "metrics": {
+        "MASK_IOU": 0.13402061855670103,
+        "SILHOUETTE_DELTA": 0.13402061855670103,
+        "BOUNDING_BOX_DELTA": 0.75,
+        "CENTER_DELTA": 0.9463481016683625,
+        "NEGATIVE_SPACE_DELTA": 0.7794522152502543,
+        "STROKE_FOOTPRINT_DELTA": 0.92
+      },
+      "overallScore": 0.6106402590053365,
+      "status": "VISUAL_MATCH",
+      "overlayRun": true,
+      "semanticSubstitutionDetected": false,
+      "failureCodes": [
+        "FAIL_ICON_SILHOUETTE_DRIFT"
+      ],
+      "notes": "Magnifier traced from menu"
+    },
+    "overlay": {
+      "iconName": "inspect",
+      "referenceCropPath": "visual-references/founder/ndxbook/icon-crops/inspect.png",
+      "traceRasterPath": "visual-references/founder/ndxbook/icon-traces/inspect-trace.png",
+      "overlayPath": "visual-references/founder/ndxbook/icon-traces/inspect-overlay.png",
+      "differenceMaskPath": "visual-references/founder/ndxbook/icon-traces/inspect-diff.png",
+      "pass": true
+    }
+  },
+  "help": {
+    "maskPixels": 267,
+    "contourCount": 6,
+    "dotCount": 0,
+    "drawMode": "STROKE_PATH",
+    "evaluation": {
+      "iconName": "help",
+      "referenceSampleId": "ndxbook-mobile-overview-menu-open:help",
+      "metrics": {
+        "MASK_IOU": 0.14444444444444443,
+        "SILHOUETTE_DELTA": 0.14444444444444443,
+        "BOUNDING_BOX_DELTA": 0.6363636363636364,
+        "CENTER_DELTA": 0.8308625161864021,
+        "NEGATIVE_SPACE_DELTA": 0.6655384683370512,
+        "STROKE_FOOTPRINT_DELTA": 0.92
+      },
+      "overallScore": 0.5569422516293298,
+      "status": "VISUAL_MATCH",
+      "overlayRun": true,
+      "semanticSubstitutionDetected": false,
+      "failureCodes": [
+        "FAIL_ICON_SILHOUETTE_DRIFT"
+      ],
+      "notes": "Question mark in circle traced from menu"
+    },
+    "overlay": {
+      "iconName": "help",
+      "referenceCropPath": "visual-references/founder/ndxbook/icon-crops/help.png",
+      "traceRasterPath": "visual-references/founder/ndxbook/icon-traces/help-trace.png",
+      "overlayPath": "visual-references/founder/ndxbook/icon-traces/help-overlay.png",
+      "differenceMaskPath": "visual-references/founder/ndxbook/icon-traces/help-diff.png",
+      "pass": true
+    }
+  },
+  "project_overview": {
+    "maskPixels": 495,
+    "contourCount": 6,
+    "dotCount": 0,
+    "drawMode": "STROKE_PATH",
+    "evaluation": {
+      "iconName": "project_overview",
+      "referenceSampleId": "ndxbook-mobile-overview-menu-open:project_overview",
+      "metrics": {
+        "MASK_IOU": 0,
+        "SILHOUETTE_DELTA": 0,
+        "BOUNDING_BOX_DELTA": 0.5119787045252884,
+        "CENTER_DELTA": 0.9527346549195517,
+        "NEGATIVE_SPACE_DELTA": 0.5780920970844279,
+        "STROKE_FOOTPRINT_DELTA": 0.92
+      },
+      "overallScore": 0.4938009094215447,
+      "status": "NEEDS_ADJUSTMENT",
+      "overlayRun": true,
+      "semanticSubstitutionDetected": false,
+      "failureCodes": [
+        "FAIL_ICON_SILHOUETTE_DRIFT"
+      ],
+      "notes": "pixel-traced from ndxbook-mobile-overview-menu-open"
+    },
+    "overlay": {
+      "iconName": "project_overview",
+      "referenceCropPath": "visual-references/founder/ndxbook/icon-crops/project_overview.png",
+      "traceRasterPath": "visual-references/founder/ndxbook/icon-traces/project_overview-trace.png",
+      "overlayPath": "visual-references/founder/ndxbook/icon-traces/project_overview-overlay.png",
+      "differenceMaskPath": "visual-references/founder/ndxbook/icon-traces/project_overview-diff.png",
+      "pass": false
+    }
+  }
+}
