@@ -12,13 +12,13 @@ export const NDX_OVERVIEW_MENU_OPEN_REFERENCE_PATH =
 export const NDX_OVERVIEW_MENU_OPEN_ROUTE = '/projects/ndxbook' as const;
 
 export const NDX_OVERVIEW_VR_REGION_IDS = [
-  'ndx-header',
-  'ndx-overview-heading',
-  'ndx-metrics',
-  'ndx-production',
-  'ndx-radar',
-  'ndx-bottom-nav',
-  'ndx-project-menu',
+  'ndx.header',
+  'ndx.overview.hero',
+  'ndx.overview.metrics',
+  'ndx.production.row',
+  'ndx.radar.list',
+  'ndx.bottom-nav',
+  'ndx.project.menu',
 ] as const;
 
 export const NDX_OVERVIEW_MENU_OPEN_VIEWPORT = {

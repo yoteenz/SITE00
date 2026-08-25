@@ -22,12 +22,17 @@ import {
 import { PIXEL_MATCH_THRESHOLDS } from '../p0vr1d/constants.js';
 import {
   buildVisualSpecToCodeBridge,
-  buildReferenceDomDelta,
-  compileCodePatchInstructions,
   createInitialImplementationRegionLocks,
-  updateRegionLocksFromDomDelta,
   lockedRegionIds,
 } from '../p0vr1d1/index.js';
+import {
+  buildMappedReferenceDomDelta,
+} from '../p0vr1d4/buildMappedReferenceDomDelta.js';
+import { buildReferenceDomRegionMap } from '../p0vr1d4/referenceDomRegionMap.js';
+import { compileActionableCodePatches } from '../p0vr1d4/compileActionableCodePatches.js';
+import { applyCodePatchInstructions } from '../p0vr1d4/applyCodePatchInstructions.js';
+import { updateRegionLocksFromMappedDomDelta } from '../p0vr1d4/implementationRegionLockAligned.js';
+import { canonicalRegionIdsForScreen } from '../p0vr1d4/normalizeReferenceRegionId.js';
 import {
   NDX_DESKTOP_SCREEN_SPECS,
   NDX_MOBILE_SCREEN_SPECS,
@@ -55,7 +60,9 @@ export type RunNdxProjectHubLiveReconstructionInput = {
   baseUrl?: string;
   outputDir?: string;
   allowFixtureFallback?: boolean;
+  requireFounderReference?: boolean;
   maxIterations?: number;
+  executePatches?: boolean;
 };
 
 function routeForScreen(projectSlug: string, screenId: string, viewportClass: 'desktop' | 'mobile'): string {
@@ -90,6 +97,7 @@ async function runLiveScreen(input: {
   baseUrl: string;
   outputDir: string;
   maxIterations: number;
+  executePatches: boolean;
 }): Promise<LiveScreenRunResult> {
   const route = routeForScreen(input.projectSlug, input.screenId, input.viewportClass);
   const cal = calibrationRouteFor(route, input.viewportClass);
@@ -125,7 +133,7 @@ async function runLiveScreen(input: {
     forceMobileChrome: input.viewportClass === 'mobile',
   });
   const decomposition = decomposePageVisual({ reference, referenceAssetId: input.screenId });
-  const regionMap = buildVisualRegionMap(decomposition);
+  const visualRegionMap = buildVisualRegionMap(decomposition);
   const geometryContract = buildPixelGeometryContract({
     decomposition,
     viewportClass: input.viewportClass,
@@ -155,7 +163,7 @@ async function runLiveScreen(input: {
   const implementationSpec = buildVisualSpecToCodeBridge({
     screen: extractedScreen,
     route,
-    regionMap,
+    regionMap: visualRegionMap,
     geometryContract,
     typographyContract,
     frameAuthority,
@@ -173,8 +181,11 @@ async function runLiveScreen(input: {
   let firstRenderPath: string | null = null;
   let domMeasurement = null;
   let domDelta = null;
-  let patchInstructions: ReturnType<typeof compileCodePatchInstructions> = [];
-  let regionLocks = createInitialImplementationRegionLocks(implementationSpec.regions.map((r) => r.regionId));
+  let patchInstructions: ReturnType<typeof compileActionableCodePatches> = [];
+  let domRegionMap = null;
+  let regionLocks = createInitialImplementationRegionLocks(
+    canonicalRegionIdsForScreen(input.screenId),
+  );
   let pixelMatch = null;
   let differenceMap = null;
   let structuralScore = 0;
@@ -209,17 +220,36 @@ async function runLiveScreen(input: {
 
     domMeasurement = snapshot.domMeasurement;
     if (domMeasurement) {
-      domDelta = buildReferenceDomDelta({
+      domRegionMap = buildReferenceDomRegionMap({
         screenId: input.screenId,
+        route,
+        referenceRegionIds: geometryContract.entries.map((e) => e.regionId),
+        domRegionIds: domMeasurement.measurements.map((m) => m.regionId),
+      });
+      domDelta = buildMappedReferenceDomDelta({
+        screenId: input.screenId,
+        route,
         geometryContract,
         domMeasurement,
+        regionMap: domRegionMap,
       });
-      regionLocks = updateRegionLocksFromDomDelta({ locks: regionLocks, domDelta });
-      patchInstructions = compileCodePatchInstructions({
-        domDelta,
+      const lockResult = updateRegionLocksFromMappedDomDelta({
+        locks: regionLocks,
+        mappedDelta: domDelta,
+        regionMap: domRegionMap,
+      });
+      regionLocks = lockResult.locks;
+      patchInstructions = compileActionableCodePatches({
+        mappedDelta: domDelta,
         implementationSpec,
         lockedRegionIds: lockedRegionIds(regionLocks),
       });
+      if (input.executePatches && patchInstructions.length > 0) {
+        applyCodePatchInstructions({
+          patches: patchInstructions,
+          dryRun: false,
+        });
+      }
       status = 'CORRECTION_IN_PROGRESS';
     }
 
@@ -297,6 +327,7 @@ export async function runNdxProjectHubLiveReconstruction(
 
   const founderBoards = await resolveNdxFounderProjectHubBoards({
     allowFixtureFallback: input.allowFixtureFallback ?? false,
+    requireFounderReference: input.requireFounderReference ?? !input.allowFixtureFallback,
   });
 
   if (!founderBoards.desktopPath || !founderBoards.mobilePath) {
@@ -371,6 +402,7 @@ export async function runNdxProjectHubLiveReconstruction(
         baseUrl,
         outputDir,
         maxIterations,
+        executePatches: input.executePatches ?? false,
       }),
     );
   }
@@ -389,6 +421,7 @@ export async function runNdxProjectHubLiveReconstruction(
         baseUrl,
         outputDir,
         maxIterations,
+        executePatches: input.executePatches ?? false,
       }),
     );
   }

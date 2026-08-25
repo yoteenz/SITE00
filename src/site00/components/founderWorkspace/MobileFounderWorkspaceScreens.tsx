@@ -15,6 +15,7 @@ import {
   site00ProjectFounderCharacterDiscoveryPath,
 } from '../../config/routes';
 import { OverviewMobileHomeScreen } from './OverviewFounderWorkspaceBoard';
+import { NDX_VR_REGION, vrRegionAttr } from '../../config/ndxVisualRegionIds';
 
 type ScreenProps = {
   projectSlug: string;
@@ -66,7 +67,7 @@ function MobileScreenFrame({
 export function MobileCampaignBoardScreen({ projectSlug }: ScreenProps) {
   return (
     <MobileScreenFrame eyebrow="CAMPAIGN BOARD" title="WEEK 01 · MAY 24 – MAY 30" screenId="campaign-board">
-      <div className="site00-fws-mobile-days">
+      <div className="site00-fws-mobile-days" {...vrRegionAttr(NDX_VR_REGION.campaignWeekHeader)}>
         {CAMPAIGN_DAYS.map((day, index) => (
           <span
             key={day}
@@ -77,7 +78,7 @@ export function MobileCampaignBoardScreen({ projectSlug }: ScreenProps) {
         ))}
       </div>
       <p className="site00-fws-hub-section-label">THE PAGES (3/DAY)</p>
-      <div className="site00-fws-mobile-scroll-row">
+      <div className="site00-fws-mobile-scroll-row" {...vrRegionAttr(NDX_VR_REGION.campaignPagesLane)}>
         {['Corporate Layoff Memo', 'Subscription Normalization', 'Add Page +'].map((label) => (
           <div key={label} className="site00-fws-mobile-page-card">
             <span>{label}</span>
@@ -85,7 +86,7 @@ export function MobileCampaignBoardScreen({ projectSlug }: ScreenProps) {
         ))}
       </div>
       <p className="site00-fws-hub-section-label">THE MARGINS (4/DAY)</p>
-      <div className="site00-fws-mobile-margin-grid">
+      <div className="site00-fws-mobile-margin-grid" {...vrRegionAttr(NDX_VR_REGION.campaignMarginsLane)}>
         {['GIRL, LOOK AT THIS', 'NOPE. NOT NORMAL.', 'NOT THAT DEEP', 'SAVE THIS'].map((label) => (
           <div key={label} className="site00-fws-mobile-margin-card">
             {label}
@@ -93,7 +94,7 @@ export function MobileCampaignBoardScreen({ projectSlug }: ScreenProps) {
         ))}
       </div>
       <p className="site00-fws-hub-section-label">BOOK IN MOTION (1/DAY)</p>
-      <div className="site00-fws-mobile-motion-card">
+      <div className="site00-fws-mobile-motion-card" {...vrRegionAttr(NDX_VR_REGION.campaignMotionLane)}>
         <span className="site00-fws-hub-motion__play">▶</span>
         <span>draft script overlay</span>
       </div>
@@ -114,7 +115,7 @@ export function MobileExperiment01Screen({ projectSlug }: ScreenProps) {
         <span>SLIDE 01: 8/9 COMPLETE</span>
         <span>LOCKED: 0/9</span>
       </div>
-      <div className="site00-fws-mobile-exp-grid">
+      <div className="site00-fws-mobile-exp-grid" {...vrRegionAttr(NDX_VR_REGION.experimentGrid)}>
         {EXPERIMENT_TILES.map((tile) => (
           <div key={tile} className="site00-fws-mobile-exp-grid__cell">
             {tile}
@@ -140,6 +141,7 @@ export function MobileExperiment01Screen({ projectSlug }: ScreenProps) {
 export function MobileContentOpsScreen({ projectSlug }: ScreenProps) {
   return (
     <MobileScreenFrame eyebrow="CONTENT OPS DESK" title="TODAY AT NDX" screenId="content-ops">
+      <div className="site00-fws-mobile-content-ops" {...vrRegionAttr(NDX_VR_REGION.contentOpsDesk)}>
       <div className="site00-fws-mobile-tabs" role="tablist">
         {CONTENT_OPS_TABS.map((tab, index) => (
           <span
@@ -185,6 +187,7 @@ export function MobileContentOpsScreen({ projectSlug }: ScreenProps) {
           <span className="site00-fws-mobile-review-card__chip site00-fws-mobile-review-card__chip--medium">MED</span>
         </li>
       </ul>
+      </div>
     </MobileScreenFrame>
   );
 }
@@ -214,7 +217,7 @@ export function MobileCulturalIntelligenceScreen({ projectSlug }: ScreenProps) {
         ))}
       </ul>
       <p className="site00-fws-hub-section-label">INTELLIGENCE RADAR</p>
-      <div className="site00-fws-mobile-radar" aria-hidden>
+      <div className="site00-fws-mobile-radar" aria-hidden {...vrRegionAttr(NDX_VR_REGION.culturalIntelligenceRadar)}>
         <div className="site00-fws-mobile-radar__hex" />
         <span className="site00-fws-mobile-radar__label site00-fws-mobile-radar__label--business">Business</span>
         <span className="site00-fws-mobile-radar__label site00-fws-mobile-radar__label--tech">Technology</span>
@@ -248,7 +251,7 @@ export function MobileCharacterLabScreen({ projectSlug }: ScreenProps) {
           </span>
         ))}
       </div>
-      <div className="site00-fws-mobile-character">
+      <div className="site00-fws-mobile-character" {...vrRegionAttr(NDX_VR_REGION.characterProfile)}>
         <div className="site00-fws-mobile-character__portrait" aria-hidden />
         <p className="site00-fws-hub-handwritten site00-fws-hub-handwritten--mobile">
           Smart. Funny. Sees patterns. Doesn&apos;t perform. Explains like a friend talking to her best friend.

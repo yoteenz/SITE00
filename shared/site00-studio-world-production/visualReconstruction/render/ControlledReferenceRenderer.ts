@@ -95,7 +95,7 @@ export async function renderControlledReference(input: ControlledRenderInput): P
   await page.waitForLoadState('domcontentloaded');
   const waitSelector =
     input.waitForSelector ??
-    (input.route.includes('/projects/ndxbook') ? '[data-vr-region="ndx-header"]' : input.selector ?? null);
+    (input.route.includes('/projects/ndxbook') ? '[data-vr-region="ndx.header"]' : input.selector ?? null);
   if (waitSelector) {
     await page.locator(waitSelector).first().waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
   }

@@ -22,18 +22,22 @@ export function updateRegionLocksFromDomDelta(input: {
   return input.locks.map((lock) => {
     const regionDeltas = input.domDelta.entries.filter((e) => e.regionId === lock.regionId);
     if (regionDeltas.length === 0) {
-      if (lock.state === 'UNMEASURED') {
-        return { ...lock, state: 'MATCHED' as ImplementationRegionLockState, lockedAt: new Date().toISOString() };
-      }
-      if (lock.state === 'MATCHED') {
-        return { ...lock, state: 'LOCKED' as ImplementationRegionLockState, lockedAt: lock.lockedAt ?? new Date().toISOString() };
-      }
       return lock;
     }
 
     const drifting = regionDeltas.some((d) => typeof d.delta === 'number' && Math.abs(d.delta) > tolerance);
     if (drifting) {
       return { ...lock, state: 'DRIFTING', lockedAt: null };
+    }
+    if (lock.state === 'UNMEASURED') {
+      return { ...lock, state: 'MATCHED' as ImplementationRegionLockState, lockedAt: new Date().toISOString() };
+    }
+    if (lock.state === 'MATCHED') {
+      return {
+        ...lock,
+        state: 'LOCKED' as ImplementationRegionLockState,
+        lockedAt: lock.lockedAt ?? new Date().toISOString(),
+      };
     }
     return lock;
   });

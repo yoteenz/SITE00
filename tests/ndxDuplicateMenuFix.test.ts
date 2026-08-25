@@ -30,9 +30,13 @@ describe('NDXBOOK duplicate menu regression', () => {
     expect((shell.match(/<FounderWorkspaceProjectMenu/g) ?? []).length).toBe(1);
     expect(shell).toContain('menuOpen={menuOpen}');
     expect(shell).toContain('onToggleMenu={toggleMenu}');
+<<<<<<< HEAD
+    expect(projectMenu).toContain('data-vr-region="ndx.project.menu"');
+=======
     expect(shell).toContain('!isPreviewDesktop || !isWideViewport');
     expect(projectMenu).toContain('createPortal');
     expect(projectMenu).toContain('data-vr-region="ndx-project-menu"');
+>>>>>>> origin/main
   });
 
   it('legacy escape-menu CSS is removed so stale styles cannot paint a second panel', () => {
