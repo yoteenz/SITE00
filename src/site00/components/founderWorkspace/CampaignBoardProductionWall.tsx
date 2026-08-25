@@ -26,6 +26,7 @@ import {
 import {
   site00ProjectBrandMarketingExpressionExperiment01Path,
   site00ProjectFounderCreativeIngestionPath,
+  site00ProjectFilmProductionPath,
 } from '../../config/routes';
 
 const WEEK_DAYS = [
@@ -166,6 +167,9 @@ export function CampaignBoardProductionWall({
       <SpatialSection mode="break" className="site00-fws-campaign-wall__periphery">
         <Link to={site00ProjectFounderCreativeIngestionPath(projectSlug)} className="site00-fws-ingest-link">
           INGEST FOUNDER CREATIVE →
+        </Link>
+        <Link to={site00ProjectFilmProductionPath(projectSlug)} className="site00-fws-ingest-link">
+          FILM PRODUCTION →
         </Link>
         {!board ? (
           <QuietAction onClick={onInitialize} disabled={busy}>
