@@ -5159,9 +5159,28 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+---
+
 ## 2026-08-25 — P0.VR.1D.6 mobile Campaign Board design correction + lime diamond recovery
 
 - **Context:** Founder attached mobile Campaign Board screenshot as PRIMARY_VISUAL_AUTHORITY. Screen existed but wrong day selector, placeholder cards, broken gray diamond, missing artwork lanes.
 - **Delivered:** Rebuilt `MobileCampaignBoardScreen` (WEEK 01, May 24–30, 7-col day grid, Pages 3/day + Margins 4/day + Book in Motion 1/day with View All). Reference artwork crops in `campaign-board-artwork/*.webp`. Restored NDX lime diamond via `Site00Diamond` in mobile chrome. `FounderWorkspaceShell` routes `campaign-board` to dedicated mobile layout. `p0vr1d6/` audit + live correction runner (~85% overlay). Tests `visualReconstructionP0VR1D6.test.ts`.
 - **Founder next:** Upload GoDaddy ZIP v111.
 
+---
+
+## 2026-08-25 — P0.UI.3C.2 notification center visual restoration + reference-locked popover + viewport containment
+
+- **Context:** Follow-up to P0.UI.3C — notification center functionally worked (scoping, unread, tabs, deep links) but visually read as generic dropdown: wrong typography, white surface, clipping on mobile, not NDX paper family.
+- **Delivered:** `NotificationCenterVisualAuthority` + failure taxonomy (`notificationCenterVisualEvaluation.ts`). Shared `FounderWorkspacePopoverSurface` (portal, viewport clamp, NDX paper shell) used by notification center and project menu. `founderWorkspacePopoverPosition.ts` — 16px gutters, `min(340px, calc(100vw - 32px))`, dvh-aware max-height, right-viewport anchoring. CSS overhaul: `--ndx-surface-raised` paper, mono typography tokens, row dividers, title wrap, lime unread/tab accent, designed messages empty state. VR regions: `ndx.notification.panel|header|tabs|list|row|footer`. Tests `ndxNotificationCenterP0UI3C2.test.ts` (14 pass) + updated P0.UI.3C/panel position tests. Build green.
+- **Preserved:** All P0.UI.3C notification semantics; project menu behavior; bell/ellipsis exclusivity; P0.UI.3B bell SVG.
+
+---
+
+## 2026-08-25 — Deploy checklist: Railway vs cPanel (when to redeploy)
+
+- **Context:** Founder asked whether Railway must redeploy on every push, or only API changes — concerned about deployment cost accumulation.
+- **Clarified:** SITE 00 split — **GoDaddy cPanel** serves static SPA (`dist/`) at `site00.com` / `site00.fsbw-dev.com`; **Railway** serves Node API at `api.site00.com`. Merging to `main` ≠ live site. Most sprints are frontend-only (UI, CSS, hooks, shared client registries) and need **cPanel ZIP only** — not Railway. Railway redeploy needed when `api/**`, `server/**`, `api/_lib/**`, or Railway env vars change. Preview hosts always call `api.site00.com` via `resolveSite00ApiBase()`.
+- **Delivered:** Expanded `docs/DEPLOYMENT.md` with **Deploy checklist** section — quick decision tree, path cheat sheet, agent session-close format (`FRONTEND` · `API` · `BOTH` · `NONE`), founder steps, Railway watch-paths cost tip, common symptoms table. `CORE.md` shipping note updated to reference checklist and forbid Railway redeploy on frontend-only merges.
+
+---
