@@ -36,6 +36,7 @@ export function buildNdxLaunchRow01ParentSequences(): FounderCreativeParentSeque
       notes: 'Character/world introduction — HQ desk photograph available',
       reconstructionStatus: 'PENDING',
       sequenceReviewStatus: 'PENDING',
+      referenceStatus: 'CURRENT',
     },
     {
       sequenceId: PERSONAL_BRAND_SEQUENCE_ID,
@@ -53,6 +54,7 @@ export function buildNdxLaunchRow01ParentSequences(): FounderCreativeParentSeque
       notes: 'Editorial POV carousel — 12 slides',
       reconstructionStatus: 'PENDING',
       sequenceReviewStatus: 'PENDING',
+      referenceStatus: 'CURRENT',
     },
     {
       sequenceId: SAVED_THIS_WEEK_SEQUENCE_ID,
@@ -70,6 +72,7 @@ export function buildNdxLaunchRow01ParentSequences(): FounderCreativeParentSeque
       notes: 'Archive/evidence franchise entry 001 — 12 slides',
       reconstructionStatus: 'PENDING',
       sequenceReviewStatus: 'PENDING',
+      referenceStatus: 'CURRENT',
     },
   ];
 }

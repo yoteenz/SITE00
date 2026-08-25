@@ -35,6 +35,20 @@ import {
   startFounderCreativeFalBatch,
   startFounderCreativeSlideFal,
 } from './founderCreativeFalBackgroundJob.js';
+import {
+  bulkRedecomposeDraftReferences,
+  bulkUploadReplacementReferences,
+  getActiveReferenceVersion,
+  getArchiveForVersion,
+  getDraftReferenceVersion,
+  getPhotoCompatibilityForSequence,
+  migrateLegacyIngestionToVersioning,
+  promoteDraftReference,
+  redecomposeFromDraftReference,
+  replaceSingleSlideReference,
+  rerunSequenceQAAfterRedecomposition,
+  uploadReplacementReferenceBoard,
+} from '../../../../shared/site00-studio-world-production/founderCreativeIngestion/referenceReplacement/replacementEngine.js';
 
 function falConfigured(): boolean {
   return isNeuralProviderConfigured();
@@ -87,6 +101,12 @@ async function saveWithIngestion(
 
 async function hydrateRun(projectId: string): Promise<MarketingCampaignProductionRun> {
   let run = await ensureRun(projectId);
+  if (run.founderCreativeIngestion) {
+    const migrated = migrateLegacyIngestionToVersioning(run.founderCreativeIngestion);
+    if (migrated !== run.founderCreativeIngestion) {
+      run = await saveWithIngestion(projectId, run, migrated);
+    }
+  }
   run = await reconcileStaleFounderCreativeGeneration(run);
   run = await maybeResumeFounderCreativeGeneration(run);
   return run;
@@ -392,4 +412,109 @@ export async function registerFounderCreativeOnCampaignBoard(params: {
   });
 
   return { run: saved, ingestion };
+}
+
+export async function replaceFounderCreativeReferenceBoard(params: {
+  projectId: string;
+  sequenceId: string;
+  previewUrl: string | null;
+  storagePath?: string | null;
+  reason?: string | null;
+  notes?: string | null;
+}): Promise<{ run: MarketingCampaignProductionRun; ingestion: FounderCreativeIngestionState }> {
+  const run = await hydrateRun(params.projectId);
+  if (!run.founderCreativeIngestion) throw new Error('Initialize founder creative ingestion first');
+  const ingestion = uploadReplacementReferenceBoard(run.founderCreativeIngestion, params);
+  const saved = await saveWithIngestion(params.projectId, run, ingestion);
+  return { run: saved, ingestion };
+}
+
+export async function redecomposeFounderCreativeDraftReference(params: {
+  projectId: string;
+  sequenceId: string;
+}): Promise<{
+  run: MarketingCampaignProductionRun;
+  ingestion: FounderCreativeIngestionState;
+  diff: import('../../../../shared/site00-studio-world-production/founderCreativeIngestion/referenceReplacement/types.js').CreativeReferenceDiff | null;
+  qaReport: ReturnType<typeof rerunSequenceQAAfterRedecomposition>['report'] | null;
+}> {
+  const run = await hydrateRun(params.projectId);
+  if (!run.founderCreativeIngestion) throw new Error('Not initialized');
+  const { state, diff } = redecomposeFromDraftReference(run.founderCreativeIngestion, params.sequenceId);
+  const { report } = rerunSequenceQAAfterRedecomposition(state, params.sequenceId);
+  const saved = await saveWithIngestion(params.projectId, run, state);
+  return { run: saved, ingestion: state, diff, qaReport: report };
+}
+
+export async function promoteFounderCreativeDraftReference(params: {
+  projectId: string;
+  sequenceId: string;
+}): Promise<{ run: MarketingCampaignProductionRun; ingestion: FounderCreativeIngestionState }> {
+  const run = await hydrateRun(params.projectId);
+  if (!run.founderCreativeIngestion) throw new Error('Not initialized');
+  const ingestion = promoteDraftReference(run.founderCreativeIngestion, params.sequenceId);
+  const saved = await saveWithIngestion(params.projectId, run, ingestion);
+  return { run: saved, ingestion };
+}
+
+export async function replaceFounderCreativeSlideReference(params: {
+  projectId: string;
+  sequenceId: string;
+  slideNumber: number;
+  previewUrl: string | null;
+  observableCopy?: string[];
+  compositionNotes?: string[];
+}): Promise<{ run: MarketingCampaignProductionRun; ingestion: FounderCreativeIngestionState }> {
+  const run = await hydrateRun(params.projectId);
+  if (!run.founderCreativeIngestion) throw new Error('Not initialized');
+  const ingestion = replaceSingleSlideReference(run.founderCreativeIngestion, params);
+  const saved = await saveWithIngestion(params.projectId, run, ingestion);
+  return { run: saved, ingestion };
+}
+
+export async function bulkReplaceFounderCreativeReferences(params: {
+  projectId: string;
+  uploads: Array<{ sequenceId: string; previewUrl: string | null; storagePath?: string | null; notes?: string | null }>;
+  redecompose?: boolean;
+}): Promise<{
+  run: MarketingCampaignProductionRun;
+  ingestion: FounderCreativeIngestionState;
+  diffs: import('../../../../shared/site00-studio-world-production/founderCreativeIngestion/referenceReplacement/types.js').CreativeReferenceDiff[];
+}> {
+  const run = await hydrateRun(params.projectId);
+  if (!run.founderCreativeIngestion) throw new Error('Not initialized');
+  let ingestion = bulkUploadReplacementReferences(run.founderCreativeIngestion, params.uploads);
+  let diffs: import('../../../../shared/site00-studio-world-production/founderCreativeIngestion/referenceReplacement/types.js').CreativeReferenceDiff[] = [];
+  if (params.redecompose !== false) {
+    const result = bulkRedecomposeDraftReferences(
+      ingestion,
+      params.uploads.map((entry) => entry.sequenceId),
+    );
+    ingestion = result.state;
+    diffs = result.diffs;
+  }
+  const saved = await saveWithIngestion(params.projectId, run, ingestion);
+  return { run: saved, ingestion, diffs };
+}
+
+export async function getFounderCreativeReferenceComparison(params: {
+  projectId: string;
+  sequenceId: string;
+}) {
+  const run = await hydrateRun(params.projectId);
+  if (!run.founderCreativeIngestion) throw new Error('Not initialized');
+  const ingestion = run.founderCreativeIngestion;
+  const active = getActiveReferenceVersion(ingestion, params.sequenceId);
+  const draft = getDraftReferenceVersion(ingestion, params.sequenceId);
+  const activeArchive = active ? getArchiveForVersion(ingestion, active.referenceVersionId) : null;
+  const diff = ingestion.referenceDiffs.find((entry) => entry.parentSequenceId === params.sequenceId) ?? null;
+  const photoCompatibility = getPhotoCompatibilityForSequence(ingestion, params.sequenceId);
+  return {
+    active,
+    draft,
+    activeArchive,
+    diff,
+    photoCompatibility,
+    currentProduction: ingestion.reconstructionSpecs.filter((entry) => entry.sequenceId === params.sequenceId),
+  };
 }

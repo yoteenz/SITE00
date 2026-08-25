@@ -1636,6 +1636,67 @@ export const site00ProjectsApi = {
       '/api/site00/projects?action=founder_creative_ingestion_register_campaign',
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
     ),
+  founderCreativeIngestionReplaceReference: (
+    slug: string,
+    sequenceId: string,
+    previewUrl: string | null,
+    notes?: string,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_creative_ingestion_replace_reference',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, sequenceId, previewUrl, notes }),
+      },
+    ),
+  founderCreativeIngestionRedecomposeDraft: (slug: string, sequenceId: string) =>
+    projectsFetch<{
+      ok: true;
+      run: Record<string, unknown>;
+      ingestion: Record<string, unknown>;
+      diff: Record<string, unknown> | null;
+      qaReport: Record<string, unknown> | null;
+    }>('/api/site00/projects?action=founder_creative_ingestion_redecompose_draft', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug, sequenceId }),
+    }),
+  founderCreativeIngestionPromoteReference: (slug: string, sequenceId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_creative_ingestion_promote_reference',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, sequenceId }) },
+    ),
+  founderCreativeIngestionReplaceSlideReference: (
+    slug: string,
+    sequenceId: string,
+    slideNumber: number,
+    previewUrl: string | null,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_creative_ingestion_replace_slide_reference',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, sequenceId, slideNumber, previewUrl }),
+      },
+    ),
+  founderCreativeIngestionBulkReplaceReferences: (
+    slug: string,
+    uploads: Array<{ sequenceId: string; previewUrl: string | null; notes?: string }>,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown>; diffs: Record<string, unknown>[] }>(
+      '/api/site00/projects?action=founder_creative_ingestion_bulk_replace_references',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, uploads }),
+      },
+    ),
+  founderCreativeIngestionReferenceComparison: (slug: string, sequenceId: string) =>
+    projectsFetch<{ ok: true; comparison: Record<string, unknown> }>(
+      `/api/site00/projects?action=founder_creative_ingestion_reference_comparison&slug=${encodeURIComponent(slug)}&sequenceId=${encodeURIComponent(sequenceId)}`,
+    ),
   filmProductionGet: (slug: string) =>
     projectsFetch<{ ok: true; state: Record<string, unknown> }>(
       `/api/site00/projects?action=film_production_get&slug=${encodeURIComponent(slug)}`,

@@ -56,10 +56,14 @@ export function buildEmptyFounderCreativeIngestionState(): FounderCreativeIngest
       message: 'CHARACTER IDENTITY NOT LOCKED — use approved reference; do not auto-promote to canon',
     },
     registeredOnCampaignBoard: false,
-  falImageRequests: 0,
-  falVideoRequests: 0,
-  falGenerationTracking: null,
-  updatedAt: new Date().toISOString(),
+    falImageRequests: 0,
+    falVideoRequests: 0,
+    falGenerationTracking: null,
+    referenceVersions: [],
+    activeReferenceAuthority: [],
+    referenceVersionArchives: [],
+    referenceDiffs: [],
+    updatedAt: new Date().toISOString(),
   };
 }
 
