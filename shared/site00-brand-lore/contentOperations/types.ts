@@ -110,6 +110,8 @@ export type ContentOpportunity = {
   fingerprint: string;
   /** P0.5D.1 — optional live intelligence lineage (upstream of opportunity). */
   liveLineage?: ContentOpportunityLiveLineage | null;
+  /** P0.5E.7 — character-first formulation; topic remains metadata underneath. */
+  characterFirst?: import('./characterFirst/types.js').ContentOpportunityCharacterFirst | null;
 };
 
 export type ContentOpportunityLiveLineage = {
@@ -175,6 +177,8 @@ export type EditorialSlate = {
   dateRange: { start: string; end: string };
   status: 'DRAFT' | 'PROPOSED' | 'FOUNDER_REVIEW' | 'APPROVED' | 'IN_PRODUCTION' | 'COMPLETE';
   contentCandidates: SlateCandidate[];
+  /** P0.5E.7 — premise-first weekly slate entries. */
+  premiseFirstEntries?: SlatePremiseEntry[];
   channelDistribution: Record<string, number>;
   behavioralBalance: Record<string, number>;
   topicBalance: Record<string, number>;
@@ -195,6 +199,13 @@ export type SlateCandidate = {
   behavioralModeId: string | null;
   researchDepth: ResearchDepth;
   estimatedCost: number;
+};
+
+export type SlatePremiseEntry = {
+  rank: number;
+  spokenPremise: string;
+  topicMetadata: string;
+  opportunityId: string;
 };
 
 export type ContentChannelDecision = {
@@ -544,6 +555,11 @@ export type ContentOperationsRun = {
   editorialHealth: EditorialHealthEvaluation | null;
   productionBudget: ContentProductionBudget | null;
   marketTest01: NdxbookMarketTest01 | null;
+  /** P0.5E.7 — character-first content seeds + workspace zones. */
+  contentSeeds?: import('./characterFirst/types.js').NDXContentSeed[];
+  workspaceZones?: import('./characterFirst/types.js').ContentOpsWorkspaceZone[];
+  topicPipelineMigration?: import('./characterFirst/types.js').TopicPipelineMigrationRecord[];
+  characterFirstVersion?: string | null;
   connectorCapabilities: SocialConnectorCapability[];
   error: string | null;
   accounting: {

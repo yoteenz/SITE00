@@ -29,7 +29,25 @@ function fp(value: unknown): string {
   return createHash('sha256').update(JSON.stringify(value)).digest('hex').slice(0, 16);
 }
 
-export function buildCarouselSequencePlan(packageId: string): CarouselSequencePlan {
+export function buildCarouselSequencePlan(
+  packageId: string,
+  opportunity?: ContentOpportunity,
+): CarouselSequencePlan {
+  const cf = opportunity?.characterFirst;
+  if (cf?.formulation.pageRoles?.length) {
+    return {
+      packageId,
+      usesSequenceCreativeSystem: true,
+      firstSlideRole: 'HOOK_CHARACTER_EVENT',
+      middleRoles: cf.formulation.pageRoles.filter((r) => r !== 'HOOK' && r !== 'BOOKMARK_CLOSING_TRACE'),
+      endRole: 'BOOKMARK_CLOSING_TRACE',
+      frameCount: cf.formulation.pageRoles.length,
+      sequenceCreativeSystemId: null,
+      slideRoles: cf.formulation.pageRoles,
+      sequenceThesis: cf.spokenPremise,
+      sequenceArc: cf.formulation.thoughtArcSummary,
+    };
+  }
   return {
     packageId,
     usesSequenceCreativeSystem: true,
@@ -111,7 +129,7 @@ export function buildSocialContentPackage(params: {
     }),
   ];
 
-  let sequencePlan = params.format.format === 'CAROUSEL' ? buildCarouselSequencePlan(packageId) : null;
+  let sequencePlan = params.format.format === 'CAROUSEL' ? buildCarouselSequencePlan(packageId, params.opportunity) : null;
   let editorialDecisionId: string | null = null;
   let firstSlideContractId: string | null = null;
   let carouselArchitectureId: string | null = null;
@@ -236,8 +254,20 @@ export function buildSocialContentPackage(params: {
     onScreenCopy: [],
     voiceoverScript: null,
     cta: buildContentCTA({ packageId, format: params.format.format, resolution: thesis.resolutionState }),
-    altText: params.opportunity.subject,
-    metadata: { behavioralModeId: thesis.behavioralModeId },
+    altText: params.opportunity.characterFirst?.spokenPremise ?? params.opportunity.subject,
+    metadata: {
+      behavioralModeId: thesis.behavioralModeId,
+      ...(params.opportunity.characterFirst
+        ? {
+            characterFirst: {
+              contentSeedId: params.opportunity.characterFirst.contentSeedId,
+              spokenPremise: params.opportunity.characterFirst.spokenPremise,
+              visualHandoff: params.opportunity.characterFirst.formulation.visualHandoff,
+              filmHandoff: params.opportunity.characterFirst.formulation.filmHandoff,
+            },
+          }
+        : {}),
+    },
     sourceLinks: [],
     evidenceManifest: buildEvidenceRequirement({ thesisId: thesis.id, opp: params.opportunity, depth }),
     claimClassifications: claims,

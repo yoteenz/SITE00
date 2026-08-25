@@ -4820,3 +4820,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `founderCreativeIngestionP0CB1A.test.ts` (14); build green.
 >>>>>>> origin/main
 
+---
+
+## 2026-08-25 — P0.5E.7 Character-first content operations + NDX situation seeds + first-person editorial formulation
+
+- **Context:** Content Operations still topic-first (`subscription normalization`, etc.). NDX character architecture matured — content must plan through NDX herself: notice → react → investigate → revise → document. Topic becomes metadata; spoken first-person premise is founder-facing creative idea.
+- **Model:** `contentOperations/characterFirst/` — `NDXContentSeed`, `NDXThoughtArc`, `BeliefRevisionState`, `NDXKnowledgeState`, `CharacterBeatContract`, `NDXOpportunityFormulator`, `NDXFirstPersonCopyCompiler`, book memory, visual handoff (P0.5C.7), film handoff (P0.FILM.1), topic pipeline migration, live intelligence notice reformulation.
+- **Pipeline:** `discoverContentOpportunities` now seeds character-first (8 reformulated pilot topics + credit utilization golden pilot). Run stores `contentSeeds`, `workspaceZones`, `topicPipelineMigration`. Weekly slate `premiseFirstEntries`. Carousel uses narrative page roles when character-first present.
+- **UI:** `ContentOperationsEditorialDesk` — TODAY AT NDX zones (Thoughts in Motion, Rabbit Holes, Ready for Book, Margins, Book in Motion, Dog-Eared, Audience, Bookmark/Callback); opportunity cards premise-first; THIS WEEK slate premise-first.
+- **Golden pilot:** Credit utilization — `I PAID IT DOWN. WHY DID MY SCORE DROP?` with 8-slide narrative roles (HOOK → BOOKMARK).
+- **Tests:** `contentOperationsP05E7.test.ts` (22); P0.5D suite still pass; build green.
+- **Preservation:** Brand Character/Canon unchanged; historical topic research preserved via migration records; no autonomous publishing.
+

@@ -7,21 +7,27 @@ import type { ContentOpportunity, ResearchDepth } from './types.js';
 import type { CharacterEventFromOpportunity, ContentThesisFromOpportunity } from './types.js';
 
 export function formulateCharacterEventFromOpportunity(opp: ContentOpportunity): CharacterEventFromOpportunity {
+  const cf = opp.characterFirst;
+  const trigger = cf?.spokenPremise ?? opp.summary;
+  const subject = cf?.firstPersonPremise.internalTopic ?? opp.subject;
+  const initialReaction = cf?.thoughtArc.firstReaction ?? cf?.formulation.firstReaction ?? opp.whyPotentiallyInteresting;
+  const whatNdxSaw = cf?.thoughtArc.notice ?? opp.summary;
+
   return {
     id: `mce-ops-${randomUUID().slice(0, 8)}`,
     projectId: opp.projectId,
     characterSystemId: 'from-operations',
-    trigger: opp.summary,
-    subject: opp.subject,
-    context: opp.domains.join('; '),
-    initialObservation: opp.summary,
-    initialReaction: opp.whyPotentiallyInteresting,
+    trigger,
+    subject,
+    context: (cf?.firstPersonPremise.categoryMetadata ?? opp.domains).join('; '),
+    initialObservation: whatNdxSaw,
+    initialReaction,
     whyNDXCares: opp.whyPotentiallyInteresting,
-    questionsRaised: [],
-    contradictionsDetected: [],
+    questionsRaised: cf?.thoughtArc.question ? [cf.thoughtArc.question] : [],
+    contradictionsDetected: cf?.thoughtArc.contradictions ?? [],
     memoriesTriggered: opp.sourceType === 'ARCHIVE_REVISIT' ? ['Prior evidence retrieved'] : [],
     culturalAssociations: opp.domains.filter((d) => d.includes('culture')),
-    evidenceNeeded: opp.evidenceNeeded,
+    evidenceNeeded: cf?.thoughtArc.evidenceNeeded ?? opp.evidenceNeeded,
     connectionsSuspected: [],
     humorPotential: opp.humorPotential > 0.5 ? 'Possible' : null,
     seriousnessRequirement: null,
@@ -33,9 +39,9 @@ export function formulateCharacterEventFromOpportunity(opp: ContentOpportunity):
     status: 'FORMULATED',
     fingerprint: opp.fingerprint,
     opportunityId: opp.id,
-    whatNdxSaw: opp.summary,
-    whatNdxMightBeWrongAbout: 'Initial take may be incomplete — investigation may revise',
-    whatNdxDoesNext: opp.investigationPotential >= 0.7 ? 'Investigate further' : 'React and observe',
+    whatNdxSaw,
+    whatNdxMightBeWrongAbout: cf?.thoughtArc.initialBelief ?? 'Initial take may be incomplete — investigation may revise',
+    whatNdxDoesNext: cf?.formulation.investigationAngle ?? (opp.investigationPotential >= 0.7 ? 'Investigate further' : 'React and observe'),
   };
 }
 
@@ -54,22 +60,26 @@ export function formulateContentThesisFromOpportunity(
     'self-checkout time promise': 'mode-04-failed-promise',
   };
   const behavioralModeId = modeMap[opp.subject] ?? 'mode-01-side-eye';
+  const cf = opp.characterFirst;
 
   return {
     id: `mct-ops-${randomUUID().slice(0, 8)}`,
     characterEventId,
     behavioralModeId,
-    whatHappened: opp.summary,
-    whatNDXNoticed: opp.summary,
+    whatHappened: cf?.thoughtArc.notice ?? opp.summary,
+    whatNDXNoticed: cf?.thoughtArc.notice ?? opp.summary,
     whyItMatters: opp.whyPotentiallyInteresting,
-    whatNDXInitiallyThought: opp.whyPotentiallyInteresting,
-    whatNDXInvestigated: researchDepth === 'INVESTIGATIVE' ? 'Pattern across sources' : 'Immediate observation',
-    whatNDXFound: 'Partial — may remain open',
+    whatNDXInitiallyThought: cf?.thoughtArc.initialBelief ?? opp.whyPotentiallyInteresting,
+    whatNDXInvestigated: cf?.formulation.investigationAngle ?? (researchDepth === 'INVESTIGATIVE' ? 'Pattern across sources' : 'Immediate observation'),
+    whatNDXFound: cf?.thoughtArc.currentView ?? 'Partial — may remain open',
     whatNDXConnected: '',
     whatNDXRemembered: opp.sourceType === 'ARCHIVE_REVISIT' ? 'Archived evidence' : '',
-    whatNDXChangedItsMindAbout: null,
-    centralContradiction: null,
-    centralQuestion: opp.investigationPotential >= 0.7 ? 'What is really going on here?' : null,
+    whatNDXChangedItsMindAbout:
+      cf?.beliefRevision === 'REVERSED' || cf?.beliefRevision === 'PARTIALLY_REVISED'
+        ? cf.thoughtArc.initialBelief
+        : null,
+    centralContradiction: cf?.thoughtArc.contradictions[0] ?? null,
+    centralQuestion: cf?.thoughtArc.question ?? (opp.investigationPotential >= 0.7 ? 'What is really going on here?' : null),
     centralClaim: null,
     confidence: 'MEDIUM',
     evidenceRequirements: opp.evidenceNeeded,
