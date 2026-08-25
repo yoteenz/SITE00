@@ -4872,3 +4872,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `character_visual_casting_upload_reference` / `_store_reference_bible` / `_regenerate_from_references` API; `founderReferenceIngestion` engine; continuity pipeline sync via `ingestFounderCastingReferenceToContinuity`. UI: role picker (FACE/HAIR/WARDROBE/etc.), **TAP TO UPLOAD** zone, decomposed signals list, **STORE IN BIBLE →**, **REGENERATE CASTING FROM REFERENCES →**.
 - **Shipped:** PR #435 merged to `main`. Deploy **v91**. Tests: `castNdxFounderReferenceUpload.test.ts` (3) pass; build green.
 
+---
+
+## 2026-08-25 — P0.5E.7A Character-premise lock + hero slide authority + thought-arc preservation
+
+- **Problem:** REGENERATE CURRENT preserved P0.5C.7 notebook grammar but collapsed character-first posts back into generic educational explainers — topic metadata overwrote NDX premise in editorial layer and FAL compiler (`headline: subject.toUpperCase()`, `CONTENT THESIS: topic — hook`).
+- **Fix:** `CharacterPremiseAuthority`, `NDXThoughtArcSnapshot`, `NDXPageRoleMap`, `HeroSlideAuthority`, `HERO_PREMISE_LOCK`, topic-to-experience translator, experience-first + collapse/removal/causality gates, `CharacterFirstContentSnapshot` versioning. Wired into `falPromptCompilerV23@P0.5C.7`, `v23GenerationAuthority` REGENERATE CURRENT, editorial integration (premise as headline), carousel premise preservation. Credit utilization golden pilot: 8-slide role map locked (PERSONAL_CONTRADICTION → BOOKMARK), north star + negative collapse evidence registered. Current nine migration blockers.
+- **Tests:** `contentOperationsP05E7A.test.ts` (22) + P0.5E.7 (22) pass; build green.
+
