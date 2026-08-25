@@ -66,7 +66,32 @@ export function MobileFounderWorkspaceChrome({
 
       <nav className="site00-fws-mobile-chrome__nav" aria-label="NDXBOOK mobile navigation" data-vr-region="ndx-bottom-nav">
         {nav.map((item) => {
-          const active = item.screenId === screenId;
+          const active = item.id === 'more' ? menuOpen : item.screenId === screenId;
+
+          if (item.id === 'more') {
+            return (
+              <button
+                key={item.id}
+                type="button"
+                className={`site00-fws-mobile-chrome__nav-item${active ? ' site00-fws-mobile-chrome__nav-item--active' : ''}`}
+                aria-label="More workspace destinations"
+                aria-haspopup="menu"
+                aria-expanded={menuOpen}
+                onClick={onToggleMenu}
+              >
+                <span className="site00-fws-mobile-chrome__nav-icon" aria-hidden="true">
+                  <NDXIcon
+                    name={item.icon}
+                    size={NDX_ICON_CONTEXT_SIZE.bottomNav}
+                    state={active ? 'active' : 'inactive'}
+                    decorative
+                  />
+                </span>
+                <span className="site00-fws-mobile-chrome__nav-label">{item.label}</span>
+              </button>
+            );
+          }
+
           return (
             <Link
               key={item.id}
