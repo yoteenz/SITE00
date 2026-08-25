@@ -7,8 +7,15 @@ export const NDX_VR_REGION = {
   railNav: 'ndx.rail.nav',
   overviewHero: 'ndx.overview.hero',
   overviewMetrics: 'ndx.overview.metrics',
+  overviewKpis: 'ndx.overview.kpis',
+  overviewKpiAudience: 'ndx.overview.kpi.audience',
   productionRow: 'ndx.production.row',
+  overviewProduction: 'ndx.overview.production',
+  productionCardSubscription: 'ndx.overview.production.card.subscription',
+  productionCardLayoff: 'ndx.overview.production.card.layoff',
+  productionCardLateFees: 'ndx.overview.production.card.late-fees',
   radarList: 'ndx.radar.list',
+  overviewRadar: 'ndx.overview.radar',
   bottomNav: 'ndx.bottom-nav',
   projectMenu: 'ndx.project.menu',
   campaignWeekHeader: 'ndx.campaign.week-header',
@@ -37,6 +44,6 @@ export const NDX_VR_LEGACY_REGION_ALIASES: Record<string, NdxVisualRegionId> = {
   DESKTOP_COMPOSITE_OVERVIEW: NDX_VR_REGION.desktopComposite,
 };
 
-export function vrRegionAttr(id: NdxVisualRegionId): { 'data-vr-region': string } {
+export function vrRegionAttr(id: NdxVisualRegionId | string): { 'data-vr-region': string } {
   return { 'data-vr-region': id };
 }

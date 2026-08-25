@@ -1421,6 +1421,7 @@
 
 .site00-fws-hub-kpis--mobile {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
   margin-bottom: 14px;
 }
 
@@ -1475,12 +1476,9 @@
   min-width: 148px;
   min-height: 168px;
   scroll-snap-align: start;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.72), rgba(248, 246, 240, 0.92)),
-    var(--ndx-surface-raised);
-  border: 1px solid var(--ndx-border);
-  border-style: solid;
-  box-shadow: 0 2px 0 rgba(17, 17, 17, 0.04);
+  background: var(--ndx-surface-raised);
+  border: 1px solid rgba(17, 17, 17, 0.14);
+  box-shadow: 0 1px 0 rgba(17, 17, 17, 0.05);
 }
 
 .site00-fws-hub-carousel__card-title {
@@ -2338,9 +2336,129 @@
   font-size: 20px;
 }
 
-.site00-fws-hub-kpis--mobile {
-  margin-bottom: 12px;
+.site00-fws-mobile-overview {
+  padding-bottom: 4px;
 }
+
+.site00-fws-mobile-overview__hero {
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+  margin-bottom: 10px;
+}
+
+.site00-fws-mobile-overview__today--ruled {
+  padding-bottom: 10px;
+  margin-bottom: 0;
+}
+
+.site00-fws-hub-kpis--ruled {
+  padding: 10px 0 12px;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+  margin-bottom: 14px;
+}
+
+.site00-fws-hub-kpis__cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 0;
+  text-align: center;
+}
+
+.site00-fws-hub-kpis__cell strong {
+  font-variant-numeric: tabular-nums;
+  min-height: 22px;
+  line-height: 1;
+}
+
+.site00-fws-hub-kpis__cell span {
+  display: block;
+  margin-top: 4px;
+  line-height: 1.25;
+  max-width: 100%;
+  word-break: break-word;
+}
+
+.site00-fws-hub-carousel__card--art {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  min-height: 168px;
+}
+
+.site00-fws-hub-carousel__card-art {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 72px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center 42%;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+.site00-fws-hub-carousel__card-art[data-artwork-position='center 35%'] {
+  background-position: center 35%;
+}
+
+.site00-fws-hub-carousel__card-art[data-artwork-position='center 40%'] {
+  background-position: center 40%;
+}
+
+.site00-fws-hub-carousel__card-body {
+  padding: 8px 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 auto;
+}
+
+.site00-fws-mobile-section-head--production {
+  margin-top: 2px;
+  margin-bottom: 8px;
+}
+
+.site00-fws-mobile-section-head--radar {
+  margin-top: 14px;
+  margin-bottom: 6px;
+}
+
+.site00-fws-hub-list--radar-ruled li:first-child {
+  border-top: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+.site00-fws-mobile-chrome__header {
+  padding: 10px 14px;
+}
+
+.site00-fws-mobile-chrome__brand {
+  gap: 5px;
+}
+
+.site00-fws-mobile-chrome__actions {
+  gap: 6px;
+}
+
+.site00-fws-mobile-chrome__body {
+  padding: 14px 14px calc(78px + env(safe-area-inset-bottom, 0px));
+}
+
+.site00-fws-mobile-chrome__nav {
+  min-height: 56px;
+  border-top: 1px solid rgba(17, 17, 17, 0.12);
+}
+
+.site00-fws-mobile-chrome__nav-item {
+  gap: 3px;
+  min-height: 54px;
+  padding: 5px 2px 7px;
+}
+
+.site00-fws-mobile-chrome__nav-label {
+  line-height: 1.15;
+}
+
 
 .site00-fws-hub-carousel--mobile .site00-fws-hub-carousel__card {
   min-width: 62vw;
@@ -2376,18 +2494,25 @@
 .site00-fws-mobile-overview__headline {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
   font-size: 22px;
-  line-height: 1.05;
+  line-height: 1.08;
   letter-spacing: 0.02em;
   font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.site00-fws-mobile-overview__summary {
+  margin: 0 0 14px;
+  max-width: 36em;
+  line-height: 1.5;
 }
 
 .site00-fws-mobile-overview__today {
   display: flex;
   align-items: baseline;
-  gap: 8px;
-  margin: 10px 0 12px;
+  gap: 10px;
+  margin: 4px 0 0;
 }
 
 .site00-fws-mobile-overview__today-label {
@@ -2406,12 +2531,13 @@
 
 .site00-fws-hub-list--radar li {
   display: grid;
-  grid-template-columns: 28px 1fr auto;
+  grid-template-columns: 32px 1fr auto;
   align-items: center;
-  gap: 6px;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+  gap: 8px;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.1);
   font-size: 11px;
+  line-height: 1.35;
 }
 
 .site00-fws-hub-list--radar li:last-child {

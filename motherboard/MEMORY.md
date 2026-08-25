@@ -5096,6 +5096,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-08-25 — P0.VR.1D.5 mobile overview micro-fidelity tightening
+
+- **Context:** Follow-up after P0.VR.1D.4 — mobile Overview structurally correct but missing micro details vs founder reference (audience KPI blank, no card artwork, missing dividers, tight spacing).
+- **Delivered:** Targeted pass on `OverviewMobileHomeScreen` only — restored FROM AUDIENCE count (`1`, reference snapshot aligned with desktop composite), explicit 4-column KPI grid with ruled dividers, section spacing/borders, production card artwork via reference-approved crops (`public/visual-references/founder/ndxbook/card-artwork/*.webp`), micro `data-vr-region` IDs, header/nav micro-calibration CSS. `p0vr1d5/` — `ReferenceDetailAudit`, `resolveProductionCardArtwork` (existing → pipeline → reference crop → generation-required gate, no auto FAL), `runNdxOverviewMicroFidelityPass`. Tests `visualReconstructionP0VR1D5.test.ts`. Doc `SITE00_VISUAL_RECONSTRUCTION_P0VR1D5.md`.
+- **Artwork:** Subscription / layoff / late-fees resolved as `REFERENCE_APPROVED_CROP` from `mobile-overview-menu-open.png`; no new FAL generation. Pipeline URL hook ready when V2.3 slide assets exist.
+- **Founder next:** Upload GoDaddy ZIP v109; optional further crop tuning on layoff/late-fees cards if founder wants pixel-perfect art framing.
+
+---
 ## 2026-08-25 — NDXBOOK duplicate mobile menu fix v2 (viewport-unified chrome)
 
 - **Context:** Founder reported duplicate menu persisted after PR #460 on `site00.fsbw-dev.com`. Screenshot showed header-anchored partial panel (legacy escape menu) behind full MORE menu.
