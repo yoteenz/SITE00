@@ -5392,6 +5392,110 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const result = await ingestProjectOrigin(slug, user.email);
         return json(res, 200, { ok: true, result, source: 'site00_origin' });
       }
+      case 'identity_enter': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!denyUnlessProjectCapability(res, slug, 'BRAND_INTELLIGENCE', 'site00_identity')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { enterIdentityPhase } = await import('../_lib/site00Projects/identity/identityPhaseService.js');
+        const result = await enterIdentityPhase(slug, user.email);
+        return json(res, 200, { ok: true, result, source: 'site00_identity' });
+      }
+      case 'identity_brief': {
+        const slug = String(req.query.slug ?? '');
+        if (!denyUnlessProjectCapability(res, slug, 'BRAND_INTELLIGENCE', 'site00_identity')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { getLatestIdentityBrief } = await import('../_lib/site00Projects/identity/identityBriefService.js');
+        const brief = await getLatestIdentityBrief(slug);
+        return json(res, 200, { ok: true, brief, source: 'site00_identity' });
+      }
+      case 'identity_territories': {
+        const slug = String(req.query.slug ?? '');
+        if (!denyUnlessProjectCapability(res, slug, 'BRAND_INTELLIGENCE', 'site00_identity')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { listIdentityTerritories } = await import('../_lib/site00Projects/identity/identityPhaseService.js');
+        const territories = await listIdentityTerritories(slug);
+        return json(res, 200, { ok: true, territories, source: 'site00_identity' });
+      }
+      case 'identity_judgment': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!denyUnlessProjectCapability(res, slug, 'JUDGMENTS', 'site00_identity')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { recordIdentityJudgment } = await import('../_lib/site00Projects/identity/identityPhaseService.js');
+        const judgment = await recordIdentityJudgment({
+          projectIdOrSlug: slug,
+          territoryId: String(body.territoryId ?? ''),
+          judgment: body.judgment as 'SELECT' | 'REVISE' | 'REJECT' | 'UNREVIEWED' | 'HYBRIDIZE',
+          approver: user.email,
+          approvedFields: (body.approvedFields ?? {}) as Record<string, boolean>,
+          notes: body.notes ? String(body.notes) : undefined,
+        });
+        return json(res, 200, { ok: true, judgment, source: 'site00_identity' });
+      }
+      case 'canon_promote_identity': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!denyUnlessProjectCapability(res, slug, 'JUDGMENTS', 'site00_identity')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { promoteIdentityToCanon } = await import('../_lib/site00Projects/identity/canonPromotionService.js');
+        const result = await promoteIdentityToCanon({
+          projectIdOrSlug: slug,
+          territoryId: String(body.territoryId ?? ''),
+          hierarchyScope: (body.hierarchyScope ?? 'MASTER') as 'MASTER' | 'DISTRICT' | 'DESTINATION' | 'EXPERIENCE',
+          scopeNodeId: body.scopeNodeId ? String(body.scopeNodeId) : null,
+          approvedFields: (body.approvedFields ?? {}) as Record<string, unknown>,
+          approver: user.email,
+        });
+        return json(res, 200, { ok: true, result, source: 'site00_identity_canon' });
+      }
+      case 'world_hierarchy': {
+        const slug = String(req.query.slug ?? '');
+        if (!denyUnlessProjectCapability(res, slug, 'PROJECT_INTELLIGENCE', 'site00_world_hierarchy')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { listWorldHierarchy } = await import('../_lib/site00Projects/identity/worldHierarchyService.js');
+        const nodes = await listWorldHierarchy(slug);
+        return json(res, 200, { ok: true, nodes, source: 'site00_world_hierarchy' });
+      }
+      case 'project_bible': {
+        const slug = String(req.query.slug ?? '');
+        if (!denyUnlessProjectCapability(res, slug, 'PROJECT_INTELLIGENCE', 'site00_project_bible')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { compileProjectBible } = await import('../_lib/site00Projects/identity/projectBibleCompiler.js');
+        const bible = await compileProjectBible(slug);
+        return json(res, 200, { ok: true, bible, source: 'site00_project_bible' });
+      }
+      case 'legacy_project_repair': {
+        if (!canAccessFounderProjectIndex(user.email)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Founder access required' } });
+        }
+        const { inspectAndRepairLegacyProjects } = await import('../_lib/site00Projects/identity/legacyProjectRepair.js');
+        const report = await inspectAndRepairLegacyProjects();
+        return json(res, 200, { ok: true, report, source: 'site00_legacy_repair' });
+      }
       default:
         return json(res, 400, {
           ok: false,

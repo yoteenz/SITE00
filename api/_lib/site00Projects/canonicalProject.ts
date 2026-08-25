@@ -57,6 +57,8 @@ function normalizeStatus(value: string | null | undefined): Site00ProjectStatus 
   if (
     upper === 'PRE_INGESTION' ||
     upper === 'ORIGIN_INGESTED' ||
+    upper === 'IDENTITY_IN_PROGRESS' ||
+    upper === 'IDENTITY_COMPLETE' ||
     upper === 'INGESTION' ||
     upper === 'PRODUCTION' ||
     upper === 'ARCHIVED'

@@ -4971,3 +4971,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Restored all missing handler tails from pre-P0.B git; repaired try/catch blocks (founder revision, FCI upload, neural voice, Experiment G finalist); corrected inverted request validation guards; added `tests/projectsApiSyntax.test.ts` import guard.
 - **Outcome:** `projects.ts` parses locally; Railway redeploy from `main` should succeed and unblock canonical anchor + all restored actions.
 
+---
+
+## 2026-08-25 — P0.D Identity Phase Entry + Canon Promotion (Astral World)
+
+- **Context:** Sprint P0.D — generic Identity Phase entry for Astral World: `ORIGIN_INGESTED` → `IDENTITY_IN_PROGRESS`. Establish CLIENT TRUTH → CREATIVE EXPLORATION → JUDGMENT → APPROVED IDENTITY CANON without auto-canonization. Model hierarchy: ASTRAL WORLD (master) → ASTRÉA (flagship district) → Tarot Suite / Astral Mall / Coffee Shop (destinations).
+- **Delivered:** Migration `20260825220000_site00_identity_phase.sql` (identity_phases, briefs, territories, judgments, world_hierarchy_nodes, canon_promotions). Services under `api/_lib/site00Projects/identity/`. Shared types + Astral seeds in `shared/site00-identity/`. API actions: identity_enter, identity_brief, identity_territories, identity_judgment, canon_promote_identity, world_hierarchy, project_bible, legacy_project_repair. UI `/projects/astral-world/identity`. Host firewall (`hostFirewall.ts`) with negation-aware leak detection. 3 strategic identity territories seeded. Project Bible compiled view.
+- **Production:** Migration applied to Supabase `hyycomvcaqxxvyrfupes`. `identity_enter` run — Astral World status `IDENTITY_IN_PROGRESS`, 3 territories, 5 hierarchy nodes, 0 identity canon. Legacy `northquarter-rebuild` quarantined (1 ambiguous record).
+- **Tests:** `identityPhaseP0D.test.ts` (20) pass; P0.B/P0.C isolation tests pass; build green.
+- **Docs:** SITE00_IDENTITY_SYSTEM, SITE00_CANON_PROMOTION, SITE00_PROJECT_BIBLE, SITE00_WORLD_HIERARCHY + astral-world IDENTITY/WORLD_HIERARCHY/PROJECT_BIBLE + audit doc.
+- **Next:** P0.E — founder judgment on identity territories + first canon promotion; WORLD formation remains blocked until identity canon approved.
+
