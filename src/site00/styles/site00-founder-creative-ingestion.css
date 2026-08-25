@@ -166,7 +166,14 @@
   }
 }
 
-.site00-fci__replacement {
+.site00-fci__file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
   padding: 0.75rem 0;
   border-top: 1px solid var(--ndx-border, #333);
 }

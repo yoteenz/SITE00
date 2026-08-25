@@ -150,12 +150,12 @@ import {
   founderCreativeSequenceReview,
   registerFounderCreativeOnCampaignBoard,
   replaceFounderCreativeReferenceBoard,
-  uploadFounderCreativeReferenceBoard,
   redecomposeFounderCreativeDraftReference,
   promoteFounderCreativeDraftReference,
   replaceFounderCreativeSlideReference,
   bulkReplaceFounderCreativeReferences,
   getFounderCreativeReferenceComparison,
+  uploadAndReplaceFounderCreativeReferenceBoard,
 } from '../_lib/site00Evolve/founderCreativeIngestion/founderCreativeIngestionService.js';
 import {
   getFilmProduction,
@@ -2646,23 +2646,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const sequenceId = String(body.sequenceId ?? '');
-        const dataBase64 = String(body.dataBase64 ?? '');
-        const contentType = String(body.contentType ?? '');
-        if (slug !== 'ndxbook' || !sequenceId || !dataBase64 || !contentType) {
-          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' } });
+        const imageData = body.imageData ? String(body.imageData) : '';
+        if (slug !== 'ndxbook' || !sequenceId || !imageData) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'slug, sequenceId, and imageData required' } });
         }
         if (!canAccessFounderProjectAsOwner(user.email, slug)) {
           return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
         }
-        const result = await uploadFounderCreativeReferenceBoard({
-          projectId: slug,
-          sequenceId,
-          dataBase64,
-          contentType,
-          fileName: body.fileName ? String(body.fileName) : undefined,
-          notes: body.notes ? String(body.notes) : undefined,
-        });
-        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+        try {
+          const result = await uploadAndReplaceFounderCreativeReferenceBoard({
+            projectId: slug,
+            sequenceId,
+            imageData,
+            notes: body.notes ? String(body.notes) : undefined,
+          });
+          return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+        } catch (err) {
+          const message = err instanceof Error ? err.message : 'Upload failed';
+          const status = message.includes('too large') ? 413 : 400;
+          return json(res, status, { ok: false, error: { code: 'UPLOAD_FAILED', message } });
+        }
       }
       case 'founder_creative_ingestion_redecompose_draft': {
         if (req.method !== 'POST') {

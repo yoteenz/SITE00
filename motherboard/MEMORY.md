@@ -4835,3 +4835,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `contentOperationsP05E7.test.ts` (22); P0.5D suite still pass; build green.
 - **Preservation:** Brand Character/Canon unchanged; historical topic research preserved via migration records; no autonomous publishing.
 
+---
+
+## 2026-08-25 — Founder creative reference board upload 413 fix
+
+- **Issue:** Founder saw `REQUEST ENTITY TOO LARGE` uploading/replacing reference boards on founder-creative-ingest (mobile fsbw-dev).
+- **Cause:** API JSON body limit was 2MB on Railway Express server; board PNGs sent inline exceed limit.
+- **Fix:** New `founder_creative_ingestion_upload_reference` uploads image to Supabase storage (webp via sharp), then creates draft reference with `storagePath` + public URL only. UI: **UPLOAD REFERENCE BOARD** file picker with client-side compression. Express JSON limit raised to 25MB. Friendly 413 handler.
+

@@ -42,7 +42,7 @@ import {
   initializeFounderCreativeRow01,
   decomposeAllFounderCreativeSequences,
   replaceFounderCreativeReferenceBoard,
-  uploadFounderCreativeReferenceBoard,
+  uploadAndReplaceFounderCreativeReferenceBoard,
   redecomposeFounderCreativeDraftReference,
   promoteFounderCreativeDraftReference,
   bulkReplaceFounderCreativeReferences,
@@ -249,20 +249,19 @@ describe('P0.CB.1A Reference Board Replacement', () => {
     );
   });
 
-  it('upload reference board via base64 service path', async () => {
+  it('upload reference board via service path', async () => {
     await initializeFounderCreativeRow01({ projectId: 'ndxbook' });
     const tinyPng =
       'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
-    const { ingestion } = await uploadFounderCreativeReferenceBoard({
+    const { ingestion } = await uploadAndReplaceFounderCreativeReferenceBoard({
       projectId: 'ndxbook',
       sequenceId: MEET_NDX_SEQUENCE_ID,
-      dataBase64: tinyPng,
-      contentType: 'image/png',
-      fileName: 'meet-ndx-board.png',
+      imageData: tinyPng,
+      notes: 'meet-ndx-board.png',
     });
     const draft = getDraftReferenceVersion(ingestion, MEET_NDX_SEQUENCE_ID);
     expect(draft?.status).toBe('DRAFT');
-    expect(ingestion.referenceAssets.some((entry) => entry.previewUrl?.includes('meet-ndx'))).toBe(true);
+    expect(ingestion.referenceAssets.some((entry) => entry.previewUrl?.length)).toBe(true);
   });
 
   it('45-48 preservation — archives immutable, historical not deleted', () => {

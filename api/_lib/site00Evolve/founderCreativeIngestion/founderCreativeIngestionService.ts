@@ -49,42 +49,7 @@ import {
   rerunSequenceQAAfterRedecomposition,
   uploadReplacementReferenceBoard,
 } from '../../../../shared/site00-studio-world-production/founderCreativeIngestion/referenceReplacement/replacementEngine.js';
-import { uploadSite00AssetBuffer } from '../../site00Assts/storage.js';
-
-const FOUNDER_CREATIVE_REFERENCE_CONTENT_TYPES = new Set([
-  'image/jpeg',
-  'image/png',
-  'image/webp',
-  'image/gif',
-]);
-
-const FOUNDER_CREATIVE_REFERENCE_MAX_BYTES = 15 * 1024 * 1024;
-
-function extensionForReferenceContentType(contentType: string): string {
-  switch (contentType) {
-    case 'image/jpeg':
-      return 'jpg';
-    case 'image/png':
-      return 'png';
-    case 'image/webp':
-      return 'webp';
-    case 'image/gif':
-      return 'gif';
-    default:
-      throw new Error(`Unsupported reference board type: ${contentType}`);
-  }
-}
-
-function buildFounderCreativeReferenceStoragePath(projectId: string, sequenceId: string, ext: string): string {
-  const safeProject = projectId.replace(/[^a-zA-Z0-9-_]/g, '_');
-  const safeSequence = sequenceId.replace(/[^a-zA-Z0-9-_]/g, '_');
-  return `site00/founder-creative/${safeProject}/${safeSequence}/draft-${Date.now()}.${ext}`;
-}
-
-function decodeReferenceBoardBase64(dataBase64: string): Buffer {
-  const payload = dataBase64.includes(',') ? dataBase64.split(',')[1]! : dataBase64;
-  return Buffer.from(payload, 'base64');
-}
+import { uploadFounderReferenceBoardImage } from './referenceBoardUpload.js';
 
 function falConfigured(): boolean {
   return isNeuralProviderConfigured();
@@ -465,51 +430,6 @@ export async function replaceFounderCreativeReferenceBoard(params: {
   return { run: saved, ingestion };
 }
 
-export async function uploadFounderCreativeReferenceBoard(params: {
-  projectId: string;
-  sequenceId: string;
-  dataBase64: string;
-  contentType: string;
-  fileName?: string | null;
-  notes?: string | null;
-}): Promise<{ run: MarketingCampaignProductionRun; ingestion: FounderCreativeIngestionState }> {
-  const contentType = params.contentType.trim().toLowerCase();
-  if (!FOUNDER_CREATIVE_REFERENCE_CONTENT_TYPES.has(contentType)) {
-    throw new Error('Reference board must be JPEG, PNG, WebP, or GIF');
-  }
-  if (!params.dataBase64?.trim()) {
-    throw new Error('Missing reference board image data');
-  }
-
-  const ext = extensionForReferenceContentType(contentType);
-  let previewUrl: string;
-  let storagePath: string;
-
-  if (process.env.VITEST === 'true') {
-    storagePath = buildFounderCreativeReferenceStoragePath(params.projectId, params.sequenceId, ext);
-    previewUrl = `/test/founder-creative/${params.sequenceId}/draft-${Date.now()}.${ext}`;
-  } else {
-    const buffer = decodeReferenceBoardBase64(params.dataBase64);
-    if (buffer.length === 0) throw new Error('Empty reference board upload');
-    if (buffer.length > FOUNDER_CREATIVE_REFERENCE_MAX_BYTES) {
-      throw new Error('Reference board must be under 15MB');
-    }
-    storagePath = buildFounderCreativeReferenceStoragePath(params.projectId, params.sequenceId, ext);
-    const uploaded = await uploadSite00AssetBuffer(storagePath, buffer, contentType, { upsert: true });
-    previewUrl = uploaded.publicUrl;
-    storagePath = uploaded.storagePath;
-  }
-
-  return replaceFounderCreativeReferenceBoard({
-    projectId: params.projectId,
-    sequenceId: params.sequenceId,
-    previewUrl,
-    storagePath,
-    reason: 'Founder replacement upload',
-    notes: params.notes ?? params.fileName ?? 'Founder-uploaded reference board',
-  });
-}
-
 export async function redecomposeFounderCreativeDraftReference(params: {
   projectId: string;
   sequenceId: string;
@@ -576,6 +496,28 @@ export async function bulkReplaceFounderCreativeReferences(params: {
   }
   const saved = await saveWithIngestion(params.projectId, run, ingestion);
   return { run: saved, ingestion, diffs };
+}
+
+export async function uploadAndReplaceFounderCreativeReferenceBoard(params: {
+  projectId: string;
+  sequenceId: string;
+  imageData: string;
+  notes?: string | null;
+}): Promise<{ run: MarketingCampaignProductionRun; ingestion: FounderCreativeIngestionState; previewUrl: string; storagePath: string }> {
+  const { storagePath, previewUrl } = await uploadFounderReferenceBoardImage({
+    projectId: params.projectId,
+    sequenceId: params.sequenceId,
+    imageData: params.imageData,
+  });
+  const replaced = await replaceFounderCreativeReferenceBoard({
+    projectId: params.projectId,
+    sequenceId: params.sequenceId,
+    previewUrl,
+    storagePath,
+    notes: params.notes ?? 'Founder uploaded reference board',
+    reason: 'FOUNDER_UPLOAD',
+  });
+  return { ...replaced, previewUrl, storagePath };
 }
 
 export async function getFounderCreativeReferenceComparison(params: {

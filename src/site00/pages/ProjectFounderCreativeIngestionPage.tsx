@@ -26,24 +26,9 @@ import type {
   SlideReconstructionSpec,
   CreativeReferenceDiff,
 } from '../../../shared/site00-studio-world-production/founderCreativeIngestion/client.js';
-import '../styles/site00-founder-creative-ingestion.css';
+import { prepareReferenceBoardUpload } from '../utils/prepareReferenceBoardUpload';
 
 const POLL_MS = 5000;
-
-function readFileAsBase64(file: File): Promise<{ dataBase64: string; contentType: string }> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (typeof reader.result !== 'string') {
-        reject(new Error('Could not read file'));
-        return;
-      }
-      resolve({ dataBase64: reader.result, contentType: file.type || 'image/jpeg' });
-    };
-    reader.onerror = () => reject(new Error('Could not read file'));
-    reader.readAsDataURL(file);
-  });
-}
 
 export default function ProjectFounderCreativeIngestionPage() {
   const { projectSlug = '' } = useParams<{ projectSlug: string }>();
@@ -260,13 +245,12 @@ export default function ProjectFounderCreativeIngestionPage() {
                       diff={comparisonDiff}
                       onUploadFile={(file) =>
                         void act(async () => {
-                          const { dataBase64, contentType } = await readFileAsBase64(file);
+                          const imageData = await prepareReferenceBoardUpload(file);
                           const result = await site00ProjectsApi.founderCreativeIngestionUploadReference(
                             projectSlug,
                             activeSequence.sequenceId,
-                            dataBase64,
-                            contentType,
-                            file.name,
+                            imageData,
+                            'Founder-approved notebook-native board',
                           );
                           setComparisonDiff(null);
                           return result;
