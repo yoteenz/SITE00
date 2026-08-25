@@ -69,7 +69,10 @@ function TapeCard({
   href?: string;
 }) {
   const body = (
-    <article className={`site00-fws-hub-tape${className ? ` ${className}` : ''}`}>
+    <article
+      className={`site00-fws-hub-tape${className ? ` ${className}` : ''}`}
+      data-vr-region={title.replace(/[^a-zA-Z0-9]+/g, '_').slice(0, 48)}
+    >
       <span className="site00-fws-hub-tape__pin" aria-hidden />
       <h3 className="site00-fws-hub-tape__title">{title}</h3>
       {children}
@@ -91,6 +94,7 @@ export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
     <div
       className="site00-fws-hub-board"
       data-visual-reconstruction="project-hub-desktop-board"
+      data-vr-region="DESKTOP_COMPOSITE_OVERVIEW"
     >
       <div className="site00-fws-hub-board__top">
         <TapeCard
