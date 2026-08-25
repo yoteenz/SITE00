@@ -735,7 +735,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? req.query.slug ?? '');
         const replayId = String(body.replayId ?? '');
-        if (!(!replayId)) {
+        if (!replayId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -768,7 +768,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? req.query.slug ?? '');
         const replayId = String(body.replayId ?? '');
-        if (!(!replayId)) {
+        if (!replayId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -789,7 +789,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'personality_replay_get': {
         const slug = String(req.query.slug ?? '');
         const replayId = String(req.query.replayId ?? '');
-        if (!!replayId) {
+        if (!replayId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_personality_replay' });
         }
         if (!denyUnlessActionCapability(res, slug, 'personality_replay_get', 'site00_personality_replay')) return;
@@ -812,7 +812,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'personality_replay_diagnostic': {
         const slug = String(req.query.slug ?? '');
         const replayId = String(req.query.replayId ?? '');
-        if (!!replayId) {
+        if (!replayId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_personality_replay' });
         }
         if (!denyUnlessActionCapability(res, slug, 'personality_replay_diagnostic', 'site00_personality_replay')) return;
@@ -843,7 +843,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? req.query.slug ?? '');
         const replayId = String(body.replayId ?? '');
-        if (!(!replayId)) {
+        if (!replayId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -890,7 +890,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? req.query.slug ?? '');
         const replayId = String(body.replayId ?? '');
-        if (!(!replayId)) {
+        if (!replayId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -939,7 +939,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const replayId = String(body.replayId ?? '');
         const comparisonIndex = Number(body.comparisonIndex ?? 0);
         const judgment = body.judgment as 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_NDXBOOK' | null;
-        if (!(!replayId || !comparisonIndex)) {
+        if (!replayId || !comparisonIndex) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -1010,7 +1010,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const comparisonIndex = Number(body.comparisonIndex ?? 0);
         const judgment = body.judgment as 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_NDXBOOK' | null;
-        if (!(!comparisonIndex)) {
+        if (!comparisonIndex) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -1075,7 +1075,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const comparisonIndex = Number(body.comparisonIndex ?? 0);
         const slideNumber = Number(body.slideNumber ?? 0);
         const judgment = body.judgment as 'LOVE_IT' | 'REVISE' | 'PROMISING_REFINE' | 'NOT_FOR_ME' | null;
-        if (!(!comparisonIndex || !slideNumber)) {
+        if (!comparisonIndex || !slideNumber) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -1083,6 +1083,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'canonical_carousel_expansion_slide_judgment', 'site00_canonical_carousel_expansion')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { run, lineage } = await setCarouselSlideFounderJudgment({ comparisonIndex, slideNumber, judgment });
+        return json(res, 200, { ok: true, run, lineage, source: 'site00_canonical_carousel_expansion' });
+      }
       case 'canonical_carousel_expansion_direction_verdict': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -1098,7 +1104,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           | 'NOT_NDXBOOK'
           | null;
         const note = body.note as string | null | undefined;
-        if (!(!comparisonIndex)) {
+        if (!comparisonIndex) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -1106,6 +1112,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'canonical_carousel_expansion_direction_verdict', 'site00_canonical_carousel_expansion')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const run = await setCarouselDirectionFounderVerdict({ comparisonIndex, verdict, note });
+        return json(res, 200, { ok: true, run, source: 'site00_canonical_carousel_expansion' });
+      }
       case 'experiment_d_get': {
         const slug = String(req.query.slug ?? '');
         if (!denyUnlessActionCapability(res, slug, 'experiment_d_get', 'site00_projects')) return;
@@ -1163,7 +1175,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           | 'NOT_NDXBOOK'
           | null;
         const tooCloseSibling = body.tooCloseSibling ? String(body.tooCloseSibling) : null;
-        if (!(!comparisonIndex)) {
+        if (!comparisonIndex) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -1171,6 +1183,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'experiment_d_hero_judgment', 'site00_experiment_d')) return;
+        const run = await setExperimentDHeroJudgment({ comparisonIndex, judgment, tooCloseSibling });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_d' });
+      }
       case 'experiment_f_get': {
         const slug = String(req.query.slug ?? '');
         if (!denyUnlessActionCapability(res, slug, 'experiment_f_get', 'site00_projects')) return;
@@ -1225,7 +1240,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           | 'NOT_NDXBOOK'
           | 'REFORM_SET'
           | null;
-        if (!(!conceptId)) {
+        if (!conceptId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -1233,6 +1248,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'experiment_f_concept_judgment', 'site00_experiment_f')) return;
+        const run = await setExperimentFConceptJudgment({
+          conceptId,
+          judgment,
+          note: body.note ? String(body.note) : null,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_f' });
+      }
       case 'experiment_f_reform_set': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -1306,7 +1328,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           | 'NOT_NDXBOOK'
           | 'REFORM_SET'
           | null;
-        if (!(!characterId)) {
+        if (!characterId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -1314,6 +1336,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'experiment_h_character_judgment', 'site00_experiment_h')) return;
+        const run = await setBrandCharacterJudgment({
+          characterId,
+          judgment,
+          note: body.note ? String(body.note) : null,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_h' });
+      }
       case 'experiment_h_reform_set': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -1339,7 +1368,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const territoryId = String(body.territoryId ?? '');
-        if (!!territoryId) {
+        if (!territoryId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'experiment_h_develop_character', 'site00_projects')) return;
@@ -1365,7 +1394,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const characterId = String(body.characterId ?? '');
         const developmentId = body.developmentId ? String(body.developmentId) : undefined;
-        if (!(!characterId)) {
+        if (!characterId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -1373,6 +1402,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'experiment_h_compile_system', 'site00_experiment_h')) return;
+        const result = await compileSelectedBrandCharacterSystem({ characterId, developmentId });
+        return json(res, 200, {
+          ok: true,
+          run: result.run,
+          system: result.system,
+          source: 'site00_experiment_h',
+        });
+      }
       case 'experiment_h_readiness_get': {
         const slug = String(req.query.slug ?? '');
         if (!denyUnlessActionCapability(res, slug, 'experiment_h_readiness_get', 'site00_projects')) return;
@@ -1507,7 +1544,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const judgment = body.judgment as string;
-        if (!!judgment) {
+        if (!judgment) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'experiment_h_synthesis_judgment', 'site00_projects')) return;
@@ -1554,7 +1591,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const proofId = String(body.proofId ?? '');
-        if (!!proofId) {
+        if (!proofId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'experiment_h_artifact_proof_generate', 'site00_projects')) return;
@@ -1572,7 +1609,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const proofId = String(body.proofId ?? '');
         const judgment = body.judgment as string;
-        if (!(!proofId || !judgment)) {
+        if (!proofId || !judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -1580,6 +1617,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'experiment_h_artifact_proof_judgment', 'site00_experiment_h_artifact_proofs')) return;
+        const run = await setBrandCharacterArtifactProofJudgment({
+          projectId: 'ndxbook',
+          proofId,
+          judgment: judgment as never,
+          note: body.note ? String(body.note) : null,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_h_artifact_proofs' });
+      }
       case 'marketing_expression_get': {
         const slug = String(req.query.slug ?? '');
         if (!denyUnlessActionCapability(res, slug, 'marketing_expression_get', 'site00_projects')) return;
@@ -1643,7 +1688,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
-        if (!!artifactId) {
+        if (!artifactId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_generate', 'site00_projects')) return;
@@ -1674,7 +1719,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
         const judgment = body.judgment as string;
-        if (!(!artifactId || !judgment)) {
+        if (!artifactId || !judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -1682,6 +1727,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_artifact_judgment', 'site00_marketing_expression_experiment_01')) return;
+        const run = await setExperiment01ArtifactJudgment({
+          projectId: 'ndxbook',
+          artifactId,
+          judgment: judgment as never,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01' });
+      }
       case 'marketing_expression_experiment_01_set_judgment': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -1689,7 +1741,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const judgment = body.judgment as string;
-        if (!!judgment) {
+        if (!judgment) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_set_judgment', 'site00_projects')) return;
@@ -1722,7 +1774,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
-        if (!!artifactId) {
+        if (!artifactId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v2_generate', 'site00_projects')) return;
@@ -1753,7 +1805,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
         const judgment = body.judgment as string;
-        if (!(!artifactId || !judgment)) {
+        if (!artifactId || !judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -1761,6 +1813,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v2_artifact_judgment', 'site00_marketing_expression_experiment_01_v2')) return;
+        const run = await setExperiment01V2ArtifactJudgment({
+          projectId: 'ndxbook',
+          artifactId,
+          judgment,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v2' });
+      }
       case 'marketing_expression_experiment_01_v21_formulate': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -1781,7 +1840,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
-        if (!!artifactId) {
+        if (!artifactId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v21_generate', 'site00_projects')) return;
@@ -1812,7 +1871,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
         const judgment = body.judgment as string;
-        if (!(!artifactId || !judgment)) {
+        if (!artifactId || !judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -1820,6 +1879,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v21_artifact_judgment', 'site00_marketing_expression_experiment_01_v21')) return;
+        const run = await setExperiment01V21ArtifactJudgment({ projectId: 'ndxbook', artifactId, judgment });
+        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v21' });
+      }
       case 'marketing_expression_experiment_01_v22_formulate': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -1840,7 +1902,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
-        if (!!artifactId) {
+        if (!artifactId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v22_generate', 'site00_projects')) return;
@@ -1871,7 +1933,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
         const judgment = body.judgment as string;
-        if (!(!artifactId || !judgment)) {
+        if (!artifactId || !judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -1879,6 +1941,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v22_artifact_judgment', 'site00_marketing_expression_experiment_01_v22')) return;
+        const run = await setExperiment01V22ArtifactJudgment({ projectId: 'ndxbook', artifactId, judgment });
+        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v22' });
+      }
       case 'marketing_expression_experiment_01_v23_formulate': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -1901,7 +1966,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const artifactId = String(body.artifactId ?? '');
         const mode = body.mode === 'REPLAY_GENERATION' ? 'REPLAY_GENERATION' : 'REGENERATE_CURRENT';
         const replaySnapshotId = body.replaySnapshotId ? String(body.replaySnapshotId) : null;
-        if (!(!artifactId)) {
+        if (!artifactId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -1909,6 +1974,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v23_generate', 'site00_marketing_expression_experiment_01_v23')) return;
+        const run = await generateExperiment01V23ArtifactAsset({
+          projectId: 'ndxbook',
+          artifactId,
+          mode,
+          replaySnapshotId,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v23' });
+      }
       case 'marketing_expression_experiment_01_v23_replay': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -1917,7 +1990,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
         const replaySnapshotId = body.replaySnapshotId ? String(body.replaySnapshotId) : null;
-        if (!(!artifactId)) {
+        if (!artifactId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -1925,6 +1998,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v23_replay', 'site00_marketing_expression_experiment_01_v23')) return;
+        const run = await replayExperiment01V23HistoricalPrompt({
+          projectId: 'ndxbook',
+          artifactId,
+          replaySnapshotId,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v23' });
+      }
       case 'marketing_expression_experiment_01_v23_select_asset': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -1933,7 +2013,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
         const selectedGenerationAssetId = String(body.selectedGenerationAssetId ?? '');
-        if (!(!artifactId || !selectedGenerationAssetId)) {
+        if (!artifactId || !selectedGenerationAssetId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -1941,6 +2021,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v23_select_asset', 'site00_marketing_expression_experiment_01_v23')) return;
+        const run = await setExperiment01V23SelectedGenerationAsset({
+          projectId: 'ndxbook',
+          artifactId,
+          selectedGenerationAssetId,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v23' });
+      }
       case 'marketing_expression_experiment_01_v23_generate_all': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -1975,7 +2062,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const artifactId = String(body.artifactId ?? '');
         const judgment = body.judgment as string;
-        if (!(!artifactId || !judgment)) {
+        if (!artifactId || !judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -1983,6 +2070,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v23_artifact_judgment', 'site00_marketing_expression_experiment_01_v23')) return;
+        const run = await setExperiment01V23ArtifactJudgment({ projectId: 'ndxbook', artifactId, judgment });
+        return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v23' });
+      }
       case 'marketing_expression_experiment_01_v23_founder_revision': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -1992,14 +2082,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const artifactId = String(body.artifactId ?? '');
         const judgment = body.judgment as string;
         const founderNote = String(body.founderNote ?? '');
-        if (!(!artifactId || !judgment)) {
+        if (!artifactId || !judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
             source: 'site00_marketing_expression_experiment_01_v23',
           });
         }
-        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v23_founder_revision', 'site00_marketing_expression_experiment_01_v23')) return; catch (err) {
+        if (!denyUnlessActionCapability(res, slug, 'marketing_expression_experiment_01_v23_founder_revision', 'site00_marketing_expression_experiment_01_v23')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        try {
+          const run = await submitExperiment01V23FounderRevision({
+            projectId: slug,
+            artifactId,
+            judgment,
+            founderNote,
+          });
+          return json(res, 200, { ok: true, run, source: 'site00_marketing_expression_experiment_01_v23' });
+        } catch (err) {
           const message = err instanceof Error ? err.message : 'Founder revision failed';
           return json(res, 400, { ok: false, error: { code: 'FOUNDER_REVISION_FAILED', message } });
         }
@@ -2094,7 +2196,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const packageId = String(body.packageId ?? '');
         const judgment = String(body.judgment ?? '');
-        if (!(!packageId || !judgment)) {
+        if (!packageId || !judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -2102,6 +2204,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'content_operations_package_judgment', 'site00_content_operations')) return;
+        const run = await setContentPackageJudgment({ projectId: 'ndxbook', packageId, judgment });
+        return json(res, 200, { ok: true, run, source: 'site00_content_operations' });
+      }
       case 'content_operations_approve_package': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2109,7 +2214,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const packageId = String(body.packageId ?? '');
-        if (!!packageId) {
+        if (!packageId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'content_operations_approve_package', 'site00_projects')) return;
@@ -2126,7 +2231,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const packageId = String(body.packageId ?? '');
-        if (!!packageId) {
+        if (!packageId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'content_operations_record_performance', 'site00_projects')) return;
@@ -2147,7 +2252,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const learningId = String(body.learningId ?? '');
-        if (!!learningId) {
+        if (!learningId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'content_operations_accept_learning', 'site00_projects')) return;
@@ -2213,7 +2318,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const assetId = String(body.assetId ?? '');
         const judgment = String(body.judgment ?? '');
-        if (!(!assetId || !judgment)) {
+        if (!assetId || !judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -2221,6 +2326,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'campaign_production_asset_judgment', 'site00_campaign_production')) return;
+        const run = await setCampaignAssetJudgment({ projectId: 'ndxbook', assetId, judgment });
+        return json(res, 200, { ok: true, run, source: 'site00_campaign_production' });
+      }
       case 'campaign_production_synthesize_captions': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2242,7 +2350,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const contentPieceId = String(body.contentPieceId ?? '');
         const judgment = String(body.judgment ?? '');
-        if (!(!contentPieceId || !judgment)) {
+        if (!contentPieceId || !judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -2250,6 +2358,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'campaign_production_caption_judgment', 'site00_campaign_production')) return;
+        const run = await setCampaignCaptionJudgment({ projectId: 'ndxbook', contentPieceId, judgment });
+        return json(res, 200, { ok: true, run, source: 'site00_campaign_production' });
+      }
       case 'founder_creative_ingestion_get': {
         const slug = String(req.query.slug ?? '');
         if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_get', 'site00_projects')) return;
@@ -2302,7 +2413,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const sequenceId = String(body.sequenceId ?? '');
-        if (!!sequenceId) {
+        if (!sequenceId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_decompose', 'site00_projects')) return;
@@ -2332,7 +2443,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slideId = String(body.slideId ?? '');
         const mode = String(body.mode ?? '');
         const assetId = body.assetId ? String(body.assetId) : undefined;
-        if (!(!slideId || !mode)) {
+        if (!slideId || !mode) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -2340,6 +2451,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_photo_mode', 'site00_founder_creative_ingestion')) return;
+        const result = await setFounderCreativePhotoMode({
+          projectId: slug,
+          slideId,
+          mode: mode as import('../../shared/site00-studio-world-production/founderCreativeIngestion/types.js').PhotographySourceMode,
+          assetId,
+        });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
       case 'founder_creative_ingestion_edit_prompt': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2348,7 +2467,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const slideId = String(body.slideId ?? '');
         const prompt = String(body.prompt ?? '');
-        if (!(!slideId || !prompt)) {
+        if (!slideId || !prompt) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -2356,10 +2475,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_edit_prompt', 'site00_founder_creative_ingestion')) return;
+        const result = await editFounderCreativePrompt({ projectId: slug, slideId, prompt });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
       case 'founder_creative_ingestion_estimate': {
         const slug = String(req.query.slug ?? '');
         const slideId = String(req.query.slideId ?? '');
-        if (!!slideId) {
+        if (!slideId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_estimate', 'site00_projects')) return;
@@ -2377,7 +2499,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const slideId = String(body.slideId ?? '');
         const dispatchFal = body.dispatchFal === undefined ? undefined : Boolean(body.dispatchFal);
-        if (!(!slideId)) {
+        if (!slideId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -2385,6 +2507,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_generate_photo', 'site00_founder_creative_ingestion')) return;
+        const result = await generateFounderCreativePhotography({ projectId: slug, slideId, dispatchFal });
+        const background =
+          result.ingestion.falGenerationTracking?.status === 'RUNNING' && process.env.VITEST !== 'true';
+        return json(res, background ? 202 : 200, {
+          ok: true,
+          ...result,
+          background,
+          source: 'site00_founder_creative_ingestion',
+        });
+      }
       case 'founder_creative_ingestion_replace_photo': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2394,7 +2526,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slideId = String(body.slideId ?? '');
         const assetId = String(body.assetId ?? '');
         const previewUrl = body.previewUrl ? String(body.previewUrl) : undefined;
-        if (!(!slideId || !assetId)) {
+        if (!slideId || !assetId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -2402,6 +2534,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_replace_photo', 'site00_founder_creative_ingestion')) return;
+        const result = await replaceFounderCreativePhoto({ projectId: slug, slideId, assetId, previewUrl });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
       case 'founder_creative_ingestion_slide_judgment': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2410,7 +2545,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const slideId = String(body.slideId ?? '');
         const judgment = String(body.judgment ?? '');
-        if (!(!slideId || !judgment)) {
+        if (!slideId || !judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -2418,6 +2553,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_slide_judgment', 'site00_founder_creative_ingestion')) return;
+        const result = await founderCreativeSlideJudgment({
+          projectId: slug,
+          slideId,
+          judgment: judgment as import('../../shared/site00-studio-world-production/founderCreativeIngestion/types.js').ReconstructionReviewJudgment,
+        });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
       case 'founder_creative_ingestion_sequence_review': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2425,7 +2567,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const sequenceId = String(body.sequenceId ?? '');
-        if (!!sequenceId) {
+        if (!sequenceId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_sequence_review', 'site00_projects')) return;
@@ -2455,7 +2597,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const sequenceId = String(body.sequenceId ?? '');
-        if (!!sequenceId) {
+        if (!sequenceId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_replace_reference', 'site00_projects')) return;
@@ -2480,14 +2622,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const sequenceId = String(body.sequenceId ?? '');
         const imageData = body.imageData ? String(body.imageData) : '';
-        if (!(!sequenceId || !imageData)) {
+        if (!sequenceId || !imageData) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
             source: 'site00_founder_creative_ingestion',
           });
         }
-        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_upload_reference', 'site00_founder_creative_ingestion')) return; catch (err) {
+        if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_upload_reference', 'site00_founder_creative_ingestion')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        try {
+          const result = await uploadAndReplaceFounderCreativeReferenceBoard({
+            projectId: slug,
+            sequenceId,
+            imageData,
+            notes: body.notes ? String(body.notes) : undefined,
+          });
+          return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+        } catch (err) {
           const message = err instanceof Error ? err.message : 'Upload failed';
           const status = message.includes('too large') ? 413 : 400;
           return json(res, status, { ok: false, error: { code: 'UPLOAD_FAILED', message } });
@@ -2500,7 +2654,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const sequenceId = String(body.sequenceId ?? '');
-        if (!!sequenceId) {
+        if (!sequenceId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_redecompose_draft', 'site00_projects')) return;
@@ -2517,7 +2671,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const sequenceId = String(body.sequenceId ?? '');
-        if (!!sequenceId) {
+        if (!sequenceId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_promote_reference', 'site00_projects')) return;
@@ -2535,7 +2689,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const sequenceId = String(body.sequenceId ?? '');
         const slideNumber = Number(body.slideNumber ?? 0);
-        if (!(!sequenceId || !slideNumber)) {
+        if (!sequenceId || !slideNumber) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -2543,6 +2697,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_replace_slide_reference', 'site00_founder_creative_ingestion')) return;
+        const result = await replaceFounderCreativeSlideReference({
+          projectId: slug,
+          sequenceId,
+          slideNumber,
+          previewUrl: body.previewUrl ? String(body.previewUrl) : null,
+          observableCopy: Array.isArray(body.observableCopy) ? body.observableCopy.map(String) : undefined,
+          compositionNotes: Array.isArray(body.compositionNotes) ? body.compositionNotes.map(String) : undefined,
+        });
+        return json(res, 200, { ok: true, ...result, source: 'site00_founder_creative_ingestion' });
+      }
       case 'founder_creative_ingestion_bulk_replace_references': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2572,7 +2736,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'founder_creative_ingestion_reference_comparison': {
         const slug = String(req.query.slug ?? '');
         const sequenceId = String(req.query.sequenceId ?? '');
-        if (!!sequenceId) {
+        if (!sequenceId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_creative_ingestion_reference_comparison', 'site00_projects')) return;
@@ -2607,7 +2771,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'film_production_compile_plan': {
         const slug = String(req.query.slug ?? '');
         const filmId = String(req.query.filmId ?? '');
-        if (!!filmId) {
+        if (!filmId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'film_production_compile_plan', 'site00_projects')) return;
@@ -2624,7 +2788,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const filmId = String(body.filmId ?? '');
-        if (!!filmId) {
+        if (!filmId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'film_production_approve_plan', 'site00_projects')) return;
@@ -2641,7 +2805,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const filmId = String(body.filmId ?? '');
-        if (!!filmId) {
+        if (!filmId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'film_production_trigger_generation', 'site00_projects')) return;
@@ -2661,7 +2825,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const entryId = String(body.entryId ?? '');
         const action = String(body.action ?? '');
         const note = body.note ? String(body.note) : undefined;
-        if (!(!filmId || !entryId || !action)) {
+        if (!filmId || !entryId || !action) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -2669,6 +2833,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'film_production_dailies_judgment', 'site00_film_production')) return;
+        const result = await applyDailiesJudgment({ projectId: slug, filmId, entryId, action: action as import('../../shared/site00-studio-world-production/filmProduction/types.js').DailiesAction, note });
+        return json(res, 200, { ok: true, ...result, source: 'site00_film_production' });
+      }
       case 'film_production_rough_cut_judgment': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2678,7 +2845,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const filmId = String(body.filmId ?? '');
         const action = String(body.action ?? '');
         const note = body.note ? String(body.note) : undefined;
-        if (!(!filmId || !action)) {
+        if (!filmId || !action) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -2686,6 +2853,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'film_production_rough_cut_judgment', 'site00_film_production')) return;
+        const result = await applyRoughCutJudgment({ projectId: slug, filmId, action: action as import('../../shared/site00-studio-world-production/filmProduction/types.js').RoughCutAction, note });
+        return json(res, 200, { ok: true, ...result, source: 'site00_film_production' });
+      }
       case 'film_production_register_campaign': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -2937,7 +3107,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const interpretationId = String(body.interpretationId ?? '');
-        if (!!interpretationId) {
+        if (!interpretationId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'cultural_intelligence_promote_item', 'site00_projects')) return;
@@ -3063,7 +3233,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const judgment = String(body.judgment ?? '');
         const dimension = String(body.dimension ?? '');
         const note = String(body.note ?? '');
-        if (!(!judgment)) {
+        if (!judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -3071,6 +3241,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'embodied_character_discovery_judgment', 'site00_embodied_character_discovery')) return;
+        const run = await saveEmbodiedCharacterDiscoveryJudgment({
+          projectId: 'ndxbook',
+          judgment: judgment as import('../../../shared/site00-studio-world-production/embodiedCharacterDiscovery/types.js').FounderCharacterJudgment,
+          dimension,
+          note,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_embodied_character_discovery' });
+      }
       case 'embodied_character_discovery_synthesize': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3119,7 +3297,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const traitId = String(body.traitId ?? '');
         const judgment = String(body.judgment ?? '');
-        if (!(!traitId || !judgment)) {
+        if (!traitId || !judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -3127,6 +3305,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_trait_judgment', 'site00_founder_character_discovery')) return;
+        const run = await saveFounderCharacterDiscoveryTraitJudgment({
+          projectId: 'ndxbook',
+          traitId,
+          judgment: judgment as import('../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js').FounderDiscoveryJudgment,
+          revision: body.revision ? String(body.revision) : undefined,
+          note: body.note ? String(body.note) : undefined,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
       case 'founder_character_discovery_scenario_response': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3136,7 +3323,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const scenarioId = String(body.scenarioId ?? '');
         const response = String(body.response ?? '');
         const judgment = String(body.judgment ?? '');
-        if (!(!scenarioId || !response || !judgment)) {
+        if (!scenarioId || !response || !judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -3144,6 +3331,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_scenario_response', 'site00_founder_character_discovery')) return;
+        const run = await saveFounderCharacterDiscoveryScenarioResponse({
+          projectId: 'ndxbook',
+          scenarioId,
+          response,
+          judgment: judgment as import('../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js').FounderDiscoveryJudgment,
+          notes: body.notes ? String(body.notes) : undefined,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
       case 'founder_character_discovery_visual_judgment': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3152,7 +3348,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const hypothesisId = String(body.hypothesisId ?? '');
         const judgment = String(body.judgment ?? '');
-        if (!(!hypothesisId || !judgment)) {
+        if (!hypothesisId || !judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -3160,6 +3356,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_visual_judgment', 'site00_founder_character_discovery')) return;
+        const run = await saveFounderVisualHypothesisJudgment({
+          projectId: 'ndxbook',
+          hypothesisId,
+          judgment: judgment as import('../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js').VisualHypothesisJudgment,
+          note: body.note ? String(body.note) : undefined,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
       case 'founder_character_discovery_voice_judgment': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3169,7 +3373,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const sampleId = String(body.sampleId ?? '');
         const channel = String(body.channel ?? '');
         const judgment = String(body.judgment ?? '');
-        if (!(!sampleId || !channel || !judgment)) {
+        if (!sampleId || !channel || !judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -3177,6 +3381,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_voice_judgment', 'site00_founder_character_discovery')) return;
+        const run = await saveFounderVoiceLabJudgment({
+          projectId: 'ndxbook',
+          sampleId,
+          channel: channel as import('../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js').VoiceLabChannel,
+          judgment: judgment as import('../../../shared/site00-studio-world-production/embodiedCharacterFounderDiscovery/types.js').FounderDiscoveryJudgment,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
       case 'founder_character_discovery_recognition': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3184,7 +3396,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const response = String(body.response ?? '');
-        if (!!response) {
+        if (!response) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_recognition', 'site00_projects')) return;
@@ -3239,7 +3451,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const interactionId = String(body.interactionId ?? '');
         const reaction = String(body.reaction ?? '');
-        if (!(!interactionId || !reaction)) {
+        if (!interactionId || !reaction) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -3247,6 +3459,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_calibration_reaction', 'site00_founder_character_discovery')) return;
+        const result = await saveFounderCharacterCalibrationReaction({
+          projectId: 'ndxbook',
+          interactionId,
+          reaction: reaction as import('../../../shared/site00-studio-world-production/founderCharacterCalibration/types.js').FounderCalibrationReaction,
+          revision: body.revision ? String(body.revision) : undefined,
+        });
+        return json(res, 200, {
+          ok: true,
+          run: result.run,
+          nextInteraction: result.nextInteraction,
+          source: 'site00_founder_character_discovery',
+        });
+      }
       case 'founder_character_discovery_calibration_synthesis': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3282,7 +3507,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const hypothesisId = String(body.hypothesisId ?? '');
         const judgment = String(body.judgment ?? '');
         const note = body.note != null ? String(body.note) : undefined;
-        if (!(!hypothesisId || !judgment)) {
+        if (!hypothesisId || !judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -3290,6 +3515,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_voice_hypothesis_judgment', 'site00_founder_character_discovery')) return;
+        const run = await saveFounderVoiceHypothesisJudgment({ projectId: 'ndxbook', hypothesisId, judgment: judgment as import('../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js').FounderVoiceJudgment, note });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
       case 'founder_character_discovery_voice_pairwise': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3300,7 +3528,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const hypothesisBId = String(body.hypothesisBId ?? '');
         const preference = String(body.preference ?? '');
         const customNote = body.customNote != null ? String(body.customNote) : undefined;
-        if (!(!hypothesisAId || !hypothesisBId || !preference)) {
+        if (!hypothesisAId || !hypothesisBId || !preference) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -3308,6 +3536,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_voice_pairwise', 'site00_founder_character_discovery')) return;
+        const run = await saveFounderPairwiseVoicePreference({ projectId: 'ndxbook', hypothesisAId, hypothesisBId, preference: preference as import('../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js').PairwiseVoicePreference, customNote });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
       case 'founder_character_discovery_voice_recognition': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3316,7 +3547,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const response = String(body.response ?? '');
         const note = body.note != null ? String(body.note) : undefined;
-        if (!(!response)) {
+        if (!response) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -3324,6 +3555,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_voice_recognition', 'site00_founder_character_discovery')) return;
+        const run = await saveFounderVoiceRecognition({ projectId: 'ndxbook', response: response as import('../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js').FounderVoiceRecognitionResponse, note });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
       case 'founder_character_discovery_voice_unseen_line': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3333,7 +3567,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const hypothesisId = String(body.hypothesisId ?? '');
         const spokenCopy = String(body.spokenCopy ?? '');
         const response = String(body.response ?? '');
-        if (!(!hypothesisId || !spokenCopy || !response)) {
+        if (!hypothesisId || !spokenCopy || !response) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -3341,6 +3575,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_voice_unseen_line', 'site00_founder_character_discovery')) return;
+        const run = await saveFounderUnseenLineVoiceTest({ projectId: 'ndxbook', hypothesisId, spokenCopy, response: response as import('../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js').UnseenLineRecognitionResponse });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
       case 'founder_character_discovery_neural_voice_estimate': {
         const slug = String(req.query.slug ?? '');
         if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_neural_voice_estimate', 'site00_projects')) return;
@@ -3376,7 +3613,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const hypothesisId = String(body.hypothesisId ?? '');
         const response = String(body.response ?? '');
-        if (!(!hypothesisId || !response)) {
+        if (!hypothesisId || !response) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -3384,6 +3621,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_human_woman_test', 'site00_founder_character_discovery')) return;
+        const run = await saveFounderHumanWomanTest({ projectId: 'ndxbook', hypothesisId, response: response as import('../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js').HumanWomanTestResponse });
+        return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+      }
       case 'founder_character_discovery_neural_voice_revision': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3393,14 +3633,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const hypothesisId = String(body.hypothesisId ?? '');
         const judgment = String(body.judgment ?? '');
         const founderNote = String(body.founderNote ?? '');
-        if (!(!hypothesisId || !judgment)) {
+        if (!hypothesisId || !judgment) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
             source: 'site00_founder_character_discovery',
           });
         }
-        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_neural_voice_revision', 'site00_founder_character_discovery')) return; catch (err) {
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_neural_voice_revision', 'site00_founder_character_discovery')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        try {
+          const run = await submitFounderNeuralVoiceRevision({
+            projectId: slug,
+            hypothesisId,
+            judgment: judgment as import('../../shared/site00-studio-world-production/embodiedCharacterVoice/types.js').FounderVoiceJudgment,
+            founderNote,
+          });
+          return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+        } catch (err) {
           const message = err instanceof Error ? err.message : 'Neural voice revision failed';
           return json(res, 400, { ok: false, error: { code: 'NEURAL_VOICE_REVISION_FAILED', message } });
         }
@@ -3413,14 +3665,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const hypothesisId = String(body.hypothesisId ?? '');
         const mode = body.mode === 'REPLAY_GENERATION' ? 'REPLAY_GENERATION' : 'REGENERATE_CURRENT';
-        if (!(!hypothesisId)) {
+        if (!hypothesisId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
             source: 'site00_founder_character_discovery',
           });
         }
-        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_neural_voice_regenerate', 'site00_founder_character_discovery')) return; catch (err) {
+        if (!denyUnlessActionCapability(res, slug, 'founder_character_discovery_neural_voice_regenerate', 'site00_founder_character_discovery')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        try {
+          const run = await regenerateFounderNeuralVoiceHypothesis({
+            projectId: slug,
+            hypothesisId,
+            mode,
+          });
+          return json(res, 200, { ok: true, run, source: 'site00_founder_character_discovery' });
+        } catch (err) {
           const message = err instanceof Error ? err.message : 'Neural voice regenerate failed';
           return json(res, 400, { ok: false, error: { code: 'NEURAL_VOICE_REGENERATE_FAILED', message } });
         }
@@ -3455,7 +3718,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const rawSource = String(body.rawSource ?? '');
         const sourceType = String(body.sourceType ?? 'STRUCTURED_RECORD');
-        if (!(!rawSource)) {
+        if (!rawSource) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -3463,6 +3726,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'character_continuity_ingest_bible', 'site00_character_continuity')) return;
+        const run = await ingestCharacterBibleSource({
+          projectId: 'ndxbook',
+          rawSource,
+          sourceType: sourceType as import('../../../shared/site00-studio-world-production/characterContinuityPipeline/types.js').BibleSourceType,
+          normalized: body.normalized as Record<string, unknown> | undefined,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_character_continuity' });
+      }
       case 'character_continuity_ingest_synthesis': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -3915,7 +4186,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           | 'NOT_NDXBOOK'
           | 'REFORM_SET'
           | null;
-        if (!(!conceptId)) {
+        if (!conceptId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -3923,6 +4194,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'experiment_g_concept_judgment', 'site00_experiment_g')) return;
+        const run = await setExperimentGConceptJudgment({
+          conceptId,
+          judgment,
+          note: body.note ? String(body.note) : null,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_g' });
+      }
       case 'experiment_g_reform_set': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -4001,7 +4279,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           | 'TOO_STYLE_DEPENDENT'
           | 'NOT_NDXBOOK'
           | null;
-        if (!(!directionId)) {
+        if (!directionId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -4009,6 +4287,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'experiment_g_direction_judgment', 'site00_experiment_g_direction')) return;
+        const run = await setBrandPresentationDirectionJudgment({
+          directionId,
+          judgment,
+          note: body.note ? String(body.note) : null,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_g_direction' });
+      }
       case 'experiment_g_direction_revise': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -4016,7 +4301,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const directionId = String(body.directionId ?? '');
-        if (!!directionId) {
+        if (!directionId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'experiment_g_direction_revise', 'site00_projects')) return;
@@ -4048,14 +4333,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const directionId = String(body.directionId ?? '');
         const selected = body.selected !== false;
-        if (!(!directionId)) {
+        if (!directionId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
             source: 'site00_experiment_g_visual',
           });
         }
-        if (!denyUnlessActionCapability(res, slug, 'experiment_g_visual_finalist', 'site00_experiment_g_visual')) return; catch (err) {
+        if (!denyUnlessActionCapability(res, slug, 'experiment_g_visual_finalist', 'site00_experiment_g_visual')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        try {
+          const run = await setVisualFinalistSelection({
+            directionId,
+            selected,
+            selectedBy: user.email ?? 'founder',
+          });
+          return json(res, 200, { ok: true, run, source: 'site00_experiment_g_visual' });
+        } catch (err) {
           return json(res, 400, {
             ok: false,
             error: { code: 'FINALIST_GATE', message: err instanceof Error ? err.message : 'Finalist selection failed' },
@@ -4259,7 +4555,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           | 'TOO_TEMPLATE_LIKE'
           | 'TOO_CLOSE_TO_ANOTHER'
           | null;
-        if (!(!conceptIndex)) {
+        if (!conceptIndex) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -4267,6 +4563,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'experiment_e_concept_judgment', 'site00_experiment_e')) return;
+        const run = await setExperienceConceptJudgment({ conceptIndex, judgment });
+        return json(res, 200, { ok: true, run, source: 'site00_experiment_e' });
+      }
       case 'experiment_e_compile_contract': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -4274,7 +4573,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const conceptIndex = Number(body.conceptIndex ?? 0);
-        if (!!conceptIndex) {
+        if (!conceptIndex) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'experiment_e_compile_contract', 'site00_projects')) return;
@@ -4291,7 +4590,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const conceptIndex = Number(body.conceptIndex ?? 0);
-        if (!!conceptIndex) {
+        if (!conceptIndex) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'experiment_e_compile_asset_direction', 'site00_projects')) return;
@@ -4308,7 +4607,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const conceptIndex = Number(body.conceptIndex ?? 0);
-        if (!!conceptIndex) {
+        if (!conceptIndex) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'experiment_e_compile_asset_manifest', 'site00_projects')) return;
@@ -4325,7 +4624,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const conceptIndex = Number(body.conceptIndex ?? 0);
-        if (!!conceptIndex) {
+        if (!conceptIndex) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'experiment_e_generate_asset_visuals', 'site00_projects')) return;
@@ -4347,7 +4646,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const assetId = String(body.assetId ?? '');
-        if (!!assetId) {
+        if (!assetId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'experiment_e_promote_asset', 'site00_projects')) return;
@@ -4453,7 +4752,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
-        if (!!proofId) {
+        if (!proofId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'visual_development_generate', 'site00_projects')) return;
@@ -4470,7 +4769,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
-        if (!!proofId) {
+        if (!proofId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'visual_development_refresh_references', 'site00_projects')) return;
@@ -4487,7 +4786,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
-        if (!!proofId) {
+        if (!proofId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'visual_development_compile_references', 'site00_projects')) return;
@@ -4506,7 +4805,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
-        if (!(!proofId)) {
+        if (!proofId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -4514,6 +4813,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'visual_development_generate_reference_conditioned', 'site00_visual_reference')) return;
+        const run = await generateReferenceConditionedDesignProof(proofId);
+        return json(res, 200, { ok: true, run, source: 'site00_visual_reference' });
+      }
       case 'visual_development_exclude_reference': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -4522,7 +4824,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
         const referenceId = String(body.referenceId ?? '');
-        if (!(!proofId || !referenceId)) {
+        if (!proofId || !referenceId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -4530,6 +4832,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'visual_development_exclude_reference', 'site00_visual_reference')) return;
+        const run = await excludeVisualDevelopmentReference(proofId, referenceId);
+        return json(res, 200, { ok: true, run, source: 'site00_visual_reference' });
+      }
       case 'visual_development_prepare_interface': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -4572,7 +4877,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const slug = String(body.slug ?? '');
         const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
         const judgment = body.judgment as 'LOVE_THE_DIRECTION' | 'PROMISING_REVISE' | 'NOT_THE_DIRECTION' | null;
-        if (!(!proofId)) {
+        if (!proofId) {
           return json(res, 400, {
             ok: false,
             error: { code: 'INVALID_REQUEST', message: 'Invalid request' },
@@ -4580,6 +4885,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'visual_development_judgment', 'site00_visual_development')) return;
+        const run = await setVisualDevelopmentProofJudgment({
+          proofId,
+          judgment,
+          revisionNote: body.revisionNote ?? null,
+        });
+        return json(res, 200, { ok: true, run, source: 'site00_visual_development' });
+      }
       case 'visual_development_prepare_implementation': {
         if (req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
@@ -4587,7 +4899,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
-        if (!!proofId) {
+        if (!proofId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'visual_development_prepare_implementation', 'site00_projects')) return;
@@ -4604,7 +4916,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
         const proofId = body.proofId as 'SITE00_PROJECTS_INDEX' | 'NDXBOOK_PROJECT_HOME';
-        if (!!proofId) {
+        if (!proofId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'visual_development_orchestrate', 'site00_projects')) return;
@@ -4659,7 +4971,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (!!body.assetId) {
+        if (!body.assetId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'creative_lineage_asset_update', 'site00_projects')) return;
@@ -4700,7 +5012,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (!!body.planId) {
+        if (!body.planId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'creative_lineage_promote_world', 'site00_projects')) return;
@@ -4755,7 +5067,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (!!body.parentAssetId) {
+        if (!body.parentAssetId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_revision_spec_create', 'site00_projects')) return;
@@ -4779,7 +5091,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (!!body.revisionId) {
+        if (!body.revisionId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_revision_spec_update', 'site00_projects')) return;
@@ -4807,7 +5119,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (!!body.revisionId) {
+        if (!body.revisionId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_revision_spec_compile', 'site00_projects')) return;
@@ -4820,7 +5132,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'founder_revision_history': {
         const slug = String(req.query.slug ?? '');
         const assetId = String(req.query.assetId ?? '');
-        if (!!assetId) {
+        if (!assetId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_revision_history', 'site00_projects')) return;
@@ -4836,7 +5148,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (!!body.revisionId) {
+        if (!body.revisionId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_revision_spec_approve', 'site00_projects')) return;
@@ -4849,7 +5161,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'founder_revision_comparison': {
         const slug = String(req.query.slug ?? '');
         const revisionId = String(req.query.revisionId ?? '');
-        if (!!revisionId) {
+        if (!revisionId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_revision_comparison', 'site00_projects')) return;
@@ -4884,7 +5196,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (!!body.revisionId) {
+        if (!body.revisionId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'founder_revision_generate', 'site00_projects')) return;
@@ -4911,7 +5223,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         const body = parseBody(req) ?? {};
         const slug = String(body.slug ?? '');
-        if (!!body.assetId) {
+        if (!body.assetId) {
           return json(res, 400, { ok: false, error: { code: 'INVALID_REQUEST', message: 'Invalid request' }, source: 'site00_projects' });
         }
         if (!denyUnlessActionCapability(res, slug, 'creative_lineage_launch_seed_select', 'site00_projects')) return;

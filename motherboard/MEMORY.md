@@ -4943,7 +4943,8 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-<<<<<<< HEAD
+---
+
 ## 2026-08-25 — P0.5E.4F Canonical NDX visual identity gate + character injection authority
 
 - **Context:** Follow-up to P0.5E.4E — enforce that NDX cannot be visually generated downstream until canonical visual identity is READY; downstream systems must consume `CharacterInjectionBundle` instead of reinventing NDX from text/stale casting.
@@ -4951,12 +4952,22 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Integrations:** Film readiness + shot prompt compiler (injection bundle); FCI `realismLabBridge` blocks GENERATE_FROM_REFERENCE before visual lock; V2.3 re-exports `compileV23PromptWithCharacterAuthority`; continuity pipeline delegates visual check; Character Casting UI `CharacterReadinessPanel`.
 - **Tests:** `characterAuthorityP05E4F.test.ts` (30) pass; build green.
 - **Next:** After P0.5E.4E produces approved anchor + angle pack — run still/motion continuity tests, promote `NDX_VISUAL_V1`, controlled MEET NDX single-slide injection test before wider production queue.
-=======
+
+---
+
 ## 2026-08-25 — CAST NDX canonical anchor UNKNOWN ACTION (stale Railway API)
 
 - **Symptom:** Founder on `site00.fsbw-dev.com` CAST NDX tapped **STEP 3 · GENERATE CANONICAL ANCHOR** — red **UNKNOWN ACTION**.
 - **Root cause:** Live `api.site00.com` health reported git commit `e09218d` (pre P0.5E.4E). Canonical anchor project actions landed in `8c86060` on `main` but Railway had not redeployed — authenticated requests hit `projects.ts` default `UNKNOWN_ACTION`.
-- **Fix:** Clearer casting-page error via shared `formatSite00ProjectsApiError` (maps Unknown action → redeploy Railway guidance). Extended `castNdxFounderReferenceUpload.test.ts` with API anchor path + projects.ts action registration checks. Resolved lingering `MEMORY.md` merge conflict (P0.C + P0.5E.4E entries).
-- **Founder next step:** Redeploy Railway from latest `main`; confirm `/api/health` gitCommit ≥ `8c86060`; hard-refresh fsbw-dev; retry GENERATE CANONICAL ANCHOR.
->>>>>>> origin/main
+- **Fix:** Clearer casting-page error via shared `formatSite00ProjectsApiError` (maps Unknown action → redeploy Railway guidance). Extended `castNdxFounderReferenceUpload.test.ts` with API anchor path + projects.ts action registration checks.
+- **Founder next step:** Redeploy Railway from latest `main`; confirm `/api/health` gitCommit current; hard-refresh fsbw-dev; retry GENERATE CANONICAL ANCHOR.
+
+---
+
+## 2026-08-25 — Railway deploy syntax fix (projects.ts P0.B handler regression)
+
+- **Symptom:** Railway deploy failed — `Transform failed … projects.ts:1086:6 ERROR: Unexpected "case"` (screenshot). API stuck on `e09218d`; new actions never reached production.
+- **Root cause:** P0.B multi-project refactor dropped handler bodies for 42+ `case` blocks in `api/site00/projects.ts` (capability guard left dangling before next case). Five try/catch handlers also broken (`return; catch`). Inverted validation pattern `if (!(!field))` from same refactor.
+- **Fix:** Restored all missing handler tails from pre-P0.B git; repaired try/catch blocks (founder revision, FCI upload, neural voice, Experiment G finalist); corrected inverted request validation guards; added `tests/projectsApiSyntax.test.ts` import guard.
+- **Outcome:** `projects.ts` parses locally; Railway redeploy from `main` should succeed and unblock canonical anchor + all restored actions.
 
