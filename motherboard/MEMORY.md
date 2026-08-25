@@ -5157,3 +5157,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Mobile-only ref on visible bell; `computeNotificationPanelPosition` with left-based anchor + viewport clamp; resize/scroll reposition; `max-width: calc(100vw - 24px)`.
 - **Test:** `ndxNotificationPanelPosition.test.ts`.
 
+---
+
+## 2026-08-25 — P0.VR.1D.6 mobile Campaign Board design correction + lime diamond recovery
+
+- **Context:** Founder attached mobile Campaign Board screenshot as PRIMARY_VISUAL_AUTHORITY. Screen existed but wrong day selector, placeholder cards, broken gray diamond, missing artwork lanes.
+- **Delivered:** Rebuilt `MobileCampaignBoardScreen` (WEEK 01, May 24–30, 7-col day grid, Pages 3/day + Margins 4/day + Book in Motion 1/day with View All). Reference artwork crops in `campaign-board-artwork/*.webp`. Restored NDX lime diamond via `Site00Diamond` in mobile chrome. `FounderWorkspaceShell` routes `campaign-board` to dedicated mobile layout. `p0vr1d6/` audit + live correction runner (~85% overlay). Tests `visualReconstructionP0VR1D6.test.ts`.
+- **Founder next:** Upload GoDaddy ZIP v111.
+

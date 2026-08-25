@@ -9,6 +9,7 @@ import { ndxFounderWorkspaceMobileNav, resolveMobileScreenIdFromPath } from '../
 import { NDX_VR_REGION, vrRegionAttr } from '../../config/ndxVisualRegionIds';
 import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
 import { NDXIcon } from '../../icons/ndx';
+import { Site00Diamond } from '../shell/Site00Diamond';
 import '../../styles/site00-founder-workspace.css';
 
 type Props = {
@@ -45,7 +46,7 @@ export function MobileFounderWorkspaceChrome({
         <div className="site00-fws-mobile-chrome__brand">
           <span className="site00-fws-mobile-chrome__title">NDXBOOK</span>
           <span className="site00-fws-mobile-chrome__diamond" aria-hidden="true">
-            <NDXIcon name="origin" size="xs" state="inactive" decorative />
+            <Site00Diamond mode="PROJECT_CONTEXT" projectSlug={projectSlug} />
           </span>
         </div>
         <div className="site00-fws-mobile-chrome__actions">
