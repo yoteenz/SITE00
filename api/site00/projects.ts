@@ -5750,6 +5750,68 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const report = await inspectAndRepairLegacyProjects();
         return json(res, 200, { ok: true, report, source: 'site00_legacy_repair' });
       }
+      case 'project_notifications_list': {
+        const slug = String(req.query.slug ?? '');
+        if (!slug) {
+          return json(res, 400, { ok: false, error: { code: 'SLUG_REQUIRED', message: 'slug required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const limitRaw = req.query.limit;
+        const limit = limitRaw == null || limitRaw === 'all' ? null : Number(limitRaw);
+        const { getProjectNotificationCenterState } = await import('../_lib/site00Projects/projectNotificationsService.js');
+        const center = getProjectNotificationCenterState(slug, { limit: Number.isFinite(limit) ? limit : undefined });
+        return json(res, 200, { ok: true, center, source: 'site00_project_notifications' });
+      }
+      case 'project_notifications_all': {
+        const slug = String(req.query.slug ?? '');
+        if (!slug) {
+          return json(res, 400, { ok: false, error: { code: 'SLUG_REQUIRED', message: 'slug required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { getAllProjectNotifications } = await import('../_lib/site00Projects/projectNotificationsService.js');
+        const notifications = getAllProjectNotifications(slug);
+        return json(res, 200, { ok: true, notifications, source: 'site00_project_notifications' });
+      }
+      case 'project_notification_mark_read': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        const notificationId = String(body.notificationId ?? '');
+        if (!slug || !notificationId) {
+          return json(res, 400, { ok: false, error: { code: 'INVALID', message: 'slug and notificationId required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { markNotificationRead } = await import('../_lib/site00Projects/projectNotificationsService.js');
+        const notification = markNotificationRead(slug, notificationId);
+        if (!notification) {
+          return json(res, 404, { ok: false, error: { code: 'NOT_FOUND', message: 'Notification not found' } });
+        }
+        return json(res, 200, { ok: true, notification, source: 'site00_project_notifications' });
+      }
+      case 'project_notifications_mark_all_read': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!slug) {
+          return json(res, 400, { ok: false, error: { code: 'SLUG_REQUIRED', message: 'slug required' } });
+        }
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { markAllNotificationsRead } = await import('../_lib/site00Projects/projectNotificationsService.js');
+        const result = markAllNotificationsRead(slug);
+        return json(res, 200, { ok: true, ...result, source: 'site00_project_notifications' });
+      }
       default:
         return json(res, 400, {
           ok: false,

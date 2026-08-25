@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import type { ExperimentJourneyStageConfig } from '../../../../shared/site00-studio-world-production/founderWorkspace/types.js';
 import {
@@ -21,6 +21,8 @@ import { FounderWorkspaceHeaderChrome } from './FounderWorkspaceHeaderChrome';
 import { useSite00 } from '../../state/Site00Context';
 import { useSite00OriginWideViewport } from '../shell/useSite00OriginWideViewport';
 import { MobileFounderWorkspaceChrome } from './MobileFounderWorkspaceChrome';
+import { ActiveProjectNotificationCenter } from './ActiveProjectNotificationCenter';
+import { useActiveProjectNotifications } from '../../hooks/useActiveProjectNotifications';
 import { renderMobileFounderWorkspaceScreen } from './MobileFounderWorkspaceScreens';
 import { resolveMobileScreenIdFromPath } from '../../config/ndxFounderWorkspaceMobileNav';
 import '../../styles/site00-founder-workspace.css';
@@ -89,7 +91,15 @@ export function FounderWorkspaceShell({
   const menuItems = useMemo(() => ndxFounderWorkspaceMenuItems(projectSlug), [projectSlug]);
   const overflowNav = useMemo(() => ndxFounderWorkspaceOverflowNav(projectSlug), [projectSlug]);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [inspector, setInspector] = useState<InspectorState>({ open: false, title: '', content: null });
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const bellAnchorRef = useRef<HTMLButtonElement>(null);
+  const {
+    state: notificationState,
+    loading: notificationsLoading,
+    refreshOnOpen,
+    markRead,
+    markAllRead,
+  } = useActiveProjectNotifications(projectSlug, { enabled });
   const vrMenuOpen = searchParams.get('vrMenuOpen') === '1';
 
   useEffect(() => {
@@ -97,16 +107,35 @@ export function FounderWorkspaceShell({
   }, [vrMenuOpen]);
 
   useEffect(() => {
-    if (!vrMenuOpen) setMenuOpen(false);
+    if (!vrMenuOpen) {
+      setMenuOpen(false);
+      setNotificationOpen(false);
+    }
   }, [location.pathname, vrMenuOpen]);
-
-  const toggleMenu = useCallback(() => {
-    setMenuOpen((open) => !open);
-  }, []);
 
   const closeMenu = useCallback(() => {
     setMenuOpen(false);
   }, []);
+
+  const closeNotifications = useCallback(() => {
+    setNotificationOpen(false);
+  }, []);
+
+  const toggleMenu = useCallback(() => {
+    setNotificationOpen(false);
+    setMenuOpen((open) => !open);
+  }, []);
+
+  const toggleNotifications = useCallback(() => {
+    setMenuOpen(false);
+    setNotificationOpen((open) => {
+      const next = !open;
+      if (next) refreshOnOpen();
+      return next;
+    });
+  }, [refreshOnOpen]);
+
+  const [inspector, setInspector] = useState<InspectorState>({ open: false, title: '', content: null });
 
   const openInspector = useCallback((inspectorTitle: string, content: ReactNode) => {
     setInspector({ open: true, title: inspectorTitle, content });
@@ -138,7 +167,10 @@ export function FounderWorkspaceShell({
     actions ?? (
       <FounderWorkspaceHeaderChrome
         onOpenMenu={toggleMenu}
-        onOpenNotifications={() => setMenuOpen(true)}
+        onOpenNotifications={toggleNotifications}
+        bellButtonRef={bellAnchorRef}
+        notificationOpen={notificationOpen}
+        unreadCount={notificationState.unreadCount}
       />
     );
 
@@ -212,8 +244,11 @@ export function FounderWorkspaceShell({
               <MobileFounderWorkspaceChrome
                 projectSlug={projectSlug}
                 menuOpen={menuOpen}
+                notificationOpen={notificationOpen}
+                unreadCount={notificationState.unreadCount}
+                bellButtonRef={bellAnchorRef}
                 onToggleMenu={toggleMenu}
-                onOpenNotifications={() => setMenuOpen(true)}
+                onOpenNotifications={toggleNotifications}
               >
                 {mobileBody}
               </MobileFounderWorkspaceChrome>
@@ -242,8 +277,23 @@ export function FounderWorkspaceShell({
         </main>
 
         {!hideWorkspaceNav && !mobilePresentation ? (
-          <FounderWorkspaceMobileNav items={bottomNav} onMore={() => setMenuOpen(true)} />
+          <FounderWorkspaceMobileNav items={bottomNav} onMore={toggleMenu} />
         ) : null}
+
+        <ActiveProjectNotificationCenter
+          open={notificationOpen}
+          onClose={closeNotifications}
+          projectSlug={projectSlug}
+          projectLabel={projectSlug.toUpperCase()}
+          anchorRef={bellAnchorRef}
+          notifications={notificationState.notifications}
+          unreadCount={notificationState.unreadCount}
+          messagesTransportBlocked={notificationState.messagesTransportBlocked}
+          messagesTransportBlockReason={notificationState.messagesTransportBlockReason}
+          loading={notificationsLoading}
+          onMarkRead={(id) => void markRead(id)}
+          onMarkAllRead={() => void markAllRead()}
+        />
 
         <FounderWorkspaceProjectMenu
           open={menuOpen}

@@ -3,6 +3,7 @@
  * Sticky header + bottom nav; project menu is owned by FounderWorkspaceShell.
  */
 
+import type { Ref } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ndxFounderWorkspaceMobileNav, resolveMobileScreenIdFromPath } from '../../config/ndxFounderWorkspaceMobileNav';
 import { NDX_VR_REGION, vrRegionAttr } from '../../config/ndxVisualRegionIds';
@@ -14,6 +15,9 @@ type Props = {
   projectSlug: string;
   children: React.ReactNode;
   menuOpen?: boolean;
+  notificationOpen?: boolean;
+  unreadCount?: number;
+  bellButtonRef?: Ref<HTMLButtonElement>;
   onToggleMenu?: () => void;
   onOpenNotifications?: () => void;
 };
@@ -22,6 +26,9 @@ export function MobileFounderWorkspaceChrome({
   projectSlug,
   children,
   menuOpen = false,
+  notificationOpen = false,
+  unreadCount = 0,
+  bellButtonRef,
   onToggleMenu,
   onOpenNotifications,
 }: Props) {
@@ -31,7 +38,7 @@ export function MobileFounderWorkspaceChrome({
 
   return (
     <div
-      className={`site00-fws-mobile-chrome site00-fws-mobile-chrome--${screenId}${menuOpen ? ' site00-fws-mobile-chrome--menu-open' : ''}`}
+      className={`site00-fws-mobile-chrome site00-fws-mobile-chrome--${screenId}${menuOpen ? ' site00-fws-mobile-chrome--menu-open' : ''}${notificationOpen ? ' site00-fws-mobile-chrome--notify-open' : ''}`}
       data-visual-reconstruction={`mobile-${screenId}`}
     >
       <header className="site00-fws-mobile-chrome__header" {...vrRegionAttr(NDX_VR_REGION.header)}>
@@ -43,12 +50,25 @@ export function MobileFounderWorkspaceChrome({
         </div>
         <div className="site00-fws-mobile-chrome__actions">
           <button
+            ref={bellButtonRef}
             type="button"
-            className="site00-fws-mobile-chrome__icon site00-fws-mobile-chrome__icon--bell"
-            aria-label="Notifications"
+            className={`site00-fws-mobile-chrome__icon site00-fws-mobile-chrome__icon--bell${notificationOpen ? ' site00-fws-mobile-chrome__icon--bell-open' : ''}${unreadCount > 0 ? ' site00-fws-mobile-chrome__icon--bell-unread' : ''}`}
+            aria-label={unreadCount > 0 ? `Notifications, ${unreadCount} unread` : 'Notifications'}
+            aria-haspopup="dialog"
+            aria-expanded={notificationOpen}
             onClick={onOpenNotifications}
           >
-            <NDXIcon name="notifications" size={NDX_ICON_CONTEXT_SIZE.header} state="inactive" decorative />
+            <NDXIcon
+              name="notifications"
+              size={NDX_ICON_CONTEXT_SIZE.header}
+              state={notificationOpen || unreadCount > 0 ? 'active' : 'inactive'}
+              decorative
+            />
+            {unreadCount > 0 ? (
+              <span className="site00-fws-mobile-chrome__badge" aria-hidden="true">
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </span>
+            ) : null}
           </button>
           <button
             type="button"
