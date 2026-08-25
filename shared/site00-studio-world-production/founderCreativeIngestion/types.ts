@@ -177,6 +177,7 @@ export type FounderCreativeParentSequence = {
   notes: string | null;
   reconstructionStatus: 'PENDING' | 'IN_PROGRESS' | 'REVIEW' | 'APPROVED';
   sequenceReviewStatus: 'PENDING' | 'IN_REVIEW' | 'APPROVED';
+  referenceStatus: ParentReferenceStatus;
 };
 
 export type InstagramRowPreview = {
@@ -219,6 +220,10 @@ export type FounderCreativeIngestionState = {
   falImageRequests: number;
   falVideoRequests: number;
   falGenerationTracking: FounderCreativeFalGenerationTracking | null;
+  referenceVersions: CreativeReferenceVersion[];
+  activeReferenceAuthority: ActiveCreativeReferenceAuthority[];
+  referenceVersionArchives: ReferenceVersionArchive[];
+  referenceDiffs: CreativeReferenceDiff[];
   updatedAt: string;
 };
 
@@ -231,3 +236,12 @@ export type FounderCreativeFalGenerationTracking = {
   completedSlideIds: string[];
   errorMessage: string | null;
 };
+
+export type ParentReferenceStatus = import('./referenceReplacement/types.js').ParentReferenceStatus;
+
+export type CreativeReferenceVersion = import('./referenceReplacement/types.js').CreativeReferenceVersion;
+export type ActiveCreativeReferenceAuthority = import('./referenceReplacement/types.js').ActiveCreativeReferenceAuthority;
+export type ReferenceVersionArchive = import('./referenceReplacement/types.js').ReferenceVersionArchive;
+export type CreativeReferenceDiff = import('./referenceReplacement/types.js').CreativeReferenceDiff;
+export type PhotographyOverrideCompatibilityEvaluation =
+  import('./referenceReplacement/types.js').PhotographyOverrideCompatibilityEvaluation;
