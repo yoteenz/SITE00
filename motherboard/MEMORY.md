@@ -5122,3 +5122,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `hydrateImageReferenceAssetsFromGeneration` + failure hydrate in `imageReferenceCasting.ts`; wired from `applyCastingGenerationResults` / `applyCastingGenerationFailure` in `castingEngine.ts`. UI isolate panel falls back to candidate preview, shows FAL error, and offers **RETRY ISOLATE GENERATION** when stuck/failed.
 - **Test:** `imageReferenceCastingP05E4E1.test.ts` case `27b`.
 
+---
+
+## 2026-08-25 — P0.UI.3C active project notification center + bell dropdown wiring
+
+- **Context:** Founder sprint P0.UI.3C — bell incorrectly opened project menu (duplicate of ellipsis). Required separation: bell → project-scoped notification center; ellipsis → project/system menu only.
+- **Root cause:** `FounderWorkspaceShell` wired `onOpenNotifications={() => setMenuOpen(true)}` for both mobile chrome and desktop header — bell and ellipsis shared the same menu state.
+- **Delivered:** Generic `projectNotifications/` module (types, categories, priorities, dedupe, relevance filter, `ProjectEventNotificationAdapter`, deep links). In-memory store + API actions (`project_notifications_list`, `project_notification_mark_read`, `project_notifications_mark_all_read`). `ActiveProjectNotificationCenter` portaled dropdown (NOTIFICATIONS | MESSAGES tabs; messages transport honestly BLOCKED). Full route `/projects/:slug/notifications`. Shell wiring with mutual exclusion (`toggleNotifications` closes menu; `toggleMenu` closes notifications). Unread lime badge, mark read / mark all read, entity-aware deep links. Dev fixtures for ndxbook. P0.UI.3B bell SVG preserved. Tests `ndxNotificationCenterP0UI3C.test.ts` (14 pass). Build green.
+- **Founder next:** Redeploy Railway API for notification endpoints; optional future Supabase `studio_world_project_notifications` + live message transport.
+
