@@ -32,6 +32,7 @@ import type {
   SIGNATURE_LIME_FAILURE_STATES,
   V23A_FOUNDER_JUDGMENTS,
   V23B_FOUNDER_JUDGMENTS,
+  V23C_NOTEBOOK_FOUNDER_JUDGMENTS,
   V23_FOUNDER_JUDGMENTS,
 } from './constants.js';
 import type { CharacterRetainedFirstSlideContract, Experiment01V22Artifact } from '../characterRetention/types.js';
@@ -54,6 +55,7 @@ export type V23FounderJudgment =
   | (typeof V23_FOUNDER_JUDGMENTS)[number]
   | (typeof V23A_FOUNDER_JUDGMENTS)[number]
   | (typeof V23B_FOUNDER_JUDGMENTS)[number]
+  | (typeof V23C_NOTEBOOK_FOUNDER_JUDGMENTS)[number]
   | null;
 export type MaterialFailureState = (typeof MATERIAL_FAILURE_STATES)[number];
 export type HumanMadeFailureState = (typeof HUMAN_MADE_FAILURE_STATES)[number];
@@ -473,15 +475,17 @@ export type Experiment01V23GenerationLineageClass =
   | 'PRESERVED_PRE_C4B1'
   | 'PRESERVED_PRE_C6'
   | 'PRESERVED_PRE_C6A'
+  | 'PRESERVED_PRE_C7'
   | 'PRE_P0_5C_4B_1_IN_FLIGHT'
   | 'CURRENT_C6'
   | 'CURRENT_C4B1'
+  | 'CURRENT_C7'
   | null;
 
 export type Experiment01V23SupersessionRecord = {
   runId: string;
   status: 'SUPERSEDED_BY_METHODOLOGY';
-  reason: 'P0.5C.4B.1_SIGNATURE_LIME_RESTRAINT' | 'P0.5C.6_VISUAL_AUTHORITY' | 'P0.5C.6A_AUTHORED_ARTIFACT_GRAMMAR';
+  reason: 'P0.5C.4B.1_SIGNATURE_LIME_RESTRAINT' | 'P0.5C.6_VISUAL_AUTHORITY' | 'P0.5C.6A_AUTHORED_ARTIFACT_GRAMMAR' | 'P0.5C.7_NOTEBOOK_CAROUSEL_GRAMMAR';
   supersededAt: string;
   pendingJobsCancelled: number;
   inFlightRequestsAtBoundary: number;

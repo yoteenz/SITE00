@@ -102,6 +102,7 @@ export type GeneratedAssetLineage = {
   assetIncludesC4B1?: boolean;
   assetIncludesC6?: boolean;
   assetIncludesC6A?: boolean;
+  assetIncludesC7?: boolean;
   assetIncludesC5: boolean;
   assetUsesCurrentPublicCopy: boolean;
   assetUsesCurrentAuthorship: boolean;

@@ -11,13 +11,29 @@ import { FAL_MATERIAL_PROMPT_SECTION_ORDER } from './constants.js';
 import { NDX_SIGNATURE_LIME } from './signatureLime.js';
 import { buildFalPublicCopySections } from '../firstPersonAuthorship/falPromptPublicCopy.js';
 import { prominenceLabel } from './signatureLimeRestraint.js';
+import {
+  resolveNDXPageObjectContract,
+  resolveCarouselSequencePageRole,
+} from './ndxPageObjectContract.js';
+import { resolveNDXConstructionHistory } from './ndxConstructionHistory.js';
+import { buildNotebookCarouselPromptSections } from './notebookCarouselPromptSections.js';
 
 export function compileArtBoardMaterialityFalPrompt(params: {
   artifact: BrandMarketingArtifact;
   contract: ArtBoardRetainedFirstSlideContract;
   founderRevisionDirective?: string | null;
+  topicIndex?: number;
 }): MarketingFalPromptContract {
   const c = params.contract;
+  const topicIndex = params.topicIndex ?? 1;
+  const pageObject = resolveNDXPageObjectContract(c, topicIndex);
+  const constructionHistory = resolveNDXConstructionHistory(c, topicIndex, pageObject);
+  const sequenceRole = resolveCarouselSequencePageRole(topicIndex);
+  const notebookSections = buildNotebookCarouselPromptSections({
+    pageObject,
+    constructionHistory,
+    sequenceRole,
+  });
   const ab = c.artBoardDirection;
   const cr = c.characterRetention;
   const cp = c.culturalParticipation;
@@ -191,6 +207,7 @@ export function compileArtBoardMaterialityFalPrompt(params: {
     ...publicCopySections,
     `[INTERNAL GENERATION GUIDANCE — DO NOT RENDER AS VISIBLE LABELS ON ARTIFACT]`,
     `CONTENT THESIS: ${params.artifact.topic} — ${c.primaryHook}`,
+    ...notebookSections,
     visualAuthorityBlock,
     authoredArtifactGrammarBlock,
     rawArtifactBlock,
@@ -223,7 +240,7 @@ export function compileArtBoardMaterialityFalPrompt(params: {
     `CONTROLLED MISBEHAVIOR (GUIDANCE — NOT A VISIBLE LABEL): ${cr.controlledMisbehavior.map((m) => m.causality).join(' | ') || 'minimal'}`,
     `INFORMATION HIERARCHY: Level 1: ${c.primaryHook} — compressed, no re-expansion. PRIMARY DISPLAY IN BLACK/NEUTRAL. MAKER INTERVENTION IS SUPPORTIVE, NOT A NEW CLUTTER LAYER.`,
     `TYPOGRAPHY ROLES: ${c.typographyAssignments.map((t) => `${t.role}: ${t.text.slice(0, 40)} (default black/neutral ink — lime ONLY if explicit word-level accent below)`).join('; ')}`,
-    `UPPERCASE GOVERNANCE: ALL NDX-AUTHORED TEXT UPPERCASE`,
+    `UPPERCASE GOVERNANCE: ALL NDX-AUTHORED TEXT UPPERCASE — AUTHENTIC SOURCE TEXT MAY PRESERVE SOURCE CASING`,
     `IMAGE / TYPE BALANCE: ${cp.visualParticipationMode}`,
     `READING PATH: 1: ${c.readingPath.firstLook} → 2: ${c.readingPath.secondLook} → 3: ${c.readingPath.thirdLook}`,
     `CHARACTER DENSITY: ${c.characterEvaluation.characterDensity.characterDensity}`,
@@ -248,7 +265,7 @@ export function compileArtBoardMaterialityFalPrompt(params: {
     `SOURCE VS NDX COLOR: Source material retains authentic colors. NDX-authored typography defaults black/neutral. Signature lime applies ONLY to the art-direction attention target — NOT every circle, arrow, icon, or underline.`,
     `STERILITY GUARD: alive not corporate — maker trace on surface must be visually undeniable without lime saturation`,
     `TEMPLATE GUARD: DO NOT DESIGN A RECTANGULAR SOCIAL POST ON TOP OF A BACKGROUND. CREATE THE ACTUAL ARTIFACT. CONTENT PRINTED ON, INSERTED INTO, ATTACHED TO, WRITTEN OVER, CUT INTO, FOLDED WITH, OR SCANNED FROM THE SURFACE. ${ab.whyNotCleanTemplate}`,
-    `NEGATIVE CONSTRAINTS: no generic poster-on-background; no clean social template; no graphic card floating over texture; no fake paper texture filter; no polished infographic icons; no vector icon library look; no UI pictograms; no AI-generated decorative symbols; no mismatched doodle styles; no perfect geometry for hand-drawn marks; no fake childlike doodles; no decorative lime with no purpose; no fully monochrome NDX artifact without at least one signature-lime trace; no arbitrary red/blue/yellow NDX-authored marks; no lime background fill; no repeated lime corner template on every post; no tiny invisible lime; no random neon decoration; no generic AI editorial detailing; no scrapbook-for-scrapbook's-sake; no lowercase NDX copy; no visible CHARACTER BEAT label; no visible WHAT NDX NOTICED label; no visible PRIMARY EDITORIAL IDEA label; no visible CONTROLLED MISBEHAVIOR label; no third-person NDX narration; no system documentation on artifact; no all-lime body copy; no all-lime secondary copy; no all-lime handwriting system; no all-lime icon system; no all-lime diagram system; no all-lime metadata; no lime as primary typographic color; no lime dominating black structural hierarchy; no multiple large lime regions; no sprinkling lime randomly to satisfy signature requirement; no top headline panel unless premise requires; no bottom evidence panel unless premise requires; no header-body-footer infographic shell; no symmetrical information zones; no presentation board composition; no content container around artwork; no random tape or scribbles without causality; no random analog texture; no over-resolved generated graphic; no decorative human marks`,
+    `NEGATIVE CONSTRAINTS: no generic poster-on-background; no clean social template; no graphic card floating over texture; no fake paper texture filter; no polished infographic icons; no vector icon library look; no UI pictograms; no AI-generated decorative symbols; no mismatched doodle styles; no perfect geometry for hand-drawn marks; no fake childlike doodles; no decorative lime with no purpose; no fully monochrome NDX artifact without at least one signature-lime trace; no arbitrary red/blue/yellow NDX-authored marks; no lime background fill; no repeated lime corner template on every post; no tiny invisible lime; no random neon decoration; no generic AI editorial detailing; no scrapbook-for-scrapbook's-sake; no lowercase NDX copy; no clean digital template; no social media template; no rounded UI card; no perfect rectangular photo frame; no digital scrapbook effect; no fake notebook decoration; no decorative handwriting without function; no visible CHARACTER BEAT label; no visible WHAT NDX NOTICED label; no visible PRIMARY EDITORIAL IDEA label; no visible CONTROLLED MISBEHAVIOR label; no third-person NDX narration; no system documentation on artifact; no all-lime body copy; no all-lime secondary copy; no all-lime handwriting system; no all-lime icon system; no all-lime diagram system; no all-lime metadata; no lime as primary typographic color; no lime dominating black structural hierarchy; no multiple large lime regions; no sprinkling lime randomly to satisfy signature requirement; no top headline panel unless premise requires; no bottom evidence panel unless premise requires; no header-body-footer infographic shell; no symmetrical information zones; no presentation board composition; no content container around artwork; no random tape or scribbles without causality; no random analog texture; no over-resolved generated graphic; no decorative human marks`,
   ];
 
   if (params.founderRevisionDirective) {
@@ -359,4 +376,30 @@ export function materialFalPromptBlocksTopHeadlinePanel(contract: MarketingFalPr
 
 export function materialFalPromptBlocksBottomEvidencePanel(contract: MarketingFalPromptContract): boolean {
   return contract.prompt.includes('BOTTOM INFORMATION PANEL');
+}
+
+export function materialFalPromptHasPhysicalPageObjectSection(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('PHYSICAL PAGE OBJECT');
+}
+
+export function materialFalPromptHasNotebookAuthorityChain(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('VISUAL AUTHORITY CHAIN (P0.5C.7)') && contract.prompt.includes('PAGE_OBJECT');
+}
+
+export function materialFalPromptHasConstructionHistorySection(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('CONSTRUCTION HISTORY') && contract.prompt.includes('HOW NDX MADE THIS PAGE');
+}
+
+export function materialFalPromptHasUppercaseAuthorshipSection(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('UPPERCASE AUTHORSHIP') && contract.prompt.includes('NDX_AUTHORED_TEXT = UPPERCASE');
+}
+
+export function materialFalPromptHasNegativeTemplateConstraints(contract: MarketingFalPromptContract): boolean {
+  return contract.prompt.includes('NEGATIVE TEMPLATE CONSTRAINTS');
+}
+
+export function materialFalPromptPageObjectBeforeTypography(contract: MarketingFalPromptContract): boolean {
+  const pageIdx = contract.prompt.indexOf('PHYSICAL PAGE OBJECT');
+  const typoIdx = contract.prompt.indexOf('TYPOGRAPHY ROLES');
+  return pageIdx >= 0 && typoIdx > pageIdx;
 }

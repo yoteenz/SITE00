@@ -180,7 +180,7 @@ describe('P0.5C.4B.1 Signature Lime Restraint', () => {
   });
 
   it('REGENERATE_CURRENT uses C4B.1 compiler; REPLAY preserves history', () => {
-    expect(V23_FAL_COMPILER_VERSION).toContain('P0.5C.6');
+    expect(V23_FAL_COMPILER_VERSION).toContain('P0.5C.7');
     const artifact = v23Result.artifacts[2]!;
     const { falContract } = compileCurrentV23FalPrompt({
       artifact,
