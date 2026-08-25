@@ -4844,3 +4844,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cause:** API JSON body limit was 2MB on Railway Express server; board PNGs sent inline exceed limit.
 - **Fix:** New `founder_creative_ingestion_upload_reference` uploads image to Supabase storage (webp via sharp), then creates draft reference with `storagePath` + public URL only. UI: **UPLOAD REFERENCE BOARD** file picker with client-side compression. Express JSON limit raised to 25MB. Friendly 413 handler.
 
+---
+
+## 2026-08-25 — FCI upload → show → auto-decompose flow fix
+
+- **Context:** Founder selected and uploaded a replacement reference board on Founder Creative Ingestion but nothing changed on the page — expected uploaded image to appear and decompose stage to begin automatically.
+- **Root causes:** (1) Upload only created a draft version without calling `redecomposeFromDraftReference`. (2) Main sequence `referenceUrl` used legacy asset id `ref-board-${sequenceId}` instead of versioned `ref-board-${sequenceId}-v${n}`. (3) Silent rejection of some mobile image types; no upload feedback.
+- **Fix:** `uploadAndReplaceFounderCreativeReferenceBoard` now chains upload → draft → redecompose → QA in one save; returns `diff` + `qaReport`. Added `resolveSequenceReferencePreviewUrl` (draft → active → legacy). UI uses it for main reference art; upload handler applies diff, selects first slide, shows local blob preview while busy, surfaces invalid-file errors, "UPLOADING & DECOMPOSING…" status.
+- **Tests:** `founderCreativeIngestionP0CB1A.test.ts` — upload auto-redecompose + preview URL helper (16 pass).
+- **Ship:** PR to `main`; deploy Railway + fsbw-dev for live fix.
+

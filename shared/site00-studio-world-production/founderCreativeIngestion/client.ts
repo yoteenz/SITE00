@@ -65,3 +65,28 @@ export function hasDraftReferenceVersion(
 export function parentReferenceStatusLabel(status: import('./types.js').ParentReferenceStatus): string {
   return status.replace(/_/g, ' ');
 }
+
+/** Draft → active → legacy asset id fallback for sequence reference preview. */
+export function resolveSequenceReferencePreviewUrl(
+  state: import('./types.js').FounderCreativeIngestionState,
+  sequenceId: string,
+): string | null {
+  const auth = state.activeReferenceAuthority.find((entry) => entry.parentSequenceId === sequenceId);
+  const draftVersion = auth?.draftReferenceVersionId
+    ? state.referenceVersions.find((entry) => entry.referenceVersionId === auth.draftReferenceVersionId)
+    : null;
+  if (draftVersion) {
+    const draftAsset = state.referenceAssets.find((entry) => entry.assetId === draftVersion.referenceAssetId);
+    if (draftAsset?.previewUrl) return draftAsset.previewUrl;
+  }
+
+  const activeVersion = auth?.activeReferenceVersionId
+    ? state.referenceVersions.find((entry) => entry.referenceVersionId === auth.activeReferenceVersionId)
+    : null;
+  if (activeVersion) {
+    const activeAsset = state.referenceAssets.find((entry) => entry.assetId === activeVersion.referenceAssetId);
+    if (activeAsset?.previewUrl) return activeAsset.previewUrl;
+  }
+
+  return state.referenceAssets.find((entry) => entry.assetId === `ref-board-${sequenceId}`)?.previewUrl ?? null;
+}
