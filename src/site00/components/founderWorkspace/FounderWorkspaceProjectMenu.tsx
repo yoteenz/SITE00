@@ -28,7 +28,13 @@ export function FounderWorkspaceProjectMenu({ open, onClose, items, overflowItem
   return (
     <>
       <button type="button" className="site00-fws-menu-backdrop" aria-label="Close menu" onClick={onClose} />
-      <div ref={panelRef} className="site00-fws-menu" role="menu" aria-label="Project menu">
+      <div
+        ref={panelRef}
+        className="site00-fws-menu"
+        data-vr-region="ndx-project-menu"
+        role="menu"
+        aria-label="Project menu"
+      >
         {items.map((item) => (
           <Link key={item.id} to={item.href} className="site00-fws-menu__row" role="menuitem" onClick={onClose}>
             <span className="site00-fws-menu__icon" aria-hidden="true">

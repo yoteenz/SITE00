@@ -5074,3 +5074,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Live run:** skipRender=false; DOM regions tracked (7); overlay + heatmap generated; visual score ~79% (NEEDS_CORRECTION vs 90% VISUAL_PASS threshold) — pipeline proved end-to-end; remaining drift: card artwork textures, fine typography, status-bar crop in reference.
 - **Founder next:** Upload GoDaddy ZIP v107; optional HELP route when defined; re-run `npx tsx scripts/visualReconstruction/runNdxOverviewMenuOpenLiveReconstruction.ts` after further CSS convergence.
 
+---
+
+## 2026-08-25 — NDXBOOK duplicate mobile project menu fix
+
+- **Context:** Founder reported overlapping duplicate menus on mobile NDXBOOK (`site00.fsbw-dev.com`) — header-anchored partial popover behind full project menu when tapping ellipsis.
+- **Root cause:** P0.VR.1D.3 added `ProjectEscapeMenu` inside `MobileFounderWorkspaceChrome` with local `menuOpen` state, while P0.UI.3 `FounderWorkspaceShell` also renders `FounderWorkspaceProjectMenu`. Ellipsis `toggleMenu` opened local menu **and** called `onOpenMenu()` which always opened shell menu → two overlays.
+- **Fix:** Removed `ProjectEscapeMenu`; mobile chrome is controlled by shell (`menuOpen`, `onToggleMenu`). Single canonical `FounderWorkspaceProjectMenu` with `data-vr-region="ndx-project-menu"`. `vrMenuOpen=1` query param handled at shell level for VR proofs. Regression test `ndxDuplicateMenuFix.test.ts`.
+- **Founder next:** Redeploy fsbw-dev / GoDaddy so production picks up fix.
+
