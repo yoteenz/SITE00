@@ -1,5 +1,5 @@
 /**
- * P0.5E.4C — Live FAL dispatch for character visual casting stills.
+ * P0.5E.4D — Live FAL dispatch for character visual casting stills (uses stored prompt snapshots).
  */
 
 import {
@@ -18,7 +18,9 @@ import {
 import {
   compileCastingPromptFromContract,
   compileCharacterCastingPromptContract,
+  resolveStoredPromptContract,
 } from '../../../../shared/site00-studio-world-production/characterVisualCasting/promptContract.js';
+import { migrateReferenceDrivenCastingState } from '../../../../shared/site00-studio-world-production/characterVisualCasting/referenceDrivenCasting.js';
 import { recommendStillImageCastingProvider } from '../../../../shared/site00-studio-world-production/characterVisualCasting/providerSelection.js';
 import type {
   CharacterCastingCandidate,
@@ -38,15 +40,32 @@ function storagePathFor(projectId: string, roundId: string, candidateId: string)
   return `site00/character-casting/${safe(projectId)}/${safe(roundId)}/${safe(candidateId)}.webp`;
 }
 
+function resolveCandidatePromptContract(params: {
+  state: CharacterVisualCastingState;
+  candidate: CharacterCastingCandidate;
+  snapshot: CharacterTruthSnapshot;
+}) {
+  const migrated = migrateReferenceDrivenCastingState(params.state);
+  const stored = resolveStoredPromptContract(migrated, params.candidate.promptSnapshotId);
+  if (stored) return stored;
+
+  return compileCharacterCastingPromptContract({
+    snapshot: params.snapshot,
+    variationAxis: params.candidate.variationAxis,
+  });
+}
+
 async function generateOneCastingStill(params: {
   projectId: string;
   roundId: string;
   candidate: CharacterCastingCandidate;
   snapshot: CharacterTruthSnapshot;
+  state: CharacterVisualCastingState;
 }): Promise<CastingCandidateGenerationResult> {
-  const contract = compileCharacterCastingPromptContract({
+  const contract = resolveCandidatePromptContract({
+    state: params.state,
+    candidate: params.candidate,
     snapshot: params.snapshot,
-    variationAxis: params.candidate.variationAxis,
   });
   const { prompt, negativePrompt } = compileCastingPromptFromContract(contract);
   const storagePath = storagePathFor(params.projectId, params.roundId, params.candidate.candidateId);
@@ -78,7 +97,7 @@ async function generateOneCastingStill(params: {
   const fullPrompt = `${prompt}\n\nAvoid: ${negativePrompt}`;
   const { model, input } = buildFalImageInput({
     prompt: fullPrompt,
-    aspectRatio: '4:5',
+    aspectRatio: params.candidate.assetSlot?.startsWith('FULL_BODY_') ? '3:4' : '4:5',
     outputFormat: 'webp',
   });
 
@@ -107,13 +126,14 @@ export async function dispatchCastingRoundFal(params: {
   state: CharacterVisualCastingState;
   roundId: string;
 }): Promise<CharacterVisualCastingState> {
-  const round = params.state.rounds.find((entry) => entry.roundId === params.roundId);
+  const state = migrateReferenceDrivenCastingState(params.state);
+  const round = state.rounds.find((entry) => entry.roundId === params.roundId);
   if (!round) throw new Error('Casting round not found');
 
-  const snapshot = params.state.truthSnapshots.find((entry) => entry.snapshotId === round.characterTruthSnapshotId);
+  const snapshot = state.truthSnapshots.find((entry) => entry.snapshotId === round.characterTruthSnapshotId);
   if (!snapshot) throw new Error('Character truth snapshot required for casting generation');
 
-  const candidates = params.state.candidates.filter((entry) => entry.roundId === params.roundId);
+  const candidates = state.candidates.filter((entry) => entry.roundId === params.roundId);
   const rec = recommendStillImageCastingProvider(true);
 
   const results = await Promise.all(
@@ -123,12 +143,13 @@ export async function dispatchCastingRoundFal(params: {
         roundId: params.roundId,
         candidate,
         snapshot,
+        state,
       }),
     ),
   );
 
   return applyCastingGenerationResults({
-    state: params.state,
+    state,
     roundId: params.roundId,
     results,
     model: rec.model ?? SITE00_FAL_TEXT_TO_IMAGE_MODEL,

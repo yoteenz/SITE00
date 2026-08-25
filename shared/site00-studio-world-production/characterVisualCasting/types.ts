@@ -10,6 +10,10 @@ import type {
   CASTING_VARIATION_AXES,
   MERGE_TRAIT_OPTIONS,
   FOUNDER_CASTING_REFERENCE_ROLES,
+  CHARACTER_BIBLE_ASSET_SLOTS,
+  CHARACTER_BIBLE_REVIEW_TABS,
+  REFERENCE_CONTROLLED_VARIATION_SLOTS,
+  CASTING_PROMPT_AUTHORITY_LAYERS,
 } from './constants.js';
 
 export type FounderCastingReferenceRole = (typeof FOUNDER_CASTING_REFERENCE_ROLES)[number];
@@ -36,6 +40,131 @@ export type CastingCandidateStatus = (typeof CASTING_CANDIDATE_STATUSES)[number]
 export type CastingRoundStatus = (typeof CASTING_ROUND_STATUSES)[number];
 export type CastingVariationAxis = (typeof CASTING_VARIATION_AXES)[number];
 export type MergeTraitOption = (typeof MERGE_TRAIT_OPTIONS)[number];
+export type VisibilityConfidence = 'CLEARLY_VISIBLE' | 'PARTIALLY_VISIBLE' | 'INFERRED' | 'UNKNOWN';
+export type CharacterBibleAssetSlot = (typeof CHARACTER_BIBLE_ASSET_SLOTS)[number];
+export type CharacterBibleReviewTab = (typeof CHARACTER_BIBLE_REVIEW_TABS)[number];
+export type ReferenceControlledVariationSlot = (typeof REFERENCE_CONTROLLED_VARIATION_SLOTS)[number];
+export type CastingPromptAuthorityLayer = (typeof CASTING_PROMPT_AUTHORITY_LAYERS)[number];
+export type CastingGenerationMode = 'LEGACY_VARIATION' | 'REFERENCE_DRIVEN' | 'CHARACTER_BIBLE_ASSET_PACK';
+
+export type DecomposedVisualField = {
+  value: string;
+  confidence: VisibilityConfidence;
+};
+
+export type CharacterReferenceDecomposition = {
+  decompositionId: string;
+  referenceId: string;
+  sourcePreviewUrl: string;
+  sourceStoragePath: string;
+  role: FounderCastingReferenceRole;
+  decomposedAt: string;
+  identity: {
+    ageRange: DecomposedVisualField;
+    skinTone: DecomposedVisualField;
+    faceShape: DecomposedVisualField;
+    browShape: DecomposedVisualField;
+    eyeShape: DecomposedVisualField;
+    noseProfile: DecomposedVisualField;
+    lipShape: DecomposedVisualField;
+    jawCharacter: DecomposedVisualField;
+    likenessAnchors: DecomposedVisualField[];
+    distinguishingProportions: DecomposedVisualField;
+    presenceEnergy: DecomposedVisualField;
+  };
+  hair: {
+    texture: DecomposedVisualField;
+    density: DecomposedVisualField;
+    length: DecomposedVisualField;
+    parting: DecomposedVisualField;
+    styleStructure: DecomposedVisualField;
+    patternNotes: DecomposedVisualField;
+    color: DecomposedVisualField;
+    hairlineBehavior: DecomposedVisualField;
+    stylingLane: DecomposedVisualField;
+  };
+  wardrobe: {
+    topCategory: DecomposedVisualField;
+    bottomCategory: DecomposedVisualField;
+    layerPieces: DecomposedVisualField;
+    silhouette: DecomposedVisualField;
+    fit: DecomposedVisualField;
+    fabricImpression: DecomposedVisualField;
+    colorPalette: DecomposedVisualField;
+    shoes: DecomposedVisualField;
+    accessories: DecomposedVisualField;
+    jewelry: DecomposedVisualField;
+    eyewear: DecomposedVisualField;
+    nails: DecomposedVisualField;
+    lookNaming: DecomposedVisualField;
+  };
+  presence: {
+    moodEnergy: DecomposedVisualField;
+    posture: DecomposedVisualField;
+    poseLanguage: DecomposedVisualField;
+    cameraRelationship: DecomposedVisualField;
+    editorialVsEveryday: DecomposedVisualField;
+  };
+  environment: {
+    roomType: DecomposedVisualField;
+    setCues: DecomposedVisualField;
+    lightingMood: DecomposedVisualField;
+    colorEnvironment: DecomposedVisualField;
+    editorialObjects: DecomposedVisualField;
+    propSuggestions: DecomposedVisualField;
+    realismLane: DecomposedVisualField;
+  };
+  authorityNotes: string[];
+};
+
+export type ActiveCastingReferenceAuthority = {
+  authorityId: string;
+  referenceId: string;
+  role: FounderCastingReferenceRole;
+  previewUrl: string;
+  storagePath: string;
+  decompositionId: string;
+  activatedAt: string;
+  authorityRank: number;
+};
+
+export type ReferenceDrivenCastingBundle = {
+  bundleId: string;
+  referenceId: string;
+  decompositionId: string;
+  authorityOrder: CastingPromptAuthorityLayer[];
+  legacyPromptSecondary: true;
+  compiledAt: string;
+  promptSnapshotIds: string[];
+};
+
+export type CharacterBibleAssetPack = {
+  packId: string;
+  referenceId: string;
+  decompositionId: string;
+  roundId: string | null;
+  slots: CharacterBibleAssetSlot[];
+  lockStates: {
+    faceLocked: boolean;
+    wardrobeLocked: boolean;
+    environmentLocked: boolean;
+  };
+  status: 'PLANNED' | 'GENERATING' | 'REVIEW' | 'APPROVED';
+  createdAt: string;
+  approvedAt: string | null;
+};
+
+export type ReferenceDerivedCharacterSummary = {
+  summaryId: string;
+  referenceId: string;
+  decompositionId: string;
+  identityLine: string;
+  hairLine: string;
+  wardrobeLine: string;
+  environmentLine: string;
+  presenceLine: string;
+  compiledAt: string;
+};
 
 export type FounderCharacterRecognitionConfirmed = {
   eventId: string;
@@ -122,8 +251,14 @@ export type CharacterCastingPromptContract = {
     negativeIdentityConstraints: string;
     variationAxis: string;
     continuityIntent: string;
+    referenceAuthorityBlock?: string;
+    legacyPromptSecondary?: string;
   };
   variationAxis: CastingVariationAxis;
+  generationMode?: CastingGenerationMode;
+  assetSlot?: CharacterBibleAssetSlot | null;
+  controlledVariationSlot?: ReferenceControlledVariationSlot | null;
+  referenceAuthorityId?: string | null;
 };
 
 export type CharacterCastingCandidate = {
@@ -134,6 +269,8 @@ export type CharacterCastingCandidate = {
   model: string;
   promptSnapshotId: string;
   variationAxis: CastingVariationAxis;
+  assetSlot: CharacterBibleAssetSlot | ReferenceControlledVariationSlot | null;
+  generationMode: CastingGenerationMode;
   outputAssetId: string | null;
   previewUrl: string | null;
   createdAt: string;
@@ -152,6 +289,9 @@ export type CharacterCastingRound = {
   characterTruthSnapshotId: string;
   candidateIds: string[];
   generationContractId: string | null;
+  generationMode: CastingGenerationMode;
+  referenceAuthorityId: string | null;
+  assetPackId: string | null;
   provider: string;
   model: string;
   costUsd: number | null;
@@ -187,6 +327,7 @@ export type FounderCastingReference = {
   role: FounderCastingReferenceRole;
   label: string | null;
   decomposedSignals: string[];
+  decomposition: CharacterReferenceDecomposition | null;
   decomposedAt: string | null;
   storedInBible: boolean;
   bibleReceiptId: string | null;
@@ -227,5 +368,10 @@ export type CharacterVisualCastingState = {
   falVideoRequests: number;
   falGenerationTracking: CastingFalGenerationTracking | null;
   founderReferences: FounderCastingReference[];
+  activeReferenceAuthority: ActiveCastingReferenceAuthority | null;
+  promptContractSnapshots: Record<string, CharacterCastingPromptContract>;
+  referenceDrivenBundles: ReferenceDrivenCastingBundle[];
+  characterBibleAssetPack: CharacterBibleAssetPack | null;
+  referenceDerivedSummary: ReferenceDerivedCharacterSummary | null;
   updatedAt: string;
 };

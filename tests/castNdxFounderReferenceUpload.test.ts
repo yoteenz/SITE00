@@ -66,6 +66,7 @@ describe('CAST NDX founder reference ingestion', () => {
 
     state = decomposeFounderCastingReference(state, state.founderReferences[0]!.referenceId);
     expect(state.founderReferences[0]?.decomposedSignals.length).toBeGreaterThan(0);
+    expect(state.founderReferences[0]?.decomposition).toBeTruthy();
     expect(state.castingAuthority?.projectVisualCanonNotes.length).toBeGreaterThan(0);
 
     state = storeFounderCastingReferenceInBible(state, state.founderReferences[0]!.referenceId, 'receipt-1');
@@ -112,6 +113,7 @@ describe('CAST NDX founder reference ingestion', () => {
     const css = readFileSync(join(ROOT, 'src/site00/styles/site00-character-casting.css'), 'utf8');
     expect(page).toContain('TAP TO UPLOAD');
     expect(page).toContain('STORE IN BIBLE');
+    expect(page).toContain('GENERATE CHARACTER BIBLE FROM REFERENCE');
     expect(page).toContain('REGENERATE CASTING FROM REFERENCES');
     expect(css).toContain('upload-zone');
   });

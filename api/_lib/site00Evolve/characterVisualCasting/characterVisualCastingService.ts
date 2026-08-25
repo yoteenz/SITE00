@@ -264,10 +264,60 @@ export async function regenerateCastingFromFounderReferences(params: {
     '../../../../shared/site00-studio-world-production/characterVisualCasting/founderReferenceIngestion.js'
   );
   if (!hasFounderReferencesReadyForRegeneration(run.visualCastingState)) {
-    throw new Error('Upload and decompose at least one founder reference first');
+    throw new Error('Upload and decompose a Full Look reference first');
   }
-  return generateNextVisualCastingRound({
+  return generateCharacterBibleFromReference({
     projectId: params.projectId,
     dispatchFal: params.dispatchFal,
   });
+}
+
+export async function generateCharacterBibleFromReference(params: {
+  projectId: string;
+  dispatchFal?: boolean;
+}) {
+  const run = await hydrateCastingRun(params.projectId);
+  if (!run.visualCastingState) throw new Error('Visual casting not initialized');
+  const { generateCharacterBibleAssetPackRound } = await import(
+    '../../../../shared/site00-studio-world-production/characterVisualCasting/referenceDrivenCasting.js'
+  );
+  const shouldDispatch = params.dispatchFal ?? falConfigured();
+  const visualCastingState = generateCharacterBibleAssetPackRound({
+    state: run.visualCastingState,
+    falConfigured: falConfigured(),
+    dispatchFal: shouldDispatch,
+  });
+  const roundId = visualCastingState.rounds.at(-1)?.roundId;
+  if (shouldDispatch && falConfigured() && roundId) {
+    return dispatchCastingRoundInBackground({
+      projectId: params.projectId,
+      run: { ...run, visualCastingState },
+      roundId,
+    });
+  }
+  return save({ ...run, visualCastingState });
+}
+
+export async function approveCharacterBibleAssetPack(params: { projectId: string }) {
+  const run = await hydrateCastingRun(params.projectId);
+  if (!run.visualCastingState) throw new Error('Visual casting not initialized');
+  const { approveCharacterBibleAssetPack: approvePack } = await import(
+    '../../../../shared/site00-studio-world-production/characterVisualCasting/referenceDrivenCasting.js'
+  );
+  const visualCastingState = approvePack(run.visualCastingState);
+  return save({ ...run, visualCastingState });
+}
+
+export async function updateCharacterBibleAssetLock(params: {
+  projectId: string;
+  lock: 'faceLocked' | 'wardrobeLocked' | 'environmentLocked';
+  value: boolean;
+}) {
+  const run = await hydrateCastingRun(params.projectId);
+  if (!run.visualCastingState) throw new Error('Visual casting not initialized');
+  const { updateCharacterBibleLockState } = await import(
+    '../../../../shared/site00-studio-world-production/characterVisualCasting/referenceDrivenCasting.js'
+  );
+  const visualCastingState = updateCharacterBibleLockState(run.visualCastingState, params.lock, params.value);
+  return save({ ...run, visualCastingState });
 }

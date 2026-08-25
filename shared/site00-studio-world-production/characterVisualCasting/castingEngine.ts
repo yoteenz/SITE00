@@ -14,6 +14,12 @@ import { buildInitialCastingPromptMatrix, compileCharacterCastingPromptContract 
 import { estimateCastingRoundCost, recommendStillImageCastingProvider } from './providerSelection.js';
 import { syncPipelineState } from './stateMachine.js';
 import { founderReferencePromptNotes, migrateCastingStateFounderReferences } from './founderReferenceIngestion.js';
+import {
+  generateCharacterBibleAssetPackRound,
+  hasActiveReferenceAuthority,
+  migrateReferenceDrivenCastingState,
+} from './referenceDrivenCasting.js';
+import { storePromptContractSnapshot } from './promptContract.js';
 import type {
   CastingPrimaryJudgment,
   CastingVariationAxis,
@@ -54,6 +60,10 @@ export function generateCastingRoundPlaceholders(params: {
   const migrated = migrateCastingStateFounderReferences(params.state);
   const referenceNotes = founderReferencePromptNotes(migrated);
   const contracts = buildInitialCastingPromptMatrix(snapshot, referenceNotes);
+  let working = migrated;
+  for (const contract of contracts) {
+    working = storePromptContractSnapshot(working, contract);
+  }
   const rec = recommendStillImageCastingProvider(params.falConfigured);
   const roundNumber = params.state.rounds.length + 1;
   const roundId = randomUUID();
@@ -66,6 +76,8 @@ export function generateCastingRoundPlaceholders(params: {
     model: rec.model ?? 'pending',
     promptSnapshotId: contract.contractId,
     variationAxis: contract.variationAxis,
+    assetSlot: null,
+    generationMode: hasActiveReferenceAuthority(working) ? 'REFERENCE_DRIVEN' : 'LEGACY_VARIATION',
     outputAssetId: null,
     previewUrl: params.dispatchFal ? null : `/api/placeholder/casting/${roundNumber}-${index + 1}`,
     createdAt: new Date().toISOString(),
@@ -84,6 +96,9 @@ export function generateCastingRoundPlaceholders(params: {
     characterTruthSnapshotId: snapshot.snapshotId,
     candidateIds: candidates.map((c) => c.candidateId),
     generationContractId: contracts[0]?.contractId ?? null,
+    generationMode: hasActiveReferenceAuthority(working) ? 'REFERENCE_DRIVEN' : 'LEGACY_VARIATION',
+    referenceAuthorityId: working.activeReferenceAuthority?.authorityId ?? null,
+    assetPackId: null,
     provider: rec.provider ?? 'fal',
     model: rec.model ?? 'pending',
     costUsd: params.dispatchFal ? estimateCastingRoundCost(candidates.length, params.falConfigured) : 0,
@@ -96,7 +111,7 @@ export function generateCastingRoundPlaceholders(params: {
   };
 
   return syncPipelineState({
-    ...params.state,
+    ...working,
     rounds: [...params.state.rounds, round],
     candidates: [...params.state.candidates, ...candidates],
     castingCandidatesReady: !params.dispatchFal,
@@ -235,6 +250,12 @@ export function applyCastingGenerationResults(params: {
     candidates,
     rounds,
     castingCandidatesReady: true,
+    characterBibleAssetPack: params.state.characterBibleAssetPack
+      ? {
+          ...params.state.characterBibleAssetPack,
+          status: 'REVIEW',
+        }
+      : null,
   });
 }
 
@@ -311,19 +332,29 @@ export function generateNextCastingRoundFromFeedback(params: {
   falConfigured: boolean;
   dispatchFal?: boolean;
 }): CharacterVisualCastingState {
-  const snapshot = params.state.truthSnapshots.find((s) => s.snapshotId === params.state.activeTruthSnapshotId);
+  const migrated = migrateReferenceDrivenCastingState(params.state);
+  if (hasActiveReferenceAuthority(migrated)) {
+    return generateCharacterBibleAssetPackRound({
+      state: migrated,
+      falConfigured: params.falConfigured,
+      dispatchFal: params.dispatchFal,
+    });
+  }
+
+  const snapshot = migrated.truthSnapshots.find((s) => s.snapshotId === migrated.activeTruthSnapshotId);
   if (!snapshot) throw new Error('Snapshot required');
-  const feedback = deriveNextRoundTraitsFromFeedback(params.state);
+  const feedback = deriveNextRoundTraitsFromFeedback(migrated);
   const axis = feedback.variedTraits[0] ?? 'HAIR_PROTECTIVE_STYLE';
-  const referenceNotes = founderReferencePromptNotes(migrateCastingStateFounderReferences(params.state));
+  const referenceNotes = founderReferencePromptNotes(migrateCastingStateFounderReferences(migrated));
   const contract = compileCharacterCastingPromptContract({
     snapshot,
     variationAxis: axis,
     founderReferenceNotes: referenceNotes,
   });
+  let working = storePromptContractSnapshot(migrated, contract);
   const rec = recommendStillImageCastingProvider(params.falConfigured);
   const roundId = randomUUID();
-  const roundNumber = params.state.rounds.length + 1;
+  const roundNumber = migrated.rounds.length + 1;
 
   const candidates: CharacterCastingCandidate[] = CASTING_VARIATION_AXES.slice(0, 6).map((variationAxis, index) => ({
     candidateId: randomUUID(),
@@ -333,6 +364,8 @@ export function generateNextCastingRoundFromFeedback(params: {
     model: rec.model ?? 'pending',
     promptSnapshotId: contract.contractId,
     variationAxis,
+    assetSlot: null,
+    generationMode: 'LEGACY_VARIATION' as const,
     outputAssetId: null,
     previewUrl: params.dispatchFal ? null : `/api/placeholder/casting/r${roundNumber}-${index + 1}`,
     createdAt: new Date().toISOString(),
@@ -351,6 +384,9 @@ export function generateNextCastingRoundFromFeedback(params: {
     characterTruthSnapshotId: snapshot.snapshotId,
     candidateIds: candidates.map((c) => c.candidateId),
     generationContractId: contract.contractId,
+    generationMode: 'LEGACY_VARIATION',
+    referenceAuthorityId: null,
+    assetPackId: null,
     provider: rec.provider ?? 'fal',
     model: rec.model ?? 'pending',
     costUsd: params.dispatchFal ? estimateCastingRoundCost(candidates.length, params.falConfigured) : 0,
@@ -363,11 +399,11 @@ export function generateNextCastingRoundFromFeedback(params: {
   };
 
   return syncPipelineState({
-    ...params.state,
-    rounds: [...params.state.rounds.map((r) => ({ ...r, status: r.status === 'REVIEW_READY' ? 'COMPLETE' as const : r.status })), round],
-    candidates: [...params.state.candidates, ...candidates],
+    ...working,
+    rounds: [...migrated.rounds.map((r) => ({ ...r, status: r.status === 'REVIEW_READY' ? 'COMPLETE' as const : r.status })), round],
+    candidates: [...migrated.candidates, ...candidates],
     castingCandidatesReady: !params.dispatchFal,
-    falImageRequests: params.state.falImageRequests + (params.dispatchFal ? candidates.length : 0),
+    falImageRequests: migrated.falImageRequests + (params.dispatchFal ? candidates.length : 0),
   });
 }
 
@@ -384,6 +420,8 @@ export function generateFinalIdentityConfirmationRound(state: CharacterVisualCas
     model: selected.model,
     promptSnapshotId: selected.promptSnapshotId,
     variationAxis: 'FACE_STRUCTURE',
+    assetSlot: null,
+    generationMode: 'LEGACY_VARIATION',
     outputAssetId: null,
     previewUrl: `/api/placeholder/casting/final-${index + 1}`,
     createdAt: new Date().toISOString(),
@@ -402,6 +440,9 @@ export function generateFinalIdentityConfirmationRound(state: CharacterVisualCas
     characterTruthSnapshotId: selected.characterTruthSnapshotId,
     candidateIds: candidates.map((c) => c.candidateId),
     generationContractId: selected.promptSnapshotId,
+    generationMode: 'LEGACY_VARIATION',
+    referenceAuthorityId: null,
+    assetPackId: null,
     provider: selected.provider,
     model: selected.model,
     costUsd: 0,

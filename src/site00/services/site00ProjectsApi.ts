@@ -2054,6 +2054,37 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, dispatchFal }),
       },
     ),
+  characterVisualCastingGenerateBibleFromReference: (slug: string, dispatchFal?: boolean) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; background?: boolean }>(
+      '/api/site00/projects?action=character_visual_casting_generate_bible_from_reference',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, dispatchFal }),
+      },
+    ),
+  characterVisualCastingApproveBiblePack: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_visual_casting_approve_bible_pack',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  characterVisualCastingBibleLock: (
+    slug: string,
+    lock: 'faceLocked' | 'wardrobeLocked' | 'environmentLocked',
+    value: boolean,
+  ) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_visual_casting_bible_lock',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, lock, value }),
+      },
+    ),
   founderCharacterDiscoverySynthesisPreview: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=founder_character_discovery_synthesis_preview',
