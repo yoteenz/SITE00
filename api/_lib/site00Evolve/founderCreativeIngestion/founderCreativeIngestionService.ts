@@ -49,6 +49,7 @@ import {
   rerunSequenceQAAfterRedecomposition,
   uploadReplacementReferenceBoard,
 } from '../../../../shared/site00-studio-world-production/founderCreativeIngestion/referenceReplacement/replacementEngine.js';
+import { uploadFounderReferenceBoardImage } from './referenceBoardUpload.js';
 
 function falConfigured(): boolean {
   return isNeuralProviderConfigured();
@@ -495,6 +496,28 @@ export async function bulkReplaceFounderCreativeReferences(params: {
   }
   const saved = await saveWithIngestion(params.projectId, run, ingestion);
   return { run: saved, ingestion, diffs };
+}
+
+export async function uploadAndReplaceFounderCreativeReferenceBoard(params: {
+  projectId: string;
+  sequenceId: string;
+  imageData: string;
+  notes?: string | null;
+}): Promise<{ run: MarketingCampaignProductionRun; ingestion: FounderCreativeIngestionState; previewUrl: string; storagePath: string }> {
+  const { storagePath, previewUrl } = await uploadFounderReferenceBoardImage({
+    projectId: params.projectId,
+    sequenceId: params.sequenceId,
+    imageData: params.imageData,
+  });
+  const replaced = await replaceFounderCreativeReferenceBoard({
+    projectId: params.projectId,
+    sequenceId: params.sequenceId,
+    previewUrl,
+    storagePath,
+    notes: params.notes ?? 'Founder uploaded reference board',
+    reason: 'FOUNDER_UPLOAD',
+  });
+  return { ...replaced, previewUrl, storagePath };
 }
 
 export async function getFounderCreativeReferenceComparison(params: {

@@ -53,7 +53,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json({ limit: '2mb' }));
+app.use(express.json({ limit: process.env.SITE00_API_JSON_LIMIT ?? '25mb' }));
 
 app.get('/api/health', async (_req, res) => {
   const provider = resolveCreativeIntelligenceProviderConfig();
@@ -109,6 +109,23 @@ for (const { path, handler } of API_ROUTES) {
 }
 
 app.use((err: unknown, req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  const entityTooLarge =
+    err &&
+    typeof err === 'object' &&
+    'type' in err &&
+    (err as { type?: string }).type === 'entity.too.large';
+  if (entityTooLarge) {
+    applyApiCors(req, res);
+    res.status(413).json({
+      ok: false,
+      error: {
+        code: 'PAYLOAD_TOO_LARGE',
+        message:
+          'Reference board file is too large for upload. Export a smaller PNG/JPG or use the upload button to send via storage.',
+      },
+    });
+    return;
+  }
   const message = err instanceof Error ? err.message : 'Internal server error';
   console.error('[site00-api]', err);
   if (!res.headersSent) {
