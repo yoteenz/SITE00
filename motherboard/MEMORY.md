@@ -5092,3 +5092,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix v2:** Narrow viewports (`!isWideViewport`) always use `MobileFounderWorkspaceChrome` regardless of preview toggle; MORE bottom-nav is a **button** toggling the single shell menu (same state as header ellipsis); menu portaled to `document.body`; legacy escape-menu CSS removed; menu closes on route change.
 - **Verified:** Playwright on 390px — mobile + desktop-preview both show `mobileChrome:1`, `mobileNav:0`, one `[role="menu"]` after MORE tap.
 
+---
+
+## 2026-08-25 — P0.UI.3B pixel-to-vector icon trace + exact geometry convergence
+
+- **Context:** Founder sprint P0.UI.3B — eliminate semantic icon invention; trace approved reference pixels from `mobile-overview-menu-open.png` (941×1672) into SVG paths; replace V1 hand-approximated geometry in canonical `NDXIconRegistry`.
+- **Root issue:** P0.UI.3/3A architecture existed but P0.UI.3A crop authority pointed at wrong mood-board fixture (390×844, no traceable dark pixels). Live icons still drifted (grid vs house, document vs target, small bell).
+- **Fix:** New `shared/site00-studio-world-ui/icons/p0ui3b/` module: `ExactIconReferenceCrop`, `IconPixelMask`, `IconVectorContour`, `IconReferenceFootprint`, `ExactIconGeometryEvaluation`, semantic substitution audit, overlay/diff, raster comparison. V2 geometry `NDX_ICON_GEOMETRY_V2` wired through `buildPixelTracedIconRegistry()`; registry now uses `NDX_ICON_V2_PIXEL_TRACED`. Recalibrated crops from founder screenshot. Scripts: `extractNdxIconReferenceCropsP0UI3B.ts`, `runNdxIconPixelTracePipeline.ts`. Tests: `ndxIconSystemP0UI3B.test.ts` (12 pass). Build green.
+- **Priority icons corrected:** Overview (house), Content Ops (circle/target), Campaigns (clapper), Notification (bell footprint enlarged), Lab, More, Ellipsis, project menu icons.
+- **Preserved:** Page layout, navigation behavior, SITE00 host canon, NDX brand canon — icon geometry only.
+
