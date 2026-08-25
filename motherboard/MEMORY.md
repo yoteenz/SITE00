@@ -4919,3 +4919,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Migration:** `20260825180000_site00_project_core_isolation.sql`
 - **Recommended next sprint:** P0.C — Origin + Client Truth ingestion (world intake link, reconciliation workflow).
 
+---
+
+## 2026-08-25 — P0.5E.4E Visual identity lock + anchor-first Character Bible generation
+
+- **Problem:** Reference-first casting (P0.5E.4D) generated correct asset categories but not the same woman/outfit/environment — no anchor gate, no structured identity/wardrobe/environment locks, no drift QA, bible pack generated all slots at once without approved anchor authority.
+- **Fix:** `identityAnchorCasting.ts` — `VisualIdentityLock`, `WardrobeLock`, `EnvironmentLock`, `ViewInferenceMap`; canonical anchor workflow (`CANONICAL_ANCHOR_PENDING` → review → approve → `BIBLE_PACK_READY_TO_GENERATE`); `CharacterContinuityDriftEvaluation` + failure taxonomy; anchor-dependent bible pack via `compileAnchorDependentBiblePromptContract` (authority order: uploaded reference → locks → approved anchor → view contract → inference rules). Bible pack gated on anchor approval. 10 view-contract slots (FRONT_VIEW … CONTACT_SHEET). Optional supporting reference roles. Non-destructive lineage chain preserved.
+- **API fixes:** Repaired broken `character_visual_casting_*` handlers in `projects.ts` (inverted validation, missing judgment/bible_lock bodies). New actions: `generate_canonical_anchor`, `approve_canonical_anchor`, `regenerate_canonical_anchor`.
+- **UI:** Upload → decompose → authority locks → GENERATE ANCHOR → APPROVE ANCHOR → GENERATE BIBLE PACK. Source reference visible in anchor review.
+- **Tests:** `identityLockCastingP05E4E.test.ts` (16) + updated P0.5E.4D (9) + cast upload (3) pass; build green.
+

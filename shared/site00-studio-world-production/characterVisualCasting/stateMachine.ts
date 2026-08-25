@@ -50,6 +50,11 @@ export function buildEmptyVisualCastingState(): CharacterVisualCastingState {
     referenceDrivenBundles: [],
     characterBibleAssetPack: null,
     referenceDerivedSummary: null,
+    visualAuthoritySnapshot: null,
+    canonicalAnchor: null,
+    anchorWorkflowStage: 'CANONICAL_ANCHOR_PENDING',
+    continuityDriftEvaluations: [],
+    visualCastingLineage: [],
     updatedAt: new Date().toISOString(),
   };
 }

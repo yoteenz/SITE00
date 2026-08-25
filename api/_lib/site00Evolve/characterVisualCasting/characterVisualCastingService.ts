@@ -321,3 +321,59 @@ export async function updateCharacterBibleAssetLock(params: {
   const visualCastingState = updateCharacterBibleLockState(run.visualCastingState, params.lock, params.value);
   return save({ ...run, visualCastingState });
 }
+
+export async function generateCanonicalAnchor(params: { projectId: string; dispatchFal?: boolean }) {
+  const run = await hydrateCastingRun(params.projectId);
+  if (!run.visualCastingState) throw new Error('Visual casting not initialized');
+  const { generateCanonicalAnchorRound } = await import(
+    '../../../../shared/site00-studio-world-production/characterVisualCasting/identityAnchorCasting.js'
+  );
+  const shouldDispatch = params.dispatchFal ?? falConfigured();
+  const visualCastingState = generateCanonicalAnchorRound({
+    state: run.visualCastingState,
+    falConfigured: falConfigured(),
+    dispatchFal: shouldDispatch,
+  });
+  const roundId = visualCastingState.rounds.at(-1)?.roundId;
+  if (shouldDispatch && falConfigured() && roundId) {
+    return dispatchCastingRoundInBackground({
+      projectId: params.projectId,
+      run: { ...run, visualCastingState },
+      roundId,
+    });
+  }
+  return save({ ...run, visualCastingState });
+}
+
+export async function approveCanonicalAnchorAction(params: { projectId: string }) {
+  const run = await hydrateCastingRun(params.projectId);
+  if (!run.visualCastingState) throw new Error('Visual casting not initialized');
+  const { approveCanonicalAnchor } = await import(
+    '../../../../shared/site00-studio-world-production/characterVisualCasting/identityAnchorCasting.js'
+  );
+  const visualCastingState = approveCanonicalAnchor(run.visualCastingState);
+  return save({ ...run, visualCastingState });
+}
+
+export async function regenerateCanonicalAnchorAction(params: { projectId: string; dispatchFal?: boolean }) {
+  const run = await hydrateCastingRun(params.projectId);
+  if (!run.visualCastingState) throw new Error('Visual casting not initialized');
+  const { regenerateCanonicalAnchor } = await import(
+    '../../../../shared/site00-studio-world-production/characterVisualCasting/identityAnchorCasting.js'
+  );
+  const shouldDispatch = params.dispatchFal ?? falConfigured();
+  const visualCastingState = regenerateCanonicalAnchor({
+    state: run.visualCastingState,
+    falConfigured: falConfigured(),
+    dispatchFal: shouldDispatch,
+  });
+  const roundId = visualCastingState.rounds.at(-1)?.roundId;
+  if (shouldDispatch && falConfigured() && roundId) {
+    return dispatchCastingRoundInBackground({
+      projectId: params.projectId,
+      run: { ...run, visualCastingState },
+      roundId,
+    });
+  }
+  return save({ ...run, visualCastingState });
+}

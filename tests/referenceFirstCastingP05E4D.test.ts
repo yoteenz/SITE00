@@ -1,5 +1,6 @@
 /**
  * P0.5E.4D — Reference-first casting regeneration + Character Bible asset pack tests.
+ * Updated for P0.5E.4E anchor gate + new asset slot names.
  */
 
 import { readFileSync } from 'node:fs';
@@ -10,6 +11,10 @@ import {
   hasFounderReferencesReadyForRegeneration,
   uploadFounderCastingReference,
 } from '../shared/site00-studio-world-production/characterVisualCasting/founderReferenceIngestion.js';
+import {
+  approveCanonicalAnchor,
+  generateCanonicalAnchorRound,
+} from '../shared/site00-studio-world-production/characterVisualCasting/identityAnchorCasting.js';
 import {
   generateCharacterBibleAssetPackRound,
   hasActiveReferenceAuthority,
@@ -57,6 +62,13 @@ function seedCastingStateWithFullLook() {
   return { state, snapshot };
 }
 
+function seedWithApprovedAnchor() {
+  const { state, snapshot } = seedCastingStateWithFullLook();
+  let working = generateCanonicalAnchorRound({ state, falConfigured: false, dispatchFal: false });
+  working = approveCanonicalAnchor(working);
+  return { state: working, snapshot };
+}
+
 describe('P0.5E.4D reference-first casting regeneration', () => {
   it('uploaded Full Look becomes active casting authority', () => {
     const { state } = seedCastingStateWithFullLook();
@@ -81,7 +93,7 @@ describe('P0.5E.4D reference-first casting regeneration', () => {
       snapshot,
       decomposition: state.founderReferences[0]!.decomposition!,
       authority,
-      assetSlot: 'PORTRAIT_FRONT',
+      assetSlot: 'FRONT_VIEW',
     });
     expect(legacyPromptWouldDominate(contract)).toBe(false);
     expect(contract.sections.referenceAuthorityBlock).toContain('PRIMARY SOURCE OF TRUTH');
@@ -89,8 +101,8 @@ describe('P0.5E.4D reference-first casting regeneration', () => {
     expect(legacyPromptDominatesRegeneration(state)).toBe(false);
   });
 
-  it('regenerate-from-reference compiles fresh reference-driven bible asset pack', () => {
-    const { state } = seedCastingStateWithFullLook();
+  it('regenerate-from-reference compiles fresh anchor-dependent bible asset pack', () => {
+    const { state } = seedWithApprovedAnchor();
     const priorRoundCount = state.rounds.length;
     const next = generateNextCastingRoundFromFeedback({
       state,
@@ -102,10 +114,10 @@ describe('P0.5E.4D reference-first casting regeneration', () => {
     expect(round.generationMode).toBe('CHARACTER_BIBLE_ASSET_PACK');
     const roundCandidates = next.candidates.filter((entry) => entry.roundId === round.roundId);
     expect(roundCandidates.length).toBe(CHARACTER_BIBLE_ASSET_SLOTS.length);
-    expect(roundCandidates.some((entry) => entry.assetSlot === 'PORTRAIT_FRONT')).toBe(true);
-    expect(roundCandidates.some((entry) => entry.assetSlot === 'FULL_BODY_BACK')).toBe(true);
-    expect(roundCandidates.some((entry) => entry.assetSlot === 'WARDROBE_SHEET')).toBe(true);
-    expect(roundCandidates.some((entry) => entry.assetSlot === 'ENVIRONMENT_SET')).toBe(true);
+    expect(roundCandidates.some((entry) => entry.assetSlot === 'FRONT_VIEW')).toBe(true);
+    expect(roundCandidates.some((entry) => entry.assetSlot === 'BACK_VIEW')).toBe(true);
+    expect(roundCandidates.some((entry) => entry.assetSlot === 'WARDROBE_DOCUMENTATION_SHEET')).toBe(true);
+    expect(roundCandidates.some((entry) => entry.assetSlot === 'ENVIRONMENT_REFERENCE_SET')).toBe(true);
     expect(roundCandidates.every((entry) => entry.generationMode === 'CHARACTER_BIBLE_ASSET_PACK')).toBe(true);
     expect(next.characterBibleAssetPack?.status).toBe('REVIEW');
     expect(next.promptContractSnapshots[roundCandidates[0]!.promptSnapshotId]).toBeTruthy();
@@ -115,7 +127,7 @@ describe('P0.5E.4D reference-first casting regeneration', () => {
   });
 
   it('generateCharacterBibleAssetPackRound stores prompt snapshots for FAL dispatch', () => {
-    const { state } = seedCastingStateWithFullLook();
+    const { state } = seedWithApprovedAnchor();
     const next = generateCharacterBibleAssetPackRound({ state, falConfigured: false, dispatchFal: false });
     const candidate = next.candidates.at(-1)!;
     expect(resolveStoredPromptContract(next, candidate.promptSnapshotId)?.assetSlot).toBeTruthy();
@@ -180,7 +192,7 @@ describe('P0.5E.4D reference-first casting regeneration', () => {
   it('casting page exposes reference-first workflow UI', () => {
     const page = readFileSync(join(ROOT, 'src/site00/pages/ProjectCharacterCastingPage.tsx'), 'utf8');
     const css = readFileSync(join(ROOT, 'src/site00/styles/site00-character-casting.css'), 'utf8');
-    expect(page).toContain('GENERATE CHARACTER BIBLE FROM REFERENCE');
+    expect(page).toContain('GENERATE CANONICAL ANCHOR');
     expect(page).toContain('DECOMPOSITION REVIEW');
     expect(page).toContain('CHARACTER BIBLE REVIEW');
     expect(page).toContain('REGENERATE CASTING FROM REFERENCES');

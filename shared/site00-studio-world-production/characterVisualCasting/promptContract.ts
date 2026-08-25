@@ -4,12 +4,14 @@
 
 import { randomUUID } from 'node:crypto';
 import {
+  ANCHOR_DEPENDENT_NEGATIVE_CONSTRAINTS,
   CASTING_NEGATIVE_CONSTRAINTS,
   CASTING_VARIATION_AXES,
   REFERENCE_DRIVEN_NEGATIVE_CONSTRAINTS,
 } from './constants.js';
 import type {
   ActiveCastingReferenceAuthority,
+  CanonicalAnchorRecord,
   CastingVariationAxis,
   CharacterBibleAssetSlot,
   CharacterCastingPromptContract,
@@ -17,7 +19,9 @@ import type {
   CharacterTruthSnapshot,
   CharacterVisualCastingState,
   ReferenceControlledVariationSlot,
+  VisualAuthoritySnapshot,
 } from './types.js';
+import { buildCharacterBibleViewContract } from './viewContracts.js';
 
 const CULTURAL_IDENTITY_BLOCK = `Contemporary African-American woman. Editorial ease, cultural fluency, non-stereotyped representation. Natural/protective hair possibilities. Lived-in styling — not generic luxury influencer.`;
 
@@ -26,26 +30,7 @@ function formatField(label: string, field: { value: string; confidence: string }
 }
 
 function assetSlotInstruction(slot: CharacterBibleAssetSlot): string {
-  const map: Record<CharacterBibleAssetSlot, string> = {
-    PORTRAIT_FRONT: 'Front-facing identity portrait — neutral expression, same woman as reference',
-    PORTRAIT_THREE_QUARTER: 'Three-quarter portrait — same facial identity as reference',
-    PORTRAIT_LEFT_PROFILE: 'Left profile portrait — preserve identity anchors from reference',
-    PORTRAIT_RIGHT_PROFILE: 'Right profile portrait — preserve identity anchors from reference',
-    PORTRAIT_BACK_HAIR: 'Rear view emphasizing hair silhouette — same woman',
-    FULL_BODY_FRONT: 'Full-body front view — same woman, wardrobe from reference decomposition',
-    FULL_BODY_LEFT: 'Full-body left side view — continuity with reference identity',
-    FULL_BODY_RIGHT: 'Full-body right side view — continuity with reference identity',
-    FULL_BODY_BACK: 'Full-body back view — same woman, hair and wardrobe continuity',
-    FULL_BODY_STANDING_NEUTRAL: 'Standing neutral full-body reference pose',
-    WARDROBE_SHEET: 'Wardrobe breakdown sheet — isolated outfit callouts from reference look',
-    ENVIRONMENT_SET: 'Environment/set reference derived from source image lighting and space',
-    EXPRESSION_NEUTRAL: 'Expression reference — neutral, same identity',
-    EXPRESSION_SLIGHT_SMILE: 'Expression reference — slight smile, same identity',
-    EXPRESSION_SKEPTICAL: 'Expression reference — skeptical/thinking, same identity',
-    EXPRESSION_OBSERVANT: 'Expression reference — observant gaze, same identity',
-    EXPRESSION_CALM_DIRECT: 'Expression reference — calm direct gaze, same identity',
-  };
-  return map[slot];
+  return buildCharacterBibleViewContract(slot).viewOrientation;
 }
 
 function controlledVariationInstruction(slot: ReferenceControlledVariationSlot): string {
@@ -60,13 +45,168 @@ function controlledVariationInstruction(slot: ReferenceControlledVariationSlot):
   return map[slot];
 }
 
+function buildIdentityLockBlock(snapshot: VisualAuthoritySnapshot): string {
+  const lock = snapshot.identityLock;
+  return [
+    'IDENTITY LOCK — preserve exact woman',
+    `Face structure: ${lock.faceStructure}`,
+    `Eye shape/spacing: ${lock.eyeShapeSpacing}`,
+    `Skin tone: ${lock.skinTone}`,
+    `Hair texture/pattern: ${lock.hairTexturePattern}`,
+    `Identity signature: ${lock.identitySignature}`,
+    ...lock.sameWomanContinuityConstraints.map((entry) => `Constraint: ${entry}`),
+  ].join('\n');
+}
+
+function buildWardrobeLockBlock(snapshot: VisualAuthoritySnapshot): string {
+  const lock = snapshot.wardrobeLock;
+  return [
+    'WARDROBE LOCK — preserve exact look',
+    `Garments: ${lock.garmentCategories}`,
+    `Silhouette/fit: ${lock.silhouettes} · ${lock.fitDrape}`,
+    `Colors: ${lock.primarySecondaryColors}`,
+    `Shoes/accessories: ${lock.shoes} · ${lock.accessoriesJewelry}`,
+    ...lock.sameOutfitContinuityConstraints.map((entry) => `Constraint: ${entry}`),
+  ].join('\n');
+}
+
+function buildEnvironmentLockBlock(snapshot: VisualAuthoritySnapshot): string {
+  const lock = snapshot.environmentLock;
+  return [
+    'ENVIRONMENT LOCK — preserve scene family',
+    `Room: ${lock.roomType}`,
+    `Lighting: ${lock.lightingTypeDirection}`,
+    `Palette/mood: ${lock.palette} · ${lock.mood}`,
+    ...lock.sameEnvironmentFamilyConstraints.map((entry) => `Constraint: ${entry}`),
+  ].join('\n');
+}
+
+function buildInferenceRulesBlock(snapshot: VisualAuthoritySnapshot): string {
+  const inferred = snapshot.viewInferenceMap.traits
+    .filter((trait) => trait.visibility !== 'DIRECTLY_VISIBLE')
+    .map((trait) => `${trait.traitKey}: ${trait.value} [${trait.visibility}]`);
+  return [
+    'INFERENCE RULES — unseen details must follow visibility map',
+    ...inferred,
+    'Do not pretend inferred traits are directly visible certainty',
+  ].join('\n');
+}
+
+function buildApprovedAnchorBlock(anchor: CanonicalAnchorRecord): string {
+  return [
+    'APPROVED CANONICAL ANCHOR — master continuity reconstruction',
+    `Source reference: ${anchor.sourcePreviewUrl}`,
+    `Anchor preview: ${anchor.previewUrl ?? 'pending'}`,
+    'Downstream assets must match this approved anchor + source reference',
+    'Goal: closest faithful reconstruction — not variation',
+  ].join('\n');
+}
+
+export function compileCanonicalAnchorPromptContract(params: {
+  snapshot: CharacterTruthSnapshot;
+  decomposition: CharacterReferenceDecomposition;
+  authority: ActiveCastingReferenceAuthority;
+  authoritySnapshot: VisualAuthoritySnapshot;
+}): CharacterCastingPromptContract {
+  const referenceBlock = buildReferenceAuthorityBlock(params.decomposition, params.authority);
+  const legacySummary = params.snapshot.characterSummary?.text ?? 'Founder-confirmed character truth';
+  const viewContract = 'Canonical full-look faithful reconstruction — same woman, same outfit, same environment family';
+
+  return {
+    contractId: randomUUID(),
+    snapshotId: params.snapshot.snapshotId,
+    variationAxis: 'FACE_STRUCTURE',
+    generationMode: 'CANONICAL_ANCHOR',
+    assetSlot: 'CANONICAL_ANCHOR',
+    referenceAuthorityId: params.authority.authorityId,
+    sections: {
+      referenceAuthorityBlock: referenceBlock,
+      identityLockBlock: buildIdentityLockBlock(params.authoritySnapshot),
+      wardrobeLockBlock: buildWardrobeLockBlock(params.authoritySnapshot),
+      environmentLockBlock: buildEnvironmentLockBlock(params.authoritySnapshot),
+      viewContractBlock: viewContract,
+      inferenceRulesBlock: buildInferenceRulesBlock(params.authoritySnapshot),
+      characterTruth: `[SECONDARY] Psychological character context: ${legacySummary}`,
+      culturalIdentity: CULTURAL_IDENTITY_BLOCK,
+      ageRange: formatField('Age range authority', params.decomposition.identity.ageRange),
+      facePresence: formatField('Face shape', params.decomposition.identity.faceShape),
+      hair: formatField('Hair structure', params.decomposition.hair.styleStructure),
+      beauty: 'Premium natural skin texture — match reference exactly',
+      wardrobe: formatField('Look', params.decomposition.wardrobe.lookNaming),
+      jewelry: formatField('Jewelry', params.decomposition.wardrobe.jewelry),
+      posture: formatField('Posture', params.decomposition.presence.posture),
+      cameraRelationship: formatField('Camera relationship', params.decomposition.presence.cameraRelationship),
+      environment: formatField('Lighting', params.decomposition.environment.lightingMood),
+      light: formatField('Lighting mood', params.decomposition.environment.lightingMood),
+      realism: 'Photorealistic editorial still — faithful reconstruction of uploaded reference',
+      negativeIdentityConstraints: ANCHOR_DEPENDENT_NEGATIVE_CONSTRAINTS.join('; '),
+      variationAxis: `[ANCHOR LOCKED] ${viewContract}`,
+      continuityIntent: 'Canonical anchor — same woman and same look as uploaded reference',
+      legacyPromptSecondary: `[LEGACY SECONDARY ONLY] ${legacySummary}`,
+    },
+  };
+}
+
+export function compileAnchorDependentBiblePromptContract(params: {
+  snapshot: CharacterTruthSnapshot;
+  decomposition: CharacterReferenceDecomposition;
+  authority: ActiveCastingReferenceAuthority;
+  authoritySnapshot: VisualAuthoritySnapshot;
+  approvedAnchor: CanonicalAnchorRecord;
+  assetSlot: CharacterBibleAssetSlot;
+}): CharacterCastingPromptContract {
+  const viewContract = buildCharacterBibleViewContract(params.assetSlot);
+  const referenceBlock = buildReferenceAuthorityBlock(params.decomposition, params.authority);
+  const legacySummary = params.snapshot.characterSummary?.text ?? 'Founder-confirmed character truth';
+
+  return {
+    contractId: randomUUID(),
+    snapshotId: params.snapshot.snapshotId,
+    variationAxis: 'FACE_STRUCTURE',
+    generationMode: 'CHARACTER_BIBLE_ASSET_PACK',
+    assetSlot: params.assetSlot,
+    referenceAuthorityId: params.authority.authorityId,
+    sections: {
+      referenceAuthorityBlock: referenceBlock,
+      identityLockBlock: buildIdentityLockBlock(params.authoritySnapshot),
+      wardrobeLockBlock: buildWardrobeLockBlock(params.authoritySnapshot),
+      environmentLockBlock: buildEnvironmentLockBlock(params.authoritySnapshot),
+      approvedAnchorBlock: buildApprovedAnchorBlock(params.approvedAnchor),
+      viewContractBlock: [
+        viewContract.viewOrientation,
+        viewContract.sameWomanRule,
+        viewContract.sameOutfitRule,
+        viewContract.sameEnvironmentFamilyRule,
+      ].join('\n'),
+      inferenceRulesBlock: buildInferenceRulesBlock(params.authoritySnapshot),
+      characterTruth: `[SECONDARY] ${legacySummary}`,
+      culturalIdentity: CULTURAL_IDENTITY_BLOCK,
+      ageRange: formatField('Age range authority', params.decomposition.identity.ageRange),
+      facePresence: formatField('Face shape', params.decomposition.identity.faceShape),
+      hair: formatField('Hair structure', params.decomposition.hair.styleStructure),
+      beauty: 'Match reference skin texture — no identity beautification drift',
+      wardrobe: formatField('Look', params.decomposition.wardrobe.lookNaming),
+      jewelry: formatField('Jewelry', params.decomposition.wardrobe.jewelry),
+      posture: formatField('Posture', params.decomposition.presence.posture),
+      cameraRelationship: formatField('Camera relationship', params.decomposition.presence.cameraRelationship),
+      environment: formatField('Environment family', params.decomposition.environment.roomType),
+      light: formatField('Lighting mood', params.decomposition.environment.lightingMood),
+      realism: 'Documentation-grade continuity reconstruction',
+      negativeIdentityConstraints: [...viewContract.negativeConstraints, ...ANCHOR_DEPENDENT_NEGATIVE_CONSTRAINTS].join('; '),
+      variationAxis: `[VIEW CONTRACT] ${viewContract.viewOrientation}`,
+      continuityIntent: 'Same woman · same outfit · same environment family — anchor-dependent output',
+      legacyPromptSecondary: `[LEGACY SECONDARY ONLY] ${legacySummary}`,
+    },
+  };
+}
+
 function buildReferenceAuthorityBlock(
   decomposition: CharacterReferenceDecomposition,
   authority: ActiveCastingReferenceAuthority,
 ): string {
   const d = decomposition;
   return [
-    'REFERENCE IDENTITY AUTHORITY — PRIMARY SOURCE OF TRUTH',
+    'UPLOADED REFERENCE AUTHORITY — PRIMARY SOURCE OF TRUTH',
     `Founder reference image: ${authority.previewUrl}`,
     `Storage path: ${authority.storagePath}`,
     formatField('Age range', d.identity.ageRange),
@@ -78,7 +218,7 @@ function buildReferenceAuthorityBlock(
     formatField('Wardrobe look', d.wardrobe.lookNaming),
     formatField('Presence', d.presence.moodEnergy),
     formatField('Environment lighting', d.environment.lightingMood),
-    'Recreate THIS woman by herself — reconstruct and extend, not inspired-by casting',
+    'Recreate THIS woman — reconstruct and extend, not inspired-by casting',
   ].join('\n');
 }
 
@@ -229,14 +369,21 @@ export function compileCastingPromptFromContract(contract: CharacterCastingPromp
   negativePrompt: string;
 } {
   const s = contract.sections;
-  const isReferenceDriven =
-    contract.generationMode === 'REFERENCE_DRIVEN' || contract.generationMode === 'CHARACTER_BIBLE_ASSET_PACK';
+  const isIdentityLocked =
+    contract.generationMode === 'CANONICAL_ANCHOR' ||
+    contract.generationMode === 'REFERENCE_DRIVEN' ||
+    contract.generationMode === 'CHARACTER_BIBLE_ASSET_PACK';
 
-  const prompt = isReferenceDriven
+  const prompt = isIdentityLocked
     ? [
-        'Reference-driven character reconstruction — founder uploaded image is primary authority.',
+        'Identity-locked character reconstruction — uploaded reference is primary authority.',
         s.referenceAuthorityBlock ?? '',
-        s.variationAxis,
+        s.identityLockBlock ?? '',
+        s.wardrobeLockBlock ?? '',
+        s.environmentLockBlock ?? '',
+        s.approvedAnchorBlock ?? '',
+        s.viewContractBlock ?? s.variationAxis,
+        s.inferenceRulesBlock ?? '',
         s.facePresence,
         s.hair,
         s.wardrobe,
@@ -274,7 +421,11 @@ export function compileCastingPromptFromContract(contract: CharacterCastingPromp
 
 /** True when legacy prompt text would dominate over reference authority (should be false when active authority exists). */
 export function legacyPromptWouldDominate(contract: CharacterCastingPromptContract): boolean {
-  if (contract.generationMode === 'REFERENCE_DRIVEN' || contract.generationMode === 'CHARACTER_BIBLE_ASSET_PACK') {
+  if (
+    contract.generationMode === 'REFERENCE_DRIVEN' ||
+    contract.generationMode === 'CHARACTER_BIBLE_ASSET_PACK' ||
+    contract.generationMode === 'CANONICAL_ANCHOR'
+  ) {
     return false;
   }
   const truth = contract.sections.characterTruth ?? '';

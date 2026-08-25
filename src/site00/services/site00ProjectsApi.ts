@@ -2085,6 +2085,33 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, lock, value }),
       },
     ),
+  characterVisualCastingGenerateCanonicalAnchor: (slug: string, dispatchFal?: boolean) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; background?: boolean }>(
+      '/api/site00/projects?action=character_visual_casting_generate_canonical_anchor',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, dispatchFal }),
+      },
+    ),
+  characterVisualCastingApproveCanonicalAnchor: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_visual_casting_approve_canonical_anchor',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      },
+    ),
+  characterVisualCastingRegenerateCanonicalAnchor: (slug: string, dispatchFal?: boolean) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; background?: boolean }>(
+      '/api/site00/projects?action=character_visual_casting_regenerate_canonical_anchor',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, dispatchFal }),
+      },
+    ),
   founderCharacterDiscoverySynthesisPreview: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(
       '/api/site00/projects?action=founder_character_discovery_synthesis_preview',
