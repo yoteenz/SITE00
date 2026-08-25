@@ -1,4 +1,5 @@
 import type { NdxIconSizeToken } from './tokens.js';
+import type { NdxIconTraceClassification, NdxIconVisualMatchStatus, NdxIconVisualVersion, IconOpticalCalibration, NdxIconActiveBehavior } from './p0ui3a/types.js';
 
 export type NDXIconState = 'active' | 'inactive';
 
@@ -44,6 +45,15 @@ export type NdxIconDefinition = {
   circles?: NdxIconCircleDef[];
   /** Host canon — reuse drawing, never hardcode NDX lime in SVG */
   hostCanonical?: boolean;
+  /** P0.UI.3A reference trace metadata */
+  visualVersion?: NdxIconVisualVersion;
+  traceClassification?: NdxIconTraceClassification;
+  visualMatchStatus?: NdxIconVisualMatchStatus;
+  referenceSampleId?: string;
+  strokeWidth?: number;
+  optical?: IconOpticalCalibration;
+  activeBehavior?: NdxIconActiveBehavior;
+  supersededGeometryId?: string;
 };
 
 export type NDXIconProps = {

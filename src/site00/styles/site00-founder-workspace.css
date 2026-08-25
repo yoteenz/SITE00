@@ -2473,6 +2473,42 @@
   color: var(--ndx-muted);
 }
 
+.site00-fws-icon-sheet__compare {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.site00-fws-icon-sheet__ref {
+  display: block;
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  border: 1px dashed var(--ndx-border);
+  background: var(--ndx-surface-raised);
+}
+
+.site00-fws-icon-sheet__overlay {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.site00-fws-icon-sheet__ref--ghost {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.site00-fws-icon-sheet__cell--overlay {
+  min-width: 56px;
+}
+
 .site00-fws-mobile-chrome__nav-item--active .ndx-icon {
   color: var(--site00-project-presence-accent, var(--ndx-lime));
 }
