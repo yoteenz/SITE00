@@ -88,22 +88,17 @@ describe('P0.VR.1D.A NDXBOOK project hub reconstruction', () => {
     expect(src).not.toContain('background-image: url(');
   });
 
-  it('ships mobile screen family with preview-mode routing (not media-query only)', () => {
-    const screens = readFileSync(join(ROOT, 'src/site00/components/founderWorkspace/MobileFounderWorkspaceScreens.tsx'), 'utf8');
+  it('uses reference mobile overview only on overview route; other routes keep operate', () => {
     const shell = readFileSync(join(ROOT, 'src/site00/components/founderWorkspace/FounderWorkspaceShell.tsx'), 'utf8');
-    expect(screens).toContain('MobileCampaignBoardScreen');
-    expect(screens).toContain('MobileExperiment01Screen');
-    expect(screens).toContain('MobileContentOpsScreen');
-    expect(screens).toContain('renderMobileFounderWorkspaceScreen');
-    expect(shell).toContain('isPreviewDesktop');
-    expect(shell).toContain('renderMobileFounderWorkspaceScreen');
+    expect(shell).toContain("mobileScreenId === 'overview'");
+    expect(shell).toContain(': operate');
   });
 
-  it('hides global ecosystem mobile nav on ndxbook founder routes', () => {
-    const css = readFileSync(join(ROOT, 'src/site00/styles/site00-founder-workspace.css'), 'utf8');
+  it('suppresses global mobile shell chrome on ndxbook routes', () => {
     const ecosystem = readFileSync(join(ROOT, 'src/site00/components/ecosystem/EcosystemShell.tsx'), 'utf8');
-    expect(css).toContain('site00-ecosystem-shell--ndx-founder-mobile');
-    expect(ecosystem).toContain('isNdxFounderWorkspaceRoute');
+    const mobileShell = readFileSync(join(ROOT, 'src/site00/components/mobile/Site00EcosystemMobileShell.tsx'), 'utf8');
+    expect(ecosystem).toContain('suppressSiteChrome={ndxFounderMobileTakeover}');
+    expect(mobileShell).toContain('suppressSiteChrome');
   });
 
   it('runs screenshot-first pipeline with difference map + region lock (skipRender)', async () => {

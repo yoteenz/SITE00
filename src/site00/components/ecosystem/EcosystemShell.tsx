@@ -79,8 +79,11 @@ export function EcosystemShell({ children, title, subtitle, headerActions, hideP
 
   const mobileLayout = (
     <div className="site00-ecosystem-shell__mobile">
-      <Site00EcosystemMobileShell shellClassName="site00-ecosystem-mobile-shell">
-        <ExperienceContextBar variant="client" />
+      <Site00EcosystemMobileShell
+        shellClassName="site00-ecosystem-mobile-shell"
+        suppressSiteChrome={ndxFounderMobileTakeover}
+      >
+        {ndxFounderMobileTakeover ? null : <ExperienceContextBar variant="client" />}
         {isCtrlRoomRoute ? (
           <div className="site00-ctrl-sign-out-mobile-bar">
             <CtrlRoomSignOutButton variant="mobile-bar" />
