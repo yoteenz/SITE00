@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { FounderWorkspaceShell } from '../components/founderWorkspace/FounderWorkspaceShell';
@@ -7,8 +7,10 @@ import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperime
 import { site00ProjectsApi, Site00ProjectsApiError } from '../services/site00ProjectsApi';
 import {
   site00ProjectEmbodiedCharacterDiscoveryPath,
+  site00ProjectCharacterCastingPath,
   site00ProjectPath,
 } from '../config/routes';
+import { discoveryShouldShowRecognizedNotCalibration } from '../../../shared/site00-studio-world-production/characterVisualCasting/client.js';
 import {
   buildFounderCharacterDiscoveryProgress,
   type DiscoveryProgressNavigateTarget,
@@ -91,6 +93,7 @@ const SCENARIO_ESCAPE = ['NONE_OF_THESE', 'SOMETHING_ELSE', 'IT_DEPENDS', 'I_DON
 
 export default function ProjectFounderCharacterDiscoveryPage() {
   const { projectSlug = '' } = useParams<{ projectSlug: string }>();
+  const navigate = useNavigate();
   const [run, setRun] = useState<NdxFounderCharacterDiscoveryRun | null>(null);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -331,6 +334,10 @@ export default function ProjectFounderCharacterDiscoveryPage() {
 
   const goToProgressStep = useCallback(
     (target: DiscoveryProgressNavigateTarget) => {
+      if (target.kind === 'casting') {
+        navigate(site00ProjectCharacterCastingPath(projectSlug));
+        return;
+      }
       if (target.kind === 'section') {
         setSection(target.section);
       } else {
@@ -339,7 +346,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
       }
       scrollToCalibrationWorkspace();
     },
-    [scrollToCalibrationWorkspace],
+    [navigate, projectSlug, scrollToCalibrationWorkspace],
   );
 
   const handleProgressStep = useCallback(
@@ -404,6 +411,16 @@ export default function ProjectFounderCharacterDiscoveryPage() {
               </button>
             )}
           </section>
+
+          {run?.visualCastingState && discoveryShouldShowRecognizedNotCalibration(run.visualCastingState) && (
+            <section className="site00-experiment-g__panel site00-fws-calibration-progress" style={{ marginBottom: 12 }}>
+              <h2>CHARACTER RECOGNIZED</h2>
+              <p>Psychological calibration is complete. Visual casting is the next stage — not another discovery loop.</p>
+              <Link to={site00ProjectCharacterCastingPath(projectSlug)} className="site00-fws-calibration-progress__cta">
+                OPEN CAST NDX →
+              </Link>
+            </section>
+          )}
 
           {loading && <p>Loading…</p>}
 
@@ -1386,7 +1403,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                 {section === 'RECOGNITION' && (
                   <>
                     <h2>DO YOU FEEL LIKE YOU KNOW HER?</h2>
-                    <p>This gate cannot be inferred — you must explicitly select YES_I_KNOW_HER to unlock synthesis readiness.</p>
+                    <p>After the character read — confirm psychological certainty to unlock visual casting (CAST NDX).</p>
                     <label>
                       Note
                       <input value={recognitionNote} onChange={(e) => setRecognitionNote(e.target.value)} />
@@ -1399,14 +1416,20 @@ export default function ProjectFounderCharacterDiscoveryPage() {
                           className="site00-experiment-g__tab"
                           disabled={busy}
                           onClick={() =>
-                            void act(() =>
-                              site00ProjectsApi.founderCharacterDiscoveryRecognition(
+                            void act(async () => {
+                              const result = await site00ProjectsApi.founderCharacterDiscoveryRecognition(
                                 projectSlug,
                                 r,
                                 recognitionNote || undefined,
-                              ),
-                              { goToSection: 'CASTING' },
-                            )
+                                `/projects/${projectSlug}/character/discovery`,
+                              );
+                              if (r === 'YES_I_KNOW_HER' && result.redirectToCasting) {
+                                navigate(site00ProjectCharacterCastingPath(projectSlug));
+                              } else if (result.blockers?.length) {
+                                setActionError(result.blockers.join(' · '));
+                              }
+                              return { run: result.run };
+                            })
                           }
                         >
                           {r.replace(/_/g, ' ')}

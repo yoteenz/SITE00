@@ -90,19 +90,27 @@ export function evaluateNdxFounderCharacterCastingReadiness(params: {
   if (!culturalBoundaryEstablished) blockingGates.push('cultural_boundary');
   if (!visualHypothesesReviewed) blockingGates.push('visual_hypotheses');
   if (!humanityEvaluation.passes) blockingGates.push('humanity_evaluation');
-  if (!founderKnowsHer) blockingGates.push('founder_i_know_her');
+  // founder_i_know_her is post-synthesis — tracked via founderKnowsHer but does not block character read
 
   let state: CharacterCastingReadinessEvaluation['state'] = 'BLOCKED_FOUNDER_DISCOVERY_REQUIRED';
   if (!discoveryComplete) {
     state = 'BLOCKED_FOUNDER_DISCOVERY_REQUIRED';
   } else if (!humanityEvaluation.passes) {
     state = 'BLOCKED_HUMANITY_EVALUATION';
-  } else if (!founderKnowsHer) {
-    state = 'BLOCKED_FOUNDER_RECOGNITION';
   } else if (blockingGates.length === 0) {
     state = 'READY_FOR_CHARACTER_SYNTHESIS';
   } else {
     state = 'BLOCKED_FOUNDER_DISCOVERY_REQUIRED';
+  }
+
+  const visualCastingReady = Boolean(run.visualCastingState?.visualCastingReady);
+  const readyForCastingExploration =
+    founderKnowsHer && visualCastingReady && Boolean(run.humanReadableSynthesis?.whoIThinkSheIs);
+
+  if (readyForCastingExploration) {
+    state = 'READY_FOR_CHARACTER_CASTING_EXPLORATION';
+  } else if (founderKnowsHer && !run.humanReadableSynthesis?.whoIThinkSheIs) {
+    state = 'BLOCKED_FOUNDER_RECOGNITION';
   }
 
   return {
@@ -119,8 +127,8 @@ export function evaluateNdxFounderCharacterCastingReadiness(params: {
     visualHypothesesReviewed,
     humanityEvaluationPass: humanityEvaluation.passes,
     founderKnowsHer,
-    readyForCharacterSynthesis: state === 'READY_FOR_CHARACTER_SYNTHESIS',
-    readyForCastingExploration: false,
+    readyForCharacterSynthesis: state === 'READY_FOR_CHARACTER_SYNTHESIS' || readyForCastingExploration,
+    readyForCastingExploration,
     blockingGates,
   };
 }
@@ -144,6 +152,17 @@ export function formatCastingBlockingGate(gate: string): string {
 export function castingStatusHeadline(run: NdxFounderCharacterDiscoveryRun): string {
   const casting = run.castingReadiness;
   if (!casting) return 'CASTING: INITIALIZING';
+  if (run.visualCastingState?.finalVisualIdentityApproved) return 'CASTING: VISUAL IDENTITY LOCKED — continuity test ready';
+  if (run.visualCastingState?.visualCastingReady && casting.founderKnowsHer) {
+    return 'CASTING: VISUAL CASTING READY — open CAST NDX';
+  }
+  if (casting.readyForCastingExploration) return 'CASTING: READY FOR VISUAL CASTING EXPLORATION';
+  if (casting.readyForCharacterSynthesis && !run.humanReadableSynthesis?.whoIThinkSheIs) {
+    return 'CASTING: READY — generate character read on SYNTHESIS tab';
+  }
+  if (run.humanReadableSynthesis?.whoIThinkSheIs && !casting.founderKnowsHer) {
+    return 'CASTING: Character read ready — confirm I KNOW HER';
+  }
   if (casting.readyForCharacterSynthesis) return 'CASTING: READY FOR CHARACTER SYNTHESIS';
   if (casting.founderKnowsHer && casting.blockingGates.length > 0) {
     return `CASTING: YES I KNOW HER recorded — ${casting.blockingGates.length} gate(s) remaining`;

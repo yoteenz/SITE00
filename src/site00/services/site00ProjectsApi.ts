@@ -1774,14 +1774,48 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, sampleId, channel, judgment }),
       },
     ),
-  founderCharacterDiscoveryRecognition: (slug: string, response: string, note?: string) =>
-    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+  founderCharacterDiscoveryRecognition: (slug: string, response: string, note?: string, sourceRoute?: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; redirectToCasting?: boolean; blockers?: string[] }>(
       '/api/site00/projects?action=founder_character_discovery_recognition',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, response, note }),
+        body: JSON.stringify({ slug, response, note, sourceRoute }),
       },
+    ),
+  characterVisualCastingGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; visualCastingState: Record<string, unknown> | null; redirectToCasting?: boolean }>(
+      `/api/site00/projects?action=character_visual_casting_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  characterVisualCastingEstimate: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; estimate: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_visual_casting_estimate',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  characterVisualCastingGenerate: (slug: string, dispatchFal = false) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_visual_casting_generate',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, dispatchFal }) },
+    ),
+  characterVisualCastingJudgment: (slug: string, candidateId: string, judgment: string, note?: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_visual_casting_judgment',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, candidateId, judgment, note }) },
+    ),
+  characterVisualCastingMerge: (slug: string, candidateIds: string[], retainFromEach: Record<string, string[]>) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_visual_casting_merge',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, candidateIds, retainFromEach }) },
+    ),
+  characterVisualCastingNextRound: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_visual_casting_next_round',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  characterVisualCastingLock: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown> }>(
+      '/api/site00/projects?action=character_visual_casting_lock',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
     ),
   founderCharacterDiscoverySynthesisPreview: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> }>(

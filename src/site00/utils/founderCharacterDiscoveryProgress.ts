@@ -10,7 +10,8 @@ import {
 
 export type DiscoveryProgressNavigateTarget =
   | { kind: 'section'; section: 'CALIBRATION' | 'INSPECT' | 'SYNTHESIS' | 'RECOGNITION' | 'CASTING' }
-  | { kind: 'inspect'; inspectSection: string };
+  | { kind: 'inspect'; inspectSection: string }
+  | { kind: 'casting' };
 
 export type FounderDiscoveryProgressStep = {
   id: string;
@@ -56,6 +57,8 @@ function gateNavigateTarget(gate: string): DiscoveryProgressNavigateTarget {
       return { kind: 'section', section: 'RECOGNITION' };
     case 'character_read':
       return { kind: 'section', section: 'SYNTHESIS' };
+    case 'visual_casting':
+      return { kind: 'casting' };
     default:
       return { kind: 'section', section: 'CALIBRATION' };
   }
@@ -139,18 +142,33 @@ export function buildFounderCharacterDiscoveryProgress(
       navigate: gateNavigateTarget('humanity'),
     },
     {
-      id: 'i_know_her',
-      title: 'YES I KNOW HER',
-      complete: casting?.founderKnowsHer ?? false,
-      detail: casting?.founderKnowsHer ? 'Recorded' : 'Select on I KNOW HER tab',
-      navigate: gateNavigateTarget('i_know_her'),
-    },
-    {
       id: 'character_read',
       title: 'Character read generated',
       complete: hasCharacterRead,
-      detail: hasCharacterRead ? 'View on SYNTHESIS tab' : 'Generate after gates pass',
+      detail: hasCharacterRead ? 'View on SYNTHESIS tab' : 'Generate after calibration gates pass',
       navigate: gateNavigateTarget('character_read'),
+    },
+    {
+      id: 'i_know_her',
+      title: 'YES I KNOW HER',
+      complete: casting?.founderKnowsHer ?? false,
+      detail: casting?.founderKnowsHer
+        ? 'Recorded — visual casting unlocked'
+        : run.humanReadableSynthesis?.whoIThinkSheIs
+          ? 'Confirm on I KNOW HER tab after character read'
+          : 'Generate character read first',
+      navigate: gateNavigateTarget('i_know_her'),
+    },
+    {
+      id: 'visual_casting',
+      title: 'Visual casting (CAST NDX)',
+      complete: Boolean(run.visualCastingState?.castingCandidatesReady || run.visualCastingState?.finalVisualIdentityApproved),
+      detail: run.visualCastingState?.finalVisualIdentityApproved
+        ? 'Identity locked'
+        : run.visualCastingState?.visualCastingReady
+          ? 'Open CAST NDX to generate candidates'
+          : 'Confirm I KNOW HER first',
+      navigate: gateNavigateTarget('visual_casting'),
     },
   ];
 
@@ -160,7 +178,13 @@ export function buildFounderCharacterDiscoveryProgress(
   const nextStep = steps.find((s) => !s.complete) ?? null;
 
   let headline: string;
-  if (readyForCharacterSynthesis && hasCharacterRead) {
+  if (run.visualCastingState?.finalVisualIdentityApproved) {
+    headline = 'COMPLETE — visual identity locked; continuity test is next';
+  } else if (run.visualCastingState?.visualCastingReady && casting?.founderKnowsHer) {
+    headline = 'CAST NDX — generate visual candidates from locked character truth';
+  } else if (readyForCharacterSynthesis && hasCharacterRead && !casting?.founderKnowsHer) {
+    headline = 'NEXT: Confirm I KNOW HER on I KNOW HER tab';
+  } else if (readyForCharacterSynthesis && hasCharacterRead) {
     headline = 'COMPLETE — character read ready; embodied casting is next';
   } else if (readyForCharacterSynthesis) {
     headline = 'READY — generate character read on SYNTHESIS tab';
