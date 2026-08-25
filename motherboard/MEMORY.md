@@ -4990,7 +4990,8 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-<<<<<<< HEAD
+---
+
 ## 2026-08-25 — P0.E Identity Judgment + First Canon Promotion (Astral World)
 
 - **Context:** Sprint P0.E — field-level + territory-level founder judgments, partial hierarchical canon, structural world canon promotion. NO fake founder judgment.
@@ -4998,7 +4999,9 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Production:** AWAITING_FOUNDER_JUDGMENT. 3 territories verified. 0 judgments, 0 canon.
 - **Tests:** identityJudgmentP0E.test.ts (20) pass; build green.
 - **Next:** Founder reviews at `/projects/astral-world/identity` OR P0.F after canon gate satisfied.
-=======
+
+---
+
 ## 2026-08-25 — P0.VR.1D screenshot-first visual reconstruction
 
 - **Context:** Founder sprint to fix website reconstruction drift by making reference screenshots primary visual authority (not text-derived approximations). Extends P0.VR.1 / 1A / 1C without replacing prior lineage.
@@ -5012,5 +5015,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 - **Context:** Founder uploaded full-look reference (lime green sneakers) on CAST NDX and wanted it in WHO FEELS CLOSEST? to confirm identity before isolate generation.
 - **Fix:** `promoteFounderReferenceToClosestReview()` + API `character_visual_casting_promote_reference_to_closest` + UI button **USE FOR WHO FEELS CLOSEST? →** on each decomposed reference. Active reference drives isolate source; THAT'S HER locks selection.
->>>>>>> db47c62 (feat(visual-reconstruction): P0.VR.1D screenshot-first pixel matching)
+
+---
+
+## 2026-08-25 — P0.UI.3 NDX SVG icon system
+
+- **Context:** NDX project workspace had inconsistent/broken icons across bottom nav, project menu, header, and desktop rail — mixed inline SVG, unicode glyphs, and mismatched sizing.
+- **Delivered:** Canonical package `shared/site00-studio-world-ui/icons/` (`NDXIconRegistry`, size tokens, viewBox 24, currentColor). React wrapper `src/site00/icons/ndx/NDXIcon.tsx`. Migrated `FounderWorkspaceShell` desktop rail, `FounderWorkspaceMobileNav`, `FounderWorkspaceProjectMenu`, `FounderWorkspaceHeaderChrome` (bell + ellipsis). Icon sheet at `/projects/:slug/inspect/icons` via `NdxIconSheetPanel`. `ProjectRow` ellipsis migrated. CSS P0.UI.3 block in `site00-founder-workspace.css` — active state uses `--site00-project-presence-accent` (P0.UI.1 lime preserved). Host icons (`projects`, `origin`, `back_to_projects`, `return_to_origin`) flagged `hostCanonical`; SITE 00 mobile-nav icons unchanged.
+- **Tests:** `ndxIconSystemP0UI3.test.ts` (12 + success criteria). Build green.
+- **Rule:** One semantic action → one canonical SVG; same drawing on mobile/desktop/menu/rail; color/size vary by context only.
+
 
