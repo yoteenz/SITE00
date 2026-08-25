@@ -5015,3 +5015,9 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder review:** Desktop rail/nav CLOSE; hub board panels NEEDS FIX until auth + high-res reference overlay pass. Mobile chrome CLOSE; screen family NEEDS FIX for campaign/experiment/CI routes polish + reference assets.
 - **Next:** Ingest founder desktop/mobile reference PNGs into visual-references vault; run overlay loop per screen at locked viewports.
 
+## 2026-08-25 — Promote founder reference to WHO FEELS CLOSEST
+
+- **Context:** Founder uploaded full-look reference (lime green sneakers) on CAST NDX and wanted it in WHO FEELS CLOSEST? to confirm identity before isolate generation.
+- **Fix:** `promoteFounderReferenceToClosestReview()` + API `character_visual_casting_promote_reference_to_closest` + UI button **USE FOR WHO FEELS CLOSEST? →** on each decomposed reference. Active reference drives isolate source; THAT'S HER locks selection.
+
+

@@ -7,6 +7,7 @@ export * from './stateMachine.js';
 export * from './promptContract.js';
 export * from './castingEngine.js';
 export * from './promoteRecognition.js';
+export * from './promoteFounderReferenceToClosestReview.js';
 export * from './founderReferenceIngestion.js';
 export * from './referenceDrivenCasting.js';
 export * from './identityAnchorCasting.js';
