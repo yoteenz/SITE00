@@ -101,6 +101,7 @@ const ProjectBrandMarketingExpressionExperiment01Page = lazy(() => import('../si
 const ProjectContentOperationsPage = lazy(() => import('../site00/pages/ProjectContentOperationsPage'));
 const ProjectContentOperationsPerformancePage = lazy(() => import('../site00/pages/ProjectContentOperationsPerformancePage'));
 const ProjectContentOperationsCampaignBoardPage = lazy(() => import('../site00/pages/ProjectContentOperationsCampaignBoardPage'));
+const ProjectFounderCreativeIngestionPage = lazy(() => import('../site00/pages/ProjectFounderCreativeIngestionPage'));
 const ProjectContentOperationsDailyPlanPage = lazy(() => import('../site00/pages/ProjectContentOperationsDailyPlanPage'));
 const ProjectRealismLabPage = lazy(() => import('../site00/pages/ProjectRealismLabPage'));
 const ProjectCulturalIntelligencePage = lazy(() => import('../site00/pages/ProjectCulturalIntelligencePage'));
@@ -897,6 +898,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectContentOperationsCampaignBoardPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectFounderCreativeIngestion}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectFounderCreativeIngestionPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

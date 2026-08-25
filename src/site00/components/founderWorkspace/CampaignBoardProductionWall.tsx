@@ -23,7 +23,10 @@ import {
   resolveCampaignIdentity,
   type CampaignBoardLane,
 } from './campaignBoardLaneSchema';
-import { site00ProjectBrandMarketingExpressionExperiment01Path } from '../../config/routes';
+import {
+  site00ProjectBrandMarketingExpressionExperiment01Path,
+  site00ProjectFounderCreativeIngestionPath,
+} from '../../config/routes';
 
 const WEEK_DAYS = [
   { id: 'mon', label: 'Monday', shortLabel: 'MON' },
@@ -84,6 +87,7 @@ export function CampaignBoardProductionWall({
   const pagesLane = lanes.find((l) => l.laneId === 'PAGES')!;
   const marginsLane = lanes.find((l) => l.laneId === 'MARGINS')!;
   const motionLane = lanes.find((l) => l.laneId === 'MOTION')!;
+  const founderIngestion = run?.founderCreativeIngestion;
 
   const slide01Assets = board?.assets.filter((a) => a.sequencePosition === 1) ?? [];
   const generatedCount = slide01Assets.filter((a) => a.generatedAssetUrl).length;
@@ -124,6 +128,21 @@ export function CampaignBoardProductionWall({
         />
       </SpatialSection>
 
+      {founderIngestion?.rowPreview.length ? (
+        <SpatialSection mode="standard" ariaLabel="Instagram Row Preview">
+          <ArtworkLane title="ROW 01 PREVIEW" authority="secondary">
+            <div className="site00-fws-row-preview">
+              {founderIngestion.parentSequences.map((seq) => (
+                <div key={seq.sequenceId} className="site00-fws-row-preview__tile">
+                  <span className="site00-fws-row-preview__num">{String(seq.rowIndex + 1).padStart(2, '0')}</span>
+                  <span className="site00-fws-row-preview__title">{seq.title}</span>
+                </div>
+              ))}
+            </div>
+          </ArtworkLane>
+        </SpatialSection>
+      ) : null}
+
       <SpatialSection mode="focal" ariaLabel="The Pages">
         <ArtworkLane title={pagesLane.label} authority="primary">
           <AsymmetricGrid variant="pages">{renderLaneSlots(pagesLane, slateTitle)}</AsymmetricGrid>
@@ -145,6 +164,9 @@ export function CampaignBoardProductionWall({
       </SpatialSection>
 
       <SpatialSection mode="break" className="site00-fws-campaign-wall__periphery">
+        <Link to={site00ProjectFounderCreativeIngestionPath(projectSlug)} className="site00-fws-ingest-link">
+          INGEST FOUNDER CREATIVE →
+        </Link>
         {!board ? (
           <QuietAction onClick={onInitialize} disabled={busy}>
             INITIALIZE CAMPAIGN BOARD →

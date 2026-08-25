@@ -1554,6 +1554,88 @@ export const site00ProjectsApi = {
         body: JSON.stringify({ slug, contentPieceId, judgment }),
       },
     ),
+  founderCreativeIngestionGet: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown> | null }>(
+      `/api/site00/projects?action=founder_creative_ingestion_get&slug=${encodeURIComponent(slug)}`,
+    ),
+  founderCreativeIngestionInitializeRow01: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_creative_ingestion_initialize_row01',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  founderCreativeIngestionDecomposeAll: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_creative_ingestion_decompose_all',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
+  founderCreativeIngestionDecompose: (slug: string, sequenceId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_creative_ingestion_decompose',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, sequenceId }) },
+    ),
+  founderCreativeIngestionPhotoMode: (slug: string, slideId: string, mode: string, assetId?: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_creative_ingestion_photo_mode',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, slideId, mode, assetId }),
+      },
+    ),
+  founderCreativeIngestionEditPrompt: (slug: string, slideId: string, prompt: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_creative_ingestion_edit_prompt',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, slideId, prompt }),
+      },
+    ),
+  founderCreativeIngestionEstimate: (slug: string, slideId: string) =>
+    projectsFetch<{ ok: true; estimate: Record<string, unknown> }>(
+      `/api/site00/projects?action=founder_creative_ingestion_estimate&slug=${encodeURIComponent(slug)}&slideId=${encodeURIComponent(slideId)}`,
+    ),
+  founderCreativeIngestionGeneratePhoto: (slug: string, slideId: string, dispatchFal = false) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_creative_ingestion_generate_photo',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, slideId, dispatchFal }),
+      },
+    ),
+  founderCreativeIngestionReplacePhoto: (slug: string, slideId: string, assetId: string, previewUrl?: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_creative_ingestion_replace_photo',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, slideId, assetId, previewUrl }),
+      },
+    ),
+  founderCreativeIngestionSlideJudgment: (slug: string, slideId: string, judgment: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_creative_ingestion_slide_judgment',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, slideId, judgment }),
+      },
+    ),
+  founderCreativeIngestionSequenceReview: (slug: string, sequenceId: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown>; report: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_creative_ingestion_sequence_review',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, sequenceId }),
+      },
+    ),
+  founderCreativeIngestionRegisterCampaign: (slug: string) =>
+    projectsFetch<{ ok: true; run: Record<string, unknown>; ingestion: Record<string, unknown> }>(
+      '/api/site00/projects?action=founder_creative_ingestion_register_campaign',
+      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug }) },
+    ),
   dailyPublishingGet: (slug: string) =>
     projectsFetch<{ ok: true; run: Record<string, unknown> | null }>(
       `/api/site00/projects?action=daily_publishing_get&slug=${encodeURIComponent(slug)}`,
