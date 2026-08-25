@@ -14,9 +14,13 @@ export const NDX_OVERVIEW_MENU_OPEN_ROUTE = '/projects/ndxbook' as const;
 export const NDX_OVERVIEW_VR_REGION_IDS = [
   'ndx.header',
   'ndx.overview.hero',
-  'ndx.overview.metrics',
-  'ndx.production.row',
-  'ndx.radar.list',
+  'ndx.overview.kpis',
+  'ndx.overview.kpi.audience',
+  'ndx.overview.production',
+  'ndx.overview.production.card.subscription',
+  'ndx.overview.production.card.layoff',
+  'ndx.overview.production.card.late-fees',
+  'ndx.overview.radar',
   'ndx.bottom-nav',
   'ndx.project.menu',
 ] as const;

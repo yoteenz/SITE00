@@ -14,6 +14,12 @@ import {
   site00ProjectFounderCharacterDiscoveryPath,
 } from '../../config/routes';
 import { NDX_VR_REGION, vrRegionAttr } from '../../config/ndxVisualRegionIds';
+import {
+  NDX_OVERVIEW_IN_PRODUCTION_VIEW_ALL,
+  NDX_OVERVIEW_PRODUCTION_CARDS,
+  NDX_OVERVIEW_RADAR_VIEW_ALL,
+  NDX_OVERVIEW_REFERENCE_METRICS,
+} from '../../config/ndxOverviewMobileReference';
 
 type Props = {
   projectSlug: string;
@@ -285,9 +291,11 @@ export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
 }
 
 export function OverviewMobileHomeScreen({ projectSlug }: Props) {
+  const metrics = NDX_OVERVIEW_REFERENCE_METRICS;
+
   return (
     <div className="site00-fws-mobile-overview" data-visual-reconstruction="mobile-overview">
-      <div {...vrRegionAttr(NDX_VR_REGION.overviewHero)}>
+      <div className="site00-fws-mobile-overview__hero" {...vrRegionAttr(NDX_VR_REGION.overviewHero)}>
         <p className="site00-fws-mobile-overview__eyebrow">OVERVIEW</p>
         <h2 className="site00-fws-mobile-overview__headline">
           <span>CONTENT OPERATIONS</span>
@@ -296,57 +304,73 @@ export function OverviewMobileHomeScreen({ projectSlug }: Props) {
         <p className="site00-fws-mobile-overview__summary">
           Studio World builds with intelligence. You guide with judgment. Your voice is the final approval.
         </p>
-        <div className="site00-fws-mobile-overview__today">
+        <div className="site00-fws-mobile-overview__today site00-fws-mobile-overview__today--ruled">
           <span className="site00-fws-mobile-overview__today-label">TODAY AT NDX</span>
           <span className="site00-fws-mobile-overview__today-date">May 24</span>
         </div>
       </div>
 
-      <div className="site00-fws-hub-kpis site00-fws-hub-kpis--mobile" {...vrRegionAttr(NDX_VR_REGION.overviewMetrics)}>
-        <div>
-          <strong>5</strong>
+      <div
+        className="site00-fws-hub-kpis site00-fws-hub-kpis--mobile site00-fws-hub-kpis--ruled"
+        {...vrRegionAttr(NDX_VR_REGION.overviewKpis)}
+      >
+        <div className="site00-fws-hub-kpis__cell">
+          <strong>{metrics.beingMade}</strong>
           <span>BEING MADE</span>
         </div>
-        <div>
-          <strong>2</strong>
+        <div className="site00-fws-hub-kpis__cell">
+          <strong>{metrics.needYourEye}</strong>
           <span>NEED YOUR EYE</span>
         </div>
-        <div>
-          <strong>3</strong>
+        <div className="site00-fws-hub-kpis__cell">
+          <strong>{metrics.developing}</strong>
           <span>DEVELOPING</span>
         </div>
-        <div className="site00-fws-hub-kpis__empty">
-          <strong aria-hidden>&nbsp;</strong>
+        <div className="site00-fws-hub-kpis__cell" {...vrRegionAttr(NDX_VR_REGION.overviewKpiAudience)}>
+          <strong>{metrics.fromAudience}</strong>
           <span>FROM AUDIENCE</span>
         </div>
       </div>
 
-      <div className="site00-fws-mobile-section-head">
+      <div className="site00-fws-mobile-section-head site00-fws-mobile-section-head--production">
         <p className="site00-fws-hub-section-label">IN PRODUCTION</p>
         <Link to={site00ProjectContentOperationsCampaignBoardPath(projectSlug)} className="site00-fws-mobile-screen__see-all">
-          View all (5)
+          View all ({NDX_OVERVIEW_IN_PRODUCTION_VIEW_ALL})
         </Link>
       </div>
-      <div className="site00-fws-hub-carousel site00-fws-hub-carousel--mobile-row" {...vrRegionAttr(NDX_VR_REGION.productionRow)}>
-        {IN_PRODUCTION.map((item) => (
+      <div
+        className="site00-fws-hub-carousel site00-fws-hub-carousel--mobile-row"
+        {...vrRegionAttr(NDX_VR_REGION.overviewProduction)}
+      >
+        {NDX_OVERVIEW_PRODUCTION_CARDS.map((item) => (
           <article
-            key={item.title}
-            className={`site00-fws-hub-carousel__card site00-fws-hub-carousel__card--mobile${item.tone === 'priority' ? ' site00-fws-hub-carousel__card--priority' : ''}`}
+            key={item.id}
+            className={`site00-fws-hub-carousel__card site00-fws-hub-carousel__card--mobile site00-fws-hub-carousel__card--art${item.tone === 'priority' ? ' site00-fws-hub-carousel__card--priority' : ''}`}
+            {...vrRegionAttr(item.vrRegionId)}
           >
-            {item.tag ? <span className="site00-fws-hub-tag">{item.tag}</span> : null}
-            <p className="site00-fws-hub-carousel__card-title">{item.title.toUpperCase()}</p>
-            {item.subtitle ? <p className="site00-fws-hub-carousel__card-sub">{item.subtitle}</p> : null}
+            <div
+              className="site00-fws-hub-carousel__card-art"
+              style={{ backgroundImage: `url(${item.artworkPath})` }}
+              role="img"
+              aria-label={`${item.title} artwork`}
+              data-artwork-position={item.artworkObjectPosition}
+            />
+            <div className="site00-fws-hub-carousel__card-body">
+              {item.tag ? <span className="site00-fws-hub-tag">{item.tag}</span> : null}
+              <p className="site00-fws-hub-carousel__card-title">{item.title.toUpperCase()}</p>
+              {item.subtitle ? <p className="site00-fws-hub-carousel__card-sub">{item.subtitle}</p> : null}
+            </div>
           </article>
         ))}
       </div>
 
-      <div className="site00-fws-mobile-section-head">
+      <div className="site00-fws-mobile-section-head site00-fws-mobile-section-head--radar">
         <p className="site00-fws-hub-section-label">ON NDX&apos;S RADAR</p>
         <Link to={site00ProjectCulturalIntelligencePath(projectSlug)} className="site00-fws-mobile-screen__see-all">
-          View all (6)
+          View all ({NDX_OVERVIEW_RADAR_VIEW_ALL})
         </Link>
       </div>
-      <ul className="site00-fws-hub-list site00-fws-hub-list--radar" {...vrRegionAttr(NDX_VR_REGION.radarList)}>
+      <ul className="site00-fws-hub-list site00-fws-hub-list--radar site00-fws-hub-list--radar-ruled" {...vrRegionAttr(NDX_VR_REGION.overviewRadar)}>
         {RADAR_ITEMS.map((item, index) => (
           <li key={item}>
             <span className="site00-fws-hub-list__num">{String(index + 1).padStart(2, '0')}</span>
