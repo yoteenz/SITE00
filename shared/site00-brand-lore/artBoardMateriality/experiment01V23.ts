@@ -109,7 +109,7 @@ export function formulateExperiment01V23(params: {
     });
     artBoardContracts.push(retained);
 
-    const falContract = compileArtBoardMaterialityFalPrompt({ artifact: v1, contract: retained });
+    const falContract = compileArtBoardMaterialityFalPrompt({ artifact: v1, contract: retained, topicIndex });
     const { snapshot } = compileCurrentV23FalPrompt({
       artifact: {
         id: `bma-exp01-v23-${topicIndex}`,

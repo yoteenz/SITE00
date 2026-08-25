@@ -10,12 +10,13 @@ import type {
   MarketingExpressionExperiment01V23,
 } from './types.js';
 import { falPromptHasLimeRestraintSection } from './signatureLimeRestraint.js';
-import { materialFalPromptHasVisualAuthoritySection, materialFalPromptHasAuthoredArtifactGrammar } from './falPromptCompilerV23.js';
+import { materialFalPromptHasVisualAuthoritySection, materialFalPromptHasAuthoredArtifactGrammar, materialFalPromptHasPhysicalPageObjectSection } from './falPromptCompilerV23.js';
 
 export const V23_SUPERSEDED_BY_METHODOLOGY = 'SUPERSEDED_BY_METHODOLOGY' as const;
 export const V23_SUPERSESSION_REASON_C4B1 = 'P0.5C.4B.1_SIGNATURE_LIME_RESTRAINT' as const;
 export const V23_SUPERSESSION_REASON_C6 = 'P0.5C.6_VISUAL_AUTHORITY' as const;
 export const V23_SUPERSESSION_REASON_C6A = 'P0.5C.6A_AUTHORED_ARTIFACT_GRAMMAR' as const;
+export const V23_SUPERSESSION_REASON_C7 = 'P0.5C.7_NOTEBOOK_CAROUSEL_GRAMMAR' as const;
 /** @deprecated use V23_SUPERSESSION_REASON_C4B1 */
 export const V23_SUPERSESSION_REASON = V23_SUPERSESSION_REASON_C4B1;
 
@@ -39,6 +40,20 @@ export function artifactHasPreC4B1Prompt(artifact: Experiment01V23Artifact): boo
     '';
   if (!prompt) return true;
   return !falPromptHasLimeRestraintSection(prompt);
+}
+
+export function artifactHasPreC7Prompt(artifact: Experiment01V23Artifact): boolean {
+  const prompt =
+    artifact.promptSnapshots?.find((s) => s.id === artifact.dispatchedPromptSnapshotId)?.prompt ??
+    artifact.generationContract?.prompt ??
+    '';
+  if (!prompt) return true;
+  return !materialFalPromptHasPhysicalPageObjectSection({
+    prompt,
+    negativePrompt: artifact.generationContract?.negativePrompt ?? '',
+    promptHash: '',
+    sectionOrder: [],
+  });
 }
 
 export function artifactHasPreC6APrompt(artifact: Experiment01V23Artifact): boolean {
@@ -97,6 +112,7 @@ export function shouldAutoSupersedeV23Generation(
     experiment.generatedArtifacts.some((a) => a.generationStatus === 'GENERATING') ||
     countPendingV23Jobs(experiment.generatedArtifacts) > 0;
   if (!active) return false;
+  if (experiment.generatedArtifacts.some(artifactHasPreC7Prompt)) return true;
   if (experiment.generatedArtifacts.some(artifactHasPreC6APrompt)) return true;
   if (experiment.generatedArtifacts.some(artifactHasPreC6Prompt)) return true;
   return experiment.generatedArtifacts.some(artifactHasPreC4B1Prompt);
@@ -129,7 +145,9 @@ export function applyExperiment01V23Supersession(
   const inFlight = countInFlightV23Jobs(experiment.generatedArtifacts);
   const completed = countCompletedV23Assets(experiment.generatedArtifacts);
   let pendingCancelled = 0;
-  const reason = experiment.generatedArtifacts.some(artifactHasPreC6APrompt)
+  const reason = experiment.generatedArtifacts.some(artifactHasPreC7Prompt)
+    ? V23_SUPERSESSION_REASON_C7
+    : experiment.generatedArtifacts.some(artifactHasPreC6APrompt)
     ? V23_SUPERSESSION_REASON_C6A
     : experiment.generatedArtifacts.some(artifactHasPreC6Prompt)
       ? V23_SUPERSESSION_REASON_C6
@@ -141,7 +159,9 @@ export function applyExperiment01V23Supersession(
 
     if (isCompleted) {
       const lineage: Experiment01V23Artifact['generationLineageClass'] =
-        reason === V23_SUPERSESSION_REASON_C6A
+        reason === V23_SUPERSESSION_REASON_C7
+          ? 'PRESERVED_PRE_C7'
+          : reason === V23_SUPERSESSION_REASON_C6A
           ? 'PRESERVED_PRE_C6A'
           : reason === V23_SUPERSESSION_REASON_C6
             ? 'PRESERVED_PRE_C6'

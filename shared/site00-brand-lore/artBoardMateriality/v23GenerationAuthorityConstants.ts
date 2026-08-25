@@ -2,10 +2,11 @@
  * P0.5C.5A — V2.3 Generation Authority adapter + constants.
  */
 
-export const V23_FAL_COMPILER_VERSION = 'falPromptCompilerV23@P0.5C.6A' as const;
+export const V23_FAL_COMPILER_VERSION = 'falPromptCompilerV23@P0.5C.7' as const;
 export const V23_EXPERIMENT_ID = 'marketing-expression-experiment-01-v23' as const;
 
 export const V23_METHODOLOGY_VERSIONS = [
+  'NOTEBOOK_CAROUSEL_GRAMMAR@P0.5C.7',
   'AUTHORED_ARTIFACT@P0.5C.6A',
   'VISUAL_AUTHORITY@P0.5C.6',
   'HUMAN_MADE_MARKS@P0.5C.4A',
@@ -18,6 +19,10 @@ export const V23_METHODOLOGY_VERSIONS = [
 ] as const;
 
 export const V23_GOVERNANCE_VERSIONS = [
+  'NOTEBOOK_CAROUSEL_GRAMMAR@P0.5C.7',
+  'PHYSICAL_PAGE_OBJECT@P0.5C.7',
+  'UPPERCASE_AUTHORSHIP@P0.5C.7',
+  'NEGATIVE_TEMPLATE_CONSTRAINTS@P0.5C.7',
   'AUTHORED_ARTIFACT_GRAMMAR@P0.5C.6A',
   'HUMAN_HISTORY_AUTHORITY@P0.5C.6A',
   'TEMPLATE_FRAME_REMOVAL@P0.5C.6A',

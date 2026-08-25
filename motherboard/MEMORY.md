@@ -4799,3 +4799,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Shipped:** PR **#426** merged to `main`. Deploy **v89**. Tests: `filmProductionP0FILM1.test.ts` (31); full suite **2915** pass; build green (`index.BSBetlVk.js`). Brand Character/Canon/historical lineage unchanged; autonomous publishing disabled.
 - **Recommended next:** Run Reel 01 through production plan review only; if plan correct, approve and generate continuity cluster shots 02–04 (table level, lime pen, non-introduction) before full reel generation.
 
+---
+
+## 2026-08-25 — P0.5C.7 Canonical Hand-Built Notebook Carousel Grammar + Physical Page Lineage + Uppercase Authorship
+
+- **Context:** Formalize NDXBOOK carousel visual language for all V2.3 carousel generation. Carousels must look like physical pages inside The Book — not templates with handwriting added afterward. Remains V2.3 + P0.5C.7 amendment (no V2.4). No automatic FAL spend during implementation; founder review required for pilot regeneration.
+- **Visual authority chain (amended):** CONTENT THESIS → PAGE OBJECT → PAGE MATERIAL → BINDING/EDGE → CONSTRUCTION HISTORY → BESPOKE COMPOSITION → EDITORIAL PHOTOGRAPHY → TYPOGRAPHY → EVIDENCE → CHARACTER TRACE → LIME INTERRUPTION → QA. Blocked legacy: BACKGROUND → TEXT → PHOTO → ANNOTATION.
+- **New modules (`artBoardMateriality/`):** `ndxPageObjectContract.ts` (NDXPageObjectContract + physical lineage signals), `ndxConstructionHistory.ts`, `notebookCarouselPromptSections.ts`, `notebookCarouselEvaluation.ts` (physicality, template grammar, uppercase, photo integration, construction history, page variety QA gates), `ndxNotebookCarouselNorthStar.ts` (MEET NDX, PERSONAL BRAND, THINGS I SAVED — evidence not literal templates), `notebookCarouselMigrationAudit.ts`, `notebookCarouselFounderReview.ts` (THIS_FEELS_LIKE_THE_BOOK, TOO_TEMPLATE, LOWERCASE_ERROR, etc.), `notebookCarouselGrammarP05C7.ts`.
+- **Compiler:** `falPromptCompilerV23@P0.5C.7` — explicit sections: PHYSICAL PAGE OBJECT, PAGE MATERIAL, BINDING/EDGE, CONSTRUCTION HISTORY, PHOTO INTEGRATION, UPPERCASE AUTHORSHIP, HAND MARKS, LIME INTERRUPTION, NEGATIVE TEMPLATE CONSTRAINTS. `FAL_MATERIAL_PROMPT_SECTION_ORDER` expanded to 35 sections. Pre-C7 supersession (`artifactHasPreC7Prompt`, `V23_SUPERSESSION_REASON_C7`, `PRESERVED_PRE_C7` lineage). Round 01 notebook carousel gate wired.
+- **Pilot:** Subscription receipt topic 1 recommended for founder-triggered OLD V2.3 vs P0.5C.7 compare — no auto-lock.
+- **Shipped:** PR to `main`. Tests: `artBoardMaterialityP05C7.test.ts` (13); full suite **2928** pass; build green. Historical V2.3 assets immutable; Brand Character/Canon unchanged.
+

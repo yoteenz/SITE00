@@ -130,7 +130,7 @@ describe('P0.5C.6A Authored Artifact Grammar', () => {
   });
 
   it('FAL compiler P0.5C.6A — authored artifact sections + authority order', () => {
-    expect(V23_FAL_COMPILER_VERSION).toBe('falPromptCompilerV23@P0.5C.6A');
+    expect(V23_FAL_COMPILER_VERSION).toBe('falPromptCompilerV23@P0.5C.7');
     const artifact = v23Experiment.generatedArtifacts[0]!;
     const v1 = { id: artifact.v1ArtifactId, topic: artifact.topic, subject: artifact.subject, supportingLanguage: [], headline: '', subhead: '' } as never;
     const fal = compileArtBoardMaterialityFalPrompt({ artifact: v1, contract: artifact.contract });

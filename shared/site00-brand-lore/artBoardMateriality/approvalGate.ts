@@ -13,6 +13,7 @@ import {
 } from './v23GenerationAuthority.js';
 import { v23VisualAuthorityGatePasses } from './visualAuthorityC6.js';
 import { v23AuthoredArtifactGatePasses } from './authoredArtifactC6A.js';
+import { notebookCarouselGatePasses } from './notebookCarouselEvaluation.js';
 
 export function artBoardMaterialityApprovalGatePasses(artifact: Experiment01V23Artifact): boolean {
   const migrated = migrateV23ArtifactGenerationLineage(artifact);
@@ -49,6 +50,27 @@ export function allV23SelectedAssetsPassCurrentLineage(
 ): boolean {
   if (!experiment?.generatedArtifacts.length) return false;
   return experiment.generatedArtifacts.every((a) => v23SelectedAssetPassesCurrentLineage(a));
+}
+
+export function notebookCarouselGrammarGatePasses(artifact: Experiment01V23Artifact, topicIndex: number): boolean {
+  return notebookCarouselGatePasses(artifact, topicIndex);
+}
+
+export function round01NotebookCarouselGate(params: {
+  v23Experiment: MarketingExpressionExperiment01V23 | null | undefined;
+}): { allowed: boolean; reason: string | null } {
+  if (!params.v23Experiment) {
+    return { allowed: false, reason: 'V2.3 experiment required for notebook carousel gate' };
+  }
+  const artifacts = params.v23Experiment.generatedArtifacts;
+  const allPass = artifacts.every((a, i) => notebookCarouselGatePasses(a, i + 1));
+  if (!allPass) {
+    return {
+      allowed: false,
+      reason: 'P0.5C.7 NOTEBOOK_CAROUSEL_GATE — physical page, template grammar, uppercase, photo integration, construction history',
+    };
+  }
+  return { allowed: true, reason: null };
 }
 
 export function authoredArtifactGatePasses(artifact: Experiment01V23Artifact): boolean {

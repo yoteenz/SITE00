@@ -19,7 +19,7 @@ import type {
   GenerationPromptFreshnessEvaluation,
 } from '../../site00-studio-world-production/generationAuthority/types.js';
 import type { GenerationMode } from '../../site00-studio-world-production/generationAuthority/types.js';
-import { compileArtBoardMaterialityFalPrompt, materialFalPromptHasLimeRestraintSection, materialFalPromptHasVisualAuthoritySection, materialFalPromptHasAuthoredArtifactGrammar } from './falPromptCompilerV23.js';
+import { compileArtBoardMaterialityFalPrompt, materialFalPromptHasLimeRestraintSection, materialFalPromptHasVisualAuthoritySection, materialFalPromptHasAuthoredArtifactGrammar, materialFalPromptHasPhysicalPageObjectSection } from './falPromptCompilerV23.js';
 import { signatureLimeRestraintGatePasses } from './signatureLimeRestraint.js';
 import {
   V23_EXPERIMENT_ID,
@@ -44,9 +44,12 @@ export function compileCurrentV23FalPrompt(params: {
   founderRevisionIds?: string[];
   supersedesPromptSnapshotId?: string | null;
 }): { falContract: MarketingFalPromptContract; snapshot: GenerationPromptSnapshot } {
+  const topicMatch = params.artifact.id.match(/-(\d+)$/);
+  const topicIndex = topicMatch ? parseInt(topicMatch[1]!, 10) : 1;
   const falContract = compileArtBoardMaterialityFalPrompt({
     artifact: params.v1Artifact,
     contract: params.artifact.contract,
+    topicIndex,
   });
 
   const snapshot: GenerationPromptSnapshot = {
@@ -269,6 +272,12 @@ export function buildV23GenerationAssetRecord(params: {
       promptHash: params.snapshot.fingerprint,
       sectionOrder: [],
     }),
+    assetIncludesC7: materialFalPromptHasPhysicalPageObjectSection({
+      prompt: params.snapshot.prompt,
+      negativePrompt: params.snapshot.negativePrompt,
+      promptHash: params.snapshot.fingerprint,
+      sectionOrder: [],
+    }),
     assetIncludesC5: params.snapshot.prompt.includes('PUBLIC AUTHORSHIP MODE'),
     assetUsesCurrentPublicCopy: params.snapshot.prompt.includes('VISIBLE NDX HEADLINE'),
     assetUsesCurrentAuthorship: params.snapshot.prompt.includes('FIRST-PERSON CHARACTER AUTHORSHIP'),
@@ -316,6 +325,12 @@ export function selectedAssetPassesCurrentLineage(artifact: Experiment01V23Artif
       sectionOrder: [],
     })) &&
     (selected.assetIncludesC6A ?? materialFalPromptHasAuthoredArtifactGrammar({
+      prompt: artifact.generationContract?.prompt ?? '',
+      negativePrompt: artifact.generationContract?.negativePrompt ?? '',
+      promptHash: '',
+      sectionOrder: [],
+    })) &&
+    (selected.assetIncludesC7 ?? materialFalPromptHasPhysicalPageObjectSection({
       prompt: artifact.generationContract?.prompt ?? '',
       negativePrompt: artifact.generationContract?.negativePrompt ?? '',
       promptHash: '',
