@@ -2,6 +2,7 @@
  * P0.FILM.1 — Film prompt compiler (builds on Realism Lab compiler).
  */
 
+import type { CharacterInjectionBundle } from '../../characterAuthority/types.js';
 import { PROMPT_AUTHORITY_ORDER } from '../constants.js';
 import type { BrandCinematographyBible, BrandFilmBible, CharacterFilmAuthority, CompiledFilmPrompt, FilmShotContract, WardrobeOutfit } from '../types.js';
 import type { EnvironmentDefinition } from '../types.js';
@@ -14,6 +15,7 @@ export function compileFilmShotPrompt(params: {
   cinematography: BrandCinematographyBible;
   environment: EnvironmentDefinition | null;
   wardrobe: WardrobeOutfit | null;
+  characterInjectionBundle?: CharacterInjectionBundle | null;
 }): CompiledFilmPrompt {
   const routing = routeShotModel(params.shot);
   const sections = buildFilmPromptSections(params);
@@ -40,14 +42,22 @@ function buildFilmPromptSections(params: {
   cinematography: BrandCinematographyBible;
   environment: EnvironmentDefinition | null;
   wardrobe: WardrobeOutfit | null;
+  characterInjectionBundle?: CharacterInjectionBundle | null;
 }): Record<string, string> {
   const { shot, brandBible, characterAuthority, cinematography, environment, wardrobe } = params;
-  const wardrobeDesc = wardrobe
-    ? `${wardrobe.top}, ${wardrobe.bottom}${wardrobe.limeAccent ? `, lime accent: ${wardrobe.limeAccent}` : ''}`
-    : 'approved everyday look';
+  const injection = params.characterInjectionBundle;
+  const wardrobeDesc = injection?.wardrobeReferences.length
+    ? injection.wardrobeReferences.join('; ')
+    : wardrobe
+      ? `${wardrobe.top}, ${wardrobe.bottom}${wardrobe.limeAccent ? `, lime accent: ${wardrobe.limeAccent}` : ''}`
+      : 'approved everyday look';
+
+  const identityFromInjection = injection
+    ? `CANONICAL INJECTION ${injection.characterVisualVersion}: ${injection.identityReferences.join(' · ')}`
+    : `${characterAuthority.identityAnchors.join('. ')}. Face: ${characterAuthority.faceAnchors.join(', ')}. Hair: ${shot.hair}.`;
 
   return {
-    identity: `${characterAuthority.identityAnchors.join('. ')}. Face: ${characterAuthority.faceAnchors.join(', ')}. Hair: ${shot.hair}.`,
+    identity: identityFromInjection,
     continuity: `In: ${shot.continuityIn.join(', ')}. Out: ${shot.continuityOut.join(', ')}. Props: ${shot.props.join(', ')}.`,
     action: `${shot.action}. Micro: ${shot.microAction}. Expression: ${shot.expression}. Gaze: ${shot.gaze}.`,
     camera: `${shot.cameraPosition}. Movement: ${shot.cameraMovement}. Lens: ${shot.lens}. Framing: ${shot.framing}. ${cinematography.primaryPrinciple}`,
@@ -56,7 +66,12 @@ function buildFilmPromptSections(params: {
       : `${shot.environment}. ${shot.lighting}.`,
     realism: `${brandBible.realismTarget}. Avoid: ${brandBible.disallowedStylization.join(', ')}. ${shot.realismRequirements.join('. ')}`,
     style: `Tone: ${brandBible.visualTone.join(', ')}. Performance: ${characterAuthority.cameraAwareness}.`,
-    negative: [...shot.negativeConstraints, ...brandBible.disallowedStylization, ...cinematography.avoid].join('. '),
+    negative: [
+      ...shot.negativeConstraints,
+      ...brandBible.disallowedStylization,
+      ...cinematography.avoid,
+      ...(injection?.negativeIdentityConstraints.slice(0, 6) ?? []),
+    ].join('. '),
     wardrobe: wardrobeDesc,
     dialogue: shot.dialogue ? `Line: "${shot.dialogue}"` : 'No dialogue.',
     sound: shot.sound,

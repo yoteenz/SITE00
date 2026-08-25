@@ -30,7 +30,9 @@ import type {
   CharacterReferenceDecomposition,
   CharacterBibleReviewTab,
   CharacterBibleAssetPack,
+  CharacterVisualCastingState,
 } from '../../../shared/site00-studio-world-production/characterVisualCasting/client.js';
+import { summarizeCharacterReadiness } from '../../../shared/site00-studio-world-production/characterAuthority/readinessSummary.js';
 import { prepareReferenceBoardUpload } from '../utils/prepareReferenceBoardUpload';
 import '../styles/site00-character-casting.css';
 
@@ -169,6 +171,10 @@ export default function ProjectCharacterCastingPage() {
           </ul>
           <Link to={site00ProjectFounderCharacterDiscoveryPath(projectSlug)}>← Return to Character Lab</Link>
         </section>
+      )}
+
+      {!loading && casting?.visualCastingReady && (
+        <CharacterReadinessPanel casting={casting} />
       )}
 
       {!loading && casting?.visualCastingReady && (
@@ -884,6 +890,71 @@ function CharacterBibleReviewPanel({
           </button>
         ) : null}
       </div>
+    </section>
+  );
+}
+
+function CharacterReadinessPanel({ casting }: { casting: CharacterVisualCastingState }) {
+  const summary = useMemo(() => summarizeCharacterReadiness(casting), [casting]);
+
+  const rows = [
+    { label: 'CHARACTER TRUTH', ready: summary.characterTruthReady, detail: summary.characterTruthReady ? 'READY' : 'INCOMPLETE' },
+    {
+      label: 'VISUAL REFERENCE',
+      ready: !summary.blockers.includes('VISUAL_REFERENCE'),
+      detail: !summary.blockers.includes('VISUAL_REFERENCE') ? 'APPROVED' : 'PENDING',
+    },
+    {
+      label: 'CANONICAL ANCHOR',
+      ready: !summary.blockers.includes('CANONICAL_ANCHOR'),
+      detail: casting.canonicalAnchor?.status === 'REVIEW' ? 'IN REVIEW' : summary.blockers.includes('CANONICAL_ANCHOR') ? 'PENDING' : 'APPROVED',
+    },
+    {
+      label: 'ANGLE PACK',
+      ready: !summary.blockers.includes('ANGLE_PACK'),
+      detail: !summary.blockers.includes('ANGLE_PACK') ? 'COMPLETE' : 'INCOMPLETE',
+    },
+    {
+      label: 'WARDROBE',
+      ready: Boolean(casting.visualAuthoritySnapshot?.wardrobeLock),
+      detail: casting.visualAuthoritySnapshot?.wardrobeLock ? 'LOCKED' : 'INCOMPLETE',
+    },
+    {
+      label: 'CONTINUITY',
+      ready: summary.stillProductionReady,
+      detail: summary.stillProductionReady ? 'PASS' : 'BLOCKED',
+    },
+    {
+      label: 'PRODUCTION',
+      ready: summary.productionReady,
+      detail: summary.productionStatus.replace(/_/g, ' '),
+    },
+  ];
+
+  return (
+    <section className="site00-char-cast__panel site00-char-cast__panel--ready">
+      <header className="site00-char-cast__review-head">
+        <h2>NDX VISUAL READINESS</h2>
+        <span className="site00-char-cast__counter">{summary.visualIdentityStatus.replace(/_/g, ' ')}</span>
+      </header>
+      <ul className="site00-char-cast__readiness">
+        {rows.map((row) => (
+          <li
+            key={row.label}
+            className={
+              row.ready ? 'site00-char-cast__readiness-row site00-char-cast__readiness-row--ready' : 'site00-char-cast__readiness-row site00-char-cast__readiness-row--blocked'
+            }
+          >
+            <span className="site00-char-cast__readiness-label">{row.label}</span>
+            <span className="site00-char-cast__readiness-status">{row.ready ? '✓' : '·'} {row.detail}</span>
+          </li>
+        ))}
+      </ul>
+      {!summary.visualIdentityReady ? (
+        <p className="site00-char-cast__hint">
+          NDX CHARACTER REQUIRED — downstream photography stays blocked until visual identity is READY. Planning (scripts, page roles, storyboards) can continue.
+        </p>
+      ) : null}
     </section>
   );
 }
