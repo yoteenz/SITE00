@@ -6,7 +6,9 @@ import {
   ndxFounderWorkspaceNav,
   ndxInspectRoutes,
 } from '../../config/ndxFounderWorkspace';
+import { useSite00 } from '../../state/Site00Context';
 import { MobileFounderWorkspaceChrome } from './MobileFounderWorkspaceChrome';
+import { renderMobileFounderWorkspaceScreen } from './MobileFounderWorkspaceScreens';
 import { resolveMobileScreenIdFromPath } from '../../config/ndxFounderWorkspaceMobileNav';
 import '../../styles/site00-founder-workspace.css';
 
@@ -64,6 +66,7 @@ export function FounderWorkspaceShell({
   hideWorkspaceHeader = false,
 }: FounderWorkspaceShellProps) {
   const location = useLocation();
+  const { isPreviewDesktop } = useSite00();
   const enabled = ndxFounderWorkspaceEnabled(projectSlug);
   const nav = useMemo(() => ndxFounderWorkspaceNav(projectSlug), [projectSlug]);
   const inspectRoutes = useMemo(() => ndxInspectRoutes(projectSlug), [projectSlug]);
@@ -88,11 +91,13 @@ export function FounderWorkspaceShell({
 
   const isNavActive = (path: string) => location.pathname.replace(/\/+$/, '') === path.replace(/\/+$/, '');
   const mobileScreenId = resolveMobileScreenIdFromPath(location.pathname, projectSlug);
+  const mobilePresentation = !isPreviewDesktop;
+  const mobileScreen = renderMobileFounderWorkspaceScreen(mobileScreenId, projectSlug);
 
   return (
     <FounderWorkspaceContext.Provider value={ctx}>
       <div className="site00-fws">
-        {!hideWorkspaceNav ? (
+        {!hideWorkspaceNav && isPreviewDesktop ? (
           <aside className="site00-fws-rail site00-fws-hub-desktop-only" aria-label="NDXBOOK workspace">
             <div className="site00-fws-rail__brand">
               <span className="site00-fws-rail__host">SITE 00</span>
@@ -138,13 +143,14 @@ export function FounderWorkspaceShell({
           ) : null}
 
           <section className="site00-fws-layer site00-fws-layer--operate" aria-label="Operate">
-            <div className="site00-fws-hub-desktop-only">{operate}</div>
-            <div className="site00-fws-hub-mobile-only">
-              <MobileFounderWorkspaceChrome projectSlug={projectSlug}>{operate}</MobileFounderWorkspaceChrome>
-            </div>
+            {mobilePresentation ? (
+              <MobileFounderWorkspaceChrome projectSlug={projectSlug}>{mobileScreen}</MobileFounderWorkspaceChrome>
+            ) : (
+              operate
+            )}
           </section>
 
-          {understand ? (
+          {understand && isPreviewDesktop ? (
             <section className="site00-fws-layer site00-fws-layer--understand" aria-label="Understand">
               {understand}
             </section>

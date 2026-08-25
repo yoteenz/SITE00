@@ -5,6 +5,7 @@
 import {
   site00ProjectContentOperationsCampaignBoardPath,
   site00ProjectContentOperationsPath,
+  site00ProjectExperimentsPath,
   site00ProjectFounderCharacterDiscoveryPath,
   site00ProjectPath,
 } from './routes';
@@ -41,7 +42,7 @@ export function ndxFounderWorkspaceMobileNav(projectSlug: string): NdxMobileNavI
       icon: '⚗',
       screenId: 'character-lab',
     },
-    { id: 'more', label: 'More', href: site00ProjectPath(projectSlug), icon: '···', screenId: 'more' },
+    { id: 'more', label: 'More', href: site00ProjectExperimentsPath(projectSlug), icon: '···', screenId: 'experiments-hub' },
   ];
 }
 

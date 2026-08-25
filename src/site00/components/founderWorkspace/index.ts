@@ -39,3 +39,4 @@ export { ExperimentsHubOperateLayer } from './ExperimentsHubOperateLayer';
 export { VisualReconstructionWorkspace } from './VisualReconstructionWorkspace';
 export { OverviewFounderWorkspaceBoard, OverviewMobileHomeScreen } from './OverviewFounderWorkspaceBoard';
 export { MobileFounderWorkspaceChrome } from './MobileFounderWorkspaceChrome';
+export { renderMobileFounderWorkspaceScreen } from './MobileFounderWorkspaceScreens';
