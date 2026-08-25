@@ -75,7 +75,8 @@ describe('P0.B project core isolation', () => {
 
   it('TEST 8 — ingestion action maps to resolvable capability layer', () => {
     expect(capabilityForAction('personality_replay_bootstrap')).toBe('PERSONALITY_REPLAY');
-    expect(capabilityForAction('client_truth_store')).toBe(null);
+    expect(capabilityForAction('client_truth_store')).toBe('CLIENT_TRUTH');
+    expect(capabilityForAction('origin_ingest')).toBe('ORIGIN_INGESTION');
   });
 
   it('TEST 9 — unknown project has only PROJECT_CORE by default', () => {

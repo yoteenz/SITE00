@@ -13,6 +13,7 @@ export type Site00ProjectType = (typeof SITE00_PROJECT_TYPES)[number];
 export const SITE00_PROJECT_STATUSES = [
   'ACTIVE',
   'PRE_INGESTION',
+  'ORIGIN_INGESTED',
   'INGESTION',
   'PRODUCTION',
   'ARCHIVED',

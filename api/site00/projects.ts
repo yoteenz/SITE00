@@ -1018,6 +1018,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         if (!denyUnlessActionCapability(res, slug, 'canonical_creative_range_judgment', 'site00_canonical_creative_range')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { run, lineage } = await setCanonicalRangeFounderJudgment({ comparisonIndex, judgment });
+        return json(res, 200, { ok: true, run, lineage, source: 'site00_canonical_creative_range' });
+      }
       case 'canonical_carousel_expansion_preflight': {
         if (req.method !== 'GET' && req.method !== 'POST') {
           return json(res, 405, { ok: false, error: { code: 'METHOD_NOT_ALLOWED', message: 'GET or POST required' } });
@@ -5039,6 +5045,40 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const { listClientTruthForProject } = await import('../_lib/site00Projects/clientTruthService.js');
         const records = await listClientTruthForProject(slug);
         return json(res, 200, { ok: true, records, source: 'site00_client_truth' });
+      }
+      case 'origin_health': {
+        const slug = String(req.query.slug ?? '');
+        if (!denyUnlessProjectCapability(res, slug, 'ORIGIN_INGESTION', 'site00_origin')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { buildOriginIngestionHealth } = await import('../_lib/site00Projects/originIngestionService.js');
+        const health = await buildOriginIngestionHealth(slug);
+        return json(res, 200, { ok: true, health, source: 'site00_origin' });
+      }
+      case 'origin_summary': {
+        const slug = String(req.query.slug ?? '');
+        if (!denyUnlessProjectCapability(res, slug, 'ORIGIN_INGESTION', 'site00_origin')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { getLatestOriginSummary } = await import('../_lib/site00Projects/originIngestionService.js');
+        const summary = await getLatestOriginSummary(slug);
+        return json(res, 200, { ok: true, summary, source: 'site00_origin' });
+      }
+      case 'origin_ingest': {
+        if (req.method !== 'POST') {
+          return json(res, 405, { ok: false, error: { code: 'POST_REQUIRED', message: 'POST required' } });
+        }
+        const body = parseBody(req) ?? {};
+        const slug = String(body.slug ?? '');
+        if (!denyUnlessProjectCapability(res, slug, 'ORIGIN_INGESTION', 'site00_origin')) return;
+        if (!canAccessFounderProjectAsOwner(user.email, slug)) {
+          return json(res, 403, { ok: false, error: { code: 'PROJECT_ACCESS_DENIED', message: 'Denied' } });
+        }
+        const { ingestProjectOrigin } = await import('../_lib/site00Projects/originIngestionService.js');
+        const result = await ingestProjectOrigin(slug, user.email);
+        return json(res, 200, { ok: true, result, source: 'site00_origin' });
       }
       default:
         return json(res, 400, {
