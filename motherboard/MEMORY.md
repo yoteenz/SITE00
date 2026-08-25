@@ -4741,3 +4741,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Architecture:** `shared/site00-studio-world-production/characterVisualCasting/` — snapshot, readiness, state machine, prompt contract, casting engine (rounds/candidates/judgments/merge/lock), provider selection; API actions on `/api/site00/projects`; `ProjectCharacterCastingPage` (cost gate, founder-triggered generate, mobile swipe review, LOCK HER → continuity). Placeholder stills until FAL dispatch; video requests = 0 during casting.
 - **Shipped:** PR merged to `main`. Deploy **v87**. Tests: `embodiedCharacterVisualCastingP05E4C.test.ts` (10); full suite **2862** pass; build green. Brand Character/Canon unchanged; voice state preserved on visual promotion.
 
+---
+
+## 2026-08-25 — P0.CB.1 Founder creative ingestion + reference decomposition + production reconstruction
+
+- **Context:** Build production-grade workflow for founder-created NDXBOOK launch carousel direction entering Studio World. Pilot: MEET NDX (9 slides), EVERYBODY HAS A PERSONAL BRAND (12), THINGS I SAVED THIS WEEK / ENTRY 001 (12). Critical rule: mood boards are REFERENCES not production assets — no bitmap crop/upscale as reconstruction.
+- **Architecture:** `shared/site00-studio-world-production/founderCreativeIngestion/` — provenance (FOUNDER_CREATED, EXTERNAL_CHATGPT_CREATIVE_SESSION), reference decomposition engine, SlideReconstructionSpec, photography source modes (REFERENCE_ONLY through LOCK_CANONICAL), reverse-engineered photography prompts, Realism Lab provider bridge (no duplicate engine), sequence QA, creative signal learning (variation not template cloning). NDX adapter: `adapters/ndxLaunchRow01Pilot.ts`.
+- **API/UI:** `founder_creative_ingestion_*` actions; `/projects/ndxbook/content-operations/founder-creative-ingest` workflow page (REFERENCE→DECOMPOSE→RECONSTRUCT→REVIEW→SEQUENCE→CAMPAIGN); Campaign Board INGEST FOUNDER CREATIVE link + Row 01 grid preview; PAGES lane shows 3 parent sequences (child slides nested, not flattened).
+- **Shipped:** PR merged to `main`. Deploy **v88**. Tests: `founderCreativeIngestionP0CB1.test.ts` (15); full suite **2877** pass; build green. Brand Character/Canon/experiment lineage unchanged; founder-triggered generation only.
+
