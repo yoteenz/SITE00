@@ -112,7 +112,7 @@ export function EcosystemShell({ children, title, subtitle, headerActions, hideP
         .filter(Boolean)
         .join(' ')}
     >
-      <Site00EcosystemLayoutSwitch />
+      <Site00EcosystemLayoutSwitch hidden={ndxFounderMobileTakeover} />
       {showDesktopLayout ? (
         scaleDesktopInArtboard ? (
           <Site00DesktopArtboardShell>{desktopLayout}</Site00DesktopArtboardShell>

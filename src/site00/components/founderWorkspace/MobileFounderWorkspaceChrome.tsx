@@ -1,12 +1,14 @@
 /**
- * P0.VR.1D.A + P0.UI.3 — Mobile founder workspace chrome (Image B authority).
- * Canonical NDXIcon for header + bottom nav; independent from desktop rail.
+ * P0.VR.1D.A / P0.VR.1D.3 + P0.UI.3 — Mobile founder workspace chrome.
+ * Sticky header + bottom nav + project escape menu; canonical NDXIcon.
  */
 
-import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { ndxFounderWorkspaceMobileNav, resolveMobileScreenIdFromPath } from '../../config/ndxFounderWorkspaceMobileNav';
 import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
 import { NDXIcon } from '../../icons/ndx';
+import { ProjectEscapeMenu } from './ProjectEscapeMenu';
 import '../../styles/site00-founder-workspace.css';
 
 type Props = {
@@ -23,15 +25,29 @@ export function MobileFounderWorkspaceChrome({
   onOpenNotifications,
 }: Props) {
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const screenId = resolveMobileScreenIdFromPath(location.pathname, projectSlug);
   const nav = ndxFounderWorkspaceMobileNav(projectSlug);
+  const menuTriggerRef = useRef<HTMLButtonElement>(null);
+  const vrMenuOpen = searchParams.get('vrMenuOpen') === '1';
+  const [menuOpen, setMenuOpen] = useState(vrMenuOpen);
+
+  useEffect(() => {
+    if (vrMenuOpen) setMenuOpen(true);
+  }, [vrMenuOpen]);
+
+  const toggleMenu = () => {
+    setMenuOpen((open) => !open);
+    onOpenMenu?.();
+  };
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <div
-      className={`site00-fws-mobile-chrome site00-fws-mobile-chrome--${screenId}`}
+      className={`site00-fws-mobile-chrome site00-fws-mobile-chrome--${screenId}${menuOpen ? ' site00-fws-mobile-chrome--menu-open' : ''}`}
       data-visual-reconstruction={`mobile-${screenId}`}
     >
-      <header className="site00-fws-mobile-chrome__header">
+      <header className="site00-fws-mobile-chrome__header" data-vr-region="ndx-header">
         <div className="site00-fws-mobile-chrome__brand">
           <span className="site00-fws-mobile-chrome__title">NDXBOOK</span>
           <span className="site00-fws-mobile-chrome__diamond" aria-hidden>
@@ -41,21 +57,36 @@ export function MobileFounderWorkspaceChrome({
         <div className="site00-fws-mobile-chrome__actions">
           <button
             type="button"
-            className="site00-fws-mobile-chrome__icon"
+            className="site00-fws-mobile-chrome__icon site00-fws-mobile-chrome__icon--bell"
             aria-label="Notifications"
             onClick={onOpenNotifications}
           >
             <NDXIcon name="notifications" size={NDX_ICON_CONTEXT_SIZE.header} state="inactive" decorative />
           </button>
-          <button type="button" className="site00-fws-mobile-chrome__icon" aria-label="Open project menu" onClick={onOpenMenu}>
-            <NDXIcon name="ellipsis" size={NDX_ICON_CONTEXT_SIZE.header} state="inactive" decorative />
+          <button
+            ref={menuTriggerRef}
+            type="button"
+            className={`site00-fws-mobile-chrome__icon site00-fws-mobile-chrome__icon--menu${menuOpen ? ' site00-fws-mobile-chrome__icon--menu-open' : ''}`}
+            aria-label="Project menu"
+            aria-haspopup="menu"
+            aria-expanded={menuOpen}
+            onClick={toggleMenu}
+          >
+            <NDXIcon name="ellipsis" size={NDX_ICON_CONTEXT_SIZE.header} state={menuOpen ? 'active' : 'inactive'} decorative />
           </button>
         </div>
       </header>
 
+      <ProjectEscapeMenu
+        projectSlug={projectSlug}
+        open={menuOpen}
+        onClose={closeMenu}
+        triggerRef={menuTriggerRef}
+      />
+
       <div className="site00-fws-mobile-chrome__body">{children}</div>
 
-      <nav className="site00-fws-mobile-chrome__nav" aria-label="NDXBOOK mobile navigation">
+      <nav className="site00-fws-mobile-chrome__nav" aria-label="NDXBOOK mobile navigation" data-vr-region="ndx-bottom-nav">
         {nav.map((item) => {
           const active = item.screenId === screenId;
           return (
