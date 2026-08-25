@@ -4888,3 +4888,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Remove stale RUNNING early-return; resume orphaned jobs immediately on GET/poll; run FAL synchronously on Railway; start background work without setImmediate deferral. UI: RETRY GENERATE STILLS after 60s stuck.
 - **Shipped:** PR merged to `main`. Railway redeploy required. Tests: `castingFalBackgroundJob.test.ts` (1) + P0.5E.4C (16) pass.
 
+---
+
+## 2026-08-25 — P0.5E.4D Reference-first casting regeneration + Character Bible asset pack
+
+- **Problem:** REGENERATE CASTING FROM REFERENCES reused stale `CharacterTruthSnapshot` + variation-axis prompt contracts; founder notes were appended as secondary strings. FAL dispatch recompiled prompts without reference notes (`castingFalDispatch.ts`). Six unrelated casting candidates instead of same-woman bible asset pack.
+- **Root cause:** Authority order was legacy truth → variation axis → appended reference notes; no structured decomposition; no prompt snapshot storage; regenerate path called `generateNextCastingRoundFromFeedback` with legacy contracts.
+- **Fix:** `referenceDrivenCasting.ts` — `ActiveCastingReferenceAuthority`, `CharacterReferenceDecomposition` (identity/hair/wardrobe/presence/environment + visibility confidence), `compileReferenceDrivenCastingPromptContract` (reference PRIMARY, legacy SECONDARY), `generateCharacterBibleAssetPackRound` (17 slots: portraits, turnaround, wardrobe sheet, environment, expressions). FULL_LOOK upload auto-decomposes + activates authority; generation founder-triggered only. FAL dispatch reads `promptContractSnapshots` by `promptSnapshotId`. UI: STEP 1 upload → STEP 2 decomposition review → STEP 3 GENERATE CHARACTER BIBLE FROM REFERENCE → STEP 4 tabbed bible review + LOCK FACE/WARDROBE/ENVIRONMENT.
+- **API:** `character_visual_casting_generate_bible_from_reference`, `_approve_bible_pack`, `_bible_lock`; regenerate-from-references now routes to bible asset pack.
+- **Tests:** `referenceFirstCastingP05E4D.test.ts` (9) + cast upload (3) + P0.5E.4C (16) pass; build green. Decomposition is structured/heuristic (vision hook point for future).
+

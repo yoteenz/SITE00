@@ -1,8 +1,14 @@
 /**
- * P0.5E.4C — Founder-uploaded character references for casting + bible authority.
+ * P0.5E.4D — Founder-uploaded character references for casting + bible authority.
  */
 
 import { randomUUID } from 'node:crypto';
+import {
+  buildStructuredReferenceDecomposition,
+  flattenDecompositionToSignals,
+  migrateReferenceDrivenCastingState,
+  activateReferenceAuthority,
+} from './referenceDrivenCasting.js';
 import { syncPipelineState } from './stateMachine.js';
 import type {
   CharacterCastingAuthority,
@@ -11,39 +17,10 @@ import type {
   FounderCastingReferenceRole,
 } from './types.js';
 
-const ROLE_DECOMPOSITION: Record<FounderCastingReferenceRole, string[]> = {
-  FACE: [
-    'Facial structure and bone geometry anchor',
-    'Skin tone and texture reference — editorial realism',
-    'Identity-defining features — not costume or glam overlay',
-  ],
-  HAIR: [
-    'Hair texture, protective style, or natural pattern reference',
-    'Hairline and silhouette anchor for continuity',
-  ],
-  WARDROBE: [
-    'Wardrobe palette and styling reference',
-    'Personal taste signal — not uniform or costume',
-  ],
-  PRESENCE: [
-    'Camera relationship and bodily ease reference',
-    'Energy and posture — how she occupies space',
-  ],
-  FULL_LOOK: [
-    'Full editorial look reference — face, hair, wardrobe together',
-    'Holistic casting direction — same woman end-to-end',
-  ],
-  MOOD: [
-    'Mood and atmosphere reference — light, environment, tone',
-    'Emotional temperature — not a different character',
-  ],
-};
-
 export function migrateCastingStateFounderReferences(
   state: CharacterVisualCastingState,
 ): CharacterVisualCastingState {
-  if (Array.isArray(state.founderReferences)) return state;
-  return { ...state, founderReferences: [] };
+  return migrateReferenceDrivenCastingState(state);
 }
 
 export function uploadFounderCastingReference(
@@ -63,6 +40,7 @@ export function uploadFounderCastingReference(
     role: params.role,
     label: params.label?.trim() || null,
     decomposedSignals: [],
+    decomposition: null,
     decomposedAt: null,
     storedInBible: false,
     bibleReceiptId: null,
@@ -83,30 +61,33 @@ export function decomposeFounderCastingReference(
   const target = next.founderReferences.find((entry) => entry.referenceId === referenceId);
   if (!target) throw new Error('Founder casting reference not found');
 
-  const signals = [
-    ...ROLE_DECOMPOSITION[target.role],
-    target.label ? `Founder label: ${target.label}` : null,
-    `Reference role: ${target.role.replace(/_/g, ' ')}`,
-  ].filter(Boolean) as string[];
+  const decomposition = buildStructuredReferenceDecomposition(target);
+  const signals = flattenDecompositionToSignals(decomposition);
 
   const founderReferences = next.founderReferences.map((entry) =>
     entry.referenceId === referenceId
       ? {
           ...entry,
+          decomposition,
           decomposedSignals: signals,
-          decomposedAt: new Date().toISOString(),
+          decomposedAt: decomposition.decomposedAt,
           status: 'DECOMPOSED' as const,
         }
       : entry,
   );
 
   const authority = mergeReferenceSignalsIntoAuthority(next.castingAuthority, target, signals);
-
-  return syncPipelineState({
+  let updated = syncPipelineState({
     ...next,
     founderReferences,
     castingAuthority: authority,
   });
+
+  if (target.role === 'FULL_LOOK') {
+    updated = activateReferenceAuthority(updated, referenceId);
+  }
+
+  return updated;
 }
 
 export function storeFounderCastingReferenceInBible(
@@ -117,7 +98,7 @@ export function storeFounderCastingReferenceInBible(
   const next = migrateCastingStateFounderReferences(state);
   const target = next.founderReferences.find((entry) => entry.referenceId === referenceId);
   if (!target) throw new Error('Founder casting reference not found');
-  if (target.decomposedSignals.length === 0) {
+  if (!target.decomposition && target.decomposedSignals.length === 0) {
     throw new Error('Decompose reference before storing in bible');
   }
 
@@ -156,6 +137,13 @@ export function storeFounderCastingReferenceInBible(
 
 export function founderReferencePromptNotes(state: CharacterVisualCastingState): string[] {
   const next = migrateCastingStateFounderReferences(state);
+  const authority = next.activeReferenceAuthority;
+  if (authority) {
+    const reference = next.founderReferences.find((entry) => entry.referenceId === authority.referenceId);
+    if (reference?.decomposition) {
+      return flattenDecompositionToSignals(reference.decomposition);
+    }
+  }
   return next.founderReferences
     .filter((entry) => entry.storedInBible || entry.status === 'DECOMPOSED')
     .flatMap((entry) => [
@@ -166,7 +154,11 @@ export function founderReferencePromptNotes(state: CharacterVisualCastingState):
 
 export function hasFounderReferencesReadyForRegeneration(state: CharacterVisualCastingState): boolean {
   const next = migrateCastingStateFounderReferences(state);
-  return next.founderReferences.some((entry) => entry.storedInBible || entry.decomposedSignals.length > 0);
+  return next.founderReferences.some(
+    (entry) =>
+      entry.role === 'FULL_LOOK' &&
+      (entry.decomposition || entry.decomposedSignals.length > 0 || entry.storedInBible),
+  );
 }
 
 function mergeReferenceSignalsIntoAuthority(
@@ -182,13 +174,16 @@ function mergeReferenceSignalsIntoAuthority(
     projectVisualCanonNotes: [],
     continuityArchitectureNotes: [],
   };
-  const note = `[${reference.role}] ${reference.label ?? reference.previewUrl} — ${signals.join(' · ')}`;
+  const note = `[${reference.role}] ${reference.label ?? reference.previewUrl} — ${signals.slice(0, 3).join(' · ')}`;
   return {
     ...base,
     projectVisualCanonNotes: [...base.projectVisualCanonNotes, note],
     continuityArchitectureNotes: [
       ...base.continuityArchitectureNotes,
       `Founder reference stored for casting: ${reference.storagePath}`,
-    ],
+      reference.role === 'FULL_LOOK' ? 'FULL_LOOK reference is active casting authority when decomposed' : '',
+    ].filter(Boolean),
   };
 }
+
+export type { FounderCastingReferenceRole };

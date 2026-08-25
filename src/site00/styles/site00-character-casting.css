@@ -280,3 +280,50 @@
   font-size: 11px;
   line-height: 1.4;
 }
+
+.site00-char-cast__decomp {
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px dashed var(--ndx-border, #e8e4dc);
+  border-radius: 8px;
+  background: var(--ndx-surface-raised, #f5f2eb);
+}
+
+.site00-char-cast__decomp h3 {
+  margin: 0 0 8px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.site00-char-cast__decomp-grid {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  font-size: 12px;
+}
+
+.site00-char-cast__decomp-field dt {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.65;
+}
+
+.site00-char-cast__decomp-field dd {
+  margin: 2px 0 0;
+  line-height: 1.4;
+}
+
+.site00-char-cast__decomp-confidence {
+  font-size: 10px;
+  color: var(--ndx-muted, #8a857c);
+}
+
+.site00-char-cast__lock-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+}

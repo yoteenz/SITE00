@@ -45,6 +45,11 @@ export function buildEmptyVisualCastingState(): CharacterVisualCastingState {
     falVideoRequests: 0,
     falGenerationTracking: null,
     founderReferences: [],
+    activeReferenceAuthority: null,
+    promptContractSnapshots: {},
+    referenceDrivenBundles: [],
+    characterBibleAssetPack: null,
+    referenceDerivedSummary: null,
     updatedAt: new Date().toISOString(),
   };
 }

@@ -145,6 +145,8 @@ export async function ingestFounderCastingReferenceToContinuity(params: {
     previewUrl: params.reference.previewUrl,
     storagePath: params.reference.storagePath,
     signals: params.reference.decomposedSignals,
+    decomposition: params.reference.decomposition,
+    referenceDerivedSummary: true,
   });
 
   const { bible: ingested, receipt } = ingestCharacterBible({
@@ -159,6 +161,7 @@ export async function ingestFounderCastingReferenceToContinuity(params: {
             role: params.reference.role,
             previewUrl: params.reference.previewUrl,
             signals: params.reference.decomposedSignals,
+            decomposition: params.reference.decomposition,
           },
         ],
       },
