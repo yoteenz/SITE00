@@ -3,10 +3,7 @@ import type { ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { NdxFounderWorkspacePage } from '../components/founderWorkspace';
-import {
-  OverviewFounderWorkspaceBoard,
-  OverviewMobileHomeScreen,
-} from '../components/founderWorkspace/OverviewFounderWorkspaceBoard';
+import { OverviewFounderWorkspaceBoard } from '../components/founderWorkspace/OverviewFounderWorkspaceBoard';
 import { EmptyState } from '../components/pages/Site00PagePrimitives';
 import { ProjectPrivilegedUtilities } from '../components/access/ProjectPrivilegedUtilities';
 import { ProjectPersonalityReplayStatus } from '../components/validation/ProjectPersonalityReplayStatus';
@@ -295,14 +292,7 @@ export default function ProjectDetailPage() {
             ? { title: 'PROJECT NOT FOUND', message: error ?? 'NO TRUTHFUL PROJECT RECORD FOR THIS SLUG.' }
             : null
         }
-        operate={
-          project ? (
-            <>
-              <OverviewFounderWorkspaceBoard projectSlug={projectSlug} />
-              <OverviewMobileHomeScreen projectSlug={projectSlug} />
-            </>
-          ) : null
-        }
+        operate={project ? <OverviewFounderWorkspaceBoard projectSlug={projectSlug} /> : null}
       />
     );
   }

@@ -88,15 +88,22 @@ describe('P0.VR.1D.A NDXBOOK project hub reconstruction', () => {
     expect(src).not.toContain('background-image: url(');
   });
 
-  it('ships mobile chrome with bottom nav matching Image B family', () => {
-    const chrome = readFileSync(join(ROOT, 'src/site00/components/founderWorkspace/MobileFounderWorkspaceChrome.tsx'), 'utf8');
-    const nav = ndxFounderWorkspaceMobileNav('ndxbook');
-    expect(nav).toHaveLength(5);
-    expect(nav.map((n) => n.label)).toEqual(['Overview', 'Campaigns', 'Content Ops', 'Lab', 'More']);
-    expect(chrome).toContain('site00-fws-mobile-chrome__nav');
-    expect(resolveMobileScreenIdFromPath('/projects/ndxbook/content-operations/campaign-board', 'ndxbook')).toBe(
-      'campaign-board',
-    );
+  it('ships mobile screen family with preview-mode routing (not media-query only)', () => {
+    const screens = readFileSync(join(ROOT, 'src/site00/components/founderWorkspace/MobileFounderWorkspaceScreens.tsx'), 'utf8');
+    const shell = readFileSync(join(ROOT, 'src/site00/components/founderWorkspace/FounderWorkspaceShell.tsx'), 'utf8');
+    expect(screens).toContain('MobileCampaignBoardScreen');
+    expect(screens).toContain('MobileExperiment01Screen');
+    expect(screens).toContain('MobileContentOpsScreen');
+    expect(screens).toContain('renderMobileFounderWorkspaceScreen');
+    expect(shell).toContain('isPreviewDesktop');
+    expect(shell).toContain('renderMobileFounderWorkspaceScreen');
+  });
+
+  it('hides global ecosystem mobile nav on ndxbook founder routes', () => {
+    const css = readFileSync(join(ROOT, 'src/site00/styles/site00-founder-workspace.css'), 'utf8');
+    const ecosystem = readFileSync(join(ROOT, 'src/site00/components/ecosystem/EcosystemShell.tsx'), 'utf8');
+    expect(css).toContain('site00-ecosystem-shell--ndx-founder-mobile');
+    expect(ecosystem).toContain('isNdxFounderWorkspaceRoute');
   });
 
   it('runs screenshot-first pipeline with difference map + region lock (skipRender)', async () => {
