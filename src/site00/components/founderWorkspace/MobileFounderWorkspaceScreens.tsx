@@ -26,7 +26,18 @@ import {
   NDX_CAMPAIGN_PAGE_CARDS,
   NDX_CAMPAIGN_PAGES_PER_DAY,
 } from '../../config/ndxCampaignBoardMobileReference';
+import {
+  NDX_EXPERIMENT_01_CANONICAL_SUBJECT,
+  NDX_EXPERIMENT_01_CARDS,
+  NDX_EXPERIMENT_01_DIRECTION_VERSION,
+  NDX_EXPERIMENT_01_METRICS,
+  NDX_EXPERIMENT_01_RATINGS,
+  NDX_EXPERIMENT_01_STATUS,
+  NDX_EXPERIMENT_01_SUBJECT_COPY,
+} from '../../config/ndxExperiment01MobileReference';
 import { OverviewMobileHomeScreen } from './OverviewFounderWorkspaceBoard';
+import { Experiment01UnderstandLayer } from './Experiment01OperateLayer';
+import { useFounderWorkspaceInspector } from './FounderWorkspaceShell';
 import { NDX_VR_REGION, vrRegionAttr } from '../../config/ndxVisualRegionIds';
 
 type ScreenProps = {
@@ -211,18 +222,6 @@ export function MobileCampaignBoardScreen({ projectSlug }: ScreenProps) {
   );
 }
 
-const EXPERIMENT_TILES = [
-  'I HAVE A THEORY',
-  'BE SERIOUS.',
-  'THE MARGINS',
-  'GIRL, LOOK AT THIS',
-  'NOPE. NOT NORMAL.',
-  'ONE BOOK IN MOTION',
-  'CURRENT DIRECTION',
-  'V2.3',
-  'INSPECT →',
-];
-
 const CI_SIGNALS = [
   { label: 'SUBSCRIPTION FATIGUE', score: '0.92' },
   { label: 'LOYALTY LANGUAGE DRIFT', score: '0.76' },
@@ -252,36 +251,129 @@ function MobileScreenFrame({
   );
 }
 
-export function MobileExperiment01Screen({ projectSlug }: ScreenProps) {
-  const experimentPath = site00ProjectBrandMarketingExpressionExperiment01Path(projectSlug);
+function LabRatingStars({ filled, total }: { filled: number; total: number }) {
   return (
-    <MobileScreenFrame eyebrow="EXPERIMENTS HUB › EXPERIMENT 01" title="EXPERIMENT 01" screenId="experiment-01">
-      <span className="site00-fws-hub-status">IN PRODUCTION</span>
-      <div className="site00-fws-mobile-status-row">
-        <span>ROUND 01: CONTRACTS READY</span>
-        <span>SLIDE 01: 8/9 COMPLETE</span>
-        <span>LOCKED: 0/9</span>
+    <span className="site00-fws-mobile-lab__stars" aria-label={`${filled} of ${total}`}>
+      {Array.from({ length: total }, (_, i) => (
+        <span
+          key={i}
+          className={`site00-fws-mobile-lab__star${i < filled ? ' site00-fws-mobile-lab__star--filled' : ''}`}
+          aria-hidden
+        />
+      ))}
+    </span>
+  );
+}
+
+function InspectExperimentButton() {
+  const { openInspector } = useFounderWorkspaceInspector();
+  return (
+    <button
+      type="button"
+      className="site00-fws-mobile-lab__inspect"
+      {...vrRegionAttr(NDX_VR_REGION.labInspect)}
+      onClick={() => openInspector('EXPERIMENT 01', <Experiment01UnderstandLayer />)}
+    >
+      INSPECT EXPERIMENT →
+    </button>
+  );
+}
+
+export function MobileExperiment01Screen({ projectSlug }: ScreenProps) {
+  const experimentsHubPath = site00ProjectExperimentsPath(projectSlug);
+
+  return (
+    <div className="site00-fws-mobile-lab" data-visual-reconstruction="mobile-lab-experiment-01">
+      <nav className="site00-fws-mobile-lab__breadcrumb" aria-label="Experiment breadcrumb" {...vrRegionAttr(NDX_VR_REGION.labBreadcrumb)}>
+        <Link to={experimentsHubPath}>EXPERIMENTS HUB</Link>
+        <span className="site00-fws-mobile-lab__breadcrumb-sep" aria-hidden>
+          ›
+        </span>
+        <span className="site00-fws-mobile-lab__breadcrumb-active">EXPERIMENT 01</span>
+      </nav>
+
+      <div className="site00-fws-mobile-lab__title-row" {...vrRegionAttr(NDX_VR_REGION.labTitle)}>
+        <h2 className="site00-fws-mobile-lab__title">EXPERIMENT 01</h2>
+        <span className="site00-fws-mobile-lab__status">{NDX_EXPERIMENT_01_STATUS}</span>
       </div>
-      <div className="site00-fws-mobile-exp-grid" {...vrRegionAttr(NDX_VR_REGION.experimentGrid)}>
-        {EXPERIMENT_TILES.map((tile) => (
-          <div key={tile} className="site00-fws-mobile-exp-grid__cell">
-            {tile}
-          </div>
+
+      <div className="site00-fws-mobile-lab__subject" {...vrRegionAttr(NDX_VR_REGION.labSubject)}>
+        <h3 className="site00-fws-mobile-lab__subject-heading">{NDX_EXPERIMENT_01_CANONICAL_SUBJECT}</h3>
+        <p className="site00-fws-mobile-lab__subject-copy">{NDX_EXPERIMENT_01_SUBJECT_COPY}</p>
+      </div>
+
+      <div className="site00-fws-mobile-lab__metrics" {...vrRegionAttr(NDX_VR_REGION.labMetrics)}>
+        <div className="site00-fws-mobile-lab__metric">
+          <span className="site00-fws-mobile-lab__metric-label">{NDX_EXPERIMENT_01_METRICS.round.label}</span>
+          <span className="site00-fws-mobile-lab__metric-value">{NDX_EXPERIMENT_01_METRICS.round.value}</span>
+        </div>
+        <div className="site00-fws-mobile-lab__metric">
+          <span className="site00-fws-mobile-lab__metric-label">{NDX_EXPERIMENT_01_METRICS.slide.label}</span>
+          <span className="site00-fws-mobile-lab__metric-value">{NDX_EXPERIMENT_01_METRICS.slide.value}</span>
+        </div>
+        <div className="site00-fws-mobile-lab__metric">
+          <span className="site00-fws-mobile-lab__metric-label">{NDX_EXPERIMENT_01_METRICS.locked.label}</span>
+          <span className="site00-fws-mobile-lab__metric-value">{NDX_EXPERIMENT_01_METRICS.locked.value}</span>
+        </div>
+      </div>
+
+      <div className="site00-fws-mobile-lab__grid" {...vrRegionAttr(NDX_VR_REGION.labGrid)}>
+        {NDX_EXPERIMENT_01_CARDS.map((card) => (
+          <article
+            key={card.id}
+            className={`site00-fws-mobile-lab__grid-cell${card.selected ? ' site00-fws-mobile-lab__grid-cell--selected' : ''}`}
+            {...vrRegionAttr(card.vrRegionId)}
+          >
+            {card.showClose ? (
+              <button type="button" className="site00-fws-mobile-lab__grid-close" aria-label="Close card">
+                ×
+              </button>
+            ) : null}
+            <div
+              className="site00-fws-mobile-lab__grid-art"
+              style={{
+                backgroundImage: `url(${card.artworkPath})`,
+                backgroundPosition: card.artworkObjectPosition,
+              }}
+              role="img"
+              aria-hidden
+            />
+            <div className="site00-fws-mobile-lab__grid-copy">
+              {card.titleLines.map((line) => (
+                <span key={line} className="site00-fws-mobile-lab__grid-line">
+                  {line}
+                </span>
+              ))}
+              {card.accentLine && card.accentTone === 'underline-lime' ? (
+                <span className="site00-fws-mobile-lab__grid-accent site00-fws-mobile-lab__grid-accent--underline">
+                  {card.accentLine}
+                </span>
+              ) : null}
+              {card.accentLine && card.accentTone === 'lime' ? (
+                <span className="site00-fws-mobile-lab__grid-accent site00-fws-mobile-lab__grid-accent--lime">
+                  {card.accentLine}
+                </span>
+              ) : null}
+            </div>
+          </article>
         ))}
       </div>
-      <p className="site00-fws-hub-section-label">CURRENT DIRECTION · V2.3</p>
-      <ul className="site00-fws-hub-ratings site00-fws-hub-ratings--mobile">
-        {['ARTISTIC ENERGY', 'EDITORIAL LOGIC', 'CHARACTER FIT', 'VISUAL FEASIBILITY'].map((label) => (
-          <li key={label}>
-            <span>{label}</span>
-            <span className="site00-fws-hub-dots">●●●●○</span>
-          </li>
-        ))}
-      </ul>
-      <Link to={experimentPath} className="site00-fws-hub-cta">
-        INSPECT EXPERIMENT →
-      </Link>
-    </MobileScreenFrame>
+
+      <section className="site00-fws-mobile-lab__direction" {...vrRegionAttr(NDX_VR_REGION.labDirection)}>
+        <h4 className="site00-fws-mobile-lab__direction-heading">
+          CURRENT DIRECTION — {NDX_EXPERIMENT_01_DIRECTION_VERSION}
+        </h4>
+        <ul className="site00-fws-mobile-lab__ratings">
+          {NDX_EXPERIMENT_01_RATINGS.map((row) => (
+            <li key={row.id}>
+              <span>{row.label}</span>
+              <LabRatingStars filled={row.filled} total={row.total} />
+            </li>
+          ))}
+        </ul>
+        <InspectExperimentButton />
+      </section>
+    </div>
   );
 }
 
