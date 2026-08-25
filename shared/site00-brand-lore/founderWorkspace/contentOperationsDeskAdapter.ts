@@ -77,22 +77,44 @@ export function contentPackageToAssetPresentation(
 export function opportunityToEditorialLead(
   opp: ContentOperationsRun['opportunities'][number],
 ): EditorialLeadPresentation {
+  const cf = opp.characterFirst;
   const audienceAsk =
     opp.summary?.toLowerCase().includes('audience') ||
-    opp.whyPotentiallyInteresting?.toLowerCase().includes('audience');
+    opp.whyPotentiallyInteresting?.toLowerCase().includes('audience') ||
+    cf?.firstPersonPremise.experienceMode === 'AUDIENCE_TRIGGERED';
+  const headline = cf?.spokenPremise ?? opp.subject;
+  const meta =
+    cf?.firstPersonPremise.topicMetadata.join(' · ') ??
+    opp.domains.join(' · ');
   return {
     id: opp.id,
-    headline: opp.subject,
-    leadLine: opportunityLeadLine({
+    headline,
+    leadLine: `${meta} — ${cf?.formulation.thoughtArcSummary ?? opportunityLeadLine({
       subject: opp.subject,
       whyHighPriority: opp.rank?.whyHighPriority,
       liveLineage: Boolean(opp.liveLineage),
       audienceAsk,
-    }),
+    })}`,
     attention: opp.status === 'SELECTED' ? 'READY_TO_REVIEW' : 'INFORMATIONAL',
-    sourceHint: opp.liveLineage ? 'Live intelligence' : (opp.sourceType?.replace(/_/g, ' ') ?? 'Editorial'),
+    sourceHint: cf
+      ? `${cf.characterBeat.replace(/_/g, ' ')} · ${cf.formulation.surfaceRecommendation.join(' + ')}`
+      : opp.liveLineage
+        ? 'Live intelligence'
+        : (opp.sourceType?.replace(/_/g, ' ') ?? 'Editorial'),
     inspectScore: opp.rank?.compositeScore,
   };
+}
+
+export function getOpportunitySpokenPremise(opp: ContentOperationsRun['opportunities'][number]): string {
+  return opp.characterFirst?.spokenPremise ?? opp.subject;
+}
+
+export function getOpportunityTopicMetadata(opp: ContentOperationsRun['opportunities'][number]): string {
+  const cf = opp.characterFirst;
+  if (cf) {
+    return [...cf.firstPersonPremise.topicMetadata, ...cf.firstPersonPremise.categoryMetadata].join(' · ');
+  }
+  return opp.domains.join(' · ');
 }
 
 export function buildWeeklyRangeSummary(run: ContentOperationsRun | null): {

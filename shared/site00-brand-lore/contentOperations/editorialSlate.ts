@@ -53,6 +53,17 @@ export function buildWeeklyEditorialSlate(params: {
 
   const behavioralBalance: Record<string, number> = {};
   const topicBalance: Record<string, number> = {};
+  const premiseFirstEntries = selected.map((opp, index) => {
+    const premise = opp.characterFirst?.spokenPremise ?? opp.subject.toUpperCase();
+    const meta =
+      opp.characterFirst?.firstPersonPremise.topicMetadata.join(' / ') ??
+      opp.domains.join(' / ');
+    for (const d of opp.characterFirst?.firstPersonPremise.categoryMetadata ?? opp.domains) {
+      topicBalance[d] = (topicBalance[d] ?? 0) + 1;
+    }
+    return { rank: index + 1, spokenPremise: premise, topicMetadata: meta, opportunityId: opp.id };
+  });
+
   for (const opp of selected) {
     for (const d of opp.domains) topicBalance[d] = (topicBalance[d] ?? 0) + 1;
   }
@@ -67,6 +78,7 @@ export function buildWeeklyEditorialSlate(params: {
     },
     status: 'PROPOSED',
     contentCandidates: candidates,
+    premiseFirstEntries,
     channelDistribution: countBy(candidates, (c) => c.channel),
     behavioralBalance,
     topicBalance,

@@ -15,7 +15,7 @@ import {
 import { buildDefaultEditorialStrategy } from '../../../../shared/site00-brand-lore/contentOperations/editorialStrategy.js';
 import { buildDefaultApprovalPolicy } from '../../../../shared/site00-brand-lore/contentOperations/approvalPolicy.js';
 import { createEmptyContentMemoryIndex } from '../../../../shared/site00-brand-lore/contentOperations/editorialMemory.js';
-import { seedPilotOpportunities } from '../../../../shared/site00-brand-lore/contentOperations/opportunityEngine.js';
+import { seedCharacterFirstOpportunities } from '../../../../shared/site00-brand-lore/contentOperations/opportunityEngine.js';
 import { buildWeeklyEditorialSlate } from '../../../../shared/site00-brand-lore/contentOperations/editorialSlate.js';
 import { selectChannelForOpportunity, selectFormatForOpportunity } from '../../../../shared/site00-brand-lore/contentOperations/channelFormatSelection.js';
 import { buildSocialContentPackage } from '../../../../shared/site00-brand-lore/contentOperations/contentPackage.js';
@@ -168,12 +168,17 @@ export async function discoverContentOpportunities(params: {
   const run = await opsStore.getContentOperationsRun(params.projectId);
   if (!run?.operationsSystem) throw new Error('Compile content operations first');
 
-  const opportunities = seedPilotOpportunities(params.projectId, run.editorialMemory);
+  const { seeds, opportunities, workspaceZones, topicPipelineMigration, characterFirstVersion } =
+    seedCharacterFirstOpportunities(params.projectId, run.editorialMemory);
 
   return opsStore.saveContentOperationsRun({
     ...run,
     status: 'OPPORTUNITIES_READY',
     opportunities,
+    contentSeeds: seeds,
+    workspaceZones,
+    topicPipelineMigration,
+    characterFirstVersion,
     error: null,
     updatedAt: nowIso(),
   });

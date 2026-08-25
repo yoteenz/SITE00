@@ -7,6 +7,14 @@ import type { ContentOpportunity, ContentOpportunityRank, OpportunityFitResult }
 import type { ContentMemoryIndex } from './types.js';
 import { evaluateOpportunityVisualPotential } from '../culturalVisualParticipation/integration.js';
 import { evaluateContentSimilarity } from './contentSimilarity.js';
+import {
+  seedCharacterFirstContentSeeds,
+} from './characterFirst/ndxContentSeed.js';
+import { buildCharacterFirstOpportunities } from './characterFirst/ndxOpportunityFormulator.js';
+import { buildContentOpsWorkspaceZones } from './characterFirst/bookMemory.js';
+import { buildTopicPipelineMigrationRecords } from './characterFirst/topicPipelineMigration.js';
+import { CHARACTER_FIRST_CONTENT_VERSION } from './characterFirst/constants.js';
+import type { NDXContentSeed, ContentOpsWorkspaceZone, TopicPipelineMigrationRecord } from './characterFirst/types.js';
 
 function fp(value: unknown): string {
   return createHash('sha256').update(JSON.stringify(value)).digest('hex').slice(0, 16);
@@ -185,4 +193,26 @@ export function opportunityIsNotContent(opp: ContentOpportunity): boolean {
 
 export function seedPilotOpportunities(projectId: string, memory?: ContentMemoryIndex | null): ContentOpportunity[] {
   return PILOT_OPPORTUNITY_SEEDS.map((spec) => createContentOpportunity({ projectId, spec, memory }));
+}
+
+/** P0.5E.7 — Character-first discovery replaces topic-first pilot seeds as primary. */
+export function seedCharacterFirstOpportunities(
+  projectId: string,
+  memory?: ContentMemoryIndex | null,
+): {
+  seeds: NDXContentSeed[];
+  opportunities: ContentOpportunity[];
+  workspaceZones: ContentOpsWorkspaceZone[];
+  topicPipelineMigration: TopicPipelineMigrationRecord[];
+  characterFirstVersion: typeof CHARACTER_FIRST_CONTENT_VERSION;
+} {
+  const seeds = seedCharacterFirstContentSeeds(projectId);
+  const opportunities = buildCharacterFirstOpportunities({ projectId, seeds, memory });
+  return {
+    seeds,
+    opportunities,
+    workspaceZones: buildContentOpsWorkspaceZones(seeds),
+    topicPipelineMigration: buildTopicPipelineMigrationRecords(seeds),
+    characterFirstVersion: CHARACTER_FIRST_CONTENT_VERSION,
+  };
 }

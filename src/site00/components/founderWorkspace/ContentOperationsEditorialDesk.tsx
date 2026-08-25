@@ -15,6 +15,10 @@ import {
   FounderWorkspacePanel,
   OperationalPulse,
 } from './FounderWorkspaceShell';
+import {
+  getOpportunitySpokenPremise,
+  getOpportunityTopicMetadata,
+} from '../../../../shared/site00-brand-lore/founderWorkspace/contentOperationsDeskAdapter';
 import { WorkspaceLoadingState } from './WorkspaceLoadingState';
 
 type Props = {
@@ -75,6 +79,9 @@ export function ContentOperationsEditorialDesk({
   const inProduction = packages.filter((p) => p.status === 'FORMULATED' || p.status === 'GENERATING');
   const developing = packages.filter((p) => p.status === 'DRAFT');
   const fromAudience = run?.audienceResponses?.length ?? 0;
+
+  const workspaceZones = run?.workspaceZones ?? [];
+  const contentSeeds = run?.contentSeeds ?? [];
 
   const pulseMetrics = [
     { label: 'BEING MADE', value: inProduction.length + developing.length },
@@ -173,7 +180,42 @@ export function ContentOperationsEditorialDesk({
         )}
       </FounderWorkspacePanel>
 
-      <FounderWorkspacePanel title="ON NDX'S RADAR">
+      <FounderWorkspacePanel title="TODAY AT NDX">
+        {contentSeeds.length === 0 ? (
+          <FounderEmptyState
+            title="NOTHING IN MOTION YET"
+            body="Discover opportunities to see NDX's thoughts, rabbit holes, and ready Pages."
+          />
+        ) : (
+          <div className="site00-fws-workspace-zones">
+            {workspaceZones.map((zone) => (
+              <div key={zone.zoneId} className="site00-fws-workspace-zone">
+                <h4 className="site00-fws-workspace-zone__label">{zone.label}</h4>
+                {zone.seedIds.length === 0 ? (
+                  <p className="site00-fws-workspace-zone__empty">—</p>
+                ) : (
+                  <ul className="site00-fws-radar-list">
+                    {zone.seedIds.slice(0, 3).map((seedId) => {
+                      const seed = contentSeeds.find((s) => s.seedId === seedId);
+                      if (!seed) return null;
+                      return (
+                        <li key={seedId} className="site00-fws-radar-item">
+                          <span className="site00-fws-radar-item__signal">{seed.premise.spokenPremise}</span>
+                          <span className="site00-fws-radar-item__hint">
+                            {seed.topicMetadata.slice(0, 2).join(' · ')} · {seed.characterBeat.replace(/_/g, ' ')}
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </FounderWorkspacePanel>
+
+      <FounderWorkspacePanel title="OPPORTUNITIES">
         {opportunities.length === 0 ? (
           <FounderEmptyState
             title="NOT ENOUGH SIGNAL YET"
@@ -181,17 +223,35 @@ export function ContentOperationsEditorialDesk({
           />
         ) : (
           <ul className="site00-fws-radar-list">
-            {opportunities.slice(0, 6).map((o) => (
-              <li key={o.id} className="site00-fws-radar-item">
-                <span className="site00-fws-radar-item__signal">{o.subject}</span>
+            {opportunities.slice(0, 8).map((o) => (
+              <li key={o.id} className="site00-fws-radar-item site00-fws-radar-item--premise-first">
+                <span className="site00-fws-radar-item__signal">{getOpportunitySpokenPremise(o)}</span>
                 <span className="site00-fws-radar-item__hint">
-                  {o.rank?.whyHighPriority[0]?.slice(0, 40) ?? 'Pattern forming'} →
+                  {getOpportunityTopicMetadata(o)}
+                  {o.characterFirst ? ` · ${o.characterFirst.formulation.thoughtArcSummary}` : ''}
+                  {o.characterFirst ? ` · ${o.characterFirst.formulation.surfaceRecommendation.join(' + ')}` : ''}
                 </span>
               </li>
             ))}
           </ul>
         )}
       </FounderWorkspacePanel>
+
+      {run?.activeSlate?.premiseFirstEntries && run.activeSlate.premiseFirstEntries.length > 0 && (
+        <FounderWorkspacePanel title="THIS WEEK">
+          <ol className="site00-fws-weekly-slate">
+            {run.activeSlate.premiseFirstEntries.map((entry) => (
+              <li key={entry.opportunityId} className="site00-fws-weekly-slate__item">
+                <span className="site00-fws-weekly-slate__rank">{String(entry.rank).padStart(2, '0')}</span>
+                <span className="site00-fws-weekly-slate__premise">{entry.spokenPremise}</span>
+                <span className="site00-fws-weekly-slate__meta">{entry.topicMetadata}</span>
+              </li>
+            ))}
+          </ol>
+        </FounderWorkspacePanel>
+      )}
+
+      {/* legacy radar removed — premise-first opportunities panel above */}
     </div>
   );
 }
@@ -216,7 +276,7 @@ export function ContentOperationsInspectContent({ run }: { run: ContentOperation
           <ul>
             {run.opportunities.map((o) => (
               <li key={o.id}>
-                {o.subject} — score {(o.rank?.compositeScore ?? 0).toFixed(2)} — {o.characterFit}
+                {getOpportunitySpokenPremise(o)} ({o.subject}) — score {(o.rank?.compositeScore ?? 0).toFixed(2)} — {o.characterFit}
               </li>
             ))}
           </ul>
@@ -229,7 +289,7 @@ export function ContentOperationsInspectContent({ run }: { run: ContentOperation
             {run.activeSlate.contentCandidates.length} candidates · est. $
             {run.activeSlate.productionCostEstimate.toFixed(2)}
           </p>
-          <p>Topics: {Object.keys(run.activeSlate.topicBalance).join(', ')}</p>
+          <p>Premises: {run.activeSlate.premiseFirstEntries?.map((e) => e.spokenPremise).join(' · ') ?? Object.keys(run.activeSlate.topicBalance).join(', ')}</p>
         </>
       )}
       <p>

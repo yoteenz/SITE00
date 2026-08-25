@@ -23,3 +23,4 @@ export * from './performanceLearning.js';
 export * from './editorialHealth.js';
 export * from './marketTestAndInvalidation.js';
 export * from './vitestFixtures.js';
+export * from './characterFirst/index.js';
