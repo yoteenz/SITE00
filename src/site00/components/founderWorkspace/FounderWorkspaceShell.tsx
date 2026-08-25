@@ -1,5 +1,5 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import type { ExperimentJourneyStageConfig } from '../../../../shared/site00-studio-world-production/founderWorkspace/types.js';
 import {
   ndxFounderWorkspaceEnabled,
@@ -78,6 +78,7 @@ export function FounderWorkspaceShell({
   hideWorkspaceHeader = false,
 }: FounderWorkspaceShellProps) {
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const { isPreviewDesktop } = useSite00();
   const enabled = ndxFounderWorkspaceEnabled(projectSlug);
   const nav = useMemo(() => ndxFounderWorkspaceNav(projectSlug), [projectSlug]);
@@ -87,6 +88,15 @@ export function FounderWorkspaceShell({
   const overflowNav = useMemo(() => ndxFounderWorkspaceOverflowNav(projectSlug), [projectSlug]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [inspector, setInspector] = useState<InspectorState>({ open: false, title: '', content: null });
+  const vrMenuOpen = searchParams.get('vrMenuOpen') === '1';
+
+  useEffect(() => {
+    if (vrMenuOpen) setMenuOpen(true);
+  }, [vrMenuOpen]);
+
+  const toggleMenu = useCallback(() => {
+    setMenuOpen((open) => !open);
+  }, []);
 
   const openInspector = useCallback((inspectorTitle: string, content: ReactNode) => {
     setInspector({ open: true, title: inspectorTitle, content });
@@ -190,7 +200,8 @@ export function FounderWorkspaceShell({
             {mobilePresentation ? (
               <MobileFounderWorkspaceChrome
                 projectSlug={projectSlug}
-                onOpenMenu={() => setMenuOpen(true)}
+                menuOpen={menuOpen}
+                onToggleMenu={toggleMenu}
                 onOpenNotifications={() => setMenuOpen(true)}
               >
                 {mobileBody}

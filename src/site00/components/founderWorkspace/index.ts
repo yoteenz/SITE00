@@ -43,5 +43,4 @@ export { FounderWorkspaceHeaderChrome } from './FounderWorkspaceHeaderChrome';
 export { NdxIconSheetPanel } from './NdxIconSheetPanel';
 export { OverviewFounderWorkspaceBoard, OverviewMobileHomeScreen } from './OverviewFounderWorkspaceBoard';
 export { MobileFounderWorkspaceChrome } from './MobileFounderWorkspaceChrome';
-export { ProjectEscapeMenu } from './ProjectEscapeMenu';
 export { renderMobileFounderWorkspaceScreen } from './MobileFounderWorkspaceScreens';

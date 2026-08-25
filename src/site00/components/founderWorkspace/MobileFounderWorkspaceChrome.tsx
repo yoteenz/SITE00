@@ -1,46 +1,32 @@
 /**
  * P0.VR.1D.A / P0.VR.1D.3 + P0.UI.3 — Mobile founder workspace chrome.
- * Sticky header + bottom nav + project escape menu; canonical NDXIcon.
+ * Sticky header + bottom nav; project menu is owned by FounderWorkspaceShell.
  */
 
-import { useEffect, useRef, useState } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ndxFounderWorkspaceMobileNav, resolveMobileScreenIdFromPath } from '../../config/ndxFounderWorkspaceMobileNav';
 import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
 import { NDXIcon } from '../../icons/ndx';
-import { ProjectEscapeMenu } from './ProjectEscapeMenu';
 import '../../styles/site00-founder-workspace.css';
 
 type Props = {
   projectSlug: string;
   children: React.ReactNode;
-  onOpenMenu?: () => void;
+  menuOpen?: boolean;
+  onToggleMenu?: () => void;
   onOpenNotifications?: () => void;
 };
 
 export function MobileFounderWorkspaceChrome({
   projectSlug,
   children,
-  onOpenMenu,
+  menuOpen = false,
+  onToggleMenu,
   onOpenNotifications,
 }: Props) {
   const location = useLocation();
-  const [searchParams] = useSearchParams();
   const screenId = resolveMobileScreenIdFromPath(location.pathname, projectSlug);
   const nav = ndxFounderWorkspaceMobileNav(projectSlug);
-  const menuTriggerRef = useRef<HTMLButtonElement>(null);
-  const vrMenuOpen = searchParams.get('vrMenuOpen') === '1';
-  const [menuOpen, setMenuOpen] = useState(vrMenuOpen);
-
-  useEffect(() => {
-    if (vrMenuOpen) setMenuOpen(true);
-  }, [vrMenuOpen]);
-
-  const toggleMenu = () => {
-    setMenuOpen((open) => !open);
-    onOpenMenu?.();
-  };
-  const closeMenu = () => setMenuOpen(false);
 
   return (
     <div
@@ -64,25 +50,17 @@ export function MobileFounderWorkspaceChrome({
             <NDXIcon name="notifications" size={NDX_ICON_CONTEXT_SIZE.header} state="inactive" decorative />
           </button>
           <button
-            ref={menuTriggerRef}
             type="button"
             className={`site00-fws-mobile-chrome__icon site00-fws-mobile-chrome__icon--menu${menuOpen ? ' site00-fws-mobile-chrome__icon--menu-open' : ''}`}
             aria-label="Project menu"
             aria-haspopup="menu"
             aria-expanded={menuOpen}
-            onClick={toggleMenu}
+            onClick={onToggleMenu}
           >
             <NDXIcon name="ellipsis" size={NDX_ICON_CONTEXT_SIZE.header} state={menuOpen ? 'active' : 'inactive'} decorative />
           </button>
         </div>
       </header>
-
-      <ProjectEscapeMenu
-        projectSlug={projectSlug}
-        open={menuOpen}
-        onClose={closeMenu}
-        triggerRef={menuTriggerRef}
-      />
 
       <div className="site00-fws-mobile-chrome__body">{children}</div>
 
