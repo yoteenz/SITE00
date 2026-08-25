@@ -5015,6 +5015,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder review:** Desktop rail/nav CLOSE; hub board panels NEEDS FIX until auth + high-res reference overlay pass. Mobile chrome CLOSE; screen family NEEDS FIX for campaign/experiment/CI routes polish + reference assets.
 - **Next:** Ingest founder desktop/mobile reference PNGs into visual-references vault; run overlay loop per screen at locked viewports.
 
+## 2026-08-25 — P0.VR.1D.A mobile fix (preview-mode wiring + screen family)
+
+- **Issue:** Founder reported mobile design unchanged — root cause: mobile layouts gated by `isPreviewDesktop` toggle, not CSS media queries; global SITE 00 mobile shell (header + bottom nav) still wrapped NDXBOOK; only overview had a mobile component.
+- **Fix:** `FounderWorkspaceShell` now uses `isPreviewDesktop` to swap desktop operate vs `renderMobileFounderWorkspaceScreen()` inside `MobileFounderWorkspaceChrome`. Added 6 reference mobile screens in `MobileFounderWorkspaceScreens.tsx`. `EcosystemShell` adds `site00-ecosystem-shell--ndx-founder-mobile` on `/projects/ndxbook/*` to hide global mobile header/nav. Mobile bottom nav "More" → Experiments Hub.
+- **Verified:** Mobile toggle shows KPI overview, campaign board, content ops with NDXBOOK bottom nav (Overview/Campaigns/Content Ops/Lab/More).
+
 ## 2026-08-25 — Promote founder reference to WHO FEELS CLOSEST
 
 - **Context:** Founder uploaded full-look reference (lime green sneakers) on CAST NDX and wanted it in WHO FEELS CLOSEST? to confirm identity before isolate generation.
