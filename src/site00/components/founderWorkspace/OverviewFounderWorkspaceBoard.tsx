@@ -13,7 +13,7 @@ import {
   site00ProjectExperimentsPath,
   site00ProjectFounderCharacterDiscoveryPath,
 } from '../../config/routes';
-import { NDX_VR_REGION, vrRegionAttr } from '../../config/ndxVisualRegionIds';
+import { NDX_VR_REGION, NDX_VR_SCOPE, vrRegionAttr } from '../../config/ndxVisualRegionIds';
 import {
   NDX_OVERVIEW_IN_PRODUCTION_VIEW_ALL,
   NDX_OVERVIEW_PRODUCTION_CARDS,
@@ -69,16 +69,19 @@ function TapeCard({
   children,
   className,
   href,
+  vrScope,
 }: {
   title: string;
   children: React.ReactNode;
   className?: string;
   href?: string;
+  vrScope?: string;
 }) {
   const body = (
     <article
       className={`site00-fws-hub-tape${className ? ` ${className}` : ''}`}
       data-vr-region={title.replace(/[^a-zA-Z0-9]+/g, '_').slice(0, 48)}
+      {...(vrScope ? { 'data-vr-scope': vrScope } : {})}
     >
       <span className="site00-fws-hub-tape__pin" aria-hidden />
       <h3 className="site00-fws-hub-tape__title">{title}</h3>
@@ -102,6 +105,7 @@ export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
       className="site00-fws-hub-board"
       data-visual-reconstruction="project-hub-desktop-board"
       {...vrRegionAttr(NDX_VR_REGION.desktopComposite)}
+      data-vr-scope={NDX_VR_SCOPE.desktopOverview}
     >
       <div className="site00-fws-hub-board__top">
         <TapeCard
@@ -165,6 +169,7 @@ export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
           title="CAMPAIGN BOARD · WEEK 01"
           href={site00ProjectContentOperationsCampaignBoardPath(projectSlug)}
           className="site00-fws-hub-tape--campaign"
+          vrScope={NDX_VR_SCOPE.desktopCampaignBoardPanel}
         >
           <p className="site00-fws-hub-meta">May 24 – May 30</p>
           <div className="site00-fws-hub-days">
@@ -204,6 +209,7 @@ export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
           title="EXPERIMENTS HUB · EXPERIMENT 01"
           href={experimentPath}
           className="site00-fws-hub-tape--experiment"
+          vrScope={NDX_VR_SCOPE.desktopExperimentPanel}
         >
           <span className="site00-fws-hub-status">IN PRODUCTION</span>
           <div className="site00-fws-hub-exp-grid">
@@ -229,7 +235,7 @@ export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
       </div>
 
       <div className="site00-fws-hub-board__bottom">
-        <TapeCard title="CULTURAL INTELLIGENCE" href={site00ProjectCulturalIntelligencePath(projectSlug)}>
+        <TapeCard title="CULTURAL INTELLIGENCE" href={site00ProjectCulturalIntelligencePath(projectSlug)} vrScope={NDX_VR_SCOPE.desktopCulturalIntelligencePanel}>
           <ul className="site00-fws-hub-signal-compact">
             {CI_SIGNALS.map((signal) => (
               <li key={signal.label}>
@@ -240,7 +246,7 @@ export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
           </ul>
         </TapeCard>
 
-        <TapeCard title="CHARACTER LAB" href={site00ProjectFounderCharacterDiscoveryPath(projectSlug)}>
+        <TapeCard title="CHARACTER LAB" href={site00ProjectFounderCharacterDiscoveryPath(projectSlug)} vrScope={NDX_VR_SCOPE.desktopCharacterLabPanel}>
           <div className="site00-fws-hub-character">
             <div className="site00-fws-hub-character__portrait" aria-hidden />
             <p className="site00-fws-hub-handwritten">
@@ -261,7 +267,7 @@ export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
           </div>
         </TapeCard>
 
-        <TapeCard title="CONTENT OPS DESK" href={site00ProjectContentOperationsPath(projectSlug)}>
+        <TapeCard title="CONTENT OPS DESK" href={site00ProjectContentOperationsPath(projectSlug)} vrScope={NDX_VR_SCOPE.desktopContentOpsPanel} className="site00-fws-hub-tape--content-ops">
           <p className="site00-fws-hub-meta">Operating Mode · Assisted Autonomy</p>
           <ul className="site00-fws-hub-list site00-fws-hub-list--compact">
             <li>6 opportunities queued</li>

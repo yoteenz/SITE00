@@ -5,6 +5,7 @@
 import type { CodePatchInstruction, ScreenImplementationSpec } from '../p0vr1d1/types.js';
 import type { PixelMatchEvaluation, VisualDifferenceMap } from '../p0vr1d/types.js';
 import type { RenderedDomMeasurementMap, ReferenceDomDelta } from '../p0vr1d1/types.js';
+import type { ScopeAwareVisualAuthority, ScopedImplementationSpec } from '../p0vr1d7/types.js';
 
 export type ViewportInferenceStatus = 'EXACT' | 'HIGH_CONFIDENCE' | 'INFERRED' | 'UNKNOWN';
 
@@ -89,6 +90,11 @@ export type LiveScreenRunResult = {
   pixelScore: number;
   iterations: number;
   overlay: LiveScreenOverlayArtifacts | null;
+  scopeAuthority?: ScopeAwareVisualAuthority;
+  scopedImplementationSpec?: ScopedImplementationSpec;
+  scopeVisualScoreLabel?: string;
+  invalidScopeComparison?: boolean;
+  scopeComparisonMarker?: string;
 };
 
 export type NdxProjectHubLiveReconstructionReport = {

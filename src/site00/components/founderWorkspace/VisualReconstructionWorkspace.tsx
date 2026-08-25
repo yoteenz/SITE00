@@ -24,6 +24,8 @@ export type VisualReconstructionWorkspaceProps = {
   step?: VisualReconstructionWorkspaceStep;
   pixelMatchTier?: string | null;
   iteration?: number;
+  referenceScopeLabel?: string | null;
+  referenceTargetLabel?: string | null;
   onStepChange?: (step: VisualReconstructionWorkspaceStep) => void;
 };
 
@@ -56,6 +58,8 @@ export function VisualReconstructionWorkspace({
   step = 'UPLOAD',
   pixelMatchTier,
   iteration = 0,
+  referenceScopeLabel,
+  referenceTargetLabel,
   onStepChange,
 }: VisualReconstructionWorkspaceProps) {
   const [view, setView] = useState<'reference' | 'implementation' | 'overlay' | 'difference'>('overlay');
@@ -73,6 +77,12 @@ export function VisualReconstructionWorkspace({
           <p className="site00-vr-workspace__tier">
             MATCH TIER · {pixelMatchTier}
             {iteration > 0 ? ` · ITERATION ${iteration}` : ''}
+          </p>
+        ) : null}
+        {referenceScopeLabel ? (
+          <p className="site00-vr-workspace__scope">
+            REFERENCE TYPE · {referenceScopeLabel}
+            {referenceTargetLabel ? ` · TARGET · ${referenceTargetLabel}` : ''}
           </p>
         ) : null}
       </header>
