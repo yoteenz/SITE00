@@ -5169,7 +5169,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-## 2026-08-26 — P0.VR.1D.8 mobile Lab / Experiment 01 design correction + 3×3 grid
+## 2026-08-26 — P0.VR.1D.9 mobile page shell reconstruction (Campaign + Lab frame replacement)
+
+- **Context:** P0.VR.1D.6/1D.8 tightened inner content but protected the old mobile page shell — reference governed cards inside an incorrect frame. Founder sprint P0.VR.1D.9: entire visible phone screen is design authority; preserve function, replace visual shell.
+- **Delivered:** `p0vr1d9/` — `MobileScreenVisualShellSpec`, `FunctionalShellAuthority` vs `VisualShellAuthority`, Campaign/Lab full-screen `ScreenImplementationSpec` with shell regions, `VisualShellMatchEvaluation`, `STALE_AFTER_SHELL_RECONSTRUCTION`, `PARENT_GEOMETRY_FIRST`, live shell QA runner. `MobileFounderWorkspaceChrome` accepts `visualSpec` + reference CSS vars (20px gutters, 52px header, 56px nav, cream paper). Campaign/Lab content on direct page surface (`site00-fws-mobile-content-shell`) — no giant wrapper card. Interactive day selection + experiment card selection preserved. VR regions: `ndx.campaign.screen|header-shell|content-shell|bottom-nav-shell`, `ndx.lab.*`. Client-safe `p0vr1d9/client.ts` for UI bundle. Tests `visualReconstructionP0VR1D9.test.ts` (14 pass). Doc `SITE00_VISUAL_RECONSTRUCTION_P0VR1D9.md`. Build green.
+- **Preserved:** P0.VR.1D.6 Campaign artwork/sections; P0.VR.1D.8 Lab grid/ratings/inspect; notifications; project menu; bottom nav routing.
+- **Founder next:** Upload GoDaddy ZIP after merge; live shell overlay QA when dev server available.
+
+---
 
 - **Context:** Founder attached mobile Lab / Experiment 01 screenshot as PRIMARY_VISUAL_AUTHORITY. Screen existed as placeholder grid with wrong tiles, missing breadcrumb/metrics/subject, wrong rating labels.
 - **Delivered:** Rebuilt `MobileExperiment01Screen` (breadcrumb, title+IN PRODUCTION chip, FIND THE NDX PAGE, 3-col metrics, 3×3 grid with lime selected card, Current Direction V2.3 + star ratings, Inspect Experiment). Reference crops in `experiment-01-artwork/*.webp`. `FounderWorkspaceShell` routes `experiment-01` to dedicated mobile layout. Lab bottom nav → experiment-01. `p0vr1d8/` audit + live runner (~88% overlay). Tests `visualReconstructionP0VR1D8.test.ts`.
