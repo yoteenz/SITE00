@@ -61,6 +61,7 @@ export const DEPENDENCY_CLOSURE_STATUSES = [
   'INCOMPLETE',
   'BROKEN',
   'MISSING_ROUTE',
+  'IMPLEMENTED_DRAFT',
   'ORPHANED',
 ] as const;
 export type DependencyClosureStatus = (typeof DEPENDENCY_CLOSURE_STATUSES)[number];

@@ -118,6 +118,15 @@ export const SITE00_ROUTES = {
   projectPersonalityReplayStep: '/projects/:projectSlug/personality-replay/:stepId',
   projectConnections: '/projects/:projectSlug/connections',
   support: '/support',
+  guide: '/guide',
+  sound: '/sound',
+  faq: '/faq',
+  contact: '/contact',
+  blueprints: '/blueprints',
+  forgotPassword: '/origin/forgot-password',
+  resetPassword: '/origin/reset-password',
+  brand: '/brand',
+  accountProfile: '/account',
   /** Client post-payment provisioning — project slug in path */
   projectProvisioning: '/project/:projectSlug/provisioning',
   /** Client Studio operating environment — project slug in path */
@@ -444,6 +453,19 @@ export const SITE00_FUTURE_ROUTES = {
   live: '/live',
   account: '/account',
 } as const;
+
+/** Composer draft routes (P0.VR.3H) — preview-only until founder approval. */
+export const SITE00_COMPOSER_DRAFT_ROUTES = [
+  SITE00_ROUTES.guide,
+  SITE00_ROUTES.sound,
+  SITE00_ROUTES.faq,
+  SITE00_ROUTES.contact,
+  SITE00_ROUTES.blueprints,
+  SITE00_ROUTES.forgotPassword,
+  SITE00_ROUTES.resetPassword,
+  SITE00_ROUTES.accountProfile,
+  SITE00_ROUTES.brand,
+] as const;
 
 export type Site00RouteKey = keyof typeof SITE00_ROUTES;
 

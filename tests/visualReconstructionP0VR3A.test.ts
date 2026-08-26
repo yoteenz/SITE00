@@ -32,6 +32,7 @@ import {
   buildSite00DiscoveredRoutes,
   buildSite00VisualStates,
   buildSite00MissingRoutes,
+  composerDraftRoutesAsDesignScreens,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vr3a/site00RouteForensics.js';
 import { buildSite00RouteDependencyGraph } from '../shared/site00-studio-world-production/visualReconstruction/p0vr3a/site00RouteDependencyGraph.js';
 import {
@@ -92,14 +93,15 @@ describe('P0.VR.3A SITE 00 self-audit + design registration', () => {
     expect(audit.auditMutatesExistingDesign).toBe(false);
   });
 
-  it('5-7. dependency graph + missing routes reported', () => {
+  it('5-7. dependency graph + composer draft routes reported', () => {
     const graph = buildSite00RouteDependencyGraph();
     expect(graph.flows.length).toBeGreaterThan(5);
     expect(graph.edges.some((e) => e.fromScreenId === 'homepage')).toBe(true);
-    const missing = buildSite00MissingRoutes();
-    expect(missing.some((m) => m.suggestedRoute === '/guide')).toBe(true);
-    expect(missing.some((m) => m.suggestedRoute === '/faq')).toBe(true);
-    expect(missing.some((m) => m.recordKind === 'SITE00_IMPLIED_REQUIRED_ROUTE')).toBe(true);
+    expect(buildSite00MissingRoutes().length).toBe(0);
+    const drafts = buildSite00DiscoveredRoutes().filter((r) => r.dependencyClosure === 'IMPLEMENTED_DRAFT');
+    expect(drafts.some((m) => m.resolvedRoute === '/guide')).toBe(true);
+    expect(drafts.some((m) => m.resolvedRoute === '/faq')).toBe(true);
+    expect(drafts.some((m) => m.screenId === 'forgot-password')).toBe(true);
   });
 
   it('8-10. visual states separated; mobile/tablet/desktop tracked', () => {
@@ -121,7 +123,7 @@ describe('P0.VR.3A SITE 00 self-audit + design registration', () => {
     syncSite00ManifestToDesignRegistry();
     const screens = listDesignScreensForProject('site00');
     expect(screens.some((s) => s.screenId === 'homepage')).toBe(true);
-    expect(screens.some((s) => s.screenId === 'missing-guide')).toBe(true);
+    expect(screens.some((s) => s.screenId === 'guide' || s.screenId === 'missing-guide')).toBe(true);
   });
 
   it('15-17. route families group; missing pages visible; Needs Reference queue', () => {
@@ -174,9 +176,9 @@ describe('P0.VR.3A SITE 00 self-audit + design registration', () => {
       SITE00_SHARED_DESIGN_ROUTE_MANIFEST_INTEGRATION_IMPLEMENTED:
         compileSite00DesignRouteManifest().projectId === 'site00',
       SITE00_SCREEN_SELECTOR_POPULATED_FROM_MANIFEST: listDesignScreensForProject('site00').length > 10,
-      SITE00_MISSING_DEPENDENCY_PAGES_VISIBLE_IN_DESIGN: listDesignScreensForProject('site00').some((s) =>
-        s.screenId.startsWith('missing-'),
-      ),
+      SITE00_MISSING_DEPENDENCY_PAGES_VISIBLE_IN_DESIGN:
+        listDesignScreensForProject('site00').some((s) => s.screenId.startsWith('missing-')) ||
+        composerDraftRoutesAsDesignScreens().length > 0,
       SITE00_DESIGN_AUDIT_TRIGGERS_PROVIDER_SPEND: runSite00RouteForensicAudit().auditTriggersProviderSpend,
       SITE00_PROJECT_ACCENT_CORRECT: resolveDesignProjectAccent('site00') === 'SITE00_HOST',
       NDX_PROJECT_ACCENT_USED_FOR_SITE00: site00UsesNdxAccentForProject('site00'),

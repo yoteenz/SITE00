@@ -43,8 +43,8 @@ export type Site00MissingRouteRecord = {
   purpose: string;
   sourceEvidence: string[];
   recordKind: 'SITE00_REQUIRED_MISSING_ROUTE' | 'SITE00_IMPLIED_REQUIRED_ROUTE';
-  implementationStatus: 'MISSING';
-  referenceStatus: 'MISSING';
+  implementationStatus: 'MISSING' | 'IMPLEMENTED_DRAFT';
+  referenceStatus: 'MISSING' | 'IMPLEMENTED_DRAFT';
 };
 
 export type Site00RouteDependencyEdge = {

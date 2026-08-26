@@ -133,23 +133,22 @@ describe('P0.VR.3D SITE 00 manifest v2 reconciliation', () => {
     );
   });
 
-  it('12-13. missing routes deduplicated; implied routes preserved', () => {
+  it('12-13. missing routes cleared after P0.VR.3H; composer drafts in discovered routes', () => {
     const reconciled = reconcileSite00ManifestV2WithSelfAudit();
     const missing = reconciled.canonicalMissingRoutes;
-    const routes = missing.map((m) => m.suggestedRoute);
-    expect(new Set(routes).size).toBe(routes.length);
-    expect(missing.some((m) => m.suggestedRoute === '/guide')).toBe(true);
-    expect(missing.some((m) => m.recordKind === 'SITE00_IMPLIED_REQUIRED_ROUTE')).toBe(true);
-    expect(missing.some((m) => m.suggestedRoute === '/origin/forgot-password')).toBe(true);
+    expect(missing.length).toBe(0);
+    const drafts = buildSite00DiscoveredRoutes().filter((r) => r.dependencyClosure === 'IMPLEMENTED_DRAFT');
+    expect(drafts.some((m) => m.resolvedRoute === '/guide')).toBe(true);
+    expect(drafts.some((m) => m.resolvedRoute === '/origin/forgot-password')).toBe(true);
   });
 
-  it('14-16. visual states reconciled; brand as implied missing; waiting room state', () => {
+  it('14-16. visual states reconciled; brand implemented draft; waiting room state', () => {
     const states = buildSite00VisualStates();
     expect(states.some((s) => s.stateId === 'waiting-room-menu-open')).toBe(true);
     expect(states.some((s) => s.stateId === 'homepage-idnty-expanded')).toBe(true);
     expect(states.every((s) => s.recordKind === 'INTERACTION_STATE')).toBe(true);
-    const missing = buildSite00MissingRoutes();
-    expect(missing.some((m) => m.screenId === 'missing-brand-page')).toBe(true);
+    const drafts = buildSite00DiscoveredRoutes().filter((r) => r.dependencyClosure === 'IMPLEMENTED_DRAFT');
+    expect(drafts.some((m) => m.screenId === 'brand-page')).toBe(true);
     const contract = getActiveDesignRouteSyncContract();
     expect(contract.visualStates.some((s) => s.stateId === 'waiting-room-menu-open')).toBe(true);
   });
@@ -240,11 +239,11 @@ describe('P0.VR.3D SITE 00 manifest v2 reconciliation', () => {
       SITE00_DESIGN_WORKSPACE_HOST_PROTECTED: true,
       SITE00_CUSTOMER_FACING_CLASSIFICATIONS_PRESERVED: reconciled.enrichedDesignScreens.some((s) => s.customerFacing),
       SITE00_CLIENT_WORKFLOW_CLASSIFICATIONS_PRESERVED: reconciled.enrichedDesignScreens.some((s) => s.clientWorkflow),
-      SITE00_MISSING_ROUTES_DEDUPLICATED: new Set(reconciled.canonicalMissingRoutes.map((m) => m.suggestedRoute)).size === reconciled.canonicalMissingRoutes.length,
-      SITE00_IMPLIED_ROUTES_PRESERVED: reconciled.canonicalMissingRoutes.some((m) => m.recordKind === 'SITE00_IMPLIED_REQUIRED_ROUTE'),
+      SITE00_MISSING_ROUTES_DEDUPLICATED: reconciled.canonicalMissingRoutes.length === 0,
+      SITE00_IMPLIED_ROUTES_PRESERVED: buildSite00DiscoveredRoutes().some((r) => r.screenId === 'forgot-password'),
       SITE00_WAITING_ROOM_STATE_RECONCILED: reconciled.visualStates.some((s) => s.stateId === 'waiting-room-menu-open'),
       SITE00_EXPANDED_HOMEPAGE_STATES_RECONCILED: reconciled.visualStates.some((s) => s.stateId.includes('expanded')),
-      SITE00_BRAND_ROUTE_OR_STATE_RECONCILED: reconciled.canonicalMissingRoutes.some((m) => m.screenId === 'missing-brand-page'),
+      SITE00_BRAND_ROUTE_OR_STATE_RECONCILED: buildSite00DiscoveredRoutes().some((r) => r.screenId === 'brand-page'),
       SITE00_MOBILE_COVERAGE_PRESERVED: !!v2.designScreens[0]?.viewportCoverage.mobile,
       SITE00_TABLET_COVERAGE_PRESERVED: !!v2.designScreens[0]?.viewportCoverage.tablet,
       SITE00_DESKTOP_COVERAGE_PRESERVED: !!v2.designScreens[0]?.viewportCoverage.desktop,
