@@ -13,6 +13,7 @@ create table if not exists public.site00_client_review_objects (
   client_status text not null default 'READY_FOR_REVIEW',
   current_version_id text not null,
   client_visible boolean not null default true,
+  is_preview_fixture boolean not null default false,
   metadata jsonb not null default '{}'::jsonb,
   ready_at timestamptz not null default now(),
   created_at timestamptz not null default now(),
@@ -63,6 +64,19 @@ create table if not exists public.site00_client_review_annotations (
   height_percent numeric(6,3),
   marker_index int not null default 1,
   comment_id uuid references public.site00_client_review_comments(id) on delete set null,
+  created_by_user_id uuid,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.site00_client_review_events (
+  id uuid primary key default gen_random_uuid(),
+  project_id uuid references public.site00_projects(id) on delete cascade,
+  review_id text not null references public.site00_client_review_objects(id) on delete cascade,
+  event_type text not null,
+  actor_user_id uuid,
+  actor_role text,
+  payload jsonb not null default '{}'::jsonb,
+  client_visible boolean not null default true,
   created_at timestamptz not null default now()
 );
 
@@ -83,15 +97,37 @@ create table if not exists public.site00_client_review_receipts (
 create index if not exists idx_site00_client_reviews_project_slug on public.site00_client_review_objects(project_slug);
 create index if not exists idx_site00_client_review_comments_review on public.site00_client_review_comments(review_id);
 create index if not exists idx_site00_client_review_annotations_review on public.site00_client_review_annotations(review_id);
+create index if not exists idx_site00_client_review_events_review on public.site00_client_review_events(review_id);
+create index if not exists idx_site00_client_review_events_project on public.site00_client_review_events(project_id);
+create index if not exists idx_site00_client_review_receipts_request on public.site00_client_review_receipts(review_id, decision_type, request_id);
 
 alter table public.site00_client_review_objects enable row level security;
 alter table public.site00_client_review_versions enable row level security;
 alter table public.site00_client_review_comments enable row level security;
 alter table public.site00_client_review_annotations enable row level security;
 alter table public.site00_client_review_receipts enable row level security;
+alter table public.site00_client_review_events enable row level security;
 
-create policy if not exists site00_client_reviews_service_role on public.site00_client_review_objects for all using (true) with check (true);
-create policy if not exists site00_client_review_versions_service_role on public.site00_client_review_versions for all using (true) with check (true);
-create policy if not exists site00_client_review_comments_service_role on public.site00_client_review_comments for all using (true) with check (true);
-create policy if not exists site00_client_review_annotations_service_role on public.site00_client_review_annotations for all using (true) with check (true);
-create policy if not exists site00_client_review_receipts_service_role on public.site00_client_review_receipts for all using (true) with check (true);
+do $$
+declare
+  t text;
+begin
+  foreach t in array array[
+    'site00_client_review_objects',
+    'site00_client_review_versions',
+    'site00_client_review_comments',
+    'site00_client_review_annotations',
+    'site00_client_review_receipts',
+    'site00_client_review_events'
+  ]
+  loop
+    if not exists (
+      select 1 from pg_policies where tablename = t and policyname = 'service_role_all'
+    ) then
+      execute format(
+        'create policy service_role_all on public.%I for all to service_role using (true) with check (true)',
+        t
+      );
+    end if;
+  end loop;
+end $$;

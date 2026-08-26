@@ -1,8 +1,14 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { getAuthUser } from '../_lib/auth.js';
 import {
+  isPreviewProjectSlug,
+  resolvePreviewQaAuth,
+} from '../../shared/site00-client-reviews/previewGuard.js';
+import {
   getClientReviewQueue,
   getClientReviewDetail,
+  getClientReviewAppDetail,
+  getClientReviewAdminFeedback,
   addClientReviewComment,
   addClientReviewAnnotation,
   submitClientApproval,
@@ -15,6 +21,19 @@ function setCors(res: VercelResponse): void {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+}
+
+async function resolveClientReviewUser(
+  req: VercelRequest,
+  projectSlug: string,
+): Promise<{ id: string; email: string } | null> {
+  const authed = await getAuthUser(req);
+  if (authed?.email) return { id: authed.id, email: authed.email };
+  if (projectSlug && isPreviewProjectSlug(projectSlug)) {
+    const qa = resolvePreviewQaAuth();
+    if (qa) return qa;
+  }
+  return null;
 }
 
 function safeError(e: unknown): { status: number; message: string } {
@@ -30,13 +49,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   setCors(res);
   if (req.method === 'OPTIONS') return res.status(204).end();
 
-  const user = await getAuthUser(req);
-  if (!user?.email) return res.status(401).json({ error: 'Unauthorized' });
-
   const action = String(
     req.query.action ?? (typeof req.body === 'object' && req.body ? (req.body as { action?: string }).action : '') ?? '',
   );
   const projectSlug = String(req.query.projectSlug ?? (req.body as { projectSlug?: string })?.projectSlug ?? '');
+
+  const user = await resolveClientReviewUser(req, projectSlug);
+  if (!user?.email) return res.status(401).json({ error: 'Unauthorized' });
 
   try {
     if (req.method === 'GET') {
@@ -55,6 +74,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             email: user.email,
             userId: user.id,
             roleOverride: roleOverride as 'CLIENT_OWNER' | 'CLIENT_COLLABORATOR' | 'CLIENT_VIEWER' | undefined,
+          }),
+        );
+      }
+      if (action === 'appDetail') {
+        const reviewId = String(req.query.reviewId ?? '');
+        if (!projectSlug || !reviewId) return res.status(400).json({ error: 'projectSlug and reviewId required' });
+        return res.status(200).json(
+          await getClientReviewAppDetail({
+            projectSlug,
+            reviewId,
+            email: user.email,
+            userId: user.id,
+          }),
+        );
+      }
+      if (action === 'adminFeedback') {
+        const reviewId = String(req.query.reviewId ?? '');
+        if (!projectSlug || !reviewId) return res.status(400).json({ error: 'projectSlug and reviewId required' });
+        return res.status(200).json(
+          await getClientReviewAdminFeedback({
+            projectSlug,
+            reviewId,
+            email: user.email,
+            userId: user.id,
           }),
         );
       }
