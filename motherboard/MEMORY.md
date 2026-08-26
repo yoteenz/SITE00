@@ -5494,3 +5494,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Governance:** ASTRAL_WORLD_STATUS=IDENTITY_IN_PROGRESS, FOUNDER_JUDGMENT_STATE=AWAITING_FOUNDER_JUDGMENT, IDENTITY_CANON_PROMOTED=FALSE, WORLD_FORMATION_IMPLEMENTED=FALSE. Fidelity: desktop/mobile PARTIAL until founder re-attaches REFERENCE A/B for pixel QA.
 - **Preserved:** Identity phase (P0.D/P0.E), no payment/push/realtime production presence, no canon auto-promotion, project isolation from NDXBOOK.
 
+---
+
+## 2026-08-26 — P0.E.FT1 Astral World Founder Fast Track interactive prototype
+
+- **Context:** Sprint P0.E.FT1 — steamroll visual/product implementation on isolated debug surface while formal governance continues. Dual-track: governance intact, fast track = experimental laboratory. REFERENCE A/B not attached in VM.
+- **Delivered:** Route `/projects/astral-world/debug/world/*` (OPEN LIVE PROTOTYPE on project command). Extended `fixtureService`, `takeMeSomewhereContextEngine`, `fastTrackRegistry`. Demo session Teena with inhabited fixtures. Features: favorite readers, reader relationships, privacy + allow-friends-to-join, Places Popular Now, Your World Your Way (daily card, avatar, circle, deck), mall kiosk states, coffee shop table activity, mobile notification demo (PUSH_NOTIFICATION_DEMO). Reuses P0.E.1 shell with `mode=fast-track` + `data-fast-track-prototype`. Tests `astralWorldFastTrackFt1.test.ts` (16 pass) + P0.E.1 (22 pass). Docs: FOUNDER_FAST_TRACK, FAST_TRACK_PRODUCT_MODEL, COFFEE_SHOP, ASTRAL_MALL, TAROT_SUITE, FAST_TRACK_REFERENCE_FIDELITY, audit FT1.
+- **Governance:** CREATIVE_EXPLORATION / FOUNDER_FAST_TRACK — no canon auto-promotion. WORLD_FORMATION not required for prototype.
+- **Preserved:** Formal identity/judgment pipeline, P0.E.1 experience route, project isolation, no production payment/push/chat/3D.
+
