@@ -5647,3 +5647,21 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** `AW_D_01_WORLD_ENTRY_BACKGROUND_V1.png` registered; `awD01LayeredAssets.ts` manifest + anchors; `AwD01WorldEntryScreen.tsx` (top nav, hero, left Astréa destinations, right quick actions, inline bottom nav, avatar); `MobileArrivalScene` routes desktop to AW_D_01; hides shell sidebar/rail via `:has(.aw-d01-layered)`. Tests `astralWorldFt52CLayeredReplication.test.ts` (5) → **153 Astral pass**. Live QA @1280px after hard refresh: layered background, no sidebar, all panels overlaid.
 - **Visual lock:** `DESKTOP_SCREEN_VISUAL_LOCK=FALSE` — destination medallions use reference-board crops; sub-pixel anchor tuning vs Attachment B; dedicated action/destination icon PNGs pending.
 - **Next:** Extract desktop medallion PNGs; pixel-convergence pass on anchor percentages at 1280 and 1440.
+
+---
+
+## 2026-08-26 — P0.E.FT5.2D Canonical resolution normalization + overlay realignment (AW_M_01 / AW_D_01)
+
+- **Context:** Corrective geometry sprint — final constructed references and deconstructed production shells were generated at different resolutions/aspect ratios, causing hero text drift, destination misalignment, quick-action displacement, and bottom nav vertical error. Rule: reference = design authority; fix coordinate system first; do not nudge individual elements.
+- **Verified dimensions:** Mobile reference 854×1842, shell 941×1672; desktop reference 1536×1024, shell 1672×941. V1 backgrounds (852×1846 mobile, 1672×941 desktop) superseded by V2.
+- **Delivered:**
+  - **V2 normalized backgrounds:** Mobile 854×1842 (vertical reframe 941×2031 → uniform scale 854/941); desktop 1536×1024 (vertical reframe 1672×1115 → uniform scale 1536/1672). No non-uniform stretch; no object-fit:cover crop.
+  - **`CanonicalScreenStage`** + `canonicalScreenStage.ts` — one intrinsic coordinate plane; background + overlays share uniform transform; normalized rect helpers; z-index contract; asset resolution type validation (SCREEN_REFERENCE cannot resolve as ICON_ASSET).
+  - **Overlay reset:** Anchors re-derived from final composition references at canonical dimensions; structural anchors (M_* / D_*) + panel region bindings.
+  - **Asset cleanup:** Destination icons use isolated SVG (`TarotSuiteIcon`, `CoffeeShopIcon`, `AstralMallIcon`); removed REFERENCE_CROP from destination wells; avatar via `AstralPortrait` USER_PORTRAIT resolver.
+  - **CSS:** Removed `object-fit: fill`; canonical aspect ratios; `.aw-canonical-stage` shared styles.
+  - **Tests:** `astralWorldFt52DResolutionNormalization.test.ts` (15) + FT52B/C/screen-masters updates → **168 Astral pass**. Build PASS.
+  - **Live QA:** Mobile @390px + @430px; desktop @1280px — V2 shells, SVG destination icons, nav aligned to baked shell; screenshots + demo video captured.
+- **Merged:** PR #530 → `main`. Release v158.
+- **Visual lock:** `MOBILE_HOME_VISUAL_LOCK=FALSE`, `DESKTOP_HOME_VISUAL_LOCK=FALSE` — typography rasterization and sub-pixel anchor tuning may still need convergence passes; isolated medallion PNG art still pending for pixel-perfect icon wells.
+- **Conventions:** Always use V2 backgrounds + CanonicalScreenStage for AW_M_01/AW_D_01; never position overlays against 941×1672 or 1672×941 assumptions.
