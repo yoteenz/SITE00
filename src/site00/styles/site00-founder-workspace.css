@@ -4430,3 +4430,144 @@
 
 }
 
+/* P0.NAV.1 — Lab Hub parent workspace */
+.site00-lab-hub-back {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: var(--ndx-muted);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+}
+
+.site00-lab-hub-back:hover {
+  color: var(--ndx-ink);
+}
+
+.site00-lab-hub {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 960px;
+}
+
+.site00-lab-hub__header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.site00-lab-hub__eyebrow {
+  margin: 0;
+  color: var(--ndx-muted);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+
+.site00-lab-hub__title {
+  margin: 0;
+  font-family: var(--site00-font-martian-mono, monospace);
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  letter-spacing: 0.04em;
+}
+
+.site00-lab-hub__subtitle {
+  margin: 0;
+  color: var(--ndx-muted);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.site00-lab-hub__destinations {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.site00-lab-hub__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  border: 1px solid var(--ndx-border);
+  border-radius: 8px;
+  background: var(--ndx-surface-raised, var(--ndx-surface));
+}
+
+.site00-lab-hub__panel-label {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+}
+
+.site00-lab-hub__panel-desc {
+  margin: 0;
+  color: var(--ndx-muted);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.site00-lab-hub__panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.site00-lab-hub__panel-headline {
+  margin: 0;
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+}
+
+.site00-lab-hub__panel-meta {
+  margin: 0;
+  color: var(--ndx-muted);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+}
+
+.site00-lab-hub__status-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.site00-lab-hub__status-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+.site00-lab-hub__status-list strong {
+  font-weight: 600;
+}
+
+.site00-lab-hub__panel-cta {
+  align-self: flex-start;
+  margin-top: 4px;
+  color: var(--ndx-ink);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+}
+
+.site00-lab-hub__panel-cta:hover {
+  color: var(--site00-project-presence-accent, var(--ndx-lime));
+}
+
+@media (min-width: 900px) {
+  .site00-lab-hub__destinations {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .site00-lab-hub__panel {
+    min-height: 280px;
+  }
+}
+

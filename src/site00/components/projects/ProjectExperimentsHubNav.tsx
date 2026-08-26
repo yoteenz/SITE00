@@ -4,7 +4,7 @@ import {
   getProjectExperimentsHubEntries,
   resolveProjectExperimentsHubNavIndex,
 } from '../../config/projectExperimentsHub';
-import { site00ProjectExperimentsPath } from '../../config/routes';
+import { site00ProjectExperimentsPath, site00ProjectLabPath } from '../../config/routes';
 
 type ProjectExperimentsHubNavProps = {
   projectSlug: string;
@@ -24,6 +24,12 @@ export function ProjectExperimentsHubNav({ projectSlug }: ProjectExperimentsHubN
 
   return (
     <nav className="site00-experiments-hub-nav" aria-label="Methodology experiments navigation">
+      <Link to={site00ProjectLabPath(projectSlug)} className="site00-experiments-hub-nav__hub">
+        LAB
+      </Link>
+      <span className="site00-experiments-hub-nav__sep" aria-hidden="true">
+        ›
+      </span>
       <Link to={hubPath} className="site00-experiments-hub-nav__hub">
         EXPERIMENTS HUB
       </Link>

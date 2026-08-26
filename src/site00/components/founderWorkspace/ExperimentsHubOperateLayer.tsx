@@ -5,6 +5,7 @@ import {
   stageKeywordsFor,
   type ExperimentsHubPilotEntry,
 } from '../../../../shared/site00-brand-lore/visualReconstruction/experimentsHubPilotAdapter';
+import { LabHubBackLink } from './LabHubBackLink';
 import {
   site00ProjectContentOperationsCampaignBoardPath,
   site00ProjectCulturalIntelligencePath,
@@ -36,6 +37,7 @@ export function ExperimentsHubOperateLayer({
 
   return (
     <div className="site00-vr-experiments-hub" data-visual-reconstruction="experiments-hub-pilot">
+      <LabHubBackLink projectSlug={projectSlug} />
       <header className="site00-vr-ehub__header">
         <div>
           <p className="site00-vr-ehub__eyebrow">NDXBOOK · STUDIO WORLD</p>

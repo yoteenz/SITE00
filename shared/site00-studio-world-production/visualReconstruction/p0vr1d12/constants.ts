@@ -26,6 +26,7 @@ export const FAIL_OLD_LOADING_EXPERIMENT_SCREEN_VISIBLE = 'FAIL_OLD_LOADING_EXPE
 export const NDX_RECONSTRUCTED_MOBILE_SCREEN_IDS = [
   'overview',
   'campaign-board',
+  'lab-hub',
   'experiment-01',
   'content-ops',
   'cultural-intelligence',
@@ -36,9 +37,11 @@ export type NdxReconstructedMobileScreenId = (typeof NDX_RECONSTRUCTED_MOBILE_SC
 
 export const NDX_RECONSTRUCTED_ROUTE_PATTERNS = [
   /^\/projects\/ndxbook\/?$/,
+  /^\/projects\/ndxbook\/lab\/?$/,
   /^\/projects\/ndxbook\/content-operations\/campaign-board/,
   /^\/projects\/ndxbook\/marketing-expression\/experiment-01/,
   /^\/projects\/ndxbook\/content-operations\/?$/,
   /^\/projects\/ndxbook\/cultural-intelligence/,
   /^\/projects\/ndxbook\/character\//,
+  /^\/projects\/ndxbook\/experiments/,
 ] as const;

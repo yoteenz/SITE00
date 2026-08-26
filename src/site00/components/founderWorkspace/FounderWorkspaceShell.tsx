@@ -293,7 +293,7 @@ export function FounderWorkspaceShell({
         </main>
 
         {!hideWorkspaceNav && !mobilePresentation ? (
-          <FounderWorkspaceMobileNav items={bottomNav} onMore={toggleMenu} />
+          <FounderWorkspaceMobileNav projectSlug={projectSlug} items={bottomNav} onMore={toggleMenu} />
         ) : null}
 
         <ActiveProjectNotificationCenter

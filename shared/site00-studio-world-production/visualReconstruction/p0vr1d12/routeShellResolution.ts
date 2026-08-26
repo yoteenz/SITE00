@@ -19,6 +19,7 @@ export function resolveReconstructedScreenIdFromPath(pathname: string, projectSl
   const normalized = pathname.replace(/\/+$/, '');
   const base = `/projects/${projectSlug}`;
   if (normalized === base) return 'overview';
+  if (normalized === `${base}/lab`) return 'lab-hub';
   if (normalized.includes('/content-operations/campaign-board')) return 'campaign-board';
   if (normalized.includes('/marketing-expression/experiment-01')) return 'experiment-01';
   if (normalized.includes('/content-operations')) return 'content-ops';

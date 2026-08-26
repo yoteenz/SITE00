@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { FounderWorkspaceShell } from '../components/founderWorkspace/FounderWorkspaceShell';
+import { LabHubBackLink } from '../components/founderWorkspace/LabHubBackLink';
 import { CharacterLabOperateLayer } from '../components/founderWorkspace/CharacterLabOperateLayer';
 import { ProjectExperimentsHubNav } from '../components/projects/ProjectExperimentsHubNav';
 import { site00ProjectsApi, Site00ProjectsApiError } from '../services/site00ProjectsApi';
@@ -1512,6 +1513,7 @@ export default function ProjectFounderCharacterDiscoveryPage() {
           attentionBadge={discoveryProgress?.readyForCharacterSynthesis ? 'READY TO REVIEW' : undefined}
           operate={
             <>
+              <LabHubBackLink projectSlug={projectSlug} />
               <CharacterLabOperateLayer
                 projectSlug={projectSlug}
                 run={run}

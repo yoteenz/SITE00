@@ -5,6 +5,7 @@
 
 import type { CSSProperties, Ref } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { isNdxLabRouteGroupPath } from '../../../../shared/site00-studio-world-production/founderWorkspace/labNavigation/index.js';
 import {
   mobileVisualShellSpecToCssVars,
   resolveMobileVisualShellSpec as resolveCampaignLabVisualShellSpec,
@@ -149,12 +150,11 @@ export function MobileFounderWorkspaceChrome({
         {...vrRegionAttr(resolveBottomNavShellRegion(screenId))}
       >
         {nav.map((item) => {
-          const labFamilyActive = screenId === 'experiment-01' || screenId === 'character-lab';
           const active =
             item.id === 'more'
               ? menuOpen
               : item.id === 'lab'
-                ? labFamilyActive
+                ? isNdxLabRouteGroupPath(location.pathname, projectSlug)
                 : item.screenId === screenId;
 
           if (item.id === 'more') {
