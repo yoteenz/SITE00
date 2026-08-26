@@ -5503,3 +5503,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Governance:** CREATIVE_EXPLORATION / FOUNDER_FAST_TRACK — no canon auto-promotion. WORLD_FORMATION not required for prototype.
 - **Preserved:** Formal identity/judgment pipeline, P0.E.1 experience route, project isolation, no production payment/push/chat/3D.
 
+---
+
+## 2026-08-26 — P0.ORIGIN.1 Origin built-in panel backgrounds + CLEAN expanded swap
+
+- **Context:** Founder attached four approved Origin environment images (desktop/mobile WITH_PANELS + desktop/mobile CLEAN). Sprint required replacing Origin backgrounds, removing acrylic glass teaser cards, aligning IDNTY/BLDR/EVOLVE overlays on baked panel blocks, and swapping to CLEAN background when any panel expands (hide all teasers).
+- **Delivered:** `origin-background-assets.ts` (four canonical roles @ `live-preview/3D images/BG/`), `origin-panel-state.ts` (`expandedPanel` + `backgroundVariant` derived from `homeMode`), variant-aware `Site00EnvironmentViewportBackground` + `EnvironmentShell`, `useOriginBackgroundPreload`, transparent `site00-origin-teaser` collapsed buttons (no glassmorphism), mobile panel teasers + expanded content enabled (removed blanket mobile hide), `SITE00_ORIGIN_MOBILE_COMPOSITION` overlay tokens. Tests `originP0Origin1.test.ts` (29 pass). PR #511 merged @ `acf67d7`. Release **v142** (`index.HmBaRjij.js`). Live browser QA: desktop/mobile default WITH_PANELS + expanded CLEAN verified.
+- **Core rule:** Baked panel bases are image content only — never duplicate in CSS. Default = WITH_PANELS + three teasers; expanded = CLEAN + hide all teasers + show selected expanded panel only.
+- **Preserved:** Expanded IDNTY/BLDR/EVOLVE content, Origin routing/shell, icons/copy, other environment backgrounds, no FAL/regeneration.
+
