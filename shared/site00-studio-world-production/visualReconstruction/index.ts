@@ -106,3 +106,14 @@ export type {
   FunctionPreservingVisualRebuildContract,
   VisualReconstructionComposerBrief,
 } from './p0vr2/types.js';
+export {
+  P0_VR_3_LINEAGE,
+  SITE00_DESIGN_PROJECT_ID,
+  listDesignWorkspaceProjects,
+  compileSite00DesignRouteManifest,
+} from './p0vr3/client.js';
+export { registerSite00DesignPilot } from './p0vr3a/client.js';
+export {
+  runSite00RouteForensicAudit,
+  evaluateSite00SelfDesignBoundary,
+} from './p0vr3a/client.js';

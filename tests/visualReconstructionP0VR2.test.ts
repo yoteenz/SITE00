@@ -60,7 +60,7 @@ describe('P0.VR.2 master design workspace', () => {
   it('2-3. project and screen selectors wired', () => {
     const screens = listDesignScreensForProject('ndxbook');
     expect(screens.length).toBeGreaterThanOrEqual(6);
-    expect(read('src/site00/components/founderWorkspace/StudioWorldDesignWorkspace.tsx')).toContain('DESIGN_WORKSPACE_PROJECTS');
+    expect(read('src/site00/components/founderWorkspace/StudioWorldDesignWorkspace.tsx')).toContain('listDesignWorkspaceProjects');
     expect(read('src/site00/components/founderWorkspace/StudioWorldDesignWorkspace.tsx')).toContain('setScreenId');
   });
 
