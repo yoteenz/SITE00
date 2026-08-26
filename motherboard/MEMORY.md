@@ -5463,6 +5463,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-08-26 — P0.CLIENT.2A Production review persistence hardening (Supabase source of truth)
+
+- **Context:** P0.CLIENT.2 used in-memory preview store for comments/annotations/approvals. Sprint required one durable Supabase authority for web/app/admin with preview bypass locked out in production.
+- **Delivered:** `reviewRepository.ts` (Supabase CRUD for reviews, versions, comments, annotations, receipts, events); refactored `reviewService.ts` to read/write Supabase only; `previewGuard.ts` with `assertClientPreviewModeAllowed()`, fail-closed production guard, env-gated `SITE00_CLIENT_REVIEW_PREVIEW_MODE`; preview fixtures seeded to Supabase with `is_preview_fixture=true`; removed client-side review fallback in `useClientReviews.ts`; `buildClientReviewAppViewModel()` + admin feedback adapter; API actions `appDetail`, `adminFeedback`; dev-only QA auth principal for preview slug when preview mode explicitly enabled. Migration applied to Supabase `hyycomvcaqxxvyrfupes` + repo migrations `20260826160000`, `20260826180000`. Tests `clientProjectRoomP0Client2A.test.ts` (9 pass) + updated P0.CLIENT.2 (10 pass) with live Supabase path.
+- **Core rule:** CLIENT_REVIEW_PRODUCTION_AUTHORITY = SUPABASE. In-memory is not production mutation authority. Preview bypass requires explicit env; disabled in production.
+- **Preserved:** P0.CLIENT.2 governance, roles, stale-version, idempotency, payload stripping, P0.CLIENT.1 shell, no FAL/capture/bridge/canon mutation.
+
+---
+
 - **Context:** P0.VR.3J.2 execution ran locally and uploaded captures to Supabase, but committed registry on `main` after PR #498 still had 24/27 CURRENT (3 Account AUTH_BLOCKED historical only). Follow-up commit needed so persistent metadata matches execution.
 - **Delivered:** PR #499 merged @ `527aff6` — `implementation-snapshot-persistent-registry.json` now includes 9 new CURRENT records (3 Account CUSTOMER auth, 3 Language Lab FAMILY SOURCE, 3 Voice Lab COMPOSER DERIVED DRAFT) with `vitest.local` publicUrl placeholders (hydration resolves storage paths at runtime). Historical 3 AUTH_BLOCKED Account records preserved.
 - **Core rule:** Execution artifacts must land in P0.VR.3E persistent registry in git — not only in-memory/remote storage from a dev run.

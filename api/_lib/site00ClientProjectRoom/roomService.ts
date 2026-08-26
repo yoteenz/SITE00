@@ -24,6 +24,7 @@ import type {
   ClientProjectRoomViewModel,
 } from '../../../shared/site00-client-project-room/types.js';
 import { getPreviewActionableReviewCount } from '../site00ClientReviews/reviewService.js';
+import { assertClientPreviewModeAllowed } from '../../../shared/site00-client-reviews/previewGuard.js';
 
 const PREVIEW_SLUG = 'preview-client-room';
 
@@ -146,8 +147,9 @@ export async function getClientProjectRoomPayload(input: {
   const { projectSlug, email, userId, previewScope } = input;
 
   if (projectSlug === CLIENT_PROJECT_ROOM_PREVIEW_SLUG) {
+    assertClientPreviewModeAllowed();
     const manifest = buildPreviewClientManifest(previewScope);
-    const actionable = getPreviewActionableReviewCount();
+    const actionable = await getPreviewActionableReviewCount();
     const reviewsRoute = `/client/projects/${manifest.projectSlug}/reviews`;
     if (actionable === 0) {
       manifest.attentionState = 'WATCHING';
@@ -206,6 +208,9 @@ export async function getClientProjectRoomPayload(input: {
 }
 
 export async function assertClientProjectAccess(projectSlug: string, email: string, userId?: string): Promise<void> {
-  if (projectSlug === CLIENT_PROJECT_ROOM_PREVIEW_SLUG) return;
+  if (projectSlug === CLIENT_PROJECT_ROOM_PREVIEW_SLUG) {
+    assertClientPreviewModeAllowed();
+    return;
+  }
   await loadProjectForClient(projectSlug, email, userId);
 }

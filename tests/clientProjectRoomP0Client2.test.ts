@@ -32,19 +32,32 @@ import {
   submitClientApproval,
   submitClientRevision,
   submitClientDecline,
-  resetPreviewReviewStore,
+  resetPreviewReviewDataForTests,
 } from '../api/_lib/site00ClientReviews/reviewService.js';
+import { ensurePreviewReviewFixturesSeeded, resetPreviewSeedCache } from '../api/_lib/site00ClientReviews/previewFixtureSeed.js';
 
 const ROOT = join(import.meta.dirname, '..');
 const DEV_BASE = process.env.VITE_DEV_SERVER_URL ?? 'http://127.0.0.1:5174';
+const TEST_OWNER_ID = '11111111-1111-4111-8111-111111111111';
+const TEST_COLLABORATOR_ID = '22222222-2222-4222-8222-222222222222';
+const TEST_VIEWER_ID = '33333333-3333-4333-8333-333333333333';
+
+function enablePreviewMode() {
+  process.env.SITE00_CLIENT_REVIEW_PREVIEW_MODE = '1';
+  delete process.env.SITE00_PRODUCTION;
+  process.env.NODE_ENV = 'test';
+  process.env.VERCEL_ENV = 'development';
+}
 
 function read(rel: string): string {
   return readFileSync(join(ROOT, rel), 'utf8');
 }
 
-describe('P0.CLIENT.2 client reviews architecture', () => {
-  beforeAll(() => {
-    resetPreviewReviewStore();
+describe.sequential('P0.CLIENT.2 client reviews architecture', () => {
+  beforeAll(async () => {
+    enablePreviewMode();
+    resetPreviewSeedCache();
+    await ensurePreviewReviewFixturesSeeded();
   });
 
   it('translates internal review statuses for client visibility', () => {
@@ -68,7 +81,7 @@ describe('P0.CLIENT.2 client reviews architecture', () => {
   });
 
   it('exposes review queue with client-safe object types', async () => {
-    const queue = await getClientReviewQueue('preview-client-room', 'qa@test.com', 'user-1');
+    const queue = await getClientReviewQueue('preview-client-room', 'qa@test.com', TEST_OWNER_ID);
     expect(queue.reviews.length).toBeGreaterThan(0);
     expect(queue.actionableCount).toBeGreaterThan(0);
     expect(queue.reviews.some((r) => r.objectType === 'IDENTITY_DIRECTION')).toBe(true);
@@ -80,7 +93,7 @@ describe('P0.CLIENT.2 client reviews architecture', () => {
       projectSlug: 'preview-client-room',
       reviewId: 'review-identity-direction-02',
       email: 'owner@test.com',
-      userId: 'user-1',
+      userId: TEST_OWNER_ID,
     });
     expect(detail.review.compareAvailable).toBe(true);
     expect(detail.review.compareLeftLabel).toBe('DIRECTION 01');
@@ -94,21 +107,21 @@ describe('P0.CLIENT.2 client reviews architecture', () => {
       projectSlug: 'preview-client-room',
       reviewId: 'review-identity-direction-02',
       email: 'owner@test.com',
-      userId: 'user-1',
+      userId: TEST_OWNER_ID,
       roleOverride: 'CLIENT_OWNER',
     });
     const collab = await getClientReviewDetail({
       projectSlug: 'preview-client-room',
       reviewId: 'review-identity-direction-02',
       email: 'collab@test.com',
-      userId: 'user-2',
+      userId: TEST_COLLABORATOR_ID,
       roleOverride: 'CLIENT_COLLABORATOR',
     });
     const viewer = await getClientReviewDetail({
       projectSlug: 'preview-client-room',
       reviewId: 'review-identity-direction-02',
       email: 'viewer@test.com',
-      userId: 'user-3',
+      userId: TEST_VIEWER_ID,
       roleOverride: 'CLIENT_VIEWER',
     });
     expect(owner.permissions.canApprove).toBe(true);
@@ -120,7 +133,8 @@ describe('P0.CLIENT.2 client reviews architecture', () => {
   });
 
   it('persists comments and viewport-scoped annotations', async () => {
-    resetPreviewReviewStore();
+    enablePreviewMode();
+    await resetPreviewReviewDataForTests(['review-identity-direction-02']);
     await addClientReviewComment({
       projectSlug: 'preview-client-room',
       reviewId: 'review-identity-direction-02',
@@ -128,7 +142,7 @@ describe('P0.CLIENT.2 client reviews architecture', () => {
       viewport: 'MOBILE',
       body: 'Mobile feedback',
       email: 'owner@test.com',
-      userId: 'user-1',
+      userId: TEST_OWNER_ID,
     });
     await addClientReviewAnnotation({
       projectSlug: 'preview-client-room',
@@ -139,13 +153,13 @@ describe('P0.CLIENT.2 client reviews architecture', () => {
       yPercent: 55,
       body: 'Move logo',
       email: 'owner@test.com',
-      userId: 'user-1',
+      userId: TEST_OWNER_ID,
     });
     const detail = await getClientReviewDetail({
       projectSlug: 'preview-client-room',
       reviewId: 'review-identity-direction-02',
       email: 'owner@test.com',
-      userId: 'user-1',
+      userId: TEST_OWNER_ID,
     });
     expect(detail.comments.some((c) => c.body.includes('Mobile feedback'))).toBe(true);
     expect(detail.annotations.filter((a) => a.viewport === 'MOBILE').length).toBe(1);
@@ -153,7 +167,8 @@ describe('P0.CLIENT.2 client reviews architecture', () => {
   });
 
   it('supports idempotent approval and blocks stale version', async () => {
-    resetPreviewReviewStore();
+    enablePreviewMode();
+    await resetPreviewReviewDataForTests(['review-identity-direction-02']);
     const requestId = 'approve-test-1';
     const receipt1 = await submitClientApproval({
       projectSlug: 'preview-client-room',
@@ -162,7 +177,7 @@ describe('P0.CLIENT.2 client reviews architecture', () => {
       expectedVersionId: 'rv-id-dir-v04',
       requestId,
       email: 'owner@test.com',
-      userId: 'user-1',
+      userId: TEST_OWNER_ID,
     });
     const receipt2 = await submitClientApproval({
       projectSlug: 'preview-client-room',
@@ -171,7 +186,7 @@ describe('P0.CLIENT.2 client reviews architecture', () => {
       expectedVersionId: 'rv-id-dir-v04',
       requestId,
       email: 'owner@test.com',
-      userId: 'user-1',
+      userId: TEST_OWNER_ID,
     });
     expect(receipt2.receiptId).toBe(receipt1.receiptId);
     await expect(
@@ -182,13 +197,14 @@ describe('P0.CLIENT.2 client reviews architecture', () => {
         expectedVersionId: 'rv-id-dir-v03',
         requestId: 'stale-1',
         email: 'owner@test.com',
-        userId: 'user-1',
+        userId: TEST_OWNER_ID,
       }),
     ).rejects.toThrow('STALE_VERSION');
   });
 
   it('records revision requests and decline without deleting history', async () => {
-    resetPreviewReviewStore();
+    enablePreviewMode();
+    await resetPreviewReviewDataForTests(['review-identity-direction-02']);
     const revision = await submitClientRevision({
       projectSlug: 'preview-client-room',
       reviewId: 'review-identity-direction-02',
@@ -197,18 +213,18 @@ describe('P0.CLIENT.2 client reviews architecture', () => {
       requestId: 'rev-1',
       summary: 'Adjust typography',
       email: 'owner@test.com',
-      userId: 'user-1',
+      userId: TEST_OWNER_ID,
     });
     expect(revision.summary).toContain('Adjust typography');
     const afterRevision = await getClientReviewDetail({
       projectSlug: 'preview-client-room',
       reviewId: 'review-identity-direction-02',
       email: 'owner@test.com',
-      userId: 'user-1',
+      userId: TEST_OWNER_ID,
     });
     expect(afterRevision.review.status).toBe('REVISION_IN_PROGRESS');
 
-    resetPreviewReviewStore();
+    await resetPreviewReviewDataForTests(['review-identity-direction-02']);
     await submitClientDecline({
       projectSlug: 'preview-client-room',
       reviewId: 'review-identity-direction-02',
@@ -216,13 +232,13 @@ describe('P0.CLIENT.2 client reviews architecture', () => {
       expectedVersionId: 'rv-id-dir-v04',
       requestId: 'decline-1',
       email: 'owner@test.com',
-      userId: 'user-1',
+      userId: TEST_OWNER_ID,
     });
     const afterDecline = await getClientReviewDetail({
       projectSlug: 'preview-client-room',
       reviewId: 'review-identity-direction-02',
       email: 'owner@test.com',
-      userId: 'user-1',
+      userId: TEST_OWNER_ID,
     });
     expect(afterDecline.review.status).toBe('DECLINED');
     expect(afterDecline.versions.length).toBeGreaterThan(0);

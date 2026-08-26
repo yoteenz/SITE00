@@ -62,6 +62,9 @@ function applyServerEnv() {
   for (const [key, value] of pairs) {
     if (value && !process.env[key]) process.env[key] = value;
   }
+  if (!process.env.SITE00_CLIENT_REVIEW_PREVIEW_MODE && process.env.NODE_ENV !== 'production') {
+    process.env.SITE00_CLIENT_REVIEW_PREVIEW_MODE = '1';
+  }
 }
 
 function readRequestBody(req) {

@@ -3,7 +3,6 @@ import type {
   ClientReviewDetail,
   ClientReviewQueuePayload,
 } from '../../../shared/site00-client-reviews/types.js';
-import { PREVIEW_REVIEW_PROJECT_SLUG } from '../../../shared/site00-client-reviews/previewSeed.js';
 
 type LoadState = 'idle' | 'loading' | 'ready' | 'error';
 
@@ -31,17 +30,6 @@ export function useClientReviewQueue(projectSlug: string) {
       setData(json);
       setState('ready');
     } catch (e) {
-      if (projectSlug === PREVIEW_REVIEW_PROJECT_SLUG) {
-        const { PREVIEW_REVIEW_OBJECTS } = await import('../../../shared/site00-client-reviews/previewSeed.js');
-        setData({
-          projectSlug,
-          reviews: PREVIEW_REVIEW_OBJECTS,
-          actionableCount: PREVIEW_REVIEW_OBJECTS.filter((r) => r.actionRequired).length,
-          emptyMessage: null,
-        });
-        setState('ready');
-        return;
-      }
       setError(e instanceof Error ? e.message : 'Failed to load reviews');
       setState('error');
     }
@@ -69,29 +57,6 @@ export function useClientReviewDetail(projectSlug: string, reviewId: string) {
       setData(json);
       setState('ready');
     } catch (e) {
-      if (projectSlug === PREVIEW_REVIEW_PROJECT_SLUG) {
-        const { PREVIEW_REVIEW_OBJECTS, getPreviewVersionsForReview, PREVIEW_DECISION_HISTORY } =
-          await import('../../../shared/site00-client-reviews/previewSeed.js');
-        const review = PREVIEW_REVIEW_OBJECTS.find((r) => r.reviewId === reviewId);
-        if (!review) throw e;
-        setData({
-          review,
-          versions: getPreviewVersionsForReview(reviewId),
-          comments: [],
-          annotations: [],
-          decisionHistory: PREVIEW_DECISION_HISTORY,
-          permissions: {
-            canComment: true,
-            canAnnotate: true,
-            canApprove: review.approvalAllowed,
-            canRequestRevision: review.revisionAllowed,
-            canDecline: review.declineAllowed,
-            canRequestRevisit: true,
-          },
-        });
-        setState('ready');
-        return;
-      }
       setError(e instanceof Error ? e.message : 'Failed to load review');
       setState('error');
     }

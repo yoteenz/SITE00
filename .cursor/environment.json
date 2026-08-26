@@ -6,7 +6,7 @@
   "terminals": [
     {
       "name": "site00-vite",
-      "command": "SITE00_CLOUD_MOBILE_PREVIEW=1 npm run dev",
+      "command": "SITE00_CLOUD_MOBILE_PREVIEW=1 SITE00_CLIENT_REVIEW_PREVIEW_MODE=1 npm run dev",
       "description": "Vite dev server for SITE 00 cloud preview on port 5174."
     },
     {

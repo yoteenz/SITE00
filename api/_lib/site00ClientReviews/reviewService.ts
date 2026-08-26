@@ -1,4 +1,3 @@
-import { randomUUID } from 'node:crypto';
 import type { ClientProjectRole } from '../../../shared/site00-client-project-room/types.js';
 import { capabilitiesForRole, clientHasCapability } from '../../../shared/site00-client-project-room/capabilities.js';
 import type {
@@ -7,47 +6,55 @@ import type {
   ClientReviewDetail,
   ClientReviewObject,
   ClientReviewQueuePayload,
-  ClientReviewVersion,
   ClientReviewViewport,
   ClientApprovalReceipt,
   ClientRevisionRequestReceipt,
-  ClientDecisionHistoryEvent,
 } from '../../../shared/site00-client-reviews/types.js';
 import {
-  PREVIEW_REVIEW_OBJECTS,
+  assertClientPreviewModeAllowed,
+  isClientReviewPreviewBypassEnabled,
+  isPreviewProjectSlug,
   PREVIEW_REVIEW_PROJECT_SLUG,
-  PREVIEW_REVIEW_VERSIONS,
-  PREVIEW_DECISION_HISTORY,
-  getPreviewVersionsForReview,
-} from '../../../shared/site00-client-reviews/previewSeed.js';
+} from '../../../shared/site00-client-reviews/previewGuard.js';
+import {
+  buildClientReviewAdminFeedbackView,
+  buildClientReviewAppViewModel,
+} from '../../../shared/site00-client-reviews/viewModel.js';
 import {
   stripReviewInternalFields,
-  translateCommentStatusForClient,
   clientReviewStatusLabel,
 } from '../../../shared/site00-client-reviews/translators.js';
 import { canAccessProjectAsOwner } from '../site00Access/accessModel.js';
+import { isAdminEmail } from '../adminAuth.js';
 import { getSupabaseAdmin } from '../supabase.js';
+import { ensurePreviewReviewFixturesSeeded } from './previewFixtureSeed.js';
+import {
+  getActionableReviewCount,
+  insertReviewAnnotation,
+  insertReviewComment,
+  insertReviewEvent,
+  insertReviewReceipt,
+  linkCommentAnnotation,
+  loadAllReceipts,
+  loadApprovalReceipt,
+  loadReviewAnnotations,
+  loadReviewComments,
+  loadReviewEvents,
+  loadReviewObject,
+  loadReviewObjectsForProject,
+  loadReviewVersions,
+  loadRevisionReceipts,
+  resetPreviewFixtureMutations,
+  updateReviewClientStatus,
+} from './reviewRepository.js';
 
-type PreviewMutableStore = {
-  reviewOverrides: Map<string, Partial<ClientReviewObject>>;
-  comments: ClientReviewComment[];
-  annotations: ClientReviewAnnotation[];
-  approvalReceipts: Map<string, ClientApprovalReceipt>;
-  revisionReceipts: ClientRevisionRequestReceipt[];
-  decisionEvents: ClientDecisionHistoryEvent[];
-};
+export { PREVIEW_REVIEW_PROJECT_SLUG };
 
-const previewStore: PreviewMutableStore = {
-  reviewOverrides: new Map(),
-  comments: [],
-  annotations: [],
-  approvalReceipts: new Map(),
-  revisionReceipts: [],
-  decisionEvents: [...PREVIEW_DECISION_HISTORY],
-};
-
-function resolveRole(projectSlug: string, email: string): ClientProjectRole {
-  if (projectSlug === PREVIEW_REVIEW_PROJECT_SLUG) return 'CLIENT_OWNER';
+function resolveRole(project: { metadata?: Record<string, unknown> | null }, email: string): ClientProjectRole {
+  void email;
+  const meta = project.metadata ?? {};
+  const role = typeof meta.client_role === 'string' ? meta.client_role.toUpperCase() : 'CLIENT_OWNER';
+  if (role === 'CLIENT_COLLABORATOR' || role === 'CLIENT_VIEWER') return role;
   return 'CLIENT_OWNER';
 }
 
@@ -64,28 +71,40 @@ function reviewPermissions(role: ClientProjectRole, review: ClientReviewObject) 
   };
 }
 
-function mergePreviewReview(review: ClientReviewObject): ClientReviewObject {
-  const override = previewStore.reviewOverrides.get(review.reviewId);
-  if (!override) return { ...review };
-  return { ...review, ...override, statusLabel: clientReviewStatusLabel(override.status ?? review.status) };
-}
-
-export function getPreviewActionableReviewCount(): number {
-  return PREVIEW_REVIEW_OBJECTS.map(mergePreviewReview).filter(
-    (r) => r.actionRequired && ['READY_FOR_REVIEW', 'AWAITING_CLIENT'].includes(r.status),
-  ).length;
+async function loadProjectForAccess(projectSlug: string) {
+  const supabase = getSupabaseAdmin();
+  const { data: project } = await supabase.from('site00_projects').select('*').eq('slug', projectSlug).maybeSingle();
+  return project;
 }
 
 export async function assertReviewProjectAccess(
   projectSlug: string,
   email: string,
   userId?: string,
-): Promise<void> {
-  if (projectSlug === PREVIEW_REVIEW_PROJECT_SLUG) return;
-  const supabase = getSupabaseAdmin();
-  const { data: project } = await supabase.from('site00_projects').select('*').eq('slug', projectSlug).maybeSingle();
-  if (!project) throw new Error('PROJECT NOT FOUND');
+): Promise<{ projectId: string | null; role: ClientProjectRole }> {
+  if (isPreviewProjectSlug(projectSlug)) {
+    assertClientPreviewModeAllowed();
+    return { projectId: null, role: 'CLIENT_OWNER' };
+  }
+  const project = await loadProjectForAccess(projectSlug);
+  if (!project) throw new Error('REVIEW NOT FOUND');
   if (!canAccessProjectAsOwner(email, projectSlug, userId, project)) throw new Error('FORBIDDEN');
+  return {
+    projectId: String(project.id),
+    role: resolveRole(project, email),
+  };
+}
+
+async function ensureReviewDataReady(projectSlug: string): Promise<void> {
+  if (isPreviewProjectSlug(projectSlug) && isClientReviewPreviewBypassEnabled()) {
+    await ensurePreviewReviewFixturesSeeded();
+  }
+}
+
+export async function getPreviewActionableReviewCount(): Promise<number> {
+  if (!isClientReviewPreviewBypassEnabled()) return 0;
+  await ensurePreviewReviewFixturesSeeded();
+  return getActionableReviewCount(PREVIEW_REVIEW_PROJECT_SLUG);
 }
 
 export async function getClientReviewQueue(
@@ -94,15 +113,13 @@ export async function getClientReviewQueue(
   userId?: string,
 ): Promise<ClientReviewQueuePayload> {
   await assertReviewProjectAccess(projectSlug, email, userId);
+  await ensureReviewDataReady(projectSlug);
 
-  let reviews: ClientReviewObject[] = [];
-  if (projectSlug === PREVIEW_REVIEW_PROJECT_SLUG) {
-    reviews = PREVIEW_REVIEW_OBJECTS.map(mergePreviewReview);
-  } else {
-    reviews = PREVIEW_REVIEW_OBJECTS.map((r) => ({ ...r, projectSlug })).map(mergePreviewReview);
-  }
+  const reviews = await loadReviewObjectsForProject(projectSlug);
+  const actionableCount = reviews.filter(
+    (r) => r.actionRequired && ['READY_FOR_REVIEW', 'AWAITING_CLIENT'].includes(r.status),
+  ).length;
 
-  const actionableCount = reviews.filter((r) => r.actionRequired && ['READY_FOR_REVIEW', 'AWAITING_CLIENT'].includes(r.status)).length;
   return stripReviewInternalFields({
     projectSlug,
     reviews,
@@ -118,35 +135,76 @@ export async function getClientReviewDetail(input: {
   userId?: string;
   roleOverride?: ClientProjectRole;
 }): Promise<ClientReviewDetail> {
-  await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
-  const base = PREVIEW_REVIEW_OBJECTS.find((r) => r.reviewId === input.reviewId);
-  if (!base) throw new Error('REVIEW NOT FOUND');
-  const review = mergePreviewReview({ ...base, projectSlug: input.projectSlug });
-  const versions = getPreviewVersionsForReview(review.reviewId);
-  const role = input.roleOverride ?? resolveRole(input.projectSlug, input.email);
-  const comments = previewStore.comments.filter(
-    (c) => c.reviewId === review.reviewId && c.visibility === 'CLIENT_AND_SITE00',
-  );
-  const annotations = previewStore.annotations.filter((a) => a.reviewId === review.reviewId);
-  const receipt = previewStore.approvalReceipts.get(review.reviewId);
-  const decisionHistory = [...previewStore.decisionEvents];
-  if (receipt) {
-    decisionHistory.unshift({
-      id: receipt.receiptId,
-      dateLabel: 'TODAY',
-      summary: `${review.title} was approved`,
-      type: 'APPROVAL',
-    });
-  }
+  const access = await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
+  await ensureReviewDataReady(input.projectSlug);
 
-  return stripReviewInternalFields({
+  const review = await loadReviewObject(input.projectSlug, input.reviewId);
+  if (!review) throw new Error('REVIEW NOT FOUND');
+
+  const role = input.roleOverride ?? access.role;
+  const [versions, comments, annotations, decisionHistory] = await Promise.all([
+    loadReviewVersions(review.reviewId),
+    loadReviewComments(review.reviewId, { clientVisibleOnly: true }),
+    loadReviewAnnotations(review.reviewId),
+    loadReviewEvents(review.reviewId, true),
+  ]);
+
+  const detail: ClientReviewDetail = {
     review,
     versions,
     comments,
     annotations,
     decisionHistory,
     permissions: reviewPermissions(role, review),
+  };
+  return stripReviewInternalFields(detail);
+}
+
+/** App adapter — same durable canonical state as web. */
+export async function getClientReviewAppDetail(input: {
+  projectSlug: string;
+  reviewId: string;
+  email: string;
+  userId?: string;
+}): Promise<ReturnType<typeof buildClientReviewAppViewModel>> {
+  const detail = await getClientReviewDetail(input);
+  return stripReviewInternalFields(buildClientReviewAppViewModel(detail));
+}
+
+export async function getClientReviewAdminFeedback(input: {
+  projectSlug: string;
+  reviewId: string;
+  email: string;
+  userId?: string;
+}): Promise<ReturnType<typeof buildClientReviewAdminFeedbackView>> {
+  if (!isAdminEmail(input.email)) throw new Error('FORBIDDEN');
+  await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
+  await ensureReviewDataReady(input.projectSlug);
+
+  const detail = await getClientReviewDetail({
+    ...input,
+    roleOverride: 'CLIENT_OWNER',
   });
+  const allComments = await loadReviewComments(input.reviewId, { clientVisibleOnly: false });
+  const approval = await loadApprovalReceipt(input.reviewId);
+  const revisions = await loadRevisionReceipts(input.reviewId);
+
+  return stripReviewInternalFields(
+    buildClientReviewAdminFeedbackView({
+      projectSlug: input.projectSlug,
+      detail,
+      allComments,
+      approvalReceipt: approval as unknown as Record<string, unknown> | null,
+      revisionReceipts: revisions as unknown as Record<string, unknown>[],
+    }),
+  );
+}
+
+async function assertMutationAllowed(
+  role: ClientProjectRole,
+  capability: 'CAN_COMMENT' | 'CAN_APPROVE' | 'CAN_REQUEST_REVISION',
+): Promise<void> {
+  if (!clientHasCapability(capabilitiesForRole(role), capability)) throw new Error('FORBIDDEN');
 }
 
 export async function addClientReviewComment(input: {
@@ -160,32 +218,34 @@ export async function addClientReviewComment(input: {
   userId: string;
   role?: ClientProjectRole;
 }): Promise<ClientReviewComment> {
-  await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
-  const role = input.role ?? resolveRole(input.projectSlug, input.email);
-  const comment: ClientReviewComment = {
-    commentId: randomUUID(),
-    projectId: PREVIEW_REVIEW_PROJECT_SLUG,
+  const access = await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
+  const role = input.role ?? access.role;
+  await assertMutationAllowed(role, 'CAN_COMMENT');
+  await ensureReviewDataReady(input.projectSlug);
+
+  const review = await loadReviewObject(input.projectSlug, input.reviewId);
+  if (!review) throw new Error('REVIEW NOT FOUND');
+
+  const comment = await insertReviewComment({
+    projectId: access.projectId,
     reviewId: input.reviewId,
     versionId: input.versionId,
     viewport: input.viewport,
-    authorId: input.userId,
+    authorUserId: input.userId,
     authorRole: role,
-    body: input.body.trim(),
-    annotationId: null,
-    parentCommentId: input.parentCommentId ?? null,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    resolvedAt: null,
-    visibility: 'CLIENT_AND_SITE00',
-    clientStatus: translateCommentStatusForClient('OPEN'),
-  };
-  previewStore.comments.push(comment);
-  previewStore.decisionEvents.unshift({
-    id: comment.commentId,
-    dateLabel: 'TODAY',
-    summary: 'Your comment was received',
-    type: 'COMMENT',
+    body: input.body,
+    parentCommentId: input.parentCommentId,
   });
+
+  await insertReviewEvent({
+    projectId: access.projectId,
+    reviewId: input.reviewId,
+    eventType: input.parentCommentId ? 'COMMENT_REPLIED' : 'COMMENT_ADDED',
+    actorUserId: input.userId,
+    actorRole: role,
+    payload: { summary: 'Your comment was received', commentId: comment.commentId },
+  });
+
   return stripReviewInternalFields(comment);
 }
 
@@ -201,24 +261,24 @@ export async function addClientReviewAnnotation(input: {
   userId: string;
   role?: ClientProjectRole;
 }): Promise<{ annotation: ClientReviewAnnotation; comment?: ClientReviewComment }> {
-  await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
-  const markerIndex =
-    previewStore.annotations.filter((a) => a.reviewId === input.reviewId && a.versionId === input.versionId && a.viewport === input.viewport)
-      .length + 1;
-  const annotation: ClientReviewAnnotation = {
-    annotationId: randomUUID(),
-    projectId: PREVIEW_REVIEW_PROJECT_SLUG,
+  const access = await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
+  const role = input.role ?? access.role;
+  await assertMutationAllowed(role, 'CAN_COMMENT');
+  await ensureReviewDataReady(input.projectSlug);
+
+  const review = await loadReviewObject(input.projectSlug, input.reviewId);
+  if (!review) throw new Error('REVIEW NOT FOUND');
+
+  const annotation = await insertReviewAnnotation({
+    projectId: access.projectId,
     reviewId: input.reviewId,
     versionId: input.versionId,
     viewport: input.viewport,
     xPercent: input.xPercent,
     yPercent: input.yPercent,
-    widthPercent: null,
-    heightPercent: null,
-    markerIndex,
-    commentId: null,
-    createdAt: new Date().toISOString(),
-  };
+    createdByUserId: input.userId,
+  });
+
   let comment: ClientReviewComment | undefined;
   if (input.body?.trim()) {
     comment = await addClientReviewComment({
@@ -229,12 +289,22 @@ export async function addClientReviewAnnotation(input: {
       body: input.body,
       email: input.email,
       userId: input.userId,
-      role: input.role,
+      role,
     });
+    await linkCommentAnnotation(comment.commentId, annotation.annotationId);
     annotation.commentId = comment.commentId;
     comment.annotationId = annotation.annotationId;
   }
-  previewStore.annotations.push(annotation);
+
+  await insertReviewEvent({
+    projectId: access.projectId,
+    reviewId: input.reviewId,
+    eventType: 'ANNOTATION_ADDED',
+    actorUserId: input.userId,
+    actorRole: role,
+    payload: { summary: 'Annotation added', annotationId: annotation.annotationId, viewport: input.viewport },
+  });
+
   return stripReviewInternalFields({ annotation, comment });
 }
 
@@ -249,54 +319,62 @@ export async function submitClientApproval(input: {
   role?: ClientProjectRole;
   commentSnapshot?: string | null;
 }): Promise<ClientApprovalReceipt> {
-  await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
-  const role = input.role ?? resolveRole(input.projectSlug, input.email);
-  if (!clientHasCapability(capabilitiesForRole(role), 'CAN_APPROVE')) throw new Error('FORBIDDEN');
+  const access = await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
+  const role = input.role ?? access.role;
+  await assertMutationAllowed(role, 'CAN_APPROVE');
+  await ensureReviewDataReady(input.projectSlug);
 
-  const detail = await getClientReviewDetail({
-    projectSlug: input.projectSlug,
-    reviewId: input.reviewId,
-    email: input.email,
-    userId: input.userId,
-    roleOverride: role,
-  });
-  if (detail.review.currentVersionId !== input.expectedVersionId) throw new Error('STALE_VERSION');
-  if (detail.review.status === 'APPROVED') {
-    const existing = previewStore.approvalReceipts.get(input.reviewId);
-    if (existing) return existing;
-  }
+  const review = await loadReviewObject(input.projectSlug, input.reviewId);
+  if (!review) throw new Error('REVIEW NOT FOUND');
+  if (review.currentVersionId !== input.expectedVersionId) throw new Error('STALE_VERSION');
 
-  const existingByRequest = [...previewStore.approvalReceipts.values()].find((r) => r.requestId === input.requestId);
-  if (existingByRequest) return existingByRequest;
+  const existing = await loadApprovalReceipt(input.reviewId);
+  if (existing && existing.requestId === input.requestId) return stripReviewInternalFields(existing);
+  if (review.status === 'APPROVED' && existing) return stripReviewInternalFields(existing);
 
-  const receipt: ClientApprovalReceipt = {
-    receiptId: randomUUID(),
-    projectId: detail.review.projectId,
+  const receiptRow = await insertReviewReceipt({
+    projectId: access.projectId,
     reviewId: input.reviewId,
     versionId: input.versionId,
     actorUserId: input.userId,
     actorRole: role,
-    decision: 'APPROVE',
-    approvedConsequences: detail.review.approvalConsequences,
-    commentSnapshot: input.commentSnapshot ?? null,
-    timestamp: new Date().toISOString(),
+    decisionType: 'APPROVE',
     requestId: input.requestId,
-  };
-  previewStore.approvalReceipts.set(input.reviewId, receipt);
-  previewStore.reviewOverrides.set(input.reviewId, {
-    status: 'APPROVED',
-    statusLabel: clientReviewStatusLabel('APPROVED'),
+    payload: {
+      approvedConsequences: review.approvalConsequences,
+      commentSnapshot: input.commentSnapshot ?? null,
+    },
+  });
+
+  await updateReviewClientStatus(input.reviewId, 'APPROVED', {
     actionRequired: false,
     approvalAllowed: false,
     revisionAllowed: false,
     declineAllowed: false,
   });
-  previewStore.decisionEvents.unshift({
-    id: receipt.receiptId,
-    dateLabel: 'TODAY',
-    summary: `${detail.review.title} was approved`,
-    type: 'APPROVAL',
+
+  await insertReviewEvent({
+    projectId: access.projectId,
+    reviewId: input.reviewId,
+    eventType: 'APPROVED',
+    actorUserId: input.userId,
+    actorRole: role,
+    payload: { summary: `${review.title} was approved`, receiptId: receiptRow.id },
   });
+
+  const receipt: ClientApprovalReceipt = {
+    receiptId: receiptRow.id,
+    projectId: access.projectId ?? review.projectId,
+    reviewId: input.reviewId,
+    versionId: input.versionId,
+    actorUserId: input.userId,
+    actorRole: role,
+    decision: 'APPROVE',
+    approvedConsequences: review.approvalConsequences,
+    commentSnapshot: input.commentSnapshot ?? null,
+    timestamp: receiptRow.created_at,
+    requestId: input.requestId,
+  };
   return stripReviewInternalFields(receipt);
 }
 
@@ -314,25 +392,50 @@ export async function submitClientRevision(input: {
   userId: string;
   role?: ClientProjectRole;
 }): Promise<ClientRevisionRequestReceipt> {
-  await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
-  const role = input.role ?? resolveRole(input.projectSlug, input.email);
-  if (!clientHasCapability(capabilitiesForRole(role), 'CAN_REQUEST_REVISION')) throw new Error('FORBIDDEN');
+  const access = await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
+  const role = input.role ?? access.role;
+  await assertMutationAllowed(role, 'CAN_REQUEST_REVISION');
+  await ensureReviewDataReady(input.projectSlug);
 
-  const detail = await getClientReviewDetail({
-    projectSlug: input.projectSlug,
+  const review = await loadReviewObject(input.projectSlug, input.reviewId);
+  if (!review) throw new Error('REVIEW NOT FOUND');
+  if (review.currentVersionId !== input.expectedVersionId) throw new Error('STALE_VERSION');
+
+  const receiptRow = await insertReviewReceipt({
+    projectId: access.projectId,
     reviewId: input.reviewId,
-    email: input.email,
-    userId: input.userId,
-    roleOverride: role,
+    versionId: input.versionId,
+    actorUserId: input.userId,
+    actorRole: role,
+    decisionType: 'REVISION',
+    requestId: input.requestId,
+    payload: {
+      summary: input.summary.trim(),
+      commentIds: input.commentIds ?? [],
+      annotationIds: input.annotationIds ?? [],
+      category: input.category ?? null,
+      status: 'RECEIVED',
+    },
   });
-  if (detail.review.currentVersionId !== input.expectedVersionId) throw new Error('STALE_VERSION');
 
-  const dup = previewStore.revisionReceipts.find((r) => r.requestId === input.requestId);
-  if (dup) return dup;
+  await updateReviewClientStatus(input.reviewId, 'REVISION_IN_PROGRESS', {
+    actionRequired: false,
+    approvalAllowed: false,
+    revisionAllowed: false,
+  });
+
+  await insertReviewEvent({
+    projectId: access.projectId,
+    reviewId: input.reviewId,
+    eventType: 'REVISION_REQUESTED',
+    actorUserId: input.userId,
+    actorRole: role,
+    payload: { summary: 'Revision request received', requestId: input.requestId },
+  });
 
   const receipt: ClientRevisionRequestReceipt = {
     requestId: input.requestId,
-    projectId: detail.review.projectId,
+    projectId: access.projectId ?? review.projectId,
     reviewId: input.reviewId,
     versionId: input.versionId,
     actorUserId: input.userId,
@@ -341,23 +444,9 @@ export async function submitClientRevision(input: {
     commentIds: input.commentIds ?? [],
     annotationIds: input.annotationIds ?? [],
     category: input.category ?? null,
-    createdAt: new Date().toISOString(),
+    createdAt: receiptRow.created_at,
     status: 'RECEIVED',
   };
-  previewStore.revisionReceipts.push(receipt);
-  previewStore.reviewOverrides.set(input.reviewId, {
-    status: 'REVISION_IN_PROGRESS',
-    statusLabel: clientReviewStatusLabel('REVISION_IN_PROGRESS'),
-    actionRequired: false,
-    approvalAllowed: false,
-    revisionAllowed: false,
-  });
-  previewStore.decisionEvents.unshift({
-    id: receipt.requestId,
-    dateLabel: 'TODAY',
-    summary: 'Revision request received',
-    type: 'REVISION',
-  });
   return stripReviewInternalFields(receipt);
 }
 
@@ -371,32 +460,43 @@ export async function submitClientDecline(input: {
   userId: string;
   role?: ClientProjectRole;
 }): Promise<{ ok: true }> {
-  await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
-  const role = input.role ?? resolveRole(input.projectSlug, input.email);
-  const detail = await getClientReviewDetail({
-    projectSlug: input.projectSlug,
-    reviewId: input.reviewId,
-    email: input.email,
-    userId: input.userId,
-    roleOverride: role,
-  });
-  if (!detail.permissions.canDecline) throw new Error('FORBIDDEN');
-  if (detail.review.currentVersionId !== input.expectedVersionId) throw new Error('STALE_VERSION');
+  const access = await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
+  const role = input.role ?? access.role;
+  await ensureReviewDataReady(input.projectSlug);
 
-  previewStore.reviewOverrides.set(input.reviewId, {
-    status: 'DECLINED',
-    statusLabel: clientReviewStatusLabel('DECLINED'),
+  const review = await loadReviewObject(input.projectSlug, input.reviewId);
+  if (!review) throw new Error('REVIEW NOT FOUND');
+  const perms = reviewPermissions(role, review);
+  if (!perms.canDecline) throw new Error('FORBIDDEN');
+  if (review.currentVersionId !== input.expectedVersionId) throw new Error('STALE_VERSION');
+
+  await insertReviewReceipt({
+    projectId: access.projectId,
+    reviewId: input.reviewId,
+    versionId: input.versionId,
+    actorUserId: input.userId,
+    actorRole: role,
+    decisionType: 'DECLINE',
+    requestId: input.requestId,
+    payload: {},
+  });
+
+  await updateReviewClientStatus(input.reviewId, 'DECLINED', {
     actionRequired: false,
     approvalAllowed: false,
     revisionAllowed: false,
     declineAllowed: false,
   });
-  previewStore.decisionEvents.unshift({
-    id: input.requestId,
-    dateLabel: 'TODAY',
-    summary: `${detail.review.title} direction declined`,
-    type: 'DECLINE',
+
+  await insertReviewEvent({
+    projectId: access.projectId,
+    reviewId: input.reviewId,
+    eventType: 'DECLINED',
+    actorUserId: input.userId,
+    actorRole: role,
+    payload: { summary: `${review.title} direction declined` },
   });
+
   return { ok: true };
 }
 
@@ -407,26 +507,47 @@ export async function submitRevisitRequest(input: {
   email: string;
   userId: string;
 }): Promise<{ ok: true }> {
-  await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
-  previewStore.decisionEvents.unshift({
-    id: randomUUID(),
-    dateLabel: 'TODAY',
-    summary: `Request to revisit ${PREVIEW_REVIEW_VERSIONS[input.versionId]?.label ?? input.versionId}`,
-    type: 'REVISIT',
+  const access = await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
+  await ensureReviewDataReady(input.projectSlug);
+
+  const review = await loadReviewObject(input.projectSlug, input.reviewId);
+  if (!review) throw new Error('REVIEW NOT FOUND');
+  const versions = await loadReviewVersions(input.reviewId);
+  const versionLabel = versions.find((v) => v.versionId === input.versionId)?.label ?? input.versionId;
+
+  await insertReviewReceipt({
+    projectId: access.projectId,
+    reviewId: input.reviewId,
+    versionId: input.versionId,
+    actorUserId: input.userId,
+    actorRole: access.role,
+    decisionType: 'REVISIT',
+    requestId: `revisit-${input.reviewId}-${input.versionId}-${Date.now()}`,
+    payload: { versionLabel },
   });
+
+  await insertReviewEvent({
+    projectId: access.projectId,
+    reviewId: input.reviewId,
+    eventType: 'REVISIT_REQUESTED',
+    actorUserId: input.userId,
+    actorRole: access.role,
+    payload: { summary: `Request to revisit ${versionLabel}` },
+  });
+
   return { ok: true };
 }
 
-export function getPreviewStoreForTests(): PreviewMutableStore {
-  return previewStore;
-}
-
-export function resetPreviewReviewStore(): void {
-  previewStore.reviewOverrides.clear();
-  previewStore.comments.length = 0;
-  previewStore.annotations.length = 0;
-  previewStore.approvalReceipts.clear();
-  previewStore.revisionReceipts.length = 0;
-  previewStore.decisionEvents.length = 0;
-  previewStore.decisionEvents.push(...PREVIEW_DECISION_HISTORY);
+/** Test helper — reset preview fixture mutations in Supabase only. */
+export async function resetPreviewReviewDataForTests(reviewIds: string[]): Promise<void> {
+  if (!isClientReviewPreviewBypassEnabled()) return;
+  await resetPreviewFixtureMutations(reviewIds);
+  for (const id of reviewIds) {
+    await updateReviewClientStatus(id, 'READY_FOR_REVIEW', {
+      actionRequired: true,
+      approvalAllowed: true,
+      revisionAllowed: true,
+      declineAllowed: true,
+    });
+  }
 }
