@@ -58,6 +58,7 @@ export const SITE00_ROUTES = {
   projectIdentity: '/projects/:projectSlug/identity',
   projectExperience: '/projects/:projectSlug/experience/*',
   projectDebugWorld: '/projects/:projectSlug/debug/world/*',
+  projectReader: '/projects/:projectSlug/reader/*',
   projectSetup: '/projects/:projectSlug/setup',
   projectEvolve: '/projects/:projectSlug/evolve',
   projectCreativeDirection: '/projects/:projectSlug/creative-direction',

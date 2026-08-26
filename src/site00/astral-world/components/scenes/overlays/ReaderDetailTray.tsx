@@ -22,7 +22,7 @@ export function ReaderDetailTray({ readerId, onClose, onGo }: ReaderDetailTrayPr
         <div className="aw-reader-tray__plate">
           <div className="aw-reader-tray__ornament" aria-hidden />
           <div className="aw-reader-detail-head">
-            <AstralPortrait personId={reader.id} name={reader.name} initials={reader.avatarInitials} size={72} showPresence variant="reader" />
+            <AstralPortrait personId={reader.id} avatarId={reader.avatarId} name={reader.name} initials={reader.avatarInitials} size={72} showPresence variant="reader" />
             <div>
               <h2 className="aw-display">{reader.name}</h2>
               <p className="aw-muted">{reader.specialty} · ★ {reader.rating}</p>

@@ -87,6 +87,7 @@ const ProjectOriginPage = lazy(() => import('../site00/pages/ProjectOriginPage')
 const ProjectIdentityPage = lazy(() => import('../site00/pages/ProjectIdentityPage'));
 const ProjectAstralWorldExperiencePage = lazy(() => import('../site00/pages/ProjectAstralWorldExperiencePage'));
 const ProjectAstralWorldFastTrackPage = lazy(() => import('../site00/pages/ProjectAstralWorldFastTrackPage'));
+const ProjectAstralWorldReaderPage = lazy(() => import('../site00/pages/ProjectAstralWorldReaderPage'));
 const AccountIntakesPage = lazy(() => import('../site00/pages/account/AccountIntakesPage'));
 const AccountIntakeDetailPage = lazy(() => import('../site00/pages/account/AccountIntakeDetailPage'));
 const IntakeGuestAccessPage = lazy(() => import('../site00/pages/intake/IntakeGuestAccessPage'));
@@ -755,6 +756,16 @@ export function Site00Routes() {
           <AstralWorldRouteGuard>
             <Site00Suspense>
               <ProjectAstralWorldFastTrackPage />
+            </Site00Suspense>
+          </AstralWorldRouteGuard>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectReader}
+        element={
+          <AstralWorldRouteGuard>
+            <Site00Suspense>
+              <ProjectAstralWorldReaderPage />
             </Site00Suspense>
           </AstralWorldRouteGuard>
         }

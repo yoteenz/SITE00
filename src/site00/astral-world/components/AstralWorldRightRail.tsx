@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useAstralWorld } from '../context/AstralWorldContext';
 import { WhosHerePanel } from './WhosHerePanel';
 import { YourWorldYourWayPanel } from './PlacesPopularPanel';
+import { AstralPortrait } from './immersive/AstralPortrait';
 
 export function AstralWorldRightRail() {
   const { notifications, markNotificationRead, path, journey } = useAstralWorld();
@@ -17,12 +18,25 @@ export function AstralWorldRightRail() {
         <ul className="aw-ref-notif-list">
           {notifications.map((n) => (
             <li key={n.id} className={n.read ? 'aw-ref-notif--read' : ''}>
-              <div className="aw-label">{n.type.replace(/_/g, ' ')}</div>
-              <strong>{n.title}</strong>
-              <p className="aw-muted">{n.body}</p>
-              <Link to={n.actionRoute} className="aw-btn-secondary" onClick={() => markNotificationRead(n.id)}>
-                {n.actionLabel}
-              </Link>
+              <div className="aw-ref-notif-row">
+                {n.subjectPersonId ? (
+                  <AstralPortrait
+                    personId={n.subjectPersonId}
+                    avatarId={n.subjectAvatarId}
+                    name={n.title}
+                    size={40}
+                    variant="reader"
+                  />
+                ) : null}
+                <div className="aw-ref-notif-row__body">
+                  <div className="aw-label">{n.type.replace(/_/g, ' ')}</div>
+                  <strong>{n.title}</strong>
+                  <p className="aw-muted">{n.body}</p>
+                  <Link to={n.actionRoute} className="aw-btn-secondary" onClick={() => markNotificationRead(n.id)}>
+                    {n.actionLabel}
+                  </Link>
+                </div>
+              </div>
             </li>
           ))}
         </ul>

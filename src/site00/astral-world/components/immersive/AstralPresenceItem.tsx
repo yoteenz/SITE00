@@ -17,6 +17,7 @@ type AstralPresenceItemProps = {
   personId: string;
   name: string;
   initials?: string;
+  avatarId?: string | null;
   subtitle?: string;
   status?: string;
   action?: ReactNode;
@@ -29,6 +30,7 @@ export function AstralPresenceItem({
   personId,
   name,
   initials,
+  avatarId,
   subtitle,
   status,
   action,
@@ -38,7 +40,7 @@ export function AstralPresenceItem({
 }: AstralPresenceItemProps) {
   return (
     <div className="aw-presence-item aw-presence-item--immersive">
-      <AstralPortrait personId={personId} name={name} initials={initials} size={44} showPresence={showPresence} />
+      <AstralPortrait personId={personId} avatarId={avatarId} name={name} initials={initials} size={44} showPresence={showPresence} />
       <div className="aw-presence-item__body">
         <strong>{name}</strong>
         {subtitle ? <div className="aw-muted">{subtitle}</div> : null}

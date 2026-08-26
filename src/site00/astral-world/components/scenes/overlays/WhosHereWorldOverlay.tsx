@@ -25,6 +25,7 @@ export function WhosHereWorldOverlay({ open, onClose }: { open: boolean; onClose
   const groups = groupPeopleByDestination(sourcePeople, (p) => ({
     name: p.name,
     initials: p.avatarInitials,
+    avatarId: 'avatarId' in p ? p.avatarId : null,
     kind: p.kind,
     status: p.kind === 'friend'
       ? (p.joinable ? 'Joinable' : 'Busy')

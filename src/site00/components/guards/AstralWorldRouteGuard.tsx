@@ -6,7 +6,8 @@ import { Site00AccountRouteGuard } from './Site00AccountRouteGuard';
 export function isAstralWorldPrototypePath(pathname: string): boolean {
   return (
     pathname.includes('/projects/astral-world/debug/world') ||
-    pathname.includes('/projects/astral-world/experience')
+    pathname.includes('/projects/astral-world/experience') ||
+    pathname.includes('/projects/astral-world/reader')
   );
 }
 

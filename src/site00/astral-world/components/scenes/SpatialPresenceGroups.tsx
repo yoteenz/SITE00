@@ -4,6 +4,7 @@ export type PresencePerson = {
   id: string;
   name: string;
   initials?: string;
+  avatarId?: string | null;
   status?: string;
   kind?: 'friend' | 'reader';
 };
@@ -39,6 +40,7 @@ export function SpatialPresenceGroups({
               >
                 <AstralPortrait
                   personId={p.id}
+                  avatarId={p.avatarId}
                   name={p.name}
                   initials={p.initials}
                   size={44}
