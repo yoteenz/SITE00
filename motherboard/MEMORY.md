@@ -5300,3 +5300,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.2 workspace, P0.VR.1D.13 campaign assets, character authority gate (no random character fallback), Studio World generic architecture.
 
 ---
+
+## 2026-08-26 — P0.VR.2B Design workspace full-screen reference rebuild
+
+- **Context:** Founder attached complete Design Workspace reference (desktop + mobile in one composition). Required full shell rebuild to match reference — SITE 00 host authority, not NDX project shell. Preserve all P0.VR.2 + P0.VR.2A functionality.
+- **Delivered:** `p0vr2b/` module — `SITE00_DESIGN_WORKSPACE_VISUAL_AUTHORITY`, desktop/mobile visual specs, live visual match scoring, activity feed, quick actions, URL deep-link state, stale lock invalidation. New `Site00DesignWorkspaceShell` with SITE 00 sidebar/nav, project header, breadcrumb, control panel, 3-column compare + slider, visual match panel, missing assets table/cards, recent activity + quick actions footer. Screen matrix demoted to HISTORY tab; INSPECT holds technical detail. Reference image at `public/visual-references/founder/site00/design-workspace-reference-p0vr2b.jpg`. Tests `visualReconstructionP0VR2B.test.ts` (9 pass). Build green (`StudioWorldDesignPage.BENjX3yO.js`).
+- **Core rule:** Attached image is design spec, not inspiration. NDXBOOK is selected project; SITE 00 owns host chrome.
+- **Preserved:** P0.VR.2 reconstruction pipeline, P0.VR.2A asset slot/FAL pipeline, canonical references, mobile/desktop authority separation.
+
+---
