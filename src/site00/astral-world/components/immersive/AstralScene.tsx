@@ -5,6 +5,7 @@ import {
   mobileCropKey,
   type ReferenceCropKey,
 } from '../../../../../shared/site00-astral-world/referenceCropRegistry.js';
+import { useAstralAssets, useAstralSceneBackground } from '../../hooks/useAstralAssets';
 
 type AstralSceneProps = {
   crop: ReferenceCropKey;
@@ -17,18 +18,45 @@ type AstralSceneProps = {
   responsive?: boolean;
 };
 
-function sceneStyle(
-  key: ReferenceCropKey,
+function sceneStyleFromCrop(
+  crop: ReferenceCropKey,
   overlay: boolean,
   minHeight: number | string,
   aspectRatio?: string,
+  generatedStyle?: CSSProperties,
 ): CSSProperties {
-  const spec = getReferenceCrop(key);
+  const spec = getReferenceCrop(crop);
+  const base = generatedStyle ?? cropToBackgroundStyle(spec, overlay);
   return {
-    ...cropToBackgroundStyle(spec, overlay),
+    ...base,
     minHeight,
     aspectRatio: aspectRatio ?? spec.aspectRatio,
   };
+}
+
+function AstralSceneLayer({
+  crop,
+  overlay,
+  minHeight,
+  aspectRatio,
+  className,
+}: {
+  crop: ReferenceCropKey;
+  overlay: boolean;
+  minHeight: number | string;
+  aspectRatio?: string;
+  className: string;
+}) {
+  const { store } = useAstralAssets();
+  const generatedStyle = useAstralSceneBackground(crop, store, overlay);
+  return (
+    <div
+      className={className}
+      style={sceneStyleFromCrop(crop, overlay, minHeight, aspectRatio, generatedStyle)}
+    >
+      <div className="aw-scene__veil" aria-hidden />
+    </div>
+  );
 }
 
 export function AstralScene({
@@ -47,26 +75,34 @@ export function AstralScene({
   if (useResponsive) {
     return (
       <div className={`${className} aw-scene--responsive`.trim()}>
-        <div
+        <AstralSceneLayer
+          crop={crop}
+          overlay={overlay}
+          minHeight={minHeight}
+          aspectRatio={aspectRatio}
           className="aw-scene aw-scene__layer aw-desktop-only"
-          style={sceneStyle(crop, overlay, minHeight, aspectRatio)}
-        >
-          <div className="aw-scene__veil" aria-hidden />
-        </div>
-        <div
+        />
+        <AstralSceneLayer
+          crop={mobileKey}
+          overlay={overlay}
+          minHeight={minHeight}
+          aspectRatio={aspectRatio}
           className="aw-scene aw-scene__layer aw-mobile-only"
-          style={sceneStyle(mobileKey, overlay, minHeight, aspectRatio)}
-        >
-          <div className="aw-scene__veil" aria-hidden />
-        </div>
+        />
         {children ? <div className="aw-scene__content">{children}</div> : null}
       </div>
     );
   }
 
   return (
-    <div className={className} style={sceneStyle(crop, overlay, minHeight, aspectRatio)}>
-      <div className="aw-scene__veil" aria-hidden />
+    <div className={`${className} aw-scene--responsive`.trim()}>
+      <AstralSceneLayer
+        crop={crop}
+        overlay={overlay}
+        minHeight={minHeight}
+        aspectRatio={aspectRatio}
+        className="aw-scene"
+      />
       {children ? <div className="aw-scene__content">{children}</div> : null}
     </div>
   );

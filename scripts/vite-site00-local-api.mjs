@@ -28,6 +28,7 @@ const LOCAL_API_ROUTES = [
   { path: '/api/site00/intakes', file: 'api/site00/intakes.ts' },
   { path: '/api/site00/intake-access', file: 'api/site00/intake-access.ts' },
   { path: '/api/site00/world-intake', file: 'api/site00/world-intake.ts' },
+  { path: '/api/site00/astral-world-assets', file: 'api/site00/astral-world-assets.ts' },
   { path: '/api/site00/implementation-snapshots', file: 'api/site00/implementation-snapshots.ts' },
   { path: '/api/site00/design-control-plane', file: 'api/site00/design-control-plane.ts' },
   { path: '/api/admin/site00-marketing', file: 'api/admin/site00-marketing.ts' },
@@ -39,6 +40,7 @@ const LOCAL_API_ROUTES = [
   { path: '/api/admin/site00-evolve/oauth/callback', file: 'api/admin/site00-evolve-oauth-callback.ts' },
   { path: '/api/admin/site00-intakes', file: 'api/admin/site00-intakes.ts' },
   { path: '/api/admin/site00-client-intakes', file: 'api/admin/site00-client-intakes.ts' },
+  { path: '/api/admin/site00-astral-world-generation', file: 'api/admin/site00-astral-world-generation.ts' },
   { path: '/api/capture-auth-bootstrap', file: 'api/capture-auth-bootstrap.ts' },
 ];
 

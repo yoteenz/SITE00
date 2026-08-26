@@ -22,6 +22,8 @@ import site00IntakesAdminHandler from '../api/admin/site00-intakes.js';
 import site00ClientIntakesAdminHandler from '../api/admin/site00-client-intakes.js';
 import site00ClientAppHandler from '../api/site00/client-app.js';
 import site00WorldIntakeHandler from '../api/site00/world-intake.js';
+import site00AstralWorldGenerationHandler from '../api/admin/site00-astral-world-generation.js';
+import site00AstralWorldAssetsHandler from '../api/site00/astral-world-assets.js';
 import captureAuthBootstrapHandler from '../api/capture-auth-bootstrap.js';
 
 /** Express path → Vercel-style default export handler */
@@ -48,5 +50,7 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/site00/world-intake', handler: site00WorldIntakeHandler },
   { path: '/api/admin/site00-intakes', handler: site00IntakesAdminHandler },
   { path: '/api/admin/site00-client-intakes', handler: site00ClientIntakesAdminHandler },
+  { path: '/api/admin/site00-astral-world-generation', handler: site00AstralWorldGenerationHandler },
+  { path: '/api/site00/astral-world-assets', handler: site00AstralWorldAssetsHandler },
   { path: '/api/capture-auth-bootstrap', handler: captureAuthBootstrapHandler },
 ];

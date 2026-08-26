@@ -2,6 +2,7 @@ import { useLocation, Outlet } from 'react-router-dom';
 import { AstralWorldProvider } from '../context/AstralWorldContext';
 import { AstralWorldDesktopNav, AstralWorldMobileNav } from './AstralWorldNav';
 import { AstralWorldRightRail } from './AstralWorldRightRail';
+import { AstralGenerationDebugPanel } from './AstralGenerationDebugPanel';
 import { isAstralDebugMode } from '../../../../shared/site00-astral-world/referenceAssets.js';
 import type { AstralWorldRouteMode } from '../../../../shared/site00-astral-world/routes.js';
 
@@ -33,6 +34,7 @@ export function AstralWorldExperienceShell({ mode = 'experience' }: { mode?: Ast
                 </span>
               ) : null}
               <Outlet />
+              <AstralGenerationDebugPanel />
             </main>
             <AstralWorldRightRail />
           </div>

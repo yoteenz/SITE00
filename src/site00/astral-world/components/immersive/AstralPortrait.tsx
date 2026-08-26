@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import { getPortraitCrop } from '../../../../../shared/site00-astral-world/referenceCropRegistry.js';
+import { useAstralAssets, useAstralPortraitBackground } from '../../hooks/useAstralAssets';
 
 type AstralPortraitProps = {
   personId: string;
@@ -18,17 +19,22 @@ export function AstralPortrait({
   className = '',
   showPresence = false,
 }: AstralPortraitProps) {
+  const { store } = useAstralAssets();
+  const generated = useAstralPortraitBackground(personId, store);
   const crop = getPortraitCrop(personId);
-  const style: CSSProperties = crop
-    ? {
-        width: size,
-        height: size,
-        backgroundImage: `url(${crop.src})`,
-        backgroundPosition: crop.position,
-        backgroundSize: crop.size,
-        backgroundRepeat: 'no-repeat',
-      }
-    : { width: size, height: size };
+
+  const style: CSSProperties = generated.style
+    ? { width: size, height: size, ...generated.style }
+    : crop
+      ? {
+          width: size,
+          height: size,
+          backgroundImage: `url(${crop.src})`,
+          backgroundPosition: crop.position,
+          backgroundSize: crop.size,
+          backgroundRepeat: 'no-repeat',
+        }
+      : { width: size, height: size };
 
   return (
     <span
@@ -39,7 +45,7 @@ export function AstralPortrait({
       title={name}
       data-person-id={personId}
     >
-      {!crop && initials ? <span className="aw-portrait__fallback" aria-hidden>{initials}</span> : null}
+      {!generated.url && !crop && initials ? <span className="aw-portrait__fallback" aria-hidden>{initials}</span> : null}
       {showPresence ? <span className="aw-portrait__live" aria-hidden /> : null}
     </span>
   );
