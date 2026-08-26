@@ -112,7 +112,6 @@ export function AwM01WorldEntryScreen({ onWhosHere, onTakeMeSomewhere }: AwM01Wo
         stage={AW_M_01_CANONICAL}
         backgroundSrc={bgPath}
         className="aw-m01-layered__stage"
-        maxWidth={430}
       >
         <div className="aw-m01-layered__hero-kicker" style={anchorStyle(AW_M_01_OVERLAY_ANCHORS.HERO_KICKER_CENTER)}>
           Welcome to
