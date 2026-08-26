@@ -22,14 +22,50 @@ function resolvePathname(): string {
   return window.location.pathname || '';
 }
 
+/** Astral World routes render outside Site00Provider — never call useSite00 on these paths. */
+function isAstralWorldPrototypeRoute(pathname: string): boolean {
+  return (
+    pathname.includes('/projects/astral-world/experience') ||
+    pathname.includes('/projects/astral-world/debug/world')
+  );
+}
+
 export function ReferenceShellSuspenseFallback() {
   const pathname = resolvePathname();
-  const { isPreviewDesktop } = useSite00();
-  const isWideViewport = useSite00OriginWideViewport();
+
+  if (isAstralWorldPrototypeRoute(pathname)) {
+    return (
+      <div
+        role="status"
+        aria-live="polite"
+        style={{
+          minHeight: '100vh',
+          background: '#06080f',
+          color: '#c9a962',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontFamily: 'Georgia, serif',
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+          fontSize: '0.75rem',
+        }}
+      >
+        Entering Astral World…
+      </div>
+    );
+  }
 
   if (!isNdxReconstructedRoute(pathname)) {
     return null;
   }
+
+  return <ReferenceShellSuspenseFallbackNdx pathname={pathname} />;
+}
+
+function ReferenceShellSuspenseFallbackNdx({ pathname }: { pathname: string }) {
+  const { isPreviewDesktop } = useSite00();
+  const isWideViewport = useSite00OriginWideViewport();
 
   const projectSlug = extractProjectSlugFromPath(pathname) ?? 'ndxbook';
   const screenId = resolveReconstructedScreenIdFromPath(pathname, projectSlug);
