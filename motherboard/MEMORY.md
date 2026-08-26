@@ -5411,7 +5411,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-## 2026-08-26 — P0.BRIDGE.1-SITE00 Cross-repo design control plane + Supabase change contracts
+## 2026-08-26 — P0.VR.3M.1-SITE00 Design shell completion + host menus + icon canon
+
+- **Context:** After P0.VR.3M, Design workspace still missing bottom panel, dead notification/overflow controls, and legacy emoji/unicode icons on host shell.
+- **Delivered:** Restored `site00-dw-shell__bottom-panel` (always visible, sticky, safe-area) with `DesignWorkspaceFooter` activity + quick actions. `useDesignWorkspaceHostMenus` mutual-exclusion state; `ActiveProjectNotificationCenter` + `DesignWorkspaceOverflowMenu` wired to real handlers (`useActiveProjectNotifications`, capture/copy-link/tab navigation). Replaced host icons with SITE 00 canon (`Site00BellIcon`, `Site00MoreIcon`, `Site00CrosshairIcon`, nav `Site00*Icon`). Module `p0vr3m1/`. Tests `visualReconstructionP0VR3M1.test.ts` (8 pass). Build green.
+- **Core rule:** Host shell stays SITE00 red; bottom panel + menus belong to `SITE00_DESIGN_WORKSPACE_SHELL`; no route/ownership change.
+- **Preserved:** P0.VR.3M canonical route, 27/27 snapshots/review, P0.BRIDGE repo change panel, no FAL, no mass capture.
+
+---
 
 - **Context:** SITE 00 must record approved design intent in shared Supabase for FSBW to consume safely. Two execution classes: RUNTIME_SAFE_BINDING (config/content at runtime) vs SOURCE_CODE_MATERIALIZATION (structured change contract for FSBW source apply). No arbitrary code in DB, no SITE 00 mutating FSBW source directly.
 - **Delivered:** Migration `20260826123000_site00_design_control_plane_bridge.sql` — managed projects, repo bindings, change requests/operations/approvals/receipts, shell propagation, reference/snapshot bindings, RLS service_role. Module `shared/site00-design-control-plane/` — `Site00DesignControlPlane` (create/validate/approve/markReadyForRepo/publishRuntimeBinding/receipts/divergence), capability registry, operation validator (blocks EXECUTE_CODE/EVAL), blast radius + staleness. API `api/site00/design-control-plane.ts`. Design REVIEW tab `DesignRepoChangePanel` — PREPARE REPO CHANGE, APPROVE FOR SOURCE REPO, IMPLEMENTATION MODE. `getManagedProjectRepoBinding()` in p0vr3m adapter. Tests `designControlPlaneP0Bridge1.test.ts` (21 pass). Build green.

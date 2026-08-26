@@ -72,6 +72,12 @@ import { listScreensWithSnapshots } from '../../../../shared/site00-studio-world
 import { DesignMissingAssetsSection } from '../designWorkspace/DesignMissingAssetsSection';
 import { DesignVisualMatchPanel } from '../designWorkspace/DesignVisualMatchPanel';
 import { DesignWorkspaceFooter } from '../designWorkspace/DesignWorkspaceFooter';
+import { DesignWorkspaceOverflowMenu } from '../designWorkspace/DesignWorkspaceOverflowMenu';
+import { useDesignWorkspaceHostMenus } from '../designWorkspace/useDesignWorkspaceHostMenus';
+import { ActiveProjectNotificationCenter } from '../founderWorkspace/ActiveProjectNotificationCenter';
+import { useActiveProjectNotifications } from '../../hooks/useActiveProjectNotifications';
+import { buildDesignWorkspaceOverflowActions } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m1/client.js';
+import type { DesignWorkspaceOverflowActionId } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m1/client.js';
 import '../../styles/site00-design-workspace-p0vr2b.css';
 
 export type StudioWorldDesignWorkspaceProps = {
@@ -251,6 +257,75 @@ export function StudioWorldDesignWorkspace({
   const livePreviewUrl = `${route}?site00MobileLayout=${viewportClass === 'mobile' ? '1' : '0'}&designPreview=1`;
   const referenceUrl = reference?.storagePath ?? uploadPreview;
 
+  const {
+    activeHostMenu,
+    notifyMobileRef,
+    notifyDesktopRef,
+    overflowMobileRef,
+    overflowDesktopRef,
+    notifyAnchorRef,
+    overflowAnchorRef,
+    toggleNotifications,
+    toggleOverflow,
+    closeHostMenu,
+    notificationOpen,
+    overflowOpen,
+  } = useDesignWorkspaceHostMenus();
+
+  const {
+    state: notificationState,
+    loading: notificationsLoading,
+    refreshOnOpen,
+    markRead,
+    markAllRead,
+  } = useActiveProjectNotifications(projectId, { enabled: Boolean(projectId) });
+
+  useEffect(() => {
+    if (notificationOpen) refreshOnOpen();
+  }, [notificationOpen, refreshOnOpen]);
+
+  const overflowActions = useMemo(
+    () =>
+      buildDesignWorkspaceOverflowActions({
+        projectId,
+        route,
+        livePreviewUrl,
+        tab,
+        capturing: snapshotCapturing,
+      }),
+    [livePreviewUrl, projectId, route, snapshotCapturing, tab],
+  );
+
+  const handleOverflowAction = useCallback(
+    (actionId: DesignWorkspaceOverflowActionId) => {
+      switch (actionId) {
+        case 'capture_implementation':
+          void captureScreen(screenId, viewportClass);
+          break;
+        case 'copy_design_link':
+          if (typeof navigator !== 'undefined' && navigator.clipboard) {
+            void navigator.clipboard.writeText(window.location.href);
+          }
+          break;
+        case 'open_review_tab':
+          setTab('REVIEW');
+          syncUrl({ tab: 'REVIEW' });
+          break;
+        case 'open_pages_tab':
+          setTab('PAGES');
+          syncUrl({ tab: 'PAGES' });
+          break;
+        case 'open_inspect_tab':
+          setTab('INSPECT');
+          syncUrl({ tab: 'INSPECT' });
+          break;
+        default:
+          break;
+      }
+    },
+    [captureScreen, screenId, syncUrl, viewportClass],
+  );
+
   const activity = useMemo(
     () =>
       buildDesignWorkspaceActivity({
@@ -361,10 +436,20 @@ export function StudioWorldDesignWorkspace({
       : null;
 
   return (
+    <>
     <Site00DesignWorkspaceShell
       breadcrumb={breadcrumb}
       managedProjectDisplayName={projectMeta?.displayName ?? projectId.toUpperCase()}
       managedProjectAccent={projectContextAccent}
+      activeHostMenu={activeHostMenu}
+      unreadNotificationCount={notificationState.unreadCount}
+      onToggleNotifications={toggleNotifications}
+      onToggleOverflow={toggleOverflow}
+      notifyMobileRef={notifyMobileRef}
+      notifyDesktopRef={notifyDesktopRef}
+      overflowMobileRef={overflowMobileRef}
+      overflowDesktopRef={overflowDesktopRef}
+      bottomPanel={<DesignWorkspaceFooter activity={activity} quickActions={quickActions} compact />}
     >
       <div
         className="site00-dw-workspace"
@@ -718,8 +803,32 @@ export function StudioWorldDesignWorkspace({
           />
         ) : null}
 
-        {tab === 'COMPARE' ? <DesignWorkspaceFooter activity={activity} quickActions={quickActions} /> : null}
       </div>
     </Site00DesignWorkspaceShell>
+
+    <ActiveProjectNotificationCenter
+      open={notificationOpen}
+      onClose={closeHostMenu}
+      projectSlug={projectId}
+      projectLabel={projectMeta?.displayName ?? projectId.toUpperCase()}
+      anchorRef={notifyAnchorRef}
+      notifications={notificationState.notifications}
+      unreadCount={notificationState.unreadCount}
+      messagesTransportBlocked={notificationState.messagesTransportBlocked}
+      messagesTransportBlockReason={notificationState.messagesTransportBlockReason}
+      loading={notificationsLoading}
+      onMarkRead={(id) => void markRead(id)}
+      onMarkAllRead={() => void markAllRead()}
+    />
+
+    <DesignWorkspaceOverflowMenu
+      open={overflowOpen}
+      onClose={closeHostMenu}
+      anchorRef={overflowAnchorRef}
+      actions={overflowActions}
+      onAction={handleOverflowAction}
+      projectLabel={projectMeta?.displayName ?? projectId.toUpperCase()}
+    />
+    </>
   );
 }
