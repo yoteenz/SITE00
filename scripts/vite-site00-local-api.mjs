@@ -19,6 +19,7 @@ const LOCAL_API_ROUTES = [
   { path: '/api/session-restore', file: 'api/session-restore.ts' },
   { path: '/api/site00-access', file: 'api/site00-access.ts' },
   { path: '/api/site00/client-production', file: 'api/site00/client-production.ts' },
+  { path: '/api/site00/client-project-room', file: 'api/site00/client-project-room.ts' },
   { path: '/api/site00/projects', file: 'api/site00/projects.ts' },
   { path: '/api/site00/marketing-engagements', file: 'api/site00/marketing-engagements.ts' },
   { path: '/api/site00/studio-world-webhook', file: 'api/site00/studio-world-webhook.ts' },

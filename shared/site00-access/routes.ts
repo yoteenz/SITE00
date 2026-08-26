@@ -48,5 +48,11 @@ export function inferExperienceContextFromPath(pathname: string): 'CLIENT' | 'AD
 }
 
 export function isClientProjectPath(pathname: string): boolean {
-  return pathname.startsWith('/projects/') || pathname === '/projects' || pathname.startsWith('/control') || pathname.startsWith('/studio/');
+  return (
+    pathname.startsWith('/projects/') ||
+    pathname === '/projects' ||
+    pathname.startsWith('/control') ||
+    pathname.startsWith('/studio/') ||
+    pathname.startsWith('/client/projects/')
+  );
 }
