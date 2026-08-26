@@ -5256,3 +5256,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Upload GoDaddy ZIP (frontend-only).
 
 ---
+
+## 2026-08-26 — Overview mobile TODAY AT NDX live date
+
+- **Context:** Founder reported Overview tab showed static reference date "May 24" instead of actual current date.
+- **Delivered:** `OverviewMobileHomeScreen` uses `useCampaignBoardWeekCalendar()` + exported `formatNdxTodayDateLabel()` for uppercase live date (e.g. AUG 26). Refreshes every minute and on tab visibility return. Tests in `campaignBoardLiveDates.test.ts`.
+- **Founder next:** Upload GoDaddy ZIP (frontend-only).
+
+---
