@@ -131,6 +131,12 @@ const ProjectWorkspaceVisualDevelopmentPage = lazy(
 );
 const ProjectExperimentsHubPage = lazy(() => import('../site00/pages/ProjectExperimentsHubPage'));
 const ProjectLabHubPage = lazy(() => import('../site00/pages/ProjectLabHubPage'));
+const StudioWorldDesignPage = lazy(() =>
+  import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.StudioWorldDesignPage })),
+);
+const ProjectDesignWorkspacePage = lazy(() =>
+  import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.ProjectDesignWorkspacePage })),
+);
 const ProjectFounderWorkspaceArchivePage = lazy(() => import('../site00/pages/ProjectFounderWorkspaceArchivePage'));
 const ProjectNotificationsPage = lazy(() => import('../site00/pages/ProjectNotificationsPage'));
 const ProjectNdxIconSheetPage = lazy(() => import('../site00/pages/ProjectNdxIconSheetPage'));
@@ -664,6 +670,30 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectLabHubPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.studioWorldDesign}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <StudioWorldDesignPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesign}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectDesignWorkspacePage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>
