@@ -6,6 +6,14 @@ import type { ScreenAssetManifestEntry } from './types.js';
 
 export const PILOT_WORLD_ENTRY_MANIFEST: ScreenAssetManifestEntry[] = [
   {
+    slotKey: 'AW_M_01_WORLD_ENTRY_BACKGROUND_V1',
+    role: 'BACKGROUND_ENVIRONMENT',
+    required: true,
+    useExactIfApproved: true,
+    safeZone: { top: 0, bottom: 0, left: 0, right: 0 },
+    focalPoint: 'center top',
+  },
+  {
     slotKey: 'ASTRAL_WORLD_HERO_MOBILE',
     role: 'BACKGROUND_ENVIRONMENT',
     required: true,
