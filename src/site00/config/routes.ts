@@ -153,6 +153,11 @@ export const SITE00_ROUTES = {
   clientProjectRoomLibrary: '/client/projects/:projectSlug/library',
   clientProjectRoomActivity: '/client/projects/:projectSlug/activity',
   clientProjectRoomMessages: '/client/projects/:projectSlug/messages',
+  /** P0.APP.1 — Client mobile app (dedicated app surface) */
+  appSplash: '/app',
+  appProjects: '/app/projects',
+  appProjectRoot: '/app/projects/:projectSlug/*',
+  appPreviewRoot: '/app/preview/:projectSlug/*',
   /** Guest secure intake access/resume — no sign-in required */
   intakeGuestAccess: '/intake/access/:token',
   /** World-class client guest discovery — private token link */

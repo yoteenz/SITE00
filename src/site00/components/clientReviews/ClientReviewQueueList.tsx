@@ -6,14 +6,20 @@ import { ClientRoomArrowIcon } from '../../icons/ClientProjectRoomNavIcons';
 type ClientReviewQueueListProps = {
   projectSlug: string;
   reviews: ClientReviewObject[];
-  emptyMessage: string | null;
+  emptyMessage?: string | null;
+  routePrefix?: string;
 };
+
+function reviewDetailHref(projectSlug: string, reviewId: string, routePrefix?: string): string {
+  if (routePrefix) return `${routePrefix}/${reviewId}`;
+  return clientReviewDetailPath(projectSlug, reviewId);
+}
 
 function viewportLabel(viewports: ClientReviewViewport[]): string {
   return viewports.join(' · ');
 }
 
-export function ClientReviewQueueList({ projectSlug, reviews, emptyMessage }: ClientReviewQueueListProps) {
+export function ClientReviewQueueList({ projectSlug, reviews, emptyMessage, routePrefix }: ClientReviewQueueListProps) {
   if (reviews.length === 0) {
     return <div className="site00-cpr-section-empty">{emptyMessage ?? 'NOTHING NEEDS YOUR REVIEW RIGHT NOW.'}</div>;
   }
@@ -23,7 +29,7 @@ export function ClientReviewQueueList({ projectSlug, reviews, emptyMessage }: Cl
       {reviews.map((review) => (
         <Link
           key={review.reviewId}
-          to={clientReviewDetailPath(projectSlug, review.reviewId)}
+          to={reviewDetailHref(projectSlug, review.reviewId, routePrefix)}
           className="site00-cpr-review-card"
         >
           <div className="site00-cpr-review-card__thumb">
