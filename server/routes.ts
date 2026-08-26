@@ -20,6 +20,7 @@ import site00IntakesHandler from '../api/site00/intakes.js';
 import site00IntakeAccessHandler from '../api/site00/intake-access.js';
 import site00IntakesAdminHandler from '../api/admin/site00-intakes.js';
 import site00ClientIntakesAdminHandler from '../api/admin/site00-client-intakes.js';
+import site00ClientAppHandler from '../api/site00/client-app.js';
 import site00WorldIntakeHandler from '../api/site00/world-intake.js';
 import captureAuthBootstrapHandler from '../api/capture-auth-bootstrap.js';
 
@@ -31,6 +32,7 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/session-restore', handler: sessionRestoreHandler },
   { path: '/api/site00-access', handler: site00AccessHandler },
   { path: '/api/site00/client-production', handler: site00ClientProductionHandler },
+  { path: '/api/site00/client-app', handler: site00ClientAppHandler },
   { path: '/api/site00/projects', handler: site00ProjectsHandler },
   { path: '/api/site00/marketing-engagements', handler: site00MarketingEngagementsHandler },
   { path: '/api/site00/studio-world-webhook', handler: site00StudioWorldWebhookHandler },

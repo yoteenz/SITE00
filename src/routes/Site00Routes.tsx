@@ -52,6 +52,7 @@ import '../site00/styles/site00-mobile-shell.css';
 import '../site00/styles/site00-studio.css';
 import '../site00/styles/site00-client-project-room-p0client1.css';
 import '../site00/styles/site00-client-reviews-p0client2.css';
+import '../site00/styles/site00-client-app.css';
 import '../site00/assts/styles/assts.css';
 import '../site00/assts/styles/assts-depth.css';
 import '../site00/assts/styles/assts-composition.css';
@@ -209,6 +210,31 @@ const ClientProjectRoomMessagesPage = lazy(() =>
   import('../site00/pages/clientProjectRoom/ClientProjectRoomSectionPages').then((m) => ({
     default: m.ClientProjectRoomMessagesPage,
   })),
+);
+const AppSplashPage = lazy(() => import('../site00/pages/clientApp/AppSplashPage'));
+const AppProjectSelectPage = lazy(() => import('../site00/pages/clientApp/AppProjectSelectPage'));
+const AppHomePage = lazy(() => import('../site00/pages/clientApp/AppHomePage'));
+const AppProjectHubPage = lazy(() => import('../site00/pages/clientApp/AppProjectHubPage'));
+const AppReviewsQueuePage = lazy(() => import('../site00/pages/clientApp/AppReviewsQueuePage'));
+const AppInboxPage = lazy(() => import('../site00/pages/clientApp/AppInboxPage'));
+const AppLibraryPage = lazy(() => import('../site00/pages/clientApp/AppLibraryPage'));
+const AppProjectLayout = lazy(() =>
+  import('../site00/pages/clientApp/AppProjectLayout').then((m) => ({ default: m.AppProjectLayout })),
+);
+const AppReviewDetailPage = lazy(() =>
+  import('../site00/pages/clientApp/AppReviewsQueuePage').then((m) => ({ default: m.AppReviewDetailPage })),
+);
+const AppInboxThreadPage = lazy(() =>
+  import('../site00/pages/clientApp/AppInboxPage').then((m) => ({ default: m.AppInboxThreadPage })),
+);
+const AppLibraryCategoryPage = lazy(() =>
+  import('../site00/pages/clientApp/AppLibraryPage').then((m) => ({ default: m.AppLibraryCategoryPage })),
+);
+const AppPreviewLayout = lazy(() =>
+  import('../site00/pages/clientApp/AppPreviewLayout').then((m) => ({ default: m.AppPreviewLayout })),
+);
+const AppFileViewerPage = lazy(() =>
+  import('../site00/pages/clientApp/AppLibraryPage').then((m) => ({ default: m.AppFileViewerPage })),
 );
 const IdntyAssessmentRouterPage = lazy(() => import('../site00/pages/idnty/assessment/IdntyAssessmentRouterPage'));
 const BldrAssessmentRouterPage = lazy(() => import('../site00/pages/bldr/assessment/BldrAssessmentRouterPage'));
@@ -1797,6 +1823,127 @@ export function Site00Routes() {
           </Site00Layout>
         }
       />
+      <Route
+        path={SITE00_ROUTES.appSplash}
+        element={
+          <Site00Suspense>
+            <AppSplashPage />
+          </Site00Suspense>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.appProjects}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <AppProjectSelectPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.appProjectRoot}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <AppProjectLayout />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      >
+        <Route
+          index
+          element={
+            <Site00Suspense>
+              <AppHomePage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="project/:section"
+          element={
+            <Site00Suspense>
+              <AppProjectHubPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="reviews"
+          element={
+            <Site00Suspense>
+              <AppReviewsQueuePage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="reviews/:reviewId"
+          element={
+            <Site00Suspense>
+              <AppReviewDetailPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="inbox"
+          element={
+            <Site00Suspense>
+              <AppInboxPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="inbox/:threadId"
+          element={
+            <Site00Suspense>
+              <AppInboxThreadPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="library"
+          element={
+            <Site00Suspense>
+              <AppLibraryPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="library/:categoryId"
+          element={
+            <Site00Suspense>
+              <AppLibraryCategoryPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="library/:categoryId/:fileId"
+          element={
+            <Site00Suspense>
+              <AppFileViewerPage />
+            </Site00Suspense>
+          }
+        />
+      </Route>
+      <Route
+        path={SITE00_ROUTES.appPreviewRoot}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <AppPreviewLayout />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      >
+        <Route index element={<Site00Suspense><AppHomePage /></Site00Suspense>} />
+        <Route path="project/:section" element={<Site00Suspense><AppProjectHubPage /></Site00Suspense>} />
+        <Route path="reviews" element={<Site00Suspense><AppReviewsQueuePage /></Site00Suspense>} />
+        <Route path="inbox" element={<Site00Suspense><AppInboxPage /></Site00Suspense>} />
+        <Route path="library" element={<Site00Suspense><AppLibraryPage /></Site00Suspense>} />
+      </Route>
       <Route
         path={SITE00_ROUTES.accessDebug}
         element={

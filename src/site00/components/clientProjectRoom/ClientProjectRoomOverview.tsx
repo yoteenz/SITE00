@@ -6,6 +6,7 @@ import {
   ClientRoomCheckIcon,
   ClientRoomReviewsIcon,
 } from '../../icons/ClientProjectRoomNavIcons';
+import { ClientAppWebPromotion } from '../clientApp/ClientAppWebPromotion';
 
 type ClientProjectRoomOverviewProps = {
   viewModel: ClientProjectRoomViewModel;
@@ -167,6 +168,8 @@ export function ClientProjectRoomOverview({ viewModel }: ClientProjectRoomOvervi
           ))}
         </div>
       </section>
+
+      <ClientAppWebPromotion projectSlug={viewModel.manifest.projectSlug} />
     </>
   );
 }
