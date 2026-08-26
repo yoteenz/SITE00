@@ -10,7 +10,13 @@ import type {
   Site00ProjectDetail,
   Site00ProjectIndexEntry,
 } from '../../../shared/site00-projects/types.js';
-import { site00ProjectDetailRoute, site00ProjectIdentityRoute, site00ProjectOriginRoute } from '../../../shared/site00-access/routes.js';
+import {
+  site00ProjectDetailRoute,
+  site00ProjectExperienceRoute,
+  site00ProjectFastTrackWorldRoute,
+  site00ProjectIdentityRoute,
+  site00ProjectOriginRoute,
+} from '../../../shared/site00-access/routes.js';
 import { resolveCanonicalProject } from './canonicalProject.js';
 
 const CLIENT_PROJECT_SLUGS = ['astral-world'] as const;
@@ -64,6 +70,20 @@ export async function resolveClientProjectIndexEntry(slug: string): Promise<Site
         route: site00ProjectIdentityRoute(project.slug),
         available: hasProjectCapability(project.slug, 'BRAND_INTELLIGENCE'),
         description: 'Identity exploration — territories, judgment, canon promotion',
+      },
+      {
+        id: 'experience',
+        label: 'EXPERIENCE',
+        route: site00ProjectExperienceRoute(project.slug),
+        available: hasProjectCapability(project.slug, 'BRAND_INTELLIGENCE'),
+        description: 'High-fidelity experience prototype — CREATIVE_EXPLORATION, awaiting founder judgment',
+      },
+      {
+        id: 'fast-track',
+        label: 'LIVE PROTOTYPE',
+        route: site00ProjectFastTrackWorldRoute(project.slug),
+        available: hasProjectCapability(project.slug, 'BRAND_INTELLIGENCE'),
+        description: 'Founder Fast Track interactive world — CREATIVE_EXPLORATION / FOUNDER_FAST_TRACK',
       },
     ],
     detailRoute: site00ProjectDetailRoute(project.slug),

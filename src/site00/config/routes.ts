@@ -56,6 +56,8 @@ export const SITE00_ROUTES = {
   projectDetail: '/projects/:projectSlug',
   projectOrigin: '/projects/:projectSlug/origin',
   projectIdentity: '/projects/:projectSlug/identity',
+  projectExperience: '/projects/:projectSlug/experience/*',
+  projectDebugWorld: '/projects/:projectSlug/debug/world/*',
   projectSetup: '/projects/:projectSlug/setup',
   projectEvolve: '/projects/:projectSlug/evolve',
   projectCreativeDirection: '/projects/:projectSlug/creative-direction',
@@ -183,6 +185,16 @@ export function site00ProjectOriginPath(projectSlug: string): string {
 
 export function site00ProjectIdentityPath(projectSlug: string): string {
   return `/projects/${projectSlug}/identity`;
+}
+
+export function site00ProjectExperiencePath(projectSlug: string, section?: string): string {
+  const base = `/projects/${projectSlug}/experience`;
+  return section ? `${base}/${section.replace(/^\//, '')}` : `${base}/home`;
+}
+
+export function site00ProjectFastTrackWorldPath(projectSlug: string, section?: string): string {
+  const base = `/projects/${projectSlug}/debug/world`;
+  return section ? `${base}/${section.replace(/^\//, '')}` : `${base}/home`;
 }
 
 export function site00ProjectSetupPath(projectSlug: string): string {

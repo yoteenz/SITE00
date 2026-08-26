@@ -5487,6 +5487,7 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+<<<<<<< HEAD
 ## 2026-08-26 — P0.APP.2 Client app 25-screen visual convergence + REFERENCE_LOCKED_V1
 
 - **Context:** P0.APP.1 built first-pass `/app` client mobile app (25 screens). Sprint required reference-faithful visual convergence + interaction completion + live browser QA against founder master board — no new product features.
@@ -5495,3 +5496,30 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.APP.1 architecture, P0.CLIENT.1/2A, admin/bridge/FAL boundaries.
 
 ---
+=======
+## 2026-08-26 — P0.E.1 Astral World high-fidelity experience prototype + social presence
+
+- **Context:** Sprint P0.E.1 for Astral World — implement desktop (REFERENCE A) and mobile (REFERENCE B) experience prototype with social presence, destinations, Take Me Somewhere, Find My Reader, Join Her Table, notifications, journey. Store as CREATIVE_EXPLORATION — no auto canon promotion. Reference images were not attached in cloud VM; implementation follows sprint text spec with REFERENCE_ASSET_PENDING environment slots.
+- **Delivered:** `shared/site00-astral-world/` (types, fixtures, presenceService, takeMeSomewhereRouter, creativeExploration). Client shell `src/site00/astral-world/` — desktop 3-region (nav + canvas + rail), mobile bottom nav (HOME/WORLD/JOURNAL/FRIENDS/PROFILE), Astréa + 3 destinations (Tarot Suite, Astral Mall, Coffee Shop), presence/notifications/journey panels. Route `/projects/astral-world/experience/*` via `ProjectAstralWorldExperiencePage` without Site00Layout (host/client firewall). Project command CTA + clientProjectResolver EXPERIENCE surface. CSS `astral-world.css` (Cinzel/Cormorant gold celestial — not SITE 00 red DNA). Tests `astralWorldExperienceP0E1.test.ts` (22 pass). Docs: EXPERIENCE_PROTOTYPE, SOCIAL_PRESENCE, DESTINATION_BEHAVIOR, TAKE_ME_SOMEWHERE, REFERENCE_FIDELITY, audit P0E1; PROJECT_BIBLE updated as CREATIVE_EXPLORATION.
+- **Governance:** ASTRAL_WORLD_STATUS=IDENTITY_IN_PROGRESS, FOUNDER_JUDGMENT_STATE=AWAITING_FOUNDER_JUDGMENT, IDENTITY_CANON_PROMOTED=FALSE, WORLD_FORMATION_IMPLEMENTED=FALSE. Fidelity: desktop/mobile PARTIAL until founder re-attaches REFERENCE A/B for pixel QA.
+- **Preserved:** Identity phase (P0.D/P0.E), no payment/push/realtime production presence, no canon auto-promotion, project isolation from NDXBOOK.
+
+---
+
+## 2026-08-26 — P0.E.FT1 Astral World Founder Fast Track interactive prototype
+
+- **Context:** Sprint P0.E.FT1 — steamroll visual/product implementation on isolated debug surface while formal governance continues. Dual-track: governance intact, fast track = experimental laboratory. REFERENCE A/B not attached in VM.
+- **Delivered:** Route `/projects/astral-world/debug/world/*` (OPEN LIVE PROTOTYPE on project command). Extended `fixtureService`, `takeMeSomewhereContextEngine`, `fastTrackRegistry`. Demo session Teena with inhabited fixtures. Features: favorite readers, reader relationships, privacy + allow-friends-to-join, Places Popular Now, Your World Your Way (daily card, avatar, circle, deck), mall kiosk states, coffee shop table activity, mobile notification demo (PUSH_NOTIFICATION_DEMO). Reuses P0.E.1 shell with `mode=fast-track` + `data-fast-track-prototype`. Tests `astralWorldFastTrackFt1.test.ts` (16 pass) + P0.E.1 (22 pass). Docs: FOUNDER_FAST_TRACK, FAST_TRACK_PRODUCT_MODEL, COFFEE_SHOP, ASTRAL_MALL, TAROT_SUITE, FAST_TRACK_REFERENCE_FIDELITY, audit FT1.
+- **Governance:** CREATIVE_EXPLORATION / FOUNDER_FAST_TRACK — no canon auto-promotion. WORLD_FORMATION not required for prototype.
+- **Preserved:** Formal identity/judgment pipeline, P0.E.1 experience route, project isolation, no production payment/push/chat/3D.
+
+---
+
+## 2026-08-26 — P0.ORIGIN.1 Origin built-in panel backgrounds + CLEAN expanded swap
+
+- **Context:** Founder attached four approved Origin environment images (desktop/mobile WITH_PANELS + desktop/mobile CLEAN). Sprint required replacing Origin backgrounds, removing acrylic glass teaser cards, aligning IDNTY/BLDR/EVOLVE overlays on baked panel blocks, and swapping to CLEAN background when any panel expands (hide all teasers).
+- **Delivered:** `origin-background-assets.ts` (four canonical roles @ `live-preview/3D images/BG/`), `origin-panel-state.ts` (`expandedPanel` + `backgroundVariant` derived from `homeMode`), variant-aware `Site00EnvironmentViewportBackground` + `EnvironmentShell`, `useOriginBackgroundPreload`, transparent `site00-origin-teaser` collapsed buttons (no glassmorphism), mobile panel teasers + expanded content enabled (removed blanket mobile hide), `SITE00_ORIGIN_MOBILE_COMPOSITION` overlay tokens. Tests `originP0Origin1.test.ts` (29 pass). PR #511 merged @ `acf67d7`. Release **v142** (`index.HmBaRjij.js`). Live browser QA: desktop/mobile default WITH_PANELS + expanded CLEAN verified.
+- **Core rule:** Baked panel bases are image content only — never duplicate in CSS. Default = WITH_PANELS + three teasers; expanded = CLEAN + hide all teasers + show selected expanded panel only.
+- **Preserved:** Expanded IDNTY/BLDR/EVOLVE content, Origin routing/shell, icons/copy, other environment backgrounds, no FAL/regeneration.
+
+>>>>>>> origin/main
