@@ -5581,3 +5581,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Visual lock:** `ASTRAL_WORLD_VISUAL_LOCK=FALSE` — `VISUAL_LOCK_BLOCKED_BY_ASSET_GENERATION=TRUE` (all P0 env slots still reference-crop fallbacks until FT4 FAL batch).
 - **Next:** FT4 FAL P0 batch on Railway; founder desktop reference comparison after generated assets land.
 
+---
+
+## 2026-08-26 — P0.E.FT5.1 Live FAL asset production + founder slot QA
+
+- **Context:** Manufacture missing FAL-generated world assets without redesigning FT3.1/FT3.2/FT5 scene architecture. Primary blocker was FAL pipeline failing on production reference URLs (site00.com returns HTML SPA fallback for `/astral-world/bg-*.png`).
+- **Root fix:** `generationService.ts` `uploadReferenceToFal` now prefers local `public/` reference files before HTTP fetch; rejects non-image content types; improved FAL ApiError formatting. Fixed `pollStudioBuilderFalQueue` destructuring from prior session.
+- **Lifecycle:** Generation completes as `READY` + `READY_FOR_VISUAL_REVIEW`; `sanitizeClientAssetMap` exposes only founder-activated `ACTIVE` slots to public `/api/site00/astral-world-assets`. Founder debug panel (`?debug=1`) supports dispatch P0/P1, reference/generated/side-by-side, activate, regenerate.
+- **Persistence:** `assetManifestPersistence.ts` + hydrated `assetRecordStore.ts` persist manifest to Supabase storage.
+- **Live generation (cloud VM):** P0 batch **10/10** environment slots generated with FAL (hero desktop/mobile, Astrea, Tarot Suite, Mall, Coffee Shop). P1 portrait batch dispatched async. Scripts: `astral-world-preflight.mjs`, `astral-world-dispatch.mjs` (single/p0/p1/p2).
+- **Fixes:** Mall kiosk-2 label → General Insight; `COFFEE_SHOP_TABLE_SCENE` slot mapping; tablet 1024px immersive viewport min-height (was collapsing to black scene).
+- **Tests:** `astralWorldFt51FalProduction.test.ts` (11) → **118 Astral tests pass**. Build PASS.
+- **Railway:** Production API still requires `FAL_KEY` on Railway service for founder dispatch from live admin endpoint.
+- **Visual lock:** `ASTRAL_WORLD_VISUAL_LOCK=FALSE` — P0 outputs need founder per-slot QA + activation; P1/P2 pending; full reference comparison not yet re-scored.
+
