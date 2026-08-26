@@ -55,7 +55,7 @@ export function MobileFindReaderScene() {
         }
         interaction={
           <AstralReaderOrbit
-            readers={filtered.map((r) => ({ id: r.id, name: r.name, initials: r.avatarInitials }))}
+            readers={filtered.map((r) => ({ id: r.id, name: r.name, initials: r.avatarInitials, avatarId: r.avatarId }))}
             selectedId={selectedReaderId}
             onSelect={setSelectedReaderId}
             categoryKey={category}

@@ -22,6 +22,7 @@ export type PresencePrivacy = 'EVERYONE' | 'FRIENDS' | 'HIDDEN';
 export type ReaderPresenceState =
   | 'AVAILABLE'
   | 'READING_NOW'
+  | 'AWAY'
   | 'JOINABLE'
   | 'APPOINTMENTS_ONLY'
   | 'OFFLINE';
@@ -84,6 +85,8 @@ export type AstralReader = {
   name: string;
   specialty: string;
   categories: string[];
+  /** P0.R.1 — canonical avatar library ID; resolver owns media URLs */
+  avatarId: string | null;
   avatarUrl: string | null;
   avatarInitials: string;
   primaryDestination: DestinationSlug;
@@ -164,6 +167,9 @@ export type AstralNotification = {
   actionLabel: string;
   actionRoute: string;
   read: boolean;
+  /** Canonical subject for portrait resolution (Reader alerts) */
+  subjectPersonId?: string | null;
+  subjectAvatarId?: string | null;
   source: FixtureDataSource;
 };
 

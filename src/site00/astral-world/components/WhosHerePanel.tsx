@@ -13,14 +13,14 @@ export function WhosHerePanel({ compact }: { compact?: boolean }) {
 
   const items =
     tab === 'friends'
-      ? friends.map((f) => ({ id: f.id, name: f.name, initials: f.avatarInitials, status: f.joinable ? 'Joinable' : 'Reading Now', dest: f.currentDestination ?? 'astrea', kind: 'friend' as const, tableId: f.tableId }))
+      ? friends.map((f) => ({ id: f.id, name: f.name, initials: f.avatarInitials, avatarId: null, status: f.joinable ? 'Joinable' : 'Reading Now', dest: f.currentDestination ?? 'astrea', kind: 'friend' as const, tableId: f.tableId }))
       : tab === 'readers'
-        ? readers.map((r) => ({ id: r.id, name: r.name, initials: r.avatarInitials, status: r.presence.replace(/_/g, ' '), dest: r.currentDestination, kind: 'reader' as const, tableId: null }))
+        ? readers.map((r) => ({ id: r.id, name: r.name, initials: r.avatarInitials, avatarId: r.avatarId, status: r.presence.replace(/_/g, ' '), dest: r.currentDestination, kind: 'reader' as const, tableId: null }))
         : tab === 'favorites'
-          ? readers.filter((r) => r.isFavorite).map((r) => ({ id: r.id, name: r.name, initials: r.avatarInitials, status: r.presence.replace(/_/g, ' '), dest: r.currentDestination, kind: 'reader' as const, tableId: null }))
+          ? readers.filter((r) => r.isFavorite).map((r) => ({ id: r.id, name: r.name, initials: r.avatarInitials, avatarId: r.avatarId, status: r.presence.replace(/_/g, ' '), dest: r.currentDestination, kind: 'reader' as const, tableId: null }))
           : [
-              ...friends.map((f) => ({ id: f.id, name: f.name, initials: f.avatarInitials, status: f.joinable ? 'Joinable' : 'Reading Now', dest: f.currentDestination, kind: 'friend' as const, tableId: f.tableId })),
-              ...readers.map((r) => ({ id: r.id, name: r.name, initials: r.avatarInitials, status: r.presence.replace(/_/g, ' '), dest: r.currentDestination, kind: 'reader' as const, tableId: null })),
+              ...friends.map((f) => ({ id: f.id, name: f.name, initials: f.avatarInitials, avatarId: null, status: f.joinable ? 'Joinable' : 'Reading Now', dest: f.currentDestination, kind: 'friend' as const, tableId: f.tableId })),
+              ...readers.map((r) => ({ id: r.id, name: r.name, initials: r.avatarInitials, avatarId: r.avatarId, status: r.presence.replace(/_/g, ' '), dest: r.currentDestination, kind: 'reader' as const, tableId: null })),
             ];
 
   return (
@@ -50,6 +50,7 @@ export function WhosHerePanel({ compact }: { compact?: boolean }) {
             <AstralPresenceItem
               key={item.id}
               personId={item.id}
+              avatarId={item.avatarId}
               name={item.name}
               initials={item.initials}
               subtitle={`${item.kind === 'reader' ? 'Reader · ' : ''}${item.dest ? String(item.dest).replace(/-/g, ' ') : 'In Astréa'}${item.tableId ? ' · Table' : ''}`}

@@ -5615,3 +5615,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Live QA:** Route `/projects/astral-world/debug/world/home` @ 390×844; Tarot Suite + Coffee Shop navigation verified; screenshots + demo video captured.
 - **Visual lock:** `PILOT_SCREEN_VISUAL_LOCK=FALSE` — hero city/balcony depth, destination thumb fidelity, typography micro-spacing, and secondary-action row still deviate from canonical master; convergence pass 3 of N.
 
+---
+
+## 2026-08-26 — P0.R.1 Reader account foundation + curated avatar library + canonical identity
+
+- **Context:** Full Reader identity/account layer for Astral World — no random stock faces; one Reader → one `avatar_id` → consistent appearance everywhere (Find My Reader, Who's Here, notifications, destinations, Reader dashboard).
+- **Delivered:**
+  - **Shared domain** (`shared/site00-astral-world/readerAccount/`): types (SEEKER/READER roles, onboarding steps, avatar records), `ASTRAL_WORLD_AVATAR_MASTER_CONTRACT`, `AW_AVATAR_LIBRARY_V1` manifest (28 slots, 4 pilot F/M), `avatarResolver`, specialties taxonomy, custom avatar entitlement (`CUSTOM_ASTRAL_AVATAR`), unified presence model, client alert service (Seeker `HIDDEN` privacy overrides Reader prefs), localStorage + API reader store, FAL pilot contracts.
+  - **DB:** `supabase/migrations/20260826220000_site00_astral_reader_accounts.sql` (avatars, reader profiles, custom generation receipts + RLS).
+  - **API:** `/api/site00/astral-world-reader-account`, `/api/site00/astral-world-avatar-library` (preloaded library, no FAL on open).
+  - **Reader UI:** `/projects/astral-world/reader/*` router + 9-step onboarding (Welcome → Identity → Specialties → Destination → Avatar [library vs premium] → Availability → Client Connections → Profile Preview → Complete), immersive `AvatarSelector`, `CustomAvatarPremiumPanel`, home/profile/presence/alerts pages.
+  - **Integrations:** `AstralReader.avatarId`; prototype readers mapped via `READER_FIXTURE_AVATAR_MAP`; `AstralPortrait` resolves via `resolveCanonicalAvatarAssets`; Find My Reader, Reader detail tray, orbit, Who's Here, notifications (Kai READER_AVAILABLE) pass `avatarId`.
+  - **Tests:** `astralWorldP0R1ReaderAccount.test.ts` (10) → **144 Astral tests pass**. Build PASS. Browser QA: full onboarding flow + Find My Reader + Who's Here; library avatar tiles show initials until FAL pilot assets ACTIVE.
+- **Not yet:** FAL pilot dispatch for 4 library avatars; full custom avatar generation→selection→derivatives pipeline; Supabase migration apply on production; global profile role field integration.
+- **Conventions:** Reader admin routes separate from Seeker nav; never store arbitrary image URLs on Reader records; custom avatar requires user selection before ACTIVE; curated library scales only after pilot QA.

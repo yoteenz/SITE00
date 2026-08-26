@@ -16,10 +16,15 @@ import type {
   SocialCircle,
   AstralUser,
 } from './types.js';
+import { READER_FIXTURE_AVATAR_MAP } from './readerAccount/avatarLibraryManifest.js';
 import { ASTRAL_EXPERIENCE_BASE } from './routes.js';
 
 const FIX = 'PROTOTYPE_FIXTURE' as const;
 const BASE = ASTRAL_EXPERIENCE_BASE;
+
+function readerAvatarId(id: string): string | null {
+  return READER_FIXTURE_AVATAR_MAP[id] ?? null;
+}
 
 export const DEMO_SESSION_PROFILE: DemoSessionProfile = {
   userId: 'user-demo-teena',
@@ -99,6 +104,7 @@ export const PROTOTYPE_READERS: readonly AstralReader[] = [
     name: 'Madame J',
     specialty: 'Tarot • Intuitive • Love',
     categories: ['LOVE', 'INTUITIVE', 'TAROT'],
+    avatarId: readerAvatarId('reader-madame-j'),
     avatarUrl: null,
     avatarInitials: 'MJ',
     primaryDestination: 'tarot-suite',
@@ -113,6 +119,7 @@ export const PROTOTYPE_READERS: readonly AstralReader[] = [
     name: 'Kai the Oracle',
     specialty: 'Energy • Spirit Guide • Clarity',
     categories: ['ENERGY', 'INTUITIVE', 'CAREER'],
+    avatarId: readerAvatarId('reader-kai'),
     avatarUrl: null,
     avatarInitials: 'KO',
     primaryDestination: 'astral-mall',
@@ -127,6 +134,7 @@ export const PROTOTYPE_READERS: readonly AstralReader[] = [
     name: 'Earth Mama',
     specialty: 'Tarot • Healing • Life Path',
     categories: ['TAROT', 'INTUITIVE', 'LOVE'],
+    avatarId: readerAvatarId('reader-earth-mama'),
     avatarUrl: null,
     avatarInitials: 'EM',
     primaryDestination: 'coffee-shop',
@@ -141,6 +149,7 @@ export const PROTOTYPE_READERS: readonly AstralReader[] = [
     name: 'Sage Moonwater',
     specialty: 'Intuitive Tarot',
     categories: ['LOVE', 'INTUITIVE', 'TAROT'],
+    avatarId: readerAvatarId('reader-sage'),
     avatarUrl: null,
     avatarInitials: 'SM',
     primaryDestination: 'tarot-suite',
@@ -155,6 +164,7 @@ export const PROTOTYPE_READERS: readonly AstralReader[] = [
     name: 'Orion Vale',
     specialty: 'Career & Path',
     categories: ['CAREER', 'TAROT', 'ENERGY'],
+    avatarId: readerAvatarId('reader-orion'),
     avatarUrl: null,
     avatarInitials: 'OV',
     primaryDestination: 'astral-mall',
@@ -169,6 +179,7 @@ export const PROTOTYPE_READERS: readonly AstralReader[] = [
     name: 'Aria Bloom',
     specialty: 'Heart & Connection',
     categories: ['LOVE', 'INTUITIVE'],
+    avatarId: readerAvatarId('reader-aria'),
     avatarUrl: null,
     avatarInitials: 'AB',
     primaryDestination: 'coffee-shop',
@@ -252,6 +263,8 @@ export const PROTOTYPE_NOTIFICATIONS: readonly AstralNotification[] = [
     actionLabel: 'View Reader',
     actionRoute: `${BASE}/readers`,
     read: false,
+    subjectPersonId: 'reader-kai',
+    subjectAvatarId: readerAvatarId('reader-kai'),
     source: FIX,
   },
   {

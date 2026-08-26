@@ -4,6 +4,7 @@ type OrbitReader = {
   id: string;
   name: string;
   initials?: string;
+  avatarId?: string | null;
 };
 
 type AstralReaderOrbitProps = {
@@ -32,7 +33,7 @@ export function AstralReaderOrbit({ readers, selectedId, onSelect, categoryKey }
             role="listitem"
             aria-label={r.name}
           >
-            <AstralPortrait personId={r.id} name={r.name} initials={r.initials} size={52} showPresence variant="reader" />
+            <AstralPortrait personId={r.id} avatarId={r.avatarId} name={r.name} initials={r.initials} size={52} showPresence variant="reader" />
             <span className="aw-reader-orbit__name">{r.name.split(' ')[0]}</span>
           </button>
         );
