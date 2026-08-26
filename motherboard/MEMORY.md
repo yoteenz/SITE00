@@ -5486,3 +5486,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.CLIENT.1 web Project Room, P0.CLIENT.2 review governance, admin Projects/Design, P0.BRIDGE, no FAL.
 
 ---
+
+## 2026-08-26 — P0.APP.2 Client app 25-screen visual convergence + REFERENCE_LOCKED_V1
+
+- **Context:** P0.APP.1 built first-pass `/app` client mobile app (25 screens). Sprint required reference-faithful visual convergence + interaction completion + live browser QA against founder master board — no new product features.
+- **Delivered:** App-scoped review UI (`ClientAppReviewQueueList`, `ClientAppReviewDetailView`) with sub-routes compare/comments/annotations/approve/revision/history; `useAppBasePath`/`useAppPaths` for preview vs authenticated paths; expanded `site00-client-app.css` (badges, project map timeline, review detail, inbox/library, opportunity card); preview routes mirror production including `/app/preview/select`; fixture `fixture-app-post-launch-opportunity`; `designStatus.ts` + `CLIENT_APP_QA_MATRIX` (25 screens); Playwright capture script `scripts/capture-client-app-screenshots.mjs` + 25 QA screenshots; opportunity MAYBE LATER dismiss (sessionStorage preview + Supabase `client_dismissed_offers` prod); inbox/library preview-safe via `appContent.ts`; tests `clientAppP0App2.test.ts` (8 pass) + APP.1 (11 pass). Design status **REFERENCE_LOCKED_V1**.
+- **Core rule:** Master board is the app — shell, nav, spacing, cards, typography, icons must match; P0.CLIENT.2A remains review persistence authority; no shadow review store.
+- **Preserved:** P0.APP.1 architecture, P0.CLIENT.1/2A, admin/bridge/FAL boundaries.
+
+---
