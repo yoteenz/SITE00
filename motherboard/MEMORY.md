@@ -5546,3 +5546,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fidelity reset:** Overall immersive ~87 — HIGH blocked until env/image/spatial/composition all ≥90. Plain website feel partially remains under functional sheets.
 - **Governance:** CREATIVE_EXPLORATION / FOUNDER_FAST_TRACK; CANON_PROMOTED=FALSE; all FT1 interactions preserved.
 
+---
+
+## 2026-08-26 — P0.E.FT4 Astral World FAL generative asset factory
+
+- **Context:** Sprint P0.E.FT4 — stop treating Astral World imagery as a CSS/coding problem; wire semantic visual slots to existing FAL infrastructure for async generation, persistence, and automatic slot inhabitation. Predecessor: FT3 reference-shell immersion.
+- **Delivered:** `shared/site00-astral-world/generation/` — types, master visual contract v1, environment/portrait/artifact prompt contracts (26 slots), promptCompiler, assetSlotRegistry, generationManifest AW_VISUAL_FOUNDATION_V1, assetResolver. Server: `api/_lib/site00AstralWorld/{assetRecordStore,generationService}.ts`, admin API `/api/admin/site00-astral-world-generation`, public `/api/site00/astral-world-assets` (URLs only). Client: `useAstralAssets`, AstralScene/AstralPortrait auto-resolve generated assets, `AstralGenerationDebugPanel` (`?debug=1`). Reuses falImageModels, ASSTS storage, studioBuilder queue poll, falBackgroundJob. Tests FT4 (14 pass) = **75 Astral tests pass**. Docs: GENERATIVE_ASSET_FACTORY, ASSET_CONTRACTS, FAL_PROMPT_LIBRARY, GENERATION_MANIFEST_V1, ASSET_SLOT_REGISTRY, BACKGROUND_GENERATION, audit FT4.
+- **Governance:** Generation ≠ canon; CREATIVE_EXPLORATION / FOUNDER_FAST_TRACK unchanged. FAL batch not auto-dispatched in CI (no FAL_KEY).
+- **Next:** FT5 live P0 batch on Railway + founder visual QA per slot.
+
