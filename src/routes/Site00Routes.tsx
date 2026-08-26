@@ -10,6 +10,7 @@ import { Site00RouteLoadingFallback } from '../site00/components/loader/Site00Ro
 import { Site00WorldColdStartGate } from '../site00/components/loader/Site00WorldColdStartGate';
 import { Site00OriginRouteShell } from '../site00/components/shell/Site00OriginRouteShell';
 import { Site00AccountRouteGuard } from '../site00/components/guards/Site00AccountRouteGuard';
+import { Site00ComposerDraftRouteGuard } from '../site00/components/guards/Site00ComposerDraftRouteGuard';
 import { Site00PublicRouteShell } from '../site00/components/shell/Site00PublicRouteShell';
 import { Site00PublicDesktopLegacyRedirect } from '../site00/components/shell/Site00PublicWideDesktopRedirect';
 import { Site00OriginDesktopLegacyRedirect } from '../site00/components/shell/Site00OriginDesktopLegacyRedirect';
@@ -153,6 +154,15 @@ const ProjectLoreCalibrationPage = lazy(() => import('../site00/pages/ProjectLor
 const ProjectCreativeAppetitePage = lazy(() => import('../site00/pages/ProjectCreativeAppetitePage'));
 const ProjectSetupPage = lazy(() => import('../site00/pages/ProjectSetupPage'));
 const SupportPage = lazy(() => import('../site00/pages/SupportPage'));
+const GuidePage = lazy(() => import('../site00/pages/information/GuidePage'));
+const SoundPage = lazy(() => import('../site00/pages/information/SoundPage'));
+const FaqPage = lazy(() => import('../site00/pages/information/FaqPage'));
+const ContactPage = lazy(() => import('../site00/pages/information/ContactPage'));
+const Site00ForgotPasswordPage = lazy(() => import('../site00/pages/auth/Site00ForgotPasswordPage'));
+const Site00ResetPasswordPage = lazy(() => import('../site00/pages/auth/Site00ResetPasswordPage'));
+const BlueprintsPage = lazy(() => import('../site00/pages/complex/BlueprintsPage'));
+const AccountPage = lazy(() => import('../site00/pages/complex/AccountPage'));
+const BrandPage = lazy(() => import('../site00/pages/complex/BrandPage'));
 const IdntySignInSecurityPage = lazy(() => import('../site00/pages/idnty/IdntySignInSecurityPage'));
 const BldrTemplatesPage = lazy(() => import('../site00/pages/bldr/BldrTemplatesPage'));
 const BldrStartPage = lazy(() => import('../site00/pages/bldr/BldrStartPage'));
@@ -182,6 +192,56 @@ const LoaderPreviewPage = lazy(() => import('../site00/pages/LoaderPreviewPage')
 
 function Site00Suspense({ children }: { children: ReactNode }) {
   return <Suspense fallback={<Site00RouteLoadingFallback />}>{children}</Suspense>;
+}
+
+function Site00ComposerDraftPageRoutes(path: string, Page: React.LazyExoticComponent<() => JSX.Element>, auth = false) {
+  const page = (
+    <Site00Suspense>
+      <Page />
+    </Site00Suspense>
+  );
+  const body = auth ? <Site00AccountRouteGuard>{page}</Site00AccountRouteGuard> : page;
+  const desktopPath = site00PublicDesktopPath(path);
+
+  return (
+    <>
+      <Route
+        path={path}
+        element={
+          <Site00Layout>
+            <Site00ComposerDraftRouteGuard>
+              <Site00PublicRouteShell>{body}</Site00PublicRouteShell>
+            </Site00ComposerDraftRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={desktopPath}
+        element={
+          <Site00Layout>
+            <Site00PublicDesktopLegacyRedirect />
+          </Site00Layout>
+        }
+      />
+    </>
+  );
+}
+
+function Site00ComposerDraftAuthRoutes(path: string, Page: React.LazyExoticComponent<() => JSX.Element>) {
+  return (
+    <Route
+      path={path}
+      element={
+        <Site00Layout>
+          <Site00ComposerDraftRouteGuard>
+            <Site00Suspense>
+              <Page />
+            </Site00Suspense>
+          </Site00ComposerDraftRouteGuard>
+        </Site00Layout>
+      }
+    />
+  );
 }
 
 function Site00PublicPageRoutes(path: string, Page: React.LazyExoticComponent<() => JSX.Element>, auth = false) {
@@ -538,6 +598,15 @@ export function Site00Routes() {
       {Site00PublicPageRoutes(SITE00_ROUTES.about, AboutPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.journal, JournalPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.support, SupportPage)}
+      {Site00ComposerDraftPageRoutes(SITE00_ROUTES.guide, GuidePage)}
+      {Site00ComposerDraftPageRoutes(SITE00_ROUTES.sound, SoundPage)}
+      {Site00ComposerDraftPageRoutes(SITE00_ROUTES.faq, FaqPage)}
+      {Site00ComposerDraftPageRoutes(SITE00_ROUTES.contact, ContactPage)}
+      {Site00ComposerDraftPageRoutes(SITE00_ROUTES.blueprints, BlueprintsPage)}
+      {Site00ComposerDraftPageRoutes(SITE00_ROUTES.accountProfile, AccountPage, true)}
+      {Site00ComposerDraftPageRoutes(SITE00_ROUTES.brand, BrandPage)}
+      {Site00ComposerDraftAuthRoutes(SITE00_ROUTES.forgotPassword, Site00ForgotPasswordPage)}
+      {Site00ComposerDraftAuthRoutes(SITE00_ROUTES.resetPassword, Site00ResetPasswordPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.idntySignInSecurity, IdntySignInSecurityPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.bldrTemplates, BldrTemplatesPage)}
       <Route

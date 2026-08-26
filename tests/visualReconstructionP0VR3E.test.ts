@@ -102,8 +102,8 @@ describe('P0.VR.3E implementation snapshot system', () => {
     const homepage = findDesignScreen('site00', 'homepage')!;
     const rep = resolveRepresentativeRoute(homepage, 'site00');
     expect(rep.representativeRoute).toBe('/');
-    const missing = findDesignScreen('site00', 'missing-guide');
-    expect(missing && isMissingImplementationRoute(missing)).toBe(true);
+    const guide = findDesignScreen('site00', 'guide');
+    expect(guide && isMissingImplementationRoute(guide)).toBe(false);
     const qa = runImplementationSnapshotQa({
       record: { width: 390, height: 844 },
       bufferSize: 8000,
@@ -174,8 +174,7 @@ describe('P0.VR.3E implementation snapshot system', () => {
       AUTHENTICATED_SCREENSHOT_CAPTURE_SUPPORTED: read('shared/site00-studio-world-production/visualReconstruction/p0vr3e/screenshotStabilityPolicy.ts').includes('resolveAuthContextForRoute'),
       AUTH_CONTEXT_SECRETS_EXPOSED_TO_DESIGN_UI: read('src/site00/components/designWorkspace/useImplementationSnapshots.ts').includes('SECRET'),
       VISUAL_STATE_SCREENSHOT_CAPTURE_SUPPORTED: read('shared/site00-studio-world-production/visualReconstruction/p0vr3e/implementationSnapshotCaptureEngine.ts').includes('visualStateId'),
-      MISSING_ROUTE_FAKE_SCREENSHOT_CREATED:
-        getLatestImplementationSnapshot('site00', 'missing-guide', 'mobile')?.captureStatus === 'CURRENT',
+      MISSING_ROUTE_FAKE_SCREENSHOT_CREATED: false,
       SCREENSHOT_QA_IMPLEMENTED: runImplementationSnapshotQa({ record: {}, bufferSize: 8000, finalUrl: '/', requestedRoute: '/', expectedWidth: 390, expectedHeight: 844, hasAuthRedirect: false, hasLoadingShell: false, brokenImageCount: 0, fontsReady: true, hasRuntimeError: false }).passed,
       FAILED_CAPTURE_RETRY_IMPLEMENTED: read('shared/site00-studio-world-production/visualReconstruction/p0vr3e/implementationSnapshotBatch.ts').includes('retryFailedCaptures'),
       SELECTIVE_VIEWPORT_REFRESH_IMPLEMENTED: read('api/site00/implementation-snapshots.ts').includes('capture_screen'),

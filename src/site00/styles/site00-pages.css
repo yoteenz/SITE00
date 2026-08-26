@@ -1257,3 +1257,91 @@
 .site00-evolve-faq dd {
   margin: 4px 0 0;
 }
+
+/* P0.VR.3H — Composer draft pages */
+.site00-composer-draft-banner {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border: 1px solid rgba(200, 40, 40, 0.35);
+  background: rgba(200, 40, 40, 0.08);
+}
+
+.site00-composer-draft-banner__label {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--site-red);
+}
+
+.site00-composer-draft-banner__meta {
+  margin: 4px 0 0;
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+.site00-guide-sections,
+.site00-faq-list,
+.site00-contact-channels {
+  display: grid;
+  gap: 12px;
+}
+
+.site00-guide-section,
+.site00-faq-item,
+.site00-contact-channel {
+  padding: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: var(--site-surface-glass);
+}
+
+.site00-guide-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: inherit;
+}
+
+.site00-complex-shell__regions {
+  display: grid;
+  gap: 20px;
+}
+
+.site00-complex-shell__placeholder-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.site00-hub-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.site00-dw-composer-review__head h2 {
+  margin: 0 0 8px;
+}
+
+.site00-dw-composer-review__label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--site-red);
+}
+
+.site00-dw-composer-review__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.site00-dw-composer-review__item {
+  padding: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.site00-dw-composer-review__route {
+  display: block;
+  font-size: 11px;
+  opacity: 0.7;
+}
