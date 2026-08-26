@@ -1,13 +1,21 @@
 /**
  * P0.PAF.1 — Deterministic Supabase storage paths for Frontal Slayer product assets.
+ * P0.PAF.2 namespace is authoritative — paths delegate to product-assets hierarchy.
  */
 
+import {
+  buildAWigVariantPaths,
+  masterHeroOriginalPath,
+  pdpColorVariantPaths,
+  FS_STORAGE_ROOT,
+} from '../p0paf2/storageNamespace.js';
 import type { BackgroundMode, FactoryMode } from './types.js';
 
-const ROOT = 'frontal-slayer';
+const ROOT = FS_STORAGE_ROOT.split('/')[0] ?? 'frontal-slayer';
 
 export function masterHeroStoragePath(productId: string, masterHeroId: string, ext: 'png' | 'webp' = 'png'): string {
-  return `${ROOT}/products/${sanitize(productId)}/master/${sanitize(masterHeroId)}.${ext}`;
+  const path = masterHeroOriginalPath(productId, masterHeroId);
+  return ext === 'png' ? path : path.replace(/\.png$/, `.${ext}`);
 }
 
 export function variantStoragePath(input: {
@@ -16,14 +24,19 @@ export function variantStoragePath(input: {
   mode: FactoryMode;
   configurationHash: string;
   colorSlug?: string;
+  axes?: Record<string, string>;
   ext?: 'png' | 'webp';
 }): string {
   const ext = input.ext ?? 'webp';
-  if (input.mode === 'BUILD_A_WIG') {
-    return `${ROOT}/build-a-wig/${sanitize(input.masterHeroId)}/${input.configurationHash}/variant.${ext}`;
+  if (input.mode === 'BUILD_A_WIG' && input.axes) {
+    const paths = buildAWigVariantPaths({ masterHeroId: input.masterHeroId, axes: input.axes });
+    return ext === 'png' ? paths.masterPng : paths.deliveryWebp;
   }
-  const colorSegment = input.colorSlug ? `color/${sanitize(input.colorSlug)}` : 'variants';
-  return `${ROOT}/products/${sanitize(input.productId)}/variants/${colorSegment}/${input.configurationHash}.${ext}`;
+  if (input.colorSlug) {
+    const paths = pdpColorVariantPaths({ productId: input.productId, colorSlug: input.colorSlug });
+    return ext === 'png' ? paths.primaryPng : paths.primaryWebp;
+  }
+  return `${FS_STORAGE_ROOT}/products/${sanitize(input.productId)}/variants/${input.configurationHash}.${ext}`;
 }
 
 export function subjectMaskStoragePath(masterHeroId: string, region: 'subject' | 'hair'): string {
@@ -51,7 +64,7 @@ export function colorSlugFromId(colorId: string): string {
 }
 
 export function storagePathUsesStructuredConvention(path: string): boolean {
-  return path.startsWith(`${ROOT}/`) && !path.includes('//');
+  return path.startsWith('frontal-slayer/product-assets/') && !path.includes('//');
 }
 
 export function temporaryFalUrlIsCanonical(url: string | null): boolean {

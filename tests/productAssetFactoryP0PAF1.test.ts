@@ -247,8 +247,9 @@ describe('P0.PAF.1 Product Asset Factory', () => {
       masterHeroId: 'mh-test',
       mode: 'BUILD_A_WIG',
       configurationHash: 'abc123',
+      axes: { COLOR: 'burgundy', STYLE: 'straight' },
     });
-    expect(path).toContain('build-a-wig');
+    expect(path).toContain('product-assets/build-a-wig');
   });
 
   it('16. subject mask reused', () => {

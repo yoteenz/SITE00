@@ -155,3 +155,65 @@
 .p0paf1-factory__footer {
   margin-top: 2rem;
 }
+
+.p0paf2-panel {
+  border: 1px solid rgba(201, 162, 39, 0.25);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.p0paf2-panel h2,
+.p0paf2-panel h3 {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.75rem;
+}
+
+.p0paf2-panel__subtitle {
+  font-size: 0.65rem;
+  opacity: 0.7;
+  margin: 0 0 0.5rem;
+}
+
+.p0paf2-bindings-list {
+  list-style: none;
+  padding: 0;
+  font-size: 0.75rem;
+}
+
+.p0paf2-bindings-list li {
+  margin-bottom: 0.75rem;
+}
+
+.p0paf2-meta {
+  opacity: 0.65;
+  font-size: 0.65rem;
+}
+
+.p0paf2-library-group ul {
+  list-style: none;
+  padding: 0;
+}
+
+.p0paf2-runtime-preview .p0paf2-runtime-canvas {
+  min-height: 160px;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.p0paf2-runtime-preview img {
+  max-height: 200px;
+  object-fit: contain;
+}
+
+.p0paf2-runtime-tabs button.is-active {
+  border-color: #c9a227;
+  color: #c9a227;
+}
+
+.p0paf2-muted {
+  opacity: 0.6;
+  font-size: 0.75rem;
+}

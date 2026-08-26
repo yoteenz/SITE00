@@ -30,6 +30,10 @@ import {
   type VariantSelection,
   type VariationAxis,
 } from '../../../../shared/site00-studio-world-production/productAssetFactory/p0paf1/client';
+import { P0_PAF_2_LINEAGE, onMasterHeroApproved, onVariantApproved } from '../../../../shared/site00-studio-world-production/productAssetFactory/p0paf2/client';
+import { LiveBindingsPanel, BatchBindPanel } from './LiveBindingsPanel';
+import { AssetLibraryPanel } from './AssetLibraryPanel';
+import { RuntimePreviewPanel } from './RuntimePreviewPanel';
 
 type Props = {
   projectSlug: string;
@@ -122,7 +126,10 @@ export function ProductAssetFactoryWorkspace({ projectSlug }: Props) {
   const handleApproveMaster = useCallback(() => {
     if (!masterHero) return;
     const approved = approveMasterHero(masterHero.masterHeroId);
-    if (approved) setMasterHeroId(approved.masterHeroId);
+    if (approved) {
+      onMasterHeroApproved(approved, approved.publicUrl.replace('storage.site00.test', 'storage.supabase.co'));
+      setMasterHeroId(approved.masterHeroId);
+    }
   }, [masterHero]);
 
   const handlePlanAndDispatch = useCallback(
@@ -163,7 +170,7 @@ export function ProductAssetFactoryWorkspace({ projectSlug }: Props) {
   }, [masterHero, productId, pdpColorId, backgroundMode, costConfirmed]);
 
   return (
-    <div className="p0paf1-factory" data-lineage={P0_PAF_1_LINEAGE}>
+    <div className="p0paf1-factory" data-lineage={P0_PAF_1_LINEAGE} data-p0paf2={P0_PAF_2_LINEAGE}>
       <header className="p0paf1-factory__header">
         <p className="p0paf1-factory__eyebrow">STUDIO WORLD · FRONTAL SLAYER</p>
         <h1 className="p0paf1-factory__title">PRODUCT ASSET FACTORY</h1>
@@ -395,9 +402,20 @@ export function ProductAssetFactoryWorkspace({ projectSlug }: Props) {
                 <p>{v.variantKey.key}</p>
                 <p>Status: {v.status}</p>
                 <p>QA: {v.qaStatus}</p>
-                {v.status === 'READY' && (
-                  <button type="button" onClick={() => approveVariant(v.variantId)}>
-                    APPROVE
+                {v.status === 'READY' && v.assetRecordId && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      approveVariant(v.variantId);
+                      if (v.assetRecordId) {
+                        onVariantApproved({
+                          assetId: v.assetRecordId,
+                          supabasePublicUrl: `https://storage.supabase.co/frontal-slayer/product-assets/${productId}/${v.variantKey.configurationHash}.webp`,
+                        });
+                      }
+                    }}
+                  >
+                    APPROVE + INGEST
                   </button>
                 )}
               </article>
@@ -405,6 +423,11 @@ export function ProductAssetFactoryWorkspace({ projectSlug }: Props) {
           </div>
         </section>
       )}
+
+      <LiveBindingsPanel productId={productId} />
+      <BatchBindPanel productId={productId} batchId={activeBatchId ?? undefined} />
+      <AssetLibraryPanel productId={productId} />
+      <RuntimePreviewPanel productId={productId} />
 
       {notifications.length > 0 && (
         <section className="p0paf1-factory__panel">
