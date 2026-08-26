@@ -7,20 +7,28 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import {
   CANONICAL_VIEWPORT_DIMENSIONS,
-  DESIGN_WORKSPACE_PROJECTS,
   buildDesignScreenMatrix,
   createDraftReferenceFromUpload,
   findDesignScreen,
   formatMatrixCell,
   getActiveCanonicalReference,
   listDesignScreensForProject,
+  listDesignWorkspaceProjects,
   promoteReferenceToCanonical,
   proposeReferenceScope,
   resolveDesignScreenRoute,
   startVisualReconstructionRun,
   type DesignViewportClass,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/client.js';
-import { registerNdxbookDesignPilot } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/client.js';
+import { registerNdxbookDesignPilot, registerSite00DesignPilot } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/client.js';
+import {
+  compileSite00DesignRouteManifest,
+  resolveDesignProjectAccent,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3/client.js';
+import {
+  evaluateSite00SelfDesignBoundary,
+  matchReferenceCanPatchHostAccidentally,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3a/client.js';
 import {
   buildReferenceAssetBrief,
   compileReferenceAssetPrompt,
@@ -59,10 +67,13 @@ export type StudioWorldDesignWorkspaceProps = {
 
 const TABS: DesignWorkspaceTab[] = ['REFERENCE', 'IMPLEMENTATION', 'COMPARE', 'HISTORY', 'INSPECT'];
 
+const VIEWPORT_OPTIONS: DesignViewportClass[] = ['mobile', 'tablet', 'desktop'];
+
 function mapStatusLabel(projectId: string, screenId: string, viewport: DesignViewportClass): string {
   const row = buildDesignScreenMatrix(projectId).find((r) => r.screenId === screenId);
   if (!row) return 'NOT STARTED';
-  const cell = viewport === 'mobile' ? row.mobile : row.desktop;
+  const cell =
+    viewport === 'mobile' ? row.mobile : viewport === 'tablet' ? row.tablet : viewport === 'desktop' ? row.desktop : row.desktop;
   if (cell.implementationStatus === 'MATCHED') return 'MATCHED';
   if (cell.referenceStatus === 'MISSING') return 'MISSING REFERENCE';
   if (cell.implementationStatus === 'BLOCKED') return 'BLOCKED';
@@ -75,10 +86,11 @@ export function StudioWorldDesignWorkspace({
   initialViewport = 'mobile',
 }: StudioWorldDesignWorkspaceProps) {
   registerNdxbookDesignPilot();
+  registerSite00DesignPilot();
 
+  const designProjects = useMemo(() => listDesignWorkspaceProjects(), []);
   const [searchParams, setSearchParams] = useSearchParams();
   const urlState = parseDesignWorkspaceUrlState(searchParams.toString());
-
   const [projectId, setProjectId] = useState(urlState.project ?? initialProjectId);
   const [screenId, setScreenId] = useState(urlState.screen ?? initialScreenId);
   const [viewportClass, setViewportClass] = useState<DesignViewportClass>(urlState.viewport ?? initialViewport);
@@ -107,7 +119,12 @@ export function StudioWorldDesignWorkspace({
   const screens = useMemo(() => listDesignScreensForProject(projectId), [projectId]);
   const matrix = useMemo(() => buildDesignScreenMatrix(projectId), [projectId]);
   const screen = findDesignScreen(projectId, screenId);
-  const projectMeta = DESIGN_WORKSPACE_PROJECTS.find((p) => p.slug === projectId);
+  const projectMeta = designProjects.find((p) => p.slug === projectId);
+  const projectAccent = resolveDesignProjectAccent(projectId);
+  const site00Manifest = useMemo(
+    () => (projectId === 'site00' ? compileSite00DesignRouteManifest() : null),
+    [projectId],
+  );
   const route = customRoute || (screen ? resolveDesignScreenRoute(screen, projectId) : `/projects/${projectId}`);
   const reference = getActiveCanonicalReference(projectId, screenId, viewportClass);
   const statusLabel = mapStatusLabel(projectId, screenId, viewportClass);
@@ -189,6 +206,18 @@ export function StudioWorldDesignWorkspace({
   );
 
   const handleMatchReference = () => {
+    const targetPath = screen?.componentName
+      ? `src/site00/pages/${screen.componentName}.tsx`
+      : `src/site00/pages/${screenId}.tsx`;
+    const boundary = evaluateSite00SelfDesignBoundary({
+      projectId,
+      targetComponentPath: targetPath,
+      screenId,
+    });
+    if (!boundary.allowed || matchReferenceCanPatchHostAccidentally({ projectId, targetComponentPath: targetPath })) {
+      setLastRunId('BLOCKED:HOST_BOUNDARY');
+      return;
+    }
     const result = startVisualReconstructionRun({ projectId, screenId, route, viewportClass });
     setLastRunId(result.run.runId);
     if (reference && !shellReconstructionBlockedOnAssetGeneration()) {
@@ -236,7 +265,12 @@ export function StudioWorldDesignWorkspace({
 
   return (
     <Site00DesignWorkspaceShell projectDisplayName={projectMeta?.displayName ?? projectId.toUpperCase()} breadcrumb={breadcrumb}>
-      <div className="site00-dw-workspace" data-visual-reconstruction="p0vr2b-design-workspace">
+      <div
+        className="site00-dw-workspace"
+        data-visual-reconstruction="p0vr2b-design-workspace"
+        data-design-project={projectId}
+        data-design-project-accent={projectAccent}
+      >
         <section className="site00-dw-controls">
           <div className="site00-dw-controls__row site00-dw-controls__row--primary">
             <label className="site00-dw-field">
@@ -248,7 +282,7 @@ export function StudioWorldDesignWorkspace({
                   syncUrl({ project: e.target.value });
                 }}
               >
-                {DESIGN_WORKSPACE_PROJECTS.map((p) => (
+                {designProjects.map((p) => (
                   <option key={p.slug} value={p.slug}>
                     {p.displayName}
                   </option>
@@ -274,7 +308,7 @@ export function StudioWorldDesignWorkspace({
             <div className="site00-dw-field site00-dw-field--viewport">
               <span>VIEWPORT</span>
               <div className="site00-dw-viewport-toggle">
-                {(['mobile', 'desktop'] as const).map((vp) => (
+                {VIEWPORT_OPTIONS.map((vp) => (
                   <button
                     key={vp}
                     type="button"
@@ -401,6 +435,7 @@ export function StudioWorldDesignWorkspace({
                 <tr>
                   <th>SCREEN</th>
                   <th>MOBILE</th>
+                  <th>TABLET</th>
                   <th>DESKTOP</th>
                 </tr>
               </thead>
@@ -410,6 +445,9 @@ export function StudioWorldDesignWorkspace({
                     <td>{row.displayName}</td>
                     <td>
                       {formatMatrixCell(row.mobile.referenceStatus)} · {formatMatrixCell(row.mobile.implementationStatus)}
+                    </td>
+                    <td>
+                      {formatMatrixCell(row.tablet.referenceStatus)} · {formatMatrixCell(row.tablet.implementationStatus)}
                     </td>
                     <td>
                       {formatMatrixCell(row.desktop.referenceStatus)} · {formatMatrixCell(row.desktop.implementationStatus)}
@@ -433,6 +471,20 @@ export function StudioWorldDesignWorkspace({
               <div><dt>Asset slots</dt><dd>{assetSlots.length}</dd></div>
             </dl>
             {selectedPrompt ? <pre className="site00-dw-inspect__prompt">{selectedPrompt.promptText}</pre> : null}
+            {site00Manifest ? (
+              <>
+                <h3>SITE 00 COVERAGE</h3>
+                <p>
+                  Designable pages: {site00Manifest.coverageSummary.totalDesignablePages} · States:{' '}
+                  {site00Manifest.coverageSummary.totalImportantStates} · Missing routes:{' '}
+                  {site00Manifest.missingRoutes.length}
+                </p>
+                <p>
+                  Needs reference: {site00Manifest.needsReference.length} · Needs better reference:{' '}
+                  {site00Manifest.needsBetterReference.length}
+                </p>
+              </>
+            ) : null}
             <p className="site00-dw-inspect__note">Region map · DOM map · patch list · hashes · provider calls · FAL prompt history</p>
           </section>
         ) : null}

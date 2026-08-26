@@ -5327,3 +5327,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** Single shared Supabase project, six signature units, commerce/SKU/pricing unchanged, no service-role in client bundles.
 
 ---
+
+## 2026-08-26 — P0.VR.3A SITE 00 self-audit + design route manifest registration
+
+- **Context:** Founder sprint P0.VR.3A — extend Design Reconstruction so SITE 00 is a first-class designable project (customer-facing website routes, not host shell). Code-driven route forensics, missing dependency discovery, mobile/tablet/desktop independent coverage, self-design safety boundary.
+- **Delivered:** `p0vr3/` manifest pipeline — `DesignableProjectRecord` registry (SITE 00 + existing projects), `StudioWorldDesignRouteManifest` v1 sync, dynamic `listDesignWorkspaceProjects()`. `p0vr3a/` — `site00RouteForensics` (~30 discovered routes from `routes.ts` + nav configs), 5 interaction states (homepage expanded panels, waiting room menu), 9 missing/implied routes (Guide/Sound/FAQ/Contact/Blueprints from design nav + auth/account/brand implied), dependency graph, reference quality audit (browser-safe), coverage matrix + Needs Reference queues, `Site00SelfDesignBoundary` (blocks MATCH REFERENCE on host shell). Extended P0.VR.2: tablet viewport (768×1024), manifest-driven screen registry, matrix tablet column. Design workspace: SITE 00 in project dropdown, tablet toggle, coverage in INSPECT, host boundary on MATCH REFERENCE, SITE00_HOST accent. Tests `visualReconstructionP0VR3A.test.ts` (10 pass) + P0.VR.2 updated. Build green (`StudioWorldDesignPage.D2jDGtcp.js`, `index.BjINv33e.js`).
+- **Core rule:** SITE 00 website ≠ Design workspace host. Audit discovers/classifies/registers only — no FAL spend, no page mutation.
+- **Preserved:** P0.VR.2 reconstruction, P0.VR.2A asset slots, NDXBOOK pilot, design workspace host canon.
+
+---

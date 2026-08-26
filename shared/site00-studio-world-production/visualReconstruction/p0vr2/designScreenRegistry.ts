@@ -1,36 +1,44 @@
-import type { Site00FounderProjectSlug } from '../../../site00-projects/types.js';
 import type { DesignScreenDefinition } from './types.js';
 
 const GENERIC_SCREENS: DesignScreenDefinition[] = [];
 
-const PROJECT_SCREENS: Partial<Record<Site00FounderProjectSlug, DesignScreenDefinition[]>> = {};
+const PROJECT_SCREENS: Record<string, DesignScreenDefinition[]> = {};
 
-export function registerProjectDesignScreens(
-  projectId: Site00FounderProjectSlug,
-  screens: DesignScreenDefinition[],
-): void {
+export function registerProjectDesignScreens(projectId: string, screens: DesignScreenDefinition[]): void {
   PROJECT_SCREENS[projectId] = screens;
 }
 
-export function listDesignScreensForProject(projectId: string): DesignScreenDefinition[] {
-  const projectScreens = PROJECT_SCREENS[projectId as Site00FounderProjectSlug] ?? [];
-  return [...GENERIC_SCREENS, ...projectScreens];
+export function listDesignScreensForProject(projectId: string, includeInspect = false): DesignScreenDefinition[] {
+  const projectScreens = PROJECT_SCREENS[projectId] ?? [];
+  const filtered = includeInspect
+    ? projectScreens
+    : projectScreens.filter((s) => s.showInDefaultSelector !== false);
+  return [...GENERIC_SCREENS, ...filtered];
 }
 
 export function resolveDesignScreenRoute(screen: DesignScreenDefinition, projectSlug: string): string {
+  if (screen.absoluteRoute) return screen.routePattern;
   return screen.routePattern.replace(':projectSlug', projectSlug);
 }
 
 export function findDesignScreen(projectId: string, screenId: string): DesignScreenDefinition | null {
-  return listDesignScreensForProject(projectId).find((s) => s.screenId === screenId) ?? null;
+  return (PROJECT_SCREENS[projectId] ?? []).find((s) => s.screenId === screenId) ?? null;
 }
 
 export function resolveDesignScreenByRoute(projectId: string, route: string): DesignScreenDefinition | null {
-  const screens = listDesignScreensForProject(projectId);
+  const screens = PROJECT_SCREENS[projectId] ?? [];
   return (
     screens.find((s) => {
-      const pattern = s.routePattern.replace(':projectSlug', projectId);
+      const pattern = resolveDesignScreenRoute(s, projectId);
       return route === pattern || route.startsWith(pattern.replace(/\/$/, ''));
     }) ?? null
   );
+}
+
+export function clearDesignScreenRegistryForTest(): void {
+  for (const key of Object.keys(PROJECT_SCREENS)) delete PROJECT_SCREENS[key];
+}
+
+export function listRegisteredDesignProjectIds(): string[] {
+  return Object.keys(PROJECT_SCREENS);
 }

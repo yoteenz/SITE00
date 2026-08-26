@@ -4,12 +4,12 @@ import {
   getLatestReconstructionRun,
 } from './canonicalReferenceRegistry.js';
 import { listDesignScreensForProject, resolveDesignScreenRoute } from './designScreenRegistry.js';
-import type { DesignScreenMatrixRow, ImplementationMatchStatus } from './types.js';
+import type { DesignScreenMatrixRow, DesignViewportClass, DesignViewportMatrixCell, ImplementationMatchStatus } from './types.js';
 
 function mapImplementationStatus(
   projectId: string,
   screenId: string,
-  viewportClass: 'mobile' | 'desktop',
+  viewportClass: DesignViewportClass,
 ): ImplementationMatchStatus {
   const canon = getActiveImplementationCanon(projectId, screenId, viewportClass);
   if (!canon) return 'NOT_STARTED';
@@ -20,40 +20,43 @@ function mapImplementationStatus(
   return 'NEEDS_MATCH';
 }
 
+function buildViewportCell(
+  projectId: string,
+  screenId: string,
+  viewportClass: DesignViewportClass,
+): DesignViewportMatrixCell {
+  const ref = getActiveCanonicalReference(projectId, screenId, viewportClass);
+  return {
+    referenceStatus: ref ? (ref.status === 'DRAFT' ? 'DRAFT' : 'ACTIVE') : 'MISSING',
+    referenceVersion: ref?.version ?? null,
+    implementationStatus: mapImplementationStatus(projectId, screenId, viewportClass),
+    implementationCoverage: ref ? 'PARTIAL' : 'MISSING',
+  };
+}
+
 export function buildDesignScreenMatrix(projectId: string): DesignScreenMatrixRow[] {
-  const screens = listDesignScreensForProject(projectId);
+  const screens = listDesignScreensForProject(projectId, true);
   const uniqueScreens = screens.filter(
     (s, index, arr) => arr.findIndex((x) => x.screenId === s.screenId) === index,
   );
 
   return uniqueScreens.map((screen) => {
     const route = resolveDesignScreenRoute(screen, projectId);
-    const mobileRef = getActiveCanonicalReference(projectId, screen.screenId, 'mobile');
-    const desktopRef = getActiveCanonicalReference(projectId, screen.screenId, 'desktop');
-
-    return {
+    const row: DesignScreenMatrixRow = {
       screenId: screen.screenId,
       displayName: screen.displayName,
       route,
-      mobile: {
-        referenceStatus: mobileRef
-          ? mobileRef.status === 'DRAFT'
-            ? 'DRAFT'
-            : 'ACTIVE'
-          : 'MISSING',
-        referenceVersion: mobileRef?.version ?? null,
-        implementationStatus: mapImplementationStatus(projectId, screen.screenId, 'mobile'),
-      },
-      desktop: {
-        referenceStatus: desktopRef
-          ? desktopRef.status === 'DRAFT'
-            ? 'DRAFT'
-            : 'ACTIVE'
-          : 'MISSING',
-        referenceVersion: desktopRef?.version ?? null,
-        implementationStatus: mapImplementationStatus(projectId, screen.screenId, 'desktop'),
-      },
+      routeFamily: screen.routeFamily,
+      classification: screen.classification,
+      recordKind: screen.recordKind,
+      mobile: buildViewportCell(projectId, screen.screenId, 'mobile'),
+      tablet: buildViewportCell(projectId, screen.screenId, 'tablet'),
+      desktop: buildViewportCell(projectId, screen.screenId, 'desktop'),
     };
+    if (screen.supportsUltrawide) {
+      row.ultrawide = buildViewportCell(projectId, screen.screenId, 'ultrawide');
+    }
+    return row;
   });
 }
 

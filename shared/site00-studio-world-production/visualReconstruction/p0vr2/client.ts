@@ -6,8 +6,10 @@ export {
   P0_VR_2_FAILURE_CODES,
   VISUAL_AUTHORITY_ORDER,
   PARENT_GEOMETRY_FIRST_ORDER,
-  DESIGN_WORKSPACE_PROJECTS,
 } from './constants.js';
+export { listDesignWorkspaceProjects } from '../p0vr3/designProjectRegistry.js';
+/** @deprecated prefer listDesignWorkspaceProjects() */
+export { DESIGN_WORKSPACE_PROJECTS } from './constants.js';
 export type {
   CanonicalVisualReference,
   DesignViewportClass,
@@ -51,3 +53,4 @@ export {
   composerBriefIncludesActualReference,
 } from './visualReconstructionComposerBrief.js';
 export { registerNdxbookDesignPilot } from './ndxPilotRegistration.js';
+export { registerSite00DesignPilot } from '../p0vr3a/site00PilotRegistration.js';

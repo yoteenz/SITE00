@@ -17,7 +17,9 @@ export const DESIGN_WORKSPACE_ROUTES = {
 
 export const CANONICAL_VIEWPORT_DIMENSIONS = {
   mobile: { width: 390, height: 844 },
+  tablet: { width: 768, height: 1024 },
   desktop: { width: 1440, height: 900 },
+  ultrawide: { width: 2560, height: 1080 },
 } as const;
 
 export const P0_VR_2_FAILURE_CODES = [
@@ -70,12 +72,10 @@ export const PARENT_GEOMETRY_FIRST_ORDER = [
   'micro_spacing',
 ] as const;
 
-export const DESIGN_WORKSPACE_PROJECTS = [
-  { slug: 'ndxbook', displayName: 'NDXBOOK' },
-  { slug: 'studio-world', displayName: 'STUDIO WORLD' },
-  { slug: 'frontal-slayer', displayName: 'FRONTAL SLAYER' },
-  { slug: 'all-in-one-enterprises', displayName: 'All In One Enterprises' },
-] as const;
+import { listDesignWorkspaceProjects } from '../p0vr3/designProjectRegistry.js';
+
+/** @deprecated use listDesignWorkspaceProjects() — kept for backwards-compatible imports */
+export const DESIGN_WORKSPACE_PROJECTS = listDesignWorkspaceProjects();
 
 export const DEFAULT_QA_THRESHOLDS = {
   structural: 0.72,

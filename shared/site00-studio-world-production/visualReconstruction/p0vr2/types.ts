@@ -15,8 +15,77 @@ export const CANONICAL_REFERENCE_STATUSES = [
 
 export type CanonicalReferenceStatus = (typeof CANONICAL_REFERENCE_STATUSES)[number];
 
-export const VIEWPORT_CLASSES = ['mobile', 'desktop'] as const;
+export const VIEWPORT_CLASSES = ['mobile', 'tablet', 'desktop', 'ultrawide'] as const;
 export type DesignViewportClass = (typeof VIEWPORT_CLASSES)[number];
+
+export const SITE00_ROUTE_CLASSIFICATIONS = [
+  'CUSTOMER_FACING',
+  'CLIENT_WORKFLOW',
+  'FOUNDER_WORKSPACE',
+  'HOST_INTERNAL',
+  'SYSTEM_INTERNAL',
+  'DEV_ONLY',
+  'DEPRECATED',
+] as const;
+export type Site00RouteClassification = (typeof SITE00_ROUTE_CLASSIFICATIONS)[number];
+
+export const DESIGN_RECORD_KINDS = [
+  'ROUTE',
+  'INTERACTION_STATE',
+  'SITE00_REQUIRED_MISSING_ROUTE',
+  'SITE00_IMPLIED_REQUIRED_ROUTE',
+] as const;
+export type DesignRecordKind = (typeof DESIGN_RECORD_KINDS)[number];
+
+export const ROUTE_FAMILIES = [
+  'ORIGIN',
+  'IDENTITY',
+  'BUILDER',
+  'SYSTEM',
+  'BLUEPRINT',
+  'ASSET_VAULT',
+  'ACCOUNT',
+  'INFORMATION',
+  'WAITING_ROOM',
+  'EVOLVE',
+  'CONTROL',
+  'OTHER',
+] as const;
+export type RouteFamily = (typeof ROUTE_FAMILIES)[number];
+
+export const DESIGN_PAGE_PRIORITIES = ['CRITICAL', 'PRIMARY', 'SECONDARY', 'SUPPORTING'] as const;
+export type DesignPagePriority = (typeof DESIGN_PAGE_PRIORITIES)[number];
+
+export const DEPENDENCY_CLOSURE_STATUSES = [
+  'COMPLETE',
+  'INCOMPLETE',
+  'BROKEN',
+  'MISSING_ROUTE',
+  'ORPHANED',
+] as const;
+export type DependencyClosureStatus = (typeof DEPENDENCY_CLOSURE_STATUSES)[number];
+
+export const REFERENCE_QUALITY_LABELS = [
+  'CANONICAL_GOOD',
+  'USABLE',
+  'PARTIAL',
+  'LOW_RESOLUTION',
+  'OUTDATED',
+  'WRONG_SHELL',
+  'WRONG_VIEWPORT',
+  'SHOULD_REPLACE',
+  'MISSING',
+] as const;
+export type ReferenceQualityLabel = (typeof REFERENCE_QUALITY_LABELS)[number];
+
+export const IMPLEMENTATION_COVERAGE_STATUSES = [
+  'IMPLEMENTED',
+  'PARTIAL',
+  'BROKEN',
+  'MISSING',
+  'UNKNOWN',
+] as const;
+export type ImplementationCoverageStatus = (typeof IMPLEMENTATION_COVERAGE_STATUSES)[number];
 
 export const RECONSTRUCTION_PASS_STATES = [
   'NOT_STARTED',
@@ -160,22 +229,41 @@ export type DesignScreenDefinition = {
   scopeTargetId: string;
   supportsIconMode?: boolean;
   sharedComponentPaths?: string[];
+  /** P0.VR.3 — absolute host route (no :projectSlug substitution) */
+  absoluteRoute?: boolean;
+  routeFamily?: RouteFamily;
+  classification?: Site00RouteClassification;
+  recordKind?: DesignRecordKind;
+  priority?: DesignPagePriority;
+  parentScreenId?: string;
+  componentName?: string;
+  sourceEvidence?: string[];
+  dependencyClosure?: DependencyClosureStatus;
+  backgroundAssetId?: string | null;
+  backgroundStatus?: 'LOCKED' | 'MISSING' | 'DRAFT' | null;
+  showInDefaultSelector?: boolean;
+  supportsUltrawide?: boolean;
+};
+
+export type DesignViewportMatrixCell = {
+  referenceStatus: 'ACTIVE' | 'MISSING' | 'DRAFT';
+  referenceVersion: number | null;
+  referenceQuality?: ReferenceQualityLabel;
+  implementationStatus: ImplementationMatchStatus;
+  implementationCoverage?: ImplementationCoverageStatus;
 };
 
 export type DesignScreenMatrixRow = {
   screenId: string;
   displayName: string;
   route: string;
-  mobile: {
-    referenceStatus: 'ACTIVE' | 'MISSING' | 'DRAFT';
-    referenceVersion: number | null;
-    implementationStatus: ImplementationMatchStatus;
-  };
-  desktop: {
-    referenceStatus: 'ACTIVE' | 'MISSING' | 'DRAFT';
-    referenceVersion: number | null;
-    implementationStatus: ImplementationMatchStatus;
-  };
+  routeFamily?: RouteFamily;
+  classification?: Site00RouteClassification;
+  recordKind?: DesignRecordKind;
+  mobile: DesignViewportMatrixCell;
+  tablet: DesignViewportMatrixCell;
+  desktop: DesignViewportMatrixCell;
+  ultrawide?: DesignViewportMatrixCell;
 };
 
 export type VisualReferenceAssetResolution = {
