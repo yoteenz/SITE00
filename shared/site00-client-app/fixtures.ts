@@ -9,6 +9,7 @@ export const CLIENT_APP_FIXTURE_SLUGS = {
   B_IDENTITY_WEBSITE: 'fixture-app-identity-website',
   C_NDXBOOK: 'fixture-app-ndxbook',
   D_POST_LAUNCH: 'fixture-app-post-launch',
+  D_POST_LAUNCH_OPPORTUNITY: 'fixture-app-post-launch-opportunity',
   E_UNESTABLISHED_COLOR: 'fixture-app-unestablished-color',
   F_ESTABLISHED_COLOR: 'fixture-app-established-color',
   G_MULTI_PROJECT: 'fixture-app-multi-b',
@@ -50,6 +51,17 @@ export const CLIENT_APP_FIXTURES: Record<string, ClientAppManifest> = {
     });
     m.status = 'LIVE';
     m.statusLabel = 'LIVE';
+    m.appExperience = buildClientAppExperience({ manifest: m });
+    return m;
+  })(),
+  [CLIENT_APP_FIXTURE_SLUGS.D_POST_LAUNCH_OPPORTUNITY]: (() => {
+    const m = baseFixture(CLIENT_APP_FIXTURE_SLUGS.D_POST_LAUNCH_OPPORTUNITY, 'IDENTITY_PLUS_WEBSITE', {
+      displayName: 'NDXBOOK',
+      attentionState: 'LOCKED',
+    });
+    m.status = 'LIVE';
+    m.statusLabel = 'LIVE';
+    m.services = ['WEBSITE', 'IDENTITY'];
     m.appExperience = buildClientAppExperience({ manifest: m });
     return m;
   })(),

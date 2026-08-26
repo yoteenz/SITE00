@@ -512,3 +512,605 @@
   letter-spacing: 0.08em;
   color: var(--site00-app-muted);
 }
+
+/* P0.APP.2 — reference-locked visual convergence */
+
+.site00-app-main--no-nav {
+  padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+}
+
+.site00-app-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.site00-app-badge--orange { background: rgba(249, 115, 22, 0.15); color: #c2410c; }
+.site00-app-badge--blue { background: rgba(14, 165, 233, 0.15); color: #0369a1; }
+.site00-app-badge--green { background: rgba(34, 197, 94, 0.15); color: #15803d; }
+.site00-app-badge--grey { background: rgba(156, 163, 175, 0.2); color: #6b7280; }
+
+.site00-app-opportunity-card .site00-app-btn--secondary {
+  margin-top: 8px;
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.45);
+  color: #fff;
+}
+
+.site00-app-project-map {
+  position: relative;
+  padding-left: 8px;
+}
+
+.site00-app-project-map__line {
+  position: absolute;
+  left: 18px;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  background: var(--site00-app-border);
+}
+
+.site00-app-phase-row {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 10px 0 10px 4px;
+  border-bottom: none;
+}
+
+.site00-app-phase-row__node {
+  width: 12px;
+  height: 12px;
+  margin-top: 4px;
+  border-radius: 50%;
+  border: 2px solid var(--site00-app-border);
+  background: #fff;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.site00-app-phase-row--in_progress .site00-app-phase-row__node,
+.site00-app-phase-row--ready_for_review .site00-app-phase-row__node {
+  border-color: var(--site00-app-accent);
+  background: var(--site00-app-accent);
+}
+
+.site00-app-phase-row--complete .site00-app-phase-row__node {
+  border-color: #22c55e;
+  background: #22c55e;
+}
+
+.site00-app-phase-row__content {
+  flex: 1;
+  display: grid;
+  gap: 2px;
+}
+
+.site00-app-phase-row__index {
+  font-size: 9px;
+  color: var(--site00-app-muted);
+  letter-spacing: 0.1em;
+}
+
+.site00-app-milestones__item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--site00-app-border);
+  font-size: 12px;
+}
+
+.site00-app-milestones__date {
+  flex-shrink: 0;
+  width: 52px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--site00-app-muted);
+}
+
+.site00-app-milestones__status {
+  font-size: 10px;
+  color: var(--site00-app-muted);
+  letter-spacing: 0.06em;
+}
+
+.site00-app-tasks__title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.site00-app-tasks__meta {
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--site00-app-muted);
+  letter-spacing: 0.06em;
+}
+
+.site00-app-tasks__item--done {
+  opacity: 0.55;
+}
+
+.site00-app-decisions__item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--site00-app-border);
+}
+
+.site00-app-decisions__title {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.site00-app-decisions__meta {
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--site00-app-muted);
+}
+
+.site00-app-bts__title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+
+.site00-app-bts__item p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.site00-app-inbox-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.site00-app-inbox-item__icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--site00-app-border);
+  background: var(--site00-app-off-white);
+  flex-shrink: 0;
+}
+
+.site00-app-inbox-item__icon--site00 {
+  border-color: var(--site00-app-accent);
+}
+
+.site00-app-inbox-item__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.site00-app-inbox-item__time {
+  font-size: 10px;
+  color: var(--site00-app-muted);
+  margin-top: 4px;
+}
+
+.site00-app-inbox-item__unread {
+  color: var(--site00-app-accent);
+}
+
+.site00-app-library-cat,
+.site00-app-library-file {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.site00-app-library-cat__icon,
+.site00-app-library-file__thumb {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(232, 25, 44, 0.08);
+  border: 1px solid rgba(232, 25, 44, 0.2);
+  flex-shrink: 0;
+}
+
+.site00-app-library-file__thumb {
+  background: var(--site00-app-off-white);
+  border-color: var(--site00-app-border);
+}
+
+/* Review queue + detail (app-scoped) */
+
+.site00-app-review-queue {
+  display: grid;
+  gap: 10px;
+}
+
+.site00-app-review-card {
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid var(--site00-app-border);
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+  background: #fff;
+}
+
+.site00-app-review-card__thumb {
+  width: 72px;
+  height: 56px;
+  border-radius: 6px;
+  background: var(--site00-app-off-white);
+  border: 1px solid var(--site00-app-border);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.site00-app-review-card__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.site00-app-review-card__placeholder {
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  color: var(--site00-app-muted);
+}
+
+.site00-app-review-card__title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.site00-app-review-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--site00-app-muted);
+}
+
+.site00-app-review-card__subtitle,
+.site00-app-review-card__viewports {
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--site00-app-muted);
+  line-height: 1.35;
+}
+
+.site00-app-review-card__cta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--site00-app-accent);
+}
+
+.site00-app-review-detail__back a {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--site00-app-muted);
+  text-decoration: none;
+}
+
+.site00-app-review-detail__header {
+  margin: 12px 0;
+}
+
+.site00-app-review-detail__eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--site00-app-muted);
+}
+
+.site00-app-review-detail__title {
+  margin: 6px 0;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.site00-app-review-detail__meta {
+  font-size: 10px;
+  color: var(--site00-app-muted);
+  letter-spacing: 0.06em;
+}
+
+.site00-app-review-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.site00-app-review-viewports {
+  display: flex;
+  gap: 4px;
+}
+
+.site00-app-review-viewport-btn,
+.site00-app-review-mode-link {
+  padding: 6px 8px;
+  border: 1px solid var(--site00-app-border);
+  border-radius: 6px;
+  background: #fff;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--site00-app-muted);
+  text-decoration: none;
+}
+
+.site00-app-review-viewport-btn.is-active,
+.site00-app-review-mode-link.is-active {
+  color: var(--site00-app-accent);
+  border-color: var(--site00-app-accent);
+}
+
+.site00-app-review-compare {
+  display: grid;
+  gap: 10px;
+}
+
+.site00-app-review-compare.is-compare-on {
+  grid-template-columns: 1fr 1fr;
+}
+
+.site00-app-review-preview__label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--site00-app-muted);
+  margin-bottom: 6px;
+}
+
+.site00-app-review-preview__canvas {
+  position: relative;
+  min-height: 180px;
+  border: 1px solid var(--site00-app-border);
+  border-radius: 8px;
+  background: var(--site00-app-off-white);
+  overflow: hidden;
+}
+
+.site00-app-review-preview__canvas.is-interactive {
+  cursor: crosshair;
+}
+
+.site00-app-review-preview__canvas img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.site00-app-review-preview__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--site00-app-muted);
+}
+
+.site00-app-annotation-marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: var(--site00-app-accent);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.site00-app-annotation-marker.is-selected {
+  box-shadow: 0 0 0 3px rgba(232, 25, 44, 0.25);
+}
+
+.site00-app-review-subnav {
+  display: flex;
+  gap: 6px;
+  margin: 14px 0;
+  overflow-x: auto;
+}
+
+.site00-app-review-actions {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  width: min(398px, calc(100% - 32px));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  z-index: 2;
+}
+
+.site00-app-review-actions .site00-app-btn {
+  text-decoration: none;
+  display: inline-flex;
+  gap: 6px;
+}
+
+.site00-app-review-comment {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--site00-app-border);
+  font-size: 12px;
+}
+
+.site00-app-review-comment__meta {
+  font-size: 9px;
+  color: var(--site00-app-muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+
+.site00-app-review-composer textarea,
+.site00-app-revision-field {
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  border: 1px solid var(--site00-app-border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 12px;
+  resize: vertical;
+}
+
+.site00-app-review-composer--sticky,
+.site00-app-review-decision--sticky {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  width: min(398px, calc(100% - 32px));
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--site00-app-border);
+  border-radius: 10px;
+  z-index: 2;
+}
+
+.site00-app-review-composer__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.site00-app-annotation-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site00-app-annotation-list__item button {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid var(--site00-app-border);
+  background: transparent;
+  text-align: left;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.site00-app-annotation-list__item.is-selected button {
+  color: var(--site00-app-accent);
+}
+
+.site00-app-annotation-list__index {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--site00-app-accent);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.site00-app-version-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site00-app-version-list__item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--site00-app-border);
+  font-size: 12px;
+}
+
+.site00-app-version-list__head {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.site00-app-approval-card ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  font-size: 12px;
+}
+
+.site00-app-approval-card p {
+  margin: 8px 0;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.site00-app-review-message {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--site00-app-off-white);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.site00-app-review-detail--approve .site00-app-main,
+.site00-app-review-detail--revision .site00-app-main {
+  padding-bottom: calc(140px + env(safe-area-inset-bottom, 0px));
+}
+
+.site00-app-home__action-card h3 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.site00-app-home__action-card p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--site00-app-muted);
+}
+
+.site00-app-milestone-row {
+  display: flex;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.site00-app-milestone-row__date {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--site00-app-muted);
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 360px) {
+  .site00-app-review-compare.is-compare-on {
+    grid-template-columns: 1fr;
+  }
+
+  .site00-app-header__name {
+    font-size: 11px;
+  }
+}

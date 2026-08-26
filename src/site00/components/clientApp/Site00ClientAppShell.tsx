@@ -1,7 +1,8 @@
 import { NavLink, Outlet, useParams } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import type { ClientAppManifest } from '../../../../shared/site00-client-app/types.js';
-import { CLIENT_APP_NAV, clientAppPath } from '../../../../shared/site00-client-app/client.js';
+import { CLIENT_APP_NAV } from '../../../../shared/site00-client-app/client.js';
+import { useAppPaths } from '../../hooks/useAppBasePath';
 import { Site00BellIcon, Site00MoreIcon } from '../../icons/Site00HubIcons';
 import {
   ClientAppDiamondIcon,
@@ -28,6 +29,7 @@ type Site00ClientAppShellProps = {
 
 export function Site00ClientAppShell({ manifest, activeSection, children }: Site00ClientAppShellProps) {
   const { projectSlug = manifest.projectSlug } = useParams();
+  const paths = useAppPaths(projectSlug);
   const accentStyle = { ['--site00-app-accent' as string]: manifest.accentColor };
   const badges = manifest.appExperience.badges;
 
@@ -55,7 +57,12 @@ export function Site00ClientAppShell({ manifest, activeSection, children }: Site
         <nav className="site00-app-bottom-nav" aria-label="App navigation">
           {CLIENT_APP_NAV.map((item) => {
             const Icon = NAV_ICONS[item.id];
-            const to = clientAppPath(projectSlug, item.id);
+            const to =
+              item.id === 'home'
+                ? paths.home
+                : item.id === 'project'
+                  ? paths.project('map')
+                  : `${paths.base}/${item.id}`;
             let badge = 0;
             if (item.id === 'inbox') badge = badges.inbox;
             if (item.id === 'reviews') badge = badges.reviews;

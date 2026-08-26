@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, useOutletContext, useParams } from 'react-router-dom';
-import { clientAppLibraryPath } from '../../../../shared/site00-client-app/client.js';
+import {
+  getClientAppLibraryCategories,
+  getClientAppLibraryFiles,
+} from '../../../../shared/site00-client-app/appContent.js';
 import type { ClientLibraryCategory, ClientLibraryFile } from '../../../../shared/site00-client-app/types.js';
 import { site00ClientAppApi } from '../../services/clientAppApi';
 import {
@@ -9,13 +12,21 @@ import {
   AppSectionLabel,
 } from '../../components/clientApp/Site00ClientAppShell';
 import type { AppOutletContext } from './AppProjectLayout';
+import { useAppPaths, useIsAppPreview } from '../../hooks/useAppBasePath';
 
 export default function AppLibraryPage() {
   const { manifest } = useOutletContext<AppOutletContext>();
+  const isPreview = useIsAppPreview();
+  const paths = useAppPaths(manifest.projectSlug);
   const [categories, setCategories] = useState<ClientLibraryCategory[]>([]);
   const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading');
 
   useEffect(() => {
+    if (isPreview) {
+      setCategories(getClientAppLibraryCategories(manifest));
+      setState('ready');
+      return;
+    }
     void site00ClientAppApi
       .library(manifest.projectSlug)
       .then((r) => {
@@ -23,7 +34,7 @@ export default function AppLibraryPage() {
         setState('ready');
       })
       .catch(() => setState('error'));
-  }, [manifest.projectSlug]);
+  }, [manifest, isPreview]);
 
   if (state === 'loading') return <AppLoadingState />;
   if (state === 'error') return <AppEmptyState title="LIBRARY UNAVAILABLE" />;
@@ -32,13 +43,12 @@ export default function AppLibraryPage() {
     <div>
       <AppSectionLabel>YOUR APPROVED ASSETS</AppSectionLabel>
       {categories.map((c) => (
-        <Link
-          key={c.id}
-          to={clientAppLibraryPath(manifest.projectSlug, c.id)}
-          className="site00-app-library-cat"
-        >
-          <div className="site00-app-inbox-item__title">{c.label}</div>
-          <div className="site00-app-inbox-item__preview">{c.itemCount} items</div>
+        <Link key={c.id} to={paths.library(c.id)} className="site00-app-library-cat">
+          <div className="site00-app-library-cat__icon" aria-hidden="true" />
+          <div>
+            <div className="site00-app-inbox-item__title">{c.label}</div>
+            <div className="site00-app-inbox-item__preview">{c.itemCount} items</div>
+          </div>
         </Link>
       ))}
     </div>
@@ -48,10 +58,17 @@ export default function AppLibraryPage() {
 export function AppLibraryCategoryPage() {
   const { categoryId = '' } = useParams();
   const { manifest } = useOutletContext<AppOutletContext>();
+  const isPreview = useIsAppPreview();
+  const paths = useAppPaths(manifest.projectSlug);
   const [files, setFiles] = useState<ClientLibraryFile[]>([]);
   const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading');
 
   useEffect(() => {
+    if (isPreview) {
+      setFiles(getClientAppLibraryFiles(categoryId));
+      setState('ready');
+      return;
+    }
     void site00ClientAppApi
       .library(manifest.projectSlug, categoryId)
       .then((r) => {
@@ -59,7 +76,7 @@ export function AppLibraryCategoryPage() {
         setState('ready');
       })
       .catch(() => setState('error'));
-  }, [manifest.projectSlug, categoryId]);
+  }, [manifest.projectSlug, categoryId, isPreview]);
 
   if (state === 'loading') return <AppLoadingState />;
   if (state === 'error') return <AppEmptyState title="CATEGORY UNAVAILABLE" />;
@@ -68,18 +85,17 @@ export function AppLibraryCategoryPage() {
     <div>
       <AppSectionLabel>{categoryId.replace(/-/g, ' ').toUpperCase()}</AppSectionLabel>
       {files.map((f) => (
-        <Link
-          key={f.id}
-          to={clientAppLibraryPath(manifest.projectSlug, categoryId, f.id)}
-          className="site00-app-inbox-item"
-        >
-          <div className="site00-app-inbox-item__title">{f.title}</div>
-          <div className="site00-app-inbox-item__preview">
-            {f.versionLabel} · {f.statusLabel}
+        <Link key={f.id} to={paths.library(categoryId, f.id)} className="site00-app-library-file">
+          <div className="site00-app-library-file__thumb" />
+          <div>
+            <div className="site00-app-inbox-item__title">{f.title}</div>
+            <div className="site00-app-inbox-item__preview">
+              {f.versionLabel} · {f.statusLabel}
+            </div>
           </div>
         </Link>
       ))}
-      <Link to={clientAppLibraryPath(manifest.projectSlug)} className="site00-app-link-cta">
+      <Link to={paths.library()} className="site00-app-link-cta">
         ← BACK TO LIBRARY
       </Link>
     </div>
@@ -88,10 +104,14 @@ export function AppLibraryCategoryPage() {
 
 export function AppFileViewerPage() {
   const { fileId = '' } = useParams();
+  const paths = useAppPaths();
   return (
     <div>
       <AppSectionLabel>FILE VIEWER</AppSectionLabel>
       <div className="site00-app-file-viewer">PREVIEW · {fileId.toUpperCase()}</div>
+      <Link to={paths.library()} className="site00-app-link-cta">
+        ← CLOSE
+      </Link>
     </div>
   );
 }
