@@ -117,3 +117,15 @@ export {
   runSite00RouteForensicAudit,
   evaluateSite00SelfDesignBoundary,
 } from './p0vr3a/client.js';
+export {
+  ACTIVE_ROUTE_MANIFEST_SCHEMA,
+  ACTIVE_ROUTE_MANIFEST_VERSION,
+  compileStudioWorldDesignRouteManifestV2,
+  getActiveRouteManifestV2,
+} from './p0vr3b/client.js';
+export {
+  reconcileSite00ManifestV2WithSelfAudit,
+  getActiveDesignRouteSyncContract,
+  buildSite00FounderDesignScreenSet,
+  P0_VR_3A_V1_ACTIVE_AUTHORITY,
+} from './p0vr3d/client.js';

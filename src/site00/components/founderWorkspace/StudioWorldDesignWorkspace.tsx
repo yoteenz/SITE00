@@ -24,6 +24,9 @@ import { registerNdxbookDesignPilot, registerSite00DesignPilot } from '../../../
 import {
   compileSite00DesignRouteManifest,
   resolveDesignProjectAccent,
+  getActiveDesignRouteSyncContract,
+  buildSite00FounderDesignScreenSet,
+  listManifestScreensForProject,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3/client.js';
 import {
   evaluateSite00SelfDesignBoundary,
@@ -69,6 +72,8 @@ const TABS: DesignWorkspaceTab[] = ['REFERENCE', 'IMPLEMENTATION', 'COMPARE', 'H
 
 const VIEWPORT_OPTIONS: DesignViewportClass[] = ['mobile', 'tablet', 'desktop'];
 
+type Site00ScreenSetMode = 'PRIMARY' | 'ALL_DESIGNABLE';
+
 function mapStatusLabel(projectId: string, screenId: string, viewport: DesignViewportClass): string {
   const row = buildDesignScreenMatrix(projectId).find((r) => r.screenId === screenId);
   if (!row) return 'NOT STARTED';
@@ -101,6 +106,7 @@ export function StudioWorldDesignWorkspace({
   const [lastRunId, setLastRunId] = useState<string | null>(null);
   const [assetSlots, setAssetSlots] = useState<ReferenceVisualAssetSlot[]>([]);
   const [selectedPromptSlotId, setSelectedPromptSlotId] = useState<string | null>(null);
+  const [site00ScreenSetMode, setSite00ScreenSetMode] = useState<Site00ScreenSetMode>('PRIMARY');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const syncUrl = useCallback(
@@ -116,7 +122,23 @@ export function StudioWorldDesignWorkspace({
     [projectId, screenId, tab, viewportClass, setSearchParams],
   );
 
-  const screens = useMemo(() => listDesignScreensForProject(projectId), [projectId]);
+  const site00SyncContract = useMemo(
+    () => (projectId === 'site00' ? getActiveDesignRouteSyncContract() : null),
+    [projectId],
+  );
+  const site00ScreenSet = useMemo(
+    () =>
+      site00SyncContract
+        ? buildSite00FounderDesignScreenSet(site00ScreenSetMode, site00SyncContract)
+        : null,
+    [site00SyncContract, site00ScreenSetMode],
+  );
+  const screens = useMemo(() => {
+    if (projectId === 'site00' && site00ScreenSet) {
+      return listManifestScreensForProject('site00', false, site00ScreenSetMode);
+    }
+    return listDesignScreensForProject(projectId);
+  }, [projectId, site00ScreenSet, site00ScreenSetMode]);
   const matrix = useMemo(() => buildDesignScreenMatrix(projectId), [projectId]);
   const screen = findDesignScreen(projectId, screenId);
   const projectMeta = designProjects.find((p) => p.slug === projectId);
@@ -305,6 +327,18 @@ export function StudioWorldDesignWorkspace({
                 ))}
               </select>
             </label>
+            {projectId === 'site00' ? (
+              <label className="site00-dw-field">
+                <span>SCREEN SET</span>
+                <select
+                  value={site00ScreenSetMode}
+                  onChange={(e) => setSite00ScreenSetMode(e.target.value as Site00ScreenSetMode)}
+                >
+                  <option value="PRIMARY">PRIMARY (WEBSITE / CLIENT)</option>
+                  <option value="ALL_DESIGNABLE">ALL DESIGNABLE</option>
+                </select>
+              </label>
+            ) : null}
             <div className="site00-dw-field site00-dw-field--viewport">
               <span>VIEWPORT</span>
               <div className="site00-dw-viewport-toggle">
@@ -471,9 +505,34 @@ export function StudioWorldDesignWorkspace({
               <div><dt>Asset slots</dt><dd>{assetSlots.length}</dd></div>
             </dl>
             {selectedPrompt ? <pre className="site00-dw-inspect__prompt">{selectedPrompt.promptText}</pre> : null}
+            {site00SyncContract ? (
+              <>
+                <h3>SITE 00 WEBSITE / CLIENT DESIGN COVERAGE</h3>
+                <p>
+                  Primary screens: {site00SyncContract.routeCounts.primaryFounderDesignableCount} · Self-audit routes:{' '}
+                  {site00SyncContract.routeCounts.websiteExperienceRouteCount} · Visual states:{' '}
+                  {site00SyncContract.routeCounts.visualStateCount} · Missing dependencies:{' '}
+                  {site00SyncContract.routeCounts.missingDependencyCount}
+                </p>
+                <h3>ROUTE FORENSICS (Inspect)</h3>
+                <dl className="site00-dw-inspect">
+                  <div><dt>Raw implementation routes</dt><dd>{site00SyncContract.routeCounts.rawImplementationRouteCount}</dd></div>
+                  <div><dt>Normalized design screens</dt><dd>{site00SyncContract.routeCounts.normalizedDesignScreenCount}</dd></div>
+                  <div><dt>Primary SITE 00 experience</dt><dd>{site00SyncContract.routeCounts.primaryFounderDesignableCount}</dd></div>
+                  <div><dt>Self-audit experience routes</dt><dd>{site00SyncContract.reconciliationReport.selfAuditRecords}</dd></div>
+                  <div><dt>Mapped to v2</dt><dd>{site00SyncContract.reconciliationReport.mappedToV2}</dd></div>
+                  <div><dt>Host internal</dt><dd>{site00SyncContract.routeCounts.hostInternalCount}</dd></div>
+                  <div><dt>Active manifest</dt><dd>{site00SyncContract.schema} @ {site00SyncContract.version}</dd></div>
+                  <div><dt>P0.VR.3A v1 status</dt><dd>{site00SyncContract.historicalAuditArtifact.status}</dd></div>
+                </dl>
+                {site00ScreenSet ? (
+                  <p>Current screen set ({site00ScreenSetMode}): {site00ScreenSet.screenIds.length} screens</p>
+                ) : null}
+              </>
+            ) : null}
             {site00Manifest ? (
               <>
-                <h3>SITE 00 COVERAGE</h3>
+                <h3>SITE 00 V1 HISTORICAL AUDIT</h3>
                 <p>
                   Designable pages: {site00Manifest.coverageSummary.totalDesignablePages} · States:{' '}
                   {site00Manifest.coverageSummary.totalImportantStates} · Missing routes:{' '}
