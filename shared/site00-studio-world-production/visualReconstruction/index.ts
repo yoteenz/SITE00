@@ -129,3 +129,9 @@ export {
   buildSite00FounderDesignScreenSet,
   P0_VR_3A_V1_ACTIVE_AUTHORITY,
 } from './p0vr3d/client.js';
+export {
+  P0_VR_3E_LINEAGE,
+  getLatestImplementationSnapshot,
+  buildImplementationSnapshotCoverage,
+  listScreensWithSnapshots,
+} from './p0vr3e/client.js';

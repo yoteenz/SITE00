@@ -57,6 +57,10 @@ import {
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2b/client.js';
 import { Site00DesignWorkspaceShell } from '../designWorkspace/Site00DesignWorkspaceShell';
 import { DesignCompareSection } from '../designWorkspace/DesignCompareSection';
+import { DesignImplementationPreview } from '../designWorkspace/DesignImplementationPreview';
+import { DesignPagesVisualIndex } from '../designWorkspace/DesignPagesVisualIndex';
+import { useImplementationSnapshots } from '../designWorkspace/useImplementationSnapshots';
+import { listScreensWithSnapshots } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3e/client.js';
 import { DesignMissingAssetsSection } from '../designWorkspace/DesignMissingAssetsSection';
 import { DesignVisualMatchPanel } from '../designWorkspace/DesignVisualMatchPanel';
 import { DesignWorkspaceFooter } from '../designWorkspace/DesignWorkspaceFooter';
@@ -68,7 +72,7 @@ export type StudioWorldDesignWorkspaceProps = {
   initialViewport?: DesignViewportClass;
 };
 
-const TABS: DesignWorkspaceTab[] = ['REFERENCE', 'IMPLEMENTATION', 'COMPARE', 'HISTORY', 'INSPECT'];
+const TABS: DesignWorkspaceTab[] = ['REFERENCE', 'IMPLEMENTATION', 'COMPARE', 'PAGES', 'HISTORY', 'INSPECT'];
 
 const VIEWPORT_OPTIONS: DesignViewportClass[] = ['mobile', 'tablet', 'desktop'];
 
@@ -107,7 +111,16 @@ export function StudioWorldDesignWorkspace({
   const [assetSlots, setAssetSlots] = useState<ReferenceVisualAssetSlot[]>([]);
   const [selectedPromptSlotId, setSelectedPromptSlotId] = useState<string | null>(null);
   const [site00ScreenSetMode, setSite00ScreenSetMode] = useState<Site00ScreenSetMode>('PRIMARY');
+  const [pagesFilter, setPagesFilter] = useState('ALL');
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const {
+    getSnapshot,
+    coverage: snapshotCoverage,
+    capturing: snapshotCapturing,
+    batchProgress,
+    captureScreen,
+    captureProject,
+  } = useImplementationSnapshots(projectId);
 
   const syncUrl = useCallback(
     (patch: Partial<{ project: string; screen: string; viewport: DesignViewportClass; tab: DesignWorkspaceTab }>) => {
@@ -149,8 +162,33 @@ export function StudioWorldDesignWorkspace({
   );
   const route = customRoute || (screen ? resolveDesignScreenRoute(screen, projectId) : `/projects/${projectId}`);
   const reference = getActiveCanonicalReference(projectId, screenId, viewportClass);
+  const implementationSnapshot = getSnapshot(screenId, viewportClass);
   const statusLabel = mapStatusLabel(projectId, screenId, viewportClass);
   const viewport = CANONICAL_VIEWPORT_DIMENSIONS[viewportClass];
+  const pageIndexRows = useMemo(() => {
+    const rows = listScreensWithSnapshots(projectId);
+    return rows.map((row) => ({
+      screenId: row.screenId,
+      displayName: row.displayName,
+      routeFamily: row.routeFamily,
+      missingImplementation: row.missingImplementation,
+      mobile: row.mobile
+        ? { publicUrl: getSnapshot(row.screenId, 'mobile')?.publicUrl ?? row.mobile.publicUrl, status: getSnapshot(row.screenId, 'mobile')?.captureStatus ?? row.mobile.captureStatus }
+        : getSnapshot(row.screenId, 'mobile')
+          ? { publicUrl: getSnapshot(row.screenId, 'mobile')!.publicUrl, status: getSnapshot(row.screenId, 'mobile')!.captureStatus }
+          : null,
+      tablet: row.tablet
+        ? { publicUrl: getSnapshot(row.screenId, 'tablet')?.publicUrl ?? row.tablet.publicUrl, status: getSnapshot(row.screenId, 'tablet')?.captureStatus ?? row.tablet.captureStatus }
+        : getSnapshot(row.screenId, 'tablet')
+          ? { publicUrl: getSnapshot(row.screenId, 'tablet')!.publicUrl, status: getSnapshot(row.screenId, 'tablet')!.captureStatus }
+          : null,
+      desktop: row.desktop
+        ? { publicUrl: getSnapshot(row.screenId, 'desktop')?.publicUrl ?? row.desktop.publicUrl, status: getSnapshot(row.screenId, 'desktop')?.captureStatus ?? row.desktop.captureStatus }
+        : getSnapshot(row.screenId, 'desktop')
+          ? { publicUrl: getSnapshot(row.screenId, 'desktop')!.publicUrl, status: getSnapshot(row.screenId, 'desktop')!.captureStatus }
+          : null,
+    }));
+  }, [getSnapshot, projectId]);
   const breadcrumb = `PROJECTS > ${projectMeta?.displayName ?? projectId.toUpperCase()} > DESIGN`;
 
   const refreshAssetSlots = useCallback(() => {
@@ -388,6 +426,25 @@ export function StudioWorldDesignWorkspace({
             <button type="button" className="site00-dw-btn site00-dw-btn--primary" onClick={handleMatchReference}>
               MATCH REFERENCE
             </button>
+            <button
+              type="button"
+              className="site00-dw-btn"
+              disabled={snapshotCapturing}
+              onClick={() => void captureScreen(screenId, viewportClass)}
+            >
+              {snapshotCapturing ? 'CAPTURING…' : 'CAPTURE IMPLEMENTATION'}
+            </button>
+            <button
+              type="button"
+              className="site00-dw-btn"
+              disabled={snapshotCapturing}
+              onClick={() =>
+                void captureProject(projectId === 'site00' ? site00ScreenSetMode : 'ALL_DESIGNABLE')
+              }
+            >
+              CAPTURE ALL EXISTING PAGES
+            </button>
+            {batchProgress ? <span className="site00-dw-batch-progress">{batchProgress}</span> : null}
             <Link to={livePreviewUrl} className="site00-dw-btn site00-dw-btn--link" target="_blank" rel="noreferrer">
               OPEN LIVE ROUTE ↗
             </Link>
@@ -413,9 +470,20 @@ export function StudioWorldDesignWorkspace({
 
         {tab === 'COMPARE' ? (
           <>
+            <DesignImplementationPreview
+              snapshot={implementationSnapshot}
+              viewportClass={viewportClass}
+              viewportWidth={viewport.width}
+              viewportHeight={viewport.height}
+              capturing={snapshotCapturing}
+              onCapture={() => void captureScreen(screenId, viewportClass)}
+            />
             <DesignCompareSection
               referenceUrl={referenceUrl}
               referenceVersion={reference?.version ?? null}
+              implementationUrl={
+                implementationSnapshot?.captureStatus === 'CURRENT' ? implementationSnapshot.publicUrl : null
+              }
               livePreviewUrl={livePreviewUrl}
               viewportWidth={viewport.width}
               viewportHeight={viewport.height}
@@ -448,16 +516,39 @@ export function StudioWorldDesignWorkspace({
         ) : null}
 
         {tab === 'IMPLEMENTATION' ? (
-          <section className="site00-dw-panel">
-            <h2>IMPLEMENTATION</h2>
-            <iframe title="Live implementation" src={livePreviewUrl} className="site00-dw-panel__iframe" />
-            <p>
-              Viewport {viewport.width}×{viewport.height} ·{' '}
-              <Link to={livePreviewUrl} target="_blank" rel="noreferrer">
-                Open route
-              </Link>
-            </p>
-          </section>
+          <>
+            <DesignImplementationPreview
+              snapshot={implementationSnapshot}
+              viewportClass={viewportClass}
+              viewportWidth={viewport.width}
+              viewportHeight={viewport.height}
+              capturing={snapshotCapturing}
+              onCapture={() => void captureScreen(screenId, viewportClass)}
+            />
+            <section className="site00-dw-panel site00-dw-panel--impl-live">
+              <h2>LIVE ROUTE</h2>
+              <iframe title="Live implementation" src={livePreviewUrl} className="site00-dw-panel__iframe" />
+              <p>
+                Viewport {viewport.width}×{viewport.height} ·{' '}
+                <Link to={livePreviewUrl} target="_blank" rel="noreferrer">
+                  Open route
+                </Link>
+              </p>
+            </section>
+          </>
+        ) : null}
+
+        {tab === 'PAGES' ? (
+          <DesignPagesVisualIndex
+            rows={pageIndexRows}
+            selectedScreenId={screenId}
+            filter={pagesFilter}
+            onFilterChange={setPagesFilter}
+            onSelectScreen={(id) => {
+              setScreenId(id);
+              syncUrl({ screen: id });
+            }}
+          />
         ) : null}
 
         {tab === 'HISTORY' ? (
@@ -505,6 +596,20 @@ export function StudioWorldDesignWorkspace({
               <div><dt>Asset slots</dt><dd>{assetSlots.length}</dd></div>
             </dl>
             {selectedPrompt ? <pre className="site00-dw-inspect__prompt">{selectedPrompt.promptText}</pre> : null}
+            {snapshotCoverage ? (
+              <>
+                <h3>IMPLEMENTATION SNAPSHOT COVERAGE</h3>
+                <p>
+                  Mobile: {snapshotCoverage.mobile.captured} captured · Tablet: {snapshotCoverage.tablet.captured} · Desktop:{' '}
+                  {snapshotCoverage.desktop.captured} · Snapshot coverage:{' '}
+                  {Math.round(snapshotCoverage.implementationSnapshotCoverage * 100)}%
+                </p>
+                <p>
+                  Reference coverage: {Math.round(snapshotCoverage.referenceCoverage * 100)}% · Match coverage:{' '}
+                  {Math.round(snapshotCoverage.matchCoverage * 100)}%
+                </p>
+              </>
+            ) : null}
             {site00SyncContract ? (
               <>
                 <h3>SITE 00 WEBSITE / CLIENT DESIGN COVERAGE</h3>

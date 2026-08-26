@@ -10,6 +10,7 @@ export const DESIGN_WORKSPACE_TABS = [
   'REFERENCE',
   'IMPLEMENTATION',
   'COMPARE',
+  'PAGES',
   'HISTORY',
   'INSPECT',
 ] as const;
@@ -20,6 +21,7 @@ export const MOBILE_TAB_LABELS: Record<DesignWorkspaceTab, string> = {
   REFERENCE: 'REF',
   IMPLEMENTATION: 'IMPL',
   COMPARE: 'COMPARE',
+  PAGES: 'PAGES',
   HISTORY: 'HIST',
   INSPECT: 'INSP',
 };
