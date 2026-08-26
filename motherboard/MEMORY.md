@@ -5537,4 +5537,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Core rule:** Baked panel bases are image content only — never duplicate in CSS. Default = WITH_PANELS + three teasers; expanded = CLEAN + hide all teasers + show selected expanded panel only.
 - **Preserved:** Expanded IDNTY/BLDR/EVOLVE content, Origin routing/shell, icons/copy, other environment backgrounds, no FAL/regeneration.
 
->>>>>>> origin/main
+---
+
+## 2026-08-26 — P0.E.FT3 Astral World immersion recovery + reference-shell reconstruction
+
+- **Context:** Founder rejected P0.E.2 fidelity scores as website-like (CSS cards + initials) rather than cinematic world. Sprint P0.E.FT3: KEEP FUNCTION · REBUILD LOOK — reference PNGs as primary visual surfaces, portraits for seeded identities, environment-first heroes on all major screens. No new product features.
+- **Delivered:** `referenceCropRegistry.ts` (hero, districts, destinations, journal, portraits). Immersive primitives: `AstralScene`, `AstralPortrait`, `AstralEnvironmentCard`, `AstralPresenceItem`, `AstralStatusChip`, `AstralHotspot`. Rebuilt home (desktop/mobile), Astréa district, Tarot Suite / Mall / Coffee Shop, Who's Here, Take Me Somewhere (image-led routing), Find My Reader, Meet My Friends, Journal artifact, Profile avatar, Daily Card / Create Deck / Custom Avatar visuals, Your World Your Way mini-scenes. ~450 lines immersion CSS. Tests FT3 (10 pass) + P0.E.1 (22) + P0.E.2 (13) + FT1 (16) = **61 pass**. Audit `SITE00_ASTRAL_WORLD_P0E3_FT3_IMMERSION.md`.
+- **Fidelity reset:** Overall immersive ~87 — HIGH blocked until env/image/spatial/composition all ≥90. Plain website feel partially remains under functional sheets.
+- **Governance:** CREATIVE_EXPLORATION / FOUNDER_FAST_TRACK; CANON_PROMOTED=FALSE; all FT1 interactions preserved.
+
