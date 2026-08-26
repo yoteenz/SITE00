@@ -21,11 +21,12 @@ export type HydratePersistentSnapshotsResult = {
   orphaned: number;
 };
 
-function resolveHydratedPublicUrl(record: ImplementationSnapshotRecord): ImplementationSnapshotRecord {
+async function resolveHydratedPublicUrl(record: ImplementationSnapshotRecord): Promise<ImplementationSnapshotRecord> {
   if (!record.storagePath) return record;
   if (record.publicUrl.startsWith('https://cdn.site00.com/') || record.publicUrl.startsWith('https://vitest.local/')) {
+    if (process.env.VITEST === 'true') return record;
     try {
-      const { getSite00AssetPublicUrl } = require('../../../../api/_lib/site00Assts/storage.js') as typeof import('../../../../api/_lib/site00Assts/storage.js');
+      const { getSite00AssetPublicUrl } = await import('../../../../api/_lib/site00Assts/storage.js');
       return { ...record, publicUrl: getSite00AssetPublicUrl(record.storagePath) };
     } catch {
       return record;
@@ -33,6 +34,8 @@ function resolveHydratedPublicUrl(record: ImplementationSnapshotRecord): Impleme
   }
   return record;
 }
+
+const hydratedOnce = new Set<string>();
 
 export function clearHydrationCacheForTest(): void {
   hydratedOnce.clear();
@@ -78,7 +81,8 @@ export async function hydratePersistentImplementationSnapshots(input?: {
         continue;
       }
     }
-    registerImplementationSnapshot(record);
+    const hydratedRecord = await resolveHydratedPublicUrl(record);
+    registerImplementationSnapshot(hydratedRecord);
   }
 
   for (const record of latest.values()) {
