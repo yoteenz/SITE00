@@ -6,7 +6,7 @@ import type { ScreenAssetManifestEntry } from './types.js';
 
 export const PILOT_WORLD_ENTRY_MANIFEST: ScreenAssetManifestEntry[] = [
   {
-    slotKey: 'AW_M_01_WORLD_ENTRY_BACKGROUND_V1',
+    slotKey: 'AW_M_01_WORLD_ENTRY_BACKGROUND_V2',
     role: 'BACKGROUND_ENVIRONMENT',
     required: true,
     useExactIfApproved: true,
@@ -51,7 +51,7 @@ export const SCREEN_ASSET_MANIFESTS: Record<string, ScreenAssetManifestEntry[]> 
   AW_M_01_WORLD_ENTRY: PILOT_WORLD_ENTRY_MANIFEST,
   AW_D_01_WORLD_ENTRY: [
     {
-      slotKey: 'AW_D_01_WORLD_ENTRY_BACKGROUND_V1',
+      slotKey: 'AW_D_01_WORLD_ENTRY_BACKGROUND_V2',
       role: 'BACKGROUND_ENVIRONMENT',
       required: true,
       useExactIfApproved: true,
