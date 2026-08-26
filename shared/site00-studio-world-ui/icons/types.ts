@@ -65,6 +65,13 @@ export type NdxIconDefinition = {
   optical?: IconOpticalCalibration;
   activeBehavior?: NdxIconActiveBehavior;
   supersededGeometryId?: string;
+  /** P0.UI.3E — physical SVG asset metadata */
+  sourcePath?: string;
+  sourceHash?: string;
+  publicPath?: string;
+  runtimeVersion?: 'v3';
+  runtimeSource?: 'reference-canon';
+  geometryAuthority?: 'ACTIVE_CANONICAL' | 'SUPERSEDED' | 'LEGACY' | 'UNUSED' | 'DUPLICATE';
 };
 
 export type NDXIconProps = {

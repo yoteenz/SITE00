@@ -1,11 +1,11 @@
 import type { NDXIconName, NdxIconDefinition } from './types.js';
 import { NDX_ICON_VIEWBOX } from './tokens.js';
-import { buildReferenceLockedIconRegistry } from './p0ui3d/buildRegistry.js';
+import { buildV3AssetBackedIconRegistry } from './p0ui3e/buildRegistry.js';
 
 export { NDX_ICON_VIEWBOX };
 
-/** P0.UI.3D — reference-locked canonical registry (viewBox 24, currentColor). */
-const ICONS: Record<NDXIconName, NdxIconDefinition> = buildReferenceLockedIconRegistry();
+/** P0.UI.3E — V3 physical SVG asset-backed registry (no V1/V2 fallback for targets). */
+const ICONS: Record<NDXIconName, NdxIconDefinition> = buildV3AssetBackedIconRegistry();
 
 export const NDX_ICON_REGISTRY: Readonly<Record<NDXIconName, NdxIconDefinition>> = ICONS;
 
@@ -66,7 +66,12 @@ export function ndxIconIsReferenceTraced(name: NDXIconName): boolean {
 }
 
 export function ndxIconIsReferenceLocked(name: NDXIconName): boolean {
-  return getNdxIconDefinition(name).traceClassification === 'REFERENCE_LOCKED';
+  const def = getNdxIconDefinition(name);
+  return def.traceClassification === 'REFERENCE_LOCKED' && def.runtimeVersion === 'v3';
+}
+
+export function ndxIconRuntimeVersion(name: NDXIconName): string | undefined {
+  return getNdxIconDefinition(name).runtimeVersion;
 }
 
 export function ndxIconIsPixelTraced(name: NDXIconName): boolean {

@@ -5205,7 +5205,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-## 2026-08-25 — Deploy checklist: Railway vs cPanel (when to redeploy)
+## 2026-08-26 — P0.UI.3E hard icon asset replacement + registry source swap + runtime hash verification
+
+- **Context:** Founder sprint P0.UI.3E — P0.UI.3D created reference-locked V3 geometry but live NDX UI could still render stale icons (inline paths not consumed, no runtime proof). Sprint requires physical canonical SVG files as single runtime source, registry hard-swap (no V1/V2 fallback for 13 targets), DOM version/hash attributes, and live DOM proof.
+- **Root cause (forensic):** P0.UI.3D stored geometry in TypeScript inline objects without inspectable SVG files or runtime version attributes; no cache-busted public assets; founder could not verify live consumption vs source repo.
+- **Delivered:** 13 physical V3 SVGs in `shared/site00-studio-world-ui/icons/ndx/v3/` + cache-busted copies in `public/icons/ndx/v3/*.hash.svg`. `scripts/icons/generateNdxV3SvgCanon.ts` generates SVGs, `manifest.generated.json`, `v3AssetRegistry.generated.ts`. `p0ui3e/` module: `buildV3AssetBackedIconRegistry()` (targets only from V3 assets, throws on legacy path signatures), `NDX_ICON_RUNTIME_SOURCE_MAP`, `IconGeometryAuthorityState` (V1/V2 SUPERSEDED, V3 ACTIVE_CANONICAL), failure taxonomy types. `registry.ts` swapped to V3 asset-backed builder (no fallback chain). `NDXIcon.tsx` exposes `data-ndx-icon-version`, `data-ndx-icon-source`, `data-ndx-icon-hash`, `data-ndx-icon-path`. Tests `ndxIconSystemP0UI3E.test.ts` (9 pass) + updated P0UI3B/3D (35 total pass). Live DOM proof on `/projects/ndxbook`: all 7 visible icons (5 bottom nav + 2 header) report `version=v3`, `source=reference-canon`. Build includes V3 assets in `dist/icons/ndx/v3/`. Release v115.
+- **Preserved:** Routes, click handlers, notification/project menu behavior, active/inactive color-only states, accessibility, NDX brand canon.
+- **Founder next:** Upload GoDaddy ZIP v115; hard refresh; verify page source uses new bundle hash (not v114 `index.Bl_8hN8x.js`).
+
+---
 
 - **Context:** Founder asked whether Railway must redeploy on every push, or only API changes — concerned about deployment cost accumulation.
 - **Clarified:** SITE 00 split — **GoDaddy cPanel** serves static SPA (`dist/`) at `site00.com` / `site00.fsbw-dev.com`; **Railway** serves Node API at `api.site00.com`. Merging to `main` ≠ live site. Most sprints are frontend-only (UI, CSS, hooks, shared client registries) and need **cPanel ZIP only** — not Railway. Railway redeploy needed when `api/**`, `server/**`, `api/_lib/**`, or Railway env vars change. Preview hosts always call `api.site00.com` via `resolveSite00ApiBase()`.

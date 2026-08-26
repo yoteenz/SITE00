@@ -135,7 +135,7 @@ describe('P0.UI.3B Pixel-traced NDX icon geometry convergence', () => {
 
   it('16-17. canonical registry uses V3 reference-locked geometry for priority icons', () => {
     expect(getNdxIconDefinition('overview').visualVersion).toBe('NDX_ICON_VISUAL_CANON_V3');
-    expect(getNdxIconDefinition('overview').supersededGeometryId).toBe('NDX_ICON_V2_PIXEL_TRACED');
+    expect(getNdxIconDefinition('overview').supersededGeometryId).toBe('SUPERSEDED_BY_P0_UI_3E');
     expect(NDX_ICON_GEOMETRY_V1.overview.paths[0]).toContain('L12 4.5');
     expect(ndxIconIsPixelTraced('overview')).toBe(true);
     expect(ndxIconIsReferenceTraced('overview')).toBe(true);
