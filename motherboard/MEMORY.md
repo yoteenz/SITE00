@@ -5336,3 +5336,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.2 reconstruction, P0.VR.2A asset slots, NDXBOOK pilot, design workspace host canon.
 
 ---
+
+## 2026-08-26 — P0.VR.3D SITE 00 manifest v2 reconciliation + self-audit semantic merge
+
+- **Context:** Follow-up to P0.VR.3A (SITE 00 semantic self-audit, v1 manifest) — reconcile with P0.VR.3B normalized route authority before P0.VR.3C design-family consolidation. User required one active v2+ manifest; v1 becomes historical artifact only; separate route count layers (raw implementation vs normalized screens vs website/client experience vs primary founder-designable).
+- **Delivered:** `p0vr3b/` — `studio-world-design-route-manifest@2` v2.1.0, raw implementation route inventory, DesignScreenRecord normalization, true orphan = 0. `p0vr3d/` — `Site00RouteExperienceScope`, P0.VR.3A→v2 mapping, enriched DesignScreenRecords, deduplicated missing-route registry, family candidates for P0.VR.3C, `Site00AuditReconciliationReport`, `DesignRouteSyncContract`, dynamic `Site00FounderDesignScreenSet`. Updated `p0vr3/designRouteManifest.ts` — active authority v2+; v1 compile as `HISTORICAL_AUDIT_ARTIFACT`. Design workspace: PRIMARY/ALL DESIGNABLE screen set + INSPECT route forensics. Tests `visualReconstructionP0VR3D.test.ts` (14 pass). Build green (`StudioWorldDesignPage.BUCT8Y2U.js`, `index.xBVeUmIH.js`).
+- **Counts (computed):** raw 165 · normalized 145 · self-audit 31 · website/client 28 · primary set 42 · states 5 · missing 9 · mapped 31/31.
+- **Core rule:** P0.VR.3B = implementation universe; P0.VR.3A = website/client semantic subset — merge, don't choose.
+- **Preserved:** P0.VR.3B normalization, P0.VR.3A forensics/self-design boundary, host protection, historical v1 lineage.
+
+---

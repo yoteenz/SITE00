@@ -3,6 +3,7 @@
  */
 
 import { syncSite00ManifestToDesignRegistry, clearDesignRouteManifestCacheForTest } from '../p0vr3/designRouteManifest.js';
+import { clearDesignRouteSyncContractCacheForTest } from '../p0vr3d/designRouteSyncContract.js';
 import type { StudioWorldDesignRouteManifest } from '../p0vr3/types.js';
 
 let site00PilotRegistered = false;
@@ -22,6 +23,7 @@ export function ensureSite00DesignPilotRegistered(): void {
 export function resetSite00PilotForTest(): void {
   site00PilotRegistered = false;
   clearDesignRouteManifestCacheForTest();
+  clearDesignRouteSyncContractCacheForTest();
 }
 
 export function registerAllDesignPilots(): void {
