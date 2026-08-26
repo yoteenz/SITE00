@@ -56,3 +56,47 @@ export type {
   ShellRegionLockExtension,
   NdxMobileShellReconstructionReport,
 } from './types.js';
+
+/** P0.VR.1D.10 compatibility — stale lock marker for rollout tests. */
+export const STALE_AFTER_VISUAL_SHELL_REBUILD = 'STALE_AFTER_VISUAL_SHELL_REBUILD' as const;
+
+export const NDX_FUNCTIONAL_SHELL_AUTHORITY = {
+  preserves: [
+    'route',
+    'project state',
+    'data fetching',
+    'live counts',
+    'actions',
+    'notifications',
+    'ellipsis project menu',
+    'bottom-nav routing',
+    'workflow logic',
+    'accessibility behavior',
+  ],
+} as const;
+
+export const NDX_VISUAL_SHELL_AUTHORITY = {
+  scope: 'FULL_SCREEN_REFERENCE' as const,
+  controls: [
+    'page background',
+    'header dimensions',
+    'content bounds',
+    'horizontal gutters',
+    'section widths',
+    'vertical rhythm',
+    'borders/dividers',
+    'bottom nav frame',
+    'safe area',
+    'visual hierarchy',
+  ],
+} as const;
+
+export function markStaleShellLocks(
+  locks: Array<{ regionId: string; status: string }>,
+): Array<{ regionId: string; status: string; priorStatus?: string }> {
+  return locks.map((lock) =>
+    lock.status === 'MATCHED'
+      ? { ...lock, priorStatus: lock.status, status: STALE_AFTER_VISUAL_SHELL_REBUILD }
+      : lock,
+  );
+}

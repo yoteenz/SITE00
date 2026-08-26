@@ -27,6 +27,32 @@ import {
   NDX_CAMPAIGN_PAGES_PER_DAY,
 } from '../../config/ndxCampaignBoardMobileReference';
 import {
+  NDX_CHARACTER_LAB_ACTIVE_TAB,
+  NDX_CHARACTER_LAB_DRAFT_BADGE,
+  NDX_CHARACTER_LAB_HANDWRITTEN,
+  NDX_CHARACTER_LAB_PERFORMANCE,
+  NDX_CHARACTER_LAB_PORTRAIT_PATH,
+  NDX_CHARACTER_LAB_QUOTE,
+  NDX_CHARACTER_LAB_TABS,
+  NDX_CHARACTER_LAB_WHO_SHE_IS,
+} from '../../config/ndxCharacterLabMobileReference';
+import {
+  NDX_CI_ACTIVE_TAB,
+  NDX_CI_RADAR_LABELS,
+  NDX_CI_TABS,
+  NDX_CI_TOP_SIGNALS,
+} from '../../config/ndxCulturalIntelligenceMobileReference';
+import {
+  NDX_CONTENT_OPS_ACTIVE_TAB,
+  NDX_CONTENT_OPS_CURRENT_WORK,
+  NDX_CONTENT_OPS_NEEDS_EYE,
+  NDX_CONTENT_OPS_OPERATING_MODE,
+  NDX_CONTENT_OPS_OPPORTUNITIES,
+  NDX_CONTENT_OPS_REVIEW_NEEDED,
+  NDX_CONTENT_OPS_TABS,
+  NDX_CONTENT_OPS_TODAY_ACTION,
+} from '../../config/ndxContentOpsMobileReference';
+import {
   NDX_EXPERIMENT_01_CANONICAL_SUBJECT,
   NDX_EXPERIMENT_01_CARDS,
   NDX_EXPERIMENT_01_DIRECTION_VERSION,
@@ -230,14 +256,7 @@ export function MobileCampaignBoardScreen({ projectSlug }: ScreenProps) {
   );
 }
 
-const CI_SIGNALS = [
-  { label: 'SUBSCRIPTION FATIGUE', score: '0.92' },
-  { label: 'LOYALTY LANGUAGE DRIFT', score: '0.76' },
-  { label: 'QUIET LUXURY SIGNAL', score: '0.71' },
-  { label: 'CORPORATE MEMO LANGUAGE', score: '0.68' },
-];
-
-const CONTENT_OPS_TABS = ['SIGNALS', 'OPPORTUNITIES', 'CURRENT WORK', 'APPROVALS'] as const;
+const CONTENT_OPS_TABS = NDX_CONTENT_OPS_TABS;
 
 function MobileScreenFrame({
   eyebrow,
@@ -402,148 +421,229 @@ export function MobileExperiment01Screen({ projectSlug }: ScreenProps) {
 }
 
 export function MobileContentOpsScreen({ projectSlug }: ScreenProps) {
+  const opsPath = site00ProjectContentOperationsPath(projectSlug);
+
   return (
-    <MobileScreenFrame eyebrow="CONTENT OPS DESK" title="TODAY AT NDX" screenId="content-ops">
-      <div className="site00-fws-mobile-content-ops" {...vrRegionAttr(NDX_VR_REGION.contentOpsDesk)}>
-      <div className="site00-fws-mobile-tabs" role="tablist">
-        {CONTENT_OPS_TABS.map((tab, index) => (
-          <span
-            key={tab}
-            role="tab"
-            aria-selected={index === 2}
-            className={`site00-fws-mobile-tabs__item${index === 2 ? ' site00-fws-mobile-tabs__item--active' : ''}`}
-          >
-            {tab}
-          </span>
-        ))}
-      </div>
-      <div className="site00-fws-mobile-section-head">
-        <p className="site00-fws-hub-section-label">REVIEW NEEDED</p>
-        <Link to={site00ProjectContentOperationsPath(projectSlug)} className="site00-fws-mobile-screen__see-all">
-          See all (6)
-        </Link>
-      </div>
-      <div className="site00-fws-mobile-scroll-row">
-        {['Layoff Memo', 'Subscription Norm', 'Loyalty Drift', 'Quiet Luxury'].map((label) => (
-          <div key={label} className="site00-fws-mobile-review-card">
-            <span>{label}</span>
-            <span className="site00-fws-mobile-review-card__chip">HIGH</span>
+    <div
+      className="site00-fws-mobile-shell-screen site00-fws-mobile-shell-screen--content-ops"
+      data-visual-reconstruction="mobile-content-ops"
+      {...vrRegionAttr(NDX_VR_REGION.contentOpsScreen)}
+    >
+      <div className="site00-fws-mobile-shell-screen__content" {...vrRegionAttr(NDX_VR_REGION.contentOpsContentShell)}>
+        <div className="site00-fws-mobile-content-ops__head">
+          <p className="site00-fws-mobile-content-ops__eyebrow">CONTENT OPS DESK</p>
+          <h2 className="site00-fws-mobile-content-ops__title">TODAY AT NDX</h2>
+        </div>
+
+        <div className="site00-fws-mobile-tabs site00-fws-mobile-tabs--content-ops" role="tablist">
+          {CONTENT_OPS_TABS.map((tab) => (
+            <span
+              key={tab}
+              role="tab"
+              aria-selected={tab === NDX_CONTENT_OPS_ACTIVE_TAB}
+              className={`site00-fws-mobile-tabs__item${tab === NDX_CONTENT_OPS_ACTIVE_TAB ? ' site00-fws-mobile-tabs__item--active' : ''}`}
+            >
+              {tab}
+            </span>
+          ))}
+        </div>
+
+        <div className="site00-fws-mobile-section-head">
+          <p className="site00-fws-hub-section-label">REVIEW NEEDED</p>
+          <Link to={opsPath} className="site00-fws-mobile-screen__see-all">
+            See all ({NDX_CONTENT_OPS_REVIEW_NEEDED.length})
+          </Link>
+        </div>
+        <div className="site00-fws-mobile-scroll-row">
+          {NDX_CONTENT_OPS_REVIEW_NEEDED.map((item) => (
+            <div key={item.label} className="site00-fws-mobile-review-card">
+              <span>{item.label}</span>
+              <span
+                className={`site00-fws-mobile-review-card__chip${item.priority === 'MED' ? ' site00-fws-mobile-review-card__chip--medium' : ''}`}
+              >
+                {item.priority}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <div className="site00-fws-mobile-content-ops__split">
+          <div className="site00-fws-mobile-content-ops__col" {...vrRegionAttr(NDX_VR_REGION.contentOpsOperatingMode)}>
+            <p className="site00-fws-hub-section-label">{NDX_CONTENT_OPS_OPERATING_MODE.label}</p>
+            <div className="site00-fws-mobile-info-card">{NDX_CONTENT_OPS_OPERATING_MODE.value}</div>
+            <span className="site00-fws-mobile-content-ops__chip">{NDX_CONTENT_OPS_OPERATING_MODE.chip}</span>
           </div>
-        ))}
+          <div className="site00-fws-mobile-content-ops__col" {...vrRegionAttr(NDX_VR_REGION.contentOpsOpportunities)}>
+            <p className="site00-fws-hub-section-label">OPPORTUNITIES ({NDX_CONTENT_OPS_OPPORTUNITIES.length})</p>
+            <ul className="site00-fws-mobile-content-ops__score-list">
+              {NDX_CONTENT_OPS_OPPORTUNITIES.map((row) => (
+                <li key={row.label}>
+                  <span>{row.label}</span>
+                  <strong>{row.score}</strong>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="site00-fws-mobile-content-ops__today">
+          <p className="site00-fws-hub-section-label">TODAY / THIS WEEK</p>
+          <button type="button" className="site00-fws-mobile-content-ops__approve">
+            {NDX_CONTENT_OPS_TODAY_ACTION}
+          </button>
+        </div>
+
+        <p className="site00-fws-hub-section-label">CURRENT WORK</p>
+        <div className="site00-fws-mobile-scroll-row" {...vrRegionAttr(NDX_VR_REGION.contentOpsCurrentWork)}>
+          {NDX_CONTENT_OPS_CURRENT_WORK.map((label) => (
+            <div key={label} className="site00-fws-mobile-content-ops__work-card">
+              {label}
+            </div>
+          ))}
+        </div>
+
+        <p className="site00-fws-hub-section-label">THIS NEEDS OUR EYE</p>
+        <ul className="site00-fws-mobile-priority-list" {...vrRegionAttr(NDX_VR_REGION.contentOpsNeedsEye)}>
+          {NDX_CONTENT_OPS_NEEDS_EYE.map((item) => (
+            <li key={item.label}>
+              <span>{item.label}</span>
+              <span
+                className={`site00-fws-mobile-review-card__chip${item.priority === 'MED' ? ' site00-fws-mobile-review-card__chip--medium' : ''}`}
+              >
+                {item.priority}
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
-      <p className="site00-fws-hub-section-label">OPERATING MODE</p>
-      <div className="site00-fws-mobile-info-card">Assisted Autonomy · In Production</div>
-      <p className="site00-fws-hub-section-label">OPPORTUNITIES (6)</p>
-      <ul className="site00-fws-hub-list site00-fws-hub-list--compact">
-        <li>Corporate Layoff Memo Language</li>
-        <li>Subscription Fatigue Pattern</li>
-        <li>Quiet Luxury Signal</li>
-      </ul>
-      <p className="site00-fws-hub-section-label">THIS NEEDS OUR EYE</p>
-      <ul className="site00-fws-mobile-priority-list">
-        <li>
-          <span>Subscription Normalization</span>
-          <span className="site00-fws-mobile-review-card__chip">HIGH</span>
-        </li>
-        <li>
-          <span>Corporate Layoff Memo</span>
-          <span className="site00-fws-mobile-review-card__chip site00-fws-mobile-review-card__chip--medium">MED</span>
-        </li>
-      </ul>
-      </div>
-    </MobileScreenFrame>
+    </div>
   );
 }
 
 export function MobileCulturalIntelligenceScreen({ projectSlug }: ScreenProps) {
+  const ciPath = site00ProjectCulturalIntelligencePath(projectSlug);
+
   return (
-    <MobileScreenFrame eyebrow="CULTURAL INTELLIGENCE" title="LIVE SIGNALS" screenId="cultural-intelligence">
-      <div className="site00-fws-mobile-tabs" role="tablist">
-        {['LIVE SIGNALS', 'WEEKLY FORECAST', 'ARCHIVE'].map((tab, index) => (
-          <span
-            key={tab}
-            role="tab"
-            aria-selected={index === 0}
-            className={`site00-fws-mobile-tabs__item${index === 0 ? ' site00-fws-mobile-tabs__item--active' : ''}`}
-          >
-            {tab}
-          </span>
-        ))}
+    <div
+      className="site00-fws-mobile-shell-screen site00-fws-mobile-shell-screen--cultural-intelligence"
+      data-visual-reconstruction="mobile-cultural-intelligence"
+      {...vrRegionAttr(NDX_VR_REGION.intelligenceScreen)}
+    >
+      <div className="site00-fws-mobile-shell-screen__content" {...vrRegionAttr(NDX_VR_REGION.intelligenceContentShell)}>
+        <div className="site00-fws-mobile-intelligence__head">
+          <p className="site00-fws-mobile-intelligence__eyebrow">CULTURAL INTELLIGENCE</p>
+          <h2 className="site00-fws-mobile-intelligence__title">LIVE SIGNALS</h2>
+        </div>
+
+        <div className="site00-fws-mobile-tabs site00-fws-mobile-tabs--intelligence" role="tablist">
+          {NDX_CI_TABS.map((tab) => (
+            <span
+              key={tab}
+              role="tab"
+              aria-selected={tab === NDX_CI_ACTIVE_TAB}
+              className={`site00-fws-mobile-tabs__item${tab === NDX_CI_ACTIVE_TAB ? ' site00-fws-mobile-tabs__item--active' : ''}`}
+            >
+              {tab}
+            </span>
+          ))}
+        </div>
+
+        <p className="site00-fws-hub-section-label">TOP LIVE SIGNALS</p>
+        <ul className="site00-fws-mobile-signal-list site00-fws-mobile-signal-list--full" {...vrRegionAttr(NDX_VR_REGION.intelligenceSignals)}>
+          {NDX_CI_TOP_SIGNALS.map((signal) => (
+            <li key={signal.label}>
+              <span>{signal.label}</span>
+              <strong>{signal.score}</strong>
+            </li>
+          ))}
+        </ul>
+
+        <p className="site00-fws-hub-section-label">INTELLIGENCE RADAR</p>
+        <div className="site00-fws-mobile-radar site00-fws-mobile-radar--full" aria-hidden {...vrRegionAttr(NDX_VR_REGION.intelligenceRadar)}>
+          <div className="site00-fws-mobile-radar__hex" />
+          {NDX_CI_RADAR_LABELS.map((label) => (
+            <span key={label} className="site00-fws-mobile-radar__label site00-fws-mobile-radar__label--auto">
+              {label}
+            </span>
+          ))}
+        </div>
+
+        <Link to={ciPath} className="site00-fws-mobile-screen__link">
+          OPEN FULL INTELLIGENCE DESK →
+        </Link>
       </div>
-      <p className="site00-fws-hub-section-label">TOP LIVE SIGNALS</p>
-      <ul className="site00-fws-mobile-signal-list">
-        {CI_SIGNALS.map((signal) => (
-          <li key={signal.label}>
-            <span>{signal.label}</span>
-            <strong>{signal.score}</strong>
-          </li>
-        ))}
-      </ul>
-      <p className="site00-fws-hub-section-label">INTELLIGENCE RADAR</p>
-      <div className="site00-fws-mobile-radar" aria-hidden {...vrRegionAttr(NDX_VR_REGION.culturalIntelligenceRadar)}>
-        <div className="site00-fws-mobile-radar__hex" />
-        <span className="site00-fws-mobile-radar__label site00-fws-mobile-radar__label--business">Business</span>
-        <span className="site00-fws-mobile-radar__label site00-fws-mobile-radar__label--tech">Technology</span>
-        <span className="site00-fws-mobile-radar__label site00-fws-mobile-radar__label--money">Money</span>
-      </div>
-      <Link to={site00ProjectCulturalIntelligencePath(projectSlug)} className="site00-fws-mobile-screen__link">
-        OPEN FULL INTELLIGENCE DESK →
-      </Link>
-    </MobileScreenFrame>
+    </div>
   );
 }
 
 export function MobileCharacterLabScreen({ projectSlug }: ScreenProps) {
-  const stats = [
-    { label: 'CONTEXT TILES', value: '128K', delta: '↑ 12%' },
-    { label: 'STORIES', value: '8.7K', delta: '↑ 8%' },
-    { label: 'REBELS', value: '3.2K', delta: '↑ 5%' },
-    { label: 'PROFILE VIEWS', value: '+1.1K', delta: '↑ 14%' },
-  ];
+  const labPath = site00ProjectFounderCharacterDiscoveryPath(projectSlug);
+  const perfPath = site00ProjectContentOperationsPerformancePath(projectSlug);
+
   return (
-    <MobileScreenFrame eyebrow="CHARACTER LAB" title="LANGUAGE · VOICE · CASTING" screenId="character-lab">
-      <div className="site00-fws-mobile-tabs" role="tablist">
-        {['LANGUAGE LAB', 'VOICE LAB', 'CASTING'].map((tab, index) => (
-          <span
-            key={tab}
-            role="tab"
-            aria-selected={index === 0}
-            className={`site00-fws-mobile-tabs__item${index === 0 ? ' site00-fws-mobile-tabs__item--active' : ''}`}
-          >
-            {tab}
-          </span>
-        ))}
+    <div
+      className="site00-fws-mobile-shell-screen site00-fws-mobile-shell-screen--character-lab"
+      data-visual-reconstruction="mobile-character-lab"
+      {...vrRegionAttr(NDX_VR_REGION.characterScreen)}
+    >
+      <div className="site00-fws-mobile-shell-screen__content" {...vrRegionAttr(NDX_VR_REGION.characterContentShell)}>
+        <div className="site00-fws-mobile-tabs site00-fws-mobile-tabs--character" role="tablist">
+          {NDX_CHARACTER_LAB_TABS.map((tab) => (
+            <span
+              key={tab}
+              role="tab"
+              aria-selected={tab === NDX_CHARACTER_LAB_ACTIVE_TAB}
+              className={`site00-fws-mobile-tabs__item${tab === NDX_CHARACTER_LAB_ACTIVE_TAB ? ' site00-fws-mobile-tabs__item--active' : ''}`}
+            >
+              {tab}
+            </span>
+          ))}
+        </div>
+
+        <div className="site00-fws-mobile-character site00-fws-mobile-character--full" {...vrRegionAttr(NDX_VR_REGION.characterProfile)}>
+          <div
+            className="site00-fws-mobile-character__portrait site00-fws-mobile-character__portrait--art"
+            style={{ backgroundImage: `url(${NDX_CHARACTER_LAB_PORTRAIT_PATH})` }}
+            role="img"
+            aria-label="NDX character portrait"
+          />
+          <p className="site00-fws-hub-handwritten site00-fws-hub-handwritten--mobile">{NDX_CHARACTER_LAB_HANDWRITTEN}</p>
+        </div>
+
+        <span className="site00-fws-hub-sticky site00-fws-hub-sticky--mobile">{NDX_CHARACTER_LAB_DRAFT_BADGE}</span>
+
+        <div {...vrRegionAttr(NDX_VR_REGION.characterIdentity)}>
+          <p className="site00-fws-hub-section-label">WHO SHE IS</p>
+          <ul className="site00-fws-hub-list site00-fws-hub-list--compact">
+            {NDX_CHARACTER_LAB_WHO_SHE_IS.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
+        </div>
+
+        <blockquote className="site00-fws-mobile-character__quote" {...vrRegionAttr(NDX_VR_REGION.characterNotes)}>
+          {NDX_CHARACTER_LAB_QUOTE}
+        </blockquote>
+
+        <p className="site00-fws-hub-section-label">PERFORMANCE SUMMARY</p>
+        <div className="site00-fws-mobile-perf-grid site00-fws-mobile-perf-grid--character" {...vrRegionAttr(NDX_VR_REGION.characterPerformance)}>
+          {NDX_CHARACTER_LAB_PERFORMANCE.map((stat) => (
+            <div key={stat.label}>
+              <strong>{stat.value}</strong>
+              <span>{stat.label}</span>
+              <em>{stat.delta}</em>
+            </div>
+          ))}
+        </div>
+
+        <Link to={labPath} className="site00-fws-mobile-screen__link">
+          OPEN CHARACTER LAB →
+        </Link>
+        <Link to={perfPath} className="site00-fws-mobile-screen__link">
+          PERFORMANCE + LEARNING →
+        </Link>
       </div>
-      <div className="site00-fws-mobile-character" {...vrRegionAttr(NDX_VR_REGION.characterProfile)}>
-        <div className="site00-fws-mobile-character__portrait" aria-hidden />
-        <p className="site00-fws-hub-handwritten site00-fws-hub-handwritten--mobile">
-          Smart. Funny. Sees patterns. Doesn&apos;t perform. Explains like a friend talking to her best friend.
-        </p>
-      </div>
-      <span className="site00-fws-hub-sticky site00-fws-hub-sticky--mobile">working draft v2.3</span>
-      <p className="site00-fws-hub-section-label">WHO SHE IS</p>
-      <ul className="site00-fws-hub-list site00-fws-hub-list--compact">
-        <li>Search. Frame. Sees patterns.</li>
-        <li>Doesn&apos;t perform — explains.</li>
-        <li>Like a friend talking to her best friend.</li>
-      </ul>
-      <p className="site00-fws-hub-section-label">PERFORMANCE SUMMARY</p>
-      <div className="site00-fws-mobile-perf-grid">
-        {stats.map((stat) => (
-          <div key={stat.label}>
-            <strong>{stat.value}</strong>
-            <span>{stat.label}</span>
-            <em>{stat.delta}</em>
-          </div>
-        ))}
-      </div>
-      <Link to={site00ProjectFounderCharacterDiscoveryPath(projectSlug)} className="site00-fws-mobile-screen__link">
-        OPEN CHARACTER LAB →
-      </Link>
-      <Link to={site00ProjectContentOperationsPerformancePath(projectSlug)} className="site00-fws-mobile-screen__link">
-        PERFORMANCE + LEARNING →
-      </Link>
-    </MobileScreenFrame>
+    </div>
   );
 }
 

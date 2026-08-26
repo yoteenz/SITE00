@@ -300,7 +300,12 @@ export function OverviewMobileHomeScreen({ projectSlug }: Props) {
   const metrics = NDX_OVERVIEW_REFERENCE_METRICS;
 
   return (
-    <div className="site00-fws-mobile-overview" data-visual-reconstruction="mobile-overview">
+    <div
+      className="site00-fws-mobile-shell-screen site00-fws-mobile-shell-screen--overview"
+      data-visual-reconstruction="mobile-overview"
+      {...vrRegionAttr(NDX_VR_REGION.overviewScreen)}
+    >
+      <div className="site00-fws-mobile-shell-screen__content" {...vrRegionAttr(NDX_VR_REGION.overviewContentShell)}>
       <div className="site00-fws-mobile-overview__hero" {...vrRegionAttr(NDX_VR_REGION.overviewHero)}>
         <p className="site00-fws-mobile-overview__eyebrow">OVERVIEW</p>
         <h2 className="site00-fws-mobile-overview__headline">
@@ -387,6 +392,7 @@ export function OverviewMobileHomeScreen({ projectSlug }: Props) {
           </li>
         ))}
       </ul>
+      </div>
     </div>
   );
 }

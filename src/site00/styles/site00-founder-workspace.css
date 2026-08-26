@@ -3168,16 +3168,17 @@
   cursor: pointer;
 }
 
-/* P0.VR.1D.9 — reference-driven mobile page shell (Campaign + Lab) */
+/* P0.VR.1D.9 / P0.VR.1D.10 — Reference-driven full-screen mobile shell */
 .site00-fws-mobile-chrome--visual-spec {
   min-height: 100dvh;
-  background: var(--ndx-mobile-shell-page-bg, var(--ndx-paper));
+  background: var(--ndx-mobile-page-bg, var(--ndx-mobile-shell-page-bg, var(--ndx-paper)));
 }
 
 .site00-fws-mobile-chrome--visual-spec .site00-fws-mobile-chrome__header {
-  min-height: var(--ndx-mobile-shell-header-h, 52px);
-  padding: var(--ndx-mobile-shell-header-py, 12px) var(--ndx-mobile-shell-header-px, 20px);
-  background: var(--ndx-mobile-shell-page-bg, var(--ndx-paper));
+  min-height: var(--ndx-mobile-header-h, var(--ndx-mobile-shell-header-h, 52px));
+  padding: var(--ndx-mobile-shell-header-py, 12px)
+    var(--ndx-mobile-header-px, var(--ndx-mobile-shell-header-px, 14px));
+  background: var(--ndx-mobile-page-bg, var(--ndx-mobile-shell-page-bg, var(--ndx-paper)));
   border-bottom: 1px solid rgba(17, 17, 17, 0.1);
   position: sticky;
   top: 0;
@@ -3189,19 +3190,39 @@
   width: 100%;
   max-width: none;
   margin: 0;
-  padding: var(--ndx-mobile-shell-content-pt, 12px) var(--ndx-mobile-shell-content-px, 20px)
-    calc(var(--ndx-mobile-shell-nav-h, 56px) + env(safe-area-inset-bottom, 0px));
+  padding: var(--ndx-mobile-content-pt, var(--ndx-mobile-shell-content-pt, 12px))
+    var(--ndx-mobile-content-px, var(--ndx-mobile-shell-content-px, 14px))
+    calc(
+      var(--ndx-mobile-bottom-nav-h, var(--ndx-mobile-shell-nav-h, 52px)) +
+        env(safe-area-inset-bottom, 0px) + 16px
+    );
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  background: var(--ndx-mobile-shell-page-bg, var(--ndx-paper));
+  background: var(--ndx-mobile-page-bg, var(--ndx-mobile-shell-page-bg, var(--ndx-paper)));
 }
 
 .site00-fws-mobile-chrome--visual-spec .site00-fws-mobile-chrome__nav {
-  min-height: var(--ndx-mobile-shell-nav-h, 56px);
+  min-height: var(--ndx-mobile-bottom-nav-h, var(--ndx-mobile-shell-nav-h, 56px));
   z-index: var(--ndx-mobile-shell-nav-z, 120);
-  background: var(--ndx-mobile-shell-page-bg, var(--ndx-paper));
+  background: var(--ndx-mobile-page-bg, var(--ndx-mobile-shell-page-bg, var(--ndx-paper)));
   border-top: 1px solid rgba(17, 17, 17, 0.12);
   box-shadow: none;
+}
+
+.site00-fws-mobile-shell-screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ndx-mobile-section-gap, var(--ndx-mobile-shell-section-gap, 12px));
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  background: transparent;
+}
+
+.site00-fws-mobile-shell-screen__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ndx-mobile-section-gap, var(--ndx-mobile-shell-section-gap, 12px));
 }
 
 .site00-fws-mobile-content-shell {
@@ -3213,6 +3234,132 @@
   border-radius: 0;
   background: transparent;
   box-shadow: none;
+}
+
+.site00-fws-mobile-content-ops__head,
+.site00-fws-mobile-intelligence__head {
+  margin-bottom: 2px;
+}
+
+.site00-fws-mobile-content-ops__eyebrow,
+.site00-fws-mobile-intelligence__eyebrow {
+  margin: 0 0 4px;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--ndx-muted);
+}
+
+.site00-fws-mobile-content-ops__title,
+.site00-fws-mobile-intelligence__title {
+  margin: 0;
+  font-family: var(--site00-font-display, 'Space Grotesk', sans-serif);
+  font-size: 18px;
+  line-height: 1.05;
+  letter-spacing: 0.03em;
+  font-weight: 700;
+}
+
+.site00-fws-mobile-content-ops__split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.site00-fws-mobile-content-ops__chip {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 3px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--ndx-border);
+  font-size: 7px;
+  letter-spacing: 0.08em;
+}
+
+.site00-fws-mobile-content-ops__score-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.site00-fws-mobile-content-ops__score-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 8px;
+  letter-spacing: 0.04em;
+}
+
+.site00-fws-mobile-content-ops__score-list strong {
+  color: var(--ndx-lime);
+  font-family: var(--site00-font-mono, 'IBM Plex Mono', monospace);
+}
+
+.site00-fws-mobile-content-ops__today {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.site00-fws-mobile-content-ops__approve {
+  padding: 8px 10px;
+  border: 1px solid var(--ndx-lime);
+  background: rgba(183, 210, 54, 0.2);
+  font-family: inherit;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.site00-fws-mobile-content-ops__work-card {
+  flex: 0 0 auto;
+  min-width: 120px;
+  padding: 10px 8px;
+  border: 1px solid var(--ndx-border);
+  background: var(--ndx-surface-raised);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.site00-fws-mobile-signal-list--full li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--ndx-border);
+}
+
+.site00-fws-mobile-signal-list--full strong {
+  color: var(--ndx-lime);
+  font-family: var(--site00-font-mono, 'IBM Plex Mono', monospace);
+}
+
+.site00-fws-mobile-radar--full {
+  min-height: 160px;
+  margin-bottom: 8px;
+}
+
+.site00-fws-mobile-character__portrait--art {
+  background-size: cover;
+  background-position: center 20%;
+  background-repeat: no-repeat;
+}
+
+.site00-fws-mobile-character__quote {
+  margin: 0 0 10px;
+  padding: 10px 8px;
+  border-left: 2px solid var(--ndx-lime);
+  font-size: 10px;
+  line-height: 1.35;
+  letter-spacing: 0.04em;
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+.site00-fws-mobile-perf-grid--character em {
+  color: var(--ndx-lime);
 }
 
 .site00-fws-mobile-chrome--campaign-board.site00-fws-mobile-chrome--visual-spec .site00-fws-mobile-campaign__title-block {
@@ -3245,8 +3392,8 @@
 
 @media (min-width: 375px) and (max-width: 430px) {
   .site00-fws-mobile-chrome--visual-spec .site00-fws-mobile-chrome__body {
-    padding-left: var(--ndx-mobile-shell-content-px, 20px);
-    padding-right: var(--ndx-mobile-shell-content-px, 20px);
+    padding-left: var(--ndx-mobile-content-px, var(--ndx-mobile-shell-content-px, 14px));
+    padding-right: var(--ndx-mobile-content-px, var(--ndx-mobile-shell-content-px, 14px));
   }
 }
 
