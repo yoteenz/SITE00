@@ -103,4 +103,12 @@ describe('P0.E.2 Astral World Reference Convergence', () => {
     const outerFn = src.slice(src.indexOf('export function ReferenceShellSuspenseFallback'), src.indexOf('function ReferenceShellSuspenseFallbackNdx'));
     expect(outerFn).not.toContain('useSite00(');
   });
+
+  it('TEST 14 — Preview bypass opens Astral World prototype without account guard', () => {
+    const guard = readFileSync('src/site00/components/guards/AstralWorldRouteGuard.tsx', 'utf8');
+    expect(guard).toContain('isPreviewEnvironment');
+    expect(guard).toContain('isAstralWorldPrototypePath');
+    const routes = readFileSync('src/routes/Site00Routes.tsx', 'utf8');
+    expect(routes).toContain('AstralWorldRouteGuard');
+  });
 });
