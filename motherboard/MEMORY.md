@@ -5374,3 +5374,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.3H authorship/receipts, draft guards, no FAL, no production release, NDXBOOK expressive canon.
 
 ---
+
+## 2026-08-26 — P0.VR.3L missing-target family derivation + shell propagation governance
+
+- **Context:** Work outward from missing SITE 00 / NDXBOOK design targets without full screenshot backfill — classify target type, select family sibling, on-demand capture, derive Composer drafts, shell propagation blast-radius governance (TARGET_ONLY / DESIGN_FAMILY / SHARED_SHELL_GLOBAL).
+- **Delivered:** `p0vr3l/` — `MissingDesignTargetType`, `FamilyDerivedMissingTargetRecord`, `SharedShellRecord`, dependency graph, sibling selection + on-demand P0.VR.3E capture, `deriveMissingTargetFromFamily()` (Voice Lab TAB_STATE under Character Lab — registration only, no new routes), family fidelity QA, shell propagation impact/receipts/rollback/exceptions/recapture plan. Design workspace **MISSING** tab: `DesignMissingTargetQueue`, `DesignShellPropagationPanel`. Browser-safe split via `derivationStore.ts` (no node:fs in bundle). Tests `visualReconstructionP0VR3L.test.ts` (15 pass). Build green (`index.BvSdAUzs.js`, `StudioWorldDesignPage.DY_zkA3H.js`).
+- **Core rule:** Missing tab ≠ new page shell. Reuse actual shared code; capture sibling only when needed. Founder controls propagation blast radius; SITE 00 ↔ NDXBOOK never cross-propagate.
+- **Preserved:** P0.VR.3J registration reconciliation, P0.VR.3H true-missing handoff, P0.VR.3E snapshots, P0.VR.2 reference, P0.VR.2A assets, no FAL, no auto publish.
+
+---
