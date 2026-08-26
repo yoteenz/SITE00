@@ -53,7 +53,10 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
       if (shouldAttemptServerRestoreNow()) {
         const restored = await tryServerSessionRestore().catch(() => false);
         if (cancelled) return;
-        if (restored) return;
+        if (restored) {
+          setRecoveryDone(true);
+          return;
+        }
       }
 
       let { data: { session } } = await supabase.auth.getSession();
@@ -69,7 +72,11 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
       }
       if (!session) {
         const restored = await tryServerSessionRestore().catch(() => false);
-        if (restored) return;
+        if (cancelled) return;
+        if (restored) {
+          setRecoveryDone(true);
+          return;
+        }
         ensureAuthRestoredFromBackup();
         persistAuthBackup();
         setRecoveryDone(true);

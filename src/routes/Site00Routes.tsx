@@ -10,6 +10,7 @@ import { Site00RouteLoadingFallback } from '../site00/components/loader/Site00Ro
 import { Site00WorldColdStartGate } from '../site00/components/loader/Site00WorldColdStartGate';
 import { Site00OriginRouteShell } from '../site00/components/shell/Site00OriginRouteShell';
 import { Site00AccountRouteGuard } from '../site00/components/guards/Site00AccountRouteGuard';
+import { AstralWorldRouteGuard } from '../site00/components/guards/AstralWorldRouteGuard';
 import { Site00ComposerDraftRouteGuard } from '../site00/components/guards/Site00ComposerDraftRouteGuard';
 import { Site00PublicRouteShell } from '../site00/components/shell/Site00PublicRouteShell';
 import { Site00PublicDesktopLegacyRedirect } from '../site00/components/shell/Site00PublicWideDesktopRedirect';
@@ -741,21 +742,21 @@ export function Site00Routes() {
       <Route
         path={SITE00_ROUTES.projectExperience}
         element={
-          <Site00AccountRouteGuard>
+          <AstralWorldRouteGuard>
             <Site00Suspense>
               <ProjectAstralWorldExperiencePage />
             </Site00Suspense>
-          </Site00AccountRouteGuard>
+          </AstralWorldRouteGuard>
         }
       />
       <Route
         path={SITE00_ROUTES.projectDebugWorld}
         element={
-          <Site00AccountRouteGuard>
+          <AstralWorldRouteGuard>
             <Site00Suspense>
               <ProjectAstralWorldFastTrackPage />
             </Site00Suspense>
-          </Site00AccountRouteGuard>
+          </AstralWorldRouteGuard>
         }
       />
       <Route
