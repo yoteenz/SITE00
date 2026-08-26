@@ -227,11 +227,12 @@ describe('P0.VR.2A reference asset slot compiler', () => {
 
   it('22. design workspace UI wired', () => {
     const ui = read('src/site00/components/founderWorkspace/StudioWorldDesignWorkspace.tsx');
-    expect(ui).toContain('MISSING VISUAL ASSETS');
-    expect(ui).toContain('GENERATE MISSING ASSETS');
-    expect(ui).toContain('GENERATE THIS ASSET');
-    expect(ui).toContain('INSPECT PROMPT');
-    expect(ui).toContain('P0_VR_2A_LINEAGE');
+    const assets = read('src/site00/components/designWorkspace/DesignMissingAssetsSection.tsx');
+    expect(assets).toContain('MISSING VISUAL ASSETS');
+    expect(assets).toContain('GENERATE ALL READY ASSETS');
+    expect(ui).toContain('handleGenerateAll');
+    expect(ui).toContain('handleInspectPrompt');
+    expect(read('src/site00/components/designWorkspace/Site00DesignWorkspaceShell.tsx')).toContain('SITE 00');
     expect(P0_VR_2A_FAILURE_CODES).toContain('FAIL_ASSET_BIND_CAUSES_LAYOUT_SHIFT');
   });
 

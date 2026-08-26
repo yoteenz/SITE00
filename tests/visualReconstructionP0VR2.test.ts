@@ -239,7 +239,7 @@ describe('P0.VR.2 master design workspace', () => {
       VISUAL_IMPLEMENTATION_CANON_IMPLEMENTED: true,
       NEW_REFERENCE_MARKS_IMPLEMENTATION_STALE: true,
       DESIGN_SCREEN_MATRIX_IMPLEMENTED: buildDesignScreenMatrix('ndxbook').length > 0,
-      MOBILE_DESKTOP_CANON_STATUS_VISIBLE: read('src/site00/components/founderWorkspace/StudioWorldDesignWorkspace.tsx').includes('SCREEN MATRIX'),
+      MOBILE_DESKTOP_CANON_STATUS_VISIBLE: read('src/site00/components/founderWorkspace/StudioWorldDesignWorkspace.tsx').includes("tab === 'HISTORY'"),
       LOADING_SHELL_USES_CURRENT_VISUAL_CANON: read('src/site00/components/founderWorkspace/ReferenceShellLoadingState.tsx').includes('ReferenceShellLoadingState'),
       SHARED_COMPONENT_IMPACT_DETECTION_IMPLEMENTED: true,
       NDXBOOK_PILOT_REGISTERED: listDesignScreensForProject('ndxbook').length >= 7,
