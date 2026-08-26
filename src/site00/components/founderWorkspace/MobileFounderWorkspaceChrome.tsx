@@ -19,6 +19,7 @@ import { NDX_VR_REGION, vrRegionAttr } from '../../config/ndxVisualRegionIds';
 import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
 import { NDXIcon } from '../../icons/ndx';
 import { Site00Diamond } from '../shell/Site00Diamond';
+import { CURRENT_VISUAL_SHELL_VERSION } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr1d12/client.js';
 import '../../styles/site00-founder-workspace.css';
 
 type Props = {
@@ -91,6 +92,7 @@ export function MobileFounderWorkspaceChrome({
     <div
       className={`site00-fws-mobile-chrome site00-fws-mobile-chrome--${screenId}${hasVisualSpec ? ' site00-fws-mobile-chrome--visual-spec' : ''}${ndxVisualSpec ? ` site00-fws-mobile-chrome--shell-${ndxVisualSpec.screenId}` : ''}${menuOpen ? ' site00-fws-mobile-chrome--menu-open' : ''}${notificationOpen ? ' site00-fws-mobile-chrome--notify-open' : ''}`}
       data-visual-reconstruction={`mobile-${screenId}`}
+      data-visual-shell-version={CURRENT_VISUAL_SHELL_VERSION}
       style={shellStyle}
       {...(screenRegion ? vrRegionAttr(screenRegion) : {})}
     >

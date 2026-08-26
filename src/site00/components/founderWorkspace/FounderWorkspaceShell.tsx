@@ -26,6 +26,7 @@ import { useActiveProjectNotifications } from '../../hooks/useActiveProjectNotif
 import { renderMobileFounderWorkspaceScreen } from './MobileFounderWorkspaceScreens';
 import { resolveMobileScreenIdFromPath } from '../../config/ndxFounderWorkspaceMobileNav';
 import { resolveMobileVisualShellSpec } from '../../config/ndxMobileVisualShellSpecs';
+import { CURRENT_VISUAL_SHELL_VERSION } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr1d12/client.js';
 import '../../styles/site00-founder-workspace.css';
 
 type InspectorState = {
@@ -186,7 +187,11 @@ export function FounderWorkspaceShell({
 
   return (
     <FounderWorkspaceContext.Provider value={ctx}>
-      <div className={`site00-fws${mobilePresentation ? ' site00-fws--mobile-presentation' : ''}`}>
+      <div
+        className={`site00-fws${mobilePresentation ? ' site00-fws--mobile-presentation' : ''}`}
+        data-visual-shell-version={CURRENT_VISUAL_SHELL_VERSION}
+        data-mobile-screen-id={mobileScreenId}
+      >
         {!hideWorkspaceNav && isPreviewDesktop ? (
           <aside className="site00-fws-rail site00-fws-hub-desktop-only" aria-label="NDXBOOK workspace">
             <div className="site00-fws-rail__brand">

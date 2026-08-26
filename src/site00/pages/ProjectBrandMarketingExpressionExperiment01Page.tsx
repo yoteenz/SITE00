@@ -54,7 +54,14 @@ import {
   Experiment01OperateLayer,
   Experiment01UnderstandLayer,
 } from '../components/founderWorkspace/Experiment01OperateLayer';
-import { NDX_EXPERIMENT_01_CANONICAL_TITLE } from '../config/ndxFounderWorkspace';
+import { ReferenceShellLoadingState } from '../components/founderWorkspace/ReferenceShellLoadingState';
+import { WorkspaceLoadingState } from '../components/founderWorkspace/WorkspaceLoadingState';
+import { NDX_EXPERIMENT_01_CANONICAL_TITLE, ndxFounderWorkspaceEnabled } from '../config/ndxFounderWorkspace';
+import {
+  LEGACY_VISUAL_SHELL_VERSION,
+  RUNTIME_CURRENT_ROUTE_ELIGIBLE,
+  SUPERSEDED_VISUAL_ONLY,
+} from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr1d12/client.js';
 import '../styles/site00-replay-execution.css';
 import '../styles/site00-founder-workspace.css';
 
@@ -431,7 +438,40 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
     !isGeneratingBoard &&
     generatedCount > 0;
   const canGenerateRemaining = pendingCount > 0 && !isGeneratingBoard && !(versionTab === 'V23' && v23Superseded);
-  const useFounderWorkspaceShell = versionTab === 'V23' && v23Artifacts.length > 0;
+  const founderWorkspaceEnabled = ndxFounderWorkspaceEnabled(projectSlug);
+  const v23BoardReady = versionTab === 'V23' && v23Artifacts.length > 0;
+
+  const desktopOperateContent = loading ? (
+    <ReferenceShellLoadingState screenId="experiment-01" />
+  ) : v23BoardReady ? (
+    <Experiment01OperateLayer
+      artifacts={v23Artifacts}
+      selectedId={selectedId}
+      onSelect={(id) => {
+        setSelectedId(id);
+        cancelV23RevisionDraft();
+      }}
+      generatedCount={generatedCount}
+      total={activeArtifacts.length}
+      isGenerating={isGeneratingBoard}
+      canGenerateRemaining={canGenerateRemaining}
+      canRegenerateAll={canRegenerateAllV23}
+      busy={busy}
+      onGenerateRemaining={() => void generateAll()}
+      onRegenerateAll={() => void regenerateAllV23()}
+      onRegenerateCurrent={(id) => void regenerateCurrentV23(id)}
+      selected={selectedV23}
+      onJudgmentTap={onV23JudgmentTap}
+      onReplayHistorical={(id) =>
+        void site00ProjectsApi
+          .marketingExpressionExperiment01V23Replay(projectSlug, id)
+          .then((r) => setRun(r.run as BrandMarketingExpressionRun))
+      }
+      onInspectImage={(url, alt) => setInspectImage({ url, alt })}
+    />
+  ) : (
+    <WorkspaceLoadingState label="PREPARING EXPERIMENT 01…" />
+  );
 
   const legacyExperiment01Body = (
     <>
@@ -1064,7 +1104,7 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
 
   return (
     <EcosystemShell hidePageHeader>
-      {useFounderWorkspaceShell ? (
+      {founderWorkspaceEnabled ? (
         <FounderWorkspaceShell
           projectSlug={projectSlug}
           title="EXPERIMENT 01"
@@ -1072,42 +1112,26 @@ export default function ProjectBrandMarketingExpressionExperiment01Page() {
           attentionBadge={
             isGeneratingBoard ? 'DEVELOPING' : allGenerated ? 'READY TO REVIEW' : pendingCount > 0 ? 'DEVELOPING' : undefined
           }
-          operate={
-            <Experiment01OperateLayer
-              artifacts={v23Artifacts}
-              selectedId={selectedId}
-              onSelect={(id) => {
-                setSelectedId(id);
-                cancelV23RevisionDraft();
-              }}
-              generatedCount={generatedCount}
-              total={activeArtifacts.length}
-              isGenerating={isGeneratingBoard}
-              canGenerateRemaining={canGenerateRemaining}
-              canRegenerateAll={canRegenerateAllV23}
-              busy={busy}
-              onGenerateRemaining={() => void generateAll()}
-              onRegenerateAll={() => void regenerateAllV23()}
-              onRegenerateCurrent={(id) => void regenerateCurrentV23(id)}
-              selected={selectedV23}
-              onJudgmentTap={onV23JudgmentTap}
-              onReplayHistorical={(id) =>
-                void site00ProjectsApi
-                  .marketingExpressionExperiment01V23Replay(projectSlug, id)
-                  .then((r) => setRun(r.run as BrandMarketingExpressionRun))
-              }
-              onInspectImage={(url, alt) => setInspectImage({ url, alt })}
-            />
-          }
+          operate={desktopOperateContent}
           understand={<Experiment01UnderstandLayer />}
           inspect={
-            <div className="site00-cd site00-cd--project-calibration site00-fws-legacy-inspect">
+            <div
+              className="site00-cd site00-cd--project-calibration site00-fws-legacy-inspect"
+              data-visual-shell-version={LEGACY_VISUAL_SHELL_VERSION}
+              data-superseded-visual={SUPERSEDED_VISUAL_ONLY}
+              data-runtime-current-route-eligible={String(RUNTIME_CURRENT_ROUTE_ELIGIBLE)}
+            >
               <div className="site00-project-lore-calibration">{legacyExperiment01Body}</div>
             </div>
           }
         />
       ) : (
-        <div className="site00-cd site00-cd--project-calibration">
+        <div
+          className="site00-cd site00-cd--project-calibration"
+          data-visual-shell-version={LEGACY_VISUAL_SHELL_VERSION}
+          data-superseded-visual={SUPERSEDED_VISUAL_ONLY}
+          data-runtime-current-route-eligible={String(RUNTIME_CURRENT_ROUTE_ELIGIBLE)}
+        >
           <div className="site00-project-lore-calibration">{legacyExperiment01Body}</div>
         </div>
       )}
