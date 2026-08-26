@@ -5392,3 +5392,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.3J NDXBOOK 13-gap reconciliation, failed Account capture history in persistent registry, Composer authorship/receipts, no FAL, no mass backfill.
 
 ---
+
+## 2026-08-26 — P0.VR.3J.2-SITE00 Account auth capture execution + NDXBOOK Voice Lab family-derived execution
+
+- **Context:** Execution sprint (no new architecture) — run existing `capture_account_drafts` to finish SITE 00 27/27 composer-draft screenshots; execute prepared Character Lab → Language Lab source → Voice Lab derivation with on-demand P0.VR.3E captures and founder Source vs Derived review.
+- **Delivered:** Executed Account M/T/D capture (CUSTOMER auth, 3/3 valid, 24 reused unchanged). Persistent registry now 27/27 valid + 3 historical AUTH_BLOCKED preserved. `p0vr3j2/executePreparedCaptures.ts` orchestrator + `buildVoiceLabSourceDerivedReview()` + script `scripts/execute-p0vr3j2-captures.ts`. API POST `execute_p0vr3j2`, GET `view=voice_lab_review`. UI `DesignMissingTargetQueue` Source vs Derived comparison panel with M/T/D thumbnails. Voice Lab derivation executed: Language Lab source (FAMILY SOURCE label) + Voice Lab target (COMPOSER DERIVED DRAFT), family QA pass, READY_FOR_REVIEW. Propagation default TARGET_ONLY, not applied. Tests `visualReconstructionP0VR3J2.test.ts` (5 pass). Build green (`StudioWorldDesignPage.Dai5nKy0.js`).
+- **Core rule:** Use existing P0.VR.3J.1 + P0.VR.3L infrastructure only. No mass backfill, no FAL, no auto-approval, no shell propagation until founder chooses.
+- **Preserved:** Account NEEDS_FUNCTIONAL_REVIEW, Sound content-blocked, Blueprints/Brand creative, NDXBOOK 13 registrations, project canon boundaries.
+
+---

@@ -1482,6 +1482,51 @@
   letter-spacing: 0.06em;
 }
 
+.site00-dw-missing-targets__select {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+}
+
+.site00-dw-missing-targets__compare {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.site00-dw-missing-targets__compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 0.75rem 0;
+}
+
+.site00-dw-missing-targets__thumbs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.site00-dw-missing-targets__thumb img {
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.site00-dw-missing-targets__thumb-missing,
+.site00-dw-missing-targets__loading {
+  padding: 1rem;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+}
+
+.site00-dw-missing-targets__warn {
+  color: var(--site-red);
+  font-size: 11px;
+}
+
 /* P0.VR.3L — Missing targets queue + shell propagation */
 .site00-dw-missing-targets {
   padding: 16px;

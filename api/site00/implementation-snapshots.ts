@@ -11,6 +11,8 @@ import {
 import { captureComposerDraftSnapshots } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3j/composerDraftBackfill.js';
 import { captureAccountDraftSnapshotsOnly } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3j/accountAuthenticatedCapture.js';
 import { buildComposerDraftReviewSession } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3j/composerDraftReviewSession.js';
+import { executePreparedCaptures } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3j2/executePreparedCaptures.js';
+import { buildVoiceLabSourceDerivedReview } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3j2/voiceLabReviewSession.js';
 import { hydratePersistentImplementationSnapshots } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3e/hydratePersistentImplementationSnapshots.js';
 import {
   getLatestImplementationSnapshot,
@@ -29,6 +31,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const screenId = req.query.screenId ? String(req.query.screenId) : null;
       const viewportClass = req.query.viewportClass ? (String(req.query.viewportClass) as DesignViewportClass) : null;
       const view = req.query.view ? String(req.query.view) : null;
+
+      if (view === 'voice_lab_review') {
+        await hydratePersistentImplementationSnapshots({ repoRoot: REPO_ROOT });
+        return res.status(200).json(buildVoiceLabSourceDerivedReview());
+      }
 
       if (view === 'composer_draft_review') {
         const session = await buildComposerDraftReviewSession({ repoRoot: REPO_ROOT });
@@ -119,6 +126,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           verifyStorage: body.verifyStorage === true,
         });
         return res.status(200).json(session);
+      }
+      case 'execute_p0vr3j2': {
+        const report = await executePreparedCaptures({
+          baseUrl: body.baseUrl,
+          repoRoot: REPO_ROOT,
+          forceAccount: body.forceAccount === true,
+          forceVoiceLab: body.forceVoiceLab === true,
+          skipAccount: body.skipAccount === true,
+          skipVoiceLab: body.skipVoiceLab === true,
+        });
+        return res.status(200).json(report);
       }
       default:
         return res.status(400).json({ error: 'Unknown action' });
