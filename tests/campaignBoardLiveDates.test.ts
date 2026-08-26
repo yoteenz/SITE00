@@ -62,14 +62,15 @@ describe('overview mobile today date', () => {
 });
 
 describe('campaign board mobile screen uses live calendar', () => {
-  it('MobileCampaignBoardScreen imports live week hook', () => {
+  it('MobileCampaignBoardScreen imports live week hook and schedule cells', () => {
     const src = readFileSync(
       join(ROOT, 'src/site00/components/founderWorkspace/MobileFounderWorkspaceScreens.tsx'),
       'utf8',
     );
     expect(src).toContain('useCampaignBoardWeekCalendar');
-    expect(src).toContain('week.weekLabel');
-    expect(src).toContain('week.dateRangeLabel');
+    expect(src).toContain('formatCampaignScheduleDayLabel');
+    expect(src).toContain('site00-fws-mobile-campaign__schedule-cell');
     expect(src).not.toContain('NDX_CAMPAIGN_BOARD_WEEK');
+    expect(src).not.toContain('week.weekLabel');
   });
 });

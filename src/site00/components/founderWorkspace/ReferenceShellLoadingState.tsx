@@ -56,10 +56,44 @@ function GenericShellSkeleton({ rows = 4 }: { rows?: number }) {
   );
 }
 
+function CampaignBoardSkeleton() {
+  return (
+    <div className="site00-ref-shell-loading site00-ref-shell-loading--campaign-board">
+      <SkeletonBlock className="site00-ref-shell-loading__breadcrumb" />
+      <SkeletonBlock className="site00-ref-shell-loading__title-block" />
+      <div className="site00-ref-shell-loading__status-card">
+        <SkeletonBlock className="site00-ref-shell-loading__status-col" />
+        <SkeletonBlock style={{ width: 1, height: '100%' }} />
+        <SkeletonBlock className="site00-ref-shell-loading__status-col" />
+      </div>
+      <div className="site00-ref-shell-loading__schedule">
+        {Array.from({ length: 7 }, (_, i) => (
+          <SkeletonBlock key={i} className="site00-ref-shell-loading__schedule-cell" />
+        ))}
+      </div>
+      <div className="site00-ref-shell-loading__pages-lane">
+        {Array.from({ length: 3 }, (_, i) => (
+          <SkeletonBlock key={i} className="site00-ref-shell-loading__page-card" />
+        ))}
+      </div>
+      <SkeletonBlock className="site00-ref-shell-loading__motion-card" />
+      <div className="site00-ref-shell-loading__quick-grid">
+        {Array.from({ length: 4 }, (_, i) => (
+          <SkeletonBlock key={i} className="site00-ref-shell-loading__quick-cell" />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function ReferenceShellLoadingState({ screenId, label }: Props) {
   const statusLabel =
     label ??
-    (screenId === 'experiment-01' ? 'LOADING EXPERIMENT 01…' : 'LOADING…');
+    (screenId === 'experiment-01'
+      ? 'LOADING EXPERIMENT 01…'
+      : screenId === 'campaign-board'
+        ? 'LOADING CAMPAIGN BOARD…'
+        : 'LOADING…');
 
   return (
     <div
@@ -71,7 +105,13 @@ export function ReferenceShellLoadingState({ screenId, label }: Props) {
       data-reference-shell-loading={screenId}
     >
       <p className="site00-ref-shell-loading-wrap__label">{statusLabel}</p>
-      {screenId === 'experiment-01' ? <Experiment01Skeleton /> : <GenericShellSkeleton />}
+      {screenId === 'experiment-01' ? (
+        <Experiment01Skeleton />
+      ) : screenId === 'campaign-board' ? (
+        <CampaignBoardSkeleton />
+      ) : (
+        <GenericShellSkeleton />
+      )}
     </div>
   );
 }

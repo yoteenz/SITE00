@@ -107,7 +107,7 @@ export async function runMobileShellRolloutPass(
   for (const screenId of P0_VR_1D10_REGRESSION_SCREENS) {
     const selector =
       screenId === 'campaign-board'
-        ? '[data-visual-reconstruction="mobile-campaign-board"]'
+        ? '[data-visual-reconstruction="mobile-campaign-board-v1d13"]'
         : '[data-visual-reconstruction="mobile-lab-experiment-01"]';
     const src = readFileSync(join(rootDir, 'src/site00/components/founderWorkspace/MobileFounderWorkspaceScreens.tsx'), 'utf8');
     regression.push({ screenId, selectorPresent: src.includes(selector.slice(1, -1)) });

@@ -94,6 +94,19 @@ export function resolveTodayCampaignDayShortId(at: Date = new Date()): string {
   return today?.id.split('-')[0] ?? 'mon';
 }
 
+/** Uppercase weekday + month day for schedule cells (e.g. MON / MAY 24). */
+export function formatCampaignScheduleDayLabel(date: Date): { weekday: string; monthDay: string } {
+  const weekday = date.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
+  const monthDay = formatMonthDayUpper(date);
+  return { weekday, monthDay };
+}
+
+/** Format created date for status card (e.g. MAY 24, 2025). */
+export function formatCampaignCreatedLabel(date: Date): string {
+  const month = date.toLocaleDateString('en-US', { month: 'short' }).replace('.', '').toUpperCase();
+  return `${month} ${date.getDate()}, ${date.getFullYear()}`;
+}
+
 /** Short hub chip label e.g. Mon 25 */
 export function formatCampaignBoardHubDayLabel(date: Date): string {
   const weekday = date.toLocaleDateString('en-US', { weekday: 'short' });

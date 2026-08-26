@@ -11,7 +11,11 @@ export const FAIL_MARGINS_ARTWORK_MISSING = 'FAIL_MARGINS_ARTWORK_MISSING' as co
 export const FAIL_BOOK_IN_MOTION_ARTWORK_MISSING = 'FAIL_BOOK_IN_MOTION_ARTWORK_MISSING' as const;
 
 export const NDX_CAMPAIGN_BOARD_REFERENCE_PATH =
-  'visual-references/founder/ndxbook/mobile-campaign-board-reference.png' as const;
+  'visual-references/founder/ndxbook/mobile-campaign-board-reference-p0vr1d13.png' as const;
+
+/** Founder-attached JPG remains visual authority; PNG supports VR ingestion pipeline. */
+export const NDX_CAMPAIGN_BOARD_REFERENCE_JPG_PATH =
+  'visual-references/founder/ndxbook/mobile-campaign-board-reference-p0vr1d13.jpg' as const;
 
 export const NDX_CAMPAIGN_BOARD_ROUTE = '/projects/ndxbook/content-operations/campaign-board' as const;
 

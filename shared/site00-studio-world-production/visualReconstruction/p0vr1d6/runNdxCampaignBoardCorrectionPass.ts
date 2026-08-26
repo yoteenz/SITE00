@@ -49,11 +49,10 @@ export async function runNdxCampaignBoardCorrectionPass(
     projectRoot: rootDir,
     cards: [
       { id: 'pages-subscription', artworkPath: '/visual-references/founder/ndxbook/campaign-board-artwork/pages-subscription.webp' },
-      { id: 'pages-layoffs', artworkPath: '/visual-references/founder/ndxbook/campaign-board-artwork/pages-layoffs.webp' },
-      { id: 'margins-gibl', artworkPath: '/visual-references/founder/ndxbook/campaign-board-artwork/margins-gibl.webp' },
-      { id: 'margins-nope', artworkPath: '/visual-references/founder/ndxbook/campaign-board-artwork/margins-nope.webp' },
-      { id: 'margins-pattern', artworkPath: '/visual-references/founder/ndxbook/campaign-board-artwork/margins-pattern.webp' },
-      { id: 'book-in-motion', artworkPath: '/visual-references/founder/ndxbook/campaign-board-artwork/book-in-motion.webp' },
+      { id: 'pages-theory', artworkPath: '/visual-references/founder/ndxbook/campaign-board-artwork/pages-theory.webp' },
+      { id: 'pages-serious', artworkPath: '/visual-references/founder/ndxbook/campaign-board-artwork/pages-serious.webp' },
+      { id: 'pages-decade', artworkPath: '/visual-references/founder/ndxbook/campaign-board-artwork/pages-decade.webp' },
+      { id: 'book-in-motion', artworkPath: '/visual-references/founder/ndxbook/campaign-board-artwork/book-in-motion-interesting-fair.webp' },
     ],
   });
 
@@ -92,7 +91,7 @@ export async function runNdxCampaignBoardCorrectionPass(
       previewDeviceMode: 'mobile',
       routeSearch: NDX_CAMPAIGN_BOARD_ROUTE_SEARCH,
       captureDomMeasurements: true,
-      waitForSelector: '[data-visual-reconstruction="mobile-campaign-board"]',
+      waitForSelector: '[data-visual-reconstruction="mobile-campaign-board-v1d13"]',
     });
 
     renderPath = snapshot.screenshotPath;
