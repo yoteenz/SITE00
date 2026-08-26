@@ -106,14 +106,19 @@ export function classifyImplementationSilhouette(_iconName: NDXIconName, pathDat
   if (joined.includes('h7v7') || joined.includes('h4v4')) return 'GRID';
   if (joined.includes('h10v16') || (joined.includes('h7') && joined.includes('v16'))) return 'DOCUMENT';
   if (circles >= 2 && pathData.length === 0) return 'DOTS';
-  if (joined.includes('a6.75 6.75') || joined.includes('a7 7')) return 'CIRCLE_TARGET';
-  if (joined.includes('l12 4.') || joined.includes('m6.25 10.75')) return 'HOUSE';
-  if (joined.includes('l8.75 5.75') || joined.includes('l8.5 5.5')) return 'CLAPPER';
-  if (joined.includes('h17.5 v10') || joined.includes('h18 v11')) return 'EXIT_ARROW';
+  if (circles >= 3 && joined.includes('a6.5 6.5')) return 'CIRCLE_DOTS';
+  if (joined.includes('h16.25 v16.75') && joined.includes('h14 v18.75')) return 'STACKED_PAGES';
+  if (joined.includes('a2.25 2.25') && pathData.length > 8) return 'GEAR';
+  if (joined.includes('a6 6') || joined.includes('a6.75 6.75') || joined.includes('a7 7')) return 'CIRCLE_TARGET';
+  if (joined.includes('l12 4.') || joined.includes('m6.25 10.75') || joined.includes('l12 5.5') || joined.includes('m6 11.5')) return 'HOUSE';
+  if (joined.includes('l8.75 5.75') || joined.includes('l8.5 5.5') || joined.includes('l8.75 6.75')) return 'CLAPPER';
+  if (joined.includes('m4.75 12') || joined.includes('h17.5 v10') || joined.includes('h18 v11') || joined.includes('m8.5 6.25')) return 'EXIT_ARROW';
+  if (joined.includes('m9.25 14.75') && circles >= 1) return 'PLANET';
   if (joined.includes('a6.5 6.5') && joined.includes('m5.5 12')) return 'GLOBE';
-  if (joined.includes('l19.5 19.5') || joined.includes('l20 20')) return 'MAGNIFIER';
+  if (joined.includes('l18.75 18.75') || joined.includes('l19.5 19.5') || joined.includes('l20 20')) return 'MAGNIFIER';
+  if (joined.includes('a6.5 6.5') && joined.includes('v16.35')) return 'QUESTION_CIRCLE';
   if (joined.includes('a8.5 8.5') && joined.includes('h12.05')) return 'QUESTION_CIRCLE';
-  if (joined.includes('v8.75 l') || joined.includes('l13.5 8.75') || joined.includes('l6.5 19.25')) return 'FLASK';
-  if (joined.includes('c9.25 4.75') || joined.includes('17 a1.75')) return 'BELL';
+  if (joined.includes('v8.75 l') || joined.includes('l13.5 8.75') || joined.includes('l6.5 19.25') || joined.includes('l7 18.5')) return 'FLASK';
+  if (joined.includes('c9.25 4.75') || joined.includes('c9.25 5.25') || joined.includes('m12 5.25') || joined.includes('17 a1.75')) return 'BELL';
   return 'TRACED';
 }
