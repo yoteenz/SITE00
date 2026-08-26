@@ -5239,3 +5239,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Upload GoDaddy ZIP (frontend-only).
 
 ---
+
+## 2026-08-26 — NDX founder mobile gray letterbox removal
+
+- **Context:** Founder reported gray side panels / letterbox gutters on left and right of mobile NDX founder screens (Campaign Board and related routes).
+- **Root cause:** Global `.site00-mobile-shell__main` horizontal padding exposed `#f4f4f2` ecosystem shell background beside full-width NDX founder chrome; fixed 350px section width further constrained content on wider phones.
+- **Delivered:** `.site00-ecosystem-shell--ndx-founder-mobile` now zeroes `padding-inline` on ecosystem/mobile shell mains, sets paper background, and allows full-width content. `.site00-fws-mobile-content-shell` and campaign page cards use fluid `100%` / `72vw` sizing instead of fixed 350px caps. Tests `ndxFounderMobileLetterboxRemoval.test.ts` (2 pass).
+- **Founder next:** Upload GoDaddy ZIP (frontend-only).
+
+---
