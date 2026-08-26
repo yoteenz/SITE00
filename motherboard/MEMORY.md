@@ -5192,7 +5192,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-- **Context:** Follow-up to P0.UI.3C — notification center functionally worked (scoping, unread, tabs, deep links) but visually read as generic dropdown: wrong typography, white surface, clipping on mobile, not NDX paper family.
+## 2026-08-26 — P0.UI.3D reference-locked icon rebuild + NDX_ICON_VISUAL_CANON_V3
+
+- **Context:** Founder attached NDXBOOK icon reference sheet (13 icons) as PRIMARY_ICON_VISUAL_AUTHORITY. P0.UI.3B improved architecture but some icons remained approximate (ellipsis missing circle container, project_overview copied house, etc.).
+- **Delivered:** `p0ui3d/` module — `NDXIconReferenceAuthorityMap`, 13 reference crops (`icon-crops-v3/`), `NDX_ICON_GEOMETRY_V3` full path replacement, `NDX_ICON_VISUAL_CANON_V3` wired through canonical `NDXIconRegistry`. V2 geometry superseded non-destructively. Extended silhouette classifier for V3 paths. Tests `ndxIconSystemP0UI3D.test.ts` (14 pass). Build green.
+- **Preserved:** NDXIcon, registry API, currentColor, active/inactive states, notification/project menu behavior, page layout.
+- **Founder next:** Upload GoDaddy ZIP (frontend-only).
+
+---
 - **Delivered:** `NotificationCenterVisualAuthority` + failure taxonomy (`notificationCenterVisualEvaluation.ts`). Shared `FounderWorkspacePopoverSurface` (portal, viewport clamp, NDX paper shell) used by notification center and project menu. `founderWorkspacePopoverPosition.ts` — 16px gutters, `min(340px, calc(100vw - 32px))`, dvh-aware max-height, right-viewport anchoring. CSS overhaul: `--ndx-surface-raised` paper, mono typography tokens, row dividers, title wrap, lime unread/tab accent, designed messages empty state. VR regions: `ndx.notification.panel|header|tabs|list|row|footer`. Tests `ndxNotificationCenterP0UI3C2.test.ts` (14 pass) + updated P0.UI.3C/panel position tests. Build green.
 - **Preserved:** All P0.UI.3C notification semantics; project menu behavior; bell/ellipsis exclusivity; P0.UI.3B bell SVG.
 

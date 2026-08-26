@@ -7,9 +7,10 @@ import type {
   NdxIconActiveBehavior,
 } from './p0ui3a/types.js';
 import type { NdxIconVisualVersionV2 } from './p0ui3b/types.js';
+import type { NdxIconVisualVersionV3 } from './p0ui3d/types.js';
 
-export type NdxIconVisualVersionAny = NdxIconVisualVersion | NdxIconVisualVersionV2;
-export type NdxIconTraceClassificationAny = NdxIconTraceClassification | 'PIXEL_TRACED';
+export type NdxIconVisualVersionAny = NdxIconVisualVersion | NdxIconVisualVersionV2 | NdxIconVisualVersionV3;
+export type NdxIconTraceClassificationAny = NdxIconTraceClassification | 'PIXEL_TRACED' | 'REFERENCE_LOCKED';
 
 export type NDXIconState = 'active' | 'inactive';
 

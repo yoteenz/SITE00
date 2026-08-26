@@ -1,11 +1,11 @@
 import type { NDXIconName, NdxIconDefinition } from './types.js';
 import { NDX_ICON_VIEWBOX } from './tokens.js';
-import { buildPixelTracedIconRegistry } from './p0ui3b/buildRegistry.js';
+import { buildReferenceLockedIconRegistry } from './p0ui3d/buildRegistry.js';
 
 export { NDX_ICON_VIEWBOX };
 
-/** P0.UI.3B — pixel-traced canonical registry (viewBox 24, currentColor). */
-const ICONS: Record<NDXIconName, NdxIconDefinition> = buildPixelTracedIconRegistry();
+/** P0.UI.3D — reference-locked canonical registry (viewBox 24, currentColor). */
+const ICONS: Record<NDXIconName, NdxIconDefinition> = buildReferenceLockedIconRegistry();
 
 export const NDX_ICON_REGISTRY: Readonly<Record<NDXIconName, NdxIconDefinition>> = ICONS;
 
@@ -62,9 +62,14 @@ export function ndxIconSvgUsesCurrentColor(name: NDXIconName): boolean {
 
 export function ndxIconIsReferenceTraced(name: NDXIconName): boolean {
   const c = getNdxIconDefinition(name).traceClassification;
-  return c === 'REFERENCE_TRACED' || c === 'PIXEL_TRACED';
+  return c === 'REFERENCE_TRACED' || c === 'PIXEL_TRACED' || c === 'REFERENCE_LOCKED';
+}
+
+export function ndxIconIsReferenceLocked(name: NDXIconName): boolean {
+  return getNdxIconDefinition(name).traceClassification === 'REFERENCE_LOCKED';
 }
 
 export function ndxIconIsPixelTraced(name: NDXIconName): boolean {
-  return getNdxIconDefinition(name).traceClassification === 'PIXEL_TRACED';
+  const c = getNdxIconDefinition(name).traceClassification;
+  return c === 'PIXEL_TRACED' || c === 'REFERENCE_LOCKED';
 }
