@@ -45,16 +45,6 @@ export function ClientProjectRoomSectionPage({ section, title, description }: Cl
   );
 }
 
-export function ClientProjectRoomReviewsPage() {
-  return (
-    <ClientProjectRoomSectionPage
-      section="reviews"
-      title="REVIEWS"
-      description="Review directions, compare versions, and record your decision when SITE 00 marks work ready for review."
-    />
-  );
-}
-
 export function ClientProjectRoomLibraryPage() {
   return (
     <ClientProjectRoomSectionPage
