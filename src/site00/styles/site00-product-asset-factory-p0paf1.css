@@ -1,0 +1,157 @@
+.p0paf1-factory {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+  font-family: var(--site00-font-mono, monospace);
+  color: #f5f5f5;
+}
+
+.p0paf1-factory__header {
+  margin-bottom: 1.5rem;
+}
+
+.p0paf1-factory__eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+  margin: 0 0 0.25rem;
+}
+
+.p0paf1-factory__title {
+  font-size: 1.25rem;
+  letter-spacing: 0.08em;
+  margin: 0 0 1rem;
+}
+
+.p0paf1-factory__mode-tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.p0paf1-factory__mode-tabs button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: inherit;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.p0paf1-factory__mode-tabs button.is-active {
+  border-color: #c9a227;
+  color: #c9a227;
+}
+
+.p0paf1-factory__panel {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.p0paf1-factory__panel h2 {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.75rem;
+}
+
+.p0paf1-factory__hero-preview {
+  min-height: 120px;
+  background: rgba(0, 0, 0, 0.35);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.p0paf1-factory__hero-preview img {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+}
+
+.p0paf1-factory__upload input[type='file'] {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+}
+
+.p0paf1-factory__axis {
+  border: none;
+  margin: 0 0 0.75rem;
+  padding: 0;
+}
+
+.p0paf1-factory__axis legend {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.35rem;
+}
+
+.p0paf1-factory__axis label {
+  display: block;
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.p0paf1-factory__batch-summary p {
+  margin: 0.25rem 0;
+  font-size: 0.8rem;
+}
+
+.p0paf1-factory__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.p0paf1-factory__actions button,
+.p0paf1-factory__panel > button {
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: inherit;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+}
+
+.p0paf1-factory__actions button:disabled,
+.p0paf1-factory__panel > button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.p0paf1-factory__progress {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+}
+
+.p0paf1-factory__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.p0paf1-factory__variant-card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem;
+  font-size: 0.65rem;
+}
+
+.p0paf1-factory__muted,
+.p0paf1-factory__status,
+.p0paf1-factory__footer {
+  font-size: 0.7rem;
+  opacity: 0.75;
+}
+
+.p0paf1-factory__footer {
+  margin-top: 2rem;
+}
