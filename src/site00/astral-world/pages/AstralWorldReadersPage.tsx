@@ -1,6 +1,9 @@
 import { useMemo, useState } from 'react';
 import { filterReaders, sortReadersWithFavoritesFirst } from '../../../../shared/site00-astral-world/fixtureService.js';
 import { useAstralWorld } from '../context/AstralWorldContext';
+import { AstralScene } from '../components/immersive/AstralScene';
+import { AstralPortrait } from '../components/immersive/AstralPortrait';
+import { AstralStatusChip } from '../components/immersive/AstralStatusChip';
 
 const CATEGORIES = ['ALL', 'LOVE', 'CAREER', 'INTUITIVE', 'TAROT', 'ENERGY'] as const;
 
@@ -24,10 +27,14 @@ export default function AstralWorldReadersPage() {
   return (
     <>
       <div className="aw-mobile-only aw-mobile-screen">
-        <h1 className="aw-display">Find My Reader</h1>
+        <AstralScene crop="FIND_MY_READER_MOBILE" minHeight={160}>
+          <h1 className="aw-display" style={{ margin: 0 }}>Find My Reader</h1>
+        </AstralScene>
       </div>
       <div className="aw-desktop-only">
-        <h1 className="aw-display aw-display--hero">Find My Reader</h1>
+        <AstralScene crop="SOCIAL_PRESENCE" minHeight={180}>
+          <h1 className="aw-display aw-display--hero" style={{ margin: 0 }}>Find My Reader</h1>
+        </AstralScene>
       </div>
       <section className="aw-card aw-card--gold">
         <input
@@ -51,9 +58,9 @@ export default function AstralWorldReadersPage() {
       </section>
       <section className="aw-card">
         {filtered.map((r) => (
-          <div key={r.id} className="aw-presence-item">
-            <div className="aw-avatar">{r.avatarInitials}</div>
-            <div style={{ flex: 1 }}>
+          <div key={r.id} className="aw-reader-card-visual">
+            <AstralPortrait personId={r.id} name={r.name} initials={r.avatarInitials} size={52} showPresence />
+            <div className="aw-reader-card-visual__meta">
               <strong>{r.name}</strong>
               <div className="aw-muted">{r.specialty} · ★ {r.rating}</div>
               <div className="aw-muted">{r.currentDestination?.replace(/-/g, ' ') ?? 'Offline'}</div>
@@ -61,7 +68,7 @@ export default function AstralWorldReadersPage() {
             <button type="button" className={`aw-chip${r.isFavorite ? ' aw-tab--active' : ''}`} onClick={() => toggleFavoriteReader(r.id)} aria-pressed={r.isFavorite}>
               {r.isFavorite ? '★ Fav' : '☆ Fav'}
             </button>
-            <span className="aw-status aw-status--available">{r.presence.replace(/_/g, ' ')}</span>
+            <AstralStatusChip label={r.presence.replace(/_/g, ' ')} kind={r.presence === 'READING_NOW' ? 'reading' : 'available'} />
           </div>
         ))}
       </section>

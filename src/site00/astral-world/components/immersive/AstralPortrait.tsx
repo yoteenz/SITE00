@@ -1,0 +1,62 @@
+import type { CSSProperties } from 'react';
+import { getPortraitCrop } from '../../../../../shared/site00-astral-world/referenceCropRegistry.js';
+
+type AstralPortraitProps = {
+  personId: string;
+  name: string;
+  initials?: string;
+  size?: number;
+  className?: string;
+  showPresence?: boolean;
+};
+
+export function AstralPortrait({
+  personId,
+  name,
+  initials,
+  size = 40,
+  className = '',
+  showPresence = false,
+}: AstralPortraitProps) {
+  const crop = getPortraitCrop(personId);
+  const style: CSSProperties = crop
+    ? {
+        width: size,
+        height: size,
+        backgroundImage: `url(${crop.src})`,
+        backgroundPosition: crop.position,
+        backgroundSize: crop.size,
+        backgroundRepeat: 'no-repeat',
+      }
+    : { width: size, height: size };
+
+  return (
+    <span
+      className={`aw-portrait ${className}`.trim()}
+      style={style}
+      role="img"
+      aria-label={name}
+      title={name}
+      data-person-id={personId}
+    >
+      {!crop && initials ? <span className="aw-portrait__fallback" aria-hidden>{initials}</span> : null}
+      {showPresence ? <span className="aw-portrait__live" aria-hidden /> : null}
+    </span>
+  );
+}
+
+export function AstralPortraitRow({
+  people,
+  size = 36,
+}: {
+  people: { id: string; name: string; initials?: string }[];
+  size?: number;
+}) {
+  return (
+    <div className="aw-portrait-row">
+      {people.map((p) => (
+        <AstralPortrait key={p.id} personId={p.id} name={p.name} initials={p.initials} size={size} showPresence />
+      ))}
+    </div>
+  );
+}

@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { TAKE_ME_SOMEWHERE_CHIPS } from '../../../../shared/site00-astral-world/takeMeSomewhereRouter.js';
 import type { TakeMeSomewhereIntent } from '../../../../shared/site00-astral-world/types.js';
 import { useAstralWorld } from '../context/AstralWorldContext';
+import { AstralScene } from './immersive/AstralScene';
+import { destinationCropKeys } from './immersive/immersiveHelpers';
 
 export function TakeMeSomewherePanel({ compact }: { compact?: boolean }) {
   const { takeMeSomewhere, path } = useAstralWorld();
@@ -10,6 +12,7 @@ export function TakeMeSomewherePanel({ compact }: { compact?: boolean }) {
   const [intent, setIntent] = useState<TakeMeSomewhereIntent | null>(null);
   const [freeText, setFreeText] = useState('');
   const suggestion = intent ? takeMeSomewhere(intent) : null;
+  const previewCrop = suggestion ? destinationCropKeys(suggestion.destination).desktop : null;
 
   const applyIntent = (i: TakeMeSomewhereIntent) => {
     setIntent(i);
@@ -43,20 +46,24 @@ export function TakeMeSomewherePanel({ compact }: { compact?: boolean }) {
         aria-label="Free text intent"
         style={{ width: '100%', marginTop: '0.5rem', padding: '0.5rem', background: 'rgba(0,0,0,0.4)', border: '1px solid var(--aw-border)', color: 'var(--aw-text)' }}
       />
-      {suggestion ? (
-        <div className="aw-routing-suggestion" style={{ marginTop: '1rem' }}>
-          <p className="aw-display" style={{ fontSize: '0.95rem' }}>{suggestion.conversationalLine}</p>
-          <p className="aw-muted">{suggestion.reason}</p>
-          {suggestion.readerName ? <p className="aw-muted">Suggested reader: {suggestion.readerName}</p> : null}
-          <button type="button" className="aw-btn-primary" style={{ marginTop: '0.75rem' }} onClick={() => go(suggestion.destination)}>
-            Go to {suggestion.destinationLabel} →
-          </button>
-          <div className="aw-chips" style={{ marginTop: '0.5rem' }}>
-            {suggestion.alternates.map((a) => (
-              <button key={a.destination} type="button" className="aw-chip" onClick={() => go(a.destination)}>
-                {a.label}
-              </button>
-            ))}
+      {suggestion && previewCrop ? (
+        <div className="aw-routing-preview">
+          <AstralScene crop={previewCrop} minHeight={compact ? 140 : 180}>
+            <p className="aw-display" style={{ fontSize: '0.95rem', margin: 0 }}>{suggestion.conversationalLine}</p>
+            <p className="aw-muted" style={{ margin: '0.35rem 0 0' }}>{suggestion.reason}</p>
+          </AstralScene>
+          {suggestion.readerName ? <p className="aw-muted" style={{ padding: '0 0.75rem' }}>Suggested reader: {suggestion.readerName}</p> : null}
+          <div style={{ padding: '0 0.75rem 0.75rem' }}>
+            <button type="button" className="aw-btn-primary" onClick={() => go(suggestion.destination)}>
+              Go to {suggestion.destinationLabel} →
+            </button>
+            <div className="aw-chips" style={{ marginTop: '0.5rem' }}>
+              {suggestion.alternates.map((a) => (
+                <button key={a.destination} type="button" className="aw-chip" onClick={() => go(a.destination)}>
+                  {a.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       ) : null}

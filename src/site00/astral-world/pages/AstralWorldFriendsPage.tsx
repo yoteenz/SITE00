@@ -1,14 +1,18 @@
-import { Link } from 'react-router-dom';
 import { friendLocationLabel } from '../../../../shared/site00-astral-world/presenceService.js';
 import { useAstralWorld } from '../context/AstralWorldContext';
+import { AstralScene } from '../components/immersive/AstralScene';
+import { AstralPresenceItem } from '../components/immersive/AstralPresenceItem';
 
 export default function AstralWorldFriendsPage() {
   const { friends, path } = useAstralWorld();
 
   return (
     <>
-      <h1 className="aw-display aw-display--hero">Meet My Friends</h1>
-      <section className="aw-card aw-card--gold">
+      <AstralScene crop="SOCIAL_PRESENCE" minHeight={200}>
+        <h1 className="aw-display aw-display--hero" style={{ margin: 0 }}>Meet My Friends</h1>
+        <p className="aw-muted">Find people in the world — not a contact list</p>
+      </AstralScene>
+      <section className="aw-card aw-card--gold" style={{ marginTop: '-2rem', position: 'relative', zIndex: 2 }}>
         <h2 className="aw-display aw-display--section">See Who&apos;s Here</h2>
         {friends.map((f) => {
           const loc = friendLocationLabel(f.id);
@@ -16,18 +20,16 @@ export default function AstralWorldFriendsPage() {
             ? path(`astrea/${f.currentDestination}`)
             : path('astrea');
           return (
-            <div key={f.id} className="aw-presence-item">
-              <div className="aw-avatar">{f.avatarInitials}</div>
-              <div style={{ flex: 1 }}>
-                <strong>{f.name}</strong>
-                <div className="aw-muted">{loc ? `at ${loc}` : 'In Astréa'}</div>
-              </div>
-              {f.joinable ? (
-                <Link to={destPath} className="aw-btn-primary">{f.tableId ? 'Join Table' : 'Join Here'}</Link>
-              ) : (
-                <span className="aw-status aw-status--reading">Busy</span>
-              )}
-            </div>
+            <AstralPresenceItem
+              key={f.id}
+              personId={f.id}
+              name={f.name}
+              initials={f.avatarInitials}
+              subtitle={loc ? `at ${loc}` : 'In Astréa'}
+              status={f.joinable ? undefined : 'Busy'}
+              actionTo={f.joinable ? destPath : undefined}
+              actionLabel={f.joinable ? (f.tableId ? 'Join Table' : 'Join Here') : undefined}
+            />
           );
         })}
       </section>
