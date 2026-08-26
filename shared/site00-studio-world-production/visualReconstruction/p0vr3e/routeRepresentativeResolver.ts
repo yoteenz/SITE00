@@ -4,7 +4,7 @@
 
 import { findDesignScreen, resolveDesignScreenRoute } from '../p0vr2/designScreenRegistry.js';
 import type { DesignScreenDefinition } from '../p0vr2/types.js';
-import { isComposerDraftImplementationRoute } from '../p0vr3h/composerDraftSnapshots.js';
+import { isComposerDraftImplementationRoute, composerDraftCaptureRoute } from '../p0vr3h/composerDraftSnapshots.js';
 
 const REPRESENTATIVE_OVERRIDES: Record<string, string> = {
   '/idnty/:stateSlug': '/idnty/starting-at-zero',
@@ -54,9 +54,13 @@ export function resolveCaptureTarget(input: {
     return { screen, route: '', skip: true, skipReason: 'IMPLEMENTATION_MISSING' };
   }
   const { representativeRoute } = resolveRepresentativeRoute(screen, input.projectId);
+  const baseRoute = input.routeOverride ?? representativeRoute;
+  const captureRoute = isComposerDraftImplementationRoute(baseRoute.split('?')[0] ?? baseRoute)
+    ? composerDraftCaptureRoute(baseRoute.split('?')[0] ?? baseRoute)
+    : baseRoute;
   return {
     screen,
-    route: input.routeOverride ?? representativeRoute,
+    route: captureRoute,
     skip: false,
   };
 }

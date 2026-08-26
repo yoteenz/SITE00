@@ -5364,3 +5364,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.2 handoff, P0.VR.2A asset slots, existing About/Support/NDXBOOK workspace pages, external repo routes (Frontal Slayer, AIO, FSBW Studio World).
 
 ---
+
+## 2026-08-26 — P0.VR.3J composer draft screenshot backfill + review sets + NDXBOOK design-pilot reconciliation
+
+- **Context:** Post-P0.VR.3H follow-up — capture 27 composer-draft screenshots (9 pages × M/T/D), populate Design REVIEW queue with real thumbnails, group simple pages into Information + Auth review sets, hold complex shells (Blueprints/Brand/Account) for founder direction, reconcile NDXBOOK design-pilot registration gaps without rebuilding routes.
+- **Delivered:** `p0vr3j/` — `captureComposerDraftSnapshots`, enriched review queue/sets with readiness (`READY_FOR_REVIEW`, `SCREENSHOT_REVIEW_BLOCKED`, `NEEDS_CONTENT_REVIEW`, etc.), auth structural validation, complex shell briefs, `DesignPilotRegistrationGapRecord` + `reconcileNdxbookDesignPilotGaps` (0 new functional routes). Fixed canonical screen IDs in `composerDraftSnapshots.ts` (`guide` not `missing-guide`). P0.VR.3E capture adds `preview=1` for composer drafts + `snapshotLabel` CURRENT · COMPOSER DRAFT. API `capture_composer_drafts`. UI `DesignComposerReviewQueue` — thumbnails, review sets, complex briefs, NDX gap dashboard. Script `scripts/capture-composer-draft-snapshots.ts`. Tests `visualReconstructionP0VR3J.test.ts` (11 pass). Build green (`index.CPSTiDSr.js`, `StudioWorldDesignPage.DxGlUADx.js`).
+- **Capture run (dev):** 27 attempted · 24 successful · 3 failed (account-profile auth redirect — expected for functional-complex shell).
+- **Core rule:** Registration gap ≠ missing route. Do not approve what founder has not seen. Sound remains content-blocked (placeholder).
+- **Preserved:** P0.VR.3H authorship/receipts, draft guards, no FAL, no production release, NDXBOOK expressive canon.
+
+---

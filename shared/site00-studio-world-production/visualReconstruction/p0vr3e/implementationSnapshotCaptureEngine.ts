@@ -15,6 +15,8 @@ import { IMPLEMENTATION_SNAPSHOT_DEFAULT_DEVICE_SCALE } from './constants.js';
 import { buildImplementationSnapshotStoragePath } from './implementationSnapshotStoragePaths.js';
 import { registerImplementationSnapshot } from './implementationSnapshotRegistry.js';
 import { resolveCaptureTarget, resolveRepresentativeRoute } from './routeRepresentativeResolver.js';
+import { isComposerDraftImplementationRoute } from '../p0vr3h/composerDraftSnapshots.js';
+import { COMPOSER_DRAFT_SNAPSHOT_LABEL } from '../p0vr3h/constants.js';
 
 import { execSync } from 'node:child_process';
 
@@ -26,9 +28,17 @@ function currentSourceCommit(): string | null {
   }
 }
 
-function buildRouteSearch(viewportClass: DesignViewportClass, visualStateId?: string | null): string {
+function buildRouteSearch(
+  route: string,
+  viewportClass: DesignViewportClass,
+  visualStateId?: string | null,
+): string {
   const params = new URLSearchParams();
   params.set('designPreview', '1');
+  const routePath = route.split('?')[0] ?? route;
+  if (isComposerDraftImplementationRoute(routePath)) {
+    params.set('preview', '1');
+  }
   if (viewportClass === 'mobile') params.set('site00MobileLayout', '1');
   if (visualStateId) params.set('designState', visualStateId);
   return `?${params.toString()}`;
@@ -117,7 +127,7 @@ export async function captureImplementationSnapshot(input: CaptureScreenInput): 
       blueprintVersion: 'p0vr3e',
       commit: sourceCommit,
       previewDeviceMode: input.viewportClass === 'mobile' ? 'mobile' : 'desktop',
-      routeSearch: buildRouteSearch(input.viewportClass, input.visualStateId),
+      routeSearch: buildRouteSearch(target.route, input.viewportClass, input.visualStateId),
     });
 
     const stability = evaluateScreenshotStability({
@@ -145,6 +155,11 @@ export async function captureImplementationSnapshot(input: CaptureScreenInput): 
       fontsReady: stability.checks.fontsReady,
       hasRuntimeError: !stability.checks.noRuntimeError,
     });
+
+    const routePath = target.route.split('?')[0] ?? target.route;
+    const snapshotLabel =
+      input.snapshotLabel ??
+      (isComposerDraftImplementationRoute(routePath) ? COMPOSER_DRAFT_SNAPSHOT_LABEL : undefined);
 
     const record: ImplementationSnapshotRecord = {
       snapshotId: `snap-${input.projectId}-${input.screenId}-${input.viewportClass}-${Date.now()}`,
@@ -174,6 +189,7 @@ export async function captureImplementationSnapshot(input: CaptureScreenInput): 
       error: qa.passed ? null : qa.issues.join(', '),
       qaPassed: qa.passed,
       qaIssues: qa.issues,
+      snapshotLabel,
     };
 
     return registerImplementationSnapshot(record);
