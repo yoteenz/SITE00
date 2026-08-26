@@ -24,6 +24,7 @@ import { MobileFounderWorkspaceChrome } from './MobileFounderWorkspaceChrome';
 import { ActiveProjectNotificationCenter } from './ActiveProjectNotificationCenter';
 import { useActiveProjectNotifications } from '../../hooks/useActiveProjectNotifications';
 import { renderMobileFounderWorkspaceScreen } from './MobileFounderWorkspaceScreens';
+import { resolveMobileVisualShellSpec } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr1d9/client.js';
 import { resolveMobileScreenIdFromPath } from '../../config/ndxFounderWorkspaceMobileNav';
 import '../../styles/site00-founder-workspace.css';
 
@@ -244,6 +245,7 @@ export function FounderWorkspaceShell({
             {mobilePresentation ? (
               <MobileFounderWorkspaceChrome
                 projectSlug={projectSlug}
+                visualSpec={resolveMobileVisualShellSpec(mobileScreenId)}
                 menuOpen={menuOpen}
                 notificationOpen={notificationOpen}
                 unreadCount={notificationState.unreadCount}
