@@ -38,6 +38,7 @@ export { Experiment01OperateLayer, Experiment01UnderstandLayer } from './Experim
 export { CharacterLabOperateLayer } from './CharacterLabOperateLayer';
 export { ExperimentsHubOperateLayer } from './ExperimentsHubOperateLayer';
 export { VisualReconstructionWorkspace } from './VisualReconstructionWorkspace';
+export { StudioWorldDesignWorkspace } from './StudioWorldDesignWorkspace';
 export { FounderWorkspaceMobileNav } from './FounderWorkspaceMobileNav';
 export { FounderWorkspaceProjectMenu } from './FounderWorkspaceProjectMenu';
 export { FounderWorkspaceHeaderChrome } from './FounderWorkspaceHeaderChrome';

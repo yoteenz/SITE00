@@ -414,3 +414,200 @@
   font-size: 12px;
   color: var(--ndx-muted, #8a857c);
 }
+
+/* P0.VR.2 — Master Design workspace */
+.site00-design-workspace {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  color: var(--ndx-ink, #111);
+}
+
+.site00-design-workspace__hero {
+  margin-bottom: 20px;
+}
+
+.site00-design-workspace__kicker {
+  margin: 0 0 6px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--ndx-muted, #8a857c);
+}
+
+.site00-design-workspace__title {
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  letter-spacing: 0.08em;
+}
+
+.site00-design-workspace__rule {
+  margin: 8px 0 0;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ndx-muted, #8a857c);
+}
+
+.site00-design-workspace__control-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 12px;
+  border: 1px solid var(--ndx-border, #e8e4dc);
+  background: var(--ndx-surface, #fff);
+}
+
+.site00-design-workspace__control {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.site00-design-workspace__control select,
+.site00-design-workspace__control input {
+  font: inherit;
+  padding: 8px;
+  border: 1px solid var(--ndx-border, #e8e4dc);
+  background: #fff;
+}
+
+.site00-design-workspace__viewport-toggle {
+  display: flex;
+  gap: 6px;
+}
+
+.site00-design-workspace__viewport-toggle button {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid var(--ndx-border, #e8e4dc);
+  background: #fff;
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.site00-design-workspace__viewport-toggle button.is-active {
+  border-color: var(--ndx-lime, #b7d236);
+  color: var(--ndx-ink, #111);
+}
+
+.site00-design-workspace__status {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.site00-design-workspace__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.site00-design-workspace__actions button,
+.site00-design-workspace__link {
+  padding: 10px 14px;
+  border: 1px solid var(--ndx-border, #e8e4dc);
+  background: #fff;
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.site00-design-workspace__primary {
+  border-color: var(--ndx-lime, #b7d236) !important;
+}
+
+.site00-design-workspace__panel-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.site00-design-workspace__panel-tabs button {
+  padding: 8px 12px;
+  border: 1px solid var(--ndx-border, #e8e4dc);
+  background: #fff;
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+.site00-design-workspace__panel-tabs button.is-active {
+  border-color: var(--ndx-lime, #b7d236);
+}
+
+.site00-design-workspace__matrix table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  margin-bottom: 20px;
+}
+
+.site00-design-workspace__matrix th,
+.site00-design-workspace__matrix td {
+  border: 1px solid var(--ndx-border, #e8e4dc);
+  padding: 8px;
+  text-align: left;
+}
+
+.site00-design-workspace__matrix tr.is-selected {
+  background: rgba(183, 210, 54, 0.12);
+  cursor: pointer;
+}
+
+.site00-design-workspace__compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 16px;
+}
+
+.site00-design-workspace__frames {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.site00-design-workspace__frame {
+  margin: 0;
+  border: 1px solid var(--ndx-border, #e8e4dc);
+  padding: 8px;
+  background: #fff;
+}
+
+.site00-design-workspace__frame img,
+.site00-design-workspace__frame iframe {
+  display: block;
+  max-width: 100%;
+  border: 0;
+}
+
+.site00-design-workspace__frame figcaption {
+  margin-bottom: 6px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.site00-design-workspace__meta {
+  font-size: 11px;
+  color: var(--ndx-muted, #8a857c);
+}
+
+.site00-design-workspace__inspect-note {
+  margin-top: 12px;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 900px) {
+  .site00-design-workspace__compare-grid {
+    grid-template-columns: 1fr;
+  }
+}

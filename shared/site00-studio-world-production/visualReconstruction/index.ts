@@ -95,3 +95,14 @@ export * from './p0vr1d7/index.js';
 export * from './p0vr1d9/index.js';
 export * from './p0vr1d10/index.js';
 export * from './p0vr1d11/index.js';
+export {
+  P0_VR_2_LINEAGE,
+  DESIGN_WORKSPACE_ROUTES,
+  CANONICAL_VIEWPORT_DIMENSIONS,
+} from './p0vr2/constants.js';
+export type {
+  CanonicalVisualReference,
+  DesignViewportClass,
+  FunctionPreservingVisualRebuildContract,
+  VisualReconstructionComposerBrief,
+} from './p0vr2/types.js';

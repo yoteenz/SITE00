@@ -108,6 +108,7 @@ export const SITE00_ROUTES = {
   projectExperimentEVisualDevelopment: '/projects/:projectSlug/experience-expression/visual-development',
   projectExperiments: '/projects/:projectSlug/experiments',
   projectLab: '/projects/:projectSlug/lab',
+  projectDesign: '/projects/:projectSlug/design',
   projectFounderWorkspaceArchive: '/projects/:projectSlug/archive',
   projectNdxIconSheet: '/projects/:projectSlug/inspect/icons',
   projectNotifications: '/projects/:projectSlug/notifications',
@@ -119,6 +120,8 @@ export const SITE00_ROUTES = {
   projectProvisioning: '/project/:projectSlug/provisioning',
   /** Client Studio operating environment — project slug in path */
   studio: '/studio/:projectSlug',
+  /** Studio World master design reconstruction workspace */
+  studioWorldDesign: '/studio-world/design',
   studioInput: '/studio/:projectSlug/input',
   studioOperations: '/studio/:projectSlug/operations',
   studioBlueprint: '/studio/:projectSlug/blueprint',
@@ -362,6 +365,14 @@ export function site00ProjectExperimentsPath(projectSlug: string): string {
 
 export function site00ProjectLabPath(projectSlug: string): string {
   return `/projects/${projectSlug}/lab`;
+}
+
+export function site00ProjectDesignPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/design`;
+}
+
+export function site00StudioWorldDesignPath(): string {
+  return '/studio-world/design';
 }
 
 export function site00ProjectFounderWorkspaceArchivePath(projectSlug: string): string {
