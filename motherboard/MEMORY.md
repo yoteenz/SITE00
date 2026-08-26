@@ -5411,7 +5411,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-## 2026-08-26 — P0.VR.3J.2 registry persistence follow-up (27/27 committed)
+## 2026-08-26 — P0.BRIDGE.1-SITE00 Cross-repo design control plane + Supabase change contracts
+
+- **Context:** SITE 00 must record approved design intent in shared Supabase for FSBW to consume safely. Two execution classes: RUNTIME_SAFE_BINDING (config/content at runtime) vs SOURCE_CODE_MATERIALIZATION (structured change contract for FSBW source apply). No arbitrary code in DB, no SITE 00 mutating FSBW source directly.
+- **Delivered:** Migration `20260826123000_site00_design_control_plane_bridge.sql` — managed projects, repo bindings, change requests/operations/approvals/receipts, shell propagation, reference/snapshot bindings, RLS service_role. Module `shared/site00-design-control-plane/` — `Site00DesignControlPlane` (create/validate/approve/markReadyForRepo/publishRuntimeBinding/receipts/divergence), capability registry, operation validator (blocks EXECUTE_CODE/EVAL), blast radius + staleness. API `api/site00/design-control-plane.ts`. Design REVIEW tab `DesignRepoChangePanel` — PREPARE REPO CHANGE, APPROVE FOR SOURCE REPO, IMPLEMENTATION MODE. `getManagedProjectRepoBinding()` in p0vr3m adapter. Tests `designControlPlaneP0Bridge1.test.ts` (21 pass). Build green.
+- **Core rule:** SITE 00 designs; Supabase records approved intent; FSBW owns source code. Structural changes become source change contracts with base commit + founder approval before READY_FOR_REPO.
+- **Preserved:** P0.VR.3M design ownership, P0.VR.3L shell governance (propagation records only), P0.VR.3E snapshot authority, Studio World website-only targeting, no FAL, no auto-apply FSBW source.
+
+---
 
 - **Context:** P0.VR.3J.2 execution ran locally and uploaded captures to Supabase, but committed registry on `main` after PR #498 still had 24/27 CURRENT (3 Account AUTH_BLOCKED historical only). Follow-up commit needed so persistent metadata matches execution.
 - **Delivered:** PR #499 merged @ `527aff6` — `implementation-snapshot-persistent-registry.json` now includes 9 new CURRENT records (3 Account CUSTOMER auth, 3 Language Lab FAMILY SOURCE, 3 Voice Lab COMPOSER DERIVED DRAFT) with `vitest.local` publicUrl placeholders (hydration resolves storage paths at runtime). Historical 3 AUTH_BLOCKED Account records preserved.

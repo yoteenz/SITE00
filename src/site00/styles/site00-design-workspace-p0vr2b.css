@@ -1014,3 +1014,56 @@
   color: #a8d86a;
   align-self: center;
 }
+
+/* P0.BRIDGE.1 — repo change handoff panel */
+.site00-dw-repo-change {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--site00-dw-line);
+  border-radius: 4px;
+  background: var(--site00-dw-white);
+}
+
+.site00-dw-repo-change__header h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+}
+
+.site00-dw-repo-change__header p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--site00-dw-muted);
+}
+
+.site00-dw-repo-change__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.site00-dw-repo-change__error {
+  margin-top: 0.5rem;
+  color: var(--site00-dw-host-accent);
+  font-size: 0.8rem;
+}
+
+.site00-dw-repo-change__summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.5rem 1rem;
+  margin: 0.75rem 0 0;
+  font-size: 0.75rem;
+}
+
+.site00-dw-repo-change__summary dt {
+  font-weight: 600;
+  color: var(--site00-dw-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.site00-dw-repo-change__summary dd {
+  margin: 0.15rem 0 0;
+}
