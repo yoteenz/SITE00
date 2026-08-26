@@ -51,6 +51,14 @@ export const SCREEN_ASSET_MANIFESTS: Record<string, ScreenAssetManifestEntry[]> 
   AW_M_01_WORLD_ENTRY: PILOT_WORLD_ENTRY_MANIFEST,
   AW_D_01_WORLD_ENTRY: [
     {
+      slotKey: 'AW_D_01_WORLD_ENTRY_BACKGROUND_V1',
+      role: 'BACKGROUND_ENVIRONMENT',
+      required: true,
+      useExactIfApproved: true,
+      safeZone: { top: 0, bottom: 0, left: 0, right: 0 },
+      focalPoint: 'center top',
+    },
+    {
       slotKey: 'ASTRAL_WORLD_HERO_DESKTOP',
       role: 'BACKGROUND_ENVIRONMENT',
       required: true,

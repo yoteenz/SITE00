@@ -7,3 +7,4 @@ export * from './vr2Adapter.js';
 export * from './resolveScreenAuthority.js';
 export * from './extractScreenMaster.js';
 export * from './awM01LayeredAssets.js';
+export * from './awD01LayeredAssets.js';
