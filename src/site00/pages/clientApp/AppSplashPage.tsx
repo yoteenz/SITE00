@@ -8,7 +8,8 @@ export default function AppSplashPage() {
 
   useEffect(() => {
     const t = window.setTimeout(() => {
-      navigate(clientAppPath(undefined), { replace: true });
+      const target = import.meta.env.DEV ? '/app/preview/select' : clientAppPath(undefined);
+      navigate(target, { replace: true });
     }, 1800);
     return () => window.clearTimeout(t);
   }, [navigate]);

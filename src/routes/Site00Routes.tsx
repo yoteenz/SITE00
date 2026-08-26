@@ -255,6 +255,21 @@ function Site00Suspense({ children }: { children: ReactNode }) {
   return <Suspense fallback={<Site00RouteLoadingFallback />}>{children}</Suspense>;
 }
 
+/** App routes must not use Site00RouteLoadingFallback (requires Site00Provider). */
+function AppRouteSuspense({ children }: { children: ReactNode }) {
+  return (
+    <Suspense
+      fallback={
+        <div className="site00-app-splash" style={{ ['--site00-app-accent' as string]: '#e8192c' }}>
+          <div className="site00-app-splash__logo">SITE 00</div>
+        </div>
+      }
+    >
+      {children}
+    </Suspense>
+  );
+}
+
 function Site00ComposerDraftPageRoutes(path: string, Page: React.LazyExoticComponent<() => JSX.Element>, auth = false) {
   const page = (
     <Site00Suspense>
@@ -1850,9 +1865,9 @@ export function Site00Routes() {
       <Route
         path={SITE00_ROUTES.appSplash}
         element={
-          <Site00Suspense>
+          <AppRouteSuspense>
             <AppSplashPage />
-          </Site00Suspense>
+          </AppRouteSuspense>
         }
       />
       <Route
