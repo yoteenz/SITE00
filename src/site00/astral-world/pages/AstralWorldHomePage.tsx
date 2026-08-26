@@ -1,11 +1,10 @@
-import { DesktopHomeReferenceLayout } from '../components/DesktopHomeReferenceLayout';
-import { MobileHomeReferenceLayout } from '../components/MobileHomeReferenceLayout';
+import { ImmersiveRouteFrame } from '../components/ImmersiveRouteFrame';
+import { MobileArrivalScene } from '../components/scenes/MobileArrivalScene';
 
 export default function AstralWorldHomePage() {
   return (
-    <>
-      <div className="aw-desktop-only"><DesktopHomeReferenceLayout /></div>
-      <div className="aw-mobile-only aw-route-scene"><MobileHomeReferenceLayout /></div>
-    </>
+    <ImmersiveRouteFrame>
+      <MobileArrivalScene />
+    </ImmersiveRouteFrame>
   );
 }

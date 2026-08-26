@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { getHotspotsForScene } from '../../../../../shared/site00-astral-world/scenes/hotspotRegistry.js';
+import { useAstralViewport } from '../../hooks/useAstralViewport';
 import { useAstralWorld } from '../../context/AstralWorldContext';
 import { AstralWorldScene } from '../immersive/AstralWorldScene';
 import { AstralHUD, AstralHUDChip } from '../immersive/AstralHUD';
@@ -12,9 +13,10 @@ const TABLE_TARGETS = ['table-1', 'table-2', 'table-3'] as const;
 
 export function MobileCoffeeShopScene() {
   const { tables, joinHerTable, leaveCurrentTable, userPresence, readers, friends, selectedTableId } = useAstralWorld();
+  const { isMobile } = useAstralViewport();
   const [drawerTableIdx, setDrawerTableIdx] = useState<number | null>(null);
   const [message, setMessage] = useState<string | null>(null);
-  const hotspots = getHotspotsForScene('COFFEE_SHOP', true);
+  const hotspots = useMemo(() => getHotspotsForScene('COFFEE_SHOP', isMobile), [isMobile]);
   const shopReaders = readers.filter((r) => r.currentDestination === 'coffee-shop');
   const joinableTables = tables.filter((t) => t.joinable && t.occupants.length < t.capacity).length;
 

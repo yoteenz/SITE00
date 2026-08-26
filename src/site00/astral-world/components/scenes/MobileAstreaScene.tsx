@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { getHotspotsForScene } from '../../../../../shared/site00-astral-world/scenes/hotspotRegistry.js';
+import { useAstralViewport } from '../../hooks/useAstralViewport';
 import { useAstralWorld } from '../../context/AstralWorldContext';
 import { AstralWorldScene } from '../immersive/AstralWorldScene';
 import { AstralHUD, AstralHUDChip } from '../immersive/AstralHUD';
@@ -10,9 +11,10 @@ import { TakeMeSomewhereWorldOverlay } from './overlays/TakeMeSomewhereWorldOver
 /** SCENE 02: Astréa — navigable district with spatial destination anchors + compact HUD */
 export function MobileAstreaScene() {
   const { occupancy, readers, tables, kiosks } = useAstralWorld();
+  const { isMobile } = useAstralViewport();
   const [whosHereOpen, setWhosHereOpen] = useState(false);
   const [takeMeOpen, setTakeMeOpen] = useState(false);
-  const hotspots = getHotspotsForScene('ASTREA_DISTRICT', true);
+  const hotspots = useMemo(() => getHotspotsForScene('ASTREA_DISTRICT', isMobile), [isMobile]);
   const readersOnline = readers.filter((r) => r.presence !== 'OFFLINE').length;
   const activeTables = tables.filter((t) => t.occupants.length > 0).length;
   const openKiosks = kiosks.filter((k) => k.kioskState !== 'CLOSED').length;

@@ -43,10 +43,10 @@ describe('P0.E.2 Astral World Reference Convergence', () => {
     expect(ASTRAL_REFERENCE_COLORS.coffeeShopAccent).toBe('#8b5a3c');
   });
 
-  it('TEST 6 — Desktop home uses reference layout component', () => {
+  it('TEST 6 — Home uses unified immersive scene (FT5 convergence)', () => {
     const home = readFileSync('src/site00/astral-world/pages/AstralWorldHomePage.tsx', 'utf8');
-    expect(home).toContain('DesktopHomeReferenceLayout');
-    expect(home).toContain('MobileHomeReferenceLayout');
+    expect(home).toContain('ImmersiveRouteFrame');
+    expect(home).toContain('MobileArrivalScene');
     expect(home).not.toContain('aw-hero__bg--pending');
   });
 
@@ -57,15 +57,15 @@ describe('P0.E.2 Astral World Reference Convergence', () => {
     expect(icons).toContain('CoffeeShopIcon');
   });
 
-  it('TEST 8 — Cinematic scene component replaces pending placeholders in destinations', () => {
-    for (const page of [
-      'src/site00/astral-world/pages/destinations/TarotSuitePage.tsx',
-      'src/site00/astral-world/pages/destinations/AstralMallPage.tsx',
-      'src/site00/astral-world/pages/destinations/CoffeeShopPage.tsx',
-      'src/site00/astral-world/pages/AstralWorldAstreaPage.tsx',
+  it('TEST 8 — Cinematic scene components on destination scenes', () => {
+    for (const scene of [
+      'src/site00/astral-world/components/scenes/MobileTarotSuiteScene.tsx',
+      'src/site00/astral-world/components/scenes/MobileAstralMallScene.tsx',
+      'src/site00/astral-world/components/scenes/MobileCoffeeShopScene.tsx',
+      'src/site00/astral-world/components/scenes/MobileAstreaScene.tsx',
     ]) {
-      const src = readFileSync(page, 'utf8');
-      expect(src).toMatch(/AstralScene|AstralCinematicBg/);
+      const src = readFileSync(scene, 'utf8');
+      expect(src).toMatch(/AstralWorldScene|AstralScene/);
       expect(src).not.toContain('aw-hero__bg--pending');
     }
   });
