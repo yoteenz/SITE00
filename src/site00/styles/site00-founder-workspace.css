@@ -1129,6 +1129,105 @@
   100% { background-position: -200% 0; }
 }
 
+/* P0.VR.1D.12 — reference-shell-first loading skeletons (inside current geometry) */
+.site00-ref-shell-loading-wrap {
+  padding: 0;
+}
+
+.site00-ref-shell-loading-wrap__label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ndx-muted, #888);
+  margin: 0 0 16px;
+}
+
+.site00-ref-shell-loading__block {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.04) 25%, rgba(0, 0, 0, 0.08) 50%, rgba(0, 0, 0, 0.04) 75%);
+  background-size: 200% 100%;
+  animation: site00-fws-shimmer 1.2s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+.site00-ref-shell-loading--experiment-01 .site00-ref-shell-loading__breadcrumb {
+  height: 12px;
+  width: 55%;
+  margin-bottom: 16px;
+}
+
+.site00-ref-shell-loading__title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.site00-ref-shell-loading--experiment-01 .site00-ref-shell-loading__title {
+  height: 20px;
+  width: 48%;
+}
+
+.site00-ref-shell-loading--experiment-01 .site00-ref-shell-loading__badge {
+  height: 14px;
+  width: 72px;
+  flex-shrink: 0;
+}
+
+.site00-ref-shell-loading--experiment-01 .site00-ref-shell-loading__subject {
+  height: 48px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.site00-ref-shell-loading__metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.site00-ref-shell-loading__metric {
+  height: 36px;
+}
+
+.site00-ref-shell-loading__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.site00-ref-shell-loading__grid-cell {
+  aspect-ratio: 1;
+}
+
+.site00-ref-shell-loading__direction-heading {
+  height: 12px;
+  width: 70%;
+  margin-bottom: 12px;
+}
+
+.site00-ref-shell-loading__direction-row {
+  height: 10px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.site00-ref-shell-loading--generic .site00-ref-shell-loading__title {
+  height: 18px;
+  width: 60%;
+  margin-bottom: 16px;
+}
+
+.site00-ref-shell-loading--generic .site00-ref-shell-loading__row {
+  height: 12px;
+  margin-bottom: 10px;
+}
+
+.site00-fws--reference-shell-suspense {
+  min-height: 100dvh;
+}
+
 .site00-fws-error {
   padding: 20px;
   border: 1px solid var(--ndx-border);

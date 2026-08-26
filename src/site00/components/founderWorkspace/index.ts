@@ -1,6 +1,7 @@
 export { FounderWorkspaceShell, FounderWorkspacePanel, FounderEmptyState } from './FounderWorkspaceShell';
 export { NdxFounderWorkspacePage } from './NdxFounderWorkspacePage';
 export { WorkspaceLoadingState, WorkspaceLoadingPanel } from './WorkspaceLoadingState';
+export { ReferenceShellLoadingState } from './ReferenceShellLoadingState';
 export { WorkspaceErrorState } from './WorkspaceErrorState';
 export { WorkspaceEmptyState, WORKSPACE_EMPTY_PRESETS } from './WorkspaceEmptyState';
 export { WorkspaceNavigation } from './WorkspaceNavigation';
