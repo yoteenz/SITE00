@@ -21,6 +21,7 @@ import { getMissingTarget } from './targetClassifier.js';
 import { resolveShellForTarget } from './sharedShellRegistry.js';
 import { selectBestSibling, sharedCodeExistsBeforeRebuild, evaluateSiblingCaptureNeed } from './siblingSelection.js';
 import { captureDerivedTargetDraft, captureSiblingIfNeeded } from './onDemandSiblingCapture.js';
+import { runFamilyFidelityQa } from './familyFidelityQa.js';
 import type {
   DeriveMissingTargetResult,
   FamilyDerivedMissingTargetRecord,
@@ -154,8 +155,15 @@ export async function deriveMissingTargetFromFamily(
     });
   }
 
+  const qa = runFamilyFidelityQa(record);
+  const finalRecord: FamilyDerivedMissingTargetRecord = {
+    ...record,
+    reviewStatus: qa.passed ? 'IN_REVIEW' : 'UNREVIEWED',
+  };
+  storeFamilyDerivedRecord(targetId, finalRecord);
+
   return {
-    record,
+    record: finalRecord,
     receipt,
     queueStatus: 'DERIVED_DRAFT',
     newRouteCreated: false,
