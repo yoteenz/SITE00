@@ -5526,6 +5526,7 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Bug:** `/projects/astral-world/debug/world/home` showed blank screen when signed in (fsbw-dev + local).
 - **Root cause:** Lazy-load `Site00RouteLoadingFallback` → `ReferenceShellSuspenseFallback` called `useSite00()` unconditionally; Astral World routes render **outside** `Site00Provider` → React crash during Suspense.
 - **Fix:** Split fallback — pathname guard for Astral World prototype routes (inline loading UI); move `useSite00()` into inner `ReferenceShellSuspenseFallbackNdx` only for NDX reconstructed routes. PR #516.
+- **Follow-up (fsbw-dev blank):** Preview tunnel was serving stale Vite bundle; restarted dev server. Added `AstralWorldRouteGuard` — skip CTRL ROOM auth on preview hosts for astral debug/experience routes. PR #518.
 
 ---
 
