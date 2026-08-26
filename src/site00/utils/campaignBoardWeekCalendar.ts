@@ -47,6 +47,11 @@ function formatMonthDayUpper(date: Date): string {
   return `${month} ${day}`;
 }
 
+/** Uppercase month + day for NDX headers (e.g. AUG 26). */
+export function formatNdxTodayDateLabel(at: Date = new Date()): string {
+  return formatMonthDayUpper(at);
+}
+
 /** ISO week number (Monday-based). */
 export function getISOWeekNumber(date: Date): number {
   const utc = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
