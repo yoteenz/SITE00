@@ -80,14 +80,24 @@ export const ROUTE_SURFACE_ASSERTIONS: Record<string, RouteSurfaceAssertion> = {
     forbiddenPathPrefixes: ['/origin/sign-in', '/sign-in'],
     requiredPathPrefix: '/projects',
   },
+  '/account': {
+    route: '/account',
+    requiredSelectors: ['.site00-page--account', '[data-site00-surface="account"]'],
+    forbiddenSelectors: ['[data-site00-surface="sign-in"]', '.site00-auth-shell'],
+    forbiddenPathPrefixes: ['/origin/sign-in', '/sign-in'],
+    requiredPathPrefix: '/account',
+  },
 };
 
 export function routeRequiresAuthentication(route: string): boolean {
-  return route === '/projects' || route.startsWith('/projects/') || route.startsWith('/control');
+  const path = route.split('?')[0] ?? route;
+  return path === '/projects' || path.startsWith('/projects/') || path.startsWith('/control') || path === '/account';
 }
 
 export function minimumCapturePrincipalForRoute(route: string): CapturePrincipal {
-  if (route === '/projects' || route.startsWith('/projects/')) return 'PROJECT_OWNER';
-  if (route.startsWith('/control')) return 'SITE00_ADMIN';
+  const path = route.split('?')[0] ?? route;
+  if (path === '/projects' || path.startsWith('/projects/')) return 'PROJECT_OWNER';
+  if (path.startsWith('/control')) return 'SITE00_ADMIN';
+  if (path === '/account') return 'CLIENT_USER';
   return 'PUBLIC_GUEST';
 }

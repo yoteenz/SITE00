@@ -9,11 +9,12 @@ import { CANONICAL_VIEWPORT_DIMENSIONS } from '../p0vr2/constants.js';
 import type { DesignViewportClass } from '../p0vr2/types.js';
 import { renderControlledReference } from '../render/ControlledReferenceRenderer.js';
 import { evaluateScreenshotStability, resolveAuthContextForRoute } from './screenshotStabilityPolicy.js';
-import { runImplementationSnapshotQa } from './implementationSnapshotQa.js';
+import { runImplementationSnapshotQa, classifyCaptureFailure } from './implementationSnapshotQa.js';
 import type { CaptureScreenInput, ImplementationSnapshotRecord } from './types.js';
 import { IMPLEMENTATION_SNAPSHOT_DEFAULT_DEVICE_SCALE } from './constants.js';
 import { buildImplementationSnapshotStoragePath } from './implementationSnapshotStoragePaths.js';
 import { registerImplementationSnapshot } from './implementationSnapshotRegistry.js';
+import { appendPersistentImplementationSnapshot } from './implementationSnapshotPersistentStore.js';
 import { resolveCaptureTarget, resolveRepresentativeRoute } from './routeRepresentativeResolver.js';
 import { isComposerDraftImplementationRoute } from '../p0vr3h/composerDraftSnapshots.js';
 import { COMPOSER_DRAFT_SNAPSHOT_LABEL } from '../p0vr3h/constants.js';
@@ -26,6 +27,18 @@ function currentSourceCommit(): string | null {
   } catch {
     return process.env.SOURCE_COMMIT ?? null;
   }
+}
+
+function persistImplementationSnapshot(record: ImplementationSnapshotRecord): ImplementationSnapshotRecord {
+  const registered = registerImplementationSnapshot(record);
+  if (process.env.VITEST !== 'true' || process.env.PERSIST_SNAPSHOTS_IN_TEST === '1') {
+    try {
+      appendPersistentImplementationSnapshot(process.cwd(), registered);
+    } catch {
+      /* browser bundle or read-only FS */
+    }
+  }
+  return registered;
 }
 
 function buildRouteSearch(
@@ -95,7 +108,7 @@ export async function captureImplementationSnapshot(input: CaptureScreenInput): 
       qaPassed: false,
       qaIssues: [],
     };
-    return registerImplementationSnapshot(missing);
+    return persistImplementationSnapshot(missing);
   }
 
   const viewport = CANONICAL_VIEWPORT_DIMENSIONS[input.viewportClass];
@@ -180,7 +193,7 @@ export async function captureImplementationSnapshot(input: CaptureScreenInput): 
       sourceCommit,
       sourceBuildId: process.env.RAILWAY_DEPLOYMENT_ID ?? null,
       capturedAt,
-      captureStatus: qa.passed ? 'CURRENT' : 'FAILED',
+      captureStatus: qa.passed ? 'CURRENT' : classifyCaptureFailure(qa.issues),
       captureType: input.visualStateId ? 'STATE' : (input.captureType ?? 'VIEWPORT'),
       authContext: input.authContext ?? resolveAuthContextForRoute(target.route),
       routeState: input.visualStateId ?? null,
@@ -192,7 +205,7 @@ export async function captureImplementationSnapshot(input: CaptureScreenInput): 
       snapshotLabel,
     };
 
-    return registerImplementationSnapshot(record);
+    return persistImplementationSnapshot(record);
   } catch (err) {
     const failed: ImplementationSnapshotRecord = {
       snapshotId: `snap-fail-${input.screenId}-${input.viewportClass}-${Date.now()}`,
@@ -221,6 +234,6 @@ export async function captureImplementationSnapshot(input: CaptureScreenInput): 
       qaPassed: false,
       qaIssues: ['RUNTIME_ERROR'],
     };
-    return registerImplementationSnapshot(failed);
+    return persistImplementationSnapshot(failed);
   }
 }

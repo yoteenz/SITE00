@@ -20,16 +20,72 @@ export function useImplementationSnapshots(projectId: string) {
     try {
       const res = await fetch(`/api/site00/implementation-snapshots?projectId=${encodeURIComponent(projectId)}`);
       if (!res.ok) return;
-      const data = (await res.json()) as { coverage: ImplementationSnapshotCoverage };
+      const data = (await res.json()) as {
+        coverage: ImplementationSnapshotCoverage;
+        hydration?: { hydrated: number; reused: number };
+      };
       setCoverage(data.coverage);
     } catch {
       /* dev offline */
     }
   }, [projectId]);
 
+  const loadComposerDraftReview = useCallback(async () => {
+    try {
+      const res = await fetch('/api/site00/implementation-snapshots?view=composer_draft_review');
+      if (!res.ok) return null;
+      return (await res.json()) as {
+        queue: Array<{ pageId: string; screenshots: Record<DesignViewportClass, string | null> }>;
+        health: { valid: number; expected: number };
+      };
+    } catch {
+      return null;
+    }
+  }, []);
+
   useEffect(() => {
     void refreshCoverage();
-  }, [refreshCoverage]);
+    void (async () => {
+      const session = await loadComposerDraftReview();
+      if (!session) return;
+      const next: Record<string, ImplementationSnapshotRecord> = {};
+      for (const entry of session.queue) {
+        for (const viewport of ['mobile', 'tablet', 'desktop'] as const) {
+          const url = entry.screenshots[viewport];
+          if (!url) continue;
+          const key = snapshotKey(projectId, entry.pageId, viewport);
+          next[key] = {
+            snapshotId: `hydrated-${entry.pageId}-${viewport}`,
+            projectId,
+            designScreenId: entry.pageId,
+            implementationRouteId: null,
+            viewportClass: viewport,
+            route: '',
+            resolvedRoute: '',
+            capturedUrl: url,
+            width: 0,
+            height: 0,
+            deviceScaleFactor: 2,
+            storagePath: '',
+            publicUrl: url,
+            sourceCommit: null,
+            sourceBuildId: null,
+            capturedAt: '',
+            captureStatus: 'CURRENT',
+            captureType: 'VIEWPORT',
+            authContext: 'PUBLIC',
+            routeState: null,
+            visualStateId: null,
+            stale: false,
+            error: null,
+            qaPassed: true,
+            qaIssues: [],
+          };
+        }
+      }
+      if (Object.keys(next).length) setCache((prev) => ({ ...prev, ...next }));
+    })();
+  }, [loadComposerDraftReview, projectId, refreshCoverage]);
 
   const getSnapshot = useCallback(
     (screenId: string, viewportClass: DesignViewportClass) =>
@@ -110,5 +166,6 @@ export function useImplementationSnapshots(projectId: string) {
     captureScreen,
     captureProject,
     refreshCoverage,
+    loadComposerDraftReview,
   };
 }

@@ -5383,3 +5383,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.3J registration reconciliation, P0.VR.3H true-missing handoff, P0.VR.3E snapshots, P0.VR.2 reference, P0.VR.2A assets, no FAL, no auto publish.
 
 ---
+
+## 2026-08-26 — P0.VR.3J.1 persistent snapshot hydration + account auth recapture + draft review activation
+
+- **Context:** Finish P0.VR.3J operational gaps — 24 existing composer-draft screenshots must hydrate from persistent P0.VR.3E storage (not re-capture); only Account M/T/D needs authenticated recapture; founder must see all 9 composer drafts in Design REVIEW with correct statuses and review-set navigation.
+- **Delivered:** `p0vr3e/implementationSnapshotPersistentStore.ts` + `hydratePersistentImplementationSnapshots.ts` — durable metadata at `public/studio-world/design/implementation-snapshot-persistent-registry.json`; in-memory registry hydrates on API load without overwriting newer session captures. `p0vr3j/snapshotRegistryHealth.ts` — `SnapshotRegistryHealth`, `ComposerDraftReviewCoverage`, reuse vs new-capture metrics. `p0vr3j/accountAuthenticatedCapture.ts` — Account-only recapture with `CUSTOMER` auth context + skip when valid. `p0vr3j/composerDraftReviewSession.ts` — unified review session builder. API `implementation-snapshots` GET hydrates + `view=composer_draft_review`; POST actions `hydrate`, `capture_account_drafts`, `composer_draft_review`. UI `DesignComposerReviewQueue` fetches persisted session — loading states, viewport switcher, set PREV/NEXT navigation, partial APPROVE SELECTED, complex shell thumbnails. `ControlledReferenceRenderer` + `captureAuthTypes` — `/account` auth mock for capture-only context. Tests `visualReconstructionP0VR3J1.test.ts` (9 pass). Build green.
+- **Core rule:** Persistent storage is source of truth — load existing screenshots; do not recapture the 24. Account capture uses authenticated preview context; production auth unchanged. Nothing auto-approved or published. Sound content-blocked; Blueprints/Brand creative; Account functional.
+- **Preserved:** P0.VR.3J NDXBOOK 13-gap reconciliation, failed Account capture history in persistent registry, Composer authorship/receipts, no FAL, no mass backfill.
+
+---

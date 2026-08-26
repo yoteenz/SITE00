@@ -38,6 +38,23 @@ export {
   ensureNdxbookDesignPilotReconciled,
 } from './ndxbookDesignPilotReconciliation.js';
 
+export {
+  buildSnapshotRegistryHealth,
+  buildComposerDraftReviewCoverage,
+  hasValidComposerDraftSnapshot,
+  listOrphanedPersistentSnapshots,
+  countHistoricalSnapshots,
+} from './snapshotRegistryHealth.js';
+
+export { captureAccountDraftSnapshotsOnly, ACCOUNT_DRAFT_SCREEN_ID } from './accountAuthenticatedCapture.js';
+
+export { buildComposerDraftReviewSession } from './composerDraftReviewSession.js';
+
+export {
+  buildDefaultComposerDraftPersistentRegistry,
+  writeDefaultComposerDraftPersistentRegistry,
+} from './seedPersistentSnapshotRegistry.js';
+
 export type {
   ComposerDraftReadinessStatus,
   DesignPilotGapType,

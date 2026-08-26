@@ -59,7 +59,9 @@ export async function renderControlledReference(input: ControlledRenderInput): P
   });
 
   const previewMode = input.previewDeviceMode ?? 'desktop';
-  const routeRequiresAuth = input.route.startsWith('/projects') || input.route.startsWith('/control');
+  const routePath = input.route.split('?')[0] ?? input.route;
+  const routeRequiresAuth =
+    routePath.startsWith('/projects') || routePath.startsWith('/control') || routePath === '/account';
   await context.addInitScript(({ mode, needsAuth }: { mode: string; needsAuth: boolean }) => {
     sessionStorage.setItem('site00-immersive-complete', '1');
     sessionStorage.setItem('site00-assts-immersive-complete', '1');

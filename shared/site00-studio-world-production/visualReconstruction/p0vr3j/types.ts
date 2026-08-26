@@ -92,6 +92,7 @@ export type ComposerDraftCaptureResult = {
   failures: Array<{ screenId: string; viewport: DesignViewportClass; error: string }>;
   storage: typeof COMPOSER_DRAFT_SNAPSHOT_LABEL;
   label: typeof COMPOSER_DRAFT_SNAPSHOT_LABEL;
+  skippedReuse?: number;
 };
 
 export type ComposerDraftScreenshotQa = {
@@ -158,6 +159,9 @@ export type EnrichedComposerReviewSet = ComposerReviewSet & {
   viewportQa: { mobile: boolean; tablet: boolean; desktop: boolean };
   functionalQa: boolean;
   readyForReview: boolean;
+  partialApprovalAllowed: boolean;
+  approvablePageIds: string[];
+  readyPageIds: string[];
   screenshotsComplete: boolean;
 };
 

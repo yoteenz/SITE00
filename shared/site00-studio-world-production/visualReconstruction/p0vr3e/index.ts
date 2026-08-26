@@ -9,3 +9,5 @@ export * from './implementationSnapshotCaptureEngine.js';
 export * from './implementationSnapshotBatch.js';
 export * from './implementationSnapshotCoverage.js';
 export * from './familyOutlierDetection.js';
+export * from './implementationSnapshotPersistentStore.js';
+export * from './hydratePersistentImplementationSnapshots.js';

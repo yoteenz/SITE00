@@ -9,6 +9,9 @@ import {
   captureSelectedImplementationSnapshots,
 } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3e/implementationSnapshotBatch.js';
 import { captureComposerDraftSnapshots } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3j/composerDraftBackfill.js';
+import { captureAccountDraftSnapshotsOnly } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3j/accountAuthenticatedCapture.js';
+import { buildComposerDraftReviewSession } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3j/composerDraftReviewSession.js';
+import { hydratePersistentImplementationSnapshots } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3e/hydratePersistentImplementationSnapshots.js';
 import {
   getLatestImplementationSnapshot,
   listImplementationSnapshotsForScreen,
@@ -17,23 +20,37 @@ import {
 import { buildImplementationSnapshotCoverage } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3e/implementationSnapshotCoverage.js';
 import type { DesignViewportClass } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr2/types.js';
 
+const REPO_ROOT = process.cwd();
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     if (req.method === 'GET') {
       const projectId = String(req.query.projectId ?? 'site00');
       const screenId = req.query.screenId ? String(req.query.screenId) : null;
       const viewportClass = req.query.viewportClass ? (String(req.query.viewportClass) as DesignViewportClass) : null;
+      const view = req.query.view ? String(req.query.view) : null;
+
+      if (view === 'composer_draft_review') {
+        const session = await buildComposerDraftReviewSession({ repoRoot: REPO_ROOT });
+        return res.status(200).json(session);
+      }
+
+      const hydration = await hydratePersistentImplementationSnapshots({ repoRoot: REPO_ROOT });
 
       if (screenId && viewportClass) {
         const latest = getLatestImplementationSnapshot(projectId, screenId, viewportClass);
-        return res.status(200).json({ snapshot: latest });
+        return res.status(200).json({ snapshot: latest, hydration });
       }
       if (screenId) {
-        return res.status(200).json({ snapshots: listImplementationSnapshotsForScreen(projectId, screenId) });
+        return res.status(200).json({
+          snapshots: listImplementationSnapshotsForScreen(projectId, screenId),
+          hydration,
+        });
       }
       return res.status(200).json({
         coverage: buildImplementationSnapshotCoverage(projectId),
         batches: listImplementationSnapshotBatches(projectId),
+        hydration,
       });
     }
 
@@ -80,6 +97,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           concurrency: body.concurrency,
         });
         return res.status(200).json(result);
+      }
+      case 'capture_account_drafts': {
+        const result = await captureAccountDraftSnapshotsOnly({
+          baseUrl: body.baseUrl,
+          force: body.force === true,
+        });
+        return res.status(200).json(result);
+      }
+      case 'hydrate': {
+        const result = await hydratePersistentImplementationSnapshots({
+          repoRoot: REPO_ROOT,
+          verifyStorage: body.verifyStorage === true,
+          force: body.force === true,
+        });
+        return res.status(200).json(result);
+      }
+      case 'composer_draft_review': {
+        const session = await buildComposerDraftReviewSession({
+          repoRoot: REPO_ROOT,
+          verifyStorage: body.verifyStorage === true,
+        });
+        return res.status(200).json(session);
       }
       default:
         return res.status(400).json({ error: 'Unknown action' });
