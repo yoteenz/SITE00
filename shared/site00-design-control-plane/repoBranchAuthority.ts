@@ -4,18 +4,24 @@
 
 import type { Site00RepoBindingRow } from './types.js';
 
+function readOptionalEnv(key: string): string | undefined {
+  if (typeof process === 'undefined') return undefined;
+  const value = process.env?.[key];
+  return value && value.length > 0 ? value : undefined;
+}
+
 /** Resolved from GitHub defaultBranchRef at sprint time; override via env in production. */
 export const REPO_BRANCH_AUTHORITY: Record<
   string,
   { defaultBranch: string; allowedBranches: readonly string[]; discoverySource: string }
 > = {
   'yoteenz/SITE00': {
-    defaultBranch: process.env.SITE00_DEFAULT_BRANCH ?? 'main',
+    defaultBranch: readOptionalEnv('SITE00_DEFAULT_BRANCH') ?? 'main',
     allowedBranches: ['main'],
     discoverySource: 'github:defaultBranchRef',
   },
   'yoteenz/fsbw': {
-    defaultBranch: process.env.FSBW_DEFAULT_BRANCH ?? 'master',
+    defaultBranch: readOptionalEnv('FSBW_DEFAULT_BRANCH') ?? 'master',
     allowedBranches: ['master', 'main'],
     discoverySource: 'github:defaultBranchRef',
   },
