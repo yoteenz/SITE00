@@ -17,11 +17,27 @@
 .site00-page--design-workspace {
   padding: 0;
   max-width: none;
+  height: 100dvh;
+  max-height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#root:has(.site00-page--design-workspace) {
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .site00-dw-shell {
   display: flex;
-  min-height: 100dvh;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
   background: var(--site00-dw-paper);
   color: var(--site00-dw-ink);
   font-family: var(--site00-font-body, system-ui, sans-serif);
@@ -160,9 +176,11 @@
 .site00-dw-shell__main {
   flex: 1;
   min-width: 0;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow: hidden;
 }
 
 .site00-dw-shell__content {
@@ -174,10 +192,12 @@
 }
 
 .site00-dw-shell__bottom-panel {
+  flex: 0 0 auto;
   flex-shrink: 0;
-  position: sticky;
-  bottom: 0;
+  position: relative;
   z-index: 30;
+  min-height: var(--site00-dw-bottom-panel-height, 140px);
+  max-height: min(40dvh, 220px);
   border-top: 1px solid var(--site00-dw-line);
   background: var(--site00-dw-white);
   box-shadow: 0 -4px 16px rgba(17, 17, 17, 0.06);
@@ -790,8 +810,11 @@
 .site00-dw-footer--shell-panel {
   gap: 12px;
   padding: 12px 16px;
-  max-height: min(40vh, 220px);
+  height: 100%;
+  min-height: 0;
+  max-height: inherit;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .site00-dw-footer h2 {
