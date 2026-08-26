@@ -1,17 +1,23 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { filterReaders, sortReadersWithFavoritesFirst } from '../../../../shared/site00-astral-world/fixtureService.js';
 import { useAstralWorld } from '../context/AstralWorldContext';
-import { AstralScene } from '../components/immersive/AstralScene';
+import { AstralWorldScene } from '../components/immersive/AstralWorldScene';
+import { AstralInvokeField } from '../components/immersive/AstralInvokeField';
+import { AstralCategorySigilRow } from '../components/immersive/AstralCategorySigil';
+import { AstralReaderOrbit } from '../components/immersive/AstralReaderOrbit';
 import { AstralPortrait } from '../components/immersive/AstralPortrait';
-import { AstralStatusChip } from '../components/immersive/AstralStatusChip';
+import { ReaderDetailTray } from '../components/scenes/overlays/ReaderDetailTray';
 import { MobileFindReaderScene } from '../components/scenes/MobileFindReaderScene';
 
 const CATEGORIES = ['ALL', 'LOVE', 'CAREER', 'INTUITIVE', 'TAROT', 'ENERGY'] as const;
 
 function DesktopReadersLayout() {
-  const { readers, toggleFavoriteReader } = useAstralWorld();
+  const { readers, path } = useAstralWorld();
+  const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<(typeof CATEGORIES)[number]>('ALL');
+  const [selectedReaderId, setSelectedReaderId] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
     const list = filterReaders(readers, query, category, false, false);
@@ -19,41 +25,26 @@ function DesktopReadersLayout() {
   }, [readers, query, category]);
 
   return (
-    <>
-      <AstralScene crop="SOCIAL_PRESENCE" minHeight={180}>
-        <h1 className="aw-display aw-display--hero" style={{ margin: 0 }}>Find My Reader</h1>
-      </AstralScene>
-      <section className="aw-card aw-card--gold">
-        <input
-          type="search"
-          placeholder="Search readers..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          aria-label="Search readers"
-          style={{ width: '100%', padding: '0.5rem', background: 'rgba(0,0,0,0.4)', border: '1px solid var(--aw-border)', color: 'var(--aw-text)', marginBottom: '0.75rem' }}
-        />
-        <div className="aw-chips">
-          {CATEGORIES.map((c) => (
-            <button key={c} type="button" className={`aw-chip${category === c ? ' aw-tab--active' : ''}`} onClick={() => setCategory(c)}>{c}</button>
-          ))}
-        </div>
-      </section>
-      <section className="aw-card">
-        {filtered.map((r) => (
-          <div key={r.id} className="aw-reader-card-visual">
-            <AstralPortrait personId={r.id} name={r.name} initials={r.avatarInitials} size={52} showPresence />
-            <div className="aw-reader-card-visual__meta">
-              <strong>{r.name}</strong>
-              <div className="aw-muted">{r.specialty} · ★ {r.rating}</div>
-            </div>
-            <button type="button" className={`aw-chip${r.isFavorite ? ' aw-tab--active' : ''}`} onClick={() => toggleFavoriteReader(r.id)}>
-              {r.isFavorite ? '★ Fav' : '☆ Fav'}
-            </button>
-            <AstralStatusChip label={r.presence.replace(/_/g, ' ')} kind={r.presence === 'READING_NOW' ? 'reading' : 'available'} />
+    <div className="aw-route-scene aw-desktop-scene">
+      <AstralWorldScene
+        sceneId="ASTREA_DISTRICT"
+        viewport
+        overlay={
+          <div className="aw-reader-discovery-lens">
+            <p className="aw-label">Reader Oracle</p>
+            <h1 className="aw-display aw-display--scene">Find My Reader</h1>
+            <AstralInvokeField label="Ask who you need" placeholder="Invoke a reader name…" value={query} onChange={(e) => setQuery(e.target.value)} aria-label="Ask who you need" />
+            <AstralCategorySigilRow categories={CATEGORIES} active={category} onSelect={(c) => setCategory(c as (typeof CATEGORIES)[number])} />
           </div>
-        ))}
-      </section>
-    </>
+        }
+        interaction={
+          <AstralReaderOrbit readers={filtered.map((r) => ({ id: r.id, name: r.name, initials: r.avatarInitials }))} selectedId={selectedReaderId} onSelect={setSelectedReaderId} categoryKey={category} />
+        }
+      />
+      <ReaderDetailTray readerId={selectedReaderId} onClose={() => setSelectedReaderId(null)} onGo={(dest) => navigate(path(`astrea/${dest}`))} />
+      {/* FT3: portrait-led */}
+      <span className="aw-visually-compact" aria-hidden><AstralPortrait personId="reader-madame-j" name="Madame J" size={1} /></span>
+    </div>
   );
 }
 

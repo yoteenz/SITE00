@@ -7,7 +7,7 @@ import { AstralOverlay } from '../../immersive/AstralOverlay';
 import { AstralScene } from '../../immersive/AstralScene';
 import { destinationCropKeys } from '../../immersive/immersiveHelpers';
 
-/** Take Me Somewhere as atmospheric world routing overlay */
+/** Take Me Somewhere — intention tokens + transport preview */
 export function TakeMeSomewhereWorldOverlay({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { takeMeSomewhere, path } = useAstralWorld();
   const navigate = useNavigate();
@@ -23,12 +23,12 @@ export function TakeMeSomewhereWorldOverlay({ open, onClose }: { open: boolean; 
   return (
     <AstralOverlay open={open} onClose={onClose} title="Take Me Somewhere">
       <p className="aw-muted">What&apos;s going on today?</p>
-      <div className="aw-chips">
+      <div className="aw-intention-tokens" role="group" aria-label="Intention choices">
         {TAKE_ME_SOMEWHERE_CHIPS.map((c) => (
           <button
             key={c.intent}
             type="button"
-            className={`aw-chip${intent === c.intent ? ' aw-tab--active' : ''}`}
+            className={`aw-intention-token${intent === c.intent ? ' aw-intention-token--active' : ''}`}
             onClick={() => setIntent(c.intent)}
           >
             {c.label}
@@ -42,16 +42,9 @@ export function TakeMeSomewhereWorldOverlay({ open, onClose }: { open: boolean; 
             <p className="aw-muted" style={{ margin: '0.35rem 0 0' }}>{suggestion.reason}</p>
           </AstralScene>
           {suggestion.readerName ? <p className="aw-muted">Suggested reader: {suggestion.readerName}</p> : null}
-          <button type="button" className="aw-btn-primary" onClick={() => go(suggestion.destination)}>
+          <button type="button" className="aw-btn-primary aw-transport-cta" onClick={() => go(suggestion.destination)}>
             Take Me There →
           </button>
-          <div className="aw-chips">
-            {suggestion.alternates.map((a) => (
-              <button key={a.destination} type="button" className="aw-chip" onClick={() => go(a.destination)}>
-                {a.label}
-              </button>
-            ))}
-          </div>
         </div>
       ) : null}
     </AstralOverlay>

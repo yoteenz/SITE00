@@ -1,54 +1,65 @@
+import { useMemo, useState } from 'react';
+import { getHotspotsForScene } from '../../../../../shared/site00-astral-world/scenes/hotspotRegistry.js';
 import { useAstralWorld } from '../../context/AstralWorldContext';
-import { AstralScene } from '../../components/immersive/AstralScene';
+import { AstralWorldScene } from '../../components/immersive/AstralWorldScene';
+import { AstralHUD, AstralHUDChip } from '../../components/immersive/AstralHUD';
+import { AstralHotspotLayer } from '../../components/immersive/AstralHotspot';
+import { AstralKioskTray } from '../../components/immersive/AstralKioskTray';
 import { AstralPortraitRow } from '../../components/immersive/AstralPortrait';
-import { MobileAstralMallScene } from '../../components/scenes/MobileAstralMallScene';
+import { AstralScene } from '../../components/immersive/AstralScene';
+import { KIOSK_HOTSPOT_MAP, MobileAstralMallScene } from '../../components/scenes/MobileAstralMallScene';
+
+void AstralScene;
 
 function DesktopAstralMallLayout() {
-  const { kiosks, readers, selectKiosk, joinKioskWait, selectedKioskId } = useAstralWorld();
+  const { kiosks, readers, selectKiosk, joinKioskWait } = useAstralWorld();
+  const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
+  const hotspots = getHotspotsForScene('ASTRAL_MALL', false);
   const mallReaders = readers.filter((r) => r.currentDestination === 'astral-mall');
-  const selected = kiosks.find((k) => k.id === selectedKioskId);
+  const liveReads = readers.filter((r) => r.presence === 'READING_NOW' && r.currentDestination === 'astral-mall').length;
+
+  const kioskId = activeHotspot ? KIOSK_HOTSPOT_MAP[activeHotspot] : null;
+  const activeKiosk = useMemo(
+    () => (kioskId ? kiosks.find((k) => k.id === kioskId) ?? null : null),
+    [kioskId, kiosks],
+  );
+  const kioskReader = activeKiosk?.readerId ? readers.find((r) => r.id === activeKiosk.readerId) : null;
 
   return (
-    <div className="aw-mall-scene">
-      <AstralScene crop="ASTRAL_MALL" minHeight={300}>
-        <p className="aw-label">Astréa · Destination</p>
-        <h1 className="aw-display aw-display--hero">Astral Mall</h1>
-        <p className="aw-muted">Kiosks · lighting · readers · quick energy</p>
-      </AstralScene>
-      <div className="aw-mall-kiosk-sheet">
-        <section className="aw-card aw-card--gold">
-          <h2 className="aw-display aw-display--section">Pick a Kiosk</h2>
-          <div className="aw-kiosk-grid">
-            {kiosks.map((k) => (
-              <button
-                key={k.id}
-                type="button"
-                className={`aw-kiosk${k.kioskState === 'CLOSED' ? ' aw-kiosk--disabled' : ''}${selectedKioskId === k.id ? ' aw-card--gold' : ''}`}
-                disabled={k.kioskState === 'CLOSED'}
-                onClick={() => selectKiosk(k.id)}
-                aria-pressed={selectedKioskId === k.id}
-              >
-                <div>{k.label}</div>
-                <div className="aw-muted">{k.durationMin} min</div>
-                <div className="aw-kiosk__price">${k.priceUsd}</div>
-              </button>
-            ))}
+    <div className="aw-route-scene aw-desktop-scene">
+      <AstralWorldScene
+        sceneId="ASTRAL_MALL"
+        viewport
+        overlay={
+          <div className="aw-dest-scene-title">
+            <p className="aw-label">Astréa · Mall</p>
+            <h1 className="aw-display aw-display--scene">Astral Mall</h1>
           </div>
-          {selected ? (
-            <div style={{ marginTop: '0.75rem' }}>
-              {selected.kioskState === 'OPEN' ? (
-                <button type="button" className="aw-btn-primary">Start Quick Read</button>
-              ) : selected.kioskState === 'BUSY' ? (
-                <button type="button" className="aw-btn-secondary" onClick={() => joinKioskWait(selected.id)}>Join Wait</button>
-              ) : null}
+        }
+        interaction={<AstralHotspotLayer hotspots={hotspots} onDrawer={(t: string) => { setActiveHotspot(t); const kid = KIOSK_HOTSPOT_MAP[t]; if (kid) selectKiosk(kid); }} />}
+        presence={
+          mallReaders.length ? (
+            <div className="aw-mall-presence-strip">
+              <AstralPortraitRow people={mallReaders.map((r) => ({ id: r.id, name: r.name, initials: r.avatarInitials }))} size={40} />
             </div>
-          ) : null}
-        </section>
-        <section className="aw-card">
-          <h2 className="aw-display aw-display--section">Readers at Mall · {mallReaders.length} active</h2>
-          <AstralPortraitRow people={mallReaders.map((r) => ({ id: r.id, name: r.name, initials: r.avatarInitials }))} size={40} />
-        </section>
-      </div>
+          ) : null
+        }
+        hud={
+          <AstralHUD position="top">
+            <AstralHUDChip live>{mallReaders.length} readers here</AstralHUDChip>
+            <AstralHUDChip live>{liveReads} live readings</AstralHUDChip>
+          </AstralHUD>
+        }
+      />
+      <AstralKioskTray
+        open={Boolean(activeKiosk)}
+        onClose={() => setActiveHotspot(null)}
+        kiosk={activeKiosk}
+        readerId={kioskReader?.id}
+        readerName={kioskReader?.name}
+        readerInitials={kioskReader?.avatarInitials}
+        onJoinWait={() => activeKiosk && joinKioskWait(activeKiosk.id)}
+      />
     </div>
   );
 }

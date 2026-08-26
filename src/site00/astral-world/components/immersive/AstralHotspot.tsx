@@ -41,7 +41,12 @@ export function AstralHotspot({
   if (!resolvedRect) return null;
 
   const style = hotspotStyle(resolvedRect);
-  const content = children ?? <span className="aw-hotspot__plate">{resolvedLabel}</span>;
+  const content = children ?? (
+    <>
+      <span className="aw-hotspot__emblem" aria-hidden />
+      <span className="aw-hotspot__label">{resolvedLabel}</span>
+    </>
+  );
 
   const handleClick = (e: MouseEvent) => {
     if (onActivate) {
@@ -59,7 +64,7 @@ export function AstralHotspot({
     return (
       <Link
         to={path(resolvedTarget)}
-        className={`aw-hotspot aw-hotspot--dest ${className}`.trim()}
+        className={`aw-hotspot aw-hotspot--dest aw-hotspot--emblem ${className}`.trim()}
         style={style}
         aria-label={resolvedLabel}
         data-hotspot-id={def?.hotspotId}
@@ -72,7 +77,7 @@ export function AstralHotspot({
   return (
     <button
       type="button"
-      className={`aw-hotspot aw-hotspot--action ${className}`.trim()}
+      className={`aw-hotspot aw-hotspot--action aw-hotspot--emblem ${className}`.trim()}
       style={style}
       aria-label={resolvedLabel}
       data-hotspot-id={def?.hotspotId}
