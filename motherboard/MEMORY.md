@@ -5434,10 +5434,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Context:** After P0.BRIDGE.1B merge, Vite dev / cloud preview showed blank screen. Console: `Uncaught ReferenceError: process is not defined` in `repoBranchAuthority.ts` (imported via design control plane client → DesignRepoChangePanel).
 - **Fix:** `readOptionalEnv()` guards `typeof process !== 'undefined'` before reading branch override env vars. Defaults unchanged (SITE00 `main`, FSBW `master`). Production (cPanel) was unaffected; dev preview was broken.
 - **Preserved:** Branch authority behavior, all P0.BRIDGE.1B tests pass.
- Two execution classes: RUNTIME_SAFE_BINDING (config/content at runtime) vs SOURCE_CODE_MATERIALIZATION (structured change contract for FSBW source apply). No arbitrary code in DB, no SITE 00 mutating FSBW source directly.
-- **Delivered:** Migration `20260826123000_site00_design_control_plane_bridge.sql` — managed projects, repo bindings, change requests/operations/approvals/receipts, shell propagation, reference/snapshot bindings, RLS service_role. Module `shared/site00-design-control-plane/` — `Site00DesignControlPlane` (create/validate/approve/markReadyForRepo/publishRuntimeBinding/receipts/divergence), capability registry, operation validator (blocks EXECUTE_CODE/EVAL), blast radius + staleness. API `api/site00/design-control-plane.ts`. Design REVIEW tab `DesignRepoChangePanel` — PREPARE REPO CHANGE, APPROVE FOR SOURCE REPO, IMPLEMENTATION MODE. `getManagedProjectRepoBinding()` in p0vr3m adapter. Tests `designControlPlaneP0Bridge1.test.ts` (21 pass). Build green.
-- **Core rule:** SITE 00 designs; Supabase records approved intent; FSBW owns source code. Structural changes become source change contracts with base commit + founder approval before READY_FOR_REPO.
-- **Preserved:** P0.VR.3M design ownership, P0.VR.3L shell governance (propagation records only), P0.VR.3E snapshot authority, Studio World website-only targeting, no FAL, no auto-apply FSBW source.
+
+---
+
+## 2026-08-26 — P0.VR.3M.2 Design footer visibility (scroll-container repair)
+
+- **Context:** Founder could not see P0.VR.3M.1 bottom panel on live `/projects/site00/design` despite component existing. Diagnostic: footer DOM present but height ~0.09px, y≈1041 (below viewport). Root cause: shell used `min-height:100dvh` without height cap; sticky footer was sibling of scrollable `__content`, so page grew and footer pushed off-screen / flex-collapsed.
+- **Fix:** CSS only — constrain `.site00-page--design-workspace` + `#root` to `100dvh`; `__main` `min-height:0 overflow:hidden`; scroll only `.site00-dw-shell__content`; bottom panel `position:relative` flex flow with `min-height: var(--site00-dw-bottom-panel-height)`. No second footer. `data-app-build-id` on design page. Module `p0vr3m2/designFooterDiagnostic.ts` + Playwright live test (desktop/tablet/mobile, all tabs/projects). Receipt: desktop 1023×221px visible in viewport.
+- **Preserved:** P0.VR.3M.1 notifications, overflow menus, icons, canonical route, single DesignWorkspaceFooter.
 
 ---
 

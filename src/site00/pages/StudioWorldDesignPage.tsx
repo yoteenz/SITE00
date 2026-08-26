@@ -19,7 +19,11 @@ export function Site00OwnedDesignWorkspacePage() {
   const viewportParam = searchParams.get('viewport') as DesignViewportClass | null;
 
   return (
-    <div className="site00-page site00-page--design-workspace" data-visual-reconstruction="p0vr2b-page">
+    <div
+      className="site00-page site00-page--design-workspace"
+      data-visual-reconstruction="p0vr2b-page"
+      data-app-build-id={import.meta.env.VITE_APP_BUILD_ID}
+    >
       <StudioWorldDesignWorkspace
         initialProjectId={initialProjectId}
         initialScreenId={initialScreen}
