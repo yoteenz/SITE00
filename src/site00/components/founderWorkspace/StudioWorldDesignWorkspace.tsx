@@ -60,6 +60,7 @@ import { DesignCompareSection } from '../designWorkspace/DesignCompareSection';
 import { DesignImplementationPreview } from '../designWorkspace/DesignImplementationPreview';
 import { DesignPagesVisualIndex } from '../designWorkspace/DesignPagesVisualIndex';
 import { DesignComposerReviewQueue } from '../designWorkspace/DesignComposerReviewQueue';
+import { DesignMissingTargetQueue } from '../designWorkspace/DesignMissingTargetQueue';
 import { useImplementationSnapshots } from '../designWorkspace/useImplementationSnapshots';
 import { listScreensWithSnapshots } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3e/client.js';
 import { DesignMissingAssetsSection } from '../designWorkspace/DesignMissingAssetsSection';
@@ -73,7 +74,7 @@ export type StudioWorldDesignWorkspaceProps = {
   initialViewport?: DesignViewportClass;
 };
 
-const TABS: DesignWorkspaceTab[] = ['REFERENCE', 'IMPLEMENTATION', 'COMPARE', 'PAGES', 'REVIEW', 'HISTORY', 'INSPECT'];
+const TABS: DesignWorkspaceTab[] = ['REFERENCE', 'IMPLEMENTATION', 'COMPARE', 'PAGES', 'REVIEW', 'MISSING', 'HISTORY', 'INSPECT'];
 
 const VIEWPORT_OPTIONS: DesignViewportClass[] = ['mobile', 'tablet', 'desktop'];
 
@@ -553,6 +554,8 @@ export function StudioWorldDesignWorkspace({
         ) : null}
 
         {tab === 'REVIEW' ? <DesignComposerReviewQueue /> : null}
+
+        {tab === 'MISSING' ? <DesignMissingTargetQueue /> : null}
 
         {tab === 'HISTORY' ? (
           <section className="site00-dw-panel site00-dw-panel--history">
