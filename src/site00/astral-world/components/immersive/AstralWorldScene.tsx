@@ -43,11 +43,13 @@ export function AstralWorldScene({
       className={`aw-world-scene${viewport ? ' aw-world-scene--viewport' : ''} ${className}`.trim()}
       data-scene-id={sceneId}
       data-asset-slot={contract.assetSlotKeyMobile}
+      data-screen-master="AW_M_01_WORLD_ENTRY"
     >
       <div className="aw-world-scene__layer aw-world-scene__layer--environment" aria-hidden={false}>
         <AstralScene
           crop={contract.backgroundCrop}
           cropMobile={contract.backgroundCropMobile}
+          sceneId={sceneId}
           className="aw-world-scene__environment aw-scene"
           minHeight="100%"
           overlay

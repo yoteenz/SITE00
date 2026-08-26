@@ -14,12 +14,21 @@ import {
   compileReaderPortraitPrompt,
   type PortraitPromptVars,
 } from './portraitContracts.js';
+import type { CanonicalScreenMaster } from '../screen-masters/types.js';
+
+export type ScreenBoundPromptContext = {
+  screenMaster: CanonicalScreenMaster;
+  assetRole?: string;
+  compositionRequirements?: string[];
+};
 
 export type CompiledAstralPrompt = {
   promptText: string;
   promptHash: string;
   promptVersion: string;
   negativeConstraints: string[];
+  screenMasterId?: string;
+  screenMasterVersion?: number;
 };
 
 function bodyForContract(contract: VisualAssetContract, vars?: PortraitPromptVars): string {
@@ -41,11 +50,24 @@ function bodyForContract(contract: VisualAssetContract, vars?: PortraitPromptVar
 export function compileAstralPrompt(
   contract: VisualAssetContract,
   vars?: PortraitPromptVars,
+  screenContext?: ScreenBoundPromptContext,
 ): CompiledAstralPrompt {
   const assetBody = bodyForContract(contract, vars);
   const referenceContext = contract.referenceSources.length
     ? `REFERENCE CONTEXT: Use attached reference images as visual authority for atmosphere, palette, composition, and destination identity. Generate the WORLD behind the UI — not the UI itself.\nSources: ${contract.referenceSources.join(', ')}`
     : 'REFERENCE CONTEXT: Follow Astral World master visual contract.';
+
+  const screenBlock = screenContext
+    ? [
+        `CANONICAL SCREEN: ${screenContext.screenMaster.screenId} v${screenContext.screenMaster.version}`,
+        `SCREEN ROUTE: ${screenContext.screenMaster.route}`,
+        `RECONSTRUCT THIS EXACT SCREEN. Match the attached canonical screen master composition.`,
+        `Preserve camera, geometry, subject/object positions, lighting, palette, and spatial hierarchy.`,
+        `Do not redesign. Do not add new objects. Do not remove meaningful objects.`,
+        screenContext.assetRole ? `ASSET ROLE ON SCREEN: ${screenContext.assetRole}` : '',
+        ...(screenContext.compositionRequirements ?? []),
+      ].filter(Boolean).join('\n')
+    : '';
 
   const outputReq = `OUTPUT REQUIREMENTS: ${contract.aspectRatio} aspect ratio, minimum ${contract.widthTarget}x${contract.heightTarget}, environment-only clean artwork unless portrait contract. Safe zones: ${contract.safeZones.join(', ')}.`;
 
@@ -56,11 +78,12 @@ export function compileAstralPrompt(
     `ASSET: ${contract.assetKey}`,
     `ROLE: ${contract.role}`,
     `SLOT: ${contract.targetSlot}`,
+    screenBlock,
     referenceContext,
     assetBody,
     outputReq,
     negative,
-  ].join('\n\n');
+  ].filter(Boolean).join('\n\n');
 
   const promptHash = createHash('sha256').update(promptText).digest('hex').slice(0, 16);
 
@@ -69,5 +92,7 @@ export function compileAstralPrompt(
     promptHash,
     promptVersion: contract.promptVersion,
     negativeConstraints: contract.negativeConstraints,
+    screenMasterId: screenContext?.screenMaster.screenId,
+    screenMasterVersion: screenContext?.screenMaster.version,
   };
 }

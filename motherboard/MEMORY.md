@@ -5595,3 +5595,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Railway:** Production API still requires `FAL_KEY` on Railway service for founder dispatch from live admin endpoint.
 - **Visual lock:** `ASTRAL_WORLD_VISUAL_LOCK=FALSE` — P0 outputs need founder per-slot QA + activation; P1/P2 pending; full reference comparison not yet re-scored.
 
+---
+
+## 2026-08-26 — P0.E.FT5.2 Canonical screen master + SITE 00 pipeline adoption
+
+- **Context:** Root production-method fix — large multi-screen reference boards forced Composer interpretation. Astral World must adopt SITE 00 individual screen master → asset manifest → generation → implementation → screenshot QA pipeline.
+- **Pipeline audit:** Reused P0.VR.2 `canonicalReferenceRegistry`, `designScreenRegistry`, P0.VR.2A asset slots, existing FAL via FT4/FT5.1. **No parallel Astral pipeline.** Adapter: `screen-masters/vr2Adapter.ts` registers `astral-world` WORLD screens as `FULL_SCREEN_REFERENCE`.
+- **Delivered:** Three-level reference hierarchy (source board / source region / canonical master). Board-to-screen map (15 mobile + 10 desktop + state screens). Per-screen asset manifests. FT5.1 reconciliation (`ft51Reconciliation.ts`). Screen-bound prompt compiler. `resolveScreenAuthority()` hierarchy.
+- **Pilot AW_M_01_WORLD_ENTRY:** Extracted `source-region.png` + `canonical-master-v1.png` (390×216) from mobile board. Registered in VR2. Live route uses canonical master when `MASTER_READY_FOR_REVIEW`.
+- **Tests:** `astralWorldFt52ScreenMasters.test.ts` (16) → **134 Astral tests pass**. Build PASS.
+- **Next:** FT5.3 batch remaining screens one-at-a-time; founder lock pilot then scale.
+

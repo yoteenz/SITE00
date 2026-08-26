@@ -8,6 +8,12 @@ import {
 import type { AstralAssetSlotKey } from '../../../../shared/site00-astral-world/generation/assetSlotRegistry.js';
 import { slotKeyFromCrop, portraitSlotFromPersonId } from '../../../../shared/site00-astral-world/generation/assetSlotRegistry.js';
 import { cropToBackgroundStyle, getReferenceCrop } from '../../../../shared/site00-astral-world/referenceCropRegistry.js';
+import { getSceneContract } from '../../../../shared/site00-astral-world/scenes/sceneContracts.js';
+import type { AstralSceneId } from '../../../../shared/site00-astral-world/scenes/types.js';
+import { initializeScreenMasterRegistry } from '../../../../shared/site00-astral-world/screen-masters/registry.js';
+import { resolveScreenAuthority } from '../../../../shared/site00-astral-world/screen-masters/resolveScreenAuthority.js';
+
+initializeScreenMasterRegistry();
 
 type ClientAssetMap = Record<string, { url: string; source: string }>;
 
@@ -93,8 +99,27 @@ export function useAstralSceneBackground(
   crop: ReferenceCropKey,
   store: AstralAssetStoreSnapshot,
   overlay = true,
+  sceneId?: AstralSceneId,
+  viewport: 'mobile' | 'desktop' = 'mobile',
 ): CSSProperties {
   return useMemo(() => {
+    if (sceneId) {
+      const contract = getSceneContract(sceneId);
+      const slotKey = (viewport === 'mobile' ? contract.assetSlotKeyMobile : contract.assetSlotKey) as AstralAssetSlotKey;
+      const authority = resolveScreenAuthority(sceneId, slotKey, store, viewport, '');
+      if (authority.source === 'CANONICAL_SCREEN_MASTER') {
+        const gradient = overlay
+          ? 'linear-gradient(180deg, rgba(6,8,15,0.05) 0%, rgba(6,8,15,0.55) 55%, rgba(6,8,15,0.92) 100%), '
+          : '';
+        return {
+          backgroundImage: `${gradient}url(${authority.url})`,
+          backgroundPosition: authority.backgroundPosition ?? 'center',
+          backgroundSize: authority.backgroundSize ?? 'cover',
+          backgroundRepeat: 'no-repeat' as const,
+        };
+      }
+    }
+
     const resolved = resolveAstralAssetForCrop(crop, store, '');
     if (resolved.source === 'ACTIVE' || resolved.source === 'READY') {
       const gradient = overlay
@@ -109,7 +134,7 @@ export function useAstralSceneBackground(
     }
     const spec = getReferenceCrop(crop);
     return cropToBackgroundStyle(spec, overlay);
-  }, [crop, store, overlay]);
+  }, [crop, store, overlay, sceneId, viewport]);
 }
 
 export function useAstralPortraitBackground(
