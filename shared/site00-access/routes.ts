@@ -17,6 +17,11 @@ export function site00ProjectExperienceRoute(slug: string, section?: string): st
   return section ? `${base}/${section.replace(/^\//, '')}` : `${base}/home`;
 }
 
+export function site00ProjectFastTrackWorldRoute(slug: string, section?: string): string {
+  const base = `/projects/${slug}/debug/world`;
+  return section ? `${base}/${section.replace(/^\//, '')}` : `${base}/home`;
+}
+
 export function site00ProjectEvolveRoute(slug: string): string {
   return `/projects/${slug}/evolve`;
 }

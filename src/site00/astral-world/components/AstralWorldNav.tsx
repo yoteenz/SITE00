@@ -11,28 +11,26 @@ const ENERGY_OPTIONS: { value: EnergyState; label: string }[] = [
   { value: 'PRIVATE', label: 'Private' },
 ];
 
-type NavItem = { to: string; label: string; end?: boolean };
-
-const NAV_ITEMS: NavItem[] = [
-  { to: '/projects/astral-world/experience/home', label: 'Home', end: true },
-  { to: '/projects/astral-world/experience/astrea', label: 'Astréa' },
-  { to: '/projects/astral-world/experience/readers', label: 'Readers' },
-  { to: '/projects/astral-world/experience/friends', label: 'Friends' },
-  { to: '/projects/astral-world/experience/journal', label: 'Journal' },
-  { to: '/projects/astral-world/experience/profile', label: 'Profile' },
-];
-
 export function AstralWorldDesktopNav() {
-  const { energy, setEnergy, checkIn } = useAstralWorld();
+  const { path, energy, setEnergy, checkIn, demoSession, allowFriendsToJoin, setAllowFriendsToJoin, setPrivacy, userPresence } = useAstralWorld();
+
+  const navItems = [
+    { to: path('home'), label: 'Home', end: true },
+    { to: path('astrea'), label: 'Astréa' },
+    { to: path('readers'), label: 'Readers' },
+    { to: path('friends'), label: 'Friends' },
+    { to: path('journal'), label: 'Journal' },
+    { to: path('profile'), label: 'Profile' },
+  ];
 
   return (
     <aside className="aw-shell__nav aw-desktop-only" aria-label="Astral World navigation">
       <div className="aw-brand">
         Astral World
-        <span className="aw-brand__sub">Experience Prototype</span>
+        <span className="aw-brand__sub">Live Prototype</span>
       </div>
       <nav>
-        {NAV_ITEMS.map((item) => (
+        {navItems.map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
@@ -42,18 +40,11 @@ export function AstralWorldDesktopNav() {
             {item.label}
           </NavLink>
         ))}
-        <NavLink to="/projects/astral-world/experience/home#membership" className="aw-nav-link">
-          Membership
-        </NavLink>
-        <NavLink to="/projects/astral-world/experience/home#shop" className="aw-nav-link">
-          Shop
-        </NavLink>
       </nav>
       <div className="aw-user-card">
-        <div className="aw-user-card__name">Rea</div>
-        <label className="aw-label" htmlFor="aw-energy">
-          Your Energy
-        </label>
+        <div className="aw-user-card__name">{demoSession.displayName}</div>
+        <p className="aw-muted" style={{ fontSize: '0.65rem', margin: '0.25rem 0' }}>{demoSession.membershipBadge}</p>
+        <label className="aw-label" htmlFor="aw-energy">Your Energy</label>
         <select
           id="aw-energy"
           className="aw-energy-select"
@@ -62,26 +53,44 @@ export function AstralWorldDesktopNav() {
           aria-label="Your energy state"
         >
           {ENERGY_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
+            <option key={o.value} value={o.value}>{o.label}</option>
           ))}
         </select>
-        <button type="button" className="aw-btn-checkin" onClick={checkIn}>
-          Check In
-        </button>
+        <label className="aw-label" htmlFor="aw-privacy" style={{ marginTop: '0.5rem' }}>Presence</label>
+        <select
+          id="aw-privacy"
+          className="aw-energy-select"
+          value={userPresence.privacy}
+          onChange={(e) => setPrivacy(e.target.value as typeof userPresence.privacy)}
+          aria-label="Presence privacy"
+        >
+          <option value="EVERYONE">Everyone</option>
+          <option value="FRIENDS">Friends Only</option>
+          <option value="HIDDEN">Hidden</option>
+        </select>
+        <label className="aw-label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
+          <input
+            type="checkbox"
+            checked={allowFriendsToJoin}
+            onChange={(e) => setAllowFriendsToJoin(e.target.checked)}
+            aria-label="Allow friends to join me"
+          />
+          Allow friends to join me
+        </label>
+        <button type="button" className="aw-btn-checkin" onClick={checkIn}>Check In</button>
       </div>
     </aside>
   );
 }
 
 export function AstralWorldMobileNav() {
+  const { path } = useAstralWorld();
   const tabs = [
-    { to: '/projects/astral-world/experience/home', label: 'Home', end: true },
-    { to: '/projects/astral-world/experience/astrea', label: 'World' },
-    { to: '/projects/astral-world/experience/journal', label: 'Journal' },
-    { to: '/projects/astral-world/experience/friends', label: 'Friends' },
-    { to: '/projects/astral-world/experience/profile', label: 'Profile' },
+    { to: path('home'), label: 'Home', end: true },
+    { to: path('astrea'), label: 'World' },
+    { to: path('journal'), label: 'Journal' },
+    { to: path('friends'), label: 'Friends' },
+    { to: path('profile'), label: 'Profile' },
   ];
 
   return (

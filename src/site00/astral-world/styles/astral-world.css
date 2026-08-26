@@ -600,6 +600,42 @@
   margin-bottom: 0.75rem;
 }
 
+.aw-journal-book {
+  border: 1px solid var(--aw-border-strong);
+  background: linear-gradient(135deg, rgba(92, 61, 122, 0.15), rgba(6, 8, 15, 0.9));
+}
+
+.aw-daily-card {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.aw-places-popular .aw-presence-item {
+  margin-top: 0.35rem;
+}
+
+.aw-routing-suggestion {
+  border-left: 2px solid var(--aw-gold);
+  padding-left: 0.75rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .aw-hero__bg--pending {
+    animation: aw-ambient-pulse 8s ease-in-out infinite;
+  }
+}
+
+@keyframes aw-ambient-pulse {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aw-hero__bg--pending {
+    animation: none;
+  }
+}
+
 /* ─── Responsive breakpoints ─── */
 
 @media (max-width: 1279px) {

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useAstralWorld } from '../context/AstralWorldContext';
 
 export function AstralWorldRightRail() {
-  const { notifications, markNotificationRead } = useAstralWorld();
+  const { notifications, markNotificationRead, path, journey } = useAstralWorld();
 
   return (
     <aside className="aw-shell__rail aw-desktop-only" aria-label="Notifications and journey">
@@ -16,25 +16,27 @@ export function AstralWorldRightRail() {
             <li key={n.id} style={{ marginBottom: '0.75rem', opacity: n.read ? 0.55 : 1 }}>
               <div className="aw-label">{n.type.replace(/_/g, ' ')}</div>
               <strong>{n.title}</strong>
-              <p className="aw-muted" style={{ margin: '0.25rem 0' }}>
-                {n.body}
-              </p>
-              <Link
-                to={n.actionRoute}
-                className="aw-btn-secondary"
-                onClick={() => markNotificationRead(n.id)}
-              >
+              <p className="aw-muted" style={{ margin: '0.25rem 0' }}>{n.body}</p>
+              <Link to={n.actionRoute} className="aw-btn-secondary" onClick={() => markNotificationRead(n.id)}>
                 {n.actionLabel}
               </Link>
             </li>
           ))}
         </ul>
+        <Link to={path('notification-demo')} className="aw-btn-secondary" style={{ marginTop: '0.5rem', display: 'inline-block' }}>
+          Mobile alert demo →
+        </Link>
       </div>
       <div className="aw-card">
         <h2 className="aw-display aw-display--section">Your Journey</h2>
-        <Link to="/projects/astral-world/experience/journal" className="aw-btn-primary">
-          Open Journal →
-        </Link>
+        {journey.slice(0, 2).map((j) => (
+          <p key={j.id} className="aw-muted" style={{ marginBottom: '0.35rem' }}>
+            <strong>{j.kind === 'READING' ? 'Last Reading' : j.kind === 'SAVED' ? 'Saved Reading' : 'Journal'}</strong>
+            <br />
+            {j.title}
+          </p>
+        ))}
+        <Link to={path('journal')} className="aw-btn-primary">Open Journal →</Link>
       </div>
     </aside>
   );

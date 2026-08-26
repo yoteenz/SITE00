@@ -66,5 +66,6 @@ export const TAKE_ME_SOMEWHERE_CHIPS: readonly { intent: TakeMeSomewhereIntent; 
   { intent: 'NEED_COMFORT', label: 'I NEED COMFORT' },
   { intent: 'CELEBRATING', label: "I'M CELEBRATING" },
   { intent: 'WANT_CONNECTION', label: 'I WANT CONNECTION' },
+  { intent: 'DEEP_PRIVATE', label: 'I NEED SOMETHING DEEP' },
   { intent: 'SOMETHING_ELSE', label: 'SOMETHING ELSE' },
 ];

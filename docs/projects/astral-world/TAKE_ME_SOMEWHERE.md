@@ -1,7 +1,8 @@
-# Astral World — Take Me Somewhere (P0.E.1 Prototype)
+# Astral World — Take Me Somewhere
 
 **Router:** `shared/site00-astral-world/takeMeSomewhereRouter.ts`  
-**Logic type:** Deterministic seeded prototype — **not production AI**
+**Context engine (FT1):** `shared/site00-astral-world/takeMeSomewhereContextEngine.ts`  
+**Logic type:** Deterministic prototype — replaceable by Studio World AI
 
 ---
 
@@ -11,36 +12,29 @@
 
 ---
 
-## Quick response chips
+## Quick chips
 
-| Chip | Intent | Routes to |
-|------|--------|-----------|
-| I NEED CLARITY | `NEED_CLARITY` | Tarot Suite |
-| I HAVE 10 MINUTES | `TEN_MINUTES` | Astral Mall |
-| I NEED COMFORT | `NEED_COMFORT` | Coffee Shop |
-| I'M CELEBRATING | `CELEBRATING` | Astral Mall |
-| I WANT CONNECTION | `WANT_CONNECTION` | Coffee Shop |
-| SOMETHING ELSE | `SOMETHING_ELSE` | Tarot Suite |
-
-Deep/private energy state (`PRIVATE`) maps to `DEEP_PRIVATE` → Tarot Suite via `energyToIntent()`.
+| Chip | Routes to |
+|------|-----------|
+| I NEED CLARITY | Tarot Suite (or favorite available reader) |
+| I HAVE 10 MINUTES | Astral Mall |
+| I NEED COMFORT | Coffee Shop |
+| I WANT CONNECTION | Coffee Shop |
+| I NEED SOMETHING DEEP | Tarot Suite |
+| SOMETHING ELSE | Tarot Suite |
 
 ---
 
-## Routing inputs (future)
+## Context engine output
 
-Architecture supports later replacement by Studio World recommendation logic considering:
-- intent, available time, tone
-- destination purpose
-- reader availability
-- friend / favorite reader presence
+Conversational line + reason + recommended destination + optional reader + alternates.
 
-Current implementation returns `{ destination, label, reason, isPrototypeLogic: true }`.
+Example: *"You've only got ten minutes. Let's take you to the Mall."*
+
+Inputs: intent, energy, reader availability, favorite reader, friend presence.
 
 ---
 
 ## UI
 
-- Desktop: home dashboard panel + destination pages (compact variant)
-- Mobile: dedicated screen state in home flow
-
-Component: `src/site00/astral-world/components/TakeMeSomewherePanel.tsx`
+`src/site00/astral-world/components/TakeMeSomewherePanel.tsx`

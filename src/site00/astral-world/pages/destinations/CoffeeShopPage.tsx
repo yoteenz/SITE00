@@ -3,14 +3,17 @@ import { useAstralWorld } from '../../context/AstralWorldContext';
 import { TakeMeSomewherePanel } from '../../components/TakeMeSomewherePanel';
 
 export default function CoffeeShopPage() {
-  const { tables, joinHerTable, leaveCurrentTable, userPresence, readers } = useAstralWorld();
+  const { tables, joinHerTable, leaveCurrentTable, userPresence, readers, selectedTableId } = useAstralWorld();
   const [message, setMessage] = useState<string | null>(null);
+  const [viewTableId, setViewTableId] = useState<string | null>(null);
   const shopReaders = readers.filter((r) => r.currentDestination === 'coffee-shop');
 
   const handleJoin = (tableId: string) => {
     const err = joinHerTable(tableId);
     setMessage(err ?? 'Joined table');
   };
+
+  const activeTable = viewTableId ? tables.find((t) => t.id === viewTableId) : null;
 
   return (
     <>
@@ -34,30 +37,40 @@ export default function CoffeeShopPage() {
       </div>
       <section className="aw-card aw-card--gold">
         <h2 className="aw-display aw-display--section">Live Tables</h2>
-        {tables.map((table) => {
+        {tables.map((table, idx) => {
           const full = table.occupants.length >= table.capacity;
           return (
             <div key={table.id} className={`aw-table-card${full ? ' aw-table-card--full' : ''}`}>
+              <div className="aw-label">Table {idx + 1}</div>
               <strong>{table.name}</strong>
-              <p className="aw-muted">{table.occupants.length}/{table.capacity} · {full ? 'Full' : 'Joinable'}</p>
+              <p className="aw-muted">{table.occupants.length}/{table.capacity} · {full ? 'Table Full' : 'Joinable'}</p>
+              {table.activityNote ? <p className="aw-muted">{table.activityNote}</p> : null}
               <div className="aw-avatar-row">
                 {table.occupants.map((id) => (
                   <div key={id} className="aw-avatar" aria-label={`Occupant ${id}`}>{id.slice(0, 2).toUpperCase()}</div>
                 ))}
               </div>
-              {!full ? (
-                <button type="button" className="aw-btn-primary" style={{ marginTop: '0.5rem' }} onClick={() => handleJoin(table.id)}>
-                  Join Her Table
-                </button>
-              ) : null}
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginTop: '0.5rem' }}>
+                {!full ? (
+                  <button type="button" className="aw-btn-primary" onClick={() => handleJoin(table.id)}>Join Her Table</button>
+                ) : null}
+                <button type="button" className="aw-btn-secondary" onClick={() => setViewTableId(table.id)}>View People Here</button>
+              </div>
             </div>
           );
         })}
-        {userPresence.tableId ? (
+        {userPresence.tableId || selectedTableId ? (
           <button type="button" className="aw-btn-secondary" onClick={leaveCurrentTable}>Leave Table</button>
         ) : null}
         {message ? <p className="aw-muted">{message}</p> : null}
       </section>
+      {activeTable ? (
+        <section className="aw-card">
+          <h2 className="aw-display aw-display--section">{activeTable.name} · Activity</h2>
+          <p className="aw-muted">{activeTable.activityNote ?? 'Prototype table conversation panel — real-time chat architecture reserved for later.'}</p>
+          <p className="aw-muted">{activeTable.occupants.length} people here</p>
+        </section>
+      ) : null}
       {shopReaders.length ? (
         <section className="aw-card">
           <h2 className="aw-display aw-display--section">Readers Here</h2>

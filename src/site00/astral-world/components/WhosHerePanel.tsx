@@ -1,23 +1,24 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAstralWorld } from '../context/AstralWorldContext';
+import { PlacesPopularPanel } from './PlacesPopularPanel';
 
 type Tab = 'all' | 'friends' | 'readers' | 'favorites';
 
 export function WhosHerePanel({ compact }: { compact?: boolean }) {
-  const { friends, readers } = useAstralWorld();
+  const { friends, readers, path } = useAstralWorld();
   const [tab, setTab] = useState<Tab>('all');
 
   const items =
     tab === 'friends'
-      ? friends.map((f) => ({ id: f.id, name: f.name, initials: f.avatarInitials, status: f.joinable ? 'Joinable' : 'Reading Now', dest: f.currentDestination ?? 'astrea', kind: 'friend' as const }))
+      ? friends.map((f) => ({ id: f.id, name: f.name, initials: f.avatarInitials, status: f.joinable ? 'Joinable' : 'Reading Now', dest: f.currentDestination ?? 'astrea', kind: 'friend' as const, tableId: f.tableId }))
       : tab === 'readers'
-        ? readers.map((r) => ({ id: r.id, name: r.name, initials: r.avatarInitials, status: r.presence.replace(/_/g, ' '), dest: r.currentDestination, kind: 'reader' as const }))
+        ? readers.map((r) => ({ id: r.id, name: r.name, initials: r.avatarInitials, status: r.presence.replace(/_/g, ' '), dest: r.currentDestination, kind: 'reader' as const, tableId: null }))
         : tab === 'favorites'
-          ? readers.filter((r) => r.isFavorite).map((r) => ({ id: r.id, name: r.name, initials: r.avatarInitials, status: r.presence.replace(/_/g, ' '), dest: r.currentDestination, kind: 'reader' as const }))
+          ? readers.filter((r) => r.isFavorite).map((r) => ({ id: r.id, name: r.name, initials: r.avatarInitials, status: r.presence.replace(/_/g, ' '), dest: r.currentDestination, kind: 'reader' as const, tableId: null }))
           : [
-              ...friends.map((f) => ({ id: f.id, name: f.name, initials: f.avatarInitials, status: f.joinable ? 'Joinable' : 'Reading Now', dest: f.currentDestination, kind: 'friend' as const })),
-              ...readers.map((r) => ({ id: r.id, name: r.name, initials: r.avatarInitials, status: r.presence.replace(/_/g, ' '), dest: r.currentDestination, kind: 'reader' as const })),
+              ...friends.map((f) => ({ id: f.id, name: f.name, initials: f.avatarInitials, status: f.joinable ? 'Joinable' : 'Reading Now', dest: f.currentDestination, kind: 'friend' as const, tableId: f.tableId })),
+              ...readers.map((r) => ({ id: r.id, name: r.name, initials: r.avatarInitials, status: r.presence.replace(/_/g, ' '), dest: r.currentDestination, kind: 'reader' as const, tableId: null })),
             ];
 
   return (
@@ -43,12 +44,14 @@ export function WhosHerePanel({ compact }: { compact?: boolean }) {
       <div role="tabpanel">
         {items.map((item) => (
           <div key={item.id} className="aw-presence-item">
-            <div className="aw-avatar" aria-hidden>
-              {item.initials}
-            </div>
+            <div className="aw-avatar" aria-hidden>{item.initials}</div>
             <div style={{ flex: 1 }}>
               <strong>{item.name}</strong>
-              <div className="aw-muted">{item.dest ? String(item.dest).replace(/-/g, ' ') : 'In Astréa'}</div>
+              <div className="aw-muted">
+                {item.kind === 'reader' ? 'Reader · ' : ''}
+                {item.dest ? String(item.dest).replace(/-/g, ' ') : 'In Astréa'}
+                {item.tableId ? ' · Table' : ''}
+              </div>
             </div>
             <span className={`aw-status${item.status.toLowerCase().includes('join') ? ' aw-status--joinable' : item.status.toLowerCase().includes('read') ? ' aw-status--reading' : ' aw-status--available'}`}>
               {item.status}
@@ -56,10 +59,9 @@ export function WhosHerePanel({ compact }: { compact?: boolean }) {
           </div>
         ))}
       </div>
+      <PlacesPopularPanel compact />
       {!compact ? (
-        <Link to="/projects/astral-world/experience/friends" className="aw-btn-secondary">
-          See Who&apos;s Here →
-        </Link>
+        <Link to={path('friends')} className="aw-btn-secondary">See Who&apos;s Here →</Link>
       ) : null}
     </section>
   );
