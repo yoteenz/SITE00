@@ -5355,3 +5355,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.2 compare pipeline, reference authority, no FAL spend for captures.
 
 ---
+
+## 2026-08-26 — P0.VR.3H-SITE00 missing route completion + founder review governance
+
+- **Context:** Complete missing SITE 00 + NDXBOOK routes only (this repo authority). Family-derived simple pages, complex shells, Composer authorship, preview-only draft guard, review queue — after P0.VR.3D manifest reconciliation and P0.VR.3E implementation snapshots.
+- **Delivered:** `p0vr3g/` ExperiencePage abstraction (INFORMATION, AUTH, COMPLEX families). `p0vr3h/` RepoScopedMissingPageCompletionPlan, classifier, ownership filter, draft route guard, receipts, composer review queue/sets, P0.VR.3E composer-draft capture targets. **9 SITE 00 composer draft routes:** Guide, Sound, FAQ, Contact, Forgot/Reset Password (family-derived simple); Blueprints, Account, Brand (complex shells). Preview-only via `?preview=1` or `designPreview=1`; production nav blocked. Design workspace **REVIEW** tab + `DesignComposerReviewQueue`. NDXBOOK design-pilot gaps classified and **blocked** (existing page implementations not overwritten). Tests: `visualReconstructionP0VR3H.test.ts` (7 pass); updated 3A/3D/3E for IMPLEMENTED_DRAFT. Build green (`index.CkooCn2y.js`, `StudioWorldDesignPage.BVL2aUZv.js`).
+- **Core rule:** Composer pages = `PREVIEW_ONLY` / `UNREVIEWED` until founder `APPROVED_FOR_RELEASE`. No FAL auto art-direction. No generic NDXBOOK SaaS styling. Host shell protected.
+- **Preserved:** P0.VR.2 handoff, P0.VR.2A asset slots, existing About/Support/NDXBOOK workspace pages, external repo routes (Frontal Slayer, AIO, FSBW Studio World).
+
+---
