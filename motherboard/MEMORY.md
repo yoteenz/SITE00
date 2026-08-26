@@ -5274,3 +5274,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Deploy:** FRONTEND only — cPanel/fsbw-dev ZIP after merge.
 
 ---
+
+## 2026-08-26 — P0.VR.1D.13 Campaign Board full-screen reference rebuild
+
+- **Context:** Founder attached approved Campaign Board mobile screenshot as FULL_SCREEN_REFERENCE authority (`CAMPAIGN_BOARD_FULL_SCREEN_VISUAL_AUTHORITY`). Required complete mobile shell rebuild matching reference while preserving campaign data, day selector, quick actions, notifications, project menu, and bottom nav.
+- **Delivered:** Rebuilt `MobileCampaignBoardScreen` v1d13 — LAB HUB breadcrumb, title + supporting copy, 2-column status card (live `useCampaignBoardMobileRun`), SCHEDULE OVERVIEW (7 live day cells MON/MAY 24 format), THE PAGES (4 artwork cards + peek), BOOK IN MOTION (Interesting/Fair artwork), QUICK ACTIONS 2×2 grid. Removed THE MARGINS lane. Reference + artwork assets under `public/visual-references/founder/ndxbook/`. `p0vr1d13/` module — shell spec, asset manifest/resolver, stale lock invalidation, correction pass. `ReferenceShellLoadingState` campaign-board skeleton (P0.VR.1D.12). Tests `visualReconstructionP0VR1D13.test.ts` (22 pass). Build green.
+- **Preserved:** Campaign API hooks, day selection, View All routes, lock/generate actions, notification center, project menu, Campaigns bottom-nav active, live calendar dates, canonical page artwork (no unnecessary FAL regen).
+- **Deploy:** FRONTEND only — cPanel/fsbw-dev ZIP after merge.
+
+---

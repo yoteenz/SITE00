@@ -14,16 +14,19 @@ import {
   site00ProjectExperimentsPath,
   site00ProjectFilmProductionPath,
   site00ProjectFounderCharacterDiscoveryPath,
+  site00ProjectFounderCreativeIngestionPath,
+  site00ProjectLabPath,
 } from '../../config/routes';
 import {
-  NDX_CAMPAIGN_MARGIN_CARDS,
-  NDX_CAMPAIGN_MARGINS_PER_DAY,
   NDX_CAMPAIGN_MOTION,
-  NDX_CAMPAIGN_MOTION_PER_DAY,
+  NDX_CAMPAIGN_MOTION_TOTAL,
   NDX_CAMPAIGN_PAGE_CARDS,
-  NDX_CAMPAIGN_PAGES_PER_DAY,
+  NDX_CAMPAIGN_PAGES_TOTAL,
+  NDX_CAMPAIGN_QUICK_ACTIONS,
 } from '../../config/ndxCampaignBoardMobileReference';
+import { useCampaignBoardMobileRun } from '../../hooks/useCampaignBoardMobileRun';
 import { useCampaignBoardWeekCalendar } from '../../hooks/useCampaignBoardWeekCalendar';
+import { formatCampaignScheduleDayLabel } from '../../utils/campaignBoardWeekCalendar';
 import {
   NDX_CHARACTER_LAB_DEFAULT_TAB,
   NDX_CHARACTER_LAB_LANGUAGE_NOTE_EMPHASIS,
@@ -78,24 +81,20 @@ type ScreenProps = {
 function CampaignSectionHead({
   label,
   count,
-  countLabel,
   viewAllHref,
 }: {
   label: string;
   count: number;
-  countLabel: string;
   viewAllHref: string;
 }) {
   return (
     <div className="site00-fws-mobile-campaign__section-head">
       <p className="site00-fws-mobile-campaign__section-title">
         <span>{label}</span>
-        <span className="site00-fws-mobile-campaign__section-count">
-          {count} / {countLabel}
-        </span>
+        <span className="site00-fws-mobile-campaign__section-count">{count} PIECES</span>
       </p>
-      <Link to={viewAllHref} className="site00-fws-mobile-screen__see-all">
-        VIEW ALL
+      <Link to={viewAllHref} className="site00-fws-mobile-campaign__view-all">
+        VIEW ALL →
       </Link>
     </div>
   );
@@ -104,60 +103,93 @@ function CampaignSectionHead({
 export function MobileCampaignBoardScreen({ projectSlug }: ScreenProps) {
   const boardPath = site00ProjectContentOperationsCampaignBoardPath(projectSlug);
   const filmPath = site00ProjectFilmProductionPath(projectSlug);
+  const ingestPath = site00ProjectFounderCreativeIngestionPath(projectSlug);
+  const labPath = site00ProjectLabPath(projectSlug);
   const week = useCampaignBoardWeekCalendar();
   const [activeDayId, setActiveDayId] = useState(() => week.todayId);
+  const { status, busy, lockRound01, initialize, mapPageStatus } = useCampaignBoardMobileRun(projectSlug);
+
+  const quickActionHref = (id: string) => {
+    if (id === 'ingest') return ingestPath;
+    if (id === 'film') return filmPath;
+    return boardPath;
+  };
 
   return (
     <div
-      className="site00-fws-mobile-campaign site00-fws-mobile-content-shell"
-      data-visual-reconstruction="mobile-campaign-board"
+      className="site00-fws-mobile-campaign site00-fws-mobile-content-shell site00-fws-mobile-campaign--v1d13"
+      data-visual-reconstruction="mobile-campaign-board-v1d13"
       {...vrRegionAttr(NDX_VR_REGION.campaignContentShell)}
     >
-      <div className="site00-fws-mobile-campaign__title-block" {...vrRegionAttr(NDX_VR_REGION.campaignTitle)}>
-        <p className="site00-fws-mobile-campaign__eyebrow">CAMPAIGN BOARD</p>
-        <h2 className="site00-fws-mobile-campaign__week">{week.weekLabel}</h2>
-        <p className="site00-fws-mobile-campaign__date">{week.dateRangeLabel}</p>
+      <nav
+        className="site00-fws-mobile-campaign__breadcrumb"
+        aria-label="Campaign navigation"
+        {...vrRegionAttr(NDX_VR_REGION.campaignBreadcrumb)}
+      >
+        <Link to={labPath} className="site00-fws-mobile-campaign__breadcrumb-parent">
+          LAB HUB
+        </Link>
+        <span className="site00-fws-mobile-campaign__breadcrumb-sep" aria-hidden>
+          ›
+        </span>
+        <span className="site00-fws-mobile-campaign__breadcrumb-active">CAMPAIGN BOARD</span>
+      </nav>
+
+      <header className="site00-fws-mobile-campaign__hero" {...vrRegionAttr(NDX_VR_REGION.campaignTitle)}>
+        <h2 className="site00-fws-mobile-campaign__heading">CAMPAIGN BOARD</h2>
+        <p className="site00-fws-mobile-campaign__tagline">Plan. Produce. Publish. Repeat.</p>
+        <p className="site00-fws-mobile-campaign__support">Build ideas into content that moves.</p>
+      </header>
+
+      <div className="site00-fws-mobile-campaign__status-card" {...vrRegionAttr(NDX_VR_REGION.campaignStatus)}>
+        <div className="site00-fws-mobile-campaign__status-col">
+          <span className="site00-fws-mobile-campaign__status-ring" aria-hidden />
+          <p className="site00-fws-mobile-campaign__status-label">CAMPAIGN STATUS</p>
+          <p className="site00-fws-mobile-campaign__status-value">{status.statusLabel}</p>
+          <p className="site00-fws-mobile-campaign__status-hint">{status.statusHint}</p>
+        </div>
+        <div className="site00-fws-mobile-campaign__status-divider" aria-hidden />
+        <div className="site00-fws-mobile-campaign__status-col">
+          <p className="site00-fws-mobile-campaign__status-label">CREATED</p>
+          <p className="site00-fws-mobile-campaign__status-value">{status.createdLabel}</p>
+          <p className="site00-fws-mobile-campaign__status-hint">{status.updatedHint}</p>
+        </div>
       </div>
 
+      <h3 className="site00-fws-mobile-campaign__schedule-label">SCHEDULE OVERVIEW</h3>
       <div
-        className="site00-fws-mobile-campaign__day-grid"
+        className="site00-fws-mobile-campaign__schedule"
         role="list"
-        {...vrRegionAttr(NDX_VR_REGION.campaignDaySelector)}
+        {...vrRegionAttr(NDX_VR_REGION.campaignSchedule)}
       >
-        {week.days.map((day) => (
-          <button
-            key={day.id}
-            type="button"
-            role="listitem"
-            className={`site00-fws-mobile-campaign__day${day.id === activeDayId ? ' site00-fws-mobile-campaign__day--active' : ''}${day.active ? ' site00-fws-mobile-campaign__day--today' : ''}`}
-            aria-pressed={day.id === activeDayId}
-            aria-current={day.active ? 'date' : undefined}
-            onClick={() => setActiveDayId(day.id)}
-          >
-            <span className="site00-fws-mobile-campaign__day-letter">{day.letter}</span>
-            <span className="site00-fws-mobile-campaign__day-date">
-              {day.month} {day.day}
-            </span>
-          </button>
-        ))}
+        {week.days.map((day) => {
+          const schedule = formatCampaignScheduleDayLabel(day.date);
+          return (
+            <button
+              key={day.id}
+              type="button"
+              role="listitem"
+              className={`site00-fws-mobile-campaign__schedule-cell${day.id === activeDayId ? ' site00-fws-mobile-campaign__schedule-cell--active' : ''}`}
+              aria-pressed={day.id === activeDayId}
+              onClick={() => setActiveDayId(day.id)}
+            >
+              <span>{schedule.weekday}</span>
+              <span>{schedule.monthDay}</span>
+            </button>
+          );
+        })}
       </div>
 
-      <CampaignSectionHead
-        label="THE PAGES"
-        count={NDX_CAMPAIGN_PAGES_PER_DAY}
-        countLabel="DAY"
-        viewAllHref={boardPath}
-      />
-      <div
-        className="site00-fws-mobile-campaign__pages-lane"
-        {...vrRegionAttr(NDX_VR_REGION.campaignPages)}
-      >
+      <CampaignSectionHead label="THE PAGES" count={status.pagesCount || NDX_CAMPAIGN_PAGES_TOTAL} viewAllHref={boardPath} />
+      <div className="site00-fws-mobile-campaign__pages-lane" {...vrRegionAttr(NDX_VR_REGION.campaignPages)}>
         {NDX_CAMPAIGN_PAGE_CARDS.map((card, index) => (
-          <article
+          <Link
             key={card.id}
-            className={`site00-fws-mobile-campaign__page-card${index === 2 ? ' site00-fws-mobile-campaign__page-card--peek' : ''}`}
+            to={boardPath}
+            className={`site00-fws-mobile-campaign__page-card${index === NDX_CAMPAIGN_PAGE_CARDS.length - 1 ? ' site00-fws-mobile-campaign__page-card--peek' : ''}`}
             {...vrRegionAttr(card.vrRegionId)}
           >
+            <span className="site00-fws-mobile-campaign__page-index">{card.index}</span>
             <div
               className="site00-fws-mobile-campaign__page-art"
               style={{
@@ -165,75 +197,25 @@ export function MobileCampaignBoardScreen({ projectSlug }: ScreenProps) {
                 backgroundPosition: card.artworkObjectPosition,
               }}
               role="img"
-              aria-label={`${card.titleLines.join(' ')} artwork`}
+              aria-label={`${card.title} artwork`}
             />
-            <div className="site00-fws-mobile-campaign__page-body">
-              {card.action === 'expand' ? (
-                <span className="site00-fws-mobile-campaign__page-action site00-fws-mobile-campaign__page-action--expand" aria-hidden>
-                  ↗
-                </span>
-              ) : null}
-              {card.action === 'close' ? (
-                <span className="site00-fws-mobile-campaign__page-action site00-fws-mobile-campaign__page-action--close" aria-hidden>
-                  ×
-                </span>
-              ) : null}
-              <p className="site00-fws-mobile-campaign__page-title">
-                {card.titleLines.map((line) => (
-                  <span key={line}>{line}</span>
-                ))}
+            <div className="site00-fws-mobile-campaign__page-footer">
+              <p className="site00-fws-mobile-campaign__page-title">{card.title}</p>
+              <p className="site00-fws-mobile-campaign__page-status">
+                <span className="site00-fws-mobile-campaign__page-status-dot" aria-hidden />
+                {mapPageStatus(card.id, card.statusLabel)}
               </p>
-              {card.note ? (
-                <p
-                  className={`site00-fws-mobile-campaign__page-note site00-fws-mobile-campaign__page-note--${card.noteTone ?? 'ink'}`}
-                >
-                  {card.note}
-                </p>
-              ) : null}
             </div>
-          </article>
-        ))}
-      </div>
-
-      <CampaignSectionHead
-        label="THE MARGINS"
-        count={NDX_CAMPAIGN_MARGINS_PER_DAY}
-        countLabel="DAY"
-        viewAllHref={boardPath}
-      />
-      <div className="site00-fws-mobile-campaign__margins-row" {...vrRegionAttr(NDX_VR_REGION.campaignMargins)}>
-        {NDX_CAMPAIGN_MARGIN_CARDS.map((card) => (
-          <article
-            key={card.id}
-            className="site00-fws-mobile-campaign__margin-card"
-            {...vrRegionAttr(card.vrRegionId)}
-          >
-            <div
-              className="site00-fws-mobile-campaign__margin-art"
-              style={{
-                backgroundImage: `url(${card.artworkPath})`,
-                backgroundPosition: card.artworkObjectPosition,
-              }}
-              role="img"
-              aria-label={`${card.titleLines.join(' ')} margin artwork`}
-            />
-            <span className="site00-fws-mobile-campaign__margin-index">{card.index}</span>
-            <p className="site00-fws-mobile-campaign__margin-title">
-              {card.titleLines.map((line) => (
-                <span key={line}>{line}</span>
-              ))}
-            </p>
-          </article>
+          </Link>
         ))}
       </div>
 
       <CampaignSectionHead
         label="BOOK IN MOTION"
-        count={NDX_CAMPAIGN_MOTION_PER_DAY}
-        countLabel="DAY"
+        count={status.motionCount || NDX_CAMPAIGN_MOTION_TOTAL}
         viewAllHref={filmPath}
       />
-      <article className="site00-fws-mobile-campaign__motion-card" {...vrRegionAttr(NDX_VR_REGION.campaignMotion)}>
+      <Link to={filmPath} className="site00-fws-mobile-campaign__motion-card" {...vrRegionAttr(NDX_VR_REGION.campaignMotion)}>
         <div
           className="site00-fws-mobile-campaign__motion-art"
           style={{
@@ -241,20 +223,56 @@ export function MobileCampaignBoardScreen({ projectSlug }: ScreenProps) {
             backgroundPosition: NDX_CAMPAIGN_MOTION.artworkObjectPosition,
           }}
           role="img"
-          aria-label="Book in motion editorial still"
+          aria-label="Book in motion editorial artwork"
         />
-        <div className="site00-fws-mobile-campaign__motion-copy">
-          <p className="site00-fws-mobile-campaign__motion-title">
-            {NDX_CAMPAIGN_MOTION.titleLines.map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </p>
-          <span className="site00-fws-mobile-campaign__motion-play" aria-hidden>
-            ▶
-          </span>
-        </div>
-        <span className="site00-fws-mobile-campaign__motion-duration">{NDX_CAMPAIGN_MOTION.duration}</span>
-      </article>
+      </Link>
+
+      <h3 className="site00-fws-mobile-campaign__quick-label" {...vrRegionAttr(NDX_VR_REGION.campaignQuickActions)}>
+        QUICK ACTIONS
+      </h3>
+      <div className="site00-fws-mobile-campaign__quick-grid">
+        {NDX_CAMPAIGN_QUICK_ACTIONS.map((action) => {
+          const disabled =
+            busy ||
+            (action.actionKind === 'lock' && !status.canLockRound01) ||
+            (action.actionKind === 'generate' && !status.canGenerateSlide01);
+
+          if (action.actionKind === 'link') {
+            return (
+              <Link key={action.id} to={quickActionHref(action.id)} className="site00-fws-mobile-campaign__quick-card">
+                <span className={`site00-fws-mobile-campaign__quick-icon site00-fws-mobile-campaign__quick-icon--${action.icon}`} aria-hidden />
+                <p className="site00-fws-mobile-campaign__quick-title">{action.title}</p>
+                <p className="site00-fws-mobile-campaign__quick-desc">{action.description}</p>
+                <span className="site00-fws-mobile-campaign__quick-arrow" aria-hidden>
+                  →
+                </span>
+              </Link>
+            );
+          }
+
+          const onClick =
+            action.actionKind === 'lock'
+              ? () => void lockRound01()
+              : () => void initialize();
+
+          return (
+            <button
+              key={action.id}
+              type="button"
+              className="site00-fws-mobile-campaign__quick-card"
+              disabled={disabled}
+              onClick={onClick}
+            >
+              <span className={`site00-fws-mobile-campaign__quick-icon site00-fws-mobile-campaign__quick-icon--${action.icon}`} aria-hidden />
+              <p className="site00-fws-mobile-campaign__quick-title">{action.title}</p>
+              <p className="site00-fws-mobile-campaign__quick-desc">{action.description}</p>
+              <span className="site00-fws-mobile-campaign__quick-arrow" aria-hidden>
+                →
+              </span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

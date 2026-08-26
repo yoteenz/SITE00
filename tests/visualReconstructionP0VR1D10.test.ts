@@ -77,7 +77,7 @@ describe('P0.VR.1D.10 mobile shell rollout', () => {
 
   it('preserves campaign and lab regression selectors', () => {
     const screens = readFileSync(join(ROOT, 'src/site00/components/founderWorkspace/MobileFounderWorkspaceScreens.tsx'), 'utf8');
-    expect(screens).toContain('mobile-campaign-board');
+    expect(screens).toContain('mobile-campaign-board-v1d13');
     expect(screens).toContain('mobile-lab-experiment-01');
   });
 
