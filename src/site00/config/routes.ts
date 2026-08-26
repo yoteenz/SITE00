@@ -149,6 +149,7 @@ export const SITE00_ROUTES = {
   /** Client-facing Project Room — authenticated project-scoped client experience */
   clientProjectRoom: '/client/projects/:projectSlug',
   clientProjectRoomReviews: '/client/projects/:projectSlug/reviews',
+  clientProjectRoomReviewDetail: '/client/projects/:projectSlug/reviews/:reviewId',
   clientProjectRoomLibrary: '/client/projects/:projectSlug/library',
   clientProjectRoomActivity: '/client/projects/:projectSlug/activity',
   clientProjectRoomMessages: '/client/projects/:projectSlug/messages',

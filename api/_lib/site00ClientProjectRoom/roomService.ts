@@ -23,6 +23,7 @@ import type {
   ClientProjectRole,
   ClientProjectRoomViewModel,
 } from '../../../shared/site00-client-project-room/types.js';
+import { getPreviewActionableReviewCount } from '../site00ClientReviews/reviewService.js';
 
 const PREVIEW_SLUG = 'preview-client-room';
 
@@ -146,6 +147,45 @@ export async function getClientProjectRoomPayload(input: {
 
   if (projectSlug === CLIENT_PROJECT_ROOM_PREVIEW_SLUG) {
     const manifest = buildPreviewClientManifest(previewScope);
+    const actionable = getPreviewActionableReviewCount();
+    const reviewsRoute = `/client/projects/${manifest.projectSlug}/reviews`;
+    if (actionable === 0) {
+      manifest.attentionState = 'WATCHING';
+      manifest.status = 'IN_PRODUCTION';
+      manifest.statusLabel = 'IN PRODUCTION';
+      manifest.notificationsUnread = 0;
+      manifest.nextAction = null;
+      manifest.currentMoment = {
+        ...manifest.currentMoment,
+        statusTag: 'IN PRODUCTION',
+        summary: "We're developing your project. Nothing is needed from you right now.",
+        enterReviewRoute: null,
+        inlineCtaLabel: null,
+        inlineCtaRoute: null,
+      };
+    } else {
+      manifest.attentionState = 'YOUR_TURN';
+      manifest.status = 'READY_FOR_REVIEW';
+      manifest.statusLabel = 'READY FOR REVIEW';
+      manifest.notificationsUnread = actionable;
+      manifest.nextAction = {
+        id: 'next-review',
+        label: 'NEXT FOR YOU',
+        title: actionable === 1 ? '1 ITEM READY FOR REVIEW' : `${actionable} ITEMS READY FOR REVIEW`,
+        description: 'Review the work and tell us what should move forward.',
+        ctaLabel: 'BEGIN REVIEW',
+        route: reviewsRoute,
+      };
+      manifest.currentMoment = {
+        ...manifest.currentMoment,
+        statusTag: 'READY FOR REVIEW',
+        summary:
+          actionable === 1 ? 'One item is ready for your review.' : `${actionable} items are ready for review.`,
+        enterReviewRoute: reviewsRoute,
+        inlineCtaLabel: 'BEGIN REVIEW →',
+        inlineCtaRoute: reviewsRoute,
+      };
+    }
     return buildClientProjectRoomViewModel(manifest);
   }
 

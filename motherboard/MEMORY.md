@@ -5454,6 +5454,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-08-26 — P0.CLIENT.2 Client Reviews experience (compare, comments, annotations, decisions)
+
+- **Context:** Turn Client Reviews from P0.CLIENT.1 stub into full client decision surface — queue, detail, compare, comments, annotations, approve/revision/decline, version history, decision history, client-safe receipts. Preserve P0.CLIENT.1 Project Room shell; no generation/capture/canon/repo/provider exposure.
+- **Delivered:** `shared/site00-client-reviews/` — `ClientReviewObject`, `ClientReviewVersion`, comments, annotations, approval/revision receipts, status translators, payload stripping, preview seed (identity direction 02, homepage, brand system). API `/api/site00/client-reviews` (GET queue/detail, POST comment/annotation/approve/revision/decline/revisit) + `reviewService.ts` with preview in-memory store, role/capability enforcement, stale-version + idempotent approval. Supabase migration `20260826160000_site00_client_reviews.sql`. UI: `ClientReviewQueueList`, `ClientReviewDetailView` (viewport switcher, compare, annotation markers, decision panel with consequence preview, version/history rails). Routes `/client/projects/:projectSlug/reviews` + `/reviews/:reviewId`. CSS `site00-client-reviews-p0client2.css`. Project Room attention sync via `getPreviewActionableReviewCount()` in preview manifest (YOUR_TURN ↔ actionable queue). Tests `clientProjectRoomP0Client2.test.ts` (10 pass) + browser QA screenshots mobile/tablet/desktop.
+- **Core rule:** Client reviews are for decisions, not production control. Approval creates client authorization receipt; internal canon promotion remains admin-governed.
+- **Preserved:** P0.CLIENT.1 shell/nav/accent, admin design workspace, P0.BRIDGE, P0.VR.3M, no FAL, no mass capture.
+
+---
+
 - **Context:** P0.VR.3J.2 execution ran locally and uploaded captures to Supabase, but committed registry on `main` after PR #498 still had 24/27 CURRENT (3 Account AUTH_BLOCKED historical only). Follow-up commit needed so persistent metadata matches execution.
 - **Delivered:** PR #499 merged @ `527aff6` — `implementation-snapshot-persistent-registry.json` now includes 9 new CURRENT records (3 Account CUSTOMER auth, 3 Language Lab FAMILY SOURCE, 3 Voice Lab COMPOSER DERIVED DRAFT) with `vitest.local` publicUrl placeholders (hydration resolves storage paths at runtime). Historical 3 AUTH_BLOCKED Account records preserved.
 - **Core rule:** Execution artifacts must land in P0.VR.3E persistent registry in git — not only in-memory/remote storage from a dev run.

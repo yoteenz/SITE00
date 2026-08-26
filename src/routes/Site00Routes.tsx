@@ -51,6 +51,7 @@ import '../site00/styles/site00-pages.css';
 import '../site00/styles/site00-mobile-shell.css';
 import '../site00/styles/site00-studio.css';
 import '../site00/styles/site00-client-project-room-p0client1.css';
+import '../site00/styles/site00-client-reviews-p0client2.css';
 import '../site00/assts/styles/assts.css';
 import '../site00/assts/styles/assts-depth.css';
 import '../site00/assts/styles/assts-composition.css';
@@ -186,9 +187,12 @@ const StudioReviewDetailPage = lazy(() => import('../site00/pages/studio/StudioR
 const ClientProjectRoomOverviewPage = lazy(
   () => import('../site00/pages/clientProjectRoom/ClientProjectRoomOverviewPage'),
 );
-const ClientProjectRoomReviewsPage = lazy(() =>
-  import('../site00/pages/clientProjectRoom/ClientProjectRoomSectionPages').then((m) => ({
-    default: m.ClientProjectRoomReviewsPage,
+const ClientProjectRoomReviewsPage = lazy(
+  () => import('../site00/pages/clientProjectRoom/ClientProjectRoomReviewsPages'),
+);
+const ClientReviewDetailPage = lazy(() =>
+  import('../site00/pages/clientProjectRoom/ClientProjectRoomReviewsPages').then((m) => ({
+    default: m.ClientReviewDetailPage,
   })),
 );
 const ClientProjectRoomLibraryPage = lazy(() =>
@@ -1740,6 +1744,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ClientProjectRoomReviewsPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.clientProjectRoomReviewDetail}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ClientReviewDetailPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>
