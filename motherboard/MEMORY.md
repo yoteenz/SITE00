@@ -5212,3 +5212,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** Expanded `docs/DEPLOYMENT.md` with **Deploy checklist** section — quick decision tree, path cheat sheet, agent session-close format (`FRONTEND` · `API` · `BOTH` · `NONE`), founder steps, Railway watch-paths cost tip, common symptoms table. `CORE.md` shipping note updated to reference checklist and forbid Railway redeploy on frontend-only merges.
 
 ---
+
+## 2026-08-26 — P0.VR.1D.11 Character Lab full-screen reference reconstruction + FAL asset extraction
+
+- **Context:** Founder attached Character Lab mobile screenshot as FULL_SCREEN_REFERENCE authority. P0.VR.1D.10 rolled out generic shell but Character Lab content still used old stacked layout, wrong copy/metrics, generic sticky note CSS, 2-col performance grid.
+- **Delivered:** Rebuilt `MobileCharacterLabScreen` — CHARACTER LAB title, Language/Voice/Casting tabs (interactive), two-column hero (canonical portrait + language note with lime "best friend."), WHO SHE IS lime bullets + reference-positioned sticky note, quote card, 4-column performance grid (REELS, reference deltas). Reference crops: `character-portrait.webp`, `language-note-surface.webp`, `working-draft-sticky-note.webp`. `p0vr1d11/` module — shell spec, asset manifest/resolver, FAL classification, stale lock invalidation, live correction pass. VR regions: `ndx.character.*`. Tests `visualReconstructionP0VR1D11.test.ts` (17 pass). Build green.
+- **Preserved:** Character Bible route, tab behavior, notifications, project menu, bottom nav, canonical portrait (no random generation).
+- **Founder next:** Upload GoDaddy ZIP after merge.
+
+---

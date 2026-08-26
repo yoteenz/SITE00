@@ -64,6 +64,9 @@ export const NDX_MOBILE_CHARACTER_LAB_VISUAL_SPEC: MobileScreenVisualShellSpec =
   ...BASE_SHELL,
   screenId: 'character-lab',
   referencePath: '/visual-references/founder/ndxbook/mobile-character-lab-fullscreen-reference.png',
+  headerPaddingX: 20,
+  contentPaddingX: 20,
+  contentPaddingTop: 0,
   sectionGap: 10,
 };
 

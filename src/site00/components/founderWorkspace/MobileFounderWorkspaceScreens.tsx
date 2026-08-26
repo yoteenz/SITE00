@@ -27,14 +27,21 @@ import {
   NDX_CAMPAIGN_PAGES_PER_DAY,
 } from '../../config/ndxCampaignBoardMobileReference';
 import {
-  NDX_CHARACTER_LAB_ACTIVE_TAB,
-  NDX_CHARACTER_LAB_DRAFT_BADGE,
-  NDX_CHARACTER_LAB_HANDWRITTEN,
+  NDX_CHARACTER_LAB_DEFAULT_TAB,
+  NDX_CHARACTER_LAB_LANGUAGE_NOTE_EMPHASIS,
+  NDX_CHARACTER_LAB_LANGUAGE_NOTE_LINES,
+  NDX_CHARACTER_LAB_LANGUAGE_NOTE_SURFACE_PATH,
   NDX_CHARACTER_LAB_PERFORMANCE,
+  NDX_CHARACTER_LAB_PERFORMANCE_PERIOD,
+  NDX_CHARACTER_LAB_PORTRAIT_OBJECT_POSITION,
   NDX_CHARACTER_LAB_PORTRAIT_PATH,
-  NDX_CHARACTER_LAB_QUOTE,
+  NDX_CHARACTER_LAB_QUOTE_LINES,
+  NDX_CHARACTER_LAB_STICKY_NOTE_LINES,
+  NDX_CHARACTER_LAB_STICKY_NOTE_SURFACE_PATH,
   NDX_CHARACTER_LAB_TABS,
+  NDX_CHARACTER_LAB_TITLE,
   NDX_CHARACTER_LAB_WHO_SHE_IS,
+  type NdxCharacterLabTab,
 } from '../../config/ndxCharacterLabMobileReference';
 import {
   NDX_CI_ACTIVE_TAB,
@@ -578,7 +585,7 @@ export function MobileCulturalIntelligenceScreen({ projectSlug }: ScreenProps) {
 
 export function MobileCharacterLabScreen({ projectSlug }: ScreenProps) {
   const labPath = site00ProjectFounderCharacterDiscoveryPath(projectSlug);
-  const perfPath = site00ProjectContentOperationsPerformancePath(projectSlug);
+  const [activeTab, setActiveTab] = useState<NdxCharacterLabTab>(NDX_CHARACTER_LAB_DEFAULT_TAB);
 
   return (
     <div
@@ -587,60 +594,118 @@ export function MobileCharacterLabScreen({ projectSlug }: ScreenProps) {
       {...vrRegionAttr(NDX_VR_REGION.characterScreen)}
     >
       <div className="site00-fws-mobile-shell-screen__content" {...vrRegionAttr(NDX_VR_REGION.characterContentShell)}>
-        <div className="site00-fws-mobile-tabs site00-fws-mobile-tabs--character" role="tablist">
+        <div className="site00-fws-mobile-character-lab__head">
+          <h2 className="site00-fws-mobile-character-lab__title">{NDX_CHARACTER_LAB_TITLE}</h2>
+        </div>
+
+        <div
+          className="site00-fws-mobile-tabs site00-fws-mobile-tabs--character-lab"
+          role="tablist"
+          {...vrRegionAttr(NDX_VR_REGION.characterTabs)}
+        >
           {NDX_CHARACTER_LAB_TABS.map((tab) => (
-            <span
+            <button
               key={tab}
+              type="button"
               role="tab"
-              aria-selected={tab === NDX_CHARACTER_LAB_ACTIVE_TAB}
-              className={`site00-fws-mobile-tabs__item${tab === NDX_CHARACTER_LAB_ACTIVE_TAB ? ' site00-fws-mobile-tabs__item--active' : ''}`}
+              aria-selected={tab === activeTab}
+              className={`site00-fws-mobile-tabs__item site00-fws-mobile-tabs__item--character${tab === activeTab ? ' site00-fws-mobile-tabs__item--active' : ''}`}
+              onClick={() => setActiveTab(tab)}
             >
               {tab}
-            </span>
+            </button>
           ))}
         </div>
 
-        <div className="site00-fws-mobile-character site00-fws-mobile-character--full" {...vrRegionAttr(NDX_VR_REGION.characterProfile)}>
+        <div className="site00-fws-mobile-character-lab__hero" {...vrRegionAttr(NDX_VR_REGION.characterHero)}>
           <div
-            className="site00-fws-mobile-character__portrait site00-fws-mobile-character__portrait--art"
-            style={{ backgroundImage: `url(${NDX_CHARACTER_LAB_PORTRAIT_PATH})` }}
+            className="site00-fws-mobile-character-lab__portrait"
+            style={{
+              backgroundImage: `url(${NDX_CHARACTER_LAB_PORTRAIT_PATH})`,
+              backgroundPosition: NDX_CHARACTER_LAB_PORTRAIT_OBJECT_POSITION,
+            }}
             role="img"
-            aria-label="NDX character portrait"
+            aria-label="NDX canonical character portrait"
+            {...vrRegionAttr(NDX_VR_REGION.characterPortrait)}
           />
-          <p className="site00-fws-hub-handwritten site00-fws-hub-handwritten--mobile">{NDX_CHARACTER_LAB_HANDWRITTEN}</p>
+          <article
+            className="site00-fws-mobile-character-lab__language-note"
+            {...vrRegionAttr(NDX_VR_REGION.characterLanguageNote)}
+          >
+            <div
+              className="site00-fws-mobile-character-lab__language-note-surface"
+              style={{ backgroundImage: `url(${NDX_CHARACTER_LAB_LANGUAGE_NOTE_SURFACE_PATH})` }}
+              aria-hidden
+            />
+            <div className="site00-fws-mobile-character-lab__language-note-copy">
+              {NDX_CHARACTER_LAB_LANGUAGE_NOTE_LINES.map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+              <span className="site00-fws-mobile-character-lab__language-note-emphasis">
+                {NDX_CHARACTER_LAB_LANGUAGE_NOTE_EMPHASIS}
+              </span>
+            </div>
+          </article>
         </div>
 
-        <span className="site00-fws-hub-sticky site00-fws-hub-sticky--mobile">{NDX_CHARACTER_LAB_DRAFT_BADGE}</span>
+        <div className="site00-fws-mobile-character-lab__identity-row" {...vrRegionAttr(NDX_VR_REGION.characterIdentity)}>
+          <div className="site00-fws-mobile-character-lab__identity-copy">
+            <p className="site00-fws-mobile-character-lab__section-label">WHO SHE IS</p>
+            <ul className="site00-fws-mobile-character-lab__traits">
+              {NDX_CHARACTER_LAB_WHO_SHE_IS.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ul>
+          </div>
+          <figure
+            className="site00-fws-mobile-character-lab__sticky-note"
+            {...vrRegionAttr(NDX_VR_REGION.characterStickyNote)}
+          >
+            <div
+              className="site00-fws-mobile-character-lab__sticky-note-surface"
+              style={{ backgroundImage: `url(${NDX_CHARACTER_LAB_STICKY_NOTE_SURFACE_PATH})` }}
+              aria-hidden
+            />
+            <span className="site00-fws-mobile-character-lab__sticky-tape" aria-hidden />
+            <figcaption className="site00-fws-mobile-character-lab__sticky-copy">
+              {NDX_CHARACTER_LAB_STICKY_NOTE_LINES.map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </figcaption>
+          </figure>
+        </div>
 
-        <div {...vrRegionAttr(NDX_VR_REGION.characterIdentity)}>
-          <p className="site00-fws-hub-section-label">WHO SHE IS</p>
-          <ul className="site00-fws-hub-list site00-fws-hub-list--compact">
-            {NDX_CHARACTER_LAB_WHO_SHE_IS.map((line) => (
-              <li key={line}>{line}</li>
+        <blockquote className="site00-fws-mobile-character-lab__quote" {...vrRegionAttr(NDX_VR_REGION.characterQuote)}>
+          <span className="site00-fws-mobile-character-lab__quote-mark" aria-hidden>
+            &ldquo;
+          </span>
+          <p>
+            {NDX_CHARACTER_LAB_QUOTE_LINES.map((line) => (
+              <span key={line}>{line}</span>
             ))}
-          </ul>
-        </div>
-
-        <blockquote className="site00-fws-mobile-character__quote" {...vrRegionAttr(NDX_VR_REGION.characterNotes)}>
-          {NDX_CHARACTER_LAB_QUOTE}
+          </p>
         </blockquote>
 
-        <p className="site00-fws-hub-section-label">PERFORMANCE SUMMARY</p>
-        <div className="site00-fws-mobile-perf-grid site00-fws-mobile-perf-grid--character" {...vrRegionAttr(NDX_VR_REGION.characterPerformance)}>
-          {NDX_CHARACTER_LAB_PERFORMANCE.map((stat) => (
-            <div key={stat.label}>
-              <strong>{stat.value}</strong>
-              <span>{stat.label}</span>
-              <em>{stat.delta}</em>
-            </div>
-          ))}
-        </div>
+        <section className="site00-fws-mobile-character-lab__performance" {...vrRegionAttr(NDX_VR_REGION.characterPerformance)}>
+          <div className="site00-fws-mobile-character-lab__performance-head">
+            <h3 className="site00-fws-mobile-character-lab__section-label">PERFORMANCE SUMMARY</h3>
+            <Link to={site00ProjectContentOperationsPerformancePath(projectSlug)} className="site00-fws-mobile-character-lab__period">
+              {NDX_CHARACTER_LAB_PERFORMANCE_PERIOD} →
+            </Link>
+          </div>
+          <div className="site00-fws-mobile-character-lab__perf-grid">
+            {NDX_CHARACTER_LAB_PERFORMANCE.map((stat) => (
+              <article key={stat.id} className="site00-fws-mobile-character-lab__perf-card" {...vrRegionAttr(stat.vrRegionId)}>
+                <span className="site00-fws-mobile-character-lab__perf-label">{stat.label}</span>
+                <strong className="site00-fws-mobile-character-lab__perf-value">{stat.value}</strong>
+                <em className="site00-fws-mobile-character-lab__perf-delta">{stat.delta}</em>
+              </article>
+            ))}
+          </div>
+        </section>
 
-        <Link to={labPath} className="site00-fws-mobile-screen__link">
-          OPEN CHARACTER LAB →
-        </Link>
-        <Link to={perfPath} className="site00-fws-mobile-screen__link">
-          PERFORMANCE + LEARNING →
+        <Link to={labPath} className="site00-fws-mobile-screen__link site00-fws-mobile-screen__link--sr-only-focus">
+          OPEN FULL CHARACTER LAB →
         </Link>
       </div>
     </div>
