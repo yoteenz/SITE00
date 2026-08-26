@@ -9,6 +9,7 @@ import {
   NavIconReaders,
   NavIconWorld,
 } from './AstralDestIcons';
+import { AstralPortrait } from './immersive/AstralPortrait';
 
 const ENERGY_OPTIONS: { value: EnergyState; label: string }[] = [
   { value: 'ALIGNED_OPEN', label: 'Aligned & Open' },
@@ -51,7 +52,7 @@ export function AstralWorldDesktopNav() {
         ))}
       </nav>
       <div className="aw-user-card aw-ref-user-card">
-        <div className="aw-avatar aw-ref-user-avatar">{demoSession.displayName.charAt(0)}</div>
+        <AstralPortrait personId={demoSession.userId} name={demoSession.displayName} initials={demoSession.displayName[0]} size={48} className="aw-ref-user-avatar" />
         <div className="aw-user-card__name">{demoSession.displayName}</div>
         <p className="aw-ref-member-badge">{demoSession.membershipBadge}</p>
         <p className="aw-muted aw-ref-user-stats">★ 1,245 · ◆ 34</p>

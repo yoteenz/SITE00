@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom';
 import { useAstralWorld } from '../context/AstralWorldContext';
 import { WhosHerePanel } from './WhosHerePanel';
 import { TakeMeSomewherePanel } from './TakeMeSomewherePanel';
-import { AstralCinematicBg } from './AstralCinematicBg';
-import { AstralMallIcon, CoffeeShopIcon, TarotSuiteIcon } from './AstralDestIcons';
+import { AstralScene } from './immersive/AstralScene';
+import { AstralEnvironmentCard } from './immersive/AstralEnvironmentCard';
+import { AstralPortrait } from './immersive/AstralPortrait';
 
 export function MobileHomeReferenceLayout() {
   const { path, occupancy, readers } = useAstralWorld();
@@ -12,60 +13,62 @@ export function MobileHomeReferenceLayout() {
   return (
     <div className="aw-ref-mobile">
       <section className="aw-ref-mobile-hero">
-        <AstralCinematicBg variant="mobile-hero" className="aw-ref-mobile-hero__bg" />
-        <div className="aw-ref-mobile-hero__content">
-          <p className="aw-label">Master Universe</p>
-          <h1 className="aw-display aw-display--hero">Welcome to Astral World</h1>
-          <p className="aw-muted">A living world of intuition, connection, readings, and transformation.</p>
-          <Link to={path('astrea')} className="aw-btn-primary aw-btn-primary--hero">Enter Astréa →</Link>
-        </div>
+        <AstralScene crop="ASTRAL_WORLD_HERO" className="aw-ref-mobile-hero__bg aw-scene" minHeight={300}>
+          <div className="aw-ref-mobile-hero__content">
+            <p className="aw-label">Master Universe</p>
+            <h1 className="aw-display aw-display--hero">Welcome to Astral World</h1>
+            <p className="aw-muted">A living world of intuition, connection, readings, and transformation.</p>
+            <Link to={path('astrea')} className="aw-btn-primary aw-btn-primary--hero">Enter Astréa →</Link>
+          </div>
+        </AstralScene>
       </section>
 
       <section className="aw-ref-mobile-astrea">
-        <p className="aw-label">You are entering</p>
-        <h2 className="aw-display aw-display--district">Astréa</h2>
-        <p className="aw-muted">{occupancy.current.toLocaleString()} in Astréa</p>
-        <div className="aw-ref-mobile-dest-cards">
-          <Link to={path('astrea/tarot-suite')} className="aw-ref-mobile-dest aw-ref-mobile-dest--suite">
-            <TarotSuiteIcon size={28} />
-            <div>
-              <strong>Tarot Suite</strong>
-              <span className="aw-muted">Deep · Private</span>
-            </div>
-          </Link>
-          <Link to={path('astrea/coffee-shop')} className="aw-ref-mobile-dest aw-ref-mobile-dest--coffee">
-            <CoffeeShopIcon size={28} />
-            <div>
-              <strong>Coffee Shop</strong>
-              <span className="aw-muted">Comfort · Community</span>
-            </div>
-          </Link>
-          <Link to={path('astrea/astral-mall')} className="aw-ref-mobile-dest aw-ref-mobile-dest--mall">
-            <AstralMallIcon size={28} />
-            <div>
-              <strong>Astral Mall</strong>
-              <span className="aw-muted">Fast · Fun</span>
-            </div>
-          </Link>
+        <AstralScene crop="ASTREA_DISTRICT" minHeight={200}>
+          <p className="aw-label">You are entering</p>
+          <h2 className="aw-display aw-display--district">Astréa</h2>
+          <p className="aw-muted">{occupancy.current.toLocaleString()} in Astréa</p>
+        </AstralScene>
+        <div className="aw-ref-mobile-dest-cards aw-ref-mobile-dest-scene">
+          <AstralEnvironmentCard
+            crop="TAROT_SUITE"
+            title="Tarot Suite"
+            descriptor="Deep · Private"
+            to={path('astrea/tarot-suite')}
+            cta="Enter →"
+            accent="suite"
+            minHeight={140}
+          />
+          <AstralEnvironmentCard
+            crop="COFFEE_SHOP"
+            title="Coffee Shop"
+            descriptor="Comfort · Community"
+            to={path('astrea/coffee-shop')}
+            cta="Join →"
+            accent="coffee"
+            minHeight={140}
+          />
+          <AstralEnvironmentCard
+            crop="ASTRAL_MALL"
+            title="Astral Mall"
+            descriptor="Fast · Fun"
+            to={path('astrea/astral-mall')}
+            cta="Browse →"
+            accent="mall"
+            minHeight={140}
+          />
         </div>
       </section>
 
       <WhosHerePanel compact />
-
       <TakeMeSomewherePanel compact />
-
-      <section className="aw-card aw-card--gold aw-ref-mobile-routing">
-        <h2 className="aw-display aw-display--section">Smart Routing</h2>
-        <p className="aw-muted">You sound like you need the Coffee Shop today.</p>
-        <Link to={path('astrea/coffee-shop')} className="aw-btn-primary">Go to Coffee Shop →</Link>
-      </section>
 
       {featuredReader ? (
         <section className="aw-card">
           <h2 className="aw-display aw-display--section">Find My Reader</h2>
-          <div className="aw-presence-item">
-            <div className="aw-avatar">{featuredReader.avatarInitials}</div>
-            <div>
+          <div className="aw-reader-card-visual">
+            <AstralPortrait personId={featuredReader.id} name={featuredReader.name} initials={featuredReader.avatarInitials} size={48} showPresence />
+            <div className="aw-reader-card-visual__meta">
               <strong>{featuredReader.name}</strong>
               <div className="aw-muted">{featuredReader.specialty}</div>
             </div>

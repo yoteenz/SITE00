@@ -57,7 +57,7 @@ describe('P0.E.2 Astral World Reference Convergence', () => {
     expect(icons).toContain('CoffeeShopIcon');
   });
 
-  it('TEST 8 — Cinematic background component replaces pending placeholders in destinations', () => {
+  it('TEST 8 — Cinematic scene component replaces pending placeholders in destinations', () => {
     for (const page of [
       'src/site00/astral-world/pages/destinations/TarotSuitePage.tsx',
       'src/site00/astral-world/pages/destinations/AstralMallPage.tsx',
@@ -65,7 +65,7 @@ describe('P0.E.2 Astral World Reference Convergence', () => {
       'src/site00/astral-world/pages/AstralWorldAstreaPage.tsx',
     ]) {
       const src = readFileSync(page, 'utf8');
-      expect(src).toContain('AstralCinematicBg');
+      expect(src).toMatch(/AstralScene|AstralCinematicBg/);
       expect(src).not.toContain('aw-hero__bg--pending');
     }
   });

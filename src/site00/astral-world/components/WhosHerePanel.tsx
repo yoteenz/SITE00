@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAstralWorld } from '../context/AstralWorldContext';
 import { PlacesPopularPanel } from './PlacesPopularPanel';
+import { AstralScene } from './immersive/AstralScene';
+import { AstralPresenceItem } from './immersive/AstralPresenceItem';
 
 type Tab = 'all' | 'friends' | 'readers' | 'favorites';
 
@@ -22,47 +24,44 @@ export function WhosHerePanel({ compact }: { compact?: boolean }) {
             ];
 
   return (
-    <section className={`aw-card${compact ? '' : ' aw-card--gold'}`}>
-      <div className="aw-card__header">
-        <h2 className="aw-display aw-display--section">Who&apos;s Here Now</h2>
-        <span className="aw-label">Live</span>
+    <section className={`aw-card aw-whos-here--immersive${compact ? '' : ' aw-card--gold'}`}>
+      <AstralScene crop="SOCIAL_PRESENCE" minHeight={compact ? 100 : 120} overlay />
+      <div className="aw-whos-here__body">
+        <div className="aw-card__header">
+          <h2 className="aw-display aw-display--section">Who&apos;s Here Now</h2>
+          <span className="aw-label">Live</span>
+        </div>
+        <div className="aw-tabs" role="tablist">
+          {(['all', 'friends', 'readers', 'favorites'] as Tab[]).map((t) => (
+            <button
+              key={t}
+              type="button"
+              role="tab"
+              aria-selected={tab === t}
+              className={`aw-tab${tab === t ? ' aw-tab--active' : ''}`}
+              onClick={() => setTab(t)}
+            >
+              {t === 'all' ? 'All' : t.charAt(0).toUpperCase() + t.slice(1)}
+            </button>
+          ))}
+        </div>
+        <div role="tabpanel">
+          {items.map((item) => (
+            <AstralPresenceItem
+              key={item.id}
+              personId={item.id}
+              name={item.name}
+              initials={item.initials}
+              subtitle={`${item.kind === 'reader' ? 'Reader · ' : ''}${item.dest ? String(item.dest).replace(/-/g, ' ') : 'In Astréa'}${item.tableId ? ' · Table' : ''}`}
+              status={item.status}
+            />
+          ))}
+        </div>
+        <PlacesPopularPanel compact immersive />
+        {!compact ? (
+          <Link to={path('friends')} className="aw-btn-secondary">See Who&apos;s Here →</Link>
+        ) : null}
       </div>
-      <div className="aw-tabs" role="tablist">
-        {(['all', 'friends', 'readers', 'favorites'] as Tab[]).map((t) => (
-          <button
-            key={t}
-            type="button"
-            role="tab"
-            aria-selected={tab === t}
-            className={`aw-tab${tab === t ? ' aw-tab--active' : ''}`}
-            onClick={() => setTab(t)}
-          >
-            {t === 'all' ? 'All' : t.charAt(0).toUpperCase() + t.slice(1)}
-          </button>
-        ))}
-      </div>
-      <div role="tabpanel">
-        {items.map((item) => (
-          <div key={item.id} className="aw-presence-item">
-            <div className="aw-avatar" aria-hidden>{item.initials}</div>
-            <div style={{ flex: 1 }}>
-              <strong>{item.name}</strong>
-              <div className="aw-muted">
-                {item.kind === 'reader' ? 'Reader · ' : ''}
-                {item.dest ? String(item.dest).replace(/-/g, ' ') : 'In Astréa'}
-                {item.tableId ? ' · Table' : ''}
-              </div>
-            </div>
-            <span className={`aw-status${item.status.toLowerCase().includes('join') ? ' aw-status--joinable' : item.status.toLowerCase().includes('read') ? ' aw-status--reading' : ' aw-status--available'}`}>
-              {item.status}
-            </span>
-          </div>
-        ))}
-      </div>
-      <PlacesPopularPanel compact />
-      {!compact ? (
-        <Link to={path('friends')} className="aw-btn-secondary">See Who&apos;s Here →</Link>
-      ) : null}
     </section>
   );
 }
