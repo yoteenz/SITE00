@@ -28,6 +28,7 @@ import {
   iconPathWasReplaced,
   projectOverviewUsesStackedPages,
 } from '../shared/site00-studio-world-ui/icons/p0ui3d/index.js';
+import { buildV3AssetBackedIconRegistry } from '../shared/site00-studio-world-ui/icons/p0ui3e/index.js';
 import {
   classifyImplementationSilhouette,
   evaluateExactIconGeometry,
@@ -60,11 +61,12 @@ describe('P0.UI.3D reference-locked icon rebuild', () => {
   });
 
   it('3-4. all 13 icons use V3 paths; old geometry superseded', () => {
-    expect(buildReferenceLockedIconRegistry()).toEqual(NDX_ICON_REGISTRY);
+    expect(buildV3AssetBackedIconRegistry()).toEqual(NDX_ICON_REGISTRY);
     for (const name of P0_UI_3D_TARGET_ICONS) {
       expect(getNdxIconDefinition(name).visualVersion).toBe(NDX_ICON_VISUAL_CANON_V3);
       expect(ndxIconIsReferenceLocked(name)).toBe(true);
-      expect(getNdxIconDefinition(name).supersededGeometryId).toBe('NDX_ICON_V2_PIXEL_TRACED');
+      expect(getNdxIconDefinition(name).supersededGeometryId).toBe('SUPERSEDED_BY_P0_UI_3E');
+      expect(getNdxIconDefinition(name).runtimeVersion).toBe('v3');
     }
     const superseded = buildSupersededGeometryRecords();
     expect(superseded).toHaveLength(13);

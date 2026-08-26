@@ -31,6 +31,7 @@ export function NDXIcon({
   const transform = optical
     ? `translate(${optical.opticalOffsetX} ${optical.opticalOffsetY}) scale(${optical.opticalScale})`
     : undefined;
+  const runtimeVersion = def.runtimeVersion ?? (def.visualVersion === 'NDX_ICON_VISUAL_CANON_V3' ? 'v3' : undefined);
 
   return (
     <svg
@@ -45,7 +46,10 @@ export function NDXIcon({
       role={ariaLabel ? 'img' : undefined}
       data-ndx-icon={name}
       data-ndx-icon-state={state}
-      data-ndx-icon-version={def.visualVersion}
+      data-ndx-icon-version={runtimeVersion}
+      data-ndx-icon-source={def.runtimeSource}
+      data-ndx-icon-hash={def.sourceHash?.replace(/^sha256:/, '')}
+      data-ndx-icon-path={def.sourcePath}
     >
       <g transform={transform}>
         <g
