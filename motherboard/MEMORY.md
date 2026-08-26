@@ -5177,6 +5177,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-08-26 — P0.VR.1D.10 mobile full-screen shell rollout (Overview, Content Ops, Cultural Intelligence, Character Lab)
+
+- **Context:** Founder sprint P0.VR.1D.10 — roll P0.VR.1D.9 methodology across remaining NDX mobile tabs. Full-screen references are design authority; preserve routes/data/interactions; rebuild page shell, header geometry, content bounds, section spacing, bottom nav. Campaign Board + Lab/Experiment 01 regression only.
+- **Delivered:** `ndxMobileVisualShellSpecs.ts` per-screen `MobileScreenVisualShellSpec`; fullscreen reference crops for all four targets. `FounderWorkspaceShell` expanded `mobileDedicatedScreens` (overview, content-ops, cultural-intelligence, character-lab). `MobileFounderWorkspaceChrome` accepts `visualSpec` (reference-driven CSS vars). Rebuilt `MobileContentOpsScreen`, `MobileCulturalIntelligenceScreen`, `MobileCharacterLabScreen` (removed generic `MobileScreenFrame`); Overview wrapped in `site00-fws-mobile-shell-screen`. Shell VR regions in `ndxVisualRegionIds.ts`. `p0vr1d9/` functional vs visual shell authority + stale lock invalidation. `p0vr1d10/runMobileShellRolloutPass.ts` live overlay pass. Tests `visualReconstructionP0VR1D10.test.ts` (10 pass). Live overlay scores: Overview ~81%, Content Ops ~86%, Cultural Intelligence ~85%, Character Lab ~69%. Campaign/Lab regression selectors preserved.
+- **Founder next:** Upload GoDaddy ZIP v113.
+
+---
+
 - **Context:** Follow-up to P0.UI.3C — notification center functionally worked (scoping, unread, tabs, deep links) but visually read as generic dropdown: wrong typography, white surface, clipping on mobile, not NDX paper family.
 - **Delivered:** `NotificationCenterVisualAuthority` + failure taxonomy (`notificationCenterVisualEvaluation.ts`). Shared `FounderWorkspacePopoverSurface` (portal, viewport clamp, NDX paper shell) used by notification center and project menu. `founderWorkspacePopoverPosition.ts` — 16px gutters, `min(340px, calc(100vw - 32px))`, dvh-aware max-height, right-viewport anchoring. CSS overhaul: `--ndx-surface-raised` paper, mono typography tokens, row dividers, title wrap, lime unread/tab accent, designed messages empty state. VR regions: `ndx.notification.panel|header|tabs|list|row|footer`. Tests `ndxNotificationCenterP0UI3C2.test.ts` (14 pass) + updated P0.UI.3C/panel position tests. Build green.
 - **Preserved:** All P0.UI.3C notification semantics; project menu behavior; bell/ellipsis exclusivity; P0.UI.3B bell SVG.
