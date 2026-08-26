@@ -54,6 +54,7 @@ export function createProductVisualAssetRecord(input: {
     mode: input.variantKey.mode,
     configurationHash: input.variantKey.configurationHash,
     colorSlug: input.variantKey.axes.COLOR ? colorSlugFromId(input.variantKey.axes.COLOR) : undefined,
+    axes: input.variantKey.axes,
     ext: input.hasAlpha ? 'png' : 'webp',
   });
 

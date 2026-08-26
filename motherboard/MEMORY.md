@@ -5318,3 +5318,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** Six signature unit visual canon (read-only registry, no commerce SKU mutation), SITE 00 host canon, historical asset lineage.
 
 ---
+
+## 2026-08-26 — P0.PAF.2 Shared Supabase product asset delivery + bindings + runtime resolver
+
+- **Context:** Follow-up to P0.PAF.1 — wire Product Asset Factory to shared Supabase (`hyycomvcaqxxvyrfupes`) with dedicated `frontal-slayer/product-assets/` namespace, canonical DB tables, ACTIVE/PREVIEW bindings, and Frontal Slayer website runtime resolver (no FAL at runtime).
+- **Delivered:** Cross-repo contract `shared/frontal-slayer-product-assets/` (v1 types + `buildDeterministicVariantKey` + runtime `productVisualAssets` service). `p0paf2/` module — storage namespace (masters/products/build-a-wig/shared/archived), storage manifest, ingest pipeline (FAL→Supabase, never FAL URL canonical), binding store/service (PREVIEW/ACTIVE/SUPERSEDED, unique active, batch bind, resolver test gate), asset library tree, P0.PAF.1 bridge. Supabase migration `fs_product_master_heroes`, `fs_product_visual_assets`, `fs_product_asset_bindings`, `fs_build_a_wig_visual_variants` + RLS public read for approved. UI: LIVE BINDINGS, BATCH BIND, ASSET LIBRARY, WEBSITE RUNTIME PREVIEW panels. P0.PAF.1 storage paths upgraded to P0.PAF.2 namespace. Tests `productAssetFactoryP0PAF2.test.ts` (10 pass) + P0.PAF.1 updated (41 total pass). Build green (`ProjectProductAssetFactoryPage.8jg-Kfbr.js`, `index.BKOa8RM2.js`).
+- **Core rule:** Studio World produces + approves; Supabase stores + binds; Frontal Slayer website resolves ACTIVE approved assets only.
+- **Preserved:** Single shared Supabase project, six signature units, commerce/SKU/pricing unchanged, no service-role in client bundles.
+
+---
