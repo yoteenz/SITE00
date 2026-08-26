@@ -21,7 +21,7 @@ import {
   NDX_OVERVIEW_REFERENCE_METRICS,
 } from '../../config/ndxOverviewMobileReference';
 import { useCampaignBoardWeekCalendar } from '../../hooks/useCampaignBoardWeekCalendar';
-import { formatCampaignBoardHubDayLabel } from '../../utils/campaignBoardWeekCalendar';
+import { formatCampaignBoardHubDayLabel, formatNdxTodayDateLabel } from '../../utils/campaignBoardWeekCalendar';
 
 type Props = {
   projectSlug: string;
@@ -300,6 +300,10 @@ export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
 
 export function OverviewMobileHomeScreen({ projectSlug }: Props) {
   const metrics = NDX_OVERVIEW_REFERENCE_METRICS;
+  const campaignWeek = useCampaignBoardWeekCalendar();
+  const todayDateLabel = formatNdxTodayDateLabel(
+    campaignWeek.days.find((d) => d.active)?.date ?? new Date(),
+  );
 
   return (
     <div
@@ -319,7 +323,7 @@ export function OverviewMobileHomeScreen({ projectSlug }: Props) {
         </p>
         <div className="site00-fws-mobile-overview__today site00-fws-mobile-overview__today--ruled">
           <span className="site00-fws-mobile-overview__today-label">TODAY AT NDX</span>
-          <span className="site00-fws-mobile-overview__today-date">May 24</span>
+          <span className="site00-fws-mobile-overview__today-date">{todayDateLabel}</span>
         </div>
       </div>
 

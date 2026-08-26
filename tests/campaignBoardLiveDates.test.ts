@@ -6,6 +6,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
+  formatNdxTodayDateLabel,
   getISOWeekNumber,
   resolveCampaignBoardWeekCalendar,
   resolveTodayCampaignDayShortId,
@@ -40,6 +41,23 @@ describe('campaignBoardWeekCalendar', () => {
 
   it('ISO week number for mid-August 2026', () => {
     expect(getISOWeekNumber(new Date(2026, 7, 26))).toBeGreaterThan(30);
+  });
+});
+
+describe('overview mobile today date', () => {
+  it('formats today label in uppercase month day', () => {
+    expect(formatNdxTodayDateLabel(new Date(2026, 7, 26))).toBe('AUG 26');
+  });
+
+  it('OverviewMobileHomeScreen uses live today date hook', () => {
+    const src = readFileSync(
+      join(ROOT, 'src/site00/components/founderWorkspace/OverviewFounderWorkspaceBoard.tsx'),
+      'utf8',
+    );
+    expect(src).toContain('useCampaignBoardWeekCalendar');
+    expect(src).toContain('formatNdxTodayDateLabel');
+    expect(src).toContain('todayDateLabel');
+    expect(src).not.toContain('>May 24<');
   });
 });
 
