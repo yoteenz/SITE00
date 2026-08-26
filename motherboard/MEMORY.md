@@ -5638,3 +5638,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** `AW_M_01_WORLD_ENTRY_BACKGROUND_V1.png` (852×1846) registered in public/docs + `awM01LayeredAssets.ts` manifest/anchors. Rewrote `AwM01WorldEntryScreen.tsx` as three-layer stack (bg img + medallion crops + DOM text/nav). Removed legacy CSS panels/frames. Inline bottom nav aligned to baked shell; hides shell `.aw-mobile-nav` via `:has(.aw-m01-layered)`. Tests `astralWorldFt52BLayeredReplication.test.ts` (4) → **148 Astral pass**. Live QA @390px: background loads, no duplicate panels, routing + Who's Here verified.
 - **Visual lock:** `PILOT_SCREEN_VISUAL_LOCK=FALSE` — destination icon crops still from reference board (dedicated medallion assets pending); sub-pixel anchor tuning vs Attachment B remains.
 - **Next:** Extract dedicated TAROT/COFFEE/MALL medallion PNGs from canonical master; convergence pass on anchor percentages.
+
+---
+
+## 2026-08-26 — P0.E.FT5.2C AW_D_01 desktop layered background + live overlay replication
+
+- **Context:** Desktop Home exact layered replication — Attachment A production shell (1672×941) + Attachment B composition authority at 1280px. Same pattern as FT5.2B mobile.
+- **Delivered:** `AW_D_01_WORLD_ENTRY_BACKGROUND_V1.png` registered; `awD01LayeredAssets.ts` manifest + anchors; `AwD01WorldEntryScreen.tsx` (top nav, hero, left Astréa destinations, right quick actions, inline bottom nav, avatar); `MobileArrivalScene` routes desktop to AW_D_01; hides shell sidebar/rail via `:has(.aw-d01-layered)`. Tests `astralWorldFt52CLayeredReplication.test.ts` (5) → **153 Astral pass**. Live QA @1280px after hard refresh: layered background, no sidebar, all panels overlaid.
+- **Visual lock:** `DESKTOP_SCREEN_VISUAL_LOCK=FALSE` — destination medallions use reference-board crops; sub-pixel anchor tuning vs Attachment B; dedicated action/destination icon PNGs pending.
+- **Next:** Extract desktop medallion PNGs; pixel-convergence pass on anchor percentages at 1280 and 1440.

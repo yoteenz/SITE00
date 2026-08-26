@@ -2804,6 +2804,315 @@
 
 /* Legacy aw-m01 superseded by aw-m01-layered (FT5.2B) */
 
+/* ─── AW_D_01_WORLD_ENTRY — FT5.2C desktop layered replication (1280px authority) ─── */
+
+.aw-experience-root:has(.aw-d01-layered) .aw-shell__nav,
+.aw-experience-root:has(.aw-d01-layered) .aw-shell__rail,
+.aw-experience-root:has(.aw-d01-layered) .aw-mobile-nav {
+  display: none !important;
+}
+
+.aw-experience-root:has(.aw-d01-layered) .aw-shell__main {
+  width: 100%;
+}
+
+.aw-experience-root:has(.aw-d01-layered) .aw-shell__canvas {
+  padding: 0 !important;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.aw-d01-layered {
+  --aw-d01-bg-aspect: 1672 / 941;
+  position: relative;
+  width: 100%;
+  max-width: 1672px;
+  margin: 0 auto;
+  color: var(--aw-text);
+}
+
+.aw-d01-layered__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--aw-d01-bg-aspect);
+}
+
+.aw-d01-layered__bg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  object-position: top center;
+  user-select: none;
+  pointer-events: none;
+}
+
+.aw-d01-layered__overlays {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.aw-d01-layered__overlays a,
+.aw-d01-layered__overlays button {
+  pointer-events: auto;
+}
+
+.aw-d01-layered__top-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--aw-font-display);
+  font-size: clamp(0.62rem, 1vw, 0.72rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--aw-gold-bright);
+}
+
+.aw-d01-layered__brand-mark {
+  color: var(--aw-gold);
+  flex-shrink: 0;
+}
+
+.aw-d01-layered__top-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 2vw, 1.35rem);
+}
+
+.aw-d01-layered__top-link {
+  font-family: var(--aw-font-ui);
+  font-size: clamp(0.58rem, 0.95vw, 0.68rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(201, 169, 98, 0.55);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 0.15rem;
+}
+
+.aw-d01-layered__top-link--active {
+  color: var(--aw-gold-bright);
+  border-bottom-color: rgba(201, 169, 98, 0.75);
+}
+
+.aw-d01-layered__top-utils {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.55rem;
+}
+
+.aw-d01-layered__top-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: rgba(201, 169, 98, 0.75);
+  cursor: pointer;
+}
+
+.aw-d01-layered__avatar-hit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+  text-decoration: none;
+}
+
+.aw-d01-layered__avatar,
+.aw-d01-layered__avatar .aw-portrait__circle {
+  width: 100% !important;
+  height: 100% !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.aw-d01-layered__hero-kicker,
+.aw-d01-layered__hero-title,
+.aw-d01-layered__hero-subtitle,
+.aw-d01-layered__astrea-kicker,
+.aw-d01-layered__astrea-title,
+.aw-d01-layered__astrea-district,
+.aw-d01-layered__astrea-tagline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0;
+}
+
+.aw-d01-layered__hero-kicker {
+  font-family: var(--aw-font-display);
+  font-size: clamp(0.58rem, 1.1vw, 0.72rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(201, 169, 98, 0.92);
+}
+
+.aw-d01-layered__hero-title {
+  font-family: var(--aw-font-display);
+  font-size: clamp(1.35rem, 2.8vw, 2rem);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--aw-gold-bright);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.55);
+}
+
+.aw-d01-layered__hero-subtitle {
+  flex-direction: column;
+  font-family: var(--aw-font-body);
+  font-size: clamp(0.72rem, 1.2vw, 0.88rem);
+  line-height: 1.38;
+  color: rgba(245, 240, 230, 0.86);
+}
+
+.aw-d01-layered__astrea-kicker {
+  justify-content: flex-start;
+  text-align: left;
+  font-family: var(--aw-font-display);
+  font-size: clamp(0.5rem, 0.85vw, 0.58rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(201, 169, 98, 0.88);
+}
+
+.aw-d01-layered__astrea-title {
+  justify-content: flex-start;
+  font-family: var(--aw-font-display);
+  font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.aw-d01-layered__astrea-link {
+  color: var(--aw-gold-bright);
+  text-decoration: none;
+}
+
+.aw-d01-layered__astrea-district,
+.aw-d01-layered__astrea-tagline {
+  justify-content: flex-start;
+  text-align: left;
+  font-family: var(--aw-font-body);
+  font-size: clamp(0.62rem, 1vw, 0.74rem);
+  line-height: 1.32;
+  color: rgba(245, 240, 230, 0.76);
+}
+
+.aw-d01-layered__astrea-tagline {
+  color: rgba(201, 169, 98, 0.82);
+}
+
+.aw-d01-layered__dest {
+  display: grid;
+  grid-template-columns: 22% 1fr;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0 8% 0 2%;
+  text-decoration: none;
+  color: inherit;
+  background: transparent;
+  border: none;
+}
+
+.aw-d01-layered__medallion {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.aw-d01-layered__dest-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.08rem;
+  min-width: 0;
+}
+
+.aw-d01-layered__dest-name {
+  font-family: var(--aw-font-display);
+  font-size: clamp(0.62rem, 1vw, 0.74rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.aw-d01-layered__dest--suite .aw-d01-layered__dest-name { color: #d8b8f0; }
+.aw-d01-layered__dest--coffee .aw-d01-layered__dest-name { color: #e8c48a; }
+.aw-d01-layered__dest--mall .aw-d01-layered__dest-name { color: #a8e0bc; }
+
+.aw-d01-layered__dest-desc {
+  font-family: var(--aw-font-body);
+  font-size: clamp(0.56rem, 0.9vw, 0.66rem);
+  line-height: 1.22;
+  color: rgba(245, 240, 230, 0.62);
+}
+
+.aw-d01-layered__action {
+  display: grid;
+  grid-template-columns: 22% 1fr;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0 6% 0 4%;
+  margin: 0;
+  text-decoration: none;
+  text-align: left;
+  color: inherit;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.aw-d01-layered__action-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--aw-gold);
+}
+
+.aw-d01-layered__action-label {
+  font-family: var(--aw-font-display);
+  font-size: clamp(0.58rem, 0.95vw, 0.68rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.25;
+  color: var(--aw-gold-bright);
+}
+
+.aw-d01-layered__bottom-nav {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  padding: 0 4%;
+}
+
+.aw-d01-layered__bottom-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  flex: 1;
+  text-decoration: none;
+  font-family: var(--aw-font-ui);
+  font-size: clamp(0.48rem, 0.85vw, 0.56rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(201, 169, 98, 0.55);
+}
+
+.aw-d01-layered__bottom-link--active {
+  color: var(--aw-gold-bright);
+  filter: drop-shadow(0 0 6px rgba(201, 169, 98, 0.35));
+}
+
 .aw-sr-only-focusable {
   position: absolute;
   width: 1px;
