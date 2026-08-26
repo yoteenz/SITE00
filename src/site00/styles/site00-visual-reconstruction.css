@@ -611,3 +611,137 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* P0.VR.2A — Reference asset slots + missing assets panel */
+.site00-design-workspace__assets {
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid var(--ndx-border, #e8e4dc);
+  background: #faf8f5;
+}
+
+.site00-design-workspace__assets h2 {
+  margin: 0 0 8px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+.site00-design-workspace__assets-summary {
+  margin: 0 0 12px;
+  font-size: 11px;
+  color: var(--ndx-muted, #8a857c);
+}
+
+.site00-design-workspace__asset-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.site00-design-workspace__asset-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--ndx-border, #e8e4dc);
+  background: #fff;
+  font-size: 10px;
+}
+
+.site00-design-workspace__asset-card-title {
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.site00-design-workspace__asset-card-meta {
+  color: var(--ndx-muted, #8a857c);
+  letter-spacing: 0.04em;
+}
+
+.site00-design-workspace__asset-card-status {
+  text-align: right;
+  letter-spacing: 0.08em;
+}
+
+.site00-design-workspace__asset-card-status.is-ready {
+  color: #3d6b2a;
+}
+
+.site00-design-workspace__asset-card-status.is-generating {
+  color: #8a6b2a;
+}
+
+.site00-design-workspace__asset-card-status.is-failed {
+  color: #8a2a2a;
+}
+
+.site00-design-workspace__asset-prompt {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 8px;
+  background: #f5f2eb;
+  font-family: ui-monospace, monospace;
+  font-size: 9px;
+  white-space: pre-wrap;
+  max-height: 120px;
+  overflow: auto;
+}
+
+.site00-design-workspace__asset-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.site00-ref-asset-slot {
+  box-sizing: border-box;
+  overflow: hidden;
+  background: #f0ece4;
+  border: 1px dashed rgba(138, 133, 124, 0.35);
+  transition: opacity 0.25s ease;
+}
+
+.site00-ref-asset-slot__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #f5f2eb 0%, #ebe6dc 100%);
+}
+
+.site00-ref-asset-slot__ratio {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: rgba(138, 133, 124, 0.7);
+}
+
+.site00-ref-asset-slot__image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.site00-ref-asset-slot--ready {
+  border-style: solid;
+  border-color: rgba(183, 210, 54, 0.45);
+}
+
+.site00-ref-asset-slot--generating .site00-ref-asset-slot__placeholder {
+  animation: site00-ref-asset-pulse 1.2s ease-in-out infinite;
+}
+
+.site00-ref-asset-slot--failed {
+  border-color: rgba(180, 60, 60, 0.45);
+}
+
+@keyframes site00-ref-asset-pulse {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}
