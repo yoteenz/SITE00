@@ -5,7 +5,7 @@
 import type { DesignViewportClass } from '../p0vr2/types.js';
 import type { DesignWorkspaceTab, DesignWorkspaceUrlState } from './types.js';
 
-const VALID_TABS: DesignWorkspaceTab[] = ['REFERENCE', 'IMPLEMENTATION', 'COMPARE', 'HISTORY', 'INSPECT'];
+const VALID_TABS: DesignWorkspaceTab[] = ['REFERENCE', 'IMPLEMENTATION', 'COMPARE', 'PAGES', 'HISTORY', 'INSPECT'];
 
 export function parseDesignWorkspaceUrlState(search: string): Partial<DesignWorkspaceUrlState> {
   const params = new URLSearchParams(search.startsWith('?') ? search.slice(1) : search);

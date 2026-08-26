@@ -9,6 +9,7 @@ import type { VisualMatchResult } from '../../../../shared/site00-studio-world-p
 type Props = {
   referenceUrl: string | null;
   referenceVersion: number | null;
+  implementationUrl: string | null;
   livePreviewUrl: string;
   viewportWidth: number;
   viewportHeight: number;
@@ -19,6 +20,7 @@ type Props = {
 export function DesignCompareSection({
   referenceUrl,
   referenceVersion,
+  implementationUrl,
   livePreviewUrl,
   viewportWidth,
   viewportHeight,
@@ -48,7 +50,7 @@ export function DesignCompareSection({
       <div className="site00-dw-compare__grid">
         <figure className="site00-dw-compare__phone">
           <figcaption>
-            REFERENCE{referenceVersion ? ` · CANONICAL v${referenceVersion}` : ''}
+            TARGET · REFERENCE{referenceVersion ? ` · v${referenceVersion}` : ''}
           </figcaption>
           <div className="site00-dw-compare__device" style={{ width: viewportWidth, height: frameHeight }}>
             {referenceUrl ? (
@@ -60,12 +62,16 @@ export function DesignCompareSection({
         </figure>
 
         <figure className="site00-dw-compare__phone">
-          <figcaption>LIVE IMPLEMENTATION · {viewportWidth}×{viewportHeight}</figcaption>
+          <figcaption>CURRENT · IMPLEMENTATION · {viewportWidth}×{viewportHeight}</figcaption>
           <div
             className="site00-dw-compare__device site00-dw-compare__device--live"
             style={{ width: viewportWidth, height: frameHeight }}
           >
-            <iframe title="Live implementation" src={livePreviewUrl} className="site00-dw-compare__iframe" />
+            {implementationUrl ? (
+              <img src={implementationUrl} alt="Current implementation" className="site00-dw-compare__shot" />
+            ) : (
+              <iframe title="Live implementation" src={livePreviewUrl} className="site00-dw-compare__iframe" />
+            )}
             {referenceUrl ? (
               <div
                 className="site00-dw-compare__reveal"

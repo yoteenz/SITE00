@@ -5346,3 +5346,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.3B normalization, P0.VR.3A forensics/self-design boundary, host protection, historical v1 lineage.
 
 ---
+
+## 2026-08-26 — P0.VR.3E implementation snapshot capture + design workspace visual index
+
+- **Context:** Founder needs every designable page visually identifiable in Design workspace — current implementation screenshots (NOT canonical references) for mobile/tablet/desktop.
+- **Delivered:** `p0vr3e/` — `ImplementationSnapshotRecord`, Playwright capture via `renderControlledReference`, Supabase storage paths, registry with history/latest pointer, stale detection, QA, batch capture with concurrency, coverage metrics, family outlier signal. API `POST/GET /api/site00/implementation-snapshots`. Design workspace: CURRENT implementation preview, PAGES visual index, CAPTURE IMPLEMENTATION / CAPTURE ALL buttons, compare labels TARGET vs CURRENT. Tests `visualReconstructionP0VR3E.test.ts` (7 pass). Build green (`StudioWorldDesignPage.CA---akN.js`).
+- **Core rule:** Implementation snapshot = what exists; canonical reference = what should exist — never auto-promote.
+- **Preserved:** P0.VR.2 compare pipeline, reference authority, no FAL spend for captures.
+
+---
