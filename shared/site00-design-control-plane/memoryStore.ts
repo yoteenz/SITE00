@@ -1,7 +1,10 @@
 /**
  * P0.BRIDGE.1 — In-memory store for tests and dev fallback.
+ * P0.BRIDGE.1B — NDXBOOK SITE00-native authority + superseded FSBW binding history.
  */
 
+import { getRepoDefaultBranch } from './repoBranchAuthority.js';
+import { fsbwConsumerMayConsumeRequest } from './resolveChangeExecutionTarget.js';
 import type {
   PrepareRepoChangeInput,
   Site00ChangeOperationRecord,
@@ -68,6 +71,10 @@ function uid(prefix: string): string {
   return `${prefix}-${seq}-${Date.now()}`;
 }
 
+function isSupersededBinding(binding: Site00RepoBindingRow): boolean {
+  return binding.metadata?.bindingStatus === 'SUPERSEDED';
+}
+
 export function seedBridgeMemoryStore(seed?: {
   projects?: Site00ManagedProjectRow[];
   bindings?: Site00RepoBindingRow[];
@@ -98,24 +105,24 @@ function defaultSeedProjects(): Site00ManagedProjectRow[] {
       projectKey: 'site00',
       displayName: 'SITE 00',
       designAuthority: 'SITE00',
-      sourceRepo: null,
+      sourceRepo: 'yoteenz/SITE00',
       sourceProjectKey: null,
       projectType: 'HOST_PLATFORM',
       runtimeMode: 'SITE00_NATIVE',
       designEnabled: true,
-      metadata: {},
+      metadata: { executionMode: 'SITE00_NATIVE', externalRepoBridgeRequired: false },
     },
     {
-      id: 'mp-fsbw-ndx',
+      id: 'mp-site00-ndx',
       projectKey: 'ndxbook',
       displayName: 'NDXBOOK',
       designAuthority: 'SITE00',
-      sourceRepo: 'yoteenz/fsbw',
+      sourceRepo: 'yoteenz/SITE00',
       sourceProjectKey: 'ndxbook',
       projectType: 'MANAGED_BRAND',
-      runtimeMode: 'FSBW_WEBSITE',
+      runtimeMode: 'SITE00_NATIVE',
       designEnabled: true,
-      metadata: {},
+      metadata: { executionMode: 'SITE00_NATIVE', externalRepoBridgeRequired: false },
     },
     {
       id: 'mp-fsbw-aio',
@@ -125,9 +132,9 @@ function defaultSeedProjects(): Site00ManagedProjectRow[] {
       sourceRepo: 'yoteenz/fsbw',
       sourceProjectKey: 'all-in-one-enterprises',
       projectType: 'MANAGED_BRAND',
-      runtimeMode: 'FSBW_WEBSITE',
+      runtimeMode: 'CROSS_REPO_FSBW',
       designEnabled: true,
-      metadata: {},
+      metadata: { executionMode: 'CROSS_REPO_FSBW', externalRepoBridgeRequired: true },
     },
     {
       id: 'mp-fsbw-fs',
@@ -137,9 +144,9 @@ function defaultSeedProjects(): Site00ManagedProjectRow[] {
       sourceRepo: 'yoteenz/fsbw',
       sourceProjectKey: 'frontal-slayer',
       projectType: 'MANAGED_BRAND',
-      runtimeMode: 'FSBW_WEBSITE',
+      runtimeMode: 'CROSS_REPO_FSBW',
       designEnabled: true,
-      metadata: {},
+      metadata: { executionMode: 'CROSS_REPO_FSBW', externalRepoBridgeRequired: true },
     },
     {
       id: 'mp-fsbw-sw',
@@ -149,18 +156,45 @@ function defaultSeedProjects(): Site00ManagedProjectRow[] {
       sourceRepo: 'yoteenz/fsbw',
       sourceProjectKey: 'studio-world',
       projectType: 'MANAGED_WEBSITE',
-      runtimeMode: 'FSBW_WEBSITE',
+      runtimeMode: 'CROSS_REPO_FSBW',
       designEnabled: true,
-      metadata: { websiteScopeOnly: true },
+      metadata: { websiteScopeOnly: true, executionMode: 'CROSS_REPO_FSBW', externalRepoBridgeRequired: true },
     },
   ];
 }
 
 function defaultSeedBindings(): Site00RepoBindingRow[] {
+  const site00Branch = getRepoDefaultBranch('yoteenz/SITE00') ?? 'main';
+  const fsbwBranch = getRepoDefaultBranch('yoteenz/fsbw') ?? 'master';
+
   return [
     {
-      id: 'rb-fsbw-ndx',
-      projectId: 'mp-fsbw-ndx',
+      id: 'rb-site00-host',
+      projectId: 'mp-site00',
+      repoOwner: 'yoteenz',
+      repoName: 'SITE00',
+      defaultBranch: site00Branch,
+      sourceProjectPath: null,
+      adapterType: 'SITE00_NATIVE',
+      runtimeBindingMode: 'HYBRID',
+      sourceMaterializationEnabled: true,
+      metadata: { bindingStatus: 'ACTIVE', projects: ['site00'] },
+    },
+    {
+      id: 'rb-site00-ndx',
+      projectId: 'mp-site00-ndx',
+      repoOwner: 'yoteenz',
+      repoName: 'SITE00',
+      defaultBranch: site00Branch,
+      sourceProjectPath: 'ndxbook',
+      adapterType: 'SITE00_NATIVE',
+      runtimeBindingMode: 'HYBRID',
+      sourceMaterializationEnabled: true,
+      metadata: { bindingStatus: 'ACTIVE', projects: ['ndxbook'] },
+    },
+    {
+      id: 'rb-fsbw-ndx-historical',
+      projectId: 'mp-site00-ndx',
       repoOwner: 'yoteenz',
       repoName: 'fsbw',
       defaultBranch: 'main',
@@ -168,43 +202,48 @@ function defaultSeedBindings(): Site00RepoBindingRow[] {
       adapterType: 'FSBW_WEBSITE',
       runtimeBindingMode: 'HYBRID',
       sourceMaterializationEnabled: true,
-      metadata: {},
+      metadata: {
+        bindingStatus: 'SUPERSEDED',
+        supersededReason: 'REPO_AUTHORITY_CORRECTION',
+        supersededBy: 'rb-site00-ndx',
+        lineage: 'P0.BRIDGE.1B-SITE00',
+      },
     },
     {
       id: 'rb-fsbw-aio',
       projectId: 'mp-fsbw-aio',
       repoOwner: 'yoteenz',
       repoName: 'fsbw',
-      defaultBranch: 'main',
+      defaultBranch: fsbwBranch,
       sourceProjectPath: 'all-in-one-enterprises',
       adapterType: 'FSBW_WEBSITE',
       runtimeBindingMode: 'HYBRID',
       sourceMaterializationEnabled: true,
-      metadata: {},
+      metadata: { bindingStatus: 'ACTIVE' },
     },
     {
       id: 'rb-fsbw-fs',
       projectId: 'mp-fsbw-fs',
       repoOwner: 'yoteenz',
       repoName: 'fsbw',
-      defaultBranch: 'main',
+      defaultBranch: fsbwBranch,
       sourceProjectPath: 'frontal-slayer',
       adapterType: 'FSBW_WEBSITE',
       runtimeBindingMode: 'HYBRID',
       sourceMaterializationEnabled: true,
-      metadata: {},
+      metadata: { bindingStatus: 'ACTIVE' },
     },
     {
       id: 'rb-fsbw-sw',
       projectId: 'mp-fsbw-sw',
       repoOwner: 'yoteenz',
       repoName: 'fsbw',
-      defaultBranch: 'main',
+      defaultBranch: fsbwBranch,
       sourceProjectPath: 'studio-world',
       adapterType: 'FSBW_STUDIO_WORLD_WEBSITE',
       runtimeBindingMode: 'HYBRID',
       sourceMaterializationEnabled: true,
-      metadata: { excludeInternalRoutes: ['/studio/', '/admin/'] },
+      metadata: { bindingStatus: 'ACTIVE', excludeInternalRoutes: ['/studio/', '/admin/'] },
     },
   ];
 }
@@ -217,10 +256,23 @@ export function memoryListManagedProjects(): Site00ManagedProjectRow[] {
   return [...projects.values()];
 }
 
+export function memoryListRepoBindings(projectKey?: string): Site00RepoBindingRow[] {
+  if (!projectKey) return [...bindings.values()];
+  const project = projects.get(projectKey);
+  if (!project) return [];
+  return [...bindings.values()].filter((b) => b.projectId === project.id);
+}
+
+export function memoryGetRepoBindingById(bindingId: string): Site00RepoBindingRow | null {
+  return bindings.get(bindingId) ?? null;
+}
+
 export function memoryGetRepoBindingForProject(projectKey: string): Site00RepoBindingRow | null {
   const project = projects.get(projectKey);
   if (!project) return null;
-  return [...bindings.values()].find((b) => b.projectId === project.id) ?? null;
+  return (
+    [...bindings.values()].find((b) => b.projectId === project.id && !isSupersededBinding(b)) ?? null
+  );
 }
 
 export function memoryGetChangeRequest(id: string): Site00ChangeRequestRecord | null {
@@ -268,11 +320,44 @@ export function memoryListReceipts(changeRequestId: string): Site00ChangeReceipt
 
 export function memoryListReadyForRepo(repoOwner: string, repoName: string): Site00ChangeRequestRecord[] {
   const bindingIds = new Set(
-    [...bindings.values()].filter((b) => b.repoOwner === repoOwner && b.repoName === repoName).map((b) => b.id),
+    [...bindings.values()]
+      .filter((b) => b.repoOwner === repoOwner && b.repoName === repoName && !isSupersededBinding(b))
+      .map((b) => b.id),
   );
   return [...requests.values()]
-    .filter((r) => r.status === 'READY_FOR_REPO' && r.repoBindingId && bindingIds.has(r.repoBindingId))
+    .filter((r) => {
+      if (r.status !== 'READY_FOR_REPO' || !r.repoBindingId || !bindingIds.has(r.repoBindingId)) {
+        return false;
+      }
+      const binding = bindings.get(r.repoBindingId) ?? null;
+      return fsbwConsumerMayConsumeRequest({
+        projectKey: r.projectKey ?? '',
+        repoBinding: binding,
+        status: r.status,
+      });
+    })
     .map((r) => memoryGetChangeRequest(r.id!)!);
+}
+
+export function memoryReconcileLegacyWrongRepoRequests(): number {
+  let blocked = 0;
+  for (const req of requests.values()) {
+    if (req.projectKey !== 'ndxbook') continue;
+    if (!['READY_FOR_REPO', 'FOUNDER_APPROVED', 'APPLYING', 'PR_CREATED'].includes(req.status)) continue;
+    const binding = req.repoBindingId ? bindings.get(req.repoBindingId) : null;
+    if (binding?.repoName === 'fsbw') {
+      memoryUpdateChangeRequest(req.id!, {
+        status: 'BLOCKED_REPO_AUTHORITY_MISMATCH',
+        metadata: {
+          ...(req.metadata ?? {}),
+          blocker: 'BLOCKED_REPO_AUTHORITY_MISMATCH',
+          reason: 'INVALID_REPO_AUTHORITY',
+        },
+      });
+      blocked += 1;
+    }
+  }
+  return blocked;
 }
 
 export function memoryCreateShellPropagation(input: {

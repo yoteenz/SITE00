@@ -1,8 +1,11 @@
 /**
  * P0.VR.3M — Managed project design adapters (website scope vs native pipelines).
+ * P0.BRIDGE.1B — NDXBOOK is SITE00-native; FSBW bridge only for cross-repo subjects.
  */
 
 import { listDesignScreensForProject } from '../p0vr2/designScreenRegistry.js';
+import { getRepoDefaultBranch } from '../../../site00-design-control-plane/repoBranchAuthority.js';
+import { getProjectAuthority } from '../../../site00-design-control-plane/projectAuthorityRegistry.js';
 import { STUDIO_WORLD_INTERNAL_ROUTE_PREFIXES } from './constants.js';
 import { getSite00ManagedProject } from './managedProjectRegistry.js';
 import type { ManagedProjectDesignAdapterScope } from './types.js';
@@ -61,27 +64,26 @@ export function getManagedProjectRepoBinding(projectKey: string): {
   defaultBranch: string;
   sourceProjectPath: string | null;
   sourceMaterializationEnabled: boolean;
+  sourceRepo: string;
+  executionMode: string;
 } | null {
   const managed = getSite00ManagedProject(projectKey);
   if (!managed) return null;
 
-  const fsbwBindings: Record<string, { sourceRepo: string; sourceProjectPath: string }> = {
-    ndxbook: { sourceRepo: 'yoteenz/fsbw', sourceProjectPath: 'ndxbook' },
-    'frontal-slayer': { sourceRepo: 'yoteenz/fsbw', sourceProjectPath: 'frontal-slayer' },
-    'all-in-one-enterprises': { sourceRepo: 'yoteenz/fsbw', sourceProjectPath: 'all-in-one-enterprises' },
-    'studio-world': { sourceRepo: 'yoteenz/fsbw', sourceProjectPath: 'studio-world' },
-  };
-
-  const binding = fsbwBindings[projectKey];
-  const sourceRepo = binding?.sourceRepo ?? managed.sourceRepo;
+  const authority = getProjectAuthority(projectKey);
+  const sourceRepo = authority?.sourceRepo ?? managed.sourceRepo;
   if (!sourceRepo) return null;
 
   const [repoOwner, repoName] = sourceRepo.split('/');
+  const defaultBranch = getRepoDefaultBranch(sourceRepo) ?? 'main';
+
   return {
     repoOwner: repoOwner ?? 'yoteenz',
-    repoName: repoName ?? 'fsbw',
-    defaultBranch: 'main',
-    sourceProjectPath: binding?.sourceProjectPath ?? managed.sourceRepo?.split('/').slice(1).join('/') ?? projectKey,
+    repoName: repoName ?? 'SITE00',
+    defaultBranch,
+    sourceProjectPath: authority?.sourceProjectKey ?? projectKey,
     sourceMaterializationEnabled: projectKey !== 'site00',
+    sourceRepo,
+    executionMode: authority?.executionMode ?? 'SITE00_NATIVE',
   };
 }

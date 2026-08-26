@@ -63,7 +63,11 @@ describe('P0.BRIDGE.1 design control plane', () => {
     const fsBinding = memoryGetRepoBindingForProject('frontal-slayer');
     expect(fsBinding?.repoOwner).toBe('yoteenz');
     expect(fsBinding?.repoName).toBe('fsbw');
+    expect(fsBinding?.defaultBranch).toBe('master');
+    const ndxBinding = memoryGetRepoBindingForProject('ndxbook');
+    expect(ndxBinding?.repoName).toBe('SITE00');
     expect(getManagedProjectRepoBinding('frontal-slayer')?.sourceProjectPath).toBe('frontal-slayer');
+    expect(getManagedProjectRepoBinding('ndxbook')?.sourceRepo).toBe('yoteenz/SITE00');
   });
 
   it('creates change request with ordered operations', () => {
@@ -100,7 +104,7 @@ describe('P0.BRIDGE.1 design control plane', () => {
   it('classifies runtime-safe vs source-code changes', () => {
     const runtime = classifyChangeExecution('PAGE_METADATA', baseOps, 'site00');
     expect(runtime.executionClass).toBe('RUNTIME_SAFE_BINDING');
-    expect(runtime.implementationMode).toBe('RUNTIME_BINDING');
+    expect(runtime.implementationMode).toBe('SITE00_NATIVE');
 
     const source = classifyChangeExecution('ADD_ROUTE', baseOps, 'frontal-slayer');
     expect(source.executionClass).toBe('SOURCE_CODE_MATERIALIZATION');
@@ -287,6 +291,7 @@ describe('P0.BRIDGE.1 design control plane', () => {
   it('Design review UI exposes prepare repo change panel', () => {
     expect(read('src/site00/components/designWorkspace/DesignRepoChangePanel.tsx')).toContain('PREPARE REPO CHANGE');
     expect(read('src/site00/components/designWorkspace/DesignRepoChangePanel.tsx')).toContain('APPROVE FOR SOURCE REPO');
+    expect(read('src/site00/components/designWorkspace/DesignRepoChangePanel.tsx')).toContain('SITE 00 NATIVE');
     expect(read('src/site00/components/founderWorkspace/StudioWorldDesignWorkspace.tsx')).toContain('DesignRepoChangePanel');
     expect(read('src/site00/styles/site00-design-workspace-p0vr2b.css')).toContain('site00-dw-repo-change');
   });
