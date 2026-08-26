@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAstralWorld } from '../../context/AstralWorldContext';
 import { TakeMeSomewherePanel } from '../../components/TakeMeSomewherePanel';
+import { AstralCinematicBg } from '../../components/AstralCinematicBg';
 
 export default function CoffeeShopPage() {
   const { tables, joinHerTable, leaveCurrentTable, userPresence, readers, selectedTableId } = useAstralWorld();
@@ -19,7 +20,7 @@ export default function CoffeeShopPage() {
     <>
       <div className="aw-desktop-only">
         <div className="aw-hero" style={{ minHeight: 240 }}>
-          <div className="aw-hero__bg aw-hero__bg--pending" aria-hidden />
+          <AstralCinematicBg variant="desktop-coffee" className="aw-hero__bg" />
           <div className="aw-hero__content" style={{ minHeight: 240 }}>
             <p className="aw-label">Astréa · Destination</p>
             <h1 className="aw-display aw-display--hero">Coffee Shop</h1>
@@ -29,7 +30,7 @@ export default function CoffeeShopPage() {
       </div>
       <div className="aw-mobile-only aw-mobile-screen">
         <div className="aw-mobile-hero">
-          <div className="aw-mobile-hero__bg aw-hero__bg--pending" aria-hidden />
+          <AstralCinematicBg variant="mobile-coffee" className="aw-mobile-hero__bg" />
           <div className="aw-hero__content" style={{ minHeight: 180 }}>
             <h1 className="aw-display" style={{ fontSize: '1.25rem' }}>Coffee Shop</h1>
           </div>

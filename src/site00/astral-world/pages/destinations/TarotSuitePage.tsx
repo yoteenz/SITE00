@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAstralWorld } from '../../context/AstralWorldContext';
 import { TakeMeSomewherePanel } from '../../components/TakeMeSomewherePanel';
+import { AstralCinematicBg } from '../../components/AstralCinematicBg';
 
 export default function TarotSuitePage() {
   const { readers, path } = useAstralWorld();
@@ -10,7 +11,7 @@ export default function TarotSuitePage() {
   return (
     <>
       <div className="aw-hero" style={{ minHeight: 220 }}>
-        <div className="aw-hero__bg aw-hero__bg--pending" aria-hidden />
+        <AstralCinematicBg variant="desktop-suite" className="aw-hero__bg" />
         <div className="aw-hero__content" style={{ minHeight: 220 }}>
           <p className="aw-label">Astréa · Destination</p>
           <h1 className="aw-display aw-display--hero">Tarot Suite</h1>

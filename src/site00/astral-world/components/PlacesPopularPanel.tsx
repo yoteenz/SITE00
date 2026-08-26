@@ -19,7 +19,7 @@ export function PlacesPopularPanel({ compact }: { compact?: boolean }) {
   );
 }
 
-export function YourWorldYourWayPanel() {
+export function YourWorldYourWayPanel({ rail }: { rail?: boolean }) {
   const { path } = useAstralWorld();
   const items = [
     { to: path('custom-avatar'), label: 'Custom Avatar', desc: 'Shape how you appear in Astral World' },
@@ -28,13 +28,15 @@ export function YourWorldYourWayPanel() {
     { to: path('daily-card'), label: 'Daily Card', desc: 'Today\'s guidance' },
   ];
   return (
-    <section className="aw-card aw-card--gold" id="your-world">
+    <section className={`aw-card aw-card--gold${rail ? ' aw-ref-yww-rail' : ''}`} id="your-world">
       <h2 className="aw-display aw-display--section">Your World, Your Way</h2>
-      <div className="aw-dest-grid">
+      <div className={rail ? 'aw-ref-yww-grid' : 'aw-dest-grid'}>
         {items.map((item) => (
           <Link key={item.to} to={item.to} className="aw-dest-card">
             <strong>{item.label}</strong>
-            <span className="aw-muted" style={{ display: 'block', fontSize: '0.75rem', marginTop: '0.25rem' }}>{item.desc}</span>
+            {!rail ? (
+              <span className="aw-muted" style={{ display: 'block', fontSize: '0.75rem', marginTop: '0.25rem' }}>{item.desc}</span>
+            ) : null}
           </Link>
         ))}
       </div>
