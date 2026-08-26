@@ -1,4 +1,5 @@
 import { useAstralWorld } from '../../context/AstralWorldContext';
+import { AstralCinematicBg } from '../../components/AstralCinematicBg';
 
 export default function AstralMallPage() {
   const { kiosks, readers, selectKiosk, joinKioskWait, selectedKioskId } = useAstralWorld();
@@ -8,7 +9,7 @@ export default function AstralMallPage() {
   return (
     <>
       <div className="aw-hero" style={{ minHeight: 200 }}>
-        <div className="aw-hero__bg aw-hero__bg--pending" aria-hidden />
+        <AstralCinematicBg variant="desktop-mall" className="aw-hero__bg" />
         <div className="aw-hero__content" style={{ minHeight: 200 }}>
           <p className="aw-label">Astréa · Destination</p>
           <h1 className="aw-display aw-display--hero">Astral Mall</h1>

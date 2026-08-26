@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAstralWorld } from '../context/AstralWorldContext';
 import { DESTINATION_PURPOSES } from '../../../../shared/site00-astral-world/types.js';
+import { AstralCinematicBg } from '../components/AstralCinematicBg';
 
 export default function AstralWorldAstreaPage() {
   const { occupancy, path, readers, friends, tables, kiosks } = useAstralWorld();
@@ -13,7 +14,7 @@ export default function AstralWorldAstreaPage() {
   return (
     <>
       <div className="aw-hero" style={{ minHeight: 200 }}>
-        <div className="aw-hero__bg aw-hero__bg--pending" aria-hidden />
+        <AstralCinematicBg variant="desktop-astrea" className="aw-hero__bg" />
         <div className="aw-hero__content" style={{ minHeight: 200 }}>
           <p className="aw-label">You are entering</p>
           <h1 className="aw-display aw-display--hero">Astréa</h1>

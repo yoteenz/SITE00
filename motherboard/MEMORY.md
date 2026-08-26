@@ -5501,5 +5501,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Context:** Sprint P0.E.FT1 — steamroll visual/product implementation on isolated debug surface while formal governance continues. Dual-track: governance intact, fast track = experimental laboratory. REFERENCE A/B not attached in VM.
 - **Delivered:** Route `/projects/astral-world/debug/world/*` (OPEN LIVE PROTOTYPE on project command). Extended `fixtureService`, `takeMeSomewhereContextEngine`, `fastTrackRegistry`. Demo session Teena with inhabited fixtures. Features: favorite readers, reader relationships, privacy + allow-friends-to-join, Places Popular Now, Your World Your Way (daily card, avatar, circle, deck), mall kiosk states, coffee shop table activity, mobile notification demo (PUSH_NOTIFICATION_DEMO). Reuses P0.E.1 shell with `mode=fast-track` + `data-fast-track-prototype`. Tests `astralWorldFastTrackFt1.test.ts` (16 pass) + P0.E.1 (22 pass). Docs: FOUNDER_FAST_TRACK, FAST_TRACK_PRODUCT_MODEL, COFFEE_SHOP, ASTRAL_MALL, TAROT_SUITE, FAST_TRACK_REFERENCE_FIDELITY, audit FT1.
 - **Governance:** CREATIVE_EXPLORATION / FOUNDER_FAST_TRACK — no canon auto-promotion. WORLD_FORMATION not required for prototype.
-- **Preserved:** Formal identity/judgment pipeline, P0.E.1 experience route, project isolation, no production payment/push/chat/3D.
+---
+
+## 2026-08-26 — P0.E.2 Astral World reference ingestion + pixel-fidelity convergence
+
+- **Context:** Founder attached REFERENCE A (desktop 1672×941) and REFERENCE B (mobile 941×1672) Supabase URLs. Sprint P0.E.2: ingest references, rebuild visuals against them, preserve all P0.E.1/FT1 functionality. KEEP FUNCTION · REBUILD LOOK.
+- **Delivered:** Ingested PNGs to `docs/projects/astral-world/references/` + public `/astral-world/bg-*-cinematic.png`. `referenceAssets.ts` (anatomy, colors, debug mode). `DesktopHomeReferenceLayout` + `MobileHomeReferenceLayout` (independent mobile authority). `AstralCinematicBg` reference crops replace all `REFERENCE_ASSET_PENDING`. Bespoke `AstralDestIcons`. Shell geometry 248/328px nav/rail; Who's Here + Your World Your Way in right rail; nav icons + user/energy card; exploration badges hidden unless `?debug=1`. Tests P0.E.2 (12 pass) + P0.E.1 (22) + FT1 (16) = 50 pass. Docs: REFERENCE_FIDELITY, references/README, audit P0E2.
+- **Fidelity:** Desktop/mobile **HIGH** (~91/90 perceptual) — interim reference crops, not pixel-exact standalone environment art.
+- **Governance:** CREATIVE_EXPLORATION / FOUNDER_FAST_TRACK unchanged; no canon promotion.
+- **Preserved:** All destination/presence/routing/join-table/notifications/journey/mobile nav functionality.
 
