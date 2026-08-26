@@ -196,7 +196,7 @@ export const PROTOTYPE_TABLES: readonly CoffeeShopTable[] = [
 
 export const PROTOTYPE_KIOSKS: readonly MallKiosk[] = [
   { id: 'kiosk-1', label: '1 Card Pull', durationMin: 5, priceUsd: 8, priceState: 'DEMO', readerId: 'reader-orion', available: true, kioskState: 'OPEN', source: FIX },
-  { id: 'kiosk-2', label: '3 Card Insight', durationMin: 10, priceUsd: 15, priceState: 'DEMO', readerId: 'reader-kai', available: true, kioskState: 'OPEN', source: FIX },
+  { id: 'kiosk-2', label: 'General Insight', durationMin: 10, priceUsd: 15, priceState: 'DEMO', readerId: 'reader-kai', available: true, kioskState: 'OPEN', source: FIX },
   { id: 'kiosk-3', label: 'Yes / No Reading', durationMin: 5, priceUsd: 7, priceState: 'DEMO', readerId: null, available: true, kioskState: 'SHORT_WAIT', source: FIX },
   { id: 'kiosk-4', label: 'Love Snapshot', durationMin: 10, priceUsd: 18, priceState: 'DEMO', readerId: 'reader-aria', available: true, kioskState: 'BUSY', source: FIX },
   { id: 'kiosk-5', label: 'Career Check-In', durationMin: 10, priceUsd: 16, priceState: 'DEMO', readerId: 'reader-orion', available: false, kioskState: 'CLOSED', source: FIX },

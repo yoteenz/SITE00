@@ -6,9 +6,15 @@ import {
   queueAstralAssetGeneration,
   queueMissingP0Assets,
   pollAstralGenerationJobs,
+  dispatchP0Batch,
+  dispatchP1Batch,
+  dispatchP2Batch,
+  activateFounderAsset,
+  supersedeAndRegenerate,
+  getProductionPreflight,
 } from '../_lib/site00AstralWorld/generationService.js';
-import { initializeMissingContracts } from '../_lib/site00AstralWorld/assetRecordStore.js';
-import { getContractBySlot } from '../../shared/site00-astral-world/generation/assetSlotRegistry.js';
+import { initializeMissingContracts, ensureAstralAssetStoreHydrated } from '../_lib/site00AstralWorld/assetRecordStore.js';
+import { getContractBySlot, P0_SLOT_KEYS, P1_SLOT_KEYS, P2_SLOT_KEYS } from '../../shared/site00-astral-world/generation/assetSlotRegistry.js';
 import { compileAstralPrompt } from '../../shared/site00-astral-world/generation/promptCompiler.js';
 
 function originFromReq(req: VercelRequest): string {
@@ -19,8 +25,8 @@ function originFromReq(req: VercelRequest): string {
 
 /**
  * Admin Astral World generation API (founder/debug only).
- * GET ?action=status|store|prompt
- * POST action=generate|generate-missing|poll
+ * GET ?action=status|store|prompt|preflight|manifest-audit
+ * POST action=generate|generate-missing|dispatch-p0|dispatch-p1|dispatch-p2|poll|activate|regenerate
  */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -38,9 +44,38 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const origin = originFromReq(req);
 
   try {
+    await ensureAstralAssetStoreHydrated();
+
     if (req.method === 'GET') {
       if (action === 'status') {
         return res.status(200).json({ ok: true, ...getAstralGenerationStatus() });
+      }
+      if (action === 'preflight') {
+        return res.status(200).json({ ok: true, preflight: getProductionPreflight() });
+      }
+      if (action === 'manifest-audit') {
+        initializeMissingContracts();
+        const store = getAstralAssetStoreSnapshot();
+        const tally = (keys: string[]) => {
+          const out: Record<string, number> = { active: 0, ready: 0, processing: 0, queued: 0, failed: 0, missing: 0 };
+          for (const key of keys) {
+            const r = store[key];
+            if (!r || r.status === 'CONTRACT_READY' || r.status === 'MISSING') out.missing += 1;
+            else if (r.status === 'ACTIVE') out.active += 1;
+            else if (r.status === 'READY') out.ready += 1;
+            else if (r.status === 'PROCESSING') out.processing += 1;
+            else if (r.status === 'QUEUED') out.queued += 1;
+            else if (r.status === 'FAILED') out.failed += 1;
+          }
+          return out;
+        };
+        return res.status(200).json({
+          ok: true,
+          manifest: 'AW_VISUAL_FOUNDATION_V1',
+          p0: tally(P0_SLOT_KEYS),
+          p1: tally(P1_SLOT_KEYS),
+          p2: tally(P2_SLOT_KEYS),
+        });
       }
       if (action === 'store') {
         initializeMissingContracts();
@@ -67,9 +102,31 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(result.ok ? 200 : 409).json({ ok: result.ok, ...result });
       }
 
-      if (postAction === 'generate-missing') {
-        const result = await queueMissingP0Assets(origin);
-        return res.status(200).json({ ok: true, ...result });
+      if (postAction === 'generate-missing' || postAction === 'dispatch-p0') {
+        const result = await dispatchP0Batch(origin);
+        return res.status(200).json({ ok: true, batch: 'P0', ...result });
+      }
+
+      if (postAction === 'dispatch-p1') {
+        const result = await dispatchP1Batch(origin);
+        return res.status(200).json({ ok: true, batch: 'P1', ...result });
+      }
+
+      if (postAction === 'dispatch-p2') {
+        const result = await dispatchP2Batch(origin);
+        return res.status(200).json({ ok: true, batch: 'P2', ...result });
+      }
+
+      if (postAction === 'activate') {
+        const slotKey = String(body.slotKey ?? '').trim();
+        const result = activateFounderAsset(slotKey);
+        return res.status(result.ok ? 200 : 409).json({ ok: result.ok, ...result });
+      }
+
+      if (postAction === 'regenerate') {
+        const slotKey = String(body.slotKey ?? '').trim();
+        const result = await supersedeAndRegenerate(slotKey, origin);
+        return res.status(result.ok ? 200 : 409).json({ ok: result.ok, ...result });
       }
 
       if (postAction === 'poll') {

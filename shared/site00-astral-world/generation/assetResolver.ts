@@ -163,8 +163,9 @@ export function sanitizeClientAssetMap(
 ): Record<string, { url: string; source: ResolvedAstralAsset['source'] }> {
   const out: Record<string, { url: string; source: ResolvedAstralAsset['source'] }> = {};
   for (const slotKey of Object.keys(store)) {
-    const resolved = resolveAstralAsset(slotKey as AstralAssetSlotKey, store, origin);
-    if (resolved.source === 'ACTIVE' || resolved.source === 'READY') {
+    const record = store[slotKey as AstralAssetSlotKey];
+    if (record?.status === 'ACTIVE' && record.outputUrl) {
+      const resolved = resolveAstralAsset(slotKey as AstralAssetSlotKey, store, origin);
       out[slotKey] = { url: resolved.url, source: resolved.source };
     }
   }
