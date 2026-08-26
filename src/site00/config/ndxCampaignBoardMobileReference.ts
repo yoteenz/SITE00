@@ -1,5 +1,7 @@
 /**
  * P0.VR.1D.6 — Mobile Campaign Board reference snapshot (visual reconstruction authority).
+ * Static week/day constants below are reference-lineage only — runtime UI uses
+ * `resolveCampaignBoardWeekCalendar()` for live local dates.
  */
 
 export const NDX_CAMPAIGN_BOARD_REFERENCE_PATH =

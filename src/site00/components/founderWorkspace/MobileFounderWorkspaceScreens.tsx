@@ -16,9 +16,6 @@ import {
   site00ProjectFounderCharacterDiscoveryPath,
 } from '../../config/routes';
 import {
-  NDX_CAMPAIGN_BOARD_DATE_RANGE,
-  NDX_CAMPAIGN_BOARD_DAYS,
-  NDX_CAMPAIGN_BOARD_WEEK,
   NDX_CAMPAIGN_MARGIN_CARDS,
   NDX_CAMPAIGN_MARGINS_PER_DAY,
   NDX_CAMPAIGN_MOTION,
@@ -26,6 +23,7 @@ import {
   NDX_CAMPAIGN_PAGE_CARDS,
   NDX_CAMPAIGN_PAGES_PER_DAY,
 } from '../../config/ndxCampaignBoardMobileReference';
+import { useCampaignBoardWeekCalendar } from '../../hooks/useCampaignBoardWeekCalendar';
 import {
   NDX_CHARACTER_LAB_DEFAULT_TAB,
   NDX_CHARACTER_LAB_LANGUAGE_NOTE_EMPHASIS,
@@ -77,8 +75,6 @@ type ScreenProps = {
   projectSlug: string;
 };
 
-const CAMPAIGN_DAYS = NDX_CAMPAIGN_BOARD_DAYS;
-
 function CampaignSectionHead({
   label,
   count,
@@ -108,9 +104,8 @@ function CampaignSectionHead({
 export function MobileCampaignBoardScreen({ projectSlug }: ScreenProps) {
   const boardPath = site00ProjectContentOperationsCampaignBoardPath(projectSlug);
   const filmPath = site00ProjectFilmProductionPath(projectSlug);
-  const [activeDayId, setActiveDayId] = useState(
-    () => NDX_CAMPAIGN_BOARD_DAYS.find((d) => d.active)?.id ?? NDX_CAMPAIGN_BOARD_DAYS[0]?.id,
-  );
+  const week = useCampaignBoardWeekCalendar();
+  const [activeDayId, setActiveDayId] = useState(() => week.todayId);
 
   return (
     <div
@@ -120,8 +115,8 @@ export function MobileCampaignBoardScreen({ projectSlug }: ScreenProps) {
     >
       <div className="site00-fws-mobile-campaign__title-block" {...vrRegionAttr(NDX_VR_REGION.campaignTitle)}>
         <p className="site00-fws-mobile-campaign__eyebrow">CAMPAIGN BOARD</p>
-        <h2 className="site00-fws-mobile-campaign__week">{NDX_CAMPAIGN_BOARD_WEEK}</h2>
-        <p className="site00-fws-mobile-campaign__date">{NDX_CAMPAIGN_BOARD_DATE_RANGE}</p>
+        <h2 className="site00-fws-mobile-campaign__week">{week.weekLabel}</h2>
+        <p className="site00-fws-mobile-campaign__date">{week.dateRangeLabel}</p>
       </div>
 
       <div
@@ -129,13 +124,14 @@ export function MobileCampaignBoardScreen({ projectSlug }: ScreenProps) {
         role="list"
         {...vrRegionAttr(NDX_VR_REGION.campaignDaySelector)}
       >
-        {CAMPAIGN_DAYS.map((day) => (
+        {week.days.map((day) => (
           <button
             key={day.id}
             type="button"
             role="listitem"
-            className={`site00-fws-mobile-campaign__day${day.id === activeDayId ? ' site00-fws-mobile-campaign__day--active' : ''}`}
+            className={`site00-fws-mobile-campaign__day${day.id === activeDayId ? ' site00-fws-mobile-campaign__day--active' : ''}${day.active ? ' site00-fws-mobile-campaign__day--today' : ''}`}
             aria-pressed={day.id === activeDayId}
+            aria-current={day.active ? 'date' : undefined}
             onClick={() => setActiveDayId(day.id)}
           >
             <span className="site00-fws-mobile-campaign__day-letter">{day.letter}</span>

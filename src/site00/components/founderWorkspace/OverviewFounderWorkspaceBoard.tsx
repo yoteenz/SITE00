@@ -20,6 +20,8 @@ import {
   NDX_OVERVIEW_RADAR_VIEW_ALL,
   NDX_OVERVIEW_REFERENCE_METRICS,
 } from '../../config/ndxOverviewMobileReference';
+import { useCampaignBoardWeekCalendar } from '../../hooks/useCampaignBoardWeekCalendar';
+import { formatCampaignBoardHubDayLabel } from '../../utils/campaignBoardWeekCalendar';
 
 type Props = {
   projectSlug: string;
@@ -36,8 +38,6 @@ const RADAR_ITEMS = [
   'Late Fees Across Decades',
   'Airline Loyalty Normalization',
 ];
-
-const CAMPAIGN_DAYS = ['Mon 25', 'Tue 26', 'Wed 27', 'Thu 28', 'Fri 29', 'Sat 30', 'Sun 31'];
 
 const EXPERIMENT_TILES = [
   'I HAVE A THEORY',
@@ -99,6 +99,8 @@ function TapeCard({
 
 export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
   const experimentPath = site00ProjectBrandMarketingExpressionExperiment01Path(projectSlug);
+  const campaignWeek = useCampaignBoardWeekCalendar();
+  const campaignHubDays = campaignWeek.days.map((d) => formatCampaignBoardHubDayLabel(d.date));
 
   return (
     <div
@@ -166,17 +168,17 @@ export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
         </TapeCard>
 
         <TapeCard
-          title="CAMPAIGN BOARD · WEEK 01"
+          title={`CAMPAIGN BOARD · ${campaignWeek.weekLabel}`}
           href={site00ProjectContentOperationsCampaignBoardPath(projectSlug)}
           className="site00-fws-hub-tape--campaign"
           vrScope={NDX_VR_SCOPE.desktopCampaignBoardPanel}
         >
-          <p className="site00-fws-hub-meta">May 24 – May 30</p>
+          <p className="site00-fws-hub-meta">{campaignWeek.dateRangeLabel}</p>
           <div className="site00-fws-hub-days">
-            {CAMPAIGN_DAYS.map((day, index) => (
+            {campaignHubDays.map((day, index) => (
               <span
                 key={day}
-                className={`site00-fws-hub-days__chip${index === 0 ? ' site00-fws-hub-days__chip--active' : ''}`}
+                className={`site00-fws-hub-days__chip${campaignWeek.days[index]?.active ? ' site00-fws-hub-days__chip--active' : ''}`}
               >
                 {day}
               </span>

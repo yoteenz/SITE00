@@ -8,6 +8,7 @@ import {
   CampaignBoardProductionWall,
 } from '../components/founderWorkspace/CampaignBoardProductionWall';
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
+import { resolveTodayCampaignDayShortId } from '../utils/campaignBoardWeekCalendar';
 import type { MarketingCampaignProductionRun } from '../../../shared/site00-studio-world-production/marketingCampaignProduction/types';
 import '../styles/site00-founder-workspace.css';
 
@@ -19,7 +20,7 @@ export default function ProjectContentOperationsCampaignBoardPage() {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [clientMode, setClientMode] = useState(false);
-  const [selectedDay, setSelectedDay] = useState('mon');
+  const [selectedDay, setSelectedDay] = useState(() => resolveTodayCampaignDayShortId());
 
   const reload = useCallback(async () => {
     if (!hasProjectCapability(projectSlug, 'CONTENT_OPERATIONS')) return;
