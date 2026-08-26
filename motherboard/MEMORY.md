@@ -5401,3 +5401,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** Account NEEDS_FUNCTIONAL_REVIEW, Sound content-blocked, Blueprints/Brand creative, NDXBOOK 13 registrations, project canon boundaries.
 
 ---
+
+## 2026-08-26 — P0.VR.3J.2 registry persistence follow-up (27/27 committed)
+
+- **Context:** P0.VR.3J.2 execution ran locally and uploaded captures to Supabase, but committed registry on `main` after PR #498 still had 24/27 CURRENT (3 Account AUTH_BLOCKED historical only). Follow-up commit needed so persistent metadata matches execution.
+- **Delivered:** PR #499 merged @ `527aff6` — `implementation-snapshot-persistent-registry.json` now includes 9 new CURRENT records (3 Account CUSTOMER auth, 3 Language Lab FAMILY SOURCE, 3 Voice Lab COMPOSER DERIVED DRAFT) with `vitest.local` publicUrl placeholders (hydration resolves storage paths at runtime). Historical 3 AUTH_BLOCKED Account records preserved.
+- **Core rule:** Execution artifacts must land in P0.VR.3E persistent registry in git — not only in-memory/remote storage from a dev run.
+
+---
