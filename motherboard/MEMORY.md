@@ -5309,3 +5309,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** P0.VR.2 reconstruction pipeline, P0.VR.2A asset slot/FAL pipeline, canonical references, mobile/desktop authority separation.
 
 ---
+
+## 2026-08-26 — P0.PAF.1 Frontal Slayer Product Asset Factory
+
+- **Context:** Founder sprint P0.PAF.1 — dedicated Frontal Slayer product-image production pipeline separate from SITE 00 visual reconstruction. Master hero = product visual authority; Build-A-Wig variant matrix + Product Page color derivatives; concurrent FAL batch generation; Supabase asset canon with lineage.
+- **Delivered:** `productAssetFactory/p0paf1/` module — `ProductMasterHero`, `ProductHeroDecomposition`, `ProductEditRegionMap`, hair color/style registries, `ValidProductConfigurationGraph`, `ProductVariantMatrix`, `VisualVariationDependencyMap`, `ProductVariantPromptCompiler` (image-reference primary; text-to-image blocked for canonical derivatives), FAL provider routing, `VariantGenerationConcurrencyPolicy`, batch pipeline with cost gate + selective retry/resume/cancel, `ProductIdentityQa`, structured Supabase storage paths, `ProductVisualAssetRecord` + duplicate/idempotency detection, batch notifications. API `api/_lib/site00ProductAssets/service.ts`. UI route `/projects/frontal-slayer/product-assets` — `ProductAssetFactoryWorkspace` (BUILD-A-WIG + PRODUCT PAGE modes). Tests `productAssetFactoryP0PAF1.test.ts` (31 pass). Build green (`ProjectProductAssetFactoryPage.BWfKFjpe.js`).
+- **Core rule:** One approved master hero → many controlled variants. Lock everything except founder-selected attributes. Image-reference edit only for canonical derivatives.
+- **Preserved:** Six signature unit visual canon (read-only registry, no commerce SKU mutation), SITE 00 host canon, historical asset lineage.
+
+---

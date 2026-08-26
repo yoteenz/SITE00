@@ -109,6 +109,8 @@ export const SITE00_ROUTES = {
   projectExperiments: '/projects/:projectSlug/experiments',
   projectLab: '/projects/:projectSlug/lab',
   projectDesign: '/projects/:projectSlug/design',
+  /** Frontal Slayer product asset factory (P0.PAF.1) */
+  projectProductAssets: '/projects/:projectSlug/product-assets',
   projectFounderWorkspaceArchive: '/projects/:projectSlug/archive',
   projectNdxIconSheet: '/projects/:projectSlug/inspect/icons',
   projectNotifications: '/projects/:projectSlug/notifications',
@@ -369,6 +371,10 @@ export function site00ProjectLabPath(projectSlug: string): string {
 
 export function site00ProjectDesignPath(projectSlug: string): string {
   return `/projects/${projectSlug}/design`;
+}
+
+export function site00ProjectProductAssetsPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/product-assets`;
 }
 
 export function site00StudioWorldDesignPath(): string {

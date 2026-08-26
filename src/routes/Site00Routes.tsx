@@ -134,6 +134,11 @@ const ProjectLabHubPage = lazy(() => import('../site00/pages/ProjectLabHubPage')
 const StudioWorldDesignPage = lazy(() =>
   import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.StudioWorldDesignPage })),
 );
+const ProjectProductAssetFactoryPage = lazy(() =>
+  import('../site00/pages/ProjectProductAssetFactoryPage').then((m) => ({
+    default: m.ProjectProductAssetFactoryPage,
+  })),
+);
 const ProjectDesignWorkspacePage = lazy(() =>
   import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.ProjectDesignWorkspacePage })),
 );
@@ -682,6 +687,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <StudioWorldDesignPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectProductAssets}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectProductAssetFactoryPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>
