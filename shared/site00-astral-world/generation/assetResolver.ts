@@ -9,6 +9,10 @@ import {
   getReferenceCrop,
   type ReferenceCropKey,
 } from '../referenceCropRegistry.js';
+import {
+  getIsolatedPortrait,
+  isolatedPortraitStyle,
+} from '../portraitAssetRegistry.js';
 import { ASTRAL_REFERENCE_DESKTOP, ASTRAL_REFERENCE_MOBILE } from '../referenceAssets.js';
 import {
   cropKeyFromSlot,
@@ -100,6 +104,19 @@ export function resolvePortraitAsset(
   const slot = portraitSlotFromPersonId(personId);
   const resolved = resolveAstralAsset(slot, store, origin);
   if (resolved.source !== 'FALLBACK') return resolved;
+
+  const isolated = getIsolatedPortrait(personId);
+  if (isolated) {
+    const style = isolatedPortraitStyle(isolated);
+    const url = style.backgroundImage.match(/url\(([^)]+)\)/)?.[1]?.replace(/['"]/g, '') ?? isolated.src;
+    return {
+      slotKey: isolated.falSlotKey,
+      source: 'REFERENCE',
+      url: url.startsWith('http') ? url : `${origin ?? ''}${url}`,
+      backgroundPosition: style.backgroundPosition,
+      backgroundSize: style.backgroundSize,
+    };
+  }
 
   const crop = getPortraitCrop(personId);
   if (crop) {

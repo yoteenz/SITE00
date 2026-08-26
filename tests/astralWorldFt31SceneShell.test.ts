@@ -105,11 +105,11 @@ describe('P0.E.FT3.1 Astral World Scene-First Shell', () => {
 
   it('FT31-8 — contextual drawers and overlays used instead of full utility pages on mobile', () => {
     const mall = readFileSync('src/site00/astral-world/components/scenes/MobileAstralMallScene.tsx', 'utf8');
-    expect(mall).toContain('AstralDrawer');
+    expect(mall).toContain('AstralKioskTray');
     expect(mall).toContain('AstralHotspotLayer');
     const readers = readFileSync('src/site00/astral-world/components/scenes/MobileFindReaderScene.tsx', 'utf8');
-    expect(readers).toContain('aw-reader-carousel');
-    expect(readers).toContain('AstralDrawer');
+    expect(readers).toContain('AstralReaderOrbit');
+    expect(readers).toContain('ReaderDetailTray');
     const coffee = readFileSync('src/site00/astral-world/components/scenes/MobileCoffeeShopScene.tsx', 'utf8');
     expect(coffee).toContain('Join Her Table');
   });
