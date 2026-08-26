@@ -159,6 +159,7 @@ export const SITE00_ROUTES = {
   appSplash: '/app',
   appProjects: '/app/projects',
   appProjectRoot: '/app/projects/:projectSlug/*',
+  appPreviewSelect: '/app/preview/select',
   appPreviewRoot: '/app/preview/:projectSlug/*',
   /** Guest secure intake access/resume — no sign-in required */
   intakeGuestAccess: '/intake/access/:token',

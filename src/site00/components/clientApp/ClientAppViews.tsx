@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import type { ClientActivityEvent } from '../../../../shared/site00-client-project-room/types.js';
 import type {
   ClientAppDecision,
@@ -9,16 +10,23 @@ import type {
 import {
   AppCard,
   AppPrimaryButton,
+  AppSecondaryButton,
   AppSectionLabel,
   AppStatusDot,
   AppWaveform,
 } from './Site00ClientAppShell';
+import { useAppPaths } from '../../hooks/useAppBasePath';
+import { site00ClientAppApi } from '../../services/clientAppApi';
+import { useIsAppPreview } from '../../hooks/useAppBasePath';
 
 type ProjectPulseHomeProps = {
   manifest: ClientAppManifest;
 };
 
-export function ProjectPulseHome({ manifest }: ProjectPulseHomeProps) {
+export function ProjectPulseHome({
+  manifest,
+  onReload,
+}: ProjectPulseHomeProps & { onReload?: () => void }) {
   const pulse = manifest.appExperience.projectPulse;
   const opportunity = pulse.activeOpportunity;
 
@@ -39,7 +47,7 @@ export function ProjectPulseHome({ manifest }: ProjectPulseHomeProps) {
           <div className="site00-app-home__signal">{pulse.projectSignal.replace(/_/g, ' ')}</div>
         </AppCard>
 
-        {opportunity ? <OpportunityCard manifest={manifest} /> : null}
+        {opportunity ? <OpportunityCard manifest={manifest} onReload={onReload} /> : null}
       </div>
     );
   }
@@ -62,7 +70,7 @@ export function ProjectPulseHome({ manifest }: ProjectPulseHomeProps) {
           <AppCard className="site00-app-home__action-card">
             <h3>{pulse.nextForYou.title}</h3>
             <p>{pulse.nextForYou.description}</p>
-            <Link to={pulse.nextForYou.route.replace('/client/projects/', '/app/projects/')} className="site00-app-link-cta">
+            <Link to={resolveAppRoute(pulse.nextForYou.route, manifest.projectSlug)} className="site00-app-link-cta">
               {pulse.nextForYou.ctaLabel} →
             </Link>
           </AppCard>
@@ -98,21 +106,70 @@ export function ProjectPulseHome({ manifest }: ProjectPulseHomeProps) {
         <div className="site00-app-home__signal">{pulse.projectSignal.replace(/_/g, ' ')}</div>
       </AppCard>
 
-      {opportunity && !pulse.nextForYou ? <OpportunityCard manifest={manifest} /> : null}
+      {opportunity && !pulse.nextForYou ? <OpportunityCard manifest={manifest} onReload={onReload} /> : null}
     </div>
   );
 }
 
-function OpportunityCard({ manifest }: { manifest: ClientAppManifest }) {
+function resolveAppRoute(route: string, projectSlug: string): string {
+  if (route.startsWith('/app/')) return route;
+  return route
+    .replace('/client/projects/', '/app/projects/')
+    .replace(`/client/projects/${projectSlug}`, `/app/projects/${projectSlug}`);
+}
+
+function OpportunityCard({
+  manifest,
+  onReload,
+}: {
+  manifest: ClientAppManifest;
+  onReload?: () => void;
+}) {
   const opp = manifest.appExperience.projectPulse.activeOpportunity;
-  if (!opp) return null;
+  const isPreview = useIsAppPreview();
+  const storageKey = `site00-app-dismiss-${manifest.projectSlug}-${opp?.recommendedOffer ?? ''}`;
+  const [dismissed, setDismissed] = useState(() =>
+    isPreview ? sessionStorage.getItem(storageKey) === '1' : false,
+  );
+
+  useEffect(() => {
+    if (isPreview && sessionStorage.getItem(storageKey) === '1') setDismissed(true);
+  }, [isPreview, storageKey]);
+
+  if (!opp || dismissed) return null;
+
+  async function handleExplore() {
+    if (isPreview) return;
+    try {
+      await site00ClientAppApi.opportunityInterest(manifest.projectSlug, opp!.recommendedOffer, 'VIEWED');
+    } catch {
+      /* non-blocking */
+    }
+  }
+
+  async function handleMaybeLater() {
+    if (isPreview) {
+      sessionStorage.setItem(storageKey, '1');
+      setDismissed(true);
+      return;
+    }
+    try {
+      await site00ClientAppApi.opportunityInterest(manifest.projectSlug, opp!.recommendedOffer, 'DISMISSED');
+      setDismissed(true);
+      await onReload?.();
+    } catch {
+      setDismissed(true);
+    }
+  }
+
   return (
     <>
-      <AppSectionLabel>WHILE YOU WAIT</AppSectionLabel>
+      <AppSectionLabel>{manifest.appExperience.projectPulse.isPostLaunch ? "WHAT'S NEXT" : 'WHILE YOU WAIT'}</AppSectionLabel>
       <AppCard className="site00-app-opportunity-card">
         <div className="site00-app-opportunity-card__eyebrow">{opp.recommendedOffer}</div>
         <p>{opp.message}</p>
-        <AppPrimaryButton>{opp.cta}</AppPrimaryButton>
+        <AppPrimaryButton onClick={() => void handleExplore()}>{opp.cta}</AppPrimaryButton>
+        <AppSecondaryButton onClick={() => void handleMaybeLater()}>MAYBE LATER</AppSecondaryButton>
       </AppCard>
     </>
   );
@@ -121,11 +178,18 @@ function OpportunityCard({ manifest }: { manifest: ClientAppManifest }) {
 export function ProjectMapView({ manifest }: { manifest: ClientAppManifest }) {
   return (
     <div className="site00-app-project-map">
+      <div className="site00-app-project-map__line" aria-hidden="true" />
       {manifest.phases.map((phase) => (
-        <div key={phase.id} className={`site00-app-phase-row site00-app-phase-row--${phase.state.toLowerCase()}`}>
-          <span className="site00-app-phase-row__index">{phase.index}</span>
-          <span className="site00-app-phase-row__label">{phase.label}</span>
-          <span className="site00-app-phase-row__state">{phase.state.replace(/_/g, ' ')}</span>
+        <div
+          key={phase.id}
+          className={`site00-app-phase-row site00-app-phase-row--${phase.state.toLowerCase()}`}
+        >
+          <span className="site00-app-phase-row__node" aria-hidden="true" />
+          <div className="site00-app-phase-row__content">
+            <span className="site00-app-phase-row__index">{String(phase.index).padStart(2, '0')}</span>
+            <span className="site00-app-phase-row__label">{phase.label}</span>
+            <span className="site00-app-phase-row__state">{phase.state.replace(/_/g, ' ')}</span>
+          </div>
         </div>
       ))}
     </div>
@@ -237,6 +301,7 @@ export function BehindProjectView({ manifest }: { manifest: ClientAppManifest })
 }
 
 export function ProjectHubNav({ projectSlug, active }: { projectSlug: string; active: string }) {
+  const paths = useAppPaths(projectSlug);
   const sections = [
     { id: 'map', label: 'PROJECT MAP' },
     { id: 'build', label: 'THE BUILD' },
@@ -251,7 +316,7 @@ export function ProjectHubNav({ projectSlug, active }: { projectSlug: string; ac
       {sections.map((s) => (
         <Link
           key={s.id}
-          to={`/app/projects/${projectSlug}/project/${s.id}`}
+          to={paths.project(s.id)}
           className={`site00-app-subnav__link${active === s.id ? ' is-active' : ''}`}
         >
           {s.label}

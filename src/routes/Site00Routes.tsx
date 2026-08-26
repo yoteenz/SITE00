@@ -236,6 +236,7 @@ const AppLibraryCategoryPage = lazy(() =>
 const AppPreviewLayout = lazy(() =>
   import('../site00/pages/clientApp/AppPreviewLayout').then((m) => ({ default: m.AppPreviewLayout })),
 );
+const AppPreviewSelectPage = lazy(() => import('../site00/pages/clientApp/AppPreviewSelectPage'));
 const AppFileViewerPage = lazy(() =>
   import('../site00/pages/clientApp/AppLibraryPage').then((m) => ({ default: m.AppFileViewerPage })),
 );
@@ -1911,6 +1912,54 @@ export function Site00Routes() {
           }
         />
         <Route
+          path="reviews/:reviewId/compare"
+          element={
+            <Site00Suspense>
+              <AppReviewDetailPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="reviews/:reviewId/comments"
+          element={
+            <Site00Suspense>
+              <AppReviewDetailPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="reviews/:reviewId/annotations"
+          element={
+            <Site00Suspense>
+              <AppReviewDetailPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="reviews/:reviewId/approve"
+          element={
+            <Site00Suspense>
+              <AppReviewDetailPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="reviews/:reviewId/revision"
+          element={
+            <Site00Suspense>
+              <AppReviewDetailPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="reviews/:reviewId/history"
+          element={
+            <Site00Suspense>
+              <AppReviewDetailPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
           path="inbox"
           element={
             <Site00Suspense>
@@ -1952,6 +2001,16 @@ export function Site00Routes() {
         />
       </Route>
       <Route
+        path={SITE00_ROUTES.appPreviewSelect}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <AppPreviewSelectPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
         path={SITE00_ROUTES.appPreviewRoot}
         element={
           <Site00Layout>
@@ -1964,8 +2023,18 @@ export function Site00Routes() {
         <Route index element={<Site00Suspense><AppHomePage /></Site00Suspense>} />
         <Route path="project/:section" element={<Site00Suspense><AppProjectHubPage /></Site00Suspense>} />
         <Route path="reviews" element={<Site00Suspense><AppReviewsQueuePage /></Site00Suspense>} />
+        <Route path="reviews/:reviewId" element={<Site00Suspense><AppReviewDetailPage /></Site00Suspense>} />
+        <Route path="reviews/:reviewId/compare" element={<Site00Suspense><AppReviewDetailPage /></Site00Suspense>} />
+        <Route path="reviews/:reviewId/comments" element={<Site00Suspense><AppReviewDetailPage /></Site00Suspense>} />
+        <Route path="reviews/:reviewId/annotations" element={<Site00Suspense><AppReviewDetailPage /></Site00Suspense>} />
+        <Route path="reviews/:reviewId/approve" element={<Site00Suspense><AppReviewDetailPage /></Site00Suspense>} />
+        <Route path="reviews/:reviewId/revision" element={<Site00Suspense><AppReviewDetailPage /></Site00Suspense>} />
+        <Route path="reviews/:reviewId/history" element={<Site00Suspense><AppReviewDetailPage /></Site00Suspense>} />
         <Route path="inbox" element={<Site00Suspense><AppInboxPage /></Site00Suspense>} />
+        <Route path="inbox/:threadId" element={<Site00Suspense><AppInboxThreadPage /></Site00Suspense>} />
         <Route path="library" element={<Site00Suspense><AppLibraryPage /></Site00Suspense>} />
+        <Route path="library/:categoryId" element={<Site00Suspense><AppLibraryCategoryPage /></Site00Suspense>} />
+        <Route path="library/:categoryId/:fileId" element={<Site00Suspense><AppFileViewerPage /></Site00Suspense>} />
       </Route>
       <Route
         path={SITE00_ROUTES.accessDebug}
