@@ -5468,3 +5468,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Core rule:** Execution artifacts must land in P0.VR.3E persistent registry in git — not only in-memory/remote storage from a dev run.
 
 ---
+
+## 2026-08-26 — P0.APP.1 Client-only mobile app reconstruction + lifecycle engine foundation
+
+- **Context:** Founder attached master mobile app presentation board (25 screens). Reconstruct dedicated `/app` client companion on top of P0.CLIENT.1 manifest + P0.CLIENT.2 reviews — not admin, not generic SaaS, not website UI 1:1.
+- **Delivered:** `shared/site00-client-app/` — `ClientAppManifest` extends `ClientProjectManifest` with `appExperience` (pulse, build progress, milestones, tasks, decisions, BTS, opportunities, onboarding, badges, notification contract, native capability layer). Opportunity engine with suppression/eligibility (never offer purchased Marketing; max 1 primary; client action priority). API `/api/site00/client-app` (manifest, projects, inbox, library, activate CLIENT_PROJECT_ACTIVATED, opportunity interest, calendar export contract). Routes `/app` splash, `/app/projects` select, `/app/projects/:slug/*` authenticated shell with bottom nav HOME·PROJECT·REVIEWS·INBOX·LIBRARY; dev preview `/app/preview/:fixtureSlug/*` for QA fixtures A–G. UI `site00-client-app.css` + components (pulse, map, build, tasks, decisions, activity, BTS, inbox, library, file viewer, opportunity card, post-launch home). Web Project Room app CTA via `ClientAppWebPromotion`. Tests `clientAppP0App1.test.ts` (11 pass). Browser QA screenshot `client-app-home-pulse-fixed.png`.
+- **Core rule:** Attached reference wins visually; project first, opportunity second; shared backend truth with web; no duplicate shadow DB; accent only in designated slots.
+- **Preserved:** P0.CLIENT.1 web Project Room, P0.CLIENT.2 review governance, admin Projects/Design, P0.BRIDGE, no FAL.
+
+---
