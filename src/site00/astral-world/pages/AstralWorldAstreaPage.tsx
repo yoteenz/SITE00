@@ -1,8 +1,9 @@
-import { useAstralWorld } from '../context/AstralWorldContext';
 import { DESTINATION_PURPOSES } from '../../../../shared/site00-astral-world/types.js';
+import { useAstralWorld } from '../context/AstralWorldContext';
 import { AstralScene } from '../components/immersive/AstralScene';
 import { AstralEnvironmentCard } from '../components/immersive/AstralEnvironmentCard';
 import { destinationCropKeys } from '../components/immersive/immersiveHelpers';
+import { MobileAstreaScene } from '../components/scenes/MobileAstreaScene';
 
 const DEST_ACCENT: Record<string, 'suite' | 'mall' | 'coffee'> = {
   'tarot-suite': 'suite',
@@ -16,7 +17,7 @@ const DEST_ACTIVITY: Record<string, string> = {
   'coffee-shop': 'Tables active · joinable now',
 };
 
-export default function AstralWorldAstreaPage() {
+function DesktopAstreaLayout() {
   const { occupancy, path, readers, friends, tables, kiosks } = useAstralWorld();
   const readersOnline = readers.filter((r) => r.presence !== 'OFFLINE').length;
   const friendsHere = friends.length;
@@ -61,8 +62,16 @@ export default function AstralWorldAstreaPage() {
             );
           })}
         </div>
-        <p className="aw-muted aw-desktop-only" style={{ marginTop: '0.75rem' }}>Future districts remain structurally possible beyond Astréa.</p>
       </div>
     </div>
+  );
+}
+
+export default function AstralWorldAstreaPage() {
+  return (
+    <>
+      <div className="aw-desktop-only"><DesktopAstreaLayout /></div>
+      <div className="aw-mobile-only aw-route-scene"><MobileAstreaScene /></div>
+    </>
   );
 }

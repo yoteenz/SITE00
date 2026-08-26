@@ -4,8 +4,9 @@ import { TakeMeSomewherePanel } from '../../components/TakeMeSomewherePanel';
 import { AstralScene } from '../../components/immersive/AstralScene';
 import { AstralPortrait } from '../../components/immersive/AstralPortrait';
 import { personDisplay } from '../../components/immersive/immersiveHelpers';
+import { MobileCoffeeShopScene } from '../../components/scenes/MobileCoffeeShopScene';
 
-export default function CoffeeShopPage() {
+function DesktopCoffeeShopLayout() {
   const { tables, joinHerTable, leaveCurrentTable, userPresence, readers, friends, selectedTableId } = useAstralWorld();
   const [message, setMessage] = useState<string | null>(null);
   const [viewTableId, setViewTableId] = useState<string | null>(null);
@@ -30,7 +31,7 @@ export default function CoffeeShopPage() {
       <AstralScene crop="COFFEE_SHOP" minHeight={340}>
         <p className="aw-label">Astréa · Destination</p>
         <h1 className="aw-display aw-display--hero">Coffee Shop</h1>
-        <p className="aw-muted">Conversation · comfort · community · people sitting here</p>
+        <p className="aw-muted">Conversation · comfort · community</p>
       </AstralScene>
       <div className="aw-table-overlay-grid">
         {tables.map((table, idx) => {
@@ -39,8 +40,6 @@ export default function CoffeeShopPage() {
             <div key={table.id} className={`aw-table-overlay${full ? ' aw-table-card--full' : ''}`}>
               <div className="aw-label">Table {idx + 1}</div>
               <strong>{table.name}</strong>
-              <p className="aw-muted">{table.occupants.length}/{table.capacity} · {full ? 'Table Full' : 'Joinable'}</p>
-              {table.activityNote ? <p className="aw-muted">{table.activityNote}</p> : null}
               <div className="aw-portrait-row">
                 {table.occupants.map((id) => {
                   const p = personDisplay(id, lookup);
@@ -49,12 +48,10 @@ export default function CoffeeShopPage() {
                   );
                 })}
               </div>
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginTop: '0.5rem' }}>
-                {!full ? (
-                  <button type="button" className="aw-btn-primary" onClick={() => handleJoin(table.id)}>Join Her Table</button>
-                ) : null}
-                <button type="button" className="aw-btn-secondary" onClick={() => setViewTableId(table.id)}>View People Here</button>
-              </div>
+              {!full ? (
+                <button type="button" className="aw-btn-primary" onClick={() => handleJoin(table.id)}>Join Her Table</button>
+              ) : null}
+              <button type="button" className="aw-btn-secondary" onClick={() => setViewTableId(table.id)}>View People Here</button>
             </div>
           );
         })}
@@ -65,9 +62,8 @@ export default function CoffeeShopPage() {
       </div>
       {activeTable ? (
         <section className="aw-card" style={{ margin: '0 0.75rem 1rem' }}>
-          <h2 className="aw-display aw-display--section">{activeTable.name} · Activity</h2>
-          <p className="aw-muted">{activeTable.activityNote ?? 'Prototype table conversation panel — real-time chat architecture reserved for later.'}</p>
-          <p className="aw-muted">{activeTable.occupants.length} people here</p>
+          <h2 className="aw-display aw-display--section">{activeTable.name}</h2>
+          <p className="aw-muted">{activeTable.activityNote}</p>
         </section>
       ) : null}
       {shopReaders.length ? (
@@ -88,5 +84,14 @@ export default function CoffeeShopPage() {
         <TakeMeSomewherePanel compact />
       </div>
     </div>
+  );
+}
+
+export default function CoffeeShopPage() {
+  return (
+    <>
+      <div className="aw-desktop-only"><DesktopCoffeeShopLayout /></div>
+      <div className="aw-mobile-only aw-route-scene"><MobileCoffeeShopScene /></div>
+    </>
   );
 }

@@ -3,12 +3,13 @@ import { AstralWorldProvider } from '../context/AstralWorldContext';
 import { AstralWorldDesktopNav, AstralWorldMobileNav } from './AstralWorldNav';
 import { AstralWorldRightRail } from './AstralWorldRightRail';
 import { AstralGenerationDebugPanel } from './AstralGenerationDebugPanel';
+import { AstralSceneTransition } from './immersive/AstralSceneTransition';
 import { isAstralDebugMode } from '../../../../shared/site00-astral-world/referenceAssets.js';
 import type { AstralWorldRouteMode } from '../../../../shared/site00-astral-world/routes.js';
 
 export function AstralWorldExperienceShell({ mode = 'experience' }: { mode?: AstralWorldRouteMode }) {
   const isFastTrack = mode === 'fast-track';
-  const { search } = useLocation();
+  const { search, pathname } = useLocation();
   const showDebug = isAstralDebugMode(search);
 
   return (
@@ -33,7 +34,9 @@ export function AstralWorldExperienceShell({ mode = 'experience' }: { mode?: Ast
                   {isFastTrack ? 'FAST TRACK' : 'CREATIVE EXPLORATION'}
                 </span>
               ) : null}
-              <Outlet />
+              <AstralSceneTransition sceneKey={pathname}>
+                <Outlet />
+              </AstralSceneTransition>
               <AstralGenerationDebugPanel />
             </main>
             <AstralWorldRightRail />

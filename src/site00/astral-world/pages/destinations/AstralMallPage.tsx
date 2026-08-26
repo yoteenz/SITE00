@@ -1,8 +1,9 @@
 import { useAstralWorld } from '../../context/AstralWorldContext';
 import { AstralScene } from '../../components/immersive/AstralScene';
 import { AstralPortraitRow } from '../../components/immersive/AstralPortrait';
+import { MobileAstralMallScene } from '../../components/scenes/MobileAstralMallScene';
 
-export default function AstralMallPage() {
+function DesktopAstralMallLayout() {
   const { kiosks, readers, selectKiosk, joinKioskWait, selectedKioskId } = useAstralWorld();
   const mallReaders = readers.filter((r) => r.currentDestination === 'astral-mall');
   const selected = kiosks.find((k) => k.id === selectedKioskId);
@@ -30,23 +31,15 @@ export default function AstralMallPage() {
                 <div>{k.label}</div>
                 <div className="aw-muted">{k.durationMin} min</div>
                 <div className="aw-kiosk__price">${k.priceUsd}</div>
-                <div className="aw-kiosk__demo">{k.priceState}</div>
-                <div className="aw-label">{k.kioskState.replace(/_/g, ' ')}</div>
               </button>
             ))}
           </div>
           {selected ? (
             <div style={{ marginTop: '0.75rem' }}>
-              <p className="aw-muted">Kiosk: {selected.label} · {selected.kioskState}</p>
               {selected.kioskState === 'OPEN' ? (
                 <button type="button" className="aw-btn-primary">Start Quick Read</button>
               ) : selected.kioskState === 'BUSY' ? (
                 <button type="button" className="aw-btn-secondary" onClick={() => joinKioskWait(selected.id)}>Join Wait</button>
-              ) : selected.kioskState === 'SHORT_WAIT' ? (
-                <p className="aw-muted">On waitlist — prototype queue</p>
-              ) : null}
-              {selected.readerId ? (
-                <p className="aw-muted">Reader: {readers.find((r) => r.id === selected.readerId)?.name ?? 'Any available'}</p>
               ) : null}
             </div>
           ) : null}
@@ -57,5 +50,14 @@ export default function AstralMallPage() {
         </section>
       </div>
     </div>
+  );
+}
+
+export default function AstralMallPage() {
+  return (
+    <>
+      <div className="aw-desktop-only"><DesktopAstralMallLayout /></div>
+      <div className="aw-mobile-only aw-route-scene"><MobileAstralMallScene /></div>
+    </>
   );
 }

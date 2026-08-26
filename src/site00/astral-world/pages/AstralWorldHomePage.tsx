@@ -5,7 +5,7 @@ export default function AstralWorldHomePage() {
   return (
     <>
       <div className="aw-desktop-only"><DesktopHomeReferenceLayout /></div>
-      <div className="aw-mobile-only"><MobileHomeReferenceLayout /></div>
+      <div className="aw-mobile-only aw-route-scene"><MobileHomeReferenceLayout /></div>
     </>
   );
 }

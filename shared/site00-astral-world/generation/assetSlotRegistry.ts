@@ -54,6 +54,7 @@ export const CROP_KEY_TO_SLOT: Partial<Record<ReferenceCropKey, AstralAssetSlotK
   CUSTOM_AVATAR: 'CUSTOM_AVATAR_HERO',
   SOCIAL_PRESENCE: 'CIRCLE_COMMUNITY_HERO',
   SOCIAL_PRESENCE_MOBILE: 'CIRCLE_COMMUNITY_HERO',
+  FIND_MY_READER_MOBILE: 'CIRCLE_COMMUNITY_HERO',
 };
 
 export const SLOT_TO_CROP_KEY: Partial<Record<AstralAssetSlotKey, ReferenceCropKey>> = {

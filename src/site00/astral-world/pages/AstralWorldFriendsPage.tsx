@@ -2,8 +2,9 @@ import { friendLocationLabel } from '../../../../shared/site00-astral-world/pres
 import { useAstralWorld } from '../context/AstralWorldContext';
 import { AstralScene } from '../components/immersive/AstralScene';
 import { AstralPresenceItem } from '../components/immersive/AstralPresenceItem';
+import { MobileFriendsScene } from '../components/scenes/MobileFriendsScene';
 
-export default function AstralWorldFriendsPage() {
+function DesktopFriendsLayout() {
   const { friends, path } = useAstralWorld();
 
   return (
@@ -13,12 +14,9 @@ export default function AstralWorldFriendsPage() {
         <p className="aw-muted">Find people in the world — not a contact list</p>
       </AstralScene>
       <section className="aw-card aw-card--gold" style={{ marginTop: '-2rem', position: 'relative', zIndex: 2 }}>
-        <h2 className="aw-display aw-display--section">See Who&apos;s Here</h2>
         {friends.map((f) => {
           const loc = friendLocationLabel(f.id);
-          const destPath = f.currentDestination
-            ? path(`astrea/${f.currentDestination}`)
-            : path('astrea');
+          const destPath = f.currentDestination ? path(`astrea/${f.currentDestination}`) : path('astrea');
           return (
             <AstralPresenceItem
               key={f.id}
@@ -33,6 +31,15 @@ export default function AstralWorldFriendsPage() {
           );
         })}
       </section>
+    </>
+  );
+}
+
+export default function AstralWorldFriendsPage() {
+  return (
+    <>
+      <div className="aw-desktop-only"><DesktopFriendsLayout /></div>
+      <div className="aw-mobile-only aw-route-scene"><MobileFriendsScene /></div>
     </>
   );
 }
