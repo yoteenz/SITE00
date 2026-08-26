@@ -3,7 +3,7 @@ import { MobileArrivalScene } from '../components/scenes/MobileArrivalScene';
 
 export default function AstralWorldHomePage() {
   return (
-    <ImmersiveRouteFrame>
+    <ImmersiveRouteFrame className="aw-route-scene--m01">
       <MobileArrivalScene />
     </ImmersiveRouteFrame>
   );

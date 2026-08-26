@@ -17,13 +17,19 @@ import type {
 import { ASTRAL_WORLD_PROJECT_ID } from './types.js';
 
 const PILOT_ANCHORS = [
-  { anchorId: 'TOP_WORLD_EDGE' as const, xPercent: 50, yPercent: 8, notes: 'Master universe label' },
-  { anchorId: 'CITY_HORIZON' as const, xPercent: 50, yPercent: 28, notes: 'Cinematic depth horizon' },
-  { anchorId: 'ASTREA_CENTER' as const, xPercent: 50, yPercent: 42, notes: 'District glow center' },
-  { anchorId: 'PRIMARY_TITLE_ORIGIN' as const, xPercent: 50, yPercent: 58, notes: 'Welcome title' },
-  { anchorId: 'ENTER_ACTION_ORIGIN' as const, xPercent: 50, yPercent: 68, notes: 'Enter Astréa CTA' },
-  { anchorId: 'BOTTOM_HUD_LINE' as const, xPercent: 50, yPercent: 88, notes: 'World action tokens' },
-  { anchorId: 'NAV_BASELINE' as const, xPercent: 50, yPercent: 96, notes: 'Bottom nav baseline' },
+  { anchorId: 'TOP_SAFE_EDGE' as const, xPercent: 50, yPercent: 4, notes: 'iOS-safe top / status region' },
+  { anchorId: 'CELESTIAL_MARK_CENTER' as const, xPercent: 50, yPercent: 8, notes: 'Eight-point compass mark' },
+  { anchorId: 'AVATAR_CENTER' as const, xPercent: 88, yPercent: 8, notes: 'User avatar upper-right' },
+  { anchorId: 'ASTRAL_WORLD_TITLE_CENTER' as const, xPercent: 50, yPercent: 22, notes: 'Welcome to / Astral World titles' },
+  { anchorId: 'CITY_HORIZON' as const, xPercent: 50, yPercent: 34, notes: 'City panorama horizon line' },
+  { anchorId: 'BALCONY_FOREGROUND' as const, xPercent: 50, yPercent: 42, notes: 'Balcony / seated figure depth' },
+  { anchorId: 'ASTREA_SECTION_TOP' as const, xPercent: 50, yPercent: 48, notes: 'Gold Astréa frame top' },
+  { anchorId: 'ASTREA_TITLE_CENTER' as const, xPercent: 50, yPercent: 54, notes: 'You are entering / Astréa' },
+  { anchorId: 'TAROT_SUITE_ROW' as const, xPercent: 50, yPercent: 64, notes: 'Tarot Suite destination row' },
+  { anchorId: 'COFFEE_SHOP_ROW' as const, xPercent: 50, yPercent: 71, notes: 'Coffee Shop destination row' },
+  { anchorId: 'ASTRAL_MALL_ROW' as const, xPercent: 50, yPercent: 78, notes: 'Astral Mall destination row' },
+  { anchorId: 'BOTTOM_NAV_TOP' as const, xPercent: 50, yPercent: 90, notes: 'Bottom nav surface top' },
+  { anchorId: 'BOTTOM_NAV_BASELINE' as const, xPercent: 50, yPercent: 97, notes: 'Bottom nav baseline' },
 ];
 
 const masters = new Map<string, CanonicalScreenMaster>();
@@ -81,11 +87,14 @@ export function initializeScreenMasterRegistry(): void {
     const master = buildMasterFromBoardEntry(entry);
     if (entry.screenId === 'AW_M_01_WORLD_ENTRY') {
       master.approvalState = 'MASTER_READY_FOR_REVIEW';
-      master.canonicalMasterPath = '/astral-world/screen-masters/mobile/AW_M_01_WORLD_ENTRY/canonical-master-v1.png';
-      master.width = 390;
-      master.height = 216;
-      master.aspectRatio = '390/216';
+      master.canonicalMasterPath = '/astral-world/screen-masters/mobile/AW_M_01_WORLD_ENTRY/canonical-master-v2.png';
+      master.width = 941;
+      master.height = 1672;
+      master.aspectRatio = '941/1672';
+      master.version = 2;
       master.referenceLevel = 'CANONICAL_SCREEN_MASTER';
+      master.sourceRegion = { x: 0, y: 0, width: 941, height: 1672, backgroundPosition: 'center top', backgroundSize: '100% auto' };
+      master.sourceRegionPath = `${masterDir('AW_M_01_WORLD_ENTRY', 'mobile')}/source-region-v2.png`;
     }
     masters.set(entry.screenId, master);
   }
