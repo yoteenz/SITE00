@@ -5221,3 +5221,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Upload GoDaddy ZIP after merge.
 
 ---
+
+## 2026-08-26 — P0.VR.1D.12 Legacy shell flash removal + reference-shell-first loading
+
+- **Context:** Reconstructed NDXBOOK routes (especially Experiment 01) briefly showed superseded `site00-project-lore-calibration` shell with "Loading Experiment 01…" before P0.VR.1D.9+ reference shell appeared after data fetch.
+- **Root cause:** `ProjectBrandMarketingExpressionExperiment01Page` gated `FounderWorkspaceShell` on `versionTab === 'V23' && v23Artifacts.length > 0` — legacy shell rendered on founder-facing path until experiment data resolved.
+- **Delivered:** Route-based shell first — `FounderWorkspaceShell` always for ndxbook experiment-01; mobile `MobileExperiment01Screen` renders synchronously (static reference). `ReferenceShellLoadingState` (experiment-01 3×3 skeleton geometry) for desktop loading. `ReferenceShellSuspenseFallback` for lazy-route Suspense on reconstructed NDX paths. `data-visual-shell-version="P0.VR.1D.9+"` on shell/chrome; legacy inspect markup marked `legacy` + `RUNTIME_CURRENT_ROUTE_ELIGIBLE=false`. `p0vr1d12/` module + failure taxonomy. Tests `visualReconstructionP0VR1D12.test.ts` (20 pass). Build green.
+- **Preserved:** Experiment data fetch, V23 operate layer, inspect methodology, notifications, project menu, bottom nav routing.
+- **Founder next:** Upload GoDaddy ZIP (frontend-only).
+
+---
