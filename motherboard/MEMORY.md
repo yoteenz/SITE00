@@ -132,6 +132,14 @@ Summary of this cloud agent run through ENTER 00 desktop background tuning.
 
 ---
 
+
+## 2026-08-19 — Origin desktop hero copy spacing (desktop only)
+
+- **Request:** Desktop Origin — (1) SITE 00 header text down 2px, (2) “STARTS HERE.” same line as line above, (3) origin point line down 6px.
+- **Changes:** `site00-desktop-artboard.css` — logo mark `margin-top: 2px`; coordinate `margin-top: 26px` (was 20px). `OriginPage.tsx` — desktop merges description2+3 into one line; mobile unchanged.
+- **PR #15:** `cursor/origin-desktop-hero-copy-796f`
+
+---
 ## 2026-08-19 — Wire ENTER 00 directory menu links (PR #12)
 
 - Enabled all EXPLORE + YOUR SPACE rows with live routes. Account → `/control`. Projects + Account use `requiresAuth`.

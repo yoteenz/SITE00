@@ -98,12 +98,20 @@ export default function OriginPage() {
                 <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc1">
                   {SITE00_ORIGIN_COPY.description1}
                 </p>
-                <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc2">
-                  {SITE00_ORIGIN_COPY.description2}
-                </p>
-                <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc3">
-                  {SITE00_ORIGIN_COPY.description3}
-                </p>
+                {isDesktopArtboardLayout ? (
+                  <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc2 site00-home-hero__line--desktop-flow">
+                    {SITE00_ORIGIN_COPY.description2} {SITE00_ORIGIN_COPY.description3}
+                  </p>
+                ) : (
+                  <>
+                    <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc2">
+                      {SITE00_ORIGIN_COPY.description2}
+                    </p>
+                    <p className="site00-body site00-body--technical site00-home-hero__line site00-home-hero__line--desc3">
+                      {SITE00_ORIGIN_COPY.description3}
+                    </p>
+                  </>
+                )}
                 {isDesktopArtboardLayout ? (
                   <p className="site00-coordinate site00-home-hero__coordinate">
                     {SITE00_ORIGIN_COPY.originPointLine.prefix}{' '}
