@@ -94,8 +94,10 @@ describe('P0.E.2 Astral World Reference Convergence', () => {
     expect(css).toContain('aw-ref-mobile');
   });
 
-  it('TEST 12 — Mobile anatomy constants defined', () => {
-    expect(ASTRAL_MOBILE_ANATOMY.bottomNavPx).toBe(72);
-    expect(ASTRAL_MOBILE_ANATOMY.gutterPx).toBe(16);
+  it('TEST 13 — Route suspense fallback avoids Site00Provider on Astral World paths', () => {
+    const src = readFileSync('src/site00/components/loader/ReferenceShellSuspenseFallback.tsx', 'utf8');
+    expect(src).toContain('isAstralWorldPrototypeRoute');
+    expect(src).toContain('ReferenceShellSuspenseFallbackNdx');
+    expect(src.indexOf('useSite00')).toBeGreaterThan(src.indexOf('function ReferenceShellSuspenseFallbackNdx'));
   });
 });

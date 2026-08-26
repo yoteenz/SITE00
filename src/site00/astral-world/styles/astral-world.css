@@ -41,6 +41,21 @@
   overflow-x: hidden;
 }
 
+.aw-route-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.aw-route-loading__text {
+  font-family: var(--aw-font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--aw-gold);
+}
+
 .aw-experience-root * {
   box-sizing: border-box;
 }
