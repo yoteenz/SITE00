@@ -25,6 +25,7 @@ import { ActiveProjectNotificationCenter } from './ActiveProjectNotificationCent
 import { useActiveProjectNotifications } from '../../hooks/useActiveProjectNotifications';
 import { renderMobileFounderWorkspaceScreen } from './MobileFounderWorkspaceScreens';
 import { resolveMobileScreenIdFromPath } from '../../config/ndxFounderWorkspaceMobileNav';
+import { resolveMobileVisualShellSpec } from '../../config/ndxMobileVisualShellSpecs';
 import '../../styles/site00-founder-workspace.css';
 
 type InspectorState = {
@@ -158,7 +159,15 @@ export function FounderWorkspaceShell({
   const mobileScreenId = resolveMobileScreenIdFromPath(location.pathname, projectSlug);
   // Narrow viewports always use coded mobile chrome — avoids stacking fallback bottom nav + menu on phones.
   const mobilePresentation = !isPreviewDesktop || !isWideViewport;
-  const mobileDedicatedScreens = new Set(['overview', 'campaign-board', 'experiment-01']);
+  const mobileDedicatedScreens = new Set([
+    'overview',
+    'campaign-board',
+    'experiment-01',
+    'content-ops',
+    'cultural-intelligence',
+    'character-lab',
+  ]);
+  const visualSpec = resolveMobileVisualShellSpec(mobileScreenId);
   const mobileBody =
     mobilePresentation && mobileDedicatedScreens.has(mobileScreenId)
       ? renderMobileFounderWorkspaceScreen(mobileScreenId, projectSlug)
@@ -244,6 +253,7 @@ export function FounderWorkspaceShell({
             {mobilePresentation ? (
               <MobileFounderWorkspaceChrome
                 projectSlug={projectSlug}
+                visualSpec={visualSpec}
                 menuOpen={menuOpen}
                 notificationOpen={notificationOpen}
                 unreadCount={notificationState.unreadCount}

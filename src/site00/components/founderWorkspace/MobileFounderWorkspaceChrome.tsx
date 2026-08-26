@@ -3,9 +3,11 @@
  * Sticky header + bottom nav; project menu is owned by FounderWorkspaceShell.
  */
 
-import type { Ref } from 'react';
+import type { Ref, CSSProperties } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ndxFounderWorkspaceMobileNav, resolveMobileScreenIdFromPath } from '../../config/ndxFounderWorkspaceMobileNav';
+import type { MobileScreenVisualShellSpec } from '../../config/ndxMobileVisualShellSpecs';
+import { mobileVisualShellStyle } from '../../config/ndxMobileVisualShellSpecs';
 import { NDX_VR_REGION, vrRegionAttr } from '../../config/ndxVisualRegionIds';
 import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
 import { NDXIcon } from '../../icons/ndx';
@@ -15,6 +17,7 @@ import '../../styles/site00-founder-workspace.css';
 type Props = {
   projectSlug: string;
   children: React.ReactNode;
+  visualSpec?: MobileScreenVisualShellSpec | null;
   menuOpen?: boolean;
   notificationOpen?: boolean;
   unreadCount?: number;
@@ -26,6 +29,7 @@ type Props = {
 export function MobileFounderWorkspaceChrome({
   projectSlug,
   children,
+  visualSpec = null,
   menuOpen = false,
   notificationOpen = false,
   unreadCount = 0,
@@ -36,10 +40,12 @@ export function MobileFounderWorkspaceChrome({
   const location = useLocation();
   const screenId = resolveMobileScreenIdFromPath(location.pathname, projectSlug);
   const nav = ndxFounderWorkspaceMobileNav(projectSlug);
+  const shellStyle = visualSpec ? (mobileVisualShellStyle(visualSpec) as CSSProperties) : undefined;
 
   return (
     <div
-      className={`site00-fws-mobile-chrome site00-fws-mobile-chrome--${screenId}${menuOpen ? ' site00-fws-mobile-chrome--menu-open' : ''}${notificationOpen ? ' site00-fws-mobile-chrome--notify-open' : ''}`}
+      className={`site00-fws-mobile-chrome site00-fws-mobile-chrome--${screenId}${visualSpec ? ` site00-fws-mobile-chrome--visual-spec site00-fws-mobile-chrome--shell-${visualSpec.screenId}` : ''}${menuOpen ? ' site00-fws-mobile-chrome--menu-open' : ''}${notificationOpen ? ' site00-fws-mobile-chrome--notify-open' : ''}`}
+      style={shellStyle}
       data-visual-reconstruction={`mobile-${screenId}`}
     >
       <header className="site00-fws-mobile-chrome__header" {...vrRegionAttr(NDX_VR_REGION.header)}>
@@ -88,7 +94,13 @@ export function MobileFounderWorkspaceChrome({
 
       <nav className="site00-fws-mobile-chrome__nav" aria-label="NDXBOOK mobile navigation" {...vrRegionAttr(NDX_VR_REGION.bottomNav)}>
         {nav.map((item) => {
-          const active = item.id === 'more' ? menuOpen : item.screenId === screenId;
+          const labFamilyActive = screenId === 'experiment-01' || screenId === 'character-lab';
+          const active =
+            item.id === 'more'
+              ? menuOpen
+              : item.id === 'lab'
+                ? labFamilyActive
+                : item.screenId === screenId;
 
           if (item.id === 'more') {
             return (
