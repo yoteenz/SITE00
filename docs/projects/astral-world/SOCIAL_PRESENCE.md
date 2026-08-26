@@ -1,7 +1,7 @@
-# Astral World — Social Presence System (P0.E.1 Prototype)
+# Astral World — Social Presence System
 
 **Status:** Prototype — local React state, realtime-ready abstraction  
-**Truth layer:** `CREATIVE_EXPLORATION`
+**Truth layer:** `CREATIVE_EXPLORATION` · Fast Track: `FAST_TRACK_PROTOTYPE`
 
 ---
 
@@ -11,61 +11,30 @@
 
 ---
 
-## User presence record
-
-```typescript
-{
-  userId, state, district, destination, tableId,
-  activity, privacy, joinable, updatedAt
-}
-```
-
----
-
-## Privacy levels
+## Privacy (FT1)
 
 | Level | Behavior |
 |-------|----------|
 | `EVERYONE` | Visible to all |
-| `FRIENDS` | Visible to friends (default prototype) |
-| `HIDDEN` | No friend-location exposure |
+| `FRIENDS` | Friends only (default) |
+| `HIDDEN` | No friend-location discovery |
+
+**Allow friends to join me** — toggle on/off (joinability)
 
 ---
 
-## Friend presence
+## Reader-client relationships (prototype fixtures)
 
-Seeded friends in `PROTOTYPE_FRIENDS` express district, destination, table, joinability.
+`FAVORITE_READER` · `SUBSCRIBED_READER` · `REGULAR_READER`
 
-Examples:
-- "Jane Doe is at the Coffee Shop."
-- "3 friends are in Astréa." (derived from fixture counts)
-
-Actions: **See Who's Here**, **Join Here**, **Join Table**
-
----
-
-## Reader presence
-
-States: `AVAILABLE` · `READING_NOW` · `JOINABLE` · `APPOINTMENTS_ONLY` · `OFFLINE`
-
-Reader cards include specialty, destination, availability, rating.
-
----
-
-## Relationship alerts (prototype)
-
-Types: `FAVORITE_READER` · `SUBSCRIBED_READER` · `REGULAR_READER`
-
-Alert example: "A regular is back" — only when `canAlertRegularReturn(clientPermitsSharing)` is true.
-
-No invasive automatic tracking.
+Reader-side alert concept: "A regular is back" — requires client presence permission.
 
 ---
 
 ## Implementation
 
 - Service: `shared/site00-astral-world/presenceService.ts`
+- Fixtures: `shared/site00-astral-world/fixtureService.ts`
 - Context: `src/site00/astral-world/context/AstralWorldContext.tsx`
-- UI panels: `WhosHerePanel.tsx`, `AstralWorldRightRail.tsx`
 
-Future: swap fixture layer for Supabase realtime without changing UI contracts.
+See also: `docs/projects/astral-world/FOUNDER_FAST_TRACK.md`

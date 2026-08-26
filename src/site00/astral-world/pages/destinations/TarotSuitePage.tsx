@@ -1,8 +1,9 @@
+import { Link } from 'react-router-dom';
 import { useAstralWorld } from '../../context/AstralWorldContext';
 import { TakeMeSomewherePanel } from '../../components/TakeMeSomewherePanel';
 
 export default function TarotSuitePage() {
-  const { readers } = useAstralWorld();
+  const { readers, path } = useAstralWorld();
   const suiteReaders = readers.filter((r) => r.currentDestination === 'tarot-suite');
   const privateCount = suiteReaders.filter((r) => r.presence === 'READING_NOW').length;
 
@@ -19,8 +20,8 @@ export default function TarotSuitePage() {
       </div>
       <section className="aw-card aw-card--gold">
         <h2 className="aw-display aw-display--section">Suite Status</h2>
-        <p className="aw-muted">{privateCount} private reading(s) in progress · identities protected</p>
-        <p className="aw-muted">{suiteReaders.length} reader(s) available in suite</p>
+        <p className="aw-muted">{privateCount} private reading(s) in progress · client identities protected</p>
+        <p className="aw-muted">{suiteReaders.length} reader(s) in suite · {6 - privateCount} rooms available (prototype)</p>
       </section>
       <section className="aw-card">
         <h2 className="aw-display aw-display--section">Choose Reader</h2>
@@ -34,6 +35,7 @@ export default function TarotSuitePage() {
             <span className="aw-status aw-status--reading">{r.presence.replace(/_/g, ' ')}</span>
           </div>
         ))}
+        <Link to={path('readers')} className="aw-btn-secondary">Browse All Readers</Link>
       </section>
       <TakeMeSomewherePanel compact />
     </>

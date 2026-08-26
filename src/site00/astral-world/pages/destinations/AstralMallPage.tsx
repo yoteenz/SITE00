@@ -1,10 +1,9 @@
-import { useState } from 'react';
 import { useAstralWorld } from '../../context/AstralWorldContext';
 
 export default function AstralMallPage() {
-  const { kiosks, readers } = useAstralWorld();
-  const [selected, setSelected] = useState<string | null>(null);
+  const { kiosks, readers, selectKiosk, joinKioskWait, selectedKioskId } = useAstralWorld();
   const mallReaders = readers.filter((r) => r.currentDestination === 'astral-mall');
+  const selected = kiosks.find((k) => k.id === selectedKioskId);
 
   return (
     <>
@@ -13,7 +12,7 @@ export default function AstralMallPage() {
         <div className="aw-hero__content" style={{ minHeight: 200 }}>
           <p className="aw-label">Astréa · Destination</p>
           <h1 className="aw-display aw-display--hero">Astral Mall</h1>
-          <p className="aw-muted">Fast · spontaneous · on-the-go readings</p>
+          <p className="aw-muted">Fast · Fun · On the go</p>
         </div>
       </div>
       <section className="aw-card aw-card--gold">
@@ -23,19 +22,34 @@ export default function AstralMallPage() {
             <button
               key={k.id}
               type="button"
-              className={`aw-kiosk${!k.available ? ' aw-kiosk--disabled' : ''}${selected === k.id ? ' aw-card--gold' : ''}`}
-              disabled={!k.available}
-              onClick={() => k.available && setSelected(k.id)}
-              aria-pressed={selected === k.id}
+              className={`aw-kiosk${k.kioskState === 'CLOSED' ? ' aw-kiosk--disabled' : ''}${selectedKioskId === k.id ? ' aw-card--gold' : ''}`}
+              disabled={k.kioskState === 'CLOSED'}
+              onClick={() => selectKiosk(k.id)}
+              aria-pressed={selectedKioskId === k.id}
             >
               <div>{k.label}</div>
               <div className="aw-muted">{k.durationMin} min</div>
               <div className="aw-kiosk__price">${k.priceUsd}</div>
               <div className="aw-kiosk__demo">{k.priceState}</div>
+              <div className="aw-label">{k.kioskState.replace(/_/g, ' ')}</div>
             </button>
           ))}
         </div>
-        {selected ? <p className="aw-muted" style={{ marginTop: '0.75rem' }}>Kiosk selected — prototype queue (non-production)</p> : null}
+        {selected ? (
+          <div style={{ marginTop: '0.75rem' }}>
+            <p className="aw-muted">Kiosk: {selected.label} · {selected.kioskState}</p>
+            {selected.kioskState === 'OPEN' ? (
+              <button type="button" className="aw-btn-primary">Start Quick Read</button>
+            ) : selected.kioskState === 'BUSY' ? (
+              <button type="button" className="aw-btn-secondary" onClick={() => joinKioskWait(selected.id)}>Join Wait</button>
+            ) : selected.kioskState === 'SHORT_WAIT' ? (
+              <p className="aw-muted">On waitlist — prototype queue</p>
+            ) : null}
+            {selected.readerId ? (
+              <p className="aw-muted">Reader: {readers.find((r) => r.id === selected.readerId)?.name ?? 'Any available'}</p>
+            ) : null}
+          </div>
+        ) : null}
       </section>
       <section className="aw-card">
         <h2 className="aw-display aw-display--section">Readers at Mall · {mallReaders.length} active</h2>

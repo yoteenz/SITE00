@@ -97,17 +97,18 @@ describe('P0.E.1 Astral World Experience Prototype', () => {
   it('TEST 10 — Join Her Table updates prototype table occupancy', () => {
     const tables = [...PROTOTYPE_TABLES];
     const table = tables.find((t) => t.id === 'table-soul')!;
-    expect(table.occupants.length).toBe(0);
-    const result = joinTable(tables, 'table-soul', 'user-founder');
+    const before = table.occupants.length;
+    const result = joinTable(tables, 'table-soul', 'user-demo-teena');
     expect(result.error).toBeUndefined();
-    expect(result.tables.find((t) => t.id === 'table-soul')!.occupants).toContain('user-founder');
+    expect(result.tables.find((t) => t.id === 'table-soul')!.occupants).toHaveLength(before + 1);
+    expect(result.tables.find((t) => t.id === 'table-soul')!.occupants).toContain('user-demo-teena');
   });
 
   it('TEST 11 — Full table cannot be over-joined', () => {
     const tables = [...PROTOTYPE_TABLES];
     const full = tables.find((t) => t.id === 'table-moon')!;
     expect(full.occupants.length).toBe(full.capacity);
-    const result = joinTable(tables, 'table-moon', 'user-founder');
+    const result = joinTable(tables, 'table-moon', 'user-demo-teena');
     expect(result.error).toBe('Table is full');
   });
 

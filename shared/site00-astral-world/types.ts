@@ -49,6 +49,16 @@ export type TakeMeSomewhereIntent =
   | 'SOMETHING_ELSE'
   | 'DEEP_PRIVATE';
 
+export type KioskState = 'OPEN' | 'BUSY' | 'SHORT_WAIT' | 'CLOSED';
+
+export type CircleKind = 'LOVE' | 'CAREER' | 'NEW_READERS' | 'GENERAL';
+
+export type ReaderRelationship = {
+  readerId: string;
+  type: RelationshipType;
+  source: FixtureDataSource;
+};
+
 export type NotificationType =
   | 'FRIEND_PRESENT'
   | 'READER_AVAILABLE'
@@ -98,6 +108,39 @@ export type CoffeeShopTable = {
   capacity: number;
   occupants: string[];
   joinable: boolean;
+  activityNote?: string;
+  source: FixtureDataSource;
+};
+
+export type PopularPlace = {
+  destination: DestinationSlug;
+  label: string;
+  activitySummary: string;
+  source: FixtureDataSource;
+};
+
+export type SocialCircle = {
+  id: string;
+  name: string;
+  kind: CircleKind;
+  memberCount: number;
+  description: string;
+  source: FixtureDataSource;
+};
+
+export type DailyCardFixture = {
+  id: string;
+  cardName: string;
+  meaning: string;
+  date: string;
+  source: FixtureDataSource;
+};
+
+export type DemoSessionProfile = {
+  userId: string;
+  displayName: string;
+  membershipBadge: string;
+  journalEntryCount: number;
   source: FixtureDataSource;
 };
 
@@ -109,6 +152,7 @@ export type MallKiosk = {
   priceState: 'DEMO' | 'NON_CANONICAL';
   readerId: string | null;
   available: boolean;
+  kioskState: KioskState;
   source: FixtureDataSource;
 };
 

@@ -1,31 +1,28 @@
+import { Link } from 'react-router-dom';
 import { useAstralWorld } from '../context/AstralWorldContext';
 
 export default function AstralWorldJournalPage() {
-  const { journey } = useAstralWorld();
+  const { journey, demoSession, path } = useAstralWorld();
 
   return (
-    <>
+    <div className="aw-mobile-screen">
       <h1 className="aw-display aw-display--hero">Your Journey</h1>
-      <section className="aw-card aw-card--gold">
-        <h2 className="aw-display aw-display--section">Recent Activity</h2>
+      <section className="aw-card aw-card--gold aw-journal-book">
+        <h2 className="aw-display aw-display--section">Journal · {demoSession.journalEntryCount} entries</h2>
         {journey.map((entry) => (
           <div key={entry.id} className="aw-presence-item">
             <div style={{ flex: 1 }}>
-              <span className="aw-label">{entry.kind}</span>
+              <div className="aw-label">{entry.kind}</div>
               <strong>{entry.title}</strong>
               <div className="aw-muted">{entry.subtitle} · {entry.date}</div>
             </div>
+            <button type="button" className="aw-btn-secondary">
+              {entry.kind === 'JOURNAL' ? 'Open' : 'View Reading'}
+            </button>
           </div>
         ))}
       </section>
-      <section className="aw-card">
-        <div className="aw-hero" style={{ minHeight: 120 }}>
-          <div className="aw-hero__bg" aria-hidden />
-          <div className="aw-hero__content" style={{ minHeight: 120 }}>
-            <p className="aw-muted">Visual journal artifact · REFERENCE_ASSET_PENDING</p>
-          </div>
-        </div>
-      </section>
-    </>
+      <Link to={path('daily-card')} className="aw-btn-primary">Daily Card →</Link>
+    </div>
   );
 }

@@ -1,33 +1,29 @@
 import { Link } from 'react-router-dom';
 import { useAstralWorld } from '../context/AstralWorldContext';
+import { YourWorldYourWayPanel } from '../components/PlacesPopularPanel';
 
 export default function AstralWorldProfilePage() {
-  const { energy, userPresence, journey } = useAstralWorld();
+  const { demoSession, energy, userPresence, journey, path } = useAstralWorld();
 
   return (
-    <>
+    <div className="aw-mobile-screen">
       <h1 className="aw-display">Profile</h1>
       <section className="aw-card aw-card--gold">
-        <div className="aw-avatar" style={{ width: 56, height: 56, fontSize: '1rem', marginBottom: '0.75rem' }}>R</div>
-        <strong>Rea</strong>
-        <p className="aw-muted">Membership · Prototype</p>
+        <div className="aw-avatar" style={{ width: 56, height: 56, fontSize: '1.25rem' }}>{demoSession.displayName[0]}</div>
+        <strong>{demoSession.displayName}</strong>
+        <p className="aw-muted">{demoSession.membershipBadge}</p>
         <p className="aw-muted">Energy: {energy.replace(/_/g, ' ')}</p>
         <p className="aw-muted">Presence: {userPresence.state.replace(/_/g, ' ')}</p>
       </section>
       <section className="aw-card">
-        <h2 className="aw-display aw-display--section">Your World, Your Way</h2>
-        <ul className="aw-muted">
-          <li>Custom avatar</li>
-          <li>Join a circle</li>
-          <li>Create a deck</li>
-          <li>Daily card</li>
-        </ul>
+        <h2 className="aw-display aw-display--section">Recent</h2>
+        {journey.map((j) => (
+          <p key={j.id} className="aw-muted"><strong>{j.title}</strong> — {j.subtitle}</p>
+        ))}
+        <Link to={path('journal')} className="aw-btn-primary">View Journey →</Link>
       </section>
-      <section className="aw-card">
-        <h2 className="aw-display aw-display--section">Favorites</h2>
-        <p className="aw-muted">{journey.filter((j) => j.kind === 'SAVED').length} saved readings</p>
-      </section>
-      <Link to="/projects/astral-world/identity" className="aw-btn-secondary">Identity Review (SITE 00) →</Link>
-    </>
+      <YourWorldYourWayPanel />
+      <Link to={path('notification-demo')} className="aw-btn-secondary">Notification Demo →</Link>
+    </div>
   );
 }

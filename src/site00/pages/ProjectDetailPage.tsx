@@ -8,7 +8,7 @@ import { EmptyState } from '../components/pages/Site00PagePrimitives';
 import { ProjectPrivilegedUtilities } from '../components/access/ProjectPrivilegedUtilities';
 import { ProjectPersonalityReplayStatus } from '../components/validation/ProjectPersonalityReplayStatus';
 import { useSite00ProjectDetail } from '../hooks/useSite00Projects';
-import { SITE00_ROUTES, site00ProjectCreativeAppetitePath, site00ProjectExperiencePath, site00ProjectExperimentsPath, site00ProjectExperimentGPath, site00ProjectIdentityPath, site00ProjectOriginPath, site00ProjectPersonalityReplayPath } from '../config/routes';
+import { SITE00_ROUTES, site00ProjectCreativeAppetitePath, site00ProjectExperiencePath, site00ProjectExperimentsPath, site00ProjectExperimentGPath, site00ProjectFastTrackWorldPath, site00ProjectIdentityPath, site00ProjectOriginPath, site00ProjectPersonalityReplayPath } from '../config/routes';
 import type { Site00FounderProjectSlug } from '../../../shared/site00-projects/types';
 import '../styles/site00-projects.css';
 import '../styles/site00-founder-workspace.css';
@@ -91,7 +91,10 @@ export default function ProjectDetailPage() {
                         <Link className="site00-btn site00-project-command__cta site00-project-command__cta--secondary" to={site00ProjectIdentityPath(projectSlug)}>
                           OPEN IDENTITY · EXPLORATION →
                         </Link>
-                        <Link className="site00-btn site00-btn--primary site00-project-command__cta" to={site00ProjectExperiencePath(projectSlug)}>
+                        <Link className="site00-btn site00-btn--primary site00-project-command__cta" to={site00ProjectFastTrackWorldPath(projectSlug)}>
+                          OPEN LIVE PROTOTYPE →
+                        </Link>
+                        <Link className="site00-btn site00-project-command__cta site00-project-command__cta--secondary" to={site00ProjectExperiencePath(projectSlug)}>
                           OPEN EXPERIENCE · CREATIVE EXPLORATION →
                         </Link>
                       </>
