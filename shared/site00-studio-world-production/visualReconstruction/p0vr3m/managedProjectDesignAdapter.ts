@@ -54,3 +54,34 @@ export function site00CanDesignStudioWorldWebsite(): boolean {
 export function site00CanDesignItsOwnWebsite(): boolean {
   return Boolean(getSite00ManagedProject('site00')?.designEnabled);
 }
+
+export function getManagedProjectRepoBinding(projectKey: string): {
+  repoOwner: string;
+  repoName: string;
+  defaultBranch: string;
+  sourceProjectPath: string | null;
+  sourceMaterializationEnabled: boolean;
+} | null {
+  const managed = getSite00ManagedProject(projectKey);
+  if (!managed) return null;
+
+  const fsbwBindings: Record<string, { sourceRepo: string; sourceProjectPath: string }> = {
+    ndxbook: { sourceRepo: 'yoteenz/fsbw', sourceProjectPath: 'ndxbook' },
+    'frontal-slayer': { sourceRepo: 'yoteenz/fsbw', sourceProjectPath: 'frontal-slayer' },
+    'all-in-one-enterprises': { sourceRepo: 'yoteenz/fsbw', sourceProjectPath: 'all-in-one-enterprises' },
+    'studio-world': { sourceRepo: 'yoteenz/fsbw', sourceProjectPath: 'studio-world' },
+  };
+
+  const binding = fsbwBindings[projectKey];
+  const sourceRepo = binding?.sourceRepo ?? managed.sourceRepo;
+  if (!sourceRepo) return null;
+
+  const [repoOwner, repoName] = sourceRepo.split('/');
+  return {
+    repoOwner: repoOwner ?? 'yoteenz',
+    repoName: repoName ?? 'fsbw',
+    defaultBranch: 'main',
+    sourceProjectPath: binding?.sourceProjectPath ?? managed.sourceRepo?.split('/').slice(1).join('/') ?? projectKey,
+    sourceMaterializationEnabled: projectKey !== 'site00',
+  };
+}

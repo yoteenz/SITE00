@@ -41,6 +41,7 @@ export {
   studioWorldNativePipelinesMergedIntoSite00Design,
   site00CanDesignStudioWorldWebsite,
   site00CanDesignItsOwnWebsite,
+  getManagedProjectRepoBinding,
 } from './managedProjectDesignAdapter.js';
 
 export type {

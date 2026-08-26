@@ -65,6 +65,7 @@ import { DesignCompareSection } from '../designWorkspace/DesignCompareSection';
 import { DesignImplementationPreview } from '../designWorkspace/DesignImplementationPreview';
 import { DesignPagesVisualIndex } from '../designWorkspace/DesignPagesVisualIndex';
 import { DesignComposerReviewQueue } from '../designWorkspace/DesignComposerReviewQueue';
+import { DesignRepoChangePanel } from '../designWorkspace/DesignRepoChangePanel';
 import { DesignMissingTargetQueue } from '../designWorkspace/DesignMissingTargetQueue';
 import { useImplementationSnapshots } from '../designWorkspace/useImplementationSnapshots';
 import { listScreensWithSnapshots } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3e/client.js';
@@ -593,7 +594,12 @@ export function StudioWorldDesignWorkspace({
           />
         ) : null}
 
-        {tab === 'REVIEW' ? <DesignComposerReviewQueue /> : null}
+        {tab === 'REVIEW' ? (
+          <>
+            <DesignComposerReviewQueue />
+            <DesignRepoChangePanel projectKey={projectId} routeKey={route} pageKey={screenId} />
+          </>
+        ) : null}
 
         {tab === 'MISSING' ? <DesignMissingTargetQueue /> : null}
 
