@@ -4,7 +4,7 @@
  */
 
 import { Link } from 'react-router-dom';
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import {
   site00ProjectBrandMarketingExpressionExperiment01Path,
   site00ProjectContentOperationsCampaignBoardPath,
@@ -75,9 +75,16 @@ function CampaignSectionHead({
 export function MobileCampaignBoardScreen({ projectSlug }: ScreenProps) {
   const boardPath = site00ProjectContentOperationsCampaignBoardPath(projectSlug);
   const filmPath = site00ProjectFilmProductionPath(projectSlug);
+  const [activeDayId, setActiveDayId] = useState(
+    () => NDX_CAMPAIGN_BOARD_DAYS.find((d) => d.active)?.id ?? NDX_CAMPAIGN_BOARD_DAYS[0]?.id,
+  );
 
   return (
-    <div className="site00-fws-mobile-campaign" data-visual-reconstruction="mobile-campaign-board">
+    <div
+      className="site00-fws-mobile-campaign site00-fws-mobile-content-shell"
+      data-visual-reconstruction="mobile-campaign-board"
+      {...vrRegionAttr(NDX_VR_REGION.campaignContentShell)}
+    >
       <div className="site00-fws-mobile-campaign__title-block" {...vrRegionAttr(NDX_VR_REGION.campaignTitle)}>
         <p className="site00-fws-mobile-campaign__eyebrow">CAMPAIGN BOARD</p>
         <h2 className="site00-fws-mobile-campaign__week">{NDX_CAMPAIGN_BOARD_WEEK}</h2>
@@ -94,8 +101,9 @@ export function MobileCampaignBoardScreen({ projectSlug }: ScreenProps) {
             key={day.id}
             type="button"
             role="listitem"
-            className={`site00-fws-mobile-campaign__day${day.active ? ' site00-fws-mobile-campaign__day--active' : ''}`}
-            aria-pressed={day.active}
+            className={`site00-fws-mobile-campaign__day${day.id === activeDayId ? ' site00-fws-mobile-campaign__day--active' : ''}`}
+            aria-pressed={day.id === activeDayId}
+            onClick={() => setActiveDayId(day.id)}
           >
             <span className="site00-fws-mobile-campaign__day-letter">{day.letter}</span>
             <span className="site00-fws-mobile-campaign__day-date">
@@ -281,9 +289,16 @@ function InspectExperimentButton() {
 
 export function MobileExperiment01Screen({ projectSlug }: ScreenProps) {
   const experimentsHubPath = site00ProjectExperimentsPath(projectSlug);
+  const [selectedCardId, setSelectedCardId] = useState(
+    () => NDX_EXPERIMENT_01_CARDS.find((c) => c.selected)?.id ?? NDX_EXPERIMENT_01_CARDS[0]?.id,
+  );
 
   return (
-    <div className="site00-fws-mobile-lab" data-visual-reconstruction="mobile-lab-experiment-01">
+    <div
+      className="site00-fws-mobile-lab site00-fws-mobile-content-shell"
+      data-visual-reconstruction="mobile-lab-experiment-01"
+      {...vrRegionAttr(NDX_VR_REGION.labContentShell)}
+    >
       <nav className="site00-fws-mobile-lab__breadcrumb" aria-label="Experiment breadcrumb" {...vrRegionAttr(NDX_VR_REGION.labBreadcrumb)}>
         <Link to={experimentsHubPath}>EXPERIMENTS HUB</Link>
         <span className="site00-fws-mobile-lab__breadcrumb-sep" aria-hidden>
@@ -321,8 +336,17 @@ export function MobileExperiment01Screen({ projectSlug }: ScreenProps) {
         {NDX_EXPERIMENT_01_CARDS.map((card) => (
           <article
             key={card.id}
-            className={`site00-fws-mobile-lab__grid-cell${card.selected ? ' site00-fws-mobile-lab__grid-cell--selected' : ''}`}
+            className={`site00-fws-mobile-lab__grid-cell${card.id === selectedCardId ? ' site00-fws-mobile-lab__grid-cell--selected' : ''}`}
             {...vrRegionAttr(card.vrRegionId)}
+            role="button"
+            tabIndex={0}
+            onClick={() => setSelectedCardId(card.id)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                setSelectedCardId(card.id);
+              }
+            }}
           >
             {card.showClose ? (
               <button type="button" className="site00-fws-mobile-lab__grid-close" aria-label="Close card">
