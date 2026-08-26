@@ -2,6 +2,7 @@
  * P0.VR.3H — Composer draft snapshot capture integration (P0.VR.3E).
  */
 
+import { buildSite00DiscoveredRoutes } from '../p0vr3a/site00RouteForensics.js';
 import { COMPOSER_DRAFT_SNAPSHOT_LABEL } from './constants.js';
 import { isComposerDraftRoute } from './draftRouteGuard.js';
 import type { ComposerReviewQueueEntry } from './types.js';
@@ -16,24 +17,14 @@ export type ComposerDraftCaptureTarget = {
 };
 
 export function buildComposerDraftCaptureTargets(): ComposerDraftCaptureTarget[] {
-  const routes = [
-    { screenId: 'missing-guide', route: '/guide' },
-    { screenId: 'missing-sound', route: '/sound' },
-    { screenId: 'missing-faq', route: '/faq' },
-    { screenId: 'missing-contact', route: '/contact' },
-    { screenId: 'missing-forgot-password', route: '/origin/forgot-password' },
-    { screenId: 'missing-reset-password', route: '/origin/reset-password' },
-    { screenId: 'missing-blueprints', route: '/blueprints' },
-    { screenId: 'missing-account-profile', route: '/account' },
-    { screenId: 'missing-brand-page', route: '/brand' },
-  ];
+  const drafts = buildSite00DiscoveredRoutes().filter((r) => r.dependencyClosure === 'IMPLEMENTED_DRAFT');
 
-  return routes
-    .filter((r) => isComposerDraftRoute(r.route))
+  return drafts
+    .filter((r) => isComposerDraftRoute(r.resolvedRoute))
     .map((r) => ({
       projectId: 'site00',
       screenId: r.screenId,
-      route: r.route,
+      route: r.resolvedRoute,
       viewportClasses: ['mobile', 'tablet', 'desktop'] as const,
       snapshotLabel: COMPOSER_DRAFT_SNAPSHOT_LABEL,
       captureQuery: 'preview=1&designPreview=1',

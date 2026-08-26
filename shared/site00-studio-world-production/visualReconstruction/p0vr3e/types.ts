@@ -66,6 +66,7 @@ export type ImplementationSnapshotRecord = {
   error: string | null;
   qaPassed: boolean;
   qaIssues: string[];
+  snapshotLabel?: string;
 };
 
 export type LatestImplementationSnapshotPointer = {
@@ -121,6 +122,7 @@ export type CaptureScreenInput = {
   authContext?: ScreenshotAuthContext;
   baseUrl?: string;
   sourceCommit?: string | null;
+  snapshotLabel?: string;
 };
 
 export type CaptureProjectInput = {

@@ -3,7 +3,7 @@
  */
 
 import { isInformationFamilyConfirmed, isAuthFamilyConfirmed } from '../p0vr3g/experiencePageRegistry.js';
-import { allowsBatchApproval, requiresIndividualReview } from './classifier.js';
+import { allowsBatchApproval, requiresIndividualReview, isSimpleCompletionMode } from './classifier.js';
 import { COMPOSER_DRAFT_SNAPSHOT_LABEL } from './constants.js';
 import { getActiveMissingPageCompletionPlan } from './repoScopedPlan.js';
 import type { ComposerReviewQueueEntry, ComposerReviewSet } from './types.js';
@@ -38,7 +38,8 @@ export function buildComposerReviewSets(): ComposerReviewSet[] {
       (e) =>
         e.projectId === 'SITE00' &&
         e.family === 'INFORMATION' &&
-        e.implementationStatus === 'IMPLEMENTED_DRAFT',
+        e.implementationStatus === 'IMPLEMENTED_DRAFT' &&
+        isSimpleCompletionMode(e.completionMode),
     );
     if (infoPages.length) {
       sets.push({
@@ -57,7 +58,9 @@ export function buildComposerReviewSets(): ComposerReviewSet[] {
       (e) =>
         e.projectId === 'SITE00' &&
         e.family === 'AUTH' &&
-        e.implementationStatus === 'IMPLEMENTED_DRAFT',
+        e.implementationStatus === 'IMPLEMENTED_DRAFT' &&
+        isSimpleCompletionMode(e.completionMode) &&
+        (e.route.includes('forgot-password') || e.route.includes('reset-password')),
     );
     if (authPages.length) {
       sets.push({

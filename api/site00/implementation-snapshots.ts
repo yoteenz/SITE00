@@ -8,6 +8,7 @@ import {
   captureProjectImplementationSnapshots,
   captureSelectedImplementationSnapshots,
 } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3e/implementationSnapshotBatch.js';
+import { captureComposerDraftSnapshots } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3j/composerDraftBackfill.js';
 import {
   getLatestImplementationSnapshot,
   listImplementationSnapshotsForScreen,
@@ -70,6 +71,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           screenSetMode: body.screenSetMode,
           concurrency: body.concurrency,
           baseUrl: body.baseUrl,
+        });
+        return res.status(200).json(result);
+      }
+      case 'capture_composer_drafts': {
+        const result = await captureComposerDraftSnapshots({
+          baseUrl: body.baseUrl,
+          concurrency: body.concurrency,
         });
         return res.status(200).json(result);
       }
