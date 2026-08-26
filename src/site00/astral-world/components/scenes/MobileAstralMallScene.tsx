@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { getHotspotsForScene } from '../../../../../shared/site00-astral-world/scenes/hotspotRegistry.js';
+import { useAstralViewport } from '../../hooks/useAstralViewport';
 import { useAstralWorld } from '../../context/AstralWorldContext';
 import { AstralWorldScene } from '../immersive/AstralWorldScene';
 import { AstralHUD, AstralHUDChip } from '../immersive/AstralHUD';
@@ -18,8 +19,9 @@ export const KIOSK_HOTSPOT_MAP: Record<string, string> = {
 
 export function MobileAstralMallScene() {
   const { kiosks, readers, selectKiosk, joinKioskWait } = useAstralWorld();
+  const { isMobile } = useAstralViewport();
   const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
-  const hotspots = getHotspotsForScene('ASTRAL_MALL', true);
+  const hotspots = useMemo(() => getHotspotsForScene('ASTRAL_MALL', isMobile), [isMobile]);
   const mallReaders = readers.filter((r) => r.currentDestination === 'astral-mall');
   const liveReads = readers.filter((r) => r.presence === 'READING_NOW' && r.currentDestination === 'astral-mall').length;
 

@@ -5572,3 +5572,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** `portraitAssetRegistry.ts` (10 isolated semantic portraits, FAL keys). `AstralInvokeField`, `AstralCategorySigil`, `AstralReaderOrbit`, `AstralKioskTray`, `ReaderDetailTray`, `SpatialPresenceGroups`. Find My Reader over Astréa with invoke lens + orbit. Mall kiosk grid removed — 5 spatial hotspots + brass tray. Astréa hotspot tuning + emblem language. Who's Here/Friends spatialized. Take Me Somewhere intention tokens. Tests FT3.2 (11) = **97 Astral tests pass**. Audit `SITE00_ASTRAL_WORLD_P0E3_FT32_INTERACTION_LANGUAGE.md`.
 - **Next:** FT4 FAL P0 batch for generated portraits replacing extraction crops.
 
+---
+
+## 2026-08-26 — P0.E.FT5 Astral World master visual convergence
+
+- **Context:** Founder sprint to consolidate all prior FT visual work into one coherent reference-authoritative implementation. Pre-flight audit identified desktop/mobile split as primary drift: mobile scene-first vs desktop panel/card layouts + persistent right rail.
+- **Delivered:** `referenceManifest.ts` (11 canonical references), `visualAnchors.ts`, `immersiveRoutes.ts`, `useAstralViewport` hook, `ImmersiveRouteFrame`. All primary routes unified to scene components (mobile + desktop). `aw-shell--immersive` hides right rail, zero canvas padding, full viewport scenes. Responsive hotspot geometry via viewport hook. Docs: FT5 preflight audit + asset manifest. Tests FT5 (10) = **107 Astral tests pass**. Live QA: mobile 390px PASS; desktop scenes fill canvas with reference-aligned left nav (right rail removed on immersive).
+- **Visual lock:** `ASTRAL_WORLD_VISUAL_LOCK=FALSE` — `VISUAL_LOCK_BLOCKED_BY_ASSET_GENERATION=TRUE` (all P0 env slots still reference-crop fallbacks until FT4 FAL batch).
+- **Next:** FT4 FAL P0 batch on Railway; founder desktop reference comparison after generated assets land.
+

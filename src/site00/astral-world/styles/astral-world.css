@@ -2396,3 +2396,97 @@
     margin-bottom: 1rem;
   }
 }
+
+/* ─── P0.E.FT5 Master visual convergence ─── */
+
+.aw-shell--immersive .aw-shell__canvas {
+  padding: 0;
+  overflow: hidden;
+}
+
+.aw-route-scene--immersive {
+  min-height: calc(100dvh - var(--aw-mobile-nav-height));
+}
+
+@media (min-width: 1024px) {
+  .aw-shell--immersive .aw-shell__canvas {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .aw-route-scene--immersive {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .aw-route-scene--immersive .aw-world-scene {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .aw-route-scene--immersive .aw-world-scene--viewport {
+    min-height: 100%;
+    height: 100%;
+    border-radius: var(--aw-radius);
+  }
+
+  .aw-shell--immersive .aw-shell__nav {
+    background: linear-gradient(180deg, rgba(6, 8, 15, 0.92) 0%, rgba(10, 14, 24, 0.88) 100%);
+    border-right-color: rgba(201, 169, 98, 0.18);
+  }
+
+  .aw-shell--immersive .aw-nav-link {
+    font-size: 0.68rem;
+  }
+}
+
+/* Desktop: scene environment dominates canvas — no document stack */
+.aw-shell--immersive .aw-card,
+.aw-shell--immersive .aw-immersive-panel__sheet,
+.aw-shell--immersive .aw-ref-mid-band,
+.aw-shell--immersive .aw-ref-dest-showcase {
+  display: none !important;
+}
+
+.aw-world-scene--viewport .aw-arrival-overlay {
+  align-items: center;
+  text-align: center;
+}
+
+.aw-world-scene--viewport .aw-arrival-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0 1rem;
+}
+
+.aw-district-title,
+.aw-dest-scene-title {
+  text-align: center;
+  width: 100%;
+}
+
+.aw-mobile-nav {
+  background: linear-gradient(0deg, rgba(6, 8, 15, 0.96) 0%, rgba(6, 8, 15, 0.72) 100%);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(201, 169, 98, 0.22);
+}
+
+.aw-mobile-nav .aw-nav-link {
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.52rem;
+  padding: 0.35rem 0.25rem;
+  border: none;
+  background: transparent;
+}
+
+.aw-mobile-nav .aw-nav-link--active {
+  color: var(--aw-gold-bright);
+  text-shadow: 0 0 12px rgba(201, 169, 98, 0.35);
+}
+

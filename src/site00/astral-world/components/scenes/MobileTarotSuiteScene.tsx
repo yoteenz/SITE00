@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getHotspotsForScene } from '../../../../../shared/site00-astral-world/scenes/hotspotRegistry.js';
+import { useAstralViewport } from '../../hooks/useAstralViewport';
 import { useAstralWorld } from '../../context/AstralWorldContext';
 import { AstralWorldScene } from '../immersive/AstralWorldScene';
 import { AstralHUD, AstralHUDChip } from '../immersive/AstralHUD';
@@ -10,8 +11,9 @@ import { AstralPresenceItem } from '../immersive/AstralPresenceItem';
 
 export function MobileTarotSuiteScene() {
   const { readers, path } = useAstralWorld();
+  const { isMobile } = useAstralViewport();
   const [drawer, setDrawer] = useState<string | null>(null);
-  const hotspots = getHotspotsForScene('TAROT_SUITE', true);
+  const hotspots = useMemo(() => getHotspotsForScene('TAROT_SUITE', isMobile), [isMobile]);
   const suiteReaders = readers.filter((r) => r.currentDestination === 'tarot-suite');
   const privateCount = suiteReaders.filter((r) => r.presence === 'READING_NOW').length;
 
@@ -30,7 +32,7 @@ export function MobileTarotSuiteScene() {
         }
         hud={
           <AstralHUD position="top">
-            <AstralHUDChip live>{privateCount} private readings</AstralHUDChip>
+            <AstralHUDChip live>{privateCount} private readings · identities protected</AstralHUDChip>
             <AstralHUDChip>{suiteReaders.length} readers in suite</AstralHUDChip>
           </AstralHUD>
         }

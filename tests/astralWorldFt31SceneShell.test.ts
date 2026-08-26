@@ -85,7 +85,7 @@ describe('P0.E.FT3.1 Astral World Scene-First Shell', () => {
     expect(home).toContain('TakeMeSomewhereWorldOverlay');
   });
 
-  it('FT31-7 — pages wire mobile scene shells', () => {
+  it('FT31-7 — pages wire unified immersive scene shells (FT5)', () => {
     for (const page of [
       'src/site00/astral-world/pages/AstralWorldHomePage.tsx',
       'src/site00/astral-world/pages/AstralWorldAstreaPage.tsx',
@@ -98,8 +98,8 @@ describe('P0.E.FT3.1 Astral World Scene-First Shell', () => {
       'src/site00/astral-world/pages/AstralWorldProfilePage.tsx',
     ]) {
       const src = readFileSync(page, 'utf8');
-      expect(src).toContain('aw-route-scene');
-      expect(src).toContain('aw-mobile-only');
+      expect(src).toContain('ImmersiveRouteFrame');
+      expect(src).not.toContain('aw-desktop-only');
     }
   });
 

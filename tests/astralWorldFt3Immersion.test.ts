@@ -66,19 +66,19 @@ describe('P0.E.FT3 Astral World Immersion Recovery', () => {
     const whosHere = readFileSync('src/site00/astral-world/components/WhosHerePanel.tsx', 'utf8');
     expect(whosHere).toContain('AstralPresenceItem');
     expect(whosHere).not.toContain('aw-avatar');
-    const friends = readFileSync('src/site00/astral-world/pages/AstralWorldFriendsPage.tsx', 'utf8');
-    expect(friends).toContain('AstralPresenceItem');
+    const friends = readFileSync('src/site00/astral-world/components/scenes/MobileFriendsScene.tsx', 'utf8');
+    expect(friends).toContain('SpatialPresenceGroups');
   });
 
-  it('FT3-6 — destination pages use cinematic AstralScene heroes', () => {
-    for (const page of [
-      'src/site00/astral-world/pages/destinations/TarotSuitePage.tsx',
-      'src/site00/astral-world/pages/destinations/AstralMallPage.tsx',
-      'src/site00/astral-world/pages/destinations/CoffeeShopPage.tsx',
-      'src/site00/astral-world/pages/AstralWorldAstreaPage.tsx',
+  it('FT3-6 — destination scenes use cinematic AstralWorldScene heroes', () => {
+    for (const scene of [
+      'src/site00/astral-world/components/scenes/MobileTarotSuiteScene.tsx',
+      'src/site00/astral-world/components/scenes/MobileAstralMallScene.tsx',
+      'src/site00/astral-world/components/scenes/MobileCoffeeShopScene.tsx',
+      'src/site00/astral-world/components/scenes/MobileAstreaScene.tsx',
     ]) {
-      const src = readFileSync(page, 'utf8');
-      expect(src).toContain('AstralScene');
+      const src = readFileSync(scene, 'utf8');
+      expect(src).toContain('AstralWorldScene');
       expect(src).not.toContain('aw-hero__bg--pending');
     }
   });
@@ -90,8 +90,8 @@ describe('P0.E.FT3 Astral World Immersion Recovery', () => {
   });
 
   it('FT3-8 — journal, profile, daily card, deck use visual artifacts', () => {
-    expect(readFileSync('src/site00/astral-world/pages/AstralWorldJournalPage.tsx', 'utf8')).toContain('aw-journal-artifact');
-    expect(readFileSync('src/site00/astral-world/pages/AstralWorldProfilePage.tsx', 'utf8')).toContain('AstralPortrait');
+    expect(readFileSync('src/site00/astral-world/components/scenes/MobileJournalScene.tsx', 'utf8')).toContain('aw-journal');
+    expect(readFileSync('src/site00/astral-world/components/scenes/MobileProfileScene.tsx', 'utf8')).toContain('AstralPortrait');
     expect(readFileSync('src/site00/astral-world/pages/AstralWorldDailyCardPage.tsx', 'utf8')).toContain('aw-daily-card-visual');
     expect(readFileSync('src/site00/astral-world/pages/AstralWorldCreateDeckPage.tsx', 'utf8')).toContain('aw-deck-visual');
   });
@@ -104,9 +104,9 @@ describe('P0.E.FT3 Astral World Immersion Recovery', () => {
     expect(css).not.toContain('REFERENCE_ASSET_PENDING');
   });
 
-  it('FT3-10 — readers page is portrait-led', () => {
-    const readers = readFileSync('src/site00/astral-world/pages/AstralWorldReadersPage.tsx', 'utf8');
-    expect(readers).toContain('AstralPortrait');
+  it('FT3-10 — readers scene is portrait-led', () => {
+    const readers = readFileSync('src/site00/astral-world/components/scenes/MobileFindReaderScene.tsx', 'utf8');
+    expect(readers).toContain('AstralReaderOrbit');
     expect(readers).not.toMatch(/className="aw-avatar"/);
   });
 });

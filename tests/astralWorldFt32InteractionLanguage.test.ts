@@ -49,7 +49,7 @@ describe('P0.E.FT3.2 Astral World Immersive Interaction Language', () => {
     expect(mobile).not.toContain('aw-kiosk-tray-list');
     expect(mobile).not.toContain('aw-kiosk-grid');
     const desktop = readFileSync('src/site00/astral-world/pages/destinations/AstralMallPage.tsx', 'utf8');
-    expect(desktop).toContain('AstralHotspotLayer');
+    expect(desktop).toContain('MobileAstralMallScene');
     expect(desktop).not.toContain('aw-kiosk-grid');
   });
 

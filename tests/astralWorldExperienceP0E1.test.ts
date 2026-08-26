@@ -89,7 +89,7 @@ describe('P0.E.1 Astral World Experience Prototype', () => {
   });
 
   it('TEST 9 — Private reading does not expose client identity in fixtures', () => {
-    const tarotSource = readFileSync('src/site00/astral-world/pages/destinations/TarotSuitePage.tsx', 'utf8');
+    const tarotSource = readFileSync('src/site00/astral-world/components/scenes/MobileTarotSuiteScene.tsx', 'utf8');
     expect(tarotSource).toContain('identities protected');
     expect(tarotSource).not.toMatch(/client.*name/i);
   });
