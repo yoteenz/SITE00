@@ -5291,3 +5291,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** SITE 00 host canon, project brands, historical lineage, existing P0.VR.1D pipelines.
 
 ---
+
+## 2026-08-26 — P0.VR.2A Reference asset slot compiler + FAL prompt generation
+
+- **Context:** Follow-up to P0.VR.2 — extend Design workspace so image-like reference regions become geometry-locked asset slots with auto-compiled FAL prompts, existing-asset-first resolution, async generation, preview/canon bind, without layout shift or blocking shell reconstruction.
+- **Delivered:** `p0vr2a/` module — `ReferenceVisualAssetSlot`, region classification (`IMAGE_ASSET`/`MIXED_REGION`), `ReferenceAssetBrief`, `ReferenceAssetPromptCompiler` (placement + crop + safe area context), crop extraction, existing asset lookup, FAL provider routing, async generation pipeline, preview/canon bind, asset QA, notifications, composer brief `assetSlotContracts`. React `ReferenceAssetSlot` geometry-locked placeholder. Design workspace UI: MISSING VISUAL ASSETS panel, GENERATE MISSING / GENERATE THIS ASSET, INSPECT PROMPT, PROMOTE ASSET. NDXBOOK pilot seeds (campaign-board manifest + overview sample slots). Tests `visualReconstructionP0VR2A.test.ts` (15 pass). Build green (`index.CcudgPvV.js`).
+- **Core rule enforced:** Reference reconstruction engine defines slot geometry; FAL generates only the visual asset for the predefined slot — not page layout.
+- **Preserved:** P0.VR.2 workspace, P0.VR.1D.13 campaign assets, character authority gate (no random character fallback), Studio World generic architecture.
+
+---

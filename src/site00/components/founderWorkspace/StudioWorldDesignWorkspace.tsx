@@ -2,7 +2,7 @@
  * P0.VR.2 — Studio World Design Reconstruction workspace.
  */
 
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   CANONICAL_VIEWPORT_DIMENSIONS,
@@ -21,6 +21,22 @@ import {
   type DesignViewportClass,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/client.js';
 import { registerNdxbookDesignPilot } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/client.js';
+import {
+  P0_VR_2A_LINEAGE,
+  buildReferenceAssetBrief,
+  compileReferenceAssetPrompt,
+  dispatchAllReadyToGenerate,
+  dispatchAssetGeneration,
+  ensureNdxPilotAssetSlots,
+  extendComposerBriefWithAssetSlots,
+  getCompiledPrompt,
+  listSlotsForScreen,
+  promoteAssetToCanon,
+  shellReconstructionBlockedOnAssetGeneration,
+  summarizeMissingAssets,
+  type ReferenceVisualAssetSlot,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2a/client.js';
+import { ReferenceAssetSlot } from './ReferenceAssetSlot';
 import { VisualReconstructionWorkspace } from './VisualReconstructionWorkspace';
 import '../../styles/site00-visual-reconstruction.css';
 
@@ -60,6 +76,8 @@ export function StudioWorldDesignWorkspace({
   const [scopeOverride, setScopeOverride] = useState<string>('');
   const [uploadPreview, setUploadPreview] = useState<string | null>(null);
   const [lastRunId, setLastRunId] = useState<string | null>(null);
+  const [assetSlots, setAssetSlots] = useState<ReferenceVisualAssetSlot[]>([]);
+  const [selectedPromptSlotId, setSelectedPromptSlotId] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const screens = useMemo(() => listDesignScreensForProject(projectId), [projectId]);
@@ -69,6 +87,28 @@ export function StudioWorldDesignWorkspace({
   const reference = getActiveCanonicalReference(projectId, screenId, viewportClass);
   const statusLabel = mapStatusLabel(projectId, screenId, viewportClass);
   const viewport = CANONICAL_VIEWPORT_DIMENSIONS[viewportClass];
+
+  const refreshAssetSlots = useCallback(() => {
+    if (!reference) {
+      setAssetSlots([]);
+      return;
+    }
+    ensureNdxPilotAssetSlots(reference);
+    setAssetSlots(listSlotsForScreen(projectId, screenId, viewportClass));
+  }, [projectId, reference, screenId, viewportClass]);
+
+  useEffect(() => {
+    refreshAssetSlots();
+  }, [refreshAssetSlots]);
+
+  const missingSummary = useMemo(() => summarizeMissingAssets(assetSlots), [assetSlots]);
+
+  const assetStatusLabel = useMemo(() => {
+    if (missingSummary.generating > 0) return `SHELL MATCHED · ${missingSummary.generating} ASSETS GENERATING`;
+    if (missingSummary.ready === assetSlots.length && assetSlots.length > 0) return 'SHELL MATCHED · ASSETS READY · FINAL QA';
+    if (missingSummary.readyToGenerate > 0) return `SHELL MATCHED · ${missingSummary.readyToGenerate} ASSETS NEEDED`;
+    return statusLabel;
+  }, [assetSlots.length, missingSummary, statusLabel]);
 
   const livePreviewUrl = `${route}?site00MobileLayout=${viewportClass === 'mobile' ? '1' : '0'}&designPreview=1`;
   const referenceUrl = reference?.storagePath ?? uploadPreview;
@@ -114,12 +154,50 @@ export function StudioWorldDesignWorkspace({
   const handleMatchReference = () => {
     const result = startVisualReconstructionRun({ projectId, screenId, route, viewportClass });
     setLastRunId(result.run.runId);
+    if (reference && !shellReconstructionBlockedOnAssetGeneration()) {
+      ensureNdxPilotAssetSlots(reference);
+      if (result.brief) {
+        extendComposerBriefWithAssetSlots(result.brief, listSlotsForScreen(projectId, screenId, viewportClass));
+      }
+    }
+    refreshAssetSlots();
   };
+
+  const handleGenerateAsset = (slotId: string) => {
+    if (!reference) return;
+    dispatchAssetGeneration({ reference, slotId });
+    setTimeout(refreshAssetSlots, 50);
+  };
+
+  const handleGenerateMissingAssets = () => {
+    if (!reference) return;
+    const readyIds = assetSlots.filter((s) => s.generationStatus === 'READY_TO_GENERATE').map((s) => s.slotId);
+    dispatchAllReadyToGenerate({ reference, slotIds: readyIds });
+    setTimeout(refreshAssetSlots, 50);
+  };
+
+  const handlePromoteAsset = (slotId: string) => {
+    promoteAssetToCanon(slotId);
+    refreshAssetSlots();
+  };
+
+  const selectedPrompt = selectedPromptSlotId
+    ? getCompiledPrompt(assetSlots.find((s) => s.slotId === selectedPromptSlotId)?.promptId ?? '') ??
+      (reference
+        ? compileReferenceAssetPrompt({
+            reference,
+            slot: assetSlots.find((s) => s.slotId === selectedPromptSlotId)!,
+            brief: buildReferenceAssetBrief(assetSlots.find((s) => s.slotId === selectedPromptSlotId)!),
+          })
+        : null)
+    : null;
 
   return (
     <div className="site00-design-workspace" data-visual-reconstruction="p0vr2-design-workspace">
       <header className="site00-design-workspace__hero">
-        <p className="site00-design-workspace__kicker">STUDIO WORLD · {P0_VR_2_LINEAGE}</p>
+        <p className="site00-design-workspace__kicker">
+          STUDIO WORLD · {P0_VR_2_LINEAGE} · {P0_VR_2A_LINEAGE}
+        </p>
         <h1 className="site00-design-workspace__title">DESIGN</h1>
         <p className="site00-design-workspace__rule">
           REFERENCE = DESIGN AUTHORITY · KEEP THE FUNCTION · REBUILD THE LOOK
@@ -176,7 +254,7 @@ export function StudioWorldDesignWorkspace({
         </label>
         <div className="site00-design-workspace__control">
           <span>STATUS</span>
-          <strong className="site00-design-workspace__status">{statusLabel}</strong>
+          <strong className="site00-design-workspace__status">{assetStatusLabel}</strong>
         </div>
       </div>
 
@@ -203,7 +281,79 @@ export function StudioWorldDesignWorkspace({
         <Link to={livePreviewUrl} className="site00-design-workspace__link" target="_blank" rel="noreferrer">
           OPEN LIVE ROUTE
         </Link>
+        {missingSummary.readyToGenerate > 0 ? (
+          <button type="button" className="site00-design-workspace__primary" onClick={handleGenerateMissingAssets}>
+            GENERATE MISSING ASSETS
+          </button>
+        ) : null}
       </div>
+
+      {assetSlots.length > 0 ? (
+        <section className="site00-design-workspace__assets" data-visual-reconstruction="p0vr2a-missing-assets">
+          <h2>MISSING VISUAL ASSETS</h2>
+          <p className="site00-design-workspace__assets-summary">
+            {missingSummary.total} ASSET SLOTS · {missingSummary.readyToGenerate} NEEDED · {missingSummary.existingFound}{' '}
+            EXISTING · {missingSummary.generating} GENERATING · {missingSummary.ready} READY
+          </p>
+          <div className="site00-design-workspace__asset-list">
+            {assetSlots.map((slot) => (
+              <article key={slot.slotId} className="site00-design-workspace__asset-card">
+                <div>
+                  <div className="site00-design-workspace__asset-card-title">
+                    [{slot.assetRole.replace(/_/g, ' ')}]
+                  </div>
+                  <div className="site00-design-workspace__asset-card-meta">
+                    REFERENCE · PROMPT · SLOT · {slot.width} × {slot.height} · {slot.aspectRatio}:1 ·{' '}
+                    {slot.objectFit.toUpperCase()} · {slot.objectPosition}
+                  </div>
+                </div>
+                <div
+                  className={`site00-design-workspace__asset-card-status${
+                    slot.assetStatus === 'READY' ? ' is-ready' : ''
+                  }${slot.generationStatus === 'GENERATING' || slot.generationStatus === 'QUEUED' ? ' is-generating' : ''}${
+                    slot.assetStatus === 'FAILED' ? ' is-failed' : ''
+                  }`}
+                >
+                  {slot.generationStatus === 'EXISTING_ASSET_FOUND'
+                    ? 'EXISTING ASSET FOUND'
+                    : slot.generationStatus === 'READY_TO_GENERATE'
+                      ? 'READY TO GENERATE'
+                      : slot.generationStatus === 'GENERATING' || slot.generationStatus === 'QUEUED'
+                        ? 'GENERATING'
+                        : slot.assetStatus === 'FAILED'
+                          ? 'GENERATION FAILED'
+                          : slot.assetStatus === 'BLOCKED'
+                            ? 'BLOCKED'
+                            : slot.assetStatus}
+                </div>
+                {selectedPromptSlotId === slot.slotId && selectedPrompt ? (
+                  <pre className="site00-design-workspace__asset-prompt">{selectedPrompt.promptText}</pre>
+                ) : null}
+                <div className="site00-design-workspace__asset-actions">
+                  <button type="button" onClick={() => setSelectedPromptSlotId(slot.slotId)}>
+                    INSPECT PROMPT
+                  </button>
+                  {slot.generationStatus === 'READY_TO_GENERATE' ? (
+                    <button type="button" onClick={() => handleGenerateAsset(slot.slotId)}>
+                      GENERATE THIS ASSET
+                    </button>
+                  ) : null}
+                  {slot.bindMode === 'PREVIEW_BIND' ? (
+                    <button type="button" onClick={() => handlePromoteAsset(slot.slotId)}>
+                      PROMOTE ASSET
+                    </button>
+                  ) : null}
+                </div>
+              </article>
+            ))}
+          </div>
+          <div className="site00-design-workspace__frames" style={{ position: 'relative', minHeight: 240 }}>
+            {assetSlots.slice(0, 3).map((slot) => (
+              <ReferenceAssetSlot key={slot.slotId} slot={{ ...slot, x: 0, y: 0 }} showControls={false} />
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       {scopeOverride ? (
         <p className="site00-design-workspace__scope-hint">Proposed scope: {scopeOverride}</p>
