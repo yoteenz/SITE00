@@ -5606,3 +5606,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `astralWorldFt52ScreenMasters.test.ts` (16) → **134 Astral tests pass**. Build PASS.
 - **Next:** FT5.3 batch remaining screens one-at-a-time; founder lock pilot then scale.
 
+---
+
+## 2026-08-26 — P0.E.FT5.2 PILOT AW_M_01_WORLD_ENTRY exact reference replication
+
+- **Context:** User attached full-screen canonical mobile master (941×1672) for `AW_M_01_WORLD_ENTRY` at 390px. Rule: reference = design authority; keep function, rebuild look; no whole-page screenshot cheat.
+- **Delivered:** `canonical-master-v2.png` + `source-region-v2.png` installed (docs + public). Registry v2 full-screen dimensions + updated visual anchors. `AwM01WorldEntryScreen.tsx` — hero env layer, celestial mark, avatar, titles, gold Astréa frame with **destination rows inside frame**, secondary world actions preserved. Mobile-only; desktop keeps `DesktopHomeReferenceLayout`. CSS block `.aw-m01-*`. Hero + destination crop tuning in `referenceCropRegistry.ts`. Screen asset manifest extended (hero + 3 destination thumbs). Tests updated FT31/FT52 → **134 pass**.
+- **Live QA:** Route `/projects/astral-world/debug/world/home` @ 390×844; Tarot Suite + Coffee Shop navigation verified; screenshots + demo video captured.
+- **Visual lock:** `PILOT_SCREEN_VISUAL_LOCK=FALSE` — hero city/balcony depth, destination thumb fidelity, typography micro-spacing, and secondary-action row still deviate from canonical master; convergence pass 3 of N.
+
