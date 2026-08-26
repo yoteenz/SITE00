@@ -57,6 +57,7 @@ import '../site00/assts/styles/assts.css';
 import '../site00/assts/styles/assts-depth.css';
 import '../site00/assts/styles/assts-composition.css';
 import '../site00/assts/styles/assts-library-home.css';
+import '../site00/astral-world/styles/astral-world.css';
 
 const Site00OriginPage = lazy(() => import('../site00/pages/OriginPage'));
 const Site00LocationsPage = lazy(() => import('../site00/pages/LocationsPage'));
@@ -83,6 +84,7 @@ const ProjectsPage = lazy(() => import('../site00/pages/ProjectsPage'));
 const ProjectDetailPage = lazy(() => import('../site00/pages/ProjectDetailPage'));
 const ProjectOriginPage = lazy(() => import('../site00/pages/ProjectOriginPage'));
 const ProjectIdentityPage = lazy(() => import('../site00/pages/ProjectIdentityPage'));
+const ProjectAstralWorldExperiencePage = lazy(() => import('../site00/pages/ProjectAstralWorldExperiencePage'));
 const AccountIntakesPage = lazy(() => import('../site00/pages/account/AccountIntakesPage'));
 const AccountIntakeDetailPage = lazy(() => import('../site00/pages/account/AccountIntakeDetailPage'));
 const IntakeGuestAccessPage = lazy(() => import('../site00/pages/intake/IntakeGuestAccessPage'));
@@ -732,6 +734,16 @@ export function Site00Routes() {
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExperience}
+        element={
+          <Site00AccountRouteGuard>
+            <Site00Suspense>
+              <ProjectAstralWorldExperiencePage />
+            </Site00Suspense>
+          </Site00AccountRouteGuard>
         }
       />
       <Route

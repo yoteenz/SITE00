@@ -12,6 +12,11 @@ export function site00ProjectIdentityRoute(slug: string): string {
   return `/projects/${slug}/identity`;
 }
 
+export function site00ProjectExperienceRoute(slug: string, section?: string): string {
+  const base = `/projects/${slug}/experience`;
+  return section ? `${base}/${section.replace(/^\//, '')}` : `${base}/home`;
+}
+
 export function site00ProjectEvolveRoute(slug: string): string {
   return `/projects/${slug}/evolve`;
 }

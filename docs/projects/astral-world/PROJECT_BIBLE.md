@@ -5,6 +5,21 @@
 
 ---
 
+## Experience prototype (P0.E.1)
+
+| Attribute | Value |
+|-----------|-------|
+| Visual state | **CREATIVE_EXPLORATION** |
+| Founder judgment | **AWAITING_FOUNDER_JUDGMENT** |
+| Canon promoted | **NO** |
+| Entry route | `/projects/astral-world/experience/home` |
+
+High-fidelity experience prototype implemented per REFERENCE A (desktop) and REFERENCE B (mobile) sprint directives. Implementation is a review surface — explicit founder approval required for any visual canon promotion.
+
+See: `docs/projects/astral-world/EXPERIENCE_PROTOTYPE.md`, `REFERENCE_FIDELITY.md`
+
+---
+
 ## Current truth state
 
 | Section | State |
