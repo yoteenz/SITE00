@@ -20,9 +20,13 @@ export type Site00ChangeStatus =
   | 'FAILED'
   | 'BLOCKED'
   | 'BLOCKED_SOURCE_DIVERGENCE'
+  | 'BLOCKED_REPO_AUTHORITY_MISMATCH'
+  | 'BLOCKED_REPO_BRANCH_MISMATCH'
   | 'SUPERSEDED';
 
-export type Site00ImplementationMode = 'RUNTIME_BINDING' | 'SOURCE_REPO_CHANGE';
+export type Site00ImplementationMode = 'RUNTIME_BINDING' | 'SOURCE_REPO_CHANGE' | 'SITE00_NATIVE';
+
+export type { ManagedProjectExecutionMode } from './projectAuthorityRegistry.js';
 
 export type StructuredChangeOperationType =
   | 'UPDATE_COMPONENT_PROP'

@@ -1,11 +1,17 @@
 /**
  * P0.BRIDGE.1 — Site00DesignControlPlane orchestrator.
+ * P0.BRIDGE.1B — NDXBOOK SITE00-native authority + change execution target routing.
  */
 
 import { calculateBlastRadius, markReferenceAndSnapshotStaleness } from './blastRadius.js';
 import { classifyChangeExecution, studioWorldNativeInfrastructureTargetable } from './capabilityRegistry.js';
 import { validateChangeOperations } from './operationValidator.js';
 import { STUDIO_WORLD_NATIVE_ROUTE_PREFIXES } from './constants.js';
+import { getRepoDefaultBranch } from './repoBranchAuthority.js';
+import {
+  assertReadyForRepoAuthority,
+  resolveChangeExecutionTarget,
+} from './resolveChangeExecutionTarget.js';
 import type {
   PrepareRepoChangeInput,
   Site00ChangeOperationRecord,
@@ -20,6 +26,7 @@ import {
   memoryGetChangeRequest,
   memoryGetChangeRequestByIdempotency,
   memoryGetManagedProject,
+  memoryGetRepoBindingById,
   memoryGetRepoBindingForProject,
   memoryGetShellPropagation,
   memoryListPropagationMembers,
@@ -28,6 +35,7 @@ import {
   memoryListReferenceBindings,
   memoryListSnapshotBindings,
   memoryMarkStalenessFromBlastRadius,
+  memoryReconcileLegacyWrongRepoRequests,
   memorySaveChangeRequest,
   memoryUpdateChangeRequest,
   seedBridgeMemoryStore,
@@ -42,6 +50,7 @@ let storeMode: DesignControlPlaneStore['mode'] = 'memory';
 export function initDesignControlPlaneForTest(): void {
   storeMode = 'memory';
   seedBridgeMemoryStore();
+  memoryReconcileLegacyWrongRepoRequests();
 }
 
 export function getDesignControlPlaneStoreMode(): DesignControlPlaneStore['mode'] {
@@ -78,6 +87,13 @@ export function createChangeRequest(input: PrepareRepoChangeInput): Site00Change
 
   const classification = classifyChangeExecution(input.changeType, input.operations, input.projectKey);
   const binding = memoryGetRepoBindingForProject(input.projectKey);
+  const target = resolveChangeExecutionTarget({
+    projectKey: input.projectKey,
+    changeExecutionClass: classification.executionClass,
+    changeType: input.changeType,
+    activeBinding: binding,
+  });
+
   const blastRadius = calculateBlastRadius({
     scope: input.scope ?? 'TARGET_ONLY',
     routeKey: input.routeKey,
@@ -93,7 +109,7 @@ export function createChangeRequest(input: PrepareRepoChangeInput): Site00Change
   const record: Site00ChangeRequestRecord = {
     projectId: project.id,
     projectKey: project.projectKey,
-    repoBindingId: binding?.id ?? null,
+    repoBindingId: target.repoBindingId,
     routeKey: input.routeKey ?? null,
     changeExecutionClass: classification.executionClass,
     changeType: input.changeType,
@@ -102,15 +118,21 @@ export function createChangeRequest(input: PrepareRepoChangeInput): Site00Change
     idempotencyKey: buildIdempotencyKey(input),
     version: 1,
     baseSourceCommit: input.baseSourceCommit ?? null,
-    expectedSourceBranch: binding?.defaultBranch ?? 'main',
+    expectedSourceBranch: target.defaultBranch ?? getRepoDefaultBranch(target.sourceRepo) ?? 'main',
     designVersion: input.designVersion ?? 1,
     shellVersion: input.shellVersion ?? null,
     familyVersion: input.familyVersion ?? null,
     requestedBy: input.requestedBy ?? null,
-    implementationMode: classification.implementationMode,
+    implementationMode: target.implementationMode,
     blastRadius,
     riskLevel: classification.executionClass === 'SOURCE_CODE_MATERIALIZATION' ? 'HIGH' : 'LOW',
-    metadata: classification.fallbackReason ? { fallbackReason: classification.fallbackReason } : {},
+    metadata: {
+      ...(classification.fallbackReason ? { fallbackReason: classification.fallbackReason } : {}),
+      executionMode: target.executionMode,
+      executionRepo: target.sourceRepo,
+      bridgeRequired: target.bridgeRequired,
+      implementationModeLabel: target.implementationModeLabel,
+    },
   };
 
   const saved = memorySaveChangeRequest(record, input.operations);
@@ -196,6 +218,24 @@ export function markReadyForRepo(
   if (req.changeExecutionClass === 'SOURCE_CODE_MATERIALIZATION' && !req.baseSourceCommit) {
     throw new Error('base_source_commit required');
   }
+
+  const binding = req.repoBindingId ? memoryGetRepoBindingById(req.repoBindingId) : memoryGetRepoBindingForProject(req.projectKey ?? '');
+  const authorityCheck = assertReadyForRepoAuthority({
+    projectKey: req.projectKey ?? '',
+    repoBinding: binding,
+    expectedSourceBranch: req.expectedSourceBranch,
+  });
+  if (!authorityCheck.allowed) {
+    return memoryUpdateChangeRequest(changeRequestId, {
+      status: authorityCheck.status ?? 'BLOCKED_REPO_AUTHORITY_MISMATCH',
+      metadata: {
+        ...(req.metadata ?? {}),
+        blocker: authorityCheck.status,
+        reason: authorityCheck.reason,
+      },
+    })!;
+  }
+
   const currentCommit =
     options?.currentSourceCommit ?? (req.metadata?.currentSourceCommit as string | undefined);
   const divergence = detectSourceDivergence(req, currentCommit);
@@ -255,12 +295,21 @@ export function recordCrossRepoReceipt(input: {
   status: string;
   message?: string;
 }): Site00ChangeRequestRecord {
-  memoryAddReceipt({ ...input, payload: {} });
+  const req = memoryGetChangeRequest(input.changeRequestId);
+  if (!req) throw new Error('Change request not found');
+  if (req.metadata?.executionMode === 'SITE00_NATIVE') {
+    throw new Error('Cross-repo FSBW receipts are not valid for SITE00_NATIVE projects');
+  }
+
+  memoryAddReceipt({
+    ...input,
+    payload: { executionRepo: req.metadata?.executionRepo, executionMode: req.metadata?.executionMode },
+  });
   const nextStatus = mapReceiptToStatus(input.status);
   if (nextStatus) {
     return memoryUpdateChangeRequest(input.changeRequestId, { status: nextStatus })!;
   }
-  return memoryGetChangeRequest(input.changeRequestId)!;
+  return req;
 }
 
 function mapReceiptToStatus(receiptStatus: string): Site00ChangeStatus | null {
@@ -277,7 +326,15 @@ function mapReceiptToStatus(receiptStatus: string): Site00ChangeStatus | null {
 export function prepareRepoChangeSummary(changeRequestId: string) {
   const req = memoryGetChangeRequest(changeRequestId);
   if (!req) throw new Error('Change request not found');
-  const binding = req.repoBindingId ? memoryGetRepoBindingForProject(req.projectKey ?? '') : null;
+  const binding = req.repoBindingId
+    ? memoryGetRepoBindingById(req.repoBindingId)
+    : memoryGetRepoBindingForProject(req.projectKey ?? '');
+  const target = resolveChangeExecutionTarget({
+    projectKey: req.projectKey ?? '',
+    changeExecutionClass: req.changeExecutionClass,
+    changeType: req.changeType,
+    activeBinding: binding,
+  });
   const propagation = memoryGetShellPropagation(changeRequestId);
   return {
     project: req.projectKey,
@@ -285,8 +342,13 @@ export function prepareRepoChangeSummary(changeRequestId: string) {
     family: req.familyId,
     shell: req.shellId,
     scope: req.scope,
-    sourceRepo: binding ? `${binding.repoOwner}/${binding.repoName}` : null,
+    sourceRepo: target.sourceRepo,
+    executionMode: target.executionMode,
+    executionRepo: target.sourceRepo,
+    bridgeRequired: target.bridgeRequired,
+    implementationModeLabel: target.implementationModeLabel,
     baseCommit: req.baseSourceCommit,
+    expectedSourceBranch: req.expectedSourceBranch,
     affectedPages: req.blastRadius.affectedPages,
     affectedComponents: req.blastRadius.affectedComponents,
     affectedRoutes: req.blastRadius.affectedRoutes,
@@ -311,6 +373,8 @@ export function prepareRepoChangeSummary(changeRequestId: string) {
 export function listReadyForRepoHandoffs(repoOwner: string, repoName: string) {
   return memoryListReadyForRepo(repoOwner, repoName);
 }
+
+export { resolveChangeExecutionTarget, assertReadyForRepoAuthority } from './resolveChangeExecutionTarget.js';
 
 function buildIdempotencyKey(input: PrepareRepoChangeInput): string {
   const opSig = input.operations.map((o) => `${o.operationOrder}:${o.operationType}`).join('|');
