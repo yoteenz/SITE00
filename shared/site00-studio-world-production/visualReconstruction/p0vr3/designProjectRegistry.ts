@@ -4,6 +4,7 @@
 
 import type { DesignableProjectRecord } from './types.js';
 import { SITE00_DESIGN_PROJECT_ID } from './constants.js';
+import { listDesignEnabledManagedProjects } from '../p0vr3m/managedProjectRegistry.js';
 
 const BASE_PROJECTS: DesignableProjectRecord[] = [
   {
@@ -33,7 +34,7 @@ const BASE_PROJECTS: DesignableProjectRecord[] = [
     hostProject: false,
     selfDesignable: false,
     routeNamespace: '/projects/studio-world/*',
-    projectAccent: 'NEUTRAL',
+    projectAccent: 'STUDIO_WORLD_WEBSITE',
     showInProjectSelector: true,
   },
   {
@@ -80,9 +81,10 @@ export function listDesignableProjects(): DesignableProjectRecord[] {
 }
 
 export function listDesignWorkspaceProjects(): Array<{ slug: string; displayName: string }> {
-  return listDesignableProjects()
-    .filter((p) => p.showInProjectSelector)
-    .map((p) => ({ slug: p.projectId, displayName: p.displayName }));
+  return listDesignEnabledManagedProjects().map((p) => ({
+    slug: p.projectId,
+    displayName: p.displayName,
+  }));
 }
 
 export function getDesignableProject(projectId: string): DesignableProjectRecord | null {

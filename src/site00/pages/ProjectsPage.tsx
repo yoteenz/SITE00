@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { EmptyState, MetricCard, SearchField } from '../components/pages/Site00PagePrimitives';
 import { useSite00ProjectsIndex } from '../hooks/useSite00Projects';
-import { SITE00_ROUTES } from '../config/routes';
+import { SITE00_ROUTES, site00CanonicalDesignPath } from '../config/routes';
+import { getSite00ManagedProject } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/client.js';
 import '../styles/site00-projects.css';
 
 const UNAVAILABLE = '—';
@@ -63,6 +64,18 @@ export default function ProjectsPage() {
           <SearchField value={query} onChange={setQuery} placeholder="SEARCH PROJECTS…" id="projects-search" />
         </div>
 
+        <section className="site00-projects-platform-card">
+          <Link to={site00CanonicalDesignPath({ project: 'site00' })} className="site00-project-index-card__link">
+            <div className="site00-project-index-card__mark" aria-hidden="true">◈</div>
+            <div className="site00-project-index-card__body">
+              <p className="site00-project-index-card__kicker">SITE 00 PLATFORM</p>
+              <p className="site00-project-index-card__name">SITE 00</p>
+              <p className="site00-project-index-card__phase">DESIGN WORKSPACE OWNER · SELF-DESIGN ENABLED</p>
+            </div>
+            <span className="site00-project-index-card__cta">OPEN DESIGN →</span>
+          </Link>
+        </section>
+
         {state === 'loading' ? (
           <p className="site00-body">LOADING PROJECTS…</p>
         ) : state === 'error' ? (
@@ -104,9 +117,20 @@ export default function ProjectsPage() {
                       {project.enrichmentStatus === 'PARTIAL' ? (
                         <p className="site00-project-index-card__partial">ENRICHMENT PARTIAL</p>
                       ) : null}
-                      <p className="site00-project-index-card__org">
-                        {(project.classification ?? 'UNKNOWN').replace(/_/g, ' ')}
-                      </p>
+                      {project.slug === 'studio-world' ? (
+                        <p className="site00-project-index-card__focus">
+                          PRODUCTION INFRASTRUCTURE · MANAGED WEBSITE · DESIGN BY SITE 00
+                        </p>
+                      ) : null}
+                      {getSite00ManagedProject(project.slug)?.designEnabled ? (
+                        <p className="site00-project-index-card__org">
+                          WEBSITE DESIGN AUTHORITY · SITE 00
+                        </p>
+                      ) : (
+                        <p className="site00-project-index-card__org">
+                          {(project.classification ?? 'UNKNOWN').replace(/_/g, ' ')}
+                        </p>
+                      )}
                     </div>
                     <span className="site00-project-index-card__cta">OPEN PROJECT →</span>
                   </Link>

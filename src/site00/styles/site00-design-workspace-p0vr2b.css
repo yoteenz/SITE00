@@ -4,8 +4,8 @@
  */
 
 :root {
-  --site00-dw-lime: #b7d236;
-  --site00-dw-lime-soft: rgba(183, 210, 54, 0.14);
+  --site00-dw-host-accent: var(--site00-host-accent, var(--site-red, #e8192c));
+  --site00-dw-host-accent-soft: var(--site-red-dim, rgba(232, 25, 44, 0.15));
   --site00-dw-ink: #111111;
   --site00-dw-muted: #8a857c;
   --site00-dw-line: #e8e4dc;
@@ -84,9 +84,9 @@
 }
 
 .site00-dw-shell__nav-link.is-active {
-  background: var(--site00-dw-lime-soft);
+  background: var(--site00-dw-host-accent-soft);
   color: var(--site00-dw-ink);
-  box-shadow: inset 3px 0 0 var(--site00-dw-lime);
+  box-shadow: inset 3px 0 0 var(--site00-dw-host-accent);
 }
 
 .site00-dw-shell__nav-icon {
@@ -158,6 +158,44 @@
   border-bottom: 1px solid var(--site00-dw-line);
 }
 
+.site00-dw-shell__project-diamond--host {
+  background: var(--site00-dw-host-accent);
+}
+
+.site00-dw-shell__project-context-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  padding: 6px 10px;
+  border: 1px solid var(--site00-dw-line);
+  border-radius: 4px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  background: var(--site00-dw-white);
+}
+
+.site00-dw-shell__project-context-label {
+  color: var(--site00-dw-muted);
+}
+
+.site00-dw-shell__project-context-name {
+  font-weight: 600;
+  color: var(--site00-dw-ink);
+}
+
+.site00-dw-shell__project-context-badge[data-project-accent='NDX_LIME'] {
+  border-color: rgba(183, 210, 54, 0.45);
+}
+
+.site00-dw-shell__project-context-badge[data-project-accent='NDX_LIME'] .site00-dw-shell__project-context-name {
+  color: #8fa01f;
+}
+
+.site00-dw-workspace [data-design-project-accent='NDX_LIME'] .site00-dw-project-preview-accent {
+  color: #b7d236;
+}
+
 .site00-dw-shell__project-row {
   display: flex;
   justify-content: space-between;
@@ -176,7 +214,7 @@
 .site00-dw-shell__project-diamond {
   width: 10px;
   height: 10px;
-  background: var(--site00-dw-lime);
+  background: var(--site00-dw-host-accent);
   transform: rotate(45deg);
   display: inline-block;
 }
@@ -282,7 +320,7 @@
 }
 
 .site00-dw-viewport-toggle button.is-active {
-  background: var(--site00-dw-lime);
+  background: var(--site00-dw-host-accent);
   color: var(--site00-dw-ink);
 }
 
@@ -298,7 +336,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--site00-dw-lime);
+  background: var(--site00-dw-host-accent);
 }
 
 .site00-dw-btn {
@@ -318,8 +356,8 @@
 }
 
 .site00-dw-btn--primary {
-  background: var(--site00-dw-lime);
-  border-color: var(--site00-dw-lime);
+  background: var(--site00-dw-host-accent);
+  border-color: var(--site00-dw-host-accent);
 }
 
 .site00-dw-btn--link {
@@ -348,7 +386,7 @@
 
 .site00-dw-tabs__tab.is-active {
   color: var(--site00-dw-ink);
-  border-bottom-color: var(--site00-dw-lime);
+  border-bottom-color: var(--site00-dw-host-accent);
 }
 
 .site00-dw-tabs__short {
@@ -427,7 +465,7 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: var(--site00-dw-lime);
+  background: var(--site00-dw-host-accent);
   transform: translateX(-50%);
 }
 
@@ -440,7 +478,7 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: var(--site00-dw-lime);
+  background: var(--site00-dw-host-accent);
   border: 2px solid var(--site00-dw-white);
 }
 
@@ -468,7 +506,7 @@
   height: 88px;
   border-radius: 50%;
   border: 6px solid var(--site00-dw-line);
-  border-top-color: var(--site00-dw-lime);
+  border-top-color: var(--site00-dw-host-accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -517,7 +555,7 @@
 .site00-dw-match__bar span {
   display: block;
   height: 100%;
-  background: var(--site00-dw-lime);
+  background: var(--site00-dw-host-accent);
 }
 
 .site00-dw-match__breakdown-title {
@@ -573,7 +611,7 @@
 .site00-dw-assets__badge {
   font-size: 9px;
   letter-spacing: 0.08em;
-  color: var(--site00-dw-lime);
+  color: var(--site00-dw-host-accent);
   font-weight: 600;
 }
 
@@ -625,7 +663,7 @@
 }
 
 .site00-dw-assets__generate-btn {
-  background: var(--site00-dw-lime);
+  background: var(--site00-dw-host-accent);
   border: 0;
   padding: 6px 10px;
   font-size: 9px;
@@ -794,7 +832,7 @@
 }
 
 .site00-dw-matrix tr.is-selected {
-  background: var(--site00-dw-lime-soft);
+  background: var(--site00-dw-host-accent-soft);
 }
 
 .site00-dw-inspect {

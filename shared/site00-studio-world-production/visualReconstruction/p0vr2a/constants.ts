@@ -35,4 +35,4 @@ export const INTERACTIVE_REGION_CLASSIFICATIONS: readonly string[] = ['DOM_UI', 
 
 export const FAL_ELIGIBLE_CLASSIFICATIONS: readonly string[] = ['IMAGE_ASSET', 'MATERIAL_TEXTURE', 'MIXED_REGION'];
 
-export const DESIGN_WORKSPACE_DEEP_LINK = '/studio-world/design';
+export const DESIGN_WORKSPACE_DEEP_LINK = '/projects/site00/design';

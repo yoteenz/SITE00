@@ -21,7 +21,7 @@ export type DesignableProjectRecord = {
   hostProject?: boolean;
   selfDesignable?: boolean;
   routeNamespace: string;
-  projectAccent: 'SITE00_HOST' | 'NDX_LIME' | 'PROJECT_CANONICAL' | 'NEUTRAL';
+  projectAccent: 'SITE00_HOST' | 'NDX_LIME' | 'PROJECT_CANONICAL' | 'NEUTRAL' | 'STUDIO_WORLD_WEBSITE';
   showInProjectSelector: boolean;
 };
 

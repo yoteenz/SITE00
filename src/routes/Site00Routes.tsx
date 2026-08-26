@@ -132,16 +132,19 @@ const ProjectWorkspaceVisualDevelopmentPage = lazy(
 );
 const ProjectExperimentsHubPage = lazy(() => import('../site00/pages/ProjectExperimentsHubPage'));
 const ProjectLabHubPage = lazy(() => import('../site00/pages/ProjectLabHubPage'));
-const StudioWorldDesignPage = lazy(() =>
+const Site00OwnedDesignWorkspacePage = lazy(() =>
+  import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.Site00OwnedDesignWorkspacePage })),
+);
+const LegacyProjectDesignRedirectPage = lazy(() =>
+  import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.LegacyProjectDesignRedirectPage })),
+);
+const StudioWorldDesignLegacyRedirectPage = lazy(() =>
   import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.StudioWorldDesignPage })),
 );
 const ProjectProductAssetFactoryPage = lazy(() =>
   import('../site00/pages/ProjectProductAssetFactoryPage').then((m) => ({
     default: m.ProjectProductAssetFactoryPage,
   })),
-);
-const ProjectDesignWorkspacePage = lazy(() =>
-  import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.ProjectDesignWorkspacePage })),
 );
 const ProjectFounderWorkspaceArchivePage = lazy(() => import('../site00/pages/ProjectFounderWorkspaceArchivePage'));
 const ProjectNotificationsPage = lazy(() => import('../site00/pages/ProjectNotificationsPage'));
@@ -750,12 +753,24 @@ export function Site00Routes() {
         }
       />
       <Route
+        path={SITE00_ROUTES.site00Design}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <Site00OwnedDesignWorkspacePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
         path={SITE00_ROUTES.studioWorldDesign}
         element={
           <Site00Layout>
             <Site00AccountRouteGuard>
               <Site00Suspense>
-                <StudioWorldDesignPage />
+                <StudioWorldDesignLegacyRedirectPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>
@@ -779,7 +794,7 @@ export function Site00Routes() {
           <Site00Layout>
             <Site00AccountRouteGuard>
               <Site00Suspense>
-                <ProjectDesignWorkspacePage />
+                <LegacyProjectDesignRedirectPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

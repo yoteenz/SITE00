@@ -109,6 +109,8 @@ export const SITE00_ROUTES = {
   projectExperiments: '/projects/:projectSlug/experiments',
   projectLab: '/projects/:projectSlug/lab',
   projectDesign: '/projects/:projectSlug/design',
+  /** Canonical SITE 00-owned Design workspace (managed project via ?project=) */
+  site00Design: '/projects/site00/design',
   /** Frontal Slayer product asset factory (P0.PAF.1) */
   projectProductAssets: '/projects/:projectSlug/product-assets',
   projectFounderWorkspaceArchive: '/projects/:projectSlug/archive',
@@ -378,16 +380,39 @@ export function site00ProjectLabPath(projectSlug: string): string {
   return `/projects/${projectSlug}/lab`;
 }
 
-export function site00ProjectDesignPath(projectSlug: string): string {
-  return `/projects/${projectSlug}/design`;
+export function site00ProjectDesignPath(
+  projectSlug: string,
+  params?: { screen?: string; viewport?: string; tab?: string },
+): string {
+  const search = new URLSearchParams();
+  search.set('project', projectSlug);
+  if (params?.screen) search.set('screen', params.screen);
+  if (params?.viewport) search.set('viewport', params.viewport);
+  if (params?.tab) search.set('tab', params.tab.toLowerCase());
+  return `${SITE00_ROUTES.site00Design}?${search.toString()}`;
+}
+
+export function site00CanonicalDesignPath(params?: {
+  project?: string;
+  screen?: string;
+  viewport?: string;
+  tab?: string;
+}): string {
+  const search = new URLSearchParams();
+  if (params?.project) search.set('project', params.project);
+  if (params?.screen) search.set('screen', params.screen);
+  if (params?.viewport) search.set('viewport', params.viewport);
+  if (params?.tab) search.set('tab', params.tab.toLowerCase());
+  const qs = search.toString();
+  return qs ? `${SITE00_ROUTES.site00Design}?${qs}` : SITE00_ROUTES.site00Design;
 }
 
 export function site00ProjectProductAssetsPath(projectSlug: string): string {
   return `/projects/${projectSlug}/product-assets`;
 }
 
-export function site00StudioWorldDesignPath(): string {
-  return '/studio-world/design';
+export function site00StudioWorldDesignPath(projectSlug?: string): string {
+  return site00CanonicalDesignPath({ project: projectSlug ?? 'site00' });
 }
 
 export function site00ProjectFounderWorkspaceArchivePath(projectSlug: string): string {
