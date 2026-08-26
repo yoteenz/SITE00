@@ -1,6 +1,6 @@
 {
   "schemaVersion": "site00-implementation-snapshot-persistent@1",
-  "updatedAt": "2026-08-26T11:18:10.446Z",
+  "updatedAt": "2026-08-26T11:23:05.883Z",
   "records": [
     {
       "snapshotId": "snap-p0vr3j-guide-mobile-v1",
@@ -28,7 +28,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-guide-tablet-v1",
@@ -56,7 +56,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-guide-desktop-v1",
@@ -84,7 +84,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-sound-mobile-v1",
@@ -112,7 +112,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-sound-tablet-v1",
@@ -140,7 +140,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-sound-desktop-v1",
@@ -168,7 +168,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-faq-mobile-v1",
@@ -196,7 +196,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-faq-tablet-v1",
@@ -224,7 +224,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-faq-desktop-v1",
@@ -252,7 +252,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-contact-mobile-v1",
@@ -280,7 +280,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-contact-tablet-v1",
@@ -308,7 +308,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-contact-desktop-v1",
@@ -336,7 +336,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-blueprints-mobile-v1",
@@ -364,7 +364,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-blueprints-tablet-v1",
@@ -392,7 +392,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-blueprints-desktop-v1",
@@ -420,7 +420,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-forgot-password-mobile-v1",
@@ -448,7 +448,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-forgot-password-tablet-v1",
@@ -476,7 +476,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-forgot-password-desktop-v1",
@@ -504,7 +504,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-reset-password-mobile-v1",
@@ -532,7 +532,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-reset-password-tablet-v1",
@@ -560,7 +560,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-reset-password-desktop-v1",
@@ -588,7 +588,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-account-profile-mobile-failed-v1",
@@ -618,7 +618,7 @@
       "qaIssues": [
         "AUTH_REDIRECT"
       ],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-account-profile-tablet-failed-v1",
@@ -648,7 +648,7 @@
       "qaIssues": [
         "AUTH_REDIRECT"
       ],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-account-profile-desktop-failed-v1",
@@ -678,7 +678,7 @@
       "qaIssues": [
         "AUTH_REDIRECT"
       ],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-brand-page-mobile-v1",
@@ -706,7 +706,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-brand-page-tablet-v1",
@@ -734,7 +734,7 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
     },
     {
       "snapshotId": "snap-p0vr3j-brand-page-desktop-v1",
@@ -762,7 +762,277 @@
       "error": null,
       "qaPassed": true,
       "qaIssues": [],
-      "snapshotLabel": "CURRENT · COMPOSER DRAFT"
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
+    },
+    {
+      "snapshotId": "snap-site00-account-profile-mobile-1787743244977",
+      "projectId": "site00",
+      "designScreenId": "account-profile",
+      "implementationRouteId": "impl:account?preview=1&designPreview=1",
+      "viewportClass": "mobile",
+      "route": "/account?preview=1&designPreview=1",
+      "resolvedRoute": "http://127.0.0.1:5174/account?preview=1&designPreview=1?designPreview=1&preview=1&site00MobileLayout=1",
+      "templateRoute": "/account",
+      "representativeRoute": "/account?preview=1&designPreview=1",
+      "capturedUrl": "http://127.0.0.1:5174/account?preview=1&designPreview=1?designPreview=1&preview=1&site00MobileLayout=1",
+      "width": 390,
+      "height": 844,
+      "deviceScaleFactor": 2,
+      "storagePath": "studio-world/design/implementation-snapshots/site00/account-profile/mobile/2026-08-26-commit-516bf3da.webp",
+      "publicUrl": "https://vitest.local/account-profile-mobile.webp",
+      "sourceCommit": "516bf3dae7bf731dc3f20253ad7f6069ccc0af00",
+      "sourceBuildId": null,
+      "capturedAt": "2026-08-26T11:20:41.839Z",
+      "captureStatus": "CURRENT",
+      "captureType": "VIEWPORT",
+      "authContext": "CUSTOMER",
+      "routeState": null,
+      "visualStateId": null,
+      "stale": false,
+      "error": null,
+      "qaPassed": true,
+      "qaIssues": [],
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
+    },
+    {
+      "snapshotId": "snap-site00-account-profile-tablet-1787743247729",
+      "projectId": "site00",
+      "designScreenId": "account-profile",
+      "implementationRouteId": "impl:account?preview=1&designPreview=1",
+      "viewportClass": "tablet",
+      "route": "/account?preview=1&designPreview=1",
+      "resolvedRoute": "http://127.0.0.1:5174/account?preview=1&designPreview=1?designPreview=1&preview=1",
+      "templateRoute": "/account",
+      "representativeRoute": "/account?preview=1&designPreview=1",
+      "capturedUrl": "http://127.0.0.1:5174/account?preview=1&designPreview=1?designPreview=1&preview=1",
+      "width": 768,
+      "height": 1024,
+      "deviceScaleFactor": 2,
+      "storagePath": "studio-world/design/implementation-snapshots/site00/account-profile/tablet/2026-08-26-commit-516bf3da.webp",
+      "publicUrl": "https://vitest.local/account-profile-tablet.webp",
+      "sourceCommit": "516bf3dae7bf731dc3f20253ad7f6069ccc0af00",
+      "sourceBuildId": null,
+      "capturedAt": "2026-08-26T11:20:44.980Z",
+      "captureStatus": "CURRENT",
+      "captureType": "VIEWPORT",
+      "authContext": "CUSTOMER",
+      "routeState": null,
+      "visualStateId": null,
+      "stale": false,
+      "error": null,
+      "qaPassed": true,
+      "qaIssues": [],
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
+    },
+    {
+      "snapshotId": "snap-site00-account-profile-desktop-1787743250750",
+      "projectId": "site00",
+      "designScreenId": "account-profile",
+      "implementationRouteId": "impl:account?preview=1&designPreview=1",
+      "viewportClass": "desktop",
+      "route": "/account?preview=1&designPreview=1",
+      "resolvedRoute": "http://127.0.0.1:5174/account?preview=1&designPreview=1?designPreview=1&preview=1",
+      "templateRoute": "/account",
+      "representativeRoute": "/account?preview=1&designPreview=1",
+      "capturedUrl": "http://127.0.0.1:5174/account?preview=1&designPreview=1?designPreview=1&preview=1",
+      "width": 1440,
+      "height": 900,
+      "deviceScaleFactor": 2,
+      "storagePath": "studio-world/design/implementation-snapshots/site00/account-profile/desktop/2026-08-26-commit-516bf3da.webp",
+      "publicUrl": "https://vitest.local/account-profile-desktop.webp",
+      "sourceCommit": "516bf3dae7bf731dc3f20253ad7f6069ccc0af00",
+      "sourceBuildId": null,
+      "capturedAt": "2026-08-26T11:20:47.733Z",
+      "captureStatus": "CURRENT",
+      "captureType": "VIEWPORT",
+      "authContext": "CUSTOMER",
+      "routeState": null,
+      "visualStateId": null,
+      "stale": false,
+      "error": null,
+      "qaPassed": true,
+      "qaIssues": [],
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DRAFT"
+    },
+    {
+      "snapshotId": "snap-ndxbook-character-lab-mobile-1787743272904",
+      "projectId": "ndxbook",
+      "designScreenId": "character-lab",
+      "implementationRouteId": "impl:projects/ndxbook/character/discovery?designPreview=1&designState=language-lab-active",
+      "viewportClass": "mobile",
+      "route": "/projects/ndxbook/character/discovery?designPreview=1&designState=language-lab-active",
+      "resolvedRoute": "http://127.0.0.1:5174/projects/ndxbook/character/discovery?designPreview=1&designState=language-lab-active?designPreview=1&site00MobileLayout=1",
+      "templateRoute": "/projects/ndxbook/character/discovery",
+      "representativeRoute": "/projects/ndxbook/character/discovery?designPreview=1&designState=language-lab-active",
+      "capturedUrl": "http://127.0.0.1:5174/projects/ndxbook/character/discovery?designPreview=1&designState=language-lab-active?designPreview=1&site00MobileLayout=1",
+      "width": 390,
+      "height": 844,
+      "deviceScaleFactor": 2,
+      "storagePath": "studio-world/design/implementation-snapshots/ndxbook/character-lab/mobile/2026-08-26-commit-516bf3da.webp",
+      "publicUrl": "https://vitest.local/character-lab-mobile.webp",
+      "sourceCommit": "516bf3dae7bf731dc3f20253ad7f6069ccc0af00",
+      "sourceBuildId": null,
+      "capturedAt": "2026-08-26T11:20:50.757Z",
+      "captureStatus": "CURRENT",
+      "captureType": "VIEWPORT",
+      "authContext": "PROJECT_SPECIFIC_ROLE",
+      "routeState": null,
+      "visualStateId": null,
+      "stale": false,
+      "error": null,
+      "qaPassed": true,
+      "qaIssues": [],
+      "snapshotLabel": "FAMILY SOURCE \u00b7 EXISTING IMPLEMENTATION"
+    },
+    {
+      "snapshotId": "snap-ndxbook-character-lab-tablet-1787743295271",
+      "projectId": "ndxbook",
+      "designScreenId": "character-lab",
+      "implementationRouteId": "impl:projects/ndxbook/character/discovery?designPreview=1&designState=language-lab-active",
+      "viewportClass": "tablet",
+      "route": "/projects/ndxbook/character/discovery?designPreview=1&designState=language-lab-active",
+      "resolvedRoute": "http://127.0.0.1:5174/projects/ndxbook/character/discovery?designPreview=1&designState=language-lab-active?designPreview=1",
+      "templateRoute": "/projects/ndxbook/character/discovery",
+      "representativeRoute": "/projects/ndxbook/character/discovery?designPreview=1&designState=language-lab-active",
+      "capturedUrl": "http://127.0.0.1:5174/projects/ndxbook/character/discovery?designPreview=1&designState=language-lab-active?designPreview=1",
+      "width": 768,
+      "height": 1024,
+      "deviceScaleFactor": 2,
+      "storagePath": "studio-world/design/implementation-snapshots/ndxbook/character-lab/tablet/2026-08-26-commit-516bf3da.webp",
+      "publicUrl": "https://vitest.local/character-lab-tablet.webp",
+      "sourceCommit": "516bf3dae7bf731dc3f20253ad7f6069ccc0af00",
+      "sourceBuildId": null,
+      "capturedAt": "2026-08-26T11:21:12.910Z",
+      "captureStatus": "CURRENT",
+      "captureType": "VIEWPORT",
+      "authContext": "PROJECT_SPECIFIC_ROLE",
+      "routeState": null,
+      "visualStateId": null,
+      "stale": false,
+      "error": null,
+      "qaPassed": true,
+      "qaIssues": [],
+      "snapshotLabel": "FAMILY SOURCE \u00b7 EXISTING IMPLEMENTATION"
+    },
+    {
+      "snapshotId": "snap-ndxbook-character-lab-desktop-1787743317890",
+      "projectId": "ndxbook",
+      "designScreenId": "character-lab",
+      "implementationRouteId": "impl:projects/ndxbook/character/discovery?designPreview=1&designState=language-lab-active",
+      "viewportClass": "desktop",
+      "route": "/projects/ndxbook/character/discovery?designPreview=1&designState=language-lab-active",
+      "resolvedRoute": "http://127.0.0.1:5174/projects/ndxbook/character/discovery?designPreview=1&designState=language-lab-active?designPreview=1",
+      "templateRoute": "/projects/ndxbook/character/discovery",
+      "representativeRoute": "/projects/ndxbook/character/discovery?designPreview=1&designState=language-lab-active",
+      "capturedUrl": "http://127.0.0.1:5174/projects/ndxbook/character/discovery?designPreview=1&designState=language-lab-active?designPreview=1",
+      "width": 1440,
+      "height": 900,
+      "deviceScaleFactor": 2,
+      "storagePath": "studio-world/design/implementation-snapshots/ndxbook/character-lab/desktop/2026-08-26-commit-516bf3da.webp",
+      "publicUrl": "https://vitest.local/character-lab-desktop.webp",
+      "sourceCommit": "516bf3dae7bf731dc3f20253ad7f6069ccc0af00",
+      "sourceBuildId": null,
+      "capturedAt": "2026-08-26T11:21:35.277Z",
+      "captureStatus": "CURRENT",
+      "captureType": "VIEWPORT",
+      "authContext": "PROJECT_SPECIFIC_ROLE",
+      "routeState": null,
+      "visualStateId": null,
+      "stale": false,
+      "error": null,
+      "qaPassed": true,
+      "qaIssues": [],
+      "snapshotLabel": "FAMILY SOURCE \u00b7 EXISTING IMPLEMENTATION"
+    },
+    {
+      "snapshotId": "snap-ndxbook-character-lab-voice-lab-mobile-1787743340411",
+      "projectId": "ndxbook",
+      "designScreenId": "character-lab-voice-lab",
+      "implementationRouteId": "impl:projects/ndxbook/character/discovery?preview=1&designPreview=1&designState=voice-lab-active",
+      "viewportClass": "mobile",
+      "route": "/projects/ndxbook/character/discovery?preview=1&designPreview=1&designState=voice-lab-active",
+      "resolvedRoute": "http://127.0.0.1:5174/projects/ndxbook/character/discovery?preview=1&designPreview=1&designState=voice-lab-active?designPreview=1&site00MobileLayout=1",
+      "templateRoute": "/projects/ndxbook/character/discovery",
+      "representativeRoute": "/projects/ndxbook/character/discovery?preview=1&designPreview=1&designState=voice-lab-active",
+      "capturedUrl": "http://127.0.0.1:5174/projects/ndxbook/character/discovery?preview=1&designPreview=1&designState=voice-lab-active?designPreview=1&site00MobileLayout=1",
+      "width": 390,
+      "height": 844,
+      "deviceScaleFactor": 2,
+      "storagePath": "studio-world/design/implementation-snapshots/ndxbook/character-lab-voice-lab/mobile/2026-08-26-commit-516bf3da.webp",
+      "publicUrl": "https://vitest.local/character-lab-voice-lab-mobile.webp",
+      "sourceCommit": "516bf3dae7bf731dc3f20253ad7f6069ccc0af00",
+      "sourceBuildId": null,
+      "capturedAt": "2026-08-26T11:21:57.897Z",
+      "captureStatus": "CURRENT",
+      "captureType": "VIEWPORT",
+      "authContext": "PROJECT_SPECIFIC_ROLE",
+      "routeState": null,
+      "visualStateId": null,
+      "stale": false,
+      "error": null,
+      "qaPassed": true,
+      "qaIssues": [],
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DERIVED DRAFT"
+    },
+    {
+      "snapshotId": "snap-ndxbook-character-lab-voice-lab-tablet-1787743363334",
+      "projectId": "ndxbook",
+      "designScreenId": "character-lab-voice-lab",
+      "implementationRouteId": "impl:projects/ndxbook/character/discovery?preview=1&designPreview=1&designState=voice-lab-active",
+      "viewportClass": "tablet",
+      "route": "/projects/ndxbook/character/discovery?preview=1&designPreview=1&designState=voice-lab-active",
+      "resolvedRoute": "http://127.0.0.1:5174/projects/ndxbook/character/discovery?preview=1&designPreview=1&designState=voice-lab-active?designPreview=1",
+      "templateRoute": "/projects/ndxbook/character/discovery",
+      "representativeRoute": "/projects/ndxbook/character/discovery?preview=1&designPreview=1&designState=voice-lab-active",
+      "capturedUrl": "http://127.0.0.1:5174/projects/ndxbook/character/discovery?preview=1&designPreview=1&designState=voice-lab-active?designPreview=1",
+      "width": 768,
+      "height": 1024,
+      "deviceScaleFactor": 2,
+      "storagePath": "studio-world/design/implementation-snapshots/ndxbook/character-lab-voice-lab/tablet/2026-08-26-commit-516bf3da.webp",
+      "publicUrl": "https://vitest.local/character-lab-voice-lab-tablet.webp",
+      "sourceCommit": "516bf3dae7bf731dc3f20253ad7f6069ccc0af00",
+      "sourceBuildId": null,
+      "capturedAt": "2026-08-26T11:22:20.417Z",
+      "captureStatus": "CURRENT",
+      "captureType": "VIEWPORT",
+      "authContext": "PROJECT_SPECIFIC_ROLE",
+      "routeState": null,
+      "visualStateId": null,
+      "stale": false,
+      "error": null,
+      "qaPassed": true,
+      "qaIssues": [],
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DERIVED DRAFT"
+    },
+    {
+      "snapshotId": "snap-ndxbook-character-lab-voice-lab-desktop-1787743385883",
+      "projectId": "ndxbook",
+      "designScreenId": "character-lab-voice-lab",
+      "implementationRouteId": "impl:projects/ndxbook/character/discovery?preview=1&designPreview=1&designState=voice-lab-active",
+      "viewportClass": "desktop",
+      "route": "/projects/ndxbook/character/discovery?preview=1&designPreview=1&designState=voice-lab-active",
+      "resolvedRoute": "http://127.0.0.1:5174/projects/ndxbook/character/discovery?preview=1&designPreview=1&designState=voice-lab-active?designPreview=1",
+      "templateRoute": "/projects/ndxbook/character/discovery",
+      "representativeRoute": "/projects/ndxbook/character/discovery?preview=1&designPreview=1&designState=voice-lab-active",
+      "capturedUrl": "http://127.0.0.1:5174/projects/ndxbook/character/discovery?preview=1&designPreview=1&designState=voice-lab-active?designPreview=1",
+      "width": 1440,
+      "height": 900,
+      "deviceScaleFactor": 2,
+      "storagePath": "studio-world/design/implementation-snapshots/ndxbook/character-lab-voice-lab/desktop/2026-08-26-commit-516bf3da.webp",
+      "publicUrl": "https://vitest.local/character-lab-voice-lab-desktop.webp",
+      "sourceCommit": "516bf3dae7bf731dc3f20253ad7f6069ccc0af00",
+      "sourceBuildId": null,
+      "capturedAt": "2026-08-26T11:22:43.341Z",
+      "captureStatus": "CURRENT",
+      "captureType": "VIEWPORT",
+      "authContext": "PROJECT_SPECIFIC_ROLE",
+      "routeState": null,
+      "visualStateId": null,
+      "stale": false,
+      "error": null,
+      "qaPassed": true,
+      "qaIssues": [],
+      "snapshotLabel": "CURRENT \u00b7 COMPOSER DERIVED DRAFT"
     }
   ]
 }
