@@ -5445,6 +5445,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-08-26 — P0.CLIENT.1 Client Project Room architecture + responsive shell
+
+- **Context:** First production-ready client-facing Project Room from attached mobile/desktop reference authority. Admin builds; client watches — same underlying data, different permissions/surface/language.
+- **Delivered:** `shared/site00-client-project-room/` — `ClientProjectManifest`, capability model (OWNER/COLLABORATOR/VIEWER), service-scoped phase templates (WEBSITE_ONLY, IDENTITY_PLUS_WEBSITE, NDXBOOK_LIKE, IDENTITY_ONLY), attention states (WATCHING/YOUR_TURN/LOCKED), client-safe translators, `buildClientProjectRoomViewModel()`. API `/api/site00/client-project-room` with ownership auth via `canAccessProjectAsOwner`. Routes `/client/projects/:projectSlug` (+ reviews/library/activity/messages stubs). UI shell matching reference: top bar, mobile bottom nav, desktop left nav + right rail, Overview with Current Moment / Project Map / Next For You / Latest From SITE 00. CSS `site00-client-project-room-p0client1.css`. Preview QA route `preview-client-room`. Tests `clientProjectRoomP0Client1.test.ts` (9 pass) + live browser QA screenshots.
+- **Core rule:** Reference-faithful SITE 00 white environment; project accent only in contextual positions after color profile established; no admin/generation/source/repo exposure to clients.
+- **Preserved:** Admin project workspace, P0.VR.3M design workspace, P0.BRIDGE architecture, no FAL.
+
+---
+
 - **Context:** P0.VR.3J.2 execution ran locally and uploaded captures to Supabase, but committed registry on `main` after PR #498 still had 24/27 CURRENT (3 Account AUTH_BLOCKED historical only). Follow-up commit needed so persistent metadata matches execution.
 - **Delivered:** PR #499 merged @ `527aff6` — `implementation-snapshot-persistent-registry.json` now includes 9 new CURRENT records (3 Account CUSTOMER auth, 3 Language Lab FAMILY SOURCE, 3 Voice Lab COMPOSER DERIVED DRAFT) with `vitest.local` publicUrl placeholders (hydration resolves storage paths at runtime). Historical 3 AUTH_BLOCKED Account records preserved.
 - **Core rule:** Execution artifacts must land in P0.VR.3E persistent registry in git — not only in-memory/remote storage from a dev run.

@@ -50,6 +50,7 @@ import '../site00/styles/site00-project-lore-calibration.css';
 import '../site00/styles/site00-pages.css';
 import '../site00/styles/site00-mobile-shell.css';
 import '../site00/styles/site00-studio.css';
+import '../site00/styles/site00-client-project-room-p0client1.css';
 import '../site00/assts/styles/assts.css';
 import '../site00/assts/styles/assts-depth.css';
 import '../site00/assts/styles/assts-composition.css';
@@ -182,6 +183,29 @@ const ProjectProvisioningPage = lazy(() => import('../site00/pages/provisioning/
 const StudioDashboardPage = lazy(() => import('../site00/pages/studio/StudioDashboardPage'));
 const StudioWorkspaceRouterPage = lazy(() => import('../site00/pages/studio/StudioWorkspaceRouterPage'));
 const StudioReviewDetailPage = lazy(() => import('../site00/pages/studio/StudioReviewDetailPage'));
+const ClientProjectRoomOverviewPage = lazy(
+  () => import('../site00/pages/clientProjectRoom/ClientProjectRoomOverviewPage'),
+);
+const ClientProjectRoomReviewsPage = lazy(() =>
+  import('../site00/pages/clientProjectRoom/ClientProjectRoomSectionPages').then((m) => ({
+    default: m.ClientProjectRoomReviewsPage,
+  })),
+);
+const ClientProjectRoomLibraryPage = lazy(() =>
+  import('../site00/pages/clientProjectRoom/ClientProjectRoomSectionPages').then((m) => ({
+    default: m.ClientProjectRoomLibraryPage,
+  })),
+);
+const ClientProjectRoomActivityPage = lazy(() =>
+  import('../site00/pages/clientProjectRoom/ClientProjectRoomSectionPages').then((m) => ({
+    default: m.ClientProjectRoomActivityPage,
+  })),
+);
+const ClientProjectRoomMessagesPage = lazy(() =>
+  import('../site00/pages/clientProjectRoom/ClientProjectRoomSectionPages').then((m) => ({
+    default: m.ClientProjectRoomMessagesPage,
+  })),
+);
 const IdntyAssessmentRouterPage = lazy(() => import('../site00/pages/idnty/assessment/IdntyAssessmentRouterPage'));
 const BldrAssessmentRouterPage = lazy(() => import('../site00/pages/bldr/assessment/BldrAssessmentRouterPage'));
 const EvolveAssessmentRouterPage = lazy(() => import('../site00/pages/evolve/assessment/EvolveAssessmentRouterPage'));
@@ -1692,6 +1716,66 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <StudioWorkspaceRouterPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.clientProjectRoom}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ClientProjectRoomOverviewPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.clientProjectRoomReviews}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ClientProjectRoomReviewsPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.clientProjectRoomLibrary}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ClientProjectRoomLibraryPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.clientProjectRoomActivity}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ClientProjectRoomActivityPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.clientProjectRoomMessages}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ClientProjectRoomMessagesPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

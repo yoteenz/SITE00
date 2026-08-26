@@ -146,6 +146,12 @@ export const SITE00_ROUTES = {
   /** Client canonical intake retrieval — Identity + Builder intake persistence infrastructure */
   accountIntakes: '/account/intakes',
   accountIntakeDetail: '/account/intakes/:intakeType/:intakeId',
+  /** Client-facing Project Room — authenticated project-scoped client experience */
+  clientProjectRoom: '/client/projects/:projectSlug',
+  clientProjectRoomReviews: '/client/projects/:projectSlug/reviews',
+  clientProjectRoomLibrary: '/client/projects/:projectSlug/library',
+  clientProjectRoomActivity: '/client/projects/:projectSlug/activity',
+  clientProjectRoomMessages: '/client/projects/:projectSlug/messages',
   /** Guest secure intake access/resume — no sign-in required */
   intakeGuestAccess: '/intake/access/:token',
   /** World-class client guest discovery — private token link */
@@ -461,6 +467,19 @@ export function site00CreateAccountLinkTarget(location: {
 export function site00StudioPath(projectSlug: string, section?: 'input' | 'operations' | 'blueprint' | 'assets' | 'reviews' | 'milestones' | 'activity'): string {
   const base = `/studio/${projectSlug}`;
   return section ? `${base}/${section}` : base;
+}
+
+export function site00ClientProjectRoomPath(
+  projectSlug: string,
+  section?: 'overview' | 'reviews' | 'library' | 'activity' | 'messages',
+): string {
+  const base = `/client/projects/${projectSlug}`;
+  if (!section || section === 'overview') return base;
+  return `${base}/${section}`;
+}
+
+export function isSite00ClientProjectRoomPath(pathname: string): boolean {
+  return pathname.startsWith('/client/projects/');
 }
 
 export function site00StudioReviewPath(projectSlug: string, reviewId: string): string {
