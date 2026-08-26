@@ -23,7 +23,6 @@ import {
 import { registerNdxbookDesignPilot, registerSite00DesignPilot } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/client.js';
 import {
   compileSite00DesignRouteManifest,
-  resolveDesignProjectAccent,
   getActiveDesignRouteSyncContract,
   buildSite00FounderDesignScreenSet,
   listManifestScreensForProject,
@@ -55,6 +54,12 @@ import {
   parseDesignWorkspaceUrlState,
   type DesignWorkspaceTab,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2b/client.js';
+import {
+  buildDesignWorkspaceBreadcrumb,
+  resolveManagedProjectContextAccent,
+  resolveManagedProjectForDesignContext,
+  SITE00_DESIGN_PROJECT_ID,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/client.js';
 import { Site00DesignWorkspaceShell } from '../designWorkspace/Site00DesignWorkspaceShell';
 import { DesignCompareSection } from '../designWorkspace/DesignCompareSection';
 import { DesignImplementationPreview } from '../designWorkspace/DesignImplementationPreview';
@@ -92,8 +97,8 @@ function mapStatusLabel(projectId: string, screenId: string, viewport: DesignVie
 }
 
 export function StudioWorldDesignWorkspace({
-  initialProjectId = 'ndxbook',
-  initialScreenId = 'campaign-board',
+  initialProjectId = SITE00_DESIGN_PROJECT_ID,
+  initialScreenId,
   initialViewport = 'mobile',
 }: StudioWorldDesignWorkspaceProps) {
   registerNdxbookDesignPilot();
@@ -102,8 +107,10 @@ export function StudioWorldDesignWorkspace({
   const designProjects = useMemo(() => listDesignWorkspaceProjects(), []);
   const [searchParams, setSearchParams] = useSearchParams();
   const urlState = parseDesignWorkspaceUrlState(searchParams.toString());
-  const [projectId, setProjectId] = useState(urlState.project ?? initialProjectId);
-  const [screenId, setScreenId] = useState(urlState.screen ?? initialScreenId);
+  const [projectId, setProjectId] = useState(
+    resolveManagedProjectForDesignContext(urlState.project ?? initialProjectId),
+  );
+  const [screenId, setScreenId] = useState(urlState.screen ?? initialScreenId ?? '');
   const [viewportClass, setViewportClass] = useState<DesignViewportClass>(urlState.viewport ?? initialViewport);
   const [tab, setTab] = useState<DesignWorkspaceTab>(urlState.tab ?? 'COMPARE');
   const [customRoute, setCustomRoute] = useState('');
@@ -154,10 +161,21 @@ export function StudioWorldDesignWorkspace({
     }
     return listDesignScreensForProject(projectId);
   }, [projectId, site00ScreenSet, site00ScreenSetMode]);
+
+  useEffect(() => {
+    if (!screens.some((s) => s.screenId === screenId)) {
+      const fallback = screens[0]?.screenId;
+      if (fallback) {
+        setScreenId(fallback);
+        syncUrl({ screen: fallback });
+      }
+    }
+  }, [projectId, screens, screenId, syncUrl]);
   const matrix = useMemo(() => buildDesignScreenMatrix(projectId), [projectId]);
   const screen = findDesignScreen(projectId, screenId);
   const projectMeta = designProjects.find((p) => p.slug === projectId);
-  const projectAccent = resolveDesignProjectAccent(projectId);
+  const projectContextAccent = resolveManagedProjectContextAccent(projectId);
+  const breadcrumb = buildDesignWorkspaceBreadcrumb();
   const site00Manifest = useMemo(
     () => (projectId === 'site00' ? compileSite00DesignRouteManifest() : null),
     [projectId],
@@ -191,7 +209,23 @@ export function StudioWorldDesignWorkspace({
           : null,
     }));
   }, [getSnapshot, projectId]);
-  const breadcrumb = `PROJECTS > ${projectMeta?.displayName ?? projectId.toUpperCase()} > DESIGN`;
+
+  const defaultScreenForProject = useCallback((nextProjectId: string, available: typeof screens) => {
+    if (available[0]?.screenId) return available[0].screenId;
+    if (nextProjectId === 'ndxbook') return 'campaign-board';
+    if (nextProjectId === 'site00') return 'guide';
+    return '';
+  }, []);
+
+  useEffect(() => {
+    if (!screenId) {
+      const fallback = defaultScreenForProject(projectId, screens);
+      if (fallback) {
+        setScreenId(fallback);
+        syncUrl({ screen: fallback });
+      }
+    }
+  }, [defaultScreenForProject, projectId, screenId, screens, syncUrl]);
 
   const refreshAssetSlots = useCallback(() => {
     if (!reference) {
@@ -326,12 +360,17 @@ export function StudioWorldDesignWorkspace({
       : null;
 
   return (
-    <Site00DesignWorkspaceShell projectDisplayName={projectMeta?.displayName ?? projectId.toUpperCase()} breadcrumb={breadcrumb}>
+    <Site00DesignWorkspaceShell
+      breadcrumb={breadcrumb}
+      managedProjectDisplayName={projectMeta?.displayName ?? projectId.toUpperCase()}
+      managedProjectAccent={projectContextAccent}
+    >
       <div
         className="site00-dw-workspace"
         data-visual-reconstruction="p0vr2b-design-workspace"
+        data-design-workspace-owner="SITE00"
         data-design-project={projectId}
-        data-design-project-accent={projectAccent}
+        data-design-project-accent={projectContextAccent}
       >
         <section className="site00-dw-controls">
           <div className="site00-dw-controls__row site00-dw-controls__row--primary">
@@ -340,8 +379,9 @@ export function StudioWorldDesignWorkspace({
               <select
                 value={projectId}
                 onChange={(e) => {
-                  setProjectId(e.target.value);
-                  syncUrl({ project: e.target.value });
+                  const nextProject = resolveManagedProjectForDesignContext(e.target.value);
+                  setProjectId(nextProject);
+                  syncUrl({ project: nextProject });
                 }}
               >
                 {designProjects.map((p) => (

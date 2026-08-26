@@ -17,6 +17,22 @@
   line-height: 1.5;
 }
 
+.site00-projects-platform-card {
+  margin: 0 0 1rem;
+  border: 1px solid var(--site00-line, #e8e4dc);
+  border-radius: 6px;
+  background: var(--site00-surface, #fff);
+}
+
+.site00-projects-platform-card .site00-project-index-card__link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  text-decoration: none;
+  color: inherit;
+}
+
 .site00-project-index-list {
   list-style: none;
   margin: 0;

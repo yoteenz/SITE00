@@ -5402,6 +5402,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-08-26 — P0.VR.3M-SITE00 Design ownership + route normalization + host-shell canon
+
+- **Context:** Design workspace incorrectly appeared owned by managed projects (e.g. `/projects/ndxbook/design`) with NDXBOOK lime recoloring the host shell. Sprint clarifies SITE 00 owns Design; managed projects are subject context only.
+- **Delivered:** `p0vr3m/` — `Site00ManagedProjectRecord`, `DesignRouteAuthorityRecord`, `ManagedProjectDesignAdapter`, canonical route `/projects/site00/design?project=`, legacy redirects from `/projects/:slug/design` and `/studio-world/design`. Host shell CSS uses SITE 00 red (`--site00-dw-host-accent`); project accent scoped to context badge/preview only. Breadcrumb `PROJECTS > SITE 00 > DESIGN`. Projects page SITE 00 platform card + Studio World dual-role copy. Project detail DESIGN surface links to canonical route. Tests `visualReconstructionP0VR3M.test.ts` (13 pass). Build green.
+- **Core rule:** workspaceOwner=SITE00 always; selected project changes data context, not host shell or route ownership. Studio World website designable by SITE 00; native pipelines remain separate.
+- **Preserved:** P0.VR.3J.2 snapshots/review, P0.VR.3L family derivation, project-scoped record IDs, no FAL, no mass capture.
+
+---
+
 ## 2026-08-26 — P0.VR.3J.2 registry persistence follow-up (27/27 committed)
 
 - **Context:** P0.VR.3J.2 execution ran locally and uploaded captures to Supabase, but committed registry on `main` after PR #498 still had 24/27 CURRENT (3 Account AUTH_BLOCKED historical only). Follow-up commit needed so persistent metadata matches execution.

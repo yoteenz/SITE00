@@ -28,7 +28,7 @@ export const P0_VR_2B_FAILURE_CODES = [
 ] as const;
 
 export const SITE00_DESIGN_NAV_ITEMS = [
-  { id: 'design', label: 'DESIGN', href: '/studio-world/design', active: true },
+  { id: 'design', label: 'DESIGN', href: '/projects/site00/design', active: true },
   { id: 'projects', label: 'PROJECTS', href: '/projects' },
   { id: 'blueprints', label: 'BLUEPRINTS', href: '/blueprints' },
   { id: 'asset-vault', label: 'ASSET VAULT', href: '/assts' },

@@ -23,6 +23,8 @@ import type {
 } from '../../../shared/site00-projects/types.js';
 import { listClientRegisteredProjectIndexEntries, resolveClientProjectDetail, isClientRegisteredProjectSlug } from './clientProjectResolver.js';
 import { FOUNDER_PROJECTS, isFounderProjectSlug } from './projectRegistry.js';
+import { buildCanonicalDesignWorkspacePath } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/designRouteAuthority.js';
+import { getSite00ManagedProject } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/managedProjectRegistry.js';
 import {
   site00ProjectCreativeDirectionRoute,
   site00ProjectConnectionsRoute,
@@ -84,6 +86,20 @@ async function buildSurfaces(slug: Site00FounderProjectSlug, isClient: boolean):
   const surfaces: Site00ProjectIndexEntry['surfaces'] = [
     { id: 'overview', label: 'OVERVIEW', route: detailRoute(slug), available: true },
   ];
+
+  const managed = getSite00ManagedProject(slug);
+  if (managed?.designEnabled) {
+    surfaces.push({
+      id: 'design',
+      label: 'DESIGN',
+      route: buildCanonicalDesignWorkspacePath({ project: slug }),
+      available: true,
+      description:
+        slug === 'studio-world'
+          ? 'SITE 00 Design — Studio World public website (platform pipelines remain separate)'
+          : 'SITE 00 Design workspace — website and marketing reconstruction',
+    });
+  }
 
   if (isClient) {
     surfaces.push(

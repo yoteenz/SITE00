@@ -11,8 +11,9 @@ export const NDX_ICON_VISUAL_CANON_REFERENCE = {
 } as const;
 
 export const DESIGN_WORKSPACE_ROUTES = {
-  master: '/studio-world/design',
+  master: '/projects/site00/design',
   project: '/projects/:projectSlug/design',
+  legacyMaster: '/studio-world/design',
 } as const;
 
 export const CANONICAL_VIEWPORT_DIMENSIONS = {

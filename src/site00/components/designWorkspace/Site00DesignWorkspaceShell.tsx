@@ -1,5 +1,5 @@
 /**
- * P0.VR.2B — SITE 00 host shell for Design workspace (not NDX project shell).
+ * P0.VR.2B / P0.VR.3M — SITE 00 host shell for Design workspace (not managed-project shell).
  */
 
 import type { ReactNode } from 'react';
@@ -8,10 +8,12 @@ import {
   DESIGN_WORKSPACE_SUBTITLE,
   SITE00_DESIGN_NAV_ITEMS,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2b/client.js';
+import type { ManagedProjectContextAccent } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/types.js';
 
 export type Site00DesignWorkspaceShellProps = {
-  projectDisplayName: string;
   breadcrumb: string;
+  managedProjectDisplayName: string;
+  managedProjectAccent?: ManagedProjectContextAccent;
   children: ReactNode;
   onNotifyClick?: () => void;
 };
@@ -21,13 +23,19 @@ function NavIcon({ id }: { id: string }) {
 }
 
 export function Site00DesignWorkspaceShell({
-  projectDisplayName,
   breadcrumb,
+  managedProjectDisplayName,
+  managedProjectAccent = 'NEUTRAL',
   children,
   onNotifyClick,
 }: Site00DesignWorkspaceShellProps) {
   return (
-    <div className="site00-dw-shell" data-visual-reconstruction="p0vr2b-host-shell">
+    <div
+      className="site00-dw-shell"
+      data-visual-reconstruction="p0vr2b-host-shell"
+      data-design-workspace-owner="SITE00"
+      data-design-host-shell="SITE00_DESIGN_WORKSPACE_SHELL"
+    >
       <aside className="site00-dw-shell__sidebar" aria-label="SITE 00 navigation">
         <div className="site00-dw-shell__brand">
           <span className="site00-dw-shell__brand-mark" aria-hidden>
@@ -86,8 +94,16 @@ export function Site00DesignWorkspaceShell({
         <header className="site00-dw-shell__project-header">
           <div className="site00-dw-shell__project-row">
             <div className="site00-dw-shell__project-title">
-              <span>{projectDisplayName}</span>
-              <span className="site00-dw-shell__project-diamond" aria-hidden />
+              <span>SITE 00</span>
+              <span className="site00-dw-shell__project-diamond site00-dw-shell__project-diamond--host" aria-hidden />
+            </div>
+            <div
+              className="site00-dw-shell__project-context-badge"
+              data-project-accent={managedProjectAccent}
+              aria-label={`Managed project context ${managedProjectDisplayName}`}
+            >
+              <span className="site00-dw-shell__project-context-label">PROJECT</span>
+              <span className="site00-dw-shell__project-context-name">{managedProjectDisplayName}</span>
             </div>
             <div className="site00-dw-shell__project-actions site00-dw-shell__project-actions--desktop">
               <button type="button" className="site00-dw-shell__icon-btn" onClick={onNotifyClick} aria-label="Notifications">
