@@ -5231,3 +5231,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Upload GoDaddy ZIP (frontend-only).
 
 ---
+
+## 2026-08-26 — Campaign Board live local week dates
+
+- **Context:** Founder reported Campaign Board tab still showed static reference dates (WEEK 01, May 24–30) instead of current calendar week.
+- **Delivered:** `resolveCampaignBoardWeekCalendar()` + `useCampaignBoardWeekCalendar()` hook — Mon–Sun local week, ISO week label (`WEEK NN`), uppercase date range, day picker with real month/day, today highlighted. Wired into `MobileCampaignBoardScreen`, overview hub campaign tape, and desktop campaign page default selected day. Static `ndxCampaignBoardMobileReference` dates retained for VR lineage only. Tests `campaignBoardLiveDates.test.ts` (5 pass).
+- **Founder next:** Upload GoDaddy ZIP (frontend-only).
+
+---
