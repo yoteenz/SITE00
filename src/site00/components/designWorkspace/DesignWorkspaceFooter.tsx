@@ -9,11 +9,12 @@ import type { DesignWorkspaceQuickAction } from '../../../../shared/site00-studi
 type Props = {
   activity: DesignWorkspaceActivityEntry[];
   quickActions: DesignWorkspaceQuickAction[];
+  compact?: boolean;
 };
 
-export function DesignWorkspaceFooter({ activity, quickActions }: Props) {
+export function DesignWorkspaceFooter({ activity, quickActions, compact = false }: Props) {
   return (
-    <div className="site00-dw-footer">
+    <div className={`site00-dw-footer${compact ? ' site00-dw-footer--shell-panel' : ''}`}>
       <section className="site00-dw-footer__activity">
         <h2>RECENT ACTIVITY</h2>
         <ul>
