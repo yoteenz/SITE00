@@ -168,6 +168,56 @@
   overflow: hidden;
 }
 
+.site00-mobile-artboard .site00-origin-page--mobile-layout .site00-home-cards {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--site00-origin-cards-top, 53%) + var(--site00-origin-cards-offset-y, 0px));
+  transform: translateX(-50%);
+  width: min(var(--site00-origin-cards-max-w, 360px), calc(100% - 16px));
+  max-width: var(--site00-origin-cards-max-w, 360px);
+  z-index: 3;
+  margin: 0;
+  pointer-events: none;
+}
+
+.site00-mobile-artboard .site00-origin-page--mobile-layout .site00-home-cards .site00-origin-teaser {
+  pointer-events: auto;
+}
+
+.site00-mobile-artboard .site00-origin-page--mobile-layout.site00-origin-page--panel-expanded .site00-home-cards {
+  display: none !important;
+}
+
+.site00-mobile-artboard .site00-origin-page--mobile-layout.site00-origin-page--panel-expanded .site00-home-expanded-column {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  transform: translate(-50%, -50%) scale(var(--site00-origin-expanded-panel-scale, 0.92));
+  width: min(var(--site00-origin-expanded-max-w, 340px), calc(100% - 24px));
+  z-index: 4;
+  pointer-events: none;
+}
+
+.site00-mobile-artboard .site00-origin-page--mobile-layout.site00-origin-page--panel-expanded .site00-home-expanded-column .site00-glass-panel {
+  pointer-events: auto;
+}
+
+.site00-mobile-artboard .site00-origin-page--mobile-layout:not(.site00-origin-page--panel-expanded) .site00-home-expanded-column {
+  display: none !important;
+}
+
+.site00-mobile-artboard .site00-origin-page--mobile-layout .site00-origin-cards__row {
+  gap: var(--site00-origin-cards-row-gap, 6px);
+  transform: scale(var(--site00-origin-card-scale, 0.36));
+  transform-origin: center top;
+}
+
+.site00-mobile-artboard .site00-origin-page--mobile-layout .site00-origin-card__icon {
+  width: var(--site00-origin-panel-icon-size-px, 34px);
+  height: var(--site00-origin-panel-icon-size-px, 34px);
+}
+
 /** Origin mobile layout — re-anchor viewport-fixed UI to artboard stage. */
 .site00-mobile-artboard .site00-origin-page--mobile-layout .site00-home-hero {
   position: absolute;
