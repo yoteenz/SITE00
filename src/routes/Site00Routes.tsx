@@ -130,6 +130,7 @@ const ProjectWorkspaceVisualDevelopmentPage = lazy(
   () => import('../site00/pages/ProjectWorkspaceVisualDevelopmentPage'),
 );
 const ProjectExperimentsHubPage = lazy(() => import('../site00/pages/ProjectExperimentsHubPage'));
+const ProjectLabHubPage = lazy(() => import('../site00/pages/ProjectLabHubPage'));
 const ProjectFounderWorkspaceArchivePage = lazy(() => import('../site00/pages/ProjectFounderWorkspaceArchivePage'));
 const ProjectNotificationsPage = lazy(() => import('../site00/pages/ProjectNotificationsPage'));
 const ProjectNdxIconSheetPage = lazy(() => import('../site00/pages/ProjectNdxIconSheetPage'));
@@ -651,6 +652,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <PersonalityReplayIntakeRouterPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectLab}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectLabHubPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

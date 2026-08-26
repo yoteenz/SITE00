@@ -5,10 +5,10 @@
 
 import type { NDXIconName } from '../../../shared/site00-studio-world-ui/icons/index.js';
 import {
-  site00ProjectBrandMarketingExpressionExperiment01Path,
   site00ProjectContentOperationsCampaignBoardPath,
   site00ProjectContentOperationsPath,
   site00ProjectExperimentsPath,
+  site00ProjectLabPath,
   site00ProjectPath,
 } from './routes';
 
@@ -40,9 +40,9 @@ export function ndxFounderWorkspaceMobileNav(projectSlug: string): NdxMobileNavI
     {
       id: 'lab',
       label: 'LAB',
-      href: site00ProjectBrandMarketingExpressionExperiment01Path(projectSlug),
+      href: site00ProjectLabPath(projectSlug),
       icon: 'lab',
-      screenId: 'experiment-01',
+      screenId: 'lab-hub',
     },
     {
       id: 'more',
@@ -58,6 +58,7 @@ export function resolveMobileScreenIdFromPath(pathname: string, projectSlug: str
   const normalized = pathname.replace(/\/+$/, '');
   const base = `/projects/${projectSlug}`;
   if (normalized === base) return 'overview';
+  if (normalized === `${base}/lab`) return 'lab-hub';
   if (normalized.includes('/content-operations/campaign-board')) return 'campaign-board';
   if (normalized.includes('/marketing-expression/experiment-01')) return 'experiment-01';
   if (normalized.includes('/content-operations')) return 'content-ops';

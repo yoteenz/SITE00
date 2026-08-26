@@ -55,10 +55,11 @@ describe('P0.VR.1D.8 Lab / Experiment 01 reference correction', () => {
     expect(shell).toMatch(/mobileDedicatedScreens.*experiment-01/s);
   });
 
-  it('Lab bottom nav points to experiment-01 route', () => {
+  it('Lab bottom nav points to Lab Hub route (P0.NAV.1)', () => {
     const nav = readFileSync(join(ROOT, 'src/site00/config/ndxFounderWorkspaceMobileNav.ts'), 'utf8');
-    expect(nav).toContain("screenId: 'experiment-01'");
-    expect(nav).toContain('marketing-expression/experiment-01');
+    expect(nav).toContain("screenId: 'lab-hub'");
+    expect(nav).toContain('site00ProjectLabPath');
+    expect(nav).toMatch(/href:\s*site00ProjectLabPath\(projectSlug\)/);
   });
 
   it('renders nine experiment cards with reference snapshot copy', () => {

@@ -1,26 +1,30 @@
 import { Link, useLocation } from 'react-router-dom';
+import { isNdxLabRouteGroupPath } from '../../../../shared/site00-studio-world-production/founderWorkspace/labNavigation/index.js';
 import { NDXIcon } from '../../icons/ndx';
 import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
 import type { NdxBottomNavItem } from '../../config/ndxFounderWorkspaceIcons';
 
 type FounderWorkspaceMobileNavProps = {
+  projectSlug: string;
   items: NdxBottomNavItem[];
   onMore: () => void;
 };
 
-export function FounderWorkspaceMobileNav({ items, onMore }: FounderWorkspaceMobileNavProps) {
+export function FounderWorkspaceMobileNav({ projectSlug, items, onMore }: FounderWorkspaceMobileNavProps) {
   const location = useLocation();
   const normalizedPath = location.pathname.replace(/\/+$/, '');
 
-  const isActive = (href: string) => {
-    if (href === '#more') return false;
-    return normalizedPath === href.replace(/\/+$/, '') || normalizedPath.startsWith(`${href.replace(/\/+$/, '')}/`);
+  const isActive = (item: NdxBottomNavItem) => {
+    if (item.href === '#more') return false;
+    if (item.id === 'LAB') return isNdxLabRouteGroupPath(normalizedPath, projectSlug);
+    const href = item.href.replace(/\/+$/, '');
+    return normalizedPath === href || normalizedPath.startsWith(`${href}/`);
   };
 
   return (
     <nav className="site00-fws-mobile-nav" aria-label="NDX workspace">
       {items.map((item) => {
-        const active = isActive(item.href);
+        const active = isActive(item);
         const iconState = active ? 'active' : 'inactive';
 
         if (item.id === 'MORE') {

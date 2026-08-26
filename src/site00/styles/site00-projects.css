@@ -510,6 +510,11 @@
   text-decoration: none;
 }
 
+.site00-experiments-hub-nav__sep {
+  color: var(--ndx-muted, #666);
+  font-size: 12px;
+}
+
 .site00-experiments-hub-nav__step {
   color: #222;
   text-decoration: none;

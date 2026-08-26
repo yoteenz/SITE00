@@ -107,6 +107,7 @@ export const SITE00_ROUTES = {
   projectExperimentE: '/projects/:projectSlug/experience-expression',
   projectExperimentEVisualDevelopment: '/projects/:projectSlug/experience-expression/visual-development',
   projectExperiments: '/projects/:projectSlug/experiments',
+  projectLab: '/projects/:projectSlug/lab',
   projectFounderWorkspaceArchive: '/projects/:projectSlug/archive',
   projectNdxIconSheet: '/projects/:projectSlug/inspect/icons',
   projectNotifications: '/projects/:projectSlug/notifications',
@@ -357,6 +358,10 @@ export function site00ProjectExperimentEVisualDevelopmentPath(projectSlug: strin
 
 export function site00ProjectExperimentsPath(projectSlug: string): string {
   return `/projects/${projectSlug}/experiments`;
+}
+
+export function site00ProjectLabPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/lab`;
 }
 
 export function site00ProjectFounderWorkspaceArchivePath(projectSlug: string): string {

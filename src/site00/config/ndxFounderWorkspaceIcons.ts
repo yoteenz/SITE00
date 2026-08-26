@@ -3,11 +3,11 @@ import type { NDXIconName } from '../../../shared/site00-studio-world-ui/icons/i
 import {
   site00ProjectContentOperationsCampaignBoardPath,
   site00ProjectContentOperationsPath,
-  site00ProjectFounderCharacterDiscoveryPath,
   site00ProjectFounderWorkspaceArchivePath,
   site00ProjectContentOperationsPerformancePath,
   site00ProjectCulturalIntelligencePath,
   site00ProjectExperimentsPath,
+  site00ProjectLabPath,
   site00ProjectPath,
 } from './routes';
 
@@ -51,7 +51,7 @@ export function ndxFounderWorkspaceBottomNav(projectSlug: string): NdxBottomNavI
     {
       id: 'LAB',
       label: 'LAB',
-      href: site00ProjectFounderCharacterDiscoveryPath(projectSlug),
+      href: site00ProjectLabPath(projectSlug),
       icon: 'lab',
     },
     { id: 'MORE', label: 'MORE', href: '#more', icon: 'more' },

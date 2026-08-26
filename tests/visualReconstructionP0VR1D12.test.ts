@@ -24,6 +24,7 @@ const ROOT = process.cwd();
 describe('P0.VR.1D.12 route shell resolution', () => {
   it('identifies reconstructed NDX routes synchronously', () => {
     expect(isNdxReconstructedRoute('/projects/ndxbook')).toBe(true);
+    expect(isNdxReconstructedRoute('/projects/ndxbook/lab')).toBe(true);
     expect(isNdxReconstructedRoute('/projects/ndxbook/marketing-expression/experiment-01')).toBe(true);
     expect(isNdxReconstructedRoute('/projects/ndxbook/content-operations/campaign-board')).toBe(true);
     expect(isNdxReconstructedRoute('/projects/ndxbook/content-operations')).toBe(true);
@@ -34,6 +35,7 @@ describe('P0.VR.1D.12 route shell resolution', () => {
 
   it('resolves screen id from path without async fetch', () => {
     expect(resolveReconstructedScreenIdFromPath('/projects/ndxbook', 'ndxbook')).toBe('overview');
+    expect(resolveReconstructedScreenIdFromPath('/projects/ndxbook/lab', 'ndxbook')).toBe('lab-hub');
     expect(
       resolveReconstructedScreenIdFromPath('/projects/ndxbook/marketing-expression/experiment-01', 'ndxbook'),
     ).toBe('experiment-01');

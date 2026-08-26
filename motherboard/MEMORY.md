@@ -5264,3 +5264,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder next:** Upload GoDaddy ZIP (frontend-only).
 
 ---
+
+## 2026-08-26 — P0.NAV.1 Lab Hub + Experiment / Character navigation recovery
+
+- **Context:** Founder sprint — LAB bottom nav routed directly to Experiment 01, orphaning Character Lab (Language Lab, Voice Lab, Casting, Character Bible, continuity). Required parent Lab workspace with EXPERIMENTS + CHARACTER destinations.
+- **Forensic:** Mobile `ndxFounderWorkspaceMobileNav` had `href: experiment-01`, `screenId: experiment-01` — no path to Character Lab from primary nav.
+- **Delivered:** `/projects/ndxbook/lab` Lab Hub (`ProjectLabHubPage`, `LabHubOperateLayer`) with editorial EXPERIMENTS + CHARACTER panels; bottom nav LAB → Lab Hub (desktop + mobile configs); `NDX_LAB_ROUTE_GROUP` + `isNdxLabRouteGroupPath` keeps LAB active on lab/experiments/character/casting/continuity routes; `LabHubBackLink` on Experiments Hub + Character Discovery; Experiments hub nav `LAB › EXPERIMENTS HUB`; status summaries from hub registry + optional casting/marketing API; failure taxonomy in `labNavigationEvaluation.ts`; tests `ndxLabNavigationP0NAV1.test.ts` (15 pass). Build green.
+- **Preserved:** Existing Character Lab route (`/character/discovery`), Experiments Hub, Experiment 01 deep links, notification deep links, project menu, lab icon v3 geometry, Language/Voice/Casting/Continuity sub-routes.
+- **Deploy:** FRONTEND only — cPanel/fsbw-dev ZIP after merge.
+
+---

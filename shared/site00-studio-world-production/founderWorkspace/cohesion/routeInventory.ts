@@ -230,6 +230,22 @@ const CANONICAL_ROUTES: NdxWorkspaceRouteEntry[] = [
 
 /** Partial — FWS shell but legacy operate/inspect content remains. */
 const PARTIAL_ROUTES: NdxWorkspaceRouteEntry[] = [
+  entry('lab-hub', SITE00_ROUTES.projectLab, 'ProjectLabHubPage', {
+    migrationStatus: 'CANONICAL',
+    workspaceShell: 'FounderWorkspaceShell',
+    visualGeneration: 'FOUNDER_WORKSPACE_V1',
+    primarySurface: 'site00-fws-canvas',
+    responsiveModel: 'DESKTOP_RAIL_MOBILE_BOTTOM',
+    projectAccentSource: 'NDX_LIME',
+    localNav: 'WORKSPACE_RAIL',
+    inspectSupport: false,
+    loadingState: 'WORKSPACE_NATIVE',
+    emptyState: 'WORKSPACE_NATIVE',
+    errorState: 'WORKSPACE_NATIVE',
+    legacyDependencies: [],
+    scrollModel: 'WORKSPACE_CANVAS',
+    isTopLevel: true,
+  }),
   entry('experiments-hub', SITE00_ROUTES.projectExperiments, 'ProjectExperimentsHubPage', {
     migrationStatus: 'PARTIAL',
     workspaceShell: 'FounderWorkspaceShell',
