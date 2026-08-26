@@ -5,3 +5,7 @@ export * from './reviewReadiness.js';
 export * from './authFunctionalValidation.js';
 export * from './complexShellBriefs.js';
 export * from './ndxbookDesignPilotReconciliation.js';
+export * from './snapshotRegistryHealth.js';
+export * from './accountAuthenticatedCapture.js';
+export * from './composerDraftReviewSession.js';
+export * from './seedPersistentSnapshotRegistry.js';

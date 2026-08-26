@@ -71,6 +71,12 @@ function captureFailures(pageId: string): string[] {
   return failures;
 }
 
+function resolveComplexDraftReadiness(pageId: string): ComposerDraftReadinessStatus | null {
+  if (pageId === 'blueprints' || pageId === 'brand-page') return 'NEEDS_CREATIVE_DIRECTION';
+  if (pageId === 'account-profile') return 'NEEDS_FUNCTIONAL_REVIEW';
+  return null;
+}
+
 export function resolveComposerDraftReadiness(pageId: string): ComposerDraftReadinessStatus {
   const plan = getActiveMissingPageCompletionPlan();
   const entry = plan.entries.find(
@@ -79,6 +85,9 @@ export function resolveComposerDraftReadiness(pageId: string): ComposerDraftRead
   if (!entry) return 'IMPLEMENTED_DRAFT';
 
   if (!screenshotsComplete(pageId)) return 'SCREENSHOT_REVIEW_BLOCKED';
+
+  const complexStatus = resolveComplexDraftReadiness(pageId);
+  if (complexStatus) return complexStatus;
 
   if (entry.creativeDirectionRequired) return 'NEEDS_CREATIVE_DIRECTION';
   if (entry.functionalReviewRequired) return 'NEEDS_FUNCTIONAL_REVIEW';
@@ -126,7 +135,7 @@ function buildBadges(entry: EnrichedComposerReviewQueueEntry): string[] {
   if (entry.family === 'INFORMATION') badges.push('INFORMATION FAMILY');
   if (entry.family === 'AUTH' || entry.route.includes('password')) badges.push('AUTH FAMILY');
   if (entry.readinessStatus === 'READY_FOR_REVIEW') badges.push('READY FOR REVIEW');
-  if (entry.contentPlaceholders.length) badges.push('HAS PLACEHOLDERS');
+  if (entry.readinessStatus === 'NEEDS_CONTENT_REVIEW') badges.push('CONTENT BLOCKED');
   if (entry.readinessStatus === 'NEEDS_FUNCTIONAL_REVIEW') badges.push('FUNCTIONAL CHECK REQUIRED');
   if (entry.readinessStatus === 'NEEDS_CREATIVE_DIRECTION') badges.push('NEEDS CREATIVE DIRECTION');
   if (entry.readinessStatus === 'SCREENSHOT_REVIEW_BLOCKED') badges.push('SCREENSHOT REVIEW BLOCKED');
@@ -182,10 +191,13 @@ export function buildEnrichedComposerReviewSets(): EnrichedComposerReviewSet[] {
     const placeholders = members.flatMap((m) => m.contentPlaceholders);
     const functionalQa =
       set.setId === 'site00-auth-utilities' ? authUtilitySetFunctionalValidationPassed() : true;
+    const approvablePageIds = members.filter((m) => canFinalApprovePage(m.pageId)).map((m) => m.pageId);
+    const readyPageIds = members.filter((m) => m.readinessStatus === 'READY_FOR_REVIEW').map((m) => m.pageId);
     const readyForReview =
       members.length > 0 &&
       members.every((m) => m.readinessStatus === 'READY_FOR_REVIEW') &&
       !blockComplexPageBulkApproval(set.pageIds);
+    const partialApprovalAllowed = approvablePageIds.length > 0 && !blockComplexPageBulkApproval(set.pageIds);
 
     return {
       ...set,
@@ -208,6 +220,9 @@ export function buildEnrichedComposerReviewSets(): EnrichedComposerReviewSet[] {
       },
       functionalQa,
       readyForReview,
+      partialApprovalAllowed,
+      approvablePageIds,
+      readyPageIds,
       screenshotsComplete,
     };
   });

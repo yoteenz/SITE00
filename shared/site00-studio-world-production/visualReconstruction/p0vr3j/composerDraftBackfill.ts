@@ -15,6 +15,7 @@ import {
   registerImplementationSnapshotBatch,
   updateImplementationSnapshotBatch,
 } from '../p0vr3e/implementationSnapshotRegistry.js';
+import { hasValidComposerDraftSnapshot } from './snapshotRegistryHealth.js';
 import type { ImplementationSnapshotRecord } from '../p0vr3e/types.js';
 import {
   SITE00_COMPOSER_DRAFT_EXPECTED_CAPTURE_TARGETS,
@@ -71,9 +72,17 @@ export async function captureComposerDraftSnapshots(input?: {
 
   const results: ImplementationSnapshotRecord[] = [];
   const failures: ComposerDraftCaptureResult['failures'] = [];
+  let skippedReuse = 0;
 
   for (const target of targets) {
     for (const viewportClass of viewports) {
+      if (hasValidComposerDraftSnapshot(target.screenId, viewportClass)) {
+        skippedReuse++;
+        const existing = getLatestImplementationSnapshot('site00', target.screenId, viewportClass);
+        if (existing) results.push(existing);
+        continue;
+      }
+
       const snap = await captureImplementationSnapshot({
         projectId: target.projectId,
         screenId: target.screenId,
@@ -130,6 +139,7 @@ export async function captureComposerDraftSnapshots(input?: {
     failures,
     storage: COMPOSER_DRAFT_SNAPSHOT_LABEL,
     label: COMPOSER_DRAFT_SNAPSHOT_LABEL,
+    skippedReuse,
   };
 }
 

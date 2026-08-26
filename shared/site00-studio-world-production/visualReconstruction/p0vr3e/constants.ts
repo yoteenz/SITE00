@@ -6,6 +6,10 @@ export const P0_VR_3E_LINEAGE = 'P0.VR.3E' as const;
 
 export const IMPLEMENTATION_SNAPSHOT_STORAGE_ROOT = 'studio-world/design/implementation-snapshots' as const;
 
+/** P0.VR.3J.1 — Durable snapshot metadata registry (image bytes remain in Supabase). */
+export const IMPLEMENTATION_SNAPSHOT_PERSISTENT_REGISTRY_RELATIVE_PATH =
+  'public/studio-world/design/implementation-snapshot-persistent-registry.json' as const;
+
 export const IMPLEMENTATION_SNAPSHOT_DEFAULT_DEVICE_SCALE = 2 as const;
 
 export const SCREENSHOT_CAPTURE_CONCURRENCY_DEFAULT = 3 as const;
