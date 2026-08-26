@@ -5564,3 +5564,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Card budget:** Mobile primary routes ≤1–2 large panels; depth via drawers/overlays with world visible behind.
 - **Next:** FT5 FAL P0 batch — generated assets inhabit scene slots automatically.
 
+---
+
+## 2026-08-26 — P0.E.FT3.2 Astral World immersive interaction language
+
+- **Context:** Post-FT3.1 scene shell still had conventional website patterns: directory search, kiosk pricing grid, CRM friend rows, loose portrait crops, loose Astréa hotspots. Sprint FT3.2: rebuild controls as Astral World interactions.
+- **Delivered:** `portraitAssetRegistry.ts` (10 isolated semantic portraits, FAL keys). `AstralInvokeField`, `AstralCategorySigil`, `AstralReaderOrbit`, `AstralKioskTray`, `ReaderDetailTray`, `SpatialPresenceGroups`. Find My Reader over Astréa with invoke lens + orbit. Mall kiosk grid removed — 5 spatial hotspots + brass tray. Astréa hotspot tuning + emblem language. Who's Here/Friends spatialized. Take Me Somewhere intention tokens. Tests FT3.2 (11) = **97 Astral tests pass**. Audit `SITE00_ASTRAL_WORLD_P0E3_FT32_INTERACTION_LANGUAGE.md`.
+- **Next:** FT4 FAL P0 batch for generated portraits replacing extraction crops.
+
