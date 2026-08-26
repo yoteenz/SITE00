@@ -306,6 +306,13 @@
   display: none;
 }
 
+.site00-desktop-artboard .site00-origin-cards__row button.site00-origin-teaser {
+  min-width: 160px;
+  max-width: 200px;
+  min-height: 260px;
+  padding: 24px 20px;
+}
+
 .site00-desktop-artboard .site00-home-cards {
   position: absolute;
   left: 50%;

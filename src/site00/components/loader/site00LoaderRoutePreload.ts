@@ -4,6 +4,7 @@
  */
 
 import { getEnvironmentForPath, SITE00_ENVIRONMENTS } from '../../config/environments';
+import { resolveOriginBackgroundByViewport } from '../../config/origin-background-assets';
 import { resolveSite00PublicAsset } from './site00LoaderConfig';
 import { resolveSite00LoaderMediaPresentation } from './site00LoaderMedia';
 import { preloadSite00LoaderBackground } from './site00LoaderPreload';
@@ -14,13 +15,30 @@ function preloadModule(loader: RoutePreload): Promise<void> {
   return loader().then(() => undefined).catch(() => undefined);
 }
 
-/** Destination page background — what renders under the loader overlay. */
+/** Preload destination page background — Origin preloads both WITH_PANELS + CLEAN for viewport. */
 function preloadDestinationEnvironment(pathname: string): Promise<void> {
   const environmentId = getEnvironmentForPath(pathname);
   if (!environmentId) return Promise.resolve();
 
   const config = SITE00_ENVIRONMENTS[environmentId];
   const presentation = resolveSite00LoaderMediaPresentation();
+
+  if (environmentId === 'ORIGIN_ENVIRONMENT') {
+    const viewport = presentation === 'mobile' ? 'mobile' : 'desktop';
+    const withPanels =
+      viewport === 'mobile'
+        ? resolveOriginBackgroundByViewport('mobile', 'WITH_PANELS')
+        : resolveOriginBackgroundByViewport('desktop', 'WITH_PANELS');
+    const clean =
+      viewport === 'mobile'
+        ? resolveOriginBackgroundByViewport('mobile', 'CLEAN')
+        : resolveOriginBackgroundByViewport('desktop', 'CLEAN');
+    return Promise.all([
+      preloadSite00LoaderBackground(withPanels),
+      preloadSite00LoaderBackground(clean),
+    ]).then(() => undefined);
+  }
+
   const assetPath =
     presentation === 'mobile'
       ? config.mobileAssetPath ?? config.desktopAssetPath
