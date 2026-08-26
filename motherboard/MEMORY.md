@@ -5629,3 +5629,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Tests:** `astralWorldP0R1ReaderAccount.test.ts` (10) → **144 Astral tests pass**. Build PASS. Browser QA: full onboarding flow + Find My Reader + Who's Here; library avatar tiles show initials until FAL pilot assets ACTIVE.
 - **Not yet:** FAL pilot dispatch for 4 library avatars; full custom avatar generation→selection→derivatives pipeline; Supabase migration apply on production; global profile role field integration.
 - **Conventions:** Reader admin routes separate from Seeker nav; never store arbitrary image URLs on Reader records; custom avatar requires user selection before ACTIVE; curated library scales only after pilot QA.
+
+---
+
+## 2026-08-26 — P0.E.FT5.2B AW_M_01 layered background + live overlay replication
+
+- **Context:** Exact mobile Home replication using Attachment A (production background shell) + Attachment B (composition authority). Rule: use background exactly; no CSS panel recreation; real DOM overlays in baked shells.
+- **Delivered:** `AW_M_01_WORLD_ENTRY_BACKGROUND_V1.png` (852×1846) registered in public/docs + `awM01LayeredAssets.ts` manifest/anchors. Rewrote `AwM01WorldEntryScreen.tsx` as three-layer stack (bg img + medallion crops + DOM text/nav). Removed legacy CSS panels/frames. Inline bottom nav aligned to baked shell; hides shell `.aw-mobile-nav` via `:has(.aw-m01-layered)`. Tests `astralWorldFt52BLayeredReplication.test.ts` (4) → **148 Astral pass**. Live QA @390px: background loads, no duplicate panels, routing + Who's Here verified.
+- **Visual lock:** `PILOT_SCREEN_VISUAL_LOCK=FALSE` — destination icon crops still from reference board (dedicated medallion assets pending); sub-pixel anchor tuning vs Attachment B remains.
+- **Next:** Extract dedicated TAROT/COFFEE/MALL medallion PNGs from canonical master; convergence pass on anchor percentages.
