@@ -5519,7 +5519,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** Ingested PNGs to `docs/projects/astral-world/references/` + public `/astral-world/bg-*-cinematic.png`. `referenceAssets.ts` (anatomy, colors, debug mode). `DesktopHomeReferenceLayout` + `MobileHomeReferenceLayout` (independent mobile authority). `AstralCinematicBg` reference crops replace all `REFERENCE_ASSET_PENDING`. Bespoke `AstralDestIcons`. Shell geometry 248/328px nav/rail; Who's Here + Your World Your Way in right rail; nav icons + user/energy card; exploration badges hidden unless `?debug=1`. Tests P0.E.2 (12 pass) + P0.E.1 (22) + FT1 (16) = 50 pass. Docs: REFERENCE_FIDELITY, references/README, audit P0E2.
 - **Fidelity:** Desktop/mobile **HIGH** (~91/90 perceptual) — interim reference crops, not pixel-exact standalone environment art.
 - **Governance:** CREATIVE_EXPLORATION / FOUNDER_FAST_TRACK unchanged; no canon promotion.
-- **Preserved:** All destination/presence/routing/join-table/notifications/journey/mobile nav functionality.
+---
+
+## 2026-08-26 — Astral World fast-track blank screen fix
+
+- **Bug:** `/projects/astral-world/debug/world/home` showed blank screen when signed in (fsbw-dev + local).
+- **Root cause:** Lazy-load `Site00RouteLoadingFallback` → `ReferenceShellSuspenseFallback` called `useSite00()` unconditionally; Astral World routes render **outside** `Site00Provider` → React crash during Suspense.
+- **Fix:** Split fallback — pathname guard for Astral World prototype routes (inline loading UI); move `useSite00()` into inner `ReferenceShellSuspenseFallbackNdx` only for NDX reconstructed routes. Test TEST 13 in P0E2 suite.
 
 ---
 
