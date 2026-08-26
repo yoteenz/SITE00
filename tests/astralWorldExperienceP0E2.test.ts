@@ -98,6 +98,9 @@ describe('P0.E.2 Astral World Reference Convergence', () => {
     const src = readFileSync('src/site00/components/loader/ReferenceShellSuspenseFallback.tsx', 'utf8');
     expect(src).toContain('isAstralWorldPrototypeRoute');
     expect(src).toContain('ReferenceShellSuspenseFallbackNdx');
-    expect(src.indexOf('useSite00')).toBeGreaterThan(src.indexOf('function ReferenceShellSuspenseFallbackNdx'));
+    const ndxFn = src.slice(src.indexOf('function ReferenceShellSuspenseFallbackNdx'));
+    expect(ndxFn).toContain('useSite00');
+    const outerFn = src.slice(src.indexOf('export function ReferenceShellSuspenseFallback'), src.indexOf('function ReferenceShellSuspenseFallbackNdx'));
+    expect(outerFn).not.toContain('useSite00(');
   });
 });
