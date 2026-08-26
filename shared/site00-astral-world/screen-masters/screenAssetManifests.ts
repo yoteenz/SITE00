@@ -13,6 +13,30 @@ export const PILOT_WORLD_ENTRY_MANIFEST: ScreenAssetManifestEntry[] = [
     safeZone: { top: 12, bottom: 28, left: 6, right: 6 },
     focalPoint: 'center 30%',
   },
+  {
+    slotKey: 'TAROT_SUITE_MOBILE',
+    role: 'MIDGROUND_LAYER',
+    required: true,
+    useExactIfApproved: true,
+    safeZone: { top: 0, bottom: 0, left: 0, right: 40 },
+    focalPoint: 'right center',
+  },
+  {
+    slotKey: 'COFFEE_SHOP_MOBILE',
+    role: 'MIDGROUND_LAYER',
+    required: true,
+    useExactIfApproved: true,
+    safeZone: { top: 0, bottom: 0, left: 0, right: 40 },
+    focalPoint: 'right center',
+  },
+  {
+    slotKey: 'ASTRAL_MALL_MOBILE',
+    role: 'MIDGROUND_LAYER',
+    required: true,
+    useExactIfApproved: true,
+    safeZone: { top: 0, bottom: 0, left: 0, right: 40 },
+    focalPoint: 'right center',
+  },
 ];
 
 export const SCREEN_ASSET_MANIFESTS: Record<string, ScreenAssetManifestEntry[]> = {

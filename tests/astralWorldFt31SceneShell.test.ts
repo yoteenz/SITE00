@@ -79,10 +79,11 @@ describe('P0.E.FT3.1 Astral World Scene-First Shell', () => {
       expect(existsSync(`src/site00/astral-world/components/scenes/${scene}`)).toBe(true);
     }
     const home = readFileSync('src/site00/astral-world/components/scenes/MobileArrivalScene.tsx', 'utf8');
-    expect(home).toContain('AstralWorldScene');
+    expect(home).toContain('AwM01WorldEntryScreen');
     expect(home).not.toContain('WhosHerePanel');
     expect(home).toContain('WhosHereWorldOverlay');
     expect(home).toContain('TakeMeSomewhereWorldOverlay');
+    expect(existsSync('src/site00/astral-world/components/scenes/AwM01WorldEntryScreen.tsx')).toBe(true);
   });
 
   it('FT31-7 — pages wire unified immersive scene shells (FT5)', () => {

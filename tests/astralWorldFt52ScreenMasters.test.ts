@@ -60,8 +60,8 @@ describe('P0.E.FT5.2 Astral World Canonical Screen Masters', () => {
   it('FT52-3 — source lineage preserved on canonical master', () => {
     initializeScreenMasterRegistry();
     const pilot = getScreenMaster('AW_M_01_WORLD_ENTRY')!;
-    expect(pilot.sourceRegionPath).toContain('source-region.png');
-    expect(pilot.canonicalMasterPath).toContain('AW_M_01_WORLD_ENTRY');
+    expect(pilot.sourceRegionPath).toContain('source-region-v2.png');
+    expect(pilot.canonicalMasterPath).toContain('canonical-master-v2.png');
     expect(pilot.responsivePair).toBe('AW_D_01_WORLD_ENTRY');
   });
 
@@ -76,9 +76,10 @@ describe('P0.E.FT5.2 Astral World Canonical Screen Masters', () => {
 
   it('FT52-5 — screen asset manifest resolves for pilot', () => {
     const manifest = getScreenAssetManifest('AW_M_01_WORLD_ENTRY');
-    expect(manifest.length).toBeGreaterThan(0);
+    expect(manifest.length).toBeGreaterThanOrEqual(4);
     expect(manifest[0].slotKey).toBe('ASTRAL_WORLD_HERO_MOBILE');
     expect(manifest[0].role).toBe('BACKGROUND_ENVIRONMENT');
+    expect(manifest.some((m) => m.slotKey === 'TAROT_SUITE_MOBILE')).toBe(true);
   });
 
   it('FT52-6 — screen-bound prompt includes canonical screen master', () => {
@@ -135,7 +136,11 @@ describe('P0.E.FT5.2 Astral World Canonical Screen Masters', () => {
   it('FT52-11 — pilot canonical master files exist on disk', () => {
     expect(existsSync('docs/projects/astral-world/screen-masters/mobile/AW_M_01_WORLD_ENTRY/source-region.png')).toBe(true);
     expect(existsSync('docs/projects/astral-world/screen-masters/mobile/AW_M_01_WORLD_ENTRY/canonical-master-v1.png')).toBe(true);
-    expect(existsSync('public/astral-world/screen-masters/mobile/AW_M_01_WORLD_ENTRY/canonical-master-v1.png')).toBe(true);
+    expect(existsSync('docs/projects/astral-world/screen-masters/mobile/AW_M_01_WORLD_ENTRY/canonical-master-v2.png')).toBe(true);
+    expect(existsSync('public/astral-world/screen-masters/mobile/AW_M_01_WORLD_ENTRY/canonical-master-v2.png')).toBe(true);
+    const m01 = readFileSync('src/site00/astral-world/components/scenes/AwM01WorldEntryScreen.tsx', 'utf8');
+    expect(m01).toContain('AW_M_01_WORLD_ENTRY');
+    expect(m01).toContain('Tarot Suite');
   });
 
   it('FT52-12 — board-to-screen map doc exists', () => {
