@@ -5555,3 +5555,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Governance:** Generation ≠ canon; CREATIVE_EXPLORATION / FOUNDER_FAST_TRACK unchanged. FAL batch not auto-dispatched in CI (no FAL_KEY).
 - **Next:** FT5 live P0 batch on Railway + founder visual QA per slot.
 
+---
+
+## 2026-08-26 — P0.E.FT3.1 Astral World scene-first immersive shell reconstruction
+
+- **Context:** Founder rejected remaining website-like mobile architecture (vertical card stacks, document pages) despite FT3/FT4 reference assets. Sprint P0.E.FT3.1: ROUTE→SCENE not ROUTE→PAGE; full-bleed environments, hotspots, contextual drawers/overlays, world HUD nav, FAL-ready scene slots. KEEP FUNCTION · REBUILD EXPERIENCE.
+- **Delivered:** `shared/site00-astral-world/scenes/` — sceneContracts (9 primary scenes), hotspotRegistry (district/destination/table/kiosk anchors), sceneObjectRegistry (DESTINATION/TABLE/JOURNAL/AVATAR/PORTAL). Shell primitives: `AstralWorldScene`, `AstralDrawer`, `AstralHUD`, `AstralOverlay`, `AstralSceneTransition`, enhanced `AstralHotspot`/`AstralHotspotLayer`. Mobile scenes for HOME, Astréa, Tarot Suite, Mall, Coffee Shop, Find My Reader, Friends, Journal, Profile; `WhosHereWorldOverlay` + `TakeMeSomewhereWorldOverlay`. Pages split desktop/mobile; `aw-world-scene` CSS (~350 lines), translucent world HUD mobile nav. FIND_MY_READER_MOBILE slot mapping added. Tests FT3.1 (11 pass) = **86 Astral tests pass**. Audit `SITE00_ASTRAL_WORLD_P0E3_FT31_SCENE_SHELL.md`.
+- **Card budget:** Mobile primary routes ≤1–2 large panels; depth via drawers/overlays with world visible behind.
+- **Next:** FT5 FAL P0 batch — generated assets inhabit scene slots automatically.
+

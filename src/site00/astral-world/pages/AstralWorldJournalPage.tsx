@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useAstralWorld } from '../context/AstralWorldContext';
 import { AstralScene } from '../components/immersive/AstralScene';
+import { MobileJournalScene } from '../components/scenes/MobileJournalScene';
 
-export default function AstralWorldJournalPage() {
+function DesktopJournalLayout() {
   const { journey, demoSession, path } = useAstralWorld();
 
   return (
@@ -31,5 +32,14 @@ export default function AstralWorldJournalPage() {
         <Link to={path('daily-card')} className="aw-btn-primary">Daily Card →</Link>
       </div>
     </div>
+  );
+}
+
+export default function AstralWorldJournalPage() {
+  return (
+    <>
+      <div className="aw-desktop-only"><DesktopJournalLayout /></div>
+      <div className="aw-mobile-only aw-route-scene"><MobileJournalScene /></div>
+    </>
   );
 }

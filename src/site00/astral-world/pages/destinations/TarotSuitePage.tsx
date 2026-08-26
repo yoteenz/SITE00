@@ -3,8 +3,9 @@ import { useAstralWorld } from '../../context/AstralWorldContext';
 import { TakeMeSomewherePanel } from '../../components/TakeMeSomewherePanel';
 import { AstralScene } from '../../components/immersive/AstralScene';
 import { AstralPresenceItem } from '../../components/immersive/AstralPresenceItem';
+import { MobileTarotSuiteScene } from '../../components/scenes/MobileTarotSuiteScene';
 
-export default function TarotSuitePage() {
+function DesktopTarotSuiteLayout() {
   const { readers, path } = useAstralWorld();
   const suiteReaders = readers.filter((r) => r.currentDestination === 'tarot-suite');
   const privateCount = suiteReaders.filter((r) => r.presence === 'READING_NOW').length;
@@ -21,7 +22,6 @@ export default function TarotSuitePage() {
         <section className="aw-card aw-card--gold">
           <h2 className="aw-display aw-display--section">Suite Status</h2>
           <p className="aw-muted">{privateCount} private reading(s) in progress · client identities protected</p>
-          <p className="aw-muted">{suiteReaders.length} reader(s) in suite · {6 - privateCount} rooms available (prototype)</p>
         </section>
         <section className="aw-card">
           <h2 className="aw-display aw-display--section">Choose Reader</h2>
@@ -40,5 +40,14 @@ export default function TarotSuitePage() {
         <TakeMeSomewherePanel compact />
       </div>
     </div>
+  );
+}
+
+export default function TarotSuitePage() {
+  return (
+    <>
+      <div className="aw-desktop-only"><DesktopTarotSuiteLayout /></div>
+      <div className="aw-mobile-only aw-route-scene"><MobileTarotSuiteScene /></div>
+    </>
   );
 }

@@ -3,8 +3,9 @@ import { useAstralWorld } from '../context/AstralWorldContext';
 import { YourWorldYourWayPanel } from '../components/PlacesPopularPanel';
 import { AstralPortrait } from '../components/immersive/AstralPortrait';
 import { AstralScene } from '../components/immersive/AstralScene';
+import { MobileProfileScene } from '../components/scenes/MobileProfileScene';
 
-export default function AstralWorldProfilePage() {
+function DesktopProfileLayout() {
   const { demoSession, energy, userPresence, journey, path } = useAstralWorld();
 
   return (
@@ -33,5 +34,14 @@ export default function AstralWorldProfilePage() {
       <YourWorldYourWayPanel />
       <Link to={path('notification-demo')} className="aw-btn-secondary">Notification Demo →</Link>
     </div>
+  );
+}
+
+export default function AstralWorldProfilePage() {
+  return (
+    <>
+      <div className="aw-desktop-only"><DesktopProfileLayout /></div>
+      <div className="aw-mobile-only aw-route-scene"><MobileProfileScene /></div>
+    </>
   );
 }
