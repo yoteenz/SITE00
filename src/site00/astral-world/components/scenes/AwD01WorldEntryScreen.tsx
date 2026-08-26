@@ -1,36 +1,35 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import {
+  AW_D_01_CANONICAL,
   AW_D_01_OVERLAY_ANCHORS,
+  AW_D_01_WORLD_ENTRY_BACKGROUND_V2,
   resolveAwD01BackgroundPath,
-  resolveAwD01DestinationIconCrop,
+  resolveAwD01IconKey,
 } from '../../../../../shared/site00-astral-world/screen-masters/awD01LayeredAssets.js';
+import { canonicalPctRectStyle, type CanonicalPctRect } from '../../../../../shared/site00-astral-world/screen-masters/canonicalScreenStage.js';
 import { useAstralWorld } from '../../context/AstralWorldContext';
-import { AstralPortrait } from '../immersive/AstralPortrait';
 import {
+  AstralMallIcon,
+  CoffeeShopIcon,
   NavIconFriends,
   NavIconHome,
   NavIconJournal,
   NavIconProfile,
   NavIconReaders,
   NavIconWorld,
+  TarotSuiteIcon,
 } from '../AstralDestIcons';
+import { AstralPortrait } from '../immersive/AstralPortrait';
+import { CanonicalScreenStage } from '../immersive/CanonicalScreenStage';
 
 type AwD01WorldEntryScreenProps = {
   onWhosHere: () => void;
   onTakeMeSomewhere: () => void;
 };
 
-type AnchorRect = { x: number; y: number; w: number; h: number };
-
-function anchorStyle(anchor: AnchorRect): CSSProperties {
-  return {
-    position: 'absolute',
-    left: `${anchor.x - anchor.w / 2}%`,
-    top: `${anchor.y}%`,
-    width: `${anchor.w}%`,
-    height: `${anchor.h}%`,
-  };
+function anchorStyle(anchor: CanonicalPctRect): CSSProperties {
+  return canonicalPctRectStyle(anchor) as CSSProperties;
 }
 
 function CelestialBrandMark() {
@@ -70,19 +69,18 @@ function IconCompass({ size = 18 }: { size?: number }) {
   );
 }
 
-function DestinationMedallion({ cropKey }: { cropKey: 'TAROT_SUITE' | 'COFFEE_SHOP' | 'ASTRAL_MALL' }) {
-  const crop = resolveAwD01DestinationIconCrop(cropKey);
+const ICON_BY_KEY = {
+  TAROT_SUITE: TarotSuiteIcon,
+  COFFEE_SHOP: CoffeeShopIcon,
+  ASTRAL_MALL: AstralMallIcon,
+} as const;
+
+function DestinationIcon({ iconKey }: { iconKey: keyof typeof ICON_BY_KEY }) {
+  const Icon = ICON_BY_KEY[iconKey];
   return (
-    <span
-      className="aw-d01-layered__medallion"
-      style={{
-        backgroundImage: `url(${crop.src})`,
-        backgroundPosition: crop.position,
-        backgroundSize: crop.size,
-        backgroundRepeat: 'no-repeat',
-      }}
-      aria-hidden
-    />
+    <span className="aw-d01-layered__medallion" aria-hidden>
+      <Icon size={40} className="aw-d01-layered__dest-icon" />
+    </span>
   );
 }
 
@@ -92,18 +90,19 @@ function DestinationRow({
   title,
   descriptor,
   accent,
-  cropKey,
+  iconSlot,
 }: {
-  anchor: AnchorRect;
+  anchor: CanonicalPctRect;
   to: string;
   title: string;
   descriptor: string;
   accent: 'suite' | 'coffee' | 'mall';
-  cropKey: 'TAROT_SUITE' | 'COFFEE_SHOP' | 'ASTRAL_MALL';
+  iconSlot: 'TAROT_DESTINATION_ICON' | 'COFFEE_DESTINATION_ICON' | 'MALL_DESTINATION_ICON';
 }) {
+  const iconKey = resolveAwD01IconKey(iconSlot);
   return (
     <Link to={to} className={`aw-d01-layered__dest aw-d01-layered__dest--${accent}`} style={anchorStyle(anchor)}>
-      <DestinationMedallion cropKey={cropKey} />
+      <DestinationIcon iconKey={iconKey} />
       <span className="aw-d01-layered__dest-copy">
         <span className="aw-d01-layered__dest-name">{title}</span>
         <span className="aw-d01-layered__dest-desc">{descriptor}</span>
@@ -119,7 +118,7 @@ function ActionRow({
   onClick,
   to,
 }: {
-  anchor: AnchorRect;
+  anchor: CanonicalPctRect;
   label: ReactNode;
   icon: ReactNode;
   onClick?: () => void;
@@ -212,7 +211,8 @@ function D01BottomNav({ path }: { path: (segment: string) => string }) {
 }
 
 /**
- * AW_D_01_WORLD_ENTRY — desktop layered replication (FT5.2C).
+ * AW_D_01_WORLD_ENTRY — canonical stage (FT5.2D).
+ * Background V2 + overlays share one 1536×1024 coordinate plane.
  */
 export function AwD01WorldEntryScreen({ onWhosHere, onTakeMeSomewhere }: AwD01WorldEntryScreenProps) {
   const { path, demoSession } = useAstralWorld();
@@ -221,130 +221,120 @@ export function AwD01WorldEntryScreen({ onWhosHere, onTakeMeSomewhere }: AwD01Wo
   return (
     <article
       className="aw-d01-layered aw-desktop-only"
-      data-screen-master="AW_D_01_WORLD_ENTRY"
       data-scene-id="HOME_ARRIVAL"
-      data-background-slot="AW_D_01_WORLD_ENTRY_BACKGROUND_V1"
+      data-canonical-stage="AW_D_01_WORLD_ENTRY"
     >
-      <div className="aw-d01-layered__stage">
-        <img
-          className="aw-d01-layered__bg"
-          src={bgPath}
-          alt=""
-          width={1672}
-          height={941}
-          decoding="async"
-          draggable={false}
-        />
+      <CanonicalScreenStage stage={AW_D_01_CANONICAL} backgroundSrc={bgPath} className="aw-d01-layered__stage">
+        <D01TopNav path={path} />
 
-        <div className="aw-d01-layered__overlays">
-          <D01TopNav path={path} />
+        <Link
+          to={path('profile')}
+          className="aw-d01-layered__avatar-hit"
+          style={anchorStyle(AW_D_01_OVERLAY_ANCHORS.AVATAR_SHELL_CENTER)}
+          aria-label={`${demoSession.displayName} profile`}
+        >
+          <AstralPortrait
+            personId={demoSession.userId}
+            name={demoSession.displayName}
+            initials={demoSession.displayName[0]}
+            size={52}
+            showPresence
+            className="aw-d01-layered__avatar"
+          />
+        </Link>
 
-          <Link
-            to={path('profile')}
-            className="aw-d01-layered__avatar-hit"
-            style={anchorStyle(AW_D_01_OVERLAY_ANCHORS.AVATAR_SHELL_CENTER)}
-            aria-label={`${demoSession.displayName} profile`}
-          >
-            <AstralPortrait
-              personId={demoSession.userId}
-              name={demoSession.displayName}
-              initials={demoSession.displayName[0]}
-              size={52}
-              showPresence
-              className="aw-d01-layered__avatar"
-            />
-          </Link>
+        <p className="aw-d01-layered__hero-kicker" style={anchorStyle(AW_D_01_OVERLAY_ANCHORS.HERO_KICKER_CENTER)}>
+          Welcome to
+        </p>
+        <h1 className="aw-d01-layered__hero-title" style={anchorStyle(AW_D_01_OVERLAY_ANCHORS.HERO_TITLE_CENTER)}>
+          Astral World
+        </h1>
+        <p className="aw-d01-layered__hero-subtitle" style={anchorStyle(AW_D_01_OVERLAY_ANCHORS.HERO_SUBTITLE_CENTER)}>
+          A living world of intuition,
+          <br />
+          readings, and transformation.
+        </p>
 
-          <p className="aw-d01-layered__hero-kicker" style={anchorStyle(AW_D_01_OVERLAY_ANCHORS.HERO_KICKER_CENTER)}>
-            Welcome to
+        <section className="aw-d01-layered__left" aria-labelledby="aw-d01-astrea-heading">
+          <p className="aw-d01-layered__astrea-kicker" style={anchorStyle(AW_D_01_OVERLAY_ANCHORS.ASTREA_ENTERING)}>
+            You are entering
           </p>
-          <h1 className="aw-d01-layered__hero-title" style={anchorStyle(AW_D_01_OVERLAY_ANCHORS.HERO_TITLE_CENTER)}>
-            Astral World
-          </h1>
-          <p className="aw-d01-layered__hero-subtitle" style={anchorStyle(AW_D_01_OVERLAY_ANCHORS.HERO_SUBTITLE_CENTER)}>
-            A living world of intuition,
-            <br />
-            readings, and transformation.
+          <h2 id="aw-d01-astrea-heading" className="aw-d01-layered__astrea-title" style={anchorStyle(AW_D_01_OVERLAY_ANCHORS.ASTREA_TITLE)}>
+            <Link to={path('astrea')} className="aw-d01-layered__astrea-link">
+              Astréa
+            </Link>
+          </h2>
+          <p className="aw-d01-layered__astrea-district" style={anchorStyle(AW_D_01_OVERLAY_ANCHORS.ASTREA_DISTRICT)}>
+            The social district of Astral World.
+          </p>
+          <p className="aw-d01-layered__astrea-tagline" style={anchorStyle(AW_D_01_OVERLAY_ANCHORS.ASTREA_TAGLINE)}>
+            Explore. Connect. Belong.
           </p>
 
-          <section className="aw-d01-layered__left" aria-labelledby="aw-d01-astrea-heading">
-            <p className="aw-d01-layered__astrea-kicker" style={anchorStyle(AW_D_01_OVERLAY_ANCHORS.ASTREA_ENTERING)}>
-              You are entering
-            </p>
-            <h2 id="aw-d01-astrea-heading" className="aw-d01-layered__astrea-title" style={anchorStyle(AW_D_01_OVERLAY_ANCHORS.ASTREA_TITLE)}>
-              <Link to={path('astrea')} className="aw-d01-layered__astrea-link">
-                Astréa
-              </Link>
-            </h2>
-            <p className="aw-d01-layered__astrea-district" style={anchorStyle(AW_D_01_OVERLAY_ANCHORS.ASTREA_DISTRICT)}>
-              The social district of Astral World.
-            </p>
-            <p className="aw-d01-layered__astrea-tagline" style={anchorStyle(AW_D_01_OVERLAY_ANCHORS.ASTREA_TAGLINE)}>
-              Explore. Connect. Belong.
-            </p>
-
-            <nav className="aw-d01-layered__destinations" aria-label="Astréa destinations">
-              <DestinationRow
-                anchor={AW_D_01_OVERLAY_ANCHORS.DESTINATION_ROW_1}
-                to={path('astrea/tarot-suite')}
-                title="Tarot Suite"
-                descriptor="Deep. Private. Immersive."
-                accent="suite"
-                cropKey="TAROT_SUITE"
-              />
-              <DestinationRow
-                anchor={AW_D_01_OVERLAY_ANCHORS.DESTINATION_ROW_2}
-                to={path('astrea/coffee-shop')}
-                title="Coffee Shop"
-                descriptor="Conversations. Comfort. Community."
-                accent="coffee"
-                cropKey="COFFEE_SHOP"
-              />
-              <DestinationRow
-                anchor={AW_D_01_OVERLAY_ANCHORS.DESTINATION_ROW_3}
-                to={path('astrea/astral-mall')}
-                title="Astral Mall"
-                descriptor="Fast. Fun. On the go."
-                accent="mall"
-                cropKey="ASTRAL_MALL"
-              />
-            </nav>
-          </section>
-
-          <aside className="aw-d01-layered__right" aria-label="World actions">
-            <ActionRow
-              anchor={AW_D_01_OVERLAY_ANCHORS.RIGHT_ACTION_1}
-              label="Who's Here"
-              icon={<NavIconFriends size={18} />}
-              onClick={onWhosHere}
+          <nav className="aw-d01-layered__destinations" aria-label="Astréa destinations">
+            <DestinationRow
+              anchor={AW_D_01_OVERLAY_ANCHORS.DESTINATION_ROW_1}
+              to={path('astrea/tarot-suite')}
+              title="Tarot Suite"
+              descriptor="Deep. Private. Immersive."
+              accent="suite"
+              iconSlot="TAROT_DESTINATION_ICON"
             />
-            <ActionRow
-              anchor={AW_D_01_OVERLAY_ANCHORS.RIGHT_ACTION_2}
-              label={
-                <>
-                  Take Me
-                  <br />
-                  Somewhere
-                </>
-              }
-              icon={<IconCompass />}
-              onClick={onTakeMeSomewhere}
+            <DestinationRow
+              anchor={AW_D_01_OVERLAY_ANCHORS.DESTINATION_ROW_2}
+              to={path('astrea/coffee-shop')}
+              title="Coffee Shop"
+              descriptor="Conversations. Comfort. Community."
+              accent="coffee"
+              iconSlot="COFFEE_DESTINATION_ICON"
             />
-            <ActionRow
-              anchor={AW_D_01_OVERLAY_ANCHORS.RIGHT_ACTION_3}
-              label="Find My Reader"
-              icon={<NavIconReaders size={18} />}
-              to={path('readers')}
+            <DestinationRow
+              anchor={AW_D_01_OVERLAY_ANCHORS.DESTINATION_ROW_3}
+              to={path('astrea/astral-mall')}
+              title="Astral Mall"
+              descriptor="Fast. Fun. On the go."
+              accent="mall"
+              iconSlot="MALL_DESTINATION_ICON"
             />
-          </aside>
+          </nav>
+        </section>
 
-          <Link to={path('astrea')} className="aw-sr-only-focusable">
-            Enter Astréa
-          </Link>
+        <aside className="aw-d01-layered__right" aria-label="World actions">
+          <ActionRow
+            anchor={AW_D_01_OVERLAY_ANCHORS.RIGHT_ACTION_1}
+            label="Who's Here"
+            icon={<NavIconFriends size={18} />}
+            onClick={onWhosHere}
+          />
+          <ActionRow
+            anchor={AW_D_01_OVERLAY_ANCHORS.RIGHT_ACTION_2}
+            label={
+              <>
+                Take Me
+                <br />
+                Somewhere
+              </>
+            }
+            icon={<IconCompass />}
+            onClick={onTakeMeSomewhere}
+          />
+          <ActionRow
+            anchor={AW_D_01_OVERLAY_ANCHORS.RIGHT_ACTION_3}
+            label="Find My Reader"
+            icon={<NavIconReaders size={18} />}
+            to={path('readers')}
+          />
+        </aside>
 
-          <D01BottomNav path={path} />
-        </div>
-      </div>
+        <Link to={path('astrea')} className="aw-sr-only-focusable">
+          Enter Astréa
+        </Link>
+
+        <D01BottomNav path={path} />
+      </CanonicalScreenStage>
+      <span className="aw-sr-only" data-background-version={AW_D_01_WORLD_ENTRY_BACKGROUND_V2.nativeWidth}>
+        {AW_D_01_WORLD_ENTRY_BACKGROUND_V2.nativeWidth}x{AW_D_01_WORLD_ENTRY_BACKGROUND_V2.nativeHeight}
+      </span>
     </article>
   );
 }

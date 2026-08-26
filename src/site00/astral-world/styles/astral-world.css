@@ -2544,7 +2544,44 @@
   flex-wrap: wrap;
 }
 
-/* ─── AW_M_01_WORLD_ENTRY — FT5.2B layered replication (390px authority) ─── */
+/* ─── Canonical screen stage — FT5.2D shared coordinate plane ─── */
+
+.aw-canonical-stage {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.aw-canonical-stage__inner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--aw-stage-ref-w) / var(--aw-stage-ref-h);
+}
+
+.aw-canonical-stage__bg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: top center;
+  user-select: none;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.aw-canonical-stage__overlays {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.aw-canonical-stage__overlays a,
+.aw-canonical-stage__overlays button {
+  pointer-events: auto;
+}
+
+/* ─── AW_M_01_WORLD_ENTRY — FT5.2D canonical 854×1842 ─── */
 
 .aw-experience-root:has(.aw-m01-layered) .aw-mobile-nav {
   display: none;
@@ -2567,39 +2604,11 @@
 }
 
 .aw-m01-layered {
-  --aw-m01-bg-aspect: 852 / 1846;
   position: relative;
   width: 100%;
   max-width: 430px;
   margin: 0 auto;
   color: var(--aw-text);
-}
-
-.aw-m01-layered__stage {
-  position: relative;
-  width: 100%;
-  aspect-ratio: var(--aw-m01-bg-aspect);
-}
-
-.aw-m01-layered__bg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: fill;
-  object-position: top center;
-  user-select: none;
-  pointer-events: none;
-}
-
-.aw-m01-layered__overlays {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.aw-m01-layered__overlays a,
-.aw-m01-layered__overlays button {
-  pointer-events: auto;
 }
 
 .aw-m01-layered__hero-kicker,
@@ -2714,11 +2723,20 @@
 }
 
 .aw-m01-layered__medallion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   aspect-ratio: 1;
   border-radius: 50%;
   overflow: hidden;
   justify-self: center;
+  color: var(--aw-gold);
+}
+
+.aw-m01-layered__dest-icon {
+  width: 72%;
+  height: 72%;
 }
 
 .aw-m01-layered__dest-copy {
@@ -2804,7 +2822,7 @@
 
 /* Legacy aw-m01 superseded by aw-m01-layered (FT5.2B) */
 
-/* ─── AW_D_01_WORLD_ENTRY — FT5.2C desktop layered replication (1280px authority) ─── */
+/* ─── AW_D_01_WORLD_ENTRY — FT5.2D canonical 1536×1024 ─── */
 
 .aw-experience-root:has(.aw-d01-layered) .aw-shell__nav,
 .aw-experience-root:has(.aw-d01-layered) .aw-shell__rail,
@@ -2824,39 +2842,11 @@
 }
 
 .aw-d01-layered {
-  --aw-d01-bg-aspect: 1672 / 941;
   position: relative;
   width: 100%;
-  max-width: 1672px;
+  max-width: 1536px;
   margin: 0 auto;
   color: var(--aw-text);
-}
-
-.aw-d01-layered__stage {
-  position: relative;
-  width: 100%;
-  aspect-ratio: var(--aw-d01-bg-aspect);
-}
-
-.aw-d01-layered__bg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: fill;
-  object-position: top center;
-  user-select: none;
-  pointer-events: none;
-}
-
-.aw-d01-layered__overlays {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.aw-d01-layered__overlays a,
-.aw-d01-layered__overlays button {
-  pointer-events: auto;
 }
 
 .aw-d01-layered__top-brand {
@@ -3025,10 +3015,19 @@
 }
 
 .aw-d01-layered__medallion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   aspect-ratio: 1;
   border-radius: 50%;
   overflow: hidden;
+  color: var(--aw-gold);
+}
+
+.aw-d01-layered__dest-icon {
+  width: 72%;
+  height: 72%;
 }
 
 .aw-d01-layered__dest-copy {
