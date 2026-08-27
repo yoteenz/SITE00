@@ -26,18 +26,21 @@ export const AW_M_01_WORLD_ENTRY_BACKGROUND_V1 = {
   sourceAuthority: 'ATTACHMENT_A_PRODUCTION_BACKGROUND',
 } as const;
 
-/** Normalized production shell — 854×1842 uniform downsample from extended 941×2031 canvas */
+/** Founder Supabase live-preview shell (640BC0A0-BE92-4519-88F6-EED15E4B2998) — 853×1844 source */
 export const AW_M_01_WORLD_ENTRY_BACKGROUND_V2 = {
   slotKey: 'AW_M_01_WORLD_ENTRY_BACKGROUND_V2',
   publicPath: '/astral-world/screen-masters/mobile/AW_M_01_WORLD_ENTRY/AW_M_01_WORLD_ENTRY_BACKGROUND_V2.png',
   repoPath: 'docs/projects/astral-world/screen-masters/mobile/AW_M_01_WORLD_ENTRY/AW_M_01_WORLD_ENTRY_BACKGROUND_V2.png',
+  sourceAssetId: '640BC0A0-BE92-4519-88F6-EED15E4B2998',
+  sourceNativeWidth: 853,
+  sourceNativeHeight: 1844,
   nativeWidth: 854,
   nativeHeight: 1842,
   sourceShellWidth: AW_M_01_SHELL_SOURCE.width,
   sourceShellHeight: AW_M_01_SHELL_SOURCE.height,
   normalizationScale: AW_M_01_NORMALIZATION_SCALE,
-  normalizationMethod: 'VERTICAL_REFRAME_THEN_UNIFORM_SCALE',
-  sourceAuthority: 'ATTACHMENT_A_PRODUCTION_BACKGROUND_V2',
+  normalizationMethod: 'FOUNDER_SUPABASE_SHELL_CANONICAL_RESIZE',
+  sourceAuthority: 'FOUNDER_SUPABASE_LIVE_PREVIEW',
 } as const;
 
 export const AW_M_01_FINAL_COMPOSITION_REFERENCE = {
