@@ -5676,3 +5676,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Live QA @390×844:** stage left=0 width=390; body margin=0; experience padding-bottom=0; bottom excess ≤2.8px (viewport filler, canScroll=false). @430×932: edge-to-edge, excess ≤4.5px, canScroll=false.
 - **Merged:** PR #531 → `main`. Release v159.
 - **Conventions:** M01 article must not contain flow siblings after CanonicalScreenStage; one safe-area owner only when needed.
+
+---
+
+## 2026-08-27 — AW_M_01 mobile background swap (founder Supabase shell)
+
+- **Context:** Founder requested mobile home background use Supabase live-preview PNG `640BC0A0-BE92-4519-88F6-EED15E4B2998` (853×1844).
+- **Delivered:** Replaced `AW_M_01_WORLD_ENTRY_BACKGROUND_V2.png` in public/docs; canonical LANCZOS resize to 854×1842; manifest `sourceAssetId` + lineage in `awM01LayeredAssets.ts`. Overlays/stage geometry unchanged.
+- **Merged:** PR #532 → `main`.
