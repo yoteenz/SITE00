@@ -2634,9 +2634,14 @@ body:has(.aw-m01-layered) {
 .aw-experience-root:has(.aw-m01-layered) .aw-route-scene--immersive,
 .aw-experience-root:has(.aw-m01-layered) .aw-route-scene--m01,
 .aw-experience-root:has(.aw-m01-layered) .aw-scene-transition {
-  min-height: auto;
+  min-height: 0;
   height: auto;
   overflow: visible;
+}
+
+.aw-experience-root:has(.aw-m01-layered) .aw-m01-layered {
+  height: auto;
+  min-height: 0;
 }
 
 .aw-route-scene--m01 {
@@ -2656,6 +2661,11 @@ body:has(.aw-m01-layered) {
   margin: 0;
   padding: 0;
   color: var(--aw-text);
+  line-height: 0;
+}
+
+.aw-m01-layered .aw-canonical-stage {
+  line-height: normal;
 }
 
 .aw-m01-layered .aw-canonical-stage,

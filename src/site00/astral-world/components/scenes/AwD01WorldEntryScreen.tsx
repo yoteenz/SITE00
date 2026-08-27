@@ -3,7 +3,6 @@ import { Link, NavLink } from 'react-router-dom';
 import {
   AW_D_01_CANONICAL,
   AW_D_01_OVERLAY_ANCHORS,
-  AW_D_01_WORLD_ENTRY_BACKGROUND_V2,
   resolveAwD01BackgroundPath,
   resolveAwD01IconKey,
 } from '../../../../../shared/site00-astral-world/screen-masters/awD01LayeredAssets.js';
@@ -332,9 +331,6 @@ export function AwD01WorldEntryScreen({ onWhosHere, onTakeMeSomewhere }: AwD01Wo
 
         <D01BottomNav path={path} />
       </CanonicalScreenStage>
-      <span className="aw-sr-only" data-background-version={AW_D_01_WORLD_ENTRY_BACKGROUND_V2.nativeWidth}>
-        {AW_D_01_WORLD_ENTRY_BACKGROUND_V2.nativeWidth}x{AW_D_01_WORLD_ENTRY_BACKGROUND_V2.nativeHeight}
-      </span>
     </article>
   );
 }
