@@ -2591,6 +2591,59 @@
   padding-bottom: 0;
 }
 
+/* ─── AW_M_01 FT5.2E — viewport edge-to-edge + scroll height cleanup ─── */
+
+html:has(.aw-m01-layered),
+body:has(.aw-m01-layered) {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: none;
+  overflow-x: hidden;
+  background: var(--aw-bg-deep);
+}
+
+#root:has(.aw-m01-layered) {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: none;
+}
+
+.aw-experience-root:has(.aw-m01-layered) {
+  padding-bottom: 0 !important;
+  min-height: auto;
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: 0;
+}
+
+.aw-experience-root:has(.aw-m01-layered) .aw-shell,
+.aw-experience-root:has(.aw-m01-layered) .aw-shell__main {
+  min-height: auto;
+}
+
+.aw-experience-root:has(.aw-m01-layered) .aw-shell__canvas {
+  padding: 0 !important;
+  min-height: auto;
+  overflow: visible;
+}
+
+.aw-experience-root:has(.aw-m01-layered) .aw-route-scene,
+.aw-experience-root:has(.aw-m01-layered) .aw-route-scene--immersive,
+.aw-experience-root:has(.aw-m01-layered) .aw-route-scene--m01,
+.aw-experience-root:has(.aw-m01-layered) .aw-scene-transition {
+  min-height: 0;
+  height: auto;
+  overflow: visible;
+}
+
+.aw-experience-root:has(.aw-m01-layered) .aw-m01-layered {
+  height: auto;
+  min-height: 0;
+}
+
 .aw-route-scene--m01 {
   overflow: visible;
   min-height: auto;
@@ -2598,17 +2651,35 @@
 }
 
 .aw-shell--immersive .aw-shell__canvas:has(.aw-m01-layered) {
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
+  overflow: visible;
 }
 
 .aw-m01-layered {
   position: relative;
   width: 100%;
-  max-width: 430px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
   color: var(--aw-text);
+  line-height: 0;
+}
+
+.aw-m01-layered .aw-canonical-stage {
+  line-height: normal;
+}
+
+.aw-m01-layered .aw-canonical-stage,
+.aw-m01-layered .aw-m01-layered__stage {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.aw-m01-layered .aw-canonical-stage__bg {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  object-position: top center;
 }
 
 .aw-m01-layered__hero-kicker,
@@ -2823,6 +2894,22 @@
 /* Legacy aw-m01 superseded by aw-m01-layered (FT5.2B) */
 
 /* ─── AW_D_01_WORLD_ENTRY — FT5.2D canonical 1536×1024 ─── */
+
+/* Desktop: no accidental body margin when canonical desktop home active */
+html:has(.aw-d01-layered),
+body:has(.aw-d01-layered) {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.aw-experience-root:has(.aw-d01-layered) {
+  padding-bottom: 0 !important;
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: 0;
+}
 
 .aw-experience-root:has(.aw-d01-layered) .aw-shell__nav,
 .aw-experience-root:has(.aw-d01-layered) .aw-shell__rail,
