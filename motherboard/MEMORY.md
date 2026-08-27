@@ -5665,3 +5665,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Merged:** PR #530 → `main`. Release v158.
 - **Visual lock:** `MOBILE_HOME_VISUAL_LOCK=FALSE`, `DESKTOP_HOME_VISUAL_LOCK=FALSE` — typography rasterization and sub-pixel anchor tuning may still need convergence passes; isolated medallion PNG art still pending for pixel-perfect icon wells.
 - **Conventions:** Always use V2 backgrounds + CanonicalScreenStage for AW_M_01/AW_D_01; never position overlays against 941×1672 or 1672×941 assumptions.
+
+---
+
+## 2026-08-26 — P0.E.FT5.2E Viewport edge-to-edge + scroll height cleanup (AW_M_01)
+
+- **Context:** Post-FT5.2D mobile home still showed white side letterboxing (~8px body margin), ~72px black region below nav, and unnecessary document scroll. Nav is baked inside canonical stage — must not reserve second nav height.
+- **Root causes:** (1) browser default body margin + `max-width:430px` centering; (2) `.aw-experience-root { padding-bottom: 72px }` mobile nav reserve while `.aw-mobile-nav` hidden; (3) FT52D `aw-sr-only` test span in document flow (+~24px).
+- **Delivered:** html/body/#root margin reset for M01; remove nav reserve + route min-height fillers; full-width stage; overscroll background `--aw-bg-deep`; remove layout sr-only markers; D01 body margin cleanup; `canonicalViewportFrame.ts` + `astralWorldFt52EViewportFrame.test.ts` (9) → **177 Astral pass**.
+- **Live QA @390×844:** stage left=0 width=390; body margin=0; experience padding-bottom=0; bottom excess ≤2.8px (viewport filler, canScroll=false). @430×932: edge-to-edge, excess ≤4.5px, canScroll=false.
+- **Merged:** PR #531 → `main`. Release v159.
+- **Conventions:** M01 article must not contain flow siblings after CanonicalScreenStage; one safe-area owner only when needed.
