@@ -16,6 +16,7 @@ import { InlineMeta, QuietAction, WorkspaceField } from './WorkspaceCompositionP
 import { ExpressionEngineCinematicSequencePanel } from './ExpressionEngineCinematicSequencePanel';
 import { ExpressionEngineStoryboardReviewPanel } from './ExpressionEngineStoryboardReviewPanel';
 import { ExpressionEngineStoryboardAuthorityPanel } from './ExpressionEngineStoryboardAuthorityPanel';
+import { ExpressionEnginePreStoryboardAuthorityPanel } from './ExpressionEnginePreStoryboardAuthorityPanel';
 
 type EntryTab = '002' | '001';
 type SectionId =
@@ -30,6 +31,7 @@ type SectionId =
   | 'routing'
   | 'anchor'
   | 'storyboard-review'
+  | 'pre-storyboard-authority'
   | 'storyboard-authority'
   | 'cinematic-sequence'
   | 'readiness';
@@ -45,6 +47,7 @@ const SECTIONS: Array<{ id: SectionId; label: string; entry: EntryTab | 'both' }
   { id: 'platforms', label: 'Platform Translations', entry: '002' },
   { id: 'routing', label: 'Provider Routing', entry: '002' },
   { id: 'anchor', label: 'Creative Anchor', entry: '002' },
+  { id: 'pre-storyboard-authority', label: 'Pre-Storyboard Authority', entry: '002' },
   { id: 'storyboard-authority', label: 'Storyboard Authority', entry: '002' },
   { id: 'storyboard-review', label: 'Storyboard Review', entry: '002' },
   { id: 'cinematic-sequence', label: 'Cinematic Sequence', entry: '002' },
@@ -317,6 +320,8 @@ function Entry002Section({
           <p className="site00-expr-engine-panel__copy">{blueprint.creativeAnchorRecommendation.rationale}</p>
         </BlueprintBlock>
       );
+    case 'pre-storyboard-authority':
+      return <ExpressionEnginePreStoryboardAuthorityPanel />;
     case 'storyboard-authority':
       return <ExpressionEngineStoryboardAuthorityPanel />;
     case 'storyboard-review':

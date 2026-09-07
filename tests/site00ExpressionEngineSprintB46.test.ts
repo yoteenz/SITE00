@@ -38,15 +38,15 @@ describe('Expression Engine Sprint B4.6 — Storyboard gate + reel treatment aut
   it('1. locks storyboard-gated production order before keyframes', async () => {
     const b46 = await bootstrapB46({ dispatchFal: false });
     expect(b46.productionOrder).toEqual(STORYBOARD_GATED_PRODUCTION_ORDER);
-    expect(b46.productionOrder.indexOf('STORYBOARD_AUTHORITY')).toBeLessThan(
-      b46.productionOrder.indexOf('START_MID_END_KEYFRAME_GENERATION'),
+    expect(b46.productionOrder.indexOf('PRE_STORYBOARD_VISUAL_AUTHORITIES')).toBeLessThan(
+      b46.productionOrder.indexOf('CINEMATIC_STORYBOARD_AUTHORITY'),
     );
   });
 
   it('2. locks Entry 002 reel treatment with same-woman contradiction', () => {
     const treatment = buildEntry002ReelTreatmentAuthority();
     expect(treatment.status).toBe('LOCKED');
-    expect(treatment.coreStory.toLowerCase()).toContain('same woman');
+    expect(treatment.coreStory.toLowerCase()).toMatch(/same (woman|subject woman)/);
     expect(treatment.coreStory).toContain('THE CLOTHES NEVER GOT AN APOLOGY. JUST A REBRAND.');
     expect(treatment.characterRoles.ndx.toLowerCase()).toContain('not the subject woman');
   });
@@ -99,7 +99,7 @@ describe('Expression Engine Sprint B4.6 — Storyboard gate + reel treatment aut
       assertProductionKeyframeGenerationAllowed({
         cinematicSequenceJudgment: 'LOVE_IT',
       }),
-    ).toThrow('GATE_0C_STRUCTURAL_STORYBOARD');
+    ).toThrow('GATE_0A_PRE_STORYBOARD_VISUAL_AUTHORITY');
   });
 
   it('7. keyframe dispatch blocked pending structural storyboard approval', async () => {
@@ -110,13 +110,13 @@ describe('Expression Engine Sprint B4.6 — Storyboard gate + reel treatment aut
 
     await expect(
       dispatchEntry002ReelKeyframeRaster('START', { dispatchFal: true }),
-    ).rejects.toThrow('GATE_0C_STRUCTURAL_STORYBOARD');
+    ).rejects.toThrow('GATE_0A_PRE_STORYBOARD_VISUAL_AUTHORITY');
   });
 
   it('8. bootstrap returns founder per-board review slots', async () => {
     const b46 = await bootstrapB46({ dispatchFal: false });
     expect(b46.founderReviewSlots?.length).toBe(5);
     expect(b46.blockingRules.keyframeGeneration).toBe('BLOCKED_PENDING_STORYBOARD_APPROVAL');
-    expect(b46.nextAction).toBe('FOUNDER_STORYBOARD_REVIEW_PER_BOARD');
+    expect(b46.nextAction).toBe('FOUNDER REVIEW OF FIVE PRE-STORYBOARD VISUAL AUTHORITIES');
   });
 });

@@ -9,7 +9,9 @@ export const STORYBOARD_GATED_PRODUCTION_ORDER = [
   'CHAPTER_ENTRY_ARGUMENT_GRAMMAR',
   'COVER_ANCHOR_APPROVAL',
   'REEL_TREATMENT_AUTHORITY',
-  'STORYBOARD_AUTHORITY',
+  'PRE_STORYBOARD_VISUAL_AUTHORITIES',
+  'FOUNDER_PRE_STORYBOARD_AUTHORITY_JUDGMENT',
+  'CINEMATIC_STORYBOARD_AUTHORITY',
   'FOUNDER_STORYBOARD_JUDGMENT',
   'START_MID_END_KEYFRAME_GENERATION',
   'FOUNDER_KEYFRAME_JUDGMENT',
@@ -154,8 +156,11 @@ export type Entry002StoryboardGateBootstrapResult = {
     coverAnchorApproved: true;
     preStoryboardKeyframes: 'NON_CANON';
     b44SketchStoryboard: 'REFERENCE_ONLY';
-    b45CinematicSequence: 'PARALLEL_VISUAL_DEV';
-    structuralStoryboardAuthority: 'ACTIVE';
+    b45CinematicSequence: 'PRE_AUTHORITY_EXPERIMENT' | 'PARALLEL_VISUAL_DEV';
+    preStoryboardVisualAuthorities: 'ACTIVE';
+    structuralStoryboardAuthority:
+      | 'ACTIVE'
+      | 'BLOCKED_PENDING_PRE_STORYBOARD_AUTHORITY_APPROVAL';
   };
   storyCorrection: {
     coreStory: string;

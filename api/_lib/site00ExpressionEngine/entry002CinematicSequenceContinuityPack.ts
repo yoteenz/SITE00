@@ -64,13 +64,22 @@ export async function resolveEntry002CinematicContinuityReferenceBoards(): Promi
 
 export function buildEntry002CharacterVisualCanon() {
   return {
-    identity: 'Black woman — same NDXBOOK woman, same mind, same world — not a different influencer per shot',
-    skinTone: 'medium-brown skin',
-    hair: 'long sleek dark hair',
-    makeup: '2016-era glam — defined brows, lashes, overlined glossy nude lips, black choker',
-    nails: 'short lime green nails — consistent shape and length — NON-NEGOTIABLE',
-    wardrobe: '2016 IG baddie fashion logic — bodycon, bomber, choker codes when visible',
-    energy: 'confident observational presence — cinematic not glamour portrait',
+    ndxRole:
+      'Spectator / investigator / receipt-puller / cultural interjector — ambiguous, partially seen, NEVER full model-sheet protagonist',
+    ndxVisibility:
+      'hands, short lime nails, silhouette, shadow, over-shoulder, partial profile, cropped body — NOT subject-woman face',
+    subjectWomanRole:
+      'Cultural receipt — same woman in 2016 and 2026, may be fully visible, identity locked across both years',
+    subjectWomanIdentity:
+      'Face, skin tone, body proportions, hair, core makeup consistent — immediately same person in both eras',
+    subjectWomanSkinTone: 'medium-brown skin — subject woman only (NOT applied to NDX)',
+    subjectWomanHair: 'long sleek dark hair — locked across 2016 and 2026',
+    subjectWomanMakeup: '2016-era glam when in 2016 — defined brows, lashes, overlined glossy nude lips, choker',
+    ndxNails: 'short lime green square/soft-square nails — NDX hand authority ONLY — NON-NEGOTIABLE',
+    subjectWomanWardrobe: '2016 IG baddie fashion language — choker, bodycon, bomber, thigh-high boots family',
+    roleSplitCorrected: true as const,
+    deprecatedCollapsedIdentity:
+      'REMOVED — "face: Black woman, medium-brown skin — same NDXBOOK woman every frame" is NOT canon',
   };
 }
 

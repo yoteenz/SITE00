@@ -17,6 +17,7 @@ import {
   bootstrapB44,
   bootstrapB45,
   bootstrapB46,
+  bootstrapB46FollowUp,
   bootstrapNdxbookExpressionProof,
   evaluateEntryProductionReadiness,
   getChapter01Snapshot,
@@ -47,6 +48,52 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const phase = String(req.query.phase ?? body.phase ?? '');
     const action = String(req.query.action ?? body.action ?? '');
     const hasEntryQuery = Boolean(brandIdParam && entryNumber);
+
+    if (
+      req.method === 'GET' &&
+      (phase === 'B46P1' ||
+        phase === 'B46-FOLLOWUP' ||
+        phase === 'PRE_STORYBOARD_AUTHORITY' ||
+        phase === 'PRE_STORYBOARD')
+    ) {
+      const dispatchFal = req.query.dispatchFal !== '0' && (req.query.dispatchFal === '1' || body.dispatchFal !== false);
+      const forceDispatch = req.query.forceDispatch === '1' || body.forceDispatch === true;
+      const followUp = await bootstrapB46FollowUp({ dispatchFal, forceDispatch });
+      return res.status(200).json({
+        engine: 'EXPRESSION_ENGINE_V0',
+        sprint: followUp.sprint,
+        productionOrder: followUp.productionOrder,
+        roleCorrection: followUp.roleCorrection,
+        treatment: followUp.treatment,
+        preStoryboardAuthorityPack: {
+          packId: followUp.preStoryboardAuthorityPack.packId,
+          authorities: followUp.preStoryboardAuthorityPack.authorities.map((a) => ({
+            boardNumber: a.boardNumber,
+            boardId: a.boardId,
+            boardTitle: a.boardTitle,
+            role: a.role,
+            purpose: a.purpose,
+            continuityRules: a.continuityRules,
+            requiredVisualElements: a.requiredVisualElements,
+            forbiddenElements: a.forbiddenElements,
+            visualDescription: a.visualDescription,
+            founderJudgment: a.founderJudgment,
+            previewUrl: a.previewUrl,
+            storagePath: a.storagePath,
+          })),
+          approvalState: followUp.preStoryboardAuthorityPack.approvalState,
+          canonState: followUp.preStoryboardAuthorityPack.canonState,
+        },
+        founderReviewSlots: followUp.founderReviewSlots,
+        cinematicSequence: followUp.cinematicSequence,
+        finalStoryboard: followUp.finalStoryboard,
+        keyframes: followUp.keyframes,
+        video: followUp.video,
+        preStoryboardGate: followUp.preStoryboardGate,
+        qa: followUp.qa,
+        nextAction: followUp.nextAction,
+      });
+    }
 
     if (req.method === 'GET' && (phase === 'B46' || phase === 'B4.6' || phase === 'B4P6' || phase === 'STORYBOARD_AUTHORITY')) {
       const dispatchFal = req.query.dispatchFal !== '0' && (req.query.dispatchFal === '1' || body.dispatchFal !== false);
@@ -128,6 +175,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           keyframeExtractionMap: b45.cinematicSequence.keyframeExtractionMap,
           founderJudgment: b45.cinematicSequence.founderJudgment,
           canonState: b45.cinematicSequence.canonState,
+          authorityExperimentStatus: b45.cinematicSequence.authorityExperimentStatus,
+          visualAuthority: b45.cinematicSequence.visualAuthority,
           gateId: b45.cinematicSequence.gateId,
         },
         qa: b45.qa,

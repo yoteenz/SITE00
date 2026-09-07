@@ -29,7 +29,7 @@ export function buildEntry002ReelTreatmentAuthority(): ReelTreatmentAuthority {
         'The proof — same person in present and 2016. Fashion identity stable. Culture mislabeled her then; nostalgizes her now.',
     },
     coreStory:
-      'NDX finds a present-day post going semi-viral with praise for 2016 baddie energy. HOLD ON — profile dive through years. Land on 2016 post: same woman, similar outfit, old Instagram feel, negative labels (tacky, basic, overdone). Contradiction undeniable. NDX stitches it: THE CLOTHES NEVER GOT AN APOLOGY. JUST A REBRAND. Phone cracks / glitches — snap back to reality — handoff hook toward Entry 003.',
+      '2026: NDX stumbles on subject woman\'s present-day post going semi-viral — praised for 2016 baddie look. HOLD ON. NDX taps profile, scrolls all the way back through a cinematic cultural glitch. Lands on 2016: same subject woman, similar outfit, old Instagram feel, negative labels (tacky, basic, overdone). Post click triggers memory lifting off phone. Contradiction: look didn\'t change — response did. NDX stitches: THE CLOTHES NEVER GOT AN APOLOGY. JUST A REBRAND. Phone cracks / glitches — snap back to present — Entry 003 handoff hook.',
     visualWorldRules: [
       'Phone is discovery + evidence + interjection surface — not comment graveyard UI',
       '2016: old Instagram grammar, flash/mirror selfie era-authentic, rawer, criticized in real time',
