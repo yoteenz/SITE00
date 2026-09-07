@@ -23,3 +23,5 @@ export * from './chapterRepetitionQA.js';
 export * from './chapterFormatTranslation.js';
 export * from './chapterStore.js';
 export * from './chapterBootstrap.js';
+export * from './entry002AnchorRoutes.js';
+export * from './entry002AnchorProduction.js';

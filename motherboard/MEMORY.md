@@ -5786,3 +5786,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Tests** `site00ExpressionEngineSprintB2.test.ts` — 14/14 pass (51 total Expression Engine tests)
 - **ENTRY 002 assets generated:** 0
 - **Next:** B3 — ENTRY 002 creative anchor production under Chapter 01 grammar
+
+---
+
+## 2026-09-07 — Sprint B3 ENTRY 002 creative anchor (COVER)
+
+- **Context:** Produce first ENTRY 002 creative anchor only — 2016 Instagram baddie fashion focal point in Nostalgia Edit Suite world. No downstream format propagation.
+- **Delivered:**
+  - **3 composition routes** compiled; **ROUTE A (OUTFIT AS TIMELINE CLIP)** selected
+  - **Pre-anchor QA:** FORMAT_NATIVE + chapter grammar + repetition + concept collapse — all PASS
+  - **FAL dispatch** `t2-anchor-cover` with full TRACKED lineage (GenerationReceipt + CreativeAssetRecord)
+  - **GPT Image 2** content-policy blocked → **fal-ai/flux-pro** fallback succeeded
+  - **Downstream** REEL/CAROUSEL/STORY/CTA/HIGHLIGHT/TIKTOK/X remain BLOCKED_PENDING_ANCHOR_APPROVAL
+  - **API** `GET ?phase=B3` (+ `dispatchFal=1` for live generation)
+  - **Tests** `site00ExpressionEngineSprintB3.test.ts` — 9/9 pass (60 total Expression Engine tests)
+- **Founder judgment:** UNREVIEWED — LOVE_IT required before downstream production unlock
