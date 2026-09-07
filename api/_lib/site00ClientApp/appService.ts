@@ -1,6 +1,6 @@
 import { getSupabaseAdmin } from '../supabase.js';
 import { buildClientProjectManifestFromProject } from '../site00ClientProjectRoom/roomService.js';
-import { getClientReviewQueuePayload } from '../site00ClientReviews/reviewService.js';
+import { getClientReviewQueue } from '../site00ClientReviews/reviewService.js';
 import { loadProjectForClient, getClientProjectsPayload } from '../site00Production/clientStudio.js';
 import {
   buildClientAppManifest,
@@ -49,7 +49,7 @@ export async function getClientAppManifestPayload(input: {
 
   let reviewCount = manifest.reviewableObjects.length;
   try {
-    const queue = await getClientReviewQueuePayload({ projectSlug, email, userId });
+    const queue = await getClientReviewQueue(projectSlug, email, userId);
     reviewCount = queue.actionableCount;
   } catch {
     /* preview / empty */
