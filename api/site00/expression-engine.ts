@@ -12,6 +12,7 @@ import {
   bootstrapB32,
   bootstrapB4,
   bootstrapB41,
+  bootstrapB42,
   bootstrapNdxbookExpressionProof,
   evaluateEntryProductionReadiness,
   getChapter01Snapshot,
@@ -42,6 +43,47 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const phase = String(req.query.phase ?? body.phase ?? '');
     const action = String(req.query.action ?? body.action ?? '');
     const hasEntryQuery = Boolean(brandIdParam && entryNumber);
+
+    if (req.method === 'GET' && (phase === 'B42' || phase === 'B4.2' || phase === 'B4P2')) {
+      const dispatchFal = req.query.dispatchFal !== '0' && (req.query.dispatchFal === '1' || body.dispatchFal !== false);
+      const forceDispatch = req.query.forceDispatch === '1' || body.forceDispatch === true;
+      const b42 = await bootstrapB42({ dispatchFal, forceDispatch });
+      return res.status(200).json({
+        engine: 'EXPRESSION_ENGINE_V0',
+        sprint: 'B4.2_ENTRY_002_REEL_KEYFRAME_EXECUTION',
+        entry002: {
+          title: 'OH, NOW IT WAS FUN?',
+          subject: b42.fashionDirection.subject,
+          chapter: 'WHICH ONE IS IT?',
+          territory: 'THE NOSTALGIA EDIT SUITE',
+          world: 'SURREAL PHYSICAL EDITING SUITE',
+          status: 'IN_PRODUCTION',
+        },
+        reel: {
+          reelId: b42.reelId,
+          keyframeExecutions: b42.keyframeExecutions,
+          motionAuthority: 'REEL',
+          founderJudgment: 'UNREVIEWED',
+          canonState: 'NON_CANON',
+        },
+        phone: b42.phoneRole,
+        fashion: b42.fashionDirection,
+        editSuite: b42.editSuiteBehavior,
+        audio: b42.audioPlan,
+        providerRouting: b42.providerRouting,
+        founderGates: b42.founderGates,
+        qa: b42.qa,
+        telemetrySemantics: b42.telemetrySemantics,
+        lineage: b42.lineage,
+        downstreamHold: b42.downstreamHold,
+        actualProviderDispatches: b42.actualProviderDispatches,
+        actualRasterResults: b42.actualRasterResults,
+        videoDispatched: b42.videoDispatched,
+        klingBlocked: b42.klingBlocked,
+        roughCutBlocked: b42.roughCutBlocked,
+        nextAction: 'FOUNDER KEYFRAME VISUAL REVIEW REQUIRED',
+      });
+    }
 
     if (req.method === 'GET' && (phase === 'B41' || phase === 'B4.1' || phase === 'B4P1')) {
       const dispatchFal = req.query.dispatchFal === '1' || body.dispatchFal === true;

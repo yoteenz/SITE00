@@ -3,6 +3,7 @@
  */
 
 import type { ReelKeyframeRasterResult } from './entry002ReelKeyframeDispatch.js';
+import { isValidGeneratedRaster } from './entry002ReelKeyframeDispatch.js';
 import { buildEntry002ReelFashionDirection, buildEntry002ReelPhoneRole, buildEntry002ReelEditSuiteBehavior } from './entry002ReelDirection.js';
 import { compileEntry002LockedEntry } from './entry002Blueprint.js';
 import { validateEntryAgainstChapterGrammar } from './chapterGrammarValidation.js';
@@ -45,22 +46,22 @@ export function runEntry002ReelKeyframeRasterQA(
   }
 
   for (const raster of rasters) {
-    const hasPublicUrl = Boolean(raster.previewUrl && !raster.previewUrl.includes('expression-engine.local'));
+    const hasPublicUrl = isValidGeneratedRaster(raster);
     checks.push({
       check: `${raster.role} — storage surfaced`,
-      passed: hasPublicUrl || process.env.VITEST === 'true',
+      passed: hasPublicUrl || (process.env.VITEST === 'true' && raster.status === 'NOT_DISPATCHED'),
       advisory: true,
     });
-    if (!hasPublicUrl && process.env.VITEST !== 'true') {
+    if (!hasPublicUrl && process.env.VITEST !== 'true' && raster.dispatchAttempted) {
       blockers.push(`${raster.role} missing public visual URL`);
     }
 
     checks.push({
       check: `${raster.role} — lineage tracked`,
-      passed: raster.generationReceipt.trackingState === 'TRACKED',
+      passed: raster.generationReceipt?.trackingState === 'TRACKED' || raster.status === 'NOT_DISPATCHED',
       advisory: true,
     });
-    if (raster.generationReceipt.trackingState === 'LEGACY_UNTRACKED') {
+    if (raster.generationReceipt?.trackingState === 'LEGACY_UNTRACKED') {
       blockers.push(`${raster.role} LEGACY_UNTRACKED`);
     }
 
@@ -138,8 +139,7 @@ export function runEntry002ReelKeyframeRasterQA(
   }
 
   const visualVerification =
-    rasters.length === 3 &&
-    rasters.every((r) => r.previewUrl && (process.env.VITEST === 'true' || !r.previewUrl.includes('expression-engine.local')));
+    rasters.length === 3 && rasters.every((r) => isValidGeneratedRaster(r));
 
   checks.push({
     check: 'continuity QA — three-frame set complete',

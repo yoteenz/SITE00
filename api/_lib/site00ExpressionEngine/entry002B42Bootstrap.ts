@@ -1,10 +1,10 @@
 /**
- * Sprint B4.1 — Entry 002 REEL keyframe first-pass rasterization orchestrator.
+ * Sprint B4.2 — Entry 002 REEL keyframe execution dispatch orchestrator.
  */
 
 import type {
-  Entry002B41BootstrapResult,
-  ReelKeyframeRasterFrame,
+  Entry002B42BootstrapResult,
+  ReelKeyframeExecutionFrame,
 } from '../../../shared/site00-expression-engine/entry002ReelTypes.js';
 import { seedChapter01Canon } from './chapterStore.js';
 import { bootstrapB31FounderCreativeOverride } from './entry002B31Bootstrap.js';
@@ -18,7 +18,10 @@ import {
   ENTRY_002_REEL_RUNTIME_TARGET,
 } from './entry002ReelShotPlan.js';
 import { buildEntry002FounderReviewGates, downstreamFormatsOnHold } from './entry002ReelProduction.js';
-import { dispatchAllEntry002ReelKeyframeRasters } from './entry002ReelKeyframeDispatch.js';
+import {
+  dispatchAllEntry002ReelKeyframeRasters,
+  isValidGeneratedRaster,
+} from './entry002ReelKeyframeDispatch.js';
 import { runEntry002ReelKeyframeRasterQA } from './entry002ReelKeyframeRasterQA.js';
 import { buildReelKeyframeTelemetrySemantics } from './entry002ReelKeyframeTelemetry.js';
 import { buildEntry002ReelMotionPlan } from './entry002ReelMotionPlan.js';
@@ -31,41 +34,51 @@ import {
 import { CHAPTER_01_ID } from './chapter01Canon.js';
 import { listGenerationReceiptsForEntry } from './lineageRegistration.js';
 
-export async function produceEntry002ReelKeyframeRastersB41(options?: {
+export async function executeEntry002ReelKeyframeDispatchB42(options?: {
   dispatchFal?: boolean;
-}): Promise<Entry002B41BootstrapResult> {
+  forceDispatch?: boolean;
+}): Promise<Entry002B42BootstrapResult> {
   process.env.EXPRESSION_ENGINE_MEMORY_STORE = process.env.EXPRESSION_ENGINE_MEMORY_STORE ?? '1';
   seedChapter01Canon();
   await bootstrapB31FounderCreativeOverride();
 
+  const dispatchFal = options?.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim());
   const rasters = await dispatchAllEntry002ReelKeyframeRasters({
-    dispatchFal: options?.dispatchFal,
+    dispatchFal,
+    forceDispatch: options?.forceDispatch,
   });
 
-  if (rasters.length !== 3) {
-    throw new Error(`B4.1 requires exactly 3 keyframe rasters — got ${rasters.length}`);
+  const successful = rasters.filter(isValidGeneratedRaster);
+  if (dispatchFal && successful.length !== 3) {
+    const failures = rasters.filter((r) => !isValidGeneratedRaster(r)).map((r) => `${r.role}: ${r.failure ?? 'no raster'}`);
+    throw new Error(`B4.2 requires 3 successful raster results — got ${successful.length}. Failures: ${failures.join('; ')}`);
   }
 
   const qa = runEntry002ReelKeyframeRasterQA(rasters);
   const founderGates = buildEntry002FounderReviewGates();
   const audioPlan = buildEntry002ReelAudioPlan();
-
   const telemetrySemantics = buildReelKeyframeTelemetrySemantics(rasters, 3);
 
-  const frames: ReelKeyframeRasterFrame[] = rasters.map((r) => ({
+  const frames: ReelKeyframeExecutionFrame[] = rasters.map((r) => ({
     role: r.role,
     assetId: r.assetId,
     storagePath: r.storagePath,
     previewUrl: r.previewUrl,
     provider: r.provider,
     model: r.model,
+    providerRequestId: r.providerRequestId,
     dimensions: r.dimensions,
     aspectRatio: r.aspectRatio,
     planningReceiptId: r.planningReceiptId,
     generationReceipt: r.generationReceipt,
+    creativeAssetRecord: r.creativeAssetRecord,
+    dispatchAttempted: r.dispatchAttempted,
+    actualFileExists: r.actualFileExists,
+    fallbackAttempted: r.fallbackAttempted,
+    status: r.status,
+    failure: r.failure,
     founderJudgment: r.founderJudgment,
     canonState: r.canonState,
-    status: r.status,
     qaAdvisory: qa.checks.filter((c) => c.check.startsWith(r.role)),
   }));
 
@@ -80,30 +93,30 @@ export async function produceEntry002ReelKeyframeRastersB41(options?: {
     status: 'IN_PRODUCTION',
     audioPlan,
     metadata: {
-      sprint: 'B4.1_ENTRY_002_REEL_KEYFRAME_RASTERIZATION',
+      sprint: 'B4.2_ENTRY_002_REEL_KEYFRAME_EXECUTION',
       reelId: ENTRY_002_REEL_ID,
       chapterId: CHAPTER_01_ID,
       territoryId: ENTRY_002_TERRITORY_ID,
       worldId: ENTRY_002_WORLD_ID,
-      keyframeRasters: frames,
+      keyframeExecutions: frames,
       founderGates,
       videoDispatched: false,
       motionBlocked: true,
     } as never,
     generationReceipts: [
       ...baseEntry.generationReceipts,
-      ...rasters.map((r) => r.generationReceipt),
+      ...rasters.filter((r) => r.generationReceipt).map((r) => r.generationReceipt!),
     ],
-    assetIds: [...baseEntry.assetIds, ...rasters.map((r) => r.assetId)],
+    assetIds: [...baseEntry.assetIds, ...successful.map((r) => r.assetId)],
   });
 
   return {
-    sprint: 'B4.1_ENTRY_002_REEL_KEYFRAME_RASTERIZATION',
+    sprint: 'B4.2_ENTRY_002_REEL_KEYFRAME_EXECUTION',
     reelId: ENTRY_002_REEL_ID,
     runtimeTargetSec: { ...ENTRY_002_REEL_RUNTIME_TARGET },
     argumentArc: buildEntry002ReelArgumentArc(),
     shotPlan: buildEntry002ReelShotPlan(),
-    keyframeRasters: frames,
+    keyframeExecutions: frames,
     motionPlan: buildEntry002ReelMotionPlan(),
     audioPlan,
     phoneRole: buildEntry002ReelPhoneRole(),
@@ -113,17 +126,7 @@ export async function produceEntry002ReelKeyframeRastersB41(options?: {
     founderGates,
     qa,
     downstreamHold: downstreamFormatsOnHold(),
-    telemetry: {
-      generationAttempts: telemetrySemantics.generationAttempts,
-      compiledPlans: telemetrySemantics.compiledPlans,
-      planningReceipts: telemetrySemantics.planningReceipts,
-      repairAttempts: 0,
-      manualInterventions: 0,
-      founderRevisions: 0,
-      costUsd: null,
-      productionTimeMs: null,
-      lineageCompleteness: orphanCount === 0 && legacyUntracked === 0 ? 'COMPLETE' : 'INCOMPLETE',
-    },
+    telemetrySemantics,
     lineage: {
       tracked: reelReceipts.filter((r) => r.trackingState === 'TRACKED').length,
       orphanAssets: orphanCount,
@@ -132,14 +135,15 @@ export async function produceEntry002ReelKeyframeRastersB41(options?: {
     videoDispatched: false,
     klingBlocked: true,
     roughCutBlocked: true,
-    assetsGenerated: 3,
+    actualProviderDispatches: telemetrySemantics.dispatchedGenerations,
+    actualRasterResults: telemetrySemantics.successfulRasterResults,
   };
 }
 
-export async function bootstrapB41Entry002ReelKeyframeRasterization(
-  options?: Parameters<typeof produceEntry002ReelKeyframeRastersB41>[0],
-): Promise<Entry002B41BootstrapResult> {
-  return produceEntry002ReelKeyframeRastersB41(options);
+export async function bootstrapB42Entry002ReelKeyframeExecution(
+  options?: Parameters<typeof executeEntry002ReelKeyframeDispatchB42>[0],
+): Promise<Entry002B42BootstrapResult> {
+  return executeEntry002ReelKeyframeDispatchB42(options);
 }
 
-export { bootstrapB41Entry002ReelKeyframeRasterization as bootstrapB41 };
+export { bootstrapB42Entry002ReelKeyframeExecution as bootstrapB42 };

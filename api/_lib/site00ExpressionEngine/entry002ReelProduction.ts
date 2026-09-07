@@ -100,7 +100,9 @@ export async function produceEntry002ReelB4(options?: {
   }
 
   const telemetry: ReelProductionTelemetry = {
-    generationAttempts: keyframes.length,
+    generationAttempts: 0,
+    compiledPlans: keyframes.length,
+    planningReceipts: keyframes.length,
     repairAttempts: 0,
     manualInterventions: 0,
     founderRevisions: 0,
