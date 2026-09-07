@@ -32,6 +32,11 @@ export const expressionEngineApi = {
     if (options?.dispatchFal) params.set('dispatchFal', '1');
     return expressionFetch<Record<string, unknown>>(`/api/site00/expression-engine?${params.toString()}`);
   },
+  phaseB46: (options?: { dispatchFal?: boolean }) => {
+    const params = new URLSearchParams({ phase: 'B46' });
+    if (options?.dispatchFal) params.set('dispatchFal', '1');
+    return expressionFetch<Record<string, unknown>>(`/api/site00/expression-engine?${params.toString()}`);
+  },
   entry: (brandId: string, entryNumber: number) =>
     expressionFetch<{ entry: CreativeEntry; readiness: EntryReadinessResult }>(
       `/api/site00/expression-engine?brandId=${encodeURIComponent(brandId)}&entryNumber=${entryNumber}`,

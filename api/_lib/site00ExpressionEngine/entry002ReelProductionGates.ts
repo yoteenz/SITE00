@@ -5,6 +5,12 @@
 import type { FounderReviewGate } from '../../../shared/site00-expression-engine/entry002ReelTypes.js';
 import type { StoryboardFounderJudgment } from '../../../shared/site00-expression-engine/entry002ReelStoryboardTypes.js';
 import type { CinematicSequenceFounderJudgment } from '../../../shared/site00-expression-engine/entry002CinematicVisualSequenceTypes.js';
+import type { StoryboardApprovalState } from '../../../shared/site00-expression-engine/storyboardGateTypes.js';
+import {
+  STRUCTURAL_STORYBOARD_GATE_ID,
+  assertStructuralStoryboardApprovedForKeyframeGeneration,
+  isKeyframeGenerationBlockedByStructuralStoryboardGate,
+} from './storyboardGate.js';
 
 export type StoryboardGateState = {
   gateId: 'GATE_0_STORYBOARD';
@@ -44,11 +50,82 @@ export function buildEntry002CinematicSequenceGate(
 } {
   return {
     gateId: 'GATE_0B_CINEMATIC_SEQUENCE',
-    label: 'Cinematic visual sequence review — see the reel before keyframes',
+    label: 'Cinematic visual sequence review — parallel visual development (non-blocking)',
     founderJudgment,
-    blocksKeyframeGeneration: founderJudgment !== 'LOVE_IT',
-    blocksNextStage: founderJudgment !== 'LOVE_IT',
+    blocksKeyframeGeneration: false,
+    blocksNextStage: false,
   };
+}
+
+export function buildEntry002StructuralStoryboardGate(
+  approvalState: StoryboardApprovalState,
+): {
+  gateId: typeof STRUCTURAL_STORYBOARD_GATE_ID;
+  label: string;
+  approvalState: StoryboardApprovalState;
+  blocksKeyframeGeneration: boolean;
+  blocksNextStage: boolean;
+  unlockActions: Record<StoryboardFounderJudgment, string>;
+} {
+  return {
+    gateId: STRUCTURAL_STORYBOARD_GATE_ID,
+    label: 'Structural storyboard authority — 5 boards must be LOVE_IT before keyframes',
+    approvalState,
+    blocksKeyframeGeneration: approvalState.blocksKeyframeGeneration,
+    blocksNextStage: approvalState.blocksKeyframeGeneration,
+    unlockActions: {
+      UNREVIEWED: 'Founder must review each structural board separately',
+      LOVE_IT: 'Board approved — contributes to keyframe unlock when all 5 LOVE_IT',
+      PROMISING_REFINE: 'Revise this board only — keyframes remain blocked',
+      NOT_FOR_ME: 'Board rejected — revise structural direction',
+    },
+  };
+}
+
+export function buildEntry002FounderReviewGatesWithStructuralStoryboard(
+  approvalState: StoryboardApprovalState,
+  cinematicJudgment: CinematicSequenceFounderJudgment = 'UNREVIEWED',
+): FounderReviewGate[] {
+  const structuralGate = buildEntry002StructuralStoryboardGate(approvalState);
+  const cinematicGate = buildEntry002CinematicSequenceGate(cinematicJudgment);
+  return [
+    {
+      gateId: structuralGate.gateId,
+      label: structuralGate.label,
+      founderJudgment: approvalState.allBoardsLoveIt ? 'LOVE_IT' : 'UNREVIEWED',
+      blocksNextStage: structuralGate.blocksNextStage,
+    },
+    {
+      gateId: cinematicGate.gateId,
+      label: cinematicGate.label,
+      founderJudgment: cinematicGate.founderJudgment,
+      blocksNextStage: false,
+    },
+    {
+      gateId: 'GATE_0_STORYBOARD',
+      label: 'B4.4 sketch storyboard retired — reference only',
+      founderJudgment: 'REFERENCE_ONLY',
+      blocksNextStage: false,
+    },
+    {
+      gateId: 'GATE_1_KEYFRAME',
+      label: 'Keyframe authority review (compiled from approved structural storyboard)',
+      founderJudgment: 'UNREVIEWED',
+      blocksNextStage: true,
+    },
+    {
+      gateId: 'GATE_2_ROUGH_CUT',
+      label: 'Rough cut review',
+      founderJudgment: 'UNREVIEWED',
+      blocksNextStage: true,
+    },
+    {
+      gateId: 'GATE_3_FINAL',
+      label: 'Final reel review',
+      founderJudgment: 'UNREVIEWED',
+      blocksNextStage: true,
+    },
+  ];
 }
 
 export function buildEntry002FounderReviewGatesWithStoryboard(
@@ -131,8 +208,30 @@ export function assertCinematicSequenceApprovedForKeyframeGeneration(
 export function assertProductionKeyframeGenerationAllowed(params: {
   cinematicSequenceJudgment?: CinematicSequenceFounderJudgment;
   storyboardJudgment?: StoryboardFounderJudgment;
+  structuralStoryboardApproval?: StoryboardApprovalState;
 }): void {
-  assertCinematicSequenceApprovedForKeyframeGeneration(
-    params.cinematicSequenceJudgment ?? 'UNREVIEWED',
-  );
+  if (params.structuralStoryboardApproval) {
+    assertStructuralStoryboardApprovedForKeyframeGeneration(params.structuralStoryboardApproval);
+    return;
+  }
+  const defaultApproval: StoryboardApprovalState = {
+    gateId: STRUCTURAL_STORYBOARD_GATE_ID,
+    boardJudgments: {
+      BOARD_01: 'UNREVIEWED',
+      BOARD_02: 'UNREVIEWED',
+      BOARD_03: 'UNREVIEWED',
+      BOARD_04: 'UNREVIEWED',
+      BOARD_05: 'UNREVIEWED',
+    },
+    allBoardsLoveIt: false,
+    anyNotForMe: false,
+    blocksKeyframeGeneration: true,
+    blocksVideoGeneration: true,
+  };
+  assertStructuralStoryboardApprovedForKeyframeGeneration(defaultApproval);
 }
+
+export {
+  isKeyframeGenerationBlockedByStructuralStoryboardGate,
+  assertStructuralStoryboardApprovedForKeyframeGeneration,
+};
