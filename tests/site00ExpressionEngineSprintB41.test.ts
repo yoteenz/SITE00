@@ -10,7 +10,6 @@ import { compileEntry002ReelKeyframePrompt } from '../api/_lib/site00ExpressionE
 import { compileEntry002ReelKeyframes } from '../api/_lib/site00ExpressionEngine/entry002ReelKeyframes.js';
 import {
   listGenerationReceiptsForEntry,
-  orphanAssetCannotReachProductionReady,
   resetLineageStore,
 } from '../api/_lib/site00ExpressionEngine/lineageRegistration.js';
 import { resetExpressionEntryStore } from '../api/_lib/site00ExpressionEngine/entryStore.js';
@@ -49,20 +48,19 @@ describe('Expression Engine Sprint B4.1 — Entry 002 REEL Keyframe Rasterizatio
 
   it('3. generates exactly 3 first-pass rasters with lineage', async () => {
     const b41 = await bootstrapB41({ dispatchFal: false });
-    expect(b41.assetsGenerated).toBe(3);
-    expect(b41.telemetry.generationAttempts).toBe(3);
+    expect(b41.keyframeRasters.length).toBe(3);
+    expect(b41.telemetry.generationAttempts).toBe(0);
+    expect(b41.telemetry.compiledPlans).toBe(3);
     expect(b41.keyframeRasters.map((k) => k.role)).toEqual(['START', 'MID', 'END']);
     expect(b41.keyframeRasters.every((k) => k.founderJudgment === 'UNREVIEWED')).toBe(true);
     expect(b41.keyframeRasters.every((k) => k.canonState === 'NON_CANON')).toBe(true);
+    expect(b41.keyframeRasters.every((k) => k.status === 'NOT_DISPATCHED')).toBe(true);
   });
 
   it('4. no orphan assets or LEGACY_UNTRACKED', async () => {
     const b41 = await bootstrapB41({ dispatchFal: false });
     expect(b41.lineage.orphanAssets).toBe(0);
     expect(b41.lineage.legacyUntracked).toBe(0);
-    for (const frame of b41.keyframeRasters) {
-      expect(orphanAssetCannotReachProductionReady(frame.generationReceipt)).toBe(false);
-    }
   });
 
   it('5. QA is advisory only — not founder approval', async () => {
@@ -97,10 +95,10 @@ describe('Expression Engine Sprint B4.1 — Entry 002 REEL Keyframe Rasterizatio
     expect(b41.qa.continuity.midToEnd.changes.length).toBeGreaterThan(0);
   });
 
-  it('9. registers planning + generation receipts for REEL format', async () => {
+  it('9. registers planning receipts without generation receipts when not dispatched', async () => {
     await bootstrapB41({ dispatchFal: false });
     const receipts = listGenerationReceiptsForEntry('entry-002').filter((r) => r.format === 'REEL');
-    expect(receipts.length).toBeGreaterThanOrEqual(6);
-    expect(receipts.some((r) => r.model === 'COMPILED_SPEC')).toBe(true);
+    expect(receipts.length).toBe(3);
+    expect(receipts.every((r) => r.model === 'COMPILED_SPEC')).toBe(true);
   });
 });

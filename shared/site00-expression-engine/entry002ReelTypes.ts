@@ -3,6 +3,7 @@
  */
 
 import type { AudioPlan, GenerationReceipt, ProductionRoutingRecommendation } from './types.js';
+import type { CreativeAssetRecord } from '../../site00-brand-lore/creativeLineage/types.js';
 import type { ChapterGrammarValidationResult } from './chapterGrammarTypes.js';
 import type { ChapterRepetitionQAResult } from './chapterGrammarTypes.js';
 import type { FormatNativeQAResult } from './types.js';
@@ -55,17 +56,35 @@ export type ReelKeyframeRasterFrame = {
   role: ReelKeyframeRole;
   assetId: string;
   storagePath: string;
-  previewUrl: string;
+  previewUrl: string | null;
   provider: string;
   model: string;
   dimensions: { width: number; height: number };
   aspectRatio: '9:16';
   planningReceiptId: string | null;
-  generationReceipt: GenerationReceipt;
+  generationReceipt: GenerationReceipt | null;
   founderJudgment: 'UNREVIEWED' | 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_FOR_ME';
   canonState: 'NON_CANON' | 'PRODUCTION_CANDIDATE' | 'CANON';
-  status: 'DISPATCHED' | 'CACHED';
+  status: 'DISPATCHED' | 'CACHED' | 'NOT_DISPATCHED' | 'FAILED';
   qaAdvisory: Array<{ check: string; passed: boolean; advisory: true }>;
+};
+
+export type ReelKeyframeExecutionFrame = ReelKeyframeRasterFrame & {
+  providerRequestId: string | null;
+  creativeAssetRecord: CreativeAssetRecord | null;
+  dispatchAttempted: boolean;
+  actualFileExists: boolean;
+  fallbackAttempted: boolean;
+  failure: string | null;
+};
+
+export type ReelKeyframeTelemetrySemantics = {
+  compiledPlans: number;
+  planningReceipts: number;
+  dispatchedGenerations: number;
+  successfulRasterResults: number;
+  failedGenerations: number;
+  generationAttempts: number;
 };
 
 export type ReelKeyframeRasterQASummary = {
@@ -121,7 +140,10 @@ export type ReelEditSuiteBehavior = {
 };
 
 export type ReelProductionTelemetry = {
+  /** Counts only actual provider dispatches — COMPILED plans are NOT generation attempts */
   generationAttempts: number;
+  compiledPlans?: number;
+  planningReceipts?: number;
   repairAttempts: number;
   manualInterventions: number;
   founderRevisions: number;
@@ -172,6 +194,31 @@ export type DownstreamFormatHold = {
   format: string;
   status: 'UNLOCKED_PENDING_PRODUCTION';
   produced: false;
+};
+
+export type Entry002B42BootstrapResult = {
+  sprint: 'B4.2_ENTRY_002_REEL_KEYFRAME_EXECUTION';
+  reelId: string;
+  runtimeTargetSec: { min: number; max: number };
+  argumentArc: ReelArgumentBeat[];
+  shotPlan: ReelShotPlanItem[];
+  keyframeExecutions: ReelKeyframeExecutionFrame[];
+  motionPlan: ReelMotionPlan;
+  audioPlan: AudioPlan;
+  phoneRole: ReelPhoneRole;
+  fashionDirection: ReelFashionDirection;
+  editSuiteBehavior: ReelEditSuiteBehavior;
+  providerRouting: ProductionRoutingRecommendation[];
+  founderGates: FounderReviewGate[];
+  qa: ReelKeyframeRasterQASummary;
+  downstreamHold: DownstreamFormatHold[];
+  telemetrySemantics: ReelKeyframeTelemetrySemantics;
+  lineage: { tracked: number; orphanAssets: number; legacyUntracked: number };
+  videoDispatched: false;
+  klingBlocked: true;
+  roughCutBlocked: true;
+  actualProviderDispatches: number;
+  actualRasterResults: number;
 };
 
 export type Entry002B41BootstrapResult = {
