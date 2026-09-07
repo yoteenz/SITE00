@@ -5965,3 +5965,22 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Hard stop:** No new polished keyframes, Kling, video, rough cut this sprint
 - **Next:** Founder GATE_0 storyboard review — `LOVE_IT | PROMISING_REFINE | NOT_FOR_ME`
 
+---
+
+## 2026-09-07 — Sprint B4.6 Entry 002 storyboard gate + reel treatment authority
+
+- **Context:** Founder sprint B4.3 methodology — pipeline jumped from cover anchor to keyframes without locked reel story / structural storyboard. Same-woman contradiction and NDX vs subject woman roles needed formal authority before keyframes.
+- **Story correction locked:** NDX = observer/investigator/interjector (partial presence, lime nails); subject woman = same person in present + 2016; mandatory interjection THE CLOTHES NEVER GOT AN APOLOGY. JUST A REBRAND.; phone glitch snap-back = Entry 003 handoff hook (not produced).
+- **Delivered:**
+  - **`ReelTreatmentAuthority`** — locked logline, dramatic engine, character roles, visual/fashion rules (`entry002ReelTreatment.ts`)
+  - **10-beat outline + 5 separate structural boards** — CLAIM, HOLD ON/profile dive, 2016 RECEIPT, CONTRADICTION, INTERJECTION/snap-back (`storyboardBoardPlanner.ts`)
+  - **`GATE_0C_STRUCTURAL_STORYBOARD`** — all 5 boards must be LOVE_IT before START/MID/END keyframe compile/dispatch; replaces GATE_0B as keyframe blocker (B45 cinematic = parallel visual dev)
+  - **Character authority** — NDX vs subject woman continuity profiles (`storyboardContinuityRules.ts`)
+  - **5-board separate dispatch** — `storyboard-authority/` storage paths, no combined sheet (`storyboardAuthorityDispatch.ts`)
+  - **API** `GET ?phase=B46` (aliases `B4.6`, `B4P6`, `STORYBOARD_AUTHORITY`)
+  - **UI** — Expression Engine ENTRY 002 → **Storyboard Authority** tab (treatment + 5 boards + per-board judgment slots)
+  - **Tests** `site00ExpressionEngineSprintB46.test.ts` — 8/8 pass; B45 tests updated for GATE_0C block
+- **Production order:** COVER → REEL TREATMENT → STORYBOARD AUTHORITY → FOUNDER STORYBOARD JUDGMENT → KEYFRAMES → VIDEO
+- **Hard stop:** No keyframes, Kling, video until founder LOVE_IT on all 5 structural boards
+- **Next:** Founder per-board storyboard review (Board 01–05: LOVE_IT | PROMISING_REFINE | NOT_FOR_ME)
+
