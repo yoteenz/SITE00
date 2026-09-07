@@ -8,6 +8,7 @@ import {
   bootstrapB1Phase2,
   bootstrapB2ChapterSystem,
   bootstrapB3CreativeAnchor,
+  bootstrapB31,
   bootstrapNdxbookExpressionProof,
   evaluateEntryProductionReadiness,
   getChapter01Snapshot,
@@ -38,6 +39,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const phase = String(req.query.phase ?? body.phase ?? '');
     const action = String(req.query.action ?? body.action ?? '');
     const hasEntryQuery = Boolean(brandIdParam && entryNumber);
+
+    if (req.method === 'GET' && (phase === 'B31' || phase === 'B3P1' || phase === 'B3.1')) {
+      const b31 = await bootstrapB31();
+      return res.status(200).json({
+        engine: 'EXPRESSION_ENGINE_V0',
+        sprint: 'B3.1_FOUNDER_CREATIVE_OVERRIDE',
+        b3PreservedAnchor: b31.b3PreservedAnchor,
+        founderAuthority: b31.founderAuthority,
+        coverGrammar: b31.coverGrammar,
+        entryCovers: b31.entryCovers,
+        creativeLearning: b31.creativeLearning,
+        coverCohesionQA: b31.coverCohesionQA,
+        downstreamUnlocked: b31.downstreamUnlocked,
+        assetsGeneratedThisSprint: b31.assetsGeneratedThisSprint,
+      });
+    }
 
     if (req.method === 'GET' && phase === 'B3') {
       const dispatchFal = req.query.dispatchFal === '1' || body.dispatchFal === true;

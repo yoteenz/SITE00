@@ -237,6 +237,9 @@ export function oneEntryOwnsMultipleFormats(entry: CreativeEntry): boolean {
 export { runBlockingSequenceQA, compileFormatExpression, listEntriesForProject, listGenerationReceiptsForEntry };
 export { bootstrapB2ChapterSystem, getChapter01Snapshot } from './chapterBootstrap.js';
 export { bootstrapB3CreativeAnchor, produceEntry002CreativeAnchor } from './entry002AnchorProduction.js';
+export { bootstrapB31, bootstrapB31FounderCreativeOverride } from './entry002B31Bootstrap.js';
+export { runChapterCoverCohesionQA } from './chapterCoverCohesionQA.js';
+export { buildChapter01CoverPresentationGrammar, getChapter01EntryCoverSpecs } from './chapterCoverPresentationGrammar.js';
 export { validateEntryByNumber, validateEntryAgainstChapterGrammar } from './chapterGrammarValidation.js';
 export { runChapterRepetitionQA, entryPairRepetitionSummary } from './chapterRepetitionQA.js';
 export { listEntriesForChapter, getChapterByNumber, getChapterGrammarForChapter } from './chapterStore.js';
