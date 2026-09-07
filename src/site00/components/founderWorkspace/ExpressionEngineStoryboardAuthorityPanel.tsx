@@ -1,5 +1,6 @@
 /**
- * Expression Engine — Entry 002 structural storyboard authority panel (B4.6).
+ * Expression Engine — Entry 002 structural storyboard planning panel (B4.6).
+ * Planning / narrative structure only — NOT the active visual gate.
  */
 
 import type { ReactNode } from 'react';
@@ -19,6 +20,15 @@ type StructuralBoard = {
 };
 
 type B46Response = {
+  pipelineState: {
+    nextAction: string;
+    activeGate: { gateId: string };
+    structuralStoryboard: {
+      role: string;
+      status: string;
+      activeGate: boolean;
+    };
+  };
   treatment: {
     treatmentId: string;
     logline: string;
@@ -31,28 +41,12 @@ type B46Response = {
     beatCount: number;
     boardCount: number;
     boards: StructuralBoard[];
-    approvalState: {
-      gateId: string;
-      allBoardsLoveIt: boolean;
-      blocksKeyframeGeneration: boolean;
-    };
+    role?: string;
+    status?: string;
+    activeGate?: boolean;
   };
-  founderReviewSlots: Array<{
-    boardKey: string;
-    boardNumber: number;
-    boardTitle: string;
-    founderJudgment: string;
-  }>;
-  structuralStoryboardGate: {
-    gateId: string;
-    blocksKeyframeGeneration: boolean;
-  };
-  keyframeCompilationBlocked: { blocked: boolean; reason?: string };
   qa: { result: string };
-  nextAction: string;
 };
-
-const JUDGMENT_LABELS = ['LOVE_IT', 'PROMISING_REFINE', 'NOT_FOR_ME'] as const;
 
 export function ExpressionEngineStoryboardAuthorityPanel() {
   const [data, setData] = useState<B46Response | null>(null);
@@ -81,7 +75,7 @@ export function ExpressionEngineStoryboardAuthorityPanel() {
   }, []);
 
   if (loading) {
-    return <p className="site00-expr-engine-panel__meta">Loading structural storyboard authority…</p>;
+    return <p className="site00-expr-engine-panel__meta">Loading structural storyboard planning…</p>;
   }
 
   if (error) {
@@ -90,25 +84,27 @@ export function ExpressionEngineStoryboardAuthorityPanel() {
 
   if (!data) return null;
 
-  const { treatment, storyboardAuthority, structuralStoryboardGate } = data;
+  const { treatment, storyboardAuthority, pipelineState } = data;
+  const planning = pipelineState.structuralStoryboard;
 
   return (
     <section className="site00-experiment-g__panel site00-expr-engine-block site00-expr-engine-sba">
-      <h2>STORYBOARD AUTHORITY · ENTRY 002 REEL</h2>
+      <h2>STORYBOARD PLANNING · ENTRY 002 REEL</h2>
       <p className="site00-expr-engine-panel__meta">
-        {storyboardAuthority.authorityId} · Gate {structuralStoryboardGate.gateId} ·{' '}
-        {storyboardAuthority.beatCount} beats · {storyboardAuthority.boardCount} structural boards
+        {storyboardAuthority.authorityId} · {planning.role} · {planning.status}
+      </p>
+      <p className="site00-expr-engine-panel__copy">
+        These five structural boards are <strong>planning / narrative structure</strong> — not the active
+        visual gate. Active gate: {pipelineState.activeGate.gateId}. Go to{' '}
+        <strong>Pre-Storyboard Authority</strong> tab for founder review.
+      </p>
+      <p className="site00-expr-engine-panel__meta">
+        <strong>NEXT ACTION (active):</strong> {pipelineState.nextAction}
       </p>
 
       <BlueprintBlock title="REEL TREATMENT AUTHORITY">
         <p className="site00-expr-engine-panel__copy">{treatment.logline}</p>
         <p className="site00-expr-engine-panel__meta">{treatment.dramaticEngine}</p>
-        <p className="site00-expr-engine-panel__copy">
-          <strong>NDX:</strong> {treatment.characterRoles.ndx}
-        </p>
-        <p className="site00-expr-engine-panel__copy">
-          <strong>Subject woman:</strong> {treatment.characterRoles.subjectWoman}
-        </p>
       </BlueprintBlock>
 
       <div className="site00-expr-engine-sba__grid">
@@ -122,33 +118,20 @@ export function ExpressionEngineStoryboardAuthorityPanel() {
               />
             ) : (
               <div className="site00-expr-engine-sba__placeholder">
-                Board {String(board.boardNumber).padStart(2, '0')} — pending dispatch
+                Board {String(board.boardNumber).padStart(2, '0')} — planning reference
               </div>
             )}
             <figcaption>
               <strong>Board {String(board.boardNumber).padStart(2, '0')}</strong> · {board.boardTitle}
               <span className="site00-expr-engine-panel__meta"> · {board.argumentGrammarRole}</span>
-              {board.keyframeExtractionRole ? (
-                <span className="site00-expr-engine-panel__meta"> · KF {board.keyframeExtractionRole}</span>
-              ) : null}
               <p className="site00-expr-engine-panel__copy">{board.storyFunction}</p>
-              <p className="site00-expr-engine-panel__meta">Judgment: {board.founderJudgment}</p>
-              <ul className="site00-expr-engine-list">
-                {JUDGMENT_LABELS.map((j) => (
-                  <li key={j}>{j}</li>
-                ))}
-              </ul>
+              <p className="site00-expr-engine-panel__meta">Planning reference — not active founder gate</p>
             </figcaption>
           </figure>
         ))}
       </div>
 
-      <p className="site00-expr-engine-panel__meta">
-        QA: {data.qa.result} · Keyframes:{' '}
-        {data.keyframeCompilationBlocked.blocked ? 'BLOCKED' : 'OPEN'} ·{' '}
-        {structuralStoryboardGate.blocksKeyframeGeneration ? 'Awaiting all 5 LOVE_IT' : 'Gate satisfied'} ·{' '}
-        {data.nextAction}
-      </p>
+      <p className="site00-expr-engine-panel__meta">QA: {data.qa.result} · Inactive until pre-storyboard authorities approved</p>
     </section>
   );
 }

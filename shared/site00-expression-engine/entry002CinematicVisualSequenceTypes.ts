@@ -96,7 +96,7 @@ export type CinematicVisualSequenceBoard = {
   };
   founderJudgment: CinematicSequenceFounderJudgment;
   canonState: 'NON_CANON' | 'PRODUCTION_CANDIDATE' | 'CANON';
-  gateId: 'GATE_0B_CINEMATIC_SEQUENCE';
+  gateId: 'GATE_REF_CINEMATIC_SEQUENCE';
 };
 
 export type CinematicSequenceQAResult = {
@@ -126,7 +126,7 @@ export type Entry002B45BootstrapResult = {
   downstreamBlocked: true;
   founderGates: Array<{ gateId: string; label: string; founderJudgment: string; blocksNextStage: boolean }>;
   cinematicSequenceGate: {
-    gateId: 'GATE_0B_CINEMATIC_SEQUENCE';
+    gateId: 'GATE_REF_CINEMATIC_SEQUENCE';
     label: string;
     founderJudgment: CinematicSequenceFounderJudgment;
     blocksKeyframeGeneration: boolean;

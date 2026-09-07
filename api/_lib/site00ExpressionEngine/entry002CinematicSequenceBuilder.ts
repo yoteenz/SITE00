@@ -68,7 +68,7 @@ export async function buildEntry002CinematicVisualSequenceRecord(
     canonState: 'NON_CANON',
     authorityExperimentStatus: 'PRE_AUTHORITY_EXPERIMENT',
     visualAuthority: false,
-    gateId: 'GATE_0B_CINEMATIC_SEQUENCE',
+    gateId: 'GATE_REF_CINEMATIC_SEQUENCE',
   };
 }
 

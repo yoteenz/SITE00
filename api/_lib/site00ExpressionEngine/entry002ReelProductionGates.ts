@@ -48,15 +48,15 @@ export function buildEntry002StoryboardGate(
 export function buildEntry002CinematicSequenceGate(
   founderJudgment: CinematicSequenceFounderJudgment = 'UNREVIEWED',
 ): {
-  gateId: 'GATE_0B_CINEMATIC_SEQUENCE';
+  gateId: 'GATE_REF_CINEMATIC_SEQUENCE';
   label: string;
   founderJudgment: CinematicSequenceFounderJudgment;
   blocksKeyframeGeneration: boolean;
   blocksNextStage: boolean;
 } {
   return {
-    gateId: 'GATE_0B_CINEMATIC_SEQUENCE',
-    label: 'Cinematic visual sequence review — parallel visual development (non-blocking)',
+    gateId: 'GATE_REF_CINEMATIC_SEQUENCE',
+    label: 'Cinematic visual sequence — PRE_AUTHORITY_EXPERIMENT reference only (not active gate)',
     founderJudgment,
     blocksKeyframeGeneration: false,
     blocksNextStage: false,
@@ -112,6 +112,49 @@ export function buildEntry002StructuralStoryboardGate(
       NOT_FOR_ME: 'Board rejected — revise structural direction',
     },
   };
+}
+
+export function buildEntry002FounderReviewGatesForPipeline(
+  preStoryboardApproval: PreStoryboardApprovalState,
+): Array<{
+  gateId: string;
+  label: string;
+  founderJudgment: string;
+  blocksNextStage: boolean;
+  activeGate: boolean;
+}> {
+  const preStoryboardGate = buildEntry002PreStoryboardAuthorityGate(preStoryboardApproval);
+
+  return [
+    {
+      gateId: preStoryboardGate.gateId,
+      label: preStoryboardGate.label,
+      founderJudgment: preStoryboardApproval.allAuthoritiesLoveIt ? 'LOVE_IT' : 'UNREVIEWED',
+      blocksNextStage: preStoryboardGate.blocksNextStage,
+      activeGate: true,
+    },
+    {
+      gateId: 'GATE_0C_STRUCTURAL_STORYBOARD',
+      label: 'Structural storyboard — planning / narrative structure (inactive until pre-storyboard approved)',
+      founderJudgment: 'PLANNING_NARRATIVE_STRUCTURE',
+      blocksNextStage: false,
+      activeGate: false,
+    },
+    {
+      gateId: 'GATE_REF_CINEMATIC_SEQUENCE',
+      label: 'Cinematic sequence — PRE_AUTHORITY_EXPERIMENT reference only',
+      founderJudgment: 'REFERENCE_ONLY',
+      blocksNextStage: false,
+      activeGate: false,
+    },
+    {
+      gateId: 'GATE_1_KEYFRAME',
+      label: 'Keyframe authority review',
+      founderJudgment: 'UNREVIEWED',
+      blocksNextStage: true,
+      activeGate: false,
+    },
+  ];
 }
 
 export function buildEntry002FounderReviewGatesWithStructuralStoryboard(

@@ -56,11 +56,11 @@ describe('Expression Engine Sprint B4.6 follow-up — Pre-storyboard visual auth
     expect(qa.passed).toBe(true);
   });
 
-  it('4. GATE_0A blocks cinematic storyboard until all authorities LOVE_IT', () => {
+  it('4. GATE_0B blocks cinematic storyboard until all authorities LOVE_IT', () => {
     const authorities = buildEntry002PreStoryboardVisualAuthorities();
     const unreviewed = buildPreStoryboardApprovalState(authorities);
     expect(() => assertPreStoryboardVisualAuthorityApprovedForStoryboard(unreviewed)).toThrow(
-      'GATE_0A_PRE_STORYBOARD_VISUAL_AUTHORITY',
+      'GATE_0B_PRE_STORYBOARD_AUTHORITY',
     );
   });
 
@@ -68,7 +68,7 @@ describe('Expression Engine Sprint B4.6 follow-up — Pre-storyboard visual auth
     const result = await bootstrapB46FollowUp({ dispatchFal: false });
     expect(result.productionOrder).toEqual(PRE_STORYBOARD_VISUAL_PRODUCTION_ORDER);
     expect(result.productionOrder.indexOf('PRE_STORYBOARD_VISUAL_AUTHORITIES')).toBeLessThan(
-      result.productionOrder.indexOf('CINEMATIC_STORYBOARD_AUTHORITY'),
+      result.productionOrder.indexOf('FINAL_CINEMATIC_STORYBOARD'),
     );
   });
 
@@ -87,7 +87,7 @@ describe('Expression Engine Sprint B4.6 follow-up — Pre-storyboard visual auth
 
     await expect(
       dispatchEntry002ReelKeyframeRaster('START', { dispatchFal: true }),
-    ).rejects.toThrow('GATE_0A_PRE_STORYBOARD_VISUAL_AUTHORITY');
+    ).rejects.toThrow('GATE_0B_PRE_STORYBOARD_AUTHORITY');
   });
 
   it('8. bootstrap returns founder review slots for five authorities', async () => {

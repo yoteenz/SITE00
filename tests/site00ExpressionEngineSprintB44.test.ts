@@ -78,7 +78,7 @@ describe('Expression Engine Sprint B4.4 — Reel storyboard authority', () => {
 
     await expect(
       dispatchEntry002ReelKeyframeRaster('START', { dispatchFal: true }),
-    ).rejects.toThrow('GATE_0B_CINEMATIC_SEQUENCE');
+    ).rejects.toThrow('GATE_0B_PRE_STORYBOARD_AUTHORITY');
   });
 
   it('6. marks pre-storyboard START/MID/END-001 as NON_CANON experiments', async () => {

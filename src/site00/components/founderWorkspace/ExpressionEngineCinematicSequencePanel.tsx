@@ -75,7 +75,7 @@ export function ExpressionEngineCinematicSequencePanel() {
 
   if (!data) return null;
 
-  const { cinematicSequence, blockingStoryboard, cinematicSequenceGate } = data;
+  const { cinematicSequence } = data;
 
   return (
     <section className="site00-experiment-g__panel site00-expr-engine-block site00-expr-engine-cvs">
@@ -85,8 +85,8 @@ export function ExpressionEngineCinematicSequencePanel() {
         {cinematicSequence.gateId} · {cinematicSequence.founderJudgment}
       </p>
       <p className="site00-expr-engine-panel__copy">
-        Blocking storyboard ({blockingStoryboard.type}) is {blockingStoryboard.status} — not visual
-        authority. Review these cinematic development frames before keyframe production.
+        PRE_AUTHORITY_EXPERIMENT reference only — not visual authority. Active gate is Pre-Storyboard
+        Authority (GATE_0B_PRE_STORYBOARD_AUTHORITY).
       </p>
       {cinematicSequence.contactSheetUrl ? (
         <figure className="site00-expr-engine-cvs__contact">
@@ -121,9 +121,7 @@ export function ExpressionEngineCinematicSequencePanel() {
         ))}
       </div>
       <p className="site00-expr-engine-panel__meta">
-        QA: {data.qa.result} · Keyframes:{' '}
-        {data.keyframeGenerationBlocked ? 'BLOCKED' : 'OPEN'} · {cinematicSequenceGate.founderJudgment}{' '}
-        · {data.nextAction}
+        Reference only · Keyframes: BLOCKED · {data.nextAction}
       </p>
     </section>
   );

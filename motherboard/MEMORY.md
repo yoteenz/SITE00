@@ -6001,3 +6001,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Pipeline:** REEL TREATMENT → 5 PRE-STORYBOARD AUTHORITIES → FOUNDER APPROVAL → CINEMATIC STORYBOARD → KEYFRAMES → VIDEO
 - **Next:** Founder review five pre-storyboard visual authorities (LOVE_IT | PROMISING_REFINE | NOT_FOR_ME)
 
+---
+
+## 2026-09-07 — B4.6 pipeline state reconciliation
+
+- **Context:** Pre-storyboard follow-up superseded earlier B4.6 next-action language. Founder must review pre-storyboard authorities first — not structural storyboard boards as final visual canon.
+- **Reconciled:**
+  - **Active production order** — 11 steps from COVER AUTHORITY through FINAL REEL
+  - **Active gate** renamed to `GATE_0B_PRE_STORYBOARD_AUTHORITY` (current gate)
+  - **Structural storyboard** — PLANNING_NARRATIVE_STRUCTURE only; inactive until pre-storyboard LOVE_IT
+  - **Cinematic sequence** — GATE_REF_CINEMATIC_SEQUENCE, PRE_AUTHORITY_EXPERIMENT reference only
+  - **UI** — Pre-Storyboard Authority tab shows active NEXT ACTION; Storyboard Authority tab labeled planning-only
+  - **API** — `pipelineState` on B46/B46P1 responses; single nextAction constant
+  - **Tests** `site00ExpressionEnginePipelineReconciliation.test.ts` — 3/3 pass
+- **Next:** FOUNDER REVIEW OF FIVE PRE-STORYBOARD VISUAL AUTHORITIES
+

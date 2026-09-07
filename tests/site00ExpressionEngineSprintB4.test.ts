@@ -131,7 +131,7 @@ describe('Expression Engine Sprint B4 — Entry 002 REEL Production', () => {
     const gates = buildEntry002FounderReviewGates();
     expect(founderGateBlocksProgression(gates)).toBe(true);
     const approved = gates.map((g) =>
-      g.gateId === 'GATE_0B_CINEMATIC_SEQUENCE' || g.gateId === 'GATE_1_KEYFRAME'
+      g.gateId === 'GATE_REF_CINEMATIC_SEQUENCE' || g.gateId === 'GATE_1_KEYFRAME'
         ? { ...g, founderJudgment: 'LOVE_IT' as const }
         : g,
     );

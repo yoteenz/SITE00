@@ -18,6 +18,11 @@ type PreStoryboardAuthority = {
 };
 
 type B46FollowUpResponse = {
+  pipelineState: {
+    activeGate: { gateId: string; label: string };
+    nextAction: string;
+    currentStage: string;
+  };
   roleCorrection: {
     ndx: string;
     subjectWoman: string;
@@ -78,13 +83,16 @@ export function ExpressionEnginePreStoryboardAuthorityPanel() {
 
   if (!data) return null;
 
-  const { roleCorrection, preStoryboardAuthorityPack, cinematicSequence } = data;
+  const { roleCorrection, preStoryboardAuthorityPack, pipelineState } = data;
 
   return (
     <section className="site00-experiment-g__panel site00-expr-engine-block site00-expr-engine-psa">
       <h2>PRE-STORYBOARD VISUAL AUTHORITY · ENTRY 002</h2>
-      <p className="site00-expr-engine-panel__meta">
-        {preStoryboardAuthorityPack.packId} · Gate {preStoryboardAuthorityPack.approvalState.gateId}
+      <p className="site00-expr-engine-panel__meta site00-expr-engine-panel__copy">
+        <strong>ACTIVE GATE:</strong> {pipelineState.activeGate.gateId} · {pipelineState.currentStage}
+      </p>
+      <p className="site00-expr-engine-panel__copy">
+        <strong>NEXT ACTION:</strong> {pipelineState.nextAction}
       </p>
 
       <Block title="ROLE CORRECTION">
@@ -95,13 +103,6 @@ export function ExpressionEnginePreStoryboardAuthorityPanel() {
           <strong>Subject woman:</strong> {roleCorrection.subjectWoman}
         </p>
         <p className="site00-expr-engine-panel__meta">{roleCorrection.deprecatedStatement}</p>
-      </Block>
-
-      <Block title="CINEMATIC SEQUENCE (REFERENCE ONLY)">
-        <p className="site00-expr-engine-panel__meta">
-          {cinematicSequence.sequenceId} · {cinematicSequence.status} · visual authority:{' '}
-          {cinematicSequence.visualAuthority ? 'YES' : 'NO'}
-        </p>
       </Block>
 
       <div className="site00-expr-engine-psa__grid">
@@ -138,8 +139,7 @@ export function ExpressionEnginePreStoryboardAuthorityPanel() {
       </div>
 
       <p className="site00-expr-engine-panel__meta">
-        Final storyboard: {data.finalStoryboard.status} · Keyframes: {data.keyframes} · Video: {data.video} ·{' '}
-        {data.nextAction}
+        Final storyboard: {data.finalStoryboard.status} · Keyframes: {data.keyframes} · Video: {data.video}
       </p>
     </section>
   );
