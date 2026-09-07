@@ -23,6 +23,7 @@ import { compileEntry002ReelKeyframes } from './entry002ReelKeyframes.js';
 import { buildEntry002ReelMotionPlan } from './entry002ReelMotionPlan.js';
 import { compileEntry002ReelProviderRouting } from './entry002ReelProviderRouting.js';
 import { runEntry002ReelQA } from './entry002ReelQA.js';
+import { buildReelAnnotationUsageContract } from './entry002ReelAnnotationUsage.js';
 import {
   buildEntry002ReelEditSuiteBehavior,
   buildEntry002ReelFashionDirection,
@@ -86,6 +87,8 @@ export async function produceEntry002ReelB4(options?: {
   const providerRouting = compileEntry002ReelProviderRouting();
   const founderGates = buildEntry002FounderReviewGates();
 
+  const annotationUsage = buildReelAnnotationUsageContract();
+
   const qa = runEntry002ReelQA({
     keyframes,
     audioPlan,
@@ -124,6 +127,7 @@ export async function produceEntry002ReelB4(options?: {
       founderGates,
       videoDispatched: false,
       primaryMotionAuthority: 'REEL',
+      annotationUsage,
     } as never,
     generationReceipts: [...baseEntry.generationReceipts, ...keyframes.map((k) => k.receipt)],
     assetIds: [...baseEntry.assetIds, ...keyframes.map((k) => k.assetId)],
@@ -144,6 +148,7 @@ export async function produceEntry002ReelB4(options?: {
     providerRouting,
     founderGates,
     qa,
+    annotationUsage,
     downstreamHold: downstreamFormatsOnHold(),
     telemetry,
     videoDispatched: false,

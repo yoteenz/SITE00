@@ -16,7 +16,7 @@ import {
 import { buildEntry002ReelAudioPlan, getEntry002ReelVoOption } from '../api/_lib/site00ExpressionEngine/entry002ReelAudioPlan.js';
 import { compileEntry002ReelKeyframes } from '../api/_lib/site00ExpressionEngine/entry002ReelKeyframes.js';
 import { compileEntry002ReelProviderRouting } from '../api/_lib/site00ExpressionEngine/entry002ReelProviderRouting.js';
-import { runEntry002ReelQA } from '../api/_lib/site00ExpressionEngine/entry002ReelQA.js';
+import { runEntry002ReelQA, cinematicShotPassesWithoutCoverAnnotations } from '../api/_lib/site00ExpressionEngine/entry002ReelQA.js';
 import {
   listGenerationReceiptsForEntry,
   orphanAssetCannotReachProductionReady,
@@ -30,7 +30,14 @@ import { buildEntry002ChapterMapping } from '../api/_lib/site00ExpressionEngine/
 import { validateEntryAgainstChapterGrammar } from '../api/_lib/site00ExpressionEngine/chapterGrammarValidation.js';
 import { buildChapter01ArgumentGrammar } from '../api/_lib/site00ExpressionEngine/chapter01Canon.js';
 import { compileEntry002LockedEntry } from '../api/_lib/site00ExpressionEngine/entry002Blueprint.js';
-import { ENTRY_002_SUBJECT } from '../shared/site00-expression-engine/constants.js';
+import {
+  buildReelAnnotationUsageContract,
+  entry003AnnotationsPreAssignedInB4,
+  getLockedEntry002CoverAnnotationPlan,
+  runCoverAnnotationQAForSurface,
+} from '../api/_lib/site00ExpressionEngine/entry002ReelAnnotationUsage.js';
+import { buildEntry002CoverAnnotationPlan } from '../api/_lib/site00ExpressionEngine/chapterCoverAnnotationPlans.js';
+import { CHAPTER_COVER_ANNOTATION_SYSTEM_ID } from '../api/_lib/site00ExpressionEngine/chapterCoverAnnotationVariationSystem.js';
 
 process.env.EXPRESSION_ENGINE_MEMORY_STORE = '1';
 
@@ -129,11 +136,43 @@ describe('Expression Engine Sprint B4 — Entry 002 REEL Production', () => {
     expect(founderGateBlocksProgression(approved)).toBe(false);
   });
 
-  it('13. annotation variation respected — no Entry 001 circle/underline in reel', async () => {
+  it('13. annotation variation respected — reel is not cover annotations in motion', async () => {
     const b4 = await bootstrapB4();
-    const text = b4.shotPlan.map((s) => s.description).join(' ').toLowerCase();
-    expect(text).not.toContain('circle around');
-    expect(b4.qa.blockers.some((b) => b.includes('circle/underline'))).toBe(false);
+    expect(b4.qa.reelAnnotationOveruse.passed).toBe(true);
+    expect(b4.qa.annotationVariation).toBeNull();
+    expect(cinematicShotPassesWithoutCoverAnnotations()).toBe(true);
+    expect(runCoverAnnotationQAForSurface({ surface: 'REEL_CINEMATIC' })).toBeNull();
+  });
+
+  it('B4 patch consumes locked B3.2 annotation system without reimplementing', async () => {
+    const b4 = await bootstrapB4();
+    expect(b4.annotationUsage.rule.systemId).toBe(CHAPTER_COVER_ANNOTATION_SYSTEM_ID);
+    expect(b4.annotationUsage.rule.doNotReimplement).toBe(true);
+    expect(b4.annotationUsage.entry003PreAssigned).toBe(false);
+    expect(entry003AnnotationsPreAssignedInB4()).toBe(false);
+  });
+
+  it('Entry 002 cover annotation plan remains frozen ASTERISK+ARROW', () => {
+    const locked = getLockedEntry002CoverAnnotationPlan();
+    const canonical = buildEntry002CoverAnnotationPlan();
+    expect(locked.annotationFamily).toBe('ASTERISK+ARROW');
+    expect(locked).toEqual(canonical);
+    expect(locked.primaryMark).toBe('ASTERISK');
+    expect(locked.secondaryMark).toBe('ARROW');
+  });
+
+  it('title card policy allows omit/simplify — cover remains primary authority', () => {
+    const contract = buildReelAnnotationUsageContract();
+    expect(contract.titleCardPolicy.mayOmit).toBe(true);
+    expect(contract.titleCardPolicy.maySimplify).toBe(true);
+    expect(contract.titleCardPolicy.coverRemainsPrimaryAuthority).toBe(true);
+  });
+
+  it('annotation QA runs only for cover surface not cinematic shots', async () => {
+    const b4 = await bootstrapB4();
+    expect(b4.qa.annotationSurfaceQA).not.toBeNull();
+    expect(b4.qa.annotationSurfaceQA?.passed).toBe(true);
+    expect(b4.annotationUsage.annotationQASecondaryForReel).toBe(true);
   });
 
   it('14. existing Expression Engine compatibility — chapter mapping validates', () => {
