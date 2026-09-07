@@ -242,6 +242,7 @@ export { bootstrapB32, bootstrapB32CoverAnnotationVariation } from './entry002B3
 export { bootstrapB4, bootstrapB4Entry002ReelProduction } from './entry002ReelProduction.js';
 export { bootstrapB41, bootstrapB41Entry002ReelKeyframeRasterization } from './entry002B41Bootstrap.js';
 export { bootstrapB42, bootstrapB42Entry002ReelKeyframeExecution } from './entry002B42Bootstrap.js';
+export { bootstrapB43, bootstrapB43Entry002ReelKeyframeGate1Review } from './entry002B43Bootstrap.js';
 export { runChapterCoverCohesionQA } from './chapterCoverCohesionQA.js';
 export { runCoverAnnotationVariationQA } from './coverAnnotationVariationQA.js';
 export { selectChapterCoverAnnotations } from './chapterCoverAnnotationPlans.js';

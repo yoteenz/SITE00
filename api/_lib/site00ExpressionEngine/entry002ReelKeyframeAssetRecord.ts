@@ -20,8 +20,13 @@ export function buildEntry002ReelKeyframeCreativeAssetRecord(params: {
   receipt: GenerationReceipt;
   providerRequestId: string;
   planningReceiptId: string | null;
+  requestedModel?: string;
+  executedModel?: string;
+  fallbackUsed?: boolean;
 }): CreativeAssetRecord {
   const ts = new Date().toISOString();
+  const executedModel = params.executedModel ?? params.receipt.model;
+  const requestedModel = params.requestedModel ?? executedModel;
 
   return {
     assetId: params.assetId,
@@ -35,7 +40,7 @@ export function buildEntry002ReelKeyframeCreativeAssetRecord(params: {
     directionLineage: {
       directionId: ENTRY_002_TERRITORY_ID,
       directionName: 'THE NOSTALGIA EDIT SUITE',
-      formationId: 'expression-engine-b42',
+      formationId: 'expression-engine-b43',
       formationVersion: '1',
       canonicalAtCreation: true,
       worldId: ENTRY_002_WORLD_ID,
@@ -58,7 +63,7 @@ export function buildEntry002ReelKeyframeCreativeAssetRecord(params: {
       personalityFingerprint: null,
       creativeAppetiteFingerprint: null,
       creativeAppetiteAvailability: null,
-      expressionContext: 'EXPRESSION_ENGINE_B42',
+      expressionContext: 'EXPRESSION_ENGINE_B43',
       directionExpressionSystemId: ENTRY_002_WORLD_ID,
       creativeExpressionSystemId: ENTRY_002_TERRITORY_ID,
       identityArtDirectionId: null,
@@ -68,13 +73,18 @@ export function buildEntry002ReelKeyframeCreativeAssetRecord(params: {
     },
     generationLineage: {
       provider: params.receipt.provider,
-      model: params.receipt.model,
+      model: executedModel,
       requestId: params.providerRequestId,
-      generationVersion: 'b42-v1',
+      generationVersion: 'b43-v1',
       parentAssetIds: params.planningReceiptId ? [params.planningReceiptId] : [],
       referenceAssetIds: params.receipt.referenceLineage,
       imageConditioningUsed: false,
-      promptVersion: params.receipt.promptLineage.join('|'),
+      promptVersion: [
+        params.receipt.promptLineage.join('|'),
+        `requested-model:${requestedModel}`,
+        `executed-model:${executedModel}`,
+        `fallback-used:${params.fallbackUsed === true ? 'YES' : 'NO'}`,
+      ].join(';'),
       generatedAt: params.receipt.generatedAt,
       generationCostUsd: null,
       storagePath: params.storagePath,
@@ -94,7 +104,7 @@ export function buildEntry002ReelKeyframeCreativeAssetRecord(params: {
     brandCanonVersionAtGeneration: 1,
     contentCanonVersionAtGeneration: 1,
     founderNotes: null,
-    internalNotes: `Sprint B4.2 first-pass ${params.role} keyframe — founder Gate 1 visual review required`,
+    internalNotes: `Sprint B4.3 authoritative ${params.role} keyframe — requested ${requestedModel}, executed ${executedModel}`,
     salvageClassification: null,
     publishingReadiness: null,
     historicalSourceRef: null,
