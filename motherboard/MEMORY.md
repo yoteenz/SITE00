@@ -5890,3 +5890,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Tests** `site00ExpressionEngineSprintB41.test.ts` — 9/9 pass (128 total Expression Engine tests)
 - **First dispatch:** 3 webp rasters uploaded to `site00/assts/expression-engine/ndxbook/entry-002/reel/ndx-entry-002-reel-kf-{start,mid,end}-001.webp`
 - **Next:** Founder Gate 1 visual review per frame (LOVE_IT / PROMISING_REFINE / NOT_FOR_ME); repair failed frame only with `-002` version suffix
+
+---
+
+## 2026-09-07 — Sprint B4.2 Entry 002 REEL keyframe execution dispatch
+
+- **Context:** B4.1 had dispatch layer but telemetry counted COMPILED plans as generation attempts; founder still blocked if rasters not executed. B4.2 is execution sprint — actual FAL dispatches required.
+- **Delivered:**
+  - **`entry002B42Bootstrap.ts`** — execution orchestrator; fails unless 3 successful rasters
+  - **Telemetry semantics** — `entry002ReelKeyframeTelemetry.ts`; B4 compile `generationAttempts: 0`; only dispatched provider calls count
+  - **Dispatch hardening** — provider request IDs, CreativeAssetRecord, NOT_DISPATCHED/FAILED states, no placeholder URLs; per-frame failure without fabricating success
+  - **Flux route fix** — `fal-ai/flux-pro/v1.1` with `aspect_ratio: 9:16`, `output_format: png` (legacy `fal-ai/flux-pro` endpoint 422)
+  - **API** `GET ?phase=B42` (`dispatchFal=1`, optional `forceDispatch=1`)
+  - **Tests** `site00ExpressionEngineSprintB42.test.ts` — 9/9 pass (137 total Expression Engine tests)
+- **Executed:** 3 flux-pro/v1.1 rasters uploaded to `site00/assts/expression-engine/ndxbook/entry-002/reel/*-001.webp`
+- **Next:** Founder Gate 1 visual review — `LOVE_IT | PROMISING_REFINE | NOT_FOR_ME` per frame
