@@ -3,8 +3,8 @@
  */
 
 import type { CreativeEntry, EntryReadinessResult } from '../../../shared/site00-expression-engine/types.js';
+import { exposeEntry001FounderJudgmentReadiness } from './entry001Close.js';
 import { entry001TerritoryCollapsePass, runConceptCollapseGate } from './conceptCollapseGate.js';
-import { runFormatNativeQA } from './formatNativeQA.js';
 import { orphanAssetCannotReachProductionReady } from './lineageRegistration.js';
 
 export function evaluateEntryReadiness(entry: CreativeEntry): EntryReadinessResult {
@@ -79,6 +79,32 @@ export function evaluateEntryReadiness(entry: CreativeEntry): EntryReadinessResu
 
   const unresolvedJudgment = entry.founderJudgments.some((j) => j.action === 'UNREVIEWED');
   checks.push({ check: 'founder_judgment_resolved', passed: !unresolvedJudgment || entry.founderJudgments.length === 0 });
+  if (unresolvedJudgment) blockers.push('founder judgment records include UNREVIEWED');
+
+  const requiresFounderJudgmentScopes =
+    entry.entryNumber === 1 ||
+    entry.status === 'IN_PRODUCTION' ||
+    entry.status === 'READY_FOR_JUDGMENT';
+  if (requiresFounderJudgmentScopes) {
+    const judgmentReadiness = exposeEntry001FounderJudgmentReadiness(entry);
+    const unreviewedScopes = judgmentReadiness.filter((j) => j.state === 'UNREVIEWED');
+    const allScopesReviewed = unreviewedScopes.length === 0;
+    checks.push({
+      check: 'founder_judgment_all_scopes',
+      passed: allScopesReviewed,
+      detail: unreviewedScopes.map((j) => j.scope).join(', ') || 'all reviewed',
+    });
+    if (!allScopesReviewed) {
+      blockers.push(
+        `founder judgment UNREVIEWED: ${unreviewedScopes.map((j) => j.scope).join(', ')}`,
+      );
+    }
+  }
+
+  if (entry.status === 'AWAITING_TERRITORY_JUDGMENT') {
+    checks.push({ check: 'territory_judgment_pending', passed: false, detail: entry.status });
+    blockers.push('territory judgment required before production');
+  }
 
   const ready = blockers.length === 0;
   return {

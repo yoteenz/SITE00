@@ -140,6 +140,69 @@ export type PlatformTranslation = {
   status: 'REQUIRED' | 'PLANNED' | 'COMPLETE';
 };
 
+/** Native TikTok editorial plan — not a reel repost contract. */
+export type TikTokTranslationPlan = {
+  planId: string;
+  entryId: string;
+  adaptationDecision: 'REEDIT' | 'REFRAME' | 'REGENERATE';
+  adaptationRationale: string;
+  openingHook: string;
+  pacing: string;
+  runtimeTargetSec: { min: number; max: number };
+  editStructure: string[];
+  spokenReactionBehavior: string;
+  culturalReceiptBehavior: string;
+  commentResponsePotential: string;
+  assetReuseVsReedit: { reuseFromReel: string[]; requiresReedit: string[] };
+  captionBehavior: string;
+  thesisPreserved: boolean;
+  status: 'PLANNED' | 'PRODUCTION_READY';
+};
+
+/** X thread-native expression — DROP→JOKE→RECEIPT→QUESTION→SYNTHESIS→BREADCRUMB */
+export type XThreadBeat = {
+  beat: 'DROP' | 'JOKE' | 'RECEIPT' | 'QUESTION' | 'SYNTHESIS' | 'BREADCRUMB';
+  copy: string;
+  mediaBehavior: string;
+};
+
+export type XThreadExpression = {
+  expressionId: string;
+  entryId: string;
+  thesis: string;
+  beats: XThreadBeat[];
+  status: 'PLANNED' | 'COMPLETE';
+};
+
+export type FounderJudgmentReadiness = {
+  scope: 'ENTRY' | EntryFormat;
+  scopeId: string;
+  state: FounderJudgmentState;
+  explicitRecord: boolean;
+};
+
+export type Entry002TerritoryCandidate = {
+  territoryId: string;
+  name: string;
+  coreIdea: string;
+  culturalMechanism: string;
+  world: string;
+  primaryArtifact: string;
+  visualGrammar: string;
+  whyFitsEntry002: string;
+  differsFromEntry001: string;
+  differsFromOtherTerritories: string[];
+};
+
+export type Entry002TerritoryBrief = {
+  entryId: string;
+  objective: CreativeObjective;
+  candidates: Entry002TerritoryCandidate[];
+  collapseGate: ConceptCollapseGateResult;
+  status: 'AWAITING_TERRITORY_JUDGMENT';
+  assetsGenerated: 0;
+};
+
 export type GenerationReceipt = {
   receiptId: string;
   projectId: string;

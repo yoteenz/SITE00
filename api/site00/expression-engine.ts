@@ -4,6 +4,7 @@
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import {
+  bootstrapB1Phase1,
   bootstrapNdxbookExpressionProof,
   evaluateEntryProductionReadiness,
   resolveEntry,
@@ -18,6 +19,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body ?? {};
     const brandId = String(req.query.brandId ?? body.brandId ?? '');
     const entryNumber = Number(req.query.entryNumber ?? body.entryNumber ?? 0);
+
+    const phase = String(req.query.phase ?? body.phase ?? '');
+
+    if (req.method === 'GET' && !brandId && phase === 'B1') {
+      const b1 = await bootstrapB1Phase1();
+      return res.status(200).json({
+        engine: 'EXPRESSION_ENGINE_V0',
+        sprint: 'B1_PHASE_1',
+        entry001: {
+          id: b1.entry001.id,
+          title: b1.entry001.title,
+          status: b1.entry001.status,
+          tiktokPlan: b1.tiktokPlan,
+          xExpression: b1.xExpression,
+          founderJudgmentReadiness: b1.founderJudgmentReadiness,
+        },
+        entry002: {
+          id: b1.entry002.id,
+          title: b1.entry002.title,
+          status: b1.entry002.status,
+          territoryBrief: b1.entry002TerritoryBrief,
+          assetsGenerated: b1.entry002.generationReceipts.length,
+        },
+        readiness001: b1.entry001Readiness,
+      });
+    }
 
     if (req.method === 'GET' && !brandId) {
       const proof = await bootstrapNdxbookExpressionProof();

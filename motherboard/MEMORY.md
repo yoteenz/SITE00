@@ -5708,3 +5708,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **ENTRY 001:** One traceable production object with 8 format expressions, production plan, audio plan (LEGACY_PARTIAL), continuity graph (8 nodes), vintage TV entry artifact, 4 LEGACY_UNTRACKED receipts; readiness blocked on pending TikTok/X translations + unresolved founder judgment
 - **ENTRY 002:** "OH, NOW IT WAS FUN?" — compiled production/audio plan skeletons; zero assets generated
 - **Conventions:** Expression Engine brand-agnostic — no NDXBOOK_ORG_ID fallback; FORMAT_NATIVE_QA blocks resize-only; concept collapse blocks dispatch; orphan assets cannot reach production-ready; NOT FOR ME preserves history as NON_CANON; EntryArtifact entry-specific (vintage TV not generic NDXBOOK template)
+
+---
+
+## 2026-09-07 — Expression Engine B1 Phase 1 (ENTRY 001 close + ENTRY 002 territory judgment)
+
+- **Context:** Sprint B1 Phase 1 proves Expression Engine V0 in production — close ENTRY 001 missing requirements (TikTok plan, X expression, founder judgment exposure, readiness) without regenerating assets; compile ENTRY 002 territory candidates (max 3) and halt at AWAITING_TERRITORY_JUDGMENT with zero generated assets.
+- **Delivered:**
+  - **`entry001Close.ts`** — TikTok REEDIT plan (`tt-plan-entry-001`), X 6-beat thread (`x-expr-entry-001`), founder judgment readiness (all scopes UNREVIEWED, no fabrication), `closeEntry001Phase1()`
+  - **`entry002Territories.ts`** — 3 orthogonal territories (VHS Rewind, Comment Graveyard, Nostalgia Edit Suite), concept collapse PASS, `prepareEntry002ForTerritoryJudgment()`
+  - **`bootstrapB1Phase1()`** — orchestrates Phase 1 proof bundle; API `GET ?phase=B1`
+  - **`entryReadiness.ts`** — founder judgment all-scopes gate; territory judgment pending blocker
+  - **Migration** `20260907170000_site00_expression_engine_b1_status.sql` — `AWAITING_TERRITORY_JUDGMENT` status
+  - **Tests** `site00ExpressionEngineSprintB1.test.ts` — 11/11 pass (29 total with Sprint B)
+- **ENTRY 001:** TikTok REEDIT (not reel repost); X thread COMPLETE; platform translations COMPLETE; readiness blocked solely on founder judgment UNREVIEWED (9 scopes); status remains IN_PRODUCTION
+- **ENTRY 002:** Status AWAITING_TERRITORY_JUDGMENT; 3 territory candidates concept-collapse PASS; assetsGenerated=0; production dispatch BLOCKED
+- **Next:** Founder territory judgment required before B1 Phase 2 (world expression, format production, anchor expression)
