@@ -5940,6 +5940,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-07 — Expression Engine storyboard review UI (B4.4 surfacing)
+
+- **Context:** Founder could not see B4.4 blocking storyboard panels in UI — API-only until now.
+- **Delivered:** `ExpressionEngineStoryboardReviewPanel` — Expression Engine ENTRY 002 → **Storyboard Review** tab; fetches `?phase=B44`, renders strip + 10-panel grid, generate/refresh button, panel descriptions.
+- **Note:** B4.5 Cinematic Sequence tab remains visual authority; storyboard tab labeled reference-only.
+
+
+---
+
 ## 2026-09-07 — Sprint B4.4 Entry 002 REEL storyboard authority before keyframes
 
 - **Context:** Pipeline was generating START/MID/END keyframes before full reel storyboard approval. B4.4 locks production order: complete storyboard → GATE_0_STORYBOARD → keyframe extraction.
