@@ -54,9 +54,9 @@ export function downstreamFormatsOnHold(): DownstreamFormatHold[] {
 }
 
 export function founderGateBlocksProgression(gates: FounderReviewGate[]): boolean {
-  const storyboard = gates.find((g) => g.gateId === 'GATE_0_STORYBOARD');
+  const cinematic = gates.find((g) => g.gateId === 'GATE_0B_CINEMATIC_SEQUENCE');
   const keyframe = gates.find((g) => g.gateId === 'GATE_1_KEYFRAME');
-  if (storyboard?.founderJudgment !== 'LOVE_IT') return true;
+  if (cinematic?.founderJudgment !== 'LOVE_IT') return true;
   return keyframe?.founderJudgment !== 'LOVE_IT';
 }
 

@@ -5922,6 +5922,24 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-07 — Sprint B4.5 Entry 002 cinematic visual sequence board
+
+- **Context:** B4.4 sketch storyboard was too literal — founder needs cinematic visual development frames, not director sketches. B4.5 replaces visual authority with CinematicVisualSequenceBoard.
+- **Delivered:**
+  - **B4.4 retired** — NDX-ENTRY-002-REEL-STORYBOARD-001 → DIRECTOR_BLOCKING_STORYBOARD, REFERENCE_ONLY, NON_CANON (not deleted)
+  - **CinematicVisualSequenceBoard** — 10 photoreal cinematic development frames with reference-conditioned dispatch
+  - **Continuity pack** — character, hands/nails, hair, fashion, phone/world authority boards as image refs
+  - **GATE_0B_CINEMATIC_SEQUENCE** — LOVE_IT unlocks production keyframe extraction
+  - **Production order** — treatment → blocking → cinematic sequence → keyframes → video
+  - **Keyframe block** — GATE_0B required before new START/MID/END production keyframes
+  - **UI** — Expression Engine workspace "Cinematic Sequence" tab surfaces contact sheet + individual frames
+  - **API** `GET ?phase=B45` (aliases `B4.5`, `B4P5`, `CINEMATIC_SEQUENCE`)
+  - **Tests** `site00ExpressionEngineSprintB45.test.ts` — 8/8 pass
+- **Hard stop:** No polished production keyframes, Kling, video this sprint
+- **Next:** Founder GATE_0B cinematic visual sequence review
+
+---
+
 ## 2026-09-07 — Sprint B4.4 Entry 002 REEL storyboard authority before keyframes
 
 - **Context:** Pipeline was generating START/MID/END keyframes before full reel storyboard approval. B4.4 locks production order: complete storyboard → GATE_0_STORYBOARD → keyframe extraction.
