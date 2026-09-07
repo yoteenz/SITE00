@@ -5693,3 +5693,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** `api/_lib/site00ExperienceEngine/` (resolveRouteReference, decomposeReference, captureRouteRender, compareRouteToReference with real crop-region pixelmatch, recordFidelityIteration, evaluatePromotionEligibility); migration `20260907143000_site00_experience_engine_v0.sql` (`site00_route_references`, `site00_fidelity_iterations`); `/enter` desktop DESIGN_AUTHORITY registered to Supabase asset 89319E70; mobile BLOCKED_PENDING_REFERENCE_AUTHORITY; strict >=0.94 promotion gate; Design Workspace `ExperienceEngineProofPanel` on WAITING_ROOM screen; API `/api/site00/experience-engine`; tests `site00ExperienceEngineSprintA.test.ts` (12 pass, live proof with RUN_EXPERIENCE_ENGINE_LIVE_PROOF=1).
 - **Proof result (live):** Iteration 0 full score 0.9507 PIXEL_PASS; environment 0.9529; directory-panel 0.9630; status-strip 0.6293 telemetry-only (no strip reference authority); promotion eligible.
 - **Conventions:** IMPLEMENTATION_BASELINE cannot satisfy DESIGN_AUTHORITY gate; status-strip blocked from promotion until founder mobile/strip reference; no NDXBOOK_ORG_ID in Experience Engine records; STRUCTURAL_PASS 0.82 does not ship.
+
+---
+
+## 2026-09-07 — Expression Engine V0 Sprint B (NDXBOOK ENTRY 001 production proof)
+
+- **Context:** Sprint B formalizes Studio World Expression Engine V0 — brand → entry → territory → world → format → production → audio → continuity → asset → platform → judgment → lineage — using NDXBOOK ENTRY 001 ("WHO TF IS WE?" / Britney Spears) as forensic proof object. ENTRY 002 handoff skeleton only (no asset generation).
+- **Delivered:**
+  - **`shared/site00-expression-engine/`** — types, constants, format-native contracts (REEL/CAROUSEL/STORY/CTA_STORY/COVER/HIGHLIGHT/TIKTOK/X)
+  - **`api/_lib/site00ExpressionEngine/`** — orchestration wrapping existing brand-lore/marketing/film systems: formatNativeQA (blocking), conceptCollapseGate, sequenceQAGate, productionRouting (task-class, brand-agnostic), lineageRegistration (auto GenerationReceipt), entryReadiness (explicit blockers), entry001Forensic reconstruction, entry002Handoff
+  - **Migration** `20260907160000_site00_expression_engine_v0.sql` — `site00_creative_entries`, `site00_expression_generation_receipts`
+  - **API** `/api/site00/expression-engine`
+  - **Tests** `site00ExpressionEngineSprintB.test.ts` — 18/18 pass
+- **ENTRY 001:** One traceable production object with 8 format expressions, production plan, audio plan (LEGACY_PARTIAL), continuity graph (8 nodes), vintage TV entry artifact, 4 LEGACY_UNTRACKED receipts; readiness blocked on pending TikTok/X translations + unresolved founder judgment
+- **ENTRY 002:** "OH, NOW IT WAS FUN?" — compiled production/audio plan skeletons; zero assets generated
+- **Conventions:** Expression Engine brand-agnostic — no NDXBOOK_ORG_ID fallback; FORMAT_NATIVE_QA blocks resize-only; concept collapse blocks dispatch; orphan assets cannot reach production-ready; NOT FOR ME preserves history as NON_CANON; EntryArtifact entry-specific (vintage TV not generic NDXBOOK template)
