@@ -5738,3 +5738,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **ENTRY 002:** Territory locked; world `ndxbook-world-nostalgia-edit-suite`; status IN_PRODUCTION; assetsGenerated=0; productionDispatch BLOCKED_PENDING_ANCHOR_APPROVAL
 - **Creative anchor:** COVER — razor blade on physical 2016 timeline (t2-anchor-cover)
 - **Next:** Founder anchor judgment (LOVE IT / PROMISING REFINE / NOT FOR ME) before Stage 1 production dispatch
+
+---
+
+## 2026-09-07 — Expression Engine campaign UI (NDXBOOK founder workspace)
+
+- **Context:** Founder needed a page route to view ENTRY 002 blueprint from Campaign Board / NDXBOOK project flow — not raw API JSON.
+- **Delivered:**
+  - **Route** `/projects/ndxbook/content-operations/expression-engine`
+  - **`ExpressionEngineCampaignWorkspace`** — ENTRY 001/002 tabs, section navigator (world, artifact, continuity, formats, production, audio, routing, anchor, readiness)
+  - **`ExpressionEngineCampaignPanel`** — compact summary on Campaign Board (top of wall + inspect drawer)
+  - **Links** from Campaign Board periphery, NDX overview campaign card, experiments hub content-operations child
+  - **`expressionEngineApi`** uses `apiFetch` for Railway/local API resolution
+- **Navigate:** NDXBOOK → Campaign Board → EXPRESSION ENGINE → or direct URL above
+- **Note:** Cloud preview / production requires Railway API redeploy from `main` for live blueprint JSON
