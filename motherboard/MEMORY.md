@@ -5873,3 +5873,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Reel QA patch** — primary: format-native, chapter grammar, continuity, sequence, repetition; annotation QA secondary and only for COVER/ENTRY_IDENTITY surfaces
   - **No Entry 003 pre-assignment** — future entries use `selectChapterCoverAnnotations()` + history store
   - **Tests** — 4 new B4 patch cases (119 total Expression Engine tests)
+
+---
+
+## 2026-09-07 — Sprint B4.1 Entry 002 REEL keyframe rasterization (first visual generation)
+
+- **Context:** B4 Gate 1 blocked — 3 REEL keyframe receipts were COMPILED/RECEIPT_ONLY with ephemeral random asset IDs and no storage rasters. Founder could not inspect visuals.
+- **Delivered:**
+  - **Pinned canonical asset IDs** — `NDX-ENTRY-002-REEL-KF-START-001`, `MID-001`, `END-001`; repair versions `-002`, etc.
+  - **`entry002ReelKeyframePrompts.ts`** — locked START/MID/END first-pass prompts (phone-first, label-splice mid, synthesis end)
+  - **`entry002ReelKeyframeDispatch.ts`** — FAL dispatch + Supabase upload; planning receipt + generation receipt per frame; flux-pro primary, gpt-image fallback
+  - **`entry002ReelKeyframeRasterQA.ts`** — advisory post-raster QA (NOT founder approval)
+  - **`entry002B41Bootstrap.ts`** — exactly 3 rasters; motion/Kling/rough cut blocked
+  - **API** `GET ?phase=B41` (optional `dispatchFal=1`)
+  - **B4 compile patch** — `compileEntry002ReelKeyframes()` now uses pinned IDs
+  - **Tests** `site00ExpressionEngineSprintB41.test.ts` — 9/9 pass (128 total Expression Engine tests)
+- **First dispatch:** 3 webp rasters uploaded to `site00/assts/expression-engine/ndxbook/entry-002/reel/ndx-entry-002-reel-kf-{start,mid,end}-001.webp`
+- **Next:** Founder Gate 1 visual review per frame (LOVE_IT / PROMISING_REFINE / NOT_FOR_ME); repair failed frame only with `-002` version suffix
