@@ -15,6 +15,7 @@ import {
   bootstrapB42,
   bootstrapB43,
   bootstrapB44,
+  bootstrapB45,
   bootstrapNdxbookExpressionProof,
   evaluateEntryProductionReadiness,
   getChapter01Snapshot,
@@ -45,6 +46,47 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const phase = String(req.query.phase ?? body.phase ?? '');
     const action = String(req.query.action ?? body.action ?? '');
     const hasEntryQuery = Boolean(brandIdParam && entryNumber);
+
+    if (req.method === 'GET' && (phase === 'B45' || phase === 'B4.5' || phase === 'B4P5' || phase === 'CINEMATIC_SEQUENCE')) {
+      const dispatchFal = req.query.dispatchFal !== '0' && (req.query.dispatchFal === '1' || body.dispatchFal !== false);
+      const forceDispatch = req.query.forceDispatch === '1' || body.forceDispatch === true;
+      const skipContactSheet = req.query.skipContactSheet === '1' || body.skipContactSheet === true;
+      const b45 = await bootstrapB45({ dispatchFal, forceDispatch, skipContactSheet });
+      return res.status(200).json({
+        engine: 'EXPRESSION_ENGINE_V0',
+        sprint: 'B4.5_ENTRY_002_CINEMATIC_VISUAL_SEQUENCE',
+        productionOrder: b45.productionOrder,
+        blockingStoryboard: b45.blockingStoryboard,
+        cinematicSequence: {
+          sequenceId: b45.cinematicSequence.sequenceId,
+          frameCount: b45.cinematicSequence.frameCount,
+          visualStyle: b45.cinematicSequence.visualStyle,
+          contactSheetUrl: b45.cinematicSequence.contactSheetUrl,
+          frames: b45.cinematicSequence.frames.map((f) => ({
+            frameNumber: f.frameNumber,
+            frameId: f.frameId,
+            argumentBeat: f.argumentBeat,
+            shotPurpose: f.shotPurpose,
+            previewUrl: f.previewUrl,
+            storagePath: f.storagePath,
+            keyframeExtractionCandidate: f.keyframeExtractionCandidate,
+          })),
+          characterVisualCanon: b45.cinematicSequence.characterVisualCanon,
+          continuityReferences: b45.cinematicSequence.continuityReferences,
+          keyframeExtractionMap: b45.cinematicSequence.keyframeExtractionMap,
+          founderJudgment: b45.cinematicSequence.founderJudgment,
+          canonState: b45.cinematicSequence.canonState,
+          gateId: b45.cinematicSequence.gateId,
+        },
+        qa: b45.qa,
+        telemetry: b45.telemetry,
+        founderGates: b45.founderGates,
+        cinematicSequenceGate: b45.cinematicSequenceGate,
+        keyframeGenerationBlocked: b45.keyframeGenerationBlocked,
+        videoGenerationBlocked: b45.videoGenerationBlocked,
+        nextAction: b45.nextAction,
+      });
+    }
 
     if (req.method === 'GET' && (phase === 'B44' || phase === 'B4.4' || phase === 'B4P4' || phase === 'STORYBOARD')) {
       const dispatchFal = req.query.dispatchFal !== '0' && (req.query.dispatchFal === '1' || body.dispatchFal !== false);

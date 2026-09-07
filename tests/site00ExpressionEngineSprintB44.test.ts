@@ -66,7 +66,7 @@ describe('Expression Engine Sprint B4.4 — Reel storyboard authority', () => {
     expect(isKeyframeGenerationBlockedByStoryboardGate('NOT_FOR_ME')).toBe(true);
     expect(isKeyframeGenerationBlockedByStoryboardGate('LOVE_IT')).toBe(false);
     expect(() => assertStoryboardApprovedForKeyframeGeneration('UNREVIEWED')).toThrow(
-      'KEYFRAME_GENERATION blocked',
+      'GATE_0_STORYBOARD',
     );
   });
 
@@ -78,7 +78,7 @@ describe('Expression Engine Sprint B4.4 — Reel storyboard authority', () => {
 
     await expect(
       dispatchEntry002ReelKeyframeRaster('START', { dispatchFal: true }),
-    ).rejects.toThrow('KEYFRAME_GENERATION blocked');
+    ).rejects.toThrow('GATE_0B_CINEMATIC_SEQUENCE');
   });
 
   it('6. marks pre-storyboard START/MID/END-001 as NON_CANON experiments', async () => {

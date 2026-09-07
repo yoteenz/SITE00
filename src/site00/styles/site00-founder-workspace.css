@@ -5196,3 +5196,44 @@
   margin: 0 0 12px;
 }
 
+.site00-expr-engine-cvs__contact img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.site00-expr-engine-cvs__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.site00-expr-engine-cvs__frame img {
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+  display: block;
+  background: #111;
+}
+
+.site00-expr-engine-cvs__placeholder {
+  aspect-ratio: 9 / 16;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a1a1a;
+  color: #888;
+  font-size: 11px;
+  text-align: center;
+  padding: 8px;
+}
+
+.site00-expr-engine-cvs__frame figcaption {
+  font-size: 10px;
+  margin-top: 6px;
+  line-height: 1.35;
+}
+
