@@ -16,8 +16,13 @@ import type {
 } from '../../../shared/site00-expression-engine/types.js';
 import type { CreativeConceptTerritoryV2 } from '../../../shared/site00-brand-lore/conceptTerritoryV2/types.js';
 import { conceptCollapseBlocksDispatch, runConceptCollapseGate } from './conceptCollapseGate.js';
+import { closeEntry001Phase1 } from './entry001Close.js';
 import { reconstructEntry001, resolveEntry001Objective } from './entry001Forensic.js';
 import { compileEntry002Handoff, resolveEntry002Objective } from './entry002Handoff.js';
+import {
+  compileEntry002TerritoryBrief,
+  prepareEntry002ForTerritoryJudgment,
+} from './entry002Territories.js';
 import { evaluateEntryReadiness } from './entryReadiness.js';
 import { getEntry, listEntriesForProject, recordFounderJudgment, saveEntry } from './entryStore.js';
 import { runFormatNativeQA } from './formatNativeQA.js';
@@ -57,7 +62,7 @@ export async function resolveEntry(input: ResolveEntryInput): Promise<CreativeEn
   }
 
   if (input.brandId === 'ndxbook' && input.entryNumber === 2) {
-    const entry = compileEntry002Handoff();
+    const entry = prepareEntry002ForTerritoryJudgment();
     return saveEntry(entry);
   }
 
@@ -147,6 +152,35 @@ export function recordEntryFounderJudgment(
 
 export function evaluateEntryProductionReadiness(entry: CreativeEntry) {
   return evaluateEntryReadiness(entry);
+}
+
+export async function bootstrapB1Phase1(): Promise<{
+  entry001: CreativeEntry;
+  entry002: CreativeEntry;
+  tiktokPlan: ReturnType<typeof closeEntry001Phase1>['tiktokPlan'];
+  xExpression: ReturnType<typeof closeEntry001Phase1>['xExpression'];
+  founderJudgmentReadiness: ReturnType<typeof closeEntry001Phase1>['founderJudgmentReadiness'];
+  entry001Readiness: ReturnType<typeof evaluateEntryReadiness>;
+  entry002TerritoryBrief: ReturnType<typeof compileEntry002TerritoryBrief>;
+  brandContext: ExpressionEngineBrandContext;
+}> {
+  process.env.EXPRESSION_ENGINE_MEMORY_STORE = process.env.EXPRESSION_ENGINE_MEMORY_STORE ?? '1';
+
+  const brandContext = await resolveNdxbookProofContext();
+  const closed = closeEntry001Phase1();
+  const entry001 = saveEntry(closed.entry);
+  const entry002 = saveEntry(prepareEntry002ForTerritoryJudgment());
+
+  return {
+    entry001,
+    entry002,
+    tiktokPlan: closed.tiktokPlan,
+    xExpression: closed.xExpression,
+    founderJudgmentReadiness: closed.founderJudgmentReadiness,
+    entry001Readiness: evaluateEntryReadiness(entry001),
+    entry002TerritoryBrief: compileEntry002TerritoryBrief(),
+    brandContext,
+  };
 }
 
 export async function bootstrapNdxbookExpressionProof(): Promise<{

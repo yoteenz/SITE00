@@ -11,5 +11,7 @@ export * from './productionRouting.js';
 export * from './lineageRegistration.js';
 export * from './entryReadiness.js';
 export * from './entry001Forensic.js';
+export * from './entry001Close.js';
 export * from './entry002Handoff.js';
+export * from './entry002Territories.js';
 export * from './entryStore.js';
