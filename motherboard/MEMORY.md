@@ -5684,3 +5684,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Context:** Founder requested mobile home background use Supabase live-preview PNG `640BC0A0-BE92-4519-88F6-EED15E4B2998` (853×1844).
 - **Delivered:** Replaced `AW_M_01_WORLD_ENTRY_BACKGROUND_V2.png` in public/docs; canonical LANCZOS resize to 854×1842; manifest `sourceAssetId` + lineage in `awM01LayeredAssets.ts`. Overlays/stage geometry unchanged.
 - **Merged:** PR #532 → `main`.
+
+---
+
+## 2026-09-07 — Experience Engine V0 Sprint A (/enter reference-fidelity proof)
+
+- **Context:** Dual Production Engine kickstart audit completed; Sprint A implements Experience Engine V0 wrapping existing visual reconstruction + Playwright capture + pixelmatch for `/enter` desktop proof.
+- **Delivered:** `api/_lib/site00ExperienceEngine/` (resolveRouteReference, decomposeReference, captureRouteRender, compareRouteToReference with real crop-region pixelmatch, recordFidelityIteration, evaluatePromotionEligibility); migration `20260907143000_site00_experience_engine_v0.sql` (`site00_route_references`, `site00_fidelity_iterations`); `/enter` desktop DESIGN_AUTHORITY registered to Supabase asset 89319E70; mobile BLOCKED_PENDING_REFERENCE_AUTHORITY; strict >=0.94 promotion gate; Design Workspace `ExperienceEngineProofPanel` on WAITING_ROOM screen; API `/api/site00/experience-engine`; tests `site00ExperienceEngineSprintA.test.ts` (12 pass, live proof with RUN_EXPERIENCE_ENGINE_LIVE_PROOF=1).
+- **Proof result (live):** Iteration 0 full score 0.9507 PIXEL_PASS; environment 0.9529; directory-panel 0.9630; status-strip 0.6293 telemetry-only (no strip reference authority); promotion eligible.
+- **Conventions:** IMPLEMENTATION_BASELINE cannot satisfy DESIGN_AUTHORITY gate; status-strip blocked from promotion until founder mobile/strip reference; no NDXBOOK_ORG_ID in Experience Engine records; STRUCTURAL_PASS 0.82 does not ship.

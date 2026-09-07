@@ -71,6 +71,7 @@ import { useImplementationSnapshots } from '../designWorkspace/useImplementation
 import { listScreensWithSnapshots } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3e/client.js';
 import { DesignMissingAssetsSection } from '../designWorkspace/DesignMissingAssetsSection';
 import { DesignVisualMatchPanel } from '../designWorkspace/DesignVisualMatchPanel';
+import { ExperienceEngineProofPanel } from '../designWorkspace/ExperienceEngineProofPanel';
 import { DesignWorkspaceFooter } from '../designWorkspace/DesignWorkspaceFooter';
 import { DesignWorkspaceOverflowMenu } from '../designWorkspace/DesignWorkspaceOverflowMenu';
 import { useDesignWorkspaceHostMenus } from '../designWorkspace/useDesignWorkspaceHostMenus';
@@ -623,6 +624,7 @@ export function StudioWorldDesignWorkspace({
             />
             <div className="site00-dw-compare__mobile-score">
               <DesignVisualMatchPanel match={visualMatch} compact onViewDetails={() => setTab('INSPECT')} />
+              <ExperienceEngineProofPanel enabled={projectId === 'site00' && screenId === 'WAITING_ROOM'} />
             </div>
           </>
         ) : null}
