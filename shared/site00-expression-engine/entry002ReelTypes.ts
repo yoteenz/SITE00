@@ -3,7 +3,7 @@
  */
 
 import type { AudioPlan, GenerationReceipt, ProductionRoutingRecommendation } from './types.js';
-import type { CreativeAssetRecord } from '../../site00-brand-lore/creativeLineage/types.js';
+import type { CreativeAssetRecord } from '../site00-brand-lore/creativeLineage/types.js';
 import type { ChapterGrammarValidationResult } from './chapterGrammarTypes.js';
 import type { ChapterRepetitionQAResult } from './chapterGrammarTypes.js';
 import type { FormatNativeQAResult } from './types.js';
