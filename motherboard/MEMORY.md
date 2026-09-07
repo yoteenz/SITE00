@@ -5905,3 +5905,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Tests** `site00ExpressionEngineSprintB42.test.ts` — 9/9 pass (137 total Expression Engine tests)
 - **Executed:** 3 flux-pro/v1.1 rasters uploaded to `site00/assts/expression-engine/ndxbook/entry-002/reel/*-001.webp`
 - **Next:** Founder Gate 1 visual review — `LOVE_IT | PROMISING_REFINE | NOT_FOR_ME` per frame
+
+---
+
+## 2026-09-07 — Sprint B4.3 Entry 002 REEL keyframe provenance + Gate 1 surfacing
+
+- **Context:** Record A (B4.1 gpt-image-2 fallback) and Record B (B4.2 flux-pro/v1.1) reported conflicting models for same asset IDs. Founder needed actual visuals + reconciled lineage.
+- **Delivered:**
+  - **`entry002ReelKeyframeProvenance.ts`** — authoritative manifest; Record A marked SUPERSEDED, Record B authoritative
+  - **`entry002B43Bootstrap.ts`** — reconcile lineage + surface existing storage rasters (no generation)
+  - **Model semantics** — requested_model / executed_model / fallback_used explicit in receipts + CreativeAssetRecord
+  - **API** `GET ?phase=B43` (aliases `B4.3`, `B4P3`, `GATE1`)
+  - **Tests** `site00ExpressionEngineSprintB43.test.ts` — 5/5 pass (142 total Expression Engine tests)
+- **Truth:** Current rasters = `fal-ai/flux-pro/v1.1` via provider request IDs `01a07d97-*`; Record A gpt-image-2 receipts preserved as superseded history
+- **Next:** Founder Gate 1 visual judgment per frame
