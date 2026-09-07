@@ -4,6 +4,7 @@
 
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { ExpressionEngineCampaignPanel } from './ExpressionEngineCampaignPanel';
 import type { MarketingCampaignProductionRun } from '../../../../shared/site00-studio-world-production/marketingCampaignProduction/types';
 import { CampaignDaySelector, CreativeAssetCard } from './FounderWorkspaceShell';
 import { WorkspaceLoadingState } from './WorkspaceLoadingState';
@@ -25,6 +26,7 @@ import {
 } from './campaignBoardLaneSchema';
 import {
   site00ProjectBrandMarketingExpressionExperiment01Path,
+  site00ProjectExpressionEngineCampaignPath,
   site00ProjectFounderCreativeIngestionPath,
   site00ProjectFilmProductionPath,
 } from '../../config/routes';
@@ -109,6 +111,7 @@ export function CampaignBoardProductionWall({
 
   return (
     <WorkspaceField className="site00-fws-campaign-wall" data-visual-reconstruction="campaign-board">
+      <ExpressionEngineCampaignPanel projectSlug={projectSlug} compact />
       <SpatialSection mode="dense">
         <EditorialRail
           identity={identity.campaignLabel}
@@ -170,6 +173,9 @@ export function CampaignBoardProductionWall({
         </Link>
         <Link to={site00ProjectFilmProductionPath(projectSlug)} className="site00-fws-ingest-link">
           FILM PRODUCTION →
+        </Link>
+        <Link to={site00ProjectExpressionEngineCampaignPath(projectSlug)} className="site00-fws-ingest-link">
+          EXPRESSION ENGINE →
         </Link>
         {!board ? (
           <QuietAction onClick={onInitialize} disabled={busy}>

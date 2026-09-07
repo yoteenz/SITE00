@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import {
   site00ProjectBrandMarketingExpressionExperiment01Path,
   site00ProjectContentOperationsCampaignBoardPath,
+  site00ProjectExpressionEngineCampaignPath,
   site00ProjectContentOperationsPath,
   site00ProjectContentOperationsPerformancePath,
   site00ProjectCulturalIntelligencePath,
@@ -205,6 +206,9 @@ export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
             <span className="site00-fws-hub-motion__play">▶</span>
             <span>draft script overlay</span>
           </div>
+          <Link to={site00ProjectExpressionEngineCampaignPath(projectSlug)} className="site00-fws-hub-cta">
+            EXPRESSION ENGINE →
+          </Link>
         </TapeCard>
 
         <TapeCard

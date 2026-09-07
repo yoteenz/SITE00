@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { FounderWorkspaceShell } from '../components/founderWorkspace/FounderWorkspaceShell';
+import { ExpressionEngineCampaignPanel } from '../components/founderWorkspace/ExpressionEngineCampaignPanel';
 import {
   CampaignBoardInspectContent,
   CampaignBoardProductionWall,
@@ -87,16 +88,23 @@ export default function ProjectContentOperationsCampaignBoardPage() {
           </p>
         }
         inspect={
-          <CampaignBoardInspectContent
-            run={run}
-            clientMode={clientMode}
-            onToggleClientMode={() => setClientMode((v) => !v)}
-            busy={busy}
-            onSynthesizeCaptions={() => void act(() => site00ProjectsApi.campaignProductionSynthesizeCaptions(projectSlug))}
-            onCaptionJudgment={(contentPieceId, judgment) =>
-              void act(() => site00ProjectsApi.campaignProductionCaptionJudgment(projectSlug, contentPieceId, judgment))
-            }
-          />
+          <>
+            <ExpressionEngineCampaignPanel projectSlug={projectSlug} compact />
+            {run?.board ? (
+              <CampaignBoardInspectContent
+                run={run}
+                clientMode={clientMode}
+                onToggleClientMode={() => setClientMode((v) => !v)}
+                busy={busy}
+                onSynthesizeCaptions={() => void act(() => site00ProjectsApi.campaignProductionSynthesizeCaptions(projectSlug))}
+                onCaptionJudgment={(contentPieceId, judgment) =>
+                  void act(() => site00ProjectsApi.campaignProductionCaptionJudgment(projectSlug, contentPieceId, judgment))
+                }
+              />
+            ) : (
+              <p>No campaign board loaded yet. Use Expression Engine above for ENTRY 002 blueprint review.</p>
+            )}
+          </>
         }
       />
     </EcosystemShell>

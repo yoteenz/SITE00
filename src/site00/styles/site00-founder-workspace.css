@@ -5006,3 +5006,116 @@
   }
 }
 
+/* Expression Engine — campaign blueprint UI (B1) */
+.site00-expr-engine-panel {
+  margin-bottom: 20px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.site00-expr-engine-panel--compact {
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+
+.site00-expr-engine-panel__kicker,
+.site00-expr-engine-panel__meta {
+  margin: 0 0 8px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #999;
+  text-transform: uppercase;
+}
+
+.site00-expr-engine-panel__heading,
+.site00-expr-engine-panel__title {
+  margin: 0 0 8px;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+}
+
+.site00-expr-engine-panel__lead {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+
+.site00-expr-engine-panel__copy {
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #ccc;
+}
+
+.site00-expr-engine-panel__dl {
+  margin: 12px 0;
+  display: grid;
+  gap: 8px;
+}
+
+.site00-expr-engine-panel__row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.site00-expr-engine-panel__row dt {
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.site00-expr-engine-panel__row dd {
+  margin: 0;
+  color: #eee;
+}
+
+.site00-expr-engine-workspace__tabs,
+.site00-expr-engine-workspace__sections {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.site00-expr-engine-workspace__tabs button {
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: transparent;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.site00-expr-engine-workspace__tabs button.active {
+  border-color: var(--site00-project-presence-accent, var(--ndx-lime));
+  color: #fff;
+}
+
+.site00-expr-engine-workspace__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.site00-expr-engine-list {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.site00-expr-engine-list li + li {
+  margin-top: 10px;
+}
+
+.site00-expr-engine-block h2 {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  margin: 0 0 12px;
+}
+

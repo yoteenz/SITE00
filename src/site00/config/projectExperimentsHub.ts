@@ -21,6 +21,7 @@ import {
   site00ProjectContentOperationsPath,
   site00ProjectContentOperationsPerformancePath,
   site00ProjectContentOperationsCampaignBoardPath,
+  site00ProjectExpressionEngineCampaignPath,
   site00ProjectContentOperationsDailyPlanPath,
   site00ProjectCulturalIntelligencePath,
   site00ProjectCulturalIntelligenceWeeklyForecastPath,
@@ -205,6 +206,12 @@ export function getProjectExperimentsHubEntries(projectSlug: string): ProjectExp
           title: 'CAMPAIGN BOARD',
           path: site00ProjectContentOperationsCampaignBoardPath(projectSlug),
           description: 'Horizontal sequence production — campaign wall, round review, lock workflow.',
+        },
+        {
+          id: 'content-operations-expression-engine',
+          title: 'EXPRESSION ENGINE',
+          path: site00ProjectExpressionEngineCampaignPath(projectSlug),
+          description: 'B1 entry production blueprint — territory lock, world, formats, audio, anchor review.',
         },
         {
           id: 'cultural-intelligence',
