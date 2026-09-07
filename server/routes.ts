@@ -24,6 +24,14 @@ import site00ClientAppHandler from '../api/site00/client-app.js';
 import site00WorldIntakeHandler from '../api/site00/world-intake.js';
 import site00AstralWorldGenerationHandler from '../api/admin/site00-astral-world-generation.js';
 import site00AstralWorldAssetsHandler from '../api/site00/astral-world-assets.js';
+import site00AstralWorldReaderAccountHandler from '../api/site00/astral-world-reader-account.js';
+import site00AstralWorldAvatarLibraryHandler from '../api/site00/astral-world-avatar-library.js';
+import site00ClientProjectRoomHandler from '../api/site00/client-project-room.js';
+import site00ClientReviewsHandler from '../api/site00/client-reviews.js';
+import site00ImplementationSnapshotsHandler from '../api/site00/implementation-snapshots.js';
+import site00ExperienceEngineHandler from '../api/site00/experience-engine.js';
+import site00ExpressionEngineHandler from '../api/site00/expression-engine.js';
+import site00DesignControlPlaneHandler from '../api/site00/design-control-plane.js';
 import captureAuthBootstrapHandler from '../api/capture-auth-bootstrap.js';
 
 /** Express path → Vercel-style default export handler */
@@ -34,6 +42,8 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/session-restore', handler: sessionRestoreHandler },
   { path: '/api/site00-access', handler: site00AccessHandler },
   { path: '/api/site00/client-production', handler: site00ClientProductionHandler },
+  { path: '/api/site00/client-project-room', handler: site00ClientProjectRoomHandler },
+  { path: '/api/site00/client-reviews', handler: site00ClientReviewsHandler },
   { path: '/api/site00/client-app', handler: site00ClientAppHandler },
   { path: '/api/site00/projects', handler: site00ProjectsHandler },
   { path: '/api/site00/marketing-engagements', handler: site00MarketingEngagementsHandler },
@@ -52,5 +62,11 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/admin/site00-client-intakes', handler: site00ClientIntakesAdminHandler },
   { path: '/api/admin/site00-astral-world-generation', handler: site00AstralWorldGenerationHandler },
   { path: '/api/site00/astral-world-assets', handler: site00AstralWorldAssetsHandler },
+  { path: '/api/site00/astral-world-reader-account', handler: site00AstralWorldReaderAccountHandler },
+  { path: '/api/site00/astral-world-avatar-library', handler: site00AstralWorldAvatarLibraryHandler },
+  { path: '/api/site00/implementation-snapshots', handler: site00ImplementationSnapshotsHandler },
+  { path: '/api/site00/experience-engine', handler: site00ExperienceEngineHandler },
+  { path: '/api/site00/expression-engine', handler: site00ExpressionEngineHandler },
+  { path: '/api/site00/design-control-plane', handler: site00DesignControlPlaneHandler },
   { path: '/api/capture-auth-bootstrap', handler: captureAuthBootstrapHandler },
 ];

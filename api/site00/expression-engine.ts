@@ -29,13 +29,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body ?? {};
-    const brandId = String(req.query.brandId ?? body.brandId ?? 'ndxbook');
+    const brandIdParam = req.query.brandId ?? body.brandId;
+    const brandId = brandIdParam ? String(brandIdParam) : 'ndxbook';
     const projectId = String(req.query.projectId ?? body.projectId ?? brandId);
     const entryNumber = Number(req.query.entryNumber ?? body.entryNumber ?? 0);
     const chapterNumber = Number(req.query.chapterNumber ?? body.chapterNumber ?? 1);
 
     const phase = String(req.query.phase ?? body.phase ?? '');
     const action = String(req.query.action ?? body.action ?? '');
+    const hasEntryQuery = Boolean(brandIdParam && entryNumber);
 
     if (req.method === 'GET' && phase === 'B3') {
       const dispatchFal = req.query.dispatchFal === '1' || body.dispatchFal === true;
@@ -152,7 +154,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(200).json(runChapterRepetitionQA({ chapterId: CHAPTER_01_ID, mappings }));
     }
 
-    if (req.method === 'GET' && !brandId && phase === 'B1P2') {
+    if (req.method === 'GET' && phase === 'B1P2') {
       const b2 = await bootstrapB1Phase2();
       return res.status(200).json({
         engine: 'EXPRESSION_ENGINE_V0',
@@ -170,7 +172,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    if (req.method === 'GET' && !brandId && phase === 'B1') {
+    if (req.method === 'GET' && phase === 'B1') {
       const b1 = await bootstrapB1Phase1();
       return res.status(200).json({
         engine: 'EXPRESSION_ENGINE_V0',
@@ -194,7 +196,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    if (req.method === 'GET' && !brandId && !phase && !action) {
+    if (req.method === 'GET' && !phase && !action && !hasEntryQuery) {
       const proof = await bootstrapNdxbookExpressionProof();
       return res.status(200).json({
         engine: 'EXPRESSION_ENGINE_V0',
@@ -214,7 +216,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    if (!brandId || !entryNumber) {
+    if (!hasEntryQuery) {
       return res.status(400).json({ error: 'brandId and entryNumber required' });
     }
 
