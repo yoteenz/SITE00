@@ -7,6 +7,7 @@ import {
   bootstrapB1Phase1,
   bootstrapB1Phase2,
   bootstrapB2ChapterSystem,
+  bootstrapB3CreativeAnchor,
   bootstrapNdxbookExpressionProof,
   evaluateEntryProductionReadiness,
   getChapter01Snapshot,
@@ -35,6 +36,40 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const phase = String(req.query.phase ?? body.phase ?? '');
     const action = String(req.query.action ?? body.action ?? '');
+
+    if (req.method === 'GET' && phase === 'B3') {
+      const dispatchFal = req.query.dispatchFal === '1' || body.dispatchFal === true;
+      const b3 = await bootstrapB3CreativeAnchor({ dispatchFal });
+      return res.status(200).json({
+        engine: 'EXPRESSION_ENGINE_V0',
+        sprint: 'B3_CREATIVE_ANCHOR',
+        entry002: {
+          id: b3.entry.id,
+          title: b3.entry.title,
+          subject: b3.entry.subject,
+          status: b3.entry.status,
+          assetsGenerated: b3.entry.generationReceipts.length,
+        },
+        anchor: {
+          format: b3.anchor.format,
+          taskId: b3.anchor.taskId,
+          selectedRoute: b3.anchor.selectedRoute,
+          compositionRoutes: b3.anchor.compositionRoutes,
+          assetId: b3.anchor.assetId,
+          previewUrl: b3.anchor.previewUrl,
+          storagePath: b3.anchor.storagePath,
+          generationReceipt: b3.anchor.generationReceipt,
+          provider: b3.anchor.provider,
+          model: b3.anchor.model,
+          canonState: b3.anchor.canonState,
+          founderJudgment: b3.anchor.founderJudgment,
+          productionDispatch: b3.anchor.productionDispatch,
+          downstreamBlocked: b3.anchor.downstreamBlocked,
+          preAnchorQA: b3.anchor.preAnchorQA,
+          anchorQA: b3.anchor.anchorQA,
+        },
+      });
+    }
 
     if (req.method === 'GET' && phase === 'B2') {
       const b2 = await bootstrapB2ChapterSystem();
