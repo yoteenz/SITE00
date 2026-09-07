@@ -5811,3 +5811,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause 2:** B2 API edit defaulted `brandId` to `ndxbook`, breaking `?phase=B1` / `?phase=B1P2` handlers that checked `!brandId`.
 - **Fix:** Register expression-engine + experience-engine (+ related site00 routes) on Railway server; phase routing uses `phase` param only.
 - **Founder next:** Redeploy Railway from `main` — hard refresh Expression Engine page on fsbw-dev.
+
+---
+
+## 2026-09-07 — Sprint B3.1 Founder Creative Override + Chapter Cover Grammar
+
+- **Context:** B3 generated anchor `NDX-ENTRY-002-COVER-ANCHOR-6062E715` passed technical QA but failed founder creative judgment (too graphic-flyer / environmental). Founder manually creative-directed stronger Entry 002 cover. Record B3 as preserved NON_CANON history; register founder-refined authority; formalize Chapter 01 cover presentation grammar.
+- **Delivered:**
+  - **B3 preserved anchor** — `NOT_FOR_ME`, `NON_CANON`, lineage/receipt/CreativeAssetRecord preserved, do-not-propagate flags
+  - **Founder cover authority** — `CREATIVE_ANCHOR_AUTHORITY` for Entry 002 COVER 9:16 phone-on-black with asterisk/arrow annotations, `LOVE_IT`, `CREATIVE_ANCHOR_APPROVED`
+  - **`ChapterCoverPresentationGrammar`** — Chapter 01 scoped only (black field, artifact-first hierarchy, lime glow, cream type, negative space)
+  - **Entry 001 TV + Entry 002 phone** cover specs with entry-specific annotation variation
+  - **`runChapterCoverCohesionQA()`** — blocks duplicate artifacts, copied annotation patterns, graphic flyer env composition
+  - **Creative revision learning** — ARTIFACT_HIERARCHY / CHAPTER_COHESION / TEXT_DISCIPLINE lesson recorded
+  - **Downstream unlocked** symbolically (REEL/CAROUSEL/STORY/CTA/HIGHLIGHT/TIKTOK/X → UNLOCKED_PENDING_PRODUCTION) — no auto-generation
+  - **API** `GET ?phase=B31` (aliases B3P1, B3.1)
+  - **Tests** `site00ExpressionEngineSprintB31.test.ts` — 19/19 pass (79 total Expression Engine tests)
+- **Next:** B4 — ENTRY 002 REEL production under approved cover + Chapter 01 argument grammar
