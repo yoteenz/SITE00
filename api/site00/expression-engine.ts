@@ -1,15 +1,25 @@
 /**
- * Expression Engine V0 API — entry resolution + readiness proof.
+ * Expression Engine V0 API — entry resolution + readiness + chapter grammar (B2).
  */
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import {
   bootstrapB1Phase1,
   bootstrapB1Phase2,
+  bootstrapB2ChapterSystem,
   bootstrapNdxbookExpressionProof,
   evaluateEntryProductionReadiness,
+  getChapter01Snapshot,
+  listEntriesForChapter,
   resolveEntry,
+  validateEntryByNumber,
 } from '../_lib/site00ExpressionEngine/expressionEngineService.js';
+import { getChapterByNumber, getChapterGrammarForChapter } from '../_lib/site00ExpressionEngine/chapterStore.js';
+import { runChapterRepetitionQA } from '../_lib/site00ExpressionEngine/chapterRepetitionQA.js';
+import { CHAPTER_01_ID } from '../_lib/site00ExpressionEngine/chapter01Canon.js';
+import { closeEntry001Phase1 } from '../_lib/site00ExpressionEngine/entry001Close.js';
+import { compileEntry002LockedEntry } from '../_lib/site00ExpressionEngine/entry002Blueprint.js';
+import { saveEntry } from '../_lib/site00ExpressionEngine/entryStore.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -18,10 +28,94 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body ?? {};
-    const brandId = String(req.query.brandId ?? body.brandId ?? '');
+    const brandId = String(req.query.brandId ?? body.brandId ?? 'ndxbook');
+    const projectId = String(req.query.projectId ?? body.projectId ?? brandId);
     const entryNumber = Number(req.query.entryNumber ?? body.entryNumber ?? 0);
+    const chapterNumber = Number(req.query.chapterNumber ?? body.chapterNumber ?? 1);
 
     const phase = String(req.query.phase ?? body.phase ?? '');
+    const action = String(req.query.action ?? body.action ?? '');
+
+    if (req.method === 'GET' && phase === 'B2') {
+      const b2 = await bootstrapB2ChapterSystem();
+      return res.status(200).json({
+        engine: 'EXPRESSION_ENGINE_V0',
+        sprint: 'B2_CHAPTER_ARGUMENT_GRAMMAR',
+        chapter: b2.chapter,
+        grammar: b2.grammar,
+        hierarchy: b2.hierarchy,
+        entry001: {
+          id: b2.entries.entry001.entry.id,
+          title: b2.entries.entry001.entry.title,
+          mapping: b2.entries.entry001.mapping,
+          validation: b2.entries.entry001.validation,
+        },
+        entry002: {
+          id: b2.entries.entry002.entry.id,
+          title: b2.entries.entry002.entry.title,
+          mapping: b2.entries.entry002.mapping,
+          validation: b2.entries.entry002.validation,
+          assetsGenerated: b2.assetsGeneratedEntry002,
+        },
+        repetitionQA: b2.repetitionQA,
+        pairSummary: b2.pairSummary,
+        formatTranslation: b2.formatTranslation,
+      });
+    }
+
+    if (req.method === 'GET' && action === 'chapter') {
+      getChapter01Snapshot();
+      const chapter =
+        getChapterByNumber(brandId, projectId, chapterNumber) ??
+        getChapterByNumber('ndxbook', 'ndxbook', chapterNumber);
+      if (!chapter) return res.status(404).json({ error: 'Chapter not found' });
+      return res.status(200).json({ chapter });
+    }
+
+    if (req.method === 'GET' && action === 'grammar') {
+      getChapter01Snapshot();
+      const chapter =
+        getChapterByNumber(brandId, projectId, chapterNumber) ??
+        getChapterByNumber('ndxbook', 'ndxbook', chapterNumber);
+      if (!chapter) return res.status(404).json({ error: 'Chapter not found' });
+      const grammar = getChapterGrammarForChapter(chapter.chapterId);
+      if (!grammar) return res.status(404).json({ error: 'Grammar not found' });
+      return res.status(200).json({ grammar });
+    }
+
+    if (req.method === 'GET' && action === 'entries-by-chapter') {
+      getChapter01Snapshot();
+      const chapter =
+        getChapterByNumber(brandId, projectId, chapterNumber) ??
+        getChapterByNumber('ndxbook', 'ndxbook', chapterNumber);
+      if (!chapter) return res.status(404).json({ error: 'Chapter not found' });
+      return res.status(200).json({
+        chapterId: chapter.chapterId,
+        entries: listEntriesForChapter(chapter.chapterId),
+      });
+    }
+
+    if (req.method === 'GET' && action === 'validate-entry') {
+      if (!entryNumber) return res.status(400).json({ error: 'entryNumber required' });
+      getChapter01Snapshot();
+      const grammar = getChapterGrammarForChapter(CHAPTER_01_ID)!;
+      const allMappings = listEntriesForChapter(CHAPTER_01_ID);
+      const entry =
+        entryNumber === 1
+          ? saveEntry(closeEntry001Phase1().entry)
+          : entryNumber === 2
+            ? saveEntry(compileEntry002LockedEntry())
+            : await resolveEntry({ brandId, projectId, entryNumber });
+      if (!entry) return res.status(404).json({ error: 'Entry not found' });
+      const validation = validateEntryByNumber(entryNumber, entry, grammar, allMappings);
+      return res.status(200).json({ entryNumber, validation });
+    }
+
+    if (req.method === 'GET' && action === 'repetition-qa') {
+      getChapter01Snapshot();
+      const mappings = listEntriesForChapter(CHAPTER_01_ID);
+      return res.status(200).json(runChapterRepetitionQA({ chapterId: CHAPTER_01_ID, mappings }));
+    }
 
     if (req.method === 'GET' && !brandId && phase === 'B1P2') {
       const b2 = await bootstrapB1Phase2();
@@ -65,7 +159,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    if (req.method === 'GET' && !brandId) {
+    if (req.method === 'GET' && !brandId && !phase && !action) {
       const proof = await bootstrapNdxbookExpressionProof();
       return res.status(200).json({
         engine: 'EXPRESSION_ENGINE_V0',
@@ -91,7 +185,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const entry = await resolveEntry({
       brandId,
-      projectId: String(req.query.projectId ?? body.projectId ?? brandId),
+      projectId,
       entryNumber,
     });
 

@@ -5769,3 +5769,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** `api/_lib/site00ClientApp/appService.ts` imported non-existent `getClientReviewQueuePayload`; correct export is `getClientReviewQueue(projectSlug, email, userId?)`. Server crashed on startup before binding port. `tsc` did not catch it — `tsconfig.json` only includes `src/` + `shared/`, not `api/`.
 - **Fix:** Corrected import + call site; added `tests/apiServerStartup.test.ts` guard for appService + server routes import.
 - **Founder next:** Redeploy Railway from `main`; confirm `GET https://api.site00.com/api/health` returns `{ ok: true }`; then upload cPanel v163 for mobile Expression Engine card.
+
+---
+
+## 2026-09-07 — Sprint B2 Chapter Argument Grammar (NDXBOOK Chapter 01)
+
+- **Context:** Formalize methodology layer above Entry — Chapter Argument Grammar. Retrofit ENTRY 001 + 002 to Chapter 01 WHICH ONE IS IT? No asset generation.
+- **Delivered:**
+  - **`ChapterArgumentGrammar`** entity + **`CreativeChapter`** — project + brand scoped, no generic NDXBOOK fallback
+  - **Chapter 01 canon** — CLAIM→RECEIPT→CONTRADICTION→LENS→INTERJECTION→SYNTHESIS; editorial behavior + prohibited repetition guards
+  - **ENTRY 001/002 retrofits** — argument mappings, worlds, artifacts, interjection devices remain entry-specific
+  - **`validateEntryAgainstChapterGrammar()`** + **`runChapterRepetitionQA()`** — 3+ mechanism collapse blocks without founder approval
+  - **Format translation map** — same grammar ≠ same format structure (REEL/CAROUSEL/STORY/CTA/TIKTOK/X)
+  - **Migration** `20260907180000_site00_chapter_argument_grammar_b2.sql` — `site00_creative_chapters`, `site00_chapter_argument_grammars`
+  - **API** `GET ?phase=B2` + actions: chapter, grammar, entries-by-chapter, validate-entry, repetition-qa
+  - **Tests** `site00ExpressionEngineSprintB2.test.ts` — 14/14 pass (51 total Expression Engine tests)
+- **ENTRY 002 assets generated:** 0
+- **Next:** B3 — ENTRY 002 creative anchor production under Chapter 01 grammar
