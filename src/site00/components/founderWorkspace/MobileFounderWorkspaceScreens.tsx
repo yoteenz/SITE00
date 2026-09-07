@@ -12,6 +12,7 @@ import {
   site00ProjectContentOperationsPerformancePath,
   site00ProjectCulturalIntelligencePath,
   site00ProjectExperimentsPath,
+  site00ProjectExpressionEngineCampaignPath,
   site00ProjectFilmProductionPath,
   site00ProjectFounderCharacterDiscoveryPath,
   site00ProjectFounderCreativeIngestionPath,
@@ -70,6 +71,8 @@ import {
   NDX_EXPERIMENT_01_SUBJECT_COPY,
 } from '../../config/ndxExperiment01MobileReference';
 import { OverviewMobileHomeScreen } from './OverviewFounderWorkspaceBoard';
+import { ExpressionEngineMobileCampaignCard } from './ExpressionEngineMobileCampaignCard';
+import { MobileExpressionEngineScreen } from './MobileExpressionEngineScreen';
 import { Experiment01UnderstandLayer } from './Experiment01OperateLayer';
 import { useFounderWorkspaceInspector } from './FounderWorkspaceShell';
 import { NDX_VR_REGION, vrRegionAttr } from '../../config/ndxVisualRegionIds';
@@ -112,6 +115,7 @@ export function MobileCampaignBoardScreen({ projectSlug }: ScreenProps) {
   const quickActionHref = (id: string) => {
     if (id === 'ingest') return ingestPath;
     if (id === 'film') return filmPath;
+    if (id === 'expression-engine') return site00ProjectExpressionEngineCampaignPath(projectSlug);
     return boardPath;
   };
 
@@ -155,6 +159,8 @@ export function MobileCampaignBoardScreen({ projectSlug }: ScreenProps) {
           <p className="site00-fws-mobile-campaign__status-hint">{status.updatedHint}</p>
         </div>
       </div>
+
+      <ExpressionEngineMobileCampaignCard projectSlug={projectSlug} />
 
       <h3 className="site00-fws-mobile-campaign__schedule-label">SCHEDULE OVERVIEW</h3>
       <div
@@ -776,6 +782,8 @@ export function renderMobileFounderWorkspaceScreen(screenId: string, projectSlug
       return <OverviewMobileHomeScreen projectSlug={projectSlug} />;
     case 'campaign-board':
       return <MobileCampaignBoardScreen projectSlug={projectSlug} />;
+    case 'expression-engine':
+      return <MobileExpressionEngineScreen projectSlug={projectSlug} />;
     case 'experiment-01':
       return <MobileExperiment01Screen projectSlug={projectSlug} />;
     case 'content-ops':

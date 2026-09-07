@@ -5752,3 +5752,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **`expressionEngineApi`** uses `apiFetch` for Railway/local API resolution
 - **Navigate:** NDXBOOK → Campaign Board → EXPRESSION ENGINE → or direct URL above
 - **Note:** Cloud preview / production requires Railway API redeploy from `main` for live blueprint JSON
+
+---
+
+## 2026-09-07 — Expression Engine mobile Campaign Board entry
+
+- **Context:** Founder on mobile Campaign Board (fsbw-dev / site00) saw no Expression Engine — desktop-only wiring missed `MobileCampaignBoardScreen`.
+- **Delivered:** `ExpressionEngineMobileCampaignCard` on mobile Campaign Board (below status card); QUICK ACTIONS tile; `MobileExpressionEngineScreen` at same route; overview mobile link.
+- **Mobile route:** `/projects/ndxbook/content-operations/expression-engine` (mobile-native screen when viewport is phone)
