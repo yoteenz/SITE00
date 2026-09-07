@@ -5984,3 +5984,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Hard stop:** No keyframes, Kling, video until founder LOVE_IT on all 5 structural boards
 - **Next:** Founder per-board storyboard review (Board 01–05: LOVE_IT | PROMISING_REFINE | NOT_FOR_ME)
 
+---
+
+## 2026-09-07 — Sprint B4.6 follow-up — Pre-storyboard visual authority pack
+
+- **Context:** B4.5 cinematic sequence incorrectly collapsed NDX and subject woman ("same NDXBOOK woman every frame"). Founder requires two distinct human roles before cinematic storyboard can become visual canon.
+- **Role correction:** NDX = spectator/investigator/interjector (partial presence, lime nails only). Subject woman = cultural receipt, same person 2016+2026, may be fully visible. Deprecated collapsed identity statement removed from character canon.
+- **Delivered:**
+  - **5 pre-storyboard visual authorities** (glue boards, not story panels): NDX presence, subject dual-era, NDX hands/nails, subject fashion continuity, phone/cultural glitch
+  - **`GATE_0A_PRE_STORYBOARD_VISUAL_AUTHORITY`** — all 5 must be LOVE_IT before cinematic storyboard unlocks
+  - **Cinematic sequence** `NDX-ENTRY-002-REEL-CINEMATIC-SEQUENCE-001` retained as PRE_AUTHORITY_EXPERIMENT, NON_CANON, visualAuthority: false
+  - **Final storyboard** BLOCKED_PENDING_PRE_STORYBOARD_AUTHORITY_APPROVAL until GATE_0A satisfied
+  - **API** `GET ?phase=B46P1` (aliases `B46-FOLLOWUP`, `PRE_STORYBOARD_AUTHORITY`)
+  - **UI** — Expression Engine → ENTRY 002 → **Pre-Storyboard Authority** tab
+  - **Tests** `site00ExpressionEngineSprintB46FollowUp.test.ts` — 8/8 pass
+- **Pipeline:** REEL TREATMENT → 5 PRE-STORYBOARD AUTHORITIES → FOUNDER APPROVAL → CINEMATIC STORYBOARD → KEYFRAMES → VIDEO
+- **Next:** Founder review five pre-storyboard visual authorities (LOVE_IT | PROMISING_REFINE | NOT_FOR_ME)
+
