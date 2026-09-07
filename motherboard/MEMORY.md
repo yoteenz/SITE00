@@ -5801,3 +5801,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **API** `GET ?phase=B3` (+ `dispatchFal=1` for live generation)
   - **Tests** `site00ExpressionEngineSprintB3.test.ts` — 9/9 pass (60 total Expression Engine tests)
 - **Founder judgment:** UNREVIEWED — LOVE_IT required before downstream production unlock
+
+---
+
+## 2026-09-07 — Expression Engine Railway route fix (404 on fsbw-dev)
+
+- **Symptom:** Mobile Expression Engine page showed "API unavailable" on site00.fsbw-dev.com.
+- **Root cause 1:** `/api/site00/expression-engine` (and experience-engine) existed in Vite dev middleware but **not** in `server/routes.ts` — Railway returned 404 HTML.
+- **Root cause 2:** B2 API edit defaulted `brandId` to `ndxbook`, breaking `?phase=B1` / `?phase=B1P2` handlers that checked `!brandId`.
+- **Fix:** Register expression-engine + experience-engine (+ related site00 routes) on Railway server; phase routing uses `phase` param only.
+- **Founder next:** Redeploy Railway from `main` — hard refresh Expression Engine page on fsbw-dev.
