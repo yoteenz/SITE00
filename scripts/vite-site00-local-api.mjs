@@ -33,6 +33,7 @@ const LOCAL_API_ROUTES = [
   { path: '/api/site00/astral-world-avatar-library', file: 'api/site00/astral-world-avatar-library.ts' },
   { path: '/api/site00/implementation-snapshots', file: 'api/site00/implementation-snapshots.ts' },
   { path: '/api/site00/experience-engine', file: 'api/site00/experience-engine.ts' },
+  { path: '/api/site00/expression-engine', file: 'api/site00/expression-engine.ts' },
   { path: '/api/site00/design-control-plane', file: 'api/site00/design-control-plane.ts' },
   { path: '/api/admin/site00-marketing', file: 'api/admin/site00-marketing.ts' },
   { path: '/api/admin/site00-assts', file: 'api/admin/site00-assts.ts' },
