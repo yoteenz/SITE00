@@ -5844,3 +5844,21 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **API** `GET ?phase=B32` (aliases B3P2, B3.2)
   - **Tests** `site00ExpressionEngineSprintB32.test.ts` — 16/16 pass (95 total Expression Engine tests)
 - **Next:** B4 — ENTRY 002 REEL production under approved cover + annotation variation rules
+
+---
+
+## 2026-09-07 — Sprint B4 Entry 002 REEL Production
+
+- **Context:** First downstream format after approved cover authority. Staged REEL production under Chapter 01 argument grammar + Nostalgia Edit Suite world. REEL only — no carousel/story/TikTok/X.
+- **Delivered:**
+  - **10-shot reel plan** — CLAIM→RECEIPT→CONTRADICTION→INTERJECTION→SYNTHESIS arc; phone evidence + edit suite reframe
+  - **Stage 1 keyframes** — START/MID/END compiled with TRACKED lineage (3 assets, no full video dispatch)
+  - **Motion plan** — phone portal, timeline splice, cut behavior
+  - **B4 audio plan** — ambience, phone/edit foley, VO option, glitch, music, title sting — COMPLETE before video
+  - **Provider routing** — 11 task classes, autoDispatch false
+  - **Founder gates** — keyframe / rough cut / final (UNREVIEWED, blocks progression)
+  - **QA** — format-native, chapter grammar, continuity, Entry 001 differentiation, cover-not-template
+  - **Downstream hold** — CAROUSEL/STORY/CTA/HIGHLIGHT/TIKTOK/X remain UNLOCKED_PENDING_PRODUCTION unproduced
+  - **API** `GET ?phase=B4`
+  - **Tests** `site00ExpressionEngineSprintB4.test.ts` — 20/20 pass (115 total Expression Engine tests)
+- **Next action:** FOUNDER KEYFRAME REVIEW REQUIRED
