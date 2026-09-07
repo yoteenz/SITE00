@@ -240,6 +240,7 @@ export { bootstrapB3CreativeAnchor, produceEntry002CreativeAnchor } from './entr
 export { bootstrapB31, bootstrapB31FounderCreativeOverride } from './entry002B31Bootstrap.js';
 export { bootstrapB32, bootstrapB32CoverAnnotationVariation } from './entry002B32Bootstrap.js';
 export { bootstrapB4, bootstrapB4Entry002ReelProduction } from './entry002ReelProduction.js';
+export { bootstrapB41, bootstrapB41Entry002ReelKeyframeRasterization } from './entry002B41Bootstrap.js';
 export { runChapterCoverCohesionQA } from './chapterCoverCohesionQA.js';
 export { runCoverAnnotationVariationQA } from './coverAnnotationVariationQA.js';
 export { selectChapterCoverAnnotations } from './chapterCoverAnnotationPlans.js';

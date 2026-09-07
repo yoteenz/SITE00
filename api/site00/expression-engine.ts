@@ -11,6 +11,7 @@ import {
   bootstrapB31,
   bootstrapB32,
   bootstrapB4,
+  bootstrapB41,
   bootstrapNdxbookExpressionProof,
   evaluateEntryProductionReadiness,
   getChapter01Snapshot,
@@ -41,6 +42,46 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const phase = String(req.query.phase ?? body.phase ?? '');
     const action = String(req.query.action ?? body.action ?? '');
     const hasEntryQuery = Boolean(brandIdParam && entryNumber);
+
+    if (req.method === 'GET' && (phase === 'B41' || phase === 'B4.1' || phase === 'B4P1')) {
+      const dispatchFal = req.query.dispatchFal === '1' || body.dispatchFal === true;
+      const b41 = await bootstrapB41({ dispatchFal });
+      return res.status(200).json({
+        engine: 'EXPRESSION_ENGINE_V0',
+        sprint: 'B4.1_ENTRY_002_REEL_KEYFRAME_RASTERIZATION',
+        entry002: {
+          title: 'OH, NOW IT WAS FUN?',
+          subject: b41.fashionDirection.subject,
+          chapter: 'WHICH ONE IS IT?',
+          territory: 'THE NOSTALGIA EDIT SUITE',
+          world: 'SURREAL PHYSICAL EDITING SUITE',
+          status: 'IN_PRODUCTION',
+        },
+        reel: {
+          reelId: b41.reelId,
+          runtimeTargetSec: b41.runtimeTargetSec,
+          keyframeRasters: b41.keyframeRasters,
+          motionAuthority: 'REEL',
+          founderJudgment: 'UNREVIEWED',
+          canonState: 'NON_CANON',
+        },
+        phone: b41.phoneRole,
+        fashion: b41.fashionDirection,
+        editSuite: b41.editSuiteBehavior,
+        audio: b41.audioPlan,
+        providerRouting: b41.providerRouting,
+        founderGates: b41.founderGates,
+        qa: b41.qa,
+        lineage: b41.lineage,
+        downstreamHold: b41.downstreamHold,
+        telemetry: b41.telemetry,
+        videoDispatched: b41.videoDispatched,
+        klingBlocked: b41.klingBlocked,
+        roughCutBlocked: b41.roughCutBlocked,
+        assetsGenerated: b41.assetsGenerated,
+        nextAction: 'FOUNDER KEYFRAME VISUAL REVIEW REQUIRED',
+      });
+    }
 
     if (req.method === 'GET' && (phase === 'B4' || phase === 'B4P0')) {
       const b4 = await bootstrapB4();

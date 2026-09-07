@@ -51,6 +51,36 @@ export type ReelKeyframeAsset = {
   status: 'COMPILED' | 'DISPATCHED';
 };
 
+export type ReelKeyframeRasterFrame = {
+  role: ReelKeyframeRole;
+  assetId: string;
+  storagePath: string;
+  previewUrl: string;
+  provider: string;
+  model: string;
+  dimensions: { width: number; height: number };
+  aspectRatio: '9:16';
+  planningReceiptId: string | null;
+  generationReceipt: GenerationReceipt;
+  founderJudgment: 'UNREVIEWED' | 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_FOR_ME';
+  canonState: 'NON_CANON' | 'PRODUCTION_CANDIDATE' | 'CANON';
+  status: 'DISPATCHED' | 'CACHED';
+  qaAdvisory: Array<{ check: string; passed: boolean; advisory: true }>;
+};
+
+export type ReelKeyframeRasterQASummary = {
+  passed: boolean;
+  advisoryOnly: true;
+  notFounderApproval: true;
+  checks: Array<{ check: string; passed: boolean; advisory: true }>;
+  blockers: string[];
+  continuity: {
+    startToMid: { persists: string[]; changes: string[] };
+    midToEnd: { persists: string[]; changes: string[] };
+    visualVerification: boolean;
+  };
+};
+
 export type ReelMotionPlan = {
   planId: string;
   entryId: 'entry-002';
@@ -142,6 +172,30 @@ export type DownstreamFormatHold = {
   format: string;
   status: 'UNLOCKED_PENDING_PRODUCTION';
   produced: false;
+};
+
+export type Entry002B41BootstrapResult = {
+  sprint: 'B4.1_ENTRY_002_REEL_KEYFRAME_RASTERIZATION';
+  reelId: string;
+  runtimeTargetSec: { min: number; max: number };
+  argumentArc: ReelArgumentBeat[];
+  shotPlan: ReelShotPlanItem[];
+  keyframeRasters: ReelKeyframeRasterFrame[];
+  motionPlan: ReelMotionPlan;
+  audioPlan: AudioPlan;
+  phoneRole: ReelPhoneRole;
+  fashionDirection: ReelFashionDirection;
+  editSuiteBehavior: ReelEditSuiteBehavior;
+  providerRouting: ProductionRoutingRecommendation[];
+  founderGates: FounderReviewGate[];
+  qa: ReelKeyframeRasterQASummary;
+  downstreamHold: DownstreamFormatHold[];
+  telemetry: ReelProductionTelemetry;
+  lineage: { tracked: number; orphanAssets: number; legacyUntracked: number };
+  videoDispatched: false;
+  klingBlocked: true;
+  roughCutBlocked: true;
+  assetsGenerated: 3;
 };
 
 export type Entry002B4BootstrapResult = {

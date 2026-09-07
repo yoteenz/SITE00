@@ -2,12 +2,15 @@
  * Sprint B4 — Entry 002 REEL keyframe authority (Stage 1).
  */
 
-import { randomUUID } from 'node:crypto';
 import type {
   ReelKeyframeAsset,
   ReelKeyframeRole,
   ReelKeyframeSpec,
 } from '../../../shared/site00-expression-engine/entry002ReelTypes.js';
+import {
+  buildEntry002ReelKeyframeStoragePath,
+  resolveCanonicalKeyframeAssetId,
+} from '../../../shared/site00-expression-engine/entry002ReelKeyframeIds.js';
 import {
   ENTRY_002_TERRITORY_ID,
   ENTRY_002_WORLD_ID,
@@ -67,11 +70,6 @@ export function buildEntry002ReelKeyframeSpecs(): ReelKeyframeSpec[] {
   ];
 }
 
-function buildKeyframeAssetId(role: ReelKeyframeRole): string {
-  const suffix = randomUUID().slice(0, 8).toUpperCase();
-  return `NDX-ENTRY-002-REEL-KF-${role}-${suffix}`;
-}
-
 export function compileEntry002ReelKeyframes(options?: {
   dispatch?: boolean;
 }): ReelKeyframeAsset[] {
@@ -79,8 +77,8 @@ export function compileEntry002ReelKeyframes(options?: {
   const coverAuthorityId = B3_GENERATED_ANCHOR_ASSET_ID.replace('COVER-ANCHOR', 'COVER-AUTHORITY-PHONE');
 
   return specs.map((spec) => {
-    const assetId = buildKeyframeAssetId(spec.role);
-    const storagePath = `site00/assts/expression-engine/ndxbook/entry-002/reel/${assetId.toLowerCase()}.webp`;
+    const assetId = resolveCanonicalKeyframeAssetId(spec.role);
+    const storagePath = buildEntry002ReelKeyframeStoragePath(assetId);
     const receipt = registerGeneration({
       projectId: 'ndxbook',
       brandId: 'ndxbook',
