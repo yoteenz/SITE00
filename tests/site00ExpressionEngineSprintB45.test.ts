@@ -58,25 +58,20 @@ describe('Expression Engine Sprint B4.5 — Cinematic visual sequence board', ()
     expect(workstation?.passed).toBe(true);
   });
 
-  it('5. GATE_0B blocks keyframe generation until LOVE_IT', () => {
+  it('5. GATE_0B cinematic sequence is parallel dev — structural storyboard blocks keyframes', () => {
     expect(isKeyframeGenerationBlockedByCinematicSequenceGate('UNREVIEWED')).toBe(true);
     expect(isKeyframeGenerationBlockedByCinematicSequenceGate('LOVE_IT')).toBe(false);
-    expect(() => assertCinematicSequenceApprovedForKeyframeGeneration('UNREVIEWED')).toThrow(
-      'GATE_0B_CINEMATIC_SEQUENCE',
-    );
   });
 
-  it('6. keyframe dispatch blocked pending cinematic sequence approval', async () => {
+  it('6. keyframe dispatch blocked pending structural storyboard approval (B4.6)', async () => {
     vi.stubEnv('FAL_KEY', 'test-key');
     vi.stubEnv('VITEST', '');
     const storage = await import('../api/_lib/site00Assts/storage.js');
     vi.mocked(storage.site00StorageObjectExists).mockResolvedValueOnce(false);
-    vi.mocked(storage.site00StorageObjectExists).mockResolvedValueOnce(false);
-    vi.mocked(storage.site00StorageObjectExists).mockResolvedValueOnce(false);
 
     await expect(
       dispatchEntry002ReelKeyframeRaster('START', { dispatchFal: true }),
-    ).rejects.toThrow('GATE_0B_CINEMATIC_SEQUENCE');
+    ).rejects.toThrow('GATE_0C_STRUCTURAL_STORYBOARD');
   });
 
   it('7. hard stop — keyframes and video blocked this sprint', async () => {

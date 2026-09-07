@@ -16,6 +16,7 @@ import {
   bootstrapB43,
   bootstrapB44,
   bootstrapB45,
+  bootstrapB46,
   bootstrapNdxbookExpressionProof,
   evaluateEntryProductionReadiness,
   getChapter01Snapshot,
@@ -46,6 +47,57 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const phase = String(req.query.phase ?? body.phase ?? '');
     const action = String(req.query.action ?? body.action ?? '');
     const hasEntryQuery = Boolean(brandIdParam && entryNumber);
+
+    if (req.method === 'GET' && (phase === 'B46' || phase === 'B4.6' || phase === 'B4P6' || phase === 'STORYBOARD_AUTHORITY')) {
+      const dispatchFal = req.query.dispatchFal !== '0' && (req.query.dispatchFal === '1' || body.dispatchFal !== false);
+      const forceDispatch = req.query.forceDispatch === '1' || body.forceDispatch === true;
+      const b46 = await bootstrapB46({ dispatchFal, forceDispatch });
+      return res.status(200).json({
+        engine: 'EXPRESSION_ENGINE_V0',
+        sprint: 'B4.6_ENTRY_002_STORYBOARD_GATE_REEL_TREATMENT',
+        productionOrder: b46.productionOrder,
+        currentStateAudit: b46.currentStateAudit,
+        storyCorrection: b46.storyCorrection,
+        treatment: b46.treatment,
+        storyboardAuthority: {
+          authorityId: b46.storyboardAuthority.authorityId,
+          beatCount: b46.storyboardAuthority.beatOutline.length,
+          beatOutline: b46.storyboardAuthority.beatOutline,
+          boardCount: b46.storyboardAuthority.boards.length,
+          boards: b46.storyboardAuthority.boards.map((b) => ({
+            boardNumber: b.boardNumber,
+            boardId: b.boardId,
+            boardTitle: b.boardTitle,
+            storyFunction: b.storyFunction,
+            argumentGrammarRole: b.argumentGrammarRole,
+            visualDescription: b.visualDescription,
+            continuityNotes: b.continuityNotes,
+            requiredVisualElements: b.requiredVisualElements,
+            transitionIn: b.transitionIn,
+            transitionOut: b.transitionOut,
+            ndxPresence: b.ndxPresence,
+            subjectWomanPresence: b.subjectWomanPresence,
+            keyframeExtractionRole: b.keyframeExtractionRole,
+            founderJudgment: b.founderJudgment,
+            previewUrl: b.previewUrl,
+            storagePath: b.storagePath,
+          })),
+          characterAuthority: b46.storyboardAuthority.characterAuthority,
+          approvalState: b46.storyboardAuthority.approvalState,
+          keyframePrerequisite: b46.storyboardAuthority.keyframePrerequisite,
+          canonState: b46.storyboardAuthority.canonState,
+        },
+        founderReviewSlots: b46.founderReviewSlots,
+        founderReviewSummary: b46.founderReviewSummary,
+        qa: b46.qa,
+        blockingRules: b46.blockingRules,
+        structuralStoryboardGate: b46.structuralStoryboardGate,
+        founderGates: b46.founderGates,
+        keyframeCompilationBlocked: b46.keyframeCompilationBlocked,
+        boardVisuals: b46.boardVisuals,
+        nextAction: b46.nextAction,
+      });
+    }
 
     if (req.method === 'GET' && (phase === 'B45' || phase === 'B4.5' || phase === 'B4P5' || phase === 'CINEMATIC_SEQUENCE')) {
       const dispatchFal = req.query.dispatchFal !== '0' && (req.query.dispatchFal === '1' || body.dispatchFal !== false);
