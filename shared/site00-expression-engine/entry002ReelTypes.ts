@@ -100,6 +100,27 @@ export type ReelProductionTelemetry = {
   lineageCompleteness: 'COMPLETE' | 'INCOMPLETE';
 };
 
+export type ReelAnnotationUsageContract = {
+  rule: {
+    consumesLockedSystem: 'B3.2';
+    systemId: string;
+    reelIsNotCoverInMotion: true;
+    coverIdentityNotReelShotLanguage: true;
+  };
+  lockedEntry002CoverPlan: {
+    annotationFamily: string;
+    primaryMark: string;
+    secondaryMark?: string;
+  };
+  titleCardPolicy: {
+    mayOmit: true;
+    maySimplify: true;
+    coverRemainsPrimaryAuthority: true;
+  };
+  entry003PreAssigned: false;
+  annotationQASecondaryForReel: true;
+};
+
 export type Entry002ReelQAResult = {
   passed: boolean;
   blocking: boolean;
@@ -112,6 +133,8 @@ export type Entry002ReelQAResult = {
   coverNotTemplate: { passed: boolean; detail: string };
   audioBeforeVideo: { passed: boolean };
   annotationVariation: CoverAnnotationVariationQAResult | null;
+  annotationSurfaceQA: CoverAnnotationVariationQAResult | null;
+  reelAnnotationOveruse: { passed: boolean; blockers: string[] };
   blockers: string[];
 };
 
@@ -136,6 +159,7 @@ export type Entry002B4BootstrapResult = {
   providerRouting: ProductionRoutingRecommendation[];
   founderGates: FounderReviewGate[];
   qa: Entry002ReelQAResult;
+  annotationUsage: ReelAnnotationUsageContract;
   downstreamHold: DownstreamFormatHold[];
   telemetry: ReelProductionTelemetry;
   videoDispatched: false;

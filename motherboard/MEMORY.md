@@ -5862,3 +5862,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **API** `GET ?phase=B4`
   - **Tests** `site00ExpressionEngineSprintB4.test.ts` — 20/20 pass (115 total Expression Engine tests)
 - **Next action:** FOUNDER KEYFRAME REVIEW REQUIRED
+
+---
+
+## 2026-09-07 — B4 follow-up patch: annotation usage (consume B3.2, do not reimplement)
+
+- **Context:** B3.2 ChapterCoverAnnotationVariationSystem already locked. B4 must consume it for cover/identity surfaces only — reel is NOT cover annotations in motion.
+- **Delivered:**
+  - **`entry002ReelAnnotationUsage.ts`** — B4 usage rule, frozen Entry 002 cover plan reference, title card policy (may omit/simplify), surface-specific QA runner
+  - **Reel QA patch** — primary: format-native, chapter grammar, continuity, sequence, repetition; annotation QA secondary and only for COVER/ENTRY_IDENTITY surfaces
+  - **No Entry 003 pre-assignment** — future entries use `selectChapterCoverAnnotations()` + history store
+  - **Tests** — 4 new B4 patch cases (119 total Expression Engine tests)

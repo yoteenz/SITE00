@@ -34,6 +34,7 @@ export * from './entry002B31Bootstrap.js';
 export * from './entry002B32Bootstrap.js';
 export * from './entry002ReelProduction.js';
 export * from './entry002ReelDirection.js';
+export * from './entry002ReelAnnotationUsage.js';
 export * from './entry002ReelAudioPlan.js';
 export * from './entry002ReelQA.js';
 export * from './chapterCoverAnnotationVariationSystem.js';

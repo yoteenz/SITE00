@@ -94,7 +94,7 @@ export function buildEntry002ReelShotPlan(): ReelShotPlanItem[] {
       order: 10,
       title: 'ENTRY 002 END CARD',
       beat: 'END_CARD',
-      description: 'ENTRY 002 / 2016 IG BADDIE FASHION — filing identity, not cover composition repeat.',
+      description: 'ENTRY 002 / 2016 IG BADDIE FASHION — filing identity. Title may reference cover marks sparingly, simplify, or omit; cover remains primary annotation authority.',
       durationHintSec: '2-3',
     },
   ];

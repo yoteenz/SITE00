@@ -1,5 +1,6 @@
 /**
  * Sprint B4 — Entry 002 REEL production QA gates.
+ * Annotation QA is secondary and surface-specific — see entry002ReelAnnotationUsage.ts.
  */
 
 import type { Entry002ReelQAResult } from '../../../shared/site00-expression-engine/entry002ReelTypes.js';
@@ -17,6 +18,12 @@ import { ENTRY_002_WORLD_ID } from './entry002Blueprint.js';
 import { buildEntry002ReelShotPlan } from './entry002ReelShotPlan.js';
 import { buildEntry002ReelMotionPlan } from './entry002ReelMotionPlan.js';
 import { buildEntry002ReelPhoneRole } from './entry002ReelDirection.js';
+import {
+  getLockedEntry002CoverAnnotationPlan,
+  reelAnnotationOveruseBlocked,
+  runCoverAnnotationQAForSurface,
+} from './entry002ReelAnnotationUsage.js';
+import { buildEntry001CoverAnnotationPlan } from './chapterCoverAnnotationPlans.js';
 import { EXPRESSION_QA_MAX_REPAIR_LOOPS } from '../../../shared/site00-expression-engine/constants.js';
 import { CHAPTER_01_ID } from './chapter01Canon.js';
 
@@ -29,6 +36,8 @@ export function runEntry002ReelQA(input: {
   const entry = compileEntry002LockedEntry();
   const grammar = buildChapter01ArgumentGrammar();
   const mappings = [buildEntry001ChapterMapping(), buildEntry002ChapterMapping()];
+  const shotPlan = buildEntry002ReelShotPlan();
+  const shotDescriptions = shotPlan.map((s) => s.description);
 
   const formatNative = runFormatNativeQA({
     sourceFormat: 'COVER',
@@ -60,7 +69,7 @@ export function runEntry002ReelQA(input: {
     },
     {
       check: 'fashion subject in shot plan',
-      passed: buildEntry002ReelShotPlan().some((s) => s.title.includes('BADDIE FASHION')),
+      passed: shotPlan.some((s) => s.title.includes('BADDIE FASHION')),
     },
   ];
   const continuityPassed = continuityChecks.every((c) => c.passed);
@@ -78,10 +87,7 @@ export function runEntry002ReelQA(input: {
   if (ENTRY_001_WORLD_ID === ENTRY_002_WORLD_ID) {
     entry001Blockers.push('Entry 002 world must differ from Entry 001 broadcast');
   }
-  const shotText = buildEntry002ReelShotPlan()
-    .map((s) => s.description)
-    .join(' ')
-    .toLowerCase();
+  const shotText = shotDescriptions.join(' ').toLowerCase();
   if (shotText.includes('television') || shotText.includes('broadcast interruption')) {
     entry001Blockers.push('TV / broadcast grammar detected in reel plan');
   }
@@ -90,26 +96,33 @@ export function runEntry002ReelQA(input: {
     entry001Blockers.push('phone role guard missing');
   }
 
-  const hookShot = buildEntry002ReelShotPlan()[0];
+  const hookShot = shotPlan[0];
   const coverNotTemplate = {
     passed:
       hookShot.description.toLowerCase().includes('subject') &&
       hookShot.description.toLowerCase().includes('not edit suite establishing'),
-    detail: 'Reel opens subject-first on black phone glow — not animated cover composition throughout',
+    detail: 'Reel opens subject-first — cinematic temporal experience, not animated cover throughout',
   };
 
   const audioBeforeVideo = {
     passed: input.audioPlan.status === 'COMPLETE' && !input.videoDispatched,
   };
 
+  const overuseBlockers = reelAnnotationOveruseBlocked(shotDescriptions);
+  const reelAnnotationOveruse = {
+    passed: overuseBlockers.length === 0,
+    blockers: overuseBlockers,
+  };
+
+  const lockedCoverPlan = getLockedEntry002CoverAnnotationPlan();
+  const annotationSurfaceQA = runCoverAnnotationQAForSurface({
+    surface: 'COVER',
+    plan: lockedCoverPlan,
+    entryNumber: 2,
+    priorPlan: buildEntry001CoverAnnotationPlan(),
+  });
+
   const annotationVariation = null;
-  const reelUsesCircleUnderline =
-    buildEntry002ReelShotPlan().some((s) =>
-      s.description.toLowerCase().includes('circle around') || s.description.toLowerCase().includes('underline beneath'),
-    );
-  if (reelUsesCircleUnderline) {
-    blockers.push('annotation language repeats Entry 001 circle/underline without reason');
-  }
 
   if (!formatNative.passed) blockers.push(...formatNative.failures);
   if (!chapterGrammar.valid) blockers.push(...chapterGrammar.blockers);
@@ -117,6 +130,7 @@ export function runEntry002ReelQA(input: {
   if (entry001Blockers.length) blockers.push(...entry001Blockers);
   if (!coverNotTemplate.passed) blockers.push('reel feels like animated cover');
   if (!audioBeforeVideo.passed) blockers.push('audio must be complete before video dispatch');
+  if (!reelAnnotationOveruse.passed) blockers.push(...reelAnnotationOveruse.blockers);
   if (input.keyframes.some((k) => k.receipt.trackingState === 'LEGACY_UNTRACKED')) {
     blockers.push('LEGACY_UNTRACKED keyframe detected');
   }
@@ -124,9 +138,7 @@ export function runEntry002ReelQA(input: {
     blockers.push('orphan keyframe asset detected');
   }
 
-  const subjectLegible = buildEntry002ReelShotPlan().some((s) =>
-    s.description.toLowerCase().includes('baddie'),
-  );
+  const subjectLegible = shotPlan.some((s) => s.description.toLowerCase().includes('baddie'));
   if (!subjectLegible) blockers.push('subject vague — not 2016 IG baddie fashion');
 
   return {
@@ -141,6 +153,20 @@ export function runEntry002ReelQA(input: {
     coverNotTemplate,
     audioBeforeVideo,
     annotationVariation,
+    annotationSurfaceQA,
+    reelAnnotationOveruse,
     blockers,
   };
+}
+
+/** Cinematic reel QA must not require cover annotations on shots. */
+export function cinematicShotPassesWithoutCoverAnnotations(): boolean {
+  const cinematicSurfaces = shotPlanWithoutCoverMarkup();
+  return runCoverAnnotationQAForSurface({ surface: 'REEL_CINEMATIC' }) === null && cinematicSurfaces;
+}
+
+function shotPlanWithoutCoverMarkup(): boolean {
+  return !buildEntry002ReelShotPlan().some((s) =>
+    /asterisk on every|circle every|cover markup throughout/i.test(s.description),
+  );
 }
