@@ -23,6 +23,10 @@ import {
   compileEntry002TerritoryBrief,
   prepareEntry002ForTerritoryJudgment,
 } from './entry002Territories.js';
+import {
+  compileEntry002LockedEntry,
+  compileEntry002ProductionBlueprint,
+} from './entry002Blueprint.js';
 import { evaluateEntryReadiness } from './entryReadiness.js';
 import { getEntry, listEntriesForProject, recordFounderJudgment, saveEntry } from './entryStore.js';
 import { runFormatNativeQA } from './formatNativeQA.js';
@@ -62,7 +66,7 @@ export async function resolveEntry(input: ResolveEntryInput): Promise<CreativeEn
   }
 
   if (input.brandId === 'ndxbook' && input.entryNumber === 2) {
-    const entry = prepareEntry002ForTerritoryJudgment();
+    const entry = compileEntry002LockedEntry();
     return saveEntry(entry);
   }
 
@@ -152,6 +156,26 @@ export function recordEntryFounderJudgment(
 
 export function evaluateEntryProductionReadiness(entry: CreativeEntry) {
   return evaluateEntryReadiness(entry);
+}
+
+export async function bootstrapB1Phase2(): Promise<{
+  entry002: CreativeEntry;
+  blueprint: ReturnType<typeof compileEntry002ProductionBlueprint>;
+  entry002Readiness: ReturnType<typeof evaluateEntryReadiness>;
+  brandContext: ExpressionEngineBrandContext;
+}> {
+  process.env.EXPRESSION_ENGINE_MEMORY_STORE = process.env.EXPRESSION_ENGINE_MEMORY_STORE ?? '1';
+
+  const brandContext = await resolveNdxbookProofContext();
+  const blueprint = compileEntry002ProductionBlueprint();
+  const entry002 = saveEntry(compileEntry002LockedEntry());
+
+  return {
+    entry002,
+    blueprint,
+    entry002Readiness: evaluateEntryReadiness(entry002),
+    brandContext,
+  };
 }
 
 export async function bootstrapB1Phase1(): Promise<{

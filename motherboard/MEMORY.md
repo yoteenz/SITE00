@@ -5724,3 +5724,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **ENTRY 001:** TikTok REEDIT (not reel repost); X thread COMPLETE; platform translations COMPLETE; readiness blocked solely on founder judgment UNREVIEWED (9 scopes); status remains IN_PRODUCTION
 - **ENTRY 002:** Status AWAITING_TERRITORY_JUDGMENT; 3 territory candidates concept-collapse PASS; assetsGenerated=0; production dispatch BLOCKED
 - **Next:** Founder territory judgment required before B1 Phase 2 (world expression, format production, anchor expression)
+
+---
+
+## 2026-09-07 — Expression Engine B1 Phase 2 (ENTRY 002 territory lock + blueprint)
+
+- **Context:** Founder locked ENTRY 002 territory 03 THE NOSTALGIA EDIT SUITE (LOVE IT). Phase 2 compiles full production blueprint without generating assets — STOP AFTER BLUEPRINT.
+- **Delivered:**
+  - **`entry002Blueprint.ts`** — WorldExpressionSystem, EntryArtifact (razor blade / 2016 timeline), ContinuityGraph (9 nodes), format map (8 formats), ProductionPlan (9 tasks, anchor BLOCKED), AudioPlan (6 layers COMPLETE), platform translations, provider routing (autoDispatch false), creative anchor = COVER
+  - **`bootstrapB1Phase2()`** + API `GET ?phase=B1P2`
+  - **`resolveEntry` entry 002** now returns locked blueprint state (territory + world locked, zero assets)
+  - **Tests** `site00ExpressionEngineSprintB1Phase2.test.ts` — 7/7 pass (37 total Expression Engine tests)
+- **ENTRY 002:** Territory locked; world `ndxbook-world-nostalgia-edit-suite`; status IN_PRODUCTION; assetsGenerated=0; productionDispatch BLOCKED_PENDING_ANCHOR_APPROVAL
+- **Creative anchor:** COVER — razor blade on physical 2016 timeline (t2-anchor-cover)
+- **Next:** Founder anchor judgment (LOVE IT / PROMISING REFINE / NOT FOR ME) before Stage 1 production dispatch

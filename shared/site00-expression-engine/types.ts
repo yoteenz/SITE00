@@ -2,6 +2,7 @@
  * Expression Engine V0 — shared types (Studio World production infrastructure).
  */
 
+import type { WorldExpressionSystem } from '../site00-brand-lore/conceptTerritory/conceptTerritoryTypes.js';
 import type {
   AUDIO_LAYER_TYPES,
   CONTINUITY_NODE_KINDS,
@@ -309,4 +310,47 @@ export type RouteProductionToolResult = {
   recommendedProviders: string[];
   allowedProviders: string[];
   autoDispatch: false;
+};
+
+export type ProductionRoutingRecommendation = {
+  taskClass: ProductionTaskClass;
+  format: EntryFormat;
+  recommendedProvider: string;
+  recommendedModel: string;
+  why: string;
+  inputAssets: string[];
+  outputContract: string;
+  textFidelityRequirement: 'EXACT_TITLE_THESIS' | 'CONTROLLED' | 'NONE';
+  referenceFidelityRequirement: 'HIGH' | 'MEDIUM' | 'LOW';
+  fallbackProvider: string;
+  autoDispatch: false;
+};
+
+export type Entry002CreativeAnchorRecommendation = {
+  format: EntryFormat;
+  rationale: string;
+  taskId: string;
+  founderJudgmentRequired: true;
+  productionDispatch: 'BLOCKED_PENDING_ANCHOR_APPROVAL';
+};
+
+export type Entry002ProductionBlueprint = {
+  blueprintId: string;
+  entryId: string;
+  territoryId: string;
+  territoryName: string;
+  territoryLockStatus: 'TERRITORY_LOCKED';
+  founderJudgment: 'LOVE_IT';
+  worldExpressionSystem: WorldExpressionSystem;
+  entryArtifact: EntryArtifact;
+  continuityGraph: ContinuityGraph;
+  formatExpressions: FormatExpression[];
+  productionPlan: ExpressionProductionPlan;
+  audioPlan: AudioPlan;
+  platformTranslations: PlatformTranslation[];
+  providerRouting: ProductionRoutingRecommendation[];
+  creativeAnchorRecommendation: Entry002CreativeAnchorRecommendation;
+  assetsGenerated: 0;
+  status: 'BLUEPRINT_COMPILED';
+  compiledAt: string;
 };
