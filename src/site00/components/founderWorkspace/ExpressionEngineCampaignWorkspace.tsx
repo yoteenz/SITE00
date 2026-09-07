@@ -14,6 +14,7 @@ import { site00ProjectContentOperationsCampaignBoardPath } from '../../config/ro
 import { expressionEngineApi } from '../../services/expressionEngineApi';
 import { InlineMeta, QuietAction, WorkspaceField } from './WorkspaceCompositionPrimitives';
 import { ExpressionEngineCinematicSequencePanel } from './ExpressionEngineCinematicSequencePanel';
+import { ExpressionEngineStoryboardReviewPanel } from './ExpressionEngineStoryboardReviewPanel';
 
 type EntryTab = '002' | '001';
 type SectionId =
@@ -27,6 +28,7 @@ type SectionId =
   | 'platforms'
   | 'routing'
   | 'anchor'
+  | 'storyboard-review'
   | 'cinematic-sequence'
   | 'readiness';
 
@@ -41,6 +43,7 @@ const SECTIONS: Array<{ id: SectionId; label: string; entry: EntryTab | 'both' }
   { id: 'platforms', label: 'Platform Translations', entry: '002' },
   { id: 'routing', label: 'Provider Routing', entry: '002' },
   { id: 'anchor', label: 'Creative Anchor', entry: '002' },
+  { id: 'storyboard-review', label: 'Storyboard Review', entry: '002' },
   { id: 'cinematic-sequence', label: 'Cinematic Sequence', entry: '002' },
   { id: 'readiness', label: 'Readiness', entry: 'both' },
 ];
@@ -311,6 +314,8 @@ function Entry002Section({
           <p className="site00-expr-engine-panel__copy">{blueprint.creativeAnchorRecommendation.rationale}</p>
         </BlueprintBlock>
       );
+    case 'storyboard-review':
+      return <ExpressionEngineStoryboardReviewPanel />;
     case 'cinematic-sequence':
       return <ExpressionEngineCinematicSequencePanel />;
     case 'readiness':
