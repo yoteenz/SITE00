@@ -10,6 +10,7 @@ import {
   bootstrapB3CreativeAnchor,
   bootstrapB31,
   bootstrapB32,
+  bootstrapB4,
   bootstrapNdxbookExpressionProof,
   evaluateEntryProductionReadiness,
   getChapter01Snapshot,
@@ -40,6 +41,45 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const phase = String(req.query.phase ?? body.phase ?? '');
     const action = String(req.query.action ?? body.action ?? '');
     const hasEntryQuery = Boolean(brandIdParam && entryNumber);
+
+    if (req.method === 'GET' && (phase === 'B4' || phase === 'B4P0')) {
+      const b4 = await bootstrapB4();
+      return res.status(200).json({
+        engine: 'EXPRESSION_ENGINE_V0',
+        sprint: 'B4_ENTRY_002_REEL_PRODUCTION',
+        entry002: {
+          title: 'OH, NOW IT WAS FUN?',
+          subject: b4.fashionDirection.subject,
+          chapter: 'WHICH ONE IS IT?',
+          territory: 'THE NOSTALGIA EDIT SUITE',
+          world: 'SURREAL PHYSICAL EDITING SUITE',
+          status: 'IN_PRODUCTION',
+        },
+        reel: {
+          reelId: b4.reelId,
+          runtimeTargetSec: b4.runtimeTargetSec,
+          argumentArc: b4.argumentArc,
+          shotPlan: b4.shotPlan,
+          keyframes: b4.keyframes,
+          motionPlan: b4.motionPlan,
+          motionAuthority: 'REEL',
+          founderJudgment: 'UNREVIEWED',
+          canonState: 'NON_CANON',
+        },
+        phone: b4.phoneRole,
+        fashion: b4.fashionDirection,
+        editSuite: b4.editSuiteBehavior,
+        audio: b4.audioPlan,
+        providerRouting: b4.providerRouting,
+        founderGates: b4.founderGates,
+        qa: b4.qa,
+        downstreamHold: b4.downstreamHold,
+        telemetry: b4.telemetry,
+        videoDispatched: b4.videoDispatched,
+        assetsGenerated: b4.assetsGenerated,
+        nextAction: 'FOUNDER KEYFRAME REVIEW REQUIRED',
+      });
+    }
 
     if (req.method === 'GET' && (phase === 'B32' || phase === 'B3P2' || phase === 'B3.2')) {
       const b32 = await bootstrapB32();
