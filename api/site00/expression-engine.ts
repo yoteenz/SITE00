@@ -14,6 +14,7 @@ import {
   bootstrapB41,
   bootstrapB42,
   bootstrapB43,
+  bootstrapB44,
   bootstrapNdxbookExpressionProof,
   evaluateEntryProductionReadiness,
   getChapter01Snapshot,
@@ -44,6 +45,55 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const phase = String(req.query.phase ?? body.phase ?? '');
     const action = String(req.query.action ?? body.action ?? '');
     const hasEntryQuery = Boolean(brandIdParam && entryNumber);
+
+    if (req.method === 'GET' && (phase === 'B44' || phase === 'B4.4' || phase === 'B4P4' || phase === 'STORYBOARD')) {
+      const dispatchFal = req.query.dispatchFal !== '0' && (req.query.dispatchFal === '1' || body.dispatchFal !== false);
+      const forceDispatch = req.query.forceDispatch === '1' || body.forceDispatch === true;
+      const panelsOnly = req.query.panelsOnly === '1' || body.panelsOnly === true;
+      const b44 = await bootstrapB44({ dispatchFal, forceDispatch, panelsOnly });
+      return res.status(200).json({
+        engine: 'EXPRESSION_ENGINE_V0',
+        sprint: 'B4.4_ENTRY_002_REEL_STORYBOARD_AUTHORITY',
+        productionOrder: b44.productionOrder,
+        storyboard: {
+          storyboardId: b44.storyboard.storyboardId,
+          entryId: b44.storyboard.entryId,
+          chapterId: b44.storyboard.chapterId,
+          formatId: b44.storyboard.formatId,
+          runtimeTarget: b44.storyboard.runtimeTarget,
+          argumentArc: b44.storyboard.argumentArc,
+          panelCount: b44.storyboard.panels.length,
+          panels: b44.storyboard.panels.map((p) => ({
+            panelNumber: p.panelNumber,
+            panelId: p.panelId,
+            argumentBeat: p.argumentBeat,
+            shotPurpose: p.shotPurpose,
+            visualDescription: p.visualDescription,
+            previewUrl: p.previewUrl,
+            storagePath: p.storagePath,
+            keyframeExtractionCandidate: p.keyframeExtractionCandidate,
+          })),
+          storyboardStripUrl: b44.storyboard.storyboardStripUrl,
+          storyboardStripPath: b44.storyboard.storyboardStripPath,
+          keyframeExtractionMap: b44.storyboard.keyframeExtractionMap,
+          founderJudgment: b44.storyboard.founderJudgment,
+          canonState: b44.storyboard.canonState,
+          gateId: b44.storyboard.gateId,
+          continuityAuthority: b44.storyboard.continuityAuthority,
+        },
+        qa: b44.qa,
+        telemetry: b44.telemetry,
+        preStoryboardKeyframes: b44.preStoryboardKeyframes,
+        founderGates: b44.founderGates,
+        storyboardGate: b44.storyboardGate,
+        keyframeGenerationBlocked: b44.keyframeGenerationBlocked,
+        videoGenerationBlocked: b44.videoGenerationBlocked,
+        klingBlocked: b44.klingBlocked,
+        roughCutBlocked: b44.roughCutBlocked,
+        downstreamBlocked: b44.downstreamBlocked,
+        nextAction: b44.nextAction,
+      });
+    }
 
     if (req.method === 'GET' && (phase === 'B43' || phase === 'B4.3' || phase === 'B4P3' || phase === 'GATE1')) {
       const b43 = await bootstrapB43();

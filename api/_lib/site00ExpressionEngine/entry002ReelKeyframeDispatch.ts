@@ -29,6 +29,7 @@ import { ENTRY_002_TERRITORY_ID, ENTRY_002_WORLD_ID } from './entry002Blueprint.
 import { registerGeneration } from './lineageRegistration.js';
 import { CHAPTER_01_ID } from './chapter01Canon.js';
 import { ENTRY_002_REEL_ID } from './entry002ReelShotPlan.js';
+import { assertStoryboardApprovedForKeyframeGeneration } from './entry002ReelProductionGates.js';
 
 export type ReelKeyframeRasterStatus =
   | 'DISPATCHED'
@@ -257,6 +258,9 @@ export async function dispatchEntry002ReelKeyframeRaster(
     forceDispatch?: boolean;
     version?: number;
     planningReceiptId?: string;
+    /** B4.4 — skip storyboard gate for legacy B4.1/B4.2 reconciliation only */
+    skipStoryboardGateCheck?: boolean;
+    storyboardFounderJudgment?: 'UNREVIEWED' | 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_FOR_ME';
   },
 ): Promise<ReelKeyframeRasterResult> {
   const version = options?.version ?? 1;
@@ -275,6 +279,17 @@ export async function dispatchEntry002ReelKeyframeRaster(
   ];
   const planningReceiptId = options?.planningReceiptId ?? null;
   const shouldDispatch = options?.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim());
+
+  const existsBeforeDispatch = await site00StorageObjectExists(storagePath);
+  if (
+    shouldDispatch &&
+    !existsBeforeDispatch &&
+    !options?.skipStoryboardGateCheck
+  ) {
+    assertStoryboardApprovedForKeyframeGeneration(
+      options?.storyboardFounderJudgment ?? 'UNREVIEWED',
+    );
+  }
 
   const baseFields = {
     role,

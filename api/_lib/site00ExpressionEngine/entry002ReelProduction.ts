@@ -8,6 +8,7 @@ import type {
   FounderReviewGate,
   ReelProductionTelemetry,
 } from '../../../shared/site00-expression-engine/entry002ReelTypes.js';
+import { buildEntry002FounderReviewGatesWithStoryboard } from './entry002ReelProductionGates.js';
 import { seedChapter01Canon } from './chapterStore.js';
 import { bootstrapB31FounderCreativeOverride } from './entry002B31Bootstrap.js';
 import { compileEntry002LockedEntry, ENTRY_002_TERRITORY_ID, ENTRY_002_WORLD_ID } from './entry002Blueprint.js';
@@ -38,27 +39,10 @@ export {
 } from './entry002ReelDirection.js';
 
 export function buildEntry002FounderReviewGates(): FounderReviewGate[] {
-  return [
-    {
-      gateId: 'GATE_1_KEYFRAME',
-      label: 'Keyframe authority review',
-      founderJudgment: 'UNREVIEWED',
-      blocksNextStage: true,
-    },
-    {
-      gateId: 'GATE_2_ROUGH_CUT',
-      label: 'Rough cut review',
-      founderJudgment: 'UNREVIEWED',
-      blocksNextStage: true,
-    },
-    {
-      gateId: 'GATE_3_FINAL',
-      label: 'Final reel review',
-      founderJudgment: 'UNREVIEWED',
-      blocksNextStage: true,
-    },
-  ];
+  return buildEntry002FounderReviewGatesWithStoryboard('UNREVIEWED');
 }
+
+export { buildEntry002FounderReviewGatesWithStoryboard } from './entry002ReelProductionGates.js';
 
 export function downstreamFormatsOnHold(): DownstreamFormatHold[] {
   const formats = ['CAROUSEL', 'STORY', 'CTA_STORY', 'HIGHLIGHT', 'TIKTOK', 'X'] as const;
@@ -70,7 +54,9 @@ export function downstreamFormatsOnHold(): DownstreamFormatHold[] {
 }
 
 export function founderGateBlocksProgression(gates: FounderReviewGate[]): boolean {
+  const storyboard = gates.find((g) => g.gateId === 'GATE_0_STORYBOARD');
   const keyframe = gates.find((g) => g.gateId === 'GATE_1_KEYFRAME');
+  if (storyboard?.founderJudgment !== 'LOVE_IT') return true;
   return keyframe?.founderJudgment !== 'LOVE_IT';
 }
 
