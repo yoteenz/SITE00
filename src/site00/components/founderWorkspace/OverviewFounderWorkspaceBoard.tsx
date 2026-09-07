@@ -359,6 +359,9 @@ export function OverviewMobileHomeScreen({ projectSlug }: Props) {
           View all ({NDX_OVERVIEW_IN_PRODUCTION_VIEW_ALL})
         </Link>
       </div>
+      <Link to={site00ProjectExpressionEngineCampaignPath(projectSlug)} className="site00-fws-mobile-expr-link">
+        EXPRESSION ENGINE · ENTRY 002 BLUEPRINT →
+      </Link>
       <div
         className="site00-fws-hub-carousel site00-fws-hub-carousel--mobile-row"
         {...vrRegionAttr(NDX_VR_REGION.overviewProduction)}

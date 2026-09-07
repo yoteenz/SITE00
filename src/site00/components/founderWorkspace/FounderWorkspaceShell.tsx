@@ -163,6 +163,7 @@ export function FounderWorkspaceShell({
   const mobileDedicatedScreens = new Set([
     'overview',
     'campaign-board',
+    'expression-engine',
     'experiment-01',
     'content-ops',
     'cultural-intelligence',

@@ -75,7 +75,7 @@ export type NdxCampaignQuickActionSpec = {
   id: string;
   title: string;
   description: string;
-  icon: 'sparkle' | 'film' | 'lock' | 'play';
+  icon: 'sparkle' | 'film' | 'lock' | 'play' | 'engine';
   actionKind: 'link' | 'lock' | 'generate';
   href?: string;
 };
@@ -93,6 +93,13 @@ export const NDX_CAMPAIGN_QUICK_ACTIONS: NdxCampaignQuickActionSpec[] = [
     title: 'FILM PRODUCTION',
     description: 'Open film production and motion review.',
     icon: 'film',
+    actionKind: 'link',
+  },
+  {
+    id: 'expression-engine',
+    title: 'EXPRESSION ENGINE',
+    description: 'ENTRY 002 blueprint — territory, world, anchor review.',
+    icon: 'engine',
     actionKind: 'link',
   },
   {
