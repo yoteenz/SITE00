@@ -5919,3 +5919,22 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Tests** `site00ExpressionEngineSprintB43.test.ts` — 5/5 pass (142 total Expression Engine tests)
 - **Truth:** Current rasters = `fal-ai/flux-pro/v1.1` via provider request IDs `01a07d97-*`; Record A gpt-image-2 receipts preserved as superseded history
 - **Next:** Founder Gate 1 visual judgment per frame
+
+---
+
+## 2026-09-07 — Sprint B4.4 Entry 002 REEL storyboard authority before keyframes
+
+- **Context:** Pipeline was generating START/MID/END keyframes before full reel storyboard approval. B4.4 locks production order: complete storyboard → GATE_0_STORYBOARD → keyframe extraction.
+- **Delivered:**
+  - **`ReelStoryboard`** — 10-panel Entry 002 sequence (claim → archive → fashion → old receipt → edit suite transfer → contradiction → cut → reframe → interjection → synthesis)
+  - **`GATE_0_STORYBOARD`** — LOVE_IT unlocks keyframe extraction; PROMISING_REFINE repairs panels only; NOT_FOR_ME preserves NON_CANON
+  - **`runReelStoryboardQA()`** — 13 checks; fails if only 3 polished images
+  - **Pre-storyboard keyframes** — START/MID/END-001 marked PRE_STORYBOARD_EXPERIMENT, NON_CANON, may not source motion (not deleted)
+  - **Keyframe block** — new keyframe FAL dispatch blocked until storyboard LOVE_IT; cached B4.2 rasters unaffected
+  - **Telemetry** — STORYBOARD_GENERATION / KEYFRAME_GENERATION / VIDEO_GENERATION separated
+  - **Rough sketch dispatch** — 10 director storyboard panels uploaded to `reel/storyboard/ndx-entry-002-reel-sb-panel-*.webp`
+  - **API** `GET ?phase=B44` (aliases `B4.4`, `B4P4`, `STORYBOARD`)
+  - **Tests** `site00ExpressionEngineSprintB44.test.ts` — 9/9 pass; B4 gate test updated for GATE_0
+- **Hard stop:** No new polished keyframes, Kling, video, rough cut this sprint
+- **Next:** Founder GATE_0 storyboard review — `LOVE_IT | PROMISING_REFINE | NOT_FOR_ME`
+
