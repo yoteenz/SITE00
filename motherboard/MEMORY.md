@@ -5760,3 +5760,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Context:** Founder on mobile Campaign Board (fsbw-dev / site00) saw no Expression Engine — desktop-only wiring missed `MobileCampaignBoardScreen`.
 - **Delivered:** `ExpressionEngineMobileCampaignCard` on mobile Campaign Board (below status card); QUICK ACTIONS tile; `MobileExpressionEngineScreen` at same route; overview mobile link.
 - **Mobile route:** `/projects/ndxbook/content-operations/expression-engine` (mobile-native screen when viewport is phone)
+
+---
+
+## 2026-09-07 — Railway API startup fix (healthcheck failure)
+
+- **Context:** Railway deploy failed — healthcheck `/api/health` never passed; logs showed service unavailable after 10+ attempts.
+- **Root cause:** `api/_lib/site00ClientApp/appService.ts` imported non-existent `getClientReviewQueuePayload`; correct export is `getClientReviewQueue(projectSlug, email, userId?)`. Server crashed on startup before binding port. `tsc` did not catch it — `tsconfig.json` only includes `src/` + `shared/`, not `api/`.
+- **Fix:** Corrected import + call site; added `tests/apiServerStartup.test.ts` guard for appService + server routes import.
+- **Founder next:** Redeploy Railway from `main`; confirm `GET https://api.site00.com/api/health` returns `{ ok: true }`; then upload cPanel v163 for mobile Expression Engine card.
