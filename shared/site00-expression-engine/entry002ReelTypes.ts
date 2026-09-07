@@ -196,6 +196,63 @@ export type DownstreamFormatHold = {
   produced: false;
 };
 
+export type ReelKeyframeProvenanceRecord = {
+  role: ReelKeyframeRole;
+  assetId: string;
+  storagePath: string;
+  planningReceiptId: string;
+  generationReceiptId: string;
+  providerRequestId: string;
+  provider: 'fal-flux';
+  routedProvider: 'fal-flux';
+  requestedModel: string;
+  executedModel: string;
+  fallbackUsed: boolean;
+  fallbackReason: string | null;
+  supersededExecutions: Array<{
+    label: string;
+    generationReceiptId: string;
+    provider: string;
+    executedModel: string;
+    fallbackUsed: boolean;
+    fallbackReason: string;
+    status: 'SUPERSEDED';
+  }>;
+  lineageCorrected: boolean;
+  generationReceipt: GenerationReceipt;
+};
+
+export type ReelKeyframeFounderReviewFrame = {
+  role: ReelKeyframeRole;
+  assetId: string;
+  generationReceiptId: string;
+  providerRequestId: string;
+  executedModel: string;
+  dimensions: { width: number; height: number };
+  previewUrl: string;
+  storagePath: string;
+  actualFileExists: true;
+  founderJudgment: 'UNREVIEWED';
+};
+
+export type Entry002B43BootstrapResult = {
+  sprint: 'B4.3_ENTRY_002_REEL_KEYFRAME_PROVENANCE_AND_REVIEW';
+  provenanceStatus: 'RECONCILED';
+  relationshipSummary: string;
+  provenance: ReelKeyframeProvenanceRecord[];
+  reviewFrames: ReelKeyframeFounderReviewFrame[];
+  continuity: {
+    startToMid: { persists: string; changes: string };
+    midToEnd: { persists: string; changes: string };
+  };
+  founderGates: FounderReviewGate[];
+  qaAdvisory: 'PASS — NOT FOUNDER APPROVAL';
+  motionBlocked: true;
+  klingBlocked: true;
+  roughCutBlocked: true;
+  downstreamBlocked: true;
+};
+
 export type Entry002B42BootstrapResult = {
   sprint: 'B4.2_ENTRY_002_REEL_KEYFRAME_EXECUTION';
   reelId: string;

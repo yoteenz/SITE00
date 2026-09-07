@@ -13,6 +13,7 @@ import {
   bootstrapB4,
   bootstrapB41,
   bootstrapB42,
+  bootstrapB43,
   bootstrapNdxbookExpressionProof,
   evaluateEntryProductionReadiness,
   getChapter01Snapshot,
@@ -43,6 +44,38 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const phase = String(req.query.phase ?? body.phase ?? '');
     const action = String(req.query.action ?? body.action ?? '');
     const hasEntryQuery = Boolean(brandIdParam && entryNumber);
+
+    if (req.method === 'GET' && (phase === 'B43' || phase === 'B4.3' || phase === 'B4P3' || phase === 'GATE1')) {
+      const b43 = await bootstrapB43();
+      return res.status(200).json({
+        engine: 'EXPRESSION_ENGINE_V0',
+        sprint: 'B4.3_ENTRY_002_REEL_KEYFRAME_PROVENANCE_AND_REVIEW',
+        provenanceStatus: b43.provenanceStatus,
+        relationshipSummary: b43.relationshipSummary,
+        provenance: b43.provenance.map((p) => ({
+          role: p.role,
+          assetId: p.assetId,
+          planningReceiptId: p.planningReceiptId,
+          generationReceiptId: p.generationReceiptId,
+          providerRequestId: p.providerRequestId,
+          provider: p.provider,
+          requestedModel: p.requestedModel,
+          executedModel: p.executedModel,
+          fallbackUsed: p.fallbackUsed,
+          supersededExecutions: p.supersededExecutions,
+          lineageCorrected: p.lineageCorrected,
+        })),
+        reviewFrames: b43.reviewFrames,
+        continuity: b43.continuity,
+        founderGates: b43.founderGates,
+        qaAdvisory: b43.qaAdvisory,
+        motionBlocked: b43.motionBlocked,
+        klingBlocked: b43.klingBlocked,
+        roughCutBlocked: b43.roughCutBlocked,
+        downstreamBlocked: b43.downstreamBlocked,
+        nextAction: 'FOUNDER VISUAL JUDGMENT REQUIRED',
+      });
+    }
 
     if (req.method === 'GET' && (phase === 'B42' || phase === 'B4.2' || phase === 'B4P2')) {
       const dispatchFal = req.query.dispatchFal !== '0' && (req.query.dispatchFal === '1' || body.dispatchFal !== false);

@@ -30,9 +30,11 @@ export function registerGeneration(params: {
   promptLineage?: string[];
   referenceLineage?: string[];
   trackingState?: LineageTrackingState;
+  receiptId?: string;
+  generatedAt?: string;
 }): GenerationReceipt {
   const receipt: GenerationReceipt = {
-    receiptId: randomUUID(),
+    receiptId: params.receiptId ?? randomUUID(),
     projectId: params.projectId,
     brandId: params.brandId,
     entryId: params.entryId,
@@ -45,7 +47,7 @@ export function registerGeneration(params: {
     model: params.model,
     promptLineage: params.promptLineage ?? [],
     referenceLineage: params.referenceLineage ?? [],
-    generatedAt: new Date().toISOString(),
+    generatedAt: params.generatedAt ?? new Date().toISOString(),
     status: 'REGISTERED',
     judgmentState: 'UNREVIEWED',
     canonState: 'NON_CANON',
