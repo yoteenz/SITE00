@@ -238,7 +238,11 @@ export { runBlockingSequenceQA, compileFormatExpression, listEntriesForProject, 
 export { bootstrapB2ChapterSystem, getChapter01Snapshot } from './chapterBootstrap.js';
 export { bootstrapB3CreativeAnchor, produceEntry002CreativeAnchor } from './entry002AnchorProduction.js';
 export { bootstrapB31, bootstrapB31FounderCreativeOverride } from './entry002B31Bootstrap.js';
+export { bootstrapB32, bootstrapB32CoverAnnotationVariation } from './entry002B32Bootstrap.js';
 export { runChapterCoverCohesionQA } from './chapterCoverCohesionQA.js';
+export { runCoverAnnotationVariationQA } from './coverAnnotationVariationQA.js';
+export { selectChapterCoverAnnotations } from './chapterCoverAnnotationPlans.js';
+export { buildChapterCoverAnnotationVariationSystem } from './chapterCoverAnnotationVariationSystem.js';
 export { buildChapter01CoverPresentationGrammar, getChapter01EntryCoverSpecs } from './chapterCoverPresentationGrammar.js';
 export { validateEntryByNumber, validateEntryAgainstChapterGrammar } from './chapterGrammarValidation.js';
 export { runChapterRepetitionQA, entryPairRepetitionSummary } from './chapterRepetitionQA.js';

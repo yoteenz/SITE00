@@ -5828,3 +5828,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **API** `GET ?phase=B31` (aliases B3P1, B3.1)
   - **Tests** `site00ExpressionEngineSprintB31.test.ts` — 19/19 pass (79 total Expression Engine tests)
 - **Next:** B4 — ENTRY 002 REEL production under approved cover + Chapter 01 argument grammar
+
+---
+
+## 2026-09-07 — Sprint B3.2 Chapter Cover Annotation Variation System
+
+- **Context:** Chapter cover cohesion is shared presentation grammar — but header annotation language must not repeat literally entry-to-entry. Need controlled variation system for Chapter 01 and future chapters.
+- **Delivered:**
+  - **`ChapterCoverAnnotationVariationSystem`** — ALL_CHAPTERS scope; 10 allowed mark types; max 2 interventions per cover; repetition rules + creative interjection rule
+  - **`CoverHeaderAnnotationPlan`** — per-entry plan with primary/secondary marks, targets, tone, repetition history
+  - **Entry 001** CIRCLE+UNDERLINE on WE (accusatory); **Entry 002** ASTERISK+ARROW on NOW/FUN (ironic); Entry 003 example direction (not canon)
+  - **`selectChapterCoverAnnotations()`** — avoids immediate prior combination; tone-aware mark selection
+  - **`runCoverAnnotationVariationQA()`** — blocks back-to-back duplicates, clutter, circle/underline habit, meaningless targets
+  - **Annotation history store** — chapter_id, entry_id, headline, marks, targeted words, founder judgment
+  - **API** `GET ?phase=B32` (aliases B3P2, B3.2)
+  - **Tests** `site00ExpressionEngineSprintB32.test.ts` — 16/16 pass (95 total Expression Engine tests)
+- **Next:** B4 — ENTRY 002 REEL production under approved cover + annotation variation rules
