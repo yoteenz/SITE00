@@ -5237,3 +5237,23 @@
   line-height: 1.35;
 }
 
+.site00-expr-engine-sb__actions {
+  margin: 12px 0;
+}
+
+.site00-expr-engine-sb__details {
+  margin-top: 16px;
+  font-size: 11px;
+}
+
+.site00-expr-engine-sb__details summary {
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.site00-expr-engine-cvs__frame a {
+  display: block;
+}
+

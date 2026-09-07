@@ -21,6 +21,12 @@ async function expressionFetch<T>(path: string): Promise<T> {
 export const expressionEngineApi = {
   phase1: () => expressionFetch<ExpressionEngineB1Phase1Response>('/api/site00/expression-engine?phase=B1'),
   phase2: () => expressionFetch<ExpressionEngineB1Phase2Response>('/api/site00/expression-engine?phase=B1P2'),
+  phaseB44: (options?: { dispatchFal?: boolean; panelsOnly?: boolean }) => {
+    const params = new URLSearchParams({ phase: 'B44' });
+    if (options?.dispatchFal) params.set('dispatchFal', '1');
+    if (options?.panelsOnly) params.set('panelsOnly', '1');
+    return expressionFetch<Record<string, unknown>>(`/api/site00/expression-engine?${params.toString()}`);
+  },
   phaseB45: (options?: { dispatchFal?: boolean }) => {
     const params = new URLSearchParams({ phase: 'B45' });
     if (options?.dispatchFal) params.set('dispatchFal', '1');
