@@ -31,3 +31,8 @@ export * from './entry002B3FounderOverride.js';
 export * from './entry002CoverAuthority.js';
 export * from './entry002CreativeRevisionLearning.js';
 export * from './entry002B31Bootstrap.js';
+export * from './entry002B32Bootstrap.js';
+export * from './chapterCoverAnnotationVariationSystem.js';
+export * from './chapterCoverAnnotationPlans.js';
+export * from './coverAnnotationHistoryStore.js';
+export * from './coverAnnotationVariationQA.js';
