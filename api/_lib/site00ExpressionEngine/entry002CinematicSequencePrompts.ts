@@ -15,7 +15,7 @@ export function compileEntry002CinematicFramePrompt(
     `Frame ${frame.frameNumber} of 10 — ${frame.argumentBeat} beat.`,
     `THIS FRAME: ${frame.visualDescription}`,
     `Camera: ${frame.cameraBehavior}.`,
-    `Character: ${frame.characterPresence}. Maintain EXACT same woman from reference — ${characterCanon.identity}. ${characterCanon.skinTone}. ${characterCanon.hair}. ${characterCanon.makeup}. ${characterCanon.nails}. ${characterCanon.energy}.`,
+    `Character presence: ${frame.characterPresence}. NDX role: ${characterCanon.ndxRole}. Subject woman: ${characterCanon.subjectWomanRole}. ${characterCanon.subjectWomanIdentity}. NDX nails when hands visible: ${characterCanon.ndxNails}. NEVER collapse NDX and subject woman into one character.`,
     `Phone: ${frame.phoneRole}.`,
     `Fashion: ${frame.fashionEvidence.join(', ')}.`,
     `Edit suite: ${frame.editSuiteBehavior}. Surreal physical edit world — NEVER desktop Premiere/Final Cut/monitor editing UI.`,

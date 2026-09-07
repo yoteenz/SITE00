@@ -75,14 +75,20 @@ export type CinematicVisualSequenceBoard = {
   contactSheetUrl: string | null;
   continuityReferences: CinematicContinuityReferenceBoard[];
   characterVisualCanon: {
-    identity: string;
-    skinTone: string;
-    hair: string;
-    makeup: string;
-    nails: string;
-    wardrobe: string;
-    energy: string;
+    ndxRole: string;
+    ndxVisibility: string;
+    subjectWomanRole: string;
+    subjectWomanIdentity: string;
+    subjectWomanSkinTone: string;
+    subjectWomanHair: string;
+    subjectWomanMakeup: string;
+    ndxNails: string;
+    subjectWomanWardrobe: string;
+    roleSplitCorrected: true;
+    deprecatedCollapsedIdentity: string;
   };
+  authorityExperimentStatus: 'PRE_AUTHORITY_EXPERIMENT';
+  visualAuthority: false;
   keyframeExtractionMap: {
     START: { sourceFrameIds: string[]; blockedUntilApproval: true };
     MID: { sourceFrameIds: string[]; blockedUntilApproval: true };

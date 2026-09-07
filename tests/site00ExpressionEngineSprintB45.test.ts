@@ -71,7 +71,7 @@ describe('Expression Engine Sprint B4.5 — Cinematic visual sequence board', ()
 
     await expect(
       dispatchEntry002ReelKeyframeRaster('START', { dispatchFal: true }),
-    ).rejects.toThrow('GATE_0C_STRUCTURAL_STORYBOARD');
+    ).rejects.toThrow('GATE_0A_PRE_STORYBOARD_VISUAL_AUTHORITY');
   });
 
   it('7. hard stop — keyframes and video blocked this sprint', async () => {

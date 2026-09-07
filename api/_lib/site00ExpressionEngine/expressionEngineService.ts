@@ -246,6 +246,10 @@ export { bootstrapB43, bootstrapB43Entry002ReelKeyframeGate1Review } from './ent
 export { bootstrapB44, bootstrapB44Entry002ReelStoryboardAuthority } from './entry002B44Bootstrap.js';
 export { bootstrapB45, bootstrapB45Entry002CinematicVisualSequence } from './entry002B45Bootstrap.js';
 export { bootstrapB46, bootstrapB46Entry002StoryboardGate } from './entry002B46Bootstrap.js';
+export {
+  bootstrapB46FollowUp,
+  bootstrapB46FollowUpPreStoryboardAuthority,
+} from './entry002B46FollowUpBootstrap.js';
 export { runChapterCoverCohesionQA } from './chapterCoverCohesionQA.js';
 export { runCoverAnnotationVariationQA } from './coverAnnotationVariationQA.js';
 export { selectChapterCoverAnnotations } from './chapterCoverAnnotationPlans.js';

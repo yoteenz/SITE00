@@ -6,11 +6,17 @@ import type { FounderReviewGate } from '../../../shared/site00-expression-engine
 import type { StoryboardFounderJudgment } from '../../../shared/site00-expression-engine/entry002ReelStoryboardTypes.js';
 import type { CinematicSequenceFounderJudgment } from '../../../shared/site00-expression-engine/entry002CinematicVisualSequenceTypes.js';
 import type { StoryboardApprovalState } from '../../../shared/site00-expression-engine/storyboardGateTypes.js';
+import type { PreStoryboardApprovalState } from '../../../shared/site00-expression-engine/preStoryboardVisualAuthorityTypes.js';
 import {
   STRUCTURAL_STORYBOARD_GATE_ID,
   assertStructuralStoryboardApprovedForKeyframeGeneration,
   isKeyframeGenerationBlockedByStructuralStoryboardGate,
 } from './storyboardGate.js';
+import {
+  PRE_STORYBOARD_VISUAL_GATE_ID,
+  assertPreStoryboardVisualAuthorityApprovedForStoryboard,
+  isCinematicStoryboardBlockedByPreStoryboardGate,
+} from './preStoryboardAuthorityGate.js';
 
 export type StoryboardGateState = {
   gateId: 'GATE_0_STORYBOARD';
@@ -57,22 +63,48 @@ export function buildEntry002CinematicSequenceGate(
   };
 }
 
+export function buildEntry002PreStoryboardAuthorityGate(
+  approvalState: PreStoryboardApprovalState,
+): {
+  gateId: typeof PRE_STORYBOARD_VISUAL_GATE_ID;
+  label: string;
+  approvalState: PreStoryboardApprovalState;
+  blocksCinematicStoryboard: boolean;
+  blocksNextStage: boolean;
+} {
+  return {
+    gateId: PRE_STORYBOARD_VISUAL_GATE_ID,
+    label: 'Pre-storyboard visual authorities — 5 glue boards must be LOVE_IT before cinematic storyboard',
+    approvalState,
+    blocksCinematicStoryboard: approvalState.blocksCinematicStoryboard,
+    blocksNextStage: approvalState.blocksCinematicStoryboard,
+  };
+}
+
 export function buildEntry002StructuralStoryboardGate(
   approvalState: StoryboardApprovalState,
+  preStoryboardApproval?: PreStoryboardApprovalState,
 ): {
   gateId: typeof STRUCTURAL_STORYBOARD_GATE_ID;
   label: string;
   approvalState: StoryboardApprovalState;
   blocksKeyframeGeneration: boolean;
   blocksNextStage: boolean;
+  blockedPendingPreStoryboard: boolean;
   unlockActions: Record<StoryboardFounderJudgment, string>;
 } {
+  const blockedPendingPreStoryboard = preStoryboardApproval
+    ? preStoryboardApproval.blocksCinematicStoryboard
+    : true;
   return {
     gateId: STRUCTURAL_STORYBOARD_GATE_ID,
-    label: 'Structural storyboard authority — 5 boards must be LOVE_IT before keyframes',
+    label: blockedPendingPreStoryboard
+      ? 'Cinematic storyboard BLOCKED — pending pre-storyboard visual authority approval'
+      : 'Structural storyboard authority — 5 boards must be LOVE_IT before keyframes',
     approvalState,
-    blocksKeyframeGeneration: approvalState.blocksKeyframeGeneration,
-    blocksNextStage: approvalState.blocksKeyframeGeneration,
+    blocksKeyframeGeneration: approvalState.blocksKeyframeGeneration || blockedPendingPreStoryboard,
+    blocksNextStage: approvalState.blocksKeyframeGeneration || blockedPendingPreStoryboard,
+    blockedPendingPreStoryboard,
     unlockActions: {
       UNREVIEWED: 'Founder must review each structural board separately',
       LOVE_IT: 'Board approved — contributes to keyframe unlock when all 5 LOVE_IT',
@@ -209,7 +241,26 @@ export function assertProductionKeyframeGenerationAllowed(params: {
   cinematicSequenceJudgment?: CinematicSequenceFounderJudgment;
   storyboardJudgment?: StoryboardFounderJudgment;
   structuralStoryboardApproval?: StoryboardApprovalState;
+  preStoryboardApproval?: PreStoryboardApprovalState;
 }): void {
+  if (params.preStoryboardApproval) {
+    assertPreStoryboardVisualAuthorityApprovedForStoryboard(params.preStoryboardApproval);
+  } else {
+    assertPreStoryboardVisualAuthorityApprovedForStoryboard({
+      gateId: PRE_STORYBOARD_VISUAL_GATE_ID,
+      boardJudgments: {
+        AUTHORITY_01: 'UNREVIEWED',
+        AUTHORITY_02: 'UNREVIEWED',
+        AUTHORITY_03: 'UNREVIEWED',
+        AUTHORITY_04: 'UNREVIEWED',
+        AUTHORITY_05: 'UNREVIEWED',
+      },
+      allAuthoritiesLoveIt: false,
+      anyNotForMe: false,
+      blocksCinematicStoryboard: true,
+    });
+  }
+
   if (params.structuralStoryboardApproval) {
     assertStructuralStoryboardApprovedForKeyframeGeneration(params.structuralStoryboardApproval);
     return;
@@ -234,4 +285,6 @@ export function assertProductionKeyframeGenerationAllowed(params: {
 export {
   isKeyframeGenerationBlockedByStructuralStoryboardGate,
   assertStructuralStoryboardApprovedForKeyframeGeneration,
+  isCinematicStoryboardBlockedByPreStoryboardGate,
+  assertPreStoryboardVisualAuthorityApprovedForStoryboard,
 };

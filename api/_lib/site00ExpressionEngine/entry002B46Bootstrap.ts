@@ -22,7 +22,10 @@ import {
   buildFounderBoardReviewSlots,
   summarizeFounderStoryboardReview,
 } from './storyboardFounderJudgment.js';
+import { buildEntry002PreStoryboardVisualAuthorities } from './entry002PreStoryboardVisualAuthorities.js';
+import { buildEntry002PreStoryboardVisualAuthorityPack } from './entry002PreStoryboardAuthorityRecord.js';
 import {
+  buildEntry002PreStoryboardAuthorityGate,
   buildEntry002StructuralStoryboardGate,
   buildEntry002FounderReviewGatesWithStructuralStoryboard,
 } from './entry002ReelProductionGates.js';
@@ -48,6 +51,8 @@ export async function bootstrapB46Entry002StoryboardGate(options?: {
 
   const dispatchFal = options?.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim());
   const treatment = buildEntry002ReelTreatmentAuthority();
+  const preStoryboardAuthorities = buildEntry002PreStoryboardVisualAuthorities();
+  const preStoryboardAuthorityPack = buildEntry002PreStoryboardVisualAuthorityPack(preStoryboardAuthorities);
   const baseBoards = buildEntry002StructuralStoryboardBoards();
   const boardResults = await dispatchAllEntry002StructuralStoryboardBoards(baseBoards, {
     dispatchFal,
@@ -65,7 +70,11 @@ export async function bootstrapB46Entry002StoryboardGate(options?: {
   const blockingStoryboardRetirement = buildEntry002BlockingStoryboardRetirement();
   const founderReviewSlots = buildFounderBoardReviewSlots(boards);
   const founderReviewSummary = summarizeFounderStoryboardReview(boards);
-  const structuralStoryboardGate = buildEntry002StructuralStoryboardGate(storyboardAuthority.approvalState);
+  const structuralStoryboardGate = buildEntry002StructuralStoryboardGate(
+    storyboardAuthority.approvalState,
+    preStoryboardAuthorityPack.approvalState,
+  );
+  const preStoryboardGate = buildEntry002PreStoryboardAuthorityGate(preStoryboardAuthorityPack.approvalState);
   const founderGates = buildEntry002FounderReviewGatesWithStructuralStoryboard(storyboardAuthority.approvalState);
   const keyframeCompilationBlocked = previewKeyframeCompilationBlocked(storyboardAuthority.approvalState);
 
@@ -81,8 +90,9 @@ export async function bootstrapB46Entry002StoryboardGate(options?: {
       coverAnchorApproved: true,
       preStoryboardKeyframes: 'NON_CANON',
       b44SketchStoryboard: 'REFERENCE_ONLY',
-      b45CinematicSequence: 'PARALLEL_VISUAL_DEV',
-      structuralStoryboardAuthority: 'ACTIVE',
+      b45CinematicSequence: 'PRE_AUTHORITY_EXPERIMENT',
+      preStoryboardVisualAuthorities: 'ACTIVE',
+      structuralStoryboardAuthority: 'BLOCKED_PENDING_PRE_STORYBOARD_AUTHORITY_APPROVAL',
     },
     storyCorrection: {
       coreStory: treatment.coreStory,
@@ -99,7 +109,9 @@ export async function bootstrapB46Entry002StoryboardGate(options?: {
       roughCut: 'BLOCKED',
       videoDispatch: 'BLOCKED',
     },
-    nextAction: 'FOUNDER_STORYBOARD_REVIEW_PER_BOARD',
+    nextAction: 'FOUNDER REVIEW OF FIVE PRE-STORYBOARD VISUAL AUTHORITIES',
+    preStoryboardAuthorityPack,
+    preStoryboardGate,
     founderReviewSlots,
     founderReviewSummary,
     structuralStoryboardGate,

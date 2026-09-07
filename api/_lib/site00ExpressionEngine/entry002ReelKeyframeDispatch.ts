@@ -31,6 +31,7 @@ import { CHAPTER_01_ID } from './chapter01Canon.js';
 import { ENTRY_002_REEL_ID } from './entry002ReelShotPlan.js';
 import { assertProductionKeyframeGenerationAllowed } from './entry002ReelProductionGates.js';
 import type { StoryboardApprovalState } from '../../../shared/site00-expression-engine/storyboardGateTypes.js';
+import type { PreStoryboardApprovalState } from '../../../shared/site00-expression-engine/preStoryboardVisualAuthorityTypes.js';
 
 export type ReelKeyframeRasterStatus =
   | 'DISPATCHED'
@@ -266,6 +267,8 @@ export async function dispatchEntry002ReelKeyframeRaster(
     storyboardFounderJudgment?: 'UNREVIEWED' | 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_FOR_ME';
     /** B4.6 — structural storyboard approval (blocks keyframes until all 5 boards LOVE_IT) */
     structuralStoryboardApproval?: StoryboardApprovalState;
+    /** B4.6 follow-up — pre-storyboard visual authority (required before storyboard/keyframes) */
+    preStoryboardApproval?: PreStoryboardApprovalState;
   },
 ): Promise<ReelKeyframeRasterResult> {
   const version = options?.version ?? 1;
@@ -295,6 +298,7 @@ export async function dispatchEntry002ReelKeyframeRaster(
       cinematicSequenceJudgment: options?.cinematicSequenceFounderJudgment,
       storyboardJudgment: options?.storyboardFounderJudgment,
       structuralStoryboardApproval: options?.structuralStoryboardApproval,
+      preStoryboardApproval: options?.preStoryboardApproval,
     });
   }
 
