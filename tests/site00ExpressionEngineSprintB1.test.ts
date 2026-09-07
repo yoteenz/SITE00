@@ -100,10 +100,17 @@ describe('Expression Engine Sprint B1 Phase 1', () => {
     expect(entry.territoryId).toBeNull();
   });
 
-  it('resolveEntry returns B1 ENTRY 002 state', async () => {
+  it('resolveEntry returns locked ENTRY 002 blueprint state', async () => {
     const entry = await resolveEntry({ brandId: 'ndxbook', projectId: 'ndxbook', entryNumber: 2 });
-    expect(entry?.status).toBe('AWAITING_TERRITORY_JUDGMENT');
+    expect(entry?.territoryId).toBe('entry-002-territory-edit-suite');
+    expect(entry?.status).toBe('IN_PRODUCTION');
     expect(entry?.generationReceipts.length).toBe(0);
+  });
+
+  it('prepareEntry002ForTerritoryJudgment still available for Phase 1 proof', () => {
+    const entry = prepareEntry002ForTerritoryJudgment();
+    expect(entry.status).toBe('AWAITING_TERRITORY_JUDGMENT');
+    expect(entry.territoryId).toBeNull();
   });
 
   it('ENTRY 002 readiness blocked on territory judgment', async () => {

@@ -5,6 +5,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import {
   bootstrapB1Phase1,
+  bootstrapB1Phase2,
   bootstrapNdxbookExpressionProof,
   evaluateEntryProductionReadiness,
   resolveEntry,
@@ -21,6 +22,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const entryNumber = Number(req.query.entryNumber ?? body.entryNumber ?? 0);
 
     const phase = String(req.query.phase ?? body.phase ?? '');
+
+    if (req.method === 'GET' && !brandId && phase === 'B1P2') {
+      const b2 = await bootstrapB1Phase2();
+      return res.status(200).json({
+        engine: 'EXPRESSION_ENGINE_V0',
+        sprint: 'B1_PHASE_2',
+        entry002: {
+          id: b2.entry002.id,
+          title: b2.entry002.title,
+          status: b2.entry002.status,
+          territoryId: b2.entry002.territoryId,
+          worldExpressionId: b2.entry002.worldExpressionId,
+          assetsGenerated: b2.entry002.generationReceipts.length,
+        },
+        blueprint: b2.blueprint,
+        readiness002: b2.entry002Readiness,
+      });
+    }
 
     if (req.method === 'GET' && !brandId && phase === 'B1') {
       const b1 = await bootstrapB1Phase1();
