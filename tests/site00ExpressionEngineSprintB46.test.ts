@@ -39,7 +39,7 @@ describe('Expression Engine Sprint B4.6 — Storyboard gate + reel treatment aut
     const b46 = await bootstrapB46({ dispatchFal: false });
     expect(b46.productionOrder).toEqual(STORYBOARD_GATED_PRODUCTION_ORDER);
     expect(b46.productionOrder.indexOf('PRE_STORYBOARD_VISUAL_AUTHORITIES')).toBeLessThan(
-      b46.productionOrder.indexOf('CINEMATIC_STORYBOARD_AUTHORITY'),
+      b46.productionOrder.indexOf('FINAL_CINEMATIC_STORYBOARD'),
     );
   });
 
@@ -99,7 +99,7 @@ describe('Expression Engine Sprint B4.6 — Storyboard gate + reel treatment aut
       assertProductionKeyframeGenerationAllowed({
         cinematicSequenceJudgment: 'LOVE_IT',
       }),
-    ).toThrow('GATE_0A_PRE_STORYBOARD_VISUAL_AUTHORITY');
+    ).toThrow('GATE_0B_PRE_STORYBOARD_AUTHORITY');
   });
 
   it('7. keyframe dispatch blocked pending structural storyboard approval', async () => {
@@ -110,13 +110,13 @@ describe('Expression Engine Sprint B4.6 — Storyboard gate + reel treatment aut
 
     await expect(
       dispatchEntry002ReelKeyframeRaster('START', { dispatchFal: true }),
-    ).rejects.toThrow('GATE_0A_PRE_STORYBOARD_VISUAL_AUTHORITY');
+    ).rejects.toThrow('GATE_0B_PRE_STORYBOARD_AUTHORITY');
   });
 
   it('8. bootstrap returns founder per-board review slots', async () => {
     const b46 = await bootstrapB46({ dispatchFal: false });
     expect(b46.founderReviewSlots?.length).toBe(5);
-    expect(b46.blockingRules.keyframeGeneration).toBe('BLOCKED_PENDING_STORYBOARD_APPROVAL');
+    expect(b46.blockingRules.keyframeGeneration).toBe('BLOCKED_PENDING_PRE_STORYBOARD_AND_STORYBOARD_APPROVAL');
     expect(b46.nextAction).toBe('FOUNDER REVIEW OF FIVE PRE-STORYBOARD VISUAL AUTHORITIES');
   });
 });

@@ -24,11 +24,8 @@ import {
 } from './storyboardFounderJudgment.js';
 import { buildEntry002PreStoryboardVisualAuthorities } from './entry002PreStoryboardVisualAuthorities.js';
 import { buildEntry002PreStoryboardVisualAuthorityPack } from './entry002PreStoryboardAuthorityRecord.js';
-import {
-  buildEntry002PreStoryboardAuthorityGate,
-  buildEntry002StructuralStoryboardGate,
-  buildEntry002FounderReviewGatesWithStructuralStoryboard,
-} from './entry002ReelProductionGates.js';
+import { buildEntry002PipelineReconciliationState, ENTRY_002_ACTIVE_NEXT_ACTION } from './entry002PipelineState.js';
+import { buildEntry002FounderReviewGatesForPipeline, buildEntry002PreStoryboardAuthorityGate, buildEntry002StructuralStoryboardGate } from './entry002ReelProductionGates.js';
 import { previewKeyframeCompilationBlocked } from './storyboardToKeyframeCompiler.js';
 import { listGenerationReceiptsForEntry } from './lineageRegistration.js';
 import { STRUCTURAL_STORYBOARD_STAGE_LABEL } from './storyboardAuthorityDispatch.js';
@@ -40,9 +37,12 @@ export async function bootstrapB46Entry002StoryboardGate(options?: {
   founderReviewSlots: ReturnType<typeof buildFounderBoardReviewSlots>;
   founderReviewSummary: ReturnType<typeof summarizeFounderStoryboardReview>;
   structuralStoryboardGate: ReturnType<typeof buildEntry002StructuralStoryboardGate>;
-  founderGates: ReturnType<typeof buildEntry002FounderReviewGatesWithStructuralStoryboard>;
+  founderGates: ReturnType<typeof buildEntry002FounderReviewGatesForPipeline>;
   boardVisuals: Awaited<ReturnType<typeof dispatchAllEntry002StructuralStoryboardBoards>>;
   keyframeCompilationBlocked: ReturnType<typeof previewKeyframeCompilationBlocked>;
+  pipelineState: ReturnType<typeof buildEntry002PipelineReconciliationState>;
+  preStoryboardAuthorityPack: ReturnType<typeof buildEntry002PreStoryboardVisualAuthorityPack>;
+  preStoryboardGate: ReturnType<typeof buildEntry002PreStoryboardAuthorityGate>;
 }> {
   process.env.EXPRESSION_ENGINE_MEMORY_STORE = process.env.EXPRESSION_ENGINE_MEMORY_STORE ?? '1';
   seedChapter01Canon();
@@ -70,12 +70,13 @@ export async function bootstrapB46Entry002StoryboardGate(options?: {
   const blockingStoryboardRetirement = buildEntry002BlockingStoryboardRetirement();
   const founderReviewSlots = buildFounderBoardReviewSlots(boards);
   const founderReviewSummary = summarizeFounderStoryboardReview(boards);
+  const preStoryboardGate = buildEntry002PreStoryboardAuthorityGate(preStoryboardAuthorityPack.approvalState);
+  const pipelineState = buildEntry002PipelineReconciliationState(preStoryboardAuthorityPack.approvalState);
+  const founderGates = buildEntry002FounderReviewGatesForPipeline(preStoryboardAuthorityPack.approvalState);
   const structuralStoryboardGate = buildEntry002StructuralStoryboardGate(
     storyboardAuthority.approvalState,
     preStoryboardAuthorityPack.approvalState,
   );
-  const preStoryboardGate = buildEntry002PreStoryboardAuthorityGate(preStoryboardAuthorityPack.approvalState);
-  const founderGates = buildEntry002FounderReviewGatesWithStructuralStoryboard(storyboardAuthority.approvalState);
   const keyframeCompilationBlocked = previewKeyframeCompilationBlocked(storyboardAuthority.approvalState);
 
   const receipts = listGenerationReceiptsForEntry('entry-002');
@@ -103,15 +104,16 @@ export async function bootstrapB46Entry002StoryboardGate(options?: {
     storyboardAuthority,
     qa,
     blockingRules: {
-      keyframeGeneration: 'BLOCKED_PENDING_STORYBOARD_APPROVAL',
+      keyframeGeneration: 'BLOCKED_PENDING_PRE_STORYBOARD_AND_STORYBOARD_APPROVAL',
       motionGeneration: 'BLOCKED',
       kling: 'BLOCKED',
       roughCut: 'BLOCKED',
       videoDispatch: 'BLOCKED',
     },
-    nextAction: 'FOUNDER REVIEW OF FIVE PRE-STORYBOARD VISUAL AUTHORITIES',
+    nextAction: ENTRY_002_ACTIVE_NEXT_ACTION,
     preStoryboardAuthorityPack,
     preStoryboardGate,
+    pipelineState,
     founderReviewSlots,
     founderReviewSummary,
     structuralStoryboardGate,

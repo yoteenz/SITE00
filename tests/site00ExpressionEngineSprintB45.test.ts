@@ -47,7 +47,7 @@ describe('Expression Engine Sprint B4.5 — Cinematic visual sequence board', ()
     const b45 = await bootstrapB45({ dispatchFal: false, skipContactSheet: true });
     expect(b45.cinematicSequence.frames.length).toBe(10);
     expect(b45.cinematicSequence.visualStyle).toBe('CINEMATIC_VISUAL_DEVELOPMENT');
-    expect(b45.cinematicSequence.gateId).toBe('GATE_0B_CINEMATIC_SEQUENCE');
+    expect(b45.cinematicSequence.gateId).toBe('GATE_REF_CINEMATIC_SEQUENCE');
   });
 
   it('4. QA passes and rejects desktop editing workstation', async () => {
@@ -71,14 +71,14 @@ describe('Expression Engine Sprint B4.5 — Cinematic visual sequence board', ()
 
     await expect(
       dispatchEntry002ReelKeyframeRaster('START', { dispatchFal: true }),
-    ).rejects.toThrow('GATE_0A_PRE_STORYBOARD_VISUAL_AUTHORITY');
+    ).rejects.toThrow('GATE_0B_PRE_STORYBOARD_AUTHORITY');
   });
 
   it('7. hard stop — keyframes and video blocked this sprint', async () => {
     const b45 = await bootstrapB45({ dispatchFal: false, skipContactSheet: true });
     expect(b45.keyframeGenerationBlocked).toBe(true);
     expect(b45.videoGenerationBlocked).toBe(true);
-    expect(b45.nextAction).toBe('FOUNDER CINEMATIC VISUAL SEQUENCE REVIEW');
+    expect(b45.nextAction).toContain('REFERENCE ONLY');
   });
 
   it('8. continuity reference boards resolve from existing assets', async () => {

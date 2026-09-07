@@ -3,21 +3,11 @@
  * (Founder methodology: storyboard gate before keyframes — Entry 002 proof case.)
  */
 
+import { PRE_STORYBOARD_VISUAL_PRODUCTION_ORDER } from './preStoryboardVisualAuthorityTypes.js';
+
 export type StoryboardFounderJudgment = 'UNREVIEWED' | 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_FOR_ME';
 
-export const STORYBOARD_GATED_PRODUCTION_ORDER = [
-  'CHAPTER_ENTRY_ARGUMENT_GRAMMAR',
-  'COVER_ANCHOR_APPROVAL',
-  'REEL_TREATMENT_AUTHORITY',
-  'PRE_STORYBOARD_VISUAL_AUTHORITIES',
-  'FOUNDER_PRE_STORYBOARD_AUTHORITY_JUDGMENT',
-  'CINEMATIC_STORYBOARD_AUTHORITY',
-  'FOUNDER_STORYBOARD_JUDGMENT',
-  'START_MID_END_KEYFRAME_GENERATION',
-  'FOUNDER_KEYFRAME_JUDGMENT',
-  'VIDEO_DISPATCH',
-  'DOWNSTREAM_FORMAT_PRODUCTION',
-] as const;
+export const STORYBOARD_GATED_PRODUCTION_ORDER = PRE_STORYBOARD_VISUAL_PRODUCTION_ORDER;
 
 export type StoryboardGateProductionStage = (typeof STORYBOARD_GATED_PRODUCTION_ORDER)[number];
 
@@ -177,7 +167,7 @@ export type Entry002StoryboardGateBootstrapResult = {
     roughCut: 'BLOCKED';
     videoDispatch: 'BLOCKED';
   };
-  nextAction: 'FOUNDER_STORYBOARD_REVIEW_PER_BOARD';
+  nextAction: 'FOUNDER REVIEW OF FIVE PRE-STORYBOARD VISUAL AUTHORITIES';
   founderReviewSlots?: Array<{
     boardKey: string;
     boardNumber: number;

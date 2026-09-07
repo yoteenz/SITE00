@@ -18,7 +18,8 @@ import {
   mergePreStoryboardRasterResults,
 } from './preStoryboardAuthorityDispatch.js';
 import { buildPreStoryboardApprovalState } from './preStoryboardAuthorityGate.js';
-import { buildEntry002PreStoryboardAuthorityGate } from './entry002ReelProductionGates.js';
+import { buildEntry002PipelineReconciliationState } from './entry002PipelineState.js';
+import { buildEntry002FounderReviewGatesForPipeline, buildEntry002PreStoryboardAuthorityGate } from './entry002ReelProductionGates.js';
 
 export async function bootstrapB46FollowUpPreStoryboardAuthority(options?: {
   dispatchFal?: boolean;
@@ -33,6 +34,8 @@ export async function bootstrapB46FollowUpPreStoryboardAuthority(options?: {
       boardTitle: string;
       founderJudgment: string;
     }>;
+    pipelineState: ReturnType<typeof buildEntry002PipelineReconciliationState>;
+    founderGates: ReturnType<typeof buildEntry002FounderReviewGatesForPipeline>;
   }
 > {
   process.env.EXPRESSION_ENGINE_MEMORY_STORE = process.env.EXPRESSION_ENGINE_MEMORY_STORE ?? '1';
@@ -57,6 +60,8 @@ export async function bootstrapB46FollowUpPreStoryboardAuthority(options?: {
 
   const approvalState = buildPreStoryboardApprovalState(authorities);
   const preStoryboardGate = buildEntry002PreStoryboardAuthorityGate(approvalState);
+  const pipelineState = buildEntry002PipelineReconciliationState(approvalState);
+  const founderGates = buildEntry002FounderReviewGatesForPipeline(approvalState);
   const founderReviewSlots = authorities.map((a) => ({
     authorityKey: `AUTHORITY_${String(a.boardNumber).padStart(2, '0')}`,
     boardNumber: a.boardNumber,
@@ -94,6 +99,8 @@ export async function bootstrapB46FollowUpPreStoryboardAuthority(options?: {
     preStoryboardGate,
     authorityVisuals: authorityResults,
     founderReviewSlots,
+    pipelineState,
+    founderGates,
   };
 }
 

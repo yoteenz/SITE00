@@ -1,5 +1,5 @@
 /**
- * Sprint B4.6 follow-up — GATE_0A pre-storyboard visual authority gate.
+ * Sprint B4.6 follow-up — GATE_0B pre-storyboard visual authority gate.
  */
 
 import type {
@@ -8,7 +8,7 @@ import type {
   PreStoryboardVisualAuthority,
 } from '../../../shared/site00-expression-engine/preStoryboardVisualAuthorityTypes.js';
 
-export const PRE_STORYBOARD_VISUAL_GATE_ID = 'GATE_0A_PRE_STORYBOARD_VISUAL_AUTHORITY' as const;
+export const PRE_STORYBOARD_VISUAL_GATE_ID = 'GATE_0B_PRE_STORYBOARD_AUTHORITY' as const;
 
 export type PreStoryboardAuthorityKey =
   | 'AUTHORITY_01'

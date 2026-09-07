@@ -124,7 +124,7 @@ export async function bootstrapB45Entry002CinematicVisualSequence(options?: {
           actualFileExists: contactSheet.actualFileExists,
         }
       : null,
-    nextAction: 'FOUNDER CINEMATIC VISUAL SEQUENCE REVIEW',
+    nextAction: 'REFERENCE ONLY — not active gate; see Pre-Storyboard Authority tab',
   };
 }
 
