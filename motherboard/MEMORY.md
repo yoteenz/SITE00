@@ -6604,3 +6604,21 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Gaps:** Live GitHub sync requires `GITHUB_TOKEN`/`SITE00_GITHUB_TOKEN` on Railway; AIO/Astral World need founder repository selection; dependency outdated/major detection requires npm audit integration (future); webhook-driven sync not yet wired
 - **Next founder action:** OPEN FRONTAL SLAYER → CODEBASE. Verify repository/branch/commit/PRs/CI when token configured. Toggle through DEPENDENCIES, DEPLOYMENTS, ENVIRONMENTS, DIAGNOSTICS, NOTES, MILESTONES tabs. Upload v201 ZIP to GoDaddy.
 
+---
+
+## 2026-09-08 — Sprint B5.9R3 — Evolve Module Regression Recovery + Specialized Module Restoration
+
+- **Context:** B5.9R1 universal Project OS shell replaced NDXBOOK Evolve with generic placeholder (`CAMPAIGNS — 0 ACTIVE`, gray hero). Founder required full NDXBOOK marketing operating system restored inside universal shell without reverting header/module switcher/founder-client toggle.
+- **Root cause:** `ProjectOperatingShell` had `ndxEvolveContent` hook but `ProjectOperatingModulePage` never passed it → `/projects/ndxbook/evolve` fell through to generic `ProjectEvolveModule` using sparse B5.9 `evolveState` (zeros) instead of B5.7 `buildProjectOperatingState`.
+- **Delivered:**
+  - **ProjectEvolveAdapter** contract + **ProjectEvolveAdapterRegistry** (`ndxbook` → NdxbookEvolveAdapter, `frontal-slayer` → FrontalSlayerEvolveAdapter, `all-in-one-enterprises` → AioEvolveAdapter, fallback GenericEvolveAdapter)
+  - **ProjectEvolveModuleSurface** routes EVOLVE through adapter; NDXBOOK mounts **EvolveFounderWorkspaceBoard** (desktop hub + mobile screens via `renderMobileFounderWorkspaceScreen`)
+  - **NDXBOOK subnav** adapter-owned: CAMPAIGNS | CONTENT OPS | LAB | MORE (+ overflow expression engine, performance, CI)
+  - **MobileLabHubScreen** added for LAB subnav inside POS shell
+  - **Entry 002/003 hrefs** fixed to `/content-operations/expression-engine` in `buildProjectOperatingState.ts`
+  - **EvolveModuleRegressionQA** — NDXBOOK_ENTRY_LEAK, GENERIC_EVOLVE_FLATTENING, SPECIALIZED_EVOLVE_NOT_MOUNTED checks
+  - **Tests** — `site00FounderWorkspaceSprintB59R3.test.ts` (13/13); build PASS (`index.Df8Ymmb_.js`)
+- **QA:** Mobile 390px manual — NDXBOOK Evolve shows campaign board, content ops desk, lab systems; subnav works; Frontal Slayer isolated (generic marketing workspace, no NDXBOOK entries). Universal shell preserved.
+- **PR:** pending merge; release v202
+- **Next founder action:** OPEN PROJECTS → NDXBOOK → EVOLVE. Verify universal header/module switcher remains; main workspace shows full NDXBOOK OS (Campaigns, Content Ops, Lab, Entries 001–003 links). Then FRONTAL SLAYER → EVOLVE — must NOT show NDXBOOK content. Upload v202 ZIP to GoDaddy.
+
