@@ -102,9 +102,9 @@ describe('Expression Engine Sprint B4.7 — Pre-storyboard authority approval', 
   });
 
   it('6. final storyboard blocked until all five LOVE_IT', () => {
-    const blocked = buildEntry002PipelineReconciliationState(
-      buildPreStoryboardApprovalState(buildEntry002PreStoryboardVisualAuthorities()),
-    );
+    const blocked = buildEntry002PipelineReconciliationState({
+      preStoryboardApproval: buildPreStoryboardApprovalState(buildEntry002PreStoryboardVisualAuthorities()),
+    });
     expect(blocked.finalStoryboard.status).toBe('BLOCKED_PENDING_PRE_STORYBOARD_AUTHORITY_APPROVAL');
   });
 
@@ -113,7 +113,9 @@ describe('Expression Engine Sprint B4.7 — Pre-storyboard authority approval', 
       buildEntry002PreStoryboardVisualAuthorities(),
       allLoveItJudgments(),
     );
-    const ready = buildEntry002PipelineReconciliationState(buildPreStoryboardApprovalState(authorities));
+    const ready = buildEntry002PipelineReconciliationState({
+      preStoryboardApproval: buildPreStoryboardApprovalState(authorities),
+    });
     expect(ready.finalStoryboard.status).toBe('READY_FOR_GENERATION');
     expect(ready.preStoryboardVisualAuthorities).toBe('APPROVED');
   });
@@ -123,7 +125,9 @@ describe('Expression Engine Sprint B4.7 — Pre-storyboard authority approval', 
       buildEntry002PreStoryboardVisualAuthorities(),
       allLoveItJudgments(),
     );
-    const state = buildEntry002PipelineReconciliationState(buildPreStoryboardApprovalState(authorities));
+    const state = buildEntry002PipelineReconciliationState({
+      preStoryboardApproval: buildPreStoryboardApprovalState(authorities),
+    });
     expect(state.finalStoryboard.autoApproved).toBe(false);
   });
 

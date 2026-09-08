@@ -78,7 +78,20 @@ export type PreStoryboardVisualAuthority = {
 
 export type FinalStoryboardEligibilityState =
   | 'BLOCKED_PENDING_PRE_STORYBOARD_AUTHORITY_APPROVAL'
+  | 'READY_FOR_GENERATION'
+  | 'AWAITING_FOUNDER_APPROVAL'
+  | 'REVISION_REQUIRED';
+
+export type KeyframeEligibilityState =
+  | 'BLOCKED'
+  | 'BLOCKED_PENDING_FINAL_STORYBOARD_APPROVAL'
   | 'READY_FOR_GENERATION';
+
+export type FounderStoryboardApprovalState =
+  | 'BLOCKED_PENDING_STORYBOARD'
+  | 'NOT_YET_ACTIVE'
+  | 'ACTIVE'
+  | 'SATISFIED';
 
 export type PreStoryboardGateSatisfaction = {
   gateId: 'GATE_0B_PRE_STORYBOARD_AUTHORITY';

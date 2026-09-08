@@ -63,6 +63,29 @@ export function buildEntry002CinematicSequenceGate(
   };
 }
 
+export function buildEntry002FinalStoryboardReviewGate(
+  founderJudgment: import('../../../shared/site00-expression-engine/finalCinematicStoryboardTypes.js').FinalStoryboardFounderJudgment = 'UNREVIEWED',
+  storyboardGenerated = false,
+): {
+  gateId: 'GATE_0D_FOUNDER_FINAL_STORYBOARD_REVIEW';
+  label: string;
+  founderJudgment: import('../../../shared/site00-expression-engine/finalCinematicStoryboardTypes.js').FinalStoryboardFounderJudgment;
+  blocksKeyframeGeneration: boolean;
+  blocksNextStage: boolean;
+  active: boolean;
+} {
+  return {
+    gateId: 'GATE_0D_FOUNDER_FINAL_STORYBOARD_REVIEW',
+    label: storyboardGenerated
+      ? 'Founder final cinematic storyboard review — AWAITING FOUNDER APPROVAL'
+      : 'Final cinematic storyboard review — pending storyboard generation',
+    founderJudgment,
+    blocksKeyframeGeneration: founderJudgment !== 'LOVE_IT',
+    blocksNextStage: founderJudgment !== 'LOVE_IT',
+    active: storyboardGenerated,
+  };
+}
+
 export function buildEntry002PreStoryboardAuthorityGate(
   approvalState: PreStoryboardApprovalState,
 ): {
@@ -121,6 +144,10 @@ export function buildEntry002StructuralStoryboardGate(
 
 export function buildEntry002FounderReviewGatesForPipeline(
   preStoryboardApproval: PreStoryboardApprovalState,
+  finalStoryboardState?: {
+    storyboardGenerated?: boolean;
+    storyboardFounderJudgment?: import('../../../shared/site00-expression-engine/finalCinematicStoryboardTypes.js').FinalStoryboardFounderJudgment;
+  },
 ): Array<{
   gateId: string;
   label: string;
@@ -130,6 +157,48 @@ export function buildEntry002FounderReviewGatesForPipeline(
 }> {
   const preStoryboardGate = buildEntry002PreStoryboardAuthorityGate(preStoryboardApproval);
   const satisfied = preStoryboardApproval.allAuthoritiesLoveIt;
+  const generated = finalStoryboardState?.storyboardGenerated ?? false;
+  const storyboardJudgment = finalStoryboardState?.storyboardFounderJudgment ?? 'UNREVIEWED';
+
+  if (satisfied && generated) {
+    return [
+      {
+        gateId: preStoryboardGate.gateId,
+        label: 'Pre-storyboard visual authority gate SATISFIED',
+        founderJudgment: 'SATISFIED',
+        blocksNextStage: false,
+        activeGate: false,
+      },
+      {
+        gateId: 'GATE_0D_FOUNDER_FINAL_STORYBOARD_REVIEW',
+        label: 'Founder final cinematic storyboard review — AWAITING FOUNDER APPROVAL',
+        founderJudgment: storyboardJudgment,
+        blocksNextStage: storyboardJudgment !== 'LOVE_IT',
+        activeGate: true,
+      },
+      {
+        gateId: 'GATE_0C_STRUCTURAL_STORYBOARD',
+        label: 'Structural storyboard — planning / narrative structure only',
+        founderJudgment: 'PLANNING_NARRATIVE_STRUCTURE',
+        blocksNextStage: false,
+        activeGate: false,
+      },
+      {
+        gateId: 'GATE_REF_CINEMATIC_SEQUENCE',
+        label: 'Cinematic sequence — PRE_AUTHORITY_EXPERIMENT reference only',
+        founderJudgment: 'REFERENCE_ONLY',
+        blocksNextStage: false,
+        activeGate: false,
+      },
+      {
+        gateId: 'GATE_1_KEYFRAME',
+        label: 'Keyframe authority review — blocked pending final storyboard LOVE_IT',
+        founderJudgment: 'UNREVIEWED',
+        blocksNextStage: true,
+        activeGate: false,
+      },
+    ];
+  }
 
   if (satisfied) {
     return [

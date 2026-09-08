@@ -71,7 +71,9 @@ export async function bootstrapB46Entry002StoryboardGate(options?: {
   const founderReviewSlots = buildFounderBoardReviewSlots(boards);
   const founderReviewSummary = summarizeFounderStoryboardReview(boards);
   const preStoryboardGate = buildEntry002PreStoryboardAuthorityGate(preStoryboardAuthorityPack.approvalState);
-  const pipelineState = buildEntry002PipelineReconciliationState(preStoryboardAuthorityPack.approvalState);
+  const pipelineState = buildEntry002PipelineReconciliationState({
+    preStoryboardApproval: preStoryboardAuthorityPack.approvalState,
+  });
   const founderGates = buildEntry002FounderReviewGatesForPipeline(preStoryboardAuthorityPack.approvalState);
   const structuralStoryboardGate = buildEntry002StructuralStoryboardGate(
     storyboardAuthority.approvalState,

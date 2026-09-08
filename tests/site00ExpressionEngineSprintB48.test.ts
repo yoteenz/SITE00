@@ -73,9 +73,9 @@ describe('Expression Engine Sprint B4.8 — Pre-storyboard gate satisfaction', (
   });
 
   it('6. final storyboard transitions from blocked to ready', async () => {
-    const blocked = buildEntry002PipelineReconciliationState(
-      buildPreStoryboardApprovalState(buildEntry002PreStoryboardVisualAuthorities()),
-    );
+    const blocked = buildEntry002PipelineReconciliationState({
+      preStoryboardApproval: buildPreStoryboardApprovalState(buildEntry002PreStoryboardVisualAuthorities()),
+    });
     expect(blocked.finalStoryboard.status).toBe('BLOCKED_PENDING_PRE_STORYBOARD_AUTHORITY_APPROVAL');
 
     const result = await bootstrapB48();

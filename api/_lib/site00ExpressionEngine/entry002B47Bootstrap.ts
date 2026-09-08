@@ -68,12 +68,12 @@ export async function bootstrapB47PreStoryboardAuthorityApproval(): Promise<
   const approvalState = buildPreStoryboardApprovalState(authorities);
   const gateSatisfaction = buildPreStoryboardGateSatisfaction(authorities);
   const preStoryboardGate = buildEntry002PreStoryboardAuthorityGate(approvalState);
-  const pipelineState = buildEntry002PipelineReconciliationState(approvalState);
+  const pipelineState = buildEntry002PipelineReconciliationState({ preStoryboardApproval: approvalState });
   const founderGates = buildEntry002FounderReviewGatesForPipeline(approvalState);
   const founderReviewSlots = buildPreStoryboardFounderReviewSlots(authorities);
   const storyboardCompilationContract = resolveFinalStoryboardCompilationContract(preStoryboardAuthorityPack);
   const authorityRecords = summarizePreStoryboardAuthorityRecords(authorities);
-  const nextAction = resolveEntry002NextAction(approvalState);
+  const nextAction = resolveEntry002NextAction({ preStoryboardApproval: approvalState });
 
   return {
     sprint: 'B4.7_PRE_STORYBOARD_AUTHORITY_APPROVAL',
