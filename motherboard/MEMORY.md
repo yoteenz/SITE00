@@ -6447,3 +6447,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Verified:** `npm run start:api` starts; `GET /api/health` returns `{ ok: true }`.
 - **Next founder action:** Redeploy Railway from `main` after merge — healthcheck should pass.
 
+---
+
+## 2026-09-08 — Sprint C1.8 — Live Creative Brain + Brand-True Copy Intelligence
+
+- **Context:** C1.7 proved copy director architecture but copy was deterministic/template-driven with Verdant Row voice bleeding across brands. C1.8 adds BrandLanguageIdentity, live copy reasoning path, cross-brand QA, founder copy actions, Supabase adapter wiring, 4-brand blind voice test.
+- **Delivered:**
+  - **Types** — `shared/site00-expression-engine/brand-language/types.ts`
+  - **Brand language** — `brandLanguageIdentity.ts`, `multiBrandBlindFixtures.ts` (mysterious fashion, luxury beauty, playful consumer, direct service + Verdant Row + NDXBOOK regression)
+  - **QA** — `crossBrandVoiceContaminationQA.ts`, `rhetoricalPatternLineage.ts`
+  - **Live copy** — `copyReasoningProvider.ts` (FULL_REASONING/HYBRID/DETERMINISTIC_FALLBACK)
+  - **Context** — `creativeBrainContext.ts`
+  - **Founder actions** — `founderCopyActions.ts` (LOVE IT, ALT A/B, EDIT, PUSH FURTHER, NOT MY VOICE)
+  - **Persistence** — `campaignCopySupabaseStore.ts` + store upgrade
+  - **Integration** — CampaignCopyDirector uses BrandLanguageIdentity; Expression Engine `?phase=C1.8`; UI copy preview ALT sync
+  - **Tests** — `site00ExpressionEngineSprintC18.test.ts` (32 tests); C17/C16 regression green
+- **Next founder action:** FOUNDER REVIEWS MULTI-BRAND COPY BLIND TEST WITHOUT BRAND NAMES FIRST — identify which caption belongs to which brand by language alone
+

@@ -185,3 +185,60 @@ export async function bootstrapC17CampaignCopyDirector(): Promise<{
     falDispatchCount: 0,
   };
 }
+
+export async function bootstrapC18BrandTrueCopyIntelligence(): Promise<{
+  sprint: string;
+  multiBrandBlindTest: Awaited<
+    ReturnType<typeof import('../campaignCopy/copyReasoningProvider.js').runMultiBrandLaunchCopyBlindTest>
+  >;
+  reasoningComparison: Awaited<
+    ReturnType<typeof import('../campaignCopy/copyReasoningProvider.js').compareDeterministicVsFullReasoning>
+  >;
+  multiUnitBlindCampaign: import('../seniorCreativeJudgment/multiUnitCampaignArchitect.js').MultiUnitBlindCampaignOutput;
+  providerHealth: Awaited<
+    ReturnType<typeof import('../seniorCreativeJudgment/creativeReasoningProvider.js').checkCreativeReasoningProviderHealth>
+  >;
+  copyPersistenceMode: ReturnType<typeof import('../campaignCopy/campaignCopyStore.js').getCampaignCopyStoreMode>;
+  copyRuntimeMode: import('../../../shared/site00-expression-engine/brand-language/types.js').CopyRuntimeMode;
+  textReasoningDispatchCount: number;
+  copyReasoningDispatchCount: number;
+  imageProviderDispatchCount: 0;
+  videoProviderDispatchCount: 0;
+  falDispatchCount: 0;
+}> {
+  const { runMultiBrandLaunchCopyBlindTest, compareDeterministicVsFullReasoning, resolveCopyRuntimeMode } =
+    await import('../campaignCopy/copyReasoningProvider.js');
+  const { runMultiUnitBlindCampaignPackage } = await import(
+    '../seniorCreativeJudgment/multiUnitCampaignArchitect.js'
+  );
+  const { checkCreativeReasoningProviderHealth } = await import(
+    '../seniorCreativeJudgment/creativeReasoningProvider.js'
+  );
+  const { getCampaignCopyStoreMode } = await import('../campaignCopy/campaignCopyStore.js');
+  const { evaluateCrossBrandVoiceDistance } = await import('../brandLanguage/crossBrandVoiceContaminationQA.js');
+
+  const multiBrandBlindTest = await runMultiBrandLaunchCopyBlindTest('DETERMINISTIC_FALLBACK');
+  const captionsByBrand = Object.fromEntries(
+    multiBrandBlindTest.map((b) => [b.brandLanguageIdentity.brandId, b.result.primaryCaption]),
+  );
+  evaluateCrossBrandVoiceDistance(captionsByBrand);
+
+  const reasoningComparison = await compareDeterministicVsFullReasoning();
+  const multiUnitBlindCampaign = await runMultiUnitBlindCampaignPackage();
+  const copyRuntimeMode = await resolveCopyRuntimeMode();
+
+  return {
+    sprint: 'C1.8_BRAND_TRUE_COPY_INTELLIGENCE',
+    multiBrandBlindTest,
+    reasoningComparison,
+    multiUnitBlindCampaign,
+    providerHealth: await checkCreativeReasoningProviderHealth(),
+    copyPersistenceMode: getCampaignCopyStoreMode(),
+    copyRuntimeMode,
+    textReasoningDispatchCount: multiUnitBlindCampaign.textReasoningDispatchCount,
+    copyReasoningDispatchCount: multiUnitBlindCampaign.copyPackage?.copyReasoningDispatchCount ?? 0,
+    imageProviderDispatchCount: 0,
+    videoProviderDispatchCount: 0,
+    falDispatchCount: 0,
+  };
+}
