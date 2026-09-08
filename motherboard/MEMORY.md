@@ -6733,3 +6733,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Mobile QA (390px):** ND lime hero, 70% progress, 1 needs-your-eye, 4 signal cards, module switcher + Evolve subshell intact
 - **Next founder action:** PROJECTS → NDXBOOK → OVERVIEW on mobile; compare to approved reference; verify EVOLVE subshell; upload GoDaddy ZIP v208.
 
+---
+
+## 2026-09-08 — Hotfix: BLDR siteTypeModel import blocked dev bundle (Expression Engine)
+
+- **Symptom:** Vite overlay on `site00.fsbw-dev.com` — `Failed to resolve import .../shared/site00-bldr-classification/siteTypeModel` from `BldrIntakeFields.tsx`; blocked Expression Engine / Meridian review.
+- **Root cause:** Vite HMR held edited `BldrIntakeFields.tsx` importing modules that were never committed to disk.
+- **Fix:** Added `shared/site00-bldr-classification/siteTypeModel.ts` + `bldrFieldValidation.ts`; synced `BldrIntakeFields.tsx` (OTHER site-type specify). PR #600 merged. Vite dev restarted.
+- **Founder action:** Hard refresh `site00.fsbw-dev.com` → NDXBOOK → Expression Engine → Meridian section.
+
