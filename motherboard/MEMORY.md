@@ -6587,3 +6587,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **PR:** #591 merged to main; release v200
 - **Next founder action:** OPEN PROJECTS on mobile first. Compare to approved mobile reference. Toggle VIEW AS CLIENT. Open FRONTAL SLAYER → verify modern Project OS overview (not legacy dossier). Upload v200 ZIP to GoDaddy.
 
+---
+
+## 2026-09-08 — Sprint B5.10 — Project Repository Intelligence + Technical Readiness Engine
+
+- **Context:** Founder approved desktop + mobile technical intelligence reference boards. SITE 00 must connect Builder/Production projects to real repositories and derive CI, dependencies, deployments, environments, diagnostics, notes, milestones, and readiness — not stale manual metadata.
+- **Delivered:**
+  - **Models** — `ProjectRepositoryConnection`, `ProjectCodebaseIntelligence`, `ProjectTechnicalReadiness`, `ProjectStateReconciliation`, branch/PR/issue/CI/dependency/security/deployment/environment/diagnostic/note/milestone types
+  - **Registry** — explicit bindings: Frontal Slayer → `yoteenz/fsbw`, Studio World + NDXBOOK → `yoteenz/SITE00`; AIO + Astral World **UNRESOLVED** (no silent guessing)
+  - **GitHub connector** — server-side `githubProjectConnector.ts` (commits, PRs, issues, Actions, package.json scan); no client scraping
+  - **Sync** — `ProjectRepositorySyncService` + `GET /api/site00/project-technical-intelligence` (+ manual sync action)
+  - **UI** — technical subnav on project Overview (CODEBASE, DEPENDENCIES, DEPLOYMENTS, ENVIRONMENTS, DIAGNOSTICS, NOTES, MILESTONES, READINESS); desktop summary cards; index repo column; **uppercase UI labels**
+  - **Client safety** — env var names only (never secrets); client translation + sanitization
+  - **Tests** — `site00FounderWorkspaceSprintB510.test.ts` (16/16); build PASS (`index.DFczw-64.js`)
+- **PR:** #592 merged to main; release v201 pending
+- **Gaps:** Live GitHub sync requires `GITHUB_TOKEN`/`SITE00_GITHUB_TOKEN` on Railway; AIO/Astral World need founder repository selection; dependency outdated/major detection requires npm audit integration (future); webhook-driven sync not yet wired
+- **Next founder action:** OPEN FRONTAL SLAYER → CODEBASE. Verify repository/branch/commit/PRs/CI when token configured. Toggle through DEPENDENCIES, DEPLOYMENTS, ENVIRONMENTS, DIAGNOSTICS, NOTES, MILESTONES tabs. Upload v201 ZIP to GoDaddy.
+
