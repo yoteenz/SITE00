@@ -41,7 +41,7 @@ import {
   ENTRY_002_PRE_STORYBOARD_AUTHORITY_VERSION,
   ENTRY_002_PRE_STORYBOARD_FOUNDER_APPROVALS,
 } from './entry002PreStoryboardFounderApproval.js';
-import { buildEntry002FinalCinematicStoryboardRecord } from './entry002FinalStoryboardRecord.js';
+import { buildEntry002FinalCinematicStoryboardPlaceholderRecord } from './entry002FinalStoryboardRecord.js';
 
 export async function bootstrapB48PreStoryboardGateSatisfaction(): Promise<
   Entry002PreStoryboardAuthorityBootstrapResult & {
@@ -52,7 +52,7 @@ export async function bootstrapB48PreStoryboardGateSatisfaction(): Promise<
     pipelineState: ReturnType<typeof buildEntry002PipelineReconciliationState>;
     founderGates: ReturnType<typeof buildEntry002FounderReviewGatesForPipeline>;
     finalStoryboardEligibility: ReturnType<typeof buildEntry002PipelineReconciliationState>['finalStoryboard'];
-    finalStoryboardRecord: ReturnType<typeof buildEntry002FinalCinematicStoryboardRecord>;
+    finalStoryboardRecord: ReturnType<typeof buildEntry002FinalCinematicStoryboardPlaceholderRecord>;
     storyboardCompilationContract: ReturnType<typeof resolveFinalStoryboardCompilationContract>;
     authorityRecords: ReturnType<typeof summarizePreStoryboardAuthorityRecords>;
     productionEligibility: ReturnType<typeof resolveEntry002ProductionEligibility>;
@@ -90,17 +90,17 @@ export async function bootstrapB48PreStoryboardGateSatisfaction(): Promise<
 
   const gateSatisfaction = buildPreStoryboardGateSatisfaction(authorities);
   const preStoryboardGate = buildEntry002PreStoryboardAuthorityGate(approvalState);
-  const pipelineState = buildEntry002PipelineReconciliationState(approvalState);
-  const productionEligibility = resolveEntry002ProductionEligibility(approvalState);
+  const pipelineState = buildEntry002PipelineReconciliationState({ preStoryboardApproval: approvalState });
+  const productionEligibility = resolveEntry002ProductionEligibility({ preStoryboardApproval: approvalState });
   const founderGates = buildEntry002FounderReviewGatesForPipeline(approvalState);
   const founderReviewSlots = buildPreStoryboardFounderReviewSlots(authorities);
   const storyboardCompilationContract = resolveFinalStoryboardCompilationContract(preStoryboardAuthorityPack);
   assertStoryboardCompilationFailClosed(storyboardCompilationContract);
   const authorityRecords = summarizePreStoryboardAuthorityRecords(authorities);
-  const finalStoryboardRecord = buildEntry002FinalCinematicStoryboardRecord(
+  const finalStoryboardRecord = buildEntry002FinalCinematicStoryboardPlaceholderRecord(
     pipelineState.finalStoryboard.status,
   );
-  const nextAction = resolveEntry002NextAction(approvalState);
+  const nextAction = resolveEntry002NextAction({ preStoryboardApproval: approvalState });
 
   return {
     sprint: 'B4.8_PRE_STORYBOARD_GATE_SATISFACTION',

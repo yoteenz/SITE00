@@ -2,12 +2,20 @@
  * Sprint B4.6 — Entry 002 pipeline state reconciliation (single source of truth).
  * Sprint B4.7 — Gate satisfaction → final storyboard READY_FOR_GENERATION.
  * Sprint B4.8 — Founder approval persisted; active step = FINAL_CINEMATIC_STORYBOARD.
+ * Sprint B4.9 — Generated storyboard → AWAITING_FOUNDER_APPROVAL + founder review gate.
  */
 
 import type {
   FinalStoryboardEligibilityState,
+  FounderStoryboardApprovalState,
+  KeyframeEligibilityState,
   PreStoryboardApprovalState,
 } from '../../../shared/site00-expression-engine/preStoryboardVisualAuthorityTypes.js';
+import type { FinalStoryboardFounderJudgment } from '../../../shared/site00-expression-engine/finalCinematicStoryboardTypes.js';
+import {
+  ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION,
+  FINAL_STORYBOARD_REVIEW_GATE_ID,
+} from '../../../shared/site00-expression-engine/finalCinematicStoryboardTypes.js';
 import { PRE_STORYBOARD_VISUAL_GATE_ID } from './preStoryboardAuthorityGate.js';
 
 export const ENTRY_002_ACTIVE_PRODUCTION_ORDER = [
@@ -32,12 +40,17 @@ export const ENTRY_002_ACTIVE_NEXT_ACTION =
 export const ENTRY_002_FINAL_STORYBOARD_NEXT_ACTION =
   'GENERATE FINAL CINEMATIC STORYBOARD' as const;
 
-export function resolveEntry002NextAction(
-  preStoryboardApproval?: PreStoryboardApprovalState,
-): typeof ENTRY_002_ACTIVE_NEXT_ACTION | typeof ENTRY_002_FINAL_STORYBOARD_NEXT_ACTION {
-  return preStoryboardApproval?.allAuthoritiesLoveIt
-    ? ENTRY_002_FINAL_STORYBOARD_NEXT_ACTION
-    : ENTRY_002_ACTIVE_NEXT_ACTION;
+export { ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION };
+
+export function resolveEntry002NextAction(params?: {
+  preStoryboardApproval?: PreStoryboardApprovalState;
+  storyboardGenerated?: boolean;
+  storyboardFounderJudgment?: FinalStoryboardFounderJudgment;
+}): typeof ENTRY_002_ACTIVE_NEXT_ACTION | typeof ENTRY_002_FINAL_STORYBOARD_NEXT_ACTION | typeof ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION {
+  const preStoryboardComplete = params?.preStoryboardApproval?.allAuthoritiesLoveIt ?? false;
+  if (!preStoryboardComplete) return ENTRY_002_ACTIVE_NEXT_ACTION;
+  if (params?.storyboardGenerated) return ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION;
+  return ENTRY_002_FINAL_STORYBOARD_NEXT_ACTION;
 }
 
 export type Entry002ProductionEligibility = {
@@ -45,27 +58,49 @@ export type Entry002ProductionEligibility = {
   requiredAuthorityCount: 5;
   approvedAuthorityCount: number;
   finalStoryboardEligibility: FinalStoryboardEligibilityState;
-  keyframeEligibility: 'BLOCKED';
+  keyframeEligibility: KeyframeEligibilityState;
   videoEligibility: 'BLOCKED';
-  founderStoryboardApproval: 'BLOCKED_PENDING_STORYBOARD' | 'NOT_YET_ACTIVE';
+  founderStoryboardApproval: FounderStoryboardApprovalState;
 };
 
-export function resolveEntry002ProductionEligibility(
-  preStoryboardApproval?: PreStoryboardApprovalState,
-): Entry002ProductionEligibility {
-  const satisfied = preStoryboardApproval?.allAuthoritiesLoveIt ?? false;
+export function resolveEntry002ProductionEligibility(params?: {
+  preStoryboardApproval?: PreStoryboardApprovalState;
+  storyboardGenerated?: boolean;
+  storyboardFounderJudgment?: FinalStoryboardFounderJudgment;
+  continuityQaPassed?: boolean;
+}): Entry002ProductionEligibility {
+  const satisfied = params?.preStoryboardApproval?.allAuthoritiesLoveIt ?? false;
   const approvedCount = satisfied ? 5 : 0;
+  const judgment = params?.storyboardFounderJudgment ?? 'UNREVIEWED';
+  const generated = params?.storyboardGenerated ?? false;
+  const qaPassed = params?.continuityQaPassed ?? generated;
+
+  let finalStoryboardEligibility: FinalStoryboardEligibilityState = satisfied
+    ? 'READY_FOR_GENERATION'
+    : 'BLOCKED_PENDING_PRE_STORYBOARD_AUTHORITY_APPROVAL';
+
+  if (generated && qaPassed) {
+    finalStoryboardEligibility = judgment === 'PROMISING_REFINE' ? 'REVISION_REQUIRED' : 'AWAITING_FOUNDER_APPROVAL';
+  }
+
+  let founderStoryboardApproval: FounderStoryboardApprovalState = 'BLOCKED_PENDING_STORYBOARD';
+  if (generated && qaPassed) founderStoryboardApproval = 'ACTIVE';
+  else if (satisfied && !generated) founderStoryboardApproval = 'NOT_YET_ACTIVE';
+
+  let keyframeEligibility: KeyframeEligibilityState = 'BLOCKED';
+  if (generated) {
+    keyframeEligibility =
+      judgment === 'LOVE_IT' ? 'READY_FOR_GENERATION' : 'BLOCKED_PENDING_FINAL_STORYBOARD_APPROVAL';
+  }
 
   return {
     preStoryboardAuthorityGate: satisfied ? 'SATISFIED' : 'AWAITING_FOUNDER_APPROVAL',
     requiredAuthorityCount: 5,
     approvedAuthorityCount: approvedCount,
-    finalStoryboardEligibility: satisfied
-      ? 'READY_FOR_GENERATION'
-      : 'BLOCKED_PENDING_PRE_STORYBOARD_AUTHORITY_APPROVAL',
-    keyframeEligibility: 'BLOCKED',
+    finalStoryboardEligibility,
+    keyframeEligibility,
     videoEligibility: 'BLOCKED',
-    founderStoryboardApproval: 'BLOCKED_PENDING_STORYBOARD',
+    founderStoryboardApproval,
   };
 }
 
@@ -74,12 +109,12 @@ export type Entry002PipelineReconciliationState = {
   currentStage: (typeof ENTRY_002_ACTIVE_PRODUCTION_ORDER)[number];
   activeProductionStep: (typeof ENTRY_002_ACTIVE_PRODUCTION_ORDER)[number];
   activeGate: {
-    gateId: typeof ENTRY_002_ACTIVE_GATE_ID | 'FINAL_CINEMATIC_STORYBOARD';
+    gateId: typeof ENTRY_002_ACTIVE_GATE_ID | 'FINAL_CINEMATIC_STORYBOARD' | typeof FINAL_STORYBOARD_REVIEW_GATE_ID;
     label: string;
     requiredJudgment: 'LOVE_IT';
     authorityCount: 5;
     satisfied: boolean;
-    gateStatus: 'AWAITING_FOUNDER_APPROVAL' | 'SATISFIED';
+    gateStatus: 'AWAITING_FOUNDER_APPROVAL' | 'SATISFIED' | 'ACTIVE';
     authorities: [
       'NDX_PRESENCE',
       'SUBJECT_WOMAN_DUAL_ERA',
@@ -90,7 +125,8 @@ export type Entry002PipelineReconciliationState = {
   };
   nextAction:
     | typeof ENTRY_002_ACTIVE_NEXT_ACTION
-    | typeof ENTRY_002_FINAL_STORYBOARD_NEXT_ACTION;
+    | typeof ENTRY_002_FINAL_STORYBOARD_NEXT_ACTION
+    | typeof ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION;
   coverAuthority: 'APPROVED';
   reelTreatment: 'LOCKED';
   preStoryboardVisualAuthorities: 'CURRENT_GATE' | 'GATE_SATISFIED' | 'APPROVED';
@@ -113,40 +149,67 @@ export type Entry002PipelineReconciliationState = {
     status: FinalStoryboardEligibilityState;
     promotionBlocked: boolean;
     autoApproved: false;
-    approved: false;
+    approved: boolean;
+    rendered: boolean;
+    founderJudgment: FinalStoryboardFounderJudgment;
   };
-  keyframes: 'BLOCKED';
+  keyframes: KeyframeEligibilityState;
   video: 'BLOCKED';
   eligibility: Entry002ProductionEligibility;
   stopConditions: string[];
 };
 
-export function buildEntry002PipelineReconciliationState(
-  preStoryboardApproval?: PreStoryboardApprovalState,
-): Entry002PipelineReconciliationState {
-  const preStoryboardComplete = preStoryboardApproval?.allAuthoritiesLoveIt ?? false;
-  const finalStoryboardStatus: FinalStoryboardEligibilityState = preStoryboardComplete
-    ? 'READY_FOR_GENERATION'
-    : 'BLOCKED_PENDING_PRE_STORYBOARD_AUTHORITY_APPROVAL';
-  const eligibility = resolveEntry002ProductionEligibility(preStoryboardApproval);
+export function buildEntry002PipelineReconciliationState(params?: {
+  preStoryboardApproval?: PreStoryboardApprovalState;
+  storyboardGenerated?: boolean;
+  storyboardFounderJudgment?: FinalStoryboardFounderJudgment;
+  storyboardApproved?: boolean;
+  continuityQaPassed?: boolean;
+}): Entry002PipelineReconciliationState {
+  const preStoryboardComplete = params?.preStoryboardApproval?.allAuthoritiesLoveIt ?? false;
+  const generated = params?.storyboardGenerated ?? false;
+  const judgment = params?.storyboardFounderJudgment ?? 'UNREVIEWED';
+  const approved = params?.storyboardApproved ?? judgment === 'LOVE_IT';
+  const eligibility = resolveEntry002ProductionEligibility({
+    preStoryboardApproval: params?.preStoryboardApproval,
+    storyboardGenerated: generated,
+    storyboardFounderJudgment: judgment,
+    continuityQaPassed: params?.continuityQaPassed,
+  });
+
+  const finalStoryboardStatus = eligibility.finalStoryboardEligibility;
+
+  let currentStage: (typeof ENTRY_002_ACTIVE_PRODUCTION_ORDER)[number] = 'PRE_STORYBOARD_VISUAL_AUTHORITIES';
+  let activeProductionStep: (typeof ENTRY_002_ACTIVE_PRODUCTION_ORDER)[number] = 'PRE_STORYBOARD_VISUAL_AUTHORITIES';
+  let activeGateId: Entry002PipelineReconciliationState['activeGate']['gateId'] = ENTRY_002_ACTIVE_GATE_ID;
+  let activeGateLabel = 'Pre-storyboard visual authority — 5 glue boards must be LOVE_IT before final storyboard';
+  let activeGateStatus: Entry002PipelineReconciliationState['activeGate']['gateStatus'] = 'AWAITING_FOUNDER_APPROVAL';
+
+  if (preStoryboardComplete && !generated) {
+    currentStage = 'FINAL_CINEMATIC_STORYBOARD';
+    activeProductionStep = 'FINAL_CINEMATIC_STORYBOARD';
+    activeGateId = 'FINAL_CINEMATIC_STORYBOARD';
+    activeGateLabel = 'Final cinematic storyboard — READY FOR GENERATION (pre-storyboard gate satisfied)';
+    activeGateStatus = 'SATISFIED';
+  } else if (preStoryboardComplete && generated) {
+    currentStage = 'FOUNDER_STORYBOARD_APPROVAL';
+    activeProductionStep = 'FOUNDER_STORYBOARD_APPROVAL';
+    activeGateId = FINAL_STORYBOARD_REVIEW_GATE_ID;
+    activeGateLabel = 'Founder final cinematic storyboard review — AWAITING FOUNDER APPROVAL';
+    activeGateStatus = 'ACTIVE';
+  }
 
   return {
     productionOrder: ENTRY_002_ACTIVE_PRODUCTION_ORDER,
-    currentStage: preStoryboardComplete
-      ? 'FINAL_CINEMATIC_STORYBOARD'
-      : 'PRE_STORYBOARD_VISUAL_AUTHORITIES',
-    activeProductionStep: preStoryboardComplete
-      ? 'FINAL_CINEMATIC_STORYBOARD'
-      : 'PRE_STORYBOARD_VISUAL_AUTHORITIES',
+    currentStage,
+    activeProductionStep,
     activeGate: {
-      gateId: preStoryboardComplete ? 'FINAL_CINEMATIC_STORYBOARD' : ENTRY_002_ACTIVE_GATE_ID,
-      label: preStoryboardComplete
-        ? 'Final cinematic storyboard — READY FOR GENERATION (pre-storyboard gate satisfied)'
-        : 'Pre-storyboard visual authority — 5 glue boards must be LOVE_IT before final storyboard',
+      gateId: activeGateId,
+      label: activeGateLabel,
       requiredJudgment: 'LOVE_IT',
       authorityCount: 5,
-      satisfied: preStoryboardComplete,
-      gateStatus: preStoryboardComplete ? 'SATISFIED' : 'AWAITING_FOUNDER_APPROVAL',
+      satisfied: preStoryboardComplete && !generated,
+      gateStatus: activeGateStatus,
       authorities: [
         'NDX_PRESENCE',
         'SUBJECT_WOMAN_DUAL_ERA',
@@ -155,7 +218,11 @@ export function buildEntry002PipelineReconciliationState(
         'PHONE_CULTURAL_GLITCH',
       ],
     },
-    nextAction: resolveEntry002NextAction(preStoryboardApproval),
+    nextAction: resolveEntry002NextAction({
+      preStoryboardApproval: params?.preStoryboardApproval,
+      storyboardGenerated: generated,
+      storyboardFounderJudgment: judgment,
+    }),
     coverAuthority: 'APPROVED',
     reelTreatment: 'LOCKED',
     preStoryboardVisualAuthorities: preStoryboardComplete ? 'APPROVED' : 'CURRENT_GATE',
@@ -176,23 +243,32 @@ export function buildEntry002PipelineReconciliationState(
     },
     finalStoryboard: {
       status: finalStoryboardStatus,
-      promotionBlocked: !preStoryboardComplete,
+      promotionBlocked: !approved,
       autoApproved: false,
-      approved: false,
+      approved,
+      rendered: generated,
+      founderJudgment: judgment,
     },
-    keyframes: 'BLOCKED',
+    keyframes: eligibility.keyframeEligibility,
     video: 'BLOCKED',
     eligibility,
-    stopConditions: preStoryboardComplete
+    stopConditions: generated
       ? [
-          'Do not auto-approve final storyboard — founder review required after generation',
+          'Do not auto-approve final storyboard — founder review required',
+          'Do not generate keyframes until storyboard LOVE_IT',
           'Do not promote cinematic sequence to visual authority',
-          'Do not generate keyframes or dispatch video',
+          'Do not dispatch video',
         ]
-      : [
-          'Do not generate final storyboard until all 5 pre-storyboard authorities LOVE_IT',
-          'Do not promote cinematic sequence to visual authority',
-          'Do not generate keyframes or dispatch video',
-        ],
+      : preStoryboardComplete
+        ? [
+            'Generate final cinematic storyboard from five approved authorities',
+            'Do not promote cinematic sequence to visual authority',
+            'Do not generate keyframes or dispatch video',
+          ]
+        : [
+            'Do not generate final storyboard until all 5 pre-storyboard authorities LOVE_IT',
+            'Do not promote cinematic sequence to visual authority',
+            'Do not generate keyframes or dispatch video',
+          ],
   };
 }

@@ -69,9 +69,9 @@ export async function bootstrapB46FollowUpPreStoryboardAuthority(options?: {
 
   const approvalState = buildPreStoryboardApprovalState(authorities);
   const preStoryboardGate = buildEntry002PreStoryboardAuthorityGate(approvalState);
-  const pipelineState = buildEntry002PipelineReconciliationState(approvalState);
+  const pipelineState = buildEntry002PipelineReconciliationState({ preStoryboardApproval: approvalState });
   const founderGates = buildEntry002FounderReviewGatesForPipeline(approvalState);
-  const nextAction = resolveEntry002NextAction(approvalState);
+  const nextAction = resolveEntry002NextAction({ preStoryboardApproval: approvalState });
   const founderReviewSlots = authorities.map((a) => ({
     authorityKey: `AUTHORITY_${String(a.boardNumber).padStart(2, '0')}`,
     boardNumber: a.boardNumber,

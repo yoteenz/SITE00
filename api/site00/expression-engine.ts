@@ -20,6 +20,8 @@ import {
   bootstrapB46FollowUp,
   bootstrapB47,
   bootstrapB48,
+  bootstrapB49,
+  recordFinalStoryboardFounderJudgment,
   recordPreStoryboardAuthorityJudgment,
   bootstrapNdxbookExpressionProof,
   evaluateEntryProductionReadiness,
@@ -35,6 +37,7 @@ import { closeEntry001Phase1 } from '../_lib/site00ExpressionEngine/entry001Clos
 import { compileEntry002LockedEntry } from '../_lib/site00ExpressionEngine/entry002Blueprint.js';
 import { saveEntry } from '../_lib/site00ExpressionEngine/entryStore.js';
 import type { PreStoryboardFounderJudgment } from '../../shared/site00-expression-engine/preStoryboardVisualAuthorityTypes.js';
+import type { FinalStoryboardFounderJudgment } from '../../shared/site00-expression-engine/finalCinematicStoryboardTypes.js';
 import type { PreStoryboardAuthorityKey } from '../_lib/site00ExpressionEngine/preStoryboardAuthorityGate.js';
 
 function serializePreStoryboardAuthorityResponse(
@@ -111,6 +114,76 @@ function serializePreStoryboardAuthorityResponse(
   };
 }
 
+function serializeFinalCinematicStoryboardResponse(
+  result: Awaited<ReturnType<typeof bootstrapB49>>,
+) {
+  return {
+    engine: 'EXPRESSION_ENGINE_V0',
+    sprint: result.sprint,
+    productionOrder: result.productionOrder,
+    treatment: {
+      treatmentId: result.treatment.treatmentId,
+      entryTitle: result.treatment.entryTitle,
+    },
+    preStoryboardAuthorityPack: {
+      packId: result.preStoryboardAuthorityPack.packId,
+      authorityCount: result.preStoryboardAuthorityPack.authorities.length,
+      approvalState: result.preStoryboardAuthorityPack.approvalState,
+    },
+    finalCinematicStoryboard: result.finalCinematicStoryboard
+      ? {
+          storyboardId: result.finalCinematicStoryboard.storyboardId,
+          version: result.finalCinematicStoryboard.version,
+          status: result.finalCinematicStoryboard.status,
+          founderJudgment: result.finalCinematicStoryboard.founderJudgment,
+          canon: result.finalCinematicStoryboard.canon,
+          visualAuthority: result.finalCinematicStoryboard.visualAuthority,
+          panelCount: result.finalCinematicStoryboard.panelCount,
+          storyboardStripUrl: result.finalCinematicStoryboard.storyboardStripUrl,
+          continuityQaStatus: result.finalCinematicStoryboard.continuityQaStatus,
+          authorityIds: result.finalCinematicStoryboard.authorityIds,
+          sourceTreatmentId: result.finalCinematicStoryboard.sourceTreatmentId,
+          compiled: result.finalCinematicStoryboard.compiled,
+          dispatched: result.finalCinematicStoryboard.dispatched,
+          rendered: result.finalCinematicStoryboard.rendered,
+          provider: result.finalCinematicStoryboard.provider,
+          providerRequestId: result.finalCinematicStoryboard.providerRequestId,
+        }
+      : null,
+    finalStoryboardRecord: result.finalStoryboardRecord,
+    continuityQA: result.continuityQA,
+    renderResult: result.renderResult
+      ? {
+          status: result.renderResult.status,
+          compiled: result.renderResult.compiled,
+          dispatched: result.renderResult.dispatched,
+          rendered: result.renderResult.rendered,
+          actualFileExists: result.renderResult.actualFileExists,
+          provider: result.renderResult.provider,
+          previewUrl: result.renderResult.previewUrl,
+        }
+      : null,
+    pipelineState: result.pipelineState,
+    productionEligibility: result.productionEligibility,
+    finalStoryboardReviewGate: result.finalStoryboardReviewGate,
+    founderGates: result.founderGates,
+    storyboardBrief: {
+      storyboardId: result.storyboardBrief.storyboardId,
+      authorityIds: result.storyboardBrief.authorityIds,
+      mandatoryInterjection: result.storyboardBrief.mandatoryInterjection,
+      characterFirewall: result.storyboardBrief.characterFirewall,
+      phoneContentRules: result.storyboardBrief.phoneContentRules,
+      panelCount: result.storyboardBrief.panels.length,
+      historicalSequenceExcluded: result.storyboardBrief.historicalSequenceExcluded,
+    },
+    cinematicSequence: result.cinematicSequence,
+    keyframes: result.keyframes,
+    video: result.video,
+    nextAction: result.nextAction,
+    telemetryNote: result.telemetryNote,
+  };
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     if (req.method !== 'GET' && req.method !== 'POST') {
@@ -149,6 +222,41 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       const b48 = await bootstrapB48();
       return res.status(200).json(serializePreStoryboardAuthorityResponse(b48));
+    }
+
+    if (
+      req.method === 'POST' &&
+      action === 'SET_FINAL_CINEMATIC_STORYBOARD_JUDGMENT'
+    ) {
+      const founderJudgment = String(body.founderJudgment ?? '') as Exclude<
+        FinalStoryboardFounderJudgment,
+        'UNREVIEWED'
+      >;
+
+      if (!founderJudgment) {
+        return res.status(400).json({ error: 'founderJudgment required (LOVE_IT | PROMISING_REFINE | NOT_FOR_ME)' });
+      }
+
+      recordFinalStoryboardFounderJudgment({
+        founderJudgment,
+        notes: body.notes ? String(body.notes) : null,
+      });
+
+      const b49 = await bootstrapB49();
+      return res.status(200).json(serializeFinalCinematicStoryboardResponse(b49));
+    }
+
+    if (
+      req.method === 'GET' &&
+      (phase === 'B49' ||
+        phase === 'B4.9' ||
+        phase === 'FINAL_CINEMATIC_STORYBOARD' ||
+        phase === 'FINAL_STORYBOARD')
+    ) {
+      const dispatchFal = req.query.dispatchFal === '1' || body.dispatchFal === true;
+      const forceDispatch = req.query.forceDispatch === '1' || body.forceDispatch === true;
+      const b49 = await bootstrapB49({ dispatchFal, forceDispatch });
+      return res.status(200).json(serializeFinalCinematicStoryboardResponse(b49));
     }
 
     if (

@@ -17,6 +17,7 @@ import { ExpressionEngineCinematicSequencePanel } from './ExpressionEngineCinema
 import { ExpressionEngineStoryboardReviewPanel } from './ExpressionEngineStoryboardReviewPanel';
 import { ExpressionEngineStoryboardAuthorityPanel } from './ExpressionEngineStoryboardAuthorityPanel';
 import { ExpressionEnginePreStoryboardAuthorityPanel } from './ExpressionEnginePreStoryboardAuthorityPanel';
+import { ExpressionEngineFinalCinematicStoryboardPanel } from './ExpressionEngineFinalCinematicStoryboardPanel';
 
 type EntryTab = '002' | '001';
 type SectionId =
@@ -32,6 +33,7 @@ type SectionId =
   | 'anchor'
   | 'storyboard-review'
   | 'pre-storyboard-authority'
+  | 'final-cinematic-storyboard'
   | 'storyboard-authority'
   | 'cinematic-sequence'
   | 'readiness';
@@ -48,6 +50,7 @@ const SECTIONS: Array<{ id: SectionId; label: string; entry: EntryTab | 'both' }
   { id: 'routing', label: 'Provider Routing', entry: '002' },
   { id: 'anchor', label: 'Creative Anchor', entry: '002' },
   { id: 'pre-storyboard-authority', label: 'Pre-Storyboard Authority', entry: '002' },
+  { id: 'final-cinematic-storyboard', label: 'Final Storyboard', entry: '002' },
   { id: 'storyboard-authority', label: 'Storyboard Authority', entry: '002' },
   { id: 'storyboard-review', label: 'Storyboard Review', entry: '002' },
   { id: 'cinematic-sequence', label: 'Cinematic Sequence', entry: '002' },
@@ -322,6 +325,8 @@ function Entry002Section({
       );
     case 'pre-storyboard-authority':
       return <ExpressionEnginePreStoryboardAuthorityPanel />;
+    case 'final-cinematic-storyboard':
+      return <ExpressionEngineFinalCinematicStoryboardPanel />;
     case 'storyboard-authority':
       return <ExpressionEngineStoryboardAuthorityPanel />;
     case 'storyboard-review':
