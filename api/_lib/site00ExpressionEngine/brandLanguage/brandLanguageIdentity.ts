@@ -15,6 +15,7 @@ import {
   NDXBOOK_REGRESSION_IDENTITY,
   VERDANT_ROW_IDENTITY,
 } from './multiBrandBlindFixtures.js';
+import { deriveMeridianBrandLanguageIdentity, MERIDIAN_ATELIER_BRAND_ID } from './c19BlindBrandFixture.js';
 
 const ALL_KNOWN_IDENTITIES = [...MULTI_BRAND_BLIND_FIXTURES, VERDANT_ROW_IDENTITY, NDXBOOK_REGRESSION_IDENTITY];
 
@@ -29,6 +30,11 @@ export function deriveBrandLanguageIdentity(args: {
 }): BrandLanguageIdentity {
   const fixture = ALL_KNOWN_IDENTITIES.find((b) => b.brandId === args.brandId);
   if (fixture) return { ...fixture, brandName: args.brandName || fixture.brandName };
+
+  if (args.brandId === MERIDIAN_ATELIER_BRAND_ID) {
+    const meridian = deriveMeridianBrandLanguageIdentity();
+    return { ...meridian, brandName: args.brandName || meridian.brandName, sourceLineage: args.evidence ?? meridian.sourceLineage };
+  }
 
   if (args.projectId === 'ndxbook') {
     return { ...NDXBOOK_REGRESSION_IDENTITY, brandName: args.brandName };

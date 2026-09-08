@@ -6464,3 +6464,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Tests** — `site00ExpressionEngineSprintC18.test.ts` (32 tests); C17/C16 regression green
 - **Next founder action:** FOUNDER REVIEWS MULTI-BRAND COPY BLIND TEST WITHOUT BRAND NAMES FIRST — identify which caption belongs to which brand by language alone
 
+---
+
+## 2026-09-08 — Sprint C1.9 — Live Creative Intelligence Activation + Production Proof
+
+- **Context:** C1.8 architecture existed but FULL_REASONING never ran live, BrandLanguageIdentity was session-only, copy unproven on fresh multi-unit campaign. C1.9 adds Meridian Atelier blind brand, Supabase brand-language persistence, production proof orchestrator, system inspector, founder-action Supabase wiring.
+- **Delivered:** `brandLanguageSupabaseStore.ts`, `c19BlindBrandFixture.ts`, `c19GenericCampaignArchitect.ts`, `runC19LiveProductionProof.ts`, `creativeSystemInspector.ts`, migration `20260908200000_site00_brand_language_persistence.sql` applied; Meridian-native copy in `campaignCopyDirector.ts`; API `?phase=C1.9`; System Inspector UI; C19 tests 30/30.
+- **Live status:** `FULL_REASONING_LIVE_TEST_BLOCKED` (no ANTHROPIC_API_KEY in cloud). Supabase persistence PASS (copy + CI + brand language). Founder actions + multi-session PASS.
+- **Next founder action:** Configure ANTHROPIC_API_KEY on Railway, redeploy API, then review live Meridian Atelier campaign as real client work.
+

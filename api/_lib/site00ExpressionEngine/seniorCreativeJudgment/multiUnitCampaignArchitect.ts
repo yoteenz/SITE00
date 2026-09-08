@@ -63,10 +63,17 @@ type UnitSpec = {
 };
 
 function deriveTerritories(brief: ThinMultiUnitBrief): string[] {
+  if (brief.projectId === 'verdant-row') {
+    return [
+      `Guilt-as-data: ${brief.brandName} reframes plant death as diagnostic information`,
+      `Confession-first care: subscription begins with honest leaf assessment, not aspirational greenery`,
+      `Seasonal rescue rhythm: ${brief.launchContext} as permission to restart without performance`,
+    ];
+  }
   return [
-    `Guilt-as-data: ${brief.brandName} reframes plant death as diagnostic information`,
-    `Confession-first care: subscription begins with honest leaf assessment, not aspirational greenery`,
-    `Seasonal rescue rhythm: ${brief.launchContext} as permission to restart without performance`,
+    `${brief.brandName}: ${brief.brandTruth.slice(0, 90)}`,
+    `Audience tension — ${brief.targetAudience.slice(0, 70)}`,
+    `${brief.launchContext}: ${brief.campaignObjective.slice(0, 80)}`,
   ];
 }
 
@@ -75,41 +82,52 @@ function pickInitialWinner(territories: string[]): string {
 }
 
 function buildUnitSpecs(brief: ThinMultiUnitBrief, campaignIdea: string): UnitSpec[] {
+  const isVerdant = brief.projectId === 'verdant-row';
   return [
     {
       unitId: `${brief.briefId}-hero-reel`,
       medium: 'HERO_REEL',
       campaignRole: 'HERO',
       formatTarget: 'REEL',
-      conceptSeed: `${campaignIdea} — temporal discovery of guilt becoming curiosity through leaf diagnosis`,
+      conceptSeed: isVerdant
+        ? `${campaignIdea} — temporal discovery of guilt becoming curiosity through leaf diagnosis`
+        : `${campaignIdea} — temporal sensory discovery for ${brief.productOrService.slice(0, 60)}`,
     },
     {
       unitId: `${brief.briefId}-carousel`,
       medium: 'CAROUSEL',
       campaignRole: 'PROOF',
       formatTarget: 'CAROUSEL',
-      conceptSeed: `Seven-day rescue progression — each slide a different confession-to-action beat, not Reel frames`,
+      conceptSeed: isVerdant
+        ? `Seven-day rescue progression — each slide a different confession-to-action beat, not Reel frames`
+        : `Progressive proof sequence — each slide advances ${brief.brandTruth.slice(0, 50)} without repeating hero composition`,
     },
     {
       unitId: `${brief.briefId}-story`,
       medium: 'STORY_SEQUENCE',
       campaignRole: 'PARTICIPATION',
       formatTarget: 'STORY',
-      conceptSeed: `Tap-speed guilt loop — water reminder as emotional trigger, poll on "which leaf lied to you?"`,
+      conceptSeed: isVerdant
+        ? `Tap-speed guilt loop — water reminder as emotional trigger, poll on "which leaf lied to you?"`
+        : `Tap-speed ritual loop — participation mechanic native to ${brief.launchContext.slice(0, 40)}`,
     },
     {
       unitId: `${brief.briefId}-x-post`,
       medium: 'X_POST',
       campaignRole: 'SOCIAL_ARGUMENT',
       formatTarget: 'X',
-      conceptSeed: `Public provocation: plant care industry sells competence theater — ${brief.brandName} sells honest diagnostics`,
+      conceptSeed: isVerdant
+        ? `Public provocation: plant care industry sells competence theater — ${brief.brandName} sells honest diagnostics`
+        : `Public argument: category clichés vs ${brief.brandName} — ${brief.campaignObjective.slice(0, 60)}`,
     },
     {
       unitId: `${brief.briefId}-email`,
       medium: 'EMAIL',
       campaignRole: 'PERSUASION',
       formatTarget: 'EMAIL',
-      conceptSeed: `Long-form trust build — repot confession letter leading to trial, not recap of social assets`,
+      conceptSeed: isVerdant
+        ? `Long-form trust build — repot confession letter leading to trial, not recap of social assets`
+        : `Long-form persuasion — trust and conversion context social cannot carry for ${brief.productOrService.slice(0, 50)}`,
     },
     {
       unitId: `${brief.briefId}-alt-caption`,
@@ -123,8 +141,21 @@ function buildUnitSpecs(brief: ThinMultiUnitBrief, campaignIdea: string): UnitSp
 }
 
 function buildUnitRole(spec: UnitSpec, brief: ThinMultiUnitBrief, index: number): ContentUnitRole {
-  const before = index === 0 ? 'Shame about killing plants' : `Post-${index} audience state`;
-  const after = index === 0 ? 'Curiosity about diagnosable care' : `Escalated belief shift ${index + 1}`;
+  const isVerdant = brief.projectId === 'verdant-row';
+  const before = isVerdant
+    ? index === 0
+      ? 'Shame about killing plants'
+      : `Post-${index} audience state`
+    : index === 0
+      ? `Skepticism about ${brief.productOrService.slice(0, 40)}`
+      : `Post-${index} audience state`;
+  const after = isVerdant
+    ? index === 0
+      ? 'Curiosity about diagnosable care'
+      : `Escalated belief shift ${index + 1}`
+    : index === 0
+      ? 'Curiosity about craft-led private luxury'
+      : `Escalated belief shift ${index + 1}`;
   return {
     unitId: spec.unitId,
     medium: spec.medium,

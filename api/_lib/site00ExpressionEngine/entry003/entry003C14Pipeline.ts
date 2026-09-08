@@ -242,3 +242,10 @@ export async function bootstrapC18BrandTrueCopyIntelligence(): Promise<{
     falDispatchCount: 0,
   };
 }
+
+export async function bootstrapC19LiveCreativeIntelligence(): Promise<
+  Awaited<ReturnType<typeof import('../runC19LiveProductionProof.js').runC19LiveProductionProof>>
+> {
+  const { runC19LiveProductionProof } = await import('../runC19LiveProductionProof.js');
+  return runC19LiveProductionProof();
+}
