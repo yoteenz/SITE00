@@ -10,6 +10,7 @@ import {
   site00ProjectContentOperationsCampaignBoardPath,
   site00ProjectContentOperationsPath,
   site00ProjectContentOperationsPerformancePath,
+  site00ProjectCampaignBoardEntryPath,
   site00ProjectCulturalIntelligencePath,
   site00ProjectExperimentsPath,
   site00ProjectExpressionEngineCampaignPath,
@@ -161,6 +162,22 @@ export function MobileCampaignBoardScreen({ projectSlug }: ScreenProps) {
       </div>
 
       <ExpressionEngineMobileCampaignCard projectSlug={projectSlug} />
+
+      <Link
+        to={site00ProjectCampaignBoardEntryPath(projectSlug, '001')}
+        className="site00-fws-mobile-campaign__expr-card site00-fws-mobile-campaign__entry001-card"
+      >
+        <div className="site00-fws-mobile-campaign__expr-head">
+          <p className="site00-fws-mobile-campaign__expr-kicker">ENTRY 001 · CAMPAIGN PACKAGE</p>
+          <span className="site00-fws-mobile-campaign__expr-arrow" aria-hidden>
+            →
+          </span>
+        </div>
+        <p className="site00-fws-mobile-campaign__expr-title">WHO TF IS WE?</p>
+        <p className="site00-fws-mobile-campaign__expr-meta">BRITNEY SPEARS / MEDIA COMPLICITY</p>
+        <p className="site00-fws-mobile-campaign__expr-meta">ARCHIVE CAPTURED · PACKAGE INCOMPLETE</p>
+        <p className="site00-fws-mobile-campaign__expr-cta">OPEN PACKAGE →</p>
+      </Link>
 
       <h3 className="site00-fws-mobile-campaign__schedule-label">SCHEDULE OVERVIEW</h3>
       <div

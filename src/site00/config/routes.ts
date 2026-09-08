@@ -86,6 +86,7 @@ export const SITE00_ROUTES = {
   projectContentOperations: '/projects/:projectSlug/content-operations',
   projectContentOperationsPerformance: '/projects/:projectSlug/content-operations/performance',
   projectContentOperationsCampaignBoard: '/projects/:projectSlug/content-operations/campaign-board',
+  projectCampaignBoardEntry: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber',
   projectExpressionEngineCampaign: '/projects/:projectSlug/content-operations/expression-engine',
   projectFounderCreativeIngestion: '/projects/:projectSlug/content-operations/founder-creative-ingest',
   projectFilmProduction: '/projects/:projectSlug/content-operations/film-production',
@@ -309,6 +310,10 @@ export function site00ProjectContentOperationsPerformancePath(projectSlug: strin
 
 export function site00ProjectContentOperationsCampaignBoardPath(projectSlug: string): string {
   return `/projects/${projectSlug}/content-operations/campaign-board`;
+}
+
+export function site00ProjectCampaignBoardEntryPath(projectSlug: string, entryNumber: string): string {
+  return `/projects/${projectSlug}/content-operations/campaign-board/entry/${entryNumber}`;
 }
 
 export function site00ProjectExpressionEngineCampaignPath(projectSlug: string): string {
