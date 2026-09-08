@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ProjectModuleId } from '../../../../shared/site00-projects/projectModules.js';
 import { PROJECT_MODULE_CONFIGS, projectModulePath } from '../../../../shared/site00-projects/projectModules.js';
@@ -6,6 +6,7 @@ import type { GeneralizedProjectOperatingState } from '../../../../shared/site00
 import type { ProjectCodebaseIntelligence } from '../../../../shared/site00-projects/technical/types.js';
 import type { ProjectTechnicalTabId } from '../../../../shared/site00-projects/technical/types.js';
 import { projectHasTechnicalIntelligenceCapability } from '../../../../shared/site00-projects/technical/projectRepositoryRegistry.js';
+import { getProjectEvolveAdapter } from '../../../../shared/site00-projects/evolve/projectEvolveAdapterRegistry.js';
 import { ProjectOperatingHeader } from './ProjectOperatingHeader.js';
 import { ProjectModuleDesktopNav } from './ProjectModuleDesktopNav.js';
 import { ProjectModuleSwitcher } from './ProjectModuleSwitcher.js';
@@ -15,12 +16,12 @@ import {
   ProjectOverviewModule,
   ProjectIdentityModule,
   ProjectBuilderModule,
-  ProjectEvolveModule,
   ProjectProductionModule,
   ProjectReviewsModule,
   ProjectLibraryModule,
   ProjectMoreModule,
 } from './ProjectModulePanels.js';
+import { ProjectEvolveModuleSurface } from './ProjectEvolveModuleSurface.js';
 import {
   PROJECT_TECHNICAL_SUBNAV,
   ProjectTechnicalPanelRouter,
@@ -33,14 +34,16 @@ type ProjectOperatingShellProps = {
   currentModule: ProjectModuleId;
   operatingState: GeneralizedProjectOperatingState;
   visibleModules: ProjectModuleId[];
-  ndxEvolveContent?: ReactNode;
   ndxOverviewContent?: ReactNode;
   technicalIntelligence?: ProjectCodebaseIntelligence | null;
   technicalState?: 'idle' | 'loading' | 'ready' | 'error';
   onTechnicalSync?: () => void;
 };
 
-function defaultSubnav(moduleId: ProjectModuleId): string {
+function defaultSubnav(projectSlug: string, moduleId: ProjectModuleId): string {
+  if (moduleId === 'EVOLVE') {
+    return getProjectEvolveAdapter(projectSlug).getDefaultSubnavId();
+  }
   return PROJECT_MODULE_CONFIGS[moduleId].mobileSubnav[0]?.id ?? 'SNAPSHOT';
 }
 
@@ -49,7 +52,6 @@ export function ProjectOperatingShell({
   currentModule,
   operatingState,
   visibleModules,
-  ndxEvolveContent,
   ndxOverviewContent,
   technicalIntelligence,
   technicalState = 'idle',
@@ -62,11 +64,25 @@ export function ProjectOperatingShell({
     operatingState.capabilityManifest.enabledCapabilities,
   );
   const [activeTechnicalTab, setActiveTechnicalTab] = useState<ProjectTechnicalTabId>('OVERVIEW');
-  const [activeSubnav, setActiveSubnav] = useState(() => defaultSubnav(currentModule));
+  const evolveAdapter = useMemo(() => getProjectEvolveAdapter(projectSlug), [projectSlug]);
+  const evolveSubnav = useMemo(
+    () => (currentModule === 'EVOLVE' ? evolveAdapter.getSubnav(projectSlug) : undefined),
+    [currentModule, evolveAdapter, projectSlug],
+  );
+  const evolveSubnavOverflow = useMemo(
+    () => (currentModule === 'EVOLVE' ? evolveAdapter.getSubnavOverflow?.(projectSlug) : undefined),
+    [currentModule, evolveAdapter, projectSlug],
+  );
+
+  const [activeSubnav, setActiveSubnav] = useState(() => defaultSubnav(projectSlug, currentModule));
+
+  useEffect(() => {
+    setActiveSubnav(defaultSubnav(projectSlug, currentModule));
+  }, [projectSlug, currentModule]);
 
   const handleModuleSelect = useCallback(
     (moduleId: ProjectModuleId) => {
-      setActiveSubnav(defaultSubnav(moduleId));
+      setActiveSubnav(defaultSubnav(projectSlug, moduleId));
       navigate(projectModulePath(projectSlug, moduleId));
     },
     [navigate, projectSlug],
@@ -125,9 +141,6 @@ export function ProjectOperatingShell({
     if (projectSlug === 'ndxbook' && currentModule === 'OVERVIEW' && ndxOverviewContent && viewMode === 'FOUNDER') {
       return ndxOverviewContent;
     }
-    if (projectSlug === 'ndxbook' && currentModule === 'EVOLVE' && ndxEvolveContent && viewMode === 'FOUNDER') {
-      return ndxEvolveContent;
-    }
 
     const props = { operatingState, activeSubnav };
     switch (currentModule) {
@@ -138,7 +151,13 @@ export function ProjectOperatingShell({
       case 'BUILDER':
         return <ProjectBuilderModule {...props} />;
       case 'EVOLVE':
-        return <ProjectEvolveModule {...props} />;
+        return (
+          <ProjectEvolveModuleSurface
+            projectSlug={projectSlug}
+            operatingState={operatingState}
+            activeSubnav={activeSubnav}
+          />
+        );
       case 'PRODUCTION':
         return <ProjectProductionModule {...props} />;
       case 'REVIEWS':
@@ -155,8 +174,8 @@ export function ProjectOperatingShell({
     activeTechnicalTab,
     currentModule,
     isWide,
-    ndxEvolveContent,
     ndxOverviewContent,
+    evolveAdapter,
     onTechnicalSync,
     operatingState,
     projectSlug,
@@ -207,6 +226,8 @@ export function ProjectOperatingShell({
             moduleId={currentModule}
             activeSubnav={activeSubnav}
             onSubnavChange={setActiveSubnav}
+            subnavOverride={evolveSubnav}
+            subnavOverflowOverride={evolveSubnavOverflow}
           />
         ) : null}
       </div>

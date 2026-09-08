@@ -78,7 +78,7 @@ function buildNdxbookEntries(input: BuildProjectOperatingStateInput): ProjectEnt
       stageLabel: entry002Stage.replace(/_/g, ' '),
       needsFounderReview: false,
       isCanon: false,
-      href: `/projects/${input.projectId}/expression-engine/campaign`,
+      href: `/projects/${input.projectId}/content-operations/expression-engine`,
     },
     {
       entryId: 'entry-003',
@@ -89,7 +89,7 @@ function buildNdxbookEntries(input: BuildProjectOperatingStateInput): ProjectEnt
       stageLabel: entry003Stage.replace(/_/g, ' '),
       needsFounderReview: Boolean(ee?.entry003NeedsReview),
       isCanon: false,
-      href: `/projects/${input.projectId}/expression-engine/campaign`,
+      href: `/projects/${input.projectId}/content-operations/expression-engine`,
     },
   ];
 }
