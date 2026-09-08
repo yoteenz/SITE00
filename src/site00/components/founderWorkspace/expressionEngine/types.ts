@@ -128,11 +128,13 @@ export type C11CreativeDirectorResponse = {
 export type C12Entry003Response = {
   sprint: string;
   architectureLayer: string;
+  architectureStack?: string[];
   providerDispatchCount: 0;
   imageProviderDispatchCount: 0;
   videoProviderDispatchCount: 0;
   falDispatchCount: 0;
-  entry003Package: import('../../../../../shared/site00-expression-engine/entry-003/types.js').Entry003AutonomousPackage;
+  entry003Package: import('../../../../../shared/site00-expression-engine/entry-003/types.js').Entry003C14Package;
+  seniorCreativeJudgment?: import('../../../../../shared/site00-expression-engine/senior-creative-judgment/types.js').SeniorCreativeJudgmentOutput;
   nextAction: string;
 };
 

@@ -5169,6 +5169,54 @@
   color: #eee;
 }
 
+/* C1.4 — Senior Director Review */
+.site00-expr-engine-senior-review__grid {
+  display: grid;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.site00-expr-engine-senior-review__grid dt {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.site00-expr-engine-senior-review__grid dd {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #eee;
+}
+
+.site00-expr-engine-senior-review__tier {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 4px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.site00-expr-engine-senior-review__tier--exceptional {
+  color: #9ef;
+  border-color: rgba(153, 238, 255, 0.35);
+}
+
+.site00-expr-engine-senior-review__tier--strong {
+  color: #cf9;
+  border-color: rgba(204, 255, 153, 0.35);
+}
+
+.site00-expr-engine-senior-review__tier--valid {
+  color: #ccc;
+}
+
+.site00-expr-engine-senior-review__details {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #bbb;
+}
+
 .site00-expr-engine-workspace__tabs,
 .site00-expr-engine-workspace__sections {
   display: flex;
