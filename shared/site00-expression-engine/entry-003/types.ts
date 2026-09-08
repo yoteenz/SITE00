@@ -207,3 +207,74 @@ export type Entry003BootstrapResult = {
   entry003Package: Entry003AutonomousPackage;
   nextAction: string;
 };
+
+/** C1.3 — extended founder review judgments */
+export const ENTRY_003_C13_FOUNDER_JUDGMENTS = [
+  'UNREVIEWED',
+  'LOVE_IT',
+  'PUSH_FURTHER',
+  'TOO_SAFE',
+  'TOO_CLOSE',
+  'CHANGE_WORLD',
+  'CHANGE_ROLE',
+  'CHANGE_HANDOFF',
+  'CHANGE_ENDING',
+  'REVISE',
+  'NOT_FOR_ME',
+] as const;
+export type Entry003C13FounderJudgment = (typeof ENTRY_003_C13_FOUNDER_JUDGMENTS)[number];
+
+export const ENTRY_003_C13_GATE_ID = 'GATE_ENTRY_003_CINEMATIC_CONTINUITY_REVIEW' as const;
+
+export type Entry003EvolvedReviewCandidate = {
+  chapterStateBefore: import('../chapter-continuity/types.js').ChapterStateSnapshot;
+  handoffFromEntry002: import('../chapter-continuity/types.js').EntryHandoffPlan;
+  culturalRead: string;
+  deeperContradiction: string;
+  directorialConcepts: import('../chapter-continuity/types.js').DirectorialConcept[];
+  winningConcept: import('../chapter-continuity/types.js').DirectorialConcept;
+  whyItWins: string;
+  fullStory: string;
+  ndxRole: string;
+  subjectRole: string;
+  world: string;
+  artifact: string;
+  turn: string;
+  interjection: string;
+  climaxImage: string;
+  endingImage: string;
+  entry004Tease: import('../chapter-continuity/types.js').Entry004TeaseSeed;
+  visualAuthorityPlan: import('../creative-director/types.js').VisualAuthorityRequirement[];
+  formatImplications: Entry003FormatImplications;
+  selfCritique: string[];
+};
+
+export type Entry003C13Package = Entry003AutonomousPackage & {
+  sprint: 'C1.3_CINEMATIC_CONTINUITY_MASTER_DIRECTOR';
+  gateId: typeof ENTRY_003_C13_GATE_ID;
+  cinematicContinuity: import('../chapter-continuity/types.js').CinematicContinuityDirectorOutput;
+  marketingPackageMasterDirector: import('../campaign-narrative/types.js').MarketingPackageMasterDirectorOutput;
+  evolvedReview: Entry003EvolvedReviewCandidate;
+  interjectionCandidates: import('../chapter-continuity/types.js').InterjectionCandidateC13[];
+  titleCandidates: import('../chapter-continuity/types.js').TitleCandidateC13[];
+  top3Titles: import('../chapter-continuity/types.js').TitleCandidateC13[];
+  chapterStoryMap: import('../chapter-continuity/types.js').ChapterStoryMap;
+  chapterCohesionQA: import('../campaign-narrative/types.js').CampaignNarrativeCohesionQA;
+  architectureStack: string[];
+  shelfieMuseumSuperseded: boolean;
+  researchClaimsSoftened: boolean;
+};
+
+export type Entry003C13BootstrapResult = {
+  sprint: string;
+  architectureLayer: string;
+  architectureStack: string[];
+  providerDispatchCount: 0;
+  imageProviderDispatchCount: 0;
+  videoProviderDispatchCount: 0;
+  falDispatchCount: 0;
+  entry003Package: Entry003C13Package;
+  cinematicContinuityDirector: import('../chapter-continuity/types.js').CinematicContinuityDirectorOutput;
+  marketingPackageMasterDirector: import('../campaign-narrative/types.js').MarketingPackageMasterDirectorOutput;
+  nextAction: string;
+};
