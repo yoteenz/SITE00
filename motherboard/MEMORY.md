@@ -6538,3 +6538,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Copy intelligence:** Alt captions / WHY THIS COPY placeholders until C1.7/C1.8 wired to package preview inspector
 - **Next founder action:** OPEN ENTRY 001 → PREVIEW on mobile (390px): OVERVIEW → each format. Desktop 1440px: verify ASSETS → LIVE PREVIEW → COPY/DETAILS. Upload v198 ZIP to GoDaddy.
 
+---
+
+## 2026-09-08 — Sprint C1.9R3 — Post-Redeploy Live FULL_REASONING Execution
+
+- **Context:** C1.9R2 merged model fix but production blocked by `SITE00_CREATIVE_REASONING_FORCE_FALLBACK=1` on Railway (auth OK, dispatch 0). Health showed gitCommit 7df5017265a6, claude-sonnet-4-6.
+- **Root cause:** Railway keeps FORCE_FALLBACK for normal ops; C19R2 rejected acceptance before override. C19R3 adds `meridianLiveAcceptanceEnv` to temporarily clear fallback/mock for live proof only.
+- **Delivered:**
+  - `runC19R3MeridianLivePostRedeploy.ts` — deployment identity, env override, live acceptance gate
+  - `meridianLiveAcceptanceEnv.ts`, `deploymentIdentity.ts`
+  - API GET `?phase=C1.9R3`; UI loads C1.9R3 comparison
+  - Tests: `site00ExpressionEngineSprintC19R3.test.ts` (20/20)
+- **Production pre-run (before C19R3 deploy):** C1.9R2 returned FULL_REASONING_LIVE_TEST_BLOCKED, fallbackForced=true, fullReasoningRun=null, dispatch 0.
+- **Next founder action:** After Railway redeploy from main, hit `GET api.site00.com/.../expression-engine?phase=C1.9R3` (may take ~1–3 min). Open Expression Engine → MERIDIAN CONTROL vs FULL REASONING. Judge side-by-side without editing first.
+
