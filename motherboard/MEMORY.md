@@ -6703,3 +6703,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Tests:** `site00FounderWorkspaceSprintB59R6.test.ts` (21/21)
 - **Next founder action:** PROJECTS mobile → scroll past 05 ASTRAL WORLD → verify NEW PROJECT tile (no number, red plus) → tap CREATE PROJECT →.
 
+---
+
+## 2026-09-08 — C19R3 Meridian Live Retry (Anthropic credits restored)
+
+- **Context:** Founder topped up Anthropic credits and asked to retry C19R3 Meridian live job after prior `REASONING_PROVIDER_FAILURE` (credit balance too low).
+- **Retry:** POST `START_C19R3_MERIDIAN_LIVE_JOB` on `api.site00.com` → job `0a1beb7d-83ea-4892-b8f5-ca840bd20ffe` → completed ~116s with **`FULL_REASONING_LIVE_PASS`**.
+- **Evidence:** `runtimeMode: FULL_REASONING`, `model: claude-sonnet-4-6`, `creativeReasoningDispatchCount: 5`, `copyReasoningDispatchCount: 5`, `fullReasoningRun: full_reasoning_b-1788910035542`, `errors: []`. Railway still reports `forceFallbackActive: true` in baseline health (normal ops); C19R3 live acceptance env override cleared fallback for the proof run.
+- **Note:** First poll attempt lost job at ~63s (likely multi-instance 404); second job stayed sticky ~116s to completion. Poll up to ~2–3 min if UI shows RUNNING.
+- **Next founder action:** Expression Engine → Meridian comparison should load live FULL_REASONING run; record founder judgment if prompted.
+
