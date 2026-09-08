@@ -6554,6 +6554,22 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-08 — C1.9R3 async job polling (HTTP timeout fix)
+
+- **Context:** Founder asked to ship Option C — POST starts C19R3 Meridian live job, GET `?jobId=` polls result — to avoid Railway/gateway HTTP timeout on long FULL_REASONING runs (~1–3 min).
+- **Root cause:** `GET ?phase=C1.9R3` ran `bootstrapC19R3MeridianLivePostRedeploy()` synchronously in one request; proxies timed out before completion.
+- **Delivered:**
+  - `meridianLiveJobService.ts` — in-memory job store (QUEUED → RUNNING → COMPLETED)
+  - POST `action=START_C19R3_MERIDIAN_LIVE_JOB` → **202** + `jobId` + `pollPath` (returns immediately)
+  - GET `?phase=C1.9R3&jobId=…` → **202** while running, **200** + full payload + `view` when done
+  - GET without jobId → **202** `asyncRequired` (or latest completed cache)
+  - UI `loadC19R3MeridianComparisonViaJob.ts` — Expression Engine POST then poll (3s interval, 20min max)
+  - Tests: `site00ExpressionEngineSprintC19R3AsyncJob.test.ts` (3/3); handler integration POST instant, poll completes ~4.5s locally
+- **What this fixes:** HTTP timeout / 502 on long Meridian runs. **Does not fix** `FULL_REASONING_LIVE_PASS` if Railway lacks `ANTHROPIC_API_KEY` or keeps `SITE00_CREATIVE_REASONING_FORCE_FALLBACK=1` — that remains a separate env issue.
+- **Next founder action:** Redeploy Railway API from `main`. Open Expression Engine → Meridian comparison loads via background job (spinner/poll). If still blocked, check acceptance status in poll response — not gateway timeout.
+
+---
+
 ## 2026-09-08 — Sprint B5.9R1 — Universal Project Operating System + Founder/Client View Modes
 
 - **Context:** Founder approved PROJECT MODULE reference board as design authority. Replace first-generation project dossier with capability-driven operating system supporting distinct modules (Overview, Identity, Builder, Evolve, Production), per-module mobile subnav, module switcher, founder view-as-client QA mode, and project-specific capability manifests.

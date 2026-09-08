@@ -48,13 +48,18 @@ import {
   bootstrapC19LiveCreativeIntelligence,
   bootstrapC19R1MeridianLiveProof,
   bootstrapC19R2MeridianLiveAcceptance,
-  bootstrapC19R3MeridianLivePostRedeploy,
   applyEntry003FounderJudgment,
 } from '../_lib/site00ExpressionEngine/entry003/entry003Service.js';
 import {
   recordMeridianFounderJudgment,
   type MeridianComparisonFounderJudgment,
 } from '../_lib/site00ExpressionEngine/meridianLiveProofStore.js';
+import {
+  getMeridianLiveJob,
+  getLatestMeridianLiveJob,
+  serializeMeridianLiveJobPoll,
+  startC19R3MeridianLiveJob,
+} from '../_lib/site00ExpressionEngine/meridianLiveJobService.js';
 import { getChapterByNumber, getChapterGrammarForChapter } from '../_lib/site00ExpressionEngine/chapterStore.js';
 import { runChapterRepetitionQA } from '../_lib/site00ExpressionEngine/chapterRepetitionQA.js';
 import { CHAPTER_01_ID } from '../_lib/site00ExpressionEngine/chapter01Canon.js';
@@ -391,6 +396,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (
       req.method === 'POST' &&
+      action === 'START_C19R3_MERIDIAN_LIVE_JOB'
+    ) {
+      const job = startC19R3MeridianLiveJob();
+      return res.status(202).json({
+        ok: true,
+        jobId: job.jobId,
+        status: job.status,
+        phase: job.phase,
+        progressLabel: job.progressLabel,
+        pollPath: `/api/site00/expression-engine?phase=C1.9R3&jobId=${encodeURIComponent(job.jobId)}`,
+      });
+    }
+
+    if (
+      req.method === 'POST' &&
       action === 'SET_MERIDIAN_COMPARISON_JUDGMENT'
     ) {
       const founderJudgment = String(body.founderJudgment ?? '') as MeridianComparisonFounderJudgment;
@@ -547,8 +567,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       req.method === 'GET' &&
       (phase === 'C1.9R3' || phase === 'C19R3' || phase === 'MERIDIAN_LIVE_POST_REDEPLOY')
     ) {
-      const c19r3 = await bootstrapC19R3MeridianLivePostRedeploy();
-      return res.status(200).json(c19r3);
+      const jobId = String(req.query.jobId ?? '');
+      if (jobId) {
+        const job = getMeridianLiveJob(jobId);
+        if (!job) {
+          return res.status(404).json({ error: 'Meridian live job not found', jobId });
+        }
+        return res.status(job.status === 'COMPLETED' ? 200 : 202).json(serializeMeridianLiveJobPoll(job));
+      }
+
+      const latest = getLatestMeridianLiveJob();
+      if (latest && latest.status === 'COMPLETED' && latest.result) {
+        return res.status(200).json(serializeMeridianLiveJobPoll(latest));
+      }
+
+      return res.status(202).json({
+        asyncRequired: true,
+        message: 'POST START_C19R3_MERIDIAN_LIVE_JOB then poll GET ?phase=C1.9R3&jobId=…',
+        latestJob: latest ? serializeMeridianLiveJobPoll(latest) : null,
+      });
     }
 
     if (
