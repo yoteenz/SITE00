@@ -6241,3 +6241,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Initial state:** 10 approved archive assets; 5 missing deliverables; package INCOMPLETE; style continuity LOCKED; Campaign Board deployment LOCKED
 - **Next production action:** Founder confirms archive assets → compile derivation plan → choose generate vs manual supply for remaining deliverables (no auto FAL)
 
+---
+
+## 2026-09-08 — Sprint B5.3 — Entry 002 Expression Engine reference-fidelity rebuild
+
+- **Context:** Founder attached two mobile design authorities (REF 01 collapsed/default, REF 02 expanded accordions). Entry 002 page had cramped cards, text clipping, text-heavy accordion dumps, weak visual hierarchy vs new Entry 001 package page.
+- **Delivered:**
+  - **UI rebuild** — `ExpressionEngineReferenceMobileWorkspace` restructured: Entry summary + production journey + current stage + Choose How To Continue + 4-card derived content + 6 accordion sections (Visual Authorities inside accordion, not standalone)
+  - **New components** — `ReferenceChooseHowToContinue`, `ReferenceExpandedWorld`, `ReferenceExpandedContinuity`, `ReferenceExpandedHistory`, `ReferenceExpandedProductionIntelligence`, `ReferenceExpandedSystemInspector`; updated `ReferenceSupportingIntelligence` (status + chevron), `ReferenceVisualAuthorities` (5/5 count, preview modal), `ReferenceDerivedContent` (4 locked platform cards)
+  - **Spacing** — 16px page gutter, card padding, `overflow-x: hidden`, bottom nav safe-area; subtitle "IDEAS TO ASSETS. ASSETS TO IMPACT."
+  - **Canonical bindings preserved** — real Entry 002 title/subject, storyboard cost guard (auto-retry OFF, explicit POST), locked derived content at storyboard stage, no fake approvals
+  - **Removed from mobile primary view** — `FinalStoryboardWorkspace`, `ContinuityMap` prose dump, `ProductionIntelligence` list dump, legacy `HistoryPanel`/`SystemInspector` nested details
+  - **Tests** — `site00ExpressionEngineSprintB53.test.ts` (20/20 pass); build pass
+  - **PR** — #570 merged to `main`
+- **Route reviewed:** `/projects/ndxbook/content-operations/expression-engine` (mobile Expression Engine screen)
+- **Release:** `site00-deploy-2026-09-08-v182` · bundle `index.evvlk4tL.js`
+- **Next production action:** Founder deploys cPanel ZIP; on mobile verify collapsed + expanded accordion states vs REF 01/02; choose Generate or Import storyboard when ready (no auto-dispatch)
+
