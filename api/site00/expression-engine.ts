@@ -343,7 +343,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     ) {
       const dispatchFal = req.query.dispatchFal === '1' || body.dispatchFal === true;
       const forceDispatch = req.query.forceDispatch === '1' || body.forceDispatch === true;
-      const b49 = await bootstrapB49({ dispatchFal, forceDispatch });
+      const skipGeneration =
+        req.query.skipGeneration === '1' ||
+        body.skipGeneration === true ||
+        (!process.env.FAL_KEY &&
+          process.env.EXPRESSION_ENGINE_TEST_DETERMINISTIC_REEL_STORYBOARD !== '1' &&
+          process.env.NODE_ENV !== 'production');
+      const b49 = await bootstrapB49({ dispatchFal, forceDispatch, skipGeneration });
       return res.status(200).json(serializeFinalCinematicStoryboardResponse(b49));
     }
 
