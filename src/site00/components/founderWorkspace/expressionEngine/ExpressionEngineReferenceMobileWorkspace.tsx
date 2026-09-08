@@ -1,18 +1,13 @@
 /**
- * Reference-fidelity — mobile Expression Engine workspace (founder design authority).
+ * B5.3 — Reference-fidelity mobile Expression Engine workspace (founder design authority).
  */
 
 import { useCallback, useMemo, useState } from 'react';
 import { apiFetch } from '../../../../utils/api.js';
 import { site00ProjectContentOperationsCampaignBoardPath } from '../../../config/routes';
-import { ContinuityMap } from './ContinuityMap';
 import {
-  resolveCampaignBoardDerivedStatus,
   resolveSocialPackageReadiness,
 } from './derivedContentState';
-import { FormatChips } from './FormatChips';
-import { HistoryPanel } from './HistoryPanel';
-import { ProductionIntelligence } from './ProductionIntelligence';
 import {
   buildProductionJourney,
   resolveActiveJourneyStage,
@@ -21,16 +16,19 @@ import {
   derivedSocialStatusToJourneyStatus,
   socialPackageStatusToJourneyStatus,
 } from './socialPackageReadiness';
+import { ReferenceChooseHowToContinue } from './ReferenceChooseHowToContinue';
 import { ReferenceCurrentStageCard } from './ReferenceCurrentStageCard';
 import { ReferenceDerivedContent } from './ReferenceDerivedContent';
 import { ReferenceEntrySummary } from './ReferenceEntrySummary';
+import { ReferenceExpandedContinuity } from './ReferenceExpandedContinuity';
+import { ReferenceExpandedHistory } from './ReferenceExpandedHistory';
+import { ReferenceExpandedProductionIntelligence } from './ReferenceExpandedProductionIntelligence';
+import { ReferenceExpandedSystemInspector } from './ReferenceExpandedSystemInspector';
+import { ReferenceExpandedWorld } from './ReferenceExpandedWorld';
 import { ReferenceProductionJourney } from './ReferenceProductionJourney';
 import { ReferenceSupportingIntelligence } from './ReferenceSupportingIntelligence';
 import { ReferenceVisualAuthorities } from './ReferenceVisualAuthorities';
-import { SystemInspector } from './SystemInspector';
-import { ArtifactCard, CreativeAnchorCard, WorldCard } from './WorldArtifactCards';
 import { ExpressionEngineErrorState } from './ExpressionEngineErrorState';
-import { FinalStoryboardWorkspace } from './FinalStoryboardWorkspace';
 import {
   postGenerateFinalStoryboard,
   postImportFounderStoryboard,
@@ -101,10 +99,45 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
 
   const stageBadge = `${activeStage?.shortLabel ?? 'STORYBOARD'} ${activeStage?.status === 'ACTIVE' ? 'ACTIVE' : activeStage?.status ?? 'IN PROGRESS'}`;
 
+  const authorities = b48?.preStoryboardAuthorityPack.authorities ?? [];
+  const approvedAuthorityCount =
+    b48?.productionEligibility.approvedAuthorityCount ??
+    authorities.filter((a) => a.founderJudgment === 'LOVE_IT').length;
+  const requiredAuthorityCount = b48?.productionEligibility.requiredAuthorityCount ?? 5;
+
   const entryThumb =
-    b48?.preStoryboardAuthorityPack.authorities.find((a) => a.boardNumber === 4)?.previewUrl ??
-    b48?.preStoryboardAuthorityPack.authorities.find((a) => a.boardNumber === 1)?.previewUrl ??
+    authorities.find((a) => a.boardNumber === 4)?.previewUrl ??
+    authorities.find((a) => a.boardNumber === 2)?.previewUrl ??
+    authorities.find((a) => a.boardNumber === 1)?.previewUrl ??
     null;
+
+  const worldImageUrl =
+    authorities.find((a) => a.boardNumber === 1)?.previewUrl ?? entryThumb;
+
+  const costGuard = b49r4?.storyboardCostGuard;
+  const attemptCount = costGuard?.storyboardGenerationAttemptCount ?? 0;
+  const autoRetryOff = (costGuard?.storyboardAutoRetryCount ?? 0) === 0;
+
+  const providerRouting = useMemo(() => {
+    const reelRoute = blueprint?.providerRouting.find((r) => r.format === 'REEL');
+    if (reelRoute) return `${reelRoute.recommendedProvider} / ${reelRoute.recommendedModel}`.toUpperCase();
+    return 'GPT IMAGE 2 / FAL';
+  }, [blueprint]);
+
+  const historyCount = useMemo(() => {
+    let count = 0;
+    if (b49r4?.finalCinematicStoryboard) count += 1;
+    if (b49r4?.storyboard001Historical) count += 1;
+    if (b49r4?.storyboard002Historical) count += 1;
+    if (b49r4?.storyboard003Historical) count += 1;
+    if (b49r4?.storyboard004Historical) count += 1;
+    if (b49r4?.storyboard005Historical) count += 1;
+    if (b48?.cinematicSequence?.status) count += 1;
+    return count;
+  }, [b49r4, b48]);
+
+  const authorityApprovedAt =
+    authorities.find((a) => a.record?.approvedAt)?.record?.approvedAt ?? null;
 
   const handleGenerate = useCallback(async () => {
     setGenerating(true);
@@ -116,18 +149,15 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
     }
   }, [reload]);
 
-  const handleImport = useCallback(
-    async (variant: 'A' | 'B') => {
-      setImporting(true);
-      try {
-        await postImportFounderStoryboard(variant);
-        await reload();
-      } finally {
-        setImporting(false);
-      }
-    },
-    [reload],
-  );
+  const handleImport = useCallback(async () => {
+    setImporting(true);
+    try {
+      await postImportFounderStoryboard('A');
+      await reload();
+    } finally {
+      setImporting(false);
+    }
+  }, [reload]);
 
   const handlePrimaryAction = useCallback(() => {
     if (primaryActionLabel === 'GENERATE STORYBOARD') {
@@ -172,9 +202,6 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
   if (!phase2 || !blueprint) {
     return <p className="site00-ee-ref-loading">Failed to load workspace</p>;
   }
-  const campaignDerivedStatus = socialPackageReadiness
-    ? resolveCampaignBoardDerivedStatus(socialPackageReadiness)
-    : 'LOCKED';
 
   const stageTitle =
     activeStageId === 'STORYBOARD'
@@ -186,6 +213,20 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
       ? 'Shot list, sequence, and pacing for final reel.'
       : 'Active production stage workspace.';
 
+  const showChoosePaths =
+    activeStageId === 'STORYBOARD' &&
+    !b49r4?.finalStoryboardReviewGate.active &&
+    (!b49r4?.finalCinematicStoryboard?.storyboardStripUrl ||
+      b49r4.finalCinematicStoryboard.status === 'PIPELINE_TEST_ONLY' ||
+      b49r4.finalCinematicStoryboard.status === 'STORYBOARD_REQUIRES_FOUNDER_DECISION');
+
+  const worldStatus = blueprint.territoryLockStatus === 'TERRITORY_LOCKED' ? 'DEFINED' : 'TO BE DEFINED';
+  const continuityStatus = preStoryboardComplete ? 'ANALYZED' : 'TO BE ANALYZED';
+  const prodIntelStatus = phase2.readiness002.ready ? 'READY' : 'PENDING';
+  const authoritiesStatus = preStoryboardComplete
+    ? `${approvedAuthorityCount} / ${requiredAuthorityCount} APPROVED`
+    : 'TO BE GENERATED';
+
   return (
     <div className="site00-ee-ref-root">
       <ReferenceEntrySummary
@@ -194,6 +235,8 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
         subject="2016 IG BADDIE FASHION"
         stageBadge={stageBadge}
         thumbnailUrl={entryThumb}
+        createdLabel="SEP 8, 2026"
+        updatedLabel="TODAY"
       />
 
       <ReferenceProductionJourney stages={journey} />
@@ -209,100 +252,106 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
         judging={judging}
       />
 
-      {activeStageId === 'STORYBOARD' && b49r4 ? (
-        <FinalStoryboardWorkspace
-          data={b49r4}
-          onJudgment={submitJudgment}
-          judging={judging}
-          onGenerate={handleGenerate}
-          onImport={handleImport}
+      {showChoosePaths ? (
+        <ReferenceChooseHowToContinue
+          attemptCount={attemptCount}
+          providerLabel={providerRouting}
+          autoRetryOff={autoRetryOff}
+          onGenerate={() => void handleGenerate()}
+          onImport={() => void handleImport()}
           generating={generating}
           importing={importing}
+          generateDisabled={generating || importing}
         />
       ) : null}
 
-      <ReferenceDerivedContent
-        cards={derivedCards}
-        readiness={socialPackageReadiness!}
-        campaignBoardPath={campaignPath}
-        campaignStatus={campaignDerivedStatus}
-      />
-
-      {b48 ? (
-        <ReferenceVisualAuthorities
-          authorities={b48.preStoryboardAuthorityPack.authorities}
-          allApproved={b48.gateSatisfaction.satisfied}
-        />
-      ) : null}
+      <ReferenceDerivedContent cards={derivedCards} />
 
       <ReferenceSupportingIntelligence
         sections={[
           {
+            id: 'authorities',
+            label: 'VISUAL AUTHORITIES',
+            status: authoritiesStatus,
+            content: b48 ? (
+              <ReferenceVisualAuthorities
+                authorities={authorities}
+                approvedCount={approvedAuthorityCount}
+                requiredCount={requiredAuthorityCount}
+                showHeader={false}
+              />
+            ) : (
+              <p className="site00-ee-ref-support__empty">Authority pack loading…</p>
+            ),
+          },
+          {
             id: 'world',
             label: 'WORLD',
-            content: (
-              <div className="site00-ee-ref-support__stack">
-                <WorldCard blueprint={blueprint} />
-                <ArtifactCard blueprint={blueprint} />
-                <CreativeAnchorCard blueprint={blueprint} />
-              </div>
-            ),
+            status: worldStatus,
+            content: <ReferenceExpandedWorld blueprint={blueprint} worldImageUrl={worldImageUrl} />,
           },
           {
             id: 'continuity',
             label: 'CONTINUITY',
-            content: <ContinuityMap entryId="ENTRY 002" blueprint={blueprint} />,
+            status: continuityStatus,
+            content: b48 ? (
+              <ReferenceExpandedContinuity authorities={authorities} />
+            ) : (
+              <p className="site00-ee-ref-support__empty">Continuity unavailable until authorities load.</p>
+            ),
           },
           {
             id: 'production',
             label: 'PRODUCTION INTELLIGENCE',
+            status: prodIntelStatus,
             content: (
-              <>
-                <ProductionIntelligence blueprint={blueprint} readiness={phase2.readiness002} />
-                {socialPackageReadiness ? (
-                  <FormatChips blueprint={blueprint} readiness={socialPackageReadiness} />
-                ) : null}
-              </>
+              <ReferenceExpandedProductionIntelligence
+                activeGate={`${activeStage?.shortLabel ?? 'STORYBOARD'} (${activeStage?.status === 'ACTIVE' ? 'IN PROGRESS' : activeStage?.status ?? 'ACTIVE'})`}
+                providerRouting={providerRouting}
+                attempts={`${attemptCount} / 4 (${Math.max(0, 4 - attemptCount)} REMAINING)`}
+                retryPolicy={autoRetryOff ? 'AUTOMATIC (OFF)' : 'AUTOMATIC (ON FAILURE)'}
+                dispatchMode="EXPLICIT FOUNDER ACTION"
+                readiness={phase2.readiness002.ready ? 'READY (ALL SYSTEMS NOMINAL)' : 'NOT READY'}
+                nextAction={nextAction}
+                onNextAction={primaryActionLabel.includes('GENERATE') ? () => void handleGenerate() : undefined}
+                nextActionDisabled={generating || importing}
+                nextActionLabel={
+                  primaryActionLabel.includes('GENERATE') ? 'GENERATE NEXT' : primaryActionLabel.replace(' STORYBOARD', '')
+                }
+              />
             ),
           },
           {
             id: 'history',
             label: 'HISTORY',
+            status: `${historyCount} ENTRIES`,
             content: (
-              <HistoryPanel b49r4={b49r4} cinematicSequenceStatus={b48?.cinematicSequence?.status} />
+              <ReferenceExpandedHistory
+                b49r4={b49r4}
+                cinematicSequenceStatus={b48?.cinematicSequence?.status}
+                authorityApprovedAt={authorityApprovedAt}
+              />
             ),
           },
           {
             id: 'inspector',
             label: 'SYSTEM INSPECTOR',
             content: (
-              <SystemInspector
-                rawPayload={{ phase2, b48, b49r4, technicalError: error }}
-                sections={[
+              <ReferenceExpandedSystemInspector
+                fields={[
+                  { label: 'ENTRY ID', value: phase2.entry002.id ?? 'NDX-ENTRY-002' },
+                  { label: 'CURRENT STAGE', value: activeStage?.shortLabel ?? 'STORYBOARD' },
+                  { label: 'GATE STATUS', value: pipeline?.activeGate.gateStatus ?? 'ACTIVE' },
                   {
-                    id: 'cost-guard',
-                    label: 'Storyboard cost guard',
-                    content: (
-                      <ul className="site00-ee-inspector__list">
-                        <li>Attempts: {b49r4?.storyboardCostGuard?.storyboardGenerationAttemptCount ?? 0}</li>
-                        <li>Provider dispatches: {b49r4?.storyboardCostGuard?.storyboardProviderDispatchCount ?? 0}</li>
-                        <li>Imports: {b49r4?.storyboardCostGuard?.storyboardImportedCount ?? 0}</li>
-                        <li>Auto-retry: {b49r4?.storyboardCostGuard?.storyboardAutoRetryCount ?? 0}</li>
-                      </ul>
-                    ),
+                    label: 'STORYBOARD STATUS',
+                    value: b49r4?.finalCinematicStoryboard?.status ?? pipeline?.finalStoryboard.status ?? 'IN PROGRESS',
                   },
                   {
-                    id: 'gates',
-                    label: 'Gate IDs',
-                    content: (
-                      <ul className="site00-ee-inspector__list">
-                        <li>Active gate: {pipeline?.activeGate.gateId}</li>
-                        <li>Stage: {pipeline?.activeProductionStep}</li>
-                        <li>Next: {nextAction}</li>
-                      </ul>
-                    ),
+                    label: 'DOWNSTREAM LOCK',
+                    value: finalReelApproved ? 'UNLOCKED' : 'LOCKED UNTIL REEL',
                   },
                 ]}
+                payload={{ phase2, b48, b49r4, technicalError: error }}
               />
             ),
           },

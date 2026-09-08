@@ -38,6 +38,7 @@ export function MobileExpressionEngineScreen({ projectSlug }: Props) {
       </nav>
 
       <h1 className="site00-fws-mobile-expr__page-title">EXPRESSION ENGINE</h1>
+      <p className="site00-fws-mobile-expr__page-subtitle">IDEAS TO ASSETS. ASSETS TO IMPACT.</p>
 
       <ExpressionEngineCampaignWorkspace projectSlug={projectSlug} layout="reference-mobile" />
     </div>
