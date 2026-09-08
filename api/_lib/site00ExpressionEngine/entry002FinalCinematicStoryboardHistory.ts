@@ -10,9 +10,12 @@ import {
   ENTRY_002_FINAL_CINEMATIC_STORYBOARD_002_VERSION,
   ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_ID,
   ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_VERSION,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_VERSION,
   ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_001_ID,
   ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_002_ID,
   ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_003_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_004_ID,
   buildEntry002FinalCinematicStoryboardPublicStripPath,
 } from '../../../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
 import { ENTRY_002_PRE_STORYBOARD_FOUNDER_APPROVALS } from './entry002PreStoryboardFounderApproval.js';
@@ -25,6 +28,78 @@ export const B49R2_PANEL_FANOUT_FAILURE_REASON = 'PANEL_FAN_OUT_INSTEAD_OF_SINGL
 
 export const B49R3_REEL_COHERENCE_FAILURE_REASON =
   'BOARD_CONTAINS_ISOLATED_BEAT_IMAGES_NOT_ONE_COHERENT_REEL_SEQUENCE' as const;
+
+export const B49R4_VISUAL_AUTHORITY_BINDING_FAILURE_REASON =
+  'APPROVED_AUTHORITY_IMAGES_NOT_VISUALLY_IMPLEMENTED_IN_RENDER' as const;
+
+export function buildStoryboard004HistoricalFailureRecord(): FinalCinematicStoryboardRecord {
+  const now = new Date().toISOString();
+  return {
+    storyboardId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID,
+    entryId: 'entry-002',
+    version: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_VERSION,
+    status: 'FAILED_VISUAL_AUTHORITY_BINDING',
+    founderJudgment: 'UNREVIEWED',
+    canon: false,
+    visualAuthority: false,
+    referenceOnly: true,
+    failureReason: B49R4_VISUAL_AUTHORITY_BINDING_FAILURE_REASON,
+    assetId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_004_ID,
+    sourceTreatmentId: 'NDX-ENTRY-002-REEL-TREATMENT-001',
+    authorityIds: ENTRY_002_PRE_STORYBOARD_FOUNDER_APPROVALS.map((a) => a.authorityId),
+    chapterId: CHAPTER_01_ID,
+    worldId: ENTRY_002_WORLD_ID,
+    continuityQaStatus: 'PASS',
+    structuralQaStatus: 'PASS',
+    duplicationQaStatus: 'PASS',
+    renderModeQaStatus: 'PASS',
+    reelCoherenceQaStatus: 'PASS',
+    boardTypeQaStatus: 'PASS',
+    visualAuthorityFidelityQaStatus: 'INVALID_FOR_FOUNDER_REVIEW',
+    readinessState: 'PIPELINE_TEST_ONLY',
+    generationMode: 'REEL_FIRST_SINGLE_ARTIFACT',
+    panelCount: 9,
+    panels: [],
+    panelManifest: [],
+    storyboardStripPath: buildEntry002FinalCinematicStoryboardPublicStripPath(
+      ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_004_ID,
+    ),
+    storyboardStripUrl: buildEntry002FinalCinematicStoryboardPublicStripPath(
+      ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_004_ID,
+    ),
+    compiled: true,
+    dispatched: false,
+    rendered: true,
+    assembled: false,
+    approved: false,
+    provider: 'deterministic-reel-storyboard-v1',
+    providerRequestId: null,
+    telemetry: {
+      storyboardCompileCount: 1,
+      storyboardDispatchCount: 0,
+      storyboardRenderCount: 1,
+      panelManifestCount: 16,
+      panelDispatchCount: 0,
+      panelRenderCount: 0,
+      reelConceptionCompileCount: 1,
+      selectedStoryboardMomentCount: 9,
+      requiredAuthorityImageCount: 5,
+      resolvedAuthorityImageCount: 5,
+      providerAuthorityImageInputCount: 0,
+      authorityImageIdsSentToProvider: [],
+      independentStoryboardPanelDispatchCount: 0,
+      independentStoryboardPanelRenderCount: 0,
+      visualAuthorityFidelityQaExecuted: false,
+      assembled: false,
+      compiled: true,
+      dispatched: false,
+      rendered: true,
+    },
+    createdAt: now,
+    updatedAt: now,
+    approvedAt: null,
+  };
+}
 
 export function buildStoryboard003HistoricalFailureRecord(): FinalCinematicStoryboardRecord {
   const now = new Date().toISOString();
@@ -49,6 +124,8 @@ export function buildStoryboard003HistoricalFailureRecord(): FinalCinematicStory
     renderModeQaStatus: 'PASS',
     reelCoherenceQaStatus: 'FAIL',
     boardTypeQaStatus: 'FAIL',
+    visualAuthorityFidelityQaStatus: 'NOT_RUN',
+    readinessState: 'PIPELINE_TEST_ONLY',
     generationMode: 'SINGLE_MULTI_PANEL_ARTIFACT',
     panelCount: 16,
     panels: [],
@@ -107,6 +184,8 @@ export function buildStoryboard002HistoricalFailureRecord(): FinalCinematicStory
     renderModeQaStatus: 'FAIL',
     reelCoherenceQaStatus: 'FAIL',
     boardTypeQaStatus: 'FAIL',
+    visualAuthorityFidelityQaStatus: 'NOT_RUN',
+    readinessState: 'PIPELINE_TEST_ONLY',
     generationMode: 'PANEL_FAN_OUT',
     panelCount: 16,
     panels: [],
@@ -168,6 +247,8 @@ export function buildStoryboard001HistoricalFailureRecord(): FinalCinematicStory
     renderModeQaStatus: 'FAIL',
     reelCoherenceQaStatus: 'FAIL',
     boardTypeQaStatus: 'FAIL',
+    visualAuthorityFidelityQaStatus: 'NOT_RUN',
+    readinessState: 'PIPELINE_TEST_ONLY',
     generationMode: 'COMPOSITE_ONLY',
     panelCount: 0,
     panels: [],

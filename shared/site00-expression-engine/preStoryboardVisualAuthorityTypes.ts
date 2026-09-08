@@ -82,7 +82,9 @@ export type FinalStoryboardEligibilityState =
   | 'AWAITING_FOUNDER_APPROVAL'
   | 'REVISION_REQUIRED'
   | 'GENERATION_FAILED'
-  | 'FAILED_STORYBOARD_STRUCTURE';
+  | 'FAILED_STORYBOARD_STRUCTURE'
+  | 'PIPELINE_TEST_ONLY'
+  | 'FAILED_VISUAL_AUTHORITY_BINDING';
 
 export type KeyframeEligibilityState =
   | 'BLOCKED'

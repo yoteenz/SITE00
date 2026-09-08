@@ -1,6 +1,6 @@
 /**
- * Sprint B4.9R3 — ONE reel-first storyboard image via ONE provider dispatch.
- * 3×3 grid of nine sequential stills from one imagined reel.
+ * Sprint B4.9R3/R4 — ONE reel-first storyboard image via ONE provider dispatch.
+ * B4.9R4: five approved authority images MUST be sent as provider reference inputs.
  */
 
 import { randomUUID } from 'node:crypto';
@@ -8,11 +8,12 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
 import type { Entry002ReelVisualConception } from '../../../shared/site00-expression-engine/finalCinematicStoryboardTypes.js';
+import type { Entry002StoryboardVisualAuthorityManifest } from '../../../shared/site00-expression-engine/finalCinematicStoryboardTypes.js';
 import {
   buildEntry002FinalCinematicStoryboardPublicStripPath,
   buildEntry002FinalCinematicStoryboardStripStoragePath,
-  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID,
-  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_004_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_005_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_005_ID,
   REEL_STORYBOARD_MOMENT_COUNT_TARGET,
 } from '../../../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
 import { buildFalImageInput } from '../../../shared/site00-visual-generation/falImageModels.js';
@@ -27,6 +28,11 @@ import { ENTRY_002_REEL_ID } from './entry002ReelShotPlan.js';
 import { FINAL_CINEMATIC_STORYBOARD_STAGE_LABEL } from './entry002FinalCinematicStoryboardDispatch.js';
 import type { FinalCinematicStoryboardBrief } from './entry002FinalCinematicStoryboardBrief.js';
 import { compileReelFirstStoryboardPrompt } from './entry002ReelStoryboardPrompt.js';
+import {
+  extractAuthorityImageIdsSentToProvider,
+  extractProviderReferenceUrlsFromManifest,
+  isDeterministicStoryboardProvider,
+} from './entry002StoryboardVisualAuthorityManifest.js';
 
 const SHEET_W = 1080;
 const SHEET_H = 1920;
@@ -44,11 +50,18 @@ export type ReelStoryboardArtifactTelemetry = {
   panelDispatchCount: number;
   panelRenderCount: number;
   storyboardCompileCount: number;
+  requiredAuthorityImageCount: number;
+  resolvedAuthorityImageCount: number;
+  providerAuthorityImageInputCount: number;
+  authorityImageIdsSentToProvider: string[];
+  independentStoryboardPanelDispatchCount: number;
+  independentStoryboardPanelRenderCount: number;
+  visualAuthorityFidelityQaExecuted: boolean;
 };
 
 export type ReelStoryboardArtifactResult = {
-  storyboardId: typeof ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID;
-  stripId: typeof ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_004_ID;
+  storyboardId: typeof ENTRY_002_FINAL_CINEMATIC_STORYBOARD_005_ID;
+  stripId: typeof ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_005_ID;
   generationMode: 'REEL_FIRST_SINGLE_ARTIFACT';
   compositeUrl: string;
   compositePath: string;
@@ -57,6 +70,9 @@ export type ReelStoryboardArtifactResult = {
   dispatched: boolean;
   rendered: boolean;
   actualFileExists: boolean;
+  pipelineTestOnly: boolean;
+  realProviderDispatch: boolean;
+  realProviderRender: boolean;
   telemetry: ReelStoryboardArtifactTelemetry;
   failure: string | null;
 };
@@ -68,6 +84,36 @@ function publicPathToDisk(publicPath: string): string {
 function allowDeterministicReelStoryboard(): boolean {
   return process.env.EXPRESSION_ENGINE_TEST_DETERMINISTIC_REEL_STORYBOARD === '1'
     || process.env.EXPRESSION_ENGINE_TEST_DETERMINISTIC_STORYBOARD === '1';
+}
+
+function baseTelemetry(params: {
+  narrativeBeatCount: number;
+  selectedStoryboardMomentCount: number;
+  manifest: Entry002StoryboardVisualAuthorityManifest;
+  providerAuthorityImageInputCount: number;
+}): ReelStoryboardArtifactTelemetry {
+  return {
+    reelConceptionCompileCount: 1,
+    narrativeBeatCount: params.narrativeBeatCount,
+    selectedStoryboardMomentCount: params.selectedStoryboardMomentCount,
+    storyboardPromptCompileCount: 1,
+    storyboardDispatchCount: 0,
+    storyboardRenderCount: 0,
+    storyboardCompileCount: 1,
+    panelManifestCount: params.narrativeBeatCount,
+    panelDispatchCount: 0,
+    panelRenderCount: 0,
+    requiredAuthorityImageCount: params.manifest.requiredAuthorityImageCount,
+    resolvedAuthorityImageCount: params.manifest.resolvedAuthorityImageCount,
+    providerAuthorityImageInputCount: params.providerAuthorityImageInputCount,
+    authorityImageIdsSentToProvider: extractAuthorityImageIdsSentToProvider(params.manifest).slice(
+      0,
+      params.providerAuthorityImageInputCount,
+    ),
+    independentStoryboardPanelDispatchCount: 0,
+    independentStoryboardPanelRenderCount: 0,
+    visualAuthorityFidelityQaExecuted: false,
+  };
 }
 
 async function renderDeterministicReelStoryboardSheet(
@@ -107,7 +153,10 @@ async function renderDeterministicReelStoryboardSheet(
   return sharp(svg).jpeg({ quality: 92 }).toBuffer();
 }
 
-async function dispatchFalReelStoryboard(prompt: string): Promise<{
+async function dispatchFalReelStoryboard(params: {
+  prompt: string;
+  referenceImageUrls: string[];
+}): Promise<{
   imageUrl: string;
   model: string;
   provider: string;
@@ -120,9 +169,10 @@ async function dispatchFalReelStoryboard(prompt: string): Promise<{
   fal.config({ credentials: falKey });
 
   const { model, input } = buildFalImageInput({
-    prompt,
+    prompt: params.prompt,
     aspectRatio: '9:16',
     outputFormat: 'webp',
+    referenceImageUrls: params.referenceImageUrls,
   });
 
   const result = (await fal.subscribe(model, { input: input as never, logs: false })) as {
@@ -133,10 +183,11 @@ async function dispatchFalReelStoryboard(prompt: string): Promise<{
   const imageUrl = result?.data?.images?.[0]?.url;
   if (!imageUrl) throw new Error('FAL returned no reel storyboard image');
 
+  const usedEdit = params.referenceImageUrls.length > 0;
   return {
     imageUrl,
     model,
-    provider: 'fal-gpt-image',
+    provider: usedEdit ? 'fal-gpt-image-edit' : 'fal-gpt-image',
     providerRequestId: result.requestId ?? result.request_id ?? `fal-${randomUUID()}`,
   };
 }
@@ -144,33 +195,35 @@ async function dispatchFalReelStoryboard(prompt: string): Promise<{
 export async function dispatchReelFirstStoryboardArtifact(params: {
   conception: Entry002ReelVisualConception;
   brief: FinalCinematicStoryboardBrief;
+  visualAuthorityManifest: Entry002StoryboardVisualAuthorityManifest;
   narrativeBeatCount: number;
   dispatchFal?: boolean;
   forceDispatch?: boolean;
+  skipAuthorityImageBinding?: boolean;
 }): Promise<ReelStoryboardArtifactResult> {
-  const stripId = ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_004_ID;
+  const stripId = ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_005_ID;
   const publicPath = buildEntry002FinalCinematicStoryboardPublicStripPath(stripId);
   const diskPath = publicPathToDisk(publicPath);
 
-  const telemetry: ReelStoryboardArtifactTelemetry = {
-    reelConceptionCompileCount: 1,
-    narrativeBeatCount: params.narrativeBeatCount,
-    selectedStoryboardMomentCount: params.conception.selectedStoryboardMoments.length,
-    storyboardPromptCompileCount: 1,
-    storyboardDispatchCount: 0,
-    storyboardRenderCount: 0,
-    storyboardCompileCount: 1,
-    panelManifestCount: params.narrativeBeatCount,
-    panelDispatchCount: 0,
-    panelRenderCount: 0,
-  };
+  const referenceImageUrls = params.skipAuthorityImageBinding
+    ? []
+    : extractProviderReferenceUrlsFromManifest(params.visualAuthorityManifest);
 
   const useDeterministic = allowDeterministicReelStoryboard();
   const shouldUseFal = !useDeterministic && (params.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim()));
 
-  if (!shouldUseFal && !useDeterministic) {
+  const providerAuthorityImageInputCount = shouldUseFal ? referenceImageUrls.length : 0;
+
+  const telemetry = baseTelemetry({
+    narrativeBeatCount: params.narrativeBeatCount,
+    selectedStoryboardMomentCount: params.conception.selectedStoryboardMoments.length,
+    manifest: params.visualAuthorityManifest,
+    providerAuthorityImageInputCount,
+  });
+
+  if (!params.visualAuthorityManifest.validated && !params.skipAuthorityImageBinding) {
     return {
-      storyboardId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID,
+      storyboardId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_005_ID,
       stripId,
       generationMode: 'REEL_FIRST_SINGLE_ARTIFACT',
       compositeUrl: publicPath,
@@ -180,8 +233,51 @@ export async function dispatchReelFirstStoryboardArtifact(params: {
       dispatched: false,
       rendered: false,
       actualFileExists: false,
+      pipelineTestOnly: true,
+      realProviderDispatch: false,
+      realProviderRender: false,
+      telemetry,
+      failure: params.visualAuthorityManifest.bindingFailureReason ?? 'Visual authority manifest invalid',
+    };
+  }
+
+  if (!shouldUseFal && !useDeterministic) {
+    return {
+      storyboardId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_005_ID,
+      stripId,
+      generationMode: 'REEL_FIRST_SINGLE_ARTIFACT',
+      compositeUrl: publicPath,
+      compositePath: publicPath,
+      provider: 'none',
+      providerRequestId: null,
+      dispatched: false,
+      rendered: false,
+      actualFileExists: false,
+      pipelineTestOnly: true,
+      realProviderDispatch: false,
+      realProviderRender: false,
       telemetry,
       failure: 'No provider configured — set FAL_KEY or EXPRESSION_ENGINE_TEST_DETERMINISTIC_REEL_STORYBOARD=1',
+    };
+  }
+
+  if (shouldUseFal && providerAuthorityImageInputCount !== 5) {
+    return {
+      storyboardId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_005_ID,
+      stripId,
+      generationMode: 'REEL_FIRST_SINGLE_ARTIFACT',
+      compositeUrl: publicPath,
+      compositePath: publicPath,
+      provider: 'fal-gpt-image-edit',
+      providerRequestId: null,
+      dispatched: false,
+      rendered: false,
+      actualFileExists: false,
+      pipelineTestOnly: false,
+      realProviderDispatch: false,
+      realProviderRender: false,
+      telemetry,
+      failure: 'VISUAL_AUTHORITY_BINDING_FAIL — five authority image references required before FAL dispatch',
     };
   }
 
@@ -196,8 +292,9 @@ export async function dispatchReelFirstStoryboardArtifact(params: {
       const prompt = compileReelFirstStoryboardPrompt({
         conception: params.conception,
         brief: params.brief,
+        visualAuthorityManifest: params.visualAuthorityManifest,
       });
-      const fal = await dispatchFalReelStoryboard(prompt);
+      const fal = await dispatchFalReelStoryboard({ prompt, referenceImageUrls });
       buffer = await downloadUrlToBuffer(fal.imageUrl);
       provider = fal.provider;
       model = fal.model;
@@ -233,28 +330,31 @@ export async function dispatchReelFirstStoryboardArtifact(params: {
         territoryId: ENTRY_002_TERRITORY_ID,
         worldId: ENTRY_002_WORLD_ID,
         assetId: stripId,
-        parentAssetId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID,
+        parentAssetId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_005_ID,
         provider,
         model,
         promptLineage: [
           FINAL_CINEMATIC_STORYBOARD_STAGE_LABEL,
-          'sprint-b4.9r3-reel-first-single-artifact',
+          'sprint-b4.9r4-visual-authority-binding',
         ],
         referenceLineage: [
           ENTRY_002_WORLD_ID,
           ENTRY_002_TERRITORY_ID,
           CHAPTER_01_ID,
           ENTRY_002_REEL_ID,
-          ...params.brief.authorityIds,
+          ...telemetry.authorityImageIdsSentToProvider,
         ],
         trackingState: 'TRACKED',
       });
     }
 
     telemetry.storyboardRenderCount = 1;
+    const pipelineTestOnly = isDeterministicStoryboardProvider(provider);
+    const realProviderDispatch = dispatched && !pipelineTestOnly;
+    const realProviderRender = telemetry.storyboardRenderCount === 1 && !pipelineTestOnly;
 
     return {
-      storyboardId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID,
+      storyboardId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_005_ID,
       stripId,
       generationMode: 'REEL_FIRST_SINGLE_ARTIFACT',
       compositeUrl: publicPath,
@@ -264,21 +364,27 @@ export async function dispatchReelFirstStoryboardArtifact(params: {
       dispatched,
       rendered: true,
       actualFileExists: true,
+      pipelineTestOnly,
+      realProviderDispatch,
+      realProviderRender,
       telemetry,
       failure: null,
     };
   } catch (err) {
     return {
-      storyboardId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID,
+      storyboardId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_005_ID,
       stripId,
       generationMode: 'REEL_FIRST_SINGLE_ARTIFACT',
       compositeUrl: publicPath,
       compositePath: publicPath,
-      provider: shouldUseFal ? 'fal-gpt-image' : 'deterministic-reel-storyboard-v1',
+      provider: shouldUseFal ? 'fal-gpt-image-edit' : 'deterministic-reel-storyboard-v1',
       providerRequestId: null,
       dispatched: shouldUseFal,
       rendered: false,
       actualFileExists: false,
+      pipelineTestOnly: !shouldUseFal,
+      realProviderDispatch: false,
+      realProviderRender: false,
       telemetry,
       failure: err instanceof Error ? err.message : 'Reel storyboard generation failed',
     };

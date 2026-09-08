@@ -257,18 +257,20 @@ export {
   bootstrapB49FinalCinematicStoryboardGeneration,
   bootstrapB49R,
   bootstrapB49R2,
-  bootstrapB49R3ReelFirstStoryboardRecovery,
-  bootstrapB49R3ReelFirstStoryboardRecovery as bootstrapB49R3,
+  bootstrapB49R3,
+  bootstrapB49R4VisualAuthorityBindingRecovery,
+  bootstrapB49R4VisualAuthorityBindingRecovery as bootstrapB49R4,
   recordFinalStoryboardFounderJudgment,
   resetFinalCinematicStoryboardStore,
   getFinalCinematicStoryboardRecord,
   getStoryboard001HistoricalRecord,
   getStoryboard002HistoricalRecord,
   getStoryboard003HistoricalRecord,
+  getStoryboard004HistoricalRecord,
   resetFinalCinematicStoryboardJudgmentStore,
   getFinalCinematicStoryboardJudgment,
   hasValidFinalCinematicStoryboard,
-} from './entry002B49R3Bootstrap.js';
+} from './entry002B49R4Bootstrap.js';
 export {
   applyPreStoryboardFounderJudgments,
 } from './preStoryboardFounderJudgment.js';

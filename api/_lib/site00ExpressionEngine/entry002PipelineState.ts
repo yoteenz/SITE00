@@ -113,9 +113,8 @@ export function resolveEntry002ProductionEligibility(params?: {
   if (valid) {
     keyframeEligibility =
       judgment === 'LOVE_IT' ? 'READY_FOR_GENERATION' : 'BLOCKED_PENDING_FINAL_STORYBOARD_APPROVAL';
-  } else if (generatedAttempt && allQaPassed) {
-    keyframeEligibility =
-      judgment === 'LOVE_IT' ? 'READY_FOR_GENERATION' : 'BLOCKED_PENDING_FINAL_STORYBOARD_APPROVAL';
+  } else if (generatedAttempt) {
+    keyframeEligibility = 'BLOCKED_PENDING_FINAL_STORYBOARD_APPROVAL';
   }
 
   return {
