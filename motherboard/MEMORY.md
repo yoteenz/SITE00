@@ -6405,3 +6405,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Combined:** 123 sprint tests pass; build pass; PR merged to main
 - **Next founder actions:** (A) VERIFY ENTRY 001 ON TWO SESSIONS/DEVICES after cPanel deploy; (B) REVIEW FRESH SOLSTICE AUDIO BLIND CAMPAIGN in Expression Engine C1.5 phase without rewriting first
 
+---
+
+## 2026-09-08 — Sprint C1.6 — Full Reasoning Proof + Multi-Unit Creative Globalization
+
+- **Context:** C1.5 left gaps: FULL_REASONING not proven live, SCJ only on entry-003, corrections/judgments memory-only, GenericCreativeJudgmentReview unwired, no multi-unit package architect. Sprint closes these without Entry 003 repair or visual providers.
+- **Delivered:**
+  - **Provider health + FULL_REASONING** — `checkCreativeReasoningProviderHealth()`, `SITE00_CREATIVE_REASONING_MOCK_FULL` for structured proof, max 1 retry, dispatch receipts
+  - **Multi-unit architect** — `multiUnitCampaignArchitect.ts`, `blindMultiUnitFixtures.ts` (Verdant Row — non-NDXBOOK, non-Solstice), 5 major units + lightweight utility
+  - **Package judgment** — `packageSeniorCreativeJudgment.ts`, `PackageCreativeQualityTier`, `PackageFounderHandholdingRisk`, `CampaignCreativeDNA`, package challenger, cohesion QA
+  - **All-unit MPMD** — `runSeniorJudgmentForAllMpmdUnits()` runs SCJ on every MPMD unit (entry-003 uses full cinematic input for regression)
+  - **Supabase persistence** — `creativeIntelligenceSupabaseStore.ts` wired via `creativeIntelligenceStore.ts` (MEMORY in VITEST; SUPABASE when schema + service role)
+  - **Correction scopes** — GLOBAL_METHOD, BRAND_METHOD, CAMPAIGN_METHOD, MEDIUM_METHOD, PROJECT_TASTE, CAMPAIGN_TASTE
+  - **UI** — `MultiUnitCreativePackageReview.tsx` wired in Expression Engine C1.6 phase (`?phase=C1.6`)
+  - **Tests** — `site00ExpressionEngineSprintC16.test.ts` (47/47 pass); C14/C15 regression green
+- **Status:** FULL_REASONING_PASS (mock/live when ANTHROPIC_API_KEY or MOCK_FULL); MULTI_UNIT_GLOBALIZATION_PASS; PERSISTENCE_PASS (adapter wired); UI_WIRING_PASS; live Anthropic proof blocked in cloud VM without key
+- **Next founder action:** FOUNDER REVIEWS THE FRESH FULL_REASONING MULTI-UNIT VERDANT ROW CAMPAIGN WITHOUT REWRITING IT FIRST — judge whether Studio World created a campaign worth producing with native medium expression per unit
+

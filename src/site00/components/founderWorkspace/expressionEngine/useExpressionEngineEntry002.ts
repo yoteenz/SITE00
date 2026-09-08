@@ -20,6 +20,7 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
   const [c1, setC1] = useState<C1NarrativeSynthesisResponse | null>(null);
   const [c11, setC11] = useState<import('./types.js').C11CreativeDirectorResponse | null>(null);
   const [c12, setC12] = useState<import('./types.js').C12Entry003Response | null>(null);
+  const [c16, setC16] = useState<import('./types.js').ExpressionEngineEntry002State['c16']>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [errorView, setErrorView] = useState<ReturnType<typeof translateExpressionEngineError>>(null);
@@ -29,13 +30,14 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
     setError(null);
     setErrorView(null);
     try {
-      const [p2, b48Res, b49Res, c1Res, c11Res, c12Res] = await Promise.all([
+      const [p2, b48Res, b49Res, c1Res, c11Res, c12Res, c16Res] = await Promise.all([
         expressionEngineApi.phase2(),
         apiFetch('/api/site00/expression-engine?phase=B48'),
         apiFetch('/api/site00/expression-engine?phase=B49R4&skipGeneration=1'),
         apiFetch('/api/site00/expression-engine?phase=C1'),
         apiFetch('/api/site00/expression-engine?phase=C1.1'),
         apiFetch('/api/site00/expression-engine?phase=C1.4'),
+        apiFetch('/api/site00/expression-engine?phase=C1.6'),
       ]);
 
       if (!b48Res.ok) {
@@ -65,6 +67,12 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
       } else {
         setC12(null);
       }
+      if (c16Res.ok) {
+        const body = (await c16Res.json()) as { multiUnitBlindCampaign: import('./MultiUnitCreativePackageReview.js').MultiUnitCampaignReviewData };
+        setC16(body);
+      } else {
+        setC16(null);
+      }
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : 'Failed to load Expression Engine';
       setError(msg);
@@ -87,6 +95,7 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
       c1,
       c11,
       c12,
+      c16,
       loading,
       error,
       errorView,
@@ -102,6 +111,7 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
     c1,
     c11,
     c12,
+    c16,
     loading,
     error,
     errorView,

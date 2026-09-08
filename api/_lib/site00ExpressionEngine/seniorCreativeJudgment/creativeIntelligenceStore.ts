@@ -1,8 +1,9 @@
 /**
- * C1.5 — Creative correction + senior judgment durable store (memory + Supabase-ready).
+ * C1.6 — Creative correction + senior judgment durable store (memory + Supabase).
  */
 
 import type { CreativeCorrectionRecord } from '../../../shared/site00-expression-engine/senior-creative-judgment/types.js';
+import type { CorrectionScope } from '../../../shared/site00-expression-engine/package-creative-judgment/types.js';
 import type { CreativeRuntimeMode } from './creativeReasoningProvider.js';
 import type { SeniorCreativeJudgmentOutput } from '../../../shared/site00-expression-engine/senior-creative-judgment/types.js';
 import {
@@ -10,6 +11,14 @@ import {
   listCreativeCorrectionPrinciples,
   resetCreativeCorrectionStore,
 } from './creativeCorrectionIntelligence.js';
+import { hasSupabaseServiceRole } from '../../supabase.js';
+import {
+  creativeIntelligenceSchemaExists,
+  upsertCreativeCorrectionToSupabase,
+  upsertSeniorJudgmentToSupabase,
+} from './creativeIntelligenceSupabaseStore.js';
+
+export type CreativeIntelligenceStoreMode = 'MEMORY' | 'SUPABASE';
 
 type PersistedJudgment = {
   judgmentId: string;
@@ -27,12 +36,30 @@ type PersistedJudgment = {
 
 const judgments: PersistedJudgment[] = [];
 const persistedCorrections: CreativeCorrectionRecord[] = [];
+let storeMode: CreativeIntelligenceStoreMode = 'MEMORY';
+
+export async function resolveCreativeIntelligenceStoreMode(): Promise<CreativeIntelligenceStoreMode> {
+  if (process.env.VITEST === 'true') return 'MEMORY';
+  if (!hasSupabaseServiceRole()) return 'MEMORY';
+  const exists = await creativeIntelligenceSchemaExists();
+  return exists ? 'SUPABASE' : 'MEMORY';
+}
+
+export function getCreativeIntelligenceStoreModeSync(): CreativeIntelligenceStoreMode {
+  return storeMode;
+}
 
 export function resetCreativeIntelligenceStore(): void {
   judgments.length = 0;
   persistedCorrections.length = 0;
+  storeMode = 'MEMORY';
   resetCreativeCorrectionStore();
   persistedCorrections.push(...listCreativeCorrectionPrinciples());
+}
+
+export async function initCreativeIntelligenceStore(): Promise<CreativeIntelligenceStoreMode> {
+  storeMode = await resolveCreativeIntelligenceStoreMode();
+  return storeMode;
 }
 
 export async function persistSeniorCreativeJudgment(args: {
@@ -51,6 +78,12 @@ export async function persistSeniorCreativeJudgment(args: {
     ...args,
     createdAt: new Date().toISOString(),
   });
+  if (storeMode === 'SUPABASE') {
+    await upsertSeniorJudgmentToSupabase({
+      ...args,
+      reasoningDepthLimited: args.runtimeMode !== 'FULL_REASONING',
+    });
+  }
 }
 
 export function listPersistedJudgments(): PersistedJudgment[] {
@@ -59,6 +92,9 @@ export function listPersistedJudgments(): PersistedJudgment[] {
 
 export async function persistCreativeCorrection(record: CreativeCorrectionRecord): Promise<void> {
   persistedCorrections.push(record);
+  if (storeMode === 'SUPABASE') {
+    await upsertCreativeCorrectionToSupabase(record);
+  }
 }
 
 export function listPersistedCorrections(): CreativeCorrectionRecord[] {
@@ -71,6 +107,8 @@ export function retrieveApplicableCorrectionPrinciples(args: {
   domains: string[];
 }): CreativeCorrectionRecord[] {
   return persistedCorrections.filter((c) => {
+    const scope = (c as CreativeCorrectionRecord & { scope?: CorrectionScope }).scope;
+    if (scope === 'PROJECT_TASTE' || scope === 'CAMPAIGN_TASTE') return false;
     const domainMatch = c.applicableDomains.some((d) =>
       args.domains.some((ad) => d.toLowerCase().includes(ad.split(' ')[0]!.toLowerCase())),
     );
@@ -84,10 +122,14 @@ export function retrieveApplicableCorrectionPrinciples(args: {
 export function seedCorrectionFromFounderFeedback(args: {
   surfaceFeedback: string;
   taxonomy: import('../../../shared/site00-expression-engine/senior-creative-judgment/types.js').CorrectionTaxonomyClass;
+  scope?: CorrectionScope;
 }): CreativeCorrectionRecord {
   const record = abstractFounderCorrection(args);
-  persistedCorrections.push(record);
-  return record;
+  const withScope = { ...record, scope: args.scope ?? 'GLOBAL_METHOD' } as CreativeCorrectionRecord & {
+    scope: CorrectionScope;
+  };
+  persistedCorrections.push(withScope);
+  return withScope;
 }
 
 resetCreativeIntelligenceStore();

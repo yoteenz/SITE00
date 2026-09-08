@@ -8,7 +8,7 @@ import type {
   SeniorCreativeJudgmentOutput,
 } from '../../../shared/site00-expression-engine/senior-creative-judgment/types.js';
 import type { CreativeRuntimeMode } from './creativeReasoningProvider.js';
-import { runCreativeReasoning, isCreativeReasoningProviderConfigured } from './creativeReasoningProvider.js';
+import { runCreativeReasoning, isCreativeReasoningProviderConfigured, checkCreativeReasoningProviderHealth } from './creativeReasoningProvider.js';
 import { runSeniorCreativeJudgment, runSeniorCreativeJudgmentFromConcept } from './seniorCreativeJudgmentEngine.js';
 import {
   persistSeniorCreativeJudgment,
@@ -16,7 +16,14 @@ import {
   listPersistedJudgments,
   listPersistedCorrections,
   retrieveApplicableCorrectionPrinciples,
+  initCreativeIntelligenceStore,
+  getCreativeIntelligenceStoreModeSync,
 } from './creativeIntelligenceStore.js';
+import {
+  runMultiUnitBlindCampaignPackage,
+  runSeniorJudgmentForAllMpmdUnits,
+  type MultiUnitBlindCampaignOutput,
+} from './multiUnitCampaignArchitect.js';
 import {
   SOLSTICE_AUDIO_LAUNCH_BRIEF,
   buildBlindCampaignResponsibility,
@@ -130,54 +137,37 @@ export async function runMarketingPackageMasterDirectorWithCreativeJudgment(args
   brandId?: string;
   campaignId?: string;
 }): Promise<MarketingPackageCreativeRuntimeOutput> {
+  await initCreativeIntelligenceStore();
   const mpmd = runMarketingPackageMasterDirector(args);
-  const continuity = runCinematicContinuityDirector();
-  const winning = continuity.masterFilmDirectorPass.concepts.find(
-    (c) => c.conceptName === continuity.masterFilmDirectorPass.winningConceptId,
-  )!;
 
-  const entry003Input: SeniorCreativeJudgmentInput = {
-    projectId: args?.brandId ?? 'ndxbook',
-    campaignId: args?.campaignId ?? 'ndxbook-chapter-01',
-    contentUnitId: 'entry-003',
-    formatTarget: 'REEL',
-    conceptName: winning.conceptName,
-    oneSentenceIdea: winning.oneSentenceFilmIdea,
-    thesis: continuity.masterFilmDirectorPass.deeperContradiction,
-    world: winning.world,
-    worldFunction: winning.worldFunction,
-    artifact: winning.artifact,
-    artifactFunction: winning.artifactFunction,
-    interjection: "YOU DIDN'T SKIP STEPS. YOU SKIPPED THE CAMERA.",
-    openingImage: winning.openingImage,
-    centralReveal: winning.centralReveal,
-    turningPoint: winning.turningPoint,
-    climaxImage: winning.climaxImage,
-    endingImage: winning.endingImage,
-    handoffOut: winning.handoffOutToEntry004Candidate,
-    entry004Tease: 'Wellness notification — non-canon seed',
-    deeperContradiction: continuity.masterFilmDirectorPass.deeperContradiction,
-    culturalRead: continuity.entry003Responsibility.whatEntryMustAdd,
-  };
+  const allRuns = await runSeniorJudgmentForAllMpmdUnits(mpmd, async (input, responsibility) =>
+    enrichJudgmentWithReasoning(input, responsibility),
+  );
 
-  const responsibility = continuity.entry003Responsibility.whatEntryMustAdd;
-  const entry003 = await enrichJudgmentWithReasoning(entry003Input, responsibility);
+  const seniorJudgmentRuns: UnitCreativeJudgmentRecord[] = allRuns.map((r) => ({
+    unitId: r.unitId,
+    judgment: r.judgment,
+    runtimeMode: r.runtimeMode,
+    reasoningDepthLimited: r.reasoningDepthLimited,
+  }));
 
-  const seniorJudgmentRuns: UnitCreativeJudgmentRecord[] = [
-    {
-      unitId: 'entry-003',
-      judgment: entry003.judgment,
-      runtimeMode: entry003.runtimeMode,
-      reasoningDepthLimited: entry003.reasoningDepthLimited,
-    },
-  ];
+  const totalDispatch = seniorJudgmentRuns.reduce(
+    (sum, r) => sum + (r.runtimeMode === 'FULL_REASONING' ? 1 : 0),
+    0,
+  );
+  const aggregateMode =
+    seniorJudgmentRuns.some((r) => r.runtimeMode === 'FULL_REASONING')
+      ? 'FULL_REASONING'
+      : seniorJudgmentRuns.some((r) => r.runtimeMode === 'HYBRID')
+        ? 'HYBRID'
+        : 'DETERMINISTIC_FALLBACK';
 
   return {
     ...mpmd,
     seniorJudgmentRuns,
-    creativeRuntimeMode: entry003.runtimeMode,
+    creativeRuntimeMode: aggregateMode,
     reasoningProviderConfigured: isCreativeReasoningProviderConfigured(),
-    textReasoningDispatchCount: entry003.dispatchCount,
+    textReasoningDispatchCount: totalDispatch,
   };
 }
 
@@ -234,3 +224,5 @@ export function getCreativeIntelligenceHistory(): {
 }
 
 export { persistCreativeCorrection, listPersistedCorrections, listPersistedJudgments };
+export { runMultiUnitBlindCampaignPackage, type MultiUnitBlindCampaignOutput };
+export { checkCreativeReasoningProviderHealth, initCreativeIntelligenceStore, getCreativeIntelligenceStoreModeSync };
