@@ -6176,3 +6176,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** Studio World mobile shell, all APIs, judgment writes, five real authority assets, storyboard state
 - **Route:** `/projects/ndxbook/content-operations/expression-engine` (mobile presentation via FounderWorkspaceShell)
 
+---
+
+## 2026-09-08 — Sprint B5.0R1 — Social Package Journey Reconciliation
+
+- **Context:** B5.0 journey incorrectly implied FINAL REEL → CAMPAIGN BOARD. Founder locked true downstream order: FINAL REEL → DERIVED SOCIAL CONTENT → SOCIAL PACKAGE → CAMPAIGN BOARD.
+- **Delivered:**
+  - **`socialPackageReadiness.ts`** — canonical `SocialPackageReadiness` (required/ready/approved/missing counts, `packageStatus`, `campaignBoardEligible`); derives required formats from blueprint `platformTranslations` + `formatExpressions` (CAROUSEL, STORY, X, TIKTOK)
+  - **Production journey** — 11 stages: added `DERIVED_SOCIAL_CONTENT` (SOCIALS) + `SOCIAL_PACKAGE` (PACKAGE) between FINAL REEL and CAMPAIGN; campaign eligibility from package completion only
+  - **Derived content** — expanded statuses (LOCKED, READY, IN_PROGRESS, AWAITING_REVIEW, APPROVED, REVISION_REQUIRED); state-driven from blueprint, not mocked
+  - **Components** — `DerivedContentWorkspace`, `CampaignBoardDestination` (DEPLOY SOCIAL PACKAGE / COMPLETE SOCIAL PACKAGE REQUIRED), `FormatChips` lineage (SOURCE → DERIVED → PACKAGE → DESTINATION), reference mobile derived section + package card
+  - **Tests** — `site00ExpressionEngineSprintB50R1.test.ts` (16); B50 tests updated for 11-stage journey
+  - **Browser QA** — mobile + desktop pass; journey shows SOCIALS/PACKAGE/CAMPAIGN; Campaign Board locked behind package
+- **Preserved:** B5.0 WORK/WORLD/CONTINUITY/FORMATS/PRODUCTION/HISTORY architecture; Entry 002 not artificially advanced (still B49R4 storyboard ACTIVE)
+- **Next production action:** Railway redeploy → FAL dispatch storyboard 005 (`?phase=B49R4&dispatchFal=1`) → founder LOVE_IT on visual-review-ready strip
+

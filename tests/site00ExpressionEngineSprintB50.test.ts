@@ -1,11 +1,11 @@
 /**
- * Reference-fidelity + journey tests.
+ * Reference-fidelity + journey tests (updated B5.0R1).
  */
 
 import { describe, expect, it } from 'vitest';
 import {
   buildDerivedContentCards,
-  resolveSocialPackageStatus,
+  resolveSocialPackageReadiness,
 } from '../src/site00/components/founderWorkspace/expressionEngine/derivedContentState';
 import {
   buildProductionJourney,
@@ -25,7 +25,6 @@ describe('B5.0 production journey', () => {
       finalStoryboardApproved: false,
       keyframeEligibility: 'BLOCKED',
       videoEligibility: 'BLOCKED',
-      campaignReady: false,
     });
     expect(stages.find((s) => s.id === 'COVER')?.status).toBe('APPROVED');
     expect(stages.find((s) => s.id === 'REEL_TREATMENT')?.status).toBe('APPROVED');
@@ -33,7 +32,7 @@ describe('B5.0 production journey', () => {
     expect(stages.find((s) => s.id === 'STORYBOARD')?.status).toBe('ACTIVE');
   });
 
-  it('includes SOCIAL PACKAGE between FINAL REEL and CAMPAIGN BOARD', () => {
+  it('includes SOCIALS and PACKAGE between FINAL REEL and CAMPAIGN BOARD', () => {
     const stages = buildProductionJourney({
       coverAuthority: 'APPROVED',
       reelTreatment: 'LOCKED',
@@ -44,9 +43,10 @@ describe('B5.0 production journey', () => {
       finalStoryboardApproved: false,
       keyframeEligibility: 'BLOCKED',
       videoEligibility: 'BLOCKED',
-      campaignReady: false,
       finalReelApproved: false,
+      derivedSocialStatus: 'LOCKED',
       socialPackageStatus: 'LOCKED',
+      campaignBoardEligible: false,
     });
     const ids = stages.map((s) => s.id);
     expect(ids).toEqual([
@@ -58,9 +58,11 @@ describe('B5.0 production journey', () => {
       'VIDEO',
       'ROUGH_CUT',
       'FINAL_REEL',
+      'DERIVED_SOCIAL_CONTENT',
       'SOCIAL_PACKAGE',
       'CAMPAIGN_BOARD',
     ]);
+    expect(stages.find((s) => s.id === 'DERIVED_SOCIAL_CONTENT')?.status).toBe('LOCKED');
     expect(stages.find((s) => s.id === 'SOCIAL_PACKAGE')?.status).toBe('LOCKED');
     expect(stages.find((s) => s.id === 'CAMPAIGN_BOARD')?.status).toBe('LOCKED');
   });
@@ -76,7 +78,6 @@ describe('B5.0 production journey', () => {
       finalStoryboardApproved: false,
       keyframeEligibility: 'BLOCKED',
       videoEligibility: 'BLOCKED',
-      campaignReady: false,
     });
     expect(resolveActiveJourneyStage(stages)).toBe('STORYBOARD');
   });
@@ -92,7 +93,6 @@ describe('B5.0 production journey', () => {
       finalStoryboardApproved: false,
       keyframeEligibility: 'BLOCKED',
       videoEligibility: 'BLOCKED',
-      campaignReady: false,
     });
     const pct = journeyProgressPercent(stages);
     expect(pct).toBeGreaterThan(15);
@@ -106,8 +106,13 @@ describe('derived content state', () => {
       { format: 'CAROUSEL', status: 'PLANNED' },
       { format: 'STORY', status: 'PLANNED' },
       { format: 'TIKTOK', status: 'PLANNED' },
+      { format: 'X', status: 'PLANNED' },
     ],
-    platformTranslations: [{ platform: 'X', sourceFormat: 'REEL', status: 'PLANNED' }],
+    platformTranslations: [
+      { platform: 'INSTAGRAM', sourceFormat: 'REEL', status: 'PLANNED' },
+      { platform: 'TIKTOK', sourceFormat: 'REEL', status: 'PLANNED' },
+      { platform: 'X', sourceFormat: 'CAROUSEL', status: 'PLANNED' },
+    ],
   } as never;
 
   it('locks derived formats until final reel approved', () => {
@@ -115,9 +120,11 @@ describe('derived content state', () => {
     expect(cards.every((c) => c.status === 'LOCKED')).toBe(true);
   });
 
-  it('unlocks to pending when final reel approved', () => {
+  it('unlocks to ready when final reel approved', () => {
     const cards = buildDerivedContentCards(blueprint, true);
-    expect(cards.some((c) => c.status === 'PENDING')).toBe(true);
-    expect(resolveSocialPackageStatus(cards, true)).toBe('PENDING');
+    expect(cards.some((c) => c.status === 'READY')).toBe(true);
+    const readiness = resolveSocialPackageReadiness(blueprint, true);
+    expect(readiness.packageStatus).toBe('INCOMPLETE');
+    expect(readiness.campaignBoardEligible).toBe(false);
   });
 });

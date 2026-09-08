@@ -1,12 +1,15 @@
 /**
- * Reference-fidelity — horizontal production journey rail.
+ * Reference-fidelity — horizontal production journey rail (B5.0R1 downstream stages).
  */
 
 import type { JourneyStage, JourneyStageStatus } from './productionJourney';
+import { getDownstreamJourneyStages } from './productionJourney';
 
 type Props = {
   stages: JourneyStage[];
   entryLabel?: string;
+  /** Collapse downstream group on narrow viewports */
+  collapseDownstream?: boolean;
 };
 
 function nodeClass(status: JourneyStageStatus, isCurrent: boolean): string {
@@ -16,8 +19,11 @@ function nodeClass(status: JourneyStageStatus, isCurrent: boolean): string {
   return `${base} ${base}--future`;
 }
 
-export function ReferenceProductionJourney({ stages, entryLabel = 'ENTRY 002' }: Props) {
+export function ReferenceProductionJourney({ stages, entryLabel = 'ENTRY 002', collapseDownstream = true }: Props) {
   const activeIndex = stages.findIndex((s) => s.status === 'ACTIVE' || s.status === 'READY' || s.status === 'FAILED');
+  const upstreamStages = stages.filter((s) => s.collapseGroup !== 'downstream');
+  const downstreamStages = getDownstreamJourneyStages(stages);
+  const displayStages = collapseDownstream ? [...upstreamStages, ...downstreamStages] : stages;
 
   return (
     <section className="site00-ee-ref-journey">
@@ -28,7 +34,7 @@ export function ReferenceProductionJourney({ stages, entryLabel = 'ENTRY 002' }:
       <div className="site00-ee-ref-journey__track-wrap">
         <div className="site00-ee-ref-journey__track" aria-hidden />
         <ol className="site00-ee-ref-journey__rail">
-          {stages.map((stage, i) => {
+          {displayStages.map((stage, i) => {
             const isCurrent = i === activeIndex || stage.status === 'ACTIVE';
             return (
               <li key={stage.id} className="site00-ee-ref-journey__step">

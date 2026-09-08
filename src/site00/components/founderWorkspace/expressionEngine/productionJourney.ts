@@ -1,5 +1,5 @@
 /**
- * B5.0 — Production journey stage mapping from canonical pipeline state.
+ * B5.0R1 — Production journey stage mapping from canonical pipeline state.
  */
 
 export type JourneyStageId =
@@ -11,6 +11,7 @@ export type JourneyStageId =
   | 'VIDEO'
   | 'ROUGH_CUT'
   | 'FINAL_REEL'
+  | 'DERIVED_SOCIAL_CONTENT'
   | 'SOCIAL_PACKAGE'
   | 'CAMPAIGN_BOARD';
 
@@ -29,6 +30,8 @@ export type JourneyStage = {
   label: string;
   shortLabel: string;
   status: JourneyStageStatus;
+  /** Mobile collapse group — downstream social stages share group "downstream" */
+  collapseGroup?: 'downstream';
 };
 
 export type PipelineJourneyInput = {
@@ -41,13 +44,14 @@ export type PipelineJourneyInput = {
   finalStoryboardApproved: boolean;
   keyframeEligibility: string;
   videoEligibility: string;
-  campaignReady: boolean;
   storyboardFailed?: boolean;
   finalReelApproved?: boolean;
+  derivedSocialStatus?: JourneyStageStatus;
   socialPackageStatus?: JourneyStageStatus;
+  campaignBoardEligible?: boolean;
 };
 
-const STAGE_DEFS: Array<{ id: JourneyStageId; label: string; shortLabel: string }> = [
+const STAGE_DEFS: Array<{ id: JourneyStageId; label: string; shortLabel: string; collapseGroup?: 'downstream' }> = [
   { id: 'COVER', label: 'Cover', shortLabel: 'COVER' },
   { id: 'REEL_TREATMENT', label: 'Reel Treatment', shortLabel: 'TREATMENT' },
   { id: 'VISUAL_AUTHORITIES', label: 'Visual Authorities', shortLabel: 'AUTHORITIES' },
@@ -56,8 +60,9 @@ const STAGE_DEFS: Array<{ id: JourneyStageId; label: string; shortLabel: string 
   { id: 'VIDEO', label: 'Video', shortLabel: 'VIDEO' },
   { id: 'ROUGH_CUT', label: 'Rough Cut', shortLabel: 'ROUGH CUT' },
   { id: 'FINAL_REEL', label: 'Final Reel', shortLabel: 'FINAL REEL' },
-  { id: 'SOCIAL_PACKAGE', label: 'Social Package', shortLabel: 'SOCIAL PACKAGE' },
-  { id: 'CAMPAIGN_BOARD', label: 'Campaign Board', shortLabel: 'CAMPAIGN BOARD' },
+  { id: 'DERIVED_SOCIAL_CONTENT', label: 'Derived Social Content', shortLabel: 'SOCIALS', collapseGroup: 'downstream' },
+  { id: 'SOCIAL_PACKAGE', label: 'Social Package', shortLabel: 'PACKAGE', collapseGroup: 'downstream' },
+  { id: 'CAMPAIGN_BOARD', label: 'Campaign Board', shortLabel: 'CAMPAIGN', collapseGroup: 'downstream' },
 ];
 
 function isStoryboardActive(step: string): boolean {
@@ -78,10 +83,11 @@ export function buildProductionJourney(input: PipelineJourneyInput): JourneyStag
     finalStoryboardApproved,
     keyframeEligibility,
     videoEligibility,
-    campaignReady,
     storyboardFailed,
     finalReelApproved,
+    derivedSocialStatus: inputDerivedSocialStatus,
     socialPackageStatus: inputSocialPackageStatus,
+    campaignBoardEligible,
   } = input;
 
   const reelApproved = finalReelApproved ?? false;
@@ -116,13 +122,18 @@ export function buildProductionJourney(input: PipelineJourneyInput): JourneyStag
   let finalReelStatus: JourneyStageStatus = reelApproved ? 'APPROVED' : 'LOCKED';
   if (!reelApproved && videoStatus === 'APPROVED') finalReelStatus = 'READY';
 
+  let derivedSocialStatus: JourneyStageStatus = inputDerivedSocialStatus ?? 'LOCKED';
+  if (!inputDerivedSocialStatus) {
+    if (reelApproved) derivedSocialStatus = 'READY';
+  }
+
   let socialStatus: JourneyStageStatus = inputSocialPackageStatus ?? 'LOCKED';
   if (!inputSocialPackageStatus) {
     if (reelApproved) socialStatus = 'PENDING';
   }
 
   let campaignStatus: JourneyStageStatus = 'LOCKED';
-  if (campaignReady) campaignStatus = 'READY';
+  if (campaignBoardEligible) campaignStatus = 'READY';
   else if (socialStatus === 'APPROVED') campaignStatus = 'PENDING';
 
   const statusById: Record<JourneyStageId, JourneyStageStatus> = {
@@ -134,6 +145,7 @@ export function buildProductionJourney(input: PipelineJourneyInput): JourneyStag
     VIDEO: videoStatus,
     ROUGH_CUT: roughCutStatus,
     FINAL_REEL: finalReelStatus,
+    DERIVED_SOCIAL_CONTENT: derivedSocialStatus,
     SOCIAL_PACKAGE: socialStatus,
     CAMPAIGN_BOARD: campaignStatus,
   };
@@ -169,4 +181,9 @@ export function journeyProgressPercent(stages: JourneyStage[]): number {
   const total = stages.length;
   const sum = stages.reduce((acc, s) => acc + weights[s.status], 0);
   return Math.round((sum / total) * 100);
+}
+
+/** Downstream social stages for mobile collapse display */
+export function getDownstreamJourneyStages(stages: JourneyStage[]): JourneyStage[] {
+  return stages.filter((s) => s.collapseGroup === 'downstream');
 }
