@@ -6141,3 +6141,22 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Hard stop:** Keyframes/video blocked until valid visual-review-ready storyboard + founder LOVE_IT
 - **Next production action:** Railway FAL dispatch (`?phase=B49R4&dispatchFal=1`) with five authority refs → visual fidelity QA PASS → founder review
 
+---
+
+## 2026-09-08 — Sprint B5.0 — Expression Engine workspace experience rebuild
+
+- **Context:** Founder identified Expression Engine Entry 002 UI as text-heavy debug-page experience — 15 equal pill tabs, buried production state, prose continuity dump, oversized authority attachments, no visible Campaign Board destination. First **EXPRESSION_ENGINE_SELF_APPLICATION** test: use production methodology to rebuild operator interface without removing intelligence.
+- **Delivered:**
+  - **Three-level hierarchy** — Entry Command Header → Production Journey (9 stages incl. Campaign Board) → Active Workspace + side Current Gate / Campaign destination
+  - **Navigation restructure** — WORK | WORLD | CONTINUITY | FORMATS | PRODUCTION | HISTORY (replaces 15 flat pills for Entry 002)
+  - **Artifact-first workspaces** — AuthorityGalleryWorkspace (carousel + summary), FinalStoryboardWorkspace (dominant strip + status chips + judgment), ContinuityMap (vertical visual chain), World/Artifact cards, Format chips
+  - **System Inspector** — collapsible raw JSON, gate IDs, provider routing telemetry
+  - **History panel** — failed storyboards 001–004 + pre-authority cinematic experiment moved out of active WORK view
+  - **Mobile-first CSS** — compact journey rail, responsive layout; desktop 3-column at 1200px+ (journey sidebar / center / gate panel)
+  - **Methodology doc** — `docs/EXPRESSION_ENGINE_SELF_APPLICATION.md` with 10 locked experience principles
+  - **API fixes** — `expressionEngineService.ts` re-export from `entry002B49Bootstrap.js` (fixed broken B48/B49R4 dev routing); B49R4 `skipGeneration=1` on workspace read load; auto skipGeneration in dev without FAL_KEY
+  - **Tests** — `site00ExpressionEngineSprintB50.test.ts` (4 journey mapping tests)
+  - **Live browser QA** — mobile + desktop pass; screenshots in `/opt/cursor/artifacts/b50-*.png`
+- **Preserved:** All routes, API calls, judgment writes, gate logic, backend state bindings — experience-only rebuild
+- **Next production action:** Railway redeploy → FAL dispatch storyboard 005 (`?phase=B49R4&dispatchFal=1`) → founder review LOVE_IT on visual-review-ready strip
+

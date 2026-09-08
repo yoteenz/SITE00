@@ -258,8 +258,7 @@ export {
   bootstrapB49R,
   bootstrapB49R2,
   bootstrapB49R3,
-  bootstrapB49R4VisualAuthorityBindingRecovery,
-  bootstrapB49R4VisualAuthorityBindingRecovery as bootstrapB49R4,
+  bootstrapB49R4,
   recordFinalStoryboardFounderJudgment,
   resetFinalCinematicStoryboardStore,
   getFinalCinematicStoryboardRecord,
@@ -270,7 +269,7 @@ export {
   resetFinalCinematicStoryboardJudgmentStore,
   getFinalCinematicStoryboardJudgment,
   hasValidFinalCinematicStoryboard,
-} from './entry002B49R4Bootstrap.js';
+} from './entry002B49Bootstrap.js';
 export {
   applyPreStoryboardFounderJudgments,
 } from './preStoryboardFounderJudgment.js';
