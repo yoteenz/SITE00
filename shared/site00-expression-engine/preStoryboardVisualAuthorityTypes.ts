@@ -80,7 +80,9 @@ export type FinalStoryboardEligibilityState =
   | 'BLOCKED_PENDING_PRE_STORYBOARD_AUTHORITY_APPROVAL'
   | 'READY_FOR_GENERATION'
   | 'AWAITING_FOUNDER_APPROVAL'
-  | 'REVISION_REQUIRED';
+  | 'REVISION_REQUIRED'
+  | 'GENERATION_FAILED'
+  | 'FAILED_STORYBOARD_STRUCTURE';
 
 export type KeyframeEligibilityState =
   | 'BLOCKED'
@@ -90,6 +92,7 @@ export type KeyframeEligibilityState =
 export type FounderStoryboardApprovalState =
   | 'BLOCKED_PENDING_STORYBOARD'
   | 'NOT_YET_ACTIVE'
+  | 'INACTIVE'
   | 'ACTIVE'
   | 'SATISFIED';
 

@@ -120,6 +120,7 @@ function serializeFinalCinematicStoryboardResponse(
   return {
     engine: 'EXPRESSION_ENGINE_V0',
     sprint: result.sprint,
+    rootCause: result.rootCause,
     productionOrder: result.productionOrder,
     treatment: {
       treatmentId: result.treatment.treatmentId,
@@ -129,6 +130,13 @@ function serializeFinalCinematicStoryboardResponse(
       packId: result.preStoryboardAuthorityPack.packId,
       authorityCount: result.preStoryboardAuthorityPack.authorities.length,
       approvalState: result.preStoryboardAuthorityPack.approvalState,
+    },
+    storyboard001Historical: {
+      storyboardId: result.storyboard001Historical.storyboardId,
+      status: result.storyboard001Historical.status,
+      referenceOnly: result.storyboard001Historical.referenceOnly,
+      failureReason: result.storyboard001Historical.failureReason,
+      storyboardStripUrl: result.storyboard001Historical.storyboardStripUrl,
     },
     finalCinematicStoryboard: result.finalCinematicStoryboard
       ? {
@@ -140,27 +148,39 @@ function serializeFinalCinematicStoryboardResponse(
           visualAuthority: result.finalCinematicStoryboard.visualAuthority,
           panelCount: result.finalCinematicStoryboard.panelCount,
           storyboardStripUrl: result.finalCinematicStoryboard.storyboardStripUrl,
+          structuralQaStatus: result.finalCinematicStoryboard.structuralQaStatus,
           continuityQaStatus: result.finalCinematicStoryboard.continuityQaStatus,
+          duplicationQaStatus: result.finalCinematicStoryboard.duplicationQaStatus,
           authorityIds: result.finalCinematicStoryboard.authorityIds,
           sourceTreatmentId: result.finalCinematicStoryboard.sourceTreatmentId,
           compiled: result.finalCinematicStoryboard.compiled,
           dispatched: result.finalCinematicStoryboard.dispatched,
           rendered: result.finalCinematicStoryboard.rendered,
+          assembled: result.finalCinematicStoryboard.assembled,
           provider: result.finalCinematicStoryboard.provider,
           providerRequestId: result.finalCinematicStoryboard.providerRequestId,
+          telemetry: result.finalCinematicStoryboard.telemetry,
+          panelManifest: result.finalCinematicStoryboard.panelManifest.map((p) => ({
+            panelNumber: p.panelNumber,
+            beatId: p.beatId,
+            panelId: p.panelId,
+            assetId: p.assetId,
+            generationStatus: p.generationStatus,
+            qaStatus: p.qaStatus,
+            previewUrl: p.previewUrl,
+            panelVersion: p.panelVersion,
+          })),
         }
       : null,
     finalStoryboardRecord: result.finalStoryboardRecord,
-    continuityQA: result.continuityQA,
-    renderResult: result.renderResult
+    structuralQA: result.structuralQA,
+    continuityDomainQA: result.continuityDomainQA,
+    duplicationQA: result.duplicationQA,
+    panelPipeline: result.panelPipeline
       ? {
-          status: result.renderResult.status,
-          compiled: result.renderResult.compiled,
-          dispatched: result.renderResult.dispatched,
-          rendered: result.renderResult.rendered,
-          actualFileExists: result.renderResult.actualFileExists,
-          provider: result.renderResult.provider,
-          previewUrl: result.renderResult.previewUrl,
+          assembled: result.panelPipeline.assembled,
+          compositeUrl: result.panelPipeline.compositeUrl,
+          telemetry: result.panelPipeline.telemetry,
         }
       : null,
     pipelineState: result.pipelineState,
@@ -249,7 +269,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (
       req.method === 'GET' &&
       (phase === 'B49' ||
+        phase === 'B49R' ||
         phase === 'B4.9' ||
+        phase === 'B4.9R' ||
         phase === 'FINAL_CINEMATIC_STORYBOARD' ||
         phase === 'FINAL_STORYBOARD')
     ) {
