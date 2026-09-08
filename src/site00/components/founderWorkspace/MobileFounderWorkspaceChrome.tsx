@@ -18,6 +18,7 @@ import {
 } from '../../config/ndxMobileVisualShellSpecs';
 import { NDX_VR_REGION, vrRegionAttr } from '../../config/ndxVisualRegionIds';
 import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
+import { NDXBottomNavIcon } from '../../icons/ndx/NDXBottomNavIcon';
 import { NDXIcon } from '../../icons/ndx';
 import { Site00Diamond } from '../shell/Site00Diamond';
 import { CURRENT_VISUAL_SHELL_VERSION } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr1d12/client.js';
@@ -169,9 +170,8 @@ export function MobileFounderWorkspaceChrome({
                 onClick={onToggleMenu}
               >
                 <span className="site00-fws-mobile-chrome__nav-icon" aria-hidden="true">
-                  <NDXIcon
+                  <NDXBottomNavIcon
                     name={item.icon}
-                    size={NDX_ICON_CONTEXT_SIZE.bottomNav}
                     state={active ? 'active' : 'inactive'}
                     decorative
                   />
@@ -189,9 +189,8 @@ export function MobileFounderWorkspaceChrome({
               aria-current={active ? 'page' : undefined}
             >
               <span className="site00-fws-mobile-chrome__nav-icon" aria-hidden="true">
-                <NDXIcon
+                <NDXBottomNavIcon
                   name={item.icon}
-                  size={NDX_ICON_CONTEXT_SIZE.bottomNav}
                   state={active ? 'active' : 'inactive'}
                   decorative
                 />

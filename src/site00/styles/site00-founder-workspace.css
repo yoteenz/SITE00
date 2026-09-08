@@ -4346,6 +4346,27 @@
   color: var(--site00-project-presence-accent, var(--ndx-lime));
 }
 
+.ndx-bottom-nav-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  object-position: center;
+}
+
+.ndx-bottom-nav-icon--inactive {
+  opacity: 0.55;
+}
+
+.ndx-bottom-nav-icon--active {
+  opacity: 1;
+}
+
+.site00-fws-mobile-nav__item--active .ndx-bottom-nav-icon,
+.site00-fws-mobile-chrome__nav-item--active .ndx-bottom-nav-icon {
+  opacity: 1;
+}
+
 .site00-fws-rail__link--active .ndx-icon {
   color: var(--site00-project-presence-accent, var(--ndx-lime));
 }

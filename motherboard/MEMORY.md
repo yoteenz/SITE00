@@ -6274,3 +6274,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Architecture layer:** BRAND TRUTH → CULTURAL READ → CREATIVE THINKING → NARRATIVE SYNTHESIS → SELF-CRITIQUE → DIRECTORIAL TREATMENT
 - **Next evaluation action:** Founder reviews blind-test Creative Director output (`entry-c1-blind`) without rewriting first — judge whether Studio World supplied connective tissue on its own
 
+---
+
+## 2026-09-08 — Projects bottom panel icon update
+
+- **Context:** Founder supplied five Supabase PNG icons for the NDXBOOK projects mobile bottom panel (Overview, Campaigns, Content Ops, Lab, More).
+- **Delivered:** `ndxBottomNavIconUrls.ts` + `NDXBottomNavIcon` component wired into `MobileFounderWorkspaceChrome` and `FounderWorkspaceMobileNav`; inactive opacity 0.55 / active full opacity CSS.
+- **Tests:** `ndxBottomNavIconUrls.test.ts` (2/2 pass)
+
