@@ -7,6 +7,7 @@ export { bootstrapC13Entry003CinematicContinuity } from './entry003C13Pipeline.j
 export {
   bootstrapC14Entry003SeniorCreativeJudgment,
   bootstrapC15CreativeIntelligenceRuntime,
+  bootstrapC16MultiUnitCreativeIntelligence,
 } from './entry003C14Pipeline.js';
 export {
   applyEntry003FounderJudgment,

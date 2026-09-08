@@ -98,3 +98,49 @@ export async function bootstrapC15CreativeIntelligenceRuntime(): Promise<{
     falDispatchCount: 0,
   };
 }
+
+export async function bootstrapC16MultiUnitCreativeIntelligence(): Promise<{
+  sprint: string;
+  multiUnitBlindCampaign: import('../seniorCreativeJudgment/multiUnitCampaignArchitect.js').MultiUnitBlindCampaignOutput;
+  mpmd: Awaited<ReturnType<typeof runMarketingPackageMasterDirectorWithCreativeJudgment>>;
+  entry003Regression: Awaited<ReturnType<typeof import('../seniorCreativeJudgment/creativeIntelligenceRuntime.js').runEntry003SharedRegression>>;
+  solsticeRegression: Awaited<ReturnType<typeof import('../seniorCreativeJudgment/creativeIntelligenceRuntime.js').runBlindCreativeMarketingTest>>;
+  providerHealth: Awaited<ReturnType<typeof import('../seniorCreativeJudgment/creativeReasoningProvider.js').checkCreativeReasoningProviderHealth>>;
+  persistenceMode: ReturnType<typeof import('../seniorCreativeJudgment/creativeIntelligenceStore.js').getCreativeIntelligenceStoreModeSync>;
+  textReasoningDispatchCount: number;
+  imageProviderDispatchCount: 0;
+  videoProviderDispatchCount: 0;
+  falDispatchCount: 0;
+}> {
+  const {
+    runMultiUnitBlindCampaignPackage,
+    runEntry003SharedRegression,
+    runBlindCreativeMarketingTest,
+    runMarketingPackageMasterDirectorWithCreativeJudgment,
+    checkCreativeReasoningProviderHealth,
+    initCreativeIntelligenceStore,
+    getCreativeIntelligenceStoreModeSync,
+  } = await import('../seniorCreativeJudgment/creativeIntelligenceRuntime.js');
+
+  await initCreativeIntelligenceStore();
+  const providerHealth = await checkCreativeReasoningProviderHealth();
+  const multiUnitBlindCampaign = await runMultiUnitBlindCampaignPackage();
+  const mpmd = await runMarketingPackageMasterDirectorWithCreativeJudgment();
+  const entry003Regression = await runEntry003SharedRegression();
+  const solsticeRegression = await runBlindCreativeMarketingTest();
+
+  return {
+    sprint: 'C1.6_MULTI_UNIT_CREATIVE_GLOBALIZATION',
+    multiUnitBlindCampaign,
+    mpmd,
+    entry003Regression,
+    solsticeRegression,
+    providerHealth,
+    persistenceMode: getCreativeIntelligenceStoreModeSync(),
+    textReasoningDispatchCount:
+      multiUnitBlindCampaign.textReasoningDispatchCount + mpmd.textReasoningDispatchCount,
+    imageProviderDispatchCount: 0,
+    videoProviderDispatchCount: 0,
+    falDispatchCount: 0,
+  };
+}

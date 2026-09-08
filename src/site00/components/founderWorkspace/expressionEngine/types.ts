@@ -146,6 +146,7 @@ export type ExpressionEngineEntry002State = {
   c1: C1NarrativeSynthesisResponse | null;
   c11: C11CreativeDirectorResponse | null;
   c12: C12Entry003Response | null;
+  c16: { multiUnitBlindCampaign: import('./MultiUnitCreativePackageReview.js').MultiUnitCampaignReviewData } | null;
   loading: boolean;
   error: string | null;
   errorView: import('./expressionEngineErrorState').ExpressionEngineErrorView | null;

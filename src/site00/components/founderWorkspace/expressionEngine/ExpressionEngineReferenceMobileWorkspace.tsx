@@ -30,6 +30,7 @@ import { ReferenceSupportingIntelligence } from './ReferenceSupportingIntelligen
 import { AutonomousCreativeDirectorWorkspace } from './AutonomousCreativeDirectorWorkspace';
 import { Entry003CreativeDirectorWorkspace } from './Entry003CreativeDirectorWorkspace';
 import { Entry003SeniorDirectorReview } from './Entry003SeniorDirectorReview';
+import { MultiUnitCreativePackageReview } from './MultiUnitCreativePackageReview';
 import { ReferenceVisualAuthorities } from './ReferenceVisualAuthorities';
 import { ExpressionEngineErrorState } from './ExpressionEngineErrorState';
 import {
@@ -43,7 +44,7 @@ type Props = {
 };
 
 export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props) {
-  const { phase2, blueprint, b48, b49r4, c11, c12, loading, error, errorView, reload } = useExpressionEngineEntry002();
+  const { phase2, blueprint, b48, b49r4, c11, c12, c16, loading, error, errorView, reload } = useExpressionEngineEntry002();
   const [judging, setJudging] = useState(false);
   const [cdJudging, setCdJudging] = useState(false);
   const [e003Judging, setE003Judging] = useState(false);
@@ -337,6 +338,14 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
 
       <ReferenceSupportingIntelligence
         sections={[
+          {
+            id: 'c16-multi-unit-creative',
+            label: 'FRESH CAMPAIGN · MULTI-UNIT REVIEW (C1.6)',
+            status: c16?.multiUnitBlindCampaign?.packageJudgment?.status ?? 'LOADING',
+            content: (
+              <MultiUnitCreativePackageReview campaign={c16?.multiUnitBlindCampaign ?? null} />
+            ),
+          },
           {
             id: 'entry-003-creative-director',
             label: 'ENTRY 003 · SENIOR CREATIVE JUDGMENT (C1.4)',

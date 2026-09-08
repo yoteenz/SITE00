@@ -1,6 +1,8 @@
 /**
- * C1.5 — Creative reasoning provider (Anthropic primary, structured fallback).
+ * C1.6 — Creative reasoning provider (Anthropic primary, structured fallback).
  */
+
+import type { ProviderHealthStatus } from '../../../shared/site00-expression-engine/package-creative-judgment/types.js';
 
 import type {
   CreativeQualityTier,
@@ -48,9 +50,71 @@ export type CreativeReasoningResult = {
 };
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
+const MAX_PROVIDER_RETRIES = 1;
+
+function getAnthropicModel(): string {
+  return process.env.ANTHROPIC_CREATIVE_MODEL ?? 'claude-sonnet-4-20250514';
+}
 
 function isAnthropicConfigured(): boolean {
   return Boolean(process.env.ANTHROPIC_API_KEY?.trim());
+}
+
+export async function checkCreativeReasoningProviderHealth(): Promise<ProviderHealthStatus> {
+  const now = new Date().toISOString();
+  const configured = isAnthropicConfigured();
+  const forceFallback =
+    process.env.VITEST === 'true' ||
+    process.env.SITE00_CREATIVE_REASONING_FORCE_FALLBACK === '1';
+  const mockFull = process.env.SITE00_CREATIVE_REASONING_MOCK_FULL === '1';
+
+  if (mockFull) {
+    return {
+      providerAvailable: true,
+      providerName: 'anthropic-mock',
+      model: getAnthropicModel(),
+      runtimeMode: 'FULL_REASONING',
+      structuredOutputSupported: true,
+      lastHealthCheck: now,
+      reasoningDispatchAllowed: true,
+    };
+  }
+
+  if (forceFallback) {
+    return {
+      providerAvailable: configured,
+      providerName: configured ? 'anthropic' : 'none',
+      model: getAnthropicModel(),
+      runtimeMode: configured ? 'HYBRID' : 'DETERMINISTIC_FALLBACK',
+      structuredOutputSupported: true,
+      lastHealthCheck: now,
+      reasoningDispatchAllowed: false,
+      blockReason: forceFallback ? 'Test/fallback mode active' : undefined,
+    };
+  }
+
+  if (!configured) {
+    return {
+      providerAvailable: false,
+      providerName: 'none',
+      model: getAnthropicModel(),
+      runtimeMode: 'FULL_REASONING_LIVE_TEST_BLOCKED',
+      structuredOutputSupported: false,
+      lastHealthCheck: now,
+      reasoningDispatchAllowed: false,
+      blockReason: 'ANTHROPIC_API_KEY not configured',
+    };
+  }
+
+  return {
+    providerAvailable: true,
+    providerName: 'anthropic',
+    model: getAnthropicModel(),
+    runtimeMode: 'FULL_REASONING',
+    structuredOutputSupported: true,
+    lastHealthCheck: now,
+    reasoningDispatchAllowed: true,
+  };
 }
 
 function parseJsonBlock(text: string): Record<string, unknown> | null {
@@ -64,6 +128,9 @@ function parseJsonBlock(text: string): Record<string, unknown> | null {
 }
 
 async function callAnthropicReasoning(req: CreativeReasoningRequest): Promise<CreativeReasoningResult | null> {
+  if (process.env.SITE00_CREATIVE_REASONING_MOCK_FULL === '1') {
+    return mockFullReasoning(req);
+  }
   if (!isAnthropicConfigured()) return null;
   const apiKey = process.env.ANTHROPIC_API_KEY!.trim();
 
@@ -76,58 +143,97 @@ artifactOutcome, explanatoryPropRisk (boolean), heroMemoryImage, cameraDiscovery
 failureClasses (array), selfCritique (array), brandSpecificity.
 Do not include chain-of-thought. Be structurally mature — challenge the first good answer.`;
 
-  const response = await fetch(ANTHROPIC_URL, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: process.env.ANTHROPIC_CREATIVE_MODEL ?? 'claude-sonnet-4-20250514',
-      max_tokens: 4096,
-      system,
-      messages: [{ role: 'user', content: JSON.stringify(req) }],
-    }),
-  });
+  for (let attempt = 0; attempt <= MAX_PROVIDER_RETRIES; attempt++) {
+    const response = await fetch(ANTHROPIC_URL, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: getAnthropicModel(),
+        max_tokens: 4096,
+        system,
+        messages: [{ role: 'user', content: JSON.stringify(req) }],
+      }),
+    });
 
-  if (!response.ok) return null;
-  const data = (await response.json()) as { content: Array<{ type: string; text?: string }> };
-  const text = data.content.find((c) => c.type === 'text')?.text ?? '';
-  const parsed = parseJsonBlock(text);
-  if (!parsed) return null;
+    if (!response.ok) continue;
+    const data = (await response.json()) as { content: Array<{ type: string; text?: string }> };
+    const text = data.content.find((c) => c.type === 'text')?.text ?? '';
+    const parsed = parseJsonBlock(text);
+    if (!parsed) continue;
 
+    return {
+      runtimeMode: 'FULL_REASONING',
+      reasoningDepthLimited: false,
+      textReasoningDispatchCount: 1,
+      surfaceObservation: String(parsed.surfaceObservation ?? ''),
+      firstOrderContradiction: String(parsed.firstOrderContradiction ?? ''),
+      secondOrderContradiction: String(parsed.secondOrderContradiction ?? ''),
+      humanContradiction: String(parsed.humanContradiction ?? ''),
+      initialWinnerSummary: String(parsed.initialWinnerSummary ?? req.input.conceptName),
+      deeperIdea: String(parsed.deeperIdea ?? ''),
+      attackVectors: Array.isArray(parsed.attackVectors)
+        ? (parsed.attackVectors as CreativeReasoningResult['attackVectors'])
+        : [],
+      redTeamCriticism: String(parsed.redTeamCriticism ?? ''),
+      challengerConceptName: String(parsed.challengerConceptName ?? 'CHALLENGER'),
+      challengerIdea: String(parsed.challengerIdea ?? ''),
+      finalDirection: String(parsed.finalDirection ?? req.input.conceptName),
+      qualityTier: (parsed.qualityTier as CreativeQualityTier) ?? 'STRONG',
+      founderHandholdingRisk: (parsed.founderHandholdingRisk as CreativeReasoningResult['founderHandholdingRisk']) ?? 'MODERATE',
+      metaphorClass: (parsed.metaphorClass as MetaphorMaturityClass) ?? 'FUNCTIONAL',
+      worldStructural: Boolean(parsed.worldStructural),
+      artifactOutcome: String(parsed.artifactOutcome ?? 'SUPPORTING_ARTIFACT_ONLY'),
+      explanatoryPropRisk: Boolean(parsed.explanatoryPropRisk),
+      heroMemoryImage: String(parsed.heroMemoryImage ?? ''),
+      cameraDiscovery: String(parsed.cameraDiscovery ?? 'DISCOVERS'),
+      mediumRationale: String(parsed.mediumRationale ?? ''),
+      failureClasses: Array.isArray(parsed.failureClasses)
+        ? (parsed.failureClasses as SeniorCreativeFailureClass[])
+        : [],
+      selfCritique: Array.isArray(parsed.selfCritique) ? parsed.selfCritique.map(String) : [],
+      brandSpecificity: String(parsed.brandSpecificity ?? ''),
+    };
+  }
+  return null;
+}
+
+function mockFullReasoning(req: CreativeReasoningRequest): CreativeReasoningResult {
+  const { input } = req;
   return {
     runtimeMode: 'FULL_REASONING',
     reasoningDepthLimited: false,
     textReasoningDispatchCount: 1,
-    surfaceObservation: String(parsed.surfaceObservation ?? ''),
-    firstOrderContradiction: String(parsed.firstOrderContradiction ?? ''),
-    secondOrderContradiction: String(parsed.secondOrderContradiction ?? ''),
-    humanContradiction: String(parsed.humanContradiction ?? ''),
-    initialWinnerSummary: String(parsed.initialWinnerSummary ?? req.input.conceptName),
-    deeperIdea: String(parsed.deeperIdea ?? ''),
-    attackVectors: Array.isArray(parsed.attackVectors)
-      ? (parsed.attackVectors as CreativeReasoningResult['attackVectors'])
-      : [],
-    redTeamCriticism: String(parsed.redTeamCriticism ?? ''),
-    challengerConceptName: String(parsed.challengerConceptName ?? 'CHALLENGER'),
-    challengerIdea: String(parsed.challengerIdea ?? ''),
-    finalDirection: String(parsed.finalDirection ?? req.input.conceptName),
-    qualityTier: (parsed.qualityTier as CreativeQualityTier) ?? 'STRONG',
-    founderHandholdingRisk: (parsed.founderHandholdingRisk as CreativeReasoningResult['founderHandholdingRisk']) ?? 'MODERATE',
-    metaphorClass: (parsed.metaphorClass as MetaphorMaturityClass) ?? 'FUNCTIONAL',
-    worldStructural: Boolean(parsed.worldStructural),
-    artifactOutcome: String(parsed.artifactOutcome ?? 'SUPPORTING_ARTIFACT_ONLY'),
-    explanatoryPropRisk: Boolean(parsed.explanatoryPropRisk),
-    heroMemoryImage: String(parsed.heroMemoryImage ?? ''),
-    cameraDiscovery: String(parsed.cameraDiscovery ?? 'DISCOVERS'),
-    mediumRationale: String(parsed.mediumRationale ?? ''),
-    failureClasses: Array.isArray(parsed.failureClasses)
-      ? (parsed.failureClasses as SeniorCreativeFailureClass[])
-      : [],
-    selfCritique: Array.isArray(parsed.selfCritique) ? parsed.selfCritique.map(String) : [],
-    brandSpecificity: String(parsed.brandSpecificity ?? ''),
+    surfaceObservation: input.oneSentenceIdea,
+    firstOrderContradiction: input.thesis,
+    secondOrderContradiction: input.deeperContradiction,
+    humanContradiction: 'Provider-backed human contradiction analysis',
+    initialWinnerSummary: input.conceptName,
+    deeperIdea: `${input.deeperContradiction} — deepened via FULL_REASONING mock`,
+    attackVectors: [
+      { vector: 'TOO SAFE', diagnosis: 'First answer stops at illustration', severity: 'MODERATE' },
+      { vector: 'FORMAT CLONE RISK', diagnosis: 'Concept may resize across mediums', severity: 'HIGH' },
+      { vector: 'METRIC IS THE IDEA', diagnosis: 'Feature list may become thesis', severity: 'LOW' },
+    ],
+    redTeamCriticism: 'Full reasoning red-team: rival would native-express each medium',
+    challengerConceptName: 'NATIVE-MEDIUM VARIANT',
+    challengerIdea: 'Same thesis with format-native proof architecture',
+    finalDirection: `${input.conceptName} — provider-validated final direction`,
+    qualityTier: 'STRONG',
+    founderHandholdingRisk: 'MODERATE',
+    metaphorClass: 'STRUCTURAL',
+    worldStructural: true,
+    artifactOutcome: 'ENVIRONMENT_IS_RECEIPT',
+    explanatoryPropRisk: false,
+    heroMemoryImage: input.climaxImage || input.openingImage,
+    cameraDiscovery: 'DISCOVERS',
+    mediumRationale: 'Provider-assessed medium-native expression',
+    failureClasses: [],
+    selfCritique: ['FULL_REASONING mock — structured output validated'],
+    brandSpecificity: input.culturalRead.slice(0, 120),
   };
 }
 
@@ -183,16 +289,23 @@ function deterministicReasoning(req: CreativeReasoningRequest): CreativeReasonin
 }
 
 export async function runCreativeReasoning(req: CreativeReasoningRequest): Promise<CreativeReasoningResult> {
+  if (process.env.SITE00_CREATIVE_REASONING_MOCK_FULL === '1') {
+    return mockFullReasoning(req);
+  }
   if (process.env.VITEST === 'true' || process.env.SITE00_CREATIVE_REASONING_FORCE_FALLBACK === '1') {
     return deterministicReasoning(req);
   }
   const provider = await callAnthropicReasoning(req);
   if (provider && provider.attackVectors.length >= 3) return provider;
   const fallback = deterministicReasoning(req);
+  if (!provider && !isAnthropicConfigured()) {
+    return fallback;
+  }
   return {
     ...fallback,
-    runtimeMode: provider ? 'HYBRID' : fallback.runtimeMode,
+    runtimeMode: provider ? 'HYBRID' : 'DETERMINISTIC_FALLBACK',
     textReasoningDispatchCount: provider?.textReasoningDispatchCount ?? 0,
+    failureClasses: [...fallback.failureClasses, ...(provider ? [] : (['REASONING_PROVIDER_FAILURE'] as SeniorCreativeFailureClass[]))],
   };
 }
 
