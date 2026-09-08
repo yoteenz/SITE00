@@ -119,8 +119,8 @@ describe('B5.9R2 Project Index Redesign', () => {
   });
 
   it('23. New Project route wired', () => {
-    expect(INDEX_PAGE).toContain('bldrState');
-    expect(INDEX_PAGE).toContain('+ NEW PROJECT');
+    expect(INDEX_PAGE).toContain('ProjectIndexNewProjectCard');
+    expect(readFileSync(join(ROOT, 'src/site00/components/projectIndex/ProjectIndexNewProjectCard.tsx'), 'utf8')).toContain('bldrState');
   });
 
   it('24–25. archived and on hold filters', () => {
@@ -200,15 +200,15 @@ describe('B5.9R2 Project Index Redesign', () => {
   });
 
   it('40–41. mobile and desktop render paths', () => {
-    expect(INDEX_PAGE).toContain('ProjectIndexMobileCard');
-    expect(INDEX_PAGE).toContain('ProjectIndexDesktopRow');
-    expect(INDEX_CSS).toContain('site00-pidx-list--mobile');
-    expect(INDEX_CSS).toContain('site00-pidx-list--desktop');
+    expect(INDEX_PAGE).toContain('ProjectIndexProjectCard');
+    expect(INDEX_PAGE).toContain('site00-pidx-grid');
+    expect(INDEX_CSS).toContain('site00-pidx--mobile');
+    expect(INDEX_CSS).toContain('site00-pidx--desktop');
   });
 
   it('42. reference QA structure present', () => {
-    expect(INDEX_PAGE).toContain('PROJECT INDEX');
-    expect(INDEX_PAGE).toContain('site00-project-index-list');
+    expect(INDEX_PAGE).toContain('ProjectIndexHero');
+    expect(INDEX_PAGE).toContain('site00-pidx-grid');
     expect(INDEX_PAGE).not.toContain('EVOLVE →');
     expect(PROJECTS_PAGE).not.toContain('site00-eco-mobile-cta');
   });
@@ -225,14 +225,14 @@ describe('B5.9R2 Project Index Redesign', () => {
 
   it('45. SITE 00 platform design entry restored on founder index', () => {
     const platform = buildSite00PlatformDesignIndexItem();
-    expect(platform.projectName).toBe('SITE 00');
+    expect(platform.projectName).toBe('DESIGN');
     expect(platform.openRoute).toBe('/projects/site00/design');
     expect(isSite00PlatformDesignIndexItem(platform)).toBe(true);
     expect(HOOK).toContain('buildSite00PlatformDesignIndexItem');
     expect(MOBILE_CARD).toContain('OPEN DESIGN →');
     expect(MOBILE_CARD).toContain('site00-pidx-mobile-card--platform');
     expect(DESKTOP_ROW).toContain('OPEN DESIGN →');
-    expect(INDEX_PAGE).toContain('buildSite00PlatformDesignIndexItem');
+    expect(INDEX_PAGE).toContain('ProjectIndexDesignCard');
     expect(INDEX_PAGE).toContain('SITE 00 DESIGN WORKSPACE REMAINS AVAILABLE');
   });
 });

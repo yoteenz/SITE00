@@ -1,5 +1,5 @@
 /**
- * B5.9R2 — Hydrated project index hook with filters and view mode.
+ * B5.9R5 — Hydrated project index hook with filters, canonical order, and metrics.
  */
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -10,6 +10,8 @@ import {
   isSite00PlatformDesignIndexItem,
 } from '../../../shared/site00-projects/buildProjectIndexItems.js';
 import type { ProjectIndexItem, ProjectIndexStatus } from '../../../shared/site00-projects/projectIndexItem.js';
+import { computeProjectIndexSummaryMetrics } from '../../../shared/site00-projects/projectIndexMetrics.js';
+import { orderProjectIndexItems } from '../../../shared/site00-projects/projectIndexOrder.js';
 import { runProjectIndexStaleDataQA } from '../../../shared/site00-projects/projectIndexStaleDataQA.js';
 import { useSite00ProjectsIndex } from './useSite00Projects.js';
 import { useClientAppProjects } from './useClientAppProjects.js';
@@ -103,7 +105,7 @@ export function useProjectIndex() {
   useEffect(() => subscribeProjectIndexState(() => setIndexVersion(getProjectIndexStateVersion())), []);
 
   const founderItems = useMemo(
-    () => buildProjectIndexItemsFromEntries(founderIndex.projects),
+    () => orderProjectIndexItems(buildProjectIndexItemsFromEntries(founderIndex.projects)),
     [founderIndex.projects, indexVersion],
   );
 
@@ -124,41 +126,40 @@ export function useProjectIndex() {
 
   const allItems = viewMode === 'CLIENT' ? clientItems : founderItems;
 
-  const filtered = useMemo(() => {
-    const matched = allItems.filter((item) => matchesFilter(item, filter) && matchesSearch(item, query));
-    const sorted = sortItems(matched, sort);
-    if (viewMode === 'CLIENT') return sorted;
+  const designItem = viewMode === 'CLIENT' ? null : buildSite00PlatformDesignIndexItem();
 
-    const platform = buildSite00PlatformDesignIndexItem();
-    const rest = sorted.filter((item) => !isSite00PlatformDesignIndexItem(item));
-    return [platform, ...rest];
-  }, [allItems, filter, query, sort, viewMode]);
+  const projectItems = useMemo(() => {
+    const matched = allItems.filter(
+      (item) => !isSite00PlatformDesignIndexItem(item) && matchesFilter(item, filter) && matchesSearch(item, query),
+    );
+    return sortItems(matched, sort);
+  }, [allItems, filter, query, sort]);
 
-  const summary = useMemo(() => {
-    const active = founderItems.filter(
-      (i) => !i.isArchived && !i.isOnHold && i.status !== 'NOT_STARTED',
-    ).length;
-    const onHold = founderItems.filter((i) => i.isOnHold).length;
-    const archived = founderItems.filter((i) => i.isArchived).length;
-    return {
-      total: founderItems.length,
+  const metrics = useMemo(() => computeProjectIndexSummaryMetrics(founderItems), [founderItems]);
+
+  const summary = useMemo(
+    () => ({
+      total: metrics.total,
       founderIndex: founderItems.filter((i) => i.ownerType === 'FOUNDER').length,
       clientProjects: clientItems.length,
-      active,
-      onHold,
-      archived,
+      active: metrics.active,
+      preLaunch: metrics.preLaunch,
+      complete: metrics.complete,
+      onHold: founderItems.filter((i) => i.isOnHold).length,
+      archived: founderItems.filter((i) => i.isArchived).length,
       sourceLabel: founderIndex.sourceLabel === 'LIVE' ? 'LIVE DATA' : founderIndex.sourceLabel,
-    };
-  }, [founderItems, clientItems, founderIndex.sourceLabel]);
+    }),
+    [metrics, founderItems, clientItems, founderIndex.sourceLabel],
+  );
 
   const staleQA = useMemo(
     () =>
       runProjectIndexStaleDataQA({
-        items: filtered,
+        items: designItem ? [designItem, ...projectItems] : projectItems,
         viewMode,
         indexStateVersion: indexVersion,
       }),
-    [filtered, viewMode, indexVersion],
+    [designItem, projectItems, viewMode, indexVersion],
   );
 
   const reload = useCallback(() => {
@@ -169,8 +170,10 @@ export function useProjectIndex() {
 
   return {
     viewMode,
-    items: filtered,
+    items: projectItems,
+    designItem,
     allItems,
+    metrics,
     summary,
     state: founderIndex.state,
     error: founderIndex.error,
