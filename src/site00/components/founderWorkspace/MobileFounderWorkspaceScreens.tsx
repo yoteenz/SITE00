@@ -53,15 +53,9 @@ import {
   NDX_CI_TOP_SIGNALS,
 } from '../../config/ndxCulturalIntelligenceMobileReference';
 import {
-  NDX_CONTENT_OPS_ACTIVE_TAB,
-  NDX_CONTENT_OPS_CURRENT_WORK,
-  NDX_CONTENT_OPS_NEEDS_EYE,
-  NDX_CONTENT_OPS_OPERATING_MODE,
-  NDX_CONTENT_OPS_OPPORTUNITIES,
-  NDX_CONTENT_OPS_REVIEW_NEEDED,
   NDX_CONTENT_OPS_TABS,
-  NDX_CONTENT_OPS_TODAY_ACTION,
 } from '../../config/ndxContentOpsMobileReference';
+import { useProjectOperatingState } from '../../hooks/useProjectOperatingState';
 import {
   NDX_EXPERIMENT_01_CANONICAL_SUBJECT,
   NDX_EXPERIMENT_01_CARDS,
@@ -466,6 +460,17 @@ export function MobileExperiment01Screen({ projectSlug }: ScreenProps) {
 
 export function MobileContentOpsScreen({ projectSlug }: ScreenProps) {
   const opsPath = site00ProjectContentOperationsPath(projectSlug);
+  const { state: operatingState } = useProjectOperatingState(projectSlug);
+  const activeTab = 'CURRENT WORK';
+  const approvals = operatingState?.approvalsNeeded ?? [];
+  const opportunities = operatingState?.opportunities ?? [];
+  const currentWork = operatingState?.currentWork ?? [];
+  const needsEye = operatingState?.approvalsNeeded ?? [];
+  const signals = operatingState?.signals ?? [];
+  const beingMade = operatingState?.pulse.counts.beingMade ?? 0;
+  const operatingMode =
+    beingMade > 0 ? `Assisted Autonomy · ${beingMade} in production` : 'Assisted Autonomy · Developing';
+  const operatingChip = currentWork.length ? 'IN PRODUCTION' : 'DEVELOPING';
 
   return (
     <div
@@ -484,8 +489,8 @@ export function MobileContentOpsScreen({ projectSlug }: ScreenProps) {
             <span
               key={tab}
               role="tab"
-              aria-selected={tab === NDX_CONTENT_OPS_ACTIVE_TAB}
-              className={`site00-fws-mobile-tabs__item${tab === NDX_CONTENT_OPS_ACTIVE_TAB ? ' site00-fws-mobile-tabs__item--active' : ''}`}
+              aria-selected={tab === activeTab}
+              className={`site00-fws-mobile-tabs__item${tab === activeTab ? ' site00-fws-mobile-tabs__item--active' : ''}`}
             >
               {tab}
             </span>
@@ -495,69 +500,98 @@ export function MobileContentOpsScreen({ projectSlug }: ScreenProps) {
         <div className="site00-fws-mobile-section-head">
           <p className="site00-fws-hub-section-label">REVIEW NEEDED</p>
           <Link to={opsPath} className="site00-fws-mobile-screen__see-all">
-            See all ({NDX_CONTENT_OPS_REVIEW_NEEDED.length})
+            See all ({approvals.length})
           </Link>
         </div>
         <div className="site00-fws-mobile-scroll-row">
-          {NDX_CONTENT_OPS_REVIEW_NEEDED.map((item) => (
-            <div key={item.label} className="site00-fws-mobile-review-card">
-              <span>{item.label}</span>
-              <span
-                className={`site00-fws-mobile-review-card__chip${item.priority === 'MED' ? ' site00-fws-mobile-review-card__chip--medium' : ''}`}
-              >
-                {item.priority}
-              </span>
+          {approvals.length ? (
+            approvals.map((item) => (
+              <div key={item.id} className="site00-fws-mobile-review-card">
+                <span>{item.label}</span>
+                <span
+                  className={`site00-fws-mobile-review-card__chip${item.priority === 'MED' ? ' site00-fws-mobile-review-card__chip--medium' : ''}`}
+                >
+                  {item.priority}
+                </span>
+              </div>
+            ))
+          ) : (
+            <div className="site00-fws-mobile-review-card">
+              <span>No approvals pending</span>
             </div>
-          ))}
+          )}
         </div>
 
         <div className="site00-fws-mobile-content-ops__split">
           <div className="site00-fws-mobile-content-ops__col" {...vrRegionAttr(NDX_VR_REGION.contentOpsOperatingMode)}>
-            <p className="site00-fws-hub-section-label">{NDX_CONTENT_OPS_OPERATING_MODE.label}</p>
-            <div className="site00-fws-mobile-info-card">{NDX_CONTENT_OPS_OPERATING_MODE.value}</div>
-            <span className="site00-fws-mobile-content-ops__chip">{NDX_CONTENT_OPS_OPERATING_MODE.chip}</span>
+            <p className="site00-fws-hub-section-label">OPERATING MODE</p>
+            <div className="site00-fws-mobile-info-card">{operatingMode}</div>
+            <span className="site00-fws-mobile-content-ops__chip">{operatingChip}</span>
           </div>
           <div className="site00-fws-mobile-content-ops__col" {...vrRegionAttr(NDX_VR_REGION.contentOpsOpportunities)}>
-            <p className="site00-fws-hub-section-label">OPPORTUNITIES ({NDX_CONTENT_OPS_OPPORTUNITIES.length})</p>
-            <ul className="site00-fws-mobile-content-ops__score-list">
-              {NDX_CONTENT_OPS_OPPORTUNITIES.map((row) => (
-                <li key={row.label}>
-                  <span>{row.label}</span>
-                  <strong>{row.score}</strong>
-                </li>
-              ))}
-            </ul>
+            <p className="site00-fws-hub-section-label">OPPORTUNITIES ({opportunities.length})</p>
+            {opportunities.length ? (
+              <ul className="site00-fws-mobile-content-ops__score-list">
+                {opportunities.map((row) => (
+                  <li key={row.label}>
+                    <span>{row.label}</span>
+                    {row.score ? <strong>{row.score}</strong> : null}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="site00-fws-mobile-content-ops__empty">No opportunities surfaced yet</p>
+            )}
           </div>
         </div>
 
         <div className="site00-fws-mobile-content-ops__today">
-          <p className="site00-fws-hub-section-label">TODAY / THIS WEEK</p>
-          <button type="button" className="site00-fws-mobile-content-ops__approve">
-            {NDX_CONTENT_OPS_TODAY_ACTION}
-          </button>
+          <p className="site00-fws-hub-section-label">SIGNALS</p>
+          {signals.length ? (
+            <ul className="site00-fws-mobile-signal-list">
+              {signals.map((s) => (
+                <li key={s.label}>
+                  <span>{s.label}</span>
+                  {s.strength ? <strong>{s.strength}</strong> : null}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="site00-fws-mobile-content-ops__empty">NO LIVE SIGNALS YET</p>
+          )}
         </div>
 
         <p className="site00-fws-hub-section-label">CURRENT WORK</p>
         <div className="site00-fws-mobile-scroll-row" {...vrRegionAttr(NDX_VR_REGION.contentOpsCurrentWork)}>
-          {NDX_CONTENT_OPS_CURRENT_WORK.map((label) => (
-            <div key={label} className="site00-fws-mobile-content-ops__work-card">
-              {label}
-            </div>
-          ))}
+          {currentWork.length ? (
+            currentWork.map((label) => (
+              <div key={label} className="site00-fws-mobile-content-ops__work-card">
+                {label}
+              </div>
+            ))
+          ) : (
+            <div className="site00-fws-mobile-content-ops__work-card">No active work items</div>
+          )}
         </div>
 
         <p className="site00-fws-hub-section-label">THIS NEEDS OUR EYE</p>
         <ul className="site00-fws-mobile-priority-list" {...vrRegionAttr(NDX_VR_REGION.contentOpsNeedsEye)}>
-          {NDX_CONTENT_OPS_NEEDS_EYE.map((item) => (
-            <li key={item.label}>
-              <span>{item.label}</span>
-              <span
-                className={`site00-fws-mobile-review-card__chip${item.priority === 'MED' ? ' site00-fws-mobile-review-card__chip--medium' : ''}`}
-              >
-                {item.priority}
-              </span>
+          {needsEye.length ? (
+            needsEye.map((item) => (
+              <li key={item.id}>
+                <span>{item.label}</span>
+                <span
+                  className={`site00-fws-mobile-review-card__chip${item.priority === 'MED' ? ' site00-fws-mobile-review-card__chip--medium' : ''}`}
+                >
+                  {item.priority}
+                </span>
+              </li>
+            ))
+          ) : (
+            <li>
+              <span>Nothing awaiting founder review</span>
             </li>
-          ))}
+          )}
         </ul>
       </div>
     </div>

@@ -14,6 +14,7 @@ import {
   site00ProjectExperimentsPath,
   site00ProjectFounderCharacterDiscoveryPath,
 } from '../config/routes';
+import { useProjectOperatingState } from '../hooks/useProjectOperatingState';
 import { site00ProjectsApi } from '../services/site00ProjectsApi';
 import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import '../styles/site00-founder-workspace.css';
@@ -56,6 +57,8 @@ export default function ProjectLabHubPage() {
   const [marketingState, setMarketingState] = useState<Awaited<
     ReturnType<typeof site00ProjectsApi.marketingExpressionGet>
   > | null>(null);
+
+  const { state: operatingState } = useProjectOperatingState(projectSlug);
 
   useEffect(() => {
     if (!enabled || !projectSlug) return;
@@ -107,7 +110,14 @@ export default function ProjectLabHubPage() {
       projectSlug={projectSlug}
       title="LAB"
       subtitle="EXPERIMENTS · CHARACTER"
-      operate={<LabHubOperateLayer experiments={summaries.experiments} character={summaries.character} />}
+      operate={
+        <LabHubOperateLayer
+          experiments={summaries.experiments}
+          character={summaries.character}
+          labSystems={operatingState?.labSystems}
+          chapterTitle={operatingState?.chapterTitle}
+        />
+      }
     />
   );
 }

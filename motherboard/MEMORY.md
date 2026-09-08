@@ -6473,3 +6473,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Live status:** `FULL_REASONING_LIVE_TEST_BLOCKED` (no ANTHROPIC_API_KEY in cloud). Supabase persistence PASS (copy + CI + brand language). Founder actions + multi-session PASS.
 - **Next founder action:** Configure ANTHROPIC_API_KEY on Railway, redeploy API, then review live Meridian Atelier campaign as real client work.
 
+---
+
+## 2026-09-08 — Sprint B5.7 — Intelligent Project Module Sync + Context-Aware Asset Ingestion
+
+- **Context:** Project module tabs (Overview, Content Ops, Lab, Campaigns) showed stale demo fixtures and disconnected mock state. Asset upload defaulted to STATIC POST / LOW confidence even when uploading from Carousel or Story format tabs. Founder required one canonical `ProjectOperatingState` and tab-aware classification.
+- **Delivered:**
+  - **Canonical state** — `shared/site00-brand-lore/founderWorkspace/projectOperatingState/` (`buildProjectOperatingState`, `auditEntry001State`, `StaleProjectDataQA`); client `useProjectOperatingState`, `projectModuleSyncService` with `projectStateVersion`
+  - **Asset ingestion** — `shared/site00-campaign-package/assetIngestion/` (`AssetIngestionContext`, aspect ratio engine, classification fusion, batch summary, `AssetUsageGraph`, stale demo fixture guard)
+  - **UI sync** — Overview desktop/mobile, Content Ops mobile, Lab hub derive from operating state; stale demo cards removed from active surfaces
+  - **Upload UX** — Carousel/Story/Reel routes pass format context; high-confidence batch shows ADD ALL / REVIEW; Entry 001 archive vs package explanation
+  - **Tests** — `site00FounderWorkspaceSprintB57.test.ts` (14 groups, 14/14 pass); build PASS (`index.CIDVhDmg.js`)
+- **Entry 001 audit:** 0 active archive + 4 carousel + 1 story in package is **consistent** — seeds removed from archive but still in package sequences; no repair applied.
+- **Next founder action:** Open project module — verify Overview, Campaigns, Content Ops, Lab show same NDXBOOK Entries 001–003 reality. Entry 001 → Carousel → upload 4:5 asset → expect CAROUSEL SLIDE DETECTED · HIGH CONFIDENCE without manual type selection. Repeat from Story with 9:16.
+

@@ -182,6 +182,9 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
     missingDeliverables,
     readiness,
     intelligence,
+    batchSummary,
+    entry001Audit,
+    assetUsageGraph: _assetUsageGraph,
     addAssetForRole,
     batchAddAssets,
     approvedArchiveCount,
@@ -330,6 +333,16 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
             {approvedArchiveCount} ACTIVE ASSETS ›
           </span>
         </header>
+        {entry001Audit && !entry001Audit.archivePackageConsistent ? (
+          <p className="site00-e001-package__archive-note" role="note">
+            {entry001Audit.explanation}
+          </p>
+        ) : entry001Audit?.activeArchiveCount === 0 && entry001Audit.packageDeliverableCount > 0 ? (
+          <p className="site00-e001-package__archive-note" role="note">
+            Archive: 0 active source assets · Package content: {entry001Audit.carouselSlideCount} carousel +{' '}
+            {entry001Audit.storyFrameCount} story deliverables (removed from archive, still in package).
+          </p>
+        ) : null}
 
         <div className="site00-e001-package__archive-filters" role="tablist">
           {FILTERS.map((f) => (
@@ -569,6 +582,7 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
       {pendingQueue.length > 0 && (
         <Entry001ClassificationSheet
           queue={pendingQueue}
+          batchSummary={batchSummary}
           onUpdate={updatePendingClassification}
           onAccept={(id) => setPendingAccepted(id, true)}
           onApplyAll={acceptAllPendingAndApply}

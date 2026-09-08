@@ -17,28 +17,19 @@ import {
 import { NDX_VR_REGION, NDX_VR_SCOPE, vrRegionAttr } from '../../config/ndxVisualRegionIds';
 import {
   NDX_OVERVIEW_IN_PRODUCTION_VIEW_ALL,
-  NDX_OVERVIEW_PRODUCTION_CARDS,
   NDX_OVERVIEW_RADAR_VIEW_ALL,
-  NDX_OVERVIEW_REFERENCE_METRICS,
 } from '../../config/ndxOverviewMobileReference';
+import { useProjectOperatingState } from '../../hooks/useProjectOperatingState';
 import { useCampaignBoardWeekCalendar } from '../../hooks/useCampaignBoardWeekCalendar';
 import { formatCampaignBoardHubDayLabel, formatNdxTodayDateLabel } from '../../utils/campaignBoardWeekCalendar';
+import { entryProductionArtwork } from '../../utils/entryProductionArtwork';
 
 type Props = {
   projectSlug: string;
 };
 
-const IN_PRODUCTION = [
-  { title: 'Subscription Normalization', tag: 'TOP PRIORITY', tone: 'priority' as const, subtitle: 'Precision tool → routine' },
-  { title: 'Corporate Layoff Memo', tag: null, tone: 'default' as const, subtitle: 'Layoff memo v2' },
-  { title: 'Late Fees Across Decades', tag: null, tone: 'default' as const, subtitle: 'Narrative in motion' },
-];
-
-const RADAR_ITEMS = [
-  'Corporate Layoff Memo Language',
-  'Late Fees Across Decades',
-  'Airline Loyalty Normalization',
-];
+const IN_PRODUCTION: { title: string; tag: string | null; tone: 'priority' | 'default'; subtitle: string }[] = [];
+const RADAR_ITEMS: string[] = [];
 
 const EXPERIMENT_TILES = [
   'I HAVE A THEORY',
@@ -102,6 +93,29 @@ export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
   const experimentPath = site00ProjectBrandMarketingExpressionExperiment01Path(projectSlug);
   const campaignWeek = useCampaignBoardWeekCalendar();
   const campaignHubDays = campaignWeek.days.map((d) => formatCampaignBoardHubDayLabel(d.date));
+  const { state: operatingState } = useProjectOperatingState(projectSlug);
+
+  const desktopInProduction =
+    operatingState?.inProduction.map((c) => ({
+      title: c.title,
+      tag: c.tag,
+      tone: c.tone,
+      subtitle: c.subtitle,
+      href: c.href,
+    })) ?? IN_PRODUCTION;
+
+  const desktopRadar = operatingState?.radarItems.length
+    ? operatingState.radarItems
+    : operatingState
+      ? ['Gathering signals — no live radar items yet']
+      : RADAR_ITEMS;
+
+  const metrics = operatingState?.pulse.counts ?? {
+    beingMade: 0,
+    needYourEye: 0,
+    developing: 0,
+    fromAudience: 0,
+  };
 
   return (
     <div
@@ -118,19 +132,19 @@ export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
         >
           <div className="site00-fws-hub-kpis">
             <div>
-              <strong>5</strong>
+              <strong>{metrics.beingMade}</strong>
               <span>BEING MADE</span>
             </div>
             <div>
-              <strong>2</strong>
+              <strong>{metrics.needYourEye}</strong>
               <span>NEED YOUR EYE</span>
             </div>
             <div>
-              <strong>3</strong>
+              <strong>{metrics.developing}</strong>
               <span>DEVELOPING</span>
             </div>
             <div>
-              <strong>1</strong>
+              <strong>{metrics.fromAudience}</strong>
               <span>FROM AUDIENCE</span>
             </div>
           </div>
@@ -139,22 +153,23 @@ export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
           </Link>
           <p className="site00-fws-hub-section-label">IN PRODUCTION</p>
           <div className="site00-fws-hub-carousel">
-            {IN_PRODUCTION.map((item) => (
-              <div
+            {desktopInProduction.map((item) => (
+              <Link
                 key={item.title}
+                to={'href' in item && item.href ? item.href : site00ProjectContentOperationsCampaignBoardPath(projectSlug)}
                 className={`site00-fws-hub-carousel__card${item.tone === 'priority' ? ' site00-fws-hub-carousel__card--priority' : ''}`}
               >
                 {item.tag ? <span className="site00-fws-hub-tag">{item.tag}</span> : null}
                 <p>{item.title}</p>
                 <span className="site00-fws-hub-link">Review →</span>
-              </div>
+              </Link>
             ))}
           </div>
           <div className="site00-fws-hub-split">
             <div>
               <p className="site00-fws-hub-section-label">ON NDX&apos;S RADAR</p>
               <ul className="site00-fws-hub-list">
-                {RADAR_ITEMS.map((item, index) => (
+                {desktopRadar.map((item, index) => (
                   <li key={item}>
                     {String(index + 1).padStart(2, '0')} {item}
                   </li>
@@ -303,7 +318,19 @@ export function OverviewFounderWorkspaceBoard({ projectSlug }: Props) {
 }
 
 export function OverviewMobileHomeScreen({ projectSlug }: Props) {
-  const metrics = NDX_OVERVIEW_REFERENCE_METRICS;
+  const { state: operatingState } = useProjectOperatingState(projectSlug);
+  const metrics = operatingState?.pulse.counts ?? {
+    beingMade: 0,
+    needYourEye: 0,
+    developing: 0,
+    fromAudience: 0,
+  };
+  const productionCards = operatingState?.inProduction ?? [];
+  const radarItems = operatingState?.radarItems.length
+    ? operatingState.radarItems
+    : ['Gathering signals — no live radar items yet'];
+  const inProductionViewAll = productionCards.length || NDX_OVERVIEW_IN_PRODUCTION_VIEW_ALL;
+  const radarViewAll = radarItems.length || NDX_OVERVIEW_RADAR_VIEW_ALL;
   const campaignWeek = useCampaignBoardWeekCalendar();
   const todayDateLabel = formatNdxTodayDateLabel(
     campaignWeek.days.find((d) => d.active)?.date ?? new Date(),
@@ -356,46 +383,50 @@ export function OverviewMobileHomeScreen({ projectSlug }: Props) {
       <div className="site00-fws-mobile-section-head site00-fws-mobile-section-head--production">
         <p className="site00-fws-hub-section-label">IN PRODUCTION</p>
         <Link to={site00ProjectContentOperationsCampaignBoardPath(projectSlug)} className="site00-fws-mobile-screen__see-all">
-          View all ({NDX_OVERVIEW_IN_PRODUCTION_VIEW_ALL})
+          View all ({inProductionViewAll})
         </Link>
       </div>
       <Link to={site00ProjectExpressionEngineCampaignPath(projectSlug)} className="site00-fws-mobile-expr-link">
-        EXPRESSION ENGINE · ENTRY 002 BLUEPRINT →
+        EXPRESSION ENGINE · ENTRY 002–003 →
       </Link>
       <div
         className="site00-fws-hub-carousel site00-fws-hub-carousel--mobile-row"
         {...vrRegionAttr(NDX_VR_REGION.overviewProduction)}
       >
-        {NDX_OVERVIEW_PRODUCTION_CARDS.map((item) => (
-          <article
-            key={item.id}
-            className={`site00-fws-hub-carousel__card site00-fws-hub-carousel__card--mobile site00-fws-hub-carousel__card--art${item.tone === 'priority' ? ' site00-fws-hub-carousel__card--priority' : ''}`}
-            {...vrRegionAttr(item.vrRegionId)}
-          >
-            <div
-              className="site00-fws-hub-carousel__card-art"
-              style={{ backgroundImage: `url(${item.artworkPath})` }}
-              role="img"
-              aria-label={`${item.title} artwork`}
-              data-artwork-position={item.artworkObjectPosition}
-            />
-            <div className="site00-fws-hub-carousel__card-body">
-              {item.tag ? <span className="site00-fws-hub-tag">{item.tag}</span> : null}
-              <p className="site00-fws-hub-carousel__card-title">{item.title.toUpperCase()}</p>
-              {item.subtitle ? <p className="site00-fws-hub-carousel__card-sub">{item.subtitle}</p> : null}
-            </div>
-          </article>
-        ))}
+        {productionCards.map((item) => {
+          const art = entryProductionArtwork(item.id);
+          return (
+            <Link
+              key={item.id}
+              to={item.href}
+              className={`site00-fws-hub-carousel__card site00-fws-hub-carousel__card--mobile site00-fws-hub-carousel__card--art${item.tone === 'priority' ? ' site00-fws-hub-carousel__card--priority' : ''}`}
+            >
+              {art ? (
+                <div
+                  className="site00-fws-hub-carousel__card-art"
+                  style={{ backgroundImage: `url(${art.path})`, backgroundPosition: art.objectPosition }}
+                  role="img"
+                  aria-label={`${item.title} artwork`}
+                />
+              ) : null}
+              <div className="site00-fws-hub-carousel__card-body">
+                {item.tag ? <span className="site00-fws-hub-tag">{item.tag}</span> : null}
+                <p className="site00-fws-hub-carousel__card-title">{item.title.toUpperCase()}</p>
+                {item.subtitle ? <p className="site00-fws-hub-carousel__card-sub">{item.subtitle}</p> : null}
+              </div>
+            </Link>
+          );
+        })}
       </div>
 
       <div className="site00-fws-mobile-section-head site00-fws-mobile-section-head--radar">
         <p className="site00-fws-hub-section-label">ON NDX&apos;S RADAR</p>
         <Link to={site00ProjectCulturalIntelligencePath(projectSlug)} className="site00-fws-mobile-screen__see-all">
-          View all ({NDX_OVERVIEW_RADAR_VIEW_ALL})
+          View all ({radarViewAll})
         </Link>
       </div>
       <ul className="site00-fws-hub-list site00-fws-hub-list--radar site00-fws-hub-list--radar-ruled" {...vrRegionAttr(NDX_VR_REGION.overviewRadar)}>
-        {RADAR_ITEMS.map((item, index) => (
+        {radarItems.map((item, index) => (
           <li key={item}>
             <span className="site00-fws-hub-list__num">{String(index + 1).padStart(2, '0')}</span>
             <span className="site00-fws-hub-list__label">{item}</span>

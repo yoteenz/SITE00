@@ -2,7 +2,7 @@
  * B5.6 — Carousel / Story format workspace with drag-reorder + live preview.
  */
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import type { Entry001CampaignAsset } from '../../../../../shared/site00-expression-engine/entry001CampaignPackage/types.js';
 import { site00ProjectCampaignBoardEntryPath } from '../../../config/routes';
@@ -16,6 +16,8 @@ type Props = {
   saveError: string | null;
   onReorder: (orderedIds: string[]) => void;
   onMove: (assetId: string, direction: 'left' | 'right') => void;
+  onUploadFiles?: (files: FileList, formatFamily: 'CAROUSEL' | 'STORY') => void;
+  existingSequenceCount?: number;
 };
 
 export function Entry001FormatSequenceWorkspace({
@@ -27,12 +29,24 @@ export function Entry001FormatSequenceWorkspace({
   saveError,
   onReorder,
   onMove,
+  onUploadFiles,
+  existingSequenceCount: _existingSequenceCount = 0,
 }: Props) {
   const [reorderMode, setReorderMode] = useState(false);
   const [dragId, setDragId] = useState<string | null>(null);
   const [previewIndex, setPreviewIndex] = useState(0);
+  const uploadRef = useRef<HTMLInputElement>(null);
 
   const packagePath = site00ProjectCampaignBoardEntryPath(projectSlug, '001');
+
+  const handleUploadClick = () => uploadRef.current?.click();
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.length && onUploadFiles) {
+      onUploadFiles(e.target.files, formatFamily);
+    }
+    e.target.value = '';
+  };
 
   const handleDrop = useCallback(
     (targetId: string) => {
@@ -112,6 +126,21 @@ export function Entry001FormatSequenceWorkspace({
       <section className="site00-e001-format-workspace__assets">
         <div className="site00-e001-format-workspace__toolbar">
           <h2>ASSETS</h2>
+          {onUploadFiles ? (
+            <>
+              <input
+                ref={uploadRef}
+                type="file"
+                accept="image/*,video/*"
+                multiple
+                hidden
+                onChange={handleFileChange}
+              />
+              <button type="button" onClick={handleUploadClick}>
+                ADD ASSET
+              </button>
+            </>
+          ) : null}
           <button type="button" onClick={() => setReorderMode((v) => !v)}>
             {reorderMode ? 'DONE' : 'REORDER'}
           </button>

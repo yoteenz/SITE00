@@ -1,6 +1,6 @@
 /**
- * P0.VR.1D.5 — Mobile overview reference snapshot metrics (visual reconstruction authority).
- * Live Content Ops pulse overrides when available; reference snapshot preserves founder-approved counts.
+ * P0.VR.1D.5 — Mobile overview reference snapshot metrics.
+ * B5.7: DEMO_FIXTURE only — active UI must use ProjectOperatingState via useProjectOperatingState.
  */
 
 export type NdxOverviewTodayAtNdxMetrics = {
