@@ -827,6 +827,36 @@ export function MobilePerformanceScreen({ projectSlug }: ScreenProps) {
   );
 }
 
+export function MobileLabHubScreen({ projectSlug }: ScreenProps) {
+  const { state: operatingState } = useProjectOperatingState(projectSlug);
+  const labPath = site00ProjectLabPath(projectSlug);
+  const systems = operatingState?.labSystems ?? [];
+
+  return (
+    <MobileScreenFrame eyebrow="LAB" title="CREATIVE SYSTEMS WORKSPACE" screenId="lab-hub">
+      <p className="site00-fws-mobile-screen__summary">
+        CHAPTER 01 — {operatingState?.chapterTitle ?? 'WHICH ONE IS IT?'}
+      </p>
+      <div className="site00-fws-mobile-lab__systems">
+        {systems.map((card) => (
+          <article key={card.systemId} className="site00-fws-mobile-lab__system-card">
+            <p className="site00-fws-mobile-lab__system-name">{card.label}</p>
+            <span className="site00-fws-hub-status">{card.statusLabel}</span>
+            {card.href ? (
+              <Link to={card.href} className="site00-fws-mobile-screen__link">
+                OPEN →
+              </Link>
+            ) : null}
+          </article>
+        ))}
+      </div>
+      <Link to={labPath} className="site00-fws-mobile-screen__link">
+        OPEN FULL LAB HUB →
+      </Link>
+    </MobileScreenFrame>
+  );
+}
+
 export function renderMobileFounderWorkspaceScreen(screenId: string, projectSlug: string): ReactNode {
   switch (screenId) {
     case 'overview':
@@ -839,6 +869,8 @@ export function renderMobileFounderWorkspaceScreen(screenId: string, projectSlug
       return <MobileExperiment01Screen projectSlug={projectSlug} />;
     case 'content-ops':
       return <MobileContentOpsScreen projectSlug={projectSlug} />;
+    case 'lab-hub':
+      return <MobileLabHubScreen projectSlug={projectSlug} />;
     case 'cultural-intelligence':
       return <MobileCulturalIntelligenceScreen projectSlug={projectSlug} />;
     case 'character-lab':

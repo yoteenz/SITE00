@@ -6,16 +6,20 @@ type ProjectModuleMobileSubnavProps = {
   moduleId: ProjectModuleId;
   activeSubnav: string;
   onSubnavChange: (subnavId: string) => void;
+  subnavOverride?: import('../../../../shared/site00-projects/projectModules.js').ProjectModuleSubnavItem[];
+  subnavOverflowOverride?: import('../../../../shared/site00-projects/projectModules.js').ProjectModuleSubnavItem[];
 };
 
 export function ProjectModuleMobileSubnav({
   moduleId,
   activeSubnav,
   onSubnavChange,
+  subnavOverride,
+  subnavOverflowOverride,
 }: ProjectModuleMobileSubnavProps) {
   const [overflowOpen, setOverflowOpen] = useState(false);
-  const subnav = getModuleSubnav(moduleId);
-  const overflow = PROJECT_MODULE_CONFIGS[moduleId].mobileSubnavOverflow ?? [];
+  const subnav = subnavOverride ?? getModuleSubnav(moduleId);
+  const overflow = subnavOverflowOverride ?? PROJECT_MODULE_CONFIGS[moduleId].mobileSubnavOverflow ?? [];
   const moreItem = subnav.find((s) => s.id === 'MORE');
 
   return (
