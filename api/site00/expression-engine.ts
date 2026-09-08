@@ -37,6 +37,10 @@ import {
   bootstrapC11AutonomousCreativeDirector,
   applyCreativeDirectorFounderJudgment,
 } from '../_lib/site00ExpressionEngine/creativeDirector/creativeDirectorService.js';
+import {
+  bootstrapC12Entry003AutonomousCreativeDirector,
+  applyEntry003FounderJudgment,
+} from '../_lib/site00ExpressionEngine/entry003/entry003Service.js';
 import { getChapterByNumber, getChapterGrammarForChapter } from '../_lib/site00ExpressionEngine/chapterStore.js';
 import { runChapterRepetitionQA } from '../_lib/site00ExpressionEngine/chapterRepetitionQA.js';
 import { CHAPTER_01_ID } from '../_lib/site00ExpressionEngine/chapter01Canon.js';
@@ -426,6 +430,45 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       const c11 = await bootstrapC11AutonomousCreativeDirector({ useBlindTest: true });
       return res.status(200).json(c11);
+    }
+
+    if (
+      req.method === 'POST' &&
+      action === 'SET_ENTRY_003_CREATIVE_JUDGMENT'
+    ) {
+      const founderJudgment = String(body.founderJudgment ?? '') as
+        | 'LOVE_IT'
+        | 'PUSH_FURTHER'
+        | 'TOO_SAFE'
+        | 'TOO_CLOSE'
+        | 'CHANGE_THE_WORLD'
+        | 'CHANGE_THE_ROLE'
+        | 'REVISE'
+        | 'NOT_FOR_ME';
+      const feedbackType = body.feedbackType
+        ? (String(body.feedbackType) as 'TASTE_FEEDBACK' | 'STRUCTURAL_REPAIR' | 'CANON_CORRECTION' | 'CONTINUITY_CORRECTION' | 'ORIGINALITY_PUSH')
+        : undefined;
+
+      if (!founderJudgment) {
+        return res.status(400).json({ error: 'founderJudgment required' });
+      }
+
+      applyEntry003FounderJudgment({
+        founderJudgment,
+        feedbackType,
+        learningNote: body.learningNote ? String(body.learningNote) : undefined,
+      });
+
+      const c12 = await bootstrapC12Entry003AutonomousCreativeDirector();
+      return res.status(200).json(c12);
+    }
+
+    if (
+      req.method === 'GET' &&
+      (phase === 'C1.2' || phase === 'ENTRY_003' || phase === 'ENTRY003')
+    ) {
+      const c12 = await bootstrapC12Entry003AutonomousCreativeDirector();
+      return res.status(200).json(c12);
     }
 
     if (

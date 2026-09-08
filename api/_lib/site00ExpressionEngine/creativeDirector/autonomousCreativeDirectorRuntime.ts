@@ -55,7 +55,7 @@ export async function runAutonomousCreativeDirector(
 ): Promise<CreativeDirectorRun> {
   assertBriefDoesNotRequireOutputs(brief);
   if (!options?.skipBlindTestGuard && brief.entryId === 'entry-002') {
-    throw new Error('Blind autonomy test must not use Entry 002 — use entry-c1-blind or underdeveloped Entry');
+    throw new Error('Blind autonomy test must not use Entry 002 — use entry-c1-blind or entry-003 discovery');
   }
 
   consumeFounderCorrectionRules(); // methodology reinforcement loaded
@@ -87,10 +87,10 @@ export async function runAutonomousCreativeDirector(
   const roles = runRoleSynthesisPass(winner, brief);
   const turningPoint = runTurningPointPass(winner, brief);
   const contradiction = runContradictionPass(brief);
-  const interjectionCandidates = generateInterjectionCandidates(winner, contradiction);
+  const interjectionCandidates = generateInterjectionCandidates(winner, contradiction, brief);
   const selectedInterjection = selectInterjection(interjectionCandidates);
   const payoffAftershock = runPayoffAftershockPass(winner, selectedInterjection, brief);
-  const directorialConception = runDirectorialConceptionPass(winner);
+  const directorialConception = runDirectorialConceptionPass(winner, brief);
   const visualAuthorityPlan = deriveVisualAuthorityPlan(winner, roles);
 
   const narrativeInput = buildNarrativeSynthesisInputFromCreativeDirector({

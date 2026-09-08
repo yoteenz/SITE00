@@ -13,11 +13,120 @@ function baseTerritories(brief: MinimalCreativeBrief): Omit<
   'similarityToEntry001' | 'similarityToEntry002'
 >[] {
   const subjectKey = brief.subject.toLowerCase();
+  const isCleanGirl =
+    subjectKey.includes('clean girl') ||
+    subjectKey.includes('effortless') ||
+    subjectKey.includes('beauty');
   const isWellness =
     subjectKey.includes('wellness') ||
     subjectKey.includes('rest') ||
     subjectKey.includes('hustle') ||
     subjectKey.includes('work');
+
+  if (isCleanGirl) {
+    return [
+      {
+        territoryId: 'territory-routine-lab',
+        name: 'THE ROUTINE LAB',
+        coreIdea: 'Effortless beauty staged as a laboratory where each step adds another receipt.',
+        world: 'THE ROUTINE LAB',
+        worldFunction: 'Quantifies invisible labor behind minimal aesthetics.',
+        artifact: 'STEP COUNTER / PRODUCT LINE RECEIPT',
+        artifactFunction: 'Shows step count rising while look stays minimal.',
+        ndxRoleCandidate: 'WITNESS',
+        subjectRoleCandidate: 'PERFORMER / PROOF',
+        narrativeMechanism: 'Routine escalation contradicts effortless claim',
+        visualMechanism: 'Counter ticks, products multiply, face stays calm',
+        emotionalTemperature: 'Calm vanity → uncomfortable arithmetic',
+        revealPotential: 'Same look requires more steps than old glossy era',
+        turnPotential: 'Effortless redefined as hidden labor budget',
+        interjectionPotential: 'Names the step-count lie',
+        payoffPotential: 'Counter resets — next trend already loading',
+        formatStrength: 'Reel counter escalation + carousel SKU receipts',
+        whyItIsDistinct: 'Labor-quantification world — not nostalgia or broadcast.',
+      },
+      {
+        territoryId: 'territory-shelfie-museum',
+        name: 'THE SHELFIE MUSEUM',
+        coreIdea: 'Curated minimal shelves as exhibition of restraint that requires excess inventory.',
+        world: 'THE SHELFIE MUSEUM',
+        worldFunction: 'Museumizes minimalism so excess becomes visible by curation choices.',
+        artifact: 'CURATION PLACARD / SKU LIST',
+        artifactFunction: 'Placard lists every product removed to achieve the shelf shot.',
+        ndxRoleCandidate: 'ARCHIVIST',
+        subjectRoleCandidate: 'CURATOR',
+        narrativeMechanism: 'What was removed to look effortless',
+        visualMechanism: 'White shelves, placards, behind-the-scenes overflow room',
+        emotionalTemperature: 'Aesthetic calm → archival embarrassment',
+        revealPotential: 'Back room overflow contradicts front shelf',
+        turnPotential: 'Minimalism requires maximal sorting',
+        interjectionPotential: 'The shelf is a edit not a lifestyle',
+        payoffPotential: 'Next exhibit: new routine drop',
+        formatStrength: 'Carousel placards + reel reveal',
+        whyItIsDistinct: 'Museum grammar applied to beauty — orthogonal to prior Entries.',
+      },
+      {
+        territoryId: 'territory-grwm-clock',
+        name: 'THE GRWM CLOCK',
+        coreIdea: 'Get-ready-with-me timestamps prove effortless takes longer than it admits.',
+        world: 'THE GRWM CLOCK',
+        worldFunction: 'Time becomes receipt layer for beauty claims.',
+        artifact: 'TIMESTAMP STRIP / DURATION RECEIPT',
+        artifactFunction: 'Logs minutes per look while caption says quick routine.',
+        ndxRoleCandidate: 'OBSERVER',
+        subjectRoleCandidate: 'SUBJECT ON CLOCK',
+        narrativeMechanism: 'Duration contradicts caption language',
+        visualMechanism: 'Clock overlay, sped-up vs real-time split',
+        emotionalTemperature: 'Casual pace → time betrayal',
+        revealPotential: 'Quick routine timestamp exceeds old glam prep',
+        turnPotential: 'Effortless is a time edit',
+        interjectionPotential: 'Calls out duration vs caption',
+        payoffPotential: 'Clock rolls to next upload slot',
+        formatStrength: 'Reel time-receipt native',
+        whyItIsDistinct: 'Temporal receipt world — not phone archive scroll.',
+      },
+      {
+        territoryId: 'territory-ingredient-index',
+        name: 'THE INGREDIENT INDEX',
+        coreIdea: 'Natural/no-makeup language indexed against ingredient lists and tool counts.',
+        world: 'THE INGREDIENT INDEX',
+        worldFunction: 'Forensic index cross-references clean language with chemical/tool receipts.',
+        artifact: 'INDEX CARD STACK',
+        artifactFunction: 'Each card matches a claim word to a product receipt.',
+        ndxRoleCandidate: 'DISRUPTOR',
+        subjectRoleCandidate: 'INDEXED SUBJECT',
+        narrativeMechanism: 'Language index vs material list',
+        visualMechanism: 'Card flips, highlight marks, stack height',
+        emotionalTemperature: 'Clinical → incriminating',
+        revealPotential: 'Natural label maps to long ingredient column',
+        turnPotential: 'Clean is a vocabulary not a formula',
+        interjectionPotential: 'Index names the mismatch',
+        payoffPotential: 'New index entry queued',
+        formatStrength: 'Carousel index cards + reel stack',
+        whyItIsDistinct: 'Forensic index — not edit suite or TV.',
+      },
+      {
+        territoryId: 'territory-mirror-stages',
+        name: 'THE MIRROR STAGES',
+        coreIdea: 'Multiple mirror panels show different stages of the same effortless look being constructed.',
+        world: 'THE MIRROR STAGES',
+        worldFunction: 'Spatially separates public face from construction stages.',
+        artifact: 'STAGE MARKER / ROUTINE MAP',
+        artifactFunction: 'Maps which mirror stage is allowed on camera.',
+        ndxRoleCandidate: 'INTERJECTOR',
+        subjectRoleCandidate: 'PERFORMER',
+        narrativeMechanism: 'Visible vs hidden construction stages',
+        visualMechanism: 'Split mirrors, stage lights, curtain between panels',
+        emotionalTemperature: 'Intimate vanity → staged disclosure',
+        revealPotential: 'Back mirror shows full routine',
+        turnPotential: 'Effortless is front-mirror only',
+        interjectionPotential: 'Names the mirror split',
+        payoffPotential: 'Curtain closes on back mirror',
+        formatStrength: 'Cinematic reel reveal',
+        whyItIsDistinct: 'Theater-of-vanity — strong turn without Entry 002 devices.',
+      },
+    ];
+  }
 
   if (!isWellness) {
     return [
