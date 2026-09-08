@@ -6299,3 +6299,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Tests** — `site00ExpressionEngineSprintC12.test.ts` (44/44 pass); C11 remains green (46/46)
 - **Next evaluation action:** FOUNDER REVIEWS ENTRY 003 AS STUDIO WORLD CREATED IT — taste-level feedback only; no production assets yet
 
+---
+
+## 2026-09-08 — Sprint B5.4 — Entry 001 Approved Archive taxonomy
+
+- **Context:** Approved Archive treated all uploads as equivalent images — no type grouping, no remove flow, package readiness could not reason by format.
+- **Delivered:**
+  - **Taxonomy** — `Entry001AssetType` + `Entry001ContentRole` on all archive records
+  - **10-asset migration audit** — classified with recommended type/role (founder controls removal)
+  - **Parent packages** — ENTRY001_CAROUSEL_001 (4 slides), ENTRY001_STORY_SEQUENCE_001 (1 frame)
+  - **Archive UI** — type-grouped sections, compact filters, type/role labels, remove + restore history
+  - **Ingestion** — batch classification sheet with AI suggestions (founder accept/change)
+  - **Readiness/intelligence** — type-aware `Entry001PackageReadiness`, `Entry001ArchiveIntelligence`, typed derivation plan
+  - **Tests** — B54 27/27 pass; B52 28/28 pass
+- **No provider dispatch** — archive/data/UI only
+- **Next founder action:** Review Entry 001 archive on mobile — remove any incorrect assets, confirm type labels
+
