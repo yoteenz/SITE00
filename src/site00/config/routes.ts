@@ -87,6 +87,9 @@ export const SITE00_ROUTES = {
   projectContentOperationsPerformance: '/projects/:projectSlug/content-operations/performance',
   projectContentOperationsCampaignBoard: '/projects/:projectSlug/content-operations/campaign-board',
   projectCampaignBoardEntry: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber',
+  projectCampaignBoardEntryPreview: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/preview',
+  projectCampaignBoardEntryFormat: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/format/:formatFamily',
+  projectCampaignBoardEntryDeliverable: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/deliverable/:deliverableId',
   projectExpressionEngineCampaign: '/projects/:projectSlug/content-operations/expression-engine',
   projectFounderCreativeIngestion: '/projects/:projectSlug/content-operations/founder-creative-ingest',
   projectFilmProduction: '/projects/:projectSlug/content-operations/film-production',
@@ -314,6 +317,26 @@ export function site00ProjectContentOperationsCampaignBoardPath(projectSlug: str
 
 export function site00ProjectCampaignBoardEntryPath(projectSlug: string, entryNumber: string): string {
   return `/projects/${projectSlug}/content-operations/campaign-board/entry/${entryNumber}`;
+}
+
+export function site00ProjectCampaignBoardEntryPreviewPath(projectSlug: string, entryNumber: string): string {
+  return `/projects/${projectSlug}/content-operations/campaign-board/entry/${entryNumber}/preview`;
+}
+
+export function site00ProjectCampaignBoardEntryFormatPath(
+  projectSlug: string,
+  entryNumber: string,
+  formatFamily: string,
+): string {
+  return `/projects/${projectSlug}/content-operations/campaign-board/entry/${entryNumber}/format/${formatFamily}`;
+}
+
+export function site00ProjectCampaignBoardEntryDeliverablePath(
+  projectSlug: string,
+  entryNumber: string,
+  deliverableId: string,
+): string {
+  return `/projects/${projectSlug}/content-operations/campaign-board/entry/${entryNumber}/deliverable/${deliverableId}`;
 }
 
 export function site00ProjectExpressionEngineCampaignPath(projectSlug: string): string {

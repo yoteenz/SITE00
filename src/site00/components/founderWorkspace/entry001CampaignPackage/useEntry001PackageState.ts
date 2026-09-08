@@ -29,6 +29,24 @@ import {
 } from './entry001AssetTaxonomy.js';
 import { suggestAssetClassification } from './entry001AssetClassification.js';
 import { buildEntry001PackageReadiness } from './entry001PackageReadiness.js';
+import {
+  archiveDeliverable,
+  deleteDeliverablePermanently,
+  getDeliverableById,
+  loadDeliverablesState,
+  persistDeliverablesState,
+  removeDeliverableFromPackage,
+  replaceDeliverableFile,
+  restoreDeliverableToPackage,
+  reorderDeliverablesInFormat,
+  syncDeliverablesFromAssets,
+  updateDeliverableMetadata,
+  createDeliverableFromAsset,
+  assetTypeToFormatFamily,
+} from './entry001DeliverableStore.js';
+import { buildFormatWorkspaceSummaries } from './entry001FormatWorkspaces.js';
+import { buildPackagePreviewComposition } from './entry001PackagePreview.js';
+import type { Entry001DeliverableRecord, Entry001FormatFamily } from '../../../../../shared/site00-expression-engine/entry001CampaignPackage/types.js';
 
 const STORAGE_KEY = 'site00_entry001_archive_state_v2';
 
@@ -60,15 +78,35 @@ function persistState(state: Entry001ArchiveStatePersisted): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
+export type PostUploadSuccess = {
+  deliverableId: string;
+  title: string;
+  formatFamily: Entry001FormatFamily;
+};
+
 export function useEntry001PackageState() {
   const [persisted, setPersisted] = useState<Entry001ArchiveStatePersisted>(() => loadState());
+  const [deliverablePersisted, setDeliverablePersisted] = useState(() => loadDeliverablesState());
   const [pendingQueue, setPendingQueue] = useState<PendingClassificationItem[]>([]);
   const [archiveFilter, setArchiveFilter] = useState<Entry001ArchiveFilter>('ALL');
+  const [postUploadSuccess, setPostUploadSuccess] = useState<PostUploadSuccess | null>(null);
 
   const activeArchive = useMemo(
     () => buildActiveArchive(persisted.overrides, persisted.removedAssetIds, persisted.extraAssets),
     [persisted],
   );
+
+  const deliverables = useMemo(
+    () =>
+      syncDeliverablesFromAssets(
+        activeArchive,
+        persisted.extraAssets,
+        deliverablePersisted.deliverables,
+      ),
+    [activeArchive, persisted.extraAssets, deliverablePersisted.deliverables],
+  );
+
+  const formatSummaries = useMemo(() => buildFormatWorkspaceSummaries(deliverables), [deliverables]);
 
   const filteredArchive = useMemo(
     () => filterArchiveAssets(activeArchive, archiveFilter),
@@ -78,8 +116,13 @@ export function useEntry001PackageState() {
   const archiveGroups = useMemo(() => groupAssetsByType(filteredArchive), [filteredArchive]);
 
   const readiness = useMemo(
-    () => buildEntry001PackageReadiness(activeArchive, persisted.extraAssets),
-    [activeArchive, persisted.extraAssets],
+    () => buildEntry001PackageReadiness(activeArchive, persisted.extraAssets, deliverables),
+    [activeArchive, persisted.extraAssets, deliverables],
+  );
+
+  const packagePreview = useMemo(
+    () => buildPackagePreviewComposition(deliverables, readiness),
+    [deliverables, readiness],
   );
 
   const intelligence = useMemo(() => buildEntry001ArchiveIntelligence(activeArchive), [activeArchive]);
@@ -87,29 +130,63 @@ export function useEntry001PackageState() {
   const parentPackages = useMemo(() => buildParentPackages(activeArchive), [activeArchive]);
 
   const missingDeliverables = useMemo(() => {
+    const activeDeliverables = deliverables.filter((d) => !d.removedFromPackage && d.status !== 'DELETED');
     const filled = new Set(
-      persisted.extraAssets
-        .filter((a) => a.approved && a.filePath)
-        .map((a) => a.assetType ?? a.role),
+      activeDeliverables.filter((d) => d.approved && d.filePath).map((d) => d.assetType),
     );
-    return buildEntry001MissingDeliverablePlaceholders(filled).map((placeholder) => {
-      const resolved = persisted.extraAssets.find(
-        (a) =>
-          (a.assetType ?? a.role) === (placeholder.assetType ?? placeholder.role) &&
-          a.approved &&
-          a.filePath,
+    const allSlots = [
+      ...buildEntry001MissingDeliverablePlaceholders(new Set()),
+      ...buildEntry001MissingDeliverablePlaceholders(filled),
+    ];
+    const uniqueTypes = [...new Set(allSlots.map((s) => s.assetType))];
+    return uniqueTypes.map((assetType) => {
+      const placeholder = buildEntry001MissingDeliverablePlaceholders(new Set()).find((p) => p.assetType === assetType)!;
+      const resolved = activeDeliverables.find(
+        (d) => d.assetType === assetType && d.filePath,
       );
-      return resolved ?? placeholder;
+      if (resolved) {
+        return {
+          ...placeholder,
+          assetId: resolved.assetId,
+          filePath: resolved.filePath,
+          title: resolved.title,
+          status: resolved.approved ? ('APPROVED' as const) : ('AWAITING_FOUNDER_APPROVAL' as const),
+          approved: resolved.approved,
+        };
+      }
+      return placeholder;
     });
-  }, [persisted.extraAssets]);
+  }, [deliverables]);
+
+  const updateDeliverables = useCallback(
+    (updater: (prev: Entry001DeliverableRecord[]) => Entry001DeliverableRecord[]) => {
+      setDeliverablePersisted((prev) => {
+        const next = { deliverables: updater(prev.deliverables) };
+        persistDeliverablesState(next);
+        return next;
+      });
+    },
+    [],
+  );
+
+  const syncDeliverablesAfterAssetChange = useCallback(
+    (nextExtraAssets: Entry001CampaignAsset[]) => {
+      const nextActive = buildActiveArchive(persisted.overrides, persisted.removedAssetIds, nextExtraAssets);
+      const synced = syncDeliverablesFromAssets(nextActive, nextExtraAssets, deliverablePersisted.deliverables);
+      persistDeliverablesState({ deliverables: synced });
+      setDeliverablePersisted({ deliverables: synced });
+    },
+    [persisted.overrides, persisted.removedAssetIds, deliverablePersisted.deliverables],
+  );
 
   const updatePersisted = useCallback((updater: (prev: Entry001ArchiveStatePersisted) => Entry001ArchiveStatePersisted) => {
     setPersisted((prev) => {
       const next = updater(prev);
       persistState(next);
+      syncDeliverablesAfterAssetChange(next.extraAssets);
       return next;
     });
-  }, []);
+  }, [syncDeliverablesAfterAssetChange]);
 
   const removeFromArchive = useCallback(
     (assetId: string) => {
@@ -271,6 +348,15 @@ export function useEntry001PackageState() {
           ],
           notes: `AI suggested ${p.suggestion.confidence}: ${p.suggestion.rationale}`,
         }));
+        const last = newAssets[newAssets.length - 1];
+        if (last) {
+          const record = createDeliverableFromAsset(last);
+          setPostUploadSuccess({
+            deliverableId: record.deliverableId,
+            title: record.title,
+            formatFamily: assetTypeToFormatFamily(last.assetType),
+          });
+        }
         return { ...prev, extraAssets: [...prev.extraAssets, ...newAssets.map(enrichAssetWithTaxonomy)] };
       });
     },
@@ -319,9 +405,114 @@ export function useEntry001PackageState() {
         ...prev,
         extraAssets: [...prev.extraAssets.filter((a) => a.role !== role), asset],
       }));
+      const record = createDeliverableFromAsset(asset);
+      setPostUploadSuccess({
+        deliverableId: record.deliverableId,
+        title: record.title,
+        formatFamily: assetTypeToFormatFamily(assetType),
+      });
       return assetId;
     },
     [updatePersisted],
+  );
+
+  const removeDeliverableFromPackageAction = useCallback(
+    (deliverableId: string) => {
+      updateDeliverables((prev) => removeDeliverableFromPackage(prev, deliverableId));
+      const d = getDeliverableById(deliverables, deliverableId);
+      if (d) {
+        updatePersisted((prev) => ({
+          ...prev,
+          extraAssets: prev.extraAssets.filter((a) => a.assetId !== d.assetId),
+        }));
+      }
+    },
+    [updateDeliverables, deliverables, updatePersisted],
+  );
+
+  const archiveDeliverableAction = useCallback(
+    (deliverableId: string) => {
+      updateDeliverables((prev) => archiveDeliverable(prev, deliverableId));
+      const d = getDeliverableById(deliverables, deliverableId);
+      if (d) removeFromArchive(d.assetId);
+    },
+    [updateDeliverables, deliverables, removeFromArchive],
+  );
+
+  const restoreDeliverableAction = useCallback(
+    (deliverableId: string) => {
+      updateDeliverables((prev) => restoreDeliverableToPackage(prev, deliverableId));
+      const d = getDeliverableById(deliverables, deliverableId);
+      if (d) restoreToArchive(d.assetId);
+    },
+    [updateDeliverables, deliverables, restoreToArchive],
+  );
+
+  const deleteDeliverablePermanentlyAction = useCallback(
+    (deliverableId: string) => {
+      updateDeliverables((prev) => deleteDeliverablePermanently(prev, deliverableId));
+    },
+    [updateDeliverables],
+  );
+
+  const replaceDeliverableFileAction = useCallback(
+    (deliverableId: string, file: File) => {
+      const url = URL.createObjectURL(file);
+      updateDeliverables((prev) =>
+        replaceDeliverableFile(prev, deliverableId, url, file.name.replace(/\.[^.]+$/, '').toUpperCase()),
+      );
+      const d = getDeliverableById(deliverables, deliverableId);
+      if (d) {
+        updatePersisted((prev) => ({
+          ...prev,
+          extraAssets: prev.extraAssets.map((a) =>
+            a.assetId === d.assetId ? { ...a, filePath: url, title: file.name.replace(/\.[^.]+$/, '').toUpperCase() } : a,
+          ),
+        }));
+      }
+    },
+    [updateDeliverables, deliverables, updatePersisted],
+  );
+
+  const editDeliverableMetadata = useCallback(
+    (
+      deliverableId: string,
+      patch: Parameters<typeof updateDeliverableMetadata>[2],
+    ) => {
+      updateDeliverables((prev) => updateDeliverableMetadata(prev, deliverableId, patch));
+      const d = getDeliverableById(deliverables, deliverableId);
+      if (d && (patch.title || patch.assetType || patch.assetRole)) {
+        updatePersisted((prev) => ({
+          ...prev,
+          extraAssets: prev.extraAssets.map((a) =>
+            a.assetId === d.assetId
+              ? enrichAssetWithTaxonomy({
+                  ...a,
+                  title: patch.title ?? a.title,
+                  assetType: patch.assetType ?? a.assetType,
+                  assetRole: patch.assetRole ?? a.assetRole,
+                  role: patch.assetType ? assetTypeToLegacyRole(patch.assetType) : a.role,
+                })
+              : a,
+          ),
+        }));
+      }
+    },
+    [updateDeliverables, deliverables, updatePersisted],
+  );
+
+  const reorderFormatDeliverables = useCallback(
+    (formatFamily: Entry001FormatFamily, orderedIds: string[]) => {
+      updateDeliverables((prev) => reorderDeliverablesInFormat(prev, formatFamily, orderedIds));
+    },
+    [updateDeliverables],
+  );
+
+  const dismissPostUploadSuccess = useCallback(() => setPostUploadSuccess(null), []);
+
+  const getDeliverable = useCallback(
+    (deliverableId: string) => getDeliverableById(deliverables, deliverableId),
+    [deliverables],
   );
 
   const approveUploadedAsset = useCallback((_assetId: string) => {
@@ -363,5 +554,18 @@ export function useEntry001PackageState() {
     approveUploadedAsset,
     batchAddAssets,
     approvedArchiveCount: readiness.activeArchiveCount,
+    deliverables,
+    formatSummaries,
+    packagePreview,
+    postUploadSuccess,
+    dismissPostUploadSuccess,
+    getDeliverable,
+    removeDeliverableFromPackage: removeDeliverableFromPackageAction,
+    archiveDeliverable: archiveDeliverableAction,
+    restoreDeliverable: restoreDeliverableAction,
+    deleteDeliverablePermanently: deleteDeliverablePermanentlyAction,
+    replaceDeliverableFile: replaceDeliverableFileAction,
+    editDeliverableMetadata,
+    reorderFormatDeliverables,
   };
 }
