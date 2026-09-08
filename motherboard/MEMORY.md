@@ -6208,3 +6208,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Release:** `site00-deploy-2026-09-08-v179`
 - **Next production action:** Founder chooses A (one POST generation) or B (import variant A or B) — system will not auto-choose
 
+---
+
+## 2026-09-08 — Sprint C1.0 — Narrative Synthesis Engine
+
+- **Context:** Studio World produced strong concepts/territories/treatments but lacked connective human storytelling tissue between creative thinking and production treatment. Founder still manually authored causal story logic.
+- **Delivered:**
+  - **`shared/site00-expression-engine/narrative-synthesis/`** — NarrativeSynthesis, NarrativeBeat, causality graph, audience knowledge, emotional arc, reveal strategy, role intelligence, cohesion QA types
+  - **`api/_lib/site00ExpressionEngine/narrativeSynthesis/`** — compiler, self-revision (max 3 passes), cohesion/originality QA, shuffle test, payoff logic, correction store + generalizable rules, Entry 002 golden fixture, treatment handoff contract
+  - **API** — GET `?phase=C1`; POST `SET_NARRATIVE_SYNTHESIS_JUDGMENT`; `providerDispatchCount: 0` always
+  - **UI** — `NarrativeSynthesisWorkspace` in PRODUCTION tab (spine, roles, QA, founder judgment)
+  - **Tests** — `site00ExpressionEngineSprintC10.test.ts` (24 pass); Entry 002 golden fixture validates investigator/proof/portal/edit roles
+- **Architecture:** BRAND TRUTH → CREATIVE THINKING → **NARRATIVE SYNTHESIS** → DIRECTORIAL TREATMENT → Expression Engine (unchanged)
+- **Narrative authority:** LOVE_IT sets `narrativeAuthority=true`; treatment handoff marks immutable spine elements
+- **Release:** `site00-deploy-2026-09-08-v180`
+- **Next intellectual test:** Run Narrative Synthesis against a new/underdeveloped Entry without founder-supplied connective tissue
+
