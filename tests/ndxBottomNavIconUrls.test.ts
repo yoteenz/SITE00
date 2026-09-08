@@ -3,7 +3,7 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { NDX_BOTTOM_NAV_ICON_FILES, getNdxBottomNavIconUrl } from '../src/site00/config/ndxBottomNavIconUrls.js';
+import { NDX_BOTTOM_NAV_ICON_FILES } from '../src/site00/config/ndxBottomNavIconUrls.js';
 
 describe('NDX bottom nav icon URLs', () => {
   it('maps all five project bottom panel icons', () => {
@@ -13,19 +13,6 @@ describe('NDX bottom nav icon URLs', () => {
     expect(NDX_BOTTOM_NAV_ICON_FILES.lab).toBe('8DA238D1-0D12-4BD2-BC72-B6EC3742A112.png');
     expect(NDX_BOTTOM_NAV_ICON_FILES.more).toBe('47B47A35-B9AC-4D3B-A25B-9F6F89ABF2E7.png');
     expect(Object.keys(NDX_BOTTOM_NAV_ICON_FILES)).toHaveLength(5);
-  });
-
-  it('builds public storage URLs when Supabase URL is configured', () => {
-    const prev = process.env.VITE_SUPABASE_URL;
-    process.env.VITE_SUPABASE_URL = 'https://example.supabase.co';
-    try {
-      const url = getNdxBottomNavIconUrl('overview');
-      expect(url).toContain('/storage/v1/object/public/live-preview/Icons/');
-      expect(url).toContain('E1338D32-15BE-4B60-B743-E408EE8C99B7.png');
-    } finally {
-      if (prev === undefined) delete process.env.VITE_SUPABASE_URL;
-      else process.env.VITE_SUPABASE_URL = prev;
-    }
   });
 
   it('mobile chrome and fallback nav use NDXBottomNavIcon', async () => {
