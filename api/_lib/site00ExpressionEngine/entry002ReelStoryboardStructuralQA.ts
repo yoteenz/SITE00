@@ -33,7 +33,9 @@ export async function runReelStoryboardStructuralQA(params: {
   });
   checks.push({
     check: 'promptDescribesCompleteReelBeforeStills',
-    passed: params.compiledPrompt.includes('THE COMPLETE REEL AS ONE CONTINUOUS FILM'),
+    passed:
+      params.compiledPrompt.includes('ONE CONTINUOUS REEL') ||
+      params.compiledPrompt.includes('THE COMPLETE REEL AS ONE CONTINUOUS FILM'),
   });
   checks.push({
     check: 'authorityBoardLayoutsExcluded',

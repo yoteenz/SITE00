@@ -34,8 +34,8 @@ import { buildPreStoryboardApprovalState } from '../api/_lib/site00ExpressionEng
 import { isKeyframeEligibleFromFinalStoryboard } from '../api/_lib/site00ExpressionEngine/entry002FinalStoryboardRecord.js';
 import { ENTRY_002_CINEMATIC_SEQUENCE_001 } from '../shared/site00-expression-engine/entry002CinematicSequenceIds.js';
 import {
-  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID,
-  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_004_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_005_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_005_ID,
   buildEntry002FinalCinematicStoryboardPublicStripPath,
 } from '../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
 import { resetLineageStore } from '../api/_lib/site00ExpressionEngine/lineageRegistration.js';
@@ -98,9 +98,9 @@ describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generatio
     expect(result.storyboardBrief.historicalSequenceExcluded).toBe(ENTRY_002_CINEMATIC_SEQUENCE_001);
   });
 
-  it('5. canonical final storyboard ID is 004 distinct from historical sequence', async () => {
+  it('5. canonical final storyboard ID is 005 distinct from historical sequence', async () => {
     const result = await bootstrapB49();
-    expect(result.finalCinematicStoryboard?.storyboardId).toBe(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID);
+    expect(result.finalCinematicStoryboard?.storyboardId).toBe(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_005_ID);
     expect(result.finalCinematicStoryboard?.storyboardId).not.toBe(ENTRY_002_CINEMATIC_SEQUENCE_001);
   });
 
@@ -109,9 +109,9 @@ describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generatio
     expect(result.finalCinematicStoryboard?.founderJudgment).toBe('UNREVIEWED');
   });
 
-  it('7. post-generation status = AWAITING_FOUNDER_APPROVAL after valid QA', async () => {
+  it('7. post-generation status = PIPELINE_TEST_ONLY in CI (founder review requires FAL visual binding)', async () => {
     const result = await bootstrapB49();
-    expect(result.finalCinematicStoryboard?.status).toBe('AWAITING_FOUNDER_APPROVAL');
+    expect(result.finalCinematicStoryboard?.status).toBe('PIPELINE_TEST_ONLY');
   });
 
   it('8. storyboard is not automatically canon', async () => {
@@ -124,19 +124,18 @@ describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generatio
     expect(result.finalCinematicStoryboard?.visualAuthority).toBe(false);
   });
 
-  it('10. founder storyboard review active only after valid single-artifact QA', async () => {
+  it('10. founder storyboard review inactive in CI until visual-authority FAL render', async () => {
     const result = await bootstrapB49();
-    expect(result.productionEligibility.founderStoryboardApproval).toBe('ACTIVE');
-    expect(result.finalStoryboardReviewGate.active).toBe(true);
+    expect(result.productionEligibility.founderStoryboardApproval).not.toBe('ACTIVE');
+    expect(result.finalStoryboardReviewGate.active).toBe(false);
     expect(result.structuralQA.passed).toBe(true);
   });
 
-  it('11. next action changes to founder review after valid generation', async () => {
+  it('11. next action is repair/regenerate until visual review ready', async () => {
     const b48 = await bootstrapB48();
     expect(b48.nextAction).toBe(ENTRY_002_FINAL_STORYBOARD_NEXT_ACTION);
     const result = await bootstrapB49();
-    expect(result.nextAction).toBe(ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION);
-    expect(result.pipelineState.nextAction).toBe(ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION);
+    expect(result.nextAction).not.toBe(ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION);
   });
 
   it('12. keyframes blocked while storyboard UNREVIEWED', async () => {
@@ -158,11 +157,11 @@ describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generatio
     expect(result.keyframes).toBe('BLOCKED_PENDING_FINAL_STORYBOARD_APPROVAL');
   });
 
-  it('15. keyframes eligible only when storyboard LOVE_IT', async () => {
+  it('15. keyframes remain blocked without valid visual review candidate even after LOVE_IT judgment', async () => {
     await bootstrapB49();
     recordFinalStoryboardFounderJudgment({ founderJudgment: 'LOVE_IT' });
     const result = await bootstrapB49();
-    expect(result.keyframes).toBe('READY_FOR_GENERATION');
+    expect(result.keyframes).toBe('BLOCKED_PENDING_FINAL_STORYBOARD_APPROVAL');
     expect(isKeyframeEligibleFromFinalStoryboard('LOVE_IT')).toBe(true);
   });
 
@@ -231,7 +230,7 @@ describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generatio
     const result = await bootstrapB49();
     expect(result.finalCinematicStoryboard?.telemetry.panelRenderCount).toBe(0);
     expect(result.finalCinematicStoryboard?.telemetry.storyboardRenderCount).toBe(1);
-    expect(result.telemetryNote).toContain('REEL_COHERENCE_PASS');
+    expect(result.telemetryNote).toContain('PIPELINE_TEST_ONLY');
   });
 
   it('26. render state requires actual reel storyboard artifact', async () => {
@@ -241,7 +240,7 @@ describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generatio
     const stripPath = path.join(
       process.cwd(),
       'public',
-      buildEntry002FinalCinematicStoryboardPublicStripPath(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_004_ID).replace(/^\//, ''),
+      buildEntry002FinalCinematicStoryboardPublicStripPath(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_005_ID).replace(/^\//, ''),
     );
     await expect(fs.access(stripPath)).resolves.toBeUndefined();
   });
@@ -253,11 +252,11 @@ describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generatio
     }
   });
 
-  it('28. structural + continuity QA pass before founder review', async () => {
+  it('28. structural + continuity QA pass; founder review inactive until visual binding', async () => {
     const result = await bootstrapB49();
     expect(result.structuralQA.passed).toBe(true);
     expect(result.continuityDomainQA.passed).toBe(true);
-    expect(result.productionEligibility.founderStoryboardApproval).toBe('ACTIVE');
+    expect(result.productionEligibility.founderStoryboardApproval).not.toBe('ACTIVE');
   });
 
   it('29. failed QA blocks clean review (contract level)', () => {
@@ -273,10 +272,10 @@ describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generatio
     ).toThrow();
   });
 
-  it('30. production order remains intact after valid storyboard', async () => {
+  it('30. production order remains intact; stage blocked until visual review ready', async () => {
     const result = await bootstrapB49();
     expect(result.productionOrder[4]).toBe('FINAL_CINEMATIC_STORYBOARD');
     expect(result.productionOrder[5]).toBe('FOUNDER_STORYBOARD_APPROVAL');
-    expect(result.pipelineState.currentStage).toBe('FOUNDER_STORYBOARD_APPROVAL');
+    expect(result.pipelineState.currentStage).toBe('FINAL_CINEMATIC_STORYBOARD');
   });
 });

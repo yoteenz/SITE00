@@ -2,15 +2,16 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {
-  bootstrapB49R3,
+  bootstrapB49R4 as bootstrapB49R3,
   resetFinalCinematicStoryboardStore,
   resetFinalCinematicStoryboardJudgmentStore,
   recordFinalStoryboardFounderJudgment,
   getStoryboard001HistoricalRecord,
   getStoryboard002HistoricalRecord,
   getStoryboard003HistoricalRecord,
+  getStoryboard004HistoricalRecord,
   hasValidFinalCinematicStoryboard,
-} from '../api/_lib/site00ExpressionEngine/entry002B49R3Bootstrap.js';
+} from '../api/_lib/site00ExpressionEngine/entry002B49R4Bootstrap.js';
 import {
   resetPreStoryboardAuthorityStore,
   persistEntry002PreStoryboardFounderApprovals,
@@ -45,11 +46,12 @@ import {
 import { runReelStoryboardBoardTypeQA } from '../api/_lib/site00ExpressionEngine/entry002ReelStoryboardBoardTypeQA.js';
 import { evaluateB49FalsePositiveStructure } from '../api/_lib/site00ExpressionEngine/entry002FinalCinematicStoryboardStructureQA.js';
 import { evaluateB49RPanelFanOutRenderMode } from '../api/_lib/site00ExpressionEngine/entry002FinalCinematicStoryboardRenderModeQA.js';
-import { B49R3_REEL_COHERENCE_FAILURE_REASON } from '../api/_lib/site00ExpressionEngine/entry002FinalCinematicStoryboardHistory.js';
+import { B49R3_REEL_COHERENCE_FAILURE_REASON, B49R4_VISUAL_AUTHORITY_BINDING_FAILURE_REASON } from '../api/_lib/site00ExpressionEngine/entry002FinalCinematicStoryboardHistory.js';
 import {
   ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_ID,
   ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID,
-  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_004_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_005_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_005_ID,
   FINAL_CINEMATIC_STORYBOARD_PANEL_COUNT_TARGET,
   REEL_STORYBOARD_MOMENT_COUNT_TARGET,
   buildEntry002FinalCinematicStoryboardPublicStripPath,
@@ -110,9 +112,9 @@ describe('Expression Engine Sprint B4.9R3 — Reel-first storyboard conception',
     const manifest = compileEntry002FinalCinematicStoryboardPanelManifest();
     const conception = compileEntry002ReelVisualConception(manifest);
     const prompt = compileReelFirstStoryboardPrompt({ conception, brief: compileBrief() });
-    expect(prompt).toContain('THE COMPLETE REEL AS ONE CONTINUOUS FILM');
+    expect(prompt).toContain('ONE CONTINUOUS REEL');
     expect(prompt).toContain('ONE REEL, NOT NINE SEPARATE CONCEPTS');
-    expect(prompt.indexOf('THE COMPLETE REEL')).toBeLessThan(prompt.indexOf('NINE SELECTED STILLS'));
+    expect(prompt.indexOf('ONE CONTINUOUS REEL')).toBeLessThan(prompt.indexOf('NINE SELECTED STILLS'));
   });
 
   it('7–14. continuity anchors in conception and prompt', () => {
@@ -190,14 +192,15 @@ describe('Expression Engine Sprint B4.9R3 — Reel-first storyboard conception',
     expect(result.video).toBe('BLOCKED');
   });
 
-  it('34–35. storyboard 004 reviewable only after QA; not auto-approved', async () => {
+  it('34–35. storyboard 005 pipeline test in CI; founder review inactive until visual authority FAL render', async () => {
     const result = await bootstrapB49R3();
-    expect(result.finalCinematicStoryboard?.storyboardId).toBe(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID);
+    expect(result.finalCinematicStoryboard?.storyboardId).toBe(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_005_ID);
     expect(result.finalCinematicStoryboard?.approved).toBe(false);
     expect(result.finalCinematicStoryboard?.canon).toBe(false);
-    expect(hasValidFinalCinematicStoryboard()).toBe(true);
-    expect(result.finalStoryboardReviewGate.active).toBe(true);
-    expect(result.nextAction).toBe(ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION);
+    expect(result.finalCinematicStoryboard?.status).toBe('PIPELINE_TEST_ONLY');
+    expect(hasValidFinalCinematicStoryboard()).toBe(false);
+    expect(result.finalStoryboardReviewGate.active).toBe(false);
+    expect(result.nextAction).toBe(ENTRY_002_REPAIR_FINAL_STORYBOARD_ACTION);
   });
 
   it('36. storyboard 003 historical FAILED_REEL_COHERENCE', async () => {
@@ -214,29 +217,40 @@ describe('Expression Engine Sprint B4.9R3 — Reel-first storyboard conception',
     expect(result.finalCinematicStoryboard?.generationMode).toBe('REEL_FIRST_SINGLE_ARTIFACT');
   });
 
-  it('38. strip 004 exists on disk', async () => {
+  it('38. strip 005 exists on disk after deterministic CI generation', async () => {
     await bootstrapB49R3();
     const stripPath = path.join(
       process.cwd(),
       'public',
-      buildEntry002FinalCinematicStoryboardPublicStripPath(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_004_ID).replace(/^\//, ''),
+      buildEntry002FinalCinematicStoryboardPublicStripPath(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_005_ID).replace(/^\//, ''),
     );
     await expect(fs.access(stripPath)).resolves.toBeUndefined();
   });
 
-  it('39. keyframes unlock only after LOVE_IT', async () => {
+  it('38b. storyboard 004 historical FAILED_VISUAL_AUTHORITY_BINDING', async () => {
+    await bootstrapB49R3();
+    const h = getStoryboard004HistoricalRecord();
+    expect(h?.storyboardId).toBe(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID);
+    expect(h?.status).toBe('FAILED_VISUAL_AUTHORITY_BINDING');
+    expect(h?.failureReason).toBe(B49R4_VISUAL_AUTHORITY_BINDING_FAILURE_REASON);
+    expect(h?.referenceOnly).toBe(true);
+  });
+
+  it('39. keyframes unlock only after LOVE_IT on valid visual review candidate', async () => {
     await bootstrapB49R3();
     recordFinalStoryboardFounderJudgment({ founderJudgment: 'LOVE_IT' });
     const after = await bootstrapB49R3();
-    expect(after.keyframes).toBe('READY_FOR_GENERATION');
+    expect(after.keyframes).toBe('BLOCKED_PENDING_FINAL_STORYBOARD_APPROVAL');
   });
 
-  it('40. all QA passes on successful bootstrap', async () => {
+  it('40. structural/reel/board QA passes; visual fidelity invalid for deterministic CI', async () => {
     const result = await bootstrapB49R3();
     expect(result.structuralQA.passed).toBe(true);
     expect(result.reelCoherenceQA.passed).toBe(true);
     expect(result.boardTypeQA.passed).toBe(true);
     expect(result.renderModeQA.passed).toBe(true);
     expect(result.continuityDomainQA.passed).toBe(true);
+    expect(result.visualAuthorityFidelityQA.result).toBe('INVALID_FOR_FOUNDER_REVIEW');
+    expect(result.visualAuthorityFidelityQA.passed).toBe(false);
   });
 });

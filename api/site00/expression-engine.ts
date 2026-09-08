@@ -155,6 +155,32 @@ function serializeFinalCinematicStoryboardResponse(
             failureReason: result.storyboard003Historical.failureReason,
           }
         : undefined,
+    storyboard004Historical:
+      'storyboard004Historical' in result
+        ? {
+            storyboardId: result.storyboard004Historical.storyboardId,
+            status: result.storyboard004Historical.status,
+            referenceOnly: result.storyboard004Historical.referenceOnly,
+            failureReason: result.storyboard004Historical.failureReason,
+          }
+        : undefined,
+    visualAuthorityManifest:
+      'visualAuthorityManifest' in result
+        ? {
+            requiredAuthorityImageCount: result.visualAuthorityManifest.requiredAuthorityImageCount,
+            resolvedAuthorityImageCount: result.visualAuthorityManifest.resolvedAuthorityImageCount,
+            validated: result.visualAuthorityManifest.validated,
+            entries: result.visualAuthorityManifest.entries.map((e) => ({
+              authorityId: e.authorityId,
+              assetId: e.assetId,
+              assetPath: e.assetPath,
+              publicAssetPath: e.publicAssetPath,
+              version: e.version,
+              referenceRole: e.referenceRole,
+              assetReadable: e.assetReadable,
+            })),
+          }
+        : undefined,
     reelVisualConception:
       'reelVisualConception' in result
         ? {
@@ -180,6 +206,8 @@ function serializeFinalCinematicStoryboardResponse(
           renderModeQaStatus: result.finalCinematicStoryboard.renderModeQaStatus,
           reelCoherenceQaStatus: result.finalCinematicStoryboard.reelCoherenceQaStatus,
           boardTypeQaStatus: result.finalCinematicStoryboard.boardTypeQaStatus,
+          visualAuthorityFidelityQaStatus: result.finalCinematicStoryboard.visualAuthorityFidelityQaStatus,
+          readinessState: result.finalCinematicStoryboard.readinessState,
           authorityIds: result.finalCinematicStoryboard.authorityIds,
           compiled: result.finalCinematicStoryboard.compiled,
           dispatched: result.finalCinematicStoryboard.dispatched,
@@ -194,6 +222,10 @@ function serializeFinalCinematicStoryboardResponse(
     renderModeQA: result.renderModeQA,
     reelCoherenceQA: 'reelCoherenceQA' in result ? result.reelCoherenceQA : undefined,
     boardTypeQA: 'boardTypeQA' in result ? result.boardTypeQA : undefined,
+    visualAuthorityFidelityQA:
+      'visualAuthorityFidelityQA' in result ? result.visualAuthorityFidelityQA : undefined,
+    visualAuthorityRootCause:
+      'visualAuthorityRootCause' in result ? result.visualAuthorityRootCause : undefined,
     compiledPrompt: result.compiledPrompt,
     reelArtifact:
       'reelArtifact' in result && result.reelArtifact
@@ -300,10 +332,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         phase === 'B49R' ||
         phase === 'B49R2' ||
         phase === 'B49R3' ||
+        phase === 'B49R4' ||
         phase === 'B4.9' ||
         phase === 'B4.9R' ||
         phase === 'B4.9R2' ||
         phase === 'B4.9R3' ||
+        phase === 'B4.9R4' ||
         phase === 'FINAL_CINEMATIC_STORYBOARD' ||
         phase === 'FINAL_STORYBOARD')
     ) {

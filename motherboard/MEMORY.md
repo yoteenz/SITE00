@@ -6123,3 +6123,21 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Hard stop:** No keyframe generation, no video dispatch
 - **Next:** FOUNDER REVIEW OF FINAL CINEMATIC STORYBOARD (004)
 
+---
+
+## 2026-09-08 — Sprint B4.9R4 — Visual authority binding recovery
+
+- **Context:** B4.9R3 achieved reel-first single artifact but founder finding: "5/5 authorities consumed" was metadata-only — authority IDs/text in prompt/lineage without five approved authority **images** bound into FAL reference conditioning. Deterministic CI renders incorrectly reached founder review.
+- **Root cause:** Authority ID resolution ≠ visual authority implementation. Text summaries ≠ image conditioning.
+- **Delivered:**
+  - **Entry002StoryboardVisualAuthorityManifest** — resolves five LOVE_IT v001 image assets with reference roles; fail-closed validation
+  - **FAL dispatch** — `buildFalImageInput` with five `referenceImageUrls` (gpt-image-2/edit); telemetry: `requiredAuthorityImageCount`, `resolvedAuthorityImageCount`, `providerAuthorityImageInputCount`, `authorityImageIdsSentToProvider`
+  - **VISUAL_AUTHORITY_FIDELITY_QA** — output inspection distinct from metadata; deterministic providers → `INVALID_FOR_FOUNDER_REVIEW`
+  - **Readiness split** — `PIPELINE_TEST_ONLY` (CI deterministic) vs `VISUAL_REVIEW_READY` (real FAL + 5 refs + fidelity PASS)
+  - **Storyboard 004 disposition** — `FAILED_VISUAL_AUTHORITY_BINDING` / `APPROVED_AUTHORITY_IMAGES_NOT_VISUALLY_IMPLEMENTED_IN_RENDER`
+  - **Storyboard 005** — `NDX-ENTRY-002-FINAL-CINEMATIC-STORYBOARD-005`; CI status `PIPELINE_TEST_ONLY`; founder review inactive until production FAL render
+  - **API/UI** — B49R4 phase; founder UI shows authority image telemetry + visual fidelity QA
+  - **Tests** — `site00ExpressionEngineSprintB49R4.test.ts` (19); B49/B49R/B49R2/B49R3 updated; full suite green
+- **Hard stop:** Keyframes/video blocked until valid visual-review-ready storyboard + founder LOVE_IT
+- **Next production action:** Railway FAL dispatch (`?phase=B49R4&dispatchFal=1`) with five authority refs → visual fidelity QA PASS → founder review
+

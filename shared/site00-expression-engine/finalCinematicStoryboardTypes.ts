@@ -18,7 +18,14 @@ export type FinalStoryboardStatus =
   | 'FAILED_STORYBOARD_STRUCTURE'
   | 'FAILED_STORYBOARD_RENDER_MODE'
   | 'FAILED_REEL_COHERENCE'
+  | 'FAILED_VISUAL_AUTHORITY_BINDING'
+  | 'PIPELINE_TEST_ONLY'
   | 'GENERATION_FAILED';
+
+export type StoryboardReadinessState =
+  | 'PIPELINE_TEST_ONLY'
+  | 'PIPELINE_READY'
+  | 'VISUAL_REVIEW_READY';
 
 export type StoryboardGenerationMode =
   | 'REEL_FIRST_SINGLE_ARTIFACT'
@@ -81,6 +88,53 @@ export type FinalCinematicStoryboardPanel = {
   previewUrl: string | null;
 };
 
+export type VisualAuthorityReferenceRole =
+  | 'NDX_IDENTITY_PRESENCE'
+  | 'SUBJECT_WOMAN_IDENTITY'
+  | 'NDX_HANDS_LIME_NAILS_INTERACTIONS'
+  | 'SUBJECT_WARDROBE_FASHION_CONTINUITY'
+  | 'PHONE_PROFILE_CULTURAL_GLITCH';
+
+export type Entry002StoryboardVisualAuthorityManifestEntry = {
+  authorityId: string;
+  assetId: string;
+  assetPath: string;
+  publicAssetPath: string;
+  providerReferenceUrl: string;
+  version: string;
+  founderJudgment: 'LOVE_IT';
+  visualAuthority: true;
+  referenceRole: VisualAuthorityReferenceRole;
+  referencePriority: number;
+  assetReadable: boolean;
+};
+
+export type Entry002StoryboardVisualAuthorityManifest = {
+  entries: Entry002StoryboardVisualAuthorityManifestEntry[];
+  requiredAuthorityImageCount: 5;
+  resolvedAuthorityImageCount: number;
+  validated: boolean;
+  bindingFailureReason: string | null;
+};
+
+export type VisualAuthorityFidelityDomain =
+  | 'ndxPresenceFidelity'
+  | 'subjectIdentityFidelity'
+  | 'ndxHandsFidelity'
+  | 'subjectFashionFidelity'
+  | 'phoneGlitchFidelity';
+
+export type VisualAuthorityFidelityQAResult = {
+  passed: boolean;
+  result: 'PASS' | 'WARN' | 'FAIL' | 'NOT_RUN' | 'INVALID_FOR_FOUNDER_REVIEW';
+  executed: boolean;
+  inspectionMethod: 'RENDER_OUTPUT_INSPECTION' | 'METADATA_INFERENCE' | 'NOT_RUN';
+  domains: Record<VisualAuthorityFidelityDomain, 'PASS' | 'WARN' | 'FAIL' | 'NOT_RUN'>;
+  checks: Array<{ check: string; passed: boolean }>;
+  blockers: string[];
+  warnings: string[];
+};
+
 export type FinalCinematicStoryboardTelemetry = {
   storyboardCompileCount: number;
   storyboardDispatchCount: number;
@@ -92,6 +146,13 @@ export type FinalCinematicStoryboardTelemetry = {
   narrativeBeatCount?: number;
   selectedStoryboardMomentCount?: number;
   storyboardPromptCompileCount?: number;
+  requiredAuthorityImageCount?: number;
+  resolvedAuthorityImageCount?: number;
+  providerAuthorityImageInputCount?: number;
+  authorityImageIdsSentToProvider?: string[];
+  independentStoryboardPanelDispatchCount?: number;
+  independentStoryboardPanelRenderCount?: number;
+  visualAuthorityFidelityQaExecuted?: boolean;
   /** @deprecated B4.9R panel fan-out */
   panelCompileCount?: number;
   panelFailureCount?: number;
@@ -123,6 +184,8 @@ export type FinalCinematicStoryboardRecord = {
   renderModeQaStatus: 'PASS' | 'WARN' | 'FAIL';
   reelCoherenceQaStatus: 'PASS' | 'WARN' | 'FAIL';
   boardTypeQaStatus: 'PASS' | 'WARN' | 'FAIL';
+  visualAuthorityFidelityQaStatus: 'PASS' | 'WARN' | 'FAIL' | 'NOT_RUN' | 'INVALID_FOR_FOUNDER_REVIEW';
+  readinessState: StoryboardReadinessState;
   generationMode: StoryboardGenerationMode;
   panelCount: number;
   panels: FinalCinematicStoryboardPanel[];
