@@ -251,10 +251,16 @@ export {
   bootstrapB46FollowUpPreStoryboardAuthority,
 } from './entry002B46FollowUpBootstrap.js';
 export { bootstrapB47, bootstrapB47PreStoryboardAuthorityApproval } from './entry002B47Bootstrap.js';
+export { bootstrapB48, bootstrapB48PreStoryboardGateSatisfaction } from './entry002B48Bootstrap.js';
 export {
   applyPreStoryboardFounderJudgments,
 } from './preStoryboardFounderJudgment.js';
-export { recordPreStoryboardAuthorityJudgment, resetPreStoryboardAuthorityStore } from './preStoryboardAuthorityStore.js';
+export {
+  recordPreStoryboardAuthorityJudgment,
+  resetPreStoryboardAuthorityStore,
+  persistEntry002PreStoryboardFounderApprovals,
+  ensureEntry002PreStoryboardFounderApprovalsLoaded,
+} from './preStoryboardAuthorityStore.js';
 export { runChapterCoverCohesionQA } from './chapterCoverCohesionQA.js';
 export { runCoverAnnotationVariationQA } from './coverAnnotationVariationQA.js';
 export { selectChapterCoverAnnotations } from './chapterCoverAnnotationPlans.js';

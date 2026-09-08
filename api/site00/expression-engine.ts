@@ -19,6 +19,7 @@ import {
   bootstrapB46,
   bootstrapB46FollowUp,
   bootstrapB47,
+  bootstrapB48,
   recordPreStoryboardAuthorityJudgment,
   bootstrapNdxbookExpressionProof,
   evaluateEntryProductionReadiness,
@@ -36,16 +37,19 @@ import { saveEntry } from '../_lib/site00ExpressionEngine/entryStore.js';
 import type { PreStoryboardFounderJudgment } from '../../shared/site00-expression-engine/preStoryboardVisualAuthorityTypes.js';
 import type { PreStoryboardAuthorityKey } from '../_lib/site00ExpressionEngine/preStoryboardAuthorityGate.js';
 
-function serializePreStoryboardAuthorityResponse(b47: Awaited<ReturnType<typeof bootstrapB47>>) {
+function serializePreStoryboardAuthorityResponse(
+  result: Awaited<ReturnType<typeof bootstrapB47>> | Awaited<ReturnType<typeof bootstrapB48>>,
+) {
+  const b48 = 'productionEligibility' in result ? result : null;
   return {
     engine: 'EXPRESSION_ENGINE_V0',
-    sprint: b47.sprint,
-    productionOrder: b47.productionOrder,
-    roleCorrection: b47.roleCorrection,
-    treatment: b47.treatment,
+    sprint: result.sprint,
+    productionOrder: result.productionOrder,
+    roleCorrection: result.roleCorrection,
+    treatment: result.treatment,
     preStoryboardAuthorityPack: {
-      packId: b47.preStoryboardAuthorityPack.packId,
-      authorities: b47.preStoryboardAuthorityPack.authorities.map((a) => ({
+      packId: result.preStoryboardAuthorityPack.packId,
+      authorities: result.preStoryboardAuthorityPack.authorities.map((a) => ({
         boardNumber: a.boardNumber,
         boardId: a.boardId,
         boardTitle: a.boardTitle,
@@ -60,35 +64,50 @@ function serializePreStoryboardAuthorityResponse(b47: Awaited<ReturnType<typeof 
         storagePath: a.storagePath,
         record: a.record,
       })),
-      approvalState: b47.preStoryboardAuthorityPack.approvalState,
-      canonState: b47.preStoryboardAuthorityPack.canonState,
+      approvalState: result.preStoryboardAuthorityPack.approvalState,
+      canonState: result.preStoryboardAuthorityPack.canonState,
     },
-    founderReviewSlots: b47.founderReviewSlots,
-    pipelineState: b47.pipelineState,
-    founderGates: b47.founderGates,
-    gateSatisfaction: b47.gateSatisfaction,
-    finalStoryboardEligibility: b47.finalStoryboardEligibility,
+    founderReviewSlots: result.founderReviewSlots,
+    pipelineState: result.pipelineState,
+    founderGates: result.founderGates,
+    gateSatisfaction: result.gateSatisfaction,
+    finalStoryboardEligibility: result.finalStoryboardEligibility,
+    productionEligibility: b48?.productionEligibility ?? {
+      preStoryboardAuthorityGate: result.gateSatisfaction.satisfied ? 'SATISFIED' : 'AWAITING_FOUNDER_APPROVAL',
+      requiredAuthorityCount: 5,
+      approvedAuthorityCount: result.gateSatisfaction.loveItCount,
+      finalStoryboardEligibility: result.finalStoryboardEligibility.status,
+      keyframeEligibility: 'BLOCKED',
+      videoEligibility: 'BLOCKED',
+      founderStoryboardApproval: 'BLOCKED_PENDING_STORYBOARD',
+    },
+    finalStoryboardRecord: b48?.finalStoryboardRecord ?? null,
+    authorityVersion: b48?.authorityVersion ?? '001',
     storyboardCompilationContract: {
-      readyForCompilation: b47.storyboardCompilationContract.readyForCompilation,
-      characterSeparation: b47.storyboardCompilationContract.characterSeparation,
-      nailSeparation: b47.storyboardCompilationContract.nailSeparation,
+      readyForCompilation: result.storyboardCompilationContract.readyForCompilation,
+      characterSeparation: result.storyboardCompilationContract.characterSeparation,
+      nailSeparation: result.storyboardCompilationContract.nailSeparation,
       authoritiesResolved: {
-        ndxPresence: Boolean(b47.storyboardCompilationContract.authorities.ndxPresenceAuthority),
-        subjectDualEra: Boolean(b47.storyboardCompilationContract.authorities.subjectDualEraAuthority),
-        ndxHands: Boolean(b47.storyboardCompilationContract.authorities.ndxHandsAuthority),
-        subjectFashion: Boolean(b47.storyboardCompilationContract.authorities.subjectFashionAuthority),
-        phoneGlitch: Boolean(b47.storyboardCompilationContract.authorities.phoneGlitchAuthority),
+        ndxPresence: Boolean(result.storyboardCompilationContract.authorities.ndxPresenceAuthority),
+        subjectDualEra: Boolean(result.storyboardCompilationContract.authorities.subjectDualEraAuthority),
+        ndxHands: Boolean(result.storyboardCompilationContract.authorities.ndxHandsAuthority),
+        subjectFashion: Boolean(result.storyboardCompilationContract.authorities.subjectFashionAuthority),
+        phoneGlitch: Boolean(result.storyboardCompilationContract.authorities.phoneGlitchAuthority),
       },
     },
-    authorityRecords: b47.authorityRecords,
-    cinematicSequence: b47.cinematicSequence,
-    finalStoryboard: b47.finalStoryboard,
-    keyframes: b47.keyframes,
-    video: b47.video,
-    preStoryboardGate: b47.preStoryboardGate,
-    qa: b47.qa,
-    nextAction: b47.nextAction,
-    telemetryNote: b47.telemetryNote,
+    authorityRecords: result.authorityRecords,
+    cinematicSequence: {
+      ...result.cinematicSequence,
+      referenceOnly: true,
+      active: false,
+    },
+    finalStoryboard: result.finalStoryboard,
+    keyframes: result.keyframes,
+    video: result.video,
+    preStoryboardGate: result.preStoryboardGate,
+    qa: result.qa,
+    nextAction: result.nextAction,
+    telemetryNote: result.telemetryNote,
   };
 }
 
@@ -128,21 +147,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         notes: body.notes ? String(body.notes) : null,
       });
 
-      const b47 = await bootstrapB47();
-      return res.status(200).json(serializePreStoryboardAuthorityResponse(b47));
+      const b48 = await bootstrapB48();
+      return res.status(200).json(serializePreStoryboardAuthorityResponse(b48));
     }
 
     if (
       req.method === 'GET' &&
-      (phase === 'B47' ||
+      (phase === 'B48' ||
+        phase === 'B4.8' ||
+        phase === 'B47' ||
         phase === 'B4.7' ||
         phase === 'B46P1' ||
         phase === 'B46-FOLLOWUP' ||
         phase === 'PRE_STORYBOARD_AUTHORITY' ||
         phase === 'PRE_STORYBOARD')
     ) {
-      const b47 = await bootstrapB47();
-      return res.status(200).json(serializePreStoryboardAuthorityResponse(b47));
+      const b48 = await bootstrapB48();
+      return res.status(200).json(serializePreStoryboardAuthorityResponse(b48));
     }
 
     if (req.method === 'GET' && (phase === 'B46' || phase === 'B4.6' || phase === 'B4P6' || phase === 'STORYBOARD_AUTHORITY')) {
