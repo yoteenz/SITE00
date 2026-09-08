@@ -1,19 +1,17 @@
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ProjectModuleId } from '../../../../shared/site00-projects/projectModules.js';
 import { PROJECT_MODULE_CONFIGS, projectModulePath } from '../../../../shared/site00-projects/projectModules.js';
 import type { GeneralizedProjectOperatingState } from '../../../../shared/site00-projects/generalizedProjectOperatingState.js';
 import type { ProjectCodebaseIntelligence } from '../../../../shared/site00-projects/technical/types.js';
-import type { ProjectTechnicalTabId } from '../../../../shared/site00-projects/technical/types.js';
-import { projectHasTechnicalIntelligenceCapability } from '../../../../shared/site00-projects/technical/projectRepositoryRegistry.js';
 import { getProjectEvolveAdapter } from '../../../../shared/site00-projects/evolve/projectEvolveAdapterRegistry.js';
+import { getProjectOverviewAdapter } from '../../../../shared/site00-projects/overview/projectOverviewAdapterRegistry.js';
 import { ProjectOperatingHeader } from './ProjectOperatingHeader.js';
 import { ProjectModuleDesktopNav } from './ProjectModuleDesktopNav.js';
 import { ProjectModuleSwitcher } from './ProjectModuleSwitcher.js';
 import { ProjectModuleMobileSubnav } from './ProjectModuleMobileSubnav.js';
 import { ViewAsClientBanner, ViewAsClientToggle } from './ViewAsClientControls.js';
 import {
-  ProjectOverviewModule,
   ProjectIdentityModule,
   ProjectBuilderModule,
   ProjectProductionModule,
@@ -23,9 +21,10 @@ import {
 } from './ProjectModulePanels.js';
 import { ProjectEvolveModuleSurface } from './ProjectEvolveModuleSurface.js';
 import {
-  PROJECT_TECHNICAL_SUBNAV,
-  ProjectTechnicalPanelRouter,
-} from '../projectTechnical/ProjectTechnicalPanels.js';
+  buildProjectOverviewViewModel,
+  ProjectOverviewModuleSurface,
+} from './ProjectOverviewModuleSurface.js';
+import { useProjectOperatingState } from '../../hooks/useProjectOperatingState.js';
 import { useProjectViewMode } from '../../context/ProjectViewModeContext.js';
 import { useSite00OriginWideViewport } from '../shell/useSite00OriginWideViewport.js';
 
@@ -34,7 +33,6 @@ type ProjectOperatingShellProps = {
   currentModule: ProjectModuleId;
   operatingState: GeneralizedProjectOperatingState;
   visibleModules: ProjectModuleId[];
-  ndxOverviewContent?: ReactNode;
   technicalIntelligence?: ProjectCodebaseIntelligence | null;
   technicalState?: 'idle' | 'loading' | 'ready' | 'error';
   onTechnicalSync?: () => void;
@@ -52,24 +50,34 @@ export function ProjectOperatingShell({
   currentModule,
   operatingState,
   visibleModules,
-  ndxOverviewContent,
   technicalIntelligence,
-  technicalState = 'idle',
-  onTechnicalSync,
 }: ProjectOperatingShellProps) {
   const navigate = useNavigate();
   const isWide = useSite00OriginWideViewport();
   const { viewMode } = useProjectViewMode();
-  const technicalEnabled = projectHasTechnicalIntelligenceCapability(
-    operatingState.capabilityManifest.enabledCapabilities,
+  const overviewAdapter = useMemo(() => getProjectOverviewAdapter(projectSlug), [projectSlug]);
+  const { state: ndxState } = useProjectOperatingState(
+    overviewAdapter.stateSource === 'PROJECT_OPERATING_STATE' ? projectSlug : '',
   );
-  const [activeTechnicalTab, setActiveTechnicalTab] = useState<ProjectTechnicalTabId>('OVERVIEW');
   const evolveAdapter = useMemo(() => getProjectEvolveAdapter(projectSlug), [projectSlug]);
   const evolveSubnav = useMemo(
     () => (currentModule === 'EVOLVE' ? evolveAdapter.getSubnav(projectSlug) : undefined),
     [currentModule, evolveAdapter, projectSlug],
   );
   const evolveOwnsSubshell = currentModule === 'EVOLVE' && evolveAdapter.ownsEvolveSubshell === true;
+  const overviewOwnsSurface = currentModule === 'OVERVIEW';
+
+  const overviewModel = useMemo(
+    () =>
+      buildProjectOverviewViewModel({
+        projectSlug,
+        operatingState,
+        ndxOperatingState: ndxState,
+        technicalIntelligence,
+        viewMode,
+      }),
+    [projectSlug, operatingState, ndxState, technicalIntelligence, viewMode],
+  );
 
   const [activeSubnav, setActiveSubnav] = useState(() => defaultSubnav(projectSlug, currentModule));
 
@@ -86,63 +94,16 @@ export function ProjectOperatingShell({
   );
 
   const moduleContent = useMemo(() => {
-    if (
-      currentModule === 'OVERVIEW' &&
-      technicalEnabled &&
-      technicalIntelligence &&
-      !(projectSlug === 'ndxbook' && ndxOverviewContent && viewMode === 'FOUNDER')
-    ) {
-      return (
-        <>
-          <div className="site00-ptech-subnav" role="tablist">
-            {PROJECT_TECHNICAL_SUBNAV.map((tab) => (
-              <button
-                key={tab.id}
-                type="button"
-                role="tab"
-                className={`site00-ptech-subnav__tab${activeTechnicalTab === tab.id ? ' is-active' : ''}`}
-                onClick={() => setActiveTechnicalTab(tab.id)}
-                aria-selected={activeTechnicalTab === tab.id}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-          {isWide && activeTechnicalTab === 'OVERVIEW' ? (
-            <div className="site00-ptech-desktop-grid">
-              {[
-                { title: 'REPOSITORY', status: technicalIntelligence.repositoryConnection.connected ? 'CONNECTED' : 'NOT CONNECTED', meta: technicalIntelligence.repositoryConnection.repositoryUrl ?? '—' },
-                { title: 'CI / BUILD', status: technicalIntelligence.buildState.status, meta: technicalIntelligence.buildState.lastRun ?? '—' },
-                { title: 'DEPENDENCIES', status: String(technicalIntelligence.dependencyState.totalDependencies), meta: `${technicalIntelligence.dependencyState.outdated.length} OUTDATED` },
-                { title: 'DEPLOYMENTS', status: technicalIntelligence.deploymentState.find((d) => d.environment === 'PRODUCTION')?.status ?? 'UNKNOWN', meta: 'VIEW ENVIRONMENTS' },
-                { title: 'READINESS', status: technicalIntelligence.readinessAssessment.overall.replace(/_/g, ' '), meta: technicalIntelligence.readinessAssessment.percentDerivation ?? '—' },
-              ].map((card) => (
-                <div key={card.title} className="site00-ptech-desktop-card">
-                  <p className="site00-ptech-desktop-card__title">{card.title}</p>
-                  <p className="site00-ptech-desktop-card__status">{card.status}</p>
-                  <p className="site00-ptech-desktop-card__meta">{card.meta}</p>
-                </div>
-              ))}
-            </div>
-          ) : null}
-          <ProjectTechnicalPanelRouter
-            tab={activeTechnicalTab}
-            intelligence={technicalIntelligence}
-            onSync={onTechnicalSync}
-            syncing={technicalState === 'loading'}
-          />
-        </>
-      );
-    }
-
-    if (projectSlug === 'ndxbook' && currentModule === 'OVERVIEW' && ndxOverviewContent && viewMode === 'FOUNDER') {
-      return ndxOverviewContent;
-    }
-
     const props = { operatingState, activeSubnav };
     switch (currentModule) {
       case 'OVERVIEW':
-        return <ProjectOverviewModule {...props} />;
+        return (
+          <ProjectOverviewModuleSurface
+            projectSlug={projectSlug}
+            operatingState={operatingState}
+            technicalIntelligence={technicalIntelligence}
+          />
+        );
       case 'IDENTITY':
         return <ProjectIdentityModule {...props} />;
       case 'BUILDER':
@@ -164,23 +125,15 @@ export function ProjectOperatingShell({
       case 'MORE':
         return <ProjectMoreModule {...props} />;
       default:
-        return <ProjectOverviewModule {...props} />;
+        return (
+          <ProjectOverviewModuleSurface
+            projectSlug={projectSlug}
+            operatingState={operatingState}
+            technicalIntelligence={technicalIntelligence}
+          />
+        );
     }
-  }, [
-    activeSubnav,
-    activeTechnicalTab,
-    currentModule,
-    isWide,
-    ndxOverviewContent,
-    evolveAdapter,
-    onTechnicalSync,
-    operatingState,
-    projectSlug,
-    technicalEnabled,
-    technicalIntelligence,
-    technicalState,
-    viewMode,
-  ]);
+  }, [activeSubnav, currentModule, operatingState, projectSlug, technicalIntelligence]);
 
   const modulesForNav = visibleModules as ProjectModuleId[];
   const currentLabel = PROJECT_MODULE_CONFIGS[currentModule].label;
@@ -194,6 +147,7 @@ export function ProjectOperatingShell({
           operatingState={operatingState}
           projectSlug={projectSlug}
           currentModuleLabel={currentLabel}
+          overviewModel={overviewModel}
         />
 
         <div className="site00-pos__controls">
@@ -218,8 +172,7 @@ export function ProjectOperatingShell({
 
         <main className="site00-pos__main">{moduleContent}</main>
 
-        {!isWide && currentModule === 'OVERVIEW' && technicalEnabled && technicalIntelligence ? null : !isWide &&
-          !evolveOwnsSubshell ? (
+        {!isWide && !evolveOwnsSubshell && !overviewOwnsSurface ? (
           <ProjectModuleMobileSubnav
             moduleId={currentModule}
             activeSubnav={activeSubnav}

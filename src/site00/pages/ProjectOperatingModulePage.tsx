@@ -5,7 +5,6 @@ import { ProjectViewModeProvider } from '../context/ProjectViewModeContext';
 import { useSite00ProjectDetail } from '../hooks/useSite00Projects';
 import { useProjectOperatingSystem } from '../hooks/useProjectOperatingSystem';
 import { ProjectOperatingShell } from '../components/projectOperatingSystem';
-import { OverviewFounderWorkspaceBoard } from '../components/founderWorkspace/OverviewFounderWorkspaceBoard';
 import { resolveModuleFromPath, type ProjectModuleId } from '../../../shared/site00-projects/projectModules.js';
 import { projectModulePath } from '../../../shared/site00-projects/projectModules.js';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -15,6 +14,7 @@ import { useClientAppManifest } from '../hooks/useClientAppManifest';
 import { useProjectTechnicalIntelligence } from '../hooks/useProjectTechnicalIntelligence';
 import { projectHasTechnicalIntelligenceCapability } from '../../../shared/site00-projects/technical/projectRepositoryRegistry.js';
 import '../styles/site00-project-operating-system.css';
+import '../styles/site00-project-overview.css';
 import '../styles/site00-founder-workspace.css';
 import '../styles/site00-project-technical-intelligence.css';
 import '../styles/site00-evolve-subshell.css';
@@ -72,18 +72,12 @@ function ProjectOperatingModuleInner({ forcedModule }: ProjectOperatingModulePag
     return <Navigate to={projectModulePath(projectSlug, 'OVERVIEW')} replace />;
   }
 
-  const ndxOverview =
-    projectSlug === 'ndxbook' && currentModule === 'OVERVIEW' ? (
-      <OverviewFounderWorkspaceBoard projectSlug={projectSlug} />
-    ) : undefined;
-
   return (
     <ProjectOperatingShell
       projectSlug={projectSlug}
       currentModule={currentModule}
       operatingState={operatingState}
       visibleModules={visibleModules as ProjectModuleId[]}
-      ndxOverviewContent={ndxOverview}
       technicalIntelligence={intelligence}
       technicalState={technicalState}
       onTechnicalSync={syncNow}
