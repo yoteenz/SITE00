@@ -46,8 +46,13 @@ import {
   bootstrapC17CampaignCopyDirector,
   bootstrapC18BrandTrueCopyIntelligence,
   bootstrapC19LiveCreativeIntelligence,
+  bootstrapC19R1MeridianLiveProof,
   applyEntry003FounderJudgment,
 } from '../_lib/site00ExpressionEngine/entry003/entry003Service.js';
+import {
+  recordMeridianFounderJudgment,
+  type MeridianComparisonFounderJudgment,
+} from '../_lib/site00ExpressionEngine/meridianLiveProofStore.js';
 import { getChapterByNumber, getChapterGrammarForChapter } from '../_lib/site00ExpressionEngine/chapterStore.js';
 import { runChapterRepetitionQA } from '../_lib/site00ExpressionEngine/chapterRepetitionQA.js';
 import { CHAPTER_01_ID } from '../_lib/site00ExpressionEngine/chapter01Canon.js';
@@ -384,6 +389,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (
       req.method === 'POST' &&
+      action === 'SET_MERIDIAN_COMPARISON_JUDGMENT'
+    ) {
+      const founderJudgment = String(body.founderJudgment ?? '') as MeridianComparisonFounderJudgment;
+      const allowed: MeridianComparisonFounderJudgment[] = [
+        'FULL_REASONING_WINS',
+        'DETERMINISTIC_WINS',
+        'HYBRIDIZE',
+        'NEITHER',
+        'PUSH_FURTHER',
+      ];
+      if (!allowed.includes(founderJudgment)) {
+        return res.status(400).json({ error: 'founderJudgment required (FULL_REASONING_WINS | DETERMINISTIC_WINS | HYBRIDIZE | NEITHER | PUSH_FURTHER)' });
+      }
+
+      const updated = recordMeridianFounderJudgment({
+        comparisonId: body.comparisonId ? String(body.comparisonId) : undefined,
+        judgment: founderJudgment,
+        hybridSelections: body.hybridSelections as Parameters<typeof recordMeridianFounderJudgment>[0]['hybridSelections'],
+      });
+
+      return res.status(200).json({
+        ok: true,
+        founderJudgment: updated?.founderJudgment ?? founderJudgment,
+        comparisonId: updated?.comparisonId,
+      });
+    }
+
+    if (
+      req.method === 'POST' &&
       action === 'SET_NARRATIVE_SYNTHESIS_JUDGMENT'
     ) {
       const founderJudgment = String(body.founderJudgment ?? '') as
@@ -505,6 +539,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     ) {
       const c18 = await bootstrapC18BrandTrueCopyIntelligence();
       return res.status(200).json(c18);
+    }
+
+    if (
+      req.method === 'GET' &&
+      (phase === 'C1.9R1' || phase === 'C19R1' || phase === 'MERIDIAN_LIVE_PROOF')
+    ) {
+      const c19r1 = await bootstrapC19R1MeridianLiveProof();
+      return res.status(200).json(c19r1);
     }
 
     if (

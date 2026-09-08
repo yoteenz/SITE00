@@ -86,7 +86,7 @@ export type C19LiveProductionProofResult = {
   brandLanguageIdentity: ReturnType<typeof deriveMeridianBrandLanguageIdentity>;
   brandLanguageIdentityVersion: string;
   deterministicPass: MultiUnitBlindCampaignOutput;
-  fullReasoningPass: MultiUnitBlindCampaignOutput;
+  fullReasoningPass: MultiUnitBlindCampaignOutput | null;
   comparison: C19ComparisonAssessment;
   founderActionQA: {
     altASelected: boolean;
@@ -104,9 +104,26 @@ export type C19LiveProductionProofResult = {
 
 function assessComparison(
   deterministic: MultiUnitBlindCampaignOutput,
-  full: MultiUnitBlindCampaignOutput,
+  full: MultiUnitBlindCampaignOutput | null,
   liveBlocked: boolean,
 ): C19ComparisonAssessment {
+  if (liveBlocked || !full) {
+    return {
+      deterministicAdvantages: ['Runs without provider credentials', 'Deterministic and test-stable'],
+      deterministicWeaknesses: ['Cannot prove live reasoning depth', 'Template-scoped copy variation'],
+      fullReasoningAdvantages: ['Not evaluated — live test blocked'],
+      fullReasoningWeaknesses: ['ANTHROPIC_API_KEY not configured or provider unavailable'],
+      finalRecommendation:
+        'Configure ANTHROPIC_API_KEY and re-run C1.9R1 production proof for live FULL_REASONING comparison.',
+      dimensions: {
+        creativeDepth: {
+          deterministic: deterministic.packageJudgment.packageQualityTier,
+          fullReasoning: 'BLOCKED',
+        },
+      },
+    };
+  }
+
   const detCaptions =
     deterministic.copyPackage?.unitCopyDirections.map((u) => u.primaryCaption).join(' ') ?? '';
   const fullCaptions = full.copyPackage?.unitCopyDirections.map((u) => u.primaryCaption).join(' ') ?? '';
@@ -130,18 +147,6 @@ function assessComparison(
       fullReasoning: String(full.copyPackage?.unitCopyDirections.length ?? 0),
     },
   };
-
-  if (liveBlocked) {
-    return {
-      deterministicAdvantages: ['Runs without provider credentials', 'Deterministic and test-stable'],
-      deterministicWeaknesses: ['Cannot prove live reasoning depth', 'Template-scoped copy variation'],
-      fullReasoningAdvantages: ['Not evaluated — live test blocked'],
-      fullReasoningWeaknesses: ['ANTHROPIC_API_KEY not configured in this environment'],
-      finalRecommendation:
-        'Configure ANTHROPIC_API_KEY and re-run C1.9 production proof for live FULL_REASONING comparison.',
-      dimensions,
-    };
-  }
 
   if (cosmeticOnly) {
     return {
@@ -234,16 +239,16 @@ export async function runC19LiveProductionProof(): Promise<C19LiveProductionProo
     forceRuntimeMode: 'DETERMINISTIC_FALLBACK',
   });
 
-  let fullReasoningPass: MultiUnitBlindCampaignOutput;
+  let fullReasoningPass: MultiUnitBlindCampaignOutput | null = null;
   if (liveBlocked) {
-    fullReasoningPass = deterministicPass;
+    fullReasoningPass = null;
   } else {
     fullReasoningPass = await runC19BlindCampaignPackage(MERIDIAN_ATELIER_LAUNCH_BRIEF, {
       forceRuntimeMode: 'FULL_REASONING',
     });
   }
 
-  const productionCampaign = liveBlocked ? deterministicPass : fullReasoningPass;
+  const productionCampaign = liveBlocked || !fullReasoningPass ? deterministicPass : fullReasoningPass;
   const copyPackage = productionCampaign.copyPackage;
   if (!copyPackage) throw new Error('C1.9 production proof missing copy package');
 

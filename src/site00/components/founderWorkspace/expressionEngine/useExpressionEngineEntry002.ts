@@ -21,6 +21,7 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
   const [c11, setC11] = useState<import('./types.js').C11CreativeDirectorResponse | null>(null);
   const [c12, setC12] = useState<import('./types.js').C12Entry003Response | null>(null);
   const [c16, setC16] = useState<import('./types.js').ExpressionEngineEntry002State['c16']>(null);
+  const [c19r1, setC19r1] = useState<import('./types.js').ExpressionEngineEntry002State['c19r1']>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [errorView, setErrorView] = useState<ReturnType<typeof translateExpressionEngineError>>(null);
@@ -84,6 +85,13 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
         };
         setC16({ multiUnitBlindCampaign: body.multiUnitBlindCampaign });
       }
+      const c19r1Res = await apiFetch('/api/site00/expression-engine?phase=C1.9R1');
+      if (c19r1Res.ok) {
+        const body = (await c19r1Res.json()) as { view: import('./MeridianDeterministicVsLiveComparison.js').MeridianComparisonViewData };
+        setC19r1({ view: body.view });
+      } else {
+        setC19r1(null);
+      }
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : 'Failed to load Expression Engine';
       setError(msg);
@@ -107,6 +115,7 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
       c11,
       c12,
       c16,
+      c19r1,
       loading,
       error,
       errorView,
@@ -123,11 +132,24 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
     c11,
     c12,
     c16,
+    c19r1,
     loading,
     error,
     errorView,
     reload: load,
   };
+}
+
+export async function postMeridianComparisonJudgment(args: {
+  founderJudgment: string;
+  comparisonId?: string;
+}): Promise<void> {
+  const res = await apiFetch('/api/site00/expression-engine', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'SET_MERIDIAN_COMPARISON_JUDGMENT', ...args }),
+  });
+  if (!res.ok) throw new Error(await res.text());
 }
 
 export async function postGenerateFinalStoryboard(): Promise<B49R4PipelineResponse> {

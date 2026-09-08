@@ -6487,3 +6487,21 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Entry 001 audit:** 0 active archive + 4 carousel + 1 story in package is **consistent** — seeds removed from archive but still in package sequences; no repair applied.
 - **Next founder action:** Open project module — verify Overview, Campaigns, Content Ops, Lab show same NDXBOOK Entries 001–003 reality. Entry 001 → Carousel → upload 4:5 asset → expect CAROUSEL SLIDE DETECTED · HIGH CONFIDENCE without manual type selection. Repeat from Story with 9:16.
 
+---
+
+## 2026-09-08 — Sprint C1.9R1 — Live FULL_REASONING Meridian Proof (zero-mock comparison)
+
+- **Context:** C1.9 could not complete live FULL_REASONING because ANTHROPIC_API_KEY was not configured on Railway. C1.9R1 runs the same Meridian Atelier / Nocturne Parfum brief twice — CONTROL_A (DETERMINISTIC_FALLBACK) vs FULL_REASONING_B (live) — with honest comparison, no mock substitution, separate persistence, and founder side-by-side review UI.
+- **Delivered:**
+  - **Orchestrator** — `runC19R1MeridianLiveProof.ts` (health gate, control + live pass, blocked when mock/no key/zero dispatch)
+  - **Assessment** — `meridianComparisonAssessment.ts` (material improvement; does not auto-favor FULL_REASONING)
+  - **Persistence** — `meridianLiveProofStore.ts` (separate control/full runs; founder judgment HYBRIDIZE supported)
+  - **QA** — `categoryClicheQA.ts` (fragrance/luxury cliché cluster detection)
+  - **Serializer + API** — `meridianComparisonSerializer.ts`; GET `?phase=C1.9R1`; POST `SET_MERIDIAN_COMPARISON_JUDGMENT`
+  - **UI** — `MeridianDeterministicVsLiveComparison.tsx` wired in Expression Engine supporting intelligence; CSS in `site00-founder-workspace.css`
+  - **Fix** — `runC19LiveProductionProof.ts` no longer copies deterministic into full slot when blocked
+  - **Tests** — `site00ExpressionEngineSprintC19R1.test.ts` (33/33); C19 regression 30/30; build PASS
+- **Live status:** `FULL_REASONING_LIVE_TEST_BLOCKED` — ANTHROPIC_API_KEY not configured (cloud VM + Railway). Control run complete; full slot null (not copied). Dispatch 0. FAL/image/video dispatch 0.
+- **Control snapshot:** Meridian deterministic package STRONG / LOW handholding — scent-as-architecture thesis, Hero Reel "A room you have not entered yet", Carousel "Five notes. One room.", X oppositional line, Email consultation CTA.
+- **Next founder action:** Configure ANTHROPIC_API_KEY on Railway, redeploy API, open Expression Engine → MERIDIAN · DETERMINISTIC vs FULL REASONING (C1.9R1). Review both campaigns side by side without editing either first. Judge which sounds more brand-owned and less generic luxury.
+
