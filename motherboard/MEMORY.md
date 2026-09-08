@@ -6189,5 +6189,22 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Tests** — `site00ExpressionEngineSprintB50R1.test.ts` (16); B50 tests updated for 11-stage journey
   - **Browser QA** — mobile + desktop pass; journey shows SOCIALS/PACKAGE/CAMPAIGN; Campaign Board locked behind package
 - **Preserved:** B5.0 WORK/WORLD/CONTINUITY/FORMATS/PRODUCTION/HISTORY architecture; Entry 002 not artificially advanced (still B49R4 storyboard ACTIVE)
-- **Next production action:** Railway redeploy → FAL dispatch storyboard 005 (`?phase=B49R4&dispatchFal=1`) → founder LOVE_IT on visual-review-ready strip
+- **Next production action:** Founder chooses ONE controlled Studio World generation (POST `GENERATE_FINAL_STORYBOARD`) OR import founder storyboard variant A/B (POST `IMPORT_FOUNDER_STORYBOARD`) — no auto-dispatch
+
+---
+
+## 2026-09-08 — Sprint B5.0R2 — Storyboard Cost Control + Founder-Supplied Fallback
+
+- **Context:** Storyboard generation consumed unnecessary provider spend via GET/auto-retry loops. Founder supplied external storyboard variants (A/B) that better represent Entry 002 reel intent. Sprint: cleanup UI/state semantics, hard cost guard, first-class founder import path — without regenerating authorities, keyframes, or video.
+- **Delivered:**
+  - **`storyboardGenerationCostGuard.ts`** — attempt/dispatch/import telemetry; `evaluateStoryboardGenerationGuard`; `autoRetryCount` stays 0 unless founder explicitly triggers
+  - **API** — GET B49* read-only (`skipGeneration=true`, `dispatchFal=false`); POST `GENERATE_FINAL_STORYBOARD` (explicit founder action); POST `IMPORT_FOUNDER_STORYBOARD` (variant A|B)
+  - **Founder import** — `entry002FounderSuppliedStoryboard.ts` v006 record (`FOUNDER_SUPPLIED`, zero provider dispatches); assets in `assets/founder-storyboard/` + public paths; v005 moved to history on import
+  - **UI** — `StoryboardCreatePanel` (Generate vs Import); `ExpressionEngineErrorState` (no raw JSON); responsive `layout="auto"` ≤960px reference mobile; desktop workspace wired; history panel v001–v005 + current
+  - **Downstream semantics** — SOCIAL PACKAGE / CAMPAIGN LOCKED before Final Reel (not INCOMPLETE)
+  - **Tests** — `site00ExpressionEngineSprintB50R2.test.ts` (12); B49R4 updated for explicit-generation-only; B50R1 pass
+  - **Browser QA** — mobile + desktop pass; Generate/Import visible; locked downstream; no accidental dispatch during QA
+- **Preserved:** Entry 002 at FINAL STORYBOARD ACTIVE; keyframes/video/socials/package/campaign blocked; failed storyboard history; mobile shell (NDXBOOK header + bottom nav)
+- **Release:** `site00-deploy-2026-09-08-v179`
+- **Next production action:** Founder chooses A (one POST generation) or B (import variant A or B) — system will not auto-choose
 
