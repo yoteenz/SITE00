@@ -200,6 +200,10 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
     packagePreview,
     postUploadSuccess,
     dismissPostUploadSuccess,
+    saveState,
+    saveError,
+    syncRequired,
+    retrySync,
   } = useEntry001PackageState();
 
   const [preview, setPreview] = useState<Entry001CampaignAsset | null>(null);
@@ -269,7 +273,32 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
         <span aria-hidden>›</span>
         <Link to={boardPath}>CAMPAIGN BOARD</Link>
         <span className="site00-e001-package__breadcrumb-site">SITE 00</span>
+        <span className="site00-e001-package__save-status" aria-live="polite">
+          {saveState === 'loading' && 'LOADING…'}
+          {saveState === 'saving' && 'SAVING…'}
+          {saveState === 'saved' && 'SAVED'}
+          {saveState === 'failed' && 'SAVE FAILED'}
+        </span>
       </nav>
+
+      {syncRequired && (
+        <div className="site00-e001-package__sync-banner" role="alert">
+          <p>PACKAGE SYNC REQUIRED</p>
+          <p>Your local package could not be migrated safely.</p>
+          <button type="button" onClick={() => void retrySync()}>
+            RETRY SYNC
+          </button>
+        </div>
+      )}
+
+      {saveError && saveState === 'failed' && !syncRequired && (
+        <div className="site00-e001-package__sync-banner" role="alert">
+          <p>{saveError}</p>
+          <button type="button" onClick={() => void retrySync()}>
+            RETRY
+          </button>
+        </div>
+      )}
 
       <section className="site00-e001-package__hero">
         <div className="site00-e001-package__hero-copy">

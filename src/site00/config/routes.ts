@@ -90,6 +90,8 @@ export const SITE00_ROUTES = {
   projectCampaignBoardEntryPreview: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/preview',
   projectCampaignBoardEntryFormat: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/format/:formatFamily',
   projectCampaignBoardEntryDeliverable: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/deliverable/:deliverableId',
+  projectCampaignBoardEntryCarousel: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/carousel',
+  projectCampaignBoardEntryStory: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/story',
   projectExpressionEngineCampaign: '/projects/:projectSlug/content-operations/expression-engine',
   projectFounderCreativeIngestion: '/projects/:projectSlug/content-operations/founder-creative-ingest',
   projectFilmProduction: '/projects/:projectSlug/content-operations/film-production',
@@ -337,6 +339,14 @@ export function site00ProjectCampaignBoardEntryDeliverablePath(
   deliverableId: string,
 ): string {
   return `/projects/${projectSlug}/content-operations/campaign-board/entry/${entryNumber}/deliverable/${deliverableId}`;
+}
+
+export function site00ProjectCampaignBoardEntryCarouselPath(projectSlug: string, entryNumber: string): string {
+  return `/projects/${projectSlug}/content-operations/campaign-board/entry/${entryNumber}/carousel`;
+}
+
+export function site00ProjectCampaignBoardEntryStoryPath(projectSlug: string, entryNumber: string): string {
+  return `/projects/${projectSlug}/content-operations/campaign-board/entry/${entryNumber}/story`;
 }
 
 export function site00ProjectExpressionEngineCampaignPath(projectSlug: string): string {

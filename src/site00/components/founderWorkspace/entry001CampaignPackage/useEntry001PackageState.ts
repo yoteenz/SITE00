@@ -1,8 +1,8 @@
 /**
- * B5.2 / B5.4 — Entry 001 package state (typed archive, ingestion, remove/restore).
+ * B5.6 — Entry 001 package state — Supabase-backed with B5.5 deliverable workspaces.
  */
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type {
   Entry001ArchiveFilter,
   Entry001AssetClassificationSuggestion,
@@ -30,6 +30,20 @@ import {
 import { suggestAssetClassification } from './entry001AssetClassification.js';
 import { buildEntry001PackageReadiness } from './entry001PackageReadiness.js';
 import {
+  fetchCampaignPackage,
+  migrateCampaignPackage,
+  removeCampaignAssetApi,
+  reorderCampaignSequence,
+  restoreCampaignAssetApi,
+  type CampaignPackageApiResponse,
+} from './campaignPackageApi.js';
+import {
+  backupLegacyLocalStorage,
+  isLocalMigrationComplete,
+  markLocalMigrationComplete,
+  readLegacyLocalStorage,
+} from './campaignPackageBridge.js';
+import {
   archiveDeliverable,
   deleteDeliverablePermanently,
   getDeliverableById,
@@ -50,6 +64,17 @@ import type { Entry001DeliverableRecord, Entry001FormatFamily } from '../../../.
 
 const STORAGE_KEY = 'site00_entry001_archive_state_v2';
 
+export type SaveState = 'idle' | 'loading' | 'saving' | 'saved' | 'failed';
+
+function writeLegacyCache(state: Entry001ArchiveStatePersisted): void {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch {
+    /* optional write-through cache */
+  }
+}
+
 export type PendingClassificationItem = {
   assetId: string;
   file: File;
@@ -60,22 +85,8 @@ export type PendingClassificationItem = {
   accepted: boolean;
 };
 
-function loadState(): Entry001ArchiveStatePersisted {
-  if (typeof window === 'undefined') {
-    return { overrides: {}, removedAssetIds: [], archivedAssets: [], extraAssets: [] };
-  }
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { overrides: {}, removedAssetIds: [], archivedAssets: [], extraAssets: [] };
-    return JSON.parse(raw) as Entry001ArchiveStatePersisted;
-  } catch {
-    return { overrides: {}, removedAssetIds: [], archivedAssets: [], extraAssets: [] };
-  }
-}
-
 function persistState(state: Entry001ArchiveStatePersisted): void {
-  if (typeof window === 'undefined') return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  writeLegacyCache(state);
 }
 
 export type PostUploadSuccess = {
@@ -85,16 +96,112 @@ export type PostUploadSuccess = {
 };
 
 export function useEntry001PackageState() {
-  const [persisted, setPersisted] = useState<Entry001ArchiveStatePersisted>(() => loadState());
+  const [persisted, setPersisted] = useState<Entry001ArchiveStatePersisted>({
+    overrides: {},
+    removedAssetIds: [],
+    archivedAssets: [],
+    extraAssets: [],
+  });
   const [deliverablePersisted, setDeliverablePersisted] = useState(() => loadDeliverablesState());
+  const [saveState, setSaveState] = useState<SaveState>('loading');
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [syncRequired, setSyncRequired] = useState(false);
+  const [backendMeta, setBackendMeta] = useState<{
+    packageId?: string;
+    carouselVersion?: number;
+    storyVersion?: number;
+  }>({});
+  const [orderedCarouselIds, setOrderedCarouselIds] = useState<string[]>([]);
+  const [orderedStoryIds, setOrderedStoryIds] = useState<string[]>([]);
   const [pendingQueue, setPendingQueue] = useState<PendingClassificationItem[]>([]);
   const [archiveFilter, setArchiveFilter] = useState<Entry001ArchiveFilter>('ALL');
   const [postUploadSuccess, setPostUploadSuccess] = useState<PostUploadSuccess | null>(null);
+
+  const applyApiResponse = useCallback((body: CampaignPackageApiResponse) => {
+    if (body.legacy) {
+      setPersisted(body.legacy);
+      writeLegacyCache(body.legacy);
+    }
+    const snap = body.snapshot as {
+      package?: { packageId?: string };
+      sequences?: Array<{ formatFamily: string; versionNumber: number; orderedAssetIds: string[]; isCurrent: boolean }>;
+    } | null;
+    if (snap?.package?.packageId) {
+      const carousel = snap.sequences?.find((s) => s.formatFamily === 'CAROUSEL' && s.isCurrent);
+      const story = snap.sequences?.find((s) => s.formatFamily === 'STORY' && s.isCurrent);
+      setBackendMeta({
+        packageId: snap.package.packageId,
+        carouselVersion: carousel?.versionNumber,
+        storyVersion: story?.versionNumber,
+      });
+      if (carousel) setOrderedCarouselIds(carousel.orderedAssetIds);
+      if (story) setOrderedStoryIds(story.orderedAssetIds);
+    }
+    if (body.carouselAssets && Array.isArray(body.carouselAssets)) {
+      setOrderedCarouselIds((body.carouselAssets as Array<{ assetId: string }>).map((a) => a.assetId));
+    }
+    if (body.storyAssets && Array.isArray(body.storyAssets)) {
+      setOrderedStoryIds((body.storyAssets as Array<{ assetId: string }>).map((a) => a.assetId));
+    }
+  }, []);
+
+  const hydrate = useCallback(async () => {
+    setSaveState('loading');
+    setSaveError(null);
+    try {
+      const legacy = readLegacyLocalStorage();
+      if (legacy && !isLocalMigrationComplete()) {
+        backupLegacyLocalStorage();
+        const migrated = await migrateCampaignPackage(
+          legacy as import('../../../../../shared/site00-campaign-package/types.js').LegacyEntry001LocalState,
+        );
+        applyApiResponse(migrated);
+        markLocalMigrationComplete();
+      } else if (!isLocalMigrationComplete() && legacy) {
+        setPersisted(legacy);
+      } else {
+        const body = await fetchCampaignPackage();
+        applyApiResponse(body);
+      }
+      setSaveState('saved');
+      setSyncRequired(false);
+    } catch {
+      const legacy = readLegacyLocalStorage();
+      if (legacy) {
+        setPersisted(legacy);
+        setSaveState('idle');
+      } else {
+        setSaveState('failed');
+      }
+      setSaveError('PACKAGE SYNC REQUIRED');
+      setSyncRequired(true);
+    }
+  }, [applyApiResponse]);
+
+  useEffect(() => {
+    void hydrate();
+  }, [hydrate]);
 
   const activeArchive = useMemo(
     () => buildActiveArchive(persisted.overrides, persisted.removedAssetIds, persisted.extraAssets),
     [persisted],
   );
+
+  const carouselSlides = useMemo(() => {
+    const slides = activeArchive.filter((a) => a.assetType === 'CAROUSEL_SLIDE');
+    if (!orderedCarouselIds.length) return slides.sort((a, b) => (a.sequenceIndex ?? 0) - (b.sequenceIndex ?? 0));
+    return orderedCarouselIds
+      .map((id) => slides.find((s) => s.assetId === id))
+      .filter(Boolean) as Entry001CampaignAsset[];
+  }, [activeArchive, orderedCarouselIds]);
+
+  const storyFrames = useMemo(() => {
+    const frames = activeArchive.filter((a) => a.assetType === 'STORY_FRAME' || a.assetType === 'CTA_FRAME');
+    if (!orderedStoryIds.length) return frames.sort((a, b) => (a.sequenceIndex ?? 0) - (b.sequenceIndex ?? 0));
+    return orderedStoryIds
+      .map((id) => frames.find((f) => f.assetId === id))
+      .filter(Boolean) as Entry001CampaignAsset[];
+  }, [activeArchive, orderedStoryIds]);
 
   const deliverables = useMemo(
     () =>
@@ -208,8 +315,17 @@ export function useEntry001PackageState() {
           extraAssets: prev.extraAssets.filter((a) => a.assetId !== assetId),
         };
       });
+      setSaveState('saving');
+      void removeCampaignAssetApi(assetId)
+        .then(applyApiResponse)
+        .then(() => setSaveState('saved'))
+        .catch(() => {
+          setSaveState('failed');
+          setSaveError('SAVE FAILED — Your change could not be saved.');
+          void hydrate();
+        });
     },
-    [activeArchive, updatePersisted],
+    [activeArchive, updatePersisted, applyApiResponse, hydrate],
   );
 
   const restoreToArchive = useCallback(
@@ -243,8 +359,17 @@ export function useEntry001PackageState() {
               },
         };
       });
+      setSaveState('saving');
+      void restoreCampaignAssetApi(assetId)
+        .then(applyApiResponse)
+        .then(() => setSaveState('saved'))
+        .catch(() => {
+          setSaveState('failed');
+          setSaveError('SAVE FAILED — Your change could not be saved.');
+          void hydrate();
+        });
     },
-    [updatePersisted],
+    [updatePersisted, applyApiResponse, hydrate],
   );
 
   const reclassifyAsset = useCallback(
@@ -508,6 +633,50 @@ export function useEntry001PackageState() {
     [updateDeliverables],
   );
 
+  const reorderFormatSequence = useCallback(
+    async (formatFamily: 'CAROUSEL' | 'STORY', orderedAssetIds: string[]) => {
+      const expectedVersion =
+        formatFamily === 'CAROUSEL' ? (backendMeta.carouselVersion ?? 1) : (backendMeta.storyVersion ?? 1);
+      if (formatFamily === 'CAROUSEL') setOrderedCarouselIds(orderedAssetIds);
+      else setOrderedStoryIds(orderedAssetIds);
+      updateDeliverables((prev) => {
+        const deliverableIds = orderedAssetIds
+          .map((assetId) => prev.find((d) => d.assetId === assetId)?.deliverableId)
+          .filter(Boolean) as string[];
+        return reorderDeliverablesInFormat(prev, formatFamily, deliverableIds);
+      });
+      setSaveState('saving');
+      try {
+        const body = await reorderCampaignSequence({ formatFamily, orderedAssetIds, expectedVersion });
+        if (body.conflict) {
+          setSaveError('SEQUENCE UPDATED ELSEWHERE — Reload latest order.');
+          await hydrate();
+          return;
+        }
+        applyApiResponse(body);
+        setSaveState('saved');
+      } catch {
+        setSaveError('SAVE FAILED');
+        setSaveState('failed');
+        await hydrate();
+      }
+    },
+    [backendMeta, applyApiResponse, hydrate, updateDeliverables],
+  );
+
+  const moveSequenceItem = useCallback(
+    (formatFamily: 'CAROUSEL' | 'STORY', assetId: string, direction: 'left' | 'right') => {
+      const ids = formatFamily === 'CAROUSEL' ? [...orderedCarouselIds] : [...orderedStoryIds];
+      const idx = ids.indexOf(assetId);
+      if (idx < 0) return;
+      const swap = direction === 'left' ? idx - 1 : idx + 1;
+      if (swap < 0 || swap >= ids.length) return;
+      [ids[idx], ids[swap]] = [ids[swap]!, ids[idx]!];
+      void reorderFormatSequence(formatFamily, ids);
+    },
+    [orderedCarouselIds, orderedStoryIds, reorderFormatSequence],
+  );
+
   const dismissPostUploadSuccess = useCallback(() => setPostUploadSuccess(null), []);
 
   const getDeliverable = useCallback(
@@ -567,5 +736,16 @@ export function useEntry001PackageState() {
     replaceDeliverableFile: replaceDeliverableFileAction,
     editDeliverableMetadata,
     reorderFormatDeliverables,
+    reorderFormatSequence,
+    moveSequenceItem,
+    carouselSlides,
+    storyFrames,
+    orderedCarouselIds,
+    orderedStoryIds,
+    saveState,
+    saveError,
+    syncRequired,
+    retrySync: hydrate,
+    backendMeta,
   };
 }

@@ -6351,3 +6351,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Next evaluation action:** FOUNDER REVIEWS THE EVOLVED ENTRY 003 IN THE CONTEXT OF THE ENTIRE CHAPTER 01 STORY ARC — judge ENTRY 001 → 002 → 003 as one directed sequence
 >>>>>>> origin/main
 
+---
+
+## 2026-09-08 — Sprint B5.6 — Persistent Package Storage + Visual Sequence Editing
+
+- **Context:** B5.4/B5.5 Entry 001 package state lived in localStorage (archive, deliverables, sequences, versions) — unacceptable for cross-device continuity and future AI derivation. Sprint also required real Carousel/Story drag-reorder with live Preview sync. No FAL/provider dispatch.
+- **Delivered:**
+  - **Generic persistence types** — `shared/site00-campaign-package/types.ts` (CampaignPackage, CampaignAsset, CampaignDeliverable, CampaignDeliverableVersion, CampaignFormatSequence, migration receipts, audit events, storageSource model)
+  - **Supabase migration** — `supabase/migrations/20260908160000_site00_campaign_package_persistence.sql`
+  - **API + service** — `api/site00/campaign-package.ts`, `api/_lib/site00CampaignPackage/` (memory store dev/tests, idempotent Entry 001 migration, reorder + sequence versioning + conflict handling, audit log)
+  - **Frontend** — `useEntry001PackageState.ts` rewritten (API hydrate, localStorage migration + backup, optimistic UI + rollback, save/sync banners); Carousel + Story workspace pages with REORDER mode + live preview; PACKAGE CONTENT section on main package page
+  - **Tests** — `site00ExpressionEngineSprintB56.test.ts` (42/42 pass); B52/B54 remain green; build pass
+- **localStorage role:** migration source + optional write-through cache only; canonical truth is backend (memory in dev/VITEST; Supabase when service role configured)
+- **Live browser QA:** Blocked in cloud VM by auth guard; API/service verified via automated tests
+- **Next founder action:** OPEN ENTRY 001 ON MOBILE → REORDER CAROUSEL/STORY → VERIFY PREVIEW → OPEN SAME PACKAGE ON ANOTHER DEVICE → CONFIRM ORDER + DELIVERABLES PERSIST
+
