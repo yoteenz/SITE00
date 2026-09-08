@@ -261,6 +261,17 @@ export async function bootstrapC19R1MeridianLiveProof(): Promise<
   return { ...result, view: serializeC19R1ForComparisonView(result) };
 }
 
+export async function bootstrapC19R3MeridianLivePostRedeploy(): Promise<
+  Awaited<ReturnType<typeof import('../runC19R3MeridianLivePostRedeploy.js').runC19R3MeridianLivePostRedeploy>> & {
+    view: import('../meridianComparisonSerializer.js').MeridianComparisonViewPayload;
+  }
+> {
+  const { runC19R3MeridianLivePostRedeploy } = await import('../runC19R3MeridianLivePostRedeploy.js');
+  const { serializeC19R1ForComparisonView } = await import('../meridianComparisonSerializer.js');
+  const result = await runC19R3MeridianLivePostRedeploy();
+  return { ...result, view: serializeC19R1ForComparisonView(result) };
+}
+
 export async function bootstrapC19R2MeridianLiveAcceptance(): Promise<
   Awaited<ReturnType<typeof import('../runC19R2MeridianLiveAcceptance.js').runC19R2MeridianLiveAcceptance>> & {
     view: import('../meridianComparisonSerializer.js').MeridianComparisonViewPayload;
