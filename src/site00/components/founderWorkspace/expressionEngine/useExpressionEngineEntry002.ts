@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { apiFetch } from '../../../../utils/api.js';
 import { expressionEngineApi } from '../../../services/expressionEngineApi';
 import { translateExpressionEngineError } from './expressionEngineErrorState';
+import { loadC19R3MeridianComparisonViaJob } from './loadC19R3MeridianComparisonViaJob.js';
 import type {
   B48PipelineResponse,
   B49R4PipelineResponse,
@@ -85,10 +86,9 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
         };
         setC16({ multiUnitBlindCampaign: body.multiUnitBlindCampaign });
       }
-      const c19r1Res = await apiFetch('/api/site00/expression-engine?phase=C1.9R3');
-      if (c19r1Res.ok) {
-        const body = (await c19r1Res.json()) as { view: import('./MeridianDeterministicVsLiveComparison.js').MeridianComparisonViewData };
-        setC19r1({ view: body.view });
+      const c19View = await loadC19R3MeridianComparisonViaJob();
+      if (c19View) {
+        setC19r1({ view: c19View });
       } else {
         setC19r1(null);
       }
