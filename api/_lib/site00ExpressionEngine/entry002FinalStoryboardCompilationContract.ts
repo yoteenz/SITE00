@@ -144,3 +144,16 @@ export function assertAllFiveAuthoritiesResolved(
     );
   }
 }
+
+/** Fail closed when any required approved authority is unresolved at compilation time. */
+export function assertStoryboardCompilationFailClosed(
+  contract: FinalStoryboardCompilationContract,
+): void {
+  if (!contract.readyForCompilation) {
+    throw new Error(
+      contract.blockedReason ??
+        'Storyboard compilation fail-closed — pre-storyboard authority gate not satisfied',
+    );
+  }
+  assertAllFiveAuthoritiesResolved(contract);
+}

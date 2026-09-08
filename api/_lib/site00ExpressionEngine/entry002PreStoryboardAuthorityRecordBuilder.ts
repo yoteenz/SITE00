@@ -2,6 +2,10 @@
  * Sprint B4.7 — Build first-class pre-storyboard authority records.
  */
 
+import {
+  getAllPreStoryboardAuthorityJudgments,
+} from './preStoryboardAuthorityStore.js';
+import { preStoryboardAuthorityKey } from './preStoryboardAuthorityGate.js';
 import type {
   PreStoryboardAuthorityRecord,
   PreStoryboardAuthorityType,
@@ -35,7 +39,7 @@ function authorityStatus(judgment: PreStoryboardFounderJudgment): PreStoryboardA
 
 export function buildPreStoryboardAuthorityRecord(
   board: PreStoryboardVisualAuthority,
-  options?: { version?: string; notes?: string | null },
+  options?: { version?: string; notes?: string | null; approvedAt?: string },
 ): PreStoryboardAuthorityRecord {
   const now = new Date().toISOString();
   const judgment = board.founderJudgment;
@@ -56,7 +60,7 @@ export function buildPreStoryboardAuthorityRecord(
     version: options?.version ?? '001',
     createdAt: now,
     updatedAt: now,
-    approvedAt: isApproved ? now : null,
+    approvedAt: isApproved ? (options?.approvedAt ?? now) : null,
     notes: options?.notes ?? null,
   };
 }
@@ -64,10 +68,22 @@ export function buildPreStoryboardAuthorityRecord(
 export function attachPreStoryboardAuthorityRecords(
   authorities: PreStoryboardVisualAuthority[],
 ): PreStoryboardVisualAuthority[] {
-  return authorities.map((board) => ({
-    ...board,
-    record: buildPreStoryboardAuthorityRecord(board),
-  }));
+  const stored = new Map(
+    getAllPreStoryboardAuthorityJudgments().map((j) => [j.authorityKey, j]),
+  );
+
+  return authorities.map((board) => {
+    const key = preStoryboardAuthorityKey(board.boardNumber);
+    const judgment = stored.get(key);
+    return {
+      ...board,
+      record: buildPreStoryboardAuthorityRecord(board, {
+        version: judgment?.version ?? '001',
+        notes: judgment?.notes ?? null,
+        approvedAt: judgment?.approvedAt ?? undefined,
+      }),
+    };
+  });
 }
 
 export function summarizePreStoryboardAuthorityRecords(

@@ -115,7 +115,7 @@ describe('Expression Engine Sprint B4.7 — Pre-storyboard authority approval', 
     );
     const ready = buildEntry002PipelineReconciliationState(buildPreStoryboardApprovalState(authorities));
     expect(ready.finalStoryboard.status).toBe('READY_FOR_GENERATION');
-    expect(ready.preStoryboardVisualAuthorities).toBe('GATE_SATISFIED');
+    expect(ready.preStoryboardVisualAuthorities).toBe('APPROVED');
   });
 
   it('8. final storyboard is not automatically approved', () => {

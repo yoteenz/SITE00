@@ -69,15 +69,20 @@ export function buildEntry002PreStoryboardAuthorityGate(
   gateId: typeof PRE_STORYBOARD_VISUAL_GATE_ID;
   label: string;
   approvalState: PreStoryboardApprovalState;
+  gateStatus: 'AWAITING_FOUNDER_APPROVAL' | 'SATISFIED';
   blocksCinematicStoryboard: boolean;
   blocksNextStage: boolean;
 } {
+  const satisfied = approvalState.allAuthoritiesLoveIt;
   return {
     gateId: PRE_STORYBOARD_VISUAL_GATE_ID,
-    label: 'Pre-storyboard visual authorities — 5 glue boards must be LOVE_IT before cinematic storyboard',
+    label: satisfied
+      ? 'Pre-storyboard visual authority gate SATISFIED — all 5 authorities LOVE_IT'
+      : 'Pre-storyboard visual authorities — 5 glue boards must be LOVE_IT before cinematic storyboard',
     approvalState,
-    blocksCinematicStoryboard: approvalState.blocksCinematicStoryboard,
-    blocksNextStage: approvalState.blocksCinematicStoryboard,
+    gateStatus: satisfied ? 'SATISFIED' : 'AWAITING_FOUNDER_APPROVAL',
+    blocksCinematicStoryboard: !satisfied,
+    blocksNextStage: !satisfied,
   };
 }
 
@@ -124,12 +129,53 @@ export function buildEntry002FounderReviewGatesForPipeline(
   activeGate: boolean;
 }> {
   const preStoryboardGate = buildEntry002PreStoryboardAuthorityGate(preStoryboardApproval);
+  const satisfied = preStoryboardApproval.allAuthoritiesLoveIt;
+
+  if (satisfied) {
+    return [
+      {
+        gateId: preStoryboardGate.gateId,
+        label: 'Pre-storyboard visual authority gate SATISFIED',
+        founderJudgment: 'SATISFIED',
+        blocksNextStage: false,
+        activeGate: false,
+      },
+      {
+        gateId: 'FINAL_CINEMATIC_STORYBOARD',
+        label: 'Final cinematic storyboard — READY FOR GENERATION',
+        founderJudgment: 'UNREVIEWED',
+        blocksNextStage: false,
+        activeGate: true,
+      },
+      {
+        gateId: 'GATE_0C_STRUCTURAL_STORYBOARD',
+        label: 'Structural storyboard — planning / narrative structure only',
+        founderJudgment: 'PLANNING_NARRATIVE_STRUCTURE',
+        blocksNextStage: false,
+        activeGate: false,
+      },
+      {
+        gateId: 'GATE_REF_CINEMATIC_SEQUENCE',
+        label: 'Cinematic sequence — PRE_AUTHORITY_EXPERIMENT reference only',
+        founderJudgment: 'REFERENCE_ONLY',
+        blocksNextStage: false,
+        activeGate: false,
+      },
+      {
+        gateId: 'GATE_1_KEYFRAME',
+        label: 'Keyframe authority review — blocked pending final storyboard approval',
+        founderJudgment: 'UNREVIEWED',
+        blocksNextStage: true,
+        activeGate: false,
+      },
+    ];
+  }
 
   return [
     {
       gateId: preStoryboardGate.gateId,
       label: preStoryboardGate.label,
-      founderJudgment: preStoryboardApproval.allAuthoritiesLoveIt ? 'LOVE_IT' : 'UNREVIEWED',
+      founderJudgment: 'UNREVIEWED',
       blocksNextStage: preStoryboardGate.blocksNextStage,
       activeGate: true,
     },
