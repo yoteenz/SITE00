@@ -11,6 +11,7 @@ export {
   bootstrapC17CampaignCopyDirector,
   bootstrapC18BrandTrueCopyIntelligence,
   bootstrapC19LiveCreativeIntelligence,
+  bootstrapC19R1MeridianLiveProof,
 } from './entry003C14Pipeline.js';
 export {
   applyEntry003FounderJudgment,

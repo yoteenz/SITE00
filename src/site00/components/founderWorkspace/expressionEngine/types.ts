@@ -138,6 +138,8 @@ export type C12Entry003Response = {
   nextAction: string;
 };
 
+import type { MeridianComparisonViewData } from './MeridianDeterministicVsLiveComparison.js';
+
 export type ExpressionEngineEntry002State = {
   phase2: ExpressionEngineB1Phase2Response;
   blueprint: Entry002ProductionBlueprint;
@@ -147,6 +149,7 @@ export type ExpressionEngineEntry002State = {
   c11: C11CreativeDirectorResponse | null;
   c12: C12Entry003Response | null;
   c16: { multiUnitBlindCampaign: import('./MultiUnitCreativePackageReview.js').MultiUnitCampaignReviewData } | null;
+  c19r1: { view: MeridianComparisonViewData } | null;
   loading: boolean;
   error: string | null;
   errorView: import('./expressionEngineErrorState').ExpressionEngineErrorView | null;

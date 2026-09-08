@@ -249,3 +249,14 @@ export async function bootstrapC19LiveCreativeIntelligence(): Promise<
   const { runC19LiveProductionProof } = await import('../runC19LiveProductionProof.js');
   return runC19LiveProductionProof();
 }
+
+export async function bootstrapC19R1MeridianLiveProof(): Promise<
+  Awaited<ReturnType<typeof import('../runC19R1MeridianLiveProof.js').runC19R1MeridianLiveProof>> & {
+    view: import('../meridianComparisonSerializer.js').MeridianComparisonViewPayload;
+  }
+> {
+  const { runC19R1MeridianLiveProof } = await import('../runC19R1MeridianLiveProof.js');
+  const { serializeC19R1ForComparisonView } = await import('../meridianComparisonSerializer.js');
+  const result = await runC19R1MeridianLiveProof();
+  return { ...result, view: serializeC19R1ForComparisonView(result) };
+}

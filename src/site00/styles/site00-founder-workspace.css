@@ -9089,3 +9089,241 @@
   margin-top: 4px;
 }
 
+/* C1.9R1 — Meridian deterministic vs FULL_REASONING comparison */
+.site00-meridian-compare {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 4px 0 8px;
+}
+
+.site00-meridian-compare__loading {
+  font-size: 11px;
+  color: var(--ee-ref-muted, #888);
+}
+
+.site00-meridian-compare__head h2 {
+  margin: 4px 0 6px;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+
+.site00-meridian-compare__eyebrow {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--ee-ref-muted, #888);
+  margin: 0;
+}
+
+.site00-meridian-compare__status {
+  display: inline-block;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border: 1px solid var(--ee-ref-ink, #111);
+}
+
+.site00-meridian-compare__receipt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  color: var(--ee-ref-muted, #666);
+}
+
+.site00-meridian-compare__banner {
+  padding: 10px 12px;
+  border: 1px solid #c44;
+  background: rgba(204, 68, 68, 0.08);
+  font-size: 11px;
+}
+
+.site00-meridian-compare__banner strong {
+  display: block;
+  margin-bottom: 4px;
+  letter-spacing: 0.06em;
+}
+
+.site00-meridian-compare__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 720px) {
+  .site00-meridian-compare__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.site00-meridian-compare__panel {
+  border: 1px solid var(--ee-ref-ink, #111);
+  padding: 10px 12px;
+  background: #fff;
+}
+
+.site00-meridian-compare__panel--blocked {
+  opacity: 0.85;
+  border-style: dashed;
+}
+
+.site00-meridian-compare__panel h3 {
+  margin: 0 0 6px;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+
+.site00-meridian-compare__runtime {
+  font-size: 9px;
+  color: var(--ee-ref-muted, #888);
+  margin: 0 0 8px;
+}
+
+.site00-meridian-compare__dl {
+  margin: 0 0 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.site00-meridian-compare__dl dt {
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  color: var(--ee-ref-muted, #888);
+}
+
+.site00-meridian-compare__dl dd {
+  margin: 2px 0 0;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.site00-meridian-compare__units {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.site00-meridian-compare__units li {
+  border-top: 1px solid #eee;
+  padding-top: 8px;
+  font-size: 11px;
+}
+
+.site00-meridian-compare__units strong {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+
+.site00-meridian-compare__cta {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  color: var(--ee-ref-muted, #666);
+}
+
+.site00-meridian-compare__diff h3 {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  margin: 12px 0 4px;
+}
+
+.site00-meridian-compare__diff ul {
+  margin: 0 0 8px;
+  padding-left: 16px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.site00-meridian-compare__judgment {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.site00-meridian-compare__toggle {
+  align-self: flex-start;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  padding: 6px 10px;
+  border: 1px solid var(--ee-ref-ink, #111);
+  background: transparent;
+  cursor: pointer;
+}
+
+.site00-meridian-compare__hero-lines h3,
+.site00-meridian-compare__hero-lines h4 {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  margin: 0 0 6px;
+}
+
+.site00-meridian-compare__hero-cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 560px) {
+  .site00-meridian-compare__hero-cols {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.site00-meridian-compare__hero-cols ul {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.site00-meridian-compare__signature {
+  font-size: 11px;
+  line-height: 1.45;
+  margin: 0;
+  padding: 8px 10px;
+  border-left: 2px solid var(--ee-ref-ink, #111);
+}
+
+.site00-meridian-compare__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
+}
+
+.site00-meridian-compare__actions-label {
+  width: 100%;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+
+.site00-meridian-compare__chosen {
+  width: 100%;
+  font-size: 11px;
+  margin: 0;
+}
+
+.site00-meridian-compare__actions button {
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  padding: 8px 10px;
+  border: 1px solid var(--ee-ref-ink, #111);
+  background: #fff;
+  cursor: pointer;
+}
+
+.site00-meridian-compare__actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+

@@ -31,11 +31,13 @@ import { AutonomousCreativeDirectorWorkspace } from './AutonomousCreativeDirecto
 import { Entry003CreativeDirectorWorkspace } from './Entry003CreativeDirectorWorkspace';
 import { Entry003SeniorDirectorReview } from './Entry003SeniorDirectorReview';
 import { MultiUnitCreativePackageReview } from './MultiUnitCreativePackageReview';
+import { MeridianDeterministicVsLiveComparison } from './MeridianDeterministicVsLiveComparison';
 import { ReferenceVisualAuthorities } from './ReferenceVisualAuthorities';
 import { ExpressionEngineErrorState } from './ExpressionEngineErrorState';
 import {
   postGenerateFinalStoryboard,
   postImportFounderStoryboard,
+  postMeridianComparisonJudgment,
   useExpressionEngineEntry002,
 } from './useExpressionEngineEntry002';
 
@@ -44,10 +46,11 @@ type Props = {
 };
 
 export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props) {
-  const { phase2, blueprint, b48, b49r4, c11, c12, c16, loading, error, errorView, reload } = useExpressionEngineEntry002();
+  const { phase2, blueprint, b48, b49r4, c11, c12, c16, c19r1, loading, error, errorView, reload } = useExpressionEngineEntry002();
   const [judging, setJudging] = useState(false);
   const [cdJudging, setCdJudging] = useState(false);
   const [e003Judging, setE003Judging] = useState(false);
+  const [meridianJudging, setMeridianJudging] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [importing, setImporting] = useState(false);
 
@@ -252,6 +255,19 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
     [reload],
   );
 
+  const submitMeridianJudgment = useCallback(
+    async (founderJudgment: string, comparisonId?: string) => {
+      setMeridianJudging(true);
+      try {
+        await postMeridianComparisonJudgment({ founderJudgment, comparisonId });
+        await reload();
+      } finally {
+        setMeridianJudging(false);
+      }
+    },
+    [reload],
+  );
+
   if (loading) {
     return <p className="site00-ee-ref-loading">Loading Expression Engine…</p>;
   }
@@ -338,6 +354,18 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
 
       <ReferenceSupportingIntelligence
         sections={[
+          {
+            id: 'c19r1-meridian-live-proof',
+            label: 'MERIDIAN · DETERMINISTIC vs FULL REASONING (C1.9R1)',
+            status: c19r1?.view.capabilityStatus.replace(/_/g, ' ') ?? 'LOADING',
+            content: (
+              <MeridianDeterministicVsLiveComparison
+                data={c19r1?.view ?? null}
+                onFounderJudgment={submitMeridianJudgment}
+                judging={meridianJudging}
+              />
+            ),
+          },
           {
             id: 'c16-multi-unit-creative',
             label: 'FRESH CAMPAIGN · MULTI-UNIT REVIEW (C1.6)',
