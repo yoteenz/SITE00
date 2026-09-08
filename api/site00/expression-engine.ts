@@ -18,6 +18,8 @@ import {
   bootstrapB45,
   bootstrapB46,
   bootstrapB46FollowUp,
+  bootstrapB47,
+  recordPreStoryboardAuthorityJudgment,
   bootstrapNdxbookExpressionProof,
   evaluateEntryProductionReadiness,
   getChapter01Snapshot,
@@ -31,6 +33,64 @@ import { CHAPTER_01_ID } from '../_lib/site00ExpressionEngine/chapter01Canon.js'
 import { closeEntry001Phase1 } from '../_lib/site00ExpressionEngine/entry001Close.js';
 import { compileEntry002LockedEntry } from '../_lib/site00ExpressionEngine/entry002Blueprint.js';
 import { saveEntry } from '../_lib/site00ExpressionEngine/entryStore.js';
+import type { PreStoryboardFounderJudgment } from '../../shared/site00-expression-engine/preStoryboardVisualAuthorityTypes.js';
+import type { PreStoryboardAuthorityKey } from '../_lib/site00ExpressionEngine/preStoryboardAuthorityGate.js';
+
+function serializePreStoryboardAuthorityResponse(b47: Awaited<ReturnType<typeof bootstrapB47>>) {
+  return {
+    engine: 'EXPRESSION_ENGINE_V0',
+    sprint: b47.sprint,
+    productionOrder: b47.productionOrder,
+    roleCorrection: b47.roleCorrection,
+    treatment: b47.treatment,
+    preStoryboardAuthorityPack: {
+      packId: b47.preStoryboardAuthorityPack.packId,
+      authorities: b47.preStoryboardAuthorityPack.authorities.map((a) => ({
+        boardNumber: a.boardNumber,
+        boardId: a.boardId,
+        boardTitle: a.boardTitle,
+        role: a.role,
+        purpose: a.purpose,
+        continuityRules: a.continuityRules,
+        requiredVisualElements: a.requiredVisualElements,
+        forbiddenElements: a.forbiddenElements,
+        visualDescription: a.visualDescription,
+        founderJudgment: a.founderJudgment,
+        previewUrl: a.previewUrl,
+        storagePath: a.storagePath,
+        record: a.record,
+      })),
+      approvalState: b47.preStoryboardAuthorityPack.approvalState,
+      canonState: b47.preStoryboardAuthorityPack.canonState,
+    },
+    founderReviewSlots: b47.founderReviewSlots,
+    pipelineState: b47.pipelineState,
+    founderGates: b47.founderGates,
+    gateSatisfaction: b47.gateSatisfaction,
+    finalStoryboardEligibility: b47.finalStoryboardEligibility,
+    storyboardCompilationContract: {
+      readyForCompilation: b47.storyboardCompilationContract.readyForCompilation,
+      characterSeparation: b47.storyboardCompilationContract.characterSeparation,
+      nailSeparation: b47.storyboardCompilationContract.nailSeparation,
+      authoritiesResolved: {
+        ndxPresence: Boolean(b47.storyboardCompilationContract.authorities.ndxPresenceAuthority),
+        subjectDualEra: Boolean(b47.storyboardCompilationContract.authorities.subjectDualEraAuthority),
+        ndxHands: Boolean(b47.storyboardCompilationContract.authorities.ndxHandsAuthority),
+        subjectFashion: Boolean(b47.storyboardCompilationContract.authorities.subjectFashionAuthority),
+        phoneGlitch: Boolean(b47.storyboardCompilationContract.authorities.phoneGlitchAuthority),
+      },
+    },
+    authorityRecords: b47.authorityRecords,
+    cinematicSequence: b47.cinematicSequence,
+    finalStoryboard: b47.finalStoryboard,
+    keyframes: b47.keyframes,
+    video: b47.video,
+    preStoryboardGate: b47.preStoryboardGate,
+    qa: b47.qa,
+    nextAction: b47.nextAction,
+    telemetryNote: b47.telemetryNote,
+  };
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -50,51 +110,39 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const hasEntryQuery = Boolean(brandIdParam && entryNumber);
 
     if (
+      req.method === 'POST' &&
+      action === 'SET_PRE_STORYBOARD_AUTHORITY_JUDGMENT'
+    ) {
+      const authorityKey = String(body.authorityKey ?? '') as PreStoryboardAuthorityKey;
+      const founderJudgment = String(body.founderJudgment ?? '') as PreStoryboardFounderJudgment;
+      const authorityId = String(body.authorityId ?? '');
+
+      if (!authorityKey || !founderJudgment) {
+        return res.status(400).json({ error: 'authorityKey and founderJudgment required' });
+      }
+
+      recordPreStoryboardAuthorityJudgment({
+        authorityKey,
+        authorityId,
+        founderJudgment,
+        notes: body.notes ? String(body.notes) : null,
+      });
+
+      const b47 = await bootstrapB47();
+      return res.status(200).json(serializePreStoryboardAuthorityResponse(b47));
+    }
+
+    if (
       req.method === 'GET' &&
-      (phase === 'B46P1' ||
+      (phase === 'B47' ||
+        phase === 'B4.7' ||
+        phase === 'B46P1' ||
         phase === 'B46-FOLLOWUP' ||
         phase === 'PRE_STORYBOARD_AUTHORITY' ||
         phase === 'PRE_STORYBOARD')
     ) {
-      const dispatchFal = req.query.dispatchFal !== '0' && (req.query.dispatchFal === '1' || body.dispatchFal !== false);
-      const forceDispatch = req.query.forceDispatch === '1' || body.forceDispatch === true;
-      const followUp = await bootstrapB46FollowUp({ dispatchFal, forceDispatch });
-      return res.status(200).json({
-        engine: 'EXPRESSION_ENGINE_V0',
-        sprint: followUp.sprint,
-        productionOrder: followUp.productionOrder,
-        roleCorrection: followUp.roleCorrection,
-        treatment: followUp.treatment,
-        preStoryboardAuthorityPack: {
-          packId: followUp.preStoryboardAuthorityPack.packId,
-          authorities: followUp.preStoryboardAuthorityPack.authorities.map((a) => ({
-            boardNumber: a.boardNumber,
-            boardId: a.boardId,
-            boardTitle: a.boardTitle,
-            role: a.role,
-            purpose: a.purpose,
-            continuityRules: a.continuityRules,
-            requiredVisualElements: a.requiredVisualElements,
-            forbiddenElements: a.forbiddenElements,
-            visualDescription: a.visualDescription,
-            founderJudgment: a.founderJudgment,
-            previewUrl: a.previewUrl,
-            storagePath: a.storagePath,
-          })),
-          approvalState: followUp.preStoryboardAuthorityPack.approvalState,
-          canonState: followUp.preStoryboardAuthorityPack.canonState,
-        },
-        founderReviewSlots: followUp.founderReviewSlots,
-        pipelineState: followUp.pipelineState,
-        founderGates: followUp.founderGates,
-        cinematicSequence: followUp.cinematicSequence,
-        finalStoryboard: followUp.finalStoryboard,
-        keyframes: followUp.keyframes,
-        video: followUp.video,
-        preStoryboardGate: followUp.preStoryboardGate,
-        qa: followUp.qa,
-        nextAction: followUp.nextAction,
-      });
+      const b47 = await bootstrapB47();
+      return res.status(200).json(serializePreStoryboardAuthorityResponse(b47));
     }
 
     if (req.method === 'GET' && (phase === 'B46' || phase === 'B4.6' || phase === 'B4P6' || phase === 'STORYBOARD_AUTHORITY')) {

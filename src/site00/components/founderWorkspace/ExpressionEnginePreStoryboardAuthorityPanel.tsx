@@ -1,10 +1,10 @@
 /**
- * Expression Engine — Entry 002 pre-storyboard visual authority panel (B4.6 follow-up).
+ * Expression Engine — Entry 002 pre-storyboard visual authority panel (B4.7).
  */
 
 import type { ReactNode } from 'react';
-import { useEffect, useState } from 'react';
-import { expressionEngineApi } from '../../services/expressionEngineApi';
+import { useCallback, useEffect, useState } from 'react';
+import { apiFetch } from '../../../utils/api.js';
 
 type PreStoryboardAuthority = {
   boardNumber: number;
@@ -15,13 +15,23 @@ type PreStoryboardAuthority = {
   continuityRules: string[];
   founderJudgment: string;
   previewUrl: string | null;
+  record?: { status: string; visualAuthority: boolean; version: string };
 };
 
-type B46FollowUpResponse = {
+type B47Response = {
   pipelineState: {
-    activeGate: { gateId: string; label: string };
+    activeGate: { gateId: string; label: string; satisfied: boolean };
     nextAction: string;
     currentStage: string;
+    preStoryboardVisualAuthorities: string;
+    finalStoryboard: { status: string; promotionBlocked: boolean; autoApproved: false };
+  };
+  gateSatisfaction: {
+    satisfied: boolean;
+    loveItCount: number;
+    unreviewedCount: number;
+    promisingCount: number;
+    notForMeCount: number;
   };
   roleCorrection: {
     ndx: string;
@@ -32,8 +42,16 @@ type B46FollowUpResponse = {
   preStoryboardAuthorityPack: {
     packId: string;
     authorities: PreStoryboardAuthority[];
-    approvalState: { gateId: string; blocksCinematicStoryboard: boolean };
+    approvalState: { gateId: string; blocksCinematicStoryboard: boolean; allAuthoritiesLoveIt: boolean };
   };
+  founderReviewSlots: Array<{
+    authorityKey: string;
+    authorityId: string;
+    boardNumber: number;
+    boardTitle: string;
+    founderJudgment: string;
+    allowedJudgments: string[];
+  }>;
   cinematicSequence: {
     sequenceId: string;
     status: string;
@@ -45,33 +63,53 @@ type B46FollowUpResponse = {
   nextAction: string;
 };
 
-const JUDGMENT_LABELS = ['LOVE_IT', 'PROMISING_REFINE', 'NOT_FOR_ME'] as const;
+const JUDGMENT_OPTIONS = ['LOVE_IT', 'PROMISING_REFINE', 'NOT_FOR_ME'] as const;
 
 export function ExpressionEnginePreStoryboardAuthorityPanel() {
-  const [data, setData] = useState<B46FollowUpResponse | null>(null);
+  const [data, setData] = useState<B47Response | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [savingKey, setSavingKey] = useState<string | null>(null);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await apiFetch('/api/site00/expression-engine?phase=B47');
+      if (!res.ok) throw new Error(await res.text());
+      setData((await res.json()) as B47Response);
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Failed to load pre-storyboard authorities');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    let cancelled = false;
-    setLoading(true);
-    expressionEngineApi
-      .phaseB46FollowUp({ dispatchFal: false })
-      .then((res) => {
-        if (!cancelled) setData(res as B46FollowUpResponse);
-      })
-      .catch((e: unknown) => {
-        if (!cancelled) {
-          setError(e instanceof Error ? e.message : 'Failed to load pre-storyboard authorities');
-        }
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
+    void load();
+  }, [load]);
+
+  const setJudgment = async (slot: B47Response['founderReviewSlots'][number], judgment: string) => {
+    setSavingKey(slot.authorityKey);
+    try {
+      const res = await apiFetch('/api/site00/expression-engine', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'SET_PRE_STORYBOARD_AUTHORITY_JUDGMENT',
+          authorityKey: slot.authorityKey,
+          authorityId: slot.authorityId,
+          founderJudgment: judgment,
+        }),
       });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+      if (!res.ok) throw new Error(await res.text());
+      setData((await res.json()) as B47Response);
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Failed to save judgment');
+    } finally {
+      setSavingKey(null);
+    }
+  };
 
   if (loading) {
     return <p className="site00-expr-engine-panel__meta">Loading pre-storyboard visual authorities…</p>;
@@ -83,17 +121,30 @@ export function ExpressionEnginePreStoryboardAuthorityPanel() {
 
   if (!data) return null;
 
-  const { roleCorrection, preStoryboardAuthorityPack, pipelineState } = data;
+  const { roleCorrection, preStoryboardAuthorityPack, pipelineState, gateSatisfaction } = data;
+  const gateSatisfied = gateSatisfaction.satisfied;
 
   return (
     <section className="site00-experiment-g__panel site00-expr-engine-block site00-expr-engine-psa">
       <h2>PRE-STORYBOARD VISUAL AUTHORITY · ENTRY 002</h2>
       <p className="site00-expr-engine-panel__meta site00-expr-engine-panel__copy">
-        <strong>ACTIVE GATE:</strong> {pipelineState.activeGate.gateId} · {pipelineState.currentStage}
+        <strong>CURRENT GATE:</strong> PRE-STORYBOARD VISUAL AUTHORITY REVIEW ·{' '}
+        {pipelineState.activeGate.gateId}
       </p>
       <p className="site00-expr-engine-panel__copy">
         <strong>NEXT ACTION:</strong> {pipelineState.nextAction}
       </p>
+
+      {gateSatisfied ? (
+        <p className="site00-expr-engine-panel__copy">
+          <strong>PRE-STORYBOARD AUTHORITY GATE SATISFIED</strong> · FINAL CINEMATIC STORYBOARD READY
+        </p>
+      ) : (
+        <p className="site00-expr-engine-panel__copy">
+          <strong>FINAL CINEMATIC STORYBOARD</strong> BLOCKED — PRE-STORYBOARD AUTHORITIES NOT YET APPROVED
+          ({gateSatisfaction.loveItCount}/5 LOVE_IT)
+        </p>
+      )}
 
       <Block title="ROLE CORRECTION">
         <p className="site00-expr-engine-panel__copy">
@@ -106,40 +157,64 @@ export function ExpressionEnginePreStoryboardAuthorityPanel() {
       </Block>
 
       <div className="site00-expr-engine-psa__grid">
-        {preStoryboardAuthorityPack.authorities.map((board) => (
-          <figure key={board.boardId} className="site00-expr-engine-psa__board">
-            {board.previewUrl ? (
-              <img
-                src={board.previewUrl}
-                alt={`Authority ${String(board.boardNumber).padStart(2, '0')} — ${board.boardTitle}`}
-                loading="lazy"
-              />
-            ) : (
-              <div className="site00-expr-engine-psa__placeholder">
-                Authority {String(board.boardNumber).padStart(2, '0')} — pending dispatch
-              </div>
-            )}
-            <figcaption>
-              <strong>{String(board.boardNumber).padStart(2, '0')}</strong> · {board.boardTitle}
-              <p className="site00-expr-engine-panel__copy">{board.purpose}</p>
-              <ul className="site00-expr-engine-list">
-                {board.continuityRules.map((rule) => (
-                  <li key={rule}>{rule}</li>
-                ))}
-              </ul>
-              <p className="site00-expr-engine-panel__meta">Judgment: {board.founderJudgment}</p>
-              <ul className="site00-expr-engine-list">
-                {JUDGMENT_LABELS.map((j) => (
-                  <li key={j}>{j}</li>
-                ))}
-              </ul>
-            </figcaption>
-          </figure>
-        ))}
+        {preStoryboardAuthorityPack.authorities.map((board) => {
+          const slot = data.founderReviewSlots.find((s) => s.boardNumber === board.boardNumber);
+          return (
+            <figure key={board.boardId} className="site00-expr-engine-psa__board">
+              {board.previewUrl ? (
+                <img
+                  src={board.previewUrl}
+                  alt={`Authority ${String(board.boardNumber).padStart(2, '0')} — ${board.boardTitle}`}
+                  loading="lazy"
+                />
+              ) : (
+                <div className="site00-expr-engine-psa__placeholder">
+                  Authority {String(board.boardNumber).padStart(2, '0')} — visual pending
+                </div>
+              )}
+              <figcaption>
+                <strong>{String(board.boardNumber).padStart(2, '0')}</strong> · {board.boardTitle}
+                <p className="site00-expr-engine-panel__copy">{board.purpose}</p>
+                <ul className="site00-expr-engine-list">
+                  {board.continuityRules.slice(0, 3).map((rule) => (
+                    <li key={rule}>{rule}</li>
+                  ))}
+                </ul>
+                <p className="site00-expr-engine-panel__meta">
+                  Judgment: <strong>{board.founderJudgment}</strong>
+                  {board.record ? ` · v${board.record.version} · ${board.record.status}` : ''}
+                </p>
+                {slot && (
+                  <div className="site00-expr-engine-psa__judgments">
+                    {JUDGMENT_OPTIONS.map((j) => (
+                      <button
+                        key={j}
+                        type="button"
+                        className={
+                          board.founderJudgment === j
+                            ? 'site00-btn site00-btn--primary'
+                            : 'site00-btn'
+                        }
+                        disabled={savingKey === slot.authorityKey}
+                        onClick={() => void setJudgment(slot, j)}
+                      >
+                        {j.replace(/_/g, ' ')}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </figcaption>
+            </figure>
+          );
+        })}
       </div>
 
       <p className="site00-expr-engine-panel__meta">
-        Final storyboard: {data.finalStoryboard.status} · Keyframes: {data.keyframes} · Video: {data.video}
+        Final storyboard: {data.finalStoryboard.status} · Keyframes: {data.keyframes} · Video:{' '}
+        {data.video}
+      </p>
+      <p className="site00-expr-engine-panel__meta">
+        Cinematic sequence: {data.cinematicSequence.status} · reference only · not visual authority
       </p>
     </section>
   );

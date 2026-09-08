@@ -25,6 +25,40 @@ export type PreStoryboardVisualAuthorityRole =
   | 'SUBJECT_FASHION_CONTINUITY'
   | 'PHONE_CULTURAL_GLITCH';
 
+export type PreStoryboardAuthorityType =
+  | 'NDX_PRESENCE'
+  | 'SUBJECT_DUAL_ERA'
+  | 'NDX_HANDS_NAILS'
+  | 'SUBJECT_FASHION_CONTINUITY'
+  | 'PHONE_CULTURAL_GLITCH';
+
+export type PreStoryboardAuthorityStatus =
+  | 'REGISTERED'
+  | 'VISUAL_INGESTED'
+  | 'UNDER_REVIEW'
+  | 'APPROVED'
+  | 'REJECTED';
+
+/** First-class pre-storyboard authority record (B4.7). */
+export type PreStoryboardAuthorityRecord = {
+  authorityId: string;
+  entryId: 'entry-002';
+  authorityType: PreStoryboardAuthorityType;
+  title: string;
+  domain: PreStoryboardVisualAuthorityRole;
+  status: PreStoryboardAuthorityStatus;
+  founderJudgment: PreStoryboardFounderJudgment;
+  visualAuthority: boolean;
+  canon: boolean;
+  referenceOnly: boolean;
+  assetId: string;
+  version: string;
+  createdAt: string;
+  updatedAt: string;
+  approvedAt: string | null;
+  notes: string | null;
+};
+
 export type PreStoryboardVisualAuthority = {
   boardNumber: number;
   boardId: string;
@@ -38,6 +72,22 @@ export type PreStoryboardVisualAuthority = {
   founderJudgment: PreStoryboardFounderJudgment;
   storagePath: string | null;
   previewUrl: string | null;
+  /** B4.7 — linked first-class authority record */
+  record?: PreStoryboardAuthorityRecord;
+};
+
+export type FinalStoryboardEligibilityState =
+  | 'BLOCKED_PENDING_PRE_STORYBOARD_AUTHORITY_APPROVAL'
+  | 'READY_FOR_GENERATION';
+
+export type PreStoryboardGateSatisfaction = {
+  gateId: 'GATE_0B_PRE_STORYBOARD_AUTHORITY';
+  satisfied: boolean;
+  requiredCount: 5;
+  loveItCount: number;
+  unreviewedCount: number;
+  promisingCount: number;
+  notForMeCount: number;
 };
 
 export type PreStoryboardApprovalState = {
@@ -86,7 +136,7 @@ export type Entry002PreStoryboardAuthorityBootstrapResult = {
     visualAuthority: false;
   };
   finalStoryboard: {
-    status: 'BLOCKED_PENDING_PRE_STORYBOARD_AUTHORITY_APPROVAL';
+    status: 'BLOCKED_PENDING_PRE_STORYBOARD_AUTHORITY_APPROVAL' | 'READY_FOR_GENERATION';
     gateId: 'GATE_0C_STRUCTURAL_STORYBOARD';
   };
   keyframes: 'BLOCKED';

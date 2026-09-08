@@ -7,11 +7,14 @@ import { ENTRY_002_PRE_STORYBOARD_AUTHORITY_PACK_001 } from '../../../shared/sit
 import { ENTRY_002_REEL_TREATMENT_001 } from '../../../shared/site00-expression-engine/storyboardAuthorityIds.js';
 import { buildEntry002PreStoryboardVisualAuthorities } from './entry002PreStoryboardVisualAuthorities.js';
 import { buildPreStoryboardApprovalState } from './preStoryboardAuthorityGate.js';
+import { applyStoredPreStoryboardJudgments } from './preStoryboardFounderJudgment.js';
+import { attachPreStoryboardAuthorityRecords } from './entry002PreStoryboardAuthorityRecordBuilder.js';
 
 export function buildEntry002PreStoryboardVisualAuthorityPack(
   authoritiesWithUrls?: ReturnType<typeof buildEntry002PreStoryboardVisualAuthorities>,
 ): PreStoryboardVisualAuthorityPack {
-  const authorities = authoritiesWithUrls ?? buildEntry002PreStoryboardVisualAuthorities();
+  const base = authoritiesWithUrls ?? buildEntry002PreStoryboardVisualAuthorities();
+  const authorities = attachPreStoryboardAuthorityRecords(applyStoredPreStoryboardJudgments(base));
   const approvalState = buildPreStoryboardApprovalState(authorities);
 
   return {

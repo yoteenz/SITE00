@@ -1,5 +1,5 @@
 /**
- * Sprint B4.6 follow-up — Pre-storyboard visual authority pack bootstrap.
+ * Sprint B4.7 — Entry 002 B4.7 pre-storyboard authority approval bootstrap.
  */
 
 import type { Entry002PreStoryboardAuthorityBootstrapResult } from '../../../shared/site00-expression-engine/preStoryboardVisualAuthorityTypes.js';
@@ -13,34 +13,37 @@ import { buildEntry002ReelTreatmentAuthority } from './entry002ReelTreatment.js'
 import { buildEntry002PreStoryboardVisualAuthorities } from './entry002PreStoryboardVisualAuthorities.js';
 import { buildEntry002PreStoryboardVisualAuthorityPack } from './entry002PreStoryboardAuthorityRecord.js';
 import { runPreStoryboardAuthorityQA } from './preStoryboardAuthorityQA.js';
-import {
-  dispatchAllEntry002PreStoryboardAuthorities,
-  mergePreStoryboardRasterResults,
-} from './preStoryboardAuthorityDispatch.js';
 import { buildPreStoryboardApprovalState } from './preStoryboardAuthorityGate.js';
+import { buildEntry002PipelineReconciliationState, resolveEntry002NextAction } from './entry002PipelineState.js';
+import { buildEntry002FounderReviewGatesForPipeline, buildEntry002PreStoryboardAuthorityGate } from './entry002ReelProductionGates.js';
+import {
+  applyStoredPreStoryboardJudgments,
+  buildPreStoryboardFounderReviewSlots,
+} from './preStoryboardFounderJudgment.js';
 import {
   attachEntry002PreStoryboardFounderAssets,
 } from './entry002PreStoryboardAuthorityAssets.js';
-import { applyStoredPreStoryboardJudgments } from './preStoryboardFounderJudgment.js';
-import { attachPreStoryboardAuthorityRecords } from './entry002PreStoryboardAuthorityRecordBuilder.js';
-import { buildEntry002PipelineReconciliationState, resolveEntry002NextAction } from './entry002PipelineState.js';
-import { buildEntry002FounderReviewGatesForPipeline, buildEntry002PreStoryboardAuthorityGate } from './entry002ReelProductionGates.js';
+import {
+  attachPreStoryboardAuthorityRecords,
+  summarizePreStoryboardAuthorityRecords,
+} from './entry002PreStoryboardAuthorityRecordBuilder.js';
+import {
+  resolveFinalStoryboardCompilationContract,
+} from './entry002FinalStoryboardCompilationContract.js';
+import { buildPreStoryboardGateSatisfaction } from './preStoryboardAuthorityGate.js';
 
-export async function bootstrapB46FollowUpPreStoryboardAuthority(options?: {
-  dispatchFal?: boolean;
-  forceDispatch?: boolean;
-}): Promise<
+export async function bootstrapB47PreStoryboardAuthorityApproval(): Promise<
   Entry002PreStoryboardAuthorityBootstrapResult & {
+    sprint: 'B4.7_PRE_STORYBOARD_AUTHORITY_APPROVAL';
     preStoryboardGate: ReturnType<typeof buildEntry002PreStoryboardAuthorityGate>;
-    authorityVisuals: Awaited<ReturnType<typeof dispatchAllEntry002PreStoryboardAuthorities>>;
-    founderReviewSlots: Array<{
-      authorityKey: string;
-      boardNumber: number;
-      boardTitle: string;
-      founderJudgment: string;
-    }>;
+    gateSatisfaction: ReturnType<typeof buildPreStoryboardGateSatisfaction>;
+    founderReviewSlots: ReturnType<typeof buildPreStoryboardFounderReviewSlots>;
     pipelineState: ReturnType<typeof buildEntry002PipelineReconciliationState>;
     founderGates: ReturnType<typeof buildEntry002FounderReviewGatesForPipeline>;
+    finalStoryboardEligibility: ReturnType<typeof buildEntry002PipelineReconciliationState>['finalStoryboard'];
+    storyboardCompilationContract: ReturnType<typeof resolveFinalStoryboardCompilationContract>;
+    authorityRecords: ReturnType<typeof summarizePreStoryboardAuthorityRecords>;
+    telemetryNote: string;
   }
 > {
   process.env.EXPRESSION_ENGINE_MEMORY_STORE = process.env.EXPRESSION_ENGINE_MEMORY_STORE ?? '1';
@@ -48,39 +51,32 @@ export async function bootstrapB46FollowUpPreStoryboardAuthority(options?: {
   await bootstrapB31FounderCreativeOverride();
   saveEntry(compileEntry002LockedEntry());
 
-  const dispatchFal = options?.dispatchFal ?? Boolean(process.env.FAL_KEY?.trim());
   const treatment = buildEntry002ReelTreatmentAuthority();
-  const baseAuthorities = buildEntry002PreStoryboardVisualAuthorities();
-  const authorityResults = await dispatchAllEntry002PreStoryboardAuthorities(baseAuthorities, {
-    dispatchFal,
-    forceDispatch: options?.forceDispatch,
-  });
-  const dispatched = mergePreStoryboardRasterResults(baseAuthorities, authorityResults);
-  const withFounderAssets = attachEntry002PreStoryboardFounderAssets(dispatched);
+  const baseAuthorities = attachEntry002PreStoryboardFounderAssets(
+    buildEntry002PreStoryboardVisualAuthorities(),
+  );
   const authorities = attachPreStoryboardAuthorityRecords(
-    applyStoredPreStoryboardJudgments(withFounderAssets),
+    applyStoredPreStoryboardJudgments(baseAuthorities),
   );
   const preStoryboardAuthorityPack = buildEntry002PreStoryboardVisualAuthorityPack(authorities);
   const qa = runPreStoryboardAuthorityQA(preStoryboardAuthorityPack);
 
   if (!qa.passed) {
-    throw new Error(`B4.6 follow-up pre-storyboard QA failed: ${qa.blockers.join('; ')}`);
+    throw new Error(`B4.7 pre-storyboard QA failed: ${qa.blockers.join('; ')}`);
   }
 
   const approvalState = buildPreStoryboardApprovalState(authorities);
+  const gateSatisfaction = buildPreStoryboardGateSatisfaction(authorities);
   const preStoryboardGate = buildEntry002PreStoryboardAuthorityGate(approvalState);
   const pipelineState = buildEntry002PipelineReconciliationState(approvalState);
   const founderGates = buildEntry002FounderReviewGatesForPipeline(approvalState);
+  const founderReviewSlots = buildPreStoryboardFounderReviewSlots(authorities);
+  const storyboardCompilationContract = resolveFinalStoryboardCompilationContract(preStoryboardAuthorityPack);
+  const authorityRecords = summarizePreStoryboardAuthorityRecords(authorities);
   const nextAction = resolveEntry002NextAction(approvalState);
-  const founderReviewSlots = authorities.map((a) => ({
-    authorityKey: `AUTHORITY_${String(a.boardNumber).padStart(2, '0')}`,
-    boardNumber: a.boardNumber,
-    boardTitle: a.boardTitle,
-    founderJudgment: a.founderJudgment,
-  }));
 
   return {
-    sprint: 'B4.6_FOLLOWUP_PRE_STORYBOARD_VISUAL_AUTHORITY_PACK',
+    sprint: 'B4.7_PRE_STORYBOARD_AUTHORITY_APPROVAL',
     productionOrder: PRE_STORYBOARD_VISUAL_PRODUCTION_ORDER,
     roleCorrection: {
       ndx: treatment.characterRoles.ndx,
@@ -107,11 +103,16 @@ export async function bootstrapB46FollowUpPreStoryboardAuthority(options?: {
     qa,
     nextAction,
     preStoryboardGate,
-    authorityVisuals: authorityResults,
+    gateSatisfaction,
     founderReviewSlots,
     pipelineState,
     founderGates,
+    finalStoryboardEligibility: pipelineState.finalStoryboard,
+    storyboardCompilationContract,
+    authorityRecords,
+    telemetryNote:
+      'Authority ingestion and founder review reconciliation — no provider dispatch recorded (COMPILED ≠ DISPATCHED)',
   };
 }
 
-export { bootstrapB46FollowUpPreStoryboardAuthority as bootstrapB46FollowUp };
+export { bootstrapB47PreStoryboardAuthorityApproval as bootstrapB47 };
