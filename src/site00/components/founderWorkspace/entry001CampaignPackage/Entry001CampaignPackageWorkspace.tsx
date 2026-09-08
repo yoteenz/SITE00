@@ -1,10 +1,15 @@
 /**
- * B5.2 — Entry 001 Campaign Package page (reference-fidelity operate surface).
+ * B5.2 / B5.4 — Entry 001 Campaign Package page (reference-fidelity operate surface).
  */
 
 import { useCallback, useMemo, useRef, useState, type ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
-import type { Entry001CampaignAsset } from '../../../../../shared/site00-expression-engine/entry001CampaignPackage/types.js';
+import type {
+  Entry001ArchiveFilter,
+  Entry001AssetType,
+  Entry001CampaignAsset,
+  Entry001ContentRole,
+} from '../../../../../shared/site00-expression-engine/entry001CampaignPackage/types.js';
 import {
   site00ProjectContentOperationsCampaignBoardPath,
   site00ProjectLabPath,
@@ -14,10 +19,27 @@ import { buildEntry001WhatsLeft } from './entry001PackageReadiness.js';
 import { entry001NarrativeDescriptor } from './entry001NarrativeContinuity.js';
 import { useEntry001PackageState } from './useEntry001PackageState.js';
 import { ENTRY_001_TITLE } from '../../../../../shared/site00-expression-engine/constants.js';
+import {
+  ENTRY001_ASSET_TYPE_LABELS,
+  ENTRY001_CONTENT_ROLE_LABELS,
+  ENTRY001_INGESTION_ROLE_OPTIONS,
+  ENTRY001_INGESTION_TYPE_OPTIONS,
+} from './entry001AssetTaxonomy.js';
+import { Entry001ClassificationSheet } from './Entry001ClassificationSheet.js';
 
 type Props = {
   projectSlug: string;
 };
+
+const FILTERS: { id: Entry001ArchiveFilter; label: string }[] = [
+  { id: 'ALL', label: 'ALL' },
+  { id: 'REEL', label: 'REEL' },
+  { id: 'CAROUSEL', label: 'CAROUSEL' },
+  { id: 'STORY', label: 'STORY' },
+  { id: 'X', label: 'X' },
+  { id: 'TIKTOK', label: 'TIKTOK' },
+  { id: 'STATIC', label: 'STATIC' },
+];
 
 function CheckIcon() {
   return (
@@ -46,11 +68,22 @@ function SparkleIcon() {
 function AssetPreviewModal({
   asset,
   onClose,
+  onRemove,
+  onReclassify,
 }: {
   asset: Entry001CampaignAsset | null;
   onClose: () => void;
+  onRemove: (id: string) => void;
+  onReclassify: (id: string, type: Entry001AssetType, role: Entry001ContentRole | null) => void;
 }) {
+  const [editType, setEditType] = useState<Entry001AssetType | null>(null);
+  const [editRole, setEditRole] = useState<Entry001ContentRole | null>(null);
+
   if (!asset) return null;
+
+  const typeVal = editType ?? asset.assetType;
+  const roleVal = editRole ?? asset.assetRole ?? null;
+
   return (
     <div className="site00-e001-package__modal" role="dialog" aria-modal="true" onClick={onClose}>
       <div className="site00-e001-package__modal-inner" onClick={(e) => e.stopPropagation()}>
@@ -63,9 +96,74 @@ function AssetPreviewModal({
           <img src={asset.filePath} alt={asset.title} className="site00-e001-package__modal-media" />
         )}
         <p className="site00-e001-package__modal-title">{asset.title}</p>
-        <p className="site00-e001-package__modal-meta">
-          {asset.role} · {asset.status} · {asset.source}
-        </p>
+        <dl className="site00-e001-package__modal-meta-list">
+          <div>
+            <dt>TYPE</dt>
+            <dd>
+              <select value={typeVal} onChange={(e) => setEditType(e.target.value as Entry001AssetType)}>
+                {ENTRY001_INGESTION_TYPE_OPTIONS.map((t) => (
+                  <option key={t} value={t}>
+                    {ENTRY001_ASSET_TYPE_LABELS[t]}
+                  </option>
+                ))}
+              </select>
+            </dd>
+          </div>
+          <div>
+            <dt>ROLE</dt>
+            <dd>
+              <select
+                value={roleVal ?? ''}
+                onChange={(e) => setEditRole((e.target.value || null) as Entry001ContentRole | null)}
+              >
+                <option value="">—</option>
+                {ENTRY001_INGESTION_ROLE_OPTIONS.map((r) => (
+                  <option key={r} value={r}>
+                    {ENTRY001_CONTENT_ROLE_LABELS[r]}
+                  </option>
+                ))}
+              </select>
+            </dd>
+          </div>
+          <div>
+            <dt>STATUS</dt>
+            <dd>{asset.status}</dd>
+          </div>
+          <div>
+            <dt>SOURCE</dt>
+            <dd>{asset.source}</dd>
+          </div>
+          <div>
+            <dt>VERSION</dt>
+            <dd>{asset.version}</dd>
+          </div>
+          {asset.sequenceIndex != null && (
+            <div>
+              <dt>SEQUENCE</dt>
+              <dd>{String(asset.sequenceIndex).padStart(2, '0')}</dd>
+            </div>
+          )}
+          {asset.packageId && (
+            <div>
+              <dt>PARENT PACKAGE</dt>
+              <dd>{asset.packageId}</dd>
+            </div>
+          )}
+        </dl>
+        <div className="site00-e001-package__modal-actions">
+          <button
+            type="button"
+            onClick={() => {
+              onReclassify(asset.assetId, typeVal, roleVal);
+              onClose();
+            }}
+          >
+            SAVE CLASSIFICATION
+          </button>
+          <button type="button" className="site00-e001-package__modal-remove" onClick={() => onRemove(asset.assetId)}>
+            REMOVE FROM ARCHIVE
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -74,24 +172,41 @@ function AssetPreviewModal({
 export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
   const {
     heroAsset,
-    approvedArchive,
+    archiveGroups,
+    archivedAssets,
     missingDeliverables,
     readiness,
+    intelligence,
     addAssetForRole,
     batchAddAssets,
     approvedArchiveCount,
-    extraAssets,
+    archiveFilter,
+    setArchiveFilter,
+    pendingQueue,
+    updatePendingClassification,
+    acceptAllPendingAndApply,
+    dismissPendingQueue,
+    setPendingAccepted,
+    removeFromArchive,
+    restoreToArchive,
+    reclassifyAsset,
   } = useEntry001PackageState();
 
   const [preview, setPreview] = useState<Entry001CampaignAsset | null>(null);
   const [derivePlanOpen, setDerivePlanOpen] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const uploadRef = useRef<HTMLInputElement>(null);
   const batchRef = useRef<HTMLInputElement>(null);
   const pendingRoleRef = useRef<Entry001CampaignAsset['role'] | null>(null);
 
+  const activeArchiveForPlan = useMemo(
+    () => archiveGroups.flatMap((g) => g.assets),
+    [archiveGroups],
+  );
+
   const derivationPlan = useMemo(
-    () => compileEntry001ArchiveDerivationPlan(approvedArchive),
-    [approvedArchive],
+    () => compileEntry001ArchiveDerivationPlan(activeArchiveForPlan),
+    [activeArchiveForPlan],
   );
   const whatsLeft = useMemo(() => buildEntry001WhatsLeft(readiness), [readiness]);
 
@@ -128,7 +243,7 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
   const totalDeliverables = readiness.requiredAssetCount;
 
   return (
-    <div className="site00-e001-package site00-fws-mobile-content-shell" data-visual-reconstruction="entry001-campaign-package-b52">
+    <div className="site00-e001-package site00-fws-mobile-content-shell" data-visual-reconstruction="entry001-campaign-package-b54">
       <input ref={uploadRef} type="file" accept="image/*,video/*" hidden onChange={handleFileChange} />
       <input ref={batchRef} type="file" accept="image/*,video/*" multiple hidden onChange={handleBatchChange} />
 
@@ -166,26 +281,86 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
           </span>
           <h2>APPROVED ARCHIVE</h2>
           <span className="site00-e001-package__section-meta">
-            {approvedArchiveCount} ASSETS UPLOADED ›
+            {approvedArchiveCount} ACTIVE ASSETS ›
           </span>
         </header>
-        <div className="site00-e001-package__archive-grid">
-          {approvedArchive.map((asset) => (
+
+        <div className="site00-e001-package__archive-filters" role="tablist">
+          {FILTERS.map((f) => (
             <button
-              key={asset.assetId}
+              key={f.id}
               type="button"
-              className="site00-e001-package__archive-card"
-              onClick={() => setPreview(asset)}
+              role="tab"
+              aria-selected={archiveFilter === f.id}
+              className={archiveFilter === f.id ? 'is-active' : undefined}
+              onClick={() => setArchiveFilter(f.id)}
             >
-              <img src={asset.filePath} alt={asset.title} loading="lazy" />
-              <span className="site00-e001-package__archive-label">{asset.title}</span>
-              <span className="site00-e001-package__archive-status">{asset.version}</span>
+              {f.label}
             </button>
           ))}
         </div>
+
+        {archiveGroups.map((group) => (
+          <div key={group.type} className="site00-e001-package__archive-group">
+            <h3>
+              {group.label} · {group.assets.length} ASSET{group.assets.length === 1 ? '' : 'S'}
+            </h3>
+            <div className="site00-e001-package__archive-grid">
+              {group.assets.map((asset) => (
+                <div key={asset.assetId} className="site00-e001-package__archive-card-wrap">
+                  <button
+                    type="button"
+                    className="site00-e001-package__archive-card"
+                    onClick={() => setPreview(asset)}
+                  >
+                    <img src={asset.filePath} alt={asset.title} loading="lazy" />
+                    <span className="site00-e001-package__archive-type">
+                      {ENTRY001_ASSET_TYPE_LABELS[asset.assetType]}
+                    </span>
+                    {asset.assetRole && (
+                      <span className="site00-e001-package__archive-role">
+                        {ENTRY001_CONTENT_ROLE_LABELS[asset.assetRole]}
+                      </span>
+                    )}
+                    <span className="site00-e001-package__archive-status">APPROVED</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="site00-e001-package__archive-overflow"
+                    aria-label="Remove from archive"
+                    onClick={() => removeFromArchive(asset.assetId)}
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+
         <button type="button" className="site00-e001-package__batch-btn" onClick={() => batchRef.current?.click()}>
           + ADD ASSETS
         </button>
+
+        {archivedAssets.length > 0 && (
+          <details
+            className="site00-e001-package__history"
+            open={historyOpen}
+            onToggle={(e) => setHistoryOpen((e.target as HTMLDetailsElement).open)}
+          >
+            <summary>ARCHIVED / REMOVED ({archivedAssets.length})</summary>
+            <ul>
+              {archivedAssets.map((a) => (
+                <li key={a.assetId}>
+                  <span>{a.title}</span>
+                  <button type="button" onClick={() => restoreToArchive(a.assetId)}>
+                    RESTORE
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </details>
+        )}
       </section>
 
       <section className="site00-e001-package__section">
@@ -251,6 +426,16 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
             <li className={readiness.styleContinuityLocked ? 'site00-e001-package__intel-on' : ''}>
               <CheckIcon /> STYLE CONTINUITY LOCKED
             </li>
+            <li>
+              TYPES PRESENT: {intelligence.existingAssetTypes.slice(0, 4).join(', ')}
+              {intelligence.existingAssetTypes.length > 4 ? '…' : ''}
+            </li>
+            <li>
+              MISSING: {intelligence.missingFormats.join(', ') || 'none'}
+            </li>
+            {intelligence.doNotRegenerateTypes.length > 0 && (
+              <li>DO NOT REGENERATE: {intelligence.doNotRegenerateTypes.join(', ')}</li>
+            )}
             <li className={readiness.derivationReady ? 'site00-e001-package__intel-ready' : ''}>
               {readiness.derivationReady ? 'READY TO GENERATE' : 'AWAITING ARCHIVE COVERAGE'}
             </li>
@@ -266,8 +451,9 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
           {derivePlanOpen && (
             <div className="site00-e001-package__derive-plan">
               {derivationPlan.targets.map((t) => (
-                <p key={t.role}>
-                  <strong>{t.role}</strong> — {t.generationStrategy}
+                <p key={t.targetAssetType}>
+                  <strong>{t.targetAssetType}</strong> — sources: {t.sourceAssetTypes.join(', ') || 'none'} ·{' '}
+                  {t.generationStrategy}
                 </p>
               ))}
               <p className="site00-e001-package__derive-note">
@@ -303,12 +489,27 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
           CAMPAIGN BOARD DEPLOYMENT —{' '}
           <strong>{readiness.campaignBoardEligible ? 'ELIGIBLE' : 'LOCKED'}</strong>
         </p>
-        {extraAssets.length > 0 && (
-          <p className="site00-e001-package__extra-count">{extraAssets.length} pending/extra uploads in session</p>
-        )}
       </div>
 
-      <AssetPreviewModal asset={preview} onClose={() => setPreview(null)} />
+      {pendingQueue.length > 0 && (
+        <Entry001ClassificationSheet
+          queue={pendingQueue}
+          onUpdate={updatePendingClassification}
+          onAccept={(id) => setPendingAccepted(id, true)}
+          onApplyAll={acceptAllPendingAndApply}
+          onApplyTypeToAll={(type) => {
+            pendingQueue.forEach((p) => updatePendingClassification(p.assetId, type, p.assetRole));
+          }}
+          onDismiss={dismissPendingQueue}
+        />
+      )}
+
+      <AssetPreviewModal
+        asset={preview}
+        onClose={() => setPreview(null)}
+        onRemove={removeFromArchive}
+        onReclassify={reclassifyAsset}
+      />
     </div>
   );
 }
