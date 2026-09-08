@@ -6570,3 +6570,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining gaps:** Client view requires client app manifest API; module configuration admin UI; deeper Evolve submodule routing for NDXBOOK content-ops deep links; client control room section UI polish
 - **Next founder action:** OPEN PROJECTS → FRONTAL SLAYER in founder view. Compare against approved module board. Verify each module subnav. Toggle VIEW AS CLIENT. Upload v199 ZIP to GoDaddy.
 
+---
+
+## 2026-09-08 — Sprint B5.9R2 — Project Index reference-fidelity redesign
+
+- **Context:** Founder approved PROJECT INDEX reference board (mobile + desktop) as design authority. Legacy `/projects` page was text-heavy dossier index inconsistent with new Project Operating System from B5.9R1.
+- **Delivered:**
+  - **ProjectIndexItem model** — capability manifest, primary module, progress, status, focus, owner type, openRoute to `/overview`
+  - **ProjectProgressSummary** — weighted from enabled modules (Identity 25%, Builder 30%, Evolve 25%, Production 20%); label-only when no numeric confidence
+  - **ProjectIndexSyncService** — `projectIndexStateVersion` + subscribe/bump
+  - **useProjectIndex** — search/filter/sort, founder vs client item sets, summary metrics, stale QA
+  - **UI** — `ProjectIndexPage` with mobile cards, desktop rows, summary tiles, filter chips, founder/client toggle (B5.9R1 `ProjectViewModeProvider`), footer CTA
+  - **Legacy retired** — old dossier cards, EVOLVE bottom block, giant metric SOURCE box removed
+  - **Tests** — `site00FounderWorkspaceSprintB59R2.test.ts` (25/25); build PASS (`index.Bt523yGK.js`)
+- **QA:** Mobile 390px + desktop 1440px layout verified vs reference; client view hides founder index counts. Cloud preview auth blocked live API — cards verified via adapter unit tests (Frontal Slayer, Studio World, NDXBOOK, AIO, Astral World).
+- **PR:** #591 merged to main; release v200
+- **Next founder action:** OPEN PROJECTS on mobile first. Compare to approved mobile reference. Toggle VIEW AS CLIENT. Open FRONTAL SLAYER → verify modern Project OS overview (not legacy dossier). Upload v200 ZIP to GoDaddy.
+
