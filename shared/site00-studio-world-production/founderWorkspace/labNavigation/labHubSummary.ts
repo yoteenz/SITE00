@@ -68,9 +68,10 @@ export function buildLabCharacterPanelSummary(input: BuildLabHubSummaryInput): L
   if (input.characterBiblePackStatus === 'APPROVED') characterBibleLabel = 'READY';
   else if (readiness?.visualIdentityReady) characterBibleLabel = 'IN PROGRESS';
 
-  let continuityLabel = 'BLOCKED';
-  if (input.continuityReady === true || readiness?.motionProductionReady) continuityLabel = 'READY';
-  else if (readiness?.stillProductionReady) continuityLabel = 'IN PROGRESS';
+  let continuityLabel = 'CANON PARTIAL';
+  if (input.continuityReady === true || readiness?.motionProductionReady) continuityLabel = 'SYSTEM READY';
+  else if (readiness?.stillProductionReady) continuityLabel = 'VISUAL AUTHORITY NEEDED';
+  else if (readiness?.visualIdentityReady) continuityLabel = 'CANON PARTIAL';
 
   return {
     title: 'CHARACTER',

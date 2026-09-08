@@ -4,6 +4,7 @@ import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { FounderWorkspaceShell } from '../components/founderWorkspace/FounderWorkspaceShell';
 import { Entry001FormatSequenceWorkspace } from '../components/founderWorkspace/entry001CampaignPackage/Entry001FormatSequenceWorkspace';
 import { useEntry001PackageState } from '../components/founderWorkspace/entry001CampaignPackage/useEntry001PackageState';
+import { ingestionContextFromFormatFamily } from '../components/founderWorkspace/entry001CampaignPackage/entry001AssetClassification';
 import '../styles/site00-founder-workspace.css';
 
 export default function ProjectCampaignBoardEntryCarouselPage() {
@@ -34,6 +35,18 @@ export default function ProjectCampaignBoardEntryCarouselPage() {
             saveError={state.saveError}
             onReorder={(ids: string[]) => void state.reorderFormatSequence('CAROUSEL', ids)}
             onMove={(id: string, dir: 'left' | 'right') => state.moveSequenceItem('CAROUSEL', id, dir)}
+            existingSequenceCount={state.carouselSlides.length}
+            onUploadFiles={(files) =>
+              state.batchAddAssets(
+                files,
+                ingestionContextFromFormatFamily('CAROUSEL', {
+                  projectId: projectSlug,
+                  entryId: 'entry-001',
+                  existingSequenceCount: state.carouselSlides.length,
+                  sourceRoute: 'entry/001/format/carousel',
+                }),
+              )
+            }
           />
         }
         inspect={

@@ -4,6 +4,7 @@ import { EcosystemShell } from '../components/ecosystem/EcosystemShell';
 import { FounderWorkspaceShell } from '../components/founderWorkspace/FounderWorkspaceShell';
 import { Entry001FormatSequenceWorkspace } from '../components/founderWorkspace/entry001CampaignPackage/Entry001FormatSequenceWorkspace';
 import { useEntry001PackageState } from '../components/founderWorkspace/entry001CampaignPackage/useEntry001PackageState';
+import { ingestionContextFromFormatFamily } from '../components/founderWorkspace/entry001CampaignPackage/entry001AssetClassification';
 import '../styles/site00-founder-workspace.css';
 
 export default function ProjectCampaignBoardEntryStoryPage() {
@@ -34,6 +35,18 @@ export default function ProjectCampaignBoardEntryStoryPage() {
             saveError={state.saveError}
             onReorder={(ids: string[]) => void state.reorderFormatSequence('STORY', ids)}
             onMove={(id: string, dir: 'left' | 'right') => state.moveSequenceItem('STORY', id, dir)}
+            existingSequenceCount={state.storyFrames.length}
+            onUploadFiles={(files) =>
+              state.batchAddAssets(
+                files,
+                ingestionContextFromFormatFamily('STORY', {
+                  projectId: projectSlug,
+                  entryId: 'entry-001',
+                  existingSequenceCount: state.storyFrames.length,
+                  sourceRoute: 'entry/001/format/story',
+                }),
+              )
+            }
           />
         }
         inspect={

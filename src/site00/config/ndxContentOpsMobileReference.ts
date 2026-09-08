@@ -1,5 +1,6 @@
 /**
- * P0.VR.1D.10 — Mobile Content Ops full-screen reference snapshot.
+ * P0.VR.1D.10 — Mobile Content Ops reference (DEMO_FIXTURE — not active canonical state).
+ * B5.7: MobileContentOpsScreen uses ProjectOperatingState.
  */
 
 export const NDX_CONTENT_OPS_REFERENCE_PATH =

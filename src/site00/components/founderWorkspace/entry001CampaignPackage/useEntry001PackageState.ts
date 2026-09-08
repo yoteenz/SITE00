@@ -27,7 +27,11 @@ import {
   groupAssetsByType,
   legacyRoleToAssetType,
 } from './entry001AssetTaxonomy.js';
-import { suggestAssetClassification } from './entry001AssetClassification.js';
+import { suggestAssetClassification, summarizeBatchClassification, type AssetIngestionContext } from './entry001AssetClassification.js';
+import { readCampaignAssetMediaMetadata } from '../../../utils/readCampaignAssetMediaMetadata.js';
+import { bumpProjectStateVersion } from '../../../services/projectModuleSyncService.js';
+import { buildAssetUsageGraph } from '../../../../../shared/site00-campaign-package/assetIngestion/assetUsageGraph.js';
+import { auditEntry001State } from '../../../../../shared/site00-brand-lore/founderWorkspace/projectOperatingState/index.js';
 import { buildEntry001PackageReadiness } from './entry001PackageReadiness.js';
 import {
   fetchCampaignPackage,
@@ -83,6 +87,7 @@ export type PendingClassificationItem = {
   assetType: Entry001AssetType;
   assetRole: Entry001ContentRole | null;
   accepted: boolean;
+  needsReview: boolean;
 };
 
 function persistState(state: Entry001ArchiveStatePersisted): void {
@@ -115,6 +120,8 @@ export function useEntry001PackageState() {
   const [orderedCarouselIds, setOrderedCarouselIds] = useState<string[]>([]);
   const [orderedStoryIds, setOrderedStoryIds] = useState<string[]>([]);
   const [pendingQueue, setPendingQueue] = useState<PendingClassificationItem[]>([]);
+  const [ingestionContext, setIngestionContext] = useState<AssetIngestionContext | null>(null);
+  const [batchSummary, setBatchSummary] = useState<ReturnType<typeof summarizeBatchClassification> | null>(null);
   const [archiveFilter, setArchiveFilter] = useState<Entry001ArchiveFilter>('ALL');
   const [postUploadSuccess, setPostUploadSuccess] = useState<PostUploadSuccess | null>(null);
 
@@ -436,22 +443,56 @@ export function useEntry001PackageState() {
     [activeArchive, updatePersisted],
   );
 
-  const queueFilesForClassification = useCallback((files: FileList | File[]) => {
-    const items: PendingClassificationItem[] = Array.from(files).map((file, index) => {
-      const assetId = `entry001-pending-${Date.now()}-${index}`;
-      const suggestion = suggestAssetClassification(assetId, file.name);
-      return {
-        assetId,
-        file,
-        previewUrl: URL.createObjectURL(file),
-        suggestion,
-        assetType: suggestion.suggestedAssetType,
-        assetRole: suggestion.suggestedAssetRole,
-        accepted: suggestion.confidence === 'HIGH',
-      };
-    });
-    setPendingQueue((prev) => [...prev, ...items]);
-  }, []);
+  const queueFilesForClassification = useCallback(
+    async (files: FileList | File[], context?: AssetIngestionContext) => {
+      const ctx = context ?? ingestionContext ?? undefined;
+      if (context) setIngestionContext(context);
+
+      const fileArr = Array.from(files);
+      const items: PendingClassificationItem[] = [];
+
+      for (let index = 0; index < fileArr.length; index++) {
+        const file = fileArr[index]!;
+        const assetId = `entry001-pending-${Date.now()}-${index}`;
+        let media = null;
+        try {
+          media = await readCampaignAssetMediaMetadata(file);
+        } catch {
+          /* ratio signal optional */
+        }
+        const suggestion = suggestAssetClassification(assetId, file.name, ctx, media, index);
+        const highConfidence = suggestion.confidence === 'HIGH';
+        items.push({
+          assetId,
+          file,
+          previewUrl: URL.createObjectURL(file),
+          suggestion,
+          assetType: suggestion.suggestedAssetType,
+          assetRole: suggestion.suggestedAssetRole,
+          accepted: highConfidence,
+          needsReview: !highConfidence,
+        });
+      }
+
+      const decisions = items.map((i) => ({
+        assetId: i.assetId,
+        fileName: i.file.name,
+        suggestedType: i.assetType,
+        suggestedRole: i.assetRole,
+        confidence: i.suggestion.confidence === 'HIGH' ? ('HIGH' as const) : i.suggestion.confidence === 'MEDIUM' ? ('MODERATE' as const) : ('LOW' as const),
+        rationale: i.suggestion.rationale,
+        contextSignals: [],
+        ratioSignals: [],
+        filenameSignals: [],
+        visualSignals: [],
+        existingPackageSignals: [],
+        createdAt: new Date().toISOString(),
+      }));
+      setBatchSummary(summarizeBatchClassification(decisions));
+      setPendingQueue((prev) => [...prev, ...items]);
+    },
+    [ingestionContext],
+  );
 
   const updatePendingClassification = useCallback(
     (assetId: string, assetType: Entry001AssetType, assetRole: Entry001ContentRole | null) => {
@@ -505,6 +546,7 @@ export function useEntry001PackageState() {
         }
         return { ...prev, extraAssets: [...prev.extraAssets, ...newAssets.map(enrichAssetWithTaxonomy)] };
       });
+      bumpProjectStateVersion();
     },
     [updatePersisted],
   );
@@ -710,10 +752,40 @@ export function useEntry001PackageState() {
   }, [applyPendingClassifications]);
 
   const batchAddAssets = useCallback(
-    (files: FileList | File[]) => {
-      queueFilesForClassification(files);
+    (files: FileList | File[], context?: AssetIngestionContext) => {
+      void queueFilesForClassification(files, context);
     },
     [queueFilesForClassification],
+  );
+
+  const assetUsageGraph = useMemo(
+    () =>
+      buildAssetUsageGraph({
+        activeArchive,
+        archivedAssets: persisted.archivedAssets,
+        removedIds: persisted.removedAssetIds,
+        deliverables,
+      }),
+    [activeArchive, persisted.archivedAssets, persisted.removedAssetIds, deliverables],
+  );
+
+  const entry001Audit = useMemo(
+    () =>
+      auditEntry001State({
+        activeArchiveCount: readiness.activeArchiveCount,
+        archivedRemovedCount: persisted.removedAssetIds.length + persisted.archivedAssets.length,
+        packageDeliverableCount: deliverables.filter((d) => !d.removedFromPackage && d.status !== 'DELETED').length,
+        carouselSlideCount: carouselSlides.length,
+        storyFrameCount: storyFrames.length,
+      }),
+    [
+      readiness.activeArchiveCount,
+      persisted.removedAssetIds.length,
+      persisted.archivedAssets.length,
+      deliverables,
+      carouselSlides.length,
+      storyFrames.length,
+    ],
   );
 
   return {
@@ -768,5 +840,10 @@ export function useEntry001PackageState() {
     syncRequired,
     retrySync: hydrate,
     backendMeta,
+    ingestionContext,
+    setIngestionContext,
+    batchSummary,
+    assetUsageGraph,
+    entry001Audit,
   };
 }
