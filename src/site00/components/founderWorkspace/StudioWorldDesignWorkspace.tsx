@@ -74,11 +74,19 @@ import { DesignVisualMatchPanel } from '../designWorkspace/DesignVisualMatchPane
 import { ExperienceEngineProofPanel } from '../designWorkspace/ExperienceEngineProofPanel';
 import { DesignWorkspaceFooter } from '../designWorkspace/DesignWorkspaceFooter';
 import { DesignWorkspaceOverflowMenu } from '../designWorkspace/DesignWorkspaceOverflowMenu';
+import { DesignReferenceAssetsPanel } from '../designWorkspace/DesignReferenceAssetsPanel';
 import { useDesignWorkspaceHostMenus } from '../designWorkspace/useDesignWorkspaceHostMenus';
 import { ActiveProjectNotificationCenter } from '../founderWorkspace/ActiveProjectNotificationCenter';
 import { useActiveProjectNotifications } from '../../hooks/useActiveProjectNotifications';
 import { buildDesignWorkspaceOverflowActions } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m1/client.js';
 import type { DesignWorkspaceOverflowActionId } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m1/client.js';
+import {
+  detectAndRegisterAssets,
+  buildProjectsGoldenScreenshotSource,
+  PROJECTS_BULK_QUEUE_SEEDS,
+  PROJECTS_GOLDEN_TEST,
+  type ApprovedScreenshotSource,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr4/client.js';
 import '../../styles/site00-design-workspace-p0vr2b.css';
 
 export type StudioWorldDesignWorkspaceProps = {
@@ -87,7 +95,7 @@ export type StudioWorldDesignWorkspaceProps = {
   initialViewport?: DesignViewportClass;
 };
 
-const TABS: DesignWorkspaceTab[] = ['REFERENCE', 'IMPLEMENTATION', 'COMPARE', 'PAGES', 'REVIEW', 'MISSING', 'HISTORY', 'INSPECT'];
+const TABS: DesignWorkspaceTab[] = ['REFERENCE', 'IMPLEMENTATION', 'COMPARE', 'PAGES', 'ASSETS', 'REVIEW', 'MISSING', 'HISTORY', 'INSPECT'];
 
 const VIEWPORT_OPTIONS: DesignViewportClass[] = ['mobile', 'tablet', 'desktop'];
 
@@ -129,6 +137,7 @@ export function StudioWorldDesignWorkspace({
   const [selectedPromptSlotId, setSelectedPromptSlotId] = useState<string | null>(null);
   const [site00ScreenSetMode, setSite00ScreenSetMode] = useState<Site00ScreenSetMode>('PRIMARY');
   const [pagesFilter, setPagesFilter] = useState('ALL');
+  const [refAssetsSeed, setRefAssetsSeed] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const {
     getSnapshot,
@@ -257,6 +266,49 @@ export function StudioWorldDesignWorkspace({
 
   const livePreviewUrl = `${route}?site00MobileLayout=${viewportClass === 'mobile' ? '1' : '0'}&designPreview=1`;
   const referenceUrl = reference?.storagePath ?? uploadPreview;
+
+  const reconstructionScreenshotSource = useMemo((): ApprovedScreenshotSource | null => {
+    if (screenId === 'projects-index' && projectId === 'site00') {
+      return buildProjectsGoldenScreenshotSource();
+    }
+    if (!reference || reference.status !== 'ACTIVE_CANONICAL') return null;
+    return {
+      projectId,
+      pageId: screenId,
+      route,
+      screenshotId: reference.referenceId,
+      screenshotUrl: reference.storagePath,
+      referenceVersion: String(reference.version),
+      approvedBy: reference.createdBy,
+      approvalStatus: 'APPROVED',
+    };
+  }, [projectId, reference, route, screenId]);
+
+  useEffect(() => {
+    if (tab !== 'ASSETS' || !reconstructionScreenshotSource) return;
+    if (screenId === 'projects-index' && projectId === 'site00') {
+      detectAndRegisterAssets({
+        source: reconstructionScreenshotSource,
+        hints: [
+          {
+            regionId: 'projects-header-planet',
+            classification: 'HERO_OBJECT',
+            bounds: PROJECTS_GOLDEN_TEST.cropRegion,
+            labelHint: PROJECTS_GOLDEN_TEST.semanticName,
+            confidenceHint: 'HIGH',
+          },
+          ...PROJECTS_BULK_QUEUE_SEEDS.slice(1).map((seed, i) => ({
+            regionId: `bulk-${i + 2}`,
+            classification: seed.assetType === 'NAV_ICON' ? ('NAV_ICON' as const) : ('PROJECT_VISUAL' as const),
+            bounds: { x: 20 + i * 40, y: 200 + i * 80, width: 80, height: 80 },
+            labelHint: seed.semanticName,
+            confidenceHint: 'MODERATE' as const,
+          })),
+        ],
+        screenshotBasePath: reconstructionScreenshotSource.screenshotUrl.replace(/\.[^.]+$/, ''),
+      });
+    }
+  }, [tab, reconstructionScreenshotSource, screenId, projectId, refAssetsSeed]);
 
   const {
     activeHostMenu,
@@ -678,6 +730,17 @@ export function StudioWorldDesignWorkspace({
               setScreenId(id);
               syncUrl({ screen: id });
             }}
+          />
+        ) : null}
+
+        {tab === 'ASSETS' ? (
+          <DesignReferenceAssetsPanel
+            projectId={projectId}
+            pageId={screenId}
+            route={route}
+            referenceUrl={referenceUrl ?? null}
+            screenshotSource={reconstructionScreenshotSource}
+            onRefresh={() => setRefAssetsSeed((n) => n + 1)}
           />
         ) : null}
 
