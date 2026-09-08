@@ -6349,7 +6349,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Provider dispatch** — 0 image/video/FAL
 - **Entry 001/002 unchanged; Entry 003 non-canon; Entry 004 seed only**
 - **Next evaluation action:** FOUNDER REVIEWS THE EVOLVED ENTRY 003 IN THE CONTEXT OF THE ENTIRE CHAPTER 01 STORY ARC — judge ENTRY 001 → 002 → 003 as one directed sequence
->>>>>>> origin/main
 
 ---
 
@@ -6365,4 +6364,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **localStorage role:** migration source + optional write-through cache only; canonical truth is backend (memory in dev/VITEST; Supabase when service role configured)
 - **Live browser QA:** Blocked in cloud VM by auth guard; API/service verified via automated tests
 - **Next founder action:** OPEN ENTRY 001 ON MOBILE → REORDER CAROUSEL/STORY → VERIFY PREVIEW → OPEN SAME PACKAGE ON ANOTHER DEVICE → CONFIRM ORDER + DELIVERABLES PERSIST
+
+---
+
+## 2026-09-08 — Sprint C1.4 — Senior Creative Judgment Engine
+
+- **Context:** Studio World generated structurally coherent concepts but stopped at VALID/STRONG instead of autonomously deepening to EXCEPTIONAL. Founder repeatedly supplied final 20–30% of creative sophistication. Sprint required generic executive creative director layer (not Entry 003 hardcoded patches). Entry 003 (`THE EMPLOYEE-ONLY DOOR`) is regression fixture only. No FAL/image/video dispatch.
+- **Delivered:**
+  - **Shared types** — `shared/site00-expression-engine/senior-creative-judgment/types.ts` (CreativeQualityTier, assessments, failure classes, correction taxonomy, SeniorCreativeJudgmentInput/Output)
+  - **Engine** — `api/_lib/site00ExpressionEngine/seniorCreativeJudgment/seniorCreativeJudgmentEngine.ts` (deep reframe, metaphor/world/artifact/cinematic/hero/camera/performance/wit assessments, FirstAnswerChallenge, CreativeRedTeamPass, challenger concept, DirectorChallengeLoop, ExceptionalConceptGate, FounderHandholdingRisk, blocksFounderReview on HIGH handholding)
+  - **Correction intelligence** — `creativeCorrectionIntelligence.ts` (principle library, abstraction pass, overfit guard)
+  - **Pipeline** — `entry003C14Pipeline.ts`; API phase `C1.4` / `SENIOR_CREATIVE_JUDGMENT` / `ENTRY_003_C14`
+  - **MPMD integration** — `creativePipelineStack` includes Senior Creative Judgment layer
+  - **UI** — `Entry003SeniorDirectorReview.tsx` + CSS; Expression Engine loads C1.4 phase
+- **Entry 003 regression judgment:** EXCEPTIONAL tier, LOW handholding, world structural, Staff Shift Receipt demoted to SUPPORTING_ARTIFACT_ONLY (EXPLANATORY_PROP flagged), camera CROSSES_THRESHOLD, WINNER_DEEPENED, Entry 004 tease open (openness 88, no concept lock)
+- **Tests:** `site00ExpressionEngineSprintC14.test.ts` (63 pass); C11/C12/C13 regression 197 total pass; build pass
+- **Next founder action:** FOUNDER REVIEWS THE SENIOR CREATIVE JUDGMENT RESULT FOR ENTRY 003 AND JUDGES WHETHER STUDIO WORLD NOW IDENTIFIED AND RESOLVED THE SAME DEEPER CREATIVE ISSUES BEFORE THE FOUNDER HAD TO POINT THEM OUT
 
