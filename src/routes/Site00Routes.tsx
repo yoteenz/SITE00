@@ -83,6 +83,7 @@ const AboutPage = lazy(() => import('../site00/pages/AboutPage'));
 const JournalPage = lazy(() => import('../site00/pages/JournalPage'));
 const ProjectsPage = lazy(() => import('../site00/pages/ProjectsPage'));
 const ProjectDetailPage = lazy(() => import('../site00/pages/ProjectDetailPage'));
+const ProjectOperatingModulePage = lazy(() => import('../site00/pages/ProjectOperatingModulePage'));
 const ProjectOriginPage = lazy(() => import('../site00/pages/ProjectOriginPage'));
 const ProjectIdentityPage = lazy(() => import('../site00/pages/ProjectIdentityPage'));
 const ProjectAstralWorldExperiencePage = lazy(() => import('../site00/pages/ProjectAstralWorldExperiencePage'));
@@ -724,6 +725,78 @@ export function Site00Routes() {
         }
       />
       <Route
+        path={SITE00_ROUTES.projectOverview}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectOperatingModulePage forcedModule="OVERVIEW" />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBuilder}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectOperatingModulePage forcedModule="BUILDER" />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectProductionModule}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectOperatingModulePage forcedModule="PRODUCTION" />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectReviewsModule}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectOperatingModulePage forcedModule="REVIEWS" />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectLibraryModule}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectOperatingModulePage forcedModule="LIBRARY" />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectMoreModule}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectOperatingModulePage forcedModule="MORE" />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
         path={SITE00_ROUTES.projectOrigin}
         element={
           <Site00Layout>
@@ -737,6 +810,18 @@ export function Site00Routes() {
       />
       <Route
         path={SITE00_ROUTES.projectIdentity}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectOperatingModulePage forcedModule="IDENTITY" />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path="/projects/:projectSlug/identity/explore"
         element={
           <Site00Layout>
             <Site00AccountRouteGuard>
@@ -791,6 +876,18 @@ export function Site00Routes() {
       />
       <Route
         path={SITE00_ROUTES.projectEvolve}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectOperatingModulePage forcedModule="EVOLVE" />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path="/projects/:projectSlug/evolve/plans"
         element={
           <Site00Layout>
             <Site00AccountRouteGuard>
