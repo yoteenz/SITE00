@@ -6622,3 +6622,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **PR:** pending merge; release v202
 - **Next founder action:** OPEN PROJECTS → NDXBOOK → EVOLVE. Verify universal header/module switcher remains; main workspace shows full NDXBOOK OS (Campaigns, Content Ops, Lab, Entries 001–003 links). Then FRONTAL SLAYER → EVOLVE — must NOT show NDXBOOK content. Upload v202 ZIP to GoDaddy.
 
+---
+
+## 2026-09-08 — Restore SITE 00 Design Workspace on Projects index (post B5.9R2)
+
+- **Context:** Founder reported the SITE 00 project module for editing entire website design missing from mobile `/projects` after B5.9R2 reference-fidelity index redesign (card grid with FS/SW/ND/AI/AW but no SITE 00 entry).
+- **Root cause:** B5.9R2 replaced legacy `ProjectsPage` dossier + `site00-projects-platform-card` with `ProjectIndexPage`; no synthetic SITE 00 platform row was carried forward. Design workspace route `/projects/site00/design` remained intact but unreachable from index.
+- **Delivered:**
+  - **`buildSite00PlatformDesignIndexItem()`** in `shared/site00-projects/buildProjectIndexItems.ts` — pinned founder entry → `CANONICAL_SITE00_DESIGN_ROUTE`
+  - **`useProjectIndex`** prepends platform item in founder view (not client simulation)
+  - **`ProjectIndexPage`** always renders platform card (loading/error/empty/list) so design workspace stays reachable when projects API fails
+  - **Mobile/desktop cards** — red platform border, `OPEN DESIGN →` CTA, `DESIGN WORKSPACE` kicker
+  - **Tests** — B59R2 test #45; 26/26 pass
+- **Next founder action:** PROJECTS → tap top **SITE 00** card → **OPEN DESIGN →** → `/projects/site00/design`. Upload fresh GoDaddy ZIP after merge.
+
