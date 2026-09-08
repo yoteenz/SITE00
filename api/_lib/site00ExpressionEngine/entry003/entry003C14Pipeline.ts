@@ -144,3 +144,44 @@ export async function bootstrapC16MultiUnitCreativeIntelligence(): Promise<{
     falDispatchCount: 0,
   };
 }
+
+export async function bootstrapC17CampaignCopyDirector(): Promise<{
+  sprint: string;
+  multiUnitBlindCampaign: import('../seniorCreativeJudgment/multiUnitCampaignArchitect.js').MultiUnitBlindCampaignOutput;
+  copyPackage: NonNullable<
+    import('../seniorCreativeJudgment/multiUnitCampaignArchitect.js').MultiUnitBlindCampaignOutput['copyPackage']
+  >;
+  providerHealth: Awaited<
+    ReturnType<typeof import('../seniorCreativeJudgment/creativeReasoningProvider.js').checkCreativeReasoningProviderHealth>
+  >;
+  copyPersistenceMode: ReturnType<typeof import('../campaignCopy/campaignCopyStore.js').getCampaignCopyStoreMode>;
+  textReasoningDispatchCount: number;
+  imageProviderDispatchCount: 0;
+  videoProviderDispatchCount: 0;
+  falDispatchCount: 0;
+}> {
+  const { runMultiUnitBlindCampaignPackage } = await import(
+    '../seniorCreativeJudgment/multiUnitCampaignArchitect.js'
+  );
+  const { checkCreativeReasoningProviderHealth } = await import(
+    '../seniorCreativeJudgment/creativeReasoningProvider.js'
+  );
+  const { getCampaignCopyStoreMode } = await import('../campaignCopy/campaignCopyStore.js');
+
+  const multiUnitBlindCampaign = await runMultiUnitBlindCampaignPackage();
+  if (!multiUnitBlindCampaign.copyPackage) {
+    throw new Error('CampaignCopyDirector did not produce copy package');
+  }
+
+  return {
+    sprint: 'C1.7_CAMPAIGN_COPY_DIRECTOR',
+    multiUnitBlindCampaign,
+    copyPackage: multiUnitBlindCampaign.copyPackage,
+    providerHealth: await checkCreativeReasoningProviderHealth(),
+    copyPersistenceMode: getCampaignCopyStoreMode(),
+    textReasoningDispatchCount: multiUnitBlindCampaign.textReasoningDispatchCount,
+    imageProviderDispatchCount: 0,
+    videoProviderDispatchCount: 0,
+    falDispatchCount: 0,
+  };
+}

@@ -68,10 +68,21 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
         setC12(null);
       }
       if (c16Res.ok) {
-        const body = (await c16Res.json()) as { multiUnitBlindCampaign: import('./MultiUnitCreativePackageReview.js').MultiUnitCampaignReviewData };
-        setC16(body);
+        const body = (await c16Res.json()) as {
+          multiUnitBlindCampaign: import('./MultiUnitCreativePackageReview.js').MultiUnitCampaignReviewData & {
+            copyPackage?: import('./MultiUnitCreativePackageReview.js').MultiUnitCampaignReviewData['copyPackage'];
+          };
+        };
+        setC16({ multiUnitBlindCampaign: body.multiUnitBlindCampaign });
       } else {
         setC16(null);
+      }
+      const c17Res = await apiFetch('/api/site00/expression-engine?phase=C1.7');
+      if (c17Res.ok) {
+        const body = (await c17Res.json()) as {
+          multiUnitBlindCampaign: import('./MultiUnitCreativePackageReview.js').MultiUnitCampaignReviewData;
+        };
+        setC16({ multiUnitBlindCampaign: body.multiUnitBlindCampaign });
       }
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : 'Failed to load Expression Engine';

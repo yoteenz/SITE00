@@ -43,6 +43,29 @@ export type MultiUnitCampaignReviewData = {
     packageFounderHandholdingRisk: string;
     status: string;
   };
+  copyPackage?: {
+    packageCopyQualityTier: string;
+    packageCopyHandholdingRisk: string;
+    voiceProfile: { campaignVoice: string };
+    cohesionQA: { passed: boolean };
+    unitCopyDirections: Array<{
+      unitId: string;
+      medium: string;
+      campaignRole: string;
+      copyRole: string;
+      primaryCaption: string;
+      altCaptionA: string;
+      altCaptionB: string;
+      finalCaption: string;
+      visualRelationship: string;
+      qualityTier: string;
+      founderHandholdingRisk: string;
+      copyPackage: { cta: string; ctaCopy: string | null };
+      mediumNecessity: { whyCopyBelongsHere: string };
+      firstAnswerChallenge: { resolution: string };
+      challenger: { conceptName: string };
+    }>;
+  };
 };
 
 type Props = {
@@ -180,6 +203,33 @@ export function MultiUnitCreativePackageReview({ campaign }: Props) {
             ))}
           </ul>
         </details>
+      ) : null}
+
+      {campaign.copyPackage ? (
+        <>
+          <h3 className="site00-expr-engine-senior-review__subhead">
+            CAMPAIGN COPY REVIEW · {campaign.copyPackage.packageCopyQualityTier}
+          </h3>
+          <p className="site00-expr-engine-senior-review__meta">
+            Voice: {campaign.copyPackage.voiceProfile.campaignVoice} · Handholding:{' '}
+            {campaign.copyPackage.packageCopyHandholdingRisk}
+          </p>
+          {campaign.copyPackage.unitCopyDirections.map((copy) => (
+            <article key={copy.unitId} className="site00-expr-engine-senior-review__unit-card">
+              <strong>{copy.medium.replace(/_/g, ' ')}</strong> · COPY ROLE: {copy.copyRole} ·{' '}
+              {copy.visualRelationship}
+              <p>{copy.finalCaption.slice(0, 200)}</p>
+              <details className="site00-expr-engine-senior-review__details">
+                <summary>COPY DIRECTION · ALT A / ALT B · CTA: {copy.copyPackage.cta}</summary>
+                <p>Primary: {copy.primaryCaption.slice(0, 120)}</p>
+                <p>Alt A: {copy.altCaptionA.slice(0, 120)}</p>
+                <p>Alt B: {copy.altCaptionB.slice(0, 120)}</p>
+                <p>Why: {copy.mediumNecessity.whyCopyBelongsHere}</p>
+                <p>Challenge: {copy.firstAnswerChallenge.resolution} · {copy.challenger.conceptName}</p>
+              </details>
+            </article>
+          ))}
+        </>
       ) : null}
     </section>
   );

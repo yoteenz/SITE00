@@ -8,6 +8,7 @@ export {
   bootstrapC14Entry003SeniorCreativeJudgment,
   bootstrapC15CreativeIntelligenceRuntime,
   bootstrapC16MultiUnitCreativeIntelligence,
+  bootstrapC17CampaignCopyDirector,
 } from './entry003C14Pipeline.js';
 export {
   applyEntry003FounderJudgment,

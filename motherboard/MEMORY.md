@@ -6422,3 +6422,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Status:** FULL_REASONING_PASS (mock/live when ANTHROPIC_API_KEY or MOCK_FULL); MULTI_UNIT_GLOBALIZATION_PASS; PERSISTENCE_PASS (adapter wired); UI_WIRING_PASS; live Anthropic proof blocked in cloud VM without key
 - **Next founder action:** FOUNDER REVIEWS THE FRESH FULL_REASONING MULTI-UNIT VERDANT ROW CAMPAIGN WITHOUT REWRITING IT FIRST — judge whether Studio World created a campaign worth producing with native medium expression per unit
 
+---
+
+## 2026-09-08 — Sprint C1.7 — Campaign Copy Director + Caption Intelligence
+
+- **Context:** C1.6 proved multi-unit creative direction but copy/captions were still treated as metadata. Sprint adds first-class CampaignCopyDirector after Senior Creative Judgment, before founder approval. No visual providers.
+- **Delivered:**
+  - **Types** — `shared/site00-expression-engine/campaign-copy/types.ts` (CampaignCopyPackage, voice profile, visual relationship, CTA, failure classes, cohesion QA)
+  - **Director** — `campaignCopyDirector.ts` (territories, primary/alt captions, copy challenge loop, medium necessity, CTA intelligence, handoffs)
+  - **Cohesion QA** — `campaignCopyCohesionQA.ts`
+  - **NDXBOOK adapter** — `ndxbookCopyAdapter.ts` (voice overlay, interjection non-repeat rule)
+  - **Persistence** — `campaignCopyStore.ts` + migration `20260908180000_site00_campaign_copy_persistence.sql`
+  - **Integration** — auto-runs on C1.6 Verdant Row blind package; Expression Engine C1.7 phase + copy section in MultiUnitCreativePackageReview
+  - **Tests** — `site00ExpressionEngineSprintC17.test.ts` (51/51 pass); C16/C15/C14 regression green
+- **Pipeline:** BRIEF → NARRATIVE → DNA → UNIT DIRECTION → SCJ → **COPY DIRECTOR** → COPY QA → FOUNDER REVIEW
+- **Next founder action:** FOUNDER REVIEWS VISUAL DIRECTIONS AND COINCIDING COPY AS ONE CREATIVE PACKAGE — judge whether each caption adds what the visual does not
+
