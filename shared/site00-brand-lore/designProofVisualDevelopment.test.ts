@@ -78,6 +78,10 @@ vi.mock('../../api/_lib/site00BrandLore/loreService.js', () => ({
 }));
 
 const PROJECTS_PAGE = readFileSync(join(process.cwd(), 'src/site00/pages/ProjectsPage.tsx'), 'utf8');
+const PROJECT_INDEX_PAGE = readFileSync(
+  join(process.cwd(), 'src/site00/components/projectIndex/ProjectIndexPage.tsx'),
+  'utf8',
+);
 const PROJECT_DETAIL = readFileSync(join(process.cwd(), 'src/site00/pages/ProjectDetailPage.tsx'), 'utf8');
 const ROUTES = readFileSync(join(process.cwd(), 'src/routes/Site00Routes.tsx'), 'utf8');
 const VISUAL_DEV_PAGE = readFileSync(
@@ -91,10 +95,11 @@ beforeEach(() => {
 });
 
 describe('Visual development gate sprint', () => {
-  it('1. Live Projects page not visually redesigned before approval', () => {
-    expect(PROJECTS_PAGE).toContain('PROJECT INDEX');
-    expect(PROJECTS_PAGE).toContain('site00-project-index-list');
-    expect(PROJECTS_PAGE).not.toContain('ACTIVE PRODUCTION FLOOR');
+  it('1. Projects index uses B5.9R2 approved reference-fidelity presentation', () => {
+    expect(PROJECT_INDEX_PAGE).toContain('PROJECT INDEX');
+    expect(PROJECT_INDEX_PAGE).toContain('site00-project-index-list');
+    expect(PROJECT_INDEX_PAGE).not.toContain('ACTIVE PRODUCTION FLOOR');
+    expect(PROJECTS_PAGE).toContain('ProjectIndexPage');
   });
 
   it('2. Live NDXBOOK Project Home not visually redesigned before approval', () => {

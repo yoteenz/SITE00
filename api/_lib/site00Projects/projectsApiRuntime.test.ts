@@ -18,9 +18,9 @@ describe('site00ProjectsApi response handling', () => {
     expect(SERVER_ROUTES).toContain('site00ProjectsHandler');
   });
 
-  it('ProjectsPage uses baseline project index presentation before visual approval', () => {
-    expect(PROJECTS_PAGE).toContain('PROJECT INDEX');
-    expect(PROJECTS_PAGE).toContain('site00-project-index-list');
+  it('ProjectsPage uses B5.9R2 project index presentation', () => {
+    expect(PROJECTS_PAGE).toContain('ProjectIndexPage');
+    expect(PROJECTS_PAGE).toContain('ProjectViewModeProvider');
     expect(PROJECTS_PAGE).not.toContain('ACTIVE PRODUCTION FLOOR');
     expect(PROJECTS_PAGE).not.toContain('Site00ProjectWorkspace');
   });
