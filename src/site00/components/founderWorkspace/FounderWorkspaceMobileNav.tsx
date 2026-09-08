@@ -1,7 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { isNdxLabRouteGroupPath } from '../../../../shared/site00-studio-world-production/founderWorkspace/labNavigation/index.js';
-import { NDXIcon } from '../../icons/ndx';
-import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
+import { NDXBottomNavIcon } from '../../icons/ndx/NDXBottomNavIcon';
 import type { NdxBottomNavItem } from '../../config/ndxFounderWorkspaceIcons';
 
 type FounderWorkspaceMobileNavProps = {
@@ -37,7 +36,7 @@ export function FounderWorkspaceMobileNav({ projectSlug, items, onMore }: Founde
               aria-label="More workspace destinations"
             >
               <span className="site00-fws-mobile-nav__icon" aria-hidden="true">
-                <NDXIcon name={item.icon} size={NDX_ICON_CONTEXT_SIZE.bottomNav} state={iconState} decorative />
+                <NDXBottomNavIcon name={item.icon} state={iconState} decorative />
               </span>
               <span className="site00-fws-mobile-nav__label">{item.label}</span>
             </button>
@@ -52,7 +51,7 @@ export function FounderWorkspaceMobileNav({ projectSlug, items, onMore }: Founde
             aria-current={active ? 'page' : undefined}
           >
             <span className="site00-fws-mobile-nav__icon" aria-hidden="true">
-              <NDXIcon name={item.icon} size={NDX_ICON_CONTEXT_SIZE.bottomNav} state={iconState} decorative />
+              <NDXBottomNavIcon name={item.icon} state={iconState} decorative />
             </span>
             <span className="site00-fws-mobile-nav__label">{item.label}</span>
           </Link>
