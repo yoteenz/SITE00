@@ -222,6 +222,8 @@ export function buildEntry002FinalCinematicStoryboard005Record(params: {
     approved: false,
     provider: params.artifact.provider,
     providerRequestId: params.artifact.providerRequestId,
+    storyboardSource: 'GENERATED',
+    sourceArtifactOrigin: 'PROVIDER_GENERATED',
     telemetry: {
       storyboardCompileCount: params.artifact.telemetry.storyboardCompileCount,
       storyboardDispatchCount: params.artifact.telemetry.storyboardDispatchCount,

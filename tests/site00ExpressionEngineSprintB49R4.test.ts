@@ -46,6 +46,7 @@ import {
   buildEntry002FinalCinematicStoryboardPublicStripPath,
 } from '../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
 import { resetLineageStore } from '../api/_lib/site00ExpressionEngine/lineageRegistration.js';
+import { resetStoryboardGenerationCostGuard } from '../api/_lib/site00ExpressionEngine/storyboardGenerationCostGuard.js';
 import { ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION, ENTRY_002_REPAIR_FINAL_STORYBOARD_ACTION } from '../shared/site00-expression-engine/finalCinematicStoryboardTypes.js';
 
 function compileBrief() {
@@ -67,9 +68,18 @@ describe('Expression Engine Sprint B4.9R4 — Visual authority binding', { timeo
     resetPreStoryboardAuthorityStore();
     resetFinalCinematicStoryboardStore();
     resetFinalCinematicStoryboardJudgmentStore();
+    resetStoryboardGenerationCostGuard();
     resetLineageStore();
     persistEntry002PreStoryboardFounderApprovals();
   });
+
+  async function bootstrapWithExplicitGeneration() {
+    return bootstrapB49R4({
+      dispatchFal: true,
+      explicitFounderAction: true,
+      skipGeneration: false,
+    });
+  }
 
   it('1. visual authority manifest resolves five readable assets', async () => {
     const manifest = await compileEntry002StoryboardVisualAuthorityManifest();
@@ -125,14 +135,14 @@ describe('Expression Engine Sprint B4.9R4 — Visual authority binding', { timeo
   });
 
   it('9. deterministic storyboard cannot claim visual fidelity PASS', async () => {
-    const result = await bootstrapB49R4();
+    const result = await bootstrapWithExplicitGeneration();
     expect(result.visualAuthorityFidelityQA.passed).toBe(false);
     expect(result.visualAuthorityFidelityQA.result).toBe('INVALID_FOR_FOUNDER_REVIEW');
     expect(isDeterministicStoryboardProvider(result.reelArtifact?.provider ?? '')).toBe(true);
   });
 
-  it('10. bootstrap creates storyboard 005 with PIPELINE_TEST_ONLY in CI', async () => {
-    const result = await bootstrapB49R4();
+  it('10. explicit founder generation creates storyboard 005 with PIPELINE_TEST_ONLY in CI', async () => {
+    const result = await bootstrapWithExplicitGeneration();
     expect(result.finalCinematicStoryboard?.storyboardId).toBe(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_005_ID);
     expect(result.finalCinematicStoryboard?.version).toBe('005');
     expect(result.finalCinematicStoryboard?.status).toBe('PIPELINE_TEST_ONLY');
@@ -140,7 +150,7 @@ describe('Expression Engine Sprint B4.9R4 — Visual authority binding', { timeo
   });
 
   it('11. storyboard 004 preserved as FAILED_VISUAL_AUTHORITY_BINDING historical', async () => {
-    await bootstrapB49R4();
+    await bootstrapWithExplicitGeneration();
     const h = getStoryboard004HistoricalRecord();
     expect(h?.storyboardId).toBe(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID);
     expect(h?.status).toBe('FAILED_VISUAL_AUTHORITY_BINDING');
@@ -152,7 +162,7 @@ describe('Expression Engine Sprint B4.9R4 — Visual authority binding', { timeo
   });
 
   it('12. founder review inactive in CI; repair/regenerate next action', async () => {
-    const result = await bootstrapB49R4();
+    const result = await bootstrapWithExplicitGeneration();
     expect(hasValidFinalCinematicStoryboard()).toBe(false);
     expect(result.finalStoryboardReviewGate.active).toBe(false);
     expect(result.nextAction).toBe(ENTRY_002_REPAIR_FINAL_STORYBOARD_ACTION);
@@ -160,7 +170,7 @@ describe('Expression Engine Sprint B4.9R4 — Visual authority binding', { timeo
   });
 
   it('13. telemetry records authority image counts separately from record IDs', async () => {
-    const result = await bootstrapB49R4();
+    const result = await bootstrapWithExplicitGeneration();
     const t = result.finalCinematicStoryboard?.telemetry;
     expect(t?.requiredAuthorityImageCount).toBe(5);
     expect(t?.resolvedAuthorityImageCount).toBe(5);
@@ -216,8 +226,8 @@ describe('Expression Engine Sprint B4.9R4 — Visual authority binding', { timeo
     expect(qa.domains.subjectIdentityFidelity).not.toBe('PASS');
   });
 
-  it('17. strip 005 written to disk in CI deterministic run', async () => {
-    await bootstrapB49R4();
+  it('17. strip 005 written to disk after explicit founder generation in CI', async () => {
+    await bootstrapWithExplicitGeneration();
     const stripPath = path.join(
       process.cwd(),
       'public',
@@ -236,7 +246,7 @@ describe('Expression Engine Sprint B4.9R4 — Visual authority binding', { timeo
   });
 
   it('19–36. reel-first single artifact constraints preserved', async () => {
-    const result = await bootstrapB49R4();
+    const result = await bootstrapWithExplicitGeneration();
     expect(result.finalCinematicStoryboard?.generationMode).toBe('REEL_FIRST_SINGLE_ARTIFACT');
     expect(result.finalCinematicStoryboard?.telemetry.storyboardRenderCount).toBe(1);
     expect(result.finalCinematicStoryboard?.telemetry.panelRenderCount).toBe(0);

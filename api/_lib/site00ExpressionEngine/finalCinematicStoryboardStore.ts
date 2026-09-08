@@ -3,12 +3,16 @@
  */
 
 import type { FinalCinematicStoryboardRecord } from '../../../shared/site00-expression-engine/finalCinematicStoryboardTypes.js';
-import { ENTRY_002_FINAL_CINEMATIC_STORYBOARD_005_ID } from '../../../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
+import {
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_005_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_006_ID,
+} from '../../../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
 
 let historicalRecord001: FinalCinematicStoryboardRecord | null = null;
 let historicalRecord002: FinalCinematicStoryboardRecord | null = null;
 let historicalRecord003: FinalCinematicStoryboardRecord | null = null;
 let historicalRecord004: FinalCinematicStoryboardRecord | null = null;
+let historicalRecord005: FinalCinematicStoryboardRecord | null = null;
 let currentRecord: FinalCinematicStoryboardRecord | null = null;
 
 export function resetFinalCinematicStoryboardStore(): void {
@@ -16,6 +20,7 @@ export function resetFinalCinematicStoryboardStore(): void {
   historicalRecord002 = null;
   historicalRecord003 = null;
   historicalRecord004 = null;
+  historicalRecord005 = null;
   currentRecord = null;
 }
 
@@ -51,6 +56,14 @@ export function getStoryboard004HistoricalRecord(): FinalCinematicStoryboardReco
   return historicalRecord004;
 }
 
+export function saveStoryboard005HistoricalRecord(record: FinalCinematicStoryboardRecord): void {
+  historicalRecord005 = record;
+}
+
+export function getStoryboard005HistoricalRecord(): FinalCinematicStoryboardRecord | null {
+  return historicalRecord005;
+}
+
 export function getFinalCinematicStoryboardRecord(): FinalCinematicStoryboardRecord | null {
   return currentRecord;
 }
@@ -62,9 +75,19 @@ export function saveFinalCinematicStoryboardRecord(
   return record;
 }
 
-/** Valid only when visual-authority-bound reel-first QA passed and status is founder-reviewable. */
+/** Valid when generated QA passed OR founder-supplied import awaiting review. */
 export function hasValidFinalCinematicStoryboard(): boolean {
   if (!currentRecord) return false;
+
+  if (currentRecord.storyboardSource === 'FOUNDER_SUPPLIED') {
+    return (
+      currentRecord.storyboardId === ENTRY_002_FINAL_CINEMATIC_STORYBOARD_006_ID &&
+      currentRecord.status === 'AWAITING_FOUNDER_APPROVAL' &&
+      currentRecord.readinessState === 'VISUAL_REVIEW_READY' &&
+      currentRecord.rendered === true
+    );
+  }
+
   return (
     currentRecord.storyboardId === ENTRY_002_FINAL_CINEMATIC_STORYBOARD_005_ID &&
     currentRecord.generationMode === 'REEL_FIRST_SINGLE_ARTIFACT' &&
@@ -80,6 +103,14 @@ export function hasValidFinalCinematicStoryboard(): boolean {
     currentRecord.telemetry.panelRenderCount === 0 &&
     (currentRecord.telemetry.providerAuthorityImageInputCount ?? 0) === 5
   );
+}
+
+export function isFounderReviewableStoryboard(record: FinalCinematicStoryboardRecord | null): boolean {
+  if (!record) return false;
+  if (record.storyboardSource === 'FOUNDER_SUPPLIED') {
+    return record.status === 'AWAITING_FOUNDER_APPROVAL' && record.rendered;
+  }
+  return hasValidFinalCinematicStoryboard();
 }
 
 /** @deprecated */

@@ -14,18 +14,21 @@ import { expressionEngineApi } from '../../services/expressionEngineApi';
 import { InlineMeta, QuietAction, WorkspaceField } from './WorkspaceCompositionPrimitives';
 import { ExpressionEngineEntry002Workspace } from './expressionEngine/ExpressionEngineEntry002Workspace';
 import { ExpressionEngineReferenceMobileWorkspace } from './expressionEngine/ExpressionEngineReferenceMobileWorkspace';
+import { useExpressionEngineResponsiveLayout } from './expressionEngine/useExpressionEngineResponsiveLayout';
 
 type EntryTab = '002' | '001';
 
 type Props = {
   projectSlug: string;
   /** Reference-fidelity mobile layout (founder design authority). */
-  layout?: 'studio' | 'reference-mobile';
+  layout?: 'studio' | 'reference-mobile' | 'auto';
 };
 
-export function ExpressionEngineCampaignWorkspace({ projectSlug, layout = 'studio' }: Props) {
+export function ExpressionEngineCampaignWorkspace({ projectSlug, layout = 'auto' }: Props) {
   const [entryTab, setEntryTab] = useState<EntryTab>('002');
-  const isReferenceMobile = layout === 'reference-mobile';
+  const responsiveLayout = useExpressionEngineResponsiveLayout();
+  const resolvedLayout = layout === 'auto' ? responsiveLayout : layout;
+  const isReferenceMobile = resolvedLayout === 'reference-mobile';
 
   return (
     <div className={`site00-expr-engine-workspace site00-expr-engine-workspace--b50${isReferenceMobile ? ' site00-expr-engine-workspace--ref-mobile' : ''}`}>

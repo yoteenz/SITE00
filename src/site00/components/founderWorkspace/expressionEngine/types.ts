@@ -64,6 +64,8 @@ export type B49R4PipelineResponse = {
     founderJudgment: string;
     panelCount: number;
     storyboardStripUrl: string | null;
+    storyboardSource?: 'GENERATED' | 'FOUNDER_SUPPLIED';
+    sourceArtifactOrigin?: 'PROVIDER_GENERATED' | 'FOUNDER_SUPPLIED';
     structuralQaStatus: string;
     continuityQaStatus: string;
     renderModeQaStatus: string;
@@ -77,6 +79,13 @@ export type B49R4PipelineResponse = {
   storyboard002Historical?: { status: string; failureReason: string | null };
   storyboard003Historical?: { status: string; failureReason: string | null };
   storyboard004Historical?: { status: string; failureReason: string | null };
+  storyboard005Historical?: { status: string; failureReason: string | null; referenceOnly?: boolean };
+  storyboardCostGuard?: {
+    storyboardGenerationAttemptCount: number;
+    storyboardProviderDispatchCount: number;
+    storyboardImportedCount: number;
+    storyboardAutoRetryCount: number;
+  };
   visualAuthorityManifest?: {
     requiredAuthorityImageCount: number;
     resolvedAuthorityImageCount: number;
@@ -104,5 +113,6 @@ export type ExpressionEngineEntry002State = {
   b49r4: B49R4PipelineResponse | null;
   loading: boolean;
   error: string | null;
+  errorView: import('./expressionEngineErrorState').ExpressionEngineErrorView | null;
   reload: () => Promise<void>;
 };

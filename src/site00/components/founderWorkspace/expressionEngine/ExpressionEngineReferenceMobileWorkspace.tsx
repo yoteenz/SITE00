@@ -29,15 +29,23 @@ import { ReferenceSupportingIntelligence } from './ReferenceSupportingIntelligen
 import { ReferenceVisualAuthorities } from './ReferenceVisualAuthorities';
 import { SystemInspector } from './SystemInspector';
 import { ArtifactCard, CreativeAnchorCard, WorldCard } from './WorldArtifactCards';
-import { useExpressionEngineEntry002 } from './useExpressionEngineEntry002';
+import { ExpressionEngineErrorState } from './ExpressionEngineErrorState';
+import { FinalStoryboardWorkspace } from './FinalStoryboardWorkspace';
+import {
+  postGenerateFinalStoryboard,
+  postImportFounderStoryboard,
+  useExpressionEngineEntry002,
+} from './useExpressionEngineEntry002';
 
 type Props = {
   projectSlug: string;
 };
 
 export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props) {
-  const { phase2, blueprint, b48, b49r4, loading, error, reload } = useExpressionEngineEntry002();
+  const { phase2, blueprint, b48, b49r4, loading, error, errorView, reload } = useExpressionEngineEntry002();
   const [judging, setJudging] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [importing, setImporting] = useState(false);
 
   const pipeline = b48?.pipelineState ?? b49r4?.pipelineState;
   const preStoryboardComplete =
@@ -94,9 +102,38 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
   const stageBadge = `${activeStage?.shortLabel ?? 'STORYBOARD'} ${activeStage?.status === 'ACTIVE' ? 'ACTIVE' : activeStage?.status ?? 'IN PROGRESS'}`;
 
   const entryThumb =
-    b48?.preStoryboardAuthorityPack.authorities.find((a) => a.boardNumber === 2)?.previewUrl ??
-    b48?.preStoryboardAuthorityPack.authorities[0]?.previewUrl ??
+    b48?.preStoryboardAuthorityPack.authorities.find((a) => a.boardNumber === 4)?.previewUrl ??
+    b48?.preStoryboardAuthorityPack.authorities.find((a) => a.boardNumber === 1)?.previewUrl ??
     null;
+
+  const handleGenerate = useCallback(async () => {
+    setGenerating(true);
+    try {
+      await postGenerateFinalStoryboard();
+      await reload();
+    } finally {
+      setGenerating(false);
+    }
+  }, [reload]);
+
+  const handleImport = useCallback(
+    async (variant: 'A' | 'B') => {
+      setImporting(true);
+      try {
+        await postImportFounderStoryboard(variant);
+        await reload();
+      } finally {
+        setImporting(false);
+      }
+    },
+    [reload],
+  );
+
+  const handlePrimaryAction = useCallback(() => {
+    if (primaryActionLabel === 'GENERATE STORYBOARD') {
+      void handleGenerate();
+    }
+  }, [primaryActionLabel, handleGenerate]);
 
   const submitJudgment = useCallback(
     async (founderJudgment: 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_FOR_ME') => {
@@ -120,11 +157,21 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
     return <p className="site00-ee-ref-loading">Loading Expression Engine…</p>;
   }
 
-  if (error || !phase2 || !blueprint) {
-    return <p className="site00-ee-ref-loading">{error ?? 'Failed to load workspace'}</p>;
+  const campaignPath = site00ProjectContentOperationsCampaignBoardPath(projectSlug);
+
+  if (errorView) {
+    return (
+      <ExpressionEngineErrorState
+        error={errorView}
+        campaignBoardPath={campaignPath}
+        onRetry={() => void reload()}
+      />
+    );
   }
 
-  const campaignPath = site00ProjectContentOperationsCampaignBoardPath(projectSlug);
+  if (!phase2 || !blueprint) {
+    return <p className="site00-ee-ref-loading">Failed to load workspace</p>;
+  }
   const campaignDerivedStatus = socialPackageReadiness
     ? resolveCampaignBoardDerivedStatus(socialPackageReadiness)
     : 'LOCKED';
@@ -157,9 +204,22 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
         statusLabel={activeStage?.status === 'ACTIVE' ? 'IN PROGRESS' : activeStage?.status ?? 'IN PROGRESS'}
         primaryActionLabel={primaryActionLabel}
         data={b49r4}
+        onPrimaryAction={handlePrimaryAction}
         onJudgment={submitJudgment}
         judging={judging}
       />
+
+      {activeStageId === 'STORYBOARD' && b49r4 ? (
+        <FinalStoryboardWorkspace
+          data={b49r4}
+          onJudgment={submitJudgment}
+          judging={judging}
+          onGenerate={handleGenerate}
+          onImport={handleImport}
+          generating={generating}
+          importing={importing}
+        />
+      ) : null}
 
       <ReferenceDerivedContent
         cards={derivedCards}
@@ -217,8 +277,20 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
             label: 'SYSTEM INSPECTOR',
             content: (
               <SystemInspector
-                rawPayload={{ phase2, b48, b49r4 }}
+                rawPayload={{ phase2, b48, b49r4, technicalError: error }}
                 sections={[
+                  {
+                    id: 'cost-guard',
+                    label: 'Storyboard cost guard',
+                    content: (
+                      <ul className="site00-ee-inspector__list">
+                        <li>Attempts: {b49r4?.storyboardCostGuard?.storyboardGenerationAttemptCount ?? 0}</li>
+                        <li>Provider dispatches: {b49r4?.storyboardCostGuard?.storyboardProviderDispatchCount ?? 0}</li>
+                        <li>Imports: {b49r4?.storyboardCostGuard?.storyboardImportedCount ?? 0}</li>
+                        <li>Auto-retry: {b49r4?.storyboardCostGuard?.storyboardAutoRetryCount ?? 0}</li>
+                      </ul>
+                    ),
+                  },
                   {
                     id: 'gates',
                     label: 'Gate IDs',
