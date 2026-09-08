@@ -30,6 +30,8 @@ import {
   resolveEntry,
   validateEntryByNumber,
   importFounderSuppliedStoryboardForEntry002,
+  bootstrapC1NarrativeSynthesis,
+  applyNarrativeSynthesisFounderJudgment,
 } from '../_lib/site00ExpressionEngine/expressionEngineService.js';
 import { getChapterByNumber, getChapterGrammarForChapter } from '../_lib/site00ExpressionEngine/chapterStore.js';
 import { runChapterRepetitionQA } from '../_lib/site00ExpressionEngine/chapterRepetitionQA.js';
@@ -363,6 +365,41 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       const b49 = await bootstrapB49();
       return res.status(200).json(serializeFinalCinematicStoryboardResponse(b49));
+    }
+
+    if (
+      req.method === 'POST' &&
+      action === 'SET_NARRATIVE_SYNTHESIS_JUDGMENT'
+    ) {
+      const founderJudgment = String(body.founderJudgment ?? '') as
+        | 'LOVE_IT'
+        | 'PUSH_FURTHER'
+        | 'TOO_SAFE'
+        | 'TOO_CLOSE'
+        | 'PROMISING_REFINE'
+        | 'NOT_FOR_ME';
+
+      if (!founderJudgment) {
+        return res.status(400).json({ error: 'founderJudgment required' });
+      }
+
+      applyNarrativeSynthesisFounderJudgment({
+        entryId: String(body.entryId ?? 'entry-002'),
+        founderJudgment,
+      });
+
+      const c1 = await bootstrapC1NarrativeSynthesis({ entryId: String(body.entryId ?? 'entry-002') });
+      return res.status(200).json(c1);
+    }
+
+    if (
+      req.method === 'GET' &&
+      (phase === 'C1' || phase === 'C1.0' || phase === 'NARRATIVE_SYNTHESIS')
+    ) {
+      const c1 = await bootstrapC1NarrativeSynthesis({
+        entryId: entryNumber === 2 || !entryNumber ? 'entry-002' : `entry-${String(entryNumber).padStart(3, '0')}`,
+      });
+      return res.status(200).json(c1);
     }
 
     if (

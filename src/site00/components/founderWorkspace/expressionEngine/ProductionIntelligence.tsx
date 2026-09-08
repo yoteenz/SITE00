@@ -1,18 +1,41 @@
 /**
- * B5.0 — Production intelligence drawer (plan, audio, routing, readiness).
+ * B5.0 / C1.0 — Production intelligence + narrative synthesis review.
  */
 
 import type { Entry002ProductionBlueprint } from '../../../../../shared/site00-expression-engine/types.js';
 import type { ExpressionEngineB1Phase2Response } from '../../../../../shared/site00-expression-engine/campaignClientTypes.js';
+import type { NarrativeSynthesis } from '../../../../../shared/site00-expression-engine/narrative-synthesis/types.js';
+import { NarrativeSynthesisWorkspace } from './NarrativeSynthesisWorkspace';
 
 type Props = {
   blueprint: Entry002ProductionBlueprint;
   readiness: ExpressionEngineB1Phase2Response['readiness002'];
+  narrativeSynthesis?: NarrativeSynthesis | null;
+  onNarrativeJudgment?: (
+    j: 'LOVE_IT' | 'PUSH_FURTHER' | 'TOO_SAFE' | 'TOO_CLOSE' | 'PROMISING_REFINE' | 'NOT_FOR_ME',
+  ) => void;
+  narrativeJudging?: boolean;
 };
 
-export function ProductionIntelligence({ blueprint, readiness }: Props) {
+export function ProductionIntelligence({
+  blueprint,
+  readiness,
+  narrativeSynthesis,
+  onNarrativeJudgment,
+  narrativeJudging,
+}: Props) {
   return (
     <section className="site00-ee-production-intel">
+      {narrativeSynthesis ? (
+        <article className="site00-ee-production-intel__block site00-ee-production-intel__block--narrative">
+          <NarrativeSynthesisWorkspace
+            synthesis={narrativeSynthesis}
+            onJudgment={onNarrativeJudgment}
+            judging={narrativeJudging}
+          />
+        </article>
+      ) : null}
+
       <article className="site00-ee-production-intel__block">
         <h3>PRODUCTION PLAN</h3>
         <ul>

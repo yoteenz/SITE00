@@ -52,12 +52,13 @@ type Props = {
 };
 
 export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
-  const { phase2, blueprint, b48, b49r4, loading, errorView, reload } = useExpressionEngineEntry002();
+  const { phase2, blueprint, b48, b49r4, c1, loading, errorView, reload } = useExpressionEngineEntry002();
   const [nav, setNav] = useState<WorkspaceNavId>('work');
   const [workFocus, setWorkFocus] = useState<'auto' | JourneyStageId>('auto');
   const [judging, setJudging] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [importing, setImporting] = useState(false);
+  const [narrativeJudging, setNarrativeJudging] = useState(false);
 
   const pipeline = b48?.pipelineState ?? b49r4?.pipelineState;
   const preStoryboardComplete =
@@ -172,6 +173,24 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
     }
   }, [primaryActionLabel, handleGenerate]);
 
+  const submitNarrativeJudgment = useCallback(
+    async (founderJudgment: 'LOVE_IT' | 'PUSH_FURTHER' | 'TOO_SAFE' | 'TOO_CLOSE' | 'PROMISING_REFINE' | 'NOT_FOR_ME') => {
+      setNarrativeJudging(true);
+      try {
+        const res = await apiFetch('/api/site00/expression-engine', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'SET_NARRATIVE_SYNTHESIS_JUDGMENT', founderJudgment, entryId: 'entry-002' }),
+        });
+        if (!res.ok) throw new Error(await res.text());
+        await reload();
+      } finally {
+        setNarrativeJudging(false);
+      }
+    },
+    [reload],
+  );
+
   if (loading) {
     return <p className="site00-expr-engine-panel__meta">Loading Expression Engine workspace…</p>;
   }
@@ -256,7 +275,13 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
             <FormatChips blueprint={blueprint} readiness={socialPackageReadiness} />
           ) : null}
           {nav === 'production' ? (
-            <ProductionIntelligence blueprint={blueprint} readiness={phase2.readiness002} />
+            <ProductionIntelligence
+              blueprint={blueprint}
+              readiness={phase2.readiness002}
+              narrativeSynthesis={c1?.narrativeSynthesis ?? null}
+              onNarrativeJudgment={submitNarrativeJudgment}
+              narrativeJudging={narrativeJudging}
+            />
           ) : null}
           {nav === 'history' ? (
             <HistoryPanel b49r4={b49r4} cinematicSequenceStatus={b48?.cinematicSequence?.status} />

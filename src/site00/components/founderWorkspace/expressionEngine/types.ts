@@ -106,11 +106,20 @@ export type B49R4PipelineResponse = {
   telemetryNote: string;
 };
 
+export type C1NarrativeSynthesisResponse = {
+  sprint: string;
+  architectureLayer: string;
+  providerDispatchCount: 0;
+  narrativeSynthesis: import('../../../../../shared/site00-expression-engine/narrative-synthesis/types.js').NarrativeSynthesis;
+  nextAction: string;
+};
+
 export type ExpressionEngineEntry002State = {
   phase2: ExpressionEngineB1Phase2Response;
   blueprint: Entry002ProductionBlueprint;
   b48: B48PipelineResponse | null;
   b49r4: B49R4PipelineResponse | null;
+  c1: C1NarrativeSynthesisResponse | null;
   loading: boolean;
   error: string | null;
   errorView: import('./expressionEngineErrorState').ExpressionEngineErrorView | null;
