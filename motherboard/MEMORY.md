@@ -6282,3 +6282,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** `ndxBottomNavIconUrls.ts` + `NDXBottomNavIcon` component wired into `MobileFounderWorkspaceChrome` and `FounderWorkspaceMobileNav`; inactive opacity 0.55 / active full opacity CSS.
 - **Tests:** `ndxBottomNavIconUrls.test.ts` (2/2 pass)
 
+---
+
+## 2026-09-08 — Sprint C1.2 — Entry 003 Autonomous Creative Director blind test
+
+- **Context:** First real blind production test — Studio World must autonomously discover Entry 003 subject and supply full creative connective tissue without founder input. Entry 001/002 unchanged. No image/video/FAL. No canonization.
+- **Delivered:**
+  - **Subject discovery** — `entry003SubjectDiscovery.ts` (7 divergent candidates across beauty/language/consumer/dating/aesthetics/status/social norms; orthogonal scoring vs Entry 001/002)
+  - **Pipeline** — `entry003AutonomousPipeline.ts` + store/service/evidence/format modules
+  - **Types** — `shared/site00-expression-engine/entry-003/types.ts`
+  - **Selected candidate** — CLEAN GIRL / EFFORTLESS BEAUTY · working title **NOT THAT EFFORTLESS** · winning territory **THE SHELFIE MUSEUM**
+  - **Records (non-canon)** — NDX-ENTRY-003-CREATIVE-DIRECTION-001, NARRATIVE-SYNTHESIS-001, DIRECTORIAL-CONCEPTION-001, VISUAL-AUTHORITY-PLAN-001 · gate GATE_ENTRY_003_AUTONOMOUS_CREATIVE_DIRECTION_REVIEW
+  - **API** — GET `?phase=C1.2|ENTRY_003|ENTRY003`; POST `SET_ENTRY_003_CREATIVE_JUDGMENT`
+  - **UI** — `Entry003CreativeDirectorWorkspace` (12-section progressive disclosure) in mobile Expression Engine
+  - **Beauty-aware passes** — `creativeDirectorIntellectualPasses.ts` branches for clean-girl subject (no wellness bleed-through)
+  - **Tests** — `site00ExpressionEngineSprintC12.test.ts` (44/44 pass); C11 remains green (46/46)
+- **Next evaluation action:** FOUNDER REVIEWS ENTRY 003 AS STUDIO WORLD CREATED IT — taste-level feedback only; no production assets yet
+

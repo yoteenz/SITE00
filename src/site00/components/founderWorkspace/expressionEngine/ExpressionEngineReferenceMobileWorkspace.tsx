@@ -28,6 +28,7 @@ import { ReferenceExpandedWorld } from './ReferenceExpandedWorld';
 import { ReferenceProductionJourney } from './ReferenceProductionJourney';
 import { ReferenceSupportingIntelligence } from './ReferenceSupportingIntelligence';
 import { AutonomousCreativeDirectorWorkspace } from './AutonomousCreativeDirectorWorkspace';
+import { Entry003CreativeDirectorWorkspace } from './Entry003CreativeDirectorWorkspace';
 import { ReferenceVisualAuthorities } from './ReferenceVisualAuthorities';
 import { ExpressionEngineErrorState } from './ExpressionEngineErrorState';
 import {
@@ -41,9 +42,10 @@ type Props = {
 };
 
 export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props) {
-  const { phase2, blueprint, b48, b49r4, c11, loading, error, errorView, reload } = useExpressionEngineEntry002();
+  const { phase2, blueprint, b48, b49r4, c11, c12, loading, error, errorView, reload } = useExpressionEngineEntry002();
   const [judging, setJudging] = useState(false);
   const [cdJudging, setCdJudging] = useState(false);
+  const [e003Judging, setE003Judging] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [importing, setImporting] = useState(false);
 
@@ -166,6 +168,37 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
       void handleGenerate();
     }
   }, [primaryActionLabel, handleGenerate]);
+
+  const submitEntry003Judgment = useCallback(
+    async (
+      founderJudgment:
+        | 'LOVE_IT'
+        | 'PUSH_FURTHER'
+        | 'TOO_SAFE'
+        | 'TOO_CLOSE'
+        | 'CHANGE_THE_WORLD'
+        | 'CHANGE_THE_ROLE'
+        | 'REVISE'
+        | 'NOT_FOR_ME',
+    ) => {
+      setE003Judging(true);
+      try {
+        const res = await apiFetch('/api/site00/expression-engine', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'SET_ENTRY_003_CREATIVE_JUDGMENT',
+            founderJudgment,
+          }),
+        });
+        if (!res.ok) throw new Error(await res.text());
+        await reload();
+      } finally {
+        setE003Judging(false);
+      }
+    },
+    [reload],
+  );
 
   const submitCreativeDirectorJudgment = useCallback(
     async (
@@ -303,6 +336,18 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
 
       <ReferenceSupportingIntelligence
         sections={[
+          {
+            id: 'entry-003-creative-director',
+            label: 'ENTRY 003 · AUTONOMOUS CREATIVE DIRECTOR',
+            status: c12?.entry003Package.founderInterventionDependency ?? 'LOADING',
+            content: (
+              <Entry003CreativeDirectorWorkspace
+                pkg={c12?.entry003Package ?? null}
+                onJudgment={submitEntry003Judgment}
+                judging={e003Judging}
+              />
+            ),
+          },
           {
             id: 'creative-director',
             label: 'AUTONOMOUS CREATIVE DIRECTOR',

@@ -125,6 +125,17 @@ export type C11CreativeDirectorResponse = {
   nextAction: string;
 };
 
+export type C12Entry003Response = {
+  sprint: string;
+  architectureLayer: string;
+  providerDispatchCount: 0;
+  imageProviderDispatchCount: 0;
+  videoProviderDispatchCount: 0;
+  falDispatchCount: 0;
+  entry003Package: import('../../../../../shared/site00-expression-engine/entry-003/types.js').Entry003AutonomousPackage;
+  nextAction: string;
+};
+
 export type ExpressionEngineEntry002State = {
   phase2: ExpressionEngineB1Phase2Response;
   blueprint: Entry002ProductionBlueprint;
@@ -132,6 +143,7 @@ export type ExpressionEngineEntry002State = {
   b49r4: B49R4PipelineResponse | null;
   c1: C1NarrativeSynthesisResponse | null;
   c11: C11CreativeDirectorResponse | null;
+  c12: C12Entry003Response | null;
   loading: boolean;
   error: string | null;
   errorView: import('./expressionEngineErrorState').ExpressionEngineErrorView | null;
