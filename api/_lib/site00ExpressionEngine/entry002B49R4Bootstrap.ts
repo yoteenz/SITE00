@@ -92,13 +92,16 @@ import {
   getStoryboard002HistoricalRecord,
   getStoryboard003HistoricalRecord,
   getStoryboard004HistoricalRecord,
+  getStoryboard005HistoricalRecord,
   hasValidFinalCinematicStoryboard,
+  isFounderReviewableStoryboard,
   resetFinalCinematicStoryboardStore,
   saveFinalCinematicStoryboardRecord,
   saveStoryboard001HistoricalRecord,
   saveStoryboard002HistoricalRecord,
   saveStoryboard003HistoricalRecord,
   saveStoryboard004HistoricalRecord,
+  saveStoryboard005HistoricalRecord,
 } from './finalCinematicStoryboardStore.js';
 import {
   recordFinalCinematicStoryboardJudgment,
@@ -106,12 +109,26 @@ import {
   resetFinalCinematicStoryboardJudgmentStore,
   getFinalCinematicStoryboardJudgment,
 } from './finalCinematicStoryboardJudgmentStore.js';
+import {
+  beginStoryboardGenerationAttempt,
+  evaluateStoryboardGenerationGuard,
+  getStoryboardCostTelemetry,
+  recordStoryboardGenerationFailure,
+  recordStoryboardProviderDispatch,
+} from './storyboardGenerationCostGuard.js';
+import {
+  importFounderStoryboardVariant,
+  type FounderStoryboardVariant,
+  ensureFounderStoryboardAssetsOnDisk,
+} from './entry002FounderSuppliedStoryboard.js';
+import { ENTRY_002_FINAL_CINEMATIC_STORYBOARD_005_ID } from '../../../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
 
 export async function bootstrapB49R4VisualAuthorityBindingRecovery(options?: {
   dispatchFal?: boolean;
   forceDispatch?: boolean;
   skipGeneration?: boolean;
   skipAuthorityImageBinding?: boolean;
+  explicitFounderAction?: boolean;
 }): Promise<{
   sprint: 'B4.9R4_VISUAL_AUTHORITY_BINDING_RECOVERY';
   visualAuthorityRootCause: string;
@@ -123,6 +140,8 @@ export async function bootstrapB49R4VisualAuthorityBindingRecovery(options?: {
   storyboard002Historical: FinalCinematicStoryboardRecord;
   storyboard003Historical: FinalCinematicStoryboardRecord;
   storyboard004Historical: FinalCinematicStoryboardRecord;
+  storyboard005Historical: FinalCinematicStoryboardRecord | null;
+  storyboardCostGuard: ReturnType<typeof getStoryboardCostTelemetry>;
   visualAuthorityManifest: Entry002StoryboardVisualAuthorityManifest;
   reelVisualConception: Entry002ReelVisualConception;
   panelManifest: ReturnType<typeof compileEntry002FinalCinematicStoryboardPanelManifest>;
@@ -264,24 +283,53 @@ export async function bootstrapB49R4VisualAuthorityBindingRecovery(options?: {
   let finalCinematicStoryboard = getFinalCinematicStoryboardRecord();
   const storedJudgment = resolveFinalStoryboardFounderJudgment();
 
-  if (!options?.skipGeneration) {
-    const shouldRun = !hasValidFinalCinematicStoryboard() || options?.forceDispatch;
+  const shouldAttemptGeneration =
+    options?.explicitFounderAction === true &&
+    options?.dispatchFal === true &&
+    options?.skipGeneration !== true;
 
-    if (shouldRun) {
-      reelArtifact = await dispatchReelFirstStoryboardArtifact({
-        conception: reelVisualConception,
-        brief,
-        visualAuthorityManifest,
-        narrativeBeatCount: panelManifest.length,
-        dispatchFal: options?.dispatchFal,
-        forceDispatch: options?.forceDispatch,
-        skipAuthorityImageBinding: options?.skipAuthorityImageBinding,
+  if (shouldAttemptGeneration) {
+    const guard = evaluateStoryboardGenerationGuard({
+      explicitFounderAction: true,
+      currentStageIsFinalStoryboard: true,
+      allFiveAuthoritiesApproved: approvalState.allAuthoritiesLoveIt,
+      generationInFlight: getStoryboardCostTelemetry().generationInFlight,
+      autoRetry: false,
+      storyboardGenerationAllowed: true,
+    });
+
+    if (!guard.allowed) {
+      throw new Error(`Storyboard generation blocked: ${guard.blockers.join('; ')}`);
+    }
+
+    beginStoryboardGenerationAttempt();
+
+    reelArtifact = await dispatchReelFirstStoryboardArtifact({
+      conception: reelVisualConception,
+      brief,
+      visualAuthorityManifest,
+      narrativeBeatCount: panelManifest.length,
+      dispatchFal: true,
+      forceDispatch: options?.forceDispatch,
+      skipAuthorityImageBinding: options?.skipAuthorityImageBinding,
+    });
+
+    if (reelArtifact.failure || !reelArtifact.rendered) {
+      recordStoryboardGenerationFailure();
+      finalCinematicStoryboard = buildEntry002FinalCinematicStoryboard005Record({
+        manifest: panelManifest,
+        artifact: reelArtifact,
+        structuralQaStatus: 'FAIL',
+        continuityQaStatus: 'FAIL',
+        renderModeQaStatus: 'FAIL',
+        reelCoherenceQaStatus: 'FAIL',
+        boardTypeQaStatus: 'FAIL',
+        visualAuthorityFidelityQaStatus: 'FAIL',
+        readinessState: 'PIPELINE_READY',
+        status: 'STORYBOARD_REQUIRES_FOUNDER_DECISION',
       });
-
-      if (reelArtifact.failure || !reelArtifact.rendered) {
-        throw new Error(reelArtifact.failure ?? 'Visual-authority-bound reel storyboard generation failed');
-      }
-
+      saveFinalCinematicStoryboardRecord(finalCinematicStoryboard);
+    } else {
       reelArtifact.telemetry.visualAuthorityFidelityQaExecuted = true;
 
       structuralQA = await runReelStoryboardStructuralQA({
@@ -340,7 +388,7 @@ export async function bootstrapB49R4VisualAuthorityBindingRecovery(options?: {
         ? 'PIPELINE_TEST_ONLY'
         : allQaPassed
           ? 'AWAITING_FOUNDER_APPROVAL'
-          : 'REVISION_REQUIRED';
+          : 'STORYBOARD_REQUIRES_FOUNDER_DECISION';
 
       finalCinematicStoryboard = buildEntry002FinalCinematicStoryboard005Record({
         manifest: panelManifest,
@@ -355,7 +403,18 @@ export async function bootstrapB49R4VisualAuthorityBindingRecovery(options?: {
         status,
       });
 
-      if (storedJudgment !== 'UNREVIEWED' && finalCinematicStoryboard) {
+      recordStoryboardProviderDispatch({
+        requestedBy: 'founder',
+        requestedAt: new Date().toISOString(),
+        storyboardVersion: finalCinematicStoryboard.version,
+        authorityIds: finalCinematicStoryboard.authorityIds,
+        authorityAssetIds: visualAuthorityManifest.entries.map((e) => e.assetId),
+        provider: reelArtifact.provider ?? 'fal-gpt-image',
+        estimatedAttemptCount: 1,
+        dispatchReceiptId: reelArtifact.providerRequestId ?? `dispatch-${Date.now()}`,
+      });
+
+      if (storedJudgment !== 'UNREVIEWED') {
         finalCinematicStoryboard = applyFinalStoryboardFounderJudgmentToRecord(
           finalCinematicStoryboard,
           storedJudgment,
@@ -363,39 +422,36 @@ export async function bootstrapB49R4VisualAuthorityBindingRecovery(options?: {
       }
 
       saveFinalCinematicStoryboardRecord(finalCinematicStoryboard);
-    } else {
-      finalCinematicStoryboard = getFinalCinematicStoryboardRecord();
-      if (finalCinematicStoryboard) {
-        structuralQA = await runReelStoryboardStructuralQA({
-          conception: reelVisualConception,
-          storyboardImagePath: finalCinematicStoryboard.storyboardStripUrl,
-          storyboardAssetCount: finalCinematicStoryboard.rendered ? 1 : 0,
-          compiledPrompt,
-        });
-        continuityDomainQA = runStoryboardContinuityDomainQA(finalCinematicStoryboard.panelManifest);
-        renderModeQA = runStoryboardRenderModeQA({
-          generationMode: finalCinematicStoryboard.generationMode,
-          storyboardDispatchCount: finalCinematicStoryboard.telemetry.storyboardDispatchCount,
-          storyboardRenderCount: finalCinematicStoryboard.telemetry.storyboardRenderCount,
-          storyboardAssetCount: finalCinematicStoryboard.rendered ? 1 : 0,
-          independentStoryboardPanelAssetCount: finalCinematicStoryboard.telemetry.panelRenderCount,
-        });
-        reelCoherenceQA = runReelCoherenceQA({ conception: reelVisualConception });
-        boardTypeQA = runReelStoryboardBoardTypeQA({
-          storyboardAssetCount: finalCinematicStoryboard.rendered ? 1 : 0,
-          selectedMomentCount: reelVisualConception.selectedStoryboardMoments.length,
-        });
-        visualAuthorityFidelityQA = await runVisualAuthorityFidelityQA({
-          manifest: visualAuthorityManifest,
-          provider: finalCinematicStoryboard.provider ?? 'none',
-          dispatched: finalCinematicStoryboard.dispatched,
-          rendered: finalCinematicStoryboard.rendered,
-          providerAuthorityImageInputCount:
-            finalCinematicStoryboard.telemetry.providerAuthorityImageInputCount ?? 0,
-          storyboardImagePath: finalCinematicStoryboard.storyboardStripUrl,
-        });
-      }
     }
+  } else if (finalCinematicStoryboard) {
+    structuralQA = await runReelStoryboardStructuralQA({
+      conception: reelVisualConception,
+      storyboardImagePath: finalCinematicStoryboard.storyboardStripUrl,
+      storyboardAssetCount: finalCinematicStoryboard.rendered ? 1 : 0,
+      compiledPrompt,
+    });
+    continuityDomainQA = runStoryboardContinuityDomainQA(finalCinematicStoryboard.panelManifest);
+    renderModeQA = runStoryboardRenderModeQA({
+      generationMode: finalCinematicStoryboard.generationMode,
+      storyboardDispatchCount: finalCinematicStoryboard.telemetry.storyboardDispatchCount,
+      storyboardRenderCount: finalCinematicStoryboard.telemetry.storyboardRenderCount,
+      storyboardAssetCount: finalCinematicStoryboard.rendered ? 1 : 0,
+      independentStoryboardPanelAssetCount: finalCinematicStoryboard.telemetry.panelRenderCount,
+    });
+    reelCoherenceQA = runReelCoherenceQA({ conception: reelVisualConception });
+    boardTypeQA = runReelStoryboardBoardTypeQA({
+      storyboardAssetCount: finalCinematicStoryboard.rendered ? 1 : 0,
+      selectedMomentCount: reelVisualConception.selectedStoryboardMoments.length,
+    });
+    visualAuthorityFidelityQA = await runVisualAuthorityFidelityQA({
+      manifest: visualAuthorityManifest,
+      provider: finalCinematicStoryboard.provider ?? 'none',
+      dispatched: finalCinematicStoryboard.dispatched,
+      rendered: finalCinematicStoryboard.rendered,
+      providerAuthorityImageInputCount:
+        finalCinematicStoryboard.telemetry.providerAuthorityImageInputCount ?? 0,
+      storyboardImagePath: finalCinematicStoryboard.storyboardStripUrl,
+    });
   }
 
   if (finalCinematicStoryboard && storedJudgment !== 'UNREVIEWED') {
@@ -406,9 +462,11 @@ export async function bootstrapB49R4VisualAuthorityBindingRecovery(options?: {
     saveFinalCinematicStoryboardRecord(finalCinematicStoryboard);
   }
 
-  const valid = hasValidFinalCinematicStoryboard();
+  const valid = isFounderReviewableStoryboard(finalCinematicStoryboard);
   const founderJudgment = finalCinematicStoryboard?.founderJudgment ?? storedJudgment;
-  const generatedAttempt = finalCinematicStoryboard?.telemetry.storyboardRenderCount === 1;
+  const generatedAttempt =
+    (finalCinematicStoryboard?.telemetry.storyboardRenderCount ?? 0) >= 1 ||
+    finalCinematicStoryboard?.storyboardSource === 'FOUNDER_SUPPLIED';
 
   const gateSatisfaction = buildPreStoryboardGateSatisfaction(authorities);
   const preStoryboardGate = buildEntry002PreStoryboardAuthorityGate(approvalState);
@@ -512,6 +570,8 @@ export async function bootstrapB49R4VisualAuthorityBindingRecovery(options?: {
     storyboard002Historical: getStoryboard002HistoricalRecord()!,
     storyboard003Historical: getStoryboard003HistoricalRecord()!,
     storyboard004Historical: getStoryboard004HistoricalRecord()!,
+    storyboard005Historical: getStoryboard005HistoricalRecord(),
+    storyboardCostGuard: getStoryboardCostTelemetry(),
     visualAuthorityManifest,
     reelVisualConception,
     panelManifest,
@@ -558,6 +618,23 @@ export async function bootstrapB49R4VisualAuthorityBindingRecovery(options?: {
   };
 }
 
+export async function importFounderSuppliedStoryboardForEntry002(
+  variant: FounderStoryboardVariant,
+): Promise<Awaited<ReturnType<typeof bootstrapB49R4VisualAuthorityBindingRecovery>>> {
+  ensureFounderStoryboardAssetsOnDisk(process.cwd());
+  const readState = await bootstrapB49R4VisualAuthorityBindingRecovery({ skipGeneration: true });
+  const current = getFinalCinematicStoryboardRecord();
+  if (current?.storyboardId === ENTRY_002_FINAL_CINEMATIC_STORYBOARD_005_ID) {
+    saveStoryboard005HistoricalRecord({ ...current, referenceOnly: true });
+  }
+  const imported = importFounderStoryboardVariant({
+    variant,
+    manifest: readState.panelManifest,
+  });
+  saveFinalCinematicStoryboardRecord(imported);
+  return bootstrapB49R4VisualAuthorityBindingRecovery({ skipGeneration: true });
+}
+
 export function recordFinalStoryboardFounderJudgment(params: {
   founderJudgment: 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_FOR_ME';
   notes?: string | null;
@@ -572,9 +649,11 @@ export {
   getStoryboard002HistoricalRecord,
   getStoryboard003HistoricalRecord,
   getStoryboard004HistoricalRecord,
+  getStoryboard005HistoricalRecord,
   resetFinalCinematicStoryboardJudgmentStore,
   getFinalCinematicStoryboardJudgment,
   hasValidFinalCinematicStoryboard,
+  isFounderReviewableStoryboard,
 };
 
 export { bootstrapB49R4VisualAuthorityBindingRecovery as bootstrapB49R4 };

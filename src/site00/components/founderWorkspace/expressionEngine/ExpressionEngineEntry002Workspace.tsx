@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { apiFetch } from '../../../../utils/api.js';
 import { site00ProjectContentOperationsCampaignBoardPath } from '../../../config/routes';
 import { QuietAction } from '../WorkspaceCompositionPrimitives';
+import { ExpressionEngineErrorState } from './ExpressionEngineErrorState';
 import { AuthorityGalleryWorkspace } from './AuthorityGalleryWorkspace';
 import { CampaignBoardDestination } from './CampaignBoardDestination';
 import { ContinuityMap } from './ContinuityMap';
@@ -31,7 +32,11 @@ import {
 import { SystemInspector } from './SystemInspector';
 import { ArtifactCard, CreativeAnchorCard, WorldCard } from './WorldArtifactCards';
 import type { B49R4PipelineResponse, WorkspaceNavId } from './types';
-import { useExpressionEngineEntry002 } from './useExpressionEngineEntry002';
+import {
+  postGenerateFinalStoryboard,
+  postImportFounderStoryboard,
+  useExpressionEngineEntry002,
+} from './useExpressionEngineEntry002';
 
 const NAV_ITEMS: Array<{ id: WorkspaceNavId; label: string }> = [
   { id: 'work', label: 'WORK' },
@@ -47,10 +52,12 @@ type Props = {
 };
 
 export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
-  const { phase2, blueprint, b48, b49r4, loading, error, reload } = useExpressionEngineEntry002();
+  const { phase2, blueprint, b48, b49r4, loading, errorView, reload } = useExpressionEngineEntry002();
   const [nav, setNav] = useState<WorkspaceNavId>('work');
   const [workFocus, setWorkFocus] = useState<'auto' | JourneyStageId>('auto');
   const [judging, setJudging] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [importing, setImporting] = useState(false);
 
   const pipeline = b48?.pipelineState ?? b49r4?.pipelineState;
   const preStoryboardComplete =
@@ -118,6 +125,29 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
     return undefined;
   }, [nextAction]);
 
+  const handleGenerate = useCallback(async () => {
+    setGenerating(true);
+    try {
+      await postGenerateFinalStoryboard();
+      await reload();
+    } finally {
+      setGenerating(false);
+    }
+  }, [reload]);
+
+  const handleImport = useCallback(
+    async (variant: 'A' | 'B') => {
+      setImporting(true);
+      try {
+        await postImportFounderStoryboard(variant);
+        await reload();
+      } finally {
+        setImporting(false);
+      }
+    },
+    [reload],
+  );
+
   const submitJudgment = useCallback(
     async (founderJudgment: 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_FOR_ME') => {
       setJudging(true);
@@ -136,15 +166,31 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
     [reload],
   );
 
+  const handlePrimaryAction = useCallback(() => {
+    if (primaryActionLabel === 'GENERATE STORYBOARD') {
+      void handleGenerate();
+    }
+  }, [primaryActionLabel, handleGenerate]);
+
   if (loading) {
     return <p className="site00-expr-engine-panel__meta">Loading Expression Engine workspace…</p>;
   }
 
-  if (error || !phase2) {
-    return <p className="site00-expr-engine-panel__meta">{error ?? 'Failed to load workspace'}</p>;
+  const campaignPath = site00ProjectContentOperationsCampaignBoardPath(projectSlug);
+
+  if (errorView) {
+    return (
+      <ExpressionEngineErrorState
+        error={errorView}
+        campaignBoardPath={campaignPath}
+        onRetry={() => void reload()}
+      />
+    );
   }
 
-  const campaignPath = site00ProjectContentOperationsCampaignBoardPath(projectSlug);
+  if (!phase2) {
+    return <p className="site00-expr-engine-panel__meta">Failed to load workspace</p>;
+  }
 
   return (
     <div className="site00-ee-workspace-root">
@@ -189,7 +235,11 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
               b48={b48}
               b49r4={b49r4}
               judging={judging}
+              generating={generating}
+              importing={importing}
               onJudgment={submitJudgment}
+              onGenerate={handleGenerate}
+              onImport={handleImport}
               finalReelApproved={finalReelApproved}
               socialPackageReadiness={socialPackageReadiness}
             />
@@ -214,7 +264,13 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
         </main>
 
         <aside className="site00-ee-layout__side">
-          <CurrentGate gateLabel={gateLabel} nextAction={nextAction} primaryActionLabel={primaryActionLabel} />
+          <CurrentGate
+            gateLabel={gateLabel}
+            nextAction={nextAction}
+            primaryActionLabel={primaryActionLabel}
+            onPrimaryAction={primaryActionLabel === 'GENERATE STORYBOARD' ? handlePrimaryAction : undefined}
+            primaryDisabled={generating || importing}
+          />
           {socialPackageReadiness ? (
             <CampaignBoardDestination readiness={socialPackageReadiness} campaignBoardPath={campaignPath} />
           ) : null}
@@ -272,7 +328,11 @@ function WorkPanel({
   b48,
   b49r4,
   judging,
+  generating,
+  importing,
   onJudgment,
+  onGenerate,
+  onImport,
   finalReelApproved,
   socialPackageReadiness,
 }: {
@@ -280,7 +340,11 @@ function WorkPanel({
   b48: ReturnType<typeof useExpressionEngineEntry002>['b48'];
   b49r4: B49R4PipelineResponse | null;
   judging: boolean;
+  generating: boolean;
+  importing: boolean;
   onJudgment: (j: 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_FOR_ME') => Promise<void>;
+  onGenerate: () => Promise<void>;
+  onImport: (variant: 'A' | 'B') => Promise<void>;
   finalReelApproved: boolean;
   socialPackageReadiness: ReturnType<typeof resolveSocialPackageReadiness> | null;
 }) {
@@ -307,12 +371,32 @@ function WorkPanel({
   }
 
   if (activeStageId === 'STORYBOARD' && b49r4) {
-    return <FinalStoryboardWorkspace data={b49r4} onJudgment={onJudgment} judging={judging} />;
+    return (
+      <FinalStoryboardWorkspace
+        data={b49r4}
+        onJudgment={onJudgment}
+        judging={judging}
+        onGenerate={onGenerate}
+        onImport={onImport}
+        generating={generating}
+        importing={importing}
+      />
+    );
   }
 
   if (activeStageId === 'STORYBOARD' || activeStageId === 'KEYFRAMES' || activeStageId === 'VIDEO') {
     if (b49r4) {
-      return <FinalStoryboardWorkspace data={b49r4} onJudgment={onJudgment} judging={judging} />;
+      return (
+        <FinalStoryboardWorkspace
+          data={b49r4}
+          onJudgment={onJudgment}
+          judging={judging}
+          onGenerate={onGenerate}
+          onImport={onImport}
+          generating={generating}
+          importing={importing}
+        />
+      );
     }
   }
 
@@ -329,7 +413,17 @@ function WorkPanel({
   }
 
   if (b49r4) {
-    return <FinalStoryboardWorkspace data={b49r4} onJudgment={onJudgment} judging={judging} />;
+    return (
+      <FinalStoryboardWorkspace
+        data={b49r4}
+        onJudgment={onJudgment}
+        judging={judging}
+        onGenerate={onGenerate}
+        onImport={onImport}
+        generating={generating}
+        importing={importing}
+      />
+    );
   }
 
   return <p className="site00-expr-engine-panel__meta">Loading active workspace…</p>;

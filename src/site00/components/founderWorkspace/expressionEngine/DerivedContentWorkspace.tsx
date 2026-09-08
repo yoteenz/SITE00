@@ -69,10 +69,16 @@ export function DerivedContentWorkspace({ finalReelApproved, readiness }: Props)
 
       <footer className="site00-ee-derived-workspace__package">
         <span>SOCIAL PACKAGE</span>
-        <strong>{readiness.packageStatus.replace(/_/g, ' ')}</strong>
-        <span>
-          {readiness.approvedDerivativeCount}/{readiness.requiredDerivativeCount} approved
-        </span>
+        <strong>
+          {readiness.packageStatus === 'LOCKED'
+            ? 'LOCKED'
+            : readiness.packageStatus.replace(/_/g, ' ')}
+        </strong>
+        {readiness.packageStatus !== 'LOCKED' ? (
+          <span>
+            {readiness.approvedDerivativeCount}/{readiness.requiredDerivativeCount} approved
+          </span>
+        ) : null}
       </footer>
     </section>
   );

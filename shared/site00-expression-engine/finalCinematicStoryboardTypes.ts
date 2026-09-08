@@ -15,12 +15,17 @@ export type FinalStoryboardStatus =
   | 'BLOCKED_PENDING_PRE_STORYBOARD_AUTHORITY_APPROVAL'
   | 'AWAITING_FOUNDER_APPROVAL'
   | 'REVISION_REQUIRED'
+  | 'STORYBOARD_REQUIRES_FOUNDER_DECISION'
   | 'FAILED_STORYBOARD_STRUCTURE'
   | 'FAILED_STORYBOARD_RENDER_MODE'
   | 'FAILED_REEL_COHERENCE'
   | 'FAILED_VISUAL_AUTHORITY_BINDING'
   | 'PIPELINE_TEST_ONLY'
   | 'GENERATION_FAILED';
+
+export type StoryboardSource = 'GENERATED' | 'FOUNDER_SUPPLIED';
+
+export type StoryboardArtifactOrigin = 'PROVIDER_GENERATED' | 'FOUNDER_SUPPLIED';
 
 export type StoryboardReadinessState =
   | 'PIPELINE_TEST_ONLY'
@@ -153,6 +158,12 @@ export type FinalCinematicStoryboardTelemetry = {
   independentStoryboardPanelDispatchCount?: number;
   independentStoryboardPanelRenderCount?: number;
   visualAuthorityFidelityQaExecuted?: boolean;
+  storyboardGenerationAttemptCount?: number;
+  storyboardProviderDispatchCount?: number;
+  storyboardImportedCount?: number;
+  storyboardFailedGenerationCount?: number;
+  storyboardAutoRetryCount?: number;
+  storyboardFounderSuppliedCount?: number;
   /** @deprecated B4.9R panel fan-out */
   panelCompileCount?: number;
   panelFailureCount?: number;
@@ -199,6 +210,8 @@ export type FinalCinematicStoryboardRecord = {
   approved: boolean;
   provider: string | null;
   providerRequestId: string | null;
+  storyboardSource?: StoryboardSource;
+  sourceArtifactOrigin?: StoryboardArtifactOrigin;
   telemetry: FinalCinematicStoryboardTelemetry;
   createdAt: string;
   updatedAt: string;
@@ -338,3 +351,20 @@ export const ENTRY_002_REPAIR_FINAL_STORYBOARD_ACTION =
 
 export const ENTRY_002_GENERATE_FINAL_STORYBOARD_ACTION =
   'GENERATE FINAL CINEMATIC STORYBOARD' as const;
+
+export const ENTRY_002_IMPORT_FOUNDER_STORYBOARD_ACTION =
+  'IMPORT FOUNDER STORYBOARD' as const;
+
+export const ENTRY_002_STORYBOARD_REQUIRES_FOUNDER_DECISION_ACTION =
+  'STORYBOARD REQUIRES FOUNDER DECISION' as const;
+
+export type StoryboardDispatchReceipt = {
+  requestedBy: string;
+  requestedAt: string;
+  storyboardVersion: string;
+  authorityIds: string[];
+  authorityAssetIds: string[];
+  provider: string;
+  estimatedAttemptCount: 1;
+  dispatchReceiptId: string;
+};

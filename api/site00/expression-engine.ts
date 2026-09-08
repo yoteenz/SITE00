@@ -29,6 +29,7 @@ import {
   listEntriesForChapter,
   resolveEntry,
   validateEntryByNumber,
+  importFounderSuppliedStoryboardForEntry002,
 } from '../_lib/site00ExpressionEngine/expressionEngineService.js';
 import { getChapterByNumber, getChapterGrammarForChapter } from '../_lib/site00ExpressionEngine/chapterStore.js';
 import { runChapterRepetitionQA } from '../_lib/site00ExpressionEngine/chapterRepetitionQA.js';
@@ -39,6 +40,11 @@ import { saveEntry } from '../_lib/site00ExpressionEngine/entryStore.js';
 import type { PreStoryboardFounderJudgment } from '../../shared/site00-expression-engine/preStoryboardVisualAuthorityTypes.js';
 import type { FinalStoryboardFounderJudgment } from '../../shared/site00-expression-engine/finalCinematicStoryboardTypes.js';
 import type { PreStoryboardAuthorityKey } from '../_lib/site00ExpressionEngine/preStoryboardAuthorityGate.js';
+import { assertNoGetDispatch } from '../_lib/site00ExpressionEngine/storyboardGenerationCostGuard.js';
+
+function assertNoGetDispatchOnRead(): void {
+  assertNoGetDispatch();
+}
 
 function serializePreStoryboardAuthorityResponse(
   result: Awaited<ReturnType<typeof bootstrapB47>> | Awaited<ReturnType<typeof bootstrapB48>>,
@@ -214,8 +220,20 @@ function serializeFinalCinematicStoryboardResponse(
           rendered: result.finalCinematicStoryboard.rendered,
           provider: result.finalCinematicStoryboard.provider,
           telemetry: result.finalCinematicStoryboard.telemetry,
+          storyboardSource: result.finalCinematicStoryboard.storyboardSource ?? 'GENERATED',
+          sourceArtifactOrigin: result.finalCinematicStoryboard.sourceArtifactOrigin ?? 'PROVIDER_GENERATED',
         }
       : null,
+    storyboardCostGuard: 'storyboardCostGuard' in result ? result.storyboardCostGuard : undefined,
+    storyboard005Historical:
+      'storyboard005Historical' in result && result.storyboard005Historical
+        ? {
+            storyboardId: result.storyboard005Historical.storyboardId,
+            status: result.storyboard005Historical.status,
+            referenceOnly: result.storyboard005Historical.referenceOnly,
+            failureReason: result.storyboard005Historical.failureReason,
+          }
+        : undefined,
     finalStoryboardRecord: result.finalStoryboardRecord,
     structuralQA: result.structuralQA,
     continuityDomainQA: result.continuityDomainQA,
@@ -306,6 +324,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (
       req.method === 'POST' &&
+      action === 'GENERATE_FINAL_STORYBOARD'
+    ) {
+      const b49 = await bootstrapB49({
+        dispatchFal: true,
+        explicitFounderAction: true,
+        skipGeneration: false,
+      });
+      return res.status(200).json(serializeFinalCinematicStoryboardResponse(b49));
+    }
+
+    if (
+      req.method === 'POST' &&
+      action === 'IMPORT_FOUNDER_STORYBOARD'
+    ) {
+      const variant = String(body.variant ?? 'A').toUpperCase() === 'B' ? 'B' : 'A';
+      const b49 = await importFounderSuppliedStoryboardForEntry002(variant);
+      return res.status(200).json(serializeFinalCinematicStoryboardResponse(b49));
+    }
+
+    if (
+      req.method === 'POST' &&
       action === 'SET_FINAL_CINEMATIC_STORYBOARD_JUDGMENT'
     ) {
       const founderJudgment = String(body.founderJudgment ?? '') as Exclude<
@@ -341,14 +380,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         phase === 'FINAL_CINEMATIC_STORYBOARD' ||
         phase === 'FINAL_STORYBOARD')
     ) {
-      const dispatchFal = req.query.dispatchFal === '1' || body.dispatchFal === true;
-      const forceDispatch = req.query.forceDispatch === '1' || body.forceDispatch === true;
-      const skipGeneration =
-        req.query.skipGeneration === '1' ||
-        body.skipGeneration === true ||
-        (!process.env.FAL_KEY &&
-          process.env.EXPRESSION_ENGINE_TEST_DETERMINISTIC_REEL_STORYBOARD !== '1' &&
-          process.env.NODE_ENV !== 'production');
+      const dispatchFal = false;
+      const forceDispatch = false;
+      const skipGeneration = true;
+      assertNoGetDispatchOnRead();
       const b49 = await bootstrapB49({ dispatchFal, forceDispatch, skipGeneration });
       return res.status(200).json(serializeFinalCinematicStoryboardResponse(b49));
     }

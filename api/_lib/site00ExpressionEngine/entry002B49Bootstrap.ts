@@ -9,6 +9,8 @@ export {
   bootstrapB49R4VisualAuthorityBindingRecovery as bootstrapB49R2,
   bootstrapB49R4VisualAuthorityBindingRecovery as bootstrapB49R3,
   bootstrapB49R4VisualAuthorityBindingRecovery as bootstrapB49R4,
+  importFounderSuppliedStoryboardForEntry002,
+  importFounderSuppliedStoryboardForEntry002,
   recordFinalStoryboardFounderJudgment,
   resetFinalCinematicStoryboardStore,
   getFinalCinematicStoryboardRecord,

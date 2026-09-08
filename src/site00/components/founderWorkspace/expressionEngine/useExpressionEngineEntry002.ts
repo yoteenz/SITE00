@@ -1,10 +1,11 @@
 /**
- * B5.0 — Loads canonical Entry 002 blueprint + live pipeline state.
+ * B5.0R2 — Loads canonical Entry 002 blueprint + live pipeline state (read-only GET).
  */
 
 import { useCallback, useEffect, useState } from 'react';
 import { apiFetch } from '../../../../utils/api.js';
 import { expressionEngineApi } from '../../../services/expressionEngineApi';
+import { translateExpressionEngineError } from './expressionEngineErrorState';
 import type {
   B48PipelineResponse,
   B49R4PipelineResponse,
@@ -17,10 +18,12 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
   const [b49r4, setB49r4] = useState<B49R4PipelineResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [errorView, setErrorView] = useState<ReturnType<typeof translateExpressionEngineError>>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
     setError(null);
+    setErrorView(null);
     try {
       const [p2, b48Res, b49Res] = await Promise.all([
         expressionEngineApi.phase2(),
@@ -28,8 +31,10 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
         apiFetch('/api/site00/expression-engine?phase=B49R4&skipGeneration=1'),
       ]);
 
-      if (!b48Res.ok) throw new Error(await b48Res.text());
-      // B49R4 may fail without FAL_KEY in dev — workspace degrades to B48 + blueprint
+      if (!b48Res.ok) {
+        const text = await b48Res.text();
+        throw new Error(text);
+      }
 
       setPhase2(p2);
       setB48((await b48Res.json()) as B48PipelineResponse);
@@ -40,11 +45,8 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
       }
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : 'Failed to load Expression Engine';
-      setError(
-        msg.includes('Unexpected token') || msg.includes('<!DOCTYPE')
-          ? 'Expression Engine API unavailable — redeploy Railway API from main, or use local dev with npm run dev'
-          : msg,
-      );
+      setError(msg);
+      setErrorView(translateExpressionEngineError(msg));
     } finally {
       setLoading(false);
     }
@@ -62,6 +64,7 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
       b49r4,
       loading,
       error,
+      errorView,
       reload: load,
     };
   }
@@ -73,6 +76,27 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
     b49r4,
     loading,
     error,
+    errorView,
     reload: load,
   };
+}
+
+export async function postGenerateFinalStoryboard(): Promise<B49R4PipelineResponse> {
+  const res = await apiFetch('/api/site00/expression-engine', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'GENERATE_FINAL_STORYBOARD' }),
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return (await res.json()) as B49R4PipelineResponse;
+}
+
+export async function postImportFounderStoryboard(variant: 'A' | 'B'): Promise<B49R4PipelineResponse> {
+  const res = await apiFetch('/api/site00/expression-engine', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'IMPORT_FOUNDER_STORYBOARD', variant }),
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return (await res.json()) as B49R4PipelineResponse;
 }

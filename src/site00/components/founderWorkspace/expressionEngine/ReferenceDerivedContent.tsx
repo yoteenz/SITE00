@@ -58,11 +58,17 @@ export function ReferenceDerivedContent({ cards, readiness, campaignBoardPath, c
         <article className={`site00-ee-ref-derived__card site00-ee-ref-derived__card--package site00-ee-ref-derived__card--${readiness.packageStatus.toLowerCase()}`}>
           <strong className="site00-ee-ref-derived__label">SOCIAL PACKAGE</strong>
           <span className="site00-ee-ref-derived__status">
-            {packageComplete ? 'COMPLETE' : readiness.packageStatus.replace(/_/g, ' ')}
+            {readiness.packageStatus === 'LOCKED'
+              ? 'LOCKED'
+              : packageComplete
+                ? 'COMPLETE'
+                : readiness.packageStatus.replace(/_/g, ' ')}
           </span>
-          <span className="site00-ee-ref-derived__meta">
-            {readiness.approvedDerivativeCount}/{readiness.requiredDerivativeCount}
-          </span>
+          {readiness.packageStatus !== 'LOCKED' ? (
+            <span className="site00-ee-ref-derived__meta">
+              {readiness.approvedDerivativeCount}/{readiness.requiredDerivativeCount}
+            </span>
+          ) : null}
         </article>
         <article className={`site00-ee-ref-derived__card site00-ee-ref-derived__card--campaign site00-ee-ref-derived__card--${campaignStatus.toLowerCase()}`}>
           {campaignStatus === 'LOCKED' ? (
