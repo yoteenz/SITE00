@@ -255,16 +255,18 @@ export { bootstrapB48, bootstrapB48PreStoryboardGateSatisfaction } from './entry
 export {
   bootstrapB49,
   bootstrapB49FinalCinematicStoryboardGeneration,
-  bootstrapB49RStoryboardStructureRecovery,
-  bootstrapB49RStoryboardStructureRecovery as bootstrapB49R,
+  bootstrapB49R,
+  bootstrapB49R2SingleStoryboardArtifactRecovery,
+  bootstrapB49R2SingleStoryboardArtifactRecovery as bootstrapB49R2,
   recordFinalStoryboardFounderJudgment,
   resetFinalCinematicStoryboardStore,
   getFinalCinematicStoryboardRecord,
   getStoryboard001HistoricalRecord,
+  getStoryboard002HistoricalRecord,
   resetFinalCinematicStoryboardJudgmentStore,
   getFinalCinematicStoryboardJudgment,
   hasValidFinalCinematicStoryboard,
-} from './entry002B49RBootstrap.js';
+} from './entry002B49R2Bootstrap.js';
 export {
   applyPreStoryboardFounderJudgments,
 } from './preStoryboardFounderJudgment.js';

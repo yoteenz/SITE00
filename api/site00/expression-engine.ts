@@ -120,7 +120,8 @@ function serializeFinalCinematicStoryboardResponse(
   return {
     engine: 'EXPRESSION_ENGINE_V0',
     sprint: result.sprint,
-    rootCause: result.rootCause,
+    b49FailureMode: result.b49FailureMode,
+    b49rFailureMode: result.b49rFailureMode,
     productionOrder: result.productionOrder,
     treatment: {
       treatmentId: result.treatment.treatmentId,
@@ -136,13 +137,19 @@ function serializeFinalCinematicStoryboardResponse(
       status: result.storyboard001Historical.status,
       referenceOnly: result.storyboard001Historical.referenceOnly,
       failureReason: result.storyboard001Historical.failureReason,
-      storyboardStripUrl: result.storyboard001Historical.storyboardStripUrl,
+    },
+    storyboard002Historical: {
+      storyboardId: result.storyboard002Historical.storyboardId,
+      status: result.storyboard002Historical.status,
+      referenceOnly: result.storyboard002Historical.referenceOnly,
+      failureReason: result.storyboard002Historical.failureReason,
     },
     finalCinematicStoryboard: result.finalCinematicStoryboard
       ? {
           storyboardId: result.finalCinematicStoryboard.storyboardId,
           version: result.finalCinematicStoryboard.version,
           status: result.finalCinematicStoryboard.status,
+          generationMode: result.finalCinematicStoryboard.generationMode,
           founderJudgment: result.finalCinematicStoryboard.founderJudgment,
           canon: result.finalCinematicStoryboard.canon,
           visualAuthority: result.finalCinematicStoryboard.visualAuthority,
@@ -150,39 +157,29 @@ function serializeFinalCinematicStoryboardResponse(
           storyboardStripUrl: result.finalCinematicStoryboard.storyboardStripUrl,
           structuralQaStatus: result.finalCinematicStoryboard.structuralQaStatus,
           continuityQaStatus: result.finalCinematicStoryboard.continuityQaStatus,
-          duplicationQaStatus: result.finalCinematicStoryboard.duplicationQaStatus,
+          renderModeQaStatus: result.finalCinematicStoryboard.renderModeQaStatus,
           authorityIds: result.finalCinematicStoryboard.authorityIds,
-          sourceTreatmentId: result.finalCinematicStoryboard.sourceTreatmentId,
           compiled: result.finalCinematicStoryboard.compiled,
           dispatched: result.finalCinematicStoryboard.dispatched,
           rendered: result.finalCinematicStoryboard.rendered,
-          assembled: result.finalCinematicStoryboard.assembled,
           provider: result.finalCinematicStoryboard.provider,
-          providerRequestId: result.finalCinematicStoryboard.providerRequestId,
           telemetry: result.finalCinematicStoryboard.telemetry,
-          panelManifest: result.finalCinematicStoryboard.panelManifest.map((p) => ({
-            panelNumber: p.panelNumber,
-            beatId: p.beatId,
-            panelId: p.panelId,
-            assetId: p.assetId,
-            generationStatus: p.generationStatus,
-            qaStatus: p.qaStatus,
-            previewUrl: p.previewUrl,
-            panelVersion: p.panelVersion,
-          })),
         }
       : null,
     finalStoryboardRecord: result.finalStoryboardRecord,
     structuralQA: result.structuralQA,
     continuityDomainQA: result.continuityDomainQA,
-    duplicationQA: result.duplicationQA,
-    panelPipeline: result.panelPipeline
+    renderModeQA: result.renderModeQA,
+    compiledPrompt: result.compiledPrompt,
+    singleArtifact: result.singleArtifact
       ? {
-          assembled: result.panelPipeline.assembled,
-          compositeUrl: result.panelPipeline.compositeUrl,
-          telemetry: result.panelPipeline.telemetry,
+          generationMode: result.singleArtifact.generationMode,
+          compositeUrl: result.singleArtifact.compositeUrl,
+          provider: result.singleArtifact.provider,
+          telemetry: result.singleArtifact.telemetry,
         }
       : null,
+    panelManifestCount: result.panelManifest.length,
     pipelineState: result.pipelineState,
     productionEligibility: result.productionEligibility,
     finalStoryboardReviewGate: result.finalStoryboardReviewGate,
@@ -194,7 +191,6 @@ function serializeFinalCinematicStoryboardResponse(
       characterFirewall: result.storyboardBrief.characterFirewall,
       phoneContentRules: result.storyboardBrief.phoneContentRules,
       panelCount: result.storyboardBrief.panels.length,
-      historicalSequenceExcluded: result.storyboardBrief.historicalSequenceExcluded,
     },
     cinematicSequence: result.cinematicSequence,
     keyframes: result.keyframes,
@@ -270,8 +266,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       req.method === 'GET' &&
       (phase === 'B49' ||
         phase === 'B49R' ||
+        phase === 'B49R2' ||
         phase === 'B4.9' ||
         phase === 'B4.9R' ||
+        phase === 'B4.9R2' ||
         phase === 'FINAL_CINEMATIC_STORYBOARD' ||
         phase === 'FINAL_STORYBOARD')
     ) {
