@@ -6640,19 +6640,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-## 2026-09-08 — Sprint B5.9R4 — Evolve Subshell + Tab Icon Restoration
+## 2026-09-08 — Restore SITE 00 Design Workspace on Projects index (post B5.9R2)
 
-- **Context:** B5.9R3 restored NDXBOOK Evolve content inside POS shell but internal subshell/tab navigation regressed — text-only POS `ProjectModuleMobileSubnav`, overflow links (Expression Engine, Performance, Cultural Intelligence) rendering inline, approved bottom-nav icons orphaned.
-- **Root cause:** B5.9 migration wired Evolve content through `ProjectEvolveAdapter.getSubnav()` into generic POS mobile subnav (text buttons, red border-top) instead of mounting dedicated Evolve subshell with `NDXBottomNavIcon` + MORE panel. Approved icons existed in `shared/site00-studio-world-ui/icons/ndx/v3/` and `ndxBottomNavIconUrls.ts` but were only used by legacy `FounderWorkspaceMobileNav` / `MobileFounderWorkspaceChrome`, not POS Evolve path.
+- **Context:** Founder reported the SITE 00 project module for editing entire website design missing from mobile `/projects` after B5.9R2 reference-fidelity index redesign (card grid with FS/SW/ND/AI/AW but no SITE 00 entry).
+- **Root cause:** B5.9R2 replaced legacy `ProjectsPage` dossier + `site00-projects-platform-card` with `ProjectIndexPage`; no synthetic SITE 00 platform row was carried forward. Design workspace route `/projects/site00/design` remained intact but unreachable from index.
 - **Delivered:**
-  - **EvolveSubshell** + **EvolveSubshellNav** + **EvolveMorePanel** + **NdxbookEvolveSubshell** under `src/site00/components/projectOperatingSystem/evolve/`
-  - **NdxbookEvolveAdapter.ownsEvolveSubshell** — POS shell skips generic subnav when true; subshell owns CAMPAIGNS | CONTENT OPS | LAB | MORE
-  - **Routes:** `/projects/ndxbook/evolve` → redirect `/evolve/campaigns`; tab paths `/evolve/content-ops`, `/lab`, `/more`
-  - **MORE panel** — Expression Engine, Performance, Cultural Intelligence, Experiments Hub (controlled surface, not campaign body inline)
-  - **Icon reconnect:** `NDXBottomNavIcon` with Supabase PNG + local SVG fallback (`public/icons/ndx/v3/`)
-  - **QA:** `evolveSubshellVisualRegressionQA.ts`, `evolveSubshellFunctionalQA.ts`; tests `site00FounderWorkspaceSprintB59R4.test.ts` (18/18)
-  - **CSS:** `site00-evolve-subshell.css` — mobile sticky bottom nav, safe-area, single active indicator
-- **QA:** Mobile 390px — icons visible on all 4 tabs; tab workspaces exclusive; MORE panel secondary links; no POS text-only subnav class.
-- **PR:** pending merge; release v204
-- **Next founder action:** OPEN PROJECTS → NDXBOOK → EVOLVE → verify bottom subnav shows approved icons for CAMPAIGNS, CONTENT OPS, LAB, MORE; tap each tab; confirm MORE panel (not inline links on campaign body). Upload v204 ZIP to GoDaddy.
+  - **`buildSite00PlatformDesignIndexItem()`** in `shared/site00-projects/buildProjectIndexItems.ts` — pinned founder entry → `CANONICAL_SITE00_DESIGN_ROUTE`
+  - **`useProjectIndex`** prepends platform item in founder view (not client simulation)
+  - **`ProjectIndexPage`** always renders platform card (loading/error/empty/list) so design workspace stays reachable when projects API fails
+  - **Mobile/desktop cards** — red platform border, `OPEN DESIGN →` CTA, `DESIGN WORKSPACE` kicker
+  - **Tests** — B59R2 test #45; 26/26 pass
+- **Next founder action:** PROJECTS → tap top **SITE 00** card → **OPEN DESIGN →** → `/projects/site00/design`. Upload fresh GoDaddy ZIP after merge.
 

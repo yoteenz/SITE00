@@ -6,6 +6,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   buildClientProjectIndexItems,
   buildProjectIndexItemsFromEntries,
+  buildSite00PlatformDesignIndexItem,
+  isSite00PlatformDesignIndexItem,
 } from '../../../shared/site00-projects/buildProjectIndexItems.js';
 import type { ProjectIndexItem, ProjectIndexStatus } from '../../../shared/site00-projects/projectIndexItem.js';
 import { runProjectIndexStaleDataQA } from '../../../shared/site00-projects/projectIndexStaleDataQA.js';
@@ -124,8 +126,13 @@ export function useProjectIndex() {
 
   const filtered = useMemo(() => {
     const matched = allItems.filter((item) => matchesFilter(item, filter) && matchesSearch(item, query));
-    return sortItems(matched, sort);
-  }, [allItems, filter, query, sort]);
+    const sorted = sortItems(matched, sort);
+    if (viewMode === 'CLIENT') return sorted;
+
+    const platform = buildSite00PlatformDesignIndexItem();
+    const rest = sorted.filter((item) => !isSite00PlatformDesignIndexItem(item));
+    return [platform, ...rest];
+  }, [allItems, filter, query, sort, viewMode]);
 
   const summary = useMemo(() => {
     const active = founderItems.filter(
