@@ -226,7 +226,7 @@ describe('C1.9R1 Live FULL_REASONING Meridian Proof', () => {
   it('21. control and full runs persist separately', async () => {
     const result = await runC19R1MeridianLiveProof();
     expect(result.controlRun.label).toBe('CONTROL_A_DETERMINISTIC');
-    expect(result.controlRun.runId).toMatch(/control_a_deterministic/);
+    expect(result.controlRun.runId).toBe('control_a_deterministic');
     if (result.fullReasoningRun) {
       expect(result.fullReasoningRun.label).toBe('FULL_REASONING_B');
       expect(result.fullReasoningRun.runId).not.toBe(result.controlRun.runId);
@@ -312,6 +312,7 @@ describe('C1.9R1 Live FULL_REASONING Meridian Proof', () => {
   it('30. control label is CONTROL_A_DETERMINISTIC', async () => {
     const result = await runC19R1MeridianLiveProof();
     expect(result.controlRun.label).toBe('CONTROL_A_DETERMINISTIC');
+    expect(result.controlRun.runId).toBe('control_a_deterministic');
     expect(result.controlRun.campaign.runtimeMode).toBe('DETERMINISTIC_FALLBACK');
   });
 

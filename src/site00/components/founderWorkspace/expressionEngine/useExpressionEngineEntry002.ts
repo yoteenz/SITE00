@@ -85,7 +85,7 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
         };
         setC16({ multiUnitBlindCampaign: body.multiUnitBlindCampaign });
       }
-      const c19r1Res = await apiFetch('/api/site00/expression-engine?phase=C1.9R1');
+      const c19r1Res = await apiFetch('/api/site00/expression-engine?phase=C1.9R2');
       if (c19r1Res.ok) {
         const body = (await c19r1Res.json()) as { view: import('./MeridianDeterministicVsLiveComparison.js').MeridianComparisonViewData };
         setC19r1({ view: body.view });

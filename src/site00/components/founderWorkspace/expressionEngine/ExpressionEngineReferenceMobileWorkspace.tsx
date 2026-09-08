@@ -356,7 +356,7 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
         sections={[
           {
             id: 'c19r1-meridian-live-proof',
-            label: 'MERIDIAN · DETERMINISTIC vs FULL REASONING (C1.9R1)',
+            label: 'MERIDIAN · DETERMINISTIC vs FULL REASONING (C1.9R2)',
             status: c19r1?.view.capabilityStatus.replace(/_/g, ' ') ?? 'LOADING',
             content: (
               <MeridianDeterministicVsLiveComparison

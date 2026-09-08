@@ -365,7 +365,6 @@ export async function runMultiUnitBlindCampaignPackage(
 
   let runtimeMode: CreativeRuntimeMode | 'FULL_REASONING_LIVE_TEST_BLOCKED' = providerHealth.runtimeMode as CreativeRuntimeMode;
   let reasoningDepthLimited = true;
-  let totalDispatch = 0;
   let fullReasoningBlocked: string | undefined;
 
   if (
@@ -387,8 +386,8 @@ export async function runMultiUnitBlindCampaignPackage(
     const role = buildUnitRole(spec, brief, i);
     const unit = await runUnitJudgment(spec, brief, role, campaignIdea, responsibilityJson, receipts);
     units.push(unit);
-    totalDispatch += unit.runtimeMode === 'FULL_REASONING' ? 1 : 0;
   }
+  const totalDispatch = receipts.reduce((sum, r) => sum + r.dispatchCount, 0);
 
   const handoffs = buildHandoffs(units);
   const aggregateMode = units.some((u) => u.runtimeMode === 'FULL_REASONING')

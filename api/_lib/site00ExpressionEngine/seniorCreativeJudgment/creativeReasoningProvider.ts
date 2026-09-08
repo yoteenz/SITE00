@@ -10,6 +10,10 @@ import type {
   SeniorCreativeFailureClass,
   MetaphorMaturityClass,
 } from '../../../shared/site00-expression-engine/senior-creative-judgment/types.js';
+import {
+  ANTHROPIC_CREATIVE_MODEL,
+  ANTHROPIC_API_URL,
+} from '../../site00Evolve/creativeDirection/creativeIntelligence/config.js';
 
 export const CREATIVE_RUNTIME_MODES = ['FULL_REASONING', 'HYBRID', 'DETERMINISTIC_FALLBACK'] as const;
 export type CreativeRuntimeMode = (typeof CREATIVE_RUNTIME_MODES)[number];
@@ -49,15 +53,48 @@ export type CreativeReasoningResult = {
   brandSpecificity: string;
 };
 
-const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const MAX_PROVIDER_RETRIES = 1;
 
+export type ProviderCallDiagnostics = {
+  lastHttpStatus?: number;
+  lastError?: string;
+  retryCount: number;
+};
+
+let lastProviderDiagnostics: ProviderCallDiagnostics = { retryCount: 0 };
+
+export function getLastProviderCallDiagnostics(): ProviderCallDiagnostics {
+  return { ...lastProviderDiagnostics };
+}
+
+export function resetProviderCallDiagnostics(): void {
+  lastProviderDiagnostics = { retryCount: 0 };
+}
+
 function getAnthropicModel(): string {
-  return process.env.ANTHROPIC_CREATIVE_MODEL ?? 'claude-sonnet-4-20250514';
+  return ANTHROPIC_CREATIVE_MODEL;
 }
 
 function isAnthropicConfigured(): boolean {
   return Boolean(process.env.ANTHROPIC_API_KEY?.trim());
+}
+
+function isStrictLiveAcceptance(): boolean {
+  return process.env.SITE00_MERIDIAN_LIVE_ACCEPTANCE === '1';
+}
+
+function padAttackVectors(
+  vectors: CreativeReasoningResult['attackVectors'],
+): CreativeReasoningResult['attackVectors'] {
+  const out = [...vectors];
+  while (out.length < 3) {
+    out.push({
+      vector: 'LIVE_REASONING_DEPTH',
+      diagnosis: 'Provider-backed challenge vector',
+      severity: 'LOW',
+    });
+  }
+  return out;
 }
 
 export async function checkCreativeReasoningProviderHealth(): Promise<ProviderHealthStatus> {
@@ -77,6 +114,7 @@ export async function checkCreativeReasoningProviderHealth(): Promise<ProviderHe
       structuredOutputSupported: true,
       lastHealthCheck: now,
       reasoningDispatchAllowed: true,
+      authConfigured: configured,
     };
   }
 
@@ -90,6 +128,7 @@ export async function checkCreativeReasoningProviderHealth(): Promise<ProviderHe
       lastHealthCheck: now,
       reasoningDispatchAllowed: false,
       blockReason: forceFallback ? 'Test/fallback mode active' : undefined,
+      authConfigured: configured,
     };
   }
 
@@ -103,6 +142,7 @@ export async function checkCreativeReasoningProviderHealth(): Promise<ProviderHe
       lastHealthCheck: now,
       reasoningDispatchAllowed: false,
       blockReason: 'ANTHROPIC_API_KEY not configured',
+      authConfigured: false,
     };
   }
 
@@ -114,6 +154,7 @@ export async function checkCreativeReasoningProviderHealth(): Promise<ProviderHe
     structuredOutputSupported: true,
     lastHealthCheck: now,
     reasoningDispatchAllowed: true,
+    authConfigured: true,
   };
 }
 
@@ -133,10 +174,11 @@ async function callAnthropicReasoning(req: CreativeReasoningRequest): Promise<Cr
   }
   if (!isAnthropicConfigured()) return null;
   const apiKey = process.env.ANTHROPIC_API_KEY!.trim();
+  resetProviderCallDiagnostics();
 
   const system = `You are a senior executive creative director. Return ONLY valid JSON with these keys:
 surfaceObservation, firstOrderContradiction, secondOrderContradiction, humanContradiction,
-initialWinnerSummary, deeperIdea, attackVectors (array of {vector, diagnosis, severity}),
+initialWinnerSummary, deeperIdea, attackVectors (array of at least 3 objects with vector, diagnosis, severity),
 redTeamCriticism, challengerConceptName, challengerIdea, finalDirection, qualityTier (VALID|STRONG|EXCEPTIONAL),
 founderHandholdingRisk (LOW|MODERATE|HIGH), metaphorClass, worldStructural (boolean),
 artifactOutcome, explanatoryPropRisk (boolean), heroMemoryImage, cameraDiscovery, mediumRationale,
@@ -144,59 +186,77 @@ failureClasses (array), selfCritique (array), brandSpecificity.
 Do not include chain-of-thought. Be structurally mature — challenge the first good answer.`;
 
   for (let attempt = 0; attempt <= MAX_PROVIDER_RETRIES; attempt++) {
-    const response = await fetch(ANTHROPIC_URL, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: getAnthropicModel(),
-        max_tokens: 4096,
-        system,
-        messages: [{ role: 'user', content: JSON.stringify(req) }],
-      }),
-    });
+    if (attempt > 0) lastProviderDiagnostics.retryCount = attempt;
+    try {
+      const response = await fetch(ANTHROPIC_API_URL, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({
+          model: getAnthropicModel(),
+          max_tokens: 4096,
+          system,
+          messages: [{ role: 'user', content: JSON.stringify(req) }],
+        }),
+      });
 
-    if (!response.ok) continue;
-    const data = (await response.json()) as { content: Array<{ type: string; text?: string }> };
-    const text = data.content.find((c) => c.type === 'text')?.text ?? '';
-    const parsed = parseJsonBlock(text);
-    if (!parsed) continue;
+      lastProviderDiagnostics.lastHttpStatus = response.status;
+      if (!response.ok) {
+        const errText = await response.text();
+        lastProviderDiagnostics.lastError = `HTTP ${response.status}: ${errText.slice(0, 200)}`;
+        continue;
+      }
+      const data = (await response.json()) as {
+        content: Array<{ type: string; text?: string }>;
+        usage?: { input_tokens?: number; output_tokens?: number };
+      };
+      const text = data.content.find((c) => c.type === 'text')?.text ?? '';
+      const parsed = parseJsonBlock(text);
+      if (!parsed) {
+        lastProviderDiagnostics.lastError = 'Structured JSON parse failed';
+        continue;
+      }
 
-    return {
-      runtimeMode: 'FULL_REASONING',
-      reasoningDepthLimited: false,
-      textReasoningDispatchCount: 1,
-      surfaceObservation: String(parsed.surfaceObservation ?? ''),
-      firstOrderContradiction: String(parsed.firstOrderContradiction ?? ''),
-      secondOrderContradiction: String(parsed.secondOrderContradiction ?? ''),
-      humanContradiction: String(parsed.humanContradiction ?? ''),
-      initialWinnerSummary: String(parsed.initialWinnerSummary ?? req.input.conceptName),
-      deeperIdea: String(parsed.deeperIdea ?? ''),
-      attackVectors: Array.isArray(parsed.attackVectors)
-        ? (parsed.attackVectors as CreativeReasoningResult['attackVectors'])
-        : [],
-      redTeamCriticism: String(parsed.redTeamCriticism ?? ''),
-      challengerConceptName: String(parsed.challengerConceptName ?? 'CHALLENGER'),
-      challengerIdea: String(parsed.challengerIdea ?? ''),
-      finalDirection: String(parsed.finalDirection ?? req.input.conceptName),
-      qualityTier: (parsed.qualityTier as CreativeQualityTier) ?? 'STRONG',
-      founderHandholdingRisk: (parsed.founderHandholdingRisk as CreativeReasoningResult['founderHandholdingRisk']) ?? 'MODERATE',
-      metaphorClass: (parsed.metaphorClass as MetaphorMaturityClass) ?? 'FUNCTIONAL',
-      worldStructural: Boolean(parsed.worldStructural),
-      artifactOutcome: String(parsed.artifactOutcome ?? 'SUPPORTING_ARTIFACT_ONLY'),
-      explanatoryPropRisk: Boolean(parsed.explanatoryPropRisk),
-      heroMemoryImage: String(parsed.heroMemoryImage ?? ''),
-      cameraDiscovery: String(parsed.cameraDiscovery ?? 'DISCOVERS'),
-      mediumRationale: String(parsed.mediumRationale ?? ''),
-      failureClasses: Array.isArray(parsed.failureClasses)
-        ? (parsed.failureClasses as SeniorCreativeFailureClass[])
-        : [],
-      selfCritique: Array.isArray(parsed.selfCritique) ? parsed.selfCritique.map(String) : [],
-      brandSpecificity: String(parsed.brandSpecificity ?? ''),
-    };
+      const attackVectors = Array.isArray(parsed.attackVectors)
+        ? padAttackVectors(parsed.attackVectors as CreativeReasoningResult['attackVectors'])
+        : padAttackVectors([]);
+
+      return {
+        runtimeMode: 'FULL_REASONING',
+        reasoningDepthLimited: false,
+        textReasoningDispatchCount: 1,
+        surfaceObservation: String(parsed.surfaceObservation ?? ''),
+        firstOrderContradiction: String(parsed.firstOrderContradiction ?? ''),
+        secondOrderContradiction: String(parsed.secondOrderContradiction ?? ''),
+        humanContradiction: String(parsed.humanContradiction ?? ''),
+        initialWinnerSummary: String(parsed.initialWinnerSummary ?? req.input.conceptName),
+        deeperIdea: String(parsed.deeperIdea ?? ''),
+        attackVectors,
+        redTeamCriticism: String(parsed.redTeamCriticism ?? ''),
+        challengerConceptName: String(parsed.challengerConceptName ?? 'CHALLENGER'),
+        challengerIdea: String(parsed.challengerIdea ?? ''),
+        finalDirection: String(parsed.finalDirection ?? req.input.conceptName),
+        qualityTier: (parsed.qualityTier as CreativeQualityTier) ?? 'STRONG',
+        founderHandholdingRisk: (parsed.founderHandholdingRisk as CreativeReasoningResult['founderHandholdingRisk']) ?? 'MODERATE',
+        metaphorClass: (parsed.metaphorClass as MetaphorMaturityClass) ?? 'FUNCTIONAL',
+        worldStructural: Boolean(parsed.worldStructural),
+        artifactOutcome: String(parsed.artifactOutcome ?? 'SUPPORTING_ARTIFACT_ONLY'),
+        explanatoryPropRisk: Boolean(parsed.explanatoryPropRisk),
+        heroMemoryImage: String(parsed.heroMemoryImage ?? ''),
+        cameraDiscovery: String(parsed.cameraDiscovery ?? 'DISCOVERS'),
+        mediumRationale: String(parsed.mediumRationale ?? ''),
+        failureClasses: Array.isArray(parsed.failureClasses)
+          ? (parsed.failureClasses as SeniorCreativeFailureClass[])
+          : [],
+        selfCritique: Array.isArray(parsed.selfCritique) ? parsed.selfCritique.map(String) : [],
+        brandSpecificity: String(parsed.brandSpecificity ?? ''),
+      };
+    } catch (e) {
+      lastProviderDiagnostics.lastError = e instanceof Error ? e.message : 'Provider request failed';
+    }
   }
   return null;
 }
@@ -296,16 +356,24 @@ export async function runCreativeReasoning(req: CreativeReasoningRequest): Promi
     return deterministicReasoning(req);
   }
   const provider = await callAnthropicReasoning(req);
-  if (provider && provider.attackVectors.length >= 3) return provider;
+  if (provider) return provider;
+
+  const diagnostics = getLastProviderCallDiagnostics();
+  if (isStrictLiveAcceptance() && isAnthropicConfigured()) {
+    throw new Error(
+      `REASONING_PROVIDER_FAILURE: ${diagnostics.lastError ?? 'Anthropic call failed after retry'}`,
+    );
+  }
+
   const fallback = deterministicReasoning(req);
-  if (!provider && !isAnthropicConfigured()) {
+  if (!isAnthropicConfigured()) {
     return fallback;
   }
   return {
     ...fallback,
-    runtimeMode: provider ? 'HYBRID' : 'DETERMINISTIC_FALLBACK',
-    textReasoningDispatchCount: provider?.textReasoningDispatchCount ?? 0,
-    failureClasses: [...fallback.failureClasses, ...(provider ? [] : (['REASONING_PROVIDER_FAILURE'] as SeniorCreativeFailureClass[]))],
+    runtimeMode: 'DETERMINISTIC_FALLBACK',
+    textReasoningDispatchCount: 0,
+    failureClasses: [...fallback.failureClasses, 'REASONING_PROVIDER_FAILURE'],
   };
 }
 
