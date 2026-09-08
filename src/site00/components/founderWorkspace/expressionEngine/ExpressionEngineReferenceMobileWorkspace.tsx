@@ -29,6 +29,7 @@ import { ReferenceProductionJourney } from './ReferenceProductionJourney';
 import { ReferenceSupportingIntelligence } from './ReferenceSupportingIntelligence';
 import { AutonomousCreativeDirectorWorkspace } from './AutonomousCreativeDirectorWorkspace';
 import { Entry003CreativeDirectorWorkspace } from './Entry003CreativeDirectorWorkspace';
+import { Entry003SeniorDirectorReview } from './Entry003SeniorDirectorReview';
 import { ReferenceVisualAuthorities } from './ReferenceVisualAuthorities';
 import { ExpressionEngineErrorState } from './ExpressionEngineErrorState';
 import {
@@ -338,14 +339,17 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
         sections={[
           {
             id: 'entry-003-creative-director',
-            label: 'ENTRY 003 · AUTONOMOUS CREATIVE DIRECTOR',
+            label: 'ENTRY 003 · SENIOR CREATIVE JUDGMENT (C1.4)',
             status: c12?.entry003Package.founderInterventionDependency ?? 'LOADING',
             content: (
-              <Entry003CreativeDirectorWorkspace
-                pkg={c12?.entry003Package ?? null}
-                onJudgment={submitEntry003Judgment}
-                judging={e003Judging}
-              />
+              <>
+                <Entry003SeniorDirectorReview pkg={c12?.entry003Package ?? null} />
+                <Entry003CreativeDirectorWorkspace
+                  pkg={c12?.entry003Package ?? null}
+                  onJudgment={submitEntry003Judgment}
+                  judging={e003Judging}
+                />
+              </>
             ),
           },
           {

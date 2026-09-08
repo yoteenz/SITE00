@@ -1,0 +1,75 @@
+/**
+ * C1.4 — Entry 003 Senior Creative Judgment pipeline.
+ */
+
+import {
+  ENTRY_003_C14_GATE_ID,
+  ENTRY_003_ID,
+  type Entry003C14BootstrapResult,
+  type Entry003C14Package,
+} from '../../../../shared/site00-expression-engine/entry-003/types.js';
+import { bootstrapC13Entry003CinematicContinuity } from '../entry003/entry003C13Pipeline.js';
+import { saveEntry003Package } from '../entry003/entry003Store.js';
+import {
+  getSeniorCreativeJudgmentArchitectureStack,
+  runSeniorCreativeJudgmentFromConcept,
+} from '../seniorCreativeJudgment/seniorCreativeJudgmentEngine.js';
+import type { SeniorCreativeJudgmentOutput } from '../../../../shared/site00-expression-engine/senior-creative-judgment/types.js';
+
+export async function bootstrapC14Entry003SeniorCreativeJudgment(): Promise<Entry003C14BootstrapResult> {
+  const c13 = await bootstrapC13Entry003CinematicContinuity();
+  const pkg = c13.entry003Package;
+  const winning = pkg.evolvedReview.winningConcept;
+
+  const seniorJudgment: SeniorCreativeJudgmentOutput = runSeniorCreativeJudgmentFromConcept(winning, {
+    contentUnitId: ENTRY_003_ID,
+    interjection: pkg.evolvedReview.interjection,
+    deeperContradiction: pkg.evolvedReview.deeperContradiction,
+    culturalRead: pkg.evolvedReview.culturalRead,
+    entry004Tease: pkg.evolvedReview.entry004Tease.seedLine,
+  });
+
+  const c14Pkg: Entry003C14Package = {
+    ...pkg,
+    sprint: 'C1.4_SENIOR_CREATIVE_JUDGMENT',
+    gateId: ENTRY_003_C14_GATE_ID,
+    status: seniorJudgment.blocksFounderReview
+      ? 'NEEDS_FOUNDER_DIRECTION'
+      : 'CREATIVE_DIRECTION_AWAITING_FOUNDER_REVIEW',
+    seniorCreativeJudgment: seniorJudgment,
+    architectureStack: getSeniorCreativeJudgmentArchitectureStack(),
+    founderInterventionDependency:
+      seniorJudgment.founderHandholdingRisk === 'HIGH'
+        ? 'HIGH'
+        : seniorJudgment.founderHandholdingRisk === 'MODERATE'
+          ? 'MODERATE'
+          : 'LOW',
+    artifactRecord: {
+      ...pkg.artifactRecord,
+      artifact: winning.artifact,
+      artifactFunction:
+        seniorJudgment.artifactNecessity.outcome === 'SUPPORTING_ARTIFACT_ONLY'
+          ? 'Supporting evidence only — environment/behavior primary receipt'
+          : winning.artifactFunction,
+      noPrimaryArtifact: seniorJudgment.artifactNecessity.outcome === 'NO_ARTIFACT_REQUIRED',
+    },
+  };
+
+  saveEntry003Package(c14Pkg);
+
+  return {
+    sprint: 'C1.4_SENIOR_CREATIVE_JUDGMENT',
+    architectureLayer: 'SENIOR_CREATIVE_JUDGMENT_ENGINE',
+    architectureStack: getSeniorCreativeJudgmentArchitectureStack(),
+    providerDispatchCount: 0,
+    imageProviderDispatchCount: 0,
+    videoProviderDispatchCount: 0,
+    falDispatchCount: 0,
+    entry003Package: c14Pkg,
+    seniorCreativeJudgment: seniorJudgment,
+    cinematicContinuityDirector: c13.cinematicContinuityDirector,
+    marketingPackageMasterDirector: c13.marketingPackageMasterDirector,
+    nextAction:
+      'FOUNDER REVIEWS THE SENIOR CREATIVE JUDGMENT RESULT FOR ENTRY 003 AND JUDGES WHETHER STUDIO WORLD NOW IDENTIFIED AND RESOLVED THE SAME DEEPER CREATIVE ISSUES BEFORE THE FOUNDER HAD TO POINT THEM OUT.',
+  };
+}

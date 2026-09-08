@@ -259,5 +259,7 @@ export type MarketingPackageMasterDirectorOutput = {
   payoff: string;
   campaignEnding: string;
   cohesionQA: CampaignNarrativeCohesionQA;
+  /** C1.4 — pipeline stack including Senior Creative Judgment layer */
+  creativePipelineStack: string[];
   version: string;
 };

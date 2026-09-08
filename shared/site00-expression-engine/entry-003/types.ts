@@ -249,9 +249,7 @@ export type Entry003EvolvedReviewCandidate = {
   selfCritique: string[];
 };
 
-export type Entry003C13Package = Entry003AutonomousPackage & {
-  sprint: 'C1.3_CINEMATIC_CONTINUITY_MASTER_DIRECTOR';
-  gateId: typeof ENTRY_003_C13_GATE_ID;
+type Entry003C13ExtensionFields = {
   cinematicContinuity: import('../chapter-continuity/types.js').CinematicContinuityDirectorOutput;
   marketingPackageMasterDirector: import('../campaign-narrative/types.js').MarketingPackageMasterDirectorOutput;
   evolvedReview: Entry003EvolvedReviewCandidate;
@@ -265,6 +263,12 @@ export type Entry003C13Package = Entry003AutonomousPackage & {
   researchClaimsSoftened: boolean;
 };
 
+export type Entry003C13Package = Omit<Entry003AutonomousPackage, 'sprint' | 'gateId'> &
+  Entry003C13ExtensionFields & {
+    sprint: 'C1.3_CINEMATIC_CONTINUITY_MASTER_DIRECTOR';
+    gateId: typeof ENTRY_003_C13_GATE_ID;
+  };
+
 export type Entry003C13BootstrapResult = {
   sprint: string;
   architectureLayer: string;
@@ -274,6 +278,30 @@ export type Entry003C13BootstrapResult = {
   videoProviderDispatchCount: 0;
   falDispatchCount: 0;
   entry003Package: Entry003C13Package;
+  cinematicContinuityDirector: import('../chapter-continuity/types.js').CinematicContinuityDirectorOutput;
+  marketingPackageMasterDirector: import('../campaign-narrative/types.js').MarketingPackageMasterDirectorOutput;
+  nextAction: string;
+};
+
+/** C1.4 — Senior Creative Judgment gate */
+export const ENTRY_003_C14_GATE_ID = 'GATE_ENTRY_003_SENIOR_CREATIVE_JUDGMENT' as const;
+
+export type Entry003C14Package = Omit<Entry003C13Package, 'sprint' | 'gateId'> & {
+  sprint: 'C1.4_SENIOR_CREATIVE_JUDGMENT';
+  gateId: typeof ENTRY_003_C14_GATE_ID;
+  seniorCreativeJudgment: import('../senior-creative-judgment/types.js').SeniorCreativeJudgmentOutput;
+};
+
+export type Entry003C14BootstrapResult = {
+  sprint: string;
+  architectureLayer: string;
+  architectureStack: string[];
+  providerDispatchCount: 0;
+  imageProviderDispatchCount: 0;
+  videoProviderDispatchCount: 0;
+  falDispatchCount: 0;
+  entry003Package: Entry003C14Package;
+  seniorCreativeJudgment: import('../senior-creative-judgment/types.js').SeniorCreativeJudgmentOutput;
   cinematicContinuityDirector: import('../chapter-continuity/types.js').CinematicContinuityDirectorOutput;
   marketingPackageMasterDirector: import('../campaign-narrative/types.js').MarketingPackageMasterDirectorOutput;
   nextAction: string;

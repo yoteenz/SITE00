@@ -25,6 +25,7 @@ import {
   getNdxbookCampaignGrammar,
 } from '../campaignNarrative/ndxbookCampaignNarrativeAdapter.js';
 import { runCinematicContinuityDirector } from '../cinematicContinuity/cinematicContinuityDirector.js';
+import { getSeniorCreativeJudgmentArchitectureStack } from '../seniorCreativeJudgment/seniorCreativeJudgmentEngine.js';
 
 export function runMarketingPackageMasterDirector(args?: {
   brandId?: string;
@@ -132,6 +133,7 @@ export function runMarketingPackageMasterDirector(args?: {
     payoff: winning.climaxImage,
     campaignEnding: 'Chapter 01 open — Entry 004 seeded non-canon',
     cohesionQA,
+    creativePipelineStack: getSeniorCreativeJudgmentArchitectureStack(),
     version: CAMPAIGN_NARRATIVE_VERSION,
   };
 }

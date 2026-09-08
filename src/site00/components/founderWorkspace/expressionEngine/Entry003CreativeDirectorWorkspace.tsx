@@ -2,7 +2,7 @@
  * C1.2 — Entry 003 autonomous creative director founder review (12-section progressive disclosure).
  */
 
-import type { Entry003AutonomousPackage } from '../../../../../shared/site00-expression-engine/entry-003/types.js';
+import type { Entry003C14Package } from '../../../../../shared/site00-expression-engine/entry-003/types.js';
 
 type Judgment =
   | 'LOVE_IT'
@@ -15,7 +15,7 @@ type Judgment =
   | 'NOT_FOR_ME';
 
 type Props = {
-  pkg: Entry003AutonomousPackage | null;
+  pkg: Entry003C14Package | null;
   onJudgment?: (j: Judgment) => void;
   judging?: boolean;
 };
