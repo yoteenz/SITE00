@@ -7,9 +7,8 @@ import { apiFetch } from '../../../../utils/api.js';
 import { site00ProjectContentOperationsCampaignBoardPath } from '../../../config/routes';
 import { ContinuityMap } from './ContinuityMap';
 import {
-  buildDerivedContentCards,
   resolveCampaignBoardDerivedStatus,
-  resolveSocialPackageStatus,
+  resolveSocialPackageReadiness,
 } from './derivedContentState';
 import { FormatChips } from './FormatChips';
 import { HistoryPanel } from './HistoryPanel';
@@ -17,8 +16,11 @@ import { ProductionIntelligence } from './ProductionIntelligence';
 import {
   buildProductionJourney,
   resolveActiveJourneyStage,
-  type JourneyStageStatus,
 } from './productionJourney';
+import {
+  derivedSocialStatusToJourneyStatus,
+  socialPackageStatusToJourneyStatus,
+} from './socialPackageReadiness';
 import { ReferenceCurrentStageCard } from './ReferenceCurrentStageCard';
 import { ReferenceDerivedContent } from './ReferenceDerivedContent';
 import { ReferenceEntrySummary } from './ReferenceEntrySummary';
@@ -44,27 +46,18 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
     false;
   const finalReelApproved = pipeline?.finalStoryboard?.approved ?? false;
 
-  const derivedCards = useMemo(
-    () => (blueprint ? buildDerivedContentCards(blueprint, finalReelApproved) : []),
+  const socialPackageReadiness = useMemo(
+    () => (blueprint ? resolveSocialPackageReadiness(blueprint, finalReelApproved) : null),
     [blueprint, finalReelApproved],
   );
 
-  const socialPackageStatus = useMemo(
-    () => resolveSocialPackageStatus(derivedCards, finalReelApproved),
-    [derivedCards, finalReelApproved],
+  const derivedCards = useMemo(
+    () => socialPackageReadiness?.derivatives ?? [],
+    [socialPackageReadiness],
   );
 
-  const socialJourneyStatus: JourneyStageStatus =
-    socialPackageStatus === 'APPROVED'
-      ? 'APPROVED'
-      : socialPackageStatus === 'IN_PROGRESS'
-        ? 'ACTIVE'
-        : socialPackageStatus === 'READY'
-          ? 'READY'
-          : 'LOCKED';
-
   const journey = useMemo(() => {
-    if (!pipeline) return [];
+    if (!pipeline || !socialPackageReadiness) return [];
     return buildProductionJourney({
       coverAuthority: pipeline.coverAuthority ?? 'APPROVED',
       reelTreatment: pipeline.reelTreatment ?? 'LOCKED',
@@ -78,12 +71,13 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
         b48?.productionEligibility.keyframeEligibility ??
         'BLOCKED',
       videoEligibility: b49r4?.video ?? b48?.video ?? 'BLOCKED',
-      campaignReady: phase2?.readiness002.ready ?? false,
       storyboardFailed: b49r4?.finalCinematicStoryboard?.status === 'REVISION_REQUIRED',
       finalReelApproved,
-      socialPackageStatus: socialJourneyStatus,
+      derivedSocialStatus: derivedSocialStatusToJourneyStatus(socialPackageReadiness),
+      socialPackageStatus: socialPackageStatusToJourneyStatus(socialPackageReadiness),
+      campaignBoardEligible: socialPackageReadiness.campaignBoardEligible,
     });
-  }, [pipeline, preStoryboardComplete, b49r4, b48, phase2, finalReelApproved, socialJourneyStatus]);
+  }, [pipeline, preStoryboardComplete, b49r4, b48, finalReelApproved, socialPackageReadiness]);
 
   const activeStageId = resolveActiveJourneyStage(journey);
   const activeStage = journey.find((s) => s.id === activeStageId);
@@ -131,10 +125,9 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
   }
 
   const campaignPath = site00ProjectContentOperationsCampaignBoardPath(projectSlug);
-  const campaignDerivedStatus = resolveCampaignBoardDerivedStatus(
-    socialPackageStatus,
-    phase2.readiness002.ready,
-  );
+  const campaignDerivedStatus = socialPackageReadiness
+    ? resolveCampaignBoardDerivedStatus(socialPackageReadiness)
+    : 'LOCKED';
 
   const stageTitle =
     activeStageId === 'STORYBOARD'
@@ -170,6 +163,7 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
 
       <ReferenceDerivedContent
         cards={derivedCards}
+        readiness={socialPackageReadiness!}
         campaignBoardPath={campaignPath}
         campaignStatus={campaignDerivedStatus}
       />
@@ -205,7 +199,9 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
             content: (
               <>
                 <ProductionIntelligence blueprint={blueprint} readiness={phase2.readiness002} />
-                <FormatChips blueprint={blueprint} />
+                {socialPackageReadiness ? (
+                  <FormatChips blueprint={blueprint} readiness={socialPackageReadiness} />
+                ) : null}
               </>
             ),
           },

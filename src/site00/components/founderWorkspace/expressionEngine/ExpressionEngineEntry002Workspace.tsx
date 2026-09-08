@@ -13,6 +13,8 @@ import { ContinuityMap } from './ContinuityMap';
 import { CurrentGate } from './CurrentGate';
 import { EntryCommandHeader } from './EntryCommandHeader';
 import { FinalStoryboardWorkspace } from './FinalStoryboardWorkspace';
+import { DerivedContentWorkspace } from './DerivedContentWorkspace';
+import { resolveSocialPackageReadiness } from './derivedContentState';
 import { FormatChips } from './FormatChips';
 import { HistoryPanel } from './HistoryPanel';
 import { ProductionIntelligence } from './ProductionIntelligence';
@@ -22,6 +24,10 @@ import {
   resolveActiveJourneyStage,
   type JourneyStageId,
 } from './productionJourney';
+import {
+  derivedSocialStatusToJourneyStatus,
+  socialPackageStatusToJourneyStatus,
+} from './socialPackageReadiness';
 import { SystemInspector } from './SystemInspector';
 import { ArtifactCard, CreativeAnchorCard, WorldCard } from './WorldArtifactCards';
 import type { B49R4PipelineResponse, WorkspaceNavId } from './types';
@@ -54,8 +60,13 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
 
   const finalReelApproved = pipeline?.finalStoryboard?.approved ?? false;
 
+  const socialPackageReadiness = useMemo(
+    () => (blueprint ? resolveSocialPackageReadiness(blueprint, finalReelApproved) : null),
+    [blueprint, finalReelApproved],
+  );
+
   const journey = useMemo(() => {
-    if (!pipeline) return [];
+    if (!pipeline || !socialPackageReadiness) return [];
     return buildProductionJourney({
       coverAuthority: pipeline.coverAuthority ?? 'APPROVED',
       reelTreatment: pipeline.reelTreatment ?? 'LOCKED',
@@ -66,12 +77,13 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
       finalStoryboardApproved: pipeline.finalStoryboard.approved,
       keyframeEligibility: b49r4?.productionEligibility.keyframeEligibility ?? b48?.productionEligibility.keyframeEligibility ?? 'BLOCKED',
       videoEligibility: b49r4?.video ?? b48?.video ?? 'BLOCKED',
-      campaignReady: phase2?.readiness002.ready ?? false,
       storyboardFailed: b49r4?.finalCinematicStoryboard?.status === 'REVISION_REQUIRED',
       finalReelApproved,
-      socialPackageStatus: 'LOCKED',
+      derivedSocialStatus: derivedSocialStatusToJourneyStatus(socialPackageReadiness),
+      socialPackageStatus: socialPackageStatusToJourneyStatus(socialPackageReadiness),
+      campaignBoardEligible: socialPackageReadiness.campaignBoardEligible,
     });
-  }, [pipeline, preStoryboardComplete, b49r4, b48, phase2, finalReelApproved]);
+  }, [pipeline, preStoryboardComplete, b49r4, b48, finalReelApproved, socialPackageReadiness]);
 
   const activeStageId = workFocus === 'auto' ? resolveActiveJourneyStage(journey) : workFocus;
 
@@ -178,6 +190,8 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
               b49r4={b49r4}
               judging={judging}
               onJudgment={submitJudgment}
+              finalReelApproved={finalReelApproved}
+              socialPackageReadiness={socialPackageReadiness}
             />
           ) : null}
           {nav === 'world' ? (
@@ -188,7 +202,9 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
             </div>
           ) : null}
           {nav === 'continuity' ? <ContinuityMap entryId="ENTRY 002" blueprint={blueprint} /> : null}
-          {nav === 'formats' ? <FormatChips blueprint={blueprint} /> : null}
+          {nav === 'formats' && socialPackageReadiness ? (
+            <FormatChips blueprint={blueprint} readiness={socialPackageReadiness} />
+          ) : null}
           {nav === 'production' ? (
             <ProductionIntelligence blueprint={blueprint} readiness={phase2.readiness002} />
           ) : null}
@@ -199,11 +215,9 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
 
         <aside className="site00-ee-layout__side">
           <CurrentGate gateLabel={gateLabel} nextAction={nextAction} primaryActionLabel={primaryActionLabel} />
-          <CampaignBoardDestination
-            ready={phase2.readiness002.ready}
-            blockers={phase2.readiness002.blockers}
-            campaignBoardPath={campaignPath}
-          />
+          {socialPackageReadiness ? (
+            <CampaignBoardDestination readiness={socialPackageReadiness} campaignBoardPath={campaignPath} />
+          ) : null}
         </aside>
       </div>
 
@@ -259,13 +273,27 @@ function WorkPanel({
   b49r4,
   judging,
   onJudgment,
+  finalReelApproved,
+  socialPackageReadiness,
 }: {
   activeStageId: JourneyStageId;
   b48: ReturnType<typeof useExpressionEngineEntry002>['b48'];
   b49r4: B49R4PipelineResponse | null;
   judging: boolean;
   onJudgment: (j: 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_FOR_ME') => Promise<void>;
+  finalReelApproved: boolean;
+  socialPackageReadiness: ReturnType<typeof resolveSocialPackageReadiness> | null;
 }) {
+  if (
+    socialPackageReadiness &&
+    (activeStageId === 'DERIVED_SOCIAL_CONTENT' ||
+      activeStageId === 'SOCIAL_PACKAGE' ||
+      activeStageId === 'CAMPAIGN_BOARD')
+  ) {
+    return (
+      <DerivedContentWorkspace finalReelApproved={finalReelApproved} readiness={socialPackageReadiness} />
+    );
+  }
   if (activeStageId === 'VISUAL_AUTHORITIES' && b48) {
     return (
       <AuthorityGalleryWorkspace

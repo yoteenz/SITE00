@@ -1,10 +1,22 @@
 /**
- * Reference-fidelity — derived content / social package state from canonical blueprint.
+ * B5.0R1 — derived content / social package state from canonical blueprint.
  */
 
 import type { Entry002ProductionBlueprint } from '../../../../../shared/site00-expression-engine/types.js';
+import {
+  buildDerivedContentCardsFromBlueprint,
+  buildSocialPackageReadiness,
+  type SocialPackageReadiness,
+} from './socialPackageReadiness.js';
 
-export type DerivedContentStatus = 'LOCKED' | 'PENDING' | 'IN_PROGRESS' | 'READY' | 'APPROVED';
+export type DerivedContentStatus =
+  | 'LOCKED'
+  | 'READY'
+  | 'IN_PROGRESS'
+  | 'AWAITING_REVIEW'
+  | 'APPROVED'
+  | 'REVISION_REQUIRED'
+  | 'PENDING';
 
 export type DerivedContentCard = {
   id: string;
@@ -13,62 +25,40 @@ export type DerivedContentCard = {
   format: string;
   status: DerivedContentStatus;
   lockedReason?: string;
+  nextAction?: string;
+  lineageSource?: string;
 };
-
-const DERIVED_FORMATS: Array<{ format: string; label: string; platform: string }> = [
-  { format: 'CAROUSEL', label: 'CAROUSEL', platform: 'INSTAGRAM' },
-  { format: 'STORY', label: 'STORY', platform: 'INSTAGRAM' },
-  { format: 'X', label: 'X / TWITTER', platform: 'X' },
-  { format: 'TIKTOK', label: 'TIKTOK', platform: 'TIKTOK' },
-];
-
-function mapFormatStatus(
-  blueprintStatus: string,
-  finalReelApproved: boolean,
-): DerivedContentStatus {
-  if (!finalReelApproved) return 'LOCKED';
-  if (blueprintStatus === 'COMPLETE' || blueprintStatus === 'QA_PASS') return 'READY';
-  if (blueprintStatus === 'IN_PRODUCTION') return 'IN_PROGRESS';
-  if (blueprintStatus === 'PLANNED') return 'PENDING';
-  return 'PENDING';
-}
 
 export function buildDerivedContentCards(
   blueprint: Entry002ProductionBlueprint,
   finalReelApproved: boolean,
 ): DerivedContentCard[] {
-  return DERIVED_FORMATS.map(({ format, label, platform }) => {
-    const expr = blueprint.formatExpressions.find((f) => f.format === format);
-    const translation = blueprint.platformTranslations.find(
-      (t) => t.sourceFormat === format || t.platform === platform,
-    );
-    const status = mapFormatStatus(expr?.status ?? translation?.status ?? 'PLANNED', finalReelApproved);
-    return {
-      id: format,
-      label,
-      platform,
-      format,
-      status,
-      lockedReason: !finalReelApproved ? 'FINAL REEL REQUIRED' : undefined,
-    };
-  });
+  return buildDerivedContentCardsFromBlueprint(blueprint, finalReelApproved);
 }
 
+export function resolveSocialPackageReadiness(
+  blueprint: Entry002ProductionBlueprint,
+  finalReelApproved: boolean,
+): SocialPackageReadiness {
+  return buildSocialPackageReadiness(blueprint, finalReelApproved);
+}
+
+/** @deprecated Use resolveSocialPackageReadiness().packageStatus */
 export function resolveSocialPackageStatus(
   cards: DerivedContentCard[],
   finalReelApproved: boolean,
 ): DerivedContentStatus {
   if (!finalReelApproved) return 'LOCKED';
-  if (cards.every((c) => c.status === 'READY' || c.status === 'APPROVED')) return 'APPROVED';
-  if (cards.some((c) => c.status === 'IN_PROGRESS' || c.status === 'READY')) return 'IN_PROGRESS';
+  if (cards.length > 0 && cards.every((c) => c.status === 'APPROVED')) return 'APPROVED';
+  if (cards.some((c) => c.status === 'IN_PROGRESS' || c.status === 'AWAITING_REVIEW')) return 'IN_PROGRESS';
+  if (cards.some((c) => c.status === 'READY')) return 'READY';
   return 'PENDING';
 }
 
 export function resolveCampaignBoardDerivedStatus(
-  socialPackageStatus: DerivedContentStatus,
-  campaignReady: boolean,
+  readiness: SocialPackageReadiness,
 ): DerivedContentStatus {
-  if (campaignReady) return 'READY';
-  if (socialPackageStatus === 'APPROVED') return 'PENDING';
+  if (readiness.campaignBoardEligible) return 'READY';
+  if (readiness.packageStatus === 'IN_PROGRESS' || readiness.packageStatus === 'INCOMPLETE') return 'PENDING';
   return 'LOCKED';
 }

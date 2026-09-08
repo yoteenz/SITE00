@@ -1,16 +1,18 @@
 /**
- * B5.0 — Campaign Board destination (terminal workflow state).
+ * B5.0R1 — Campaign Board destination (locked behind Social Package completion).
  */
 
 import { Link } from 'react-router-dom';
+import type { SocialPackageReadiness } from './socialPackageReadiness';
 
 type Props = {
-  ready: boolean;
-  blockers: string[];
+  readiness: SocialPackageReadiness;
   campaignBoardPath: string;
 };
 
-export function CampaignBoardDestination({ ready, blockers, campaignBoardPath }: Props) {
+export function CampaignBoardDestination({ readiness, campaignBoardPath }: Props) {
+  const ready = readiness.campaignBoardEligible;
+
   return (
     <article className={`site00-ee-campaign${ready ? ' site00-ee-campaign--ready' : ''}`}>
       <header>
@@ -20,15 +22,20 @@ export function CampaignBoardDestination({ ready, blockers, campaignBoardPath }:
       {ready ? (
         <>
           <p className="site00-ee-campaign__status site00-ee-campaign__status--ready">READY</p>
+          <p className="site00-ee-campaign__meta">
+            {readiness.approvedDerivativeCount}/{readiness.requiredDerivativeCount} derivatives approved
+          </p>
           <Link to={campaignBoardPath} className="site00-btn site00-btn--primary site00-ee-campaign__action">
-            ADD TO CAMPAIGN BOARD
+            DEPLOY SOCIAL PACKAGE
           </Link>
         </>
       ) : (
         <>
           <p className="site00-ee-campaign__status site00-ee-campaign__status--locked">LOCKED</p>
           <p className="site00-ee-campaign__reason">
-            {blockers[0] ?? 'FINAL REEL REQUIRED'}
+            {readiness.packageStatus === 'LOCKED'
+              ? 'COMPLETE SOCIAL PACKAGE REQUIRED'
+              : `SOCIAL PACKAGE INCOMPLETE (${readiness.approvedDerivativeCount}/${readiness.requiredDerivativeCount} approved)`}
           </p>
         </>
       )}
