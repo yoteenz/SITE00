@@ -24,7 +24,7 @@ export function useProjectOperatingSystem(
   const stateVersion = getProjectStateVersion();
 
   return useMemo(() => {
-    if (!project) {
+    if (!projectSlug) {
       return { operatingState: null, manifest: null, visibleModules: [], loading: true };
     }
 

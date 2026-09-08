@@ -38,7 +38,7 @@ function ProjectOperatingModuleInner({ forcedModule }: ProjectOperatingModulePag
   const location = useLocation();
   const { viewMode } = useProjectViewMode();
   const { project, state, error } = useSite00ProjectDetail(projectSlug);
-  const { operatingState, visibleModules, loading } = useProjectOperatingSystem(projectSlug, project);
+  const { operatingState, visibleModules } = useProjectOperatingSystem(projectSlug, project);
 
   const currentModule =
     forcedModule ?? resolveModuleFromPath(location.pathname) ?? 'OVERVIEW';
@@ -47,11 +47,11 @@ function ProjectOperatingModuleInner({ forcedModule }: ProjectOperatingModulePag
     return <ClientViewRedirect projectSlug={projectSlug} />;
   }
 
-  if (state === 'loading' || loading) {
+  if (state === 'loading' && !operatingState) {
     return <p className="site00-body">LOADING PROJECT…</p>;
   }
 
-  if (state === 'error' || !project || !operatingState) {
+  if (!operatingState) {
     return (
       <EmptyState title="PROJECT NOT FOUND" body={error ?? 'NO TRUTHFUL PROJECT RECORD FOR THIS SLUG.'} />
     );
