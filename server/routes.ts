@@ -31,6 +31,7 @@ import site00ClientReviewsHandler from '../api/site00/client-reviews.js';
 import site00ImplementationSnapshotsHandler from '../api/site00/implementation-snapshots.js';
 import site00ExperienceEngineHandler from '../api/site00/experience-engine.js';
 import site00ExpressionEngineHandler from '../api/site00/expression-engine.js';
+import site00CampaignPackageHandler from '../api/site00/campaign-package.js';
 import site00DesignControlPlaneHandler from '../api/site00/design-control-plane.js';
 import captureAuthBootstrapHandler from '../api/capture-auth-bootstrap.js';
 
@@ -67,6 +68,7 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/site00/implementation-snapshots', handler: site00ImplementationSnapshotsHandler },
   { path: '/api/site00/experience-engine', handler: site00ExperienceEngineHandler },
   { path: '/api/site00/expression-engine', handler: site00ExpressionEngineHandler },
+  { path: '/api/site00/campaign-package', handler: site00CampaignPackageHandler },
   { path: '/api/site00/design-control-plane', handler: site00DesignControlPlaneHandler },
   { path: '/api/capture-auth-bootstrap', handler: captureAuthBootstrapHandler },
 ];

@@ -113,6 +113,8 @@ const ProjectContentOperationsPage = lazy(() => import('../site00/pages/ProjectC
 const ProjectContentOperationsPerformancePage = lazy(() => import('../site00/pages/ProjectContentOperationsPerformancePage'));
 const ProjectContentOperationsCampaignBoardPage = lazy(() => import('../site00/pages/ProjectContentOperationsCampaignBoardPage'));
 const ProjectCampaignBoardEntryPackagePage = lazy(() => import('../site00/pages/ProjectCampaignBoardEntryPackagePage'));
+const ProjectCampaignBoardEntryCarouselPage = lazy(() => import('../site00/pages/ProjectCampaignBoardEntryCarouselPage'));
+const ProjectCampaignBoardEntryStoryPage = lazy(() => import('../site00/pages/ProjectCampaignBoardEntryStoryPage'));
 const ProjectExpressionEngineCampaignPage = lazy(() => import('../site00/pages/ProjectExpressionEngineCampaignPage'));
 const ProjectFounderCreativeIngestionPage = lazy(() => import('../site00/pages/ProjectFounderCreativeIngestionPage'));
 const ProjectFilmProductionPage = lazy(() => import('../site00/pages/ProjectFilmProductionPage'));
@@ -1175,6 +1177,30 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectContentOperationsPerformancePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCampaignBoardEntryCarousel}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCampaignBoardEntryCarouselPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCampaignBoardEntryStory}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCampaignBoardEntryStoryPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

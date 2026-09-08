@@ -87,6 +87,8 @@ export const SITE00_ROUTES = {
   projectContentOperationsPerformance: '/projects/:projectSlug/content-operations/performance',
   projectContentOperationsCampaignBoard: '/projects/:projectSlug/content-operations/campaign-board',
   projectCampaignBoardEntry: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber',
+  projectCampaignBoardEntryCarousel: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/carousel',
+  projectCampaignBoardEntryStory: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/story',
   projectExpressionEngineCampaign: '/projects/:projectSlug/content-operations/expression-engine',
   projectFounderCreativeIngestion: '/projects/:projectSlug/content-operations/founder-creative-ingest',
   projectFilmProduction: '/projects/:projectSlug/content-operations/film-production',
@@ -314,6 +316,14 @@ export function site00ProjectContentOperationsCampaignBoardPath(projectSlug: str
 
 export function site00ProjectCampaignBoardEntryPath(projectSlug: string, entryNumber: string): string {
   return `/projects/${projectSlug}/content-operations/campaign-board/entry/${entryNumber}`;
+}
+
+export function site00ProjectCampaignBoardEntryCarouselPath(projectSlug: string, entryNumber: string): string {
+  return `/projects/${projectSlug}/content-operations/campaign-board/entry/${entryNumber}/carousel`;
+}
+
+export function site00ProjectCampaignBoardEntryStoryPath(projectSlug: string, entryNumber: string): string {
+  return `/projects/${projectSlug}/content-operations/campaign-board/entry/${entryNumber}/story`;
 }
 
 export function site00ProjectExpressionEngineCampaignPath(projectSlug: string): string {

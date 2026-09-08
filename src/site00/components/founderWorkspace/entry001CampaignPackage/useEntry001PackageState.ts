@@ -1,8 +1,8 @@
 /**
- * B5.2 / B5.4 — Entry 001 package state (typed archive, ingestion, remove/restore).
+ * B5.6 — Entry 001 package state — Supabase-backed with optimistic UI.
  */
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type {
   Entry001ArchiveFilter,
   Entry001AssetClassificationSuggestion,
@@ -29,8 +29,24 @@ import {
 } from './entry001AssetTaxonomy.js';
 import { suggestAssetClassification } from './entry001AssetClassification.js';
 import { buildEntry001PackageReadiness } from './entry001PackageReadiness.js';
+import {
+  fetchCampaignPackage,
+  migrateCampaignPackage,
+  reclassifyCampaignAssetApi,
+  removeCampaignAssetApi,
+  reorderCampaignSequence,
+  restoreCampaignAssetApi,
+  type CampaignPackageApiResponse,
+} from './campaignPackageApi.js';
+import {
+  backupLegacyLocalStorage,
+  isLocalMigrationComplete,
+  markLocalMigrationComplete,
+  readLegacyLocalStorage,
+  snapshotToEntry001Persisted,
+} from './campaignPackageBridge.js';
 
-const STORAGE_KEY = 'site00_entry001_archive_state_v2';
+const LEGACY_STORAGE_KEY = 'site00_entry001_archive_state_v2';
 
 export type PendingClassificationItem = {
   assetId: string;
@@ -42,33 +58,123 @@ export type PendingClassificationItem = {
   accepted: boolean;
 };
 
-function loadState(): Entry001ArchiveStatePersisted {
-  if (typeof window === 'undefined') {
-    return { overrides: {}, removedAssetIds: [], archivedAssets: [], extraAssets: [] };
-  }
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { overrides: {}, removedAssetIds: [], archivedAssets: [], extraAssets: [] };
-    return JSON.parse(raw) as Entry001ArchiveStatePersisted;
-  } catch {
-    return { overrides: {}, removedAssetIds: [], archivedAssets: [], extraAssets: [] };
-  }
-}
+export type SaveState = 'idle' | 'loading' | 'saving' | 'saved' | 'failed';
 
-function persistState(state: Entry001ArchiveStatePersisted): void {
+function writeLegacyCache(state: Entry001ArchiveStatePersisted): void {
   if (typeof window === 'undefined') return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  try {
+    localStorage.setItem(LEGACY_STORAGE_KEY, JSON.stringify(state));
+  } catch {
+    /* optional write-through cache */
+  }
 }
 
 export function useEntry001PackageState() {
-  const [persisted, setPersisted] = useState<Entry001ArchiveStatePersisted>(() => loadState());
+  const [persisted, setPersisted] = useState<Entry001ArchiveStatePersisted>({
+    overrides: {},
+    removedAssetIds: [],
+    archivedAssets: [],
+    extraAssets: [],
+  });
+  const [saveState, setSaveState] = useState<SaveState>('loading');
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [syncRequired, setSyncRequired] = useState(false);
+  const [backendMeta, setBackendMeta] = useState<{
+    packageId?: string;
+    carouselVersion?: number;
+    storyVersion?: number;
+  }>({});
+  const [orderedCarouselIds, setOrderedCarouselIds] = useState<string[]>([]);
+  const [orderedStoryIds, setOrderedStoryIds] = useState<string[]>([]);
   const [pendingQueue, setPendingQueue] = useState<PendingClassificationItem[]>([]);
   const [archiveFilter, setArchiveFilter] = useState<Entry001ArchiveFilter>('ALL');
+
+  const applyApiResponse = useCallback((body: CampaignPackageApiResponse) => {
+    if (body.legacy) {
+      setPersisted(body.legacy);
+      writeLegacyCache(body.legacy);
+    }
+    const snap = body.snapshot as { package?: { packageId?: string }; sequences?: Array<{ formatFamily: string; versionNumber: number; orderedAssetIds: string[]; isCurrent: boolean }> } | null;
+    if (snap?.package?.packageId) {
+      const carousel = snap.sequences?.find((s) => s.formatFamily === 'CAROUSEL' && s.isCurrent);
+      const story = snap.sequences?.find((s) => s.formatFamily === 'STORY' && s.isCurrent);
+      setBackendMeta({
+        packageId: snap.package.packageId,
+        carouselVersion: carousel?.versionNumber,
+        storyVersion: story?.versionNumber,
+      });
+      if (carousel) setOrderedCarouselIds(carousel.orderedAssetIds);
+      if (story) setOrderedStoryIds(story.orderedAssetIds);
+    }
+    if (body.carouselAssets && Array.isArray(body.carouselAssets)) {
+      setOrderedCarouselIds(
+        (body.carouselAssets as Array<{ assetId: string }>).map((a) => a.assetId),
+      );
+    }
+    if (body.storyAssets && Array.isArray(body.storyAssets)) {
+      setOrderedStoryIds((body.storyAssets as Array<{ assetId: string }>).map((a) => a.assetId));
+    }
+  }, []);
+
+  const hydrate = useCallback(async () => {
+    setSaveState('loading');
+    setSaveError(null);
+    try {
+      const legacy = readLegacyLocalStorage();
+      if (legacy && !isLocalMigrationComplete()) {
+        backupLegacyLocalStorage();
+        const migrated = await migrateCampaignPackage(legacy as import('../../../../../shared/site00-campaign-package/types.js').LegacyEntry001LocalState);
+        applyApiResponse(migrated);
+        markLocalMigrationComplete();
+      } else {
+        const body = await fetchCampaignPackage();
+        applyApiResponse(body);
+      }
+      setSaveState('saved');
+      setSyncRequired(false);
+    } catch (err) {
+      setSaveError(err instanceof Error ? err.message : 'PACKAGE SYNC REQUIRED');
+      setSyncRequired(true);
+      if (legacyFallback()) setSaveState('idle');
+      else setSaveState('failed');
+    }
+  }, [applyApiResponse]);
+
+  function legacyFallback(): boolean {
+    const legacy = readLegacyLocalStorage();
+    if (legacy) {
+      setPersisted(legacy);
+      return true;
+    }
+    return false;
+  }
+
+  useEffect(() => {
+    void hydrate();
+  }, [hydrate]);
 
   const activeArchive = useMemo(
     () => buildActiveArchive(persisted.overrides, persisted.removedAssetIds, persisted.extraAssets),
     [persisted],
   );
+
+  const carouselSlides = useMemo(() => {
+    const slides = activeArchive.filter((a) => a.assetType === 'CAROUSEL_SLIDE');
+    if (!orderedCarouselIds.length) return slides.sort((a, b) => (a.sequenceIndex ?? 0) - (b.sequenceIndex ?? 0));
+    return orderedCarouselIds
+      .map((id) => slides.find((s) => s.assetId === id))
+      .filter(Boolean) as Entry001CampaignAsset[];
+  }, [activeArchive, orderedCarouselIds]);
+
+  const storyFrames = useMemo(() => {
+    const frames = activeArchive.filter(
+      (a) => a.assetType === 'STORY_FRAME' || a.assetType === 'CTA_FRAME',
+    );
+    if (!orderedStoryIds.length) return frames.sort((a, b) => (a.sequenceIndex ?? 0) - (b.sequenceIndex ?? 0));
+    return orderedStoryIds
+      .map((id) => frames.find((f) => f.assetId === id))
+      .filter(Boolean) as Entry001CampaignAsset[];
+  }, [activeArchive, orderedStoryIds]);
 
   const filteredArchive = useMemo(
     () => filterArchiveAssets(activeArchive, archiveFilter),
@@ -103,114 +209,128 @@ export function useEntry001PackageState() {
     });
   }, [persisted.extraAssets]);
 
-  const updatePersisted = useCallback((updater: (prev: Entry001ArchiveStatePersisted) => Entry001ArchiveStatePersisted) => {
-    setPersisted((prev) => {
-      const next = updater(prev);
-      persistState(next);
-      return next;
-    });
-  }, []);
+  const mutateWithRollback = useCallback(
+    async (optimistic: Entry001ArchiveStatePersisted, action: () => Promise<CampaignPackageApiResponse>) => {
+      const previous = persisted;
+      setPersisted(optimistic);
+      writeLegacyCache(optimistic);
+      setSaveState('saving');
+      setSaveError(null);
+      try {
+        const body = await action();
+        applyApiResponse(body);
+        setSaveState('saved');
+      } catch {
+        setPersisted(previous);
+        writeLegacyCache(previous);
+        setSaveState('failed');
+        setSaveError('SAVE FAILED — Your change could not be saved.');
+      }
+    },
+    [persisted, applyApiResponse],
+  );
 
   const removeFromArchive = useCallback(
     (assetId: string) => {
-      updatePersisted((prev) => {
-        const asset =
-          activeArchive.find((a) => a.assetId === assetId) ??
-          prev.extraAssets.find((a) => a.assetId === assetId);
-        if (!asset) return prev;
-        const archivedCopy: Entry001CampaignAsset = {
-          ...asset,
-          status: 'ARCHIVED',
-          removedFromActiveArchive: true,
-          archivedAt: new Date().toISOString(),
-        };
-        return {
-          ...prev,
-          removedAssetIds: [...new Set([...prev.removedAssetIds, assetId])],
-          archivedAssets: [...prev.archivedAssets.filter((a) => a.assetId !== assetId), archivedCopy],
-          extraAssets: prev.extraAssets.filter((a) => a.assetId !== assetId),
-        };
-      });
+      const optimistic: Entry001ArchiveStatePersisted = {
+        ...persisted,
+        removedAssetIds: [...new Set([...persisted.removedAssetIds, assetId])],
+        archivedAssets: [
+          ...persisted.archivedAssets.filter((a) => a.assetId !== assetId),
+          {
+            ...(activeArchive.find((a) => a.assetId === assetId) ?? persisted.extraAssets.find((a) => a.assetId === assetId)!),
+            status: 'ARCHIVED',
+            removedFromActiveArchive: true,
+            archivedAt: new Date().toISOString(),
+          },
+        ],
+        extraAssets: persisted.extraAssets.filter((a) => a.assetId !== assetId),
+      };
+      void mutateWithRollback(optimistic, () => removeCampaignAssetApi(assetId));
     },
-    [activeArchive, updatePersisted],
+    [persisted, activeArchive, mutateWithRollback],
   );
 
   const restoreToArchive = useCallback(
     (assetId: string) => {
-      updatePersisted((prev) => {
-        const archived = prev.archivedAssets.find((a) => a.assetId === assetId);
-        if (!archived) return prev;
-        const restored: Entry001CampaignAsset = {
-          ...archived,
-          status: 'APPROVED',
-          removedFromActiveArchive: false,
-          archivedAt: null,
-        };
-        const isExtra = archived.filePath.startsWith('blob:');
-        return {
-          ...prev,
-          removedAssetIds: prev.removedAssetIds.filter((id) => id !== assetId),
-          archivedAssets: prev.archivedAssets.filter((a) => a.assetId !== assetId),
-          extraAssets: isExtra
-            ? [...prev.extraAssets.filter((a) => a.assetId !== assetId), restored]
-            : prev.extraAssets,
-          overrides: isExtra
-            ? prev.overrides
-            : {
-                ...prev.overrides,
-                [assetId]: {
-                  status: 'APPROVED',
-                  removedFromActiveArchive: false,
-                  archivedAt: null,
-                },
-              },
-        };
-      });
+      const archived = persisted.archivedAssets.find((a) => a.assetId === assetId);
+      if (!archived) return;
+      const restored = { ...archived, status: 'APPROVED' as const, removedFromActiveArchive: false, archivedAt: null };
+      const optimistic: Entry001ArchiveStatePersisted = {
+        ...persisted,
+        removedAssetIds: persisted.removedAssetIds.filter((id) => id !== assetId),
+        archivedAssets: persisted.archivedAssets.filter((a) => a.assetId !== assetId),
+        extraAssets: archived.filePath.startsWith('blob:')
+          ? [...persisted.extraAssets.filter((a) => a.assetId !== assetId), restored]
+          : persisted.extraAssets,
+        overrides: archived.filePath.startsWith('blob:')
+          ? persisted.overrides
+          : {
+              ...persisted.overrides,
+              [assetId]: { status: 'APPROVED', removedFromActiveArchive: false, archivedAt: null },
+            },
+      };
+      void mutateWithRollback(optimistic, () => restoreCampaignAssetApi(assetId));
     },
-    [updatePersisted],
+    [persisted, mutateWithRollback],
   );
 
   const reclassifyAsset = useCallback(
     (assetId: string, assetType: Entry001AssetType, assetRole: Entry001ContentRole | null) => {
-      updatePersisted((prev) => {
-        const existing =
-          activeArchive.find((a) => a.assetId === assetId) ??
-          prev.extraAssets.find((a) => a.assetId === assetId);
-        const prevType = existing?.assetType;
-        const prevRole = existing?.assetRole;
-        const patch: Partial<Entry001CampaignAsset> = {
-          assetType,
-          assetRole,
-          role: assetTypeToLegacyRole(assetType),
-          updatedAt: new Date().toISOString(),
-          classificationHistory: [
-            ...(existing?.classificationHistory ?? []),
-            {
-              at: new Date().toISOString(),
-              previousAssetType: prevType,
-              previousAssetRole: prevRole ?? null,
-              newAssetType: assetType,
-              newAssetRole: assetRole,
-              reason: 'FOUNDER_EDIT' as const,
-            },
-          ],
+      const patch = { assetType, assetRole, role: assetTypeToLegacyRole(assetType) };
+      const optimistic = { ...persisted };
+      const isExtra = persisted.extraAssets.some((a) => a.assetId === assetId);
+      if (isExtra) {
+        optimistic.extraAssets = persisted.extraAssets.map((a) =>
+          a.assetId === assetId ? enrichAssetWithTaxonomy({ ...a, ...patch }) : a,
+        );
+      } else {
+        optimistic.overrides = {
+          ...persisted.overrides,
+          [assetId]: { ...persisted.overrides[assetId], ...patch },
         };
-        const isExtra = prev.extraAssets.some((a) => a.assetId === assetId);
-        if (isExtra) {
-          return {
-            ...prev,
-            extraAssets: prev.extraAssets.map((a) =>
-              a.assetId === assetId ? enrichAssetWithTaxonomy({ ...a, ...patch }) : a,
-            ),
-          };
-        }
-        return {
-          ...prev,
-          overrides: { ...prev.overrides, [assetId]: { ...prev.overrides[assetId], ...patch } },
-        };
-      });
+      }
+      void mutateWithRollback(optimistic, () => reclassifyCampaignAssetApi(assetId, patch));
     },
-    [activeArchive, updatePersisted],
+    [persisted, mutateWithRollback],
+  );
+
+  const reorderFormatSequence = useCallback(
+    async (formatFamily: 'CAROUSEL' | 'STORY', orderedAssetIds: string[]) => {
+      const expectedVersion =
+        formatFamily === 'CAROUSEL' ? (backendMeta.carouselVersion ?? 1) : (backendMeta.storyVersion ?? 1);
+      if (formatFamily === 'CAROUSEL') setOrderedCarouselIds(orderedAssetIds);
+      else setOrderedStoryIds(orderedAssetIds);
+      setSaveState('saving');
+      try {
+        const body = await reorderCampaignSequence({ formatFamily, orderedAssetIds, expectedVersion });
+        if (body.conflict) {
+          setSaveError('SEQUENCE UPDATED ELSEWHERE — Reload latest order.');
+          await hydrate();
+          return;
+        }
+        applyApiResponse(body);
+        setSaveState('saved');
+      } catch {
+        setSaveError('SAVE FAILED');
+        setSaveState('failed');
+        await hydrate();
+      }
+    },
+    [backendMeta, applyApiResponse, hydrate],
+  );
+
+  const moveSequenceItem = useCallback(
+    (formatFamily: 'CAROUSEL' | 'STORY', assetId: string, direction: 'left' | 'right') => {
+      const ids = formatFamily === 'CAROUSEL' ? [...orderedCarouselIds] : [...orderedStoryIds];
+      const idx = ids.indexOf(assetId);
+      if (idx < 0) return;
+      const swap = direction === 'left' ? idx - 1 : idx + 1;
+      if (swap < 0 || swap >= ids.length) return;
+      [ids[idx], ids[swap]] = [ids[swap]!, ids[idx]!];
+      void reorderFormatSequence(formatFamily, ids);
+    },
+    [orderedCarouselIds, orderedStoryIds, reorderFormatSequence],
   );
 
   const queueFilesForClassification = useCallback((files: FileList | File[]) => {
@@ -242,39 +362,37 @@ export function useEntry001PackageState() {
   const commitPendingAssets = useCallback(
     (items: PendingClassificationItem[]) => {
       if (!items.length) return;
-      updatePersisted((prev) => {
-        const newAssets: Entry001CampaignAsset[] = items.map((p, index) => ({
-          assetId: p.assetId,
-          entryId: 'entry-001',
-          filePath: p.previewUrl,
-          title: p.file.name.replace(/\.[^.]+$/, '').toUpperCase(),
-          format: p.file.type.startsWith('video/') ? 'VIDEO' : 'IMAGE',
-          role: assetTypeToLegacyRole(p.assetType),
-          assetType: p.assetType,
-          assetRole: p.assetRole,
-          status: 'APPROVED',
-          source: 'FOUNDER_SUPPLIED',
-          approved: true,
-          version: 'upload-v002',
-          sequenceIndex:
-            p.assetType === 'CAROUSEL_SLIDE' || p.assetType === 'STORY_FRAME' ? index + 1 : null,
-          removedFromActiveArchive: false,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          classificationHistory: [
-            {
-              at: new Date().toISOString(),
-              newAssetType: p.assetType,
-              newAssetRole: p.assetRole,
-              reason: 'INGESTION',
-            },
-          ],
-          notes: `AI suggested ${p.suggestion.confidence}: ${p.suggestion.rationale}`,
-        }));
-        return { ...prev, extraAssets: [...prev.extraAssets, ...newAssets.map(enrichAssetWithTaxonomy)] };
-      });
+      const optimistic: Entry001ArchiveStatePersisted = {
+        ...persisted,
+        extraAssets: [
+          ...persisted.extraAssets,
+          ...items.map((p, index) =>
+            enrichAssetWithTaxonomy({
+              assetId: p.assetId,
+              entryId: 'entry-001',
+              filePath: p.previewUrl,
+              title: p.file.name.replace(/\.[^.]+$/, '').toUpperCase(),
+              format: p.file.type.startsWith('video/') ? 'VIDEO' : 'IMAGE',
+              role: assetTypeToLegacyRole(p.assetType),
+              assetType: p.assetType,
+              assetRole: p.assetRole,
+              status: 'APPROVED',
+              source: 'FOUNDER_SUPPLIED',
+              approved: true,
+              version: 'upload-v002',
+              sequenceIndex:
+                p.assetType === 'CAROUSEL_SLIDE' || p.assetType === 'STORY_FRAME' ? index + 1 : null,
+              removedFromActiveArchive: false,
+              notes: `AI suggested ${p.suggestion.confidence}`,
+            }),
+          ),
+        ],
+      };
+      setPersisted(optimistic);
+      writeLegacyCache(optimistic);
+      void migrateCampaignPackage(optimistic as import('../../../../../shared/site00-campaign-package/types.js').LegacyEntry001LocalState).then(applyApiResponse);
     },
-    [updatePersisted],
+    [persisted, applyApiResponse],
   );
 
   const applyPendingClassifications = useCallback(() => {
@@ -290,9 +408,7 @@ export function useEntry001PackageState() {
     setPendingQueue([]);
   }, [pendingQueue, commitPendingAssets]);
 
-  const dismissPendingQueue = useCallback(() => {
-    setPendingQueue([]);
-  }, []);
+  const dismissPendingQueue = useCallback(() => setPendingQueue([]), []);
 
   const addAssetForRole = useCallback(
     (role: Entry001CampaignAsset['role'], file: File, autoApprove = false) => {
@@ -315,23 +431,22 @@ export function useEntry001PackageState() {
         removedFromActiveArchive: false,
         notes: autoApprove ? 'Founder upload — approved' : 'Founder upload — pending approval',
       });
-      updatePersisted((prev) => ({
-        ...prev,
-        extraAssets: [...prev.extraAssets.filter((a) => a.role !== role), asset],
-      }));
+      const optimistic = {
+        ...persisted,
+        extraAssets: [...persisted.extraAssets.filter((a) => a.role !== role), asset],
+      };
+      setPersisted(optimistic);
+      writeLegacyCache(optimistic);
+      void migrateCampaignPackage(optimistic as import('../../../../../shared/site00-campaign-package/types.js').LegacyEntry001LocalState).then(applyApiResponse);
       return assetId;
     },
-    [updatePersisted],
+    [persisted, applyApiResponse],
   );
 
-  const approveUploadedAsset = useCallback((_assetId: string) => {
-    applyPendingClassifications();
-  }, [applyPendingClassifications]);
+  const approveUploadedAsset = useCallback(() => applyPendingClassifications(), [applyPendingClassifications]);
 
   const batchAddAssets = useCallback(
-    (files: FileList | File[]) => {
-      queueFilesForClassification(files);
-    },
+    (files: FileList | File[]) => queueFilesForClassification(files),
     [queueFilesForClassification],
   );
 
@@ -347,9 +462,18 @@ export function useEntry001PackageState() {
     readiness,
     intelligence,
     parentPackages,
+    carouselSlides,
+    storyFrames,
+    orderedCarouselIds,
+    orderedStoryIds,
     archiveFilter,
     setArchiveFilter,
     pendingQueue,
+    saveState,
+    saveError,
+    syncRequired,
+    backendMeta,
+    retrySync: hydrate,
     updatePendingClassification,
     applyPendingClassifications,
     acceptAllPendingAndApply,
@@ -359,9 +483,13 @@ export function useEntry001PackageState() {
     removeFromArchive,
     restoreToArchive,
     reclassifyAsset,
+    reorderFormatSequence,
+    moveSequenceItem,
     addAssetForRole,
     approveUploadedAsset,
     batchAddAssets,
     approvedArchiveCount: readiness.activeArchiveCount,
   };
 }
+
+export { snapshotToEntry001Persisted };

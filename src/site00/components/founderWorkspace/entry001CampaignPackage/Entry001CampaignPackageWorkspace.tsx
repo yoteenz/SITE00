@@ -13,6 +13,8 @@ import type {
 import {
   site00ProjectContentOperationsCampaignBoardPath,
   site00ProjectLabPath,
+  site00ProjectCampaignBoardEntryCarouselPath,
+  site00ProjectCampaignBoardEntryStoryPath,
 } from '../../../config/routes';
 import { compileEntry001ArchiveDerivationPlan } from './entry001ArchiveDerivationPlan.js';
 import { buildEntry001WhatsLeft } from './entry001PackageReadiness.js';
@@ -190,6 +192,13 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
     removeFromArchive,
     restoreToArchive,
     reclassifyAsset,
+    saveState,
+    saveError,
+    syncRequired,
+    retrySync,
+    backendMeta,
+    carouselSlides,
+    storyFrames,
   } = useEntry001PackageState();
 
   const [preview, setPreview] = useState<Entry001CampaignAsset | null>(null);
@@ -212,6 +221,8 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
 
   const boardPath = site00ProjectContentOperationsCampaignBoardPath(projectSlug);
   const labPath = site00ProjectLabPath(projectSlug);
+  const carouselPath = site00ProjectCampaignBoardEntryCarouselPath(projectSlug, '001');
+  const storyPath = site00ProjectCampaignBoardEntryStoryPath(projectSlug, '001');
 
   const handleUploadClick = useCallback((role: Entry001CampaignAsset['role']) => {
     pendingRoleRef.current = role;
@@ -252,7 +263,33 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
         <span aria-hidden>›</span>
         <Link to={boardPath}>CAMPAIGN BOARD</Link>
         <span className="site00-e001-package__breadcrumb-site">SITE 00</span>
+        <span className="site00-e001-package__save-status" aria-live="polite">
+          {saveState === 'loading' && 'LOADING…'}
+          {saveState === 'saving' && 'SAVING…'}
+          {saveState === 'saved' && 'SAVED'}
+          {saveState === 'failed' && 'SAVE FAILED'}
+        </span>
       </nav>
+
+      {syncRequired && (
+        <div className="site00-e001-package__sync-banner" role="alert">
+          <p>PACKAGE SYNC REQUIRED</p>
+          <p>Your local package could not be migrated safely.</p>
+          <button type="button" onClick={() => void retrySync()}>
+            RETRY SYNC
+          </button>
+        </div>
+      )}
+
+      {saveError && saveState === 'failed' && !syncRequired && (
+        <div className="site00-e001-package__sync-banner" role="alert">
+          <p>{saveError}</p>
+          <p>Your change could not be saved.</p>
+          <button type="button" onClick={() => void retrySync()}>
+            RETRY
+          </button>
+        </div>
+      )}
 
       <section className="site00-e001-package__hero">
         <div className="site00-e001-package__hero-copy">
@@ -361,6 +398,28 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
             </ul>
           </details>
         )}
+      </section>
+
+      <section className="site00-e001-package__section">
+        <header className="site00-e001-package__section-head">
+          <span className="site00-e001-package__section-icon">
+            <LayersIcon />
+          </span>
+          <h2>PACKAGE CONTENT</h2>
+          <span className="site00-e001-package__section-meta">
+            {carouselSlides.length} CAROUSEL · {storyFrames.length} STORY ›
+          </span>
+        </header>
+        <div className="site00-e001-package__format-links">
+          <Link to={carouselPath} className="site00-e001-package__format-link">
+            CAROUSEL WORKSPACE
+            <span>{carouselSlides.length} slides · v{backendMeta.carouselVersion ?? 1}</span>
+          </Link>
+          <Link to={storyPath} className="site00-e001-package__format-link">
+            STORY WORKSPACE
+            <span>{storyFrames.length} frames · v{backendMeta.storyVersion ?? 1}</span>
+          </Link>
+        </div>
       </section>
 
       <section className="site00-e001-package__section">
