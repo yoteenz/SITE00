@@ -47,6 +47,7 @@ import {
   bootstrapC18BrandTrueCopyIntelligence,
   bootstrapC19LiveCreativeIntelligence,
   bootstrapC19R1MeridianLiveProof,
+  bootstrapC19R2MeridianLiveAcceptance,
   applyEntry003FounderJudgment,
 } from '../_lib/site00ExpressionEngine/entry003/entry003Service.js';
 import {
@@ -539,6 +540,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     ) {
       const c18 = await bootstrapC18BrandTrueCopyIntelligence();
       return res.status(200).json(c18);
+    }
+
+    if (
+      req.method === 'GET' &&
+      (phase === 'C1.9R2' || phase === 'C19R2' || phase === 'MERIDIAN_LIVE_ACCEPTANCE')
+    ) {
+      const c19r2 = await bootstrapC19R2MeridianLiveAcceptance();
+      return res.status(200).json(c19r2);
     }
 
     if (

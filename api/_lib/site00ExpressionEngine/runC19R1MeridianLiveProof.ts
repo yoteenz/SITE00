@@ -150,6 +150,7 @@ export async function runC19R1MeridianLiveProof(): Promise<C19R1MeridianLiveProo
     label: 'CONTROL_A_DETERMINISTIC',
     campaign: controlCampaign,
     storeMode: getBrandLanguageStoreMode() === 'SUPABASE' ? 'SUPABASE' : 'MEMORY',
+    preserveControl: true,
   });
 
   let fullReasoningRun: MeridianPersistedRun | null = null;
@@ -163,7 +164,10 @@ export async function runC19R1MeridianLiveProof(): Promise<C19R1MeridianLiveProo
       const creativeDispatch = fullCampaign.textReasoningDispatchCount;
       const copyDispatch = fullCampaign.copyPackage?.copyReasoningDispatchCount ?? 0;
       if (creativeDispatch === 0 && copyDispatch === 0) {
+        const { getLastProviderCallDiagnostics } = await import('./seniorCreativeJudgment/creativeReasoningProvider.js');
+        const diag = getLastProviderCallDiagnostics();
         errors.push('FULL_REASONING run completed with zero dispatch — not accepted as live pass');
+        if (diag.lastError) errors.push(diag.lastError);
         fullCampaign = null;
       } else {
         fullReasoningRun = persistMeridianRun({

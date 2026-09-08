@@ -13,6 +13,10 @@ import type {
 import type { CopyFirstAnswerChallenge, CopyChallenger } from '../../../shared/site00-expression-engine/campaign-copy/types.js';
 import { checkCreativeReasoningProviderHealth } from '../seniorCreativeJudgment/creativeReasoningProvider.js';
 import {
+  ANTHROPIC_CREATIVE_MODEL,
+  ANTHROPIC_API_URL,
+} from '../../site00Evolve/creativeDirection/creativeIntelligence/config.js';
+import {
   evaluateCrossBrandVoiceContamination,
   detectGenericLuxuryCopy,
 } from '../brandLanguage/crossBrandVoiceContaminationQA.js';
@@ -43,7 +47,7 @@ export type BrandTrueCopyResult = {
 };
 
 function getAnthropicModel(): string {
-  return process.env.ANTHROPIC_CREATIVE_MODEL ?? 'claude-sonnet-4-20250514';
+  return ANTHROPIC_CREATIVE_MODEL;
 }
 
 function isAnthropicConfigured(): boolean {
@@ -185,7 +189,7 @@ async function callAnthropicCopy(ctx: CreativeBrainContext): Promise<BrandTrueCo
   if (!isAnthropicConfigured()) return null;
 
   const apiKey = process.env.ANTHROPIC_API_KEY!.trim();
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
+  const response = await fetch(ANTHROPIC_API_URL, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
@@ -272,9 +276,13 @@ export async function resolveCopyRuntimeMode(): Promise<CopyRuntimeMode> {
 
 export async function generateBrandTrueCopy(ctx: CreativeBrainContext): Promise<BrandTrueCopyResult> {
   const mode = await resolveCopyRuntimeMode();
+  const strict = process.env.SITE00_MERIDIAN_LIVE_ACCEPTANCE === '1';
   if (mode === 'FULL_REASONING') {
     const live = await callAnthropicCopy(ctx);
     if (live) return live;
+    if (strict && isAnthropicConfigured()) {
+      throw new Error('REASONING_PROVIDER_FAILURE: copy reasoning provider failed');
+    }
   }
   if (mode === 'HYBRID') {
     const live = await callAnthropicCopy(ctx);

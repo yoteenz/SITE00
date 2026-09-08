@@ -187,5 +187,6 @@ export type ProviderHealthStatus = {
   structuredOutputSupported: boolean;
   lastHealthCheck: string;
   reasoningDispatchAllowed: boolean;
+  authConfigured?: boolean;
   blockReason?: string;
 };

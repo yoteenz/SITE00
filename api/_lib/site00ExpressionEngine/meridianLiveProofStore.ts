@@ -41,24 +41,43 @@ export type MeridianComparisonRecord = {
 
 const comparisons = new Map<string, MeridianComparisonRecord>();
 let latestComparisonId: string | null = null;
+let preservedControlRun: MeridianPersistedRun | null = null;
 
 export function resetMeridianLiveProofStore(): void {
   comparisons.clear();
   latestComparisonId = null;
+  preservedControlRun = null;
+}
+
+export function getPreservedControlRun(): MeridianPersistedRun | null {
+  return preservedControlRun;
 }
 
 export function persistMeridianRun(args: {
   label: MeridianPersistedRun['label'];
   campaign: MultiUnitBlindCampaignOutput;
   storeMode?: MeridianPersistedRun['storeMode'];
+  preserveControl?: boolean;
 }): MeridianPersistedRun {
+  if (args.label === 'CONTROL_A_DETERMINISTIC' && args.preserveControl !== false && preservedControlRun) {
+    return preservedControlRun;
+  }
+
   const run: MeridianPersistedRun = {
-    runId: `${args.label.toLowerCase()}-${Date.now()}`,
+    runId:
+      args.label === 'CONTROL_A_DETERMINISTIC'
+        ? `control_a_deterministic${args.preserveControl === false ? `-${Date.now()}` : ''}`
+        : `${args.label.toLowerCase()}-${Date.now()}`,
     label: args.label,
     campaign: args.campaign,
     persistedAt: new Date().toISOString(),
     storeMode: args.storeMode ?? (process.env.VITEST === 'true' ? 'MEMORY' : 'MEMORY'),
   };
+
+  if (args.label === 'CONTROL_A_DETERMINISTIC') {
+    preservedControlRun = run;
+  }
+
   return run;
 }
 

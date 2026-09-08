@@ -53,14 +53,19 @@ export async function runC19BlindCampaignPackage(
 
   if (options?.forceRuntimeMode === 'DETERMINISTIC_FALLBACK') {
     process.env.SITE00_CREATIVE_REASONING_FORCE_FALLBACK = '1';
+    delete process.env.SITE00_MERIDIAN_LIVE_ACCEPTANCE;
   } else if (options?.forceRuntimeMode === 'FULL_REASONING') {
     delete process.env.SITE00_CREATIVE_REASONING_FORCE_FALLBACK;
+    process.env.SITE00_MERIDIAN_LIVE_ACCEPTANCE = '1';
   }
 
   const result = await runMultiUnitBlindCampaignPackage(brief);
 
   if (options?.forceRuntimeMode === 'DETERMINISTIC_FALLBACK') {
     delete process.env.SITE00_CREATIVE_REASONING_FORCE_FALLBACK;
+  }
+  if (options?.forceRuntimeMode === 'FULL_REASONING') {
+    delete process.env.SITE00_MERIDIAN_LIVE_ACCEPTANCE;
   }
 
   if (result.copyPackage) {
