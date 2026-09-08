@@ -17,6 +17,7 @@ type B49R2Response = {
     structuralQaStatus: string;
     continuityQaStatus: string;
     renderModeQaStatus: string;
+    provider: string | null;
     telemetry: {
       storyboardCompileCount: number;
       storyboardDispatchCount: number;
