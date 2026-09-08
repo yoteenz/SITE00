@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import type { ProjectIndexItem } from '../../../../shared/site00-projects/projectIndexItem.js';
+import { isSite00PlatformDesignIndexItem } from '../../../../shared/site00-projects/buildProjectIndexItems.js';
 import { PROJECT_MODULE_CONFIGS } from '../../../../shared/site00-projects/projectModules.js';
 import { ProjectIndexThumbnail } from './ProjectIndexThumbnail.js';
 
@@ -29,7 +30,10 @@ function ProgressColumn({ item }: { item: ProjectIndexItem }) {
 }
 
 export function ProjectIndexDesktopRow({ item }: ProjectIndexDesktopRowProps) {
-  const moduleLabel = PROJECT_MODULE_CONFIGS[item.primaryModule]?.label ?? item.primaryModule;
+  const platformDesign = isSite00PlatformDesignIndexItem(item);
+  const moduleLabel = platformDesign
+    ? 'DESIGN WORKSPACE'
+    : (PROJECT_MODULE_CONFIGS[item.primaryModule]?.label ?? item.primaryModule);
   const secondary =
     item.secondaryModuleCount > 0 ? `+${item.secondaryModuleCount} MODULES` : null;
   const descriptor = item.currentFocus ?? item.descriptor ?? item.currentPhase;
@@ -37,7 +41,7 @@ export function ProjectIndexDesktopRow({ item }: ProjectIndexDesktopRowProps) {
     item.needsReviewCount > 0 ? `${item.needsReviewCount} NEED YOUR EYE` : null;
 
   return (
-    <li className="site00-pidx-desktop-row">
+    <li className={`site00-pidx-desktop-row${platformDesign ? ' site00-pidx-desktop-row--platform' : ''}`}>
       <Link to={item.openRoute} className="site00-pidx-desktop-row__link">
         <ProjectIndexThumbnail item={item} className="site00-pidx-desktop-row__thumb" />
         <div className="site00-pidx-desktop-row__main">
@@ -67,7 +71,9 @@ export function ProjectIndexDesktopRow({ item }: ProjectIndexDesktopRowProps) {
           <span className="site00-pidx-desktop-row__chevron" aria-hidden="true">
             ›
           </span>
-          <span className="site00-pidx-desktop-row__open-label">OPEN PROJECT</span>
+          <span className="site00-pidx-desktop-row__open-label">
+            {platformDesign ? 'OPEN DESIGN →' : 'OPEN PROJECT'}
+          </span>
         </div>
       </Link>
     </li>

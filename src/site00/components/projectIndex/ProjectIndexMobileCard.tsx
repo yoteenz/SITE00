@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import type { ProjectIndexItem } from '../../../../shared/site00-projects/projectIndexItem.js';
+import { isSite00PlatformDesignIndexItem } from '../../../../shared/site00-projects/buildProjectIndexItems.js';
 import { PROJECT_MODULE_CONFIGS } from '../../../../shared/site00-projects/projectModules.js';
 import { ProjectIndexThumbnail } from './ProjectIndexThumbnail.js';
 
@@ -28,14 +29,17 @@ function ProgressDisplay({ item }: { item: ProjectIndexItem }) {
 }
 
 export function ProjectIndexMobileCard({ item }: ProjectIndexMobileCardProps) {
-  const moduleLabel = PROJECT_MODULE_CONFIGS[item.primaryModule]?.label ?? item.primaryModule;
+  const platformDesign = isSite00PlatformDesignIndexItem(item);
+  const moduleLabel = platformDesign
+    ? 'DESIGN WORKSPACE'
+    : (PROJECT_MODULE_CONFIGS[item.primaryModule]?.label ?? item.primaryModule);
   const secondary =
     item.secondaryModuleCount > 0 ? `+${item.secondaryModuleCount} MODULES` : null;
   const reviewLabel =
     item.needsReviewCount > 0 ? `${item.needsReviewCount} NEED YOUR EYE` : null;
 
   return (
-    <li className="site00-pidx-mobile-card">
+    <li className={`site00-pidx-mobile-card${platformDesign ? ' site00-pidx-mobile-card--platform' : ''}`}>
       <Link to={item.openRoute} className="site00-pidx-mobile-card__link">
         <ProjectIndexThumbnail item={item} className="site00-pidx-mobile-card__thumb" />
         <div className="site00-pidx-mobile-card__body">
@@ -53,9 +57,13 @@ export function ProjectIndexMobileCard({ item }: ProjectIndexMobileCardProps) {
           ) : null}
           {reviewLabel ? <p className="site00-pidx-mobile-card__review">{reviewLabel}</p> : null}
         </div>
-        <span className="site00-pidx-mobile-card__chevron" aria-hidden="true">
-          ›
-        </span>
+        {platformDesign ? (
+          <span className="site00-pidx-mobile-card__cta">OPEN DESIGN →</span>
+        ) : (
+          <span className="site00-pidx-mobile-card__chevron" aria-hidden="true">
+            ›
+          </span>
+        )}
         <ProgressDisplay item={item} />
       </Link>
     </li>

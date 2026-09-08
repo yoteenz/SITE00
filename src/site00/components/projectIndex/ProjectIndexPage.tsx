@@ -14,7 +14,19 @@ import { ProjectIndexSummary, ProjectIndexFilterChips, PROJECT_INDEX_FILTERS } f
 import { ProjectIndexControls, deriveAvailableFilters } from './ProjectIndexControls';
 import { ProjectIndexMobileCard } from './ProjectIndexMobileCard';
 import { ProjectIndexDesktopRow } from './ProjectIndexDesktopRow';
+import {
+  buildSite00PlatformDesignIndexItem,
+  isSite00PlatformDesignIndexItem,
+} from '../../../../shared/site00-projects/buildProjectIndexItems.js';
 import '../../styles/site00-project-index.css';
+
+function renderProjectIndexEntry(item: import('../../../../shared/site00-projects/projectIndexItem.js').ProjectIndexItem, isDesktop: boolean) {
+  return isDesktop ? (
+    <ProjectIndexDesktopRow key={item.projectId} item={item} />
+  ) : (
+    <ProjectIndexMobileCard key={item.projectId} item={item} />
+  );
+}
 
 export function ProjectIndexPage() {
   const isWide = useSite00OriginWideViewport();
@@ -55,6 +67,10 @@ export function ProjectIndexPage() {
         active: items.filter((i) => !i.isArchived && !i.isOnHold).length,
       }
     : null;
+
+  const platformDesignItem = clientView ? null : buildSite00PlatformDesignIndexItem();
+  const projectItems = items.filter((item) => !isSite00PlatformDesignIndexItem(item));
+  const listClassName = `site00-pidx-list site00-project-index-list${isDesktop ? ' site00-pidx-list--desktop' : ' site00-pidx-list--mobile'}`;
 
   return (
     <div className="site00-pidx" data-site00-surface="projects-index" data-view-mode={viewMode}>
@@ -100,38 +116,48 @@ export function ProjectIndexPage() {
       />
 
       {state === 'loading' ? (
-        <p className="site00-pidx__loading">LOADING PROJECTS…</p>
-      ) : state === 'error' ? (
-        <div className="site00-pidx__error">
-          <EmptyState
-            title="PROJECT INDEX UNAVAILABLE"
-            body={error ?? 'PROJECT DATA COULD NOT BE LOADED — NOT AN EMPTY PROJECT LIST.'}
-          />
-          <button type="button" className="site00-pidx__retry" onClick={reload}>
-            RETRY →
-          </button>
-        </div>
-      ) : items.length === 0 ? (
-        <div className="site00-pidx__empty">
-          <EmptyState
-            title={clientView ? 'NO PROJECTS YET' : 'NO MATCHING PROJECTS'}
-            body={clientView ? 'START A PROJECT TO BEGIN YOUR STUDIO EXPERIENCE.' : 'ADJUST SEARCH OR FILTERS.'}
-          />
-          {clientView ? (
-            <Link to={SITE00_ROUTES.bldrStart} className="site00-pidx__empty-cta">
-              START A PROJECT
-            </Link>
+        <>
+          {platformDesignItem ? (
+            <ul className={listClassName}>{renderProjectIndexEntry(platformDesignItem, isDesktop)}</ul>
           ) : null}
-        </div>
+          <p className="site00-pidx__loading">LOADING PROJECTS…</p>
+        </>
+      ) : state === 'error' ? (
+        <>
+          {platformDesignItem ? (
+            <ul className={listClassName}>{renderProjectIndexEntry(platformDesignItem, isDesktop)}</ul>
+          ) : null}
+          <div className="site00-pidx__error">
+            <EmptyState
+              title="PROJECT INDEX UNAVAILABLE"
+              body={error ?? 'PROJECT DATA COULD NOT BE LOADED — SITE 00 DESIGN WORKSPACE REMAINS AVAILABLE ABOVE.'}
+            />
+            <button type="button" className="site00-pidx__retry" onClick={reload}>
+              RETRY →
+            </button>
+          </div>
+        </>
+      ) : projectItems.length === 0 ? (
+        <>
+          {platformDesignItem ? (
+            <ul className={listClassName}>{renderProjectIndexEntry(platformDesignItem, isDesktop)}</ul>
+          ) : null}
+          <div className="site00-pidx__empty">
+            <EmptyState
+              title={clientView ? 'NO PROJECTS YET' : 'NO MATCHING PROJECTS'}
+              body={clientView ? 'START A PROJECT TO BEGIN YOUR STUDIO EXPERIENCE.' : 'ADJUST SEARCH OR FILTERS.'}
+            />
+            {clientView ? (
+              <Link to={SITE00_ROUTES.bldrStart} className="site00-pidx__empty-cta">
+                START A PROJECT
+              </Link>
+            ) : null}
+          </div>
+        </>
       ) : (
-        <ul className={`site00-pidx-list site00-project-index-list${isDesktop ? ' site00-pidx-list--desktop' : ' site00-pidx-list--mobile'}`}>
-          {items.map((item) =>
-            isDesktop ? (
-              <ProjectIndexDesktopRow key={item.projectId} item={item} />
-            ) : (
-              <ProjectIndexMobileCard key={item.projectId} item={item} />
-            ),
-          )}
+        <ul className={listClassName}>
+          {platformDesignItem ? renderProjectIndexEntry(platformDesignItem, isDesktop) : null}
+          {projectItems.map((item) => renderProjectIndexEntry(item, isDesktop))}
         </ul>
       )}
 

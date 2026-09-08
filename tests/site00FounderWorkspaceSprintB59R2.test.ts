@@ -7,6 +7,10 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { buildProjectIndexItem } from '../shared/site00-projects/projectIndexItem.js';
 import { buildProjectIndexItemsFromEntries } from '../shared/site00-projects/buildProjectIndexItems.js';
+import {
+  buildSite00PlatformDesignIndexItem,
+  isSite00PlatformDesignIndexItem,
+} from '../shared/site00-projects/buildProjectIndexItems.js';
 import { buildProjectProgressSummary } from '../shared/site00-projects/projectProgressSummary.js';
 import { runProjectIndexStaleDataQA } from '../shared/site00-projects/projectIndexStaleDataQA.js';
 import { resolveProjectIndexVisual } from '../shared/site00-projects/projectIndexVisual.js';
@@ -217,5 +221,18 @@ describe('B5.9R2 Project Index Redesign', () => {
 
   it('44. ProjectIndexSyncService export', () => {
     expect(SYNC_SERVICE).toContain('ProjectIndexSyncService');
+  });
+
+  it('45. SITE 00 platform design entry restored on founder index', () => {
+    const platform = buildSite00PlatformDesignIndexItem();
+    expect(platform.projectName).toBe('SITE 00');
+    expect(platform.openRoute).toBe('/projects/site00/design');
+    expect(isSite00PlatformDesignIndexItem(platform)).toBe(true);
+    expect(HOOK).toContain('buildSite00PlatformDesignIndexItem');
+    expect(MOBILE_CARD).toContain('OPEN DESIGN →');
+    expect(MOBILE_CARD).toContain('site00-pidx-mobile-card--platform');
+    expect(DESKTOP_ROW).toContain('OPEN DESIGN →');
+    expect(INDEX_PAGE).toContain('buildSite00PlatformDesignIndexItem');
+    expect(INDEX_PAGE).toContain('SITE 00 DESIGN WORKSPACE REMAINS AVAILABLE');
   });
 });
