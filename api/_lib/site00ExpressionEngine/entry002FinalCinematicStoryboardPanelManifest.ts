@@ -6,7 +6,7 @@ import type { FinalCinematicStoryboardPanelManifestEntry } from '../../../shared
 import {
   buildEntry002FinalCinematicStoryboardPanelAssetId,
   buildEntry002FinalCinematicStoryboardPanelId,
-  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_002_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_ID,
 } from '../../../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
 import { ENTRY_002_PRE_STORYBOARD_FOUNDER_APPROVALS } from './entry002PreStoryboardFounderApproval.js';
 
@@ -24,7 +24,7 @@ type ManifestSeed = Omit<
 >;
 
 function manifestEntry(panelNumber: number, seed: ManifestSeed): FinalCinematicStoryboardPanelManifestEntry {
-  const storyboardId = ENTRY_002_FINAL_CINEMATIC_STORYBOARD_002_ID;
+  const storyboardId = ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_ID;
   const panelVersion = '001';
   return {
     panelId: buildEntry002FinalCinematicStoryboardPanelId(storyboardId, panelNumber),

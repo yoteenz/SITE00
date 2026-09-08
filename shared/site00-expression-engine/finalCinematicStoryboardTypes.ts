@@ -16,7 +16,13 @@ export type FinalStoryboardStatus =
   | 'AWAITING_FOUNDER_APPROVAL'
   | 'REVISION_REQUIRED'
   | 'FAILED_STORYBOARD_STRUCTURE'
+  | 'FAILED_STORYBOARD_RENDER_MODE'
   | 'GENERATION_FAILED';
+
+export type StoryboardGenerationMode =
+  | 'SINGLE_MULTI_PANEL_ARTIFACT'
+  | 'PANEL_FAN_OUT'
+  | 'COMPOSITE_ONLY';
 
 export type StoryboardPanelGenerationStatus =
   | 'PENDING'
@@ -74,11 +80,16 @@ export type FinalCinematicStoryboardPanel = {
 };
 
 export type FinalCinematicStoryboardTelemetry = {
-  panelCompileCount: number;
+  storyboardCompileCount: number;
+  storyboardDispatchCount: number;
+  storyboardRenderCount: number;
+  panelManifestCount: number;
   panelDispatchCount: number;
   panelRenderCount: number;
-  panelFailureCount: number;
-  panelRepairCount: number;
+  /** @deprecated B4.9R panel fan-out */
+  panelCompileCount?: number;
+  panelFailureCount?: number;
+  panelRepairCount?: number;
   assembled: boolean;
   compiled: boolean;
   dispatched: boolean;
@@ -103,6 +114,8 @@ export type FinalCinematicStoryboardRecord = {
   continuityQaStatus: 'PASS' | 'WARN' | 'FAIL';
   structuralQaStatus: 'PASS' | 'WARN' | 'FAIL';
   duplicationQaStatus: 'PASS' | 'WARN' | 'FAIL';
+  renderModeQaStatus: 'PASS' | 'WARN' | 'FAIL';
+  generationMode: StoryboardGenerationMode;
   panelCount: number;
   panels: FinalCinematicStoryboardPanel[];
   panelManifest: FinalCinematicStoryboardPanelManifestEntry[];
@@ -119,6 +132,26 @@ export type FinalCinematicStoryboardRecord = {
   createdAt: string;
   updatedAt: string;
   approvedAt: string | null;
+};
+
+export type StoryboardRenderModeQAResult = {
+  passed: boolean;
+  result: 'PASS' | 'WARN' | 'FAIL';
+  storyboardGenerationMode: StoryboardGenerationMode;
+  providerDispatchCount: number;
+  storyboardAssetCount: number;
+  independentStoryboardPanelAssetCount: number;
+  checks: Array<{ check: string; passed: boolean }>;
+  blockers: string[];
+};
+
+export type SingleStoryboardArtifactQAResult = {
+  passed: boolean;
+  result: 'PASS' | 'WARN' | 'FAIL';
+  checks: Array<{ check: string; passed: boolean }>;
+  blockers: string[];
+  warnings: string[];
+  narrativeCoverage: Record<string, boolean>;
 };
 
 export type StoryboardStructureQAResult = {

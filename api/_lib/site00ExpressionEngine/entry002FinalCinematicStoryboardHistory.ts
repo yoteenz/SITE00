@@ -6,7 +6,10 @@ import type { FinalCinematicStoryboardRecord } from '../../../shared/site00-expr
 import {
   ENTRY_002_FINAL_CINEMATIC_STORYBOARD_001_ID,
   ENTRY_002_FINAL_CINEMATIC_STORYBOARD_001_VERSION,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_002_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_002_VERSION,
   ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_001_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_002_ID,
   buildEntry002FinalCinematicStoryboardPublicStripPath,
 } from '../../../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
 import { ENTRY_002_PRE_STORYBOARD_FOUNDER_APPROVALS } from './entry002PreStoryboardFounderApproval.js';
@@ -14,6 +17,67 @@ import { CHAPTER_01_ID } from './chapter01Canon.js';
 import { ENTRY_002_WORLD_ID } from './entry002Blueprint.js';
 
 export const B49_FALSE_POSITIVE_FAILURE_REASON = 'DID_NOT_RENDER_SEQUENTIAL_CINEMATIC_STORYBOARD' as const;
+
+export const B49R2_PANEL_FANOUT_FAILURE_REASON = 'PANEL_FAN_OUT_INSTEAD_OF_SINGLE_STORYBOARD_ARTIFACT' as const;
+
+export function buildStoryboard002HistoricalFailureRecord(): FinalCinematicStoryboardRecord {
+  const now = new Date().toISOString();
+  return {
+    storyboardId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_002_ID,
+    entryId: 'entry-002',
+    version: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_002_VERSION,
+    status: 'FAILED_STORYBOARD_RENDER_MODE',
+    founderJudgment: 'UNREVIEWED',
+    canon: false,
+    visualAuthority: false,
+    referenceOnly: true,
+    failureReason: B49R2_PANEL_FANOUT_FAILURE_REASON,
+    assetId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_002_ID,
+    sourceTreatmentId: 'NDX-ENTRY-002-REEL-TREATMENT-001',
+    authorityIds: ENTRY_002_PRE_STORYBOARD_FOUNDER_APPROVALS.map((a) => a.authorityId),
+    chapterId: CHAPTER_01_ID,
+    worldId: ENTRY_002_WORLD_ID,
+    continuityQaStatus: 'FAIL',
+    structuralQaStatus: 'FAIL',
+    duplicationQaStatus: 'FAIL',
+    renderModeQaStatus: 'FAIL',
+    generationMode: 'PANEL_FAN_OUT',
+    panelCount: 16,
+    panels: [],
+    panelManifest: [],
+    storyboardStripPath: buildEntry002FinalCinematicStoryboardPublicStripPath(
+      ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_002_ID,
+    ),
+    storyboardStripUrl: buildEntry002FinalCinematicStoryboardPublicStripPath(
+      ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_002_ID,
+    ),
+    compiled: true,
+    dispatched: true,
+    rendered: true,
+    assembled: true,
+    approved: false,
+    provider: 'deterministic-test-panel',
+    providerRequestId: null,
+    telemetry: {
+      storyboardCompileCount: 0,
+      storyboardDispatchCount: 0,
+      storyboardRenderCount: 0,
+      panelManifestCount: 16,
+      panelDispatchCount: 0,
+      panelRenderCount: 16,
+      panelCompileCount: 16,
+      panelFailureCount: 0,
+      panelRepairCount: 0,
+      assembled: true,
+      compiled: true,
+      dispatched: false,
+      rendered: true,
+    },
+    createdAt: now,
+    updatedAt: now,
+    approvedAt: null,
+  };
+}
 
 export function buildStoryboard001HistoricalFailureRecord(): FinalCinematicStoryboardRecord {
   const now = new Date().toISOString();
@@ -35,6 +99,8 @@ export function buildStoryboard001HistoricalFailureRecord(): FinalCinematicStory
     continuityQaStatus: 'FAIL',
     structuralQaStatus: 'FAIL',
     duplicationQaStatus: 'FAIL',
+    renderModeQaStatus: 'FAIL',
+    generationMode: 'COMPOSITE_ONLY',
     panelCount: 0,
     panels: [],
     panelManifest: [],
@@ -52,9 +118,13 @@ export function buildStoryboard001HistoricalFailureRecord(): FinalCinematicStory
     provider: 'local-sharp-composite',
     providerRequestId: null,
     telemetry: {
-      panelCompileCount: 15,
+      storyboardCompileCount: 1,
+      storyboardDispatchCount: 0,
+      storyboardRenderCount: 0,
+      panelManifestCount: 15,
       panelDispatchCount: 0,
       panelRenderCount: 0,
+      panelCompileCount: 15,
       panelFailureCount: 0,
       panelRepairCount: 0,
       assembled: true,
