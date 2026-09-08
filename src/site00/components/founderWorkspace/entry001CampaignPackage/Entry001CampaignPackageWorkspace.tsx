@@ -13,8 +13,6 @@ import type {
 import {
   site00ProjectContentOperationsCampaignBoardPath,
   site00ProjectLabPath,
-  site00ProjectCampaignBoardEntryCarouselPath,
-  site00ProjectCampaignBoardEntryStoryPath,
 } from '../../../config/routes';
 import { compileEntry001ArchiveDerivationPlan } from './entry001ArchiveDerivationPlan.js';
 import { buildEntry001WhatsLeft } from './entry001PackageReadiness.js';
@@ -28,6 +26,11 @@ import {
   ENTRY001_INGESTION_TYPE_OPTIONS,
 } from './entry001AssetTaxonomy.js';
 import { Entry001ClassificationSheet } from './Entry001ClassificationSheet.js';
+import { Entry001PackageNav } from './Entry001PackageNav.js';
+import { Entry001PackageContentSection } from './Entry001PackageContentSection.js';
+import { Entry001PostUploadSuccess } from './Entry001PostUploadSuccess.js';
+import { entry001DeliverablePath, entry001PreviewPath } from './Entry001PackageNav.js';
+import { buildArchiveIntelligencePreviewSnapshot } from './entry001PackagePreview.js';
 
 type Props = {
   projectSlug: string;
@@ -192,13 +195,15 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
     removeFromArchive,
     restoreToArchive,
     reclassifyAsset,
+    deliverables,
+    formatSummaries,
+    packagePreview,
+    postUploadSuccess,
+    dismissPostUploadSuccess,
     saveState,
     saveError,
     syncRequired,
     retrySync,
-    backendMeta,
-    carouselSlides,
-    storyFrames,
   } = useEntry001PackageState();
 
   const [preview, setPreview] = useState<Entry001CampaignAsset | null>(null);
@@ -218,11 +223,14 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
     [activeArchiveForPlan],
   );
   const whatsLeft = useMemo(() => buildEntry001WhatsLeft(readiness), [readiness]);
+  const previewIntel = useMemo(
+    () => buildArchiveIntelligencePreviewSnapshot(deliverables),
+    [deliverables],
+  );
+  const previewPath = entry001PreviewPath(projectSlug);
 
   const boardPath = site00ProjectContentOperationsCampaignBoardPath(projectSlug);
   const labPath = site00ProjectLabPath(projectSlug);
-  const carouselPath = site00ProjectCampaignBoardEntryCarouselPath(projectSlug, '001');
-  const storyPath = site00ProjectCampaignBoardEntryStoryPath(projectSlug, '001');
 
   const handleUploadClick = useCallback((role: Entry001CampaignAsset['role']) => {
     pendingRoleRef.current = role;
@@ -254,9 +262,11 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
   const totalDeliverables = readiness.requiredAssetCount;
 
   return (
-    <div className="site00-e001-package site00-fws-mobile-content-shell" data-visual-reconstruction="entry001-campaign-package-b54">
+    <div className="site00-e001-package site00-fws-mobile-content-shell" data-visual-reconstruction="entry001-campaign-package-b55">
       <input ref={uploadRef} type="file" accept="image/*,video/*" hidden onChange={handleFileChange} />
       <input ref={batchRef} type="file" accept="image/*,video/*" multiple hidden onChange={handleBatchChange} />
+
+      <Entry001PackageNav projectSlug={projectSlug} />
 
       <nav className="site00-e001-package__breadcrumb" aria-label="Campaign navigation">
         <Link to={labPath}>LAB HUB</Link>
@@ -284,7 +294,6 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
       {saveError && saveState === 'failed' && !syncRequired && (
         <div className="site00-e001-package__sync-banner" role="alert">
           <p>{saveError}</p>
-          <p>Your change could not be saved.</p>
           <button type="button" onClick={() => void retrySync()}>
             RETRY
           </button>
@@ -311,7 +320,7 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
         </button>
       </section>
 
-      <section className="site00-e001-package__section">
+      <section className="site00-e001-package__section" id="archive">
         <header className="site00-e001-package__section-head">
           <span className="site00-e001-package__section-icon">
             <LayersIcon />
@@ -400,29 +409,9 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
         )}
       </section>
 
-      <section className="site00-e001-package__section">
-        <header className="site00-e001-package__section-head">
-          <span className="site00-e001-package__section-icon">
-            <LayersIcon />
-          </span>
-          <h2>PACKAGE CONTENT</h2>
-          <span className="site00-e001-package__section-meta">
-            {carouselSlides.length} CAROUSEL · {storyFrames.length} STORY ›
-          </span>
-        </header>
-        <div className="site00-e001-package__format-links">
-          <Link to={carouselPath} className="site00-e001-package__format-link">
-            CAROUSEL WORKSPACE
-            <span>{carouselSlides.length} slides · v{backendMeta.carouselVersion ?? 1}</span>
-          </Link>
-          <Link to={storyPath} className="site00-e001-package__format-link">
-            STORY WORKSPACE
-            <span>{storyFrames.length} frames · v{backendMeta.storyVersion ?? 1}</span>
-          </Link>
-        </div>
-      </section>
+      <Entry001PackageContentSection projectSlug={projectSlug} summaries={formatSummaries} />
 
-      <section className="site00-e001-package__section">
+      <section className="site00-e001-package__section" id="remaining">
         <header className="site00-e001-package__section-head">
           <span className="site00-e001-package__section-icon site00-e001-package__section-icon--dashed" />
           <h2>REMAINING DELIVERABLES</h2>
@@ -430,9 +419,15 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
             {completeDeliverables} / {totalDeliverables} COMPLETE ›
           </span>
         </header>
+        <Link to={previewPath} className="site00-e001-package__preview-package-link">
+          PREVIEW PACKAGE
+        </Link>
         <div className="site00-e001-package__deliverables-row">
           {missingDeliverables.map((slot) => {
             const isMissing = slot.status === 'MISSING' || !slot.filePath;
+            const deliverable = deliverables.find(
+              (d) => d.assetType === slot.assetType && !d.removedFromPackage && d.filePath,
+            );
             return (
               <div key={slot.assetId} className="site00-e001-package__deliverable-slot">
                 <button
@@ -455,9 +450,9 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
                 </button>
                 <p className="site00-e001-package__deliverable-label">{slot.title}</p>
                 <p className="site00-e001-package__deliverable-status">
-                  {isMissing ? 'Pending' : slot.status}
+                  {isMissing ? 'Pending' : slot.approved ? 'APPROVED ✓' : slot.status}
                 </p>
-                {isMissing && (
+                {isMissing ? (
                   <button
                     type="button"
                     className="site00-e001-package__upload-link"
@@ -465,7 +460,12 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
                   >
                     UPLOAD ASSET
                   </button>
-                )}
+                ) : deliverable ? (
+                  <div className="site00-e001-package__deliverable-actions">
+                    <Link to={entry001DeliverablePath(projectSlug, deliverable.deliverableId)}>VIEW</Link>
+                    <Link to={entry001DeliverablePath(projectSlug, deliverable.deliverableId)}>EDIT</Link>
+                  </div>
+                ) : null}
               </div>
             );
           })}
@@ -490,7 +490,12 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
               {intelligence.existingAssetTypes.length > 4 ? '…' : ''}
             </li>
             <li>
-              MISSING: {intelligence.missingFormats.join(', ') || 'none'}
+              PREVIEW STRUCTURE: {previewIntel.previewStructureExposed ? 'EXPOSED' : 'HIDDEN'} ·{' '}
+              {previewIntel.activeDeliverableCount} deliverables
+            </li>
+            <li>
+              PACKAGE PREVIEW: {packagePreview.previewReadiness} · BOARD:{' '}
+              {packagePreview.campaignBoardEligibility ? 'ELIGIBLE' : 'LOCKED'}
             </li>
             {intelligence.doNotRegenerateTypes.length > 0 && (
               <li>DO NOT REGENERATE: {intelligence.doNotRegenerateTypes.join(', ')}</li>
@@ -545,10 +550,21 @@ export function Entry001CampaignPackageWorkspace({ projectSlug }: Props) {
           <strong>{readiness.packageStatus === 'COMPLETE' ? 'COMPLETE' : 'INCOMPLETE'}</strong>
         </p>
         <p>
+          PACKAGE PREVIEW — <strong>{readiness.previewReadiness}</strong>
+        </p>
+        <p>
           CAMPAIGN BOARD DEPLOYMENT —{' '}
           <strong>{readiness.campaignBoardEligible ? 'ELIGIBLE' : 'LOCKED'}</strong>
         </p>
       </div>
+
+      {postUploadSuccess && (
+        <Entry001PostUploadSuccess
+          projectSlug={projectSlug}
+          success={postUploadSuccess}
+          onDismiss={dismissPostUploadSuccess}
+        />
+      )}
 
       {pendingQueue.length > 0 && (
         <Entry001ClassificationSheet

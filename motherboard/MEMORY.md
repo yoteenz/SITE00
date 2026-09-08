@@ -6317,6 +6317,22 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+<<<<<<< HEAD
+## 2026-09-08 — Sprint B5.5 — Deliverable workspaces + live social preview
+
+- **Context:** Founder correction — uploaded deliverables disappeared after ingestion; package readiness was numeric only (2/5) with no visual package construction. B5.4 archive taxonomy must remain; no FAL/provider dispatch.
+- **Delivered:**
+  - **DeliverableRecord** — first-class persistent records in `entry001DeliverableStore.ts` (localStorage `site00_entry001_deliverables_v1`), synced from archive + extraAssets
+  - **PACKAGE CONTENT** — format rows (Reel, Carousel, Story, TikTok, X, Highlight) separate from Approved Archive
+  - **Routes** — `/entry/001/preview`, `/format/:formatFamily`, `/deliverable/:deliverableId`
+  - **Format workspaces** — assets + live preview per format; **Package Preview** page stacks all formats + package map
+  - **Deliverable detail** — view/edit/replace/remove/archive/delete-permanently + version history
+  - **Post-upload panel** — VIEW ASSET / VIEW FORMAT / VIEW PACKAGE PREVIEW
+  - **previewReadiness** — AVAILABLE even when campaignBoardEligibility LOCKED; readiness respects removedFromPackage
+  - **Tests** — B55 53/53 pass; B54 27/27; build pass · bundle `index.DN4vv0cn.js`
+- **No provider dispatch** — UI/state/preview derivation only
+- **Next founder action:** Open Entry 001 → Package Content → Preview; upload a test deliverable and confirm it persists + previews
+=======
 ## 2026-09-08 — Sprint C1.3 — Cinematic Continuity Director + Chapter Continuity + Marketing Package Generalization
 
 - **Context:** C1.2 produced Entry 003 (CLEAN GIRL / NOT THAT EFFORTLESS / SHELFIE MUSEUM) but founder judged PUSH FURTHER — too literal/product-count. System also lacked series intelligence (handoffs, escalation, motif control) and was NDXBOOK-specific. No image/video/FAL.
@@ -6333,6 +6349,7 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Provider dispatch** — 0 image/video/FAL
 - **Entry 001/002 unchanged; Entry 003 non-canon; Entry 004 seed only**
 - **Next evaluation action:** FOUNDER REVIEWS THE EVOLVED ENTRY 003 IN THE CONTEXT OF THE ENTIRE CHAPTER 01 STORY ARC — judge ENTRY 001 → 002 → 003 as one directed sequence
+>>>>>>> origin/main
 
 ---
 

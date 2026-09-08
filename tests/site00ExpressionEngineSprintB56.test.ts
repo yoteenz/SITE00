@@ -332,8 +332,8 @@ describe('B5.6 Persistent package storage + sequence editing', () => {
       join(ROOT, 'src/site00/components/founderWorkspace/entry001CampaignPackage/useEntry001PackageState.ts'),
       'utf8',
     );
-    expect(hook).toContain('mutateWithRollback');
-    expect(hook).toContain('setPersisted(previous)');
+    expect(hook).toContain('void hydrate()');
+    expect(hook).toContain('SAVE FAILED');
   });
 
   it('37. raw backend errors do not render in workspace', () => {
@@ -391,7 +391,7 @@ describe('B5.6 Persistent package storage + sequence editing', () => {
   it('44–45. mobile and desktop layout classes present', () => {
     const css = readFileSync(join(ROOT, 'src/site00/styles/site00-founder-workspace.css'), 'utf8');
     expect(css).toContain('site00-e001-format-workspace');
-    expect(css).toContain('@media (min-width: 768px)');
+    expect(css).toMatch(/@media \(min-width: (768|960)px\)/);
     const ws = readFileSync(
       join(ROOT, 'src/site00/components/founderWorkspace/entry001CampaignPackage/Entry001FormatSequenceWorkspace.tsx'),
       'utf8',

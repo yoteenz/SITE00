@@ -113,6 +113,9 @@ const ProjectContentOperationsPage = lazy(() => import('../site00/pages/ProjectC
 const ProjectContentOperationsPerformancePage = lazy(() => import('../site00/pages/ProjectContentOperationsPerformancePage'));
 const ProjectContentOperationsCampaignBoardPage = lazy(() => import('../site00/pages/ProjectContentOperationsCampaignBoardPage'));
 const ProjectCampaignBoardEntryPackagePage = lazy(() => import('../site00/pages/ProjectCampaignBoardEntryPackagePage'));
+const ProjectCampaignBoardEntryPreviewPage = lazy(() => import('../site00/pages/ProjectCampaignBoardEntryPreviewPage'));
+const ProjectCampaignBoardEntryFormatPage = lazy(() => import('../site00/pages/ProjectCampaignBoardEntryFormatPage'));
+const ProjectCampaignBoardEntryDeliverablePage = lazy(() => import('../site00/pages/ProjectCampaignBoardEntryDeliverablePage'));
 const ProjectCampaignBoardEntryCarouselPage = lazy(() => import('../site00/pages/ProjectCampaignBoardEntryCarouselPage'));
 const ProjectCampaignBoardEntryStoryPage = lazy(() => import('../site00/pages/ProjectCampaignBoardEntryStoryPage'));
 const ProjectExpressionEngineCampaignPage = lazy(() => import('../site00/pages/ProjectExpressionEngineCampaignPage'));
@@ -1177,6 +1180,42 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectContentOperationsPerformancePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCampaignBoardEntryPreview}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCampaignBoardEntryPreviewPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCampaignBoardEntryFormat}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCampaignBoardEntryFormatPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCampaignBoardEntryDeliverable}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCampaignBoardEntryDeliverablePage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

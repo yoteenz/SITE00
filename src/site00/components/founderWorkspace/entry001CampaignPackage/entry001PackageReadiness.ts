@@ -6,6 +6,7 @@ import type {
   Entry001CampaignAsset,
   Entry001AssetRole,
   Entry001AssetType,
+  Entry001DeliverableRecord,
   Entry001PackageReadiness,
 } from '../../../../../shared/site00-expression-engine/entry001CampaignPackage/types.js';
 import {
@@ -25,7 +26,12 @@ export type Entry001WhatsLeftItem = {
 export function buildEntry001PackageReadiness(
   activeArchive: Entry001CampaignAsset[] = buildActiveArchive(),
   extraDeliverables: Entry001CampaignAsset[] = [],
+  packageDeliverables: Entry001DeliverableRecord[] = [],
 ): Entry001PackageReadiness {
+  const removedAssetIds = new Set(
+    packageDeliverables.filter((d) => d.removedFromPackage || d.status === 'DELETED').map((d) => d.assetId),
+  );
+  const activeExtra = extraDeliverables.filter((a) => !removedAssetIds.has(a.assetId));
   const archiveOnly = activeArchive.filter(
     (a) =>
       !ENTRY001_REQUIRED_DELIVERABLE_TYPES.includes(
@@ -34,7 +40,7 @@ export function buildEntry001PackageReadiness(
   );
 
   const deliverableApproved = [
-    ...extraDeliverables.filter((a) => a.approved && a.filePath && a.status === 'APPROVED'),
+    ...activeExtra.filter((a) => a.approved && a.filePath && a.status === 'APPROVED'),
     ...activeArchive.filter((a) =>
       ENTRY001_REQUIRED_DELIVERABLE_TYPES.includes(
         (a.assetType ?? legacyRoleToAssetType(a.role)) as (typeof ENTRY001_REQUIRED_DELIVERABLE_TYPES)[number],
@@ -87,6 +93,7 @@ export function buildEntry001PackageReadiness(
     nextRequiredType: missingTypes[0] ?? null,
     nextRequiredRole: missingRoles[0] ?? null,
     campaignBoardEligible: packageStatus === 'COMPLETE',
+    previewReadiness: 'AVAILABLE',
     styleContinuityLocked,
     derivationReady,
     activeArchiveCount: activeCount,

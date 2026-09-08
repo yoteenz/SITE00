@@ -169,6 +169,8 @@ export type Entry001PackageReadiness = {
   nextRequiredType: Entry001AssetType | null;
   nextRequiredRole: Entry001AssetRole | null;
   campaignBoardEligible: boolean;
+  /** B5.5 — preview available even when campaign board locked */
+  previewReadiness: Entry001PreviewReadiness;
   styleContinuityLocked: boolean;
   derivationReady: boolean;
   activeArchiveCount: number;
@@ -228,4 +230,130 @@ export type Entry001ArchiveIntelligenceSnapshot = {
   styleReferenceAssetIds: string[];
   doNotRegenerateTypes: Entry001AssetType[];
   derivableFromFamilies: Partial<Record<Entry001AssetType, Entry001AssetType[]>>;
+};
+
+/** B5.5 — Format family for package workspaces. */
+export type Entry001FormatFamily =
+  | 'REEL'
+  | 'CAROUSEL'
+  | 'STORY'
+  | 'TIKTOK'
+  | 'X'
+  | 'HIGHLIGHT'
+  | 'STATIC'
+  | 'OTHER';
+
+export type Entry001DeliverableStatus =
+  | 'PENDING'
+  | 'UPLOADED'
+  | 'AWAITING_REVIEW'
+  | 'APPROVED'
+  | 'REMOVED'
+  | 'ARCHIVED'
+  | 'DELETED';
+
+export type Entry001FormatWorkspaceStatus =
+  | 'NOT_STARTED'
+  | 'IN_PROGRESS'
+  | 'AWAITING_REVIEW'
+  | 'COMPLETE'
+  | 'NEEDS_REVISION';
+
+export type Entry001PreviewReadiness = 'AVAILABLE' | 'LOCKED';
+
+export type Entry001DeliverableVersion = {
+  version: string;
+  assetId: string;
+  filePath: string;
+  title: string;
+  at: string;
+  status: 'CURRENT' | 'ARCHIVED';
+};
+
+/** B5.5 — First-class persistent deliverable record. */
+export type Entry001DeliverableRecord = {
+  deliverableId: string;
+  entryId: 'entry-001';
+  packageId: string | null;
+  assetId: string;
+  assetType: Entry001AssetType;
+  assetRole: Entry001ContentRole | null;
+  formatFamily: Entry001FormatFamily;
+  platform: string | null;
+  title: string;
+  description: string | null;
+  filePath: string;
+  status: Entry001DeliverableStatus;
+  source: Entry001AssetSource;
+  approved: boolean;
+  founderJudgment: string | null;
+  version: string;
+  sequenceIndex: number | null;
+  parentFormatId: string | null;
+  createdAt: string;
+  updatedAt: string;
+  archivedAt: string | null;
+  deletedAt: string | null;
+  removedFromPackage: boolean;
+  metadata: Record<string, unknown>;
+  lineage: Entry001CampaignAsset['lineage'];
+  history: Entry001DeliverableVersion[];
+  caption: string | null;
+  format: Entry001CampaignAsset['format'];
+};
+
+export type Entry001FormatWorkspaceSummary = {
+  formatFamily: Entry001FormatFamily;
+  label: string;
+  platform: string;
+  assetCount: number;
+  approvedAssetCount: number;
+  missingAssetCount: number;
+  status: Entry001FormatWorkspaceStatus;
+  previewable: boolean;
+  complete: boolean;
+  deliverableIds: string[];
+  missingSlots: string[];
+};
+
+export type Entry001FormatPreviewSlot = {
+  slotId: string;
+  label: string;
+  deliverable: Entry001DeliverableRecord | null;
+  placeholder: boolean;
+  placeholderLabel?: string;
+};
+
+export type Entry001FormatPreview = {
+  formatFamily: Entry001FormatFamily;
+  label: string;
+  status: Entry001FormatWorkspaceStatus;
+  slots: Entry001FormatPreviewSlot[];
+  caption: string | null;
+  copyText: string | null;
+  sequenceTotal: number;
+  sequenceCurrent: number;
+};
+
+export type Entry001PackagePreviewComposition = {
+  entryId: 'entry-001';
+  previewReadiness: Entry001PreviewReadiness;
+  campaignBoardEligibility: boolean;
+  formats: Entry001FormatPreview[];
+  packageMap: Entry001SocialPackageMapNode[];
+};
+
+export type Entry001SocialPackageMapNode = {
+  id: string;
+  label: string;
+  formatFamily: Entry001FormatFamily | null;
+  children: Entry001SocialPackageMapNode[];
+  status: Entry001FormatWorkspaceStatus;
+};
+
+export type Entry001PackagePreviewReadiness = {
+  previewReadiness: Entry001PreviewReadiness;
+  campaignBoardEligibility: boolean;
+  incompleteFormats: Entry001FormatFamily[];
+  completeFormats: Entry001FormatFamily[];
 };
