@@ -2,13 +2,14 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {
-  bootstrapB49R2 as bootstrapB49R,
+  bootstrapB49R3 as bootstrapB49R,
   resetFinalCinematicStoryboardStore,
   resetFinalCinematicStoryboardJudgmentStore,
   recordFinalStoryboardFounderJudgment,
   getStoryboard001HistoricalRecord,
   getStoryboard002HistoricalRecord,
-} from '../api/_lib/site00ExpressionEngine/entry002B49R2Bootstrap.js';
+  getStoryboard003HistoricalRecord,
+} from '../api/_lib/site00ExpressionEngine/entry002B49R3Bootstrap.js';
 import { bootstrapB48 } from '../api/_lib/site00ExpressionEngine/entry002B48Bootstrap.js';
 import {
   resetPreStoryboardAuthorityStore,
@@ -32,20 +33,20 @@ import { ENTRY_002_CINEMATIC_SEQUENCE_001 } from '../shared/site00-expression-en
 import {
   ENTRY_002_FINAL_CINEMATIC_STORYBOARD_001_ID,
   ENTRY_002_FINAL_CINEMATIC_STORYBOARD_002_ID,
-  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_ID,
-  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_003_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_004_ID,
   FINAL_CINEMATIC_STORYBOARD_PANEL_COUNT_MIN,
   FINAL_CINEMATIC_STORYBOARD_PANEL_COUNT_TARGET,
   buildEntry002FinalCinematicStoryboardPublicStripPath,
 } from '../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
-import { B49R2_PANEL_FANOUT_FAILURE_REASON } from '../api/_lib/site00ExpressionEngine/entry002FinalCinematicStoryboardHistory.js';
+import { B49R2_PANEL_FANOUT_FAILURE_REASON, B49R3_REEL_COHERENCE_FAILURE_REASON } from '../api/_lib/site00ExpressionEngine/entry002FinalCinematicStoryboardHistory.js';
 import { resetLineageStore, listGenerationReceiptsForEntry } from '../api/_lib/site00ExpressionEngine/lineageRegistration.js';
 import { B49_FALSE_POSITIVE_FAILURE_REASON } from '../api/_lib/site00ExpressionEngine/entry002FinalCinematicStoryboardHistory.js';
 
-describe('Expression Engine Sprint B4.9R — Storyboard structure recovery (B4.9R2 canonical)', { timeout: 60000 }, () => {
+describe('Expression Engine Sprint B4.9R — Storyboard structure recovery (B4.9R3 reel-first)', { timeout: 60000 }, () => {
   beforeEach(async () => {
-    process.env.EXPRESSION_ENGINE_TEST_DETERMINISTIC_STORYBOARD = '1';
-    delete process.env.EXPRESSION_ENGINE_TEST_DETERMINISTIC_PANELS;
+    process.env.EXPRESSION_ENGINE_TEST_DETERMINISTIC_REEL_STORYBOARD = '1';
+    delete process.env.EXPRESSION_ENGINE_TEST_DETERMINISTIC_STORYBOARD;
     resetPreStoryboardAuthorityStore();
     resetFinalCinematicStoryboardStore();
     resetFinalCinematicStoryboardJudgmentStore();
@@ -113,11 +114,11 @@ describe('Expression Engine Sprint B4.9R — Storyboard structure recovery (B4.9
 
   it('6–8. single-artifact storyboard, narrative beats via full bootstrap', async () => {
     const result = await bootstrapB49R();
-    expect(result.finalCinematicStoryboard?.storyboardId).toBe(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_ID);
+    expect(result.finalCinematicStoryboard?.storyboardId).toBe(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID);
     expect(result.structuralQA.passed).toBe(true);
-    expect(result.finalCinematicStoryboard?.telemetry.panelManifestCount).toBe(16);
+    expect(result.finalCinematicStoryboard?.telemetry.selectedStoryboardMomentCount).toBe(9);
     expect(result.finalCinematicStoryboard?.telemetry.panelRenderCount).toBe(0);
-    expect(result.renderModeQA.passed).toBe(true);
+    expect(result.reelCoherenceQA.passed).toBe(true);
     expect(result.continuityDomainQA.passed).toBe(true);
   });
 
@@ -204,7 +205,7 @@ describe('Expression Engine Sprint B4.9R — Storyboard structure recovery (B4.9
 
   it('19–21. single artifact generation; founder review after QA', async () => {
     const result = await bootstrapB49R();
-    expect(result.finalCinematicStoryboard?.generationMode).toBe('SINGLE_MULTI_PANEL_ARTIFACT');
+    expect(result.finalCinematicStoryboard?.generationMode).toBe('REEL_FIRST_SINGLE_ARTIFACT');
     expect(result.finalStoryboardReviewGate.active).toBe(true);
     expect(result.productionEligibility.founderStoryboardApproval).toBe('ACTIVE');
     expect(result.nextAction).toBe(ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION);
@@ -228,7 +229,7 @@ describe('Expression Engine Sprint B4.9R — Storyboard structure recovery (B4.9
     expect(isKeyframeEligibleFromFinalStoryboard('LOVE_IT')).toBe(true);
   });
 
-  it('23. storyboard 001 and 002 preserved as historical non-authoritative failures', async () => {
+  it('23. storyboard 001, 002, 003 preserved as historical failures', async () => {
     await bootstrapB49R();
     const historical001 = getStoryboard001HistoricalRecord();
     expect(historical001?.storyboardId).toBe(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_001_ID);
@@ -243,9 +244,13 @@ describe('Expression Engine Sprint B4.9R — Storyboard structure recovery (B4.9
     expect(historical002?.status).toBe('FAILED_STORYBOARD_RENDER_MODE');
     expect(historical002?.failureReason).toBe(B49R2_PANEL_FANOUT_FAILURE_REASON);
     expect(historical002?.referenceOnly).toBe(true);
+
+    const historical003 = getStoryboard003HistoricalRecord();
+    expect(historical003?.status).toBe('FAILED_REEL_COHERENCE');
+    expect(historical003?.failureReason).toBe(B49R3_REEL_COHERENCE_FAILURE_REASON);
   });
 
-  it('24. storyboard 003 consumes all five authority IDs', async () => {
+  it('24. storyboard 004 consumes all five authority IDs', async () => {
     const result = await bootstrapB49R();
     for (const expected of ENTRY_002_PRE_STORYBOARD_FOUNDER_APPROVALS) {
       expect(result.finalCinematicStoryboard?.authorityIds).toContain(expected.authorityId);
@@ -256,7 +261,7 @@ describe('Expression Engine Sprint B4.9R — Storyboard structure recovery (B4.9
     const result = await bootstrapB49R();
     expect(result.finalCinematicStoryboard?.telemetry.storyboardRenderCount).toBe(1);
     expect(result.finalCinematicStoryboard?.telemetry.panelRenderCount).toBe(0);
-    expect(result.telemetryNote).toContain('STORYBOARD_RENDERED=1');
+    expect(result.telemetryNote).toContain('REEL_COHERENCE_PASS');
   });
 
   it('26. local composite records assembly not generation for storyboard 001', async () => {
@@ -268,12 +273,12 @@ describe('Expression Engine Sprint B4.9R — Storyboard structure recovery (B4.9
     expect(historical?.provider).toBe('local-sharp-composite');
   });
 
-  it('27. single storyboard strip 003 exists on disk', async () => {
+  it('27. reel storyboard strip 004 exists on disk', async () => {
     await bootstrapB49R();
     const stripPath = path.join(
       process.cwd(),
       'public',
-      buildEntry002FinalCinematicStoryboardPublicStripPath(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_003_ID).replace(/^\//, ''),
+      buildEntry002FinalCinematicStoryboardPublicStripPath(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_004_ID).replace(/^\//, ''),
     );
     await expect(fs.access(stripPath)).resolves.toBeUndefined();
   });

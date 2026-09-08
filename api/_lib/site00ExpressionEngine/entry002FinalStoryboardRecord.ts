@@ -15,16 +15,20 @@ import {
   ENTRY_002_FINAL_CINEMATIC_STORYBOARD_002_VERSION,
   ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_ID,
   ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_VERSION,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_VERSION,
   ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_002_ID,
   ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_003_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_004_ID,
 } from '../../../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
 import { ENTRY_002_PRE_STORYBOARD_FOUNDER_APPROVALS } from './entry002PreStoryboardFounderApproval.js';
 import { CHAPTER_01_ID } from './chapter01Canon.js';
 import { ENTRY_002_WORLD_ID } from './entry002Blueprint.js';
 import type { PanelGenerationTelemetry } from './entry002FinalCinematicStoryboardPanelPipeline.js';
 import type { SingleStoryboardArtifactTelemetry } from './entry002FinalCinematicStoryboardSingleArtifact.js';
+import type { ReelStoryboardArtifactTelemetry } from './entry002ReelStoryboardSingleArtifact.js';
 
-export { ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_ID as ENTRY_002_FINAL_CINEMATIC_STORYBOARD_ID };
+export { ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID as ENTRY_002_FINAL_CINEMATIC_STORYBOARD_ID };
 
 export type Entry002FinalCinematicStoryboardRecord = {
   storyboardId: string;
@@ -68,7 +72,7 @@ export function buildEntry002FinalCinematicStoryboardPlaceholderRecord(
 ): Entry002FinalCinematicStoryboardRecord {
   const ready = eligibility === 'READY_FOR_GENERATION';
   return {
-    storyboardId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_ID,
+    storyboardId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID,
     entryId: 'entry-002',
     treatmentId: 'NDX-ENTRY-002-REEL-TREATMENT-001',
     status: eligibility,
@@ -127,6 +131,8 @@ export function buildEntry002FinalCinematicStoryboard003Record(params: {
     structuralQaStatus: params.structuralQaStatus,
     duplicationQaStatus: 'PASS',
     renderModeQaStatus: params.renderModeQaStatus,
+    reelCoherenceQaStatus: 'FAIL',
+    boardTypeQaStatus: 'FAIL',
     generationMode: 'SINGLE_MULTI_PANEL_ARTIFACT',
     panelCount: params.manifest.length,
     panels: manifestToPanels(params.manifest),
@@ -142,6 +148,81 @@ export function buildEntry002FinalCinematicStoryboard003Record(params: {
     providerRequestId: params.artifact.providerRequestId,
     telemetry: {
       ...params.artifact.telemetry,
+      assembled: false,
+      compiled: true,
+      dispatched: params.artifact.dispatched,
+      rendered: params.artifact.rendered,
+    },
+    createdAt: now,
+    updatedAt: now,
+    approvedAt: null,
+  };
+}
+
+export function buildEntry002FinalCinematicStoryboard004Record(params: {
+  manifest: FinalCinematicStoryboardPanelManifestEntry[];
+  artifact: {
+    compositeUrl: string;
+    compositePath: string;
+    provider: string;
+    providerRequestId: string | null;
+    dispatched: boolean;
+    rendered: boolean;
+    telemetry: ReelStoryboardArtifactTelemetry;
+  };
+  structuralQaStatus: FinalCinematicStoryboardRecord['structuralQaStatus'];
+  continuityQaStatus: FinalCinematicStoryboardRecord['continuityQaStatus'];
+  renderModeQaStatus: FinalCinematicStoryboardRecord['renderModeQaStatus'];
+  reelCoherenceQaStatus: FinalCinematicStoryboardRecord['reelCoherenceQaStatus'];
+  boardTypeQaStatus: FinalCinematicStoryboardRecord['boardTypeQaStatus'];
+  status: FinalCinematicStoryboardRecord['status'];
+}): FinalCinematicStoryboardRecord {
+  const now = new Date().toISOString();
+  return {
+    storyboardId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID,
+    entryId: 'entry-002',
+    version: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_VERSION,
+    status: params.status,
+    founderJudgment: 'UNREVIEWED',
+    canon: false,
+    visualAuthority: false,
+    referenceOnly: false,
+    failureReason: params.status === 'REVISION_REQUIRED' ? 'REEL_STORYBOARD_QA_INCOMPLETE' : null,
+    assetId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_004_ID,
+    sourceTreatmentId: 'NDX-ENTRY-002-REEL-TREATMENT-001',
+    authorityIds: ENTRY_002_PRE_STORYBOARD_FOUNDER_APPROVALS.map((a) => a.authorityId),
+    chapterId: CHAPTER_01_ID,
+    worldId: ENTRY_002_WORLD_ID,
+    continuityQaStatus: params.continuityQaStatus,
+    structuralQaStatus: params.structuralQaStatus,
+    duplicationQaStatus: 'PASS',
+    renderModeQaStatus: params.renderModeQaStatus,
+    reelCoherenceQaStatus: params.reelCoherenceQaStatus,
+    boardTypeQaStatus: params.boardTypeQaStatus,
+    generationMode: 'REEL_FIRST_SINGLE_ARTIFACT',
+    panelCount: params.artifact.telemetry.selectedStoryboardMomentCount,
+    panels: manifestToPanels(params.manifest),
+    panelManifest: params.manifest,
+    storyboardStripPath: params.artifact.compositePath,
+    storyboardStripUrl: params.artifact.compositeUrl,
+    compiled: true,
+    dispatched: params.artifact.dispatched,
+    rendered: params.artifact.rendered,
+    assembled: false,
+    approved: false,
+    provider: params.artifact.provider,
+    providerRequestId: params.artifact.providerRequestId,
+    telemetry: {
+      storyboardCompileCount: params.artifact.telemetry.storyboardCompileCount,
+      storyboardDispatchCount: params.artifact.telemetry.storyboardDispatchCount,
+      storyboardRenderCount: params.artifact.telemetry.storyboardRenderCount,
+      panelManifestCount: params.artifact.telemetry.panelManifestCount,
+      panelDispatchCount: params.artifact.telemetry.panelDispatchCount,
+      panelRenderCount: params.artifact.telemetry.panelRenderCount,
+      reelConceptionCompileCount: params.artifact.telemetry.reelConceptionCompileCount,
+      narrativeBeatCount: params.artifact.telemetry.narrativeBeatCount,
+      selectedStoryboardMomentCount: params.artifact.telemetry.selectedStoryboardMomentCount,
+      storyboardPromptCompileCount: params.artifact.telemetry.storyboardPromptCompileCount,
       assembled: false,
       compiled: true,
       dispatched: params.artifact.dispatched,
@@ -190,6 +271,8 @@ export function buildEntry002FinalCinematicStoryboard002Record(params: {
     structuralQaStatus: params.structuralQaStatus,
     duplicationQaStatus: params.duplicationQaStatus,
     renderModeQaStatus: 'FAIL',
+    reelCoherenceQaStatus: 'FAIL',
+    boardTypeQaStatus: 'FAIL',
     generationMode: 'PANEL_FAN_OUT',
     panelCount: params.manifest.length,
     panels: manifestToPanels(params.manifest),
@@ -259,6 +342,8 @@ export function buildEntry002FinalCinematicStoryboardGeneratedRecord(params: {
     structuralQaStatus: 'FAIL',
     duplicationQaStatus: 'FAIL',
     renderModeQaStatus: 'FAIL',
+    reelCoherenceQaStatus: 'FAIL',
+    boardTypeQaStatus: 'FAIL',
     generationMode: 'COMPOSITE_ONLY',
     panelCount: 0,
     panels: params.panels.map((p) => ({

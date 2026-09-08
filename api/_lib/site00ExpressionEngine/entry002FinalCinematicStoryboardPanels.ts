@@ -5,7 +5,7 @@
 import type { FinalCinematicStoryboardPanel } from '../../../shared/site00-expression-engine/finalCinematicStoryboardTypes.js';
 import {
   buildEntry002FinalCinematicStoryboardPanelId,
-  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID,
 } from '../../../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
 
 function storyboardPanel(
@@ -14,7 +14,7 @@ function storyboardPanel(
 ): FinalCinematicStoryboardPanel {
   return {
     panelId: buildEntry002FinalCinematicStoryboardPanelId(
-      ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_ID,
+      ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID,
       panelNumber,
     ),
     panelNumber,
