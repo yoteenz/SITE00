@@ -18,6 +18,7 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
   const [b48, setB48] = useState<B48PipelineResponse | null>(null);
   const [b49r4, setB49r4] = useState<B49R4PipelineResponse | null>(null);
   const [c1, setC1] = useState<C1NarrativeSynthesisResponse | null>(null);
+  const [c11, setC11] = useState<import('./types.js').C11CreativeDirectorResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [errorView, setErrorView] = useState<ReturnType<typeof translateExpressionEngineError>>(null);
@@ -27,11 +28,12 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
     setError(null);
     setErrorView(null);
     try {
-      const [p2, b48Res, b49Res, c1Res] = await Promise.all([
+      const [p2, b48Res, b49Res, c1Res, c11Res] = await Promise.all([
         expressionEngineApi.phase2(),
         apiFetch('/api/site00/expression-engine?phase=B48'),
         apiFetch('/api/site00/expression-engine?phase=B49R4&skipGeneration=1'),
         apiFetch('/api/site00/expression-engine?phase=C1'),
+        apiFetch('/api/site00/expression-engine?phase=C1.1'),
       ]);
 
       if (!b48Res.ok) {
@@ -50,6 +52,11 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
         setC1((await c1Res.json()) as C1NarrativeSynthesisResponse);
       } else {
         setC1(null);
+      }
+      if (c11Res.ok) {
+        setC11((await c11Res.json()) as import('./types.js').C11CreativeDirectorResponse);
+      } else {
+        setC11(null);
       }
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : 'Failed to load Expression Engine';
@@ -71,6 +78,7 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
       b48,
       b49r4,
       c1,
+      c11,
       loading,
       error,
       errorView,
@@ -84,6 +92,7 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
     b48,
     b49r4,
     c1,
+    c11,
     loading,
     error,
     errorView,

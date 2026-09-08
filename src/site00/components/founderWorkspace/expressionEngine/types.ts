@@ -114,12 +114,24 @@ export type C1NarrativeSynthesisResponse = {
   nextAction: string;
 };
 
+export type C11CreativeDirectorResponse = {
+  sprint: string;
+  architectureLayer: string;
+  providerDispatchCount: 0;
+  imageProviderDispatchCount: 0;
+  videoProviderDispatchCount: 0;
+  creativeDirectorRun: import('../../../../../shared/site00-expression-engine/creative-director/types.js').CreativeDirectorRun;
+  blindTestBrief: import('../../../../../shared/site00-expression-engine/creative-director/types.js').MinimalCreativeBrief;
+  nextAction: string;
+};
+
 export type ExpressionEngineEntry002State = {
   phase2: ExpressionEngineB1Phase2Response;
   blueprint: Entry002ProductionBlueprint;
   b48: B48PipelineResponse | null;
   b49r4: B49R4PipelineResponse | null;
   c1: C1NarrativeSynthesisResponse | null;
+  c11: C11CreativeDirectorResponse | null;
   loading: boolean;
   error: string | null;
   errorView: import('./expressionEngineErrorState').ExpressionEngineErrorView | null;
