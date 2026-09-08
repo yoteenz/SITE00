@@ -6224,3 +6224,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Release:** `site00-deploy-2026-09-08-v180`
 - **Next intellectual test:** Run Narrative Synthesis against a new/underdeveloped Entry without founder-supplied connective tissue
 
+---
+
+## 2026-09-08 — Sprint B5.2 — Entry 001 Campaign Package Page
+
+- **Context:** Founder attached reference-fidelity mobile design for Entry 001 Campaign Board package page. Entry 001 (WHO TF IS WE? / Britney Spears / media complicity) had approved archive assets but no dedicated package workspace — unlike Entry 002 Expression Engine production page.
+- **Delivered:**
+  - **Route** — `/projects/ndxbook/content-operations/campaign-board/entry/001`; mobile screen id `campaign-board-entry` so FounderWorkspaceShell renders operate surface (not generic Campaign Board mobile screen)
+  - **Manifest** — `entry001CampaignAssets.ts` + `public/assets/ndxbook/entry-001/` (10 approved archive JPGs + hero portrait, `FOUNDER_SUPPLIED`, no Supabase)
+  - **Page** — `Entry001CampaignPackageWorkspace`: hero, approved archive grid, remaining deliverables placeholders (REEL COVER, HIGHLIGHT ICON, FINAL REEL, TIKTOK, X), AI Creative Intelligence (derive plan compile-only), What's Left checklist
+  - **Intelligence** — `entry001PackageReadiness`, `entry001ArchiveDerivationPlan`, `entry001VisualContinuity`, narrative continuity link; `providerDispatchCount: 0`
+  - **Upload flow** — per-placeholder UPLOAD ASSET + batch ADD ASSETS (localStorage session persistence)
+  - **Campaign Board link** — Entry 001 package card on mobile Campaign Board
+  - **Tests** — `site00ExpressionEngineSprintB52.test.ts` (28/28 pass)
+  - **Browser QA** — mobile + desktop pass after mobile screen routing fix; archive preview modal works
+- **Initial state:** 10 approved archive assets; 5 missing deliverables; package INCOMPLETE; style continuity LOCKED; Campaign Board deployment LOCKED
+- **Next production action:** Founder confirms archive assets → compile derivation plan → choose generate vs manual supply for remaining deliverables (no auto FAL)
+
