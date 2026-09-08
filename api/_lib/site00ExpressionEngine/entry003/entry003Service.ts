@@ -3,6 +3,7 @@
  */
 
 export { bootstrapC12Entry003AutonomousCreativeDirector } from './entry003AutonomousPipeline.js';
+export { bootstrapC13Entry003CinematicContinuity } from './entry003C13Pipeline.js';
 export {
   applyEntry003FounderJudgment,
   getEntry003Package,

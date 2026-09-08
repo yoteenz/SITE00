@@ -92,7 +92,7 @@ export function Entry003CreativeDirectorWorkspace({ pkg, onJudgment, judging }: 
   return (
     <section className="site00-ee-entry-003">
       <header>
-        <span className="site00-ee-entry-003__kicker">ENTRY 003 · AUTONOMOUS CREATIVE DIRECTOR · C1.2</span>
+        <span className="site00-ee-entry-003__kicker">ENTRY 003 · CINEMATIC CONTINUITY · C1.3</span>
         <h2>{sel.workingTitle}</h2>
         <p className="site00-ee-entry-003__subject">{sel.subject}</p>
         <p className="site00-ee-entry-003__thesis">{sel.thesis}</p>

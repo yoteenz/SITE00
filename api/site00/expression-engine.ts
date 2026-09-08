@@ -39,6 +39,7 @@ import {
 } from '../_lib/site00ExpressionEngine/creativeDirector/creativeDirectorService.js';
 import {
   bootstrapC12Entry003AutonomousCreativeDirector,
+  bootstrapC13Entry003CinematicContinuity,
   applyEntry003FounderJudgment,
 } from '../_lib/site00ExpressionEngine/entry003/entry003Service.js';
 import { getChapterByNumber, getChapterGrammarForChapter } from '../_lib/site00ExpressionEngine/chapterStore.js';
@@ -461,6 +462,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       const c12 = await bootstrapC12Entry003AutonomousCreativeDirector();
       return res.status(200).json(c12);
+    }
+
+    if (
+      req.method === 'GET' &&
+      (phase === 'C1.3' || phase === 'C13' || phase === 'CINEMATIC_CONTINUITY' || phase === 'ENTRY_003_C13')
+    ) {
+      const c13 = await bootstrapC13Entry003CinematicContinuity();
+      return res.status(200).json(c13);
     }
 
     if (

@@ -6317,6 +6317,7 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+<<<<<<< HEAD
 ## 2026-09-08 — Sprint B5.5 — Deliverable workspaces + live social preview
 
 - **Context:** Founder correction — uploaded deliverables disappeared after ingestion; package readiness was numeric only (2/5) with no visual package construction. B5.4 archive taxonomy must remain; no FAL/provider dispatch.
@@ -6331,4 +6332,22 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Tests** — B55 53/53 pass; B54 27/27; build pass · bundle `index.DN4vv0cn.js`
 - **No provider dispatch** — UI/state/preview derivation only
 - **Next founder action:** Open Entry 001 → Package Content → Preview; upload a test deliverable and confirm it persists + previews
+=======
+## 2026-09-08 — Sprint C1.3 — Cinematic Continuity Director + Chapter Continuity + Marketing Package Generalization
+
+- **Context:** C1.2 produced Entry 003 (CLEAN GIRL / NOT THAT EFFORTLESS / SHELFIE MUSEUM) but founder judged PUSH FURTHER — too literal/product-count. System also lacked series intelligence (handoffs, escalation, motif control) and was NDXBOOK-specific. No image/video/FAL.
+- **Delivered:**
+  - **Generic campaign contracts** — `shared/site00-expression-engine/campaign-narrative/types.ts` (CampaignNarrativeArc, CampaignContentSequence, CampaignHandoffPlan, CampaignMotifSystem, CampaignEscalationPlan, CampaignCohesionQA, MarketingPackageMasterDirectorOutput)
+  - **Chapter continuity contracts** — `shared/site00-expression-engine/chapter-continuity/types.ts` (ChapterNarrativeContinuity, EntrySequenceRole, EntryHandoffPlan, Entry004TeaseSeed, DirectorialConcept, MasterFilmDirectorPass)
+  - **Cinematic Continuity Director** — `api/_lib/site00ExpressionEngine/cinematicContinuity/` (chapter continuity builder, master film director pass with 6 concepts, story map, handoff intelligence)
+  - **Marketing Package Master Director** — `api/_lib/site00ExpressionEngine/marketingPackageMasterDirector/` (generalized campaign thesis, sequence, handoffs, artifact lineage)
+  - **NDXBOOK adapter** — `ndxbookCampaignNarrativeAdapter.ts` (chapter grammar, Entry 001/002 sequence roles, phone→notification handoff, motif history)
+  - **Entry 003 evolution** — winning concept **THE EMPLOYEE-ONLY DOOR** supersedes Shelfie Museum; title **EMPLOYEES ONLY**; interjection **YOU DIDN'T SKIP STEPS. YOU SKIPPED THE CAMERA.**; artifact STAFF SHIFT RECEIPT; Entry 004 tease seed (wellness notification, non-canon)
+  - **Architecture stack** — BRAND TRUTH → CAMPAIGN THESIS → CHAPTER → ENTRY DISCOVERY → CREATIVE DIRECTOR → NARRATIVE SYNTHESIS → **CINEMATIC CONTINUITY DIRECTOR** → DIRECTORIAL TREATMENT → VISUAL AUTHORITY → PRODUCTION INTELLIGENCE
+  - **API** — GET `?phase=C1.3|C13|CINEMATIC_CONTINUITY|ENTRY_003_C13`; mobile hook fetches C1.3
+  - **Tests** — `site00ExpressionEngineSprintC13.test.ts` (44/44 pass); C11 (46) + C12 (44) remain green
+  - **Provider dispatch** — 0 image/video/FAL
+- **Entry 001/002 unchanged; Entry 003 non-canon; Entry 004 seed only**
+- **Next evaluation action:** FOUNDER REVIEWS THE EVOLVED ENTRY 003 IN THE CONTEXT OF THE ENTIRE CHAPTER 01 STORY ARC — judge ENTRY 001 → 002 → 003 as one directed sequence
+>>>>>>> origin/main
 
