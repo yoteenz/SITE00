@@ -6054,3 +6054,23 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Hard stop:** No storyboard generation, keyframes, or video in this sprint
 - **Next:** FINAL CINEMATIC STORYBOARD GENERATION
 
+---
+
+## 2026-09-08 — Sprint B4.9 — Final cinematic storyboard generation + founder review gate
+
+- **Context:** B4.8 left FINAL CINEMATIC STORYBOARD at READY_FOR_GENERATION with all 5 pre-storyboard authorities LOVE_IT v001. B4.9 generates first canonical final storyboard for Entry 002 and activates founder storyboard review gate.
+- **Delivered:**
+  - **15-panel final storyboard** — `entry002FinalCinematicStoryboardPanels.ts` (beats 01–15: 2026 discovery → profile scroll → 2016 landing → cultural glitch → receipt stitch → interjection → snap-back)
+  - **Compilation brief** — `entry002FinalCinematicStoryboardBrief.ts` consumes locked treatment + 5 approved authority assets with character/nail/phone-content contracts
+  - **Continuity QA** — `entry002FinalCinematicStoryboardQA.ts` validates all five authority domains before review exposure
+  - **Local render + optional FAL** — `entry002FinalCinematicStoryboardDispatch.ts` (sharp composite default; FAL only when `dispatchFal=1` + `FAL_KEY`)
+  - **Canonical record** — `NDX-ENTRY-002-FINAL-CINEMATIC-STORYBOARD-001` v001 → `AWAITING_FOUNDER_APPROVAL`, `founderJudgment=UNREVIEWED`, `canon=false`, `visualAuthority=false`
+  - **Pipeline advance** — `entry002PipelineState.ts`: active gate → `GATE_0D_FOUNDER_FINAL_STORYBOARD_REVIEW`; next action → `FOUNDER REVIEW FINAL CINEMATIC STORYBOARD`; keyframes → `BLOCKED_PENDING_FINAL_STORYBOARD_APPROVAL`
+  - **Founder judgment** — POST `SET_FINAL_CINEMATIC_STORYBOARD_JUDGMENT` (LOVE_IT / PROMISING_REFINE / NOT_FOR_ME); LOVE_IT unlocks keyframe eligibility only
+  - **API** — `GET ?phase=B49` (aliases B4.9, FINAL_CINEMATIC_STORYBOARD, FINAL_STORYBOARD)
+  - **UI** — Final Storyboard tab: strip preview, QA state, judgment buttons (no keyframe generation exposed)
+  - **Rendered asset** — `public/assets/expression-engine/entry-002/final-cinematic-storyboard/ndx-entry-002-final-cinematic-storyboard-strip-001.jpg`
+  - **Tests** `site00ExpressionEngineSprintB49.test.ts` — 30/30 pass; full expression engine suite 252/252
+- **Hard stop:** No keyframe generation, no video dispatch
+- **Next:** FOUNDER REVIEW OF FINAL CINEMATIC STORYBOARD
+
