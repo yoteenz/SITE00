@@ -6091,3 +6091,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Hard stop:** No keyframe generation, no video dispatch
 - **Next:** FOUNDER REVIEW OF FINAL CINEMATIC STORYBOARD (002)
 
+---
+
+## 2026-09-08 — Sprint B4.9R2 — Single-artifact cinematic storyboard recovery
+
+- **Context:** B4.9 produced one hero image + notes (false-positive QA). B4.9R overcorrected with 16 independent panel provider dispatches assembled afterward — also wrong. Founder requires ONE multi-panel cinematic storyboard image via ONE provider dispatch.
+- **Delivered:**
+  - **Single-artifact pipeline** — 16-panel manifest (planning only) → `compileSingleMultiPanelStoryboardPrompt` → `dispatchSingleMultiPanelStoryboardArtifact` (ONE FAL or deterministic 4×4 sheet) → structural + continuity + render-mode QA
+  - **Storyboard dispositions** — 001 `FAILED_STORYBOARD_STRUCTURE`; 002 `FAILED_STORYBOARD_RENDER_MODE` / `PANEL_FAN_OUT_INSTEAD_OF_SINGLE_STORYBOARD_ARTIFACT`; 003 `SINGLE_MULTI_PANEL_ARTIFACT` → `AWAITING_FOUNDER_APPROVAL`
+  - **QA** — `runSingleStoryboardArtifactQA`, `runStoryboardRenderModeQA` (providerDispatchCount=1, panelRenderCount=0)
+  - **API/UI** — B49/B49R/B49R2 phases delegate to R2 bootstrap; founder UI shows ONE primary storyboard image + telemetry (panel renders must be 0)
+  - **Asset** — `ndx-entry-002-final-cinematic-storyboard-strip-003.jpg`
+  - **Tests** — `site00ExpressionEngineSprintB49R2.test.ts` (42); B49/B49R updated; expression engine suite 320/320
+- **Hard stop:** No keyframe generation, no video dispatch
+- **Next:** FOUNDER REVIEW OF FINAL CINEMATIC STORYBOARD (003)
+
