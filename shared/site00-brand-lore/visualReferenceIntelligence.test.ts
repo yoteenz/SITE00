@@ -75,6 +75,10 @@ vi.mock('../../api/_lib/site00BrandLore/loreService.js', () => ({
 }));
 
 const PROJECTS_PAGE = readFileSync(join(process.cwd(), 'src/site00/pages/ProjectsPage.tsx'), 'utf8');
+const PROJECT_INDEX_PAGE = readFileSync(
+  join(process.cwd(), 'src/site00/components/projectIndex/ProjectIndexPage.tsx'),
+  'utf8',
+);
 const VD_REVIEW = readFileSync(
   join(process.cwd(), 'src/site00/components/projectWorkspace/ProjectWorkspaceVisualDevelopmentReview.tsx'),
   'utf8',
@@ -366,7 +370,7 @@ describe('Visual Reference Intelligence sprint', () => {
   });
 
   it('24. Page visit causes zero visual generation', () => {
-    expect(PROJECTS_PAGE).toContain('PROJECT INDEX');
+    expect(PROJECT_INDEX_PAGE).toContain('PROJECT INDEX');
     const reloadBlock = VD_REVIEW.match(/const reload = useCallback[\s\S]*?\}, \[projectSlug\]\);/)?.[0] ?? '';
     expect(reloadBlock).toContain('visualDevelopmentGet');
     expect(reloadBlock).not.toContain('visualDevelopmentGenerate');
@@ -527,9 +531,10 @@ describe('Visual Reference Intelligence sprint', () => {
     expect(VD_REVIEW).toContain('GENERATE REFERENCE-CONDITIONED PROOF');
   });
 
-  it('production projects page not mutated', () => {
-    expect(PROJECTS_PAGE).toContain('PROJECT INDEX');
-    expect(PROJECTS_PAGE).not.toContain('ACTIVE PRODUCTION FLOOR');
+  it('production projects page uses approved index shell', () => {
+    expect(PROJECT_INDEX_PAGE).toContain('PROJECT INDEX');
+    expect(PROJECT_INDEX_PAGE).not.toContain('ACTIVE PRODUCTION FLOOR');
+    expect(PROJECTS_PAGE).toContain('ProjectIndexPage');
   });
 
   it('founder exclusions filter references', () => {

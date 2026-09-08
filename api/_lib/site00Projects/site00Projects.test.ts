@@ -138,13 +138,14 @@ describe('SITE 00 real project index + command surface', () => {
     expect(PROJECTS_PAGE).not.toContain('useEcosystemData');
     expect(PROJECTS_PAGE).not.toContain('ECOSYSTEM_PROJECTS_SEED');
     expect(PROJECTS_PAGE).not.toContain('PROJECT_ACTIVITY_SEED');
-    expect(PROJECTS_PAGE).toContain('useSite00ProjectsIndex');
+    expect(PROJECTS_PAGE).toContain('ProjectIndexPage');
   });
 
-  it('19. failed state shows error — no silent demo fallback in ProjectsPage', () => {
-    expect(PROJECTS_PAGE).toContain("state === 'error'");
-    expect(PROJECTS_PAGE).not.toContain('ECOSYSTEM_PROJECTS_SEED');
-    expect(PROJECTS_PAGE).not.toContain('northquarter');
+  it('19. failed state shows error — no silent demo fallback in project index', () => {
+    const INDEX_PAGE = readFileSync(join(process.cwd(), 'src/site00/components/projectIndex/ProjectIndexPage.tsx'), 'utf8');
+    expect(INDEX_PAGE).toContain("state === 'error'");
+    expect(INDEX_PAGE).not.toContain('ECOSYSTEM_PROJECTS_SEED');
+    expect(INDEX_PAGE).not.toContain('northquarter');
   });
 
   it('20. NDXBOOK focus includes Creative Direction when import complete', async () => {
