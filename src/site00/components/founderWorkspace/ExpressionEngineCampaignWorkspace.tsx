@@ -13,37 +13,47 @@ import { site00ProjectContentOperationsCampaignBoardPath } from '../../config/ro
 import { expressionEngineApi } from '../../services/expressionEngineApi';
 import { InlineMeta, QuietAction, WorkspaceField } from './WorkspaceCompositionPrimitives';
 import { ExpressionEngineEntry002Workspace } from './expressionEngine/ExpressionEngineEntry002Workspace';
+import { ExpressionEngineReferenceMobileWorkspace } from './expressionEngine/ExpressionEngineReferenceMobileWorkspace';
 
 type EntryTab = '002' | '001';
 
 type Props = {
   projectSlug: string;
+  /** Reference-fidelity mobile layout (founder design authority). */
+  layout?: 'studio' | 'reference-mobile';
 };
 
-export function ExpressionEngineCampaignWorkspace({ projectSlug }: Props) {
+export function ExpressionEngineCampaignWorkspace({ projectSlug, layout = 'studio' }: Props) {
   const [entryTab, setEntryTab] = useState<EntryTab>('002');
+  const isReferenceMobile = layout === 'reference-mobile';
 
   return (
-    <div className="site00-expr-engine-workspace site00-expr-engine-workspace--b50">
-      <nav className="site00-expr-engine-workspace__tabs">
-        <button
-          type="button"
-          className={entryTab === '002' ? 'active' : ''}
-          onClick={() => setEntryTab('002')}
-        >
-          ENTRY 002
-        </button>
-        <button
-          type="button"
-          className={entryTab === '001' ? 'active' : ''}
-          onClick={() => setEntryTab('001')}
-        >
-          ENTRY 001
-        </button>
-      </nav>
+    <div className={`site00-expr-engine-workspace site00-expr-engine-workspace--b50${isReferenceMobile ? ' site00-expr-engine-workspace--ref-mobile' : ''}`}>
+      {!isReferenceMobile ? (
+        <nav className="site00-expr-engine-workspace__tabs">
+          <button
+            type="button"
+            className={entryTab === '002' ? 'active' : ''}
+            onClick={() => setEntryTab('002')}
+          >
+            ENTRY 002
+          </button>
+          <button
+            type="button"
+            className={entryTab === '001' ? 'active' : ''}
+            onClick={() => setEntryTab('001')}
+          >
+            ENTRY 001
+          </button>
+        </nav>
+      ) : null}
 
       {entryTab === '002' ? (
-        <ExpressionEngineEntry002Workspace projectSlug={projectSlug} />
+        isReferenceMobile ? (
+          <ExpressionEngineReferenceMobileWorkspace projectSlug={projectSlug} />
+        ) : (
+          <ExpressionEngineEntry002Workspace projectSlug={projectSlug} />
+        )
       ) : (
         <Entry001LegacyWorkspace projectSlug={projectSlug} />
       )}

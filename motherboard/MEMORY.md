@@ -6160,3 +6160,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** All routes, API calls, judgment writes, gate logic, backend state bindings — experience-only rebuild
 - **Next production action:** Railway redeploy → FAL dispatch storyboard 005 (`?phase=B49R4&dispatchFal=1`) → founder review LOVE_IT on visual-review-ready strip
 
+---
+
+## 2026-09-08 — Expression Engine reference-fidelity mobile UI rebuild
+
+- **Context:** Founder approved mobile reference image as **design authority** (not inspiration). Rebuild look while preserving all B5.0 function and canonical state bindings.
+- **Delivered:**
+  - **Reference mobile workspace** — `ExpressionEngineReferenceMobileWorkspace.tsx` wired via `layout="reference-mobile"` in `MobileExpressionEngineScreen`
+  - **Section order matches reference:** Entry summary → Production journey (10 stages incl. SOCIAL PACKAGE) → Current stage card (2×5 storyboard grid + lime CTA) → Derived content → Visual authorities → Collapsible supporting intelligence
+  - **New components:** ReferenceEntrySummary, ReferenceProductionJourney, ReferenceCurrentStageCard, ReferenceDerivedContent, ReferenceVisualAuthorities, ReferenceSupportingIntelligence
+  - **Derived content / social package** — `derivedContentState.ts`; FINAL REEL → SOCIAL PACKAGE → CAMPAIGN BOARD; formats LOCKED until final reel approved (canonical, not hardcoded READY)
+  - **Production journey** — added SOCIAL_PACKAGE stage between FINAL REEL and CAMPAIGN BOARD
+  - **CSS** — `.site00-ee-ref-*` cream/white/lime reference tokens; mobile shell preserved (NDXBOOK header + bottom nav)
+  - **Tests** — B50 journey + derived content tests (6 total)
+- **Preserved:** Studio World mobile shell, all APIs, judgment writes, five real authority assets, storyboard state
+- **Route:** `/projects/ndxbook/content-operations/expression-engine` (mobile presentation via FounderWorkspaceShell)
+
