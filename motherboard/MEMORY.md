@@ -6735,6 +6735,7 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+<<<<<<< HEAD
 ## 2026-09-08 — P0.VR.4 Reference Asset Reconstruction Pipeline (Design Workspace)
 
 - **Context:** Founder sprint formalizing manual screenshot→crop→recreate→transparency→QA→Supabase→live-bind workflow into first-class Design Workspace capability.
@@ -6746,4 +6747,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Ideogram/Pixelcut:** Provider slots exist; unavailable without env keys — no fabricated endpoints.
 - **Live FAL:** Simulated in dev/tests without `FAL_KEY`; real dispatch path uses same `buildFalImageInput` + reference crop as production creative direction pattern.
 - **Next founder action:** OPEN DESIGN → projects-index → ASSETS tab → select PROJECTS HEADER PLANET → GENERATE (explicit) → LOVE IT → persist/bind when ready; Railway redeploy for API route.
+=======
+## 2026-09-08 — Hotfix: BLDR siteTypeModel import blocked dev bundle (Expression Engine)
+
+- **Symptom:** Vite overlay on `site00.fsbw-dev.com` — `Failed to resolve import .../shared/site00-bldr-classification/siteTypeModel` from `BldrIntakeFields.tsx`; blocked Expression Engine / Meridian review.
+- **Root cause:** Vite HMR held edited `BldrIntakeFields.tsx` importing modules that were never committed to disk.
+- **Fix:** Added `shared/site00-bldr-classification/siteTypeModel.ts` + `bldrFieldValidation.ts`; synced `BldrIntakeFields.tsx` (OTHER site-type specify). PR #600 merged. Vite dev restarted.
+- **Founder action:** Hard refresh `site00.fsbw-dev.com` → NDXBOOK → Expression Engine → Meridian section.
+>>>>>>> origin/main
 
