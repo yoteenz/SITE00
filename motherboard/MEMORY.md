@@ -6552,3 +6552,21 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Production pre-run (before C19R3 deploy):** C1.9R2 returned FULL_REASONING_LIVE_TEST_BLOCKED, fallbackForced=true, fullReasoningRun=null, dispatch 0.
 - **Next founder action:** After Railway redeploy from main, hit `GET api.site00.com/.../expression-engine?phase=C1.9R3` (may take ~1–3 min). Open Expression Engine → MERIDIAN CONTROL vs FULL REASONING. Judge side-by-side without editing first.
 
+---
+
+## 2026-09-08 — Sprint B5.9R1 — Universal Project Operating System + Founder/Client View Modes
+
+- **Context:** Founder approved PROJECT MODULE reference board as design authority. Replace first-generation project dossier with capability-driven operating system supporting distinct modules (Overview, Identity, Builder, Evolve, Production), per-module mobile subnav, module switcher, founder view-as-client QA mode, and project-specific capability manifests.
+- **Delivered:**
+  - **Shared foundation** — `ProjectCapabilityManifest`, `ProjectModules`, `ProjectViewMode`, `ProjectModuleDependencyGraph`, `ProjectCodebaseState`, `GeneralizedProjectOperatingState`, client control room firewall types, client-safe status translation
+  - **Project adapters** — Ndxbook (Evolve-heavy), Frontal Slayer (full stack internal), Astral World (no Evolve), AIO (Builder+Production, no Evolve)
+  - **UI shell** — `ProjectOperatingShell` with header, desktop module strip, mobile module switcher, distinct bottom subnav per module, uppercase `.site00-pos` CSS
+  - **View modes** — Founder-only VIEW AS FOUNDER/CLIENT toggle; client mode redirects to real `/app/projects/:slug` client shell (not CSS hiding)
+  - **Legacy retirement** — `ProjectDetailPage` redirects to `/overview`; command grid dossier no longer rendered
+  - **Routes** — `/projects/:slug/overview|identity|builder|evolve|production|reviews|library|more`
+  - **NDXBOOK regression** — Overview module embeds existing `OverviewFounderWorkspaceBoard` in founder view
+  - **Tests** — `site00FounderWorkspaceSprintB59R1.test.ts` (16/16); build PASS (`index.BgNzJ8qq.js`)
+- **QA:** Mobile 390px Frontal Slayer — all five module subnavs verified distinct; view-as-client toggle works
+- **Remaining gaps:** Client view requires client app manifest API; module configuration admin UI; deeper Evolve submodule routing for NDXBOOK content-ops deep links; client control room section UI polish
+- **Next founder action:** OPEN PROJECTS → FRONTAL SLAYER in founder view. Compare against approved module board. Verify each module subnav. Toggle VIEW AS CLIENT. Upload v199 ZIP to GoDaddy.
+
