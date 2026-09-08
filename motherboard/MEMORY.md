@@ -6670,3 +6670,22 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **PR:** #596 merged; release v204
 - **Next founder action:** OPEN PROJECTS → NDXBOOK → EVOLVE → verify bottom subnav shows approved icons for CAMPAIGNS, CONTENT OPS, LAB, MORE; tap each tab; confirm MORE panel (not inline links on campaign body). Upload v204 ZIP to GoDaddy.
 
+---
+
+## 2026-09-08 — Sprint B5.9R5 — Projects Index Reference-Fidelity Redesign
+
+- **Context:** Founder attached approved mobile PROJECTS index reference image. B5.9R2 index was functional but too admin-like; needed IDNTY-level visual confidence — orbital hero, founder/client strip, summary metrics, design workspace first (unnumbered), canonical project numbering 01–05, visual 2-col grid cards, new project tile unnumbered.
+- **Decisions:**
+  - **DESIGN** is SITE 00 system workspace — not counted in TOTAL PROJECTS, not numbered, renders first after search/filters
+  - **Project order:** `projectIndexOrder.ts` — 01 FRONTAL SLAYER, 02 STUDIO WORLD, 03 NDXBOOK, 04 ALL IN ONE ENTERPRISES, 05 ASTRAL WORLD
+  - **Metrics:** `projectIndexMetrics.ts` — TOTAL / ACTIVE / PRE LAUNCH / COMPLETE (excludes design)
+  - **Client view:** hides design workspace by default
+- **Delivered:**
+  - New components: `ProjectIndexHero`, `ProjectIndexViewStrip`, `ProjectIndexDesignCard`, `ProjectIndexProjectCard`, `ProjectIndexNewProjectCard`, `ProjectIndexSkeleton`
+  - **`ProjectIndexPage`** locked layout: hero → view strip → summary → search/filters → DESIGN → project grid + NEW PROJECT
+  - **`useProjectIndex`** — `orderProjectIndexItems`, `computeProjectIndexSummaryMetrics`, design item separate from filtered project list
+  - **CSS overhaul** `site00-project-index.css` — orbital hero, view strip, design card, 2-col mobile / 3–4 col desktop grid, project visual classes (fs/sw/nd/aio/aw)
+  - **Tests:** `site00FounderWorkspaceSprintB59R5.test.ts` (32/32); B59R2 tests updated (58 total pass)
+- **QA note:** Cloud preview without auth → `/api/site00/projects` returns UNAUTHORIZED so metrics show 00 and project grid empty; DESIGN card + layout still verify. Signed-in founder session required for live project cards.
+- **Next founder action:** Sign in → PROJECTS on mobile → compare to reference; confirm DESIGN first (no number), FRONTAL SLAYER = 01; upload GoDaddy ZIP after merge.
+
