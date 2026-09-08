@@ -69,10 +69,7 @@ export function ProjectOperatingShell({
     () => (currentModule === 'EVOLVE' ? evolveAdapter.getSubnav(projectSlug) : undefined),
     [currentModule, evolveAdapter, projectSlug],
   );
-  const evolveSubnavOverflow = useMemo(
-    () => (currentModule === 'EVOLVE' ? evolveAdapter.getSubnavOverflow?.(projectSlug) : undefined),
-    [currentModule, evolveAdapter, projectSlug],
-  );
+  const evolveOwnsSubshell = currentModule === 'EVOLVE' && evolveAdapter.ownsEvolveSubshell === true;
 
   const [activeSubnav, setActiveSubnav] = useState(() => defaultSubnav(projectSlug, currentModule));
 
@@ -221,13 +218,13 @@ export function ProjectOperatingShell({
 
         <main className="site00-pos__main">{moduleContent}</main>
 
-        {!isWide && currentModule === 'OVERVIEW' && technicalEnabled && technicalIntelligence ? null : !isWide ? (
+        {!isWide && currentModule === 'OVERVIEW' && technicalEnabled && technicalIntelligence ? null : !isWide &&
+          !evolveOwnsSubshell ? (
           <ProjectModuleMobileSubnav
             moduleId={currentModule}
             activeSubnav={activeSubnav}
             onSubnavChange={setActiveSubnav}
             subnavOverride={evolveSubnav}
-            subnavOverflowOverride={evolveSubnavOverflow}
           />
         ) : null}
       </div>

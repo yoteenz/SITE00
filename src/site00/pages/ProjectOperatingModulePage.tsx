@@ -17,6 +17,7 @@ import { projectHasTechnicalIntelligenceCapability } from '../../../shared/site0
 import '../styles/site00-project-operating-system.css';
 import '../styles/site00-founder-workspace.css';
 import '../styles/site00-project-technical-intelligence.css';
+import '../styles/site00-evolve-subshell.css';
 
 type ProjectOperatingModulePageProps = {
   forcedModule?: ProjectModuleId;

@@ -84,6 +84,7 @@ const JournalPage = lazy(() => import('../site00/pages/JournalPage'));
 const ProjectsPage = lazy(() => import('../site00/pages/ProjectsPage'));
 const ProjectDetailPage = lazy(() => import('../site00/pages/ProjectDetailPage'));
 const ProjectOperatingModulePage = lazy(() => import('../site00/pages/ProjectOperatingModulePage'));
+const ProjectEvolveTabRedirectPage = lazy(() => import('../site00/pages/ProjectEvolveTabRedirectPage'));
 const ProjectOriginPage = lazy(() => import('../site00/pages/ProjectOriginPage'));
 const ProjectIdentityPage = lazy(() => import('../site00/pages/ProjectIdentityPage'));
 const ProjectAstralWorldExperiencePage = lazy(() => import('../site00/pages/ProjectAstralWorldExperiencePage'));
@@ -875,7 +876,19 @@ export function Site00Routes() {
         }
       />
       <Route
-        path={SITE00_ROUTES.projectEvolve}
+        path="/projects/:projectSlug/evolve/plans"
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectEvolvePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path="/projects/:projectSlug/evolve/:evolveTab"
         element={
           <Site00Layout>
             <Site00AccountRouteGuard>
@@ -887,12 +900,12 @@ export function Site00Routes() {
         }
       />
       <Route
-        path="/projects/:projectSlug/evolve/plans"
+        path={SITE00_ROUTES.projectEvolve}
         element={
           <Site00Layout>
             <Site00AccountRouteGuard>
               <Site00Suspense>
-                <ProjectEvolvePage />
+                <ProjectEvolveTabRedirectPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

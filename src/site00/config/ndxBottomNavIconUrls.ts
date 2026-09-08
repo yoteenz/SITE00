@@ -13,6 +13,14 @@ export const NDX_BOTTOM_NAV_ICON_FILES: Partial<Record<NDXIconName, string>> = {
   more: '47B47A35-B9AC-4D3B-A25B-9F6F89ABF2E7.png',
 };
 
+const LOCAL_BOTTOM_NAV_SVGS: Partial<Record<NDXIconName, string>> = {
+  overview: '/icons/ndx/v3/overview.svg',
+  campaigns: '/icons/ndx/v3/campaigns.svg',
+  content_ops: '/icons/ndx/v3/content-ops.svg',
+  lab: '/icons/ndx/v3/lab.svg',
+  more: '/icons/ndx/v3/more.svg',
+};
+
 function resolveSupabasePublicStorageBase(): string {
   const url =
     (import.meta as unknown as { env?: { VITE_SUPABASE_URL?: string } }).env?.VITE_SUPABASE_URL?.replace(/\/$/, '') ??
@@ -23,10 +31,11 @@ function resolveSupabasePublicStorageBase(): string {
 
 export function getNdxBottomNavIconUrl(name: NDXIconName): string | null {
   const file = NDX_BOTTOM_NAV_ICON_FILES[name];
-  if (!file) return null;
   const base = resolveSupabasePublicStorageBase();
-  if (!base) return null;
-  return `${base}/${file}`;
+  if (file && base) {
+    return `${base}/${file}`;
+  }
+  return LOCAL_BOTTOM_NAV_SVGS[name] ?? null;
 }
 
 /** @deprecated use getNdxBottomNavIconUrl — retained for tests inspecting filename map */

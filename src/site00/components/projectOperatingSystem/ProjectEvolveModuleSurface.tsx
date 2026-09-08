@@ -5,6 +5,7 @@
 import type { GeneralizedProjectOperatingState } from '../../../../shared/site00-projects/generalizedProjectOperatingState.js';
 import { getProjectEvolveAdapter } from '../../../../shared/site00-projects/evolve/projectEvolveAdapterRegistry.js';
 import { EvolveFounderWorkspaceBoard } from '../founderWorkspace/EvolveFounderWorkspaceBoard.js';
+import { NdxbookEvolveSubshell } from './evolve/NdxbookEvolveSubshell.js';
 import { ProjectEvolveModule } from './ProjectModulePanels.js';
 import { useProjectOperatingState } from '../../hooks/useProjectOperatingState.js';
 
@@ -19,6 +20,10 @@ export function ProjectEvolveModuleSurface({ projectSlug, operatingState, active
   const { state: ndxState } = useProjectOperatingState(
     adapter.stateSource === 'PROJECT_OPERATING_STATE' ? projectSlug : '',
   );
+
+  if (adapter.evolveType === 'NDXBOOK' && adapter.usesSpecializedSurface && adapter.ownsEvolveSubshell) {
+    return <NdxbookEvolveSubshell projectSlug={projectSlug} />;
+  }
 
   if (adapter.evolveType === 'NDXBOOK' && adapter.usesSpecializedSurface) {
     return <EvolveFounderWorkspaceBoard projectSlug={projectSlug} activeSubnav={activeSubnav} />;

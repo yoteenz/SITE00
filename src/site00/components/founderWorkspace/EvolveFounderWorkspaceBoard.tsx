@@ -21,6 +21,8 @@ import { getProjectEvolveAdapter } from '../../../../shared/site00-projects/evol
 type Props = {
   projectSlug: string;
   activeSubnav: string;
+  /** When set, overrides adapter screen resolution (Evolve subshell tab routing). */
+  screenIdOverride?: string;
 };
 
 function EvolveDesktopBoard({ projectSlug }: { projectSlug: string }) {
@@ -194,10 +196,10 @@ function evolveStateFallbackProgress(
   return Math.min(100, Math.round((active / total) * 100));
 }
 
-export function EvolveFounderWorkspaceBoard({ projectSlug, activeSubnav }: Props) {
+export function EvolveFounderWorkspaceBoard({ projectSlug, activeSubnav, screenIdOverride }: Props) {
   const isWide = useSite00OriginWideViewport();
   const adapter = getProjectEvolveAdapter(projectSlug);
-  const screenId = adapter.resolveMobileScreenId(activeSubnav);
+  const screenId = screenIdOverride ?? adapter.resolveMobileScreenId(activeSubnav);
 
   if (isWide) {
     return <EvolveDesktopBoard projectSlug={projectSlug} />;
