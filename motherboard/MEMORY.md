@@ -6438,3 +6438,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Pipeline:** BRIEF → NARRATIVE → DNA → UNIT DIRECTION → SCJ → **COPY DIRECTOR** → COPY QA → FOUNDER REVIEW
 - **Next founder action:** FOUNDER REVIEWS VISUAL DIRECTIONS AND COINCIDING COPY AS ONE CREATIVE PACKAGE — judge whether each caption adds what the visual does not
 
+---
+
+## 2026-09-08 — Hotfix — Railway API healthcheck failure
+
+- **Context:** Railway SITE00 production deploy failed healthcheck (`service unavailable`, 11 attempts). Root cause: API never started — `tsx server/index.ts` crashed on import with esbuild `Multiple exports with the same name "importFounderSuppliedStoryboardForEntry002"` in `entry002B49Bootstrap.ts` (duplicate re-export line).
+- **Fix:** Removed duplicate export line in `api/_lib/site00ExpressionEngine/entry002B49Bootstrap.ts`.
+- **Verified:** `npm run start:api` starts; `GET /api/health` returns `{ ok: true }`.
+- **Next founder action:** Redeploy Railway from `main` after merge — healthcheck should pass.
+
