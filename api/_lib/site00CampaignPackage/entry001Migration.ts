@@ -287,3 +287,76 @@ export function migrateEntry001Package(args: {
 }
 
 export const ENTRY001_PACKAGE_KEY_EXPORT = ENTRY001_PACKAGE_KEY;
+
+/** Sync deliverable records from active assets when backend deliverables empty. */
+export function syncDeliverablesIntoSnapshot(snapshot: CampaignPackageSnapshot): CampaignPackageSnapshot {
+  if (snapshot.deliverables.length > 0) return snapshot;
+
+  const now = new Date().toISOString();
+  const deliverables: CampaignPackageSnapshot['deliverables'] = [];
+  const versions: CampaignPackageSnapshot['versions'] = [];
+
+  for (const asset of snapshot.assets.filter((a) => !a.removedFromActiveArchive)) {
+    const deliverableId = `entry001-del-${asset.assetId}`;
+    const versionId = uid('ver');
+    deliverables.push({
+      deliverableId,
+      packageId: snapshot.package.packageId,
+      assetId: asset.assetId,
+      formatFamily:
+        asset.formatFamily ??
+        (asset.assetType.includes('CAROUSEL')
+          ? 'CAROUSEL'
+          : asset.assetType.includes('STORY') || asset.assetType.includes('CTA')
+            ? 'STORY'
+            : 'REEL'),
+      platform: asset.platform ?? 'INSTAGRAM',
+      deliverableType: asset.assetType,
+      status: asset.approved ? 'APPROVED' : asset.status === 'MISSING' ? 'PENDING' : 'UPLOADED',
+      currentVersionId: versionId,
+      removedFromPackage: false,
+      metadata: { title: asset.title, caption: asset.caption },
+      lineage: {
+        creativeDirectionId: asset.lineage?.creativeDirectionId ?? null,
+        seniorJudgmentId: asset.lineage?.seniorJudgmentId ?? null,
+      },
+      createdAt: asset.createdAt,
+      updatedAt: now,
+    });
+    versions.push({
+      versionId,
+      deliverableId,
+      versionNumber: 1,
+      filePath: asset.filePath,
+      caption: asset.caption,
+      title: asset.title,
+      assetType: asset.assetType,
+      assetRole: asset.assetRole,
+      sequenceIndex: asset.sequenceIndex,
+      source: asset.source,
+      storageSource: asset.storageSource,
+      createdAt: asset.createdAt,
+      createdBy: 'migration',
+      supersededAt: null,
+      metadata: {},
+    });
+  }
+
+  const readiness = deliverables.length
+    ? {
+        previewReadiness: deliverables.some((d) => d.status === 'APPROVED') ? 'PARTIAL' : 'INCOMPLETE',
+        campaignBoardEligibility: deliverables.filter((d) => d.status === 'APPROVED').length >= 3,
+      }
+    : { previewReadiness: snapshot.package.previewReadiness, campaignBoardEligibility: false };
+
+  return {
+    ...snapshot,
+    deliverables,
+    versions,
+    package: {
+      ...snapshot.package,
+      previewReadiness: readiness.previewReadiness,
+      campaignBoardEligibility: readiness.campaignBoardEligibility,
+    },
+  };
+}

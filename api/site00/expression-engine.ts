@@ -41,6 +41,7 @@ import {
   bootstrapC12Entry003AutonomousCreativeDirector,
   bootstrapC13Entry003CinematicContinuity,
   bootstrapC14Entry003SeniorCreativeJudgment,
+  bootstrapC15CreativeIntelligenceRuntime,
   applyEntry003FounderJudgment,
 } from '../_lib/site00ExpressionEngine/entry003/entry003Service.js';
 import { getChapterByNumber, getChapterGrammarForChapter } from '../_lib/site00ExpressionEngine/chapterStore.js';
@@ -471,6 +472,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     ) {
       const c14 = await bootstrapC14Entry003SeniorCreativeJudgment();
       return res.status(200).json(c14);
+    }
+
+    if (req.method === 'GET' && (phase === 'C1.5' || phase === 'C15' || phase === 'CREATIVE_INTELLIGENCE_RUNTIME')) {
+      const c15 = await bootstrapC15CreativeIntelligenceRuntime();
+      return res.status(200).json(c15);
     }
 
     if (

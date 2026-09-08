@@ -493,13 +493,16 @@ export function runSeniorCreativeJudgment(input: SeniorCreativeJudgmentInput): S
       challenge: firstAnswer,
       finalOutcome,
     }),
-    supersededConceptHistory: [
-      {
-        conceptName: 'THE SHELFIE MUSEUM',
-        supersededAt: new Date().toISOString(),
-        reason: 'SUPERSEDED_BY_DEEPER_CREATIVE_DIRECTION — product-count literalism',
-      },
-    ],
+    supersededConceptHistory:
+      input.projectId === 'ndxbook' || input.campaignId.includes('ndxbook')
+        ? [
+            {
+              conceptName: 'THE SHELFIE MUSEUM',
+              supersededAt: new Date().toISOString(),
+              reason: 'SUPERSEDED_BY_DEEPER_CREATIVE_DIRECTION — product-count literalism',
+            },
+          ]
+        : [],
     failureClasses,
     imageProviderDispatchCount: 0,
     videoProviderDispatchCount: 0,
