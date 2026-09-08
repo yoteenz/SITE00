@@ -6689,3 +6689,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **QA note:** Cloud preview without auth → `/api/site00/projects` returns UNAUTHORIZED so metrics show 00 and project grid empty; DESIGN card + layout still verify. Signed-in founder session required for live project cards.
 - **Next founder action:** Sign in → PROJECTS on mobile → compare to reference; confirm DESIGN first (no number), FRONTAL SLAYER = 01; upload GoDaddy ZIP after merge.
 
+---
+
+## 2026-09-08 — Sprint B5.9R6 — New Project Panel Restoration
+
+- **Context:** B5.9R5 redesigned PROJECTS index but New Project tile was omitted in common states — gated behind `projectItems.length > 0`, so error/empty/filtered views hid it; styling used dashed generic CTA instead of reference crosshair card.
+- **Root cause:** Conditional render in `ProjectIndexPage` only appended `ProjectIndexNewProjectCard` inside the non-empty project grid branch.
+- **Delivered:**
+  - **`ProjectIndexProjectGrid`** — always renders founder New Project tile after last visible project (including error/empty states)
+  - **`ProjectIndexNewProjectCard`** — reference-fidelity: crosshair/target + red plus, chevron affordance, left-aligned copy, `NEW_PROJECT_UTILITY` entry type, unnumbered
+  - **CSS** — same card family as project cards (solid border, hover glow), not dashed SaaS button
+  - **Client view** — tile hidden (`showNewProject = !clientView`); no empty grid gap
+  - **Tests:** `site00FounderWorkspaceSprintB59R6.test.ts` (21/21)
+- **Next founder action:** PROJECTS mobile → scroll past 05 ASTRAL WORLD → verify NEW PROJECT tile (no number, red plus) → tap CREATE PROJECT →.
+
