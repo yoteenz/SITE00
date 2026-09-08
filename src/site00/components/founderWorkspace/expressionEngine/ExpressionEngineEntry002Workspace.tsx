@@ -52,6 +52,8 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
     b48?.preStoryboardAuthorityPack?.approvalState?.allAuthoritiesLoveIt ??
     false;
 
+  const finalReelApproved = pipeline?.finalStoryboard?.approved ?? false;
+
   const journey = useMemo(() => {
     if (!pipeline) return [];
     return buildProductionJourney({
@@ -66,8 +68,10 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
       videoEligibility: b49r4?.video ?? b48?.video ?? 'BLOCKED',
       campaignReady: phase2?.readiness002.ready ?? false,
       storyboardFailed: b49r4?.finalCinematicStoryboard?.status === 'REVISION_REQUIRED',
+      finalReelApproved,
+      socialPackageStatus: 'LOCKED',
     });
-  }, [pipeline, preStoryboardComplete, b49r4, b48, phase2]);
+  }, [pipeline, preStoryboardComplete, b49r4, b48, phase2, finalReelApproved]);
 
   const activeStageId = workFocus === 'auto' ? resolveActiveJourneyStage(journey) : workFocus;
 

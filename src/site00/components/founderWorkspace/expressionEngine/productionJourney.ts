@@ -11,6 +11,7 @@ export type JourneyStageId =
   | 'VIDEO'
   | 'ROUGH_CUT'
   | 'FINAL_REEL'
+  | 'SOCIAL_PACKAGE'
   | 'CAMPAIGN_BOARD';
 
 export type JourneyStageStatus =
@@ -42,6 +43,8 @@ export type PipelineJourneyInput = {
   videoEligibility: string;
   campaignReady: boolean;
   storyboardFailed?: boolean;
+  finalReelApproved?: boolean;
+  socialPackageStatus?: JourneyStageStatus;
 };
 
 const STAGE_DEFS: Array<{ id: JourneyStageId; label: string; shortLabel: string }> = [
@@ -52,8 +55,9 @@ const STAGE_DEFS: Array<{ id: JourneyStageId; label: string; shortLabel: string 
   { id: 'KEYFRAMES', label: 'Keyframes', shortLabel: 'KEYFRAMES' },
   { id: 'VIDEO', label: 'Video', shortLabel: 'VIDEO' },
   { id: 'ROUGH_CUT', label: 'Rough Cut', shortLabel: 'ROUGH CUT' },
-  { id: 'FINAL_REEL', label: 'Final Reel', shortLabel: 'FINAL' },
-  { id: 'CAMPAIGN_BOARD', label: 'Campaign Board', shortLabel: 'CAMPAIGN' },
+  { id: 'FINAL_REEL', label: 'Final Reel', shortLabel: 'FINAL REEL' },
+  { id: 'SOCIAL_PACKAGE', label: 'Social Package', shortLabel: 'SOCIAL PACKAGE' },
+  { id: 'CAMPAIGN_BOARD', label: 'Campaign Board', shortLabel: 'CAMPAIGN BOARD' },
 ];
 
 function isStoryboardActive(step: string): boolean {
@@ -76,7 +80,11 @@ export function buildProductionJourney(input: PipelineJourneyInput): JourneyStag
     videoEligibility,
     campaignReady,
     storyboardFailed,
+    finalReelApproved,
+    socialPackageStatus: inputSocialPackageStatus,
   } = input;
+
+  const reelApproved = finalReelApproved ?? false;
 
   const coverStatus: JourneyStageStatus = coverAuthority === 'APPROVED' ? 'APPROVED' : 'PENDING';
   const treatmentStatus: JourneyStageStatus = reelTreatment === 'LOCKED' ? 'APPROVED' : 'PENDING';
@@ -105,11 +113,17 @@ export function buildProductionJourney(input: PipelineJourneyInput): JourneyStag
   if (videoEligibility.includes('COMPLETE')) videoStatus = 'APPROVED';
 
   const roughCutStatus: JourneyStageStatus = 'LOCKED';
-  const finalReelStatus: JourneyStageStatus = campaignReady ? 'APPROVED' : 'LOCKED';
+  let finalReelStatus: JourneyStageStatus = reelApproved ? 'APPROVED' : 'LOCKED';
+  if (!reelApproved && videoStatus === 'APPROVED') finalReelStatus = 'READY';
+
+  let socialStatus: JourneyStageStatus = inputSocialPackageStatus ?? 'LOCKED';
+  if (!inputSocialPackageStatus) {
+    if (reelApproved) socialStatus = 'PENDING';
+  }
 
   let campaignStatus: JourneyStageStatus = 'LOCKED';
   if (campaignReady) campaignStatus = 'READY';
-  else if (finalReelStatus === 'APPROVED') campaignStatus = 'READY';
+  else if (socialStatus === 'APPROVED') campaignStatus = 'PENDING';
 
   const statusById: Record<JourneyStageId, JourneyStageStatus> = {
     COVER: coverStatus,
@@ -120,6 +134,7 @@ export function buildProductionJourney(input: PipelineJourneyInput): JourneyStag
     VIDEO: videoStatus,
     ROUGH_CUT: roughCutStatus,
     FINAL_REEL: finalReelStatus,
+    SOCIAL_PACKAGE: socialStatus,
     CAMPAIGN_BOARD: campaignStatus,
   };
 

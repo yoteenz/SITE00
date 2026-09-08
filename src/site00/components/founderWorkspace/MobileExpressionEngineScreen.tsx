@@ -1,5 +1,5 @@
 /**
- * Expression Engine — mobile full-screen blueprint (Image B family).
+ * Expression Engine — mobile full-screen blueprint (reference-fidelity layout).
  */
 
 import { Link } from 'react-router-dom';
@@ -17,7 +17,7 @@ export function MobileExpressionEngineScreen({ projectSlug }: Props) {
 
   return (
     <div
-      className="site00-fws-mobile-campaign site00-fws-mobile-content-shell site00-fws-mobile-expr"
+      className="site00-fws-mobile-campaign site00-fws-mobile-content-shell site00-fws-mobile-expr site00-fws-mobile-expr--ref"
       data-visual-reconstruction="mobile-expression-engine"
       {...vrRegionAttr(NDX_VR_REGION.campaignContentShell)}
     >
@@ -37,13 +37,9 @@ export function MobileExpressionEngineScreen({ projectSlug }: Props) {
         <span className="site00-fws-mobile-campaign__breadcrumb-active">EXPRESSION ENGINE</span>
       </nav>
 
-      <header className="site00-fws-mobile-campaign__hero">
-        <h2 className="site00-fws-mobile-campaign__heading">EXPRESSION ENGINE</h2>
-        <p className="site00-fws-mobile-campaign__tagline">Entry production blueprint</p>
-        <p className="site00-fws-mobile-campaign__support">B1 live proof — territory locked, anchor review pending</p>
-      </header>
+      <h1 className="site00-fws-mobile-expr__page-title">EXPRESSION ENGINE</h1>
 
-      <ExpressionEngineCampaignWorkspace projectSlug={projectSlug} />
+      <ExpressionEngineCampaignWorkspace projectSlug={projectSlug} layout="reference-mobile" />
     </div>
   );
 }
