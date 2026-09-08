@@ -272,6 +272,14 @@ export {
   hasValidFinalCinematicStoryboard,
 } from './entry002B49Bootstrap.js';
 export {
+  bootstrapC1NarrativeSynthesis,
+  applyNarrativeSynthesisFounderJudgment,
+  getNarrativeSynthesis,
+  resetNarrativeSynthesisStore,
+  recordNarrativeCreativeCorrection,
+  listNarrativeCreativeCorrections,
+} from './narrativeSynthesis/narrativeSynthesisService.js';
+export {
   applyPreStoryboardFounderJudgments,
 } from './preStoryboardFounderJudgment.js';
 export {

@@ -9,6 +9,7 @@ import { translateExpressionEngineError } from './expressionEngineErrorState';
 import type {
   B48PipelineResponse,
   B49R4PipelineResponse,
+  C1NarrativeSynthesisResponse,
   ExpressionEngineEntry002State,
 } from './types';
 
@@ -16,6 +17,7 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
   const [phase2, setPhase2] = useState<ExpressionEngineEntry002State['phase2'] | null>(null);
   const [b48, setB48] = useState<B48PipelineResponse | null>(null);
   const [b49r4, setB49r4] = useState<B49R4PipelineResponse | null>(null);
+  const [c1, setC1] = useState<C1NarrativeSynthesisResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [errorView, setErrorView] = useState<ReturnType<typeof translateExpressionEngineError>>(null);
@@ -25,10 +27,11 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
     setError(null);
     setErrorView(null);
     try {
-      const [p2, b48Res, b49Res] = await Promise.all([
+      const [p2, b48Res, b49Res, c1Res] = await Promise.all([
         expressionEngineApi.phase2(),
         apiFetch('/api/site00/expression-engine?phase=B48'),
         apiFetch('/api/site00/expression-engine?phase=B49R4&skipGeneration=1'),
+        apiFetch('/api/site00/expression-engine?phase=C1'),
       ]);
 
       if (!b48Res.ok) {
@@ -42,6 +45,11 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
         setB49r4((await b49Res.json()) as B49R4PipelineResponse);
       } else {
         setB49r4(null);
+      }
+      if (c1Res.ok) {
+        setC1((await c1Res.json()) as C1NarrativeSynthesisResponse);
+      } else {
+        setC1(null);
       }
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : 'Failed to load Expression Engine';
@@ -62,6 +70,7 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
       blueprint: null!,
       b48,
       b49r4,
+      c1,
       loading,
       error,
       errorView,
@@ -74,6 +83,7 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
     blueprint: phase2.blueprint,
     b48,
     b49r4,
+    c1,
     loading,
     error,
     errorView,

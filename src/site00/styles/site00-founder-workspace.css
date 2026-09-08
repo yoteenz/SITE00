@@ -5786,6 +5786,80 @@
   margin: 0;
 }
 
+.site00-ee-narrative-synthesis {
+  border: 1px solid var(--ee-border);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.site00-ee-narrative-synthesis__kicker {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--ee-muted);
+}
+
+.site00-ee-narrative-synthesis h2 {
+  margin: 8px 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.site00-ee-narrative-synthesis__premise {
+  color: var(--ee-muted);
+  font-size: 12px;
+}
+
+.site00-ee-narrative-synthesis__roles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.site00-ee-narrative-synthesis__role-chip {
+  border: 1px solid var(--ee-border);
+  padding: 8px;
+  font-size: 10px;
+}
+
+.site00-ee-narrative-synthesis__role-chip strong {
+  display: block;
+  margin-top: 4px;
+}
+
+.site00-ee-narrative-synthesis__spine {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site00-ee-narrative-synthesis__spine li {
+  border-left: 2px solid var(--ee-accent);
+  padding: 8px 12px;
+  margin-bottom: 8px;
+}
+
+.site00-ee-narrative-synthesis__beat-type {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--ee-muted);
+}
+
+.site00-ee-narrative-synthesis__qa {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 10px;
+  margin: 12px 0;
+}
+
+.site00-ee-narrative-synthesis__judgment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .site00-ee-error-state {
   max-width: 480px;
   margin: 32px auto;
