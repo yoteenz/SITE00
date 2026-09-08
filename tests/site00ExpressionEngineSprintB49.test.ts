@@ -34,16 +34,16 @@ import { buildPreStoryboardApprovalState } from '../api/_lib/site00ExpressionEng
 import { isKeyframeEligibleFromFinalStoryboard } from '../api/_lib/site00ExpressionEngine/entry002FinalStoryboardRecord.js';
 import { ENTRY_002_CINEMATIC_SEQUENCE_001 } from '../shared/site00-expression-engine/entry002CinematicSequenceIds.js';
 import {
-  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_ID,
-  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_003_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_004_ID,
   buildEntry002FinalCinematicStoryboardPublicStripPath,
 } from '../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
 import { resetLineageStore } from '../api/_lib/site00ExpressionEngine/lineageRegistration.js';
 
 describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generation (B4.9R2 single artifact)', { timeout: 60000 }, () => {
   beforeEach(async () => {
-    process.env.EXPRESSION_ENGINE_TEST_DETERMINISTIC_STORYBOARD = '1';
-    delete process.env.EXPRESSION_ENGINE_TEST_DETERMINISTIC_PANELS;
+    process.env.EXPRESSION_ENGINE_TEST_DETERMINISTIC_REEL_STORYBOARD = '1';
+    delete process.env.EXPRESSION_ENGINE_TEST_DETERMINISTIC_STORYBOARD;
     resetPreStoryboardAuthorityStore();
     resetFinalCinematicStoryboardStore();
     resetFinalCinematicStoryboardJudgmentStore();
@@ -98,9 +98,9 @@ describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generatio
     expect(result.storyboardBrief.historicalSequenceExcluded).toBe(ENTRY_002_CINEMATIC_SEQUENCE_001);
   });
 
-  it('5. canonical final storyboard ID is 003 distinct from historical sequence', async () => {
+  it('5. canonical final storyboard ID is 004 distinct from historical sequence', async () => {
     const result = await bootstrapB49();
-    expect(result.finalCinematicStoryboard?.storyboardId).toBe(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_ID);
+    expect(result.finalCinematicStoryboard?.storyboardId).toBe(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID);
     expect(result.finalCinematicStoryboard?.storyboardId).not.toBe(ENTRY_002_CINEMATIC_SEQUENCE_001);
   });
 
@@ -231,17 +231,17 @@ describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generatio
     const result = await bootstrapB49();
     expect(result.finalCinematicStoryboard?.telemetry.panelRenderCount).toBe(0);
     expect(result.finalCinematicStoryboard?.telemetry.storyboardRenderCount).toBe(1);
-    expect(result.telemetryNote).toContain('STORYBOARD_RENDERED=1');
+    expect(result.telemetryNote).toContain('REEL_COHERENCE_PASS');
   });
 
-  it('26. render state requires actual single storyboard artifact', async () => {
+  it('26. render state requires actual reel storyboard artifact', async () => {
     const result = await bootstrapB49();
     expect(result.finalCinematicStoryboard?.rendered).toBe(true);
-    expect(result.finalCinematicStoryboard?.generationMode).toBe('SINGLE_MULTI_PANEL_ARTIFACT');
+    expect(result.finalCinematicStoryboard?.generationMode).toBe('REEL_FIRST_SINGLE_ARTIFACT');
     const stripPath = path.join(
       process.cwd(),
       'public',
-      buildEntry002FinalCinematicStoryboardPublicStripPath(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_003_ID).replace(/^\//, ''),
+      buildEntry002FinalCinematicStoryboardPublicStripPath(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_004_ID).replace(/^\//, ''),
     );
     await expect(fs.access(stripPath)).resolves.toBeUndefined();
   });

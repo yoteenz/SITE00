@@ -120,8 +120,10 @@ function serializeFinalCinematicStoryboardResponse(
   return {
     engine: 'EXPRESSION_ENGINE_V0',
     sprint: result.sprint,
+    conceptualRootCause: 'conceptualRootCause' in result ? result.conceptualRootCause : undefined,
     b49FailureMode: result.b49FailureMode,
     b49rFailureMode: result.b49rFailureMode,
+    b49r2FailureMode: 'b49r2FailureMode' in result ? result.b49r2FailureMode : undefined,
     productionOrder: result.productionOrder,
     treatment: {
       treatmentId: result.treatment.treatmentId,
@@ -144,6 +146,24 @@ function serializeFinalCinematicStoryboardResponse(
       referenceOnly: result.storyboard002Historical.referenceOnly,
       failureReason: result.storyboard002Historical.failureReason,
     },
+    storyboard003Historical:
+      'storyboard003Historical' in result
+        ? {
+            storyboardId: result.storyboard003Historical.storyboardId,
+            status: result.storyboard003Historical.status,
+            referenceOnly: result.storyboard003Historical.referenceOnly,
+            failureReason: result.storyboard003Historical.failureReason,
+          }
+        : undefined,
+    reelVisualConception:
+      'reelVisualConception' in result
+        ? {
+            reelId: result.reelVisualConception.reelId,
+            selectedMomentCount: result.reelVisualConception.selectedStoryboardMoments.length,
+            narrativeBeatCount: result.panelManifest.length,
+            excludeAuthorityBoardLayouts: result.reelVisualConception.excludeAuthorityBoardLayouts,
+          }
+        : undefined,
     finalCinematicStoryboard: result.finalCinematicStoryboard
       ? {
           storyboardId: result.finalCinematicStoryboard.storyboardId,
@@ -158,6 +178,8 @@ function serializeFinalCinematicStoryboardResponse(
           structuralQaStatus: result.finalCinematicStoryboard.structuralQaStatus,
           continuityQaStatus: result.finalCinematicStoryboard.continuityQaStatus,
           renderModeQaStatus: result.finalCinematicStoryboard.renderModeQaStatus,
+          reelCoherenceQaStatus: result.finalCinematicStoryboard.reelCoherenceQaStatus,
+          boardTypeQaStatus: result.finalCinematicStoryboard.boardTypeQaStatus,
           authorityIds: result.finalCinematicStoryboard.authorityIds,
           compiled: result.finalCinematicStoryboard.compiled,
           dispatched: result.finalCinematicStoryboard.dispatched,
@@ -170,15 +192,25 @@ function serializeFinalCinematicStoryboardResponse(
     structuralQA: result.structuralQA,
     continuityDomainQA: result.continuityDomainQA,
     renderModeQA: result.renderModeQA,
+    reelCoherenceQA: 'reelCoherenceQA' in result ? result.reelCoherenceQA : undefined,
+    boardTypeQA: 'boardTypeQA' in result ? result.boardTypeQA : undefined,
     compiledPrompt: result.compiledPrompt,
-    singleArtifact: result.singleArtifact
-      ? {
-          generationMode: result.singleArtifact.generationMode,
-          compositeUrl: result.singleArtifact.compositeUrl,
-          provider: result.singleArtifact.provider,
-          telemetry: result.singleArtifact.telemetry,
-        }
-      : null,
+    reelArtifact:
+      'reelArtifact' in result && result.reelArtifact
+        ? {
+            generationMode: result.reelArtifact.generationMode,
+            compositeUrl: result.reelArtifact.compositeUrl,
+            provider: result.reelArtifact.provider,
+            telemetry: result.reelArtifact.telemetry,
+          }
+        : 'singleArtifact' in result && result.singleArtifact
+          ? {
+              generationMode: result.singleArtifact.generationMode,
+              compositeUrl: result.singleArtifact.compositeUrl,
+              provider: result.singleArtifact.provider,
+              telemetry: result.singleArtifact.telemetry,
+            }
+          : null,
     panelManifestCount: result.panelManifest.length,
     pipelineState: result.pipelineState,
     productionEligibility: result.productionEligibility,
@@ -267,9 +299,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       (phase === 'B49' ||
         phase === 'B49R' ||
         phase === 'B49R2' ||
+        phase === 'B49R3' ||
         phase === 'B4.9' ||
         phase === 'B4.9R' ||
         phase === 'B4.9R2' ||
+        phase === 'B4.9R3' ||
         phase === 'FINAL_CINEMATIC_STORYBOARD' ||
         phase === 'FINAL_STORYBOARD')
     ) {

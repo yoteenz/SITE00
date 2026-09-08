@@ -6106,3 +6106,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Hard stop:** No keyframe generation, no video dispatch
 - **Next:** FOUNDER REVIEW OF FINAL CINEMATIC STORYBOARD (003)
 
+---
+
+## 2026-09-08 — Sprint B4.9R3 — Reel-first storyboard conception recovery
+
+- **Context:** B4.9R2 technically produced one storyboard sheet but visual logic still treated beats as isolated illustrations, not successive moments from one conceived reel. Founder requires reel-first conception → 9 selected stills from one continuous film inside ONE board.
+- **Delivered:**
+  - **Entry002ReelVisualConception** — physical world, lighting arc, camera grammar, 9 selected storyboard moments (16 narrative beats remain coverage data only)
+  - **Reel-first prompt** — describes complete reel BEFORE still descriptions; explicit ONE REEL doctrine; excludes authority-board layout inheritance
+  - **Storyboard 003 disposition** — `FAILED_REEL_COHERENCE` / `BOARD_CONTAINS_ISOLATED_BEAT_IMAGES_NOT_ONE_COHERENT_REEL_SEQUENCE`
+  - **Storyboard 004** — `REEL_FIRST_SINGLE_ARTIFACT` → `AWAITING_FOUNDER_APPROVAL` after structural + continuity + render-mode + reel-coherence + board-type QA
+  - **QA** — `runReelCoherenceQA`, `runReelStoryboardBoardTypeQA`; B4.9/B4.9R/B4.9R2 regressions preserved
+  - **API/UI** — B49R3 phase; founder UI shows 9 selected stills, reel coherence + board type QA
+  - **Asset** — `ndx-entry-002-final-cinematic-storyboard-strip-004.jpg`
+  - **Tests** — `site00ExpressionEngineSprintB49R3.test.ts` (40); suite 339/339
+- **Hard stop:** No keyframe generation, no video dispatch
+- **Next:** FOUNDER REVIEW OF FINAL CINEMATIC STORYBOARD (004)
+

@@ -18,8 +18,10 @@ export function runStoryboardRenderModeQA(params: {
   const blockers: string[] = [];
 
   checks.push({
-    check: 'storyboardGenerationMode === SINGLE_MULTI_PANEL_ARTIFACT',
-    passed: params.generationMode === 'SINGLE_MULTI_PANEL_ARTIFACT',
+    check: 'storyboardGenerationMode === SINGLE_MULTI_PANEL_ARTIFACT or REEL_FIRST_SINGLE_ARTIFACT',
+    passed:
+      params.generationMode === 'SINGLE_MULTI_PANEL_ARTIFACT' ||
+      params.generationMode === 'REEL_FIRST_SINGLE_ARTIFACT',
   });
   checks.push({
     check: 'storyboardAssetCount === 1',

@@ -1,17 +1,19 @@
 /**
- * Sprint B4.9 / B4.9R / B4.9R2 — Final cinematic storyboard store.
+ * Sprint B4.9 / B4.9R / B4.9R2 / B4.9R3 — Final cinematic storyboard store.
  */
 
 import type { FinalCinematicStoryboardRecord } from '../../../shared/site00-expression-engine/finalCinematicStoryboardTypes.js';
-import { ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_ID } from '../../../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
+import { ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID } from '../../../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
 
 let historicalRecord001: FinalCinematicStoryboardRecord | null = null;
 let historicalRecord002: FinalCinematicStoryboardRecord | null = null;
+let historicalRecord003: FinalCinematicStoryboardRecord | null = null;
 let currentRecord: FinalCinematicStoryboardRecord | null = null;
 
 export function resetFinalCinematicStoryboardStore(): void {
   historicalRecord001 = null;
   historicalRecord002 = null;
+  historicalRecord003 = null;
   currentRecord = null;
 }
 
@@ -31,6 +33,14 @@ export function getStoryboard002HistoricalRecord(): FinalCinematicStoryboardReco
   return historicalRecord002;
 }
 
+export function saveStoryboard003HistoricalRecord(record: FinalCinematicStoryboardRecord): void {
+  historicalRecord003 = record;
+}
+
+export function getStoryboard003HistoricalRecord(): FinalCinematicStoryboardRecord | null {
+  return historicalRecord003;
+}
+
 export function getFinalCinematicStoryboardRecord(): FinalCinematicStoryboardRecord | null {
   return currentRecord;
 }
@@ -42,16 +52,18 @@ export function saveFinalCinematicStoryboardRecord(
   return record;
 }
 
-/** Valid only when single-artifact QA passed and status is reviewable. */
+/** Valid only when reel-first QA passed and status is reviewable. */
 export function hasValidFinalCinematicStoryboard(): boolean {
   if (!currentRecord) return false;
   return (
-    currentRecord.storyboardId === ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_ID &&
-    currentRecord.generationMode === 'SINGLE_MULTI_PANEL_ARTIFACT' &&
+    currentRecord.storyboardId === ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID &&
+    currentRecord.generationMode === 'REEL_FIRST_SINGLE_ARTIFACT' &&
     currentRecord.status === 'AWAITING_FOUNDER_APPROVAL' &&
     currentRecord.structuralQaStatus === 'PASS' &&
     currentRecord.continuityQaStatus === 'PASS' &&
     currentRecord.renderModeQaStatus === 'PASS' &&
+    currentRecord.reelCoherenceQaStatus === 'PASS' &&
+    currentRecord.boardTypeQaStatus === 'PASS' &&
     currentRecord.telemetry.storyboardRenderCount === 1 &&
     currentRecord.telemetry.panelRenderCount === 0
   );

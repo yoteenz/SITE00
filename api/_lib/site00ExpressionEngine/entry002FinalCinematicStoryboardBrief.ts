@@ -4,7 +4,7 @@
 
 import type { ReelTreatmentAuthority } from '../../../shared/site00-expression-engine/storyboardGateTypes.js';
 import type { PreStoryboardVisualAuthorityPack } from '../../../shared/site00-expression-engine/preStoryboardVisualAuthorityTypes.js';
-import { ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_ID } from '../../../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
+import { ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID } from '../../../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
 import {
   assertStoryboardCompilationFailClosed,
   resolveFinalStoryboardCompilationContract,
@@ -15,7 +15,7 @@ import { CHAPTER_01_ID } from './chapter01Canon.js';
 import { ENTRY_002_WORLD_ID } from './entry002Blueprint.js';
 
 export type FinalCinematicStoryboardBrief = {
-  storyboardId: typeof ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_ID;
+  storyboardId: typeof ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID;
   entryId: 'entry-002';
   entryTitle: string;
   treatmentId: string;
@@ -52,7 +52,7 @@ export function compileEntry002FinalCinematicStoryboardBrief(params: {
   const authorityIds = ENTRY_002_PRE_STORYBOARD_FOUNDER_APPROVALS.map((a) => a.authorityId);
 
   return {
-    storyboardId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_003_ID,
+    storyboardId: ENTRY_002_FINAL_CINEMATIC_STORYBOARD_004_ID,
     entryId: 'entry-002',
     entryTitle: params.treatment.entryTitle,
     treatmentId: params.treatment.treatmentId,

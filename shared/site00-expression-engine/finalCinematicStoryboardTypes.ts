@@ -17,9 +17,11 @@ export type FinalStoryboardStatus =
   | 'REVISION_REQUIRED'
   | 'FAILED_STORYBOARD_STRUCTURE'
   | 'FAILED_STORYBOARD_RENDER_MODE'
+  | 'FAILED_REEL_COHERENCE'
   | 'GENERATION_FAILED';
 
 export type StoryboardGenerationMode =
+  | 'REEL_FIRST_SINGLE_ARTIFACT'
   | 'SINGLE_MULTI_PANEL_ARTIFACT'
   | 'PANEL_FAN_OUT'
   | 'COMPOSITE_ONLY';
@@ -86,6 +88,10 @@ export type FinalCinematicStoryboardTelemetry = {
   panelManifestCount: number;
   panelDispatchCount: number;
   panelRenderCount: number;
+  reelConceptionCompileCount?: number;
+  narrativeBeatCount?: number;
+  selectedStoryboardMomentCount?: number;
+  storyboardPromptCompileCount?: number;
   /** @deprecated B4.9R panel fan-out */
   panelCompileCount?: number;
   panelFailureCount?: number;
@@ -115,6 +121,8 @@ export type FinalCinematicStoryboardRecord = {
   structuralQaStatus: 'PASS' | 'WARN' | 'FAIL';
   duplicationQaStatus: 'PASS' | 'WARN' | 'FAIL';
   renderModeQaStatus: 'PASS' | 'WARN' | 'FAIL';
+  reelCoherenceQaStatus: 'PASS' | 'WARN' | 'FAIL';
+  boardTypeQaStatus: 'PASS' | 'WARN' | 'FAIL';
   generationMode: StoryboardGenerationMode;
   panelCount: number;
   panels: FinalCinematicStoryboardPanel[];
@@ -132,6 +140,65 @@ export type FinalCinematicStoryboardRecord = {
   createdAt: string;
   updatedAt: string;
   approvedAt: string | null;
+};
+
+export type SelectedStoryboardMoment = {
+  momentId: string;
+  momentNumber: number;
+  momentTitle: string;
+  narrativeBeatsCovered: string[];
+  visualDescription: string;
+  cameraFraming: string;
+  lightingState: string;
+  environmentState: string;
+  chronologicalOrder: number;
+  reorderable: false;
+};
+
+export type Entry002ReelVisualConception = {
+  reelId: 'NDX-ENTRY-002-REEL-TREATMENT-001';
+  entryId: 'entry-002';
+  visualPremise: string;
+  physicalWorld: string;
+  startingReality: string;
+  lightingArc: string;
+  cameraLanguage: string;
+  ndxBehavior: string;
+  subjectBehavior: string;
+  phoneBehavior: string;
+  temporalProgression: string;
+  glitchEscalation: string;
+  editSuiteReveal: string;
+  interjectionTreatment: string;
+  snapBackTreatment: string;
+  continuityAnchors: string[];
+  shotFlow: string[];
+  selectedStoryboardMoments: SelectedStoryboardMoment[];
+  authorityRoles: Record<string, string>;
+  excludeAuthorityBoardLayouts: true;
+};
+
+export type ReelCoherenceQAResult = {
+  passed: boolean;
+  result: 'PASS' | 'WARN' | 'FAIL';
+  checks: Array<{ check: string; passed: boolean }>;
+  blockers: string[];
+  warnings: string[];
+};
+
+export type BoardTypeQAResult = {
+  passed: boolean;
+  result: 'PASS' | 'WARN' | 'FAIL';
+  isSingleImage: boolean;
+  isMultiImageSequenceWithinBoard: boolean;
+  isStoryMoodBoard: boolean;
+  isCinematicSequence: boolean;
+  isInfographic: boolean;
+  isTechnicalSpecBoard: boolean;
+  isAuthorityBoardClone: boolean;
+  isUnrelatedContactSheet: boolean;
+  checks: Array<{ check: string; passed: boolean }>;
+  blockers: string[];
 };
 
 export type StoryboardRenderModeQAResult = {

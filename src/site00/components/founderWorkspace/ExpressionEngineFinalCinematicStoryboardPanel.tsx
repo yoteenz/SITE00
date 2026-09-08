@@ -1,11 +1,11 @@
 /**
- * Expression Engine — Entry 002 final cinematic storyboard founder review (B4.9R2).
+ * Expression Engine — Entry 002 final reel storyboard founder review (B4.9R3).
  */
 
 import { useCallback, useEffect, useState } from 'react';
 import { apiFetch } from '../../../utils/api.js';
 
-type B49R2Response = {
+type B49R3Response = {
   finalCinematicStoryboard: {
     storyboardId: string;
     version: string;
@@ -17,19 +17,24 @@ type B49R2Response = {
     structuralQaStatus: string;
     continuityQaStatus: string;
     renderModeQaStatus: string;
+    reelCoherenceQaStatus: string;
+    boardTypeQaStatus: string;
     provider: string | null;
     telemetry: {
-      storyboardCompileCount: number;
+      reelConceptionCompileCount?: number;
+      narrativeBeatCount?: number;
+      selectedStoryboardMomentCount?: number;
       storyboardDispatchCount: number;
       storyboardRenderCount: number;
-      panelManifestCount: number;
-      panelDispatchCount: number;
       panelRenderCount: number;
     };
   } | null;
   storyboard001Historical: { status: string; failureReason: string | null };
   storyboard002Historical: { status: string; failureReason: string | null };
-  renderModeQA: { result: string };
+  storyboard003Historical?: { status: string; failureReason: string | null };
+  reelVisualConception?: { selectedMomentCount: number; narrativeBeatCount: number };
+  reelCoherenceQA?: { result: string };
+  boardTypeQA?: { result: string };
   productionEligibility: {
     founderStoryboardApproval: string;
     keyframeEligibility: string;
@@ -42,7 +47,7 @@ type B49R2Response = {
 };
 
 export function ExpressionEngineFinalCinematicStoryboardPanel() {
-  const [data, setData] = useState<B49R2Response | null>(null);
+  const [data, setData] = useState<B49R3Response | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [judging, setJudging] = useState(false);
@@ -51,9 +56,9 @@ export function ExpressionEngineFinalCinematicStoryboardPanel() {
     setLoading(true);
     setError(null);
     try {
-      const res = await apiFetch('/api/site00/expression-engine?phase=B49R2');
+      const res = await apiFetch('/api/site00/expression-engine?phase=B49R3');
       if (!res.ok) throw new Error(await res.text());
-      setData((await res.json()) as B49R2Response);
+      setData((await res.json()) as B49R3Response);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Failed to load final cinematic storyboard');
     } finally {
@@ -75,7 +80,7 @@ export function ExpressionEngineFinalCinematicStoryboardPanel() {
         body: JSON.stringify({ action: 'SET_FINAL_CINEMATIC_STORYBOARD_JUDGMENT', founderJudgment }),
       });
       if (!res.ok) throw new Error(await res.text());
-      setData((await res.json()) as B49R2Response);
+      setData((await res.json()) as B49R3Response);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Failed to record judgment');
     } finally {
@@ -84,7 +89,7 @@ export function ExpressionEngineFinalCinematicStoryboardPanel() {
   };
 
   if (loading) {
-    return <p className="site00-expr-engine-panel__meta">Loading final cinematic storyboard…</p>;
+    return <p className="site00-expr-engine-panel__meta">Loading final reel storyboard…</p>;
   }
 
   if (error) {
@@ -96,22 +101,25 @@ export function ExpressionEngineFinalCinematicStoryboardPanel() {
   const sb = data.finalCinematicStoryboard;
   const telemetry = sb.telemetry;
   const reviewActive = data.finalStoryboardReviewGate.active;
+  const momentCount = telemetry.selectedStoryboardMomentCount ?? sb.panelCount;
 
   return (
     <section className="site00-experiment-g__panel site00-expr-engine-block site00-expr-engine-fcs">
-      <h2>FINAL CINEMATIC STORYBOARD · ENTRY 002</h2>
+      <h2>FINAL REEL STORYBOARD · ENTRY 002</h2>
       <p className="site00-expr-engine-panel__meta">
-        {sb.storyboardId} · v{sb.version} · ONE STORYBOARD · {sb.panelCount} planned panels
+        {sb.storyboardId} · v{sb.version} · ONE REEL · {momentCount} selected stills ·{' '}
+        {data.reelVisualConception?.narrativeBeatCount ?? 16} narrative beats
       </p>
 
       <div className="site00-expr-engine-fcs__stages">
-        <span>MANIFEST {telemetry.panelManifestCount}</span>
+        <span>REEL CONCEPTION {telemetry.reelConceptionCompileCount ?? 1}</span>
+        <span>MOMENTS {momentCount}</span>
         <span>DISPATCHED {telemetry.storyboardDispatchCount}</span>
         <span>RENDERED {telemetry.storyboardRenderCount}</span>
         <span>PANEL RENDERS {telemetry.panelRenderCount} (must be 0)</span>
         <span>STRUCTURAL {sb.structuralQaStatus}</span>
-        <span>CONTINUITY {sb.continuityQaStatus}</span>
-        <span>RENDER MODE {sb.renderModeQaStatus}</span>
+        <span>REEL COHERENCE {sb.reelCoherenceQaStatus}</span>
+        <span>BOARD TYPE {sb.boardTypeQaStatus}</span>
         <span>REVIEW {reviewActive ? 'ACTIVE' : 'INACTIVE'}</span>
       </div>
 
@@ -120,6 +128,7 @@ export function ExpressionEngineFinalCinematicStoryboardPanel() {
       </p>
       <p className="site00-expr-engine-panel__meta">
         001: {data.storyboard001Historical.status} · 002: {data.storyboard002Historical.status}
+        {data.storyboard003Historical ? ` · 003: ${data.storyboard003Historical.status}` : ''}
       </p>
       <p className="site00-expr-engine-panel__copy">
         <strong>PRIMARY ACTION:</strong> {data.nextAction}
@@ -127,9 +136,9 @@ export function ExpressionEngineFinalCinematicStoryboardPanel() {
 
       {sb.storyboardStripUrl ? (
         <figure className="site00-expr-engine-cvs__contact">
-          <img src={sb.storyboardStripUrl} alt="Entry 002 final cinematic storyboard" loading="lazy" />
+          <img src={sb.storyboardStripUrl} alt="Entry 002 final reel storyboard" loading="lazy" />
           <figcaption>
-            Single multi-panel storyboard sheet · provider: {sb.provider ?? 'deterministic'}
+            Nine sequential stills from one imagined reel · provider: {sb.provider ?? 'deterministic'}
           </figcaption>
         </figure>
       ) : null}
