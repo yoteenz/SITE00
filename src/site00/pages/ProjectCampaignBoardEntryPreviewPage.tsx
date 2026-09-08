@@ -10,7 +10,7 @@ import '../styles/site00-founder-workspace.css';
 
 export default function ProjectCampaignBoardEntryPreviewPage() {
   const { projectSlug = '', entryNumber = '' } = useParams<{ projectSlug: string; entryNumber: string }>();
-  const { packagePreview } = useEntry001PackageState();
+  const { packagePreview, deliverables, formatSummaries } = useEntry001PackageState();
 
   if (!hasProjectCapability(projectSlug, 'CONTENT_OPERATIONS')) {
     return (
@@ -34,7 +34,14 @@ export default function ProjectCampaignBoardEntryPreviewPage() {
         projectSlug={projectSlug}
         title="ENTRY 001 — PACKAGE PREVIEW"
         hideWorkspaceHeader
-        operate={<Entry001PackagePreviewWorkspace projectSlug={projectSlug} composition={packagePreview} />}
+        operate={
+          <Entry001PackagePreviewWorkspace
+            projectSlug={projectSlug}
+            composition={packagePreview}
+            deliverables={deliverables}
+            formatSummaries={formatSummaries}
+          />
+        }
         inspect={
           <p style={{ margin: 0, fontSize: 11, color: '#666' }}>
             Live social package preview · previewReadiness vs campaignBoardEligibility · partial construction

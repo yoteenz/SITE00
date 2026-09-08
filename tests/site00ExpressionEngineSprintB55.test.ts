@@ -341,13 +341,13 @@ describe('B5.5 Entry 001 deliverable workspaces + preview', () => {
 
   it('47. mobile layout CSS present', () => {
     const css = readFileSync(join(ROOT, 'src/site00/styles/site00-founder-workspace.css'), 'utf8');
-    expect(css).toContain('site00-e001-preview--reel');
+    expect(css).toContain('site00-spp-fnav--rail');
     expect(css).toContain('site00-e001-package__nav');
   });
 
   it('48. desktop layout CSS present', () => {
     const css = readFileSync(join(ROOT, 'src/site00/styles/site00-founder-workspace.css'), 'utf8');
-    expect(css).toContain('site00-e001-preview-page__layout');
+    expect(css).toContain('site00-spp-stage');
   });
 
   it('49. build passes — routes registered', () => {
