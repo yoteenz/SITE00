@@ -3,9 +3,6 @@
  */
 
 import type {
-  CampaignContentUnitFunction,
-  CampaignHandoffPlan,
-  CampaignHandoffType,
   CampaignMotifSystem,
   CampaignCreativeRhythm,
   CampaignEscalationPlan,
