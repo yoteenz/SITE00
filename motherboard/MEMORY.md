@@ -6713,3 +6713,23 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Note:** First poll attempt lost job at ~63s (likely multi-instance 404); second job stayed sticky ~116s to completion. Poll up to ~2–3 min if UI shows RUNNING.
 - **Next founder action:** Expression Engine → Meridian comparison should load live FULL_REASONING run; record founder judgment if prompted.
 
+---
+
+## 2026-09-08 — Sprint B5.9R7 — Project Overview Intelligence + Reference-Fidelity Restoration
+
+- **Context:** NDXBOOK overview regressed to thin generic POS header (0% progress, 0 needs-your-eye, blank body). Approved Frontal Slayer mobile overview reference is design authority for structure/density; NDXBOOK adapter is content authority.
+- **Root cause:**
+  - Universal shell mounted generic `ProjectOverviewModule` using `summary.progressPercent` (defaults 0%)
+  - B5.10 technical intelligence **replaced** entire OVERVIEW when repo data existed
+  - NDXBOOK `OverviewFounderWorkspaceBoard` hack only on desktop founder view; mobile got empty generic shell
+- **Delivered:**
+  - **`ProjectOverviewAdapter`** contract + **`ProjectOverviewAdapterRegistry`** (ndxbook, frontal-slayer, studio-world, aio, astral-world, generic)
+  - **`NdxbookOverviewAdapter`** — entry-weight progress, founder review gates, creative production / package / technical signal cards, current focus + next milestone from Entry 001–003 state
+  - **`ProjectOverviewModuleSurface`** + **`site00-project-overview.css`** — hero, module chips, 2×2 signals, focus/milestone cards, activity, contextual CTA
+  - Shell/header wired; technical panel no longer overrides OVERVIEW; false-zero progress guard in header
+  - QA: `projectOverviewStateQA`, `EMPTY_GENERIC_PROJECT_OVERVIEW`
+  - **Tests:** `site00FounderWorkspaceSprintB59R7.test.ts` (17/17); B510 shell assertions updated
+- **Release:** v208 · bundle `index.BiVYP-Km.js` · PR #599 merged
+- **Mobile QA (390px):** ND lime hero, 70% progress, 1 needs-your-eye, 4 signal cards, module switcher + Evolve subshell intact
+- **Next founder action:** PROJECTS → NDXBOOK → OVERVIEW on mobile; compare to approved reference; verify EVOLVE subshell; upload GoDaddy ZIP v208.
+
