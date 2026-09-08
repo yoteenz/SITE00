@@ -15,6 +15,7 @@ import {
   getEntry001FullManifest,
 } from '../src/site00/config/entry001CampaignAssets.js';
 import { buildEntry001PackageReadiness } from '../src/site00/components/founderWorkspace/entry001CampaignPackage/entry001PackageReadiness.js';
+import { buildActiveArchive } from '../src/site00/components/founderWorkspace/entry001CampaignPackage/entry001ArchiveIntelligence.js';
 import { compileEntry001ArchiveDerivationPlan } from '../src/site00/components/founderWorkspace/entry001CampaignPackage/entry001ArchiveDerivationPlan.js';
 import {
   ENTRY001_VISUAL_CONTINUITY,
@@ -106,19 +107,21 @@ describe('B5.2 Entry 001 Campaign Package', () => {
       title: 'REEL COVER',
       format: 'IMAGE',
       role: 'REEL_COVER',
+      assetType: 'REEL_COVER',
       status: 'APPROVED',
       source: 'FOUNDER_SUPPLIED',
       approved: true,
       version: 'v001',
+      removedFromActiveArchive: false,
     };
-    const readiness = buildEntry001PackageReadiness([upload]);
+    const readiness = buildEntry001PackageReadiness(buildActiveArchive(), [upload]);
     expect(readiness.approvedRoles).toContain('REEL_COVER');
     expect(readiness.missingRoles).not.toContain('REEL_COVER');
   });
 
   it('14. package readiness updates after asset addition', () => {
     const before = buildEntry001PackageReadiness();
-    const after = buildEntry001PackageReadiness([
+    const after = buildEntry001PackageReadiness(buildActiveArchive(), [
       {
         assetId: 'x1',
         entryId: 'entry-001',
@@ -126,10 +129,12 @@ describe('B5.2 Entry 001 Campaign Package', () => {
         title: 'X',
         format: 'IMAGE',
         role: 'X_POST',
+        assetType: 'X_POST',
         status: 'APPROVED',
         source: 'FOUNDER_SUPPLIED',
         approved: true,
         version: 'v1',
+        removedFromActiveArchive: false,
       },
     ]);
     expect(after.approvedAssetCount).toBe(before.approvedAssetCount + 1);
@@ -149,12 +154,14 @@ describe('B5.2 Entry 001 Campaign Package', () => {
       title: role,
       format: role === 'FINAL_REEL' ? 'VIDEO' : 'IMAGE',
       role,
+      assetType: role === 'FINAL_REEL' ? 'REEL' : role === 'TIKTOK_POST' ? 'TIKTOK' : (role as Entry001CampaignAsset['assetType']),
       status: 'APPROVED',
       source: 'FOUNDER_SUPPLIED',
       approved: true,
       version: 'v1',
+      removedFromActiveArchive: false,
     }));
-    const readiness = buildEntry001PackageReadiness(allDeliverables);
+    const readiness = buildEntry001PackageReadiness(buildActiveArchive(), allDeliverables);
     expect(readiness.packageStatus).toBe('COMPLETE');
     expect(readiness.campaignBoardEligible).toBe(true);
   });

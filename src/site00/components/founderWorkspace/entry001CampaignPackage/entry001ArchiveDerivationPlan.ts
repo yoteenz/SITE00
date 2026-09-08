@@ -1,21 +1,19 @@
 /**
- * B5.2 — Entry 001 archive derivation plan (compile only — no provider dispatch).
+ * B5.2 / B5.4 — Entry 001 archive derivation plan (typed sources — no provider dispatch).
  */
 
 import type {
   Entry001ArchiveDerivationPlan,
   Entry001CampaignAsset,
+  Entry001AssetType,
 } from '../../../../../shared/site00-expression-engine/entry001CampaignPackage/types.js';
-import { ENTRY001_REQUIRED_DELIVERABLE_ROLES } from '../../../config/entry001CampaignAssets.js';
-import { ENTRY001_VISUAL_CONTINUITY, styleContinuityLockedFromArchive } from './entry001VisualContinuity.js';
-
-const SOURCE_IDS = [
-  'entry001-archive-01-then-now',
-  'entry001-archive-02-rehab-cycle',
-  'entry001-archive-03-apologies-archives',
-  'entry001-hero-portrait',
-  'entry001-archive-04-story-changed',
-];
+import { ENTRY001_REQUIRED_DELIVERABLE_TYPES } from '../../../config/entry001CampaignAssets.js';
+import {
+  ENTRY001_VISUAL_CONTINUITY,
+  formatContinuityForType,
+  styleContinuityLockedFromArchive,
+} from './entry001VisualContinuity.js';
+import { legacyRoleToAssetType, assetTypeToLegacyRole } from './entry001AssetTaxonomy.js';
 
 function continuityRules(): string[] {
   return [
@@ -34,47 +32,66 @@ function copyRules(): string[] {
   ];
 }
 
-export function compileEntry001ArchiveDerivationPlan(
-  approvedArchive: Entry001CampaignAsset[],
-): Entry001ArchiveDerivationPlan {
-  const locked = styleContinuityLockedFromArchive(approvedArchive.length);
+function sourceAssetsForTarget(
+  targetType: Entry001AssetType,
+  archive: Entry001CampaignAsset[],
+): { ids: string[]; types: Entry001AssetType[] } {
+  const familyMap: Partial<Record<Entry001AssetType, Entry001AssetType[]>> = {
+    REEL_COVER: ['CAROUSEL_SLIDE', 'STORY_FRAME', 'STATIC_POST', 'QUOTE_POST'],
+    HIGHLIGHT_ICON: ['CAROUSEL_SLIDE', 'STATIC_POST'],
+    TIKTOK: ['CAROUSEL_SLIDE', 'STORY_FRAME'],
+    X_POST: ['QUOTE_POST', 'CAROUSEL_SLIDE', 'INFOGRAPHIC'],
+    REEL: ['CAROUSEL_SLIDE', 'STORY_FRAME'],
+  };
+  const families = familyMap[targetType] ?? ['CAROUSEL_SLIDE'];
+  const matches = archive.filter((a) => families.includes(a.assetType ?? legacyRoleToAssetType(a.role)));
+  const types = [...new Set(matches.map((a) => a.assetType ?? legacyRoleToAssetType(a.role)))];
+  return { ids: matches.slice(0, 5).map((a) => a.assetId), types };
+}
 
-  const targets = ENTRY001_REQUIRED_DELIVERABLE_ROLES.map((role) => {
-    const derivable = locked && role !== 'FINAL_REEL';
+export function compileEntry001ArchiveDerivationPlan(
+  activeArchive: Entry001CampaignAsset[],
+): Entry001ArchiveDerivationPlan {
+  const locked = styleContinuityLockedFromArchive(activeArchive.length);
+
+  const targets = ENTRY001_REQUIRED_DELIVERABLE_TYPES.map((targetAssetType) => {
+    const { ids, types } = sourceAssetsForTarget(targetAssetType, activeArchive);
+    const derivable = locked && targetAssetType !== 'REEL';
     let strategy = 'Manual production or founder upload';
-    if (role === 'REEL_COVER') {
+    if (targetAssetType === 'REEL_COVER') {
       strategy =
-        'Derive dominant typography, Britney treatment, torn-paper collage, lime marker from approved archive';
-    } else if (role === 'HIGHLIGHT_ICON') {
-      strategy = 'Derive simple icon/cover from same visual package — no unrelated iconography';
-    } else if (role === 'FINAL_REEL') {
+        'Derive dominant typography, Britney treatment, torn-paper collage, lime marker from typed carousel/story sources';
+    } else if (targetAssetType === 'HIGHLIGHT_ICON') {
+      strategy = 'Derive simple icon/cover from carousel/static language — no unrelated iconography';
+    } else if (targetAssetType === 'REEL') {
       strategy =
         'Major production object — story/visual package established; requires explicit founder generation decision';
-    } else if (role === 'TIKTOK_POST') {
-      strategy = 'Platform-native expression from Entry narrative — not carousel resize';
-    } else if (role === 'X_POST') {
-      strategy = 'X-native thread from x-expr-entry-001 beats — not reel repost';
+    } else if (targetAssetType === 'TIKTOK') {
+      strategy = 'Platform-native expression from story-frame / carousel sources — not carousel resize';
+    } else if (targetAssetType === 'X_POST') {
+      strategy = 'X-native thread from quote/carousel sources — not reel repost';
     }
 
+    const formatRules = formatContinuityForType(targetAssetType);
+
     return {
-      role,
+      targetAssetType,
+      targetAssetRole: (targetAssetType === 'REEL_COVER' ? 'COVER' : null) as import('../../../../../shared/site00-expression-engine/entry001CampaignPackage/types.js').Entry001ContentRole | null,
+      role: assetTypeToLegacyRole(targetAssetType),
       derivable,
-      recommendedSourceAssetIds: derivable ? SOURCE_IDS : [],
+      recommendedSourceAssetIds: derivable ? ids : [],
+      sourceAssetTypes: derivable ? types : [],
+      recommendedContinuityReferences: formatRules.slice(0, 3),
       visualContinuityRules: continuityRules(),
       copyContinuityRules: copyRules(),
-      formatRules:
-        role === 'HIGHLIGHT_ICON'
-          ? ['square crop', 'lime accent minimal', 'recognizable at small size']
-          : role === 'FINAL_REEL'
-            ? ['9:16 cinematic', 'broadcast interruption grammar']
-            : ['platform-native aspect', 'preserve cream/black/lime palette'],
+      formatRules,
       generationStrategy: strategy,
       founderApprovalRequired: true,
     };
   });
 
   return {
-    planId: 'entry001-derivation-plan-v001',
+    planId: 'entry001-derivation-plan-v002',
     entryId: 'entry-001',
     compiledAt: new Date().toISOString(),
     providerDispatchCount: 0,

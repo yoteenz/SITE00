@@ -3,7 +3,6 @@
  */
 
 import type { Entry001VisualContinuitySummary } from '../../../../../shared/site00-expression-engine/entry001CampaignPackage/types.js';
-import { ENTRY001_APPROVED_ARCHIVE } from '../../../config/entry001CampaignAssets.js';
 
 export const ENTRY001_VISUAL_CONTINUITY: Entry001VisualContinuitySummary = {
   entryId: 'entry-001',
@@ -33,9 +32,46 @@ export const ENTRY001_VISUAL_CONTINUITY: Entry001VisualContinuitySummary = {
     'high-contrast headline + archival portrait',
   ],
   tone: ['editorial', 'cultural critique', 'archival', 'confrontational', 'reflective'],
+  formatLanguage: {
+    CAROUSEL_SLIDE: [
+      'dense editorial hierarchy',
+      'multi-panel progression',
+      'cream/black/lime',
+      'torn paper',
+      'Britney archival imagery',
+    ],
+    STORY_FRAME: [
+      'strong single statement',
+      'vertical framing',
+      'simplified copy',
+      'high-impact focal image',
+    ],
+    REEL_COVER: [
+      'one decisive headline',
+      'one strong archival portrait',
+      'reduced information density',
+    ],
+  },
 };
+
+export function formatContinuityForType(
+  assetType: import('../../../../../shared/site00-expression-engine/entry001CampaignPackage/types.js').Entry001AssetType,
+): string[] {
+  const base = ENTRY001_VISUAL_CONTINUITY.formatLanguage?.[assetType];
+  if (base?.length) return base;
+  if (assetType === 'HIGHLIGHT_ICON') {
+    return ['square crop', 'lime accent minimal', 'recognizable at small size'];
+  }
+  if (assetType === 'REEL') {
+    return ['9:16 cinematic', 'broadcast interruption grammar'];
+  }
+  if (assetType === 'TIKTOK' || assetType === 'X_POST') {
+    return ['platform-native aspect', 'preserve cream/black/lime palette'];
+  }
+  return ['preserve cream/black/lime palette', 'editorial collage grammar'];
+}
 
 export function styleContinuityLockedFromArchive(approvedArchiveCount: number): boolean {
   const threshold = 6;
-  return approvedArchiveCount >= threshold && ENTRY001_APPROVED_ARCHIVE.length >= threshold;
+  return approvedArchiveCount >= threshold;
 }
