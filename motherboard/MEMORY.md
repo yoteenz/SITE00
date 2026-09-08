@@ -6258,3 +6258,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Release:** `site00-deploy-2026-09-08-v182` · bundle `index.evvlk4tL.js`
 - **Next production action:** Founder deploys cPanel ZIP; on mobile verify collapsed + expanded accordion states vs REF 01/02; choose Generate or Import storyboard when ready (no auto-dispatch)
 
+---
+
+## 2026-09-08 — Sprint C1.1 — Autonomous Creative Director Runtime
+
+- **Context:** C1.0 built narrative synthesis structure but compiler was deterministic from canon inputs. C1.1 adds LLM-backed (optional Anthropic text) Autonomous Creative Director Runtime that develops thin Entry briefs into full creative direction + narrative spine without founder connective tissue.
+- **Delivered:**
+  - **Runtime** — `api/_lib/site00ExpressionEngine/creativeDirector/` (15 intellectual passes, convergence max 3, self-critique, maturity assessment, FounderInterventionDependency)
+  - **Contracts** — `shared/site00-expression-engine/creative-director/types.ts`
+  - **Blind test Entry** — `entry-c1-blind` (corporate wellness / rest-as-content — NOT Entry 002)
+  - **API** — GET `?phase=C1.1|CREATIVE_DIRECTOR|AUTONOMOUS_CREATIVE_DIRECTOR`; POST `SET_CREATIVE_DIRECTOR_JUDGMENT` + learning loop for STRUCTURAL_REPAIR
+  - **UI** — `AutonomousCreativeDirectorWorkspace` wired into mobile Expression Engine supporting intelligence accordion
+  - **Tests** — `site00ExpressionEngineSprintC11.test.ts` (46/46 pass); C1.0 tests remain green (24/24)
+  - **Production firewall** — image/video/FAL dispatch count 0
+- **Architecture layer:** BRAND TRUTH → CULTURAL READ → CREATIVE THINKING → NARRATIVE SYNTHESIS → SELF-CRITIQUE → DIRECTORIAL TREATMENT
+- **Next evaluation action:** Founder reviews blind-test Creative Director output (`entry-c1-blind`) without rewriting first — judge whether Studio World supplied connective tissue on its own
+
