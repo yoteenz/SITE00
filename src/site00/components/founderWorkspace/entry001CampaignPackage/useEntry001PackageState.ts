@@ -37,6 +37,7 @@ import {
   restoreCampaignAssetApi,
   type CampaignPackageApiResponse,
 } from './campaignPackageApi.js';
+import { deliverablesFromSnapshot } from './campaignPackageDeliverableBridge.js';
 import {
   backupLegacyLocalStorage,
   isLocalMigrationComplete,
@@ -48,7 +49,6 @@ import {
   deleteDeliverablePermanently,
   getDeliverableById,
   loadDeliverablesState,
-  persistDeliverablesState,
   removeDeliverableFromPackage,
   replaceDeliverableFile,
   restoreDeliverableToPackage,
@@ -110,6 +110,7 @@ export function useEntry001PackageState() {
     packageId?: string;
     carouselVersion?: number;
     storyVersion?: number;
+    storeMode?: CampaignPackageApiResponse['storeMode'];
   }>({});
   const [orderedCarouselIds, setOrderedCarouselIds] = useState<string[]>([]);
   const [orderedStoryIds, setOrderedStoryIds] = useState<string[]>([]);
@@ -125,6 +126,8 @@ export function useEntry001PackageState() {
     const snap = body.snapshot as {
       package?: { packageId?: string };
       sequences?: Array<{ formatFamily: string; versionNumber: number; orderedAssetIds: string[]; isCurrent: boolean }>;
+      deliverables?: unknown[];
+      versions?: unknown[];
     } | null;
     if (snap?.package?.packageId) {
       const carousel = snap.sequences?.find((s) => s.formatFamily === 'CAROUSEL' && s.isCurrent);
@@ -133,9 +136,21 @@ export function useEntry001PackageState() {
         packageId: snap.package.packageId,
         carouselVersion: carousel?.versionNumber,
         storyVersion: story?.versionNumber,
+        storeMode: body.storeMode,
       });
       if (carousel) setOrderedCarouselIds(carousel.orderedAssetIds);
       if (story) setOrderedStoryIds(story.orderedAssetIds);
+    }
+    if (body.storeMode) {
+      setBackendMeta((prev) => ({ ...prev, storeMode: body.storeMode }));
+    }
+    if (body.snapshot && typeof body.snapshot === 'object' && snap) {
+      const backendDeliverables = deliverablesFromSnapshot(
+        body.snapshot as import('../../../../../shared/site00-campaign-package/types.js').CampaignPackageSnapshot,
+      );
+      if (backendDeliverables.length > 0) {
+        setDeliverablePersisted({ deliverables: backendDeliverables });
+      }
     }
     if (body.carouselAssets && Array.isArray(body.carouselAssets)) {
       setOrderedCarouselIds((body.carouselAssets as Array<{ assetId: string }>).map((a) => a.assetId));
@@ -269,7 +284,14 @@ export function useEntry001PackageState() {
     (updater: (prev: Entry001DeliverableRecord[]) => Entry001DeliverableRecord[]) => {
       setDeliverablePersisted((prev) => {
         const next = { deliverables: updater(prev.deliverables) };
-        persistDeliverablesState(next);
+        /* localStorage is optimistic cache only — canonical state is backend */
+        try {
+          if (typeof window !== 'undefined') {
+            sessionStorage.setItem('site00_entry001_deliverables_cache_v1', JSON.stringify(next));
+          }
+        } catch {
+          /* cache optional */
+        }
         return next;
       });
     },
@@ -280,7 +302,6 @@ export function useEntry001PackageState() {
     (nextExtraAssets: Entry001CampaignAsset[]) => {
       const nextActive = buildActiveArchive(persisted.overrides, persisted.removedAssetIds, nextExtraAssets);
       const synced = syncDeliverablesFromAssets(nextActive, nextExtraAssets, deliverablePersisted.deliverables);
-      persistDeliverablesState({ deliverables: synced });
       setDeliverablePersisted({ deliverables: synced });
     },
     [persisted.overrides, persisted.removedAssetIds, deliverablePersisted.deliverables],

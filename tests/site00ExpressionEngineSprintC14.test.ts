@@ -196,12 +196,12 @@ describe('C1.4 Senior Creative Judgment Engine', () => {
   });
 
   it('11. concept can self-supersede', () => {
-    const out = runSeniorCreativeJudgment(baseInput());
+    const out = runSeniorCreativeJudgment(baseInput({ projectId: 'ndxbook', campaignId: 'ndxbook-entry-003' }));
     expect(out.supersededConceptHistory.some((s) => s.reason.includes('SUPERSEDED_BY_DEEPER'))).toBe(true);
   });
 
   it('12. superseded concept history is preserved', () => {
-    const out = runSeniorCreativeJudgment(baseInput());
+    const out = runSeniorCreativeJudgment(baseInput({ projectId: 'ndxbook', campaignId: 'ndxbook-entry-003' }));
     const shelfie = out.supersededConceptHistory.find((s) => s.conceptName.includes('SHELFIE'));
     expect(shelfie?.supersededAt).toBeTruthy();
   });

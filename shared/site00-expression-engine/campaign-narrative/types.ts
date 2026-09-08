@@ -259,7 +259,15 @@ export type MarketingPackageMasterDirectorOutput = {
   payoff: string;
   campaignEnding: string;
   cohesionQA: CampaignNarrativeCohesionQA;
-  /** C1.4 — pipeline stack including Senior Creative Judgment layer */
+  /** C1.4 / C1.5 — pipeline stack + senior judgment runs when activated */
   creativePipelineStack: string[];
+  seniorJudgmentRuns?: Array<{
+    unitId: string;
+    judgment: import('../senior-creative-judgment/types.js').SeniorCreativeJudgmentOutput;
+    runtimeMode: string;
+    reasoningDepthLimited: boolean;
+  }>;
+  creativeRuntimeMode?: string;
+  textReasoningDispatchCount?: number;
   version: string;
 };

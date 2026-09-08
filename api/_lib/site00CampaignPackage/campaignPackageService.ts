@@ -1,9 +1,11 @@
 /**
- * B5.6 — Campaign package service — canonical CRUD + sequence reorder + migration.
+ * B5.6R1 — Campaign package service — canonical CRUD via unified store adapter.
  */
 
 import type {
   CampaignAssetRecord,
+  CampaignDeliverableRecord,
+  CampaignDeliverableVersionRecord,
   CampaignFormatSequenceRecord,
   CampaignPackageAuditEvent,
   CampaignPackageSnapshot,
@@ -15,12 +17,12 @@ import {
   appendMigrationReceipt,
   getCampaignPackageSnapshot,
   upsertCampaignPackageSnapshot,
-} from './memoryStore.js';
+} from './campaignPackageStore.js';
 import {
   ENTRY001_PACKAGE_KEY_EXPORT,
   migrateEntry001Package,
+  syncDeliverablesIntoSnapshot,
 } from './entry001Migration.js';
-import { resolveCampaignPackageStoreMode } from './storeAdapter.js';
 
 function uid(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -44,13 +46,15 @@ function audit(
     after,
     createdAt: new Date().toISOString(),
   };
-  appendAuditEvent(event);
+  void appendAuditEvent(event);
   snapshot.auditEvents.push(event);
 }
 
+async function saveSnapshot(snapshot: CampaignPackageSnapshot): Promise<CampaignPackageSnapshot> {
+  return upsertCampaignPackageSnapshot(snapshot);
+}
+
 export async function loadCampaignPackage(packageKey: string): Promise<CampaignPackageSnapshot | null> {
-  const mode = await resolveCampaignPackageStoreMode();
-  if (mode === 'memory') return getCampaignPackageSnapshot(packageKey);
   return getCampaignPackageSnapshot(packageKey);
 }
 
@@ -60,15 +64,16 @@ export async function syncEntry001Package(args: {
 }): Promise<{ snapshot: CampaignPackageSnapshot; migrated: boolean }> {
   const existing = await loadCampaignPackage(ENTRY001_PACKAGE_KEY_EXPORT);
   if (existing?.package.migrationComplete && !args.forceMigration && !args.legacy) {
-    return { snapshot: existing, migrated: false };
+    return { snapshot: syncDeliverablesIntoSnapshot(existing), migrated: false };
   }
 
-  const { snapshot, receipt } = migrateEntry001Package({
+  const { snapshot: migratedSnapshot, receipt } = migrateEntry001Package({
     existing,
     legacy: args.legacy ?? null,
     source: args.legacy ? 'LOCAL_STORAGE' : existing ? 'MERGE' : 'SEED',
   });
 
+  const snapshot = syncDeliverablesIntoSnapshot(migratedSnapshot);
   const migrated = receipt.recordsCreated > 0 || receipt.recordsUpdated > 0;
 
   appendMigrationReceipt(receipt);
@@ -77,7 +82,7 @@ export async function syncEntry001Package(args: {
     audit(snapshot, 'MIGRATION_COMPLETED', receipt.migrationId, null, { receiptId: receipt.migrationId });
   }
 
-  upsertCampaignPackageSnapshot(snapshot);
+  await saveSnapshot(snapshot);
   return { snapshot, migrated };
 }
 
@@ -93,8 +98,7 @@ export async function updateCampaignAsset(
   snapshot.assets[idx] = { ...snapshot.assets[idx]!, ...patch, updatedAt: new Date().toISOString() };
   audit(snapshot, patch.status === 'ARCHIVED' ? 'ASSET_REMOVED' : 'ASSET_RECLASSIFIED', assetId, before, snapshot.assets[idx]!);
   snapshot.package.updatedAt = new Date().toISOString();
-  upsertCampaignPackageSnapshot(snapshot);
-  return snapshot;
+  return saveSnapshot(snapshot);
 }
 
 export async function restoreCampaignAsset(packageKey: string, assetId: string): Promise<CampaignPackageSnapshot> {
@@ -111,19 +115,127 @@ export async function restoreCampaignAsset(packageKey: string, assetId: string):
   };
   audit(snapshot, 'ASSET_RESTORED', assetId, before, snapshot.assets[idx]!);
   snapshot.package.updatedAt = new Date().toISOString();
-  upsertCampaignPackageSnapshot(snapshot);
-  return snapshot;
+  return saveSnapshot(snapshot);
 }
 
 export async function removeCampaignAsset(packageKey: string, assetId: string): Promise<CampaignPackageSnapshot> {
-  const snapshot = (await loadCampaignPackage(packageKey))!;
-  const asset = snapshot.assets.find((a) => a.assetId === assetId);
-  if (!asset) throw new Error('Asset not found');
   return updateCampaignAsset(packageKey, assetId, {
     removedFromActiveArchive: true,
     archivedAt: new Date().toISOString(),
     status: 'ARCHIVED',
   });
+}
+
+export async function deleteCampaignAssetPermanently(
+  packageKey: string,
+  assetId: string,
+): Promise<CampaignPackageSnapshot> {
+  const snapshot = (await loadCampaignPackage(packageKey))!;
+  const tombstones = new Set(
+    ((snapshot.package.metadata?.deletedAssetTombstones as string[] | undefined) ?? []).map(String),
+  );
+  tombstones.add(assetId);
+  snapshot.package.metadata = {
+    ...(snapshot.package.metadata ?? {}),
+    deletedAssetTombstones: [...tombstones],
+  };
+  snapshot.assets = snapshot.assets.filter((a) => a.assetId !== assetId);
+  snapshot.deliverables = snapshot.deliverables.filter((d) => d.assetId !== assetId);
+  audit(snapshot, 'ASSET_REMOVED', assetId, { permanent: false }, { permanent: true, tombstoned: true });
+  snapshot.package.updatedAt = new Date().toISOString();
+  return saveSnapshot(snapshot);
+}
+
+export async function updateCampaignDeliverable(
+  packageKey: string,
+  deliverableId: string,
+  patch: Partial<CampaignDeliverableRecord>,
+): Promise<CampaignPackageSnapshot> {
+  const snapshot = (await loadCampaignPackage(packageKey))!;
+  const idx = snapshot.deliverables.findIndex((d) => d.deliverableId === deliverableId);
+  if (idx < 0) throw new Error('Deliverable not found');
+  const before = { ...snapshot.deliverables[idx]! };
+  snapshot.deliverables[idx] = {
+    ...snapshot.deliverables[idx]!,
+    ...patch,
+    updatedAt: new Date().toISOString(),
+  };
+  audit(snapshot, 'DELIVERABLE_REPLACED', deliverableId, before, snapshot.deliverables[idx]!);
+  snapshot.package.updatedAt = new Date().toISOString();
+  return saveSnapshot(snapshot);
+}
+
+export async function replaceDeliverableVersion(args: {
+  packageKey: string;
+  deliverableId: string;
+  filePath: string;
+  title: string;
+  caption?: string | null;
+}): Promise<CampaignPackageSnapshot> {
+  const snapshot = (await loadCampaignPackage(args.packageKey))!;
+  const deliverable = snapshot.deliverables.find((d) => d.deliverableId === args.deliverableId);
+  if (!deliverable) throw new Error('Deliverable not found');
+
+  const existingVersions = snapshot.versions.filter((v) => v.deliverableId === args.deliverableId);
+  const nextVersionNumber =
+    existingVersions.reduce((max, v) => Math.max(max, v.versionNumber), 0) + 1;
+  const now = new Date().toISOString();
+
+  snapshot.versions = snapshot.versions.map((v) =>
+    v.deliverableId === args.deliverableId && !v.supersededAt
+      ? { ...v, supersededAt: now }
+      : v,
+  );
+
+  const version: CampaignDeliverableVersionRecord = {
+    versionId: uid('ver'),
+    deliverableId: args.deliverableId,
+    versionNumber: nextVersionNumber,
+    filePath: args.filePath,
+    caption: args.caption ?? null,
+    title: args.title,
+    assetType: deliverable.deliverableType,
+    assetRole: null,
+    sequenceIndex: null,
+    source: 'FOUNDER_SUPPLIED',
+    storageSource: args.filePath.startsWith('blob:') ? 'BLOB_SESSION' : 'STATIC_PUBLIC',
+    createdAt: now,
+    createdBy: 'founder',
+    supersededAt: null,
+    metadata: {},
+  };
+  snapshot.versions.push(version);
+
+  const dIdx = snapshot.deliverables.findIndex((d) => d.deliverableId === args.deliverableId);
+  snapshot.deliverables[dIdx] = {
+    ...deliverable,
+    currentVersionId: version.versionId,
+    status: 'UPLOADED',
+    updatedAt: now,
+  };
+
+  audit(snapshot, 'DELIVERABLE_REPLACED', args.deliverableId, { version: nextVersionNumber - 1 }, { version: nextVersionNumber });
+  snapshot.package.updatedAt = now;
+  return saveSnapshot(snapshot);
+}
+
+export async function updateDeliverableCaption(
+  packageKey: string,
+  deliverableId: string,
+  caption: string,
+): Promise<CampaignPackageSnapshot> {
+  const snapshot = (await loadCampaignPackage(packageKey))!;
+  const idx = snapshot.deliverables.findIndex((d) => d.deliverableId === deliverableId);
+  if (idx < 0) throw new Error('Deliverable not found');
+  const before = { caption: snapshot.deliverables[idx]!.metadata?.caption };
+  snapshot.deliverables[idx] = {
+    ...snapshot.deliverables[idx]!,
+    metadata: { ...snapshot.deliverables[idx]!.metadata, caption },
+    updatedAt: new Date().toISOString(),
+  };
+  audit(snapshot, 'CAPTION_EDITED', deliverableId, before, { caption });
+  snapshot.package.updatedAt = new Date().toISOString();
+  return saveSnapshot(snapshot);
 }
 
 export async function reorderCampaignSequence(args: {
@@ -179,8 +291,8 @@ export async function reorderCampaignSequence(args: {
   });
 
   snapshot.package.updatedAt = now;
-  upsertCampaignPackageSnapshot(snapshot);
-  return { snapshot };
+  const saved = await saveSnapshot(snapshot);
+  return { snapshot: saved };
 }
 
 export function snapshotToLegacyPersisted(snapshot: CampaignPackageSnapshot): {
@@ -220,6 +332,22 @@ export function getOrderedSequenceAssets(
   return seq.orderedAssetIds
     .map((id) => snapshot.assets.find((a) => a.assetId === id && !a.removedFromActiveArchive))
     .filter(Boolean) as CampaignAssetRecord[];
+}
+
+export function computePackageReadinessFromSnapshot(snapshot: CampaignPackageSnapshot): {
+  previewReadiness: string;
+  campaignBoardEligibility: boolean;
+} {
+  const activeDeliverables = snapshot.deliverables.filter(
+    (d) => !d.removedFromPackage && d.status !== 'DELETED',
+  );
+  const approved = activeDeliverables.filter((d) => d.status === 'APPROVED').length;
+  const total = activeDeliverables.length;
+  const ratio = total ? approved / total : 0;
+  return {
+    previewReadiness: ratio >= 0.8 ? 'READY' : ratio >= 0.4 ? 'PARTIAL' : 'INCOMPLETE',
+    campaignBoardEligibility: ratio >= 0.8,
+  };
 }
 
 export { ENTRY001_PACKAGE_KEY_EXPORT };

@@ -6381,3 +6381,27 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `site00ExpressionEngineSprintC14.test.ts` (63 pass); C11/C12/C13 regression 197 total pass; build pass
 - **Next founder action:** FOUNDER REVIEWS THE SENIOR CREATIVE JUDGMENT RESULT FOR ENTRY 003 AND JUDGES WHETHER STUDIO WORLD NOW IDENTIFIED AND RESOLVED THE SAME DEEPER CREATIVE ISSUES BEFORE THE FOUNDER HAD TO POINT THEM OUT
 
+---
+
+## 2026-09-08 — Combined Sprint B5.6R1 + C1.5 — Production Persistence Hardening + Creative Intelligence Runtime Activation
+
+- **Context:** Follow-up to B5.6 (campaign package persistence architecture) and C1.4 (Senior Creative Judgment). Two independent workstreams: (A) wire Supabase as canonical production store for campaign packages, decommission deliverable localStorage ownership; (B) activate Senior Creative Judgment as global mandatory MPMD runtime with reasoning provider, blind non-NDXBOOK test, durable correction/judgment persistence. No FAL/image/video dispatch.
+- **Workstream A — B5.6R1:**
+  - **Supabase adapter** — `api/_lib/site00CampaignPackage/supabaseStore.ts` (get/upsert package snapshot, assets, deliverables, versions, sequences, audit, migration receipts)
+  - **Unified store** — `campaignPackageStore.ts` routes SUPABASE | MEMORY_TEST | LOCAL_FALLBACK via `storeAdapter.ts`; `storeMode` exposed on API responses
+  - **Service** — deliverable CRUD, tombstones, caption/replace, readiness from backend snapshot, idempotent Entry 001 migration with `syncDeliverablesIntoSnapshot`
+  - **Frontend** — `useEntry001PackageState.ts` hydrates deliverables from API; `campaignPackageDeliverableBridge.ts`; localStorage migration source only
+  - **Tests:** `site00ExpressionEngineSprintB56R1.test.ts` (26/26 pass)
+  - **Status:** ARCHITECTURE_PASS + PERSISTENCE_PASS (MEMORY_TEST in VITEST; SUPABASE when service role + schema live); LIVE_BROWSER_QA_BLOCKED in cloud VM (no authenticated founder session)
+- **Workstream B — C1.5:**
+  - **Global runtime** — `creativeIntelligenceRuntime.ts`: `runMarketingPackageMasterDirectorWithCreativeJudgment`, `runBlindCreativeMarketingTest`, `runEntry003SharedRegression`
+  - **Reasoning provider** — `creativeReasoningProvider.ts` (Anthropic when configured; DETERMINISTIC_FALLBACK in VITEST)
+  - **Blind fixture** — `blindTestFixtures.ts` — Solstice Audio / Nova Wave (non-NDXBOOK, thin brief, no encoded winner)
+  - **In-memory persistence** — `creativeIntelligenceStore.ts`; Supabase migration `20260908170000_site00_creative_intelligence_persistence.sql` (schema ready, adapter not yet wired)
+  - **Entry 003** — `entry003C14Pipeline.ts` now uses global MPMD runtime (no Entry-specific SCJ routing); supersededConceptHistory scoped to ndxbook only
+  - **UI** — `GenericCreativeJudgmentReview.tsx` (component created; Expression Engine wiring partial)
+  - **Tests:** `site00ExpressionEngineSprintC15.test.ts` (34/34 pass); C14 regression 63/63 pass
+  - **Status:** HYBRID_RUNTIME_PASS / DETERMINISTIC_FALLBACK in test env; FULL_REASONING_LIVE_TEST_BLOCKED without Anthropic key in VM
+- **Combined:** 123 sprint tests pass; build pass; PR merged to main
+- **Next founder actions:** (A) VERIFY ENTRY 001 ON TWO SESSIONS/DEVICES after cPanel deploy; (B) REVIEW FRESH SOLSTICE AUDIO BLIND CAMPAIGN in Expression Engine C1.5 phase without rewriting first
+

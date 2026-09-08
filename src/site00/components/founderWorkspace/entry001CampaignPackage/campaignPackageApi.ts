@@ -8,8 +8,11 @@ import type { Entry001ArchiveStatePersisted } from './entry001ArchiveIntelligenc
 
 export type CampaignPackageApiResponse = {
   ok: boolean;
+  storeMode?: 'SUPABASE' | 'MEMORY_TEST' | 'LOCAL_FALLBACK';
   snapshot: unknown;
   legacy: Entry001ArchiveStatePersisted;
+  deliverables?: unknown[];
+  versions?: unknown[];
   carouselAssets?: unknown[];
   storyAssets?: unknown[];
   migrated?: boolean;

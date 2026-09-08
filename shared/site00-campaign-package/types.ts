@@ -35,7 +35,9 @@ export const CAMPAIGN_AUDIT_EVENT_TYPES = [
   'ASSET_RECLASSIFIED',
   'ASSET_REMOVED',
   'ASSET_RESTORED',
+  'DELIVERABLE_ADDED',
   'DELIVERABLE_REPLACED',
+  'DELIVERABLE_REMOVED',
   'CAPTION_EDITED',
   'SEQUENCE_REORDERED',
   'VERSION_CHANGED',
@@ -142,10 +144,17 @@ export type CampaignPackageMigrationReceipt = {
   migrationId: string;
   packageId: string;
   source: 'LOCAL_STORAGE' | 'SEED' | 'MERGE';
+  sourceVersion?: string;
   recordsExamined: number;
   recordsCreated: number;
   recordsUpdated: number;
   recordsSkipped: number;
+  assetsCreated?: number;
+  assetsUpdated?: number;
+  deliverablesCreated?: number;
+  deliverablesUpdated?: number;
+  versionsCreated?: number;
+  sequencesCreated?: number;
   errors: string[];
   completedAt: string;
   legacyBackup?: Record<string, unknown>;
@@ -186,4 +195,5 @@ export type LegacyEntry001LocalState = {
   removedAssetIds: string[];
   archivedAssets: Array<Record<string, unknown>>;
   extraAssets: Array<Record<string, unknown>>;
+  deliverables?: Array<Record<string, unknown>>;
 };

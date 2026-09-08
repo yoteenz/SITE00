@@ -1,33 +1,28 @@
 /**
- * C1.4 — Entry 003 Senior Creative Judgment pipeline.
+ * C1.5 — Entry 003 via global creative intelligence runtime (no Entry-specific SCJ routing).
  */
 
 import {
   ENTRY_003_C14_GATE_ID,
-  ENTRY_003_ID,
   type Entry003C14BootstrapResult,
   type Entry003C14Package,
 } from '../../../../shared/site00-expression-engine/entry-003/types.js';
 import { bootstrapC13Entry003CinematicContinuity } from '../entry003/entry003C13Pipeline.js';
 import { saveEntry003Package } from '../entry003/entry003Store.js';
-import {
-  getSeniorCreativeJudgmentArchitectureStack,
-  runSeniorCreativeJudgmentFromConcept,
-} from '../seniorCreativeJudgment/seniorCreativeJudgmentEngine.js';
-import type { SeniorCreativeJudgmentOutput } from '../../../../shared/site00-expression-engine/senior-creative-judgment/types.js';
+import { getSeniorCreativeJudgmentArchitectureStack } from '../seniorCreativeJudgment/seniorCreativeJudgmentEngine.js';
+import { runMarketingPackageMasterDirectorWithCreativeJudgment } from '../seniorCreativeJudgment/creativeIntelligenceRuntime.js';
 
 export async function bootstrapC14Entry003SeniorCreativeJudgment(): Promise<Entry003C14BootstrapResult> {
   const c13 = await bootstrapC13Entry003CinematicContinuity();
   const pkg = c13.entry003Package;
   const winning = pkg.evolvedReview.winningConcept;
 
-  const seniorJudgment: SeniorCreativeJudgmentOutput = runSeniorCreativeJudgmentFromConcept(winning, {
-    contentUnitId: ENTRY_003_ID,
-    interjection: pkg.evolvedReview.interjection,
-    deeperContradiction: pkg.evolvedReview.deeperContradiction,
-    culturalRead: pkg.evolvedReview.culturalRead,
-    entry004Tease: pkg.evolvedReview.entry004Tease.seedLine,
-  });
+  const mpmd = await runMarketingPackageMasterDirectorWithCreativeJudgment();
+  const entry003Run = mpmd.seniorJudgmentRuns.find((r) => r.unitId === 'entry-003');
+  if (!entry003Run?.judgment) {
+    throw new Error('Senior creative judgment missing from global runtime');
+  }
+  const seniorJudgment = entry003Run.judgment;
 
   const c14Pkg: Entry003C14Package = {
     ...pkg,
@@ -38,6 +33,7 @@ export async function bootstrapC14Entry003SeniorCreativeJudgment(): Promise<Entr
       : 'CREATIVE_DIRECTION_AWAITING_FOUNDER_REVIEW',
     seniorCreativeJudgment: seniorJudgment,
     architectureStack: getSeniorCreativeJudgmentArchitectureStack(),
+    marketingPackageMasterDirector: mpmd,
     founderInterventionDependency:
       seniorJudgment.founderHandholdingRisk === 'HIGH'
         ? 'HIGH'
@@ -58,7 +54,7 @@ export async function bootstrapC14Entry003SeniorCreativeJudgment(): Promise<Entr
   saveEntry003Package(c14Pkg);
 
   return {
-    sprint: 'C1.4_SENIOR_CREATIVE_JUDGMENT',
+    sprint: 'C1.5_CREATIVE_INTELLIGENCE_RUNTIME',
     architectureLayer: 'SENIOR_CREATIVE_JUDGMENT_ENGINE',
     architectureStack: getSeniorCreativeJudgmentArchitectureStack(),
     providerDispatchCount: 0,
@@ -68,8 +64,37 @@ export async function bootstrapC14Entry003SeniorCreativeJudgment(): Promise<Entr
     entry003Package: c14Pkg,
     seniorCreativeJudgment: seniorJudgment,
     cinematicContinuityDirector: c13.cinematicContinuityDirector,
-    marketingPackageMasterDirector: c13.marketingPackageMasterDirector,
+    marketingPackageMasterDirector: mpmd,
     nextAction:
       'FOUNDER REVIEWS THE SENIOR CREATIVE JUDGMENT RESULT FOR ENTRY 003 AND JUDGES WHETHER STUDIO WORLD NOW IDENTIFIED AND RESOLVED THE SAME DEEPER CREATIVE ISSUES BEFORE THE FOUNDER HAD TO POINT THEM OUT.',
+  };
+}
+
+export async function bootstrapC15CreativeIntelligenceRuntime(): Promise<{
+  sprint: string;
+  mpmd: Awaited<ReturnType<typeof runMarketingPackageMasterDirectorWithCreativeJudgment>>;
+  blindTest: Awaited<ReturnType<typeof import('../seniorCreativeJudgment/creativeIntelligenceRuntime.js').runBlindCreativeMarketingTest>>;
+  entry003Regression: Awaited<ReturnType<typeof import('../seniorCreativeJudgment/creativeIntelligenceRuntime.js').runEntry003SharedRegression>>;
+  textReasoningDispatchCount: number;
+  imageProviderDispatchCount: 0;
+  videoProviderDispatchCount: 0;
+  falDispatchCount: 0;
+}> {
+  const { runBlindCreativeMarketingTest, runEntry003SharedRegression } = await import(
+    '../seniorCreativeJudgment/creativeIntelligenceRuntime.js'
+  );
+  const mpmd = await runMarketingPackageMasterDirectorWithCreativeJudgment();
+  const blindTest = await runBlindCreativeMarketingTest();
+  const entry003Regression = await runEntry003SharedRegression();
+
+  return {
+    sprint: 'C1.5_CREATIVE_INTELLIGENCE_RUNTIME',
+    mpmd,
+    blindTest,
+    entry003Regression,
+    textReasoningDispatchCount: mpmd.textReasoningDispatchCount + blindTest.textReasoningDispatchCount,
+    imageProviderDispatchCount: 0,
+    videoProviderDispatchCount: 0,
+    falDispatchCount: 0,
   };
 }

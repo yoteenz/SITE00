@@ -4,7 +4,10 @@
 
 export { bootstrapC12Entry003AutonomousCreativeDirector } from './entry003AutonomousPipeline.js';
 export { bootstrapC13Entry003CinematicContinuity } from './entry003C13Pipeline.js';
-export { bootstrapC14Entry003SeniorCreativeJudgment } from './entry003C14Pipeline.js';
+export {
+  bootstrapC14Entry003SeniorCreativeJudgment,
+  bootstrapC15CreativeIntelligenceRuntime,
+} from './entry003C14Pipeline.js';
 export {
   applyEntry003FounderJudgment,
   getEntry003Package,
