@@ -47,6 +47,15 @@ export function ProjectIndexDesktopRow({ item }: ProjectIndexDesktopRowProps) {
           </p>
           <p className="site00-pidx-desktop-row__name">{item.projectName}</p>
           {descriptor ? <p className="site00-pidx-desktop-row__descriptor">{descriptor}</p> : null}
+          {item.repositorySlug ? (
+            <p className="site00-pidx-desktop-row__repo">
+              REPOSITORY · <span className="site00-pidx-desktop-row__repo-slug">{item.repositorySlug}</span>
+              {item.commitsAhead != null ? ` · ↑ ${item.commitsAhead} AHEAD` : null}
+              {item.openPullRequests != null ? ` · ${item.openPullRequests} OPEN PR` : null}
+            </p>
+          ) : item.repositoryStatus === 'UNRESOLVED' ? (
+            <p className="site00-pidx-desktop-row__repo">REPOSITORY · NOT CONNECTED</p>
+          ) : null}
           <p className="site00-pidx-desktop-row__status">
             <span className={`site00-pidx-status-dot site00-pidx-status-dot--${item.statusDot}`} aria-hidden="true" />
             {item.status.replace(/_/g, ' ')} · {item.lastUpdatedLabel}

@@ -10,6 +10,7 @@ import site00AccessHandler from '../api/site00-access.js';
 import site00AccessCredentialsAdminHandler from '../api/admin/site00-access-credentials.js';
 import site00ClientProductionHandler from '../api/site00/client-production.js';
 import site00ProjectsHandler from '../api/site00/projects.js';
+import site00ProjectTechnicalIntelligenceHandler from '../api/site00/project-technical-intelligence.js';
 import site00MarketingEngagementsHandler from '../api/site00/marketing-engagements.js';
 import site00StudioWorldWebhookHandler from '../api/site00/studio-world-webhook.js';
 import site00MarketingAdminHandler from '../api/admin/site00-marketing.js';
@@ -47,6 +48,7 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/site00/client-reviews', handler: site00ClientReviewsHandler },
   { path: '/api/site00/client-app', handler: site00ClientAppHandler },
   { path: '/api/site00/projects', handler: site00ProjectsHandler },
+  { path: '/api/site00/project-technical-intelligence', handler: site00ProjectTechnicalIntelligenceHandler },
   { path: '/api/site00/marketing-engagements', handler: site00MarketingEngagementsHandler },
   { path: '/api/site00/studio-world-webhook', handler: site00StudioWorldWebhookHandler },
   { path: '/api/admin/site00-marketing', handler: site00MarketingAdminHandler },

@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import type { ProjectModuleId } from '../../../../shared/site00-projects/projectModules.js';
 import { PROJECT_MODULE_CONFIGS, projectModulePath } from '../../../../shared/site00-projects/projectModules.js';
 import type { GeneralizedProjectOperatingState } from '../../../../shared/site00-projects/generalizedProjectOperatingState.js';
+import type { ProjectCodebaseIntelligence } from '../../../../shared/site00-projects/technical/types.js';
+import type { ProjectTechnicalTabId } from '../../../../shared/site00-projects/technical/types.js';
+import { projectHasTechnicalIntelligenceCapability } from '../../../../shared/site00-projects/technical/projectRepositoryRegistry.js';
 import { ProjectOperatingHeader } from './ProjectOperatingHeader.js';
 import { ProjectModuleDesktopNav } from './ProjectModuleDesktopNav.js';
 import { ProjectModuleSwitcher } from './ProjectModuleSwitcher.js';
@@ -18,6 +21,10 @@ import {
   ProjectLibraryModule,
   ProjectMoreModule,
 } from './ProjectModulePanels.js';
+import {
+  PROJECT_TECHNICAL_SUBNAV,
+  ProjectTechnicalPanelRouter,
+} from '../projectTechnical/ProjectTechnicalPanels.js';
 import { useProjectViewMode } from '../../context/ProjectViewModeContext.js';
 import { useSite00OriginWideViewport } from '../shell/useSite00OriginWideViewport.js';
 
@@ -28,6 +35,9 @@ type ProjectOperatingShellProps = {
   visibleModules: ProjectModuleId[];
   ndxEvolveContent?: ReactNode;
   ndxOverviewContent?: ReactNode;
+  technicalIntelligence?: ProjectCodebaseIntelligence | null;
+  technicalState?: 'idle' | 'loading' | 'ready' | 'error';
+  onTechnicalSync?: () => void;
 };
 
 function defaultSubnav(moduleId: ProjectModuleId): string {
@@ -41,10 +51,17 @@ export function ProjectOperatingShell({
   visibleModules,
   ndxEvolveContent,
   ndxOverviewContent,
+  technicalIntelligence,
+  technicalState = 'idle',
+  onTechnicalSync,
 }: ProjectOperatingShellProps) {
   const navigate = useNavigate();
   const isWide = useSite00OriginWideViewport();
   const { viewMode } = useProjectViewMode();
+  const technicalEnabled = projectHasTechnicalIntelligenceCapability(
+    operatingState.capabilityManifest.enabledCapabilities,
+  );
+  const [activeTechnicalTab, setActiveTechnicalTab] = useState<ProjectTechnicalTabId>('OVERVIEW');
   const [activeSubnav, setActiveSubnav] = useState(() => defaultSubnav(currentModule));
 
   const handleModuleSelect = useCallback(
@@ -56,6 +73,55 @@ export function ProjectOperatingShell({
   );
 
   const moduleContent = useMemo(() => {
+    if (
+      currentModule === 'OVERVIEW' &&
+      technicalEnabled &&
+      technicalIntelligence &&
+      !(projectSlug === 'ndxbook' && ndxOverviewContent && viewMode === 'FOUNDER')
+    ) {
+      return (
+        <>
+          <div className="site00-ptech-subnav" role="tablist">
+            {PROJECT_TECHNICAL_SUBNAV.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                role="tab"
+                className={`site00-ptech-subnav__tab${activeTechnicalTab === tab.id ? ' is-active' : ''}`}
+                onClick={() => setActiveTechnicalTab(tab.id)}
+                aria-selected={activeTechnicalTab === tab.id}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+          {isWide && activeTechnicalTab === 'OVERVIEW' ? (
+            <div className="site00-ptech-desktop-grid">
+              {[
+                { title: 'REPOSITORY', status: technicalIntelligence.repositoryConnection.connected ? 'CONNECTED' : 'NOT CONNECTED', meta: technicalIntelligence.repositoryConnection.repositoryUrl ?? '—' },
+                { title: 'CI / BUILD', status: technicalIntelligence.buildState.status, meta: technicalIntelligence.buildState.lastRun ?? '—' },
+                { title: 'DEPENDENCIES', status: String(technicalIntelligence.dependencyState.totalDependencies), meta: `${technicalIntelligence.dependencyState.outdated.length} OUTDATED` },
+                { title: 'DEPLOYMENTS', status: technicalIntelligence.deploymentState.find((d) => d.environment === 'PRODUCTION')?.status ?? 'UNKNOWN', meta: 'VIEW ENVIRONMENTS' },
+                { title: 'READINESS', status: technicalIntelligence.readinessAssessment.overall.replace(/_/g, ' '), meta: technicalIntelligence.readinessAssessment.percentDerivation ?? '—' },
+              ].map((card) => (
+                <div key={card.title} className="site00-ptech-desktop-card">
+                  <p className="site00-ptech-desktop-card__title">{card.title}</p>
+                  <p className="site00-ptech-desktop-card__status">{card.status}</p>
+                  <p className="site00-ptech-desktop-card__meta">{card.meta}</p>
+                </div>
+              ))}
+            </div>
+          ) : null}
+          <ProjectTechnicalPanelRouter
+            tab={activeTechnicalTab}
+            intelligence={technicalIntelligence}
+            onSync={onTechnicalSync}
+            syncing={technicalState === 'loading'}
+          />
+        </>
+      );
+    }
+
     if (projectSlug === 'ndxbook' && currentModule === 'OVERVIEW' && ndxOverviewContent && viewMode === 'FOUNDER') {
       return ndxOverviewContent;
     }
@@ -86,11 +152,17 @@ export function ProjectOperatingShell({
     }
   }, [
     activeSubnav,
+    activeTechnicalTab,
     currentModule,
+    isWide,
     ndxEvolveContent,
     ndxOverviewContent,
+    onTechnicalSync,
     operatingState,
     projectSlug,
+    technicalEnabled,
+    technicalIntelligence,
+    technicalState,
     viewMode,
   ]);
 
@@ -130,7 +202,7 @@ export function ProjectOperatingShell({
 
         <main className="site00-pos__main">{moduleContent}</main>
 
-        {!isWide ? (
+        {!isWide && currentModule === 'OVERVIEW' && technicalEnabled && technicalIntelligence ? null : !isWide ? (
           <ProjectModuleMobileSubnav
             moduleId={currentModule}
             activeSubnav={activeSubnav}
