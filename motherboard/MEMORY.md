@@ -6522,3 +6522,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cloud VM status:** `RAILWAY_PROVIDER_CONFIG_BLOCKED` (no local key). Production Railway previously showed providerAvailable=true but zero dispatch pre-fix.
 - **Next founder action:** After merge deploys to Railway, open Expression Engine Meridian comparison (C1.9R2) — if FULL_REASONING_LIVE_PASS, review side-by-side without editing. If still blocked, check Railway logs for provider HTTP errors in runtime receipt.
 
+---
+
+## 2026-09-08 — Sprint B5.8 — Reference-Fidelity Social Package Preview Redesign
+
+- **Context:** Founder approved desktop + mobile reference mockups for Entry 001 Social Package Preview. Rebuild look to match references while preserving B5.4–B5.7 package route, deliverable, sequence, and persistence logic.
+- **Delivered:**
+  - **Generic preview system** — `src/site00/components/founderWorkspace/socialPackagePreview/` (`SocialPackagePreviewWorkspace`, platform-native previews for Reel/Carousel/Story/TikTok/X/Highlight, `AssetSequenceRail`, `CopyReviewInspector`, `PackageProgressSummary`, `PackageFlowStrip`, `RecentPackageActivity`, `PlatformEmptyState`)
+  - **Entry 001 adapter** — `entry001SocialPreviewAdapter.ts` hydrates model from canonical `packagePreview` + deliverables (no hardcoded Britney strings in generic components)
+  - **Desktop** — three-zone studio: asset rail | platform hero | copy inspector; format tab strip; compact header with progress 2/6; removed legacy PACKAGE MAP / ALL FORMATS / STATUS stack
+  - **Mobile** — overview launchpad (format tiles, flow, recent activity) + sticky format rail + per-format platform previews
+  - **CSS** — `.site00-spp-*` reference-fidelity styles (lime accent, off-white, editorial density)
+  - **Tests** — `site00ExpressionEngineSprintB58.test.ts` (31/31); B55 CSS assertions updated; build PASS (`index.Dq-OzP_7.js`)
+- **Route unchanged:** `/projects/ndxbook/content-operations/campaign-board/entry/001/preview`
+- **Copy intelligence:** Alt captions / WHY THIS COPY placeholders until C1.7/C1.8 wired to package preview inspector
+- **Next founder action:** OPEN ENTRY 001 → PREVIEW on mobile (390px): OVERVIEW → each format. Desktop 1440px: verify ASSETS → LIVE PREVIEW → COPY/DETAILS. Upload v198 ZIP to GoDaddy.
+
