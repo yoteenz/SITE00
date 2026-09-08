@@ -81,8 +81,15 @@ function runtimeLabel(mode: string | undefined): string {
 
 export function MultiUnitCreativePackageReview({ campaign }: Props) {
   const [expandedUnit, setExpandedUnit] = useState<string | null>(null);
+  const [activeCaptions, setActiveCaptions] = useState<Record<string, string>>({});
 
   if (!campaign) return null;
+
+  const getActiveCaption = (unitId: string, fallback: string) => activeCaptions[unitId] ?? fallback;
+
+  const selectAlt = (unitId: string, caption: string) => {
+    setActiveCaptions((prev) => ({ ...prev, [unitId]: caption }));
+  };
 
   const pkg = campaign.packageJudgment;
   const majorUnits = campaign.units.filter((u) => u.reviewType === 'SENIOR_CREATIVE_JUDGMENT');
@@ -218,7 +225,12 @@ export function MultiUnitCreativePackageReview({ campaign }: Props) {
             <article key={copy.unitId} className="site00-expr-engine-senior-review__unit-card">
               <strong>{copy.medium.replace(/_/g, ' ')}</strong> · COPY ROLE: {copy.copyRole} ·{' '}
               {copy.visualRelationship}
-              <p>{copy.finalCaption.slice(0, 200)}</p>
+              <p>{getActiveCaption(copy.unitId, copy.finalCaption).slice(0, 200)}</p>
+              <div className="site00-expr-engine-senior-review__copy-actions">
+                <button type="button" onClick={() => selectAlt(copy.unitId, copy.finalCaption)}>LOVE IT</button>
+                <button type="button" onClick={() => selectAlt(copy.unitId, copy.altCaptionA)}>ALT A</button>
+                <button type="button" onClick={() => selectAlt(copy.unitId, copy.altCaptionB)}>ALT B</button>
+              </div>
               <details className="site00-expr-engine-senior-review__details">
                 <summary>COPY DIRECTION · ALT A / ALT B · CTA: {copy.copyPackage.cta}</summary>
                 <p>Primary: {copy.primaryCaption.slice(0, 120)}</p>

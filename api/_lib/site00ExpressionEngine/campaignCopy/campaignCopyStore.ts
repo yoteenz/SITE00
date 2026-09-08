@@ -1,9 +1,14 @@
 /**
- * C1.7 — Campaign copy persistence (memory + Supabase-ready).
+ * C1.7/C1.8 — Campaign copy persistence (memory + Supabase).
  */
 
 import type { CampaignCopyPackageOutput } from '../../../shared/site00-expression-engine/campaign-copy/types.js';
 import { hasSupabaseServiceRole } from '../../supabase.js';
+import {
+  campaignCopySchemaExists,
+  upsertCampaignCopyPackageToSupabase,
+  loadCampaignCopyPackageFromSupabase,
+} from './campaignCopySupabaseStore.js';
 
 const packages: CampaignCopyPackageOutput[] = [];
 let storeMode: 'MEMORY' | 'SUPABASE' = 'MEMORY';
@@ -13,7 +18,11 @@ export async function initCampaignCopyStore(): Promise<'MEMORY' | 'SUPABASE'> {
     storeMode = 'MEMORY';
     return storeMode;
   }
-  storeMode = hasSupabaseServiceRole() ? 'SUPABASE' : 'MEMORY';
+  if (hasSupabaseServiceRole() && (await campaignCopySchemaExists())) {
+    storeMode = 'SUPABASE';
+  } else {
+    storeMode = 'MEMORY';
+  }
   return storeMode;
 }
 
@@ -26,8 +35,16 @@ export function resetCampaignCopyStore(): void {
   storeMode = 'MEMORY';
 }
 
-export async function persistCampaignCopyPackage(output: CampaignCopyPackageOutput): Promise<void> {
-  packages.push(output);
+export async function persistCampaignCopyPackage(
+  output: CampaignCopyPackageOutput,
+  projectId = 'verdant-row',
+): Promise<void> {
+  const existing = packages.findIndex((p) => p.copyPackageId === output.copyPackageId);
+  if (existing >= 0) packages[existing] = output;
+  else packages.push(output);
+  if (storeMode === 'SUPABASE') {
+    await upsertCampaignCopyPackageToSupabase(output, projectId);
+  }
 }
 
 export function listCampaignCopyPackages(): CampaignCopyPackageOutput[] {
@@ -36,6 +53,17 @@ export function listCampaignCopyPackages(): CampaignCopyPackageOutput[] {
 
 export function getCampaignCopyPackage(copyPackageId: string): CampaignCopyPackageOutput | undefined {
   return packages.find((p) => p.copyPackageId === copyPackageId);
+}
+
+export async function loadCampaignCopyPackage(copyPackageId: string): Promise<CampaignCopyPackageOutput | undefined> {
+  const mem = getCampaignCopyPackage(copyPackageId);
+  if (mem) return mem;
+  if (storeMode === 'SUPABASE') {
+    const remote = await loadCampaignCopyPackageFromSupabase(copyPackageId);
+    if (remote) packages.push(remote);
+    return remote ?? undefined;
+  }
+  return undefined;
 }
 
 export function updateUnitCopyVersion(
@@ -56,10 +84,12 @@ export function updateUnitCopyVersion(
     copyText: { caption },
     rhetoricalStrategy: unit.winningTerritory.rhetoricalBehavior,
     cta: unit.copyPackage.cta,
-    status: founderJudgment ? 'APPROVED' : 'AWAITING_FOUNDER_REVIEW',
+    status: founderJudgment === 'LOVE IT' ? 'APPROVED' : 'AWAITING_FOUNDER_REVIEW',
     founderJudgment,
-    source: 'founder_edit',
+    source: founderJudgment === 'LOVE IT' ? 'founder_love_it' : 'founder_edit',
     createdAt: new Date().toISOString(),
   });
   return true;
 }
+
+export { applyFounderCopyAction, isCopyPackageReady } from './founderCopyActions.js';

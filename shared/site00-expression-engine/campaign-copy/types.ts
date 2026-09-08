@@ -111,6 +111,14 @@ export const COPY_FAILURE_CLASSES = [
   'HASHTAG_SPAM',
   'NO_COPY_HANDOFF',
   'COPY_CLONED_ACROSS_FORMATS',
+  'NDXBOOK_VOICE_LEAK',
+  'COPY_COULD_BELONG_TO_ANY_BRAND',
+  'COPY_SOUNDS_LIKE_OTHER_BRAND',
+  'CROSS_BRAND_VOICE_CONTAMINATION',
+  'BRAND_VOICE_COLLAPSE',
+  'AI_RHETORICAL_PATTERN_OVERUSE',
+  'GENERIC_LUXURY_COPY',
+  'OVEREXPLAINED_COOL_BRAND',
 ] as const;
 export type CopyFailureClass = (typeof COPY_FAILURE_CLASSES)[number];
 
@@ -297,6 +305,8 @@ export type CampaignCopyPackageOutput = {
   copyPackageId: string;
   campaignId: string;
   voiceProfile: CampaignVoiceProfile;
+  brandLanguageIdentity?: import('../brand-language/types.js').BrandLanguageIdentity;
+  copyRuntimeMode?: import('../brand-language/types.js').CopyRuntimeMode;
   unitCopyDirections: UnitCopyDirection[];
   copySequence: CampaignCopySequence;
   phraseLineage: CampaignPhraseLineage;
@@ -305,6 +315,9 @@ export type CampaignCopyPackageOutput = {
   packageCopyHandholdingRisk: CopyFounderHandholdingRisk;
   productionGatePassed: boolean;
   textReasoningDispatchCount: number;
+  copyReasoningDispatchCount?: number;
+  provider?: string;
+  model?: string;
   imageProviderDispatchCount: 0;
   videoProviderDispatchCount: 0;
   falDispatchCount: 0;

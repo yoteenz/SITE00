@@ -30,6 +30,14 @@ import { retrieveApplicableCorrectionPrinciples } from '../seniorCreativeJudgmen
 import { evaluateCampaignCopyCohesion } from './campaignCopyCohesionQA.js';
 import { buildNdxbookVoiceOverlay } from './ndxbookCopyAdapter.js';
 import { persistCampaignCopyPackage, initCampaignCopyStore } from './campaignCopyStore.js';
+import {
+  deriveBrandLanguageIdentity,
+  deriveCampaignVoice,
+  deriveUnitVoice,
+  brandIdentityToCampaignVoiceProfile,
+  extractBrandSpecificityMarkers,
+} from '../brandLanguage/brandLanguageIdentity.js';
+import { resolveCopyRuntimeMode } from './copyReasoningProvider.js';
 
 function buildVoiceProfile(brief: ThinMultiUnitBrief): CampaignVoiceProfile {
   return {
@@ -278,7 +286,15 @@ function buildUnitCopyDirection(
   voice: CampaignVoiceProfile,
   dna: CampaignCreativeDNA,
   index: number,
-): UnitCopyDirection {
+  brandIdentity: import('../../../shared/site00-expression-engine/brand-language/types.js').BrandLanguageIdentity,
+  campaignVoice: string,
+): UnitCopyDirection & {
+  brandLanguageIdentity: typeof brandIdentity;
+  campaignVoice: string;
+  unitVoice: string;
+  brandSpecificityMarkers: ReturnType<typeof extractBrandSpecificityMarkers>;
+  approvalState: 'AWAITING_REVIEW';
+} {
   const territories = copyTerritoriesForUnit(unit.medium, unit.role.campaignRole, brief);
   const winningTerritory = [...territories].sort((a, b) => b.score - a.score)[0]!;
   const visualRelationship = visualRelationshipFor(unit.medium, unit.role.campaignRole);
@@ -359,6 +375,11 @@ function buildUnitCopyDirection(
     founderHandholdingRisk: handholding,
     failureClasses: challenged.failures,
     evidenceRequired: /stat|percent|medical|clinical/i.test(challenged.final),
+    brandLanguageIdentity: brandIdentity,
+    campaignVoice,
+    unitVoice: deriveUnitVoice(brandIdentity, 'PRODUCT_HERO', unit.medium),
+    brandSpecificityMarkers: extractBrandSpecificityMarkers(brandIdentity, challenged.final),
+    approvalState: 'AWAITING_REVIEW',
     versions: [
       {
         versionLabel: 'V001',
@@ -393,14 +414,24 @@ export async function runCampaignCopyDirector(args: {
     domains: ['copy', 'caption', 'social'],
   });
 
-  let voice = buildVoiceProfile(args.brief);
+  const brandIdentity = deriveBrandLanguageIdentity({
+    brandId: args.brief.projectId,
+    brandName: args.brief.brandName,
+    tone: args.brief.tone,
+    positioning: args.brief.brandTruth,
+    founderCreativeAppetite: args.brief.founderCreativeAppetite,
+    projectId: args.projectId ?? args.brief.projectId,
+  });
+  const campaignVoice = deriveCampaignVoice(brandIdentity, args.brief.campaignObjective);
+  let voice = brandIdentityToCampaignVoiceProfile(brandIdentity, campaignVoice);
   if (args.projectId === 'ndxbook') {
     voice = buildNdxbookVoiceOverlay(voice);
   }
+  const copyRuntimeMode = await resolveCopyRuntimeMode();
 
   const majorUnits = args.units.filter((u) => u.reviewType === 'SENIOR_CREATIVE_JUDGMENT');
   const unitCopyDirections = majorUnits.map((u, i) =>
-    buildUnitCopyDirection(u, args.brief, voice, args.campaignCreativeDNA, i),
+    buildUnitCopyDirection(u, args.brief, voice, args.campaignCreativeDNA, i, brandIdentity, campaignVoice),
   );
 
   for (const principle of principles) {
@@ -453,6 +484,8 @@ export async function runCampaignCopyDirector(args: {
     copyPackageId: `copy-pkg-${args.brief.campaignId}-${Date.now()}`,
     campaignId: args.brief.campaignId,
     voiceProfile: voice,
+    brandLanguageIdentity: brandIdentity,
+    copyRuntimeMode,
     unitCopyDirections,
     copySequence,
     phraseLineage,
@@ -460,13 +493,16 @@ export async function runCampaignCopyDirector(args: {
     packageCopyQualityTier: packageQuality,
     packageCopyHandholdingRisk: packageHandholding,
     productionGatePassed: cohesionQA.passed && packageHandholding !== 'HIGH',
-    textReasoningDispatchCount: 0,
+    textReasoningDispatchCount: copyRuntimeMode === 'FULL_REASONING' ? 1 : 0,
+    copyReasoningDispatchCount: copyRuntimeMode === 'FULL_REASONING' ? 1 : 0,
+    provider: copyRuntimeMode === 'DETERMINISTIC_FALLBACK' ? 'deterministic' : 'anthropic',
+    model: process.env.ANTHROPIC_CREATIVE_MODEL ?? 'claude-sonnet-4-20250514',
     imageProviderDispatchCount: 0,
     videoProviderDispatchCount: 0,
     falDispatchCount: 0,
   };
 
-  await persistCampaignCopyPackage(output);
+  await persistCampaignCopyPackage(output, args.brief.projectId);
   return output;
 }
 
