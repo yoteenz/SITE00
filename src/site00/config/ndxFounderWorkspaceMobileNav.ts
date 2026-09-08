@@ -59,6 +59,7 @@ export function resolveMobileScreenIdFromPath(pathname: string, projectSlug: str
   const base = `/projects/${projectSlug}`;
   if (normalized === base) return 'overview';
   if (normalized === `${base}/lab`) return 'lab-hub';
+  if (normalized.includes('/content-operations/campaign-board/entry/')) return 'campaign-board-entry';
   if (normalized.includes('/content-operations/campaign-board')) return 'campaign-board';
   if (normalized.includes('/content-operations/expression-engine')) return 'expression-engine';
   if (normalized.includes('/marketing-expression/experiment-01')) return 'experiment-01';
