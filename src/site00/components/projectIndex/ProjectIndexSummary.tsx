@@ -1,77 +1,52 @@
 import type { ProjectIndexFilter } from '../../hooks/useProjectIndex.js';
+import type { ProjectIndexSummaryMetrics } from '../../../../shared/site00-projects/projectIndexMetrics.js';
 
 type ProjectIndexSummaryProps = {
-  total: number;
-  founderIndex: number;
-  clientProjects: number;
-  active: number;
-  onHold: number;
-  archived: number;
-  sourceLabel: string;
+  metrics: ProjectIndexSummaryMetrics;
   clientView: boolean;
-  compact?: boolean;
+  clientActive?: number;
+  clientTotal?: number;
 };
 
 export function ProjectIndexSummary({
-  total,
-  founderIndex,
-  clientProjects,
-  active,
-  onHold,
-  archived,
-  sourceLabel,
+  metrics,
   clientView,
-  compact = false,
+  clientActive = 0,
+  clientTotal = 0,
 }: ProjectIndexSummaryProps) {
   if (clientView) {
     return (
-      <div className={`site00-pidx-summary site00-pidx-summary--client${compact ? ' site00-pidx-summary--compact' : ''}`}>
-        <div className="site00-pidx-summary__tile">
-          <span className="site00-pidx-summary__value">{total}</span>
-          <span className="site00-pidx-summary__label">YOUR PROJECTS</span>
-        </div>
-        <div className="site00-pidx-summary__tile">
-          <span className="site00-pidx-summary__value">{active}</span>
-          <span className="site00-pidx-summary__label">ACTIVE</span>
-        </div>
+      <div className="site00-pidx-summary site00-pidx-summary--client">
+        <SummaryTile value={String(clientTotal).padStart(2, '0')} label="YOUR PROJECTS" icon="stack" />
+        <SummaryTile value={String(clientActive).padStart(2, '0')} label="ACTIVE" icon="pulse" />
       </div>
     );
   }
 
-  const tiles = compact
-    ? [
-        { value: total, label: 'TOTAL PROJECTS' },
-        { value: founderIndex, label: 'FOUNDER INDEX' },
-        { value: clientProjects, label: 'CLIENT PROJECTS' },
-        { value: sourceLabel, label: 'SOURCE' },
-      ]
-    : [
-        { value: total, label: 'TOTAL PROJECTS' },
-        { value: founderIndex, label: 'FOUNDER INDEX' },
-        { value: clientProjects, label: 'CLIENT PROJECTS' },
-        { value: active, label: 'ACTIVE', dot: 'green' as const },
-        { value: onHold, label: 'ON HOLD', dot: 'amber' as const },
-        { value: archived, label: 'ARCHIVED', dot: 'gray' as const },
-      ];
-
   return (
-    <div className={`site00-pidx-summary${compact ? ' site00-pidx-summary--compact' : ''}`}>
-      {tiles.map((tile) => (
-        <div key={tile.label} className="site00-pidx-summary__tile">
-          <span className="site00-pidx-summary__value">
-            {'dot' in tile && tile.dot ? (
-              <span className={`site00-pidx-status-dot site00-pidx-status-dot--${tile.dot}`} aria-hidden="true" />
-            ) : null}
-            {tile.value}
-          </span>
-          <span className="site00-pidx-summary__label">{tile.label}</span>
-        </div>
-      ))}
-      {compact ? null : (
-        <span className="site00-pidx-summary__live" aria-label="Data source">
-          {sourceLabel}
-        </span>
-      )}
+    <div className="site00-pidx-summary">
+      <SummaryTile value={String(metrics.total).padStart(2, '0')} label="TOTAL PROJECTS" icon="stack" />
+      <SummaryTile value={String(metrics.active).padStart(2, '0')} label="ACTIVE" icon="pulse" />
+      <SummaryTile value={String(metrics.preLaunch).padStart(2, '0')} label="PRE LAUNCH" icon="orbit" />
+      <SummaryTile value={String(metrics.complete).padStart(2, '0')} label="COMPLETE" icon="check" />
+    </div>
+  );
+}
+
+function SummaryTile({
+  value,
+  label,
+  icon,
+}: {
+  value: string;
+  label: string;
+  icon: 'stack' | 'pulse' | 'orbit' | 'check';
+}) {
+  return (
+    <div className="site00-pidx-summary__tile">
+      <span className={`site00-pidx-summary__icon site00-pidx-summary__icon--${icon}`} aria-hidden="true" />
+      <span className="site00-pidx-summary__value">{value}</span>
+      <span className="site00-pidx-summary__label">{label}</span>
     </div>
   );
 }
