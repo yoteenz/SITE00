@@ -1,7 +1,15 @@
 import type { BldrAssessmentStep } from '../../../config/bldr-assessment';
 import { IdntyTextareaField } from '../../idnty-assessment/IdntyAssessmentPanels';
+import {
+  BLDR_SITE_TYPE_OTHER_SPECIFY_KEY,
+  normalizeSiteTypes,
+} from '../../../../../shared/site00-bldr-classification/siteTypeModel.js';
+import {
+  validateBldrLandingFields,
+  type BldrFieldValues,
+} from '../../../../../shared/site00-bldr-classification/bldrFieldValidation.js';
 
-export type BldrFieldValues = Record<string, string | string[]>;
+export type { BldrFieldValues };
 
 function normalizeMulti(value: string | string[] | undefined): string[] {
   if (!value) return [];
@@ -14,17 +22,7 @@ function normalizeText(value: string | string[] | undefined): string {
 }
 
 export function validateBldrFields(fields: BldrAssessmentStep[], values: BldrFieldValues): Record<string, string> {
-  const errors: Record<string, string> = {};
-  for (const field of fields) {
-    if (!field.required) continue;
-    const val = values[field.id];
-    if (field.type === 'textarea') {
-      if (!normalizeText(val).trim()) errors[field.id] = 'THIS FIELD IS REQUIRED.';
-    } else if (field.type === 'single' || field.type === 'audience-row' || field.type === 'multi') {
-      if (normalizeMulti(val).length === 0) errors[field.id] = 'SELECT AT LEAST ONE OPTION.';
-    }
-  }
-  return errors;
+  return validateBldrLandingFields(fields, values);
 }
 
 type BldrSelectionRowProps = {
@@ -65,6 +63,8 @@ type BldrIntakeFieldsProps = {
 };
 
 export function BldrIntakeFields({ fields, values, onChange, errors = {}, sectionPrefix }: BldrIntakeFieldsProps) {
+  const siteTypesSelected = normalizeSiteTypes(values.type);
+
   return (
     <div className="site00-bldr-intake-fields">
       {fields.map((field) => {
@@ -121,6 +121,18 @@ export function BldrIntakeFields({ fields, values, onChange, errors = {}, sectio
                 />
               ))}
             </ul>
+            {field.id === 'type' && siteTypesSelected.includes('other') ? (
+              <IdntyTextareaField
+                id={`bldr-field-${BLDR_SITE_TYPE_OTHER_SPECIFY_KEY}`}
+                label="OTHER (PLEASE SPECIFY)"
+                value={normalizeText(values[BLDR_SITE_TYPE_OTHER_SPECIFY_KEY])}
+                onChange={(v) => onChange(BLDR_SITE_TYPE_OTHER_SPECIFY_KEY, v)}
+                maxLength={300}
+                placeholder="DESCRIBE YOUR SITE TYPE…"
+                required
+                error={errors[BLDR_SITE_TYPE_OTHER_SPECIFY_KEY]}
+              />
+            ) : null}
           </section>
         );
       })}
