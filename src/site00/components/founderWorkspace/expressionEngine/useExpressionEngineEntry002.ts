@@ -35,7 +35,7 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
         apiFetch('/api/site00/expression-engine?phase=B49R4&skipGeneration=1'),
         apiFetch('/api/site00/expression-engine?phase=C1'),
         apiFetch('/api/site00/expression-engine?phase=C1.1'),
-        apiFetch('/api/site00/expression-engine?phase=C1.2'),
+        apiFetch('/api/site00/expression-engine?phase=C1.3'),
       ]);
 
       if (!b48Res.ok) {
