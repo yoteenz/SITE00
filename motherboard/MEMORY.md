@@ -6505,3 +6505,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Control snapshot:** Meridian deterministic package STRONG / LOW handholding — scent-as-architecture thesis, Hero Reel "A room you have not entered yet", Carousel "Five notes. One room.", X oppositional line, Email consultation CTA.
 - **Next founder action:** Configure ANTHROPIC_API_KEY on Railway, redeploy API, open Expression Engine → MERIDIAN · DETERMINISTIC vs FULL REASONING (C1.9R1). Review both campaigns side by side without editing either first. Judge which sounds more brand-owned and less generic luxury.
 
+---
+
+## 2026-09-08 — Sprint C1.9R2 — Live Provider Activation + Meridian Acceptance Run
+
+- **Context:** C1.9R1 infrastructure shipped but production Railway had `ANTHROPIC_API_KEY` configured yet FULL_REASONING returned zero dispatch. Root cause: expression-engine creative/copy providers defaulted to retired model `claude-sonnet-4-20250514` instead of centralized `claude-sonnet-4-6`.
+- **Delivered:**
+  - **Model fix** — `creativeReasoningProvider.ts` + `copyReasoningProvider.ts` use `ANTHROPIC_CREATIVE_MODEL` from creative intelligence config
+  - **Railway verification** — `railwayProviderConfig.ts` (`configured` boolean only, `redactSecretsFromPayload`, never expose key)
+  - **Acceptance orchestrator** — `runC19R2MeridianLiveAcceptance.ts` (RAILWAY_PROVIDER_CONFIG_BLOCKED gate, mock/fallback rejection, provider diagnostics)
+  - **Strict live acceptance** — `SITE00_MERIDIAN_LIVE_ACCEPTANCE=1` during FULL_REASONING pass; no silent deterministic substitution
+  - **Dispatch fix** — sum receipt dispatch counts; accept provider JSON with padded attack vectors; capture HTTP errors in receipt
+  - **Control preservation** — stable `control_a_deterministic` run ID via `meridianLiveProofStore`
+  - **API/UI** — GET `?phase=C1.9R2`; Expression Engine loads C1.9R2 comparison
+  - **Tests** — C19R2 21/21; C19R1 + C19 regression green; build PASS (`index.B7w15AI7.js`)
+- **Cloud VM status:** `RAILWAY_PROVIDER_CONFIG_BLOCKED` (no local key). Production Railway previously showed providerAvailable=true but zero dispatch pre-fix.
+- **Next founder action:** After merge deploys to Railway, open Expression Engine Meridian comparison (C1.9R2) — if FULL_REASONING_LIVE_PASS, review side-by-side without editing. If still blocked, check Railway logs for provider HTTP errors in runtime receipt.
+
