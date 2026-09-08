@@ -28,6 +28,7 @@ import { runSeniorCreativeJudgment } from './seniorCreativeJudgmentEngine.js';
 import { retrieveApplicableCorrectionPrinciples, persistSeniorCreativeJudgment } from './creativeIntelligenceStore.js';
 import { buildPackageSeniorJudgment } from './packageSeniorCreativeJudgment.js';
 import { runCinematicContinuityDirector } from '../cinematicContinuity/cinematicContinuityDirector.js';
+import { runCampaignCopyDirector } from '../campaignCopy/campaignCopyDirector.js';
 
 export type MultiUnitBlindCampaignOutput = {
   brief: ThinMultiUnitBrief;
@@ -49,6 +50,7 @@ export type MultiUnitBlindCampaignOutput = {
   videoProviderDispatchCount: 0;
   falDispatchCount: 0;
   fullReasoningLiveTestBlocked?: string;
+  copyPackage?: import('../../../shared/site00-expression-engine/campaign-copy/types.js').CampaignCopyPackageOutput;
 };
 
 type UnitSpec = {
@@ -375,6 +377,13 @@ export async function runMultiUnitBlindCampaignPackage(
     reasoningDepthLimited: aggregateMode !== 'FULL_REASONING',
   });
 
+  const copyPackage = await runCampaignCopyDirector({
+    brief,
+    units,
+    campaignCreativeDNA: packageJudgment.campaignCreativeDNA,
+    projectId: brief.projectId,
+  });
+
   return {
     brief,
     campaignResponsibility,
@@ -395,6 +404,7 @@ export async function runMultiUnitBlindCampaignPackage(
     videoProviderDispatchCount: 0,
     falDispatchCount: 0,
     fullReasoningLiveTestBlocked: fullReasoningBlocked,
+    copyPackage,
   };
 }
 

@@ -343,7 +343,16 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
             label: 'FRESH CAMPAIGN · MULTI-UNIT REVIEW (C1.6)',
             status: c16?.multiUnitBlindCampaign?.packageJudgment?.status ?? 'LOADING',
             content: (
-              <MultiUnitCreativePackageReview campaign={c16?.multiUnitBlindCampaign ?? null} />
+              <MultiUnitCreativePackageReview
+                campaign={
+                  c16?.multiUnitBlindCampaign
+                    ? {
+                        ...c16.multiUnitBlindCampaign,
+                        copyPackage: c16.multiUnitBlindCampaign.copyPackage,
+                      }
+                    : null
+                }
+              />
             ),
           },
           {
