@@ -3,14 +3,20 @@
  */
 
 import type { FinalCinematicStoryboardPanel } from '../../../shared/site00-expression-engine/finalCinematicStoryboardTypes.js';
-import { buildEntry002FinalCinematicStoryboardPanelId } from '../../../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
+import {
+  buildEntry002FinalCinematicStoryboardPanelId,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_002_ID,
+} from '../../../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
 
 function storyboardPanel(
   panelNumber: number,
   fields: Omit<FinalCinematicStoryboardPanel, 'panelId' | 'panelNumber' | 'storagePath' | 'previewUrl'>,
 ): FinalCinematicStoryboardPanel {
   return {
-    panelId: buildEntry002FinalCinematicStoryboardPanelId(panelNumber),
+    panelId: buildEntry002FinalCinematicStoryboardPanelId(
+      ENTRY_002_FINAL_CINEMATIC_STORYBOARD_002_ID,
+      panelNumber,
+    ),
     panelNumber,
     storagePath: null,
     previewUrl: null,

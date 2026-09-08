@@ -3,6 +3,7 @@
  * Sprint B4.7 — Gate satisfaction → final storyboard READY_FOR_GENERATION.
  * Sprint B4.8 — Founder approval persisted; active step = FINAL_CINEMATIC_STORYBOARD.
  * Sprint B4.9 — Generated storyboard → AWAITING_FOUNDER_APPROVAL + founder review gate.
+ * Sprint B4.9R — Valid storyboard requires structural + continuity + duplication QA pass.
  */
 
 import type {
@@ -14,6 +15,7 @@ import type {
 import type { FinalStoryboardFounderJudgment } from '../../../shared/site00-expression-engine/finalCinematicStoryboardTypes.js';
 import {
   ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION,
+  ENTRY_002_REPAIR_FINAL_STORYBOARD_ACTION,
   FINAL_STORYBOARD_REVIEW_GATE_ID,
 } from '../../../shared/site00-expression-engine/finalCinematicStoryboardTypes.js';
 import { PRE_STORYBOARD_VISUAL_GATE_ID } from './preStoryboardAuthorityGate.js';
@@ -40,16 +42,25 @@ export const ENTRY_002_ACTIVE_NEXT_ACTION =
 export const ENTRY_002_FINAL_STORYBOARD_NEXT_ACTION =
   'GENERATE FINAL CINEMATIC STORYBOARD' as const;
 
-export { ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION };
+export { ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION, ENTRY_002_REPAIR_FINAL_STORYBOARD_ACTION };
 
 export function resolveEntry002NextAction(params?: {
   preStoryboardApproval?: PreStoryboardApprovalState;
   storyboardGenerated?: boolean;
+  storyboardValid?: boolean;
   storyboardFounderJudgment?: FinalStoryboardFounderJudgment;
-}): typeof ENTRY_002_ACTIVE_NEXT_ACTION | typeof ENTRY_002_FINAL_STORYBOARD_NEXT_ACTION | typeof ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION {
+  structuralQaPassed?: boolean;
+}): typeof ENTRY_002_ACTIVE_NEXT_ACTION | typeof ENTRY_002_FINAL_STORYBOARD_NEXT_ACTION | typeof ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION | typeof ENTRY_002_REPAIR_FINAL_STORYBOARD_ACTION {
   const preStoryboardComplete = params?.preStoryboardApproval?.allAuthoritiesLoveIt ?? false;
   if (!preStoryboardComplete) return ENTRY_002_ACTIVE_NEXT_ACTION;
-  if (params?.storyboardGenerated) return ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION;
+
+  const valid = params?.storyboardValid ?? params?.storyboardGenerated ?? false;
+  if (valid) return ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION;
+
+  if (params?.storyboardGenerated && !params?.structuralQaPassed) {
+    return ENTRY_002_REPAIR_FINAL_STORYBOARD_ACTION;
+  }
+
   return ENTRY_002_FINAL_STORYBOARD_NEXT_ACTION;
 }
 
@@ -66,29 +77,43 @@ export type Entry002ProductionEligibility = {
 export function resolveEntry002ProductionEligibility(params?: {
   preStoryboardApproval?: PreStoryboardApprovalState;
   storyboardGenerated?: boolean;
+  storyboardValid?: boolean;
   storyboardFounderJudgment?: FinalStoryboardFounderJudgment;
+  structuralQaPassed?: boolean;
   continuityQaPassed?: boolean;
+  duplicationQaPassed?: boolean;
 }): Entry002ProductionEligibility {
   const satisfied = params?.preStoryboardApproval?.allAuthoritiesLoveIt ?? false;
   const approvedCount = satisfied ? 5 : 0;
   const judgment = params?.storyboardFounderJudgment ?? 'UNREVIEWED';
-  const generated = params?.storyboardGenerated ?? false;
-  const qaPassed = params?.continuityQaPassed ?? generated;
+  const valid = params?.storyboardValid ?? false;
+  const generatedAttempt = params?.storyboardGenerated ?? false;
+  const structuralPassed = params?.structuralQaPassed ?? false;
+  const continuityPassed = params?.continuityQaPassed ?? false;
+  const duplicationPassed = params?.duplicationQaPassed ?? false;
+  const allQaPassed = structuralPassed && continuityPassed && duplicationPassed;
 
   let finalStoryboardEligibility: FinalStoryboardEligibilityState = satisfied
     ? 'READY_FOR_GENERATION'
     : 'BLOCKED_PENDING_PRE_STORYBOARD_AUTHORITY_APPROVAL';
 
-  if (generated && qaPassed) {
-    finalStoryboardEligibility = judgment === 'PROMISING_REFINE' ? 'REVISION_REQUIRED' : 'AWAITING_FOUNDER_APPROVAL';
+  if (valid && allQaPassed) {
+    finalStoryboardEligibility =
+      judgment === 'PROMISING_REFINE' ? 'REVISION_REQUIRED' : 'AWAITING_FOUNDER_APPROVAL';
+  } else if (generatedAttempt && !allQaPassed) {
+    finalStoryboardEligibility = 'REVISION_REQUIRED';
   }
 
   let founderStoryboardApproval: FounderStoryboardApprovalState = 'BLOCKED_PENDING_STORYBOARD';
-  if (generated && qaPassed) founderStoryboardApproval = 'ACTIVE';
-  else if (satisfied && !generated) founderStoryboardApproval = 'NOT_YET_ACTIVE';
+  if (valid && allQaPassed) founderStoryboardApproval = 'ACTIVE';
+  else if (generatedAttempt && !allQaPassed) founderStoryboardApproval = 'INACTIVE';
+  else if (satisfied && !generatedAttempt) founderStoryboardApproval = 'NOT_YET_ACTIVE';
 
   let keyframeEligibility: KeyframeEligibilityState = 'BLOCKED';
-  if (generated) {
+  if (valid) {
+    keyframeEligibility =
+      judgment === 'LOVE_IT' ? 'READY_FOR_GENERATION' : 'BLOCKED_PENDING_FINAL_STORYBOARD_APPROVAL';
+  } else if (generatedAttempt && allQaPassed) {
     keyframeEligibility =
       judgment === 'LOVE_IT' ? 'READY_FOR_GENERATION' : 'BLOCKED_PENDING_FINAL_STORYBOARD_APPROVAL';
   }
@@ -114,7 +139,7 @@ export type Entry002PipelineReconciliationState = {
     requiredJudgment: 'LOVE_IT';
     authorityCount: 5;
     satisfied: boolean;
-    gateStatus: 'AWAITING_FOUNDER_APPROVAL' | 'SATISFIED' | 'ACTIVE';
+    gateStatus: 'AWAITING_FOUNDER_APPROVAL' | 'SATISFIED' | 'ACTIVE' | 'INACTIVE';
     authorities: [
       'NDX_PRESENCE',
       'SUBJECT_WOMAN_DUAL_ERA',
@@ -126,7 +151,8 @@ export type Entry002PipelineReconciliationState = {
   nextAction:
     | typeof ENTRY_002_ACTIVE_NEXT_ACTION
     | typeof ENTRY_002_FINAL_STORYBOARD_NEXT_ACTION
-    | typeof ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION;
+    | typeof ENTRY_002_FOUNDER_REVIEW_FINAL_STORYBOARD_ACTION
+    | typeof ENTRY_002_REPAIR_FINAL_STORYBOARD_ACTION;
   coverAuthority: 'APPROVED';
   reelTreatment: 'LOCKED';
   preStoryboardVisualAuthorities: 'CURRENT_GATE' | 'GATE_SATISFIED' | 'APPROVED';
@@ -151,6 +177,7 @@ export type Entry002PipelineReconciliationState = {
     autoApproved: false;
     approved: boolean;
     rendered: boolean;
+    valid: boolean;
     founderJudgment: FinalStoryboardFounderJudgment;
   };
   keyframes: KeyframeEligibilityState;
@@ -162,19 +189,31 @@ export type Entry002PipelineReconciliationState = {
 export function buildEntry002PipelineReconciliationState(params?: {
   preStoryboardApproval?: PreStoryboardApprovalState;
   storyboardGenerated?: boolean;
+  storyboardValid?: boolean;
   storyboardFounderJudgment?: FinalStoryboardFounderJudgment;
   storyboardApproved?: boolean;
+  structuralQaPassed?: boolean;
   continuityQaPassed?: boolean;
+  duplicationQaPassed?: boolean;
 }): Entry002PipelineReconciliationState {
   const preStoryboardComplete = params?.preStoryboardApproval?.allAuthoritiesLoveIt ?? false;
-  const generated = params?.storyboardGenerated ?? false;
+  const valid = params?.storyboardValid ?? params?.storyboardGenerated ?? false;
+  const generatedAttempt = params?.storyboardGenerated ?? false;
   const judgment = params?.storyboardFounderJudgment ?? 'UNREVIEWED';
   const approved = params?.storyboardApproved ?? judgment === 'LOVE_IT';
+  const structuralPassed = params?.structuralQaPassed ?? false;
+  const continuityPassed = params?.continuityQaPassed ?? false;
+  const duplicationPassed = params?.duplicationQaPassed ?? false;
+  const allQaPassed = structuralPassed && continuityPassed && duplicationPassed;
+
   const eligibility = resolveEntry002ProductionEligibility({
     preStoryboardApproval: params?.preStoryboardApproval,
-    storyboardGenerated: generated,
+    storyboardGenerated: generatedAttempt,
+    storyboardValid: valid,
     storyboardFounderJudgment: judgment,
-    continuityQaPassed: params?.continuityQaPassed,
+    structuralQaPassed: structuralPassed,
+    continuityQaPassed: continuityPassed,
+    duplicationQaPassed: duplicationPassed,
   });
 
   const finalStoryboardStatus = eligibility.finalStoryboardEligibility;
@@ -185,13 +224,15 @@ export function buildEntry002PipelineReconciliationState(params?: {
   let activeGateLabel = 'Pre-storyboard visual authority — 5 glue boards must be LOVE_IT before final storyboard';
   let activeGateStatus: Entry002PipelineReconciliationState['activeGate']['gateStatus'] = 'AWAITING_FOUNDER_APPROVAL';
 
-  if (preStoryboardComplete && !generated) {
+  if (preStoryboardComplete && !valid) {
     currentStage = 'FINAL_CINEMATIC_STORYBOARD';
     activeProductionStep = 'FINAL_CINEMATIC_STORYBOARD';
     activeGateId = 'FINAL_CINEMATIC_STORYBOARD';
-    activeGateLabel = 'Final cinematic storyboard — READY FOR GENERATION (pre-storyboard gate satisfied)';
-    activeGateStatus = 'SATISFIED';
-  } else if (preStoryboardComplete && generated) {
+    activeGateLabel = generatedAttempt
+      ? 'Final cinematic storyboard — REPAIR REQUIRED (structural QA failed or incomplete panels)'
+      : 'Final cinematic storyboard — READY FOR GENERATION (pre-storyboard gate satisfied)';
+    activeGateStatus = generatedAttempt ? 'INACTIVE' : 'SATISFIED';
+  } else if (preStoryboardComplete && valid && allQaPassed) {
     currentStage = 'FOUNDER_STORYBOARD_APPROVAL';
     activeProductionStep = 'FOUNDER_STORYBOARD_APPROVAL';
     activeGateId = FINAL_STORYBOARD_REVIEW_GATE_ID;
@@ -208,7 +249,7 @@ export function buildEntry002PipelineReconciliationState(params?: {
       label: activeGateLabel,
       requiredJudgment: 'LOVE_IT',
       authorityCount: 5,
-      satisfied: preStoryboardComplete && !generated,
+      satisfied: preStoryboardComplete && !valid,
       gateStatus: activeGateStatus,
       authorities: [
         'NDX_PRESENCE',
@@ -220,8 +261,10 @@ export function buildEntry002PipelineReconciliationState(params?: {
     },
     nextAction: resolveEntry002NextAction({
       preStoryboardApproval: params?.preStoryboardApproval,
-      storyboardGenerated: generated,
+      storyboardGenerated: generatedAttempt,
+      storyboardValid: valid,
       storyboardFounderJudgment: judgment,
+      structuralQaPassed: structuralPassed,
     }),
     coverAuthority: 'APPROVED',
     reelTreatment: 'LOCKED',
@@ -246,13 +289,14 @@ export function buildEntry002PipelineReconciliationState(params?: {
       promotionBlocked: !approved,
       autoApproved: false,
       approved,
-      rendered: generated,
+      rendered: valid,
+      valid,
       founderJudgment: judgment,
     },
     keyframes: eligibility.keyframeEligibility,
     video: 'BLOCKED',
     eligibility,
-    stopConditions: generated
+    stopConditions: valid
       ? [
           'Do not auto-approve final storyboard — founder review required',
           'Do not generate keyframes until storyboard LOVE_IT',
@@ -261,7 +305,8 @@ export function buildEntry002PipelineReconciliationState(params?: {
         ]
       : preStoryboardComplete
         ? [
-            'Generate final cinematic storyboard from five approved authorities',
+            'Generate or repair final cinematic storyboard — distinct panel assets required',
+            'Do not activate founder storyboard review until structural + continuity QA pass',
             'Do not promote cinematic sequence to visual authority',
             'Do not generate keyframes or dispatch video',
           ]

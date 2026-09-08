@@ -6074,3 +6074,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Hard stop:** No keyframe generation, no video dispatch
 - **Next:** FOUNDER REVIEW OF FINAL CINEMATIC STORYBOARD
 
+---
+
+## 2026-09-08 — Sprint B4.9R — Final cinematic storyboard structure recovery (false-positive QA correction)
+
+- **Context:** Founder determined B4.9 artifact `NDX-ENTRY-002-FINAL-CINEMATIC-STORYBOARD-001` is NOT a valid sequential cinematic storyboard — local-sharp-composite of authority images falsely passed QA and activated founder review gate.
+- **Root cause:** `ASSEMBLY ≠ GENERATION` — composite JPEG existence was treated as panel render completeness.
+- **Delivered:**
+  - **Storyboard 001 disposition** — preserved as `FAILED_STORYBOARD_STRUCTURE`, `referenceOnly=true`, `failureReason=DID_NOT_RENDER_SEQUENTIAL_CINEMATIC_STORYBOARD`, `founderJudgment=UNREVIEWED` (not creative rejection)
+  - **Panel-based pipeline** — 16-panel manifest → parallel panel generation (FAL or deterministic test) → structure/continuity/duplication QA → Sharp assembly ONLY after panels exist
+  - **Storyboard 002** — `NDX-ENTRY-002-FINAL-CINEMATIC-STORYBOARD-002` v002 → `AWAITING_FOUNDER_APPROVAL` after all QA pass
+  - **Gate correction** — founder review INACTIVE until structural + continuity + duplication QA pass; invalid composite cannot activate `GATE_0D`
+  - **API** — `GET ?phase=B49R` (B49 delegates to B49R); response includes panel manifest, per-domain QA, telemetry stages
+  - **UI** — Final Storyboard tab: COMPILED / PANELS / ASSEMBLED / STRUCTURAL QA / CONTINUITY QA / FOUNDER REVIEW stages; individual panel grid
+  - **Tests** — `site00ExpressionEngineSprintB49R.test.ts` (33 incl. B4.9 false-positive regression); B49 tests updated; expression engine suite 279/279
+- **Hard stop:** No keyframe generation, no video dispatch
+- **Next:** FOUNDER REVIEW OF FINAL CINEMATIC STORYBOARD (002)
+

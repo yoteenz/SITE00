@@ -33,28 +33,21 @@ import {
 import { buildPreStoryboardApprovalState } from '../api/_lib/site00ExpressionEngine/preStoryboardAuthorityGate.js';
 import { isKeyframeEligibleFromFinalStoryboard } from '../api/_lib/site00ExpressionEngine/entry002FinalStoryboardRecord.js';
 import { ENTRY_002_CINEMATIC_SEQUENCE_001 } from '../shared/site00-expression-engine/entry002CinematicSequenceIds.js';
-import { ENTRY_002_FINAL_CINEMATIC_STORYBOARD_ID } from '../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
-import { resetLineageStore, listGenerationReceiptsForEntry } from '../api/_lib/site00ExpressionEngine/lineageRegistration.js';
-import { buildEntry002FinalCinematicStoryboardPublicStripPath } from '../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
+import {
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_002_ID,
+  ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_002_ID,
+  buildEntry002FinalCinematicStoryboardPublicStripPath,
+} from '../shared/site00-expression-engine/finalCinematicStoryboardIds.js';
+import { resetLineageStore } from '../api/_lib/site00ExpressionEngine/lineageRegistration.js';
 
-describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generation', () => {
+describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generation (B4.9R panel pipeline)', { timeout: 60000 }, () => {
   beforeEach(async () => {
+    process.env.EXPRESSION_ENGINE_TEST_DETERMINISTIC_PANELS = '1';
     resetPreStoryboardAuthorityStore();
     resetFinalCinematicStoryboardStore();
     resetFinalCinematicStoryboardJudgmentStore();
     resetLineageStore();
     persistEntry002PreStoryboardFounderApprovals();
-
-    const stripPath = path.join(
-      process.cwd(),
-      'public',
-      buildEntry002FinalCinematicStoryboardPublicStripPath().replace(/^\//, ''),
-    );
-    try {
-      await fs.unlink(stripPath);
-    } catch {
-      // ignore missing strip from prior run
-    }
   });
 
   it('1. generation eligible only after all five authorities LOVE_IT', async () => {
@@ -104,9 +97,9 @@ describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generatio
     expect(result.storyboardBrief.historicalSequenceExcluded).toBe(ENTRY_002_CINEMATIC_SEQUENCE_001);
   });
 
-  it('5. canonical final storyboard ID distinct from historical sequence', async () => {
+  it('5. canonical final storyboard ID is 002 distinct from historical sequence', async () => {
     const result = await bootstrapB49();
-    expect(result.finalCinematicStoryboard?.storyboardId).toBe(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_ID);
+    expect(result.finalCinematicStoryboard?.storyboardId).toBe(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_002_ID);
     expect(result.finalCinematicStoryboard?.storyboardId).not.toBe(ENTRY_002_CINEMATIC_SEQUENCE_001);
   });
 
@@ -115,7 +108,7 @@ describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generatio
     expect(result.finalCinematicStoryboard?.founderJudgment).toBe('UNREVIEWED');
   });
 
-  it('7. initial post-generation status = AWAITING_FOUNDER_APPROVAL', async () => {
+  it('7. post-generation status = AWAITING_FOUNDER_APPROVAL after valid QA', async () => {
     const result = await bootstrapB49();
     expect(result.finalCinematicStoryboard?.status).toBe('AWAITING_FOUNDER_APPROVAL');
   });
@@ -130,13 +123,14 @@ describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generatio
     expect(result.finalCinematicStoryboard?.visualAuthority).toBe(false);
   });
 
-  it('10. founder storyboard review becomes active after generation', async () => {
+  it('10. founder storyboard review active only after valid panel QA', async () => {
     const result = await bootstrapB49();
     expect(result.productionEligibility.founderStoryboardApproval).toBe('ACTIVE');
     expect(result.finalStoryboardReviewGate.active).toBe(true);
+    expect(result.structuralQA.passed).toBe(true);
   });
 
-  it('11. next action changes to founder review after generation', async () => {
+  it('11. next action changes to founder review after valid generation', async () => {
     const b48 = await bootstrapB48();
     expect(b48.nextAction).toBe(ENTRY_002_FINAL_STORYBOARD_NEXT_ACTION);
     const result = await bootstrapB49();
@@ -201,11 +195,11 @@ describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generatio
     expect(result.storyboardBrief.phoneContentRules.poseVariation).toBe(true);
   });
 
-  it('21. 2016 old-Instagram requirement present', async () => {
+  it('21. 2016 old-Instagram requirement present in manifest', async () => {
     const result = await bootstrapB49();
-    const text = result.storyboardBrief.panels.map((p) => p.visualDescription).join(' ');
+    const text = result.panelManifest.map((p) => p.description + p.storyFunction + p.phoneState).join(' ');
     expect(text.toLowerCase()).toContain('2016');
-    expect(text.toLowerCase()).toContain('instagram');
+    expect(text.toLowerCase()).toMatch(/instagram|ig ui|old ig/);
   });
 
   it('22. mandatory interjection present', async () => {
@@ -214,60 +208,54 @@ describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generatio
       'THE CLOTHES NEVER GOT AN APOLOGY. JUST A REBRAND.',
     );
     expect(
-      result.storyboardBrief.panels.some((p) =>
-        p.mandatoryText?.includes('THE CLOTHES NEVER GOT AN APOLOGY'),
+      result.panelManifest.some((p) =>
+        p.requiredText?.includes('THE CLOTHES NEVER GOT AN APOLOGY'),
       ),
     ).toBe(true);
   });
 
   it('23. snap-back beat present', async () => {
     const result = await bootstrapB49();
-    expect(result.storyboardBrief.panels.some((p) => p.panelTitle.toLowerCase().includes('snap-back'))).toBe(
-      true,
-    );
+    expect(result.panelManifest.some((p) => p.beatId === 'SNAP_BACK')).toBe(true);
   });
 
   it('24. Entry 003 is not generated', async () => {
     const result = await bootstrapB49();
-    const text = result.storyboardBrief.panels.map((p) => p.visualDescription).join(' ');
+    const text = result.panelManifest.map((p) => p.description).join(' ');
     expect(text.toLowerCase()).not.toContain('entry 003');
     expect(text.toLowerCase()).not.toContain('entry-003');
   });
 
-  it('25. provider dispatch telemetry recorded only when actual dispatch occurs', async () => {
+  it('25. provider dispatch telemetry — deterministic panels have zero dispatches', async () => {
     const result = await bootstrapB49();
-    expect(result.renderResult?.compiled).toBe(true);
-    expect(result.renderResult?.dispatched).toBe(false);
-    expect(result.telemetryNote).toContain('no provider dispatch');
+    expect(result.panelPipeline?.telemetry.panelRenderCount).toBe(16);
+    expect(result.panelPipeline?.telemetry.panelDispatchCount).toBe(0);
+    expect(result.telemetryNote).toContain('PANELS_GENERATED');
   });
 
-  it('26. render state requires actual artifact', async () => {
+  it('26. render state requires actual panel artifacts', async () => {
     const result = await bootstrapB49();
-    expect(result.renderResult?.rendered).toBe(true);
-    expect(result.renderResult?.actualFileExists).toBe(true);
     expect(result.finalCinematicStoryboard?.rendered).toBe(true);
+    expect(result.finalCinematicStoryboard?.assembled).toBe(true);
     const stripPath = path.join(
       process.cwd(),
       'public',
-      buildEntry002FinalCinematicStoryboardPublicStripPath().replace(/^\//, ''),
+      buildEntry002FinalCinematicStoryboardPublicStripPath(ENTRY_002_FINAL_CINEMATIC_STORYBOARD_STRIP_002_ID).replace(/^\//, ''),
     );
     await expect(fs.access(stripPath)).resolves.toBeUndefined();
   });
 
-  it('27. lineage includes all five authority IDs', async () => {
-    await bootstrapB49();
-    const receipts = listGenerationReceiptsForEntry('entry-002');
-    const stripReceipt = receipts.find((r) => r.assetId.includes('FINAL-CINEMATIC-STORYBOARD-STRIP'));
-    expect(stripReceipt).toBeTruthy();
+  it('27. all five authority IDs on storyboard record', async () => {
+    const result = await bootstrapB49();
     for (const expected of ENTRY_002_PRE_STORYBOARD_FOUNDER_APPROVALS) {
-      expect(stripReceipt?.referenceLineage).toContain(expected.authorityId);
+      expect(result.finalCinematicStoryboard?.authorityIds).toContain(expected.authorityId);
     }
   });
 
-  it('28. continuity QA passes before founder review available', async () => {
+  it('28. structural + continuity QA pass before founder review', async () => {
     const result = await bootstrapB49();
-    expect(result.continuityQA.passed).toBe(true);
-    expect(result.continuityQA.result).not.toBe('FAIL');
+    expect(result.structuralQA.passed).toBe(true);
+    expect(result.continuityDomainQA.passed).toBe(true);
     expect(result.productionEligibility.founderStoryboardApproval).toBe('ACTIVE');
   });
 
@@ -284,7 +272,7 @@ describe('Expression Engine Sprint B4.9 — Final cinematic storyboard generatio
     ).toThrow();
   });
 
-  it('30. production order remains intact', async () => {
+  it('30. production order remains intact after valid storyboard', async () => {
     const result = await bootstrapB49();
     expect(result.productionOrder[4]).toBe('FINAL_CINEMATIC_STORYBOARD');
     expect(result.productionOrder[5]).toBe('FOUNDER_STORYBOARD_APPROVAL');
