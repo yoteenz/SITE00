@@ -16,6 +16,25 @@ import { ProjectIndexSkeletonGrid } from './ProjectIndexSkeleton';
 import '../../styles/site00-project-index.css';
 import '../../styles/site00-auth.css';
 
+function ProjectIndexProjectGrid({
+  projectItems,
+  showNewProject,
+}: {
+  projectItems: import('../../../../shared/site00-projects/projectIndexItem.js').ProjectIndexItem[];
+  showNewProject: boolean;
+}) {
+  if (projectItems.length === 0 && !showNewProject) return null;
+
+  return (
+    <ul className="site00-pidx-grid">
+      {projectItems.map((item) => (
+        <ProjectIndexProjectCard key={item.projectId} item={item} />
+      ))}
+      {showNewProject ? <ProjectIndexNewProjectCard /> : null}
+    </ul>
+  );
+}
+
 export function ProjectIndexPage() {
   const isWide = useSite00OriginWideViewport();
   const { isPreviewDesktop } = useSite00();
@@ -39,6 +58,7 @@ export function ProjectIndexPage() {
   } = useProjectIndex();
 
   const clientView = viewMode === 'CLIENT';
+  const showNewProject = !clientView;
 
   const availableFilters = deriveAvailableFilters({
     clientView,
@@ -54,7 +74,7 @@ export function ProjectIndexPage() {
     ? projectItems.filter((i) => !i.isArchived && !i.isOnHold).length
     : 0;
 
-  const showNewProject = !clientView;
+  const showFilteredEmpty = state !== 'loading' && state !== 'error' && projectItems.length === 0;
 
   return (
     <div
@@ -115,7 +135,9 @@ export function ProjectIndexPage() {
                 RETRY →
               </button>
             </div>
-          ) : projectItems.length === 0 ? (
+          ) : null}
+
+          {showFilteredEmpty ? (
             <div className="site00-pidx__empty">
               <EmptyState
                 title={clientView ? 'NO PROJECTS YET' : 'NO MATCHING PROJECTS'}
@@ -131,14 +153,9 @@ export function ProjectIndexPage() {
                 </Link>
               ) : null}
             </div>
-          ) : (
-            <ul className="site00-pidx-grid">
-              {projectItems.map((item) => (
-                <ProjectIndexProjectCard key={item.projectId} item={item} />
-              ))}
-              {showNewProject ? <ProjectIndexNewProjectCard /> : null}
-            </ul>
-          )}
+          ) : null}
+
+          <ProjectIndexProjectGrid projectItems={projectItems} showNewProject={showNewProject} />
         </>
       )}
     </div>
