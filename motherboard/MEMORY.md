@@ -6733,3 +6733,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Mobile QA (390px):** ND lime hero, 70% progress, 1 needs-your-eye, 4 signal cards, module switcher + Evolve subshell intact
 - **Next founder action:** PROJECTS → NDXBOOK → OVERVIEW on mobile; compare to approved reference; verify EVOLVE subshell; upload GoDaddy ZIP v208.
 
+---
+
+## 2026-09-08 — P0.VR.4 Reference Asset Reconstruction Pipeline (Design Workspace)
+
+- **Context:** Founder sprint formalizing manual screenshot→crop→recreate→transparency→QA→Supabase→live-bind workflow into first-class Design Workspace capability.
+- **Delivered:**
+  - **`shared/.../visualReconstruction/p0vr4/`** — full pipeline: `DesignReconstructionAsset` model, detection, crop, GPT Image 2 Edit via FAL, transparency validation, background-removal abstraction (Ideogram/Pixelcut/FAL BiRefNet/Bria slots with AUTO fallback), QA engine, targeted revision (max 3), founder approval gate, versioned Supabase paths, `DesignAssetRegistry`, live binding, context QA, bulk page queue, spend guards (explicit founder dispatch only).
+  - **API:** `/api/site00/design-asset-reconstruction` (detect, generate, approve, persist, bind, capabilities, golden_test).
+  - **UI:** Design Workspace **ASSETS** tab — `DesignReferenceAssetsPanel`, `DesignAssetReconstructionDetail`; projects-index seeds bulk queue incl. **PROJECTS HEADER PLANET** golden case.
+  - **Tests:** `tests/visualReconstructionP0VR4.test.ts` (15/15 pass, 47 success criteria).
+- **Ideogram/Pixelcut:** Provider slots exist; unavailable without env keys — no fabricated endpoints.
+- **Live FAL:** Simulated in dev/tests without `FAL_KEY`; real dispatch path uses same `buildFalImageInput` + reference crop as production creative direction pattern.
+- **Next founder action:** OPEN DESIGN → projects-index → ASSETS tab → select PROJECTS HEADER PLANET → GENERATE (explicit) → LOVE IT → persist/bind when ready; Railway redeploy for API route.
+
