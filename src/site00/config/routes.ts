@@ -54,6 +54,13 @@ export const SITE00_ROUTES = {
   adminDashboard: '/admin/site00',
   projects: '/projects',
   projectDetail: '/projects/:projectSlug',
+  /** B5.9R1 — Universal project operating system module routes */
+  projectOverview: '/projects/:projectSlug/overview',
+  projectBuilder: '/projects/:projectSlug/builder',
+  projectProductionModule: '/projects/:projectSlug/production',
+  projectReviewsModule: '/projects/:projectSlug/reviews',
+  projectLibraryModule: '/projects/:projectSlug/library',
+  projectMoreModule: '/projects/:projectSlug/more',
   projectOrigin: '/projects/:projectSlug/origin',
   projectIdentity: '/projects/:projectSlug/identity',
   projectExperience: '/projects/:projectSlug/experience/*',
@@ -184,6 +191,35 @@ export function site00IntakeGuestAccessPath(token: string): string {
 }
 
 export function site00ProjectPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/overview`;
+}
+
+export function site00ProjectOverviewPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/overview`;
+}
+
+export function site00ProjectBuilderPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/builder`;
+}
+
+export function site00ProjectProductionModulePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/production`;
+}
+
+export function site00ProjectReviewsModulePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/reviews`;
+}
+
+export function site00ProjectLibraryModulePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/library`;
+}
+
+export function site00ProjectMoreModulePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/more`;
+}
+
+/** Legacy detail path — redirects to overview */
+export function site00ProjectLegacyDetailPath(projectSlug: string): string {
   return `/projects/${projectSlug}`;
 }
 
