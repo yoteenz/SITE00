@@ -37,7 +37,9 @@ import {
   brandIdentityToCampaignVoiceProfile,
   extractBrandSpecificityMarkers,
 } from '../brandLanguage/brandLanguageIdentity.js';
-import { resolveCopyRuntimeMode } from './copyReasoningProvider.js';
+import { resolveCopyRuntimeMode, generateBrandTrueCopy } from './copyReasoningProvider.js';
+import { buildCreativeBrainContext } from './creativeBrainContext.js';
+import { MERIDIAN_ATELIER_BRAND_ID } from '../brandLanguage/c19BlindBrandFixture.js';
 
 function buildVoiceProfile(brief: ThinMultiUnitBrief): CampaignVoiceProfile {
   return {
@@ -184,6 +186,53 @@ function generateCaptionVariants(
     return { primary: '', altA: '…', altB: '(intentional silence)', onAsset: null };
   }
 
+  if (brief.projectId === MERIDIAN_ATELIER_BRAND_ID) {
+    const onAsset =
+      unit.medium === 'HERO_REEL' ? null :
+      unit.medium === 'STORY_SEQUENCE' ? 'Enter the room?' :
+      unit.medium === 'CAROUSEL' ? 'Note I · dusk' :
+      null;
+    switch (unit.medium) {
+      case 'HERO_REEL':
+        return {
+          onAsset,
+          primary: 'A room you have not entered yet. Nocturne builds itself around you.',
+          altA: 'Architecture for memory — the note progression begins at dusk.',
+          altB: 'Private space, not status. The atelier left the door unlatched.',
+        };
+      case 'CAROUSEL':
+        return {
+          onAsset,
+          primary: 'Five notes. One room. Each slide a different threshold — save this if you buy by atmosphere, not adjectives.',
+          altA: 'Not another niche perfumery moodboard. A composition you walk through.',
+          altB: 'The bottle is quiet. The space inside it is not.',
+        };
+      case 'STORY_SEQUENCE':
+        return {
+          onAsset: onAsset ?? 'Which note arrives first?',
+          primary: 'Poll: dusk or midnight as your entry point?',
+          altA: 'Tap when the room feels yours — not when the ad tells you to.',
+          altB: 'DM a word that smells like a place you miss.',
+        };
+      case 'X_POST':
+        return {
+          onAsset: null,
+          primary: `Luxury fragrance marketing sells status theater. ${brand} sells rooms you enter alone. Nocturne is not a flex — it is a threshold.`,
+          altA: `Hot take: "signature scent" is often just "signature adjective."`,
+          altB: `If your parfum needs a billboard, it is not architecture — it is wallpaper.`,
+        };
+      case 'EMAIL':
+        return {
+          onAsset: null,
+          primary: `Subject: A room at dusk\nPreheader: Nocturne Parfum — consultation, not conversion theater\n\nBody: ${visualCore} — this is not a recap of our posts. It is the letter before you reserve a private composition session.`,
+          altA: `Subject: The note progression you cannot rush\nPreheader: Waitlist opens — no discount language included`,
+          altB: `Subject: What if scent was space, not accessory?\nPreheader: Meridian Atelier consultation inside`,
+        };
+      default:
+        break;
+    }
+  }
+
   const onAsset =
     unit.medium === 'HERO_REEL' ? null :
     unit.medium === 'STORY_SEQUENCE' ? 'Which leaf lied to you?' :
@@ -310,6 +359,12 @@ function buildUnitCopyDirection(
   const cta = ctaForRole(unit.role.campaignRole, index);
   const ctaCopy =
     cta === 'NONE' ? null :
+    brief.projectId === MERIDIAN_ATELIER_BRAND_ID ?
+      (cta === 'SIGN_UP' ? 'Reserve consultation →' :
+       cta === 'SAVE' ? 'Save the composition' :
+       cta === 'COMMENT' ? 'Reply with your threshold' :
+       cta === 'VOTE' ? 'Vote in story' :
+       cta === 'WATCH_NEXT' ? 'Continue in carousel →' : null) :
     cta === 'SIGN_UP' ? 'Start Spring Rescue trial →' :
     cta === 'SAVE' ? 'Save for repot season' :
     cta === 'COMMENT' ? 'Reply with your plant confession' :
@@ -325,15 +380,19 @@ function buildUnitCopyDirection(
     onAssetCopy: onAsset,
     caption: challenged.final,
     hook: unit.medium === 'EMAIL' ? challenged.final.split('\n')[0]?.replace('Subject: ', '') ?? null : altA.slice(0, 80),
-    headline: unit.medium === 'EMAIL' ? 'You didn\'t fail the plant' : null,
-    subhead: unit.medium === 'EMAIL' ? 'The diagnostic your leaves already wrote' : null,
+    headline: unit.medium === 'EMAIL'
+      ? (brief.projectId === MERIDIAN_ATELIER_BRAND_ID ? 'A room at dusk' : 'You didn\'t fail the plant')
+      : null,
+    subhead: unit.medium === 'EMAIL'
+      ? (brief.projectId === MERIDIAN_ATELIER_BRAND_ID ? 'Nocturne Parfum — consultation, not conversion theater' : 'The diagnostic your leaves already wrote')
+      : null,
     bodyCopy: unit.medium === 'EMAIL' ? challenged.final : null,
     cta,
     ctaCopy,
     commentStrategy: unit.medium === 'X_POST' ? 'Pin: source note + invite receipts' : null,
     pinnedCommentStrategy: unit.medium === 'HERO_REEL' ? 'Add context link — not thesis restatement' : null,
     hashtagStrategy: unit.medium === 'X_POST' ? 'NONE' : 'MINIMAL_BRANDED',
-    hashtags: unit.medium === 'X_POST' ? [] : ['#VerdantRow', '#PlantRescue'],
+    hashtags: unit.medium === 'X_POST' ? [] : brief.projectId === MERIDIAN_ATELIER_BRAND_ID ? ['#MeridianAtelier', '#Nocturne'] : ['#VerdantRow', '#PlantRescue'],
     platformMetadata: { platform: unit.medium.replace('_', ' ') },
     altCopy: altA,
     copyNotes: `Visual relationship: ${visualRelationship}. Role: ${copyRole}. Territory: ${winningTerritory.rhetoricalBehavior}`,
@@ -430,9 +489,37 @@ export async function runCampaignCopyDirector(args: {
   const copyRuntimeMode = await resolveCopyRuntimeMode();
 
   const majorUnits = args.units.filter((u) => u.reviewType === 'SENIOR_CREATIVE_JUDGMENT');
-  const unitCopyDirections = majorUnits.map((u, i) =>
-    buildUnitCopyDirection(u, args.brief, voice, args.campaignCreativeDNA, i, brandIdentity, campaignVoice),
-  );
+  let copyReasoningDispatchCount = 0;
+  const unitCopyDirections = [];
+  for (let i = 0; i < majorUnits.length; i++) {
+    const u = majorUnits[i]!;
+    const built = buildUnitCopyDirection(u, args.brief, voice, args.campaignCreativeDNA, i, brandIdentity, campaignVoice);
+    if (args.brief.projectId !== 'verdant-row' && copyRuntimeMode !== 'DETERMINISTIC_FALLBACK') {
+      const ctx = buildCreativeBrainContext({
+        brandIdentity,
+        campaignObjective: args.brief.campaignObjective,
+        campaignCreativeDNA: args.campaignCreativeDNA,
+        campaignNarrative: args.campaignCreativeDNA.coreTension,
+        postRole: u.role.campaignRole,
+        platform: u.medium,
+        visualDirection: u.finalDirection,
+        onAssetCopy: built.copyPackage.onAssetCopy,
+        visualMechanism: u.mediumRationale,
+        visualWithholds: 'Withhold category clichés',
+        audienceState: u.role.audienceStateBefore,
+        founderCreativeAppetite: args.brief.founderCreativeAppetite,
+      });
+      const liveCopy = await generateBrandTrueCopy(ctx);
+      if (liveCopy.copyReasoningDispatchCount > 0) copyReasoningDispatchCount += liveCopy.copyReasoningDispatchCount;
+      built.primaryCaption = liveCopy.primaryCaption;
+      built.altCaptionA = liveCopy.altCaptionA;
+      built.altCaptionB = liveCopy.altCaptionB;
+      built.finalCaption = liveCopy.primaryCaption;
+      built.copyPackage.caption = liveCopy.primaryCaption;
+      built.copyPackage.ctaCopy = liveCopy.ctaCopy;
+    }
+    unitCopyDirections.push(built);
+  }
 
   for (const principle of principles) {
     if (/caption.*visual|explaining.*visual|restat/i.test(principle.generalizablePrinciple)) {
@@ -450,8 +537,12 @@ export async function runCampaignCopyDirector(args: {
     languageIntroduced: Object.fromEntries(
       unitCopyDirections.map((u) => [u.unitId, u.winningTerritory.rhetoricalBehavior]),
     ),
-    phrasesRepeatedIntentionally: ['confession', 'diagnostic', 'receipt'],
-    phrasesRetired: ['easy care', 'green thumb'],
+    phrasesRepeatedIntentionally: args.brief.projectId === MERIDIAN_ATELIER_BRAND_ID
+      ? ['room', 'nocturne', 'architecture']
+      : ['confession', 'diagnostic', 'receipt'],
+    phrasesRetired: args.brief.projectId === MERIDIAN_ATELIER_BRAND_ID
+      ? ['shop now', 'signature scent', 'must-have']
+      : ['easy care', 'green thumb'],
     openQuestions: unitCopyDirections.map((u) => u.copyHandoff?.handoffQuestion).filter(Boolean) as string[],
     ctaUsedByUnit: Object.fromEntries(unitCopyDirections.map((u) => [u.unitId, u.copyPackage.cta])),
     rhetoricalBehaviorByUnit: Object.fromEntries(
@@ -493,8 +584,8 @@ export async function runCampaignCopyDirector(args: {
     packageCopyQualityTier: packageQuality,
     packageCopyHandholdingRisk: packageHandholding,
     productionGatePassed: cohesionQA.passed && packageHandholding !== 'HIGH',
-    textReasoningDispatchCount: copyRuntimeMode === 'FULL_REASONING' ? 1 : 0,
-    copyReasoningDispatchCount: copyRuntimeMode === 'FULL_REASONING' ? 1 : 0,
+    textReasoningDispatchCount: copyReasoningDispatchCount,
+    copyReasoningDispatchCount,
     provider: copyRuntimeMode === 'DETERMINISTIC_FALLBACK' ? 'deterministic' : 'anthropic',
     model: process.env.ANTHROPIC_CREATIVE_MODEL ?? 'claude-sonnet-4-20250514',
     imageProviderDispatchCount: 0,

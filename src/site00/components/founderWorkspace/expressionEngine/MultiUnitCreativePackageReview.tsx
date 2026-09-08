@@ -32,6 +32,18 @@ export type MultiUnitCampaignReviewData = {
   initialCampaignWinner: string;
   runtimeMode?: string;
   principlesApplied: string[];
+  systemInspector?: {
+    providerName: string;
+    model: string;
+    runtimeMode: string;
+    totalReasoningDispatchCount: number;
+    copyStoreMode: string;
+    brandLanguageStoreMode: string;
+    brandLanguageIdentityVersion?: string;
+    voiceConfidence?: string;
+    supabaseSync?: { allSchemasReady: boolean };
+  };
+  brandLanguageIdentity?: { brandName: string; confidence: string; versionLabel?: string };
   units: UnitCard[];
   packageJudgment: {
     campaignIdea: string;
@@ -105,6 +117,35 @@ export function MultiUnitCreativePackageReview({ campaign }: Props) {
         </span>
         <span className="site00-expr-engine-senior-review__runtime">{runtimeLabel(campaign.runtimeMode)}</span>
       </header>
+
+      {campaign.systemInspector ? (
+        <details className="site00-expr-engine-senior-review__details" open>
+          <summary>SYSTEM INSPECTOR</summary>
+          <dl className="site00-expr-engine-senior-review__grid site00-expr-engine-senior-review__grid--nested">
+            <div><dt>PROVIDER</dt><dd>{campaign.systemInspector.providerName} · {campaign.systemInspector.model}</dd></div>
+            <div><dt>RUNTIME</dt><dd>{campaign.systemInspector.runtimeMode}</dd></div>
+            <div><dt>DISPATCH</dt><dd>{campaign.systemInspector.totalReasoningDispatchCount}</dd></div>
+            <div><dt>COPY STORE</dt><dd>{campaign.systemInspector.copyStoreMode}</dd></div>
+            <div><dt>BRAND LANGUAGE STORE</dt><dd>{campaign.systemInspector.brandLanguageStoreMode}</dd></div>
+            {campaign.systemInspector.brandLanguageIdentityVersion ? (
+              <div><dt>BLI VERSION</dt><dd>{campaign.systemInspector.brandLanguageIdentityVersion}</dd></div>
+            ) : null}
+            {campaign.systemInspector.voiceConfidence ? (
+              <div><dt>VOICE CONFIDENCE</dt><dd>{campaign.systemInspector.voiceConfidence}</dd></div>
+            ) : null}
+            {campaign.systemInspector.supabaseSync ? (
+              <div><dt>SUPABASE SYNC</dt><dd>{campaign.systemInspector.supabaseSync.allSchemasReady ? 'READY' : 'PARTIAL'}</dd></div>
+            ) : null}
+          </dl>
+        </details>
+      ) : null}
+
+      {campaign.brandLanguageIdentity ? (
+        <p className="site00-expr-engine-senior-review__meta">
+          Brand language: {campaign.brandLanguageIdentity.brandName} · confidence {campaign.brandLanguageIdentity.confidence}
+          {campaign.brandLanguageIdentity.versionLabel ? ` · ${campaign.brandLanguageIdentity.versionLabel}` : ''}
+        </p>
+      ) : null}
 
       <dl className="site00-expr-engine-senior-review__grid">
         <div>

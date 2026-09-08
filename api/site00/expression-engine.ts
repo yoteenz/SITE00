@@ -45,6 +45,7 @@ import {
   bootstrapC16MultiUnitCreativeIntelligence,
   bootstrapC17CampaignCopyDirector,
   bootstrapC18BrandTrueCopyIntelligence,
+  bootstrapC19LiveCreativeIntelligence,
   applyEntry003FounderJudgment,
 } from '../_lib/site00ExpressionEngine/entry003/entry003Service.js';
 import { getChapterByNumber, getChapterGrammarForChapter } from '../_lib/site00ExpressionEngine/chapterStore.js';
@@ -504,6 +505,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     ) {
       const c18 = await bootstrapC18BrandTrueCopyIntelligence();
       return res.status(200).json(c18);
+    }
+
+    if (
+      req.method === 'GET' &&
+      (phase === 'C1.9' || phase === 'C19' || phase === 'LIVE_CREATIVE_INTELLIGENCE')
+    ) {
+      const c19 = await bootstrapC19LiveCreativeIntelligence();
+      return res.status(200).json(c19);
     }
 
     if (

@@ -95,6 +95,14 @@ function brandSpecificCaptions(identity: BrandLanguageIdentity, ctx: CreativeBra
       };
     case 'verdant-row':
     default:
+      if (identity.brandId === 'meridian-atelier-c19') {
+        return {
+          primary: 'A room you have not entered yet. Nocturne builds itself around you.',
+          altA: 'Architecture for memory — the note progression begins at dusk.',
+          altB: 'Private space, not status. The atelier left the door unlatched.',
+          cta: 'RESERVE CONSULTATION',
+        };
+      }
       return {
         primary: `${identity.brandName}: honest care without the guilt theater.`,
         altA: `What ${visual} withholds — the caption names gently.`,

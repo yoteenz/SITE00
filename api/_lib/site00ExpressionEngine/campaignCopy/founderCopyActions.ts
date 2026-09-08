@@ -4,9 +4,16 @@
 
 import type { CopyApprovalState } from '../../../shared/site00-expression-engine/brand-language/types.js';
 import type { CampaignCopyPackageOutput } from '../../../shared/site00-expression-engine/campaign-copy/types.js';
-import { getCampaignCopyPackage } from './campaignCopyStore.js';
+import { getCampaignCopyPackage, persistCampaignCopyPackage } from './campaignCopyStore.js';
 import { seedCorrectionFromFounderFeedback } from '../seniorCreativeJudgment/creativeIntelligenceStore.js';
-import { strengthenBrandLanguageFromApprovedEdit } from '../brandLanguage/brandLanguageIdentity.js';
+import {
+  strengthenBrandLanguageFromApprovedEdit,
+} from '../brandLanguage/brandLanguageIdentity.js';
+import {
+  applyApprovedInVoiceLearning,
+  rejectOutOfVoiceDraft,
+  persistFounderCopyActionRecord,
+} from '../brandLanguage/brandLanguageSupabaseStore.js';
 import { generateBrandTrueCopy } from './copyReasoningProvider.js';
 import { buildCreativeBrainContext } from './creativeBrainContext.js';
 
@@ -142,18 +149,38 @@ export async function applyFounderCopyAction(args: {
 
   let brandLanguageStrengthened = false;
   if (args.action === 'LOVE IT' || args.action === 'EDIT') {
-    const strengthened = strengthenBrandLanguageFromApprovedEdit(
+    const baseIdentity =
       (unit as { brandLanguageIdentity?: import('../../../shared/site00-expression-engine/brand-language/types.js').BrandLanguageIdentity }).brandLanguageIdentity ??
-        buildCreativeBrainContext({}).brandLanguageIdentity,
-      newCaption,
-    );
+      buildCreativeBrainContext({}).brandLanguageIdentity;
+    const strengthened = strengthenBrandLanguageFromApprovedEdit(baseIdentity, newCaption);
     (unit as { brandLanguageIdentity?: typeof strengthened }).brandLanguageIdentity = strengthened;
+    await applyApprovedInVoiceLearning(
+      strengthened,
+      newCaption,
+      args.action === 'EDIT' ? 'FOUNDER_EDITED_IN_VOICE' : 'APPROVED_IN_VOICE',
+    );
     brandLanguageStrengthened = true;
   }
 
   if (args.action === 'NOT MY VOICE') {
     registerRejectedDraft(`${args.copyPackageId}:${args.unitId}:${versionLabel}`);
+    await rejectOutOfVoiceDraft(
+      (unit as { brandLanguageIdentity?: { brandId: string } }).brandLanguageIdentity?.brandId ?? args.projectId ?? 'unknown',
+      newCaption,
+      args.projectId,
+    );
   }
+
+  await persistFounderCopyActionRecord({
+    copyPackageId: args.copyPackageId,
+    contentUnitId: args.unitId,
+    action: args.action,
+    versionLabel,
+    caption: newCaption,
+    projectId: args.projectId,
+  });
+
+  await persistCampaignCopyPackage(pkg, args.projectId ?? 'verdant-row');
 
   return { ok: true, package: pkg, brandLanguageStrengthened };
 }

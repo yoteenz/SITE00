@@ -9,6 +9,8 @@ export {
   bootstrapC15CreativeIntelligenceRuntime,
   bootstrapC16MultiUnitCreativeIntelligence,
   bootstrapC17CampaignCopyDirector,
+  bootstrapC18BrandTrueCopyIntelligence,
+  bootstrapC19LiveCreativeIntelligence,
 } from './entry003C14Pipeline.js';
 export {
   applyEntry003FounderJudgment,
