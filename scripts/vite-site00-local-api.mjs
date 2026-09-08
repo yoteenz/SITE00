@@ -23,6 +23,7 @@ const LOCAL_API_ROUTES = [
   { path: '/api/site00/client-reviews', file: 'api/site00/client-reviews.ts' },
   { path: '/api/site00/client-app', file: 'api/site00/client-app.ts' },
   { path: '/api/site00/projects', file: 'api/site00/projects.ts' },
+  { path: '/api/site00/project-technical-intelligence', file: 'api/site00/project-technical-intelligence.ts' },
   { path: '/api/site00/marketing-engagements', file: 'api/site00/marketing-engagements.ts' },
   { path: '/api/site00/studio-world-webhook', file: 'api/site00/studio-world-webhook.ts' },
   { path: '/api/site00/intakes', file: 'api/site00/intakes.ts' },

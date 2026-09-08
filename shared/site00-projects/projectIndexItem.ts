@@ -9,6 +9,7 @@ import { projectModulePath } from './projectModules.js';
 import { getProjectOperatingAdapter } from './adapters/index.js';
 import { buildProjectProgressSummary, type ProjectProgressSummary } from './projectProgressSummary.js';
 import { resolveProjectIndexVisual } from './projectIndexVisual.js';
+import { getProjectRepositoryBinding } from './technical/projectRepositoryRegistry.js';
 
 export type ProjectIndexOwnerType = 'FOUNDER' | 'CLIENT';
 
@@ -54,6 +55,10 @@ export type ProjectIndexItem = {
   internalProject: boolean;
   openRoute: string;
   descriptor: string | null;
+  repositorySlug: string | null;
+  repositoryStatus: string | null;
+  commitsAhead: number | null;
+  openPullRequests: number | null;
 };
 
 export function projectInitialsFromName(name: string): string {
@@ -155,6 +160,7 @@ export function buildProjectIndexItem(
   const isArchived = status === 'ARCHIVED';
   const ownerType = options?.ownerType ?? (entry.classification.includes('CLIENT') ? 'CLIENT' : 'FOUNDER');
   const visual = resolveProjectIndexVisual(entry.slug, entry.displayName);
+  const repoBinding = getProjectRepositoryBinding(entry.slug);
 
   return {
     projectId: entry.slug,
@@ -184,5 +190,12 @@ export function buildProjectIndexItem(
     internalProject: manifest.internalProject,
     openRoute: options?.openRoute ?? projectModulePath(entry.slug, 'OVERVIEW'),
     descriptor: adapter.getTagline(ctx) ?? entry.currentSystem?.toUpperCase() ?? null,
+    repositorySlug:
+      repoBinding.repositoryOwner && repoBinding.repositoryName
+        ? `${repoBinding.repositoryOwner}/${repoBinding.repositoryName}`
+        : null,
+    repositoryStatus: repoBinding.status === 'BOUND' ? 'CONNECTED' : repoBinding.status,
+    commitsAhead: null,
+    openPullRequests: null,
   };
 }

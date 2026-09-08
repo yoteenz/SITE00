@@ -12,8 +12,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useProjectViewMode } from '../context/ProjectViewModeContext';
 import { useClientAppManifest } from '../hooks/useClientAppManifest';
+import { useProjectTechnicalIntelligence } from '../hooks/useProjectTechnicalIntelligence';
+import { projectHasTechnicalIntelligenceCapability } from '../../../shared/site00-projects/technical/projectRepositoryRegistry.js';
 import '../styles/site00-project-operating-system.css';
 import '../styles/site00-founder-workspace.css';
+import '../styles/site00-project-technical-intelligence.css';
 
 type ProjectOperatingModulePageProps = {
   forcedModule?: ProjectModuleId;
@@ -39,6 +42,13 @@ function ProjectOperatingModuleInner({ forcedModule }: ProjectOperatingModulePag
   const { viewMode } = useProjectViewMode();
   const { project, state, error } = useSite00ProjectDetail(projectSlug);
   const { operatingState, visibleModules } = useProjectOperatingSystem(projectSlug, project);
+  const technicalEnabled = operatingState
+    ? projectHasTechnicalIntelligenceCapability(operatingState.capabilityManifest.enabledCapabilities)
+    : false;
+  const { intelligence, state: technicalState, syncNow } = useProjectTechnicalIntelligence(
+    projectSlug,
+    technicalEnabled,
+  );
 
   const currentModule =
     forcedModule ?? resolveModuleFromPath(location.pathname) ?? 'OVERVIEW';
@@ -73,6 +83,9 @@ function ProjectOperatingModuleInner({ forcedModule }: ProjectOperatingModulePag
       operatingState={operatingState}
       visibleModules={visibleModules as ProjectModuleId[]}
       ndxOverviewContent={ndxOverview}
+      technicalIntelligence={intelligence}
+      technicalState={technicalState}
+      onTechnicalSync={syncNow}
     />
   );
 }
