@@ -6016,3 +6016,22 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Tests** `site00ExpressionEnginePipelineReconciliation.test.ts` — 3/3 pass
 - **Next:** FOUNDER REVIEW OF FIVE PRE-STORYBOARD VISUAL AUTHORITIES
 
+---
+
+## 2026-09-08 — Sprint B4.7 — Pre-storyboard authority approval + final storyboard preparation
+
+- **Context:** Founder attached five visual authority boards as active evidence for NDXBOOK Entry 002. System must record founder judgments, reconcile pipeline truthfully, and advance to FINAL CINEMATIC STORYBOARD READY only when all five = LOVE_IT.
+- **Delivered:**
+  - **Founder-approved assets** ingested to `public/assets/expression-engine/entry-002/pre-storyboard-authority/` (5 JPGs linked to deterministic authority IDs)
+  - **First-class authority records** — `PreStoryboardAuthorityRecord` with authorityId, founderJudgment, visualAuthority, canon, assetId, version, approvedAt
+  - **Judgment persistence** — `preStoryboardAuthorityStore.ts` + POST `SET_PRE_STORYBOARD_AUTHORITY_JUDGMENT`
+  - **Gate satisfaction** — `buildPreStoryboardGateSatisfaction()`; pipeline `finalStoryboard.status` → `READY_FOR_GENERATION` when all 5 LOVE_IT
+  - **Storyboard compilation contract** — `entry002FinalStoryboardCompilationContract.ts` resolves all 5 authority domains (NDX≠subject, lime vs French tips, full-body phone content)
+  - **Bootstrap B47** — `GET ?phase=B47` (aliases B46P1, PRE_STORYBOARD); no FAL dispatch for reconciliation
+  - **UI** — Pre-Storyboard Authority tab: judgment buttons, gate blocked/ready states, founder asset previews
+  - **Authority canon updated** — 3C curls messy bun NDX, French tips subject, full-body phone content rule from attached boards
+  - **Tests** `site00ExpressionEngineSprintB47.test.ts` — 20/20 pass; full expression engine suite 198/198
+- **Active gate:** `GATE_0B_PRE_STORYBOARD_AUTHORITY` until all 5 LOVE_IT; then next action = GENERATE FINAL CINEMATIC STORYBOARD
+- **Hard stop:** No final storyboard auto-approval, no keyframes, no video dispatch
+- **Next:** Founder marks each of 5 authorities LOVE_IT in Pre-Storyboard Authority tab → gate satisfied → generate final cinematic storyboard
+

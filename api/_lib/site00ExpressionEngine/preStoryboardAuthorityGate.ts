@@ -5,6 +5,7 @@
 import type {
   PreStoryboardApprovalState,
   PreStoryboardFounderJudgment,
+  PreStoryboardGateSatisfaction,
   PreStoryboardVisualAuthority,
 } from '../../../shared/site00-expression-engine/preStoryboardVisualAuthorityTypes.js';
 
@@ -53,6 +54,37 @@ export function buildPreStoryboardApprovalState(
     anyNotForMe: PRE_STORYBOARD_AUTHORITY_KEYS.some((k) => boardJudgments[k] === 'NOT_FOR_ME'),
     blocksCinematicStoryboard: !allAuthoritiesLoveIt,
   };
+}
+
+export function buildPreStoryboardGateSatisfaction(
+  authorities: PreStoryboardVisualAuthority[],
+): PreStoryboardGateSatisfaction {
+  const counts = { loveItCount: 0, unreviewedCount: 0, promisingCount: 0, notForMeCount: 0 };
+  for (const board of authorities) {
+    if (board.founderJudgment === 'LOVE_IT') counts.loveItCount += 1;
+    else if (board.founderJudgment === 'PROMISING_REFINE') counts.promisingCount += 1;
+    else if (board.founderJudgment === 'NOT_FOR_ME') counts.notForMeCount += 1;
+    else counts.unreviewedCount += 1;
+  }
+
+  return {
+    gateId: PRE_STORYBOARD_VISUAL_GATE_ID,
+    satisfied: counts.loveItCount === PRE_STORYBOARD_AUTHORITY_KEYS.length,
+    requiredCount: 5,
+    ...counts,
+  };
+}
+
+export function isPreStoryboardAuthorityApproved(
+  authorities: PreStoryboardVisualAuthority[],
+): boolean {
+  return (
+    authorities.length === PRE_STORYBOARD_AUTHORITY_KEYS.length &&
+    PRE_STORYBOARD_AUTHORITY_KEYS.every((_, index) => {
+      const board = authorities.find((a) => a.boardNumber === index + 1);
+      return board?.founderJudgment === 'LOVE_IT' && (board.record?.visualAuthority ?? board.founderJudgment === 'LOVE_IT');
+    })
+  );
 }
 
 export function assertPreStoryboardVisualAuthorityApprovedForStoryboard(
