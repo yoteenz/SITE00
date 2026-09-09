@@ -7366,3 +7366,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining gaps:** Live savorceleste.com scrape when enabled; uploaded screenshot/product photo intake UI; persistent Supabase concept panel store; generated hero visuals (symbolic placeholder today); studio desktop Entry 002 tab surfacing.
 - **Next founder action:** Deploy v252 → Expression Engine → CONCEPT REVIEW · GALLERY → swipe Savor Celeste THE PRIVATE ROOM → verify PROFILE-GROUNDED badge → judge with LOVE IT / REVISE → open TRAILER mode for gift deck preview.
 
+---
+
+## 2026-09-09 — P0.CJ.2V Creative Judgment Visual Authority
+
+- **Context:** P0.CJ.2 data layer worked but presentation still felt text-heavy / dark / generic; sprint required premium bright-host creative-director UX on mobile + desktop without touching CJ engine.
+- **Implemented:**
+  - **Visual system** — full rewrite `site00-creative-judgment-presentation.css`: bright off-white host, SITE 00 red accent, Martian Mono uppercase, editorial hero zones, no dark SaaS cards.
+  - **Components** — `ConceptHeroVisual`, `ConceptBreakdownRows`, `ConceptEngineRead`, `ConceptFounderJudgmentBar`, `ConceptGalleryMobile` (snap carousel + peek), `ConceptGalleryDesktop` (active + rail), `ConceptDetailView`, redesigned `ConceptCompareView` + `ConceptTrailerMode` (client-showable, no internal metrics).
+  - **Hero art registry** — per-concept symbolic treatments (NDX door, Verdant leaf, Sleep archive, Savor room).
+  - **Sleep Debt Archive** — 4th gallery concept via presentation fixture + bootstrap seed.
+  - **Maturity** — demoted to VIEW MATURITY link (Level 3), not default.
+  - **Tests:** `creativeJudgmentPresentationP0CJ2V.test.ts` (7) + updated CJ2 (13); build `index.J59hKzUh.js`.
+  - **Status:** `VISUAL_DIRECTION_IMPLEMENTED · VISUAL_AUTHORITY_REQUIRED` (no pixel-perfect authority claim).
+- **Remaining gaps:** Generated hero key art / product photography binding; live savorceleste.com fetch; final mobile+desktop screen authority captures for pixel pass.
+- **Next founder action:** Deploy v253 → Expression Engine → CREATIVE JUDGMENT → review 4 cases (Employee Door, Verdant Row, Sleep Debt, Savor Celeste) on mobile gallery + desktop compare + trailer — capture screenshots for visual authority pass.
+
