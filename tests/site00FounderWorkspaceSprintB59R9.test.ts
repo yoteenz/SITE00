@@ -21,6 +21,7 @@ const INDEX_PAGE = readFileSync(join(ROOT, 'src/site00/components/projectIndex/P
 const SHELL = readFileSync(join(ROOT, 'src/site00/components/projectIndex/ProjectsPageShell.tsx'), 'utf8');
 const INDEX_CSS = readFileSync(join(ROOT, 'src/site00/styles/site00-project-index.css'), 'utf8');
 const ADAPTER = readFileSync(join(ROOT, 'shared/site00-projects/projectsAccountIdentityAdapter.ts'), 'utf8');
+const SHELL_CONFIG = readFileSync(join(ROOT, 'shared/site00-projects/projectsPageShellConfig.ts'), 'utf8');
 
 describe('B5.9R9 Projects account identity eyebrow', () => {
   it('1. red eyebrow no longer hardcodes PROJECTS / in hero', () => {
@@ -29,7 +30,8 @@ describe('B5.9R9 Projects account identity eyebrow', () => {
   });
 
   it('2. black title still renders PROJECTS', () => {
-    expect(HERO).toContain('site00-pidx-hero__title">PROJECTS');
+    expect(HERO).toContain('site00-pidx-hero__title">{shell.title}');
+    expect(SHELL_CONFIG).toContain("title: 'PROJECTS'");
   });
 
   it('3. founder view reads authenticated account identity', () => {
@@ -117,9 +119,10 @@ describe('B5.9R9 Projects account identity eyebrow', () => {
   });
 
   it('12. shell-invariance — hero structure unchanged aside from eyebrow data', () => {
-    expect(HERO).toContain('ALL PROJECTS. ONE SYSTEM.');
-    expect(HERO).toContain('BUILDING BIGGER WORLDS');
-    expect(HERO).toContain('PLAN');
+    expect(SHELL_CONFIG).toContain('ALL PROJECTS. ONE SYSTEM.');
+    expect(SHELL_CONFIG).toContain('BUILDING BIGGER WORLDS');
+    expect(SHELL_CONFIG).toContain('PLAN');
+    expect(HERO).toContain('PROJECTS_PAGE_SHELL_CONFIG');
     expect(SHELL).toContain('ProjectIndexControls');
     expect(INDEX_PAGE).toContain('site00-pidx--mobile');
     expect(INDEX_PAGE).toContain('site00-pidx--desktop');

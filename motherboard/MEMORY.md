@@ -5487,7 +5487,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-<<<<<<< HEAD
 ## 2026-08-26 — P0.APP.2 Client app 25-screen visual convergence + REFERENCE_LOCKED_V1
 
 - **Context:** P0.APP.1 built first-pass `/app` client mobile app (25 screens). Sprint required reference-faithful visual convergence + interaction completion + live browser QA against founder master board — no new product features.
@@ -5495,9 +5494,7 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Core rule:** Master board is the app — shell, nav, spacing, cards, typography, icons must match; P0.CLIENT.2A remains review persistence authority; no shadow review store.
 - **Preserved:** P0.APP.1 architecture, P0.CLIENT.1/2A, admin/bridge/FAL boundaries.
 
----
-=======
-## 2026-08-26 — P0.E.1 Astral World high-fidelity experience prototype + social presence
+---## 2026-08-26 — P0.E.1 Astral World high-fidelity experience prototype + social presence
 
 - **Context:** Sprint P0.E.1 for Astral World — implement desktop (REFERENCE A) and mobile (REFERENCE B) experience prototype with social presence, destinations, Take Me Somewhere, Find My Reader, Join Her Table, notifications, journey. Store as CREATIVE_EXPLORATION — no auto canon promotion. Reference images were not attached in cloud VM; implementation follows sprint text spec with REFERENCE_ASSET_PENDING environment slots.
 - **Delivered:** `shared/site00-astral-world/` (types, fixtures, presenceService, takeMeSomewhereRouter, creativeExploration). Client shell `src/site00/astral-world/` — desktop 3-region (nav + canvas + rail), mobile bottom nav (HOME/WORLD/JOURNAL/FRIENDS/PROFILE), Astréa + 3 destinations (Tarot Suite, Astral Mall, Coffee Shop), presence/notifications/journey panels. Route `/projects/astral-world/experience/*` via `ProjectAstralWorldExperiencePage` without Site00Layout (host/client firewall). Project command CTA + clientProjectResolver EXPERIENCE surface. CSS `astral-world.css` (Cinzel/Cormorant gold celestial — not SITE 00 red DNA). Tests `astralWorldExperienceP0E1.test.ts` (22 pass). Docs: EXPERIENCE_PROTOTYPE, SOCIAL_PRESENCE, DESTINATION_BEHAVIOR, TAKE_ME_SOMEWHERE, REFERENCE_FIDELITY, audit P0E1; PROJECT_BIBLE updated as CREATIVE_EXPLORATION.
@@ -6317,7 +6314,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-<<<<<<< HEAD
 ## 2026-09-08 — Sprint B5.5 — Deliverable workspaces + live social preview
 
 - **Context:** Founder correction — uploaded deliverables disappeared after ingestion; package readiness was numeric only (2/5) with no visual package construction. B5.4 archive taxonomy must remain; no FAL/provider dispatch.
@@ -6331,9 +6327,7 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **previewReadiness** — AVAILABLE even when campaignBoardEligibility LOCKED; readiness respects removedFromPackage
   - **Tests** — B55 53/53 pass; B54 27/27; build pass · bundle `index.DN4vv0cn.js`
 - **No provider dispatch** — UI/state/preview derivation only
-- **Next founder action:** Open Entry 001 → Package Content → Preview; upload a test deliverable and confirm it persists + previews
-=======
-## 2026-09-08 — Sprint C1.3 — Cinematic Continuity Director + Chapter Continuity + Marketing Package Generalization
+- **Next founder action:** Open Entry 001 → Package Content → Preview; upload a test deliverable and confirm it persists + previews## 2026-09-08 — Sprint C1.3 — Cinematic Continuity Director + Chapter Continuity + Marketing Package Generalization
 
 - **Context:** C1.2 produced Entry 003 (CLEAN GIRL / NOT THAT EFFORTLESS / SHELFIE MUSEUM) but founder judged PUSH FURTHER — too literal/product-count. System also lacked series intelligence (handoffs, escalation, motif control) and was NDXBOOK-specific. No image/video/FAL.
 - **Delivered:**
@@ -6735,7 +6729,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-<<<<<<< HEAD
 ## 2026-09-08 — P0.VR.4 Reference Asset Reconstruction Pipeline (Design Workspace)
 
 - **Context:** Founder sprint formalizing manual screenshot→crop→recreate→transparency→QA→Supabase→live-bind workflow into first-class Design Workspace capability.
@@ -6746,16 +6739,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Tests:** `tests/visualReconstructionP0VR4.test.ts` (15/15 pass, 47 success criteria).
 - **Ideogram/Pixelcut:** Provider slots exist; unavailable without env keys — no fabricated endpoints.
 - **Live FAL:** Simulated in dev/tests without `FAL_KEY`; real dispatch path uses same `buildFalImageInput` + reference crop as production creative direction pattern.
-- **Next founder action:** OPEN DESIGN → projects-index → ASSETS tab → select PROJECTS HEADER PLANET → GENERATE (explicit) → LOVE IT → persist/bind when ready; Railway redeploy for API route.
-=======
-## 2026-09-08 — Hotfix: BLDR siteTypeModel import blocked dev bundle (Expression Engine)
+- **Next founder action:** OPEN DESIGN → projects-index → ASSETS tab → select PROJECTS HEADER PLANET → GENERATE (explicit) → LOVE IT → persist/bind when ready; Railway redeploy for API route.## 2026-09-08 — Hotfix: BLDR siteTypeModel import blocked dev bundle (Expression Engine)
 
 - **Symptom:** Vite overlay on `site00.fsbw-dev.com` — `Failed to resolve import .../shared/site00-bldr-classification/siteTypeModel` from `BldrIntakeFields.tsx`; blocked Expression Engine / Meridian review.
 - **Root cause:** Vite HMR held edited `BldrIntakeFields.tsx` importing modules that were never committed to disk.
 - **Fix:** Added `shared/site00-bldr-classification/siteTypeModel.ts` + `bldrFieldValidation.ts`; synced `BldrIntakeFields.tsx` (OTHER site-type specify). PR #600 merged. Vite dev restarted.
 - **Founder action:** Hard refresh `site00.fsbw-dev.com` → NDXBOOK → Expression Engine → Meridian section.
->>>>>>> origin/main
-
 ---
 
 ## 2026-09-09 — Hotfix: Expression Engine hang (Meridian blocked core load)
@@ -6864,6 +6853,21 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `accountIdentityNormalization.ts`, `resolveAccountDisplayIdentityFromSources()`, `useSite00AccountProfileIdentity` (sync + hydrate), `projectsAccountIdentityAdapter.ts`, `ProjectsAccountIdentityInspector`, profiles table lookup for client owners, simulated client slug in view-mode session.
 - Tests: B59R9R1 (22) + regressions — 69/69 pass.
 - **Next founder action:** `/projects` → expand SYSTEM INSPECTOR · ACCOUNT IDENTITY → confirm SOURCE=PROFILE, RESOLUTION STATUS=RESOLVED; toggle client view.
+
+---
+
+## 2026-09-09 — Sprint B5.9R8R1 — Runtime client-view branch elimination + bundle audit
+
+- **Live symptom:** Founder reported B5.9R8 fix not visible — black CLIENT VIEW bar, YOUR PROJECTS hero, 2 metric cards on deployed site.
+- **Root runtime cause:** **STALE_DEPLOYMENT** — live `site00.com` served `index.Cr70B6lr.js` (Sep 8), not v216 `index.DGTmoe4o.js`. Code on `main` already correct; GoDaddy ZIP not uploaded.
+- **R8R1 hardening:**
+  - Deleted legacy `ProjectIndexHeader.tsx` (contained banner + hero copy branches + 2-tile path)
+  - Added `projectsPageShellConfig.ts` — static hero shell copy
+  - Runtime DOM markers: `data-site00-shell`, `data-site00-view-mode`, `data-site00-hero`, `data-site00-metrics`
+  - `scripts/verify-projects-index-bundle.mjs` — post-build audit of ProjectsPage lazy chunk (no banner, 4 slots, shared hero)
+  - Tests: `site00FounderWorkspaceSprintB59R8R1.test.ts` (10 tests) + bundle verify in CI-style test
+- **Live QA (localhost dev, 390px):** Founder/client toggle — same route, same hero, 4 tiles, no banner, DOM markers confirmed
+- **Next founder action:** Upload GoDaddy release v217 ZIP; hard refresh; verify page source shows new `index.*.js` hash (NOT `index.Cr70B6lr.js`).
 
 ---
 
