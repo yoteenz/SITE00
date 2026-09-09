@@ -99,6 +99,77 @@ export const SERVICE_SCOPE_TEMPLATES: Record<ClientProjectServiceScope, ServiceS
       { id: 'final-deliverables', label: 'FINAL DELIVERABLES' },
     ],
   },
+  MARKETING_ONLY: {
+    scope: 'MARKETING_ONLY',
+    services: ['MARKETING', 'EVOLVE'],
+    phases: [
+      { id: 'strategy', index: '01', label: 'STRATEGY' },
+      { id: 'creative-direction', index: '02', label: 'CREATIVE DIRECTION' },
+      { id: 'reel', index: '03', label: 'REEL' },
+      { id: 'socials', index: '04', label: 'SOCIALS' },
+      { id: 'package', index: '05', label: 'PACKAGE' },
+    ],
+    deliverables: ['Campaign Strategy', 'Creative Direction', 'Content Suite', 'Launch Plan'],
+    librarySections: [
+      { id: 'campaign-assets', label: 'CAMPAIGN ASSETS' },
+      { id: 'reels', label: 'REELS' },
+      { id: 'social-posts', label: 'SOCIAL POSTS' },
+    ],
+  },
+  MARKETING_PLUS_PRODUCTION: {
+    scope: 'MARKETING_PLUS_PRODUCTION',
+    services: ['MARKETING', 'EVOLVE', 'PRODUCTION'],
+    phases: [
+      { id: 'strategy', index: '01', label: 'STRATEGY' },
+      { id: 'creative-direction', index: '02', label: 'CREATIVE DIRECTION' },
+      { id: 'production', index: '03', label: 'PRODUCTION' },
+      { id: 'socials', index: '04', label: 'SOCIALS' },
+      { id: 'launch', index: '05', label: 'LAUNCH' },
+    ],
+    deliverables: ['Campaign Strategy', 'Production Assets', 'Content Suite'],
+    librarySections: [
+      { id: 'campaign-assets', label: 'CAMPAIGN ASSETS' },
+      { id: 'production', label: 'PRODUCTION' },
+    ],
+  },
+  FULL_SITE: {
+    scope: 'FULL_SITE',
+    services: ['IDENTITY', 'WEBSITE', 'MARKETING', 'EVOLVE'],
+    phases: [
+      { id: 'discovery', index: '01', label: 'DISCOVERY' },
+      { id: 'identity', index: '02', label: 'IDENTITY' },
+      { id: 'website', index: '03', label: 'WEBSITE' },
+      { id: 'marketing', index: '04', label: 'MARKETING' },
+      { id: 'launch', index: '05', label: 'LAUNCH' },
+    ],
+    deliverables: ['Full Site', 'Brand System', 'Marketing Suite'],
+    librarySections: [
+      { id: 'approved-identity', label: 'APPROVED IDENTITY' },
+      { id: 'page-designs', label: 'PAGE DESIGNS' },
+      { id: 'campaign-assets', label: 'CAMPAIGN ASSETS' },
+    ],
+  },
+  BUILDER_ONLY: {
+    scope: 'BUILDER_ONLY',
+    services: ['WEBSITE', 'BUILDER'],
+    phases: [
+      { id: 'blueprint', index: '01', label: 'BLUEPRINT' },
+      { id: 'build', index: '02', label: 'BUILD' },
+      { id: 'launch', index: '03', label: 'LAUNCH' },
+    ],
+    deliverables: ['Website Build', 'Launch Support'],
+    librarySections: [{ id: 'page-designs', label: 'PAGE DESIGNS' }],
+  },
+  CUSTOM: {
+    scope: 'CUSTOM',
+    services: ['CUSTOM'],
+    phases: [
+      { id: 'discovery', index: '01', label: 'DISCOVERY' },
+      { id: 'delivery', index: '02', label: 'DELIVERY' },
+    ],
+    deliverables: ['Custom Scope'],
+    librarySections: [{ id: 'deliverables', label: 'DELIVERABLES' }],
+  },
 };
 
 export function resolveServiceScope(input: {
@@ -107,8 +178,19 @@ export function resolveServiceScope(input: {
   metadataScope?: string | null;
 }): ClientProjectServiceScope {
   const meta = (input.metadataScope ?? '').toUpperCase();
-  if (meta === 'WEBSITE_ONLY' || meta === 'IDENTITY_PLUS_WEBSITE' || meta === 'NDXBOOK_LIKE' || meta === 'IDENTITY_ONLY') {
-    return meta;
+  const knownScopes: ClientProjectServiceScope[] = [
+    'WEBSITE_ONLY',
+    'IDENTITY_PLUS_WEBSITE',
+    'NDXBOOK_LIKE',
+    'IDENTITY_ONLY',
+    'MARKETING_ONLY',
+    'MARKETING_PLUS_PRODUCTION',
+    'FULL_SITE',
+    'BUILDER_ONLY',
+    'CUSTOM',
+  ];
+  if (knownScopes.includes(meta as ClientProjectServiceScope)) {
+    return meta as ClientProjectServiceScope;
   }
   const buildType = (input.buildType ?? '').toUpperCase();
   if (buildType.includes('IDENTITY') && buildType.includes('WEBSITE') && buildType.includes('MARKETING')) {
@@ -236,6 +318,9 @@ export function buildManifestFromScope(
     messageSummary: { unreadCount: 3, route: `${baseRoute}/messages` },
     currentMoment,
     notificationsUnread: input.attentionState === 'YOUR_TURN' ? 1 : 0,
+    serviceScope: input.scope,
+    relationship: 'MY_BRAND',
+    deliveryMode: 'SELF_DIRECTED',
   };
 }
 

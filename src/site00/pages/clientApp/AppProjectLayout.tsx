@@ -6,8 +6,8 @@ import { AppEmptyState, AppLoadingState, Site00ClientAppShell } from '../../comp
 function resolveActiveSection(pathname: string): string {
   if (pathname.includes('/reviews')) return 'reviews';
   if (pathname.includes('/inbox')) return 'inbox';
-  if (pathname.includes('/library')) return 'library';
-  if (pathname.includes('/project')) return 'project';
+  if (pathname.includes('/profile')) return 'profile';
+  if (pathname.includes('/projects')) return 'projects';
   return 'home';
 }
 

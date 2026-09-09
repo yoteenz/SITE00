@@ -1,6 +1,7 @@
 import { EVOLVE_PATHS } from '../../../config/evolve';
 import type { EvolveHubPathCard } from '../../../config/evolve-hub-mobile';
-import { EvolvePathIcon } from '../EvolvePathIcon';
+import { EvolveServiceIcon } from '../service/EvolveServiceIcon';
+import type { EvolveServiceIconId } from '../../../../../shared/site00-evolve-service/types.js';
 import { Site00ThreeCornerMark } from '../../mark/Site00ThreeCornerMark';
 import { ArrowIconSmall } from '../../icons/ArrowAction';
 
@@ -20,7 +21,7 @@ export function EvolveHubPathCardComponent({ card, onEnter }: EvolveHubPathCardP
         {card.num}
       </span>
       <div className="site00-evolve-hub-path-card__icon">
-        <EvolvePathIcon id={path.icon} title={path.title} size={64} />
+        <EvolveServiceIcon id={path.id as EvolveServiceIconId} title={path.title} size={64} />
       </div>
       <h3 className="site00-evolve-hub-path-card__title">{path.title}</h3>
       <p className="site00-evolve-hub-path-card__mode">{card.modeLabel}</p>

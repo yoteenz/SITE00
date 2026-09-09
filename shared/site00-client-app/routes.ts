@@ -13,7 +13,6 @@ export function clientAppPath(projectSlug?: string, section?: ClientAppNavSectio
   if (!projectSlug) return `${CLIENT_APP_ROUTE_PREFIX}/projects`;
   const base = `${CLIENT_APP_ROUTE_PREFIX}/projects/${projectSlug}`;
   if (!section || section === 'home') return base;
-  if (section === 'project') return `${base}/project/map`;
   return `${base}/${section}`;
 }
 
@@ -40,8 +39,8 @@ export function clientAppInboxPath(projectSlug: string, threadId?: string): stri
 
 export const CLIENT_APP_NAV: { id: ClientAppNavSection; label: string }[] = [
   { id: 'home', label: 'HOME' },
-  { id: 'project', label: 'PROJECT' },
+  { id: 'projects', label: 'PROJECTS' },
   { id: 'reviews', label: 'REVIEWS' },
   { id: 'inbox', label: 'INBOX' },
-  { id: 'library', label: 'LIBRARY' },
+  { id: 'profile', label: 'PROFILE' },
 ];

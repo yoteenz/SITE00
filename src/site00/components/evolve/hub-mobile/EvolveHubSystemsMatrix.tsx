@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { getCapabilitiesByCategory } from '../../../config/capability-registry';
-import {
-  EVOLVE_HUB_SYSTEM_MODULES,
-  EVOLVE_HUB_SYSTEMS_COPY,
-} from '../../../config/evolve-hub-mobile';
-import { EvolvePathIcon } from '../EvolvePathIcon';
+import { EVOLVE_SERVICE_AREAS } from '../../../../../shared/site00-evolve-service/serviceConfig.js';
+import { EvolveServiceIcon } from '../service/EvolveServiceIcon';
 import { ArrowIconSmall } from '../../icons/ArrowAction';
 
+const SERVICE_AREAS_COPY = {
+  title: 'SERVICE AREAS ─',
+  subtitle: 'CAPABILITIES FOR YOUR EVOLUTION',
+} as const;
+
 export function EvolveHubSystemsMatrix() {
-  const capabilityGroups = getCapabilitiesByCategory('evolve');
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const toggle = (id: string) => {
@@ -19,47 +19,38 @@ export function EvolveHubSystemsMatrix() {
     <section className="site00-evolve-hub-systems" id="systems" aria-labelledby="evolve-hub-systems-heading">
       <header className="site00-evolve-hub-section-header">
         <h2 id="evolve-hub-systems-heading" className="site00-evolve-hub-section-header__title">
-          {EVOLVE_HUB_SYSTEMS_COPY.title}
+          {SERVICE_AREAS_COPY.title}
         </h2>
-        <p className="site00-evolve-hub-section-header__subtitle">{EVOLVE_HUB_SYSTEMS_COPY.subtitle}</p>
+        <p className="site00-evolve-hub-section-header__subtitle">{SERVICE_AREAS_COPY.subtitle}</p>
       </header>
       <div className="site00-evolve-hub-systems__scroll">
-        {EVOLVE_HUB_SYSTEM_MODULES.map((module) => {
-          const expanded = expandedId === module.category;
-          const registryEntries = capabilityGroups[module.category] ?? [];
+        {EVOLVE_SERVICE_AREAS.map((area) => {
+          const expanded = expandedId === area.id;
 
           return (
-            <article key={module.category} className="site00-evolve-hub-system-module">
+            <article key={area.id} className="site00-evolve-hub-system-module">
               <p className="site00-evolve-hub-system-module__num">
-                {module.num} / {module.title}
+                {area.num} / {area.title}
               </p>
               <div className="site00-evolve-hub-system-module__icon">
-                <EvolvePathIcon id={module.iconId} title={module.title} size={48} />
+                <EvolveServiceIcon id={area.iconId} title={area.title} size={48} />
               </div>
               <ul className="site00-evolve-hub-system-module__list">
-                {module.capabilities.map((item) => (
+                {area.capabilities.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-              {expanded && registryEntries.length > 0 ? (
-                <ul
-                  id={`evolve-system-${module.category}`}
-                  className="site00-evolve-hub-system-module__detail"
-                >
-                  {registryEntries.map((entry) => (
-                    <li key={entry.id}>
-                      <span className="site00-evolve-hub-system-module__detail-name">{entry.name}</span>
-                      <span className="site00-evolve-hub-system-module__detail-desc">{entry.description}</span>
-                    </li>
-                  ))}
-                </ul>
+              {expanded ? (
+                <p id={`evolve-system-${area.id}`} className="site00-evolve-hub-system-module__detail">
+                  {area.capabilities.join(' · ')}
+                </p>
               ) : null}
               <button
                 type="button"
                 className="site00-evolve-hub-system-module__explore"
-                onClick={() => toggle(module.category)}
+                onClick={() => toggle(area.id)}
                 aria-expanded={expanded}
-                aria-controls={`evolve-system-${module.category}`}
+                aria-controls={`evolve-system-${area.id}`}
               >
                 {expanded ? 'CLOSE' : 'EXPLORE'}
                 <ArrowIconSmall />
