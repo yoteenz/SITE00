@@ -8,6 +8,8 @@ import type { PageMirrorFilter } from '../../../../shared/site00-studio-world-pr
 import type { PageVisualVerificationStatus } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6r2/browserClient.js';
 import type { PageVisualIndexRow } from './DesignPagesVisualIndex';
 import { DesignDwSectionIcon } from './DesignDwSectionIcon';
+import { DesignPageCompletionPanel } from './DesignPageCompletionPanel.js';
+import type { PageExperienceImplementationJob } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
 
 type Props = {
   rows: PageVisualIndexRow[];
@@ -18,6 +20,7 @@ type Props = {
   onRefreshProject?: () => void;
   visualStatusByScreenId?: Record<string, PageVisualVerificationStatus>;
   mirrorLoading?: boolean;
+  pageCompletionJob?: PageExperienceImplementationJob | null;
 };
 
 function formatRouteLabel(row: PageVisualIndexRow): string {
@@ -61,6 +64,7 @@ export function DesignPagesTabPanel({
   onRefreshProject,
   visualStatusByScreenId: _visualStatusByScreenId,
   mirrorLoading = false,
+  pageCompletionJob = null,
 }: Props) {
   const [filter, setFilter] = useState<PageMirrorFilter>('ALL');
   const [search, setSearch] = useState('');
@@ -84,8 +88,18 @@ export function DesignPagesTabPanel({
   const featured = filtered.find((r) => r.screenId === selectedScreenId) ?? filtered[0] ?? null;
   const featuredStatus = featured ? rowMirrorStatus(featured) : null;
 
+  const pciInteractions = pageCompletionJob?.completionPlan.interactionContracts.length ?? 0;
+  const pciResolved =
+    pageCompletionJob?.completionPlan.interactionContracts.filter(
+      (c) => c.status === 'IMPLEMENTED' || c.status === 'RESOLVED',
+    ).length ?? 0;
+  const pciChildren = pageCompletionJob?.childSurfacePlans.length ?? 0;
+  const pciChildDone =
+    pageCompletionJob?.childSurfacePlans.filter((c) => c.implementationStatus === 'IMPLEMENTED').length ?? 0;
+
   return (
     <section className="site00-dw-v3-pages" data-design-tab="pages" data-page-mirror="p0vr8">
+      {pageCompletionJob ? <DesignPageCompletionPanel job={pageCompletionJob} compact /> : null}
       <div className="site00-dw-v3-chip-row site00-dw-v3-chip-row--scroll" role="group" aria-label="Page mirror filters">
         {PAGE_MIRROR_FILTERS.map((chip) => (
           <button
@@ -140,6 +154,12 @@ export function DesignPagesTabPanel({
               {featured.isStale && featured.staleReason ? ` · STALE: ${featured.staleReason.toUpperCase()}` : ''}
               · {featured.pagePurpose?.toUpperCase() ?? featured.displayName.toUpperCase()}
             </p>
+            {pageCompletionJob ? (
+              <p className="site00-dw-v3-pages__pci-summary">
+                INTERACTIONS {pciResolved}/{pciInteractions} · CHILD SURFACES {pciChildDone}/{pciChildren} ·{' '}
+                {pageCompletionJob.implementationStatus.replace(/_/g, ' ')}
+              </p>
+            ) : null}
             <div className="site00-dw-v3-pages__featured-actions">
               <button
                 type="button"

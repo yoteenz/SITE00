@@ -87,6 +87,7 @@ import { DesignMoreTab } from '../designWorkspace/DesignMoreTab';
 import { DesignWorkspaceOverflowMenu } from '../designWorkspace/DesignWorkspaceOverflowMenu';
 import { DesignReferenceAssetsPanel } from '../designWorkspace/DesignReferenceAssetsPanel';
 import { useDesignReconstructionWorkflow } from '../designWorkspace/useDesignReconstructionWorkflow.js';
+import { usePageCompletion } from '../designWorkspace/usePageCompletion.js';
 import {
   mergeDesignWorkspaceNotifications,
   useDesignFounderActionNotifications,
@@ -233,6 +234,12 @@ export function StudioWorldDesignWorkspace({
   const breadcrumb = buildDesignWorkspaceBreadcrumb(activeDesignProjectId);
   const projectSelectorLabel = formatDesignProjectSelectorLabel(activeDesignProjectId);
   const route = customRoute || (screen ? resolveDesignScreenRoute(screen, projectId) : `/projects/${projectId}`);
+  const { pageJob: pageCompletionJob } = usePageCompletion({
+    projectId,
+    screenId,
+    route,
+    primaryTab,
+  });
   const reference = getActiveCanonicalReference(projectId, screenId, viewportClass);
   const implementationSnapshot = getSnapshot(screenId, viewportClass);
   const statusLabel = mapStatusLabel(projectId, screenId, viewportClass);
@@ -711,6 +718,7 @@ export function StudioWorldDesignWorkspace({
             }}
             onRefreshPage={(id) => void refreshMirrorPage(id)}
             onRefreshProject={() => void refreshMirrorProject()}
+            pageCompletionJob={pageCompletionJob}
           />
         ) : null}
 
