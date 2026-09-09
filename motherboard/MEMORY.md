@@ -6871,6 +6871,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-09 — Remove unused ExperienceContextBar from ecosystem shell
+
+- **Context:** Founder flagged gray debug strip at top of `/projects` mobile (VIEWING AS · PROJECT OWNER, CLIENT QA · OFF, duplicate ADMIN CONTROL CENTER link) — never used.
+- **Fix:** Removed `ExperienceContextBar` mount from `EcosystemShell` (desktop + mobile). Projects page keeps `ProjectIndexViewStrip` admin link; `Site00AdminShell` admin variant unchanged.
+- **Next founder action:** Upload fresh GoDaddy ZIP after merge; hard refresh `/projects` — gray strip should be gone.
+
+---
+
 ## 2026-09-09 — B5.9R10 client simulation selector + Jane Doe fixture
 
 - **Context:** CLIENT VIEW = mode; active client = context. Founder needs searchable client selector on existing toggle without shell recomposition.
