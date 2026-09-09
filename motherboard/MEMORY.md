@@ -7334,3 +7334,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining gaps:** Pinch-zoom on mobile not fully wired; full-screen edit mode stub; server-side crop preview extract API; persistent crop bounds to Supabase; split/merge UI; pixel-level overlay QA on device.
 - **Next founder action:** Deploy v250 → Design → ASSETS → SKINS MOBILE RECONSTRUCTION → NDXBOOK → verify red box on inner visual, drag/resize handles, live preview, chips + DETAILS — approve crop only after exact asset match (no generation on crop approve).
 
+---
+
+## 2026-09-09 — P0.VR.6R9 Crop Overlay / Live Preview Coordinate Convergence
+
+- **Context:** Recovery sprint — P0.VR.6R8 direct-manipulation crop editor worked but red crop box and live preview showed different source regions (coordinate-system failure visible on mobile NDXBOOK).
+- **Implemented:**
+  - **`CanonicalCropRect`** — single authority in source image pixel space (`canonicalCropRect.ts`); normalized derivatives for persistence only.
+  - **`RenderedImageGeometry`** — layout-space (overlay, zoom-safe) vs screen-space (pointer via `getBoundingClientRect`); object-fit contain letterbox support.
+  - **`CropCoordinateTransform`** — `screenPointToSourcePoint`, `sourceRectToOverlayCss`, letterbox-aware inverse, source-space handle resize/move, round-trip error.
+  - **`CropPreviewAlignmentInvariant`** — `evaluateCropPreviewAlignment`, `recalibrateCropGeometry`, `computeCropCoordinateChecksum` / `computeCropByteChecksum`, provider checksum contract, audit events.
+  - **`useCropEditorGeometry`** — central hook: canonical crop, overlay CSS, alignment, live canvas preview from same canonical extract.
+  - **UI** — approval blocked until aligned or on `PREVIEW_ALIGNMENT_MISMATCH`; RECALIBRATE; GEOMETRY in DETAILS; inspector CROP GEOMETRY section.
+  - **Tests:** `referenceReconstructionIntelligenceR9Crop.test.ts` (43 pass); R7 checksum test updated for `ccrc-*` format.
+- **Remaining gaps:** Pinch-zoom pan wiring; crosshair QA grid in internal mode; live Supabase crop byte checksum at approval; manual device verification on founder phone post-deploy.
+- **Next founder action:** Deploy v251 → Design → ASSETS → SKINS MOBILE RECONSTRUCTION → 01 NDXBOOK — place red box on unique region, move/resize all edges, zoom 50/100/200%, scroll page — confirm live preview matches box exactly before crop approve (generation still separate).
+
