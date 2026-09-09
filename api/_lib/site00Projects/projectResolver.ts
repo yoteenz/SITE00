@@ -639,7 +639,7 @@ export async function listSite00FounderProjects(): Promise<Site00ProjectIndexEnt
 
 function buildIndexSummary(
   projects: Site00ProjectIndexEntry[],
-  clientProjects?: Array<{ id: string; slug: string; name: string; studioRoute: string }>,
+  clientProjects?: import('../../../shared/site00-projects/types.js').Site00ClientProjectIndexRef[],
 ): Site00ProjectsIndexPayload['summary'] {
   const clientCount = clientProjects?.length ?? 0;
   return {
@@ -651,7 +651,7 @@ function buildIndexSummary(
 }
 
 export async function getSite00ProjectsIndexPayload(
-  clientProjects?: Array<{ id: string; slug: string; name: string; studioRoute: string }>,
+  clientProjects?: import('../../../shared/site00-projects/types.js').Site00ClientProjectIndexRef[],
 ): Promise<Site00ProjectsIndexPayload> {
   const projects = await listSite00FounderProjects();
   return {

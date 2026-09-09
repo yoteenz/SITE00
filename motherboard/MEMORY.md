@@ -6849,3 +6849,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Mobile QA (390px):** Founder/client screenshots match shell geometry; no black bar; 2×2 metrics; toggle switches active side only
 - **Next founder action:** Hard refresh → `/projects` → toggle CLIENT VIEW on existing control → verify same shell, data-only change.
 
+---
+
+## 2026-09-09 — B5.9R9 Projects page account-identity eyebrow
+
+- Red eyebrow shows active account person full name (uppercase); black title stays `PROJECTS`. `AccountIdentityEyebrow` in `ProjectsPageShell` hero.
+- **Next founder action:** `/projects` Founder View — verify name eyebrow; toggle Client View — client name in same slot.
+
+---
+
+## 2026-09-09 — B5.9R9R1 canonical account identity resolution
+
+- **Root cause:** `ACCOUNT /` fallback — localStorage snake_case fields not read; no profile hydration on Projects page; no auth metadata fallback.
+- **Fix:** `accountIdentityNormalization.ts`, `resolveAccountDisplayIdentityFromSources()`, `useSite00AccountProfileIdentity` (sync + hydrate), `projectsAccountIdentityAdapter.ts`, `ProjectsAccountIdentityInspector`, profiles table lookup for client owners, simulated client slug in view-mode session.
+- Tests: B59R9R1 (22) + regressions — 69/69 pass.
+- **Next founder action:** `/projects` → expand SYSTEM INSPECTOR · ACCOUNT IDENTITY → confirm SOURCE=PROFILE, RESOLUTION STATUS=RESOLVED; toggle client view.
+

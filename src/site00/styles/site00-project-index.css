@@ -340,6 +340,46 @@
   font-weight: 700;
 }
 
+.site00-pidx-hero__kicker-red.is-hydrating {
+  opacity: 0.35;
+}
+
+.site00-pidx-identity-inspector {
+  margin: 0.75rem 0 0;
+  font-family: var(--site00-mono, monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+}
+
+.site00-pidx-identity-inspector summary {
+  cursor: pointer;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.site00-pidx-identity-inspector__body {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  display: grid;
+  gap: 0.35rem;
+}
+
+.site00-pidx-identity-inspector__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.site00-pidx-identity-inspector__label {
+  color: #666;
+}
+
+.site00-pidx-identity-inspector__value {
+  color: #111;
+  word-break: break-word;
+}
+
 @media (min-width: 900px) {
   .site00-pidx-view-strip {
     grid-template-columns: 1fr 1fr auto;

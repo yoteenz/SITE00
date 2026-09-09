@@ -17,7 +17,7 @@ type ProjectViewModeContextValue = {
   viewMode: ProjectViewMode;
   isSimulatingClient: boolean;
   canToggle: boolean;
-  toggleViewAsClient: () => void;
+  toggleViewAsClient: (options?: { clientProjectSlug?: string | null }) => void;
   resetToFounderView: () => void;
 };
 
@@ -33,12 +33,15 @@ export function ProjectViewModeProvider({ children, role = 'FOUNDER' }: ProjectV
     createDefaultViewModeSession(canToggleViewAsClient(role)),
   );
 
-  const handleToggle = useCallback(() => {
-    if (!canToggleViewAsClient(role)) return;
-    const scrollY = window.scrollY;
-    setSession((prev) => toggleViewAsClient(prev));
-    requestAnimationFrame(() => window.scrollTo(0, scrollY));
-  }, [role]);
+  const handleToggle = useCallback(
+    (options?: { clientProjectSlug?: string | null }) => {
+      if (!canToggleViewAsClient(role)) return;
+      const scrollY = window.scrollY;
+      setSession((prev) => toggleViewAsClient(prev, options));
+      requestAnimationFrame(() => window.scrollTo(0, scrollY));
+    },
+    [role],
+  );
 
   const resetToFounderView = useCallback(() => {
     setSession(createDefaultViewModeSession(true));

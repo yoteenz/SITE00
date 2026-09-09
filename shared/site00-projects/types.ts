@@ -57,12 +57,23 @@ export type Site00ProjectsApiErrorBody = {
   message: string;
 };
 
+export type Site00ClientProjectIndexRef = {
+  id: string;
+  slug: string;
+  name: string;
+  studioRoute: string;
+  clientEmail?: string | null;
+  ownerFirstName?: string | null;
+  ownerLastName?: string | null;
+  ownerDisplayName?: string | null;
+};
+
 export type Site00ProjectsIndexPayload = {
   ok: true;
   projects: Site00ProjectIndexEntry[];
   source: 'site00_project_resolver';
   summary: Site00ProjectsIndexSummary;
-  clientProjects?: Array<{ id: string; slug: string; name: string; studioRoute: string }>;
+  clientProjects?: Site00ClientProjectIndexRef[];
 };
 
 export type Site00ProjectsIndexFailure = {

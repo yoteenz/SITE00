@@ -218,7 +218,7 @@ describe('B5.9R5 Projects Index Redesign', () => {
 
   it('31. visual reference QA structure present', () => {
     expect(HERO).toContain('ALL PROJECTS. ONE SYSTEM.');
-    expect(HERO).toContain('Site00OrbitalMark');
+    expect(HERO).toContain('ProjectsHeaderPlanet');
     expect(VIEW_STRIP).toContain('FOUNDER VIEW');
     expect(VIEW_STRIP).toContain('ADMIN CONTROL CENTER');
     expect(INDEX_CSS).toContain('site00-pidx-hero');
