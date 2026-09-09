@@ -7274,3 +7274,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Tests:** `evolvePricingAuthorities.test.ts` (11 pass).
 - **Remaining:** Pixel-level overlay QA vs attached authorities post-deploy; old `EvolveCommercialPage.tsx` retained in repo but unmounted from public route (admin catalog still uses shared commercial module separately).
 
+---
+
+## 2026-09-09 — Evolve Operations Intelligence Engine + Founder Control Room
+
+- **Context:** System intelligence sprint — build operating engine (not dashboard-only) for portfolio-scale Evolve ops: spend, failures, health, escalation, routing, margin, client risk, executive brief; founder control room integration; client firewall.
+- **Implemented:**
+  - **`shared/site00-evolve-operations/`** — `EvolveOperationsIntelligence` orchestrator + SpendIntelligence, FailureLoopIntelligence, ProjectHealthIntelligence, EscalationIntelligence, QueueRoutingIntelligence, MarginIntelligence, ClientRiskIntelligence, ExecutiveBriefIntelligence; `EvolveOperationsPolicyRegistry` (plan/tier thresholds); event audit log; provider incident grouping; nudge cooldowns; notification dedupe bridge; system inspector; 1,000-project fixtures.
+  - **Founder UI** — `/control/evolve-operations` (`EvolveOperationsPage`) TODAY-first tabs, top signals, queues, executive brief; `EvolveOperationsCard` on Control Room overview; marked `VISUAL_AUTHORITY_REQUIRED` (scaffold only).
+  - **Integrations** — `SelfDirectedOpsSignals` on client home (credits/health client-safe); `ProjectEvolveOpsPanel` for project-scoped ops; route `controlEvolveOperations`.
+  - **Tests:** `evolveOperationsIntelligence.test.ts` (21 tests — scenarios A–H + integration + scale).
+- **Safety:** Max 1 auto-retry; no paid auto-regeneration; bad-crop → return to input; provider incident pauses unsafe retries; margin/provider economics internal-only.
+- **Remaining gaps:** Live Supabase/API wiring for real project portfolio feed; bell notification emit from ops engine in production path; manual override UI; final mobile/desktop visual authority for Evolve Operations screen; Campaign/Creative Brain stage binding.
+- **Next founder action:** Deploy → Control Room → OPEN EVOLVE OPERATIONS → verify NEEDS ATTENTION / SPEND WATCH / FAILURES / CLIENT WAITING queues → run acceptance fixtures (credit watch, bad crop, provider outage, growth partner launch, retainer stall, margin watch, 1k portfolio toggle).
+

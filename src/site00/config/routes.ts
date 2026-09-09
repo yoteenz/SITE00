@@ -50,6 +50,7 @@ export const SITE00_ROUTES = {
   controlTeam: '/control/team',
   controlSettings: '/control/settings',
   controlSecurity: '/control/security',
+  controlEvolveOperations: '/control/evolve-operations',
   /** Founder/admin operator dashboard — gated by AdminGuard */
   adminDashboard: '/admin/site00',
   projects: '/projects',

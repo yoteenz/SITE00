@@ -8,6 +8,7 @@ import { useSite00MobileViewport } from '../../hooks/useSite00MobileViewport';
 import { AppCard, AppSectionLabel, AppStatusDot } from '../clientApp/Site00ClientAppShell';
 import { site00ProjectEvolvePath } from '../../config/routes';
 import { SelfDirectedProfileEditSheet } from './SelfDirectedProfileEditSheet';
+import { SelfDirectedOpsSignals } from './SelfDirectedOpsSignals';
 
 type SelfDirectedHomeProps = {
   manifest: ClientAppManifest;
@@ -62,6 +63,8 @@ function SelfDirectedHomeMobile({ manifest }: SelfDirectedHomeProps) {
           )}
         </div>
       </AppCard>
+
+      <SelfDirectedOpsSignals manifest={manifest} />
 
       <div className="site00-sd-home__stats">
         <div className="site00-sd-home__stat">
