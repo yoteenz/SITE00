@@ -393,6 +393,14 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
       <ReferenceSupportingIntelligence
         sections={[
           {
+            id: 'concept-review-gallery',
+            label: 'CONCEPT REVIEW · GALLERY',
+            status: 'P0.CJ.2',
+            content: (
+              <CreativeJudgmentPresentationWorkspace projectSlug={projectSlug} />
+            ),
+          },
+          {
             id: 'c19r1-meridian-live-proof',
             label: 'MERIDIAN · DETERMINISTIC vs FULL REASONING (C1.9R3)',
             status:
@@ -437,14 +445,6 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
                   judging={e003Judging}
                 />
               </>
-            ),
-          },
-          {
-            id: 'concept-review-gallery',
-            label: 'CONCEPT REVIEW · GALLERY',
-            status: 'P0.CJ.2',
-            content: (
-              <CreativeJudgmentPresentationWorkspace projectSlug={projectSlug} isMobile />
             ),
           },
           {
