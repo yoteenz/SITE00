@@ -2,6 +2,7 @@
  * Design → SKINS — pixel-fidelity mobile + desktop authority layouts (P0.VR.6R3).
  */
 
+import type { CSSProperties } from 'react';
 import { DEFAULT_FIDELITY_SETTINGS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6r2/browserClient.js';
 import { SCREEN_SLOT_PREFILL } from '../../../../shared/site00-brand-lore/projectSkin/brandFamily/screenSlotConfig.js';
 import { SkinAuthorityFlow } from './skins/SkinAuthorityFlow.js';
@@ -10,6 +11,9 @@ import { SkinFamilyThumb } from './skins/SkinFamilyThumb.js';
 import { DesignDwSectionIcon } from './DesignDwSectionIcon.js';
 import { SKINS_SCREEN_SLOTS, useDesignSkinsState, type SkinsViewport } from './useDesignSkinsState.js';
 import { useSkinsReferenceAssets } from './useSkinsReferenceAssets.js';
+import { useDesignReconstructionWorkflow } from './useDesignReconstructionWorkflow.js';
+import { DesignFounderActionBanner } from './DesignFounderActionBanner.js';
+import { DesignReconstructionWorkflowPanel } from './DesignReconstructionWorkflowPanel.js';
 import '../../styles/site00-design-skins-tab.css';
 
 type Props = {
@@ -60,8 +64,40 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
   const activePreviewMobile = mobileAssets.previewForActive(activeScreenType, activeAuthority);
   const activePreviewDesktop = desktopAssets.previewForActive(activeScreenType, activeAuthority);
 
+  const workflow = useDesignReconstructionWorkflow();
+  const skinsAction = workflow.state?.actions.find(
+    (a) => a.workspace === 'SKINS' && a.status === 'PENDING' && a.blocking,
+  );
+  const structureClass = workflow.structureCorrections.className;
+  const structureStyle = workflow.structureCorrections.cssVars as CSSProperties;
+
   return (
-    <section className="site00-dw-skins" data-design-tab="skins" data-project={projectId}>
+    <section
+      className={`site00-dw-skins ${structureClass}`}
+      style={structureStyle}
+      data-design-tab="skins"
+      data-project={projectId}
+      data-rri-subjobs={workflow.topLevel?.label}
+    >
+      {workflow.state?.workflowView && workflow.state ? (
+        <DesignReconstructionWorkflowPanel
+          state={workflow.state}
+          view={workflow.state.workflowView}
+          onApproveCrop={workflow.approveCrop}
+          onApproveAllCrops={workflow.approveAllCrops}
+          onApproveGeneration={() => void workflow.approveGeneration()}
+          onApproveOutput={workflow.approveOutput}
+          onClose={workflow.closeWorkflow}
+          onSetCandidateIndex={workflow.setCandidateIndex}
+        />
+      ) : null}
+
+      {!workflow.state?.workflowView && skinsAction ? (
+        <DesignFounderActionBanner action={skinsAction} onPrimary={workflow.openPrimaryAction} variant="skins" />
+      ) : null}
+
+      {!workflow.state?.workflowView ? (
+      <>
       {ingestionSlot ? (
         <SkinAuthorityFlow
           open
@@ -396,6 +432,8 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
       </div>
 
       {loading ? <p className="site00-dw-skins__loading">LOADING SKINS…</p> : null}
+      </>
+      ) : null}
     </section>
   );
 }

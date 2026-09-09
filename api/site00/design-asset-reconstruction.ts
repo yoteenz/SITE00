@@ -599,6 +599,48 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const result = runProjectsRedPlanetGoldenTest();
         return res.status(200).json({ ok: result.passed, result });
       }
+      case 'dispatch_skins_candidate': {
+        if (body.explicitFounderAction !== true) {
+          return res.status(400).json({ ok: false, error: 'EXPLICIT_FOUNDER_ACTION_REQUIRED' });
+        }
+        const falKey = process.env.FAL_KEY?.trim();
+        if (!falKey) {
+          return res.status(200).json({
+            ok: false,
+            outputUrl: null,
+            error: 'FAL_KEY_MISSING',
+            retryAvailable: true,
+          });
+        }
+        const sourceCropUrl = String(body.sourceCropUrl ?? '');
+        const prompt = String(body.prompt ?? '');
+        if (!sourceCropUrl || !prompt) {
+          return res.status(400).json({ ok: false, error: 'MISSING_SOURCE_OR_PROMPT' });
+        }
+        try {
+          const { fal } = await import('@fal-ai/client');
+          fal.config({ credentials: falKey });
+          const absUrl = sourceCropUrl.startsWith('http')
+            ? sourceCropUrl
+            : `${String(process.env.VITE_SITE_URL ?? 'http://localhost:5174')}${sourceCropUrl}`;
+          const model = 'openai/gpt-image-2/edit';
+          const result = await fal.subscribe(model, {
+            input: {
+              prompt,
+              image_urls: [absUrl],
+              image_size: 'auto',
+              quality: 'high',
+              num_images: 1,
+              output_format: 'webp',
+            },
+          });
+          const outputUrl = (result as { data?: { images?: Array<{ url?: string }> } })?.data?.images?.[0]?.url ?? null;
+          return res.status(200).json({ ok: Boolean(outputUrl), outputUrl, retryAvailable: !outputUrl });
+        } catch (err) {
+          const message = err instanceof Error ? err.message : String(err);
+          return res.status(200).json({ ok: false, outputUrl: null, error: message, retryAvailable: true });
+        }
+      }
       default:
         return res.status(400).json({ ok: false, error: `Unknown action: ${action}` });
     }

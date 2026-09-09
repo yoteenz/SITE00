@@ -85,6 +85,7 @@ import { DesignHistoryTab } from '../designWorkspace/DesignHistoryTab';
 import { DesignMoreTab } from '../designWorkspace/DesignMoreTab';
 import { DesignWorkspaceOverflowMenu } from '../designWorkspace/DesignWorkspaceOverflowMenu';
 import { DesignReferenceAssetsPanel } from '../designWorkspace/DesignReferenceAssetsPanel';
+import { useDesignReconstructionWorkflow } from '../designWorkspace/useDesignReconstructionWorkflow.js';
 import { useDesignWorkspaceHostMenus } from '../designWorkspace/useDesignWorkspaceHostMenus';
 import { ActiveProjectNotificationCenter } from '../founderWorkspace/ActiveProjectNotificationCenter';
 import { useActiveProjectNotifications } from '../../hooks/useActiveProjectNotifications';
@@ -151,6 +152,7 @@ export function StudioWorldDesignWorkspace({
   const [selectedPromptSlotId, setSelectedPromptSlotId] = useState<string | null>(null);
   const [site00ScreenSetMode] = useState<Site00ScreenSetMode>('PRIMARY');
   const [refAssetsSeed, setRefAssetsSeed] = useState(0);
+  const reconstructionWorkflow = useDesignReconstructionWorkflow();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const {
     getSnapshot,
@@ -567,6 +569,10 @@ export function StudioWorldDesignWorkspace({
           onTabChange={(t) => {
             setPrimaryTab(t);
             syncUrl({ tab: t });
+          }}
+          pendingActionCounts={{
+            ASSETS: reconstructionWorkflow.assetsActionCount,
+            SKINS: reconstructionWorkflow.skinsActionCount,
           }}
         />
 
