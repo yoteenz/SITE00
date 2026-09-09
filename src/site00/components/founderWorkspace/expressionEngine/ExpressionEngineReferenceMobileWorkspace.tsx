@@ -38,6 +38,8 @@ import {
   ExpressionEngineMaturityDashboard,
   type ExpressionEngineMaturityPayload,
 } from './ExpressionEngineMaturityDashboard';
+import { CreativeJudgmentPresentationWorkspace } from './creativeJudgmentPresentation/CreativeJudgmentPresentationWorkspace';
+import '../../../styles/site00-creative-judgment-presentation.css';
 import {
   postGenerateFinalStoryboard,
   postImportFounderStoryboard,
@@ -438,8 +440,16 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
             ),
           },
           {
+            id: 'concept-review-gallery',
+            label: 'CONCEPT REVIEW · GALLERY',
+            status: 'P0.CJ.2',
+            content: (
+              <CreativeJudgmentPresentationWorkspace projectSlug={projectSlug} isMobile />
+            ),
+          },
+          {
             id: 'creative-judgment-maturity',
-            label: 'CREATIVE JUDGMENT MATURITY',
+            label: 'CREATIVE JUDGMENT · DIAGNOSTICS',
             status: maturityPayload?.maturity?.operational100Eligible ? 'TRACKING' : 'CALIBRATING',
             content: (
               <ExpressionEngineMaturityDashboard

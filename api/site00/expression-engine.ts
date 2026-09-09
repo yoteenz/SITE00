@@ -550,6 +550,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (
+      req.method === 'GET' &&
+      (phase === 'P0.CJ.2' || phase === 'CREATIVE_JUDGMENT_PRESENTATION' || phase === 'CJ2')
+    ) {
+      const { bootstrapConceptReviewGallery } = await import(
+        '../_lib/site00ExpressionEngine/creativeJudgmentIntelligence/creativeJudgmentPresentationBootstrap.js'
+      );
+      return res.status(200).json(bootstrapConceptReviewGallery());
+    }
+
+    if (
       req.method === 'POST' &&
       (phase === 'P0.CJ.1' || phase === 'CREATIVE_JUDGMENT_MATURITY' || phase === 'CJ1')
     ) {
@@ -577,6 +587,39 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           founderNote: body.founderNote ?? null,
         });
         return res.status(200).json({ ok: true, record });
+      }
+      return res.status(400).json({ ok: false, error: 'UNKNOWN_ACTION' });
+    }
+
+    if (
+      req.method === 'POST' &&
+      (phase === 'P0.CJ.2' || phase === 'CREATIVE_JUDGMENT_PRESENTATION' || phase === 'CJ2')
+    ) {
+      const body = (req.body ?? {}) as {
+        action?: string;
+        projectId?: string;
+        conceptId?: string;
+        judgment?: string;
+        whyIFeelThis?: string | null;
+        whatsMissing?: string | null;
+        whatToPreserve?: string | null;
+        whatToPush?: string | null;
+      };
+      const { submitConceptPanelFounderJudgment } = await import(
+        '../_lib/site00ExpressionEngine/creativeJudgmentIntelligence/creativeJudgmentPresentationBootstrap.js'
+      );
+      if (body.action === 'CONCEPT_FOUNDER_JUDGMENT' && body.conceptId && body.judgment) {
+        const panel = submitConceptPanelFounderJudgment({
+          conceptId: body.conceptId,
+          judgment: body.judgment as Parameters<typeof submitConceptPanelFounderJudgment>[0]['judgment'],
+          projectId: body.projectId,
+          whyIFeelThis: body.whyIFeelThis,
+          whatsMissing: body.whatsMissing,
+          whatToPreserve: body.whatToPreserve,
+          whatToPush: body.whatToPush,
+        });
+        if (!panel) return res.status(404).json({ ok: false, error: 'CONCEPT_NOT_FOUND' });
+        return res.status(200).json({ ok: true, panel });
       }
       return res.status(400).json({ ok: false, error: 'UNKNOWN_ACTION' });
     }
