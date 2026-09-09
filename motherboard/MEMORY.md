@@ -7066,3 +7066,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - Tests: `skinsChildSurface.test.ts` (28 pass); updated `designSkinsTab.test.ts` test 14.
 - **Next founder action:** Design → SKINS → NDXBOOK → PROJECT OVERVIEW → ADD AUTHORITY → verify designed sheet (no text wall, no raw file input) → upload NDX mobile overview → REGISTER → IMPLEMENT → verify visual QA flow uses same SKINS language → deploy v232 ZIP to GoDaddy.
 
+---
+
+## 2026-09-09 — SKINS Pixel-Fidelity + Reference Asset Deconstruction
+
+- **Problem:** SKINS landing was directionally correct but rough vs approved mobile/desktop authorities — geometry drift, typography/line-break drift, flat color swatches instead of reference imagery.
+- **Root cause:** Family cards used `primaryColor` CSS blocks; no reference asset manifest; mobile screen grid 4-col vs authority 2-col; no crop/extract pipeline for SKINS authority screenshots.
+- **Implemented:**
+  - Approved refs stored: `public/visual-references/founder/site00/skins-authority-mobile.jpg`, `skins-authority-desktop.jpg`
+  - `scripts/extract-skins-reference-assets.mjs` — deconstruction-first crop → 20 webp assets in `public/site00/skins/extracted/`
+  - `skinsReferenceFidelity.ts` — `SkinReferenceAssetManifest`, `TypographyReferenceDelta`, `ReferenceAssetVisualDelta`, geometry tokens, binding resolution, fidelity QA
+  - `useSkinsReferenceAssets`, `SkinFamilyThumb`, `SkinFamilyName` — image-led cards + authority line breaks
+  - `DesignSkinsTab` wired to extracted/bound assets; mobile 2-col screen pack; calibrated CSS tokens
+  - Tests: `skinsReferenceFidelity.test.ts` (26 pass)
+- **Next founder action:** Deploy v233 → Design → SKINS mobile + desktop → compare to attached authorities → verify family cards show real visuals (not lime/red/gold blocks) → NDXBOOK → OVERVIEW → ADD AUTHORITY.
+

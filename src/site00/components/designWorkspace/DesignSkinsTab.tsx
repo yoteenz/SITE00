@@ -5,8 +5,11 @@
 import { DEFAULT_FIDELITY_SETTINGS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6r2/browserClient.js';
 import { SCREEN_SLOT_PREFILL } from '../../../../shared/site00-brand-lore/projectSkin/brandFamily/screenSlotConfig.js';
 import { SkinAuthorityFlow } from './skins/SkinAuthorityFlow.js';
+import { SkinFamilyName } from './skins/SkinFamilyName.js';
+import { SkinFamilyThumb } from './skins/SkinFamilyThumb.js';
 import { DesignDwSectionIcon } from './DesignDwSectionIcon.js';
 import { SKINS_SCREEN_SLOTS, useDesignSkinsState, type SkinsViewport } from './useDesignSkinsState.js';
+import { useSkinsReferenceAssets } from './useSkinsReferenceAssets.js';
 import '../../styles/site00-design-skins-tab.css';
 
 type Props = {
@@ -52,6 +55,10 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
     setIngestionSlot({ brandKey: activeFamilyKey, packScreenType: activeScreenType, mode });
 
   const ingestionMode = ingestionSlot?.mode ?? 'add';
+  const mobileAssets = useSkinsReferenceAssets('MOBILE');
+  const desktopAssets = useSkinsReferenceAssets('DESKTOP');
+  const activePreviewMobile = mobileAssets.previewForActive(activeScreenType, activeAuthority);
+  const activePreviewDesktop = desktopAssets.previewForActive(activeScreenType, activeAuthority);
 
   return (
     <section className="site00-dw-skins" data-design-tab="skins" data-project={projectId}>
@@ -88,23 +95,30 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
         </header>
 
         <div className="site00-dw-skins__family-carousel" role="listbox" aria-label="Brand families">
-          {families.map((family) => (
-            <button
-              key={family.brandKey}
-              type="button"
-              role="option"
-              aria-selected={family.brandKey === activeFamilyKey}
-              className={`site00-dw-skins__family-card${family.brandKey === activeFamilyKey ? ' is-active' : ''}`}
-              onClick={() => selectFamily(family.brandKey)}
-            >
-              <span
-                className="site00-dw-skins__family-thumb"
-                style={{ background: family.primaryColor ?? '#333' }}
-                aria-hidden
-              />
-              <span className="site00-dw-skins__family-name">{family.name.toUpperCase()}</span>
-            </button>
-          ))}
+          {families.map((family) => {
+            const thumb = mobileAssets.familyThumbnailFor(family.brandKey);
+            return (
+              <button
+                key={family.brandKey}
+                type="button"
+                role="option"
+                aria-selected={family.brandKey === activeFamilyKey}
+                className={`site00-dw-skins__family-card${family.brandKey === activeFamilyKey ? ' is-active' : ''}`}
+                onClick={() => selectFamily(family.brandKey)}
+              >
+                <SkinFamilyThumb
+                  imageUrl={thumb.url}
+                  alt={family.name}
+                  fallbackColor={thumb.colorSwatchFallback ? family.primaryColor : null}
+                />
+                <SkinFamilyName
+                  brandKey={family.brandKey}
+                  fallbackName={family.name}
+                  lineBreaks={mobileAssets.familyLineBreaks}
+                />
+              </button>
+            );
+          })}
         </div>
 
         <div className="site00-dw-skins__pack-head">
@@ -119,6 +133,10 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
               activeFamily?.screenPackStatus[slot.packScreenType];
             const hasAuthority = Boolean(authorityForActive(slot.packScreenType, activeViewport));
             const isActive = slot.packScreenType === activeScreenType;
+            const tileThumb = mobileAssets.screenThumbnailFor(
+              slot.packScreenType,
+              authorityForActive(slot.packScreenType, activeViewport),
+            );
             return (
               <button
                 key={slot.packScreenType}
@@ -128,6 +146,9 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
               >
                 <span className="site00-dw-skins__screen-num">{slot.num}</span>
                 <span className="site00-dw-skins__screen-label">{slot.shortLabel}</span>
+                {tileThumb.url ? (
+                  <img src={tileThumb.url} alt="" className="site00-dw-skins__screen-tile-img" />
+                ) : null}
                 {hasAuthority ? <span className="site00-dw-skins__screen-check" aria-hidden>✓</span> : null}
                 <span className="site00-dw-skins__screen-vp-status">{statusLabel(vpStatus)}</span>
               </button>
@@ -157,12 +178,9 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
 
         <article className="site00-dw-skins__preview-card">
           <div className="site00-dw-skins__preview-visual">
-            <div
-              className="site00-dw-skins__preview-thumb"
-              style={{ background: activeFamily?.primaryColor ? `${activeFamily.primaryColor}33` : '#eee' }}
-            >
-              {activeAuthority?.referenceAssetId ? (
-                <span className="site00-dw-skins__preview-has-ref">AUTHORITY</span>
+            <div className="site00-dw-skins__preview-thumb">
+              {activePreviewMobile.url ? (
+                <img src={activePreviewMobile.url} alt="" className="site00-dw-skins__preview-img" />
               ) : (
                 <span className="site00-dw-skins__preview-empty">NO AUTHORITY</span>
               )}
@@ -211,9 +229,11 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
       <div className="site00-dw-skins__desktop">
         <header className="site00-dw-skins__desktop-summary">
           <div className="site00-dw-skins__summary-family">
-            <span
+            <SkinFamilyThumb
+              imageUrl={desktopAssets.familyThumbnailFor(activeFamilyKey).url}
+              alt={activeFamily?.name ?? ''}
+              fallbackColor={activeFamily?.primaryColor}
               className="site00-dw-skins__summary-thumb"
-              style={{ background: activeFamily?.primaryColor ?? '#333' }}
             />
             <div>
               <strong>{activeFamily?.name.toUpperCase()}</strong>
@@ -242,21 +262,29 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
 
         <div className="site00-dw-skins__desktop-workspace">
           <aside className="site00-dw-skins__family-rail" aria-label="Brand families">
-            {families.map((family) => (
-              <button
-                key={family.brandKey}
-                type="button"
-                className={`site00-dw-skins__rail-item${family.brandKey === activeFamilyKey ? ' is-active' : ''}`}
-                onClick={() => selectFamily(family.brandKey)}
-              >
-                <span className="site00-dw-skins__rail-thumb" style={{ background: family.primaryColor ?? '#333' }} />
-                <span className="site00-dw-skins__rail-text">
-                  <strong>{family.name.toUpperCase()}</strong>
-                  <em>{family.tagline}</em>
-                </span>
-                <span className="site00-dw-skins__rail-chev" aria-hidden>›</span>
-              </button>
-            ))}
+            {families.map((family) => {
+              const railThumb = desktopAssets.familyThumbnailFor(family.brandKey);
+              return (
+                <button
+                  key={family.brandKey}
+                  type="button"
+                  className={`site00-dw-skins__rail-item${family.brandKey === activeFamilyKey ? ' is-active' : ''}`}
+                  onClick={() => selectFamily(family.brandKey)}
+                >
+                  <SkinFamilyThumb
+                    imageUrl={railThumb.url}
+                    alt={family.name}
+                    fallbackColor={railThumb.colorSwatchFallback ? family.primaryColor : null}
+                    className="site00-dw-skins__rail-thumb"
+                  />
+                  <span className="site00-dw-skins__rail-text">
+                    <strong>{family.name.toUpperCase()}</strong>
+                    <em>{family.tagline}</em>
+                  </span>
+                  <span className="site00-dw-skins__rail-chev" aria-hidden>›</span>
+                </button>
+              );
+            })}
           </aside>
 
           <div className="site00-dw-skins__pack-center">
@@ -267,6 +295,10 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
             <div className="site00-dw-skins__screen-grid site00-dw-skins__screen-grid--desktop">
               {SKINS_SCREEN_SLOTS.map((slot) => {
                 const hasAuthority = Boolean(authorityForActive(slot.packScreenType, activeViewport));
+                const tileThumb = desktopAssets.screenThumbnailFor(
+                  slot.packScreenType,
+                  authorityForActive(slot.packScreenType, activeViewport),
+                );
                 return (
                   <button
                     key={slot.packScreenType}
@@ -276,10 +308,11 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
                   >
                     <span className="site00-dw-skins__screen-num">{slot.num}</span>
                     <span className="site00-dw-skins__screen-label">{slot.shortLabel}</span>
-                    <span
-                      className="site00-dw-skins__tile-preview"
-                      style={{ background: activeFamily?.primaryColor ? `${activeFamily.primaryColor}22` : '#f5f5f5' }}
-                    />
+                    {tileThumb.url ? (
+                      <img src={tileThumb.url} alt="" className="site00-dw-skins__tile-preview-img" />
+                    ) : (
+                      <span className="site00-dw-skins__tile-preview site00-dw-skins__tile-preview--empty" />
+                    )}
                   </button>
                 );
               })}
@@ -292,11 +325,12 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
                 {slotMeta.num} / {packCounts.total}
               </span>
             </div>
-            <div
-              className="site00-dw-skins__preview-panel-visual"
-              style={{ background: activeFamily?.primaryColor ? `${activeFamily.primaryColor}22` : '#f5f5f5' }}
-            >
-              {activeAuthority ? <span>AUTHORITY PREVIEW</span> : <span>STRUCTURED EMPTY STATE</span>}
+            <div className="site00-dw-skins__preview-panel-visual">
+              {activePreviewDesktop.url ? (
+                <img src={activePreviewDesktop.url} alt="" className="site00-dw-skins__preview-panel-img" />
+              ) : (
+                <span>STRUCTURED EMPTY STATE</span>
+              )}
             </div>
             <div className="site00-dw-skins__viewport-toggle site00-dw-skins__viewport-toggle--panel" role="group">
               {(['MOBILE', 'DESKTOP'] as SkinsViewport[]).map((vp) => (
