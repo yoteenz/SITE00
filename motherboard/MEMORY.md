@@ -7098,3 +7098,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Five family assets rebuild status:** Pipeline structure ready; **no reconstructed canonical outputs yet** — founder must GENERATE → APPROVE per family (one-at-a-time spend control).
 - **Next founder action:** Deploy v234 → Design → ASSETS → SKINS REFERENCE ASSET JOB → NDXBOOK → verify pipeline stages + prompt + source crop NOT marked final → FOUNDER GENERATE → approve → Design → SKINS → verify NDXBOOK card uses clean canonical (not crop fragment).
 
+---
+
+## 2026-09-09 — Design Project Selector Visual Cleanup
+
+- **Problem:** Project selector dropdown used heavy black/dark theme — low contrast inactive text, unclear selected state, felt like a different product vs SITE 00 light host UI.
+- **Root cause:** `site00-design-workspace-v3.css` styled `.site00-dw-project-selector__menu` with `#0a0a0a` background and white hover text.
+- **Implemented:**
+  - Light popover: white surface, light border, subtle shadow, 10px radius, Martian Mono uppercase.
+  - Selected state: light red highlight + red left border + CURRENT tag; hover light gray (not black).
+  - Project accent dots (red/lime/gold/purple) per brand; canonical order enforced in `listSelectableDesignProjects`.
+  - Keyboard nav (arrows, escape, home/end) + focus-visible states; compact mobile anchored popover.
+  - `designProjectSelectorVisuals.ts` — accents, canonical order, visual failure codes.
+  - Tests: `designProjectSelector.test.ts` extended to 37 (15 visual cleanup tests).
+- **Next founder action:** Deploy v235 → Design → tap PROJECT [name] ▼ → verify light popover → select FRONTAL SLAYER → verify label/breadcrumb/rescope → reopen and verify CURRENT mark.
+
