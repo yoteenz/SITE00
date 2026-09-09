@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { getAuthUser } from '../_lib/auth.js';
 import { getClientProjectsPayload } from '../_lib/site00Production/clientStudio.js';
+import { enrichClientProjectsWithOwnerIdentity } from '../_lib/site00Projects/clientProjectOwnerIdentity.js';
 import { getSite00ProjectsIndexPayload, resolveSite00Project } from '../_lib/site00Projects/projectResolver.js';
 import { isFounderProjectSlug } from '../_lib/site00Projects/projectRegistry.js';
 import { isClientRegisteredProjectSlug } from '../_lib/site00Projects/clientProjectResolver.js';
@@ -412,9 +413,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     switch (action) {
       case 'index': {
         const clientPayload = await getClientProjectsPayload(user.email, user.id);
-        const clientProjects = (clientPayload.projects ?? [])
+        const rawClientProjects = (clientPayload.projects ?? [])
           .filter((p) => !isFounderProjectSlug(p.slug))
-          .map((p) => ({ id: p.id, slug: p.slug, name: p.name, studioRoute: p.studioRoute }));
+          .map((p) => ({
+            id: p.id,
+            slug: p.slug,
+            name: p.name,
+            studioRoute: p.studioRoute,
+            clientEmail: p.clientEmail ?? null,
+          }));
+
+        const enrichedOwners = await enrichClientProjectsWithOwnerIdentity(rawClientProjects);
+        const clientProjects = enrichedOwners.map((p) => ({
+          id: p.id,
+          slug: p.slug,
+          name: p.name,
+          studioRoute: p.studioRoute,
+          clientEmail: p.clientEmail ?? p.email ?? null,
+          ownerFirstName: p.firstName ?? null,
+          ownerLastName: p.lastName ?? null,
+          ownerDisplayName: p.displayName ?? null,
+        }));
 
         if (!canAccessFounderProjectIndex(user.email)) {
           return json(res, 200, {

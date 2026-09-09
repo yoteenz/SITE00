@@ -1,10 +1,14 @@
 import { ProjectsHeaderPlanet } from './ProjectsHeaderPlanet';
+import { AccountIdentityEyebrow } from './AccountIdentityEyebrow';
+import { useProjectsAccountIdentity } from '../../hooks/useProjectsAccountIdentity';
 
 type ProjectIndexHeroProps = {
   clientView: boolean;
 };
 
 export function ProjectIndexHero({ clientView }: ProjectIndexHeroProps) {
+  const { identity, eyebrow } = useProjectsAccountIdentity();
+
   return (
     <header className="site00-pidx-hero">
       <div className="site00-pidx-hero__grid">
@@ -17,9 +21,7 @@ export function ProjectIndexHero({ clientView }: ProjectIndexHeroProps) {
             <span>BUILD</span>
             <span>EVOLVE</span>
           </p>
-          <p className="site00-pidx-hero__kicker">
-            <span className="site00-pidx-hero__kicker-red">PROJECTS /</span>
-          </p>
+          <AccountIdentityEyebrow identity={identity} eyebrow={eyebrow} />
           <h1 className="site00-pidx-hero__title">PROJECTS</h1>
           <span className="site00-pidx-hero__divider" aria-hidden="true" />
           <p className="site00-pidx-hero__tagline">
