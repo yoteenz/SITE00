@@ -6960,3 +6960,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Gaps:** Overlay/diff artifacts use path placeholders until Playwright capture wired per-session in production; decomposition remains heuristic; live numeric pixel score still null unless real capture runs.
 - **Next founder action:** Upload test screenshot (no special QA instruction) → verify EXACT + convergence session → run implementation → confirm page enters VISUAL QA → VIEW COMPARISON → run correction pass → verify recapture + recompare.
 
+---
+
+## 2026-09-09 — Master Skin System (field classification + module variants + onboarding)
+
+- **Context:** Founder required projects to express distinct brand experiences without template drift (not NDXBOOK + different primary color). Field classification ≠ master skin; host shell firewall preserved.
+- **Implemented:**
+  - `shared/site00-brand-lore/projectSkin/` — FieldIndustryTag, MasterSkin, ExpressionProfile, ProjectExperienceSkin, MasterSkinModuleVariant, tokens, composition grammar, surface/image/icon/motion systems, recommendation engine, versioning/migration, QA (distinctiveness, consistency, host firewall).
+  - Proof skins: CULTURAL_EDITORIAL (ndxbook), CLINICAL_EDITORIAL (demo-doctor-health), TECHNICAL_OPERATIONS (AIO).
+  - API `/api/site00/master-skin` — catalog, recommend, approve, onboarding, override, migration.
+  - UI — MasterSkinOnboardingStep, MasterSkinPreviewCard, MasterSkinEvolveProofPanel; Design MORE tab + `/projects/site00/master-skin-preview`; POS applies skin to `site00-pos__main` only (host firewall).
+  - Tests: `masterSkinSystem.test.ts` (28 pass).
+- **Gaps:** Full visual polish for all catalog skins not built; luxury-clinical proof UI lighter than clinical/cultural/technical; live onboarding not yet wired into ProjectSetupPage flow (standalone preview page exists).
+- **Next founder action:** Open `/projects/site00/master-skin-preview` → compare three Evolve proofs → run doctor onboarding step → verify CLINICAL EDITORIAL recommended.
+
