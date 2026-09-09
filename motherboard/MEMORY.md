@@ -7081,3 +7081,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - Tests: `skinsReferenceFidelity.test.ts` (26 pass)
 - **Next founder action:** Deploy v233 → Design → SKINS mobile + desktop → compare to attached authorities → verify family cards show real visuals (not lime/red/gold blocks) → NDXBOOK → OVERVIEW → ADD AUTHORITY.
 
+---
+
+## 2026-09-09 — Reference Asset Pipeline Recovery (P0.VR.6R4)
+
+- **Problem:** v233 bound **source crops** directly as live family thumbnails — screenshot fragments with phone edges, card UI, label text still visible as final assets.
+- **Root cause:** `buildDefaultSkinsManifest()` / `resolveFamilyThumbnailUrl()` treated extracted webp paths as `canonicalUrl` with status `BOUND`. Doctrine violated: **SOURCE CROP ≠ FINAL ASSET**.
+- **Implemented:**
+  - `referenceAssetPipeline.ts` — `ReferenceAssetSource`, `ReconstructedAssetOutput`, `AssetTreatmentPlan`, `sourceCropCannotBeCanonical()` guard, classification, treatment plans, `ReferenceAssetPromptBuilder`, contamination + reconstruction QA, multi-asset job orchestration, screen convergence blocker, failure codes.
+  - `skinsReferenceFidelity.ts` — manifest entries now `sourceCropUrl` only + `canonicalUrl: null` + `RECONSTRUCTION_PENDING`; family thumbs only bind approved canonical; screen authority precedence preserved; `auditInvalidSourceCropBindings()`.
+  - `DesignSkinsReferenceAssetJobs.tsx` — ASSETS panel shows SOURCE→CROP→RECONSTRUCT→BACKGROUND→QA→APPROVE→LIVE stages, job plan, prompt preview, FOUNDER GENERATE (disabled until dispatch wired).
+  - `SkinFamilyThumb.tsx` — safe empty state on broken/missing URLs (color swatch fallback).
+  - Extract script + `public/site00/skins/extracted/manifest.json` — source crops marked `RECONSTRUCTION_PENDING`, not APPROVED canonical.
+  - Preset: `RECONSTRUCT_REFERENCE_ASSET` in p0vr5 constants/presetStore.
+  - Tests: `referenceAssetPipeline.test.ts` (25), updated `skinsReferenceFidelity.test.ts` (26).
+- **Five family assets rebuild status:** Pipeline structure ready; **no reconstructed canonical outputs yet** — founder must GENERATE → APPROVE per family (one-at-a-time spend control).
+- **Next founder action:** Deploy v234 → Design → ASSETS → SKINS REFERENCE ASSET JOB → NDXBOOK → verify pipeline stages + prompt + source crop NOT marked final → FOUNDER GENERATE → approve → Design → SKINS → verify NDXBOOK card uses clean canonical (not crop fragment).
+

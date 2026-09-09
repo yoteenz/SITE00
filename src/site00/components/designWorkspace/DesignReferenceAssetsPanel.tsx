@@ -30,6 +30,7 @@ import type { CropCoordinateRecord, SourcePixelBounds } from '../../../../shared
 import { DesignAssetReconstructionDetail } from './DesignAssetReconstructionDetail';
 import { DesignReferenceCropEditor } from './DesignReferenceCropEditor';
 import { DesignAssetJobWorkspace } from './DesignAssetJobWorkspace';
+import { DesignSkinsReferenceAssetJobs } from './DesignSkinsReferenceAssetJobs';
 import {
   generateLivePlanetAsset,
   approveLiveAsset,
@@ -252,6 +253,8 @@ export function DesignReferenceAssetsPanel({
 
   return (
     <div className="site00-dw-ref-assets">
+      <DesignSkinsReferenceAssetJobs viewport="MOBILE" />
+
       <DesignAssetJobWorkspace
         projectId={projectId}
         pageId={pageId}

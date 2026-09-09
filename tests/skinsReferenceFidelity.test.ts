@@ -97,41 +97,41 @@ describe('SKINS Reference Fidelity (P0.VR.6R3)', () => {
     ).toBe(true);
   });
 
-  it('12. approved asset stored', () => {
-    expect(read('public/site00/skins/extracted/manifest.json')).toContain('APPROVED');
+  it('12. source crop stored in manifest (not canonical)', () => {
+    expect(read('public/site00/skins/extracted/manifest.json')).toContain('sourceCropUrl');
+    expect(read('public/site00/skins/extracted/manifest.json')).toContain('RECONSTRUCTION_PENDING');
   });
 
   it('13. family asset bound to semantic slot', () => {
     expect(BRAND_KEY_TO_ASSET_SLOT.NDXBOOK).toBe('BRAND_FAMILY_NDXBOOK');
+    expect(manifest[0]?.sourceCropUrl).toContain('brand_family_ndxbook');
+    expect(manifest[0]?.canonicalUrl).toBeNull();
+  });
+
+  it('14. NDX family visual awaits reconstruction', () => {
     const url = resolveFamilyThumbnailUrl({ brandKey: 'NDXBOOK', viewport: 'MOBILE', manifest });
-    expect(url.url).toContain('brand_family_ndxbook');
+    expect(url.colorSwatchFallback).toBe(true);
+    expect(url.url).toBeNull();
   });
 
-  it('14. NDX family visual binds', () => {
-    const url = resolveFamilyThumbnailUrl({ brandKey: 'NDXBOOK', viewport: 'MOBILE', manifest });
-    expect(url.colorSwatchFallback).toBe(false);
-    expect(url.url).toBeTruthy();
+  it('15. FS family source crop not canonical', () => {
+    const entry = manifest.find((m) => m.assetSlot === 'BRAND_FAMILY_FRONTAL_SLAYER');
+    expect(entry?.status).toBe('RECONSTRUCTION_PENDING');
+    expect(entry?.canonicalUrl).toBeNull();
   });
 
-  it('15. FS family visual binds', () => {
-    const url = resolveFamilyThumbnailUrl({ brandKey: 'FRONTAL_SLAYER', viewport: 'DESKTOP', manifest });
-    expect(url.url).toContain('frontal_slayer');
-  });
-
-  it('16. AIO family visual binds', () => {
+  it('16. AIO family line breaks preserved', () => {
     expect(SKINS_FAMILY_LINE_BREAKS.AIO).toEqual(['ALL IN ONE', 'ENTERPRISES']);
-    const url = resolveFamilyThumbnailUrl({ brandKey: 'AIO', viewport: 'MOBILE', manifest });
-    expect(url.url).toBeTruthy();
   });
 
-  it('17. Astral visual binds', () => {
-    const url = resolveFamilyThumbnailUrl({ brandKey: 'ASTRAL_WORLD', viewport: 'MOBILE', manifest });
-    expect(url.url).toContain('astral_world');
+  it('17. Astral source crop stored separately', () => {
+    const entry = manifest.find((m) => m.assetSlot === 'BRAND_FAMILY_ASTRAL_WORLD');
+    expect(entry?.sourceCropUrl).toContain('astral_world');
   });
 
-  it('18. Studio World visual binds', () => {
-    const url = resolveFamilyThumbnailUrl({ brandKey: 'STUDIO_WORLD', viewport: 'DESKTOP', manifest });
-    expect(url.url).toContain('studio_world');
+  it('18. Studio World ui contamination flagged', () => {
+    const entry = manifest.find((m) => m.assetSlot === 'BRAND_FAMILY_STUDIO_WORLD');
+    expect(entry?.uiContaminationSuspected).toBe(true);
   });
 
   it('19. screen authority thumbnail preferred when available', () => {
@@ -151,15 +151,10 @@ describe('SKINS Reference Fidelity (P0.VR.6R3)', () => {
     expect(res.url).toBeNull();
   });
 
-  it('21. color swatch not final when approved visual exists', () => {
-    const deltas = auditReferenceAssets({
-      brandKeys: ['NDXBOOK'],
-      viewport: 'MOBILE',
-      renderedWithColorSwatch: ['NDXBOOK'],
-      manifest,
-    });
-    expect(deltas[0]?.colorSwatchFallback).toBe(true);
-    expect(read('src/site00/components/designWorkspace/skins/SkinFamilyThumb.tsx')).toContain('imageUrl');
+  it('21. color swatch fallback when no canonical asset', () => {
+    const thumb = resolveFamilyThumbnailUrl({ brandKey: 'NDXBOOK', viewport: 'MOBILE', manifest });
+    expect(thumb.colorSwatchFallback).toBe(true);
+    expect(read('src/site00/components/designWorkspace/skins/SkinFamilyThumb.tsx')).toContain('onError');
   });
 
   it('22. mobile / desktop crop distinction supported', () => {
@@ -170,11 +165,26 @@ describe('SKINS Reference Fidelity (P0.VR.6R3)', () => {
   });
 
   it('23. overlay reruns after assets bind', () => {
+    const boundManifest = manifest.map((m) =>
+      m.assetSlot === 'BRAND_FAMILY_NDXBOOK' && m.viewport === 'MOBILE'
+        ? {
+            ...m,
+            status: 'BOUND' as const,
+            canonicalUrl: '/site00/canonical/ndxbook-family.webp',
+            canonicalAssetId: 'can-ndxbook-mobile',
+          }
+        : m,
+    );
     const qa = runSkinsPageFidelityQA({
       viewport: 'MOBILE',
-      manifest,
+      manifest: boundManifest,
       typographyDeltas: auditTypographyAgainstReference({ fontFamily: 'Martian Mono' }),
-      assetDeltas: auditReferenceAssets({ brandKeys: ['NDXBOOK'], viewport: 'MOBILE', renderedWithColorSwatch: [], manifest }),
+      assetDeltas: auditReferenceAssets({
+        brandKeys: ['NDXBOOK'],
+        viewport: 'MOBILE',
+        renderedWithColorSwatch: [],
+        manifest: boundManifest,
+      }),
       overlayRerunAfterBinding: true,
     });
     expect(qa.pass).toBe(true);
