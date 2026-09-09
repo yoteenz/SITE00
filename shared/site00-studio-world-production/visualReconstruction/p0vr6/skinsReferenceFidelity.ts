@@ -3,6 +3,7 @@
  */
 
 import { TYPOGRAPHY_FIREWALL } from '../../../site00-brand-lore/projectSkin/brandFamily/constants.js';
+import { getSkinsCanonicalBinding } from './skinsCanonicalBindings.js';
 
 export const SKINS_REFERENCE_MOBILE = '/visual-references/founder/site00/skins-authority-mobile.jpg';
 export const SKINS_REFERENCE_DESKTOP = '/visual-references/founder/site00/skins-authority-desktop.jpg';
@@ -18,6 +19,8 @@ export const SKINS_FIDELITY_FAILURE_CODES = [
   'SKINS_ASSET_RECONSTRUCTION_APPROVAL_REQUIRED',
   'SKINS_CROP_NOT_CONFIRMED',
   'SKINS_OVERLAY_NOT_RERUN',
+  'SKINS_APPROVED_ASSET_NOT_RENDERED',
+  'SKINS_ASSET_BINDING_LOAD_FAILED',
 ] as const;
 
 export type SkinsFidelityFailureCode = (typeof SKINS_FIDELITY_FAILURE_CODES)[number];
@@ -177,6 +180,8 @@ export function buildDefaultSkinsManifest(): SkinReferenceAssetManifestEntry[] {
 
   for (const viewport of ['MOBILE', 'DESKTOP'] as SkinsViewportClass[]) {
     for (const assetSlot of families) {
+      const binding = getSkinsCanonicalBinding(viewport, assetSlot);
+      const sourceCropUrl = assetSlotToExtractedPath(viewport, assetSlot);
       entries.push({
         skinReferenceId: viewport === 'MOBILE' ? 'skins-authority-mobile' : 'skins-authority-desktop',
         viewport,
@@ -184,15 +189,15 @@ export function buildDefaultSkinsManifest(): SkinReferenceAssetManifestEntry[] {
         candidateId: `candidate-${viewport}-${assetSlot}`,
         cropId: `crop-${viewport}-${assetSlot}`,
         assetType: classifySkinsAssetSlot(assetSlot),
-        canonicalAssetId: null,
-        bindingId: null,
-        status: 'RECONSTRUCTION_PENDING',
+        canonicalAssetId: binding?.canonicalAssetId ?? null,
+        bindingId: binding?.bindingId ?? null,
+        status: binding ? 'BOUND' : 'RECONSTRUCTION_PENDING',
         sourceAuthorityId: viewport === 'MOBILE' ? SKINS_REFERENCE_MOBILE : SKINS_REFERENCE_DESKTOP,
-        version: '1.0',
-        sourceCropUrl: assetSlotToExtractedPath(viewport, assetSlot),
-        canonicalUrl: null,
+        version: binding ? '1.1' : '1.0',
+        sourceCropUrl,
+        canonicalUrl: binding?.canonicalUrl ?? null,
         cropConfirmed: true,
-        uiContaminationSuspected: true,
+        uiContaminationSuspected: binding ? false : true,
       });
     }
     entries.push({
@@ -263,15 +268,29 @@ export function resolveScreenThumbnailUrl(input: {
   return { url: null, source: 'EMPTY' };
 }
 
+export type FamilyThumbnailResolution = {
+  url: string | null;
+  source: ScreenThumbnailSource;
+  colorSwatchFallback: boolean;
+  approvedVisualAssetExists: boolean;
+  failureCode: SkinsFidelityFailureCode | null;
+};
+
 export function resolveFamilyThumbnailUrl(input: {
   brandKey: string;
   viewport: SkinsViewportClass;
   manifest?: SkinReferenceAssetManifestEntry[];
   useColorSwatchFallback?: boolean;
-}): { url: string | null; source: ScreenThumbnailSource; colorSwatchFallback: boolean } {
+}): FamilyThumbnailResolution {
   const slot = BRAND_KEY_TO_ASSET_SLOT[input.brandKey];
   if (!slot) {
-    return { url: null, source: 'EMPTY', colorSwatchFallback: Boolean(input.useColorSwatchFallback) };
+    return {
+      url: null,
+      source: 'EMPTY',
+      colorSwatchFallback: Boolean(input.useColorSwatchFallback),
+      approvedVisualAssetExists: false,
+      failureCode: null,
+    };
   }
 
   const approved = input.manifest?.find(
@@ -285,10 +304,36 @@ export function resolveFamilyThumbnailUrl(input: {
   );
 
   if (approved?.canonicalUrl) {
-    return { url: approved.canonicalUrl, source: 'CANONICAL', colorSwatchFallback: false };
+    return {
+      url: approved.canonicalUrl,
+      source: 'CANONICAL',
+      colorSwatchFallback: false,
+      approvedVisualAssetExists: true,
+      failureCode: null,
+    };
   }
 
-  return { url: null, source: 'EMPTY', colorSwatchFallback: true };
+  return {
+    url: null,
+    source: 'EMPTY',
+    colorSwatchFallback: true,
+    approvedVisualAssetExists: false,
+    failureCode: null,
+  };
+}
+
+/** Runtime assertion: approved binding must not silently fall back to color swatch. */
+export function assertApprovedFamilyAssetRendered(resolution: FamilyThumbnailResolution): {
+  pass: boolean;
+  failureCode: SkinsFidelityFailureCode | null;
+} {
+  if (resolution.approvedVisualAssetExists && resolution.colorSwatchFallback) {
+    return { pass: false, failureCode: 'SKINS_APPROVED_ASSET_NOT_RENDERED' };
+  }
+  if (resolution.failureCode) {
+    return { pass: false, failureCode: resolution.failureCode };
+  }
+  return { pass: true, failureCode: null };
 }
 
 export function auditTypographyAgainstReference(live: {

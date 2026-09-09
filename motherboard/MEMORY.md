@@ -7113,3 +7113,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - Tests: `designProjectSelector.test.ts` extended to 37 (15 visual cleanup tests).
 - **Next founder action:** Deploy v235 → Design → tap PROJECT [name] ▼ → verify light popover → select FRONTAL SLAYER → verify label/breadcrumb/rescope → reopen and verify CURRENT mark.
 
+---
+
+## 2026-09-09 — SKINS Pixel-Fidelity No-Op Recovery
+
+- **Problem:** v233/v234 SKINS fidelity sprints produced no material runtime change — family cards still flat color blocks; v234 correctly unbound source crops but never completed reconstruction/bind.
+- **No-op root cause:** Pipeline break at RECONSTRUCT → CANONICAL → BIND — `buildDefaultSkinsManifest()` had `canonicalUrl: null` for all families; `resolveFamilyThumbnailUrl()` always returned `colorSwatchFallback: true`.
+- **Trace:** Route `/projects/site00/design` → `StudioWorldDesignPage` → `StudioWorldDesignWorkspace` → `DesignSkinsTab` → `useSkinsReferenceAssets` → `resolveFamilyThumbnailUrl`. Authority refs exist at `public/visual-references/founder/site00/skins-authority-*.jpg` but were not in canonical reference registry until `skinsAuthorityRegistry.ts`.
+- **Golden NDX fix:** FAL `gpt-image-2/edit` dispatched via `scripts/reconstruct-skins-ndx-golden.mjs` → `public/site00/skins/canonical/mobile/brand_family_ndxbook.webp` (896×736). Bound via `skinsCanonicalBindings.ts` — status BOUND, distinct from source crop.
+- **Guards:** `SKINS_APPROVED_ASSET_NOT_RENDERED`, `SKINS_ASSET_BINDING_LOAD_FAILED`, `VisualImplementationNoOpGuard`, load-failed UI (no silent color swatch when approved asset exists).
+- **Remaining:** FRONTAL SLAYER, AIO, ASTRAL WORLD, STUDIO WORLD still await reconstruction; screen pack tiles await authority; full mobile composition convergence pending.
+- **Next founder action:** Deploy v236 → Design → SKINS → MOBILE → verify NDXBOOK card shows planetary artwork (not lime block) → compare family row to authority.
+
