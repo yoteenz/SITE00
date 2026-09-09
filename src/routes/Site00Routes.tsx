@@ -173,6 +173,11 @@ const PersonalityReplayIntakeRouterPage = lazy(
 const ProjectLoreCalibrationPage = lazy(() => import('../site00/pages/ProjectLoreCalibrationPage'));
 const ProjectCreativeAppetitePage = lazy(() => import('../site00/pages/ProjectCreativeAppetitePage'));
 const ProjectSetupPage = lazy(() => import('../site00/pages/ProjectSetupPage'));
+const MasterSkinExperiencePreviewPage = lazy(() =>
+  import('../site00/pages/MasterSkinExperiencePreviewPage').then((m) => ({
+    default: m.MasterSkinExperiencePreviewPage,
+  })),
+);
 const SupportPage = lazy(() => import('../site00/pages/SupportPage'));
 const GuidePage = lazy(() => import('../site00/pages/information/GuidePage'));
 const SoundPage = lazy(() => import('../site00/pages/information/SoundPage'));
@@ -966,6 +971,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <Site00OwnedDesignWorkspacePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.masterSkinPreview}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <MasterSkinExperiencePreviewPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

@@ -10,6 +10,8 @@ import { listInstructionPresets } from './designAssetJobApi';
 import { fetchFalProviderHealth } from './designAssetReconstructionApi';
 import type { DesignInstructionPreset } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr5/browserClient.js';
 import { DesignDwSectionIcon } from './DesignDwSectionIcon';
+import { MasterSkinEvolveProofPanel } from '../masterSkin/MasterSkinEvolveProofPanel';
+import '../../styles/site00-master-skin.css';
 
 type Props = {
   onOpenInspect?: () => void;
@@ -196,6 +198,10 @@ export function DesignMoreTab({ onOpenInspect, onCaptureScreen, onMatchReference
           </label>
         </article>
       </div>
+
+      <article className="site00-dw-v3-more__card site00-dw-v3-more__card--full">
+        <MasterSkinEvolveProofPanel />
+      </article>
 
       <article className="site00-dw-v3-more__card">
         <div className="site00-dw-v3-more__section-head">
