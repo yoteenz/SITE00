@@ -106,6 +106,38 @@ export type CropEditHistoryEntry = {
   note: string | null;
 };
 
+export type CropDetectionCandidate = {
+  candidateId: string;
+  label: string;
+  boundary: NormalizedBbox;
+  confidencePercent: number;
+  reasonCode: string;
+};
+
+export type SemanticBoundaryResult = {
+  primaryCandidate: CropDetectionCandidate;
+  alternateCandidates: CropDetectionCandidate[];
+  candidateBoundary: NormalizedBbox;
+  cardRegion: NormalizedBbox;
+  mediaRegion: NormalizedBbox;
+  boundaryConfidence: number;
+  semanticConfidence: number;
+  contaminationFlags: string[];
+  needsFounderPlacement: boolean;
+  reasonCode: string;
+};
+
+export type CropEditorState = {
+  selectedCandidateId: string;
+  zoom: number;
+  panX: number;
+  panY: number;
+  isDragging: boolean;
+  activeHandle: string | null;
+  dirty: boolean;
+  lastSavedAt: string | null;
+};
+
 export type CropReviewState = {
   candidateId: string;
   assetNumber: string;
@@ -118,6 +150,9 @@ export type CropReviewState = {
   founderCrop: NormalizedBbox | null;
   finalApprovedCrop: NormalizedBbox | null;
   detectionExplanation: CropDetectionExplanation;
+  semanticBoundary: SemanticBoundaryResult | null;
+  selectedCandidateId: string | null;
+  editorState: CropEditorState | null;
   preflight: CropQualityPreflightResult;
   targetSlotContract: AssetTargetSlotContract;
   editHistory: CropEditHistoryEntry[];

@@ -7317,3 +7317,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining gaps:** Large blind benchmark batch (50–100 briefs) not yet run with founder judgments; full-reasoning A/B requires live provider; maturity dashboard visual authority; persistent Supabase storage for judgment memory (in-memory runtime store today); CopyDirector/WorldExpression deep integration hooks are typed but not wired to live generation path.
 - **Next founder action:** Deploy → Expression Engine → CREATIVE JUDGMENT MATURITY → verify Entry 003 golden judgment → Verdant Row non-NDX golden (no NDX leak) → run 5–10 brief blind batch → record founder judgments → inspect maturity scores / rescue rate / self-critique accuracy — do not optimize to 100 from one run.
 
+---
+
+## 2026-09-09 — P0.VR.6R8 Semantic Crop Intelligence + Direct Manipulation Editor
+
+- **Context:** Recovery sprint — P0.VR.6R7 crop gates existed but failed on wrong detection (phone frame vs inner NDXBOOK visual), button-nudge editor, and text-heavy inspector UX.
+- **Implemented:**
+  - **`SemanticAssetBoundaryResolver` + `ComponentRegionResolver`** — hierarchical card → media detection; multi-candidate proposal (inner media / padded / full card); confidence gate.
+  - **`familyCropCalibration.ts`** — aligned with extract-skins script; inner media inset for NDXBOOK device chrome exclusion.
+  - **`CropCoordinateTransform`** — screen/normalized/pixel round-trip, snap assist, handle resize helpers.
+  - **`cropDetectionLearning.ts`** — founder correction events + `BrandFamilyThumbnailCropPattern` assist (non-canon).
+  - **`EditableCropWorkspace` rewrite** — visual-first layout, `CropBoxOverlay` with 8 handles + drag move + manual draw, live canvas preview, QA chips, DETAILS drawer, wrong-asset recovery, advanced nudge only.
+  - **`DesignReconstructionWorkflowPanel`** — compact batch header + visual asset strip.
+  - **Preflight** — bounds-based contamination inference (no false-clear on edit); min coverage ratio tuned for inner media.
+  - **Tests:** `referenceReconstructionIntelligenceR8Crop.test.ts` (32) + updated R7 crop tests (66 total pass); build `index.BLTJhBTm.js`.
+- **Remaining gaps:** Pinch-zoom on mobile not fully wired; full-screen edit mode stub; server-side crop preview extract API; persistent crop bounds to Supabase; split/merge UI; pixel-level overlay QA on device.
+- **Next founder action:** Deploy v250 → Design → ASSETS → SKINS MOBILE RECONSTRUCTION → NDXBOOK → verify red box on inner visual, drag/resize handles, live preview, chips + DETAILS — approve crop only after exact asset match (no generation on crop approve).
+

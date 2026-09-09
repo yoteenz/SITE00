@@ -60,10 +60,14 @@ export function openWorkflowView(state: ReconstructionWorkflowState, view: Workf
   return { ...state, workflowView: view };
 }
 
-export function approveCropAtIndex(state: ReconstructionWorkflowState, index: number): ReconstructionWorkflowState {
+export function approveCropAtIndex(
+  state: ReconstructionWorkflowState,
+  index: number,
+  options?: { overrideWarnings?: boolean },
+): ReconstructionWorkflowState {
   const review = state.cropReviews[index];
   if (!review) return state;
-  const approval = approveCropReview(review);
+  const approval = approveCropReview(review, 'founder', options);
   if (!approval.allowed) return state;
 
   const cropReviews = state.cropReviews.map((r, i) => (i === index ? approval.review : r));
