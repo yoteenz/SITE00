@@ -129,7 +129,7 @@ describe('P0.VR.4R1 — live acceptance pipeline', () => {
   });
 
   it('13. Supabase upload path convention exists', () => {
-    expect(PROJECTS_HEADER_PLANET_CROP.width).toBe(220);
+    expect(PROJECTS_HEADER_PLANET_CROP.width).toBe(365);
     expect(PROJECTS_INDEX_APPROVED_REFERENCE_PATH).toContain('projects-index-approved-reference');
   });
 

@@ -13,6 +13,7 @@ import {
   uploadSite00AssetBuffer,
 } from '../../../../api/_lib/site00Assts/storage.js';
 import { isFalAccessibleReferenceUrl } from '../../../site00-visual-reference/referencePublicUrl.js';
+import { hashCropBuffer } from '../p0vr4r2/cropChecksum.js';
 import type { GenerationReceipt } from './types.js';
 
 export type FalProviderHealth = {
@@ -56,6 +57,7 @@ export async function dispatchLiveGptImage2Edit(input: {
   assetId: string;
   promptText: string;
   referenceCropUrl: string;
+  referenceCropChecksum?: string;
   promptVersion: number;
   falKey: string;
 }): Promise<LiveFalGenerationResult> {
@@ -82,6 +84,15 @@ export async function dispatchLiveGptImage2Edit(input: {
     fal.config({ credentials: input.falKey.trim() });
 
     const refBuffer = await downloadUrlToBuffer(input.referenceCropUrl);
+    const refChecksum = hashCropBuffer(refBuffer);
+    if (input.referenceCropChecksum && input.referenceCropChecksum !== refChecksum) {
+      return {
+        ok: false,
+        error: 'CROP_PREVIEW_PROVIDER_INPUT_MISMATCH: checksum mismatch',
+        failureClass: 'CROP_PREVIEW_PROVIDER_INPUT_MISMATCH',
+      };
+    }
+
     const refBlob = new Blob([refBuffer], { type: 'image/png' });
     const falReferenceUrl = await fal.storage.upload(refBlob);
 
@@ -119,6 +130,7 @@ export async function dispatchLiveGptImage2Edit(input: {
       outputUrl,
       promptVersion: input.promptVersion,
       referenceCropUrl: input.referenceCropUrl,
+      referenceCropChecksum: refChecksum,
       gptImage2EditUsed: true,
       referencePassedToProvider: true,
     };

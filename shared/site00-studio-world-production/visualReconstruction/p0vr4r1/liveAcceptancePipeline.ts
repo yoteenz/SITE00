@@ -29,9 +29,8 @@ import {
   uploadCanonicalAsset,
   hashBuffer,
 } from './liveFalProvider.js';
+import { buildCropStoragePath } from '../p0vr4/referenceCrop.js';
 import {
-  extractAndUploadReferenceCrop,
-  PROJECTS_HEADER_PLANET_CROP,
   resolveReferenceImageAbsolutePath,
 } from './referenceCropExtract.js';
 import { evaluateMaterialPreservationQA } from './materialPreservationQA.js';
@@ -41,6 +40,14 @@ import {
   saveLiveBindingsToRepo,
   PROJECTS_HEADER_PLANET_SLOT_ID,
 } from './liveBindingStore.js';
+import {
+  prepareProjectsHeaderPlanetCrop,
+  approveProjectsHeaderPlanetCrop,
+  getLockedCropForGeneration,
+} from '../p0vr4r2/projectsHeaderPlanetCropService.js';
+import { runDesignGenerationPreflight } from '../p0vr4r2/designGenerationPreflight.js';
+import { recordGenerationUsedCrop } from '../p0vr4r2/cropLineage.js';
+import { PROJECTS_HEADER_PLANET_OBJECT_BOUNDS } from '../p0vr4r2/projectsHeaderPlanetGoldenCrop.js';
 import type {
   GoldenAcceptanceConditions,
   LiveAcceptanceResult,
@@ -75,11 +82,14 @@ export async function runLiveProjectsHeaderPlanetAcceptance(input: {
   founderLoveIt?: boolean;
   applyToPage?: boolean;
   skipLiveFal?: boolean;
+  cropApproved?: boolean;
+  extractCropOnly?: boolean;
+  founderAdjustedBounds?: { x: number; y: number; width: number; height: number } | null;
 }): Promise<LiveAcceptanceResult> {
   const conditions = emptyConditions();
   const health = checkFalProviderHealth({ falKey: input.falKey });
 
-  if (!input.explicitFounderAction) {
+  if (!input.explicitFounderAction && !input.extractCropOnly) {
     return {
       passed: false,
       blocked: true,
@@ -120,7 +130,7 @@ export async function runLiveProjectsHeaderPlanetAcceptance(input: {
       {
         regionId: 'projects-header-planet',
         classification: 'HERO_OBJECT',
-        bounds: PROJECTS_HEADER_PLANET_CROP,
+        bounds: PROJECTS_HEADER_PLANET_OBJECT_BOUNDS,
         labelHint: PROJECTS_GOLDEN_TEST.semanticName,
         confidenceHint: 'HIGH',
       },
@@ -162,15 +172,95 @@ export async function runLiveProjectsHeaderPlanetAcceptance(input: {
   }
 
   const refPath = resolveReferenceImageAbsolutePath(input.repoRoot);
-  const crop = await extractAndUploadReferenceCrop({
+  const cropPrep = await prepareProjectsHeaderPlanetCrop({
+    assetId: asset.assetId,
     referenceImagePath: refPath,
-    projectId: asset.projectId,
-    pageId: asset.pageId,
-    regionId: 'projects-header-planet',
-    crop: PROJECTS_HEADER_PLANET_CROP,
+    sourceScreenshotId: source.screenshotId,
+    founderAdjustedBounds: input.founderAdjustedBounds ?? null,
+    upload: async (storagePath, buffer) => uploadCanonicalAsset({ storagePath, buffer, mimeType: 'image/png' }),
+    buildStoragePath: buildCropStoragePath,
   });
 
-  conditions.referenceCropCreated = true;
+  if (!cropPrep.qa.pass) {
+    return {
+      passed: false,
+      blocked: true,
+      blocker: `GENERATION_BLOCKED_BY_CROP_QA: ${cropPrep.qa.failures.join(', ')}`,
+      assetId: asset.assetId,
+      conditions,
+      generationReceipt: null,
+      backgroundRemovalReceipt: null,
+      materialQa: null,
+      supabasePath: null,
+      canonicalUrl: null,
+      binding: null,
+    };
+  }
+
+  conditions.referenceCropCreated = Boolean(cropPrep.cropUrl);
+
+  upsertReconstructionAsset({
+    ...asset,
+    referenceCropUrl: cropPrep.cropUrl,
+    referenceCropRegion: {
+      sourceScreenshotId: source.screenshotId,
+      x: cropPrep.coordinate.finalBounds.x,
+      y: cropPrep.coordinate.finalBounds.y,
+      width: cropPrep.coordinate.finalBounds.width,
+      height: cropPrep.coordinate.finalBounds.height,
+      padding: Math.round(cropPrep.coordinate.paddingPercent * 100),
+      cropUrl: cropPrep.cropUrl,
+      cropVersion: cropPrep.coordinate.cropVersion,
+    },
+    status: input.extractCropOnly ? 'CROPPED' : 'READY_TO_GENERATE',
+  });
+
+  if (input.extractCropOnly) {
+    return {
+      passed: cropPrep.qa.pass,
+      blocked: false,
+      blocker: null,
+      assetId: asset.assetId,
+      conditions,
+      generationReceipt: null,
+      backgroundRemovalReceipt: null,
+      materialQa: null,
+      supabasePath: null,
+      canonicalUrl: null,
+      binding: null,
+    };
+  }
+
+  if (input.cropApproved) {
+    approveProjectsHeaderPlanetCrop(asset.assetId, cropPrep.checksum ?? '');
+  }
+
+  const lockedCrop = getLockedCropForGeneration(asset.assetId);
+  const preflight = runDesignGenerationPreflight({
+    coordinate: lockedCrop ?? cropPrep.coordinate,
+    assetType: 'HERO_OBJECT',
+    cropPreviewUrl: cropPrep.cropUrl,
+    cropPreviewValid: Boolean(cropPrep.cropUrl),
+    providerAvailable: health.liveDispatchAllowed,
+    explicitFounderAction: input.explicitFounderAction,
+    cropApproved: input.cropApproved === true,
+  });
+
+  if (preflight.blocked) {
+    return {
+      passed: false,
+      blocked: true,
+      blocker: preflight.blocker ?? 'GENERATION_BLOCKED_BY_CROP_QA',
+      assetId: asset.assetId,
+      conditions,
+      generationReceipt: null,
+      backgroundRemovalReceipt: null,
+      materialQa: null,
+      supabasePath: null,
+      canonicalUrl: null,
+      binding: null,
+    };
+  }
 
   let generationReceipt: GenerationReceipt | null = null;
   let outputBuffer: Buffer;
@@ -203,19 +293,15 @@ export async function runLiveProjectsHeaderPlanetAcceptance(input: {
   }
 
   upsertReconstructionAsset({
-    ...asset,
-    referenceCropUrl: crop.cropUrl,
-    referenceCropRegion: {
-      ...asset.referenceCropRegion!,
-      cropUrl: crop.cropUrl,
-    },
+    ...getReconstructionAsset(asset.assetId)!,
     status: 'GENERATING',
   });
 
   const liveResult = await dispatchLiveGptImage2Edit({
     assetId: asset.assetId,
     promptText,
-    referenceCropUrl: crop.cropUrl,
+    referenceCropUrl: cropPrep.cropUrl!,
+    referenceCropChecksum: cropPrep.checksum ?? undefined,
     promptVersion: PROJECTS_HEADER_PLANET_PROMPT_VERSION,
     falKey: input.falKey,
   });
@@ -237,6 +323,7 @@ export async function runLiveProjectsHeaderPlanetAcceptance(input: {
   }
 
   generationReceipt = { ...liveResult.receipt, dispatchCount };
+  recordGenerationUsedCrop(asset.assetId, generationReceipt.requestId);
   conditions.liveFalDispatch = true;
   conditions.gptImage2EditUsed = liveResult.receipt.gptImage2EditUsed;
   conditions.referencePassedToProvider = liveResult.receipt.referencePassedToProvider;
@@ -372,8 +459,8 @@ export async function runLiveProjectsHeaderPlanetAcceptance(input: {
         bucket: 'live-preview',
         path: storagePath,
         mimeType: 'image/png',
-        width: finalMeta.width ?? crop.width,
-        height: finalMeta.height ?? crop.height,
+        width: finalMeta.width ?? cropPrep.coordinate.finalBounds.width,
+        height: finalMeta.height ?? cropPrep.coordinate.finalBounds.height,
         alpha: Boolean(finalMeta.hasAlpha),
         checksum: hashBuffer(outputBuffer),
         createdAt: new Date().toISOString(),
@@ -401,8 +488,8 @@ export async function runLiveProjectsHeaderPlanetAcceptance(input: {
         bucket: 'live-preview',
         path: storagePath,
         mimeType: 'image/png',
-        width: finalMeta.width ?? crop.width,
-        height: finalMeta.height ?? crop.height,
+        width: finalMeta.width ?? cropPrep.coordinate.finalBounds.width,
+        height: finalMeta.height ?? cropPrep.coordinate.finalBounds.height,
         alpha: Boolean(finalMeta.hasAlpha),
         checksum: hashBuffer(outputBuffer),
         createdAt: new Date().toISOString(),
