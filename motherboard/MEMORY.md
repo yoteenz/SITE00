@@ -7024,3 +7024,16 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - Tests: `designProjectSelector.test.ts` (22 pass); updated P0VR3M tests (35 total).
 - **Next founder action:** Design → tap PROJECT SITE 00 ▼ → select NDXBOOK → verify breadcrumb + Pages no longer show Site 00's 45 pages → MORE → EXPERIENCE SKIN → NDXBOOK → PROJECT OVERVIEW → ADD AUTHORITY → upload approved mobile NDX overview.
 
+---
+
+## 2026-09-09 — Design Workspace Live Page Mirror (P0.VR.8)
+
+- **Problem:** PAGES tab used static screen lists (`listScreensWithSnapshots`) — stale thumbnails, hardcoded copy, no route discovery sync, no deploy-aware recapture.
+- **Implemented:**
+  - `shared/.../p0vr8/` — ProjectPageRegistry, ProjectRouteDiscoveryService, ProjectPageSyncOrchestrator, ProjectPageChangeDetector, SharedLayoutImpactResolver, PageCaptureQueue, PageSnapshotFreshness, PageCaptureReadyContract, screenshot recorder (wraps P0.VR.3E), convergence bridge.
+  - API `/api/site00/page-mirror` — discover, sync events, refresh page/project, inspector state.
+  - UI — `usePageMirror` hook; `DesignPagesTabPanel` shows live routes, reference compare, stale indicators, REFRESH CAPTURE / REFRESH PROJECT; workspace uses `buildProjectPageMirrorRows` keyed by `activeDesignProjectId`.
+  - Tests: `livePageMirror.test.ts` (35 pass); updated designProjectSelector test 12.
+- **Gaps:** Full Playwright auto-capture on every deploy requires Railway/cPanel live URL + background worker hook; DOM manifest/content summary stubs ready but not populated from live DOM yet; History tab events not yet wired to sync orchestrator feed.
+- **Next founder action:** Design → NDXBOOK → PAGES → verify routes from NDX router (6 pages) → REFRESH CAPTURE one page → make small NDX visible change → deploy → verify page marked STALE then recaptured.
+

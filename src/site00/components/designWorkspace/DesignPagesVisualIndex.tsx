@@ -8,10 +8,21 @@ export type PageVisualIndexRow = {
   screenId: string;
   displayName: string;
   routeFamily?: string;
-  mobile: { publicUrl: string | null; status: string } | null;
-  tablet: { publicUrl: string | null; status: string } | null;
-  desktop: { publicUrl: string | null; status: string } | null;
+  route?: string;
+  normalizedRoute?: string;
+  mobile: { publicUrl: string | null; status: string; capturedAt?: string | null } | null;
+  tablet: { publicUrl: string | null; status: string; capturedAt?: string | null } | null;
+  desktop: { publicUrl: string | null; status: string; capturedAt?: string | null } | null;
   missingImplementation?: boolean;
+  captureStatus?: string;
+  lastCapturedAt?: string | null;
+  lastUpdatedAt?: string | null;
+  isStale?: boolean;
+  staleReason?: string | null;
+  referenceUrl?: string | null;
+  visualMatchStatus?: string;
+  historyCount?: number;
+  pagePurpose?: string;
 };
 
 type Props = {

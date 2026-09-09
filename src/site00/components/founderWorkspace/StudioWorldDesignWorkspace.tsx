@@ -68,7 +68,11 @@ import { DesignComposerReviewQueue } from '../designWorkspace/DesignComposerRevi
 import { DesignRepoChangePanel } from '../designWorkspace/DesignRepoChangePanel';
 import { DesignMissingTargetQueue } from '../designWorkspace/DesignMissingTargetQueue';
 import { useImplementationSnapshots } from '../designWorkspace/useImplementationSnapshots';
-import { listScreensWithSnapshots } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3e/client.js';
+import {
+  buildProjectPageMirrorRows,
+  pageMirrorRowToVisualIndexRow,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
+import { usePageMirror } from '../designWorkspace/usePageMirror';
 import { DesignMissingAssetsSection } from '../designWorkspace/DesignMissingAssetsSection';
 import { DesignVisualMatchPanel } from '../designWorkspace/DesignVisualMatchPanel';
 import { DesignWorkspaceDisclosurePanel } from '../designWorkspace/DesignWorkspaceDisclosurePanel';
@@ -215,30 +219,28 @@ export function StudioWorldDesignWorkspace({
   const implementationSnapshot = getSnapshot(screenId, viewportClass);
   const statusLabel = mapStatusLabel(projectId, screenId, viewportClass);
   const viewport = CANONICAL_VIEWPORT_DIMENSIONS[viewportClass];
+  const {
+    rows: mirrorApiRows,
+    loading: mirrorLoading,
+    refreshPage: refreshMirrorPage,
+    refreshProject: refreshMirrorProject,
+  } = usePageMirror(projectId);
+
   const pageIndexRows = useMemo(() => {
-    const rows = listScreensWithSnapshots(projectId);
-    return rows.map((row) => ({
-      screenId: row.screenId,
-      displayName: row.displayName,
-      routeFamily: row.routeFamily,
-      missingImplementation: row.missingImplementation,
-      mobile: row.mobile
-        ? { publicUrl: getSnapshot(row.screenId, 'mobile')?.publicUrl ?? row.mobile.publicUrl, status: getSnapshot(row.screenId, 'mobile')?.captureStatus ?? row.mobile.captureStatus }
-        : getSnapshot(row.screenId, 'mobile')
-          ? { publicUrl: getSnapshot(row.screenId, 'mobile')!.publicUrl, status: getSnapshot(row.screenId, 'mobile')!.captureStatus }
-          : null,
-      tablet: row.tablet
-        ? { publicUrl: getSnapshot(row.screenId, 'tablet')?.publicUrl ?? row.tablet.publicUrl, status: getSnapshot(row.screenId, 'tablet')?.captureStatus ?? row.tablet.captureStatus }
-        : getSnapshot(row.screenId, 'tablet')
-          ? { publicUrl: getSnapshot(row.screenId, 'tablet')!.publicUrl, status: getSnapshot(row.screenId, 'tablet')!.captureStatus }
-          : null,
-      desktop: row.desktop
-        ? { publicUrl: getSnapshot(row.screenId, 'desktop')?.publicUrl ?? row.desktop.publicUrl, status: getSnapshot(row.screenId, 'desktop')?.captureStatus ?? row.desktop.captureStatus }
-        : getSnapshot(row.screenId, 'desktop')
-          ? { publicUrl: getSnapshot(row.screenId, 'desktop')!.publicUrl, status: getSnapshot(row.screenId, 'desktop')!.captureStatus }
-          : null,
-    }));
-  }, [getSnapshot, projectId]);
+    if (mirrorApiRows.length) return mirrorApiRows;
+    return buildProjectPageMirrorRows(projectId, { screenSetMode: site00ScreenSetMode }).map((row) => {
+      const visual = pageMirrorRowToVisualIndexRow(row);
+      const mobileSnap = getSnapshot(row.screenId, 'mobile');
+      if (mobileSnap?.publicUrl) {
+        visual.mobile = {
+          publicUrl: mobileSnap.publicUrl,
+          status: mobileSnap.captureStatus,
+          capturedAt: mobileSnap.capturedAt,
+        };
+      }
+      return visual;
+    });
+  }, [getSnapshot, mirrorApiRows, projectId, site00ScreenSetMode]);
 
   const defaultScreenForProject = useCallback((nextProjectId: string, available: typeof screens) => {
     if (available[0]?.screenId) return available[0].screenId;
@@ -637,11 +639,18 @@ export function StudioWorldDesignWorkspace({
             key={`pages-${activeDesignProjectId}`}
             rows={pageIndexRows}
             selectedScreenId={screenId}
+            mirrorLoading={mirrorLoading}
             onSelectScreen={(id) => {
               setScreenId(id);
               syncUrl({ screen: id });
             }}
-            onOpenPage={() => window.open(livePreviewUrl, '_blank', 'noopener,noreferrer')}
+            onOpenPage={(id) => {
+              const row = pageIndexRows.find((r) => r.screenId === id);
+              const target = row?.route ?? route;
+              window.open(`${target}?site00MobileLayout=1&designPreview=1`, '_blank', 'noopener,noreferrer');
+            }}
+            onRefreshPage={(id) => void refreshMirrorPage(id)}
+            onRefreshProject={() => void refreshMirrorProject()}
           />
         ) : null}
 
