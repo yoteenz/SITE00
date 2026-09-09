@@ -1,6 +1,9 @@
 /**
- * Image-led family thumbnail — no color-swatch fallback when authority asset exists.
+ * Image-led family thumbnail — safe empty state on missing/broken URLs.
+ * Never displays source crop URLs as final assets.
  */
+
+import { useState } from 'react';
 
 type Props = {
   imageUrl: string | null;
@@ -10,14 +13,25 @@ type Props = {
 };
 
 export function SkinFamilyThumb({ imageUrl, alt, fallbackColor, className = '' }: Props) {
-  if (imageUrl) {
-    return <img src={imageUrl} alt={alt} className={`site00-dw-skins__family-img${className ? ` ${className}` : ''}`} />;
+  const [broken, setBroken] = useState(false);
+
+  if (imageUrl && !broken) {
+    return (
+      <img
+        src={imageUrl}
+        alt={alt}
+        className={`site00-dw-skins__family-img${className ? ` ${className}` : ''}`}
+        onError={() => setBroken(true)}
+      />
+    );
   }
+
   return (
     <span
       className={`site00-dw-skins__family-thumb site00-dw-skins__family-thumb--fallback${className ? ` ${className}` : ''}`}
       style={fallbackColor ? { background: fallbackColor } : undefined}
-      aria-hidden
+      aria-label={alt}
+      role="img"
     />
   );
 }

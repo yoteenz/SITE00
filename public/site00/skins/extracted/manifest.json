@@ -1,145 +1,176 @@
 {
-  "extractedAt": "2026-09-09T13:40:54.974Z",
+  "extractedAt": "2026-09-09T14:01:38.428Z",
   "entries": [
     {
       "viewport": "MOBILE",
       "assetSlot": "BRAND_FAMILY_NDXBOOK",
-      "canonicalUrl": "/site00/skins/extracted/mobile/brand_family_ndxbook.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/mobile/brand_family_ndxbook.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
     },
     {
       "viewport": "MOBILE",
       "assetSlot": "BRAND_FAMILY_FRONTAL_SLAYER",
-      "canonicalUrl": "/site00/skins/extracted/mobile/brand_family_frontal_slayer.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/mobile/brand_family_frontal_slayer.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
     },
     {
       "viewport": "MOBILE",
       "assetSlot": "BRAND_FAMILY_AIO",
-      "canonicalUrl": "/site00/skins/extracted/mobile/brand_family_aio.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/mobile/brand_family_aio.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
     },
     {
       "viewport": "MOBILE",
       "assetSlot": "BRAND_FAMILY_ASTRAL_WORLD",
-      "canonicalUrl": "/site00/skins/extracted/mobile/brand_family_astral_world.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/mobile/brand_family_astral_world.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
     },
     {
       "viewport": "MOBILE",
       "assetSlot": "BRAND_FAMILY_STUDIO_WORLD",
-      "canonicalUrl": "/site00/skins/extracted/mobile/brand_family_studio_world.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/mobile/brand_family_studio_world.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
     },
     {
       "viewport": "MOBILE",
       "assetSlot": "SCREEN_OVERVIEW",
-      "canonicalUrl": "/site00/skins/extracted/mobile/screen_overview.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/mobile/screen_overview.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": false
     },
     {
       "viewport": "DESKTOP",
       "assetSlot": "BRAND_FAMILY_NDXBOOK",
-      "canonicalUrl": "/site00/skins/extracted/desktop/brand_family_ndxbook.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/desktop/brand_family_ndxbook.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
     },
     {
       "viewport": "DESKTOP",
       "assetSlot": "BRAND_FAMILY_FRONTAL_SLAYER",
-      "canonicalUrl": "/site00/skins/extracted/desktop/brand_family_frontal_slayer.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/desktop/brand_family_frontal_slayer.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
     },
     {
       "viewport": "DESKTOP",
       "assetSlot": "BRAND_FAMILY_AIO",
-      "canonicalUrl": "/site00/skins/extracted/desktop/brand_family_aio.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/desktop/brand_family_aio.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
     },
     {
       "viewport": "DESKTOP",
       "assetSlot": "BRAND_FAMILY_ASTRAL_WORLD",
-      "canonicalUrl": "/site00/skins/extracted/desktop/brand_family_astral_world.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/desktop/brand_family_astral_world.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
     },
     {
       "viewport": "DESKTOP",
       "assetSlot": "BRAND_FAMILY_STUDIO_WORLD",
-      "canonicalUrl": "/site00/skins/extracted/desktop/brand_family_studio_world.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/desktop/brand_family_studio_world.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
     },
     {
       "viewport": "DESKTOP",
       "assetSlot": "SCREEN_OVERVIEW",
-      "canonicalUrl": "/site00/skins/extracted/desktop/screen_overview.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
-    },
-    {
-      "viewport": "DESKTOP",
-      "assetSlot": "SCREEN_OVERVIEW",
-      "canonicalUrl": "/site00/skins/extracted/desktop/screen_overview.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/desktop/screen_overview.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": false
     },
     {
       "viewport": "DESKTOP",
       "assetSlot": "SCREEN_IDENTITY",
-      "canonicalUrl": "/site00/skins/extracted/desktop/screen_identity.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/desktop/screen_identity.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": false
     },
     {
       "viewport": "DESKTOP",
       "assetSlot": "SCREEN_BUILDER",
-      "canonicalUrl": "/site00/skins/extracted/desktop/screen_builder.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/desktop/screen_builder.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": false
     },
     {
       "viewport": "DESKTOP",
       "assetSlot": "SCREEN_EVOLVE",
-      "canonicalUrl": "/site00/skins/extracted/desktop/screen_evolve.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/desktop/screen_evolve.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": false
     },
     {
       "viewport": "DESKTOP",
       "assetSlot": "SCREEN_PRODUCTION",
-      "canonicalUrl": "/site00/skins/extracted/desktop/screen_production.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/desktop/screen_production.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": false
     },
     {
       "viewport": "DESKTOP",
       "assetSlot": "SCREEN_REVIEWS",
-      "canonicalUrl": "/site00/skins/extracted/desktop/screen_reviews.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/desktop/screen_reviews.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": false
     },
     {
       "viewport": "DESKTOP",
       "assetSlot": "SCREEN_LIBRARY",
-      "canonicalUrl": "/site00/skins/extracted/desktop/screen_library.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/desktop/screen_library.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": false
     },
     {
       "viewport": "DESKTOP",
       "assetSlot": "SCREEN_CONTROL_ROOM",
-      "canonicalUrl": "/site00/skins/extracted/desktop/screen_control_room.webp",
-      "status": "APPROVED",
-      "cropConfirmed": true
+      "sourceCropUrl": "/site00/skins/extracted/desktop/screen_control_room.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": false
     }
   ]
 }

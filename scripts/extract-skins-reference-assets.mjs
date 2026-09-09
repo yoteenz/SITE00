@@ -67,19 +67,45 @@ async function cropAndSave(refPath, viewport, slot, normBox) {
 async function main() {
   const manifest = { extractedAt: new Date().toISOString(), entries: [] };
 
+  const familySlots = new Set(Object.keys(MOBILE_FAMILY_CROPS).filter((s) => s.startsWith('BRAND_FAMILY_')));
+
   for (const [slot, box] of Object.entries(MOBILE_FAMILY_CROPS)) {
-    const url = await cropAndSave(MOBILE_REF, 'mobile', slot, box);
-    manifest.entries.push({ viewport: 'MOBILE', assetSlot: slot, canonicalUrl: url, status: 'APPROVED', cropConfirmed: true });
+    const sourceCropUrl = await cropAndSave(MOBILE_REF, 'mobile', slot, box);
+    manifest.entries.push({
+      viewport: 'MOBILE',
+      assetSlot: slot,
+      sourceCropUrl,
+      canonicalUrl: null,
+      status: familySlots.has(slot) ? 'RECONSTRUCTION_PENDING' : 'RECONSTRUCTION_PENDING',
+      cropConfirmed: true,
+      uiContaminationSuspected: familySlots.has(slot),
+    });
   }
 
   for (const [slot, box] of Object.entries(DESKTOP_FAMILY_CROPS)) {
-    const url = await cropAndSave(DESKTOP_REF, 'desktop', slot, box);
-    manifest.entries.push({ viewport: 'DESKTOP', assetSlot: slot, canonicalUrl: url, status: 'APPROVED', cropConfirmed: true });
+    const sourceCropUrl = await cropAndSave(DESKTOP_REF, 'desktop', slot, box);
+    manifest.entries.push({
+      viewport: 'DESKTOP',
+      assetSlot: slot,
+      sourceCropUrl,
+      canonicalUrl: null,
+      status: 'RECONSTRUCTION_PENDING',
+      cropConfirmed: true,
+      uiContaminationSuspected: familySlots.has(slot),
+    });
   }
 
   for (const [slot, box] of Object.entries(DESKTOP_SCREEN_TILE_CROPS)) {
-    const url = await cropAndSave(DESKTOP_REF, 'desktop', slot, box);
-    manifest.entries.push({ viewport: 'DESKTOP', assetSlot: slot, canonicalUrl: url, status: 'APPROVED', cropConfirmed: true });
+    const sourceCropUrl = await cropAndSave(DESKTOP_REF, 'desktop', slot, box);
+    manifest.entries.push({
+      viewport: 'DESKTOP',
+      assetSlot: slot,
+      sourceCropUrl,
+      canonicalUrl: null,
+      status: 'RECONSTRUCTION_PENDING',
+      cropConfirmed: true,
+      uiContaminationSuspected: false,
+    });
   }
 
   const manifestPath = join(OUT_BASE, 'manifest.json');

@@ -56,11 +56,24 @@ export type SkinReferenceAssetManifestEntry = {
   assetType: SkinsAssetType;
   canonicalAssetId?: string | null;
   bindingId?: string | null;
-  status: 'CANDIDATE' | 'CROP_PENDING' | 'APPROVED' | 'BOUND' | 'ASSET_RECONSTRUCTION_APPROVAL_REQUIRED';
+  status:
+    | 'CANDIDATE'
+    | 'CROP_PENDING'
+    | 'CROP_CONFIRMED'
+    | 'RECONSTRUCTION_PENDING'
+    | 'RECONSTRUCTION_READY'
+    | 'APPROVED'
+    | 'BOUND'
+    | 'INVALID_SOURCE_CROP_AS_CANONICAL'
+    | 'ASSET_RECONSTRUCTION_APPROVAL_REQUIRED';
   sourceAuthorityId: string;
   version: string;
+  /** Source crop URL — evidence only, never live binding. */
+  sourceCropUrl?: string | null;
+  /** Approved reconstructed output URL — only this may bind live. */
   canonicalUrl?: string | null;
   cropConfirmed: boolean;
+  uiContaminationSuspected?: boolean;
 };
 
 export type TypographyReferenceDelta = {
@@ -171,13 +184,15 @@ export function buildDefaultSkinsManifest(): SkinReferenceAssetManifestEntry[] {
         candidateId: `candidate-${viewport}-${assetSlot}`,
         cropId: `crop-${viewport}-${assetSlot}`,
         assetType: classifySkinsAssetSlot(assetSlot),
-        canonicalAssetId: `skins-extracted-${viewport}-${assetSlot}`,
-        bindingId: `binding-${viewport}-${assetSlot}`,
-        status: 'BOUND',
+        canonicalAssetId: null,
+        bindingId: null,
+        status: 'RECONSTRUCTION_PENDING',
         sourceAuthorityId: viewport === 'MOBILE' ? SKINS_REFERENCE_MOBILE : SKINS_REFERENCE_DESKTOP,
         version: '1.0',
-        canonicalUrl: assetSlotToExtractedPath(viewport, assetSlot),
+        sourceCropUrl: assetSlotToExtractedPath(viewport, assetSlot),
+        canonicalUrl: null,
         cropConfirmed: true,
+        uiContaminationSuspected: true,
       });
     }
     entries.push({
@@ -187,20 +202,36 @@ export function buildDefaultSkinsManifest(): SkinReferenceAssetManifestEntry[] {
       candidateId: `candidate-${viewport}-SCREEN_OVERVIEW`,
       cropId: `crop-${viewport}-SCREEN_OVERVIEW`,
       assetType: 'SCREEN_PREVIEW',
-      canonicalAssetId: `skins-extracted-${viewport}-SCREEN_OVERVIEW`,
-      bindingId: `binding-${viewport}-SCREEN_OVERVIEW`,
-      status: 'BOUND',
+      canonicalAssetId: null,
+      bindingId: null,
+      status: 'RECONSTRUCTION_PENDING',
       sourceAuthorityId: viewport === 'MOBILE' ? SKINS_REFERENCE_MOBILE : SKINS_REFERENCE_DESKTOP,
       version: '1.0',
-      canonicalUrl: assetSlotToExtractedPath(viewport, 'SCREEN_OVERVIEW'),
+      sourceCropUrl: assetSlotToExtractedPath(viewport, 'SCREEN_OVERVIEW'),
+      canonicalUrl: null,
       cropConfirmed: true,
+      uiContaminationSuspected: false,
     });
   }
 
   return entries;
 }
 
-export type ScreenThumbnailSource = 'AUTHORITY' | 'BINDING' | 'EXTRACTED' | 'EMPTY';
+/** Detect manifest entries where source crop was incorrectly bound as canonical. */
+export function auditInvalidSourceCropBindings(manifest: SkinReferenceAssetManifestEntry[]): SkinsAssetSlot[] {
+  const invalid: SkinsAssetSlot[] = [];
+  for (const entry of manifest) {
+    if (entry.canonicalUrl && entry.sourceCropUrl && entry.canonicalUrl === entry.sourceCropUrl) {
+      invalid.push(entry.assetSlot);
+    }
+    if (entry.status === 'BOUND' && !entry.canonicalAssetId && entry.sourceCropUrl) {
+      invalid.push(entry.assetSlot);
+    }
+  }
+  return invalid;
+}
+
+export type ScreenThumbnailSource = 'AUTHORITY' | 'CANONICAL' | 'EMPTY';
 
 export function resolveScreenThumbnailUrl(input: {
   viewport: SkinsViewportClass;
@@ -218,10 +249,15 @@ export function resolveScreenThumbnailUrl(input: {
 
   const slot = PACK_SCREEN_TO_ASSET_SLOT[input.packScreenType];
   if (slot) {
-    const bound = input.manifest?.find((m) => m.assetSlot === slot && m.viewport === input.viewport && m.status === 'BOUND');
-    if (bound?.canonicalUrl) return { url: bound.canonicalUrl, source: 'BINDING' };
-    const extracted = assetSlotToExtractedPath(input.viewport, slot);
-    return { url: extracted, source: 'EXTRACTED' };
+    const approved = input.manifest?.find(
+      (m) =>
+        m.assetSlot === slot &&
+        m.viewport === input.viewport &&
+        m.status === 'BOUND' &&
+        m.canonicalUrl &&
+        m.canonicalUrl !== m.sourceCropUrl,
+    );
+    if (approved?.canonicalUrl) return { url: approved.canonicalUrl, source: 'CANONICAL' };
   }
 
   return { url: null, source: 'EMPTY' };
@@ -238,9 +274,21 @@ export function resolveFamilyThumbnailUrl(input: {
     return { url: null, source: 'EMPTY', colorSwatchFallback: Boolean(input.useColorSwatchFallback) };
   }
 
-  const bound = input.manifest?.find((m) => m.assetSlot === slot && m.viewport === input.viewport && m.status === 'BOUND');
-  const url = bound?.canonicalUrl ?? assetSlotToExtractedPath(input.viewport, slot);
-  return { url, source: bound ? 'BINDING' : 'EXTRACTED', colorSwatchFallback: false };
+  const approved = input.manifest?.find(
+    (m) =>
+      m.assetSlot === slot &&
+      m.viewport === input.viewport &&
+      m.status === 'BOUND' &&
+      m.canonicalUrl &&
+      m.canonicalAssetId &&
+      m.canonicalUrl !== m.sourceCropUrl,
+  );
+
+  if (approved?.canonicalUrl) {
+    return { url: approved.canonicalUrl, source: 'CANONICAL', colorSwatchFallback: false };
+  }
+
+  return { url: null, source: 'EMPTY', colorSwatchFallback: true };
 }
 
 export function auditTypographyAgainstReference(live: {

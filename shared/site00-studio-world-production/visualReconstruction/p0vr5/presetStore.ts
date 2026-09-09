@@ -239,6 +239,23 @@ export const BUILT_IN_INSTRUCTION_PRESETS: DesignInstructionPreset[] = [
     founderEdited: false,
     confidence: 0.85,
   }),
+  builtIn({
+    presetId: BUILT_IN_PRESET_IDS.RECONSTRUCT_REFERENCE_ASSET,
+    name: 'RECONSTRUCT REFERENCE ASSET',
+    instructionTemplate: 'SOURCE CROP → CLEAN ASSET → OPTIONAL BACKGROUND REMOVAL → BIND',
+    intentType: 'MULTI_ASSET',
+    assetTypes: ['PROJECT_CARD_VISUAL', 'HERO_OBJECT', 'OTHER_SOLO_ASSET'],
+    multiAsset: true,
+    orderingRule: 'LEFT_TO_RIGHT',
+    backgroundPolicy: 'AUTO_IF_NEEDED',
+    cropConfirmationRequired: true,
+    replacementBehavior: 'REPLACE_BY_SLOT_NAME',
+    generationPolicy: 'GPT_IMAGE_2_EDIT_PRIMARY',
+    targetScope: 'SKINS_REFERENCE',
+    founderCreated: false,
+    founderEdited: false,
+    confidence: 1,
+  }),
 ];
 
 let learnedPresets: DesignInstructionPreset[] = [];
