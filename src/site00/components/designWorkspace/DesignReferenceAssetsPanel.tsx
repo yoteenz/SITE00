@@ -32,8 +32,9 @@ import { DesignReferenceCropEditor } from './DesignReferenceCropEditor';
 import { DesignAssetJobWorkspace } from './DesignAssetJobWorkspace';
 import { DesignSkinsReferenceAssetJobs } from './DesignSkinsReferenceAssetJobs';
 import { useDesignReconstructionWorkflow } from './useDesignReconstructionWorkflow.js';
-import { DesignFounderActionBanner } from './DesignFounderActionBanner.js';
+import { DesignFounderActionAlertZone } from './DesignFounderActionAlertZone.js';
 import { DesignReconstructionWorkflowPanel } from './DesignReconstructionWorkflowPanel.js';
+import { useDesignFounderActionNotifications } from './useDesignFounderActionNotifications.js';
 import {
   generateLivePlanetAsset,
   approveLiveAsset,
@@ -254,9 +255,8 @@ export function DesignReferenceAssetsPanel({
 
   const generateBlocker = generationBlocker ?? falHealthBlocker;
   const workflow = useDesignReconstructionWorkflow();
-  const assetsAction = workflow.state?.actions.find(
-    (a) => a.workspace === 'ASSETS' && a.status === 'PENDING' && a.blocking,
-  );
+  const founderAlerts = useDesignFounderActionNotifications();
+  const totalAssetsPending = workflow.assetsActionCount;
 
   return (
     <div className="site00-dw-ref-assets">
@@ -271,11 +271,13 @@ export function DesignReferenceAssetsPanel({
           onClose={workflow.closeWorkflow}
           onSetCandidateIndex={workflow.setCandidateIndex}
         />
-      ) : assetsAction ? (
-        <section className="site00-dw-ref-assets__needs-review">
-          <h2>NEEDS YOUR REVIEW</h2>
-          <DesignFounderActionBanner action={assetsAction} onPrimary={workflow.openPrimaryAction} variant="assets" />
-        </section>
+      ) : founderAlerts.alertActions.length > 0 ? (
+        <DesignFounderActionAlertZone
+          actions={founderAlerts.alertActions}
+          totalPending={totalAssetsPending}
+          onPrimary={(action) => workflow.openAction(action.deepLink)}
+          onViewJob={(action) => workflow.openAction(action.deepLink)}
+        />
       ) : null}
 
       <DesignSkinsReferenceAssetJobs viewport="MOBILE" />

@@ -21,6 +21,7 @@ export * from './assetCompletenessGate.js';
 export * from './partialVisualImplementationGuard.js';
 export * from './founderAction.js';
 export * from './founderActionRouter.js';
+export * from './founderActionNotifications.js';
 export * from './referenceReconstructionSubJobs.js';
 export * from './structureCorrectionEngine.js';
 export * from './reconstructionJobOrchestrator.js';

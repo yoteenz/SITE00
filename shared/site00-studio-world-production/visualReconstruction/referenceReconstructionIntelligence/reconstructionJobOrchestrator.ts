@@ -4,7 +4,7 @@
  */
 
 import type { WorkflowView } from './founderAction.js';
-import { syncFounderActionsFromJob, resolveFounderAction } from './founderActionRouter.js';
+import { syncFounderActionsFromJob, resolveFounderActionsByGate } from './founderActionRouter.js';
 import type { DesignFounderAction } from './founderAction.js';
 import {
   approveAllCrops,
@@ -68,7 +68,7 @@ export function approveCropAtIndex(state: ReconstructionWorkflowState, index: nu
   let workflowView: WorkflowView = state.workflowView;
 
   if (cropGate.state.approved === cropGate.state.total) {
-    actions = resolveFounderAction(actions, `action-review_crops-${job.jobId}`);
+    actions = resolveFounderActionsByGate(actions, job.jobId, 'REVIEW_CROPS');
     workflowView = 'generation-plan';
     actions = syncFounderActionsFromJob(job);
   }
@@ -87,7 +87,7 @@ export function approveCropAtIndex(state: ReconstructionWorkflowState, index: nu
 
 export function approveAllCropsInWorkflow(state: ReconstructionWorkflowState): ReconstructionWorkflowState {
   let job = approveAllCrops(state.job);
-  let actions = resolveFounderAction(state.actions, `action-review_crops-${job.jobId}`);
+  let actions = resolveFounderActionsByGate(state.actions, job.jobId, 'REVIEW_CROPS');
   actions = syncFounderActionsFromJob(job);
   const subJobs = updateSubJobsFromJobState({
     subJobs: state.subJobs,
@@ -109,7 +109,7 @@ export function approveAllCropsInWorkflow(state: ReconstructionWorkflowState): R
 export function approveGenerationInWorkflow(state: ReconstructionWorkflowState): ReconstructionWorkflowState {
   const plan = buildMultiAssetReconstructionPlan(state.job);
   const { job } = approveGeneration(state.job, plan.totalDispatches);
-  let actions = resolveFounderAction(state.actions, `action-approve_generation-${job.jobId}`);
+  let actions = resolveFounderActionsByGate(state.actions, job.jobId, 'APPROVE_GENERATION');
   actions = syncFounderActionsFromJob(job);
   const subJobs = updateSubJobsFromJobState({
     subJobs: state.subJobs,
