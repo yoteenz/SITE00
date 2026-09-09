@@ -153,6 +153,7 @@ export function StudioWorldDesignWorkspace({
   const [site00ScreenSetMode] = useState<Site00ScreenSetMode>('PRIMARY');
   const [refAssetsSeed, setRefAssetsSeed] = useState(0);
   const reconstructionWorkflow = useDesignReconstructionWorkflow();
+  const prevPrimaryTabRef = useRef<DesignWorkspacePrimaryTab | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const {
     getSnapshot,
@@ -178,6 +179,13 @@ export function StudioWorldDesignWorkspace({
     if (urlState.viewport && urlState.viewport !== viewportClass) setViewportClass(urlState.viewport);
     if (urlState.tab) setPrimaryTab(normalizeDesignWorkspacePrimaryTab(urlState.tab));
   }, [urlState.screen, urlState.viewport, urlState.tab, screenId, viewportClass]);
+
+  useEffect(() => {
+    if (prevPrimaryTabRef.current !== null && prevPrimaryTabRef.current !== primaryTab) {
+      reconstructionWorkflow.closeWorkflow();
+    }
+    prevPrimaryTabRef.current = primaryTab;
+  }, [primaryTab, reconstructionWorkflow]);
 
   useEffect(() => {
     if (!urlState.project) {
