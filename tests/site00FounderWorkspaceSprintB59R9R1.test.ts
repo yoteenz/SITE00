@@ -17,7 +17,7 @@ import {
 import {
   resolveActiveSimulatedClientOwner,
   resolveProjectsViewAccountIdentity,
-} from '../shared/site00-projects/projectsViewDataAdapter.js';
+} from '../shared/site00-projects/projectsAccountIdentityAdapter.js';
 import { toggleViewAsClient } from '../shared/site00-projects/projectViewMode.js';
 
 const ROOT = join(import.meta.dirname, '..');
@@ -25,7 +25,8 @@ const EYEBROW = readFileSync(join(ROOT, 'src/site00/components/projectIndex/Acco
 const HOOK = readFileSync(join(ROOT, 'src/site00/hooks/useProjectsAccountIdentity.ts'), 'utf8');
 const PROFILE_HOOK = readFileSync(join(ROOT, 'src/site00/hooks/useSite00AccountProfileIdentity.ts'), 'utf8');
 const INSPECTOR = readFileSync(join(ROOT, 'src/site00/components/projectIndex/ProjectsAccountIdentityInspector.tsx'), 'utf8');
-const INDEX_PAGE = readFileSync(join(ROOT, 'src/site00/components/projectIndex/ProjectIndexPage.tsx'), 'utf8');
+const INDEX_PAGE = readFileSync(join(ROOT, 'src/site00/components/projectIndex/ProjectsPageShell.tsx'), 'utf8');
+const PAGE = readFileSync(join(ROOT, 'src/site00/components/projectIndex/ProjectIndexPage.tsx'), 'utf8');
 
 describe('B5.9R9R1 canonical account identity resolution', () => {
   it('1. canonical identity resolver exists', () => {
@@ -200,13 +201,13 @@ describe('B5.9R9R1 canonical account identity resolution', () => {
 
   it('20. shell invariance — inspector does not alter hero geometry classes', () => {
     expect(INDEX_PAGE).toContain('ProjectIndexHero');
-    expect(INDEX_PAGE).toContain('ProjectIndexViewStrip');
+    expect(INDEX_PAGE).toContain('ProjectsAccountIdentityInspector');
     expect(INSPECTOR).toContain('RESOLUTION STATUS');
   });
 
   it('21–22. mobile + desktop page shells unchanged', () => {
-    expect(INDEX_PAGE).toContain('site00-pidx--mobile');
-    expect(INDEX_PAGE).toContain('site00-pidx--desktop');
+    expect(PAGE).toContain('site00-pidx--mobile');
+    expect(PAGE).toContain('site00-pidx--desktop');
   });
 
   it('23. resolveAccountEyebrowLabel never returns PROJECTS as eyebrow label', () => {

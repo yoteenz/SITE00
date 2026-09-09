@@ -3,7 +3,7 @@
  */
 
 import { useMemo } from 'react';
-import { resolveProjectsViewAccountIdentity } from '../../../shared/site00-projects/projectsViewDataAdapter.js';
+import { resolveProjectsViewAccountIdentity } from '../../../shared/site00-projects/projectsAccountIdentityAdapter.js';
 import type { AccountDisplayIdentity } from '../../../shared/site00-projects/accountDisplayIdentity.js';
 import { useSite00AccountProfileIdentity } from './useSite00AccountProfileIdentity.js';
 import { useSite00ProjectsIndex } from './useSite00Projects.js';

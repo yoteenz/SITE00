@@ -403,10 +403,6 @@
   margin-bottom: 16px;
 }
 
-.site00-pidx-summary--client {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
 @media (min-width: 900px) {
   .site00-pidx-summary {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -579,6 +575,13 @@
   color: #fff;
 }
 
+.site00-pidx-filters__chip.is-disabled,
+.site00-pidx-filters__chip:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 /* Status dots */
 .site00-pidx-status-dot {
   display: inline-block;
@@ -603,6 +606,20 @@
   box-shadow: 0 0 24px rgba(225, 6, 0, 0.12);
   position: relative;
   overflow: hidden;
+}
+
+.site00-pidx-design-card--shell-placeholder {
+  opacity: 0.22;
+  pointer-events: none;
+  user-select: none;
+}
+
+.site00-pidx-design-card__link--muted {
+  display: block;
+  padding: 14px;
+  text-decoration: none;
+  color: inherit;
+  cursor: default;
 }
 
 .site00-pidx-design-card::before {

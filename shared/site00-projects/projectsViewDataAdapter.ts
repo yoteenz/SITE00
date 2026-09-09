@@ -1,161 +1,158 @@
 /**
- * B5.9R9 / B5.9R9R1 — Projects view data adapter for account identity eyebrow.
+ * B5.9R8 — Projects index view-mode data adapter (shell-invariant panel substitution).
  */
 
-import type { AccountDisplayIdentity, AccountProfileInput, AccountViewMode, IdentitySourceCandidate } from './accountDisplayIdentity.js';
-import {
-  formatAccountIdentityEyebrow,
-  resolveAccountDisplayIdentityFromSources,
-} from './accountDisplayIdentity.js';
-import { normalizeAccountIdentityFields } from './accountIdentityNormalization.js';
+import type { ProjectIndexItem } from './projectIndexItem.js';
+import { isSite00PlatformDesignIndexItem, buildSite00PlatformDesignIndexItem } from './buildProjectIndexItems.js';
+import { computeProjectIndexSummaryMetrics, type ProjectIndexSummaryMetrics } from './projectIndexMetrics.js';
+import type { ProjectViewMode } from './projectViewMode.js';
 
-export type ProjectsViewIdentityInput = {
-  viewMode: AccountViewMode;
-  isSimulatingClient: boolean;
-  isHydrating?: boolean;
-  authenticatedProfile: AccountProfileInput | null;
-  authMetadataProfile?: AccountProfileInput | null;
-  simulatedClientProfile?: AccountProfileInput | null;
-  activeClientProjectOwner?: AccountProfileInput | null;
-  clientProjectOwners?: Array<AccountProfileInput & { slug?: string | null }>;
-  simulatedClientProjectSlug?: string | null;
-  founderEmail?: string | null;
+export type ProjectsSummaryTileIcon = 'stack' | 'pulse' | 'orbit' | 'check';
+
+export type ProjectsSummaryTile = {
+  value: string;
+  label: string;
+  icon: ProjectsSummaryTileIcon;
 };
 
-export type ProjectsViewIdentityResult = {
-  identity: AccountDisplayIdentity;
-  eyebrow: string | null;
+export type ProjectsIndexFilterChip = {
+  filter: string;
+  disabled: boolean;
 };
 
-function emailsMatch(a: string | null | undefined, b: string | null | undefined): boolean {
-  const left = (a ?? '').trim().toLowerCase();
-  const right = (b ?? '').trim().toLowerCase();
-  return Boolean(left && right && left === right);
+export type ProjectsViewEmptyState = {
+  title: string;
+  body: string;
+  showStartCta: boolean;
+};
+
+export type ProjectsViewData = {
+  viewMode: ProjectViewMode;
+  clientView: boolean;
+  summaryTiles: [ProjectsSummaryTile, ProjectsSummaryTile, ProjectsSummaryTile, ProjectsSummaryTile];
+  showDesignCard: boolean;
+  designItem: ProjectIndexItem | null;
+  showNewProject: boolean;
+  projectItems: ProjectIndexItem[];
+  filterChips: ProjectsIndexFilterChip[];
+  emptyState: ProjectsViewEmptyState | null;
+};
+
+function padCount(n: number): string {
+  return String(n).padStart(2, '0');
 }
 
-function buildFounderCandidates(profile: AccountProfileInput | null, authMetadata: AccountProfileInput | null): IdentitySourceCandidate[] {
-  const candidates: IdentitySourceCandidate[] = [];
-  if (profile) {
-    candidates.push({
-      kind: 'PROFILE',
-      record: profile as Record<string, unknown>,
-      recordId: profile.userId ?? profile.accountId ?? profile.email ?? null,
-      priority: 1,
-    });
-  }
-  if (authMetadata) {
-    candidates.push({
-      kind: 'AUTH_METADATA',
-      record: authMetadata as Record<string, unknown>,
-      recordId: authMetadata.userId ?? authMetadata.accountId ?? null,
-      priority: 2,
-    });
-  }
-  if (profile?.displayName) {
-    candidates.push({
-      kind: 'DISPLAY_NAME',
-      record: profile as Record<string, unknown>,
-      recordId: profile.accountId ?? profile.email ?? null,
-      priority: 3,
-    });
-  }
-  return candidates;
-}
-
-function buildClientCandidates(owner: AccountProfileInput): IdentitySourceCandidate[] {
+function founderSummaryTiles(metrics: ProjectIndexSummaryMetrics): ProjectsViewData['summaryTiles'] {
   return [
-    {
-      kind: 'CLIENT_PROJECT_OWNER',
-      record: owner as Record<string, unknown>,
-      recordId: owner.accountId ?? owner.email ?? null,
-      priority: 1,
-    },
-    {
-      kind: 'DISPLAY_NAME',
-      record: owner as Record<string, unknown>,
-      recordId: owner.accountId ?? owner.email ?? null,
-      priority: 2,
-    },
+    { value: padCount(metrics.total), label: 'TOTAL PROJECTS', icon: 'stack' },
+    { value: padCount(metrics.active), label: 'ACTIVE', icon: 'pulse' },
+    { value: padCount(metrics.preLaunch), label: 'PRE LAUNCH', icon: 'orbit' },
+    { value: padCount(metrics.complete), label: 'COMPLETE', icon: 'check' },
   ];
 }
 
-export function resolveActiveSimulatedClientOwner(input: {
-  clientProjects: AccountProfileInput[];
-  simulatedClientProjectSlug: string | null;
-  founderEmail?: string | null;
-}): AccountProfileInput | null {
-  const founderEmail = (input.founderEmail ?? '').trim().toLowerCase();
-  const projects = input.clientProjects.filter(Boolean);
-  if (!projects.length) return null;
+function clientInReviewCount(items: ProjectIndexItem[]): number {
+  return items.filter(
+    (i) =>
+      !i.isArchived &&
+      !i.isOnHold &&
+      (i.status === 'PRE_LAUNCH' || (i.needsReviewCount ?? 0) > 0),
+  ).length;
+}
 
-  const bySlug = input.simulatedClientProjectSlug
-    ? projects.find((p) => (p as { slug?: string }).slug === input.simulatedClientProjectSlug)
+function clientSummaryTiles(items: ProjectIndexItem[]): ProjectsViewData['summaryTiles'] {
+  const metrics = computeProjectIndexSummaryMetrics(items);
+  const inReview = clientInReviewCount(items);
+  return [
+    { value: padCount(metrics.total), label: 'YOUR PROJECTS', icon: 'stack' },
+    { value: padCount(metrics.active), label: 'ACTIVE', icon: 'pulse' },
+    { value: padCount(inReview), label: 'IN REVIEW', icon: 'orbit' },
+    { value: padCount(metrics.complete), label: 'COMPLETE', icon: 'check' },
+  ];
+}
+
+const ALL_FILTERS = [
+  'ALL',
+  'FOUNDER',
+  'CLIENT',
+  'ACTIVE',
+  'PRE_LAUNCH',
+  'LAUNCHED',
+  'ON_HOLD',
+  'ARCHIVED',
+] as const;
+
+export function buildProjectsFilterChips(args: {
+  clientView: boolean;
+  available: readonly string[];
+}): ProjectsIndexFilterChip[] {
+  const founderOnly = new Set(['FOUNDER', 'CLIENT']);
+  return ALL_FILTERS.map((filter) => {
+    const inAvailable = args.available.includes(filter);
+    const disabled = args.clientView && founderOnly.has(filter) ? true : !inAvailable;
+    return { filter, disabled };
+  });
+}
+
+export function buildProjectsViewData(args: {
+  viewMode: ProjectViewMode;
+  founderItems: ProjectIndexItem[];
+  clientItems: ProjectIndexItem[];
+  projectItems: ProjectIndexItem[];
+  availableFilters: readonly string[];
+  showFilteredEmpty: boolean;
+}): ProjectsViewData {
+  const clientView = args.viewMode === 'CLIENT';
+  const founderMetrics = computeProjectIndexSummaryMetrics(args.founderItems);
+  const summaryTiles = clientView
+    ? clientSummaryTiles(args.clientItems)
+    : founderSummaryTiles(founderMetrics);
+
+  const designItem = buildSite00PlatformDesignIndexItem();
+
+  const emptyState: ProjectsViewEmptyState | null = args.showFilteredEmpty
+    ? clientView
+      ? {
+          title: 'NO PROJECTS YET',
+          body: 'START A PROJECT TO BEGIN YOUR STUDIO EXPERIENCE.',
+          showStartCta: true,
+        }
+      : {
+          title: 'NO MATCHING PROJECTS',
+          body: 'ADJUST SEARCH OR FILTERS.',
+          showStartCta: false,
+        }
     : null;
 
-  const ordered = bySlug ? [bySlug, ...projects.filter((p) => p !== bySlug)] : projects;
-
-  for (const project of ordered) {
-    const fields = normalizeAccountIdentityFields(project as Record<string, unknown>);
-    const ownerEmail = (fields.email ?? '').trim().toLowerCase();
-    if (ownerEmail && founderEmail && ownerEmail === founderEmail) continue;
-    return project;
-  }
-
-  return null;
+  return {
+    viewMode: args.viewMode,
+    clientView,
+    summaryTiles,
+    showDesignCard: true,
+    designItem,
+    showNewProject: !clientView,
+    projectItems: args.projectItems,
+    filterChips: buildProjectsFilterChips({ clientView, available: args.availableFilters }),
+    emptyState,
+  };
 }
 
-export function resolveProjectsViewAccountIdentity(input: ProjectsViewIdentityInput): ProjectsViewIdentityResult {
-  const founderEmail = (input.founderEmail ?? input.authenticatedProfile?.email ?? '').trim().toLowerCase();
-
-  if (input.viewMode === 'CLIENT' && input.isSimulatingClient) {
-    const clientProjects = input.clientProjectOwners ?? (input.activeClientProjectOwner ? [input.activeClientProjectOwner] : []);
-    const simulated =
-      input.simulatedClientProfile ??
-      resolveActiveSimulatedClientOwner({
-        clientProjects,
-        simulatedClientProjectSlug: input.simulatedClientProjectSlug ?? null,
-        founderEmail,
-      }) ??
-      input.activeClientProjectOwner ??
-      null;
-
-    if (simulated) {
-      const ownerEmail = (simulated.email ?? '').trim().toLowerCase();
-      if (emailsMatch(ownerEmail, founderEmail)) {
-        const identity = resolveAccountDisplayIdentityFromSources({
-          viewMode: 'CLIENT',
-          isHydrating: input.isHydrating,
-          candidates: [
-            {
-              kind: 'FALLBACK',
-              record: { displayName: 'CLIENT' },
-              priority: 99,
-            },
-          ],
-        });
-        return { identity, eyebrow: formatAccountIdentityEyebrow(identity) };
-      }
-
-      const identity = resolveAccountDisplayIdentityFromSources({
-        viewMode: 'CLIENT',
-        isHydrating: input.isHydrating,
-        candidates: buildClientCandidates(simulated),
-      });
-      return { identity, eyebrow: formatAccountIdentityEyebrow(identity) };
-    }
-
-    const identity = resolveAccountDisplayIdentityFromSources({
-      viewMode: 'CLIENT',
-      isHydrating: input.isHydrating,
-      candidates: [{ kind: 'FALLBACK', record: { displayName: 'CLIENT' }, priority: 99 }],
-    });
-    return { identity, eyebrow: formatAccountIdentityEyebrow(identity) };
-  }
-
-  const identity = resolveAccountDisplayIdentityFromSources({
-    viewMode: input.viewMode === 'CLIENT' ? 'CLIENT' : 'FOUNDER',
-    isHydrating: input.isHydrating,
-    candidates: buildFounderCandidates(input.authenticatedProfile, input.authMetadataProfile ?? null),
-  });
-  return { identity, eyebrow: formatAccountIdentityEyebrow(identity) };
+export function resolveProjectsIndexItems(args: {
+  viewMode: ProjectViewMode;
+  founderItems: ProjectIndexItem[];
+  clientItems: ProjectIndexItem[];
+}): ProjectIndexItem[] {
+  return args.viewMode === 'CLIENT' ? args.clientItems : args.founderItems;
 }
+
+export function resolveProjectsDesignItemForRender(args: {
+  viewMode: ProjectViewMode;
+  designItem: ProjectIndexItem;
+}): { interactive: boolean; item: ProjectIndexItem } {
+  return {
+    interactive: args.viewMode === 'FOUNDER',
+    item: args.designItem,
+  };
+}
+
+export { isSite00PlatformDesignIndexItem };

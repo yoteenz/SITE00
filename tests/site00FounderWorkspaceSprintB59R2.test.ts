@@ -207,7 +207,7 @@ describe('B5.9R2 Project Index Redesign', () => {
   });
 
   it('42. reference QA structure present', () => {
-    expect(INDEX_PAGE).toContain('ProjectIndexHero');
+    expect(INDEX_PAGE).toContain('ProjectsPageShell');
     expect(INDEX_PAGE).toContain('site00-pidx-grid');
     expect(INDEX_PAGE).not.toContain('EVOLVE →');
     expect(PROJECTS_PAGE).not.toContain('site00-eco-mobile-cta');

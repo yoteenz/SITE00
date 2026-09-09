@@ -2,11 +2,7 @@ import { ProjectsHeaderPlanet } from './ProjectsHeaderPlanet';
 import { AccountIdentityEyebrow } from './AccountIdentityEyebrow';
 import { useProjectsAccountIdentity } from '../../hooks/useProjectsAccountIdentity';
 
-type ProjectIndexHeroProps = {
-  clientView: boolean;
-};
-
-export function ProjectIndexHero({ clientView }: ProjectIndexHeroProps) {
+export function ProjectIndexHero() {
   const { identity, eyebrow } = useProjectsAccountIdentity();
 
   return (
@@ -24,14 +20,10 @@ export function ProjectIndexHero({ clientView }: ProjectIndexHeroProps) {
           <AccountIdentityEyebrow identity={identity} eyebrow={eyebrow} />
           <h1 className="site00-pidx-hero__title">PROJECTS</h1>
           <span className="site00-pidx-hero__divider" aria-hidden="true" />
-          <p className="site00-pidx-hero__tagline">
-            {clientView ? 'YOUR PROJECTS. ONE SYSTEM.' : 'ALL PROJECTS. ONE SYSTEM.'}
+          <p className="site00-pidx-hero__tagline">ALL PROJECTS. ONE SYSTEM.</p>
+          <p className="site00-pidx-hero__support">
+            IDEAS BECOME ENVIRONMENTS. ENVIRONMENTS CREATE OPPORTUNITY.
           </p>
-          {!clientView ? (
-            <p className="site00-pidx-hero__support">
-              IDEAS BECOME ENVIRONMENTS. ENVIRONMENTS CREATE OPPORTUNITY.
-            </p>
-          ) : null}
         </div>
 
         <div className="site00-pidx-hero__visual-col">

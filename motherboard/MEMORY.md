@@ -6834,27 +6834,34 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-09 — Sprint B5.9R8 — View-mode shell invariance (Projects index)
+
+- **Bug:** Toggling Founder → Client on `/projects` recomposed the page: different hero copy/height, hidden toggle, collapsed 2-tile metrics, black "CLIENT VIEW / RETURN TO FOUNDER VIEW" bar.
+- **Root cause:** Conditional page tree in `ProjectIndexPage` — `clientView` branches hid hero copy, view strip, design card; `ProjectIndexSummary` rendered 2-tile client grid; `ProjectIndexClientSimulationBanner` added duplicate control.
+- **Fix:**
+  - **`ProjectsPageShell`** — single layout tree (hero, toggle, admin row, metrics, search, filters, body slot)
+  - **`ProjectsViewDataAdapter`** (`projectsViewDataAdapter.ts`) — panel-only substitution: 4 metric tiles, filter chip disabled states, project dataset, empty states
+  - Hero copy locked: `ALL PROJECTS. ONE SYSTEM.` + supporting line in both modes
+  - Toggle always mounted; active side black via existing `is-active` CSS
+  - Removed index client simulation banner; scroll preserved on toggle in `ProjectViewModeContext`
+  - Design card shell placeholder in client mode (muted, same geometry)
+  - QA: `projectViewModeShellQA.ts` + `site00FounderWorkspaceSprintB59R8.test.ts` (18 tests)
+- **Mobile QA (390px):** Founder/client screenshots match shell geometry; no black bar; 2×2 metrics; toggle switches active side only
+- **Next founder action:** Hard refresh → `/projects` → toggle CLIENT VIEW on existing control → verify same shell, data-only change.
+
+---
+
 ## 2026-09-09 — B5.9R9 Projects page account-identity eyebrow
 
-- **Context:** Projects hero showed redundant `PROJECTS /` + `PROJECTS`. Red eyebrow must identify the active account person; black title stays `PROJECTS`. Shell invariance from B5.9R8 preserved (founder ↔ client toggle changes only eyebrow data + permission-safe panel data).
-- **Implemented:**
-  - `AccountDisplayIdentity` type + `formatAccountIdentityEyebrow()` in `shared/site00-projects/accountDisplayIdentity.ts` — uppercase presentation; fallback chain: fullName → displayName → `CLIENT /` or `ACCOUNT /`; never `PROJECTS /`.
-  - `resolveProjectsViewAccountIdentity()` in `projectsViewDataAdapter.ts` — founder reads authenticated profile; client simulation reads active client owner from projects index API; privacy guard blocks founder name in simulated client view.
-  - `AccountIdentityEyebrow.tsx` + `useProjectsAccountIdentity.ts`; `ProjectIndexHero.tsx` uses eyebrow component instead of hardcoded `PROJECTS /`.
-  - API enrichment: `clientProjectOwnerIdentity.ts`; projects index returns `ownerFirstName`, `ownerLastName`, `ownerDisplayName` on `clientProjects`.
-  - Tests: `tests/site00FounderWorkspaceSprintB59R9.test.ts` (15 criteria) + B59R5 regression — 47/47 pass.
-- **Next founder action:** Open `/projects` on mobile in Founder View — verify red eyebrow shows your full account name `/` (not `PROJECTS /`); toggle Client View — active client full name `/`; hero/planet/toggle unchanged; toggle back confirms founder name returns.
+- Red eyebrow shows active account person full name (uppercase); black title stays `PROJECTS`. `AccountIdentityEyebrow` in `ProjectsPageShell` hero.
+- **Next founder action:** `/projects` Founder View — verify name eyebrow; toggle Client View — client name in same slot.
 
 ---
 
 ## 2026-09-09 — B5.9R9R1 canonical account identity resolution
 
-- **Root cause:** Eyebrow showed `ACCOUNT /` because `useSite00CurrentUser` read only camelCase `firstName`/`lastName` from localStorage while stored profile rows often use `first_name`/`last_name`; Projects page did not hydrate profile via `/api/profile` before resolving; no auth metadata fallback.
-- **Fix:**
-  - `accountIdentityNormalization.ts` — single field normalization (`first_name`, `firstName`, `given_name`, etc.).
-  - `resolveAccountDisplayIdentityFromSources()` — multi-source resolver with `resolutionStatus`, `fallbackReason`, `sourceRecordId`.
-  - `useSite00AccountProfileIdentity` — syncs profile on mount, reads Supabase auth metadata, exposes `isHydrating` to avoid permanent `ACCOUNT /` flash.
-  - Client simulation locks `simulatedClientProjectSlug` in view-mode session; owner lookup prefers `profiles` table then `site00_identities`.
-  - `ProjectsAccountIdentityInspector` — founder-only system inspector on Projects page.
-  - Tests: B59R9R1 (22) + B59R9 + B59R5 — 69/69 pass.
-- **Next founder action:** Open `/projects` Founder View — eyebrow shows real first+last name; expand SYSTEM INSPECTOR · ACCOUNT IDENTITY — confirm SOURCE=PROFILE, RESOLUTION STATUS=RESOLVED; toggle Client View — client name in same slot; toggle back.
+- **Root cause:** `ACCOUNT /` fallback — localStorage snake_case fields not read; no profile hydration on Projects page; no auth metadata fallback.
+- **Fix:** `accountIdentityNormalization.ts`, `resolveAccountDisplayIdentityFromSources()`, `useSite00AccountProfileIdentity` (sync + hydrate), `projectsAccountIdentityAdapter.ts`, `ProjectsAccountIdentityInspector`, profiles table lookup for client owners, simulated client slug in view-mode session.
+- Tests: B59R9R1 (22) + regressions — 69/69 pass.
+- **Next founder action:** `/projects` → expand SYSTEM INSPECTOR · ACCOUNT IDENTITY → confirm SOURCE=PROFILE, RESOLUTION STATUS=RESOLVED; toggle client view.
+

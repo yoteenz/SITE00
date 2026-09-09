@@ -36,7 +36,9 @@ export function ProjectViewModeProvider({ children, role = 'FOUNDER' }: ProjectV
   const handleToggle = useCallback(
     (options?: { clientProjectSlug?: string | null }) => {
       if (!canToggleViewAsClient(role)) return;
+      const scrollY = window.scrollY;
       setSession((prev) => toggleViewAsClient(prev, options));
+      requestAnimationFrame(() => window.scrollTo(0, scrollY));
     },
     [role],
   );

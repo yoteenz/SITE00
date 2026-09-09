@@ -11,15 +11,16 @@ import {
   accountEyebrowIsSafe,
   resolveAccountEyebrowLabel,
 } from '../shared/site00-projects/accountDisplayIdentity.js';
-import { resolveProjectsViewAccountIdentity } from '../shared/site00-projects/projectsViewDataAdapter.js';
+import { resolveProjectsViewAccountIdentity } from '../shared/site00-projects/projectsAccountIdentityAdapter.js';
 
 const ROOT = join(import.meta.dirname, '..');
 const HERO = readFileSync(join(ROOT, 'src/site00/components/projectIndex/ProjectIndexHero.tsx'), 'utf8');
 const EYEBROW = readFileSync(join(ROOT, 'src/site00/components/projectIndex/AccountIdentityEyebrow.tsx'), 'utf8');
 const HOOK = readFileSync(join(ROOT, 'src/site00/hooks/useProjectsAccountIdentity.ts'), 'utf8');
 const INDEX_PAGE = readFileSync(join(ROOT, 'src/site00/components/projectIndex/ProjectIndexPage.tsx'), 'utf8');
+const SHELL = readFileSync(join(ROOT, 'src/site00/components/projectIndex/ProjectsPageShell.tsx'), 'utf8');
 const INDEX_CSS = readFileSync(join(ROOT, 'src/site00/styles/site00-project-index.css'), 'utf8');
-const ADAPTER = readFileSync(join(ROOT, 'shared/site00-projects/projectsViewDataAdapter.ts'), 'utf8');
+const ADAPTER = readFileSync(join(ROOT, 'shared/site00-projects/projectsAccountIdentityAdapter.ts'), 'utf8');
 
 describe('B5.9R9 Projects account identity eyebrow', () => {
   it('1. red eyebrow no longer hardcodes PROJECTS / in hero', () => {
@@ -46,11 +47,10 @@ describe('B5.9R9 Projects account identity eyebrow', () => {
       viewMode: 'CLIENT',
       isSimulatingClient: true,
       authenticatedProfile: { firstName: 'Teena', lastName: 'Armstrong', email: 'founder@site00.com' },
-      activeClientProjectOwner: {
-        email: 'client@example.com',
-        firstName: 'Jordan',
-        lastName: 'Cole',
-      },
+      clientProjectOwners: [
+        { slug: 'client-project', email: 'client@example.com', firstName: 'Jordan', lastName: 'Cole' },
+      ],
+      simulatedClientProjectSlug: 'client-project',
       founderEmail: 'founder@site00.com',
     });
     expect(result.eyebrow).toBe('JORDAN COLE /');
@@ -67,7 +67,7 @@ describe('B5.9R9 Projects account identity eyebrow', () => {
     expect(EYEBROW).toContain('site00-pidx-hero__kicker');
     expect(INDEX_CSS).toContain('.site00-pidx-hero__kicker-red');
     expect(HERO).toContain('ProjectsHeaderPlanet');
-    expect(INDEX_PAGE).toContain('ProjectIndexViewStrip');
+    expect(SHELL).toContain('ProjectIndexViewStrip');
   });
 
   it('7. uppercase presentation only — stored data unchanged', () => {
@@ -122,7 +122,7 @@ describe('B5.9R9 Projects account identity eyebrow', () => {
     expect(HERO).toContain('ALL PROJECTS. ONE SYSTEM.');
     expect(HERO).toContain('BUILDING BIGGER WORLDS');
     expect(HERO).toContain('PLAN');
-    expect(INDEX_PAGE).toContain('ProjectIndexControls');
+    expect(SHELL).toContain('ProjectIndexControls');
     expect(INDEX_PAGE).toContain('site00-pidx--mobile');
     expect(INDEX_PAGE).toContain('site00-pidx--desktop');
   });

@@ -1,34 +1,16 @@
 import type { ProjectIndexFilter } from '../../hooks/useProjectIndex.js';
-import type { ProjectIndexSummaryMetrics } from '../../../../shared/site00-projects/projectIndexMetrics.js';
+import type { ProjectsSummaryTile } from '../../../../shared/site00-projects/projectsViewDataAdapter.js';
 
 type ProjectIndexSummaryProps = {
-  metrics: ProjectIndexSummaryMetrics;
-  clientView: boolean;
-  clientActive?: number;
-  clientTotal?: number;
+  tiles: [ProjectsSummaryTile, ProjectsSummaryTile, ProjectsSummaryTile, ProjectsSummaryTile];
 };
 
-export function ProjectIndexSummary({
-  metrics,
-  clientView,
-  clientActive = 0,
-  clientTotal = 0,
-}: ProjectIndexSummaryProps) {
-  if (clientView) {
-    return (
-      <div className="site00-pidx-summary site00-pidx-summary--client">
-        <SummaryTile value={String(clientTotal).padStart(2, '0')} label="YOUR PROJECTS" icon="stack" />
-        <SummaryTile value={String(clientActive).padStart(2, '0')} label="ACTIVE" icon="pulse" />
-      </div>
-    );
-  }
-
+export function ProjectIndexSummary({ tiles }: ProjectIndexSummaryProps) {
   return (
-    <div className="site00-pidx-summary">
-      <SummaryTile value={String(metrics.total).padStart(2, '0')} label="TOTAL PROJECTS" icon="stack" />
-      <SummaryTile value={String(metrics.active).padStart(2, '0')} label="ACTIVE" icon="pulse" />
-      <SummaryTile value={String(metrics.preLaunch).padStart(2, '0')} label="PRE LAUNCH" icon="orbit" />
-      <SummaryTile value={String(metrics.complete).padStart(2, '0')} label="COMPLETE" icon="check" />
+    <div className="site00-pidx-summary" data-dynamic-region="metric-card-content">
+      {tiles.map((tile) => (
+        <SummaryTile key={tile.label} value={tile.value} label={tile.label} icon={tile.icon} />
+      ))}
     </div>
   );
 }
@@ -40,7 +22,7 @@ function SummaryTile({
 }: {
   value: string;
   label: string;
-  icon: 'stack' | 'pulse' | 'orbit' | 'check';
+  icon: ProjectsSummaryTile['icon'];
 }) {
   return (
     <div className="site00-pidx-summary__tile">
@@ -65,28 +47,36 @@ export const PROJECT_INDEX_FILTERS: ProjectIndexFilter[] = [
 type ProjectIndexFilterChipsProps = {
   active: ProjectIndexFilter;
   onChange: (filter: ProjectIndexFilter) => void;
-  available: ProjectIndexFilter[];
-  clientView: boolean;
+  chips: Array<{ filter: string; disabled: boolean }>;
+  allFilters: ProjectIndexFilter[];
 };
 
-export function ProjectIndexFilterChips({ active, onChange, available, clientView }: ProjectIndexFilterChipsProps) {
-  const filters = clientView
-    ? available.filter((f) => !['FOUNDER', 'CLIENT'].includes(f))
-    : available;
+export function ProjectIndexFilterChips({
+  active,
+  onChange,
+  chips,
+  allFilters,
+}: ProjectIndexFilterChipsProps) {
+  const chipMap = new Map(chips.map((c) => [c.filter, c.disabled]));
 
   return (
     <div className="site00-pidx-filters" role="toolbar" aria-label="PROJECT FILTERS">
-      {filters.map((filter) => (
-        <button
-          key={filter}
-          type="button"
-          className={`site00-pidx-filters__chip${active === filter ? ' is-active' : ''}`}
-          onClick={() => onChange(filter)}
-          aria-pressed={active === filter}
-        >
-          {filter.replace(/_/g, ' ')}
-        </button>
-      ))}
+      {allFilters.map((filter) => {
+        const disabled = chipMap.get(filter) ?? true;
+        return (
+          <button
+            key={filter}
+            type="button"
+            className={`site00-pidx-filters__chip${active === filter ? ' is-active' : ''}${disabled ? ' is-disabled' : ''}`}
+            onClick={() => !disabled && onChange(filter)}
+            aria-pressed={active === filter}
+            disabled={disabled}
+            data-dynamic-region="filter-chip-active-state"
+          >
+            {filter.replace(/_/g, ' ')}
+          </button>
+        );
+      })}
     </div>
   );
 }
