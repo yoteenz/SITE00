@@ -8,6 +8,7 @@ import { SkinScreenAuthorityIngestion } from './SkinScreenAuthorityIngestion.js'
 import { SkinScreenAuthorityCard } from './SkinScreenAuthorityCard.js';
 import { DesignDwSectionIcon } from '../designWorkspace/DesignDwSectionIcon.js';
 import type { StandardScreenType } from '../../../../shared/site00-brand-lore/projectSkin/brandFamily/types.js';
+import { BRAND_FAMILY_PROJECT_MAP } from '../../../../shared/site00-brand-lore/projectSkin/brandFamily/constants.js';
 import '../../styles/site00-brand-family-skin.css';
 
 type ScreenPackStatus = Record<string, string>;
@@ -57,8 +58,9 @@ const SCREEN_SLOTS: { packScreenType: StandardScreenType; label: string }[] = [
 ];
 
 export function ExperienceSkinManagementPanel({ projectId = 'ndxbook', viewMode = 'FOUNDER' }: Props) {
+  const mappedBrandFamily = BRAND_FAMILY_PROJECT_MAP[projectId] ?? null;
   const [families, setFamilies] = useState<FamilyRecord[]>([]);
-  const [expandedFamily, setExpandedFamily] = useState<string | null>('NDXBOOK');
+  const [expandedFamily, setExpandedFamily] = useState<string | null>(mappedBrandFamily ?? 'NDXBOOK');
   const [authorities, setAuthorities] = useState<AuthorityRecord[]>([]);
   const [viewportStatusByFamily, setViewportStatusByFamily] = useState<
     Record<string, Record<StandardScreenType, ViewportStatuses>>
@@ -98,12 +100,16 @@ export function ExperienceSkinManagementPanel({ projectId = 'ndxbook', viewMode 
       }));
 
       setFamilies(enriched);
-      const activeId = projectRes.management?.brandFamilySkinId ?? 'NDXBOOK';
+      const activeId =
+        projectRes.management?.brandFamilySkinId ??
+        mappedBrandFamily ??
+        BRAND_FAMILY_PROJECT_MAP[projectId] ??
+        'NDXBOOK';
       setExpandedFamily(activeId);
       await reloadAuthorities(activeId);
       setLoading(false);
     })();
-  }, [projectId, reloadAuthorities]);
+  }, [projectId, mappedBrandFamily, reloadAuthorities]);
 
   if (viewMode === 'CLIENT') {
     return null;

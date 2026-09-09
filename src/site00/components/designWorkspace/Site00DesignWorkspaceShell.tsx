@@ -17,11 +17,16 @@ import {
   DesignWorkspaceNavIcon,
 } from './DesignWorkspaceNavIcon';
 import { ProjectsHeaderPlanet } from '../projectIndex/ProjectsHeaderPlanet';
+import { DesignProjectSelector, type DesignProjectOption } from './DesignProjectSelector.js';
 
 export type Site00DesignWorkspaceShellProps = {
   breadcrumb: string;
   managedProjectDisplayName: string;
   managedProjectAccent?: ManagedProjectContextAccent;
+  activeDesignProjectId: string;
+  designProjectOptions: DesignProjectOption[];
+  onSelectDesignProject: (projectId: string) => void;
+  projectSelectorDisabled?: boolean;
   children: ReactNode;
   bottomPanel?: ReactNode;
   activeHostMenu?: DesignHostMenu;
@@ -76,6 +81,10 @@ export function Site00DesignWorkspaceShell({
   breadcrumb,
   managedProjectDisplayName,
   managedProjectAccent = 'NEUTRAL',
+  activeDesignProjectId,
+  designProjectOptions,
+  onSelectDesignProject,
+  projectSelectorDisabled = false,
   children,
   bottomPanel,
   activeHostMenu = 'NONE',
@@ -194,17 +203,14 @@ export function Site00DesignWorkspaceShell({
           </div>
           <div className="site00-dw-shell__breadcrumb-row">
             <p className="site00-dw-shell__breadcrumb">{breadcrumb}</p>
-            <div
-              className="site00-dw-shell__project-context-badge"
-              data-project-accent={managedProjectAccent}
-              aria-label={`Managed project context ${managedProjectDisplayName}`}
-            >
-              <span className="site00-dw-shell__project-context-label">PROJECT</span>
-              <span className="site00-dw-shell__project-context-name">{managedProjectDisplayName}</span>
-              <span className="site00-dw-shell__project-context-chev" aria-hidden>
-                ▾
-              </span>
-            </div>
+            <DesignProjectSelector
+              activeProjectId={activeDesignProjectId}
+              activeProjectLabel={managedProjectDisplayName}
+              projectAccent={managedProjectAccent}
+              projects={designProjectOptions}
+              onSelectProject={onSelectDesignProject}
+              disabled={projectSelectorDisabled}
+            />
           </div>
           <div className="site00-dw-shell__hero-block">
             <div className="site00-dw-shell__hero-copy">

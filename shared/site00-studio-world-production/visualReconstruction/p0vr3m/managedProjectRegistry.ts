@@ -77,6 +77,20 @@ const MANAGED_PROJECTS: Site00ManagedProjectRecord[] = [
     status: 'ACTIVE',
     legacyDesignRoutes: ['/projects/all-in-one-enterprises/design'],
   },
+  {
+    projectId: 'astral-world',
+    displayName: 'ASTRAL WORLD',
+    projectType: 'MANAGED_BRAND',
+    websiteDesignAuthority: 'SITE00',
+    platformRole: 'MANAGED_BRAND',
+    managedWebsiteRole: 'MANAGED_WEBSITE_PROJECT',
+    designEnabled: true,
+    marketingEnabled: true,
+    projectAccent: 'PROJECT_CANONICAL',
+    routeAuthority: 'SITE00',
+    status: 'ACTIVE',
+    legacyDesignRoutes: ['/projects/astral-world/design'],
+  },
 ];
 
 export function listSite00ManagedProjects(): Site00ManagedProjectRecord[] {

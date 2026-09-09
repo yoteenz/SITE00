@@ -23,6 +23,15 @@ export {
 } from './managedProjectRegistry.js';
 
 export {
+  resolveActiveDesignProjectId,
+  listSelectableDesignProjects,
+  formatDesignProjectSelectorLabel,
+  isValidActiveDesignProject,
+  assertNoDesignProjectDataBleed,
+  DESIGN_PROJECT_SELECTOR_FAILURE_CODES,
+} from './activeDesignProject.js';
+
+export {
   getCanonicalDesignRouteAuthority,
   buildCanonicalDesignWorkspacePath,
   buildDesignWorkspaceBreadcrumb,

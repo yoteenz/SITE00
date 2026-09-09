@@ -57,6 +57,16 @@ const BASE_PROJECTS: DesignableProjectRecord[] = [
     projectAccent: 'PROJECT_CANONICAL',
     showInProjectSelector: true,
   },
+  {
+    projectId: 'astral-world',
+    displayName: 'ASTRAL WORLD',
+    designable: true,
+    hostProject: false,
+    selfDesignable: false,
+    routeNamespace: '/projects/astral-world/*',
+    projectAccent: 'PROJECT_CANONICAL',
+    showInProjectSelector: true,
+  },
 ];
 
 const EXTRA_PROJECTS: DesignableProjectRecord[] = [];
