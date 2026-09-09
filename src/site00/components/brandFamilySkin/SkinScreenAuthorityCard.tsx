@@ -1,8 +1,9 @@
 /**
- * Authority card — post-registration screen authority status + actions.
+ * Authority card — post-registration status using SKINS child-surface design.
  */
 
 import { implementScreenAuthority } from './brandFamilySkinApi.js';
+import { SkinAuthorityStatus } from '../designWorkspace/skins/SkinAuthorityStatus.js';
 
 type AuthorityCard = {
   screenType: string;
@@ -20,12 +21,28 @@ type AuthorityCard = {
 type Props = {
   brandFamilySkinId: string;
   projectId: string;
+  brandName?: string;
+  screenNum?: string;
+  screenLabel?: string;
+  accentColor?: string | null;
   card: AuthorityCard;
   onImplement: () => void;
   onReplace: () => void;
+  onViewAuthority?: () => void;
 };
 
-export function SkinScreenAuthorityCard({ brandFamilySkinId, projectId, card, onImplement, onReplace }: Props) {
+export function SkinScreenAuthorityCard({
+  brandFamilySkinId,
+  projectId,
+  brandName = brandFamilySkinId,
+  screenNum = '01',
+  screenLabel,
+  accentColor,
+  card,
+  onImplement,
+  onReplace,
+  onViewAuthority,
+}: Props) {
   async function handleImplement() {
     await implementScreenAuthority({
       brandFamilySkinId,
@@ -37,46 +54,25 @@ export function SkinScreenAuthorityCard({ brandFamilySkinId, projectId, card, on
     onImplement();
   }
 
+  const label = screenLabel ?? card.screenType.replace(/_/g, ' ');
+
   return (
-    <article className="site00-bfs-authority-card" data-status={card.status}>
-      <header>
-        <strong>{card.screenType.replace(/_/g, ' ')}</strong>
-        <span>{card.viewport}</span>
-      </header>
-      <p className="site00-bfs-authority-card__mode">
-        {card.authorityMode.replace(/_/g, ' ')} · {card.fidelityMode}
-      </p>
-      <dl>
-        <div>
-          <dt>STATUS</dt>
-          <dd>{card.status}</dd>
-        </div>
-        <div>
-          <dt>IMPLEMENTATION</dt>
-          <dd>{card.implementationStatus.replace(/_/g, ' ')}</dd>
-        </div>
-        <div>
-          <dt>VISUAL MATCH</dt>
-          <dd>{card.visualMatchStatus.replace(/_/g, ' ')}</dd>
-        </div>
-        <div>
-          <dt>VERSION</dt>
-          <dd>{card.version}</dd>
-        </div>
-      </dl>
-      <div className="site00-bfs-authority-card__actions">
-        {card.referenceAssetId ? (
-          <button type="button" className="site00-bfs-authority-card__view">
-            VIEW REFERENCE
-          </button>
-        ) : null}
-        <button type="button" className="site00-bfs-authority-card__implement" onClick={() => void handleImplement()}>
-          IMPLEMENT
-        </button>
-        <button type="button" className="site00-bfs-authority-card__replace" onClick={onReplace}>
-          REPLACE AUTHORITY
-        </button>
-      </div>
-    </article>
+    <div className="site00-dw-skins-card-wrap" data-panel="screen-authority-card">
+      <SkinAuthorityStatus
+        brandName={brandName.toUpperCase()}
+        screenNum={screenNum}
+        screenLabel={label.toUpperCase()}
+        moduleId={card.moduleId}
+        viewport={card.viewport}
+        accentColor={accentColor}
+        authorityMode={card.authorityMode}
+        fidelityMode={card.fidelityMode}
+        status={card.status}
+        version={card.version}
+        onImplement={() => void handleImplement()}
+        onViewAuthority={onViewAuthority ?? (() => undefined)}
+        onReplace={onReplace}
+      />
+    </div>
   );
 }

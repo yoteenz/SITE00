@@ -86,7 +86,7 @@ describe('Design SKINS Tab (P0.VR.6R3)', () => {
   });
 
   it('14. Add Authority opens ingestion', () => {
-    expect(read('src/site00/components/designWorkspace/DesignSkinsTab.tsx')).toContain('SkinScreenAuthorityIngestion');
+    expect(read('src/site00/components/designWorkspace/DesignSkinsTab.tsx')).toContain('SkinAuthorityFlow');
     expect(read('src/site00/components/designWorkspace/DesignSkinsTab.tsx')).toContain('setIngestionSlot');
   });
 

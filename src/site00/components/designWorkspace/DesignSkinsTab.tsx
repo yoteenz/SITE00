@@ -4,7 +4,7 @@
 
 import { DEFAULT_FIDELITY_SETTINGS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6r2/browserClient.js';
 import { SCREEN_SLOT_PREFILL } from '../../../../shared/site00-brand-lore/projectSkin/brandFamily/screenSlotConfig.js';
-import { SkinScreenAuthorityIngestion } from '../brandFamilySkin/SkinScreenAuthorityIngestion.js';
+import { SkinAuthorityFlow } from './skins/SkinAuthorityFlow.js';
 import { DesignDwSectionIcon } from './DesignDwSectionIcon.js';
 import { SKINS_SCREEN_SLOTS, useDesignSkinsState, type SkinsViewport } from './useDesignSkinsState.js';
 import '../../styles/site00-design-skins-tab.css';
@@ -48,20 +48,32 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
     activeFamily?.screenPackStatus[activeScreenType] ??
     'NOT_STARTED';
 
-  const openIngestion = () => setIngestionSlot({ brandKey: activeFamilyKey, packScreenType: activeScreenType });
+  const openIngestion = (mode: 'add' | 'replace' | 'registered' = 'add') =>
+    setIngestionSlot({ brandKey: activeFamilyKey, packScreenType: activeScreenType, mode });
+
+  const ingestionMode = ingestionSlot?.mode ?? 'add';
 
   return (
     <section className="site00-dw-skins" data-design-tab="skins" data-project={projectId}>
       {ingestionSlot ? (
-        <SkinScreenAuthorityIngestion
+        <SkinAuthorityFlow
+          open
           brandFamilySkinId={ingestionSlot.brandKey}
           packScreenType={ingestionSlot.packScreenType}
           projectId={projectId}
-          onRegistered={() => {
+          brandName={activeFamily?.name ?? ingestionSlot.brandKey}
+          screenNum={slotMeta.num}
+          screenLabel={screenLabel.toUpperCase()}
+          accentColor={activeFamily?.primaryColor}
+          initialStep={
+            ingestionMode === 'replace' ? 'replace' : ingestionMode === 'registered' ? 'registered' : 'add'
+          }
+          existingAuthority={activeAuthority ?? null}
+          onClose={() => setIngestionSlot(null)}
+          onComplete={() => {
             setIngestionSlot(null);
             void reloadAuthorities(ingestionSlot.brandKey);
           }}
-          onCancel={() => setIngestionSlot(null)}
         />
       ) : null}
 
@@ -173,12 +185,12 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
               </button>
               {activeAuthority ? (
                 <>
-                  <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={openIngestion}>
+                  <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={() => openIngestion('registered')}>
                     VIEW / REPLACE AUTHORITY
                   </button>
                 </>
               ) : (
-                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={openIngestion}>
+                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={() => openIngestion('add')}>
                   + ADD AUTHORITY
                 </button>
               )}
@@ -304,11 +316,11 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
                 OPEN SCREEN →
               </button>
               {activeAuthority ? (
-                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={openIngestion}>
+                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={() => openIngestion('replace')}>
                   REPLACE AUTHORITY
                 </button>
               ) : (
-                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={openIngestion}>
+                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={() => openIngestion('add')}>
                   ADD AUTHORITY
                 </button>
               )}
