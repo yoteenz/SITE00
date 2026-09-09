@@ -10,3 +10,4 @@ dist/
 .cursor/bin/
 site00-production-dist-*.zip
 .cache/
+tmp/

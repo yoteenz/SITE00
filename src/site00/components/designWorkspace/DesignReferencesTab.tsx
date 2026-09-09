@@ -39,7 +39,7 @@ export function DesignReferencesTab({
   selectedScreenId,
   onSelectScreen,
   onUploadClick,
-  activeReferenceUrl,
+  activeReferenceUrl: _activeReferenceUrl,
 }: Props) {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<ReferenceFilterChip>('ALL');
@@ -112,11 +112,14 @@ export function DesignReferencesTab({
         {filtered.map((ref) => (
           <article
             key={ref.referenceId}
-            className={`site00-dw-v3-ref-card${ref.screenId === selectedScreenId && ref.viewportClass === viewportClass ? ' is-selected' : ''}`}
+            className={`site00-dw-v3-ref-card${ref.status === 'ACTIVE_CANONICAL' ? ' is-canonical' : ''}${ref.screenId === selectedScreenId && ref.viewportClass === viewportClass ? ' is-selected' : ''}`}
           >
             <span className={`site00-dw-v3-ref-card__badge is-${refStatusLabel(ref).toLowerCase()}`}>
               {refStatusLabel(ref)}
             </span>
+            <button type="button" className="site00-dw-v3-ref-card__star" aria-label="Favorite">
+              ☆
+            </button>
             <button
               type="button"
               className="site00-dw-v3-ref-card__body"
@@ -150,12 +153,21 @@ export function DesignReferencesTab({
         </button>
       </div>
 
-      {activeReferenceUrl ? (
-        <aside className="site00-dw-v3-refs__active-preview">
-          <span>ACTIVE REFERENCE PREVIEW</span>
-          <img src={activeReferenceUrl} alt="Active reference" />
-        </aside>
-      ) : null}
+      <button type="button" className="site00-dw-v3-preset-strip">
+        <span aria-hidden>📄</span>
+        <div>
+          <strong>INSTRUCTION PRESETS</strong>
+          <span>QUICK START WITH SAVED INSTRUCTIONS</span>
+        </div>
+        <div className="site00-dw-v3-chip-row" style={{ margin: 0, flex: 1, justifyContent: 'flex-end' }}>
+          {['ISOLATE LAYOUT', 'EXTRACT STYLES', 'MAP COMPONENTS'].map((chip) => (
+            <span key={chip} className="site00-dw-v3-chip" style={{ padding: '3px 6px', fontSize: 6 }}>
+              {chip}
+            </span>
+          ))}
+        </div>
+        <span className="site00-dw-v3-preset-strip__chev">›</span>
+      </button>
     </section>
   );
 }
