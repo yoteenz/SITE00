@@ -20,6 +20,8 @@ export type ProjectViewModeSession = {
   /** True when founder/admin is simulating client view */
   isSimulatingClient: boolean;
   simulatedAt: string | null;
+  /** Client project slug locked when entering simulated client view */
+  simulatedClientProjectSlug: string | null;
 };
 
 export function createDefaultViewModeSession(isFounderOrAdmin: boolean): ProjectViewModeSession {
@@ -27,14 +29,23 @@ export function createDefaultViewModeSession(isFounderOrAdmin: boolean): Project
     mode: isFounderOrAdmin ? 'FOUNDER' : 'CLIENT',
     isSimulatingClient: false,
     simulatedAt: null,
+    simulatedClientProjectSlug: null,
   };
 }
 
-export function toggleViewAsClient(session: ProjectViewModeSession): ProjectViewModeSession {
+export function toggleViewAsClient(
+  session: ProjectViewModeSession,
+  options?: { clientProjectSlug?: string | null },
+): ProjectViewModeSession {
   if (session.isSimulatingClient) {
-    return { mode: 'FOUNDER', isSimulatingClient: false, simulatedAt: null };
+    return { mode: 'FOUNDER', isSimulatingClient: false, simulatedAt: null, simulatedClientProjectSlug: null };
   }
-  return { mode: 'CLIENT', isSimulatingClient: true, simulatedAt: new Date().toISOString() };
+  return {
+    mode: 'CLIENT',
+    isSimulatingClient: true,
+    simulatedAt: new Date().toISOString(),
+    simulatedClientProjectSlug: options?.clientProjectSlug ?? null,
+  };
 }
 
 export function effectiveViewMode(session: ProjectViewModeSession): ProjectViewMode {

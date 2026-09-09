@@ -1,5 +1,5 @@
 /**
- * B5.9R9 — Resolve client project owner profile for Projects index simulation.
+ * B5.9R9 / B5.9R9R1 — Resolve client project owner profile for Projects index simulation.
  */
 
 import { getSupabaseAdmin } from '../supabase.js';
@@ -19,9 +19,33 @@ function splitDisplayName(displayName: string | null): { firstName: string | nul
   return { firstName: parts[0] ?? null, lastName: parts.slice(1).join(' ') };
 }
 
+async function resolveProfileByEmail(email: string): Promise<ClientProjectOwnerProfile | null> {
+  const supabase = getSupabaseAdmin();
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('id, email, first_name, last_name')
+    .eq('email', email)
+    .maybeSingle();
+
+  if (!profile) return null;
+
+  return {
+    accountId: String(profile.id ?? email),
+    email,
+    firstName: typeof profile.first_name === 'string' ? profile.first_name : null,
+    lastName: typeof profile.last_name === 'string' ? profile.last_name : null,
+    displayName: null,
+  };
+}
+
 export async function resolveClientProjectOwnerProfile(clientEmail: string | null | undefined): Promise<ClientProjectOwnerProfile | null> {
   const email = (clientEmail ?? '').trim().toLowerCase();
   if (!email) return null;
+
+  const profileRecord = await resolveProfileByEmail(email);
+  if (profileRecord?.firstName || profileRecord?.lastName) {
+    return profileRecord;
+  }
 
   const supabase = getSupabaseAdmin();
   const { data: identity } = await supabase
@@ -31,7 +55,7 @@ export async function resolveClientProjectOwnerProfile(clientEmail: string | nul
     .maybeSingle();
 
   if (!identity) {
-    return {
+    return profileRecord ?? {
       accountId: email,
       email,
       firstName: null,
@@ -46,10 +70,10 @@ export async function resolveClientProjectOwnerProfile(clientEmail: string | nul
   const split = splitDisplayName(typeof identity.display_name === 'string' ? identity.display_name : null);
 
   return {
-    accountId: String(identity.id ?? email),
+    accountId: String(identity.id ?? profileRecord?.accountId ?? email),
     email,
-    firstName: metaFirst ?? split.firstName,
-    lastName: metaLast ?? split.lastName,
+    firstName: profileRecord?.firstName ?? metaFirst ?? split.firstName,
+    lastName: profileRecord?.lastName ?? metaLast ?? split.lastName,
     displayName: typeof identity.display_name === 'string' ? identity.display_name : null,
   };
 }

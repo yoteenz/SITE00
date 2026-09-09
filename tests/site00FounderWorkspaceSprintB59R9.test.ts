@@ -38,7 +38,7 @@ describe('B5.9R9 Projects account identity eyebrow', () => {
       authenticatedProfile: { firstName: 'Teena', lastName: 'Armstrong', email: 'founder@site00.com' },
     });
     expect(result.eyebrow).toBe('TEENA ARMSTRONG /');
-    expect(result.identity.source).toBe('AUTHENTICATED_PROFILE');
+    expect(result.identity.source).toBe('PROFILE');
   });
 
   it('4. client view reads active client identity when simulating', () => {

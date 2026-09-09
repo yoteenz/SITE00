@@ -6844,3 +6844,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - API enrichment: `clientProjectOwnerIdentity.ts`; projects index returns `ownerFirstName`, `ownerLastName`, `ownerDisplayName` on `clientProjects`.
   - Tests: `tests/site00FounderWorkspaceSprintB59R9.test.ts` (15 criteria) + B59R5 regression — 47/47 pass.
 - **Next founder action:** Open `/projects` on mobile in Founder View — verify red eyebrow shows your full account name `/` (not `PROJECTS /`); toggle Client View — active client full name `/`; hero/planet/toggle unchanged; toggle back confirms founder name returns.
+
+---
+
+## 2026-09-09 — B5.9R9R1 canonical account identity resolution
+
+- **Root cause:** Eyebrow showed `ACCOUNT /` because `useSite00CurrentUser` read only camelCase `firstName`/`lastName` from localStorage while stored profile rows often use `first_name`/`last_name`; Projects page did not hydrate profile via `/api/profile` before resolving; no auth metadata fallback.
+- **Fix:**
+  - `accountIdentityNormalization.ts` — single field normalization (`first_name`, `firstName`, `given_name`, etc.).
+  - `resolveAccountDisplayIdentityFromSources()` — multi-source resolver with `resolutionStatus`, `fallbackReason`, `sourceRecordId`.
+  - `useSite00AccountProfileIdentity` — syncs profile on mount, reads Supabase auth metadata, exposes `isHydrating` to avoid permanent `ACCOUNT /` flash.
+  - Client simulation locks `simulatedClientProjectSlug` in view-mode session; owner lookup prefers `profiles` table then `site00_identities`.
+  - `ProjectsAccountIdentityInspector` — founder-only system inspector on Projects page.
+  - Tests: B59R9R1 (22) + B59R9 + B59R5 — 69/69 pass.
+- **Next founder action:** Open `/projects` Founder View — eyebrow shows real first+last name; expand SYSTEM INSPECTOR · ACCOUNT IDENTITY — confirm SOURCE=PROFILE, RESOLUTION STATUS=RESOLVED; toggle Client View — client name in same slot; toggle back.

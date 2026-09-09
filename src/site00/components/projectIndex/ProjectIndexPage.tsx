@@ -6,6 +6,8 @@ import { useSite00 } from '../../state/Site00Context';
 import { SITE00_ROUTES } from '../../config/routes';
 import { ProjectIndexHero } from './ProjectIndexHero';
 import { ProjectIndexViewStrip } from './ProjectIndexViewStrip';
+import { ProjectsAccountIdentityInspector } from './ProjectsAccountIdentityInspector';
+import { useProjectsAccountIdentity } from '../../hooks/useProjectsAccountIdentity';
 import { ProjectIndexClientSimulationBanner } from './ProjectIndexHeader';
 import { ProjectIndexSummary, ProjectIndexFilterChips, PROJECT_INDEX_FILTERS } from './ProjectIndexSummary';
 import { ProjectIndexControls, deriveAvailableFilters } from './ProjectIndexControls';
@@ -74,6 +76,8 @@ export function ProjectIndexPage() {
     ? projectItems.filter((i) => !i.isArchived && !i.isOnHold).length
     : 0;
 
+  const accountIdentity = useProjectsAccountIdentity();
+
   const showFilteredEmpty = state !== 'loading' && state !== 'error' && projectItems.length === 0;
 
   return (
@@ -87,6 +91,9 @@ export function ProjectIndexPage() {
       <ProjectIndexHero clientView={clientView} />
 
       {!clientView ? <ProjectIndexViewStrip /> : null}
+      {!clientView ? (
+        <ProjectsAccountIdentityInspector identity={accountIdentity.identity} isHydrating={accountIdentity.isHydrating} />
+      ) : null}
 
       <ProjectIndexSummary
         metrics={metrics}
