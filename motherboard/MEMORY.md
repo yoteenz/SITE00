@@ -6742,3 +6742,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Added `shared/site00-bldr-classification/siteTypeModel.ts` + `bldrFieldValidation.ts`; synced `BldrIntakeFields.tsx` (OTHER site-type specify). PR #600 merged. Vite dev restarted.
 - **Founder action:** Hard refresh `site00.fsbw-dev.com` → NDXBOOK → Expression Engine → Meridian section.
 
+---
+
+## 2026-09-09 — Hotfix: Expression Engine hang (Meridian blocked core load)
+
+- **Symptom:** After BLDR import fix (#600), Expression Engine no longer showed Vite error but hung on "Loading Expression Engine…" with no data.
+- **Root cause:** `useExpressionEngineEntry002` awaited `loadC19R3MeridianComparisonViaJob()` inside core `load()` before `setLoading(false)`. That helper POST-started a C19R3 Meridian live job on every page load and polled up to 20 minutes, blocking the entire workspace.
+- **Fix:**
+  - Split hook into `loadCore()` (blueprint + pipeline GETs) and async `loadMeridian()` (separate `useEffect`)
+  - Rewrote Meridian loader: `loadMeridianComparisonForWorkspace()` → GET C19R3 snapshot (poll in-flight job only) → C19R1 fallback; **never auto-starts live job**
+  - `startMeridianLiveComparisonJob()` remains explicit founder-triggered only
+  - UI: `c19r1Loading` + Meridian section shows loading vs unavailable
+- **Tests:** `site00ExpressionEngineLoadNonBlocking.test.ts` (3/3); C19R3 async job tests pass; build bundle `index.AbwrVNeQ.js`
+- **QA:** NDXBOOK Expression Engine loads ~3s to populated workspace (entry summary, production journey, storyboard grid); Meridian hydrates separately
+- **Next founder action:** Hard refresh dev/prod → Expression Engine should populate immediately; Meridian section may show snapshot, fallback, or "snapshot unavailable" without blocking workspace.
+
