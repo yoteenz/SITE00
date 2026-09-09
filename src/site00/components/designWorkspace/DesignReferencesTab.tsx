@@ -2,7 +2,7 @@
  * P0.VR.6 — References library tab (visual cards, search, filters).
  */
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import {
   listCanonicalReferences,
   promoteReferenceToCanonical,
@@ -15,12 +15,15 @@ import {
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6/index.js';
 import { DesignDwSectionIcon } from './DesignDwSectionIcon';
 
+type ReferenceUploadPurpose = 'SCREEN_DESIGN' | 'ASSET_EXTRACTION' | 'PAGE_REFERENCE' | 'INSPIRATION';
+
 type Props = {
   projectId: string;
   viewportClass: DesignViewportClass;
   selectedScreenId: string;
   onSelectScreen: (screenId: string) => void;
   onUploadClick: () => void;
+  onScreenDesignUpload?: () => void;
   activeReferenceUrl: string | null;
 };
 
@@ -40,10 +43,20 @@ export function DesignReferencesTab({
   selectedScreenId,
   onSelectScreen,
   onUploadClick,
+  onScreenDesignUpload,
   activeReferenceUrl: _activeReferenceUrl,
 }: Props) {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<ReferenceFilterChip>('ALL');
+  const [uploadPurpose, setUploadPurpose] = useState<ReferenceUploadPurpose>('ASSET_EXTRACTION');
+
+  const handleUpload = useCallback(() => {
+    if (uploadPurpose === 'SCREEN_DESIGN' && onScreenDesignUpload) {
+      onScreenDesignUpload();
+      return;
+    }
+    onUploadClick();
+  }, [onScreenDesignUpload, onUploadClick, uploadPurpose]);
 
   const references = useMemo(() => listCanonicalReferences(projectId), [projectId]);
 
@@ -96,15 +109,38 @@ export function DesignReferencesTab({
         ))}
       </div>
 
+      <div className="site00-dw-v3-refs__purpose" role="group" aria-label="Reference upload purpose">
+        <span>WHAT IS THIS REFERENCE FOR?</span>
+        {(
+          [
+            ['SCREEN_DESIGN', 'SCREEN DESIGN'],
+            ['ASSET_EXTRACTION', 'ASSET EXTRACTION'],
+            ['PAGE_REFERENCE', 'PAGE REFERENCE'],
+            ['INSPIRATION', 'INSPIRATION'],
+          ] as const
+        ).map(([value, label]) => (
+          <button
+            key={value}
+            type="button"
+            className={`site00-dw-v3-chip${uploadPurpose === value ? ' is-active' : ''}`}
+            onClick={() => setUploadPurpose(value)}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
       <header className="site00-dw-v3-refs__head">
         <div>
           <h2>REFERENCE LIBRARY</h2>
           <p>
-            {filtered.length} REFERENCE{filtered.length === 1 ? '' : 'S'} · COLLECT AND MANAGE DESIGN REFERENCES FOR
-            ASSET RECONSTRUCTION.
+            {filtered.length} REFERENCE{filtered.length === 1 ? '' : 'S'} ·{' '}
+            {uploadPurpose === 'SCREEN_DESIGN'
+              ? 'SCREEN AUTHORITY INGESTION — NOT ASSET EXTRACTION'
+              : 'COLLECT AND MANAGE DESIGN REFERENCES FOR ASSET RECONSTRUCTION.'}
           </p>
         </div>
-        <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={onUploadClick}>
+        <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={handleUpload}>
           ↑ UPLOAD REFERENCE
         </button>
       </header>
@@ -156,7 +192,7 @@ export function DesignReferencesTab({
           </article>
         ))}
 
-        <button type="button" className="site00-dw-v3-ref-card site00-dw-v3-ref-card--add" onClick={onUploadClick}>
+        <button type="button" className="site00-dw-v3-ref-card site00-dw-v3-ref-card--add" onClick={handleUpload}>
           <span className="site00-dw-v3-ref-card__plus">+</span>
           <strong>ADD REFERENCE</strong>
           <span>DRAG IMAGE HERE OR TAP TO BROWSE</span>

@@ -202,7 +202,7 @@ export function DesignMoreTab({ onOpenInspect, onCaptureScreen, onMatchReference
       </div>
 
       <article className="site00-dw-v3-more__card site00-dw-v3-more__card--full">
-        <ExperienceSkinManagementPanel projectId="frontal-slayer" viewMode="FOUNDER" />
+        <ExperienceSkinManagementPanel projectId="ndxbook" viewMode="FOUNDER" />
       </article>
 
       <article className="site00-dw-v3-more__card site00-dw-v3-more__card--full">

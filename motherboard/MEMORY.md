@@ -6990,3 +6990,21 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Gaps:** No approved screen authorities yet for FS/AIO/Astral/Studio — all show PROJECT OVERVIEW NOT STARTED. Final visual implementation waits for founder-approved references one screen at a time.
 - **Next founder action:** Design → MORE → EXPERIENCE SKIN → verify five family records + screen pack status → do NOT test auto-generated skins → create Project Overview visual authority for first brand family when ready.
 
+---
+
+## 2026-09-09 — Screen Authority Ingestion UX Recovery
+
+- **Problem:** Brand family skin foundation existed but whole-screen approved uploads still routed to Assets → Instruct → Detect (asset extraction). Missing founder UX for SCREEN AUTHORITY → REGISTER → IMPLEMENT → CONVERGE.
+- **Root cause:** No `DesignReferencePurpose` routing; no `SkinScreenAuthorityIngestion` UI; Experience Skin panel showed pack status only without Add Authority flow.
+- **Implemented:**
+  - `DesignReferencePurpose` + `DesignReferenceJobRouter` — SCREEN_AUTHORITY vs ASSET_SOURCE routing (not file-type guessing).
+  - `screenSlotConfig.ts` — prefill NDXBOOK → PROJECTS / OVERVIEW / MOBILE.
+  - `screenAuthorityIngestion.ts` — register, contract preview, implement, convergence derivation (DESIGN_AUTHORITY + EXACT → convergence required).
+  - Extended `SkinScreenAuthority` — referencePurpose, jobType, implementationStatus, visualMatchStatus, versioning on replace.
+  - `implementationJob.ts` — start → P0.VR.7 fidelity contract + P0.VR.6R2 convergence session; complete → VISUAL_QA.
+  - API — `register_authority`, `implement_authority`, `prefill`, `authority_card`, `route_reference`.
+  - UI — `SkinScreenAuthorityIngestion`, `SkinScreenAuthorityCard`, interactive Experience Skin screen pack with ADD AUTHORITY per slot.
+  - References tab — upload purpose selector (Screen Design vs Asset Extraction).
+  - Tests: `screenAuthorityIngestion.test.ts` (22 pass); 82 total skin tests pass.
+- **Next founder action:** Design → MORE → EXPERIENCE SKIN → NDXBOOK → PROJECT OVERVIEW → ADD AUTHORITY → upload mobile NDX overview → REGISTER → IMPLEMENT (not Assets → Instruct).
+

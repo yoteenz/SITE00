@@ -108,13 +108,20 @@ export type SkinScreenAuthority = {
   screenType: StandardScreenType | string;
   viewport: ScreenAuthorityViewport;
   referenceAssetId: string | null;
+  referencePurpose: 'SCREEN_AUTHORITY';
+  jobType: 'SCREEN_AUTHORITY';
   authorityMode: 'DESIGN_AUTHORITY';
   fidelityMode: 'EXACT';
   status: ScreenAuthorityStatus;
+  implementationStatus: 'NOT_STARTED' | 'IMPLEMENTING' | 'VISUAL_QA' | 'VERIFIED';
+  visualMatchStatus: 'NOT_EVALUATED' | 'DRIFT' | 'HIGH_MATCH' | 'VERIFIED';
   approvedByFounder: boolean;
   approvedAt: string | null;
   version: string;
   visualConvergenceRequired: boolean;
+  founderNote?: string | null;
+  fidelityContractId?: string | null;
+  convergenceSessionId?: string | null;
 };
 
 export type BrandFamilySkinPack = {
@@ -173,7 +180,9 @@ export type SkinScreenImplementationJob = {
     fidelityMode: 'EXACT';
     visualConvergenceRequired: boolean;
   };
-  status: 'READY' | 'IN_PROGRESS' | 'COMPLETE';
+  status: 'READY' | 'IMPLEMENTING' | 'VISUAL_QA' | 'COMPLETE';
+  fidelityContractId?: string | null;
+  convergenceSessionId?: string | null;
   createdAt: string;
 };
 

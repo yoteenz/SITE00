@@ -4,7 +4,8 @@
 
 import { DEFAULT_SCREEN_DESIGN_ORDER } from './constants.js';
 import { getBrandFamilySkinByKey } from './registry.js';
-import { getScreenAuthorityStatus, listScreenAuthoritiesForFamily } from './screenAuthority.js';
+import { getScreenAuthorityStatus, getScreenPackSlotStatuses, listScreenAuthoritiesForFamily } from './screenAuthority.js';
+import { SCREEN_SLOT_PREFILL } from './screenSlotConfig.js';
 import type { BrandFamilySkinPack, StandardScreenType } from './types.js';
 import { STANDARD_SCREEN_PACK } from './types.js';
 
@@ -42,7 +43,24 @@ export function getOrCreateSkinPack(brandFamilySkinId: string): BrandFamilySkinP
 export function getStandardScreenPackStatus(brandFamilySkinId: string): Record<StandardScreenType, string> {
   const result = {} as Record<StandardScreenType, string>;
   for (const screen of STANDARD_SCREEN_PACK) {
-    result[screen] = getScreenAuthorityStatus(brandFamilySkinId, screen);
+    const slot = SCREEN_SLOT_PREFILL[screen];
+    result[screen] = getScreenAuthorityStatus(brandFamilySkinId, slot.screenType);
+  }
+  return result;
+}
+
+export function getStandardScreenPackViewportStatus(
+  brandFamilySkinId: string,
+): Record<StandardScreenType, Record<'MOBILE' | 'TABLET' | 'DESKTOP', string>> {
+  const result = {} as Record<StandardScreenType, Record<'MOBILE' | 'TABLET' | 'DESKTOP', string>>;
+  for (const screen of STANDARD_SCREEN_PACK) {
+    const slot = SCREEN_SLOT_PREFILL[screen];
+    const statuses = getScreenPackSlotStatuses(brandFamilySkinId, screen, slot.screenType);
+    result[screen] = {
+      MOBILE: statuses.MOBILE,
+      TABLET: statuses.TABLET,
+      DESKTOP: statuses.DESKTOP,
+    };
   }
   return result;
 }
