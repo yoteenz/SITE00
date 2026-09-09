@@ -1,8 +1,11 @@
 import { ProjectsHeaderPlanet } from './ProjectsHeaderPlanet';
+import { AccountIdentityEyebrow } from './AccountIdentityEyebrow';
+import { useProjectsAccountIdentity } from '../../hooks/useProjectsAccountIdentity';
 import { PROJECTS_PAGE_SHELL_CONFIG } from '../../../../shared/site00-projects/projectsPageShellConfig.js';
 
 export function ProjectIndexHero() {
   const shell = PROJECTS_PAGE_SHELL_CONFIG;
+  const { identity, eyebrow } = useProjectsAccountIdentity();
 
   return (
     <header className="site00-pidx-hero" data-site00-hero="shared">
@@ -16,9 +19,7 @@ export function ProjectIndexHero() {
               <span key={verb}>{verb}</span>
             ))}
           </p>
-          <p className="site00-pidx-hero__kicker">
-            <span className="site00-pidx-hero__kicker-red">{shell.kicker}</span>
-          </p>
+          <AccountIdentityEyebrow identity={identity} eyebrow={eyebrow} />
           <h1 className="site00-pidx-hero__title">{shell.title}</h1>
           <span className="site00-pidx-hero__divider" aria-hidden="true" />
           <p className="site00-pidx-hero__tagline">{shell.tagline}</p>

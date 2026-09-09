@@ -6851,16 +6851,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-## 2026-09-09 — Sprint B5.9R8R1 — Runtime client-view branch elimination + bundle audit
+## 2026-09-09 — B5.9R9 Projects page account-identity eyebrow
 
-- **Live symptom:** Founder reported B5.9R8 fix not visible — black CLIENT VIEW bar, YOUR PROJECTS hero, 2 metric cards on deployed site.
-- **Root runtime cause:** **STALE_DEPLOYMENT** — live `site00.com` served `index.Cr70B6lr.js` (Sep 8), not v216 `index.DGTmoe4o.js`. Code on `main` already correct; GoDaddy ZIP not uploaded.
-- **R8R1 hardening:**
-  - Deleted legacy `ProjectIndexHeader.tsx` (contained banner + hero copy branches + 2-tile path)
-  - Added `projectsPageShellConfig.ts` — static hero shell copy
-  - Runtime DOM markers: `data-site00-shell`, `data-site00-view-mode`, `data-site00-hero`, `data-site00-metrics`
-  - `scripts/verify-projects-index-bundle.mjs` — post-build audit of ProjectsPage lazy chunk (no banner, 4 slots, shared hero)
-  - Tests: `site00FounderWorkspaceSprintB59R8R1.test.ts` (10 tests) + bundle verify in CI-style test
-- **Live QA (localhost dev, 390px):** Founder/client toggle — same route, same hero, 4 tiles, no banner, DOM markers confirmed
-- **Next founder action:** Upload GoDaddy release v217 ZIP; hard refresh; verify page source shows new `index.*.js` hash (NOT `index.Cr70B6lr.js`).
+- Red eyebrow shows active account person full name (uppercase); black title stays `PROJECTS`. `AccountIdentityEyebrow` in `ProjectsPageShell` hero.
+- **Next founder action:** `/projects` Founder View — verify name eyebrow; toggle Client View — client name in same slot.
+
+---
+
+## 2026-09-09 — B5.9R9R1 canonical account identity resolution
+
+- **Root cause:** `ACCOUNT /` fallback — localStorage snake_case fields not read; no profile hydration on Projects page; no auth metadata fallback.
+- **Fix:** `accountIdentityNormalization.ts`, `resolveAccountDisplayIdentityFromSources()`, `useSite00AccountProfileIdentity` (sync + hydrate), `projectsAccountIdentityAdapter.ts`, `ProjectsAccountIdentityInspector`, profiles table lookup for client owners, simulated client slug in view-mode session.
+- Tests: B59R9R1 (22) + regressions — 69/69 pass.
+- **Next founder action:** `/projects` → expand SYSTEM INSPECTOR · ACCOUNT IDENTITY → confirm SOURCE=PROFILE, RESOLUTION STATUS=RESOLVED; toggle client view.
 
