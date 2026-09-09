@@ -1,13 +1,21 @@
 /**
- * SKINS mobile authority — ReferenceReconstructionBlueprint preset.
+ * SKINS mobile authority — ReferenceReconstructionBlueprint preset (P0.VR.6R6 recalibrated).
  */
 
 import { SKINS_GEOMETRY_TOKENS, SKINS_FAMILY_LINE_BREAKS } from '../p0vr6/skinsReferenceFidelity.js';
 import { getSkinsDesignAuthority } from '../p0vr6/skinsAuthorityRegistry.js';
 import { approvedVisualAssetExists } from '../p0vr6/skinsCanonicalBindings.js';
+import {
+  buildSkinsMobileAuthorityBoundaryMap,
+  buildSkinsMobileFunctionVisualContracts,
+  detectHostShellOverreach,
+} from './authorityBoundary.js';
+import { evaluateAssetCompletenessGate } from './assetCompletenessGate.js';
+import { buildSkinsMobileMultiAssetReconstructionJob } from './multiAssetReconstructionJob.js';
 import { measureReference } from './referenceMeasurementEngine.js';
 import { inferReferenceLayout } from './referenceLayoutInferenceEngine.js';
 import { buildReferenceReconstructionBlueprint } from './referenceReconstructionBlueprint.js';
+import { buildReferenceLiveVisualInventory } from './referenceAssetMismatch.js';
 import type { ReferenceRegion, ReferenceTypographySpec } from './types.js';
 
 const MOBILE_REF_WIDTH = 941;
@@ -21,7 +29,19 @@ export function buildSkinsMobileRegionPreset(): ReferenceRegion[] {
 
   return [
     {
-      regionId: 'family-row',
+      regionId: 'experience-skins-header',
+      parentRegionId: 'shell',
+      role: 'HEADER',
+      bbox: { x: 16, y: Math.round(MOBILE_REF_HEIGHT * 0.27), width: contentW, height: 48 },
+      normalizedBbox: { x: 0.02, y: 0.27, width: contentW / MOBILE_REF_WIDTH, height: 48 / MOBILE_REF_HEIGHT },
+      zLayer: 11,
+      visibility: 'VISIBLE',
+      expectedOverflow: 'VISIBLE',
+      expectedPositioning: 'FLEX',
+      confidence: 0.93,
+    },
+    {
+      regionId: 'brand-family-cards',
       parentRegionId: 'shell',
       role: 'CARD',
       bbox: { x: 16, y: familyY, width: contentW, height: familyH },
@@ -37,7 +57,7 @@ export function buildSkinsMobileRegionPreset(): ReferenceRegion[] {
       parentRegionId: 'shell',
       role: 'SECTION',
       bbox: { x: 16, y: familyY + familyH + 20, width: contentW, height: geo.screenTileMinHeight * 4 + 24 },
-      normalizedBbox: { x: 0.02, y: (familyY + familyH + 20) / MOBILE_REF_HEIGHT, width: contentW / MOBILE_REF_WIDTH, height: 0.25 },
+      normalizedBbox: { x: 0.02, y: (familyY + familyH + 20) / MOBILE_REF_HEIGHT, width: contentW / MOBILE_REF_WIDTH, height: 0.18 },
       zLayer: 13,
       visibility: 'VISIBLE',
       expectedOverflow: 'VISIBLE',
@@ -45,11 +65,23 @@ export function buildSkinsMobileRegionPreset(): ReferenceRegion[] {
       confidence: 0.9,
     },
     {
-      regionId: 'preview-card',
+      regionId: 'viewport-status-row',
+      parentRegionId: 'shell',
+      role: 'CONTROL',
+      bbox: { x: 16, y: MOBILE_REF_HEIGHT * 0.62, width: contentW, height: 32 },
+      normalizedBbox: { x: 0.02, y: 0.62, width: contentW / MOBILE_REF_WIDTH, height: 32 / MOBILE_REF_HEIGHT },
+      zLayer: 14,
+      visibility: 'VISIBLE',
+      expectedOverflow: 'VISIBLE',
+      expectedPositioning: 'FLEX',
+      confidence: 0.88,
+    },
+    {
+      regionId: 'selected-screen-preview',
       parentRegionId: 'shell',
       role: 'PANEL',
-      bbox: { x: 16, y: MOBILE_REF_HEIGHT * 0.68, width: contentW, height: geo.previewThumbWidth + 80 },
-      normalizedBbox: { x: 0.02, y: 0.68, width: contentW / MOBILE_REF_WIDTH, height: 0.15 },
+      bbox: { x: 16, y: MOBILE_REF_HEIGHT * 0.66, width: contentW, height: geo.previewThumbWidth + 80 },
+      normalizedBbox: { x: 0.02, y: 0.66, width: contentW / MOBILE_REF_WIDTH, height: 0.2 },
       zLayer: 15,
       visibility: 'VISIBLE',
       expectedOverflow: 'HIDDEN',
@@ -63,7 +95,7 @@ function buildSkinsTypographyPreset(): ReferenceTypographySpec[] {
   const geo = SKINS_GEOMETRY_TOKENS.mobile;
   const specs: ReferenceTypographySpec[] = [
     {
-      regionId: 'experience-header',
+      regionId: 'experience-skins-header',
       fontFamily: 'Martian Mono',
       fontSize: geo.sectionHeadSize,
       fontWeight: 700,
@@ -115,6 +147,24 @@ export function buildSkinsMobileReferenceBlueprint() {
   const authority = getSkinsDesignAuthority('MOBILE');
   if (!authority) return null;
 
+  const boundaryMap = buildSkinsMobileAuthorityBoundaryMap(authority.authorityId);
+  const overreach = detectHostShellOverreach(boundaryMap);
+  buildSkinsMobileFunctionVisualContracts();
+
+  const inventory = buildReferenceLiveVisualInventory({
+    authorityId: authority.authorityId,
+    viewport: 'MOBILE',
+    liveColorSwatchBrands: ['FRONTAL_SLAYER', 'AIO', 'ASTRAL_WORLD', 'STUDIO_WORLD'],
+  });
+
+  const multiAssetJob = buildSkinsMobileMultiAssetReconstructionJob({
+    liveColorSwatchBrands: ['FRONTAL_SLAYER', 'AIO', 'ASTRAL_WORLD', 'STUDIO_WORLD'],
+  });
+
+  const completeness = evaluateAssetCompletenessGate({
+    requiredAssetMismatchCount: inventory.assetMismatchCount,
+  });
+
   const measurement = measureReference({
     authorityId: authority.authorityId,
     referenceImageUrl: authority.publicUrl,
@@ -154,6 +204,8 @@ export function buildSkinsMobileReferenceBlueprint() {
     { slotId: 'BRAND_FAMILY_STUDIO_WORLD_THUMBNAIL', required: true, bound: false },
   ];
 
+  const blueprintStatus = overreach.overreach || boundaryMap.boundaryReviewRequired ? 'BLOCKED' as const : 'READY' as const;
+
   return buildReferenceReconstructionBlueprint({
     authorityId: authority.authorityId,
     viewport: 'mobile',
@@ -161,10 +213,21 @@ export function buildSkinsMobileReferenceBlueprint() {
     measurement,
     layoutPlan,
     assetRequirements,
-    status: 'READY',
+    status: blueprintStatus,
+    authorityBoundaryMapId: `boundary-${authority.authorityId}-mobile`,
+    hostShellCoverage: boundaryMap.hostShellCoverage,
+    authorityRebuildCoverage: boundaryMap.authorityRebuildCoverage,
+    boundaryReviewRequired: boundaryMap.boundaryReviewRequired || overreach.overreach,
+    multiAssetJobId: multiAssetJob?.jobId ?? null,
+    assetMismatchCount: inventory.assetMismatchCount,
+    cropApprovalState: multiAssetJob?.cropApprovalStatus.status ?? 'PENDING',
+    generationApprovalState: multiAssetJob?.generationApprovalStatus.status ?? 'BLOCKED',
+    assetCompletenessState: completeness.blocked ? 'BLOCKED' : 'READY',
   });
 }
 
 function geoToken() {
   return SKINS_GEOMETRY_TOKENS.mobile;
 }
+
+export { buildSkinsMobileAuthorityBoundaryMap, buildSkinsMobileFunctionVisualContracts };

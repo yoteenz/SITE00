@@ -21,6 +21,15 @@ export function buildReferenceReconstructionBlueprint(input: {
   layoutPlan: ReferenceLayoutPlan;
   assetRequirements?: ReferenceReconstructionBlueprint['assetRequirements'];
   status?: BlueprintStatus;
+  authorityBoundaryMapId?: string;
+  hostShellCoverage?: number;
+  authorityRebuildCoverage?: number;
+  boundaryReviewRequired?: boolean;
+  multiAssetJobId?: string | null;
+  assetMismatchCount?: number;
+  cropApprovalState?: string;
+  generationApprovalState?: string;
+  assetCompletenessState?: string;
 }): ReferenceReconstructionBlueprint {
   const overflowContracts: ReferenceReconstructionBlueprint['overflowContracts'] = {};
   const anchoringContracts: ReferenceReconstructionBlueprint['anchoringContracts'] = {};
@@ -64,6 +73,15 @@ export function buildReferenceReconstructionBlueprint(input: {
     layoutPlanVersion: '1.0.0',
     uncertainties,
     lockedRegions: [],
+    authorityBoundaryMapId: input.authorityBoundaryMapId,
+    hostShellCoverage: input.hostShellCoverage,
+    authorityRebuildCoverage: input.authorityRebuildCoverage,
+    boundaryReviewRequired: input.boundaryReviewRequired,
+    multiAssetJobId: input.multiAssetJobId ?? null,
+    assetMismatchCount: input.assetMismatchCount,
+    cropApprovalState: input.cropApprovalState,
+    generationApprovalState: input.generationApprovalState,
+    assetCompletenessState: input.assetCompletenessState,
   };
 }
 

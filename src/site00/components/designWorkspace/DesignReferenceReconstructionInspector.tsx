@@ -1,19 +1,31 @@
 /**
- * System Inspector → Reference Reconstruction — blueprint + convergence state.
+ * System Inspector → Reference Reconstruction — blueprint + boundary overlay.
+ * P0.VR.6R6
  */
 
 import {
+  buildBoundaryOverlayRegions,
   buildReferenceReconstructionInspectorState,
   buildSkinsMobileReferenceBlueprint,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/index.js';
+
+const BOUNDARY_CLASS_LABELS: Record<string, string> = {
+  HOST_LOCKED: 'HOST LOCKED',
+  AUTHORITY_REBUILD: 'AUTHORITY REBUILD',
+  FUNCTION_PRESERVE_VISUAL_REBUILD: 'FUNCTION PRESERVE',
+  ASSET_SLOT: 'ASSET SLOT',
+  CONTEXT_ONLY: 'CONTEXT ONLY',
+};
 
 export function DesignReferenceReconstructionInspector() {
   const blueprint = buildSkinsMobileReferenceBlueprint();
   const inspector = buildReferenceReconstructionInspectorState({
     testsPass: true,
     visualQaExecuted: false,
-    majorDriftRemaining: blueprint?.assetRequirements.filter((a) => a.required && !a.bound).length ?? 0,
+    majorDriftRemaining: blueprint?.assetMismatchCount ?? 0,
+    resolvedMismatches: 1,
   });
+  const overlayRegions = blueprint ? buildBoundaryOverlayRegions(blueprint.authorityId) : [];
 
   if (!blueprint || !inspector) {
     return (
@@ -42,38 +54,32 @@ export function DesignReferenceReconstructionInspector() {
           <dd>{inspector.viewport.toUpperCase()}</dd>
         </div>
         <div>
-          <dt>CONTENT CANVAS</dt>
-          <dd>
-            {inspector.contentCanvas.width}×{inspector.contentCanvas.height}
-          </dd>
+          <dt>HOST SHELL COVERAGE</dt>
+          <dd>{inspector.hostShellCoveragePercent}%</dd>
         </div>
         <div>
-          <dt>REGION COUNT</dt>
-          <dd>{inspector.regionCount}</dd>
+          <dt>AUTHORITY REBUILD</dt>
+          <dd>{inspector.authorityRebuildCoveragePercent}%</dd>
         </div>
         <div>
-          <dt>LAYOUT INFERENCE</dt>
-          <dd>{inspector.layoutInferenceStatus}</dd>
+          <dt>ASSET MISMATCHES</dt>
+          <dd>{inspector.assetMismatchCount}</dd>
         </div>
         <div>
-          <dt>ASSET REQUIREMENTS</dt>
-          <dd>{inspector.assetRequirementCount}</dd>
+          <dt>MULTI-ASSET JOB</dt>
+          <dd>{inspector.multiAssetJobId ? 'CREATED' : 'MISSING'}</dd>
         </div>
         <div>
-          <dt>EXECUTION CONFLICTS</dt>
-          <dd>{inspector.styleConflictCount}</dd>
+          <dt>CROP APPROVAL</dt>
+          <dd>{inspector.cropApprovalSummary}</dd>
         </div>
         <div>
-          <dt>CAPTURE READY</dt>
-          <dd>{inspector.captureReadyStatus}</dd>
+          <dt>GENERATION</dt>
+          <dd>{inspector.generationApprovalSummary}</dd>
         </div>
         <div>
-          <dt>NO-OP GUARD</dt>
-          <dd>{inspector.noOpGuard}</dd>
-        </div>
-        <div>
-          <dt>FALSE-PASS GUARD</dt>
-          <dd>{inspector.falsePassGuard}</dd>
+          <dt>PARTIAL-OP GUARD</dt>
+          <dd>{inspector.partialOpGuard}</dd>
         </div>
         <div>
           <dt>VERIFICATION</dt>
@@ -81,34 +87,45 @@ export function DesignReferenceReconstructionInspector() {
         </div>
       </dl>
 
+      <div className="site00-dw-rri-inspector__overlay-wrap">
+        <h4>AUTHORITY BOUNDARY OVERLAY</h4>
+        <div className="site00-dw-rri-inspector__overlay-canvas" aria-hidden="true">
+          {overlayRegions.map((r) => (
+            <span
+              key={r.regionId}
+              className={`site00-dw-rri-inspector__overlay-region is-${r.boundaryClass.toLowerCase().replace(/_/g, '-')}`}
+              style={{
+                left: `${r.bbox.x * 100}%`,
+                top: `${r.bbox.y * 100}%`,
+                width: `${r.bbox.width * 100}%`,
+                height: `${r.bbox.height * 100}%`,
+              }}
+              title={r.label}
+            />
+          ))}
+        </div>
+        <ul className="site00-dw-rri-inspector__overlay-legend">
+          {Object.entries(BOUNDARY_CLASS_LABELS).map(([key, label]) => (
+            <li key={key} className={`is-${key.toLowerCase().replace(/_/g, '-')}`}>
+              {label}
+            </li>
+          ))}
+        </ul>
+        <ul className="site00-dw-rri-inspector__overlay-list">
+          {overlayRegions.slice(0, 12).map((r) => (
+            <li key={r.regionId} className={`is-${r.boundaryClass.toLowerCase().replace(/_/g, '-')}`}>
+              {r.label} — {BOUNDARY_CLASS_LABELS[r.boundaryClass]}
+            </li>
+          ))}
+        </ul>
+      </div>
+
       <details className="site00-dw-rri-inspector__regions" open>
         <summary>REGION TREE ({blueprint.regionTree.length})</summary>
         <ul>
           {blueprint.regionTree.map((r) => (
             <li key={r.regionId}>
               {r.regionId} · {r.role} · {r.expectedPositioning}
-            </li>
-          ))}
-        </ul>
-      </details>
-
-      <details className="site00-dw-rri-inspector__layout">
-        <summary>LAYOUT PLAN</summary>
-        <ul>
-          {Object.entries(blueprint.layoutPlan.regionLayoutModes).map(([id, mode]) => (
-            <li key={id}>
-              {id}: {mode}
-            </li>
-          ))}
-        </ul>
-      </details>
-
-      <details className="site00-dw-rri-inspector__typography">
-        <summary>TYPOGRAPHY SPEC ({blueprint.typographySpecs.length})</summary>
-        <ul>
-          {blueprint.typographySpecs.slice(0, 8).map((t) => (
-            <li key={t.regionId}>
-              {t.regionId}: {t.fontSize}px / {t.lineCount} lines
             </li>
           ))}
         </ul>
@@ -125,8 +142,8 @@ export function DesignReferenceReconstructionInspector() {
         </ul>
       </details>
 
-      {inspector.captureBlockers.length > 0 ? (
-        <p className="site00-dw-rri-inspector__blockers">BLOCKERS: {inspector.captureBlockers.join(', ')}</p>
+      {inspector.failureCodes.length > 0 ? (
+        <p className="site00-dw-rri-inspector__blockers">BLOCKERS: {inspector.failureCodes.join(', ')}</p>
       ) : null}
     </section>
   );
