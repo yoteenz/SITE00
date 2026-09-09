@@ -27,35 +27,65 @@ type ActiveProjectNotificationCenterProps = {
   loading?: boolean;
   onMarkRead: (id: string) => void;
   onMarkAllRead: () => void;
+  onFounderActionOpen?: (notification: ProjectNotification) => void;
 };
 
 function NotificationRow({
   item,
   onNavigate,
   onMarkRead,
+  onFounderActionOpen,
 }: {
   item: ProjectNotification;
   onNavigate: () => void;
   onMarkRead: (id: string) => void;
+  onFounderActionOpen?: (notification: ProjectNotification) => void;
 }) {
   const href = item.actionTarget ?? resolveNotificationActionHref(item.projectId, item);
   const unread = item.status === 'UNREAD';
-  const actionLabel = notificationActionLabel(item);
+  const isFounderAction = item.type === 'FOUNDER_RECONSTRUCTION_ACTION';
+  const actionLabel = isFounderAction ? 'OPEN' : notificationActionLabel(item);
+  const metaLine = isFounderAction
+    ? String(item.metadata?.projectLabel ?? item.projectId.toUpperCase()) +
+      ' · ' +
+      String(item.metadata?.screenLabel ?? 'DESIGN')
+    : `${entityTypeLabel(item.sourceEntityType)} · ${formatNotificationRelativeTime(item.createdAt)}`;
+  const summaryLine = isFounderAction ? item.message.split('\n').slice(1).join(' ') : null;
+  const blocking = isFounderAction && item.metadata?.blocking === true;
 
   const body = (
     <>
       <div className="site00-fws-notify__row-head">
         {unread ? <span className="site00-fws-notify__dot" aria-hidden="true" /> : null}
         <strong className={`site00-fws-notify__title${unread ? ' site00-fws-notify__title--unread' : ''}`}>{item.title}</strong>
+        {blocking ? <span className="site00-fws-notify__blocking">BLOCKING</span> : null}
       </div>
-      <p className="site00-fws-notify__meta">
-        {entityTypeLabel(item.sourceEntityType)} · {formatNotificationRelativeTime(item.createdAt)}
-      </p>
+      <p className="site00-fws-notify__meta">{metaLine}</p>
+      {summaryLine ? <p className="site00-fws-notify__summary">{summaryLine.toUpperCase()}</p> : null}
+      {!isFounderAction ? (
+        <p className="site00-fws-notify__meta">{formatNotificationRelativeTime(item.createdAt)}</p>
+      ) : null}
       {href && item.actionType !== 'NONE' ? (
         <span className="site00-fws-notify__action">{actionLabel}</span>
       ) : null}
     </>
   );
+
+  if (isFounderAction && onFounderActionOpen) {
+    return (
+      <button
+        type="button"
+        className={`site00-fws-notify__row site00-fws-notify__row--founder${unread ? ' site00-fws-notify__row--unread' : ''}`}
+        {...vrRegionAttr(NDX_VR_REGION.notificationRow)}
+        onClick={() => {
+          if (unread) onMarkRead(item.id);
+          onFounderActionOpen(item);
+        }}
+      >
+        {body}
+      </button>
+    );
+  }
 
   if (href && item.actionType !== 'NONE') {
     return (
@@ -100,6 +130,7 @@ export function ActiveProjectNotificationCenter({
   loading = false,
   onMarkRead,
   onMarkAllRead,
+  onFounderActionOpen,
 }: ActiveProjectNotificationCenterProps) {
   const [tab, setTab] = useState<TabId>('notifications');
   const grouped = useMemo(() => groupNotificationsByRecency(notifications), [notifications]);
@@ -147,14 +178,20 @@ export function ActiveProjectNotificationCenter({
         <div className="site00-fws-notify__body" role="tabpanel" {...vrRegionAttr(NDX_VR_REGION.notificationList)}>
           {loading ? <p className="site00-fws-notify__status">LOADING…</p> : null}
           {caughtUp ? (
-            <p className="site00-fws-notify__empty">YOU&apos;RE CAUGHT UP.</p>
+            <p className="site00-fws-notify__empty">NO NEW ACTIONS.</p>
           ) : (
             <>
               {grouped.today.length > 0 ? (
                 <section className="site00-fws-notify__section">
                   <h3 className="site00-fws-notify__section-label">TODAY</h3>
                   {grouped.today.map((item) => (
-                    <NotificationRow key={item.id} item={item} onNavigate={onClose} onMarkRead={onMarkRead} />
+                    <NotificationRow
+                      key={item.id}
+                      item={item}
+                      onNavigate={onClose}
+                      onMarkRead={onMarkRead}
+                      onFounderActionOpen={onFounderActionOpen}
+                    />
                   ))}
                 </section>
               ) : null}
@@ -162,7 +199,13 @@ export function ActiveProjectNotificationCenter({
                 <section className="site00-fws-notify__section">
                   <h3 className="site00-fws-notify__section-label">EARLIER</h3>
                   {grouped.earlier.map((item) => (
-                    <NotificationRow key={item.id} item={item} onNavigate={onClose} onMarkRead={onMarkRead} />
+                    <NotificationRow
+                      key={item.id}
+                      item={item}
+                      onNavigate={onClose}
+                      onMarkRead={onMarkRead}
+                      onFounderActionOpen={onFounderActionOpen}
+                    />
                   ))}
                 </section>
               ) : null}

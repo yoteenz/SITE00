@@ -12,8 +12,8 @@ import { DesignDwSectionIcon } from './DesignDwSectionIcon.js';
 import { SKINS_SCREEN_SLOTS, useDesignSkinsState, type SkinsViewport } from './useDesignSkinsState.js';
 import { useSkinsReferenceAssets } from './useSkinsReferenceAssets.js';
 import { useDesignReconstructionWorkflow } from './useDesignReconstructionWorkflow.js';
-import { DesignFounderActionBanner } from './DesignFounderActionBanner.js';
 import { DesignReconstructionWorkflowPanel } from './DesignReconstructionWorkflowPanel.js';
+import { DesignSkinsFounderActionHint } from './DesignSkinsFounderActionHint.js';
 import '../../styles/site00-design-skins-tab.css';
 
 type Props = {
@@ -93,7 +93,18 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
       ) : null}
 
       {!workflow.state?.workflowView && skinsAction ? (
-        <DesignFounderActionBanner action={skinsAction} onPrimary={workflow.openPrimaryAction} variant="skins" />
+        <DesignSkinsFounderActionHint
+          action={skinsAction}
+          onReviewInAssets={() => {
+            const assetsMirror = workflow.state?.actions.find(
+              (a) =>
+                a.workspace === 'ASSETS' &&
+                a.actionType === skinsAction.actionType &&
+                a.jobId === skinsAction.jobId,
+            );
+            workflow.openAction(assetsMirror?.deepLink ?? skinsAction.deepLink.replace('tab=skins', 'tab=assets'));
+          }}
+        />
       ) : null}
 
       {!workflow.state?.workflowView ? (

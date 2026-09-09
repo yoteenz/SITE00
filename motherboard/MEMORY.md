@@ -7189,3 +7189,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining gaps:** Full post-bind auto capture/recompare loop; regeneration approval UI (REVISE → APPROVE_REGENERATION) partial; production FAL_KEY required for live dispatch.
 - **Next founder action:** Deploy v239 → Design → SKINS (NOT Inspector) → verify "5 CROPS NEED YOUR REVIEW" + [REVIEW CROPS] → approve 5 crops → review generation plan → APPROVE GENERATION → compare layout to authority (structure/typography should already have moved before asset approval).
 
+---
+
+## 2026-09-09 — Founder Action UX Repackaging (P0.VR.6R8)
+
+- **Problem:** Founder gates (crop approval) technically correct but felt silent — work buried in pipeline language, not surfaced via ASSETS alerts or bell notifications.
+- **Implemented:**
+  - `founderActionNotifications.ts` — single bridge from `DesignFounderAction` → bell notifications + ASSETS alerts; read vs resolved; dedupe by jobId+actionType; founder-friendly copy.
+  - `DesignFounderActionAlertZone` — compact NEEDS YOUR REVIEW strip at top of Design → ASSETS (light surface, red accent, Martian Mono).
+  - Bell integration — merges founder action notifications into existing `ActiveProjectNotificationCenter`; red badge count; OPEN deep-links to project + ASSETS + crop review stage.
+  - `DesignSkinsFounderActionHint` — secondary SKINS inline "REVIEW IN ASSETS".
+  - `resolveFounderActionsByGate` — resolves SKINS+ASSETS mirror together; stale notifications suppressed on gate completion.
+  - R8 failure codes (9); tests `referenceReconstructionIntelligenceR8.test.ts` (20 pass); total RRI 131 pass.
+- **Next founder action:** Deploy v241 → top-right bell shows pending action → OPEN → verify lands on Design → ASSETS → crop review; ASSETS root shows NEEDS YOUR REVIEW card with [REVIEW CROPS].
+

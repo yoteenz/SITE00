@@ -4,7 +4,8 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import type { ProjectNotification } from '../../../../shared/site00-studio-world-production/projectNotifications/types.js';
 import {
   CANONICAL_VIEWPORT_DIMENSIONS,
   buildDesignScreenMatrix,
@@ -86,6 +87,10 @@ import { DesignMoreTab } from '../designWorkspace/DesignMoreTab';
 import { DesignWorkspaceOverflowMenu } from '../designWorkspace/DesignWorkspaceOverflowMenu';
 import { DesignReferenceAssetsPanel } from '../designWorkspace/DesignReferenceAssetsPanel';
 import { useDesignReconstructionWorkflow } from '../designWorkspace/useDesignReconstructionWorkflow.js';
+import {
+  mergeDesignWorkspaceNotifications,
+  useDesignFounderActionNotifications,
+} from '../designWorkspace/useDesignFounderActionNotifications.js';
 import { useDesignWorkspaceHostMenus } from '../designWorkspace/useDesignWorkspaceHostMenus';
 import { ActiveProjectNotificationCenter } from '../founderWorkspace/ActiveProjectNotificationCenter';
 import { useActiveProjectNotifications } from '../../hooks/useActiveProjectNotifications';
@@ -153,6 +158,8 @@ export function StudioWorldDesignWorkspace({
   const [site00ScreenSetMode] = useState<Site00ScreenSetMode>('PRIMARY');
   const [refAssetsSeed, setRefAssetsSeed] = useState(0);
   const reconstructionWorkflow = useDesignReconstructionWorkflow();
+  const founderActionNotifications = useDesignFounderActionNotifications();
+  const navigate = useNavigate();
   const prevPrimaryTabRef = useRef<DesignWorkspacePrimaryTab | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const {
@@ -385,6 +392,44 @@ export function StudioWorldDesignWorkspace({
     if (notificationOpen) refreshOnOpen();
   }, [notificationOpen, refreshOnOpen]);
 
+  const mergedNotifications = useMemo(
+    () =>
+      mergeDesignWorkspaceNotifications(
+        founderActionNotifications.notifications,
+        notificationState.notifications,
+      ),
+    [founderActionNotifications.notifications, notificationState.notifications],
+  );
+
+  const mergedUnreadCount = notificationState.unreadCount + founderActionNotifications.unreadCount;
+
+  const handleFounderActionNotificationOpen = useCallback(
+    (notification: ProjectNotification) => {
+      founderActionNotifications.markRead(notification.id);
+      closeHostMenu();
+      if (notification.actionTarget) {
+        navigate(notification.actionTarget);
+      }
+    },
+    [closeHostMenu, founderActionNotifications, navigate],
+  );
+
+  const handleNotificationMarkRead = useCallback(
+    (notificationId: string) => {
+      if (notificationId.startsWith('founder-action-')) {
+        founderActionNotifications.markRead(notificationId);
+        return;
+      }
+      void markRead(notificationId);
+    },
+    [founderActionNotifications, markRead],
+  );
+
+  const handleNotificationMarkAllRead = useCallback(() => {
+    founderActionNotifications.markAllRead();
+    void markAllRead();
+  }, [founderActionNotifications, markAllRead]);
+
   const legacyOverflowTab =
     primaryTab === 'REFERENCES' ? 'REFERENCE' : primaryTab === 'MORE' ? 'INSPECT' : primaryTab;
 
@@ -552,7 +597,7 @@ export function StudioWorldDesignWorkspace({
       onSelectDesignProject={handleSelectDesignProject}
       projectSelectorDisabled={isRescoping}
       activeHostMenu={activeHostMenu}
-      unreadNotificationCount={notificationState.unreadCount}
+      unreadNotificationCount={mergedUnreadCount}
       onToggleNotifications={toggleNotifications}
       onToggleOverflow={toggleOverflow}
       notifyMobileRef={notifyMobileRef}
@@ -748,13 +793,14 @@ export function StudioWorldDesignWorkspace({
       projectSlug={projectId}
       projectLabel={projectMeta?.displayName ?? projectId.toUpperCase()}
       anchorRef={notifyAnchorRef}
-      notifications={notificationState.notifications}
-      unreadCount={notificationState.unreadCount}
+      notifications={mergedNotifications}
+      unreadCount={mergedUnreadCount}
       messagesTransportBlocked={notificationState.messagesTransportBlocked}
       messagesTransportBlockReason={notificationState.messagesTransportBlockReason}
       loading={notificationsLoading}
-      onMarkRead={(id) => void markRead(id)}
-      onMarkAllRead={() => void markAllRead()}
+      onMarkRead={handleNotificationMarkRead}
+      onMarkAllRead={handleNotificationMarkAllRead}
+      onFounderActionOpen={handleFounderActionNotificationOpen}
     />
 
     <DesignWorkspaceOverflowMenu

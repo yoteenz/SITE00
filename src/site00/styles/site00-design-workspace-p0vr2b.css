@@ -1857,6 +1857,120 @@
   color: var(--site00-dw-host-accent);
 }
 
+/* P0.VR.6R8 — compact ASSETS alert zone */
+.site00-dw-founder-alert-zone {
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--site00-dw-line, #e5e5e5);
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.site00-dw-founder-alert-zone__head h2 {
+  margin: 0 0 8px;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--site00-dw-host-accent);
+}
+
+.site00-dw-founder-alert-zone__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.site00-dw-founder-alert {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--site00-dw-line, #e5e5e5);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.site00-dw-founder-alert.is-blocking {
+  border-left: 3px solid var(--site00-dw-host-accent);
+}
+
+.site00-dw-founder-alert__job {
+  margin: 0 0 4px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.site00-dw-founder-alert__meta,
+.site00-dw-founder-alert__subline {
+  margin: 0;
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  color: var(--site00-dw-text-muted, #666);
+}
+
+.site00-dw-founder-alert__headline {
+  margin: 4px 0 2px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.site00-dw-founder-alert__blocking {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  color: var(--site00-dw-host-accent);
+}
+
+.site00-dw-founder-alert__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.site00-dw-founder-alert__cta {
+  min-height: 32px;
+  font-size: 9px;
+}
+
+.site00-dw-founder-alert__secondary {
+  font-size: 8px;
+}
+
+.site00-dw-founder-alert-zone__view-all {
+  margin-top: 8px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  color: var(--site00-dw-host-accent);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.site00-dw-skins-founder-hint {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 8px 10px;
+  border: 1px solid var(--site00-dw-line, #e5e5e5);
+  border-radius: 6px;
+  background: #fafafa;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+.site00-dw-skins-founder-hint p {
+  margin: 0;
+}
+
 .site00-dw-v3-tabs__tab.has-pending-action {
   position: relative;
 }
