@@ -44,6 +44,7 @@ import '../site00/styles/site00-auth-create-account.css';
 import '../site00/styles/site00-access.css';
 import '../site00/styles/site00-ctrl-room.css';
 import '../site00/styles/site00-ctrl-room-mobile.css';
+import '../site00/styles/site00-evolve-operations.css';
 import '../site00/styles/site00-ecosystem.css';
 import '../site00/styles/site00-experience-context.css';
 import '../site00/styles/site00-idnty-assessment.css';
@@ -79,6 +80,7 @@ const AccessCredentialDebugPage = lazy(() => import('../site00/pages/access/Acce
 const ControlOverviewPage = lazy(() => import('../site00/pages/control/ControlOverviewPage'));
 const ControlSectionPage = lazy(() => import('../site00/pages/control/ControlSectionPage'));
 const ControlSitesPage = lazy(() => import('../site00/pages/control/ControlSitesPage'));
+const EvolveOperationsPage = lazy(() => import('../site00/pages/control/EvolveOperationsPage'));
 const SitesPortfolioPage = lazy(() => import('../site00/pages/SitesPortfolioPage'));
 const ServicesPage = lazy(() => import('../site00/pages/ServicesPage'));
 const SystemPage = lazy(() => import('../site00/pages/SystemPage'));
@@ -2305,6 +2307,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ControlOverviewPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.controlEvolveOperations}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <EvolveOperationsPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>
