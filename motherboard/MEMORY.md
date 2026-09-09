@@ -7125,3 +7125,26 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining:** FRONTAL SLAYER, AIO, ASTRAL WORLD, STUDIO WORLD still await reconstruction; screen pack tiles await authority; full mobile composition convergence pending.
 - **Next founder action:** Deploy v236 → Design → SKINS → MOBILE → verify NDXBOOK card shows planetary artwork (not lime block) → compare family row to authority.
 
+---
+
+## 2026-09-09 — Reference Reconstruction Intelligence (P0.VR.6R5)
+
+- **Problem:** Reconstruction still followed REFERENCE → visual interpretation → approximate implementation. EXACT mode lacked formal MEASURE → INFER → CONSTRAIN → CONVERGE → VERIFY pipeline between "composer can see the screen" and "live implementation is actually exact."
+- **Scope:** System-level methodology sprint — not a one-off SKINS/NDXBOOK fix. Five intelligence layers formalized as first-class modules.
+- **Implemented (`referenceReconstructionIntelligence/`):**
+  - Layer 1: `ReferenceMeasurementEngine` — canonical content-canvas coordinates, viewport calibration, region tree, geometry/spacing/typography/surface specs.
+  - Frame segmentation: device frame / browser chrome / content canvas separation (`referenceFrameSegmentation.ts`).
+  - Layer 2: `ReferenceLayoutInferenceEngine` — flex/grid inference, parent-child graph, responsive authority isolation.
+  - Layer 3: `DesignExecutionConstraintEngine` — global CSS contamination audit, native control leak, box model audit.
+  - Layer 4: `visualConvergenceHardening.ts` — region deltas, cumulative drift detector, correction priority, probable cause resolver, correction plans, convergence iteration records, no-op guard integration.
+  - Layer 5: `ReferenceVerificationEngine` — fidelity thresholds, hard blockers, false-pass guard, line-break drift classification.
+  - `ReferenceReconstructionBlueprint` — machine-readable spec; `blueprintRequiredBeforeExactImplementation()` blocks EXACT without READY blueprint.
+  - `deterministicCapture.ts` — font-ready, layout-stable, animation-freeze, scroll/data-state gates.
+  - `skinsMobileBlueprint.ts` — SKINS mobile authority preset (941×1672, geometry tokens, AIO line-break contracts).
+  - `systemInspector.ts` — `buildReferenceReconstructionInspectorState()` for founder QA.
+  - UI: `DesignReferenceReconstructionInspector.tsx` wired in Design → MORE → REFERENCE FIDELITY.
+  - Tests: `referenceReconstructionIntelligence.test.ts` (55 pass).
+- **31 failure codes** registered in `RRI_FAILURE_CODES`.
+- **Remaining gaps:** Desktop SKINS blueprint preset; live CAPTURE→DIFF→CORRECT loop not yet wired to convergence API; 4 family assets still unbound; full mobile composition convergence not executed against founder authorities.
+- **Next founder action:** Deploy v237 → Design → MORE → REFERENCE RECONSTRUCTION → verify blueprint READY + viewport/content canvas/region tree/layout plan visible → run IMPLEMENT/RECONVERGE MOBILE SKINS when wired → only then move to desktop SKINS authority.
+
