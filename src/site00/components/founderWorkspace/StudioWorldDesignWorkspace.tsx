@@ -80,6 +80,7 @@ import { DesignWorkspacePrimaryTabRail } from '../designWorkspace/DesignWorkspac
 import { DesignWorkspaceViewportRail } from '../designWorkspace/DesignWorkspaceViewportRail';
 import { DesignReferencesTab } from '../designWorkspace/DesignReferencesTab';
 import { DesignPagesTabPanel } from '../designWorkspace/DesignPagesTabPanel';
+import { DesignSkinsTab } from '../designWorkspace/DesignSkinsTab';
 import { DesignHistoryTab } from '../designWorkspace/DesignHistoryTab';
 import { DesignMoreTab } from '../designWorkspace/DesignMoreTab';
 import { DesignWorkspaceOverflowMenu } from '../designWorkspace/DesignWorkspaceOverflowMenu';
@@ -651,6 +652,15 @@ export function StudioWorldDesignWorkspace({
             }}
             onRefreshPage={(id) => void refreshMirrorPage(id)}
             onRefreshProject={() => void refreshMirrorProject()}
+          />
+        ) : null}
+
+        {primaryTab === 'SKINS' ? (
+          <DesignSkinsTab
+            key={`skins-${activeDesignProjectId}`}
+            projectId={activeDesignProjectId}
+            onOpenScreen={() => window.open(livePreviewUrl, '_blank', 'noopener,noreferrer')}
+            onMatchReference={handleMatchReference}
           />
         ) : null}
 

@@ -1,6 +1,6 @@
 /**
  * P0.VR.6 — Design workspace UX reconstruction (11-reference sprint).
- * Primary IA: REFERENCES · ASSETS · PAGES · HISTORY · MORE
+ * Primary IA: REFERENCES · ASSETS · PAGES · SKINS · HISTORY · MORE
  */
 
 import type { DesignViewportClass } from '../p0vr2/types.js';
@@ -11,6 +11,7 @@ export const DESIGN_WORKSPACE_PRIMARY_TABS = [
   'REFERENCES',
   'ASSETS',
   'PAGES',
+  'SKINS',
   'HISTORY',
   'MORE',
 ] as const;
@@ -21,9 +22,24 @@ export const PRIMARY_TAB_LABELS: Record<DesignWorkspacePrimaryTab, string> = {
   REFERENCES: 'REFERENCES',
   ASSETS: 'ASSETS',
   PAGES: 'PAGES',
+  SKINS: 'SKINS',
   HISTORY: 'HISTORY',
   MORE: 'MORE',
 };
+
+export const DESIGN_SKINS_FAILURE_CODES = [
+  'DESIGN_SKINS_TAB_MISSING',
+  'DESIGN_SKINS_STILL_NESTED_UNDER_MORE',
+  'DESIGN_MORE_CONTENT_REGRESSION',
+  'DESIGN_SKINS_MOBILE_AUTHORITY_DRIFT',
+  'DESIGN_SKINS_DESKTOP_AUTHORITY_DRIFT',
+  'DESIGN_SKINS_DESKTOP_STRETCHED_MOBILE',
+  'DESIGN_SKINS_STATIC_SCREEN_COUNT',
+  'DESIGN_SKINS_AUTHORITY_ACTION_DISCONNECTED',
+  'DESIGN_SKINS_PROJECT_SCOPE_STALE',
+  'DESIGN_SKINS_TYPOGRAPHY_FIREWALL_BREACH',
+  'DESIGN_SKINS_REFERENCE_QA_SKIPPED',
+] as const;
 
 /** Map legacy P0.VR.2B tabs → primary tabs for URL backward compatibility. */
 export const LEGACY_TAB_TO_PRIMARY: Record<string, DesignWorkspacePrimaryTab> = {
@@ -35,6 +51,9 @@ export const LEGACY_TAB_TO_PRIMARY: Record<string, DesignWorkspacePrimaryTab> = 
   INSPECT: 'MORE',
   PAGES: 'PAGES',
   ASSETS: 'ASSETS',
+  SKINS: 'SKINS',
+  EXPERIENCE_SKIN: 'SKINS',
+  'EXPERIENCE SKIN': 'SKINS',
   HISTORY: 'HISTORY',
   REFERENCES: 'REFERENCES',
   MORE: 'MORE',

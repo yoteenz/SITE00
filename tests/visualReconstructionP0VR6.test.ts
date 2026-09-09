@@ -27,7 +27,7 @@ function read(rel: string): string {
 
 describe('P0.VR.6 design workspace UX reconstruction', () => {
   it('1-6. primary tabs exist and legacy mapping works', () => {
-    expect(DESIGN_WORKSPACE_PRIMARY_TABS).toEqual(['REFERENCES', 'ASSETS', 'PAGES', 'HISTORY', 'MORE']);
+    expect(DESIGN_WORKSPACE_PRIMARY_TABS).toEqual(['REFERENCES', 'ASSETS', 'PAGES', 'SKINS', 'HISTORY', 'MORE']);
     expect(normalizeDesignWorkspacePrimaryTab('compare')).toBe('REFERENCES');
     expect(normalizeDesignWorkspacePrimaryTab('assets')).toBe('ASSETS');
     expect(LEGACY_TAB_TO_PRIMARY.INSPECT).toBe('MORE');
