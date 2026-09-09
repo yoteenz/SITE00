@@ -11,6 +11,7 @@ import {
 } from '../../../shared/site00-projects/buildProjectIndexItems.js';
 import type { ProjectIndexItem, ProjectIndexStatus } from '../../../shared/site00-projects/projectIndexItem.js';
 import { computeProjectIndexSummaryMetrics } from '../../../shared/site00-projects/projectIndexMetrics.js';
+import { buildProjectsViewData } from '../../../shared/site00-projects/projectsViewDataAdapter.js';
 import { orderProjectIndexItems } from '../../../shared/site00-projects/projectIndexOrder.js';
 import { runProjectIndexStaleDataQA } from '../../../shared/site00-projects/projectIndexStaleDataQA.js';
 import { useSite00ProjectsIndex } from './useSite00Projects.js';
@@ -126,7 +127,7 @@ export function useProjectIndex() {
 
   const allItems = viewMode === 'CLIENT' ? clientItems : founderItems;
 
-  const designItem = viewMode === 'CLIENT' ? null : buildSite00PlatformDesignIndexItem();
+  const designItem = useMemo(() => buildSite00PlatformDesignIndexItem(), []);
 
   const projectItems = useMemo(() => {
     const matched = allItems.filter(
@@ -155,11 +156,42 @@ export function useProjectIndex() {
   const staleQA = useMemo(
     () =>
       runProjectIndexStaleDataQA({
-        items: designItem ? [designItem, ...projectItems] : projectItems,
+        items:
+          viewMode === 'CLIENT' || !designItem
+            ? projectItems
+            : [designItem, ...projectItems],
         viewMode,
         indexStateVersion: indexVersion,
       }),
     [designItem, projectItems, viewMode, indexVersion],
+  );
+
+  const availableFilters = useMemo(() => {
+    const items = viewMode === 'CLIENT' ? clientItems : founderItems;
+    const out: ProjectIndexFilter[] = ['ALL'];
+    if (items.some((i) => i.ownerType === 'FOUNDER')) out.push('FOUNDER');
+    if (items.some((i) => i.ownerType === 'CLIENT')) out.push('CLIENT');
+    out.push('ACTIVE');
+    if (items.some((i) => i.status === 'PRE_LAUNCH')) out.push('PRE_LAUNCH');
+    if (items.some((i) => i.status === 'LAUNCHED' || i.status === 'POST_LAUNCH')) out.push('LAUNCHED');
+    if (items.some((i) => i.isOnHold)) out.push('ON_HOLD');
+    if (items.some((i) => i.isArchived)) out.push('ARCHIVED');
+    return out;
+  }, [viewMode, founderItems, clientItems]);
+
+  const showFilteredEmpty = founderIndex.state !== 'loading' && founderIndex.state !== 'error' && projectItems.length === 0;
+
+  const viewData = useMemo(
+    () =>
+      buildProjectsViewData({
+        viewMode,
+        founderItems,
+        clientItems,
+        projectItems,
+        availableFilters,
+        showFilteredEmpty,
+      }),
+    [viewMode, founderItems, clientItems, projectItems, availableFilters, showFilteredEmpty],
   );
 
   const reload = useCallback(() => {
@@ -170,6 +202,7 @@ export function useProjectIndex() {
 
   return {
     viewMode,
+    viewData,
     items: projectItems,
     designItem,
     allItems,
@@ -186,6 +219,7 @@ export function useProjectIndex() {
     reload,
     staleQA,
     indexStateVersion: indexVersion,
+    availableFilters,
   };
 }
 
