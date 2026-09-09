@@ -7148,3 +7148,22 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining gaps:** Desktop SKINS blueprint preset; live CAPTURE→DIFF→CORRECT loop not yet wired to convergence API; 4 family assets still unbound; full mobile composition convergence not executed against founder authorities.
 - **Next founder action:** Deploy v237 → Design → MORE → REFERENCE RECONSTRUCTION → verify blueprint READY + viewport/content canvas/region tree/layout plan visible → run IMPLEMENT/RECONVERGE MOBILE SKINS when wired → only then move to desktop SKINS authority.
 
+---
+
+## 2026-09-09 — Authority Boundary + Multi-Asset Orchestration (P0.VR.6R6)
+
+- **Problem:** P0.VR.6R5 shipped methodology but runtime SKINS mobile unchanged — only NDXBOOK improved; system treated too much as HOST_LOCKED and processed assets one-at-a-time.
+- **Root causes:** (1) Authority boundary misclassification — workspace content mistaken for host shell. (2) Asset reconstruction too atomic — no full-screen mismatch discovery → single multi-asset job with founder gates.
+- **Implemented:**
+  - `authorityBoundary.ts` — `ReferenceAuthorityBoundaryMap`, `RegionFunctionVisualContract`, `HostShellOverreachDetector` (~12% host coverage vs ~70% authority rebuild).
+  - `referenceAssetMismatch.ts` — `ReferenceLiveVisualInventory`, discovers all 5 family visual mismatches (4 color swatches + NDX matched).
+  - `multiAssetReconstructionJob.ts` — `ReferenceMultiAssetReconstructionJob`, crop/generation/binding progress, `buildMultiAssetReconstructionPlan`.
+  - `reconstructionApprovals.ts` — 4 founder gates: CROP / GENERATION / OUTPUT / REGENERATION (separate flags).
+  - `assetCompletenessGate.ts`, `partialVisualImplementationGuard.ts` — blocks HIGH_MATCH when assets wrong; detects partial-op (1/5 fixed).
+  - Blueprint extended: boundary map, approval states, multiAssetJobId, assetMismatchCount.
+  - Inspector: color-coded boundary overlay (HOST_LOCKED vs AUTHORITY_REBUILD vs ASSET_SLOT).
+  - ASSETS UI: REFERENCE RECONSTRUCTION JOB — 5 assets, DETECT/CROPS/GENERATION/OUTPUTS/BOUND progress, crop queue, gate A/B/C buttons.
+  - Tests: `referenceReconstructionIntelligenceR6.test.ts` (30 pass); total RRI 85 pass.
+- **Remaining:** Provider dispatch API wiring; post-bind recapture loop; layout/typography structural corrections execution; desktop blueprint.
+- **Next founder action:** Deploy v238 → MORE → REFERENCE RECONSTRUCTION → verify SKINS workspace shows AUTHORITY_REBUILD (red overlay) not HOST_LOCKED → ASSETS → SKINS MOBILE JOB → verify 5 assets → approve crops → review plan → approve generation (no auto-dispatch until wired).
+
