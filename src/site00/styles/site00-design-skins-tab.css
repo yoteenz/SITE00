@@ -2,6 +2,14 @@
  * Design → SKINS tab — pixel-fidelity calibrated mobile + desktop authority layouts (P0.VR.6R3).
  */
 
+.site00-dw-skins--rri-calibrated .site00-dw-skins__section-head {
+  margin-bottom: 10px;
+}
+
+.site00-dw-skins--rri-calibrated .site00-dw-skins__pack-head {
+  margin-top: 4px;
+}
+
 .site00-dw-skins {
   --skins-mobile-family-w: 88px;
   --skins-mobile-family-thumb-h: 72px;

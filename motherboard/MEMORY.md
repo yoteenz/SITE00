@@ -7167,3 +7167,25 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining:** Provider dispatch API wiring; post-bind recapture loop; layout/typography structural corrections execution; desktop blueprint.
 - **Next founder action:** Deploy v238 → MORE → REFERENCE RECONSTRUCTION → verify SKINS workspace shows AUTHORITY_REBUILD (red overlay) not HOST_LOCKED → ASSETS → SKINS MOBILE JOB → verify 5 assets → approve crops → review plan → approve generation (no auto-dispatch until wired).
 
+---
+
+## 2026-09-09 — Founder Action Routing + Auto-Surfaced Approval Workflow (P0.VR.6R7)
+
+- **Problem:** v238 SKINS mobile job blocked on crops 0/5 + generation blocked — founder saw nothing actionable in Design workspace; had to hunt System Inspector. Structural/typography corrections incorrectly coupled to asset gate.
+- **Root causes:** (1) `FOUNDER_GATE_NOT_SURFACED` — blocked jobs did not auto-create `DesignFounderAction`. (2) `RECONSTRUCTION_SUBJOB_COUPLED` — top-level BLOCKED stopped structure/typography parallel work. (3) `FOUNDER_ACTION_DEEPLINK_MISSING` — no deep-link from SKINS/ASSETS tabs to crop review workspace.
+- **Implemented:**
+  - `founderAction.ts` — `DesignFounderAction` model, action types (REVIEW_CROPS, APPROVE_GENERATION, REVIEW_OUTPUTS, APPROVE_REGENERATION, REVIEW_BINDINGS, etc.), R7 failure codes.
+  - `founderActionRouter.ts` — auto-create actions from blocked job; `hydrateV238SkinsMobileJob()` for existing 5-asset job recovery.
+  - `referenceReconstructionSubJobs.ts` — STRUCTURE/TYPOGRAPHY/SURFACES/ASSETS/CAPTURE_QA independent status; top-level `IN_PROGRESS — FOUNDER ACTION REQUIRED`.
+  - `structureCorrectionEngine.ts` — parallel CSS corrections (`--skins-mobile-family-w`, spacing, typography) while assets wait.
+  - `reconstructionJobOrchestrator.ts` — crop → plan → generation → output state transitions; resolving action resumes pipeline.
+  - `reconstructionWorkflowStore.ts` — session-persistent workflow + actions.
+  - UI: `DesignFounderActionBanner`, `DesignReconstructionWorkflowPanel`, `useDesignReconstructionWorkflow` — multi-crop review (01/05), generation plan, execution status, output review.
+  - `DesignSkinsTab` — inline action card + workflow panel + RRI-calibrated structure CSS.
+  - `DesignReferenceAssetsPanel` — NEEDS YOUR REVIEW queue at top.
+  - `DesignWorkspacePrimaryTabRail` — badge counts on ASSETS/SKINS when blocking actions pending.
+  - API: `dispatch_skins_candidate` in `design-asset-reconstruction.ts` — FAL dispatch after generation approval.
+  - Tests: `referenceReconstructionIntelligenceR7.test.ts` (26 pass); total RRI 111 pass.
+- **Remaining gaps:** Full post-bind auto capture/recompare loop; regeneration approval UI (REVISE → APPROVE_REGENERATION) partial; production FAL_KEY required for live dispatch.
+- **Next founder action:** Deploy v239 → Design → SKINS (NOT Inspector) → verify "5 CROPS NEED YOUR REVIEW" + [REVIEW CROPS] → approve 5 crops → review generation plan → APPROVE GENERATION → compare layout to authority (structure/typography should already have moved before asset approval).
+

@@ -40,6 +40,12 @@ export type GenerationApprovalState = {
   dispatchesUsed: number;
 };
 
+export type OutputApprovalState = {
+  pendingReview: number;
+  approved: number;
+  rejected: number;
+};
+
 export function evaluateCropApprovalGate(candidates: Array<{ cropStatus: string }>): {
   allowed: boolean;
   failureCode: 'REFERENCE_CROP_APPROVAL_SKIPPED' | null;
