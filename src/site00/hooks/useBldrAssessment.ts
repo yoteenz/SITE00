@@ -9,6 +9,7 @@ import {
 import { bldrExperiencePath } from '../../../shared/site00-brand-lore/bldr-experience-questions';
 import { IDNTY_ASSESSMENT_STORAGE_KEY } from '../config/idnty-assessment';
 import { computeBldrRecommendation } from '../config/bldr-assessment-recommendation';
+import { hydrateSiteTypeAnswer } from '../../../shared/site00-bldr-classification/siteTypeModel';
 import { useIntakeSync } from './useIntakeSync';
 
 export type BldrStepAnswers = Record<string, string | string[]>;
@@ -49,7 +50,12 @@ function readRecord(): BldrAssessmentRecord {
   try {
     const raw = localStorage.getItem(BLDR_ASSESSMENT_STORAGE_KEY);
     if (!raw) return EMPTY;
-    return { ...EMPTY, ...JSON.parse(raw) } as BldrAssessmentRecord;
+    const parsed = { ...EMPTY, ...JSON.parse(raw) } as BldrAssessmentRecord;
+    const answers: BldrAssessmentRecord['answers'] = {};
+    for (const [classId, classAnswers] of Object.entries(parsed.answers ?? {})) {
+      answers[classId as BldrAssessmentStateId] = hydrateSiteTypeAnswer(classAnswers ?? {});
+    }
+    return { ...parsed, answers };
   } catch {
     return EMPTY;
   }
@@ -108,7 +114,7 @@ function readIdntyPrefill(): BldrStepAnswers {
     if (project) {
       const ids = Array.isArray(project) ? project : [project];
       const mapped = ids.map((id) => IDNTY_TO_BLDR_SITE_TYPE[id] ?? id).filter(Boolean);
-      if (mapped.length) prefill.type = mapped[0] as string;
+      if (mapped.length) prefill.type = mapped;
     }
 
     if (stateAnswers.audience && typeof stateAnswers.audience === 'string') {
@@ -177,7 +183,7 @@ export function useBldrAssessment() {
   const setStepAnswers = useCallback(
     (classId: BldrAssessmentStateId, stepId: string, answers: BldrStepAnswers) => {
       const current = readRecord();
-      const mergedForClass = { ...(current.answers[classId] ?? {}), ...answers };
+      const mergedForClass = hydrateSiteTypeAnswer({ ...(current.answers[classId] ?? {}), ...answers });
       persist({
         ...current,
         buildClass: classId,

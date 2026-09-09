@@ -11,6 +11,8 @@ import { useBldrAssessment } from '../../../hooks/useBldrAssessment';
 import { BldrAssessmentShell, BldrAssessmentActions } from '../../../components/bldr-assessment/BldrAssessmentShell';
 import { IdntyProcessStripPanel } from '../../../components/idnty-assessment/IdntyAssessmentPanels';
 import { formatAnswerLabel } from '../../../components/idnty-assessment/IdntyStepForm';
+import { formatSiteTypesForReview } from '../../../../../shared/site00-bldr-classification/bldrFieldValidation';
+import { BLDR_SITE_TYPE_OTHER_SPECIFY_KEY } from '../../../../../shared/site00-bldr-classification/siteTypeModel';
 import { useSite00DesktopArtboardPreview } from '../../../components/shell/Site00DesktopArtboardContext';
 import { site00BldrAssessmentDesktopPath } from '../../../config/routes';
 
@@ -25,7 +27,7 @@ export default function BldrAssessmentReviewPage({ classSlug }: BldrAssessmentRe
   const state = getBldrAssessmentState(classSlug)!;
   const { getAnswersForClass, completeAssessment, setCurrentStep } = useBldrAssessment();
   const answers = getAnswersForClass(classSlug);
-  const allSteps = bldrAssessmentAllSteps(state);
+  const allSteps = bldrAssessmentAllSteps(state, answers);
 
   useEffect(() => {
     setCurrentStep(classSlug, 'review');
@@ -53,7 +55,15 @@ export default function BldrAssessmentReviewPage({ classSlug }: BldrAssessmentRe
         {allSteps.map((step) => (
           <div key={step.id} className="site00-idnty-review-list__row">
             <dt>{step.title}</dt>
-            <dd>{formatAnswerLabel(step.options, answers[step.id] ?? '')}</dd>
+            <dd>
+              {step.id === 'type'
+                ? formatSiteTypesForReview(
+                    step.options,
+                    answers[step.id],
+                    String(answers[BLDR_SITE_TYPE_OTHER_SPECIFY_KEY] ?? ''),
+                  )
+                : formatAnswerLabel(step.options, answers[step.id] ?? '')}
+            </dd>
             <button
               type="button"
               className="site00-idnty-review-list__edit"
