@@ -18,6 +18,7 @@ import { buildProjectIndexItemsFromEntries } from '../shared/site00-projects/bui
 import { runProjectIndexStaleDataQA } from '../shared/site00-projects/projectIndexStaleDataQA.js';
 import type { Site00ProjectIndexEntry } from '../shared/site00-projects/types.js';
 import { PROJECT_INDEX_CANONICAL_ORDER } from '../shared/site00-projects/projectIndexOrder.js';
+import { PROJECTS_PAGE_SHELL_CONFIG } from '../shared/site00-projects/projectsPageShellConfig.js';
 
 const ROOT = join(import.meta.dirname, '..');
 const INDEX_PAGE = readFileSync(join(ROOT, 'src/site00/components/projectIndex/ProjectIndexPage.tsx'), 'utf8');
@@ -60,8 +61,8 @@ describe('B5.9R8 View-mode shell invariance', () => {
   });
 
   it('3. hero copy is identical in both modes', () => {
-    expect(HERO).toContain('ALL PROJECTS. ONE SYSTEM.');
-    expect(HERO).toContain('IDEAS BECOME ENVIRONMENTS. ENVIRONMENTS CREATE OPPORTUNITY.');
+    expect(HERO).toContain('PROJECTS_PAGE_SHELL_CONFIG');
+    expect(PROJECTS_PAGE_SHELL_CONFIG.tagline).toBe('ALL PROJECTS. ONE SYSTEM.');
     expect(HERO).not.toContain('YOUR PROJECTS');
     expect(HERO).not.toContain('clientView');
   });

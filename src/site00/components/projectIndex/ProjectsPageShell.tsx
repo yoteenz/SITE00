@@ -43,7 +43,7 @@ export function ProjectsPageShell({
   children,
 }: ProjectsPageShellProps) {
   return (
-    <>
+    <div data-site00-shell="projects">
       <ProjectIndexHero />
 
       <ProjectIndexViewStrip />
@@ -68,6 +68,6 @@ export function ProjectsPageShell({
       />
 
       {children}
-    </>
+    </div>
   );
 }

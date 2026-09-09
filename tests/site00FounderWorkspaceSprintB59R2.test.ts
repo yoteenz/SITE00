@@ -23,7 +23,7 @@ const ROOT = join(import.meta.dirname, '..');
 const PROJECTS_PAGE = readFileSync(join(ROOT, 'src/site00/pages/ProjectsPage.tsx'), 'utf8');
 const INDEX_PAGE = readFileSync(join(ROOT, 'src/site00/components/projectIndex/ProjectIndexPage.tsx'), 'utf8');
 const INDEX_CSS = readFileSync(join(ROOT, 'src/site00/styles/site00-project-index.css'), 'utf8');
-const HEADER = readFileSync(join(ROOT, 'src/site00/components/projectIndex/ProjectIndexHeader.tsx'), 'utf8');
+const VIEW_STRIP = readFileSync(join(ROOT, 'src/site00/components/projectIndex/ProjectIndexViewStrip.tsx'), 'utf8');
 const CONTROLS = readFileSync(join(ROOT, 'src/site00/components/projectIndex/ProjectIndexControls.tsx'), 'utf8');
 const MOBILE_CARD = readFileSync(join(ROOT, 'src/site00/components/projectIndex/ProjectIndexMobileCard.tsx'), 'utf8');
 const DESKTOP_ROW = readFileSync(join(ROOT, 'src/site00/components/projectIndex/ProjectIndexDesktopRow.tsx'), 'utf8');
@@ -75,7 +75,7 @@ describe('B5.9R2 Project Index Redesign', () => {
   it('6–8. founder/client toggle and client surface wiring', () => {
     expect(PROJECTS_PAGE).toContain('ProjectViewModeProvider');
     expect(INDEX_PAGE).toContain('viewMode');
-    expect(HEADER).toContain('CLIENT VIEW');
+    expect(VIEW_STRIP).toContain('CLIENT VIEW');
     expect(HOOK).toContain("viewMode === 'CLIENT'");
   });
 
