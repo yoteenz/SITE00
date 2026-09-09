@@ -9,7 +9,7 @@ export function ProjectIndexViewStrip() {
   const founderActive = viewMode === 'FOUNDER';
 
   return (
-    <div className="site00-pidx-view-strip" role="group" aria-label="VIEW MODE">
+    <div className="site00-pidx-view-strip" role="group" aria-label="VIEW MODE" data-dynamic-region="toggle-active-state">
       <button
         type="button"
         className={`site00-pidx-view-strip__segment site00-pidx-view-strip__segment--founder${founderActive ? ' is-active' : ''}`}

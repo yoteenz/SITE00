@@ -1,10 +1,6 @@
 import { Site00OrbitalMark } from '../auth/Site00OrbitalMark';
 
-type ProjectIndexHeroProps = {
-  clientView: boolean;
-};
-
-export function ProjectIndexHero({ clientView }: ProjectIndexHeroProps) {
+export function ProjectIndexHero() {
   return (
     <header className="site00-pidx-hero">
       <div className="site00-pidx-hero__grid">
@@ -22,14 +18,10 @@ export function ProjectIndexHero({ clientView }: ProjectIndexHeroProps) {
           </p>
           <h1 className="site00-pidx-hero__title">PROJECTS</h1>
           <span className="site00-pidx-hero__divider" aria-hidden="true" />
-          <p className="site00-pidx-hero__tagline">
-            {clientView ? 'YOUR PROJECTS. ONE SYSTEM.' : 'ALL PROJECTS. ONE SYSTEM.'}
+          <p className="site00-pidx-hero__tagline">ALL PROJECTS. ONE SYSTEM.</p>
+          <p className="site00-pidx-hero__support">
+            IDEAS BECOME ENVIRONMENTS. ENVIRONMENTS CREATE OPPORTUNITY.
           </p>
-          {!clientView ? (
-            <p className="site00-pidx-hero__support">
-              IDEAS BECOME ENVIRONMENTS. ENVIRONMENTS CREATE OPPORTUNITY.
-            </p>
-          ) : null}
         </div>
 
         <div className="site00-pidx-hero__visual-col">

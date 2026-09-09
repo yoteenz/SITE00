@@ -6771,3 +6771,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **QA:** NDXBOOK Expression Engine loads ~3s to populated workspace (entry summary, production journey, storyboard grid); Meridian hydrates separately
 - **Next founder action:** Hard refresh dev/prod → Expression Engine should populate immediately; Meridian section may show snapshot, fallback, or "snapshot unavailable" without blocking workspace.
 
+---
+
+## 2026-09-09 — Sprint B5.9R8 — View-mode shell invariance (Projects index)
+
+- **Bug:** Toggling Founder → Client on `/projects` recomposed the page: different hero copy/height, hidden toggle, collapsed 2-tile metrics, black "CLIENT VIEW / RETURN TO FOUNDER VIEW" bar.
+- **Root cause:** Conditional page tree in `ProjectIndexPage` — `clientView` branches hid hero copy, view strip, design card; `ProjectIndexSummary` rendered 2-tile client grid; `ProjectIndexClientSimulationBanner` added duplicate control.
+- **Fix:**
+  - **`ProjectsPageShell`** — single layout tree (hero, toggle, admin row, metrics, search, filters, body slot)
+  - **`ProjectsViewDataAdapter`** (`projectsViewDataAdapter.ts`) — panel-only substitution: 4 metric tiles, filter chip disabled states, project dataset, empty states
+  - Hero copy locked: `ALL PROJECTS. ONE SYSTEM.` + supporting line in both modes
+  - Toggle always mounted; active side black via existing `is-active` CSS
+  - Removed index client simulation banner; scroll preserved on toggle in `ProjectViewModeContext`
+  - Design card shell placeholder in client mode (muted, same geometry)
+  - QA: `projectViewModeShellQA.ts` + `site00FounderWorkspaceSprintB59R8.test.ts` (18 tests)
+- **Mobile QA (390px):** Founder/client screenshots match shell geometry; no black bar; 2×2 metrics; toggle switches active side only
+- **Next founder action:** Hard refresh → `/projects` → toggle CLIENT VIEW on existing control → verify same shell, data-only change.
+

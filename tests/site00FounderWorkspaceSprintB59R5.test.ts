@@ -157,12 +157,14 @@ describe('B5.9R5 Projects Index Redesign', () => {
     expect(PROJECT_CARD).toContain('currentFocus');
   });
 
-  it('19. founder view shows design workspace', () => {
-    expect(INDEX_PAGE).toContain('!clientView && designItem');
+  it('19. founder view shows interactive design workspace', () => {
+    expect(INDEX_PAGE).toContain('ProjectIndexDesignCard');
+    expect(INDEX_PAGE).toContain('interactive={designRender.interactive}');
   });
 
-  it('20. client view hides founder design workspace by default', () => {
-    expect(HOOK).toContain("viewMode === 'CLIENT' ? null : buildSite00PlatformDesignIndexItem()");
+  it('20. client view keeps design shell placeholder without link', () => {
+    expect(DESIGN_CARD).toContain('site00-pidx-design-card--shell-placeholder');
+    expect(DESIGN_CARD).toContain('interactive = true');
   });
 
   it('21. search works in hook', () => {

@@ -4,10 +4,38 @@ import { resolveProjectIndexVisual } from '../../../../shared/site00-projects/pr
 
 type ProjectIndexDesignCardProps = {
   item: ProjectIndexItem;
+  interactive?: boolean;
 };
 
-export function ProjectIndexDesignCard({ item }: ProjectIndexDesignCardProps) {
+export function ProjectIndexDesignCard({ item, interactive = true }: ProjectIndexDesignCardProps) {
   const visual = resolveProjectIndexVisual(item.projectId, item.projectName);
+
+  if (!interactive) {
+    return (
+      <article
+        className="site00-pidx-design-card site00-pidx-design-card--shell-placeholder"
+        aria-hidden="true"
+      >
+        <div className="site00-pidx-design-card__link site00-pidx-design-card__link--muted">
+          <div className="site00-pidx-design-card__header">
+            <span className="site00-pidx-design-card__system-tag">SITE 00 SYSTEM</span>
+            <span className="site00-pidx-design-card__master-tag">MASTER WORKSPACE</span>
+          </div>
+          <div className="site00-pidx-design-card__body">
+            <div
+              className={`site00-pidx-design-card__visual site00-pidx-design-card__visual--${visual.visualClass}`}
+            >
+              <span className="site00-pidx-design-card__initials">{item.projectInitials}</span>
+            </div>
+            <div className="site00-pidx-design-card__copy">
+              <h2 className="site00-pidx-design-card__name">{item.projectName}</h2>
+              <p className="site00-pidx-design-card__type">{item.projectType}</p>
+            </div>
+          </div>
+        </div>
+      </article>
+    );
+  }
 
   return (
     <article className="site00-pidx-design-card">
