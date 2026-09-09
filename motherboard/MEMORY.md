@@ -6806,3 +6806,28 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - Live screenshot QA: mobile + desktop captures; Supabase URL (not fal.media) in hero binding.
 - **Auth UI:** `AUTH_UI_QA_BLOCKED` for full Design Workspace walkthrough (founder session required); binding/render verified via live binding test + `/projects` binding API.
 - **Next founder action:** Upload GoDaddy ZIP (v211) → open DESIGN → PROJECTS INDEX → ASSETS → PROJECTS HEADER PLANET to run founder-led GENERATE/LOVE IT flow in UI; confirm `/projects` hero planet matches approved reference.
+
+---
+
+## 2026-09-09 — P0.VR.4R2 reference crop authority + zero-waste guard
+
+- **Root cause:** Hard-coded `220×220` crop at `(565,52)` captured only the central red core — feature-point-sized region, not full object bounding box. Double padding in extract path made it worse. No crop QA gate before FAL dispatch → wasted GPT Image 2 Edit credits.
+- **Fix:** `p0vr4r2/` module — canonical SOURCE_IMAGE_PIXELS coordinate space, display→source conversion, normalized bounds, `ReferenceCropGeometryGuard`, `ObjectCoverageQA`, `DesignGenerationPreflight`, crop checksum, crop lineage store.
+- **Golden crop:** Object bounds `528×42×365×318` + 10% padding → final `492×10×438×382` on 946×667 reference. Visual fixture: `tests/fixtures/p0vr4r2/projects-header-planet-golden-crop.png`.
+- **UI:** `DesignReferenceCropEditor` — side-by-side reference + crop preview, bounding box overlay, manual adjust, USE CROP locks crop before GENERATE enabled.
+- **API:** `extract_crop`, `approve_crop`, `preflight`; `generate` blocked until `cropApproved` / locked crop with checksum.
+- **No FAL spend this sprint.** Tests: 53/53 pass (P0.VR.4 + R1 + R2).
+- **Next founder action:** DESIGN → PROJECTS INDEX → ASSETS → PROJECTS HEADER PLANET → review crop preview → USE CROP → then GENERATE once.
+
+---
+
+## 2026-09-09 — P0.VR.5 founder instruction intelligence + multi-asset deconstruction pipeline
+
+- **Context:** Upgrade Design Workspace ASSETS tab from single-asset P0.VR.4 pipeline into founder-facing visual deconstruction job workspace with multi-asset detection, instruction presets, crop confirmation gate, replacement mapping, and spend guardrails.
+- **Implemented:**
+  - `p0vr5/` module: types (AssetJob, DetectedAssetCandidate, ReconstructedAssetVersion, DesignInstructionPreset, JobEvent), instruction parser, built-in + learned presets, multi-asset detection heuristics, job plan summarizer, crop confirmation workflow, replacement mapping, orchestration (simulated dispatch by default), job-level spend guards.
+  - API: `job_create`, `job_add_upload`, `job_update_instruction`, `job_detect`, `job_crop_actions`, `job_confirm_crops`, `job_reconstruct`, `job_approve_version`, `job_upload`, `job_bind`, `preset_list`, `preset_save`, `preset_suggest`, `job_get`.
+  - UI: `DesignAssetJobWorkspace` — 7-step flow (UPLOAD → INSTRUCT → DETECT → CONFIRM CROP → RECONSTRUCT → APPROVE → REPLACE); integrated at top of ASSETS tab; legacy P0.VR.4 panel in collapsible section.
+  - Tests: `tests/visualReconstructionP0VR5.test.ts` — scenarios A–F (single icon, multi-icon set, background, hero object, preset suggestion, spend protection). 37/37 pass with P0.VR.4 + R2 regression.
+- **Non-negotiables preserved:** No generation on upload; crop confirmation required; max 1 primary dispatch per asset version; legacy planet pipeline unchanged in collapsible section.
+- **Next founder action:** DESIGN → PROJECTS INDEX → ASSETS → use new ASSET DECONSTRUCTION PIPELINE → upload screenshot → select preset or type instruction → RUN DETECTION → CONFIRM ALL CROPS → RECONSTRUCT APPROVED (explicit) → APPROVE · UPLOAD · BIND.

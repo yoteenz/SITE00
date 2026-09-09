@@ -37,6 +37,24 @@ import {
   runDesignGenerationPreflight,
 } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr4r2/index.js';
 import { downloadUrlToBuffer } from '../_lib/site00Assts/storage.js';
+import {
+  createAssetJob,
+  getAssetJob,
+  addSourceUpload,
+  updateJobInstruction,
+  runJobDetection,
+  summarizeAssetJobPlan,
+  applyCropConfirmationActions,
+  confirmAssetCrops,
+  reconstructConfirmedAssets,
+  approveReconstructedVersion,
+  uploadReconstructedAssets,
+  bindReconstructedAssets,
+  listAllPresets,
+  saveDesignInstructionPreset,
+  suggestInstructionPresets,
+  parseFounderInstruction,
+} from '../../shared/site00-studio-world-production/visualReconstruction/p0vr5/index.js';
 
 const REPO_ROOT = join(process.cwd());
 
@@ -106,6 +124,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           },
         });
       }
+      if (action === 'preset_list') {
+        return res.status(200).json({ ok: true, presets: listAllPresets() });
+      }
+      if (action === 'job_get') {
+        const jobId = String(req.query.jobId ?? '');
+        const job = getAssetJob(jobId);
+        if (!job) return res.status(404).json({ ok: false, error: 'Job not found' });
+        return res.status(200).json({ ok: true, job, plan: summarizeAssetJobPlan(job) });
+      }
       return res.status(400).json({ ok: false, error: 'Unknown GET action' });
     }
 
@@ -116,6 +143,118 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const body = req.body ?? {};
 
     switch (action) {
+      case 'job_create': {
+        const job = createAssetJob({
+          workspaceId: String(body.workspaceId ?? 'design-workspace'),
+          projectId: String(body.projectId),
+          pageId: String(body.pageId),
+          route: String(body.route),
+          founderInstruction: body.founderInstruction ? String(body.founderInstruction) : '',
+          selectedPresetId: body.selectedPresetId ?? null,
+        });
+        return res.status(200).json({ ok: true, job, plan: summarizeAssetJobPlan(job) });
+      }
+      case 'job_add_upload': {
+        const job = addSourceUpload(String(body.jobId), {
+          url: String(body.url),
+          fileName: body.fileName ? String(body.fileName) : null,
+          sourcePage: body.sourcePage ? String(body.sourcePage) : null,
+          sourceRoute: body.sourceRoute ? String(body.sourceRoute) : null,
+          imageWidth: body.imageWidth ? Number(body.imageWidth) : undefined,
+          imageHeight: body.imageHeight ? Number(body.imageHeight) : undefined,
+        });
+        if (!job) return res.status(404).json({ ok: false, error: 'Job not found' });
+        return res.status(200).json({ ok: true, job, plan: summarizeAssetJobPlan(job) });
+      }
+      case 'job_update_instruction': {
+        const job = updateJobInstruction(String(body.jobId), {
+          founderInstruction: String(body.founderInstruction ?? ''),
+          selectedPresetId: body.selectedPresetId ?? null,
+        });
+        if (!job) return res.status(404).json({ ok: false, error: 'Job not found' });
+        return res.status(200).json({ ok: true, job, plan: summarizeAssetJobPlan(job) });
+      }
+      case 'job_detect': {
+        const job = runJobDetection(String(body.jobId), body.explicitCount ? Number(body.explicitCount) : undefined);
+        if (!job) return res.status(404).json({ ok: false, error: 'Job not found' });
+        return res.status(200).json({ ok: true, job, plan: summarizeAssetJobPlan(job) });
+      }
+      case 'job_crop_actions': {
+        const job = getAssetJob(String(body.jobId));
+        if (!job) return res.status(404).json({ ok: false, error: 'Job not found' });
+        const cropState = applyCropConfirmationActions(job, body.actions ?? []);
+        return res.status(200).json({ ok: cropState.ok, job: cropState.job, cropState });
+      }
+      case 'job_confirm_crops': {
+        const job = getAssetJob(String(body.jobId));
+        if (!job) return res.status(404).json({ ok: false, error: 'Job not found' });
+        const result = confirmAssetCrops(job, { approveSubset: body.approveSubset });
+        return res.status(200).json({
+          ok: result.ok,
+          job: result.job,
+          blocker: result.blocker,
+          confirmedCount: result.confirmedCount,
+        });
+      }
+      case 'job_reconstruct': {
+        const job = getAssetJob(String(body.jobId));
+        if (!job) return res.status(404).json({ ok: false, error: 'Job not found' });
+        const result = reconstructConfirmedAssets(job, {
+          explicitFounderAction: body.explicitFounderAction === true,
+          approvedSubset: body.approvedSubset,
+          simulate: body.simulate !== false,
+        });
+        return res.status(200).json({
+          ok: result.ok,
+          blocked: result.blocked,
+          blocker: result.blocker,
+          versions: result.versions,
+          dispatchCount: result.dispatchCount,
+          job: result.job,
+        });
+      }
+      case 'job_approve_version': {
+        const job = getAssetJob(String(body.jobId));
+        if (!job) return res.status(404).json({ ok: false, error: 'Job not found' });
+        approveReconstructedVersion(job, String(body.versionId), body.approved === true);
+        return res.status(200).json({ ok: true, job });
+      }
+      case 'job_upload': {
+        const job = getAssetJob(String(body.jobId));
+        if (!job) return res.status(404).json({ ok: false, error: 'Job not found' });
+        const { uploaded, job: updated } = uploadReconstructedAssets(job, body.versionIds ?? []);
+        return res.status(200).json({ ok: uploaded.length > 0, uploaded, job: updated });
+      }
+      case 'job_bind': {
+        const job = getAssetJob(String(body.jobId));
+        if (!job) return res.status(404).json({ ok: false, error: 'Job not found' });
+        const { bound, job: updated } = bindReconstructedAssets(job, body.versionIds ?? []);
+        return res.status(200).json({ ok: bound > 0, bound, job: updated });
+      }
+      case 'preset_save': {
+        const preset = saveDesignInstructionPreset({
+          name: String(body.name),
+          instructionTemplate: String(body.instructionTemplate),
+          intentType: body.intentType,
+          assetTypes: body.assetTypes ?? [],
+          multiAsset: body.multiAsset === true,
+          orderingRule: body.orderingRule,
+          backgroundPolicy: body.backgroundPolicy,
+          replacementBehavior: body.replacementBehavior,
+          targetScope: body.targetScope ?? null,
+          fromJobId: body.fromJobId ? String(body.fromJobId) : undefined,
+        });
+        return res.status(200).json({ ok: true, preset });
+      }
+      case 'preset_suggest': {
+        const parsed = parseFounderInstruction(String(body.founderInstruction ?? ''));
+        const suggested = suggestInstructionPresets({
+          founderInstruction: String(body.founderInstruction ?? ''),
+          intentType: body.intentType ?? parsed.intentType,
+          multiAsset: body.multiAsset ?? parsed.multiAsset,
+        });
+        return res.status(200).json({ ok: true, suggested });
+      }
       case 'detect': {
         const assets = detectAndRegisterAssets({
           source: body.source,
