@@ -12,6 +12,7 @@ import {
   skinsWorkspaceNotClassifiedAsHost,
 } from './authorityBoundary.js';
 import { buildReferenceLiveVisualInventory } from './referenceAssetMismatch.js';
+import { buildCropGeometryInspectorSnapshot } from './founderCropIntelligence/cropPreviewAlignment.js';
 import { buildSkinsMobileMultiAssetReconstructionJob, getJobProgressSummary } from './multiAssetReconstructionJob.js';
 import { evaluatePartialVisualImplementationGuard } from './partialVisualImplementationGuard.js';
 import { buildSkinsMobileReferenceBlueprint } from './skinsMobileBlueprint.js';
@@ -135,5 +136,6 @@ export function buildReferenceReconstructionInspectorState(input?: {
     multiAssetJobId: multiAssetJob?.jobId ?? null,
     cropApprovalSummary: jobProgress?.crops ?? '0 / 5 APPROVED',
     generationApprovalSummary: jobProgress?.generation ?? 'BLOCKED',
+    cropGeometry: buildCropGeometryInspectorSnapshot(),
   };
 }
