@@ -6899,3 +6899,21 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - Tests: `visualReconstructionP0VR6.test.ts` (9) + updated P0VR2B/P0VR5 regressions.
 - **Next founder action:** `/projects/site00/design` mobile → QA each tab against 11 references; walk asset pipeline stages; confirm activity stays collapsed.
 
+---
+
+## 2026-09-09 — Reference-fidelity recovery sprint (Design workspace)
+
+- **Problem:** P0.VR.6 treated 11 reference images as inspiration — shell geometry, stepper clipping, generic SVG orb, loose typography/spacing, History as text list, Pages/More tab drift.
+- **Root cause:** Parent geometry rebuilt after component-level styling; generic CSS orb substituted for approved planet asset; stepper used flex+overflow instead of 7-column grid; insufficient reference-decomposed markup per pipeline stage.
+- **Implemented:**
+  - `Site00DesignWorkspaceShell` — breadcrumb+project selector row, hero block with `ProjectsHeaderPlanet` (removed SVG orbit).
+  - `site00-design-workspace-v3.css` full rewrite — compact 390px density, 7-column stepper with connecting line, stage-specific layouts (upload recent rail, detect grid, crop workspace, reconstruct providers, approve compare, live replacement map).
+  - `DesignAssetJobWorkspace` — reference-fidelity markup for stages 01–07; live data only.
+  - `DesignHistoryTab` — vertical timeline with icon nodes, metric cards, expandable approval before/after.
+  - `DesignPagesTabPanel` — featured page with LIVE/REFERENCE compare side-by-side; status chips + coverage strip.
+  - `DesignMoreTab` — reference card grid (providers, spend guard, presets, storage, output rules, automation, quick actions).
+  - `DesignReferencesTab` — instruction preset strip, canonical card styling, star badge.
+  - `REFERENCE_FIDELITY_*` failure codes in `p0vr6/designWorkspaceUxTypes.ts`.
+  - Tests: P0VR6 +31 test for planet asset + stepper grid; P0VR2B/P0VR5 regressions pass (29).
+- **Next founder action:** Mobile QA all 11 references starting ASSETS→UPLOAD; compare pixel geometry vs attachments; deploy v222 ZIP after merge.
+
