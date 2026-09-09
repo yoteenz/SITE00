@@ -33,6 +33,10 @@ export function normalizeSiteTypes(value: string | string[] | undefined | null):
   return out;
 }
 
+export function siteTypeSelectionIncludesOther(value: string | string[] | undefined | null): boolean {
+  return normalizeSiteTypes(value).includes('other');
+}
+
 export function normalizeAudienceType(value: string | string[] | undefined | null): BldrAudienceTypeId | null {
   if (!value) return null;
   const raw = Array.isArray(value) ? value[value.length - 1] : value;

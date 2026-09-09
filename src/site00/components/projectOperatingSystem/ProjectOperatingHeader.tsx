@@ -1,19 +1,43 @@
 import { Link } from 'react-router-dom';
 import type { GeneralizedProjectOperatingState } from '../../../../shared/site00-projects/generalizedProjectOperatingState.js';
+import type { ProjectOverviewViewModel } from '../../../../shared/site00-projects/overview/types.js';
+import { buildProjectProgressSummary } from '../../../../shared/site00-projects/projectProgressSummary.js';
 import { SITE00_ROUTES } from '../../config/routes.js';
 
 type ProjectOperatingHeaderProps = {
   operatingState: GeneralizedProjectOperatingState;
   projectSlug: string;
   currentModuleLabel: string;
+  overviewModel?: ProjectOverviewViewModel | null;
 };
+
+function progressHeaderDisplay(
+  overviewModel: ProjectOverviewViewModel | null | undefined,
+  operatingState: GeneralizedProjectOperatingState,
+): { text: string; percent: number | null } {
+  if (overviewModel) {
+    if (overviewModel.progress.percent != null) {
+      return { text: `${overviewModel.progress.percent}%`, percent: overviewModel.progress.percent };
+    }
+    return { text: overviewModel.progress.label ?? 'IN PROGRESS', percent: null };
+  }
+  const summary = buildProjectProgressSummary(operatingState);
+  if (summary.percent != null) {
+    return { text: `${summary.percent}%`, percent: summary.percent };
+  }
+  return { text: summary.label ?? 'IN PROGRESS', percent: null };
+}
 
 export function ProjectOperatingHeader({
   operatingState,
   currentModuleLabel,
+  overviewModel,
 }: ProjectOperatingHeaderProps) {
-  const { summary, needsYourEye, capabilityManifest } = operatingState;
-  const needsCount = needsYourEye.filter((n) => n.priority === 'HIGH').length;
+  const { summary, capabilityManifest } = operatingState;
+  const progress = progressHeaderDisplay(overviewModel, operatingState);
+  const needsCount = overviewModel?.needsYourEyeCount ?? operatingState.needsYourEye.filter((n) => n.priority === 'HIGH').length;
+  const blockerCount = overviewModel?.blockerCount ?? operatingState.blockers.length;
+  const phase = overviewModel?.phase ?? summary.phase;
 
   return (
     <header className="site00-pos-header">
@@ -42,10 +66,12 @@ export function ProjectOperatingHeader({
         <div className="site00-pos-header__stats">
           <div className="site00-pos-header__progress">
             <span className="site00-pos-header__progress-label">PROJECT PROGRESS</span>
-            <span className="site00-pos-header__progress-value">{summary.progressPercent}%</span>
-            <div className="site00-pos-header__progress-bar">
-              <div style={{ width: `${summary.progressPercent}%` }} />
-            </div>
+            <span className="site00-pos-header__progress-value">{progress.text}</span>
+            {progress.percent != null ? (
+              <div className="site00-pos-header__progress-bar">
+                <div style={{ width: `${progress.percent}%` }} />
+              </div>
+            ) : null}
           </div>
           <div className="site00-pos-header__metrics">
             <div>
@@ -53,11 +79,11 @@ export function ProjectOperatingHeader({
               <span>NEEDS YOUR EYE</span>
             </div>
             <div>
-              <strong>{operatingState.blockers.length}</strong>
+              <strong>{blockerCount}</strong>
               <span>BLOCKERS</span>
             </div>
             <div>
-              <strong>{summary.phase}</strong>
+              <strong>{phase}</strong>
               <span>CURRENT PHASE</span>
             </div>
           </div>

@@ -34,6 +34,7 @@ import site00ExperienceEngineHandler from '../api/site00/experience-engine.js';
 import site00ExpressionEngineHandler from '../api/site00/expression-engine.js';
 import site00CampaignPackageHandler from '../api/site00/campaign-package.js';
 import site00DesignControlPlaneHandler from '../api/site00/design-control-plane.js';
+import site00DesignAssetReconstructionHandler from '../api/site00/design-asset-reconstruction.js';
 import captureAuthBootstrapHandler from '../api/capture-auth-bootstrap.js';
 
 /** Express path → Vercel-style default export handler */
@@ -72,5 +73,6 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/site00/expression-engine', handler: site00ExpressionEngineHandler },
   { path: '/api/site00/campaign-package', handler: site00CampaignPackageHandler },
   { path: '/api/site00/design-control-plane', handler: site00DesignControlPlaneHandler },
+  { path: '/api/site00/design-asset-reconstruction', handler: site00DesignAssetReconstructionHandler },
   { path: '/api/capture-auth-bootstrap', handler: captureAuthBootstrapHandler },
 ];

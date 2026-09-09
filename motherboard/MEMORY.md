@@ -6715,6 +6715,65 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-08 — Sprint B5.9R7 — Project Overview Intelligence + Reference-Fidelity Restoration
+
+- **Context:** NDXBOOK overview regressed to thin generic POS header (0% progress, 0 needs-your-eye, blank body). Approved Frontal Slayer mobile overview reference is design authority for structure/density; NDXBOOK adapter is content authority.
+- **Root cause:**
+  - Universal shell mounted generic `ProjectOverviewModule` using `summary.progressPercent` (defaults 0%)
+  - B5.10 technical intelligence **replaced** entire OVERVIEW when repo data existed
+  - NDXBOOK `OverviewFounderWorkspaceBoard` hack only on desktop founder view; mobile got empty generic shell
+- **Delivered:**
+  - **`ProjectOverviewAdapter`** contract + **`ProjectOverviewAdapterRegistry`** (ndxbook, frontal-slayer, studio-world, aio, astral-world, generic)
+  - **`NdxbookOverviewAdapter`** — entry-weight progress, founder review gates, creative production / package / technical signal cards, current focus + next milestone from Entry 001–003 state
+  - **`ProjectOverviewModuleSurface`** + **`site00-project-overview.css`** — hero, module chips, 2×2 signals, focus/milestone cards, activity, contextual CTA
+  - Shell/header wired; technical panel no longer overrides OVERVIEW; false-zero progress guard in header
+  - QA: `projectOverviewStateQA`, `EMPTY_GENERIC_PROJECT_OVERVIEW`
+  - **Tests:** `site00FounderWorkspaceSprintB59R7.test.ts` (17/17); B510 shell assertions updated
+- **Release:** v208 · bundle `index.BiVYP-Km.js` · PR #599 merged
+- **Mobile QA (390px):** ND lime hero, 70% progress, 1 needs-your-eye, 4 signal cards, module switcher + Evolve subshell intact
+- **Next founder action:** PROJECTS → NDXBOOK → OVERVIEW on mobile; compare to approved reference; verify EVOLVE subshell; upload GoDaddy ZIP v208.
+
+---
+
+<<<<<<< HEAD
+## 2026-09-08 — P0.VR.4 Reference Asset Reconstruction Pipeline (Design Workspace)
+
+- **Context:** Founder sprint formalizing manual screenshot→crop→recreate→transparency→QA→Supabase→live-bind workflow into first-class Design Workspace capability.
+- **Delivered:**
+  - **`shared/.../visualReconstruction/p0vr4/`** — full pipeline: `DesignReconstructionAsset` model, detection, crop, GPT Image 2 Edit via FAL, transparency validation, background-removal abstraction (Ideogram/Pixelcut/FAL BiRefNet/Bria slots with AUTO fallback), QA engine, targeted revision (max 3), founder approval gate, versioned Supabase paths, `DesignAssetRegistry`, live binding, context QA, bulk page queue, spend guards (explicit founder dispatch only).
+  - **API:** `/api/site00/design-asset-reconstruction` (detect, generate, approve, persist, bind, capabilities, golden_test).
+  - **UI:** Design Workspace **ASSETS** tab — `DesignReferenceAssetsPanel`, `DesignAssetReconstructionDetail`; projects-index seeds bulk queue incl. **PROJECTS HEADER PLANET** golden case.
+  - **Tests:** `tests/visualReconstructionP0VR4.test.ts` (15/15 pass, 47 success criteria).
+- **Ideogram/Pixelcut:** Provider slots exist; unavailable without env keys — no fabricated endpoints.
+- **Live FAL:** Simulated in dev/tests without `FAL_KEY`; real dispatch path uses same `buildFalImageInput` + reference crop as production creative direction pattern.
+- **Next founder action:** OPEN DESIGN → projects-index → ASSETS tab → select PROJECTS HEADER PLANET → GENERATE (explicit) → LOVE IT → persist/bind when ready; Railway redeploy for API route.
+=======
+## 2026-09-08 — Hotfix: BLDR siteTypeModel import blocked dev bundle (Expression Engine)
+
+- **Symptom:** Vite overlay on `site00.fsbw-dev.com` — `Failed to resolve import .../shared/site00-bldr-classification/siteTypeModel` from `BldrIntakeFields.tsx`; blocked Expression Engine / Meridian review.
+- **Root cause:** Vite HMR held edited `BldrIntakeFields.tsx` importing modules that were never committed to disk.
+- **Fix:** Added `shared/site00-bldr-classification/siteTypeModel.ts` + `bldrFieldValidation.ts`; synced `BldrIntakeFields.tsx` (OTHER site-type specify). PR #600 merged. Vite dev restarted.
+- **Founder action:** Hard refresh `site00.fsbw-dev.com` → NDXBOOK → Expression Engine → Meridian section.
+>>>>>>> origin/main
+
+---
+
+## 2026-09-09 — Hotfix: Expression Engine hang (Meridian blocked core load)
+
+- **Symptom:** After BLDR import fix (#600), Expression Engine no longer showed Vite error but hung on "Loading Expression Engine…" with no data.
+- **Root cause:** `useExpressionEngineEntry002` awaited `loadC19R3MeridianComparisonViaJob()` inside core `load()` before `setLoading(false)`. That helper POST-started a C19R3 Meridian live job on every page load and polled up to 20 minutes, blocking the entire workspace.
+- **Fix:**
+  - Split hook into `loadCore()` (blueprint + pipeline GETs) and async `loadMeridian()` (separate `useEffect`)
+  - Rewrote Meridian loader: `loadMeridianComparisonForWorkspace()` → GET C19R3 snapshot (poll in-flight job only) → C19R1 fallback; **never auto-starts live job**
+  - `startMeridianLiveComparisonJob()` remains explicit founder-triggered only
+  - UI: `c19r1Loading` + Meridian section shows loading vs unavailable
+- **Tests:** `site00ExpressionEngineLoadNonBlocking.test.ts` (3/3); C19R3 async job tests pass; build bundle `index.AbwrVNeQ.js`
+- **QA:** NDXBOOK Expression Engine loads ~3s to populated workspace (entry summary, production journey, storyboard grid); Meridian hydrates separately
+- **Next founder action:** Hard refresh dev/prod → Expression Engine should populate immediately; Meridian section may show snapshot, fallback, or "snapshot unavailable" without blocking workspace.
+
+
+---
+
 ## 2026-09-08 — BLDR Site Type Multi-Select Classification Fix
 
 - **Context:** Targeted correction sprint — BLDR SITE step 01/03 had site type behaving as single-select (radio) when it must be multi-select; audience must remain single-select.
@@ -6728,4 +6787,3 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Tests:** `site00BldrSiteTypeMultiSelect.test.ts` (30/30 pass)
 - **QA:** Mobile ~390px — BUSINESS + E-COMMERCE + BOOKING all selected; B2C→B2B exclusive; next/back preserves state. PASS.
 - **Next founder action:** BLDR → SITE → step 01/03 — select three site types + B2B audience; confirm multi-select + single-select behavior; upload GoDaddy ZIP after merge.
-

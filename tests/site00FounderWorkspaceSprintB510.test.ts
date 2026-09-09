@@ -133,9 +133,9 @@ describe('B5.10 Project Repository Intelligence', () => {
     expect(minimalIntelligence('frontal-slayer', false).analysisConfidence).toBe('LOW');
   });
 
-  it('39–42. shell + overview integration + index repo fields', () => {
-    expect(SHELL).toContain('ProjectTechnicalPanelRouter');
-    expect(SHELL).toContain('site00-ptech-subnav');
+  it('39–42. shell + overview integration + technical panels exist', () => {
+    expect(SHELL).toContain('ProjectOverviewModuleSurface');
+    expect(SHELL).toContain('buildProjectOverviewViewModel');
     expect(PANELS).toContain('ProjectTechnicalOverviewPanel');
     expect(PANELS).toContain('ProjectTechnicalCodebasePanel');
   });
@@ -173,7 +173,7 @@ describe('B5.10 Project Repository Intelligence', () => {
     expect(PANELS).toContain('ProjectTechnicalNotesPanel');
     expect(PANELS).toContain('ProjectTechnicalMilestonesPanel');
     expect(PANELS).toContain('ProjectTechnicalReadinessPanel');
-    expect(SHELL).toContain('site00-ptech-desktop-grid');
+    expect(SHELL).toContain('ProjectOverviewModuleSurface');
   });
 
   it('61. build passes typecheck for technical modules', () => {

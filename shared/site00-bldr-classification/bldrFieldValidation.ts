@@ -6,11 +6,11 @@ import {
   BLDR_SITE_TYPE_OTHER_SPECIFY_KEY,
   normalizeAudienceType,
   normalizeSiteTypes,
-} from './siteTypeModel';
+} from './siteTypeModel.js';
 
 export type BldrFieldValues = Record<string, string | string[]>;
 
-type BldrFieldDef = {
+type BldrFieldSpec = {
   id: string;
   required?: boolean;
   type: 'single' | 'multi' | 'textarea' | 'audience-row';
@@ -27,7 +27,7 @@ function normalizeText(value: string | string[] | undefined): string {
 }
 
 export function validateBldrLandingFields(
-  fields: BldrFieldDef[],
+  fields: BldrFieldSpec[],
   values: BldrFieldValues,
 ): Record<string, string> {
   const errors: Record<string, string> = {};
@@ -70,6 +70,13 @@ export function validateBldrLandingFields(
   }
 
   return errors;
+}
+
+export function validateBldrStepFields(
+  fields: BldrFieldSpec[],
+  values: BldrFieldValues,
+): Record<string, string> {
+  return validateBldrLandingFields(fields, values);
 }
 
 export function formatSiteTypesForReview(

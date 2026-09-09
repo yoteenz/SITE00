@@ -151,6 +151,7 @@ export type ExpressionEngineEntry002State = {
   c16: { multiUnitBlindCampaign: import('./MultiUnitCreativePackageReview.js').MultiUnitCampaignReviewData } | null;
   c19r1: { view: MeridianComparisonViewData } | null;
   loading: boolean;
+  c19r1Loading: boolean;
   error: string | null;
   errorView: import('./expressionEngineErrorState').ExpressionEngineErrorView | null;
   reload: () => Promise<void>;

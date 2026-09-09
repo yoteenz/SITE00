@@ -3,8 +3,11 @@ import { IdntyTextareaField } from '../../idnty-assessment/IdntyAssessmentPanels
 import {
   BLDR_SITE_TYPE_OTHER_SPECIFY_KEY,
   normalizeSiteTypes,
-} from '../../../../../shared/site00-bldr-classification/siteTypeModel';
-import { validateBldrLandingFields, type BldrFieldValues } from '../../../../../shared/site00-bldr-classification/bldrFieldValidation';
+} from '../../../../../shared/site00-bldr-classification/siteTypeModel.js';
+import {
+  validateBldrLandingFields,
+  type BldrFieldValues,
+} from '../../../../../shared/site00-bldr-classification/bldrFieldValidation.js';
 
 export type { BldrFieldValues };
 
