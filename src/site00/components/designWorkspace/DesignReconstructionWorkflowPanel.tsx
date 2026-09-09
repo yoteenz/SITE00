@@ -16,7 +16,7 @@ import { useSite00MobileViewport } from '../../hooks/useSite00MobileViewport.js'
 type Props = {
   state: ReconstructionWorkflowState;
   view: WorkflowView;
-  onApproveCrop: (index: number) => void;
+  onApproveCrop: (index: number, overrideWarnings?: boolean) => void;
   onApproveAllCrops: () => void;
   onApproveGeneration: () => void;
   onApproveOutput: (index: number) => void;
@@ -25,12 +25,12 @@ type Props = {
   onUpdateCropReview: (index: number, review: CropReviewState) => void;
 };
 
-function statusLabel(review: CropReviewState): string {
-  if (review.reviewStatus === 'APPROVED') return 'APPROVED';
-  if (review.reviewStatus === 'EDIT_REQUIRED') return 'EDIT REQUIRED';
-  if (review.reviewStatus === 'READY_FOR_APPROVAL') return 'READY';
-  if (review.reviewStatus === 'NEEDS_IDENTITY_CONFIRMATION') return 'NEEDS ID';
-  return review.reviewStatus.replace(/_/g, ' ');
+function stripStatus(review: CropReviewState): { dot: string; label: string } {
+  if (review.reviewStatus === 'APPROVED') return { dot: 'approved', label: '✓' };
+  if (review.assetIdentity === 'WRONG_ASSET') return { dot: 'wrong', label: '!' };
+  if (review.reviewStatus === 'EDIT_REQUIRED' || review.semanticBoundary?.needsFounderPlacement) return { dot: 'edit', label: '…' };
+  if (review.reviewStatus === 'READY_FOR_APPROVAL') return { dot: 'ready', label: '○' };
+  return { dot: 'neutral', label: '·' };
 }
 
 export function DesignReconstructionWorkflowPanel({
@@ -59,34 +59,29 @@ export function DesignReconstructionWorkflowPanel({
   if (view === 'crop-review') {
     return (
       <div className="site00-dw-rri-workflow" data-stage="crop-review">
-        <header className="site00-dw-rri-workflow__head">
-          <button type="button" className="site00-dw-rri-workflow__back" onClick={onClose}>
-            ← BACK
+        <header className="site00-dw-rri-workflow__head site00-dw-rri-workflow__head--compact">
+          <button type="button" className="site00-dw-rri-workflow__back" onClick={onClose} aria-label="Back">
+            ←
           </button>
-          <div>
-            <span>SKINS MOBILE · CROP REVIEW</span>
-            <h2>FOUNDER CROP INTELLIGENCE</h2>
-            <p>
-              DETECT {batch.detected}/{batch.total} · IDENTITY {batch.identityConfirmed}/{batch.total} · CROPS{' '}
-              {batch.approved}/{batch.total} · GENERATION {batch.generationBlocked ? 'BLOCKED' : 'READY'}
-            </p>
-          </div>
+          <p className="site00-dw-rri-workflow__batch">
+            {batch.total} ASSETS · {batch.editRequired > 0 ? '1 EDITING' : `${batch.approved} APPROVED`} · GENERATION {batch.generationBlocked ? 'LOCKED' : 'READY'}
+          </p>
         </header>
 
-        <nav className="site00-dw-crop-navigator" aria-label="Crop candidates">
+        <nav className="site00-dw-crop-strip" aria-label="Asset strip">
           {job.candidateAssets.map((c, i) => {
             const review = cropReviews[i]!;
+            const st = stripStatus(review);
             return (
               <button
                 key={c.candidateId}
                 type="button"
-                className={`site00-dw-crop-navigator__item${i === activeCandidateIndex ? ' is-active' : ''}${review.preflight.blocksApproval ? ' has-warning' : ''}`}
+                className={`site00-dw-crop-strip__item${i === activeCandidateIndex ? ' is-active' : ''}`}
                 onClick={() => onSetCandidateIndex(i)}
               >
                 <img src={c.sourceCrop.sourceCropUrl} alt="" />
-                <span className="site00-dw-crop-navigator__num">{review.assetNumber}</span>
-                <strong>{c.brandKey.replace(/_/g, ' ')}</strong>
-                <em>{statusLabel(review)}</em>
+                <span className={`site00-dw-crop-strip__dot is-${st.dot}`} aria-hidden>{st.label}</span>
+                <span className="site00-dw-crop-strip__label">{String(i + 1).padStart(2, '0')} {c.brandKey.replace(/_/g, ' ').split(' ')[0]}</span>
               </button>
             );
           })}
@@ -95,18 +90,18 @@ export function DesignReconstructionWorkflowPanel({
         <EditableCropWorkspace
           review={activeReview}
           sourceImageUrl={authority?.publicUrl ?? active.sourceCrop.sourceCropUrl}
-          cropPreviewUrl={active.sourceCrop.sourceCropUrl}
           isMobile={isMobile}
+          assetIndex={activeCandidateIndex + 1}
+          assetTotal={total}
           onReviewChange={(review) => onUpdateCropReview(activeCandidateIndex, review)}
-          onApproveCrop={() => onApproveCrop(activeCandidateIndex)}
+          onApproveCrop={(overrideWarnings) => onApproveCrop(activeCandidateIndex, overrideWarnings)}
           onWrongAsset={() => onUpdateCropReview(activeCandidateIndex, { ...activeReview, reviewStatus: 'REJECTED', assetIdentity: 'WRONG_ASSET' })}
         />
 
-        <footer className="site00-dw-rri-workflow__footer">
+        <footer className="site00-dw-rri-workflow__footer site00-dw-rri-workflow__footer--compact">
           <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onApproveAllCrops}>
-            APPROVE ALL VALID CROPS ({validForBatch})
+            APPROVE ALL VALID ({validForBatch})
           </button>
-          <span>{batch.editRequired} NEED EDITS · {batch.approved} APPROVED</span>
         </footer>
       </div>
     );

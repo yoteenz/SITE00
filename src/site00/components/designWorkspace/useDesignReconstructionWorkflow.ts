@@ -84,8 +84,8 @@ export function useDesignReconstructionWorkflow() {
     openAction(primaryAction.deepLink);
   }, [primaryAction, openAction]);
 
-  const approveCrop = useCallback((index: number) => {
-    updateReconstructionWorkflow((s) => approveCropAtIndex(s, index));
+  const approveCrop = useCallback((index: number, overrideWarnings?: boolean) => {
+    updateReconstructionWorkflow((s) => approveCropAtIndex(s, index, { overrideWarnings }));
   }, []);
 
   const approveAllCrops = useCallback(() => {

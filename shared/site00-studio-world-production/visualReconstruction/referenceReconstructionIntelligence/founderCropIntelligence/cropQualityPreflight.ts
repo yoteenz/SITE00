@@ -13,8 +13,8 @@ import type {
 } from './types.js';
 import { normalizedToPixelBounds } from './cropGeometry.js';
 
-/** Reject saliency-point crops; family thumb slots are ~0.5–0.6% of source area. */
-const MIN_COVERAGE_RATIO = 0.004;
+/** Reject saliency-point crops; inner family media regions can be ~0.35–0.6% of source area. */
+const MIN_COVERAGE_RATIO = 0.003;
 
 export function runCropQualityPreflight(input: {
   crop: NormalizedBbox;
