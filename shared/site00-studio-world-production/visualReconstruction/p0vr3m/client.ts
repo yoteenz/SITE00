@@ -32,6 +32,15 @@ export {
 } from './activeDesignProject.js';
 
 export {
+  CANONICAL_DESIGN_PROJECT_SELECTOR_ORDER,
+  DESIGN_PROJECT_SELECTOR_VISUAL_FAILURE_CODES,
+  formatDesignProjectOptionLabel,
+  resolveDesignProjectSelectorAccent,
+  resolveDesignProjectSelectorStatus,
+  sortDesignProjectsCanonically,
+} from './designProjectSelectorVisuals.js';
+
+export {
   getCanonicalDesignRouteAuthority,
   buildCanonicalDesignWorkspacePath,
   buildDesignWorkspaceBreadcrumb,

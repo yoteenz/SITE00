@@ -4,6 +4,7 @@
 
 import { listDesignEnabledManagedProjects, getSite00ManagedProject } from './managedProjectRegistry.js';
 import { resolveManagedProjectForDesignContext } from './designRouteAuthority.js';
+import { sortDesignProjectsCanonically } from './designProjectSelectorVisuals.js';
 import { SITE00_DESIGN_PROJECT_ID } from './types.js';
 
 export const DESIGN_PROJECT_SELECTOR_FAILURE_CODES = [
@@ -19,6 +20,12 @@ export const DESIGN_PROJECT_SELECTOR_FAILURE_CODES = [
   'DESIGN_PROJECT_SKIN_CONTEXT_STALE',
   'DESIGN_PROJECT_PERMISSION_LEAK',
   'DESIGN_PROJECT_CONTEXT_INVALID',
+  'DESIGN_PROJECT_SELECTOR_DARK_THEME_DRIFT',
+  'DESIGN_PROJECT_SELECTOR_LOW_CONTRAST',
+  'DESIGN_PROJECT_SELECTOR_SELECTED_STATE_UNCLEAR',
+  'DESIGN_PROJECT_SELECTOR_HOST_STYLE_MISMATCH',
+  'DESIGN_PROJECT_SELECTOR_PERMISSION_REGRESSION',
+  'DESIGN_PROJECT_SELECTOR_SCOPE_REGRESSION',
 ] as const;
 
 export type DesignProjectSelectorFailureCode = (typeof DESIGN_PROJECT_SELECTOR_FAILURE_CODES)[number];
@@ -45,12 +52,14 @@ export function listSelectableDesignProjects(input?: {
     projects = projects.filter((p) => entitled.includes(p.projectId));
   }
 
-  return projects.filter(
+  const filtered = projects.filter(
     (p) =>
       p.projectId !== 'design-workspace' &&
       p.displayName.toUpperCase() !== 'DESIGN WORKSPACE' &&
       p.displayName.toUpperCase() !== 'NEW PROJECT',
   );
+
+  return sortDesignProjectsCanonically(filtered);
 }
 
 export function formatDesignProjectSelectorLabel(projectId: string): string {
