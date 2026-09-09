@@ -7037,3 +7037,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Gaps:** Full Playwright auto-capture on every deploy requires Railway/cPanel live URL + background worker hook; DOM manifest/content summary stubs ready but not populated from live DOM yet; History tab events not yet wired to sync orchestrator feed.
 - **Next founder action:** Design → NDXBOOK → PAGES → verify routes from NDX router (6 pages) → REFRESH CAPTURE one page → make small NDX visible change → deploy → verify page marked STALE then recaptured.
 
+---
+
+## 2026-09-09 — Design Workspace SKINS Tab Pixel-Fidelity Sprint
+
+- **Context:** Approved mobile + desktop visual authorities for new first-class SKINS tab between PAGES and HISTORY. Experience Skin UX moved from MORE to SKINS.
+- **Implemented:**
+  - Tab order: REFERENCES · ASSETS · PAGES · **SKINS** · HISTORY · MORE
+  - `DesignSkinsTab.tsx` + `useDesignSkinsState.ts` — independent mobile carousel/grid layout + desktop 3-zone workstation (family rail · screen pack · preview panel · bottom fidelity strip)
+  - Removed `ExperienceSkinManagementPanel` from MORE (providers/spend/storage/automation/fidelity preserved)
+  - Wired `SkinScreenAuthorityIngestion`, project-scoped via `activeDesignProjectId`, real pack counts from registry
+  - `site00-design-skins-tab.css`, `DESIGN_SKINS_FAILURE_CODES`, legacy EXPERIENCE_SKIN → SKINS URL mapping
+  - Tests: `designSkinsTab.test.ts` (28 pass)
+- **Gaps:** Mobile family carousel/viewport toggle need founder QA on deployed bundle; MasterSkinEvolveProofPanel remains in MORE (separate from Experience Skin); full pixel overlay QA loop pending founder side-by-side on device.
+- **Next founder action:** Design → SKINS on mobile + desktop → compare to attached authorities → MORE confirms no Experience Skin wall → NDXBOOK → OVERVIEW → MOBILE → ADD AUTHORITY.
+
