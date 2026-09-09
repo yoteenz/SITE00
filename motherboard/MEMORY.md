@@ -7260,3 +7260,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining drift:** Pixel-level Evolve hub hero/footer pass; Reviews/Inbox authorities use nearest reference assets (no dedicated Reviews/Inbox mock in image pack); live snapshot captures + overlay/diff PNGs require founder deploy + manual QA matrix review; asset generation jobs not started (layout/typography converged without paid generation).
 - **Next founder action:** Deploy v244 → open screenshot QA matrix in tests/shared module → compare `/evolve` + `/evolve/desktop` → preview `/app/preview/preview-client-room` (or signed project) → verify Reviews/Inbox rebuild + desktop side nav → click primary action per tab.
 
+---
+
+## 2026-09-09 — EVOLVE Pricing Authorities (Self-Directed + Site 00 Directed)
+
+- **Context:** Sprint to rebuild `/evolve/plans` to match four attached pricing authorities (self-directed + directed × mobile + desktop) with functional mode toggle and reconstructed SVG icons.
+- **Implemented:**
+  - **`shared/site00-evolve-pricing/`** — catalog with 5 self-directed + 5 directed plans (Discovery Sprint restored first in directed), mode param parsing (`?mode=self-directed|directed`).
+  - **`EvolvePricingPage`** — replaces public `EvolveCommercialPage` on `/evolve/plans`; independent `EvolvePricingMobileExperience` + `EvolvePricingDesktopExperience` via desktop artboard preview.
+  - **Components:** mode toggle, plan cards, hero diagram, `EvolvePricingIcon` SVG system (no screenshot assets).
+  - **CSS:** `site00-evolve-pricing.css` — mobile stack, desktop 3+2 grid (self-directed), desktop 5-column grid (directed), reinforcement module, CTAs.
+  - **Routes:** `Site00PublicPageRoutes` for `/evolve/plans` + `/evolve/plans/desktop`.
+  - **Tests:** `evolvePricingAuthorities.test.ts` (11 pass).
+- **Remaining:** Pixel-level overlay QA vs attached authorities post-deploy; old `EvolveCommercialPage.tsx` retained in repo but unmounted from public route (admin catalog still uses shared commercial module separately).
+
