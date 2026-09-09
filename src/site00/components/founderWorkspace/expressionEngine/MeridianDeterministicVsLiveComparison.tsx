@@ -50,6 +50,7 @@ export type MeridianComparisonViewData = {
 
 type Props = {
   data: MeridianComparisonViewData | null;
+  loading?: boolean;
   onFounderJudgment?: (judgment: string, comparisonId?: string) => void;
   judging?: boolean;
 };
@@ -108,11 +109,15 @@ function UnitSummary({ campaign, label }: { campaign: MultiUnitCampaignReviewDat
   );
 }
 
-export function MeridianDeterministicVsLiveComparison({ data, onFounderJudgment, judging }: Props) {
+export function MeridianDeterministicVsLiveComparison({ data, loading = false, onFounderJudgment, judging }: Props) {
   const [showDiff, setShowDiff] = useState(true);
 
   if (!data) {
-    return <p className="site00-meridian-compare__loading">Loading Meridian comparison…</p>;
+    return (
+      <p className="site00-meridian-compare__loading">
+        {loading ? 'Loading Meridian comparison…' : 'Meridian comparison not available yet.'}
+      </p>
+    );
   }
 
   return (

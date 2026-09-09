@@ -46,7 +46,7 @@ type Props = {
 };
 
 export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props) {
-  const { phase2, blueprint, b48, b49r4, c11, c12, c16, c19r1, loading, error, errorView, reload } = useExpressionEngineEntry002();
+  const { phase2, blueprint, b48, b49r4, c11, c12, c16, c19r1, c19r1Loading, loading, error, errorView, reload } = useExpressionEngineEntry002();
   const [judging, setJudging] = useState(false);
   const [cdJudging, setCdJudging] = useState(false);
   const [e003Judging, setE003Judging] = useState(false);
@@ -357,10 +357,13 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
           {
             id: 'c19r1-meridian-live-proof',
             label: 'MERIDIAN · DETERMINISTIC vs FULL REASONING (C1.9R3)',
-            status: c19r1?.view.capabilityStatus.replace(/_/g, ' ') ?? 'LOADING',
+            status:
+              c19r1?.view.capabilityStatus.replace(/_/g, ' ') ??
+              (c19r1Loading ? 'LOADING MERIDIAN' : 'SNAPSHOT UNAVAILABLE'),
             content: (
               <MeridianDeterministicVsLiveComparison
                 data={c19r1?.view ?? null}
+                loading={c19r1Loading}
                 onFounderJudgment={submitMeridianJudgment}
                 judging={meridianJudging}
               />

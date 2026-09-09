@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { apiFetch } from '../../../../utils/api.js';
 import { expressionEngineApi } from '../../../services/expressionEngineApi';
 import { translateExpressionEngineError } from './expressionEngineErrorState';
-import { loadC19R3MeridianComparisonViaJob } from './loadC19R3MeridianComparisonViaJob.js';
+import { loadMeridianComparisonForWorkspace } from './loadC19R3MeridianComparisonViaJob.js';
 import type {
   B48PipelineResponse,
   B49R4PipelineResponse,
@@ -24,10 +24,23 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
   const [c16, setC16] = useState<import('./types.js').ExpressionEngineEntry002State['c16']>(null);
   const [c19r1, setC19r1] = useState<import('./types.js').ExpressionEngineEntry002State['c19r1']>(null);
   const [loading, setLoading] = useState(true);
+  const [c19r1Loading, setC19r1Loading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [errorView, setErrorView] = useState<ReturnType<typeof translateExpressionEngineError>>(null);
 
-  const load = useCallback(async () => {
+  const loadMeridian = useCallback(async () => {
+    setC19r1Loading(true);
+    try {
+      const view = await loadMeridianComparisonForWorkspace();
+      setC19r1(view ? { view } : null);
+    } catch {
+      setC19r1(null);
+    } finally {
+      setC19r1Loading(false);
+    }
+  }, []);
+
+  const loadCore = useCallback(async () => {
     setLoading(true);
     setError(null);
     setErrorView(null);
@@ -86,12 +99,6 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
         };
         setC16({ multiUnitBlindCampaign: body.multiUnitBlindCampaign });
       }
-      const c19View = await loadC19R3MeridianComparisonViaJob();
-      if (c19View) {
-        setC19r1({ view: c19View });
-      } else {
-        setC19r1(null);
-      }
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : 'Failed to load Expression Engine';
       setError(msg);
@@ -101,9 +108,18 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
     }
   }, []);
 
+  const reload = useCallback(async () => {
+    await loadCore();
+    void loadMeridian();
+  }, [loadCore, loadMeridian]);
+
   useEffect(() => {
-    void load();
-  }, [load]);
+    void loadCore();
+  }, [loadCore]);
+
+  useEffect(() => {
+    void loadMeridian();
+  }, [loadMeridian]);
 
   if (!phase2) {
     return {
@@ -117,9 +133,10 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
       c16,
       c19r1,
       loading,
+      c19r1Loading,
       error,
       errorView,
-      reload: load,
+      reload,
     };
   }
 
@@ -134,9 +151,10 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
     c16,
     c19r1,
     loading,
+    c19r1Loading,
     error,
     errorView,
-    reload: load,
+    reload,
   };
 }
 
