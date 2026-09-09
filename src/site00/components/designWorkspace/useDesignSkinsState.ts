@@ -66,7 +66,11 @@ export function useDesignSkinsState(projectId: string) {
   const [viewportStatusByFamily, setViewportStatusByFamily] = useState<
     Record<string, Record<StandardScreenType, Record<SkinsViewport, string>>>
   >({});
-  const [ingestionSlot, setIngestionSlot] = useState<{ brandKey: string; packScreenType: StandardScreenType } | null>(null);
+  const [ingestionSlot, setIngestionSlot] = useState<{
+    brandKey: string;
+    packScreenType: StandardScreenType;
+    mode?: 'add' | 'replace' | 'registered';
+  } | null>(null);
   const [loading, setLoading] = useState(true);
 
   const reloadAuthorities = useCallback(async (brandKey: string) => {

@@ -7052,3 +7052,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Gaps:** Mobile family carousel/viewport toggle need founder QA on deployed bundle; MasterSkinEvolveProofPanel remains in MORE (separate from Experience Skin); full pixel overlay QA loop pending founder side-by-side on device.
 - **Next founder action:** Design → SKINS on mobile + desktop → compare to attached authorities → MORE confirms no Experience Skin wall → NDXBOOK → OVERVIEW → MOBILE → ADD AUTHORITY.
 
+---
+
+## 2026-09-09 — SKINS Nested Flow Visual Cohesion Recovery
+
+- **Problem:** Primary SKINS landing matched approved authorities, but child surfaces (ADD AUTHORITY, IMPLEMENT, VISUAL QA) fell back to raw admin forms — native file input, disabled selects, bullet-list contract, lost context.
+- **Root cause:** `SkinScreenAuthorityIngestion.tsx` used legacy `site00-bfs-ingestion` markup inline, replacing the SKINS view instead of a designed sheet overlay.
+- **Implemented:**
+  - Shared child-surface system under `src/site00/components/designWorkspace/skins/` — `SkinWorkspaceSheet`, `SkinContextHeader`, `SkinViewportControl`, `SkinAuthorityContract`, `SkinReferenceUpload`, `SkinAuthorityStatus`, `SkinImplementationProgress`, `SkinVisualQaViewer`, `SkinDriftSummary`, `SkinVersionTimeline`, `SkinPrimaryActions`, `SkinAuthorityFlow` orchestrator.
+  - `DesignSkinsTab` — overlay sheet preserves SKINS context behind; flow steps add → registered → implement → progress → visual QA; breadcrumb `DESIGN → SKINS → …`.
+  - `skinsChildSurface.ts` — cohesion QA helper + failure codes (`SKINS_RAW_FORM_FALLBACK`, etc.).
+  - Extended `site00-design-skins-tab.css` for sheet/panel, contract grid, upload dropzone, QA viewer.
+  - Tests: `skinsChildSurface.test.ts` (28 pass); updated `designSkinsTab.test.ts` test 14.
+- **Next founder action:** Design → SKINS → NDXBOOK → PROJECT OVERVIEW → ADD AUTHORITY → verify designed sheet (no text wall, no raw file input) → upload NDX mobile overview → REGISTER → IMPLEMENT → verify visual QA flow uses same SKINS language → deploy v232 ZIP to GoDaddy.
+
