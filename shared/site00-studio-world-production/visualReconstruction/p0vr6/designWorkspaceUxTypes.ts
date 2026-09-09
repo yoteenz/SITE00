@@ -65,7 +65,17 @@ export type DesignWorkspacePrimaryUrlState = {
 export const REFERENCE_FILTER_CHIPS = ['ALL', 'CANONICAL', 'RECENT', 'MOBILE', 'DESKTOP'] as const;
 export type ReferenceFilterChip = (typeof REFERENCE_FILTER_CHIPS)[number];
 
-export const PAGE_STATUS_FILTERS = ['ALL PAGES', 'MATCHED', 'MISSING REF', 'IN PROGRESS', 'READY'] as const;
+export const PAGE_STATUS_FILTERS = [
+  'ALL PAGES',
+  'MISSING REF',
+  'REFERENCE READY',
+  'IMPLEMENTING',
+  'VISUAL QA',
+  'DRIFT',
+  'HIGH MATCH',
+  'VERIFIED',
+  'BLOCKED',
+] as const;
 export type PageStatusFilter = (typeof PAGE_STATUS_FILTERS)[number];
 
 export const HISTORY_FILTERS = ['ALL', 'TODAY', 'THIS WEEK', 'APPROVALS', 'REPLACEMENTS'] as const;

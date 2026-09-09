@@ -6946,3 +6946,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Overlay results (honest):** All 11 screens PARTIAL_MATCH (mean diff ~20–32); no false HIGH_MATCH or pixel-perfect claim.
 - **Next founder action:** Mobile QA all 11 tabs vs authorities; deploy v224 ZIP; re-run overlay script after any further CSS tweaks.
 
+---
+
+## 2026-09-09 — P0.VR.6R2 Canonical visual convergence engine
+
+- **Context:** P0.VR.6R1 overlay/calibration was a one-off recovery pass. Founder required it become permanent pipeline behavior for every DESIGN_AUTHORITY + EXACT reference — capture → normalize → overlay → measure → correct → recapture → verify without manual “pixel perfect” prompts.
+- **Implemented:**
+  - `p0vr6r2/` — `DesignVisualConvergenceEngine` (`convergenceEngine.ts`), `DesignReferenceComparisonSession`, normalization, region registry, dynamic masking, overlay artifacts, delta measurement, drift taxonomy/severity, correction plans (priority order), iteration loop (max 3 → FOUNDER_REVIEW_REQUIRED), `DesignExecutionFidelityEnvelope`, spend-safe asset correction gate (no auto FAL/GPT dispatch).
+  - Pipeline: P0.VR.7 ingest auto-creates convergence session; `onImplementationComplete` → VISUAL QA (not VERIFIED); execution handoff appends VISUAL CONVERGENCE REQUIRED; executor self-pass blocked.
+  - API — `convergence_get`, `convergence_list`, `convergence_start`, `convergence_run`, `convergence_implementation_complete`, `convergence_founder_verify`.
+  - UI — `DesignVisualConvergenceBadge`, `DesignVisualComparisonDrawer`, `designConvergenceApi`; Pages tab uses visual verification status (not reference-exists=MATCHED); References VIEW DIFF; More REFERENCE FIDELITY defaults (DESIGN AUTHORITY · EXACT · overlay QA ON).
+  - Tests: `visualReconstructionP0VR6R2.test.ts` (31 pass); P0.VR.7 tests still pass.
+- **Gaps:** Overlay/diff artifacts use path placeholders until Playwright capture wired per-session in production; decomposition remains heuristic; live numeric pixel score still null unless real capture runs.
+- **Next founder action:** Upload test screenshot (no special QA instruction) → verify EXACT + convergence session → run implementation → confirm page enters VISUAL QA → VIEW COMPARISON → run correction pass → verify recapture + recompare.
+

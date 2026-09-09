@@ -357,4 +357,7 @@ export type ExecutionFidelityHandoff = {
     layout: boolean;
     protectCurrentVisuals: boolean;
   };
+  visualConvergenceRequired: boolean;
+  fidelityEnvelopeId: string | null;
+  maxConvergenceIterations: number;
 };

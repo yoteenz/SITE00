@@ -119,8 +119,14 @@ export function DesignReferencesTab({
               {refStatusLabel(ref)}
             </span>
             {ref.status === 'ACTIVE_CANONICAL' ? (
-              <span className="site00-dw-v3-ref-card__fidelity">DESIGN AUTHORITY · EXACT</span>
+              <>
+                <span className="site00-dw-v3-ref-card__fidelity">DESIGN AUTHORITY · EXACT</span>
+                <span className="site00-dw-v3-ref-card__visual-status">EXACT · VISUAL QA</span>
+              </>
             ) : null}
+            <button type="button" className="site00-dw-v3-ref-card__menu" aria-label="View diff">
+              VIEW DIFF
+            </button>
             <button type="button" className="site00-dw-v3-ref-card__star" aria-label="Favorite">
               ☆
             </button>
