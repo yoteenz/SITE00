@@ -1676,6 +1676,143 @@
   margin: 8px 0 0;
 }
 
+.site00-dw-rri-inspector__overlay-wrap {
+  margin: 12px 0;
+}
+
+.site00-dw-rri-inspector__overlay-wrap h4 {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  margin: 0 0 8px;
+}
+
+.site00-dw-rri-inspector__overlay-canvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  max-height: 200px;
+  background: #f5f5f5;
+  border: 1px solid var(--site00-dw-line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.site00-dw-rri-inspector__overlay-region {
+  position: absolute;
+  box-sizing: border-box;
+  border: 1px solid;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.site00-dw-rri-inspector__overlay-region.is-host-locked {
+  background: rgba(100, 100, 100, 0.25);
+  border-color: #666;
+}
+
+.site00-dw-rri-inspector__overlay-region.is-authority-rebuild {
+  background: rgba(235, 28, 36, 0.15);
+  border-color: var(--site00-dw-host-accent);
+}
+
+.site00-dw-rri-inspector__overlay-region.is-function-preserve-visual-rebuild {
+  background: rgba(255, 180, 0, 0.15);
+  border-color: #c90;
+}
+
+.site00-dw-rri-inspector__overlay-region.is-asset-slot {
+  background: rgba(80, 120, 255, 0.2);
+  border-color: #5080ff;
+}
+
+.site00-dw-rri-inspector__overlay-region.is-context-only {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: #ccc;
+}
+
+.site00-dw-rri-inspector__overlay-legend,
+.site00-dw-rri-inspector__overlay-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  list-style: none;
+  padding: 8px 0 0;
+  margin: 0;
+  font-size: 8px;
+  letter-spacing: 0.06em;
+}
+
+.site00-dw-rri-inspector__overlay-legend li.is-host-locked::before,
+.site00-dw-rri-inspector__overlay-list li.is-host-locked::before {
+  content: '■ ';
+  color: #666;
+}
+
+.site00-dw-rri-inspector__overlay-legend li.is-authority-rebuild::before,
+.site00-dw-rri-inspector__overlay-list li.is-authority-rebuild::before {
+  content: '■ ';
+  color: var(--site00-dw-host-accent);
+}
+
+.site00-dw-ref-skins-jobs__count {
+  display: inline-block;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border: 1px solid var(--site00-dw-host-accent);
+  border-radius: 2px;
+  color: var(--site00-dw-host-accent);
+  margin-top: 6px;
+}
+
+.site00-dw-ref-skins-jobs__progress {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+.site00-dw-ref-skins-jobs__progress dt {
+  opacity: 0.65;
+  margin-bottom: 2px;
+}
+
+.site00-dw-ref-skins-jobs__progress dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.site00-dw-ref-skins-jobs__queue {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.site00-dw-ref-skins-jobs__candidate.is-mismatch {
+  border-color: var(--site00-dw-host-accent);
+}
+
+.site00-dw-ref-skins-jobs__gate {
+  margin-top: 12px;
+  padding: 10px;
+  border: 1px dashed var(--site00-dw-line);
+  border-radius: 4px;
+}
+
+.site00-dw-ref-skins-jobs__gate p {
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  margin: 0 0 8px;
+}
+
+.site00-dw-ref-skins-jobs__dispatch {
+  font-weight: 600;
+  color: var(--site00-dw-host-accent);
+}
+
 .site00-dw-job-workspace__header h2 {
   font-size: 14px;
   letter-spacing: 0.1em;

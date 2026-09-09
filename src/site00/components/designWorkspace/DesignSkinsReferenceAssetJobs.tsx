@@ -1,128 +1,178 @@
 /**
- * SKINS reference asset reconstruction jobs — SOURCE → CROP → RECONSTRUCT → … → LIVE.
+ * SKINS reference asset reconstruction jobs — multi-asset discovery + founder gates.
+ * P0.VR.6R6
  */
 
 import { useMemo, useState } from 'react';
 import {
-  buildSkinsFamilyMultiAssetJob,
-  EXTENDED_PIPELINE_STAGES,
-  RECONSTRUCT_REFERENCE_ASSET_PRESET,
-  type ExtendedPipelineStage,
-} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6/referenceAssetPipeline.js';
-
-const STAGE_LABELS: Record<ExtendedPipelineStage, string> = {
-  SOURCE: 'SOURCE',
-  CROP: 'CROP',
-  RECONSTRUCT: 'RECONSTRUCT',
-  BACKGROUND: 'BACKGROUND',
-  QA: 'QA',
-  APPROVE: 'APPROVE',
-  LIVE: 'LIVE',
-};
+  buildMultiAssetReconstructionPlan,
+  buildSkinsMobileMultiAssetReconstructionJob,
+  getJobProgressSummary,
+  approveAllCrops,
+  type ReferenceMultiAssetReconstructionJob,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/index.js';
+import { RECONSTRUCT_REFERENCE_ASSET_PRESET } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6/referenceAssetPipeline.js';
 
 type Props = {
   viewport?: 'MOBILE' | 'DESKTOP';
 };
 
 export function DesignSkinsReferenceAssetJobs({ viewport = 'MOBILE' }: Props) {
-  const job = useMemo(() => buildSkinsFamilyMultiAssetJob(viewport), [viewport]);
-  const [activeCandidateId, setActiveCandidateId] = useState(job.candidates[0]?.candidateId ?? '');
-  const active = job.candidates.find((c) => c.candidateId === activeCandidateId) ?? job.candidates[0];
+  const initialJob = useMemo(
+    () =>
+      buildSkinsMobileMultiAssetReconstructionJob({
+        liveColorSwatchBrands: ['FRONTAL_SLAYER', 'AIO', 'ASTRAL_WORLD', 'STUDIO_WORLD'],
+      }),
+    [viewport],
+  );
+
+  const [job, setJob] = useState<ReferenceMultiAssetReconstructionJob | null>(initialJob);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [cropsApproved, setCropsApproved] = useState(false);
+  const [generationApproved, setGenerationApproved] = useState(false);
+
+  const progress = job ? getJobProgressSummary(job) : null;
+  const plan = job && cropsApproved ? buildMultiAssetReconstructionPlan(job) : null;
+  const active = job?.candidateAssets[activeIndex];
+
+  if (!job) {
+    return (
+      <section className="site00-dw-ref-skins-jobs" data-panel="skins-reference-asset-jobs">
+        <p>NO MULTI-ASSET JOB — AUTHORITY NOT REGISTERED</p>
+      </section>
+    );
+  }
+
+  function handleApproveCrop() {
+    if (!job) return;
+    const updated = approveAllCrops(job);
+    setJob(updated);
+    setCropsApproved(true);
+  }
 
   return (
     <section className="site00-dw-ref-skins-jobs" data-panel="skins-reference-asset-jobs">
       <header className="site00-dw-ref-skins-jobs__head">
-        <h3>SKINS REFERENCE ASSET JOB</h3>
-        <p>{RECONSTRUCT_REFERENCE_ASSET_PRESET.intent}</p>
-        <span className="site00-dw-ref-skins-jobs__preset">{RECONSTRUCT_REFERENCE_ASSET_PRESET.label}</span>
+        <h3>REFERENCE RECONSTRUCTION JOB</h3>
+        <p>SCREEN: SKINS {viewport}</p>
+        <span className="site00-dw-ref-skins-jobs__count">{job.candidateAssets.length} ASSETS FOUND</span>
       </header>
 
-      <nav className="site00-dw-ref-skins-jobs__stages" aria-label="Reference asset pipeline">
-        {EXTENDED_PIPELINE_STAGES.map((stage, i) => {
-          const activeIndex = active ? EXTENDED_PIPELINE_STAGES.indexOf(active.stage) : 0;
-          const isCurrent = stage === active?.stage;
-          const isComplete = i < activeIndex;
-          return (
-            <span
-              key={stage}
-              className={`site00-dw-ref-skins-jobs__stage${isCurrent ? ' is-current' : ''}${isComplete ? ' is-complete' : ''}`}
-            >
-              {STAGE_LABELS[stage]}
-            </span>
-          );
-        })}
-      </nav>
+      <dl className="site00-dw-ref-skins-jobs__progress">
+        <div>
+          <dt>DETECT</dt>
+          <dd>{progress?.detect}</dd>
+        </div>
+        <div>
+          <dt>CROPS</dt>
+          <dd>{progress?.crops}</dd>
+        </div>
+        <div>
+          <dt>GENERATION</dt>
+          <dd>{progress?.generation}</dd>
+        </div>
+        <div>
+          <dt>OUTPUTS</dt>
+          <dd>{progress?.outputs}</dd>
+        </div>
+        <div>
+          <dt>BOUND</dt>
+          <dd>{progress?.bound}</dd>
+        </div>
+      </dl>
 
-      <div className="site00-dw-ref-skins-jobs__candidates">
-        {job.candidates.map((c) => (
+      <nav className="site00-dw-ref-skins-jobs__queue" aria-label="Asset crop queue">
+        {job.candidateAssets.map((c, i) => (
           <button
             key={c.candidateId}
             type="button"
-            className={`site00-dw-ref-skins-jobs__candidate${c.candidateId === activeCandidateId ? ' is-active' : ''}`}
-            onClick={() => setActiveCandidateId(c.candidateId)}
+            className={`site00-dw-ref-skins-jobs__candidate${i === activeIndex ? ' is-active' : ''}${c.mismatchType !== 'MATCHED' ? ' is-mismatch' : ''}`}
+            onClick={() => setActiveIndex(i)}
           >
-            {c.brandKey.replace(/_/g, ' ')}
+            {String(i + 1).padStart(2, '0')} {c.brandKey.replace(/_/g, ' ')}
           </button>
         ))}
-      </div>
+      </nav>
 
       {active ? (
         <article className="site00-dw-ref-skins-jobs__detail">
-          <h4>{active.brandKey.replace(/_/g, ' ')} FAMILY VISUAL</h4>
+          <h4>
+            {String(activeIndex + 1).padStart(2, '0')} / {String(job.candidateAssets.length).padStart(2, '0')} —{' '}
+            {active.brandKey.replace(/_/g, ' ')} FAMILY VISUAL
+          </h4>
           <dl className="site00-dw-ref-skins-jobs__plan">
             <div>
-              <dt>TYPE</dt>
-              <dd>{active.treatmentPlan.assetType}</dd>
+              <dt>MISMATCH</dt>
+              <dd>{active.mismatchType.replace(/_/g, ' ')}</dd>
             </div>
             <div>
-              <dt>SOURCE</dt>
-              <dd>SKINS {active.viewport} AUTHORITY</dd>
+              <dt>TARGET SLOT</dt>
+              <dd>{active.semanticSlot}</dd>
             </div>
             <div>
-              <dt>CROP</dt>
-              <dd>{active.source.sourceStatus === 'CROP_CONFIRMED' ? 'CONFIRMED' : 'PENDING'}</dd>
+              <dt>CROP STATUS</dt>
+              <dd>{cropsApproved ? 'APPROVED' : active.cropStatus}</dd>
             </div>
             <div>
-              <dt>RECONSTRUCTION</dt>
-              <dd>{active.treatmentPlan.reconstructionRequired ? 'REQUIRED' : 'OPTIONAL'}</dd>
-            </div>
-            <div>
-              <dt>BACKGROUND</dt>
-              <dd>{active.treatmentPlan.backgroundPolicy.replace(/_/g, ' ')}</dd>
-            </div>
-            <div>
-              <dt>BIND TO</dt>
-              <dd>SKINS → {active.brandKey} → FAMILY THUMBNAIL</dd>
+              <dt>GENERATION</dt>
+              <dd>{generationApproved ? 'AUTHORIZED' : 'BLOCKED — AWAITING CROP + GENERATION APPROVAL'}</dd>
             </div>
           </dl>
 
           <div className="site00-dw-ref-skins-jobs__compare">
             <div className="site00-dw-ref-skins-jobs__pane">
-              <span>SOURCE CROP (NOT FINAL)</span>
-              <img src={active.source.sourceCropUrl} alt="" />
+              <span>REFERENCE CROP (NOT FINAL)</span>
+              <img src={active.sourceCrop.sourceCropUrl} alt="" />
               <em>SOURCE CROP ≠ CANONICAL</em>
             </div>
             <div className="site00-dw-ref-skins-jobs__pane site00-dw-ref-skins-jobs__pane--output">
               <span>RECONSTRUCTED OUTPUT</span>
-              <div className="site00-dw-ref-skins-jobs__empty">AWAITING FOUNDER GENERATE</div>
+              <div className="site00-dw-ref-skins-jobs__empty">AWAITING FOUNDER REVIEW</div>
             </div>
           </div>
 
-          <details className="site00-dw-ref-skins-jobs__prompt" open>
+          <details className="site00-dw-ref-skins-jobs__prompt">
             <summary>PROVIDER PROMPT PREVIEW</summary>
-            <pre>{active.prompt}</pre>
+            <pre>{active.generatedPrompt}</pre>
           </details>
 
-          <div className="site00-dw-ref-skins-jobs__actions">
-            <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" disabled>
-              EDIT PROMPT
-            </button>
-            <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled>
-              FOUNDER GENERATE (1 DISPATCH)
-            </button>
-          </div>
+          {!cropsApproved ? (
+            <div className="site00-dw-ref-skins-jobs__gate">
+              <p>GATE A — CROP APPROVAL REQUIRED BEFORE ANY GENERATION</p>
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={handleApproveCrop}>
+                APPROVE ALL VALID CROPS ({job.candidateAssets.length})
+              </button>
+            </div>
+          ) : !generationApproved ? (
+            <div className="site00-dw-ref-skins-jobs__gate">
+              <p>GATE B — GENERATION APPROVAL (CROP APPROVAL ≠ GENERATION APPROVAL)</p>
+              {plan ? (
+                <p className="site00-dw-ref-skins-jobs__dispatch">
+                  {plan.totalDispatches} ASSETS · {plan.totalDispatches} PROVIDER DISPATCHES MAX
+                </p>
+              ) : null}
+              <button
+                type="button"
+                className="site00-dw-v3-btn site00-dw-v3-btn--primary"
+                onClick={() => setGenerationApproved(true)}
+              >
+                APPROVE {job.candidateAssets.length} GENERATIONS
+              </button>
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" disabled>
+                REVIEW PROMPTS
+              </button>
+            </div>
+          ) : (
+            <div className="site00-dw-ref-skins-jobs__gate">
+              <p>GATE C — OUTPUT REVIEW (NO AUTO-BIND · NO AUTO-REGENERATE)</p>
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled>
+                FOUNDER GENERATE (DISPATCH BLOCKED UNTIL API WIRED)
+              </button>
+            </div>
+          )}
+
           <p className="site00-dw-ref-skins-jobs__guard">
-            SOURCE CROP CANNOT BE CANONICAL · PAID RECONSTRUCTION REQUIRES FOUNDER APPROVAL
+            {RECONSTRUCT_REFERENCE_ASSET_PRESET.intent} · NO REGENERATION WITHOUT EXPLICIT FOUNDER APPROVAL
           </p>
         </article>
       ) : null}

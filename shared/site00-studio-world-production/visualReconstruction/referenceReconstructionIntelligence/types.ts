@@ -38,6 +38,18 @@ export const RRI_FAILURE_CODES = [
   'REFERENCE_IMPLEMENTATION_NO_OP',
   'REFERENCE_BLUEPRINT_MISSING',
   'REFERENCE_INFERENCE_UNCERTAIN',
+  'REFERENCE_HOST_SHELL_OVERCLASSIFIED',
+  'REFERENCE_AUTHORITY_REGION_UNDERCLASSIFIED',
+  'REFERENCE_FUNCTION_VISUAL_COUPLED',
+  'REFERENCE_MULTI_ASSET_DISCOVERY_INCOMPLETE',
+  'REFERENCE_MULTI_ASSET_JOB_NOT_CREATED',
+  'REFERENCE_CROP_APPROVAL_SKIPPED',
+  'REFERENCE_GENERATION_APPROVAL_SKIPPED',
+  'REFERENCE_OUTPUT_APPROVAL_SKIPPED',
+  'REFERENCE_REGENERATION_AUTO_DISPATCHED',
+  'REFERENCE_ASSET_COMPLETENESS_FAILED',
+  'REFERENCE_PARTIAL_VISUAL_IMPLEMENTATION',
+  'REFERENCE_BINDING_WITHOUT_OUTPUT_APPROVAL',
 ] as const;
 
 export type RriFailureCode = (typeof RRI_FAILURE_CODES)[number];
@@ -329,6 +341,23 @@ export type ReferenceReconstructionBlueprint = {
   layoutPlanVersion: string;
   uncertainties: ReferenceInferenceUncertainty[];
   lockedRegions: string[];
+  /** P0.VR.6R6 — authority boundary + multi-asset orchestration */
+  authorityBoundaryMapId?: string;
+  hostShellCoverage?: number;
+  authorityRebuildCoverage?: number;
+  boundaryReviewRequired?: boolean;
+  multiAssetJobId?: string | null;
+  assetMismatchCount?: number;
+  cropApprovalState?: string;
+  generationApprovalState?: string;
+  assetCompletenessState?: string;
+};
+
+export type BoundaryOverlayRegion = {
+  regionId: string;
+  label: string;
+  boundaryClass: 'HOST_LOCKED' | 'AUTHORITY_REBUILD' | 'FUNCTION_PRESERVE_VISUAL_REBUILD' | 'ASSET_SLOT' | 'CONTEXT_ONLY';
+  bbox: NormalizedBbox;
 };
 
 export type ReferenceReconstructionInspectorState = {
@@ -349,6 +378,15 @@ export type ReferenceReconstructionInspectorState = {
   microDriftCount: number;
   noOpGuard: 'PASS' | 'FAIL' | 'NOT_RUN';
   falsePassGuard: 'PASS' | 'FAIL' | 'NOT_RUN';
+  partialOpGuard: 'PASS' | 'FAIL' | 'NOT_RUN';
   verificationStatus: 'NOT_STARTED' | 'BLOCKED' | 'HIGH_MATCH' | 'VERIFIED';
   failureCodes: RriFailureCode[];
+  hostShellCoveragePercent: number;
+  authorityRebuildCoveragePercent: number;
+  boundaryReviewRequired: boolean;
+  boundaryOverlayRegions: BoundaryOverlayRegion[];
+  assetMismatchCount: number;
+  multiAssetJobId: string | null;
+  cropApprovalSummary: string;
+  generationApprovalSummary: string;
 };
