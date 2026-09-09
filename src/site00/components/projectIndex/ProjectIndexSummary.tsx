@@ -7,7 +7,7 @@ type ProjectIndexSummaryProps = {
 
 export function ProjectIndexSummary({ tiles }: ProjectIndexSummaryProps) {
   return (
-    <div className="site00-pidx-summary" data-dynamic-region="metric-card-content">
+    <div className="site00-pidx-summary" data-site00-metrics="shared" data-dynamic-region="metric-card-content">
       {tiles.map((tile) => (
         <SummaryTile key={tile.label} value={tile.value} label={tile.label} icon={tile.icon} />
       ))}

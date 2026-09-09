@@ -47,7 +47,7 @@ export function ProjectsPageShell({
   const accountIdentity = useProjectsAccountIdentity();
 
   return (
-    <>
+    <div data-site00-shell="projects">
       <ProjectIndexHero />
 
       <ProjectIndexViewStrip />
@@ -77,6 +77,6 @@ export function ProjectsPageShell({
       />
 
       {children}
-    </>
+    </div>
   );
 }

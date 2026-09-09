@@ -5,6 +5,12 @@
 import type { ProjectIndexItem } from './projectIndexItem.js';
 import { isSite00PlatformDesignIndexItem, buildSite00PlatformDesignIndexItem } from './buildProjectIndexItems.js';
 import { computeProjectIndexSummaryMetrics, type ProjectIndexSummaryMetrics } from './projectIndexMetrics.js';
+import {
+  PROJECTS_CLIENT_METRIC_LABELS,
+  PROJECTS_FOUNDER_METRIC_LABELS,
+  PROJECTS_METRIC_SLOT_COUNT,
+} from './projectsPageShellConfig.js';
+import { assertProjectsMetricSlotCount } from './projectViewModeShellQA.js';
 import type { ProjectViewMode } from './projectViewMode.js';
 
 export type ProjectsSummaryTileIcon = 'stack' | 'pulse' | 'orbit' | 'check';
@@ -43,12 +49,14 @@ function padCount(n: number): string {
 }
 
 function founderSummaryTiles(metrics: ProjectIndexSummaryMetrics): ProjectsViewData['summaryTiles'] {
-  return [
-    { value: padCount(metrics.total), label: 'TOTAL PROJECTS', icon: 'stack' },
-    { value: padCount(metrics.active), label: 'ACTIVE', icon: 'pulse' },
-    { value: padCount(metrics.preLaunch), label: 'PRE LAUNCH', icon: 'orbit' },
-    { value: padCount(metrics.complete), label: 'COMPLETE', icon: 'check' },
-  ];
+  const tiles = [
+    { value: padCount(metrics.total), label: PROJECTS_FOUNDER_METRIC_LABELS[0], icon: 'stack' as const },
+    { value: padCount(metrics.active), label: PROJECTS_FOUNDER_METRIC_LABELS[1], icon: 'pulse' as const },
+    { value: padCount(metrics.preLaunch), label: PROJECTS_FOUNDER_METRIC_LABELS[2], icon: 'orbit' as const },
+    { value: padCount(metrics.complete), label: PROJECTS_FOUNDER_METRIC_LABELS[3], icon: 'check' as const },
+  ] as const;
+  assertProjectsMetricSlotCount(tiles);
+  return tiles as ProjectsViewData['summaryTiles'];
 }
 
 function clientInReviewCount(items: ProjectIndexItem[]): number {
@@ -63,12 +71,14 @@ function clientInReviewCount(items: ProjectIndexItem[]): number {
 function clientSummaryTiles(items: ProjectIndexItem[]): ProjectsViewData['summaryTiles'] {
   const metrics = computeProjectIndexSummaryMetrics(items);
   const inReview = clientInReviewCount(items);
-  return [
-    { value: padCount(metrics.total), label: 'YOUR PROJECTS', icon: 'stack' },
-    { value: padCount(metrics.active), label: 'ACTIVE', icon: 'pulse' },
-    { value: padCount(inReview), label: 'IN REVIEW', icon: 'orbit' },
-    { value: padCount(metrics.complete), label: 'COMPLETE', icon: 'check' },
-  ];
+  const tiles = [
+    { value: padCount(metrics.total), label: PROJECTS_CLIENT_METRIC_LABELS[0], icon: 'stack' as const },
+    { value: padCount(metrics.active), label: PROJECTS_CLIENT_METRIC_LABELS[1], icon: 'pulse' as const },
+    { value: padCount(inReview), label: PROJECTS_CLIENT_METRIC_LABELS[2], icon: 'orbit' as const },
+    { value: padCount(metrics.complete), label: PROJECTS_CLIENT_METRIC_LABELS[3], icon: 'check' as const },
+  ] as const;
+  assertProjectsMetricSlotCount(tiles);
+  return tiles as ProjectsViewData['summaryTiles'];
 }
 
 const ALL_FILTERS = [
@@ -136,6 +146,8 @@ export function buildProjectsViewData(args: {
     emptyState,
   };
 }
+
+export { PROJECTS_METRIC_SLOT_COUNT };
 
 export function resolveProjectsIndexItems(args: {
   viewMode: ProjectViewMode;

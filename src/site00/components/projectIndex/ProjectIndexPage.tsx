@@ -61,7 +61,8 @@ export function ProjectIndexPage() {
     <div
       className={`site00-pidx${isDesktop ? ' site00-pidx--desktop' : ' site00-pidx--mobile'}`}
       data-site00-surface="projects-index"
-      data-view-mode={viewMode}
+      data-site00-shell="projects"
+      data-site00-view-mode={viewMode.toLowerCase()}
     >
       <ProjectsPageShell
         isDesktop={isDesktop}

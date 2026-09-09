@@ -53,7 +53,7 @@
   }
 }
 
-/* Client simulation banner */
+/* Deprecated — B5.9R8R1 removed ProjectIndexClientSimulationBanner; do not reintroduce on /projects */
 .site00-pidx-client-banner {
   display: flex;
   align-items: center;
