@@ -7288,3 +7288,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining gaps:** Live Supabase/API wiring for real project portfolio feed; bell notification emit from ops engine in production path; manual override UI; final mobile/desktop visual authority for Evolve Operations screen; Campaign/Creative Brain stage binding.
 - **Next founder action:** Deploy → Control Room → OPEN EVOLVE OPERATIONS → verify NEEDS ATTENTION / SPEND WATCH / FAILURES / CLIENT WAITING queues → run acceptance fixtures (credit watch, bad crop, provider outage, growth partner launch, retainer stall, margin watch, 1k portfolio toggle).
 
+---
+
+## 2026-09-09 — P0.VR.6R7 Founder Crop Intelligence + Editable Crop Workspace
+
+- **Context:** Recovery sprint — multi-asset SKINS MOBILE reconstruction surfaced crop approvals but founder could approve without understanding detection, editing crops, or quality warnings (NDXBOOK device chrome). Required formal FounderCropIntelligence + EditableCropWorkspace with three gates (asset identity → crop approval → generation approval).
+- **Implemented:**
+  - **`shared/.../founderCropIntelligence/`** — CropReviewStatus, AssetTargetSlotContract, CropDetectionExplanation, CropQualityPreflight (INFO/WARN/BLOCK), crop geometry/checksum, batch `approveAllValidCrops`, split/merge/padding/fit-object/reset/manual crop, edit history (detectorCrop / founderCrop / finalApprovedCrop).
+  - **Orchestrator** — `cropReviews[]` on workflow state; `updateCropReviewAtIndex`; intelligent batch approval; store migration for stale sessions; no generation on crop approval.
+  - **UI** — `EditableCropWorkspace` (source context + bounding box, crop preview, QA panel, 3-gate UX, edit controls); `DesignReconstructionWorkflowPanel` visual candidate navigator strip + batch progress.
+  - **Founder alerts** — NEEDS YOUR REVIEW + bell copy: `5 ASSETS DETECTED · X READY · Y NEED EDITS · GENERATION BLOCKED`.
+  - **NDXBOOK golden** — flags DEVICE_CHROME / EDIT_REQUIRED until founder manual/fit-object correction.
+  - **Tests:** `referenceReconstructionIntelligenceR7Crop.test.ts` (34) + updated R7/R8 workflow tests (80 pass in crop suite); build pass (`index.9WbDi_zx.js`).
+- **Remaining gaps:** Full drag-handle pixel editor (nudge buttons wired; pinch/full-screen mobile polish); split/merge child candidate orchestration in job list; live crop preview URL re-render from founder bounds (preview still uses prepared thumb URL); re-detect/wrong-asset recovery actions UI stubs.
+- **Next founder action:** Deploy v248 → Design → ASSETS → SKINS MOBILE RECONSTRUCTION → REVIEW CROPS → open 01 NDXBOOK → verify detection explanation + device chrome warning → edit crop → approve crop (no generation) → approve remaining valid crops → generation plan → explicit APPROVE GENERATION.
+
