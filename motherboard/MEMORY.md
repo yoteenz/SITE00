@@ -6831,3 +6831,16 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - Tests: `tests/visualReconstructionP0VR5.test.ts` — scenarios A–F (single icon, multi-icon set, background, hero object, preset suggestion, spend protection). 37/37 pass with P0.VR.4 + R2 regression.
 - **Non-negotiables preserved:** No generation on upload; crop confirmation required; max 1 primary dispatch per asset version; legacy planet pipeline unchanged in collapsible section.
 - **Next founder action:** DESIGN → PROJECTS INDEX → ASSETS → use new ASSET DECONSTRUCTION PIPELINE → upload screenshot → select preset or type instruction → RUN DETECTION → CONFIRM ALL CROPS → RECONSTRUCT APPROVED (explicit) → APPROVE · UPLOAD · BIND.
+
+---
+
+## 2026-09-09 — B5.9R9 Projects page account-identity eyebrow
+
+- **Context:** Projects hero showed redundant `PROJECTS /` + `PROJECTS`. Red eyebrow must identify the active account person; black title stays `PROJECTS`. Shell invariance from B5.9R8 preserved (founder ↔ client toggle changes only eyebrow data + permission-safe panel data).
+- **Implemented:**
+  - `AccountDisplayIdentity` type + `formatAccountIdentityEyebrow()` in `shared/site00-projects/accountDisplayIdentity.ts` — uppercase presentation; fallback chain: fullName → displayName → `CLIENT /` or `ACCOUNT /`; never `PROJECTS /`.
+  - `resolveProjectsViewAccountIdentity()` in `projectsViewDataAdapter.ts` — founder reads authenticated profile; client simulation reads active client owner from projects index API; privacy guard blocks founder name in simulated client view.
+  - `AccountIdentityEyebrow.tsx` + `useProjectsAccountIdentity.ts`; `ProjectIndexHero.tsx` uses eyebrow component instead of hardcoded `PROJECTS /`.
+  - API enrichment: `clientProjectOwnerIdentity.ts`; projects index returns `ownerFirstName`, `ownerLastName`, `ownerDisplayName` on `clientProjects`.
+  - Tests: `tests/site00FounderWorkspaceSprintB59R9.test.ts` (15 criteria) + B59R5 regression — 47/47 pass.
+- **Next founder action:** Open `/projects` on mobile in Founder View — verify red eyebrow shows your full account name `/` (not `PROJECTS /`); toggle Client View — active client full name `/`; hero/planet/toggle unchanged; toggle back confirms founder name returns.
