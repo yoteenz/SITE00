@@ -1,0 +1,100 @@
+/**
+ * P0.VR.6 — Design workspace UX reconstruction (11-reference sprint).
+ * Primary IA: REFERENCES · ASSETS · PAGES · HISTORY · MORE
+ */
+
+import type { DesignViewportClass } from '../p0vr2/types.js';
+
+export const P0_VR_6_LINEAGE = 'P0.VR.6' as const;
+
+export const DESIGN_WORKSPACE_PRIMARY_TABS = [
+  'REFERENCES',
+  'ASSETS',
+  'PAGES',
+  'HISTORY',
+  'MORE',
+] as const;
+
+export type DesignWorkspacePrimaryTab = (typeof DESIGN_WORKSPACE_PRIMARY_TABS)[number];
+
+export const PRIMARY_TAB_LABELS: Record<DesignWorkspacePrimaryTab, string> = {
+  REFERENCES: 'REFERENCES',
+  ASSETS: 'ASSETS',
+  PAGES: 'PAGES',
+  HISTORY: 'HISTORY',
+  MORE: 'MORE',
+};
+
+/** Map legacy P0.VR.2B tabs → primary tabs for URL backward compatibility. */
+export const LEGACY_TAB_TO_PRIMARY: Record<string, DesignWorkspacePrimaryTab> = {
+  REFERENCE: 'REFERENCES',
+  IMPLEMENTATION: 'REFERENCES',
+  COMPARE: 'REFERENCES',
+  REVIEW: 'MORE',
+  MISSING: 'MORE',
+  INSPECT: 'MORE',
+  PAGES: 'PAGES',
+  ASSETS: 'ASSETS',
+  HISTORY: 'HISTORY',
+  REFERENCES: 'REFERENCES',
+  MORE: 'MORE',
+};
+
+export function normalizeDesignWorkspacePrimaryTab(
+  tab: string | undefined | null,
+  fallback: DesignWorkspacePrimaryTab = 'ASSETS',
+): DesignWorkspacePrimaryTab {
+  const key = tab?.toUpperCase() ?? '';
+  const mapped = LEGACY_TAB_TO_PRIMARY[key];
+  if (mapped) return mapped;
+  if (DESIGN_WORKSPACE_PRIMARY_TABS.includes(key as DesignWorkspacePrimaryTab)) {
+    return key as DesignWorkspacePrimaryTab;
+  }
+  return fallback;
+}
+
+export type DesignWorkspacePrimaryUrlState = {
+  project: string;
+  screen: string;
+  viewport: DesignViewportClass;
+  tab: DesignWorkspacePrimaryTab;
+  /** Optional assets pipeline step deep-link */
+  assetStep?: string;
+};
+
+export const REFERENCE_FILTER_CHIPS = ['ALL', 'CANONICAL', 'RECENT', 'MOBILE', 'DESKTOP'] as const;
+export type ReferenceFilterChip = (typeof REFERENCE_FILTER_CHIPS)[number];
+
+export const PAGE_STATUS_FILTERS = ['ALL PAGES', 'MATCHED', 'MISSING REF', 'IN PROGRESS', 'READY'] as const;
+export type PageStatusFilter = (typeof PAGE_STATUS_FILTERS)[number];
+
+export const HISTORY_FILTERS = ['ALL', 'TODAY', 'THIS WEEK', 'APPROVALS', 'REPLACEMENTS'] as const;
+export type HistoryFilter = (typeof HISTORY_FILTERS)[number];
+
+export const P0_VR_6_FAILURE_CODES = [
+  'DESIGN_ACTIVITY_DOMINATES_VIEWPORT',
+  'DESIGN_TEXT_DENSITY_TOO_HIGH',
+  'DESIGN_ASSETS_STAGE_STACKING',
+  'DESIGN_MOBILE_OVERFLOW',
+  'DESIGN_TAB_VISUAL_DRIFT',
+  'DESIGN_REFERENCE_LIBRARY_DRIFT',
+  'DESIGN_PAGES_LAYOUT_DRIFT',
+  'DESIGN_HISTORY_LAYOUT_DRIFT',
+  'DESIGN_MORE_LAYOUT_DRIFT',
+  'DESIGN_PROGRESSIVE_DISCLOSURE_MISSING',
+  'DESIGN_ACTIVITY_NOT_COLLAPSIBLE',
+  'DESIGN_QUICK_ACTIONS_NOT_COLLAPSIBLE',
+  'DESIGN_REFERENCE_FIDELITY_NOT_VERIFIED',
+] as const;
+
+export type P0VR6FailureCode = (typeof P0_VR_6_FAILURE_CODES)[number];
+
+export const ASSET_PIPELINE_STEP_LABELS: Record<string, string> = {
+  UPLOAD: '01 UPLOAD',
+  INSTRUCT: '02 INSTRUCT',
+  DETECT: '03 DETECT',
+  CONFIRM_CROP: '04 CROP',
+  RECONSTRUCT: '05 BUILD',
+  APPROVE: '06 APPROVE',
+  REPLACE: '07 LIVE',
+};

@@ -4,17 +4,15 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import {
   CANONICAL_VIEWPORT_DIMENSIONS,
   buildDesignScreenMatrix,
   createDraftReferenceFromUpload,
   findDesignScreen,
-  formatMatrixCell,
   getActiveCanonicalReference,
   listDesignScreensForProject,
   listDesignWorkspaceProjects,
-  promoteReferenceToCanonical,
   proposeReferenceScope,
   resolveDesignScreenRoute,
   startVisualReconstructionRun,
@@ -22,7 +20,6 @@ import {
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/client.js';
 import { registerNdxbookDesignPilot, registerSite00DesignPilot } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/client.js';
 import {
-  compileSite00DesignRouteManifest,
   getActiveDesignRouteSyncContract,
   buildSite00FounderDesignScreenSet,
   listManifestScreensForProject,
@@ -46,14 +43,16 @@ import {
   type ReferenceVisualAssetSlot,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2a/client.js';
 import {
-  MOBILE_TAB_LABELS,
   buildDesignWorkspaceActivity,
   buildDesignWorkspaceQuickActions,
-  buildDesignWorkspaceUrlState,
   computeDesignWorkspaceVisualMatch,
   parseDesignWorkspaceUrlState,
-  type DesignWorkspaceTab,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2b/client.js';
+import {
+  buildDesignWorkspacePrimaryUrlState,
+  normalizeDesignWorkspacePrimaryTab,
+  type DesignWorkspacePrimaryTab,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6/index.js';
 import {
   buildDesignWorkspaceBreadcrumb,
   resolveManagedProjectContextAccent,
@@ -62,8 +61,6 @@ import {
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/client.js';
 import { Site00DesignWorkspaceShell } from '../designWorkspace/Site00DesignWorkspaceShell';
 import { DesignCompareSection } from '../designWorkspace/DesignCompareSection';
-import { DesignImplementationPreview } from '../designWorkspace/DesignImplementationPreview';
-import { DesignPagesVisualIndex } from '../designWorkspace/DesignPagesVisualIndex';
 import { DesignComposerReviewQueue } from '../designWorkspace/DesignComposerReviewQueue';
 import { DesignRepoChangePanel } from '../designWorkspace/DesignRepoChangePanel';
 import { DesignMissingTargetQueue } from '../designWorkspace/DesignMissingTargetQueue';
@@ -71,8 +68,13 @@ import { useImplementationSnapshots } from '../designWorkspace/useImplementation
 import { listScreensWithSnapshots } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3e/client.js';
 import { DesignMissingAssetsSection } from '../designWorkspace/DesignMissingAssetsSection';
 import { DesignVisualMatchPanel } from '../designWorkspace/DesignVisualMatchPanel';
-import { ExperienceEngineProofPanel } from '../designWorkspace/ExperienceEngineProofPanel';
-import { DesignWorkspaceFooter } from '../designWorkspace/DesignWorkspaceFooter';
+import { DesignWorkspaceDisclosurePanel } from '../designWorkspace/DesignWorkspaceDisclosurePanel';
+import { DesignWorkspacePrimaryTabRail } from '../designWorkspace/DesignWorkspacePrimaryTabRail';
+import { DesignWorkspaceViewportRail } from '../designWorkspace/DesignWorkspaceViewportRail';
+import { DesignReferencesTab } from '../designWorkspace/DesignReferencesTab';
+import { DesignPagesTabPanel } from '../designWorkspace/DesignPagesTabPanel';
+import { DesignHistoryTab } from '../designWorkspace/DesignHistoryTab';
+import { DesignMoreTab } from '../designWorkspace/DesignMoreTab';
 import { DesignWorkspaceOverflowMenu } from '../designWorkspace/DesignWorkspaceOverflowMenu';
 import { DesignReferenceAssetsPanel } from '../designWorkspace/DesignReferenceAssetsPanel';
 import { useDesignWorkspaceHostMenus } from '../designWorkspace/useDesignWorkspaceHostMenus';
@@ -88,16 +90,13 @@ import {
   type ApprovedScreenshotSource,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr4/client.js';
 import '../../styles/site00-design-workspace-p0vr2b.css';
+import '../../styles/site00-design-workspace-v3.css';
 
 export type StudioWorldDesignWorkspaceProps = {
   initialProjectId?: string;
   initialScreenId?: string;
   initialViewport?: DesignViewportClass;
 };
-
-const TABS: DesignWorkspaceTab[] = ['REFERENCE', 'IMPLEMENTATION', 'COMPARE', 'PAGES', 'ASSETS', 'REVIEW', 'MISSING', 'HISTORY', 'INSPECT'];
-
-const VIEWPORT_OPTIONS: DesignViewportClass[] = ['mobile', 'tablet', 'desktop'];
 
 type Site00ScreenSetMode = 'PRIMARY' | 'ALL_DESIGNABLE';
 
@@ -123,42 +122,39 @@ export function StudioWorldDesignWorkspace({
   const designProjects = useMemo(() => listDesignWorkspaceProjects(), []);
   const [searchParams, setSearchParams] = useSearchParams();
   const urlState = parseDesignWorkspaceUrlState(searchParams.toString());
-  const [projectId, setProjectId] = useState(
-    resolveManagedProjectForDesignContext(urlState.project ?? initialProjectId),
-  );
+  const [projectId] = useState(resolveManagedProjectForDesignContext(urlState.project ?? initialProjectId));
   const [screenId, setScreenId] = useState(urlState.screen ?? initialScreenId ?? '');
   const [viewportClass, setViewportClass] = useState<DesignViewportClass>(urlState.viewport ?? initialViewport);
-  const [tab, setTab] = useState<DesignWorkspaceTab>(urlState.tab ?? 'COMPARE');
-  const [customRoute, setCustomRoute] = useState('');
+  const [primaryTab, setPrimaryTab] = useState<DesignWorkspacePrimaryTab>(
+    normalizeDesignWorkspacePrimaryTab(urlState.tab ?? 'ASSETS'),
+  );
+  const [showInspector, setShowInspector] = useState(false);
+  const [customRoute] = useState('');
   const [scopeOverride, setScopeOverride] = useState<string>('');
   const [uploadPreview, setUploadPreview] = useState<string | null>(null);
   const [lastRunId, setLastRunId] = useState<string | null>(null);
   const [assetSlots, setAssetSlots] = useState<ReferenceVisualAssetSlot[]>([]);
   const [selectedPromptSlotId, setSelectedPromptSlotId] = useState<string | null>(null);
-  const [site00ScreenSetMode, setSite00ScreenSetMode] = useState<Site00ScreenSetMode>('PRIMARY');
-  const [pagesFilter, setPagesFilter] = useState('ALL');
+  const [site00ScreenSetMode] = useState<Site00ScreenSetMode>('PRIMARY');
   const [refAssetsSeed, setRefAssetsSeed] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const {
     getSnapshot,
-    coverage: snapshotCoverage,
     capturing: snapshotCapturing,
-    batchProgress,
     captureScreen,
-    captureProject,
   } = useImplementationSnapshots(projectId);
 
   const syncUrl = useCallback(
-    (patch: Partial<{ project: string; screen: string; viewport: DesignViewportClass; tab: DesignWorkspaceTab }>) => {
+    (patch: Partial<{ project: string; screen: string; viewport: DesignViewportClass; tab: DesignWorkspacePrimaryTab }>) => {
       const next = {
         project: patch.project ?? projectId,
         screen: patch.screen ?? screenId,
         viewport: patch.viewport ?? viewportClass,
-        tab: patch.tab ?? tab,
+        tab: patch.tab ?? primaryTab,
       };
-      setSearchParams(buildDesignWorkspaceUrlState(next).slice(1), { replace: true });
+      setSearchParams(buildDesignWorkspacePrimaryUrlState(next).slice(1), { replace: true });
     },
-    [projectId, screenId, tab, viewportClass, setSearchParams],
+    [projectId, screenId, primaryTab, viewportClass, setSearchParams],
   );
 
   const site00SyncContract = useMemo(
@@ -188,15 +184,10 @@ export function StudioWorldDesignWorkspace({
       }
     }
   }, [projectId, screens, screenId, syncUrl]);
-  const matrix = useMemo(() => buildDesignScreenMatrix(projectId), [projectId]);
   const screen = findDesignScreen(projectId, screenId);
   const projectMeta = designProjects.find((p) => p.slug === projectId);
   const projectContextAccent = resolveManagedProjectContextAccent(projectId);
   const breadcrumb = buildDesignWorkspaceBreadcrumb();
-  const site00Manifest = useMemo(
-    () => (projectId === 'site00' ? compileSite00DesignRouteManifest() : null),
-    [projectId],
-  );
   const route = customRoute || (screen ? resolveDesignScreenRoute(screen, projectId) : `/projects/${projectId}`);
   const reference = getActiveCanonicalReference(projectId, screenId, viewportClass);
   const implementationSnapshot = getSnapshot(screenId, viewportClass);
@@ -285,7 +276,7 @@ export function StudioWorldDesignWorkspace({
   }, [projectId, reference, route, screenId]);
 
   useEffect(() => {
-    if (tab !== 'ASSETS' || !reconstructionScreenshotSource) return;
+    if (primaryTab !== 'ASSETS' || !reconstructionScreenshotSource) return;
     if (screenId === 'projects-index' && projectId === 'site00') {
       detectAndRegisterAssets({
         source: reconstructionScreenshotSource,
@@ -308,7 +299,7 @@ export function StudioWorldDesignWorkspace({
         screenshotBasePath: reconstructionScreenshotSource.screenshotUrl.replace(/\.[^.]+$/, ''),
       });
     }
-  }, [tab, reconstructionScreenshotSource, screenId, projectId, refAssetsSeed]);
+  }, [primaryTab, reconstructionScreenshotSource, screenId, projectId, refAssetsSeed]);
 
   const {
     activeHostMenu,
@@ -337,16 +328,19 @@ export function StudioWorldDesignWorkspace({
     if (notificationOpen) refreshOnOpen();
   }, [notificationOpen, refreshOnOpen]);
 
+  const legacyOverflowTab =
+    primaryTab === 'REFERENCES' ? 'REFERENCE' : primaryTab === 'MORE' ? 'INSPECT' : primaryTab;
+
   const overflowActions = useMemo(
     () =>
       buildDesignWorkspaceOverflowActions({
         projectId,
         route,
         livePreviewUrl,
-        tab,
+        tab: legacyOverflowTab as 'PAGES' | 'ASSETS' | 'HISTORY' | 'REFERENCE' | 'INSPECT',
         capturing: snapshotCapturing,
       }),
-    [livePreviewUrl, projectId, route, snapshotCapturing, tab],
+    [legacyOverflowTab, livePreviewUrl, projectId, route, snapshotCapturing],
   );
 
   const handleOverflowAction = useCallback(
@@ -361,16 +355,17 @@ export function StudioWorldDesignWorkspace({
           }
           break;
         case 'open_review_tab':
-          setTab('REVIEW');
-          syncUrl({ tab: 'REVIEW' });
+          setPrimaryTab('MORE');
+          syncUrl({ tab: 'MORE' });
           break;
         case 'open_pages_tab':
-          setTab('PAGES');
+          setPrimaryTab('PAGES');
           syncUrl({ tab: 'PAGES' });
           break;
         case 'open_inspect_tab':
-          setTab('INSPECT');
-          syncUrl({ tab: 'INSPECT' });
+          setPrimaryTab('MORE');
+          setShowInspector(true);
+          syncUrl({ tab: 'MORE' });
           break;
         default:
           break;
@@ -474,8 +469,9 @@ export function StudioWorldDesignWorkspace({
 
   const handleInspectPrompt = (slotId: string) => {
     setSelectedPromptSlotId(slotId);
-    setTab('INSPECT');
-    syncUrl({ tab: 'INSPECT' });
+    setPrimaryTab('MORE');
+    setShowInspector(true);
+    syncUrl({ tab: 'MORE' });
   };
 
   const selectedPrompt =
@@ -502,238 +498,78 @@ export function StudioWorldDesignWorkspace({
       notifyDesktopRef={notifyDesktopRef}
       overflowMobileRef={overflowMobileRef}
       overflowDesktopRef={overflowDesktopRef}
-      bottomPanel={<DesignWorkspaceFooter activity={activity} quickActions={quickActions} compact />}
+      bottomPanel={null}
     >
+      <input ref={fileInputRef} type="file" accept="image/*" hidden onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0])} />
       <div
-        className="site00-dw-workspace"
-        data-visual-reconstruction="p0vr2b-design-workspace"
+        className="site00-dw-workspace site00-dw-v3-workspace-scroll"
+        data-visual-reconstruction="p0vr6-design-workspace"
         data-design-workspace-owner="SITE00"
         data-design-project={projectId}
         data-design-project-accent={projectContextAccent}
+        data-design-primary-tab={primaryTab}
       >
-        <section className="site00-dw-controls">
-          <div className="site00-dw-controls__row site00-dw-controls__row--primary">
-            <label className="site00-dw-field">
-              <span>PROJECT</span>
-              <select
-                value={projectId}
-                onChange={(e) => {
-                  const nextProject = resolveManagedProjectForDesignContext(e.target.value);
-                  setProjectId(nextProject);
-                  syncUrl({ project: nextProject });
-                }}
-              >
-                {designProjects.map((p) => (
-                  <option key={p.slug} value={p.slug}>
-                    {p.displayName}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="site00-dw-field">
-              <span>SCREEN / ROUTE</span>
-              <select
-                value={screenId}
-                onChange={(e) => {
-                  setScreenId(e.target.value);
-                  syncUrl({ screen: e.target.value });
-                }}
-              >
-                {screens.map((s) => (
-                  <option key={s.screenId} value={s.screenId}>
-                    {s.displayName}
-                  </option>
-                ))}
-              </select>
-            </label>
-            {projectId === 'site00' ? (
-              <label className="site00-dw-field">
-                <span>SCREEN SET</span>
-                <select
-                  value={site00ScreenSetMode}
-                  onChange={(e) => setSite00ScreenSetMode(e.target.value as Site00ScreenSetMode)}
-                >
-                  <option value="PRIMARY">PRIMARY (WEBSITE / CLIENT)</option>
-                  <option value="ALL_DESIGNABLE">ALL DESIGNABLE</option>
-                </select>
-              </label>
-            ) : null}
-            <div className="site00-dw-field site00-dw-field--viewport">
-              <span>VIEWPORT</span>
-              <div className="site00-dw-viewport-toggle">
-                {VIEWPORT_OPTIONS.map((vp) => (
-                  <button
-                    key={vp}
-                    type="button"
-                    className={viewportClass === vp ? 'is-active' : ''}
-                    onClick={() => {
-                      setViewportClass(vp);
-                      syncUrl({ viewport: vp });
-                    }}
-                  >
-                    {vp.toUpperCase()}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <label className="site00-dw-field">
-              <span>REFERENCE</span>
-              <select value={reference?.referenceId ?? ''} disabled>
-                <option value={reference?.referenceId ?? ''}>
-                  {reference ? `CANONICAL v${reference.version}` : 'MISSING'}
-                </option>
-              </select>
-            </label>
-            <div className="site00-dw-field site00-dw-field--status">
-              <span>STATUS</span>
-              <strong className="site00-dw-status">
-                <span className="site00-dw-status__dot" aria-hidden /> {statusLabel}
-              </strong>
-            </div>
-          </div>
+        <DesignWorkspacePrimaryTabRail
+          activeTab={primaryTab}
+          onTabChange={(t) => {
+            setPrimaryTab(t);
+            syncUrl({ tab: t });
+          }}
+        />
 
-          <div className="site00-dw-controls__row site00-dw-controls__row--secondary">
-            <label className="site00-dw-field site00-dw-field--route">
-              <span>ROUTE</span>
-              <input value={route} onChange={(e) => setCustomRoute(e.target.value)} aria-label="Route" />
-            </label>
-            <input ref={fileInputRef} type="file" accept="image/*" hidden onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0])} />
-            <button type="button" className="site00-dw-btn" onClick={() => fileInputRef.current?.click()}>
-              UPLOAD REFERENCE
-            </button>
-            <button type="button" className="site00-dw-btn" onClick={() => reference?.referenceId && promoteReferenceToCanonical(reference.referenceId)} disabled={!uploadPreview && !reference}>
-              USE AS CANONICAL
-            </button>
-            <button type="button" className="site00-dw-btn site00-dw-btn--primary" onClick={handleMatchReference}>
-              MATCH REFERENCE
-            </button>
-            <button
-              type="button"
-              className="site00-dw-btn"
-              disabled={snapshotCapturing}
-              onClick={() => void captureScreen(screenId, viewportClass)}
-            >
-              {snapshotCapturing ? 'CAPTURING…' : 'CAPTURE IMPLEMENTATION'}
-            </button>
-            <button
-              type="button"
-              className="site00-dw-btn"
-              disabled={snapshotCapturing}
-              onClick={() =>
-                void captureProject(projectId === 'site00' ? site00ScreenSetMode : 'ALL_DESIGNABLE')
-              }
-            >
-              CAPTURE ALL EXISTING PAGES
-            </button>
-            {batchProgress ? <span className="site00-dw-batch-progress">{batchProgress}</span> : null}
-            <Link to={livePreviewUrl} className="site00-dw-btn site00-dw-btn--link" target="_blank" rel="noreferrer">
-              OPEN LIVE ROUTE ↗
-            </Link>
-          </div>
-        </section>
+        <DesignWorkspaceViewportRail
+          viewport={viewportClass}
+          onViewportChange={(vp) => {
+            setViewportClass(vp);
+            syncUrl({ viewport: vp });
+          }}
+          pipelineLabel={primaryTab === 'ASSETS'}
+        />
 
-        <nav className="site00-dw-tabs" aria-label="Design workspace views">
-          {TABS.map((t) => (
-            <button
-              key={t}
-              type="button"
-              className={`site00-dw-tabs__tab${tab === t ? ' is-active' : ''}`}
-              onClick={() => {
-                setTab(t);
-                syncUrl({ tab: t });
-              }}
-            >
-              <span className="site00-dw-tabs__full">{t}</span>
-              <span className="site00-dw-tabs__short">{MOBILE_TAB_LABELS[t]}</span>
-            </button>
-          ))}
-        </nav>
-
-        {tab === 'COMPARE' ? (
+        {primaryTab === 'REFERENCES' ? (
           <>
-            <DesignImplementationPreview
-              snapshot={implementationSnapshot}
+            <DesignReferencesTab
+              projectId={projectId}
               viewportClass={viewportClass}
-              viewportWidth={viewport.width}
-              viewportHeight={viewport.height}
-              capturing={snapshotCapturing}
-              onCapture={() => void captureScreen(screenId, viewportClass)}
-            />
-            <DesignCompareSection
-              referenceUrl={referenceUrl}
-              referenceVersion={reference?.version ?? null}
-              implementationUrl={
-                implementationSnapshot?.captureStatus === 'CURRENT' ? implementationSnapshot.publicUrl : null
-              }
-              livePreviewUrl={livePreviewUrl}
-              viewportWidth={viewport.width}
-              viewportHeight={viewport.height}
-              visualMatch={visualMatch}
-              onViewDetails={() => {
-                setTab('INSPECT');
-                syncUrl({ tab: 'INSPECT' });
+              selectedScreenId={screenId}
+              onSelectScreen={(id) => {
+                setScreenId(id);
+                syncUrl({ screen: id });
               }}
+              onUploadClick={() => fileInputRef.current?.click()}
+              activeReferenceUrl={referenceUrl}
             />
-            <div className="site00-dw-compare__mobile-score">
-              <DesignVisualMatchPanel match={visualMatch} compact onViewDetails={() => setTab('INSPECT')} />
-              <ExperienceEngineProofPanel enabled={projectId === 'site00' && screenId === 'WAITING_ROOM'} />
-            </div>
+            <details className="site00-dw-v3-inspector">
+              <summary>COMPARE · LIVE VS REFERENCE</summary>
+              <DesignCompareSection
+                referenceUrl={referenceUrl}
+                referenceVersion={reference?.version ?? null}
+                implementationUrl={
+                  implementationSnapshot?.captureStatus === 'CURRENT' ? implementationSnapshot.publicUrl : null
+                }
+                livePreviewUrl={livePreviewUrl}
+                viewportWidth={viewport.width}
+                viewportHeight={viewport.height}
+                visualMatch={visualMatch}
+                onViewDetails={() => {
+                  setPrimaryTab('MORE');
+                  setShowInspector(true);
+                  syncUrl({ tab: 'MORE' });
+                }}
+              />
+              <DesignVisualMatchPanel
+                match={visualMatch}
+                compact
+                onViewDetails={() => {
+                  setPrimaryTab('MORE');
+                  setShowInspector(true);
+                }}
+              />
+            </details>
           </>
         ) : null}
 
-        {tab === 'REFERENCE' ? (
-          <section className="site00-dw-panel">
-            <h2>REFERENCE</h2>
-            {referenceUrl ? (
-              <figure className="site00-dw-panel__figure">
-                <img src={referenceUrl} alt="Canonical reference" />
-                <figcaption>
-                  {reference?.scope ?? scopeOverride} · v{reference?.version ?? '—'}
-                </figcaption>
-              </figure>
-            ) : (
-              <p>No canonical reference for this screen/viewport.</p>
-            )}
-          </section>
-        ) : null}
-
-        {tab === 'IMPLEMENTATION' ? (
-          <>
-            <DesignImplementationPreview
-              snapshot={implementationSnapshot}
-              viewportClass={viewportClass}
-              viewportWidth={viewport.width}
-              viewportHeight={viewport.height}
-              capturing={snapshotCapturing}
-              onCapture={() => void captureScreen(screenId, viewportClass)}
-            />
-            <section className="site00-dw-panel site00-dw-panel--impl-live">
-              <h2>LIVE ROUTE</h2>
-              <iframe title="Live implementation" src={livePreviewUrl} className="site00-dw-panel__iframe" />
-              <p>
-                Viewport {viewport.width}×{viewport.height} ·{' '}
-                <Link to={livePreviewUrl} target="_blank" rel="noreferrer">
-                  Open route
-                </Link>
-              </p>
-            </section>
-          </>
-        ) : null}
-
-        {tab === 'PAGES' ? (
-          <DesignPagesVisualIndex
-            rows={pageIndexRows}
-            selectedScreenId={screenId}
-            filter={pagesFilter}
-            onFilterChange={setPagesFilter}
-            onSelectScreen={(id) => {
-              setScreenId(id);
-              syncUrl({ screen: id });
-            }}
-          />
-        ) : null}
-
-        {tab === 'ASSETS' ? (
+        {primaryTab === 'ASSETS' ? (
           <DesignReferenceAssetsPanel
             projectId={projectId}
             pageId={screenId}
@@ -744,130 +580,66 @@ export function StudioWorldDesignWorkspace({
           />
         ) : null}
 
-        {tab === 'REVIEW' ? (
-          <>
-            <DesignComposerReviewQueue />
-            <DesignRepoChangePanel projectKey={projectId} routeKey={route} pageKey={screenId} />
-          </>
-        ) : null}
-
-        {tab === 'MISSING' ? <DesignMissingTargetQueue /> : null}
-
-        {tab === 'HISTORY' ? (
-          <section className="site00-dw-panel site00-dw-panel--history">
-            <h2>HISTORY</h2>
-            <p>Reference and implementation lineage preserved non-destructively.</p>
-            <table className="site00-dw-matrix">
-              <thead>
-                <tr>
-                  <th>SCREEN</th>
-                  <th>MOBILE</th>
-                  <th>TABLET</th>
-                  <th>DESKTOP</th>
-                </tr>
-              </thead>
-              <tbody>
-                {matrix.map((row) => (
-                  <tr key={row.screenId} className={row.screenId === screenId ? 'is-selected' : ''}>
-                    <td>{row.displayName}</td>
-                    <td>
-                      {formatMatrixCell(row.mobile.referenceStatus)} · {formatMatrixCell(row.mobile.implementationStatus)}
-                    </td>
-                    <td>
-                      {formatMatrixCell(row.tablet.referenceStatus)} · {formatMatrixCell(row.tablet.implementationStatus)}
-                    </td>
-                    <td>
-                      {formatMatrixCell(row.desktop.referenceStatus)} · {formatMatrixCell(row.desktop.implementationStatus)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            {lastRunId ? <p>Last run: {lastRunId}</p> : null}
-          </section>
-        ) : null}
-
-        {tab === 'INSPECT' ? (
-          <section className="site00-dw-panel site00-dw-panel--inspect">
-            <h2>INSPECT</h2>
-            <dl className="site00-dw-inspect">
-              <div><dt>Route</dt><dd>{route}</dd></div>
-              <div><dt>Reference path</dt><dd>{reference?.storagePath ?? '—'}</dd></div>
-              <div><dt>Scope</dt><dd>{reference?.scope ?? scopeOverride ?? 'PENDING'}</dd></div>
-              <div><dt>Run</dt><dd>{lastRunId ?? '—'}</dd></div>
-              <div><dt>Asset slots</dt><dd>{assetSlots.length}</dd></div>
-            </dl>
-            {selectedPrompt ? <pre className="site00-dw-inspect__prompt">{selectedPrompt.promptText}</pre> : null}
-            {snapshotCoverage ? (
-              <>
-                <h3>IMPLEMENTATION SNAPSHOT COVERAGE</h3>
-                <p>
-                  Mobile: {snapshotCoverage.mobile.captured} captured · Tablet: {snapshotCoverage.tablet.captured} · Desktop:{' '}
-                  {snapshotCoverage.desktop.captured} · Snapshot coverage:{' '}
-                  {Math.round(snapshotCoverage.implementationSnapshotCoverage * 100)}%
-                </p>
-                <p>
-                  Reference coverage: {Math.round(snapshotCoverage.referenceCoverage * 100)}% · Match coverage:{' '}
-                  {Math.round(snapshotCoverage.matchCoverage * 100)}%
-                </p>
-              </>
-            ) : null}
-            {site00SyncContract ? (
-              <>
-                <h3>SITE 00 WEBSITE / CLIENT DESIGN COVERAGE</h3>
-                <p>
-                  Primary screens: {site00SyncContract.routeCounts.primaryFounderDesignableCount} · Self-audit routes:{' '}
-                  {site00SyncContract.routeCounts.websiteExperienceRouteCount} · Visual states:{' '}
-                  {site00SyncContract.routeCounts.visualStateCount} · Missing dependencies:{' '}
-                  {site00SyncContract.routeCounts.missingDependencyCount}
-                </p>
-                <h3>ROUTE FORENSICS (Inspect)</h3>
-                <dl className="site00-dw-inspect">
-                  <div><dt>Raw implementation routes</dt><dd>{site00SyncContract.routeCounts.rawImplementationRouteCount}</dd></div>
-                  <div><dt>Normalized design screens</dt><dd>{site00SyncContract.routeCounts.normalizedDesignScreenCount}</dd></div>
-                  <div><dt>Primary SITE 00 experience</dt><dd>{site00SyncContract.routeCounts.primaryFounderDesignableCount}</dd></div>
-                  <div><dt>Self-audit experience routes</dt><dd>{site00SyncContract.reconciliationReport.selfAuditRecords}</dd></div>
-                  <div><dt>Mapped to v2</dt><dd>{site00SyncContract.reconciliationReport.mappedToV2}</dd></div>
-                  <div><dt>Host internal</dt><dd>{site00SyncContract.routeCounts.hostInternalCount}</dd></div>
-                  <div><dt>Active manifest</dt><dd>{site00SyncContract.schema} @ {site00SyncContract.version}</dd></div>
-                  <div><dt>P0.VR.3A v1 status</dt><dd>{site00SyncContract.historicalAuditArtifact.status}</dd></div>
-                </dl>
-                {site00ScreenSet ? (
-                  <p>Current screen set ({site00ScreenSetMode}): {site00ScreenSet.screenIds.length} screens</p>
-                ) : null}
-              </>
-            ) : null}
-            {site00Manifest ? (
-              <>
-                <h3>SITE 00 V1 HISTORICAL AUDIT</h3>
-                <p>
-                  Designable pages: {site00Manifest.coverageSummary.totalDesignablePages} · States:{' '}
-                  {site00Manifest.coverageSummary.totalImportantStates} · Missing routes:{' '}
-                  {site00Manifest.missingRoutes.length}
-                </p>
-                <p>
-                  Needs reference: {site00Manifest.needsReference.length} · Needs better reference:{' '}
-                  {site00Manifest.needsBetterReference.length}
-                </p>
-              </>
-            ) : null}
-            <p className="site00-dw-inspect__note">Region map · DOM map · patch list · hashes · provider calls · FAL prompt history</p>
-          </section>
-        ) : null}
-
-        {(tab === 'COMPARE' || tab === 'IMPLEMENTATION') && assetSlots.length > 0 ? (
-          <DesignMissingAssetsSection
-            slots={assetSlots}
-            summary={missingSummary}
-            selectedPromptSlotId={selectedPromptSlotId}
-            selectedPrompt={selectedPrompt}
-            onInspectPrompt={handleInspectPrompt}
-            onGenerate={handleGenerateAsset}
-            onUseAsset={handleUseAsset}
-            onGenerateAll={handleGenerateAll}
+        {primaryTab === 'PAGES' ? (
+          <DesignPagesTabPanel
+            rows={pageIndexRows}
+            selectedScreenId={screenId}
+            onSelectScreen={(id) => {
+              setScreenId(id);
+              syncUrl({ screen: id });
+            }}
+            onOpenPage={() => window.open(livePreviewUrl, '_blank', 'noopener,noreferrer')}
           />
         ) : null}
 
+        {primaryTab === 'HISTORY' ? (
+          <DesignHistoryTab activity={activity} />
+        ) : null}
+
+        {primaryTab === 'MORE' ? (
+          <>
+            <DesignMoreTab
+              onOpenInspect={() => setShowInspector(true)}
+              onCaptureScreen={() => void captureScreen(screenId, viewportClass)}
+              onMatchReference={handleMatchReference}
+            />
+            {showInspector ? (
+              <section className="site00-dw-panel site00-dw-panel--inspect">
+                <h2>INSPECT</h2>
+                <dl className="site00-dw-inspect">
+                  <div><dt>ROUTE</dt><dd>{route.toUpperCase()}</dd></div>
+                  <div><dt>REFERENCE PATH</dt><dd>{reference?.storagePath ?? '—'}</dd></div>
+                  <div><dt>SCOPE</dt><dd>{(reference?.scope ?? scopeOverride ?? 'PENDING').toUpperCase()}</dd></div>
+                  <div><dt>RUN</dt><dd>{lastRunId ?? '—'}</dd></div>
+                  <div><dt>ASSET SLOTS</dt><dd>{assetSlots.length}</dd></div>
+                  <div><dt>STATUS</dt><dd>{statusLabel}</dd></div>
+                </dl>
+                {selectedPrompt ? <pre className="site00-dw-inspect__prompt">{selectedPrompt.promptText}</pre> : null}
+                <DesignComposerReviewQueue />
+                <DesignRepoChangePanel projectKey={projectId} routeKey={route} pageKey={screenId} />
+                <DesignMissingTargetQueue />
+              </section>
+            ) : null}
+          </>
+        ) : null}
+
+        {primaryTab === 'REFERENCES' && assetSlots.length > 0 ? (
+          <details className="site00-dw-v3-inspector">
+            <summary>MISSING VISUAL ASSETS ({assetSlots.length})</summary>
+            <DesignMissingAssetsSection
+              slots={assetSlots}
+              summary={missingSummary}
+              selectedPromptSlotId={selectedPromptSlotId}
+              selectedPrompt={selectedPrompt}
+              onInspectPrompt={handleInspectPrompt}
+              onGenerate={handleGenerateAsset}
+              onUseAsset={handleUseAsset}
+              onGenerateAll={handleGenerateAll}
+            />
+          </details>
+        ) : null}
+
+        <DesignWorkspaceDisclosurePanel activity={activity} quickActions={quickActions} />
       </div>
     </Site00DesignWorkspaceShell>
 

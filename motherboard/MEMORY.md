@@ -6883,3 +6883,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - Tests: `site00FounderWorkspaceSprintB59R10.test.ts` (31) + B59R8/R9 regressions.
 - **Next founder action:** `/projects` → CLIENT VIEW → search JANE → select → verify 05 YOUR PROJECTS + 5 project cards, no SITE 00.
 
+---
+
+## 2026-09-09 — P0.VR.6 Design workspace UX reconstruction (11-reference sprint)
+
+- **Problem:** Design module too text-heavy, activity dominated viewport, assets pipeline stacked all 7 stages vertically.
+- **Implemented:**
+  - Primary IA tabs: REFERENCES · ASSETS · PAGES · HISTORY · MORE (`p0vr6/` types + URL mapping from legacy tabs).
+  - `DesignWorkspaceDisclosurePanel` — collapsible RECENT ACTIVITY + QUICK ACTIONS (collapsed by default, localStorage preference).
+  - `DesignWorkspaceViewportRail` — MOBILE/TABLET/DESKTOP segmented control.
+  - `DesignAssetJobWorkspace` rebuilt — 7-step stepper, **only active stage expanded** (upload → instruct → detect → crop → reconstruct → approve → live).
+  - New tab panels: `DesignReferencesTab`, `DesignPagesTabPanel`, `DesignHistoryTab`, `DesignMoreTab` (real data, no fake counts).
+  - `site00-design-workspace-v3.css` — mobile-first visual language; hero orbit; bottom static footer hidden.
+  - Legacy P0.VR.4 pipeline preserved in `<details>` inside assets panel; compare/inspect moved to progressive disclosure.
+  - Tests: `visualReconstructionP0VR6.test.ts` (9) + updated P0VR2B/P0VR5 regressions.
+- **Next founder action:** `/projects/site00/design` mobile → QA each tab against 11 references; walk asset pipeline stages; confirm activity stays collapsed.
+

@@ -202,6 +202,13 @@ export function Site00DesignWorkspaceShell({
           <p className="site00-dw-shell__breadcrumb">{breadcrumb}</p>
           <h1 className="site00-dw-shell__title">DESIGN RECONSTRUCTION</h1>
           <p className="site00-dw-shell__subtitle">{DESIGN_WORKSPACE_SUBTITLE}</p>
+          <div className="site00-dw-shell__hero-orbit" aria-hidden>
+            <svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="44" cy="44" r="18" fill="rgba(232,25,44,0.85)" />
+              <ellipse cx="44" cy="44" rx="36" ry="12" stroke="#ccc" strokeWidth="1" transform="rotate(-20 44 44)" />
+              <ellipse cx="44" cy="44" rx="36" ry="12" stroke="#ddd" strokeWidth="1" transform="rotate(35 44 44)" />
+            </svg>
+          </div>
         </header>
 
         <div className="site00-dw-shell__content">{children}</div>

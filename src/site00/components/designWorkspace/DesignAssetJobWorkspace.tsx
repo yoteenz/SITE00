@@ -2,7 +2,7 @@
  * P0.VR.5 — Founder-facing multi-asset deconstruction job workspace.
  */
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   BUILT_IN_PRESET_IDS,
   JOB_WORKFLOW_STEPS,
@@ -28,15 +28,9 @@ import {
   approveJobVersion,
 } from './designAssetJobApi';
 
-const STEP_LABELS: Record<string, string> = {
-  UPLOAD: '01 UPLOAD',
-  INSTRUCT: '02 INSTRUCT',
-  DETECT: '03 DETECT',
-  CONFIRM_CROP: '04 CONFIRM CROP',
-  RECONSTRUCT: '05 RECONSTRUCT',
-  APPROVE: '06 APPROVE',
-  REPLACE: '07 REPLACE',
-};
+import { ASSET_PIPELINE_STEP_LABELS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6/index.js';
+
+const QUICK_PRESETS = ['ISOLATE ICON', 'MULTI-ASSET', 'EXTRACT BACKGROUND', 'REPLACE CURRENT ASSET'] as const;
 
 export type DesignAssetJobWorkspaceProps = {
   projectId: string;
@@ -62,6 +56,8 @@ export function DesignAssetJobWorkspace({
   const [busy, setBusy] = useState(false);
   const [blocker, setBlocker] = useState<string | null>(null);
   const [uploadPreview, setUploadPreview] = useState<string | null>(null);
+  const [viewStep, setViewStep] = useState<string>('UPLOAD');
+  const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(null);
 
   useEffect(() => {
     void listInstructionPresets().then((res) => {
@@ -85,6 +81,18 @@ export function DesignAssetJobWorkspace({
     () => JOB_WORKFLOW_STEPS.indexOf(currentStep as (typeof JOB_WORKFLOW_STEPS)[number]),
     [currentStep],
   );
+
+  useEffect(() => {
+    setViewStep(currentStep);
+  }, [currentStep]);
+
+  const viewStepIndex = useMemo(
+    () => JOB_WORKFLOW_STEPS.indexOf(viewStep as (typeof JOB_WORKFLOW_STEPS)[number]),
+    [viewStep],
+  );
+
+  const detectedCount = job?.detectedRegions.length ?? 0;
+  const approvedCropCount = job?.detectedRegions.filter((c) => c.founderDecision === 'CONFIRMED').length ?? 0;
 
   const ensureJob = useCallback(async () => {
     if (job) return job;
@@ -331,172 +339,379 @@ export function DesignAssetJobWorkspace({
     </article>
   );
 
-  return (
-    <section className="site00-dw-job-workspace">
-      <header className="site00-dw-job-workspace__header">
-        <h2>ASSET DECONSTRUCTION PIPELINE</h2>
-        <p className="site00-body">UPLOAD → INSTRUCT → DETECT → CONFIRM CROP → RECONSTRUCT → APPROVE → REPLACE</p>
-      </header>
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-      <nav className="site00-dw-job-workspace__steps" aria-label="Pipeline steps">
-        {JOB_WORKFLOW_STEPS.map((step, i) => (
-          <span
-            key={step}
-            className={`site00-dw-job-step${i <= stepIndex ? ' site00-dw-job-step--active' : ''}${i === stepIndex ? ' site00-dw-job-step--current' : ''}`}
-          >
-            {STEP_LABELS[step] ?? step}
-          </span>
-        ))}
-      </nav>
-
-      {blocker ? <p className="site00-dw-ref-assets__warn">{blocker}</p> : null}
-
-      <div className="site00-dw-job-workspace__grid">
-        <div className="site00-dw-job-panel">
-          <h3>UPLOAD + INSTRUCTION</h3>
-          <div className="site00-dw-job-upload">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => void handleFileUpload(e.target.files?.[0] ?? null)}
-              aria-label="Upload screenshot"
-            />
-            {referenceUrl ? (
-              <button type="button" disabled={busy} onClick={() => void handleUseReference()}>
-                USE APPROVED REFERENCE
-              </button>
-            ) : null}
+  const renderActiveStage = () => {
+    switch (viewStep) {
+      case 'UPLOAD':
+        return (
+          <div className="site00-dw-v3-stage">
+            <header className="site00-dw-v3-stage__head">
+              <h2>
+                <span className="site00-dw-v3-stage__num">01</span> UPLOAD REFERENCE
+              </h2>
+              <p>ADD A DESIGN REFERENCE TO START THE ASSET RECONSTRUCTION PIPELINE.</p>
+            </header>
+            <div
+              className="site00-dw-v3-upload-zone"
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e) => {
+                e.preventDefault();
+                const file = e.dataTransfer.files[0];
+                if (file) void handleFileUpload(file);
+              }}
+            >
+              <span className="site00-dw-v3-upload-zone__icon" aria-hidden>
+                🖼
+              </span>
+              <strong>DROP DESIGN REFERENCE</strong>
+              <span>PNG, JPG, WEBP · UP TO 50MB</span>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/*"
+                hidden
+                id="site00-dw-upload-input"
+                onChange={(e) => void handleFileUpload(e.target.files?.[0] ?? null)}
+              />
+              <label htmlFor="site00-dw-upload-input" className="site00-dw-v3-btn site00-dw-v3-btn--dark">
+                ↑ CHOOSE FILE
+              </label>
+              {referenceUrl ? (
+                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" disabled={busy} onClick={() => void handleUseReference()}>
+                  USE APPROVED REFERENCE
+                </button>
+              ) : null}
+            </div>
             {uploadPreview ? (
-              <div className="site00-dw-job-upload__thumb">
-                <img src={uploadPreview} alt="Source screenshot" />
+              <div className="site00-dw-v3-upload-preview">
+                <img src={uploadPreview} alt="Uploaded reference" />
               </div>
             ) : null}
-            {job?.sourceUploads[0] ? (
-              <p className="site00-dw-job-upload__source">
-                SOURCE: {job.sourceUploads[0].sourcePage ?? pageId} · {job.sourceUploads[0].sourceRoute ?? route}
-              </p>
-            ) : null}
+            <div className="site00-dw-v3-stage__actions">
+              <button
+                type="button"
+                className="site00-dw-v3-btn site00-dw-v3-btn--primary"
+                disabled={!job?.sourceUploadIds.length}
+                onClick={() => setViewStep('INSTRUCT')}
+              >
+                CONTINUE →
+              </button>
+            </div>
           </div>
+        );
 
-          <label className="site00-dw-job-instruction__preset">
-            INSTRUCTION PRESET
-            <select value={selectedPresetId} onChange={(e) => handlePresetChange(e.target.value)}>
-              {presets.map((p) => (
-                <option key={p.presetId} value={p.presetId}>
-                  {p.name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          {suggestedPresets.length ? (
-            <div className="site00-dw-job-suggested">
-              <span>SUGGESTED PRESET</span>
-              {suggestedPresets.map((p) => (
-                <button key={p.presetId} type="button" onClick={() => handlePresetChange(p.presetId)}>
-                  {p.name}
+      case 'INSTRUCT':
+        return (
+          <div className="site00-dw-v3-stage">
+            <header className="site00-dw-v3-stage__head">
+              <h2>
+                <span className="site00-dw-v3-stage__num">02</span> INSTRUCT
+              </h2>
+              <p>TELL US WHAT TO EXTRACT, ISOLATE, OR REPLACE.</p>
+            </header>
+            {uploadPreview ? (
+              <div className="site00-dw-v3-asset-preview-card">
+                <img src={uploadPreview} alt="" />
+                <div>
+                  <strong>{job?.sourceUploads[0]?.fileName?.toUpperCase() ?? 'SCREENSHOT.PNG'}</strong>
+                  <span>
+                    {job?.sourceUploads[0]?.imageWidth ?? '—'} × {job?.sourceUploads[0]?.imageHeight ?? '—'}
+                  </span>
+                </div>
+              </div>
+            ) : null}
+            <label className="site00-dw-v3-field">
+              <span>INSTRUCTION PRESET</span>
+              <select value={selectedPresetId} onChange={(e) => handlePresetChange(e.target.value)}>
+                {presets.map((p) => (
+                  <option key={p.presetId} value={p.presetId}>
+                    {p.name.toUpperCase()}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {suggestedPresets.length ? (
+              <div className="site00-dw-v3-chip-row">
+                <span className="site00-dw-v3-viewport-rail__label">SUGGESTED</span>
+                {suggestedPresets.map((p) => (
+                  <button key={p.presetId} type="button" className="site00-dw-v3-chip" onClick={() => handlePresetChange(p.presetId)}>
+                    {p.name.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+            <label className="site00-dw-v3-field">
+              <span>FOUNDER INSTRUCTION</span>
+              <textarea
+                value={instruction}
+                onChange={(e) => setInstruction(e.target.value.toUpperCase())}
+                placeholder="EXTRACT HEADER, NAVIGATION, AND HERO ICON..."
+                rows={4}
+                maxLength={500}
+              />
+              <em>{instruction.length}/500</em>
+            </label>
+            <div className="site00-dw-v3-chip-row">
+              {QUICK_PRESETS.map((chip) => (
+                <button
+                  key={chip}
+                  type="button"
+                  className={`site00-dw-v3-chip${instruction.includes(chip) ? ' is-active' : ''}`}
+                  onClick={() => setInstruction((prev) => (prev ? `${prev} ${chip}` : chip))}
+                >
+                  {chip}
                 </button>
               ))}
             </div>
-          ) : null}
-
-          <label className="site00-dw-job-instruction">
-            FOUNDER INSTRUCTION
-            <textarea
-              value={instruction}
-              onChange={(e) => setInstruction(e.target.value.toUpperCase())}
-              placeholder="DESCRIBE WHAT TO EXTRACT, ISOLATE, OR REPLACE…"
-              rows={4}
-            />
-          </label>
-
-          <div className="site00-dw-job-panel__actions">
-            <button type="button" disabled={busy || !instruction.trim()} onClick={() => void handleInstructionSubmit()}>
-              SAVE INSTRUCTION
-            </button>
-            <button type="button" disabled={busy || !job?.sourceUploadIds.length} onClick={() => void handleDetect()}>
-              RUN DETECTION
-            </button>
-            <button type="button" disabled={!instruction.trim()} onClick={() => void handleSavePreset()}>
-              SAVE AS PRESET
-            </button>
+            <div className="site00-dw-v3-stage__actions site00-dw-v3-stage__actions--split">
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" disabled={busy || !instruction.trim()} onClick={() => void handleInstructionSubmit()}>
+                SAVE INSTRUCTION
+              </button>
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" disabled={!instruction.trim()} onClick={() => void handleSavePreset()}>
+                SAVE AS PRESET
+              </button>
+              <button
+                type="button"
+                className="site00-dw-v3-btn site00-dw-v3-btn--primary"
+                disabled={busy || !instruction.trim()}
+                onClick={async () => {
+                  await handleInstructionSubmit();
+                  if (job?.sourceUploadIds.length) await handleDetect();
+                  setViewStep('DETECT');
+                }}
+              >
+                NEXT: DETECT ASSETS →
+              </button>
+            </div>
           </div>
-        </div>
+        );
 
-        <div className="site00-dw-job-panel">
-          <h3>JOB PLAN</h3>
-          {plan || job ? (
-            <dl className="site00-dw-job-plan">
-              <dt>JOB TYPE</dt>
-              <dd>{plan?.jobType ?? job?.jobType}</dd>
-              <dt>TARGET ASSET TYPE</dt>
-              <dd>{plan?.targetAssetType ?? job?.targetAssetTypes.join(', ')}</dd>
-              <dt>SINGLE OR MULTI</dt>
-              <dd>{plan?.singleOrMulti ?? (job?.multiAsset ? 'MULTI' : 'SINGLE')}</dd>
-              <dt>DETECTED COUNT</dt>
-              <dd>{plan?.detectedCount ?? job?.detectionCount ?? 0}</dd>
-              <dt>EXPECTED OUTPUTS</dt>
-              <dd>{plan?.expectedOutputs ?? 0}</dd>
-              <dt>BACKGROUND POLICY</dt>
-              <dd>{plan?.backgroundPolicy ?? job?.backgroundPolicy}</dd>
-              <dt>REPLACEMENT TARGET</dt>
-              <dd>{plan?.replacementTarget ?? job?.replacementMapping?.replacementTargetScope ?? 'NONE'}</dd>
-              <dt>COST RISK</dt>
-              <dd>{plan?.costRiskLevel ?? job?.costRiskLevel}</dd>
-              <dt>EST. DISPATCH COUNT</dt>
-              <dd>{plan?.estimatedDispatchCount ?? job?.dispatchCounts.planned ?? 0}</dd>
-              <dt>CONFIRMATION REQUIRED</dt>
-              <dd>{plan?.founderConfirmationRequired ?? !job?.cropsConfirmed ? 'YES' : 'NO'}</dd>
-            </dl>
-          ) : (
-            <p>ADD UPLOAD + INSTRUCTION TO GENERATE JOB PLAN.</p>
-          )}
-          <ul className="site00-dw-job-plan__providers">
-            {(plan?.generationProviderPlan ?? job?.generationProviderPlan ?? []).map((p) => (
-              <li key={p}>{p}</li>
-            ))}
-          </ul>
-        </div>
+      case 'DETECT':
+        return (
+          <div className="site00-dw-v3-stage">
+            <header className="site00-dw-v3-stage__head">
+              <h2>
+                <span className="site00-dw-v3-stage__num">03</span> DETECT ASSETS
+              </h2>
+              <p>REVIEW WHAT THE SYSTEM FOUND BEFORE CROPPING.</p>
+            </header>
+            {uploadPreview ? (
+              <div className="site00-dw-v3-source-card">
+                <img src={uploadPreview} alt="Source screenshot" />
+                <span>SOURCE SCREENSHOT</span>
+              </div>
+            ) : null}
+            <div className="site00-dw-v3-detect-summary">
+              <div>
+                <strong>{detectedCount}</strong>
+                <span>ASSETS FOUND</span>
+              </div>
+              <div>
+                <strong>{job?.multiAsset ? 'MULTI' : 'SINGLE'}</strong>
+                <span>{job?.multiAsset ? 'MULTI-ASSET JOB' : 'SINGLE ASSET'}</span>
+              </div>
+              <div>
+                <strong>{detectedCount > 0 ? 'READY' : '—'}</strong>
+                <span>FOR CROP</span>
+              </div>
+            </div>
+            {!job?.detectedRegions.length ? (
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled={busy} onClick={() => void handleDetect()}>
+                RUN DETECTION
+              </button>
+            ) : (
+              <div className="site00-dw-v3-detect-grid">{job.detectedRegions.map(renderCandidate)}</div>
+            )}
+            <div className="site00-dw-v3-stage__actions">
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled={!detectedCount} onClick={() => setViewStep('CONFIRM_CROP')}>
+                NEXT: CONFIRM CROPS →
+              </button>
+            </div>
+          </div>
+        );
 
-        <div className="site00-dw-job-panel site00-dw-job-panel--wide">
-          <h3>CROP CANDIDATES</h3>
-          {!job?.detectedRegions.length ? (
-            <p>RUN DETECTION TO PROPOSE CROP REGIONS. NO GENERATION BEFORE CROP APPROVAL.</p>
-          ) : (
-            <>
-              <div className="site00-dw-job-candidates">{job.detectedRegions.map(renderCandidate)}</div>
-              <div className="site00-dw-job-panel__actions">
-                <button type="button" disabled={busy} onClick={() => void handleConfirmAllCrops()}>
-                  CONFIRM ALL CROPS
-                </button>
+      case 'CONFIRM_CROP':
+        return (
+          <div className="site00-dw-v3-stage">
+            <header className="site00-dw-v3-stage__head">
+              <h2>
+                <span className="site00-dw-v3-stage__num">04</span> CONFIRM CROPS
+              </h2>
+              <p>APPROVE EACH CROP BEFORE RECONSTRUCTION.</p>
+            </header>
+            <p className="site00-dw-v3-crop-progress">
+              {approvedCropCount} OF {detectedCount || 0} CROPS APPROVED
+            </p>
+            <div className="site00-dw-v3-crop-queue">
+              {job?.detectedRegions.map((c) => (
                 <button
+                  key={c.candidateId}
                   type="button"
-                  disabled={busy || !job.cropsConfirmed}
-                  onClick={() => void handleReconstruct()}
+                  className={`site00-dw-v3-crop-tab${selectedCandidateId === c.candidateId ? ' is-active' : ''}`}
+                  onClick={() => setSelectedCandidateId(c.candidateId)}
                 >
-                  RECONSTRUCT APPROVED
+                  {c.classification.toUpperCase()}
                 </button>
+              ))}
+            </div>
+            {job?.detectedRegions.length ? (
+              <div className="site00-dw-v3-crop-workspace">
+                <div className="site00-dw-v3-crop-source">{uploadPreview ? <img src={uploadPreview} alt="" /> : null}</div>
+                <div className="site00-dw-v3-crop-preview site00-dw-v3-checkerboard">
+                  {job.detectedRegions
+                    .filter((c) => !selectedCandidateId || c.candidateId === selectedCandidateId)
+                    .slice(0, 1)
+                    .map(renderCandidate)}
+                </div>
               </div>
-            </>
-          )}
-        </div>
+            ) : (
+              <p>RUN DETECTION FIRST.</p>
+            )}
+            <p className="site00-dw-v3-safety-note">ⓘ NO GENERATION HAPPENS BEFORE CROP APPROVAL.</p>
+            <div className="site00-dw-v3-stage__actions site00-dw-v3-stage__actions--split">
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled={busy} onClick={() => void handleConfirmAllCrops()}>
+                APPROVE CROP
+              </button>
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" disabled={busy || !job?.cropsConfirmed} onClick={() => void handleReconstruct()}>
+                NEXT: RECONSTRUCT →
+              </button>
+            </div>
+          </div>
+        );
 
-        <div className="site00-dw-job-panel site00-dw-job-panel--wide">
-          <h3>OUTPUTS + REPLACE</h3>
-          {!job?.reconstructedVersions.length ? (
-            <p>APPROVE CROPS THEN RECONSTRUCT. DISPATCH COUNT: {job?.dispatchCounts.executed ?? 0}</p>
-          ) : (
-            <>
-              <div className="site00-dw-job-outputs">{job.reconstructedVersions.map(renderVersion)}</div>
-              <div className="site00-dw-job-panel__actions">
-                <button type="button" disabled={busy} onClick={() => void handleApproveAll()}>
-                  APPROVE · UPLOAD · BIND
-                </button>
+      case 'RECONSTRUCT':
+        return (
+          <div className="site00-dw-v3-stage">
+            <header className="site00-dw-v3-stage__head">
+              <h2>
+                <span className="site00-dw-v3-stage__num">05</span> RECONSTRUCT
+              </h2>
+              <p>REBUILD THE ASSET WITH CONTROLLED PROVIDER DISPATCH.</p>
+            </header>
+            <div className="site00-dw-v3-reconstruct-previews">
+              <div className="site00-dw-v3-checkerboard">{uploadPreview ? <img src={uploadPreview} alt="Approved crop" /> : null}</div>
+              <div className="site00-dw-v3-checkerboard">
+                {job?.reconstructedVersions[0]?.outputUrl ? (
+                  <img src={job.reconstructedVersions[0].outputUrl} alt="Output" />
+                ) : (
+                  <span>OUTPUT PENDING</span>
+                )}
               </div>
-            </>
-          )}
-        </div>
-      </div>
+            </div>
+            <div className="site00-dw-v3-dispatch-meta">
+              <span>DISPATCH COUNT: {job?.dispatchCounts.executed ?? 0} / {job?.dispatchCounts.planned ?? 1}</span>
+              <span>SPEND GUARD: 1 PRIMARY DISPATCH MAX</span>
+            </div>
+            <div className="site00-dw-v3-stage__actions">
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled={busy || !job?.cropsConfirmed} onClick={() => void handleReconstruct()}>
+                RUN RECONSTRUCTION
+              </button>
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" disabled={!job?.reconstructedVersions.length} onClick={() => setViewStep('APPROVE')}>
+                NEXT: APPROVE OUTPUT →
+              </button>
+            </div>
+          </div>
+        );
+
+      case 'APPROVE':
+        return (
+          <div className="site00-dw-v3-stage">
+            <header className="site00-dw-v3-stage__head">
+              <h2>
+                <span className="site00-dw-v3-stage__num">06</span> APPROVE OUTPUT
+              </h2>
+              <p>COMPARE, CHOOSE, AND GREENLIGHT THE FINAL ASSET.</p>
+            </header>
+            <div className="site00-dw-v3-reconstruct-previews">
+              <div className="site00-dw-v3-checkerboard">{uploadPreview ? <img src={uploadPreview} alt="Source crop" /> : null}</div>
+              <div className="site00-dw-v3-checkerboard">
+                {job?.reconstructedVersions.map(renderVersion)}
+              </div>
+            </div>
+            <div className="site00-dw-v3-stage__actions site00-dw-v3-stage__actions--split">
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled={busy} onClick={() => void handleApproveAll()}>
+                APPROVE
+              </button>
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" disabled={busy || !job?.cropsConfirmed} onClick={() => void handleReconstruct()}>
+                REGENERATE
+              </button>
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={() => setViewStep('CONFIRM_CROP')}>
+                BACK TO CROP
+              </button>
+            </div>
+          </div>
+        );
+
+      case 'REPLACE':
+        return (
+          <div className="site00-dw-v3-stage">
+            <header className="site00-dw-v3-stage__head">
+              <h2>
+                <span className="site00-dw-v3-stage__num">07</span> REPLACE LIVE
+              </h2>
+              <p>PUBLISH THE APPROVED ASSET INTO THE PAGE SYSTEM.</p>
+            </header>
+            <div className="site00-dw-v3-live-grid">
+              {job?.reconstructedVersions.filter((v) => v.bindState === 'BOUND').length ? (
+                job.reconstructedVersions.filter((v) => v.bindState === 'BOUND').map(renderVersion)
+              ) : (
+                <p>APPROVE AND BIND ASSETS TO GO LIVE.</p>
+              )}
+            </div>
+            <div className="site00-dw-v3-stage__actions">
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled={busy} onClick={() => void handleApproveAll()}>
+                REPLACE NEXT ASSET →
+              </button>
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <section className="site00-dw-v3-pipeline" data-design-tab="assets">
+      <nav className="site00-dw-v3-stepper" aria-label="Asset pipeline steps">
+        {JOB_WORKFLOW_STEPS.map((step, i) => {
+          const complete = i < stepIndex;
+          const current = viewStep === step;
+          const reachable = i <= stepIndex;
+          return (
+            <button
+              key={step}
+              type="button"
+              className={`site00-dw-v3-stepper__step${complete ? ' is-complete' : ''}${current ? ' is-current' : ''}`}
+              disabled={!reachable}
+              onClick={() => reachable && setViewStep(step)}
+              aria-current={current ? 'step' : undefined}
+            >
+              <span className="site00-dw-v3-stepper__dot">{complete ? '✓' : String(i + 1).padStart(2, '0')}</span>
+              <span className="site00-dw-v3-stepper__label">{ASSET_PIPELINE_STEP_LABELS[step]?.split(' ').slice(1).join(' ') ?? step}</span>
+            </button>
+          );
+        })}
+      </nav>
+
+      {blocker ? <p className="site00-dw-v3-blocker">{blocker.toUpperCase()}</p> : null}
+
+      <div className="site00-dw-v3-stage-shell">{renderActiveStage()}</div>
+
+      {(plan || job) && viewStepIndex >= stepIndex ? (
+        <details className="site00-dw-v3-inspector">
+          <summary>JOB DETAILS</summary>
+          <dl className="site00-dw-job-plan">
+            <dt>JOB TYPE</dt>
+            <dd>{(plan?.jobType ?? job?.jobType)?.toUpperCase()}</dd>
+            <dt>EST. DISPATCH</dt>
+            <dd>{plan?.estimatedDispatchCount ?? job?.dispatchCounts.planned ?? 0}</dd>
+            <dt>CROPS CONFIRMED</dt>
+            <dd>{job?.cropsConfirmed ? 'YES' : 'NO'}</dd>
+          </dl>
+        </details>
+      ) : null}
     </section>
   );
 }
