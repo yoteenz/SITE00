@@ -374,6 +374,6 @@ describe('Brand Family Skin System', () => {
     const ndxBinding = getProjectExperienceSkin('ndxbook');
     expect(ndxBinding?.brandFamilySkinId).toBe(BRAND_FAMILY_KEYS.NDXBOOK);
 
-    expect(read('src/site00/components/brandFamilySkin/ExperienceSkinManagementPanel.tsx')).toContain('BRAND FAMILY REGISTRY');
+    expect(read('src/site00/components/brandFamilySkin/ExperienceSkinManagementPanel.tsx')).toContain('BRAND FAMILY SCREEN PACK');
   });
 });

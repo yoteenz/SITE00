@@ -25,9 +25,18 @@ import {
   runBrandFamilySkinConsistencyQA,
   runBrandFamilySkinDistinctivenessQA,
 } from '../../shared/site00-brand-lore/projectSkin/brandFamily/qa.js';
-import { getStandardScreenPackStatus } from '../../shared/site00-brand-lore/projectSkin/brandFamily/skinPack.js';
+import { getStandardScreenPackStatus, getStandardScreenPackViewportStatus } from '../../shared/site00-brand-lore/projectSkin/brandFamily/skinPack.js';
 import { listScreenAuthoritiesForFamily } from '../../shared/site00-brand-lore/projectSkin/brandFamily/screenAuthority.js';
+import {
+  getAuthorityCardPayload,
+  implementScreenAuthority,
+  registerScreenAuthority,
+  buildContractPreview,
+} from '../../shared/site00-brand-lore/projectSkin/brandFamily/screenAuthorityIngestion.js';
+import { buildScreenAuthorityPrefill } from '../../shared/site00-brand-lore/projectSkin/brandFamily/screenSlotConfig.js';
+import { routeReferenceJob } from '../../shared/site00-brand-lore/projectSkin/brandFamily/referenceJobRouter.js';
 import type { FieldIndustryTag } from '../../shared/site00-brand-lore/projectSkin/types.js';
+import type { StandardScreenType } from '../../shared/site00-brand-lore/projectSkin/brandFamily/types.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const action = String(req.query.action ?? req.body?.action ?? 'registry');
@@ -41,6 +50,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           families,
           screenPackByFamily: Object.fromEntries(
             families.map((f) => [f.brandKey, getStandardScreenPackStatus(f.id)]),
+          ),
+          screenPackViewportByFamily: Object.fromEntries(
+            families.map((f) => [f.brandKey, getStandardScreenPackViewportStatus(f.id)]),
           ),
         });
       }
@@ -62,6 +74,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           ok: true,
           authorities: listScreenAuthoritiesForFamily(brandFamilySkinId),
         });
+      }
+      if (action === 'prefill') {
+        const brandFamilySkinId = String(req.query.brandFamilySkinId ?? '');
+        const packScreenType = String(req.query.packScreenType ?? 'PROJECT_OVERVIEW') as StandardScreenType;
+        const prefill = buildScreenAuthorityPrefill(brandFamilySkinId, packScreenType);
+        const contractPreview = buildContractPreview();
+        return res.status(200).json({ ok: true, prefill, contractPreview });
+      }
+      if (action === 'authority_card') {
+        const brandFamilySkinId = String(req.query.brandFamilySkinId ?? '');
+        const moduleId = String(req.query.moduleId ?? '');
+        const screenType = String(req.query.screenType ?? '');
+        const viewport = String(req.query.viewport ?? 'MOBILE') as 'MOBILE' | 'DESKTOP' | 'TABLET';
+        const card = getAuthorityCardPayload(brandFamilySkinId, moduleId, screenType, viewport);
+        return res.status(200).json({ ok: true, card });
       }
       if (action === 'qa') {
         const skinA = String(req.query.skinA ?? 'AIO');
@@ -115,6 +142,39 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           projectId: String(body.projectId),
         });
         return res.status(200).json({ ok: true, ...result });
+      }
+      case 'register_authority': {
+        const result = registerScreenAuthority({
+          brandFamilySkinId: String(body.brandFamilySkinId),
+          packScreenType: String(body.packScreenType ?? 'PROJECT_OVERVIEW') as StandardScreenType,
+          moduleId: body.moduleId ? String(body.moduleId) : undefined,
+          screenType: body.screenType ? String(body.screenType) : undefined,
+          viewport: body.viewport === 'DESKTOP' ? 'DESKTOP' : body.viewport === 'TABLET' ? 'TABLET' : 'MOBILE',
+          referenceAssetId: String(body.referenceAssetId),
+          referencePurpose: 'SCREEN_AUTHORITY',
+          authorityMode: body.authorityMode ?? 'DESIGN_AUTHORITY',
+          fidelityMode: body.fidelityMode ?? 'EXACT',
+          founderNote: body.founderNote ?? null,
+          approvedByFounder: body.approvedByFounder !== false,
+          projectId: String(body.projectId),
+        });
+        if (!result.ok) return res.status(400).json({ ok: false, failureCode: result.failureCode, route: result.route });
+        return res.status(200).json({ ok: true, ...result });
+      }
+      case 'implement_authority': {
+        const result = implementScreenAuthority({
+          brandFamilySkinId: String(body.brandFamilySkinId),
+          moduleId: String(body.moduleId),
+          screenType: String(body.screenType),
+          viewport: body.viewport === 'DESKTOP' ? 'DESKTOP' : body.viewport === 'TABLET' ? 'TABLET' : 'MOBILE',
+          projectId: String(body.projectId),
+        });
+        if (!result.ok) return res.status(400).json({ ok: false, failureCode: result.failureCode });
+        return res.status(200).json({ ok: true, ...result });
+      }
+      case 'route_reference': {
+        const route = routeReferenceJob(body.referencePurpose ?? null);
+        return res.status(200).json({ ok: true, route });
       }
       case 'migration_preview': {
         const migration = createBrandFamilySkinMigrationPreview({
