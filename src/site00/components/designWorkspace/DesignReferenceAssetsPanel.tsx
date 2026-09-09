@@ -29,6 +29,7 @@ import { PROJECTS_INDEX_APPROVED_REFERENCE_PATH } from '../../../../shared/site0
 import type { CropCoordinateRecord, SourcePixelBounds } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr4r2/browserClient.js';
 import { DesignAssetReconstructionDetail } from './DesignAssetReconstructionDetail';
 import { DesignReferenceCropEditor } from './DesignReferenceCropEditor';
+import { DesignAssetJobWorkspace } from './DesignAssetJobWorkspace';
 import {
   generateLivePlanetAsset,
   approveLiveAsset,
@@ -251,6 +252,16 @@ export function DesignReferenceAssetsPanel({
 
   return (
     <div className="site00-dw-ref-assets">
+      <DesignAssetJobWorkspace
+        projectId={projectId}
+        pageId={pageId}
+        route={_route}
+        referenceUrl={referenceUrl}
+        sourcePage={pageId}
+      />
+
+      <details className="site00-dw-ref-assets__legacy">
+        <summary>LEGACY SINGLE-ASSET PIPELINE (P0.VR.4)</summary>
       <header className="site00-dw-ref-assets__header">
         <h2>{REFERENCE_ASSET_RECONSTRUCTION_FEATURE_LABEL}</h2>
         <p className="site00-body">DETECT → CROP → QA CROP → GENERATE (crop QA required before any paid dispatch)</p>
@@ -301,6 +312,7 @@ export function DesignReferenceAssetsPanel({
           />
         )}
       </div>
+      </details>
     </div>
   );
 }
