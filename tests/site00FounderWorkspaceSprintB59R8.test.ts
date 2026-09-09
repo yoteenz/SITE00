@@ -69,7 +69,7 @@ describe('B5.9R8 View-mode shell invariance', () => {
   it('4–6. hero geometry, planet, toggle remain mounted', () => {
     expect(SHELL).toContain('ProjectIndexHero');
     expect(SHELL).toContain('ProjectIndexViewStrip');
-    expect(HERO).toContain('Site00OrbitalMark');
+    expect(HERO).toContain('ProjectsHeaderPlanet');
     expect(INDEX_PAGE).not.toContain('ProjectIndexClientSimulationBanner');
   });
 
