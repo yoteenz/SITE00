@@ -6787,3 +6787,22 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Tests:** `site00BldrSiteTypeMultiSelect.test.ts` (30/30 pass)
 - **QA:** Mobile ~390px — BUSINESS + E-COMMERCE + BOOKING all selected; B2C→B2B exclusive; next/back preserves state. PASS.
 - **Next founder action:** BLDR → SITE → step 01/03 — select three site types + B2B audience; confirm multi-select + single-select behavior; upload GoDaddy ZIP after merge.
+
+---
+
+## 2026-09-09 — P0.VR.4R1 live reconstruction + Projects header auto-bind
+
+- **Context:** Sprint P0.VR.4R1 closes last-mile gaps from P0.VR.4 reference asset reconstruction pipeline. Golden asset: **PROJECTS HEADER PLANET** from approved Projects page reference (`projects-index-approved-reference.jpg`).
+- **Implemented:**
+  - `p0vr4r1/` module: live FAL GPT Image 2 Edit dispatch (`liveFalProvider.ts`), reference crop extract + Supabase upload, material preservation QA, live acceptance orchestrator, persistent binding store (`design-asset-live-bindings.json`).
+  - API actions: `provider_health`, `bindings`, `generate` with `live:true`, `persist_live`, `apply_to_page`, `live_acceptance`.
+  - UI: `DesignReferenceAssetsPanel` wired to live API for planet; `DesignAssetReconstructionDetail` shows live receipt, APPLY TO PAGE, VIEW ON PAGE.
+  - Projects hero auto-bind: `ProjectsHeaderPlanet.tsx` + `useDesignAssetBinding` reads canonical binding; `ProjectIndexHero` uses it instead of hard-coded `Site00OrbitalMark`.
+  - Tests: `tests/visualReconstructionP0VR4R1.test.ts` (26 criteria) + P0.VR.4 (15) — 41/41 pass.
+- **Live FAL proof (after founder topped up balance):** FULL PASS on golden acceptance script.
+  - Model: `openai/gpt-image-2/edit` via FAL; reference crop uploaded to Supabase then re-uploaded to FAL storage for edit input.
+  - Generation receipt: `dispatchCount=1`, BiRefNet background removal applied, material QA PASS.
+  - LOVE IT + APPLY: canonical asset at `design-assets/site00/projects-index/hero_object/projects-header-planet/v001.png`; binding slot `site00:projects-index:header-planet-icon` persisted in `public/studio-world/design/design-asset-live-bindings.json`.
+  - Live screenshot QA: mobile + desktop captures; Supabase URL (not fal.media) in hero binding.
+- **Auth UI:** `AUTH_UI_QA_BLOCKED` for full Design Workspace walkthrough (founder session required); binding/render verified via live binding test + `/projects` binding API.
+- **Next founder action:** Upload GoDaddy ZIP (v211) → open DESIGN → PROJECTS INDEX → ASSETS → PROJECTS HEADER PLANET to run founder-led GENERATE/LOVE IT flow in UI; confirm `/projects` hero planet matches approved reference.

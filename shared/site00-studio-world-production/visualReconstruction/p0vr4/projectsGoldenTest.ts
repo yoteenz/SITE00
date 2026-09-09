@@ -19,7 +19,7 @@ export function buildProjectsGoldenScreenshotSource(): ApprovedScreenshotSource 
     pageId: PROJECTS_GOLDEN_TEST.pageId,
     route: PROJECTS_GOLDEN_TEST.route,
     screenshotId: 'projects-approved-mobile-v1',
-    screenshotUrl: '/visual-references/founder/site00/projects-mobile-approved.png',
+    screenshotUrl: '/visual-references/founder/site00/projects-index-approved-reference.jpg',
     referenceVersion: 'v1',
     approvedBy: 'founder',
     approvalStatus: 'APPROVED',
