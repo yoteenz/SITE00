@@ -2,7 +2,7 @@
  * B5.3 — Reference-fidelity mobile Expression Engine workspace (founder design authority).
  */
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { apiFetch } from '../../../../utils/api.js';
 import { site00ProjectContentOperationsCampaignBoardPath } from '../../../config/routes';
 import {
@@ -35,6 +35,10 @@ import { MeridianDeterministicVsLiveComparison } from './MeridianDeterministicVs
 import { ReferenceVisualAuthorities } from './ReferenceVisualAuthorities';
 import { ExpressionEngineErrorState } from './ExpressionEngineErrorState';
 import {
+  ExpressionEngineMaturityDashboard,
+  type ExpressionEngineMaturityPayload,
+} from './ExpressionEngineMaturityDashboard';
+import {
   postGenerateFinalStoryboard,
   postImportFounderStoryboard,
   postMeridianComparisonJudgment,
@@ -53,6 +57,38 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
   const [meridianJudging, setMeridianJudging] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [importing, setImporting] = useState(false);
+  const [maturityPayload, setMaturityPayload] = useState<ExpressionEngineMaturityPayload | null>(null);
+  const [maturityLoading, setMaturityLoading] = useState(false);
+
+  const loadMaturityDashboard = useCallback(async () => {
+    const res = await apiFetch('/api/site00/expression-engine?phase=P0.CJ.1');
+    if (!res.ok) return null;
+    return res.json() as Promise<ExpressionEngineMaturityPayload>;
+  }, []);
+
+  useEffect(() => {
+    setMaturityLoading(true);
+    void loadMaturityDashboard()
+      .then(setMaturityPayload)
+      .finally(() => setMaturityLoading(false));
+  }, [loadMaturityDashboard]);
+
+  const submitMaturityJudgment = useCallback(async (decision: string) => {
+    await apiFetch('/api/site00/expression-engine?phase=P0.CJ.1', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'FOUNDER_JUDGMENT',
+        projectId: projectSlug,
+        brandId: projectSlug,
+        entryId: 'entry-003',
+        territoryId: 'territory-entry-003-door',
+        decision,
+      }),
+    });
+    const next = await loadMaturityDashboard();
+    setMaturityPayload(next);
+  }, [projectSlug, loadMaturityDashboard]);
 
   const pipeline = b48?.pipelineState ?? b49r4?.pipelineState;
   const preStoryboardComplete =
@@ -399,6 +435,24 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
                   judging={e003Judging}
                 />
               </>
+            ),
+          },
+          {
+            id: 'creative-judgment-maturity',
+            label: 'CREATIVE JUDGMENT MATURITY',
+            status: maturityPayload?.maturity?.operational100Eligible ? 'TRACKING' : 'CALIBRATING',
+            content: (
+              <ExpressionEngineMaturityDashboard
+                payload={maturityPayload}
+                loading={maturityLoading}
+                onRunEntry003={() => {
+                  setMaturityLoading(true);
+                  void loadMaturityDashboard()
+                    .then(setMaturityPayload)
+                    .finally(() => setMaturityLoading(false));
+                }}
+                onSubmitJudgment={(label) => void submitMaturityJudgment(label)}
+              />
             ),
           },
           {

@@ -541,6 +541,48 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (
       req.method === 'GET' &&
+      (phase === 'P0.CJ.1' || phase === 'CREATIVE_JUDGMENT_MATURITY' || phase === 'CJ1')
+    ) {
+      const { bootstrapCreativeJudgmentMaturityDashboard } = await import(
+        '../_lib/site00ExpressionEngine/creativeJudgmentIntelligence/creativeJudgmentBootstrap.js'
+      );
+      return res.status(200).json(bootstrapCreativeJudgmentMaturityDashboard());
+    }
+
+    if (
+      req.method === 'POST' &&
+      (phase === 'P0.CJ.1' || phase === 'CREATIVE_JUDGMENT_MATURITY' || phase === 'CJ1')
+    ) {
+      const body = (req.body ?? {}) as {
+        action?: string;
+        projectId?: string;
+        brandId?: string;
+        entryId?: string;
+        territoryId?: string;
+        decision?: string;
+        reasonCodes?: string[];
+        founderNote?: string;
+      };
+      const { recordFounderJudgment } = await import(
+        '../_lib/site00ExpressionEngine/creativeJudgmentIntelligence/founderJudgmentMemory.js'
+      );
+      if (body.action === 'FOUNDER_JUDGMENT' && body.decision) {
+        const record = recordFounderJudgment({
+          projectId: body.projectId ?? 'ndxbook',
+          brandId: body.brandId ?? 'ndxbook',
+          entryId: body.entryId ?? 'entry-003',
+          territoryId: body.territoryId ?? 'territory-entry-003-door',
+          decision: body.decision as Parameters<typeof recordFounderJudgment>[0]['decision'],
+          reasonCodes: body.reasonCodes as Parameters<typeof recordFounderJudgment>[0]['reasonCodes'],
+          founderNote: body.founderNote ?? null,
+        });
+        return res.status(200).json({ ok: true, record });
+      }
+      return res.status(400).json({ ok: false, error: 'UNKNOWN_ACTION' });
+    }
+
+    if (
+      req.method === 'GET' &&
       (phase === 'C1.6' || phase === 'C16' || phase === 'MULTI_UNIT_CREATIVE_INTELLIGENCE')
     ) {
       const c16 = await bootstrapC16MultiUnitCreativeIntelligence();

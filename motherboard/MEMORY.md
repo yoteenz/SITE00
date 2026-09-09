@@ -7303,3 +7303,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining gaps:** Full drag-handle pixel editor (nudge buttons wired; pinch/full-screen mobile polish); split/merge child candidate orchestration in job list; live crop preview URL re-render from founder bounds (preview still uses prepared thumb URL); re-detect/wrong-asset recovery actions UI stubs.
 - **Next founder action:** Deploy v248 → Design → ASSETS → SKINS MOBILE RECONSTRUCTION → REVIEW CROPS → open 01 NDXBOOK → verify detection explanation + device chrome warning → edit crop → approve crop (no generation) → approve remaining valid crops → generation plan → explicit APPROVE GENERATION.
 
+---
+
+## 2026-09-09 — P0.CJ.1 Creative Judgment Intelligence + Founder Judgment Memory + Benchmark Loop
+
+- **Context:** Methodology/intelligence sprint to formalize Expression Engine maturity program — stack: Brand Intelligence → Concept Engine → Expression Engine → CreativeJudgmentIntelligence → FounderJudgmentMemory → Benchmark/Learning Loop. Goal = operational 100% (reliable approvable work, correct rejection, brand fidelity, channel differentiation, self-critique, bounded revision) — not prompt tuning or UI-only.
+- **Implemented:**
+  - **`shared/site00-expression-engine/creative-judgment-intelligence/`** — `CreativeJudgmentResult`, `ConceptMechanismProof`, `BrandExpressionFingerprint`, `ChannelRoleMap`, `CreativeFounderJudgmentRecord` (distinct from entry-level `FounderJudgmentRecord`), `ApprovalTrajectory`, benchmark/maturity types; extensible failure classes + founder judgment labels + revision targeting map.
+  - **`api/.../creativeJudgmentIntelligence/`** — orchestrator (`CreativeJudgmentIntelligence`), generic concept rejection gate, `TerritoryDistinctivenessEngine`, channel role + resize-only QA, `CampaignSequenceIntelligence`, `BrandSwapTest`, `CrossBrandStyleLeakDetector` (NDX leak, negation-aware), `CreativeSelfRevisionLoop` (max 2 passes + stop conditions), `FounderJudgmentMemory` (canon firewall `mutatesCanon: false`), `ExpressionEngineBenchmarkSuite` (60 briefs / 18 categories), maturity scoring, blind comparison, adversarial suite, Entry 003 + Verdant Row golden fixtures.
+  - **API** — `GET/POST /api/site00/expression-engine?phase=P0.CJ.1` (aliases `CREATIVE_JUDGMENT_MATURITY`, `CJ1`); POST `action: FOUNDER_JUDGMENT` records structured founder judgment.
+  - **UI scaffold** — `ExpressionEngineMaturityDashboard` + CREATIVE JUDGMENT MATURITY section in Expression Engine reference workspace; quick judgment buttons; marked `VISUAL_AUTHORITY_REQUIRED`.
+  - **Tests:** `creativeJudgmentIntelligenceP0CJ1.test.ts` (32 pass) — advance/revise/kill/escalate, generic rejection, cousins, channel/resize, brand swap, NDX leak, self-revision stops, founder memory, approval trajectory, benchmark rubric, maturity score, golden tests, canon firewall.
+- **Remaining gaps:** Large blind benchmark batch (50–100 briefs) not yet run with founder judgments; full-reasoning A/B requires live provider; maturity dashboard visual authority; persistent Supabase storage for judgment memory (in-memory runtime store today); CopyDirector/WorldExpression deep integration hooks are typed but not wired to live generation path.
+- **Next founder action:** Deploy → Expression Engine → CREATIVE JUDGMENT MATURITY → verify Entry 003 golden judgment → Verdant Row non-NDX golden (no NDX leak) → run 5–10 brief blind batch → record founder judgments → inspect maturity scores / rescue rate / self-critique accuracy — do not optimize to 100 from one run.
+
