@@ -4,6 +4,8 @@
 
 import type { ProjectExperienceClass } from '../site00-world-intake/constants.js';
 import type { CreativeDepthPreference, ProjectScopeDiagnosis } from './types.js';
+import { normalizeSiteTypes } from '../site00-bldr-classification/siteTypeModel';
+import { compileSiteTypeClassificationProfile } from '../site00-bldr-classification/siteTypeIntelligence';
 
 function normalizeAnswer(v: string | string[] | undefined): string[] {
   if (!v) return [];
@@ -18,7 +20,18 @@ export function diagnoseBuilderExperienceClass(params: {
 
   if (classSlug === 'world') return 'WORLD';
   if (classSlug === 'enterprise') return 'APPLICATION';
-  if (classSlug === 'site') return 'SITE';
+
+  if (classSlug === 'site') {
+    const siteTypes = normalizeSiteTypes(answers['type'] ?? answers['siteType']);
+    const profile = compileSiteTypeClassificationProfile(siteTypes);
+    if (siteTypes.includes('web-app') || profile.capabilitySignals.includes('APPLICATION_LOGIC')) {
+      return 'APPLICATION';
+    }
+    if (siteTypes.length >= 3 || profile.summaryLabel.includes('MULTI-CAPABILITY')) {
+      return 'APPLICATION';
+    }
+    return 'SITE';
+  }
 
   if (classSlug === 'not-sure') {
     const q2 = normalizeAnswer(answers['q2']).join(' ').toLowerCase();
@@ -40,10 +53,16 @@ export function diagnoseBuilderExperienceClass(params: {
     return 'SITE';
   }
 
-  const typeAnswers = normalizeAnswer(answers['type']).join(' ').toLowerCase();
+  const siteTypes = normalizeSiteTypes(answers['type'] ?? answers['siteType']);
+  const profile = compileSiteTypeClassificationProfile(siteTypes);
   const experienceAnswers = normalizeAnswer(answers['experience']).join(' ').toLowerCase();
-  if (typeAnswers.includes('web-app') || typeAnswers.includes('application')) return 'APPLICATION';
+  if (siteTypes.includes('web-app') || profile.capabilitySignals.includes('APPLICATION_LOGIC')) {
+    return 'APPLICATION';
+  }
   if (experienceAnswers.includes('immersive') || experienceAnswers.includes('spatial')) return 'IMMERSIVE_SITE';
+  if (siteTypes.length >= 3 || profile.summaryLabel.includes('MULTI-CAPABILITY')) {
+    return 'APPLICATION';
+  }
   return 'SITE';
 }
 

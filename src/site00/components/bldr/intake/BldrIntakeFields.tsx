@@ -40,7 +40,6 @@ function BldrSelectionRow({ label, description, selected, onToggle, mode }: Bldr
         type="button"
         className={`site00-bldr-intake-row ${selected ? 'site00-bldr-intake-row--selected' : ''}`.trim()}
         onClick={onToggle}
-        aria-pressed={selected}
         role={mode === 'single' ? 'radio' : 'checkbox'}
         aria-checked={selected}
       >

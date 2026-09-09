@@ -5,6 +5,11 @@
 import { SITE00_ROUTES } from './routes';
 import type { BldrBuildClassIconId } from './bldr-build-class-icons';
 import { IDNTY_TIMELINE_OPTIONS, IDNTY_BUDGET_OPTIONS } from './idnty-assessment';
+import { normalizeSiteTypes } from '../../../shared/site00-bldr-classification/siteTypeModel';
+import {
+  SITE_TYPE_FOLLOWUP_STEPS,
+  resolveSiteTypeFollowUpStepIds,
+} from '../../../shared/site00-bldr-classification/siteTypeIntelligence';
 
 export type BldrAssessmentStateId = 'site' | 'world' | 'enterprise' | 'not-sure';
 
@@ -255,7 +260,15 @@ export const BLDR_ASSESSMENT_STATES: Record<BldrAssessmentStateId, BldrAssessmen
     landingTitle: 'DEFINE THE SCOPE OF YOUR SITE',
     landingSubtitle: 'HELP US UNDERSTAND WHAT KIND OF SITE YOU NEED.',
     landingFields: [
-      { id: 'type', title: 'WHAT TYPE OF SITE ARE YOU BUILDING?', type: 'single', options: BLDR_SITE_TYPE_OPTIONS, required: true, gridColumns: 3 },
+      {
+        id: 'type',
+        title: 'WHAT TYPE OF SITE ARE YOU BUILDING?',
+        subtitle: 'SELECT ALL THAT APPLY.',
+        type: 'multi',
+        options: BLDR_SITE_TYPE_OPTIONS,
+        required: true,
+        gridColumns: 3,
+      },
       { id: 'audience', title: 'WHO IS THIS SITE FOR?', type: 'audience-row', options: BLDR_AUDIENCE_B2_OPTIONS, required: true, gridColumns: 4 },
     ],
     steps: [
@@ -410,25 +423,59 @@ export function getBldrAssessmentState(slug: string): BldrAssessmentStateConfig 
   return BLDR_ASSESSMENT_STATE_LIST.find((s) => s.slug === slug);
 }
 
-export function bldrAssessmentAllSteps(state: BldrAssessmentStateConfig): BldrAssessmentStep[] {
-  return [...state.landingFields, ...state.steps];
+export function bldrAssessmentAllSteps(
+  state: BldrAssessmentStateConfig,
+  answers?: Record<string, string | string[]>,
+): BldrAssessmentStep[] {
+  const landing = state.landingFields;
+  if (state.id !== 'site' || !answers) {
+    return [...landing, ...state.steps];
+  }
+
+  const siteTypes = normalizeSiteTypes(answers.type);
+  const followUpIds = new Set(resolveSiteTypeFollowUpStepIds(siteTypes));
+  const followUps: BldrAssessmentStep[] = SITE_TYPE_FOLLOWUP_STEPS.filter((s) => followUpIds.has(s.id)).map(
+    (s) => ({
+      id: s.id,
+      title: s.title,
+      subtitle: s.subtitle,
+      type: 'textarea' as const,
+      maxLength: 500,
+      required: false,
+      placeholder: s.placeholder,
+    }),
+  );
+
+  return [...landing, ...followUps, ...state.steps];
 }
 
-export function bldrAssessmentStepIndex(state: BldrAssessmentStateConfig, stepId: string): number {
-  return bldrAssessmentAllSteps(state).findIndex((s) => s.id === stepId);
+export function bldrAssessmentStepIndex(
+  state: BldrAssessmentStateConfig,
+  stepId: string,
+  answers?: Record<string, string | string[]>,
+): number {
+  return bldrAssessmentAllSteps(state, answers).findIndex((s) => s.id === stepId);
 }
 
-export function bldrAssessmentNextStep(state: BldrAssessmentStateConfig, currentStepId: string): BldrAssessmentStep | null {
-  const all = bldrAssessmentAllSteps(state);
-  const idx = bldrAssessmentStepIndex(state, currentStepId);
+export function bldrAssessmentNextStep(
+  state: BldrAssessmentStateConfig,
+  currentStepId: string,
+  answers?: Record<string, string | string[]>,
+): BldrAssessmentStep | null {
+  const all = bldrAssessmentAllSteps(state, answers);
+  const idx = bldrAssessmentStepIndex(state, currentStepId, answers);
   if (idx < 0 || idx >= all.length - 1) return null;
   return all[idx + 1] ?? null;
 }
 
-export function bldrAssessmentPrevStep(state: BldrAssessmentStateConfig, currentStepId: string): BldrAssessmentStep | null {
-  const idx = bldrAssessmentStepIndex(state, currentStepId);
+export function bldrAssessmentPrevStep(
+  state: BldrAssessmentStateConfig,
+  currentStepId: string,
+  answers?: Record<string, string | string[]>,
+): BldrAssessmentStep | null {
+  const idx = bldrAssessmentStepIndex(state, currentStepId, answers);
   if (idx <= 0) return null;
-  return bldrAssessmentAllSteps(state)[idx - 1] ?? null;
+  return bldrAssessmentAllSteps(state, answers)[idx - 1] ?? null;
 }
 
 export function bldrAssessmentFirstStepId(state: BldrAssessmentStateConfig): string | null {
