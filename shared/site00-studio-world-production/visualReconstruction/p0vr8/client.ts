@@ -104,3 +104,15 @@ export {
 export { completeCaptureJob, startCaptureJob } from './captureQueue.js';
 
 export { formatPageDescription, buildPageContentSummaryFromDom } from './contentSummary.js';
+
+export {
+  buildPageCompletionForDesignScreen,
+  runDesignReconstructionKernel,
+  buildPageCompletionInspectorState,
+  buildPageCompletionFounderActions,
+  onPageCreated,
+  onPageUpdated,
+  pagesPipelineInheritsSkinsKernel,
+} from './pageCompletionClient.js';
+
+export type { PageCompletionInspectorState, PageExperienceImplementationJob } from './pageCompletionClient.js';

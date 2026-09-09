@@ -11,6 +11,9 @@ export const FOUNDER_ACTION_TYPES = [
   'REVIEW_BINDINGS',
   'REVIEW_VISUAL_MATCH',
   'REVIEW_AUTHORITY_BOUNDARY',
+  'REVIEW_CHILD_SURFACE_PLAN',
+  'REVIEW_ROUTE_PLAN',
+  'REVIEW_INTERACTION_AMBIGUITY',
 ] as const;
 
 export type FounderActionType = (typeof FOUNDER_ACTION_TYPES)[number];
@@ -24,7 +27,7 @@ export type FounderActionPriority = (typeof FOUNDER_ACTION_PRIORITIES)[number];
 export type DesignFounderAction = {
   actionId: string;
   projectId: string;
-  workspace: 'DESIGN' | 'SKINS' | 'ASSETS';
+  workspace: 'DESIGN' | 'SKINS' | 'ASSETS' | 'PAGES';
   jobId: string;
   candidateId?: string;
   authorityId?: string;

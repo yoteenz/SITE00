@@ -8,6 +8,8 @@ import {
   buildReferenceReconstructionInspectorState,
   buildSkinsMobileReferenceBlueprint,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/index.js';
+import { runDesignReconstructionKernel } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
+import { DesignPageCompletionPanel } from './DesignPageCompletionPanel.js';
 
 const BOUNDARY_CLASS_LABELS: Record<string, string> = {
   HOST_LOCKED: 'HOST LOCKED',
@@ -26,6 +28,16 @@ export function DesignReferenceReconstructionInspector() {
     resolvedMismatches: 1,
   });
   const overlayRegions = blueprint ? buildBoundaryOverlayRegions(blueprint.authorityId) : [];
+  const pciKernel = runDesignReconstructionKernel({
+    workspace: 'SKINS',
+    pageExperience: {
+      projectId: 'site00',
+      pageId: 'design-skins-mobile',
+      primaryRoute: '/projects/site00/design?tab=skins',
+      moduleScreenType: 'SKINS',
+      parentAuthorityId: blueprint?.authorityId ?? null,
+    },
+  });
 
   if (!blueprint || !inspector) {
     return (
@@ -141,6 +153,8 @@ export function DesignReferenceReconstructionInspector() {
           ))}
         </ul>
       </details>
+
+      <DesignPageCompletionPanel job={pciKernel.pageJob} />
 
       {inspector.failureCodes.length > 0 ? (
         <p className="site00-dw-rri-inspector__blockers">BLOCKERS: {inspector.failureCodes.join(', ')}</p>
