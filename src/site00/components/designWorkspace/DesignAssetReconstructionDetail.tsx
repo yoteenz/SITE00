@@ -28,6 +28,8 @@ export type DesignAssetReconstructionDetailProps = {
   liveBackgroundRemovalReceipt?: BackgroundRemovalReceipt | null;
   liveMaterialQa?: MaterialPreservationQA | null;
   falHealthBlocker?: string | null;
+  cropApproved?: boolean;
+  dispatchCounts?: { generations: number; cropVersion: number };
 };
 
 export function DesignAssetReconstructionDetail({
@@ -45,6 +47,8 @@ export function DesignAssetReconstructionDetail({
   liveBackgroundRemovalReceipt,
   liveMaterialQa,
   falHealthBlocker,
+  cropApproved = true,
+  dispatchCounts,
 }: DesignAssetReconstructionDetailProps) {
   const lineage = buildSystemInspectorLineage(asset.assetId);
   const displayUrl = asset.cleanedAssetUrl ?? asset.generatedAssetUrl;
@@ -64,6 +68,16 @@ export function DesignAssetReconstructionDetail({
 
       {falHealthBlocker ? (
         <p className="site00-dw-ref-assets__warn">{falHealthBlocker}</p>
+      ) : null}
+
+      {!cropApproved ? (
+        <p className="site00-dw-ref-assets__warn">GENERATE disabled until crop passes QA and you press USE CROP.</p>
+      ) : null}
+
+      {dispatchCounts ? (
+        <p className="site00-dw-ref-asset-detail__type">
+          Generations: {dispatchCounts.generations} · Crop V{String(dispatchCounts.cropVersion).padStart(3, '0')}
+        </p>
       ) : null}
 
       <div className="site00-dw-ref-asset-detail__compare">
@@ -159,7 +173,7 @@ export function DesignAssetReconstructionDetail({
       )}
 
       <div className="site00-dw-ref-asset-detail__actions">
-        <button type="button" onClick={onGenerate} disabled={generating || Boolean(falHealthBlocker)}>
+        <button type="button" onClick={onGenerate} disabled={generating || Boolean(falHealthBlocker) || !cropApproved}>
           {generating ? 'GENERATING…' : 'GENERATE'}
         </button>
         <button

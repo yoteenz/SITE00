@@ -31,6 +31,11 @@ import {
 import { buildProjectsGoldenScreenshotSource } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr4/projectsGoldenTest.js';
 import { PROJECTS_GOLDEN_TEST } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr4/constants.js';
 import { isTemporaryProviderUrl } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr4/supabaseStorage.js';
+import {
+  getCropRecord,
+  getDispatchCounts,
+  runDesignGenerationPreflight,
+} from '../../shared/site00-studio-world-production/visualReconstruction/p0vr4r2/index.js';
 import { downloadUrlToBuffer } from '../_lib/site00Assts/storage.js';
 
 const REPO_ROOT = join(process.cwd());
@@ -119,22 +124,86 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         });
         return res.status(200).json({ ok: true, assets });
       }
+      case 'extract_crop': {
+        const result = await runLiveProjectsHeaderPlanetAcceptance({
+          repoRoot: REPO_ROOT,
+          falKey: process.env.FAL_KEY,
+          explicitFounderAction: false,
+          extractCropOnly: true,
+          founderAdjustedBounds: body.founderAdjustedBounds ?? null,
+          skipLiveFal: true,
+        });
+        const cropRecord = result.assetId ? getCropRecord(result.assetId) : null;
+        const asset = result.assetId ? getReconstructionAsset(result.assetId) : null;
+        return res.status(200).json({ ok: !result.blocked, result, cropRecord, asset });
+      }
+      case 'approve_crop': {
+        const assetId = String(body.assetId);
+        const cropRecord = getCropRecord(assetId);
+        if (!cropRecord?.cropChecksum) {
+          return res.status(400).json({ ok: false, error: 'CROP_NOT_APPROVED: no crop checksum' });
+        }
+        const { approveProjectsHeaderPlanetCrop } = await import(
+          '../../shared/site00-studio-world-production/visualReconstruction/p0vr4r2/projectsHeaderPlanetCropService.js'
+        );
+        const approved = approveProjectsHeaderPlanetCrop(assetId, cropRecord.cropChecksum);
+        return res.status(200).json({ ok: Boolean(approved), cropRecord: approved });
+      }
+      case 'preflight': {
+        const assetId = String(body.assetId);
+        const cropRecord = getCropRecord(assetId);
+        const asset = getReconstructionAsset(assetId);
+        const health = checkFalProviderHealth(envConfig());
+        const preflight = runDesignGenerationPreflight({
+          coordinate: cropRecord,
+          assetType: asset?.assetType ?? 'HERO_OBJECT',
+          cropPreviewUrl: asset?.referenceCropUrl ?? null,
+          cropPreviewValid: Boolean(asset?.referenceCropUrl),
+          providerAvailable: health.liveDispatchAllowed,
+          explicitFounderAction: body.explicitFounderAction === true,
+          cropApproved: cropRecord?.locked === true,
+        });
+        const counts = getDispatchCounts(assetId);
+        return res.status(200).json({ ok: preflight.pass, preflight, dispatchCounts: counts, cropRecord });
+      }
       case 'generate': {
         if (body.live === true) {
+          const cropRecord = getCropRecord(String(body.assetId ?? ''));
+          if (!cropRecord?.locked && body.cropApproved !== true) {
+            const preflight = runDesignGenerationPreflight({
+              coordinate: cropRecord,
+              assetType: 'HERO_OBJECT',
+              cropPreviewUrl: null,
+              cropPreviewValid: Boolean(cropRecord),
+              providerAvailable: checkFalProviderHealth(envConfig()).liveDispatchAllowed,
+              explicitFounderAction: body.explicitFounderAction === true,
+              cropApproved: false,
+            });
+            return res.status(200).json({
+              ok: false,
+              blocked: true,
+              blocker: preflight.blocker ?? 'GENERATION_BLOCKED_BY_CROP_QA',
+              preflight,
+            });
+          }
           const result = await runLiveProjectsHeaderPlanetAcceptance({
             repoRoot: REPO_ROOT,
             falKey: process.env.FAL_KEY,
             explicitFounderAction: body.explicitFounderAction === true,
+            cropApproved: body.cropApproved === true || cropRecord?.locked === true,
             founderLoveIt: false,
             applyToPage: false,
+            founderAdjustedBounds: body.founderAdjustedBounds ?? null,
           });
           const asset = result.assetId ? getReconstructionAsset(result.assetId) : null;
+          const counts = result.assetId ? getDispatchCounts(result.assetId) : null;
           return res.status(200).json({
             ok: !result.blocked,
             blocked: result.blocked,
             blocker: result.blocker,
             result,
             asset,
+            dispatchCounts: counts,
           });
         }
         const result = dispatchReconstructionGeneration({

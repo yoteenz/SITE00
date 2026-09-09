@@ -34,6 +34,7 @@ export type GenerationReceipt = {
   outputUrl: string;
   promptVersion: number;
   referenceCropUrl: string;
+  referenceCropChecksum?: string;
   gptImage2EditUsed: boolean;
   referencePassedToProvider: boolean;
 };

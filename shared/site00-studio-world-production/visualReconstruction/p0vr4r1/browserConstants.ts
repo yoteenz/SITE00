@@ -10,10 +10,11 @@ export const PROJECTS_INDEX_APPROVED_REFERENCE_PATH =
 
 export type CropRegion = { x: number; y: number; width: number; height: number; padding?: number };
 
+/** @deprecated P0.VR.4R2 — use PROJECTS_HEADER_PLANET_OBJECT_BOUNDS from p0vr4r2 */
 export const PROJECTS_HEADER_PLANET_CROP: CropRegion = {
-  x: 565,
-  y: 52,
-  width: 220,
-  height: 220,
-  padding: 16,
+  x: 528,
+  y: 42,
+  width: 365,
+  height: 318,
+  padding: 0,
 };
