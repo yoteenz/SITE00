@@ -6713,3 +6713,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Note:** First poll attempt lost job at ~63s (likely multi-instance 404); second job stayed sticky ~116s to completion. Poll up to ~2–3 min if UI shows RUNNING.
 - **Next founder action:** Expression Engine → Meridian comparison should load live FULL_REASONING run; record founder judgment if prompted.
 
+---
+
+## 2026-09-08 — BLDR Site Type Multi-Select Classification Fix
+
+- **Context:** Targeted correction sprint — BLDR SITE step 01/03 had site type behaving as single-select (radio) when it must be multi-select; audience must remain single-select.
+- **Root cause:** `bldr-assessment.ts` landing field `type` was configured `type: 'single'`, driving radio exclusivity in `IdntyOptionRows` / intake fields.
+- **Delivered:**
+  - **`shared/site00-bldr-classification/`** — `siteTypeModel.ts` (normalizeSiteTypes, hydrateSiteTypeAnswer, legacy siteType→type[]), `bldrFieldValidation.ts`, `siteTypeIntelligence.ts` (combination profiles, capability signals, conditional follow-up steps)
+  - **Config** — site type field `type: 'multi'`, subtitle `SELECT ALL THAT APPLY.`; conditional commerce/scheduling/membership/application scope steps injected via `bldrAssessmentAllSteps(answers)`
+  - **UI** — `IdntyOptionRows` mode prop (checkbox vs radio a11y); `BldrIntakeFields` + `BldrScopeFields` multi-toggle without clearing prior selections; OTHER specify persists alongside other types
+  - **Hook** — `useBldrAssessment` hydrates answers on read/merge; IDNTY prefill sets `type` as array
+  - **Classification** — `builderDiagnosis.ts` uses full `siteTypes[]` + `compileSiteTypeClassificationProfile()`; review shows all types via `formatSiteTypesForReview()`
+  - **Tests:** `site00BldrSiteTypeMultiSelect.test.ts` (30/30 pass)
+- **QA:** Mobile ~390px — BUSINESS + E-COMMERCE + BOOKING all selected; B2C→B2B exclusive; next/back preserves state. PASS.
+- **Next founder action:** BLDR → SITE → step 01/03 — select three site types + B2B audience; confirm multi-select + single-select behavior; upload GoDaddy ZIP after merge.
+
