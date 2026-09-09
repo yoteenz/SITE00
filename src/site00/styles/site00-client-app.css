@@ -1114,3 +1114,117 @@
     font-size: 11px;
   }
 }
+
+/* Self-directed desktop shell — independent from mobile bottom nav */
+.site00-app-side-nav {
+  display: none;
+}
+
+.site00-app-header__create {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .site00-app--self-directed .site00-app-shell {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    max-width: none;
+    width: 100%;
+    min-height: 100dvh;
+  }
+
+  .site00-app--self-directed .site00-app-side-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 20px 12px;
+    border-right: 1px solid var(--site00-app-border);
+    background: var(--site00-app-off-white);
+    position: sticky;
+    top: 0;
+    height: 100dvh;
+  }
+
+  .site00-app-side-nav__brand {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+    padding: 0 8px;
+  }
+
+  .site00-app-side-nav__link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    text-decoration: none;
+    color: var(--site00-app-muted);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    border-radius: 6px;
+    position: relative;
+  }
+
+  .site00-app-side-nav__link.is-active {
+    color: var(--site00-app-accent);
+    background: rgba(232, 25, 44, 0.06);
+    box-shadow: inset 3px 0 0 var(--site00-app-accent);
+  }
+
+  .site00-app-side-nav__badge {
+    margin-left: auto;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 8px;
+    background: var(--site00-app-accent);
+    color: #fff;
+    font-size: 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .site00-app-side-nav__footer {
+    margin-top: auto;
+    padding: 12px 8px;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: var(--site00-app-muted);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    align-self: flex-start;
+  }
+
+  .site00-app--self-directed .site00-app-content-column {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .site00-app--self-directed .site00-app-header {
+    padding: 16px 32px 12px;
+  }
+
+  .site00-app--self-directed .site00-app-header__create {
+    display: inline;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--site00-app-muted);
+    margin-right: 8px;
+  }
+
+  .site00-app--self-directed .site00-app-main {
+    padding: 16px 32px 32px;
+    max-width: none;
+  }
+
+  .site00-app--self-directed .site00-app-bottom-nav {
+    display: none;
+  }
+}
