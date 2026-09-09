@@ -7350,3 +7350,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining gaps:** Pinch-zoom pan wiring; crosshair QA grid in internal mode; live Supabase crop byte checksum at approval; manual device verification on founder phone post-deploy.
 - **Next founder action:** Deploy v251 → Design → ASSETS → SKINS MOBILE RECONSTRUCTION → 01 NDXBOOK — place red box on unique region, move/resize all edges, zoom 50/100/200%, scroll page — confirm live preview matches box exactly before crop approve (generation still separate).
 
+---
+
+## 2026-09-09 — P0.CJ.2 Creative Judgment Presentation + Savor Celeste Demo
+
+- **Context:** P0.CJ.1 engine produced valuable reasoning but text-heavy internal dump; founder needed visual-first swipeable concept panels + real fragrance brand demo (Savor Celeste / The Private Room) without hallucinating live site details.
+- **Implemented:**
+  - **`creative-judgment-presentation/`** — `ConceptPanel` canonical model, `conceptPanelMapper`, grounding modes (`LIVE/ASSET/PROFILE-GROUNDED`), diagnostics collapsed by default.
+  - **`savorCelesteCase.ts`** — profile-grounded brand intake + THE PRIVATE ROOM territory; `liveFetchAvailable: false`.
+  - **`creativeJudgmentPresentationBootstrap.ts`** — gallery seed (Savor Celeste + Entry 003 + Verdant Row); `CONCEPT_FOUNDER_JUDGMENT` API.
+  - **UI** — `CreativeJudgmentPresentationWorkspace` (gallery/detail/compare/trailer/diagnostics), `ConceptPanelCard`, compare view, brand case profile, trailer mode; CSS `site00-creative-judgment-presentation.css`.
+  - **API** — `GET/POST /api/site00/expression-engine?phase=P0.CJ.2`.
+  - **Integration** — Expression Engine reference workspace: CONCEPT REVIEW · GALLERY first; maturity moved to DIAGNOSTICS level 3.
+  - **Tests:** `creativeJudgmentPresentationP0CJ2.test.ts` (12 pass).
+- **Remaining gaps:** Live savorceleste.com scrape when enabled; uploaded screenshot/product photo intake UI; persistent Supabase concept panel store; generated hero visuals (symbolic placeholder today); studio desktop Entry 002 tab surfacing.
+- **Next founder action:** Deploy v252 → Expression Engine → CONCEPT REVIEW · GALLERY → swipe Savor Celeste THE PRIVATE ROOM → verify PROFILE-GROUNDED badge → judge with LOVE IT / REVISE → open TRAILER mode for gift deck preview.
+
