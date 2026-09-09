@@ -17,6 +17,7 @@ import {
   approveGenerationInWorkflow,
   approveOutputAtIndex,
 } from '../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/reconstructionJobOrchestrator.js';
+import { prepareAllCropReviewsForApproval } from '../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/founderCropIntelligence/founderCropIntelligence.js';
 import {
   getReconstructionWorkflowState,
   resetReconstructionWorkflowForTest,
@@ -69,46 +70,71 @@ describe('P0.VR.6R7 — Founder action routing', () => {
     expect(state.job.candidateAssets[0]?.generatedPrompt.length).toBeGreaterThan(10);
   });
 
-  it('7. crop approval works per index', () => {
+  it('7. crop approval works per index when valid', () => {
     let state = createInitialWorkflowState()!;
+    state = approveCropAtIndex(state, 0);
+    expect(state.job.cropApprovalStatus.approved).toBe(0);
+    state = {
+      ...state,
+      cropReviews: prepareAllCropReviewsForApproval(state.cropReviews),
+    };
     state = approveCropAtIndex(state, 0);
     expect(state.job.cropApprovalStatus.approved).toBe(1);
   });
 
-  it('8. all-crop approval explicit', () => {
+  it('8. approve-all-valid only approves ready crops', () => {
     let state = createInitialWorkflowState()!;
     state = approveAllCropsInWorkflow(state);
-    expect(state.job.cropApprovalStatus.approved).toBe(5);
-    expect(state.workflowView).toBe('generation-plan');
+    expect(state.job.cropApprovalStatus.approved).toBe(0);
+    state = {
+      ...state,
+      cropReviews: state.cropReviews.map((r, i) => (i === 0 ? r : prepareAllCropReviewsForApproval([r])[0]!)),
+    };
+    state = approveAllCropsInWorkflow(state);
+    expect(state.job.cropApprovalStatus.approved).toBe(4);
   });
 
   it('9. generation remains blocked after single crop only', () => {
     let state = createInitialWorkflowState()!;
+    state = {
+      ...state,
+      cropReviews: prepareAllCropReviewsForApproval(state.cropReviews),
+    };
     state = approveCropAtIndex(state, 0);
     expect(state.job.generationApprovalStatus.status).toBe('BLOCKED');
   });
 
   it('10. generation plan action created after all crops', () => {
-    let state = approveAllCropsInWorkflow(createInitialWorkflowState()!);
+    let state = createInitialWorkflowState()!;
+    state = { ...state, cropReviews: prepareAllCropReviewsForApproval(state.cropReviews) };
+    state = approveAllCropsInWorkflow(state);
     const genAction = state.actions.find((a) => a.actionType === 'APPROVE_GENERATION' && a.workspace === 'SKINS');
     expect(genAction).toBeDefined();
   });
 
   it('11. generation plan displays prompts', () => {
-    const state = approveAllCropsInWorkflow(createInitialWorkflowState()!);
+    let state = createInitialWorkflowState()!;
+    state = { ...state, cropReviews: prepareAllCropReviewsForApproval(state.cropReviews) };
+    state = approveAllCropsInWorkflow(state);
     const plan = buildMultiAssetReconstructionPlan(state.job);
     expect(plan.entries.length).toBe(5);
     expect(plan.entries[0]?.generatedPrompt.length).toBeGreaterThan(0);
   });
 
   it('12. generation approval authorizes dispatch count', () => {
-    const state = approveGenerationInWorkflow(approveAllCropsInWorkflow(createInitialWorkflowState()!));
+    let state = createInitialWorkflowState()!;
+    state = { ...state, cropReviews: prepareAllCropReviewsForApproval(state.cropReviews) };
+    state = approveAllCropsInWorkflow(state);
+    state = approveGenerationInWorkflow(state);
     expect(state.job.generationApprovalStatus.authorizedDispatchCount).toBe(5);
     expect(state.generationExecuting).toBe(true);
   });
 
   it('13. provider execution flag set after generation approval', () => {
-    const state = approveGenerationInWorkflow(approveAllCropsInWorkflow(createInitialWorkflowState()!));
+    let state = createInitialWorkflowState()!;
+    state = { ...state, cropReviews: prepareAllCropReviewsForApproval(state.cropReviews) };
+    state = approveAllCropsInWorkflow(state);
+    state = approveGenerationInWorkflow(state);
     expect(state.workflowView).toBe('generation-executing');
   });
 
@@ -119,7 +145,9 @@ describe('P0.VR.6R7 — Founder action routing', () => {
   });
 
   it('15. output review action created when outputs complete', () => {
-    let state = approveAllCropsInWorkflow(createInitialWorkflowState()!);
+    let state = createInitialWorkflowState()!;
+    state = { ...state, cropReviews: prepareAllCropReviewsForApproval(state.cropReviews) };
+    state = approveAllCropsInWorkflow(state);
     state = {
       ...state,
       job: {
@@ -147,19 +175,25 @@ describe('P0.VR.6R7 — Founder action routing', () => {
   });
 
   it('18. output approval updates binding', () => {
-    let state = approveAllCropsInWorkflow(createInitialWorkflowState()!);
+    let state = createInitialWorkflowState()!;
+    state = { ...state, cropReviews: prepareAllCropReviewsForApproval(state.cropReviews) };
+    state = approveAllCropsInWorkflow(state);
     state = approveOutputAtIndex(state, 0);
     expect(state.job.candidateAssets[0]?.approvalStatus).toBe('LOVE_IT');
   });
 
   it('19. binding status progresses', () => {
-    let state = approveAllCropsInWorkflow(createInitialWorkflowState()!);
+    let state = createInitialWorkflowState()!;
+    state = { ...state, cropReviews: prepareAllCropReviewsForApproval(state.cropReviews) };
+    state = approveAllCropsInWorkflow(state);
     state = approveOutputAtIndex(state, 0);
     expect(state.job.bindingStatus.bound).toBe(1);
   });
 
   it('20. reconvergence status field exists after binding path', () => {
-    let state = approveAllCropsInWorkflow(createInitialWorkflowState()!);
+    let state = createInitialWorkflowState()!;
+    state = { ...state, cropReviews: prepareAllCropReviewsForApproval(state.cropReviews) };
+    state = approveAllCropsInWorkflow(state);
     state = approveOutputAtIndex(state, 0);
     expect(['NOT_RUN', 'PENDING', 'COMPLETE']).toContain(state.job.recomparisonStatus);
   });
@@ -184,7 +218,9 @@ describe('P0.VR.6R7 — Founder action routing', () => {
   });
 
   it('24. resolving crop flow transitions workflow view', () => {
-    let state = approveAllCropsInWorkflow(createInitialWorkflowState()!);
+    let state = createInitialWorkflowState()!;
+    state = { ...state, cropReviews: prepareAllCropReviewsForApproval(state.cropReviews) };
+    state = approveAllCropsInWorkflow(state);
     expect(state.workflowView).toBe('generation-plan');
   });
 

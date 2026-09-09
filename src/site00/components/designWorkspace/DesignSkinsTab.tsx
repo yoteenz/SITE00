@@ -89,6 +89,7 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
           onApproveOutput={workflow.approveOutput}
           onClose={workflow.closeWorkflow}
           onSetCandidateIndex={workflow.setCandidateIndex}
+          onUpdateCropReview={workflow.updateCropReview}
         />
       ) : null}
 

@@ -15,6 +15,7 @@ import {
   createInitialWorkflowState,
   approveAllCropsInWorkflow,
 } from '../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/reconstructionJobOrchestrator.js';
+import { prepareAllCropReviewsForApproval } from '../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/founderCropIntelligence/founderCropIntelligence.js';
 import {
   dedupeFounderActionsForNotifications,
   getAssetsAlertActions,
@@ -82,7 +83,7 @@ describe('P0.VR.6R8 — Founder action UX repackaging', () => {
     const actions = syncFounderActionsFromJob(blockedCropJob());
     const action = dedupeFounderActionsForNotifications(actions)[0]!;
     expect(founderActionNotificationTitle(action.actionType)).toBe('CROP REVIEW REQUIRED');
-    expect(founderActionNotificationBody(action)).toMatch(/ready for review/i);
+    expect(founderActionNotificationBody(action)).toMatch(/assets detected/i);
     expect(founderActionNotificationBody(action)).not.toMatch(/cropApprovalStatus/i);
   });
 
@@ -123,7 +124,9 @@ describe('P0.VR.6R8 — Founder action UX repackaging', () => {
   });
 
   it('13. generation action follows crop action', () => {
-    const next = approveAllCropsInWorkflow(createInitialWorkflowState()!)!;
+    let state = createInitialWorkflowState()!;
+    state = { ...state, cropReviews: prepareAllCropReviewsForApproval(state.cropReviews) };
+    const next = approveAllCropsInWorkflow(state);
     const pending = next.actions.filter((a) => a.status === 'PENDING');
     expect(pending.some((a) => a.actionType === 'APPROVE_GENERATION')).toBe(true);
     expect(pending.some((a) => a.actionType === 'REVIEW_CROPS')).toBe(false);

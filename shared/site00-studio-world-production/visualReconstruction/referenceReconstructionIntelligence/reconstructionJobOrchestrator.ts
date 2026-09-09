@@ -7,7 +7,6 @@ import type { WorkflowView } from './founderAction.js';
 import { syncFounderActionsFromJob, resolveFounderActionsByGate } from './founderActionRouter.js';
 import type { DesignFounderAction } from './founderAction.js';
 import {
-  approveAllCrops,
   approveGeneration,
   buildMultiAssetReconstructionPlan,
   buildSkinsMobileMultiAssetReconstructionJob,
@@ -19,6 +18,12 @@ import {
   type ReferenceReconstructionSubJobs,
 } from './referenceReconstructionSubJobs.js';
 import { evaluateCropApprovalGate } from './reconstructionApprovals.js';
+import {
+  approveCropReview,
+  approveAllValidCrops,
+  initializeCropReviewsForJob,
+  type CropReviewState,
+} from './founderCropIntelligence/index.js';
 
 export type ReconstructionWorkflowState = {
   job: ReferenceMultiAssetReconstructionJob;
@@ -27,6 +32,7 @@ export type ReconstructionWorkflowState = {
   workflowView: WorkflowView;
   activeCandidateIndex: number;
   generationExecuting: boolean;
+  cropReviews: CropReviewState[];
 };
 
 export function createInitialWorkflowState(): ReconstructionWorkflowState | null {
@@ -36,7 +42,8 @@ export function createInitialWorkflowState(): ReconstructionWorkflowState | null
   if (!job) return null;
 
   const subJobs = initializeSubJobs({ cropApprovalPending: true, generationBlocked: true });
-  const actions = syncFounderActionsFromJob(job);
+  const cropReviews = initializeCropReviewsForJob(job.candidateAssets);
+  const actions = syncFounderActionsFromJob(job, cropReviews);
 
   return {
     job,
@@ -45,6 +52,7 @@ export function createInitialWorkflowState(): ReconstructionWorkflowState | null
     workflowView: null,
     activeCandidateIndex: 0,
     generationExecuting: false,
+    cropReviews,
   };
 }
 
@@ -53,6 +61,12 @@ export function openWorkflowView(state: ReconstructionWorkflowState, view: Workf
 }
 
 export function approveCropAtIndex(state: ReconstructionWorkflowState, index: number): ReconstructionWorkflowState {
+  const review = state.cropReviews[index];
+  if (!review) return state;
+  const approval = approveCropReview(review);
+  if (!approval.allowed) return state;
+
+  const cropReviews = state.cropReviews.map((r, i) => (i === index ? approval.review : r));
   const candidates = state.job.candidateAssets.map((c, i) =>
     i === index ? { ...c, cropStatus: 'APPROVED' as const } : c,
   );
@@ -64,13 +78,13 @@ export function approveCropAtIndex(state: ReconstructionWorkflowState, index: nu
     jobStatus: cropGate.state.approved === cropGate.state.total ? 'GENERATION_PLAN' : 'CROP_REVIEW',
   };
 
-  let actions = syncFounderActionsFromJob(job);
+  let actions = syncFounderActionsFromJob(job, cropReviews);
   let workflowView: WorkflowView = state.workflowView;
 
   if (cropGate.state.approved === cropGate.state.total) {
     actions = resolveFounderActionsByGate(actions, job.jobId, 'REVIEW_CROPS');
     workflowView = 'generation-plan';
-    actions = syncFounderActionsFromJob(job);
+    actions = syncFounderActionsFromJob(job, cropReviews);
   }
 
   const subJobs = updateSubJobsFromJobState({
@@ -82,13 +96,34 @@ export function approveCropAtIndex(state: ReconstructionWorkflowState, index: nu
     outputsPendingReview: 0,
   });
 
-  return { ...state, job, actions, subJobs, workflowView, activeCandidateIndex: Math.min(index + 1, candidates.length - 1) };
+  return { ...state, job, actions, subJobs, workflowView, cropReviews, activeCandidateIndex: Math.min(index + 1, candidates.length - 1) };
+}
+
+export function updateCropReviewAtIndex(
+  state: ReconstructionWorkflowState,
+  index: number,
+  review: CropReviewState,
+): ReconstructionWorkflowState {
+  const cropReviews = state.cropReviews.map((r, i) => (i === index ? review : r));
+  const actions = syncFounderActionsFromJob(state.job, cropReviews);
+  return { ...state, cropReviews, actions };
 }
 
 export function approveAllCropsInWorkflow(state: ReconstructionWorkflowState): ReconstructionWorkflowState {
-  let job = approveAllCrops(state.job);
+  const batch = approveAllValidCrops(state.cropReviews);
+  const approvedIds = new Set(batch.approved.map((r) => r.candidateId));
+  const cropReviews = state.cropReviews.map((r) => batch.approved.find((a) => a.candidateId === r.candidateId) ?? r);
+  const candidates = state.job.candidateAssets.map((c) =>
+    approvedIds.has(c.candidateId) ? { ...c, cropStatus: 'APPROVED' as const } : c,
+  );
+  let job: ReferenceMultiAssetReconstructionJob = {
+    ...state.job,
+    candidateAssets: candidates,
+    cropApprovalStatus: evaluateCropApprovalGate(candidates).state,
+    jobStatus: evaluateCropApprovalGate(candidates).state.approved === candidates.length ? 'GENERATION_PLAN' : 'CROP_REVIEW',
+  };
   let actions = resolveFounderActionsByGate(state.actions, job.jobId, 'REVIEW_CROPS');
-  actions = syncFounderActionsFromJob(job);
+  actions = syncFounderActionsFromJob(job, cropReviews);
   const subJobs = updateSubJobsFromJobState({
     subJobs: state.subJobs,
     cropsApproved: job.cropApprovalStatus.approved,
@@ -97,12 +132,15 @@ export function approveAllCropsInWorkflow(state: ReconstructionWorkflowState): R
     generationComplete: false,
     outputsPendingReview: 0,
   });
+  const workflowView: WorkflowView =
+    job.cropApprovalStatus.approved === job.cropApprovalStatus.total ? 'generation-plan' : state.workflowView;
   return {
     ...state,
     job,
     actions,
     subJobs,
-    workflowView: 'generation-plan',
+    cropReviews,
+    workflowView,
   };
 }
 
@@ -110,7 +148,7 @@ export function approveGenerationInWorkflow(state: ReconstructionWorkflowState):
   const plan = buildMultiAssetReconstructionPlan(state.job);
   const { job } = approveGeneration(state.job, plan.totalDispatches);
   let actions = resolveFounderActionsByGate(state.actions, job.jobId, 'APPROVE_GENERATION');
-  actions = syncFounderActionsFromJob(job);
+  actions = syncFounderActionsFromJob(job, state.cropReviews);
   const subJobs = updateSubJobsFromJobState({
     subJobs: state.subJobs,
     cropsApproved: job.cropApprovalStatus.approved,
@@ -163,7 +201,7 @@ export function markCandidateGenerationComplete(
     generationComplete: completeCount >= candidates.length,
     outputsPendingReview: outputsPending,
   });
-  const actions = syncFounderActionsFromJob(job);
+  const actions = syncFounderActionsFromJob(job, state.cropReviews);
   const workflowView: WorkflowView =
     completeCount >= candidates.length ? 'output-review' : state.workflowView;
   return {
@@ -188,7 +226,7 @@ export function approveOutputAtIndex(state: ReconstructionWorkflowState, index: 
     jobStatus: bound >= candidates.length ? 'RECOMPARISON' : 'OUTPUT_REVIEW',
     recomparisonStatus: bound >= candidates.length ? 'PENDING' : 'NOT_RUN',
   };
-  const actions = syncFounderActionsFromJob(job);
+  const actions = syncFounderActionsFromJob(job, state.cropReviews);
   const subJobs = updateSubJobsFromJobState({
     subJobs: state.subJobs,
     cropsApproved: job.cropApprovalStatus.approved,

@@ -270,6 +270,7 @@ export function DesignReferenceAssetsPanel({
           onApproveOutput={workflow.approveOutput}
           onClose={workflow.closeWorkflow}
           onSetCandidateIndex={workflow.setCandidateIndex}
+          onUpdateCropReview={workflow.updateCropReview}
         />
       ) : founderAlerts.alertActions.length > 0 ? (
         <DesignFounderActionAlertZone

@@ -5,6 +5,7 @@
 
 import type { ReconstructionWorkflowState } from './reconstructionJobOrchestrator.js';
 import { createInitialWorkflowState } from './reconstructionJobOrchestrator.js';
+import { initializeCropReviewsForJob } from './founderCropIntelligence/index.js';
 
 const STORAGE_KEY = 'site00-rri-workflow-v1';
 
@@ -32,10 +33,21 @@ function saveToStorage(state: ReconstructionWorkflowState | null): void {
   }
 }
 
+function hydrateCropReviews(state: ReconstructionWorkflowState): ReconstructionWorkflowState {
+  if (state.cropReviews?.length === state.job.candidateAssets.length) return state;
+  return {
+    ...state,
+    cropReviews: initializeCropReviewsForJob(state.job.candidateAssets),
+  };
+}
+
 export function getReconstructionWorkflowState(): ReconstructionWorkflowState | null {
   if (!memoryState) {
     memoryState = loadFromStorage() ?? createInitialWorkflowState();
-    if (memoryState) saveToStorage(memoryState);
+    if (memoryState) {
+      memoryState = hydrateCropReviews(memoryState);
+      saveToStorage(memoryState);
+    }
   }
   return memoryState;
 }
