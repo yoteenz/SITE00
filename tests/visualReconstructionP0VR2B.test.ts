@@ -74,12 +74,12 @@ describe('P0.VR.2B design workspace rebuild', () => {
 
   it('8-16. desktop/mobile structure + controls', () => {
     const ui = read('src/site00/components/founderWorkspace/StudioWorldDesignWorkspace.tsx');
-    expect(ui).toContain('SCREEN / ROUTE');
-    expect(ui).toContain('UPLOAD REFERENCE');
-    expect(ui).toContain('MATCH REFERENCE');
-    expect(ui).toContain('OPEN LIVE ROUTE');
+    expect(ui).toContain('DesignWorkspaceViewportRail');
+    expect(ui).toContain('DesignWorkspacePrimaryTabRail');
+    expect(read('src/site00/components/designWorkspace/DesignMoreTab.tsx')).toContain('MATCH REFERENCE');
+    expect(read('src/site00/components/designWorkspace/DesignReferencesTab.tsx')).toContain('UPLOAD REFERENCE');
     expect(read('src/site00/styles/site00-design-workspace-p0vr2b.css')).toContain('site00-dw-shell__sidebar');
-    expect(read('src/site00/styles/site00-design-workspace-p0vr2b.css')).toContain('site00-dw-viewport-toggle');
+    expect(read('src/site00/styles/site00-design-workspace-v3.css')).toContain('site00-dw-v3-viewport-segment');
   });
 
   it('17-19. compare tabs + layout + live score', () => {
@@ -101,16 +101,16 @@ describe('P0.VR.2B design workspace rebuild', () => {
 
   it('25-29. activity, quick actions, matrix demoted, views', () => {
     const ui = read('src/site00/components/founderWorkspace/StudioWorldDesignWorkspace.tsx');
-    const footer = read('src/site00/components/designWorkspace/DesignWorkspaceFooter.tsx');
-    expect(ui).toContain('DesignWorkspaceFooter');
-    expect(footer).toContain('RECENT ACTIVITY');
+    const disclosure = read('src/site00/components/designWorkspace/DesignWorkspaceDisclosurePanel.tsx');
+    expect(ui).toContain('DesignWorkspaceDisclosurePanel');
+    expect(disclosure).toContain('RECENT ACTIVITY');
     expect(buildDesignWorkspaceActivity({ projectId: 'ndxbook', screenId: 'x', screenName: 'Campaign Board', statusLabel: 'MATCHED' }).length).toBeGreaterThan(0);
     expect(buildDesignWorkspaceQuickActions({ projectId: 'ndxbook', screenId: 'campaign-board', route: '/projects/ndxbook/campaign-board' }).length).toBe(4);
     expect(ui).not.toContain('SCREEN MATRIX');
-    expect(ui).toContain("tab === 'HISTORY'");
-    expect(ui).toContain("tab === 'INSPECT'");
-    expect(ui).toContain("tab === 'REFERENCE'");
-    expect(ui).toContain("tab === 'IMPLEMENTATION'");
+    expect(ui).toContain("primaryTab === 'HISTORY'");
+    expect(ui).toContain("primaryTab === 'MORE'");
+    expect(ui).toContain("primaryTab === 'REFERENCES'");
+    expect(ui).toContain("primaryTab === 'ASSETS'");
   });
 
   it('30-31. URL state + new shell first paint', () => {
