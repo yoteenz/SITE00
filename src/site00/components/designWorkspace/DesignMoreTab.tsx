@@ -11,6 +11,7 @@ import { fetchFalProviderHealth } from './designAssetReconstructionApi';
 import type { DesignInstructionPreset } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr5/browserClient.js';
 import { DesignDwSectionIcon } from './DesignDwSectionIcon';
 import { MasterSkinEvolveProofPanel } from '../masterSkin/MasterSkinEvolveProofPanel';
+import { DesignReferenceReconstructionInspector } from './DesignReferenceReconstructionInspector.js';
 import '../../styles/site00-master-skin.css';
 
 type Props = {
@@ -233,6 +234,10 @@ export function DesignMoreTab({ projectId: _projectId, onOpenInspect, onCaptureS
           <span>REQUIRE FOUNDER APPROVAL (ASSET SPEND)</span>
           <strong className="is-on">ON</strong>
         </div>
+      </article>
+
+      <article className="site00-dw-v3-more__card site00-dw-v3-more__card--full">
+        <DesignReferenceReconstructionInspector />
       </article>
 
       <article className="site00-dw-v3-more__card">
