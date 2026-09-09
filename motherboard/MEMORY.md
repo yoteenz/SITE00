@@ -6974,3 +6974,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Gaps:** Full visual polish for all catalog skins not built; luxury-clinical proof UI lighter than clinical/cultural/technical; live onboarding not yet wired into ProjectSetupPage flow (standalone preview page exists).
 - **Next founder action:** Open `/projects/site00/master-skin-preview` → compare three Evolve proofs → run doctor onboarding step → verify CLINICAL EDITORIAL recommended.
 
+---
+
+## 2026-09-09 — Brand Family Skins Foundation (STUDIO WORLD sprint)
+
+- **Context:** Replace generic industry MasterSkin direction with brand-family-aware model. Five canonical families: NDXBOOK, FRONTAL_SLAYER, AIO, ASTRAL_WORLD, STUDIO_WORLD. Architecture + registry + screen authority framework only — **no final visual designs invented**.
+- **Principle:** SITE 00 host shell + project brand family skin + module variant + project data. Field ≠ skin. Color ≠ skin. Approved screen references define final UI (screen-by-screen workflow integrated with P0.VR.6/6R2).
+- **Implemented:**
+  - `shared/site00-brand-lore/projectSkin/brandFamily/` — BrandFamilySkin, BrandFamilySkinRegistry (5 families), ProjectExperienceSkin binding, SkinVisualAuthorityStatus, SkinScreenAuthority, BrandFamilySkinPack, ModuleFunctionalContract, SkinContinuityRecord, BrandSkinColorBinding, SkinScreenImplementationJob, typography firewall (Martian Mono + UPPERCASE), host firewall, distinctiveness/consistency/structural QA, migration preview/rollback, generic fallback when authority missing (`SKIN_SCREEN_AUTHORITY_REQUIRED`).
+  - NDXBOOK: `EXISTING_SKIN_TO_REFINE`, preserves legacy cultural-editorial bridge + specialized modules.
+  - API `/api/site00/brand-family-skin` — registry, get, authorities, QA, approve assignment, onboarding, approve authority, migration.
+  - UI — `ExperienceSkinManagementPanel` in Design → MORE (founder-only); screen pack status per family.
+  - Extended `ProjectExperienceSkin` with `brandFamilySkinId`; project map for five proof projects.
+  - Tests: `brandFamilySkinSystem.test.ts` (32 pass); master skin tests still pass (60 total).
+- **Gaps:** No approved screen authorities yet for FS/AIO/Astral/Studio — all show PROJECT OVERVIEW NOT STARTED. Final visual implementation waits for founder-approved references one screen at a time.
+- **Next founder action:** Design → MORE → EXPERIENCE SKIN → verify five family records + screen pack status → do NOT test auto-generated skins → create Project Overview visual authority for first brand family when ready.
+
