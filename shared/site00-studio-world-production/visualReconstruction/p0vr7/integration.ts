@@ -18,6 +18,7 @@ import { buildVisualCorrectionPlan } from './correctionPlan.js';
 import { buildExecutionFidelityHandoff } from './executionHandoff.js';
 import { runDesignReferenceScreenshotQA } from './screenshotQA.js';
 import type { DesignReferenceFidelityContract, ReferenceViewportAuthority } from './types.js';
+import { ensureConvergenceSessionForContract } from '../p0vr6r2/integration.js';
 
 export function ingestReferenceWithFidelityContract(input: {
   referenceId: string;
@@ -77,6 +78,10 @@ export function ingestReferenceWithFidelityContract(input: {
     viewportAuthorities: [viewportAuthority],
     status: 'INTERPRETATION_REVIEW',
   })!;
+
+  if (contract.authorityMode === 'DESIGN_AUTHORITY' && contract.fidelityMode === 'EXACT') {
+    ensureConvergenceSessionForContract(contract);
+  }
 
   return contract;
 }

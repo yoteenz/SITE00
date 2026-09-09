@@ -1,5 +1,5 @@
 /**
- * P0.VR.6 + Reference-Fidelity — Pages tab with coverage filters and visual cards.
+ * P0.VR.6R2 — Pages tab with visual verification status (not reference-exists = matched).
  */
 
 import { useMemo, useState } from 'react';
@@ -7,6 +7,7 @@ import {
   PAGE_STATUS_FILTERS,
   type PageStatusFilter,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6/index.js';
+import type { PageVisualVerificationStatus } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6r2/browserClient.js';
 import type { PageVisualIndexRow } from './DesignPagesVisualIndex';
 import { DesignDwSectionIcon } from './DesignDwSectionIcon';
 
@@ -15,39 +16,63 @@ type Props = {
   selectedScreenId: string;
   onSelectScreen: (screenId: string) => void;
   onOpenPage?: (screenId: string) => void;
+  visualStatusByScreenId?: Record<string, PageVisualVerificationStatus>;
 };
 
-function rowStatus(row: PageVisualIndexRow): PageStatusFilter | 'ALL PAGES' {
-  const hasRef = [row.mobile, row.tablet, row.desktop].some((s) => s?.publicUrl);
+function hasReference(row: PageVisualIndexRow): boolean {
+  return [row.mobile, row.tablet, row.desktop].some((s) => s?.publicUrl);
+}
+
+function rowStatus(
+  row: PageVisualIndexRow,
+  visualStatusByScreenId?: Record<string, PageVisualVerificationStatus>,
+): PageStatusFilter | 'ALL PAGES' {
+  const override = visualStatusByScreenId?.[row.screenId];
+  if (override) {
+    return override.replace(/_/g, ' ') as PageStatusFilter;
+  }
   if (row.missingImplementation) return 'MISSING REF';
-  if (hasRef) return 'MATCHED';
-  return 'IN PROGRESS';
+  if (!hasReference(row)) return 'MISSING REF';
+  return 'VISUAL QA';
 }
 
-function statusCount(rows: PageVisualIndexRow[], status: PageStatusFilter): number {
+function statusCount(
+  rows: PageVisualIndexRow[],
+  status: PageStatusFilter,
+  visualStatusByScreenId?: Record<string, PageVisualVerificationStatus>,
+): number {
   if (status === 'ALL PAGES') return rows.length;
-  return rows.filter((r) => rowStatus(r) === status).length;
+  return rows.filter((r) => rowStatus(r, visualStatusByScreenId) === status).length;
 }
 
-export function DesignPagesTabPanel({ rows, selectedScreenId, onSelectScreen, onOpenPage }: Props) {
+export function DesignPagesTabPanel({
+  rows,
+  selectedScreenId,
+  onSelectScreen,
+  onOpenPage,
+  visualStatusByScreenId,
+}: Props) {
   const [filter, setFilter] = useState<PageStatusFilter>('ALL PAGES');
   const [search, setSearch] = useState('');
 
   const filtered = useMemo(() => {
     const q = search.trim().toUpperCase();
     return rows.filter((row) => {
-      const status = rowStatus(row);
+      const status = rowStatus(row, visualStatusByScreenId);
       if (filter !== 'ALL PAGES' && status !== filter) return false;
       if (!q) return true;
       return `${row.displayName} ${row.screenId} ${row.routeFamily ?? ''}`.toUpperCase().includes(q);
     });
-  }, [rows, filter, search]);
+  }, [rows, filter, search, visualStatusByScreenId]);
 
-  const matchedCount = rows.filter((r) => rowStatus(r) === 'MATCHED').length;
-  const coveragePct = rows.length ? Math.round((matchedCount / rows.length) * 100) : 0;
+  const verifiedCount = rows.filter((r) => {
+    const s = rowStatus(r, visualStatusByScreenId);
+    return s === 'VERIFIED' || s === 'HIGH MATCH';
+  }).length;
+  const coveragePct = rows.length ? Math.round((verifiedCount / rows.length) * 100) : 0;
 
   const featured = filtered.find((r) => r.screenId === selectedScreenId) ?? filtered[0] ?? null;
-  const featuredStatus = featured ? rowStatus(featured) : null;
+  const featuredStatus = featured ? rowStatus(featured, visualStatusByScreenId) : null;
 
   return (
     <section className="site00-dw-v3-pages" data-design-tab="pages">
@@ -59,7 +84,7 @@ export function DesignPagesTabPanel({ rows, selectedScreenId, onSelectScreen, on
             className={`site00-dw-v3-chip${filter === chip ? ' is-filled' : ''}`}
             onClick={() => setFilter(chip)}
           >
-            {chip} ({statusCount(rows, chip)})
+            {chip} ({statusCount(rows, chip, visualStatusByScreenId)})
           </button>
         ))}
       </div>
@@ -133,7 +158,7 @@ export function DesignPagesTabPanel({ rows, selectedScreenId, onSelectScreen, on
 
       <div className="site00-dw-v3-pages__grid">
         {filtered.map((row) => {
-          const status = rowStatus(row);
+          const status = rowStatus(row, visualStatusByScreenId);
           return (
             <article
               key={row.screenId}
@@ -149,28 +174,22 @@ export function DesignPagesTabPanel({ rows, selectedScreenId, onSelectScreen, on
                 <span className={`site00-dw-v3-pages__status is-${status.replace(/\s+/g, '-').toLowerCase()}`}>{status}</span>
               </button>
               <div className="site00-dw-v3-pages__card-actions">
-                <button type="button" onClick={() => onOpenPage?.(row.screenId)}>
-                  OPEN PAGE
-                </button>
                 <button type="button">{status === 'MISSING REF' ? 'ADD REFERENCE' : 'VIEW REF'}</button>
+                <button type="button" onClick={() => onOpenPage?.(row.screenId)}>
+                  OPEN
+                </button>
               </div>
             </article>
           );
         })}
       </div>
 
-      <div className="site00-dw-v3-pages__coverage">
-        <span className="site00-dw-v3-pages__coverage-label">
-          <DesignDwSectionIcon iconId="coverage" /> PAGE COVERAGE {matchedCount} OF {rows.length} PAGES MATCHED
+      <footer className="site00-dw-v3-pages__footer">
+        <DesignDwSectionIcon iconId="coverage" />
+        <span>
+          {filtered.length} PAGES · {coveragePct}% VERIFIED (VISUAL QA REQUIRED FOR EXACT REFERENCES)
         </span>
-        <div className="site00-dw-v3-pages__coverage-bar">
-          <div style={{ width: `${coveragePct}%` }} />
-        </div>
-        <em>{coveragePct}%</em>
-        <button type="button" style={{ border: 'none', background: 'none', fontSize: 8, cursor: 'pointer' }}>
-          VIEW ALL →
-        </button>
-      </div>
+      </footer>
     </section>
   );
 }

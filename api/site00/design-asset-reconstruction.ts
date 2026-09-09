@@ -66,6 +66,17 @@ import {
   runFidelityQaIteration,
 } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr7/index.js';
 import { formatInterpretationSummary } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr7/implementationPlan.js';
+import {
+  founderVerifyVisualMatch,
+  getComparisonSession,
+  getComparisonSessionByContract,
+  getComparisonSessionByReference,
+  getExecutionEnvelopeForContract,
+  listComparisonSessions,
+  onImplementationComplete,
+  runVisualConvergenceIteration,
+  startVisualConvergenceForContract,
+} from '../../shared/site00-studio-world-production/visualReconstruction/p0vr6r2/index.js';
 
 const REPO_ROOT = join(process.cwd());
 
@@ -164,6 +175,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const contracts = listFidelityContracts(projectId ? { projectId } : undefined);
         return res.status(200).json({ ok: true, contracts });
       }
+      if (action === 'convergence_get') {
+        const sessionId = String(req.query.sessionId ?? '');
+        const contractId = String(req.query.contractId ?? '');
+        const referenceId = String(req.query.referenceId ?? '');
+        const session = sessionId
+          ? getComparisonSession(sessionId)
+          : contractId
+            ? getComparisonSessionByContract(contractId)
+            : referenceId
+              ? getComparisonSessionByReference(referenceId)
+              : null;
+        if (!session) return res.status(404).json({ ok: false, error: 'Session not found' });
+        const envelope = getExecutionEnvelopeForContract(session.contractId);
+        return res.status(200).json({ ok: true, session, envelope });
+      }
+      if (action === 'convergence_list') {
+        const projectId = String(req.query.projectId ?? '');
+        const sessions = listComparisonSessions(projectId ? { projectId } : undefined);
+        return res.status(200).json({ ok: true, sessions });
+      }
       return res.status(400).json({ ok: false, error: 'Unknown GET action' });
     }
 
@@ -234,6 +265,40 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         );
         if (!contract) return res.status(404).json({ ok: false, error: 'Contract not found' });
         return res.status(200).json({ ok: true, contract });
+      }
+      case 'convergence_start': {
+        const session = startVisualConvergenceForContract(String(body.contractId));
+        if (!session) return res.status(404).json({ ok: false, error: 'Contract not found or convergence not required' });
+        return res.status(200).json({ ok: true, session });
+      }
+      case 'convergence_run': {
+        const session = runVisualConvergenceIteration({
+          sessionId: String(body.sessionId),
+          referencePath: String(body.referencePath ?? '/reference.png'),
+          livePath: String(body.livePath ?? '/live.png'),
+          liveWidth: Number(body.liveWidth ?? 390),
+          liveHeight: Number(body.liveHeight ?? 844),
+          liveGeometryHints: body.liveGeometryHints,
+        });
+        if (!session) return res.status(404).json({ ok: false, error: 'Session not found' });
+        return res.status(200).json({ ok: true, session });
+      }
+      case 'convergence_implementation_complete': {
+        const result = onImplementationComplete({
+          contractId: String(body.contractId),
+          referencePath: String(body.referencePath ?? '/reference.png'),
+          livePath: String(body.livePath ?? '/live.png'),
+          liveWidth: Number(body.liveWidth ?? 390),
+          liveHeight: Number(body.liveHeight ?? 844),
+          liveGeometryHints: body.liveGeometryHints,
+        });
+        if (!result.contract) return res.status(404).json({ ok: false, error: 'Contract not found' });
+        return res.status(200).json({ ok: true, ...result });
+      }
+      case 'convergence_founder_verify': {
+        const session = founderVerifyVisualMatch(String(body.sessionId));
+        if (!session) return res.status(404).json({ ok: false, error: 'Session not found' });
+        return res.status(200).json({ ok: true, session });
       }
       case 'fidelity_ingest': {
         const contract = ingestReferenceWithFidelityContract({

@@ -5,6 +5,7 @@
 import { useEffect, useState } from 'react';
 import { requiresExplicitFounderDispatch } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr4/spendGuard.js';
 import { uploadNeverTriggersGeneration } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr5/spendGuard.js';
+import { DEFAULT_FIDELITY_SETTINGS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6r2/browserClient.js';
 import { listInstructionPresets } from './designAssetJobApi';
 import { fetchFalProviderHealth } from './designAssetReconstructionApi';
 import type { DesignInstructionPreset } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr5/browserClient.js';
@@ -195,6 +196,37 @@ export function DesignMoreTab({ onOpenInspect, onCaptureScreen, onMatchReference
           </label>
         </article>
       </div>
+
+      <article className="site00-dw-v3-more__card">
+        <div className="site00-dw-v3-more__section-head">
+          <div>
+            <SectionTitle iconId="eye" title="REFERENCE FIDELITY" />
+            <p>DEFAULT AUTHORITY, EXACT MODE, AND VISUAL CONVERGENCE POLICY.</p>
+          </div>
+        </div>
+        <div className="site00-dw-v3-more__rule-row">
+          <span>DEFAULT AUTHORITY</span>
+          <span>{DEFAULT_FIDELITY_SETTINGS.defaultAuthorityMode.replace(/_/g, ' ')} ›</span>
+        </div>
+        <div className="site00-dw-v3-more__rule-row">
+          <span>DEFAULT FIDELITY</span>
+          <span>{DEFAULT_FIDELITY_SETTINGS.defaultFidelityMode} ›</span>
+        </div>
+        <div className="site00-dw-v3-more__rule-row">
+          <span>MAX AUTO CORRECTION PASSES</span>
+          <span>{DEFAULT_FIDELITY_SETTINGS.maxAutoCorrectionPasses} ›</span>
+        </div>
+        <div className="site00-dw-v3-more__toggle-row">
+          <span>REQUIRE OVERLAY QA</span>
+          <strong className={DEFAULT_FIDELITY_SETTINGS.requireOverlayQa ? 'is-on' : 'is-off'}>
+            {DEFAULT_FIDELITY_SETTINGS.requireOverlayQa ? 'ON' : 'OFF'}
+          </strong>
+        </div>
+        <div className="site00-dw-v3-more__toggle-row">
+          <span>REQUIRE FOUNDER APPROVAL (ASSET SPEND)</span>
+          <strong className="is-on">ON</strong>
+        </div>
+      </article>
 
       <article className="site00-dw-v3-more__card">
         <div className="site00-dw-v3-more__section-head">
