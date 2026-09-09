@@ -7236,3 +7236,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining gaps:** Full desktop self-directed tab layouts (separate desktop authorities for Home/Projects/Profile) need deeper grid pass; Reviews/Inbox tabs reuse existing queue pages (not full authority rebuild this session); deterministic screenshot QA matrix not run; marketing-intelligence public lane is architectural only (no second service page UI).
 - **Next founder action:** Deploy v243 → mobile `/evolve` compare to Evolve service authority → desktop `/evolve/desktop` compare → sign into `/app/projects/:slug` → verify 5-tab shell → tap primary actions on Home/Projects/Profile.
 
+---
+
+## 2026-09-09 — P0.VR.6R9 Visual Convergence + Screen QA Matrix
+
+- **Context:** Architecture from v243 shipped (PR #635); sprint goal = converge live UI to approved authorities without rebuilding product model. Known gaps: desktop self-directed grids, Reviews/Inbox visual rebuild, screenshot QA matrix.
+- **Implemented:**
+  - **`shared/site00-evolve-self-directed/`** — `EvolveSelfDirectedScreenQAMatrix` (12 authorities × reference/live/overlay/diff/status), authority registry (6 screens × mobile/desktop), guards (NO-OP, PARTIAL-OP, DESKTOP_STRETCH, GENERIC_CHILD_UI).
+  - **Reviews rebuild** — `SelfDirectedReviewsView` + `SelfDirectedReviewDetailShell`; mobile queue cards + desktop 2-col grid with rail; replaces `ClientAppReviewQueueList` on queue page.
+  - **Inbox rebuild** — `SelfDirectedInboxView` + `SelfDirectedInboxThreadView` with thread messages + reply UI; not system notification list.
+  - **Desktop self-directed shell** — left sidebar nav at ≥1024px (`site00-app-side-nav`), independent desktop compositions for Home/Projects/Profile (not stretched mobile).
+  - **Profile edit** — `SelfDirectedProfileEditSheet` (mobile sheet / desktop modal) for `sd-profile-edit` child surface.
+  - **CSS** — `site00-self-directed-client.css` expanded (reviews, inbox, desktop grids, profile edit); `site00-client-app.css` desktop shell.
+  - **Tests:** `evolveSelfDirectedScreenQA.test.ts` (25 pass) + existing `evolveSelfDirectedProduct.test.ts` (20 pass).
+- **Remaining drift:** Pixel-level Evolve hub hero/footer pass; Reviews/Inbox authorities use nearest reference assets (no dedicated Reviews/Inbox mock in image pack); live snapshot captures + overlay/diff PNGs require founder deploy + manual QA matrix review; asset generation jobs not started (layout/typography converged without paid generation).
+- **Next founder action:** Deploy v244 → open screenshot QA matrix in tests/shared module → compare `/evolve` + `/evolve/desktop` → preview `/app/preview/preview-client-room` (or signed project) → verify Reviews/Inbox rebuild + desktop side nav → click primary action per tab.
+
