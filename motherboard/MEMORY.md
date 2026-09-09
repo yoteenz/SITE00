@@ -7008,3 +7008,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - Tests: `screenAuthorityIngestion.test.ts` (22 pass); 82 total skin tests pass.
 - **Next founder action:** Design → MORE → EXPERIENCE SKIN → NDXBOOK → PROJECT OVERVIEW → ADD AUTHORITY → upload mobile NDX overview → REGISTER → IMPLEMENT (not Assets → Instruct).
 
+---
+
+## 2026-09-09 — Design Workspace Project Selector Recovery
+
+- **Problem:** Top-right Design workspace project selector visually present but non-functional — stuck on PROJECT SITE 00; all tabs showed Site 00 data regardless of selection.
+- **Root cause:** `StudioWorldDesignWorkspace.tsx` used `const [projectId] = useState(resolveManagedProjectForDesignContext(...))` — initialized once, never updated on selector change. Breadcrumb hardcoded to SITE 00.
+- **Implemented:**
+  - `activeDesignProject.ts` — `resolveActiveDesignProjectId`, `listSelectableDesignProjects`, `formatDesignProjectSelectorLabel`, `buildDesignWorkspaceBreadcrumb`, failure codes (DESIGN_PROJECT_*), `assertNoDesignProjectDataBleed`.
+  - `DesignProjectSelector.tsx` — functional top-right dropdown wired to managed project registry (excludes DESIGN WORKSPACE / NEW PROJECT).
+  - `StudioWorldDesignWorkspace.tsx` — `activeDesignProjectId` from URL via `resolveActiveDesignProjectId`; `handleSelectDesignProject` updates URL + clears stale state; tab panels keyed by project (`pages-`, `refs-`, `assets-`, `history-`); tab preserved on switch.
+  - `ExperienceSkinManagementPanel` — scopes to `BRAND_FAMILY_PROJECT_MAP[projectId]`.
+  - `DesignMoreTab` — accepts `projectId` prop for project-scoped settings.
+  - Added `astral-world` to managed/design project registries.
+  - Tests: `designProjectSelector.test.ts` (22 pass); updated P0VR3M tests (35 total).
+- **Next founder action:** Design → tap PROJECT SITE 00 ▼ → select NDXBOOK → verify breadcrumb + Pages no longer show Site 00's 45 pages → MORE → EXPERIENCE SKIN → NDXBOOK → PROJECT OVERVIEW → ADD AUTHORITY → upload approved mobile NDX overview.
+
