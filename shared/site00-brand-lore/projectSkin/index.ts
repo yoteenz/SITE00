@@ -11,3 +11,4 @@ export * from './resolver.js';
 export * from './qa.js';
 export * from './migration.js';
 export * from './integration.js';
+export * from './brandFamily/index.js';

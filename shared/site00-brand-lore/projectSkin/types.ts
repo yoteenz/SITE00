@@ -204,6 +204,8 @@ export type ProjectSkinOverride = {
 
 export type ProjectExperienceSkin = {
   projectId: string;
+  /** Brand family skin (canonical when set). */
+  brandFamilySkinId?: string | null;
   masterSkinId: string;
   activeSkinVersion: string;
   fieldTags: FieldIndustryTag[];

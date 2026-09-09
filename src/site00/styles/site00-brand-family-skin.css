@@ -1,0 +1,117 @@
+.site00-bfs-management {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.site00-bfs-management__head {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.site00-bfs-management__head h3 {
+  margin: 0;
+  font-family: var(--site00-font-mono, 'Martian Mono', monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.site00-bfs-management__head p {
+  margin: 4px 0 0;
+  font-size: 11px;
+  opacity: 0.75;
+  text-transform: uppercase;
+}
+
+.site00-bfs-management__current {
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+}
+
+.site00-bfs-management__eyebrow {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  opacity: 0.65;
+  margin-bottom: 4px;
+}
+
+.site00-bfs-management__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.site00-bfs-management__family-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.site00-bfs-management__family-card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.site00-bfs-management__family-card header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.site00-bfs-management__swatch {
+  height: 4px;
+  border-radius: 2px;
+  margin-bottom: 8px;
+}
+
+.site00-bfs-management__family-card dl {
+  margin: 0 0 8px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 8px;
+}
+
+.site00-bfs-management__family-card dt {
+  opacity: 0.6;
+}
+
+.site00-bfs-management__screen-pack {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site00-bfs-management__screen-pack li {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.site00-bfs-management__screen-pack li[data-status='NOT_STARTED'] em {
+  opacity: 0.5;
+}
+
+.site00-bfs-management__screen-pack li[data-status='APPROVED'] em {
+  color: #b7d236;
+}
+
+.site00-bfs-management__authority-note {
+  font-size: 10px;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.site00-bfs-management__warn {
+  color: #eb1c24;
+  margin-top: 4px;
+}
