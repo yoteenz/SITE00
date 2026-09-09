@@ -88,6 +88,16 @@ describe('P0.VR.6 design workspace UX reconstruction', () => {
   it('29. failure classes registered', () => {
     expect(P0_VR_6_FAILURE_CODES).toContain('DESIGN_ACTIVITY_NOT_COLLAPSIBLE');
     expect(P0_VR_6_FAILURE_CODES).toContain('DESIGN_ASSETS_STAGE_STACKING');
+    expect(P0_VR_6_FAILURE_CODES).toContain('REFERENCE_FIDELITY_STEPPER_DRIFT');
+    expect(P0_VR_6_FAILURE_CODES).toContain('REFERENCE_FIDELITY_NOT_VISUALLY_VERIFIED');
+  });
+
+  it('31. reference-fidelity shell uses approved planet asset', () => {
+    const shell = read('src/site00/components/designWorkspace/Site00DesignWorkspaceShell.tsx');
+    expect(shell).toContain('ProjectsHeaderPlanet');
+    expect(shell).not.toContain('site00-dw-shell__hero-orbit');
+    expect(read('src/site00/styles/site00-design-workspace-v3.css')).toContain('site00-dw-v3-stepper');
+    expect(read('src/site00/styles/site00-design-workspace-v3.css')).toContain('grid-template-columns: repeat(7');
   });
 
   it('30. pipeline logic preserved in panel', () => {

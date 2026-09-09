@@ -16,6 +16,7 @@ import {
   DesignWorkspaceMoreIcon,
   DesignWorkspaceNavIcon,
 } from './DesignWorkspaceNavIcon';
+import { ProjectsHeaderPlanet } from '../projectIndex/ProjectsHeaderPlanet';
 
 export type Site00DesignWorkspaceShellProps = {
   breadcrumb: string;
@@ -164,18 +165,10 @@ export function Site00DesignWorkspaceShell({
         </header>
 
         <header className="site00-dw-shell__project-header">
-          <div className="site00-dw-shell__project-row">
+          <div className="site00-dw-shell__project-row site00-dw-shell__project-row--desktop">
             <div className="site00-dw-shell__project-title">
               <span>SITE 00</span>
               <span className="site00-dw-shell__project-diamond site00-dw-shell__project-diamond--host" aria-hidden />
-            </div>
-            <div
-              className="site00-dw-shell__project-context-badge"
-              data-project-accent={managedProjectAccent}
-              aria-label={`Managed project context ${managedProjectDisplayName}`}
-            >
-              <span className="site00-dw-shell__project-context-label">PROJECT</span>
-              <span className="site00-dw-shell__project-context-name">{managedProjectDisplayName}</span>
             </div>
             <div className="site00-dw-shell__project-actions site00-dw-shell__project-actions--desktop">
               <HostIconButton
@@ -199,15 +192,26 @@ export function Site00DesignWorkspaceShell({
               </HostIconButton>
             </div>
           </div>
-          <p className="site00-dw-shell__breadcrumb">{breadcrumb}</p>
-          <h1 className="site00-dw-shell__title">DESIGN RECONSTRUCTION</h1>
-          <p className="site00-dw-shell__subtitle">{DESIGN_WORKSPACE_SUBTITLE}</p>
-          <div className="site00-dw-shell__hero-orbit" aria-hidden>
-            <svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="44" cy="44" r="18" fill="rgba(232,25,44,0.85)" />
-              <ellipse cx="44" cy="44" rx="36" ry="12" stroke="#ccc" strokeWidth="1" transform="rotate(-20 44 44)" />
-              <ellipse cx="44" cy="44" rx="36" ry="12" stroke="#ddd" strokeWidth="1" transform="rotate(35 44 44)" />
-            </svg>
+          <div className="site00-dw-shell__breadcrumb-row">
+            <p className="site00-dw-shell__breadcrumb">{breadcrumb}</p>
+            <div
+              className="site00-dw-shell__project-context-badge"
+              data-project-accent={managedProjectAccent}
+              aria-label={`Managed project context ${managedProjectDisplayName}`}
+            >
+              <span className="site00-dw-shell__project-context-label">PROJECT</span>
+              <span className="site00-dw-shell__project-context-name">{managedProjectDisplayName}</span>
+              <span className="site00-dw-shell__project-context-chev" aria-hidden>
+                ▾
+              </span>
+            </div>
+          </div>
+          <div className="site00-dw-shell__hero-block">
+            <div className="site00-dw-shell__hero-copy">
+              <h1 className="site00-dw-shell__title">DESIGN RECONSTRUCTION</h1>
+              <p className="site00-dw-shell__subtitle">{DESIGN_WORKSPACE_SUBTITLE}</p>
+            </div>
+            <ProjectsHeaderPlanet className="site00-dw-shell__hero-planet" />
           </div>
         </header>
 

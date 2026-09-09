@@ -10,7 +10,6 @@ import {
   type AssetJobPlanSummary,
   type DesignInstructionPreset,
   type DetectedAssetCandidate,
-  type ReconstructedAssetVersion,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr5/browserClient.js';
 import {
   addJobSourceUpload,
@@ -58,6 +57,10 @@ export function DesignAssetJobWorkspace({
   const [uploadPreview, setUploadPreview] = useState<string | null>(null);
   const [viewStep, setViewStep] = useState<string>('UPLOAD');
   const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(null);
+  const [activeQuickPreset, setActiveQuickPreset] = useState<string>('ISOLATE ICON');
+  const [selectedProvider, setSelectedProvider] = useState('GPT IMAGE 2 EDIT (PRIMARY)');
+  const [selectedOutputCandidate, setSelectedOutputCandidate] = useState('A');
+  const [alternateCrop, setAlternateCrop] = useState('A');
 
   useEffect(() => {
     void listInstructionPresets().then((res) => {
@@ -286,56 +289,36 @@ export function DesignAssetJobWorkspace({
     }
   }, [job, instruction]);
 
-  const renderCandidate = (candidate: DetectedAssetCandidate) => (
-    <article key={candidate.candidateId} className="site00-dw-job-candidate">
-      <div className="site00-dw-job-candidate__preview">
+  const sourceUpload = job?.sourceUploads[0];
+  const sourceMeta = sourceUpload
+    ? `${sourceUpload.imageWidth ?? '—'} × ${sourceUpload.imageHeight ?? '—'}`
+    : '—';
+
+  const renderDetectCard = (candidate: DetectedAssetCandidate) => (
+    <article key={candidate.candidateId} className="site00-dw-v3-detect-card">
+      <span
+        className={`site00-dw-v3-detect-card__check${candidate.founderDecision === 'CONFIRMED' ? ' is-on' : ''}`}
+        aria-hidden
+      >
+        {candidate.founderDecision === 'CONFIRMED' ? '✓' : ''}
+      </span>
+      <div className="site00-dw-v3-detect-card__preview">
         {uploadPreview ? (
           <div
-            className="site00-dw-job-candidate__crop-frame"
             style={{
+              width: '100%',
+              height: '100%',
               backgroundImage: `url(${uploadPreview})`,
-              backgroundPosition: `-${candidate.boundingBox.x}px -${candidate.boundingBox.y}px`,
-              backgroundSize: `${job?.sourceUploads[0]?.imageWidth ?? 946}px ${job?.sourceUploads[0]?.imageHeight ?? 667}px`,
-              width: Math.min(candidate.boundingBox.width, 120),
-              height: Math.min(candidate.boundingBox.height, 120),
+              backgroundPosition: `-${candidate.boundingBox.x * 0.15}px -${candidate.boundingBox.y * 0.15}px`,
+              backgroundSize: `${(job?.sourceUploads[0]?.imageWidth ?? 946) * 0.15}px`,
             }}
           />
-        ) : (
-          <span>CROP {candidate.orderIndex + 1}</span>
-        )}
+        ) : null}
       </div>
-      <div className="site00-dw-job-candidate__meta">
-        <strong>{candidate.classification}</strong>
-        <span>SEQ {candidate.orderIndex + 1}</span>
-        <span>CONF {(candidate.confidence * 100).toFixed(0)}%</span>
-        <span>{candidate.founderDecision}</span>
-        {candidate.lowConfidenceBlock ? <span className="site00-dw-job-candidate__warn">LOW CONF</span> : null}
-      </div>
-      <div className="site00-dw-job-candidate__actions">
-        <button type="button" onClick={() => void handleCropAction(candidate.candidateId, 'CONFIRM')}>
-          CONFIRM
-        </button>
-        <button type="button" onClick={() => void handleCropAction(candidate.candidateId, 'REJECT')}>
-          REJECT
-        </button>
-        <button type="button" onClick={() => void handleCropAction(candidate.candidateId, 'SKIP')}>
-          SKIP
-        </button>
-      </div>
-    </article>
-  );
-
-  const renderVersion = (version: ReconstructedAssetVersion) => (
-    <article key={version.versionId} className="site00-dw-job-output">
-      <div className="site00-dw-job-output__thumb">
-        {version.outputUrl ? <img src={version.outputUrl} alt="" /> : <span>PENDING</span>}
-      </div>
-      <div className="site00-dw-job-output__meta">
-        <span>{version.provider}</span>
-        <span>{version.approvalState}</span>
-        <span>{version.uploadState}</span>
-        <span>{version.bindState}</span>
-      </div>
+      <strong>{candidate.classification.toUpperCase()}</strong>
+      <span>
+        {candidate.classification.toUpperCase()} · CONF {(candidate.confidence * 100).toFixed(0)}%
+      </span>
     </article>
   );
 
@@ -383,11 +366,36 @@ export function DesignAssetJobWorkspace({
                 </button>
               ) : null}
             </div>
-            {uploadPreview ? (
-              <div className="site00-dw-v3-upload-preview">
-                <img src={uploadPreview} alt="Uploaded reference" />
+            <div className="site00-dw-v3-recent-uploads">
+              <div className="site00-dw-v3-recent-uploads__head">
+                <strong>RECENT UPLOADS</strong>
+                <button type="button">VIEW ALL →</button>
               </div>
-            ) : null}
+              <div className="site00-dw-v3-recent-uploads__rail">
+                {job?.sourceUploads.length ? (
+                  job.sourceUploads.slice(0, 5).map((u) => (
+                    <div key={u.uploadId} className="site00-dw-v3-recent-uploads__thumb">
+                      {uploadPreview ? <img src={uploadPreview} alt="" /> : <div />}
+                      <time>{new Date().toLocaleDateString()}</time>
+                      <span>{u.fileName?.replace(/\.[^.]+$/, '') ?? 'UPLOAD'}</span>
+                    </div>
+                  ))
+                ) : (
+                  <div className="site00-dw-v3-recent-uploads__thumb">
+                    <div aria-hidden />
+                    <span>NO UPLOADS YET</span>
+                  </div>
+                )}
+              </div>
+            </div>
+            <button type="button" className="site00-dw-v3-preset-strip">
+              <span aria-hidden>📄</span>
+              <div>
+                <strong>INSTRUCTION PRESETS</strong>
+                <span>QUICK START WITH SAVED INSTRUCTIONS</span>
+              </div>
+              <span className="site00-dw-v3-preset-strip__chev">▾</span>
+            </button>
             <div className="site00-dw-v3-stage__actions">
               <button
                 type="button"
@@ -413,12 +421,16 @@ export function DesignAssetJobWorkspace({
             {uploadPreview ? (
               <div className="site00-dw-v3-asset-preview-card">
                 <img src={uploadPreview} alt="" />
+                <span className="site00-dw-v3-asset-preview-card__check" aria-hidden>
+                  ✓
+                </span>
                 <div>
-                  <strong>{job?.sourceUploads[0]?.fileName?.toUpperCase() ?? 'SCREENSHOT.PNG'}</strong>
-                  <span>
-                    {job?.sourceUploads[0]?.imageWidth ?? '—'} × {job?.sourceUploads[0]?.imageHeight ?? '—'}
-                  </span>
+                  <strong>{sourceUpload?.fileName?.toUpperCase() ?? 'SCREENSHOT.PNG'}</strong>
+                  <span>{sourceMeta}</span>
                 </div>
+                <button type="button" className="site00-dw-v3-asset-preview-card__trash" aria-label="Remove upload">
+                  🗑
+                </button>
               </div>
             ) : null}
             <label className="site00-dw-v3-field">
@@ -452,23 +464,26 @@ export function DesignAssetJobWorkspace({
               />
               <em>{instruction.length}/500</em>
             </label>
-            <div className="site00-dw-v3-chip-row">
+            <div className="site00-dw-v3-chip-row site00-dw-v3-chip-row--scroll">
               {QUICK_PRESETS.map((chip) => (
                 <button
                   key={chip}
                   type="button"
-                  className={`site00-dw-v3-chip${instruction.includes(chip) ? ' is-active' : ''}`}
-                  onClick={() => setInstruction((prev) => (prev ? `${prev} ${chip}` : chip))}
+                  className={`site00-dw-v3-chip${activeQuickPreset === chip ? ' is-active' : ''}`}
+                  onClick={() => {
+                    setActiveQuickPreset(chip);
+                    setInstruction((prev) => (prev ? `${prev} ${chip}` : chip));
+                  }}
                 >
                   {chip}
                 </button>
               ))}
             </div>
             <div className="site00-dw-v3-stage__actions site00-dw-v3-stage__actions--split">
-              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" disabled={busy || !instruction.trim()} onClick={() => void handleInstructionSubmit()}>
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact" disabled={busy || !instruction.trim()} onClick={() => void handleInstructionSubmit()}>
                 SAVE INSTRUCTION
               </button>
-              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" disabled={!instruction.trim()} onClick={() => void handleSavePreset()}>
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact" disabled={!instruction.trim()} onClick={() => void handleSavePreset()}>
                 SAVE AS PRESET
               </button>
               <button
@@ -499,7 +514,11 @@ export function DesignAssetJobWorkspace({
             {uploadPreview ? (
               <div className="site00-dw-v3-source-card">
                 <img src={uploadPreview} alt="Source screenshot" />
-                <span>SOURCE SCREENSHOT</span>
+                <div>
+                  <strong>SOURCE SCREENSHOT</strong>
+                  <span>{sourceUpload?.fileName?.toUpperCase() ?? 'SCREENSHOT.PNG'}</span>
+                  <span>{sourceMeta}</span>
+                </div>
               </div>
             ) : null}
             <div className="site00-dw-v3-detect-summary">
@@ -512,8 +531,8 @@ export function DesignAssetJobWorkspace({
                 <span>{job?.multiAsset ? 'MULTI-ASSET JOB' : 'SINGLE ASSET'}</span>
               </div>
               <div>
-                <strong>{detectedCount > 0 ? 'READY' : '—'}</strong>
-                <span>FOR CROP</span>
+                <strong>{detectedCount > 0 ? '✓' : '—'}</strong>
+                <span>READY FOR CROP</span>
               </div>
             </div>
             {!job?.detectedRegions.length ? (
@@ -521,9 +540,27 @@ export function DesignAssetJobWorkspace({
                 RUN DETECTION
               </button>
             ) : (
-              <div className="site00-dw-v3-detect-grid">{job.detectedRegions.map(renderCandidate)}</div>
+              <div className="site00-dw-v3-detect-grid">{job.detectedRegions.map(renderDetectCard)}</div>
             )}
-            <div className="site00-dw-v3-stage__actions">
+            <div className="site00-dw-v3-chip-row site00-dw-v3-chip-row--scroll">
+              {QUICK_PRESETS.slice(0, 3).map((chip) => (
+                <button
+                  key={chip}
+                  type="button"
+                  className={`site00-dw-v3-chip${activeQuickPreset === chip ? ' is-active' : ''}`}
+                  onClick={() => setActiveQuickPreset(chip)}
+                >
+                  {chip}
+                </button>
+              ))}
+            </div>
+            <div className="site00-dw-v3-stage__actions site00-dw-v3-stage__actions--split">
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact">
+                SAVE DETECTION
+              </button>
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact" disabled={!instruction.trim()} onClick={() => void handleSavePreset()}>
+                SAVE AS PRESET
+              </button>
               <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled={!detectedCount} onClick={() => setViewStep('CONFIRM_CROP')}>
                 NEXT: CONFIRM CROPS →
               </button>
@@ -540,40 +577,90 @@ export function DesignAssetJobWorkspace({
               </h2>
               <p>APPROVE EACH CROP BEFORE RECONSTRUCTION.</p>
             </header>
-            <p className="site00-dw-v3-crop-progress">
-              {approvedCropCount} OF {detectedCount || 0} CROPS APPROVED
-            </p>
+            <div className="site00-dw-v3-crop-progress">
+              <span>
+                {approvedCropCount} OF {detectedCount || 0} CROPS APPROVED
+              </span>
+              <div className="site00-dw-v3-crop-progress__bar">
+                <div style={{ width: `${detectedCount ? (approvedCropCount / detectedCount) * 100 : 0}%` }} />
+              </div>
+            </div>
             <div className="site00-dw-v3-crop-queue">
               {job?.detectedRegions.map((c) => (
                 <button
                   key={c.candidateId}
                   type="button"
-                  className={`site00-dw-v3-crop-tab${selectedCandidateId === c.candidateId ? ' is-active' : ''}`}
+                  className={`site00-dw-v3-crop-tab${(selectedCandidateId ?? job.detectedRegions[0]?.candidateId) === c.candidateId ? ' is-active' : ''}`}
                   onClick={() => setSelectedCandidateId(c.candidateId)}
                 >
                   {c.classification.toUpperCase()}
+                  <br />
+                  1 CROP
                 </button>
               ))}
             </div>
             {job?.detectedRegions.length ? (
               <div className="site00-dw-v3-crop-workspace">
-                <div className="site00-dw-v3-crop-source">{uploadPreview ? <img src={uploadPreview} alt="" /> : null}</div>
-                <div className="site00-dw-v3-crop-preview site00-dw-v3-checkerboard">
-                  {job.detectedRegions
-                    .filter((c) => !selectedCandidateId || c.candidateId === selectedCandidateId)
-                    .slice(0, 1)
-                    .map(renderCandidate)}
+                <div className="site00-dw-v3-crop-source">
+                  <div className="site00-dw-v3-crop-label">SOURCE IMAGE · {sourceMeta}</div>
+                  {uploadPreview ? <img src={uploadPreview} alt="" /> : null}
+                </div>
+                <div className="site00-dw-v3-crop-preview">
+                  <div className="site00-dw-v3-crop-label">
+                    CROP PREVIEW ·{' '}
+                    {job.detectedRegions.find((c) => c.candidateId === (selectedCandidateId ?? job.detectedRegions[0]?.candidateId))?.classification.toUpperCase() ?? 'ASSET'}
+                  </div>
+                  <div className="site00-dw-v3-checkerboard">
+                    {uploadPreview ? (
+                      <div
+                        style={{
+                          width: 80,
+                          height: 80,
+                          backgroundImage: `url(${uploadPreview})`,
+                          backgroundSize: 'cover',
+                        }}
+                      />
+                    ) : null}
+                  </div>
                 </div>
               </div>
             ) : (
               <p>RUN DETECTION FIRST.</p>
             )}
-            <p className="site00-dw-v3-safety-note">ⓘ NO GENERATION HAPPENS BEFORE CROP APPROVAL.</p>
+            <div className="site00-dw-v3-alternate-crops">
+              {(['A', 'B', 'C'] as const).map((label) => (
+                <button
+                  key={label}
+                  type="button"
+                  className={`site00-dw-v3-alternate-crops__item${alternateCrop === label ? ' is-active' : ''}`}
+                  onClick={() => setAlternateCrop(label)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
             <div className="site00-dw-v3-stage__actions site00-dw-v3-stage__actions--split">
-              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled={busy} onClick={() => void handleConfirmAllCrops()}>
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary site00-dw-v3-btn--compact" disabled={busy} onClick={() => void handleConfirmAllCrops()}>
                 APPROVE CROP
               </button>
-              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" disabled={busy || !job?.cropsConfirmed} onClick={() => void handleReconstruct()}>
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact">
+                ADJUST BOX
+              </button>
+              <button
+                type="button"
+                className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+                disabled={!selectedCandidateId && !job?.detectedRegions[0]?.candidateId}
+                onClick={() => {
+                  const id = selectedCandidateId ?? job?.detectedRegions[0]?.candidateId;
+                  if (id) void handleCropAction(id, 'SKIP');
+                }}
+              >
+                SKIP ASSET
+              </button>
+            </div>
+            <p className="site00-dw-v3-safety-note">ⓘ NO GENERATION HAPPENS BEFORE CROP APPROVAL.</p>
+            <div className="site00-dw-v3-stage__actions">
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled={busy || !job?.cropsConfirmed} onClick={() => setViewStep('RECONSTRUCT')}>
                 NEXT: RECONSTRUCT →
               </button>
             </div>
@@ -590,24 +677,83 @@ export function DesignAssetJobWorkspace({
               <p>REBUILD THE ASSET WITH CONTROLLED PROVIDER DISPATCH.</p>
             </header>
             <div className="site00-dw-v3-reconstruct-previews">
-              <div className="site00-dw-v3-checkerboard">{uploadPreview ? <img src={uploadPreview} alt="Approved crop" /> : null}</div>
-              <div className="site00-dw-v3-checkerboard">
-                {job?.reconstructedVersions[0]?.outputUrl ? (
-                  <img src={job.reconstructedVersions[0].outputUrl} alt="Output" />
-                ) : (
-                  <span>OUTPUT PENDING</span>
-                )}
+              <div className="site00-dw-v3-preview-pane">
+                <div className="site00-dw-v3-preview-pane__label">APPROVED CROP · {sourceMeta}</div>
+                <div className="site00-dw-v3-checkerboard">{uploadPreview ? <img src={uploadPreview} alt="Approved crop" /> : null}</div>
+              </div>
+              <div className="site00-dw-v3-preview-pane">
+                <div className="site00-dw-v3-preview-pane__label">OUTPUT · TRANSPARENT</div>
+                <div className="site00-dw-v3-checkerboard">
+                  {job?.reconstructedVersions[0]?.outputUrl ? (
+                    <img src={job.reconstructedVersions[0].outputUrl} alt="Output" />
+                  ) : (
+                    <span style={{ fontSize: 8 }}>OUTPUT PENDING</span>
+                  )}
+                </div>
               </div>
             </div>
-            <div className="site00-dw-v3-dispatch-meta">
-              <span>DISPATCH COUNT: {job?.dispatchCounts.executed ?? 0} / {job?.dispatchCounts.planned ?? 1}</span>
-              <span>SPEND GUARD: 1 PRIMARY DISPATCH MAX</span>
+            <div className="site00-dw-v3-provider-row">
+              {['GPT IMAGE 2 EDIT (PRIMARY)', 'IDEOGRAM', 'PIXELCUT', 'FAL AUTO'].map((p) => (
+                <button
+                  key={p}
+                  type="button"
+                  className={`site00-dw-v3-provider-chip${selectedProvider === p ? ' is-active' : ''}`}
+                  onClick={() => setSelectedProvider(p)}
+                >
+                  {p}
+                </button>
+              ))}
             </div>
-            <div className="site00-dw-v3-stage__actions">
+            <div className="site00-dw-v3-option-chips">
+              {['NO BACKGROUND', 'PRESERVE GEOMETRY', 'HIGH FIDELITY'].map((opt) => (
+                <span key={opt} className="site00-dw-v3-option-chip">
+                  ✓ {opt}
+                </span>
+              ))}
+            </div>
+            <label className="site00-dw-v3-field">
+              <span>PROMPT</span>
+              <textarea
+                readOnly
+                value={instruction || 'GENERATE THIS ICON BY ITSELF WITH NO BACKGROUND.'}
+                rows={2}
+              />
+              <em>{(instruction || 'GENERATE THIS ICON BY ITSELF WITH NO BACKGROUND.').length}/500</em>
+            </label>
+            <div className="site00-dw-v3-sub-stepper">
+              <span className="is-done">✓ CROP APPROVED</span>
+              <span className={job?.reconstructedVersions.length ? 'is-done' : 'is-active'}>
+                {job?.reconstructedVersions.length ? '✓' : '◉'} GENERATING
+              </span>
+              <span>BACKGROUND CHECK</span>
+              <span>READY FOR REVIEW</span>
+            </div>
+            <div className="site00-dw-v3-dispatch-meta">
+              <span>DISPATCH COUNT ({job?.dispatchCounts.executed ?? 0} / {job?.dispatchCounts.planned ?? 1})</span>
+              <span>🛡 SPEND GUARD</span>
+            </div>
+            <div className="site00-dw-v3-job-queue">
+              {(job?.detectedRegions.length ? job.detectedRegions : [{ candidateId: 'placeholder' }]).slice(0, 4).map((c, i) => (
+                <div key={c.candidateId} className={`site00-dw-v3-job-queue__thumb${i === 0 ? ' is-active' : ''}`}>
+                  {uploadPreview ? (
+                    <img src={uploadPreview} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ) : null}
+                </div>
+              ))}
+            </div>
+            <div className="site00-dw-v3-stage__actions site00-dw-v3-stage__actions--split">
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact" disabled={!instruction.trim()} onClick={() => void handleSavePreset()}>
+                SAVE AS PRESET
+              </button>
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact">
+                VIEW FULL QUEUE
+              </button>
               <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled={busy || !job?.cropsConfirmed} onClick={() => void handleReconstruct()}>
                 RUN RECONSTRUCTION
               </button>
-              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" disabled={!job?.reconstructedVersions.length} onClick={() => setViewStep('APPROVE')}>
+            </div>
+            <div className="site00-dw-v3-stage__actions">
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled={!job?.reconstructedVersions.length} onClick={() => setViewStep('APPROVE')}>
                 NEXT: APPROVE OUTPUT →
               </button>
             </div>
@@ -623,22 +769,64 @@ export function DesignAssetJobWorkspace({
               </h2>
               <p>COMPARE, CHOOSE, AND GREENLIGHT THE FINAL ASSET.</p>
             </header>
-            <div className="site00-dw-v3-reconstruct-previews">
-              <div className="site00-dw-v3-checkerboard">{uploadPreview ? <img src={uploadPreview} alt="Source crop" /> : null}</div>
-              <div className="site00-dw-v3-checkerboard">
-                {job?.reconstructedVersions.map(renderVersion)}
+            <div className="site00-dw-v3-approve-compare">
+              <div className="site00-dw-v3-checkerboard-wrap">
+                <div className="site00-dw-v3-checkerboard">{uploadPreview ? <img src={uploadPreview} alt="Source crop" /> : null}</div>
+                <span className="site00-dw-v3-checkerboard__dim">{sourceMeta}</span>
+              </div>
+              <button type="button" className="site00-dw-v3-approve-swap" aria-label="Swap comparison">
+                ⇅
+              </button>
+              <div className="site00-dw-v3-checkerboard-wrap">
+                <div className="site00-dw-v3-checkerboard">
+                  {job?.reconstructedVersions[0]?.outputUrl ? (
+                    <img src={job.reconstructedVersions[0].outputUrl} alt="Final asset" />
+                  ) : (
+                    <span style={{ fontSize: 8 }}>PENDING</span>
+                  )}
+                </div>
+                <span className="site00-dw-v3-checkerboard__dim">{sourceMeta}</span>
               </div>
             </div>
+            <div className="site00-dw-v3-candidates">
+              {(['A', 'B', 'C'] as const).map((label) => (
+                <button
+                  key={label}
+                  type="button"
+                  className={`site00-dw-v3-candidate${selectedOutputCandidate === label ? ' is-active' : ''}`}
+                  onClick={() => setSelectedOutputCandidate(label)}
+                >
+                  {selectedOutputCandidate === label ? <span className="site00-dw-v3-candidate__badge">{label}</span> : null}
+                  {label}
+                </button>
+              ))}
+            </div>
+            <div className="site00-dw-v3-quality-list">
+              <span style={{ fontSize: 8, marginRight: 4 }}>QUALITY CHECKLIST 4/4</span>
+              {['CLEAN EDGES', 'NO BACKGROUND', 'SHAPE MATCH', 'READY TO REPLACE'].map((q) => (
+                <span key={q} className="site00-dw-v3-quality-pill">
+                  ✓ {q}
+                </span>
+              ))}
+            </div>
             <div className="site00-dw-v3-stage__actions site00-dw-v3-stage__actions--split">
-              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled={busy} onClick={() => void handleApproveAll()}>
-                APPROVE
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary site00-dw-v3-btn--compact" disabled={busy} onClick={() => void handleApproveAll()}>
+                ✓ APPROVE
               </button>
-              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" disabled={busy || !job?.cropsConfirmed} onClick={() => void handleReconstruct()}>
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact" disabled={busy || !job?.cropsConfirmed} onClick={() => void handleReconstruct()}>
                 REGENERATE
               </button>
-              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={() => setViewStep('CONFIRM_CROP')}>
-                BACK TO CROP
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact" onClick={() => setViewStep('CONFIRM_CROP')}>
+                ← BACK TO CROP
               </button>
+            </div>
+            <div className="site00-dw-v3-asset-queue">
+              {(job?.detectedRegions.length ? job.detectedRegions : [{ candidateId: 'x', classification: 'ASSET' }]).map((c, i) => (
+                <div key={c.candidateId} className={`site00-dw-v3-asset-queue__item${i === 0 ? ' is-approved' : ''}`}>
+                  <strong>{c.classification.toUpperCase()}</strong>
+                  <span>{i === 0 ? 'APPROVED' : 'PENDING'}</span>
+                </div>
+              ))}
             </div>
           </div>
         );
@@ -652,14 +840,80 @@ export function DesignAssetJobWorkspace({
               </h2>
               <p>PUBLISH THE APPROVED ASSET INTO THE PAGE SYSTEM.</p>
             </header>
-            <div className="site00-dw-v3-live-grid">
-              {job?.reconstructedVersions.filter((v) => v.bindState === 'BOUND').length ? (
-                job.reconstructedVersions.filter((v) => v.bindState === 'BOUND').map(renderVersion)
-              ) : (
-                <p>APPROVE AND BIND ASSETS TO GO LIVE.</p>
-              )}
+            <div className="site00-dw-v3-live-hero">
+              <div className="site00-dw-v3-live-preview">
+                {job?.reconstructedVersions[0]?.outputUrl || uploadPreview ? (
+                  <img src={job?.reconstructedVersions[0]?.outputUrl ?? uploadPreview ?? ''} alt="" />
+                ) : (
+                  <div className="site00-dw-v3-checkerboard" style={{ width: 80, height: 80 }} />
+                )}
+                {job?.reconstructedVersions.some((v) => v.bindState === 'BOUND') ? (
+                  <span className="site00-dw-v3-live-badge">✓ LIVE</span>
+                ) : null}
+              </div>
+              <div className="site00-dw-v3-live-tiles">
+                <div className="site00-dw-v3-live-tile">
+                  <strong>ASSET NAME</strong>
+                  {job?.detectedRegions[0]?.classification.toUpperCase() ?? '—'}
+                </div>
+                <div className="site00-dw-v3-live-tile">
+                  <strong>SUPABASE STORED</strong>
+                  {job?.reconstructedVersions.some((v) => v.uploadState === 'UPLOADED') ? '✓ YES' : '—'}
+                </div>
+                <div className="site00-dw-v3-live-tile">
+                  <strong>LINKED PAGE</strong>
+                  {route.toUpperCase()}
+                </div>
+                <div className="site00-dw-v3-live-tile">
+                  <strong>LAST UPDATED</strong>
+                  BY SYSTEM
+                </div>
+              </div>
             </div>
-            <div className="site00-dw-v3-stage__actions">
+            <div className="site00-dw-v3-replace-compare">
+              <div className="site00-dw-v3-replace-compare__pane">
+                <span className="is-before">BEFORE</span>
+                <div className="site00-dw-v3-pages__empty-thumb" style={{ maxWidth: 100, margin: '0 auto' }} />
+              </div>
+              <span aria-hidden>→</span>
+              <div className="site00-dw-v3-replace-compare__pane">
+                <span className="is-after">AFTER</span>
+                <div className="site00-dw-v3-checkerboard" style={{ maxWidth: 100, margin: '0 auto', minHeight: 60 }}>
+                  {job?.reconstructedVersions[0]?.outputUrl ? (
+                    <img src={job.reconstructedVersions[0].outputUrl} alt="" />
+                  ) : null}
+                </div>
+              </div>
+            </div>
+            <div className="site00-dw-v3-replacement-map">
+              <div className={`site00-dw-v3-replacement-map__row${job?.reconstructedVersions.some((v) => v.bindState === 'BOUND') ? ' is-done' : ''}`}>
+                <span>PROJECTS HEADER</span>
+                <span>{job?.reconstructedVersions.some((v) => v.bindState === 'BOUND') ? '✓ UPDATED' : 'PENDING'}</span>
+              </div>
+              <div className="site00-dw-v3-replacement-map__row">
+                <span>MOBILE PAGE</span>
+                <span>PENDING</span>
+              </div>
+              <div className="site00-dw-v3-replacement-map__row">
+                <span>DESKTOP PAGE</span>
+                <span>PENDING</span>
+              </div>
+            </div>
+            <div className="site00-dw-v3-multi-progress">
+              <span>
+                {approvedCropCount} OF {detectedCount || 1} COMPLETE
+              </span>
+              <div className="site00-dw-v3-multi-progress__bar">
+                <div style={{ width: `${detectedCount ? (approvedCropCount / detectedCount) * 100 : 0}%` }} />
+              </div>
+            </div>
+            <div className="site00-dw-v3-stage__actions site00-dw-v3-stage__actions--split">
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact">
+                VIEW LIVE PAGE
+              </button>
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact">
+                OPEN ASSET LIBRARY
+              </button>
               <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled={busy} onClick={() => void handleApproveAll()}>
                 REPLACE NEXT ASSET →
               </button>
