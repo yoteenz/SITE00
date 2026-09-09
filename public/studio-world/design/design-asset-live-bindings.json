@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "site00-design-asset-live-bindings@1",
+  "updatedAt": "2026-09-09T00:29:14.241Z",
+  "slots": [
+    {
+      "slotId": "site00:projects-index:header-planet-icon",
+      "projectId": "site00",
+      "pageId": "projects-index",
+      "route": "/projects",
+      "componentPath": "src/site00/pages/ProjectsPage.tsx",
+      "componentName": "ProjectsPage",
+      "assetSlot": "header-planet-icon",
+      "currentVersion": 1,
+      "currentStoragePath": "design-assets/site00/projects-index/hero_object/projects-header-planet/v001.png",
+      "previousStoragePath": null,
+      "assetId": "dra-site00-projects-header-planet-1788913628542",
+      "versions": [
+        {
+          "version": 1,
+          "storagePath": "design-assets/site00/projects-index/hero_object/projects-header-planet/v001.png",
+          "assetId": "dra-site00-projects-header-planet-1788913628542",
+          "boundAt": "2026-09-09T00:29:14.241Z"
+        }
+      ],
+      "updatedAt": "2026-09-09T00:29:14.241Z"
+    }
+  ]
+}

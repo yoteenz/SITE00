@@ -31,7 +31,7 @@ export const PROJECTS_GOLDEN_TEST = {
   componentPath: 'src/site00/pages/ProjectsPage.tsx',
   componentName: 'ProjectsPage',
   assetSlot: 'header-planet-icon',
-  cropRegion: { x: 24, y: 48, width: 120, height: 120, padding: 8 },
+  cropRegion: { x: 565, y: 52, width: 220, height: 220, padding: 16 },
 } as const;
 
 export const PROJECTS_BULK_QUEUE_SEEDS = [

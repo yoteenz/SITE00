@@ -59,6 +59,7 @@ export {
   getReconstructionAsset,
   listReconstructionAssets,
   clearReconstructionAssetStoreForTest,
+  upsertReconstructionAsset,
 } from './assetStore.js';
 export {
   detectAndRegisterAssets,
