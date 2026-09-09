@@ -6771,20 +6771,63 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **QA:** NDXBOOK Expression Engine loads ~3s to populated workspace (entry summary, production journey, storyboard grid); Meridian hydrates separately
 - **Next founder action:** Hard refresh dev/prod → Expression Engine should populate immediately; Meridian section may show snapshot, fallback, or "snapshot unavailable" without blocking workspace.
 
+
 ---
 
-## 2026-09-09 — Sprint B5.9R8 — View-mode shell invariance (Projects index)
+## 2026-09-08 — BLDR Site Type Multi-Select Classification Fix
 
-- **Bug:** Toggling Founder → Client on `/projects` recomposed the page: different hero copy/height, hidden toggle, collapsed 2-tile metrics, black "CLIENT VIEW / RETURN TO FOUNDER VIEW" bar.
-- **Root cause:** Conditional page tree in `ProjectIndexPage` — `clientView` branches hid hero copy, view strip, design card; `ProjectIndexSummary` rendered 2-tile client grid; `ProjectIndexClientSimulationBanner` added duplicate control.
-- **Fix:**
-  - **`ProjectsPageShell`** — single layout tree (hero, toggle, admin row, metrics, search, filters, body slot)
-  - **`ProjectsViewDataAdapter`** (`projectsViewDataAdapter.ts`) — panel-only substitution: 4 metric tiles, filter chip disabled states, project dataset, empty states
-  - Hero copy locked: `ALL PROJECTS. ONE SYSTEM.` + supporting line in both modes
-  - Toggle always mounted; active side black via existing `is-active` CSS
-  - Removed index client simulation banner; scroll preserved on toggle in `ProjectViewModeContext`
-  - Design card shell placeholder in client mode (muted, same geometry)
-  - QA: `projectViewModeShellQA.ts` + `site00FounderWorkspaceSprintB59R8.test.ts` (18 tests)
-- **Mobile QA (390px):** Founder/client screenshots match shell geometry; no black bar; 2×2 metrics; toggle switches active side only
-- **Next founder action:** Hard refresh → `/projects` → toggle CLIENT VIEW on existing control → verify same shell, data-only change.
+- **Context:** Targeted correction sprint — BLDR SITE step 01/03 had site type behaving as single-select (radio) when it must be multi-select; audience must remain single-select.
+- **Root cause:** `bldr-assessment.ts` landing field `type` was configured `type: 'single'`, driving radio exclusivity in `IdntyOptionRows` / intake fields.
+- **Delivered:**
+  - **`shared/site00-bldr-classification/`** — `siteTypeModel.ts` (normalizeSiteTypes, hydrateSiteTypeAnswer, legacy siteType→type[]), `bldrFieldValidation.ts`, `siteTypeIntelligence.ts` (combination profiles, capability signals, conditional follow-up steps)
+  - **Config** — site type field `type: 'multi'`, subtitle `SELECT ALL THAT APPLY.`; conditional commerce/scheduling/membership/application scope steps injected via `bldrAssessmentAllSteps(answers)`
+  - **UI** — `IdntyOptionRows` mode prop (checkbox vs radio a11y); `BldrIntakeFields` + `BldrScopeFields` multi-toggle without clearing prior selections; OTHER specify persists alongside other types
+  - **Hook** — `useBldrAssessment` hydrates answers on read/merge; IDNTY prefill sets `type` as array
+  - **Classification** — `builderDiagnosis.ts` uses full `siteTypes[]` + `compileSiteTypeClassificationProfile()`; review shows all types via `formatSiteTypesForReview()`
+  - **Tests:** `site00BldrSiteTypeMultiSelect.test.ts` (30/30 pass)
+- **QA:** Mobile ~390px — BUSINESS + E-COMMERCE + BOOKING all selected; B2C→B2B exclusive; next/back preserves state. PASS.
+- **Next founder action:** BLDR → SITE → step 01/03 — select three site types + B2B audience; confirm multi-select + single-select behavior; upload GoDaddy ZIP after merge.
 
+---
+
+## 2026-09-09 — P0.VR.4R1 live reconstruction + Projects header auto-bind
+
+- **Context:** Sprint P0.VR.4R1 closes last-mile gaps from P0.VR.4 reference asset reconstruction pipeline. Golden asset: **PROJECTS HEADER PLANET** from approved Projects page reference (`projects-index-approved-reference.jpg`).
+- **Implemented:**
+  - `p0vr4r1/` module: live FAL GPT Image 2 Edit dispatch (`liveFalProvider.ts`), reference crop extract + Supabase upload, material preservation QA, live acceptance orchestrator, persistent binding store (`design-asset-live-bindings.json`).
+  - API actions: `provider_health`, `bindings`, `generate` with `live:true`, `persist_live`, `apply_to_page`, `live_acceptance`.
+  - UI: `DesignReferenceAssetsPanel` wired to live API for planet; `DesignAssetReconstructionDetail` shows live receipt, APPLY TO PAGE, VIEW ON PAGE.
+  - Projects hero auto-bind: `ProjectsHeaderPlanet.tsx` + `useDesignAssetBinding` reads canonical binding; `ProjectIndexHero` uses it instead of hard-coded `Site00OrbitalMark`.
+  - Tests: `tests/visualReconstructionP0VR4R1.test.ts` (26 criteria) + P0.VR.4 (15) — 41/41 pass.
+- **Live FAL proof (after founder topped up balance):** FULL PASS on golden acceptance script.
+  - Model: `openai/gpt-image-2/edit` via FAL; reference crop uploaded to Supabase then re-uploaded to FAL storage for edit input.
+  - Generation receipt: `dispatchCount=1`, BiRefNet background removal applied, material QA PASS.
+  - LOVE IT + APPLY: canonical asset at `design-assets/site00/projects-index/hero_object/projects-header-planet/v001.png`; binding slot `site00:projects-index:header-planet-icon` persisted in `public/studio-world/design/design-asset-live-bindings.json`.
+  - Live screenshot QA: mobile + desktop captures; Supabase URL (not fal.media) in hero binding.
+- **Auth UI:** `AUTH_UI_QA_BLOCKED` for full Design Workspace walkthrough (founder session required); binding/render verified via live binding test + `/projects` binding API.
+- **Next founder action:** Upload GoDaddy ZIP (v211) → open DESIGN → PROJECTS INDEX → ASSETS → PROJECTS HEADER PLANET to run founder-led GENERATE/LOVE IT flow in UI; confirm `/projects` hero planet matches approved reference.
+
+---
+
+## 2026-09-09 — P0.VR.4R2 reference crop authority + zero-waste guard
+
+- **Root cause:** Hard-coded `220×220` crop at `(565,52)` captured only the central red core — feature-point-sized region, not full object bounding box. Double padding in extract path made it worse. No crop QA gate before FAL dispatch → wasted GPT Image 2 Edit credits.
+- **Fix:** `p0vr4r2/` module — canonical SOURCE_IMAGE_PIXELS coordinate space, display→source conversion, normalized bounds, `ReferenceCropGeometryGuard`, `ObjectCoverageQA`, `DesignGenerationPreflight`, crop checksum, crop lineage store.
+- **Golden crop:** Object bounds `528×42×365×318` + 10% padding → final `492×10×438×382` on 946×667 reference. Visual fixture: `tests/fixtures/p0vr4r2/projects-header-planet-golden-crop.png`.
+- **UI:** `DesignReferenceCropEditor` — side-by-side reference + crop preview, bounding box overlay, manual adjust, USE CROP locks crop before GENERATE enabled.
+- **API:** `extract_crop`, `approve_crop`, `preflight`; `generate` blocked until `cropApproved` / locked crop with checksum.
+- **No FAL spend this sprint.** Tests: 53/53 pass (P0.VR.4 + R1 + R2).
+- **Next founder action:** DESIGN → PROJECTS INDEX → ASSETS → PROJECTS HEADER PLANET → review crop preview → USE CROP → then GENERATE once.
+
+---
+
+## 2026-09-09 — P0.VR.5 founder instruction intelligence + multi-asset deconstruction pipeline
+
+- **Context:** Upgrade Design Workspace ASSETS tab from single-asset P0.VR.4 pipeline into founder-facing visual deconstruction job workspace with multi-asset detection, instruction presets, crop confirmation gate, replacement mapping, and spend guardrails.
+- **Implemented:**
+  - `p0vr5/` module: types (AssetJob, DetectedAssetCandidate, ReconstructedAssetVersion, DesignInstructionPreset, JobEvent), instruction parser, built-in + learned presets, multi-asset detection heuristics, job plan summarizer, crop confirmation workflow, replacement mapping, orchestration (simulated dispatch by default), job-level spend guards.
+  - API: `job_create`, `job_add_upload`, `job_update_instruction`, `job_detect`, `job_crop_actions`, `job_confirm_crops`, `job_reconstruct`, `job_approve_version`, `job_upload`, `job_bind`, `preset_list`, `preset_save`, `preset_suggest`, `job_get`.
+  - UI: `DesignAssetJobWorkspace` — 7-step flow (UPLOAD → INSTRUCT → DETECT → CONFIRM CROP → RECONSTRUCT → APPROVE → REPLACE); integrated at top of ASSETS tab; legacy P0.VR.4 panel in collapsible section.
+  - Tests: `tests/visualReconstructionP0VR5.test.ts` — scenarios A–F (single icon, multi-icon set, background, hero object, preset suggestion, spend protection). 37/37 pass with P0.VR.4 + R2 regression.
+- **Non-negotiables preserved:** No generation on upload; crop confirmation required; max 1 primary dispatch per asset version; legacy planet pipeline unchanged in collapsible section.
+- **Next founder action:** DESIGN → PROJECTS INDEX → ASSETS → use new ASSET DECONSTRUCTION PIPELINE → upload screenshot → select preset or type instruction → RUN DETECTION → CONFIRM ALL CROPS → RECONSTRUCT APPROVED (explicit) → APPROVE · UPLOAD · BIND.

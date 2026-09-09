@@ -1,4 +1,4 @@
-import { Site00OrbitalMark } from '../auth/Site00OrbitalMark';
+import { ProjectsHeaderPlanet } from './ProjectsHeaderPlanet';
 
 export function ProjectIndexHero() {
   return (
@@ -27,7 +27,7 @@ export function ProjectIndexHero() {
         <div className="site00-pidx-hero__visual-col">
           <div className="site00-pidx-hero__visual-frame">
             <div className="site00-pidx-hero__grid-lines" aria-hidden="true" />
-            <Site00OrbitalMark className="site00-pidx-hero__orbital" />
+            <ProjectsHeaderPlanet className="site00-pidx-hero__orbital" />
           </div>
           <div className="site00-pidx-hero__rail" aria-hidden="true">
             <span>PLAN</span>

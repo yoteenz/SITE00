@@ -1,8 +1,13 @@
 import type { BldrAssessmentStep } from '../../config/bldr-assessment';
 import { IdntyOptionGrid, IdntyOptionRows, IdntyTextareaField } from '../idnty-assessment/IdntyAssessmentPanels';
 import { useSite00DesktopArtboardPreview } from '../shell/Site00DesktopArtboardContext';
+import {
+  BLDR_SITE_TYPE_OTHER_SPECIFY_KEY,
+  normalizeSiteTypes,
+} from '../../../../shared/site00-bldr-classification/siteTypeModel';
+import { validateBldrLandingFields, type BldrFieldValues } from '../../../../shared/site00-bldr-classification/bldrFieldValidation';
 
-export type BldrFieldValues = Record<string, string | string[]>;
+export type { BldrFieldValues };
 
 function normalizeMulti(value: string | string[] | undefined): string[] {
   if (!value) return [];
@@ -15,17 +20,7 @@ function normalizeText(value: string | string[] | undefined): string {
 }
 
 export function validateBldrFields(fields: BldrAssessmentStep[], values: BldrFieldValues): Record<string, string> {
-  const errors: Record<string, string> = {};
-  for (const field of fields) {
-    if (!field.required) continue;
-    const val = values[field.id];
-    if (field.type === 'textarea') {
-      if (!normalizeText(val).trim()) errors[field.id] = 'THIS FIELD IS REQUIRED.';
-    } else if (field.type === 'single' || field.type === 'audience-row' || field.type === 'multi') {
-      if (normalizeMulti(val).length === 0) errors[field.id] = 'SELECT AT LEAST ONE OPTION.';
-    }
-  }
-  return errors;
+  return validateBldrLandingFields(fields, values);
 }
 
 type BldrScopeFieldsProps = {
@@ -37,6 +32,7 @@ type BldrScopeFieldsProps = {
 
 export function BldrScopeFields({ fields, values, onChange, errors = {} }: BldrScopeFieldsProps) {
   const isDesktop = useSite00DesktopArtboardPreview();
+  const siteTypesSelected = normalizeSiteTypes(values.type);
 
   return (
     <div className="site00-bldr-scope-fields">
@@ -60,7 +56,6 @@ export function BldrScopeFields({ fields, values, onChange, errors = {} }: BldrS
 
         const selected = normalizeMulti(values[field.id]);
         const mode = field.type === 'multi' ? 'multi' : 'single';
-        const columns = field.gridColumns ?? (field.type === 'audience-row' ? 4 : 3);
 
         const toggle = (id: string) => {
           if (mode === 'single') {
@@ -86,11 +81,23 @@ export function BldrScopeFields({ fields, values, onChange, errors = {} }: BldrS
                 selected={selected}
                 onToggle={toggle}
                 mode={mode}
-                columns={columns}
+                columns={field.gridColumns ?? (field.type === 'audience-row' ? 4 : 3)}
               />
             ) : (
-              <IdntyOptionRows options={field.options ?? []} selected={selected} onToggle={toggle} />
+              <IdntyOptionRows options={field.options ?? []} selected={selected} onToggle={toggle} mode={mode} />
             )}
+            {field.id === 'type' && siteTypesSelected.includes('other') ? (
+              <IdntyTextareaField
+                id={`bldr-field-${BLDR_SITE_TYPE_OTHER_SPECIFY_KEY}`}
+                label="OTHER (PLEASE SPECIFY)"
+                value={normalizeText(values[BLDR_SITE_TYPE_OTHER_SPECIFY_KEY])}
+                onChange={(v) => onChange(BLDR_SITE_TYPE_OTHER_SPECIFY_KEY, v)}
+                maxLength={300}
+                placeholder="DESCRIBE YOUR SITE TYPE…"
+                required
+                error={errors[BLDR_SITE_TYPE_OTHER_SPECIFY_KEY]}
+              />
+            ) : null}
           </div>
         );
       })}
