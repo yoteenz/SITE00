@@ -8,6 +8,7 @@ import {
   HISTORY_FILTERS,
   type HistoryFilter,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6/index.js';
+import { DesignDwSectionIcon } from './DesignDwSectionIcon';
 
 type Props = {
   activity: DesignWorkspaceActivityEntry[];
@@ -155,13 +156,17 @@ export function DesignHistoryTab({ activity, matrixSummary }: Props) {
                   aria-expanded={expanded}
                 >
                   <span className="site00-dw-v3-timeline__icon">{iconForKind(kind)}</span>
-                  <span className="site00-dw-v3-timeline__label">{entry.label.toUpperCase()}</span>
+                  <span className="site00-dw-v3-timeline__body">
+                    <span className="site00-dw-v3-timeline__label">{entry.label.toUpperCase()}</span>
+                    <span className="site00-dw-v3-timeline__sub">
+                      {entry.status.toUpperCase()} · {formatTime(entry.timestamp)}
+                    </span>
+                  </span>
                   <time>{formatTimeShort(entry.timestamp)}</time>
                   <span className="site00-dw-v3-disclosure__chev" aria-hidden>
                     {expanded ? '▾' : '›'}
                   </span>
                 </button>
-                <p className="site00-dw-v3-timeline__sub">{entry.status.toUpperCase()} · {formatTime(entry.timestamp)}</p>
                 {expanded && isApproval ? (
                   <div className="site00-dw-v3-timeline__detail">
                     <div className="site00-dw-v3-timeline__before-after">
@@ -186,10 +191,10 @@ export function DesignHistoryTab({ activity, matrixSummary }: Props) {
                     </p>
                     <div className="site00-dw-v3-timeline__detail-actions">
                       <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact">
-                        👁 VIEW SNAPSHOT
+                        <DesignDwSectionIcon iconId="eye" /> VIEW SNAPSHOT
                       </button>
                       <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact">
-                        ↺ RESTORE VERSION
+                        RESTORE VERSION
                       </button>
                     </div>
                   </div>

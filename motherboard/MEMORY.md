@@ -6917,3 +6917,32 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - Tests: P0VR6 +31 test for planet asset + stepper grid; P0VR2B/P0VR5 regressions pass (29).
 - **Next founder action:** Mobile QA all 11 references starting ASSETS→UPLOAD; compare pixel geometry vs attachments; deploy v222 ZIP after merge.
 
+---
+
+## 2026-09-09 — P0.VR.7 Reference fidelity contract + screenshot design authority engine
+
+- **Context:** Founder required screenshot uploads in Design Workspace to default to **DESIGN_AUTHORITY + EXACT** (not inspiration), with automatic system fidelity instruction, reference decomposition, implementation plan, screenshot QA, drift classification, correction loop, asset pipeline inheritance, UI badge/inspector, and composer handoff.
+- **Implemented:**
+  - New module `shared/.../visualReconstruction/p0vr7/` — `DesignReferenceFidelityContract`, decomposition (geometry/typography/spacing/materials/asset manifest), `ReferenceImplementationPlan`, screenshot QA with region scores (no fake numeric scores), drift + correction plan, execution handoff, multi-viewport authority (EXACT vs INFERRED).
+  - API `design-asset-reconstruction.ts` — `fidelity_ingest`, `fidelity_confirm`, `fidelity_qa`, `fidelity_get`, `fidelity_list`; `job_add_upload` auto-creates + links fidelity contract.
+  - P0.VR.5 integration — `fidelityContractId` on jobs, `getEffectiveJobInstruction`, system presets (REPLICATE PAGE/MOBILE/DESKTOP EXACTLY, EXTRACT+REPLACE ASSETS EXACTLY).
+  - UI — `DesignReferenceFidelityBadge`, `DesignReferenceInterpretationPanel`, `DesignReferenceFidelityContractPanel`; wired in `DesignAssetJobWorkspace`; reference cards + inspector show DESIGN AUTHORITY · EXACT.
+  - Tests: `visualReconstructionP0VR7.test.ts` (17 cases covering all sprint requirements).
+- **Gaps:** Decomposition is heuristic (390×844 canvas), not vision/ML; live screenshot QA returns NOT_EVALUATED until live capture available; cloud preview API may 404 without Railway.
+- **Next founder action:** Design → upload mobile page screenshot without typing “copy exactly” → verify badge + VIEW CONTRACT → confirm interpretation → run reconstruction → verify QA reports drift not false pass.
+
+---
+
+## 2026-09-09 — P0.VR.6R1 Pixel-fidelity calibration + overlay diff recovery
+
+- **Context:** Design workspace structurally close to 11 reference authorities but still had calibration drift (spacing, blue leakage, emoji icons, Pages filter clipping, compressed featured card, flat History, More provider text collisions).
+- **Implemented:**
+  - `p0vr6r1/` module — overlay QA, delta reports, text collision QA, 11-screen calibration constants.
+  - 11 reference JPGs committed to `public/visual-references/founder/site00/calibration-p0vr6r1/`.
+  - `scripts/capture-design-workspace-calibration.mjs` — Playwright baseline capture + sharp 50% overlay + mean pixel diff report.
+  - CSS calibration: chip scroll (no clip), stepper labels (no ellipsis), Pages featured/compare height, History timeline cards, More provider grid (no text collision), blue removed (#3b82f6, #1976d2).
+  - `DesignDwSectionIcon` — canonical SVG icons replace all emoji in More/Assets/References/History/Pages.
+  - Tests: `visualReconstructionP0VR6R1.test.ts` (12 pass).
+- **Overlay results (honest):** All 11 screens PARTIAL_MATCH (mean diff ~20–32); no false HIGH_MATCH or pixel-perfect claim.
+- **Next founder action:** Mobile QA all 11 tabs vs authorities; deploy v224 ZIP; re-run overlay script after any further CSS tweaks.
+

@@ -8,6 +8,7 @@ import {
   type PageStatusFilter,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6/index.js';
 import type { PageVisualIndexRow } from './DesignPagesVisualIndex';
+import { DesignDwSectionIcon } from './DesignDwSectionIcon';
 
 type Props = {
   rows: PageVisualIndexRow[];
@@ -159,7 +160,9 @@ export function DesignPagesTabPanel({ rows, selectedScreenId, onSelectScreen, on
       </div>
 
       <div className="site00-dw-v3-pages__coverage">
-        <span>📄 PAGE COVERAGE {matchedCount} OF {rows.length} PAGES MATCHED</span>
+        <span className="site00-dw-v3-pages__coverage-label">
+          <DesignDwSectionIcon iconId="coverage" /> PAGE COVERAGE {matchedCount} OF {rows.length} PAGES MATCHED
+        </span>
         <div className="site00-dw-v3-pages__coverage-bar">
           <div style={{ width: `${coveragePct}%` }} />
         </div>
