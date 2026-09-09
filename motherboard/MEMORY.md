@@ -6869,3 +6869,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Live QA (localhost dev, 390px):** Founder/client toggle — same route, same hero, 4 tiles, no banner, DOM markers confirmed
 - **Next founder action:** Upload GoDaddy release v217 ZIP; hard refresh; verify page source shows new `index.*.js` hash (NOT `index.Cr70B6lr.js`).
 
+---
+
+## 2026-09-09 — B5.9R10 client simulation selector + Jane Doe fixture
+
+- **Context:** CLIENT VIEW = mode; active client = context. Founder needs searchable client selector on existing toggle without shell recomposition.
+- **Implemented:**
+  - `ClientSimulationContext`, `ClientProjectMembership`, `ClientDirectoryService` (`listClients`, `searchClients`, `getClientProjects`, memberships).
+  - Jane Doe demo fixture (`demo-client-jane-doe`) with 5 real `CLIENT_MEMBER` memberships: frontal-slayer, studio-world, ndxbook, all-in-one-enterprises, astral-world (excludes site00).
+  - `activeSimulatedClientId` + `clientSelectorOpen` on view-mode session; `ClientSimulationSelector` popover anchored to Client View toggle (▾ chevron).
+  - `useProjectIndex` resolves client grid/metrics via membership pipeline; eyebrow shows JANE DOE / when selected.
+  - System inspector extended with client simulation QA fields.
+  - Tests: `site00FounderWorkspaceSprintB59R10.test.ts` (31) + B59R8/R9 regressions.
+- **Next founder action:** `/projects` → CLIENT VIEW → search JANE → select → verify 05 YOUR PROJECTS + 5 project cards, no SITE 00.
+
