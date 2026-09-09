@@ -48,8 +48,10 @@ export function buildCanonicalDesignWorkspacePath(input?: BuildCanonicalDesignPa
   return qs ? `${CANONICAL_SITE00_DESIGN_ROUTE}?${qs}` : CANONICAL_SITE00_DESIGN_ROUTE;
 }
 
-export function buildDesignWorkspaceBreadcrumb(): string {
-  return 'PROJECTS > SITE 00 > DESIGN';
+export function buildDesignWorkspaceBreadcrumb(projectId?: string | null): string {
+  const managed = getSite00ManagedProject(projectId ?? SITE00_DESIGN_PROJECT_ID);
+  const name = (managed?.displayName ?? 'SITE 00').toUpperCase();
+  return `PROJECTS > ${name} > DESIGN`;
 }
 
 export function resolveManagedProjectForDesignContext(projectId: string | null | undefined): string {

@@ -55,6 +55,9 @@ import {
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6/index.js';
 import {
   buildDesignWorkspaceBreadcrumb,
+  formatDesignProjectSelectorLabel,
+  listSelectableDesignProjects,
+  resolveActiveDesignProjectId,
   resolveManagedProjectContextAccent,
   resolveManagedProjectForDesignContext,
   SITE00_DESIGN_PROJECT_ID,
@@ -120,9 +123,15 @@ export function StudioWorldDesignWorkspace({
   registerSite00DesignPilot();
 
   const designProjects = useMemo(() => listDesignWorkspaceProjects(), []);
+  const selectableProjects = useMemo(() => listSelectableDesignProjects({ viewMode: 'FOUNDER' }), []);
   const [searchParams, setSearchParams] = useSearchParams();
   const urlState = parseDesignWorkspaceUrlState(searchParams.toString());
-  const [projectId] = useState(resolveManagedProjectForDesignContext(urlState.project ?? initialProjectId));
+  const activeDesignProjectId = useMemo(
+    () => resolveActiveDesignProjectId(urlState.project, initialProjectId),
+    [urlState.project, initialProjectId],
+  );
+  const projectId = activeDesignProjectId;
+  const [isRescoping, setIsRescoping] = useState(false);
   const [screenId, setScreenId] = useState(urlState.screen ?? initialScreenId ?? '');
   const [viewportClass, setViewportClass] = useState<DesignViewportClass>(urlState.viewport ?? initialViewport);
   const [primaryTab, setPrimaryTab] = useState<DesignWorkspacePrimaryTab>(
@@ -147,15 +156,27 @@ export function StudioWorldDesignWorkspace({
   const syncUrl = useCallback(
     (patch: Partial<{ project: string; screen: string; viewport: DesignViewportClass; tab: DesignWorkspacePrimaryTab }>) => {
       const next = {
-        project: patch.project ?? projectId,
+        project: patch.project ?? activeDesignProjectId,
         screen: patch.screen ?? screenId,
         viewport: patch.viewport ?? viewportClass,
         tab: patch.tab ?? primaryTab,
       };
       setSearchParams(buildDesignWorkspacePrimaryUrlState(next).slice(1), { replace: true });
     },
-    [projectId, screenId, primaryTab, viewportClass, setSearchParams],
+    [activeDesignProjectId, screenId, primaryTab, viewportClass, setSearchParams],
   );
+
+  useEffect(() => {
+    if (urlState.screen && urlState.screen !== screenId) setScreenId(urlState.screen);
+    if (urlState.viewport && urlState.viewport !== viewportClass) setViewportClass(urlState.viewport);
+    if (urlState.tab) setPrimaryTab(normalizeDesignWorkspacePrimaryTab(urlState.tab));
+  }, [urlState.screen, urlState.viewport, urlState.tab, screenId, viewportClass]);
+
+  useEffect(() => {
+    if (!urlState.project) {
+      syncUrl({ project: activeDesignProjectId });
+    }
+  }, [activeDesignProjectId, syncUrl, urlState.project]);
 
   const site00SyncContract = useMemo(
     () => (projectId === 'site00' ? getActiveDesignRouteSyncContract() : null),
@@ -187,7 +208,8 @@ export function StudioWorldDesignWorkspace({
   const screen = findDesignScreen(projectId, screenId);
   const projectMeta = designProjects.find((p) => p.slug === projectId);
   const projectContextAccent = resolveManagedProjectContextAccent(projectId);
-  const breadcrumb = buildDesignWorkspaceBreadcrumb();
+  const breadcrumb = buildDesignWorkspaceBreadcrumb(activeDesignProjectId);
+  const projectSelectorLabel = formatDesignProjectSelectorLabel(activeDesignProjectId);
   const route = customRoute || (screen ? resolveDesignScreenRoute(screen, projectId) : `/projects/${projectId}`);
   const reference = getActiveCanonicalReference(projectId, screenId, viewportClass);
   const implementationSnapshot = getSnapshot(screenId, viewportClass);
@@ -224,6 +246,28 @@ export function StudioWorldDesignWorkspace({
     if (nextProjectId === 'site00') return 'guide';
     return '';
   }, []);
+
+  const handleSelectDesignProject = useCallback(
+    (nextProjectId: string) => {
+      const resolved = resolveManagedProjectForDesignContext(nextProjectId);
+      if (resolved === activeDesignProjectId) return;
+      setIsRescoping(true);
+      setUploadPreview(null);
+      setLastRunId(null);
+      setAssetSlots([]);
+      setSelectedPromptSlotId(null);
+      setShowInspector(false);
+      const nextScreens =
+        resolved === 'site00'
+          ? listManifestScreensForProject('site00', false, site00ScreenSetMode)
+          : listDesignScreensForProject(resolved);
+      const nextScreen = defaultScreenForProject(resolved, nextScreens);
+      setScreenId(nextScreen);
+      syncUrl({ project: resolved, screen: nextScreen });
+      requestAnimationFrame(() => setIsRescoping(false));
+    },
+    [activeDesignProjectId, defaultScreenForProject, site00ScreenSetMode, syncUrl],
+  );
 
   useEffect(() => {
     if (!screenId) {
@@ -488,8 +532,12 @@ export function StudioWorldDesignWorkspace({
     <>
     <Site00DesignWorkspaceShell
       breadcrumb={breadcrumb}
-      managedProjectDisplayName={projectMeta?.displayName ?? projectId.toUpperCase()}
+      managedProjectDisplayName={projectSelectorLabel}
       managedProjectAccent={projectContextAccent}
+      activeDesignProjectId={activeDesignProjectId}
+      designProjectOptions={selectableProjects.map((p) => ({ projectId: p.projectId, displayName: p.displayName }))}
+      onSelectDesignProject={handleSelectDesignProject}
+      projectSelectorDisabled={isRescoping}
       activeHostMenu={activeHostMenu}
       unreadNotificationCount={notificationState.unreadCount}
       onToggleNotifications={toggleNotifications}
@@ -508,7 +556,9 @@ export function StudioWorldDesignWorkspace({
         data-design-project={projectId}
         data-design-project-accent={projectContextAccent}
         data-design-primary-tab={primaryTab}
+        data-design-rescoping={isRescoping ? 'true' : 'false'}
       >
+        {isRescoping ? <p className="site00-dw-v3-rescope-loading">RE-SCOPING DESIGN DATA…</p> : null}
         <DesignWorkspacePrimaryTabRail
           activeTab={primaryTab}
           onTabChange={(t) => {
@@ -529,7 +579,8 @@ export function StudioWorldDesignWorkspace({
         {primaryTab === 'REFERENCES' ? (
           <>
             <DesignReferencesTab
-              projectId={projectId}
+              key={`refs-${activeDesignProjectId}`}
+              projectId={activeDesignProjectId}
               viewportClass={viewportClass}
               selectedScreenId={screenId}
               onSelectScreen={(id) => {
@@ -571,7 +622,8 @@ export function StudioWorldDesignWorkspace({
 
         {primaryTab === 'ASSETS' ? (
           <DesignReferenceAssetsPanel
-            projectId={projectId}
+            key={`assets-${activeDesignProjectId}`}
+            projectId={activeDesignProjectId}
             pageId={screenId}
             route={route}
             referenceUrl={referenceUrl ?? null}
@@ -582,6 +634,7 @@ export function StudioWorldDesignWorkspace({
 
         {primaryTab === 'PAGES' ? (
           <DesignPagesTabPanel
+            key={`pages-${activeDesignProjectId}`}
             rows={pageIndexRows}
             selectedScreenId={screenId}
             onSelectScreen={(id) => {
@@ -593,12 +646,14 @@ export function StudioWorldDesignWorkspace({
         ) : null}
 
         {primaryTab === 'HISTORY' ? (
-          <DesignHistoryTab activity={activity} />
+          <DesignHistoryTab key={`history-${activeDesignProjectId}`} activity={activity} />
         ) : null}
 
         {primaryTab === 'MORE' ? (
           <>
             <DesignMoreTab
+              key={`more-${activeDesignProjectId}`}
+              projectId={activeDesignProjectId}
               onOpenInspect={() => setShowInspector(true)}
               onCaptureScreen={() => void captureScreen(screenId, viewportClass)}
               onMatchReference={handleMatchReference}

@@ -16,6 +16,7 @@ import '../../styles/site00-master-skin.css';
 import '../../styles/site00-brand-family-skin.css';
 
 type Props = {
+  projectId: string;
   onOpenInspect?: () => void;
   onCaptureScreen?: () => void;
   onMatchReference?: () => void;
@@ -32,7 +33,7 @@ function SectionTitle({ iconId, title }: { iconId: Parameters<typeof DesignDwSec
   );
 }
 
-export function DesignMoreTab({ onOpenInspect, onCaptureScreen, onMatchReference }: Props) {
+export function DesignMoreTab({ projectId, onOpenInspect, onCaptureScreen, onMatchReference }: Props) {
   const [presets, setPresets] = useState<DesignInstructionPreset[]>([]);
   const [falAvailable, setFalAvailable] = useState<boolean | null>(null);
   const [autoCrop, setAutoCrop] = useState(false);
@@ -202,7 +203,7 @@ export function DesignMoreTab({ onOpenInspect, onCaptureScreen, onMatchReference
       </div>
 
       <article className="site00-dw-v3-more__card site00-dw-v3-more__card--full">
-        <ExperienceSkinManagementPanel projectId="ndxbook" viewMode="FOUNDER" />
+        <ExperienceSkinManagementPanel projectId={projectId} viewMode="FOUNDER" />
       </article>
 
       <article className="site00-dw-v3-more__card site00-dw-v3-more__card--full">
