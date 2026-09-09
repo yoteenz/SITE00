@@ -67,7 +67,10 @@ export type ClientNotificationCategory =
 
 export type ClientBuildItemState = 'COMPLETE' | 'IN_PROGRESS' | 'UPCOMING' | 'NOT_STARTED';
 
-export type ClientAppNavSection = 'home' | 'project' | 'reviews' | 'inbox' | 'library';
+export type ClientAppNavSection = 'home' | 'projects' | 'reviews' | 'inbox' | 'profile';
+
+/** @deprecated Use projects — retained for migration reads only */
+export type LegacyClientAppNavSection = 'project' | 'library';
 
 export type ClientProjectPulse = {
   status: string;

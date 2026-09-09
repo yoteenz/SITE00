@@ -1,0 +1,176 @@
+{
+  "extractedAt": "2026-09-09T14:01:38.428Z",
+  "entries": [
+    {
+      "viewport": "MOBILE",
+      "assetSlot": "BRAND_FAMILY_NDXBOOK",
+      "sourceCropUrl": "/site00/skins/extracted/mobile/brand_family_ndxbook.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
+    },
+    {
+      "viewport": "MOBILE",
+      "assetSlot": "BRAND_FAMILY_FRONTAL_SLAYER",
+      "sourceCropUrl": "/site00/skins/extracted/mobile/brand_family_frontal_slayer.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
+    },
+    {
+      "viewport": "MOBILE",
+      "assetSlot": "BRAND_FAMILY_AIO",
+      "sourceCropUrl": "/site00/skins/extracted/mobile/brand_family_aio.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
+    },
+    {
+      "viewport": "MOBILE",
+      "assetSlot": "BRAND_FAMILY_ASTRAL_WORLD",
+      "sourceCropUrl": "/site00/skins/extracted/mobile/brand_family_astral_world.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
+    },
+    {
+      "viewport": "MOBILE",
+      "assetSlot": "BRAND_FAMILY_STUDIO_WORLD",
+      "sourceCropUrl": "/site00/skins/extracted/mobile/brand_family_studio_world.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
+    },
+    {
+      "viewport": "MOBILE",
+      "assetSlot": "SCREEN_OVERVIEW",
+      "sourceCropUrl": "/site00/skins/extracted/mobile/screen_overview.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": false
+    },
+    {
+      "viewport": "DESKTOP",
+      "assetSlot": "BRAND_FAMILY_NDXBOOK",
+      "sourceCropUrl": "/site00/skins/extracted/desktop/brand_family_ndxbook.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
+    },
+    {
+      "viewport": "DESKTOP",
+      "assetSlot": "BRAND_FAMILY_FRONTAL_SLAYER",
+      "sourceCropUrl": "/site00/skins/extracted/desktop/brand_family_frontal_slayer.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
+    },
+    {
+      "viewport": "DESKTOP",
+      "assetSlot": "BRAND_FAMILY_AIO",
+      "sourceCropUrl": "/site00/skins/extracted/desktop/brand_family_aio.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
+    },
+    {
+      "viewport": "DESKTOP",
+      "assetSlot": "BRAND_FAMILY_ASTRAL_WORLD",
+      "sourceCropUrl": "/site00/skins/extracted/desktop/brand_family_astral_world.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
+    },
+    {
+      "viewport": "DESKTOP",
+      "assetSlot": "BRAND_FAMILY_STUDIO_WORLD",
+      "sourceCropUrl": "/site00/skins/extracted/desktop/brand_family_studio_world.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": true
+    },
+    {
+      "viewport": "DESKTOP",
+      "assetSlot": "SCREEN_OVERVIEW",
+      "sourceCropUrl": "/site00/skins/extracted/desktop/screen_overview.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": false
+    },
+    {
+      "viewport": "DESKTOP",
+      "assetSlot": "SCREEN_IDENTITY",
+      "sourceCropUrl": "/site00/skins/extracted/desktop/screen_identity.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": false
+    },
+    {
+      "viewport": "DESKTOP",
+      "assetSlot": "SCREEN_BUILDER",
+      "sourceCropUrl": "/site00/skins/extracted/desktop/screen_builder.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": false
+    },
+    {
+      "viewport": "DESKTOP",
+      "assetSlot": "SCREEN_EVOLVE",
+      "sourceCropUrl": "/site00/skins/extracted/desktop/screen_evolve.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": false
+    },
+    {
+      "viewport": "DESKTOP",
+      "assetSlot": "SCREEN_PRODUCTION",
+      "sourceCropUrl": "/site00/skins/extracted/desktop/screen_production.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": false
+    },
+    {
+      "viewport": "DESKTOP",
+      "assetSlot": "SCREEN_REVIEWS",
+      "sourceCropUrl": "/site00/skins/extracted/desktop/screen_reviews.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": false
+    },
+    {
+      "viewport": "DESKTOP",
+      "assetSlot": "SCREEN_LIBRARY",
+      "sourceCropUrl": "/site00/skins/extracted/desktop/screen_library.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": false
+    },
+    {
+      "viewport": "DESKTOP",
+      "assetSlot": "SCREEN_CONTROL_ROOM",
+      "sourceCropUrl": "/site00/skins/extracted/desktop/screen_control_room.webp",
+      "canonicalUrl": null,
+      "status": "RECONSTRUCTION_PENDING",
+      "cropConfirmed": true,
+      "uiContaminationSuspected": false
+    }
+  ]
+}

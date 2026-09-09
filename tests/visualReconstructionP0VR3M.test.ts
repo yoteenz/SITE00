@@ -85,6 +85,7 @@ describe('P0.VR.3M design workspace ownership', () => {
     expect(ids).toContain('studio-world');
     expect(ids).toContain('frontal-slayer');
     expect(ids).toContain('all-in-one-enterprises');
+    expect(ids).toContain('astral-world');
   });
 
   it('Studio World platform role and website design authority', () => {
@@ -114,11 +115,12 @@ describe('P0.VR.3M design workspace ownership', () => {
     expect(crossProjectShellPropagationDefaultAllowed()).toBe(false);
   });
 
-  it('breadcrumb shows SITE 00 ownership', () => {
-    expect(buildDesignWorkspaceBreadcrumb()).toBe('PROJECTS > SITE 00 > DESIGN');
+  it('breadcrumb shows active project context', () => {
+    expect(buildDesignWorkspaceBreadcrumb('site00')).toBe('PROJECTS > SITE 00 > DESIGN');
+    expect(buildDesignWorkspaceBreadcrumb('ndxbook')).toBe('PROJECTS > NDXBOOK > DESIGN');
     expect(read('src/site00/components/designWorkspace/Site00DesignWorkspaceShell.tsx')).toContain('SITE 00');
-    expect(read('src/site00/components/designWorkspace/Site00DesignWorkspaceShell.tsx')).toContain(
-      'site00-dw-shell__project-context-badge',
+    expect(read('src/site00/components/designWorkspace/DesignProjectSelector.tsx')).toContain(
+      'site00-dw-project-selector',
     );
   });
 

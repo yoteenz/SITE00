@@ -6869,3 +6869,386 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Live QA (localhost dev, 390px):** Founder/client toggle — same route, same hero, 4 tiles, no banner, DOM markers confirmed
 - **Next founder action:** Upload GoDaddy release v217 ZIP; hard refresh; verify page source shows new `index.*.js` hash (NOT `index.Cr70B6lr.js`).
 
+---
+
+## 2026-09-09 — B5.9R10 client simulation selector + Jane Doe fixture
+
+- **Context:** CLIENT VIEW = mode; active client = context. Founder needs searchable client selector on existing toggle without shell recomposition.
+- **Implemented:**
+  - `ClientSimulationContext`, `ClientProjectMembership`, `ClientDirectoryService` (`listClients`, `searchClients`, `getClientProjects`, memberships).
+  - Jane Doe demo fixture (`demo-client-jane-doe`) with 5 real `CLIENT_MEMBER` memberships: frontal-slayer, studio-world, ndxbook, all-in-one-enterprises, astral-world (excludes site00).
+  - `activeSimulatedClientId` + `clientSelectorOpen` on view-mode session; `ClientSimulationSelector` popover anchored to Client View toggle (▾ chevron).
+  - `useProjectIndex` resolves client grid/metrics via membership pipeline; eyebrow shows JANE DOE / when selected.
+  - System inspector extended with client simulation QA fields.
+  - Tests: `site00FounderWorkspaceSprintB59R10.test.ts` (31) + B59R8/R9 regressions.
+- **Next founder action:** `/projects` → CLIENT VIEW → search JANE → select → verify 05 YOUR PROJECTS + 5 project cards, no SITE 00.
+
+---
+
+## 2026-09-09 — P0.VR.6 Design workspace UX reconstruction (11-reference sprint)
+
+- **Problem:** Design module too text-heavy, activity dominated viewport, assets pipeline stacked all 7 stages vertically.
+- **Implemented:**
+  - Primary IA tabs: REFERENCES · ASSETS · PAGES · HISTORY · MORE (`p0vr6/` types + URL mapping from legacy tabs).
+  - `DesignWorkspaceDisclosurePanel` — collapsible RECENT ACTIVITY + QUICK ACTIONS (collapsed by default, localStorage preference).
+  - `DesignWorkspaceViewportRail` — MOBILE/TABLET/DESKTOP segmented control.
+  - `DesignAssetJobWorkspace` rebuilt — 7-step stepper, **only active stage expanded** (upload → instruct → detect → crop → reconstruct → approve → live).
+  - New tab panels: `DesignReferencesTab`, `DesignPagesTabPanel`, `DesignHistoryTab`, `DesignMoreTab` (real data, no fake counts).
+  - `site00-design-workspace-v3.css` — mobile-first visual language; hero orbit; bottom static footer hidden.
+  - Legacy P0.VR.4 pipeline preserved in `<details>` inside assets panel; compare/inspect moved to progressive disclosure.
+  - Tests: `visualReconstructionP0VR6.test.ts` (9) + updated P0VR2B/P0VR5 regressions.
+- **Next founder action:** `/projects/site00/design` mobile → QA each tab against 11 references; walk asset pipeline stages; confirm activity stays collapsed.
+
+---
+
+## 2026-09-09 — Reference-fidelity recovery sprint (Design workspace)
+
+- **Problem:** P0.VR.6 treated 11 reference images as inspiration — shell geometry, stepper clipping, generic SVG orb, loose typography/spacing, History as text list, Pages/More tab drift.
+- **Root cause:** Parent geometry rebuilt after component-level styling; generic CSS orb substituted for approved planet asset; stepper used flex+overflow instead of 7-column grid; insufficient reference-decomposed markup per pipeline stage.
+- **Implemented:**
+  - `Site00DesignWorkspaceShell` — breadcrumb+project selector row, hero block with `ProjectsHeaderPlanet` (removed SVG orbit).
+  - `site00-design-workspace-v3.css` full rewrite — compact 390px density, 7-column stepper with connecting line, stage-specific layouts (upload recent rail, detect grid, crop workspace, reconstruct providers, approve compare, live replacement map).
+  - `DesignAssetJobWorkspace` — reference-fidelity markup for stages 01–07; live data only.
+  - `DesignHistoryTab` — vertical timeline with icon nodes, metric cards, expandable approval before/after.
+  - `DesignPagesTabPanel` — featured page with LIVE/REFERENCE compare side-by-side; status chips + coverage strip.
+  - `DesignMoreTab` — reference card grid (providers, spend guard, presets, storage, output rules, automation, quick actions).
+  - `DesignReferencesTab` — instruction preset strip, canonical card styling, star badge.
+  - `REFERENCE_FIDELITY_*` failure codes in `p0vr6/designWorkspaceUxTypes.ts`.
+  - Tests: P0VR6 +31 test for planet asset + stepper grid; P0VR2B/P0VR5 regressions pass (29).
+- **Next founder action:** Mobile QA all 11 references starting ASSETS→UPLOAD; compare pixel geometry vs attachments; deploy v222 ZIP after merge.
+
+---
+
+## 2026-09-09 — P0.VR.7 Reference fidelity contract + screenshot design authority engine
+
+- **Context:** Founder required screenshot uploads in Design Workspace to default to **DESIGN_AUTHORITY + EXACT** (not inspiration), with automatic system fidelity instruction, reference decomposition, implementation plan, screenshot QA, drift classification, correction loop, asset pipeline inheritance, UI badge/inspector, and composer handoff.
+- **Implemented:**
+  - New module `shared/.../visualReconstruction/p0vr7/` — `DesignReferenceFidelityContract`, decomposition (geometry/typography/spacing/materials/asset manifest), `ReferenceImplementationPlan`, screenshot QA with region scores (no fake numeric scores), drift + correction plan, execution handoff, multi-viewport authority (EXACT vs INFERRED).
+  - API `design-asset-reconstruction.ts` — `fidelity_ingest`, `fidelity_confirm`, `fidelity_qa`, `fidelity_get`, `fidelity_list`; `job_add_upload` auto-creates + links fidelity contract.
+  - P0.VR.5 integration — `fidelityContractId` on jobs, `getEffectiveJobInstruction`, system presets (REPLICATE PAGE/MOBILE/DESKTOP EXACTLY, EXTRACT+REPLACE ASSETS EXACTLY).
+  - UI — `DesignReferenceFidelityBadge`, `DesignReferenceInterpretationPanel`, `DesignReferenceFidelityContractPanel`; wired in `DesignAssetJobWorkspace`; reference cards + inspector show DESIGN AUTHORITY · EXACT.
+  - Tests: `visualReconstructionP0VR7.test.ts` (17 cases covering all sprint requirements).
+- **Gaps:** Decomposition is heuristic (390×844 canvas), not vision/ML; live screenshot QA returns NOT_EVALUATED until live capture available; cloud preview API may 404 without Railway.
+- **Next founder action:** Design → upload mobile page screenshot without typing “copy exactly” → verify badge + VIEW CONTRACT → confirm interpretation → run reconstruction → verify QA reports drift not false pass.
+
+---
+
+## 2026-09-09 — P0.VR.6R1 Pixel-fidelity calibration + overlay diff recovery
+
+- **Context:** Design workspace structurally close to 11 reference authorities but still had calibration drift (spacing, blue leakage, emoji icons, Pages filter clipping, compressed featured card, flat History, More provider text collisions).
+- **Implemented:**
+  - `p0vr6r1/` module — overlay QA, delta reports, text collision QA, 11-screen calibration constants.
+  - 11 reference JPGs committed to `public/visual-references/founder/site00/calibration-p0vr6r1/`.
+  - `scripts/capture-design-workspace-calibration.mjs` — Playwright baseline capture + sharp 50% overlay + mean pixel diff report.
+  - CSS calibration: chip scroll (no clip), stepper labels (no ellipsis), Pages featured/compare height, History timeline cards, More provider grid (no text collision), blue removed (#3b82f6, #1976d2).
+  - `DesignDwSectionIcon` — canonical SVG icons replace all emoji in More/Assets/References/History/Pages.
+  - Tests: `visualReconstructionP0VR6R1.test.ts` (12 pass).
+- **Overlay results (honest):** All 11 screens PARTIAL_MATCH (mean diff ~20–32); no false HIGH_MATCH or pixel-perfect claim.
+- **Next founder action:** Mobile QA all 11 tabs vs authorities; deploy v224 ZIP; re-run overlay script after any further CSS tweaks.
+
+---
+
+## 2026-09-09 — P0.VR.6R2 Canonical visual convergence engine
+
+- **Context:** P0.VR.6R1 overlay/calibration was a one-off recovery pass. Founder required it become permanent pipeline behavior for every DESIGN_AUTHORITY + EXACT reference — capture → normalize → overlay → measure → correct → recapture → verify without manual “pixel perfect” prompts.
+- **Implemented:**
+  - `p0vr6r2/` — `DesignVisualConvergenceEngine` (`convergenceEngine.ts`), `DesignReferenceComparisonSession`, normalization, region registry, dynamic masking, overlay artifacts, delta measurement, drift taxonomy/severity, correction plans (priority order), iteration loop (max 3 → FOUNDER_REVIEW_REQUIRED), `DesignExecutionFidelityEnvelope`, spend-safe asset correction gate (no auto FAL/GPT dispatch).
+  - Pipeline: P0.VR.7 ingest auto-creates convergence session; `onImplementationComplete` → VISUAL QA (not VERIFIED); execution handoff appends VISUAL CONVERGENCE REQUIRED; executor self-pass blocked.
+  - API — `convergence_get`, `convergence_list`, `convergence_start`, `convergence_run`, `convergence_implementation_complete`, `convergence_founder_verify`.
+  - UI — `DesignVisualConvergenceBadge`, `DesignVisualComparisonDrawer`, `designConvergenceApi`; Pages tab uses visual verification status (not reference-exists=MATCHED); References VIEW DIFF; More REFERENCE FIDELITY defaults (DESIGN AUTHORITY · EXACT · overlay QA ON).
+  - Tests: `visualReconstructionP0VR6R2.test.ts` (31 pass); P0.VR.7 tests still pass.
+- **Gaps:** Overlay/diff artifacts use path placeholders until Playwright capture wired per-session in production; decomposition remains heuristic; live numeric pixel score still null unless real capture runs.
+- **Next founder action:** Upload test screenshot (no special QA instruction) → verify EXACT + convergence session → run implementation → confirm page enters VISUAL QA → VIEW COMPARISON → run correction pass → verify recapture + recompare.
+
+---
+
+## 2026-09-09 — Master Skin System (field classification + module variants + onboarding)
+
+- **Context:** Founder required projects to express distinct brand experiences without template drift (not NDXBOOK + different primary color). Field classification ≠ master skin; host shell firewall preserved.
+- **Implemented:**
+  - `shared/site00-brand-lore/projectSkin/` — FieldIndustryTag, MasterSkin, ExpressionProfile, ProjectExperienceSkin, MasterSkinModuleVariant, tokens, composition grammar, surface/image/icon/motion systems, recommendation engine, versioning/migration, QA (distinctiveness, consistency, host firewall).
+  - Proof skins: CULTURAL_EDITORIAL (ndxbook), CLINICAL_EDITORIAL (demo-doctor-health), TECHNICAL_OPERATIONS (AIO).
+  - API `/api/site00/master-skin` — catalog, recommend, approve, onboarding, override, migration.
+  - UI — MasterSkinOnboardingStep, MasterSkinPreviewCard, MasterSkinEvolveProofPanel; Design MORE tab + `/projects/site00/master-skin-preview`; POS applies skin to `site00-pos__main` only (host firewall).
+  - Tests: `masterSkinSystem.test.ts` (28 pass).
+- **Gaps:** Full visual polish for all catalog skins not built; luxury-clinical proof UI lighter than clinical/cultural/technical; live onboarding not yet wired into ProjectSetupPage flow (standalone preview page exists).
+- **Next founder action:** Open `/projects/site00/master-skin-preview` → compare three Evolve proofs → run doctor onboarding step → verify CLINICAL EDITORIAL recommended.
+
+---
+
+## 2026-09-09 — Brand Family Skins Foundation (STUDIO WORLD sprint)
+
+- **Context:** Replace generic industry MasterSkin direction with brand-family-aware model. Five canonical families: NDXBOOK, FRONTAL_SLAYER, AIO, ASTRAL_WORLD, STUDIO_WORLD. Architecture + registry + screen authority framework only — **no final visual designs invented**.
+- **Principle:** SITE 00 host shell + project brand family skin + module variant + project data. Field ≠ skin. Color ≠ skin. Approved screen references define final UI (screen-by-screen workflow integrated with P0.VR.6/6R2).
+- **Implemented:**
+  - `shared/site00-brand-lore/projectSkin/brandFamily/` — BrandFamilySkin, BrandFamilySkinRegistry (5 families), ProjectExperienceSkin binding, SkinVisualAuthorityStatus, SkinScreenAuthority, BrandFamilySkinPack, ModuleFunctionalContract, SkinContinuityRecord, BrandSkinColorBinding, SkinScreenImplementationJob, typography firewall (Martian Mono + UPPERCASE), host firewall, distinctiveness/consistency/structural QA, migration preview/rollback, generic fallback when authority missing (`SKIN_SCREEN_AUTHORITY_REQUIRED`).
+  - NDXBOOK: `EXISTING_SKIN_TO_REFINE`, preserves legacy cultural-editorial bridge + specialized modules.
+  - API `/api/site00/brand-family-skin` — registry, get, authorities, QA, approve assignment, onboarding, approve authority, migration.
+  - UI — `ExperienceSkinManagementPanel` in Design → MORE (founder-only); screen pack status per family.
+  - Extended `ProjectExperienceSkin` with `brandFamilySkinId`; project map for five proof projects.
+  - Tests: `brandFamilySkinSystem.test.ts` (32 pass); master skin tests still pass (60 total).
+- **Gaps:** No approved screen authorities yet for FS/AIO/Astral/Studio — all show PROJECT OVERVIEW NOT STARTED. Final visual implementation waits for founder-approved references one screen at a time.
+- **Next founder action:** Design → MORE → EXPERIENCE SKIN → verify five family records + screen pack status → do NOT test auto-generated skins → create Project Overview visual authority for first brand family when ready.
+
+---
+
+## 2026-09-09 — Screen Authority Ingestion UX Recovery
+
+- **Problem:** Brand family skin foundation existed but whole-screen approved uploads still routed to Assets → Instruct → Detect (asset extraction). Missing founder UX for SCREEN AUTHORITY → REGISTER → IMPLEMENT → CONVERGE.
+- **Root cause:** No `DesignReferencePurpose` routing; no `SkinScreenAuthorityIngestion` UI; Experience Skin panel showed pack status only without Add Authority flow.
+- **Implemented:**
+  - `DesignReferencePurpose` + `DesignReferenceJobRouter` — SCREEN_AUTHORITY vs ASSET_SOURCE routing (not file-type guessing).
+  - `screenSlotConfig.ts` — prefill NDXBOOK → PROJECTS / OVERVIEW / MOBILE.
+  - `screenAuthorityIngestion.ts` — register, contract preview, implement, convergence derivation (DESIGN_AUTHORITY + EXACT → convergence required).
+  - Extended `SkinScreenAuthority` — referencePurpose, jobType, implementationStatus, visualMatchStatus, versioning on replace.
+  - `implementationJob.ts` — start → P0.VR.7 fidelity contract + P0.VR.6R2 convergence session; complete → VISUAL_QA.
+  - API — `register_authority`, `implement_authority`, `prefill`, `authority_card`, `route_reference`.
+  - UI — `SkinScreenAuthorityIngestion`, `SkinScreenAuthorityCard`, interactive Experience Skin screen pack with ADD AUTHORITY per slot.
+  - References tab — upload purpose selector (Screen Design vs Asset Extraction).
+  - Tests: `screenAuthorityIngestion.test.ts` (22 pass); 82 total skin tests pass.
+- **Next founder action:** Design → MORE → EXPERIENCE SKIN → NDXBOOK → PROJECT OVERVIEW → ADD AUTHORITY → upload mobile NDX overview → REGISTER → IMPLEMENT (not Assets → Instruct).
+
+---
+
+## 2026-09-09 — Design Workspace Project Selector Recovery
+
+- **Problem:** Top-right Design workspace project selector visually present but non-functional — stuck on PROJECT SITE 00; all tabs showed Site 00 data regardless of selection.
+- **Root cause:** `StudioWorldDesignWorkspace.tsx` used `const [projectId] = useState(resolveManagedProjectForDesignContext(...))` — initialized once, never updated on selector change. Breadcrumb hardcoded to SITE 00.
+- **Implemented:**
+  - `activeDesignProject.ts` — `resolveActiveDesignProjectId`, `listSelectableDesignProjects`, `formatDesignProjectSelectorLabel`, `buildDesignWorkspaceBreadcrumb`, failure codes (DESIGN_PROJECT_*), `assertNoDesignProjectDataBleed`.
+  - `DesignProjectSelector.tsx` — functional top-right dropdown wired to managed project registry (excludes DESIGN WORKSPACE / NEW PROJECT).
+  - `StudioWorldDesignWorkspace.tsx` — `activeDesignProjectId` from URL via `resolveActiveDesignProjectId`; `handleSelectDesignProject` updates URL + clears stale state; tab panels keyed by project (`pages-`, `refs-`, `assets-`, `history-`); tab preserved on switch.
+  - `ExperienceSkinManagementPanel` — scopes to `BRAND_FAMILY_PROJECT_MAP[projectId]`.
+  - `DesignMoreTab` — accepts `projectId` prop for project-scoped settings.
+  - Added `astral-world` to managed/design project registries.
+  - Tests: `designProjectSelector.test.ts` (22 pass); updated P0VR3M tests (35 total).
+- **Next founder action:** Design → tap PROJECT SITE 00 ▼ → select NDXBOOK → verify breadcrumb + Pages no longer show Site 00's 45 pages → MORE → EXPERIENCE SKIN → NDXBOOK → PROJECT OVERVIEW → ADD AUTHORITY → upload approved mobile NDX overview.
+
+---
+
+## 2026-09-09 — Design Workspace Live Page Mirror (P0.VR.8)
+
+- **Problem:** PAGES tab used static screen lists (`listScreensWithSnapshots`) — stale thumbnails, hardcoded copy, no route discovery sync, no deploy-aware recapture.
+- **Implemented:**
+  - `shared/.../p0vr8/` — ProjectPageRegistry, ProjectRouteDiscoveryService, ProjectPageSyncOrchestrator, ProjectPageChangeDetector, SharedLayoutImpactResolver, PageCaptureQueue, PageSnapshotFreshness, PageCaptureReadyContract, screenshot recorder (wraps P0.VR.3E), convergence bridge.
+  - API `/api/site00/page-mirror` — discover, sync events, refresh page/project, inspector state.
+  - UI — `usePageMirror` hook; `DesignPagesTabPanel` shows live routes, reference compare, stale indicators, REFRESH CAPTURE / REFRESH PROJECT; workspace uses `buildProjectPageMirrorRows` keyed by `activeDesignProjectId`.
+  - Tests: `livePageMirror.test.ts` (35 pass); updated designProjectSelector test 12.
+- **Gaps:** Full Playwright auto-capture on every deploy requires Railway/cPanel live URL + background worker hook; DOM manifest/content summary stubs ready but not populated from live DOM yet; History tab events not yet wired to sync orchestrator feed.
+- **Next founder action:** Design → NDXBOOK → PAGES → verify routes from NDX router (6 pages) → REFRESH CAPTURE one page → make small NDX visible change → deploy → verify page marked STALE then recaptured.
+
+---
+
+## 2026-09-09 — Design Workspace SKINS Tab Pixel-Fidelity Sprint
+
+- **Context:** Approved mobile + desktop visual authorities for new first-class SKINS tab between PAGES and HISTORY. Experience Skin UX moved from MORE to SKINS.
+- **Implemented:**
+  - Tab order: REFERENCES · ASSETS · PAGES · **SKINS** · HISTORY · MORE
+  - `DesignSkinsTab.tsx` + `useDesignSkinsState.ts` — independent mobile carousel/grid layout + desktop 3-zone workstation (family rail · screen pack · preview panel · bottom fidelity strip)
+  - Removed `ExperienceSkinManagementPanel` from MORE (providers/spend/storage/automation/fidelity preserved)
+  - Wired `SkinScreenAuthorityIngestion`, project-scoped via `activeDesignProjectId`, real pack counts from registry
+  - `site00-design-skins-tab.css`, `DESIGN_SKINS_FAILURE_CODES`, legacy EXPERIENCE_SKIN → SKINS URL mapping
+  - Tests: `designSkinsTab.test.ts` (28 pass)
+- **Gaps:** Mobile family carousel/viewport toggle need founder QA on deployed bundle; MasterSkinEvolveProofPanel remains in MORE (separate from Experience Skin); full pixel overlay QA loop pending founder side-by-side on device.
+- **Next founder action:** Design → SKINS on mobile + desktop → compare to attached authorities → MORE confirms no Experience Skin wall → NDXBOOK → OVERVIEW → MOBILE → ADD AUTHORITY.
+
+---
+
+## 2026-09-09 — SKINS Nested Flow Visual Cohesion Recovery
+
+- **Problem:** Primary SKINS landing matched approved authorities, but child surfaces (ADD AUTHORITY, IMPLEMENT, VISUAL QA) fell back to raw admin forms — native file input, disabled selects, bullet-list contract, lost context.
+- **Root cause:** `SkinScreenAuthorityIngestion.tsx` used legacy `site00-bfs-ingestion` markup inline, replacing the SKINS view instead of a designed sheet overlay.
+- **Implemented:**
+  - Shared child-surface system under `src/site00/components/designWorkspace/skins/` — `SkinWorkspaceSheet`, `SkinContextHeader`, `SkinViewportControl`, `SkinAuthorityContract`, `SkinReferenceUpload`, `SkinAuthorityStatus`, `SkinImplementationProgress`, `SkinVisualQaViewer`, `SkinDriftSummary`, `SkinVersionTimeline`, `SkinPrimaryActions`, `SkinAuthorityFlow` orchestrator.
+  - `DesignSkinsTab` — overlay sheet preserves SKINS context behind; flow steps add → registered → implement → progress → visual QA; breadcrumb `DESIGN → SKINS → …`.
+  - `skinsChildSurface.ts` — cohesion QA helper + failure codes (`SKINS_RAW_FORM_FALLBACK`, etc.).
+  - Extended `site00-design-skins-tab.css` for sheet/panel, contract grid, upload dropzone, QA viewer.
+  - Tests: `skinsChildSurface.test.ts` (28 pass); updated `designSkinsTab.test.ts` test 14.
+- **Next founder action:** Design → SKINS → NDXBOOK → PROJECT OVERVIEW → ADD AUTHORITY → verify designed sheet (no text wall, no raw file input) → upload NDX mobile overview → REGISTER → IMPLEMENT → verify visual QA flow uses same SKINS language → deploy v232 ZIP to GoDaddy.
+
+---
+
+## 2026-09-09 — SKINS Pixel-Fidelity + Reference Asset Deconstruction
+
+- **Problem:** SKINS landing was directionally correct but rough vs approved mobile/desktop authorities — geometry drift, typography/line-break drift, flat color swatches instead of reference imagery.
+- **Root cause:** Family cards used `primaryColor` CSS blocks; no reference asset manifest; mobile screen grid 4-col vs authority 2-col; no crop/extract pipeline for SKINS authority screenshots.
+- **Implemented:**
+  - Approved refs stored: `public/visual-references/founder/site00/skins-authority-mobile.jpg`, `skins-authority-desktop.jpg`
+  - `scripts/extract-skins-reference-assets.mjs` — deconstruction-first crop → 20 webp assets in `public/site00/skins/extracted/`
+  - `skinsReferenceFidelity.ts` — `SkinReferenceAssetManifest`, `TypographyReferenceDelta`, `ReferenceAssetVisualDelta`, geometry tokens, binding resolution, fidelity QA
+  - `useSkinsReferenceAssets`, `SkinFamilyThumb`, `SkinFamilyName` — image-led cards + authority line breaks
+  - `DesignSkinsTab` wired to extracted/bound assets; mobile 2-col screen pack; calibrated CSS tokens
+  - Tests: `skinsReferenceFidelity.test.ts` (26 pass)
+- **Next founder action:** Deploy v233 → Design → SKINS mobile + desktop → compare to attached authorities → verify family cards show real visuals (not lime/red/gold blocks) → NDXBOOK → OVERVIEW → ADD AUTHORITY.
+
+---
+
+## 2026-09-09 — Reference Asset Pipeline Recovery (P0.VR.6R4)
+
+- **Problem:** v233 bound **source crops** directly as live family thumbnails — screenshot fragments with phone edges, card UI, label text still visible as final assets.
+- **Root cause:** `buildDefaultSkinsManifest()` / `resolveFamilyThumbnailUrl()` treated extracted webp paths as `canonicalUrl` with status `BOUND`. Doctrine violated: **SOURCE CROP ≠ FINAL ASSET**.
+- **Implemented:**
+  - `referenceAssetPipeline.ts` — `ReferenceAssetSource`, `ReconstructedAssetOutput`, `AssetTreatmentPlan`, `sourceCropCannotBeCanonical()` guard, classification, treatment plans, `ReferenceAssetPromptBuilder`, contamination + reconstruction QA, multi-asset job orchestration, screen convergence blocker, failure codes.
+  - `skinsReferenceFidelity.ts` — manifest entries now `sourceCropUrl` only + `canonicalUrl: null` + `RECONSTRUCTION_PENDING`; family thumbs only bind approved canonical; screen authority precedence preserved; `auditInvalidSourceCropBindings()`.
+  - `DesignSkinsReferenceAssetJobs.tsx` — ASSETS panel shows SOURCE→CROP→RECONSTRUCT→BACKGROUND→QA→APPROVE→LIVE stages, job plan, prompt preview, FOUNDER GENERATE (disabled until dispatch wired).
+  - `SkinFamilyThumb.tsx` — safe empty state on broken/missing URLs (color swatch fallback).
+  - Extract script + `public/site00/skins/extracted/manifest.json` — source crops marked `RECONSTRUCTION_PENDING`, not APPROVED canonical.
+  - Preset: `RECONSTRUCT_REFERENCE_ASSET` in p0vr5 constants/presetStore.
+  - Tests: `referenceAssetPipeline.test.ts` (25), updated `skinsReferenceFidelity.test.ts` (26).
+- **Five family assets rebuild status:** Pipeline structure ready; **no reconstructed canonical outputs yet** — founder must GENERATE → APPROVE per family (one-at-a-time spend control).
+- **Next founder action:** Deploy v234 → Design → ASSETS → SKINS REFERENCE ASSET JOB → NDXBOOK → verify pipeline stages + prompt + source crop NOT marked final → FOUNDER GENERATE → approve → Design → SKINS → verify NDXBOOK card uses clean canonical (not crop fragment).
+
+---
+
+## 2026-09-09 — Design Project Selector Visual Cleanup
+
+- **Problem:** Project selector dropdown used heavy black/dark theme — low contrast inactive text, unclear selected state, felt like a different product vs SITE 00 light host UI.
+- **Root cause:** `site00-design-workspace-v3.css` styled `.site00-dw-project-selector__menu` with `#0a0a0a` background and white hover text.
+- **Implemented:**
+  - Light popover: white surface, light border, subtle shadow, 10px radius, Martian Mono uppercase.
+  - Selected state: light red highlight + red left border + CURRENT tag; hover light gray (not black).
+  - Project accent dots (red/lime/gold/purple) per brand; canonical order enforced in `listSelectableDesignProjects`.
+  - Keyboard nav (arrows, escape, home/end) + focus-visible states; compact mobile anchored popover.
+  - `designProjectSelectorVisuals.ts` — accents, canonical order, visual failure codes.
+  - Tests: `designProjectSelector.test.ts` extended to 37 (15 visual cleanup tests).
+- **Next founder action:** Deploy v235 → Design → tap PROJECT [name] ▼ → verify light popover → select FRONTAL SLAYER → verify label/breadcrumb/rescope → reopen and verify CURRENT mark.
+
+---
+
+## 2026-09-09 — SKINS Pixel-Fidelity No-Op Recovery
+
+- **Problem:** v233/v234 SKINS fidelity sprints produced no material runtime change — family cards still flat color blocks; v234 correctly unbound source crops but never completed reconstruction/bind.
+- **No-op root cause:** Pipeline break at RECONSTRUCT → CANONICAL → BIND — `buildDefaultSkinsManifest()` had `canonicalUrl: null` for all families; `resolveFamilyThumbnailUrl()` always returned `colorSwatchFallback: true`.
+- **Trace:** Route `/projects/site00/design` → `StudioWorldDesignPage` → `StudioWorldDesignWorkspace` → `DesignSkinsTab` → `useSkinsReferenceAssets` → `resolveFamilyThumbnailUrl`. Authority refs exist at `public/visual-references/founder/site00/skins-authority-*.jpg` but were not in canonical reference registry until `skinsAuthorityRegistry.ts`.
+- **Golden NDX fix:** FAL `gpt-image-2/edit` dispatched via `scripts/reconstruct-skins-ndx-golden.mjs` → `public/site00/skins/canonical/mobile/brand_family_ndxbook.webp` (896×736). Bound via `skinsCanonicalBindings.ts` — status BOUND, distinct from source crop.
+- **Guards:** `SKINS_APPROVED_ASSET_NOT_RENDERED`, `SKINS_ASSET_BINDING_LOAD_FAILED`, `VisualImplementationNoOpGuard`, load-failed UI (no silent color swatch when approved asset exists).
+- **Remaining:** FRONTAL SLAYER, AIO, ASTRAL WORLD, STUDIO WORLD still await reconstruction; screen pack tiles await authority; full mobile composition convergence pending.
+- **Next founder action:** Deploy v236 → Design → SKINS → MOBILE → verify NDXBOOK card shows planetary artwork (not lime block) → compare family row to authority.
+
+---
+
+## 2026-09-09 — Reference Reconstruction Intelligence (P0.VR.6R5)
+
+- **Problem:** Reconstruction still followed REFERENCE → visual interpretation → approximate implementation. EXACT mode lacked formal MEASURE → INFER → CONSTRAIN → CONVERGE → VERIFY pipeline between "composer can see the screen" and "live implementation is actually exact."
+- **Scope:** System-level methodology sprint — not a one-off SKINS/NDXBOOK fix. Five intelligence layers formalized as first-class modules.
+- **Implemented (`referenceReconstructionIntelligence/`):**
+  - Layer 1: `ReferenceMeasurementEngine` — canonical content-canvas coordinates, viewport calibration, region tree, geometry/spacing/typography/surface specs.
+  - Frame segmentation: device frame / browser chrome / content canvas separation (`referenceFrameSegmentation.ts`).
+  - Layer 2: `ReferenceLayoutInferenceEngine` — flex/grid inference, parent-child graph, responsive authority isolation.
+  - Layer 3: `DesignExecutionConstraintEngine` — global CSS contamination audit, native control leak, box model audit.
+  - Layer 4: `visualConvergenceHardening.ts` — region deltas, cumulative drift detector, correction priority, probable cause resolver, correction plans, convergence iteration records, no-op guard integration.
+  - Layer 5: `ReferenceVerificationEngine` — fidelity thresholds, hard blockers, false-pass guard, line-break drift classification.
+  - `ReferenceReconstructionBlueprint` — machine-readable spec; `blueprintRequiredBeforeExactImplementation()` blocks EXACT without READY blueprint.
+  - `deterministicCapture.ts` — font-ready, layout-stable, animation-freeze, scroll/data-state gates.
+  - `skinsMobileBlueprint.ts` — SKINS mobile authority preset (941×1672, geometry tokens, AIO line-break contracts).
+  - `systemInspector.ts` — `buildReferenceReconstructionInspectorState()` for founder QA.
+  - UI: `DesignReferenceReconstructionInspector.tsx` wired in Design → MORE → REFERENCE FIDELITY.
+  - Tests: `referenceReconstructionIntelligence.test.ts` (55 pass).
+- **31 failure codes** registered in `RRI_FAILURE_CODES`.
+- **Remaining gaps:** Desktop SKINS blueprint preset; live CAPTURE→DIFF→CORRECT loop not yet wired to convergence API; 4 family assets still unbound; full mobile composition convergence not executed against founder authorities.
+- **Next founder action:** Deploy v237 → Design → MORE → REFERENCE RECONSTRUCTION → verify blueprint READY + viewport/content canvas/region tree/layout plan visible → run IMPLEMENT/RECONVERGE MOBILE SKINS when wired → only then move to desktop SKINS authority.
+
+---
+
+## 2026-09-09 — Authority Boundary + Multi-Asset Orchestration (P0.VR.6R6)
+
+- **Problem:** P0.VR.6R5 shipped methodology but runtime SKINS mobile unchanged — only NDXBOOK improved; system treated too much as HOST_LOCKED and processed assets one-at-a-time.
+- **Root causes:** (1) Authority boundary misclassification — workspace content mistaken for host shell. (2) Asset reconstruction too atomic — no full-screen mismatch discovery → single multi-asset job with founder gates.
+- **Implemented:**
+  - `authorityBoundary.ts` — `ReferenceAuthorityBoundaryMap`, `RegionFunctionVisualContract`, `HostShellOverreachDetector` (~12% host coverage vs ~70% authority rebuild).
+  - `referenceAssetMismatch.ts` — `ReferenceLiveVisualInventory`, discovers all 5 family visual mismatches (4 color swatches + NDX matched).
+  - `multiAssetReconstructionJob.ts` — `ReferenceMultiAssetReconstructionJob`, crop/generation/binding progress, `buildMultiAssetReconstructionPlan`.
+  - `reconstructionApprovals.ts` — 4 founder gates: CROP / GENERATION / OUTPUT / REGENERATION (separate flags).
+  - `assetCompletenessGate.ts`, `partialVisualImplementationGuard.ts` — blocks HIGH_MATCH when assets wrong; detects partial-op (1/5 fixed).
+  - Blueprint extended: boundary map, approval states, multiAssetJobId, assetMismatchCount.
+  - Inspector: color-coded boundary overlay (HOST_LOCKED vs AUTHORITY_REBUILD vs ASSET_SLOT).
+  - ASSETS UI: REFERENCE RECONSTRUCTION JOB — 5 assets, DETECT/CROPS/GENERATION/OUTPUTS/BOUND progress, crop queue, gate A/B/C buttons.
+  - Tests: `referenceReconstructionIntelligenceR6.test.ts` (30 pass); total RRI 85 pass.
+- **Remaining:** Provider dispatch API wiring; post-bind recapture loop; layout/typography structural corrections execution; desktop blueprint.
+- **Next founder action:** Deploy v238 → MORE → REFERENCE RECONSTRUCTION → verify SKINS workspace shows AUTHORITY_REBUILD (red overlay) not HOST_LOCKED → ASSETS → SKINS MOBILE JOB → verify 5 assets → approve crops → review plan → approve generation (no auto-dispatch until wired).
+
+---
+
+## 2026-09-09 — Founder Action Routing + Auto-Surfaced Approval Workflow (P0.VR.6R7)
+
+- **Problem:** v238 SKINS mobile job blocked on crops 0/5 + generation blocked — founder saw nothing actionable in Design workspace; had to hunt System Inspector. Structural/typography corrections incorrectly coupled to asset gate.
+- **Root causes:** (1) `FOUNDER_GATE_NOT_SURFACED` — blocked jobs did not auto-create `DesignFounderAction`. (2) `RECONSTRUCTION_SUBJOB_COUPLED` — top-level BLOCKED stopped structure/typography parallel work. (3) `FOUNDER_ACTION_DEEPLINK_MISSING` — no deep-link from SKINS/ASSETS tabs to crop review workspace.
+- **Implemented:**
+  - `founderAction.ts` — `DesignFounderAction` model, action types (REVIEW_CROPS, APPROVE_GENERATION, REVIEW_OUTPUTS, APPROVE_REGENERATION, REVIEW_BINDINGS, etc.), R7 failure codes.
+  - `founderActionRouter.ts` — auto-create actions from blocked job; `hydrateV238SkinsMobileJob()` for existing 5-asset job recovery.
+  - `referenceReconstructionSubJobs.ts` — STRUCTURE/TYPOGRAPHY/SURFACES/ASSETS/CAPTURE_QA independent status; top-level `IN_PROGRESS — FOUNDER ACTION REQUIRED`.
+  - `structureCorrectionEngine.ts` — parallel CSS corrections (`--skins-mobile-family-w`, spacing, typography) while assets wait.
+  - `reconstructionJobOrchestrator.ts` — crop → plan → generation → output state transitions; resolving action resumes pipeline.
+  - `reconstructionWorkflowStore.ts` — session-persistent workflow + actions.
+  - UI: `DesignFounderActionBanner`, `DesignReconstructionWorkflowPanel`, `useDesignReconstructionWorkflow` — multi-crop review (01/05), generation plan, execution status, output review.
+  - `DesignSkinsTab` — inline action card + workflow panel + RRI-calibrated structure CSS.
+  - `DesignReferenceAssetsPanel` — NEEDS YOUR REVIEW queue at top.
+  - `DesignWorkspacePrimaryTabRail` — badge counts on ASSETS/SKINS when blocking actions pending.
+  - API: `dispatch_skins_candidate` in `design-asset-reconstruction.ts` — FAL dispatch after generation approval.
+  - Tests: `referenceReconstructionIntelligenceR7.test.ts` (26 pass); total RRI 111 pass.
+- **Remaining gaps:** Full post-bind auto capture/recompare loop; regeneration approval UI (REVISE → APPROVE_REGENERATION) partial; production FAL_KEY required for live dispatch.
+- **Next founder action:** Deploy v239 → Design → SKINS (NOT Inspector) → verify "5 CROPS NEED YOUR REVIEW" + [REVIEW CROPS] → approve 5 crops → review generation plan → APPROVE GENERATION → compare layout to authority (structure/typography should already have moved before asset approval).
+
+---
+
+## 2026-09-09 — Founder Action UX Repackaging (P0.VR.6R8)
+
+- **Problem:** Founder gates (crop approval) technically correct but felt silent — work buried in pipeline language, not surfaced via ASSETS alerts or bell notifications.
+- **Implemented:**
+  - `founderActionNotifications.ts` — single bridge from `DesignFounderAction` → bell notifications + ASSETS alerts; read vs resolved; dedupe by jobId+actionType; founder-friendly copy.
+  - `DesignFounderActionAlertZone` — compact NEEDS YOUR REVIEW strip at top of Design → ASSETS (light surface, red accent, Martian Mono).
+  - Bell integration — merges founder action notifications into existing `ActiveProjectNotificationCenter`; red badge count; OPEN deep-links to project + ASSETS + crop review stage.
+  - `DesignSkinsFounderActionHint` — secondary SKINS inline "REVIEW IN ASSETS".
+  - `resolveFounderActionsByGate` — resolves SKINS+ASSETS mirror together; stale notifications suppressed on gate completion.
+  - R8 failure codes (9); tests `referenceReconstructionIntelligenceR8.test.ts` (20 pass); total RRI 131 pass.
+- **Next founder action:** Deploy v241 → top-right bell shows pending action → OPEN → verify lands on Design → ASSETS → crop review; ASSETS root shows NEEDS YOUR REVIEW card with [REVIEW CROPS].
+
+---
+
+## 2026-09-09 — Page Completion + Interaction Intelligence Engine (P0.VR.7)
+
+- **Problem:** Pages could ship as primary screens only — visible buttons/tabs/toggles with no resolved child routes, states, or surfaces until a later sprint.
+- **Doctrine:** Visible function = required implementation contract. No silent NO-OP unless `NO_OP_INTENTIONAL`.
+- **Implemented (`pageCompletionIntelligence/`):**
+  - `PageCompletionIntelligenceEngine` — affordance detect → child surface infer → route plan → interaction graph → completeness gate.
+  - `PageInteractionAffordanceDetector`, `ChildSurfaceInferenceEngine`, `PageRouteCompletionEngine`, `PageVisualInheritanceContract`, `PageInteractionGraph`, `PageInteractionGraphQA`, `PageCompletenessGate`.
+  - `DesignReconstructionKernel` — shared services for SKINS / PAGES / ASSETS (measurement, RRI, multi-asset jobs, founder actions, interaction completion).
+  - `PAGE_CREATED` / `PAGE_UPDATED` handlers → page mirror sync + recursive child completion.
+  - Founder actions: `REVIEW_CHILD_SURFACE_PLAN`, `REVIEW_ROUTE_PLAN`, `REVIEW_INTERACTION_AMBIGUITY`.
+  - UI: `DesignPageCompletionPanel` on Design → PAGES + System Inspector PAGE COMPLETION section.
+  - Design workspace contracts: tabs, ADD AUTHORITY, project selector, crop review, etc.
+  - Tests: `pageCompletionIntelligence.test.ts` (49 pass).
+- **Remaining:** Auto-implement child routes in runtime router; full end-to-end Playwright nav QA; wire ambiguous actions to bell notifications.
+- **Next founder action:** Deploy v242 → Design → PAGES → verify PAGE COMPLETION panel shows interactions/child surfaces for selected page → MORE → inspect PAGE COMPLETION block.
+
+---
+
+## 2026-09-09 — Evolve Service Page + Self-Directed Client Product (reference-fidelity sprint)
+
+- **Context:** Founder sprint to split **public Evolve service discovery** from **self-directed Evolve client product**, rebuild both from attached mobile/desktop authorities (Martian Mono, uppercase UI), wire functional CTAs via page completion, support MARKETING_ONLY scope + project relationship architecture.
+- **Implemented:**
+  - **`shared/site00-evolve-service/`** — `EvolveServiceMode` (DIGITAL_EVOLUTION | MARKETING_CREATIVE_INTELLIGENCE), 5-step service process, 5 service areas, evolution paths, `resolveStartEvolveRoute` / `resolveEnterPathRoute`, PCI contracts.
+  - **`shared/site00-self-directed/`** — `ProjectServiceScope`, `ProjectRelationship`, `ServiceDeliveryMode`, nav (HOME/PROJECTS/REVIEWS/INBOX/PROFILE), PCI contracts, `formatMetricCount` (unknown ≠ 0).
+  - **Public `/evolve`** — `EvolveHubDesktopExperience` (independent desktop layout + CSS); mobile hub updated to new `EvolveServiceIcon` SVG system (replaces `EvolvePathIcon` on service page), 5-step process, SERVICE AREAS grid; auth-aware START EVOLVE.
+  - **Client app `/app/projects/:slug/*`** — bottom nav → HOME · PROJECTS · REVIEWS · INBOX · PROFILE; `SelfDirectedHomeView`, `SelfDirectedProjectsView`, `SelfDirectedProfileView`; routes `projects`, `profile`; `site00-self-directed-client.css`.
+  - **`manifestTemplates`** — MARKETING_ONLY, MARKETING_PLUS_PRODUCTION, FULL_SITE, BUILDER_ONLY, CUSTOM scopes with 5-step marketing journey phases.
+  - **Tests:** `evolveSelfDirectedProduct.test.ts` (20 pass); updated client app P0.APP.1 nav expectations.
+- **Remaining gaps:** Full desktop self-directed tab layouts (separate desktop authorities for Home/Projects/Profile) need deeper grid pass; Reviews/Inbox tabs reuse existing queue pages (not full authority rebuild this session); deterministic screenshot QA matrix not run; marketing-intelligence public lane is architectural only (no second service page UI).
+- **Next founder action:** Deploy v243 → mobile `/evolve` compare to Evolve service authority → desktop `/evolve/desktop` compare → sign into `/app/projects/:slug` → verify 5-tab shell → tap primary actions on Home/Projects/Profile.
+
+---
+
+## 2026-09-09 — P0.VR.6R9 Visual Convergence + Screen QA Matrix
+
+- **Context:** Architecture from v243 shipped (PR #635); sprint goal = converge live UI to approved authorities without rebuilding product model. Known gaps: desktop self-directed grids, Reviews/Inbox visual rebuild, screenshot QA matrix.
+- **Implemented:**
+  - **`shared/site00-evolve-self-directed/`** — `EvolveSelfDirectedScreenQAMatrix` (12 authorities × reference/live/overlay/diff/status), authority registry (6 screens × mobile/desktop), guards (NO-OP, PARTIAL-OP, DESKTOP_STRETCH, GENERIC_CHILD_UI).
+  - **Reviews rebuild** — `SelfDirectedReviewsView` + `SelfDirectedReviewDetailShell`; mobile queue cards + desktop 2-col grid with rail; replaces `ClientAppReviewQueueList` on queue page.
+  - **Inbox rebuild** — `SelfDirectedInboxView` + `SelfDirectedInboxThreadView` with thread messages + reply UI; not system notification list.
+  - **Desktop self-directed shell** — left sidebar nav at ≥1024px (`site00-app-side-nav`), independent desktop compositions for Home/Projects/Profile (not stretched mobile).
+  - **Profile edit** — `SelfDirectedProfileEditSheet` (mobile sheet / desktop modal) for `sd-profile-edit` child surface.
+  - **CSS** — `site00-self-directed-client.css` expanded (reviews, inbox, desktop grids, profile edit); `site00-client-app.css` desktop shell.
+  - **Tests:** `evolveSelfDirectedScreenQA.test.ts` (25 pass) + existing `evolveSelfDirectedProduct.test.ts` (20 pass).
+- **Remaining drift:** Pixel-level Evolve hub hero/footer pass; Reviews/Inbox authorities use nearest reference assets (no dedicated Reviews/Inbox mock in image pack); live snapshot captures + overlay/diff PNGs require founder deploy + manual QA matrix review; asset generation jobs not started (layout/typography converged without paid generation).
+- **Next founder action:** Deploy v244 → open screenshot QA matrix in tests/shared module → compare `/evolve` + `/evolve/desktop` → preview `/app/preview/preview-client-room` (or signed project) → verify Reviews/Inbox rebuild + desktop side nav → click primary action per tab.
+

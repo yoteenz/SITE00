@@ -15,9 +15,8 @@ export type ProjectsViewIdentityInput = {
   isHydrating?: boolean;
   authenticatedProfile: AccountProfileInput | null;
   authMetadataProfile?: AccountProfileInput | null;
-  simulatedClientProfile?: AccountProfileInput | null;
-  activeClientProjectOwner?: AccountProfileInput | null;
-  clientProjectOwners?: Array<AccountProfileInput & { slug?: string | null }>;
+  activeSimulatedClientId?: string | null;
+  simulatedClientDirectoryProfile?: AccountProfileInput | null;
   simulatedClientProjectSlug?: string | null;
   founderEmail?: string | null;
 };
@@ -108,16 +107,26 @@ export function resolveProjectsViewAccountIdentity(input: ProjectsViewIdentityIn
   const founderEmail = (input.founderEmail ?? input.authenticatedProfile?.email ?? '').trim().toLowerCase();
 
   if (input.viewMode === 'CLIENT' && input.isSimulatingClient) {
-    const clientProjects = input.clientProjectOwners ?? (input.activeClientProjectOwner ? [input.activeClientProjectOwner] : []);
-    const simulated =
-      input.simulatedClientProfile ??
-      resolveActiveSimulatedClientOwner({
-        clientProjects,
-        simulatedClientProjectSlug: input.simulatedClientProjectSlug ?? null,
-        founderEmail,
-      }) ??
-      input.activeClientProjectOwner ??
-      null;
+    if (!input.activeSimulatedClientId) {
+      const identity = resolveAccountDisplayIdentityFromSources({
+        viewMode: 'CLIENT',
+        isHydrating: input.isHydrating,
+        candidates: [{ kind: 'FALLBACK', record: { displayName: 'CLIENT' }, priority: 99 }],
+      });
+      return { identity, eyebrow: formatAccountIdentityEyebrow(identity) };
+    }
+
+    const directoryProfile = input.simulatedClientDirectoryProfile;
+    const simulated: AccountProfileInput | null = directoryProfile
+      ? {
+          accountId: directoryProfile.accountId ?? input.activeSimulatedClientId,
+          userId: directoryProfile.userId ?? null,
+          email: directoryProfile.email ?? null,
+          firstName: directoryProfile.firstName ?? null,
+          lastName: directoryProfile.lastName ?? null,
+          displayName: directoryProfile.displayName ?? null,
+        }
+      : null;
 
     if (simulated) {
       const ownerEmail = (simulated.email ?? '').trim().toLowerCase();
@@ -125,13 +134,7 @@ export function resolveProjectsViewAccountIdentity(input: ProjectsViewIdentityIn
         const identity = resolveAccountDisplayIdentityFromSources({
           viewMode: 'CLIENT',
           isHydrating: input.isHydrating,
-          candidates: [
-            {
-              kind: 'FALLBACK',
-              record: { displayName: 'CLIENT' },
-              priority: 99,
-            },
-          ],
+          candidates: [{ kind: 'FALLBACK', record: { displayName: 'CLIENT' }, priority: 99 }],
         });
         return { identity, eyebrow: formatAccountIdentityEyebrow(identity) };
       }

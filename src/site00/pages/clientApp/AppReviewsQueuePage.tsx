@@ -1,11 +1,11 @@
 import { useOutletContext, useParams, useLocation } from 'react-router-dom';
 import { useMemo } from 'react';
 import { useClientReviewDetail, useClientReviewQueue } from '../../hooks/useClientReviews';
-import { ClientAppReviewQueueList } from '../../components/clientApp/ClientAppReviewQueueList';
 import {
   ClientAppReviewDetailView,
   resolveReviewModeFromPath,
 } from '../../components/clientApp/ClientAppReviewDetailView';
+import { SelfDirectedReviewDetailShell, SelfDirectedReviewsView } from '../../components/selfDirected/SelfDirectedReviewsView';
 import { AppEmptyState, AppLoadingState } from '../../components/clientApp/Site00ClientAppShell';
 import type { AppOutletContext } from './AppProjectLayout';
 import { PREVIEW_REVIEW_OBJECTS } from '../../../../shared/site00-client-reviews/previewSeed.js';
@@ -27,10 +27,11 @@ export default function AppReviewsQueuePage() {
   const reviews = isPreview ? PREVIEW_REVIEW_OBJECTS : data!.reviews;
 
   return (
-    <ClientAppReviewQueueList
+    <SelfDirectedReviewsView
       reviews={reviews}
       emptyMessage={isPreview ? null : data?.emptyMessage}
       reviewHref={(reviewId) => paths.review(reviewId)}
+      projectLabel={manifest.projectNumber}
     />
   );
 }
@@ -78,12 +79,14 @@ export function AppReviewDetailPage() {
   }
 
   return (
-    <ClientAppReviewDetailView
-      detail={detail}
-      mode={mode}
-      paths={{ queue: paths.reviews, review: (sub) => paths.review(reviewId, sub) }}
-      onReload={() => void reload()}
-      onPostAction={(action, body) => postReviewAction(reviewSlug, { action, ...body })}
-    />
+    <SelfDirectedReviewDetailShell title={detail.review.title} backHref={paths.reviews}>
+      <ClientAppReviewDetailView
+        detail={detail}
+        mode={mode}
+        paths={{ queue: paths.reviews, review: (sub) => paths.review(reviewId, sub) }}
+        onReload={() => void reload()}
+        onPostAction={(action, body) => postReviewAction(reviewSlug, { action, ...body })}
+      />
+    </SelfDirectedReviewDetailShell>
   );
 }

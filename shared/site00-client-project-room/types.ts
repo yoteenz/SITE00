@@ -43,10 +43,23 @@ export type ClientProjectColorProfileState = 'UNESTABLISHED' | 'ESTABLISHED';
 export type ProjectAccentSource = 'DEFAULT_SITE00_RED' | 'CLIENT_COLOR_PROFILE';
 
 export type ClientProjectServiceScope =
+  | 'MARKETING_ONLY'
+  | 'MARKETING_PLUS_PRODUCTION'
+  | 'FULL_SITE'
+  | 'BUILDER_ONLY'
+  | 'CUSTOM'
   | 'WEBSITE_ONLY'
   | 'IDENTITY_PLUS_WEBSITE'
   | 'NDXBOOK_LIKE'
   | 'IDENTITY_ONLY';
+
+export type ProjectRelationship =
+  | 'MY_BRAND'
+  | 'CLIENT_BRAND'
+  | 'FRIEND_COLLABORATOR'
+  | 'INTERNAL_TEST';
+
+export type ServiceDeliveryMode = 'SELF_DIRECTED' | 'SITE00_DIRECTED';
 
 export type ClientProjectManifest = {
   projectId: string;
@@ -76,6 +89,9 @@ export type ClientProjectManifest = {
   messageSummary: ClientMessageSummary;
   currentMoment: ClientCurrentMoment;
   notificationsUnread: number;
+  serviceScope?: ClientProjectServiceScope;
+  relationship?: ProjectRelationship;
+  deliveryMode?: ServiceDeliveryMode;
 };
 
 export type ClientProjectPhase = {

@@ -30,6 +30,11 @@ import type { CropCoordinateRecord, SourcePixelBounds } from '../../../../shared
 import { DesignAssetReconstructionDetail } from './DesignAssetReconstructionDetail';
 import { DesignReferenceCropEditor } from './DesignReferenceCropEditor';
 import { DesignAssetJobWorkspace } from './DesignAssetJobWorkspace';
+import { DesignSkinsReferenceAssetJobs } from './DesignSkinsReferenceAssetJobs';
+import { useDesignReconstructionWorkflow } from './useDesignReconstructionWorkflow.js';
+import { DesignFounderActionAlertZone } from './DesignFounderActionAlertZone.js';
+import { DesignReconstructionWorkflowPanel } from './DesignReconstructionWorkflowPanel.js';
+import { useDesignFounderActionNotifications } from './useDesignFounderActionNotifications.js';
 import {
   generateLivePlanetAsset,
   approveLiveAsset,
@@ -249,9 +254,34 @@ export function DesignReferenceAssetsPanel({
   };
 
   const generateBlocker = generationBlocker ?? falHealthBlocker;
+  const workflow = useDesignReconstructionWorkflow();
+  const founderAlerts = useDesignFounderActionNotifications();
+  const totalAssetsPending = workflow.assetsActionCount;
 
   return (
     <div className="site00-dw-ref-assets">
+      {workflow.state?.workflowView && workflow.state ? (
+        <DesignReconstructionWorkflowPanel
+          state={workflow.state}
+          view={workflow.state.workflowView}
+          onApproveCrop={workflow.approveCrop}
+          onApproveAllCrops={workflow.approveAllCrops}
+          onApproveGeneration={() => void workflow.approveGeneration()}
+          onApproveOutput={workflow.approveOutput}
+          onClose={workflow.closeWorkflow}
+          onSetCandidateIndex={workflow.setCandidateIndex}
+        />
+      ) : founderAlerts.alertActions.length > 0 ? (
+        <DesignFounderActionAlertZone
+          actions={founderAlerts.alertActions}
+          totalPending={totalAssetsPending}
+          onPrimary={(action) => workflow.openAction(action.deepLink)}
+          onViewJob={(action) => workflow.openAction(action.deepLink)}
+        />
+      ) : null}
+
+      <DesignSkinsReferenceAssetJobs viewport="MOBILE" />
+
       <DesignAssetJobWorkspace
         projectId={projectId}
         pageId={pageId}

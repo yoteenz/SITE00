@@ -219,9 +219,9 @@ describe('P0.VR.5 founder instruction + multi-asset pipeline', () => {
   });
 
   it('UI wiring — job workspace integrated in ASSETS tab', () => {
-    expect(read('src/site00/components/designWorkspace/DesignAssetJobWorkspace.tsx')).toContain('ASSET DECONSTRUCTION PIPELINE');
+    expect(read('src/site00/components/designWorkspace/DesignAssetJobWorkspace.tsx')).toContain('site00-dw-v3-pipeline');
     expect(read('src/site00/components/designWorkspace/DesignReferenceAssetsPanel.tsx')).toContain('DesignAssetJobWorkspace');
-    expect(read('src/site00/styles/site00-design-workspace-p0vr2b.css')).toContain('site00-dw-job-workspace');
+    expect(read('src/site00/styles/site00-design-workspace-v3.css')).toContain('site00-dw-v3-stepper');
     expect(read('api/site00/design-asset-reconstruction.ts')).toContain('job_create');
     expect(read('api/site00/design-asset-reconstruction.ts')).toContain('job_reconstruct');
   });

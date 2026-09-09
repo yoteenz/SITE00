@@ -30,6 +30,8 @@ import '../site00/styles/site00-bldr-intake-mobile.css';
 import '../site00/styles/site00-idnty-diagnostic-mobile.css';
 import '../site00/styles/site00-evolve-mobile.css';
 import '../site00/styles/site00-evolve-hub-mobile.css';
+import '../site00/styles/site00-evolve-hub-desktop.css';
+import '../site00/styles/site00-self-directed-client.css';
 import '../site00/styles/site00-evolve-assessment-mobile.css';
 import '../site00/styles/site00-marketing.css';
 import '../site00/styles/site00-loader.css';
@@ -173,6 +175,11 @@ const PersonalityReplayIntakeRouterPage = lazy(
 const ProjectLoreCalibrationPage = lazy(() => import('../site00/pages/ProjectLoreCalibrationPage'));
 const ProjectCreativeAppetitePage = lazy(() => import('../site00/pages/ProjectCreativeAppetitePage'));
 const ProjectSetupPage = lazy(() => import('../site00/pages/ProjectSetupPage'));
+const MasterSkinExperiencePreviewPage = lazy(() =>
+  import('../site00/pages/MasterSkinExperiencePreviewPage').then((m) => ({
+    default: m.MasterSkinExperiencePreviewPage,
+  })),
+);
 const SupportPage = lazy(() => import('../site00/pages/SupportPage'));
 const GuidePage = lazy(() => import('../site00/pages/information/GuidePage'));
 const SoundPage = lazy(() => import('../site00/pages/information/SoundPage'));
@@ -232,6 +239,8 @@ const AppProjectHubPage = lazy(() => import('../site00/pages/clientApp/AppProjec
 const AppReviewsQueuePage = lazy(() => import('../site00/pages/clientApp/AppReviewsQueuePage'));
 const AppInboxPage = lazy(() => import('../site00/pages/clientApp/AppInboxPage'));
 const AppLibraryPage = lazy(() => import('../site00/pages/clientApp/AppLibraryPage'));
+const AppProjectsTabPage = lazy(() => import('../site00/pages/clientApp/AppProjectsTabPage'));
+const AppProfilePage = lazy(() => import('../site00/pages/clientApp/AppProfilePage'));
 const AppProjectLayout = lazy(() =>
   import('../site00/pages/clientApp/AppProjectLayout').then((m) => ({ default: m.AppProjectLayout })),
 );
@@ -966,6 +975,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <Site00OwnedDesignWorkspacePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.masterSkinPreview}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <MasterSkinExperiencePreviewPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>
@@ -2101,6 +2122,22 @@ export function Site00Routes() {
           }
         />
         <Route
+          path="projects"
+          element={
+            <Site00Suspense>
+              <AppProjectsTabPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="profile"
+          element={
+            <Site00Suspense>
+              <AppProfilePage />
+            </Site00Suspense>
+          }
+        />
+        <Route
           path="project/:section"
           element={
             <Site00Suspense>
@@ -2234,6 +2271,8 @@ export function Site00Routes() {
         }
       >
         <Route index element={<Site00Suspense><AppHomePage /></Site00Suspense>} />
+        <Route path="projects" element={<Site00Suspense><AppProjectsTabPage /></Site00Suspense>} />
+        <Route path="profile" element={<Site00Suspense><AppProfilePage /></Site00Suspense>} />
         <Route path="project/:section" element={<Site00Suspense><AppProjectHubPage /></Site00Suspense>} />
         <Route path="reviews" element={<Site00Suspense><AppReviewsQueuePage /></Site00Suspense>} />
         <Route path="reviews/:reviewId" element={<Site00Suspense><AppReviewDetailPage /></Site00Suspense>} />

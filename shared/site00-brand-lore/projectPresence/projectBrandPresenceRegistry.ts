@@ -30,7 +30,14 @@ export const PROJECT_BRAND_PRESENCE_REGISTRY: Record<string, ProjectBrandPresenc
   'all-in-one-enterprises': {
     projectId: 'all-in-one-enterprises',
     projectName: 'All In One Enterprises',
-    brandPrimaryStatus: 'UNRESOLVED',
+    approvedPrimary: '#1f4fd6',
+    brandPrimaryStatus: 'RESOLVED',
+  },
+  'demo-doctor-health': {
+    projectId: 'demo-doctor-health',
+    projectName: 'Doctor Health Demo',
+    approvedPrimary: '#2a7f8f',
+    brandPrimaryStatus: 'RESOLVED',
   },
 };
 

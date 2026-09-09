@@ -128,6 +128,7 @@ export const SITE00_ROUTES = {
   projectDesign: '/projects/:projectSlug/design',
   /** Canonical SITE 00-owned Design workspace (managed project via ?project=) */
   site00Design: '/projects/site00/design',
+  masterSkinPreview: '/projects/site00/master-skin-preview',
   /** Frontal Slayer product asset factory (P0.PAF.1) */
   projectProductAssets: '/projects/:projectSlug/product-assets',
   projectFounderWorkspaceArchive: '/projects/:projectSlug/archive',

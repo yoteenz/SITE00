@@ -1,8 +1,9 @@
 /**
- * B5.9R9 / B5.9R9R1 — Projects page account identity for hero eyebrow.
+ * B5.9R9 / B5.9R10 — Projects page account identity for hero eyebrow.
  */
 
 import { useMemo } from 'react';
+import { getClient } from '../../../shared/site00-projects/clientSimulation/clientDirectoryService.js';
 import { resolveProjectsViewAccountIdentity } from '../../../shared/site00-projects/projectsAccountIdentityAdapter.js';
 import type { AccountDisplayIdentity } from '../../../shared/site00-projects/accountDisplayIdentity.js';
 import { useSite00AccountProfileIdentity } from './useSite00AccountProfileIdentity.js';
@@ -15,22 +16,24 @@ export function useProjectsAccountIdentity(): {
   isHydrating: boolean;
 } {
   const { profile, authMetadataProfile, isHydrating, user } = useSite00AccountProfileIdentity();
-  const { viewMode, isSimulatingClient, session } = useProjectViewMode();
+  const { viewMode, isSimulatingClient, activeSimulatedClientId } = useProjectViewMode();
   const { clientProjects } = useSite00ProjectsIndex();
 
   return useMemo(() => {
-    const clientOwnerCandidates = (clientProjects ?? []).map((project) => ({
-      slug: project.slug,
-      accountId: project.id,
-      email: project.clientEmail ?? null,
-      firstName: project.ownerFirstName ?? null,
-      lastName: project.ownerLastName ?? null,
-      displayName: project.ownerDisplayName ?? null,
-    }));
+    const directoryClient = activeSimulatedClientId
+      ? getClient(activeSimulatedClientId, clientProjects ?? [])
+      : null;
 
-    const activeOwner = clientOwnerCandidates.find((p) => p.slug === session.simulatedClientProjectSlug) ??
-      clientOwnerCandidates[0] ??
-      null;
+    const simulatedClientDirectoryProfile = directoryClient
+      ? {
+          accountId: directoryClient.accountId ?? directoryClient.clientId,
+          userId: directoryClient.userId ?? null,
+          email: null,
+          firstName: directoryClient.firstName,
+          lastName: directoryClient.lastName,
+          displayName: directoryClient.displayName,
+        }
+      : null;
 
     return {
       ...resolveProjectsViewAccountIdentity({
@@ -39,9 +42,8 @@ export function useProjectsAccountIdentity(): {
         isHydrating,
         authenticatedProfile: profile,
         authMetadataProfile,
-        activeClientProjectOwner: activeOwner,
-        clientProjectOwners: clientOwnerCandidates,
-        simulatedClientProjectSlug: session.simulatedClientProjectSlug,
+        activeSimulatedClientId,
+        simulatedClientDirectoryProfile,
         founderEmail: user?.email ?? null,
       }),
       isHydrating,
@@ -53,7 +55,7 @@ export function useProjectsAccountIdentity(): {
     user?.email,
     viewMode,
     isSimulatingClient,
-    session.simulatedClientProjectSlug,
+    activeSimulatedClientId,
     clientProjects,
   ]);
 }

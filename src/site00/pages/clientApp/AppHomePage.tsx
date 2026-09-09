@@ -1,8 +1,8 @@
 import { useOutletContext } from 'react-router-dom';
-import { ProjectPulseHome } from '../../components/clientApp/ClientAppViews';
+import { SelfDirectedHomeView } from '../../components/selfDirected/SelfDirectedViews';
 import type { AppOutletContext } from './AppProjectLayout';
 
 export default function AppHomePage() {
-  const { manifest, reload } = useOutletContext<AppOutletContext>();
-  return <ProjectPulseHome manifest={manifest} onReload={() => void reload()} />;
+  const { manifest } = useOutletContext<AppOutletContext>();
+  return <SelfDirectedHomeView manifest={manifest} />;
 }

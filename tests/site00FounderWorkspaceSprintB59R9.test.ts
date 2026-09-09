@@ -48,11 +48,9 @@ describe('B5.9R9 Projects account identity eyebrow', () => {
     const result = resolveProjectsViewAccountIdentity({
       viewMode: 'CLIENT',
       isSimulatingClient: true,
+      activeSimulatedClientId: 'client-1',
+      simulatedClientDirectoryProfile: { firstName: 'Jordan', lastName: 'Cole', displayName: 'Jordan Cole' },
       authenticatedProfile: { firstName: 'Teena', lastName: 'Armstrong', email: 'founder@site00.com' },
-      clientProjectOwners: [
-        { slug: 'client-project', email: 'client@example.com', firstName: 'Jordan', lastName: 'Cole' },
-      ],
-      simulatedClientProjectSlug: 'client-project',
       founderEmail: 'founder@site00.com',
     });
     expect(result.eyebrow).toBe('JORDAN COLE /');
@@ -102,8 +100,9 @@ describe('B5.9R9 Projects account identity eyebrow', () => {
     const result = resolveProjectsViewAccountIdentity({
       viewMode: 'CLIENT',
       isSimulatingClient: true,
+      activeSimulatedClientId: 'client-1',
+      simulatedClientDirectoryProfile: { firstName: 'Client', lastName: 'Person', displayName: 'Client Person' },
       authenticatedProfile: { firstName: 'Founder', lastName: 'Name', email: 'founder@site00.com' },
-      activeClientProjectOwner: { firstName: 'Client', lastName: 'Person', email: 'client@example.com' },
       founderEmail: 'founder@site00.com',
     });
     expect(result.eyebrow).not.toContain('FOUNDER');
@@ -115,7 +114,6 @@ describe('B5.9R9 Projects account identity eyebrow', () => {
       viewMode: 'FOUNDER',
       isSimulatingClient: false,
       authenticatedProfile: { firstName: 'Founder', lastName: 'Name', email: 'founder@site00.com' },
-      activeClientProjectOwner: { firstName: 'Client', lastName: 'Person', email: 'client@example.com' },
     });
     expect(result.eyebrow).toBe('FOUNDER NAME /');
   });
@@ -146,8 +144,9 @@ describe('B5.9R9 Projects account identity eyebrow', () => {
     const result = resolveProjectsViewAccountIdentity({
       viewMode: 'CLIENT',
       isSimulatingClient: true,
+      activeSimulatedClientId: 'client-1',
+      simulatedClientDirectoryProfile: { email: 'same@example.com', firstName: 'Teena', lastName: 'Armstrong' },
       authenticatedProfile: { firstName: 'Teena', lastName: 'Armstrong', email: 'same@example.com' },
-      activeClientProjectOwner: { email: 'same@example.com', firstName: 'Teena', lastName: 'Armstrong' },
       founderEmail: 'same@example.com',
     });
     expect(result.eyebrow).toBe('CLIENT /');

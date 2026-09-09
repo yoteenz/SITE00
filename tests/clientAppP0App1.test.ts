@@ -29,7 +29,7 @@ function read(rel: string): string {
 
 describe('P0.APP.1 client mobile app', () => {
   it('defines five primary nav destinations matching reference', () => {
-    expect(CLIENT_APP_NAV.map((n) => n.label)).toEqual(['HOME', 'PROJECT', 'REVIEWS', 'INBOX', 'LIBRARY']);
+    expect(CLIENT_APP_NAV.map((n) => n.label)).toEqual(['HOME', 'PROJECTS', 'REVIEWS', 'INBOX', 'PROFILE']);
   });
 
   it('builds project pulse with client-safe signal values', () => {
@@ -47,7 +47,7 @@ describe('P0.APP.1 client mobile app', () => {
     const exp = buildClientAppExperience({ manifest });
     expect(exp.projectPulse.projectSignal).toBeTruthy();
     expect(exp.modules).toContain('home');
-    expect(exp.modules).toContain('library');
+    expect(exp.modules).toContain('profile');
   });
 
   it('suppresses marketing opportunity when service already purchased', () => {
