@@ -109,7 +109,10 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
                 <SkinFamilyThumb
                   imageUrl={thumb.url}
                   alt={family.name}
-                  fallbackColor={thumb.colorSwatchFallback ? family.primaryColor : null}
+                  approvedVisualAssetExists={thumb.approvedVisualAssetExists}
+                  fallbackColor={
+                    thumb.colorSwatchFallback && !thumb.approvedVisualAssetExists ? family.primaryColor : null
+                  }
                 />
                 <SkinFamilyName
                   brandKey={family.brandKey}
@@ -232,7 +235,13 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
             <SkinFamilyThumb
               imageUrl={desktopAssets.familyThumbnailFor(activeFamilyKey).url}
               alt={activeFamily?.name ?? ''}
-              fallbackColor={activeFamily?.primaryColor}
+              approvedVisualAssetExists={desktopAssets.familyThumbnailFor(activeFamilyKey).approvedVisualAssetExists}
+              fallbackColor={
+                desktopAssets.familyThumbnailFor(activeFamilyKey).colorSwatchFallback &&
+                !desktopAssets.familyThumbnailFor(activeFamilyKey).approvedVisualAssetExists
+                  ? activeFamily?.primaryColor
+                  : null
+              }
               className="site00-dw-skins__summary-thumb"
             />
             <div>
@@ -274,7 +283,10 @@ export function DesignSkinsTab({ projectId, onOpenScreen, onMatchReference }: Pr
                   <SkinFamilyThumb
                     imageUrl={railThumb.url}
                     alt={family.name}
-                    fallbackColor={railThumb.colorSwatchFallback ? family.primaryColor : null}
+                    approvedVisualAssetExists={railThumb.approvedVisualAssetExists}
+                    fallbackColor={
+                      railThumb.colorSwatchFallback && !railThumb.approvedVisualAssetExists ? family.primaryColor : null
+                    }
                     className="site00-dw-skins__rail-thumb"
                   />
                   <span className="site00-dw-skins__rail-text">

@@ -108,6 +108,18 @@
   min-height: var(--skins-mobile-family-thumb-h);
 }
 
+.site00-dw-skins__family-thumb--load-failed {
+  min-height: var(--skins-mobile-family-thumb-h);
+  background: repeating-linear-gradient(
+    -45deg,
+    #f5f5f5,
+    #f5f5f5 4px,
+    #e8e8e8 4px,
+    #e8e8e8 8px
+  );
+  border: 1px dashed var(--skins-accent);
+}
+
 .site00-dw-skins__family-name {
   font-size: 7px;
   line-height: 1.15;

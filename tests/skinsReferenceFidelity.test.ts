@@ -104,14 +104,17 @@ describe('SKINS Reference Fidelity (P0.VR.6R3)', () => {
 
   it('13. family asset bound to semantic slot', () => {
     expect(BRAND_KEY_TO_ASSET_SLOT.NDXBOOK).toBe('BRAND_FAMILY_NDXBOOK');
-    expect(manifest[0]?.sourceCropUrl).toContain('brand_family_ndxbook');
-    expect(manifest[0]?.canonicalUrl).toBeNull();
+    const ndx = manifest.find((m) => m.assetSlot === 'BRAND_FAMILY_NDXBOOK' && m.viewport === 'MOBILE');
+    expect(ndx?.sourceCropUrl).toContain('brand_family_ndxbook');
+    expect(ndx?.canonicalUrl).toContain('/site00/skins/canonical/mobile/brand_family_ndxbook.webp');
+    expect(ndx?.status).toBe('BOUND');
   });
 
-  it('14. NDX family visual awaits reconstruction', () => {
+  it('14. NDX family visual renders canonical asset', () => {
     const url = resolveFamilyThumbnailUrl({ brandKey: 'NDXBOOK', viewport: 'MOBILE', manifest });
-    expect(url.colorSwatchFallback).toBe(true);
-    expect(url.url).toBeNull();
+    expect(url.colorSwatchFallback).toBe(false);
+    expect(url.url).toContain('/site00/skins/canonical/mobile/brand_family_ndxbook.webp');
+    expect(url.approvedVisualAssetExists).toBe(true);
   });
 
   it('15. FS family source crop not canonical', () => {
@@ -152,7 +155,7 @@ describe('SKINS Reference Fidelity (P0.VR.6R3)', () => {
   });
 
   it('21. color swatch fallback when no canonical asset', () => {
-    const thumb = resolveFamilyThumbnailUrl({ brandKey: 'NDXBOOK', viewport: 'MOBILE', manifest });
+    const thumb = resolveFamilyThumbnailUrl({ brandKey: 'FRONTAL_SLAYER', viewport: 'MOBILE', manifest });
     expect(thumb.colorSwatchFallback).toBe(true);
     expect(read('src/site00/components/designWorkspace/skins/SkinFamilyThumb.tsx')).toContain('onError');
   });

@@ -42,8 +42,9 @@ describe('Reference Asset Pipeline (P0.VR.6R4)', () => {
 
   it('1. source crop stored separately', () => {
     expect(ndx.source.sourceCropUrl).toContain('/site00/skins/extracted/');
-    expect(manifest[0]?.sourceCropUrl).toBeTruthy();
-    expect(manifest[0]?.canonicalUrl).toBeNull();
+    const ndxEntry = manifest.find((m) => m.assetSlot === 'BRAND_FAMILY_NDXBOOK' && m.viewport === 'MOBILE');
+    expect(ndxEntry?.sourceCropUrl).toBeTruthy();
+    expect(ndxEntry?.sourceCropUrl).not.toBe(ndxEntry?.canonicalUrl);
   });
 
   it('2. source crop cannot become canonical by default', () => {
@@ -182,10 +183,13 @@ describe('Reference Asset Pipeline (P0.VR.6R4)', () => {
   });
 
   it('19. broken URLs fall back safely', () => {
-    const thumb = resolveFamilyThumbnailUrl({ brandKey: 'NDXBOOK', viewport: 'MOBILE', manifest });
+    const thumb = resolveFamilyThumbnailUrl({ brandKey: 'FRONTAL_SLAYER', viewport: 'MOBILE', manifest });
     expect(thumb.url).toBeNull();
     expect(thumb.colorSwatchFallback).toBe(true);
     expect(read('src/site00/components/designWorkspace/skins/SkinFamilyThumb.tsx')).toContain('onError');
+    const ndx = resolveFamilyThumbnailUrl({ brandKey: 'NDXBOOK', viewport: 'MOBILE', manifest });
+    expect(ndx.url).toContain('canonical');
+    expect(ndx.colorSwatchFallback).toBe(false);
   });
 
   it('20. five family assets can run as multi-asset job', () => {
