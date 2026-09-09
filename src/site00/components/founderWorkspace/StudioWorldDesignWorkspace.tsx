@@ -613,6 +613,17 @@ export function StudioWorldDesignWorkspace({
                   <div><dt>RUN</dt><dd>{lastRunId ?? '—'}</dd></div>
                   <div><dt>ASSET SLOTS</dt><dd>{assetSlots.length}</dd></div>
                   <div><dt>STATUS</dt><dd>{statusLabel}</dd></div>
+                  {reference?.status === 'ACTIVE_CANONICAL' ? (
+                    <>
+                      <div><dt>AUTHORITY MODE</dt><dd>DESIGN_AUTHORITY</dd></div>
+                      <div><dt>FIDELITY MODE</dt><dd>EXACT</dd></div>
+                      <div><dt>PRESERVE FUNCTION</dt><dd>YES</dd></div>
+                      <div><dt>REBUILD LOOK</dt><dd>YES</dd></div>
+                      <div><dt>PROTECT CURRENT VISUALS</dt><dd>NO</dd></div>
+                      <div><dt>SCREENSHOT QA</dt><dd>REQUIRED</dd></div>
+                      <div><dt>FIDELITY SCORE</dt><dd>NOT SCORED</dd></div>
+                    </>
+                  ) : null}
                 </dl>
                 {selectedPrompt ? <pre className="site00-dw-inspect__prompt">{selectedPrompt.promptText}</pre> : null}
                 <DesignComposerReviewQueue />

@@ -23,6 +23,10 @@ export const BUILT_IN_PRESET_IDS = {
   PROJECT_CARDS: 'preset-isolate-project-card-visuals',
   SOLO_TRANSPARENT: 'preset-recreate-solo-no-background',
   RECONSTRUCT_REPLACE: 'preset-reconstruct-replace-page-asset',
+  REPLICATE_PAGE_EXACTLY: 'preset-replicate-page-exactly',
+  REPLICATE_MOBILE_EXACTLY: 'preset-replicate-mobile-screen-exactly',
+  REPLICATE_DESKTOP_EXACTLY: 'preset-replicate-desktop-screen-exactly',
+  EXTRACT_REPLACE_ASSETS_EXACTLY: 'preset-extract-replace-assets-exactly',
 } as const;
 
 export const GENERATION_PROVIDER_PLAN = [

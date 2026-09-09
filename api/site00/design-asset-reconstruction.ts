@@ -54,7 +54,18 @@ import {
   saveDesignInstructionPreset,
   suggestInstructionPresets,
   parseFounderInstruction,
+  linkFidelityContract,
 } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr5/index.js';
+import {
+  confirmReferenceInterpretation,
+  getExecutionHandoffForContract,
+  getFidelityContract,
+  getFidelityContractByReference,
+  ingestReferenceWithFidelityContract,
+  listFidelityContracts,
+  runFidelityQaIteration,
+} from '../../shared/site00-studio-world-production/visualReconstruction/p0vr7/index.js';
+import { formatInterpretationSummary } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr7/implementationPlan.js';
 
 const REPO_ROOT = join(process.cwd());
 
@@ -133,6 +144,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!job) return res.status(404).json({ ok: false, error: 'Job not found' });
         return res.status(200).json({ ok: true, job, plan: summarizeAssetJobPlan(job) });
       }
+      if (action === 'fidelity_get') {
+        const contractId = String(req.query.contractId ?? '');
+        const referenceId = String(req.query.referenceId ?? '');
+        const contract = contractId
+          ? getFidelityContract(contractId)
+          : referenceId
+            ? getFidelityContractByReference(referenceId)
+            : null;
+        if (!contract) return res.status(404).json({ ok: false, error: 'Contract not found' });
+        const interpretation = contract.implementationPlan
+          ? formatInterpretationSummary(contract.implementationPlan)
+          : null;
+        const handoff = getExecutionHandoffForContract(contract.contractId);
+        return res.status(200).json({ ok: true, contract, interpretation, handoff });
+      }
+      if (action === 'fidelity_list') {
+        const projectId = String(req.query.projectId ?? '');
+        const contracts = listFidelityContracts(projectId ? { projectId } : undefined);
+        return res.status(200).json({ ok: true, contracts });
+      }
       return res.status(400).json({ ok: false, error: 'Unknown GET action' });
     }
 
@@ -155,6 +186,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(200).json({ ok: true, job, plan: summarizeAssetJobPlan(job) });
       }
       case 'job_add_upload': {
+        const uploadJob = getAssetJob(String(body.jobId));
+        if (!uploadJob) return res.status(404).json({ ok: false, error: 'Job not found' });
+        const referenceId = `ref-upload-${uploadJob.jobId}-${Date.now()}`;
+        const contract = ingestReferenceWithFidelityContract({
+          referenceId,
+          projectId: uploadJob.projectId,
+          pageId: uploadJob.pageId,
+          route: uploadJob.route,
+          viewport: (body.viewport as 'mobile' | 'tablet' | 'desktop') ?? 'mobile',
+          referenceWidth: body.imageWidth ? Number(body.imageWidth) : undefined,
+          referenceHeight: body.imageHeight ? Number(body.imageHeight) : undefined,
+          founderInstruction: uploadJob.founderInstruction || null,
+        });
         const job = addSourceUpload(String(body.jobId), {
           url: String(body.url),
           fileName: body.fileName ? String(body.fileName) : null,
@@ -162,9 +206,50 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           sourceRoute: body.sourceRoute ? String(body.sourceRoute) : null,
           imageWidth: body.imageWidth ? Number(body.imageWidth) : undefined,
           imageHeight: body.imageHeight ? Number(body.imageHeight) : undefined,
+          fidelityContractId: contract.contractId,
         });
         if (!job) return res.status(404).json({ ok: false, error: 'Job not found' });
-        return res.status(200).json({ ok: true, job, plan: summarizeAssetJobPlan(job) });
+        linkFidelityContract(job.jobId, contract.contractId);
+        const interpretation = contract.implementationPlan
+          ? formatInterpretationSummary(contract.implementationPlan)
+          : null;
+        return res.status(200).json({
+          ok: true,
+          job,
+          plan: summarizeAssetJobPlan(job),
+          fidelityContract: contract,
+          interpretation,
+        });
+      }
+      case 'fidelity_confirm': {
+        const contract = confirmReferenceInterpretation(String(body.contractId));
+        if (!contract) return res.status(404).json({ ok: false, error: 'Contract not found' });
+        return res.status(200).json({ ok: true, contract });
+      }
+      case 'fidelity_qa': {
+        const contract = runFidelityQaIteration(
+          String(body.contractId),
+          body.liveCaptureAvailable === true,
+          body.liveGeometryHints,
+        );
+        if (!contract) return res.status(404).json({ ok: false, error: 'Contract not found' });
+        return res.status(200).json({ ok: true, contract });
+      }
+      case 'fidelity_ingest': {
+        const contract = ingestReferenceWithFidelityContract({
+          referenceId: String(body.referenceId),
+          projectId: String(body.projectId),
+          pageId: String(body.pageId),
+          route: String(body.route),
+          viewport: (body.viewport as 'mobile' | 'tablet' | 'desktop') ?? 'mobile',
+          referenceWidth: body.referenceWidth ? Number(body.referenceWidth) : undefined,
+          referenceHeight: body.referenceHeight ? Number(body.referenceHeight) : undefined,
+          founderInstruction: body.founderInstruction ? String(body.founderInstruction) : null,
+        });
+        const interpretation = contract.implementationPlan
+          ? formatInterpretationSummary(contract.implementationPlan)
+          : null;
+        return res.status(200).json({ ok: true, contract, interpretation });
       }
       case 'job_update_instruction': {
         const job = updateJobInstruction(String(body.jobId), {

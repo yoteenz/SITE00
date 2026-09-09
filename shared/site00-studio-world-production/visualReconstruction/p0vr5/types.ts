@@ -219,6 +219,8 @@ export type AssetJob = {
   detectionOrdering: DetectionOrderingRule;
   reconstructedVersions: ReconstructedAssetVersion[];
   generationProviderPlan: string[];
+  /** P0.VR.7 — linked reference fidelity contract */
+  fidelityContractId: string | null;
   createdAt: string;
   updatedAt: string;
 };
