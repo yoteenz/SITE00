@@ -31,6 +31,7 @@ import '../site00/styles/site00-idnty-diagnostic-mobile.css';
 import '../site00/styles/site00-evolve-mobile.css';
 import '../site00/styles/site00-evolve-hub-mobile.css';
 import '../site00/styles/site00-evolve-hub-desktop.css';
+import '../site00/styles/site00-evolve-pricing.css';
 import '../site00/styles/site00-self-directed-client.css';
 import '../site00/styles/site00-evolve-assessment-mobile.css';
 import '../site00/styles/site00-marketing.css';
@@ -268,7 +269,7 @@ const MarketingServicesPage = lazy(() => import('../site00/pages/evolve/marketin
 const MarketingIntakePage = lazy(() => import('../site00/pages/evolve/marketing/MarketingIntakePage'));
 const MarketingBriefPage = lazy(() => import('../site00/pages/evolve/marketing/MarketingBriefPage'));
 const MarketingEngagementPage = lazy(() => import('../site00/pages/evolve/marketing/MarketingEngagementPage'));
-const EvolveCommercialPage = lazy(() => import('../site00/pages/evolve/EvolveCommercialPage'));
+const EvolvePricingPage = lazy(() => import('../site00/pages/evolve/EvolvePricingPage'));
 const LoaderPreviewPage = lazy(() => import('../site00/pages/LoaderPreviewPage'));
 
 function Site00Suspense({ children }: { children: ReactNode }) {
@@ -1821,18 +1822,7 @@ export function Site00Routes() {
           </Site00Layout>
         }
       />
-      <Route
-        path={SITE00_ROUTES.evolvePlans}
-        element={
-          <Site00Layout>
-            <Site00PublicRouteShell>
-              <Site00Suspense>
-                <EvolveCommercialPage />
-              </Site00Suspense>
-            </Site00PublicRouteShell>
-          </Site00Layout>
-        }
-      />
+      {Site00PublicPageRoutes(SITE00_ROUTES.evolvePlans, EvolvePricingPage)}
       <Route
         path={SITE00_ROUTES.evolveMarketingIntake}
         element={
