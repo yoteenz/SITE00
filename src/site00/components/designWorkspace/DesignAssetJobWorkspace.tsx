@@ -30,6 +30,8 @@ import type { DesignReferenceFidelityContract } from '../../../../shared/site00-
 import { confirmFidelityInterpretation, type FidelityInterpretation } from './designFidelityApi';
 import { DesignReferenceFidelityBadge } from './DesignReferenceFidelityBadge';
 import { DesignReferenceInterpretationPanel } from './DesignReferenceInterpretationPanel';
+import { DesignDwSectionIcon } from './DesignDwSectionIcon';
+import { Site00TrashIcon } from '../../icons/Site00HubIcons';
 
 import { ASSET_PIPELINE_STEP_LABELS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6/index.js';
 
@@ -384,7 +386,7 @@ export function DesignAssetJobWorkspace({
               }}
             >
               <span className="site00-dw-v3-upload-zone__icon" aria-hidden>
-                🖼
+                <DesignDwSectionIcon iconId="image" />
               </span>
               <strong>DROP DESIGN REFERENCE</strong>
               <span>PNG, JPG, WEBP · UP TO 50MB</span>
@@ -428,7 +430,7 @@ export function DesignAssetJobWorkspace({
               </div>
             </div>
             <button type="button" className="site00-dw-v3-preset-strip">
-              <span aria-hidden>📄</span>
+              <DesignDwSectionIcon iconId="presets" />
               <div>
                 <strong>INSTRUCTION PRESETS</strong>
                 <span>QUICK START WITH SAVED INSTRUCTIONS</span>
@@ -468,7 +470,7 @@ export function DesignAssetJobWorkspace({
                   <span>{sourceMeta}</span>
                 </div>
                 <button type="button" className="site00-dw-v3-asset-preview-card__trash" aria-label="Remove upload">
-                  🗑
+                  <Site00TrashIcon size={12} />
                 </button>
               </div>
             ) : null}
@@ -769,7 +771,9 @@ export function DesignAssetJobWorkspace({
             </div>
             <div className="site00-dw-v3-dispatch-meta">
               <span>DISPATCH COUNT ({job?.dispatchCounts.executed ?? 0} / {job?.dispatchCounts.planned ?? 1})</span>
-              <span>🛡 SPEND GUARD</span>
+              <span className="site00-dw-v3-reconstruct-guard">
+                <DesignDwSectionIcon iconId="spend-guard" /> SPEND GUARD
+              </span>
             </div>
             <div className="site00-dw-v3-job-queue">
               {(job?.detectedRegions.length ? job.detectedRegions : [{ candidateId: 'placeholder' }]).slice(0, 4).map((c, i) => (

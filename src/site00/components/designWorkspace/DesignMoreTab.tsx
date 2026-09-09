@@ -1,5 +1,5 @@
 /**
- * P0.VR.6 + Reference-Fidelity — MORE tab: providers, spend guard, presets, storage, automation.
+ * P0.VR.6R1 — MORE tab: providers, spend guard, presets, storage, automation (canonical icons).
  */
 
 import { useEffect, useState } from 'react';
@@ -8,6 +8,7 @@ import { uploadNeverTriggersGeneration } from '../../../../shared/site00-studio-
 import { listInstructionPresets } from './designAssetJobApi';
 import { fetchFalProviderHealth } from './designAssetReconstructionApi';
 import type { DesignInstructionPreset } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr5/browserClient.js';
+import { DesignDwSectionIcon } from './DesignDwSectionIcon';
 
 type Props = {
   onOpenInspect?: () => void;
@@ -16,6 +17,15 @@ type Props = {
 };
 
 const QUICK_PRESET_CHIPS = ['ISOLATE ICON', 'EXTRACT BACKGROUND', 'MULTI-ASSET', 'REPLACE CURRENT ASSET'] as const;
+
+function SectionTitle({ iconId, title }: { iconId: Parameters<typeof DesignDwSectionIcon>[0]['iconId']; title: string }) {
+  return (
+    <h3 className="site00-dw-v3-more__title">
+      <DesignDwSectionIcon iconId={iconId} />
+      <span>{title}</span>
+    </h3>
+  );
+}
 
 export function DesignMoreTab({ onOpenInspect, onCaptureScreen, onMatchReference }: Props) {
   const [presets, setPresets] = useState<DesignInstructionPreset[]>([]);
@@ -43,7 +53,7 @@ export function DesignMoreTab({ onOpenInspect, onCaptureScreen, onMatchReference
       <div className="site00-dw-v3-more__section">
         <div className="site00-dw-v3-more__section-head">
           <div>
-            <h3>⬡ PROVIDERS</h3>
+            <SectionTitle iconId="providers" title="PROVIDERS" />
             <p>MANAGE AI PROVIDERS AND CAPABILITIES.</p>
           </div>
           <button type="button">MANAGE ALL →</button>
@@ -51,18 +61,18 @@ export function DesignMoreTab({ onOpenInspect, onCaptureScreen, onMatchReference
         <div className="site00-dw-v3-more__provider-grid">
           <div className={`site00-dw-v3-more__provider${falAvailable ? ' is-live' : ''}`}>
             <strong>GPT IMAGE 2 EDIT</strong>
-            <span>PRIMARY DISPATCH</span>
-            <em>{falAvailable === null ? '…' : falAvailable ? '✓ ACTIVE' : 'BLOCKED'}</em>
+            <span className="site00-dw-v3-more__provider-role">PRIMARY</span>
+            <em>{falAvailable === null ? '…' : falAvailable ? 'ACTIVE' : 'BLOCKED'}</em>
           </div>
           <div className="site00-dw-v3-more__provider">
             <strong>IDEOGRAM</strong>
-            <span>BG REMOVE</span>
-            <em>✓ ACTIVE</em>
+            <span className="site00-dw-v3-more__provider-role">BG REMOVE</span>
+            <em>ACTIVE</em>
           </div>
           <div className="site00-dw-v3-more__provider">
             <strong>FAL AUTO</strong>
-            <span>FALLBACK</span>
-            <em>{falAvailable ? '✓ READY' : 'BLOCKED'}</em>
+            <span className="site00-dw-v3-more__provider-role">FALLBACK</span>
+            <em>{falAvailable ? 'READY' : 'BLOCKED'}</em>
           </div>
         </div>
       </div>
@@ -71,7 +81,7 @@ export function DesignMoreTab({ onOpenInspect, onCaptureScreen, onMatchReference
         <article className="site00-dw-v3-more__card">
           <div className="site00-dw-v3-more__section-head">
             <div>
-              <h3>🛡 SPEND GUARD</h3>
+              <SectionTitle iconId="spend-guard" title="SPEND GUARD" />
             </div>
           </div>
           <div className="site00-dw-v3-more__toggle-row">
@@ -91,25 +101,25 @@ export function DesignMoreTab({ onOpenInspect, onCaptureScreen, onMatchReference
         <article className="site00-dw-v3-more__card">
           <div className="site00-dw-v3-more__section-head">
             <div>
-              <h3>📄 INSTRUCTION PRESETS</h3>
+              <SectionTitle iconId="presets" title="INSTRUCTION PRESETS" />
             </div>
             <button type="button">MANAGE →</button>
           </div>
-          <div className="site00-dw-v3-chip-row">
+          <div className="site00-dw-v3-chip-row site00-dw-v3-chip-row--wrap">
             {QUICK_PRESET_CHIPS.map((chip, i) => (
               <span key={chip} className={`site00-dw-v3-chip${i === 0 ? ' is-active' : ''}`}>
                 {chip}
               </span>
             ))}
           </div>
-          <p className="site00-dw-v3-more__meta">✦ FOUNDER INSTRUCTIONS ({presets.length || '—'}) ▾</p>
+          <p className="site00-dw-v3-more__meta">FOUNDER INSTRUCTIONS ({presets.length || '—'}) ▾</p>
         </article>
       </div>
 
       <div className="site00-dw-v3-more__section">
         <div className="site00-dw-v3-more__section-head">
           <div>
-            <h3>🗄 STORAGE &amp; OUTPUT</h3>
+            <SectionTitle iconId="storage" title="STORAGE & OUTPUT" />
             <p>MANAGE STORAGE, OUTPUT DESTINATIONS, AND DEPLOYMENT.</p>
           </div>
           <button type="button">CONFIGURE →</button>
@@ -117,17 +127,13 @@ export function DesignMoreTab({ onOpenInspect, onCaptureScreen, onMatchReference
         <div className="site00-dw-v3-more__storage-grid">
           <div className="site00-dw-v3-more__storage">
             <strong>SUPABASE</strong>
-            <em className="is-on">● CONNECTED</em>
-            <span style={{ display: 'block', fontSize: 6, marginTop: 4, color: 'var(--site00-dw-muted)' }}>
-              ASSET STORAGE + BINDINGS
-            </span>
+            <em className="is-on">CONNECTED</em>
+            <span className="site00-dw-v3-more__storage-sub">ASSET STORAGE + BINDINGS</span>
           </div>
           <div className="site00-dw-v3-more__storage">
             <strong>LIVE REPLACE</strong>
-            <em className="is-on">● READY</em>
-            <span style={{ display: 'block', fontSize: 6, marginTop: 4, color: 'var(--site00-dw-muted)' }}>
-              PAGE SYSTEM BIND
-            </span>
+            <em className="is-on">READY</em>
+            <span className="site00-dw-v3-more__storage-sub">PAGE SYSTEM BIND</span>
           </div>
         </div>
       </div>
@@ -136,7 +142,7 @@ export function DesignMoreTab({ onOpenInspect, onCaptureScreen, onMatchReference
         <article className="site00-dw-v3-more__card">
           <div className="site00-dw-v3-more__section-head">
             <div>
-              <h3>⚙ OUTPUT RULES</h3>
+              <SectionTitle iconId="output-rules" title="OUTPUT RULES" />
             </div>
             <button type="button">MANAGE →</button>
           </div>
@@ -150,7 +156,7 @@ export function DesignMoreTab({ onOpenInspect, onCaptureScreen, onMatchReference
           </div>
           <div className="site00-dw-v3-more__rule-row">
             <span>NAMING PATTERN</span>
-            <span style={{ fontSize: 6 }}>SITE00_[TYPE] ›</span>
+            <span className="site00-dw-v3-more__rule-value">SITE00_[TYPE] ›</span>
           </div>
           <div className="site00-dw-v3-more__rule-row">
             <span>AUTO-OPTIMIZE</span>
@@ -161,7 +167,7 @@ export function DesignMoreTab({ onOpenInspect, onCaptureScreen, onMatchReference
         <article className="site00-dw-v3-more__card">
           <div className="site00-dw-v3-more__section-head">
             <div>
-              <h3>⚡ AUTOMATION</h3>
+              <SectionTitle iconId="automation" title="AUTOMATION" />
             </div>
             <button type="button">MANAGE →</button>
           </div>
@@ -193,7 +199,7 @@ export function DesignMoreTab({ onOpenInspect, onCaptureScreen, onMatchReference
       <article className="site00-dw-v3-more__card">
         <div className="site00-dw-v3-more__section-head">
           <div>
-            <h3>🚀 QUICK ACTIONS</h3>
+            <SectionTitle iconId="quick-actions" title="QUICK ACTIONS" />
           </div>
         </div>
         <div className="site00-dw-v3-more__quick-row">
@@ -203,18 +209,18 @@ export function DesignMoreTab({ onOpenInspect, onCaptureScreen, onMatchReference
             </button>
           ) : null}
           <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact">
-            ▶ TEST PIPELINE
+            <DesignDwSectionIcon iconId="play" /> TEST PIPELINE
           </button>
           <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact">
-            ☰ VIEW QUEUE
+            <DesignDwSectionIcon iconId="list" /> VIEW QUEUE
           </button>
           {onOpenInspect ? (
             <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact" onClick={onOpenInspect}>
-              ⚙ MANAGE PROVIDERS
+              <DesignDwSectionIcon iconId="gear" /> MANAGE PROVIDERS
             </button>
           ) : (
             <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact">
-              ⚙ MANAGE PROVIDERS
+              <DesignDwSectionIcon iconId="gear" /> MANAGE PROVIDERS
             </button>
           )}
           {onCaptureScreen ? (

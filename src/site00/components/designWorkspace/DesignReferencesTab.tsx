@@ -13,6 +13,7 @@ import {
   REFERENCE_FILTER_CHIPS,
   type ReferenceFilterChip,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6/index.js';
+import { DesignDwSectionIcon } from './DesignDwSectionIcon';
 
 type Props = {
   projectId: string;
@@ -157,7 +158,7 @@ export function DesignReferencesTab({
       </div>
 
       <button type="button" className="site00-dw-v3-preset-strip">
-        <span aria-hidden>📄</span>
+        <DesignDwSectionIcon iconId="presets" />
         <div>
           <strong>INSTRUCTION PRESETS</strong>
           <span>QUICK START WITH SAVED INSTRUCTIONS</span>
