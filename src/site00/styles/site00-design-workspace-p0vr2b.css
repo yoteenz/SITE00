@@ -1600,6 +1600,82 @@
   margin: 0;
 }
 
+/* ─── P0.VR.6R5 Reference Reconstruction Intelligence Inspector ─── */
+.site00-dw-rri-inspector {
+  border: 1px solid var(--site00-dw-line);
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--site00-dw-white);
+}
+
+.site00-dw-rri-inspector__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.site00-dw-rri-inspector__head h3 {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+.site00-dw-rri-inspector__status {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--site00-dw-line);
+}
+
+.site00-dw-rri-inspector__status.is-ready {
+  border-color: rgba(235, 28, 36, 0.4);
+  color: var(--site00-dw-host-accent);
+}
+
+.site00-dw-rri-inspector__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+.site00-dw-rri-inspector__grid dt {
+  opacity: 0.65;
+  margin-bottom: 2px;
+}
+
+.site00-dw-rri-inspector__grid dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.site00-dw-rri-inspector details {
+  margin-bottom: 8px;
+  font-size: 9px;
+  letter-spacing: 0.05em;
+}
+
+.site00-dw-rri-inspector summary {
+  cursor: pointer;
+  margin-bottom: 6px;
+}
+
+.site00-dw-rri-inspector ul {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.site00-dw-rri-inspector__blockers {
+  font-size: 9px;
+  color: var(--site00-dw-host-accent);
+  margin: 8px 0 0;
+}
+
 .site00-dw-job-workspace__header h2 {
   font-size: 14px;
   letter-spacing: 0.1em;
