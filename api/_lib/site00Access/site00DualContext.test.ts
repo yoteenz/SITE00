@@ -239,8 +239,8 @@ describe('SITE 00 founder dual-context access', () => {
     expect(isFounderPrivilegedAccount(NON_ADMIN_EMAIL)).toBe(false);
   });
 
-  it('29. EcosystemShell includes experience context bar', () => {
-    expect(ECOSYSTEM_SHELL).toContain('ExperienceContextBar');
+  it('29. EcosystemShell no longer mounts experience context bar (removed unused debug strip)', () => {
+    expect(ECOSYSTEM_SHELL).not.toContain('ExperienceContextBar');
   });
 
   it('30. command items route to client Creative Direction path for NDXBOOK', async () => {

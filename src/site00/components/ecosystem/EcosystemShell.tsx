@@ -6,7 +6,6 @@ import { EcosystemPageHeader } from './EcosystemPageHeader';
 import { Site00EcosystemMobileShell } from '../mobile/Site00EcosystemMobileShell';
 import { OperatingWorldTopNav } from './OperatingWorldTopNav';
 import { OperatingWorldStatusRail } from './OperatingWorldStatusRail';
-import { ExperienceContextBar } from '../access/ExperienceContextBar';
 import { CtrlRoomSignOutButton } from '../control/CtrlRoomSignOutButton';
 import { Site00EcosystemLayoutSwitch } from './Site00EcosystemLayoutSwitch';
 import { Site00DesktopArtboardShell } from '../shell/Site00DesktopArtboardShell';
@@ -64,7 +63,6 @@ export function EcosystemShell({ children, title, subtitle, headerActions, hideP
       style={{ ['--site00-ecosystem-bg' as string]: `url(${ecosystemBgUrl})` }}
     >
       <OperatingWorldTopNav />
-      <ExperienceContextBar variant="client" />
       <div className="site00-ecosystem-shell__main">
         <div className="site00-ecosystem-shell__content-wrap">
           {hidePageHeader ? null : (
@@ -83,7 +81,6 @@ export function EcosystemShell({ children, title, subtitle, headerActions, hideP
         shellClassName="site00-ecosystem-mobile-shell"
         suppressSiteChrome={ndxFounderMobileTakeover}
       >
-        {ndxFounderMobileTakeover ? null : <ExperienceContextBar variant="client" />}
         {isCtrlRoomRoute ? (
           <div className="site00-ctrl-sign-out-mobile-bar">
             <CtrlRoomSignOutButton variant="mobile-bar" />
