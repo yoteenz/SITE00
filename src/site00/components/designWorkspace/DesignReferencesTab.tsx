@@ -117,6 +117,9 @@ export function DesignReferencesTab({
             <span className={`site00-dw-v3-ref-card__badge is-${refStatusLabel(ref).toLowerCase()}`}>
               {refStatusLabel(ref)}
             </span>
+            {ref.status === 'ACTIVE_CANONICAL' ? (
+              <span className="site00-dw-v3-ref-card__fidelity">DESIGN AUTHORITY · EXACT</span>
+            ) : null}
             <button type="button" className="site00-dw-v3-ref-card__star" aria-label="Favorite">
               ☆
             </button>

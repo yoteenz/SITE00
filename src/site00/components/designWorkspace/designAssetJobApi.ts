@@ -11,6 +11,10 @@ import type {
   ReconstructedAssetVersion,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr5/browserClient.js';
 import type { CropConfirmationAction } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr5/cropConfirmation.js';
+import type {
+  DesignReferenceFidelityContract,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr7/browserClient.js';
+import type { FidelityInterpretation } from './designFidelityApi.js';
 
 async function postJob<T>(body: Record<string, unknown>): Promise<T> {
   const res = await apiFetch('/api/site00/design-asset-reconstruction?action=' + String(body.action), {
@@ -38,7 +42,16 @@ export async function addJobSourceUpload(input: {
   fileName?: string;
   sourcePage?: string;
   sourceRoute?: string;
-}): Promise<{ ok: boolean; job?: AssetJob; plan?: AssetJobPlanSummary }> {
+  imageWidth?: number;
+  imageHeight?: number;
+  viewport?: 'mobile' | 'tablet' | 'desktop';
+}): Promise<{
+  ok: boolean;
+  job?: AssetJob;
+  plan?: AssetJobPlanSummary;
+  fidelityContract?: DesignReferenceFidelityContract;
+  interpretation?: FidelityInterpretation;
+}> {
   return postJob({ action: 'job_add_upload', ...input });
 }
 

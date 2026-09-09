@@ -6,6 +6,7 @@ import { detectAssetCandidates } from './assetCandidateDetection.js';
 import { buildJobFromInstruction, computeCostRiskLevel } from './jobPlan.js';
 import { parseFounderInstruction } from './instructionParser.js';
 import { recordPresetUsageFromJob } from './presetStore.js';
+import { resolveEffectiveJobInstruction } from '../p0vr7/integration.js';
 import type {
   AssetJob,
   DetectedAssetCandidate,
@@ -83,6 +84,7 @@ export function createAssetJob(input: {
     detectionOrdering: plan.orderingRule,
     reconstructedVersions: [],
     cropsConfirmed: false,
+    fidelityContractId: null,
     createdAt: now(),
     updatedAt: now(),
     ...plan,
@@ -105,6 +107,19 @@ export function listAssetJobs(filter?: { workspaceId?: string; projectId?: strin
   });
 }
 
+export function getEffectiveJobInstruction(job: AssetJob): string {
+  return resolveEffectiveJobInstruction(job.fidelityContractId, job.founderInstruction);
+}
+
+export function linkFidelityContract(jobId: string, fidelityContractId: string): AssetJob | null {
+  const job = jobs.get(jobId);
+  if (!job) return null;
+  job.fidelityContractId = fidelityContractId;
+  job.updatedAt = now();
+  appendEvent(jobId, 'FIDELITY_CONTRACT_LINKED', { fidelityContractId });
+  return job;
+}
+
 export function addSourceUpload(
   jobId: string,
   input: {
@@ -115,6 +130,7 @@ export function addSourceUpload(
     sourceRoute?: string | null;
     imageWidth?: number;
     imageHeight?: number;
+    fidelityContractId?: string | null;
   },
 ): AssetJob | null {
   const job = jobs.get(jobId);
@@ -134,10 +150,11 @@ export function addSourceUpload(
 
   job.sourceUploads.push(record);
   job.sourceUploadIds.push(record.uploadId);
+  if (input.fidelityContractId) job.fidelityContractId = input.fidelityContractId;
   job.status = 'PLANNED';
   job.currentStep = 'INSTRUCT';
   job.updatedAt = now();
-  appendEvent(jobId, 'SOURCE_UPLOAD_ADDED', { uploadId: record.uploadId }, 'FOUNDER');
+  appendEvent(jobId, 'SOURCE_UPLOAD_ADDED', { uploadId: record.uploadId, fidelityContractId: input.fidelityContractId ?? null }, 'FOUNDER');
   return job;
 }
 
@@ -156,7 +173,7 @@ export function updateJobInstruction(
     projectId: job.projectId,
     pageId: job.pageId,
     route: job.route,
-    founderInstruction: job.founderInstruction,
+    founderInstruction: getEffectiveJobInstruction(job),
     selectedPresetId: job.selectedPresetId,
   });
 
@@ -177,7 +194,7 @@ export function runJobDetection(jobId: string, explicitCount?: number): AssetJob
   const result = detectAssetCandidates({
     jobId,
     uploads: job.sourceUploads,
-    founderInstruction: job.founderInstruction,
+    founderInstruction: getEffectiveJobInstruction(job),
     jobType: job.jobType,
     orderingRule: job.orderingRule,
     explicitCount,

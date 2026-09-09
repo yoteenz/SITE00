@@ -26,6 +26,10 @@ import {
   uploadJobAssets,
   approveJobVersion,
 } from './designAssetJobApi';
+import type { DesignReferenceFidelityContract } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr7/browserClient.js';
+import { confirmFidelityInterpretation, type FidelityInterpretation } from './designFidelityApi';
+import { DesignReferenceFidelityBadge } from './DesignReferenceFidelityBadge';
+import { DesignReferenceInterpretationPanel } from './DesignReferenceInterpretationPanel';
 
 import { ASSET_PIPELINE_STEP_LABELS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6/index.js';
 
@@ -61,6 +65,9 @@ export function DesignAssetJobWorkspace({
   const [selectedProvider, setSelectedProvider] = useState('GPT IMAGE 2 EDIT (PRIMARY)');
   const [selectedOutputCandidate, setSelectedOutputCandidate] = useState('A');
   const [alternateCrop, setAlternateCrop] = useState('A');
+  const [fidelityContract, setFidelityContract] = useState<DesignReferenceFidelityContract | null>(null);
+  const [interpretation, setInterpretation] = useState<FidelityInterpretation | null>(null);
+  const [showContract, setShowContract] = useState(false);
 
   useEffect(() => {
     void listInstructionPresets().then((res) => {
@@ -148,6 +155,8 @@ export function DesignAssetJobWorkspace({
         if (res.job) {
           setJob(res.job);
           if ('plan' in res && res.plan) setPlan(res.plan);
+          if (res.fidelityContract) setFidelityContract(res.fidelityContract);
+          if (res.interpretation) setInterpretation(res.interpretation);
         }
       } finally {
         setBusy(false);
@@ -173,11 +182,24 @@ export function DesignAssetJobWorkspace({
       if (res.job) {
         setJob(res.job);
         if ('plan' in res && res.plan) setPlan(res.plan);
+        if (res.fidelityContract) setFidelityContract(res.fidelityContract);
+        if (res.interpretation) setInterpretation(res.interpretation);
       }
     } finally {
       setBusy(false);
     }
   }, [referenceUrl, ensureJob, pageId, route, sourcePage]);
+
+  const handleConfirmInterpretation = useCallback(async () => {
+    if (!fidelityContract) return;
+    setBusy(true);
+    try {
+      const res = await confirmFidelityInterpretation(fidelityContract.contractId);
+      if (res.contract) setFidelityContract(res.contract);
+    } finally {
+      setBusy(false);
+    }
+  }, [fidelityContract]);
 
   const handleInstructionSubmit = useCallback(async () => {
     setBusy(true);
@@ -335,6 +357,23 @@ export function DesignAssetJobWorkspace({
               </h2>
               <p>ADD A DESIGN REFERENCE TO START THE ASSET RECONSTRUCTION PIPELINE.</p>
             </header>
+            {fidelityContract ? (
+              <DesignReferenceFidelityBadge
+                contract={fidelityContract}
+                onViewContract={() => setShowContract((v) => !v)}
+              />
+            ) : null}
+            {fidelityContract && interpretation ? (
+              <DesignReferenceInterpretationPanel
+                contract={fidelityContract}
+                interpretation={interpretation}
+                busy={busy}
+                showContract={showContract}
+                onConfirm={() => void handleConfirmInterpretation()}
+                onEditInterpretation={() => setViewStep('INSTRUCT')}
+                onCloseContract={() => setShowContract(false)}
+              />
+            ) : null}
             <div
               className="site00-dw-v3-upload-zone"
               onDragOver={(e) => e.preventDefault()}

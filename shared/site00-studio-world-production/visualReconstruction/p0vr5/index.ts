@@ -63,6 +63,8 @@ export {
   getAssetJob,
   listAssetJobs,
   addSourceUpload,
+  linkFidelityContract,
+  getEffectiveJobInstruction,
   updateJobInstruction,
   runJobDetection,
   updateJobCandidates,
