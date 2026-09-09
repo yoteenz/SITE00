@@ -1685,6 +1685,16 @@
   letter-spacing: 0.04em;
 }
 
+.site00-dw-v3-pages__featured-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.site00-dw-v3-pages__card.is-stale {
+  outline: 1px dashed var(--site00-dw-muted);
+}
+
 .site00-dw-v3-pages__featured-meta p {
   margin: 4px 0 8px;
   font-size: 7px;

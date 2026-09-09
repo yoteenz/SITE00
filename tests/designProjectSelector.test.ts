@@ -73,7 +73,8 @@ describe('Design Project Selector Recovery', () => {
 
   it('12. Pages re-scope', () => {
     const src = read('src/site00/components/founderWorkspace/StudioWorldDesignWorkspace.tsx');
-    expect(src).toContain('listScreensWithSnapshots(projectId)');
+    expect(src).toContain('buildProjectPageMirrorRows(projectId');
+    expect(src).toContain('usePageMirror(projectId)');
     expect(src).toContain('key={`pages-${activeDesignProjectId}`}');
   });
 

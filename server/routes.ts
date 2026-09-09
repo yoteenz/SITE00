@@ -30,6 +30,7 @@ import site00AstralWorldAvatarLibraryHandler from '../api/site00/astral-world-av
 import site00ClientProjectRoomHandler from '../api/site00/client-project-room.js';
 import site00ClientReviewsHandler from '../api/site00/client-reviews.js';
 import site00ImplementationSnapshotsHandler from '../api/site00/implementation-snapshots.js';
+import site00PageMirrorHandler from '../api/site00/page-mirror.js';
 import site00ExperienceEngineHandler from '../api/site00/experience-engine.js';
 import site00ExpressionEngineHandler from '../api/site00/expression-engine.js';
 import site00CampaignPackageHandler from '../api/site00/campaign-package.js';
@@ -71,6 +72,7 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/site00/astral-world-reader-account', handler: site00AstralWorldReaderAccountHandler },
   { path: '/api/site00/astral-world-avatar-library', handler: site00AstralWorldAvatarLibraryHandler },
   { path: '/api/site00/implementation-snapshots', handler: site00ImplementationSnapshotsHandler },
+  { path: '/api/site00/page-mirror', handler: site00PageMirrorHandler },
   { path: '/api/site00/experience-engine', handler: site00ExperienceEngineHandler },
   { path: '/api/site00/expression-engine', handler: site00ExpressionEngineHandler },
   { path: '/api/site00/campaign-package', handler: site00CampaignPackageHandler },
