@@ -11,7 +11,9 @@ import { fetchFalProviderHealth } from './designAssetReconstructionApi';
 import type { DesignInstructionPreset } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr5/browserClient.js';
 import { DesignDwSectionIcon } from './DesignDwSectionIcon';
 import { MasterSkinEvolveProofPanel } from '../masterSkin/MasterSkinEvolveProofPanel';
+import { ExperienceSkinManagementPanel } from '../brandFamilySkin/ExperienceSkinManagementPanel';
 import '../../styles/site00-master-skin.css';
+import '../../styles/site00-brand-family-skin.css';
 
 type Props = {
   onOpenInspect?: () => void;
@@ -198,6 +200,10 @@ export function DesignMoreTab({ onOpenInspect, onCaptureScreen, onMatchReference
           </label>
         </article>
       </div>
+
+      <article className="site00-dw-v3-more__card site00-dw-v3-more__card--full">
+        <ExperienceSkinManagementPanel projectId="frontal-slayer" viewMode="FOUNDER" />
+      </article>
 
       <article className="site00-dw-v3-more__card site00-dw-v3-more__card--full">
         <MasterSkinEvolveProofPanel />

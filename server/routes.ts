@@ -36,6 +36,7 @@ import site00CampaignPackageHandler from '../api/site00/campaign-package.js';
 import site00DesignControlPlaneHandler from '../api/site00/design-control-plane.js';
 import site00DesignAssetReconstructionHandler from '../api/site00/design-asset-reconstruction.js';
 import site00MasterSkinHandler from '../api/site00/master-skin.js';
+import site00BrandFamilySkinHandler from '../api/site00/brand-family-skin.js';
 import captureAuthBootstrapHandler from '../api/capture-auth-bootstrap.js';
 
 /** Express path → Vercel-style default export handler */
@@ -76,5 +77,6 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/site00/design-control-plane', handler: site00DesignControlPlaneHandler },
   { path: '/api/site00/design-asset-reconstruction', handler: site00DesignAssetReconstructionHandler },
   { path: '/api/site00/master-skin', handler: site00MasterSkinHandler },
+  { path: '/api/site00/brand-family-skin', handler: site00BrandFamilySkinHandler },
   { path: '/api/capture-auth-bootstrap', handler: captureAuthBootstrapHandler },
 ];

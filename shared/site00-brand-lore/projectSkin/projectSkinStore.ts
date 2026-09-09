@@ -4,6 +4,7 @@
 
 import { PROOF_PROJECT_SKIN_MAP } from './constants.js';
 import { getMasterSkinById } from './catalog.js';
+import { BRAND_FAMILY_PROJECT_MAP } from './brandFamily/constants.js';
 import type { ExpressionProfile, FieldIndustryTag, ProjectExperienceSkin, ProjectSkinOverride } from './types.js';
 
 const store = new Map<string, ProjectExperienceSkin>();
@@ -80,6 +81,7 @@ export function createProjectExperienceSkin(input: {
 
   const record: ProjectExperienceSkin = {
     projectId: input.projectId,
+    brandFamilySkinId: BRAND_FAMILY_PROJECT_MAP[input.projectId] ?? null,
     masterSkinId: input.masterSkinId,
     activeSkinVersion: skin?.version ?? '1.0',
     fieldTags: input.fieldTags,
