@@ -6865,3 +6865,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - Tests: B59R9R1 (22) + regressions — 69/69 pass.
 - **Next founder action:** `/projects` → expand SYSTEM INSPECTOR · ACCOUNT IDENTITY → confirm SOURCE=PROFILE, RESOLUTION STATUS=RESOLVED; toggle client view.
 
+---
+
+## 2026-09-09 — B5.9R10 client simulation selector + Jane Doe fixture
+
+- **Context:** CLIENT VIEW = mode; active client = context. Founder needs searchable client selector on existing toggle without shell recomposition.
+- **Implemented:**
+  - `ClientSimulationContext`, `ClientProjectMembership`, `ClientDirectoryService` (`listClients`, `searchClients`, `getClientProjects`, memberships).
+  - Jane Doe demo fixture (`demo-client-jane-doe`) with 5 real `CLIENT_MEMBER` memberships: frontal-slayer, studio-world, ndxbook, all-in-one-enterprises, astral-world (excludes site00).
+  - `activeSimulatedClientId` + `clientSelectorOpen` on view-mode session; `ClientSimulationSelector` popover anchored to Client View toggle (▾ chevron).
+  - `useProjectIndex` resolves client grid/metrics via membership pipeline; eyebrow shows JANE DOE / when selected.
+  - System inspector extended with client simulation QA fields.
+  - Tests: `site00FounderWorkspaceSprintB59R10.test.ts` (31) + B59R8/R9 regressions.
+- **Next founder action:** `/projects` → CLIENT VIEW → search JANE → select → verify 05 YOUR PROJECTS + 5 project cards, no SITE 00.
+

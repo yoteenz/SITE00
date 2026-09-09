@@ -18,7 +18,7 @@ import {
   resolveActiveSimulatedClientOwner,
   resolveProjectsViewAccountIdentity,
 } from '../shared/site00-projects/projectsAccountIdentityAdapter.js';
-import { toggleViewAsClient } from '../shared/site00-projects/projectViewMode.js';
+import { selectSimulatedClient, createDefaultViewModeSession } from '../shared/site00-projects/projectViewMode.js';
 
 const ROOT = join(import.meta.dirname, '..');
 const EYEBROW = readFileSync(join(ROOT, 'src/site00/components/projectIndex/AccountIdentityEyebrow.tsx'), 'utf8');
@@ -60,11 +60,13 @@ describe('B5.9R9R1 canonical account identity resolution', () => {
     const result = resolveProjectsViewAccountIdentity({
       viewMode: 'CLIENT',
       isSimulatingClient: true,
+      activeSimulatedClientId: 'client-1',
+      simulatedClientDirectoryProfile: {
+        firstName: 'Jordan',
+        lastName: 'Cole',
+        displayName: 'Jordan Cole',
+      },
       authenticatedProfile: { firstName: 'Founder', lastName: 'Name', email: 'founder@site00.com' },
-      clientProjectOwners: [
-        { slug: 'astral-world', email: 'client@example.com', firstName: 'Jordan', lastName: 'Cole' },
-      ],
-      simulatedClientProjectSlug: 'astral-world',
       founderEmail: 'founder@site00.com',
     });
     expect(result.eyebrow).toBe('JORDAN COLE /');
@@ -137,28 +139,33 @@ describe('B5.9R9R1 canonical account identity resolution', () => {
     const result = resolveProjectsViewAccountIdentity({
       viewMode: 'CLIENT',
       isSimulatingClient: true,
+      activeSimulatedClientId: 'client-1',
+      simulatedClientDirectoryProfile: { firstName: 'Client', lastName: 'Person', displayName: 'Client Person' },
       authenticatedProfile: { firstName: 'Founder', lastName: 'Name', email: 'founder@site00.com' },
-      clientProjectOwners: [{ slug: 'p1', email: 'client@example.com', firstName: 'Client', lastName: 'Person' }],
-      simulatedClientProjectSlug: 'p1',
       founderEmail: 'founder@site00.com',
     });
     expect(result.eyebrow).toBe('CLIENT PERSON /');
   });
 
   it('14. unrelated client blocked when email matches founder', () => {
-    const owner = resolveActiveSimulatedClientOwner({
-      clientProjects: [{ slug: 'p1', email: 'same@example.com', firstName: 'Teena', lastName: 'Armstrong' }],
-      simulatedClientProjectSlug: 'p1',
+    const result = resolveProjectsViewAccountIdentity({
+      viewMode: 'CLIENT',
+      isSimulatingClient: true,
+      activeSimulatedClientId: 'client-1',
+      simulatedClientDirectoryProfile: { email: 'same@example.com', firstName: 'Teena', lastName: 'Armstrong' },
+      authenticatedProfile: { firstName: 'Teena', lastName: 'Armstrong', email: 'same@example.com' },
       founderEmail: 'same@example.com',
     });
-    expect(owner).toBeNull();
+    expect(result.eyebrow).toBe('CLIENT /');
   });
 
   it('15. simulated client slug persists across toggle', () => {
-    const session = toggleViewAsClient(
-      { mode: 'FOUNDER', isSimulatingClient: false, simulatedAt: null, simulatedClientProjectSlug: null },
-      { clientProjectSlug: 'astral-world' },
+    const session = selectSimulatedClient(
+      createDefaultViewModeSession(true),
+      'demo-client-jane-doe',
+      'astral-world',
     );
+    expect(session.activeSimulatedClientId).toBe('demo-client-jane-doe');
     expect(session.simulatedClientProjectSlug).toBe('astral-world');
     expect(session.isSimulatingClient).toBe(true);
   });

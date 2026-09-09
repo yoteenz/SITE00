@@ -16,6 +16,7 @@ import { orderProjectIndexItems } from '../../../shared/site00-projects/projectI
 import { runProjectIndexStaleDataQA } from '../../../shared/site00-projects/projectIndexStaleDataQA.js';
 import { useSite00ProjectsIndex } from './useSite00Projects.js';
 import { useClientAppProjects } from './useClientAppProjects.js';
+import { getClientProjects, clientCanAccessProject } from '../../../shared/site00-projects/clientSimulation/clientDirectoryService.js';
 import { useProjectViewMode } from '../context/ProjectViewModeContext.js';
 import {
   getProjectIndexStateVersion,
@@ -58,9 +59,11 @@ function matchesFilter(item: ProjectIndexItem, filter: ProjectIndexFilter): bool
   }
 }
 
-function matchesSearch(item: ProjectIndexItem, query: string): boolean {
+function matchesSearch(item: ProjectIndexItem, query: string, clientId?: string | null): boolean {
   if (!query.trim()) return true;
   const q = query.toLowerCase();
+  if (clientId && q.includes('site 00') && item.projectId === 'site00') return false;
+  if (clientId && !clientCanAccessProject(clientId, item.projectId)) return false;
   return (
     item.projectName.toLowerCase().includes(q) ||
     item.projectId.toLowerCase().includes(q) ||
@@ -95,7 +98,7 @@ function sortItems(items: ProjectIndexItem[], sort: ProjectIndexSort): ProjectIn
 }
 
 export function useProjectIndex() {
-  const { viewMode } = useProjectViewMode();
+  const { viewMode, isSimulatingClient, activeSimulatedClientId } = useProjectViewMode();
   const founderIndex = useSite00ProjectsIndex();
   const clientAppProjects = useClientAppProjects();
   const [indexVersion, setIndexVersion] = useState(getProjectIndexStateVersion());
@@ -111,6 +114,14 @@ export function useProjectIndex() {
   );
 
   const clientItems = useMemo(() => {
+    if (viewMode === 'CLIENT' && isSimulatingClient && activeSimulatedClientId) {
+      return getClientProjects({
+        clientId: activeSimulatedClientId,
+        founderEntries: founderIndex.projects,
+        clientProjectRefs: founderIndex.clientProjects ?? [],
+      });
+    }
+
     const fromApi = buildClientProjectIndexItems(founderIndex.clientProjects ?? []);
     const fromApp =
       clientAppProjects.data?.projects.map((p) => {
@@ -123,7 +134,15 @@ export function useProjectIndex() {
         return buildClientProjectIndexItems([synthetic])[0]!;
       }) ?? [];
     return fromApp.length ? fromApp : fromApi;
-  }, [founderIndex.clientProjects, clientAppProjects.data, indexVersion]);
+  }, [
+    viewMode,
+    isSimulatingClient,
+    activeSimulatedClientId,
+    founderIndex.projects,
+    founderIndex.clientProjects,
+    clientAppProjects.data,
+    indexVersion,
+  ]);
 
   const allItems = viewMode === 'CLIENT' ? clientItems : founderItems;
 
@@ -131,10 +150,13 @@ export function useProjectIndex() {
 
   const projectItems = useMemo(() => {
     const matched = allItems.filter(
-      (item) => !isSite00PlatformDesignIndexItem(item) && matchesFilter(item, filter) && matchesSearch(item, query),
+      (item) =>
+        !isSite00PlatformDesignIndexItem(item) &&
+        matchesFilter(item, filter) &&
+        matchesSearch(item, query, activeSimulatedClientId),
     );
     return sortItems(matched, sort);
-  }, [allItems, filter, query, sort]);
+  }, [allItems, filter, query, sort, activeSimulatedClientId]);
 
   const metrics = useMemo(() => computeProjectIndexSummaryMetrics(founderItems), [founderItems]);
 
