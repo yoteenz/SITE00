@@ -1,3 +1,5 @@
+export { SkinFamilyName } from './SkinFamilyName.js';
+export { SkinFamilyThumb } from './SkinFamilyThumb.js';
 export { SkinAuthorityContract } from './SkinAuthorityContract.js';
 export { SkinAuthorityFlow, type SkinFlowStep } from './SkinAuthorityFlow.js';
 export { SkinAuthorityStatus } from './SkinAuthorityStatus.js';
