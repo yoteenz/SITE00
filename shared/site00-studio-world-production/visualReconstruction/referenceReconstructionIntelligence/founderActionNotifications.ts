@@ -106,9 +106,11 @@ export function founderActionNotificationTitle(actionType: FounderActionType): s
 export function founderActionAlertHeadline(action: DesignFounderAction): string {
   switch (action.actionType) {
     case 'REVIEW_CROPS': {
-      const total = Number(action.context.total ?? 0);
-      const pending = total - Number(action.context.cropsApproved ?? 0);
-      return `${pending || total} CROPS READY`;
+      const total = Number(action.context.total ?? action.context.detected ?? 0);
+      const ready = Number(action.context.ready ?? 0);
+      const editRequired = Number(action.context.editRequired ?? 0);
+      const approved = Number(action.context.cropsApproved ?? 0);
+      return `${total} ASSETS DETECTED · ${ready} READY · ${editRequired} NEED EDITS · ${approved} APPROVED`;
     }
     case 'APPROVE_GENERATION':
       return 'RECONSTRUCTION PLAN READY';
@@ -122,7 +124,7 @@ export function founderActionAlertHeadline(action: DesignFounderAction): string 
 export function founderActionAlertSubline(action: DesignFounderAction): string {
   switch (action.actionType) {
     case 'REVIEW_CROPS':
-      return 'GENERATION WAITING';
+      return 'GENERATION BLOCKED UNTIL CROPS APPROVED';
     case 'APPROVE_GENERATION':
       return 'NO DISPATCH UNTIL APPROVED';
     case 'REVIEW_OUTPUTS':
@@ -136,10 +138,10 @@ export function founderActionNotificationBody(action: DesignFounderAction): stri
   const screen = String(action.context.screenLabel ?? 'SKINS MOBILE');
   switch (action.actionType) {
     case 'REVIEW_CROPS': {
-      const total = Number(action.context.total ?? 0);
-      const pending = total - Number(action.context.cropsApproved ?? 0);
-      const count = pending || total;
-      return `${screen} has ${count} asset crop${count === 1 ? '' : 's'} ready for review.`;
+      const total = Number(action.context.total ?? action.context.detected ?? 0);
+      const editRequired = Number(action.context.editRequired ?? 0);
+      const ready = Number(action.context.ready ?? 0);
+      return `${screen}: ${total} assets detected, ${ready} ready, ${editRequired} need edits. Generation blocked.`;
     }
     case 'APPROVE_GENERATION':
       return `${screen} reconstruction plan is ready. Review prompts before dispatch.`;

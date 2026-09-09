@@ -17,7 +17,9 @@ import {
   closeWorkflowView,
   markCandidateGenerationComplete,
   openWorkflowView,
+  updateCropReviewAtIndex,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/reconstructionJobOrchestrator.js';
+import type { CropReviewState } from '../../../../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/founderCropIntelligence/types.js';
 import {
   getReconstructionWorkflowState,
   subscribeReconstructionWorkflow,
@@ -127,6 +129,10 @@ export function useDesignReconstructionWorkflow() {
     updateReconstructionWorkflow((s) => ({ ...s, activeCandidateIndex: index }));
   }, []);
 
+  const updateCropReview = useCallback((index: number, review: CropReviewState) => {
+    updateReconstructionWorkflow((s) => updateCropReviewAtIndex(s, index, review));
+  }, []);
+
   return {
     state,
     primaryAction,
@@ -142,6 +148,7 @@ export function useDesignReconstructionWorkflow() {
     approveOutput,
     closeWorkflow,
     setCandidateIndex,
+    updateCropReview,
     actionTypeToWorkflowView,
   };
 }

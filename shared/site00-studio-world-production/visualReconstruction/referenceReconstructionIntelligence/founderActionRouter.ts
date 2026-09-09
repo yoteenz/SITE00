@@ -5,6 +5,8 @@
 
 import type { DesignFounderAction, FounderActionType } from './founderAction.js';
 import type { ReferenceMultiAssetReconstructionJob } from './multiAssetReconstructionJob.js';
+import type { CropReviewState } from './founderCropIntelligence/types.js';
+import { summarizeBatchCropReviews } from './founderCropIntelligence/founderCropIntelligence.js';
 
 function mkAction(input: Omit<DesignFounderAction, 'actionId' | 'createdAt'>): DesignFounderAction {
   return {
@@ -32,12 +34,19 @@ function buildDeepLink(job: ReferenceMultiAssetReconstructionJob, tab: 'SKINS' |
   return `?${params.toString()}`;
 }
 
-export function syncFounderActionsFromJob(job: ReferenceMultiAssetReconstructionJob): DesignFounderAction[] {
+export function syncFounderActionsFromJob(
+  job: ReferenceMultiAssetReconstructionJob,
+  cropReviews?: CropReviewState[],
+): DesignFounderAction[] {
   const actions: DesignFounderAction[] = [];
   const total = job.candidateAssets.length;
   const cropsApproved = job.cropApprovalStatus.approved;
+  const batch = cropReviews ? summarizeBatchCropReviews(cropReviews) : null;
 
   if (cropsApproved < total && job.discoveryComplete) {
+    const ready = batch?.ready ?? total - cropsApproved;
+    const editRequired = batch?.editRequired ?? 0;
+    const detected = batch?.detected ?? total;
     actions.push(
       mkAction({
         projectId: job.projectId,
@@ -45,13 +54,22 @@ export function syncFounderActionsFromJob(job: ReferenceMultiAssetReconstruction
         jobId: job.jobId,
         authorityId: job.authorityId,
         actionType: 'REVIEW_CROPS',
-        title: `${total - cropsApproved || total} CROPS NEED YOUR REVIEW`,
-        summary: `${total} ASSETS FOUND · ${cropsApproved}/${total} APPROVED · GENERATION WAITING`,
+        title: 'CROP REVIEW REQUIRED',
+        summary: `${detected} ASSETS DETECTED · ${ready} READY · ${editRequired} NEED EDITS · ${cropsApproved} APPROVED · GENERATION BLOCKED`,
         priority: 'BLOCKING',
         blocking: true,
         status: 'PENDING',
         deepLink: buildDeepLink(job, 'SKINS', 'review-crops'),
-        context: { total, cropsApproved, generationBlocked: true, ...displayContextForJob(job) },
+        context: {
+          total,
+          cropsApproved,
+          detected,
+          ready,
+          editRequired,
+          identityConfirmed: batch?.identityConfirmed ?? 0,
+          generationBlocked: true,
+          ...displayContextForJob(job),
+        },
       }),
     );
   }

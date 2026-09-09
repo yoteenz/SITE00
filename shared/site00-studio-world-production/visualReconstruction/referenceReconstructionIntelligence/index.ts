@@ -17,6 +17,7 @@ export * from './authorityBoundary.js';
 export * from './referenceAssetMismatch.js';
 export * from './multiAssetReconstructionJob.js';
 export * from './reconstructionApprovals.js';
+export * from './founderCropIntelligence/index.js';
 export * from './assetCompletenessGate.js';
 export * from './partialVisualImplementationGuard.js';
 export * from './founderAction.js';
