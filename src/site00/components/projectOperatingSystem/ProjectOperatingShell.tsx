@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ProjectModuleId } from '../../../../shared/site00-projects/projectModules.js';
 import { PROJECT_MODULE_CONFIGS, projectModulePath } from '../../../../shared/site00-projects/projectModules.js';
@@ -27,6 +27,8 @@ import {
 import { useProjectOperatingState } from '../../hooks/useProjectOperatingState.js';
 import { useProjectViewMode } from '../../context/ProjectViewModeContext.js';
 import { useSite00OriginWideViewport } from '../shell/useSite00OriginWideViewport.js';
+import { resolveModuleSkin } from '../../../../shared/site00-brand-lore/projectSkin/resolver.js';
+import '../../styles/site00-master-skin.css';
 
 type ProjectOperatingShellProps = {
   projectSlug: string;
@@ -137,6 +139,10 @@ export function ProjectOperatingShell({
 
   const modulesForNav = visibleModules as ProjectModuleId[];
   const currentLabel = PROJECT_MODULE_CONFIGS[currentModule].label;
+  const resolvedSkin = useMemo(
+    () => resolveModuleSkin(projectSlug, currentModule),
+    [projectSlug, currentModule],
+  );
 
   return (
     <div className="site00-pos" data-view-mode={viewMode} data-module={currentModule}>
@@ -170,7 +176,14 @@ export function ProjectOperatingShell({
           />
         ) : null}
 
-        <main className="site00-pos__main">{moduleContent}</main>
+        <main
+          className={`site00-pos__main${resolvedSkin ? ` ${resolvedSkin.cssClass}` : ''}`}
+          data-master-skin={resolvedSkin?.masterSkinId}
+          data-skin-module={currentModule}
+          style={resolvedSkin?.cssVars as CSSProperties | undefined}
+        >
+          {moduleContent}
+        </main>
 
         {!isWide && !evolveOwnsSubshell && !overviewOwnsSurface ? (
           <ProjectModuleMobileSubnav
