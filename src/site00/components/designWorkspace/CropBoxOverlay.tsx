@@ -1,84 +1,107 @@
 /**
- * P0.VR.6R8 — Direct-manipulation crop bounding box with 8 resize handles.
+ * P0.VR.6R9 — Direct-manipulation crop box derived from canonical source rect.
  */
 
 import { useCallback, useRef } from 'react';
-import type { NormalizedBbox } from '../../../../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/types.js';
+import type { CanonicalCropRect } from '../../../../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/founderCropIntelligence/canonicalCropRect.js';
 import {
-  applySnapAssist,
-  moveBbox,
-  normalizedBboxToPercentStyle,
-  resizeBboxFromHandle,
+  applySnapAssistSource,
+  moveCanonical,
+  resizeCanonicalFromHandle,
+  screenPointToSourcePoint,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/founderCropIntelligence/cropCoordinateTransform.js';
+import type { OverlayCssRect } from '../../../../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/founderCropIntelligence/cropCoordinateTransform.js';
+import type { RenderedImageGeometry } from '../../../../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/founderCropIntelligence/renderedImageGeometry.js';
 
 type Handle = 'n' | 's' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw' | 'move';
 
 type Props = {
-  bbox: NormalizedBbox;
-  snapTargets?: NormalizedBbox[];
+  canonical: CanonicalCropRect;
+  overlayCss: OverlayCssRect;
+  geometry: RenderedImageGeometry;
+  snapTargets?: CanonicalCropRect[];
   manualDrawMode?: boolean;
-  onChange: (bbox: NormalizedBbox, action: 'FOUNDER_DRAG' | 'FOUNDER_RESIZE' | 'MANUAL_CROP') => void;
+  onCanonicalChange: (crop: CanonicalCropRect, action: 'FOUNDER_DRAG' | 'FOUNDER_RESIZE' | 'MANUAL_CROP') => void;
   onDrawStart?: () => void;
-  pointerToNormalized: (clientX: number, clientY: number) => { x: number; y: number };
 };
 
 const HANDLES: Handle[] = ['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'];
 
-export function CropBoxOverlay({ bbox, snapTargets = [], manualDrawMode, onChange, onDrawStart, pointerToNormalized }: Props) {
+export function CropBoxOverlay({
+  canonical,
+  overlayCss,
+  geometry,
+  snapTargets = [],
+  manualDrawMode,
+  onCanonicalChange,
+  onDrawStart,
+}: Props) {
   const dragRef = useRef<{
     mode: Handle;
-    startBbox: NormalizedBbox;
-    startPointer: { x: number; y: number };
-    drawOrigin: { x: number; y: number } | null;
+    startCanonical: CanonicalCropRect;
+    startSource: { sourceX: number; sourceY: number };
+    drawOrigin: { sourceX: number; sourceY: number } | null;
   } | null>(null);
 
-  const pointerToNorm = useCallback(
-    (clientX: number, clientY: number) => pointerToNormalized(clientX, clientY),
-    [pointerToNormalized],
+  const pointerToSource = useCallback(
+    (clientX: number, clientY: number) => screenPointToSourcePoint(clientX, clientY, geometry),
+    [geometry],
   );
 
   const onPointerDown = (mode: Handle) => (e: React.PointerEvent) => {
     e.preventDefault();
     e.stopPropagation();
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
-    const pointer = pointerToNorm(e.clientX, e.clientY);
-    dragRef.current = { mode, startBbox: bbox, startPointer: pointer, drawOrigin: null };
+    const pointer = pointerToSource(e.clientX, e.clientY);
+    dragRef.current = { mode, startCanonical: canonical, startSource: pointer, drawOrigin: null };
   };
 
   const onDrawPointerDown = (e: React.PointerEvent) => {
     if (!manualDrawMode) return;
     e.preventDefault();
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
-    const origin = pointerToNorm(e.clientX, e.clientY);
+    const origin = pointerToSource(e.clientX, e.clientY);
     onDrawStart?.();
-    dragRef.current = { mode: 'se', startBbox: bbox, startPointer: origin, drawOrigin: origin };
+    dragRef.current = { mode: 'se', startCanonical: canonical, startSource: origin, drawOrigin: origin };
   };
 
   const onPointerMove = (e: React.PointerEvent) => {
     const drag = dragRef.current;
     if (!drag) return;
-    const pointer = pointerToNorm(e.clientX, e.clientY);
+    const pointer = pointerToSource(e.clientX, e.clientY);
 
     if (drag.drawOrigin) {
-      const x = Math.min(drag.drawOrigin.x, pointer.x);
-      const y = Math.min(drag.drawOrigin.y, pointer.y);
-      const width = Math.abs(pointer.x - drag.drawOrigin.x);
-      const height = Math.abs(pointer.y - drag.drawOrigin.y);
-      onChange({ x, y, width: Math.max(0.02, width), height: Math.max(0.02, height) }, 'MANUAL_CROP');
+      const x = Math.min(drag.drawOrigin.sourceX, pointer.sourceX);
+      const y = Math.min(drag.drawOrigin.sourceY, pointer.sourceY);
+      const width = Math.abs(pointer.sourceX - drag.drawOrigin.sourceX);
+      const height = Math.abs(pointer.sourceY - drag.drawOrigin.sourceY);
+      onCanonicalChange(
+        applySnapAssistSource(
+          {
+            ...canonical,
+            x,
+            y,
+            width: Math.max(8, width),
+            height: Math.max(8, height),
+          },
+          snapTargets,
+        ),
+        'MANUAL_CROP',
+      );
       return;
     }
 
-    let next: NormalizedBbox;
     if (drag.mode === 'move') {
-      const dx = pointer.x - drag.startPointer.x;
-      const dy = pointer.y - drag.startPointer.y;
-      next = moveBbox(drag.startBbox, dx, dy);
-      onChange(applySnapAssist(next, snapTargets), 'FOUNDER_DRAG');
+      const dx = pointer.sourceX - drag.startSource.sourceX;
+      const dy = pointer.sourceY - drag.startSource.sourceY;
+      onCanonicalChange(applySnapAssistSource(moveCanonical(drag.startCanonical, dx, dy), snapTargets), 'FOUNDER_DRAG');
       return;
     }
 
-    next = resizeBboxFromHandle(drag.startBbox, drag.mode, pointer);
-    onChange(applySnapAssist(next, snapTargets), 'FOUNDER_RESIZE');
+    onCanonicalChange(
+      applySnapAssistSource(resizeCanonicalFromHandle(drag.startCanonical, drag.mode, pointer), snapTargets),
+      'FOUNDER_RESIZE',
+    );
   };
 
   const onPointerUp = (e: React.PointerEvent) => {
@@ -91,7 +114,17 @@ export function CropBoxOverlay({ bbox, snapTargets = [], manualDrawMode, onChang
     }
   };
 
-  const style = normalizedBboxToPercentStyle(bbox);
+  const style: React.CSSProperties = {
+    position: 'absolute',
+    left: overlayCss.left,
+    top: overlayCss.top,
+    width: overlayCss.width,
+    height: overlayCss.height,
+    border: '2px solid rgba(255, 70, 50, 0.95)',
+    boxShadow: '0 0 0 9999px rgba(0, 0, 0, 0.42)',
+    cursor: 'move',
+    touchAction: 'none',
+  };
 
   return (
     <>

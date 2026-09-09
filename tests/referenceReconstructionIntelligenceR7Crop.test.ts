@@ -23,7 +23,9 @@ import { approveAllValidCrops } from '../shared/site00-studio-world-production/v
 import { buildCropDetectionExplanation } from '../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/founderCropIntelligence/cropDetectionExplanation.js';
 import { resolveAssetTargetSlotContract } from '../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/founderCropIntelligence/assetTargetSlotContract.js';
 import { runCropQualityPreflight } from '../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/founderCropIntelligence/cropQualityPreflight.js';
-import { computeCropChecksum } from '../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/founderCropIntelligence/cropGeometry.js';
+import { canonicalFromNormalized } from '../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/founderCropIntelligence/canonicalCropRect.js';
+import { computeCropCoordinateChecksum } from '../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/founderCropIntelligence/cropPreviewAlignment.js';
+import { SOURCE_HEIGHT_MOBILE, SOURCE_WIDTH_MOBILE } from '../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/founderCropIntelligence/familyCropCalibration.js';
 import {
   createInitialWorkflowState,
   approveCropAtIndex,
@@ -206,7 +208,8 @@ describe('P0.VR.6R7 — Founder Crop Intelligence', () => {
     const result = approveCropReview(review);
     expect(result.allowed).toBe(true);
     expect(result.review.cropChecksum).toBeTruthy();
-    expect(result.review.cropChecksum).toBe(computeCropChecksum(review.candidateId, getActiveCrop(result.review)));
+    const canonical = canonicalFromNormalized(getActiveCrop(result.review), SOURCE_WIDTH_MOBILE, SOURCE_HEIGHT_MOBILE);
+    expect(result.review.cropChecksum).toBe(computeCropCoordinateChecksum(review.candidateId, canonical));
   });
 
   it('25. founder crop supersedes detector crop', () => {

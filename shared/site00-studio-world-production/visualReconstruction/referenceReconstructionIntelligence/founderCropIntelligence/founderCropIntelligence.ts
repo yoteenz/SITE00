@@ -9,6 +9,8 @@ import { resolveAssetTargetSlotContract } from './assetTargetSlotContract.js';
 import { buildCropDetectionExplanation } from './cropDetectionExplanation.js';
 import { runCropQualityPreflight } from './cropQualityPreflight.js';
 import { clampNormalizedBbox, computeCropChecksum } from './cropGeometry.js';
+import { canonicalFromNormalized } from './canonicalCropRect.js';
+import { computeCropCoordinateChecksum } from './cropPreviewAlignment.js';
 import { recordDetectionCorrection } from './cropDetectionLearning.js';
 import { SOURCE_HEIGHT_MOBILE, SOURCE_WIDTH_MOBILE } from './familyCropCalibration.js';
 import {
@@ -298,7 +300,11 @@ export function approveCropReview(
   }
 
   const finalCrop = getActiveCrop(review);
-  const checksum = computeCropChecksum(review.candidateId, finalCrop);
+  const nw = review.editorState?.sourceNaturalWidth ?? SOURCE_WIDTH_MOBILE;
+  const nh = review.editorState?.sourceNaturalHeight ?? SOURCE_HEIGHT_MOBILE;
+  const canonical = canonicalFromNormalized(finalCrop, nw, nh);
+  const checksum = computeCropCoordinateChecksum(review.candidateId, canonical);
+  const legacyChecksum = computeCropChecksum(review.candidateId, finalCrop);
 
   if (review.founderCrop && review.semanticBoundary) {
     recordDetectionCorrection({
@@ -320,7 +326,7 @@ export function approveCropReview(
     reviewStatus: 'APPROVED',
     editHistory: [
       ...review.editHistory,
-      { id: `hist-approve-${Date.now()}`, action: 'APPROVED', bounds: { ...finalCrop }, timestamp: new Date().toISOString(), note: checksum },
+      { id: `hist-approve-${Date.now()}`, action: 'APPROVED', bounds: { ...finalCrop }, timestamp: new Date().toISOString(), note: `${checksum}|${legacyChecksum}` },
     ],
   };
   return { review: updated, allowed: true, reason: null };

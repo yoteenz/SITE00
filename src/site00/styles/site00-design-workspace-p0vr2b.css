@@ -2311,16 +2311,37 @@
   background: #111;
 }
 
+.site00-dw-crop-editor__image-stage,
 .site00-dw-crop-editor__source-frame {
   position: relative;
   width: 100%;
+  transform-origin: top center;
 }
 
+.site00-dw-crop-editor__image-stage img,
 .site00-dw-crop-editor__source-frame img {
   width: 100%;
   display: block;
   user-select: none;
   touch-action: none;
+}
+
+.site00-dw-crop-editor__alignment-error {
+  font-size: 9px;
+  padding: 8px;
+  border: 1px solid #c44;
+  background: rgba(204, 68, 68, 0.06);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.site00-dw-crop-editor__alignment-error button {
+  font-size: 8px;
+  padding: 4px 8px;
+  border: 1px solid var(--site00-dw-line);
+  background: var(--site00-dw-white);
 }
 
 .site00-dw-crop-box {

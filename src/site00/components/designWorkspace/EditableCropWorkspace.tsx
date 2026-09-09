@@ -1,6 +1,6 @@
 /**
- * EditableCropWorkspace — visual-first direct-manipulation crop editor.
- * P0.VR.6R8
+ * EditableCropWorkspace — visual-first crop editor with coordinate convergence.
+ * P0.VR.6R9
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -15,8 +15,13 @@ import {
   SOURCE_HEIGHT_MOBILE,
   SOURCE_WIDTH_MOBILE,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/founderCropIntelligence/founderCropIntelligence.js';
+import {
+  canonicalFromNormalized,
+  type CanonicalCropRect,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/founderCropIntelligence/canonicalCropRect.js';
 import type { NormalizedBbox } from '../../../../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/types.js';
 import { CropBoxOverlay } from './CropBoxOverlay.js';
+import { useCropEditorGeometry } from './useCropEditorGeometry.js';
 
 type Props = {
   review: CropReviewState;
@@ -49,32 +54,52 @@ export function EditableCropWorkspace({
 }: Props) {
   const [zoom, setZoom] = useState(review.editorState?.zoom ?? 1);
   const [manualDraw, setManualDraw] = useState(false);
-  const [detailsOpen, setDetailsOpen] = useState(false);
   const [wrongAssetOpen, setWrongAssetOpen] = useState(false);
   const [qaDebounce, setQaDebounce] = useState(review.preflight.issues);
-  const frameRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const qaTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rafRef = useRef<number | null>(null);
 
   const activeCrop = useMemo(() => getActiveCrop(review), [review]);
   const chip = statusChip(review);
   const brandShort = review.assetName.replace(/ FAMILY VISUAL$/i, '');
 
-  const pointerToNormalized = useCallback((clientX: number, clientY: number) => {
-    const rect = frameRef.current?.getBoundingClientRect();
-    if (!rect?.width || !rect.height) return { x: 0, y: 0 };
-    return {
-      x: Math.max(0, Math.min(1, (clientX - rect.left) / rect.width)),
-      y: Math.max(0, Math.min(1, (clientY - rect.top) / rect.height)),
-    };
-  }, []);
+  const {
+    canonical,
+    geometry,
+    screenGeometry,
+    overlayCss,
+    alignment,
+    naturalWidth,
+    naturalHeight,
+    remeasure,
+    recalibrate,
+    drawPreview,
+    canonicalToNormalized,
+  } = useCropEditorGeometry({
+    normalizedCrop: activeCrop,
+    sourceImageUrl,
+    candidateId: review.candidateId,
+    zoom,
+    imgRef,
+    stageRef,
+  });
+
+  const applyCanonical = useCallback(
+    (crop: CanonicalCropRect, action: 'FOUNDER_DRAG' | 'FOUNDER_RESIZE' | 'MANUAL_CROP') => {
+      const bbox = canonicalToNormalized(crop);
+      onReviewChange(applyFounderCropEdit(review, bbox, action, naturalWidth || SOURCE_WIDTH_MOBILE, naturalHeight || SOURCE_HEIGHT_MOBILE));
+    },
+    [canonicalToNormalized, naturalHeight, naturalWidth, onReviewChange, review],
+  );
 
   const applyCrop = useCallback(
     (bbox: NormalizedBbox, action: 'FOUNDER_DRAG' | 'FOUNDER_RESIZE' | 'MANUAL_CROP') => {
-      onReviewChange(applyFounderCropEdit(review, bbox, action, SOURCE_WIDTH_MOBILE, SOURCE_HEIGHT_MOBILE));
+      onReviewChange(applyFounderCropEdit(review, bbox, action, naturalWidth || SOURCE_WIDTH_MOBILE, naturalHeight || SOURCE_HEIGHT_MOBILE));
     },
-    [onReviewChange, review],
+    [naturalHeight, naturalWidth, onReviewChange, review],
   );
 
   useEffect(() => {
@@ -86,33 +111,32 @@ export function EditableCropWorkspace({
   }, [review.preflight.issues]);
 
   useEffect(() => {
-    const canvas = previewCanvasRef.current;
-    const img = imgRef.current;
-    if (!canvas || !img || !img.complete || !img.naturalWidth) return;
-    const px = {
-      x: Math.round(activeCrop.x * img.naturalWidth),
-      y: Math.round(activeCrop.y * img.naturalHeight),
-      width: Math.max(1, Math.round(activeCrop.width * img.naturalWidth)),
-      height: Math.max(1, Math.round(activeCrop.height * img.naturalHeight)),
+    if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => drawPreview(previewCanvasRef.current));
+    return () => {
+      if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
     };
-    canvas.width = px.width;
-    canvas.height = px.height;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    ctx.drawImage(img, px.x, px.y, px.width, px.height, 0, 0, px.width, px.height);
-  }, [activeCrop, sourceImageUrl]);
+  }, [drawPreview, canonical, sourceImageUrl]);
 
   const hasBlocks = review.preflight.issues.some((i) => i.severity === 'BLOCK');
   const hasWarns = review.preflight.issues.some((i) => i.severity === 'WARN');
+  const alignmentBlocked = alignment == null || alignment.blocksApproval;
   const canApprove =
-    review.assetIdentity === 'CONFIRMED' && !hasBlocks && review.reviewStatus !== 'APPROVED';
+    review.assetIdentity === 'CONFIRMED' &&
+    !hasBlocks &&
+    !alignmentBlocked &&
+    review.reviewStatus !== 'APPROVED' &&
+    naturalWidth > 0;
   const showWarningOverride = canApprove && hasWarns;
 
-  const snapTargets = useMemo(() => {
+  const snapTargetsCanonical = useMemo(() => {
     const sb = review.semanticBoundary;
-    if (!sb) return [];
-    return [sb.mediaRegion, sb.cardRegion];
-  }, [review.semanticBoundary]);
+    if (!sb || naturalWidth <= 0 || naturalHeight <= 0) return [];
+    return [
+      canonicalFromNormalized(sb.mediaRegion, naturalWidth, naturalHeight),
+      canonicalFromNormalized(sb.cardRegion, naturalWidth, naturalHeight),
+    ];
+  }, [review.semanticBoundary, naturalWidth, naturalHeight]);
 
   const candidates = review.semanticBoundary
     ? [review.semanticBoundary.primaryCandidate, ...review.semanticBoundary.alternateCandidates]
@@ -126,6 +150,9 @@ export function EditableCropWorkspace({
         </span>
         <strong>{brandShort}</strong>
         <span className={`site00-dw-crop-editor__chip is-${chip.tone}`}>{chip.label}</span>
+        {alignmentBlocked ? (
+          <span className="site00-dw-crop-editor__chip is-block">PREVIEW ALIGNMENT ERROR</span>
+        ) : null}
         {review.assetIdentity !== 'CONFIRMED' ? (
           <button type="button" className="site00-dw-crop-editor__identity-chip" onClick={() => onReviewChange(setAssetIdentity(review, 'CONFIRMED'))}>
             CONFIRM ASSET
@@ -134,6 +161,13 @@ export function EditableCropWorkspace({
           <span className="site00-dw-crop-editor__identity-chip is-confirmed">ASSET ✓</span>
         )}
       </header>
+
+      {alignmentBlocked ? (
+        <div className="site00-dw-crop-editor__alignment-error">
+          <p>{alignment?.message ?? 'THE CROP BOX AND PREVIEW ARE OUT OF SYNC. APPROVAL IS PAUSED.'}</p>
+          <button type="button" onClick={() => { recalibrate(); remeasure(); }}>RECALIBRATE</button>
+        </div>
+      ) : null}
 
       {candidates.length > 1 && review.semanticBoundary?.needsFounderPlacement ? (
         <div className="site00-dw-crop-editor__candidates">
@@ -159,16 +193,23 @@ export function EditableCropWorkspace({
             <button type="button" onClick={() => setZoom(1)}>FIT</button>
           </div>
           <div className="site00-dw-crop-editor__viewport">
-            <div ref={frameRef} className="site00-dw-crop-editor__source-frame" style={{ transform: `scale(${zoom})`, transformOrigin: 'top center' }}>
-              <img ref={imgRef} src={sourceImageUrl} alt="Reference source" crossOrigin="anonymous" />
-              <CropBoxOverlay
-                bbox={activeCrop}
-                snapTargets={snapTargets}
-                manualDrawMode={manualDraw}
-                onChange={applyCrop}
-                onDrawStart={() => setManualDraw(true)}
-                pointerToNormalized={pointerToNormalized}
-              />
+            <div
+              ref={stageRef}
+              className="site00-dw-crop-editor__image-stage"
+              style={{ transform: `scale(${zoom})`, transformOrigin: 'top center' }}
+            >
+              <img ref={imgRef} src={sourceImageUrl} alt="Reference source" crossOrigin="anonymous" draggable={false} />
+              {canonical && screenGeometry && overlayCss ? (
+                <CropBoxOverlay
+                  canonical={canonical}
+                  overlayCss={overlayCss}
+                  geometry={screenGeometry}
+                  snapTargets={snapTargetsCanonical}
+                  manualDrawMode={manualDraw}
+                  onCanonicalChange={applyCanonical}
+                  onDrawStart={() => setManualDraw(true)}
+                />
+              ) : null}
             </div>
           </div>
         </section>
@@ -232,19 +273,26 @@ export function EditableCropWorkspace({
             </>
           )}
 
-          <details className="site00-dw-crop-editor__details" open={detailsOpen}>
-            <summary onClick={() => setDetailsOpen((v) => !v)}>DETAILS</summary>
+          <details className="site00-dw-crop-editor__details">
+            <summary>DETAILS</summary>
             <dl>
               <div><dt>TARGET SLOT</dt><dd>{review.targetSlot}</dd></div>
-              <div><dt>DETECTED TYPE</dt><dd>{review.detectionExplanation.detectedType}</dd></div>
-              <div><dt>CONFIDENCE</dt><dd>{review.detectionExplanation.confidencePercent}%</dd></div>
-              <div><dt>BOUNDARY CONF</dt><dd>{review.semanticBoundary?.boundaryConfidence ?? '—'}%</dd></div>
-              <div><dt>EXPECTED</dt><dd>{review.detectionExplanation.expectedContent}</dd></div>
-              <div><dt>COVERAGE</dt><dd>{review.preflight.objectCoverage}</dd></div>
-              <div><dt>SOURCE</dt><dd>{SOURCE_WIDTH_MOBILE}×{SOURCE_HEIGHT_MOBILE}</dd></div>
-              <div><dt>CROP NORM</dt><dd>{activeCrop.x.toFixed(3)},{activeCrop.y.toFixed(3)} · {activeCrop.width.toFixed(3)}×{activeCrop.height.toFixed(3)}</dd></div>
-              <div><dt>EXPLANATION</dt><dd>{review.detectionExplanation.summary}</dd></div>
+              <div><dt>SOURCE NATURAL</dt><dd>{naturalWidth || '—'}×{naturalHeight || '—'}</dd></div>
+              <div><dt>CANONICAL PX</dt><dd>{canonical ? `${Math.round(canonical.x)},${Math.round(canonical.y)} · ${Math.round(canonical.width)}×${Math.round(canonical.height)}` : '—'}</dd></div>
+              <div><dt>ALIGNMENT</dt><dd>{alignment?.status ?? 'PENDING'}</dd></div>
+              <div><dt>ROUND-TRIP ERR</dt><dd>{alignment?.roundTripErrorPx?.toFixed(2) ?? '—'} px</dd></div>
             </dl>
+            <details className="site00-dw-crop-editor__geometry">
+              <summary>GEOMETRY</summary>
+              <dl>
+                <div><dt>RENDERED</dt><dd>{geometry ? `${Math.round(geometry.width)}×${Math.round(geometry.height)}` : '—'}</dd></div>
+                <div><dt>SCALE</dt><dd>{geometry ? `${geometry.scaleX.toFixed(4)} × ${geometry.scaleY.toFixed(4)}` : '—'}</dd></div>
+                <div><dt>LETTERBOX</dt><dd>{geometry ? `${geometry.letterboxX.toFixed(1)}, ${geometry.letterboxY.toFixed(1)}` : '—'}</dd></div>
+                <div><dt>DPR</dt><dd>{geometry?.devicePixelRatio ?? '—'}</dd></div>
+                <div><dt>ZOOM</dt><dd>{zoom}</dd></div>
+                <div><dt>OVERLAY CSS</dt><dd>{overlayCss ? `${overlayCss.left.toFixed(1)},${overlayCss.top.toFixed(1)} ${overlayCss.width.toFixed(1)}×${overlayCss.height.toFixed(1)}` : '—'}</dd></div>
+              </dl>
+            </details>
             <details className="site00-dw-crop-editor__nudge">
               <summary>ADVANCED NUDGE</summary>
               <div className="site00-dw-crop-editor__nudge-grid">

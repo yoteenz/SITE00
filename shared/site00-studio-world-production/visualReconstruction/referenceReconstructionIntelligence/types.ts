@@ -389,4 +389,11 @@ export type ReferenceReconstructionInspectorState = {
   multiAssetJobId: string | null;
   cropApprovalSummary: string;
   generationApprovalSummary: string;
+  cropGeometry: {
+    coordinateAuthority: string;
+    alignmentInvariant: string;
+    alignmentStatus: string;
+    roundTripErrorPx: number | null;
+    sourceNatural: string;
+  };
 };

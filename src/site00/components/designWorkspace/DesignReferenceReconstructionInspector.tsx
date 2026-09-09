@@ -86,6 +86,12 @@ export function DesignReferenceReconstructionInspector() {
           <dd>{inspector.cropApprovalSummary}</dd>
         </div>
         <div>
+          <dt>CROP GEOMETRY</dt>
+          <dd>
+            {inspector.cropGeometry.alignmentInvariant} · {inspector.cropGeometry.coordinateAuthority}
+          </dd>
+        </div>
+        <div>
           <dt>GENERATION</dt>
           <dd>{inspector.generationApprovalSummary}</dd>
         </div>

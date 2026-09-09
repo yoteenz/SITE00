@@ -136,6 +136,11 @@ export type CropEditorState = {
   activeHandle: string | null;
   dirty: boolean;
   lastSavedAt: string | null;
+  sourceNaturalWidth?: number | null;
+  sourceNaturalHeight?: number | null;
+  sourceImageId?: string | null;
+  alignmentStatus?: 'ALIGNED' | 'PREVIEW_ALIGNMENT_MISMATCH' | 'SOURCE_IMAGE_MISMATCH' | 'PENDING';
+  roundTripErrorPx?: number | null;
 };
 
 export type CropReviewState = {
