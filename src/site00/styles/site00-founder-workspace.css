@@ -5242,6 +5242,53 @@
   color: #bbb;
 }
 
+.site00-expr-engine-maturity {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.site00-expr-engine-maturity__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 16px;
+  margin: 12px 0;
+}
+
+.site00-expr-engine-maturity__grid dt {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: #888;
+}
+
+.site00-expr-engine-maturity__grid dd {
+  margin: 2px 0 0;
+  font-size: 14px;
+}
+
+.site00-expr-engine-maturity__golden {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 13px;
+}
+
+.site00-expr-engine-maturity__judgment {
+  margin-top: 16px;
+}
+
+.site00-expr-engine-maturity__judgment-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.site00-expr-engine-maturity__loading {
+  font-size: 13px;
+  color: #888;
+}
+
 .site00-expr-engine-workspace__tabs,
 .site00-expr-engine-workspace__sections {
   display: flex;
