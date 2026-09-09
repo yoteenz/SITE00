@@ -208,7 +208,7 @@ export function buildClientAppExperience(input: BuildAppManifestInput): ClientAp
   pulse.activeOpportunity = selectPrimaryOpportunity(opportunities, pulse);
 
   return {
-    modules: ['home', 'project', 'reviews', 'inbox', 'library'],
+    modules: ['home', 'projects', 'reviews', 'inbox', 'profile'],
     projectPulse: pulse,
     buildProgress: deriveBuildProgress(manifest),
     milestones: deriveMilestones(manifest),

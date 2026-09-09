@@ -26,7 +26,6 @@ export function appNavPath(
 ): string {
   const base = appBasePathForSlug(projectSlug, isPreview);
   if (section === 'home') return base;
-  if (section === 'project') return `${base}/project/map`;
   return `${base}/${section}`;
 }
 
@@ -66,8 +65,10 @@ export function useAppPaths(projectSlug?: string) {
     base,
     isPreview,
     home: base,
+    projects: `${base}/projects`,
     project: (section: string) => `${base}/project/${section}`,
     reviews: `${base}/reviews`,
+    profile: `${base}/profile`,
     review: (reviewId: string, sub?: string) => appReviewPath(slug, reviewId, isPreview, sub),
     inbox: (threadId?: string) => appInboxPath(slug, isPreview, threadId),
     library: (categoryId?: string, fileId?: string) => appLibraryPath(slug, isPreview, categoryId, fileId),

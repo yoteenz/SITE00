@@ -16,13 +16,19 @@ export function ClientAppHomeIcon({ size = 22, className }: Site00LineIconProps)
   );
 }
 
-export function ClientAppProjectIcon({ size = 22, className }: Site00LineIconProps) {
+export function ClientAppProjectsIcon({ size = 22, className }: Site00LineIconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden="true">
-      <path {...STROKE} d="M4 6h4v12H4zM10 10h4v8h-4zM16 4h4v14h-4z" />
+      <rect {...STROKE} x="4" y="4" width="8" height="8" rx="1" />
+      <rect {...STROKE} x="12" y="4" width="8" height="8" rx="1" />
+      <rect {...STROKE} x="4" y="12" width="8" height="8" rx="1" />
+      <rect {...STROKE} x="12" y="12" width="8" height="8" rx="1" opacity="0.45" />
     </svg>
   );
 }
+
+/** @deprecated Use ClientAppProjectsIcon */
+export const ClientAppProjectIcon = ClientAppProjectsIcon;
 
 export function ClientAppReviewsIcon({ size = 22, className }: Site00LineIconProps) {
   return (
@@ -43,12 +49,18 @@ export function ClientAppInboxIcon({ size = 22, className }: Site00LineIconProps
   );
 }
 
-export function ClientAppLibraryIcon({ size = 22, className }: Site00LineIconProps) {
+export function ClientAppProfileIcon({ size = 22, className }: Site00LineIconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden="true">
-      <path {...STROKE} d="M4 4h7l2 3h7v13H4V4z" />
+      <circle {...STROKE} cx="12" cy="8" r="4" />
+      <path {...STROKE} d="M5 20c0-4 3-6 7-6s7 2 7 6" />
     </svg>
   );
+}
+
+/** @deprecated Library tab replaced by profile in self-directed shell */
+export function ClientAppLibraryIcon({ size = 22, className }: Site00LineIconProps) {
+  return <ClientAppProfileIcon size={size} className={className} />;
 }
 
 export { ClientRoomDiamondIcon as ClientAppDiamondIcon } from './ClientProjectRoomNavIcons';

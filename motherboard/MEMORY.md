@@ -7221,3 +7221,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining:** Auto-implement child routes in runtime router; full end-to-end Playwright nav QA; wire ambiguous actions to bell notifications.
 - **Next founder action:** Deploy v242 → Design → PAGES → verify PAGE COMPLETION panel shows interactions/child surfaces for selected page → MORE → inspect PAGE COMPLETION block.
 
+---
+
+## 2026-09-09 — Evolve Service Page + Self-Directed Client Product (reference-fidelity sprint)
+
+- **Context:** Founder sprint to split **public Evolve service discovery** from **self-directed Evolve client product**, rebuild both from attached mobile/desktop authorities (Martian Mono, uppercase UI), wire functional CTAs via page completion, support MARKETING_ONLY scope + project relationship architecture.
+- **Implemented:**
+  - **`shared/site00-evolve-service/`** — `EvolveServiceMode` (DIGITAL_EVOLUTION | MARKETING_CREATIVE_INTELLIGENCE), 5-step service process, 5 service areas, evolution paths, `resolveStartEvolveRoute` / `resolveEnterPathRoute`, PCI contracts.
+  - **`shared/site00-self-directed/`** — `ProjectServiceScope`, `ProjectRelationship`, `ServiceDeliveryMode`, nav (HOME/PROJECTS/REVIEWS/INBOX/PROFILE), PCI contracts, `formatMetricCount` (unknown ≠ 0).
+  - **Public `/evolve`** — `EvolveHubDesktopExperience` (independent desktop layout + CSS); mobile hub updated to new `EvolveServiceIcon` SVG system (replaces `EvolvePathIcon` on service page), 5-step process, SERVICE AREAS grid; auth-aware START EVOLVE.
+  - **Client app `/app/projects/:slug/*`** — bottom nav → HOME · PROJECTS · REVIEWS · INBOX · PROFILE; `SelfDirectedHomeView`, `SelfDirectedProjectsView`, `SelfDirectedProfileView`; routes `projects`, `profile`; `site00-self-directed-client.css`.
+  - **`manifestTemplates`** — MARKETING_ONLY, MARKETING_PLUS_PRODUCTION, FULL_SITE, BUILDER_ONLY, CUSTOM scopes with 5-step marketing journey phases.
+  - **Tests:** `evolveSelfDirectedProduct.test.ts` (20 pass); updated client app P0.APP.1 nav expectations.
+- **Remaining gaps:** Full desktop self-directed tab layouts (separate desktop authorities for Home/Projects/Profile) need deeper grid pass; Reviews/Inbox tabs reuse existing queue pages (not full authority rebuild this session); deterministic screenshot QA matrix not run; marketing-intelligence public lane is architectural only (no second service page UI).
+- **Next founder action:** Deploy v243 → mobile `/evolve` compare to Evolve service authority → desktop `/evolve/desktop` compare → sign into `/app/projects/:slug` → verify 5-tab shell → tap primary actions on Home/Projects/Profile.
+

@@ -55,7 +55,7 @@ export function getClientAppLibraryCategories(manifest: ClientAppManifest): Clie
     id: section.id,
     label: labelMap[section.id] ?? section.label,
     itemCount: section.itemCount,
-    route: `${clientAppPath(slug, 'library')}/${section.id}`,
+    route: `${clientAppPath(slug)}/library/${section.id}`,
   }));
 }
 

@@ -8,17 +8,17 @@ import {
   ClientAppDiamondIcon,
   ClientAppHomeIcon,
   ClientAppInboxIcon,
-  ClientAppLibraryIcon,
-  ClientAppProjectIcon,
+  ClientAppProfileIcon,
+  ClientAppProjectsIcon,
   ClientAppReviewsIcon,
 } from '../../icons/ClientAppNavIcons';
 
 const NAV_ICONS = {
   home: ClientAppHomeIcon,
-  project: ClientAppProjectIcon,
+  projects: ClientAppProjectsIcon,
   reviews: ClientAppReviewsIcon,
   inbox: ClientAppInboxIcon,
-  library: ClientAppLibraryIcon,
+  profile: ClientAppProfileIcon,
 };
 
 type Site00ClientAppShellProps = {
@@ -60,13 +60,11 @@ export function Site00ClientAppShell({ manifest, activeSection, children }: Site
             const to =
               item.id === 'home'
                 ? paths.home
-                : item.id === 'project'
-                  ? paths.project('map')
-                  : `${paths.base}/${item.id}`;
+                : `${paths.base}/${item.id}`;
             let badge = 0;
             if (item.id === 'inbox') badge = badges.inbox;
             if (item.id === 'reviews') badge = badges.reviews;
-            if (item.id === 'project') badge = badges.tasks;
+            if (item.id === 'projects') badge = badges.tasks;
             return (
               <NavLink
                 key={item.id}
