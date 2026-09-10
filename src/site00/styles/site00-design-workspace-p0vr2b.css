@@ -2507,6 +2507,123 @@
   letter-spacing: 0.06em;
 }
 
+.site00-dw-guided-seq {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.site00-dw-guided-seq__intent h3 {
+  margin: 0 0 4px;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+}
+
+.site00-dw-guided-seq__intent ul {
+  margin: 0;
+  padding-left: 14px;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+}
+
+.site00-dw-guided-seq__transition {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.35);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+.site00-dw-guided-seq__step-label {
+  margin: 0;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  opacity: 0.75;
+}
+
+.site00-dw-guided-seq__step h2 {
+  margin: 4px 0;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+}
+
+.site00-dw-guided-seq__why,
+.site00-dw-guided-seq__next-hint,
+.site00-dw-guided-seq__outcome {
+  margin: 0;
+  font-size: 9px;
+  line-height: 1.45;
+  letter-spacing: 0.03em;
+  opacity: 0.85;
+}
+
+.site00-dw-guided-seq__strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.site00-dw-guided-seq__strip-item {
+  flex: 0 0 auto;
+  width: 72px;
+  text-align: center;
+  opacity: 0.55;
+}
+
+.site00-dw-guided-seq__strip-item.is-current {
+  opacity: 1;
+}
+
+.site00-dw-guided-seq__strip-item.is-complete {
+  opacity: 0.85;
+}
+
+.site00-dw-guided-seq__strip-item img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.site00-dw-guided-seq__strip-glyph {
+  display: block;
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.site00-dw-guided-seq__strip-name {
+  display: block;
+  font-size: 7px;
+  letter-spacing: 0.04em;
+}
+
+.site00-dw-guided-seq__crop-check header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+
+.site00-dw-guided-seq__crop-check ul {
+  margin: 0;
+  padding-left: 14px;
+  font-size: 8px;
+  opacity: 0.8;
+}
+
+@media (min-width: 1024px) {
+  .site00-dw-rri-workflow--guided .site00-dw-guided-seq__strip {
+    order: 10;
+  }
+}
+
 .site00-dw-crop-editor {
   display: flex;
   flex-direction: column;

@@ -7377,8 +7377,24 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - **Hero art registry** — per-concept symbolic treatments (NDX door, Verdant leaf, Sleep archive, Savor room).
   - **Sleep Debt Archive** — 4th gallery concept via presentation fixture + bootstrap seed.
   - **Maturity** — demoted to VIEW MATURITY link (Level 3), not default.
-  - **Tests:** `creativeJudgmentPresentationP0CJ2V.test.ts` (7) + updated CJ2 (13); build `index.J59hKzUh.js`.
+  - **Tests:** `creativeJudgmentPresentationP0CJ2V.test.ts` (7) + updated CJ2 (13); build `index.cKVRVeUR.js`; PR **#645** merged.
   - **Status:** `VISUAL_DIRECTION_IMPLEMENTED · VISUAL_AUTHORITY_REQUIRED` (no pixel-perfect authority claim).
 - **Remaining gaps:** Generated hero key art / product photography binding; live savorceleste.com fetch; final mobile+desktop screen authority captures for pixel pass.
 - **Next founder action:** Deploy v253 → Expression Engine → CREATIVE JUDGMENT → review 4 cases (Employee Door, Verdant Row, Sleep Debt, Savor Celeste) on mobile gallery + desktop compare + trailer — capture screenshots for visual authority pass.
+
+## 2026-09-10 — P0.VR.7R1 Guided reconstruction flow + workflow sequence intelligence
+
+- **Context:** Design reconstruction pipeline worked technically but founder still had to manually interpret multi-asset jobs (SKINS mobile 5 brand-family row). Sprint adds guided sequence intelligence without replacing crop editor, approval gates, or provider safeguards.
+- **Implemented (`p0vr7r1/`):**
+  - `WorkflowSequenceIntelligence` + `SiblingAssetSetResolver` — detects BRAND_FAMILY_VISUAL_ROW left-to-right (NDXBOOK → STUDIO WORLD)
+  - `RepeatedCropPatternIntelligence` + `SiblingGeometryTransfer` — proposes inner-media crop on next sibling (never auto-approves)
+  - `NextBestWorkflowAction` + `GuidedReconstructionSequence` — SOURCE/FRAME/BUILD/REVIEW/REPLACE founder stages
+  - Auto-advance after crop approval to next sibling; transition feedback; resume at next incomplete asset
+  - Generation plan transition after 5/5 crops (no paid generation until explicit approve)
+  - UI: `DesignGuidedSequenceChrome` (intent summary, step header, sequence strip, crop check, outcome hint)
+  - ASSETS alert/notification: CONTINUE RECONSTRUCTION · N OF 5 · NEXT: brand
+  - Existing SKINS 5-asset job migrated via `migrateJobToGuidedSequence` on workflow store hydrate
+  - Tests: `visualReconstructionP0VR7R1.test.ts` (21/21 pass); build bundle `index.BU4ppssv.js`
+- **Preserved:** semantic crop intelligence, direct manipulation editor, crop/generation approval gates, no silent paid generation
+- **Next founder action:** DESIGN → ASSETS → CONTINUE RECONSTRUCTION → approve NDXBOOK crop → verify auto-advance to FRONTAL SLAYER with smart crop proposal → complete sequence → REVIEW GENERATION PLAN before APPROVE GENERATION
 
