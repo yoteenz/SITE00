@@ -7679,6 +7679,24 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-10 — P0.CGO.2 Conceptual Efficiency + Product/World Interaction Logic
+
+- **Context:** CGO.1 could generate high-yield worlds but still defaulted toward category-literal environments and multi-shot bloat. Sprint teaches **interaction-first lateral world reasoning**: product visibility through behavior, not category-matched locations; favor high-yield / high-efficiency concepts with minimal execution.
+- **Engine** (`shared/site00-expression-engine/campaign-genesis-orchestration/`):
+  - `ProductWorldInteractionEngine` + `ProductInteractionProfile` + `ProductMotionSignature` — body/behavior/motion interfaces per category (jewelry hands, hair motion surfaces).
+  - `LateralWorldSearch` — discovers unrelated worlds where interactions naturally occur; `WorldCategoryDistance`; default mix ADJACENT + LATERAL + UNEXPECTED (not LITERAL).
+  - `WorldInteractionBridge`, `CreativeLeapTrace` (from generation path), `ProductVisibilityThroughBehavior`, scoring: natural visibility, forced placement, category dependency, conceptual efficiency, production complexity, concept value ratio, quadrants, density, camera economy, one-shot potential, loopability, extensibility.
+  - `MinimalExecutionConcept`, `MicroNarrativeGrammar` (3–8s reels), `CreativeReductionPass`, `ConceptualEfficiencyQA`, generic detector flags (literal category world, mannequin model, shot/prop bloat, world-native copy).
+  - `CampaignWorldGenesisEngine` enriches all candidates via `conceptualEfficiencyOrchestrator`; sorts by concept value ratio.
+  - `CreativeDirectionOrchestrationSystem` supports `SINGLE_SHOT_CONCEPT`; reduction pass on orchestrate; ExecutionWit receives efficiency + reduction signals.
+  - Persistence: `saveApprovedCandidate` / `getCampaignRunPersistence`; campaign history entry fields for interaction type, world distance, production complexity, conceptual efficiency.
+- **UI:** Campaign Director P0.CGO.2 — world cards show interaction + yield/efficiency/production chips; CREATIVE LEAP trace; VIEW DETAILS; **SIMPLE BUT CLEVER** filter; **REDUCE EXECUTION** button.
+- **Tests:** `campaignConceptualEfficiencyP0CGO2.test.ts` (47/47). Build `P0_CGO_2_BUILD = v274`.
+- **Forensic benchmark:** jewelry/hand/wager logic scored HIGH yield + HIGH efficiency vs weak luxury studio (principles abstracted — poker/green felt NOT copied as templates).
+- **FS pilot:** ≥2/3 worlds non-salon/vanity/bathroom; micro-reel duration 3–8s when one-shot viable.
+- **Remaining gaps:** Supabase persistence for efficiency enrichment on campaign runs; automated FounderCreativeAppetite wire at runtime when profile absent; live image-gen for hero frames on world cards.
+- **Next founder action:** EVOLVE → CAMPAIGN DIRECTOR → FRONTAL SLAYER → LAUNCH → verify BRAND CONTEXT READY → generate worlds → confirm ≥2 non-literal hair/beauty environments → open CREATIVE LEAP → pick HIGH YIELD + HIGH EFFICIENCY → approve → verify single-shot / micro-reel path → REDUCE EXECUTION.
+
 ## 2026-09-10 — Railway Noble apt fix (libasound2 → t64)
 
 - **Issue:** Railway Nixpacks build on Ubuntu 24.04 Noble failed: `E: Package 'libasound2' has no installation candidate`.

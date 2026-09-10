@@ -11,6 +11,7 @@ import {
   directCreativeRevision,
   saveOrchestration,
   saveWorldBible,
+  saveApprovedCandidate,
 } from '../../../../../shared/site00-expression-engine/campaign-genesis-orchestration/index.js';
 import type {
   CampaignWorldBible,
@@ -61,6 +62,7 @@ export function CampaignDirectorWorkspace({ projectSlug, initialMode = 'genesis'
   const [showForensic, setShowForensic] = useState(initialMode === 'forensic');
   const [selectedCandidate, setSelectedCandidate] = useState<CampaignWorldCandidate | null>(null);
   const [worldBible, setWorldBible] = useState<CampaignWorldBible | null>(null);
+  const [worldFilter, setWorldFilter] = useState<'ALL' | 'HIGH_CONCEPT_LOW_COMPLEXITY'>('ALL');
   const { context: brandContext, gate, loading: contextLoading, viewOpen, setViewOpen, refresh } =
     useBrandCreativeContext(brandSlug);
 
@@ -77,10 +79,10 @@ export function CampaignDirectorWorkspace({ projectSlug, initialMode = 'genesis'
 
   const orchestration = useMemo(() => {
     if (!worldBible) return null;
-    const o = creativeDirectionOrchestrationSystem.orchestrate(worldBible);
+    const o = creativeDirectionOrchestrationSystem.orchestrate(worldBible, selectedCandidate);
     saveOrchestration(worldBible.worldId, o);
     return o;
-  }, [worldBible]);
+  }, [worldBible, selectedCandidate]);
 
   const handleApproveWorld = (candidate: CampaignWorldCandidate) => {
     const bible = campaignWorldGenesisEngine.approveWorldToBible({
@@ -90,6 +92,7 @@ export function CampaignDirectorWorkspace({ projectSlug, initialMode = 'genesis'
       brandContextVersion: brandContext?.version,
     });
     saveWorldBible(bible);
+    saveApprovedCandidate(bible.worldId, candidate);
     setWorldBible(bible);
     setSelectedCandidate(candidate);
     setStep('look');
@@ -116,10 +119,10 @@ export function CampaignDirectorWorkspace({ projectSlug, initialMode = 'genesis'
   return (
     <div className="site00-campaign-director">
       <header className="site00-campaign-director__hero">
-        <p className="site00-campaign-director__eyebrow">CREATIVE INTELLIGENCE · P0.CGO.1</p>
+        <p className="site00-campaign-director__eyebrow">CREATIVE INTELLIGENCE · P0.CGO.2</p>
         <h1 className="site00-campaign-director__title">CAMPAIGN DIRECTOR</h1>
         <p className="site00-campaign-director__subtitle">
-          World genesis → creative direction → concept fidelity through execution
+          Interaction-first worlds · conceptual efficiency · minimal execution intelligence
         </p>
       </header>
 
@@ -141,6 +144,17 @@ export function CampaignDirectorWorkspace({ projectSlug, initialMode = 'genesis'
         <button type="button" className={showForensic ? 'active' : ''} onClick={() => setShowForensic(true)}>
           {FORENSIC_BENCHMARK_LABEL}
         </button>
+        {!showForensic ? (
+          <button
+            type="button"
+            className={worldFilter === 'HIGH_CONCEPT_LOW_COMPLEXITY' ? 'active' : ''}
+            onClick={() =>
+              setWorldFilter((f) => (f === 'ALL' ? 'HIGH_CONCEPT_LOW_COMPLEXITY' : 'ALL'))
+            }
+          >
+            SIMPLE BUT CLEVER
+          </button>
+        ) : null}
       </div>
 
       {showForensic ? (
@@ -162,6 +176,7 @@ export function CampaignDirectorWorkspace({ projectSlug, initialMode = 'genesis'
               onSelect={setSelectedCandidate}
               onApprove={handleApproveWorld}
               brandSlug={brandSlug}
+              filterMode={worldFilter}
             />
           )}
           {step === 'look' && worldBible && orchestration && (

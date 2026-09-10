@@ -136,6 +136,11 @@ export type BrandCampaignHistoryEntry = {
   founderJudgment: string | null;
   conceptualYield: number | null;
   executionFidelity: number | null;
+  /** P0.CGO.2 — anti-repetition signals */
+  interactionType?: string | null;
+  worldDistance?: string | null;
+  productionComplexity?: string | null;
+  conceptualEfficiency?: number | null;
   performedAt: string;
 };
 

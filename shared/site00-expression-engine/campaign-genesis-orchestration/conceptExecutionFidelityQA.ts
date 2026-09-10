@@ -87,6 +87,12 @@ export function directCreativeRevision(input: {
   if (input.diagnosis.motifUnderused) {
     specific.push('Repeat the numbered-ball motif in nail detail or environmental object.');
   }
+  if (input.diagnosis.productOverStaged) {
+    specific.push('Remove the second location. Keep the camera locked. Make the product appear through the subject\'s action rather than a presentation pose.');
+  }
+  if (input.diagnosis.environmentBackdropOnly) {
+    specific.push('Let the world motif generate the title. Move camera wider so environment dominates.');
+  }
   if (specific.length === 0) {
     specific.push('Increase behavior specificity. Reduce generic editorial polish.');
   }
@@ -105,12 +111,18 @@ export function computeExecutionWitScore(input: {
   behaviorPresent: boolean;
   surprisePresent: boolean;
   lateralConnection: boolean;
+  conceptualEfficiency?: number;
+  worldNativeCopy?: boolean;
+  reductionApplied?: boolean;
 }): ExecutionWitScore {
   let score = 0.5;
   if (input.lateralConnection) score += 0.15;
   if (input.behaviorPresent) score += 0.15;
   if (input.motifCount >= 2) score += 0.1;
   if (input.surprisePresent) score += 0.1;
+  if ((input.conceptualEfficiency ?? 0) >= 0.7) score += 0.08;
+  if (input.worldNativeCopy) score += 0.05;
+  if (input.reductionApplied) score += 0.05;
   return {
     lateralConnection: input.lateralConnection ? 0.85 : 0.4,
     visualPayoff: input.surprisePresent ? 0.8 : 0.5,
