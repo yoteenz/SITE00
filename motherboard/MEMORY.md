@@ -7592,3 +7592,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Build:** Capture API/worker builds bumped to **v268** (`P0_VR_8R3R*_BUILD`). Tests: `visualReconstructionP0VR8R3R5BrowserBoot.test.ts` (28 pass) + capture regressions.
 - **Next founder action:** **Redeploy Railway from main** (critical — apt deps apply at build). Then deploy matching cPanel bundle → DESIGN → MORE → CAPTURE → verify BROWSER READY → TEST WORKER → view test screenshot → only then NDXBOOK PAGES REFRESH PROJECT.
 
+---
+
+## 2026-09-10 — P0.PCI.3R1 Page Family Workspace Authority + Capture Decoupling
+
+- **Context:** PCI.3 shipped Page Family Workspace but live PAGES tab still opened to capture-first wizard (NDXBOOK PAGE CAPTURE → SERVICE CHECK), blocking all progress when browser/worker degraded. Sprint: make PageFamilyWorkspace own DESIGN → PAGES; capture is downstream readiness dimension only.
+- **Root conflict:** `resolvePagesWizardResumeStep` used `resolveFounderCaptureWorkflowStage` → auto-routed to `service-check` when capture unhealthy; `localStep` defaulted to `landing`.
+- **Fix:**
+  - **`PagesWorkspaceController`** (`pagesWorkspaceController.ts`): default step `family`; capture subflow only on explicit deep-link or active capture run; `landing` redirects to `family`.
+  - **`PageFamilyDependencyPolicy`**: structure/design/wiring independent of capture; `isCaptureBlockingFamilyWork()` = false.
+  - **`PageFamilyReadiness`**: separate dimensions (structure/design/wiring/capture); capture `UNAVAILABLE` not `BLOCKED`.
+  - **UI:** `CaptureServiceStatusChip` + `FamilyReadinessDimensions` in PageFamilyWorkspace; capture subflow back → family; removed capture landing as root.
+  - Build marker `P0_PCI_3R1_BUILD = v269`.
+- **Tests:** `pageFamilyWorkspaceP0PCI3R1.test.ts` (28 pass) + PCI.3/R5R1 regressions.
+- **Next founder action:** Deploy cPanel v270 → DESIGN → NDXBOOK → PAGES — verify PAGE FAMILY WORKSPACE loads even when LIVE CAPTURE NEEDS ATTENTION → confirm family / approve design without fixing capture first.
+
