@@ -7518,3 +7518,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `visualReconstructionP0VR8R3R5R1.test.ts` (32/32); R3R1–R3R5 regression updated (159 pass); PR #656 merged.
 - **Next founder action:** Deploy cPanel v264 → DESIGN → NDXBOOK → PAGES — do NOT scroll; landing shows START CAPTURE SETUP → advance screen-by-screen through service check → test worker → capture → results; verify MORE opens category grid not settings document.
 
+---
+
+## 2026-09-10 — P0.VR.MOF.R1 System & Settings Tab Visual Convergence
+
+- **Context:** MORE tab landing after R3R5R1 still underwhelming vs target concept — sparse generic cards, weak hero, no status hierarchy, not control-room feel.
+- **Fix:** `DesignMoreSystemHub` replaces wizard-shell landing — hero ring motif + SYSTEM & SETTINGS orientation; 2-col tool tiles with monospace descriptors + status pills (ACTIVE, NEEDS ATTENTION, CONNECTED, N SAVED); green RECOMMENDED TEST CAPTURE WORKER card when capture unhealthy; RECENT ACTIVITY + SYSTEM STATUS summary row; footer v265 ONLINE; `site00-design-more-hub.css`; capture health + activity count wired from workspace; module detail routes preserved; build v265; PR #657.
+- **Next founder action:** Deploy cPanel v265 → DESIGN → NDXBOOK → MORE → scan system hub at a glance → tap CAPTURE/PROVIDERS to confirm detail screens.
+
