@@ -11,3 +11,4 @@ export const P0_VR_8R3R4_BUILD = P0_VR_8R3R1_BUILD;
 export const P0_VR_8R3R5_BUILD = P0_VR_8R3R1_BUILD;
 export const P0_VR_8R3R5R1_BUILD = 'v264' as const;
 export const P0_VR_MOF_R1_BUILD = 'v265' as const;
+export const P0_VR_MOF_R2_BUILD = 'v266' as const;
