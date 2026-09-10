@@ -1,27 +1,29 @@
 /**
- * P0.VR.8R3R5R1 — MORE tab category landing + dedicated sub-screens.
+ * P0.VR.8R3R5R1 / P0.VR.MOF.R2 — MORE tab hub + child tool pages.
  */
 
-import { useEffect, useState } from 'react';
-import { requiresExplicitFounderDispatch } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr4/spendGuard.js';
-import { uploadNeverTriggersGeneration } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr5/spendGuard.js';
-import { DEFAULT_FIDELITY_SETTINGS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6r2/browserClient.js';
+import { useEffect, useState, type ReactNode } from 'react';
 import { listInstructionPresets } from './designAssetJobApi';
 import { fetchFalProviderHealth } from './designAssetReconstructionApi';
 import type { DesignInstructionPreset } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr5/browserClient.js';
-import { DesignCaptureOrchestrationInspector } from './DesignCaptureOrchestrationInspector';
-import { DesignRouteAuditRecoveryInspector } from './DesignRouteAuditRecoveryInspector';
-import { DesignTaskWizardShell } from './wizard/DesignTaskWizardShell';
 import { DesignMoreSystemHub } from './DesignMoreSystemHub';
 import { DesignChildExperiencePanel } from './DesignChildExperiencePanel';
+import { DesignTaskWizardShell } from './wizard/DesignTaskWizardShell';
+import { DesignMoreCapturePage } from './more/DesignMoreCapturePage';
+import { DesignMoreSystemPage } from './more/DesignMoreSystemPage';
+import { DesignMoreProvidersPage } from './more/DesignMoreProvidersPage';
+import { DesignMoreRouteAuditPage } from './more/DesignMoreRouteAuditPage';
+import { DesignMoreStoragePage } from './more/DesignMoreStoragePage';
+import { DesignMoreAutomationPage } from './more/DesignMoreAutomationPage';
+import { DesignMorePresetsPage } from './more/DesignMorePresetsPage';
 import type { ProjectCaptureRefreshState } from './usePageMirror';
 import {
   MORE_CATEGORIES,
-  moreCategoryLabel,
   normalizeMoreCategory,
   type MoreCategory,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3r1/designWizardSteps.js';
 import '../../styles/site00-design-more-hub.css';
+import '../../styles/site00-design-more-tool.css';
 
 type Props = {
   projectId: string;
@@ -32,6 +34,8 @@ type Props = {
   onMoreCategoryChange?: (category: MoreCategory) => void;
   captureRefresh?: ProjectCaptureRefreshState;
   recentActivityCount?: number;
+  onTestWorker?: () => void | Promise<boolean | void>;
+  onGoToPages?: () => void;
 };
 
 export function DesignMoreTab({
@@ -43,12 +47,11 @@ export function DesignMoreTab({
   onMoreCategoryChange,
   captureRefresh,
   recentActivityCount = 0,
+  onTestWorker,
+  onGoToPages,
 }: Props) {
   const [presets, setPresets] = useState<DesignInstructionPreset[]>([]);
   const [falAvailable, setFalAvailable] = useState<boolean | null>(null);
-  const [autoCrop, setAutoCrop] = useState(false);
-  const [syncSupabase, setSyncSupabase] = useState(true);
-  const [notifyComplete, setNotifyComplete] = useState(true);
   const [localCategory, setLocalCategory] = useState<MoreCategory>('landing');
 
   const activeCategory = moreCategoryProp ? normalizeMoreCategory(moreCategoryProp) : localCategory;
@@ -76,8 +79,8 @@ export function DesignMoreTab({
     onMoreCategoryChange?.(category);
   };
 
-  const founderGenerateOnly = requiresExplicitFounderDispatch();
-  const uploadSafe = uploadNeverTriggersGeneration();
+  const backToLanding = () => goTo('landing');
+  const automationOn = true;
 
   if (moreCategoryProp === 'child-experience') {
     return (
@@ -103,7 +106,7 @@ export function DesignMoreTab({
           onOpenChildExperience={() => goTo('child-experience')}
           falAvailable={falAvailable}
           presetCount={presets.length}
-          automationOn={syncSupabase && notifyComplete}
+          automationOn={automationOn}
           captureRefresh={captureRefresh}
           recentActivityCount={recentActivityCount}
         />
@@ -111,155 +114,57 @@ export function DesignMoreTab({
     );
   }
 
-  const backToLanding = () => goTo('landing');
+  const childShell = (category: MoreCategory, content: ReactNode) => (
+    <section className="site00-dw-v3-more site00-dw-wizard-host" data-design-tab="more" data-more-category={category}>
+      {content}
+    </section>
+  );
 
   if (activeCategory === 'providers') {
-    return (
-      <section className="site00-dw-v3-more site00-dw-wizard-host" data-design-tab="more" data-more-category="providers">
-        <DesignTaskWizardShell
-          stepTitle={moreCategoryLabel('providers')}
-          headline="PROVIDERS"
-          support="Manage AI providers and capabilities."
-          onBack={backToLanding}
-          transitionKey="more-providers"
-        >
-          <div className="site00-dw-v3-more__provider-grid">
-            <div className={`site00-dw-v3-more__provider${falAvailable ? ' is-live' : ''}`}>
-              <strong>GPT IMAGE 2 EDIT</strong>
-              <span className="site00-dw-v3-more__provider-role">PRIMARY</span>
-              <em>{falAvailable === null ? '…' : falAvailable ? 'ACTIVE' : 'BLOCKED'}</em>
-            </div>
-            <div className="site00-dw-v3-more__provider">
-              <strong>IDEOGRAM</strong>
-              <span className="site00-dw-v3-more__provider-role">BG REMOVE</span>
-              <em>ACTIVE</em>
-            </div>
-            <div className="site00-dw-v3-more__provider">
-              <strong>FAL AUTO</strong>
-              <span className="site00-dw-v3-more__provider-role">FALLBACK</span>
-              <em>{falAvailable ? 'READY' : 'BLOCKED'}</em>
-            </div>
-          </div>
-        </DesignTaskWizardShell>
-      </section>
-    );
+    return childShell('providers', <DesignMoreProvidersPage onBack={backToLanding} falAvailable={falAvailable} />);
   }
 
   if (activeCategory === 'capture') {
-    return (
-      <section className="site00-dw-v3-more site00-dw-wizard-host" data-design-tab="more" data-more-category="capture">
-        <DesignTaskWizardShell
-          stepTitle={moreCategoryLabel('capture')}
-          headline="CAPTURE ORCHESTRATION"
-          support="Service status and worker diagnostics."
-          onBack={backToLanding}
-          transitionKey="more-capture"
-        >
-          <DesignCaptureOrchestrationInspector projectId={projectId} />
-        </DesignTaskWizardShell>
-      </section>
+    return childShell(
+      'capture',
+      <DesignMoreCapturePage
+        projectId={projectId}
+        onBack={backToLanding}
+        captureRefresh={captureRefresh}
+        onTestWorker={onTestWorker}
+        onGoToPages={onGoToPages}
+      />,
     );
   }
 
   if (activeCategory === 'route-audit') {
-    return (
-      <section className="site00-dw-v3-more site00-dw-wizard-host" data-design-tab="more" data-more-category="route-audit">
-        <DesignTaskWizardShell
-          stepTitle={moreCategoryLabel('route-audit')}
-          headline="ROUTE AUDIT / RECOVERY"
-          support="Reconcile routes with capture inventory."
-          onBack={backToLanding}
-          transitionKey="more-route-audit"
-        >
-          <DesignRouteAuditRecoveryInspector projectId={projectId} />
-        </DesignTaskWizardShell>
-      </section>
-    );
+    return childShell('route-audit', <DesignMoreRouteAuditPage projectId={projectId} onBack={backToLanding} />);
   }
 
   if (activeCategory === 'storage') {
-    return (
-      <section className="site00-dw-v3-more site00-dw-wizard-host" data-design-tab="more" data-more-category="storage">
-        <DesignTaskWizardShell stepTitle={moreCategoryLabel('storage')} headline="STORAGE & OUTPUT" onBack={backToLanding} transitionKey="more-storage">
-          <div className="site00-dw-v3-more__storage-grid">
-            <div className="site00-dw-v3-more__storage">
-              <strong>SUPABASE</strong>
-              <em className="is-on">CONNECTED</em>
-            </div>
-            <div className="site00-dw-v3-more__storage">
-              <strong>LIVE REPLACE</strong>
-              <em className="is-on">READY</em>
-            </div>
-          </div>
-        </DesignTaskWizardShell>
-      </section>
-    );
+    return childShell('storage', <DesignMoreStoragePage onBack={backToLanding} />);
   }
 
   if (activeCategory === 'automation') {
-    return (
-      <section className="site00-dw-v3-more site00-dw-wizard-host" data-design-tab="more" data-more-category="automation">
-        <DesignTaskWizardShell stepTitle={moreCategoryLabel('automation')} headline="AUTOMATION" onBack={backToLanding} transitionKey="more-automation">
-          <label className="site00-dw-v3-more__toggle-row">
-            <span>AUTO CROP ON UPLOAD</span>
-            <input type="checkbox" checked={autoCrop} onChange={(e) => setAutoCrop(e.target.checked)} />
-          </label>
-          <label className="site00-dw-v3-more__toggle-row">
-            <span>SYNC TO SUPABASE</span>
-            <input type="checkbox" checked={syncSupabase} onChange={(e) => setSyncSupabase(e.target.checked)} />
-          </label>
-          <label className="site00-dw-v3-more__toggle-row">
-            <span>NOTIFY ON COMPLETE</span>
-            <input type="checkbox" checked={notifyComplete} onChange={(e) => setNotifyComplete(e.target.checked)} />
-          </label>
-        </DesignTaskWizardShell>
-      </section>
-    );
+    return childShell('automation', <DesignMoreAutomationPage onBack={backToLanding} />);
   }
 
   if (activeCategory === 'presets') {
-    return (
-      <section className="site00-dw-v3-more site00-dw-wizard-host" data-design-tab="more" data-more-category="presets">
-        <DesignTaskWizardShell stepTitle={moreCategoryLabel('presets')} headline="INSTRUCTION PRESETS" onBack={backToLanding} transitionKey="more-presets">
-          <p className="site00-dw-v3-more__meta">FOUNDER INSTRUCTIONS ({presets.length || '—'})</p>
-        </DesignTaskWizardShell>
-      </section>
-    );
+    return childShell('presets', <DesignMorePresetsPage onBack={backToLanding} presets={presets} />);
   }
 
   if (activeCategory === 'system') {
-    return (
-      <section className="site00-dw-v3-more site00-dw-wizard-host" data-design-tab="more" data-more-category="system">
-        <DesignTaskWizardShell stepTitle={moreCategoryLabel('system')} headline="SYSTEM" onBack={backToLanding} transitionKey="more-system">
-          <div className="site00-dw-v3-more__toggle-row">
-            <span>FOUNDER GENERATE ONLY</span>
-            <strong className={founderGenerateOnly ? 'is-on' : 'is-off'}>{founderGenerateOnly ? 'ON' : 'OFF'}</strong>
-          </div>
-          <div className="site00-dw-v3-more__toggle-row">
-            <span>UPLOAD NEVER TRIGGERS GEN</span>
-            <strong className={uploadSafe ? 'is-on' : 'is-off'}>{uploadSafe ? 'ON' : 'OFF'}</strong>
-          </div>
-          <div className="site00-dw-v3-more__rule-row">
-            <span>DEFAULT AUTHORITY</span>
-            <span>{DEFAULT_FIDELITY_SETTINGS.defaultAuthorityMode.replace(/_/g, ' ')}</span>
-          </div>
-          {onOpenInspect ? (
-            <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onOpenInspect}>
-              OPEN INSPECT
-            </button>
-          ) : null}
-          {onCaptureScreen ? (
-            <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact" onClick={onCaptureScreen}>
-              CAPTURE SCREEN
-            </button>
-          ) : null}
-          {onMatchReference ? (
-            <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact" onClick={onMatchReference}>
-              MATCH REFERENCE
-            </button>
-          ) : null}
-        </DesignTaskWizardShell>
-      </section>
+    return childShell(
+      'system',
+      <DesignMoreSystemPage
+        onBack={backToLanding}
+        captureRefresh={captureRefresh}
+        falAvailable={falAvailable}
+        onOpenInspect={onOpenInspect}
+        recentActivityCount={recentActivityCount}
+        onCaptureScreen={onCaptureScreen}
+        onMatchReference={onMatchReference}
+      />,
     );
   }
 

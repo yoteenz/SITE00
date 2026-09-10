@@ -7544,6 +7544,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-10 — P0.VR.MOF.R2 MORE Child-Page Visual System + Wizardized Subroutes
+
+- **Context:** MOF.R1 redesigned MORE hub only; child routes (Capture, Route Audit, etc.) still showed raw diagnostic dumps (API BASE URL, worker UUID, DEGRADED strings, audit lineage walls).
+- **Fix:** `MoreToolPageShell` + `MoreStatusHero` + `MoreSummaryTile` + `site00-design-more-tool.css` — hub-aligned visual language for all MORE subroutes: status hero → primary action → compact summary cards → VIEW DETAILS drawer (mobile sheet / desktop drawer via `DesignDetailsDrawer`). Child pages: System, Providers, Capture, Route Audit, Storage, Automation, Presets. Capture: human summary (API/WORKER/BROWSER/PLAYWRIGHT), TEST WORKER wizard states, raw telemetry in `DesignCaptureDetailsContent` only. Shared `captureNeedsAttention()` in `more/moreStatus.ts` for hub/child consistency. `onTestWorker` wired from workspace. Build v266; PR #659 merged; release `site00-deploy-2026-09-10-v266`.
+- **Tests:** `visualReconstructionP0VRMoFR2.test.ts` (24/24).
+- **Next founder action:** Deploy cPanel v266 → DESIGN → MORE → tap each tile (SYSTEM, PROVIDERS, CAPTURE, ROUTE AUDIT, STORAGE, AUTOMATION, PRESETS) — verify one status + one primary action + compact cards; CAPTURE should read NEEDS ATTENTION with browser-not-ready copy, not raw build/URL dump.
+
+---
+
 ## 2026-09-10 — P0.PCI.2 Route Linkage Contract + Parent-to-Child Wiring Convergence
 
 - **Context:** Follow-up to P0.PCI.1 — experience tree and navigation tree must agree. Parent tiles/buttons/wizard steps must reach real child/grandchild surfaces with return paths. MORE hub proved pattern: parent improved, wiring must be provably correct.
@@ -7551,9 +7560,9 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
   - `ParentChildLinkageContract`, `NavigationOrigin`, `ParentNavigationIntentResolver` (handlers/registry not labels alone), `InteractionIntentClassifier`, `InteractiveSurfaceGraph`, `NavigationLinkageAudit`, `NavigationChainQA`, `LinkageRepairPlan` + safe auto-repair, `ChildExperienceReadiness` (CURRENT = visual + wiring).
   - Pilot registries: MORE (7 tiles + capture grandchild), PAGES/ASSETS/SKINS wizards, future-site HOME→SERVICES→BOOKING.
   - Integrations: `integratedExperienceAudit.ts` (PCI.1+PCI.2), `pageCompletionLinkageIntegration.ts` (`PAGE_CHILD_LINK_MISSING`, `CHILD_RETURN_PATH_MISSING`), `navigationGrammar` on `ParentExperienceAuthority`.
-  - UI: `DesignChildExperiencePanel` — Design → MORE → CHILD EXPERIENCE MATRIX (footer link); matrix shows EXPERIENCE ✓ / WIRING ✓ per row.
+  - UI: `DesignChildExperiencePanel` — Design → MORE → CHILD EXPERIENCE MATRIX (footer link); matrix shows EXPERIENCE ✓ / WIRING ✓ per row. Merged atop MOF.R2 child tool pages.
   - Docs: `docs/architecture/SITE00_PARENT_CHILD_EXPERIENCE_P0PCI2.md`.
 - **Tests:** `parentChildNavigationLinkageP0PCI2.test.ts` (37/37 pass) + PCI.1 regression (15 pass).
 - **Remaining gaps:** Live Playwright click-through runner; persist linkage contracts; auto-repair applied to component source (not manifest-only).
-- **Next founder action:** Deploy cPanel → DESIGN → MORE → CHILD EXPERIENCE MATRIX → verify MORE/PAGES/ASSETS/SKINS wiring rows → click every MORE tile + test MORE→CAPTURE→TEST WORKER grandchild + return paths.
+- **Next founder action:** Deploy cPanel v267 → DESIGN → MORE → CHILD EXPERIENCE MATRIX → verify MORE/PAGES/ASSETS/SKINS wiring rows → click every MORE tile + test MORE→CAPTURE→TEST WORKER grandchild + return paths.
 

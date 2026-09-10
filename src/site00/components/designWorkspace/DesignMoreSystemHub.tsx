@@ -6,6 +6,7 @@ import { DesignDwSectionIcon } from './DesignDwSectionIcon';
 import { P0_VR_MOF_R1_BUILD } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/constants.js';
 import type { MoreCategory } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3r1/designWizardSteps.js';
 import type { ProjectCaptureRefreshState } from './usePageMirror';
+import { captureNeedsAttention } from './more/moreStatus';
 
 type StatusTone = 'ready' | 'attention' | 'neutral';
 
@@ -27,16 +28,6 @@ type Props = {
   captureRefresh?: ProjectCaptureRefreshState;
   recentActivityCount?: number;
 };
-
-function captureNeedsAttention(captureRefresh?: ProjectCaptureRefreshState): boolean {
-  const transport = captureRefresh?.transportHealth;
-  if (!transport) return true;
-  if (!transport.apiReachable) return true;
-  if (transport.workerStatus !== 'HEALTHY') return true;
-  if (!transport.browserReady || !transport.playwrightReady) return true;
-  if (!transport.testJobPassed && !captureRefresh?.testJobPassed) return true;
-  return false;
-}
 
 function buildToolTiles(
   falAvailable: boolean | null,
