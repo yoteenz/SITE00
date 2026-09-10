@@ -33,6 +33,7 @@ import {
   DEFAULT_PAGES_WIZARD_STEP,
   shouldAutoAdvanceCaptureRunning,
 } from '../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pagesWorkspaceController.js';
+import type { DesignViewportClass } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/types.js';
 import type { CaptureServiceInput } from '../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyDependencyPolicy.js';
 
 type ProjectPageRegistrySyncState = 'NEVER_SYNCED' | 'SYNC_REQUIRED' | 'SYNCED' | 'RECOVERING';
@@ -44,6 +45,10 @@ export type DesignPagesWizardProps = {
   onSelectScreen: (screenId: string) => void;
   onOpenPage?: (screenId: string) => void;
   onRefreshPage?: (screenId: string) => void;
+  onCaptureNow?: (screenId: string, viewport: DesignViewportClass) => void;
+  viewport?: DesignViewportClass;
+  capturingPageId?: string | null;
+  captureNowProgress?: string | null;
   onRefreshProject?: () => void;
   onSyncProject?: () => void;
   onViewCaptureRun?: () => void;
@@ -156,6 +161,10 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
     onSelectScreen,
     onOpenPage,
     onRefreshPage,
+    onCaptureNow,
+    viewport = 'mobile',
+    capturingPageId,
+    captureNowProgress,
     onRefreshProject,
     mirrorLoading = false,
     pageCompletionJob = null,
@@ -346,10 +355,14 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
           projectId={projectId}
           projectName={projectName}
           rows={rows}
+          viewport={viewport}
           onSelectScreen={onSelectScreen}
           onOpenPage={onOpenPage}
           onOpenLibrary={() => goTo('library')}
           onOpenCaptureService={() => goTo('service-check')}
+          onCaptureNow={onCaptureNow}
+          capturingPageId={capturingPageId}
+          captureNowProgress={captureNowProgress}
           captureService={captureServiceInput}
           pageCompletionPct={pageCompletionPct}
           pageCompletionAttention={pageCompletionAttention ?? 0}
@@ -362,10 +375,14 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
           projectId={projectId}
           projectName={projectName}
           rows={rows}
+          viewport={viewport}
           onSelectScreen={onSelectScreen}
           onOpenPage={onOpenPage}
           onOpenLibrary={() => goTo('library')}
           onOpenCaptureService={() => goTo('service-check')}
+          onCaptureNow={onCaptureNow}
+          capturingPageId={capturingPageId}
+          captureNowProgress={captureNowProgress}
           captureService={captureServiceInput}
           pageCompletionPct={pageCompletionPct}
           pageCompletionAttention={pageCompletionAttention ?? 0}
@@ -465,11 +482,11 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
           stepCurrent={3}
           stepTotal={stepTotal}
           stepTitle={pagesWizardStepTitle('capture-setup')}
-          headline={`CAPTURE ${projectName.toUpperCase()}`}
-          support={`${totalPages} pages · Capture mode: mobile`}
+          headline={`ADVANCED · CAPTURE MULTIPLE PAGES`}
+          support={`Optional batch audit · ${totalPages} pages · Normal workflow uses CAPTURE NOW per page`}
           visualState="ready"
           primaryAction={{
-            label: 'START CAPTURE',
+            label: 'CAPTURE MULTIPLE PAGES',
             onClick: () => {
               onRefreshProject?.();
               goTo('capture-running');
@@ -477,8 +494,8 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
             disabled: mirrorLoading,
           }}
           secondaryAction={{
-            label: 'CHANGE MODE',
-            onClick: () => undefined,
+            label: 'BACK TO PAGE FAMILY',
+            onClick: () => goTo('family'),
           }}
           onBack={() => goTo('test-worker-ready')}
           transitionKey="capture-setup"

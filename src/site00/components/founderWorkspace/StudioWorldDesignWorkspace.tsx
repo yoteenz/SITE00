@@ -279,6 +279,9 @@ export function StudioWorldDesignWorkspace({
     rows: mirrorApiRows,
     loading: mirrorLoading,
     captureRefresh,
+    captureNow,
+    capturingPageId,
+    captureNowProgress,
     refreshPage: refreshMirrorPage,
     refreshProject: refreshMirrorProject,
     retryTransportCheck,
@@ -785,7 +788,11 @@ export function StudioWorldDesignWorkspace({
               const target = row?.route ?? route;
               window.open(`${target}?site00MobileLayout=1&designPreview=1`, '_blank', 'noopener,noreferrer');
             }}
-            onRefreshPage={(id) => void refreshMirrorPage(id)}
+            onRefreshPage={(id) => void refreshMirrorPage(id, viewportClass)}
+            onCaptureNow={(id, vp) => void captureNow(id, vp)}
+            viewport={viewportClass}
+            capturingPageId={capturingPageId}
+            captureNowProgress={captureNowProgress}
             onRefreshProject={handleRefreshProjectCapture}
             onSyncProject={handleSyncProjectPages}
             onViewCaptureRun={handleViewCaptureRun}

@@ -212,3 +212,4 @@ export type PageFamilyRowInput = {
 
 export const P0_PCI_3_BUILD = 'v267' as const;
 export const P0_PCI_3R1_BUILD = 'v269' as const;
+export const P0_VR_CAPTURE_1_BUILD = 'v272' as const;

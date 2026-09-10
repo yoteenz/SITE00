@@ -35,6 +35,13 @@ import {
   executeCaptureWorkerTestJob,
 } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureWorkerTestJob.js';
 import { getActiveCaptureWorkerId } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureWorkerRuntime.js';
+import {
+  acquireCaptureNowLock,
+  finalizeCaptureCurrentPage,
+  planCaptureCurrentPage,
+  releaseCaptureNowLock,
+  P0_VR_CAPTURE_1_BUILD,
+} from '../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/index.js';
 import { bootstrapAllManagedDesignProjects } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/client.js';
 import { handleCaptureCorsPreflight, applyCaptureCorsHeaders } from '../_lib/site00Capture/captureCors.js';
 
@@ -154,6 +161,67 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         );
         return res.status(200).json(result);
       }
+      case 'capture_current_page': {
+        ensureCaptureWorkerBoot();
+        await workerBootPromise;
+        const viewportClass = body.viewportClass ?? 'mobile';
+        const input = {
+          projectId: postProjectId,
+          pageId: String(body.pageId),
+          screenId: String(body.screenId),
+          route: String(body.route ?? '/'),
+          viewport: viewportClass,
+          captureSource: 'FOUNDER_CAPTURE_NOW' as const,
+          capturedBuildVersion: P0_VR_CAPTURE_1_BUILD,
+        };
+        if (!acquireCaptureNowLock(postProjectId, input.pageId, viewportClass)) {
+          return res.status(429).json({
+            error: 'CAPTURE_ALREADY_IN_FLIGHT',
+            singlePageJob: true,
+            projectRunCreated: false,
+          });
+        }
+        const plan = planCaptureCurrentPage(input);
+        try {
+          const snapshot = await captureImplementationSnapshot({
+            projectId: postProjectId,
+            screenId: input.screenId,
+            pageId: input.pageId,
+            viewportClass: plan.viewport,
+            baseUrl: body.baseUrl,
+            repoRoot: REPO_ROOT,
+            jobId: plan.jobId,
+          });
+          const screenshotUrl =
+            (snapshot as { pageSnapshot?: { publicUrl?: string }; publicUrl?: string }).pageSnapshot?.publicUrl ??
+            (snapshot as { publicUrl?: string }).publicUrl ??
+            null;
+          const result = finalizeCaptureCurrentPage({
+            input,
+            jobId: plan.jobId,
+            resolvedRuntimePath: plan.resolvedRuntimePath,
+            screenshotUrl,
+            captureId: (snapshot as { snapshotId?: string }).snapshotId ?? plan.jobId,
+          });
+          return res.status(200).json({
+            ...result,
+            snapshot,
+            buildVersion: P0_VR_CAPTURE_1_BUILD,
+          });
+        } catch (err) {
+          const message = err instanceof Error ? err.message : 'CAPTURE_FAILED';
+          const result = finalizeCaptureCurrentPage({
+            input,
+            jobId: plan.jobId,
+            resolvedRuntimePath: plan.resolvedRuntimePath,
+            screenshotUrl: null,
+            error: message,
+          });
+          return res.status(500).json(result);
+        } finally {
+          releaseCaptureNowLock(postProjectId, input.pageId, viewportClass);
+        }
+      }
       case 'refresh_page': {
         if (body.executeCapture && body.pageId && body.screenId) {
           const snapshot = await captureImplementationSnapshot({
@@ -164,7 +232,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             baseUrl: body.baseUrl,
             repoRoot: REPO_ROOT,
           });
-          return res.status(200).json({ snapshot, enqueued: 0, affectedPageIds: [body.pageId] });
+          return res.status(200).json({ snapshot, enqueued: 0, affectedPageIds: [body.pageId], singlePageJob: true, projectRunCreated: false });
         }
         const result = handlePageSyncEvent(
           {

@@ -19,6 +19,8 @@ import {
   TEST_WORKER_PROGRESS_STEPS,
   type TestWorkerProgressStep,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureFounderGuidance.js';
+import type { DesignViewportClass } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/types.js';
+import type { CaptureCurrentPageResult } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/types.js';
 import type { PageVisualIndexRow } from './DesignPagesVisualIndex';
 import { captureApiFetch, PAGE_MIRROR_PATH } from '../../services/captureApiFetch';
 import { checkCaptureTransportHealth } from '../../services/checkCaptureTransportHealth';
@@ -90,7 +92,11 @@ export function usePageMirror(projectId: string) {
     testWorkerFailed: false,
   });
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const captureNowLockRef = useRef<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [capturingPageId, setCapturingPageId] = useState<string | null>(null);
+  const [captureNowProgress, setCaptureNowProgress] = useState<string | null>(null);
+  const [lastCaptureResult, setLastCaptureResult] = useState<CaptureCurrentPageResult | null>(null);
 
   const stopPolling = useCallback(() => {
     if (pollRef.current) {
@@ -183,6 +189,56 @@ export function usePageMirror(projectId: string) {
       void refresh();
     }, 2500);
   }, [refresh, stopPolling]);
+
+  const captureNow = useCallback(
+    async (screenId: string, viewportClass: DesignViewportClass = 'mobile') => {
+      const row = rows.find((r) => r.screenId === screenId);
+      const pageId = row?.normalizedRoute
+        ? `${projectId}:${row.normalizedRoute}`
+        : `${projectId}:${(row?.route ?? screenId).replace(/^\//, '').toLowerCase()}`;
+      const lockKey = `${pageId}:${viewportClass}`;
+      if (captureNowLockRef.current === lockKey) return null;
+      captureNowLockRef.current = lockKey;
+      setCapturingPageId(pageId);
+      setCaptureNowProgress('OPENING_PAGE');
+
+      const steps = ['OPENING_PAGE', 'RENDERING_VIEWPORT', 'TAKING_SCREENSHOT', 'SAVING_CAPTURE'] as const;
+      let stepIdx = 0;
+      const progressTimer = setInterval(() => {
+        stepIdx = Math.min(stepIdx + 1, steps.length - 1);
+        setCaptureNowProgress(steps[stepIdx] ?? 'SAVING_CAPTURE');
+      }, 900);
+
+      try {
+        const result = await captureApiFetch<CaptureCurrentPageResult>(PAGE_MIRROR_PATH, {
+          method: 'POST',
+          body: {
+            action: 'capture_current_page',
+            projectId,
+            pageId,
+            screenId,
+            route: row?.route ?? row?.normalizedRoute ?? '/',
+            viewportClass,
+            baseUrl: window.location.origin,
+          },
+        });
+        clearInterval(progressTimer);
+        setCaptureNowProgress(null);
+        setCapturingPageId(null);
+        captureNowLockRef.current = null;
+        if (result.data) setLastCaptureResult(result.data);
+        await refresh();
+        return result.data ?? null;
+      } catch {
+        clearInterval(progressTimer);
+        setCaptureNowProgress(null);
+        setCapturingPageId(null);
+        captureNowLockRef.current = null;
+        return null;
+      }
+    },
+    [projectId, refresh, rows],
+  );
 
   const refreshPage = useCallback(
     async (screenId: string, viewportClass = 'mobile') => {
@@ -369,7 +425,11 @@ export function usePageMirror(projectId: string) {
     inspector,
     loading,
     captureRefresh,
+    capturingPageId,
+    captureNowProgress,
+    lastCaptureResult,
     refresh,
+    captureNow,
     refreshPage,
     refreshProject,
     retryTransportCheck: runTransportCheck,

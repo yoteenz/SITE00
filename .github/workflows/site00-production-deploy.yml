@@ -25,7 +25,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  SITE00_RELEASE_VERSION: v271
+  SITE00_RELEASE_VERSION: v272
   SITE00_FRONTEND_URL: https://site00.com
   SITE00_API_URL: https://api.site00.com
 

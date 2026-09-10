@@ -50,16 +50,19 @@ function PreviewFrame({
         <strong>{node.route.toUpperCase()}</strong>
         {node.derivedFromLabel ? <p>Derived from {node.derivedFromLabel}</p> : null}
         <ul className="site00-pfw-derivative__status-list">
-          <li className="is-ready">Structure inherited</li>
+          <li className={node.designStatus === 'APPROVED' || node.designStatus === 'CURRENT' ? 'is-ready' : 'is-attention'}>
+            DESIGN · {node.designStatus === 'APPROVED' ? 'APPROVED' : node.designStatus === 'CURRENT' ? 'CURRENT' : 'NEEDS REVIEW'}
+          </li>
           <li className={node.captureStatus === 'CURRENT' ? 'is-ready' : 'is-attention'}>
+            CAPTURE ·{' '}
             {node.captureStatus === 'CURRENT'
-              ? 'Live capture current'
+              ? 'READY'
               : liveCaptureUnavailable
-                ? 'Live capture unavailable'
-                : 'Live capture pending'}
+                ? 'UNAVAILABLE'
+                : 'NOT CAPTURED'}
           </li>
           <li className={node.linkageStatus === 'WIRED' ? 'is-ready' : 'is-neutral'}>
-            {node.linkageStatus === 'WIRED' ? 'Wiring confirmed' : 'Wiring pending'}
+            WIRING · {node.linkageStatus === 'WIRED' ? '✓' : 'PENDING'}
           </li>
         </ul>
       </div>

@@ -7637,3 +7637,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining gaps:** Supabase persistence for expression history/approvals; full FounderCreativeAppetite wire-in at runtime; automated channel adaptation generation; performance metrics loop.
 - **Next founder action:** Open `/evolve/campaign-flavor` or `/projects/ndxbook/campaign-flavor` → select FRONTAL SLAYER + LAUNCH → verify LIVED-IN ENVIRONMENTAL in SAFE → open detail → GENERATE CAMPAIGN TERRITORIES → repeat NDXBOOK and confirm different range.
 
+---
+
+## 2026-09-10 — P0.VR.CAPTURE.1 Page-Scoped CAPTURE NOW + Creative Upgrade
+
+- **Context:** Replace batch whole-site capture as primary workflow with page-scoped CAPTURE NOW — one page, one viewport, one job, then creative-directed upgrade.
+- **Implemented (`p0vrCapture1/`):** `CaptureCurrentPage`, `PageViewportCapture` (per viewport store), `PageCreativeUpgradeSession`, `PageCreativeDiagnosis`, `PageCreativeDirectionPlan`, `PageUpgradeNextAction`, duplicate-tap guard, RuntimeRouteResolver integration.
+- **API:** `capture_current_page` action — single page job, no project run (`singlePageJob: true`, `projectRunCreated: false`).
+- **UI:** `PageCaptureNowPanel` in Page Family Workspace (primary CTA); `PageCreativeUpgradePanel` wizard (current vs proposed, approve gate, before/after); derivative chips DESIGN · CAPTURE · WIRING; batch demoted to ADVANCED / CAPTURE MULTIPLE PAGES in wizard + MORE → CAPTURE.
+- **Hook:** `usePageMirror.captureNow(screenId, viewport)` uses current workspace viewport from `DesignWorkspaceViewportRail`.
+- **Build:** v272 (`P0_VR_CAPTURE_1_BUILD`). Tests: `visualReconstructionP0VRCapture1.test.ts` (32 pass).
+- **Next founder action:** DESIGN → NDXBOOK → PAGES → select one page → CAPTURE NOW (current viewport only) → UPGRADE THIS PAGE → approve → verify before/after → NEXT PAGE.
+

@@ -96,7 +96,7 @@ export function DesignMoreCapturePage({
     void loadDetails();
   };
 
-  const primaryLabel = !transport?.apiReachable ? 'RETRY CONNECTION' : needsAttention ? 'TEST WORKER' : 'OPEN PROJECT CAPTURE';
+  const primaryLabel = !transport?.apiReachable ? 'RETRY CONNECTION' : needsAttention ? 'TEST WORKER' : 'CAPTURE MULTIPLE PAGES';
   const primaryHandler = !transport?.apiReachable ? handleRetryConnection : handleTestWorker;
 
   if (viewMode === 'testing') {
@@ -159,7 +159,7 @@ export function DesignMoreCapturePage({
   return (
     <MoreToolPageShell
       title="CAPTURE"
-      description="Service status and worker health."
+      description="Advanced capture — system health and optional batch audit. Normal page work uses CAPTURE NOW in PAGES."
       visualState={visualState}
       statusBadge={captureHeadline(captureRefresh)}
       headline="SERVICE STATUS"

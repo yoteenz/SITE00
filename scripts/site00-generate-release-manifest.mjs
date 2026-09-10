@@ -11,7 +11,7 @@ const DIST = join(ROOT, 'dist');
 const INDEX = join(DIST, 'index.html');
 const OUT = join(DIST, 'release-manifest.json');
 
-const VERSION = process.env.SITE00_RELEASE_VERSION ?? 'v271';
+const VERSION = process.env.SITE00_RELEASE_VERSION ?? 'v272';
 
 function resolveCommitSha() {
   if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA.slice(0, 12);
