@@ -7679,6 +7679,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-10 — deploy_frontend CPANEL_CONNECTION_FAILED (missing SSH secrets)
+
+- **Issue:** `GODADDY_SSH_DEPLOY_ENABLED=true` but `GODADDY_SSH_HOST`/`USER`/`PRIVATE_KEY` secrets empty — SSH step ran, script exited `CPANEL_CONNECTION_FAILED`.
+- **Fix:** `scripts/site00-resolve-cpanel-deploy-method.sh` — require full SSH trio for SSH; fall back to FTP when FTP secrets + var set; validate in `validate` job before build; deploy steps keyed on `cpanel_method` output.
+- **Founder:** Add GitHub secrets (SSH **or** FTP) or disable `SITE00_AUTO_PROMOTE` for manual ZIP mode.
+
 ## 2026-09-10 — deploy_frontend SSH script not found (exit 127)
 
 - **Issue:** `deploy_frontend` downloaded artifact to `dist/` only — no repo checkout — so `bash scripts/site00-cpanel-deploy.sh dist` failed with exit 127.

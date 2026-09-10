@@ -13,7 +13,7 @@ export type CpanelStrategyResolution = {
 };
 
 export function resolveCpanelDeployStrategy(env: Record<string, string | undefined> = {}): CpanelStrategyResolution {
-  if (env.GODADDY_SSH_HOST && env.GODADDY_SSH_USER) {
+  if (env.GODADDY_SSH_HOST && env.GODADDY_SSH_USER && env.GODADDY_SSH_PRIVATE_KEY) {
     return {
       strategy: 'github_actions_ssh_rsync',
       reason: 'SSH credentials configured — prefer rsync sync with stale asset cleanup',

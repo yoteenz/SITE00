@@ -35,7 +35,7 @@ export function validateProductionDeploymentConfig(env: Record<string, string | 
     viteSupabaseAnonKey: Boolean(env.VITE_SUPABASE_ANON_KEY?.trim()),
     viteApiBase: Boolean(env.VITE_API_BASE?.trim()),
     godaddyFtp: Boolean(env.GODADDY_FTP_HOST && env.GODADDY_FTP_USERNAME && env.GODADDY_FTP_PASSWORD),
-    godaddySsh: Boolean(env.GODADDY_SSH_HOST && env.GODADDY_SSH_USER),
+    godaddySsh: Boolean(env.GODADDY_SSH_HOST && env.GODADDY_SSH_USER && env.GODADDY_SSH_PRIVATE_KEY),
   };
 
   if (!secretsPresent.viteSupabaseUrl || !secretsPresent.viteSupabaseAnonKey) {
