@@ -23,6 +23,7 @@ import { useProjectOperatingState } from '../../hooks/useProjectOperatingState';
 import { useCampaignBoardWeekCalendar } from '../../hooks/useCampaignBoardWeekCalendar';
 import { formatCampaignBoardHubDayLabel, formatNdxTodayDateLabel } from '../../utils/campaignBoardWeekCalendar';
 import { entryProductionArtwork } from '../../utils/entryProductionArtwork';
+import { AssetPendingPlaceholder } from '../designWorkspace/AssetPendingPlaceholder';
 
 type Props = {
   projectSlug: string;
@@ -343,7 +344,11 @@ export function OverviewMobileHomeScreen({ projectSlug }: Props) {
       {...vrRegionAttr(NDX_VR_REGION.overviewScreen)}
     >
       <div className="site00-fws-mobile-shell-screen__content" {...vrRegionAttr(NDX_VR_REGION.overviewContentShell)}>
-      <div className="site00-fws-mobile-overview__hero" {...vrRegionAttr(NDX_VR_REGION.overviewHero)}>
+      <div
+        className="site00-fws-mobile-overview__hero"
+        data-srf-region="overview-hero"
+        {...vrRegionAttr(NDX_VR_REGION.overviewHero)}
+      >
         <p className="site00-fws-mobile-overview__eyebrow">OVERVIEW</p>
         <h2 className="site00-fws-mobile-overview__headline">
           <span>CONTENT OPERATIONS</span>
@@ -360,6 +365,7 @@ export function OverviewMobileHomeScreen({ projectSlug }: Props) {
 
       <div
         className="site00-fws-hub-kpis site00-fws-hub-kpis--mobile site00-fws-hub-kpis--ruled"
+        data-srf-region="overview-kpis"
         {...vrRegionAttr(NDX_VR_REGION.overviewKpis)}
       >
         <div className="site00-fws-hub-kpis__cell">
@@ -380,21 +386,27 @@ export function OverviewMobileHomeScreen({ projectSlug }: Props) {
         </div>
       </div>
 
-      <div className="site00-fws-mobile-section-head site00-fws-mobile-section-head--production">
+      <div className="site00-fws-mobile-section-head site00-fws-mobile-section-head--production" data-srf-region="production-head">
         <p className="site00-fws-hub-section-label">IN PRODUCTION</p>
         <Link to={site00ProjectContentOperationsCampaignBoardPath(projectSlug)} className="site00-fws-mobile-screen__see-all">
           View all ({inProductionViewAll})
         </Link>
       </div>
-      <Link to={site00ProjectExpressionEngineCampaignPath(projectSlug)} className="site00-fws-mobile-expr-link">
+      <Link
+        to={site00ProjectExpressionEngineCampaignPath(projectSlug)}
+        className="site00-fws-mobile-expr-link"
+        data-srf-region="production-expr-link"
+      >
         EXPRESSION ENGINE · ENTRY 002–003 →
       </Link>
       <div
         className="site00-fws-hub-carousel site00-fws-hub-carousel--mobile-row"
+        data-srf-region="production-carousel"
         {...vrRegionAttr(NDX_VR_REGION.overviewProduction)}
       >
-        {productionCards.map((item) => {
+        {productionCards.map((item, index) => {
           const art = entryProductionArtwork(item.id);
+          const artRegionId = index === 0 ? 'production-card-art-1' : index === 1 ? 'production-card-art-2' : `production-card-art-${index + 1}`;
           return (
             <Link
               key={item.id}
@@ -404,11 +416,15 @@ export function OverviewMobileHomeScreen({ projectSlug }: Props) {
               {art ? (
                 <div
                   className="site00-fws-hub-carousel__card-art"
+                  data-srf-region={artRegionId}
+                  data-asset-state="EXISTING_APPROVED_ASSET"
                   style={{ backgroundImage: `url(${art.path})`, backgroundPosition: art.objectPosition }}
                   role="img"
                   aria-label={`${item.title} artwork`}
                 />
-              ) : null}
+              ) : (
+                <AssetPendingPlaceholder regionId={artRegionId} aspectRatio="16 / 10" />
+              )}
               <div className="site00-fws-hub-carousel__card-body">
                 {item.tag ? <span className="site00-fws-hub-tag">{item.tag}</span> : null}
                 <p className="site00-fws-hub-carousel__card-title">{item.title.toUpperCase()}</p>
@@ -419,13 +435,17 @@ export function OverviewMobileHomeScreen({ projectSlug }: Props) {
         })}
       </div>
 
-      <div className="site00-fws-mobile-section-head site00-fws-mobile-section-head--radar">
+      <div className="site00-fws-mobile-section-head site00-fws-mobile-section-head--radar" data-srf-region="radar-head">
         <p className="site00-fws-hub-section-label">ON NDX&apos;S RADAR</p>
         <Link to={site00ProjectCulturalIntelligencePath(projectSlug)} className="site00-fws-mobile-screen__see-all">
           View all ({radarViewAll})
         </Link>
       </div>
-      <ul className="site00-fws-hub-list site00-fws-hub-list--radar site00-fws-hub-list--radar-ruled" {...vrRegionAttr(NDX_VR_REGION.overviewRadar)}>
+      <ul
+        className="site00-fws-hub-list site00-fws-hub-list--radar site00-fws-hub-list--radar-ruled"
+        data-srf-region="radar-list"
+        {...vrRegionAttr(NDX_VR_REGION.overviewRadar)}
+      >
         {radarItems.map((item, index) => (
           <li key={item}>
             <span className="site00-fws-hub-list__num">{String(index + 1).padStart(2, '0')}</span>

@@ -116,3 +116,21 @@ export {
 } from './pageCompletionClient.js';
 
 export type { PageCompletionInspectorState, PageExperienceImplementationJob } from './pageCompletionClient.js';
+
+export {
+  P0_VR_8_SRF_LINEAGE,
+  GOLDEN_NDX_OVERVIEW_MOBILE,
+  buildNdxOverviewMobileFidelityContract,
+  buildNdxOverviewMobileAuthorityBlueprint,
+  runScreenReplicationKernel,
+  runScreenReplicationConvergence,
+  detectTemplateDrift,
+  structuralScoresPass,
+} from './screenReplicationFidelity/index.js';
+
+export type {
+  ScreenReplicationFidelityContract,
+  ScreenReplicationFidelityScore,
+  ScreenReplicationInspectorState,
+  ScreenReplicationConvergenceState,
+} from './screenReplicationFidelity/index.js';

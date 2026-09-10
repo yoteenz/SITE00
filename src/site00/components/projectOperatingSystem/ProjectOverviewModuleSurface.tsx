@@ -11,6 +11,7 @@ import type { ProjectOverviewSignal, ProjectOverviewViewModel } from '../../../.
 import { useProjectOperatingState } from '../../hooks/useProjectOperatingState.js';
 import { useProjectViewMode } from '../../context/ProjectViewModeContext.js';
 import { useSite00OriginWideViewport } from '../shell/useSite00OriginWideViewport.js';
+import { OverviewMobileHomeScreen } from '../founderWorkspace/OverviewFounderWorkspaceBoard.js';
 
 type Props = {
   projectSlug: string;
@@ -103,6 +104,14 @@ export function ProjectOverviewModuleSurface({
 
   const model =
     viewMode === 'CLIENT' ? adapter.buildClientOverview(ctx) : adapter.buildFounderOverview(ctx);
+
+  if (projectSlug === 'ndxbook' && !isWide && viewMode !== 'CLIENT') {
+    return (
+      <div className="site00-pov site00-pov--ndxbook-authority-mobile" data-screen-replication="NDX_OVERVIEW_MOBILE">
+        <OverviewMobileHomeScreen projectSlug={projectSlug} />
+      </div>
+    );
+  }
 
   const progress = progressDisplay(model);
 
