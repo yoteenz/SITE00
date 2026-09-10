@@ -7637,3 +7637,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining gaps:** Supabase persistence for expression history/approvals; full FounderCreativeAppetite wire-in at runtime; automated channel adaptation generation; performance metrics loop.
 - **Next founder action:** Open `/evolve/campaign-flavor` or `/projects/ndxbook/campaign-flavor` → select FRONTAL SLAYER + LAUNCH → verify LIVED-IN ENVIRONMENTAL in SAFE → open detail → GENERATE CAMPAIGN TERRITORIES → repeat NDXBOOK and confirm different range.
 
+---
+
+## 2026-09-10 — P0.CGO.1 Campaign World Genesis + Creative Direction Orchestration
+
+- **Context:** Strong campaign concepts die in generic execution (over-staged, product-centered, disconnected from idea). Sprint creates two layers: (1) **Campaign World Genesis** — associative reasoning → high-yield worlds; (2) **Creative Direction Orchestration** — protects concept through shot system, sequence, fidelity QA.
+- **Engine** (`shared/site00-expression-engine/campaign-genesis-orchestration/`):
+  - `AssociativeCreativeReasoningEngine` — 36+ association domains, lateral/unexpected chains, conceptual convergence + yield score, weak-concept detection (LOW_CONCEPTUAL_YIELD).
+  - `CampaignWorldGenesisEngine` → `CampaignWorldBible`; original FS hair worlds (IN TRANSIT, FLOOR BY FLOOR, LAST LIGHT LINE) + NDXBOOK (MARGIN NOTES, RECEIPT WALL) — **not billiards copy**.
+  - `CreativeDirectionOrchestrationSystem` → `CampaignExecutionBible`, shot roles (CLUE/PAYOFF/etc.), sequence, task graph, `CreativeDirectionPromptCompiler`.
+  - `ConceptExecutionFidelityQA` — beautiful-but-generic fails (visual 92 / fidelity 56); `CreativeRevisionDirector` gives specific fixes.
+  - Forensic Creative Reconstruction benchmark (DOUBLE OR NOTHING vs weak luxury) — labeled, not a template.
+- **UI:** `CampaignDirectorWorkspace` wizard — WORLD → LOOK → STYLING → SHOTS → SEQUENCE → PRODUCTION → REVIEW. Routes: `/evolve/campaign-director`, `/projects/:slug/campaign-director`.
+- **Pipeline position:** Brand → Campaign Strategy (CSI.1) → **World Genesis (CGO.1)** → Concept Territory → Production → Fidelity QA.
+- **Tests:** `campaignGenesisOrchestrationP0CGO1.test.ts` (22/22). PR **#667** merged. Build `P0_CGO_1_BUILD = v273`.
+- **Remaining gaps:** Supabase persistence for world bibles; live image-gen adapter hook; performance feedback loop.
+- **Next founder action:** `/evolve/campaign-director?mode=forensic` → verify high-yield beats weak → genesis mode → FRONTAL SLAYER → approve world → step through wizard → REVIEW must fail generic pool-table pose with specific revision.
+
