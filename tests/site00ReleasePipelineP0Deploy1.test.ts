@@ -249,6 +249,17 @@ describe('P0.DEPLOY.1 — Release pipeline', () => {
     expect(wf).toMatch(/SUPABASE_URL.*VITE_SUPABASE_URL|VITE_SUPABASE_URL.*SUPABASE_URL/);
   });
 
+  it('22c. deploy_frontend checks out repo before SSH deploy script', () => {
+    const wf = read('.github/workflows/site00-production-deploy.yml');
+    const deployBlock = wf.slice(wf.indexOf('deploy_frontend:'));
+    const sshStep = deployBlock.indexOf('Deploy dist/ via SSH rsync');
+    const checkoutBeforeSsh =
+      deployBlock.indexOf('actions/checkout@v4') !== -1 &&
+      deployBlock.indexOf('actions/checkout@v4') < sshStep;
+    expect(checkoutBeforeSsh).toBe(true);
+    expect(deployBlock).toContain('bash scripts/site00-cpanel-deploy.sh dist');
+  });
+
   it('23. legacy godaddy workflow deprecated on push', () => {
     const legacy = read('.github/workflows/deploy-godaddy.yml');
     expect(legacy).toContain('DEPRECATED');

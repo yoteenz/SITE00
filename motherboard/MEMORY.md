@@ -7679,6 +7679,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-10 — deploy_frontend SSH script not found (exit 127)
+
+- **Issue:** `deploy_frontend` downloaded artifact to `dist/` only — no repo checkout — so `bash scripts/site00-cpanel-deploy.sh dist` failed with exit 127.
+- **Fix:** Add `actions/checkout@v4` before artifact download in `deploy_frontend` job. Test 22c in release pipeline suite.
+
 ## 2026-09-10 — verify_backend COMPATIBILITY_FAILED (Missing version receipt)
 
 - **Issue:** Production Release `verify_backend` passed Railway health but failed `VERIFY_COMPATIBILITY` with `Missing version receipt` — script ran full frontend compatibility while `SKIP_FRONTEND_VERIFY=true` (manual promotion mode).
