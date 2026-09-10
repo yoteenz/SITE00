@@ -139,6 +139,15 @@ export type HostBoundary = {
   childFunctionalRegions: string[];
 };
 
+export type NavigationGrammar = {
+  primaryNavigationElements: string[];
+  secondaryNavigationElements: string[];
+  expectedChildSurfaces: string[];
+  navigationLabels: string[];
+  navigationHierarchy: string[];
+  returnPatterns: string[];
+};
+
 export type ParentExperienceAuthority = {
   authorityId: string;
   projectId: string;
@@ -149,6 +158,7 @@ export type ParentExperienceAuthority = {
   visualGrammar: VisualGrammar;
   interactionGrammar: InteractionGrammar;
   compositionGrammar: CompositionGrammar;
+  navigationGrammar?: NavigationGrammar;
   experienceMode: ExperienceMode;
   hostBoundary: HostBoundary;
   extractedAt: string;

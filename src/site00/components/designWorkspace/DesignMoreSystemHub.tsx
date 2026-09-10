@@ -21,6 +21,7 @@ type ToolTile = {
 
 type Props = {
   onSelectCategory: (category: MoreCategory) => void;
+  onOpenChildExperience?: () => void;
   falAvailable: boolean | null;
   presetCount: number;
   automationOn: boolean;
@@ -150,6 +151,7 @@ function ToolGrid({ tiles, onSelect }: { tiles: ToolTile[]; onSelect: (id: MoreC
 
 export function DesignMoreSystemHub({
   onSelectCategory,
+  onOpenChildExperience,
   falAvailable,
   presetCount,
   automationOn,
@@ -216,6 +218,11 @@ export function DesignMoreSystemHub({
         <span>
           {P0_VR_MOF_R1_BUILD} <span className={`site00-dw-more-hub__footer-dot${systemsOk ? ' is-ready' : ' is-attention'}`}>●</span> ONLINE
         </span>
+        {onOpenChildExperience ? (
+          <button type="button" className="site00-dw-more-hub__child-xp-link" onClick={onOpenChildExperience}>
+            CHILD EXPERIENCE MATRIX →
+          </button>
+        ) : null}
       </footer>
     </section>
   );

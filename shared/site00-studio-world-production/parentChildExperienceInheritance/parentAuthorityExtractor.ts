@@ -7,6 +7,7 @@ import type {
   CompositionGrammar,
   ExperienceMode,
   InteractionGrammar,
+  NavigationGrammar,
   ParentExperienceAuthority,
   ParentSurfaceSignals,
   PciViewport,
@@ -95,7 +96,7 @@ function buildHostBoundary(mode: ExperienceMode): ParentExperienceAuthority['hos
     hostLockedRegions: ['GLOBAL_NAV', 'NOTIFICATION_BELL', 'PROJECT_MENU', 'AUTH_SESSION'],
     parentControlledRegions: ['PAGE_BACKGROUND', 'SECTION_FRAME', 'TYPOGRAPHY_SCALE', 'ACCENT_SYSTEM'],
     childFunctionalRegions:
-      mode === 'EDITOR' || mode === 'WIZARD'
+      mode === 'WIZARD'
         ? ['WORKSPACE_CANVAS', 'TOOLBAR', 'DATA_BINDINGS']
         : ['DATA_TABLE', 'FORM_FIELDS', 'ACTION_BAR'],
   };
@@ -128,6 +129,28 @@ export function extractParentExperienceAuthority(input: {
     extractedAt: new Date().toISOString(),
     source: input.signals.designAuthorityId ? 'DESIGN_AUTHORITY' : 'SURFACE_SIGNALS',
   };
+}
+
+export function buildNavigationGrammar(input: {
+  primaryElements: string[];
+  expectedChildSurfaces: string[];
+  returnPattern: string;
+}): NavigationGrammar {
+  return {
+    primaryNavigationElements: input.primaryElements,
+    secondaryNavigationElements: [],
+    expectedChildSurfaces: input.expectedChildSurfaces,
+    navigationLabels: input.primaryElements,
+    navigationHierarchy: input.expectedChildSurfaces,
+    returnPatterns: [input.returnPattern],
+  };
+}
+
+export function attachNavigationGrammar(
+  authority: ParentExperienceAuthority,
+  grammar: NavigationGrammar,
+): ParentExperienceAuthority {
+  return { ...authority, navigationGrammar: grammar };
 }
 
 export function mergeAuthorityViewport(

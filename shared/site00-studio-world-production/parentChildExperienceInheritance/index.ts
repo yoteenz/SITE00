@@ -10,3 +10,6 @@ export * from './inheritanceQA.js';
 export * from './inheritanceStore.js';
 export * from './parentChildExperienceInheritanceEngine.js';
 export * from './site00RouteFamilies.js';
+export * from './navigationLinkage/index.js';
+export * from './integratedExperienceAudit.js';
+export * from './pageCompletionLinkageIntegration.js';
