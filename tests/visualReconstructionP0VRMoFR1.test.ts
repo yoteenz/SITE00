@@ -67,8 +67,8 @@ describe('P0.VR.MOF.R1 — System hub landing', () => {
   it('10. module detail routes preserved', () => {
     const tab = read('src/site00/components/designWorkspace/DesignMoreTab.tsx');
     expect(tab).toContain("activeCategory === 'providers'");
-    expect(tab).toContain('DesignCaptureOrchestrationInspector');
-    expect(tab).toContain('DesignRouteAuditRecoveryInspector');
+    expect(tab).toContain("activeCategory === 'capture'");
+    expect(tab).toContain("activeCategory === 'route-audit'");
   });
 
   it('11. no long stacked panels on landing', () => {

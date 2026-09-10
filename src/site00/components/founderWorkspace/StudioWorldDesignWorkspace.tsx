@@ -826,6 +826,8 @@ export function StudioWorldDesignWorkspace({
             onMoreCategoryChange={(category: MoreCategory) => syncUrl({ moreCategory: category })}
             captureRefresh={captureRefresh}
             recentActivityCount={activity.length}
+            onTestWorker={() => void testWorker()}
+            onGoToPages={() => syncUrl({ tab: 'PAGES', moreCategory: 'landing' })}
           />
         ) : null}
 
