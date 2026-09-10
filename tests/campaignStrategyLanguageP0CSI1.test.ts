@@ -33,15 +33,29 @@ import {
   territoriesDifferByStrategy,
 } from '../shared/site00-expression-engine/campaign-strategy-language/territoryBridge.js';
 import type { CampaignExpressionHistoryEntry } from '../shared/site00-expression-engine/campaign-strategy-language/types.js';
+import {
+  brandCreativeContextAssembler,
+  clearBrandCreativeContextStoreForTest,
+  persistAssembledContext,
+} from '../shared/site00-brand-lore/brandCreativeContext/index.js';
 
 const ROOT = join(import.meta.dirname, '..');
+
+function brandContextFor(brandSlug: string) {
+  const result = brandCreativeContextAssembler.assemble({ brandId: brandSlug });
+  persistAssembledContext(result.context);
+  return result.context;
+}
 
 function read(rel: string): string {
   return readFileSync(join(ROOT, rel), 'utf8');
 }
 
 describe('P0.CSI.1 — Campaign Strategy Language System', () => {
-  beforeEach(() => clearCampaignExpressionStoreForTest());
+  beforeEach(() => {
+    clearCampaignExpressionStoreForTest();
+    clearBrandCreativeContextStoreForTest();
+  });
 
   it('1. build v269', () => {
     expect(P0_CSI_1_BUILD).toBe('v269');
@@ -86,6 +100,7 @@ describe('P0.CSI.1 — Campaign Strategy Language System', () => {
     const result = campaignStrategyLanguageSystem.recommendCampaignFlavors({
       brandSlug: 'frontal-slayer',
       objective: 'LAUNCH',
+      brandContext: brandContextFor('frontal-slayer'),
     });
     const strategies = result.recommendations.map((r) => r.strategyType);
     expect(strategies).toContain('LIVED_IN_ENVIRONMENTAL');
@@ -98,10 +113,12 @@ describe('P0.CSI.1 — Campaign Strategy Language System', () => {
     const fs = campaignStrategyLanguageSystem.recommendCampaignFlavors({
       brandSlug: 'frontal-slayer',
       objective: 'LAUNCH',
+      brandContext: brandContextFor('frontal-slayer'),
     });
     const ndx = campaignStrategyLanguageSystem.recommendCampaignFlavors({
       brandSlug: 'ndxbook',
       objective: 'LAUNCH',
+      brandContext: brandContextFor('ndxbook'),
     });
     const fsTop = fs.recommendations.slice(0, 3).map((r) => r.strategyType);
     const ndxTop = ndx.recommendations.slice(0, 3).map((r) => r.strategyType);

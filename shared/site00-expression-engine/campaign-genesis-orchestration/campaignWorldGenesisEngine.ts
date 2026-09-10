@@ -9,6 +9,7 @@ import type {
   WorldGenesisResult,
 } from './types.js';
 import { generateOriginalWorlds } from './worldCandidateTemplates.js';
+import { checkCampaignGenerationGate } from '../../site00-brand-lore/brandCreativeContext/readiness.js';
 import {
   buildForensicBilliardsBenchmark,
   buildWeakLuxuryBenchmark,
@@ -17,9 +18,24 @@ import { compareYield } from './conceptualYieldScore.js';
 
 export class CampaignWorldGenesisEngine {
   generateWorldCandidates(input: WorldGenesisInput): WorldGenesisResult {
+    const gate = input.skipGenerationGate
+      ? { allowed: true }
+      : checkCampaignGenerationGate(input.brandContext ?? null);
+    if (!gate.allowed) {
+      return {
+        brandSlug: input.brandSlug,
+        candidates: [],
+        safe: null,
+        fresh: null,
+        wildCard: null,
+        weakBenchmark: buildWeakLuxuryBenchmark(),
+      };
+    }
+
     const candidates = generateOriginalWorlds({
       brandSlug: input.brandSlug,
       productCategory: input.productCategory,
+      brandContext: input.brandContext ?? null,
     });
 
     candidates.sort((a, b) => compareYield(a.conceptualYield, b.conceptualYield));
@@ -66,6 +82,7 @@ export class CampaignWorldGenesisEngine {
     candidate: CampaignWorldCandidate;
     brandId: string;
     campaignId: string;
+    brandContextVersion?: number;
   }): CampaignWorldBible {
     const c = input.candidate;
     const he = c.humanExpression;
@@ -73,6 +90,7 @@ export class CampaignWorldGenesisEngine {
       worldId: `world-${input.campaignId}-${Date.now()}`,
       campaignId: input.campaignId,
       brandId: input.brandId,
+      brandContextVersion: input.brandContextVersion,
       conceptThesis: c.coreConcept,
       associationChain: c.associationChain,
       campaignTitleLanguage: c.campaignTitleLanguage,

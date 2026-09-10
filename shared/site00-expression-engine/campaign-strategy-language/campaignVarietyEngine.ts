@@ -57,6 +57,7 @@ export function buildCreativeVariationPolicy(input: {
   brandSlug: string;
   appetite?: FounderCreativeAppetiteProfile | null;
   history: CampaignExpressionHistoryEntry[];
+  brandCampaignHistory?: import('../../site00-brand-lore/brandCreativeContext/types.js').BrandCampaignHistorySummary;
 }): CreativeVariationPolicy {
   const range = getBrandCampaignRange(input.brandSlug);
   const recentStrategies = input.history
@@ -64,7 +65,8 @@ export function buildCreativeVariationPolicy(input: {
     .slice(-REPEAT_WINDOW)
     .flatMap((h) => h.strategyTypes);
 
-  const avoidStrategies = [...new Set(recentStrategies)] as CampaignStrategyType[];
+  const brandHistoryStrategies = (input.brandCampaignHistory?.lastUsedStrategies ?? []) as CampaignStrategyType[];
+  const avoidStrategies = [...new Set([...recentStrategies, ...brandHistoryStrategies])] as CampaignStrategyType[];
   const appetiteBand = input.appetite?.creativeRiskTolerance?.value ?? 'CONTROLLED';
 
   return {

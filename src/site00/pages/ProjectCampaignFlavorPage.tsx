@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { CampaignFlavorWorkspace } from '../components/founderWorkspace/campaignStrategy/CampaignFlavorWorkspace';
 import { NdxFounderWorkspacePage } from '../components/founderWorkspace/NdxFounderWorkspacePage';
 import '../styles/site00-campaign-flavor.css';
+import '../styles/site00-brand-context.css';
 import '../styles/site00-founder-workspace.css';
 
 export default function ProjectCampaignFlavorPage() {

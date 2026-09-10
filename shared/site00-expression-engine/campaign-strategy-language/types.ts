@@ -349,6 +349,10 @@ export type CampaignFlavorRecommendationResult = {
   wildCard: CampaignFlavorRecommendation | null;
   rotationNote: string;
   varietyWarnings: string[];
+  /** P0.CBI.1 */
+  generationBlocked?: boolean;
+  generationBlockMessage?: string | null;
+  brandContextVersion?: number | null;
 };
 
 export type CampaignExpressionBrief = {
@@ -464,6 +468,17 @@ export type CampaignStrategyLanguageSystemInput = {
   clientMode?: boolean;
   /** Override history; defaults to store */
   history?: CampaignExpressionHistoryEntry[];
+  /** P0.CBI.1 — brand creative context envelope */
+  brandContext?: import('../../site00-brand-lore/brandCreativeContext/types.js').BrandCreativeContext | null;
+  selectedOfferIds?: string[];
+  /** Skip generation gate (tests only) */
+  skipGenerationGate?: boolean;
+};
+
+export type CampaignGenerationGateResult = {
+  allowed: boolean;
+  message: string | null;
+  readiness: import('../../site00-brand-lore/brandCreativeContext/types.js').BrandCreativeContextReadiness | null;
 };
 
 export type AntiCloningQAResult = {

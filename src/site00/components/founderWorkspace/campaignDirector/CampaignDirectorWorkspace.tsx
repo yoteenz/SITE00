@@ -28,6 +28,8 @@ import { CampaignDirectorSequenceScreen } from './CampaignDirectorSequenceScreen
 import { CampaignDirectorProductionScreen } from './CampaignDirectorProductionScreen';
 import { CampaignDirectorReviewScreen } from './CampaignDirectorReviewScreen';
 import { ForensicBenchmarkPanel } from './ForensicBenchmarkPanel';
+import { BrandCreativeContextPanel } from '../brandContext/BrandCreativeContextPanel';
+import { useBrandCreativeContext } from '../../../hooks/useBrandCreativeContext';
 
 const STEPS: DirectorWizardStep[] = ['world', 'look', 'styling', 'shots', 'sequence', 'production', 'review'];
 
@@ -59,6 +61,8 @@ export function CampaignDirectorWorkspace({ projectSlug, initialMode = 'genesis'
   const [showForensic, setShowForensic] = useState(initialMode === 'forensic');
   const [selectedCandidate, setSelectedCandidate] = useState<CampaignWorldCandidate | null>(null);
   const [worldBible, setWorldBible] = useState<CampaignWorldBible | null>(null);
+  const { context: brandContext, gate, loading: contextLoading, viewOpen, setViewOpen, refresh } =
+    useBrandCreativeContext(brandSlug);
 
   const genesis = useMemo(
     () =>
@@ -66,8 +70,9 @@ export function CampaignDirectorWorkspace({ projectSlug, initialMode = 'genesis'
         brandSlug,
         productCategory,
         objective: 'LAUNCH',
+        brandContext,
       }),
-    [brandSlug, productCategory],
+    [brandSlug, productCategory, brandContext],
   );
 
   const orchestration = useMemo(() => {
@@ -82,6 +87,7 @@ export function CampaignDirectorWorkspace({ projectSlug, initialMode = 'genesis'
       candidate,
       brandId: brandSlug,
       campaignId: `campaign-${brandSlug}`,
+      brandContextVersion: brandContext?.version,
     });
     saveWorldBible(bible);
     setWorldBible(bible);
@@ -116,6 +122,17 @@ export function CampaignDirectorWorkspace({ projectSlug, initialMode = 'genesis'
           World genesis → creative direction → concept fidelity through execution
         </p>
       </header>
+
+      <BrandCreativeContextPanel
+        context={brandContext}
+        gate={gate}
+        loading={contextLoading}
+        viewOpen={viewOpen}
+        onViewContext={() => setViewOpen(true)}
+        onCloseView={() => setViewOpen(false)}
+        onRefresh={refresh}
+        onBuildContext={refresh}
+      />
 
       <div className="site00-campaign-director__mode-toggle">
         <button type="button" className={!showForensic ? 'active' : ''} onClick={() => setShowForensic(false)}>

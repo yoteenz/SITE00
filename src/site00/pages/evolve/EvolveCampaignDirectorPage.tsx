@@ -2,6 +2,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Site00PublicShell } from '../../components/shell/Site00PublicShell';
 import { CampaignDirectorWorkspace } from '../../components/founderWorkspace/campaignDirector/CampaignDirectorWorkspace';
 import '../../styles/site00-campaign-director.css';
+import '../../styles/site00-brand-context.css';
 
 export default function EvolveCampaignDirectorPage() {
   const [params] = useSearchParams();

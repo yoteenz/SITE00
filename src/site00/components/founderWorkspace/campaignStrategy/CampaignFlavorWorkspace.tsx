@@ -17,6 +17,8 @@ import type {
 } from '../../../../../shared/site00-expression-engine/campaign-strategy-language/types.js';
 import { CampaignFlavorCard } from './CampaignFlavorCard';
 import { CampaignStrategyDetailPanel } from './CampaignStrategyDetailPanel';
+import { BrandCreativeContextPanel } from '../brandContext/BrandCreativeContextPanel';
+import { useBrandCreativeContext } from '../../../hooks/useBrandCreativeContext';
 
 const BRAND_OPTIONS = [
   { slug: 'frontal-slayer', label: 'FRONTAL SLAYER' },
@@ -61,6 +63,8 @@ export function CampaignFlavorWorkspace({ projectSlug, clientMode = false }: Pro
   const [brief, setBrief] = useState<CampaignExpressionBrief | null>(null);
   const [territorySeeds, setTerritorySeeds] = useState<ConceptTerritorySeedHint[]>([]);
   const [founderMode, setFounderMode] = useState(!clientMode);
+  const { context: brandContext, gate, loading: contextLoading, viewOpen, setViewOpen, refresh } =
+    useBrandCreativeContext(brandSlug);
 
   const result = useMemo(
     () =>
@@ -68,8 +72,10 @@ export function CampaignFlavorWorkspace({ projectSlug, clientMode = false }: Pro
         brandSlug,
         objective,
         clientMode: !founderMode,
+        brandContext,
+        appetite: brandContext?.creativeAppetite ?? null,
       }),
-    [brandSlug, objective, founderMode],
+    [brandSlug, objective, founderMode, brandContext],
   );
 
   const brandRange = useMemo(() => getBrandCampaignRange(brandSlug), [brandSlug]);
@@ -114,6 +120,25 @@ export function CampaignFlavorWorkspace({ projectSlug, clientMode = false }: Pro
         </p>
       </header>
 
+      {founderMode ? (
+        <BrandCreativeContextPanel
+          context={brandContext}
+          gate={gate}
+          loading={contextLoading}
+          viewOpen={viewOpen}
+          onViewContext={() => setViewOpen(true)}
+          onCloseView={() => setViewOpen(false)}
+          onRefresh={refresh}
+          onBuildContext={refresh}
+        />
+      ) : null}
+
+      {result.generationBlocked ? (
+        <div className="site00-campaign-flavor-workspace__blocked">
+          <p>{result.generationBlockMessage}</p>
+        </div>
+      ) : null}
+
       <div className="site00-campaign-flavor-workspace__controls">
         <label className="site00-campaign-flavor-workspace__field">
           <span>BRAND</span>
@@ -149,6 +174,7 @@ export function CampaignFlavorWorkspace({ projectSlug, clientMode = false }: Pro
         </ul>
       ) : null}
 
+      {!result.generationBlocked ? (
       <section className="site00-campaign-flavor-workspace__tier-row">
         <h2 className="site00-campaign-flavor-workspace__section-title">RECOMMENDED DIRECTIONS</h2>
         <div className="site00-campaign-flavor-workspace__cards">
@@ -163,8 +189,9 @@ export function CampaignFlavorWorkspace({ projectSlug, clientMode = false }: Pro
           ))}
         </div>
       </section>
+      ) : null}
 
-      {founderMode ? (
+      {founderMode && !result.generationBlocked ? (
         <section className="site00-campaign-flavor-workspace__more">
           <h2 className="site00-campaign-flavor-workspace__section-title">MORE DIRECTIONS</h2>
           <div className="site00-campaign-flavor-workspace__cards site00-campaign-flavor-workspace__cards--compact">
@@ -180,7 +207,7 @@ export function CampaignFlavorWorkspace({ projectSlug, clientMode = false }: Pro
         </section>
       ) : null}
 
-      {founderMode ? (
+      {founderMode && !result.generationBlocked ? (
         <aside className="site00-campaign-flavor-workspace__range">
           <h3>BRAND CAMPAIGN RANGE</h3>
           <p>
