@@ -1,0 +1,333 @@
+{
+  "schemaVersion": "site00-capture-orchestration@1",
+  "updatedAt": "2026-09-10T16:37:29.720Z",
+  "activeRunByProject": {},
+  "runs": [],
+  "targets": [],
+  "jobs": [],
+  "events": [],
+  "dispatchReceipts": [],
+  "workers": {
+    "cap-worker-local": {
+      "workerId": "cap-worker-local",
+      "serviceId": "site00-api",
+      "instanceId": "site00-api-local",
+      "buildVersion": "v268",
+      "contractVersion": "capture-run-v1",
+      "startedAt": "2026-09-10T16:32:09.341Z",
+      "environment": "development",
+      "capabilities": [
+        "PLAYWRIGHT",
+        "MOBILE_CAPTURE",
+        "DESKTOP_CAPTURE",
+        "PAGE_MIRROR"
+      ],
+      "status": "HEALTHY",
+      "lastHeartbeat": "2026-09-10T16:37:24.709Z",
+      "activeJobCount": 0,
+      "queueDepth": 0,
+      "lastAcceptedJobAt": null,
+      "lastCompletedJobAt": null,
+      "lastError": null,
+      "playwrightReady": true,
+      "browserReady": true,
+      "bootReceipt": {
+        "workerId": "cap-worker-local",
+        "bootStartedAt": "2026-09-10T16:32:09.341Z",
+        "bootCompletedAt": "2026-09-10T16:32:09.693Z",
+        "buildVersion": "v268",
+        "playwrightInit": true,
+        "browserInit": true,
+        "queueInit": true,
+        "heartbeatInit": true,
+        "status": "HEALTHY",
+        "errors": []
+      },
+      "lastDispatchAt": null,
+      "lastSuccessAt": null,
+      "lastErrorAt": null,
+      "concurrencyLimit": 2
+    }
+  },
+  "workerEvents": [
+    {
+      "eventId": "cwe-1789057929341-2b73b0",
+      "timestamp": "2026-09-10T16:32:09.341Z",
+      "workerId": "cap-worker-local",
+      "type": "WORKER_BOOTING",
+      "message": "Worker boot starting",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789057929341-joehtl",
+      "timestamp": "2026-09-10T16:32:09.341Z",
+      "workerId": "cap-worker-local",
+      "type": "WORKER_REGISTERED",
+      "message": "Worker registered",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789057929692-xt3ees",
+      "timestamp": "2026-09-10T16:32:09.692Z",
+      "workerId": "cap-worker-local",
+      "type": "PLAYWRIGHT_READY",
+      "message": "Playwright module loaded",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789057929692-cs4req",
+      "timestamp": "2026-09-10T16:32:09.692Z",
+      "workerId": "cap-worker-local",
+      "type": "BROWSER_READY",
+      "message": "Chromium launch verified",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789057929693-m1vthg",
+      "timestamp": "2026-09-10T16:32:09.693Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789057944694-664e9n",
+      "timestamp": "2026-09-10T16:32:24.694Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789057959695-l5gyou",
+      "timestamp": "2026-09-10T16:32:39.695Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789057974695-vc3iqg",
+      "timestamp": "2026-09-10T16:32:54.695Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789057989695-e5tobo",
+      "timestamp": "2026-09-10T16:33:09.695Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789058004697-b2xo4j",
+      "timestamp": "2026-09-10T16:33:24.697Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789058019697-jsmcdz",
+      "timestamp": "2026-09-10T16:33:39.697Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789058034698-uco7en",
+      "timestamp": "2026-09-10T16:33:54.698Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789058049699-11ytrq",
+      "timestamp": "2026-09-10T16:34:09.699Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789058064699-fs13ty",
+      "timestamp": "2026-09-10T16:34:24.699Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789058079699-bbvx1t",
+      "timestamp": "2026-09-10T16:34:39.699Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789058094700-szhzp6",
+      "timestamp": "2026-09-10T16:34:54.700Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789058109700-3cuud7",
+      "timestamp": "2026-09-10T16:35:09.700Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789058124701-mnsod8",
+      "timestamp": "2026-09-10T16:35:24.701Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789058139702-blqmlm",
+      "timestamp": "2026-09-10T16:35:39.702Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789058154703-ioc6o3",
+      "timestamp": "2026-09-10T16:35:54.703Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789058169704-tozndl",
+      "timestamp": "2026-09-10T16:36:09.704Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789058184705-4rtamx",
+      "timestamp": "2026-09-10T16:36:24.705Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789058199706-pnadg7",
+      "timestamp": "2026-09-10T16:36:39.706Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789058214707-t1iy58",
+      "timestamp": "2026-09-10T16:36:54.707Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789058229708-0kcj1g",
+      "timestamp": "2026-09-10T16:37:09.708Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    },
+    {
+      "eventId": "cwe-1789058244709-oel04p",
+      "timestamp": "2026-09-10T16:37:24.709Z",
+      "workerId": "cap-worker-local",
+      "type": "HEARTBEAT",
+      "message": "heartbeat HEALTHY",
+      "jobId": null,
+      "errorCode": null
+    }
+  ],
+  "workerTestJobs": [],
+  "lastSuccessfulTestJobAt": null,
+  "lastBrowserBootReceipt": {
+    "playwrightVersion": "1.49.1",
+    "chromiumRevision": "1.49.1",
+    "executablePath": "/home/ubuntu/.cache/ms-playwright/chromium-1148/chrome-linux/chrome",
+    "executableExists": true,
+    "launchStartedAt": "2026-09-10T16:32:09.512Z",
+    "launchCompletedAt": "2026-09-10T16:32:09.672Z",
+    "exitCode": null,
+    "stderrSummary": null,
+    "missingLibraries": [],
+    "errorCode": null,
+    "errorMessage": null,
+    "launchArgs": [
+      "--no-sandbox",
+      "--disable-setuid-sandbox"
+    ],
+    "deploymentStrategy": "NIXPACKS",
+    "systemPackages": [
+      "ca-certificates",
+      "fonts-liberation",
+      "fonts-noto-color-emoji",
+      "libasound2",
+      "libatk-bridge2.0-0",
+      "libatk1.0-0",
+      "libcairo2",
+      "libcups2",
+      "libdbus-1-3",
+      "libdrm2",
+      "libgbm1",
+      "libnspr4",
+      "libnss3",
+      "libpango-1.0-0",
+      "libx11-6",
+      "libxcb1",
+      "libxcomposite1",
+      "libxdamage1",
+      "libxext6",
+      "libxfixes3",
+      "libxkbcommon0",
+      "libxrandr2"
+    ],
+    "probedAt": "2026-09-10T16:32:09.342Z"
+  }
+}

@@ -225,8 +225,8 @@ describe('P0.VR.8R3R4 — Worker boot + shared health', () => {
     expect(read('src/site00/components/designWorkspace/usePageMirror.ts')).toContain('WORKER_TEST_REQUIRED');
   });
 
-  it('30. build v263', () => {
-    expect(P0_VR_8R3R4_BUILD).toBe('v263');
+  it('30. build v268', () => {
+    expect(P0_VR_8R3R4_BUILD).toBe('v268');
   });
 
   it('31. worker events log', () => {

@@ -99,6 +99,32 @@ export {
   executeCaptureWorkerTestJob,
 } from './captureWorkerTestJob.js';
 export { probePlaywrightReadiness } from './playwrightReadiness.js';
+export { checkBrowserReadiness } from './browserReadiness.js';
+export { runBrowserBootProbe, CAPTURE_WORKER_TEST_SCREENSHOT_REL } from './browserBootProbe.js';
+export { resolveChromiumExecutable, validateChromiumExecutable } from './chromiumExecutable.js';
+export {
+  detectMissingSharedLibraries,
+  systemDependenciesReady,
+} from './sharedLibraryDetection.js';
+export {
+  detectDeploymentStrategy,
+  buildDeploymentBuildReceipt,
+  resolveDeploymentSourceOfTruth,
+  PLAYWRIGHT_APT_DEPS,
+} from './deploymentStrategy.js';
+export {
+  getRailwayChromiumLaunchArgs,
+  getChromiumLaunchOptions,
+} from './browserLaunchConfig.js';
+export {
+  founderBrowserFailureMessage,
+  classifyBrowserBootError,
+  createEmptyBrowserBootReceipt,
+  type BrowserBootReceipt,
+  type BrowserReadinessState,
+  type BrowserBootErrorCode,
+  type TestScreenshotReceipt,
+} from './browserBootReceipt.js';
 export { appendCaptureWorkerEvent, type CaptureWorkerEvent } from './captureWorkerEvents.js';
 
 export {

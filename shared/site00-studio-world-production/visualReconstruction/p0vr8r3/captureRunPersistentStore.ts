@@ -10,6 +10,7 @@ import type { ProjectCaptureRunEvent } from './captureRunEvents.js';
 import type { WorkerDispatchReceipt } from './workerDispatchReceipt.js';
 import type { ProjectCaptureRunContractStatus } from './projectCaptureRunContract.js';
 import type { CaptureWorkerBootReceipt } from './captureWorkerBootReceipt.js';
+import type { BrowserBootReceipt, TestScreenshotReceipt } from './browserBootReceipt.js';
 import type { CaptureWorkerEvent } from './captureWorkerEvents.js';
 import type { CaptureWorkerCapability } from './captureWorkerIdentity.js';
 import type { CaptureWorkerHealthStatus } from './captureWorkerHealth.js';
@@ -98,6 +99,11 @@ export type CaptureWorkerTestJob = {
   startedAt: string | null;
   completedAt: string | null;
   lastError: string | null;
+  screenshotPath?: string | null;
+  screenshotWidth?: number | null;
+  screenshotHeight?: number | null;
+  screenshotTimestamp?: string | null;
+  browserBootErrorCode?: string | null;
 };
 
 export type CaptureOrchestrationRegistry = {
@@ -113,6 +119,8 @@ export type CaptureOrchestrationRegistry = {
   workerEvents?: CaptureWorkerEvent[];
   workerTestJobs?: CaptureWorkerTestJob[];
   lastSuccessfulTestJobAt?: string | null;
+  lastBrowserBootReceipt?: BrowserBootReceipt | null;
+  lastTestScreenshot?: TestScreenshotReceipt | null;
 };
 
 let memoryRegistry: CaptureOrchestrationRegistry | null = null;

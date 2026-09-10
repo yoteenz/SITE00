@@ -226,7 +226,7 @@ describe('P0.VR.8R3R5 — Founder capture UX', () => {
     expect(read('src/site00/components/designWorkspace/usePageMirror.ts')).toContain('testWorker');
   });
 
-  it('28. build v263', () => {
-    expect(P0_VR_8R3R5_BUILD).toBe('v263');
+  it('28. build v268', () => {
+    expect(P0_VR_8R3R5_BUILD).toBe('v268');
   });
 });
