@@ -7649,17 +7649,8 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Build:** v272 (`P0_VR_CAPTURE_1_BUILD`). Tests: `visualReconstructionP0VRCapture1.test.ts` (32 pass).
 - **Next founder action:** DESIGN → NDXBOOK → PAGES → select one page → CAPTURE NOW (current viewport only) → UPGRADE THIS PAGE → approve → verify before/after → NEXT PAGE.
 
-<<<<<<< HEAD
 ---
 
-## 2026-09-10 — Railway Noble apt fix (libasound2 → t64)
-
-- **Issue:** Railway Nixpacks build on Ubuntu 24.04 Noble failed: `E: Package 'libasound2' has no installation candidate`.
-- **Fix:** Updated `nixpacks.toml` + `PLAYWRIGHT_APT_DEPS` to Ubuntu 24.04 t64 package names (`libasound2t64`, `libatk1.0-0t64`, `libcups2t64`, `libglib2.0-0t64`, etc.) matching Playwright `nativeDeps` ubuntu24.04-x64.
-- **Next founder action:** Redeploy Railway from `main`; build should pass apt install step.
-=======
-=======
->>>>>>> origin/main
 ## 2026-09-10 — P0.CGO.1 Campaign World Genesis + Creative Direction Orchestration
 
 - **Context:** Strong campaign concepts die in generic execution (over-staged, product-centered, disconnected from idea). Sprint creates two layers: (1) **Campaign World Genesis** — associative reasoning → high-yield worlds; (2) **Creative Direction Orchestration** — protects concept through shot system, sequence, fidelity QA.
@@ -7685,4 +7676,27 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `brandCreativeContextP0CBI1.test.ts` (35/35); CSI/CGO tests updated for context. Build `P0_CBI_1_BUILD = v274`.
 - **Remaining gaps:** Full Brand Context Intake wizard for unknown brands (structure ready); Supabase migration must be applied in production; FounderCreativeAppetite API partial (wired when lore profile exists).
 - **Next founder action:** EVOLVE → CAMPAIGN FLAVOR → FRONTAL SLAYER → verify BRAND CONTEXT READY → VIEW CONTEXT → LAUNCH → generate flavors → repeat NDXBOOK and verify materially different results.
+
+---
+
+## 2026-09-10 — Railway Noble apt fix (libasound2 → t64)
+
+- **Issue:** Railway Nixpacks build on Ubuntu 24.04 Noble failed: `E: Package 'libasound2' has no installation candidate`.
+- **Fix:** Updated `nixpacks.toml` + `PLAYWRIGHT_APT_DEPS` to Ubuntu 24.04 t64 package names (`libasound2t64`, `libatk1.0-0t64`, `libcups2t64`, `libglib2.0-0t64`, etc.) matching Playwright `nativeDeps` ubuntu24.04-x64.
+- **Next founder action:** Redeploy Railway from `main`; build should pass apt install step.
+
+---
+
+## 2026-09-10 — GitHub Actions CI test failures (Supabase + Playwright)
+
+- **Context:** Founder triggered `SITE 00 Production Release` workflow; validate passed after adding `VITE_*` secrets but **test** job failed with `Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY/SUPABASE_ANON_KEY` and Playwright `Executable doesn't exist`.
+- **Root cause:** CI `test` job ran `npm test` without server-side Supabase env vars (only `VITE_*` checked in validate) and without Playwright Chromium (`postinstall` skips unless `INSTALL_PLAYWRIGHT=1` or Railway).
+- **Fix:** Updated `.github/workflows/site00-production-deploy.yml` — validate now requires `SUPABASE_SERVICE_ROLE_KEY`; test job exports `SUPABASE_*` (fallback to `VITE_*` URL/anon) + `INSTALL_PLAYWRIGHT=1` on `npm ci`. Docs updated in `SITE00_PRODUCTION_DEPLOYMENT_P0DEPLOY1.md`.
+- **Founder secrets checklist (GitHub repo → Settings → Secrets and variables → Actions):**
+  - `VITE_SUPABASE_URL` — Supabase → Project → **Connect** or **API** tab → Project URL
+  - `VITE_SUPABASE_ANON_KEY` — same screen → anon / publishable key
+  - `VITE_API_BASE` = `https://api.site00.com`
+  - `SUPABASE_SERVICE_ROLE_KEY` — Supabase → Project Settings → API → **service_role** (secret; never prefix with VITE_)
+- **Deploy trigger:** Actions → SITE 00 Production Release → Run workflow → `action=release`, `deploy_frontend=true` (or set repo variable `SITE00_AUTO_PROMOTE=true`).
+- **Next founder action:** Add `SUPABASE_SERVICE_ROLE_KEY` secret if missing → re-run workflow.
 

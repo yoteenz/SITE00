@@ -87,7 +87,9 @@ Backend health (`/api/health`) includes `release` object with matching fields + 
 
 GitHub **production** environment secrets:
 
-- `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_API_BASE`
+- `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_API_BASE` (`https://api.site00.com`)
+- `SUPABASE_SERVICE_ROLE_KEY` (required for `npm test` in CI — Supabase dashboard → Project Settings → API → **service_role**; server-only, never `VITE_*`)
+- Optional aliases: `SUPABASE_URL` / `SUPABASE_ANON_KEY` (CI falls back to the matching `VITE_*` secrets when unset)
 - `GODADDY_FTP_HOST`, `GODADDY_FTP_USERNAME`, `GODADDY_FTP_PASSWORD`
 - `GODADDY_SSH_HOST`, `GODADDY_SSH_USER`, `GODADDY_SSH_PRIVATE_KEY`, `GODADDY_SSH_PORT` (optional)
 
