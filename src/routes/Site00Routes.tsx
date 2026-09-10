@@ -103,6 +103,8 @@ const ProjectEvolvePage = lazy(() => import('../site00/pages/ProjectEvolvePage')
 const ProjectCreativeDirectionPage = lazy(() => import('../site00/pages/ProjectCreativeDirectionPage'));
 const ProjectCampaignFlavorPage = lazy(() => import('../site00/pages/ProjectCampaignFlavorPage'));
 const EvolveCampaignFlavorPage = lazy(() => import('../site00/pages/evolve/EvolveCampaignFlavorPage'));
+const ProjectCampaignDirectorPage = lazy(() => import('../site00/pages/ProjectCampaignDirectorPage'));
+const EvolveCampaignDirectorPage = lazy(() => import('../site00/pages/evolve/EvolveCampaignDirectorPage'));
 const ProjectPersonalityReplayPage = lazy(() => import('../site00/pages/ProjectPersonalityReplayPage'));
 const ProjectSixDirectionConsistencyPage = lazy(() => import('../site00/pages/ProjectSixDirectionConsistencyPage'));
 const ProjectCanonicalCreativeRangePage = lazy(() => import('../site00/pages/ProjectCanonicalCreativeRangePage'));
@@ -956,6 +958,30 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <EvolveCampaignFlavorPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCampaignDirector}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCampaignDirectorPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path="/evolve/campaign-director"
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <EvolveCampaignDirectorPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

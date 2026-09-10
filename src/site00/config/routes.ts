@@ -71,6 +71,7 @@ export const SITE00_ROUTES = {
   projectEvolve: '/projects/:projectSlug/evolve',
   projectCreativeDirection: '/projects/:projectSlug/creative-direction',
   projectCampaignFlavor: '/projects/:projectSlug/campaign-flavor',
+  projectCampaignDirector: '/projects/:projectSlug/campaign-director',
   projectLoreCalibration: '/projects/:projectSlug/calibrate',
   projectCreativeAppetite: '/projects/:projectSlug/creative-appetite',
   projectPersonalityReplay: '/projects/:projectSlug/personality-replay',
@@ -286,6 +287,11 @@ export function site00ProjectCreativeDirectionPath(projectSlug: string): string 
 
 export function site00ProjectCampaignFlavorPath(projectSlug: string): string {
   return `/projects/${projectSlug}/campaign-flavor`;
+}
+
+export function site00ProjectCampaignDirectorPath(projectSlug: string, mode?: 'forensic'): string {
+  const base = `/projects/${projectSlug}/campaign-director`;
+  return mode === 'forensic' ? `${base}?mode=forensic` : base;
 }
 
 export function site00ProjectExperimentEPath(projectSlug: string): string {
