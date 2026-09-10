@@ -28,15 +28,29 @@ import {
   compileProductionDirection,
   FORENSIC_BENCHMARK_LABEL,
 } from '../shared/site00-expression-engine/campaign-genesis-orchestration/index.js';
+import {
+  brandCreativeContextAssembler,
+  clearBrandCreativeContextStoreForTest,
+  persistAssembledContext,
+} from '../shared/site00-brand-lore/brandCreativeContext/index.js';
 
 const ROOT = join(import.meta.dirname, '..');
+
+function brandContextFor(brandSlug: string) {
+  const result = brandCreativeContextAssembler.assemble({ brandId: brandSlug });
+  persistAssembledContext(result.context);
+  return result.context;
+}
 
 function read(rel: string): string {
   return readFileSync(join(ROOT, rel), 'utf8');
 }
 
 describe('P0.CGO.1 — Campaign Genesis + Orchestration', () => {
-  beforeEach(() => clearWorldGenesisStoreForTest());
+  beforeEach(() => {
+    clearWorldGenesisStoreForTest();
+    clearBrandCreativeContextStoreForTest();
+  });
 
   it('1. build v273', () => {
     expect(P0_CGO_1_BUILD).toBe('v273');
@@ -77,6 +91,7 @@ describe('P0.CGO.1 — Campaign Genesis + Orchestration', () => {
       brandSlug: 'frontal-slayer',
       productCategory: 'HAIR',
       objective: 'LAUNCH',
+      brandContext: brandContextFor('frontal-slayer'),
     });
     expect(result.safe).toBeTruthy();
     expect(result.fresh).toBeTruthy();
@@ -91,6 +106,7 @@ describe('P0.CGO.1 — Campaign Genesis + Orchestration', () => {
       brandSlug: 'frontal-slayer',
       productCategory: 'HAIR',
       objective: 'LAUNCH',
+      brandContext: brandContextFor('frontal-slayer'),
     }).fresh!;
     expect(fresh.humanExpression.hair.length).toBeGreaterThan(0);
     expect(fresh.conceptualYield.overall).toBeGreaterThan(0.4);
@@ -101,11 +117,13 @@ describe('P0.CGO.1 — Campaign Genesis + Orchestration', () => {
       brandSlug: 'frontal-slayer',
       productCategory: 'HAIR',
       objective: 'LAUNCH',
+      brandContext: brandContextFor('frontal-slayer'),
     });
     const ndx = campaignWorldGenesisEngine.generateWorldCandidates({
       brandSlug: 'ndxbook',
       productCategory: 'GENERAL',
       objective: 'LAUNCH',
+      brandContext: brandContextFor('ndxbook'),
     });
     expect(fs.fresh?.coreConcept).not.toBe(ndx.fresh?.coreConcept);
     expect(ndx.candidates.some((c) => c.coreConcept.includes('MARGIN') || c.coreConcept.includes('RECEIPT'))).toBe(true);
@@ -116,6 +134,7 @@ describe('P0.CGO.1 — Campaign Genesis + Orchestration', () => {
       brandSlug: 'frontal-slayer',
       productCategory: 'HAIR',
       objective: 'LAUNCH',
+      brandContext: brandContextFor('frontal-slayer'),
     }).fresh!;
     const bible = campaignWorldGenesisEngine.approveWorldToBible({
       candidate,
@@ -132,6 +151,7 @@ describe('P0.CGO.1 — Campaign Genesis + Orchestration', () => {
       brandSlug: 'frontal-slayer',
       productCategory: 'HAIR',
       objective: 'LAUNCH',
+      brandContext: brandContextFor('frontal-slayer'),
     }).safe!;
     const bible = campaignWorldGenesisEngine.approveWorldToBible({
       candidate,
@@ -149,6 +169,7 @@ describe('P0.CGO.1 — Campaign Genesis + Orchestration', () => {
       brandSlug: 'frontal-slayer',
       productCategory: 'HAIR',
       objective: 'LAUNCH',
+      brandContext: brandContextFor('frontal-slayer'),
     }).fresh!;
     const bible = campaignWorldGenesisEngine.approveWorldToBible({
       candidate,
@@ -165,6 +186,7 @@ describe('P0.CGO.1 — Campaign Genesis + Orchestration', () => {
       brandSlug: 'frontal-slayer',
       productCategory: 'HAIR',
       objective: 'LAUNCH',
+      brandContext: brandContextFor('frontal-slayer'),
     }).fresh!;
     const bible = campaignWorldGenesisEngine.approveWorldToBible({ candidate, brandId: 'fs', campaignId: 'c1' });
     const orch = creativeDirectionOrchestrationSystem.orchestrate(bible);
@@ -264,6 +286,7 @@ describe('P0.CGO.1 — Campaign Genesis + Orchestration', () => {
       brandSlug: 'frontal-slayer',
       productCategory: 'HAIR',
       objective: 'LAUNCH',
+      brandContext: brandContextFor('frontal-slayer'),
     }).safe!;
     const bible = campaignWorldGenesisEngine.approveWorldToBible({ candidate, brandId: 'fs', campaignId: 'c1' });
     const diversity = planShotDiversity(creativeDirectionOrchestrationSystem.orchestrate(bible).shots);

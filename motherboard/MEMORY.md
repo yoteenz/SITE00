@@ -7639,7 +7639,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-<<<<<<< HEAD
 ## 2026-09-10 — P0.VR.CAPTURE.1 Page-Scoped CAPTURE NOW + Creative Upgrade
 
 - **Context:** Replace batch whole-site capture as primary workflow with page-scoped CAPTURE NOW — one page, one viewport, one job, then creative-directed upgrade.
@@ -7650,6 +7649,7 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Build:** v272 (`P0_VR_CAPTURE_1_BUILD`). Tests: `visualReconstructionP0VRCapture1.test.ts` (32 pass).
 - **Next founder action:** DESIGN → NDXBOOK → PAGES → select one page → CAPTURE NOW (current viewport only) → UPGRADE THIS PAGE → approve → verify before/after → NEXT PAGE.
 
+<<<<<<< HEAD
 ---
 
 ## 2026-09-10 — Railway Noble apt fix (libasound2 → t64)
@@ -7658,6 +7658,8 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Updated `nixpacks.toml` + `PLAYWRIGHT_APT_DEPS` to Ubuntu 24.04 t64 package names (`libasound2t64`, `libatk1.0-0t64`, `libcups2t64`, `libglib2.0-0t64`, etc.) matching Playwright `nativeDeps` ubuntu24.04-x64.
 - **Next founder action:** Redeploy Railway from `main`; build should pass apt install step.
 =======
+=======
+>>>>>>> origin/main
 ## 2026-09-10 — P0.CGO.1 Campaign World Genesis + Creative Direction Orchestration
 
 - **Context:** Strong campaign concepts die in generic execution (over-staged, product-centered, disconnected from idea). Sprint creates two layers: (1) **Campaign World Genesis** — associative reasoning → high-yield worlds; (2) **Creative Direction Orchestration** — protects concept through shot system, sequence, fidelity QA.
@@ -7672,5 +7674,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `campaignGenesisOrchestrationP0CGO1.test.ts` (22/22). PR **#667** merged. Build `P0_CGO_1_BUILD = v273`.
 - **Remaining gaps:** Supabase persistence for world bibles; live image-gen adapter hook; performance feedback loop.
 - **Next founder action:** `/evolve/campaign-director?mode=forensic` → verify high-yield beats weak → genesis mode → FRONTAL SLAYER → approve world → step through wizard → REVIEW must fail generic pool-table pose with specific revision.
->>>>>>> origin/main
+
+## 2026-09-10 — P0.CBI.1 Brand Creative Context + Campaign Intelligence Ingestion
+
+- **Context:** Campaign systems could generate generic category campaigns from brand name alone. Sprint creates persistent `BrandCreativeContext` + `BrandCreativeContextAssembler` wired into CSI.1/CGO.1 with generation gate, project firewall, and founder-facing Brand Context UI.
+- **Engine** (`shared/site00-brand-lore/brandCreativeContext/`): types, source authority model, project bootstrap catalog (FS/NDXBOOK/SITE 00/AIO/Astral from canonical sources only — UNKNOWN where missing), assembler, readiness gate, diff, QA, generic detector, specificity score, influence trace, campaign history store, `CampaignGenerationContextEnvelope`.
+- **Integration:** `CampaignStrategyLanguageSystem` + `CampaignWorldGenesisEngine` require `BrandCreativeContext`; block when `MISSING_CRITICAL`; brand-specific `whyItFits` / world rationale; `brandContextVersion` on world bibles.
+- **API:** `api/site00/brand-creative-context.ts` + `brandCreativeContextService.ts`; Supabase migration `20260910180000_site00_brand_creative_context.sql`; localStorage + memory persistence in browser.
+- **UI:** `BrandCreativeContextPanel` on Campaign Flavor + Campaign Director workspaces; VIEW CONTEXT drawer with source badges.
+- **Tests:** `brandCreativeContextP0CBI1.test.ts` (35/35); CSI/CGO tests updated for context. Build `P0_CBI_1_BUILD = v274`.
+- **Remaining gaps:** Full Brand Context Intake wizard for unknown brands (structure ready); Supabase migration must be applied in production; FounderCreativeAppetite API partial (wired when lore profile exists).
+- **Next founder action:** EVOLVE → CAMPAIGN FLAVOR → FRONTAL SLAYER → verify BRAND CONTEXT READY → VIEW CONTEXT → LAUNCH → generate flavors → repeat NDXBOOK and verify materially different results.
 

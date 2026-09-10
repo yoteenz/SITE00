@@ -141,6 +141,8 @@ export type CampaignWorldBible = {
   worldId: string;
   campaignId: string;
   brandId: string;
+  /** P0.CBI.1 — lineage to brand truth version */
+  brandContextVersion?: number;
   conceptThesis: string;
   associationChain: AssociationChain;
   campaignTitleLanguage: string;
@@ -363,6 +365,9 @@ export type WorldGenesisInput = {
   productName?: string;
   objective: CampaignObjective;
   strategyHint?: CampaignStrategyType;
+  /** P0.CBI.1 */
+  brandContext?: import('../../site00-brand-lore/brandCreativeContext/types.js').BrandCreativeContext | null;
+  skipGenerationGate?: boolean;
 };
 
 export type WorldGenesisResult = {

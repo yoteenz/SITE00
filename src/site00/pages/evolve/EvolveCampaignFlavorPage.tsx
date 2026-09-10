@@ -5,6 +5,7 @@
 import { Site00PublicShell } from '../../components/shell/Site00PublicShell';
 import { CampaignFlavorWorkspace } from '../../components/founderWorkspace/campaignStrategy/CampaignFlavorWorkspace';
 import '../../styles/site00-campaign-flavor.css';
+import '../../styles/site00-brand-context.css';
 
 export default function EvolveCampaignFlavorPage() {
   return (

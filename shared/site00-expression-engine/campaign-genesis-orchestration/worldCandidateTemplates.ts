@@ -35,20 +35,37 @@ type WorldTemplate = {
 export function generateOriginalWorlds(input: {
   brandSlug: string;
   productCategory: ProductCategory;
+  brandContext?: import('../../site00-brand-lore/brandCreativeContext/types.js').BrandCreativeContext | null;
 }): CampaignWorldCandidate[] {
-  const templates = selectTemplates(input.brandSlug, input.productCategory);
-  return templates.map((t) => templateToCandidate(t, input.brandSlug));
+  const templates = selectTemplates(input.brandSlug, input.productCategory, input.brandContext);
+  return templates.map((t) => templateToCandidate(t, input.brandSlug, input.brandContext));
 }
 
-function selectTemplates(brandSlug: string, category: ProductCategory): WorldTemplate[] {
+function selectTemplates(
+  brandSlug: string,
+  category: ProductCategory,
+  brandContext?: import('../../site00-brand-lore/brandCreativeContext/types.js').BrandCreativeContext | null,
+): WorldTemplate[] {
   if (brandSlug.includes('ndx') || brandSlug === 'ndxbook') {
     return NDXBOOK_TEMPLATES;
+  }
+  if (brandSlug.includes('site-00') || brandSlug === 'site00') {
+    return SITE00_TEMPLATES;
+  }
+  if (brandSlug === 'aio' || brandSlug.includes('all-in-one')) {
+    return AIO_TEMPLATES;
+  }
+  if (brandSlug.includes('astral')) {
+    return ASTRAL_TEMPLATES;
   }
   if (category === 'HAIR' || brandSlug.includes('frontal')) {
     return FRONTAL_SLAYER_HAIR_TEMPLATES;
   }
   if (category === 'JEWELRY') {
     return JEWELRY_ORIGINAL_TEMPLATES;
+  }
+  if (brandContext && !brandContext.category.isUnknown) {
+    return GENERAL_TEMPLATES;
   }
   return GENERAL_TEMPLATES;
 }
@@ -363,9 +380,129 @@ const JEWELRY_ORIGINAL_TEMPLATES: WorldTemplate[] = [
   },
 ];
 
+const SITE00_TEMPLATES: WorldTemplate[] = [
+  {
+    id: 'site00-bench-session',
+    tier: 'SAFE',
+    coreConcept: 'ON THE BENCH',
+    title: 'ON THE BENCH',
+    setting: 'PROJECT WORKSPACE / ACTIVE PIECE',
+    chain: {
+      chainId: 'site00-bench',
+      links: [
+        { domain: 'PRODUCT', term: 'Website creation', distance: 'LITERAL', rationale: 'SITE 00 offer' },
+        { domain: 'ENVIRONMENT', term: 'Workbench', distance: 'LITERAL', rationale: 'Workspace canon' },
+        { domain: 'HUMAN_BEHAVIOR', term: 'Active production', distance: 'ADJACENT', rationale: 'Founder workflow' },
+        { domain: 'PHRASE', term: 'On the bench', distance: 'UNEXPECTED', rationale: 'Title' },
+      ],
+      connectiveLogic: 'Website creation → Workbench → Active production → On the bench',
+    },
+    dimensions: {
+      SETTING: 'Bright minimal workspace with active piece dominant',
+      TITLE: 'ON THE BENCH',
+      COLOR: 'White + red accent',
+      SHOT_VARIETY: 'Bench wide, active piece detail, review tray',
+    },
+    humanExpression: {
+      hair: [], nails: [], makeup: [], jewelry: [], wardrobe: ['Founder-director practical'],
+      hands: ['Inspect artifact', 'Move piece on bench'],
+      bodyLanguage: ['Director posture'], gesture: ['Approve', 'Revise'],
+      movement: ['Shift focus between bench zones'], attitude: ['Production-focused'],
+    },
+    motifs: ['Bench', 'Active piece', 'Red accent', 'Review tray'],
+    props: ['Artifacts', 'Production notes'],
+    copy: ['On the bench', 'Active piece'],
+    productIntegration: ['Process access — show how sites get made'],
+    whyItWorks: 'SITE 00 digital location + production methodology — not client brand expression.',
+    risk: 'LOW',
+    originality: 0.75,
+  },
+];
+
+const AIO_TEMPLATES: WorldTemplate[] = [
+  {
+    id: 'aio-dispatch-dawn',
+    tier: 'SAFE',
+    coreConcept: 'DISPATCH AT DAWN',
+    title: 'DISPATCH AT DAWN',
+    setting: 'DISPATCH DESK / EARLY MORNING ROAD',
+    chain: {
+      chainId: 'aio-dispatch',
+      links: [
+        { domain: 'PRODUCT', term: 'Dispatching', distance: 'LITERAL', rationale: 'Core service' },
+        { domain: 'ENVIRONMENT', term: 'Dispatch desk', distance: 'LITERAL', rationale: 'Operations' },
+        { domain: 'HUMAN_BEHAVIOR', term: 'Route planning', distance: 'ADJACENT', rationale: 'Professional behavior' },
+        { domain: 'PHRASE', term: 'Dispatch at dawn', distance: 'UNEXPECTED', rationale: 'Title' },
+      ],
+      connectiveLogic: 'Dispatching → Dispatch desk → Route planning → Dispatch at dawn',
+    },
+    dimensions: {
+      SETTING: 'Dispatch desk with maps, radios, compliance docs',
+      TITLE: 'DISPATCH AT DAWN',
+      SHOT_VARIETY: 'Desk detail, road wide, hands on radio',
+    },
+    humanExpression: {
+      hair: [], nails: [], makeup: [], jewelry: [], wardrobe: ['Professional operations'],
+      hands: ['Mark route', 'Radio check'],
+      bodyLanguage: ['Focused operator'], gesture: ['Point at map'],
+      movement: ['Walk to truck'], attitude: ['Road-ready professional'],
+    },
+    motifs: ['Radio', 'Route map', 'Compliance stamp'],
+    props: ['Clipboard', 'Permit folder'],
+    copy: ['Dispatch at dawn', 'Road ready'],
+    productIntegration: ['Service operations — permitting/dispatch proof'],
+    whyItWorks: 'AIO operational positioning — not luxury editorial.',
+    risk: 'LOW',
+    originality: 0.72,
+  },
+];
+
+const ASTRAL_TEMPLATES: WorldTemplate[] = [
+  {
+    id: 'aw-coffee-astrea',
+    tier: 'FRESH',
+    coreConcept: 'COFFEE IN ASTRÉA',
+    title: 'COFFEE IN ASTRÉA',
+    setting: 'ASTRÉA COFFEE SHOP / READER PRESENCE',
+    chain: {
+      chainId: 'aw-coffee',
+      links: [
+        { domain: 'PRODUCT', term: 'Reader platform', distance: 'LITERAL', rationale: 'Astral offer' },
+        { domain: 'ENVIRONMENT', term: 'Coffee shop', distance: 'LITERAL', rationale: 'Canonical world' },
+        { domain: 'SOCIAL_SITUATION', term: 'Joinable table', distance: 'LATERAL', rationale: 'Social experience' },
+        { domain: 'PHRASE', term: 'Coffee in Astréa', distance: 'UNEXPECTED', rationale: 'Title' },
+      ],
+      connectiveLogic: 'Reader platform → Coffee shop → Joinable table → Coffee in Astréa',
+    },
+    dimensions: {
+      SETTING: 'Magical coffee shop with reader avatars at tables',
+      TITLE: 'COFFEE IN ASTRÉA',
+      SHOT_VARIETY: 'Wide shop, table detail, tarot card glimpse',
+    },
+    humanExpression: {
+      hair: ['Reader avatar styling'], nails: [], makeup: [], jewelry: [],
+      wardrobe: ['Ethereal reader fashion'],
+      hands: ['Hold cup', 'Turn tarot card'],
+      bodyLanguage: ['Social presence'], gesture: ['Wave to friend'],
+      movement: ['Enter shop'], attitude: ['Intimate magical social'],
+    },
+    motifs: ['Coffee steam', 'Tarot edge', 'Purple light'],
+    props: ['Cup', 'Tarot deck'],
+    copy: ['Coffee in Astréa', 'Join table'],
+    productIntegration: ['Reader social experience — immersive world'],
+    whyItWorks: 'Astral World themed environments + reader presence — not commerce hair logic.',
+    risk: 'MEDIUM',
+    originality: 0.82,
+  },
+];
+
 const GENERAL_TEMPLATES: WorldTemplate[] = FRONTAL_SLAYER_HAIR_TEMPLATES.slice(0, 2);
 
-function templateToCandidate(t: WorldTemplate, brandSlug: string): CampaignWorldCandidate {
+function templateToCandidate(
+  t: WorldTemplate,
+  brandSlug: string,
+  brandContext?: import('../../site00-brand-lore/brandCreativeContext/types.js').BrandCreativeContext | null,
+): CampaignWorldCandidate {
   const convergence = buildConceptualConvergenceMap({
     centralIdea: t.coreConcept,
     dimensions: t.dimensions,
@@ -387,6 +524,20 @@ function templateToCandidate(t: WorldTemplate, brandSlug: string): CampaignWorld
     copyLanguage: t.copy,
     propSystem: t.props,
     risk: t.risk,
-    whyItWorks: t.whyItWorks,
+    whyItWorks: brandContext
+      ? buildContextAwareWhyItWorks(t.whyItWorks, brandContext)
+      : t.whyItWorks,
   };
+}
+
+function buildContextAwareWhyItWorks(
+  base: string,
+  ctx: import('../../site00-brand-lore/brandCreativeContext/types.js').BrandCreativeContext,
+): string {
+  const specifics: string[] = [];
+  if (ctx.experiencePrinciples.value?.[0]) specifics.push(ctx.experiencePrinciples.value[0]!);
+  if (ctx.visualIdentity.recurringSignatures.value?.[0]) specifics.push(ctx.visualIdentity.recurringSignatures.value[0]!);
+  if (ctx.worldBuilding.locations.value?.[0]) specifics.push(ctx.worldBuilding.locations.value[0]!);
+  if (!specifics.length) return base;
+  return `${base} Specifically for ${ctx.brandName}: ${specifics.slice(0, 2).join(' + ')}.`;
 }

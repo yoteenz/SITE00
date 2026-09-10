@@ -28,6 +28,11 @@ import {
   detectVarietyWarnings,
   filterStrategiesForVariety,
 } from './campaignVarietyEngine.js';
+import {
+  checkCampaignGenerationGate,
+} from '../../site00-brand-lore/brandCreativeContext/readiness.js';
+import { buildBrandSpecificFitExplanation } from '../../site00-brand-lore/brandCreativeContext/brandInfluenceTrace.js';
+import { getBrandCampaignHistorySummary } from '../../site00-brand-lore/brandCreativeContext/campaignHistoryStore.js';
 
 const CHANNEL_ADAPTATIONS: Record<CampaignChannel, { role: string; adaptation: string }> = {
   INSTAGRAM_FEED: { role: 'Visual tease', adaptation: 'Lead with world-establishing frame; product subtle' },
@@ -49,19 +54,43 @@ export class CampaignStrategyLanguageSystem {
   recommendCampaignFlavors(
     input: CampaignStrategyLanguageSystemInput,
   ): CampaignFlavorRecommendationResult {
+    const gate = input.skipGenerationGate
+      ? { allowed: true, message: null, readiness: input.brandContext?.readiness ?? null }
+      : checkCampaignGenerationGate(input.brandContext ?? null);
+
+    if (!gate.allowed) {
+      return {
+        brandSlug: input.brandSlug,
+        objective: input.objective,
+        recommendations: [],
+        safe: null,
+        fresh: null,
+        wildCard: null,
+        rotationNote: '',
+        varietyWarnings: [],
+        generationBlocked: true,
+        generationBlockMessage: gate.message,
+        brandContextVersion: input.brandContext?.version ?? null,
+      };
+    }
+
+    const brandHistory = input.brandContext
+      ? getBrandCampaignHistorySummary(input.brandSlug)
+      : null;
     const history = input.history ?? getCampaignExpressionHistory(input.brandSlug);
     const compatibility = resolveCampaignBrandCompatibility({
       brandSlug: input.brandSlug,
       objective: input.objective,
       channel: input.channel,
-      appetite: input.appetite,
+      appetite: input.brandContext?.creativeAppetite ?? input.appetite,
       recentHistory: history,
     });
 
     const policy = buildCreativeVariationPolicy({
       brandSlug: input.brandSlug,
-      appetite: input.appetite,
+      appetite: input.brandContext?.creativeAppetite ?? input.appetite,
       history,
+      brandCampaignHistory: brandHistory ?? undefined,
     });
 
     const candidates = filterStrategiesForVariety(compatibility.recommendedStrategies, policy);
@@ -150,6 +179,8 @@ export class CampaignStrategyLanguageSystem {
       wildCard,
       rotationNote,
       varietyWarnings: [...new Set(varietyWarnings)],
+      generationBlocked: false,
+      brandContextVersion: input.brandContext?.version ?? null,
     };
   }
 
@@ -211,8 +242,9 @@ function buildRecommendation(
   });
 
   const warnings = detectVarietyWarnings(input.brandSlug, strategy, history);
-  const whyItFits =
-    warnings.length > 0
+  const whyItFits = input.brandContext
+    ? buildBrandSpecificFitExplanation(input.brandContext, def.name)
+    : warnings.length > 0
       ? `High fit + different from last ${Math.min(history.length, 3)} campaigns`
       : `Strong match for ${input.objective.replace(/_/g, ' ').toLowerCase()} objective`;
 
