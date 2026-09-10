@@ -288,11 +288,11 @@ describe('P0.VR.8R3R1 — Capture run contract recovery', () => {
   });
 
   it('29. build passes contract module', () => {
-    expect(P0_VR_8R3R1_BUILD).toBe('v261');
+    expect(P0_VR_8R3R1_BUILD).toBe('v262');
   });
 
   it('30. frontend build receipt constant', () => {
-    expect(read('shared/site00-studio-world-production/visualReconstruction/p0vr8r3/constants.ts')).toContain('v261');
+    expect(read('shared/site00-studio-world-production/visualReconstruction/p0vr8r3/constants.ts')).toContain('v262');
   });
 
   it('31. integration contract fields on refresh', async () => {

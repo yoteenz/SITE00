@@ -9,6 +9,7 @@ import { execSync } from 'node:child_process';
 import { ANTHROPIC_CREATIVE_MODEL } from '../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/config.js';
 import { resolveCreativeIntelligenceProviderConfig } from '../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/providerConfig.js';
 import { isPlaywrightInstalled } from '../api/_lib/site00VisualReference/captureService.js';
+import { startCaptureWorker } from '../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureWorkerBoot.js';
 
 function applyServerEnv(): void {
   const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
@@ -137,4 +138,11 @@ app.use((err: unknown, req: express.Request, res: express.Response, _next: expre
 const port = Number(process.env.PORT) || 3000;
 app.listen(port, '0.0.0.0', () => {
   console.log(`[site00-api] listening on http://0.0.0.0:${port}`);
+  void startCaptureWorker({ repoRoot: process.cwd() })
+    .then((receipt) => {
+      console.log(`[capture-worker] boot ${receipt.status} worker=${receipt.workerId}`);
+    })
+    .catch((err) => {
+      console.error('[capture-worker] boot failed', err);
+    });
 });

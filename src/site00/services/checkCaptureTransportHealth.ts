@@ -2,7 +2,7 @@
  * P0.VR.8R3R3 — Frontend capture transport health preflight.
  */
 
-import { P0_VR_8R3R3_BUILD } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/constants.js';
+import { P0_VR_8R3R4_BUILD } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/constants.js';
 import { CAPTURE_RUN_CONTRACT_VERSION } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/projectCaptureRunContract.js';
 import {
   deriveTransportHealthStatus,
@@ -66,6 +66,8 @@ export async function checkCaptureTransportHealth(projectId: string): Promise<Ca
     errorMessage: null,
   };
 
+  let healthPayload: CaptureTransportHealthResponse | null = null;
+
   if (!baseError) {
     const result = await captureApiFetch<CaptureTransportHealthResponse>(healthEndpoint(projectId), {
       authHeaderPresent,
@@ -79,6 +81,7 @@ export async function checkCaptureTransportHealth(projectId: string): Promise<Ca
       if (!errors.includes('AUTH_FAILED')) errors.push('AUTH_FAILED');
     }
     if (result.data) {
+      healthPayload = result.data;
       apiBuild = result.data.apiBuild;
       workerBuild = result.data.workerBuild;
       apiGitSha = result.data.gitSha;
@@ -86,18 +89,23 @@ export async function checkCaptureTransportHealth(projectId: string): Promise<Ca
       contractCompatible = contractVersion === CAPTURE_RUN_CONTRACT_VERSION;
       workerStatus = result.data.workerStatus;
       if (!contractCompatible) errors.push('CONTRACT_VERSION_MISMATCH');
-      if (!result.data.captureServiceReady || workerStatus === 'OFFLINE') {
+      if (
+        !result.data.captureServiceReady ||
+        workerStatus === 'OFFLINE' ||
+        workerStatus === 'UNKNOWN' ||
+        workerStatus === 'DEGRADED'
+      ) {
         errors.push('WORKER_UNAVAILABLE');
       }
       const mismatch = detectBackendVersionMismatch(
         {
-          frontendBuild: P0_VR_8R3R3_BUILD,
+          frontendBuild: P0_VR_8R3R4_BUILD,
           apiBuild: apiBuild ?? '',
           workerBuild: workerBuild ?? '',
           gitSha: apiGitSha,
           contractVersion: contractVersion ?? '',
         },
-        P0_VR_8R3R3_BUILD,
+        P0_VR_8R3R4_BUILD,
       );
       if (mismatch) errors.push('BACKEND_VERSION_MISMATCH');
     } else if (apiReachable && !result.ok) {
@@ -109,7 +117,7 @@ export async function checkCaptureTransportHealth(projectId: string): Promise<Ca
   const status = deriveTransportHealthStatus(uniqueErrors);
 
   const health: CaptureTransportHealth = {
-    frontendBuild: P0_VR_8R3R3_BUILD,
+    frontendBuild: P0_VR_8R3R4_BUILD,
     apiBuild,
     workerBuild,
     frontendGitSha: null,
@@ -128,6 +136,13 @@ export async function checkCaptureTransportHealth(projectId: string): Promise<Ca
     lastCheckedAt: new Date().toISOString(),
     status,
     errors: uniqueErrors,
+    workerId: healthPayload?.workerId ?? null,
+    lastHeartbeat: healthPayload?.lastHeartbeat ?? null,
+    heartbeatAgeMs: healthPayload?.heartbeatAgeMs ?? null,
+    playwrightReady: healthPayload?.playwrightReady ?? false,
+    browserReady: healthPayload?.browserReady ?? false,
+    testJobPassed: healthPayload?.testJobPassed ?? false,
+    lastError: healthPayload?.lastError ?? null,
   };
 
   return { health, receipt };

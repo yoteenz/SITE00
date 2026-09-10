@@ -262,6 +262,7 @@ export function StudioWorldDesignWorkspace({
     refreshPage: refreshMirrorPage,
     refreshProject: refreshMirrorProject,
     retryTransportCheck,
+    testWorker,
   } = usePageMirror(projectId);
 
   const pageIndexRows = useMemo(() => {
@@ -772,6 +773,7 @@ export function StudioWorldDesignWorkspace({
             onViewCaptureRun={handleViewCaptureRun}
             captureRefresh={captureRefresh}
             onRetryTransport={() => void retryTransportCheck()}
+            onTestWorker={() => void testWorker()}
             pageCompletionJob={pageCompletionJob}
           />
         ) : null}

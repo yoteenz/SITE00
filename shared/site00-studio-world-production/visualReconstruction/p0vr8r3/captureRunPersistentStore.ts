@@ -9,6 +9,10 @@ import type { PageCaptureQueueJob } from '../p0vr8/types.js';
 import type { ProjectCaptureRunEvent } from './captureRunEvents.js';
 import type { WorkerDispatchReceipt } from './workerDispatchReceipt.js';
 import type { ProjectCaptureRunContractStatus } from './projectCaptureRunContract.js';
+import type { CaptureWorkerBootReceipt } from './captureWorkerBootReceipt.js';
+import type { CaptureWorkerEvent } from './captureWorkerEvents.js';
+import type { CaptureWorkerCapability } from './captureWorkerIdentity.js';
+import type { CaptureWorkerHealthStatus } from './captureWorkerHealth.js';
 
 export const CAPTURE_ORCHESTRATION_REGISTRY_RELATIVE_PATH =
   'public/studio-world/design/capture-orchestration-registry.json';
@@ -50,15 +54,65 @@ export type PersistedCaptureRun = {
   invalidReason?: string | null;
 };
 
+export type PersistedCaptureQueueJob = PageCaptureQueueJob & {
+  runId?: string;
+  targetId?: string;
+  claimedBy?: string | null;
+  claimedAt?: string | null;
+  leaseExpiresAt?: string | null;
+  acknowledgedAt?: string | null;
+};
+
+export type PersistedWorkerRecord = {
+  workerId: string;
+  serviceId: string;
+  instanceId: string;
+  buildVersion: string;
+  contractVersion: string;
+  startedAt: string;
+  environment: string;
+  capabilities: CaptureWorkerCapability[];
+  status: CaptureWorkerHealthStatus | 'STARTING';
+  lastHeartbeat: string | null;
+  activeJobCount: number;
+  queueDepth: number;
+  lastAcceptedJobAt: string | null;
+  lastCompletedJobAt: string | null;
+  lastError: string | null;
+  playwrightReady: boolean;
+  browserReady: boolean;
+  bootReceipt: CaptureWorkerBootReceipt | null;
+  lastDispatchAt: string | null;
+  lastSuccessAt: string | null;
+  lastErrorAt: string | null;
+  concurrencyLimit: number;
+};
+
+export type CaptureWorkerTestJob = {
+  jobId: string;
+  status: 'QUEUED' | 'CLAIMED' | 'ACKNOWLEDGED' | 'RUNNING' | 'COMPLETE' | 'FAILED';
+  workerId: string | null;
+  queuedAt: string;
+  claimedAt: string | null;
+  acknowledgedAt: string | null;
+  startedAt: string | null;
+  completedAt: string | null;
+  lastError: string | null;
+};
+
 export type CaptureOrchestrationRegistry = {
   schemaVersion: 'site00-capture-orchestration@1';
   updatedAt: string;
   activeRunByProject: Record<string, string>;
   runs: PersistedCaptureRun[];
   targets: PageCaptureTarget[];
-  jobs: Array<PageCaptureQueueJob & { runId?: string; targetId?: string }>;
+  jobs: PersistedCaptureQueueJob[];
   events: ProjectCaptureRunEvent[];
   dispatchReceipts: WorkerDispatchReceipt[];
+  workers?: Record<string, PersistedWorkerRecord>;
+  workerEvents?: CaptureWorkerEvent[];
+  workerTestJobs?: CaptureWorkerTestJob[];
+  lastSuccessfulTestJobAt?: string | null;
 };
 
 let memoryRegistry: CaptureOrchestrationRegistry | null = null;
@@ -74,6 +128,10 @@ function defaultRegistry(): CaptureOrchestrationRegistry {
     jobs: [],
     events: [],
     dispatchReceipts: [],
+    workers: {},
+    workerEvents: [],
+    workerTestJobs: [],
+    lastSuccessfulTestJobAt: null,
   };
 }
 
@@ -94,7 +152,14 @@ export function loadCaptureOrchestrationRegistry(root = repoRoot): CaptureOrches
     return memoryRegistry;
   }
   try {
-    memoryRegistry = JSON.parse(readFileSync(path, 'utf8')) as CaptureOrchestrationRegistry;
+    const parsed = JSON.parse(readFileSync(path, 'utf8')) as CaptureOrchestrationRegistry;
+    memoryRegistry = {
+      ...defaultRegistry(),
+      ...parsed,
+      workers: parsed.workers ?? {},
+      workerEvents: parsed.workerEvents ?? [],
+      workerTestJobs: parsed.workerTestJobs ?? [],
+    };
     return memoryRegistry;
   } catch {
     memoryRegistry = defaultRegistry();

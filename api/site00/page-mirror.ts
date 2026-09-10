@@ -28,10 +28,24 @@ import {
 } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/projectCaptureRunContract.js';
 import { buildCaptureVersionReceipt, P0_VR_8R3R1_BUILD } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/buildVersionReceipt.js';
 import { buildCaptureTransportHealthResponse } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureTransportHealth.js';
+import { startCaptureWorker } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureWorkerBoot.js';
+import {
+  createCaptureWorkerTestJob,
+  getLatestCaptureWorkerTestJob,
+  executeCaptureWorkerTestJob,
+} from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureWorkerTestJob.js';
+import { getActiveCaptureWorkerId } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureWorkerRuntime.js';
 import { bootstrapAllManagedDesignProjects } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/client.js';
 import { handleCaptureCorsPreflight, applyCaptureCorsHeaders } from '../_lib/site00Capture/captureCors.js';
 
 const REPO_ROOT = process.cwd();
+let workerBootPromise: Promise<unknown> | null = null;
+
+function ensureCaptureWorkerBoot(): void {
+  if (!workerBootPromise) {
+    workerBootPromise = startCaptureWorker({ repoRoot: REPO_ROOT });
+  }
+}
 
 function bootstrapCaptureApi(projectId: string): void {
   bootstrapAllManagedDesignProjects();
@@ -47,7 +61,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const projectId = String(req.query.projectId ?? req.body?.projectId ?? 'site00');
 
     if (req.method === 'GET' && String(req.query.view ?? '') === 'health') {
-      const health = buildCaptureTransportHealthResponse();
+      ensureCaptureWorkerBoot();
+      const health = buildCaptureTransportHealthResponse(REPO_ROOT);
       return res.status(200).json({
         ...health,
         apiBuild: health.apiBuild,
@@ -194,6 +209,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(200).json({
           contractVersion: CAPTURE_RUN_CONTRACT_VERSION,
           captureRun: progress,
+          buildReceipt,
+        });
+      }
+      case 'test_worker': {
+        ensureCaptureWorkerBoot();
+        await workerBootPromise;
+        const job = createCaptureWorkerTestJob(REPO_ROOT);
+        const workerId = getActiveCaptureWorkerId();
+        let completed = job;
+        if (workerId) {
+          completed = await executeCaptureWorkerTestJob(workerId, job.jobId, REPO_ROOT);
+        }
+        const health = buildCaptureTransportHealthResponse(REPO_ROOT);
+        return res.status(200).json({
+          contractVersion: CAPTURE_RUN_CONTRACT_VERSION,
+          testJob: completed,
+          workerHealth: health,
           buildReceipt,
         });
       }

@@ -25,7 +25,7 @@ export {
   type ProjectCaptureRunContract,
 } from './projectCaptureRunContract.js';
 
-export { P0_VR_8R3R1_BUILD, P0_VR_8R3R2_BUILD, P0_VR_8R3R3_BUILD } from './constants.js';
+export { P0_VR_8R3R1_BUILD, P0_VR_8R3R2_BUILD, P0_VR_8R3R3_BUILD, P0_VR_8R3R4_BUILD } from './constants.js';
 export {
   buildCaptureTransportHealthResponse,
 } from './captureTransportHealth.js';
@@ -65,6 +65,24 @@ export {
   DEFAULT_CAPTURE_CONCURRENCY,
   CAPTURE_RENDER_TIMEOUT_MS,
 } from './captureWorker.js';
+
+export { startCaptureWorker, stopCaptureWorkerForTest, isCaptureWorkerStarted } from './captureWorkerBoot.js';
+export { buildCaptureWorkerIdentity, type CaptureWorkerIdentity } from './captureWorkerIdentity.js';
+export { type CaptureWorkerBootReceipt } from './captureWorkerBootReceipt.js';
+export {
+  type CaptureWorkerHeartbeat,
+  CAPTURE_WORKER_HEARTBEAT_EXPIRE_MS,
+  resolveWorkerStatusFromHeartbeat,
+} from './captureWorkerHeartbeat.js';
+export { workerHealthStore, resetWorkerHealthStoreForTest, type WorkerHealthView } from './workerHealthStore.js';
+export { captureQueueStore, CAPTURE_JOB_LEASE_MS } from './captureQueueStore.js';
+export {
+  createCaptureWorkerTestJob,
+  getLatestCaptureWorkerTestJob,
+  executeCaptureWorkerTestJob,
+} from './captureWorkerTestJob.js';
+export { probePlaywrightReadiness } from './playwrightReadiness.js';
+export { appendCaptureWorkerEvent, type CaptureWorkerEvent } from './captureWorkerEvents.js';
 
 export {
   getCaptureWorkerHealth,
