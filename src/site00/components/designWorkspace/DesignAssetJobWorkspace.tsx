@@ -43,6 +43,10 @@ export type DesignAssetJobWorkspaceProps = {
   route: string;
   referenceUrl: string | null;
   sourcePage?: string | null;
+  /** P0.VR.8R3R5R1 — wizard mode: only render this step */
+  wizardStep?: string;
+  onWizardStepChange?: (step: string) => void;
+  onRefresh?: () => void;
 };
 
 export function DesignAssetJobWorkspace({
@@ -51,6 +55,8 @@ export function DesignAssetJobWorkspace({
   route,
   referenceUrl,
   sourcePage,
+  wizardStep,
+  onWizardStepChange,
 }: DesignAssetJobWorkspaceProps) {
   const [job, setJob] = useState<AssetJob | null>(null);
   const [plan, setPlan] = useState<AssetJobPlanSummary | null>(null);
@@ -61,7 +67,19 @@ export function DesignAssetJobWorkspace({
   const [busy, setBusy] = useState(false);
   const [blocker, setBlocker] = useState<string | null>(null);
   const [uploadPreview, setUploadPreview] = useState<string | null>(null);
-  const [viewStep, setViewStep] = useState<string>('UPLOAD');
+  const [viewStep, setViewStep] = useState<string>(wizardStep ?? 'UPLOAD');
+
+  useEffect(() => {
+    if (wizardStep) setViewStep(wizardStep);
+  }, [wizardStep]);
+
+  const setStep = useCallback(
+    (step: string) => {
+      setViewStep(step);
+      onWizardStepChange?.(step);
+    },
+    [onWizardStepChange],
+  );
   const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(null);
   const [activeQuickPreset, setActiveQuickPreset] = useState<string>('ISOLATE ICON');
   const [selectedProvider, setSelectedProvider] = useState('GPT IMAGE 2 EDIT (PRIMARY)');
@@ -95,8 +113,8 @@ export function DesignAssetJobWorkspace({
   );
 
   useEffect(() => {
-    setViewStep(currentStep);
-  }, [currentStep]);
+    if (!wizardStep) setViewStep(currentStep);
+  }, [currentStep, wizardStep]);
 
   const viewStepIndex = useMemo(
     () => JOB_WORKFLOW_STEPS.indexOf(viewStep as (typeof JOB_WORKFLOW_STEPS)[number]),
@@ -969,34 +987,38 @@ export function DesignAssetJobWorkspace({
     }
   };
 
+  const wizardMode = Boolean(wizardStep);
+
   return (
-    <section className="site00-dw-v3-pipeline" data-design-tab="assets">
-      <nav className="site00-dw-v3-stepper" aria-label="Asset pipeline steps">
-        {JOB_WORKFLOW_STEPS.map((step, i) => {
-          const complete = i < stepIndex;
-          const current = viewStep === step;
-          const reachable = i <= stepIndex;
-          return (
-            <button
-              key={step}
-              type="button"
-              className={`site00-dw-v3-stepper__step${complete ? ' is-complete' : ''}${current ? ' is-current' : ''}`}
-              disabled={!reachable}
-              onClick={() => reachable && setViewStep(step)}
-              aria-current={current ? 'step' : undefined}
-            >
-              <span className="site00-dw-v3-stepper__dot">{complete ? '✓' : String(i + 1).padStart(2, '0')}</span>
-              <span className="site00-dw-v3-stepper__label">{ASSET_PIPELINE_STEP_LABELS[step]?.split(' ').slice(1).join(' ') ?? step}</span>
-            </button>
-          );
-        })}
-      </nav>
+    <section className={`site00-dw-v3-pipeline${wizardMode ? ' site00-dw-v3-pipeline--wizard' : ''}`} data-design-tab="assets">
+      {!wizardMode ? (
+        <nav className="site00-dw-v3-stepper" aria-label="Asset pipeline steps">
+          {JOB_WORKFLOW_STEPS.map((step, i) => {
+            const complete = i < stepIndex;
+            const current = viewStep === step;
+            const reachable = i <= stepIndex;
+            return (
+              <button
+                key={step}
+                type="button"
+                className={`site00-dw-v3-stepper__step${complete ? ' is-complete' : ''}${current ? ' is-current' : ''}`}
+                disabled={!reachable}
+                onClick={() => reachable && setStep(step)}
+                aria-current={current ? 'step' : undefined}
+              >
+                <span className="site00-dw-v3-stepper__dot">{complete ? '✓' : String(i + 1).padStart(2, '0')}</span>
+                <span className="site00-dw-v3-stepper__label">{ASSET_PIPELINE_STEP_LABELS[step]?.split(' ').slice(1).join(' ') ?? step}</span>
+              </button>
+            );
+          })}
+        </nav>
+      ) : null}
 
       {blocker ? <p className="site00-dw-v3-blocker">{blocker.toUpperCase()}</p> : null}
 
       <div className="site00-dw-v3-stage-shell">{renderActiveStage()}</div>
 
-      {(plan || job) && viewStepIndex >= stepIndex ? (
+      {!wizardMode && (plan || job) && viewStepIndex >= stepIndex ? (
         <details className="site00-dw-v3-inspector">
           <summary>JOB DETAILS</summary>
           <dl className="site00-dw-job-plan">

@@ -15,6 +15,10 @@ export function parseDesignWorkspacePrimaryUrlState(search: string): Partial<Des
     viewport: (params.get('viewport') as DesignViewportClass) ?? undefined,
     tab: tabRaw ? normalizeDesignWorkspacePrimaryTab(tabRaw) : undefined,
     assetStep: params.get('assetStep') ?? undefined,
+    pagesStep: params.get('pagesStep') ?? undefined,
+    skinsStep: params.get('skinsStep') ?? undefined,
+    moreCategory: params.get('moreCategory') ?? undefined,
+    pageId: params.get('pageId') ?? undefined,
   };
 }
 
@@ -25,6 +29,10 @@ export function buildDesignWorkspacePrimaryUrlState(state: DesignWorkspacePrimar
   params.set('viewport', state.viewport);
   params.set('tab', state.tab.toLowerCase());
   if (state.assetStep) params.set('assetStep', state.assetStep);
+  if (state.pagesStep) params.set('pagesStep', state.pagesStep);
+  if (state.skinsStep) params.set('skinsStep', state.skinsStep);
+  if (state.moreCategory) params.set('moreCategory', state.moreCategory);
+  if (state.pageId) params.set('pageId', state.pageId);
   return `?${params.toString()}`;
 }
 

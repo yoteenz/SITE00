@@ -211,7 +211,7 @@ describe('P0.VR.8R3R2 — Contract receipt + page state + route resolution', () 
   });
 
   it('15. UI compact error panel', () => {
-    expect(read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx')).toContain('VIEW DETAILS');
+    expect(read('src/site00/components/designWorkspace/wizard/DesignTaskWizardShell.tsx')).toContain('VIEW DETAILS');
     expect(read('shared/site00-studio-world-production/visualReconstruction/p0vr8r3/projectCaptureRunContract.ts')).toContain(
       'RUN_CONTRACT_INVALID',
     );

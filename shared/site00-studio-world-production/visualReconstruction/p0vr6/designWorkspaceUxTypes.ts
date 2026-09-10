@@ -79,6 +79,14 @@ export type DesignWorkspacePrimaryUrlState = {
   tab: DesignWorkspacePrimaryTab;
   /** Optional assets pipeline step deep-link */
   assetStep?: string;
+  /** P0.VR.8R3R5R1 — pages wizard step */
+  pagesStep?: string;
+  /** P0.VR.8R3R5R1 — skins wizard step */
+  skinsStep?: string;
+  /** P0.VR.8R3R5R1 — more category screen */
+  moreCategory?: string;
+  /** P0.VR.8R3R5R1 — page detail within pages wizard */
+  pageId?: string;
 };
 
 export const REFERENCE_FILTER_CHIPS = ['ALL', 'CANONICAL', 'RECENT', 'MOBILE', 'DESKTOP'] as const;

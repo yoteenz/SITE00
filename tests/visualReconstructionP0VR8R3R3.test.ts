@@ -119,13 +119,11 @@ describe('P0.VR.8R3R3 — Capture transport recovery', () => {
   });
 
   it('18. retry connection UX', () => {
-    const panel = read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx');
-    const founder = read('src/site00/components/designWorkspace/founderCapture/FounderCaptureExperience.tsx');
+    const panel = read('src/site00/components/designWorkspace/DesignPagesWizard.tsx');
     expect(
-      panel.includes('FounderCaptureExperience') ||
-        founder.includes('CHECK AGAIN') ||
-        panel.includes('RETRY CONNECTION') ||
-        panel.includes('RETRY HEALTH CHECK'),
+      panel.includes('CHECK CONNECTION') ||
+        panel.includes('CHECK AGAIN') ||
+        panel.includes('onRetryTransport'),
     ).toBe(true);
     expect(read('src/site00/components/designWorkspace/DesignCaptureOrchestrationInspector.tsx')).toContain('TRANSPORT');
   });

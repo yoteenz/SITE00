@@ -229,8 +229,8 @@ describe('P0.VR.8R3R1 — Capture run contract recovery', () => {
     expect(validateProjectCaptureRunContract(ok).valid).toBe(true);
   });
 
-  it('20. UI NaN guards in DesignPagesTabPanel', () => {
-    expect(read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx')).toContain('FounderCaptureExperience');
+  it('20. UI NaN guards in DesignPagesWizard', () => {
+    expect(read('src/site00/components/designWorkspace/DesignPagesWizard.tsx')).toContain('progressTotal > 0');
     expect(read('src/site00/components/designWorkspace/usePageMirror.ts')).toContain('normalizeProjectCaptureRunResponse');
   });
 

@@ -57,6 +57,7 @@ import {
 import {
   buildDesignWorkspacePrimaryUrlState,
   normalizeDesignWorkspacePrimaryTab,
+  parseDesignWorkspacePrimaryUrlState,
   type DesignWorkspacePrimaryTab,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6/index.js';
 import {
@@ -70,11 +71,6 @@ import {
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/client.js';
 import { Site00DesignWorkspaceShell } from '../designWorkspace/Site00DesignWorkspaceShell';
 import { DesignCompareSection } from '../designWorkspace/DesignCompareSection';
-import { DesignComposerReviewQueue } from '../designWorkspace/DesignComposerReviewQueue';
-import { DesignCaptureOrchestrationInspector } from '../designWorkspace/DesignCaptureOrchestrationInspector';
-import { DesignRouteAuditRecoveryInspector } from '../designWorkspace/DesignRouteAuditRecoveryInspector';
-import { DesignRepoChangePanel } from '../designWorkspace/DesignRepoChangePanel';
-import { DesignMissingTargetQueue } from '../designWorkspace/DesignMissingTargetQueue';
 import { useImplementationSnapshots } from '../designWorkspace/useImplementationSnapshots';
 import {
   buildProjectPageMirrorRows,
@@ -87,12 +83,16 @@ import { DesignWorkspaceDisclosurePanel } from '../designWorkspace/DesignWorkspa
 import { DesignWorkspacePrimaryTabRail } from '../designWorkspace/DesignWorkspacePrimaryTabRail';
 import { DesignWorkspaceViewportRail } from '../designWorkspace/DesignWorkspaceViewportRail';
 import { DesignReferencesTab } from '../designWorkspace/DesignReferencesTab';
-import { DesignPagesTabPanel } from '../designWorkspace/DesignPagesTabPanel';
-import { DesignSkinsTab } from '../designWorkspace/DesignSkinsTab';
+import { DesignPagesWizard } from '../designWorkspace/DesignPagesWizard';
+import { DesignAssetsWizard } from '../designWorkspace/DesignAssetsWizard';
+import { DesignSkinsWizard } from '../designWorkspace/DesignSkinsWizard';
 import { DesignHistoryTab } from '../designWorkspace/DesignHistoryTab';
 import { DesignMoreTab } from '../designWorkspace/DesignMoreTab';
 import { DesignWorkspaceOverflowMenu } from '../designWorkspace/DesignWorkspaceOverflowMenu';
-import { DesignReferenceAssetsPanel } from '../designWorkspace/DesignReferenceAssetsPanel';
+import type { PagesWizardStep } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3r1/designWizardSteps.js';
+import type { AssetsWizardStep } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3r1/designWizardSteps.js';
+import type { SkinsWizardStep } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3r1/designWizardSteps.js';
+import type { MoreCategory } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3r1/designWizardSteps.js';
 import { useDesignReconstructionWorkflow } from '../designWorkspace/useDesignReconstructionWorkflow.js';
 import { usePageCompletion } from '../designWorkspace/usePageCompletion.js';
 import {
@@ -114,6 +114,7 @@ import {
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr4/client.js';
 import '../../styles/site00-design-workspace-p0vr2b.css';
 import '../../styles/site00-design-workspace-v3.css';
+import '../../styles/site00-design-wizard.css';
 
 export type StudioWorldDesignWorkspaceProps = {
   initialProjectId?: string;
@@ -144,7 +145,10 @@ export function StudioWorldDesignWorkspace({
   const designProjects = useMemo(() => listDesignWorkspaceProjects(), []);
   const selectableProjects = useMemo(() => listSelectableDesignProjects({ viewMode: 'FOUNDER' }), []);
   const [searchParams, setSearchParams] = useSearchParams();
-  const urlState = parseDesignWorkspaceUrlState(searchParams.toString());
+  const urlState = {
+    ...parseDesignWorkspaceUrlState(searchParams.toString()),
+    ...parseDesignWorkspacePrimaryUrlState(searchParams.toString()),
+  };
   const activeDesignProjectId = useMemo(
     () => resolveActiveDesignProjectId(urlState.project, initialProjectId),
     [urlState.project, initialProjectId],
@@ -159,9 +163,8 @@ export function StudioWorldDesignWorkspace({
   const [primaryTab, setPrimaryTab] = useState<DesignWorkspacePrimaryTab>(
     normalizeDesignWorkspacePrimaryTab(urlState.tab ?? 'ASSETS'),
   );
-  const [showInspector, setShowInspector] = useState(false);
   const [customRoute] = useState('');
-  const [scopeOverride, setScopeOverride] = useState<string>('');
+  const [, setScopeOverride] = useState<string>('');
   const [uploadPreview, setUploadPreview] = useState<string | null>(null);
   const [lastRunId, setLastRunId] = useState<string | null>(null);
   const [assetSlots, setAssetSlots] = useState<ReferenceVisualAssetSlot[]>([]);
@@ -180,16 +183,33 @@ export function StudioWorldDesignWorkspace({
   } = useImplementationSnapshots(projectId);
 
   const syncUrl = useCallback(
-    (patch: Partial<{ project: string; screen: string; viewport: DesignViewportClass; tab: DesignWorkspacePrimaryTab }>) => {
+    (
+      patch: Partial<{
+        project: string;
+        screen: string;
+        viewport: DesignViewportClass;
+        tab: DesignWorkspacePrimaryTab;
+        pagesStep?: string;
+        assetStep?: string;
+        skinsStep?: string;
+        moreCategory?: string;
+        pageId?: string;
+      }>,
+    ) => {
       const next = {
         project: patch.project ?? activeDesignProjectId,
         screen: patch.screen ?? screenId,
         viewport: patch.viewport ?? viewportClass,
         tab: patch.tab ?? primaryTab,
+        assetStep: patch.assetStep ?? urlState.assetStep,
+        pagesStep: patch.pagesStep ?? urlState.pagesStep,
+        skinsStep: patch.skinsStep ?? urlState.skinsStep,
+        moreCategory: patch.moreCategory ?? urlState.moreCategory,
+        pageId: patch.pageId ?? urlState.pageId,
       };
       setSearchParams(buildDesignWorkspacePrimaryUrlState(next).slice(1), { replace: true });
     },
-    [activeDesignProjectId, screenId, primaryTab, viewportClass, setSearchParams],
+    [activeDesignProjectId, screenId, primaryTab, viewportClass, setSearchParams, urlState.assetStep, urlState.pagesStep, urlState.skinsStep, urlState.moreCategory, urlState.pageId],
   );
 
   useEffect(() => {
@@ -297,7 +317,6 @@ export function StudioWorldDesignWorkspace({
       setLastRunId(null);
       setAssetSlots([]);
       setSelectedPromptSlotId(null);
-      setShowInspector(false);
       bootstrapManagedDesignProject(resolved);
       void designProjectContext.switchProject(resolved).then(() => {
         const nextScreens =
@@ -323,8 +342,7 @@ export function StudioWorldDesignWorkspace({
 
   const handleViewCaptureRun = useCallback(() => {
     setPrimaryTab('MORE');
-    setShowInspector(true);
-    syncUrl({ tab: 'MORE' });
+    syncUrl({ tab: 'MORE', moreCategory: 'capture' });
   }, [syncUrl]);
 
   useEffect(() => {
@@ -504,8 +522,7 @@ export function StudioWorldDesignWorkspace({
           break;
         case 'open_inspect_tab':
           setPrimaryTab('MORE');
-          setShowInspector(true);
-          syncUrl({ tab: 'MORE' });
+          syncUrl({ tab: 'MORE', moreCategory: 'system' });
           break;
         default:
           break;
@@ -610,8 +627,7 @@ export function StudioWorldDesignWorkspace({
   const handleInspectPrompt = (slotId: string) => {
     setSelectedPromptSlotId(slotId);
     setPrimaryTab('MORE');
-    setShowInspector(true);
-    syncUrl({ tab: 'MORE' });
+    syncUrl({ tab: 'MORE', moreCategory: 'system' });
   };
 
   const selectedPrompt =
@@ -719,8 +735,7 @@ export function StudioWorldDesignWorkspace({
                 visualMatch={visualMatch}
                 onViewDetails={() => {
                   setPrimaryTab('MORE');
-                  setShowInspector(true);
-                  syncUrl({ tab: 'MORE' });
+                  syncUrl({ tab: 'MORE', moreCategory: 'system' });
                 }}
               />
               <DesignVisualMatchPanel
@@ -728,7 +743,7 @@ export function StudioWorldDesignWorkspace({
                 compact
                 onViewDetails={() => {
                   setPrimaryTab('MORE');
-                  setShowInspector(true);
+                  syncUrl({ tab: 'MORE', moreCategory: 'system' });
                 }}
               />
             </details>
@@ -736,7 +751,7 @@ export function StudioWorldDesignWorkspace({
         ) : null}
 
         {primaryTab === 'ASSETS' ? (
-          <DesignReferenceAssetsPanel
+          <DesignAssetsWizard
             key={`assets-${activeDesignProjectId}`}
             projectId={activeDesignProjectId}
             pageId={screenId}
@@ -744,11 +759,13 @@ export function StudioWorldDesignWorkspace({
             referenceUrl={referenceUrl ?? null}
             screenshotSource={reconstructionScreenshotSource}
             onRefresh={() => setRefAssetsSeed((n) => n + 1)}
+            assetStep={urlState.assetStep}
+            onAssetStepChange={(step: AssetsWizardStep) => syncUrl({ assetStep: step })}
           />
         ) : null}
 
         {primaryTab === 'PAGES' && designProjectContext.isReady ? (
-          <DesignPagesTabPanel
+          <DesignPagesWizard
             key={`pages-${activeDesignProjectId}`}
             rows={designProjectContext.filterForActiveProject(
               pageIndexRows.map((row) => ({ ...row, projectId: activeDesignProjectId })),
@@ -760,7 +777,7 @@ export function StudioWorldDesignWorkspace({
             contextLoading={designProjectContext.isLoading}
             onSelectScreen={(id) => {
               setScreenId(id);
-              syncUrl({ screen: id });
+              syncUrl({ screen: id, pageId: id });
             }}
             onOpenPage={(id) => {
               const row = pageIndexRows.find((r) => r.screenId === id);
@@ -775,15 +792,22 @@ export function StudioWorldDesignWorkspace({
             onRetryTransport={() => void retryTransportCheck()}
             onTestWorker={() => void testWorker()}
             pageCompletionJob={pageCompletionJob}
+            pagesStep={urlState.pagesStep}
+            pageId={urlState.pageId}
+            onPagesStepChange={(step: PagesWizardStep, pageId?: string) => {
+              syncUrl({ pagesStep: step, ...(pageId ? { pageId, screen: pageId } : {}) });
+            }}
           />
         ) : null}
 
         {primaryTab === 'SKINS' ? (
-          <DesignSkinsTab
+          <DesignSkinsWizard
             key={`skins-${activeDesignProjectId}`}
             projectId={activeDesignProjectId}
             onOpenScreen={() => window.open(livePreviewUrl, '_blank', 'noopener,noreferrer')}
             onMatchReference={handleMatchReference}
+            skinsStep={urlState.skinsStep}
+            onSkinsStepChange={(step: SkinsWizardStep) => syncUrl({ skinsStep: step })}
           />
         ) : null}
 
@@ -792,45 +816,30 @@ export function StudioWorldDesignWorkspace({
         ) : null}
 
         {primaryTab === 'MORE' ? (
-          <>
-            <DesignMoreTab
-              key={`more-${activeDesignProjectId}`}
-              projectId={activeDesignProjectId}
-              onOpenInspect={() => setShowInspector(true)}
-              onCaptureScreen={() => void captureScreen(screenId, viewportClass)}
-              onMatchReference={handleMatchReference}
-            />
-            {showInspector ? (
-              <section className="site00-dw-panel site00-dw-panel--inspect">
-                <h2>INSPECT</h2>
-                <dl className="site00-dw-inspect">
-                  <div><dt>ROUTE</dt><dd>{route.toUpperCase()}</dd></div>
-                  <div><dt>REFERENCE PATH</dt><dd>{reference?.storagePath ?? '—'}</dd></div>
-                  <div><dt>SCOPE</dt><dd>{(reference?.scope ?? scopeOverride ?? 'PENDING').toUpperCase()}</dd></div>
-                  <div><dt>RUN</dt><dd>{lastRunId ?? '—'}</dd></div>
-                  <div><dt>ASSET SLOTS</dt><dd>{assetSlots.length}</dd></div>
-                  <div><dt>STATUS</dt><dd>{statusLabel}</dd></div>
-                  {reference?.status === 'ACTIVE_CANONICAL' ? (
-                    <>
-                      <div><dt>AUTHORITY MODE</dt><dd>DESIGN_AUTHORITY</dd></div>
-                      <div><dt>FIDELITY MODE</dt><dd>EXACT</dd></div>
-                      <div><dt>PRESERVE FUNCTION</dt><dd>YES</dd></div>
-                      <div><dt>REBUILD LOOK</dt><dd>YES</dd></div>
-                      <div><dt>PROTECT CURRENT VISUALS</dt><dd>NO</dd></div>
-                      <div><dt>SCREENSHOT QA</dt><dd>REQUIRED</dd></div>
-                      <div><dt>FIDELITY SCORE</dt><dd>NOT SCORED</dd></div>
-                    </>
-                  ) : null}
-                </dl>
-                {selectedPrompt ? <pre className="site00-dw-inspect__prompt">{selectedPrompt.promptText}</pre> : null}
-                <DesignComposerReviewQueue />
-                <DesignCaptureOrchestrationInspector projectId={activeDesignProjectId} />
-                <DesignRouteAuditRecoveryInspector projectId={activeDesignProjectId} />
-                <DesignRepoChangePanel projectKey={projectId} routeKey={route} pageKey={screenId} />
-                <DesignMissingTargetQueue />
-              </section>
-            ) : null}
-          </>
+          <DesignMoreTab
+            key={`more-${activeDesignProjectId}`}
+            projectId={activeDesignProjectId}
+            onOpenInspect={() => syncUrl({ tab: 'MORE', moreCategory: 'system' })}
+            onCaptureScreen={() => void captureScreen(screenId, viewportClass)}
+            onMatchReference={handleMatchReference}
+            moreCategory={urlState.moreCategory}
+            onMoreCategoryChange={(category: MoreCategory) => syncUrl({ moreCategory: category })}
+          />
+        ) : null}
+
+        {captureRefresh?.refreshing || captureRefresh?.run?.status === 'CAPTURING' ? (
+          <button
+            type="button"
+            className="site00-dw-wizard-capture-pill"
+            onClick={() => {
+              setPrimaryTab('PAGES');
+              syncUrl({ tab: 'PAGES', pagesStep: 'capture-running' });
+            }}
+          >
+            {designProjectContext.context.projectName.toUpperCase()} CAPTURE{' '}
+            {(captureRefresh.run?.completedCount ?? 0) + (captureRefresh.run?.failedCount ?? 0)} /{' '}
+            {captureRefresh.run?.totalTargets ?? '—'}
+          </button>
         ) : null}
 
         {primaryTab === 'REFERENCES' && assetSlots.length > 0 ? (
@@ -849,7 +858,9 @@ export function StudioWorldDesignWorkspace({
           </details>
         ) : null}
 
-        <DesignWorkspaceDisclosurePanel activity={activity} quickActions={quickActions} />
+        {primaryTab === 'REFERENCES' || primaryTab === 'HISTORY' ? (
+          <DesignWorkspaceDisclosurePanel activity={activity} quickActions={quickActions} />
+        ) : null}
       </div>
     </Site00DesignWorkspaceShell>
 

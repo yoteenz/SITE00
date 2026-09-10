@@ -217,7 +217,8 @@ describe('P0.VR.8R3R4 — Worker boot + shared health', () => {
 
   it('28. UI TEST WORKER button', () => {
     const ux = read('src/site00/components/designWorkspace/founderCapture/FounderCaptureExperience.tsx');
-    expect(ux.includes('TEST WORKER') || read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx').includes('FounderCaptureExperience')).toBe(true);
+    const wizard = read('src/site00/components/designWorkspace/DesignPagesWizard.tsx');
+    expect(ux.includes('TEST WORKER') || wizard.includes('onTestWorker') || wizard.includes("'test-worker'")).toBe(true);
   });
 
   it('29. refresh gated until test job', () => {
