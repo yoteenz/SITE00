@@ -29,7 +29,11 @@ export function emitPageSyncEvent(event: Omit<PageSyncEvent, 'eventId' | 'occurr
 
 export function handlePageSyncEvent(
   event: Omit<PageSyncEvent, 'eventId' | 'occurredAt'>,
-  options?: { awaitDeploy?: boolean; screenSetMode?: 'PRIMARY' | 'ALL_DESIGNABLE' },
+  options?: {
+    awaitDeploy?: boolean;
+    screenSetMode?: 'PRIMARY' | 'ALL_DESIGNABLE';
+    skipRouteReconciliation?: boolean;
+  },
 ): {
   event: PageSyncEvent;
   reconciliation: ReturnType<typeof reconcileProjectPageRegistry>;
@@ -37,9 +41,11 @@ export function handlePageSyncEvent(
   affectedPageIds: string[];
 } {
   const recorded = emitPageSyncEvent(event);
-  const reconciliation = reconcileProjectPageRegistry(event.projectId, {
-    screenSetMode: options?.screenSetMode,
-  });
+  const reconciliation = options?.skipRouteReconciliation
+    ? { added: [], removed: [], changed: [], renames: [], all: listProjectPageRecords(event.projectId, false) }
+    : reconcileProjectPageRegistry(event.projectId, {
+        screenSetMode: options?.screenSetMode,
+      });
 
   let affectedPageIds: string[] = [];
   const pages = listProjectPageRecords(event.projectId, false);

@@ -1,15 +1,17 @@
 /**
- * P0.VR.8 — Pages tab live page mirror (project-scoped routes + snapshots).
+ * P0.VR.8 / P0.VR.8R3 — Pages tab live page mirror (project-scoped routes + captures).
  */
 
 import { useMemo, useState } from 'react';
 import { PAGE_MIRROR_FILTERS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
 import type { PageMirrorFilter } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
+import type { ProjectCaptureRun } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/browserClient.js';
 import type { PageVisualVerificationStatus } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6r2/browserClient.js';
 import type { PageVisualIndexRow } from './DesignPagesVisualIndex';
 import { DesignDwSectionIcon } from './DesignDwSectionIcon';
 import { DesignPageCompletionPanel } from './DesignPageCompletionPanel.js';
 import type { PageExperienceImplementationJob } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
+import type { ProjectCaptureRefreshState } from './usePageMirror';
 
 type ProjectPageRegistrySyncState = 'NEVER_SYNCED' | 'SYNC_REQUIRED' | 'SYNCED' | 'RECOVERING';
 
@@ -21,12 +23,14 @@ type Props = {
   onRefreshPage?: (screenId: string) => void;
   onRefreshProject?: () => void;
   onSyncProject?: () => void;
+  onViewCaptureRun?: () => void;
   visualStatusByScreenId?: Record<string, PageVisualVerificationStatus>;
   mirrorLoading?: boolean;
   pageCompletionJob?: PageExperienceImplementationJob | null;
   projectSyncState?: ProjectPageRegistrySyncState;
   projectName?: string;
   contextLoading?: boolean;
+  captureRefresh?: ProjectCaptureRefreshState;
 };
 
 function formatRouteLabel(row: PageVisualIndexRow): string {
@@ -36,14 +40,16 @@ function formatRouteLabel(row: PageVisualIndexRow): string {
 }
 
 function rowMirrorStatus(row: PageVisualIndexRow): PageMirrorFilter | 'ALL' {
-  if (row.captureStatus === 'CAPTURE_FAILED' || row.mobile?.status === 'FAILED') return 'CAPTURE FAILED';
-  if (row.captureStatus === 'CAPTURING') return 'STALE';
-  if (row.isStale) return 'STALE';
-  if (row.visualMatchStatus === 'DRIFT') return 'DRIFT';
-  if (row.visualMatchStatus === 'VERIFIED' || row.visualMatchStatus === 'HIGH_MATCH') return 'VERIFIED';
+  const status = (row.pageCaptureStatus ?? row.captureStatus ?? '').toUpperCase();
+  if (status === 'FAILED' || status === 'CAPTURE_FAILED') return 'FAILED';
+  if (status === 'NEVER_CAPTURED' || row.neverCaptured) return 'NEVER CAPTURED';
+  if (status === 'QUEUED' || status === 'CAPTURE_PENDING') return 'QUEUED';
+  if (status === 'CAPTURING') return 'CAPTURING';
+  if (status === 'STALE' || row.isStale) return 'STALE';
+  if (status === 'CURRENT') return 'CURRENT';
+  if (row.missingImplementation) return 'MISSING REF';
   if (row.referenceUrl) return 'REFERENCE READY';
-  if (row.missingImplementation || !row.referenceUrl) return 'MISSING REF';
-  if (row.mobile?.status === 'CURRENT' && !row.isStale) return 'CURRENT';
+  if (status === 'UNSUPPORTED' || status === 'BLOCKED') return 'BLOCKED';
   return 'ALL';
 }
 
@@ -61,6 +67,21 @@ function formatTimestamp(iso: string | null | undefined): string {
   }
 }
 
+function liveThumbLabel(row: PageVisualIndexRow): string {
+  const status = rowMirrorStatus(row);
+  if (status === 'NEVER CAPTURED') return 'NEVER CAPTURED';
+  if (status === 'QUEUED') return 'CAPTURE QUEUED';
+  if (status === 'CAPTURING') return 'CAPTURING…';
+  if (status === 'FAILED') return 'CAPTURE FAILED';
+  return 'CAPTURE REQUIRED';
+}
+
+function captureRunSummary(run: ProjectCaptureRun | null): string {
+  if (!run) return '';
+  const done = run.completedCount + run.failedCount;
+  return `${run.status} · ${done}/${run.totalPages} · Q${run.queuedCount} C${run.capturingCount} ✓${run.completedCount} ✗${run.failedCount}`;
+}
+
 export function DesignPagesTabPanel({
   rows,
   selectedScreenId,
@@ -75,6 +96,8 @@ export function DesignPagesTabPanel({
   projectName = 'PROJECT',
   contextLoading = false,
   onSyncProject,
+  onViewCaptureRun,
+  captureRefresh,
 }: Props) {
   const [filter, setFilter] = useState<PageMirrorFilter>('ALL');
   const [search, setSearch] = useState('');
@@ -89,11 +112,12 @@ export function DesignPagesTabPanel({
     });
   }, [rows, filter, search]);
 
-  const verifiedCount = rows.filter((r) => {
-    const s = rowMirrorStatus(r);
-    return s === 'VERIFIED';
-  }).length;
-  const coveragePct = rows.length ? Math.round((verifiedCount / rows.length) * 100) : 0;
+  const currentCount = statusCount(rows, 'CURRENT');
+  const neverCapturedCount = statusCount(rows, 'NEVER CAPTURED');
+  const queuedCount = statusCount(rows, 'QUEUED');
+  const capturingCount = statusCount(rows, 'CAPTURING');
+  const staleCount = statusCount(rows, 'STALE');
+  const failedCount = statusCount(rows, 'FAILED');
 
   const featured = filtered.find((r) => r.screenId === selectedScreenId) ?? filtered[0] ?? null;
   const featuredStatus = featured ? rowMirrorStatus(featured) : null;
@@ -111,6 +135,16 @@ export function DesignPagesTabPanel({
   const showUnsynced = projectSyncState === 'NEVER_SYNCED' || projectSyncState === 'SYNC_REQUIRED';
   const unsyncedLabel =
     projectSyncState === 'NEVER_SYNCED' ? 'PROJECT NOT YET SYNCED' : 'SYNC REQUIRED';
+
+  const run = captureRefresh?.run ?? null;
+  const isRefreshing = captureRefresh?.refreshing ?? false;
+  const refreshButtonLabel = isRefreshing
+    ? run
+      ? `CAPTURING ${run.capturingCount + run.completedCount} / ${run.totalPages}`
+      : 'REFRESHING PROJECT…'
+    : run && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status)
+      ? 'VIEW CAPTURE RUN'
+      : 'REFRESH PROJECT';
 
   if (contextLoading) {
     return (
@@ -164,8 +198,33 @@ export function DesignPagesTabPanel({
   }
 
   return (
-    <section className="site00-dw-v3-pages" data-design-tab="pages" data-page-mirror="p0vr8">
+    <section className="site00-dw-v3-pages" data-design-tab="pages" data-page-mirror="p0vr8r3">
       {pageCompletionJob ? <DesignPageCompletionPanel job={pageCompletionJob} compact /> : null}
+
+      <article className="site00-dw-v3-pages__capture-summary" data-capture-summary="project">
+        <strong>{rows.length} PAGES</strong>
+        <span>CURRENT {currentCount}</span>
+        <span>NEVER CAPTURED {neverCapturedCount}</span>
+        <span>QUEUED {queuedCount}</span>
+        <span>CAPTURING {capturingCount}</span>
+        <span>STALE {staleCount}</span>
+        <span>FAILED {failedCount}</span>
+      </article>
+
+      {run ? (
+        <article className="site00-dw-v3-pages__capture-run" data-capture-run={run.captureRefreshRunId}>
+          <div>
+            <strong>PROJECT CAPTURE RUN</strong>
+            <p>{captureRunSummary(run)}</p>
+          </div>
+          {onViewCaptureRun ? (
+            <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact" onClick={onViewCaptureRun}>
+              VIEW RUN
+            </button>
+          ) : null}
+        </article>
+      ) : null}
+
       <div className="site00-dw-v3-chip-row site00-dw-v3-chip-row--scroll" role="group" aria-label="Page mirror filters">
         {PAGE_MIRROR_FILTERS.map((chip) => (
           <button
@@ -196,13 +255,23 @@ export function DesignPagesTabPanel({
           <button
             type="button"
             className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
-            disabled={mirrorLoading}
-            onClick={() => onRefreshProject()}
+            disabled={mirrorLoading && !isRefreshing}
+            onClick={() => {
+              if (run && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status) && onViewCaptureRun) {
+                onViewCaptureRun();
+              } else {
+                onRefreshProject();
+              }
+            }}
           >
-            REFRESH PROJECT
+            {refreshButtonLabel}
           </button>
         ) : null}
       </div>
+
+      {captureRefresh?.duplicateBlocked ? (
+        <p className="site00-dw-v3-pages__capture-note">Active capture run in progress — showing current progress.</p>
+      ) : null}
 
       {featured ? (
         <article className="site00-dw-v3-pages__featured">
@@ -217,7 +286,7 @@ export function DesignPagesTabPanel({
             </header>
             <p>
               LAST UPDATED {formatTimestamp(featured.lastUpdatedAt)} · LAST CAPTURED {formatTimestamp(featured.lastCapturedAt)}
-              {featured.isStale && featured.staleReason ? ` · STALE: ${featured.staleReason.toUpperCase()}` : ''}
+              {featured.isStale && featured.staleReason ? ` · ${featured.staleReason.toUpperCase()}` : ''}
               · {featured.pagePurpose?.toUpperCase() ?? featured.displayName.toUpperCase()}
             </p>
             {pageCompletionJob ? (
@@ -255,7 +324,9 @@ export function DesignPagesTabPanel({
               {featured.mobile?.publicUrl ? (
                 <img src={featured.mobile.publicUrl} alt="" />
               ) : (
-                <div className="site00-dw-v3-pages__empty-thumb" />
+                <div className="site00-dw-v3-pages__empty-thumb" data-live-state={liveThumbLabel(featured)}>
+                  {liveThumbLabel(featured)}
+                </div>
               )}
             </div>
             <button type="button" className="site00-dw-v3-pages__compare-swap" aria-label="Compare live and reference">
@@ -285,7 +356,7 @@ export function DesignPagesTabPanel({
                 {row.mobile?.publicUrl ? (
                   <img src={row.mobile.publicUrl} alt="" />
                 ) : (
-                  <div className="site00-dw-v3-pages__empty-thumb" />
+                  <div className="site00-dw-v3-pages__empty-thumb">{liveThumbLabel(row)}</div>
                 )}
                 <strong>{formatRouteLabel(row)}</strong>
                 <span className={`site00-dw-v3-pages__status is-${status.replace(/\s+/g, '-').toLowerCase()}`}>{status}</span>
@@ -308,7 +379,7 @@ export function DesignPagesTabPanel({
       <footer className="site00-dw-v3-pages__footer">
         <DesignDwSectionIcon iconId="coverage" />
         <span>
-          {filtered.length} PAGES · {coveragePct}% VERIFIED · LIVE PAGE MIRROR (P0.VR.8)
+          {filtered.length} PAGES · CURRENT {currentCount} · LIVE PAGE MIRROR (P0.VR.8R3)
         </span>
       </footer>
     </section>

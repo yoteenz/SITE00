@@ -36,12 +36,14 @@ export const PAGE_MIRROR_STATUS = [
 export const PAGE_MIRROR_FILTERS = [
   'ALL',
   'CURRENT',
+  'NEVER CAPTURED',
+  'QUEUED',
+  'CAPTURING',
   'STALE',
+  'FAILED',
   'MISSING REF',
   'REFERENCE READY',
-  'DRIFT',
-  'VERIFIED',
-  'CAPTURE FAILED',
+  'BLOCKED',
 ] as const;
 
 export const PAGE_SYNC_EVENT_TYPES = [

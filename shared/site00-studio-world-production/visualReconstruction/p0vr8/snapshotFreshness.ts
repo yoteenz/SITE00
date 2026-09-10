@@ -26,10 +26,7 @@ export function computePageSnapshotFreshness(
     isStale = true;
     staleReason = 'deploy completed after last capture';
   }
-  if (!lastCaptureAt && page.isActive && page.status !== 'ROUTE_MISSING') {
-    isStale = true;
-    staleReason = 'never captured';
-  }
+  const neverCaptured = !lastCaptureAt && page.isActive && page.status !== 'ROUTE_MISSING';
 
   return {
     pageId: page.pageId,
@@ -37,8 +34,9 @@ export function computePageSnapshotFreshness(
     lastPageChangeAt,
     lastDeployAt,
     lastCaptureAt,
-    isStale,
-    staleReason,
+    isStale: neverCaptured ? false : isStale,
+    staleReason: neverCaptured ? null : staleReason,
+    neverCaptured,
   };
 }
 

@@ -15,9 +15,11 @@ export type PageVisualIndexRow = {
   desktop: { publicUrl: string | null; status: string; capturedAt?: string | null } | null;
   missingImplementation?: boolean;
   captureStatus?: string;
+  pageCaptureStatus?: string;
   lastCapturedAt?: string | null;
   lastUpdatedAt?: string | null;
   isStale?: boolean;
+  neverCaptured?: boolean;
   staleReason?: string | null;
   referenceUrl?: string | null;
   visualMatchStatus?: string;

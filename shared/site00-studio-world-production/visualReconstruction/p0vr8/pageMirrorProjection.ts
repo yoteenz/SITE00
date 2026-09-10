@@ -10,6 +10,8 @@ import { computePageSnapshotFreshness } from './snapshotFreshness.js';
 import { getCurrentPageSnapshot } from './pageSnapshotStore.js';
 import type { PageMirrorRow } from './types.js';
 import { derivePageVisualVerificationStatus } from '../p0vr6r2/pageStatus.js';
+import { derivePageCaptureStatus } from '../p0vr8r3/pageCaptureStatus.js';
+import { listCaptureQueue } from './captureQueue.js';
 
 function viewportCell(
   projectId: string,
@@ -36,9 +38,16 @@ export function buildProjectPageMirrorRows(
 ): PageMirrorRow[] {
   reconcileProjectPageRegistry(projectId, options);
   const pages = listProjectPageRecords(projectId, true);
+  const queueJobs = listCaptureQueue(projectId);
 
   return pages.map((page) => {
     const freshness = computePageSnapshotFreshness(page);
+    const queueJob = queueJobs.find(
+      (j) =>
+        j.pageId === page.pageId &&
+        (j.status === 'QUEUED' || j.status === 'CAPTURING' || j.status === 'FAILED'),
+    );
+    const pageCaptureStatus = derivePageCaptureStatus(page, queueJob);
     const ref = getActiveCanonicalReference(projectId, page.screenId, 'mobile');
     const liveSnapshot = getCurrentPageSnapshot(projectId, page.pageId, 'mobile', page.screenId);
     const referenceSnapshot = ref
@@ -82,6 +91,7 @@ export function buildProjectPageMirrorRows(
       screenId: page.screenId,
       displayName: page.pageName,
       routeFamily: page.pageType,
+      pageCaptureStatus,
     };
   });
 }
@@ -97,11 +107,13 @@ export function pageMirrorRowToVisualIndexRow(row: PageMirrorRow) {
     tablet: row.tablet,
     desktop: row.desktop,
     missingImplementation: row.missingImplementation,
-    captureStatus: row.page.status,
+    captureStatus: row.pageCaptureStatus ?? row.page.status,
     lastCapturedAt: row.page.lastCapturedAt,
     lastUpdatedAt: row.page.updatedAt,
     isStale: row.freshness.isStale,
     staleReason: row.freshness.staleReason,
+    neverCaptured: row.freshness.neverCaptured ?? false,
+    pageCaptureStatus: row.pageCaptureStatus,
     referenceUrl: row.referenceUrl,
     visualMatchStatus: row.visualMatchStatus,
     historyCount: row.historyCount,

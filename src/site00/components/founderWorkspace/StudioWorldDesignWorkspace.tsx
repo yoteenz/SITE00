@@ -71,6 +71,8 @@ import {
 import { Site00DesignWorkspaceShell } from '../designWorkspace/Site00DesignWorkspaceShell';
 import { DesignCompareSection } from '../designWorkspace/DesignCompareSection';
 import { DesignComposerReviewQueue } from '../designWorkspace/DesignComposerReviewQueue';
+import { DesignCaptureOrchestrationInspector } from '../designWorkspace/DesignCaptureOrchestrationInspector';
+import { DesignRouteAuditRecoveryInspector } from '../designWorkspace/DesignRouteAuditRecoveryInspector';
 import { DesignRepoChangePanel } from '../designWorkspace/DesignRepoChangePanel';
 import { DesignMissingTargetQueue } from '../designWorkspace/DesignMissingTargetQueue';
 import { useImplementationSnapshots } from '../designWorkspace/useImplementationSnapshots';
@@ -256,6 +258,7 @@ export function StudioWorldDesignWorkspace({
   const {
     rows: mirrorApiRows,
     loading: mirrorLoading,
+    captureRefresh,
     refreshPage: refreshMirrorPage,
     refreshProject: refreshMirrorProject,
   } = usePageMirror(projectId);
@@ -310,8 +313,17 @@ export function StudioWorldDesignWorkspace({
 
   const handleSyncProjectPages = useCallback(() => {
     syncProjectRouteManifest(activeDesignProjectId, { screenSetMode: site00ScreenSetMode });
+  }, [activeDesignProjectId, site00ScreenSetMode]);
+
+  const handleRefreshProjectCapture = useCallback(() => {
     void refreshMirrorProject();
-  }, [activeDesignProjectId, refreshMirrorProject, site00ScreenSetMode]);
+  }, [refreshMirrorProject]);
+
+  const handleViewCaptureRun = useCallback(() => {
+    setPrimaryTab('MORE');
+    setShowInspector(true);
+    syncUrl({ tab: 'MORE' });
+  }, [syncUrl]);
 
   useEffect(() => {
     if (!screenId) {
@@ -754,8 +766,10 @@ export function StudioWorldDesignWorkspace({
               window.open(`${target}?site00MobileLayout=1&designPreview=1`, '_blank', 'noopener,noreferrer');
             }}
             onRefreshPage={(id) => void refreshMirrorPage(id)}
-            onRefreshProject={handleSyncProjectPages}
+            onRefreshProject={handleRefreshProjectCapture}
             onSyncProject={handleSyncProjectPages}
+            onViewCaptureRun={handleViewCaptureRun}
+            captureRefresh={captureRefresh}
             pageCompletionJob={pageCompletionJob}
           />
         ) : null}
@@ -806,6 +820,8 @@ export function StudioWorldDesignWorkspace({
                 </dl>
                 {selectedPrompt ? <pre className="site00-dw-inspect__prompt">{selectedPrompt.promptText}</pre> : null}
                 <DesignComposerReviewQueue />
+                <DesignCaptureOrchestrationInspector projectId={activeDesignProjectId} />
+                <DesignRouteAuditRecoveryInspector projectId={activeDesignProjectId} />
                 <DesignRepoChangePanel projectKey={projectId} routeKey={route} pageKey={screenId} />
                 <DesignMissingTargetQueue />
               </section>

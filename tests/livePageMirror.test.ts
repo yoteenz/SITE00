@@ -249,6 +249,9 @@ describe('Live Page Mirror (P0.VR.8)', () => {
     const page = listProjectPageRecords('ndxbook')[0]!;
     const stale = computePageSnapshotFreshness({ ...page, lastCapturedAt: '2020-01-01T00:00:00Z' });
     expect(stale.isStale).toBe(true);
+    const never = computePageSnapshotFreshness({ ...page, lastCapturedAt: null });
+    expect(never.neverCaptured).toBe(true);
+    expect(never.isStale).toBe(false);
   });
 
   it('17. Pages tab reads active project registry', () => {

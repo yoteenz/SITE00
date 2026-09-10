@@ -12,6 +12,12 @@ import {
   reconcileProjectPageRegistry,
 } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
 import { captureImplementationSnapshot } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8/screenshotRecorder.js';
+import {
+  refreshProjectCaptureState,
+  getProjectCaptureRefreshProgress,
+  buildCaptureOrchestrationInspectorState,
+  getActiveProjectCaptureRun,
+} from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/client.js';
 import { bootstrapAllManagedDesignProjects } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/client.js';
 
 const REPO_ROOT = process.cwd();
@@ -27,6 +33,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       if (view === 'inspector') {
         return res.status(200).json(buildPageMirrorInspectorState(projectId));
       }
+      if (view === 'capture-orchestration') {
+        return res.status(200).json(buildCaptureOrchestrationInspectorState(projectId));
+      }
+      if (view === 'capture-run') {
+        const active = getActiveProjectCaptureRun(projectId);
+        const progress = getProjectCaptureRefreshProgress(projectId);
+        return res.status(200).json({ activeRun: active, progress });
+      }
       if (view === 'events') {
         return res.status(200).json({ events: listPageSyncEvents(projectId) });
       }
@@ -35,10 +49,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       const rows = buildProjectPageMirrorRows(projectId);
+      const captureRun = getProjectCaptureRefreshProgress(projectId) ?? getActiveProjectCaptureRun(projectId);
       return res.status(200).json({
         projectId,
         pages: rows,
         inspector: buildPageMirrorInspectorState(projectId),
+        captureRun,
       });
     }
 
@@ -72,15 +88,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(200).json(result);
       }
       case 'refresh_page': {
-        const result = handlePageSyncEvent(
-          {
-            type: 'MANUAL_REFRESH',
-            projectId,
-            pageId: body.pageId,
-            route: body.route ?? null,
-          },
-          { awaitDeploy: true },
-        );
         if (body.executeCapture && body.pageId && body.screenId) {
           const snapshot = await captureImplementationSnapshot({
             projectId,
@@ -90,19 +97,46 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             baseUrl: body.baseUrl,
             repoRoot: REPO_ROOT,
           });
-          return res.status(200).json({ ...result, snapshot });
+          return res.status(200).json({ snapshot, enqueued: 0, affectedPageIds: [body.pageId] });
         }
-        return res.status(200).json(result);
-      }
-      case 'refresh_project': {
         const result = handlePageSyncEvent(
           {
             type: 'MANUAL_REFRESH',
             projectId,
+            pageId: body.pageId,
+            route: body.route ?? null,
           },
-          { awaitDeploy: true },
+          { awaitDeploy: true, skipRouteReconciliation: true },
         );
         return res.status(200).json(result);
+      }
+      case 'refresh_project': {
+        const run = await refreshProjectCaptureState(projectId, {
+          viewportMode: body.viewportMode ?? 'MOBILE_ONLY',
+          skipRouteReconciliation: body.skipRouteReconciliation !== false,
+          forceNewRun: body.forceNewRun === true,
+          baseUrl: body.baseUrl,
+          repoRoot: REPO_ROOT,
+          executeWorker: body.executeWorker !== false,
+        });
+        if (body.awaitCompletion === true && run.captureRefreshRunId && !run.duplicateBlocked) {
+          const { dispatchCaptureWorker } = await import(
+            '../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/client.js'
+          );
+          await dispatchCaptureWorker({
+            projectId,
+            runId: run.captureRefreshRunId,
+            baseUrl: body.baseUrl,
+            repoRoot: REPO_ROOT,
+          });
+          const progress = getProjectCaptureRefreshProgress(projectId);
+          return res.status(200).json(progress ?? run);
+        }
+        return res.status(200).json(run);
+      }
+      case 'capture_run_progress': {
+        const progress = getProjectCaptureRefreshProgress(projectId);
+        return res.status(200).json({ progress });
       }
       default:
         return res.status(400).json({ error: `Unknown action: ${action}` });
