@@ -10,7 +10,9 @@ import { DesignPageCompletionPanel } from './DesignPageCompletionPanel.js';
 import type { PageExperienceImplementationJob } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
 import type { ProjectCaptureRefreshState } from './usePageMirror';
 import { FounderPageProgressStrip } from './founderCapture/FounderPageProgressStrip';
+import { PageFamilyWorkspace } from './pageFamily/PageFamilyWorkspace';
 import { DesignTaskWizardShell } from './wizard/DesignTaskWizardShell';
+import '../../styles/site00-design-page-family.css';
 import {
   buildCaptureFounderGuidance,
   founderPageFilterLabels,
@@ -32,6 +34,7 @@ type ProjectPageRegistrySyncState = 'NEVER_SYNCED' | 'SYNC_REQUIRED' | 'SYNCED' 
 const PAGES_CAPTURE_FLOW = ['service-check', 'test-worker', 'test-worker-ready', 'capture-setup', 'capture-running', 'capture-results'];
 
 export type DesignPagesWizardProps = {
+  projectId: string;
   rows: PageVisualIndexRow[];
   selectedScreenId: string;
   onSelectScreen: (screenId: string) => void;
@@ -143,6 +146,7 @@ function TransportDetails({
 
 export function DesignPagesWizard(props: DesignPagesWizardProps) {
   const {
+    projectId,
     rows,
     selectedScreenId,
     onSelectScreen,
@@ -271,6 +275,18 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
   const progressPct = progressTotal > 0 ? Math.round((progressDone / progressTotal) * 100) : 0;
   const notCapturedYet = neverCapturedCount === totalPages && currentCount === 0;
 
+  const pageCompletionPct = useMemo(() => {
+    if (!pageCompletionJob?.completionPlan.interactionContracts.length) return null;
+    const resolved = pageCompletionJob.completionPlan.interactionContracts.filter(
+      (c) => c.status === 'IMPLEMENTED' || c.status === 'RESOLVED',
+    ).length;
+    return Math.round((resolved / pageCompletionJob.completionPlan.interactionContracts.length) * 100);
+  }, [pageCompletionJob]);
+
+  const pageCompletionAttention = pageCompletionJob?.completionPlan.interactionContracts.filter(
+    (c) => c.status === 'AMBIGUOUS' || c.status === 'BLOCKED',
+  ).length;
+
   if (contextLoading) {
     return (
       <section className="site00-dw-v3-pages site00-dw-wizard-host" data-design-tab="pages">
@@ -311,6 +327,21 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
   const stepTotal = 4;
 
   switch (activeStep) {
+    case 'family':
+      return (
+        <PageFamilyWorkspace
+          projectId={projectId}
+          projectName={projectName}
+          rows={rows}
+          onSelectScreen={onSelectScreen}
+          onOpenPage={onOpenPage}
+          onOpenLibrary={() => goTo('library')}
+          onStartCapture={() => goTo('service-check')}
+          pageCompletionPct={pageCompletionPct}
+          pageCompletionAttention={pageCompletionAttention ?? 0}
+        />
+      );
+
     case 'landing':
       return (
         <DesignTaskWizardShell
@@ -470,7 +501,7 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
           }}
           secondaryAction={{
             label: 'RUN IN BACKGROUND',
-            onClick: () => goTo('landing'),
+            onClick: () => goTo('family'),
           }}
           onBack={() => goTo('capture-setup')}
           transitionKey="capture-running"
@@ -502,7 +533,7 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
             label: 'VIEW ALL PAGES',
             onClick: () => goTo('library'),
           }}
-          onBack={() => goTo('landing')}
+          onBack={() => goTo('family')}
           transitionKey="capture-results"
           className="site00-dw-wizard-host"
         />
@@ -512,8 +543,8 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
       return (
         <section className="site00-dw-wizard-host site00-dw-wizard-library" data-design-tab="pages">
           <header className="site00-dw-wizard-library__head">
-            <button type="button" className="site00-dw-wizard__back" onClick={() => goTo('landing')}>
-              ← BACK
+            <button type="button" className="site00-dw-wizard__back" onClick={() => goTo('family')}>
+              ← BACK TO FAMILY
             </button>
             <h2>PAGE LIBRARY</h2>
           </header>
