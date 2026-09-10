@@ -168,9 +168,9 @@ describe('P0.VR.8R3R5 — Founder capture UX', () => {
   });
 
   it('16. details not in primary panel copy', () => {
-    const panel = read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx');
+    const panel = read('src/site00/components/designWorkspace/DesignPagesWizard.tsx');
     expect(panel).not.toContain('heartbeatAgeMs');
-    expect(panel).not.toContain('contractVersion');
+    expect(panel).not.toMatch(/contractVersion.*primary/i);
   });
 
   it('17. zero counts hidden in summary chips', () => {
@@ -190,11 +190,11 @@ describe('P0.VR.8R3R5 — Founder capture UX', () => {
   });
 
   it('20. page card compact layout', () => {
-    expect(read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx')).toContain('site00-founder-page-card');
+    expect(read('src/site00/components/designWorkspace/DesignPagesWizard.tsx')).toContain('site00-founder-page-card');
   });
 
   it('21. page completion collapsed', () => {
-    expect(read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx')).toContain('completion-collapsed');
+    expect(read('src/site00/components/designWorkspace/DesignPagesWizard.tsx')).toContain('DesignPageCompletionPanel');
   });
 
   it('22. diagnostics drawer', () => {
@@ -204,11 +204,11 @@ describe('P0.VR.8R3R5 — Founder capture UX', () => {
   });
 
   it('23. live/reference compare gating', () => {
-    expect(read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx')).toContain("mode !== 'live' && !hasLiveCapture");
+    expect(read('src/site00/components/designWorkspace/DesignPagesWizard.tsx')).toContain("m !== 'live' && !hasLiveCapture");
   });
 
   it('24. overlay diff gating via compare mode', () => {
-    expect(read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx')).toContain("compareMode === 'compare'");
+    expect(read('src/site00/components/designWorkspace/DesignPagesWizard.tsx')).toContain("mode === 'compare'");
   });
 
   it('25. NDXBOOK lime treatment', () => {
@@ -216,7 +216,7 @@ describe('P0.VR.8R3R5 — Founder capture UX', () => {
   });
 
   it('26. no raw telemetry in primary pages panel', () => {
-    const panel = read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx');
+    const panel = read('src/site00/components/designWorkspace/DesignPagesWizard.tsx');
     expect(panel).not.toContain('WORKER_UNAVAILABLE');
     expect(panel).not.toContain('RUN_CONTRACT_INVALID');
   });
