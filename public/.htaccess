@@ -9,7 +9,7 @@
 
 # Always revalidate SPA shell so new deploys take effect immediately (assets stay hashed).
 <IfModule mod_headers.c>
-  <FilesMatch "^index\.html$">
+  <FilesMatch "^(index\.html|release-manifest\.json)$">
     Header set Cache-Control "no-cache, no-store, must-revalidate"
     Header set Pragma "no-cache"
   </FilesMatch>

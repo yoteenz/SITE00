@@ -1,0 +1,14 @@
+---
+# P0.DEPLOY.1 — cPanel Git deployment hook (optional future path).
+# Primary production deploy: GitHub Actions → FTP/SSH (site00-production-deploy.yml).
+# If enabling cPanel Git Version Control, this copies ONLY production build output.
+deployment:
+  tasks:
+    - export DEPLOY_ROOT=$HOME/public_html
+    - export RELEASE_DIR=$HOME/releases/site00-$CPANEL_BRANCH-$(date +%Y%m%d%H%M%S)
+    - /bin/mkdir -p $RELEASE_DIR
+    - /bin/cp -R dist/index.html dist/assets dist/release-manifest.json dist/favicon.ico $RELEASE_DIR/ 2>/dev/null || true
+    - /bin/cp -R dist/studio-world $RELEASE_DIR/ 2>/dev/null || true
+    - /bin/cp dist/.htaccess $RELEASE_DIR/ 2>/dev/null || true
+    - /bin/ln -sfn $RELEASE_DIR $DEPLOY_ROOT/current
+    - /bin/rsync -a --delete $RELEASE_DIR/ $DEPLOY_ROOT/

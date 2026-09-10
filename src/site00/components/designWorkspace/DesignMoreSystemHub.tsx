@@ -46,6 +46,14 @@ function buildToolTiles(
       tone: 'ready',
     },
     {
+      id: 'deployments',
+      icon: 'coverage',
+      title: 'DEPLOYMENTS',
+      descriptor: 'PRODUCTION RELEASE PIPELINE',
+      status: 'PIPELINE',
+      tone: 'ready',
+    },
+    {
       id: 'providers',
       icon: 'providers',
       title: 'PROVIDERS',

@@ -7607,3 +7607,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `pageFamilyWorkspaceP0PCI3R1.test.ts` (28 pass) + PCI.3/R5R1 regressions.
 - **Next founder action:** Deploy cPanel v270 → DESIGN → NDXBOOK → PAGES — verify PAGE FAMILY WORKSPACE loads even when LIVE CAPTURE NEEDS ATTENTION → confirm family / approve design without fixing capture first.
 
+---
+
+## 2026-09-10 — P0.DEPLOY.1 Unified SITE 00 Continuous Deployment Pipeline
+
+- **Context:** Founder still manually downloaded cPanel ZIP, uploaded/extracted in File Manager, and verified bundles. Sprint replaced ZIP-primary flow with unified CD: merge to `main` → test → build → Railway verify → cPanel deploy → live verify → compatibility receipt.
+- **Audit topology:** Frontend Vite `dist/` → GoDaddy `site00.com`; backend Railway NIXPACKS `npm run start:api` → `api.site00.com`; Railway auto-deploys from `main` (pipeline waits + verifies, no duplicate deploy).
+- **cPanel strategy:** GitHub Actions → FTP (existing `GODADDY_*`) or SSH/rsync when `GODADDY_SSH_DEPLOY_ENABLED`; `.cpanel.yml` documented for optional git path; ZIP only emergency (`npm run build:emergency-zip`).
+- **Release engine (`shared/site00-release-engine/`):** ReleasePipeline stages, `releaseId` (`site00-v271-<sha>`), `release-manifest.json`, compatibility gate, deployment lock, rollback policy/history, frontend ownership manifest, cpanel strategy resolution.
+- **CI:** `.github/workflows/site00-production-deploy.yml` (concurrency `site00-production`, manual promotion default via `SITE00_AUTO_PROMOTE`); legacy `deploy-godaddy.yml` push trigger removed.
+- **Health/version:** `/api/health` returns `release` block; build writes `dist/release-manifest.json`; `.htaccess` no-cache for manifest + index.html.
+- **UI:** DESIGN → MORE → DEPLOYMENTS compact overview (`DesignMoreDeploymentsPage`).
+- **Docs:** `docs/architecture/SITE00_PRODUCTION_DEPLOYMENT_P0DEPLOY1.md`. Tests: `site00ReleasePipelineP0Deploy1.test.ts` (33 pass). Build **v271** (`P0_DEPLOY_1_BUILD`).
+- **Next founder action:** Set GitHub vars `GODADDY_DEPLOY_ENABLED=true` (or SSH vars); optionally `SITE00_AUTO_PROMOTE=true`. Merge PR → Actions runs → verify backend → click **Deploy frontend** if manual mode → MORE → DEPLOYMENTS shows PRODUCTION READY. No manual ZIP for normal releases.
+

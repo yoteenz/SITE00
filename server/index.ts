@@ -10,6 +10,11 @@ import { ANTHROPIC_CREATIVE_MODEL } from '../api/_lib/site00Evolve/creativeDirec
 import { resolveCreativeIntelligenceProviderConfig } from '../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/providerConfig.js';
 import { isPlaywrightInstalled } from '../api/_lib/site00VisualReference/captureService.js';
 import { startCaptureWorker } from '../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureWorkerBoot.js';
+import {
+  P0_DEPLOY_1_BUILD,
+  CAPTURE_RUN_CONTRACT_VERSION,
+  buildReleaseId,
+} from '../shared/site00-release-engine/index.js';
 
 function applyServerEnv(): void {
   const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
@@ -75,10 +80,20 @@ app.get('/api/health', async (_req, res) => {
     process.env.SITE00_CAPTURE_BASE_URL?.trim() ||
     process.env.VITE_SITE00_CANONICAL_ORIGIN?.trim() ||
     'https://site00.com';
+  const commitSha = gitCommit ?? process.env.RAILWAY_GIT_COMMIT_SHA?.slice(0, 12) ?? 'unknown';
+  const releaseId = buildReleaseId(P0_DEPLOY_1_BUILD, commitSha);
   res.json({
     ok: true,
     service: 'site00-api',
-    gitCommit,
+    gitCommit: commitSha,
+    release: {
+      releaseId,
+      commitSha,
+      apiBuild: P0_DEPLOY_1_BUILD,
+      workerBuild: P0_DEPLOY_1_BUILD,
+      contractVersion: CAPTURE_RUN_CONTRACT_VERSION,
+      serviceReady: true,
+    },
     auth: {
       supabaseConfigured: Boolean(supabaseUrl && process.env.SUPABASE_ANON_KEY?.trim()),
       supabaseHost,

@@ -1,12 +1,12 @@
-name: Deploy SITE 00 to GoDaddy
+# DEPRECATED — superseded by site00-production-deploy.yml (P0.DEPLOY.1)
+# Kept for manual emergency ZIP artifact download only.
+name: Deploy SITE 00 to GoDaddy (legacy)
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 concurrency:
-  group: deploy-godaddy
+  group: deploy-godaddy-legacy
   cancel-in-progress: true
 
 jobs:
