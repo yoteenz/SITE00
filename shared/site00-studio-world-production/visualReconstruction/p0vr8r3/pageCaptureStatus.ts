@@ -35,7 +35,9 @@ export function derivePageCaptureStatus(
     return page.lastCapturedAt ? 'CURRENT' : 'NEVER_CAPTURED';
   }
 
-  if (page.status === 'STALE') return 'STALE';
+  if (page.status === 'STALE') {
+    return page.lastCapturedAt ? 'STALE' : 'NEVER_CAPTURED';
+  }
 
   return page.lastCapturedAt ? 'CURRENT' : 'NEVER_CAPTURED';
 }

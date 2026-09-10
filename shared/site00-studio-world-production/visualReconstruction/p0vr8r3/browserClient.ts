@@ -1,6 +1,17 @@
 /**
- * P0.VR.8R3 — Browser-safe capture orchestration exports (no worker / Playwright).
+ * P0.VR.8R3R1 — Browser-safe capture orchestration exports.
  */
+
+export {
+  CAPTURE_RUN_CONTRACT_VERSION,
+  normalizeProjectCaptureRunResponse,
+  captureRunProgressLabel,
+  type ProjectCaptureRunContract,
+} from './projectCaptureRunContract.js';
+
+export { P0_VR_8R3R1_BUILD } from './constants.js';
+export { detectBackendVersionMismatch } from './buildVersionReceipt.browser.js';
+export type { BuildVersionReceipt } from './buildVersionReceipt.js';
 
 export {
   PAGE_CAPTURE_STATUS,
@@ -12,8 +23,6 @@ export type {
   ProjectCaptureRunStatus,
   CaptureTarget,
   PageCaptureJob,
-  ProjectCaptureRun,
-  ProjectCaptureRefreshResult,
   CaptureOrchestrationInspectorState,
 } from './types.js';
 
@@ -23,15 +32,4 @@ export {
   mapCaptureStatusToMirrorFilter,
 } from './pageCaptureStatus.js';
 
-export {
-  getActiveProjectCaptureRun,
-  listProjectCaptureRuns,
-} from './projectCaptureRunStore.js';
-
-export { buildCaptureOrchestrationInspectorState } from './captureOrchestrationInspector.js';
-
-export {
-  getCaptureWorkerHealth,
-  type CaptureWorkerHealth,
-  type CaptureWorkerHealthStatus,
-} from './captureWorkerHealth.js';
+export type { ProjectCaptureRunEvent } from './captureRunEvents.js';

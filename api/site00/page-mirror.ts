@@ -10,36 +10,60 @@ import {
   listPageSyncEvents,
   listCaptureQueue,
   reconcileProjectPageRegistry,
+  pageMirrorRowToVisualIndexRow,
 } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
 import { captureImplementationSnapshot } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8/screenshotRecorder.js';
 import {
   refreshProjectCaptureState,
   getProjectCaptureRefreshProgress,
   buildCaptureOrchestrationInspectorState,
-  getActiveProjectCaptureRun,
+  bootstrapCaptureRunStore,
+  normalizeRecoveredCaptureStatuses,
 } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/client.js';
+import {
+  CAPTURE_RUN_CONTRACT_VERSION,
+  normalizeProjectCaptureRunResponse,
+} from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/projectCaptureRunContract.js';
+import { buildCaptureVersionReceipt, P0_VR_8R3R1_BUILD } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/buildVersionReceipt.js';
 import { bootstrapAllManagedDesignProjects } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/client.js';
 
 const REPO_ROOT = process.cwd();
 
+function bootstrapCaptureApi(projectId: string): void {
+  bootstrapAllManagedDesignProjects();
+  bootstrapCaptureRunStore(REPO_ROOT);
+  normalizeRecoveredCaptureStatuses(projectId);
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    bootstrapAllManagedDesignProjects();
+    const projectId = String(req.query.projectId ?? req.body?.projectId ?? 'site00');
+    bootstrapCaptureApi(projectId);
+
+    const buildReceipt = buildCaptureVersionReceipt(P0_VR_8R3R1_BUILD);
+    res.setHeader('X-Site00-Capture-Contract', CAPTURE_RUN_CONTRACT_VERSION);
+    res.setHeader('X-Site00-Api-Build', P0_VR_8R3R1_BUILD);
 
     if (req.method === 'GET') {
-      const projectId = String(req.query.projectId ?? 'site00');
       const view = req.query.view ? String(req.query.view) : null;
 
       if (view === 'inspector') {
         return res.status(200).json(buildPageMirrorInspectorState(projectId));
       }
       if (view === 'capture-orchestration') {
-        return res.status(200).json(buildCaptureOrchestrationInspectorState(projectId));
+        return res.status(200).json({
+          ...buildCaptureOrchestrationInspectorState(projectId),
+          buildReceipt,
+          contractVersion: CAPTURE_RUN_CONTRACT_VERSION,
+        });
       }
       if (view === 'capture-run') {
-        const active = getActiveProjectCaptureRun(projectId);
-        const progress = getProjectCaptureRefreshProgress(projectId);
-        return res.status(200).json({ activeRun: active, progress });
+        const progress = getProjectCaptureRefreshProgress(projectId, REPO_ROOT);
+        return res.status(200).json({
+          contractVersion: CAPTURE_RUN_CONTRACT_VERSION,
+          captureRun: progress,
+          buildReceipt,
+        });
       }
       if (view === 'events') {
         return res.status(200).json({ events: listPageSyncEvents(projectId) });
@@ -49,12 +73,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       const rows = buildProjectPageMirrorRows(projectId);
-      const captureRun = getProjectCaptureRefreshProgress(projectId) ?? getActiveProjectCaptureRun(projectId);
+      const captureRun = getProjectCaptureRefreshProgress(projectId, REPO_ROOT);
       return res.status(200).json({
+        contractVersion: CAPTURE_RUN_CONTRACT_VERSION,
         projectId,
-        pages: rows,
+        pages: rows.map(pageMirrorRowToVisualIndexRow),
         inspector: buildPageMirrorInspectorState(projectId),
         captureRun,
+        buildReceipt,
       });
     }
 
@@ -64,11 +90,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body ?? {};
     const action = body.action as string;
-    const projectId = String(body.projectId ?? 'site00');
+    const postProjectId = String(body.projectId ?? 'site00');
+    bootstrapCaptureApi(postProjectId);
 
     switch (action) {
       case 'discover_routes': {
-        const result = reconcileProjectPageRegistry(projectId, {
+        const result = reconcileProjectPageRegistry(postProjectId, {
           screenSetMode: body.screenSetMode ?? 'PRIMARY',
         });
         return res.status(200).json(result);
@@ -77,7 +104,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const result = handlePageSyncEvent(
           {
             type: body.eventType,
-            projectId,
+            projectId: postProjectId,
             pageId: body.pageId ?? null,
             route: body.route ?? null,
             deploymentId: body.deploymentId ?? null,
@@ -90,7 +117,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'refresh_page': {
         if (body.executeCapture && body.pageId && body.screenId) {
           const snapshot = await captureImplementationSnapshot({
-            projectId,
+            projectId: postProjectId,
             screenId: body.screenId,
             pageId: body.pageId,
             viewportClass: body.viewportClass ?? 'mobile',
@@ -102,7 +129,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const result = handlePageSyncEvent(
           {
             type: 'MANUAL_REFRESH',
-            projectId,
+            projectId: postProjectId,
             pageId: body.pageId,
             route: body.route ?? null,
           },
@@ -111,38 +138,49 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(200).json(result);
       }
       case 'refresh_project': {
-        const run = await refreshProjectCaptureState(projectId, {
+        if (body.contractVersion && body.contractVersion !== CAPTURE_RUN_CONTRACT_VERSION) {
+          return res.status(409).json({
+            error: 'CAPTURE_RUN_CONTRACT_MISMATCH',
+            expected: CAPTURE_RUN_CONTRACT_VERSION,
+            received: body.contractVersion,
+            captureRun: normalizeProjectCaptureRunResponse(null, { buildReceipt: buildCaptureVersionReceipt() }),
+          });
+        }
+
+        const run = await refreshProjectCaptureState(postProjectId, {
           viewportMode: body.viewportMode ?? 'MOBILE_ONLY',
-          skipRouteReconciliation: body.skipRouteReconciliation !== false,
           forceNewRun: body.forceNewRun === true,
           baseUrl: body.baseUrl,
           repoRoot: REPO_ROOT,
           executeWorker: body.executeWorker !== false,
+          awaitFirstCapture: body.awaitFirstCapture === true,
         });
-        if (body.awaitCompletion === true && run.captureRefreshRunId && !run.duplicateBlocked) {
-          const { dispatchCaptureWorker } = await import(
-            '../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/client.js'
-          );
-          await dispatchCaptureWorker({
-            projectId,
-            runId: run.captureRefreshRunId,
-            baseUrl: body.baseUrl,
-            repoRoot: REPO_ROOT,
-          });
-          const progress = getProjectCaptureRefreshProgress(projectId);
-          return res.status(200).json(progress ?? run);
-        }
-        return res.status(200).json(run);
+
+        return res.status(200).json({
+          contractVersion: CAPTURE_RUN_CONTRACT_VERSION,
+          captureRun: run,
+          buildReceipt,
+        });
       }
       case 'capture_run_progress': {
-        const progress = getProjectCaptureRefreshProgress(projectId);
-        return res.status(200).json({ progress });
+        const progress = getProjectCaptureRefreshProgress(postProjectId, REPO_ROOT);
+        return res.status(200).json({
+          contractVersion: CAPTURE_RUN_CONTRACT_VERSION,
+          captureRun: progress,
+          buildReceipt,
+        });
       }
       default:
         return res.status(400).json({ error: `Unknown action: ${action}` });
     }
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    return res.status(500).json({ error: message });
+    const code = message.includes('OFFLINE') ? 'CAPTURE_WORKER_OFFLINE' : message;
+    return res.status(500).json({
+      error: code,
+      errorCode: code,
+      retryable: code !== 'CAPTURE_WORKER_OFFLINE',
+      captureRun: normalizeProjectCaptureRunResponse(null, { buildReceipt: buildCaptureVersionReceipt() }),
+    });
   }
 }
