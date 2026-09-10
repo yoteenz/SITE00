@@ -7476,3 +7476,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `visualReconstructionP0VR8R3R2.test.ts` (17/17) + 8R3R1/8R3/livePageMirror (114 total pass); build `index.BKO5y_KK.js`, `StudioWorldDesignPage.MaYslw-R.js`.
 - **Next founder action:** Redeploy Railway + cPanel v260 → verify NDXBOOK pre-run NEVER CAPTURED 46 → REFRESH PROJECT → preflight receipt (46 inventory, 46 URLs, contract valid, 46 targets/jobs) → first overview page CURRENT + live screenshot.
 
+---
+
+## 2026-09-10 — P0.VR.8R3R3 Capture API Connectivity + Runtime Transport Proof
+
+- **Context:** P0.VR.8R3R2 fixed page-state reconciliation (NEVER CAPTURED 46 correct). REFRESH PROJECT still failed with generic `NETWORK_ERROR` on live cPanel deploy.
+- **Root cause (API_BASE_URL + ENDPOINT_PATH + CORS):** `usePageMirror` used relative `fetch('/api/site00/page-mirror')` which hits static cPanel host (no API) instead of Railway `https://api.site00.com`; page-mirror handler lacked CORS headers for cross-origin browser calls.
+- **Fix (`p0vr8r3r3`):** `captureApiFetch` + `checkCaptureTransportHealth` via existing `site00ApiUrl`/`apiFetch`; GET `view=health` lightweight endpoint; `CaptureTransportHealth` + `CaptureTransportReceipt` with decomposed error codes; CORS on page-mirror (`captureCors.ts`); transport preflight gates REFRESH PROJECT; compact CONNECTION FAILED + RETRY CONNECTION UX; transport panel in capture orchestration inspector; build v261.
+- **Tests:** `visualReconstructionP0VR8R3R3.test.ts` (20/20); build `index.UG_FY54L.js`, `StudioWorldDesignPage.0tfLbdQ0.js`.
+- **Next founder action:** Redeploy Railway + cPanel v261 → MORE → CAPTURE ORCHESTRATION → TRANSPORT verify HEALTHY → NDXBOOK PAGES → REFRESH PROJECT (no NETWORK_ERROR) → first page CURRENT.
+

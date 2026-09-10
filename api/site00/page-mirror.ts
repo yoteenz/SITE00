@@ -27,7 +27,9 @@ import {
   normalizeProjectCaptureRunResponse,
 } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/projectCaptureRunContract.js';
 import { buildCaptureVersionReceipt, P0_VR_8R3R1_BUILD } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/buildVersionReceipt.js';
+import { buildCaptureTransportHealthResponse } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureTransportHealth.js';
 import { bootstrapAllManagedDesignProjects } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/client.js';
+import { handleCaptureCorsPreflight, applyCaptureCorsHeaders } from '../_lib/site00Capture/captureCors.js';
 
 const REPO_ROOT = process.cwd();
 
@@ -38,8 +40,21 @@ function bootstrapCaptureApi(projectId: string): void {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (handleCaptureCorsPreflight(req, res)) return;
+  applyCaptureCorsHeaders(req, res);
+
   try {
     const projectId = String(req.query.projectId ?? req.body?.projectId ?? 'site00');
+
+    if (req.method === 'GET' && String(req.query.view ?? '') === 'health') {
+      const health = buildCaptureTransportHealthResponse();
+      return res.status(200).json({
+        ...health,
+        apiBuild: health.apiBuild,
+        workerBuild: health.workerBuild,
+      });
+    }
+
     bootstrapCaptureApi(projectId);
 
     const preflight = buildCaptureRunPreflight(projectId, { baseUrl: process.env.VITE_SITE00_ROOT ? 'https://site00.com' : undefined });

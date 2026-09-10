@@ -1,5 +1,5 @@
 /**
- * P0.VR.8 / P0.VR.8R3R2 — Client hook for live page mirror + capture run contract.
+ * P0.VR.8 / P0.VR.8R3R3 — Client hook for live page mirror + capture transport + run contract.
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -14,7 +14,10 @@ import {
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/browserClient.js';
 import type { ProjectCaptureStateSummary } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/projectCaptureStateSummary.js';
 import type { CaptureRunPreflight } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureRunPreflight.js';
+import type { CaptureTransportHealth } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureTransportReceipt.js';
 import type { PageVisualIndexRow } from './DesignPagesVisualIndex';
+import { captureApiFetch, PAGE_MIRROR_PATH } from '../../services/captureApiFetch';
+import { checkCaptureTransportHealth } from '../../services/checkCaptureTransportHealth';
 
 type MirrorResponse = {
   contractVersion?: string;
@@ -37,6 +40,8 @@ export type ProjectCaptureRefreshState = {
   buildReceipt: BuildVersionReceipt | null;
   captureSummary: ProjectCaptureStateSummary | null;
   preflight: CaptureRunPreflight | null;
+  transportHealth: CaptureTransportHealth | null;
+  transportChecking: boolean;
 };
 
 function parseCaptureRunPayload(
@@ -48,6 +53,12 @@ function parseCaptureRunPayload(
     buildReceipt: buildReceipt ?? undefined,
     preflight: (data.preflight as CaptureRunPreflight | undefined) ?? null,
   });
+}
+
+function mirrorPath(projectId: string, view?: string): string {
+  const params = new URLSearchParams({ projectId });
+  if (view) params.set('view', view);
+  return `${PAGE_MIRROR_PATH}?${params.toString()}`;
 }
 
 export function usePageMirror(projectId: string) {
@@ -63,6 +74,8 @@ export function usePageMirror(projectId: string) {
     buildReceipt: null,
     captureSummary: null,
     preflight: null,
+    transportHealth: null,
+    transportChecking: false,
   });
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [loading, setLoading] = useState(false);
@@ -107,15 +120,45 @@ export function usePageMirror(projectId: string) {
     });
   }, []);
 
+  const runTransportCheck = useCallback(async () => {
+    setCaptureRefresh((prev) => ({ ...prev, transportChecking: true }));
+    try {
+      const result = await checkCaptureTransportHealth(projectId);
+      setCaptureRefresh((prev) => ({
+        ...prev,
+        transportHealth: result.health,
+        transportChecking: false,
+        error:
+          result.health.status === 'HEALTHY'
+            ? prev.error && prev.errorCode?.includes('TRANSPORT') ? null : prev.error
+            : result.health.errors[0] ?? 'CAPTURE_SERVICE_NOT_READY',
+        errorCode:
+          result.health.status === 'HEALTHY'
+            ? prev.errorCode && prev.errorCode.includes('API_') ? prev.errorCode : null
+            : result.health.errors[0] ?? 'CAPTURE_SERVICE_NOT_READY',
+      }));
+      return result.health;
+    } catch {
+      setCaptureRefresh((prev) => ({ ...prev, transportChecking: false }));
+      return null;
+    }
+  }, [projectId]);
+
   const refresh = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/site00/page-mirror?projectId=${encodeURIComponent(projectId)}`);
-      if (!res.ok) return;
-      const data = (await res.json()) as MirrorResponse;
-      applyMirrorResponse(data);
-    } catch {
-      /* dev offline — fallback handled by workspace */
+      const result = await captureApiFetch<MirrorResponse>(mirrorPath(projectId));
+      if (!result.ok || !result.data) {
+        if (result.errorCode) {
+          setCaptureRefresh((prev) => ({
+            ...prev,
+            error: result.errorCode,
+            errorCode: result.errorCode,
+          }));
+        }
+        return;
+      }
+      applyMirrorResponse(result.data);
     } finally {
       setLoading(false);
     }
@@ -134,10 +177,9 @@ export function usePageMirror(projectId: string) {
       const pageId = row?.normalizedRoute
         ? `${projectId}:${row.normalizedRoute}`
         : `${projectId}:${(row?.route ?? screenId).replace(/^\//, '').toLowerCase()}`;
-      await fetch('/api/site00/page-mirror', {
+      await captureApiFetch(PAGE_MIRROR_PATH, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        body: {
           action: 'refresh_page',
           projectId,
           pageId,
@@ -146,7 +188,7 @@ export function usePageMirror(projectId: string) {
           executeCapture: true,
           viewportClass,
           baseUrl: window.location.origin,
-        }),
+        },
       });
       await refresh();
     },
@@ -154,7 +196,7 @@ export function usePageMirror(projectId: string) {
   );
 
   const refreshProject = useCallback(
-    async (options?: { forceNewRun?: boolean }) => {
+    async (options?: { forceNewRun?: boolean; skipTransportCheck?: boolean }) => {
       setCaptureRefresh((prev) => ({
         ...prev,
         refreshing: true,
@@ -162,32 +204,47 @@ export function usePageMirror(projectId: string) {
         errorCode: null,
         contractError: null,
       }));
+
+      if (!options?.skipTransportCheck) {
+        const transport = await runTransportCheck();
+        if (!transport || transport.status !== 'HEALTHY') {
+          setCaptureRefresh((prev) => ({
+            ...prev,
+            refreshing: false,
+            error: transport?.errors[0] ?? 'CAPTURE_SERVICE_NOT_READY',
+            errorCode: transport?.errors[0] ?? 'CAPTURE_SERVICE_NOT_READY',
+          }));
+          return null;
+        }
+      }
+
       try {
-        const res = await fetch('/api/site00/page-mirror', {
+        const result = await captureApiFetch<Record<string, unknown>>(PAGE_MIRROR_PATH, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+          body: {
             action: 'refresh_project',
             projectId,
             viewportMode: 'MOBILE_ONLY',
             baseUrl: window.location.origin,
             forceNewRun: options?.forceNewRun ?? true,
             contractVersion: CAPTURE_RUN_CONTRACT_VERSION,
-          }),
+          },
         });
-        const data = (await res.json()) as Record<string, unknown> & { error?: string; errorCode?: string };
-        if (!res.ok) {
+
+        const data = result.data ?? {};
+        if (!result.ok) {
           setCaptureRefresh((prev) => ({
             ...prev,
             refreshing: false,
-            error: data.error ?? 'CAPTURE_REFRESH_FAILED',
-            errorCode: data.errorCode ?? data.error ?? 'CAPTURE_REFRESH_FAILED',
+            error: result.errorCode ?? String(data.error ?? 'CAPTURE_REFRESH_FAILED'),
+            errorCode: result.errorCode ?? String(data.errorCode ?? data.error ?? 'CAPTURE_REFRESH_FAILED'),
             run: data.captureRun ? parseCaptureRunPayload(data) : prev.run,
           }));
           return null;
         }
+
         const run = parseCaptureRunPayload(data, data.buildReceipt as BuildVersionReceipt | undefined);
-        setCaptureRefresh({
+        setCaptureRefresh((prev) => ({
           run,
           refreshing: run.contractValid && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status),
           duplicateBlocked: Boolean(run.duplicateBlocked),
@@ -197,22 +254,31 @@ export function usePageMirror(projectId: string) {
           buildReceipt: (data.buildReceipt as BuildVersionReceipt) ?? null,
           captureSummary: (data.captureSummary as ProjectCaptureStateSummary) ?? null,
           preflight: (data.preflight as CaptureRunPreflight) ?? run.preflight ?? null,
-        });
+          transportHealth: prev.transportHealth,
+          transportChecking: false,
+        }));
         if (run.contractValid) startPolling();
         await refresh();
         return run;
-      } catch {
-        setCaptureRefresh((prev) => ({ ...prev, refreshing: false, error: 'NETWORK_ERROR', errorCode: 'NETWORK_ERROR' }));
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'UNKNOWN_TRANSPORT_ERROR';
+        setCaptureRefresh((prev) => ({
+          ...prev,
+          refreshing: false,
+          error: message,
+          errorCode: 'UNKNOWN_TRANSPORT_ERROR',
+        }));
         return null;
       }
     },
-    [projectId, refresh, startPolling],
+    [projectId, refresh, runTransportCheck, startPolling],
   );
 
   useEffect(() => {
+    void runTransportCheck();
     void refresh();
     return () => stopPolling();
-  }, [refresh, stopPolling]);
+  }, [refresh, runTransportCheck, stopPolling]);
 
   useEffect(() => {
     if (!captureRefresh.refreshing) stopPolling();
@@ -226,5 +292,6 @@ export function usePageMirror(projectId: string) {
     refresh,
     refreshPage,
     refreshProject,
+    retryTransportCheck: runTransportCheck,
   };
 }

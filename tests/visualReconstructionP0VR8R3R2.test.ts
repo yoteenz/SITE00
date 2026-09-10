@@ -203,7 +203,7 @@ describe('P0.VR.8R3R2 — Contract receipt + page state + route resolution', () 
   });
 
   it('13. build v260', () => {
-    expect(P0_VR_8R3R2_BUILD).toBe('v260');
+    expect(P0_VR_8R3R2_BUILD).toBe('v261');
   });
 
   it('14. API returns captureSummary', () => {

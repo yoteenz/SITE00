@@ -34,6 +34,7 @@ type Props = {
   projectName?: string;
   contextLoading?: boolean;
   captureRefresh?: ProjectCaptureRefreshState;
+  onRetryTransport?: () => void;
 };
 
 function formatRouteLabel(row: PageVisualIndexRow): string {
@@ -113,6 +114,7 @@ export function DesignPagesTabPanel({
   onSyncProject,
   onViewCaptureRun,
   captureRefresh,
+  onRetryTransport,
 }: Props) {
   const [filter, setFilter] = useState<PageMirrorFilter>('ALL');
   const [search, setSearch] = useState('');
@@ -155,17 +157,22 @@ export function DesignPagesTabPanel({
 
   const run = captureRefresh?.run ?? null;
   const isRefreshing = captureRefresh?.refreshing ?? false;
+  const transport = captureRefresh?.transportHealth ?? null;
+  const transportUnhealthy = transport && transport.status !== 'HEALTHY';
+  const transportChecking = captureRefresh?.transportChecking ?? false;
   const runInvalid = run && !run.contractValid;
   const [showIssueDetails, setShowIssueDetails] = useState(false);
   const contractReceipt = run?.contractReceipt;
   const issueCount = contractReceipt?.issueCount ?? (runInvalid ? 1 : 0);
   const progressDone = run ? run.completedCount + run.failedCount + run.skippedCount : 0;
   const progressTotal = run?.totalTargets ?? 0;
-  const refreshButtonLabel = runInvalid
-    ? 'RETRY RUN'
-    : captureRefresh?.errorCode === 'CAPTURE_WORKER_OFFLINE'
-      ? 'VIEW DIAGNOSTICS'
-      : isRefreshing
+  const refreshButtonLabel = transportUnhealthy
+    ? 'RETRY CONNECTION'
+    : runInvalid
+      ? 'RETRY RUN'
+      : captureRefresh?.errorCode === 'CAPTURE_WORKER_OFFLINE'
+        ? 'VIEW DIAGNOSTICS'
+        : isRefreshing
         ? run && run.contractValid && progressTotal > 0
           ? `CAPTURING ${progressDone} / ${progressTotal}`
           : 'REFRESHING PROJECT…'
@@ -227,6 +234,48 @@ export function DesignPagesTabPanel({
   return (
     <section className="site00-dw-v3-pages" data-design-tab="pages" data-page-mirror="p0vr8r3">
       {pageCompletionJob ? <DesignPageCompletionPanel job={pageCompletionJob} compact /> : null}
+
+      {transport ? (
+        <article className="site00-dw-v3-pages__capture-run" data-capture-transport={transport.status}>
+          <div>
+            <strong>CAPTURE SERVICE</strong>
+            <p>
+              {transport.status === 'HEALTHY' ? 'CONNECTED' : transportUnhealthy ? 'CONNECTION FAILED' : transport.status}
+            </p>
+            <p className="site00-dw-v3-pages__capture-run-detail">
+              API {transport.apiReachable ? 'CONNECTED' : 'OFFLINE'} · WORKER {transport.workerStatus} · CONTRACT{' '}
+              {transport.contractCompatible ? `${transport.contractVersion ?? '—'} ✓` : 'MISMATCH'}
+            </p>
+          </div>
+        </article>
+      ) : null}
+
+      {transportUnhealthy ? (
+        <article className="site00-dw-v3-pages__capture-run site00-dw-v3-pages__capture-run--invalid" data-capture-transport="failed">
+          <div>
+            <strong>CAPTURE SERVICE</strong>
+            <p>CONNECTION FAILED</p>
+            <p>
+              WHY · {(transport?.errors[0] ?? captureRefresh?.errorCode ?? 'CAPTURE SERVICE NOT READY').replace(/_/g, ' ')}
+            </p>
+            <div className="site00-dw-v3-pages__featured-actions">
+              <button
+                type="button"
+                className="site00-dw-v3-btn site00-dw-v3-btn--primary"
+                disabled={transportChecking}
+                onClick={() => onRetryTransport?.()}
+              >
+                RETRY CONNECTION
+              </button>
+              {onViewCaptureRun ? (
+                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onViewCaptureRun}>
+                  VIEW DETAILS
+                </button>
+              ) : null}
+            </div>
+          </div>
+        </article>
+      ) : null}
 
       <article className="site00-dw-v3-pages__capture-summary" data-capture-summary="project">
         <strong>{totalPages} PAGES</strong>
@@ -339,6 +388,10 @@ export function DesignPagesTabPanel({
             className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
             disabled={mirrorLoading && !isRefreshing}
             onClick={() => {
+              if (transportUnhealthy) {
+                onRetryTransport?.();
+                return;
+              }
               if (runInvalid) {
                 onRefreshProject?.();
                 return;
