@@ -13,7 +13,19 @@ export type { CaptureRunContractReceipt, CaptureRunContractErrorCode } from './c
 export type { ProjectCaptureStateSummary } from './projectCaptureStateSummary.js';
 export type { CaptureRunPreflight } from './captureRunPreflight.js';
 
-export { P0_VR_8R3R1_BUILD, P0_VR_8R3R3_BUILD, P0_VR_8R3R4_BUILD } from './constants.js';
+export { P0_VR_8R3R1_BUILD, P0_VR_8R3R3_BUILD, P0_VR_8R3R4_BUILD, P0_VR_8R3R5_BUILD } from './constants.js';
+export {
+  buildCaptureFounderGuidance,
+  founderPageStatusLabel,
+  founderSummaryChips,
+  founderPageFilterLabels,
+  resolveFounderCaptureWorkflowStage,
+  TEST_WORKER_PROGRESS_STEPS,
+  type CaptureFounderGuidance,
+  type FounderCaptureWorkflowStage,
+  type TestWorkerProgressStep,
+} from './captureFounderGuidance.js';
+export { FOUNDER_CAPTURE_WORKFLOW_STAGES, workflowStageToId } from './founderCaptureWorkflow.js';
 export { detectBackendVersionMismatch } from './buildVersionReceipt.browser.js';
 export type { BuildVersionReceipt } from './buildVersionReceipt.js';
 

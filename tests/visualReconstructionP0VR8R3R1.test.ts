@@ -230,8 +230,8 @@ describe('P0.VR.8R3R1 — Capture run contract recovery', () => {
   });
 
   it('20. UI NaN guards in DesignPagesTabPanel', () => {
-    expect(read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx')).toContain('SETUP FAILED');
-    expect(read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx')).toContain('captureRunProgressLabel');
+    expect(read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx')).toContain('FounderCaptureExperience');
+    expect(read('src/site00/components/designWorkspace/usePageMirror.ts')).toContain('normalizeProjectCaptureRunResponse');
   });
 
   it('21. usePageMirror normalizes contract', () => {
@@ -288,11 +288,11 @@ describe('P0.VR.8R3R1 — Capture run contract recovery', () => {
   });
 
   it('29. build passes contract module', () => {
-    expect(P0_VR_8R3R1_BUILD).toBe('v262');
+    expect(P0_VR_8R3R1_BUILD).toBe('v263');
   });
 
   it('30. frontend build receipt constant', () => {
-    expect(read('shared/site00-studio-world-production/visualReconstruction/p0vr8r3/constants.ts')).toContain('v262');
+    expect(read('shared/site00-studio-world-production/visualReconstruction/p0vr8r3/constants.ts')).toContain('v263');
   });
 
   it('31. integration contract fields on refresh', async () => {

@@ -7497,3 +7497,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `visualReconstructionP0VR8R3R4.test.ts` (31/31) + R3R1–R3R3 (99 total); build `index.BKBBKORm.js`.
 - **Next founder action:** Redeploy Railway from main (worker boots on API start) → cPanel v262 → MORE → CAPTURE ORCHESTRATION → verify WORKER HEALTHY + recent heartbeat + BROWSER READY → TEST WORKER → then NDXBOOK REFRESH PROJECT → first overview CURRENT + live screenshot.
 
+---
+
+## 2026-09-10 — P0.VR.8R3R5 Capture Orchestration Visual UX + Founder-Guided Workflow
+
+- **Context:** P0.VR.8R3R4 shipped worker boot/heartbeat/test gate; Pages tab still too diagnostic (worker IDs, heartbeats, contract strings, zero-count telemetry).
+- **Scope:** Presentation layer only — no changes to orchestrator, worker, health store, queue, contract, or page state logic.
+- **Fix (`p0vr8r3r5`):** `FounderCaptureWorkflow` (4 stages) + `CaptureFounderGuidance` maps technical state → headline/support/primary action; `FounderCaptureExperience` compact service card, 4-step test worker progress UI, summary chips (hide zero counts), diagnostics behind VIEW DETAILS; `DesignPagesTabPanel` refactor — founder page cards, live/reference compare gating, sticky capture progress, collapsed page completion; NDXBOOK lime accent; build v263.
+- **Tests:** `visualReconstructionP0VR8R3R5.test.ts` (28/28); bundle `index.D3rSTwiw.js`.
+- **Next founder action:** Deploy cPanel v263 → DESIGN → NDXBOOK → PAGES → follow guided CHECK → TEST → CAPTURE → REVIEW without opening system details.
+

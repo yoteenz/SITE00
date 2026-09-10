@@ -1,20 +1,22 @@
 /**
- * P0.VR.8 / P0.VR.8R3 — Pages tab live page mirror (project-scoped routes + captures).
+ * P0.VR.8R3R5 — Pages tab with founder-guided capture workflow.
  */
 
 import { useMemo, useState } from 'react';
-import { PAGE_MIRROR_FILTERS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
 import type { PageMirrorFilter } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
-import {
-  captureRunProgressLabel,
-  type ProjectCaptureRunContract,
-} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/browserClient.js';
 import type { PageVisualVerificationStatus } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6r2/browserClient.js';
 import type { PageVisualIndexRow } from './DesignPagesVisualIndex';
 import { DesignDwSectionIcon } from './DesignDwSectionIcon';
 import { DesignPageCompletionPanel } from './DesignPageCompletionPanel.js';
 import type { PageExperienceImplementationJob } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
 import type { ProjectCaptureRefreshState } from './usePageMirror';
+import { FounderCaptureExperience } from './founderCapture/FounderCaptureExperience';
+import { FounderPageProgressStrip } from './founderCapture/FounderPageProgressStrip';
+import {
+  founderPageFilterLabels,
+  founderPageStatusLabel,
+  mapFounderFilterToMirror,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureFounderGuidance.js';
 
 type ProjectPageRegistrySyncState = 'NEVER_SYNCED' | 'SYNC_REQUIRED' | 'SYNCED' | 'RECOVERING';
 
@@ -40,8 +42,8 @@ type Props = {
 
 function formatRouteLabel(row: PageVisualIndexRow): string {
   const route = row.route ?? row.normalizedRoute;
-  if (route) return route.toUpperCase();
-  return `/${row.screenId.replace(/_/g, '-').toUpperCase()}`;
+  if (route) return route.replace(/^\//, '').split('/').pop()?.toUpperCase() ?? route.toUpperCase();
+  return row.displayName?.toUpperCase() ?? row.screenId.replace(/_/g, ' ').toUpperCase();
 }
 
 function rowMirrorStatus(row: PageVisualIndexRow): PageMirrorFilter | 'ALL' {
@@ -66,37 +68,14 @@ function statusCount(rows: PageVisualIndexRow[], status: PageMirrorFilter): numb
   return rows.filter((r) => rowMirrorStatus(r) === status).length;
 }
 
-function formatTimestamp(iso: string | null | undefined): string {
-  if (!iso) return '—';
-  try {
-    return new Date(iso).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-  } catch {
-    return '—';
-  }
-}
-
-function liveThumbLabel(row: PageVisualIndexRow): string {
-  const status = rowMirrorStatus(row);
-  if (status === 'NEVER CAPTURED') return 'NEVER CAPTURED';
-  if (status === 'QUEUED') return 'QUEUED';
-  if (status === 'CAPTURING') return 'CAPTURING…';
-  if (status === 'FAILED') return 'CAPTURE FAILED';
-  if (status === 'CURRENT') return 'CURRENT';
-  if (status === 'STALE') return 'STALE';
-  return 'NEVER CAPTURED';
-}
-
-function formatLastEvent(run: ProjectCaptureRunContract | null): string {
-  if (!run?.lastEvent) return '—';
-  const route = run.lastEvent.route ?? '—';
-  const viewport = run.lastEvent.viewport ?? '—';
-  return `${route} · ${viewport.toUpperCase()} · ${run.lastEvent.message}`;
-}
-
-function captureRunSummary(run: ProjectCaptureRunContract | null): string {
-  if (!run) return '';
-  if (!run.contractValid) return 'CAPTURE RUN COULD NOT INITIALIZE';
-  return captureRunProgressLabel(run);
+function founderFilterCount(rows: PageVisualIndexRow[], filter: string): number {
+  if (filter === 'ALL') return rows.length;
+  if (filter === 'NOT CAPTURED') return statusCount(rows, 'NEVER CAPTURED');
+  if (filter === 'NEEDS REFRESH') return statusCount(rows, 'STALE');
+  if (filter === 'NEED REVIEW') return statusCount(rows, 'FAILED');
+  if (filter === 'WAITING') return statusCount(rows, 'QUEUED');
+  if (filter === 'CAPTURING') return statusCount(rows, 'CAPTURING');
+  return statusCount(rows, filter as PageMirrorFilter);
 }
 
 export function DesignPagesTabPanel({
@@ -106,7 +85,6 @@ export function DesignPagesTabPanel({
   onOpenPage,
   onRefreshPage,
   onRefreshProject,
-  visualStatusByScreenId: _visualStatusByScreenId,
   mirrorLoading = false,
   pageCompletionJob = null,
   projectSyncState = 'SYNCED',
@@ -118,18 +96,10 @@ export function DesignPagesTabPanel({
   onRetryTransport,
   onTestWorker,
 }: Props) {
-  const [filter, setFilter] = useState<PageMirrorFilter>('ALL');
+  const [filter, setFilter] = useState('ALL');
   const [search, setSearch] = useState('');
-
-  const filtered = useMemo(() => {
-    const q = search.trim().toUpperCase();
-    return rows.filter((row) => {
-      const status = rowMirrorStatus(row);
-      if (filter !== 'ALL' && status !== filter) return false;
-      if (!q) return true;
-      return `${row.displayName} ${row.screenId} ${row.route ?? ''} ${row.routeFamily ?? ''}`.toUpperCase().includes(q);
-    });
-  }, [rows, filter, search]);
+  const [compareMode, setCompareMode] = useState<'live' | 'reference' | 'compare'>('live');
+  const [completionOpen, setCompletionOpen] = useState(false);
 
   const summary = captureRefresh?.captureSummary;
   const currentCount = summary?.current ?? statusCount(rows, 'CURRENT');
@@ -140,80 +110,93 @@ export function DesignPagesTabPanel({
   const failedCount = summary?.failed ?? statusCount(rows, 'FAILED');
   const totalPages = summary?.totalPages ?? rows.length;
 
-  const featured = filtered.find((r) => r.screenId === selectedScreenId) ?? filtered[0] ?? null;
-  const featuredStatus = featured ? rowMirrorStatus(featured) : null;
-
-  const pciInteractions = pageCompletionJob?.completionPlan.interactionContracts.length ?? 0;
-  const pciResolved =
-    pageCompletionJob?.completionPlan.interactionContracts.filter(
-      (c) => c.status === 'IMPLEMENTED' || c.status === 'RESOLVED',
-    ).length ?? 0;
-  const pciChildren = pageCompletionJob?.childSurfacePlans.length ?? 0;
-  const pciChildDone =
-    pageCompletionJob?.childSurfacePlans.filter((c) => c.implementationStatus === 'IMPLEMENTED').length ?? 0;
-
-  const showRecovering = projectSyncState === 'RECOVERING';
-  const showUnsynced = projectSyncState === 'NEVER_SYNCED' || projectSyncState === 'SYNC_REQUIRED';
-  const unsyncedLabel =
-    projectSyncState === 'NEVER_SYNCED' ? 'PROJECT NOT YET SYNCED' : 'SYNC REQUIRED';
-
   const run = captureRefresh?.run ?? null;
   const isRefreshing = captureRefresh?.refreshing ?? false;
   const transport = captureRefresh?.transportHealth ?? null;
-  const apiConnected = transport?.apiReachable ?? false;
-  const workerStatus = transport?.workerStatus ?? 'UNKNOWN';
-  const workerHealthy = workerStatus === 'HEALTHY' && transport?.playwrightReady && transport?.browserReady;
-  const testJobPassed = captureRefresh?.testJobPassed ?? transport?.testJobPassed ?? false;
-  const transportUnhealthy = transport && (transport.status !== 'HEALTHY' || !workerHealthy);
-  const transportChecking = captureRefresh?.transportChecking ?? false;
-  const testingWorker = captureRefresh?.testingWorker ?? false;
-  const captureServiceReady = apiConnected && workerHealthy && testJobPassed;
-  const runInvalid = run && !run.contractValid;
-  const [showIssueDetails, setShowIssueDetails] = useState(false);
-  const contractReceipt = run?.contractReceipt;
-  const issueCount = contractReceipt?.issueCount ?? (runInvalid ? 1 : 0);
-  const progressDone = run ? run.completedCount + run.failedCount + run.skippedCount : 0;
-  const progressTotal = run?.totalTargets ?? 0;
-  const refreshButtonLabel = transportUnhealthy
-    ? 'RETRY HEALTH CHECK'
-    : !workerHealthy
-      ? 'RETRY HEALTH CHECK'
-      : !testJobPassed
-        ? 'TEST WORKER'
-        : runInvalid
-          ? 'RETRY RUN'
-          : captureRefresh?.errorCode === 'CAPTURE_WORKER_OFFLINE'
-            ? 'VIEW DIAGNOSTICS'
-            : isRefreshing
-              ? run && run.contractValid && progressTotal > 0
-                ? `CAPTURING ${progressDone} / ${progressTotal}`
-                : 'REFRESHING PROJECT…'
-              : run && run.contractValid && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status)
-                ? 'VIEW CAPTURE RUN'
-                : 'REFRESH PROJECT';
+  const runActive =
+    isRefreshing || (run?.contractValid && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status));
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toUpperCase();
+    const mirrorFilter = mapFounderFilterToMirror(filter);
+    return rows.filter((row) => {
+      const status = rowMirrorStatus(row);
+      if (filter !== 'ALL' && status !== mirrorFilter) return false;
+      if (!q) return true;
+      return `${row.displayName} ${row.screenId} ${row.route ?? ''}`.toUpperCase().includes(q);
+    });
+  }, [rows, filter, search]);
+
+  const featured = filtered.find((r) => r.screenId === selectedScreenId) ?? filtered[0] ?? rows[0] ?? null;
+  const featuredStatus = featured ? founderPageStatusLabel(rowMirrorStatus(featured)) : null;
+  const featuredRawStatus = featured ? rowMirrorStatus(featured) : null;
+  const hasLiveCapture = Boolean(featured?.mobile?.publicUrl);
+  const hasReference = Boolean(featured?.referenceUrl);
+
+  const showRecovering = projectSyncState === 'RECOVERING';
+  const showUnsynced = projectSyncState === 'NEVER_SYNCED' || projectSyncState === 'SYNC_REQUIRED';
+
+  const guidanceInput = {
+    apiConnected: transport?.apiReachable ?? false,
+    workerHealthy: transport?.workerStatus === 'HEALTHY' && Boolean(transport?.playwrightReady && transport?.browserReady),
+    browserReady: transport?.browserReady ?? false,
+    contractValid: transport?.contractCompatible ?? false,
+    testJobPassed: captureRefresh?.testJobPassed ?? transport?.testJobPassed ?? false,
+    testingWorker: captureRefresh?.testingWorker ?? false,
+    testWorkerFailed: captureRefresh?.testWorkerFailed ?? false,
+    isRefreshing,
+    run,
+    summary: {
+      totalPages,
+      current: currentCount,
+      neverCaptured: neverCapturedCount,
+      queued: queuedCount,
+      capturing: capturingCount,
+      failed: failedCount,
+      stale: staleCount,
+    },
+    projectName,
+  };
+
+  const filterLabels = founderPageFilterLabels(Boolean(runActive));
+  const isNdxbook = projectName.toLowerCase().includes('ndxbook');
+
+  const handlePrimaryAction = (action: string) => {
+    switch (action) {
+      case 'CHECK_AGAIN':
+        onRetryTransport?.();
+        break;
+      case 'TEST_WORKER':
+      case 'RETRY_TEST':
+        onTestWorker?.();
+        break;
+      case 'REFRESH_PROJECT':
+        onRefreshProject?.();
+        break;
+      case 'VIEW_PROGRESS':
+      case 'REVIEW_CAPTURES':
+      case 'REVIEW_ISSUES':
+        onViewCaptureRun?.();
+        break;
+      default:
+        break;
+    }
+  };
 
   if (contextLoading) {
     return (
-      <section className="site00-dw-v3-pages" data-design-tab="pages" data-page-mirror="p0vr8">
-        <p className="site00-dw-v3-pages__context-loading">LOADING {projectName} DESIGN CONTEXT…</p>
+      <section className="site00-dw-v3-pages" data-design-tab="pages">
+        <p className="site00-dw-v3-pages__context-loading">LOADING {projectName}…</p>
       </section>
     );
   }
 
   if (showRecovering && rows.length === 0) {
     return (
-      <section
-        className="site00-dw-v3-pages"
-        data-design-tab="pages"
-        data-page-mirror="p0vr8"
-        data-sync-state="RECOVERING"
-      >
+      <section className="site00-dw-v3-pages" data-sync-state="RECOVERING">
         <article className="site00-dw-v3-pages__unsynced">
           <strong>RECOVERING PAGE INVENTORY</strong>
-          <p>
-            {projectName} prior route audit found — reconciling historical routes with current repository state.
-            Captures and completion may show STALE / REFRESHING until refresh completes.
-          </p>
+          <p>Reconciling routes with the repository. Captures will update when ready.</p>
         </article>
       </section>
     );
@@ -221,20 +204,12 @@ export function DesignPagesTabPanel({
 
   if (showUnsynced && rows.length === 0) {
     return (
-      <section className="site00-dw-v3-pages" data-design-tab="pages" data-page-mirror="p0vr8" data-sync-state={projectSyncState}>
+      <section className="site00-dw-v3-pages" data-sync-state={projectSyncState}>
         <article className="site00-dw-v3-pages__unsynced">
-          <strong>{unsyncedLabel}</strong>
-          <p>
-            {projectName} page inventory has not been reconciled yet. Unknown ≠ zero — sync to discover routes,
-            captures, and completion for this project only.
-          </p>
+          <strong>{projectSyncState === 'NEVER_SYNCED' ? 'SYNC YOUR PAGES' : 'SYNC REQUIRED'}</strong>
+          <p>Discover routes and captures for {projectName}.</p>
           {onSyncProject || onRefreshProject ? (
-            <button
-              type="button"
-              className="site00-dw-v3-btn site00-dw-v3-btn--primary"
-              disabled={mirrorLoading}
-              onClick={() => (onSyncProject ?? onRefreshProject)?.()}
-            >
+            <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled={mirrorLoading} onClick={() => (onSyncProject ?? onRefreshProject)?.()}>
               SYNC PROJECT PAGES
             </button>
           ) : null}
@@ -244,310 +219,199 @@ export function DesignPagesTabPanel({
   }
 
   return (
-    <section className="site00-dw-v3-pages" data-design-tab="pages" data-page-mirror="p0vr8r3">
-      {pageCompletionJob ? <DesignPageCompletionPanel job={pageCompletionJob} compact /> : null}
-
-      {transport ? (
-        <article
-          className={`site00-dw-v3-pages__capture-run${captureServiceReady ? '' : ' site00-dw-v3-pages__capture-run--invalid'}`}
-          data-capture-transport={captureServiceReady ? 'ready' : transport.status}
-        >
-          <div>
-            <strong>CAPTURE SERVICE</strong>
-            <p>{captureServiceReady ? 'READY' : apiConnected ? 'NOT READY' : 'CONNECTION FAILED'}</p>
-            <p className="site00-dw-v3-pages__capture-run-detail">
-              API {apiConnected ? 'CONNECTED' : 'OFFLINE'} · WORKER {workerHealthy ? 'HEALTHY' : workerStatus} · BROWSER{' '}
-              {transport.browserReady ? 'READY' : 'NOT READY'} · CONTRACT{' '}
-              {transport.contractCompatible ? `${transport.contractVersion ?? '—'} ✓` : 'MISMATCH'}
-            </p>
-            {workerHealthy && transport.lastHeartbeat ? (
-              <p className="site00-dw-v3-pages__capture-run-detail">
-                LAST HEARTBEAT ·{' '}
-                {transport.heartbeatAgeMs != null ? `${Math.round(transport.heartbeatAgeMs / 1000)}s AGO` : formatTimestamp(transport.lastHeartbeat)}
-              </p>
-            ) : null}
-            {!workerHealthy && apiConnected ? (
-              <p>
-                WHY ·{' '}
-                {workerStatus === 'UNKNOWN'
-                  ? 'WORKER HAS NOT REGISTERED'
-                  : workerStatus === 'OFFLINE'
-                    ? `WORKER OFFLINE · LAST HEARTBEAT ${formatTimestamp(transport.lastHeartbeat)}`
-                    : transport.lastError?.replace(/_/g, ' ') ?? 'BROWSER COULD NOT START'}
-              </p>
-            ) : null}
-            <div className="site00-dw-v3-pages__featured-actions">
-              {!captureServiceReady ? (
-                <button
-                  type="button"
-                  className="site00-dw-v3-btn site00-dw-v3-btn--primary"
-                  disabled={transportChecking || testingWorker}
-                  onClick={() => {
-                    if (!workerHealthy || transportUnhealthy) {
-                      onRetryTransport?.();
-                      return;
-                    }
-                    onTestWorker?.();
-                  }}
-                >
-                  {testingWorker ? 'TESTING WORKER…' : workerHealthy ? 'TEST WORKER' : 'RETRY HEALTH CHECK'}
-                </button>
-              ) : onRefreshProject ? (
-                <button
-                  type="button"
-                  className="site00-dw-v3-btn site00-dw-v3-btn--outline"
-                  disabled={mirrorLoading && !isRefreshing}
-                  onClick={() => onRefreshProject?.()}
-                >
-                  REFRESH PROJECT
-                </button>
-              ) : null}
-              {onViewCaptureRun ? (
-                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onViewCaptureRun}>
-                  VIEW DETAILS
-                </button>
-              ) : null}
-            </div>
-          </div>
-        </article>
-      ) : null}
-
-      <article className="site00-dw-v3-pages__capture-summary" data-capture-summary="project">
-        <strong>{totalPages} PAGES</strong>
-        <span>CURRENT {currentCount}</span>
-        <span>NEVER CAPTURED {neverCapturedCount}</span>
-        <span>QUEUED {queuedCount}</span>
-        <span>CAPTURING {capturingCount}</span>
-        <span>STALE {staleCount}</span>
-        <span>FAILED {failedCount}</span>
-      </article>
-
-      {runInvalid ? (
-        <article className="site00-dw-v3-pages__capture-run site00-dw-v3-pages__capture-run--invalid" data-capture-run="invalid">
-          <div>
-            <strong>PROJECT CAPTURE</strong>
-            <p>{totalPages} PAGES</p>
-            <p>
-              STATUS · SETUP FAILED
-              <br />
-              WHY · {run?.contractError ?? captureRefresh?.contractError ?? 'RUN CONTRACT INVALID'}
-              <br />
-              {issueCount} ISSUE{issueCount === 1 ? '' : 'S'} FOUND
-            </p>
-            {showIssueDetails && contractReceipt ? (
-              <ul className="site00-dw-v3-pages__capture-run-issues">
-                {!contractReceipt.runId.valid ? <li>RUN ID · MISSING</li> : null}
-                {!contractReceipt.totalTargets.valid ? <li>TOTAL TARGETS · MISSING</li> : null}
-                {!contractReceipt.status.valid ? <li>STATUS · INVALID</li> : null}
-                {contractReceipt.errors.map((code) => (
-                  <li key={code}>{code.replace(/_/g, ' ')}</li>
-                ))}
-              </ul>
-            ) : null}
-            <div className="site00-dw-v3-pages__featured-actions">
-              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={() => onRefreshProject?.()}>
-                RETRY INITIALIZATION
-              </button>
-              <button
-                type="button"
-                className="site00-dw-v3-btn site00-dw-v3-btn--outline"
-                onClick={() => setShowIssueDetails((v) => !v)}
-              >
-                {showIssueDetails ? 'HIDE ISSUES' : 'VIEW ISSUES'}
-              </button>
-              {onViewCaptureRun ? (
-                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onViewCaptureRun}>
-                  VIEW DETAILS
-                </button>
-              ) : null}
-            </div>
-          </div>
-        </article>
-      ) : run ? (
-        <article className="site00-dw-v3-pages__capture-run" data-capture-run={run.runId}>
-          <div>
-            <strong>PROJECT CAPTURE RUN</strong>
-            <p>{captureRunSummary(run)}</p>
-            <p className="site00-dw-v3-pages__capture-run-detail">
-              Q{run.queuedCount} · C{run.capturingCount} · ✓{run.completedCount} · ✗{run.failedCount} · WORKER {run.workerStatus}
-            </p>
-            {captureRefresh?.preflight ? (
-              <p className="site00-dw-v3-pages__capture-run-detail">
-                INVENTORY {captureRefresh.preflight.inventoryCount} · URLS {captureRefresh.preflight.resolvedUrlCount}/
-                {captureRefresh.preflight.eligibleCount}
-              </p>
-            ) : null}
-            {run.lastEvent ? <p className="site00-dw-v3-pages__capture-run-detail">LAST EVENT · {formatLastEvent(run)}</p> : null}
-          </div>
+    <section className="site00-dw-v3-pages site00-dw-v3-pages--founder" data-design-tab="pages" data-page-mirror="p0vr8r5">
+      {runActive ? (
+        <div className="site00-founder-capture__sticky" role="status">
+          <span>{projectName.toUpperCase()} CAPTURE</span>
+          <strong>
+            {run ? run.completedCount + run.failedCount : 0} / {run?.totalTargets ?? totalPages}
+          </strong>
           {onViewCaptureRun ? (
-            <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact" onClick={onViewCaptureRun}>
-              VIEW RUN
+            <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--compact" onClick={onViewCaptureRun}>
+              VIEW
             </button>
           ) : null}
-        </article>
+        </div>
       ) : null}
 
-      {captureRefresh?.error && !runInvalid ? (
-        <p className="site00-dw-v3-pages__capture-note">{captureRefresh.errorCode ?? captureRefresh.error}</p>
+      <FounderCaptureExperience
+        projectName={projectName}
+        guidanceInput={guidanceInput}
+        transport={transport}
+        run={run}
+        testWorkerProgress={captureRefresh?.testWorkerProgress ?? null}
+        testingWorker={captureRefresh?.testingWorker ?? false}
+        transportChecking={captureRefresh?.transportChecking ?? false}
+        onPrimaryAction={handlePrimaryAction}
+        onViewDetails={onViewCaptureRun}
+        isNdxbook={isNdxbook}
+      />
+
+      {runActive ? (
+        <FounderPageProgressStrip
+          rows={rows}
+          selectedScreenId={selectedScreenId}
+          onSelect={onSelectScreen}
+          resolveStatus={(row) => rowMirrorStatus(row)}
+        />
       ) : null}
 
-      <div className="site00-dw-v3-chip-row site00-dw-v3-chip-row--scroll" role="group" aria-label="Page mirror filters">
-        {PAGE_MIRROR_FILTERS.map((chip) => (
+      {pageCompletionJob ? (
+        <details className="site00-founder-capture__completion-collapsed">
+          <summary>
+            PAGE COMPLETION · {pageCompletionJob.completionGate.passed ? 'ON TRACK' : 'NEEDS ATTENTION'}
+          </summary>
+          {completionOpen ? <DesignPageCompletionPanel job={pageCompletionJob} compact /> : null}
+          <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact" onClick={() => setCompletionOpen((v) => !v)}>
+            {completionOpen ? 'HIDE COMPLETION' : 'VIEW COMPLETION'}
+          </button>
+        </details>
+      ) : null}
+
+      <div className="site00-dw-v3-chip-row site00-dw-v3-chip-row--scroll" role="group" aria-label="Page filters">
+        {filterLabels.map((chip) => (
           <button
             key={chip}
             type="button"
             className={`site00-dw-v3-chip${filter === chip ? ' is-filled' : ''}`}
             onClick={() => setFilter(chip)}
           >
-            {chip} ({statusCount(rows, chip)})
+            {chip} ({founderFilterCount(rows, chip)})
           </button>
         ))}
       </div>
 
       <div className="site00-dw-v3-pages__search-row">
         <label className="site00-dw-v3-search">
-          <span className="site00-dw-v3-search__icon" aria-hidden>
-            ⌕
-          </span>
-          <input
-            type="search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value.toUpperCase())}
-            placeholder="SEARCH PAGES..."
-            aria-label="Search pages"
-          />
+          <span className="site00-dw-v3-search__icon" aria-hidden>⌕</span>
+          <input type="search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search pages…" aria-label="Search pages" />
         </label>
-        {onRefreshProject ? (
-          <button
-            type="button"
-            className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
-            disabled={mirrorLoading && !isRefreshing}
-            onClick={() => {
-              if (transportUnhealthy || !workerHealthy) {
-                onRetryTransport?.();
-                return;
-              }
-              if (!testJobPassed) {
-                onTestWorker?.();
-                return;
-              }
-              if (runInvalid) {
-                onRefreshProject?.();
-                return;
-              }
-              if (run && run.contractValid && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status) && onViewCaptureRun) {
-                onViewCaptureRun();
-              } else {
-                onRefreshProject?.();
-              }
-            }}
-          >
-            {refreshButtonLabel}
-          </button>
-        ) : null}
       </div>
 
-      {captureRefresh?.duplicateBlocked ? (
-        <p className="site00-dw-v3-pages__capture-note">Active capture run in progress — showing current progress.</p>
-      ) : null}
-
       {featured ? (
-        <article className="site00-dw-v3-pages__featured">
-          <div className="site00-dw-v3-pages__featured-meta">
-            <header>
+        <article className={`site00-dw-v3-pages__featured site00-founder-page-card${featuredRawStatus === 'CAPTURING' ? ' is-capturing-now' : ''}`}>
+          <header className="site00-founder-page-card__head">
+            <div>
               <strong>{formatRouteLabel(featured)}</strong>
-              {featuredStatus ? (
-                <span className={`site00-dw-v3-pages__status is-${featuredStatus.replace(/\s+/g, '-').toLowerCase()}`}>
-                  {featuredStatus}
-                </span>
-              ) : null}
-            </header>
-            <p>
-              LAST UPDATED {formatTimestamp(featured.lastUpdatedAt)} · LAST CAPTURED {formatTimestamp(featured.lastCapturedAt)}
-              {featured.isStale && featured.staleReason ? ` · ${featured.staleReason.toUpperCase()}` : ''}
-              · {featured.pagePurpose?.toUpperCase() ?? featured.displayName.toUpperCase()}
-            </p>
-            {pageCompletionJob ? (
-              <p className="site00-dw-v3-pages__pci-summary">
-                INTERACTIONS {pciResolved}/{pciInteractions} · CHILD SURFACES {pciChildDone}/{pciChildren} ·{' '}
-                {pageCompletionJob.implementationStatus.replace(/_/g, ' ')}
-              </p>
+              {featuredRawStatus === 'CAPTURING' ? <span className="site00-founder-page-card__capturing-badge">CAPTURING NOW</span> : null}
+            </div>
+            {featuredStatus ? (
+              <span className={`site00-dw-v3-pages__status is-${featuredRawStatus?.replace(/\s+/g, '-').toLowerCase()}`}>{featuredStatus}</span>
             ) : null}
-            <div className="site00-dw-v3-pages__featured-actions">
-              <button
-                type="button"
-                className="site00-dw-v3-btn site00-dw-v3-btn--primary"
-                onClick={() => {
-                  onSelectScreen(featured.screenId);
-                  onOpenPage?.(featured.screenId);
-                }}
-              >
-                OPEN PAGE →
-              </button>
-              {onRefreshPage ? (
-                <button
-                  type="button"
-                  className="site00-dw-v3-btn site00-dw-v3-btn--outline"
-                  disabled={mirrorLoading}
-                  onClick={() => onRefreshPage(featured.screenId)}
-                >
-                  REFRESH CAPTURE
-                </button>
-              ) : null}
-            </div>
-          </div>
-          <div className="site00-dw-v3-pages__compare">
-            <div>
-              <span>LIVE{featured.isStale ? ' (STALE)' : ''}</span>
-              {featured.mobile?.publicUrl ? (
-                <img src={featured.mobile.publicUrl} alt="" />
-              ) : (
-                <div className="site00-dw-v3-pages__empty-thumb" data-live-state={liveThumbLabel(featured)}>
-                  {liveThumbLabel(featured)}
+          </header>
+
+          <div className="site00-founder-page-card__compare">
+            {hasLiveCapture || hasReference ? (
+              <>
+                <div className="site00-founder-page-card__compare-toggle" role="tablist">
+                  {(['live', 'reference', 'compare'] as const).map((mode) => (
+                    <button
+                      key={mode}
+                      type="button"
+                      role="tab"
+                      aria-selected={compareMode === mode}
+                      className={compareMode === mode ? 'is-active' : ''}
+                      disabled={mode !== 'live' && !hasLiveCapture}
+                      onClick={() => setCompareMode(mode)}
+                    >
+                      {mode.toUpperCase()}
+                    </button>
+                  ))}
                 </div>
-              )}
-            </div>
-            <button type="button" className="site00-dw-v3-pages__compare-swap" aria-label="Compare live and reference">
-              ⇄
-            </button>
-            <div>
-              <span>REFERENCE</span>
-              {featured.referenceUrl ? (
-                <img src={featured.referenceUrl} alt="" />
-              ) : (
-                <div className="site00-dw-v3-pages__empty-thumb" />
-              )}
-            </div>
+                <div className={`site00-founder-page-card__frames mode-${compareMode}`}>
+                  {(compareMode === 'live' || compareMode === 'compare') && (
+                    <div>
+                      <span>LIVE</span>
+                      {featured.mobile?.publicUrl ? (
+                        <img src={featured.mobile.publicUrl} alt="" />
+                      ) : (
+                        <div className="site00-founder-page-card__empty">
+                          <span aria-hidden>▢</span>
+                          <small>NO LIVE CAPTURE YET</small>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  {(compareMode === 'reference' || compareMode === 'compare') && (
+                    <div>
+                      <span>REFERENCE</span>
+                      {featured.referenceUrl ? <img src={featured.referenceUrl} alt="" /> : <div className="site00-founder-page-card__empty" />}
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              <div className="site00-founder-page-card__empty site00-founder-page-card__empty--hero">
+                <span aria-hidden>▢</span>
+                <p>NO LIVE CAPTURE YET</p>
+                <small>Capture this page to compare it with the reference.</small>
+              </div>
+            )}
+          </div>
+
+          <div className="site00-founder-page-card__actions">
+            {featuredRawStatus === 'FAILED' ? (
+              <>
+                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled={mirrorLoading} onClick={() => onRefreshPage?.(featured.screenId)}>
+                  RETRY
+                </button>
+                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onViewCaptureRun}>
+                  VIEW DETAILS
+                </button>
+              </>
+            ) : hasLiveCapture && hasReference ? (
+              <>
+                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={() => setCompareMode('compare')}>
+                  COMPARE
+                </button>
+                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={() => onOpenPage?.(featured.screenId)}>
+                  OPEN PAGE
+                </button>
+              </>
+            ) : (
+              <>
+                {onRefreshPage ? (
+                  <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled={mirrorLoading} onClick={() => onRefreshPage(featured.screenId)}>
+                    CAPTURE PAGE
+                  </button>
+                ) : null}
+                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={() => onOpenPage?.(featured.screenId)}>
+                  OPEN PAGE
+                </button>
+              </>
+            )}
           </div>
         </article>
       ) : null}
 
-      <div className="site00-dw-v3-pages__grid">
+      <div className="site00-dw-v3-pages__grid site00-founder-page-grid">
         {filtered.map((row) => {
-          const status = rowMirrorStatus(row);
+          const raw = rowMirrorStatus(row);
+          const label = founderPageStatusLabel(raw);
           return (
             <article
               key={row.screenId}
-              className={`site00-dw-v3-pages__card${row.screenId === selectedScreenId ? ' is-selected' : ''}${row.isStale ? ' is-stale' : ''}`}
+              className={`site00-dw-v3-pages__card site00-founder-page-grid__card${row.screenId === selectedScreenId ? ' is-selected' : ''}${raw === 'CAPTURING' ? ' is-capturing' : ''}`}
             >
-              <button type="button" style={{ all: 'unset', cursor: 'pointer', width: '100%' }} onClick={() => onSelectScreen(row.screenId)}>
+              <button type="button" className="site00-founder-page-grid__hit" onClick={() => onSelectScreen(row.screenId)}>
                 {row.mobile?.publicUrl ? (
                   <img src={row.mobile.publicUrl} alt="" />
                 ) : (
-                  <div className="site00-dw-v3-pages__empty-thumb">{liveThumbLabel(row)}</div>
+                  <div className="site00-founder-page-card__empty site00-founder-page-card__empty--thumb">
+                    <span aria-hidden>▢</span>
+                    <small>NOT CAPTURED YET</small>
+                  </div>
                 )}
                 <strong>{formatRouteLabel(row)}</strong>
-                <span className={`site00-dw-v3-pages__status is-${status.replace(/\s+/g, '-').toLowerCase()}`}>{status}</span>
+                <span className={`site00-dw-v3-pages__status is-${raw.replace(/\s+/g, '-').toLowerCase()}`}>{label}</span>
               </button>
               <div className="site00-dw-v3-pages__card-actions">
-                {onRefreshPage ? (
+                {onRefreshPage && raw !== 'CURRENT' ? (
                   <button type="button" disabled={mirrorLoading} onClick={() => onRefreshPage(row.screenId)}>
-                    REFRESH
+                    CAPTURE
                   </button>
                 ) : null}
-                <button type="button" onClick={() => onOpenPage?.(row.screenId)}>
-                  OPEN
-                </button>
+                <button type="button" onClick={() => onOpenPage?.(row.screenId)}>OPEN</button>
               </div>
             </article>
           );
@@ -556,9 +420,7 @@ export function DesignPagesTabPanel({
 
       <footer className="site00-dw-v3-pages__footer">
         <DesignDwSectionIcon iconId="coverage" />
-        <span>
-          {filtered.length} PAGES · CURRENT {currentCount} · LIVE PAGE MIRROR (P0.VR.8R3)
-        </span>
+        <span>{filtered.length} pages shown</span>
       </footer>
     </section>
   );

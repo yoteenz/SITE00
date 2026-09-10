@@ -25,7 +25,15 @@ export {
   type ProjectCaptureRunContract,
 } from './projectCaptureRunContract.js';
 
-export { P0_VR_8R3R1_BUILD, P0_VR_8R3R2_BUILD, P0_VR_8R3R3_BUILD, P0_VR_8R3R4_BUILD } from './constants.js';
+export { P0_VR_8R3R1_BUILD, P0_VR_8R3R2_BUILD, P0_VR_8R3R3_BUILD, P0_VR_8R3R4_BUILD, P0_VR_8R3R5_BUILD } from './constants.js';
+export {
+  buildCaptureFounderGuidance,
+  founderPageStatusLabel,
+  founderSummaryChips,
+  resolveFounderCaptureWorkflowStage,
+  TEST_WORKER_PROGRESS_STEPS,
+} from './captureFounderGuidance.js';
+export { FOUNDER_CAPTURE_WORKFLOW_STAGES, workflowStageToId } from './founderCaptureWorkflow.js';
 export {
   buildCaptureTransportHealthResponse,
 } from './captureTransportHealth.js';
