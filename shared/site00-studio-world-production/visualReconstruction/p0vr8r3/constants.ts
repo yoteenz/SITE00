@@ -4,4 +4,5 @@
 
 export const DEFAULT_CAPTURE_CONCURRENCY = 2;
 export const CAPTURE_RENDER_TIMEOUT_MS = 45_000;
-export const P0_VR_8R3R1_BUILD = 'v259' as const;
+export const P0_VR_8R3R1_BUILD = 'v260' as const;
+export const P0_VR_8R3R2_BUILD = P0_VR_8R3R1_BUILD;

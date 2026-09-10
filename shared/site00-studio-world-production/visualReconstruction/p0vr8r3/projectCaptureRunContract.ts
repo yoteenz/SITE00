@@ -5,6 +5,12 @@
 import type { CaptureWorkerHealth } from './captureWorkerHealth.js';
 import type { ProjectCaptureRunEvent } from './captureRunEvents.js';
 import type { BuildVersionReceipt } from './buildVersionReceipt.js';
+import {
+  buildCaptureRunContractReceipt,
+  type CaptureRunContractReceipt,
+  type CaptureRunContractErrorCode,
+} from './captureRunContractReceipt.js';
+import type { CaptureRunPreflight } from './captureRunPreflight.js';
 
 export const CAPTURE_RUN_CONTRACT_VERSION = 'capture-run-v1' as const;
 
@@ -40,6 +46,8 @@ export type ProjectCaptureRunContract = {
   duplicateBlocked?: boolean;
   activeRunId?: string | null;
   buildReceipt?: BuildVersionReceipt;
+  contractReceipt?: CaptureRunContractReceipt;
+  preflight?: CaptureRunPreflight | null;
 };
 
 function safeCount(value: unknown): number {
@@ -58,17 +66,19 @@ function pickRunId(raw: Record<string, unknown>): string {
 
 export function validateProjectCaptureRunContract(
   contract: ProjectCaptureRunContract,
-): { valid: boolean; error: string | null } {
-  if (contract.contractVersion !== CAPTURE_RUN_CONTRACT_VERSION) {
-    return { valid: false, error: 'CAPTURE_RUN_CONTRACT_MISMATCH' };
+  options?: { allowPlanningZeroTargets?: boolean },
+): { valid: boolean; error: CaptureRunContractErrorCode | null; receipt: CaptureRunContractReceipt } {
+  const receipt = buildCaptureRunContractReceipt(contract, {
+    allowPlanningZeroTargets: options?.allowPlanningZeroTargets ?? contract.status === 'PLANNING',
+  });
+  if (!receipt.contractValid.valid) {
+    const error = receipt.primaryError ?? 'RUN_CONTRACT_INVALID';
+    if (error === 'TOTAL_TARGETS_MISSING' && contract.status === 'PLANNING') {
+      return { valid: true, error: null, receipt };
+    }
+    return { valid: false, error, receipt };
   }
-  if (!contract.runId) return { valid: false, error: 'RUN_CONTRACT_INVALID' };
-  if (!contract.projectId) return { valid: false, error: 'RUN_CONTRACT_INVALID' };
-  if (!contract.status) return { valid: false, error: 'RUN_CONTRACT_INVALID' };
-  if (contract.status !== 'PLANNING' && contract.totalTargets <= 0 && contract.status !== 'INVALID') {
-    return { valid: false, error: 'RUN_TARGETS_MISSING' };
-  }
-  return { valid: true, error: null };
+  return { valid: true, error: null, receipt };
 }
 
 export function normalizeProjectCaptureRunResponse(
@@ -79,6 +89,7 @@ export function normalizeProjectCaptureRunResponse(
     buildReceipt?: BuildVersionReceipt;
     duplicateBlocked?: boolean;
     activeRunId?: string | null;
+    preflight?: CaptureRunPreflight | null;
   },
 ): ProjectCaptureRunContract {
   const workerStatus = options?.workerHealth?.status ?? (raw?.workerStatus as CaptureWorkerHealth['status']) ?? 'UNKNOWN';
@@ -158,13 +169,17 @@ export function normalizeProjectCaptureRunResponse(
     duplicateBlocked: Boolean(raw.duplicateBlocked ?? options?.duplicateBlocked),
     activeRunId: typeof raw.activeRunId === 'string' ? raw.activeRunId : options?.activeRunId ?? null,
     buildReceipt: options?.buildReceipt ?? (raw.buildReceipt as BuildVersionReceipt | undefined),
+    preflight: options?.preflight ?? (raw.preflight as CaptureRunPreflight | null | undefined) ?? null,
   };
 
-  const validation = validateProjectCaptureRunContract(contract);
+  const validation = validateProjectCaptureRunContract(contract, {
+    allowPlanningZeroTargets: contract.status === 'PLANNING',
+  });
+  contract.contractReceipt = validation.receipt;
   if (!validation.valid) {
     contract.contractValid = false;
     contract.contractError = validation.error;
-    if (validation.error === 'RUN_TARGETS_MISSING') contract.status = 'INVALID';
+    if (validation.error === 'TOTAL_TARGETS_MISSING') contract.status = 'INVALID';
   }
 
   return contract;

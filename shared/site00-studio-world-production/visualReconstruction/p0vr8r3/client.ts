@@ -25,8 +25,8 @@ export {
   type ProjectCaptureRunContract,
 } from './projectCaptureRunContract.js';
 
+export { P0_VR_8R3R1_BUILD, P0_VR_8R3R2_BUILD } from './constants.js';
 export {
-  P0_VR_8R3R1_BUILD,
   buildCaptureVersionReceipt,
   detectBackendVersionMismatch,
   type BuildVersionReceipt,
@@ -80,7 +80,28 @@ export {
 } from './projectCaptureRunStore.js';
 
 export { buildCaptureOrchestrationInspectorState } from './captureOrchestrationInspector.js';
-export { normalizeRecoveredCaptureStatuses } from './normalizeRecoveredCaptureStatuses.js';
+export {
+  reconcileRecoveredPageCaptureStates,
+  normalizeRecoveredCaptureStatuses,
+} from './reconcileRecoveredPageCaptureStates.js';
+export {
+  buildCaptureRunContractReceipt,
+  type CaptureRunContractReceipt,
+  type CaptureRunContractErrorCode,
+} from './captureRunContractReceipt.js';
+export {
+  resolvePageCaptureState,
+  resolvePageCaptureStateFromRecord,
+  type ResolvedPageCaptureState,
+} from './pageCaptureStateResolver.js';
+export { buildProjectCaptureStateSummary, type ProjectCaptureStateSummary } from './projectCaptureStateSummary.js';
+export { resolveRuntimeRouteForPage, resolveRuntimeRoutesForProject } from './runtimeRouteResolver.js';
+export {
+  buildCaptureRunPreflight,
+  generateCaptureRunId,
+  type CaptureRunPreflight,
+} from './captureRunPreflight.js';
+export { getProjectCaptureStateSummaryForProject } from './projectCaptureRefreshOrchestrator.js';
 export { appendCaptureRunEvent, getLastCaptureRunEvent, listCaptureRunEvents, clearCaptureRunEventsForTest } from './captureRunEvents.js';
 export { syncCaptureQueueToPersistence, hydrateCaptureQueueFromPersistence, resetCaptureQueueHydrationForTest } from './captureQueuePersistence.js';
 export { clearCaptureOrchestrationRegistryForTest } from './captureRunPersistentStore.js';

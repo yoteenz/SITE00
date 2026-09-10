@@ -9,6 +9,10 @@ export {
   type ProjectCaptureRunContract,
 } from './projectCaptureRunContract.js';
 
+export type { CaptureRunContractReceipt, CaptureRunContractErrorCode } from './captureRunContractReceipt.js';
+export type { ProjectCaptureStateSummary } from './projectCaptureStateSummary.js';
+export type { CaptureRunPreflight } from './captureRunPreflight.js';
+
 export { P0_VR_8R3R1_BUILD } from './constants.js';
 export { detectBackendVersionMismatch } from './buildVersionReceipt.browser.js';
 export type { BuildVersionReceipt } from './buildVersionReceipt.js';

@@ -1,9 +1,8 @@
 /**
- * P0.VR.8R3R1 — ProjectCaptureRefreshOrchestrator with contract + persistence.
+ * P0.VR.8R3R2 — ProjectCaptureRefreshOrchestrator with preflight + route resolution.
  */
 
 import { enqueuePageCapture, listCaptureQueue, coalesceDuplicateCaptures, prioritizeCaptureQueue } from '../p0vr8/captureQueue.js';
-import { resolveCaptureViewportsForPage } from '../p0vr8/capturePolicy.js';
 import { listProjectPageRecords, upsertProjectPageRecord } from '../p0vr8/projectPageRegistry.js';
 import { resolveProjectLiveBaseUrl } from '../p0vr8/projectBaseUrl.js';
 import { dispatchCaptureWorker, type CaptureExecutor } from './captureWorker.js';
@@ -20,66 +19,32 @@ import {
 } from './projectCaptureRunStore.js';
 import { syncCaptureQueueToPersistence, hydrateCaptureQueueFromPersistence } from './captureQueuePersistence.js';
 import { appendCaptureRunEvent, getLastCaptureRunEvent } from './captureRunEvents.js';
-import { normalizeRecoveredCaptureStatuses } from './normalizeRecoveredCaptureStatuses.js';
+import { reconcileRecoveredPageCaptureStates } from './reconcileRecoveredPageCaptureStates.js';
 import {
   normalizeProjectCaptureRunResponse,
   type ProjectCaptureRunContract,
 } from './projectCaptureRunContract.js';
 import { buildCaptureVersionReceipt } from './buildVersionReceipt.js';
+import {
+  buildCaptureRunPreflight,
+  generateCaptureRunId,
+  listEligibleCaptureTargets,
+} from './captureRunPreflight.js';
+import { buildProjectCaptureStateSummary } from './projectCaptureStateSummary.js';
 import { loadCaptureOrchestrationRegistry } from './captureRunPersistentStore.js';
-
-const GOLDEN_FIRST_ROUTE = '/projects/ndxbook';
 
 export function isRouteAuditStale(): boolean {
   return false;
 }
 
-function sortTargetsMobileFirst(targets: PageCaptureTarget[]): PageCaptureTarget[] {
-  return [...targets].sort((a, b) => {
-    const aGolden = a.route === GOLDEN_FIRST_ROUTE || a.route.startsWith(`${GOLDEN_FIRST_ROUTE}/`) ? 0 : 1;
-    const bGolden = b.route === GOLDEN_FIRST_ROUTE || b.route.startsWith(`${GOLDEN_FIRST_ROUTE}/`) ? 0 : 1;
-    if (aGolden !== bGolden) return aGolden - bGolden;
-    return a.route.localeCompare(b.route);
-  });
-}
-
-function buildCaptureTargets(
-  projectId: string,
-  runId: string,
-  viewportMode: 'MOBILE_ONLY' | 'ALL_SUPPORTED',
-): PageCaptureTarget[] {
-  const pages = listProjectPageRecords(projectId, true);
-  const targets: PageCaptureTarget[] = [];
-
-  for (const page of pages) {
-    if (!page.isActive || page.status === 'ROUTE_MISSING' || page.status === 'REMOVED') continue;
-
-    let viewports = resolveCaptureViewportsForPage(page);
-    if (viewportMode === 'MOBILE_ONLY') {
-      viewports = viewports.includes('mobile') ? ['mobile'] : viewports.slice(0, 1);
-    }
-
-    for (const viewport of viewports) {
-      targets.push({
-        targetId: `pct-${runId}-${page.pageId}-${viewport}`,
-        runId,
-        projectId,
-        pageId: page.pageId,
-        screenId: page.screenId,
-        route: page.representativeRoute ?? page.route,
-        viewport,
-        status: 'PLANNED',
-        jobId: null,
-      });
-    }
-  }
-
-  return sortTargetsMobileFirst(targets);
-}
-
 function runToContract(
   run: PersistedCaptureRun,
-  options?: { duplicateBlocked?: boolean; activeRunId?: string | null; repoRoot?: string },
+  options?: {
+    duplicateBlocked?: boolean;
+    activeRunId?: string | null;
+    repoRoot?: string;
+    preflight?: ReturnType<typeof buildCaptureRunPreflight> | null;
+  },
 ): ProjectCaptureRunContract {
   const workerHealth = getCaptureWorkerHealth();
   const lastEvent = getLastCaptureRunEvent(run.runId, options?.repoRoot);
@@ -109,6 +74,38 @@ function runToContract(
       buildReceipt: buildCaptureVersionReceipt(),
       duplicateBlocked: options?.duplicateBlocked,
       activeRunId: options?.activeRunId,
+      preflight: options?.preflight ?? null,
+    },
+  );
+}
+
+function invalidContractFromPreflight(
+  projectId: string,
+  preflight: ReturnType<typeof buildCaptureRunPreflight>,
+  reason: string,
+): ProjectCaptureRunContract {
+  return normalizeProjectCaptureRunResponse(
+    {
+      contractVersion: 'capture-run-v1',
+      runId: '',
+      projectId,
+      status: 'INVALID',
+      totalTargets: 0,
+      queuedCount: 0,
+      capturingCount: 0,
+      completedCount: 0,
+      failedCount: 0,
+      skippedCount: 0,
+      currentTargetId: null,
+      startedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      completedAt: null,
+      lastError: reason,
+    },
+    {
+      workerHealth: getCaptureWorkerHealth(),
+      buildReceipt: buildCaptureVersionReceipt(),
+      preflight,
     },
   );
 }
@@ -160,25 +157,33 @@ export async function refreshProjectCaptureState(
   },
 ): Promise<ProjectCaptureRunContract> {
   const repoRoot = options?.repoRoot;
-  normalizeRecoveredCaptureStatuses(projectId);
+  const baseUrl = options?.baseUrl ?? resolveProjectLiveBaseUrl(projectId);
+  const viewportMode = options?.viewportMode ?? 'MOBILE_ONLY';
+
+  reconcileRecoveredPageCaptureStates(projectId);
   hydrateCaptureQueueFromPersistence(projectId, repoRoot);
 
-  const workerHealth = getCaptureWorkerHealth();
-  if (workerHealth.status === 'OFFLINE') {
+  const preflight = buildCaptureRunPreflight(projectId, { baseUrl, viewportMode });
+
+  if (preflight.workerStatus === 'OFFLINE') {
     throw new Error('CAPTURE_WORKER_OFFLINE');
   }
 
   const active = getActiveProjectCaptureRun(projectId, repoRoot);
   if (active) {
-    if (!active.contractValid || active.totalTargets <= 0) {
-      markProjectCaptureRunInvalid(active.runId, 'MALFORMED_RUN', repoRoot);
+    const activeContract = runToContract(active, { activeRunId: active.runId, repoRoot, preflight });
+    if (!activeContract.contractValid || active.totalTargets <= 0) {
+      markProjectCaptureRunInvalid(active.runId, activeContract.contractError ?? 'MALFORMED_RUN', repoRoot);
     } else if (!options?.forceNewRun) {
-      return runToContract(active, { duplicateBlocked: true, activeRunId: active.runId, repoRoot });
+      return runToContract(active, { duplicateBlocked: true, activeRunId: active.runId, repoRoot, preflight });
     }
   }
 
-  const runId = `pcr-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-  const viewportMode = options?.viewportMode ?? 'MOBILE_ONLY';
+  if (!preflight.ready) {
+    return invalidContractFromPreflight(projectId, preflight, preflight.blockReason ?? 'RUN_CONTRACT_INVALID');
+  }
+
+  const runId = generateCaptureRunId(projectId);
   const startedAt = new Date().toISOString();
 
   let run = createProjectCaptureRun(
@@ -208,7 +213,27 @@ export async function refreshProjectCaptureState(
     repoRoot,
   );
 
-  const targets = buildCaptureTargets(projectId, runId, viewportMode);
+  const eligibleTargets = listEligibleCaptureTargets(projectId, runId, { baseUrl, viewportMode });
+  const targets: PageCaptureTarget[] = eligibleTargets.map(({ identity, viewport, targetId }) => {
+    const page = listProjectPageRecords(projectId, false).find((p) => p.pageId === identity.pageId)!;
+    return {
+      targetId,
+      runId,
+      projectId,
+      pageId: identity.pageId,
+      screenId: page.screenId,
+      route: identity.resolvedRuntimePath!,
+      displayRoute: identity.displayRoute,
+      resolvedRuntimePath: identity.resolvedRuntimePath,
+      captureUrl: identity.captureUrl,
+      resolutionSource: identity.resolutionSource,
+      routeValid: identity.routeValid,
+      viewport,
+      status: 'PLANNED',
+      jobId: null,
+    };
+  });
+
   upsertCaptureTargets(targets, repoRoot);
 
   run = updateProjectCaptureRun(runId, { totalTargets: targets.length, status: 'QUEUING' }, repoRoot)!;
@@ -218,7 +243,7 @@ export async function refreshProjectCaptureState(
       runId,
       projectId,
       type: 'TARGETS_PLANNED',
-      route: null,
+      route: preflight.goldenFirstRoute,
       viewport: null,
       targetId: null,
       jobId: null,
@@ -234,29 +259,37 @@ export async function refreshProjectCaptureState(
     const job = enqueuePageCapture({
       projectId,
       pageId: target.pageId,
-      route: target.route,
+      route: target.resolvedRuntimePath ?? target.route,
       viewport: target.viewport,
       reason: 'MANUAL_REFRESH',
       deploymentId: page.lastDeploymentId,
       runId,
       targetId: target.targetId,
-      priority: target.route === GOLDEN_FIRST_ROUTE ? 100 : 5,
+      priority: target.resolvedRuntimePath?.includes('/projects/ndxbook') ? 100 : 5,
     });
 
     upsertCaptureTargets([{ ...target, status: 'QUEUED', jobId: job.jobId }], repoRoot);
 
-    upsertProjectPageRecord({
-      ...page,
-      status: page.lastCapturedAt ? 'STALE' : 'CAPTURE_PENDING',
-      updatedAt: new Date().toISOString(),
-    });
+    if (!page.lastCapturedAt) {
+      upsertProjectPageRecord({
+        ...page,
+        status: 'DISCOVERED',
+        updatedAt: new Date().toISOString(),
+      });
+    } else {
+      upsertProjectPageRecord({
+        ...page,
+        status: 'STALE',
+        updatedAt: new Date().toISOString(),
+      });
+    }
   }
 
   coalesceDuplicateCaptures(projectId);
-  prioritizeCaptureQueue(projectId, GOLDEN_FIRST_ROUTE);
+  prioritizeCaptureQueue(projectId, preflight.goldenFirstRoute ?? '/projects/ndxbook');
   syncCaptureQueueToPersistence(projectId, runId, repoRoot);
 
-  const queued = listCaptureQueue(projectId).filter((j) => j.status === 'QUEUED').length;
+  const queued = listCaptureQueue(projectId).filter((j) => j.runId === runId && j.status === 'QUEUED').length;
   run = updateProjectCaptureRun(
     runId,
     {
@@ -273,7 +306,7 @@ export async function refreshProjectCaptureState(
       runId,
       projectId,
       type: 'JOBS_QUEUED',
-      route: firstTarget?.route ?? null,
+      route: firstTarget?.resolvedRuntimePath ?? firstTarget?.route ?? null,
       viewport: firstTarget?.viewport ?? null,
       targetId: firstTarget?.targetId ?? null,
       jobId: firstTarget?.jobId ?? null,
@@ -282,11 +315,17 @@ export async function refreshProjectCaptureState(
     repoRoot,
   );
 
+  const postPlanContract = runToContract(run, { repoRoot, preflight });
+  if (!postPlanContract.contractValid) {
+    markProjectCaptureRunInvalid(runId, postPlanContract.contractError ?? 'RUN_CONTRACT_INVALID', repoRoot);
+    return postPlanContract;
+  }
+
   if (options?.executeWorker !== false && queued > 0) {
     const workerPromise = dispatchCaptureWorker({
       projectId,
       runId,
-      baseUrl: options?.baseUrl ?? resolveProjectLiveBaseUrl(projectId),
+      baseUrl,
       repoRoot,
       captureFn: options?.captureFn,
     }).then(() => {
@@ -315,7 +354,7 @@ export async function refreshProjectCaptureState(
 
   syncRunCounts(runId, repoRoot);
   const finalRun = getProjectCaptureRun(runId, repoRoot) ?? run;
-  return runToContract(finalRun, { repoRoot });
+  return runToContract(finalRun, { repoRoot, preflight });
 }
 
 export function getProjectCaptureRefreshProgress(
@@ -323,14 +362,30 @@ export function getProjectCaptureRefreshProgress(
   repoRoot?: string,
 ): ProjectCaptureRunContract | null {
   hydrateCaptureQueueFromPersistence(projectId, repoRoot);
+  const preflight = buildCaptureRunPreflight(projectId);
+
   let run = getActiveProjectCaptureRun(projectId, repoRoot);
   if (!run) {
     const registry = loadCaptureOrchestrationRegistry(repoRoot);
-    run = registry.runs.find((r) => r.projectId === projectId) ?? null;
+    run = registry.runs.find((r) => r.projectId === projectId && r.status !== 'INVALID') ?? null;
     if (!run) return null;
+  }
+
+  if (!run.contractValid || run.totalTargets <= 0 || !run.runId) {
+    markProjectCaptureRunInvalid(run.runId, run.lastError ?? 'MALFORMED_RUN', repoRoot);
+    return invalidContractFromPreflight(projectId, preflight, run.lastError ?? 'RUN_CONTRACT_INVALID');
   }
 
   syncRunCounts(run.runId, repoRoot);
   const synced = getProjectCaptureRun(run.runId, repoRoot) ?? run;
-  return runToContract(synced, { repoRoot });
+  const contract = runToContract(synced, { repoRoot, preflight });
+  if (!contract.contractValid) {
+    markProjectCaptureRunInvalid(run.runId, contract.contractError ?? 'MALFORMED_RUN', repoRoot);
+  }
+  return contract;
+}
+
+export function getProjectCaptureStateSummaryForProject(projectId: string) {
+  const pages = listProjectPageRecords(projectId, true);
+  return buildProjectCaptureStateSummary(pages, listCaptureQueue(projectId));
 }

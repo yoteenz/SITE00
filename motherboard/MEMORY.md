@@ -7466,3 +7466,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `visualReconstructionP0VR8R3R1.test.ts` (31/31) + prior 8R3/livePageMirror pass; build `index.CgRdE5K-.js`, `StudioWorldDesignPage.rLoUls4s.js`.
 - **Next founder action:** Redeploy Railway API + cPanel v259 → hard refresh → NDXBOOK PAGES should show NEVER CAPTURED 46 / STALE 0 before refresh → REFRESH PROJECT → run shows 46 targets + queued jobs + worker HEALTHY → wait for `/projects/ndxbook` CURRENT + live screenshot.
 
+---
+
+## 2026-09-10 — P0.VR.8R3R2 Capture Contract Receipt + Canonical Page-State Reconciliation
+
+- **Context:** P0.VR.8R3R1 fail-closed stopped NaN UI but live still showed `RUN_CONTRACT_INVALID`; project summary all zeros while page cards showed CAPTURE REQUIRED; display routes like `/OVERVIEW` not resolved to runtime URLs before target creation.
+- **Root cause (A + D + reconciliation gap):** Contract validation returned generic errors without field receipts; project summary counted legacy `DISCOVERED` status instead of `PageCaptureStateResolver`; capture targets used display/representative routes without `RuntimeRouteResolver`; runs created before preflight validated URLs/worker.
+- **Fix (`p0vr8r3r2`):** `CaptureRunContractReceipt` field-level validation + error codes; `PageCaptureStateResolver` + `ProjectCaptureStateSummary` (API `captureSummary`); `RuntimeRouteResolver` + `PageRouteIdentity` with legacy `/OVERVIEW`→`/projects/:slug/overview`; `CaptureRunPreflight` gates run creation; server-side `capture_{projectId}_{ts}_{id}` run IDs; orchestrator sequence: reconcile → preflight → PLANNING run → materialize resolved targets → validate → dispatch; compact mobile error UX (SETUP FAILED + VIEW ISSUES); build v260.
+- **Tests:** `visualReconstructionP0VR8R3R2.test.ts` (17/17) + 8R3R1/8R3/livePageMirror (114 total pass); build `index.BKO5y_KK.js`, `StudioWorldDesignPage.MaYslw-R.js`.
+- **Next founder action:** Redeploy Railway + cPanel v260 → verify NDXBOOK pre-run NEVER CAPTURED 46 → REFRESH PROJECT → preflight receipt (46 inventory, 46 URLs, contract valid, 46 targets/jobs) → first overview page CURRENT + live screenshot.
+

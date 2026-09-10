@@ -20,8 +20,13 @@ export type PageCaptureTarget = {
   pageId: string;
   screenId: string;
   route: string;
+  displayRoute?: string | null;
+  resolvedRuntimePath?: string | null;
+  captureUrl?: string | null;
+  resolutionSource?: string | null;
+  routeValid?: boolean;
   viewport: DesignViewportClass;
-  status: 'PLANNED' | 'QUEUED' | 'CAPTURING' | 'COMPLETE' | 'FAILED' | 'SKIPPED';
+  status: 'PLANNED' | 'QUEUED' | 'CAPTURING' | 'COMPLETE' | 'FAILED' | 'SKIPPED' | 'NEEDS_REVIEW';
   jobId: string | null;
 };
 
@@ -42,6 +47,7 @@ export type PersistedCaptureRun = {
   lastError: string | null;
   viewportMode: 'MOBILE_ONLY' | 'ALL_SUPPORTED';
   contractValid: boolean;
+  invalidReason?: string | null;
 };
 
 export type CaptureOrchestrationRegistry = {

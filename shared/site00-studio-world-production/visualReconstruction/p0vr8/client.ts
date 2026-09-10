@@ -86,6 +86,7 @@ export { resolveProjectLiveBaseUrl, buildProjectPageUrl } from './projectBaseUrl
 
 export {
   buildProjectPageMirrorRows,
+  buildProjectPageMirrorSummary,
   pageMirrorRowToVisualIndexRow,
 } from './pageMirrorProjection.js';
 

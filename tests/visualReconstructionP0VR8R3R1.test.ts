@@ -127,7 +127,7 @@ describe('P0.VR.8R3R1 — Capture run contract recovery', () => {
   it('6. refresh project creates normalized run', async () => {
     const run = await refreshProjectCaptureState('ndxbook', { executeWorker: false });
     expect(run.contractVersion).toBe(CAPTURE_RUN_CONTRACT_VERSION);
-    expect(run.runId).toMatch(/^pcr-/);
+    expect(run.runId).toMatch(/^capture_/);
     expect(run.totalTargets).toBeGreaterThan(0);
     expect(run.contractValid).toBe(true);
   });
@@ -230,7 +230,7 @@ describe('P0.VR.8R3R1 — Capture run contract recovery', () => {
   });
 
   it('20. UI NaN guards in DesignPagesTabPanel', () => {
-    expect(read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx')).toContain('RUN_CONTRACT_INVALID');
+    expect(read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx')).toContain('SETUP FAILED');
     expect(read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx')).toContain('captureRunProgressLabel');
   });
 
@@ -288,11 +288,11 @@ describe('P0.VR.8R3R1 — Capture run contract recovery', () => {
   });
 
   it('29. build passes contract module', () => {
-    expect(P0_VR_8R3R1_BUILD).toBe('v259');
+    expect(P0_VR_8R3R1_BUILD).toBe('v260');
   });
 
   it('30. frontend build receipt constant', () => {
-    expect(read('shared/site00-studio-world-production/visualReconstruction/p0vr8r3/constants.ts')).toContain('v259');
+    expect(read('shared/site00-studio-world-production/visualReconstruction/p0vr8r3/constants.ts')).toContain('v260');
   });
 
   it('31. integration contract fields on refresh', async () => {
