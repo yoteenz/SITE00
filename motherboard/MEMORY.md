@@ -7486,3 +7486,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `visualReconstructionP0VR8R3R3.test.ts` (20/20); build `index.UG_FY54L.js`, `StudioWorldDesignPage.0tfLbdQ0.js`.
 - **Next founder action:** Redeploy Railway + cPanel v261 → MORE → CAPTURE ORCHESTRATION → TRANSPORT verify HEALTHY → NDXBOOK PAGES → REFRESH PROJECT (no NETWORK_ERROR) → first page CURRENT.
 
+---
+
+## 2026-09-10 — P0.VR.8R3R4 Capture Worker Boot + Heartbeat + Shared Runtime Health
+
+- **Context:** P0.VR.8R3R3 proved API transport (API CONNECTED, contract capture-run-v1 ✓, NEVER CAPTURED 46 correct). Live blocker: WORKER UNKNOWN / UNAVAILABLE — API→worker chain not proven.
+- **Deployment model (actual):** **A + E hybrid** — same Railway Express service (`start:api` → `server/index.ts`); worker was request-triggered only via `void dispatchCaptureWorker()` on `refresh_project`; no separate worker service/Procfile.
+- **Root cause (WORKER_BOOT_NOT_CALLED + HEARTBEAT_NOT_SHARED + HEARTBEAT_NOT_WRITTEN):** `captureWorkerHealth.ts` was in-memory singleton defaulting UNKNOWN with null heartbeat; health endpoint read process-local state; between requests/instances API saw no worker registration.
+- **Fix (`p0vr8r3r4`):** `startCaptureWorker()` on server boot + lazy boot on health/test endpoints; `CaptureWorkerIdentity` + `CaptureWorkerBootReceipt` + heartbeat loop (15s, 60s expire→OFFLINE); `WorkerHealthStore` canonical persistence in `capture-orchestration-registry.json` (workers/workerEvents/testJobs); `CaptureQueueStore` claim/lease; Playwright/Chromium readiness probe before HEALTHY; POST `test_worker` action; UI CAPTURE SERVICE panel (API/WORKER/BROWSER/CONTRACT) + TEST WORKER gates REFRESH PROJECT until worker HEALTHY + test pass; build v262.
+- **Tests:** `visualReconstructionP0VR8R3R4.test.ts` (31/31) + R3R1–R3R3 (99 total); build `index.BKBBKORm.js`.
+- **Next founder action:** Redeploy Railway from main (worker boots on API start) → cPanel v262 → MORE → CAPTURE ORCHESTRATION → verify WORKER HEALTHY + recent heartbeat + BROWSER READY → TEST WORKER → then NDXBOOK REFRESH PROJECT → first overview CURRENT + live screenshot.
+
