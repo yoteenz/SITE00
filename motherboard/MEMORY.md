@@ -7621,3 +7621,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Docs:** `docs/architecture/SITE00_PRODUCTION_DEPLOYMENT_P0DEPLOY1.md`. Tests: `site00ReleasePipelineP0Deploy1.test.ts` (33 pass). Build **v271** (`P0_DEPLOY_1_BUILD`).
 - **Next founder action:** Set GitHub vars `GODADDY_DEPLOY_ENABLED=true` (or SSH vars); optionally `SITE00_AUTO_PROMOTE=true`. Merge PR → Actions runs → verify backend → click **Deploy frontend** if manual mode → MORE → DEPLOYMENTS shows PRODUCTION READY. No manual ZIP for normal releases.
 
+---
+
+## 2026-09-10 — P0.CSI.1 Campaign Strategy + Expression Language System
+
+- **Context:** Founder sprint to formalize reusable campaign intelligence — not one campaign style, but a system that classifies strategies, expression languages/flavors, matches brand personality + objective, prevents repetition, and feeds concept territories upstream.
+- **Implemented (`shared/site00-expression-engine/campaign-strategy-language/`):**
+  - **20 campaign strategies** (strategy ≠ visual style) including LIVED-IN ENVIRONMENTAL STORYTELLING with 8-step sequence grammar, product/human/environment roles, reveal strategy, shot rhythm.
+  - **40+ expression languages** (multi-dimensional: ORGANIC + WITTY + LUXURIOUS + ENVIRONMENTAL + INTIMATE).
+  - `CampaignStrategyLanguageSystem`: brand compatibility, objective matching, variety engine, novelty score, rotation planner, strategy stack + conflict detection, organic campaign guard/score, founder preference learning (anti-overfit).
+  - **Territory bridge** → `ConceptTerritorySeedHint` feeds CreativeConceptTerritory without replacing it.
+  - Brand range profiles: FRONTAL SLAYER, NDXBOOK, SITE 00, AIO, ASTRAL WORLD.
+- **UI:** `CampaignFlavorWorkspace` — visual cards SAFE / FRESH / WILD CARD; strategy detail + GENERATE CAMPAIGN TERRITORIES. Routes: `/projects/:slug/campaign-flavor`, `/evolve/campaign-flavor`. CSS: `site00-campaign-flavor.css`.
+- **Tests:** `campaignStrategyLanguageP0CSI1.test.ts` (22/22). PR **#665** merged. Build marker `P0_CSI_1_BUILD = v269`; cPanel release **v272** (`index.DLJfs9N_.js`).
+- **Remaining gaps:** Supabase persistence for expression history/approvals; full FounderCreativeAppetite wire-in at runtime; automated channel adaptation generation; performance metrics loop.
+- **Next founder action:** Open `/evolve/campaign-flavor` or `/projects/ndxbook/campaign-flavor` → select FRONTAL SLAYER + LAUNCH → verify LIVED-IN ENVIRONMENTAL in SAFE → open detail → GENERATE CAMPAIGN TERRITORIES → repeat NDXBOOK and confirm different range.
+
