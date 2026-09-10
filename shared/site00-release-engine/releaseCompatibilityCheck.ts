@@ -14,6 +14,49 @@ export type ReleaseCompatibilityResult = {
   messages: string[];
 };
 
+/** Backend-only gate when frontend has not been promoted yet (verify_backend job). */
+export function checkBackendOnlyCompatibility(
+  backend: BackendHealthReceipt | null,
+  expectedVersion: string | null,
+): ReleaseCompatibilityResult {
+  const apiVersion = backend?.apiBuild ?? null;
+  const workerVersion = backend?.workerBuild ?? null;
+
+  if (!apiVersion || !workerVersion) {
+    return {
+      compatible: false,
+      status: 'UNKNOWN',
+      frontendVersion: null,
+      apiVersion,
+      workerVersion,
+      releaseIdMatch: false,
+      messages: ['Missing backend version receipt (apiBuild/workerBuild)'],
+    };
+  }
+
+  if (expectedVersion && (apiVersion !== expectedVersion || workerVersion !== expectedVersion)) {
+    return {
+      compatible: false,
+      status: 'VERSION_MISMATCH',
+      frontendVersion: null,
+      apiVersion,
+      workerVersion,
+      releaseIdMatch: false,
+      messages: [`Backend version mismatch: api=${apiVersion} worker=${workerVersion} expected ${expectedVersion}`],
+    };
+  }
+
+  return {
+    compatible: true,
+    status: 'COMPATIBLE',
+    frontendVersion: null,
+    apiVersion,
+    workerVersion,
+    releaseIdMatch: true,
+    messages: [],
+  };
+}
+
 export function checkReleaseCompatibility(
   manifest: ReleaseManifest | null,
   backend: BackendHealthReceipt | null,
