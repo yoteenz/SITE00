@@ -41,6 +41,8 @@ export const DESIGN_RECONSTRUCTION_KERNEL_SERVICES: DesignReconstructionKernelSe
 export function runDesignReconstructionKernel(input: {
   workspace: 'SKINS' | 'PAGES' | 'ASSETS';
   pageExperience: PageExperienceInput;
+  /** P0.VR.8-SRF — optional screen replication golden case */
+  screenReplicationGoldenCase?: 'NDX_OVERVIEW_MOBILE';
 }) {
   const pageJob = runPageCompletionIntelligence(input.pageExperience);
   const rriInspector = buildReferenceReconstructionInspectorState();
@@ -53,7 +55,7 @@ export function runDesignReconstructionKernel(input: {
   const founderActions = multiAssetJob ? syncFounderActionsFromJob(multiAssetJob) : [];
   const pageInspector = buildPageCompletionInspectorState(pageJob);
 
-  return {
+  const base = {
     kernel: DESIGN_RECONSTRUCTION_KERNEL_SERVICES,
     workspace: input.workspace,
     pageJob,
@@ -63,6 +65,15 @@ export function runDesignReconstructionKernel(input: {
     founderActions,
     assetJobLinked: Boolean(multiAssetJob && pageJob.assetJobs.length > 0),
   };
+
+  if (input.screenReplicationGoldenCase) {
+    return {
+      ...base,
+      screenReplicationGoldenCase: input.screenReplicationGoldenCase,
+    };
+  }
+
+  return base;
 }
 
 export function pagesPipelineInheritsSkinsKernel(): boolean {

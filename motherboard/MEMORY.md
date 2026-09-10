@@ -7398,3 +7398,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Preserved:** semantic crop intelligence, direct manipulation editor, crop/generation approval gates, no silent paid generation
 - **Next founder action:** DESIGN → ASSETS → CONTINUE RECONSTRUCTION → approve NDXBOOK crop → verify auto-advance to FRONTAL SLAYER with smart crop proposal → complete sequence → REVIEW GENERATION PLAN before APPROVE GENERATION
 
+## 2026-09-10 — P0.VR.8-SRF Screen Replication Fidelity / Asset-Deferred Convergence
+
+- **Context:** Asset reconstruction pipeline still stabilizing; sprint isolates whether SITE 00 can replicate approved screen authority (layout/spacing/typography/composition) while deferring unresolved hero/card assets.
+- **Implemented (`p0vr8/screenReplicationFidelity/`):**
+  - `ScreenReplicationFidelityContract`, `AssetDeferredPolicy`, `ScreenReplicationFidelityScore` (separate structural vs asset dimensions)
+  - `ScreenAuthorityBlueprint`, `CompositionRelationshipMap`, `AuthorityRebuildRegionMap`
+  - `TemplateDriftDetector`, structural QA pass A (asset-deferred masked) + full QA pass B
+  - `ScreenReplicationKernel` extending `DesignReconstructionKernel`
+  - Golden case: **NDXBOOK PROJECT OVERVIEW MOBILE** (`ndxbook:overview:mobile:v1`)
+  - UI: `DesignScreenReplicationInspector` (Design → MORE), `AssetPendingPlaceholder` (neutral geometry-preserving)
+  - **Mobile routing:** `ProjectOverviewModuleSurface` renders `OverviewMobileHomeScreen` for ndxbook mobile (authority layout, not generic `site00-pov` template)
+  - `data-srf-region` markers on overview hero/kpis/production/radar
+- **Tests:** `visualReconstructionP0VR8ScreenReplication.test.ts` (25/25 pass); build `index.BDArDRxO.js`
+- **Status:** Mobile golden case **STRUCTURAL_AUTHORITY_VERIFIED** in kernel simulation; pixel overlay QA + reference PNG ingest still required for full visual authority pass
+- **Next founder action:** DESIGN → MORE → SCREEN REPLICATION QA → verify REFERENCE/LIVE/OVERLAY/DIFF links → open `/projects/ndxbook/overview` mobile → confirm authority layout (not generic pov) → continue asset reconstruction separately
+
