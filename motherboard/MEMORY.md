@@ -7414,3 +7414,21 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Status:** Mobile golden case **STRUCTURAL_AUTHORITY_VERIFIED** in kernel simulation; pixel overlay QA + reference PNG ingest still required for full visual authority pass
 - **Next founder action:** DESIGN → MORE → SCREEN REPLICATION QA → verify REFERENCE/LIVE/OVERLAY/DIFF links → open `/projects/ndxbook/overview` mobile → confirm authority layout (not generic pov) → continue asset reconstruction separately
 
+---
+
+## 2026-09-10 — P0.VR.8R1 Project-Scoped Design Context + Brand Skin / Page Registry Sync
+
+- **Context:** Design workspace project selector changed labels but did not fully rebind pages, accents, skins, captures, or references to the active project (NDXBOOK showed SITE 00 red; Studio World showed fake 0 pages).
+- **Implemented (`p0vr3m/`):**
+  - `DesignProjectContext` — single project-scoped authority (registries, repo bindings, sync state, theme tokens)
+  - `DesignProjectThemeTokens` — derived from `ProjectExperienceSkin` / `BrandFamilySkin` (NDX lime `#b7d236`, Studio gold `#d4af37`, AIO gold `#c9a227`, distinct)
+  - `ProjectRouteManifest` + sync state (`NEVER_SYNCED` / `SYNC_REQUIRED` / `SYNCED`); unsynced ≠ zero in Pages tab
+  - `ProjectPageCapture` registry keyed by `projectId + route + viewport`
+  - `ProjectContextFirewall` + `DesignContextLeakDetector`
+  - `managedProjectDesignBootstrap` — registers design screens for all 5 client projects + astral adapter
+  - `useDesignProjectContext` hook — atomic switch with `PROJECT_CONTEXT_LOADING` → READY / ERROR (no silent SITE 00 fallback)
+- **UI:** `StudioWorldDesignWorkspace` binds context on project select; per-project accent CSS vars; Pages tab SYNC REQUIRED UX; skins no longer default to NDXBOOK when unmapped
+- **Tests:** `visualReconstructionP0VR8R1.test.ts` (22/22 pass); build passes
+- **Manual QA:** NDXBOOK lime accent + routes; Studio World gold + distinct routes; project switch matrix passed
+- **Next founder action:** After cPanel deploy — DESIGN → run 5-project switch matrix (NDXBOOK → Studio World → FS → AIO → Astral → NDXBOOK) then proceed to P0.VR.8 screen-replication golden test on NDXBOOK overview mobile
+
