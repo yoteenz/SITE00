@@ -1,0 +1,230 @@
+name: SITE 00 Production Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Release action'
+        required: true
+        default: release
+        type: choice
+        options:
+          - release
+          - redeploy
+          - retry_frontend
+      deploy_frontend:
+        description: 'Promote frontend to cPanel (manual promotion mode)'
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: site00-production
+  cancel-in-progress: false
+
+env:
+  SITE00_RELEASE_VERSION: v271
+  SITE00_FRONTEND_URL: https://site00.com
+  SITE00_API_URL: https://api.site00.com
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    environment: production
+    outputs:
+      auto_promote: ${{ steps.mode.outputs.auto_promote }}
+      deploy_frontend: ${{ steps.mode.outputs.deploy_frontend }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate production deployment config
+        id: validate
+        env:
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_API_BASE: ${{ secrets.VITE_API_BASE }}
+          GODADDY_FTP_HOST: ${{ secrets.GODADDY_FTP_HOST }}
+          GODADDY_FTP_USERNAME: ${{ secrets.GODADDY_FTP_USERNAME }}
+          GODADDY_FTP_PASSWORD: ${{ secrets.GODADDY_FTP_PASSWORD }}
+          GODADDY_SSH_HOST: ${{ secrets.GODADDY_SSH_HOST }}
+          GODADDY_SSH_USER: ${{ secrets.GODADDY_SSH_USER }}
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ] && [ "${{ github.event_name }}" != "workflow_dispatch" ]; then
+            echo "::error::Production releases only from main"
+            exit 1
+          fi
+          test -f package-lock.json || { echo "::error::package-lock.json missing"; exit 1; }
+          test -f shared/site00-release-engine/constants.ts || { echo "::error::release engine missing"; exit 1; }
+          if [ -z "$VITE_SUPABASE_URL" ] || [ -z "$VITE_SUPABASE_ANON_KEY" ] || [ -z "$VITE_API_BASE" ]; then
+            echo "::error::Missing VITE_* build secrets"
+            exit 1
+          fi
+          echo "Validation PASS"
+
+      - name: Resolve deployment mode
+        id: mode
+        run: |
+          AUTO="${{ vars.SITE00_AUTO_PROMOTE }}"
+          if [ "$AUTO" = "true" ]; then
+            echo "auto_promote=true" >> "$GITHUB_OUTPUT"
+            echo "deploy_frontend=true" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.inputs.deploy_frontend }}" = "true" ] || [ "${{ github.event.inputs.action }}" = "retry_frontend" ]; then
+            echo "auto_promote=false" >> "$GITHUB_OUTPUT"
+            echo "deploy_frontend=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "auto_promote=false" >> "$GITHUB_OUTPUT"
+            echo "deploy_frontend=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  test:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: Run tests
+        run: npm test
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    outputs:
+      release_id: ${{ steps.manifest.outputs.release_id }}
+      bundle_entry: ${{ steps.manifest.outputs.bundle_entry }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: Production build + release manifest
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          SITE00_RELEASE_VERSION: ${{ env.SITE00_RELEASE_VERSION }}
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_SITE00_ROOT: '1'
+          VITE_SITE00_CANONICAL_ORIGIN: https://site00.com
+          VITE_API_BASE: ${{ secrets.VITE_API_BASE }}
+        run: npm run build
+      - name: Capture release metadata
+        id: manifest
+        run: |
+          RELEASE_ID=$(node -pe "JSON.parse(require('fs').readFileSync('dist/release-manifest.json','utf8')).releaseId")
+          BUNDLE=$(node -pe "JSON.parse(require('fs').readFileSync('dist/release-manifest.json','utf8')).bundleEntry || ''")
+          echo "release_id=$RELEASE_ID" >> "$GITHUB_OUTPUT"
+          echo "bundle_entry=$BUNDLE" >> "$GITHUB_OUTPUT"
+          cat dist/release-manifest.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site00-production-dist
+          path: dist/
+          retention-days: 14
+
+  verify_backend:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Wait for Railway release
+        env:
+          EXPECTED_RELEASE_ID: ${{ needs.build.outputs.release_id }}
+          EXPECTED_VERSION: ${{ env.SITE00_RELEASE_VERSION }}
+          SKIP_FRONTEND_VERIFY: 'true'
+          RAILWAY_POLL_TIMEOUT_MS: '600000'
+        run: node scripts/site00-verify-production-release.mjs
+
+  deploy_frontend:
+    needs: [build, verify_backend, validate]
+    if: needs.validate.outputs.deploy_frontend == 'true'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: site00-production-dist
+          path: dist/
+      - name: Deploy dist/ via SSH rsync (preferred)
+        if: vars.GODADDY_SSH_DEPLOY_ENABLED == 'true'
+        env:
+          GODADDY_SSH_HOST: ${{ secrets.GODADDY_SSH_HOST }}
+          GODADDY_SSH_USER: ${{ secrets.GODADDY_SSH_USER }}
+          GODADDY_SSH_PRIVATE_KEY: ${{ secrets.GODADDY_SSH_PRIVATE_KEY }}
+          GODADDY_SSH_PORT: ${{ secrets.GODADDY_SSH_PORT }}
+          GODADDY_SSH_REMOTE_DIR: ${{ vars.GODADDY_SSH_REMOTE_DIR }}
+        run: bash scripts/site00-cpanel-deploy.sh dist
+
+      - name: Deploy dist/ to GoDaddy (FTP)
+        if: vars.GODADDY_SSH_DEPLOY_ENABLED != 'true' && vars.GODADDY_DEPLOY_ENABLED == 'true'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.GODADDY_FTP_HOST }}
+          username: ${{ secrets.GODADDY_FTP_USERNAME }}
+          password: ${{ secrets.GODADDY_FTP_PASSWORD }}
+          local-dir: dist/
+          server-dir: ${{ vars.GODADDY_FTP_SERVER_DIR || './' }}
+          dangerous-clean-slate: true
+          exclude: |
+            **/.well-known/**
+            **/.cpanel/**
+            **/cgi-bin/**
+            **/webmail/**
+            **/mail/**
+            **/tmp/**
+            **/.ftpquota
+            **/.htpasswd
+
+      - name: Fail if cPanel deploy not configured
+        if: vars.GODADDY_SSH_DEPLOY_ENABLED != 'true' && vars.GODADDY_DEPLOY_ENABLED != 'true'
+        run: |
+          echo "::error::CPANEL_CONNECTION_FAILED — set GODADDY_DEPLOY_ENABLED or GODADDY_SSH_DEPLOY_ENABLED"
+          exit 1
+
+  verify_release:
+    needs: [build, deploy_frontend, validate]
+    if: always() && needs.validate.outputs.deploy_frontend == 'true' && needs.deploy_frontend.result == 'success'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Verify production release
+        env:
+          EXPECTED_RELEASE_ID: ${{ needs.build.outputs.release_id }}
+          EXPECTED_VERSION: ${{ env.SITE00_RELEASE_VERSION }}
+          RELEASE_RECEIPT_PATH: production-release-receipt.json
+        run: node scripts/site00-verify-production-release.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: production-release-receipt
+          path: production-release-receipt.json
+          retention-days: 30
+
+  manual_promotion_notice:
+    needs: [build, verify_backend, validate]
+    if: needs.validate.outputs.deploy_frontend != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Backend verified — awaiting frontend promotion
+        run: |
+          echo "BACKEND VERIFY PASS"
+          echo "Release ID: ${{ needs.build.outputs.release_id }}"
+          echo ""
+          echo "MANUAL PROMOTION MODE — frontend not deployed."
+          echo "Re-run workflow with deploy_frontend=true or set SITE00_AUTO_PROMOTE=true"
+          echo ""
+          echo "DO NOT download/upload/extract ZIP for normal releases."

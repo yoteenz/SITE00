@@ -16,6 +16,7 @@ import { DesignMoreRouteAuditPage } from './more/DesignMoreRouteAuditPage';
 import { DesignMoreStoragePage } from './more/DesignMoreStoragePage';
 import { DesignMoreAutomationPage } from './more/DesignMoreAutomationPage';
 import { DesignMorePresetsPage } from './more/DesignMorePresetsPage';
+import { DesignMoreDeploymentsPage } from './more/DesignMoreDeploymentsPage';
 import type { ProjectCaptureRefreshState } from './usePageMirror';
 import {
   MORE_CATEGORIES,
@@ -151,6 +152,10 @@ export function DesignMoreTab({
 
   if (activeCategory === 'presets') {
     return childShell('presets', <DesignMorePresetsPage onBack={backToLanding} presets={presets} />);
+  }
+
+  if (activeCategory === 'deployments') {
+    return childShell('deployments', <DesignMoreDeploymentsPage onBack={backToLanding} />);
   }
 
   if (activeCategory === 'system') {

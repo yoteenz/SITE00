@@ -49,6 +49,7 @@ export type SkinsWizardStep = (typeof SKINS_WIZARD_STEPS)[number];
 export const MORE_CATEGORIES = [
   'landing',
   'system',
+  'deployments',
   'providers',
   'capture',
   'route-audit',
@@ -155,6 +156,7 @@ export function moreCategoryLabel(category: MoreCategory): string {
   const labels: Record<MoreCategory, string> = {
     landing: 'MORE',
     system: 'SYSTEM',
+    deployments: 'DEPLOYMENTS',
     providers: 'PROVIDERS',
     capture: 'CAPTURE',
     'route-audit': 'ROUTE AUDIT',
