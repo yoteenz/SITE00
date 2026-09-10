@@ -7649,6 +7649,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Hook:** `usePageMirror.captureNow(screenId, viewport)` uses current workspace viewport from `DesignWorkspaceViewportRail`.
 - **Build:** v272 (`P0_VR_CAPTURE_1_BUILD`). Tests: `visualReconstructionP0VRCapture1.test.ts` (32 pass).
 - **Next founder action:** DESIGN → NDXBOOK → PAGES → select one page → CAPTURE NOW (current viewport only) → UPGRADE THIS PAGE → approve → verify before/after → NEXT PAGE.
+
+---
+
+## 2026-09-10 — Railway Noble apt fix (libasound2 → t64)
+
+- **Issue:** Railway Nixpacks build on Ubuntu 24.04 Noble failed: `E: Package 'libasound2' has no installation candidate`.
+- **Fix:** Updated `nixpacks.toml` + `PLAYWRIGHT_APT_DEPS` to Ubuntu 24.04 t64 package names (`libasound2t64`, `libatk1.0-0t64`, `libcups2t64`, `libglib2.0-0t64`, etc.) matching Playwright `nativeDeps` ubuntu24.04-x64.
+- **Next founder action:** Redeploy Railway from `main`; build should pass apt install step.
 =======
 ## 2026-09-10 — P0.CGO.1 Campaign World Genesis + Creative Direction Orchestration
 
