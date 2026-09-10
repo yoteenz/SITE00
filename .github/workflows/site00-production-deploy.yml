@@ -32,7 +32,6 @@ env:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    environment: production
     outputs:
       auto_promote: ${{ steps.mode.outputs.auto_promote }}
       deploy_frontend: ${{ steps.mode.outputs.deploy_frontend }}
@@ -132,7 +131,6 @@ jobs:
   verify_backend:
     needs: build
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -150,7 +148,6 @@ jobs:
     needs: [build, verify_backend, validate]
     if: needs.validate.outputs.deploy_frontend == 'true'
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -196,7 +193,6 @@ jobs:
     needs: [build, deploy_frontend, validate]
     if: always() && needs.validate.outputs.deploy_frontend == 'true' && needs.deploy_frontend.result == 'success'
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
