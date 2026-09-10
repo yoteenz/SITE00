@@ -7507,3 +7507,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `visualReconstructionP0VR8R3R5.test.ts` (28/28); bundle `index.D3rSTwiw.js`.
 - **Next founder action:** Deploy cPanel v263 → DESIGN → NDXBOOK → PAGES → follow guided CHECK → TEST → CAPTURE → REVIEW without opening system details.
 
+---
+
+## 2026-09-10 — P0.VR.8R3R5R1 True Wizard Workspace + Single-Screen Task Orchestration
+
+- **Context:** Screen recording after R3R5 showed Design workspace still behaved like a long scrolling admin document — founder forced to scroll through providers, spend guard, capture panels, page cards, route audit, quick actions stacked vertically. R3R5 improved copy but not interaction model.
+- **Invariant enforced:** ONE TASK = ONE SCREEN = ONE PRIMARY DECISION = ONE NEXT ACTION. Only active stage renders; previous/next as step rail + back/continue, never full panels below.
+- **Fix (`p0vr8r3r5r1`):** `DesignTaskWizardShell` + `DesignDetailsDrawer` (bottom sheet mobile / right drawer desktop — overlay only, no inline `<details>` page expansion); `DesignPagesWizard` screens (landing → service check → test worker → capture setup/running/results → page library → detail/compare); `DesignAssetsWizard` / `DesignSkinsWizard` (7 + 6 steps, URL `assetStep`/`skinsStep`); `DesignMoreTab` category landing grid → sub-screens (providers, capture orchestration, route audit, storage, automation, presets, system); URL resume via `pagesStep`, `moreCategory`, `pageId`; global capture pill when run in background; disclosure panel only on REFERENCES/HISTORY; build v264.
+- **Preserved:** All R3R4 worker boot, transport health, capture orchestration, route recovery, asset/skin intelligence backends unchanged.
+- **Tests:** `visualReconstructionP0VR8R3R5R1.test.ts` (32/32); R3R1–R3R5 regression updated (159 pass); PR #656 merged.
+- **Next founder action:** Deploy cPanel v264 → DESIGN → NDXBOOK → PAGES — do NOT scroll; landing shows START CAPTURE SETUP → advance screen-by-screen through service check → test worker → capture → results; verify MORE opens category grid not settings document.
+
