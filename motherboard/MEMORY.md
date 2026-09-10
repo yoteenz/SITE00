@@ -7368,6 +7368,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-09 — P0.CJ.2V Creative Judgment Visual Authority
+
+- **Context:** P0.CJ.2 data layer worked but presentation still felt text-heavy / dark / generic; sprint required premium bright-host creative-director UX on mobile + desktop without touching CJ engine.
+- **Implemented:**
+  - **Visual system** — full rewrite `site00-creative-judgment-presentation.css`: bright off-white host, SITE 00 red accent, Martian Mono uppercase, editorial hero zones, no dark SaaS cards.
+  - **Components** — `ConceptHeroVisual`, `ConceptBreakdownRows`, `ConceptEngineRead`, `ConceptFounderJudgmentBar`, `ConceptGalleryMobile` (snap carousel + peek), `ConceptGalleryDesktop` (active + rail), `ConceptDetailView`, redesigned `ConceptCompareView` + `ConceptTrailerMode` (client-showable, no internal metrics).
+  - **Hero art registry** — per-concept symbolic treatments (NDX door, Verdant leaf, Sleep archive, Savor room).
+  - **Sleep Debt Archive** — 4th gallery concept via presentation fixture + bootstrap seed.
+  - **Maturity** — demoted to VIEW MATURITY link (Level 3), not default.
+  - **Tests:** `creativeJudgmentPresentationP0CJ2V.test.ts` (7) + updated CJ2 (13); build `index.cKVRVeUR.js`; PR **#645** merged.
+  - **Status:** `VISUAL_DIRECTION_IMPLEMENTED · VISUAL_AUTHORITY_REQUIRED` (no pixel-perfect authority claim).
+- **Remaining gaps:** Generated hero key art / product photography binding; live savorceleste.com fetch; final mobile+desktop screen authority captures for pixel pass.
+- **Next founder action:** Deploy v253 → Expression Engine → CREATIVE JUDGMENT → review 4 cases (Employee Door, Verdant Row, Sleep Debt, Savor Celeste) on mobile gallery + desktop compare + trailer — capture screenshots for visual authority pass.
+
 ## 2026-09-10 — P0.VR.7R1 Guided reconstruction flow + workflow sequence intelligence
 
 - **Context:** Design reconstruction pipeline worked technically but founder still had to manually interpret multi-asset jobs (SKINS mobile 5 brand-family row). Sprint adds guided sequence intelligence without replacing crop editor, approval gates, or provider safeguards.

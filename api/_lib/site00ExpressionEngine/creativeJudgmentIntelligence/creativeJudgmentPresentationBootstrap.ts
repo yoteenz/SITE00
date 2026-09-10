@@ -12,13 +12,14 @@ import {
   buildSavorCelestePrivateRoomInput,
   SAVOR_CELESTE_PROFILE,
 } from '../../../../shared/site00-expression-engine/creative-judgment-presentation/savorCelesteCase.js';
+import { buildSleepDebtJudgmentInput, buildSleepDebtTerritory } from '../../../../shared/site00-expression-engine/creative-judgment-presentation/sleepDebtArchiveCase.js';
 import { buildEntry003JudgmentInput, buildEntry003Territory } from './entry003GoldenFixture.js';
 import { buildVerdantRowJudgmentInput, buildVerdantRowTerritory } from './verdantRowGoldenFixture.js';
 import { runCreativeJudgmentIntelligence } from './creativeJudgmentIntelligenceEngine.js';
 import { recordFounderJudgment } from './founderJudgmentMemory.js';
 import type { FounderJudgmentLabel } from '../../../../shared/site00-expression-engine/creative-judgment-intelligence/failureClasses.js';
 
-export const CREATIVE_JUDGMENT_PRESENTATION_VERSION = 'P0.CJ.2';
+export const CREATIVE_JUDGMENT_PRESENTATION_VERSION = 'P0.CJ.2V';
 
 const panelStore = new Map<string, ConceptPanel>();
 
@@ -38,10 +39,10 @@ function mapPresentationJudgmentToEngine(j: PresentationFounderJudgment): Founde
 function seedConceptGallery(): ConceptPanel[] {
   const entry003 = runCreativeJudgmentIntelligence(buildEntry003JudgmentInput());
   const verdantRow = runCreativeJudgmentIntelligence(buildVerdantRowJudgmentInput());
+  const sleepDebt = runCreativeJudgmentIntelligence(buildSleepDebtJudgmentInput());
   const savorCeleste = runCreativeJudgmentIntelligence(buildSavorCelestePrivateRoomInput());
 
   const panels: ConceptPanel[] = [
-    buildSavorCelesteConceptPanel(savorCeleste),
     mapJudgmentToConceptPanel({
       judgment: entry003,
       territory: buildEntry003Territory(),
@@ -54,12 +55,22 @@ function seedConceptGallery(): ConceptPanel[] {
     mapJudgmentToConceptPanel({
       judgment: verdantRow,
       territory: buildVerdantRowTerritory(),
-      brandName: 'Verdant Row',
+      brandName: 'VERDANT ROW',
       caseType: 'invented',
       groundingMode: 'profile_grounded',
-      expressionContext: 'NON-NDX GOLDEN · PLANT CARE',
-      heroSymbol: '◈ LEAF WITNESS',
+      expressionContext: 'CONFESSION-FIRST CARE',
+      heroSymbol: '◈ LEAF DIAGNOSTIC',
     }),
+    mapJudgmentToConceptPanel({
+      judgment: sleepDebt,
+      territory: buildSleepDebtTerritory(),
+      brandName: 'NDXBOOK',
+      caseType: 'invented',
+      groundingMode: 'profile_grounded',
+      expressionContext: 'BENCHMARK · SLEEP DEBT',
+      heroSymbol: '⌁ REST RECEIPT',
+    }),
+    buildSavorCelesteConceptPanel(savorCeleste),
   ];
 
   for (const p of panels) panelStore.set(p.id, p);

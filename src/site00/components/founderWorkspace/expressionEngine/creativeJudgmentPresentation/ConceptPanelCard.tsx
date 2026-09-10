@@ -1,119 +1,132 @@
 /**
- * P0.CJ.2 — Single concept review panel (visual-first summary).
+ * P0.CJ.2V — Concept board panel (gallery / thumb variants).
  */
 
+import { judgmentStateClass } from '../../../../../../shared/site00-expression-engine/creative-judgment-presentation/conceptDisplayUtils.js';
 import type { ConceptPanel, PresentationFounderJudgment } from '../../../../../../shared/site00-expression-engine/creative-judgment-presentation/types.js';
+import { ConceptBreakdownRows } from './ConceptBreakdownRows.js';
+import { ConceptEngineRead } from './ConceptEngineRead.js';
+import { ConceptFounderJudgmentBar } from './ConceptFounderJudgmentBar.js';
+import { ConceptHeroVisual } from './ConceptHeroVisual.js';
 
 type Props = {
   panel: ConceptPanel;
-  compact?: boolean;
+  index?: number;
+  total?: number;
+  variant?: 'gallery' | 'thumb' | 'detail';
   selected?: boolean;
   onSelect?: () => void;
   onOpenDetail?: () => void;
   onJudgment?: (j: PresentationFounderJudgment) => void;
-  showActions?: boolean;
+  note?: string;
+  onNoteChange?: (v: string) => void;
+  showInternalGrounding?: boolean;
 };
-
-const JUDGMENTS: PresentationFounderJudgment[] = [
-  'LOVE_IT',
-  'PROMISING',
-  'TOO_CLOSE',
-  'NOT_NDXBOOK',
-  'REVISE',
-  'HOLD',
-  'APPROVED_FOR_NEXT_STAGE',
-];
 
 export function ConceptPanelCard({
   panel,
-  compact,
+  index,
+  total,
+  variant = 'gallery',
   selected,
   onSelect,
   onOpenDetail,
   onJudgment,
-  showActions = true,
+  note,
+  onNoteChange,
+  showInternalGrounding = true,
 }: Props) {
-  const hero = panel.assets.find((a) => a.assetId === panel.heroVisualAssetId);
+  const stateClass = judgmentStateClass(panel.founderJudgment, panel.status);
+  const isThumb = variant === 'thumb';
+  const isDetail = variant === 'detail';
 
   return (
     <article
-      className={`site00-cj-panel${compact ? ' site00-cj-panel--compact' : ''}${selected ? ' is-selected' : ''}${panel.isRealBrandDemo ? ' is-real-brand-demo' : ''}`}
-      onClick={onSelect}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') onOpenDetail?.();
-      }}
+      className={`site00-cj-board site00-cj-board--${variant} ${stateClass}${selected ? ' is-selected' : ''}${panel.isRealBrandDemo ? ' is-real-brand' : ''}`}
+      onClick={isThumb ? onSelect : undefined}
+      role={isThumb ? 'button' : undefined}
+      tabIndex={isThumb ? 0 : undefined}
     >
-      <div className="site00-cj-panel__hero" aria-hidden="true">
-        <span className="site00-cj-panel__hero-symbol">{hero?.symbolicTreatment ?? '◌'}</span>
-        {panel.isRealBrandDemo ? <span className="site00-cj-panel__demo-badge">REAL BRAND DEMO</span> : null}
-      </div>
+      {!isThumb && index != null && total != null ? (
+        <div className="site00-cj-board__meta">
+          <span className="site00-cj-board__index">{String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}</span>
+          <span className="site00-cj-board__case">{panel.brandName}</span>
+        </div>
+      ) : null}
 
-      <header className="site00-cj-panel__head">
-        <span className={`site00-cj-panel__grounding is-${panel.groundingMode.replace(/_/g, '-')}`}>
-          {panel.groundingLabel}
-        </span>
-        <h3>{panel.conceptTitle}</h3>
-        <p className="site00-cj-panel__brand">{panel.brandName}</p>
-        <p className="site00-cj-panel__premise">{panel.oneLinePremise}</p>
-      </header>
+      <ConceptHeroVisual panel={panel} size={isThumb ? 'thumb' : isDetail ? 'detail' : 'gallery'} />
 
-      <dl className="site00-cj-panel__strip">
-        <div><dt>TENSION</dt><dd>{panel.centralTension}</dd></div>
-        <div><dt>MECHANISM</dt><dd>{panel.mechanism}</dd></div>
-        <div><dt>WORLD</dt><dd>{panel.world}</dd></div>
-        <div><dt>HERO MOVE</dt><dd>{panel.heroMove}</dd></div>
-        <div><dt>INTERJECTION</dt><dd>{panel.interjection}</dd></div>
-        <div><dt>DECISION</dt><dd>{panel.decision}</dd></div>
-        <div><dt>SCORE</dt><dd>{panel.score}</dd></div>
-        <div><dt>STATUS</dt><dd>{panel.status.replace(/_/g, ' ')}</dd></div>
-        {panel.ndxLeakStatus !== 'CLEAR' ? (
-          <div><dt>LEAK</dt><dd className="is-warn">{panel.ndxLeakStatus}</dd></div>
+      <div className="site00-cj-board__body">
+        {isThumb ? (
+          <>
+            <h4>{panel.conceptTitle}</h4>
+            <p>{panel.brandName}</p>
+          </>
+        ) : (
+          <>
+            <h3>{panel.conceptTitle}</h3>
+            <p className="site00-cj-board__premise">{panel.oneLinePremise}</p>
+          </>
+        )}
+
+        {showInternalGrounding && !isThumb ? (
+          <span className={`site00-cj-board__grounding is-${panel.groundingMode.replace(/_/g, '-')}`}>
+            {panel.groundingLabel}
+          </span>
         ) : null}
-      </dl>
 
-      {panel.founderJudgment ? (
-        <p className="site00-cj-panel__judgment-chip">{String(panel.founderJudgment).replace(/_/g, ' ')}</p>
-      ) : null}
+        {!isThumb ? <ConceptBreakdownRows panel={panel} variant={isDetail ? 'detail' : 'gallery'} /> : null}
 
-      {!compact ? (
-        <details className="site00-cj-panel__depth">
-          <summary>DEEPER REASONING</summary>
-          <div className="site00-cj-panel__depth-body">
-            <p><strong>Selection:</strong> {panel.diagnostics.selectionRationale}</p>
-            <p><strong>Brand fidelity:</strong> {panel.diagnostics.brandFidelityAnalysis}</p>
-            <p><strong>Leak:</strong> {panel.diagnostics.leakAnalysis}</p>
-            {panel.diagnostics.risks.length ? (
-              <p><strong>Risks:</strong> {panel.diagnostics.risks.join(' · ')}</p>
-            ) : null}
-            <p className="site00-cj-panel__full-reasoning">{panel.diagnostics.fullReasoning}</p>
-          </div>
-        </details>
-      ) : null}
+        {!isThumb ? <ConceptEngineRead panel={panel} /> : null}
 
-      {showActions && onJudgment ? (
-        <footer className="site00-cj-panel__actions">
-          {JUDGMENTS.map((j) => (
-            <button
-              key={j}
-              type="button"
-              className={panel.founderJudgment === j ? 'is-active' : ''}
-              onClick={(e) => {
-                e.stopPropagation();
-                onJudgment(j);
-              }}
-            >
-              {j.replace(/_/g, ' ')}
-            </button>
-          ))}
-          {onOpenDetail ? (
-            <button type="button" className="site00-cj-panel__open" onClick={(e) => { e.stopPropagation(); onOpenDetail(); }}>
-              OPEN
-            </button>
-          ) : null}
-        </footer>
-      ) : null}
+        {panel.founderJudgment && !isThumb ? (
+          <p className="site00-cj-board__founder-chip">{String(panel.founderJudgment).replace(/_/g, ' ')}</p>
+        ) : null}
+
+        {isDetail ? (
+          <details className="site00-cj-board__details-group">
+            <summary>WHY THIS WORKS</summary>
+            <p>{panel.diagnostics.selectionRationale}</p>
+          </details>
+        ) : null}
+
+        {isDetail ? (
+          <>
+            <details className="site00-cj-board__details-group">
+              <summary>CHANNEL PLAN</summary>
+              <ul className="site00-cj-board__channels">
+                {panel.primaryChannels.map((ch) => (
+                  <li key={ch}>{ch.replace(/-/g, ' ').toUpperCase()}</li>
+                ))}
+              </ul>
+            </details>
+            <details className="site00-cj-board__details-group">
+              <summary>ENGINE CRITIQUE</summary>
+              <p>{panel.diagnostics.brandFidelityAnalysis}</p>
+            </details>
+            <details className="site00-cj-board__details-group">
+              <summary>FULL REASONING</summary>
+              <p className="site00-cj-board__reasoning-muted">{panel.diagnostics.fullReasoning}</p>
+            </details>
+          </>
+        ) : null}
+
+        {!isThumb && onJudgment ? (
+          <ConceptFounderJudgmentBar
+            active={panel.founderJudgment}
+            onJudgment={onJudgment}
+            compact={variant === 'gallery'}
+            note={note}
+            onNoteChange={onNoteChange}
+          />
+        ) : null}
+
+        {onOpenDetail && variant === 'gallery' ? (
+          <button type="button" className="site00-cj-board__open-detail" onClick={onOpenDetail}>
+            OPEN DETAIL
+          </button>
+        ) : null}
+      </div>
     </article>
   );
 }

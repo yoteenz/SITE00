@@ -1,8 +1,10 @@
 /**
- * P0.CJ.2 — Client-showable trailer / gift deck mode (minimal chrome).
+ * P0.CJ.2V — Client-showable trailer (no internal engine chrome).
  */
 
+import { summarizeLine } from '../../../../../../shared/site00-expression-engine/creative-judgment-presentation/conceptDisplayUtils.js';
 import type { ConceptPanel } from '../../../../../../shared/site00-expression-engine/creative-judgment-presentation/types.js';
+import { ConceptHeroVisual } from './ConceptHeroVisual.js';
 
 type Props = {
   panel: ConceptPanel;
@@ -10,25 +12,50 @@ type Props = {
 };
 
 export function ConceptTrailerMode({ panel, onExit }: Props) {
-  const hero = panel.assets.find((a) => a.assetId === panel.heroVisualAssetId);
+  const isSavor = panel.isRealBrandDemo;
+  const expressionLine = panel.primaryChannels
+    .slice(0, 4)
+    .map((c) => c.split('-')[0]?.toUpperCase())
+    .join(' · ');
+
   return (
-    <div className="site00-cj-trailer">
+    <div className={`site00-cj-trailer${isSavor ? ' site00-cj-trailer--savor' : ''}`}>
       {onExit ? (
-        <button type="button" className="site00-cj-trailer__exit" onClick={onExit}>EXIT TRAILER</button>
+        <button type="button" className="site00-cj-trailer__exit" onClick={onExit}>EXIT</button>
       ) : null}
-      <div className="site00-cj-trailer__hero">
-        <span>{hero?.symbolicTreatment ?? panel.conceptTitle}</span>
-      </div>
+
+      <header className="site00-cj-trailer__mark">SITE 00</header>
+
       <p className="site00-cj-trailer__brand">{panel.brandName}</p>
+      {isSavor ? <p className="site00-cj-trailer__evolution">CREATIVE EVOLUTION</p> : null}
+
+      <ConceptHeroVisual panel={panel} size="trailer" />
+
       <h1>{panel.conceptTitle}</h1>
-      <p className="site00-cj-trailer__premise">{panel.oneLinePremise}</p>
+
+      <p className="site00-cj-trailer__premise">
+        {isSavor
+          ? 'SOME ROOMS YOU REMEMBER BEFORE YOU\'VE ENTERED THEM.'
+          : summarizeLine(panel.oneLinePremise, 120)}
+      </p>
+
       <ul className="site00-cj-trailer__beats">
-        <li><strong>Tension</strong> {panel.centralTension}</li>
-        <li><strong>Mechanism</strong> {panel.mechanism}</li>
-        <li><strong>World</strong> {panel.world}</li>
-        <li><strong>Interjection</strong> {panel.interjection}</li>
+        <li><span>TENSION</span>{summarizeLine(panel.centralTension, 88)}</li>
+        <li><span>WORLD</span>{summarizeLine(panel.world, 72)}</li>
+        <li><span>HERO MOVE</span>{summarizeLine(panel.heroMove, 88)}</li>
+        {panel.interjection ? (
+          <li><span>INTERJECTION</span>{summarizeLine(panel.interjection, 88)}</li>
+        ) : null}
       </ul>
-      <p className="site00-cj-trailer__grounding">{panel.groundingLabel} · {panel.expressionContext}</p>
+
+      {expressionLine ? (
+        <p className="site00-cj-trailer__expression">EXPRESSION · {expressionLine}</p>
+      ) : null}
+
+      <footer className="site00-cj-trailer__end">
+        {isSavor ? <span>REAL BRAND CASE</span> : null}
+        <span>A SITE 00 CONCEPT STUDY</span>
+      </footer>
     </div>
   );
 }

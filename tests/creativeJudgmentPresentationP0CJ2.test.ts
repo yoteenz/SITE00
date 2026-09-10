@@ -101,7 +101,7 @@ describe('P0.CJ.2 — Creative Judgment Presentation', () => {
 
   it('10. presentation version tag', () => {
     const payload = bootstrapConceptReviewGallery();
-    expect(payload.presentationVersion).toBe('P0.CJ.2');
+    expect(payload.presentationVersion).toBe('P0.CJ.2V');
     expect(payload.level).toBe('CONCEPT_GALLERY');
     expect(payload.trailerModeAvailable).toBe(true);
   });
@@ -110,11 +110,17 @@ describe('P0.CJ.2 — Creative Judgment Presentation', () => {
     const payload = bootstrapConceptReviewGallery();
     expect(payload.concepts.some((c) => c.caseType === 'invented')).toBe(true);
     expect(payload.concepts.some((c) => c.caseType === 'real_brand')).toBe(true);
+    expect(payload.concepts.length).toBeGreaterThanOrEqual(4);
+  });
+
+  it('13. sleep debt archive concept present', () => {
+    const payload = bootstrapConceptReviewGallery();
+    expect(payload.concepts.some((c) => c.conceptTitle === 'THE SLEEP DEBT ARCHIVE')).toBe(true);
   });
 
   it('12. ndx leak status on non-ndx concept', () => {
     const payload = bootstrapConceptReviewGallery();
-    const verdant = payload.concepts.find((c) => c.brandName === 'Verdant Row');
+    const verdant = payload.concepts.find((c) => c.brandName.toUpperCase().includes('VERDANT'));
     expect(verdant?.ndxLeakStatus).toBeDefined();
   });
 });
