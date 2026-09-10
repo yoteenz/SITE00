@@ -24,6 +24,13 @@ import {
   initializeCropReviewsForJob,
   type CropReviewState,
 } from './founderCropIntelligence/index.js';
+import {
+  buildGuidedReconstructionSequence,
+  handleGuidedCropApproval,
+  migrateJobToGuidedSequence,
+  resumeGuidedSequence,
+} from '../p0vr7r1/guidedReconstructionSequence.js';
+import type { GuidedReconstructionSequence } from '../p0vr7r1/types.js';
 
 export type ReconstructionWorkflowState = {
   job: ReferenceMultiAssetReconstructionJob;
@@ -33,7 +40,20 @@ export type ReconstructionWorkflowState = {
   activeCandidateIndex: number;
   generationExecuting: boolean;
   cropReviews: CropReviewState[];
+  guidedSequence: GuidedReconstructionSequence;
+  autoAdvanceEnabled: boolean;
 };
+
+function hydrateGuidedSequence(state: Omit<ReconstructionWorkflowState, 'guidedSequence' | 'autoAdvanceEnabled'> & Partial<Pick<ReconstructionWorkflowState, 'guidedSequence' | 'autoAdvanceEnabled'>>): ReconstructionWorkflowState {
+  const autoAdvanceEnabled = state.autoAdvanceEnabled ?? true;
+  const guidedSequence =
+    state.guidedSequence ??
+    migrateJobToGuidedSequence(state.job, {
+      activeCandidateIndex: state.activeCandidateIndex,
+      autoAdvanceEnabled,
+    });
+  return { ...state, guidedSequence, autoAdvanceEnabled };
+}
 
 export function createInitialWorkflowState(): ReconstructionWorkflowState | null {
   const job = buildSkinsMobileMultiAssetReconstructionJob({
@@ -45,7 +65,7 @@ export function createInitialWorkflowState(): ReconstructionWorkflowState | null
   const cropReviews = initializeCropReviewsForJob(job.candidateAssets);
   const actions = syncFounderActionsFromJob(job, cropReviews);
 
-  return {
+  return hydrateGuidedSequence({
     job,
     actions,
     subJobs,
@@ -53,7 +73,28 @@ export function createInitialWorkflowState(): ReconstructionWorkflowState | null
     activeCandidateIndex: 0,
     generationExecuting: false,
     cropReviews,
-  };
+    autoAdvanceEnabled: true,
+  });
+}
+
+export function resumeGuidedWorkflowState(state: ReconstructionWorkflowState): ReconstructionWorkflowState {
+  const resume = resumeGuidedSequence({ job: state.job, guided: state.guidedSequence });
+  const workflowView: WorkflowView =
+    resume.stage === 'BUILD'
+      ? 'generation-plan'
+      : resume.stage === 'REVIEW'
+        ? 'output-review'
+        : 'crop-review';
+  return hydrateGuidedSequence({
+    ...state,
+    activeCandidateIndex: resume.index,
+    workflowView,
+    guidedSequence: buildGuidedReconstructionSequence({
+      job: state.job,
+      autoAdvanceEnabled: state.autoAdvanceEnabled,
+      activeCandidateIndex: resume.index,
+    }),
+  });
 }
 
 export function openWorkflowView(state: ReconstructionWorkflowState, view: WorkflowView): ReconstructionWorkflowState {
@@ -100,7 +141,29 @@ export function approveCropAtIndex(
     outputsPendingReview: 0,
   });
 
-  return { ...state, job, actions, subJobs, workflowView, cropReviews, activeCandidateIndex: Math.min(index + 1, candidates.length - 1) };
+  const guidedResult = handleGuidedCropApproval({
+    job,
+    candidateIndex: index,
+    guided: state.guidedSequence,
+  });
+  job = guidedResult.job;
+  if (guidedResult.autoAdvanced && cropGate.state.approved < cropGate.state.total) {
+    workflowView = 'crop-review';
+  }
+  if (cropGate.state.approved === cropGate.state.total) {
+    workflowView = 'generation-plan';
+  }
+
+  return hydrateGuidedSequence({
+    ...state,
+    job,
+    actions: syncFounderActionsFromJob(job, cropReviews),
+    subJobs,
+    workflowView,
+    cropReviews,
+    activeCandidateIndex: guidedResult.nextIndex,
+    guidedSequence: guidedResult.guided,
+  });
 }
 
 export function updateCropReviewAtIndex(
@@ -239,7 +302,16 @@ export function approveOutputAtIndex(state: ReconstructionWorkflowState, index: 
     generationComplete: true,
     outputsPendingReview: candidates.filter((c) => c.approvalStatus === 'PENDING').length,
   });
-  return { ...state, job, actions, subJobs };
+  const nextPending = candidates.findIndex((c) => c.approvalStatus === 'PENDING' && c.generationStatus === 'COMPLETE');
+  const activeCandidateIndex = nextPending >= 0 ? nextPending : index;
+  return hydrateGuidedSequence({
+    ...state,
+    job,
+    actions,
+    subJobs,
+    activeCandidateIndex,
+    workflowView: bound >= candidates.length ? 'output-review' : state.workflowView,
+  });
 }
 
 export function closeWorkflowView(state: ReconstructionWorkflowState): ReconstructionWorkflowState {

@@ -12,6 +12,12 @@ import type { WorkflowView } from '../../../../shared/site00-studio-world-produc
 import type { CropReviewState } from '../../../../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/founderCropIntelligence/types.js';
 import { EditableCropWorkspace } from './EditableCropWorkspace.js';
 import { useSite00MobileViewport } from '../../hooks/useSite00MobileViewport.js';
+import { resolveNextBestWorkflowAction } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr7r1/nextBestWorkflowAction.js';
+import {
+  DesignApprovalOutcomeHint,
+  DesignCropCheckSummary,
+  DesignGuidedSequenceChrome,
+} from './DesignGuidedSequenceChrome.js';
 
 type Props = {
   state: ReconstructionWorkflowState;
@@ -44,7 +50,7 @@ export function DesignReconstructionWorkflowPanel({
   onSetCandidateIndex,
   onUpdateCropReview,
 }: Props) {
-  const { job, activeCandidateIndex, cropReviews } = state;
+  const { job, activeCandidateIndex, cropReviews, guidedSequence } = state;
   const total = job.candidateAssets.length;
   const active = job.candidateAssets[activeCandidateIndex];
   const activeReview = cropReviews[activeCandidateIndex];
@@ -53,39 +59,49 @@ export function DesignReconstructionWorkflowPanel({
   const batch = useMemo(() => summarizeBatchCropReviews(cropReviews), [cropReviews]);
   const plan = view === 'generation-plan' || view === 'generation-executing' ? buildMultiAssetReconstructionPlan(job) : null;
   const validForBatch = cropReviews.filter((r) => r.reviewStatus === 'READY_FOR_APPROVAL' && r.assetIdentity === 'CONFIRMED').length;
+  const nextAction = useMemo(
+    () => resolveNextBestWorkflowAction({ job, guided: guidedSequence, activeCandidateIndex }),
+    [job, guidedSequence, activeCandidateIndex],
+  );
 
   if (!active || !activeReview) return null;
 
   if (view === 'crop-review') {
     return (
-      <div className="site00-dw-rri-workflow" data-stage="crop-review">
+      <div className="site00-dw-rri-workflow site00-dw-rri-workflow--guided" data-stage="crop-review">
         <header className="site00-dw-rri-workflow__head site00-dw-rri-workflow__head--compact">
           <button type="button" className="site00-dw-rri-workflow__back" onClick={onClose} aria-label="Back">
             ←
           </button>
           <p className="site00-dw-rri-workflow__batch">
-            {batch.total} ASSETS · {batch.editRequired > 0 ? '1 EDITING' : `${batch.approved} APPROVED`} · GENERATION {batch.generationBlocked ? 'LOCKED' : 'READY'}
+            {guidedSequence.resumeHint ?? `${batch.total} ASSETS · ${batch.approved} APPROVED`}
           </p>
         </header>
 
+        <DesignGuidedSequenceChrome guided={guidedSequence} nextAction={nextAction} showIntent={activeCandidateIndex === 0 && batch.approved === 0} />
+
         <nav className="site00-dw-crop-strip" aria-label="Asset strip">
-          {job.candidateAssets.map((c, i) => {
+          {guidedSequence.items.map((item: (typeof guidedSequence.items)[number], i: number) => {
             const review = cropReviews[i]!;
             const st = stripStatus(review);
+            const candidateIndex = job.candidateAssets.findIndex((c) => c.candidateId === item.assetId);
             return (
               <button
-                key={c.candidateId}
+                key={item.assetId}
                 type="button"
-                className={`site00-dw-crop-strip__item${i === activeCandidateIndex ? ' is-active' : ''}`}
-                onClick={() => onSetCandidateIndex(i)}
+                className={`site00-dw-crop-strip__item${candidateIndex === activeCandidateIndex ? ' is-active' : ''}`}
+                onClick={() => onSetCandidateIndex(candidateIndex >= 0 ? candidateIndex : i)}
               >
-                <img src={c.sourceCrop.sourceCropUrl} alt="" />
+                <img src={item.thumbnailUrl} alt="" />
                 <span className={`site00-dw-crop-strip__dot is-${st.dot}`} aria-hidden>{st.label}</span>
-                <span className="site00-dw-crop-strip__label">{String(i + 1).padStart(2, '0')} {c.brandKey.replace(/_/g, ' ').split(' ')[0]}</span>
+                <span className="site00-dw-crop-strip__label">{String(i + 1).padStart(2, '0')} {item.displayName.split(' ')[0]}</span>
               </button>
             );
           })}
         </nav>
+
+        <DesignCropCheckSummary guided={guidedSequence} assetId={active.candidateId} />
+        <DesignApprovalOutcomeHint guided={guidedSequence} />
 
         <EditableCropWorkspace
           review={activeReview}
@@ -109,17 +125,18 @@ export function DesignReconstructionWorkflowPanel({
 
   if (view === 'generation-plan') {
     return (
-      <div className="site00-dw-rri-workflow" data-stage="generation-plan">
+      <div className="site00-dw-rri-workflow site00-dw-rri-workflow--guided" data-stage="generation-plan">
         <header className="site00-dw-rri-workflow__head">
           <button type="button" className="site00-dw-rri-workflow__back" onClick={onClose}>
             ← BACK
           </button>
           <div>
-            <span>CROPS APPROVED ✓</span>
-            <h2>RECONSTRUCTION PLAN READY</h2>
-            <p>{plan?.totalDispatches ?? total} ASSETS · REVIEW PROMPTS BEFORE DISPATCH</p>
+            <span>{total} / {total} CROPS APPROVED ✓</span>
+            <h2>REVIEW GENERATION PLAN</h2>
+            <p>{plan?.totalDispatches ?? total} ASSETS READY TO BUILD · NO PAID GENERATION UNTIL YOU APPROVE</p>
           </div>
         </header>
+        <DesignGuidedSequenceChrome guided={guidedSequence} nextAction={nextAction} showIntent={false} />
         <ul className="site00-dw-rri-workflow__plan-list">
           {plan?.entries.map((entry) => (
             <li key={entry.candidateId}>
@@ -136,7 +153,7 @@ export function DesignReconstructionWorkflowPanel({
           ))}
         </ul>
         <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={onApproveGeneration}>
-          APPROVE GENERATION — AUTHORIZE UP TO {plan?.totalDispatches ?? total} PRIMARY DISPATCHES
+          {nextAction.primaryCta}
         </button>
       </div>
     );

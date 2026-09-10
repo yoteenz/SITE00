@@ -155,7 +155,7 @@ export function founderActionNotificationBody(action: DesignFounderAction): stri
 export function founderActionCtaLabel(actionType: FounderActionType): string {
   switch (actionType) {
     case 'REVIEW_CROPS':
-      return 'REVIEW CROPS';
+      return 'CONTINUE';
     case 'APPROVE_GENERATION':
       return 'REVIEW PLAN';
     case 'REVIEW_OUTPUTS':
