@@ -7526,3 +7526,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `DesignMoreSystemHub` replaces wizard-shell landing — hero ring motif + SYSTEM & SETTINGS orientation; 2-col tool tiles with monospace descriptors + status pills (ACTIVE, NEEDS ATTENTION, CONNECTED, N SAVED); green RECOMMENDED TEST CAPTURE WORKER card when capture unhealthy; RECENT ACTIVITY + SYSTEM STATUS summary row; footer v265 ONLINE; `site00-design-more-hub.css`; capture health + activity count wired from workspace; module detail routes preserved; build v265; PR #657.
 - **Next founder action:** Deploy cPanel v265 → DESIGN → NDXBOOK → MORE → scan system hub at a glance → tap CAPTURE/PROVIDERS to confirm detail screens.
 
+---
+
+## 2026-09-10 — P0.PCI.1 Parent–Child Experience Inheritance Engine
+
+- **Context:** Founder sprint for system-level product/design intelligence — parent landing pages can be authoritative while child routes fall back to generic admin UI (MORE tab pattern: hub improved, children old). Goal: reusable engine for SITE 00, client projects, and future generated sites — not one-off page restyles.
+- **Doctrine:** Parent landing = visual/experience authority; child = function/content authority. Keep function, inherit experience grammar (not tokens-only). Do not clone parent layout literally; adapt by child archetype.
+- **Implemented (`shared/site00-studio-world-production/parentChildExperienceInheritance/`):**
+  - `ParentChildExperienceInheritanceEngine` — discover route graph → extract `ParentExperienceAuthority` (visual + interaction + composition grammar) → resolve experience parent per child → `ChildSurfaceClassifier` (25 archetypes) → `InheritanceMode` rules → `ChildConvergencePlan` → safe batch migration manifest (dry-run default) → branch cohesion QA → in-memory store.
+  - `ParentChildRouteGraph` — URL routes + tab/modal/drawer/embedded declared surfaces; relationship types DIRECT_CHILD through EMBEDDED_CHILD.
+  - `site00RouteFamilies.ts` bootstraps — Project Operating System (overview → more legacy panel) + Design Workspace MORE hub (tab children).
+  - Docs: `docs/architecture/SITE00_PARENT_CHILD_EXPERIENCE_P0PCI1.md`.
+  - Complements P0.VR.7 `pageCompletionIntelligence/` (interaction completion) — PCI ensures child surfaces inherit parent experience.
+- **Tests:** `parentChildExperienceInheritanceP0PCI1.test.ts` (15/15 pass).
+- **Remaining gaps:** Wire convergence applier to CSS/component migration runners; admin debug panel; Playwright branch screenshot matrix; persist runs to Supabase.
+- **Next founder action:** No cPanel deploy (shared engine only). Next sprint: run engine against Project OS MORE module + apply convergence plans to replace `site00-pos-panel` fallback UI.
+

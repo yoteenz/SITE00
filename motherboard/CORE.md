@@ -171,6 +171,10 @@ Canonical config: `src/site00/config/desktop-environment-presentation.ts`.
 
 Multi-project orchestration foundation at `api/_lib/site00Orchestration/`. Debug: `/admin/site00/debug/orchestration`. API: `/api/admin/site00-orchestration`. Docs: `docs/site00/`. Launch readiness calculated against **approved active manifest only** — not universal checklist. Studio World = `PRODUCTION_INFRASTRUCTURE`, not client brand. Evidence ≠ completion.
 
+## Parent–Child Experience Inheritance (P0.PCI.1)
+
+Reusable engine at `shared/site00-studio-world-production/parentChildExperienceInheritance/`. **Parent landing = experience authority; child = function authority.** Pipeline: route graph discovery → parent grammar extraction → child archetype + inheritance mode → convergence plan → dry-run migration manifest → branch QA. Complements P0.VR.7 page completion intelligence. Docs: `docs/architecture/SITE00_PARENT_CHILD_EXPERIENCE_P0PCI1.md`.
+
 ---
 
 - **Default:** Feature branch → open PR → **merge to `main` immediately** in the same agent run (see `.cursor/rules/shipping.mdc`).
