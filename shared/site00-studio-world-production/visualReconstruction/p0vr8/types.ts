@@ -162,6 +162,7 @@ export type PageMirrorRow = {
   displayName: string;
   routeFamily: string;
   pageCaptureStatus?: import('../p0vr8r3/types.js').PageCaptureStatus;
+  resolvedCaptureState?: import('../p0vr8r3/pageCaptureStateResolver.js').ResolvedPageCaptureState;
 };
 
 export type PageMirrorInspectorState = {

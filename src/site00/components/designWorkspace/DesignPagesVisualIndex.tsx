@@ -20,6 +20,7 @@ export type PageVisualIndexRow = {
   lastUpdatedAt?: string | null;
   isStale?: boolean;
   neverCaptured?: boolean;
+  resolvedCaptureState?: string;
   staleReason?: string | null;
   referenceUrl?: string | null;
   visualMatchStatus?: string;

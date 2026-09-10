@@ -43,16 +43,19 @@ function formatRouteLabel(row: PageVisualIndexRow): string {
 }
 
 function rowMirrorStatus(row: PageVisualIndexRow): PageMirrorFilter | 'ALL' {
+  const resolved = (row.resolvedCaptureState ?? row.pageCaptureStatus ?? '').toUpperCase();
+  if (resolved === 'NEVER_CAPTURED' || row.neverCaptured) return 'NEVER CAPTURED';
+  if (resolved === 'FAILED' || resolved === 'CAPTURE_FAILED') return 'FAILED';
+  if (resolved === 'QUEUED' || resolved === 'CAPTURE_PENDING') return 'QUEUED';
+  if (resolved === 'CAPTURING') return 'CAPTURING';
+  if (resolved === 'STALE' || (row.isStale && !row.neverCaptured && resolved !== 'NEVER_CAPTURED')) return 'STALE';
+  if (resolved === 'CURRENT') return 'CURRENT';
+  if (resolved === 'UNSUPPORTED' || resolved === 'BLOCKED') return 'BLOCKED';
   const status = (row.pageCaptureStatus ?? row.captureStatus ?? '').toUpperCase();
-  if (status === 'FAILED' || status === 'CAPTURE_FAILED') return 'FAILED';
-  if (status === 'NEVER_CAPTURED' || row.neverCaptured) return 'NEVER CAPTURED';
-  if (status === 'QUEUED' || status === 'CAPTURE_PENDING') return 'QUEUED';
-  if (status === 'CAPTURING') return 'CAPTURING';
-  if (status === 'STALE' || (row.isStale && !row.neverCaptured)) return 'STALE';
-  if (status === 'CURRENT') return 'CURRENT';
+  if (status === 'DISCOVERED' && !row.lastCapturedAt) return 'NEVER CAPTURED';
   if (row.missingImplementation) return 'MISSING REF';
   if (row.referenceUrl) return 'REFERENCE READY';
-  if (status === 'UNSUPPORTED' || status === 'BLOCKED') return 'BLOCKED';
+  if (!row.lastCapturedAt && !row.mobile?.publicUrl) return 'NEVER CAPTURED';
   return 'ALL';
 }
 
@@ -73,10 +76,12 @@ function formatTimestamp(iso: string | null | undefined): string {
 function liveThumbLabel(row: PageVisualIndexRow): string {
   const status = rowMirrorStatus(row);
   if (status === 'NEVER CAPTURED') return 'NEVER CAPTURED';
-  if (status === 'QUEUED') return 'CAPTURE QUEUED';
+  if (status === 'QUEUED') return 'QUEUED';
   if (status === 'CAPTURING') return 'CAPTURING…';
   if (status === 'FAILED') return 'CAPTURE FAILED';
-  return 'CAPTURE REQUIRED';
+  if (status === 'CURRENT') return 'CURRENT';
+  if (status === 'STALE') return 'STALE';
+  return 'NEVER CAPTURED';
 }
 
 function formatLastEvent(run: ProjectCaptureRunContract | null): string {
@@ -122,12 +127,14 @@ export function DesignPagesTabPanel({
     });
   }, [rows, filter, search]);
 
-  const currentCount = statusCount(rows, 'CURRENT');
-  const neverCapturedCount = statusCount(rows, 'NEVER CAPTURED');
-  const queuedCount = statusCount(rows, 'QUEUED');
-  const capturingCount = statusCount(rows, 'CAPTURING');
-  const staleCount = statusCount(rows, 'STALE');
-  const failedCount = statusCount(rows, 'FAILED');
+  const summary = captureRefresh?.captureSummary;
+  const currentCount = summary?.current ?? statusCount(rows, 'CURRENT');
+  const neverCapturedCount = summary?.neverCaptured ?? statusCount(rows, 'NEVER CAPTURED');
+  const queuedCount = summary?.queued ?? statusCount(rows, 'QUEUED');
+  const capturingCount = summary?.capturing ?? statusCount(rows, 'CAPTURING');
+  const staleCount = summary?.stale ?? statusCount(rows, 'STALE');
+  const failedCount = summary?.failed ?? statusCount(rows, 'FAILED');
+  const totalPages = summary?.totalPages ?? rows.length;
 
   const featured = filtered.find((r) => r.screenId === selectedScreenId) ?? filtered[0] ?? null;
   const featuredStatus = featured ? rowMirrorStatus(featured) : null;
@@ -149,6 +156,9 @@ export function DesignPagesTabPanel({
   const run = captureRefresh?.run ?? null;
   const isRefreshing = captureRefresh?.refreshing ?? false;
   const runInvalid = run && !run.contractValid;
+  const [showIssueDetails, setShowIssueDetails] = useState(false);
+  const contractReceipt = run?.contractReceipt;
+  const issueCount = contractReceipt?.issueCount ?? (runInvalid ? 1 : 0);
   const progressDone = run ? run.completedCount + run.failedCount + run.skippedCount : 0;
   const progressTotal = run?.totalTargets ?? 0;
   const refreshButtonLabel = runInvalid
@@ -219,7 +229,7 @@ export function DesignPagesTabPanel({
       {pageCompletionJob ? <DesignPageCompletionPanel job={pageCompletionJob} compact /> : null}
 
       <article className="site00-dw-v3-pages__capture-summary" data-capture-summary="project">
-        <strong>{rows.length} PAGES</strong>
+        <strong>{totalPages} PAGES</strong>
         <span>CURRENT {currentCount}</span>
         <span>NEVER CAPTURED {neverCapturedCount}</span>
         <span>QUEUED {queuedCount}</span>
@@ -228,21 +238,61 @@ export function DesignPagesTabPanel({
         <span>FAILED {failedCount}</span>
       </article>
 
-      {run ? (
+      {runInvalid ? (
+        <article className="site00-dw-v3-pages__capture-run site00-dw-v3-pages__capture-run--invalid" data-capture-run="invalid">
+          <div>
+            <strong>PROJECT CAPTURE</strong>
+            <p>{totalPages} PAGES</p>
+            <p>
+              STATUS · SETUP FAILED
+              <br />
+              WHY · {run?.contractError ?? captureRefresh?.contractError ?? 'RUN CONTRACT INVALID'}
+              <br />
+              {issueCount} ISSUE{issueCount === 1 ? '' : 'S'} FOUND
+            </p>
+            {showIssueDetails && contractReceipt ? (
+              <ul className="site00-dw-v3-pages__capture-run-issues">
+                {!contractReceipt.runId.valid ? <li>RUN ID · MISSING</li> : null}
+                {!contractReceipt.totalTargets.valid ? <li>TOTAL TARGETS · MISSING</li> : null}
+                {!contractReceipt.status.valid ? <li>STATUS · INVALID</li> : null}
+                {contractReceipt.errors.map((code) => (
+                  <li key={code}>{code.replace(/_/g, ' ')}</li>
+                ))}
+              </ul>
+            ) : null}
+            <div className="site00-dw-v3-pages__featured-actions">
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={() => onRefreshProject?.()}>
+                RETRY INITIALIZATION
+              </button>
+              <button
+                type="button"
+                className="site00-dw-v3-btn site00-dw-v3-btn--outline"
+                onClick={() => setShowIssueDetails((v) => !v)}
+              >
+                {showIssueDetails ? 'HIDE ISSUES' : 'VIEW ISSUES'}
+              </button>
+              {onViewCaptureRun ? (
+                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onViewCaptureRun}>
+                  VIEW DETAILS
+                </button>
+              ) : null}
+            </div>
+          </div>
+        </article>
+      ) : run ? (
         <article className="site00-dw-v3-pages__capture-run" data-capture-run={run.runId}>
           <div>
             <strong>PROJECT CAPTURE RUN</strong>
             <p>{captureRunSummary(run)}</p>
-            {run.contractValid ? (
+            <p className="site00-dw-v3-pages__capture-run-detail">
+              Q{run.queuedCount} · C{run.capturingCount} · ✓{run.completedCount} · ✗{run.failedCount} · WORKER {run.workerStatus}
+            </p>
+            {captureRefresh?.preflight ? (
               <p className="site00-dw-v3-pages__capture-run-detail">
-                Q{run.queuedCount} · C{run.capturingCount} · ✓{run.completedCount} · ✗{run.failedCount} · WORKER{' '}
-                {run.workerStatus}
+                INVENTORY {captureRefresh.preflight.inventoryCount} · URLS {captureRefresh.preflight.resolvedUrlCount}/
+                {captureRefresh.preflight.eligibleCount}
               </p>
-            ) : (
-              <p className="site00-dw-v3-pages__capture-run-detail">
-                RUN_CONTRACT_INVALID · {run.contractError ?? captureRefresh?.contractError ?? 'UNKNOWN'}
-              </p>
-            )}
+            ) : null}
             {run.lastEvent ? <p className="site00-dw-v3-pages__capture-run-detail">LAST EVENT · {formatLastEvent(run)}</p> : null}
           </div>
           {onViewCaptureRun ? (
@@ -253,10 +303,8 @@ export function DesignPagesTabPanel({
         </article>
       ) : null}
 
-      {captureRefresh?.error ? (
-        <p className="site00-dw-v3-pages__capture-note">
-          {captureRefresh.errorCode ?? captureRefresh.error} · {captureRefresh.error}
-        </p>
+      {captureRefresh?.error && !runInvalid ? (
+        <p className="site00-dw-v3-pages__capture-note">{captureRefresh.errorCode ?? captureRefresh.error}</p>
       ) : null}
 
       <div className="site00-dw-v3-chip-row site00-dw-v3-chip-row--scroll" role="group" aria-label="Page mirror filters">

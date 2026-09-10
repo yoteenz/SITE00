@@ -1,5 +1,5 @@
 /**
- * P0.VR.8 / P0.VR.8R3R1 — Client hook for live page mirror + capture run contract.
+ * P0.VR.8 / P0.VR.8R3R2 — Client hook for live page mirror + capture run contract.
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -12,6 +12,8 @@ import {
   type ProjectCaptureRunContract,
   type BuildVersionReceipt,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/browserClient.js';
+import type { ProjectCaptureStateSummary } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/projectCaptureStateSummary.js';
+import type { CaptureRunPreflight } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureRunPreflight.js';
 import type { PageVisualIndexRow } from './DesignPagesVisualIndex';
 
 type MirrorResponse = {
@@ -20,6 +22,8 @@ type MirrorResponse = {
   pages: PageVisualIndexRow[];
   inspector: PageMirrorInspectorState;
   captureRun?: ProjectCaptureRunContract | null;
+  captureSummary?: ProjectCaptureStateSummary;
+  preflight?: CaptureRunPreflight;
   buildReceipt?: BuildVersionReceipt;
 };
 
@@ -31,6 +35,8 @@ export type ProjectCaptureRefreshState = {
   errorCode: string | null;
   contractError: string | null;
   buildReceipt: BuildVersionReceipt | null;
+  captureSummary: ProjectCaptureStateSummary | null;
+  preflight: CaptureRunPreflight | null;
 };
 
 function parseCaptureRunPayload(
@@ -38,13 +44,15 @@ function parseCaptureRunPayload(
   buildReceipt?: BuildVersionReceipt | null,
 ): ProjectCaptureRunContract {
   const raw = (data.captureRun ?? data) as Record<string, unknown>;
-  return normalizeProjectCaptureRunResponse(raw, { buildReceipt: buildReceipt ?? undefined });
+  return normalizeProjectCaptureRunResponse(raw, {
+    buildReceipt: buildReceipt ?? undefined,
+    preflight: (data.preflight as CaptureRunPreflight | undefined) ?? null,
+  });
 }
 
 export function usePageMirror(projectId: string) {
   const [rows, setRows] = useState<PageVisualIndexRow[]>([]);
   const [inspector, setInspector] = useState<PageMirrorInspectorState | null>(null);
-  const [loading, setLoading] = useState(false);
   const [captureRefresh, setCaptureRefresh] = useState<ProjectCaptureRefreshState>({
     run: null,
     refreshing: false,
@@ -53,8 +61,11 @@ export function usePageMirror(projectId: string) {
     errorCode: null,
     contractError: null,
     buildReceipt: null,
+    captureSummary: null,
+    preflight: null,
   });
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const stopPolling = useCallback(() => {
     if (pollRef.current) {
@@ -70,23 +81,30 @@ export function usePageMirror(projectId: string) {
     const receipt = data.buildReceipt ?? null;
     const mismatch = detectBackendVersionMismatch(receipt ?? undefined, P0_VR_8R3R1_BUILD);
 
-    if (data.captureRun) {
-      const run = parseCaptureRunPayload({ captureRun: data.captureRun }, receipt);
-      const contractMismatch =
-        data.contractVersion && data.contractVersion !== CAPTURE_RUN_CONTRACT_VERSION
-          ? 'CAPTURE_RUN_CONTRACT_MISMATCH'
-          : mismatch;
-      setCaptureRefresh((prev) => ({
+    setCaptureRefresh((prev) => {
+      const next: ProjectCaptureRefreshState = {
         ...prev,
-        run: contractMismatch
-          ? { ...run, contractValid: false, contractError: contractMismatch }
-          : run,
-        refreshing: run.contractValid && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status),
-        duplicateBlocked: Boolean(run.duplicateBlocked),
-        contractError: contractMismatch ?? run.contractError,
+        captureSummary: data.captureSummary ?? prev.captureSummary,
+        preflight: data.preflight ?? prev.preflight,
         buildReceipt: receipt,
-      }));
-    }
+      };
+
+      if (data.captureRun) {
+        const run = parseCaptureRunPayload({ captureRun: data.captureRun, preflight: data.preflight }, receipt);
+        const contractMismatch =
+          data.contractVersion && data.contractVersion !== CAPTURE_RUN_CONTRACT_VERSION
+            ? 'CAPTURE_RUN_CONTRACT_MISMATCH'
+            : mismatch;
+        next.run = contractMismatch ? { ...run, contractValid: false, contractError: contractMismatch } : run;
+        next.refreshing = run.contractValid && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status);
+        next.duplicateBlocked = Boolean(run.duplicateBlocked);
+        next.contractError = contractMismatch ?? run.contractError;
+        next.error = run.contractValid ? null : run.contractError;
+        next.errorCode = run.contractValid ? null : run.contractError;
+      }
+
+      return next;
+    });
   }, []);
 
   const refresh = useCallback(async () => {
@@ -137,7 +155,13 @@ export function usePageMirror(projectId: string) {
 
   const refreshProject = useCallback(
     async (options?: { forceNewRun?: boolean }) => {
-      setCaptureRefresh((prev) => ({ ...prev, refreshing: true, error: null, errorCode: null, contractError: null }));
+      setCaptureRefresh((prev) => ({
+        ...prev,
+        refreshing: true,
+        error: null,
+        errorCode: null,
+        contractError: null,
+      }));
       try {
         const res = await fetch('/api/site00/page-mirror', {
           method: 'POST',
@@ -147,7 +171,7 @@ export function usePageMirror(projectId: string) {
             projectId,
             viewportMode: 'MOBILE_ONLY',
             baseUrl: window.location.origin,
-            forceNewRun: options?.forceNewRun,
+            forceNewRun: options?.forceNewRun ?? true,
             contractVersion: CAPTURE_RUN_CONTRACT_VERSION,
           }),
         });
@@ -171,6 +195,8 @@ export function usePageMirror(projectId: string) {
           errorCode: run.contractValid ? null : run.contractError,
           contractError: run.contractError,
           buildReceipt: (data.buildReceipt as BuildVersionReceipt) ?? null,
+          captureSummary: (data.captureSummary as ProjectCaptureStateSummary) ?? null,
+          preflight: (data.preflight as CaptureRunPreflight) ?? run.preflight ?? null,
         });
         if (run.contractValid) startPolling();
         await refresh();

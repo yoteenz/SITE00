@@ -13,9 +13,14 @@ export type BuildVersionReceipt = {
   workerBuild: string;
   gitSha: string | null;
   contractVersion: string;
+  routeManifestVersion?: string | null;
+  pageInventoryVersion?: string | null;
 };
 
-export function buildCaptureVersionReceipt(frontendBuild = P0_VR_8R3R1_BUILD): BuildVersionReceipt {
+export function buildCaptureVersionReceipt(
+  frontendBuild = P0_VR_8R3R1_BUILD,
+  options?: { routeManifestVersion?: string | null; pageInventoryVersion?: string | null },
+): BuildVersionReceipt {
   let gitSha: string | null = process.env.RAILWAY_GIT_COMMIT_SHA ?? process.env.VERCEL_GIT_COMMIT_SHA ?? null;
   if (!gitSha) {
     try {
@@ -31,6 +36,8 @@ export function buildCaptureVersionReceipt(frontendBuild = P0_VR_8R3R1_BUILD): B
     workerBuild: P0_VR_8R3R1_BUILD,
     gitSha,
     contractVersion: 'capture-run-v1',
+    routeManifestVersion: options?.routeManifestVersion ?? null,
+    pageInventoryVersion: options?.pageInventoryVersion ?? null,
   };
 }
 

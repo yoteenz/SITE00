@@ -97,7 +97,7 @@ describe('P0.VR.8R3 — Capture orchestration recovery', () => {
 
   it('2. refresh project creates run', async () => {
     const run = await refreshProjectCaptureState('ndxbook', { executeWorker: false });
-    expect(run.runId).toMatch(/^pcr-/);
+    expect(run.runId).toMatch(/^capture_/);
     expect(run.status).toMatch(/QUEUING|CAPTURING|COMPLETE/);
     expect(run.totalTargets).toBeGreaterThan(0);
   });

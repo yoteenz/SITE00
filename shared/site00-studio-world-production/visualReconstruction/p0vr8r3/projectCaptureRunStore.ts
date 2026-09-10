@@ -74,7 +74,13 @@ export function listProjectCaptureRuns(projectId: string, limit = 20, repoRoot?:
 export function markProjectCaptureRunInvalid(runId: string, reason: string, repoRoot?: string): PersistedCaptureRun | null {
   return updateProjectCaptureRun(
     runId,
-    { status: 'INVALID' as ProjectCaptureRunContractStatus, lastError: reason, contractValid: false, completedAt: new Date().toISOString() },
+    {
+      status: 'INVALID' as ProjectCaptureRunContractStatus,
+      lastError: reason,
+      invalidReason: reason,
+      contractValid: false,
+      completedAt: new Date().toISOString(),
+    },
     repoRoot,
   );
 }

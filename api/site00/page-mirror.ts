@@ -5,6 +5,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import {
   buildProjectPageMirrorRows,
+  buildProjectPageMirrorSummary,
   buildPageMirrorInspectorState,
   handlePageSyncEvent,
   listPageSyncEvents,
@@ -18,7 +19,8 @@ import {
   getProjectCaptureRefreshProgress,
   buildCaptureOrchestrationInspectorState,
   bootstrapCaptureRunStore,
-  normalizeRecoveredCaptureStatuses,
+  reconcileRecoveredPageCaptureStates,
+  buildCaptureRunPreflight,
 } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/client.js';
 import {
   CAPTURE_RUN_CONTRACT_VERSION,
@@ -32,7 +34,7 @@ const REPO_ROOT = process.cwd();
 function bootstrapCaptureApi(projectId: string): void {
   bootstrapAllManagedDesignProjects();
   bootstrapCaptureRunStore(REPO_ROOT);
-  normalizeRecoveredCaptureStatuses(projectId);
+  reconcileRecoveredPageCaptureStates(projectId);
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -40,7 +42,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const projectId = String(req.query.projectId ?? req.body?.projectId ?? 'site00');
     bootstrapCaptureApi(projectId);
 
-    const buildReceipt = buildCaptureVersionReceipt(P0_VR_8R3R1_BUILD);
+    const preflight = buildCaptureRunPreflight(projectId, { baseUrl: process.env.VITE_SITE00_ROOT ? 'https://site00.com' : undefined });
+    const buildReceipt = buildCaptureVersionReceipt(P0_VR_8R3R1_BUILD, {
+      routeManifestVersion: preflight.routeManifestVersion,
+      pageInventoryVersion: preflight.pageInventoryVersion,
+    });
     res.setHeader('X-Site00-Capture-Contract', CAPTURE_RUN_CONTRACT_VERSION);
     res.setHeader('X-Site00-Api-Build', P0_VR_8R3R1_BUILD);
 
@@ -73,13 +79,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       const rows = buildProjectPageMirrorRows(projectId);
+      const captureSummary = buildProjectPageMirrorSummary(projectId);
       const captureRun = getProjectCaptureRefreshProgress(projectId, REPO_ROOT);
+      const preflightView = buildCaptureRunPreflight(projectId);
       return res.status(200).json({
         contractVersion: CAPTURE_RUN_CONTRACT_VERSION,
         projectId,
         pages: rows.map(pageMirrorRowToVisualIndexRow),
         inspector: buildPageMirrorInspectorState(projectId),
         captureRun,
+        captureSummary,
+        preflight: preflightView,
         buildReceipt,
       });
     }
@@ -159,6 +169,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(200).json({
           contractVersion: CAPTURE_RUN_CONTRACT_VERSION,
           captureRun: run,
+          preflight: run.preflight ?? buildCaptureRunPreflight(postProjectId),
+          captureSummary: buildProjectPageMirrorSummary(postProjectId),
           buildReceipt,
         });
       }
