@@ -11,3 +11,5 @@ dist/
 site00-production-dist-*.zip
 .cache/
 tmp/
+public/studio-world/design/capture-orchestration-registry.json
+public/studio-world/design/capture-worker-test/
