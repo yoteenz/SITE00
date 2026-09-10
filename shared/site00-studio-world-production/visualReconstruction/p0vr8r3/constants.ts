@@ -13,3 +13,4 @@ export const P0_VR_8R3R5R1_BUILD = 'v264' as const;
 export const P0_VR_MOF_R1_BUILD = 'v265' as const;
 export const P0_VR_MOF_R2_BUILD = 'v266' as const;
 export const P0_PCI_3_BUILD = 'v267' as const;
+export const P0_CSI_1_BUILD = 'v269' as const;
