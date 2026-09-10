@@ -109,8 +109,8 @@ describe('P0.VR.8R3R3 — Capture transport recovery', () => {
     expect(health.serverTime).toBeTruthy();
   });
 
-  it('16. build v263', () => {
-    expect(P0_VR_8R3R3_BUILD).toBe('v263');
+  it('16. build v268', () => {
+    expect(P0_VR_8R3R3_BUILD).toBe('v268');
   });
 
   it('17. transport preflight before refresh', () => {

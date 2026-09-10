@@ -78,7 +78,13 @@ export function DesignCaptureDetailsContent({ inspector, transport }: Props) {
           rows={[
             { label: 'BROWSER', value: transport?.browserReady ? 'READY' : 'NOT READY' },
             { label: 'PLAYWRIGHT', value: transport?.playwrightReady ? 'READY' : 'NOT READY' },
+            { label: 'DEPENDENCIES', value: transport?.missingLibraries?.length ? 'MISSING' : transport?.browserReady ? 'READY' : 'UNKNOWN' },
+            { label: 'CHROMIUM REV', value: transport?.chromiumRevision ?? '—' },
+            { label: 'EXECUTABLE', value: transport?.chromiumExecutablePath ?? '—' },
+            { label: 'MISSING LIBS', value: transport?.missingLibraries?.length ? transport.missingLibraries.join(', ') : '—' },
+            { label: 'DEPLOY STRATEGY', value: transport?.deploymentStrategy ?? '—' },
             { label: 'TEST JOB', value: transport?.testJobPassed ? 'PASSED' : 'NOT RUN' },
+            { label: 'TEST SCREENSHOT', value: transport?.testScreenshotPath ?? '—' },
           ]}
         />
       </DetailSection>

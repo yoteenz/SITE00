@@ -67,6 +67,12 @@ export type CaptureTransportHealth = {
   browserReady?: boolean;
   testJobPassed?: boolean;
   lastError?: string | null;
+  browserBootErrorCode?: string | null;
+  chromiumRevision?: string | null;
+  chromiumExecutablePath?: string | null;
+  missingLibraries?: string[];
+  deploymentStrategy?: string | null;
+  testScreenshotPath?: string | null;
 };
 
 export type CaptureTransportHealthResponse = {
@@ -88,4 +94,11 @@ export type CaptureTransportHealthResponse = {
   lastError?: string | null;
   testJobPassed?: boolean;
   versionMismatch?: string | null;
+  browserBootErrorCode?: string | null;
+  chromiumRevision?: string | null;
+  chromiumExecutablePath?: string | null;
+  missingLibraries?: string[];
+  deploymentStrategy?: string | null;
+  systemDependenciesReady?: boolean;
+  testScreenshotPath?: string | null;
 };

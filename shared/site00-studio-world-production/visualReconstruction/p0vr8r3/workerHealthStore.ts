@@ -7,6 +7,7 @@ import type { CaptureWorkerBootReceipt } from './captureWorkerBootReceipt.js';
 import type { CaptureWorkerHeartbeat } from './captureWorkerHeartbeat.js';
 import { heartbeatAgeMs, resolveWorkerStatusFromHeartbeat } from './captureWorkerHeartbeat.js';
 import type { CaptureWorkerHealth } from './captureWorkerHealth.js';
+import type { BrowserBootReceipt } from './browserBootReceipt.js';
 import {
   loadCaptureOrchestrationRegistry,
   mutateCaptureOrchestrationRegistry,
@@ -226,6 +227,17 @@ export const workerHealthStore = {
     const registry = loadCaptureOrchestrationRegistry(repoRoot);
     return Boolean(registry.lastSuccessfulTestJobAt);
   },
+
+  saveBrowserBootReceipt(receipt: BrowserBootReceipt, repoRoot?: string): void {
+    mutateCaptureOrchestrationRegistry((registry) => {
+      registry.lastBrowserBootReceipt = receipt;
+    }, repoRoot);
+  },
+
+  getBrowserBootReceipt(repoRoot?: string): BrowserBootReceipt | null {
+    const registry = loadCaptureOrchestrationRegistry(repoRoot);
+    return registry.lastBrowserBootReceipt ?? null;
+  },
 };
 
 export function resetWorkerHealthStoreForTest(): void {
@@ -234,5 +246,7 @@ export function resetWorkerHealthStoreForTest(): void {
     registry.workerEvents = [];
     registry.workerTestJobs = [];
     registry.lastSuccessfulTestJobAt = null;
+    registry.lastBrowserBootReceipt = null;
+    registry.lastTestScreenshot = null;
   });
 }

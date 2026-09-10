@@ -7580,3 +7580,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining gaps:** Navigation detection is route-hierarchy + registry based (not live DOM scan of parent controls); full ChildConvergencePlan / experience-inheritance UI in derivative approval not wired; second deep-family pilot (MORE/EVOLVE/ASSETS) not done; workflow resume persistence not Supabase-backed.
 - **Next founder action:** Deploy cPanel **v268** → DESIGN → NDXBOOK → PAGES (`?tab=pages&pagesStep=family`) → verify PROJECT PROGRESS + PAGE FAMILY WORKSPACE + MAP + DERIVATIVE REVIEW + WORKFLOW (not 46-card scroll) → CONFIRM FAMILY → swipe derivatives → approve one child → verify parent control wiring.
 
+---
+
+## 2026-09-10 — P0.VR.8R3R5 Railway Chromium System Dependencies + Browser Boot Proof
+
+- **Context:** Live worker DEGRADED with PLAYWRIGHT READY but BROWSER NOT READY / SYSTEM DEPENDENCY MISSING on Railway v263. Sprint scoped to Railway Linux runtime + Chromium deps + real browser launch/screenshot proof — not worker boot/heartbeat/CORS/auth/PCI/More UX rewrites.
+- **Root cause:** Nixpacks installed Playwright npm + `playwright install chromium` but missing Ubuntu shared libraries (libnss3, libgbm, etc.); readiness treated import-only as browser ready; test worker did not produce screenshot proof.
+- **Deployment:** **NIXPACKS** (source of truth `nixpacks.toml`, `railway.toml` builder=NIXPACKS, no Dockerfile). Added `PLAYWRIGHT_BROWSERS_PATH=/app/.cache/ms-playwright`, aptPkgs for Playwright Chromium deps, build-time `npx playwright install chromium`. Removed nix `chromium` pkg (Playwright uses bundled browser).
+- **Runtime modules (`p0vr8r3/`):** `deploymentStrategy`, `browserBootReceipt`, `chromiumExecutable` (`resolveChromiumExecutable`), `sharedLibraryDetection` (ldd), `browserLaunchConfig` (Railway `--no-sandbox`, `--disable-setuid-sandbox`, conditional `--disable-dev-shm-usage`), `browserReadiness` (`checkBrowserReadiness` — launch required), `browserBootProbe` (launch → page → screenshot → validate PNG → optional https://site00.com probe). Specific error codes: `SHARED_LIBRARY_MISSING`, `SANDBOX_FAILURE`, etc. + `missingLibraries[]`.
+- **Wiring:** Worker boot + test job use real probes; test worker writes screenshot to `public/studio-world/design/capture-worker-test/latest.png`; health store persists `lastBrowserBootReceipt`; transport health exposes chromium path/revision/missing libs for details drawer. UI: MORE capture details drawer + plain-language missing-lib message.
+- **Build:** Capture API/worker builds bumped to **v268** (`P0_VR_8R3R*_BUILD`). Tests: `visualReconstructionP0VR8R3R5BrowserBoot.test.ts` (28 pass) + capture regressions.
+- **Next founder action:** **Redeploy Railway from main** (critical — apt deps apply at build). Then deploy matching cPanel bundle → DESIGN → MORE → CAPTURE → verify BROWSER READY → TEST WORKER → view test screenshot → only then NDXBOOK PAGES REFRESH PROJECT.
+

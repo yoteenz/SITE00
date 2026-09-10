@@ -1,5 +1,5 @@
 /**
- * P0.VR.8R3R4 — Lightweight worker test job (non-destructive).
+ * P0.VR.8R3R4 / P0.VR.8R3R5 — Lightweight worker test job (non-destructive browser boot proof).
  */
 
 import {
@@ -7,14 +7,13 @@ import {
   mutateCaptureOrchestrationRegistry,
   type CaptureWorkerTestJob,
 } from './captureRunPersistentStore.js';
-import { probePlaywrightReadiness } from './playwrightReadiness.js';
+import { runBrowserBootProbe } from './browserBootProbe.js';
+import { founderBrowserFailureMessage } from './browserBootReceipt.js';
 import { appendCaptureWorkerEvent } from './captureWorkerEvents.js';
 import { workerHealthStore } from './workerHealthStore.js';
-import type { WorkerDispatchReceipt } from './workerDispatchReceipt.js';
 
 export type WorkerTestJobResult = {
   job: CaptureWorkerTestJob;
-  dispatch: WorkerDispatchReceipt;
 };
 
 export function createCaptureWorkerTestJob(repoRoot?: string): CaptureWorkerTestJob {
@@ -73,39 +72,72 @@ export async function executeCaptureWorkerTestJob(
 
   updateJob({ status: 'RUNNING', startedAt: new Date().toISOString() });
 
-  const readiness = await probePlaywrightReadiness();
-  if (!readiness.browserReady) {
+  const probe = await runBrowserBootProbe({ repoRoot, testProductionUrl: true });
+
+  mutateCaptureOrchestrationRegistry((registry) => {
+    registry.lastBrowserBootReceipt = probe.receipt;
+    registry.lastTestScreenshot = probe.screenshot;
+  }, repoRoot);
+
+  workerHealthStore.saveBrowserBootReceipt(probe.receipt, repoRoot);
+
+  if (!probe.passed) {
+    const errorCode = probe.receipt.errorCode ?? 'BROWSER_LAUNCH_FAILED';
     const failed = updateJob({
       status: 'FAILED',
       completedAt: new Date().toISOString(),
-      lastError: readiness.errorCode ?? 'BROWSER_LAUNCH_FAILED',
+      lastError: errorCode,
+      browserBootErrorCode: errorCode,
     });
     appendCaptureWorkerEvent(
       {
         workerId,
         type: 'TEST_JOB_FAILED',
-        message: readiness.errorMessage ?? 'Browser launch failed',
+        message: founderBrowserFailureMessage(probe.receipt),
         jobId,
-        errorCode: readiness.errorCode,
+        errorCode,
       },
       repoRoot,
     );
-    workerHealthStore.recordWorkerError(workerId, readiness.errorCode ?? 'BROWSER_LAUNCH_FAILED', repoRoot);
+    workerHealthStore.recordWorkerError(workerId, errorCode, repoRoot);
+    workerHealthStore.updateWorkerMetrics(
+      workerId,
+      { browserReady: false, playwrightReady: true, status: 'DEGRADED' },
+      repoRoot,
+    );
     return failed;
   }
 
-  const completed = updateJob({ status: 'COMPLETE', completedAt: new Date().toISOString() });
+  const completed = updateJob({
+    status: 'COMPLETE',
+    completedAt: new Date().toISOString(),
+    screenshotPath: probe.screenshot?.path ?? null,
+    screenshotWidth: probe.screenshot?.width ?? null,
+    screenshotHeight: probe.screenshot?.height ?? null,
+    screenshotTimestamp: probe.screenshot?.timestamp ?? null,
+  });
+
   mutateCaptureOrchestrationRegistry((registry) => {
     registry.lastSuccessfulTestJobAt = new Date().toISOString();
   }, repoRoot);
+
   appendCaptureWorkerEvent(
     { workerId, type: 'TEST_JOB_COMPLETE', message: `Test job ${jobId} complete`, jobId },
     repoRoot,
   );
+
   workerHealthStore.updateWorkerMetrics(
     workerId,
-    { lastCompletedJobAt: completed.completedAt, lastSuccessAt: completed.completedAt },
+    {
+      lastCompletedJobAt: completed.completedAt,
+      lastSuccessAt: completed.completedAt,
+      browserReady: true,
+      playwrightReady: true,
+      status: 'HEALTHY',
+      lastError: null,
+    },
     repoRoot,
   );
+
   return completed;
 }

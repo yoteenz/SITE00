@@ -139,6 +139,10 @@ export async function startCaptureWorker(options?: { repoRoot?: string }): Promi
   receipt.playwrightInit = readiness.playwrightReady;
   receipt.browserInit = readiness.browserReady;
 
+  if (readiness.browserBootReceipt) {
+    workerHealthStore.saveBrowserBootReceipt(readiness.browserBootReceipt, repoRootRef);
+  }
+
   if (readiness.playwrightReady) {
     appendCaptureWorkerEvent(
       { workerId: identity.workerId, type: 'PLAYWRIGHT_READY', message: 'Playwright module loaded' },

@@ -1,55 +1,50 @@
 /**
- * P0.VR.8R3R4 — Playwright / Chromium readiness probe.
+ * P0.VR.8R3R4 / P0.VR.8R3R5 — Playwright / Chromium readiness probe.
  */
+
+import { checkBrowserReadiness } from './browserReadiness.js';
+import type { BrowserBootErrorCode } from './browserBootReceipt.js';
 
 export type PlaywrightReadinessErrorCode =
   | 'PLAYWRIGHT_NOT_INSTALLED'
   | 'CHROMIUM_MISSING'
   | 'BROWSER_LAUNCH_FAILED'
-  | 'SYSTEM_DEPENDENCY_MISSING';
+  | 'SYSTEM_DEPENDENCY_MISSING'
+  | BrowserBootErrorCode;
 
 export type PlaywrightReadinessResult = {
   playwrightReady: boolean;
   browserReady: boolean;
   errorCode: PlaywrightReadinessErrorCode | null;
   errorMessage: string | null;
+  browserBootReceipt?: import('./browserBootReceipt.js').BrowserBootReceipt;
 };
 
-export async function probePlaywrightReadiness(): Promise<PlaywrightReadinessResult> {
-  if (process.env.VITEST === 'true' && process.env.PLAYWRIGHT_PROBE_IN_TEST !== '1') {
-    return { playwrightReady: true, browserReady: true, errorCode: null, errorMessage: null };
-  }
+function mapErrorCode(code: string | null): PlaywrightReadinessErrorCode | null {
+  if (!code) return null;
+  if (code === 'CHROMIUM_BINARY_MISSING' || code === 'CHROMIUM_EXECUTABLE_NOT_FOUND') return 'CHROMIUM_MISSING';
+  if (code === 'SHARED_LIBRARY_MISSING') return 'SYSTEM_DEPENDENCY_MISSING';
+  if (code === 'BROWSER_LAUNCH_FAILED') return 'BROWSER_LAUNCH_FAILED';
+  return code as PlaywrightReadinessErrorCode;
+}
 
-  try {
-    await import('playwright');
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
+export async function probePlaywrightReadiness(): Promise<PlaywrightReadinessResult> {
+  const state = await checkBrowserReadiness();
+  if (!state.playwrightReady) {
     return {
       playwrightReady: false,
       browserReady: false,
       errorCode: 'PLAYWRIGHT_NOT_INSTALLED',
-      errorMessage: message,
+      errorMessage: state.receipt.errorMessage,
+      browserBootReceipt: state.receipt,
     };
   }
 
-  try {
-    const { chromium } = await import('playwright');
-    const browser = await chromium.launch({ headless: true, timeout: 30_000 });
-    await browser.close();
-    return { playwrightReady: true, browserReady: true, errorCode: null, errorMessage: null };
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    let errorCode: PlaywrightReadinessErrorCode = 'BROWSER_LAUNCH_FAILED';
-    if (/executable doesn't exist|browser.*not found|chromium/i.test(message)) {
-      errorCode = 'CHROMIUM_MISSING';
-    } else if (/shared libraries|libnss|libatk|dependency/i.test(message)) {
-      errorCode = 'SYSTEM_DEPENDENCY_MISSING';
-    }
-    return {
-      playwrightReady: true,
-      browserReady: false,
-      errorCode,
-      errorMessage: message,
-    };
-  }
+  return {
+    playwrightReady: true,
+    browserReady: state.browserLaunchReady,
+    errorCode: state.browserLaunchReady ? null : mapErrorCode(state.receipt.errorCode),
+    errorMessage: state.browserLaunchReady ? null : state.receipt.errorMessage,
+    browserBootReceipt: state.receipt,
+  };
 }

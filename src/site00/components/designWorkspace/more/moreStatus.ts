@@ -30,6 +30,9 @@ export function captureSupportText(captureRefresh?: ProjectCaptureRefreshState):
   const transport = captureRefresh?.transportHealth;
   if (captureRefresh?.testingWorker) return 'Running a quick test before page captures can run.';
   if (captureRefresh?.testWorkerFailed) {
+    if (transport?.browserBootErrorCode === 'SHARED_LIBRARY_MISSING') {
+      return 'Chromium is installed, but a required system library is missing.';
+    }
     return transport?.browserReady === false
       ? 'The worker is online, but the browser could not start.'
       : 'The test capture could not complete. Retry the test or view details.';

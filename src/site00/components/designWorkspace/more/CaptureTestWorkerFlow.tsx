@@ -63,7 +63,7 @@ export function CaptureTestWorkerFlow({
       <div className="site00-dw-more-tool__test-flow" data-mode="failure">
         <p className="site00-dw-more-tool__test-headline">WORKER NEEDS ATTENTION</p>
         <p className="site00-dw-more-tool__test-support">
-          The worker is online, but the browser could not start.
+          Chromium is installed, but a required system library may be missing. Retry the test or view details.
         </p>
         <p className="site00-dw-more-tool__test-code">WORKER_TEST_FAILED</p>
         <div className="site00-dw-more-tool__actions">

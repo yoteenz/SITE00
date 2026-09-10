@@ -143,6 +143,12 @@ export async function checkCaptureTransportHealth(projectId: string): Promise<Ca
     browserReady: healthPayload?.browserReady ?? false,
     testJobPassed: healthPayload?.testJobPassed ?? false,
     lastError: healthPayload?.lastError ?? null,
+    browserBootErrorCode: healthPayload?.browserBootErrorCode ?? null,
+    chromiumRevision: healthPayload?.chromiumRevision ?? null,
+    chromiumExecutablePath: healthPayload?.chromiumExecutablePath ?? null,
+    missingLibraries: healthPayload?.missingLibraries ?? [],
+    deploymentStrategy: healthPayload?.deploymentStrategy ?? null,
+    testScreenshotPath: healthPayload?.testScreenshotPath ?? null,
   };
 
   return { health, receipt };
