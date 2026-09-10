@@ -824,6 +824,8 @@ export function StudioWorldDesignWorkspace({
             onMatchReference={handleMatchReference}
             moreCategory={urlState.moreCategory}
             onMoreCategoryChange={(category: MoreCategory) => syncUrl({ moreCategory: category })}
+            captureRefresh={captureRefresh}
+            recentActivityCount={activity.length}
           />
         ) : null}
 

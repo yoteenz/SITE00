@@ -9,16 +9,18 @@ import { DEFAULT_FIDELITY_SETTINGS } from '../../../../shared/site00-studio-worl
 import { listInstructionPresets } from './designAssetJobApi';
 import { fetchFalProviderHealth } from './designAssetReconstructionApi';
 import type { DesignInstructionPreset } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr5/browserClient.js';
-import { DesignDwSectionIcon } from './DesignDwSectionIcon';
 import { DesignCaptureOrchestrationInspector } from './DesignCaptureOrchestrationInspector';
 import { DesignRouteAuditRecoveryInspector } from './DesignRouteAuditRecoveryInspector';
 import { DesignTaskWizardShell } from './wizard/DesignTaskWizardShell';
+import { DesignMoreSystemHub } from './DesignMoreSystemHub';
+import type { ProjectCaptureRefreshState } from './usePageMirror';
 import {
   MORE_CATEGORIES,
   moreCategoryLabel,
   normalizeMoreCategory,
   type MoreCategory,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3r1/designWizardSteps.js';
+import '../../styles/site00-design-more-hub.css';
 
 type Props = {
   projectId: string;
@@ -27,17 +29,9 @@ type Props = {
   onMatchReference?: () => void;
   moreCategory?: string;
   onMoreCategoryChange?: (category: MoreCategory) => void;
+  captureRefresh?: ProjectCaptureRefreshState;
+  recentActivityCount?: number;
 };
-
-const CATEGORY_GRID: Array<{ id: MoreCategory; icon: Parameters<typeof DesignDwSectionIcon>[0]['iconId']; desc: string }> = [
-  { id: 'system', icon: 'gear', desc: 'System status and build info' },
-  { id: 'providers', icon: 'providers', desc: 'AI providers and capabilities' },
-  { id: 'capture', icon: 'play', desc: 'Capture orchestration' },
-  { id: 'route-audit', icon: 'list', desc: 'Route audit and recovery' },
-  { id: 'storage', icon: 'storage', desc: 'Storage and output destinations' },
-  { id: 'automation', icon: 'automation', desc: 'Automation toggles' },
-  { id: 'presets', icon: 'presets', desc: 'Instruction presets' },
-];
 
 export function DesignMoreTab({
   projectId,
@@ -46,6 +40,8 @@ export function DesignMoreTab({
   onMatchReference,
   moreCategory: moreCategoryProp,
   onMoreCategoryChange,
+  captureRefresh,
+  recentActivityCount = 0,
 }: Props) {
   const [presets, setPresets] = useState<DesignInstructionPreset[]>([]);
   const [falAvailable, setFalAvailable] = useState<boolean | null>(null);
@@ -80,30 +76,16 @@ export function DesignMoreTab({
 
   if (activeCategory === 'landing') {
     return (
-      <section className="site00-dw-v3-more site00-dw-wizard-host site00-dw-more-landing" data-design-tab="more">
-        <DesignTaskWizardShell
-          stepTitle="MORE"
-          headline="SYSTEM & SETTINGS"
-          support="Technical tools and configuration live here — not in your primary creative flows."
-          visualState="ready"
-          transitionKey="more-landing"
-        >
-          <div className="site00-dw-more-landing__grid">
-            {CATEGORY_GRID.map((cat) => (
-              <button
-                key={cat.id}
-                type="button"
-                className="site00-dw-more-landing__tile"
-                onClick={() => goTo(cat.id)}
-              >
-                <DesignDwSectionIcon iconId={cat.icon} />
-                <strong>{moreCategoryLabel(cat.id)}</strong>
-                <span>{cat.desc}</span>
-              </button>
-            ))}
-          </div>
-        </DesignTaskWizardShell>
-      </section>
+      <div className="site00-dw-v3-more site00-dw-wizard-host">
+        <DesignMoreSystemHub
+          onSelectCategory={goTo}
+          falAvailable={falAvailable}
+          presetCount={presets.length}
+          automationOn={syncSupabase && notifyComplete}
+          captureRefresh={captureRefresh}
+          recentActivityCount={recentActivityCount}
+        />
+      </div>
     );
   }
 

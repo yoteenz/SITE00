@@ -120,7 +120,7 @@ describe('P0.VR.8R3R5R1 — Wizard workspace', () => {
 
   it('16. more category landing', () => {
     const more = read('src/site00/components/designWorkspace/DesignMoreTab.tsx');
-    expect(more).toContain('site00-dw-more-landing__grid');
+    expect(more).toContain('DesignMoreSystemHub');
     expect(more).not.toContain('MasterSkinEvolveProofPanel');
     expect(more).not.toContain('DesignReferenceReconstructionInspector');
   });
