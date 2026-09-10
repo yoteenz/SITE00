@@ -15,6 +15,10 @@ import {
 import type { ProjectCaptureStateSummary } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/projectCaptureStateSummary.js';
 import type { CaptureRunPreflight } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureRunPreflight.js';
 import type { CaptureTransportHealth } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureTransportReceipt.js';
+import {
+  TEST_WORKER_PROGRESS_STEPS,
+  type TestWorkerProgressStep,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureFounderGuidance.js';
 import type { PageVisualIndexRow } from './DesignPagesVisualIndex';
 import { captureApiFetch, PAGE_MIRROR_PATH } from '../../services/captureApiFetch';
 import { checkCaptureTransportHealth } from '../../services/checkCaptureTransportHealth';
@@ -44,6 +48,8 @@ export type ProjectCaptureRefreshState = {
   transportChecking: boolean;
   testingWorker: boolean;
   testJobPassed: boolean;
+  testWorkerProgress: TestWorkerProgressStep | null;
+  testWorkerFailed: boolean;
 };
 
 function parseCaptureRunPayload(
@@ -80,6 +86,8 @@ export function usePageMirror(projectId: string) {
     transportChecking: false,
     testingWorker: false,
     testJobPassed: false,
+    testWorkerProgress: null,
+    testWorkerFailed: false,
   });
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [loading, setLoading] = useState(false);
@@ -276,6 +284,8 @@ export function usePageMirror(projectId: string) {
           transportChecking: false,
           testingWorker: prev.testingWorker,
           testJobPassed: prev.testJobPassed,
+          testWorkerProgress: prev.testWorkerProgress,
+          testWorkerFailed: prev.testWorkerFailed,
         }));
         if (run.contractValid) startPolling();
         await refresh();
@@ -295,8 +305,23 @@ export function usePageMirror(projectId: string) {
   );
 
   const testWorker = useCallback(async () => {
-    setCaptureRefresh((prev) => ({ ...prev, testingWorker: true, error: null, errorCode: null }));
+    setCaptureRefresh((prev) => ({
+      ...prev,
+      testingWorker: true,
+      testWorkerProgress: 'CONNECTING',
+      testWorkerFailed: false,
+      error: null,
+      errorCode: null,
+    }));
+
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
     try {
+      for (const step of TEST_WORKER_PROGRESS_STEPS) {
+        setCaptureRefresh((prev) => ({ ...prev, testWorkerProgress: step }));
+        await sleep(350);
+      }
+
       const result = await captureApiFetch<{
         testJob?: { status: string; jobId: string };
         workerHealth?: { workerStatus?: string; testJobPassed?: boolean };
@@ -309,6 +334,8 @@ export function usePageMirror(projectId: string) {
       setCaptureRefresh((prev) => ({
         ...prev,
         testingWorker: false,
+        testWorkerProgress: passed ? 'COMPLETE' : 'FAILED',
+        testWorkerFailed: !passed,
         testJobPassed: passed || prev.testJobPassed,
         error: passed ? null : 'WORKER_TEST_FAILED',
         errorCode: passed ? null : 'WORKER_TEST_FAILED',
@@ -318,6 +345,8 @@ export function usePageMirror(projectId: string) {
       setCaptureRefresh((prev) => ({
         ...prev,
         testingWorker: false,
+        testWorkerProgress: 'FAILED',
+        testWorkerFailed: true,
         error: 'WORKER_TEST_FAILED',
         errorCode: 'WORKER_TEST_FAILED',
       }));

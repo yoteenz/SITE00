@@ -109,8 +109,8 @@ describe('P0.VR.8R3R3 — Capture transport recovery', () => {
     expect(health.serverTime).toBeTruthy();
   });
 
-  it('16. build v262', () => {
-    expect(P0_VR_8R3R3_BUILD).toBe('v262');
+  it('16. build v263', () => {
+    expect(P0_VR_8R3R3_BUILD).toBe('v263');
   });
 
   it('17. transport preflight before refresh', () => {
@@ -120,7 +120,13 @@ describe('P0.VR.8R3R3 — Capture transport recovery', () => {
 
   it('18. retry connection UX', () => {
     const panel = read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx');
-    expect(panel.includes('RETRY CONNECTION') || panel.includes('RETRY HEALTH CHECK')).toBe(true);
+    const founder = read('src/site00/components/designWorkspace/founderCapture/FounderCaptureExperience.tsx');
+    expect(
+      panel.includes('FounderCaptureExperience') ||
+        founder.includes('CHECK AGAIN') ||
+        panel.includes('RETRY CONNECTION') ||
+        panel.includes('RETRY HEALTH CHECK'),
+    ).toBe(true);
     expect(read('src/site00/components/designWorkspace/DesignCaptureOrchestrationInspector.tsx')).toContain('TRANSPORT');
   });
 

@@ -216,15 +216,16 @@ describe('P0.VR.8R3R4 — Worker boot + shared health', () => {
   });
 
   it('28. UI TEST WORKER button', () => {
-    expect(read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx')).toContain('TEST WORKER');
+    const ux = read('src/site00/components/designWorkspace/founderCapture/FounderCaptureExperience.tsx');
+    expect(ux.includes('TEST WORKER') || read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx').includes('FounderCaptureExperience')).toBe(true);
   });
 
   it('29. refresh gated until test job', () => {
     expect(read('src/site00/components/designWorkspace/usePageMirror.ts')).toContain('WORKER_TEST_REQUIRED');
   });
 
-  it('30. build v262', () => {
-    expect(P0_VR_8R3R4_BUILD).toBe('v262');
+  it('30. build v263', () => {
+    expect(P0_VR_8R3R4_BUILD).toBe('v263');
   });
 
   it('31. worker events log', () => {

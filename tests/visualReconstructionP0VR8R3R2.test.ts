@@ -202,8 +202,8 @@ describe('P0.VR.8R3R2 — Contract receipt + page state + route resolution', () 
     expect(summary.current).toBeGreaterThan(0);
   });
 
-  it('13. build v262', () => {
-    expect(P0_VR_8R3R2_BUILD).toBe('v262');
+  it('13. build v263', () => {
+    expect(P0_VR_8R3R2_BUILD).toBe('v263');
   });
 
   it('14. API returns captureSummary', () => {
@@ -211,7 +211,7 @@ describe('P0.VR.8R3R2 — Contract receipt + page state + route resolution', () 
   });
 
   it('15. UI compact error panel', () => {
-    expect(read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx')).toContain('VIEW ISSUES');
+    expect(read('src/site00/components/designWorkspace/DesignPagesTabPanel.tsx')).toContain('VIEW DETAILS');
     expect(read('shared/site00-studio-world-production/visualReconstruction/p0vr8r3/projectCaptureRunContract.ts')).toContain(
       'RUN_CONTRACT_INVALID',
     );

@@ -2,7 +2,7 @@
  * P0.VR.8R3R3 — Frontend capture transport health preflight.
  */
 
-import { P0_VR_8R3R4_BUILD } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/constants.js';
+import { P0_VR_8R3R5_BUILD } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/constants.js';
 import { CAPTURE_RUN_CONTRACT_VERSION } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/projectCaptureRunContract.js';
 import {
   deriveTransportHealthStatus,
@@ -99,13 +99,13 @@ export async function checkCaptureTransportHealth(projectId: string): Promise<Ca
       }
       const mismatch = detectBackendVersionMismatch(
         {
-          frontendBuild: P0_VR_8R3R4_BUILD,
+          frontendBuild: P0_VR_8R3R5_BUILD,
           apiBuild: apiBuild ?? '',
           workerBuild: workerBuild ?? '',
           gitSha: apiGitSha,
           contractVersion: contractVersion ?? '',
         },
-        P0_VR_8R3R4_BUILD,
+        P0_VR_8R3R5_BUILD,
       );
       if (mismatch) errors.push('BACKEND_VERSION_MISMATCH');
     } else if (apiReachable && !result.ok) {
@@ -117,7 +117,7 @@ export async function checkCaptureTransportHealth(projectId: string): Promise<Ca
   const status = deriveTransportHealthStatus(uniqueErrors);
 
   const health: CaptureTransportHealth = {
-    frontendBuild: P0_VR_8R3R4_BUILD,
+    frontendBuild: P0_VR_8R3R5_BUILD,
     apiBuild,
     workerBuild,
     frontendGitSha: null,
