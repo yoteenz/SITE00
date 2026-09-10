@@ -6,6 +6,7 @@ import { listDesignScreensForProject, resolveDesignScreenRoute } from '../p0vr2/
 import type { DesignScreenDefinition } from '../p0vr2/types.js';
 import { listManifestScreensForProject } from '../p0vr3/designRouteManifest.js';
 import { resolveRepresentativeRoute, isMissingImplementationRoute } from '../p0vr3e/routeRepresentativeResolver.js';
+import { ensureProjectRouteRecovery } from '../p0vr8r2/routeRecoveryOrchestrator.js';
 import { normalizeRouteKey } from './changeDetector.js';
 import type { ProjectPageRecord } from './types.js';
 
@@ -13,6 +14,8 @@ export function discoverProjectRoutes(
   projectId: string,
   options?: { screenSetMode?: 'PRIMARY' | 'ALL_DESIGNABLE' },
 ): DesignScreenDefinition[] {
+  ensureProjectRouteRecovery(projectId);
+
   if (projectId === 'site00') {
     return listManifestScreensForProject('site00', false, options?.screenSetMode ?? 'PRIMARY');
   }
@@ -31,8 +34,9 @@ export function screenToPageRecord(
   const isParameterized = isDynamic;
   const missing = isMissingImplementationRoute(screen);
 
+  const routeKey = normalizeRouteKey(representativeRoute || route);
   return {
-    pageId: `${projectId}:${normalizeRouteKey(representativeRoute || route)}`,
+    pageId: `${projectId}:${screen.screenId}:${routeKey}`,
     projectId,
     screenId: screen.screenId,
     route,

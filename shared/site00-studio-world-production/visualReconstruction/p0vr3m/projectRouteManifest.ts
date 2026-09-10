@@ -5,10 +5,19 @@
 import { discoverProjectRoutes } from '../p0vr8/routeDiscoveryService.js';
 import { listProjectPageRecords, reconcileProjectPageRegistry } from '../p0vr8/projectPageRegistry.js';
 import type { DesignScreenDefinition } from '../p0vr2/types.js';
+import {
+  ensureProjectRouteRecovery,
+  getGlobalRecoveryStatus,
+  getProjectRecoveryResult,
+} from '../p0vr8r2/routeRecoveryOrchestrator.js';
 import { getSite00ManagedProject } from './managedProjectRegistry.js';
 import { SITE00_DESIGN_PROJECT_ID } from './types.js';
 
-export type ProjectPageRegistrySyncState = 'NEVER_SYNCED' | 'SYNC_REQUIRED' | 'SYNCED';
+export type ProjectPageRegistrySyncState =
+  | 'NEVER_SYNCED'
+  | 'SYNC_REQUIRED'
+  | 'SYNCED'
+  | 'RECOVERING';
 
 export type ProjectRouteManifest = {
   manifestId: string;
@@ -32,10 +41,22 @@ export function clearProjectSyncStateForTest(): void {
 
 export function resolveProjectPageRegistrySyncState(projectId: string): ProjectPageRegistrySyncState {
   if (!getSite00ManagedProject(projectId)) return 'NEVER_SYNCED';
+
+  const recoveryStatus = getGlobalRecoveryStatus();
+  if (recoveryStatus === 'RECOVERING' || recoveryStatus === 'RECONCILING') {
+    return 'RECOVERING';
+  }
+
   if (syncTimestamps.has(projectId)) return 'SYNCED';
 
   const routes = discoverProjectRoutes(projectId);
   if (routes.length === 0) {
+    ensureProjectRouteRecovery(projectId);
+    const recovery = getProjectRecoveryResult(projectId);
+    if (recovery && recovery.priorRouteCount > 0 && recovery.recoveredRouteCount === 0) {
+      return 'RECOVERING';
+    }
+    if (recovery?.priorAuditFound && recovery.priorRouteCount > 0) return 'RECOVERING';
     return projectId === SITE00_DESIGN_PROJECT_ID ? 'SYNC_REQUIRED' : 'NEVER_SYNCED';
   }
 

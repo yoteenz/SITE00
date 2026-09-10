@@ -13,6 +13,7 @@ import { DesignDwSectionIcon } from './DesignDwSectionIcon';
 import { MasterSkinEvolveProofPanel } from '../masterSkin/MasterSkinEvolveProofPanel';
 import { DesignReferenceReconstructionInspector } from './DesignReferenceReconstructionInspector.js';
 import { DesignScreenReplicationInspector } from './DesignScreenReplicationInspector.js';
+import { DesignRouteAuditRecoveryInspector } from './DesignRouteAuditRecoveryInspector.js';
 import '../../styles/site00-master-skin.css';
 
 type Props = {
@@ -33,7 +34,7 @@ function SectionTitle({ iconId, title }: { iconId: Parameters<typeof DesignDwSec
   );
 }
 
-export function DesignMoreTab({ projectId: _projectId, onOpenInspect, onCaptureScreen, onMatchReference }: Props) {
+export function DesignMoreTab({ projectId, onOpenInspect, onCaptureScreen, onMatchReference }: Props) {
   const [presets, setPresets] = useState<DesignInstructionPreset[]>([]);
   const [falAvailable, setFalAvailable] = useState<boolean | null>(null);
   const [autoCrop, setAutoCrop] = useState(false);
@@ -243,6 +244,10 @@ export function DesignMoreTab({ projectId: _projectId, onOpenInspect, onCaptureS
 
       <article className="site00-dw-v3-more__card site00-dw-v3-more__card--full">
         <DesignScreenReplicationInspector />
+      </article>
+
+      <article className="site00-dw-v3-more__card site00-dw-v3-more__card--full">
+        <DesignRouteAuditRecoveryInspector projectId={projectId} />
       </article>
 
       <article className="site00-dw-v3-more__card">

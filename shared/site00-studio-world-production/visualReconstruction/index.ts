@@ -135,3 +135,11 @@ export {
   buildImplementationSnapshotCoverage,
   listScreensWithSnapshots,
 } from './p0vr3e/client.js';
+export {
+  P0_VR_8R2_LINEAGE,
+  recoverProjectRouteInventory,
+  ensureProjectRouteRecovery,
+  buildPriorRouteAuditRecoveryReport,
+  buildRouteRecoveryInspectorState,
+  getRouteAuditLineageBreak,
+} from './p0vr8r2/client.js';
