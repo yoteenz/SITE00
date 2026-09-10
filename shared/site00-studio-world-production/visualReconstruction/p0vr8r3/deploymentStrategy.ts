@@ -16,18 +16,21 @@ export type DeploymentBuildReceipt = {
   playwrightInstallStep: string;
 };
 
+/** Ubuntu 24.04 Noble t64 names — must match nixpacks.toml + playwright nativeDeps ubuntu24.04-x64 */
 const PLAYWRIGHT_APT_DEPS = [
   'ca-certificates',
   'fonts-liberation',
   'fonts-noto-color-emoji',
-  'libasound2',
-  'libatk-bridge2.0-0',
-  'libatk1.0-0',
+  'libasound2t64',
+  'libatk-bridge2.0-0t64',
+  'libatk1.0-0t64',
+  'libatspi2.0-0t64',
   'libcairo2',
-  'libcups2',
+  'libcups2t64',
   'libdbus-1-3',
   'libdrm2',
   'libgbm1',
+  'libglib2.0-0t64',
   'libnspr4',
   'libnss3',
   'libpango-1.0-0',
