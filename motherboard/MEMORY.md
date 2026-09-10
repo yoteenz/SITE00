@@ -7566,3 +7566,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining gaps:** Live Playwright click-through runner; persist linkage contracts; auto-repair applied to component source (not manifest-only).
 - **Next founder action:** Deploy cPanel v267 → DESIGN → MORE → CHILD EXPERIENCE MATRIX → verify MORE/PAGES/ASSETS/SKINS wiring rows → click every MORE tile + test MORE→CAPTURE→TEST WORKER grandchild + return paths.
 
+---
+
+## 2026-09-10 — P0.PCI.3 Page Family Workspace + Derivative Design Wizard (PAGES tab revamp)
+
+- **Context:** Founder sprint to replace PAGES tab long-scroll 46-page inventory with reference-led **Page Family Workspace** — visual control center for parent → child → grandchild experience inheritance, route wiring, design approval, build, capture, verification. Reference image is design authority; preserve routing, data, auth, capture, page completion.
+- **Implemented:**
+  - **Engine** (`shared/site00-studio-world-production/pageFamilyWorkspace/`): `PageFamily`, `PageFamilyNode`, `PageFamilyEdge`, `NavigationPromise`, `DerivativeReviewState`, `PageFamilyReadiness`; `pageFamilyBuilder` (route-hierarchy tree from page mirror, project prefix `/projects/{id}`); `parentNavigationIntentResolver`; `pageFamilyWorkflow` (5 steps: DETECT LINKS → CONFIRM FAMILY → REVIEW CHILD → APPROVE DESIGN → VERIFY WIRING); in-memory `pageFamilyStore` for structure/design approvals.
+  - **UI** (`src/site00/components/designWorkspace/pageFamily/`): `PageFamilyWorkspace` (primary PAGES experience), `ProjectProgressBar`, `PageFamilyMap` (interactive nodes, expand/collapse), `DerivativeReviewCarousel` (sibling swipe, one active derivative), `PageFamilySelector` (indented hierarchy + status), `ReconstructionWorkflowRail` (single primary CTA). CSS: `site00-design-page-family.css` with NDXBOOK lime accent (`is-ndxbook`).
+  - **Integration:** `DesignPagesWizard` default step `'family'`; FAMILY | ALL PAGES toggle preserves page library; capture via REFRESH CAPTURES → service-check; `StudioWorldDesignWorkspace` passes `projectId`. Build marker `P0_PCI_3_BUILD = 'v267'`.
+  - **Tests:** `pageFamilyWorkspaceP0PCI3.test.ts` (24/24 pass).
+  - **PR #661** merged to main. cPanel release **v268** (`index.Dz27B7D5.js`) includes PCI.3 on main.
+- **Remaining gaps:** Navigation detection is route-hierarchy + registry based (not live DOM scan of parent controls); full ChildConvergencePlan / experience-inheritance UI in derivative approval not wired; second deep-family pilot (MORE/EVOLVE/ASSETS) not done; workflow resume persistence not Supabase-backed.
+- **Next founder action:** Deploy cPanel **v268** → DESIGN → NDXBOOK → PAGES (`?tab=pages&pagesStep=family`) → verify PROJECT PROGRESS + PAGE FAMILY WORKSPACE + MAP + DERIVATIVE REVIEW + WORKFLOW (not 46-card scroll) → CONFIRM FAMILY → swipe derivatives → approve one child → verify parent control wiring.
+
