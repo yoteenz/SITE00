@@ -163,23 +163,34 @@ export type DerivativeReviewState = {
 };
 
 export type PageFamilyReadiness = {
-  structureStatus: 'READY' | 'NEEDS_CONFIRMATION' | 'BLOCKED';
-  designStatus: 'READY' | 'IN_PROGRESS' | 'BLOCKED';
-  buildStatus: 'READY' | 'IN_PROGRESS' | 'BLOCKED';
-  linkageStatus: 'READY' | 'ISSUES' | 'BLOCKED';
-  captureStatus: 'READY' | 'PENDING' | 'BLOCKED';
+  structureStatus: 'READY' | 'NEEDS_CONFIRMATION' | 'IN_PROGRESS';
+  designStatus: 'READY' | 'IN_PROGRESS' | 'PENDING';
+  wiringStatus: 'READY' | 'IN_PROGRESS' | 'ISSUES';
+  buildStatus: 'READY' | 'IN_PROGRESS';
+  linkageStatus: 'READY' | 'ISSUES';
+  captureStatus: 'READY' | 'PENDING' | 'UNAVAILABLE';
   approvedCount: number;
   needsDesignCount: number;
   wiringIssueCount: number;
+  capturePendingCount: number;
   completionPct: number | null;
   attentionCount: number;
   summaryLabel: string;
+  dimensions: {
+    structure: string;
+    design: string;
+    wiring: string;
+    capture: string;
+  };
 };
 
 export type ProjectProgressSummary = {
   totalPages: number;
+  familyCount: number | null;
   current: number | null;
   needReview: number | null;
+  needDesignReview: number | null;
+  wiringIssues: number | null;
   notCaptured: number | null;
   stale: number | null;
   chips: Array<{ label: string; value: number | null; tone: 'ready' | 'attention' | 'neutral' | 'offline' }>;
@@ -200,3 +211,4 @@ export type PageFamilyRowInput = {
 };
 
 export const P0_PCI_3_BUILD = 'v267' as const;
+export const P0_PCI_3R1_BUILD = 'v269' as const;

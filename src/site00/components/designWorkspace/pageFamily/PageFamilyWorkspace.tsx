@@ -30,7 +30,10 @@ import {
 } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyReadiness.js';
 import { summarizeNavigationDetection } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/parentNavigationIntentResolver.js';
 import { resolveWorkflowAction } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyWorkflow.js';
+import type { CaptureServiceInput } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyDependencyPolicy.js';
 import type { PageFamilyRowInput } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/types.js';
+import { CaptureServiceStatusChip } from './CaptureServiceStatusChip';
+import { FamilyReadinessDimensions } from './FamilyReadinessDimensions';
 
 export type PageFamilyWorkspaceProps = {
   projectId: string;
@@ -39,7 +42,8 @@ export type PageFamilyWorkspaceProps = {
   onOpenPage?: (screenId: string) => void;
   onSelectScreen: (screenId: string) => void;
   onOpenLibrary?: () => void;
-  onStartCapture?: () => void;
+  onOpenCaptureService?: () => void;
+  captureService?: CaptureServiceInput;
   pageCompletionPct?: number | null;
   pageCompletionAttention?: number;
 };
@@ -67,7 +71,8 @@ export function PageFamilyWorkspace({
   onOpenPage,
   onSelectScreen,
   onOpenLibrary,
-  onStartCapture,
+  onOpenCaptureService,
+  captureService,
   pageCompletionPct,
   pageCompletionAttention,
 }: PageFamilyWorkspaceProps) {
@@ -80,7 +85,7 @@ export function PageFamilyWorkspace({
   const [viewMode, setViewMode] = useState<'family' | 'library'>('family');
 
   const rowInputs = useMemo(() => rows.map(toRowInput), [rows]);
-  const progress = useMemo(() => buildProjectProgressSummary(rowInputs), [rowInputs]);
+  const progress = useMemo(() => buildProjectProgressSummary(rowInputs, projectId), [rowInputs, projectId]);
 
   const family = useMemo(() => {
     const built = buildPageFamilyFromRows({
@@ -91,7 +96,10 @@ export function PageFamilyWorkspace({
     return applyApprovalToFamily(built);
   }, [projectId, rowInputs, activeParentRoute]);
 
-  const readiness = useMemo(() => derivePageFamilyReadiness(family), [family]);
+  const readiness = useMemo(
+    () => derivePageFamilyReadiness(family, captureService),
+    [family, captureService],
+  );
   const detection = useMemo(() => summarizeNavigationDetection(family.promises), [family.promises]);
   const workflowStep = getWorkflowStep(family.familyId);
   const workflowAction = resolveWorkflowAction(family);
@@ -208,6 +216,12 @@ export function PageFamilyWorkspace({
 
       <ProjectProgressBar summary={progress} />
 
+      {captureService ? (
+        <CaptureServiceStatusChip captureService={captureService} onFix={onOpenCaptureService} />
+      ) : null}
+
+      <FamilyReadinessDimensions readiness={readiness} />
+
       {pageCompletionPct != null ? (
         <p className="site00-pfw__completion">
           PAGE COMPLETION · {pageCompletionPct}%
@@ -287,6 +301,7 @@ export function PageFamilyWorkspace({
           next={nextSibling}
           index={Math.max(0, siblingIndex)}
           total={Math.max(1, siblings.length)}
+          liveCaptureUnavailable={readiness.captureStatus === 'UNAVAILABLE'}
           onPrev={() => advanceSibling(-1)}
           onNext={() => advanceSibling(1)}
           onEnterSubfamily={
@@ -316,9 +331,9 @@ export function PageFamilyWorkspace({
       />
 
       <div className="site00-pfw__secondary-actions">
-        {onStartCapture ? (
-          <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact" onClick={onStartCapture}>
-            REFRESH CAPTURES
+        {onOpenCaptureService ? (
+          <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact" onClick={onOpenCaptureService}>
+            SET UP CAPTURE
           </button>
         ) : null}
         {activeNode?.screenId && onOpenPage ? (
@@ -340,6 +355,7 @@ export function PageFamilyWorkspace({
       <DesignDetailsDrawer open={detailsOpen} title="PAGE FAMILY DETAILS" onClose={() => setDetailsOpen(false)}>
         {detailsContent}
         <section className="site00-pfw-details__promises">
+          <p className="site00-pfw-details__source">STRUCTURE SOURCE · REGISTRY</p>
           <h4>NAVIGATION PROMISES</h4>
           <ul>
             {family.promises.map((p) => (
