@@ -12,14 +12,13 @@ import {
   reconcileProjectPageRegistry,
 } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
 import { captureImplementationSnapshot } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr8/screenshotRecorder.js';
-import { registerSite00DesignPilot, registerNdxbookDesignPilot } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr2/client.js';
+import { bootstrapAllManagedDesignProjects } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/client.js';
 
 const REPO_ROOT = process.cwd();
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    registerNdxbookDesignPilot();
-    registerSite00DesignPilot();
+    bootstrapAllManagedDesignProjects();
 
     if (req.method === 'GET') {
       const projectId = String(req.query.projectId ?? 'site00');

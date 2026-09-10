@@ -19,7 +19,12 @@ import {
   startVisualReconstructionRun,
   type DesignViewportClass,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/client.js';
-import { registerNdxbookDesignPilot, registerSite00DesignPilot } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/client.js';
+import {
+  bootstrapAllManagedDesignProjects,
+  bootstrapManagedDesignProject,
+  designProjectAccentCssVar,
+  syncProjectRouteManifest,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/client.js';
 import {
   getActiveDesignRouteSyncContract,
   buildSite00FounderDesignScreenSet,
@@ -93,6 +98,7 @@ import {
   useDesignFounderActionNotifications,
 } from '../designWorkspace/useDesignFounderActionNotifications.js';
 import { useDesignWorkspaceHostMenus } from '../designWorkspace/useDesignWorkspaceHostMenus';
+import { useDesignProjectContext } from '../designWorkspace/useDesignProjectContext.js';
 import { ActiveProjectNotificationCenter } from '../founderWorkspace/ActiveProjectNotificationCenter';
 import { useActiveProjectNotifications } from '../../hooks/useActiveProjectNotifications';
 import { buildDesignWorkspaceOverflowActions } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m1/client.js';
@@ -131,8 +137,7 @@ export function StudioWorldDesignWorkspace({
   initialScreenId,
   initialViewport = 'mobile',
 }: StudioWorldDesignWorkspaceProps) {
-  registerNdxbookDesignPilot();
-  registerSite00DesignPilot();
+  bootstrapAllManagedDesignProjects();
 
   const designProjects = useMemo(() => listDesignWorkspaceProjects(), []);
   const selectableProjects = useMemo(() => listSelectableDesignProjects({ viewMode: 'FOUNDER' }), []);
@@ -146,6 +151,9 @@ export function StudioWorldDesignWorkspace({
   const [isRescoping, setIsRescoping] = useState(false);
   const [screenId, setScreenId] = useState(urlState.screen ?? initialScreenId ?? '');
   const [viewportClass, setViewportClass] = useState<DesignViewportClass>(urlState.viewport ?? initialViewport);
+  const designProjectContext = useDesignProjectContext(activeDesignProjectId, {
+    activeViewport: viewportClass === 'ultrawide' ? 'desktop' : viewportClass,
+  });
   const [primaryTab, setPrimaryTab] = useState<DesignWorkspacePrimaryTab>(
     normalizeDesignWorkspacePrimaryTab(urlState.tab ?? 'ASSETS'),
   );
@@ -231,6 +239,7 @@ export function StudioWorldDesignWorkspace({
   const screen = findDesignScreen(projectId, screenId);
   const projectMeta = designProjects.find((p) => p.slug === projectId);
   const projectContextAccent = resolveManagedProjectContextAccent(projectId);
+  const projectAccentCssVars = designProjectAccentCssVar(designProjectContext.context.themeTokens);
   const breadcrumb = buildDesignWorkspaceBreadcrumb(activeDesignProjectId);
   const projectSelectorLabel = formatDesignProjectSelectorLabel(activeDesignProjectId);
   const route = customRoute || (screen ? resolveDesignScreenRoute(screen, projectId) : `/projects/${projectId}`);
@@ -284,17 +293,25 @@ export function StudioWorldDesignWorkspace({
       setAssetSlots([]);
       setSelectedPromptSlotId(null);
       setShowInspector(false);
-      const nextScreens =
-        resolved === 'site00'
-          ? listManifestScreensForProject('site00', false, site00ScreenSetMode)
-          : listDesignScreensForProject(resolved);
-      const nextScreen = defaultScreenForProject(resolved, nextScreens);
-      setScreenId(nextScreen);
-      syncUrl({ project: resolved, screen: nextScreen });
-      requestAnimationFrame(() => setIsRescoping(false));
+      bootstrapManagedDesignProject(resolved);
+      void designProjectContext.switchProject(resolved).then(() => {
+        const nextScreens =
+          resolved === 'site00'
+            ? listManifestScreensForProject('site00', false, site00ScreenSetMode)
+            : listDesignScreensForProject(resolved);
+        const nextScreen = defaultScreenForProject(resolved, nextScreens);
+        setScreenId(nextScreen);
+        syncUrl({ project: resolved, screen: nextScreen });
+        setIsRescoping(false);
+      });
     },
-    [activeDesignProjectId, defaultScreenForProject, site00ScreenSetMode, syncUrl],
+    [activeDesignProjectId, defaultScreenForProject, designProjectContext, site00ScreenSetMode, syncUrl],
   );
+
+  const handleSyncProjectPages = useCallback(() => {
+    syncProjectRouteManifest(activeDesignProjectId, { screenSetMode: site00ScreenSetMode });
+    void refreshMirrorProject();
+  }, [activeDesignProjectId, refreshMirrorProject, site00ScreenSetMode]);
 
   useEffect(() => {
     if (!screenId) {
@@ -602,7 +619,7 @@ export function StudioWorldDesignWorkspace({
       activeDesignProjectId={activeDesignProjectId}
       designProjectOptions={selectableProjects.map((p) => ({ projectId: p.projectId, displayName: p.displayName }))}
       onSelectDesignProject={handleSelectDesignProject}
-      projectSelectorDisabled={isRescoping}
+      projectSelectorDisabled={isRescoping || designProjectContext.isLoading}
       activeHostMenu={activeHostMenu}
       unreadNotificationCount={mergedUnreadCount}
       onToggleNotifications={toggleNotifications}
@@ -620,10 +637,25 @@ export function StudioWorldDesignWorkspace({
         data-design-workspace-owner="SITE00"
         data-design-project={projectId}
         data-design-project-accent={projectContextAccent}
+        data-design-project-accent-key={designProjectContext.context.themeTokens.accentKey}
+        data-design-context-status={designProjectContext.context.status}
         data-design-primary-tab={primaryTab}
-        data-design-rescoping={isRescoping ? 'true' : 'false'}
+        data-design-rescoping={isRescoping || designProjectContext.isLoading ? 'true' : 'false'}
+        style={projectAccentCssVars}
       >
-        {isRescoping ? <p className="site00-dw-v3-rescope-loading">RE-SCOPING DESIGN DATA…</p> : null}
+        {designProjectContext.isError ? (
+          <p className="site00-dw-v3-context-error" role="alert">
+            {designProjectContext.context.errorMessage ?? 'PROJECT CONTEXT COULD NOT LOAD'} —{' '}
+            <button type="button" onClick={() => void designProjectContext.switchProject(activeDesignProjectId)}>
+              RETRY
+            </button>
+          </p>
+        ) : null}
+        {isRescoping || designProjectContext.isLoading ? (
+          <p className="site00-dw-v3-rescope-loading">
+            LOADING {designProjectContext.context.projectName.toUpperCase()} DESIGN CONTEXT…
+          </p>
+        ) : null}
         <DesignWorkspacePrimaryTabRail
           activeTab={primaryTab}
           onTabChange={(t) => {
@@ -701,12 +733,17 @@ export function StudioWorldDesignWorkspace({
           />
         ) : null}
 
-        {primaryTab === 'PAGES' ? (
+        {primaryTab === 'PAGES' && designProjectContext.isReady ? (
           <DesignPagesTabPanel
             key={`pages-${activeDesignProjectId}`}
-            rows={pageIndexRows}
+            rows={designProjectContext.filterForActiveProject(
+              pageIndexRows.map((row) => ({ ...row, projectId: activeDesignProjectId })),
+            )}
             selectedScreenId={screenId}
             mirrorLoading={mirrorLoading}
+            projectSyncState={designProjectContext.context.syncState}
+            projectName={designProjectContext.context.projectName}
+            contextLoading={designProjectContext.isLoading}
             onSelectScreen={(id) => {
               setScreenId(id);
               syncUrl({ screen: id });
@@ -717,7 +754,8 @@ export function StudioWorldDesignWorkspace({
               window.open(`${target}?site00MobileLayout=1&designPreview=1`, '_blank', 'noopener,noreferrer');
             }}
             onRefreshPage={(id) => void refreshMirrorPage(id)}
-            onRefreshProject={() => void refreshMirrorProject()}
+            onRefreshProject={handleSyncProjectPages}
+            onSyncProject={handleSyncProjectPages}
             pageCompletionJob={pageCompletionJob}
           />
         ) : null}

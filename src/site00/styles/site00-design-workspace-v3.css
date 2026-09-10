@@ -150,6 +150,29 @@
   margin: 0 0 8px;
 }
 
+.site00-dw-v3-context-error {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--site00-dw-host-accent, #eb1c24);
+  margin: 0 0 8px;
+}
+
+.site00-dw-v3-pages__context-loading,
+.site00-dw-v3-pages__unsynced {
+  padding: 24px 16px;
+  border: 1px dashed var(--site00-dw-line, #e8e4dc);
+  border-radius: 8px;
+  background: var(--site00-dw-white, #fff);
+}
+
+.site00-dw-v3-pages__unsynced strong {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  color: var(--site00-dw-project-accent, var(--site00-dw-ink, #111));
+}
+
 .site00-dw-shell__hero-block {
   position: relative;
   display: flex;
