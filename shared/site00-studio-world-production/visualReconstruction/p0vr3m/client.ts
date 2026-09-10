@@ -76,3 +76,64 @@ export {
   SITE00_DESIGN_PROJECT_ID,
   P0_VR_3M_LINEAGE,
 } from './types.js';
+
+export {
+  resolveDesignProjectContext,
+  createLoadingDesignProjectContext,
+  type DesignProjectContext,
+  type DesignProjectContextStatus,
+} from './designProjectContext.js';
+
+export {
+  buildDesignProjectThemeTokens,
+  resolveBrandFamilyKeyForProject,
+  designProjectAccentCssVar,
+  type DesignProjectThemeTokens,
+} from './designProjectThemeTokens.js';
+
+export {
+  buildProjectRouteManifest,
+  syncProjectRouteManifest,
+  resolveProjectPageRegistrySyncState,
+  markProjectPagesSynced,
+  projectRegistryShowsUnsyncedNotZero,
+  clearProjectSyncStateForTest,
+  type ProjectRouteManifest,
+  type ProjectPageRegistrySyncState,
+} from './projectRouteManifest.js';
+
+export {
+  upsertProjectPageCapture,
+  getProjectPageCapture,
+  listProjectPageCaptures,
+  buildProjectPageCaptureId,
+  assertCaptureProjectScope,
+  clearProjectPageCaptureRegistryForTest,
+  type ProjectPageCapture,
+} from './projectPageCaptureRegistry.js';
+
+export {
+  resolveProjectRepositoryBinding,
+  listProjectRepositoryBindings,
+  type ProjectRepositoryBinding,
+} from './projectRepositoryBinding.js';
+
+export {
+  assertProjectContextScope,
+  filterRecordsForActiveProject,
+  blockIfProjectMismatch,
+  type ProjectContextFirewallResult,
+} from './projectContextFirewall.js';
+
+export {
+  detectDesignContextLeaks,
+  type DesignContextLeakReport,
+  type DesignContextLeakFailure,
+} from './designContextLeakDetector.js';
+
+export {
+  bootstrapManagedDesignProject,
+  bootstrapAllManagedDesignProjects,
+  isManagedDesignProjectBootstrapped,
+  clearManagedDesignBootstrapForTest,
+} from './managedProjectDesignBootstrap.js';

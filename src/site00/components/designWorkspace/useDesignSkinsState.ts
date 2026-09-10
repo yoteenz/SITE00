@@ -57,7 +57,7 @@ const FAMILY_TAGLINES: Record<string, string> = {
 };
 
 export function useDesignSkinsState(projectId: string) {
-  const mappedBrand = BRAND_FAMILY_PROJECT_MAP[projectId] ?? 'NDXBOOK';
+  const mappedBrand = BRAND_FAMILY_PROJECT_MAP[projectId] ?? null;
   const [families, setFamilies] = useState<SkinsFamilyRecord[]>([]);
   const [activeFamilyKey, setActiveFamilyKey] = useState(mappedBrand);
   const [activeScreenType, setActiveScreenType] = useState<StandardScreenType>('PROJECT_OVERVIEW');
@@ -79,7 +79,8 @@ export function useDesignSkinsState(projectId: string) {
   }, []);
 
   useEffect(() => {
-    setActiveFamilyKey(BRAND_FAMILY_PROJECT_MAP[projectId] ?? 'NDXBOOK');
+    const nextBrand = BRAND_FAMILY_PROJECT_MAP[projectId];
+    if (nextBrand) setActiveFamilyKey(nextBrand);
   }, [projectId]);
 
   useEffect(() => {
@@ -107,10 +108,12 @@ export function useDesignSkinsState(projectId: string) {
         screenPackStatus: packByFamily[f.brandKey] ?? {},
       }));
 
-      setFamilies(enriched.length ? enriched : buildFallbackFamilies());
-      const activeId = projectRes.management?.brandFamilySkinId ?? mappedBrand;
-      setActiveFamilyKey(activeId);
-      await reloadAuthorities(activeId);
+      setFamilies(enriched.length ? enriched : buildFallbackFamilies(projectId));
+      const activeId = projectRes.management?.brandFamilySkinId ?? mappedBrand ?? enriched[0]?.brandKey;
+      if (activeId) {
+        setActiveFamilyKey(activeId);
+        await reloadAuthorities(activeId);
+      }
       setLoading(false);
     })();
   }, [projectId, mappedBrand, reloadAuthorities]);
@@ -187,8 +190,12 @@ export function useDesignSkinsState(projectId: string) {
   };
 }
 
-function buildFallbackFamilies(): SkinsFamilyRecord[] {
-  return Object.entries(BRAND_FAMILY_PRIMARY_COLORS).map(([brandKey, colors]) => ({
+function buildFallbackFamilies(projectId: string): SkinsFamilyRecord[] {
+  const scopedBrand = BRAND_FAMILY_PROJECT_MAP[projectId];
+  const entries = scopedBrand
+    ? [[scopedBrand, BRAND_FAMILY_PRIMARY_COLORS[scopedBrand]]] as const
+    : Object.entries(BRAND_FAMILY_PRIMARY_COLORS);
+  return entries.map(([brandKey, colors]) => ({
     brandKey,
     name: brandKey.replace(/_/g, ' '),
     tagline: FAMILY_TAGLINES[brandKey] ?? '',

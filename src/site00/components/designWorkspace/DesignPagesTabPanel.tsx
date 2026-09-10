@@ -11,6 +11,8 @@ import { DesignDwSectionIcon } from './DesignDwSectionIcon';
 import { DesignPageCompletionPanel } from './DesignPageCompletionPanel.js';
 import type { PageExperienceImplementationJob } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
 
+type ProjectPageRegistrySyncState = 'NEVER_SYNCED' | 'SYNC_REQUIRED' | 'SYNCED';
+
 type Props = {
   rows: PageVisualIndexRow[];
   selectedScreenId: string;
@@ -18,9 +20,13 @@ type Props = {
   onOpenPage?: (screenId: string) => void;
   onRefreshPage?: (screenId: string) => void;
   onRefreshProject?: () => void;
+  onSyncProject?: () => void;
   visualStatusByScreenId?: Record<string, PageVisualVerificationStatus>;
   mirrorLoading?: boolean;
   pageCompletionJob?: PageExperienceImplementationJob | null;
+  projectSyncState?: ProjectPageRegistrySyncState;
+  projectName?: string;
+  contextLoading?: boolean;
 };
 
 function formatRouteLabel(row: PageVisualIndexRow): string {
@@ -65,6 +71,10 @@ export function DesignPagesTabPanel({
   visualStatusByScreenId: _visualStatusByScreenId,
   mirrorLoading = false,
   pageCompletionJob = null,
+  projectSyncState = 'SYNCED',
+  projectName = 'PROJECT',
+  contextLoading = false,
+  onSyncProject,
 }: Props) {
   const [filter, setFilter] = useState<PageMirrorFilter>('ALL');
   const [search, setSearch] = useState('');
@@ -96,6 +106,42 @@ export function DesignPagesTabPanel({
   const pciChildren = pageCompletionJob?.childSurfacePlans.length ?? 0;
   const pciChildDone =
     pageCompletionJob?.childSurfacePlans.filter((c) => c.implementationStatus === 'IMPLEMENTED').length ?? 0;
+
+  const showUnsynced = projectSyncState === 'NEVER_SYNCED' || projectSyncState === 'SYNC_REQUIRED';
+  const unsyncedLabel =
+    projectSyncState === 'NEVER_SYNCED' ? 'PROJECT NOT YET SYNCED' : 'SYNC REQUIRED';
+
+  if (contextLoading) {
+    return (
+      <section className="site00-dw-v3-pages" data-design-tab="pages" data-page-mirror="p0vr8">
+        <p className="site00-dw-v3-pages__context-loading">LOADING {projectName} DESIGN CONTEXT…</p>
+      </section>
+    );
+  }
+
+  if (showUnsynced && rows.length === 0) {
+    return (
+      <section className="site00-dw-v3-pages" data-design-tab="pages" data-page-mirror="p0vr8" data-sync-state={projectSyncState}>
+        <article className="site00-dw-v3-pages__unsynced">
+          <strong>{unsyncedLabel}</strong>
+          <p>
+            {projectName} page inventory has not been reconciled yet. Unknown ≠ zero — sync to discover routes,
+            captures, and completion for this project only.
+          </p>
+          {onSyncProject || onRefreshProject ? (
+            <button
+              type="button"
+              className="site00-dw-v3-btn site00-dw-v3-btn--primary"
+              disabled={mirrorLoading}
+              onClick={() => (onSyncProject ?? onRefreshProject)?.()}
+            >
+              SYNC PROJECT PAGES
+            </button>
+          ) : null}
+        </article>
+      </section>
+    );
+  }
 
   return (
     <section className="site00-dw-v3-pages" data-design-tab="pages" data-page-mirror="p0vr8">

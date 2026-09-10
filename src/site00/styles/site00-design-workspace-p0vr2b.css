@@ -280,6 +280,48 @@
   color: #b7d236;
 }
 
+.site00-dw-shell__project-context-badge[data-project-accent='STUDIO_WORLD_WEBSITE'] {
+  border-color: rgba(212, 175, 55, 0.45);
+}
+
+.site00-dw-shell__project-context-badge[data-project-accent='STUDIO_WORLD_WEBSITE'] .site00-dw-shell__project-context-name {
+  color: #b8962e;
+}
+
+.site00-dw-shell__project-context-badge[data-project-accent='PROJECT_CANONICAL'] .site00-dw-shell__project-context-name {
+  color: var(--site00-dw-project-accent, var(--site00-dw-host-accent));
+}
+
+.site00-dw-workspace[data-design-project-accent-key='NDX_LIME'] .site00-dw-v3-chip.is-filled,
+.site00-dw-workspace[data-design-project-accent-key='NDX_LIME'] .site00-dw-v3-btn--primary {
+  background: var(--site00-dw-project-accent, #b7d236);
+  border-color: var(--site00-dw-project-accent, #b7d236);
+}
+
+.site00-dw-workspace[data-design-project-accent-key='STUDIO_GOLD'] .site00-dw-v3-chip.is-filled,
+.site00-dw-workspace[data-design-project-accent-key='STUDIO_GOLD'] .site00-dw-v3-btn--primary {
+  background: var(--site00-dw-project-accent, #d4af37);
+  border-color: var(--site00-dw-project-accent, #d4af37);
+}
+
+.site00-dw-workspace[data-design-project-accent-key='AIO_GOLD'] .site00-dw-v3-chip.is-filled,
+.site00-dw-workspace[data-design-project-accent-key='AIO_GOLD'] .site00-dw-v3-btn--primary {
+  background: var(--site00-dw-project-accent, #c9a227);
+  border-color: var(--site00-dw-project-accent, #c9a227);
+}
+
+.site00-dw-workspace[data-design-project-accent-key='FRONTAL_RED'] .site00-dw-v3-chip.is-filled,
+.site00-dw-workspace[data-design-project-accent-key='FRONTAL_RED'] .site00-dw-v3-btn--primary {
+  background: var(--site00-dw-project-accent, #eb1c24);
+  border-color: var(--site00-dw-project-accent, #eb1c24);
+}
+
+.site00-dw-workspace[data-design-project-accent-key='ASTRAL_PURPLE'] .site00-dw-v3-chip.is-filled,
+.site00-dw-workspace[data-design-project-accent-key='ASTRAL_PURPLE'] .site00-dw-v3-btn--primary {
+  background: var(--site00-dw-project-accent, #7b5ea7);
+  border-color: var(--site00-dw-project-accent, #7b5ea7);
+}
+
 .site00-dw-shell__project-row {
   display: flex;
   justify-content: space-between;

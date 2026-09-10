@@ -34,7 +34,7 @@ export type DesignProjectSelectorAccent = {
 const ACCENT_BY_PROJECT: Record<string, DesignProjectSelectorAccent> = {
   site00: { dotColor: '#EB1C24', accentKey: 'SITE00_RED' },
   'frontal-slayer': { dotColor: '#EB1C24', accentKey: 'FRONTAL_RED' },
-  'studio-world': { dotColor: '#C9A227', accentKey: 'STUDIO_GOLD' },
+  'studio-world': { dotColor: '#D4AF37', accentKey: 'STUDIO_GOLD' },
   ndxbook: { dotColor: '#B7D236', accentKey: 'NDX_LIME' },
   'all-in-one-enterprises': { dotColor: '#C9A227', accentKey: 'AIO_GOLD' },
   'astral-world': { dotColor: '#7B5EA7', accentKey: 'ASTRAL_PURPLE' },
