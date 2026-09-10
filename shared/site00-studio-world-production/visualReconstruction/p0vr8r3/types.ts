@@ -79,8 +79,8 @@ export type ProjectCaptureRefreshResult = ProjectCaptureRun & {
 
 export type CaptureOrchestrationInspectorState = {
   projectId: string;
-  activeRun: ProjectCaptureRun | null;
-  recentRuns: ProjectCaptureRun[];
+  activeRun: import('./projectCaptureRunStore.js').PersistedCaptureRun | null;
+  recentRuns: import('./projectCaptureRunStore.js').PersistedCaptureRun[];
   queuedJobs: number;
   capturingJobs: number;
   completedJobs: number;
@@ -90,4 +90,7 @@ export type CaptureOrchestrationInspectorState = {
   lastDispatchAt: string | null;
   lastError: string | null;
   deploymentTarget: string;
+  lastEvent?: import('./captureRunEvents.js').ProjectCaptureRunEvent | null;
+  dispatchReceipts?: import('./workerDispatchReceipt.js').WorkerDispatchReceipt[];
+  buildReceipt?: import('./buildVersionReceipt.js').BuildVersionReceipt;
 };

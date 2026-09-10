@@ -5,7 +5,10 @@
 import { useMemo, useState } from 'react';
 import { PAGE_MIRROR_FILTERS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
 import type { PageMirrorFilter } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
-import type { ProjectCaptureRun } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/browserClient.js';
+import {
+  captureRunProgressLabel,
+  type ProjectCaptureRunContract,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/browserClient.js';
 import type { PageVisualVerificationStatus } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr6r2/browserClient.js';
 import type { PageVisualIndexRow } from './DesignPagesVisualIndex';
 import { DesignDwSectionIcon } from './DesignDwSectionIcon';
@@ -45,7 +48,7 @@ function rowMirrorStatus(row: PageVisualIndexRow): PageMirrorFilter | 'ALL' {
   if (status === 'NEVER_CAPTURED' || row.neverCaptured) return 'NEVER CAPTURED';
   if (status === 'QUEUED' || status === 'CAPTURE_PENDING') return 'QUEUED';
   if (status === 'CAPTURING') return 'CAPTURING';
-  if (status === 'STALE' || row.isStale) return 'STALE';
+  if (status === 'STALE' || (row.isStale && !row.neverCaptured)) return 'STALE';
   if (status === 'CURRENT') return 'CURRENT';
   if (row.missingImplementation) return 'MISSING REF';
   if (row.referenceUrl) return 'REFERENCE READY';
@@ -76,10 +79,17 @@ function liveThumbLabel(row: PageVisualIndexRow): string {
   return 'CAPTURE REQUIRED';
 }
 
-function captureRunSummary(run: ProjectCaptureRun | null): string {
+function formatLastEvent(run: ProjectCaptureRunContract | null): string {
+  if (!run?.lastEvent) return '—';
+  const route = run.lastEvent.route ?? '—';
+  const viewport = run.lastEvent.viewport ?? '—';
+  return `${route} · ${viewport.toUpperCase()} · ${run.lastEvent.message}`;
+}
+
+function captureRunSummary(run: ProjectCaptureRunContract | null): string {
   if (!run) return '';
-  const done = run.completedCount + run.failedCount;
-  return `${run.status} · ${done}/${run.totalPages} · Q${run.queuedCount} C${run.capturingCount} ✓${run.completedCount} ✗${run.failedCount}`;
+  if (!run.contractValid) return 'CAPTURE RUN COULD NOT INITIALIZE';
+  return captureRunProgressLabel(run);
 }
 
 export function DesignPagesTabPanel({
@@ -138,13 +148,20 @@ export function DesignPagesTabPanel({
 
   const run = captureRefresh?.run ?? null;
   const isRefreshing = captureRefresh?.refreshing ?? false;
-  const refreshButtonLabel = isRefreshing
-    ? run
-      ? `CAPTURING ${run.capturingCount + run.completedCount} / ${run.totalPages}`
-      : 'REFRESHING PROJECT…'
-    : run && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status)
-      ? 'VIEW CAPTURE RUN'
-      : 'REFRESH PROJECT';
+  const runInvalid = run && !run.contractValid;
+  const progressDone = run ? run.completedCount + run.failedCount + run.skippedCount : 0;
+  const progressTotal = run?.totalTargets ?? 0;
+  const refreshButtonLabel = runInvalid
+    ? 'RETRY RUN'
+    : captureRefresh?.errorCode === 'CAPTURE_WORKER_OFFLINE'
+      ? 'VIEW DIAGNOSTICS'
+      : isRefreshing
+        ? run && run.contractValid && progressTotal > 0
+          ? `CAPTURING ${progressDone} / ${progressTotal}`
+          : 'REFRESHING PROJECT…'
+        : run && run.contractValid && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status)
+          ? 'VIEW CAPTURE RUN'
+          : 'REFRESH PROJECT';
 
   if (contextLoading) {
     return (
@@ -212,10 +229,21 @@ export function DesignPagesTabPanel({
       </article>
 
       {run ? (
-        <article className="site00-dw-v3-pages__capture-run" data-capture-run={run.captureRefreshRunId}>
+        <article className="site00-dw-v3-pages__capture-run" data-capture-run={run.runId}>
           <div>
             <strong>PROJECT CAPTURE RUN</strong>
             <p>{captureRunSummary(run)}</p>
+            {run.contractValid ? (
+              <p className="site00-dw-v3-pages__capture-run-detail">
+                Q{run.queuedCount} · C{run.capturingCount} · ✓{run.completedCount} · ✗{run.failedCount} · WORKER{' '}
+                {run.workerStatus}
+              </p>
+            ) : (
+              <p className="site00-dw-v3-pages__capture-run-detail">
+                RUN_CONTRACT_INVALID · {run.contractError ?? captureRefresh?.contractError ?? 'UNKNOWN'}
+              </p>
+            )}
+            {run.lastEvent ? <p className="site00-dw-v3-pages__capture-run-detail">LAST EVENT · {formatLastEvent(run)}</p> : null}
           </div>
           {onViewCaptureRun ? (
             <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact" onClick={onViewCaptureRun}>
@@ -223,6 +251,12 @@ export function DesignPagesTabPanel({
             </button>
           ) : null}
         </article>
+      ) : null}
+
+      {captureRefresh?.error ? (
+        <p className="site00-dw-v3-pages__capture-note">
+          {captureRefresh.errorCode ?? captureRefresh.error} · {captureRefresh.error}
+        </p>
       ) : null}
 
       <div className="site00-dw-v3-chip-row site00-dw-v3-chip-row--scroll" role="group" aria-label="Page mirror filters">
@@ -257,10 +291,14 @@ export function DesignPagesTabPanel({
             className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
             disabled={mirrorLoading && !isRefreshing}
             onClick={() => {
-              if (run && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status) && onViewCaptureRun) {
+              if (runInvalid) {
+                onRefreshProject?.();
+                return;
+              }
+              if (run && run.contractValid && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status) && onViewCaptureRun) {
                 onViewCaptureRun();
               } else {
-                onRefreshProject();
+                onRefreshProject?.();
               }
             }}
           >

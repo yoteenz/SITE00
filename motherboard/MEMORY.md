@@ -7456,3 +7456,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `visualReconstructionP0VR8R3.test.ts` (31/31); livePageMirror never-captured freshness case updated; build passes.
 - **Next founder action:** Deploy → DESIGN → NDXBOOK → PAGES → verify NEVER CAPTURED counts → REFRESH PROJECT → watch QUEUED/CAPTURING/CURRENT update live → open `/projects/ndxbook` first page for LIVE screenshot + CURRENT status.
 
+---
+
+## 2026-09-10 — P0.VR.8R3R1 Capture Run Contract + Worker Execution Recovery
+
+- **Context:** P0.VR.8R3 architecture shipped but live UI showed NaN/undefined capture run (`totalPages` vs contract mismatch), STALE 46 instead of NEVER CAPTURED 46, queue counts 0 after refresh — receipts missing at runtime.
+- **Root cause (A + C + E + I):** Frontend consumed raw orchestrator shape (`captureRefreshRunId`, `totalPages`) without normalization; API returned nested `PageMirrorRow[]` without `pageMirrorRowToVisualIndexRow`; in-memory runs/jobs lost between poll requests; legacy page records kept `STALE` when never captured.
+- **Fix (`p0vr8r3r1`):** `ProjectCaptureRunContract` (`capture-run-v1`) + `normalizeProjectCaptureRunResponse` fail-closed; persistent `capture-orchestration-registry.json`; target/job materialization with `runId`/`targetId`; worker dispatch receipts + run events; status normalization migration; API wraps `{ contractVersion, captureRun, buildReceipt }`; frontend NaN guards + `RUN_CONTRACT_INVALID` UX; version receipt v259.
+- **Tests:** `visualReconstructionP0VR8R3R1.test.ts` (31/31) + prior 8R3/livePageMirror pass; build `index.CgRdE5K-.js`, `StudioWorldDesignPage.rLoUls4s.js`.
+- **Next founder action:** Redeploy Railway API + cPanel v259 → hard refresh → NDXBOOK PAGES should show NEVER CAPTURED 46 / STALE 0 before refresh → REFRESH PROJECT → run shows 46 targets + queued jobs + worker HEALTHY → wait for `/projects/ndxbook` CURRENT + live screenshot.
+

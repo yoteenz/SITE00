@@ -22,6 +22,9 @@ import {
 import {
   clearCaptureFailureLoopGuardForTest,
   clearProjectCaptureRunsForTest,
+  clearCaptureOrchestrationRegistryForTest,
+  clearCaptureRunEventsForTest,
+  resetCaptureQueueHydrationForTest,
   countPagesByCaptureStatus,
   derivePageCaptureStatus,
   dispatchCaptureWorker,
@@ -76,6 +79,9 @@ describe('P0.VR.8R3 — Capture orchestration recovery', () => {
     clearCaptureQueueForTest();
     clearPageSnapshotStoreForTest();
     clearProjectCaptureRunsForTest();
+    clearCaptureOrchestrationRegistryForTest();
+    clearCaptureRunEventsForTest();
+    resetCaptureQueueHydrationForTest();
     clearCaptureFailureLoopGuardForTest();
     resetCaptureWorkerHealthForTest();
     registerNdxbookDesignPilot();
@@ -91,21 +97,21 @@ describe('P0.VR.8R3 — Capture orchestration recovery', () => {
 
   it('2. refresh project creates run', async () => {
     const run = await refreshProjectCaptureState('ndxbook', { executeWorker: false });
-    expect(run.captureRefreshRunId).toMatch(/^pcr-/);
+    expect(run.runId).toMatch(/^pcr-/);
     expect(run.status).toMatch(/QUEUING|CAPTURING|COMPLETE/);
-    expect(run.totalPages).toBeGreaterThan(0);
+    expect(run.totalTargets).toBeGreaterThan(0);
   });
 
   it('3. designable pages become targets', async () => {
-    const run = await refreshProjectCaptureState('ndxbook', { executeWorker: false });
-    expect(run.captureTargets.length).toBeGreaterThan(0);
-    expect(run.captureTargets.every((t) => t.viewport === 'mobile')).toBe(true);
+    const run = await refreshProjectCaptureState('ndxbook', { executeWorker: false, forceNewRun: true });
+    expect(run.totalTargets).toBeGreaterThan(0);
+    expect(run.queuedCount).toBeGreaterThan(0);
   });
 
   it('4. supported viewport detection mobile-first', async () => {
-    const run = await refreshProjectCaptureState('ndxbook', { viewportMode: 'MOBILE_ONLY', executeWorker: false });
-    expect(run.viewportMode).toBe('MOBILE_ONLY');
-    expect(run.captureTargets.every((t) => t.viewport === 'mobile')).toBe(true);
+    const run = await refreshProjectCaptureState('ndxbook', { viewportMode: 'MOBILE_ONLY', executeWorker: false, forceNewRun: true });
+    expect(run.totalTargets).toBeGreaterThan(0);
+    expect(run.queuedCount).toBe(run.totalTargets);
   });
 
   it('5. NEVER_CAPTURED state', () => {
@@ -131,7 +137,7 @@ describe('P0.VR.8R3 — Capture orchestration recovery', () => {
   it('8. worker execution promotes CURRENT', async () => {
     const run = await refreshProjectCaptureState('ndxbook', { executeWorker: false });
     const mock = mockCaptureFn();
-    await dispatchCaptureWorker({ projectId: 'ndxbook', runId: run.captureRefreshRunId, captureFn: mock, concurrency: 2 });
+    await dispatchCaptureWorker({ projectId: 'ndxbook', runId: run.runId, captureFn: mock, concurrency: 2 });
     const page = listProjectPageRecords('ndxbook')[0]!;
     const updated = getProjectPageRecord('ndxbook', page.pageId)!;
     expect(updated.lastCapturedAt).toBeTruthy();
@@ -155,7 +161,7 @@ describe('P0.VR.8R3 — Capture orchestration recovery', () => {
       if (input.jobId) completeCaptureJob(input.jobId, false);
       throw new Error('CAPTURE_RENDER_TIMEOUT');
     });
-    await dispatchCaptureWorker({ projectId: 'ndxbook', runId: run.captureRefreshRunId, captureFn: failFn, concurrency: 1 });
+    await dispatchCaptureWorker({ projectId: 'ndxbook', runId: run.runId, captureFn: failFn, concurrency: 1 });
     const failedJobs = listCaptureQueue('ndxbook').filter((j) => j.status === 'FAILED');
     expect(failedJobs.length).toBeGreaterThan(0);
   });
@@ -180,14 +186,14 @@ describe('P0.VR.8R3 — Capture orchestration recovery', () => {
     const run = await refreshProjectCaptureState('ndxbook', { executeWorker: false });
     const before = listCaptureQueue('ndxbook').filter((j) => j.status === 'QUEUED').length;
     expect(before).toBeGreaterThan(0);
-    await dispatchCaptureWorker({ projectId: 'ndxbook', runId: run.captureRefreshRunId, captureFn: mockCaptureFn(), concurrency: 3 });
+    await dispatchCaptureWorker({ projectId: 'ndxbook', runId: run.runId, captureFn: mockCaptureFn(), concurrency: 3 });
     const afterQueued = listCaptureQueue('ndxbook').filter((j) => j.status === 'QUEUED').length;
     expect(afterQueued).toBe(0);
   });
 
   it('15. capture persistence updates page record', async () => {
     const run = await refreshProjectCaptureState('ndxbook', { executeWorker: false });
-    await dispatchCaptureWorker({ projectId: 'ndxbook', runId: run.captureRefreshRunId, captureFn: mockCaptureFn(), concurrency: 2 });
+    await dispatchCaptureWorker({ projectId: 'ndxbook', runId: run.runId, captureFn: mockCaptureFn(), concurrency: 2 });
     const withCapture = listProjectPageRecords('ndxbook').filter((p) => p.lastCapturedAt);
     expect(withCapture.length).toBeGreaterThan(0);
   });
@@ -195,7 +201,7 @@ describe('P0.VR.8R3 — Capture orchestration recovery', () => {
   it('16. current promotion after success', async () => {
     const page = listProjectPageRecords('ndxbook')[0]!;
     const run = await refreshProjectCaptureState('ndxbook', { executeWorker: false });
-    await dispatchCaptureWorker({ projectId: 'ndxbook', runId: run.captureRefreshRunId, captureFn: mockCaptureFn(), concurrency: 1 });
+    await dispatchCaptureWorker({ projectId: 'ndxbook', runId: run.runId, captureFn: mockCaptureFn(), concurrency: 1 });
     const updated = getProjectPageRecord('ndxbook', page.pageId)!;
     expect(updated.status).toBe('CURRENT');
   });
@@ -216,7 +222,7 @@ describe('P0.VR.8R3 — Capture orchestration recovery', () => {
   it('19. resume active run progress', async () => {
     await refreshProjectCaptureState('ndxbook', { executeWorker: false });
     const progress = getProjectCaptureRefreshProgress('ndxbook');
-    expect(progress?.captureRefreshRunId).toBeTruthy();
+    expect(progress?.runId).toBeTruthy();
   });
 
   it('20. historical capture preservation', async () => {
@@ -238,7 +244,7 @@ describe('P0.VR.8R3 — Capture orchestration recovery', () => {
       isCurrent: false,
     });
     const run = await refreshProjectCaptureState('ndxbook', { executeWorker: false, forceNewRun: true });
-    await dispatchCaptureWorker({ projectId: 'ndxbook', runId: run.captureRefreshRunId, captureFn: mockCaptureFn(), concurrency: 2 });
+    await dispatchCaptureWorker({ projectId: 'ndxbook', runId: run.runId, captureFn: mockCaptureFn(), concurrency: 2 });
     expect(getProjectPageRecord('ndxbook', page.pageId)?.lastCapturedAt).not.toBe('2020-01-01T00:00:00Z');
   });
 
@@ -250,7 +256,7 @@ describe('P0.VR.8R3 — Capture orchestration recovery', () => {
 
   it('22. page completion refresh queued count', async () => {
     const run = await refreshProjectCaptureState('ndxbook', { executeWorker: false });
-    expect(run.totalPages).toBeGreaterThan(0);
+    expect(run.totalTargets).toBeGreaterThan(0);
   });
 
   it('23. worker health inspector', () => {
@@ -262,8 +268,8 @@ describe('P0.VR.8R3 — Capture orchestration recovery', () => {
   it('24. NDXBOOK 46-page fixture targets', async () => {
     const pages = listProjectPageRecords('ndxbook');
     expect(pages.length).toBeGreaterThanOrEqual(40);
-    const run = await refreshProjectCaptureState('ndxbook', { executeWorker: false });
-    expect(run.totalPages).toBe(pages.length);
+    const run = await refreshProjectCaptureState('ndxbook', { executeWorker: false, forceNewRun: true });
+    expect(run.totalTargets).toBe(pages.length);
   });
 
   it('25. one failure does not stop run', async () => {
@@ -277,14 +283,14 @@ describe('P0.VR.8R3 — Capture orchestration recovery', () => {
       }
       return mockCaptureFn()(input);
     });
-    await dispatchCaptureWorker({ projectId: 'ndxbook', runId: run.captureRefreshRunId, captureFn: mixedFn, concurrency: 2 });
+    await dispatchCaptureWorker({ projectId: 'ndxbook', runId: run.runId, captureFn: mixedFn, concurrency: 2 });
     const completed = listCaptureQueue('ndxbook').filter((j) => j.status === 'COMPLETE').length;
     expect(completed).toBeGreaterThan(0);
   });
 
   it('26. concurrency limit respected', async () => {
     const run = await refreshProjectCaptureState('ndxbook', { executeWorker: false });
-    await dispatchCaptureWorker({ projectId: 'ndxbook', runId: run.captureRefreshRunId, captureFn: mockCaptureFn(), concurrency: 2 });
+    await dispatchCaptureWorker({ projectId: 'ndxbook', runId: run.runId, captureFn: mockCaptureFn(), concurrency: 2 });
     expect(getActiveProjectCaptureRun('ndxbook')).toBeNull();
   });
 

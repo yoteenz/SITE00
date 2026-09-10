@@ -1,39 +1,45 @@
 /**
- * P0.VR.8 / P0.VR.8R3 — Client hook for live page mirror + capture run progress.
+ * P0.VR.8 / P0.VR.8R3R1 — Client hook for live page mirror + capture run contract.
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { PageMirrorInspectorState } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
-import type { ProjectCaptureRun } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/browserClient.js';
+import {
+  CAPTURE_RUN_CONTRACT_VERSION,
+  P0_VR_8R3R1_BUILD,
+  detectBackendVersionMismatch,
+  normalizeProjectCaptureRunResponse,
+  type ProjectCaptureRunContract,
+  type BuildVersionReceipt,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/browserClient.js';
 import type { PageVisualIndexRow } from './DesignPagesVisualIndex';
 
 type MirrorResponse = {
+  contractVersion?: string;
   projectId: string;
-  pages: Array<{
-    screenId: string;
-    displayName: string;
-    routeFamily: string;
-    page: { route: string; normalizedRoute: string; status: string; lastCapturedAt: string | null; updatedAt: string };
-    mobile: PageVisualIndexRow['mobile'];
-    tablet: PageVisualIndexRow['tablet'];
-    desktop: PageVisualIndexRow['desktop'];
-    referenceUrl: string | null;
-    freshness: { isStale: boolean; staleReason: string | null; neverCaptured?: boolean };
-    pageCaptureStatus?: string;
-    historyCount: number;
-    missingImplementation: boolean;
-    visualMatchStatus: string;
-  }>;
+  pages: PageVisualIndexRow[];
   inspector: PageMirrorInspectorState;
-  captureRun?: ProjectCaptureRun | null;
+  captureRun?: ProjectCaptureRunContract | null;
+  buildReceipt?: BuildVersionReceipt;
 };
 
 export type ProjectCaptureRefreshState = {
-  run: ProjectCaptureRun | null;
+  run: ProjectCaptureRunContract | null;
   refreshing: boolean;
   duplicateBlocked: boolean;
   error: string | null;
+  errorCode: string | null;
+  contractError: string | null;
+  buildReceipt: BuildVersionReceipt | null;
 };
+
+function parseCaptureRunPayload(
+  data: Record<string, unknown>,
+  buildReceipt?: BuildVersionReceipt | null,
+): ProjectCaptureRunContract {
+  const raw = (data.captureRun ?? data) as Record<string, unknown>;
+  return normalizeProjectCaptureRunResponse(raw, { buildReceipt: buildReceipt ?? undefined });
+}
 
 export function usePageMirror(projectId: string) {
   const [rows, setRows] = useState<PageVisualIndexRow[]>([]);
@@ -44,6 +50,9 @@ export function usePageMirror(projectId: string) {
     refreshing: false,
     duplicateBlocked: false,
     error: null,
+    errorCode: null,
+    contractError: null,
+    buildReceipt: null,
   });
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -54,50 +63,45 @@ export function usePageMirror(projectId: string) {
     }
   }, []);
 
+  const applyMirrorResponse = useCallback((data: MirrorResponse) => {
+    setInspector(data.inspector);
+    setRows(data.pages ?? []);
+
+    const receipt = data.buildReceipt ?? null;
+    const mismatch = detectBackendVersionMismatch(receipt ?? undefined, P0_VR_8R3R1_BUILD);
+
+    if (data.captureRun) {
+      const run = parseCaptureRunPayload({ captureRun: data.captureRun }, receipt);
+      const contractMismatch =
+        data.contractVersion && data.contractVersion !== CAPTURE_RUN_CONTRACT_VERSION
+          ? 'CAPTURE_RUN_CONTRACT_MISMATCH'
+          : mismatch;
+      setCaptureRefresh((prev) => ({
+        ...prev,
+        run: contractMismatch
+          ? { ...run, contractValid: false, contractError: contractMismatch }
+          : run,
+        refreshing: run.contractValid && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status),
+        duplicateBlocked: Boolean(run.duplicateBlocked),
+        contractError: contractMismatch ?? run.contractError,
+        buildReceipt: receipt,
+      }));
+    }
+  }, []);
+
   const refresh = useCallback(async () => {
     setLoading(true);
     try {
       const res = await fetch(`/api/site00/page-mirror?projectId=${encodeURIComponent(projectId)}`);
       if (!res.ok) return;
       const data = (await res.json()) as MirrorResponse;
-      setInspector(data.inspector);
-      setRows(
-        data.pages.map((p) => ({
-          screenId: p.screenId,
-          displayName: p.displayName,
-          routeFamily: p.routeFamily,
-          route: p.page.route,
-          normalizedRoute: p.page.normalizedRoute,
-          mobile: p.mobile,
-          tablet: p.tablet,
-          desktop: p.desktop,
-          missingImplementation: p.missingImplementation,
-          captureStatus: p.pageCaptureStatus ?? p.page.status,
-          pageCaptureStatus: p.pageCaptureStatus,
-          lastCapturedAt: p.page.lastCapturedAt,
-          lastUpdatedAt: p.page.updatedAt,
-          isStale: p.freshness.isStale,
-          staleReason: p.freshness.staleReason,
-          neverCaptured: p.freshness.neverCaptured ?? false,
-          referenceUrl: p.referenceUrl,
-          visualMatchStatus: p.visualMatchStatus,
-          historyCount: p.historyCount,
-          pagePurpose: p.displayName,
-        })),
-      );
-      if (data.captureRun) {
-        setCaptureRefresh((prev) => ({
-          ...prev,
-          run: data.captureRun ?? null,
-          refreshing: ['PLANNING', 'QUEUING', 'CAPTURING'].includes(data.captureRun?.status ?? ''),
-        }));
-      }
+      applyMirrorResponse(data);
     } catch {
       /* dev offline — fallback handled by workspace */
     } finally {
       setLoading(false);
     }
-  }, [projectId]);
+  }, [applyMirrorResponse, projectId]);
 
   const startPolling = useCallback(() => {
     stopPolling();
@@ -133,7 +137,7 @@ export function usePageMirror(projectId: string) {
 
   const refreshProject = useCallback(
     async (options?: { forceNewRun?: boolean }) => {
-      setCaptureRefresh((prev) => ({ ...prev, refreshing: true, error: null }));
+      setCaptureRefresh((prev) => ({ ...prev, refreshing: true, error: null, errorCode: null, contractError: null }));
       try {
         const res = await fetch('/api/site00/page-mirror', {
           method: 'POST',
@@ -141,35 +145,38 @@ export function usePageMirror(projectId: string) {
           body: JSON.stringify({
             action: 'refresh_project',
             projectId,
-            skipRouteReconciliation: true,
             viewportMode: 'MOBILE_ONLY',
             baseUrl: window.location.origin,
             forceNewRun: options?.forceNewRun,
+            contractVersion: CAPTURE_RUN_CONTRACT_VERSION,
           }),
         });
+        const data = (await res.json()) as Record<string, unknown> & { error?: string; errorCode?: string };
         if (!res.ok) {
-          const err = (await res.json()) as { error?: string };
           setCaptureRefresh((prev) => ({
             ...prev,
             refreshing: false,
-            error: err.error ?? 'CAPTURE_REFRESH_FAILED',
+            error: data.error ?? 'CAPTURE_REFRESH_FAILED',
+            errorCode: data.errorCode ?? data.error ?? 'CAPTURE_REFRESH_FAILED',
+            run: data.captureRun ? parseCaptureRunPayload(data) : prev.run,
           }));
           return null;
         }
-        const run = (await res.json()) as ProjectCaptureRun & { duplicateBlocked?: boolean };
+        const run = parseCaptureRunPayload(data, data.buildReceipt as BuildVersionReceipt | undefined);
         setCaptureRefresh({
           run,
-          refreshing: run.duplicateBlocked
-            ? ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status)
-            : true,
+          refreshing: run.contractValid && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status),
           duplicateBlocked: Boolean(run.duplicateBlocked),
-          error: null,
+          error: run.contractValid ? null : run.contractError,
+          errorCode: run.contractValid ? null : run.contractError,
+          contractError: run.contractError,
+          buildReceipt: (data.buildReceipt as BuildVersionReceipt) ?? null,
         });
-        startPolling();
+        if (run.contractValid) startPolling();
         await refresh();
         return run;
       } catch {
-        setCaptureRefresh((prev) => ({ ...prev, refreshing: false, error: 'NETWORK_ERROR' }));
+        setCaptureRefresh((prev) => ({ ...prev, refreshing: false, error: 'NETWORK_ERROR', errorCode: 'NETWORK_ERROR' }));
         return null;
       }
     },
@@ -182,9 +189,7 @@ export function usePageMirror(projectId: string) {
   }, [refresh, stopPolling]);
 
   useEffect(() => {
-    if (!captureRefresh.refreshing) {
-      stopPolling();
-    }
+    if (!captureRefresh.refreshing) stopPolling();
   }, [captureRefresh.refreshing, stopPolling]);
 
   return {

@@ -1,27 +1,37 @@
 /**
- * P0.VR.8R3 — Capture worker health telemetry.
+ * P0.VR.8R3R1 — Capture worker health telemetry.
  */
 
-export type CaptureWorkerHealthStatus = 'HEALTHY' | 'DEGRADED' | 'OFFLINE';
+export type CaptureWorkerHealthStatus = 'HEALTHY' | 'DEGRADED' | 'OFFLINE' | 'UNKNOWN';
 
 export type CaptureWorkerHealth = {
   status: CaptureWorkerHealthStatus;
+  workerId: string;
+  lastHeartbeat: string | null;
   lastDispatchAt: string | null;
+  lastAcceptedJobAt: string | null;
   lastSuccessAt: string | null;
   lastErrorAt: string | null;
   lastError: string | null;
-  activeWorkers: number;
+  activeJobCount: number;
+  queueDepth: number;
   concurrencyLimit: number;
 };
 
+const WORKER_ID = `cap-worker-${process.env.RAILWAY_DEPLOYMENT_ID ?? 'local'}`;
+
 let health: CaptureWorkerHealth = {
-  status: 'HEALTHY',
+  status: 'UNKNOWN',
+  workerId: WORKER_ID,
+  lastHeartbeat: null,
   lastDispatchAt: null,
+  lastAcceptedJobAt: null,
   lastSuccessAt: null,
   lastErrorAt: null,
   lastError: null,
-  activeWorkers: 0,
-  concurrencyLimit: 3,
+  activeJobCount: 0,
+  queueDepth: 0,
+  concurrencyLimit: 2,
 };
 
 export function getCaptureWorkerHealth(): CaptureWorkerHealth {
@@ -29,27 +39,40 @@ export function getCaptureWorkerHealth(): CaptureWorkerHealth {
 }
 
 export function setCaptureWorkerConcurrency(limit: number): void {
-  health = { ...health, concurrencyLimit: Math.max(1, Math.min(8, limit)) };
+  health = { ...health, concurrencyLimit: Math.max(1, Math.min(4, limit)) };
 }
 
-export function markWorkerDispatchStarted(): void {
+export function markWorkerOnline(): void {
   health = {
     ...health,
     status: 'HEALTHY',
-    lastDispatchAt: new Date().toISOString(),
-    activeWorkers: health.activeWorkers + 1,
+    lastHeartbeat: new Date().toISOString(),
   };
 }
 
-export function markWorkerDispatchFinished(success: boolean, error?: string | null): void {
+export function markWorkerDispatchStarted(queueDepth: number): void {
+  health = {
+    ...health,
+    status: 'HEALTHY',
+    lastHeartbeat: new Date().toISOString(),
+    lastDispatchAt: new Date().toISOString(),
+    lastAcceptedJobAt: new Date().toISOString(),
+    activeJobCount: health.activeJobCount + 1,
+    queueDepth,
+  };
+}
+
+export function markWorkerDispatchFinished(success: boolean, queueDepth: number, error?: string | null): void {
   const now = new Date().toISOString();
   health = {
     ...health,
-    activeWorkers: Math.max(0, health.activeWorkers - 1),
+    lastHeartbeat: now,
+    activeJobCount: Math.max(0, health.activeJobCount - 1),
+    queueDepth,
     lastSuccessAt: success ? now : health.lastSuccessAt,
     lastErrorAt: success ? health.lastErrorAt : now,
     lastError: success ? health.lastError : (error ?? 'CAPTURE_FAILED'),
-    status: health.activeWorkers <= 0 && !success ? 'DEGRADED' : health.status,
+    status: health.status === 'OFFLINE' ? 'OFFLINE' : success ? 'HEALTHY' : 'DEGRADED',
   };
 }
 
@@ -59,17 +82,22 @@ export function markWorkerOffline(reason: string): void {
     status: 'OFFLINE',
     lastError: reason,
     lastErrorAt: new Date().toISOString(),
+    lastHeartbeat: new Date().toISOString(),
   };
 }
 
 export function resetCaptureWorkerHealthForTest(): void {
   health = {
     status: 'HEALTHY',
+    workerId: WORKER_ID,
+    lastHeartbeat: new Date().toISOString(),
     lastDispatchAt: null,
+    lastAcceptedJobAt: null,
     lastSuccessAt: null,
     lastErrorAt: null,
     lastError: null,
-    activeWorkers: 0,
-    concurrencyLimit: 3,
+    activeJobCount: 0,
+    queueDepth: 0,
+    concurrencyLimit: 2,
   };
 }

@@ -12,6 +12,11 @@ function jobKey(projectId: string, pageId: string, viewport: DesignViewportClass
   return `${projectId}:${pageId}:${viewport}`;
 }
 
+export type PageCaptureQueueJobExtended = PageCaptureQueueJob & {
+  runId?: string | null;
+  targetId?: string | null;
+};
+
 export function enqueuePageCapture(input: {
   projectId: string;
   pageId: string;
@@ -20,15 +25,18 @@ export function enqueuePageCapture(input: {
   reason: PageSyncEventType | string;
   priority?: number;
   deploymentId?: string | null;
-}): PageCaptureQueueJob {
+  runId?: string | null;
+  targetId?: string | null;
+  jobId?: string;
+}): PageCaptureQueueJobExtended {
   const key = jobKey(input.projectId, input.pageId, input.viewport);
   const existing = queue.get(key);
   if (existing && (existing.status === 'QUEUED' || existing.status === 'CAPTURING')) {
     return { ...existing, status: 'COALESCED', reason: input.reason };
   }
 
-  const job: PageCaptureQueueJob = {
-    jobId: `pcq-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+  const job: PageCaptureQueueJobExtended = {
+    jobId: input.jobId ?? `pcq-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     projectId: input.projectId,
     pageId: input.pageId,
     route: input.route,
@@ -41,9 +49,19 @@ export function enqueuePageCapture(input: {
     startedAt: null,
     completedAt: null,
     deploymentId: input.deploymentId ?? null,
+    runId: input.runId ?? null,
+    targetId: input.targetId ?? null,
   };
   queue.set(key, job);
   return job;
+}
+
+export function prioritizeCaptureQueue(projectId: string, routePrefix: string): void {
+  const pending = listCaptureQueue(projectId).filter((j) => j.status === 'QUEUED');
+  const priorityRoute = pending.find((j) => j.route === routePrefix || j.route.startsWith(routePrefix));
+  if (!priorityRoute) return;
+  const bumped: PageCaptureQueueJobExtended = { ...priorityRoute, priority: 100 };
+  queue.set(jobKey(bumped.projectId, bumped.pageId, bumped.viewport), bumped);
 }
 
 export function coalesceDuplicateCaptures(projectId: string): number {

@@ -1,5 +1,5 @@
 /**
- * P0.VR.8R3 — Browser-safe capture orchestration exports.
+ * P0.VR.8R3R1 — Server-side capture orchestration exports.
  */
 
 export {
@@ -16,6 +16,21 @@ export type {
   ProjectCaptureRefreshResult,
   CaptureOrchestrationInspectorState,
 } from './types.js';
+
+export {
+  CAPTURE_RUN_CONTRACT_VERSION,
+  normalizeProjectCaptureRunResponse,
+  validateProjectCaptureRunContract,
+  captureRunProgressLabel,
+  type ProjectCaptureRunContract,
+} from './projectCaptureRunContract.js';
+
+export {
+  P0_VR_8R3R1_BUILD,
+  buildCaptureVersionReceipt,
+  detectBackendVersionMismatch,
+  type BuildVersionReceipt,
+} from './buildVersionReceipt.js';
 
 export {
   derivePageCaptureStatus,
@@ -40,6 +55,7 @@ export {
   getCaptureWorkerHealth,
   setCaptureWorkerConcurrency,
   resetCaptureWorkerHealthForTest,
+  markWorkerOnline,
   type CaptureWorkerHealth,
   type CaptureWorkerHealthStatus,
 } from './captureWorkerHealth.js';
@@ -52,11 +68,19 @@ export {
 } from './captureFailureLoopGuard.js';
 
 export {
+  bootstrapCaptureRunStore,
   createProjectCaptureRun,
   getProjectCaptureRun,
   getActiveProjectCaptureRun,
   listProjectCaptureRuns,
+  markProjectCaptureRunInvalid,
   clearProjectCaptureRunsForTest,
+  type PersistedCaptureRun,
+  type PageCaptureTarget,
 } from './projectCaptureRunStore.js';
 
 export { buildCaptureOrchestrationInspectorState } from './captureOrchestrationInspector.js';
+export { normalizeRecoveredCaptureStatuses } from './normalizeRecoveredCaptureStatuses.js';
+export { appendCaptureRunEvent, getLastCaptureRunEvent, listCaptureRunEvents, clearCaptureRunEventsForTest } from './captureRunEvents.js';
+export { syncCaptureQueueToPersistence, hydrateCaptureQueueFromPersistence, resetCaptureQueueHydrationForTest } from './captureQueuePersistence.js';
+export { clearCaptureOrchestrationRegistryForTest } from './captureRunPersistentStore.js';

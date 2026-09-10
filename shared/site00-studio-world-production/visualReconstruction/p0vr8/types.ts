@@ -101,6 +101,8 @@ export type PageCaptureQueueJob = {
   startedAt: string | null;
   completedAt: string | null;
   deploymentId?: string | null;
+  runId?: string | null;
+  targetId?: string | null;
 };
 
 export type PageCaptureReadyContract = {
