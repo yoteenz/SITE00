@@ -13,6 +13,7 @@ import { DesignCaptureOrchestrationInspector } from './DesignCaptureOrchestratio
 import { DesignRouteAuditRecoveryInspector } from './DesignRouteAuditRecoveryInspector';
 import { DesignTaskWizardShell } from './wizard/DesignTaskWizardShell';
 import { DesignMoreSystemHub } from './DesignMoreSystemHub';
+import { DesignChildExperiencePanel } from './DesignChildExperiencePanel';
 import type { ProjectCaptureRefreshState } from './usePageMirror';
 import {
   MORE_CATEGORIES,
@@ -66,7 +67,11 @@ export function DesignMoreTab({
     });
   }, []);
 
-  const goTo = (category: MoreCategory) => {
+  const goTo = (category: MoreCategory | 'child-experience') => {
+    if (category === 'child-experience') {
+      onMoreCategoryChange?.('child-experience' as MoreCategory);
+      return;
+    }
     setLocalCategory(category);
     onMoreCategoryChange?.(category);
   };
@@ -74,11 +79,28 @@ export function DesignMoreTab({
   const founderGenerateOnly = requiresExplicitFounderDispatch();
   const uploadSafe = uploadNeverTriggersGeneration();
 
+  if (moreCategoryProp === 'child-experience') {
+    return (
+      <section className="site00-dw-v3-more site00-dw-wizard-host" data-design-tab="more" data-more-category="child-experience">
+        <DesignTaskWizardShell
+          stepTitle="CHILD EXPERIENCE"
+          headline="LINKAGE MATRIX"
+          support="Experience ✓ and Wiring ✓ required for CURRENT status."
+          onBack={() => goTo('landing')}
+          transitionKey="more-child-experience"
+        >
+          <DesignChildExperiencePanel projectSlug={projectId} />
+        </DesignTaskWizardShell>
+      </section>
+    );
+  }
+
   if (activeCategory === 'landing') {
     return (
       <div className="site00-dw-v3-more site00-dw-wizard-host">
         <DesignMoreSystemHub
           onSelectCategory={goTo}
+          onOpenChildExperience={() => goTo('child-experience')}
           falAvailable={falAvailable}
           presetCount={presets.length}
           automationOn={syncSupabase && notifyComplete}

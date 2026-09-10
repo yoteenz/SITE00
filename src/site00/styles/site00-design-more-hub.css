@@ -401,6 +401,103 @@
   color: var(--site00-dw-host-accent);
 }
 
+.site00-dw-more-hub__child-xp-link {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--site00-dw-mono, monospace);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--site00-dw-host-accent, #c0392b);
+  text-align: left;
+  cursor: pointer;
+}
+
+.site00-dw-child-xp {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.site00-dw-child-xp__hero h2 {
+  margin: 0;
+  font-family: var(--site00-dw-mono, monospace);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+}
+
+.site00-dw-child-xp__kicker,
+.site00-dw-child-xp__support {
+  margin: 0;
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+.site00-dw-child-xp__summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  font-family: var(--site00-dw-mono, monospace);
+  font-size: 10px;
+}
+
+.site00-dw-child-xp__summary strong {
+  display: block;
+  opacity: 0.65;
+}
+
+.site00-dw-child-xp__matrix-wrap {
+  overflow-x: auto;
+}
+
+.site00-dw-child-xp__matrix {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--site00-dw-mono, monospace);
+  font-size: 9px;
+}
+
+.site00-dw-child-xp__matrix th,
+.site00-dw-child-xp__matrix td {
+  border: 1px solid var(--site00-dw-line, #ddd);
+  padding: 6px 4px;
+  text-align: left;
+}
+
+.site00-dw-child-xp__mono {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.site00-dw-child-xp__wiring.is-ready {
+  color: #1a7f37;
+}
+
+.site00-dw-child-xp__wiring.is-attention,
+.site00-dw-child-xp__wiring.is-broken {
+  color: var(--site00-dw-host-accent, #c0392b);
+}
+
+.site00-dw-child-xp__badge.is-ready {
+  color: #1a7f37;
+}
+
+.site00-dw-child-xp__badge.is-attention {
+  color: var(--site00-dw-host-accent, #c0392b);
+}
+
+.site00-dw-child-xp__section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 @media (min-width: 900px) {
   .site00-dw-more-hub {
     max-width: 640px;
