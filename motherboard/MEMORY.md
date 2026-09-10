@@ -7542,3 +7542,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Remaining gaps:** Wire convergence applier to CSS/component migration runners; admin debug panel; Playwright branch screenshot matrix; persist runs to Supabase.
 - **Next founder action:** No cPanel deploy (shared engine only). Next sprint: run engine against Project OS MORE module + apply convergence plans to replace `site00-pos-panel` fallback UI.
 
+---
+
+## 2026-09-10 — P0.VR.MOF.R2 MORE Child-Page Visual System + Wizardized Subroutes
+
+- **Context:** MOF.R1 redesigned MORE hub only; child routes (Capture, Route Audit, etc.) still showed raw diagnostic dumps (API BASE URL, worker UUID, DEGRADED strings, audit lineage walls).
+- **Fix:** `MoreToolPageShell` + `MoreStatusHero` + `MoreSummaryTile` + `site00-design-more-tool.css` — hub-aligned visual language for all MORE subroutes: status hero → primary action → compact summary cards → VIEW DETAILS drawer (mobile sheet / desktop drawer via `DesignDetailsDrawer`). Child pages: System, Providers, Capture, Route Audit, Storage, Automation, Presets. Capture: human summary (API/WORKER/BROWSER/PLAYWRIGHT), TEST WORKER wizard states, raw telemetry in `DesignCaptureDetailsContent` only. Shared `captureNeedsAttention()` in `more/moreStatus.ts` for hub/child consistency. `onTestWorker` wired from workspace. Build v266; PR #659 merged; release `site00-deploy-2026-09-10-v266`.
+- **Tests:** `visualReconstructionP0VRMoFR2.test.ts` (24/24).
+- **Next founder action:** Deploy cPanel v266 → DESIGN → MORE → tap each tile (SYSTEM, PROVIDERS, CAPTURE, ROUTE AUDIT, STORAGE, AUTOMATION, PRESETS) — verify one status + one primary action + compact cards; CAPTURE should read NEEDS ATTENTION with browser-not-ready copy, not raw build/URL dump.
+
