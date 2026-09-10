@@ -137,3 +137,21 @@ export {
   isManagedDesignProjectBootstrapped,
   clearManagedDesignBootstrapForTest,
 } from './managedProjectDesignBootstrap.js';
+
+export {
+  P0_VR_8R2_LINEAGE,
+  recoverProjectRouteInventory,
+  ensureProjectRouteRecovery,
+  recoverAllManagedProjectRoutes,
+  buildRouteRecoveryInspectorState,
+  buildPriorRouteAuditRecoveryReport,
+  getRouteAuditLineageBreak,
+  getProjectCurrentPageCount,
+  projectRecoveryShowsInventoryNotZero,
+  getGlobalRecoveryStatus,
+  clearRouteRecoveryStateForTest,
+  type RouteRecoveryInspectorState,
+  type RouteRecoveryResult,
+  type PriorRouteAuditRecoveryReport,
+  type RouteAuditLineageBreak,
+} from '../p0vr8r2/client.js';

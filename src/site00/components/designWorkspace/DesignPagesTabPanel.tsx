@@ -11,7 +11,7 @@ import { DesignDwSectionIcon } from './DesignDwSectionIcon';
 import { DesignPageCompletionPanel } from './DesignPageCompletionPanel.js';
 import type { PageExperienceImplementationJob } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
 
-type ProjectPageRegistrySyncState = 'NEVER_SYNCED' | 'SYNC_REQUIRED' | 'SYNCED';
+type ProjectPageRegistrySyncState = 'NEVER_SYNCED' | 'SYNC_REQUIRED' | 'SYNCED' | 'RECOVERING';
 
 type Props = {
   rows: PageVisualIndexRow[];
@@ -107,6 +107,7 @@ export function DesignPagesTabPanel({
   const pciChildDone =
     pageCompletionJob?.childSurfacePlans.filter((c) => c.implementationStatus === 'IMPLEMENTED').length ?? 0;
 
+  const showRecovering = projectSyncState === 'RECOVERING';
   const showUnsynced = projectSyncState === 'NEVER_SYNCED' || projectSyncState === 'SYNC_REQUIRED';
   const unsyncedLabel =
     projectSyncState === 'NEVER_SYNCED' ? 'PROJECT NOT YET SYNCED' : 'SYNC REQUIRED';
@@ -115,6 +116,25 @@ export function DesignPagesTabPanel({
     return (
       <section className="site00-dw-v3-pages" data-design-tab="pages" data-page-mirror="p0vr8">
         <p className="site00-dw-v3-pages__context-loading">LOADING {projectName} DESIGN CONTEXT…</p>
+      </section>
+    );
+  }
+
+  if (showRecovering && rows.length === 0) {
+    return (
+      <section
+        className="site00-dw-v3-pages"
+        data-design-tab="pages"
+        data-page-mirror="p0vr8"
+        data-sync-state="RECOVERING"
+      >
+        <article className="site00-dw-v3-pages__unsynced">
+          <strong>RECOVERING PAGE INVENTORY</strong>
+          <p>
+            {projectName} prior route audit found — reconciling historical routes with current repository state.
+            Captures and completion may show STALE / REFRESHING until refresh completes.
+          </p>
+        </article>
       </section>
     );
   }

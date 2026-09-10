@@ -7432,3 +7432,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Manual QA:** NDXBOOK lime accent + routes; Studio World gold + distinct routes; project switch matrix passed
 - **Next founder action:** After cPanel deploy — DESIGN → run 5-project switch matrix (NDXBOOK → Studio World → FS → AIO → Astral → NDXBOOK) then proceed to P0.VR.8 screen-replication golden test on NDXBOOK overview mobile
 
+---
+
+## 2026-09-10 — P0.VR.8R2 Prior Route Audit Recovery + Stale Route Reconciliation
+
+- **Context:** Design → PAGES showed 0–1 page per project despite prior full route audits (P0.VR.3A/B/D, P0.UI.2 NDX routeInventory, FSBW legacy). P0.VR.8R1 bootstrap registered minimal pilot screens only; `routeRepresentativeResolver` collapsed all `/projects/:projectSlug/*` routes to one pageId.
+- **Root cause (`RouteAuditLineageBreak`):** Historical inventories in `designRouteManifest` v2 + `NDX_WORKSPACE_ROUTE_INVENTORY` were not adapted into `ProjectPageRegistry`; consumer `discoverProjectRoutes` read empty/minimal `designScreenRegistry` for non-site00 projects.
+- **Implemented (`p0vr8r2/`):** Forensic `priorAuditDiscovery`, `LegacyRouteAuditAdapter`, `RecoveredRouteInventory`, two-repo recovery (SITE00 + FSBW embedded `LEGACY_AUDIT_SNAPSHOT`), prior-vs-current reconciliation, capture/completion refresh queues, `RouteAuditVersion` history, `DesignRouteAuditRecoveryInspector` (Design → MORE).
+- **Fixes:** `routeDiscoveryService` calls `ensureProjectRouteRecovery`; ndxbook bootstrap no longer overwrites recovered inventory; `routeRepresentativeResolver` exact segment match (no prefix collapse); `pageId` includes `screenId` for unique pages.
+- **Counts after recovery:** NDXBOOK ~42, SITE 00 ~184 design screens, FSBW projects 5–6 each, Astral ~18.
+- **Tests:** `visualReconstructionP0VR8R2.test.ts` (30/30); 8R1 + livePageMirror regression pass; build `index.B82p-K4Y.js`, `StudioWorldDesignPage.iY9_klqE.js`.
+- **Next founder action:** Deploy → DESIGN → MORE → ROUTE AUDIT / RECOVERY (verify PRIOR AUDIT FOUND + both repos) → NDXBOOK → PAGES (full inventory, CAPTURE STALE expected) → REFRESH CAPTURES when ready.
+

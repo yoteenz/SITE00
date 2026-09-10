@@ -23,6 +23,7 @@ import { clearDesignScreenRegistryForTest, listDesignScreensForProject } from '.
 import { resetNdxPilotForTest } from '../shared/site00-studio-world-production/visualReconstruction/p0vr2/ndxPilotRegistration.js';
 import { resetSite00PilotForTest } from '../shared/site00-studio-world-production/visualReconstruction/p0vr3a/site00PilotRegistration.js';
 import { clearProjectPageRegistryForTest } from '../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
+import { clearRouteRecoveryStateForTest } from '../shared/site00-studio-world-production/visualReconstruction/p0vr8r2/client.js';
 import { buildProjectPageCaptureId, upsertProjectPageCapture, assertCaptureProjectScope } from '../shared/site00-studio-world-production/visualReconstruction/p0vr3m/projectPageCaptureRegistry.js';
 
 describe('P0.VR.8R1 Design Project Context', () => {
@@ -33,6 +34,7 @@ describe('P0.VR.8R1 Design Project Context', () => {
     clearProjectPageRegistryForTest();
     clearProjectSyncStateForTest();
     clearManagedDesignBootstrapForTest();
+    clearRouteRecoveryStateForTest();
     bootstrapAllManagedDesignProjects();
   });
 
@@ -122,12 +124,13 @@ describe('P0.VR.8R1 Design Project Context', () => {
     )).toBe(false);
   });
 
-  it('12. unsynced != zero when no routes registered', () => {
+  it('12. prior audit recovery restores routes instead of fake zero', () => {
     clearDesignScreenRegistryForTest();
     clearManagedDesignBootstrapForTest();
+    clearRouteRecoveryStateForTest();
     const manifest = buildProjectRouteManifest('frontal-slayer');
-    expect(manifest.routeCount).toBe(0);
-    expect(manifest.syncState).toBe('NEVER_SYNCED');
+    expect(manifest.routeCount).toBeGreaterThan(0);
+    expect(manifest.syncState).not.toBe('NEVER_SYNCED');
   });
 
   it('13. refresh/sync marks active project only', () => {

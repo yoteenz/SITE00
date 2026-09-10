@@ -14,6 +14,15 @@ const REPRESENTATIVE_OVERRIDES: Record<string, string> = {
   '/product/:slug': '/product/noir',
 };
 
+/** Match route template to pattern with exact segment alignment (no prefix collapse). */
+function routeMatchesPattern(templateRoute: string, pattern: string): boolean {
+  if (templateRoute === pattern) return true;
+  const templateParts = templateRoute.split('/').filter(Boolean);
+  const patternParts = pattern.split('/').filter(Boolean);
+  if (templateParts.length !== patternParts.length) return false;
+  return patternParts.every((part, i) => part.startsWith(':') || part === templateParts[i]);
+}
+
 export function resolveRepresentativeRoute(screen: DesignScreenDefinition, projectId: string): {
   templateRoute: string;
   representativeRoute: string;
@@ -23,8 +32,12 @@ export function resolveRepresentativeRoute(screen: DesignScreenDefinition, proje
     return { templateRoute, representativeRoute: templateRoute };
   }
   for (const [pattern, resolved] of Object.entries(REPRESENTATIVE_OVERRIDES)) {
-    if (templateRoute.includes(pattern.replace(/:[^/]+/g, '')) || templateRoute === pattern) {
-      return { templateRoute, representativeRoute: resolved };
+    if (routeMatchesPattern(templateRoute, pattern)) {
+      const representativeRoute =
+        pattern === '/projects/:projectSlug'
+          ? `/projects/${projectId}`
+          : resolved;
+      return { templateRoute, representativeRoute };
     }
   }
   return {

@@ -3,13 +3,13 @@
  */
 
 import { registerProjectDesignScreens, listDesignScreensForProject } from '../p0vr2/designScreenRegistry.js';
-import { registerNdxbookDesignPilot } from '../p0vr2/ndxPilotRegistration.js';
 import { registerSite00DesignPilot } from '../p0vr3a/site00PilotRegistration.js';
 import type { DesignScreenDefinition } from '../p0vr2/types.js';
 import { syncAstralScreensToDesignRegistry } from '../../../site00-astral-world/screen-masters/vr2Adapter.js';
 import { listDesignEnabledManagedProjects } from './managedProjectRegistry.js';
 import { SITE00_DESIGN_PROJECT_ID } from './types.js';
 import { markProjectPagesSynced } from './projectRouteManifest.js';
+import { recoverProjectRouteInventory } from '../p0vr8r2/routeRecoveryOrchestrator.js';
 
 const BOOTSTRAPPED = new Set<string>();
 
@@ -137,6 +137,8 @@ function registerManagedBrandProject(projectId: string, displayName: string): vo
 export function bootstrapManagedDesignProject(projectId: string): void {
   if (BOOTSTRAPPED.has(projectId)) return;
 
+  recoverProjectRouteInventory(projectId, { queueRefresh: false });
+
   switch (projectId) {
     case SITE00_DESIGN_PROJECT_ID:
       registerSite00DesignPilot();
@@ -144,7 +146,7 @@ export function bootstrapManagedDesignProject(projectId: string): void {
       BOOTSTRAPPED.add(projectId);
       return;
     case 'ndxbook':
-      registerNdxbookDesignPilot();
+      // P0.VR.8R2 recovery already registers pilot + full routeInventory merge — do not overwrite.
       markProjectPagesSynced(projectId);
       BOOTSTRAPPED.add(projectId);
       return;
