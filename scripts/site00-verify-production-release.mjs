@@ -117,27 +117,58 @@ async function main() {
   }
   receipt.backend = backendResult.backend;
 
-  if (!SKIP_FRONTEND) {
-    try {
-      const fe = await verifyFrontend(EXPECTED_RELEASE_ID);
-      receipt.stages.VERIFY_FRONTEND = fe.ok ? 'PASS' : 'FAIL';
-      receipt.frontend = fe.frontend;
-      receipt.manifest = fe.manifest;
-      if (!fe.ok) {
-        receipt.errors.push(
-          fe.releaseMatch === false ? 'VERSION_MISMATCH' : 'FRONTEND_SMOKE_FAILED',
-        );
+  if (SKIP_FRONTEND) {
+    receipt.stages.VERIFY_FRONTEND = 'SKIPPED';
+    const av = receipt.backend?.apiBuild ?? null;
+    const wv = receipt.backend?.workerBuild ?? null;
+    if (EXPECTED_VERSION && av && wv) {
+      const backendMatch = av === EXPECTED_VERSION && wv === EXPECTED_VERSION;
+      receipt.stages.VERIFY_COMPATIBILITY = backendMatch ? 'SKIPPED' : 'FAIL';
+      receipt.compatibilityStatus = backendMatch ? 'BACKEND_ONLY' : 'VERSION_MISMATCH';
+      if (!backendMatch) {
+        receipt.errors.push(`COMPATIBILITY_FAILED: backend api=${av} worker=${wv} expected ${EXPECTED_VERSION}`);
         receipt.status = 'PARTIAL';
         console.log(JSON.stringify(receipt, null, 2));
         process.exit(1);
       }
-    } catch (err) {
-      receipt.stages.VERIFY_FRONTEND = 'FAIL';
-      receipt.errors.push(`FRONTEND_SMOKE_FAILED: ${err instanceof Error ? err.message : String(err)}`);
+    } else if (!av || !wv) {
+      receipt.stages.VERIFY_COMPATIBILITY = 'FAIL';
+      receipt.compatibilityStatus = 'UNKNOWN';
+      receipt.errors.push('COMPATIBILITY_FAILED: Missing backend apiBuild/workerBuild receipt');
+      receipt.status = 'PARTIAL';
+      console.log(JSON.stringify(receipt, null, 2));
+      process.exit(1);
+    } else {
+      receipt.stages.VERIFY_COMPATIBILITY = 'SKIPPED';
+      receipt.compatibilityStatus = 'BACKEND_ONLY';
+    }
+    receipt.status = 'BACKEND_READY';
+    const outPath = process.env.RELEASE_RECEIPT_PATH;
+    if (outPath) writeFileSync(outPath, `${JSON.stringify(receipt, null, 2)}\n`);
+    console.log(JSON.stringify(receipt, null, 2));
+    console.log('BACKEND READY ✓ (frontend verification skipped)');
+    process.exit(0);
+  }
+
+  try {
+    const fe = await verifyFrontend(EXPECTED_RELEASE_ID);
+    receipt.stages.VERIFY_FRONTEND = fe.ok ? 'PASS' : 'FAIL';
+    receipt.frontend = fe.frontend;
+    receipt.manifest = fe.manifest;
+    if (!fe.ok) {
+      receipt.errors.push(
+        fe.releaseMatch === false ? 'VERSION_MISMATCH' : 'FRONTEND_SMOKE_FAILED',
+      );
       receipt.status = 'PARTIAL';
       console.log(JSON.stringify(receipt, null, 2));
       process.exit(1);
     }
+  } catch (err) {
+    receipt.stages.VERIFY_FRONTEND = 'FAIL';
+    receipt.errors.push(`FRONTEND_SMOKE_FAILED: ${err instanceof Error ? err.message : String(err)}`);
+    receipt.status = 'PARTIAL';
+    console.log(JSON.stringify(receipt, null, 2));
+    process.exit(1);
   }
 
   const compat = checkCompatibility(receipt.manifest, receipt.backend, receipt.frontend);

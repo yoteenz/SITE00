@@ -7679,6 +7679,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-10 — verify_backend COMPATIBILITY_FAILED (Missing version receipt)
+
+- **Issue:** Production Release `verify_backend` passed Railway health but failed `VERIFY_COMPATIBILITY` with `Missing version receipt` — script ran full frontend compatibility while `SKIP_FRONTEND_VERIFY=true` (manual promotion mode).
+- **Fix:** `site00-verify-production-release.mjs` — when frontend skipped, gate backend-only (`apiBuild`/`workerBuild` vs `EXPECTED_VERSION`); mark `VERIFY_COMPATIBILITY=SKIPPED`, status `BACKEND_READY`. Added `checkBackendOnlyCompatibility` in release engine + test.
+- **Note:** Live `site00.com/release-manifest.json` still serves HTML until cPanel deploy — full `verify_release` needs frontend ZIP upload or `deploy_frontend=true` workflow re-run.
+
 ## 2026-09-10 — P0.CGO.2 Conceptual Efficiency + Product/World Interaction Logic
 
 - **Context:** CGO.1 could generate high-yield worlds but still defaulted toward category-literal environments and multi-shot bloat. Sprint teaches **interaction-first lateral world reasoning**: product visibility through behavior, not category-matched locations; favor high-yield / high-efficiency concepts with minimal execution.

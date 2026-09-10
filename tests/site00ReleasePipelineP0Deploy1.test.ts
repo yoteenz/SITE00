@@ -16,6 +16,7 @@ import {
   validateProductionDeploymentConfig,
   resolveCpanelDeployStrategy,
   checkReleaseCompatibility,
+  checkBackendOnlyCompatibility,
   buildProductionReleaseReceipt,
   resolveReleaseStatus,
   DEFAULT_ROLLBACK_POLICY,
@@ -171,6 +172,24 @@ describe('P0.DEPLOY.1 — Release pipeline', () => {
     const c = checkReleaseCompatibility(m, b, f);
     expect(c.compatible).toBe(true);
     expect(c.status).toBe('COMPATIBLE');
+  });
+
+  it('17b. backend-only compatibility when frontend not deployed', () => {
+    const b = parseBackendHealthPayload({
+      ok: true,
+      release: {
+        apiBuild: P0_DEPLOY_1_BUILD,
+        workerBuild: P0_DEPLOY_1_BUILD,
+        releaseId: `site00-${P0_DEPLOY_1_BUILD}-abc1234`,
+        serviceReady: true,
+      },
+    });
+    const pass = checkBackendOnlyCompatibility(b, P0_DEPLOY_1_BUILD);
+    expect(pass.compatible).toBe(true);
+    expect(pass.status).toBe('COMPATIBLE');
+    const fail = checkBackendOnlyCompatibility(b, 'v999');
+    expect(fail.compatible).toBe(false);
+    expect(fail.status).toBe('VERSION_MISMATCH');
   });
 
   it('18. VERSION_MISMATCH detection', () => {
