@@ -84,6 +84,7 @@ export type PageSnapshotFreshness = {
   lastCaptureAt: string | null;
   isStale: boolean;
   staleReason: string | null;
+  neverCaptured?: boolean;
 };
 
 export type PageCaptureQueueJob = {
@@ -158,6 +159,7 @@ export type PageMirrorRow = {
   screenId: string;
   displayName: string;
   routeFamily: string;
+  pageCaptureStatus?: import('../p0vr8r3/types.js').PageCaptureStatus;
 };
 
 export type PageMirrorInspectorState = {

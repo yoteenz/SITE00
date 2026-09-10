@@ -7444,3 +7444,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `visualReconstructionP0VR8R2.test.ts` (30/30); 8R1 + livePageMirror regression pass; build `index.B82p-K4Y.js`, `StudioWorldDesignPage.iY9_klqE.js`.
 - **Next founder action:** Deploy → DESIGN → MORE → ROUTE AUDIT / RECOVERY (verify PRIOR AUDIT FOUND + both repos) → NDXBOOK → PAGES (full inventory, CAPTURE STALE expected) → REFRESH CAPTURES when ready.
 
+---
+
+## 2026-09-10 — P0.VR.8R3 Project Capture Refresh + Queue Orchestration Recovery
+
+- **Context:** After P0.VR.8R2 route inventory recovery (NDXBOOK ~46 pages), **REFRESH PROJECT** only updated `LAST UPDATED` and left all pages STALE / "NEVER CAPTURED" with blank LIVE boxes — capture orchestration chain was broken.
+- **Root cause:** `refresh_project` API called `handlePageSyncEvent(MANUAL_REFRESH)` only (enqueue in-memory jobs + route reconciliation) but **never dispatched `captureImplementationSnapshot` worker**. UI `handleSyncProjectPages` conflated route manifest sync with capture refresh. `snapshotFreshness` treated missing captures as `isStale: true, staleReason: 'never captured'`, collapsing into STALE bucket.
+- **Implemented (`p0vr8r3/`):** `ProjectCaptureRefreshOrchestrator` (`refreshProjectCaptureState`), `PageCaptureStatus` (NEVER_CAPTURED ≠ STALE), `ProjectCaptureRun` store, `CaptureWorker` dispatch (concurrency 3, render timeout), `CaptureFailureLoopGuard`, `CaptureWorkerHealth`, mobile-first viewport targets, duplicate run guard, completion refresh queue hook.
+- **API:** `refresh_project` → orchestrator + background worker; `capture-run` / `capture-orchestration` GET views; page refresh skips route reconciliation when `executeCapture`.
+- **UI:** Pages tab capture summary (CURRENT / NEVER CAPTURED / QUEUED / CAPTURING / STALE / FAILED), capture run panel, refresh button progress, live empty states, separate SYNC vs REFRESH PROJECT; `DesignCaptureOrchestrationInspector` (Design → MORE).
+- **Tests:** `visualReconstructionP0VR8R3.test.ts` (31/31); livePageMirror never-captured freshness case updated; build passes.
+- **Next founder action:** Deploy → DESIGN → NDXBOOK → PAGES → verify NEVER CAPTURED counts → REFRESH PROJECT → watch QUEUED/CAPTURING/CURRENT update live → open `/projects/ndxbook` first page for LIVE screenshot + CURRENT status.
+

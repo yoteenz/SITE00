@@ -45,6 +45,7 @@ export {
   reconcileProjectPageRegistry,
   listProjectPageRecords,
   getProjectPageRecord,
+  upsertProjectPageRecord,
   markPageStale,
   markPagesStaleForDeploy,
   assertNoCrossProjectCollision,
