@@ -85,14 +85,14 @@ describe('P0.DEPLOY.1 — Release pipeline', () => {
   });
 
   it('6. release ID format', () => {
-    expect(buildReleaseId('v271', 'abc1234567890')).toBe('site00-v271-abc1234');
+    expect(buildReleaseId(P0_DEPLOY_1_BUILD, 'abc1234567890')).toBe(`site00-${P0_DEPLOY_1_BUILD}-abc1234`);
     expect(shortCommitSha('abcdef1234567890')).toBe('abcdef1');
   });
 
   it('7. release manifest build + parse', () => {
     const m = buildReleaseManifest({ commitSha: 'abc1234567890', bundleEntry: '/assets/index.js' });
     expect(m.version).toBe(P0_DEPLOY_1_BUILD);
-    expect(m.releaseId).toContain('site00-v271');
+    expect(m.releaseId).toContain(`site00-${P0_DEPLOY_1_BUILD}`);
     const parsed = parseReleaseManifest(m);
     expect(parsed?.frontendBuild).toBe(P0_DEPLOY_1_BUILD);
   });
@@ -105,16 +105,16 @@ describe('P0.DEPLOY.1 — Release pipeline', () => {
     const r = parseBackendHealthPayload({
       ok: true,
       release: {
-        releaseId: 'site00-v271-abc1234',
+        releaseId: `site00-${P0_DEPLOY_1_BUILD}-abc1234`,
         commitSha: 'abc1234',
-        apiBuild: 'v271',
-        workerBuild: 'v271',
+        apiBuild: P0_DEPLOY_1_BUILD,
+        workerBuild: P0_DEPLOY_1_BUILD,
         contractVersion: 'capture-run-v1',
         serviceReady: true,
       },
     });
     expect(r.serviceReady).toBe(true);
-    expect(r.apiBuild).toBe('v271');
+    expect(r.apiBuild).toBe(P0_DEPLOY_1_BUILD);
   });
 
   it('10. frontend health from manifest', () => {
@@ -166,7 +166,7 @@ describe('P0.DEPLOY.1 — Release pipeline', () => {
 
   it('17. compatibility pass when versions match', () => {
     const m = buildReleaseManifest({ commitSha: 'abc' });
-    const b = parseBackendHealthPayload({ ok: true, release: { apiBuild: 'v271', workerBuild: 'v271', releaseId: m.releaseId, serviceReady: true } });
+    const b = parseBackendHealthPayload({ ok: true, release: { apiBuild: P0_DEPLOY_1_BUILD, workerBuild: P0_DEPLOY_1_BUILD, releaseId: m.releaseId, serviceReady: true } });
     const f = parseFrontendHealthFromManifest(m);
     const c = checkReleaseCompatibility(m, b, f);
     expect(c.compatible).toBe(true);
@@ -188,13 +188,13 @@ describe('P0.DEPLOY.1 — Release pipeline', () => {
       releaseId: m.releaseId,
       commitSha: m.commitSha,
       manifest: m,
-      backend: parseBackendHealthPayload({ ok: true, release: { apiBuild: 'v271', workerBuild: 'v271', releaseId: m.releaseId, serviceReady: true } }),
+      backend: parseBackendHealthPayload({ ok: true, release: { apiBuild: P0_DEPLOY_1_BUILD, workerBuild: P0_DEPLOY_1_BUILD, releaseId: m.releaseId, serviceReady: true } }),
       frontend: parseFrontendHealthFromManifest(m),
       stageResults: { COMPLETE: 'PASS', VERIFY_COMPATIBILITY: 'PASS', VERIFY_FRONTEND: 'PASS', VERIFY_BACKEND: 'PASS' },
       errors: [],
     });
     expect(receipt.status).toBe('READY');
-    expect(receipt.frontendVersion).toBe('v271');
+    expect(receipt.frontendVersion).toBe(P0_DEPLOY_1_BUILD);
   });
 
   it('20. partial status on backend verify fail', () => {
@@ -237,8 +237,8 @@ describe('P0.DEPLOY.1 — Release pipeline', () => {
   });
 
   it('24. deployment lock prevents overlap', () => {
-    expect(acquireProductionDeploymentLock('ci-1', 'site00-v271-abc')).toBe(true);
-    expect(acquireProductionDeploymentLock('ci-2', 'site00-v271-def')).toBe(false);
+    expect(acquireProductionDeploymentLock('ci-1', `site00-${P0_DEPLOY_1_BUILD}-abc`)).toBe(true);
+    expect(acquireProductionDeploymentLock('ci-2', `site00-${P0_DEPLOY_1_BUILD}-def`)).toBe(false);
     expect(releaseProductionDeploymentLock('ci-1')).toBe(true);
   });
 
@@ -258,7 +258,7 @@ describe('P0.DEPLOY.1 — Release pipeline', () => {
   });
 
   it('28. release history tracking', () => {
-    recordReleaseFromReceipt({ releaseId: 'x', version: 'v271', commitSha: 'abc', status: 'READY' });
+    recordReleaseFromReceipt({ releaseId: 'x', version: P0_DEPLOY_1_BUILD, commitSha: 'abc', status: 'READY' });
     expect(listReleaseHistory()).toHaveLength(1);
   });
 

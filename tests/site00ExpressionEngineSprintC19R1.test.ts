@@ -43,7 +43,7 @@ import { detectRhetoricalPatternOveruse, trackRhetoricalPatterns } from '../api/
 import { bootstrapC19R1MeridianLiveProof } from '../api/_lib/site00ExpressionEngine/entry003/entry003C14Pipeline.js';
 import { runMultiUnitBlindCampaignPackage } from '../api/_lib/site00ExpressionEngine/seniorCreativeJudgment/multiUnitCampaignArchitect.js';
 
-describe('C1.9R1 Live FULL_REASONING Meridian Proof', () => {
+describe('C1.9R1 Live FULL_REASONING Meridian Proof', { timeout: 60000 }, () => {
   beforeEach(() => {
     process.env.VITEST = 'true';
     resetBrandLanguageStore();

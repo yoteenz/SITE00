@@ -98,10 +98,12 @@ describe('P0.E.FT1 Founder Fast Track', () => {
     expect(demo).toContain('PUSH_NOTIFICATION_DEMO');
   });
 
-  it('Project detail exposes OPEN LIVE PROTOTYPE', () => {
-    const detail = readFileSync('src/site00/pages/ProjectDetailPage.tsx', 'utf8');
-    expect(detail).toContain('OPEN LIVE PROTOTYPE');
-    expect(detail).toContain('site00ProjectFastTrackWorldPath');
+  it('Astral fast-track route remains wired after B5.9R1 project OS redirect', () => {
+    const routes = readFileSync('src/routes/Site00Routes.tsx', 'utf8');
+    const fastTrack = readFileSync('src/site00/pages/ProjectAstralWorldFastTrackPage.tsx', 'utf8');
+    expect(routes).toContain('ProjectAstralWorldFastTrackPage');
+    expect(fastTrack).toContain('fast-track');
+    expect(site00ProjectFastTrackWorldPath('astral-world')).toBe('/projects/astral-world/debug/world/home');
   });
 
   it('Formal governance preserved — no canon auto promotion in fast track page', () => {

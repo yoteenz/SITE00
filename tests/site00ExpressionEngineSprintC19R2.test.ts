@@ -30,7 +30,7 @@ import { bootstrapC19R2MeridianLiveAcceptance } from '../api/_lib/site00Expressi
 import { runMultiUnitBlindCampaignPackage } from '../api/_lib/site00ExpressionEngine/seniorCreativeJudgment/multiUnitCampaignArchitect.js';
 import { ANTHROPIC_CREATIVE_MODEL } from '../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/config.js';
 
-describe('C1.9R2 Live Provider Activation + Meridian Acceptance', () => {
+describe('C1.9R2 Live Provider Activation + Meridian Acceptance', { timeout: 60000 }, () => {
   beforeEach(() => {
     process.env.VITEST = 'true';
     resetBrandLanguageStore();

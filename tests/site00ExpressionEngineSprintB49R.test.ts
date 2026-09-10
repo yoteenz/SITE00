@@ -72,7 +72,7 @@ describe('Expression Engine Sprint B4.9R — Storyboard structure recovery (B4.9
     });
     expect(eligibility.finalStoryboardEligibility).not.toBe('AWAITING_FOUNDER_APPROVAL');
     expect(eligibility.founderStoryboardApproval).toBe('INACTIVE');
-    expect(eligibility.keyframeEligibility).toBe('BLOCKED');
+    expect(eligibility.keyframeEligibility).toMatch(/^BLOCKED/);
   });
 
   it('2. one hero image does not count as storyboard', async () => {

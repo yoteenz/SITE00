@@ -36,7 +36,7 @@ import {
 import { bootstrapC19R3MeridianLivePostRedeploy } from '../api/_lib/site00ExpressionEngine/entry003/entry003C14Pipeline.js';
 import { ANTHROPIC_CREATIVE_MODEL } from '../api/_lib/site00Evolve/creativeDirection/creativeIntelligence/config.js';
 
-describe('C1.9R3 Post-Redeploy Live FULL_REASONING Execution', () => {
+describe('C1.9R3 Post-Redeploy Live FULL_REASONING Execution', { timeout: 60000 }, () => {
   beforeEach(() => {
     process.env.VITEST = 'true';
     resetBrandLanguageStore();

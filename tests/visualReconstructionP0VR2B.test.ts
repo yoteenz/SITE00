@@ -76,7 +76,7 @@ describe('P0.VR.2B design workspace rebuild', () => {
     const ui = read('src/site00/components/founderWorkspace/StudioWorldDesignWorkspace.tsx');
     expect(ui).toContain('DesignWorkspaceViewportRail');
     expect(ui).toContain('DesignWorkspacePrimaryTabRail');
-    expect(read('src/site00/components/designWorkspace/DesignMoreTab.tsx')).toContain('MATCH REFERENCE');
+    expect(read('src/site00/components/designWorkspace/DesignSkinsTab.tsx')).toContain('MATCH REFERENCE');
     expect(read('src/site00/components/designWorkspace/DesignReferencesTab.tsx')).toContain('UPLOAD REFERENCE');
     expect(read('src/site00/styles/site00-design-workspace-p0vr2b.css')).toContain('site00-dw-shell__sidebar');
     expect(read('src/site00/styles/site00-design-workspace-v3.css')).toContain('site00-dw-v3-viewport-segment');

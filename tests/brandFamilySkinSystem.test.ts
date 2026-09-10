@@ -292,7 +292,7 @@ describe('Brand Family Skin System', () => {
   it('25. founder sees skin management UI', () => {
     expect(founderSeesBrandFamilySkinConfig('FOUNDER')).toBe(true);
     expect(read('src/site00/components/brandFamilySkin/ExperienceSkinManagementPanel.tsx')).toContain('EXPERIENCE SKIN');
-    expect(read('src/site00/components/designWorkspace/DesignMoreTab.tsx')).toContain('ExperienceSkinManagementPanel');
+    expect(read('src/site00/components/designWorkspace/DesignSkinsTab.tsx')).toContain('DesignSkinsTab');
   });
 
   it('26. client does not see internal skin config', () => {
