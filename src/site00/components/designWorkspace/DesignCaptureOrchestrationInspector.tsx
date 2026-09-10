@@ -108,6 +108,67 @@ export function DesignCaptureOrchestrationInspector({ projectId }: Props) {
         RETRY CONNECTION
       </button>
 
+      <h4>WORKER</h4>
+      <dl className="site00-dw-recovery-inspector__grid">
+        <div>
+          <dt>WORKER</dt>
+          <dd>{transport?.workerId ?? worker?.workerId ?? '—'}</dd>
+        </div>
+        <div>
+          <dt>BUILD</dt>
+          <dd>{transport?.workerBuild ?? inspector?.buildReceipt?.workerBuild ?? '—'}</dd>
+        </div>
+        <div>
+          <dt>STATUS</dt>
+          <dd>{transport?.workerStatus ?? worker?.status ?? '—'}</dd>
+        </div>
+        <div>
+          <dt>LAST HEARTBEAT</dt>
+          <dd>
+            {transport?.heartbeatAgeMs != null
+              ? `${Math.round(transport.heartbeatAgeMs / 1000)}s AGO`
+              : transport?.lastHeartbeat ?? worker?.lastHeartbeat ?? '—'}
+          </dd>
+        </div>
+        <div>
+          <dt>BROWSER</dt>
+          <dd>{transport?.browserReady ? 'READY' : 'NOT READY'}</dd>
+        </div>
+        <div>
+          <dt>PLAYWRIGHT</dt>
+          <dd>{transport?.playwrightReady ? 'READY' : 'NOT READY'}</dd>
+        </div>
+        <div>
+          <dt>TEST JOB</dt>
+          <dd>{transport?.testJobPassed ? 'PASSED' : 'NOT RUN'}</dd>
+        </div>
+        <div>
+          <dt>ACTIVE JOBS</dt>
+          <dd>{worker?.activeJobCount ?? '—'}</dd>
+        </div>
+        <div>
+          <dt>QUEUE</dt>
+          <dd>{worker?.queueDepth ?? inspector?.queuedJobs ?? '—'}</dd>
+        </div>
+        <div>
+          <dt>LAST ERROR</dt>
+          <dd>{transport?.lastError?.replace(/_/g, ' ') ?? worker?.lastError ?? '—'}</dd>
+        </div>
+      </dl>
+
+      <button
+        type="button"
+        className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+        onClick={() =>
+          void captureApiFetch(PAGE_MIRROR_PATH, {
+            method: 'POST',
+            body: { action: 'test_worker', projectId },
+          }).then(() => load())
+        }
+      >
+        TEST WORKER
+      </button>
+
       <h4>ORCHESTRATION</h4>
       <dl className="site00-dw-recovery-inspector__grid">
         <div>

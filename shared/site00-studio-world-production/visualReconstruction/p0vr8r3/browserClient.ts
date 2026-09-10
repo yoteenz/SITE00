@@ -13,7 +13,7 @@ export type { CaptureRunContractReceipt, CaptureRunContractErrorCode } from './c
 export type { ProjectCaptureStateSummary } from './projectCaptureStateSummary.js';
 export type { CaptureRunPreflight } from './captureRunPreflight.js';
 
-export { P0_VR_8R3R1_BUILD, P0_VR_8R3R3_BUILD } from './constants.js';
+export { P0_VR_8R3R1_BUILD, P0_VR_8R3R3_BUILD, P0_VR_8R3R4_BUILD } from './constants.js';
 export { detectBackendVersionMismatch } from './buildVersionReceipt.browser.js';
 export type { BuildVersionReceipt } from './buildVersionReceipt.js';
 

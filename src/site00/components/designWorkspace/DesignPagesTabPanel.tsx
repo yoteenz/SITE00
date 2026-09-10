@@ -35,6 +35,7 @@ type Props = {
   contextLoading?: boolean;
   captureRefresh?: ProjectCaptureRefreshState;
   onRetryTransport?: () => void;
+  onTestWorker?: () => void;
 };
 
 function formatRouteLabel(row: PageVisualIndexRow): string {
@@ -115,6 +116,7 @@ export function DesignPagesTabPanel({
   onViewCaptureRun,
   captureRefresh,
   onRetryTransport,
+  onTestWorker,
 }: Props) {
   const [filter, setFilter] = useState<PageMirrorFilter>('ALL');
   const [search, setSearch] = useState('');
@@ -158,8 +160,14 @@ export function DesignPagesTabPanel({
   const run = captureRefresh?.run ?? null;
   const isRefreshing = captureRefresh?.refreshing ?? false;
   const transport = captureRefresh?.transportHealth ?? null;
-  const transportUnhealthy = transport && transport.status !== 'HEALTHY';
+  const apiConnected = transport?.apiReachable ?? false;
+  const workerStatus = transport?.workerStatus ?? 'UNKNOWN';
+  const workerHealthy = workerStatus === 'HEALTHY' && transport?.playwrightReady && transport?.browserReady;
+  const testJobPassed = captureRefresh?.testJobPassed ?? transport?.testJobPassed ?? false;
+  const transportUnhealthy = transport && (transport.status !== 'HEALTHY' || !workerHealthy);
   const transportChecking = captureRefresh?.transportChecking ?? false;
+  const testingWorker = captureRefresh?.testingWorker ?? false;
+  const captureServiceReady = apiConnected && workerHealthy && testJobPassed;
   const runInvalid = run && !run.contractValid;
   const [showIssueDetails, setShowIssueDetails] = useState(false);
   const contractReceipt = run?.contractReceipt;
@@ -167,18 +175,22 @@ export function DesignPagesTabPanel({
   const progressDone = run ? run.completedCount + run.failedCount + run.skippedCount : 0;
   const progressTotal = run?.totalTargets ?? 0;
   const refreshButtonLabel = transportUnhealthy
-    ? 'RETRY CONNECTION'
-    : runInvalid
-      ? 'RETRY RUN'
-      : captureRefresh?.errorCode === 'CAPTURE_WORKER_OFFLINE'
-        ? 'VIEW DIAGNOSTICS'
-        : isRefreshing
-        ? run && run.contractValid && progressTotal > 0
-          ? `CAPTURING ${progressDone} / ${progressTotal}`
-          : 'REFRESHING PROJECT…'
-        : run && run.contractValid && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status)
-          ? 'VIEW CAPTURE RUN'
-          : 'REFRESH PROJECT';
+    ? 'RETRY HEALTH CHECK'
+    : !workerHealthy
+      ? 'RETRY HEALTH CHECK'
+      : !testJobPassed
+        ? 'TEST WORKER'
+        : runInvalid
+          ? 'RETRY RUN'
+          : captureRefresh?.errorCode === 'CAPTURE_WORKER_OFFLINE'
+            ? 'VIEW DIAGNOSTICS'
+            : isRefreshing
+              ? run && run.contractValid && progressTotal > 0
+                ? `CAPTURING ${progressDone} / ${progressTotal}`
+                : 'REFRESHING PROJECT…'
+              : run && run.contractValid && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status)
+                ? 'VIEW CAPTURE RUN'
+                : 'REFRESH PROJECT';
 
   if (contextLoading) {
     return (
@@ -236,37 +248,60 @@ export function DesignPagesTabPanel({
       {pageCompletionJob ? <DesignPageCompletionPanel job={pageCompletionJob} compact /> : null}
 
       {transport ? (
-        <article className="site00-dw-v3-pages__capture-run" data-capture-transport={transport.status}>
+        <article
+          className={`site00-dw-v3-pages__capture-run${captureServiceReady ? '' : ' site00-dw-v3-pages__capture-run--invalid'}`}
+          data-capture-transport={captureServiceReady ? 'ready' : transport.status}
+        >
           <div>
             <strong>CAPTURE SERVICE</strong>
-            <p>
-              {transport.status === 'HEALTHY' ? 'CONNECTED' : transportUnhealthy ? 'CONNECTION FAILED' : transport.status}
-            </p>
+            <p>{captureServiceReady ? 'READY' : apiConnected ? 'NOT READY' : 'CONNECTION FAILED'}</p>
             <p className="site00-dw-v3-pages__capture-run-detail">
-              API {transport.apiReachable ? 'CONNECTED' : 'OFFLINE'} · WORKER {transport.workerStatus} · CONTRACT{' '}
+              API {apiConnected ? 'CONNECTED' : 'OFFLINE'} · WORKER {workerHealthy ? 'HEALTHY' : workerStatus} · BROWSER{' '}
+              {transport.browserReady ? 'READY' : 'NOT READY'} · CONTRACT{' '}
               {transport.contractCompatible ? `${transport.contractVersion ?? '—'} ✓` : 'MISMATCH'}
             </p>
-          </div>
-        </article>
-      ) : null}
-
-      {transportUnhealthy ? (
-        <article className="site00-dw-v3-pages__capture-run site00-dw-v3-pages__capture-run--invalid" data-capture-transport="failed">
-          <div>
-            <strong>CAPTURE SERVICE</strong>
-            <p>CONNECTION FAILED</p>
-            <p>
-              WHY · {(transport?.errors[0] ?? captureRefresh?.errorCode ?? 'CAPTURE SERVICE NOT READY').replace(/_/g, ' ')}
-            </p>
+            {workerHealthy && transport.lastHeartbeat ? (
+              <p className="site00-dw-v3-pages__capture-run-detail">
+                LAST HEARTBEAT ·{' '}
+                {transport.heartbeatAgeMs != null ? `${Math.round(transport.heartbeatAgeMs / 1000)}s AGO` : formatTimestamp(transport.lastHeartbeat)}
+              </p>
+            ) : null}
+            {!workerHealthy && apiConnected ? (
+              <p>
+                WHY ·{' '}
+                {workerStatus === 'UNKNOWN'
+                  ? 'WORKER HAS NOT REGISTERED'
+                  : workerStatus === 'OFFLINE'
+                    ? `WORKER OFFLINE · LAST HEARTBEAT ${formatTimestamp(transport.lastHeartbeat)}`
+                    : transport.lastError?.replace(/_/g, ' ') ?? 'BROWSER COULD NOT START'}
+              </p>
+            ) : null}
             <div className="site00-dw-v3-pages__featured-actions">
-              <button
-                type="button"
-                className="site00-dw-v3-btn site00-dw-v3-btn--primary"
-                disabled={transportChecking}
-                onClick={() => onRetryTransport?.()}
-              >
-                RETRY CONNECTION
-              </button>
+              {!captureServiceReady ? (
+                <button
+                  type="button"
+                  className="site00-dw-v3-btn site00-dw-v3-btn--primary"
+                  disabled={transportChecking || testingWorker}
+                  onClick={() => {
+                    if (!workerHealthy || transportUnhealthy) {
+                      onRetryTransport?.();
+                      return;
+                    }
+                    onTestWorker?.();
+                  }}
+                >
+                  {testingWorker ? 'TESTING WORKER…' : workerHealthy ? 'TEST WORKER' : 'RETRY HEALTH CHECK'}
+                </button>
+              ) : onRefreshProject ? (
+                <button
+                  type="button"
+                  className="site00-dw-v3-btn site00-dw-v3-btn--outline"
+                  disabled={mirrorLoading && !isRefreshing}
+                  onClick={() => onRefreshProject?.()}
+                >
+                  REFRESH PROJECT
+                </button>
+              ) : null}
               {onViewCaptureRun ? (
                 <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onViewCaptureRun}>
                   VIEW DETAILS
@@ -388,8 +423,12 @@ export function DesignPagesTabPanel({
             className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
             disabled={mirrorLoading && !isRefreshing}
             onClick={() => {
-              if (transportUnhealthy) {
+              if (transportUnhealthy || !workerHealthy) {
                 onRetryTransport?.();
+                return;
+              }
+              if (!testJobPassed) {
+                onTestWorker?.();
                 return;
               }
               if (runInvalid) {

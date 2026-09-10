@@ -70,6 +70,10 @@ export function buildCaptureRunPreflight(
 
   let blockReason: string | null = null;
   if (workerHealth.status === 'OFFLINE') blockReason = 'CAPTURE_WORKER_OFFLINE';
+  else if (workerHealth.status === 'UNKNOWN') blockReason = 'WORKER_NO_HEARTBEAT';
+  else if (workerHealth.status === 'DEGRADED') blockReason = 'WORKER_DEGRADED';
+  else if (workerHealth.status !== 'HEALTHY') blockReason = 'WORKER_UNAVAILABLE';
+  else if (!workerHealth.lastHeartbeat) blockReason = 'WORKER_NO_HEARTBEAT';
   else if (eligiblePages.length === 0) blockReason = 'TARGET_PLAN_EMPTY';
   else if (resolvedCount === 0) blockReason = 'RUNTIME_URLS_UNRESOLVED';
   else if (!goldenIdentity?.routeValid) blockReason = 'RUNTIME_URLS_UNRESOLVED';
@@ -77,7 +81,10 @@ export function buildCaptureRunPreflight(
 
   const ready =
     !blockReason &&
-    workerHealth.status !== 'OFFLINE' &&
+    workerHealth.status === 'HEALTHY' &&
+    Boolean(workerHealth.lastHeartbeat) &&
+    workerHealth.playwrightReady !== false &&
+    workerHealth.browserReady !== false &&
     eligiblePages.length > 0 &&
     resolvedCount > 0 &&
     Boolean(goldenIdentity?.routeValid);

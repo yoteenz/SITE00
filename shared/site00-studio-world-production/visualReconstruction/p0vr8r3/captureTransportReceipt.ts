@@ -60,6 +60,13 @@ export type CaptureTransportHealth = {
   lastCheckedAt: string;
   status: CaptureTransportHealthStatus;
   errors: CaptureTransportErrorCode[];
+  workerId?: string | null;
+  lastHeartbeat?: string | null;
+  heartbeatAgeMs?: number | null;
+  playwrightReady?: boolean;
+  browserReady?: boolean;
+  testJobPassed?: boolean;
+  lastError?: string | null;
 };
 
 export type CaptureTransportHealthResponse = {
@@ -72,4 +79,13 @@ export type CaptureTransportHealthResponse = {
   gitSha: string | null;
   lastHeartbeat: string | null;
   lastAcceptedJobAt: string | null;
+  workerId?: string;
+  heartbeatAgeMs?: number | null;
+  playwrightReady?: boolean;
+  browserReady?: boolean;
+  activeJobCount?: number;
+  queueDepth?: number;
+  lastError?: string | null;
+  testJobPassed?: boolean;
+  versionMismatch?: string | null;
 };

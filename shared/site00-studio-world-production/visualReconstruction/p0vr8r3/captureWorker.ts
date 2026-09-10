@@ -106,7 +106,7 @@ async function executeCaptureJob(
   }
 
   const queueDepth = listCaptureQueue(job.projectId).filter((j) => j.status === 'QUEUED').length;
-  markWorkerDispatchStarted(queueDepth);
+  markWorkerDispatchStarted(queueDepth, options.repoRoot);
   startCaptureJob(job.jobId);
   upsertProjectPageRecord({ ...page, status: 'CAPTURING' });
   if (job.targetId) {
@@ -178,7 +178,12 @@ async function executeCaptureJob(
       if (job.targetId) updateCaptureTarget(job.targetId, { status: 'COMPLETE' }, options.repoRoot);
     }
 
-    markWorkerDispatchFinished(success, listCaptureQueue(job.projectId).filter((j) => j.status === 'QUEUED').length);
+    markWorkerDispatchFinished(
+      success,
+      listCaptureQueue(job.projectId).filter((j) => j.status === 'QUEUED').length,
+      undefined,
+      options.repoRoot,
+    );
     syncRunCountsFromQueue(job.projectId, runId, options.repoRoot);
     return success;
   } catch (err) {
@@ -207,7 +212,12 @@ async function executeCaptureJob(
       options.repoRoot,
     );
 
-    markWorkerDispatchFinished(false, listCaptureQueue(job.projectId).filter((j) => j.status === 'QUEUED').length, message);
+    markWorkerDispatchFinished(
+      false,
+      listCaptureQueue(job.projectId).filter((j) => j.status === 'QUEUED').length,
+      message,
+      options.repoRoot,
+    );
     syncRunCountsFromQueue(job.projectId, runId, options.repoRoot);
     return false;
   }
@@ -221,8 +231,8 @@ export async function dispatchCaptureWorker(input: {
   repoRoot?: string;
   captureFn?: CaptureExecutor;
 }): Promise<{ processed: number; succeeded: number; failed: number }> {
-  markWorkerOnline();
-  const health = getCaptureWorkerHealth();
+  markWorkerOnline(input.repoRoot);
+  const health = getCaptureWorkerHealth(input.repoRoot);
   if (health.status === 'OFFLINE') {
     return { processed: 0, succeeded: 0, failed: 0 };
   }

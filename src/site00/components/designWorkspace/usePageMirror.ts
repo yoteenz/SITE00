@@ -42,6 +42,8 @@ export type ProjectCaptureRefreshState = {
   preflight: CaptureRunPreflight | null;
   transportHealth: CaptureTransportHealth | null;
   transportChecking: boolean;
+  testingWorker: boolean;
+  testJobPassed: boolean;
 };
 
 function parseCaptureRunPayload(
@@ -76,6 +78,8 @@ export function usePageMirror(projectId: string) {
     preflight: null,
     transportHealth: null,
     transportChecking: false,
+    testingWorker: false,
+    testJobPassed: false,
   });
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [loading, setLoading] = useState(false);
@@ -128,12 +132,13 @@ export function usePageMirror(projectId: string) {
         ...prev,
         transportHealth: result.health,
         transportChecking: false,
+        testJobPassed: result.health.testJobPassed ?? prev.testJobPassed,
         error:
-          result.health.status === 'HEALTHY'
+          result.health.status === 'HEALTHY' && result.health.workerStatus === 'HEALTHY'
             ? prev.error && prev.errorCode?.includes('TRANSPORT') ? null : prev.error
             : result.health.errors[0] ?? 'CAPTURE_SERVICE_NOT_READY',
         errorCode:
-          result.health.status === 'HEALTHY'
+          result.health.status === 'HEALTHY' && result.health.workerStatus === 'HEALTHY'
             ? prev.errorCode && prev.errorCode.includes('API_') ? prev.errorCode : null
             : result.health.errors[0] ?? 'CAPTURE_SERVICE_NOT_READY',
       }));
@@ -207,12 +212,25 @@ export function usePageMirror(projectId: string) {
 
       if (!options?.skipTransportCheck) {
         const transport = await runTransportCheck();
-        if (!transport || transport.status !== 'HEALTHY') {
+        const workerReady =
+          transport?.workerStatus === 'HEALTHY' &&
+          transport.playwrightReady &&
+          transport.browserReady;
+        if (!transport || transport.status !== 'HEALTHY' || !workerReady) {
           setCaptureRefresh((prev) => ({
             ...prev,
             refreshing: false,
-            error: transport?.errors[0] ?? 'CAPTURE_SERVICE_NOT_READY',
-            errorCode: transport?.errors[0] ?? 'CAPTURE_SERVICE_NOT_READY',
+            error: transport?.errors[0] ?? 'WORKER_UNAVAILABLE',
+            errorCode: transport?.errors[0] ?? 'WORKER_UNAVAILABLE',
+          }));
+          return null;
+        }
+        if (!transport.testJobPassed) {
+          setCaptureRefresh((prev) => ({
+            ...prev,
+            refreshing: false,
+            error: 'WORKER_TEST_REQUIRED',
+            errorCode: 'WORKER_TEST_REQUIRED',
           }));
           return null;
         }
@@ -256,6 +274,8 @@ export function usePageMirror(projectId: string) {
           preflight: (data.preflight as CaptureRunPreflight) ?? run.preflight ?? null,
           transportHealth: prev.transportHealth,
           transportChecking: false,
+          testingWorker: prev.testingWorker,
+          testJobPassed: prev.testJobPassed,
         }));
         if (run.contractValid) startPolling();
         await refresh();
@@ -273,6 +293,37 @@ export function usePageMirror(projectId: string) {
     },
     [projectId, refresh, runTransportCheck, startPolling],
   );
+
+  const testWorker = useCallback(async () => {
+    setCaptureRefresh((prev) => ({ ...prev, testingWorker: true, error: null, errorCode: null }));
+    try {
+      const result = await captureApiFetch<{
+        testJob?: { status: string; jobId: string };
+        workerHealth?: { workerStatus?: string; testJobPassed?: boolean };
+      }>(PAGE_MIRROR_PATH, {
+        method: 'POST',
+        body: { action: 'test_worker', projectId },
+      });
+      await runTransportCheck();
+      const passed = result.data?.testJob?.status === 'COMPLETE';
+      setCaptureRefresh((prev) => ({
+        ...prev,
+        testingWorker: false,
+        testJobPassed: passed || prev.testJobPassed,
+        error: passed ? null : 'WORKER_TEST_FAILED',
+        errorCode: passed ? null : 'WORKER_TEST_FAILED',
+      }));
+      return passed;
+    } catch {
+      setCaptureRefresh((prev) => ({
+        ...prev,
+        testingWorker: false,
+        error: 'WORKER_TEST_FAILED',
+        errorCode: 'WORKER_TEST_FAILED',
+      }));
+      return false;
+    }
+  }, [projectId, runTransportCheck]);
 
   useEffect(() => {
     void runTransportCheck();
@@ -293,5 +344,6 @@ export function usePageMirror(projectId: string) {
     refreshPage,
     refreshProject,
     retryTransportCheck: runTransportCheck,
+    testWorker,
   };
 }
