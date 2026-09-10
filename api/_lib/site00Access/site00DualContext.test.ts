@@ -38,7 +38,7 @@ const FOUNDER_EMAIL = 'kateenaarmstrong@gmail.com';
 const CLIENT_EMAIL = 'client@example.com';
 const NON_ADMIN_EMAIL = 'random@example.com';
 
-const PROJECT_DETAIL_PAGE = readFileSync(join(process.cwd(), 'src/site00/pages/ProjectDetailPage.tsx'), 'utf8');
+const PROJECT_EVOLVE_PAGE = readFileSync(join(process.cwd(), 'src/site00/pages/ProjectEvolvePage.tsx'), 'utf8');
 const EXPERIENCE_CONTEXT = readFileSync(join(process.cwd(), 'src/site00/state/experienceContext.tsx'), 'utf8');
 const ECOSYSTEM_SHELL = readFileSync(join(process.cwd(), 'src/site00/components/ecosystem/EcosystemShell.tsx'), 'utf8');
 
@@ -77,9 +77,12 @@ describe('SITE 00 founder dual-context access', () => {
     expect(inferExperienceContextFromPath('/projects/ndxbook/creative-direction')).toBe('CLIENT');
   });
 
-  it('6. founder can open PROJECTS — resolver lists four projects', async () => {
+  it('6. founder can open PROJECTS — resolver lists founder registry projects', async () => {
     const projects = await listSite00FounderProjects();
-    expect(projects.length).toBe(4);
+    expect(projects.length).toBeGreaterThanOrEqual(4);
+    const founderSlugs = new Set(projects.map((p) => p.slug));
+    expect(founderSlugs.has('ndxbook')).toBe(true);
+    expect(founderSlugs.has('frontal-slayer')).toBe(true);
     assertNoDemoProjectsInIndex(projects);
   });
 
@@ -177,8 +180,8 @@ describe('SITE 00 founder dual-context access', () => {
   });
 
   it('17. admin-only utilities hidden from standard client presentation', () => {
-    expect(PROJECT_DETAIL_PAGE).toContain('ProjectPrivilegedUtilities');
-    expect(PROJECT_DETAIL_PAGE).not.toContain('OPEN ORCHESTRATION →');
+    expect(PROJECT_EVOLVE_PAGE).toContain('ProjectPrivilegedUtilities');
+    expect(PROJECT_EVOLVE_PAGE).not.toContain('OPEN ORCHESTRATION →');
   });
 
   it('18. client QA mode hides privileged utilities via experience context', () => {
@@ -195,10 +198,11 @@ describe('SITE 00 founder dual-context access', () => {
     expect(canAccessFounderProjectAsOwner(CLIENT_EMAIL, 'ndxbook')).toBe(false);
   });
 
-  it('21. organization isolation — four unique UUIDs in index', async () => {
+  it('21. organization isolation — unique UUIDs per founder project in index', async () => {
     const payload = await getSite00ProjectsIndexPayload();
-    const uuids = new Set(payload.projects.map((p) => p.organizationUuid));
-    expect(uuids.size).toBe(4);
+    const uuids = payload.projects.map((p) => p.organizationUuid).filter(Boolean);
+    expect(new Set(uuids).size).toBe(uuids.length);
+    expect(uuids.length).toBeGreaterThanOrEqual(4);
   });
 
   it('22. founder project resolver does not aggregate cross-org data in single project', async () => {

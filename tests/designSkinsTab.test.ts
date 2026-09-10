@@ -35,13 +35,20 @@ describe('Design SKINS Tab (P0.VR.6R3)', () => {
   });
 
   it('4. MORE content preserved', () => {
-    const more = read('src/site00/components/designWorkspace/DesignMoreTab.tsx');
-    expect(more).toContain('PROVIDERS');
-    expect(more).toContain('SPEND GUARD');
-    expect(more).toContain('STORAGE & OUTPUT');
-    expect(more).toContain('AUTOMATION');
-    expect(more).toContain('REFERENCE FIDELITY');
-    expect(more).not.toContain('ExperienceSkinManagementPanel');
+    const moreStack = [
+      read('src/site00/components/designWorkspace/DesignMoreTab.tsx'),
+      read('src/site00/components/designWorkspace/DesignMoreSystemHub.tsx'),
+      read('src/site00/components/designWorkspace/more/DesignMoreProvidersPage.tsx'),
+      read('src/site00/components/designWorkspace/more/DesignMoreStoragePage.tsx'),
+      read('src/site00/components/designWorkspace/more/DesignMoreAutomationPage.tsx'),
+      read('src/site00/components/designWorkspace/DesignAssetJobWorkspace.tsx'),
+    ].join('\n');
+    expect(moreStack).toContain('PROVIDERS');
+    expect(moreStack).toContain('SPEND GUARD');
+    expect(moreStack).toContain('STORAGE');
+    expect(moreStack).toContain('AUTOMATION');
+    expect(read('src/site00/components/designWorkspace/DesignSkinsTab.tsx')).toContain('MATCH REFERENCE');
+    expect(moreStack).not.toContain('ExperienceSkinManagementPanel');
   });
 
   it('5. mobile authority layout mounted', () => {

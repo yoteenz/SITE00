@@ -96,15 +96,16 @@ beforeEach(() => {
 
 describe('Visual development gate sprint', () => {
   it('1. Projects index uses B5.9R2 approved reference-fidelity presentation', () => {
-    expect(PROJECT_INDEX_PAGE).toContain('PROJECT INDEX');
-    expect(PROJECT_INDEX_PAGE).toContain('site00-project-index-list');
+    expect(PROJECT_INDEX_PAGE).toContain('ProjectIndexPage');
+    expect(PROJECT_INDEX_PAGE).toContain('site00-pidx-grid');
     expect(PROJECT_INDEX_PAGE).not.toContain('ACTIVE PRODUCTION FLOOR');
     expect(PROJECTS_PAGE).toContain('ProjectIndexPage');
   });
 
-  it('2. Live NDXBOOK Project Home not visually redesigned before approval', () => {
-    expect(PROJECT_DETAIL).toContain('site00-project-command');
-    expect(PROJECT_DETAIL).not.toContain('Site00ProjectWorkspace');
+  it('2. Legacy project detail route redirects to overview module (B5.9R1)', () => {
+    expect(PROJECT_DETAIL).toContain('Navigate');
+    expect(PROJECT_DETAIL).toContain("projectModulePath(projectSlug, 'OVERVIEW')");
+    expect(PROJECT_DETAIL).not.toContain('site00-project-command__grid');
   });
 
   it('3. Premature presentation restored; methodology infrastructure remains', () => {

@@ -283,10 +283,15 @@ export async function bootstrapB49R4VisualAuthorityBindingRecovery(options?: {
   let finalCinematicStoryboard = getFinalCinematicStoryboardRecord();
   const storedJudgment = resolveFinalStoryboardFounderJudgment();
 
+  const deterministicReelStoryboardTest =
+    process.env.EXPRESSION_ENGINE_TEST_DETERMINISTIC_REEL_STORYBOARD === '1' ||
+    process.env.EXPRESSION_ENGINE_TEST_DETERMINISTIC_STORYBOARD === '1';
+
   const shouldAttemptGeneration =
-    options?.explicitFounderAction === true &&
-    options?.dispatchFal === true &&
-    options?.skipGeneration !== true;
+    options?.skipGeneration !== true &&
+    ((options?.explicitFounderAction === true && options?.dispatchFal === true) ||
+      (deterministicReelStoryboardTest &&
+        (!finalCinematicStoryboard || options?.forceDispatch === true)));
 
   if (shouldAttemptGeneration) {
     const guard = evaluateStoryboardGenerationGuard({
@@ -304,12 +309,16 @@ export async function bootstrapB49R4VisualAuthorityBindingRecovery(options?: {
 
     beginStoryboardGenerationAttempt();
 
+    const dispatchFal =
+      options?.dispatchFal === true ||
+      (options?.explicitFounderAction === true && options?.dispatchFal !== false);
+
     reelArtifact = await dispatchReelFirstStoryboardArtifact({
       conception: reelVisualConception,
       brief,
       visualAuthorityManifest,
       narrativeBeatCount: panelManifest.length,
-      dispatchFal: true,
+      dispatchFal,
       forceDispatch: options?.forceDispatch,
       skipAuthorityImageBinding: options?.skipAuthorityImageBinding,
     });

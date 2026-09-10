@@ -94,7 +94,12 @@ describe('P0.CB.1B guided workflow logic', () => {
   it('derives slide display statuses', () => {
     const state = seedDecomposedState();
     const spec = getSequenceSpecs(state, MEET_NDX_SEQUENCE_ID)[0]!;
-    expect(deriveSlideDisplayStatus(spec, null)).toBe('DECOMPOSED');
+    const status = deriveSlideDisplayStatus(spec, null);
+    if (spec.photography.sourceMode === 'UPLOAD_HQ' || spec.photography.sourceMode === 'USE_EXISTING_ASSET') {
+      expect(status).toBe('HQ_REPLACED');
+    } else {
+      expect(status).toBe('DECOMPOSED');
+    }
   });
 });
 

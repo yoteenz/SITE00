@@ -85,7 +85,7 @@ export function opportunityToEditorialLead(
   const headline = cf?.spokenPremise ?? opp.subject;
   const meta =
     cf?.firstPersonPremise.topicMetadata.join(' · ') ??
-    opp.domains.join(' · ');
+    (opp.domains?.length ? opp.domains.join(' · ') : 'Editorial');
   return {
     id: opp.id,
     headline,
