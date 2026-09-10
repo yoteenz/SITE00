@@ -767,6 +767,7 @@ export function StudioWorldDesignWorkspace({
         {primaryTab === 'PAGES' && designProjectContext.isReady ? (
           <DesignPagesWizard
             key={`pages-${activeDesignProjectId}`}
+            projectId={activeDesignProjectId}
             rows={designProjectContext.filterForActiveProject(
               pageIndexRows.map((row) => ({ ...row, projectId: activeDesignProjectId })),
             )}

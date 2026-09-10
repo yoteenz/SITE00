@@ -95,7 +95,7 @@ function buildHostBoundary(mode: ExperienceMode): ParentExperienceAuthority['hos
     hostLockedRegions: ['GLOBAL_NAV', 'NOTIFICATION_BELL', 'PROJECT_MENU', 'AUTH_SESSION'],
     parentControlledRegions: ['PAGE_BACKGROUND', 'SECTION_FRAME', 'TYPOGRAPHY_SCALE', 'ACCENT_SYSTEM'],
     childFunctionalRegions:
-      mode === 'EDITOR' || mode === 'WIZARD'
+      mode === 'WIZARD'
         ? ['WORKSPACE_CANVAS', 'TOOLBAR', 'DATA_BINDINGS']
         : ['DATA_TABLE', 'FORM_FIELDS', 'ACTION_BAR'],
   };

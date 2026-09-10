@@ -128,7 +128,7 @@ describe('P0.VR.8R3R5R1 — Wizard workspace', () => {
   it('17. route audit moved to more', () => {
     const workspace = read('src/site00/components/founderWorkspace/StudioWorldDesignWorkspace.tsx');
     expect(workspace).not.toContain('DesignRouteAuditRecoveryInspector');
-    expect(read('src/site00/components/designWorkspace/DesignMoreTab.tsx')).toContain('DesignRouteAuditRecoveryInspector');
+    expect(read('src/site00/components/designWorkspace/DesignMoreTab.tsx')).toContain('DesignMoreRouteAuditPage');
   });
 
   it('18. mobile drawer', () => {

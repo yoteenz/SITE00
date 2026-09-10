@@ -44,8 +44,9 @@ export function resolveExperienceParent(input: {
   const edge = input.graph.edges.find((e) => e.to === input.childNodeId);
   const relationshipType = edge?.relationshipType ?? null;
 
-  if (node.metadata?.designAuthorityParent as string | undefined) {
-    const parentRoute = node.metadata.designAuthorityParent as string;
+  const designAuthorityParent = node.metadata?.designAuthorityParent as string | undefined;
+  if (designAuthorityParent) {
+    const parentRoute = designAuthorityParent;
     return {
       childNodeId: node.nodeId,
       childRoute: node.route,

@@ -8,6 +8,7 @@ import { resolveFounderCaptureWorkflowStage } from '../p0vr8r3/captureFounderGui
 export const P0_VR_8R3R5R1_BUILD = 'v264' as const;
 
 export const PAGES_WIZARD_STEPS = [
+  'family',
   'landing',
   'service-check',
   'test-worker',
@@ -68,9 +69,9 @@ export const PAGES_CAPTURE_FLOW_STEPS: PagesWizardStep[] = [
 ];
 
 export function normalizePagesWizardStep(raw: string | undefined | null): PagesWizardStep {
-  const key = (raw ?? 'landing').toLowerCase();
+  const key = (raw ?? 'family').toLowerCase();
   if (PAGES_WIZARD_STEPS.includes(key as PagesWizardStep)) return key as PagesWizardStep;
-  return 'landing';
+  return 'family';
 }
 
 export function normalizeAssetsWizardStep(raw: string | undefined | null): AssetsWizardStep {
@@ -101,6 +102,7 @@ export function pagesWizardStepIndex(step: PagesWizardStep): number | null {
 
 export function pagesWizardStepTitle(step: PagesWizardStep): string {
   const titles: Record<PagesWizardStep, string> = {
+    family: 'PAGE FAMILY',
     landing: 'PAGE CAPTURE',
     'service-check': 'SERVICE CHECK',
     'test-worker': 'TEST WORKER',
@@ -122,7 +124,7 @@ export function resolvePagesWizardResumeStep(
   },
 ): PagesWizardStep {
   const explicit = urlStep ? normalizePagesWizardStep(urlStep) : null;
-  if (explicit && explicit !== 'landing') return explicit;
+  if (explicit && explicit !== 'landing' && explicit !== 'family') return explicit;
 
   const run = input.run;
   const runActive =
@@ -150,7 +152,7 @@ export function resolvePagesWizardResumeStep(
     case 'REVIEW_RESULTS':
       return 'capture-results';
     default:
-      return 'landing';
+      return 'family';
   }
 }
 
