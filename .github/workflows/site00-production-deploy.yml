@@ -45,6 +45,9 @@ jobs:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
           VITE_API_BASE: ${{ secrets.VITE_API_BASE }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL || secrets.VITE_SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || secrets.VITE_SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           GODADDY_FTP_HOST: ${{ secrets.GODADDY_FTP_HOST }}
           GODADDY_FTP_USERNAME: ${{ secrets.GODADDY_FTP_USERNAME }}
           GODADDY_FTP_PASSWORD: ${{ secrets.GODADDY_FTP_PASSWORD }}
@@ -58,7 +61,15 @@ jobs:
           test -f package-lock.json || { echo "::error::package-lock.json missing"; exit 1; }
           test -f shared/site00-release-engine/constants.ts || { echo "::error::release engine missing"; exit 1; }
           if [ -z "$VITE_SUPABASE_URL" ] || [ -z "$VITE_SUPABASE_ANON_KEY" ] || [ -z "$VITE_API_BASE" ]; then
-            echo "::error::Missing VITE_* build secrets"
+            echo "::error::Missing VITE_* build secrets (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, VITE_API_BASE)"
+            exit 1
+          fi
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "::error::Missing Supabase URL/anon for CI tests — set SUPABASE_URL or reuse VITE_SUPABASE_URL secret"
+            exit 1
+          fi
+          if [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "::error::Missing SUPABASE_SERVICE_ROLE_KEY — Supabase dashboard → Project Settings → API → service_role (required for npm test in CI)"
             exit 1
           fi
           echo "Validation PASS"
@@ -81,13 +92,23 @@ jobs:
   test:
     needs: validate
     runs-on: ubuntu-latest
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL || secrets.VITE_SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || secrets.VITE_SUPABASE_ANON_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+      VITE_API_BASE: ${{ secrets.VITE_API_BASE }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: npm
-      - run: npm ci
+      - name: Install dependencies + Playwright Chromium
+        env:
+          INSTALL_PLAYWRIGHT: '1'
+        run: npm ci
       - name: Run tests
         run: npm test
 

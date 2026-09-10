@@ -223,6 +223,13 @@ describe('P0.DEPLOY.1 — Release pipeline', () => {
     expect(wf).toContain('verify_backend');
   });
 
+  it('22b. CI test job supplies Supabase env + Playwright install', () => {
+    const wf = read('.github/workflows/site00-production-deploy.yml');
+    expect(wf).toContain('SUPABASE_SERVICE_ROLE_KEY');
+    expect(wf).toContain('INSTALL_PLAYWRIGHT');
+    expect(wf).toMatch(/SUPABASE_URL.*VITE_SUPABASE_URL|VITE_SUPABASE_URL.*SUPABASE_URL/);
+  });
+
   it('23. legacy godaddy workflow deprecated on push', () => {
     const legacy = read('.github/workflows/deploy-godaddy.yml');
     expect(legacy).toContain('DEPRECATED');
