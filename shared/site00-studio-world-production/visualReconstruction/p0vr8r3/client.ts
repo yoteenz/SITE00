@@ -25,7 +25,22 @@ export {
   type ProjectCaptureRunContract,
 } from './projectCaptureRunContract.js';
 
-export { P0_VR_8R3R1_BUILD, P0_VR_8R3R2_BUILD } from './constants.js';
+export { P0_VR_8R3R1_BUILD, P0_VR_8R3R2_BUILD, P0_VR_8R3R3_BUILD } from './constants.js';
+export {
+  buildCaptureTransportHealthResponse,
+} from './captureTransportHealth.js';
+export type {
+  CaptureTransportHealth,
+  CaptureTransportHealthResponse,
+  CaptureTransportReceipt,
+  CaptureTransportErrorCode,
+} from './captureTransportReceipt.js';
+export {
+  classifyFetchFailure,
+  classifyHttpStatus,
+  classifyResponseBody,
+  deriveTransportHealthStatus,
+} from './classifyCaptureTransportError.js';
 export {
   buildCaptureVersionReceipt,
   detectBackendVersionMismatch,
