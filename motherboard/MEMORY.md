@@ -7639,6 +7639,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+<<<<<<< HEAD
+## 2026-09-10 — P0.VR.CAPTURE.1 Page-Scoped CAPTURE NOW + Creative Upgrade
+
+- **Context:** Replace batch whole-site capture as primary workflow with page-scoped CAPTURE NOW — one page, one viewport, one job, then creative-directed upgrade.
+- **Implemented (`p0vrCapture1/`):** `CaptureCurrentPage`, `PageViewportCapture` (per viewport store), `PageCreativeUpgradeSession`, `PageCreativeDiagnosis`, `PageCreativeDirectionPlan`, `PageUpgradeNextAction`, duplicate-tap guard, RuntimeRouteResolver integration.
+- **API:** `capture_current_page` action — single page job, no project run (`singlePageJob: true`, `projectRunCreated: false`).
+- **UI:** `PageCaptureNowPanel` in Page Family Workspace (primary CTA); `PageCreativeUpgradePanel` wizard (current vs proposed, approve gate, before/after); derivative chips DESIGN · CAPTURE · WIRING; batch demoted to ADVANCED / CAPTURE MULTIPLE PAGES in wizard + MORE → CAPTURE.
+- **Hook:** `usePageMirror.captureNow(screenId, viewport)` uses current workspace viewport from `DesignWorkspaceViewportRail`.
+- **Build:** v272 (`P0_VR_CAPTURE_1_BUILD`). Tests: `visualReconstructionP0VRCapture1.test.ts` (32 pass).
+- **Next founder action:** DESIGN → NDXBOOK → PAGES → select one page → CAPTURE NOW (current viewport only) → UPGRADE THIS PAGE → approve → verify before/after → NEXT PAGE.
+=======
 ## 2026-09-10 — P0.CGO.1 Campaign World Genesis + Creative Direction Orchestration
 
 - **Context:** Strong campaign concepts die in generic execution (over-staged, product-centered, disconnected from idea). Sprint creates two layers: (1) **Campaign World Genesis** — associative reasoning → high-yield worlds; (2) **Creative Direction Orchestration** — protects concept through shot system, sequence, fidelity QA.
@@ -7653,4 +7664,5 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `campaignGenesisOrchestrationP0CGO1.test.ts` (22/22). PR **#667** merged. Build `P0_CGO_1_BUILD = v273`.
 - **Remaining gaps:** Supabase persistence for world bibles; live image-gen adapter hook; performance feedback loop.
 - **Next founder action:** `/evolve/campaign-director?mode=forensic` → verify high-yield beats weak → genesis mode → FRONTAL SLAYER → approve world → step through wizard → REVIEW must fail generic pool-table pose with specific revision.
+>>>>>>> origin/main
 

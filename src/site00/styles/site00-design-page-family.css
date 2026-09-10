@@ -619,6 +619,116 @@
   border-color: rgba(255, 180, 0, 0.35);
 }
 
+.site00-pfw-capture-now {
+  margin: 16px 0;
+  padding: 14px;
+  border: 1px solid var(--site00-dw-line);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.site00-pfw-capture-now__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.site00-pfw-capture-now__kicker {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.site00-pfw-capture-now__route {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.site00-pfw-capture-now__viewport span {
+  display: inline-block;
+  padding: 4px 8px;
+  border: 1px solid var(--site00-dw-line);
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.site00-pfw-capture-now__status {
+  margin: 10px 0;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.site00-pfw-capture-now__preview {
+  border: 1px solid var(--site00-dw-line);
+  border-radius: 6px;
+  overflow: hidden;
+  min-height: 140px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.site00-pfw-capture-now__preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.site00-pfw-capture-now__preview-empty {
+  display: grid;
+  place-items: center;
+  min-height: 140px;
+  opacity: 0.6;
+}
+
+.site00-pfw-capture-now__progress ol {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  font-size: 12px;
+}
+
+.site00-pfw-capture-now__progress li.is-active {
+  color: var(--site00-accent, #c8ff00);
+}
+
+.site00-pfw-capture-now__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.site00-pfw-capture-now__ready-copy {
+  margin-top: 8px;
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.site00-pfw-upgrade__compare {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 10px;
+  align-items: start;
+}
+
+.site00-pfw-upgrade__compare figure {
+  margin: 0;
+}
+
+.site00-pfw-upgrade__compare img {
+  width: 100%;
+  border: 1px solid var(--site00-dw-line);
+  border-radius: 6px;
+}
+
+.site00-pfw-upgrade__proposed,
+.site00-pfw-upgrade__empty {
+  min-height: 160px;
+  padding: 12px;
+  border: 1px dashed var(--site00-dw-line);
+  border-radius: 6px;
+  font-size: 12px;
+}
+
 @media (min-width: 900px) {
   .site00-pfw {
     max-width: 960px;

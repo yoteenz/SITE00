@@ -32,17 +32,32 @@ import { summarizeNavigationDetection } from '../../../../../shared/site00-studi
 import { resolveWorkflowAction } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyWorkflow.js';
 import type { CaptureServiceInput } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyDependencyPolicy.js';
 import type { PageFamilyRowInput } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/types.js';
+import type { DesignViewportClass } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/types.js';
+import {
+  getPageViewportCapture,
+  openPageCreativeUpgradeSession,
+  getPageCreativeUpgradeSession,
+  approvePageCreativeDirection,
+  attachAfterCaptureToSession,
+} from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/index.js';
 import { CaptureServiceStatusChip } from './CaptureServiceStatusChip';
 import { FamilyReadinessDimensions } from './FamilyReadinessDimensions';
+import { PageCaptureNowPanel } from './PageCaptureNowPanel';
+import { PageCreativeUpgradePanel } from './PageCreativeUpgradePanel';
 
 export type PageFamilyWorkspaceProps = {
   projectId: string;
   projectName?: string;
   rows: PageVisualIndexRow[];
+  viewport?: DesignViewportClass;
   onOpenPage?: (screenId: string) => void;
   onSelectScreen: (screenId: string) => void;
   onOpenLibrary?: () => void;
   onOpenCaptureService?: () => void;
+  onCaptureNow?: (screenId: string, viewport: DesignViewportClass) => void;
+  capturingPageId?: string | null;
+  captureNowProgress?: string | null;
+  captureNowError?: string | null;
   captureService?: CaptureServiceInput;
   pageCompletionPct?: number | null;
   pageCompletionAttention?: number;
@@ -72,6 +87,11 @@ export function PageFamilyWorkspace({
   onSelectScreen,
   onOpenLibrary,
   onOpenCaptureService,
+  onCaptureNow,
+  viewport = 'mobile',
+  capturingPageId,
+  captureNowProgress,
+  captureNowError,
   captureService,
   pageCompletionPct,
   pageCompletionAttention,
@@ -83,6 +103,7 @@ export function PageFamilyWorkspace({
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [detecting, setDetecting] = useState(true);
   const [viewMode, setViewMode] = useState<'family' | 'library'>('family');
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
 
   const rowInputs = useMemo(() => rows.map(toRowInput), [rows]);
   const progress = useMemo(() => buildProjectProgressSummary(rowInputs, projectId), [rowInputs, projectId]);
@@ -111,6 +132,15 @@ export function PageFamilyWorkspace({
   const prevSibling = siblingIndex > 0 ? siblings[siblingIndex - 1] : null;
   const nextSibling = siblingIndex >= 0 && siblingIndex < siblings.length - 1 ? siblings[siblingIndex + 1] : null;
   const parentNode = family.nodes.find((n) => n.level === 0);
+  const activeRow = rows.find((r) => r.screenId === activeNode?.screenId);
+  const activePageId = activeRow?.normalizedRoute
+    ? `${projectId}:${activeRow.normalizedRoute}`
+    : activeNode?.screenId
+      ? `${projectId}:${activeNode.screenId}`
+      : '';
+  const viewportCapture = activePageId ? getPageViewportCapture(projectId, activePageId, viewport) : null;
+  const upgradeSession = activePageId ? getPageCreativeUpgradeSession(projectId, activePageId, viewport) : null;
+  const isCapturingActive = Boolean(activePageId && capturingPageId === activePageId);
 
   useEffect(() => {
     const saved = getSavedSelectedNode(family.familyId);
@@ -294,6 +324,40 @@ export function PageFamilyWorkspace({
         onToggleExpand={() => setMapExpanded((v) => !v)}
       />
 
+      {activeNode && activeNode.screenId && activePageId ? (
+        <PageCaptureNowPanel
+          projectId={projectId}
+          pageId={activePageId}
+          screenId={activeNode.screenId}
+          route={activeNode.route}
+          displayName={activeNode.route.split('/').pop()?.replace(/-/g, ' ') ?? activeNode.route}
+          viewport={viewport}
+          captureService={captureService}
+          capturing={isCapturingActive}
+          captureProgress={captureNowProgress}
+          screenshotUrl={viewportCapture?.imageRef ?? activeNode.previewUrl ?? null}
+          captureError={captureNowError ?? null}
+          onCaptureNow={() => onCaptureNow?.(activeNode.screenId!, viewport)}
+          onUpgradePage={() => {
+            if (!viewportCapture?.captureId) return;
+            openPageCreativeUpgradeSession({
+              projectId,
+              pageId: activePageId,
+              viewport,
+              captureId: viewportCapture.captureId,
+              parentAuthorityId: parentNode?.nodeId ?? null,
+              childArchetype: activeNode.archetype,
+              pagePurpose: activeNode.route,
+              parentAuthorityLabel: parentNode?.route ?? 'Parent landing',
+              route: activeNode.route,
+              isChildPage: activeNode.level > 0,
+            });
+            setUpgradeOpen(true);
+          }}
+          onViewDetails={() => setDetailsOpen(true)}
+        />
+      ) : null}
+
       {activeNode && activeNode.level > 0 ? (
         <DerivativeReviewCarousel
           active={activeNode}
@@ -333,7 +397,7 @@ export function PageFamilyWorkspace({
       <div className="site00-pfw__secondary-actions">
         {onOpenCaptureService ? (
           <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact" onClick={onOpenCaptureService}>
-            SET UP CAPTURE
+            ADVANCED CAPTURE
           </button>
         ) : null}
         {activeNode?.screenId && onOpenPage ? (
@@ -351,6 +415,27 @@ export function PageFamilyWorkspace({
           </button>
         ) : null}
       </div>
+
+      {upgradeOpen && upgradeSession ? (
+        <PageCreativeUpgradePanel
+          session={upgradeSession}
+          currentScreenshot={viewportCapture?.imageRef ?? activeNode?.previewUrl ?? null}
+          proposedLabel={`CREATIVE-DIRECTED ${activeNode?.route.toUpperCase() ?? 'PAGE'}`}
+          onApprove={() => {
+            approvePageCreativeDirection(projectId, activePageId, viewport);
+            setUpgradeOpen(false);
+          }}
+          onRevise={() => setUpgradeOpen(false)}
+          onBack={() => setUpgradeOpen(false)}
+          onVerify={() => {
+            onCaptureNow?.(activeNode!.screenId!, viewport);
+            if (viewportCapture?.captureId) {
+              attachAfterCaptureToSession(projectId, activePageId, viewport, viewportCapture.captureId);
+            }
+          }}
+          afterScreenshot={upgradeSession.afterCaptureId ? viewportCapture?.imageRef ?? null : null}
+        />
+      ) : null}
 
       <DesignDetailsDrawer open={detailsOpen} title="PAGE FAMILY DETAILS" onClose={() => setDetailsOpen(false)}>
         {detailsContent}
