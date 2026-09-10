@@ -28,10 +28,14 @@ import {
   resolvePagesWizardResumeStep,
   type PagesWizardStep,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3r1/designWizardSteps.js';
+import {
+  captureSubflowReturnStep,
+  DEFAULT_PAGES_WIZARD_STEP,
+  shouldAutoAdvanceCaptureRunning,
+} from '../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pagesWorkspaceController.js';
+import type { CaptureServiceInput } from '../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyDependencyPolicy.js';
 
 type ProjectPageRegistrySyncState = 'NEVER_SYNCED' | 'SYNC_REQUIRED' | 'SYNCED' | 'RECOVERING';
-
-const PAGES_CAPTURE_FLOW = ['service-check', 'test-worker', 'test-worker-ready', 'capture-setup', 'capture-running', 'capture-results'];
 
 export type DesignPagesWizardProps = {
   projectId: string;
@@ -170,7 +174,7 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
   const [filter, setFilter] = useState('ALL');
   const [search, setSearch] = useState('');
   const [compareMode, setCompareMode] = useState<'live' | 'reference' | 'compare'>('live');
-  const [localStep, setLocalStep] = useState<PagesWizardStep>('landing');
+  const [localStep, setLocalStep] = useState<PagesWizardStep>(DEFAULT_PAGES_WIZARD_STEP);
   const prevTestPassedRef = useRef(false);
 
   const summary = captureRefresh?.captureSummary;
@@ -181,8 +185,9 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
   const run = captureRefresh?.run ?? null;
   const isRefreshing = captureRefresh?.refreshing ?? false;
   const transport = captureRefresh?.transportHealth ?? null;
-  const runActive =
-    isRefreshing || (run?.contractValid && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status));
+  const runActive = Boolean(
+    isRefreshing || (run?.contractValid && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status)),
+  );
 
   const guidanceInput = useMemo(
     () => ({
@@ -242,8 +247,18 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
     prevTestPassedRef.current = guidanceInput.testJobPassed;
   }, [guidanceInput.testJobPassed, activeStep, goTo]);
 
+  const captureServiceInput = useMemo<CaptureServiceInput>(
+    () => ({
+      apiConnected: transport?.apiReachable ?? false,
+      workerHealthy: transport?.workerStatus === 'HEALTHY' && Boolean(transport?.playwrightReady && transport?.browserReady),
+      browserReady: transport?.browserReady ?? false,
+      contractValid: transport?.contractCompatible ?? false,
+    }),
+    [transport],
+  );
+
   useEffect(() => {
-    if (runActive && activeStep !== 'capture-running' && PAGES_CAPTURE_FLOW.includes(activeStep)) {
+    if (shouldAutoAdvanceCaptureRunning(activeStep, runActive)) {
       goTo('capture-running');
     }
     if (
@@ -273,8 +288,6 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
   const progressDone = run ? run.completedCount + run.failedCount : 0;
   const progressTotal = run?.totalTargets ?? totalPages;
   const progressPct = progressTotal > 0 ? Math.round((progressDone / progressTotal) * 100) : 0;
-  const notCapturedYet = neverCapturedCount === totalPages && currentCount === 0;
-
   const pageCompletionPct = useMemo(() => {
     if (!pageCompletionJob?.completionPlan.interactionContracts.length) return null;
     const resolved = pageCompletionJob.completionPlan.interactionContracts.filter(
@@ -336,7 +349,8 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
           onSelectScreen={onSelectScreen}
           onOpenPage={onOpenPage}
           onOpenLibrary={() => goTo('library')}
-          onStartCapture={() => goTo('service-check')}
+          onOpenCaptureService={() => goTo('service-check')}
+          captureService={captureServiceInput}
           pageCompletionPct={pageCompletionPct}
           pageCompletionAttention={pageCompletionAttention ?? 0}
         />
@@ -344,22 +358,17 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
 
     case 'landing':
       return (
-        <DesignTaskWizardShell
-          stepTitle={pagesWizardStepTitle('landing')}
-          headline={`${projectName.toUpperCase()} PAGE CAPTURE`}
-          support={`${totalPages} pages found`}
-          statusLabel={notCapturedYet ? 'NOT CAPTURED YET' : `${currentCount} CURRENT · ${failedCount} NEED REVIEW`}
-          visualState={notCapturedYet ? 'attention' : currentCount > 0 ? 'success' : 'ready'}
-          primaryAction={{
-            label: 'START CAPTURE SETUP',
-            onClick: () => goTo('service-check'),
-          }}
-          secondaryAction={{
-            label: 'VIEW PAGES',
-            onClick: () => goTo('library'),
-          }}
-          transitionKey="landing"
-          className="site00-dw-wizard-host"
+        <PageFamilyWorkspace
+          projectId={projectId}
+          projectName={projectName}
+          rows={rows}
+          onSelectScreen={onSelectScreen}
+          onOpenPage={onOpenPage}
+          onOpenLibrary={() => goTo('library')}
+          onOpenCaptureService={() => goTo('service-check')}
+          captureService={captureServiceInput}
+          pageCompletionPct={pageCompletionPct}
+          pageCompletionAttention={pageCompletionAttention ?? 0}
         />
       );
 
@@ -379,7 +388,7 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
             disabled: captureRefresh?.transportChecking,
           }}
           detailsContent={<TransportDetails transport={transport} run={run} />}
-          onBack={() => goTo('landing')}
+          onBack={() => goTo(captureSubflowReturnStep())}
           transitionKey="service-check"
           className="site00-dw-wizard-host"
         />
@@ -415,9 +424,12 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
                 }
               : null
           }
-          secondaryAction={guidance.secondaryLabel ? { label: guidance.secondaryLabel, onClick: () => undefined } : undefined}
+          secondaryAction={{
+            label: guidanceInput.testWorkerFailed ? 'BACK TO PAGE FAMILY' : (guidance.secondaryLabel ?? 'BACK TO PAGE FAMILY'),
+            onClick: () => goTo(captureSubflowReturnStep()),
+          }}
           detailsContent={<TransportDetails transport={transport} run={run} />}
-          onBack={() => goTo('service-check')}
+          onBack={() => goTo(captureSubflowReturnStep())}
           transitionKey="test-worker"
           className="site00-dw-wizard-host"
         />

@@ -3,7 +3,7 @@
  */
 
 import type { CaptureFounderGuidanceInput } from '../p0vr8r3/captureFounderGuidance.js';
-import { resolveFounderCaptureWorkflowStage } from '../p0vr8r3/captureFounderGuidance.js';
+import { resolveDefaultPagesStep } from '../../pageFamilyWorkspace/pagesWorkspaceController.js';
 
 export const P0_VR_8R3R5R1_BUILD = 'v264' as const;
 
@@ -123,37 +123,7 @@ export function resolvePagesWizardResumeStep(
     testWorkerJustPassed?: boolean;
   },
 ): PagesWizardStep {
-  const explicit = urlStep ? normalizePagesWizardStep(urlStep) : null;
-  if (explicit && explicit !== 'landing' && explicit !== 'family') return explicit;
-
-  const run = input.run;
-  const runActive =
-    input.isRefreshing ||
-    (run?.contractValid && ['PLANNING', 'QUEUING', 'CAPTURING'].includes(run.status));
-  const runDone =
-    run?.contractValid &&
-    run.totalTargets > 0 &&
-    ['COMPLETE', 'PARTIAL', 'FAILED'].includes(run.status);
-
-  if (runActive) return 'capture-running';
-  if (runDone) return 'capture-results';
-  if (input.testWorkerJustPassed || (input.testJobPassed && !runDone && !runActive)) {
-    return input.testingWorker ? 'test-worker' : 'capture-setup';
-  }
-
-  const stage = resolveFounderCaptureWorkflowStage(input);
-  switch (stage) {
-    case 'SERVICE_CHECK':
-      return 'service-check';
-    case 'TEST_WORKER':
-      return input.testingWorker ? 'test-worker' : 'test-worker';
-    case 'CAPTURE_PROJECT':
-      return 'capture-setup';
-    case 'REVIEW_RESULTS':
-      return 'capture-results';
-    default:
-      return 'family';
-  }
+  return resolveDefaultPagesStep(urlStep, input);
 }
 
 export function assetsWizardStepLabel(step: AssetsWizardStep): string {

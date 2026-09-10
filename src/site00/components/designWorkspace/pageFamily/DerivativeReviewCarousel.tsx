@@ -14,9 +14,18 @@ type Props = {
   onPrev: () => void;
   onNext: () => void;
   onEnterSubfamily?: () => void;
+  liveCaptureUnavailable?: boolean;
 };
 
-function PreviewFrame({ node, dimmed }: { node: PageFamilyNode; dimmed?: boolean }) {
+function PreviewFrame({
+  node,
+  dimmed,
+  liveCaptureUnavailable,
+}: {
+  node: PageFamilyNode;
+  dimmed?: boolean;
+  liveCaptureUnavailable?: boolean;
+}) {
   return (
     <article className={`site00-pfw-derivative__frame${dimmed ? ' is-dimmed' : ''}`}>
       <div className="site00-pfw-derivative__preview">
@@ -27,7 +36,13 @@ function PreviewFrame({ node, dimmed }: { node: PageFamilyNode; dimmed?: boolean
         ) : (
           <div className="site00-pfw-derivative__empty">
             <span aria-hidden>▢</span>
-            <small>{node.captureStatus === 'CAPTURE_PENDING' ? 'NEEDS CAPTURE' : 'NO PREVIEW'}</small>
+            <small>
+              {liveCaptureUnavailable
+                ? 'LIVE CAPTURE UNAVAILABLE'
+                : node.captureStatus === 'CAPTURE_PENDING'
+                  ? 'LIVE CAPTURE PENDING'
+                  : 'NO PREVIEW'}
+            </small>
           </div>
         )}
       </div>
@@ -37,7 +52,11 @@ function PreviewFrame({ node, dimmed }: { node: PageFamilyNode; dimmed?: boolean
         <ul className="site00-pfw-derivative__status-list">
           <li className="is-ready">Structure inherited</li>
           <li className={node.captureStatus === 'CURRENT' ? 'is-ready' : 'is-attention'}>
-            {node.captureStatus === 'CURRENT' ? 'Live capture current' : 'Needs live capture'}
+            {node.captureStatus === 'CURRENT'
+              ? 'Live capture current'
+              : liveCaptureUnavailable
+                ? 'Live capture unavailable'
+                : 'Live capture pending'}
           </li>
           <li className={node.linkageStatus === 'WIRED' ? 'is-ready' : 'is-neutral'}>
             {node.linkageStatus === 'WIRED' ? 'Wiring confirmed' : 'Wiring pending'}
@@ -57,6 +76,7 @@ export function DerivativeReviewCarousel({
   onPrev,
   onNext,
   onEnterSubfamily,
+  liveCaptureUnavailable,
 }: Props) {
   const touchStartX = useRef<number | null>(null);
 
@@ -89,9 +109,17 @@ export function DerivativeReviewCarousel({
         </div>
       </header>
       <div className="site00-pfw-derivative__carousel" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-        {prev ? <PreviewFrame node={prev} dimmed /> : <div className="site00-pfw-derivative__spacer" aria-hidden />}
-        <PreviewFrame node={active} />
-        {next ? <PreviewFrame node={next} dimmed /> : <div className="site00-pfw-derivative__spacer" aria-hidden />}
+        {prev ? (
+          <PreviewFrame node={prev} dimmed liveCaptureUnavailable={liveCaptureUnavailable} />
+        ) : (
+          <div className="site00-pfw-derivative__spacer" aria-hidden />
+        )}
+        <PreviewFrame node={active} liveCaptureUnavailable={liveCaptureUnavailable} />
+        {next ? (
+          <PreviewFrame node={next} dimmed liveCaptureUnavailable={liveCaptureUnavailable} />
+        ) : (
+          <div className="site00-pfw-derivative__spacer" aria-hidden />
+        )}
       </div>
       {active.childCount > 0 && onEnterSubfamily ? (
         <button type="button" className="site00-pfw-derivative__subfamily" onClick={onEnterSubfamily}>

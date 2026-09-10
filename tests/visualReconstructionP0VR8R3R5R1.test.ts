@@ -65,9 +65,9 @@ describe('P0.VR.8R3R5R1 — Wizard workspace', () => {
     expect(drawer).toContain('site00-dw-wizard-drawer');
   });
 
-  it('5. pages landing screen', () => {
-    expect(read('src/site00/components/designWorkspace/DesignPagesWizard.tsx')).toContain('START CAPTURE SETUP');
-    expect(read('src/site00/components/designWorkspace/DesignPagesWizard.tsx')).toContain('VIEW PAGES');
+  it('5. pages default to family workspace not capture landing', () => {
+    expect(read('src/site00/components/designWorkspace/DesignPagesWizard.tsx')).toContain('DEFAULT_PAGES_WIZARD_STEP');
+    expect(read('src/site00/components/designWorkspace/DesignPagesWizard.tsx')).toContain('PageFamilyWorkspace');
   });
 
   it('6. service check step', () => {
