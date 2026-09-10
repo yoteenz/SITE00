@@ -133,7 +133,11 @@ describe('P0.DEPLOY.1 — Release pipeline', () => {
   });
 
   it('12. cpanel strategy prefers SSH when configured', () => {
-    const ssh = resolveCpanelDeployStrategy({ GODADDY_SSH_HOST: 'h', GODADDY_SSH_USER: 'u' });
+    const ssh = resolveCpanelDeployStrategy({
+      GODADDY_SSH_HOST: 'h',
+      GODADDY_SSH_USER: 'u',
+      GODADDY_SSH_PRIVATE_KEY: 'k',
+    });
     expect(ssh.strategy).toBe('github_actions_ssh_rsync');
     expect(ssh.staleAssetCleanup).toBe(true);
   });
@@ -258,6 +262,13 @@ describe('P0.DEPLOY.1 — Release pipeline', () => {
       deployBlock.indexOf('actions/checkout@v4') < sshStep;
     expect(checkoutBeforeSsh).toBe(true);
     expect(deployBlock).toContain('bash scripts/site00-cpanel-deploy.sh dist');
+  });
+
+  it('22d. cPanel method resolver prefers SSH when fully configured', () => {
+    expect(read('scripts/site00-resolve-cpanel-deploy-method.sh')).toContain('GODADDY_SSH_PRIVATE_KEY');
+    const wf = read('.github/workflows/site00-production-deploy.yml');
+    expect(wf).toContain('site00-resolve-cpanel-deploy-method.sh');
+    expect(wf).toContain('cpanel_method');
   });
 
   it('23. legacy godaddy workflow deprecated on push', () => {
