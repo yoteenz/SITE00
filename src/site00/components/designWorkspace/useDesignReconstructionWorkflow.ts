@@ -17,6 +17,7 @@ import {
   closeWorkflowView,
   markCandidateGenerationComplete,
   openWorkflowView,
+  resumeGuidedWorkflowState,
   updateCropReviewAtIndex,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/reconstructionJobOrchestrator.js';
 import type { CropReviewState } from '../../../../shared/site00-studio-world-production/visualReconstruction/referenceReconstructionIntelligence/founderCropIntelligence/types.js';
@@ -81,6 +82,7 @@ export function useDesignReconstructionWorkflow() {
 
   const openPrimaryAction = useCallback(() => {
     if (!primaryAction) return;
+    updateReconstructionWorkflow((s) => resumeGuidedWorkflowState(s));
     openAction(primaryAction.deepLink);
   }, [primaryAction, openAction]);
 

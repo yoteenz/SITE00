@@ -47,6 +47,12 @@ export function syncFounderActionsFromJob(
     const ready = batch?.ready ?? total - cropsApproved;
     const editRequired = batch?.editRequired ?? 0;
     const detected = batch?.detected ?? total;
+    const nextBrand =
+      job.candidateAssets.find((c) => c.cropStatus !== 'APPROVED')?.brandKey.replace(/_/g, ' ') ?? 'NEXT ASSET';
+    const resumeSummary =
+      cropsApproved > 0
+        ? `CONTINUE RECONSTRUCTION · ${cropsApproved} OF ${total} CROPS APPROVED · NEXT: ${nextBrand}`
+        : `${detected} ASSETS DETECTED · ${ready} READY · ${editRequired} NEED EDITS · ${cropsApproved} APPROVED · GENERATION BLOCKED`;
     actions.push(
       mkAction({
         projectId: job.projectId,
@@ -54,8 +60,8 @@ export function syncFounderActionsFromJob(
         jobId: job.jobId,
         authorityId: job.authorityId,
         actionType: 'REVIEW_CROPS',
-        title: 'CROP REVIEW REQUIRED',
-        summary: `${detected} ASSETS DETECTED · ${ready} READY · ${editRequired} NEED EDITS · ${cropsApproved} APPROVED · GENERATION BLOCKED`,
+        title: cropsApproved > 0 ? 'CONTINUE RECONSTRUCTION' : 'CROP REVIEW REQUIRED',
+        summary: resumeSummary,
         priority: 'BLOCKING',
         blocking: true,
         status: 'PENDING',
