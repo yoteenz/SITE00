@@ -10,10 +10,20 @@ export function planShotDiversity(shots: CampaignShotRole[]): {
   environmentProminenceSpread: string[];
   coverageComplete: boolean;
   missingFamilies: string[];
+  singleShotMode: boolean;
+  artificialDiversityWarning: string | null;
 } {
-  const requiredFamilies = ['WORLD', 'CLUE', 'DETAIL', 'HANDS', 'PAYOFF'];
+  const singleShotMode = shots.length === 1 && shots[0]?.role === 'SINGLE_SHOT_CONCEPT';
+  const requiredFamilies = singleShotMode
+    ? ['SINGLE_SHOT_CONCEPT']
+    : ['WORLD', 'CLUE', 'DETAIL', 'HANDS', 'PAYOFF'];
   const present = new Set(shots.map((s) => s.role));
   const missingFamilies = requiredFamilies.filter((f) => !present.has(f as CampaignShotRole['role']));
+
+  let artificialDiversityWarning: string | null = null;
+  if (!singleShotMode && shots.length >= 8 && shots.every((s) => s.requirement === 'REQUIRED')) {
+    artificialDiversityWarning = 'UNNECESSARY_SHOT_BLOAT: extra shots added without narrative purpose';
+  }
 
   return {
     cameraDistances: [...new Set(shots.map((s) => s.cameraDistance))],
@@ -21,6 +31,8 @@ export function planShotDiversity(shots: CampaignShotRole[]): {
     environmentProminenceSpread: [...new Set(shots.map((s) => s.environmentProminence))],
     coverageComplete: missingFamilies.length === 0,
     missingFamilies,
+    singleShotMode,
+    artificialDiversityWarning,
   };
 }
 

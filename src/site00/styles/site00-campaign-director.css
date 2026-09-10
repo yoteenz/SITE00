@@ -159,6 +159,95 @@
   margin: 0 0 0.35rem;
 }
 
+.site00-campaign-director__world-interaction {
+  font-size: 10px;
+  color: #444;
+  margin: 0 0 0.25rem;
+}
+
+.site00-campaign-director__world-oneline {
+  font-size: 10px;
+  color: #666;
+  margin: 0 0 0.35rem;
+  line-height: 1.35;
+}
+
+.site00-campaign-director__world-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-bottom: 0.35rem;
+}
+
+.site00-campaign-director__chip {
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  padding: 0.15rem 0.35rem;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+}
+
+.site00-campaign-director__chip--high {
+  background: #e8f5e9;
+  border-color: #a5d6a7;
+  color: #2e7d32;
+}
+
+.site00-campaign-director__chip--medium {
+  background: #fff8e1;
+  border-color: #ffe082;
+  color: #f57f17;
+}
+
+.site00-campaign-director__chip--low {
+  background: #ffebee;
+  border-color: #ef9a9a;
+  color: #c62828;
+}
+
+.site00-campaign-director__leap-trace {
+  font-size: 11px;
+  margin: 0 0 0.75rem;
+  padding-left: 1.25rem;
+}
+
+.site00-campaign-director__score-detail {
+  font-size: 10px;
+  color: #555;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+.site00-campaign-director__reduction-block {
+  margin: 0.75rem 0;
+  padding: 0.5rem 0;
+  border-top: 1px dashed #ddd;
+}
+
+.site00-campaign-director__reduction-q {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.35rem;
+}
+
+.site00-campaign-director__reduction-list {
+  font-size: 10px;
+  margin: 0.35rem 0 0;
+  padding-left: 1rem;
+}
+
+.site00-campaign-director__btn-secondary {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  margin-right: 0.35rem;
+}
+
 .site00-campaign-director__world-tags {
   display: flex;
   flex-wrap: wrap;

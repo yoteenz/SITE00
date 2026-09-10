@@ -5,6 +5,7 @@
 import type { CampaignObjective, CampaignStrategyType } from '../campaign-strategy-language/types.js';
 
 export const P0_CGO_1_BUILD = 'v273' as const;
+export { P0_CGO_2_BUILD } from './conceptualEfficiencyTypes.js';
 
 export type AssociativeDistance = 'LITERAL' | 'ADJACENT' | 'LATERAL' | 'UNEXPECTED' | 'ABSURD';
 
@@ -135,6 +136,8 @@ export type CampaignWorldCandidate = {
   risk: 'LOW' | 'MEDIUM' | 'HIGH' | 'EXPERIMENTAL';
   whyItWorks: string;
   isForensicBenchmark?: boolean;
+  /** P0.CGO.2 — interaction + efficiency enrichment */
+  efficiencyEnrichment?: import('./conceptualEfficiencyTypes.js').ConceptualEfficiencyEnrichment;
 };
 
 export type CampaignWorldBible = {
@@ -214,7 +217,8 @@ export type CampaignShotFamily =
   | 'PAYOFF'
   | 'CALLBACK'
   | 'OUTTAKE'
-  | 'TRANSITION';
+  | 'TRANSITION'
+  | 'SINGLE_SHOT_CONCEPT';
 
 export type ShotRequirement = 'REQUIRED' | 'OPTIONAL' | 'EXPERIMENTAL';
 

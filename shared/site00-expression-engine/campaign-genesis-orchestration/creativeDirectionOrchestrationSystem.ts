@@ -16,6 +16,8 @@ import { planShotDiversity, detectShotRepetitionDrift } from './shotDiversityPla
 import { buildMotifPropagationMap } from './motifPropagationMap.js';
 import { scoreLocationStoryPotential } from './locationStoryPotential.js';
 import { buildCampaignCoverageMatrix } from './campaignCoverageMatrix.js';
+import { runCreativeReductionPass } from './creativeReductionPass.js';
+import type { CampaignWorldCandidate } from './types.js';
 
 const DEFAULT_SHOT_ROLES: Array<{ role: CampaignShotFamily; purpose: string; beat: string; req: CampaignShotRole['requirement'] }> = [
   { role: 'WORLD', purpose: 'Establish campaign environment', beat: 'SET THE WORLD', req: 'REQUIRED' },
@@ -81,7 +83,33 @@ export class CreativeDirectionOrchestrationSystem {
     };
   }
 
-  buildShotSystem(world: CampaignWorldBible, _execution: CampaignExecutionBible): CampaignShotRole[] {
+  buildSingleShotSystem(world: CampaignWorldBible): CampaignShotRole[] {
+    return [
+      {
+        shotId: 'shot-single-concept-1',
+        role: 'SINGLE_SHOT_CONCEPT',
+        purpose: 'One locked frame/move serves world, behavior, product, motif, and payoff',
+        narrativeBeat: 'WORLD + BEHAVIOR + PRODUCT + PAYOFF',
+        productProminence: 'HIGH',
+        humanProminence: 'HIGH',
+        environmentProminence: 'HIGH',
+        motifsRequired: world.motifs.slice(0, 2),
+        motifsOptional: world.motifs.slice(2),
+        cameraDistance: 'MEDIUM',
+        cameraBehavior: 'Locked or single move — camera economy',
+        compositionRule: 'All story purposes in one frame',
+        behaviorRule: 'Active behavior — product visible through action',
+        avoidances: ['Extra shots for count', 'Presentation pose', 'Product centered without behavior'],
+        sequencePosition: 1,
+        requirement: 'REQUIRED',
+      },
+    ];
+  }
+
+  buildShotSystem(world: CampaignWorldBible, _execution: CampaignExecutionBible, candidate?: CampaignWorldCandidate | null): CampaignShotRole[] {
+    if (candidate?.efficiencyEnrichment?.oneShotPotential.viable) {
+      return this.buildSingleShotSystem(world);
+    }
     return DEFAULT_SHOT_ROLES.map((s, i) => ({
       shotId: `shot-${s.role.toLowerCase()}-${i + 1}`,
       role: s.role,
@@ -123,9 +151,9 @@ export class CreativeDirectionOrchestrationSystem {
     }));
   }
 
-  orchestrate(world: CampaignWorldBible) {
+  orchestrate(world: CampaignWorldBible, candidate?: CampaignWorldCandidate | null) {
     const execution = this.deriveExecutionBible(world);
-    const shots = this.buildShotSystem(world, execution);
+    const shots = this.buildShotSystem(world, execution, candidate);
     const sequence = this.buildContentSequence(shots);
     const tasks = buildCreativeTaskGraph(world, shots);
     const nextAction = resolveNextBestAction(tasks, world.approvalStage);
@@ -133,6 +161,7 @@ export class CreativeDirectionOrchestrationSystem {
     const motifs = world.motifs.map((m) => buildMotifPropagationMap(m, world));
     const location = scoreLocationStoryPotential(world.setting);
     const coverage = buildCampaignCoverageMatrix(shots);
+    const reductionPass = candidate ? runCreativeReductionPass({ candidate, shots, props: world.propSystem }) : null;
 
     return {
       execution,
@@ -144,6 +173,8 @@ export class CreativeDirectionOrchestrationSystem {
       motifs,
       location,
       coverage,
+      reductionPass,
+      highConceptLowComplexity: candidate?.efficiencyEnrichment?.conceptValueRatio.quadrant === 'HIGH_YIELD_HIGH_EFFICIENCY',
     };
   }
 

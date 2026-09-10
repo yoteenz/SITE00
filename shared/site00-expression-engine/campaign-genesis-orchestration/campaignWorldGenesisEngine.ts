@@ -15,6 +15,7 @@ import {
   buildWeakLuxuryBenchmark,
 } from './forensicBenchmark.js';
 import { compareYield } from './conceptualYieldScore.js';
+import { enrichWorldCandidates, sortByConceptValue } from './conceptualEfficiencyOrchestrator.js';
 
 export class CampaignWorldGenesisEngine {
   generateWorldCandidates(input: WorldGenesisInput): WorldGenesisResult {
@@ -32,13 +33,21 @@ export class CampaignWorldGenesisEngine {
       };
     }
 
-    const candidates = generateOriginalWorlds({
+    let candidates = generateOriginalWorlds({
       brandSlug: input.brandSlug,
       productCategory: input.productCategory,
       brandContext: input.brandContext ?? null,
     });
 
-    candidates.sort((a, b) => compareYield(a.conceptualYield, b.conceptualYield));
+    candidates = enrichWorldCandidates(candidates, input);
+    candidates = sortByConceptValue(candidates);
+    candidates.sort((a, b) => {
+      const valueDelta =
+        (b.efficiencyEnrichment?.conceptValueRatio.overall ?? 0) -
+        (a.efficiencyEnrichment?.conceptValueRatio.overall ?? 0);
+      if (Math.abs(valueDelta) > 0.05) return valueDelta;
+      return compareYield(a.conceptualYield, b.conceptualYield);
+    });
 
     const safe = candidates.find((c) => c.tier === 'SAFE') ?? candidates[0] ?? null;
     const fresh = candidates.find((c) => c.tier === 'FRESH') ?? candidates[1] ?? null;
