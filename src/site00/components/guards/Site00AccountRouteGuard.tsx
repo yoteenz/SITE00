@@ -88,7 +88,7 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
           const { data } = await promiseWithTimeout(
             supabase.auth.refreshSession(),
             AUTH_STEP_TIMEOUT_MS,
-            { data: { session: null }, error: null },
+            { data: { user: null, session: null }, error: null },
           );
           if (data?.session) session = data.session;
         } catch {

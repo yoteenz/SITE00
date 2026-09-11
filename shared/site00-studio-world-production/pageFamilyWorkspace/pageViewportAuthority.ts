@@ -8,6 +8,7 @@ import {
   getActiveImplementationCanon,
 } from '../visualReconstruction/p0vr2/canonicalReferenceRegistry.js';
 import { ensureNdxbookPilotRegistered } from '../visualReconstruction/p0vr2/ndxPilotRegistration.js';
+import { resolveAssetRenderableUrl } from '../assetDelivery/assetRenderableUrlResolver.js';
 
 export const DESIGN_AUTHORITY_STATUSES = [
   'MISSING',
@@ -29,11 +30,14 @@ export type PageViewportAuthority = {
   approvedAt: string | null;
   sourceType: 'APPROVED_REFERENCE' | 'APPROVED_CANON' | 'MAPPED_ROUTE' | 'PROPOSED' | 'NONE';
   previewUrl: string | null;
+  /** Canonical storage path before URL resolution (for delivery trace). */
+  previewAssetRef: string | null;
   previewSource: 'APPROVED_REFERENCE' | 'APPROVED_CANON' | 'REFERENCE_THUMBNAIL' | 'PLACEHOLDER' | 'NONE';
 };
 
 export type DesignAuthorityPreview = {
   previewUrl: string | null;
+  assetRef: string | null;
   previewSource: PageViewportAuthority['previewSource'];
   label: string;
 };
@@ -93,8 +97,15 @@ export function resolvePageViewportAuthority(input: {
         ? 'MAPPED_ROUTE'
         : 'NONE',
     previewUrl: preview.previewUrl,
+    previewAssetRef: preview.assetRef,
     previewSource: preview.previewSource,
   };
+}
+
+function resolveAuthorityPreviewUrl(path: string | null): string | null {
+  if (!path) return null;
+  const resolved = resolveAssetRenderableUrl(path);
+  return resolved.url;
 }
 
 export function resolveDesignAuthorityPreview(input: {
@@ -105,14 +116,16 @@ export function resolveDesignAuthorityPreview(input: {
   if (input.authorityStatus === 'APPROVED' || input.authorityStatus === 'STALE') {
     if (input.referencePath) {
       return {
-        previewUrl: input.referencePath,
+        previewUrl: resolveAuthorityPreviewUrl(input.referencePath),
+        assetRef: input.referencePath,
         previewSource: 'APPROVED_REFERENCE',
         label: 'DESIGN AUTHORITY',
       };
     }
     if (input.canonPath) {
       return {
-        previewUrl: input.canonPath,
+        previewUrl: resolveAuthorityPreviewUrl(input.canonPath),
+        assetRef: input.canonPath,
         previewSource: 'APPROVED_CANON',
         label: 'DESIGN AUTHORITY',
       };
@@ -121,7 +134,8 @@ export function resolveDesignAuthorityPreview(input: {
 
   if (input.referencePath && input.authorityStatus === 'PROPOSED') {
     return {
-      previewUrl: input.referencePath,
+      previewUrl: resolveAuthorityPreviewUrl(input.referencePath),
+      assetRef: input.referencePath,
       previewSource: 'REFERENCE_THUMBNAIL',
       label: 'PROPOSED REFERENCE',
     };
@@ -129,6 +143,7 @@ export function resolveDesignAuthorityPreview(input: {
 
   return {
     previewUrl: null,
+    assetRef: null,
     previewSource: 'PLACEHOLDER',
     label: input.authorityStatus === 'MAPPED' ? 'MAPPED — NOT APPROVED' : 'DESIGN AUTHORITY MISSING',
   };

@@ -7778,3 +7778,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder QA path:** DESIGN → NDXBOOK → PAGES → MOBILE → NDXBOOK OVERVIEW → CAPTURE NOW → after SAVING CAPTURE expect screenshot + CAPTURE READY ✓ + UPGRADE THIS PAGE; reload preserves capture (localStorage).
 - **Deploy:** GoDaddy ZIP v278 after merge; Railway unchanged unless API handler touched (minor build version bump only).
 
+---
+
+## 2026-09-11 — P0.VR.CAPTURE.1R3 image delivery + canonical asset ref resolution
+
+- **Context:** After 1R2, CAPTURE NOW reached CAPTURE READY ✓ but both LIVE CAPTURE and DESIGN AUTHORITY previews showed broken `<img>` icons — record existed but image delivery chain broken. Shared root cause: ad-hoc URL paths (`/visual-references/...` repo-root only, `/${storagePath}` bare relative) without canonical resolver; no browser onLoad health; upgrade gate ignored preview renderability.
+- **Fix:** New `shared/.../assetDelivery/` — `CanonicalAssetRef`, `AssetRenderableUrlResolver`, `ImageDeliveryTrace`, `AssetDeliveryProbe`, `PreviewHealth`, `RenderableAuthorityContract`, `repairAssetRef`, blob/temp guards. `pageViewportAuthority` resolves refs via shared resolver; `DesignAssetPreview` component (onLoad/onError, REFRESH PREVIEW); `PageCaptureNowPanel` separates CAPTURE SAVED vs PREVIEW READY, upgrade requires both previews PASS; `livePageCaptureState` adds SAVED; `captureCompletionPipeline` rejects blob/invalid URLs, stores resolved Supabase public URLs; `buildImplementationSnapshotPublicUrl` / upload fallback use Supabase not `/${path}`. NDX overview + 4 mobile refs copied to `public/visual-references/founder/ndxbook/`. Build `P0_VR_CAPTURE_1R3_BUILD = v279`; tests `visualReconstructionP0VRCapture1R3.test.ts` (31).
+- **Classification (NDXBOOK mobile overview):** Design authority = **B. object exists but ref wrong** (repo-root path not in `public/` → 404 on cPanel). Live capture = **E. client resolver wrong** + **C. URL signature wrong** (bare `/studio-world/...` stored). Shared layer: **AssetRenderableUrlResolver** missing.
+- **Founder QA:** DESIGN → NDXBOOK → PAGES → MOBILE → NDXBOOK OVERVIEW — verify APPROVED ✓ + PREVIEW READY ✓ + visible authority image; live capture PREVIEW READY after onLoad; UPGRADE only when both render; VIEW DETAILS on failure. Deploy GoDaddy ZIP v279.
+
+---
+
+## 2026-09-11 — Cloud preview tunnel blank after ASSEMBLING CTRL ROOM
+
+- **Issue:** Preview tunnel hung on white screen after "ASSEMBLING CTRL ROOM…" — not cinematic loader; `Site00AccountRouteGuard` blocked on Supabase session restore / profile sync. Boot shell `#root { display:none }` could persist on persistent tunnel hostnames not in `.trycloudflare.com` list.
+- **Fix:** Cloud preview fast-path (skip network restore, show GO TO SIGN IN →); 6s auth step timeouts; Vite injects `site00-cloud-preview` + `site00-preview-hostname` meta; boot-gate.js honors both; `useLayoutEffect` releases boot shell when loader skipped; loading text color fallbacks. PR **#681**.
+- **Founder:** Hard refresh preview tunnel after merge; sign in on preview before /control or design routes.
+

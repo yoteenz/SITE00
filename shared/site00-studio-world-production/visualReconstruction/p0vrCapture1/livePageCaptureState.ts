@@ -10,6 +10,7 @@ import type { PageViewportCapture } from './types.js';
 export const LIVE_PAGE_CAPTURE_STATES = [
   'NONE',
   'CAPTURING',
+  'SAVED',
   'READY',
   'OUTDATED',
   'FAILED',
@@ -23,6 +24,7 @@ export function deriveLivePageCaptureState(options: {
   pageId: string;
   viewport: DesignViewportClass;
   isCapturing?: boolean;
+  previewLoadSucceeded?: boolean;
   previewLoadFailed?: boolean;
   currentBuildVersion?: string;
   boundCapture?: PageViewportCapture | null;
@@ -40,7 +42,8 @@ export function deriveLivePageCaptureState(options: {
   if (status === 'CAPTURE_OUTDATED') return 'OUTDATED';
   if (status === 'CAPTURE_READY') {
     if (options.previewLoadFailed) return 'PREVIEW_UNAVAILABLE';
-    return 'READY';
+    if (options.previewLoadSucceeded) return 'READY';
+    return 'SAVED';
   }
   return 'NONE';
 }
@@ -49,6 +52,8 @@ export function livePageCaptureStatusLabel(state: LivePageCaptureState): string 
   switch (state) {
     case 'CAPTURING':
       return 'CAPTURING';
+    case 'SAVED':
+      return 'CAPTURE SAVED ✓';
     case 'READY':
       return 'CAPTURE READY ✓';
     case 'OUTDATED':
@@ -56,7 +61,7 @@ export function livePageCaptureStatusLabel(state: LivePageCaptureState): string 
     case 'FAILED':
       return 'CAPTURE FAILED';
     case 'PREVIEW_UNAVAILABLE':
-      return 'CAPTURE EXISTS · PREVIEW UNAVAILABLE';
+      return 'CAPTURE SAVED · PREVIEW UNAVAILABLE';
     default:
       return 'NO LIVE CAPTURE YET';
   }

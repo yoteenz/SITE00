@@ -295,7 +295,7 @@ describe('P0.VR.CAPTURE.1R2 — Capture receipt + live binding', () => {
     const panel = read('src/site00/components/designWorkspace/pageFamily/PageCaptureNowPanel.tsx');
     expect(panel).toContain('preview--authority');
     expect(panel).toContain('preview--live');
-    expect(panel).toContain('authority.previewUrl');
+    expect(panel).toContain('authority.previewAssetRef');
   });
 
   it('19. READY state derivation', () => {
@@ -316,14 +316,15 @@ describe('P0.VR.CAPTURE.1R2 — Capture receipt + live binding', () => {
         projectId: 'ndxbook',
         pageId: 'ndxbook:/projects/ndxbook',
         viewport: 'mobile',
+        previewLoadSucceeded: true,
       }),
     ).toBe('READY');
   });
 
-  it('20. CTA upgrade requires persisted capture', () => {
+  it('20. CTA upgrade requires persisted capture + renderable previews', () => {
     const panel = read('src/site00/components/designWorkspace/pageFamily/PageCaptureNowPanel.tsx');
     expect(panel).toContain('UPGRADE THIS PAGE');
-    expect(panel).toContain("liveState === 'READY'");
+    expect(panel).toContain('upgradeContract.upgradeAllowed');
     expect(panel).toContain('stored?.captureId');
   });
 
