@@ -19,10 +19,24 @@ export function resolveCaptureCorsAllowedOrigins(): string[] {
   return [...CAPTURE_CORS_STATIC_ORIGINS, ...extra];
 }
 
+export function isCaptureCorsOriginAllowed(origin: string): boolean {
+  const normalized = origin.replace(/\/$/, '');
+  const allowed = resolveCaptureCorsAllowedOrigins();
+  if (allowed.includes(normalized)) return true;
+  try {
+    const host = new URL(normalized).hostname.toLowerCase();
+    if (host.endsWith('.fsbw-dev.com') || host === 'site00.fsbw-dev.com') return true;
+    if (host.endsWith('.trycloudflare.com')) return true;
+    if (host.endsWith('.site00.com')) return true;
+  } catch {
+    return false;
+  }
+  return false;
+}
+
 export function applyCaptureCorsHeaders(req: VercelRequest, res: VercelResponse): boolean {
   const origin = typeof req.headers.origin === 'string' ? req.headers.origin : null;
-  const allowed = resolveCaptureCorsAllowedOrigins();
-  if (origin && allowed.includes(origin)) {
+  if (origin && isCaptureCorsOriginAllowed(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Vary', 'Origin');
     return true;

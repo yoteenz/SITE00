@@ -4,7 +4,16 @@
 
 import type { DesignViewportClass } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/types.js';
 import type { ReplaceDesignAuthorityUploadPayload } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1R3a/replaceDesignAuthorityFlow.js';
+import {
+  formatCaptureTransportError,
+  isRecoverableAuthorityUploadError,
+} from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/formatCaptureTransportError.js';
 import { captureApiFetch, PAGE_MIRROR_PATH } from './captureApiFetch';
+
+export type AuthorityUploadAttempt =
+  | { ok: true; upload: ReplaceDesignAuthorityUploadPayload; localOnly?: false }
+  | { ok: true; upload: null; localOnly: true; warning: string }
+  | { ok: false; message: string; recoverable: boolean };
 
 export async function uploadPageDesignAuthorityViaMirror(input: {
   projectId: string;
@@ -12,7 +21,10 @@ export async function uploadPageDesignAuthorityViaMirror(input: {
   viewport: DesignViewportClass;
   dataUrl: string;
   mimeType: string;
-}): Promise<{ ok: true; upload: ReplaceDesignAuthorityUploadPayload } | { ok: false; message: string }> {
+}): Promise<
+  | { ok: true; upload: ReplaceDesignAuthorityUploadPayload }
+  | { ok: false; message: string; errorCode: string | null; recoverable: boolean }
+> {
   const result = await captureApiFetch<{
     publicUrl?: string;
     storagePath?: string;
@@ -32,9 +44,13 @@ export async function uploadPageDesignAuthorityViaMirror(input: {
   });
 
   if (!result.ok || !result.data?.publicUrl || !result.data.storagePath) {
+    const errorCode = result.errorCode ?? result.data?.error ?? null;
+    const recoverable = isRecoverableAuthorityUploadError(errorCode);
     return {
       ok: false,
-      message: result.data?.error ?? result.errorCode ?? 'REFERENCE UPLOAD FAILED',
+      message: formatCaptureTransportError(errorCode),
+      errorCode,
+      recoverable,
     };
   }
 
@@ -46,4 +62,27 @@ export async function uploadPageDesignAuthorityViaMirror(input: {
       byteSize: result.data.byteSize ?? 0,
     },
   };
+}
+
+/** Try cloud upload; on recoverable transport failure allow device-local authority save. */
+export async function resolveDesignAuthorityUpload(input: {
+  projectId: string;
+  screenId: string;
+  viewport: DesignViewportClass;
+  dataUrl: string;
+  mimeType: string;
+}): Promise<AuthorityUploadAttempt> {
+  const remote = await uploadPageDesignAuthorityViaMirror(input);
+  if (remote.ok) {
+    return { ok: true, upload: remote.upload, localOnly: false };
+  }
+  if (remote.recoverable) {
+    return {
+      ok: true,
+      upload: null,
+      localOnly: true,
+      warning: `${remote.message} SAVED ON THIS DEVICE ONLY — retry after Railway redeploy for cloud sync.`,
+    };
+  }
+  return { ok: false, message: remote.message, recoverable: false };
 }
