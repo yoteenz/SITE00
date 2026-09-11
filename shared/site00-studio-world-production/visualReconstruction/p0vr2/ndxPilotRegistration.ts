@@ -12,6 +12,7 @@ import {
   hydrateCanonicalRegistryFromStorage,
   persistCanonicalRegistrySnapshot,
 } from './canonicalReferencePersistence.js';
+import { syncAllFounderAuthorityVersionsForProject } from '../p0vrCapture1R3a/syncFounderAuthorityRegistry.js';
 import { registerProjectDesignScreens } from './designScreenRegistry.js';
 import type { CanonicalVisualReference, DesignScreenDefinition, VisualImplementationCanon } from './types.js';
 import { CANONICAL_VIEWPORT_DIMENSIONS } from './constants.js';
@@ -164,6 +165,7 @@ export function registerNdxbookDesignPilot(): {
 
   const hydrated = hydrateCanonicalRegistryFromStorage('ndxbook');
   if (hydrated) {
+    syncAllFounderAuthorityVersionsForProject('ndxbook');
     return { references: listCanonicalReferences('ndxbook'), screens: NDX_DESIGN_SCREENS };
   }
 

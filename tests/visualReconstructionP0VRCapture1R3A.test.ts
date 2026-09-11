@@ -369,8 +369,8 @@ describe('P0.VR.CAPTURE.1R3A — Authority + artifact proof', () => {
     expect(trace.completion?.artifactProof?.route).toBe('/projects/ndxbook');
   });
 
-  it('16. build v280', () => {
-    expect(P0_VR_CAPTURE_1R3A_BUILD).toBe('v280');
+  it('16. build v291', () => {
+    expect(P0_VR_CAPTURE_1R3A_BUILD).toBe('v291');
   });
 
   it('17. live capture preview ref repairs same-origin storage path', async () => {

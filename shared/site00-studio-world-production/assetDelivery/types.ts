@@ -3,6 +3,7 @@
  */
 
 import type { ImageDeliveryErrorCode } from './constants.js';
+import type { PreviewHealthLifecycleState } from './previewHealthLifecycle.js';
 
 export type AssetStorageProvider = 'SUPABASE' | 'PUBLIC_SITE' | 'ABSOLUTE_URL' | 'NONE';
 
@@ -91,6 +92,8 @@ export type AssetDeliveryProbeResult = {
 
 export type PreviewHealthStatus = 'UNKNOWN' | 'PASS' | 'FAIL';
 
+export type { PreviewHealthLifecycleState } from './previewHealthLifecycle.js';
+
 export type PreviewHealth = {
   assetExists: boolean;
   urlResolved: boolean;
@@ -98,6 +101,7 @@ export type PreviewHealth = {
   mimeValid: boolean;
   browserLoaded: boolean;
   status: PreviewHealthStatus;
+  lifecycle: PreviewHealthLifecycleState;
   errorCode: ImageDeliveryErrorCode | null;
   resolvedUrl: string | null;
 };

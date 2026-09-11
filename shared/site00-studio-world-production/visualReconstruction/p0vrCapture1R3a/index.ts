@@ -11,3 +11,6 @@ export * from './captureNavigationReceipt.js';
 export * from './capturedPageIdentityCheck.js';
 export * from './captureArtifactProof.js';
 export * from './uploadPageDesignAuthority.js';
+export * from './designAuthorityReceipts.js';
+export * from './currentAuthorityPointer.js';
+export * from './syncFounderAuthorityRegistry.js';

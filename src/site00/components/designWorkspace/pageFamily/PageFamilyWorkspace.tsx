@@ -57,6 +57,7 @@ import { FamilyReadinessDimensions } from './FamilyReadinessDimensions';
 import { PageCaptureNowPanel } from './PageCaptureNowPanel';
 import { PageCreativeUpgradePanel } from './PageCreativeUpgradePanel';
 import { ReplaceDesignAuthorityDialog } from './ReplaceDesignAuthorityDialog';
+import { DesignAuthorityHistoryDialog } from './DesignAuthorityHistoryDialog';
 import {
   listPageDesignAuthorityHistory,
   resolveCurrentDesignAuthority,
@@ -126,6 +127,7 @@ export function PageFamilyWorkspace({
   const [viewMode, setViewMode] = useState<'family' | 'library'>('family');
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [replaceAuthorityOpen, setReplaceAuthorityOpen] = useState(false);
+  const [authorityHistoryOpen, setAuthorityHistoryOpen] = useState(false);
   const [authorityRefreshNonce, setAuthorityRefreshNonce] = useState(0);
 
   const rowInputs = useMemo(() => rows.map(toRowInput), [rows]);
@@ -452,7 +454,7 @@ export function PageFamilyWorkspace({
           }}
           onViewDetails={() => setDetailsOpen(true)}
           onReplaceAuthority={() => setReplaceAuthorityOpen(true)}
-          onViewAuthorityHistory={() => setDetailsOpen(true)}
+          onViewAuthorityHistory={() => setAuthorityHistoryOpen(true)}
           onRetryTransport={onRetryTransport}
           captureServiceChecking={captureServiceChecking}
         />
@@ -548,18 +550,27 @@ export function PageFamilyWorkspace({
       ) : null}
 
       {activePageId && activeScreenId ? (
-        <ReplaceDesignAuthorityDialog
-          open={replaceAuthorityOpen}
-          projectId={projectId}
-          pageId={activePageId}
-          screenId={activeScreenId}
-          route={activeRoute}
-          displayName={activeDisplayName}
-          viewport={viewport}
-          currentAssetRef={viewportAuthority?.previewAssetRef ?? null}
-          onClose={() => setReplaceAuthorityOpen(false)}
-          onReplaced={() => setAuthorityRefreshNonce((n) => n + 1)}
-        />
+        <>
+          <ReplaceDesignAuthorityDialog
+            open={replaceAuthorityOpen}
+            projectId={projectId}
+            pageId={activePageId}
+            screenId={activeScreenId}
+            route={activeRoute}
+            displayName={activeDisplayName}
+            viewport={viewport}
+            currentAssetRef={viewportAuthority?.previewAssetRef ?? null}
+            onClose={() => setReplaceAuthorityOpen(false)}
+            onReplaced={() => setAuthorityRefreshNonce((n) => n + 1)}
+          />
+          <DesignAuthorityHistoryDialog
+            open={authorityHistoryOpen}
+            projectId={projectId}
+            pageId={activePageId}
+            viewport={viewport}
+            onClose={() => setAuthorityHistoryOpen(false)}
+          />
+        </>
       ) : null}
 
       <DesignDetailsDrawer open={detailsOpen} title="PAGE FAMILY DETAILS" onClose={() => setDetailsOpen(false)}>

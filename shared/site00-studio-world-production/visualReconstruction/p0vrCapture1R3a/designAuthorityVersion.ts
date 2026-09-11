@@ -4,6 +4,7 @@
 
 import type { DesignViewportClass } from '../p0vr2/types.js';
 import { DESIGN_AUTHORITY_VERSION_LS_PREFIX } from './constants.js';
+import { getCurrentAuthorityPointer, setCurrentAuthorityPointer } from './currentAuthorityPointer.js';
 
 export const DESIGN_AUTHORITY_VERSION_STATUSES = ['CURRENT', 'SUPERSEDED', 'DRAFT_PENDING'] as const;
 export type DesignAuthorityVersionStatus = (typeof DESIGN_AUTHORITY_VERSION_STATUSES)[number];
@@ -18,6 +19,8 @@ export type DesignAuthorityVersion = {
   viewport: DesignViewportClass;
   route: string;
   referenceId: string;
+  /** Canonical renderable asset ref (storage path or public URL). */
+  assetRef: string;
   storagePath: string;
   status: DesignAuthorityVersionStatus;
   approvedAt: string | null;
@@ -65,9 +68,22 @@ function ensureHydrated(): void {
 
 export function recordDesignAuthorityVersion(record: DesignAuthorityVersion): DesignAuthorityVersion {
   ensureHydrated();
-  versions.set(record.authorityVersionId, record);
-  persistVersion(record);
-  return record;
+  const normalized: DesignAuthorityVersion = {
+    ...record,
+    assetRef: record.assetRef || record.storagePath,
+    storagePath: record.storagePath || record.assetRef,
+  };
+  versions.set(normalized.authorityVersionId, normalized);
+  persistVersion(normalized);
+  if (normalized.status === 'CURRENT') {
+    setCurrentAuthorityPointer({
+      projectId: normalized.projectId,
+      pageId: normalized.pageId,
+      viewport: normalized.viewport,
+      authorityVersionId: normalized.authorityVersionId,
+    });
+  }
+  return normalized;
 }
 
 export function supersedeDesignAuthorityVersions(input: {
@@ -104,6 +120,19 @@ export function getCurrentDesignAuthorityVersion(
   viewport: DesignViewportClass,
 ): DesignAuthorityVersion | null {
   ensureHydrated();
+  const pointerId = getCurrentAuthorityPointer(projectId, pageId, viewport);
+  if (pointerId) {
+    const pointed = versions.get(pointerId);
+    if (
+      pointed &&
+      pointed.projectId === projectId &&
+      pointed.pageId === pageId &&
+      pointed.viewport === viewport &&
+      pointed.status === 'CURRENT'
+    ) {
+      return pointed;
+    }
+  }
   return (
     [...versions.values()].find(
       (v) =>
@@ -124,6 +153,11 @@ export function listDesignAuthorityHistory(
   return [...versions.values()]
     .filter((v) => v.projectId === projectId && v.pageId === pageId && v.viewport === viewport)
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+export function listCurrentDesignAuthorityVersionsForProject(projectId: string): DesignAuthorityVersion[] {
+  ensureHydrated();
+  return [...versions.values()].filter((v) => v.projectId === projectId && v.status === 'CURRENT');
 }
 
 export function resetDesignAuthorityVersionsForTest(): void {
