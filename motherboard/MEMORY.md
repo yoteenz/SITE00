@@ -8013,3 +8013,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Integration:** `collectDomRegionMeasurements` reads iframe preview DOM; measured spec status DRAFT when gate blocks. Build `P0_VR_DIAG_1R1_BUILD = v303`. Tests: `p0vrDiag1R1Forensics.test.ts` (12) + updated DIAG.1 tests (59 total forensics suite).
 - **Founder next:** Deploy v303 → NDXBOOK OVERVIEW mobile UPGRADE → verify FORENSIC COVERAGE shows all major regions → VIEW ALL FORENSICS → check ≥3 regions with multiple dimensions → only APPROVE when PASS/WARNING accepted.
 
+---
+
+## 2026-09-11 — Design authority STEP 1 REFERENCE UPLOAD FAILED (iOS site00.com)
+
+- **Symptoms:** Same photo worked before; REPLACE DESIGN AUTHORITY STEP 1 shows generic **REFERENCE UPLOAD FAILED** on site00.com / fsbw-dev; preview still pointed at missing legacy `mobile-overview-fullscreen-reference-hifi.png` (Supabase NoSuchKey) while valid blobs exist under `page-authority/overview-mobile-*.png`.
+- **Root cause (STEP 1):** Client-only prep in `prepareReferenceBoardUpload` — iPhone often returns **empty `file.type`** or **HEIC**; strict `file.type.startsWith('image/')` or `<img>` decode failure surfaced as generic **REFERENCE UPLOAD FAILED** (swallowed in `beginReplaceDesignAuthorityFromDataUrl` catch). Not Railway/API on STEP 1.
+- **Fix:** `prepareReferenceBoardUpload` — extension fallback, `createImageBitmap` rasterize to JPEG, proactive compress for HEIC/large files; `mimeTypeFromDataUrl` for API; propagate real error messages from replace flow. Tests `prepareReferenceBoardUpload.test.ts`.
+- **Founder now:** After deploy — retry upload; if still fails, read the **specific** red error (not generic). Optional: Settings → Camera → Formats → Most Compatible. Replace authority until preview URL shows `page-authority/overview-mobile-…`, not `mobile-overview-fullscreen-reference-hifi.png`.
+
