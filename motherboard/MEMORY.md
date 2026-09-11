@@ -7965,3 +7965,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** GoDaddy FTP/cPanel deploy uploads `htaccess-deploy.txt` but skips dotfiles (`.htaccess`, `projects/.htaccess`). Root rewrite rules never activate.
 - **Fix:** `scripts/site00-activate-spa-htaccess.sh` post-deploy (SSH cp or FTP curl upload `.htaccess`); visible `htaccess-nested.txt` per route prefix; workflow step after deploy. Manual: rename htaccess-deploy.txt → .htaccess + projects/htaccess-nested.txt → .htaccess in cPanel.
 
+---
+
+## 2026-09-11 — P0.VR.UPGRADE.2 twin reconstruction + promotion workflow
+
+- **Context:** After UPGRADE.1 visual compare, approving direction must not mutate live page. Need isolated TWIN build → preview → refine → promote with archive/recovery.
+- **Architecture:** `p0vrUpgrade2/` — `ReconstructionTwinSession`, `PageImplementationRegistry` (LIVE/TWIN/ARCHIVED), `PageFunctionContract`, `TwinMutationPolicy` (default READ_ONLY), twin route `/projects/:slug/debug/reconstruction/:scope/:sessionId` (protected, noindex), `PromotionReceipt`, `PageRecoveryReceipt`.
+- **Flow:** APPROVE DIRECTION → creates twin PLANNED (live unchanged) → BUILD TWIN → PREVIEW TWIN → REFINE TWIN → APPROVE FOR PROMOTION → PROMOTE TO LIVE (archives prior).
+- **UI:** PageCreativeUpgradePanel BUILD TWIN / twin progress / BEFORE|TWIN|AUTHORITY compare; ReconstructionTwinPreviewPage + banner NOT LIVE.
+- **Build:** v300 · 16 tests in `pageUpgradeTwinP0VRUpgrade2.test.ts`.
+
