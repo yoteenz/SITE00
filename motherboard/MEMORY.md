@@ -7939,3 +7939,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cause:** Live `release-manifest.json` showed commit `1c472ec` / bundle `index.BjMnKpdX.js` — **v295 htaccess only**. Capture fix is **v296+** (`894665b`, `index.DufA8Ifn.js`). Founder likely uploaded v295 or extracted into wrong nested folder.
 - **Hardening:** `normalizeCaptureScreenId`, `buildLocalPageMirrorVisualRows`, mirror hook seeds local rows when API empty/fails; PageFamilyWorkspace root screen from `rootTarget`; SITE00-DEPLOY-README verify section (bundle hash + commitSha).
 
+---
+
+## 2026-09-11 — Deep link 404 persists after v297 (root .htaccess ignored on GoDaddy)
+
+- **Issue:** v297 bundle live (`index.DWY9w-w1.js`, commit b5a7a221) but `/projects/site00/design` still Apache 404; CI `verify_release` FRONTEND_SMOKE_FAILED on SPA deep link probe; CAPTURE/hard-refresh still broken.
+- **Root cause:** Root `.htaccess` exists (403) but Apache **does not apply** rewrite/ErrorDocument (no cache-control headers either). Likely physical `projects/` dir on host + cPanel extract skipping/overwriting dotfiles.
+- **Fix:** `scripts/site00-propagate-spa-htaccess.mjs` writes nested `.htaccess` into 17 route-prefix folders (`projects/`, `services/`, …) + ships visible `htaccess-deploy.txt` for manual rename. Root htaccess uses `SymLinksIfOwnerMatch` + relative `index.html`. Deploy ZIP v298+.
+

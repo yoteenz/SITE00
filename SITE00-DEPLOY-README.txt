@@ -9,7 +9,9 @@ WHAT TO UPLOAD
 3. Delete OLD SPA files inside that folder (index.html, assets/, release-manifest.json, .htaccess)
 4. Upload ZIP into that same folder → Extract here (NOT into a new subfolder)
 5. Confirm index.html and .htaccess sit directly in the document root
-6. Hard refresh site00.com (Safari: hold reload → Empty Cache)
+6. Confirm projects/.htaccess exists (nested SPA fallback for /projects/... URLs)
+7. If deep links still 404: rename htaccess-deploy.txt → .htaccess (cPanel often skips dotfiles on extract)
+8. Hard refresh site00.com (Safari: hold reload → Empty Cache)
 
 VERIFY YOU HAVE THE RIGHT BUILD
 -------------------------------

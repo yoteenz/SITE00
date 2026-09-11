@@ -1,0 +1,7 @@
+# Nested SPA fallback — GoDaddy/cPanel often ignores root .htaccess rewrites.
+# This copy lives under each app route prefix (projects/, services/, etc.).
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^.*$ /index.html [L,QSA]
+</IfModule>
+ErrorDocument 404 /index.html

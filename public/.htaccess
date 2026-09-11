@@ -1,6 +1,6 @@
 # SITE 00 SPA — Apache/cPanel (GoDaddy). Hard refresh on deep links must serve index.html.
-# FollowSymLinks is required on many shared hosts before RewriteEngine works.
-Options +FollowSymLinks -MultiViews -Indexes
+# SymLinksIfOwnerMatch is safer than FollowSymLinks on many GoDaddy shared plans.
+Options +SymLinksIfOwnerMatch -MultiViews -Indexes
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -10,12 +10,12 @@ Options +FollowSymLinks -MultiViews -Indexes
   RewriteRule ^index\.html$ - [L]
 
   # App route prefixes — rewrite even when a physical directory exists on the host (e.g. projects/).
-  RewriteRule ^(projects|services|control|origin|studio-world|admin|app|assts|idnty|bldr|evolve|validation|astral-world|bluprint|build|live|sign-in|identity|register|create-account)(/.*)?$ /index.html [L,QSA]
+  RewriteRule ^(projects|services|control|origin|studio-world|admin|app|assts|idnty|bldr|evolve|validation|astral-world|bluprint|build|live|sign-in|identity|register|create-account)(/.*)?$ index.html [L,QSA]
 
   # Static assets and real files/directories.
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L,QSA]
+  RewriteRule . index.html [L,QSA]
 </IfModule>
 
 # Apache 2.4 fallback when mod_rewrite is unavailable or blocked.
