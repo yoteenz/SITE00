@@ -162,6 +162,7 @@ export function ReplaceDesignAuthorityDialog({
 
           {!draft ? (
             <>
+              <p className="site00-pfw-replace-authority__step">STEP 1 · UPLOAD NEW REFERENCE</p>
               <input
                 ref={fileRef}
                 type="file"
@@ -190,6 +191,7 @@ export function ReplaceDesignAuthorityDialog({
             </>
           ) : (
             <>
+              <p className="site00-pfw-replace-authority__step">STEP 2 · PREVIEW + CONFIRM TARGET</p>
               <div className="site00-pfw-replace-authority__compare">
                 <div>
                   <p>CURRENT AUTHORITY</p>
