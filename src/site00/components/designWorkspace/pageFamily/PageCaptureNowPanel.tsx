@@ -53,6 +53,7 @@ type Props = {
   onViewAuthorityHistory?: () => void;
   onRetryTransport?: () => void;
   captureServiceChecking?: boolean;
+  upgradeError?: string | null;
 };
 
 const INITIAL_HEALTH: PreviewHealth = {
@@ -88,6 +89,7 @@ export function PageCaptureNowPanel({
   onViewAuthorityHistory,
   onRetryTransport,
   captureServiceChecking = false,
+  upgradeError = null,
 }: Props) {
   const stored = usePageViewportCapture(projectId, pageId, viewport);
   const [authorityPreviewHealth, setAuthorityPreviewHealth] = useState<PreviewHealth>(INITIAL_HEALTH);
@@ -330,6 +332,8 @@ export function PageCaptureNowPanel({
           </button>
         ) : null}
       </div>
+
+      {upgradeError ? <p className="site00-pfw-capture-now__error">{upgradeError}</p> : null}
 
       {showUpgrade ? (
         <p className="site00-pfw-capture-now__ready-copy">THIS PAGE IS READY FOR CREATIVE DIRECTION.</p>
