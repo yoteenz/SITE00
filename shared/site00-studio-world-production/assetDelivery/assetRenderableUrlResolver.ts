@@ -12,6 +12,10 @@ import type { CanonicalAssetRef, RenderableAssetUrl } from './types.js';
 import type { ImageDeliveryErrorCode } from './constants.js';
 import { readFounderAuthorityUpload } from '../visualReconstruction/p0vrCapture1R3a/founderAuthorityUploadStore.js';
 import { repairMishostedStorageHttpUrl } from './repairMishostedStorageHttpUrl.js';
+import {
+  mapPublicSitePathToStorageObjectPath,
+  shouldPreferSupabaseForPublicSitePath,
+} from './publicSiteUrlStrategy.js';
 
 export type AssetResolverEnvironment = {
   supabaseUrl?: string | null;
@@ -54,9 +58,24 @@ export function buildSite00PackPublicUrl(relativePath: string, env?: AssetResolv
   return buildSupabasePublicObjectUrl(`${SITE00_STORAGE_PUBLIC_PREFIX}/${normalized}`, env);
 }
 
+function readFounderAuthorityUploadForPath(path: string): string | null {
+  const local = readFounderAuthorityUpload(path);
+  if (local?.startsWith('data:')) return local;
+  const storagePath = mapPublicSitePathToStorageObjectPath(path);
+  if (storagePath && storagePath !== path.replace(/^\/+/, '')) {
+    const fromStorageKey = readFounderAuthorityUpload(storagePath);
+    if (fromStorageKey?.startsWith('data:')) return fromStorageKey;
+  }
+  return null;
+}
+
 function resolvePublicSitePath(objectPath: string, env?: AssetResolverEnvironment): string {
-  const path = objectPath.startsWith('/') ? objectPath : `/${objectPath.replace(/^public\//, '')}`;
   const origin = resolveOrigin(env);
+  const storageObjectPath = mapPublicSitePathToStorageObjectPath(objectPath);
+  if (storageObjectPath && shouldPreferSupabaseForPublicSitePath(origin)) {
+    return buildSupabasePublicObjectUrl(storageObjectPath, env);
+  }
+  const path = objectPath.startsWith('/') ? objectPath : `/${objectPath.replace(/^public\//, '')}`;
   return origin ? `${origin}${path}` : path;
 }
 
@@ -123,7 +142,7 @@ export function resolveAssetRenderableUrl(
     case 'PUBLIC_SITE': {
       const path = canonicalRef.objectPath ?? canonicalRef.legacyRef ?? '';
       if (!path) return errorResult(canonicalRef, 'ASSET_REF_MISSING');
-      const founderLocal = readFounderAuthorityUpload(path);
+      const founderLocal = readFounderAuthorityUploadForPath(path);
       if (founderLocal?.startsWith('data:')) {
         return {
           url: founderLocal,

@@ -7983,3 +7983,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cause:** Activate script preferred SSH (wrong remote dir?) and skipped FTP; FTP curl path used `./` prefix incorrectly.
 - **Fix:** FTP upload PRIMARY (same path as deploy), SSH backup; normalize FTP server dir; post-activate `site00-verify-spa-deep-link.mjs` fails deploy job if still 404. Manual: rename visible htaccess files in cPanel.
 
+---
+
+## 2026-09-11 — Preview pipeline PREVIEW TOOK TOO LONG on fsbw-dev (image delivery)
+
+- **Issue:** Founder on `site00.fsbw-dev.com` — DESIGN RECONSTRUCTION for NDXBOOK OVERVIEW mobile shows repeated **PREVIEW TOOK TOO LONG**, **UNKNOWN_IMAGE_DELIVERY_ERROR**, design authority + live capture preview failures. URLs looked mishosted (`/site00/visual-references/...` on preview host).
+- **Root cause:** `PUBLIC_SITE` refs (`/visual-references/founder/...`) resolved via `window.location.origin` on fsbw-dev → SPA HTML shell, img never loads → 10s timeout. `/site00/visual-references/...` misclassified as `PUBLIC_SITE` instead of Supabase. `repairMishostedStorageHttpUrl` did not map founder visual-reference paths.
+- **Fix:** `publicSiteUrlStrategy.ts` — on non-`site00.com` hosts, map `/visual-references/` → Supabase `site00/visual-references/...`; classify `/site00/visual-references/` as SUPABASE; extend mishosted repair + live capture hydrate; founder upload store key fallback; DesignAssetPreview diagnostics block CSS. Tests: `previewHostAssetDelivery.test.ts` (8).
+- **Founder next:** Hard refresh fsbw-dev → NDXBOOK DESIGN → verify authority + capture previews load; retry RECAPTURE if live capture still stale.
+

@@ -972,3 +972,21 @@
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, 1fr);
   }
 }
+
+.site00-design-asset-preview__diagnostics {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+  max-width: 100%;
+  text-align: left;
+}
+
+.site00-design-asset-preview__error-code,
+.site00-design-asset-preview__resolved-url {
+  display: block;
+  word-break: break-all;
+  font-size: 10px;
+  line-height: 1.35;
+  opacity: 0.75;
+}

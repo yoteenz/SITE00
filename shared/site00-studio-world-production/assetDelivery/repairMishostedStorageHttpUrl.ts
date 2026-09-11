@@ -7,8 +7,14 @@
  */
 
 import { resolveAssetRenderableUrl } from './assetRenderableUrlResolver.js';
+import { mapPublicSitePathToStorageObjectPath } from './publicSiteUrlStrategy.js';
 
-const STORAGE_OBJECT_PREFIXES = ['studio-world/', 'site00/', 'visual-references/site00/'] as const;
+const STORAGE_OBJECT_PREFIXES = [
+  'studio-world/',
+  'site00/',
+  'visual-references/site00/',
+  'visual-references/founder/',
+] as const;
 
 export function extractStorageObjectPath(raw: string): string | null {
   const trimmed = raw.trim();
@@ -44,7 +50,8 @@ export function extractStorageObjectPath(raw: string): string | null {
     return path;
   }
 
-  return null;
+  const mapped = mapPublicSitePathToStorageObjectPath(path.startsWith('/') ? path : `/${path}`);
+  return mapped;
 }
 
 export function repairMishostedStorageHttpUrl(raw: string | null | undefined): string | null {

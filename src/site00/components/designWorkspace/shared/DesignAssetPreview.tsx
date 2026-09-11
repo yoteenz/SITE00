@@ -163,11 +163,15 @@ export function DesignAssetPreview({
               ) : null}
             </div>
           ) : null}
-          {(lifecycle === 'FAIL' || lifecycle === 'TIMEOUT') && trace.errorCode ? (
-            <small className="site00-design-asset-preview__error-code">{trace.errorCode}</small>
-          ) : null}
-          {previewUrl ? (
-            <small className="site00-design-asset-preview__resolved-url">{previewUrl}</small>
+          {(lifecycle === 'FAIL' || lifecycle === 'TIMEOUT') && (trace.errorCode || previewUrl) ? (
+            <div className="site00-design-asset-preview__diagnostics">
+              {trace.errorCode ? (
+                <small className="site00-design-asset-preview__error-code">{trace.errorCode}</small>
+              ) : null}
+              {previewUrl ? (
+                <small className="site00-design-asset-preview__resolved-url">{previewUrl}</small>
+              ) : null}
+            </div>
           ) : null}
         </div>
       )}
