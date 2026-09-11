@@ -18,10 +18,16 @@ import {
   persistFounderAuthorityUpload,
 } from './founderAuthorityUploadStore.js';
 import {
+  getCurrentDesignAuthorityVersion,
   recordDesignAuthorityVersion,
   supersedeDesignAuthorityVersions,
   type DesignAuthorityVersion,
 } from './designAuthorityVersion.js';
+import {
+  recordDesignAuthorityApprovalReceipt,
+  recordDesignAuthoritySupersessionReceipt,
+  type DesignAuthoritySupersessionReason,
+} from './designAuthorityReceipts.js';
 
 export type ReplaceDesignAuthorityContext = {
   projectId: string;
@@ -136,6 +142,7 @@ function loadImageDimensions(dataUrl: string): Promise<{ width: number; height: 
 export function approveDesignAuthorityReplacement(
   draft: ReplaceDesignAuthorityDraft,
   uploaded?: ReplaceDesignAuthorityUploadPayload | null,
+  options?: { reason?: DesignAuthoritySupersessionReason },
 ): ReplaceDesignAuthorityResult {
   const { context } = draft;
   const viewport = CANONICAL_VIEWPORT_DIMENSIONS[context.viewport];
@@ -177,12 +184,19 @@ export function approveDesignAuthorityReplacement(
     });
 
     const authorityVersionId = `authv_${context.projectId}_${context.screenId}_${context.viewport}_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+    const previous = getCurrentDesignAuthorityVersion(context.projectId, context.pageId, context.viewport);
+    const reason = options?.reason ?? 'FOUNDER_REPLACE';
+    const approvedAt = new Date().toISOString();
+
     supersedeDesignAuthorityVersions({
       projectId: context.projectId,
       pageId: context.pageId,
       viewport: context.viewport,
       supersededBy: authorityVersionId,
+      at: approvedAt,
     });
+
+    const assetRef = uploaded?.publicUrl ?? storagePath;
 
     const version = recordDesignAuthorityVersion({
       authorityVersionId,
@@ -192,13 +206,34 @@ export function approveDesignAuthorityReplacement(
       viewport: context.viewport,
       route: context.route,
       referenceId: reference.referenceId,
+      assetRef,
       storagePath: uploaded?.storagePath ?? draft.storagePath,
       status: 'CURRENT',
-      approvedAt: new Date().toISOString(),
+      approvedAt,
       supersededAt: null,
       supersededBy: null,
       source: 'FOUNDER_UPLOAD',
-      createdAt: new Date().toISOString(),
+      createdAt: approvedAt,
+    });
+
+    if (previous) {
+      recordDesignAuthoritySupersessionReceipt({
+        oldAuthorityVersionId: previous.authorityVersionId,
+        newAuthorityVersionId: authorityVersionId,
+        supersededAt: approvedAt,
+        reason,
+      });
+    }
+
+    recordDesignAuthorityApprovalReceipt({
+      projectId: context.projectId,
+      pageId: context.pageId,
+      viewport: context.viewport,
+      oldAuthorityVersionId: previous?.authorityVersionId ?? null,
+      newAuthorityVersionId: authorityVersionId,
+      approvedAt,
+      status: 'APPROVED',
+      reason,
     });
 
     persistCanonicalRegistrySnapshot(context.projectId);

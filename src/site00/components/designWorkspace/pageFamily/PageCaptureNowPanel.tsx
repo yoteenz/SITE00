@@ -62,6 +62,7 @@ const INITIAL_HEALTH: PreviewHealth = {
   mimeValid: false,
   browserLoaded: false,
   status: 'UNKNOWN',
+  lifecycle: 'IDLE',
   errorCode: null,
   resolvedUrl: null,
 };
@@ -154,6 +155,7 @@ export function PageCaptureNowPanel({
     pageIdentityMatch: pageMatch,
     routeMatch,
     viewportMatch: true,
+    designAuthorityMissing: !authority.previewAssetRef && authority.authorityStatus === 'MISSING',
   });
 
   const showUpgrade =
@@ -175,8 +177,9 @@ export function PageCaptureNowPanel({
   });
   const showReplacePrimary = authority.authorityStatus === 'STALE' && canReplaceDesignAuthority(authority.authorityStatus);
   const authorityLabel = authorityStatusLabel(authority.authorityStatus, {
-    isCurrent: currentAuthority.isCurrent && authority.authorityStatus === 'APPROVED',
+    isCurrent: currentAuthority.isCurrent && (authority.authorityStatus === 'APPROVED' || Boolean(currentAuthority.authorityVersion)),
   });
+  const authorityCacheBust = currentAuthority.authorityVersion?.authorityVersionId ?? null;
 
   return (
     <section className="site00-pfw-capture-now" aria-label="Capture now">
@@ -206,6 +209,7 @@ export function PageCaptureNowPanel({
           emptyCopy={authority.authorityStatus === 'MAPPED' ? 'MAPPED — NOT APPROVED' : 'NO REFERENCE YET'}
           sourceType="DESIGN_AUTHORITY"
           sourceId={`${projectId}:${screenId}:${viewport}`}
+          cacheBustKey={authorityCacheBust}
           onPreviewHealthChange={setAuthorityPreviewHealth}
           onViewDetails={onViewDetails}
         />

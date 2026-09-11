@@ -8,6 +8,7 @@ export * from './canonicalAssetRef.js';
 export * from './assetRenderableUrlResolver.js';
 export * from './assetDeliveryProbe.js';
 export * from './previewHealth.js';
+export * from './previewHealthLifecycle.js';
 export { isInvalidPersistedAssetRef, isPersistableCaptureUrl } from './persistableCaptureUrl.js';
 export * from './resolveLiveCapturePreviewRef.js';
 export * from './repairMishostedStorageHttpUrl.js';

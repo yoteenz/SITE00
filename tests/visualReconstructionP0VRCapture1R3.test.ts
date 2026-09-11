@@ -324,7 +324,7 @@ describe('P0.VR.CAPTURE.1R3 — Asset delivery', () => {
     const src = read('src/site00/components/designWorkspace/shared/DesignAssetPreview.tsx');
     expect(src).toContain('onLoad');
     expect(src).toContain('onError');
-    expect(src).toContain('REFRESH PREVIEW');
+    expect(src).toContain('RETRY PREVIEW');
   });
 
   it('24. PageCaptureNowPanel uses shared preview + upgrade gate', () => {

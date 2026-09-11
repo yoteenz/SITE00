@@ -1,13 +1,18 @@
 /**
- * P0.VR.CAPTURE.1R3 — Shared design authority / live capture preview with load health.
+ * P0.VR.AUTH.1 — Design authority / live capture preview with bounded lifecycle.
  */
 
-import { useCallback, useEffect, useMemo, useState, type SyntheticEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type SyntheticEvent } from 'react';
 import {
+  appendCacheBustQuery,
   buildImageDeliveryTrace,
   derivePreviewHealthFromBrowser,
+  PREVIEW_STATIC_IMAGE_TIMEOUT_MS,
   previewHealthLabel,
+  previewHealthLifecycleLabel,
   resolveAssetRenderableUrl,
+  startPreviewHealthLoading,
+  type PreviewHealthLifecycleState,
 } from '../../../../../shared/site00-studio-world-production/assetDelivery/index.js';
 import type { PreviewHealth } from '../../../../../shared/site00-studio-world-production/assetDelivery/types.js';
 
@@ -18,6 +23,7 @@ type Props = {
   emptyCopy?: string;
   sourceType: string;
   sourceId: string;
+  cacheBustKey?: string | null;
   onPreviewHealthChange?: (health: PreviewHealth) => void;
   onViewDetails?: () => void;
 };
@@ -29,29 +35,52 @@ export function DesignAssetPreview({
   emptyCopy = 'NO PREVIEW',
   sourceType,
   sourceId,
+  cacheBustKey,
   onPreviewHealthChange,
   onViewDetails,
 }: Props) {
-  const [browserLoaded, setBrowserLoaded] = useState(false);
-  const [browserError, setBrowserError] = useState(false);
+  const [lifecycle, setLifecycle] = useState<PreviewHealthLifecycleState>('IDLE');
   const [retryNonce, setRetryNonce] = useState(0);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const resolved = useMemo(() => resolveAssetRenderableUrl(assetRef ?? null), [assetRef, retryNonce]);
-  const previewUrl = resolved.url;
+  const resolved = useMemo(() => resolveAssetRenderableUrl(assetRef ?? null), [assetRef]);
+  const previewUrl = useMemo(() => {
+    if (!resolved.url) return null;
+    if (retryNonce > 0 || cacheBustKey) {
+      return appendCacheBustQuery(resolved.url, cacheBustKey ?? String(retryNonce));
+    }
+    return resolved.url;
+  }, [resolved.url, retryNonce, cacheBustKey]);
+
+  const clearTimer = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  }, []);
 
   useEffect(() => {
-    setBrowserLoaded(false);
-    setBrowserError(false);
-  }, [previewUrl]);
+    clearTimer();
+    if (!previewUrl) {
+      setLifecycle('IDLE');
+      return;
+    }
+    setLifecycle(startPreviewHealthLoading({ state: 'IDLE', retryCount: retryNonce, startedAt: null, resolvedUrl: null }, previewUrl).state);
+    timeoutRef.current = setTimeout(() => {
+      setLifecycle('TIMEOUT');
+    }, PREVIEW_STATIC_IMAGE_TIMEOUT_MS);
+    return clearTimer;
+  }, [previewUrl, retryNonce, clearTimer]);
 
   const previewHealth = useMemo(
     () =>
       derivePreviewHealthFromBrowser({
         ref: assetRef ?? null,
-        browserLoaded,
-        browserError,
+        browserLoaded: lifecycle === 'PASS',
+        browserError: lifecycle === 'FAIL' || lifecycle === 'TIMEOUT',
+        lifecycle,
       }),
-    [assetRef, browserLoaded, browserError],
+    [assetRef, lifecycle],
   );
 
   useEffect(() => {
@@ -59,20 +88,25 @@ export function DesignAssetPreview({
   }, [onPreviewHealthChange, previewHealth]);
 
   const handleLoad = useCallback((event: SyntheticEvent<HTMLImageElement>) => {
+    clearTimer();
     const img = event.currentTarget;
     if (!img.naturalWidth || !img.naturalHeight) {
-      setBrowserError(true);
-      setBrowserLoaded(false);
+      setLifecycle('FAIL');
       return;
     }
-    setBrowserLoaded(true);
-    setBrowserError(false);
-  }, []);
+    setLifecycle('PASS');
+  }, [clearTimer]);
 
   const handleError = useCallback(() => {
-    setBrowserError(true);
-    setBrowserLoaded(false);
-  }, []);
+    clearTimer();
+    setLifecycle('FAIL');
+  }, [clearTimer]);
+
+  const handleRetry = useCallback(() => {
+    clearTimer();
+    setLifecycle('IDLE');
+    setRetryNonce((n) => n + 1);
+  }, [clearTimer]);
 
   const trace = useMemo(
     () =>
@@ -80,26 +114,29 @@ export function DesignAssetPreview({
         sourceType,
         sourceId,
         ref: assetRef ?? null,
-        browserLoaded,
+        browserLoaded: lifecycle === 'PASS',
       }),
-    [assetRef, browserLoaded, sourceId, sourceType],
+    [assetRef, lifecycle, sourceId, sourceType],
   );
+
+  const showImage = Boolean(previewUrl) && lifecycle !== 'FAIL' && lifecycle !== 'TIMEOUT';
+  const healthLabel = previewUrl ? previewHealthLifecycleLabel(lifecycle) : 'PREVIEW UNAVAILABLE';
 
   return (
     <div className="site00-design-asset-preview">
       <div className="site00-design-asset-preview__meta">
         <p className="site00-design-asset-preview__label">{label}</p>
         <p
-          className={`site00-design-asset-preview__health is-${previewHealth.status.toLowerCase()}`}
+          className={`site00-design-asset-preview__health is-${previewHealth.status.toLowerCase()} is-lifecycle-${lifecycle.toLowerCase()}`}
           aria-live="polite"
         >
-          {previewUrl ? previewHealthLabel(previewHealth) : 'PREVIEW UNAVAILABLE'}
+          {previewUrl ? healthLabel : previewHealthLabel(previewHealth)}
         </p>
       </div>
-      {previewUrl && !browserError ? (
+      {showImage ? (
         <img
           key={`${previewUrl}:${retryNonce}`}
-          src={previewUrl}
+          src={previewUrl ?? undefined}
           alt={alt}
           onLoad={handleLoad}
           onError={handleError}
@@ -107,11 +144,17 @@ export function DesignAssetPreview({
       ) : (
         <div className="site00-design-asset-preview__empty" role="status">
           <span aria-hidden>▢</span>
-          <small>{browserError ? 'PREVIEW UNAVAILABLE' : emptyCopy}</small>
-          {browserError ? (
+          <small>
+            {lifecycle === 'TIMEOUT'
+              ? 'PREVIEW TOOK TOO LONG'
+              : lifecycle === 'FAIL'
+                ? 'PREVIEW UNAVAILABLE'
+                : emptyCopy}
+          </small>
+          {lifecycle === 'TIMEOUT' || lifecycle === 'FAIL' ? (
             <div className="site00-design-asset-preview__actions">
-              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={() => setRetryNonce((n) => n + 1)}>
-                REFRESH PREVIEW
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={handleRetry}>
+                RETRY PREVIEW
               </button>
               {onViewDetails ? (
                 <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onViewDetails}>
@@ -120,8 +163,11 @@ export function DesignAssetPreview({
               ) : null}
             </div>
           ) : null}
-          {browserError && trace.errorCode ? (
+          {(lifecycle === 'FAIL' || lifecycle === 'TIMEOUT') && trace.errorCode ? (
             <small className="site00-design-asset-preview__error-code">{trace.errorCode}</small>
+          ) : null}
+          {previewUrl ? (
+            <small className="site00-design-asset-preview__resolved-url">{previewUrl}</small>
           ) : null}
         </div>
       )}

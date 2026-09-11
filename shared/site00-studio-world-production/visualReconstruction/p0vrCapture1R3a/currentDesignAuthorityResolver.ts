@@ -1,5 +1,5 @@
 /**
- * P0.VR.CAPTURE.1R3A — Current design authority keyed by project + page + viewport.
+ * P0.VR.AUTH.1 — Current design authority keyed by project + page + viewport.
  */
 
 import type { DesignViewportClass } from '../p0vr2/types.js';
@@ -11,6 +11,7 @@ import { resolveAssetRenderableUrl } from '../../assetDelivery/assetRenderableUr
 import { readFounderAuthorityUpload } from './founderAuthorityUploadStore.js';
 import {
   getCurrentDesignAuthorityVersion,
+  hydrateDesignAuthorityVersionsFromStorage,
   listDesignAuthorityHistory,
   type DesignAuthorityVersion,
 } from './designAuthorityVersion.js';
@@ -39,21 +40,28 @@ export function resolveCurrentDesignAuthority(input: {
   screenId: string;
   viewport: DesignViewportClass;
 }): CurrentDesignAuthority {
+  hydrateDesignAuthorityVersionsFromStorage();
+  const version = getCurrentDesignAuthorityVersion(input.projectId, input.pageId, input.viewport);
   const reference = getActiveCanonicalReference(input.projectId, input.screenId, input.viewport);
   const canon = getActiveImplementationCanon(input.projectId, input.screenId, input.viewport);
-  const version = getCurrentDesignAuthorityVersion(input.projectId, input.pageId, input.viewport);
-  const isStale = canon?.status === 'STALE_AGAINST_NEW_REFERENCE';
-  const storagePath = reference?.storagePath ?? version?.storagePath ?? null;
+
+  const founderCurrent = version?.status === 'CURRENT';
+  const storagePath = founderCurrent
+    ? version.assetRef || version.storagePath
+    : reference?.storagePath ?? version?.storagePath ?? null;
+
+  const isStale = founderCurrent ? false : canon?.status === 'STALE_AGAINST_NEW_REFERENCE';
+  const isCurrent = founderCurrent || Boolean(reference && !isStale);
 
   return {
-    referenceId: reference?.referenceId ?? version?.referenceId ?? null,
+    referenceId: founderCurrent ? version.referenceId : reference?.referenceId ?? version?.referenceId ?? null,
     storagePath,
     previewAssetRef: storagePath,
     previewUrl: resolveAuthorityPreviewUrl(storagePath),
     authorityVersion: version,
     isStale,
-    isCurrent: Boolean(reference && !isStale),
-    approvedAt: canon?.approvalDate || version?.approvedAt || null,
+    isCurrent,
+    approvedAt: founderCurrent ? version.approvedAt : canon?.approvalDate || version?.approvedAt || null,
   };
 }
 

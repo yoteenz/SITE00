@@ -9,6 +9,7 @@ import {
 } from '../visualReconstruction/p0vr2/canonicalReferenceRegistry.js';
 import { ensureNdxbookPilotRegistered } from '../visualReconstruction/p0vr2/ndxPilotRegistration.js';
 import { resolveAssetRenderableUrl } from '../assetDelivery/assetRenderableUrlResolver.js';
+import { resolveCurrentDesignAuthority } from '../visualReconstruction/p0vrCapture1R3a/currentDesignAuthorityResolver.js';
 
 export const DESIGN_AUTHORITY_STATUSES = [
   'MISSING',
@@ -76,19 +77,41 @@ export function resolvePageViewportAuthority(input: {
   const mappedOnly = Boolean(input.routeMapped && !reference);
   const authorityStatus = mapCanonToAuthorityStatus(Boolean(reference), canon, mappedOnly);
 
-  const preview = resolveDesignAuthorityPreview({
-    referencePath: reference?.storagePath ?? null,
-    canonPath: canon?.renderSnapshotPath ?? null,
-    authorityStatus,
+  const currentAuthority = resolveCurrentDesignAuthority({
+    projectId: input.projectId,
+    pageId: input.pageId,
+    screenId: rootScreenId,
+    viewport: input.viewport,
   });
+
+  const founderCurrent = currentAuthority.authorityVersion?.status === 'CURRENT';
+
+  const preview = founderCurrent
+    ? {
+        previewUrl: currentAuthority.previewUrl,
+        assetRef: currentAuthority.previewAssetRef,
+        previewSource: 'APPROVED_REFERENCE' as const,
+        label: 'DESIGN AUTHORITY',
+      }
+    : resolveDesignAuthorityPreview({
+        referencePath: reference?.storagePath ?? null,
+        canonPath: canon?.renderSnapshotPath ?? null,
+        authorityStatus,
+      });
+
+  const resolvedAuthorityStatus = founderCurrent
+    ? 'APPROVED'
+    : currentAuthority.isStale
+      ? 'STALE'
+      : authorityStatus;
 
   return {
     pageId: input.pageId,
     screenId: rootScreenId,
     viewport: input.viewport,
     referenceId: reference?.referenceId ?? null,
-    authorityStatus,
-    approvedAt: canon?.approvalDate || null,
+    authorityStatus: resolvedAuthorityStatus,
+    approvedAt: currentAuthority.approvedAt ?? (canon?.approvalDate || null),
     sourceType: reference
       ? canon?.status === 'ACTIVE'
         ? 'APPROVED_CANON'
