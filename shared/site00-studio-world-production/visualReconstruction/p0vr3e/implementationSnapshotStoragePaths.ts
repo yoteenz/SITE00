@@ -4,6 +4,7 @@
 
 import { IMPLEMENTATION_SNAPSHOT_STORAGE_ROOT } from './constants.js';
 import type { DesignViewportClass } from '../p0vr2/types.js';
+import { resolveStoragePublicUrl } from '../../assetDelivery/assetRenderableUrlResolver.js';
 
 export function buildImplementationSnapshotStoragePath(input: {
   projectId: string;
@@ -23,5 +24,5 @@ export function buildImplementationSnapshotStoragePath(input: {
 
 export function buildImplementationSnapshotPublicUrl(storagePath: string): string {
   if (storagePath.startsWith('http')) return storagePath;
-  return `/${storagePath.replace(/^\//, '')}`;
+  return resolveStoragePublicUrl(storagePath.replace(/^\//, ''));
 }

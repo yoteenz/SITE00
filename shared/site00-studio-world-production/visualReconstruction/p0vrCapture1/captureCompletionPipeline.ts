@@ -16,6 +16,10 @@ import {
 } from './captureReceipts.js';
 import { P0_VR_CAPTURE_1R2_BUILD } from './constants.js';
 import {
+  isPersistableCaptureUrl,
+  resolveAssetRenderableUrl,
+} from '../../assetDelivery/index.js';
+import {
   buildPageViewportCapture,
   savePageViewportCapture,
 } from './pageViewportCapture.js';
@@ -73,7 +77,15 @@ export function completeCapturePipeline(options: {
   milestones = pushMilestone(milestones, 'VIEWPORT_RENDERING');
   milestones = pushMilestone(milestones, 'VIEWPORT_READY');
 
-  const failed = Boolean(options.error || !options.screenshotUrl);
+  const resolvedScreenshot = options.screenshotUrl
+    ? resolveAssetRenderableUrl(options.screenshotUrl)
+    : null;
+  const renderableScreenshotUrl =
+    resolvedScreenshot?.status === 'RESOLVED' ? resolvedScreenshot.url : null;
+  const deliveryInvalid =
+    Boolean(options.screenshotUrl) &&
+    (!isPersistableCaptureUrl(options.screenshotUrl) || !renderableScreenshotUrl);
+  const failed = Boolean(options.error || !options.screenshotUrl || deliveryInvalid);
 
   if (failed) {
     milestones = pushMilestone(milestones, 'SCREENSHOT_TAKING');
@@ -96,7 +108,7 @@ export function completeCapturePipeline(options: {
       publicOrSignedRef: null,
       writtenAt: null,
       status: 'FAILED',
-      error: options.error ?? 'SCREENSHOT_FAILED',
+      error: deliveryInvalid ? 'IMAGE_DELIVERY_INVALID' : (options.error ?? 'SCREENSHOT_FAILED'),
     };
     savePageViewportCapture(
       buildPageViewportCapture({
@@ -129,8 +141,12 @@ export function completeCapturePipeline(options: {
       bindingStatus: 'FAILED',
       completedAt: capturedAt,
       status: 'CAPTURE_FAILED',
-      errorCode: options.errorCode ?? (options.screenshotUrl ? 'STORAGE_FAILED' : 'SCREENSHOT_FAILED'),
-      errorMessage: options.error ?? 'CAPTURE_FAILED',
+      errorCode:
+        options.errorCode ??
+        (deliveryInvalid ? 'PUBLIC_URL_INVALID' : options.screenshotUrl ? 'STORAGE_FAILED' : 'SCREENSHOT_FAILED'),
+      errorMessage: deliveryInvalid
+        ? 'CAPTURE_IMAGE_URL_NOT_RENDERABLE'
+        : (options.error ?? 'CAPTURE_FAILED'),
       milestones,
       screenshot,
       storage,
@@ -156,7 +172,7 @@ export function completeCapturePipeline(options: {
   }
 
   milestones = pushMilestone(milestones, 'SCREENSHOT_TAKING');
-  milestones = pushMilestone(milestones, 'SCREENSHOT_CREATED', options.screenshotUrl!);
+  milestones = pushMilestone(milestones, 'SCREENSHOT_CREATED', renderableScreenshotUrl!);
   milestones = pushMilestone(milestones, 'CAPTURE_SAVING');
 
   const screenshot: ScreenshotReceipt = {
@@ -166,7 +182,7 @@ export function completeCapturePipeline(options: {
     width: dims.width,
     height: dims.height,
     capturedAt,
-    artifactRef: options.screenshotUrl,
+    artifactRef: renderableScreenshotUrl,
     mimeType: 'image/png',
     byteSize: null,
     status: 'CREATED',
@@ -175,8 +191,8 @@ export function completeCapturePipeline(options: {
   const storage: CaptureStorageReceipt = {
     jobId: options.jobId,
     storageProvider: 'PUBLIC_URL',
-    storagePath: options.screenshotUrl,
-    publicOrSignedRef: options.screenshotUrl,
+    storagePath: resolvedScreenshot?.canonicalRef.objectPath ?? options.screenshotUrl,
+    publicOrSignedRef: renderableScreenshotUrl,
     writtenAt: capturedAt,
     status: 'SUCCESS',
     error: null,
@@ -190,7 +206,7 @@ export function completeCapturePipeline(options: {
       captureId,
       route: options.input.route,
       resolvedRuntimePath: options.resolvedRuntimePath,
-      imageRef: options.screenshotUrl,
+      imageRef: renderableScreenshotUrl,
       capturedAt,
       status: 'CAPTURE_READY',
       screenId: options.input.screenId,
@@ -210,7 +226,7 @@ export function completeCapturePipeline(options: {
     viewport,
     route: options.input.route,
     resolvedRuntimePath: options.resolvedRuntimePath,
-    imageRef: options.screenshotUrl,
+    imageRef: renderableScreenshotUrl,
     capturedAt,
     storageStatus: 'SUCCESS',
     persistenceStatus: 'SUCCESS',

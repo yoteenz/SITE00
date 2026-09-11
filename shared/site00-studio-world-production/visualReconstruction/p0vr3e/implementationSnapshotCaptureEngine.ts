@@ -13,6 +13,7 @@ import { runImplementationSnapshotQa, classifyCaptureFailure } from './implement
 import type { CaptureScreenInput, ImplementationSnapshotRecord } from './types.js';
 import { IMPLEMENTATION_SNAPSHOT_DEFAULT_DEVICE_SCALE } from './constants.js';
 import { buildImplementationSnapshotStoragePath } from './implementationSnapshotStoragePaths.js';
+import { resolveStoragePublicUrl } from '../../assetDelivery/assetRenderableUrlResolver.js';
 import { registerImplementationSnapshot } from './implementationSnapshotRegistry.js';
 import { appendPersistentImplementationSnapshot } from './implementationSnapshotPersistentStore.js';
 import { resolveCaptureTarget, resolveRepresentativeRoute } from './routeRepresentativeResolver.js';
@@ -69,7 +70,7 @@ async function uploadSnapshotBuffer(storagePath: string, pngPath: string): Promi
     const upload = await uploadSite00AssetBuffer(storagePath, webpBuffer, 'image/webp', { upsert: false });
     return { publicUrl: upload.publicUrl, buffer: webpBuffer };
   } catch {
-    return { publicUrl: `/${storagePath}`, buffer };
+    return { publicUrl: resolveStoragePublicUrl(storagePath), buffer };
   }
 }
 
