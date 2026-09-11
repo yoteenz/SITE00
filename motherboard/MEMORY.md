@@ -7752,3 +7752,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder QA path:** DESIGN → NDXBOOK → PAGES → MOBILE → JUMP TO = NDXBOOK OVERVIEW → CAPTURE NOW on `/projects/ndxbook` → UPGRADE THIS PAGE (when mobile authority APPROVED).
 - **Deploy:** GoDaddy ZIP v277 after merge; Railway unchanged (frontend-only).
 
+---
+
+## 2026-09-11 — SSH rsync deploy_frontend protocol mismatch (cPanel dirty shell)
+
+- **Issue:** `deploy_frontend` SSH step failed: `protocol version mismatch — is your shell clean?` / rsync exit 2 — cPanel `.bashrc`/motd prints to stdout on SSH login, breaking rsync binary protocol.
+- **Fix:** `scripts/site00-cpanel-deploy.sh` — `ssh -T`, `--rsync-path` retries (`/usr/bin/rsync`, `env -i`, `bash --noprofile --norc`); exit 42 when FTP fallback available. Workflow: SSH `continue-on-error`, auto FTP fallback when `ftp_available`, `Confirm frontend deploy succeeded` gate. Tests 22e/22f.
+- **Founder:** Re-run Production Release workflow (or wait for next merge with `SITE00_AUTO_PROMOTE=true`). If SSH still fails, FTP fallback deploys automatically when `GODADDY_FTP_*` secrets set. Optional long-term: add to remote `.bashrc` `[[ $- != *i* ]] && return` at top to silence non-interactive login noise.
+

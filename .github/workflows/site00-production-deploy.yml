@@ -36,6 +36,7 @@ jobs:
       auto_promote: ${{ steps.mode.outputs.auto_promote }}
       deploy_frontend: ${{ steps.mode.outputs.deploy_frontend }}
       cpanel_method: ${{ steps.cpanel.outputs.method }}
+      ftp_available: ${{ steps.cpanel.outputs.ftp_available }}
     steps:
       - uses: actions/checkout@v4
 
@@ -105,6 +106,11 @@ jobs:
         run: |
           METHOD=$(bash scripts/site00-resolve-cpanel-deploy-method.sh)
           echo "method=$METHOD" >> "$GITHUB_OUTPUT"
+          if [ -n "$GODADDY_FTP_HOST" ] && [ -n "$GODADDY_FTP_USERNAME" ] && [ -n "$GODADDY_FTP_PASSWORD" ]; then
+            echo "ftp_available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ftp_available=false" >> "$GITHUB_OUTPUT"
+          fi
           echo "cPanel deploy method: $METHOD"
 
   test:
@@ -196,17 +202,27 @@ jobs:
           name: site00-production-dist
           path: dist/
       - name: Deploy dist/ via SSH rsync (preferred)
+        id: ssh_deploy
         if: needs.validate.outputs.cpanel_method == 'ssh'
+        continue-on-error: true
         env:
           GODADDY_SSH_HOST: ${{ secrets.GODADDY_SSH_HOST }}
           GODADDY_SSH_USER: ${{ secrets.GODADDY_SSH_USER }}
           GODADDY_SSH_PRIVATE_KEY: ${{ secrets.GODADDY_SSH_PRIVATE_KEY }}
           GODADDY_SSH_PORT: ${{ secrets.GODADDY_SSH_PORT }}
           GODADDY_SSH_REMOTE_DIR: ${{ vars.GODADDY_SSH_REMOTE_DIR }}
+          GODADDY_FTP_HOST: ${{ secrets.GODADDY_FTP_HOST }}
+          GODADDY_FTP_USERNAME: ${{ secrets.GODADDY_FTP_USERNAME }}
+          GODADDY_FTP_PASSWORD: ${{ secrets.GODADDY_FTP_PASSWORD }}
         run: bash scripts/site00-cpanel-deploy.sh dist
 
       - name: Deploy dist/ to GoDaddy (FTP)
-        if: needs.validate.outputs.cpanel_method == 'ftp'
+        id: ftp_deploy
+        if: >
+          needs.validate.outputs.cpanel_method == 'ftp' ||
+          (needs.validate.outputs.cpanel_method == 'ssh' &&
+            steps.ssh_deploy.outcome == 'failure' &&
+            needs.validate.outputs.ftp_available == 'true')
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.GODADDY_FTP_HOST }}
@@ -229,6 +245,18 @@ jobs:
         if: needs.validate.outputs.cpanel_method != 'ssh' && needs.validate.outputs.cpanel_method != 'ftp'
         run: |
           echo "::error::CPANEL_CONNECTION_FAILED — no deploy method (validate should have failed earlier)"
+          exit 1
+
+      - name: Confirm frontend deploy succeeded
+        if: always()
+        run: |
+          SSH_OUT="${{ steps.ssh_deploy.outcome }}"
+          FTP_OUT="${{ steps.ftp_deploy.outcome }}"
+          if [ "$SSH_OUT" = "success" ] || [ "$FTP_OUT" = "success" ]; then
+            echo "Frontend deploy OK (ssh=$SSH_OUT ftp=$FTP_OUT)"
+            exit 0
+          fi
+          echo "::error::FRONTEND_DEPLOY_FAILED — SSH rsync and FTP fallback both failed or were unavailable"
           exit 1
 
   verify_release:
