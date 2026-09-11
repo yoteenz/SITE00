@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Resolve cPanel deploy method for GitHub Actions (SSH preferred when fully configured).
+# Resolve cPanel deploy method for GitHub Actions.
+# GoDaddy/cPanel: FTP is reliable; SSH rsync often breaks on shared shells (protocol mismatch).
 set -euo pipefail
 
 SSH_VAR="${GODADDY_SSH_DEPLOY_ENABLED:-}"
@@ -15,6 +16,7 @@ if [ -n "${GODADDY_FTP_HOST:-}" ] && [ -n "${GODADDY_FTP_USERNAME:-}" ] && [ -n 
   ftp_ok=true
 fi
 
+# Explicit overrides win.
 if [ "$SSH_VAR" = "true" ] && [ "$ssh_ok" = true ]; then
   echo "ssh"
   exit 0
@@ -23,6 +25,13 @@ if [ "$FTP_VAR" = "true" ] && [ "$ftp_ok" = true ]; then
   echo "ftp"
   exit 0
 fi
+
+# Default when both configured: FTP (GoDaddy shared hosting — rsync shell is often dirty).
+if [ "$ftp_ok" = true ] && [ "$ssh_ok" = true ]; then
+  echo "ftp"
+  exit 0
+fi
+
 if [ "$ssh_ok" = true ]; then
   echo "ssh"
   exit 0
