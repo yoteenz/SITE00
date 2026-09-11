@@ -1,7 +1,7 @@
 /**
  * Resolve the origin Railway Playwright should open for founder CAPTURE NOW.
- * Preview hosts (fsbw-dev, cloud tunnel) often miss fresh .htaccess — deep routes 404 on refresh.
- * Capture targets canonical production so screenshots match live routes.
+ * Default: same origin the founder is QA'ing (fsbw-dev / tunnel) so capture matches what they see.
+ * Override with VITE_SITE00_CANONICAL_ORIGIN to force production (e.g. site00.com).
  */
 
 export function resolveFounderCaptureBaseUrl(): string {
@@ -13,8 +13,10 @@ export function resolveFounderCaptureBaseUrl(): string {
       ?.VITE_SITE00_CANONICAL_ORIGIN ?? ''
   ).replace(/\/$/, '');
 
+  if (envOrigin) return envOrigin;
+
   if (host.includes('fsbw-dev.com') || host.endsWith('.trycloudflare.com')) {
-    return envOrigin || 'https://site00.com';
+    return window.location.origin.replace(/\/$/, '');
   }
 
   if (host === 'site00.com' || host.endsWith('.site00.com')) {
