@@ -47,10 +47,11 @@ import type { PageFamilyRowInput } from '../../../../../shared/site00-studio-wor
 import type { DesignViewportClass } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/types.js';
 import {
   openPageCreativeUpgradeSession,
-  getPageCreativeUpgradeSession,
   approvePageCreativeDirection,
   attachAfterCaptureToSession,
+  resolveCurrentPageViewportCapture,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/index.js';
+import type { PageCreativeUpgradeSession } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/types.js';
 import { usePageViewportCapture } from '../usePageViewportCapture';
 import { CaptureServiceStatusChip } from './CaptureServiceStatusChip';
 import { FamilyReadinessDimensions } from './FamilyReadinessDimensions';
@@ -126,6 +127,8 @@ export function PageFamilyWorkspace({
   const [detecting, setDetecting] = useState(true);
   const [viewMode, setViewMode] = useState<'family' | 'library'>('family');
   const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const [upgradeSession, setUpgradeSession] = useState<PageCreativeUpgradeSession | null>(null);
+  const [upgradeError, setUpgradeError] = useState<string | null>(null);
   const [replaceAuthorityOpen, setReplaceAuthorityOpen] = useState(false);
   const [authorityHistoryOpen, setAuthorityHistoryOpen] = useState(false);
   const [authorityRefreshNonce, setAuthorityRefreshNonce] = useState(0);
@@ -179,8 +182,13 @@ export function PageFamilyWorkspace({
       })
     : null;
   const viewportCapture = usePageViewportCapture(projectId, activePageId, viewport);
-  const upgradeSession = activePageId ? getPageCreativeUpgradeSession(projectId, activePageId, viewport) : null;
   const isCapturingActive = Boolean(activePageId && capturingPageId === activePageId);
+
+  const closeUpgrade = useCallback(() => {
+    setUpgradeOpen(false);
+    setUpgradeSession(null);
+    setUpgradeError(null);
+  }, []);
 
   useEffect(() => {
     const saved = getSavedSelectedNode(family.familyId);
@@ -427,18 +435,25 @@ export function PageFamilyWorkspace({
           captureError={captureNowError ?? null}
           onCaptureNow={() => onCaptureNow?.(activeScreenId, viewport)}
           onUpgradePage={() => {
-            if (!viewportCapture?.captureId) return;
+            setUpgradeError(null);
+            const boundCapture =
+              resolveCurrentPageViewportCapture(projectId, activePageId, viewport) ?? viewportCapture;
+            const captureId = boundCapture?.captureId;
+            if (!captureId) {
+              setUpgradeError('CAPTURE ID MISSING — TAP RECAPTURE, THEN TRY UPGRADE AGAIN.');
+              return;
+            }
             const auth = resolveCurrentDesignAuthority({
               projectId,
               pageId: activePageId,
               screenId: activeScreenId,
               viewport,
             });
-            openPageCreativeUpgradeSession({
+            const session = openPageCreativeUpgradeSession({
               projectId,
               pageId: activePageId,
               viewport,
-              captureId: viewportCapture.captureId,
+              captureId,
               parentAuthorityId: isActiveRoot ? null : parentNode?.nodeId ?? null,
               childArchetype: activeNode.archetype,
               pagePurpose: activeDisplayName,
@@ -448,10 +463,12 @@ export function PageFamilyWorkspace({
               isRoot: isActiveRoot,
               designAuthorityVersionId: auth.authorityVersion?.authorityVersionId ?? null,
               designAuthorityAssetRef: auth.previewAssetRef,
-              captureAssetRef: viewportCapture.imageRef,
+              captureAssetRef: boundCapture?.imageRef ?? null,
             });
+            setUpgradeSession(session);
             setUpgradeOpen(true);
           }}
+          upgradeError={upgradeError}
           onViewDetails={() => setDetailsOpen(true)}
           onReplaceAuthority={() => setReplaceAuthorityOpen(true)}
           onViewAuthorityHistory={() => setAuthorityHistoryOpen(true)}
@@ -530,19 +547,28 @@ export function PageFamilyWorkspace({
 
       {upgradeOpen && upgradeSession ? (
         <PageCreativeUpgradePanel
+          open={upgradeOpen}
           session={upgradeSession}
           currentScreenshot={viewportCapture?.imageRef ?? null}
           proposedLabel={`CREATIVE-DIRECTED ${activeNode?.route.toUpperCase() ?? 'PAGE'}`}
           onApprove={() => {
             approvePageCreativeDirection(projectId, activePageId, viewport);
-            setUpgradeOpen(false);
+            closeUpgrade();
           }}
-          onRevise={() => setUpgradeOpen(false)}
-          onBack={() => setUpgradeOpen(false)}
+          onRevise={closeUpgrade}
+          onBack={closeUpgrade}
           onVerify={() => {
             onCaptureNow?.(activeNode!.screenId!, viewport);
-            if (viewportCapture?.captureId) {
-              attachAfterCaptureToSession(projectId, activePageId, viewport, viewportCapture.captureId);
+            const boundCapture =
+              resolveCurrentPageViewportCapture(projectId, activePageId, viewport) ?? viewportCapture;
+            if (boundCapture?.captureId) {
+              const updated = attachAfterCaptureToSession(
+                projectId,
+                activePageId,
+                viewport,
+                boundCapture.captureId,
+              );
+              if (updated) setUpgradeSession(updated);
             }
           }}
           afterScreenshot={upgradeSession.afterCaptureId ? viewportCapture?.imageRef ?? null : null}
