@@ -272,6 +272,8 @@ jobs:
         env:
           EXPECTED_RELEASE_ID: ${{ needs.build.outputs.release_id }}
           EXPECTED_VERSION: ${{ env.SITE00_RELEASE_VERSION }}
+          FRONTEND_POLL_TIMEOUT_MS: '300000'
+          POLL_INTERVAL_MS: '10000'
           RELEASE_RECEIPT_PATH: production-release-receipt.json
         run: node scripts/site00-verify-production-release.mjs
       - uses: actions/upload-artifact@v4

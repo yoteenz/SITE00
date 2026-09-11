@@ -7899,3 +7899,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** Strict upgrade gate blocked silently: (1) v290 overview capture path `/projects/ndxbook/overview` vs page route `/projects/ndxbook` could mark navigation **MISMATCH** on stored captures; (2) `authorityApproved` false (MAPPED authority) hid upgrade with no message; (3) `OUTDATED` / preview-checking states blocked without explanation.
 - **Fix:** `captureRootOverviewRoutesEquivalent` + navigation MATCH for root/overview alias; upgrade gate uses route equivalence for legacy receipts; `resolvePageUpgradeBlockReasons` surfaces why upgrade is locked; OUTDATED capture allowed when both previews PASS. Deploy ZIP **v293**.
 
+---
+
+## 2026-09-11 — verify_release FRONTEND_SMOKE_FAILED HTTP 403
+
+- **Issue:** Production Release workflow `verify_release` failed with `FRONTEND_SMOKE_FAILED: https://site00.com/release-manifest.json HTTP 403` while backend PASS — site fine when checked later.
+- **Root cause:** FTP `dangerous-clean-slate` deploy briefly returns 403/404 on manifest; verify ran once immediately after deploy with no retry.
+- **Fix:** `pollFrontend()` in `site00-verify-production-release.mjs` retries retryable HTTP (403/404/5xx) for up to 5m; workflow sets `FRONTEND_POLL_TIMEOUT_MS` + 10s poll interval. CI-only; no founder deploy action.
+
