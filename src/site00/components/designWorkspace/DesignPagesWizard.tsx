@@ -259,15 +259,26 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
     prevTestPassedRef.current = guidanceInput.testJobPassed;
   }, [guidanceInput.testJobPassed, activeStep, goTo]);
 
-  const captureServiceInput = useMemo<CaptureServiceInput>(
-    () => ({
-      apiConnected: transport?.apiReachable ?? false,
-      workerHealthy: transport?.workerStatus === 'HEALTHY' && Boolean(transport?.playwrightReady && transport?.browserReady),
-      browserReady: transport?.browserReady ?? false,
-      contractValid: transport?.contractCompatible ?? false,
-    }),
-    [transport],
-  );
+  const captureServiceChecking = captureRefresh?.transportChecking ?? false;
+  const captureTransportPending = captureServiceChecking || !transport;
+
+  const captureServiceInput = useMemo<CaptureServiceInput>(() => {
+    if (captureTransportPending) {
+      return {
+        apiConnected: true,
+        workerHealthy: true,
+        browserReady: true,
+        contractValid: true,
+      };
+    }
+    return {
+      apiConnected: transport.apiReachable,
+      workerHealthy:
+        transport.workerStatus === 'HEALTHY' && Boolean(transport.playwrightReady && transport.browserReady),
+      browserReady: transport.browserReady,
+      contractValid: transport.contractCompatible,
+    };
+  }, [captureTransportPending, transport]);
 
   useEffect(() => {
     if (shouldAutoAdvanceCaptureRunning(activeStep, runActive)) {
@@ -368,6 +379,8 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
           captureNowProgress={captureNowProgress}
           captureNowError={captureNowError}
           captureService={captureServiceInput}
+          onRetryTransport={onRetryTransport}
+          captureServiceChecking={captureServiceChecking}
           pageCompletionPct={pageCompletionPct}
           pageCompletionAttention={pageCompletionAttention ?? 0}
         />
@@ -389,6 +402,8 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
           captureNowProgress={captureNowProgress}
           captureNowError={captureNowError}
           captureService={captureServiceInput}
+          onRetryTransport={onRetryTransport}
+          captureServiceChecking={captureServiceChecking}
           pageCompletionPct={pageCompletionPct}
           pageCompletionAttention={pageCompletionAttention ?? 0}
         />

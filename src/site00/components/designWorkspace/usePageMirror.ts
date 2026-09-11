@@ -28,8 +28,10 @@ import {
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/index.js';
 import type { CaptureCurrentPageResult } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/types.js';
 import type { PageVisualIndexRow } from './DesignPagesVisualIndex';
+import { formatCaptureTransportError } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/formatCaptureTransportError.js';
 import { captureApiFetch, PAGE_MIRROR_PATH } from '../../services/captureApiFetch';
 import { checkCaptureTransportHealth } from '../../services/checkCaptureTransportHealth';
+import { resolveFounderCaptureBaseUrl } from '../../../utils/site00CaptureBase';
 import {
   captureFailureMessage,
   completionBindingFailed,
@@ -238,7 +240,7 @@ export function usePageMirror(projectId: string) {
             screenId,
             route: row.route ?? row.normalizedRoute ?? '/',
             viewportClass,
-            baseUrl: window.location.origin,
+            baseUrl: resolveFounderCaptureBaseUrl(),
           },
         });
 
@@ -269,7 +271,11 @@ export function usePageMirror(projectId: string) {
         } else if (completion) {
           setCaptureNowError(captureFailureMessage(completion.errorCode, completion.errorMessage ?? undefined));
         } else if (!result.ok) {
-          setCaptureNowError(captureFailureMessage(null, result.errorCode ?? 'CAPTURE_FAILED'));
+          setCaptureNowError(
+            result.errorCode
+              ? formatCaptureTransportError(result.errorCode)
+              : captureFailureMessage(null, 'CAPTURE_FAILED'),
+          );
         }
 
         return data ?? null;
@@ -301,7 +307,7 @@ export function usePageMirror(projectId: string) {
           route: row?.route,
           executeCapture: true,
           viewportClass,
-          baseUrl: window.location.origin,
+          baseUrl: resolveFounderCaptureBaseUrl(),
         },
       });
       await refresh();
@@ -352,7 +358,7 @@ export function usePageMirror(projectId: string) {
             action: 'refresh_project',
             projectId,
             viewportMode: 'MOBILE_ONLY',
-            baseUrl: window.location.origin,
+            baseUrl: resolveFounderCaptureBaseUrl(),
             forceNewRun: options?.forceNewRun ?? true,
             contractVersion: CAPTURE_RUN_CONTRACT_VERSION,
           },

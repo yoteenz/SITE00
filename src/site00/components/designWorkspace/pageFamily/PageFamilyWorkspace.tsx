@@ -76,6 +76,8 @@ export type PageFamilyWorkspaceProps = {
   captureNowProgress?: string | null;
   captureNowError?: string | null;
   captureService?: CaptureServiceInput;
+  onRetryTransport?: () => void;
+  captureServiceChecking?: boolean;
   pageCompletionPct?: number | null;
   pageCompletionAttention?: number;
 };
@@ -110,6 +112,8 @@ export function PageFamilyWorkspace({
   captureNowProgress,
   captureNowError,
   captureService,
+  onRetryTransport,
+  captureServiceChecking,
   pageCompletionPct,
   pageCompletionAttention,
 }: PageFamilyWorkspaceProps) {
@@ -449,6 +453,8 @@ export function PageFamilyWorkspace({
           onViewDetails={() => setDetailsOpen(true)}
           onReplaceAuthority={() => setReplaceAuthorityOpen(true)}
           onViewAuthorityHistory={() => setDetailsOpen(true)}
+          onRetryTransport={onRetryTransport}
+          captureServiceChecking={captureServiceChecking}
         />
       ) : null}
 

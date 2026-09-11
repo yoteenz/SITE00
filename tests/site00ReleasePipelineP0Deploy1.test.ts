@@ -323,6 +323,12 @@ describe('P0.DEPLOY.1 — Release pipeline', () => {
     const htaccess = read('public/.htaccess');
     expect(htaccess).toMatch(/release-manifest/);
     expect(htaccess).toContain('no-cache');
+    expect(htaccess).toContain('ErrorDocument 404');
+  });
+
+  it('29b. SPA fallback 404.html ships with frontend bundle', () => {
+    expect(read('public/404.html')).toContain('location.replace');
+    expect(read('shared/site00-release-engine/frontendDeploymentManifest.ts')).toContain('404.html');
   });
 
   it('30. server health includes release block', () => {

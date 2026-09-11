@@ -11,6 +11,7 @@ export const FRONTEND_OWNED_GLOBS = [
   'favicon.svg',
   'robots.txt',
   'sitemap.xml',
+  '404.html',
   '.htaccess',
 ] as const;
 
