@@ -55,6 +55,7 @@ export type CaptureCurrentPageInput = {
 export type CaptureCurrentPageResult = {
   captureId: string;
   screenshot: string | null;
+  imageRef?: string | null;
   capturedAt: string;
   viewport: DesignViewportClass;
   dimensions: { width: number; height: number };
@@ -65,6 +66,7 @@ export type CaptureCurrentPageResult = {
   singlePageJob: true;
   projectRunCreated: false;
   error?: string;
+  completion?: import('./captureReceipts.js').CaptureCompletionReceipt;
 };
 
 export type CaptureProgressStep =

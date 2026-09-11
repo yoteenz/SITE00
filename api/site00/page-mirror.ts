@@ -40,7 +40,7 @@ import {
   finalizeCaptureCurrentPage,
   planCaptureCurrentPage,
   releaseCaptureNowLock,
-  P0_VR_CAPTURE_1_BUILD,
+  P0_VR_CAPTURE_1R2_BUILD,
 } from '../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/index.js';
 import { bootstrapAllManagedDesignProjects } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/client.js';
 import { handleCaptureCorsPreflight, applyCaptureCorsHeaders } from '../_lib/site00Capture/captureCors.js';
@@ -172,7 +172,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           route: String(body.route ?? '/'),
           viewport: viewportClass,
           captureSource: 'FOUNDER_CAPTURE_NOW' as const,
-          capturedBuildVersion: P0_VR_CAPTURE_1_BUILD,
+          capturedBuildVersion: P0_VR_CAPTURE_1R2_BUILD,
         };
         if (!acquireCaptureNowLock(postProjectId, input.pageId, viewportClass)) {
           return res.status(429).json({
@@ -206,7 +206,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(200).json({
             ...result,
             snapshot,
-            buildVersion: P0_VR_CAPTURE_1_BUILD,
+            buildVersion: P0_VR_CAPTURE_1R2_BUILD,
           });
         } catch (err) {
           const message = err instanceof Error ? err.message : 'CAPTURE_FAILED';

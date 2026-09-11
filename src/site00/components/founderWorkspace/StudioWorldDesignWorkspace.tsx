@@ -282,6 +282,7 @@ export function StudioWorldDesignWorkspace({
     captureNow,
     capturingPageId,
     captureNowProgress,
+    captureNowError,
     refreshPage: refreshMirrorPage,
     refreshProject: refreshMirrorProject,
     retryTransportCheck,
@@ -793,6 +794,7 @@ export function StudioWorldDesignWorkspace({
             viewport={viewportClass}
             capturingPageId={capturingPageId}
             captureNowProgress={captureNowProgress}
+            captureNowError={captureNowError}
             onRefreshProject={handleRefreshProjectCapture}
             onSyncProject={handleSyncProjectPages}
             onViewCaptureRun={handleViewCaptureRun}

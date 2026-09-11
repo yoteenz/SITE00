@@ -20,10 +20,22 @@ import {
   type TestWorkerProgressStep,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureFounderGuidance.js';
 import type { DesignViewportClass } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/types.js';
+import {
+  bindCaptureCompletionToClientStore,
+  hydratePageViewportCapturesFromStorage,
+  latestUiStepFromMilestones,
+  type CaptureCompletionReceipt,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/index.js';
 import type { CaptureCurrentPageResult } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/types.js';
 import type { PageVisualIndexRow } from './DesignPagesVisualIndex';
 import { captureApiFetch, PAGE_MIRROR_PATH } from '../../services/captureApiFetch';
 import { checkCaptureTransportHealth } from '../../services/checkCaptureTransportHealth';
+import {
+  captureFailureMessage,
+  completionBindingFailed,
+  logCaptureTelemetry,
+  resolveCapturePageId,
+} from './captureNowClient';
 
 type MirrorResponse = {
   contractVersion?: string;
@@ -97,6 +109,7 @@ export function usePageMirror(projectId: string) {
   const [capturingPageId, setCapturingPageId] = useState<string | null>(null);
   const [captureNowProgress, setCaptureNowProgress] = useState<string | null>(null);
   const [lastCaptureResult, setLastCaptureResult] = useState<CaptureCurrentPageResult | null>(null);
+  const [captureNowError, setCaptureNowError] = useState<string | null>(null);
 
   const stopPolling = useCallback(() => {
     if (pollRef.current) {
@@ -190,24 +203,30 @@ export function usePageMirror(projectId: string) {
     }, 2500);
   }, [refresh, stopPolling]);
 
+  const bindCompletion = useCallback((completion: CaptureCompletionReceipt) => {
+    bindCaptureCompletionToClientStore(completion);
+    logCaptureTelemetry('capture_bound', {
+      jobId: completion.jobId,
+      captureId: completion.captureId,
+      pageId: completion.pageId,
+      viewport: completion.viewport,
+      status: completion.status,
+    });
+  }, []);
+
   const captureNow = useCallback(
     async (screenId: string, viewportClass: DesignViewportClass = 'mobile') => {
       const row = rows.find((r) => r.screenId === screenId);
-      const pageId = row?.normalizedRoute
-        ? `${projectId}:${row.normalizedRoute}`
-        : `${projectId}:${(row?.route ?? screenId).replace(/^\//, '').toLowerCase()}`;
+      if (!row) return null;
+
+      const pageId = resolveCapturePageId(projectId, row);
       const lockKey = `${pageId}:${viewportClass}`;
       if (captureNowLockRef.current === lockKey) return null;
       captureNowLockRef.current = lockKey;
+      setCaptureNowError(null);
       setCapturingPageId(pageId);
       setCaptureNowProgress('OPENING_PAGE');
-
-      const steps = ['OPENING_PAGE', 'RENDERING_VIEWPORT', 'TAKING_SCREENSHOT', 'SAVING_CAPTURE'] as const;
-      let stepIdx = 0;
-      const progressTimer = setInterval(() => {
-        stepIdx = Math.min(stepIdx + 1, steps.length - 1);
-        setCaptureNowProgress(steps[stepIdx] ?? 'SAVING_CAPTURE');
-      }, 900);
+      logCaptureTelemetry('capture_button_clicked', { projectId, pageId, screenId, viewportClass });
 
       try {
         const result = await captureApiFetch<CaptureCurrentPageResult>(PAGE_MIRROR_PATH, {
@@ -217,35 +236,61 @@ export function usePageMirror(projectId: string) {
             projectId,
             pageId,
             screenId,
-            route: row?.route ?? row?.normalizedRoute ?? '/',
+            route: row.route ?? row.normalizedRoute ?? '/',
             viewportClass,
             baseUrl: window.location.origin,
           },
         });
-        clearInterval(progressTimer);
-        setCaptureNowProgress(null);
-        setCapturingPageId(null);
-        captureNowLockRef.current = null;
-        if (result.data) setLastCaptureResult(result.data);
-        await refresh();
-        return result.data ?? null;
-      } catch {
-        clearInterval(progressTimer);
-        setCaptureNowProgress(null);
-        setCapturingPageId(null);
-        captureNowLockRef.current = null;
+
+        const data = result.data;
+        const completion = data?.completion;
+
+        if (completion?.milestones?.length) {
+          const uiStep = latestUiStepFromMilestones(completion.milestones);
+          if (uiStep) setCaptureNowProgress(uiStep);
+          logCaptureTelemetry('stage_updates', {
+            jobId: completion.jobId,
+            milestones: completion.milestones.map((m) => m.milestone),
+          });
+        }
+
+        if (data) {
+          setLastCaptureResult(data);
+          logCaptureTelemetry('completion_receipt_received', {
+            jobId: data.jobId,
+            captureId: data.captureId,
+            status: data.status,
+          });
+        }
+
+        if (completion?.status === 'CAPTURE_READY' && completion.imageRef) {
+          bindCompletion(completion);
+          setCaptureNowError(completionBindingFailed(completion) ? captureFailureMessage('BINDING_FAILED') : null);
+        } else if (completion) {
+          setCaptureNowError(captureFailureMessage(completion.errorCode, completion.errorMessage ?? undefined));
+        } else if (!result.ok) {
+          setCaptureNowError(captureFailureMessage(null, result.errorCode ?? 'CAPTURE_FAILED'));
+        }
+
+        return data ?? null;
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'CAPTURE_FAILED';
+        setCaptureNowError(captureFailureMessage(null, message));
         return null;
+      } finally {
+        setCaptureNowProgress(null);
+        setCapturingPageId(null);
+        captureNowLockRef.current = null;
       }
     },
-    [projectId, refresh, rows],
+    [bindCompletion, projectId, rows],
   );
 
   const refreshPage = useCallback(
     async (screenId: string, viewportClass = 'mobile') => {
       const row = rows.find((r) => r.screenId === screenId);
-      const pageId = row?.normalizedRoute
-        ? `${projectId}:${row.normalizedRoute}`
-        : `${projectId}:${(row?.route ?? screenId).replace(/^\//, '').toLowerCase()}`;
+      if (!row) return;
+      const pageId = resolveCapturePageId(projectId, row);
       await captureApiFetch(PAGE_MIRROR_PATH, {
         method: 'POST',
         body: {
@@ -411,10 +456,11 @@ export function usePageMirror(projectId: string) {
   }, [projectId, runTransportCheck]);
 
   useEffect(() => {
+    hydratePageViewportCapturesFromStorage(projectId);
     void runTransportCheck();
     void refresh();
     return () => stopPolling();
-  }, [refresh, runTransportCheck, stopPolling]);
+  }, [projectId, refresh, runTransportCheck, stopPolling]);
 
   useEffect(() => {
     if (!captureRefresh.refreshing) stopPolling();
@@ -427,6 +473,7 @@ export function usePageMirror(projectId: string) {
     captureRefresh,
     capturingPageId,
     captureNowProgress,
+    captureNowError,
     lastCaptureResult,
     refresh,
     captureNow,
