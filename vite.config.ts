@@ -73,13 +73,22 @@ export default defineConfig(({ mode, command }) => {
       transformIndexHtml: {
         order: 'post' as const,
         handler(html: string) {
-          return html
+          let next = html
             .replace('content="__APP_BUILD_ID__"', `content="${stamp}"`)
             .replace('src="/src/main.tsx"', `src="/src/main.tsx?v=${stamp}"`)
             .replace(
               'src="/site00-assts-loader-boot.js?v=environment-v2"',
               `src="/site00-assts-loader-boot.js?v=${stamp}"`,
             );
+          if (cloudMobilePreview) {
+            const previewMeta =
+              `<meta name="site00-cloud-preview" content="1" />` +
+              (tunnelAllowedHost
+                ? `\n    <meta name="site00-preview-hostname" content="${tunnelAllowedHost}" />`
+                : '');
+            next = next.replace('</head>', `    ${previewMeta}\n  </head>`);
+          }
+          return next;
         },
       },
     };

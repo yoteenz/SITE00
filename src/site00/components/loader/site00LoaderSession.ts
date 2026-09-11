@@ -1,4 +1,4 @@
-import { isSite00PreviewTunnelHost } from './site00PreviewHost';
+import { isSite00CloudPreviewBuild, isSite00PreviewTunnelHost } from './site00PreviewHost';
 
 const SITE00_IMMERSIVE_SESSION_KEY = 'site00-immersive-complete';
 /** @deprecated Migrated to SITE00_IMMERSIVE_SESSION_KEY */
@@ -19,7 +19,7 @@ function isImmersiveSessionComplete(): boolean {
 export function shouldShowSite00ImmersiveLoader(): boolean {
   if (typeof window === 'undefined') return true;
   if (isSite00PreviewTunnelHost()) return false;
-  if (import.meta.env.VITE_SITE00_CLOUD_PREVIEW === '1') return false;
+  if (isSite00CloudPreviewBuild()) return false;
 
   try {
     const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
