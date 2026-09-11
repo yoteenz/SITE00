@@ -7760,3 +7760,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `scripts/site00-cpanel-deploy.sh` — `ssh -T`, `--rsync-path` retries (`/usr/bin/rsync`, `env -i`, `bash --noprofile --norc`); exit 42 when FTP fallback available. Workflow: SSH `continue-on-error`, auto FTP fallback when `ftp_available`, `Confirm frontend deploy succeeded` gate. Tests 22e/22f.
 - **Founder:** Re-run Production Release workflow (or wait for next merge with `SITE00_AUTO_PROMOTE=true`). If SSH still fails, FTP fallback deploys automatically when `GODADDY_FTP_*` secrets set. Optional long-term: add to remote `.bashrc` `[[ $- != *i* ]] && return` at top to silence non-interactive login noise.
 
+---
+
+## 2026-09-11 — GoDaddy SSH rsync still dirty after .bashrc fix → FTP-first default
+
+- **Issue:** Founder added `.bashrc` guard; SSH rsync still fails protocol mismatch (exit 42). cPanel often runs `/etc/profile` or login shell before user `.bashrc` — user fix alone insufficient on shared hosting.
+- **Note:** Exit 42 on SSH step is **expected** when FTP fallback runs — check **FTP step** + overall workflow green, not SSH alone.
+- **Fix:** `site00-resolve-cpanel-deploy-method.sh` — when **both** SSH+FTP creds present, default **FTP** unless `GODADDY_SSH_DEPLOY_ENABLED=true` or `GODADDY_DEPLOY_ENABLED=true` alone. Skips broken rsync attempt on GoDaddy.
+- **Founder:** Re-run workflow after merge; should see FTP deploy only. To force SSH later: GitHub var `GODADDY_SSH_DEPLOY_ENABLED=true` after fixing `.bash_profile` + `.profile` with same guard.
+

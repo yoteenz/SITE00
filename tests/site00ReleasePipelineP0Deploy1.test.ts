@@ -264,8 +264,9 @@ describe('P0.DEPLOY.1 — Release pipeline', () => {
     expect(deployBlock).toContain('bash scripts/site00-cpanel-deploy.sh dist');
   });
 
-  it('22d. cPanel method resolver prefers SSH when fully configured', () => {
+  it('22d. cPanel method resolver prefers FTP when both SSH and FTP configured (GoDaddy)', () => {
     expect(read('scripts/site00-resolve-cpanel-deploy-method.sh')).toContain('GODADDY_SSH_PRIVATE_KEY');
+    expect(read('scripts/site00-resolve-cpanel-deploy-method.sh')).toContain('Default when both configured: FTP');
     const wf = read('.github/workflows/site00-production-deploy.yml');
     expect(wf).toContain('site00-resolve-cpanel-deploy-method.sh');
     expect(wf).toContain('cpanel_method');
